@@ -7,12 +7,52 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2527589168897478388, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: foreverID
+      value: 1fe4d4b542cb36c4ab21e92e3871b27e
+      objectReference: {fileID: 0}
     - target: {fileID: 3382038559166527774, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: f04c63c365e0871499a4085e136a97a3,
         type: 2}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: CanBeBroken
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: CanGetHungry
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: isBloodCirculated
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: HasNaturalToxicity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: isBloodReagentConsumed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: spillChanceWhenCutPresent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: BodyPartDisembowlLogicOnCutSize
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
@@ -45,7 +85,7 @@ PrefabInstance:
     - target: {fileID: 8808267403971002157, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 1fe4d4b542cb36c4ab21e92e3871b27e
       objectReference: {fileID: 0}
     - target: {fileID: 8910782054479282841, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}

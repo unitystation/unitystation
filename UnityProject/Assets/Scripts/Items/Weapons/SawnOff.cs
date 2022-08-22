@@ -8,94 +8,98 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Weapons;
 
-[RequireComponent(typeof(ItemAttributesV2))]
-[RequireComponent(typeof(Gun))]
-public class SawnOff : MonoBehaviour, ICheckedInteractable<InventoryApply>
+namespace Weapons
 {
-
-	private ItemAttributesV2 itemAttComp;
-	private Gun gunComp;
-	private SpriteHandler spriteHandler;
-
-	private bool isSawn = false;
-
-	[SerializeField, Tooltip("Determines if the gun will explode in the users face when sawn while it still contains ammo")]
-	private bool ammoBackfire = true;
-
-	[SerializeField, Tooltip("Sawn off item size")]
-	private ItemSize sawnSize = ItemSize.Medium;
-	
-	[SerializeField, Tooltip("Value that determines how far a shot will deviate. (Never set this higher then 0.5 unless you want questionable results.)")]
-	private float sawnMaxRecoilVariance;
-
-	[SerializeField, Tooltip("Recoil camera config to switch to when sawn off")]
-	private CameraRecoilConfig SawnCameraRecoilConfig;
-
-	private void Awake()
+	[RequireComponent(typeof(ItemAttributesV2))]
+	[RequireComponent(typeof(Gun))]
+	public class SawnOff : MonoBehaviour, ICheckedInteractable<InventoryApply>, IServerSpawn
 	{
-		spriteHandler = GetComponentInChildren<SpriteHandler>();
-		itemAttComp = gameObject.GetComponent<ItemAttributesV2>();
-		gunComp = gameObject.GetComponent<Gun>();
-		spriteHandler.ChangeSprite(0);
-	}
 
-	public bool WillInteract(InventoryApply interaction, NetworkSide side)
-	{
-		if (DefaultWillInteract.Default(interaction, side) == false) return false;
-		if (side == NetworkSide.Server && DefaultWillInteract.Default(interaction, side)) return true;
+		private ItemAttributesV2 itemAttComp;
+		private Gun gunComp;
+		private SpriteHandler spriteHandler;
 
-		//only reload if the gun is the target and tool is in hand slot
-		if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot && side == NetworkSide.Client)
+		private bool isSawn = false;
+
+		[SerializeField, Tooltip("Determines if the gun will explode in the users face when sawn while it still contains ammo")]
+		private bool ammoBackfire = true;
+
+		[SerializeField, Tooltip("Sawn off item size")]
+		private Size sawnSize = Size.Medium;
+
+		[SerializeField, Tooltip("Value that determines how far a shot will deviate. (Never set this higher then 0.5 unless you want questionable results.)")]
+		private float sawnMaxRecoilVariance;
+
+		[SerializeField, Tooltip("Recoil camera config to switch to when sawn off")]
+		private CameraRecoilConfig SawnCameraRecoilConfig;
+
+		private void Awake()
+		{
+			spriteHandler = GetComponentInChildren<SpriteHandler>();
+			itemAttComp = gameObject.GetComponent<ItemAttributesV2>();
+			gunComp = gameObject.GetComponent<Gun>();
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			spriteHandler.ChangeSprite(0);
+		}
+
+		public bool WillInteract(InventoryApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			//only reload if the gun is the target and tool is in hand slot
+			if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot)
+			{
+				//TODO: switch this trait to the circular saw when that is implemented
+				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Welder))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
+		public void ServerPerformInteraction(InventoryApply interaction)
 		{
 			//TODO: switch this trait to the circular saw when that is implemented
-			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Welder))
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Welder) && gunComp.FireOnCooldowne == false)
 			{
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public void ServerPerformInteraction(InventoryApply interaction)
-	{
-		if (interaction.TargetObject != gameObject && !interaction.IsFromHandSlot) return;
-
-		//TODO: switch this trait to the circular saw when that is implemented
-		if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Welder) && gunComp.FireCountDown == 0)
-		{
-			if (isSawn)
-			{
-				Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} is already shortened!");
-			}
-
-			if (ammoBackfire && gunComp.CurrentMagazine.ServerAmmoRemains != 0)
-			{
-				gunComp.ServerShoot(interaction.Performer, Vector2.zero, BodyPartType.Head, true);
-				Chat.AddActionMsgToChat(interaction.Performer,
-				$"The {gameObject.ExpensiveName()} goes off in your face!",
-				$"The {gameObject.ExpensiveName()} goes off in {interaction.Performer.ExpensiveName()}'s face!");
-			}
-			else
-			{
-				Chat.AddActionMsgToChat(interaction.Performer,
-					$"You shorten the {gameObject.ExpensiveName()}.",
-					$"{interaction.Performer.ExpensiveName()} shortens the {gameObject.ExpensiveName()}");
-
-				itemAttComp.ServerSetSize(sawnSize);
-				spriteHandler.ChangeSprite(1);
-
-				// Don't overwrite recoil conf if it isn't setup
-				if (SawnCameraRecoilConfig.Distance != 0f)
+				if (isSawn)
 				{
-					gunComp.SyncCameraRecoilConfig(gunComp.CameraRecoilConfig, SawnCameraRecoilConfig);
+					Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} is already shortened!");
 				}
 
-				gunComp.MaxRecoilVariance = sawnMaxRecoilVariance;
-				isSawn = true;
-			}
-		}
+				if (ammoBackfire && gunComp.CurrentMagazine.ServerAmmoRemains != 0)
+				{
+					gunComp.ServerShoot(interaction.Performer, Vector2.zero, BodyPartType.Head, true);
+					Chat.AddActionMsgToChat(interaction.Performer,
+					$"The {gameObject.ExpensiveName()} goes off in your face!",
+					$"The {gameObject.ExpensiveName()} goes off in {interaction.Performer.ExpensiveName()}'s face!");
+				}
+				else
+				{
+					Chat.AddActionMsgToChat(interaction.Performer,
+						$"You shorten the {gameObject.ExpensiveName()}.",
+						$"{interaction.Performer.ExpensiveName()} shortens the {gameObject.ExpensiveName()}");
 
-		// Propagates the InventoryApply Interaction to the Gun component for all basic gun InventoryApply interactions.	
-		gunComp.ServerPerformInteraction(interaction);
+					itemAttComp.ServerSetSize(sawnSize);
+					spriteHandler.ChangeSprite(1);
+
+					// Don't overwrite recoil conf if it isn't setup
+					if (SawnCameraRecoilConfig.Distance != 0f)
+					{
+						gunComp.SyncCameraRecoilConfig(gunComp.CameraRecoilConfig, SawnCameraRecoilConfig);
+					}
+
+					gunComp.MaxRecoilVariance = sawnMaxRecoilVariance;
+					isSawn = true;
+				}
+			}
+
+			// Propagates the InventoryApply Interaction to the Gun component for all basic gun InventoryApply interactions.
+			gunComp.ServerPerformInteraction(interaction);
+		}
 	}
 }

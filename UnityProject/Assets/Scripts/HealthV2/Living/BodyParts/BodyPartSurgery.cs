@@ -1,20 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace HealthV2
 {
 	public partial class BodyPart
 	{
+		[HorizontalLine]
 		public List<SurgeryProcedureBase> SurgeryProcedureBase = new List<SurgeryProcedureBase>();
 
 
-		public virtual void SuccessfulProcedure(PositionalHandApply interaction, Dissectible.PresentProcedure PresentProcedure)
+		public virtual void SuccessfulProcedure(HandApply interaction, Dissectible.PresentProcedure PresentProcedure)
 		{
 			//Do you whatever you would like
 		}
 
-		public virtual void UnsuccessfulStep(PositionalHandApply interaction, Dissectible.PresentProcedure PresentProcedure)
+		public virtual void UnsuccessfulStep(HandApply interaction, Dissectible.PresentProcedure PresentProcedure)
 		{
 			//DO dmg
 			//Do you whatever you would like

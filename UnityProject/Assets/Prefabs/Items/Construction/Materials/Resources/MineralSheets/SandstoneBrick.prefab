@@ -13,16 +13,37 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b9ff912ebcd44a34b949944b59bc1771,
         type: 2}
+    - target: {fileID: 783613402110013882, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: foreverID
+      value: 3d84de77e83e1134ea51dd84d20bc84b
+      objectReference: {fileID: 0}
+    - target: {fileID: 5590521764569370701, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: buildList
+      value: 
+      objectReference: {fileID: 11400000, guid: 5b6af0ad2b58da840b2a3f5b39693f15,
+        type: 2}
     - target: {fileID: 5806468422754504331, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: a9dd03743f21d374daf99e119364ed0b,
         type: 3}
+    - target: {fileID: 5806468422754504331, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5937237277765483991, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: m_Name
       value: SandstoneBrick
+      objectReference: {fileID: 0}
+    - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
@@ -41,6 +62,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +79,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
@@ -82,11 +98,21 @@ PrefabInstance:
     - target: {fileID: 6048747994970652771, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 3d84de77e83e1134ea51dd84d20bc84b
       objectReference: {fileID: 0}
     - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
-      propertyPath: initialTraits.Array.size
+      propertyPath: exportName
+      value: cm3 of sandstone
+      objectReference: {fileID: 0}
+    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: throwRange
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: throwSpeed
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
@@ -101,18 +127,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
-      propertyPath: exportName
-      value: cm3 of sandstone
-      objectReference: {fileID: 0}
-    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      propertyPath: throwSpeed
+      propertyPath: initialTraits.Array.size
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      propertyPath: throwRange
-      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}

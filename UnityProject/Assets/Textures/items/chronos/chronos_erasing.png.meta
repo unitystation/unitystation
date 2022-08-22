@@ -69,7 +69,7 @@ TextureImporter:
       213: 21300042
     second: erasing_21
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -89,6 +89,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -98,8 +100,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -120,9 +122,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -623,6 +629,29 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      erasing_16: 21300032
+      erasing_18: 21300036
+      erasing_17: 21300034
+      erasing_21: 21300042
+      erasing_2: 21300004
+      erasing_14: 21300028
+      erasing_6: 21300012
+      erasing_4: 21300008
+      erasing_19: 21300038
+      erasing_5: 21300010
+      erasing_7: 21300014
+      erasing_8: 21300016
+      erasing_13: 21300026
+      erasing_0: 21300000
+      erasing_9: 21300018
+      erasing_1: 21300002
+      erasing_12: 21300024
+      erasing_20: 21300040
+      erasing_10: 21300020
+      erasing_3: 21300006
+      erasing_15: 21300030
+      erasing_11: 21300022
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

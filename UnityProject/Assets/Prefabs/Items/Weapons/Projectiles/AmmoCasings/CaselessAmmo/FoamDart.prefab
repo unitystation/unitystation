@@ -1,5 +1,128 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &564620911124968292
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1283843238675585462, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4846cebd7e251d04f97372ee16914446,
+        type: 3}
+    - target: {fileID: 1347949146380736350, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: m_AssetId
+      value: c85b28d3e2e443540933f905c954c98d
+      objectReference: {fileID: 0}
+    - target: {fileID: 1348118095198553914, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: snapToGridOnStart
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1378335696131893994, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: m_Name
+      value: FoamDart
+      objectReference: {fileID: 0}
+    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: initialName
+      value: foam dart
+      objectReference: {fileID: 0}
+    - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: initialDescription
+      value: It's nerf or nothing! Ages 8 and up.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 46788cf45e943054a99926c1a893147c,
+        type: 2}
+    - target: {fileID: 5072964358972903789, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b229198c337b4544eb0ad306ef2bba67,
+        type: 2}
+    - target: {fileID: 5447786440518084231, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: foreverID
+      value: c85b28d3e2e443540933f905c954c98d
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a2087e57fe27fd8419f779b3abb9cf91, type: 3}
+--- !u!1 &1510177817998055822 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1378335696131893994, guid: a2087e57fe27fd8419f779b3abb9cf91,
+    type: 3}
+  m_PrefabInstance: {fileID: 564620911124968292}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8503423773277236794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20,121 +143,3 @@ MonoBehaviour:
   ProjectilesFired: 1
   ammoType: 21
   magazineSize: 1
---- !u!1001 &564620911124968292
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1283843238675585462, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 4846cebd7e251d04f97372ee16914446,
-        type: 3}
-    - target: {fileID: 1347949146380736350, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1348118095198553914, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: snapToGridOnStart
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1378335696131893994, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: m_Name
-      value: FoamDart
-      objectReference: {fileID: 0}
-    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: initialDescription
-      value: It's nerf or nothing! Ages 8 and up.
-      objectReference: {fileID: 0}
-    - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: initialName
-      value: foam dart
-      objectReference: {fileID: 0}
-    - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: initialTraits.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 46788cf45e943054a99926c1a893147c,
-        type: 2}
-    - target: {fileID: 5072964358972903789, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: b229198c337b4544eb0ad306ef2bba67,
-        type: 2}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: a2087e57fe27fd8419f779b3abb9cf91, type: 3}
---- !u!1 &1510177817998055822 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1378335696131893994, guid: a2087e57fe27fd8419f779b3abb9cf91,
-    type: 3}
-  m_PrefabInstance: {fileID: 564620911124968292}
-  m_PrefabAsset: {fileID: 0}

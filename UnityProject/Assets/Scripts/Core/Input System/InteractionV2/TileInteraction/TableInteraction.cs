@@ -11,6 +11,7 @@ public class TableInteraction : TileInteraction
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		if (interaction.TileApplyType != TileApply.ApplyType.HandApply) return false;
+		if (interaction.Intent == Intent.Harm) return false;
 		return interaction.HandObject != null;
 	}
 

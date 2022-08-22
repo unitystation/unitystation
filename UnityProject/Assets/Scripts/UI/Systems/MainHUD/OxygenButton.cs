@@ -1,68 +1,56 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
-public class OxygenButton : TooltipMonoBehaviour
+namespace UI
 {
-	private Image image;
-	public Sprite[] stateSprites;
-	public bool IsInternalsEnabled;
-	public override string Tooltip => "toggle internals";
-
-	void Awake()
+	public class OxygenButton : TooltipMonoBehaviour
 	{
-		image = GetComponent<Image>();
-		IsInternalsEnabled = false;
-	}
+		private Image image;
+		public Sprite[] stateSprites;
+		public bool IsInternalsEnabled;
+		public override string Tooltip => "toggle internals";
 
-	void OnEnable()
-	{
-		EventManager.AddHandler(EVENT.EnableInternals, OnEnableInternals);
-		EventManager.AddHandler(EVENT.DisableInternals, OnDisableInternals);
-	}
-
-	void OnDisable()
-	{
-		EventManager.RemoveHandler(EVENT.EnableInternals, OnEnableInternals);
-		EventManager.RemoveHandler(EVENT.DisableInternals, OnDisableInternals);
-	}
-
-	/// <summary>
-	/// toggle the button state and play any sounds
-	/// </summary>
-	public void OxygenSelect()
-	{
-		if (PlayerManager.LocalPlayer == null)
+		void Awake()
 		{
-			return;
+			image = GetComponent<Image>();
+			IsInternalsEnabled = false;
 		}
 
-		if (PlayerManager.LocalPlayerScript.playerHealth.IsCrit)
+		void OnEnable()
 		{
-			return;
+			EventManager.AddHandler(Event.EnableInternals, OnEnableInternals);
+			EventManager.AddHandler(Event.DisableInternals, OnDisableInternals);
 		}
 
-		SoundManager.Play(SingletonSOSounds.Instance.Click01);
-
-		if (IsInternalsEnabled)
+		void OnDisable()
 		{
-			EventManager.Broadcast(EVENT.DisableInternals);
+			EventManager.RemoveHandler(Event.EnableInternals, OnEnableInternals);
+			EventManager.RemoveHandler(Event.DisableInternals, OnDisableInternals);
 		}
-		else
+
+		/// <summary>
+		/// Toggle the button state and play any sounds
+		/// </summary>
+		public void OxygenSelect()
 		{
-			EventManager.Broadcast(EVENT.EnableInternals);
+			if (PlayerManager.LocalPlayerObject == null) return;
+			if (PlayerManager.LocalPlayerScript.playerHealth.IsCrit) return;
+
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+
+			EventManager.Broadcast(IsInternalsEnabled ? Event.DisableInternals : Event.EnableInternals);
 		}
-	}
 
-	public void OnEnableInternals()
-	{
-		image.sprite = stateSprites[1];
-		IsInternalsEnabled = true;
-	}
+		public void OnEnableInternals()
+		{
+			image.sprite = stateSprites[1];
+			IsInternalsEnabled = true;
+		}
 
-	public void OnDisableInternals()
-	{
-		image.sprite = stateSprites[0];
-		IsInternalsEnabled = false;
+		public void OnDisableInternals()
+		{
+			image.sprite = stateSprites[0];
+			IsInternalsEnabled = false;
+		}
 	}
 }

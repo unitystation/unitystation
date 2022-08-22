@@ -20,3 +20,11 @@ MonoBehaviour:
     buildTime: 2
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
+  - name: Directional Plastitanium Window
+    prefab: {fileID: 770307766077472428, guid: 422afccc119081a4fa895bc72e8ecd78, type: 3}
+    cost: 1
+    buildTime: 2
+    spawnAmount: 1
+    onePerTile: 0
+    facePlayerDirectionOnConstruction: 1

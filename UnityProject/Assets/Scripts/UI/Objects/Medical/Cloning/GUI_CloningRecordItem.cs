@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UI.Core.NetUI;
 using Objects.Medical;
 
 namespace UI.Objects.Medical
@@ -11,8 +10,8 @@ namespace UI.Objects.Medical
 		public CloningRecord cloningRecord;
 		public GUI_Cloning gui_Cloning;
 
-		public NetLabel recordName;
-		public NetLabel recrodScanID;
+		public NetText_label recordName;
+		public NetText_label recrodScanID;
 
 		public void SetValues()
 		{

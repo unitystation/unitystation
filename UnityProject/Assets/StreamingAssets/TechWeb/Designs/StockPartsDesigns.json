@@ -1,0 +1,585 @@
+[
+    {
+        "Internal_ID": "rped",
+        "Description": "Special mechanical module made to store, sort, and apply standard machine parts.",
+        "Category": [
+            "Stock Parts"
+        ],
+        "Materials": {
+            "Metal": 10000,
+            "Glass": 5000
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Rapid Part Exchange Device",
+        "Item_ID": "/obj/item/weapon/storage/part_replacer"
+    },
+    {
+        "Internal_ID": "bs_rped",
+        "Description": "Powered by bluespace technology, this RPED variant can upgrade buildings from a distance, without needing to remove the panel first.",
+        "Category": [
+            "Stock Parts"
+        ],
+        "Materials": {
+            "Metal": 15000,
+            "Glass": 5000,
+            "Silver": 2500
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Bluespace RPED",
+        "Item_ID": "/obj/item/weapon/storage/part_replacer/bluespace"
+    },
+    {
+        "Internal_ID": "basic_capacitor",
+        "Description": "A stock part used in the construction of various devices.",
+        "Category": [
+            "Stock Parts",
+            "Machinery",
+            "initial"
+        ],
+        "Materials": {
+            "Metal": 100,
+            "Glass": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe",
+            "AutoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Basic Capacitor",
+        "Item_ID": "08be734c1a459464f9c78d3b21384339"
+    },
+    {
+        "Internal_ID": "adv_capacitor",
+        "Description": "A stock part used in the construction of various devices.",
+        "Category": [
+            "Stock Parts"
+        ],
+        "Materials": {
+            "Metal": 150,
+            "Glass": 150
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Advanced Capacitor",
+        "Item_ID": "60e4f48e61d6a054184480edba30737a"
+    },
+    {
+        "Internal_ID": "super_capacitor",
+        "Description": "A stock part used in the construction of various devices.",
+        "Category": [
+            "Stock Parts"
+        ],
+        "Materials": {
+            "Metal": 200,
+            "Glass": 200,
+            "Gold": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Super Capacitor",
+        "Item_ID": "e04e0e2335e7b7c4b986787ec797faaf"
+    },
+    {
+        "Internal_ID": "quadratic_capacitor",
+        "Description": "A stock part used in the construction of various devices.",
+        "Category": [
+            "Stock Parts"
+        ],
+        "Materials": {
+            "Metal": 200,
+            "Glass": 200,
+            "Gold": 100,
+            "Diamond": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Quadratic Capacitor",
+        "Item_ID": "f097b1134bc8f2b4db307db7c0edc255"
+    },
+    {
+        "Internal_ID": "basic_scanning",
+        "Description": "A stock part used in the construction of various devices.",
+        "Category": [
+            "Stock Parts",
+            "Machinery",
+            "initial"
+        ],
+        "Materials": {
+            "Metal": 100,
+            "Glass": 50
+        },
+        "Machinery_type": [
+            "ProtoLathe",
+            "AutoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Basic Scanning Module",
+        "Item_ID": "a6a04b99723d3ae42958de4193b9920d"
+    },
+    {
+        "Internal_ID": "adv_scanning",
+        "Description": "A stock part used in the construction of various devices.",
+        "Category": [
+            "Stock Parts"
+        ],
+        "Materials": {
+            "Metal": 150,
+            "Glass": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Advanced Scanning Module",
+        "Item_ID": "69a9de7fcff4020499398acb53a89448"
+    },
+    {
+        "Internal_ID": "phasic_scanning",
+        "Description": "A stock part used in the construction of various devices.",
+        "Category": [
+            "Stock Parts"
+        ],
+        "Materials": {
+            "Metal": 200,
+            "Glass": 150,
+            "Silver": 60
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Phasic Scanning Module",
+        "Item_ID": "8c448234d4537fa4bbbd9ae3ff9ef162"
+    },
+    {
+        "Internal_ID": "triphasic_scanning",
+        "Description": "A stock part used in the construction of various devices.",
+        "Category": [
+            "Stock Parts"
+        ],
+        "Materials": {
+            "Metal": 200,
+            "Glass": 200,
+            "Diamond": 30,
+            "BlueSpace": 30
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Triphasic Scanning Module",
+        "Item_ID": "5bfb096b3e3382a41be209b68f4b5875"
+    },
+    {
+        "Internal_ID": "micro_mani",
+        "Description": "A stock part used in the construction of various devices.",
+        "Category": [
+            "Stock Parts",
+            "Machinery",
+            "initial"
+        ],
+        "Materials": {
+            "Metal": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe",
+            "AutoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Micro Manipulator",
+        "Item_ID": "7ba0f8027fae0b747803eabaf13523c7"
+    },
+    {
+        "Internal_ID": "nano_mani",
+        "Description": "A stock part used in the construction of various devices.",
+        "Category": [
+            "Stock Parts"
+        ],
+        "Materials": {
+            "Metal": 150
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Nano Manipulator",
+        "Item_ID": "2b3c897f8beafae42ac4e4ec29a39d3a"
+    },
+    {
+        "Internal_ID": "pico_mani",
+        "Description": "A stock part used in the construction of various devices.",
+        "Category": [
+            "Stock Parts"
+        ],
+        "Materials": {
+            "Metal": 200
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Pico Manipulator",
+        "Item_ID": "71d6a4e2c8dd42d45bd2d92cd34dd2d7"
+    },
+    {
+        "Internal_ID": "femto_mani",
+        "Description": "A stock part used in the construction of various devices.",
+        "Category": [
+            "Stock Parts"
+        ],
+        "Materials": {
+            "Metal": 200,
+            "Diamond": 30,
+            "Titanium": 30
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Femto Manipulator",
+        "Item_ID": "4449935cce10bc54cb7169d1c847fafc"
+    },
+    {
+        "Internal_ID": "basic_micro_laser",
+        "Description": "A stock part used in the construction of various devices.",
+        "Category": [
+            "Stock Parts",
+            "Machinery",
+            "initial"
+        ],
+        "Materials": {
+            "Metal": 100,
+            "Glass": 50
+        },
+        "Machinery_type": [
+            "ProtoLathe",
+            "AutoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Basic Micro-Laser",
+        "Item_ID": "381f8f36a2bad374a821a168f8e565b6"
+    },
+    {
+        "Internal_ID": "high_micro_laser",
+        "Description": "A stock part used in the construction of various devices.",
+        "Category": [
+            "Stock Parts"
+        ],
+        "Materials": {
+            "Metal": 150,
+            "Glass": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "High-Power Micro-Laser",
+        "Item_ID": "896eb75fb5285ee4fb9ec11de9fdd4b7"
+    },
+    {
+        "Internal_ID": "ultra_micro_laser",
+        "Description": "A stock part used in the construction of various devices.",
+        "Category": [
+            "Stock Parts"
+        ],
+        "Materials": {
+            "Metal": 200,
+            "Glass": 150,
+            "Diamond": 60
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Ultra-High-Power Micro-Laser",
+        "Item_ID": "cf1688e8813a9b7468baf2c59a9f3629"
+    },
+    {
+        "Internal_ID": "quadultra_micro_laser",
+        "Description": "A stock part used in the construction of various devices.",
+        "Category": [
+            "Stock Parts"
+        ],
+        "Materials": {
+            "Metal": 200,
+            "Glass": 200,
+            "Uranium": 100,
+            "Diamond": 60
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Quad-Ultra Micro-Laser",
+        "Item_ID": "09c1cb31bf28a2c48b68657e0aad956c"
+    },
+    {
+        "Internal_ID": "basic_matter_bin",
+        "Description": "A stock part used in the construction of various devices.",
+        "Category": [
+            "Stock Parts",
+            "Machinery",
+            "initial"
+        ],
+        "Materials": {
+            "Metal": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe",
+            "AutoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Basic Matter Bin",
+        "Item_ID": "c84a09f09199afb48b0d8a0c5c2a5bea"
+    },
+    {
+        "Internal_ID": "adv_matter_bin",
+        "Description": "A stock part used in the construction of various devices.",
+        "Category": [
+            "Stock Parts"
+        ],
+        "Materials": {
+            "Metal": 150
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Advanced Matter Bin",
+        "Item_ID": "18bcad138ca8f83499906f38e982ea8e"
+    },
+    {
+        "Internal_ID": "super_matter_bin",
+        "Description": "A stock part used in the construction of various devices.",
+        "Category": [
+            "Stock Parts"
+        ],
+        "Materials": {
+            "Metal": 200
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Super Matter Bin",
+        "Item_ID": "aeab445f242cd84418a317413a51993f"
+    },
+    {
+        "Internal_ID": "bluespace_matter_bin",
+        "Description": "A stock part used in the construction of various devices.",
+        "Category": [
+            "Stock Parts"
+        ],
+        "Materials": {
+            "Metal": 250,
+            "Diamond": 100,
+            "BlueSpace": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Bluespace Matter Bin",
+        "Item_ID": "3be8e3181c89de54b8ab7b9f9c0a5eba"
+    },
+    {
+        "Internal_ID": "s-ansible",
+        "Description": "A compact module capable of sensing extradimensional activity.",
+        "Category": [
+            "Stock Parts"
+        ],
+        "Materials": {
+            "Metal": 100,
+            "Silver": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Subspace Ansible",
+        "Item_ID": "c5b9669d73c1e974dbc238867757a34c"
+    },
+    {
+        "Internal_ID": "s-filter",
+        "Description": "A tiny device capable of filtering and converting super-intense radiowaves.",
+        "Category": [
+            "Stock Parts"
+        ],
+        "Materials": {
+            "Metal": 100,
+            "Silver": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Hyperwave Filter",
+        "Item_ID": "Assets/Prefabs/Items/Construction/StockParts/SubspaceStockParts/HyperwaveFilter"
+    },
+    {
+        "Internal_ID": "s-amplifier",
+        "Description": "A compact micro-machine capable of amplifying weak subspace transmissions.",
+        "Category": [
+            "Stock Parts"
+        ],
+        "Materials": {
+            "Metal": 100,
+            "Gold": 100,
+            "Uranium": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Subspace Amplifier",
+        "Item_ID": "8513915a51caca44a9e3ad11a1260f06"
+    },
+    {
+        "Internal_ID": "s-treatment",
+        "Description": "A compact micro-machine capable of stretching out hyper-compressed radio waves.",
+        "Category": [
+            "Stock Parts"
+        ],
+        "Materials": {
+            "Metal": 100,
+            "Silver": 200
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Subspace Treatment Disk",
+        "Item_ID": "db60f3e21fa117842956079a26f6b11d"
+    },
+    {
+        "Internal_ID": "s-analyzer",
+        "Description": "A sophisticated analyzer capable of analyzing cryptic subspace wavelengths.",
+        "Category": [
+            "Stock Parts"
+        ],
+        "Materials": {
+            "Metal": 100,
+            "Gold": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Subspace Analyzer",
+        "Item_ID": "3258094f3ba304c46bf74480c3287908"
+    },
+    {
+        "Internal_ID": "s-crystal",
+        "Description": "A sophisticated analyzer capable of analyzing cryptic subspace wavelengths.",
+        "Category": [
+            "Stock Parts"
+        ],
+        "Materials": {
+            "Glass": 800,
+            "Silver": 100,
+            "Gold": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Ansible Crystal",
+        "Item_ID": "2a037b7145cc9dd45ad1d23a4ee4f04f"
+    }
+]

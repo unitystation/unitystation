@@ -1,14 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UI.Core.NetUI;
 using Systems.Cargo;
 
 namespace UI.Objects.Cargo
 {
 	public class GUI_CargoPageSupplies : GUI_CargoPage
 	{
-		public EmptyItemList orderList;
-		public NetLabel categoryText;
+		[SerializeField]
+		private EmptyItemList orderList;
+		[SerializeField]
+		private NetText_label categoryText;
 
 		public CargoCategory cargoCategory;
 
@@ -22,8 +24,7 @@ namespace UI.Objects.Cargo
 			{
 				if (cargoOrder.EmagOnly == false || cargoGUI.cargoConsole.Emagged)
 				{
-					orderList.AddItem();
-					var item = (GUI_CargoItem)orderList.Entries[orderList.Entries.Length-1];
+					var item = orderList.AddItem().GetComponent<GUI_CargoItem>();
 					item.SetValues(cargoOrder);
 				}
 			}

@@ -13,6 +13,38 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 26fd1bb2a551e8f4094bf87fae1ffc73,
         type: 2}
+    - target: {fileID: 3285299878679120978, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: foreverID
+      value: 21b9a0af91fc37f468662b92a09c5960
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261308650186557929, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261308650186557929, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 6bc84ac1dbeeaf5418cfd8ef3565a7b9,
+        type: 2}
+    - target: {fileID: 8261308650186557929, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: c3b981be84f5ecf47b52a82c592b38ef,
+        type: 2}
+    - target: {fileID: 8261308650186557929, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261308650186557929, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: hitDamage
@@ -63,7 +95,7 @@ PrefabInstance:
     - target: {fileID: 8410813880369429899, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 21b9a0af91fc37f468662b92a09c5960
       objectReference: {fileID: 0}
     - target: {fileID: 8443408387443916863, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
@@ -138,3 +170,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b56fec0300832ce48ade0ddf2e577ee7, type: 3}
+--- !u!1 &185181431847209148 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8443408387443916863, guid: b56fec0300832ce48ade0ddf2e577ee7,
+    type: 3}
+  m_PrefabInstance: {fileID: 8628024657697982595}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-6905167094916986089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 185181431847209148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundReagents:
+    m_keys:
+    - {fileID: 11400000, guid: f972208dc79aa9241bf34b9cedd44993, type: 2}
+    m_values: 14000000

@@ -13,10 +13,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9b97ba9bc37c76643b0ed8e37e27e8af,
         type: 2}
-    - target: {fileID: 3749293798277539676, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+    - target: {fileID: 864991872856124446, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
-      propertyPath: maxCapacity
-      value: 0.4
+      propertyPath: foreverID
+      value: 51326f2264a075148a8aaa6bf95604c7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3959904421835429671, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: IsLeg
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3959904421835429671, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
@@ -140,6 +145,17 @@ PrefabInstance:
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 5932985456522563345, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5932985456522563345, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: f4bf367b42a325c4dbf26b76591e0ef1,
+        type: 2}
     - target: {fileID: 6100172161442356487, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
       propertyPath: m_RootOrder
@@ -203,7 +219,7 @@ PrefabInstance:
     - target: {fileID: 6138298517168709063, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 51326f2264a075148a8aaa6bf95604c7
       objectReference: {fileID: 0}
     - target: {fileID: 6217885582937215791, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
@@ -216,6 +232,12 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6999556221578282813, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: ashPrefab
+      value: 
+      objectReference: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+        type: 3}
     - target: {fileID: 7241952607628385263, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
       propertyPath: IsSurface
@@ -228,8 +250,63 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7241952607628385263, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
-      propertyPath: RelatedPresentSprites.Array.size
+      propertyPath: CanBleedExternally
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7241952607628385263, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: BodyPartReadableName
+      value: Leg
+      objectReference: {fileID: 0}
+    - target: {fileID: 7241952607628385263, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: spillChanceWhenCutPresent
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7241952607628385263, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 1.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7241952607628385263, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: bodyPartColorWhenCharred.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7241952607628385263, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: bodyPartColorWhenCharred.b
+      value: 0.00591848
+      objectReference: {fileID: 0}
+    - target: {fileID: 7241952607628385263, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: bodyPartColorWhenCharred.g
+      value: 0.00591848
+      objectReference: {fileID: 0}
+    - target: {fileID: 7241952607628385263, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: bodyPartColorWhenCharred.r
+      value: 0.1792453
+      objectReference: {fileID: 0}
+    - target: {fileID: 7241952607628385263, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.Fire
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7241952607628385263, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: bodyPartAshesAboveThisDamage
+      value: 125
+      objectReference: {fileID: 0}
+    - target: {fileID: 7241952607628385263, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: MinMaxInternalBleedingValues.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7241952607628385263, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: MinMaxInternalBleedingValues.y
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7241952607628385263, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
@@ -258,6 +335,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7241952607628385263, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
+      propertyPath: SubOrganBodyPartArmour.DismembermentProtectionChance
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7241952607628385263, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -267,5 +349,80 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f0594d5820b2ebd4d90a67a4b81c7ba0,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3959904421835429671, guid: 6a1a4888888e8994187da2ccb8d6f1c2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6a1a4888888e8994187da2ccb8d6f1c2, type: 3}
+--- !u!1 &6498312071342856297 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6105658861398253683, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+    type: 3}
+  m_PrefabInstance: {fileID: 1050759302020462618}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-3757956373148372916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6498312071342856297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73c8a0e70c3343fd9c7d764c28769377, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEMPVunerable: 0
+  EMPResistance: 2
+  walkingSpeed: 1.5
+  runningSpeed: 3
+  legEfficiency: 1
+--- !u!114 &5655852655570756341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6498312071342856297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 60f0f20732f0c3648af398f9e3bb91e5,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 7ecea5325dc0a4af0999d4b7cf5042e6,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}
+--- !u!114 &6633847452124842489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6498312071342856297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe56a83532907c141b7592eead8f0641, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NamedSlotFlagged: 0
+  relatedStorage: {fileID: 5655852655570756341}
+  storage:
+  - NotPresentOnUI: 0
+    SlotArea: 4
+    namedSlot: 3
+    hoverName: Feet
+    DropContents: 1
+    placeholderSprite: {fileID: 21300000, guid: d7d5558b9127fa7469f51a1a8bfdf062,
+      type: 3}
+    Conditional: 1
+    Condition:
+      CategoryID: Feet1
+      ConditionalParameter: 1
+      XAmountConditional: 2

@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4082501454514706868, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+      propertyPath: fermentedReagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: cff12e9f5a603b42a9787fb37cb8ae66,
+        type: 2}
     - target: {fileID: 53526953103084450, guid: 454947e247b8d27408f72041e753e7be,
         type: 3}
       propertyPath: initialName
@@ -16,6 +22,22 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: I say blue-mah-to, you say blue-mae-to.
+      objectReference: {fileID: 0}
+    - target: {fileID: 133036019159067926, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 133036019159067926, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[18].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: a03357a0b04204046bc58611586c14b8,
+        type: 2}
+    - target: {fileID: 133036019159067926, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[18].ingredientIndex
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 333905541421504412, guid: 454947e247b8d27408f72041e753e7be,
         type: 3}
@@ -86,7 +108,7 @@ PrefabInstance:
     - target: {fileID: 560563286822459764, guid: 454947e247b8d27408f72041e753e7be,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 214b68550d061cb4dbcadfb70e4473b5
       objectReference: {fileID: 0}
     - target: {fileID: 2196617459955984567, guid: 454947e247b8d27408f72041e753e7be,
         type: 3}
@@ -100,5 +122,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: fa37889eb98b9bd439097b9c9dfd3361,
         type: 2}
+    - target: {fileID: 6839007588675758253, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+      propertyPath: foreverID
+      value: 214b68550d061cb4dbcadfb70e4473b5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 454947e247b8d27408f72041e753e7be, type: 3}

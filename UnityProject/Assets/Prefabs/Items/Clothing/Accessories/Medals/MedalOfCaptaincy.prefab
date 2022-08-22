@@ -9,29 +9,29 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3732330060081758159, guid: 08198d608da024f47ae27defb4e20c43,
         type: 3}
+      propertyPath: initialName
+      value: medal of captaincy
+      objectReference: {fileID: 0}
+    - target: {fileID: 3732330060081758159, guid: 08198d608da024f47ae27defb4e20c43,
+        type: 3}
       propertyPath: initialDescription
       value: A golden medal awarded exclusively to those promoted to the rank of
         captain. It signifies the codified responsibilities of a captain to Nanotrasen,
         and their undisputable authority over their crew.
       objectReference: {fileID: 0}
-    - target: {fileID: 3732330060081758159, guid: 08198d608da024f47ae27defb4e20c43,
-        type: 3}
-      propertyPath: initialName
-      value: medal of captaincy
-      objectReference: {fileID: 0}
     - target: {fileID: 3797178001479478553, guid: 08198d608da024f47ae27defb4e20c43,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3800421048146428249, guid: 08198d608da024f47ae27defb4e20c43,
-        type: 3}
-      propertyPath: Resistances.LavaProof
-      value: 1
+      value: 158644e5dcdd3544086f3a548f43ae38
       objectReference: {fileID: 0}
     - target: {fileID: 3800421048146428249, guid: 08198d608da024f47ae27defb4e20c43,
         type: 3}
       propertyPath: Resistances.AcidProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3800421048146428249, guid: 08198d608da024f47ae27defb4e20c43,
+        type: 3}
+      propertyPath: Resistances.LavaProof
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3800421048146428249, guid: 08198d608da024f47ae27defb4e20c43,
@@ -43,6 +43,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MedalOfCaptaincy
+      objectReference: {fileID: 0}
+    - target: {fileID: 3834251025343507929, guid: 08198d608da024f47ae27defb4e20c43,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3834251025343507929, guid: 08198d608da024f47ae27defb4e20c43,
         type: 3}
@@ -61,6 +66,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3834251025343507929, guid: 08198d608da024f47ae27defb4e20c43,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3834251025343507929, guid: 08198d608da024f47ae27defb4e20c43,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -76,16 +86,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3834251025343507929, guid: 08198d608da024f47ae27defb4e20c43,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3834251025343507929, guid: 08198d608da024f47ae27defb4e20c43,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3834251025343507929, guid: 08198d608da024f47ae27defb4e20c43,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -98,6 +98,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7898404699752701120, guid: 08198d608da024f47ae27defb4e20c43,
+        type: 3}
+      propertyPath: foreverID
+      value: 158644e5dcdd3544086f3a548f43ae38
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08198d608da024f47ae27defb4e20c43, type: 3}

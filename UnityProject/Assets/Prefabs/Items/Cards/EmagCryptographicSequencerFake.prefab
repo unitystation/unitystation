@@ -1,26 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7403855870608655511
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3848857374701129896}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  allClothingData:
-  - {fileID: 11400000, guid: 4758621c95185244482f05a3d23c4993, type: 2}
-  CurrentClothIndex: 0
-  randomInitialClothData: 0
-  hidesIdentity: 0
-  hidesSlots: 0
-  hideClothingFlags: 0
 --- !u!1001 &5705249887064785343
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2521527662540365178, guid: 08128a9a69925eb4c93bc817c6ec2a88,
+        type: 3}
+      propertyPath: foreverID
+      value: 8d99b1da2dd11f44883e1a6470042394
+      objectReference: {fileID: 0}
     - target: {fileID: 3387519317821303440, guid: 08128a9a69925eb4c93bc817c6ec2a88,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -113,7 +97,7 @@ PrefabInstance:
     - target: {fileID: 8921851247785389219, guid: 08128a9a69925eb4c93bc817c6ec2a88,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 8d99b1da2dd11f44883e1a6470042394
       objectReference: {fileID: 0}
     - target: {fileID: 8982824578945154677, guid: 08128a9a69925eb4c93bc817c6ec2a88,
         type: 3}
@@ -164,3 +148,25 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5705249887064785343}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-7403855870608655511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3848857374701129896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  allClothingData:
+  - {fileID: 11400000, guid: 4758621c95185244482f05a3d23c4993, type: 2}
+  CurrentClothIndex: 0
+  randomInitialClothData: 0
+  hidesIdentity: 0
+  hidesSlots: 0
+  hideClothingFlags: 0
+  disallowConsume: 0

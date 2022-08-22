@@ -1,19 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-2294893884831080553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3961673132676458627}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a9aeed4ca305164486a90c4ff2231e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!1001 &4656743989558446564
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31,14 +17,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 6fdd50745c3c79e4491ea0354379003e,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3325795963608167138, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 6fdd50745c3c79e4491ea0354379003e,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3325795963608167138, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -50,6 +34,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c88e4fc1d4f00084786dc38565202261,
         type: 2}
+    - target: {fileID: 3377728999933947146, guid: b027dfa588d69d848a886ae80d5b25c2,
+        type: 3}
+      propertyPath: foreverID
+      value: 9ff6c7b6f3069134c989fd8ba59946b8
+      objectReference: {fileID: 0}
     - target: {fileID: 8122024160340692485, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
       propertyPath: exportCost
@@ -139,13 +128,7 @@ PrefabInstance:
     - target: {fileID: 8633003412026072275, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 9ff6c7b6f3069134c989fd8ba59946b8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b027dfa588d69d848a886ae80d5b25c2, type: 3}
---- !u!1 &3961673132676458627 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8528308361244090727, guid: b027dfa588d69d848a886ae80d5b25c2,
-    type: 3}
-  m_PrefabInstance: {fileID: 4656743989558446564}
-  m_PrefabAsset: {fileID: 0}

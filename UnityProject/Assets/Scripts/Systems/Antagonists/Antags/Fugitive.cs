@@ -35,7 +35,7 @@ namespace Antagonists
 				"- If the fugitive is threatening the station production, neutralize immediately." +
 				"</size>";
 
-		public override void AfterSpawn(ConnectedPlayer player)
+		public override void AfterSpawn(PlayerInfo player)
 		{
 			UpdateChatMessage.Send(player.GameObject, ChatChannel.Local, ChatModifier.Whisper,
 				"I can't believe we managed to break out of a Nanotrasen superjail! Sadly though," +
@@ -53,7 +53,7 @@ namespace Antagonists
 			int fugitiveNumber = Random.Range(1111, 9999);
 			warnMessage = string.Format(warnMessage, fugitiveName, fugitiveNumber);
 
-			GameManager.Instance.CentComm.MakeCommandReport(warnMessage, CentComm.UpdateSound.Notice);
+			GameManager.Instance.CentComm.MakeCommandReport(warnMessage);
 		}
 	}
 }

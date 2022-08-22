@@ -1,19 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &9151601790785400532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4351026040965951601}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1edd8a5476080c744900ec5aa5e259a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minDamage: 1
-  maxDamage: 30
 --- !u!1001 &7780000571928027105
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27,6 +13,27 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c95b5c97f0b228a42a9aa53c0274638b,
         type: 2}
+    - target: {fileID: 1090811781821981693, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
+      propertyPath: foreverID
+      value: 2a941beae6dd70e43a1a07ceee0ade2f
+      objectReference: {fileID: 0}
+    - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
+      propertyPath: initialName
+      value: extradimensional blade
+      objectReference: {fileID: 0}
+    - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
+      propertyPath: initialDescription
+      value: Once the harbinger of an interdimensional war, its sharpness fluctuates
+        wildly.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
       propertyPath: initialTraits.Array.size
@@ -49,17 +56,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 74df197646e672a44ac9ccfa27cf9a85,
         type: 2}
-    - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
-        type: 3}
-      propertyPath: initialDescription
-      value: Once the harbinger of an interdimensional war, its sharpness fluctuates
-        wildly.
-      objectReference: {fileID: 0}
-    - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
-        type: 3}
-      propertyPath: initialName
-      value: extradimensional blade
-      objectReference: {fileID: 0}
     - target: {fileID: 6154199615781592268, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
       propertyPath: m_Sprite
@@ -69,7 +65,12 @@ PrefabInstance:
     - target: {fileID: 6200854109258175012, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 2a941beae6dd70e43a1a07ceee0ade2f
+      objectReference: {fileID: 0}
+    - target: {fileID: 6307973308067386084, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6307973308067386084, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
@@ -88,6 +89,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6307973308067386084, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6307973308067386084, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -100,16 +106,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6307973308067386084, guid: 9c123336301845541830989cb9e3d606,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6307973308067386084, guid: 9c123336301845541830989cb9e3d606,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6307973308067386084, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
@@ -140,3 +136,17 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7780000571928027105}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &9151601790785400532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4351026040965951601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1edd8a5476080c744900ec5aa5e259a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minDamage: 1
+  maxDamage: 30

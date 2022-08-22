@@ -7,6 +7,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1382959582050582858, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Magic
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382959582050582858, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Magic
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382959582050582858, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Magic
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382959582050582858, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.Magic
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382959582050582858, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[4].armor.Magic
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382959582050582858, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[5].armor.Magic
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 2905032154871127383, guid: 05f59888eb108484aabd67b53074c7a6,
         type: 3}
       propertyPath: initialName
@@ -87,20 +117,23 @@ PrefabInstance:
     - target: {fileID: 3398265494507982721, guid: 05f59888eb108484aabd67b53074c7a6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 12c1799d210b6b444a768fd61642f614
+      objectReference: {fileID: 0}
+    - target: {fileID: 8504937989527846488, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: foreverID
+      value: 12c1799d210b6b444a768fd61642f614
       objectReference: {fileID: 0}
     - target: {fileID: 8556873813547803056, guid: 05f59888eb108484aabd67b53074c7a6,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 4d83dfaea6dd7a248ad4cf7fb6e066b8,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8556873813547803056, guid: 05f59888eb108484aabd67b53074c7a6,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 4d83dfaea6dd7a248ad4cf7fb6e066b8,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8556873813547803056, guid: 05f59888eb108484aabd67b53074c7a6,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

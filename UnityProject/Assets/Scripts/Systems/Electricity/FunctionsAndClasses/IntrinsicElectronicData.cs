@@ -1,57 +1,63 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
-[System.Serializable]
-public class IntrinsicElectronicData
+using Systems.Electricity.NodeModules;
+
+namespace Systems.Electricity
 {
-
-	public Connection WireEndB;
-	public Connection WireEndA;
-
-	public override string ToString()
+	[Serializable]
+	public class IntrinsicElectronicData
 	{
-		if (Present != null)
+		public Connection WireEndB;
+		public Connection WireEndA;
+
+		public override string ToString()
 		{
-			return Present.name;
+			if (Present != null)
+			{
+				return Present.name;
+			}
+			else
+			{
+				return (Categorytype.ToString());
+			}
 		}
-		else {
-			return (Categorytype.ToString());
+		public PowerTypeCategory Categorytype;
+		public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>();
+		/// <summary>
+		/// if the incoming input is from a certain type of  Machine/cable React differently
+		/// </summary>
+		public Dictionary<PowerTypeCategory, PowerInputReactions> ConnectionReaction = new Dictionary<PowerTypeCategory, PowerInputReactions>();
+		public ElectricalNodeControl ControllingDevice;
+
+		public ElectricalOIinheritance Present;
+		public ElectricalMetaData MetaDataPresent;
+
+		public ElectronicData Data = new ElectronicData();
+
+		public bool DestroyQueueing = false;
+		public bool DestroyAuthorised = false;
+
+		public void SetDeadEnd()
+		{
+			Categorytype = PowerTypeCategory.DeadEndConnection;
+
 		}
-	}
-	public PowerTypeCategory Categorytype;
-	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>();
-	/// <summary>
-	/// if the incoming input is from a certain type of  Machine/cable React differently
-	/// </summary>
-	public Dictionary<PowerTypeCategory, PowerInputReactions> ConnectionReaction = new Dictionary<PowerTypeCategory, PowerInputReactions>();
-	public ElectricalNodeControl ControllingDevice;
 
-	public ElectricalOIinheritance Present;
-	public ElectricalMetaData MetaDataPresent;
+		public void SetUp(IntrinsicElectronicData indata)
+		{
+			Categorytype = indata.Categorytype;
+			ConnectionReaction = indata.ConnectionReaction;
+			Present = indata.Present;
+			MetaDataPresent = indata.MetaDataPresent;
+			CanConnectTo = indata.CanConnectTo;
+			WireEndB = indata.WireEndB;
+			WireEndA = indata.WireEndA;
+		}
 
-	public ElectronicData Data = new ElectronicData();
-
-	public bool DestroyQueueing = false;
-	public bool DestroyAuthorised = false;
-
-	public void SetDeadEnd()
-	{
-		Categorytype = PowerTypeCategory.DeadEndConnection;
-
-	}
-
-	public void SetUp(IntrinsicElectronicData indata)
-	{
-		Categorytype = indata.Categorytype;
-		ConnectionReaction = indata.ConnectionReaction;
-		Present = indata.Present;
-		MetaDataPresent = indata.MetaDataPresent;
-		CanConnectTo = indata.CanConnectTo;
-		WireEndB = indata.WireEndB;
-		WireEndA = indata.WireEndA;
-	}
-
-	public void SetUp(ElectricalCableTile electricalCableTile)
+		public void SetUp(ElectricalCableTile electricalCableTile)
 		{
 			Categorytype = electricalCableTile.PowerType;
 			CanConnectTo = new HashSet<PowerTypeCategory>(electricalCableTile.CanConnectTo);
@@ -59,256 +65,256 @@ public class IntrinsicElectronicData
 			WireEndA = electricalCableTile.WireEndA;
 		}
 
-
-	public virtual void FindPossibleConnections()
-	{
-		if (MetaDataPresent != null)
+		public virtual void FindPossibleConnections()
 		{
-			MetaDataPresent.FindPossibleConnections();
+			if (MetaDataPresent != null)
+			{
+				MetaDataPresent.FindPossibleConnections();
+			}
+			else if (Present != null)
+			{
+				Present.FindPossibleConnections();
+			}
 		}
-		else if (Present != null)
+
+		/// <summary>
+		///  Sets the upstream
+		/// </summary>
+		public virtual void DirectionInput(ElectricalOIinheritance SourceInstance, IntrinsicElectronicData ComingFrom, CableLine PassOn = null)
 		{
-			Present.FindPossibleConnections();
+			if (Present != null)
+			{
+				Present.DirectionInput(SourceInstance, ComingFrom);
+			}
+			else
+			{
+				InputOutputFunctions.DirectionInput(SourceInstance, ComingFrom, this);
+			}
 		}
-	}
 
-
-
-	/// <summary>
-	///  Sets the upstream
-	/// </summary>
-	public virtual void DirectionInput(ElectricalOIinheritance SourceInstance, IntrinsicElectronicData ComingFrom, CableLine PassOn = null)
-	{
-		if (Present != null)
+		/// <summary>
+		/// Sets the downstream and pokes the next one along
+		/// </summary>
+		public virtual void DirectionOutput(ElectricalOIinheritance SourceInstance)
 		{
-			Present.DirectionInput(SourceInstance, ComingFrom);
+			if (Present != null)
+			{
+				Present.DirectionOutput(SourceInstance);
+			}
+			else
+			{
+				InputOutputFunctions.DirectionOutput(SourceInstance, this);
+			}
 		}
-		else {
-			InputOutputFunctions.DirectionInput(SourceInstance, ComingFrom, this);
-		}
-	}
 
-
-	/// <summary>
-	/// Sets the downstream and pokes the next one along
-	/// </summary>
-	public virtual void DirectionOutput(ElectricalOIinheritance SourceInstance)
-	{
-		if (Present != null)
+		/// <summary>
+		/// Pass resistance with GameObject of the Machine it is heading toward
+		/// </summary>
+		public virtual void ResistanceInput(ResistanceWrap Resistance,
+											ElectricalOIinheritance SourceInstance,
+											IntrinsicElectronicData ComingFrom)
 		{
-			Present.DirectionOutput(SourceInstance);
+			if (Present != null)
+			{
+				Present.ResistanceInput(Resistance, SourceInstance, ComingFrom);
+			}
+			else
+			{
+				InputOutputFunctions.ResistanceInput(Resistance, SourceInstance, ComingFrom, this);
+			}
 		}
-		else
+
+		/// <summary>
+		/// Passes it on to the next cable
+		/// </summary>
+		public virtual void ResistancyOutput(ResistanceWrap Resistance, ElectricalOIinheritance SourceInstance)
 		{
-			InputOutputFunctions.DirectionOutput(SourceInstance, this);
+			if (Present != null)
+			{
+				Present.ResistancyOutput(Resistance, SourceInstance);
+			}
+			else
+			{
+				InputOutputFunctions.ResistancyOutput(Resistance, SourceInstance, this);
+			}
 		}
-	}
 
-
-	/// <summary>
-	/// Pass resistance with GameObject of the Machine it is heading toward
-	/// </summary>
-	public virtual void ResistanceInput(ResistanceWrap Resistance,
-										ElectricalOIinheritance SourceInstance,
-										IntrinsicElectronicData ComingFrom)
-	{
-		if (Present != null)
+		/// <summary>
+		/// Inputs a current from a device, with the supply
+		/// </summary>
+		public virtual void ElectricityInput(VIRCurrent Current,
+											 ElectricalOIinheritance SourceInstance,
+											 IntrinsicElectronicData ComingFrom)
 		{
-			Present.ResistanceInput(Resistance, SourceInstance, ComingFrom);
+			if (Present != null)
+			{
+				Present.ElectricityInput(Current, SourceInstance, ComingFrom);
+			}
+			else
+			{
+				InputOutputFunctions.ElectricityInput(Current, SourceInstance, ComingFrom, this);
+			}
 		}
-		else {
-			InputOutputFunctions.ResistanceInput(Resistance, SourceInstance, ComingFrom, this);
-		}
-	}
 
-	/// <summary>
-	/// Passes it on to the next cable
-	/// </summary>
-	public virtual void ResistancyOutput(ResistanceWrap Resistance,ElectricalOIinheritance SourceInstance)
-	{
-		if (Present != null)
+		/// <summary>
+		///The function for out putting current into other nodes (Basically doing ElectricityInput On another one)
+		/// </summary>
+		public virtual void ElectricityOutput(VIRCurrent Current,
+											  ElectricalOIinheritance SourceInstance)
 		{
-			Present.ResistancyOutput(Resistance,SourceInstance);
-		}
-		else {
-			InputOutputFunctions.ResistancyOutput(Resistance, SourceInstance, this);
-		}
-	}
+			if (Present != null)
+			{
+				Present.ElectricityOutput(Current, SourceInstance);
+			}
+			else
+			{
+				InputOutputFunctions.ElectricityOutput(Current, SourceInstance, this);
+			}
 
-	/// <summary>
-	/// Inputs a current from a device, with the supply
-	/// </summary>
-	public virtual void ElectricityInput(VIRCurrent Current,
-										 ElectricalOIinheritance SourceInstance,
-										 IntrinsicElectronicData ComingFrom)
-	{
-		if (Present != null)
+		}
+
+		public virtual void SetConnPoints(Connection DirectionEndin, Connection DirectionStartin)
 		{
-			Present.ElectricityInput(Current, SourceInstance, ComingFrom);
+			WireEndA = DirectionEndin;
+			WireEndB = DirectionStartin;
 		}
-		else {
-			InputOutputFunctions.ElectricityInput(Current, SourceInstance, ComingFrom, this);
-		}
-	}
 
-	/// <summary>
-	///The function for out putting current into other nodes (Basically doing ElectricityInput On another one)
-	/// </summary>
-	public virtual void ElectricityOutput(VIRCurrent Current,
-										  ElectricalOIinheritance SourceInstance)
-	{
-		if (Present != null)
+		/// <summary>
+		/// Flushs the connection and up. Flushes out everything
+		/// </summary>
+		public virtual void FlushConnectionAndUp()
 		{
-			Present.ElectricityOutput(Current, SourceInstance);
-		}
-		else {
-			InputOutputFunctions.ElectricityOutput(Current, SourceInstance, this);
+			ElectricalDataCleanup.PowerSupplies.FlushConnectionAndUp(this);
 		}
 
-	}
-
-	public virtual void SetConnPoints(Connection DirectionEndin, Connection DirectionStartin)
-	{
-		WireEndA = DirectionEndin;
-		WireEndB = DirectionStartin;
-	}
-
-	/// <summary>
-	/// Flushs the connection and up. Flushes out everything
-	/// </summary>
-	public virtual void FlushConnectionAndUp()
-	{
-		ElectricalDataCleanup.PowerSupplies.FlushConnectionAndUp(this);
-	}
-
-	/// <summary>
-	/// Flushs the resistance and up. Cleans out resistance and current, SourceInstance is the Gameobject Of the supply,
-	/// This will be used to clean up the data from only a particular Supply
-	/// </summary>
-	public virtual void FlushResistanceAndUp(ElectricalOIinheritance SourceInstance = null)
-	{
-		ElectricalDataCleanup.PowerSupplies.FlushResistanceAndUp(this, SourceInstance);
-	}
-
-	/// <summary>
-	/// Flushs the supply and up. Cleans out the current
-	/// </summary>
-	public virtual void FlushSupplyAndUp(ElectricalOIinheritance SourceInstance = null)
-	{
-		ElectricalDataCleanup.PowerSupplies.FlushSupplyAndUp(this, SourceInstance);
-	}
-
-	public virtual void RemoveSupply(ElectricalOIinheritance SourceInstance = null)
-	{
-		ElectricalDataCleanup.PowerSupplies.RemoveSupply(this, SourceInstance);
-	}
-
-	public virtual Vector2 GetLocation()
-	{
-		if (MetaDataPresent != null)
+		/// <summary>
+		/// Flushs the resistance and up. Cleans out resistance and current, SourceInstance is the Gameobject Of the supply,
+		/// This will be used to clean up the data from only a particular Supply
+		/// </summary>
+		public virtual void FlushResistanceAndUp(ElectricalOIinheritance SourceInstance = null)
 		{
-			return (Vector2Int)MetaDataPresent.NodeLocation;
+			ElectricalDataCleanup.PowerSupplies.FlushResistanceAndUp(this, SourceInstance);
 		}
-		else if (Present != null)
+
+		/// <summary>
+		/// Flushs the supply and up. Cleans out the current
+		/// </summary>
+		public virtual void FlushSupplyAndUp(ElectricalOIinheritance SourceInstance = null)
 		{
-			return (Present.registerTile.LocalPosition.To2Int());
+			ElectricalDataCleanup.PowerSupplies.FlushSupplyAndUp(this, SourceInstance);
 		}
-		return (new Vector2());
-	}
 
-	public virtual ConnPoint GetConnPoints()
-	{
-		ConnPoint conns = new ConnPoint();
-		conns.pointA = WireEndB;
-		conns.pointB = WireEndA;
-		return conns;
-	}
-
-	public string  ShowInGameDetails()
-	{
-		ElectricityFunctions.WorkOutActualNumbers(this);
-		return ("Component : " + Categorytype +  "\nVoltage > " + Data.ActualVoltage.ToEngineering("V") + " Current > " + Data.CurrentInWire.ToEngineering("A"));
-	}
-
-
-	public virtual void ShowDetails()
-	{
-		ElectricityFunctions.WorkOutActualNumbers(this);
-		Logger.Log("connections " + (string.Join(",", Data.connections)), Category.Electrical);
-		//Logger.Log("ID " + (this.GetInstanceID()), Category.Electrical);
-		Logger.Log("Type " + (Categorytype.ToString()), Category.Electrical);
-		Logger.Log("Can connect to " + (string.Join(",", CanConnectTo)), Category.Electrical);
-		Logger.Log("WireEndA > " + WireEndA + " WireEndB > " + WireEndB, Category.Electrical);
-		foreach (var Supply in Data.SupplyDependent)
+		public virtual void RemoveSupply(ElectricalOIinheritance SourceInstance = null)
 		{
-			string ToLog;
-			ToLog = "Supply > " + Supply.Key + "\n";
-			ToLog += "Upstream > ";
-			ToLog += string.Join(",", Supply.Value.Upstream) + "\n";
-			ToLog += "Downstream > ";
-			ToLog += string.Join(",", Supply.Value.Downstream) + "\n";
-			ToLog += "ResistanceGoingTo > ";
-			ToLog += string.Join(",", Supply.Value.ResistanceGoingTo) + "\n";
-			ToLog += "ResistanceComingFrom > ";
-			ToLog += string.Join(",", Supply.Value.ResistanceComingFrom) + "\n";
-			ToLog += "CurrentComingFrom > ";
-			ToLog += string.Join(",", Supply.Value.CurrentComingFrom) + "\n";
-			ToLog += "CurrentGoingTo > ";
-			ToLog += string.Join(",", Supply.Value.CurrentGoingTo) + "\n";
-			ToLog += "SourceVoltages > ";
-			ToLog += string.Join(",", Supply.Value.SourceVoltage) + "\n";
-			Logger.Log(ToLog, Category.Electrical);
+			ElectricalDataCleanup.PowerSupplies.RemoveSupply(this, SourceInstance);
 		}
-		Logger.Log(" ActualVoltage > " + Data.ActualVoltage
-				   + " CurrentInWire > " + Data.CurrentInWire
-				   + " EstimatedResistance >  " + Data.EstimatedResistance, Category.Electrical);
-	}
 
-
-	public void DestroyThisPlease()
-	{
-		if (Present != null)
+		public virtual Vector2 GetLocation()
 		{
-			Present.DestroyThisPlease();
+			if (MetaDataPresent != null)
+			{
+				return (Vector2Int)MetaDataPresent.NodeLocation;
+			}
+			else if (Present != null)
+			{
+				return (Present.registerTile.LocalPosition.To2Int());
+			}
+			return (new Vector2());
 		}
-		else
+
+		public virtual ConnPoint GetConnPoints()
 		{
-			InternalDestroyThisPlease();
+			ConnPoint conns = new ConnPoint();
+			conns.pointA = WireEndB;
+			conns.pointB = WireEndA;
+			return conns;
+		}
+
+		public string ShowInGameDetails()
+		{
+			ElectricityFunctions.WorkOutActualNumbers(this);
+			return $"{Categorytype}: {Data.ActualVoltage.ToEngineering("V")}, {Data.CurrentInWire.ToEngineering("A")}";
+		}
+
+		public virtual string ShowDetails()
+		{
+			StringBuilder SB = new StringBuilder();
+			ElectricityFunctions.WorkOutActualNumbers(this);
+			SB.Append("connections " + (string.Join(",", Data.connections)));
+			SB.Append("\n");
+			SB.Append("Type " + (Categorytype.ToString()));
+			SB.Append("\n");
+			SB.Append("Can connect to " + (string.Join(",", CanConnectTo)));
+			SB.Append("\n");
+			SB.Append("WireEndA > " + WireEndA + " WireEndB > " + WireEndB);
+			foreach (var Supply in Data.SupplyDependent)
+			{
+
+				SB.Append("Supply > " + Supply.Key + "\n");
+				SB.Append("Upstream > ");
+				SB.Append(string.Join(",", Supply.Value.Upstream) + "\n");
+				SB.Append("Downstream > ");
+				SB.Append(string.Join(",", Supply.Value.Downstream) + "\n");
+				SB.Append("ResistanceGoingTo > ");
+				SB.Append(string.Join(",", Supply.Value.ResistanceGoingTo) + "\n");
+				SB.Append("ResistanceComingFrom > ");
+				SB.Append(string.Join(",", Supply.Value.ResistanceComingFrom) + "\n");
+				SB.Append( "CurrentComingFrom > ");
+				SB.Append(string.Join(",", Supply.Value.CurrentComingFrom) + "\n");
+				SB.Append("CurrentGoingTo > ");
+				SB.Append(string.Join(",", Supply.Value.CurrentGoingTo) + "\n");
+				SB.Append("SourceVoltages > ");
+				SB.Append(string.Join(",", Supply.Value.SourceVoltage) + "\n");
+			}
+			SB.Append(" ActualVoltage > " + Data.ActualVoltage
+			                              + " CurrentInWire > " + Data.CurrentInWire
+			                              + " EstimatedResistance >  " + Data.EstimatedResistance);
+			return SB.ToString();
+		}
+
+		public void DestroyThisPlease()
+		{
+			if (Present != null)
+			{
+				Present.DestroyThisPlease();
+			}
+			else
+			{
+				InternalDestroyThisPlease();
+			}
+		}
+
+		private void InternalDestroyThisPlease()
+		{
+			DestroyQueueing = true;
+			ElectricalManager.Instance.electricalSync.NUElectricalObjectsToDestroy.Add(this);
+		}
+
+		public void DestroyingThisNow()
+		{
+			if (Present != null)
+			{
+				Present.DestroyingThisNow();
+				Present = null;
+			}
+			else
+			{
+				InternalDestroyingThisNow();
+			}
+		}
+
+		private void InternalDestroyingThisNow()
+		{
+			if (DestroyQueueing)
+			{
+				FlushConnectionAndUp();
+				FindPossibleConnections();
+				FlushConnectionAndUp();
+				MetaDataPresent.IsOn.ElectricalData.Remove(MetaDataPresent);
+				ElectricalManager.Instance.electricalSync.StructureChange = true;
+				MetaDataPresent.Locatedon.TileChangeManager.MetaTileMap.RemoveTileWithlayer(MetaDataPresent.NodeLocation, LayerType.Electrical);
+
+			}
 		}
 	}
-
-	private void InternalDestroyThisPlease()
-	{
-		DestroyQueueing = true;
-		ElectricalManager.Instance.electricalSync.NUElectricalObjectsToDestroy.Add(this);
-	}
-
-
-	public void DestroyingThisNow()
-	{
-		if (Present != null)
-		{
-			Present.DestroyingThisNow();
-			Present = null;
-		}
-		else
-		{
-			InternalDestroyingThisNow();
-		}
-	}
-
-	private void InternalDestroyingThisNow()
-	{
-		if (DestroyQueueing)
-		{
-			FlushConnectionAndUp();
-			FindPossibleConnections();
-			FlushConnectionAndUp();
-			MetaDataPresent.IsOn.ElectricalData.Remove(MetaDataPresent);
-			ElectricalManager.Instance.electricalSync.StructureChange = true;
-			MetaDataPresent.Locatedon.RemoveUnderFloorTile(MetaDataPresent.NodeLocation, MetaDataPresent.RelatedTile);
-
-		}
-	}
-
 }

@@ -13,15 +13,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7467296567942243785, guid: 407fbe1180c4d864f8d80efa07b518e3,
         type: 3}
-    - target: {fileID: 2326103295181735537, guid: 9914f83c172606747877a09872724398,
+    - target: {fileID: 1235368713201754175, guid: 9914f83c172606747877a09872724398,
         type: 3}
-      propertyPath: initialDescription
-      value: A slab of spider meat. That is so Kafkaesque.
+      propertyPath: CookableBy
+      value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1235368713201754175, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 7467296567942243785, guid: 407fbe1180c4d864f8d80efa07b518e3,
+        type: 3}
     - target: {fileID: 2326103295181735537, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: initialName
       value: spider meat
+      objectReference: {fileID: 0}
+    - target: {fileID: 2326103295181735537, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: initialDescription
+      value: A slab of spider meat. That is so Kafkaesque.
       objectReference: {fileID: 0}
     - target: {fileID: 2619852224633018959, guid: 9914f83c172606747877a09872724398,
         type: 3}
@@ -33,6 +44,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SpiderMeat
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
         type: 3}
@@ -51,6 +67,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +84,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
         type: 3}
@@ -92,7 +103,7 @@ PrefabInstance:
     - target: {fileID: 2827791845413590183, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 4e05669938be94241b6b3453843bdd31
       objectReference: {fileID: 0}
     - target: {fileID: 3999315099893948859, guid: 9914f83c172606747877a09872724398,
         type: 3}
@@ -103,11 +114,6 @@ PrefabInstance:
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.size
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3999315099893948859, guid: 9914f83c172606747877a09872724398,
-        type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3999315099893948859, guid: 9914f83c172606747877a09872724398,
         type: 3}
@@ -123,6 +129,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3999315099893948859, guid: 9914f83c172606747877a09872724398,
         type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3999315099893948859, guid: 9914f83c172606747877a09872724398,
+        type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
       value: 3
       objectReference: {fileID: 0}
@@ -131,11 +142,21 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 150
       objectReference: {fileID: 0}
+    - target: {fileID: 6304245728322857827, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 8353191170574324372, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 7841d1094dfee6e4c80816906a1d84fd,
         type: 2}
+    - target: {fileID: 9083999932805424510, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: foreverID
+      value: 4e05669938be94241b6b3453843bdd31
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9914f83c172606747877a09872724398, type: 3}

@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Shotgun Ammo Crate
   m_EditorClassIdentifier: 
   OrderName: Shotgun Ammo Crate
-  CreditCost: 1200
+  CreditCost: 1000
   Crate: {fileID: 3660769828800606216, guid: 8e84a0677b6a4364386bae0efa717939, type: 3}
   Items:
   - {fileID: 1909889960012756402, guid: f34863c357167e64983912660d22a4f6, type: 3}
   - {fileID: 1909889960012756402, guid: f34863c357167e64983912660d22a4f6, type: 3}
   - {fileID: 1909889960012756402, guid: 2dcc926f902b2e44a802f217063efa15, type: 3}
   - {fileID: 1909889960012756402, guid: 2dcc926f902b2e44a802f217063efa15, type: 3}
-  ContentSellPrice: 0
+  ContentSellPrice: 500
+  EmagOnly: 0

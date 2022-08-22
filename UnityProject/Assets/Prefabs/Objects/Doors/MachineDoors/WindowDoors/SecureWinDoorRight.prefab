@@ -7,12 +7,28 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1201136300133767483, guid: 6fa1bf6a566af2f479f551f9bb604178,
+        type: 3}
+      propertyPath: foreverID
+      value: cbe919cf00f84254f83d474582798520
+      objectReference: {fileID: 0}
+    - target: {fileID: 1900938496333731128, guid: 6fa1bf6a566af2f479f551f9bb604178,
+        type: 3}
+      propertyPath: airlockAssemblyPrefab
+      value: 
+      objectReference: {fileID: 9191400176456096028, guid: 19766b88d9c52d948976f3bd1686beaf,
+        type: 3}
     - target: {fileID: 2646603465474442085, guid: 6fa1bf6a566af2f479f551f9bb604178,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300712, guid: f0f465f2e2128495683d9e4cb833c45a,
+      objectReference: {fileID: 21300000, guid: ae18d7e2ed401144ab0fe6561b25b290,
         type: 3}
+    - target: {fileID: 2868536737030594984, guid: 6fa1bf6a566af2f479f551f9bb604178,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2868536737030594984, guid: 6fa1bf6a566af2f479f551f9bb604178,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -26,31 +42,6 @@ PrefabInstance:
     - target: {fileID: 2868536737030594984, guid: 6fa1bf6a566af2f479f551f9bb604178,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2868536737030594984, guid: 6fa1bf6a566af2f479f551f9bb604178,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2868536737030594984, guid: 6fa1bf6a566af2f479f551f9bb604178,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2868536737030594984, guid: 6fa1bf6a566af2f479f551f9bb604178,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2868536737030594984, guid: 6fa1bf6a566af2f479f551f9bb604178,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2868536737030594984, guid: 6fa1bf6a566af2f479f551f9bb604178,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2868536737030594984, guid: 6fa1bf6a566af2f479f551f9bb604178,
@@ -73,10 +64,79 @@ PrefabInstance:
       propertyPath: m_Name
       value: SecureWinDoorRight
       objectReference: {fileID: 0}
+    - target: {fileID: 5695306551202525825, guid: 6fa1bf6a566af2f479f551f9bb604178,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5b877aef6405d6443a76ae7c5cff4212,
+        type: 2}
+    - target: {fileID: 5695306551202525825, guid: 6fa1bf6a566af2f479f551f9bb604178,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5b877aef6405d6443a76ae7c5cff4212,
+        type: 2}
+    - target: {fileID: 5695306551202525825, guid: 6fa1bf6a566af2f479f551f9bb604178,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5b877aef6405d6443a76ae7c5cff4212,
+        type: 2}
     - target: {fileID: 5910819440385102352, guid: 6fa1bf6a566af2f479f551f9bb604178,
         type: 3}
       propertyPath: m_AssetId
+      value: cbe919cf00f84254f83d474582798520
+      objectReference: {fileID: 0}
+    - target: {fileID: 7039879227425285692, guid: 6fa1bf6a566af2f479f551f9bb604178,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
       value: 
+      objectReference: {fileID: 11400000, guid: 32ccb089cd36fde4b9b8311d54c6fa56,
+        type: 2}
+    - target: {fileID: 7316752780620172712, guid: 6fa1bf6a566af2f479f551f9bb604178,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 87de23ce059d7e34eb74119858ac0fe9,
+        type: 2}
+    - target: {fileID: 7316752780620172712, guid: 6fa1bf6a566af2f479f551f9bb604178,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 87de23ce059d7e34eb74119858ac0fe9,
+        type: 2}
+    - target: {fileID: 7316752780620172712, guid: 6fa1bf6a566af2f479f551f9bb604178,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1ccc201e9e5615b46a18989444bfb9f7,
+        type: 2}
+    - target: {fileID: 7316752780620172712, guid: 6fa1bf6a566af2f479f551f9bb604178,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3cc73949c31c0e14b966e98d49ef018d,
+        type: 2}
+    - target: {fileID: 7316752780620172712, guid: 6fa1bf6a566af2f479f551f9bb604178,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: fc40fe351b54aa54aa26ab127ebce5c1,
+        type: 2}
+    - target: {fileID: 8835769195741866264, guid: 6fa1bf6a566af2f479f551f9bb604178,
+        type: 3}
+      propertyPath: WopenFrame
+      value: 416
+      objectReference: {fileID: 0}
+    - target: {fileID: 8835769195741866264, guid: 6fa1bf6a566af2f479f551f9bb604178,
+        type: 3}
+      propertyPath: WcloseFrame
+      value: 356
+      objectReference: {fileID: 0}
+    - target: {fileID: 8835769195741866264, guid: 6fa1bf6a566af2f479f551f9bb604178,
+        type: 3}
+      propertyPath: WdeniedFrame
+      value: 428
       objectReference: {fileID: 0}
     - target: {fileID: 8835769195741866264, guid: 6fa1bf6a566af2f479f551f9bb604178,
         type: 3}
@@ -107,21 +167,6 @@ PrefabInstance:
         type: 3}
       propertyPath: WanimFrames.Array.data[5]
       value: 412
-      objectReference: {fileID: 0}
-    - target: {fileID: 8835769195741866264, guid: 6fa1bf6a566af2f479f551f9bb604178,
-        type: 3}
-      propertyPath: WcloseFrame
-      value: 356
-      objectReference: {fileID: 0}
-    - target: {fileID: 8835769195741866264, guid: 6fa1bf6a566af2f479f551f9bb604178,
-        type: 3}
-      propertyPath: WdeniedFrame
-      value: 428
-      objectReference: {fileID: 0}
-    - target: {fileID: 8835769195741866264, guid: 6fa1bf6a566af2f479f551f9bb604178,
-        type: 3}
-      propertyPath: WopenFrame
-      value: 416
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6fa1bf6a566af2f479f551f9bb604178, type: 3}

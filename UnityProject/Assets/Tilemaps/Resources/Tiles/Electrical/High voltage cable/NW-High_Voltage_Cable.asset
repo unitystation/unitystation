@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b1bfcb29a2677e48add641bd21c8ade, type: 3}
   m_Name: NW-High_Voltage_Cable
   m_EditorClassIdentifier: 
-  displayName: 
-  LayerType: 8
+  displayName: high voltage cable
+  description: 
+  LayerType: 10
   TileType: 11
   RequiredTiles: []
   floorTileSounds: {fileID: 0}
@@ -23,8 +24,16 @@ MonoBehaviour:
   SpawnWithNoAir: 0
   passable: 1
   mineable: 0
+  miningTime: 5
+  miningHardness: 1
+  constructable: 1
+  RadiationPassability: 1
+  ThermalConductivity: 0.05
+  HeatCapacity: 10000
   doesReflectBullet: 0
   indestructible: 0
+  ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 
     m_values: 
@@ -41,12 +50,18 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
+    StunImmunity: 0
   tileInteractions:
   - {fileID: 11400000, guid: 75c463bff74ba104c83113bc4102735f, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 4019383695740491213, guid: 930cb494644d9ed46b31e1ecf4222089,
     type: 3}
   spawnAmountOnDeconstruct: 2
   lootOnDespawn: {fileID: 0}
+  toTileWhenDestroyed: {fileID: 0}
+  spawnOnDestroy: {fileID: 0}
+  damageOverlayList: {fileID: 0}
   soundOnHit:
     SetLoadSetting: 0
     AssetAddress: null
@@ -54,6 +69,8 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  SoundOnDestroy: []
   CanConnectTo: 0d000000050000000b0000000600000010000000120000001400000015000000
   PowerType: 11
   WireEndB: 1

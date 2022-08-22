@@ -1,9 +1,10 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Objects;
 using Items;
-using Items.Cargo.Wrapping;
 
 namespace Systems.Cargo
 {
@@ -20,10 +21,17 @@ namespace Systems.Cargo
 		private bool ChangeDirectionAtOffset = false;
 		private Vector3 destination;
 		private List<Vector3Int> availableSpawnSlots = new List<Vector3Int>();
-		//It is actually (cargoZoneWidth - 1) / 2
-		private int shuttleWidth = 2;
-		//It is actually (cargoZoneHeight - 1) / 2
-		private int shuttleHeight = 4;
+		[SerializeField]
+		[Tooltip("width of AREA")]
+		private int shuttleWidth;
+		private int shuttleZoneWidth;
+		[SerializeField]
+		[Tooltip("height of AREA")]
+		private int shuttleHeight;
+		private int shuttleZoneHeight;
+		[SerializeField]
+		[Tooltip("Check if the matrix is exactly in the middle")]
+		private bool heightInMiddle = false; // Only Unreal does this
 		private bool moving;
 
 		private MatrixMove mm;
@@ -41,6 +49,23 @@ namespace Systems.Cargo
 
 			mm = GetComponent<MatrixMove>();
 			mm.SetAccuracy(2);
+
+			shuttleZoneWidth = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal((shuttleWidth - 1) / 2)));
+			shuttleZoneHeight = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal((shuttleHeight - 1) / 2)));
+		}
+
+		private void OnEnable()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
 		/// <summary>
@@ -71,13 +96,9 @@ namespace Systems.Cargo
 			mm.AutopilotTo(destination);
 		}
 
-		private void Update()
+		//Server Side Only
+		private void UpdateMe()
 		{
-			if (!CustomNetworkManager.Instance._isServer)
-			{
-				return;
-			}
-
 			if (moving && Vector2.Distance(transform.position, destination) < 2)    //arrived to dest
 			{
 				moving = false;
@@ -133,17 +154,43 @@ namespace Systems.Cargo
 		/// Calls CargoManager.DestroyItem() for all items on the shuttle.
 		/// Server only.
 		/// </summary>
-		void UnloadCargo()
+		private void UnloadCargo()
 		{
 			Transform objectHolder = SearchForObjectsOnShuttle();
 			//track what we've already sold so it's not sold twice.
 			HashSet<GameObject> alreadySold = new HashSet<GameObject>();
+			var seekingItemTraitsForBounties = new List<ItemTrait>();
+			foreach(var bounty in CargoManager.Instance.ActiveBounties)
+			{
+				seekingItemTraitsForBounties.AddRange(bounty.Demands.Keys);
+			}
+
+			bool hasBountyTrait(Attributes attribute)
+			{
+				if (attribute is ItemAttributesV2 c)
+				{
+					return c.HasAnyTrait(seekingItemTraitsForBounties);
+				}
+				return false;
+			}
+
 			for (int i = 0; i < objectHolder.childCount; i++)
 			{
-				PushPull item = objectHolder.GetChild(i).GetComponent<PushPull>();
+				var item = objectHolder.GetChild(i).gameObject;
+				if (item == null) continue;
+
 				//need VisibleState check because despawned objects still stick around on their matrix transform
-				if (item != null && item.VisibleState)
+				if (item.TryGetComponent<UniversalObjectPhysics>(out var behaviour) && behaviour.IsVisible)
 				{
+					if (item.TryGetComponent<Attributes>(out var attributes))
+					{
+						// Items that cannot be sold in cargo will be ignored unless they have a trait that is assoicated with a bounty
+						if (attributes.CanBeSoldInCargo == false && hasBountyTrait(attributes) == false) continue;
+
+						// Don't sell secured objects e.g. conveyors.
+						if (attributes.CanBeSoldInCargo && behaviour.IsNotPushable) continue;
+					}
+
 					CargoManager.Instance.ProcessCargo(item, alreadySold);
 				}
 			}
@@ -173,7 +220,7 @@ namespace Systems.Cargo
 			Dictionary<GameObject, Stackable> stackableItems = new Dictionary<GameObject, Stackable>();
 			//error occurred trying to spawn, just ignore this order.
 			if (crate == null) return true;
-			if (crate.TryGetComponent<ClosetControl>(out var closetControl))
+			if (crate.TryGetComponent<ObjectContainer>(out var container))
 			{
 				for (int i = 0; i < order.Items.Count; i++)
 				{
@@ -200,7 +247,7 @@ namespace Systems.Cargo
 							stackableItems.Add(entryPrefab, stackableItem);
 						}
 
-						AddItemToCrate(closetControl, orderedItem);
+						AddItemToCrate(container, orderedItem);
 					}
 					else
 					{
@@ -222,15 +269,15 @@ namespace Systems.Cargo
 							var stackableItem = orderedItem.GetComponent<Stackable>();
 							stackableItems[entryPrefab] = stackableItem;
 
-							AddItemToCrate(closetControl, orderedItem);
+							AddItemToCrate(container, orderedItem);
 						}
 					}
 				}
 			}
 			else
 			{
-				Logger.LogWarning($"{crate.ExpensiveName()} does not have ClosetControl. Please fix CargoData" +
-								  $" to ensure that the crate prefab is actually a crate (with ClosetControl component)." +
+				Logger.LogWarning($"{crate.ExpensiveName()} does not have {nameof(UniversalObjectPhysics)}. Please fix CargoData" +
+								  $" to ensure that the crate prefab is actually a crate (with {nameof(UniversalObjectPhysics)} component)." +
 								  $" This order will be ignored.", Category.Cargo);
 				return true;
 			}
@@ -239,17 +286,20 @@ namespace Systems.Cargo
 			return (true);
 		}
 
-		void AddItemToCrate(ClosetControl crate, GameObject obj)
+		private void AddItemToCrate(ObjectContainer container, GameObject obj)
 		{
-			if (obj.TryGetComponent<ObjectBehaviour>(out var objectBehaviour))
+			//ensure it is added to crate
+			if (obj.TryGetComponent<RandomItemSpot>(out var randomItem))
 			{
-				//ensure it is added to crate
-				crate.ServerAddInternalItem(objectBehaviour);
+				var registerTile = container.gameObject.RegisterTile();
+				var items = registerTile.Matrix.Get<UniversalObjectPhysics>(registerTile.LocalPositionServer, ObjectType.Item, true)
+						.Select(ob => ob.gameObject).Where(go => go != obj);
+
+				container.StoreObjects(items);
 			}
 			else
 			{
-				Logger.LogWarning($"Can't add ordered item {obj.ExpensiveName()} to create because" +
-								  $" it doesn't have an ObjectBehavior component.", Category.Cargo);
+				container.StoreObject(obj);
 			}
 		}
 
@@ -260,16 +310,18 @@ namespace Systems.Cargo
 		private void GetAvailablePositions()
 		{
 			Vector3Int pos;
+			int x = 0;
+			if (!heightInMiddle) { x = 1; }
 			availableSpawnSlots = new List<Vector3Int>();
-
-			for (int i = -shuttleHeight; i <= shuttleHeight; i++)
+			for (int i = -shuttleZoneHeight; i <= shuttleZoneHeight - (shuttleHeight%2); i++)
 			{
-				for (int j = -shuttleWidth; j <= shuttleWidth; j++)
+				for (int j = -shuttleZoneWidth; j <= shuttleZoneWidth; j++)
 				{
 					pos = mm.ServerState.Position.RoundToInt();
 					//i + 1 because cargo shuttle center is offseted by 1
-					pos += new Vector3Int(j, i + 1, 0);
-					if (MatrixManager.Instance.GetFirst<ClosetControl>(pos, true) == null)
+					pos += new Vector3Int(j, i + x, 0);
+					if ((MatrixManager.Instance.GetFirst<ClosetControl>(pos, true) == null) &&
+						MatrixManager.IsFloorAt(pos, true))
 					{
 						availableSpawnSlots.Add(pos);
 					}
@@ -286,7 +338,7 @@ namespace Systems.Cargo
 
 			if (availableSpawnSlots.Count > 0)
 			{
-				spawnPos = availableSpawnSlots[Random.Range(0, availableSpawnSlots.Count)];
+				spawnPos = availableSpawnSlots[UnityEngine.Random.Range(0, availableSpawnSlots.Count)];
 				availableSpawnSlots.Remove(spawnPos);
 				return spawnPos;
 			}

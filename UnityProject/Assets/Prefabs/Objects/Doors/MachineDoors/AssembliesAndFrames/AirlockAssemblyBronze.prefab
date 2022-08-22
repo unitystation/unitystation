@@ -9,6 +9,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 90086938426635484, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6dbf50a5b4a0b3c41905828f2c81b0f5,
+        type: 2}
+    - target: {fileID: 90086938426635484, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
       propertyPath: SubCatalogue.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 6dbf50a5b4a0b3c41905828f2c81b0f5,
@@ -25,11 +31,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d317f959a23cb6146ab5b4b2af996846,
         type: 2}
+    - target: {fileID: 459137905406169173, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c228f190f61e2554e8f2504ed0294805,
+        type: 3}
     - target: {fileID: 492649207374439926, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
       propertyPath: initialName
       value: bronze airlock assembly
       objectReference: {fileID: 0}
+    - target: {fileID: 700425905060650895, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 66246211da5a7a741873f1104075eda1,
+        type: 2}
     - target: {fileID: 700425905060650895, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
       propertyPath: SubCatalogue.Array.data[1]
@@ -45,7 +63,7 @@ PrefabInstance:
     - target: {fileID: 1706320983422357412, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 814834bcab31a6349b8bbe0366fc26c9
       objectReference: {fileID: 0}
     - target: {fileID: 2315748446456795164, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
@@ -53,12 +71,46 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f998c8bf4fcc510488c4d25d731c639e,
         type: 2}
+    - target: {fileID: 3120403218613559149, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: airlockToSpawn
+      value: 
+      objectReference: {fileID: 4393903081075276977, guid: a1a2a7a3ddb6ace4990c5448161ab6e8,
+        type: 3}
+    - target: {fileID: 3120403218613559149, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: airlockMaterial
+      value: 
+      objectReference: {fileID: 529023263817972775, guid: 02278522e41b7414e85e9f471f47cde1,
+        type: 3}
+    - target: {fileID: 3120403218613559149, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: airlockWindowedToSpawn
+      value: 
+      objectReference: {fileID: 4108223514464221015, guid: d17a3dd9833a3ad479599a753de686ed,
+        type: 3}
+    - target: {fileID: 5358550384649939024, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 74b7c437a64bac54ca21775471dec54f,
+        type: 3}
+    - target: {fileID: 6125502474817307791, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: foreverID
+      value: 814834bcab31a6349b8bbe0366fc26c9
+      objectReference: {fileID: 0}
     - target: {fileID: 6995212575028010705, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 5291f7773a9b63249b13efb6b7863dd8,
         type: 3}
+    - target: {fileID: 7090484289108851740, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7090484289108851740, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -76,6 +128,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7090484289108851740, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7090484289108851740, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -88,16 +145,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7090484289108851740, guid: b52e9566ba635f944a7a656928335414,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7090484289108851740, guid: b52e9566ba635f944a7a656928335414,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7090484289108851740, guid: b52e9566ba635f944a7a656928335414,
         type: 3}

@@ -16,9 +16,13 @@ MonoBehaviour:
   isCrewmember: 1
   lateSpawnIsArrivals: 1
   inventoryPopulator: {fileID: 11400000, guid: c54c7313497834df7b14311e33d93833, type: 2}
+  useStandardPopulator: 1
   limit: 1
   priority: 99
   allowedAccess: 160000001d0000001a000000220000004c000000
+  allowedLowPopAccess: 
+  issuedClearance: 150000001a0000001f0000000d00000029000000
+  issuedLowPopClearance: 150000001a0000001f0000000d00000029000000
   spells: []
   progress: 60
   choiceColor: {r: 0.8666667, g: 0.8666667, b: 0.8666667, a: 1}
@@ -28,18 +32,17 @@ MonoBehaviour:
   descriptionShort: "\u2022 Preach\n\u2022 Hold services and funerals\n\u2022 Make
     up a religion"
   descriptionLong: "Serve your god, or gods, in a manner that benefits the crew (up
-    for interpretation). Most rounds you\u2019ll end up holding funerals for those
-    that the station cares deeply about (and cremating everyone else). You come equipped
-    with your holy text, and when it comes to prayers; the deities you pray to are
-    far more likely to hear, and answer, your prayers. \r\n\r\nYour responsibilities,
-    like your station access, are limited. Invoking spirituality amongst the crew
-    is your main priority - so not much besides begging people to attend services
-    and nobody showing up. Being a roleplay heavy role, it\u2019s encouraged that
-    you interact with the crew to create events or to enforce religious sanctions
-    and rulesets. Religion is sparse in this corner of space, so don\u2019t expect
-    everyone to get in line outside your office unprompted.\r\n\r\nNot sure what
-    to do? Declare the day a religious holiday and host festive events, host seminars
-    to educate the masses, or give the clown your holy blessing!"
+    for interpretation). Your responsibilities, like your station access, are limited.
+    Invoking spirituality amongst the crew is your main priority - so not much besides
+    begging people to attend services and nobody showing up. \n\nBeing a roleplay
+    heavy role, it\u2019s encouraged that you interact with the crew to create events
+    or to enforce religious sanctions and rulesets. Perform small miracles with your
+    null rod and holy book as needed. Religion is sparse in this corner of space,
+    so don\u2019t expect everyone to get in line outside your office unprompted.\r
+    Most rounds you\u2019ll end up holding funerals for those that the station cares
+    deeply about (and cremating everyone else).\r\n\r\nNot sure what to do? Declare
+    the day a religious holiday and host festive events, host seminars to educate
+    the masses, or give the clown your holy blessing!"
   customProperties:
     m_keys: []
     m_values: 
@@ -52,5 +55,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   textColor: {r: 0.86666673, g: 0.86666673, b: 0.86666673, a: 1}
   backgroundColor: {r: 1, g: 0, b: 0, a: 0}
+  specialPlayerPrefab: {fileID: 0}

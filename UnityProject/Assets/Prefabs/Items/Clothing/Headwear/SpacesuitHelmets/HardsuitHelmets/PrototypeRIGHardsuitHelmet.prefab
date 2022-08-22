@@ -7,6 +7,96 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Rad
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Rad
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Rad
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bomb
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Fire
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Bomb
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Fire
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Bomb
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Fire
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Melee
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Melee
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Melee
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bullet
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Energy
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Bullet
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Energy
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Bullet
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Energy
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 1967846948629829625, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: Size
@@ -75,7 +165,7 @@ PrefabInstance:
     - target: {fileID: 2388022189226633715, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: fb17f2a1a0e48b942aa3fa328dfadb0a
       objectReference: {fileID: 0}
     - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
@@ -123,6 +213,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: c437e383e8323b24fadbf4aad6ffff1a,
         type: 3}
+    - target: {fileID: 2469720285121718043, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2760341733104991204, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: toggleSprites.Array.data[0]
@@ -190,18 +285,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 61bca9619bae3654b92ccb3490ad7aa0,
         type: 2}
+    - target: {fileID: 8650704579577452586, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: foreverID
+      value: fb17f2a1a0e48b942aa3fa328dfadb0a
+      objectReference: {fileID: 0}
     - target: {fileID: 8704044746233661378, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 5bbd49846d1ef9046b854e27018cdc2c,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8704044746233661378, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 5bbd49846d1ef9046b854e27018cdc2c,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8704044746233661378, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: allClothingData.Array.size

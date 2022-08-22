@@ -12,10 +12,25 @@ PrefabInstance:
       propertyPath: bodyPartsCovered
       value: 240
       objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 82223aa9f2653409893db380f44262de,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 82223aa9f2653409893db380f44262de,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 82223aa9f2653409893db380f44262de,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[4].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2909197017712554513, guid: 82223aa9f2653409893db380f44262de,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 20b5c706c9fa6d6488022b9b64d732b8
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: 82223aa9f2653409893db380f44262de,
         type: 3}
@@ -93,18 +108,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A skirt which is given only to the most hardcore cooks in space.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: 82223aa9f2653409893db380f44262de,
+        type: 3}
+      propertyPath: foreverID
+      value: 20b5c706c9fa6d6488022b9b64d732b8
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 82223aa9f2653409893db380f44262de,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: ecff27d75c16ea14095ec3744793a0e3,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 82223aa9f2653409893db380f44262de,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: ecff27d75c16ea14095ec3744793a0e3,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 82223aa9f2653409893db380f44262de,
         type: 3}
       propertyPath: allClothingData.Array.size

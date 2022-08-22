@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 417155208089742748, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: foreverID
+      value: 5a31eb85267283041aa9613772d08f90
+      objectReference: {fileID: 0}
     - target: {fileID: 591852403732355702, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -70,17 +75,6 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6601480061218639507, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6601480061218639507, guid: d589c17f6fd91da4190edfdd2cb5aa53,
-        type: 3}
-      propertyPath: initialDescription
-      value: 'A small, pistol-sized energy carbine with a built-in flashlight. It
-        has two settings: disable and kill.'
-      objectReference: {fileID: 0}
-    - target: {fileID: 6601480061218639507, guid: d589c17f6fd91da4190edfdd2cb5aa53,
-        type: 3}
       propertyPath: initialName
       value: energy pistol
       objectReference: {fileID: 0}
@@ -91,6 +85,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6601480061218639507, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
+      propertyPath: initialDescription
+      value: 'A small, pistol-sized energy carbine with a built-in flashlight. It
+        has two settings: disable and kill.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6601480061218639507, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6601480061218639507, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
       propertyPath: initialTraits.Array.data[3]
       value: 
       objectReference: {fileID: 11400000, guid: e8985b79e43678340a5da4ca4ef37d67,
@@ -98,7 +103,12 @@ PrefabInstance:
     - target: {fileID: 6693620148964760645, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 5a31eb85267283041aa9613772d08f90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6729279132081544325, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6729279132081544325, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
@@ -117,6 +127,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6729279132081544325, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6729279132081544325, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -129,16 +144,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6729279132081544325, guid: d589c17f6fd91da4190edfdd2cb5aa53,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6729279132081544325, guid: d589c17f6fd91da4190edfdd2cb5aa53,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6729279132081544325, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}

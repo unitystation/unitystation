@@ -1,19 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &7982573293539749163
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7636118406116123594}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c33b98e5bab083242b34667c67cc03b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  modifier: 524288
-  slot: 2
 --- !u!1001 &8626702741117152277
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -105,20 +91,18 @@ PrefabInstance:
     - target: {fileID: 2293722870276993643, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 5a6e2e3a0a44146198136e4fa2798db5
       objectReference: {fileID: 0}
     - target: {fileID: 5061482891772091482, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 41c97e13d6124ce458f0e07bf09ae67e,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 5061482891772091482, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 41c97e13d6124ce458f0e07bf09ae67e,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 5061482891772091482, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -130,6 +114,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a52214383537d8a4ba6386d861f52cd6,
         type: 2}
+    - target: {fileID: 5114537424102949810, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: foreverID
+      value: 5a6e2e3a0a44146198136e4fa2798db5
+      objectReference: {fileID: 0}
     - target: {fileID: 5406248525527790680, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -144,3 +133,17 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8626702741117152277}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7982573293539749163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7636118406116123594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c33b98e5bab083242b34667c67cc03b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modifier: 524288
+  slot: 2

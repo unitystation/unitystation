@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
-using DatabaseAPI;
 using UnityEngine.UI;
 using AdminTools;
 using AdminCommands;
 using Managers;
 using Messages.Client.Admin;
+using Strings;
+using Systems.Cargo;
+using TMPro;
+
 
 public class RoundManagerPage : AdminPage
 {
@@ -22,9 +25,17 @@ public class RoundManagerPage : AdminPage
 	private Toggle lavaLandToggle = null;
 
 	[SerializeField]
+	private Toggle cargoToggle = null;
+
+	[SerializeField]
+	private Toggle randomBountyToggle = null;
+
+	[SerializeField]
 	private Dropdown alertLevelDropDown = null;
 
 	private List<string> alertLevelEnumCache = new List<string>();
+
+	[SerializeField] private GameObject bountyManagerPanel;
 
 	private void Start()
 	{
@@ -33,12 +44,12 @@ public class RoundManagerPage : AdminPage
 
 	public void ChangeMap()
 	{
-		AdminCommandsManager.Instance.CmdChangeNextMap(ServerData.UserID, PlayerList.Instance.AdminToken, nextMapDropDown.options[nextMapDropDown.value].text);
+		AdminCommandsManager.Instance.CmdChangeNextMap(nextMapDropDown.options[nextMapDropDown.value].text);
 	}
 
 	public void ChangeAwaySite()
 	{
-		AdminCommandsManager.Instance.CmdChangeAwaySite(ServerData.UserID, PlayerList.Instance.AdminToken, nextAwaySiteDropDown.options[nextAwaySiteDropDown.value].text);
+		AdminCommandsManager.Instance.CmdChangeAwaySite(nextAwaySiteDropDown.options[nextAwaySiteDropDown.value].text);
 	}
 
 	public void StartRoundButtonClick()
@@ -48,7 +59,7 @@ public class RoundManagerPage : AdminPage
 
 	private void StartRound()
 	{
-		AdminCommandsManager.Instance.CmdStartRound(ServerData.UserID, PlayerList.Instance.AdminToken);
+		AdminCommandsManager.Instance.CmdStartRound();
 	}
 
 	public void EndRoundButtonClick()
@@ -58,21 +69,21 @@ public class RoundManagerPage : AdminPage
 
 	private void EndRound()
 	{
-		AdminCommandsManager.Instance.CmdEndRound(ServerData.UserID, PlayerList.Instance.AdminToken);
+		AdminCommandsManager.Instance.CmdEndRound();
 		adminTools.ClosePanel(); // We close the panel immediately after, so it is not open when new round starts.
 	}
 
 	public void ToggleLavaLand()
 	{
 		currentData.allowLavaLand = lavaLandToggle.isOn;
-		RequestLavaLandToggle.Send(ServerData.UserID, PlayerList.Instance.AdminToken, lavaLandToggle.isOn);
+		RequestLavaLandToggle.Send(lavaLandToggle.isOn);
 	}
 
 	public void ChangeAlertLevel()
 	{
 		if (!CentComm.AlertLevel.TryParse(alertLevelDropDown.options[alertLevelDropDown.value].text, out CentComm.AlertLevel alertLevel)) return;
 
-		AdminCommandsManager.Instance.CmdChangeAlertLevel(ServerData.UserID, PlayerList.Instance.AdminToken, alertLevel);
+		AdminCommandsManager.Instance.CmdChangeAlertLevel(alertLevel);
 	}
 
 	public override void OnPageRefresh(AdminPageRefreshData adminPageData)
@@ -146,6 +157,11 @@ public class RoundManagerPage : AdminPage
 		}
 	}
 
+	public void ShowBountyManagerPanel()
+	{
+		bountyManagerPanel.SetActive(true);
+	}
+
 	private void GenerateDropDownOptionsAlertLevels(AdminPageRefreshData adminPageData)
 	{
 		//generate the drop down options:
@@ -169,5 +185,15 @@ public class RoundManagerPage : AdminPage
 				return;
 			}
 		}
+	}
+
+	public void ToggleCargo()
+	{
+		AdminCommandsManager.Instance.CmdChangeCargoConnectionStatus(cargoToggle.isOn);
+	}
+
+	public void ToggleRandomBounties()
+	{
+		AdminCommandsManager.Instance.CmdToggleCargoRandomBounty(randomBountyToggle.isOn);
 	}
 }

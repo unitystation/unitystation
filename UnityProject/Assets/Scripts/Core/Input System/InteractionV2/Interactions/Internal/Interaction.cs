@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 /// <summary>
@@ -9,20 +8,11 @@ using UnityEngine;
 /// </summary>
 public abstract class Interaction
 {
-	private readonly GameObject usedObject;
-	private readonly GameObject performer;
-	private readonly Intent intent;
+	/// <summary>The gameobject of the player performing the interaction</summary>
+	public GameObject Performer { get; protected set; }
 
-	/// <summary>
-	/// The gameobject of the player performing the interaction
-	/// </summary>
-	public GameObject Performer => performer;
-
-	/// <summary>
-	/// PlayerScript of the performer.
-	/// </summary>
-	public PlayerScript PerformerPlayerScript => performerPlayerScript;
-	private readonly PlayerScript performerPlayerScript;
+	/// <summary><see cref="PlayerScript"/> of the performer.</summary>
+	public PlayerScript PerformerPlayerScript { get; protected set; }
 
 	/// <summary>
 	/// Object that is being used by the player to perform the interaction.
@@ -32,16 +22,11 @@ public abstract class Interaction
 	/// For activate - the object being activated
 	/// For mouse drop - the object being dragged and dropped.
 	/// </summary>
-	public GameObject UsedObject => usedObject;
+	public GameObject UsedObject { get; protected set; }
 
-	/// <summary>
-	/// Intent of the player for this interaction.
-	/// </summary>
-	public Intent Intent => intent;
+	/// <summary>Intent of the player for this interaction.</summary>
+	public Intent Intent { get; protected set; }
 
-	/// <summary>
-	///
-	/// </summary>
 	/// <param name="performer">The gameobject of the player performing the interaction</param>
 	/// <param name="usedObject">Object that is being used by the player to perform the interaction.
 	///  For example...
@@ -51,12 +36,13 @@ public abstract class Interaction
 	/// For mouse drop - the object being dragged and dropped.</param>
 	public Interaction(GameObject performer, GameObject usedObject, Intent intent)
 	{
-		this.performer = performer;
-		this.usedObject = usedObject;
-		this.intent = intent;
-		if (performer)
+		Performer = performer;
+		UsedObject = usedObject;
+		Intent = intent;
+
+		if (performer != null)
 		{
-			this.performerPlayerScript = performer.GetComponent<PlayerScript>();
+			PerformerPlayerScript = performer.GetComponent<PlayerScript>();
 		}
 	}
 }

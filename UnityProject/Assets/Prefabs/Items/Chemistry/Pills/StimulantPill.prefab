@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2501853773697365535, guid: 41b8ba286ee48d147b5b90a4535e27c8,
+        type: 3}
+      propertyPath: foreverID
+      value: 98b56f71787d08b4eaca1b0ddcfee5b9
+      objectReference: {fileID: 0}
     - target: {fileID: 3406119982792868341, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -31,26 +36,26 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7721682058840470234, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7721682058840470234, guid: 41b8ba286ee48d147b5b90a4535e27c8,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 9caa0b9bd4571a620b678f2d0df37b33,
         type: 2}
     - target: {fileID: 7721682058840470234, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7721682058840470234, guid: 41b8ba286ee48d147b5b90a4535e27c8,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 7536c223a16702e289aa3b3f8a3ebc5a,
         type: 2}
+    - target: {fileID: 7721682058840470234, guid: 41b8ba286ee48d147b5b90a4535e27c8,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7721682058840470234, guid: 41b8ba286ee48d147b5b90a4535e27c8,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7721682058840470234, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
@@ -69,6 +74,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -84,6 +94,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -96,16 +111,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
@@ -125,18 +130,18 @@ PrefabInstance:
     - target: {fileID: 8905537019261093830, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 98b56f71787d08b4eaca1b0ddcfee5b9
+      objectReference: {fileID: 0}
+    - target: {fileID: 9002552239035110672, guid: 41b8ba286ee48d147b5b90a4535e27c8,
+        type: 3}
+      propertyPath: initialName
+      value: stimulant pill
       objectReference: {fileID: 0}
     - target: {fileID: 9002552239035110672, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
       propertyPath: initialDescription
       value: Often taken by overworked employees, athletes, and the inebriated. You'll
         snap to attention immediately!
-      objectReference: {fileID: 0}
-    - target: {fileID: 9002552239035110672, guid: 41b8ba286ee48d147b5b90a4535e27c8,
-        type: 3}
-      propertyPath: initialName
-      value: stimulant pill
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41b8ba286ee48d147b5b90a4535e27c8, type: 3}

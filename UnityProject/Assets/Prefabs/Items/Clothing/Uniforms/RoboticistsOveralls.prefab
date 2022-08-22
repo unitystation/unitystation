@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2909197017712554513, guid: 2a2d871db32f24302b1aeb03f3652c48,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 430362c2798d81c43aca26b9da3f19b4
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: 2a2d871db32f24302b1aeb03f3652c48,
         type: 3}
@@ -89,18 +89,21 @@ PrefabInstance:
       value: A purple jumpsuit with a study set of overalls; great for industrial
         work.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: 2a2d871db32f24302b1aeb03f3652c48,
+        type: 3}
+      propertyPath: foreverID
+      value: 430362c2798d81c43aca26b9da3f19b4
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 2a2d871db32f24302b1aeb03f3652c48,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: e49e6d582e025754aaa1876e382117df,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 2a2d871db32f24302b1aeb03f3652c48,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: e49e6d582e025754aaa1876e382117df,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 2a2d871db32f24302b1aeb03f3652c48,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

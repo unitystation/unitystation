@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +46,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
@@ -70,7 +70,7 @@ PrefabInstance:
     - target: {fileID: 4145792851350106790, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 4ae761154697d344b88f520c69450098
       objectReference: {fileID: 0}
     - target: {fileID: 4246068332199459918, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
@@ -87,6 +87,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: Completely useless.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6964355983317795711, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: foreverID
+      value: 4ae761154697d344b88f520c69450098
       objectReference: {fileID: 0}
     - target: {fileID: 7879885434909570197, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}

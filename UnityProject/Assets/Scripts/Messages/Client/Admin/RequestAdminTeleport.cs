@@ -1,6 +1,6 @@
-﻿using Messages.Client;
+﻿using UnityEngine;
 using Mirror;
-using UnityEngine;
+
 
 namespace Messages.Client.Admin
 {
@@ -8,8 +8,6 @@ namespace Messages.Client.Admin
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public string Userid;
-			public string AdminToken;
 			public string UserToTeleport;
 			public string UserToTeleportTo;
 			public OpperationList OpperationNumber;
@@ -37,8 +35,7 @@ namespace Messages.Client.Admin
 
 		private void DoPlayerToAdminTeleport(NetMessage msg)
 		{
-			var admin = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
-			if (admin == null) return;
+			if (IsFromAdmin() == false) return;
 
 			PlayerScript userToTeleport = null;
 
@@ -56,16 +53,15 @@ namespace Messages.Client.Admin
 
 			var coord = new Vector3 {x = msg.vectorX, y = msg.vectorY, z = msg.vectorZ };
 
-			userToTeleport.PlayerSync.SetPosition(coord, true);
+			userToTeleport.PlayerSync.AppearAtWorldPositionServer(coord, false);
 
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
-				$"{SentByPlayer.Username} teleported {userToTeleport.playerName} to themselves", msg.Userid);
+			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
+					$"{SentByPlayer.Username} teleported {userToTeleport.playerName} to themselves", SentByPlayer.UserId);
 		}
 
 		private void DoAdminToPlayerTeleport(NetMessage msg)
 		{
-			var admin = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
-			if (admin == null) return;
+			if (IsFromAdmin() == false) return;
 
 			PlayerScript userToTeleportTo = null;
 
@@ -85,7 +81,16 @@ namespace Messages.Client.Admin
 
 			if (playerScript == null) return;
 
-			playerScript.PlayerSync.SetPosition(userToTeleportTo.gameObject.AssumedWorldPosServer(), true);
+			if (playerScript.PlayerSync != null)
+			{
+				playerScript.PlayerSync.AppearAtWorldPositionServer(userToTeleportTo.gameObject.AssumedWorldPosServer(), false);
+			}
+			else
+			{
+				playerScript.GetComponent<GhostMove>().ForcePositionClient(userToTeleportTo.gameObject.AssumedWorldPosServer());
+			}
+
+
 
 			string message;
 
@@ -98,13 +103,12 @@ namespace Messages.Client.Admin
 				message = $"{SentByPlayer.Username} teleported to {userToTeleportTo.playerName} as a player";
 			}
 
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(message, msg.Userid);
+			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(message, SentByPlayer.UserId);
 		}
 
 		private void DoAllPlayersToPlayerTeleport(NetMessage msg)
 		{
-			var admin = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
-			if (admin == null) return;
+			if (IsFromAdmin() == false) return;
 
 			PlayerScript destinationPlayer = null;
 
@@ -130,7 +134,7 @@ namespace Messages.Client.Admin
 				{
 					var coord = new Vector3 { x = msg.vectorX, y = msg.vectorY, z = msg.vectorZ };
 
-					userToTeleport.PlayerSync.SetPosition(coord, true);
+					userToTeleport.OrNull()?.PlayerSync.OrNull()?.AppearAtWorldPositionServer(coord, false);
 				}
 				else if (destinationPlayer.IsGhost)
 				{
@@ -141,21 +145,19 @@ namespace Messages.Client.Admin
 				}
 				else
 				{
-					userToTeleport.PlayerSync.SetPosition(destinationPlayer.gameObject.AssumedWorldPosServer(), true);
+					userToTeleport.OrNull()?.PlayerSync.OrNull()?.AppearAtWorldPositionServer(destinationPlayer.gameObject.AssumedWorldPosServer(), false);
 				}
 			}
 
 			var stringMsg = $"{SentByPlayer.Username} teleported all players to {destinationPlayer.playerName}";
 
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(stringMsg, msg.Userid);
+			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(stringMsg, SentByPlayer.UserId);
 		}
 
-		public static NetMessage Send(string userId, string adminToken, string userToTeleport, string userToTelportTo, OpperationList opperation, bool isAghost, Vector3 Coord)
+		public static NetMessage Send(string userToTeleport, string userToTelportTo, OpperationList opperation, bool isAghost, Vector3 Coord)
 		{
 			NetMessage msg = new NetMessage
 			{
-				Userid = userId,
-				AdminToken = adminToken,
 				UserToTeleport = userToTeleport,
 				UserToTeleportTo = userToTelportTo,
 				OpperationNumber = opperation,

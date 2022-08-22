@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: FilletMigrawrRecipe
+  m_EditorClassIdentifier: 
+  category: 10
+  craftingTime: 3
+  recipeName: Filet Migrawr
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 6076619852727529864, guid: 5e09b3ff1f6e0d94d85f2a300beb4117,
+      type: 3}
+  requiredReagents:
+  - requiredAmount: 5
+    requiredReagent: {fileID: 11400000, guid: 112c8439d23e2818f98f34a1bdc4bb10, type: 2}
+  requiredToolTraits: []
+  result:
+  - {fileID: 7863187213937771497, guid: b490641ec7967dc44a9a2f80b119f343, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 247

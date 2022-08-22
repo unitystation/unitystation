@@ -1,7 +1,9 @@
-﻿using Mirror;
+﻿using System;
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// Base class for lighters (cheap lighters, zippo)
@@ -13,8 +15,10 @@ public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	private const int LIT_SPRITE = 1;
 
 	public SpriteHandler[] spriteHandlers = new SpriteHandler[] { };
-	private Pickupable pickupable = null;
-	private FireSource fireSource = null;
+	private Pickupable pickupable;
+	private FireSource fireSource;
+	private ItemLightControl lightControl;
+
 
 	[Tooltip("Fancy lighters (like zippo) have different text and never burn users fingers")]
 	public bool isFancy = false;
@@ -24,8 +28,9 @@ public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 
 	private void Awake()
 	{
-		fireSource = GetComponent<FireSource>();
-		pickupable = GetComponent<Pickupable>();
+		fireSource   = GetComponent<FireSource>();
+		pickupable   = GetComponent<Pickupable>();
+		lightControl = GetComponent<ItemLightControl>();
 	}
 
 	public bool WillInteract(HandActivate interaction, NetworkSide side)
@@ -49,17 +54,15 @@ public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	private void ServerUpdateLit()
 	{
 		// toggle flame (will fire things around)
-		if (fireSource)
-		{
-			fireSource.IsBurning = isLit;
-		}
+		if (fireSource)   fireSource.IsBurning = isLit;
+		if (lightControl) lightControl.Toggle(isLit);
 
 		// set each render to new state
 		foreach (var handler in spriteHandlers)
 		{
 			if (handler)
 			{
-				var newSpriteID = isLit ? LIT_SPRITE : DEFAULT_SPRITE;
+				int newSpriteID = isLit ? LIT_SPRITE : DEFAULT_SPRITE;
 				handler.ChangeSprite(newSpriteID);
 			}
 		}
@@ -135,16 +138,18 @@ public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 
 	private bool CheckGlovesProtection(PlayerScript player)
 	{
-		if (player && player.ItemStorage)
+		if (player && player.DynamicItemStorage)
 		{
-			var playerEquipment = player.ItemStorage;
-			var gloves = playerEquipment.GetNamedItemSlot(NamedSlot.hands);
-
-			if (gloves != null && gloves.IsOccupied)
+			var playerEquipment = player.DynamicItemStorage;
+			foreach (var itemSlot in playerEquipment.GetNamedItemSlots(NamedSlot.hands))
 			{
-				// TODO: need aditional check to heat resistence and gloves trait
-				return true;
+				if (itemSlot != null && itemSlot.IsOccupied)
+				{
+					// TODO: need aditional check to heat resistence and gloves trait
+					return true;
+				}
 			}
+
 		}
 
 		return false;

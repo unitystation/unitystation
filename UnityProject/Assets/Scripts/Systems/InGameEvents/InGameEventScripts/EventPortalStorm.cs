@@ -17,7 +17,6 @@ namespace InGameEvents
 		[SerializeField, BoxGroup("References")]
 		private GameObject[] mobsToSpawn = default;
 
-		
 		[Tooltip("If the chance for a rare mob succeeds, a random rare mob from this list will be spawned .")]
 		[SerializeField, BoxGroup("References")]
 		private GameObject[] rareMobsToSpawn = default;
@@ -42,7 +41,9 @@ namespace InGameEvents
 			{
 				var text = "Massive bluespace anomaly detected en route to your station. Brace for impact.";
 
-				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Alert);
+				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.NoSound);
+
+				_ = SoundManager.PlayNetworked(CommonSounds.Instance.SpanomaliesAnnouncement);
 			}
 
 			if (FakeEvent) return;
@@ -52,8 +53,6 @@ namespace InGameEvents
 
 		public override void OnEventStartTimed()
 		{
-			// TODO: play Portal Storm sound.
-
 			for (int i = 0; i < Random.Range(mobCount.x, mobCount.y); i++)
 			{
 				StartCoroutine(SpawnMob());

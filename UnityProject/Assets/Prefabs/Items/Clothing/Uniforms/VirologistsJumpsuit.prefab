@@ -13,18 +13,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 17e7de3982a747741aa061ae3bb0a990,
         type: 2}
+    - target: {fileID: 1734639913420629007, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: foreverID
+      value: aab6051d13dac4be8a3ca172d9b74051
+      objectReference: {fileID: 0}
     - target: {fileID: 1789387693666696167, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 3b3e18337a7563d4299507d31309f912,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 1789387693666696167, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 3b3e18337a7563d4299507d31309f912,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 1789387693666696167, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -115,7 +118,7 @@ PrefabInstance:
     - target: {fileID: 4700669166950225366, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: aab6051d13dac4be8a3ca172d9b74051
       objectReference: {fileID: 0}
     - target: {fileID: 4781100657663286078, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
@@ -133,6 +136,36 @@ PrefabInstance:
       propertyPath: initialDescription
       value: It's made of a special fiber that gives special protection against biohazards.
         It has a virologist rank stripe on it.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8215174308799955191, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bio
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8215174308799955191, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Bio
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8215174308799955191, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Bio
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8215174308799955191, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.Bio
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8215174308799955191, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[4].armor.Bio
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8215174308799955191, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[5].armor.Bio
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de234d793cfd842599c9c8726207f217, type: 3}

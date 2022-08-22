@@ -17,6 +17,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: I mean, you don't /have/ to seek bling water. I just think you should.
       objectReference: {fileID: 0}
+    - target: {fileID: 3495234765619245072, guid: 0355f7fdd3a96f24889bb2b06dd6e579,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495234765619245072, guid: 0355f7fdd3a96f24889bb2b06dd6e579,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9de6af4d886ca9c4eb02cc93f1a28cef,
+        type: 2}
     - target: {fileID: 3791466462619397166, guid: 0355f7fdd3a96f24889bb2b06dd6e579,
         type: 3}
       propertyPath: m_Sprite
@@ -86,7 +97,7 @@ PrefabInstance:
     - target: {fileID: 4033042375367942854, guid: 0355f7fdd3a96f24889bb2b06dd6e579,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b81b3c7fded60084fbcb45bcaede6d9d
       objectReference: {fileID: 0}
     - target: {fileID: 7145545764318209269, guid: 0355f7fdd3a96f24889bb2b06dd6e579,
         type: 3}
@@ -98,14 +109,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 8af8743668b5ce54fac113cfd72df082,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7931175119129480439, guid: 0355f7fdd3a96f24889bb2b06dd6e579,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 8af8743668b5ce54fac113cfd72df082,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7931175119129480439, guid: 0355f7fdd3a96f24889bb2b06dd6e579,
         type: 3}
       propertyPath: allClothingData.Array.data[0]
@@ -118,5 +127,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9664e79ac8faa4045983a82706dc29a1,
         type: 2}
+    - target: {fileID: 7986767595912221471, guid: 0355f7fdd3a96f24889bb2b06dd6e579,
+        type: 3}
+      propertyPath: foreverID
+      value: b81b3c7fded60084fbcb45bcaede6d9d
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0355f7fdd3a96f24889bb2b06dd6e579, type: 3}

@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using Xunit.Abstractions;
 
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -56,7 +57,7 @@ namespace YamlDotNet.Samples.Helpers {
             return results.ToArray();
         }
 
-        public static string[] GetAllTestTitles() {
+        public static string[] GetAllTestDisplayNames() {
             bool skipMethods;
             var results = new List<string>();
             foreach (Type t in Assembly.GetExecutingAssembly().GetTypes()) {
@@ -66,7 +67,7 @@ namespace YamlDotNet.Samples.Helpers {
                         if (mi.Name == "Main") {
                             SampleAttribute sa = (SampleAttribute) Attribute.GetCustomAttribute(mi, typeof(SampleAttribute));
                             if (sa != null) {
-                                results.Add(sa.Title);
+                                results.Add(sa.DisplayName);
                                 skipMethods = true;
                                 break;
                             }
@@ -87,7 +88,7 @@ namespace YamlDotNet.Samples.Helpers {
                         if (mi.Name == "Main") {
                             SampleAttribute sa = (SampleAttribute) Attribute.GetCustomAttribute(mi, typeof(SampleAttribute));
                             if (sa != null) {
-                                helper.WriteLine("{0} - {1}", sa.Title, sa.Description);
+                                helper.WriteLine("{0} - {1}", sa.DisplayName, sa.Description);
                                 var testObject = t.GetConstructor(new Type[] { typeof(StringTestOutputHelper) }).Invoke(new object[] { helper });
                                 mi.Invoke(testObject, new object[] {});
                                 Debug.Log(helper.ToString());
@@ -108,14 +109,14 @@ namespace YamlDotNet.Samples.Helpers {
     public class ExampleRunnerEditor : Editor {
         private ExampleRunner runner;
         private string[] allTests;
-        private string[] allTitles;
+        private string[] allDisplayNames;
         private bool[] enabledTests;
 
         public void OnEnable() {
             runner = (ExampleRunner) target;
 
-            allTests  = ExampleRunner.GetAllTestNames();
-            allTitles = ExampleRunner.GetAllTestTitles();
+            allTests        = ExampleRunner.GetAllTestNames();
+            allDisplayNames = ExampleRunner.GetAllTestDisplayNames();
             enabledTests = new bool[allTests.Length];
             for (int i = 0;  i < allTests.Length; i++)
                 enabledTests[i] = Array.IndexOf(runner.disabledTests, allTests[i]) == -1;
@@ -127,7 +128,7 @@ namespace YamlDotNet.Samples.Helpers {
                 EditorGUI.BeginChangeCheck();
                 if (!enabledTests[i])
                     nextDisabledIndex++;
-                enabledTests[i] = EditorGUILayout.Toggle(allTitles[i], enabledTests[i]);
+                enabledTests[i] = EditorGUILayout.Toggle(allDisplayNames[i], enabledTests[i]);
                 if (EditorGUI.EndChangeCheck()) {
                     if (enabledTests[i]) {
                         var l = new List<string>(runner.disabledTests);

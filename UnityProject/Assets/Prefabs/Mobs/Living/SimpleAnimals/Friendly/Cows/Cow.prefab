@@ -1,105 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7571306389994470942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2697589973473458253}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 198e62f73ad0d294699f0d7d013cefc1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialMoodLevel: 100
-  maxMoodLevel: 100
-  isAffectedByDamage: 1
-  moodOnHit: -10
-  isAffectedByPetting: 1
-  moodOnPetted: 10
-  pettingCooldown: 30
-  isAffectedByFood: 1
-  moodOnFood: 10
-  timeBetweenFoodCheck: 300
---- !u!114 &-6619332479046172337
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2697589973473458253}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4497ffd350d542aaa0dbd389f722acb4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  veryGoodMood:
-  - It looks incredibly happy and healthy!
-  goodMood:
-  - It looks happy.
-  - It looks healthy.
-  normalMood:
-  - 
-  badMood:
-  - It looks kind of sad.
-  - It looks stressed out.
-  - It looks badly treated.
---- !u!114 &-1496767234896278968
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2697589973473458253}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fd6abf1297942a7b852b4d797b61b06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mobName: Cow
-  knockedDownRotation: 90
-  minTimeBetweenRandomActions: 10
-  maxTimeBetweenRandomActions: 30
-  doRandomActionWhenInTask: 1
-  noMoreMilkMessage: You pull the teat but no more milk is coming out!
---- !u!114 &3597321348955184804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2697589973473458253}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a81875929d3411d82bd54cf010c43b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  milkReagent: {fileID: 11400000, guid: a1724b1210d8177c097a28325415c0b1, type: 2}
-  milkAmount: 25
-  milkTick: 200
-  milkProducePerTick: 10
-  maxMilk: 100
-  requiredMood: 60
-  moodPenalty: 10
-  milkMessageYou: You milk {0}.
-  milkMessageOthers: '{1} milks {0}'
-  noMilkMessage: You pull the teat but no milk is coming out!
-  onMilkedEmpty:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &5205076662976704809
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2697589973473458253}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5d82fb72d52483fb520cc8b26639c0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &5579378858364610782
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -226,26 +126,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7497246779718121111, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7497246779718121111, guid: 64d782023543d4542b89ce3f9402b084,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7497246779718121111, guid: 64d782023543d4542b89ce3f9402b084,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7497246779718121111, guid: 64d782023543d4542b89ce3f9402b084,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7497246779718121111, guid: 64d782023543d4542b89ce3f9402b084,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -262,7 +142,12 @@ PrefabInstance:
     - target: {fileID: 7607258964611336719, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 738fd5d21d2b347498cb8cafcdc1d43f
+      objectReference: {fileID: 0}
+    - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      propertyPath: hasFoodPrefereces
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
@@ -280,7 +165,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 07c0512bf3ed26f4e9cd5d1ad5476efd,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2166651219293684434, guid: 64d782023543d4542b89ce3f9402b084, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 64d782023543d4542b89ce3f9402b084, type: 3}
 --- !u!1 &2697589973473458253 stripped
 GameObject:
@@ -288,3 +174,103 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5579378858364610782}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-7571306389994470942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2697589973473458253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 198e62f73ad0d294699f0d7d013cefc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialMoodLevel: 100
+  maxMoodLevel: 100
+  isAffectedByDamage: 1
+  moodOnHit: -10
+  isAffectedByPetting: 1
+  moodOnPetted: 10
+  pettingCooldown: 30
+  isAffectedByFood: 1
+  moodOnFood: 10
+  timeBetweenFoodCheck: 300
+--- !u!114 &-6619332479046172337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2697589973473458253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4497ffd350d542aaa0dbd389f722acb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  veryGoodMood:
+  - It looks incredibly happy and healthy!
+  goodMood:
+  - It looks happy.
+  - It looks healthy.
+  normalMood:
+  - 
+  badMood:
+  - It looks kind of sad.
+  - It looks stressed out.
+  - It looks badly treated.
+--- !u!114 &-1496767234896278968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2697589973473458253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fd6abf1297942a7b852b4d797b61b06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mobName: cow
+  registerObject: {fileID: 0}
+  minTimeBetweenRandomActions: 10
+  maxTimeBetweenRandomActions: 30
+  doRandomActionWhenInTask: 1
+  noMoreMilkMessage: You pull the teat but no more milk is coming out!
+--- !u!114 &3597321348955184804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2697589973473458253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a81875929d3411d82bd54cf010c43b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  milkReagent: {fileID: 11400000, guid: a1724b1210d8177c097a28325415c0b1, type: 2}
+  milkAmount: 25
+  milkTick: 120
+  milkProducePerTick: 25
+  maxMilk: 100
+  requiredMood: 40
+  moodPenalty: 10
+  milkMessageYou: You milk {0}.
+  milkMessageOthers: '{1} milks {0}'
+  noMilkMessage: You pull the teat but no milk is coming out!
+  onMilkedEmpty:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &5205076662976704809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2697589973473458253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5d82fb72d52483fb520cc8b26639c0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

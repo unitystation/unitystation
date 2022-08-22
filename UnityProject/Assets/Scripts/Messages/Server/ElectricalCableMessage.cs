@@ -1,5 +1,6 @@
 ﻿using Mirror;
 using UnityEngine;
+using Objects.Electrical;
 
 namespace Messages.Server
 {

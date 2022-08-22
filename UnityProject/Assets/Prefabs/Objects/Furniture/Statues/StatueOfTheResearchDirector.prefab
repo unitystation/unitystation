@@ -22,10 +22,20 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 1059057550350600533, guid: 22a2fe9c64f11de4caffeb1fd602cf0c,
+        type: 3}
+      propertyPath: foreverID
+      value: 6dfa19fe05354624ea30219aedb16ba8
+      objectReference: {fileID: 0}
     - target: {fileID: 4162292657083594524, guid: 22a2fe9c64f11de4caffeb1fd602cf0c,
         type: 3}
       propertyPath: m_Name
       value: StatueOfTheResearchDirector
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167759110030684614, guid: 22a2fe9c64f11de4caffeb1fd602cf0c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4167759110030684614, guid: 22a2fe9c64f11de4caffeb1fd602cf0c,
         type: 3}
@@ -44,6 +54,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4167759110030684614, guid: 22a2fe9c64f11de4caffeb1fd602cf0c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167759110030684614, guid: 22a2fe9c64f11de4caffeb1fd602cf0c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -56,16 +71,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4167759110030684614, guid: 22a2fe9c64f11de4caffeb1fd602cf0c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4167759110030684614, guid: 22a2fe9c64f11de4caffeb1fd602cf0c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4167759110030684614, guid: 22a2fe9c64f11de4caffeb1fd602cf0c,
         type: 3}
@@ -88,10 +93,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 595b05e018b4a1943bb801a86602fb09,
         type: 3}
+    - target: {fileID: 4225313194148041483, guid: 22a2fe9c64f11de4caffeb1fd602cf0c,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5485031214710227582, guid: 22a2fe9c64f11de4caffeb1fd602cf0c,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 6dfa19fe05354624ea30219aedb16ba8
       objectReference: {fileID: 0}
     - target: {fileID: 6730228222500972588, guid: 22a2fe9c64f11de4caffeb1fd602cf0c,
         type: 3}

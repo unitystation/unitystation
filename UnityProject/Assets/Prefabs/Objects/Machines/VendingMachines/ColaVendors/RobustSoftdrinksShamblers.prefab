@@ -15,23 +15,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2341667748445018359, guid: cce47c5ed69f6ca40a312fa09d93db8f,
         type: 3}
-      propertyPath: initialDescription
-      value: ~Shake me up some of that Shambler's Juice!~
+      propertyPath: initialName
+      value: Shambler's Vendor
       objectReference: {fileID: 0}
     - target: {fileID: 2341667748445018359, guid: cce47c5ed69f6ca40a312fa09d93db8f,
         type: 3}
-      propertyPath: initialName
-      value: Shambler's Vendor
+      propertyPath: initialDescription
+      value: ~Shake me up some of that Shambler's Juice!~
       objectReference: {fileID: 0}
     - target: {fileID: 3532909349452968613, guid: cce47c5ed69f6ca40a312fa09d93db8f,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: c05baa3dfbeb75f40b661922c4ea22b2
       objectReference: {fileID: 0}
     - target: {fileID: 3570249104166932168, guid: cce47c5ed69f6ca40a312fa09d93db8f,
         type: 3}
-      propertyPath: Color.r
-      value: 0.89411765
+      propertyPath: Color.b
+      value: 0.35686275
       objectReference: {fileID: 0}
     - target: {fileID: 3570249104166932168, guid: cce47c5ed69f6ca40a312fa09d93db8f,
         type: 3}
@@ -40,8 +40,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3570249104166932168, guid: cce47c5ed69f6ca40a312fa09d93db8f,
         type: 3}
-      propertyPath: Color.b
-      value: 0.35686275
+      propertyPath: Color.r
+      value: 0.89411765
       objectReference: {fileID: 0}
     - target: {fileID: 4585709544569780028, guid: cce47c5ed69f6ca40a312fa09d93db8f,
         type: 3}
@@ -49,6 +49,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f350b63cbf3fa934f8ccf14c5b3d9622,
         type: 2}
+    - target: {fileID: 4958197476444176669, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4958197476444176669, guid: cce47c5ed69f6ca40a312fa09d93db8f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -66,6 +71,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4958197476444176669, guid: cce47c5ed69f6ca40a312fa09d93db8f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4958197476444176669, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -78,16 +88,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4958197476444176669, guid: cce47c5ed69f6ca40a312fa09d93db8f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4958197476444176669, guid: cce47c5ed69f6ca40a312fa09d93db8f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4958197476444176669, guid: cce47c5ed69f6ca40a312fa09d93db8f,
         type: 3}
@@ -115,91 +115,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: e62bd5f3584b6be44832927cf3a6f528,
         type: 3}
-    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+    - target: {fileID: 8334847597971814798, guid: cce47c5ed69f6ca40a312fa09d93db8f,
         type: 3}
-      propertyPath: InitialVendorContent.Array.size
-      value: 14
+      propertyPath: foreverID
+      value: c05baa3dfbeb75f40b661922c4ea22b2
       objectReference: {fileID: 0}
     - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[8].ItemName
-      value: Sol Dry
-      objectReference: {fileID: 0}
-    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[8].Item
-      value: 
-      objectReference: {fileID: 6751976159329751929, guid: 3a5392f6766cbbc4cb1420c8ca3d5d31,
-        type: 3}
-    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[9].ItemName
-      value: Water Bottle
-      objectReference: {fileID: 0}
-    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[9].Item
-      value: 
-      objectReference: {fileID: 1342295621226366984, guid: 8dbbbb2e528f19d4fa232f02fc6ac148,
-        type: 3}
-    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[9].Stock
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[10].ItemName
-      value: Nuka Cola
-      objectReference: {fileID: 0}
-    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[10].Item
-      value: 
-      objectReference: {fileID: 3356521420407087850, guid: c678892fedae91f46813a6a456e550ba,
-        type: 3}
-    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[11].ItemName
-      value: Canned Air
-      objectReference: {fileID: 0}
-    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[11].Item
-      value: 
-      objectReference: {fileID: 8040781293709234772, guid: abc25e083f6e7a54493905f98c7f42dc,
-        type: 3}
-    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[12].ItemName
-      value: Monkey Energy
-      objectReference: {fileID: 0}
-    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[12].Item
-      value: 
-      objectReference: {fileID: 7180865449150788912, guid: 2e464f403424dbd409a91b0abbb4121c,
-        type: 3}
-    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[13].ItemName
-      value: Grey Bull
-      objectReference: {fileID: 0}
-    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[13].Item
-      value: 
-      objectReference: {fileID: 3295809955913109946, guid: 179fedbdc63b6b847bdba0b2f9e2d228,
-        type: 3}
-    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[13].Stock
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
-        type: 3}
-      propertyPath: HullColor.r
-      value: 0.32156864
+      propertyPath: HullColor.b
+      value: 0.53333336
       objectReference: {fileID: 0}
     - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
         type: 3}
@@ -208,8 +132,89 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
         type: 3}
-      propertyPath: HullColor.b
-      value: 0.53333336
+      propertyPath: HullColor.r
+      value: 0.32156864
+      objectReference: {fileID: 0}
+    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.size
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[8].Item
+      value: 
+      objectReference: {fileID: 1342295621226366984, guid: 8dbbbb2e528f19d4fa232f02fc6ac148,
+        type: 3}
+    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[9].Item
+      value: 
+      objectReference: {fileID: 3356521420407087850, guid: c678892fedae91f46813a6a456e550ba,
+        type: 3}
+    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[10].Item
+      value: 
+      objectReference: {fileID: 8040781293709234772, guid: abc25e083f6e7a54493905f98c7f42dc,
+        type: 3}
+    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[11].Item
+      value: 
+      objectReference: {fileID: 7180865449150788912, guid: 2e464f403424dbd409a91b0abbb4121c,
+        type: 3}
+    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[12].Item
+      value: 
+      objectReference: {fileID: 3295809955913109946, guid: 179fedbdc63b6b847bdba0b2f9e2d228,
+        type: 3}
+    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[13].Item
+      value: 
+      objectReference: {fileID: 5756046605483951880, guid: 90a56ea1fbd707b419e467845465c793,
+        type: 3}
+    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[9].Stock
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[13].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[8].ItemName
+      value: Water Bottle
+      objectReference: {fileID: 0}
+    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[9].ItemName
+      value: Nuka Cola
+      objectReference: {fileID: 0}
+    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[10].ItemName
+      value: Canned Air
+      objectReference: {fileID: 0}
+    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[11].ItemName
+      value: Monkey Energy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[12].ItemName
+      value: Grey Bull
+      objectReference: {fileID: 0}
+    - target: {fileID: 8652081623113473538, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[13].ItemName
+      value: Solzara Brewing Company Mushi Kombucha
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cce47c5ed69f6ca40a312fa09d93db8f, type: 3}

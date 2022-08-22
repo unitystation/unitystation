@@ -1,23 +1,21 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading;
 using DatabaseAPI;
-using System.Collections;
 using Newtonsoft.Json;
+using Shared.Managers;
+using UnityEngine;
+using Object = System.Object;
 
 namespace DiscordWebhook
 {
 	/// <summary>
 	/// Used to send messages to a discord webhook URLs, URLs need to be set up in the config.json file. Supports OOC, Ahelp, Announcements and All chat.
 	/// </summary>
-	public class DiscordWebhookMessage : MonoBehaviour
+	public class DiscordWebhookMessage : SingletonManager<DiscordWebhookMessage>
 	{
-		private static DiscordWebhookMessage instance;
-		public static DiscordWebhookMessage Instance => instance;
-
 		private Queue<string> OOCMessageQueue = new Queue<string>();
 		private Queue<string> AdminAhelpMessageQueue = new Queue<string>();
 		private Queue<string> AnnouncementMessageQueue = new Queue<string>();
@@ -39,19 +37,7 @@ namespace DiscordWebhook
 
 		private bool loggedWebKookError = false;
 
-		private void Awake()
-		{
-			if (instance == null)
-			{
-				instance = this;
-			}
-			else
-			{
-				Destroy(this);
-			}
-		}
-
-		private void Update()
+		private void UpdateMe()
 		{
 			if (!CustomNetworkManager.IsServer) return;
 
@@ -66,8 +52,7 @@ namespace DiscordWebhook
 				if (!messageSendingInProgress)
 				{
 					messageSendingInProgress = true;
-
-					_ = StartCoroutine(SendQueuedMessagesToWebhooks());
+					ThreadPool.QueueUserWorkItem( SendQueuedMessagesToWebhooks);
 				}
 
 				sendingTimer = 0;
@@ -87,13 +72,15 @@ namespace DiscordWebhook
 		void OnEnable()
 		{
 			Application.logMessageReceived += HandleLog;
-			EventManager.AddHandler(EVENT.PreRoundStarted, ResetHashSet);
+			EventManager.AddHandler(Event.PreRoundStarted, ResetHashSet);
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
 		void OnDisable()
 		{
 			Application.logMessageReceived -= HandleLog;
-			EventManager.RemoveHandler(EVENT.PreRoundStarted, ResetHashSet);
+			EventManager.RemoveHandler(Event.PreRoundStarted, ResetHashSet);
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
 		void ResetHashSet()
@@ -101,7 +88,7 @@ namespace DiscordWebhook
 			ErrorMessageHashSet.Clear();
 		}
 
-		private IEnumerator SendQueuedMessagesToWebhooks()
+		private void SendQueuedMessagesToWebhooks(Object stateInfo)
 		{
 			try
 			{
@@ -121,8 +108,6 @@ namespace DiscordWebhook
 
 
 			messageSendingInProgress = false;
-
-			yield break;
 		}
 
 		private void InitDict()
@@ -264,8 +249,13 @@ namespace DiscordWebhook
 
 		void HandleLog(string logString, string stackTrace, LogType type)
 		{
-			if ((type == LogType.Exception || type == LogType.Error) && !ErrorMessageHashSet.Contains(stackTrace))
+			if (type == LogType.Exception || type == LogType.Error)
 			{
+				GameManager.Instance.errorCounter++;
+				if (ErrorMessageHashSet.Contains(stackTrace))
+					return;
+				GameManager.Instance.uniqueErrorCounter++;
+
 				ErrorMessageHashSet.Add(stackTrace);
 
 				if (logString.Contains("Can't get home directory!")) return;

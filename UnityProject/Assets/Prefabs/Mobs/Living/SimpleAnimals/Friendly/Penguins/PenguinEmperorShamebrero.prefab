@@ -1,20 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &1630397118645806262
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6944806315465843647}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10470e342fd41de468f149e991721d5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  despawnBody: 0
-  lootDrop:
-  - {fileID: 8738207183834668076, guid: 01e827cdb74554a41a3d4acbb7247929, type: 3}
 --- !u!1001 &7709643824650221933
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 763218060228279510, guid: d68cdce7361ad7643a3fef565d46fbf3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 763218060228279510, guid: d68cdce7361ad7643a3fef565d46fbf3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -35,31 +25,6 @@ PrefabInstance:
     - target: {fileID: 763218060228279510, guid: d68cdce7361ad7643a3fef565d46fbf3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 763218060228279510, guid: d68cdce7361ad7643a3fef565d46fbf3,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 763218060228279510, guid: d68cdce7361ad7643a3fef565d46fbf3,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 763218060228279510, guid: d68cdce7361ad7643a3fef565d46fbf3,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 763218060228279510, guid: d68cdce7361ad7643a3fef565d46fbf3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 763218060228279510, guid: d68cdce7361ad7643a3fef565d46fbf3,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 763218060228279510, guid: d68cdce7361ad7643a3fef565d46fbf3,
@@ -85,7 +50,7 @@ PrefabInstance:
     - target: {fileID: 796720729458147406, guid: d68cdce7361ad7643a3fef565d46fbf3,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: ffa17c9a34e409b4680cbfc265eda399
       objectReference: {fileID: 0}
     - target: {fileID: 5280151707704376230, guid: d68cdce7361ad7643a3fef565d46fbf3,
         type: 3}
@@ -101,15 +66,15 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6070069419687414975, guid: d68cdce7361ad7643a3fef565d46fbf3,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 047eebe046a565241b6a41058296172a,
-        type: 2}
-    - target: {fileID: 6070069419687414975, guid: d68cdce7361ad7643a3fef565d46fbf3,
-        type: 3}
       propertyPath: SubCatalogue.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 0d886888addc2464bbdee36db65eaece,
+        type: 2}
+    - target: {fileID: 6070069419687414975, guid: d68cdce7361ad7643a3fef565d46fbf3,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 047eebe046a565241b6a41058296172a,
         type: 2}
     - target: {fileID: 7179488508794181539, guid: d68cdce7361ad7643a3fef565d46fbf3,
         type: 3}
@@ -125,3 +90,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7709643824650221933}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1630397118645806262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6944806315465843647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10470e342fd41de468f149e991721d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  despawnBody: 0
+  lootDrop:
+  - {fileID: 8738207183834668076, guid: 01e827cdb74554a41a3d4acbb7247929, type: 3}

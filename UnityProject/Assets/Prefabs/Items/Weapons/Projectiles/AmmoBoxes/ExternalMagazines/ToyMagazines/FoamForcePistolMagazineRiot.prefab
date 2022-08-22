@@ -7,6 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2371426727039101134, guid: 215c07b6aa6d556439078165149ba3a5,
+        type: 3}
+      propertyPath: foreverID
+      value: bbae0629eb6f8e94c8db10678b31b14b
+      objectReference: {fileID: 0}
+    - target: {fileID: 8664991443309795799, guid: 215c07b6aa6d556439078165149ba3a5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8664991443309795799, guid: 215c07b6aa6d556439078165149ba3a5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -24,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8664991443309795799, guid: 215c07b6aa6d556439078165149ba3a5,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8664991443309795799, guid: 215c07b6aa6d556439078165149ba3a5,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8664991443309795799, guid: 215c07b6aa6d556439078165149ba3a5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8664991443309795799, guid: 215c07b6aa6d556439078165149ba3a5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8664991443309795799, guid: 215c07b6aa6d556439078165149ba3a5,
         type: 3}
@@ -65,7 +70,12 @@ PrefabInstance:
     - target: {fileID: 8670478144276522147, guid: 215c07b6aa6d556439078165149ba3a5,
         type: 3}
       propertyPath: m_Name
-      value: FoamForcePistolMagazine
+      value: FoamForcePistolMagazineRiot
+      objectReference: {fileID: 0}
+    - target: {fileID: 8775136841920534807, guid: 215c07b6aa6d556439078165149ba3a5,
+        type: 3}
+      propertyPath: m_AssetId
+      value: bbae0629eb6f8e94c8db10678b31b14b
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 215c07b6aa6d556439078165149ba3a5, type: 3}

@@ -12,7 +12,7 @@ If you get lost at any point in this guide, don't be afraid to ask in our [Disco
 
 You will need these to start your journey:
 
-- [Unity Hub](https://unity3d.com/get-unity/download) Manages your Unity installations. It will install the proper Unity version for you, so you don't really need to worry about that. (but if you want to know, it is **2020.1.17f1** at the time of writing this guide 4.01.2021).
+- [Unity Hub](https://unity3d.com/get-unity/download) Manages your Unity installations. It will install the proper Unity version for you, so you don't really need to worry about that. (but if you want to know, it is **2021.3.0f1 LTS** at the time of writing this guide 17.04.2022).
 - A [GitHub account](https://github.com/).
 
 - You'll also need to download Git from this link https://git-scm.com/, this is different from GitHub and will allow unity to download its dependencies. 
@@ -222,6 +222,8 @@ Regardless of which editor you choose, you'll want to install any relevant exten
 Don't forget to enable Roslyn Analyzers (static code analysis) if they are supported, and enable "Format on Save" in your Settings so your editor will automatically fix indentations and whitespace issues for you.
 
 When opening the Unitystation project using your code editor, open the "UnityProject" subfolder as your editor's workspace, instead of the root "unitystation" folder that contains the entire repo.
+
+Make sure to link your code editor to Unity by going **Edit > Preferences > External Tools**. Also generate the csproject files as well for Embedded packages, Local packages, Registry packages and Built-in packages, this helps a lot.
 
 ##### Getting help
 There is no shame in asking questions.

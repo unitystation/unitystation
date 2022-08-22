@@ -15,6 +15,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -30,6 +35,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -42,16 +52,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1183759635035529528, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
@@ -76,7 +76,28 @@ PrefabInstance:
     - target: {fileID: 1290906528003875320, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_AssetId
+      value: f4bfd4d8b65c193418b3897c80c48bc4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290947839602867664, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: customNetTransform
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1337560984964591376, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c6ffffa07038cb646aba109c9cd51ed2,
+        type: 3}
+    - target: {fileID: 1337560984964591376, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1626810508824064814, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: initialName
+      value: tea aspera tips
       objectReference: {fileID: 0}
     - target: {fileID: 1626810508824064814, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
@@ -85,8 +106,46 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1626810508824064814, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
-      propertyPath: initialName
-      value: tea aspera tips
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 1626810508824064814, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 4987756423560292299, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 30f490737a6c3b34ea2637efed1c4014,
+        type: 2}
+    - target: {fileID: 5243514714527551521, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: foreverID
+      value: f4bfd4d8b65c193418b3897c80c48bc4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 27208d0fc3f7c3544a8d1a7861253b52, type: 3}
+--- !u!1 &13566609292205559 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1188401911067925580, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+    type: 3}
+  m_PrefabInstance: {fileID: 1174946919390265787}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-8356664801693376419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 13566609292205559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundReagents:
+    m_keys:
+    - {fileID: 11400000, guid: 8c4699092c1481a0088667b562e3c68a, type: 2}
+    m_values: 05000000

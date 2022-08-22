@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: psyche_31
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -119,6 +119,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -128,8 +130,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -150,9 +152,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -863,6 +869,39 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      psyche_17: 21300034
+      psyche_20: 21300040
+      psyche_26: 21300052
+      psyche_25: 21300050
+      psyche_1: 21300002
+      psyche_4: 21300008
+      psyche_28: 21300056
+      psyche_18: 21300036
+      psyche_30: 21300060
+      psyche_5: 21300010
+      psyche_14: 21300028
+      psyche_13: 21300026
+      psyche_8: 21300016
+      psyche_11: 21300022
+      psyche_16: 21300032
+      psyche_12: 21300024
+      psyche_23: 21300046
+      psyche_0: 21300000
+      psyche_3: 21300006
+      psyche_24: 21300048
+      psyche_31: 21300062
+      psyche_7: 21300014
+      psyche_29: 21300058
+      psyche_21: 21300042
+      psyche_22: 21300044
+      psyche_15: 21300030
+      psyche_9: 21300018
+      psyche_2: 21300004
+      psyche_6: 21300012
+      psyche_10: 21300020
+      psyche_19: 21300038
+      psyche_27: 21300054
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

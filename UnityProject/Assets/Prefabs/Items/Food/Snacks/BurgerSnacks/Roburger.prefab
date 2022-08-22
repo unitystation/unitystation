@@ -9,13 +9,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
-      propertyPath: Sprites.Array.size
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f147a80303110ad4f8aa84134fb1de34,
+        type: 2}
+    - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
+      propertyPath: SetSpriteOnStartUp
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.size
-      value: 18
+      propertyPath: Sprites.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
@@ -24,14 +30,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
-      propertyPath: SetSpriteOnStartUp
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: f147a80303110ad4f8aa84134fb1de34,
+        type: 2}
     - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
       propertyPath: Sprites.Array.data[0].Texture
       value: 
       objectReference: {fileID: 2800000, guid: 8947eea21a82aa04da80882c153854d2, type: 3}
+    - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
+      propertyPath: Sprites.Array.data[0].EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: b1cf42320cb9a1b44a401737f5182107, type: 3}
+    - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
+      propertyPath: Sprites.Array.data[0].Sprites.Array.size
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
       propertyPath: Sprites.Array.data[0].Sprites.Array.data[0]
@@ -140,32 +157,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300034, guid: 8947eea21a82aa04da80882c153854d2,
         type: 3}
-    - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
+    - target: {fileID: 4608460023768847701, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
-      propertyPath: Sprites.Array.data[0].EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: b1cf42320cb9a1b44a401737f5182107, type: 3}
-    - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
-        type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: f147a80303110ad4f8aa84134fb1de34,
-        type: 2}
-    - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
-        type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: f147a80303110ad4f8aa84134fb1de34,
-        type: 2}
-    - target: {fileID: 7035654688744863322, guid: 4bf8c38cb85116e4babedf03228412de,
-        type: 3}
-      propertyPath: initialDescription
-      value: The lettuce is the only organic component. Beep.
+      propertyPath: foreverID
+      value: 04e088b56c36d4244b7db5a66b616953
       objectReference: {fileID: 0}
     - target: {fileID: 7035654688744863322, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
       propertyPath: initialName
       value: roburger
+      objectReference: {fileID: 0}
+    - target: {fileID: 7035654688744863322, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
+      propertyPath: initialDescription
+      value: The lettuce is the only organic component. Beep.
       objectReference: {fileID: 0}
     - target: {fileID: 7331795877928512100, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
@@ -176,12 +181,17 @@ PrefabInstance:
     - target: {fileID: 7411242208336094348, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 04e088b56c36d4244b7db5a66b616953
       objectReference: {fileID: 0}
     - target: {fileID: 7443940138226227512, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
       propertyPath: m_Name
       value: Roburger
+      objectReference: {fileID: 0}
+    - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
@@ -200,6 +210,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -215,16 +230,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -237,6 +242,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8531009368262857104, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 8531009368262857104, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
@@ -258,11 +268,6 @@ PrefabInstance:
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
       value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8531009368262857104, guid: 4bf8c38cb85116e4babedf03228412de,
-        type: 3}
-      propertyPath: maxCapacity
-      value: 120
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bf8c38cb85116e4babedf03228412de, type: 3}

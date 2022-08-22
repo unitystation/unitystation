@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using DatabaseAPI;
 using Mirror;
 using UnityEngine;
+using DatabaseAPI;
 using DiscordWebhook;
 using Messages.Client.Admin;
 using Messages.Server.AdminTools;
+
 
 namespace AdminTools
 {
 	public class AdminPlayerChat : MonoBehaviour
 	{
-		[SerializeField] private ChatScroll chatScroll = null;
-		private AdminPlayerEntryData selectedPlayer;
+		[SerializeField] protected ChatScroll chatScroll = null;
+		protected AdminPlayerEntryData selectedPlayer;
 		public AdminPlayerEntryData SelectedPlayer
 		{
 			get { return selectedPlayer; }
@@ -23,14 +23,14 @@ namespace AdminTools
 		/// <summary>
 		/// All messages sent and recieved from players to admins
 		/// </summary>
-		private Dictionary<string, List<AdminChatMessage>> serverAdminPlayerChatLogs
-			= new Dictionary<string, List<AdminChatMessage>>();
+		protected readonly Dictionary<string, List<AdminChatMessage>> serverAdminPlayerChatLogs
+				= new Dictionary<string, List<AdminChatMessage>>();
 
 		/// <summary>
 		/// The admins client local cache for admin to player chat
 		/// </summary>
-		private Dictionary<string, List<AdminChatMessage>> clientAdminPlayerChatLogs
-			= new Dictionary<string, List<AdminChatMessage>>();
+		protected readonly Dictionary<string, List<AdminChatMessage>> clientAdminPlayerChatLogs
+				= new Dictionary<string, List<AdminChatMessage>>();
 
 		public void ClearLogs()
 		{
@@ -38,40 +38,50 @@ namespace AdminTools
 			clientAdminPlayerChatLogs.Clear();
 		}
 
-		public void ServerAddChatRecord(string message, string playerId, string adminId = "")
+		public virtual void ServerAddChatRecord(string message, PlayerInfo player, PlayerInfo admin = default)
 		{
-			if (!serverAdminPlayerChatLogs.ContainsKey(playerId))
+			message = admin == null
+				? $"{player.Username}: {message}"
+				: $"{admin.Username}: {message}";
+
+			if (!serverAdminPlayerChatLogs.ContainsKey(player.UserId))
 			{
-				serverAdminPlayerChatLogs.Add(playerId, new List<AdminChatMessage>());
+				serverAdminPlayerChatLogs.Add(player.UserId, new List<AdminChatMessage>());
 			}
 
 			var entry = new AdminChatMessage
 			{
-				fromUserid = playerId,
+				fromUserid = player.UserId,
 				Message = message
 			};
 
-			if (!string.IsNullOrEmpty(adminId))
+			if (admin != null)
 			{
-				entry.fromUserid = adminId;
+				entry.fromUserid = admin.UserId;
 				entry.wasFromAdmin = true;
 			}
-			serverAdminPlayerChatLogs[playerId].Add(entry);
-			AdminPlayerChatUpdateMessage.SendSingleEntryToAdmins(entry, playerId);
-			if (!string.IsNullOrEmpty(adminId))
+			serverAdminPlayerChatLogs[player.UserId].Add(entry);
+			AdminPlayerChatUpdateMessage.SendSingleEntryToAdmins(entry, player.UserId);
+			if (admin != null)
 			{
-				AdminChatNotifications.SendToAll(playerId, AdminChatWindow.AdminPlayerChat, 0, true);
+				AdminChatNotifications.SendToAll(player.UserId, AdminChatWindow.AdminPlayerChat, 0, true);
 			}
 			else
 			{
-				AdminChatNotifications.SendToAll(playerId, AdminChatWindow.AdminPlayerChat, 1);
+				AdminChatNotifications.SendToAll(player.UserId, AdminChatWindow.AdminPlayerChat, 1);
 			}
 
-			ServerMessageRecording(playerId, entry);
+			ServerMessageRecording(player.UserId, entry);
 		}
 
-		void ServerMessageRecording(string playerId, AdminChatMessage entry)
+		public void ServerMessageRecording(string playerId, AdminChatMessage entry)
 		{
+			if (PlayerList.Instance.TryGetByUserID(playerId, out var player) == false)
+			{
+				Logger.LogError($"Could not find player with ID '{playerId}'. Unable to record admin dialogue.");
+				return;
+			}
+			
 			var chatlogDir = Path.Combine(Application.streamingAssetsPath, "chatlogs");
 			if (!Directory.Exists(chatlogDir))
 			{
@@ -80,23 +90,20 @@ namespace AdminTools
 
 			var filePath = Path.Combine(chatlogDir, $"{playerId}.txt");
 
-			var connectedPlayer = PlayerList.Instance.GetByUserID(playerId);
-
 			if (!File.Exists(filePath))
 			{
 				var stream = File.Create(filePath);
 				stream.Close();
-				string header = $"Username: {connectedPlayer.Username} Player Name: {connectedPlayer.Name} \r\n" +
-				                $"IsAntag: {PlayerList.Instance.AntagPlayers.Contains(connectedPlayer)}  role: {connectedPlayer.Job} \r\n" +
+				string header = $"Username: {player.Username} Character Name: {player.Name} \r\n" +
+				                $"IsAntag: {PlayerList.Instance.AntagPlayers.Contains(player)}  role: {player.Job} \r\n" +
 				                $"-----Chat Log----- \r\n" +
 				                $" \r\n";
 				File.AppendAllText(filePath, header);
 			}
 
-			string entryName = connectedPlayer.Name;
-			if (entry.wasFromAdmin)
+			string entryName = player.Name;
+			if (entry.wasFromAdmin && PlayerList.Instance.TryGetByUserID(entry.fromUserid, out var adminPlayer))
 			{
-				var adminPlayer = PlayerList.Instance.GetByUserID(entry.fromUserid);
 				entryName = "[A] " + adminPlayer.Name;
 			}
 
@@ -117,15 +124,16 @@ namespace AdminTools
 				return;
 			}
 
-			AdminChatUpdate update = new AdminChatUpdate();
-
-			update.messages = serverAdminPlayerChatLogs[playerId].GetRange(currentCount,
-				serverAdminPlayerChatLogs[playerId].Count - currentCount);
+			AdminChatUpdate update = new AdminChatUpdate()
+			{
+				messages = serverAdminPlayerChatLogs[playerId].GetRange(currentCount,
+				serverAdminPlayerChatLogs[playerId].Count - currentCount)
+			};
 
 			AdminPlayerChatUpdateMessage.SendLogUpdateToAdmin(requestee, update, playerId);
 		}
 
-		void ClientGetUnreadAdminPlayerMessages(string playerId)
+		protected void ClientGetUnreadAdminPlayerMessages(string playerId)
 		{
 			if (!clientAdminPlayerChatLogs.ContainsKey(playerId))
 			{
@@ -165,7 +173,7 @@ namespace AdminTools
 			chatScroll.LoadChatEntries(clientAdminPlayerChatLogs[playerData.uid].Cast<ChatEntryData>().ToList());
 		}
 
-		private void OnEnable()
+		protected void OnEnable()
 		{
 			chatScroll.OnInputFieldSubmit += OnInputSend;
 			if (selectedPlayer != null)
@@ -174,23 +182,14 @@ namespace AdminTools
 			}
 		}
 
-		private void OnDisable()
+		protected void OnDisable()
 		{
 			chatScroll.OnInputFieldSubmit -= OnInputSend;
 		}
 
-		public void OnInputSend(string message)
+		public virtual void OnInputSend(string message)
 		{
-			var adminMsg = new AdminChatMessage
-			{
-				fromUserid = ServerData.UserID,
-				Message = message,
-				wasFromAdmin = true
-			};
-
-			var msg = $"{ServerData.Auth.CurrentUser.DisplayName}: {message}";
-			RequestAdminBwoink.Send(ServerData.UserID, PlayerList.Instance.AdminToken, selectedPlayer.uid,
-			msg);
+			RequestAdminBwoink.Send(selectedPlayer.uid, message);
 		}
 	}
 }

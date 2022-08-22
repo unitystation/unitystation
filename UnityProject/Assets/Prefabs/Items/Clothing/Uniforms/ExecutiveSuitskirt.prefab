@@ -13,18 +13,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 38ee3132be2bd8d4e86d870d3175313b,
         type: 2}
+    - target: {fileID: 970721398519372554, guid: 119a19b7af9f24a4eae413817fdef76d,
+        type: 3}
+      propertyPath: foreverID
+      value: 48c00b66f5992a24286217287c104f4b
+      objectReference: {fileID: 0}
     - target: {fileID: 990566071399204066, guid: 119a19b7af9f24a4eae413817fdef76d,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: fea6f6678ed71aa4f9899a4aa1f7d82f,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 990566071399204066, guid: 119a19b7af9f24a4eae413817fdef76d,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: fea6f6678ed71aa4f9899a4aa1f7d82f,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 990566071399204066, guid: 119a19b7af9f24a4eae413817fdef76d,
         type: 3}
       propertyPath: allClothingData.Array.data[0]
@@ -44,7 +47,7 @@ PrefabInstance:
     - target: {fileID: 6077112385209608915, guid: 119a19b7af9f24a4eae413817fdef76d,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 48c00b66f5992a24286217287c104f4b
       objectReference: {fileID: 0}
     - target: {fileID: 6179510555677923175, guid: 119a19b7af9f24a4eae413817fdef76d,
         type: 3}
@@ -116,6 +119,21 @@ PrefabInstance:
         type: 3}
       propertyPath: bodyPartsCovered
       value: 240
+      objectReference: {fileID: 0}
+    - target: {fileID: 7451264637168222194, guid: 119a19b7af9f24a4eae413817fdef76d,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7451264637168222194, guid: 119a19b7af9f24a4eae413817fdef76d,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7451264637168222194, guid: 119a19b7af9f24a4eae413817fdef76d,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[4].armoringBodyPartType
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 119a19b7af9f24a4eae413817fdef76d, type: 3}

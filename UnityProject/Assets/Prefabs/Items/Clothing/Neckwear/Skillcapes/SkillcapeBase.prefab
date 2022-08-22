@@ -7,10 +7,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3377728999933947146, guid: b027dfa588d69d848a886ae80d5b25c2,
+        type: 3}
+      propertyPath: foreverID
+      value: b4b7a31d4267d3d44860504b0d23df24
+      objectReference: {fileID: 0}
     - target: {fileID: 8122024160340692485, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
       propertyPath: initialDescription
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8523380487867522067, guid: b027dfa588d69d848a886ae80d5b25c2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8523380487867522067, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
@@ -29,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8523380487867522067, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8523380487867522067, guid: b027dfa588d69d848a886ae80d5b25c2,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8523380487867522067, guid: b027dfa588d69d848a886ae80d5b25c2,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8523380487867522067, guid: b027dfa588d69d848a886ae80d5b25c2,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8523380487867522067, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
@@ -75,7 +80,7 @@ PrefabInstance:
     - target: {fileID: 8633003412026072275, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b4b7a31d4267d3d44860504b0d23df24
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b027dfa588d69d848a886ae80d5b25c2, type: 3}

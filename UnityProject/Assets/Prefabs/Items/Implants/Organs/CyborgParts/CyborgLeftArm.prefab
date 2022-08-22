@@ -70,7 +70,7 @@ PrefabInstance:
     - target: {fileID: 1807895052203439847, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 6288c623448564447ad3e18185754a58
       objectReference: {fileID: 0}
     - target: {fileID: 1905918728921331727, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
@@ -100,6 +100,63 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 51ca87009f5327b44b59092dea2460c5,
         type: 2}
+    - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
+      propertyPath: CanBeBroken
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
+      propertyPath: CanGetHungry
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
+      propertyPath: isBloodCirculated
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
+      propertyPath: HasNaturalToxicity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
+      propertyPath: isBloodReagentConsumed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
+      propertyPath: spillChanceWhenCutPresent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
+      propertyPath: BodyPartDisembowlLogicOnCutSize
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6ae08a8dec2a6e64ebfca9945eba0188,
+        type: 2}
+    - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 22461163953d0de4f93ab6abb841f931,
+        type: 2}
+    - target: {fileID: 4627556938812491582, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
+      propertyPath: foreverID
+      value: 6288c623448564447ad3e18185754a58
+      objectReference: {fileID: 0}
     - target: {fileID: 5603819714738991316, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -118,5 +175,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 22461163953d0de4f93ab6abb841f931,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5450588793712580772, guid: 719377fefb0114b448fc6ca9f7a5a6df, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 719377fefb0114b448fc6ca9f7a5a6df, type: 3}

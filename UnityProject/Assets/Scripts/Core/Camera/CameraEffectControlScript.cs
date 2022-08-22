@@ -9,38 +9,70 @@ namespace CameraEffects
 	{
 
 		public DrunkCamera drunkCamera;
+		public GreyscaleCamera greyscaleCamera;
 		public GlitchEffect glitchEffect;
 		public NightVisionCamera nightVisionCamera;
 
 		[SerializeField]
 		private GameObject minimalVisibilitySprite;
 
+
+		[SerializeField] private int maxDrunkTime = 120000;
+		[SerializeField] private int maxFlashTime = 25;
+
 		private const float TIMER_INTERVAL = 1f;
-		private int drunkCameraTime = 0;
+		private float drunkCameraTime = 0;
+
+		private void OnEnable()
+		{
+			EventManager.AddHandler(Event.GhostSpawned, OnGhostSpawn);
+		}
 
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, DoEffectTimeCheck);
+			EventManager.RemoveHandler(Event.GhostSpawned, OnGhostSpawn);
 		}
 
-		public void AddDrunkTime(int time)
+		private void OnGhostSpawn()
+		{
+			drunkCameraTime = 0;
+			ToggleNightVisionEffectState(false);
+			ToggleGlitchEffectState(false);
+		}
+
+		public void AddDrunkTime(float time)
 		{
 			drunkCameraTime += time;
 
+			drunkCameraTime = Mathf.Min(drunkCameraTime, maxDrunkTime);
+
 			if (drunkCamera.enabled == false)
 			{
+				ToggleDrunkEffectState(true);
+				drunkCamera.ModerateDrunk();
 				UpdateManager.Add(DoEffectTimeCheck, TIMER_INTERVAL);
 			}
 		}
 
-		public void ToggleDrunkEffectState()
+		public void FlashEyes(float flashTime)
 		{
-			drunkCamera.enabled = !drunkCamera.enabled;
+			StartCoroutine(FlashEyesCoroutine(flashTime));
+		}
+		private IEnumerator FlashEyesCoroutine(float flashTime)
+		{
+			//TODO : Add flash effects here later
+			yield break;
 		}
 
-		public void ToggleGlitchEffectState()
+		public void ToggleDrunkEffectState(bool state)
 		{
-			glitchEffect.enabled = !glitchEffect.enabled;
+			drunkCamera.enabled = state;
+		}
+
+		public void ToggleGlitchEffectState(bool state)
+		{
+			glitchEffect.enabled = state;
 		}
 
 		public void ToggleNightVisionEffectState(bool state)
@@ -58,7 +90,7 @@ namespace CameraEffects
 			else
 			{
 				drunkCamera.enabled = false;
-				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, DoEffectTimeCheck);
+
 			}
 		}
 
@@ -68,6 +100,15 @@ namespace CameraEffects
 		public void AdjustPlayerVisibility(Vector3 newSize, float time)
 		{
 			LeanTween.scale(minimalVisibilitySprite, newSize, time);
+		}
+
+		public void EnsureAllEffectsAreDisabled()
+		{
+			//TODO: Find out a solution in the shaders why the screen inverts if both drunk and greyscale are both on
+			drunkCamera.enabled = false;
+			glitchEffect.enabled = false;
+			nightVisionCamera.enabled = false;
+			greyscaleCamera.enabled = false;
 		}
 	}
 }

@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: DoubleRatKebabRecipe
+  m_EditorClassIdentifier: 
+  category: 10
+  craftingTime: 1.5
+  recipeName: Double Rat-Kebab
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
+      type: 3}
+  - requiredAmount: 2
+    requiredItem: {fileID: 4184658972748340991, guid: eb0c626c3a078634594555c4139784d4,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits: []
+  result:
+  - {fileID: 4296264140864599532, guid: fe860678437cf6647a3e10b52f108497, type: 3}
+  resultHandlers: []
+  isSimple: 1
+  indexInSingleton: 254

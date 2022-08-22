@@ -18,31 +18,47 @@ PrefabInstance:
       propertyPath: ProjectilesFired
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: -4441519557137854397, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
+      propertyPath: initalProjectile
+      value: 
+      objectReference: {fileID: 3854254925289623273, guid: 4adcadc588a9b69449a7184abef7ad19,
+        type: 3}
     - target: {fileID: 2361978366132242104, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 5653db67fca9d26468eb2bc49cedd2fd,
         type: 2}
-    - target: {fileID: 8317281327444857437, guid: b564e5d916b891446903adc342af08bd,
+    - target: {fileID: 3259418781305368914, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
-      propertyPath: initialDescription
-      value: A 12 gauge buckshot shell.
+      propertyPath: foreverID
+      value: 275e5e346ea26524b98998796d344f4f
       objectReference: {fileID: 0}
     - target: {fileID: 8317281327444857437, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
       propertyPath: initialName
       value: buckshot shell
       objectReference: {fileID: 0}
+    - target: {fileID: 8317281327444857437, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
+      propertyPath: initialDescription
+      value: A 12 gauge buckshot shell.
+      objectReference: {fileID: 0}
     - target: {fileID: 8364667066244186251, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 275e5e346ea26524b98998796d344f4f
       objectReference: {fileID: 0}
     - target: {fileID: 8467174088351874367, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
       propertyPath: m_Name
       value: AmmoShotgunBuckshot
+      objectReference: {fileID: 0}
+    - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
@@ -61,6 +77,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -73,16 +94,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
         type: 3}

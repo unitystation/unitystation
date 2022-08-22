@@ -36,8 +36,28 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1723238164438836345, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
         type: 3}
+      propertyPath: BodyPartReadableName
+      value: Facial Hair
+      objectReference: {fileID: 0}
+    - target: {fileID: 1723238164438836345, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
+        type: 3}
+      propertyPath: limbLossBleedingValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1723238164438836345, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
+        type: 3}
       propertyPath: isBloodReagentConsumed
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1723238164438836345, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
+        type: 3}
+      propertyPath: MinMaxInternalBleedingValues.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1723238164438836345, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
+        type: 3}
+      propertyPath: MinMaxInternalBleedingValues.y
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1723238164438836345, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
         type: 3}
@@ -84,7 +104,7 @@ PrefabInstance:
     - target: {fileID: 2757649408455041617, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 43e80b782d31dac4384d245df9f34dcd
       objectReference: {fileID: 0}
     - target: {fileID: 2865015309928833681, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
         type: 3}
@@ -146,11 +166,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Facial Hair
       objectReference: {fileID: 0}
-    - target: {fileID: 5143837157643442378, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
-        type: 3}
-      propertyPath: maxCapacity
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 8257078513733723234, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
         type: 3}
       propertyPath: variantIndex
@@ -162,5 +177,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 81f3de06cde8aa24c97000faaa8c46c7,
         type: 2}
+    - target: {fileID: 8257078513733723234, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
+        type: 3}
+      propertyPath: initialVariantIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9181625755951616904, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
+        type: 3}
+      propertyPath: foreverID
+      value: 43e80b782d31dac4384d245df9f34dcd
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a, type: 3}

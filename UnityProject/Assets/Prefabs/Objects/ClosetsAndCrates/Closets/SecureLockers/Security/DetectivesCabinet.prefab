@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2767213831782040296, guid: 8fd7582db354a614eb90855a0072e058,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 33866644b786ff543bed8b930c24a966
       objectReference: {fileID: 0}
     - target: {fileID: 3971948841190271162, guid: 8fd7582db354a614eb90855a0072e058,
         type: 3}
@@ -21,6 +21,11 @@ PrefabInstance:
         type: 3}
       propertyPath: restriction
       value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 6030172916876308816, guid: 8fd7582db354a614eb90855a0072e058,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6030172916876308816, guid: 8fd7582db354a614eb90855a0072e058,
         type: 3}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6030172916876308816, guid: 8fd7582db354a614eb90855a0072e058,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6030172916876308816, guid: 8fd7582db354a614eb90855a0072e058,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6030172916876308816, guid: 8fd7582db354a614eb90855a0072e058,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6030172916876308816, guid: 8fd7582db354a614eb90855a0072e058,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6030172916876308816, guid: 8fd7582db354a614eb90855a0072e058,
         type: 3}
@@ -84,14 +84,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6884206318373614871, guid: 8fd7582db354a614eb90855a0072e058,
         type: 3}
+      propertyPath: weldOverlay
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6884206318373614871, guid: 8fd7582db354a614eb90855a0072e058,
+        type: 3}
       propertyPath: initialContents
       value: 
       objectReference: {fileID: 11400000, guid: 592fa8f54f3719d4db29b257b3dcd532,
         type: 2}
-    - target: {fileID: 6884206318373614871, guid: 8fd7582db354a614eb90855a0072e058,
+    - target: {fileID: 6987282726742898962, guid: 8fd7582db354a614eb90855a0072e058,
         type: 3}
-      propertyPath: weldOverlay
+      propertyPath: initialContents
       value: 
+      objectReference: {fileID: 11400000, guid: 592fa8f54f3719d4db29b257b3dcd532,
+        type: 2}
+    - target: {fileID: 7262942523864566211, guid: 8fd7582db354a614eb90855a0072e058,
+        type: 3}
+      propertyPath: foreverID
+      value: 33866644b786ff543bed8b930c24a966
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fd7582db354a614eb90855a0072e058, type: 3}

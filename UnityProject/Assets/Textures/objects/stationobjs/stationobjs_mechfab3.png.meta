@@ -69,7 +69,7 @@ TextureImporter:
       213: 21300042
     second: mechfab3_21
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -89,6 +89,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -98,8 +100,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -120,9 +122,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -623,6 +629,29 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      mechfab3_14: 21300028
+      mechfab3_19: 21300038
+      mechfab3_0: 21300000
+      mechfab3_1: 21300002
+      mechfab3_2: 21300004
+      mechfab3_11: 21300022
+      mechfab3_12: 21300024
+      mechfab3_13: 21300026
+      mechfab3_4: 21300008
+      mechfab3_15: 21300030
+      mechfab3_16: 21300032
+      mechfab3_10: 21300020
+      mechfab3_20: 21300040
+      mechfab3_5: 21300010
+      mechfab3_17: 21300034
+      mechfab3_8: 21300016
+      mechfab3_9: 21300018
+      mechfab3_18: 21300036
+      mechfab3_3: 21300006
+      mechfab3_21: 21300042
+      mechfab3_6: 21300012
+      mechfab3_7: 21300014
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

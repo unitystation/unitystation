@@ -50,11 +50,11 @@ namespace Messages.Server.SoundMessages
 
 			if (isPositionProvided)
 			{
-				SoundManager.PlayAtPosition(addressableAudioSources, msg.Position, msg.SoundSpawnToken, msg.Polyphonic, netId: msg.TargetNetId, audioSourceParameters: msg.AudioParameters);
+				_ = SoundManager.PlayAtPosition(addressableAudioSources, msg.Position, msg.SoundSpawnToken, msg.Polyphonic, netId: msg.TargetNetId, audioSourceParameters: msg.AudioParameters);
 			}
 			else
 			{
-				SoundManager.Play(addressableAudioSources, msg.SoundSpawnToken, msg.AudioParameters, msg.Polyphonic);
+				_ = SoundManager.Play(addressableAudioSources, msg.SoundSpawnToken, msg.AudioParameters, msg.Polyphonic);
 			}
 
 			if (msg.ShakeParameters.ShakeGround)

@@ -8,7 +8,7 @@ namespace Antagonists
 	/// Maroon your target on the station (dont allow them to leave the station on the shuttle)
 	/// Basically a slightly different assassinate objective
 	/// </summary>
-	[CreateAssetMenu(menuName="ScriptableObjects/Objectives/Maroon")]
+	[CreateAssetMenu(menuName="ScriptableObjects/AntagObjectives/Maroon")]
 	public class Maroon : Objective
 	{
 		/// <summary>
@@ -24,7 +24,7 @@ namespace Antagonists
 		/// <summary>
 		/// Make sure there's at least one player which hasn't been targeted, not including the candidate
 		/// </summary>
-		public override bool IsPossible(PlayerScript candidate)
+		protected override bool IsPossibleInternal(PlayerScript candidate)
 		{
 			int targetCount = PlayerList.Instance.InGamePlayers.Where( p =>
 				(p.Script != candidate) && !AntagManager.Instance.TargetedPlayers.Contains(p.Script)
@@ -38,7 +38,7 @@ namespace Antagonists
 		protected override void Setup()
 		{
 			// Get all ingame players except the one who owns this objective and players who have already been targeted and the ones who cant be targeted
-			List<ConnectedPlayer> playerPool = PlayerList.Instance.InGamePlayers.Where( p =>
+			List<PlayerInfo> playerPool = PlayerList.Instance.InGamePlayers.Where( p =>
 				(p.Script != Owner.body) && !AntagManager.Instance.TargetedPlayers.Contains(p.Script) && p.Script.mind.occupation != null && p.Script.mind.occupation.IsTargeteable
 
 			).ToList();
@@ -85,8 +85,8 @@ namespace Antagonists
 			}
 
 			//If target is on functional escape shuttle, we failed
-			return ValidShuttles.Any( shuttle => shuttle.MatrixInfo != null
-				&& Target.registerTile.Matrix.Id == shuttle.MatrixInfo.Id && shuttle.HasWorkingThrusters) == false;
+			return ValidShuttles.Any( shuttle => shuttle
+				&& shuttle.MatrixInfo.Matrix.PresentPlayers.Contains(Owner.body.registerTile) && shuttle.HasWorkingThrusters) == false;
 		}
 	}
 }

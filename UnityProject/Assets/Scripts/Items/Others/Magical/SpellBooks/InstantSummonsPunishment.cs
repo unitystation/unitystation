@@ -1,17 +1,22 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
+using AddressableReferences;
 
-namespace Items.Others.Magical
+
+namespace Items.Magical
 {
 	public class InstantSummonsPunishment : SpellBookPunishment
 	{
-		public override void Punish(ConnectedPlayer player)
-		{
-			Chat.AddActionMsgToChat(player.GameObject,
-					"<color='red'>The book disappears from your hand!</color>",
-					$"<color='red'>The book disappears from {player.Script.visibleName}'s hand!</color>");
+		[SerializeField]
+		private AddressableAudioSource punishSfx = default;
 
-			Despawn.ServerSingle(gameObject);
+		public override void Punish(PlayerInfo player)
+		{
+			SoundManager.PlayNetworkedAtPos(punishSfx, player.Script.WorldPos, sourceObj: player.GameObject);
+			Chat.AddActionMsgToChat(player.GameObject,
+					"<color=red>The book disappears from your hand!</color>",
+					$"<color=red>The book disappears from {player.Script.visibleName}'s hand!</color>");
+
+			_ = Despawn.ServerSingle(gameObject);
 		}
 	}
 }

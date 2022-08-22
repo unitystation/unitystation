@@ -1,14 +1,15 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using Systems.Atmospherics;
-using UnityEngine;
+using ScriptableObjects.Atmospherics;
+using UI.Core;
+using UI.Core.NetUI;
+using Objects.Atmospherics;
 
 namespace UI.Objects.Atmospherics
 {
 	public class GUI_Filter : NetTab
 	{
-		public Pipes.Filter Filter;
+		public Filter Filter;
 
 		public NetWheel NetWheel;
 
@@ -33,11 +34,11 @@ namespace UI.Objects.Atmospherics
 			Filter.GasIndex = Filter.CapableFiltering[gasName];
 		}
 
-		void Start()
+		private void Start()
 		{
 			if (Provider != null)
 			{
-				Filter = Provider.GetComponentInChildren<Pipes.Filter>();
+				Filter = Provider.GetComponentInChildren<Filter>();
 			}
 			numberSpinner.ServerSpinTo(Filter.MaxPressure);
 			numberSpinner.DisplaySpinTo(Filter.MaxPressure);
@@ -47,7 +48,7 @@ namespace UI.Objects.Atmospherics
 			SetFilteredGasValue(Filter.GasIndex);
 		}
 
-		public void SetFilteredGasValue(Gas GasIndex)
+		public void SetFilteredGasValue(GasSO GasIndex)
 		{
 			foreach (var INFilter in Filter.CapableFiltering)
 			{
@@ -74,7 +75,6 @@ namespace UI.Objects.Atmospherics
 		{
 			Filter.TogglePower();
 		}
-
 
 		public void SetMaxPressure(int value)
 		{

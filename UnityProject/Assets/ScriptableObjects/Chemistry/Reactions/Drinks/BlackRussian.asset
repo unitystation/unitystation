@@ -17,9 +17,17 @@ MonoBehaviour:
     - {fileID: 11400000, guid: a2f2da04196bb32b2935d5a21b362f9b, type: 2}
     - {fileID: 11400000, guid: d8b9bc35821b330168e659473e685d14, type: 2}
     m_values: 0300000002000000
+  useExactAmounts: 0
   catalysts:
     m_keys: []
     m_values: 
+  inhibitors:
+    m_keys: []
+    m_values: 
+  hasMinTemp: 0
+  serializableTempMin: 0
+  hasMaxTemp: 0
+  serializableTempMax: 0
   results:
     m_keys:
     - {fileID: 11400000, guid: 033a1bd3b553531468cf9ddcc85483a1, type: 2}

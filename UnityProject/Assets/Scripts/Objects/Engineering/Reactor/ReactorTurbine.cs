@@ -1,28 +1,23 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using ScriptableObjects;
+﻿using Shared.Systems.ObjectConnection;
 using UnityEngine;
+using Systems.Electricity.NodeModules;
 
 namespace Objects.Engineering
 {
-	public class ReactorTurbine : MonoBehaviour, INodeControl, ISetMultitoolSlave, ISetMultitoolMaster, ICheckedInteractable<HandApply>
+	public class ReactorTurbine : MonoBehaviour, INodeControl, IMultitoolSlaveable, IMultitoolMasterable, ICheckedInteractable<HandApply>
 	{
-		private float tickCount;
-		private RegisterObject registerObject;
-		//public GameObject TurbineLocation;
-
 		public ModuleSupplyingDevice moduleSupplyingDevice;
 		public GameObject ConstructMaterial;
-		[SerializeField] private int droppedMaterialAmount = 25;
+		[SerializeField]
+		private int droppedMaterialAmount = 25;
 		public ReactorBoiler Boiler;
-		// Start is called before the first frame update
-		void Start()
-		{
-			moduleSupplyingDevice = this.GetComponent<ModuleSupplyingDevice>();
-		}
 
-	
+		#region Lifecycle
+
+		private void Start()
+		{
+			moduleSupplyingDevice = GetComponent<ModuleSupplyingDevice>();
+		}
 
 		private void OnEnable()
 		{
@@ -41,12 +36,8 @@ namespace Objects.Engineering
 			moduleSupplyingDevice?.TurnOffSupply();
 		}
 
-		private void Awake()
-        {
-			registerObject = this.GetComponent<RegisterObject>();
-		}
+		#endregion
 
-		// Update is called once per frame
 		public void CycleUpdate()
 		{
 			if (Boiler != null)
@@ -87,38 +78,50 @@ namespace Objects.Engineering
 					() =>
 					{
 						Spawn.ServerPrefab(ConstructMaterial, gameObject.AssumedWorldPosServer(), count: droppedMaterialAmount); //Spawning plates here as OnDespawnServer gets derailed by the electricity code
-						Despawn.ServerSingle(gameObject);
+						_ = Despawn.ServerSingle(gameObject);
 					});
 			}
 		}
 
-
 		/// <summary>
 		/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
 		/// </summary>
-        /// 
+		///
 		//public void OnDespawnServer(DespawnInfo info)
 		//{
 		//	Spawn.ServerPrefab(ConstructMaterial, gameObject.AssumedWorldPosServer(), count: droppedMaterialAmount);
 		//}
-		//OnDespawnServer was non-functional. It still fires, however the electrical code resets the position so it's spawned in the shadow realm. If you get it to work you're better than I am.
+		/* OnDespawnServer was non-functional.
+		 * It still fires, however the electrical code resets the position so it's spawned in the shadow realm.
+		 * If you get it to work you're better than I am.
+		 */
 
-		//######################################## Multitool interaction ##################################
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.BoilerTurbine;
-		public MultitoolConnectionType ConType => conType;
+		#region Multitool Interaction
 
-		public void SetMaster(ISetMultitoolMaster Imaster)
+		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.BoilerTurbine;
+
+		// Master connection
+		bool IMultitoolMasterable.MultiMaster => false;
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
+
+		// Slave connection
+		IMultitoolMasterable IMultitoolSlaveable.Master => Boiler;
+		bool IMultitoolSlaveable.RequireLink => true;
+		bool IMultitoolSlaveable.TrySetMaster(GameObject performer, IMultitoolMasterable master)
 		{
-			var boiler = (Imaster as Component)?.gameObject.GetComponent<ReactorBoiler>();
-			if (boiler != null)
-			{
-				Boiler = boiler;
-			}
+			SetMaster(master);
+			return true;
+		}
+		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
+		{
+			SetMaster(master);
 		}
 
-		private bool multiMaster = false;
-		public bool MultiMaster => multiMaster;
-		public void AddSlave(object SlaveObjectThis) { }
+		private void SetMaster(IMultitoolMasterable master)
+		{
+			Boiler = master is ReactorBoiler boiler ? boiler : null;
+		}
+
+		#endregion
 	}
 }

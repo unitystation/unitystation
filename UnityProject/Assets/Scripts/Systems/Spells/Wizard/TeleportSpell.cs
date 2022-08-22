@@ -40,14 +40,14 @@ namespace Systems.Spells.Wizard
 
 		private IEnumerator RunTeleportSequence(Vector3Int toWorldPos)
 		{
-			ConnectedPlayer player = teleportingPlayer.Player();
+			PlayerInfo player = teleportingPlayer.Player();
 
 			IsBusy = true;
 			syncAnimation = true;
 			SoundManager.PlayNetworkedAtPos(TeleportDisappear, player.Script.WorldPos);
 			yield return WaitFor.Seconds(TELEPORT_ANIMATE_TIME + TELEPORT_TRAVEL_TIME);
 
-			player.Script.PlayerSync.SetPosition(toWorldPos, true);
+			player.Script.PlayerSync.AppearAtWorldPositionServer(toWorldPos);
 
 			syncAnimation = false;
 			SoundManager.PlayNetworkedAtPos(TeleportAppear, player.Script.WorldPos);

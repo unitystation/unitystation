@@ -1,19 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-2114407587521241139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 676355976789840720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41ff8f5207c4eb747b27837977ae373b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ReactorChambers: {fileID: 0}
-  conType: 4
 --- !u!1001 &7119468310614602537
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29,14 +15,19 @@ PrefabInstance:
         type: 3}
     - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Sprites.Array.size
-      value: 48
-      objectReference: {fileID: 0}
-    - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
       propertyPath: onSprites.Texture
       value: 
       objectReference: {fileID: 2800000, guid: db27137cd219bc34482c0756dddcf6f2, type: 3}
+    - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: onSprites.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: d95e04d22f054844496c831a40493b39, type: 3}
+    - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: onSprites.Sprites.Array.size
+      value: 48
+      objectReference: {fileID: 0}
     - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: onSprites.Sprites.Array.data[0]
@@ -325,11 +316,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -930720312846249951, guid: db27137cd219bc34482c0756dddcf6f2,
         type: 3}
-    - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: onSprites.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: d95e04d22f054844496c831a40493b39, type: 3}
     - target: {fileID: 345856930608096068, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Sprite
@@ -346,10 +332,15 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Controls the control rods in a nuclear reactor chamber.
       objectReference: {fileID: 0}
+    - target: {fileID: 1401220419065593905, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 2433712328467874898}
     - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b64a5d579b668bf4bb49fcad64b80b6a
       objectReference: {fileID: 0}
     - target: {fileID: 3166760548704001533, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -377,7 +368,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -6813057101626306925, guid: db27137cd219bc34482c0756dddcf6f2,
+      objectReference: {fileID: 3564083850250109804, guid: db27137cd219bc34482c0756dddcf6f2,
         type: 3}
     - target: {fileID: 4739251602149975544, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -392,19 +383,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531316036, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: initialDescription
-      value: Controls the control rods in a reactor chamber. A sticker on it says
-        "Trained Personnel Only".
+      propertyPath: initialName
+      value: nuclear reactor console
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531316036, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: initialName
-      value: nuclear reactor console
+      propertyPath: initialDescription
+      value: Controls the control rods in a reactor chamber. A sticker on it says
+        "Trained Personnel Only".
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531339735, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Name
       value: NuclearReactorConsole
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -423,6 +419,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -435,16 +436,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -463,8 +454,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: Color.r
-      value: 0.646
+      propertyPath: Color.b
+      value: 0.186
       objectReference: {fileID: 0}
     - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -473,19 +464,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: Color.b
-      value: 0.186
+      propertyPath: Color.r
+      value: 0.646
       objectReference: {fileID: 0}
-    - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
+    - target: {fileID: 6691892461727964720, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Sprites.Array.size
-      value: 48
+      propertyPath: foreverID
+      value: b64a5d579b668bf4bb49fcad64b80b6a
       objectReference: {fileID: 0}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: onSprites.Texture
       value: 
       objectReference: {fileID: 2800000, guid: db27137cd219bc34482c0756dddcf6f2, type: 3}
+    - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: onSprites.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: d95e04d22f054844496c831a40493b39, type: 3}
+    - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: onSprites.Sprites.Array.size
+      value: 48
+      objectReference: {fileID: 0}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: onSprites.Sprites.Array.data[0]
@@ -534,11 +535,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -1875686775020921958, guid: db27137cd219bc34482c0756dddcf6f2,
         type: 3}
-    - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: onSprites.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: d95e04d22f054844496c831a40493b39, type: 3}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: onSprites.Sprites.Array.data[8]
@@ -804,3 +800,29 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7119468310614602537}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-2114407587521241139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676355976789840720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41ff8f5207c4eb747b27837977ae373b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ReactorChambers: {fileID: 0}
+  ReactorChambers2: []
+--- !u!114 &2433712328467874898 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4830997643641780091, guid: b46887a995abc224aab70e21b9e53697,
+    type: 3}
+  m_PrefabInstance: {fileID: 7119468310614602537}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676355976789840720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

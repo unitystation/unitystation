@@ -2,6 +2,7 @@
 using UnityEngine;
 using Mirror;
 using ScriptableObjects;
+using Tiles;
 
 namespace Objects.Construction
 {
@@ -11,9 +12,6 @@ namespace Objects.Construction
 	public class ReinforcedGirder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn, IExaminable
 	{
 		private TileChangeManager tileChangeManager;
-
-		private RegisterObject registerObject;
-		private ObjectBehaviour objectBehaviour;
 
 		private bool strutsUnsecured;
 
@@ -28,9 +26,7 @@ namespace Objects.Construction
 		private void Start()
 		{
 			tileChangeManager = GetComponentInParent<TileChangeManager>();
-			registerObject = GetComponent<RegisterObject>();
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
-			objectBehaviour = GetComponent<ObjectBehaviour>();
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -64,7 +60,7 @@ namespace Objects.Construction
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.PlasteelSheet))
 			{
-				if (!strutsUnsecured)
+				if (strutsUnsecured == false)
 				{
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 5f,
 						"You start finalizing the reinforced wall...",
@@ -76,7 +72,7 @@ namespace Objects.Construction
 			}
 			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
 			{
-				if (!strutsUnsecured)
+				if (strutsUnsecured == false)
 				{
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 						"You start unsecuring the support struts...",
@@ -108,7 +104,7 @@ namespace Objects.Construction
 						{
 							Spawn.ServerPrefab(girder, SpawnDestination.At(gameObject));
 							Spawn.ServerPrefab(CommonPrefabs.Instance.Plasteel, SpawnDestination.At(gameObject));
-							Despawn.ServerSingle(gameObject);
+							_ = Despawn.ServerSingle(gameObject);
 						});
 				}
 			}
@@ -124,9 +120,9 @@ namespace Objects.Construction
 		[Server]
 		private void ConstructReinforcedWall(HandApply interaction)
 		{
-			tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), reinforcedWallTile);
+			tileChangeManager.MetaTileMap.SetTile(Vector3Int.RoundToInt(transform.localPosition), reinforcedWallTile);
 			interaction.HandObject.GetComponent<Stackable>().ServerConsume(1);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 	}
 }

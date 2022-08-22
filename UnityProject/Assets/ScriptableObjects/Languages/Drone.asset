@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dd0f7f114fd41d9802a9e350cd8a2ea, type: 3}
+  m_Name: Drone
+  m_EditorClassIdentifier: 
+  languageName: Drone
+  languageUniqueId: 12
+  desc: A heavily encoded damage control coordination stream, with special flags
+    for hats.
+  key: 100
+  sentenceChance: 0
+  spaceChance: 0
+  priority: 20
+  sprite: {fileID: 21300000, guid: c5c9f260e1fe2864aacaf07c8802d208, type: 3}
+  chatSprite: {fileID: 11400000, guid: 7e4167988cb147a4d8d7c726a93ca795, type: 2}
+  flags: 0
+  syllables:
+  - .
+  - '|'
+  syllablesString: '".", "|"'

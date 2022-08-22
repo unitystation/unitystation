@@ -2,16 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using AddressableReferences;
 using Initialisation;
+using Map;
 using Messages.Server.SoundMessages;
 using Objects.Command;
 using Objects.Wallmounts;
+using Player.Language;
 using Strings;
 using UnityEngine;
 using Random = UnityEngine.Random;
-
+using StationObjectives;
 
 namespace Managers
 {
@@ -23,8 +24,9 @@ namespace Managers
 		private GameObject paperPrefab = default;
 
 		public StatusDisplayUpdateEvent OnStatusDisplayUpdate = new StatusDisplayUpdateEvent();
-		[NonSerialized] public string CommandStatusString;
-		[NonSerialized] public string EscapeShuttleTimeString;
+		public event Action OnAlertLevelChange;
+		[NonSerialized] public string CommandStatusString = string.Empty;
+		[NonSerialized] public string EscapeShuttleTimeString = string.Empty;
 
 		public void UpdateStatusDisplay(StatusDisplayChannel channel, string text)
 		{
@@ -44,9 +46,11 @@ namespace Managers
 
 		[NonSerialized] public AlertLevel CurrentAlertLevel;
 
+		public bool IsLowPop = false;
+
 		//Server only:
-		private List<Vector2> asteroidLocations = new List<Vector2>();
-		private int plasmaOrderRequestAmt;
+		public static List<Vector2> asteroidLocations = new List<Vector2>();
+
 		public DateTime lastAlertChange;
 		public double coolDownAlertChange = 5;
 
@@ -58,20 +62,21 @@ namespace Managers
 		{
 			updateTypes = new Dictionary<UpdateSound, AddressableAudioSource>
 			{
-				{UpdateSound.Notice, SingletonSOSounds.Instance.Notice2},
-				{UpdateSound.Alert, SingletonSOSounds.Instance.Notice1},
-				{UpdateSound.Announce, SingletonSOSounds.Instance.AnnouncementAnnounce}
+				{UpdateSound.Notice, CommonSounds.Instance.Notice2},
+				{UpdateSound.Alert, CommonSounds.Instance.Notice1},
+				{UpdateSound.Announce, CommonSounds.Instance.AnnouncementAnnounce},
+				{UpdateSound.CentComAnnounce, CommonSounds.Instance.AnnouncementCentCom}
 			};
 		}
 
 		private void OnEnable()
 		{
-			EventManager.AddHandler(EVENT.RoundStarted, OnRoundStart);
+			EventManager.AddHandler(Event.RoundStarted, OnRoundStart);
 		}
 
 		private void OnDisable()
 		{
-			EventManager.RemoveHandler(EVENT.RoundStarted, OnRoundStart);
+			EventManager.RemoveHandler(Event.RoundStarted, OnRoundStart);
 		}
 
 		private void OnRoundStart()
@@ -79,6 +84,8 @@ namespace Managers
 			asteroidLocations.Clear();
 			ChangeAlertLevel(initialAlertLevel, false);
 			StartCoroutine(WaitToPrepareReport());
+			IsLowPop = false;
+			if(CustomNetworkManager.IsServer) StartCoroutine(LowpopCheck());
 		}
 
 		private IEnumerator WaitToPrepareReport()
@@ -90,7 +97,7 @@ namespace Managers
 				yield break;
 			}
 
-			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementWelcome);
+			_ = SoundManager.PlayNetworked(CommonSounds.Instance.AnnouncementWelcome);
 
 			yield return WaitFor.Seconds(60f);
 
@@ -112,7 +119,6 @@ namespace Managers
 
 			//Shuffle the list:
 			asteroidLocations = asteroidLocations.OrderBy(x => Random.value).ToList();
-			plasmaOrderRequestAmt = Random.Range(5, 50);
 
 
 			// Checks if there will be antags this round and sets the initial update/report
@@ -125,27 +131,22 @@ namespace Managers
 			{
 				SendExtendedUpdate();
 			}
-
+			StationObjectiveManager.Instance.ServerChooseObjective();
 			StartCoroutine(WaitToGenericReport());
 		}
 
 		private void SendExtendedUpdate()
 		{
-			MakeAnnouncement(ChatTemplates.CentcomAnnounce, string.Format(ReportTemplates.InitialUpdate, ReportTemplates.ExtendedInitial),
-				UpdateSound.Notice);
-			SpawnReports(StationObjectiveReport());
+			var message = string.Format(ReportTemplates.InitialUpdate, ReportTemplates.ExtendedInitial);
+			MakeAnnouncement(ChatTemplates.CentcomAnnounce, message, UpdateSound.Notice);
 		}
+
 		private void SendAntagUpdate()
 		{
-			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementIntercept);
-			MakeAnnouncement(
-				ChatTemplates.CentcomAnnounce,
-				string.Format(
-					ReportTemplates.InitialUpdate,
-					ReportTemplates.AntagInitialUpdate+"\n\n"+
-					ChatTemplates.GetAlertLevelMessage(AlertLevelChange.UpToBlue)),
-				UpdateSound.Alert);
-			SpawnReports(StationObjectiveReport());
+			_ = SoundManager.PlayNetworked(CommonSounds.Instance.AnnouncementIntercept);
+			var message = string.Format(ReportTemplates.InitialUpdate,
+					$"{ReportTemplates.AntagInitialUpdate}\n\n{ChatTemplates.GetAlertLevelMessage(AlertLevelChange.UpToBlue)}");
+			MakeAnnouncement(ChatTemplates.CentcomAnnounce, message, UpdateSound.Alert);
 			SpawnReports(ReportTemplates.AntagThreat);
 			ChangeAlertLevel(AlertLevel.Blue, false);
 		}
@@ -161,6 +162,26 @@ namespace Managers
 
 			yield return WaitFor.Seconds(10);
 			MakeAnnouncement(ChatTemplates.CentcomAnnounce, PlayerUtils.GetGenericReport(), UpdateSound.Announce);
+		}
+
+		private IEnumerator LowpopCheck()
+		{
+			yield return WaitFor.Seconds(Application.isEditor ? 30 : gameManager.LowPopCheckTimeAfterRoundStart);
+			if(PlayerList.Instance.GetAlivePlayers().Count > gameManager.LowPopLimit) yield break;
+			IsLowPop = true;
+			MakeAnnouncement(ChatTemplates.CentcomAnnounce,
+				"Due to the shortage of staff on the station; We have granted additional access to all crew members until further notice."
+				, UpdateSound.Announce);
+
+			var idsSpawned = FindObjectsOfType<IDCard>();
+			foreach (var card in idsSpawned)
+			{
+				if(card.Occupation == null) continue;
+				foreach (var access in card.Occupation.IssuedLowPopClearance)
+				{
+					card.ServerAddAccess(access);
+				}
+			}
 		}
 
 		/// <summary>
@@ -194,6 +215,7 @@ namespace Managers
 
 			lastAlertChange = gameManager.stationTime;
 			CurrentAlertLevel = toLevel;
+			OnAlertLevelChange?.Invoke();
 		}
 
 		/// <summary>
@@ -215,16 +237,19 @@ namespace Managers
 		/// Makes and announce a written report that will spawn at all comms consoles. Must be called on server.
 		/// </summary>
 		/// <param name="text">String that will be the report body</param>
-		/// <param name="type">Value from the UpdateSound enum to play as sound when announcing</param>
-		public void MakeCommandReport(string text, UpdateSound type)
+		/// <param name="loudAnnouncement">Play as sound when announcing</param>
+		public void MakeCommandReport(string text, bool loudAnnouncement = true)
 		{
 			SpawnReports(text);
 
-			Chat.AddSystemMsgToChat(string.Format(ChatTemplates.CentcomAnnounce, ChatTemplates.CommandNewReport), MatrixManager.MainStationMatrix);
+			if (loudAnnouncement)
+			{
+				Chat.AddSystemMsgToChat(string.Format(ChatTemplates.CentcomAnnounce, ChatTemplates.CommandNewReport), MatrixManager.MainStationMatrix, LanguageManager.Common);
 
-			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
-			_ = SoundManager.PlayNetworked(updateTypes[type], audioSourceParameters);
-			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementCommandReport);
+				AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
+				_ = SoundManager.PlayNetworked(updateTypes[UpdateSound.Notice], audioSourceParameters);
+				_ = SoundManager.PlayNetworked(CommonSounds.Instance.AnnouncementCommandReport);
+			}
 		}
 
 		/// <summary>
@@ -232,68 +257,56 @@ namespace Managers
 		/// </summary>
 		/// <param name="template">String that will be the header of the annoucement. We have a couple ready to use </param>
 		/// <param name="text">String that will be the message body</param>
-		/// <param name="type">Value from the UpdateSound enum to play as sound when announcing</param>
-		public static void MakeAnnouncement( string template, string text, UpdateSound type )
+		/// <param name="soundType">Value from the UpdateSound enum to play as sound when announcing</param>
+		/// <param name="language">Language to announce in (null for common)</param>
+		public static void MakeAnnouncement(string template, string text, UpdateSound soundType, LanguageSO language = null)
 		{
-			if ( text.Trim() == string.Empty )
+			if (string.IsNullOrWhiteSpace(text)) return;
+
+			if (soundType != UpdateSound.NoSound)
 			{
-				return;
+				_ = SoundManager.PlayNetworked(updateTypes[soundType]);
 			}
 
-			if (type != UpdateSound.NoSound)
-			{
-				_ = SoundManager.PlayNetworked( updateTypes[type] );
-			}
-
-			Chat.AddSystemMsgToChat(string.Format( template, text ), MatrixManager.MainStationMatrix);
+			Chat.AddSystemMsgToChat(string.Format(template, text), MatrixManager.MainStationMatrix, language.OrNull() ?? LanguageManager.Common);
 		}
 
 		/// <summary>
 		/// Text should be no less than 10 chars
 		/// </summary>
-		public static void MakeShuttleCallAnnouncement( string minutes, string text, bool bypassLength = false )
+		public static void MakeShuttleCallAnnouncement(int seconds, string text, bool bypassLength = false)
 		{
 			if (!bypassLength && (text.Trim() == string.Empty || text.Trim().Length < 10))
 			{
 				return;
 			}
 
-			Chat.AddSystemMsgToChat(
-				string.Format(ChatTemplates.PriorityAnnouncement, string.Format(ChatTemplates.ShuttleCallSub,minutes,text) ),
-				MatrixManager.MainStationMatrix);
+			var timeSpan = TimeSpan.FromSeconds(seconds);
+			var timeStr = timeSpan.Seconds > 0
+					? $"{timeSpan.Minutes} minutes and {timeSpan.Seconds} seconds"
+					: $"{timeSpan.Minutes} minutes";
+			var message = string.Format(ChatTemplates.PriorityAnnouncement, string.Format(ChatTemplates.ShuttleCallSub, timeStr, text));
+			Chat.AddSystemMsgToChat(message, MatrixManager.MainStationMatrix, LanguageManager.Common);
 
-			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.ShuttleCalled);
+			_ = SoundManager.PlayNetworked(CommonSounds.Instance.ShuttleCalled);
 		}
 
 		/// <summary>
 		/// Text can be empty
 		/// </summary>
-		public static void MakeShuttleRecallAnnouncement( string text )
+		public static void MakeShuttleRecallAnnouncement(string text)
 		{
-			Chat.AddSystemMsgToChat(
-				string.Format(ChatTemplates.PriorityAnnouncement, string.Format(ChatTemplates.ShuttleRecallSub,text)),
-				MatrixManager.MainStationMatrix);
+			var message = string.Format(ChatTemplates.PriorityAnnouncement, string.Format(ChatTemplates.ShuttleRecallSub, text));
+			Chat.AddSystemMsgToChat(message, MatrixManager.MainStationMatrix, LanguageManager.Common);
 
-			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.ShuttleRecalled);
-		}
-
-		private string StationObjectiveReport()
-		{
-			var report = new StringBuilder();
-			report.AppendFormat(ReportTemplates.StationObjective, plasmaOrderRequestAmt);
-
-			foreach (var location in asteroidLocations)
-			{
-				report.AppendFormat(" <size=24>{0}</size> ", Vector2Int.RoundToInt(location));
-			}
-
-			return report.ToString();
+			_ = SoundManager.PlayNetworked(CommonSounds.Instance.ShuttleRecalled);
 		}
 
 		public enum UpdateSound {
 			Notice,
 			Alert,
 			Announce,
+			CentComAnnounce,
 			NoSound
 		}
 

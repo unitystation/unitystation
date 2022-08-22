@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5548865049419815918
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5548865049419815916}
+  - component: {fileID: 3829625937906784784}
+  m_Layer: 0
+  m_Name: Solar Dust Disease
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5548865049419815916
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5548865049419815918}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 97.05284, y: 71.06936, z: -7.248047}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3829625937906784784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5548865049419815918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b49d16d5a2d48542b7304ec1fbe47b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sicknessName: Solar Dust Disease
+  Contagious: 1
+  ContagiousRadius: 6
+  infectOtherChance: 50
+  NumberOfStages: 1
+  TicksToPogressStages: 50
+  PossibleCures:
+  - {fileID: 11400000, guid: 0cd9df4b4b8ad49db9e796a7be9e8b2d, type: 2}
+  - {fileID: 11400000, guid: f888c5ebe34bb0a799e6a9c29c25c859, type: 2}
+  - {fileID: 11400000, guid: 2a03fe847793f1d4f8ae1c6215012ec4, type: 2}
+  - {fileID: 11400000, guid: b177c12e9da3b4d2f810770d34c29ca3, type: 2}
+  ImmuneRaces: []
+  CureForSickness: {fileID: 0}
+  CureHints: []
+  emoteFeedback: {fileID: 11400000, guid: 5d61ca3eb68b81946b8226b482703158, type: 2}
+  cooldownTime: 60
+  IsOnCooldown: 0
+  PlayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  damageToDo: 2
+  chanceToDamage: 50
+  specficBodyPartsToTarget: []
+  attackType: 10
+  damageType: 2
+  hasCooldown: 1

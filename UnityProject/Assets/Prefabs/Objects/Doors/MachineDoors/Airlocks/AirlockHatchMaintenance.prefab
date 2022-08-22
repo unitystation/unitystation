@@ -9,6 +9,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 756101886946539224, guid: 1172c577b92e17940afd7e1729f184f6,
         type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: cb9ac36cfb96d3e49870636cd69a3839,
+        type: 2}
+    - target: {fileID: 756101886946539224, guid: 1172c577b92e17940afd7e1729f184f6,
+        type: 3}
       propertyPath: SubCatalogue.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: cb9ac36cfb96d3e49870636cd69a3839,
@@ -31,12 +37,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 966f7831939f56e46a673e2a031d27f4,
         type: 2}
-    - target: {fileID: 756101886946539224, guid: 1172c577b92e17940afd7e1729f184f6,
+    - target: {fileID: 1367932057323111300, guid: 1172c577b92e17940afd7e1729f184f6,
         type: 3}
-      propertyPath: PresentSpriteSet
+      propertyPath: restriction
+      value: 49
+      objectReference: {fileID: 0}
+    - target: {fileID: 2015627884556719740, guid: 1172c577b92e17940afd7e1729f184f6,
+        type: 3}
+      propertyPath: airlockAssemblyPrefab
       value: 
-      objectReference: {fileID: 11400000, guid: cb9ac36cfb96d3e49870636cd69a3839,
-        type: 2}
+      objectReference: {fileID: 8874411181994391545, guid: 078f328361ba94e4983ffddcdf5c28a9,
+        type: 3}
+    - target: {fileID: 2676618347523768495, guid: 1172c577b92e17940afd7e1729f184f6,
+        type: 3}
+      propertyPath: isWindowedDoor
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3209724581869077298, guid: 1172c577b92e17940afd7e1729f184f6,
         type: 3}
       propertyPath: initialName
@@ -45,12 +61,17 @@ PrefabInstance:
     - target: {fileID: 4463937754239363424, guid: 1172c577b92e17940afd7e1729f184f6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: cd57a2813ebc4ff4caf28b5fb793b3eb
       objectReference: {fileID: 0}
     - target: {fileID: 5201312833239833602, guid: 1172c577b92e17940afd7e1729f184f6,
         type: 3}
       propertyPath: m_Name
       value: AirlockHatchMaintenance
+      objectReference: {fileID: 0}
+    - target: {fileID: 5204881048006630104, guid: 1172c577b92e17940afd7e1729f184f6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5204881048006630104, guid: 1172c577b92e17940afd7e1729f184f6,
         type: 3}
@@ -69,6 +90,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5204881048006630104, guid: 1172c577b92e17940afd7e1729f184f6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5204881048006630104, guid: 1172c577b92e17940afd7e1729f184f6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -81,16 +107,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5204881048006630104, guid: 1172c577b92e17940afd7e1729f184f6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5204881048006630104, guid: 1172c577b92e17940afd7e1729f184f6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5204881048006630104, guid: 1172c577b92e17940afd7e1729f184f6,
         type: 3}
@@ -113,5 +129,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: d3ae255c27f0cd142a3c8bda62a9d16c,
         type: 3}
+    - target: {fileID: 8403779186562426336, guid: 1172c577b92e17940afd7e1729f184f6,
+        type: 3}
+      propertyPath: requiredClearance.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403779186562426336, guid: 1172c577b92e17940afd7e1729f184f6,
+        type: 3}
+      propertyPath: requiredClearance.Array.data[0]
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 9178105502826504779, guid: 1172c577b92e17940afd7e1729f184f6,
+        type: 3}
+      propertyPath: foreverID
+      value: cd57a2813ebc4ff4caf28b5fb793b3eb
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1172c577b92e17940afd7e1729f184f6, type: 3}

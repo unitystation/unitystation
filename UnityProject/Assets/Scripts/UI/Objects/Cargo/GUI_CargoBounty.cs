@@ -1,17 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UI.Core.NetUI;
 using Systems.Cargo;
+using UI.Core;
 
 namespace UI.Objects.Cargo
 {
 	public class GUI_CargoBounty : DynamicEntry
 	{
-		public NetLabel bountyDescription;
+		[SerializeField] private NetText_label bountyTitle;
+		[SerializeField] private NetText_label InvisblebountyDescription;
 
 		public void SetValues(CargoBounty cargoBounty)
 		{
-			bountyDescription.SetValueServer($"{cargoBounty.Reward.ToString()} credits - {cargoBounty.Description}");
+			bountyTitle.SetValueServer($"{cargoBounty.Reward} credits - {cargoBounty.Title}");
+			InvisblebountyDescription.SetValueServer(cargoBounty.TooltipDescription);
 		}
 	}
 }

@@ -10,16 +10,11 @@ PrefabInstance:
     - target: {fileID: 1762559375258620544, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: c94f53739ec30f24796b1d324c1629ca
       objectReference: {fileID: 0}
     - target: {fileID: 1763821028001201856, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
-      propertyPath: Resistances.Flammable
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1763821028001201856, guid: 6224e1266c75b0643bd1cef8fbb6e615,
-        type: 3}
-      propertyPath: Armor.Melee
+      propertyPath: Armor.Acid
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1763821028001201856, guid: 6224e1266c75b0643bd1cef8fbb6e615,
@@ -29,13 +24,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1763821028001201856, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
-      propertyPath: Armor.Acid
+      propertyPath: Armor.Melee
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1763821028001201856, guid: 6224e1266c75b0643bd1cef8fbb6e615,
+        type: 3}
+      propertyPath: Resistances.Flammable
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1865031144277094196, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
       propertyPath: m_Name
       value: SignBackingItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
@@ -54,6 +59,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -66,16 +76,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
@@ -98,11 +98,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 23da19cf115b5194da5263d984dfb476,
         type: 3}
+    - target: {fileID: 1950092092420660328, guid: 6224e1266c75b0643bd1cef8fbb6e615,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2237287659307319382, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
-      propertyPath: initialDescription
-      value: A plastic sign backing, use a pen to change the decal. It can be placed
-        on a wall.
+      propertyPath: initialName
+      value: sign backing
       objectReference: {fileID: 0}
     - target: {fileID: 2237287659307319382, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
@@ -111,8 +115,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2237287659307319382, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
-      propertyPath: initialName
-      value: sign backing
+      propertyPath: initialDescription
+      value: A plastic sign backing, use a pen to change the decal. It can be placed
+        on a wall.
       objectReference: {fileID: 0}
     - target: {fileID: 2857779259520588454, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
@@ -120,6 +125,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 433459132682432923, guid: b499b9e7f162a3b4a90d751b03b4ccf6,
         type: 3}
+    - target: {fileID: 4709448089315222361, guid: 6224e1266c75b0643bd1cef8fbb6e615,
+        type: 3}
+      propertyPath: foreverID
+      value: c94f53739ec30f24796b1d324c1629ca
+      objectReference: {fileID: 0}
     - target: {fileID: 5523652600883287219, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
       propertyPath: PresentSpriteSet

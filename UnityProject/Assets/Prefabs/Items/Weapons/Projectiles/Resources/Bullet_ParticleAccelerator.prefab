@@ -23,6 +23,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 46a7577f4ebde97419b52eba140d42d5,
         type: 2}
+    - target: {fileID: 2567080129922137229, guid: f8f5682e74c42bb45851c71a4b53b20b,
+        type: 3}
+      propertyPath: initialVariantIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2678535146407671852, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
       propertyPath: damageData
@@ -43,7 +48,7 @@ PrefabInstance:
     - target: {fileID: 4030776248151696319, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 51e37bcfda438bc45bae02a757a88dbb
       objectReference: {fileID: 0}
     - target: {fileID: 4383945307501813551, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
@@ -115,7 +120,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300010, guid: fefb44275932fd5479080c95bd789b8a,
+      objectReference: {fileID: 21300002, guid: fefb44275932fd5479080c95bd789b8a,
         type: 3}
     - target: {fileID: 5134017693424603158, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}

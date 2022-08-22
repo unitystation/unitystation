@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Shared.Systems.ObjectConnection;
 using UnityEngine;
 
 namespace Objects.Engineering
 {
-	public class BoilerTurbineController : MonoBehaviour, ISetMultitoolSlave
+	public class BoilerTurbineController : MonoBehaviour, IMultitoolSlaveable
 	{
 		public bool State = false;
 		public ReactorBoiler ReactorBoiler = null;
@@ -16,23 +16,43 @@ namespace Objects.Engineering
 			State = !State;
 		}
 
-		//######################################## Multitool interaction ##################################
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.BoilerTurbine;
-		public MultitoolConnectionType ConType => conType;
+		#region Multitool Interaction
 
-		public void SetMaster(ISetMultitoolMaster Imaster)
+		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.BoilerTurbine;
+		IMultitoolMasterable IMultitoolSlaveable.Master => linkedMaster;
+		bool IMultitoolSlaveable.RequireLink => true;
+		bool IMultitoolSlaveable.TrySetMaster(GameObject performer, IMultitoolMasterable master)
 		{
-			var boiler = (Imaster as Component)?.gameObject.GetComponent<ReactorBoiler>();
-			if (boiler != null)
+			SetMaster(master);
+			return true;
+		}
+		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
+		{
+			SetMaster(master);
+		}
+
+		private IMultitoolMasterable linkedMaster;
+
+		private void SetMaster(IMultitoolMasterable master)
+		{
+			if (master is ReactorBoiler boiler)
 			{
+				linkedMaster = master;
 				ReactorBoiler = boiler;
 			}
-			var Turbine = (Imaster as Component)?.gameObject.GetComponent<ReactorTurbine>();
-			if (Turbine != null)
+			else if (master is ReactorTurbine turbine)
 			{
-				ReactorTurbine = Turbine;
+				linkedMaster = master;
+				ReactorTurbine = turbine;
+			}
+			else
+			{
+				linkedMaster = null;
+				ReactorBoiler = null;
+				ReactorTurbine = null;
 			}
 		}
+
+		#endregion
 	}
 }

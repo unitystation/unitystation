@@ -12,10 +12,25 @@ PrefabInstance:
       propertyPath: bodyPartsCovered
       value: 240
       objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: cda0c7d60b6a643279489d6c9a64d208,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: cda0c7d60b6a643279489d6c9a64d208,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: cda0c7d60b6a643279489d6c9a64d208,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[4].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2909197017712554513, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 7aed3ab769eed2841b559ecec3774a85
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
@@ -94,18 +109,21 @@ PrefabInstance:
       value: It's a jumpskirt worn by someone who works in the position of "Head
         of Personnel".
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: cda0c7d60b6a643279489d6c9a64d208,
+        type: 3}
+      propertyPath: foreverID
+      value: 7aed3ab769eed2841b559ecec3774a85
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: e77702bd28b8d8f49a829e8e0b6bdb0f,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: e77702bd28b8d8f49a829e8e0b6bdb0f,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
       propertyPath: allClothingData.Array.size

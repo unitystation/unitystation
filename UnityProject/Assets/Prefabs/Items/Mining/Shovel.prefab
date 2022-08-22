@@ -58,7 +58,7 @@ PrefabInstance:
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 1488f67a55cb9b84098e095e65e5a2b3
       objectReference: {fileID: 0}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -90,11 +90,6 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: shovel
-      objectReference: {fileID: 0}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: initialSize
-      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -276,6 +271,11 @@ PrefabInstance:
         type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: foreverID
+      value: 1488f67a55cb9b84098e095e65e5a2b3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}

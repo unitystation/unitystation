@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: PineappleSlicesRecipe
+  m_EditorClassIdentifier: 
+  category: 3
+  craftingTime: 0.5
+  recipeName: Pineapple Slices
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 287715885439681166, guid: e136178119114c2429e06645a20376c1,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits:
+  - {fileID: 11400000, guid: 5beae98557a654ea6acad86c309950af, type: 2}
+  result:
+  - {fileID: 439626312426970334, guid: f12645657338dd04caed40797327f674, type: 3}
+  - {fileID: 439626312426970334, guid: f12645657338dd04caed40797327f674, type: 3}
+  - {fileID: 439626312426970334, guid: f12645657338dd04caed40797327f674, type: 3}
+  resultHandlers: []
+  isSimple: 1
+  indexInSingleton: 291

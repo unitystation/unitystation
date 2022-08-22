@@ -1,21 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Systems.Atmospherics;
-using Systems.Radiation;
-using HealthV2;
-using Light2D;
-using Mirror;
-using Objects.Engineering;
-using ScriptableObjects.Gun;
 using UnityEngine;
+using Mirror;
+using Light2D;
+using HealthV2;
+using Systems.Pipes;
+using Systems.Radiation;
+using Systems.Explosions;
+using Objects.Engineering;
 using Weapons.Projectiles.Behaviours;
 using Random = UnityEngine.Random;
+using Tiles;
+
 
 namespace Objects
 {
 	public class Singularity : NetworkBehaviour, IOnHitDetect, IExaminable
 	{
+
+		[SyncVar(hook = nameof(SyncCurrentStage))]
 		private SingularityStages currentStage = SingularityStages.Stage0;
 
 		private readonly float updateFrequency = 0.5f;
@@ -41,8 +45,6 @@ namespace Objects
 		[SyncVar(hook = nameof(SyncDynamicScale))]
 		private Vector3 dynamicScale = Vector3.one;
 
-		private float maxScaleMultiplier;
-
 		[SerializeField]
 		private SingularityStages startingStage = SingularityStages.Stage0;
 
@@ -59,7 +61,13 @@ namespace Objects
 		private float maxRadiation = 5000f;
 
 		[SerializeField]
-		private LightSprite light = null;
+		private GameObject WarpEffectFront;
+
+		[SerializeField]
+		private GameObject WarpEffectBack;
+
+		[SerializeField]
+		private new LightSprite light = null;
 
 		[SerializeField]
 		[Tooltip("Allows singularity to be stage 6")]
@@ -81,13 +89,18 @@ namespace Objects
 		private Transform lightTransform;
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
-		private CustomNetTransform customNetTransform;
+		private UniversalObjectPhysics ObjectPhysics;
 		private int objectId;
+
+		private BoxCollider2D boxCollider2D;
+
+		private Material WarpEffectFrontMat;
+		private Material WarpEffectBackMat;
 
 		private int lockTimer;
 		private bool pointLock;
 
-		private List<Pipes.PipeNode> SavedPipes = new List<Pipes.PipeNode>();
+		private List<PipeNode> SavedPipes = new List<PipeNode>();
 
 		private HashSet<GameObject> pushRecently = new HashSet<GameObject>();
 		private int pushTimer;
@@ -115,10 +128,15 @@ namespace Objects
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
-			customNetTransform = GetComponent<CustomNetTransform>();
+			ObjectPhysics = GetComponent<UniversalObjectPhysics>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
+			boxCollider2D = GetComponent<BoxCollider2D>();
+
 			lightTransform = light.transform;
 			objectId = GetInstanceID();
+
+			WarpEffectFrontMat = WarpEffectFront.GetComponent<MeshRenderer>().materials[0];
+			WarpEffectBackMat = WarpEffectBack.GetComponent<MeshRenderer>().materials[0];
 		}
 
 		private void Start()
@@ -154,6 +172,13 @@ namespace Objects
 			}
 
 			gameObject.transform.LeanScale(newScale, updateFrequency);
+
+		}
+
+		private void SyncCurrentStage(SingularityStages oldStage, SingularityStages newStage)
+		{
+			currentStage = newStage;
+			UpdateWarpFX(currentStage);
 		}
 
 		#endregion
@@ -163,7 +188,7 @@ namespace Objects
 		/// </summary>
 		private void SingularityUpdate()
 		{
-			if(!CustomNetworkManager.IsServer) return;
+			if(CustomNetworkManager.IsServer == false) return;
 
 			pushTimer++;
 
@@ -186,8 +211,8 @@ namespace Objects
 			if (singularityPoints <= 0 && zeroPointDeath)
 			{
 				Chat.AddLocalMsgToChat("The singularity implodes", gameObject);
-				RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, maxRadiation, objectId);
-				Despawn.ServerSingle(gameObject);
+				RadiationManager.Instance.RequestPulse( registerTile.WorldPositionServer, maxRadiation, objectId);
+				_ = Despawn.ServerSingle(gameObject);
 				return;
 			}
 
@@ -210,10 +235,21 @@ namespace Objects
 			// will sync to clients
 			dynamicScale = GetDynamicScale();
 
-			//Radiation Pulse
-			var strength = Mathf.Max(((float) CurrentStage + 1) / 6 * maxRadiation, 0);
+			ColliderScale();
 
-			RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, strength, objectId);
+			//Radiation Pulse
+			var radStrength = Mathf.Max(((float) CurrentStage + 1) / 6 * maxRadiation, 0);
+
+			RadiationManager.Instance.RequestPulse(registerTile.WorldPositionServer, radStrength, objectId);
+
+			if(DMMath.Prob(5))
+			{
+				int empStrength = Random.Range((int)CurrentStage * 100, (int)CurrentStage * 100 + 300);
+				Vector3Int empPosition = registerTile.WorldPositionServer;
+				empPosition.x += Random.Range(-3 - (int)CurrentStage, 3 + (int)CurrentStage);
+				empPosition.y += Random.Range(-3 - (int)CurrentStage, 3 + (int)CurrentStage);
+				Explosion.StartExplosion(empPosition, empStrength, new ExplosionEmpNode());
+			}
 		}
 
 		#region Throw/Push
@@ -251,7 +287,7 @@ namespace Objects
 			{
 				if (DMMath.Prob(50)) continue;
 
-				var objects = MatrixManager.GetAt<PushPull>(tile, true);
+				var objects = MatrixManager.GetAt<UniversalObjectPhysics>(tile, true);
 
 				foreach (var objectToMove in objects)
 				{
@@ -275,26 +311,16 @@ namespace Objects
 			}
 		}
 
-		private void ThrowItem(PushPull item, Vector3 throwVector)
+		private void ThrowItem(UniversalObjectPhysics item, Vector3 throwVector)
 		{
 			Vector3 vector = item.transform.rotation * throwVector;
-			var spin = RandomSpin();
-			ThrowInfo throwInfo = new ThrowInfo
-			{
-				ThrownBy = gameObject,
-				Aim = BodyPartType.Chest,
-				OriginWorldPos = transform.position,
-				WorldTrajectory = vector,
-				SpinMode = spin
-			};
-
-			CustomNetTransform itemTransform = item.GetComponent<CustomNetTransform>();
+			UniversalObjectPhysics itemTransform = item.GetComponent<UniversalObjectPhysics>();
 			if (itemTransform == null) return;
-			itemTransform.Throw(throwInfo);
+			itemTransform.NewtonianPush(vector,1, 0,0,(BodyPartType) Random.Range(0, 13),  gameObject, 1 );
 			pushRecently.Add(item.gameObject);
 		}
 
-		private void PushObject(PushPull objectToPush, Vector3 pushVector)
+		private void PushObject(UniversalObjectPhysics objectToPush, Vector3 pushVector)
 		{
 			if (CurrentStage == SingularityStages.Stage5 || CurrentStage == SingularityStages.Stage4)
 			{
@@ -307,32 +333,14 @@ namespace Objects
 						$"{objectToPush.gameObject.ExpensiveName()} is knocked down by the singularity");
 				}
 			}
-			else if (objectToPush.IsPushable == false)
+			else if (objectToPush.IsNotPushable)
 			{
 				//Dont push anchored objects unless stage 5 or 4
 				return;
 			}
 
-			//Push Twice
-			objectToPush.QueuePush(pushVector.NormalizeTo2Int());
-			objectToPush.QueuePush(pushVector.NormalizeTo2Int());
-		}
-
-		private SpinMode RandomSpin()
-		{
-			var num = Random.Range(0, 3);
-
-			switch (num)
-			{
-				case 0:
-					return SpinMode.None;
-				case 1:
-					return SpinMode.Clockwise;
-				case 2:
-					return SpinMode.CounterClockwise;
-				default:
-					return SpinMode.Clockwise;
-			}
+			//Force Push Twice
+			objectToPush.NewtonianNewtonPush(pushVector.NormalizeTo2Int(), 10);
 		}
 
 		#endregion
@@ -392,38 +400,45 @@ namespace Objects
 				{
 					if(objectToMove.gameObject == gameObject) continue;
 
+					//Check for player
 					if (objectToMove.ObjectType == ObjectType.Player && objectToMove.TryGetComponent<PlayerHealthV2>(out var health) && health != null)
 					{
-						if (health.RegisterPlayer.PlayerScript != null &&
-						    health.RegisterPlayer.PlayerScript.mind != null &&
-						    health.RegisterPlayer.PlayerScript.mind.occupation != null &&
-						    health.RegisterPlayer.PlayerScript.mind.occupation == OccupationList.Instance.Get(JobType.CLOWN))
+						if (health.RegisterPlayer.PlayerScript.mind?.occupation == OccupationList.Instance.Get(JobType.CLOWN))
 						{
-							health.ServerGibPlayer();
+							health.OnGib();
 							ChangePoints(DMMath.Prob(50) ? -1000 : 1000);
 							return;
 						}
 
-						health.ServerGibPlayer();
+						health.OnGib();
 						ChangePoints(100);
+						return;
 					}
-					else if (objectToMove.TryGetComponent<Integrity>(out var integrity) && integrity != null)
+
+					//Check for objects
+					if (objectToMove.TryGetComponent<Integrity>(out var integrity) && integrity != null)
 					{
+						//Check for field gens and only damage at high level
+						if (objectToMove.TryGetComponent<FieldGenerator>(out var fieldGenerator)
+						    && fieldGenerator != null)
+						{
+							if (CurrentStage != SingularityStages.Stage4 && CurrentStage != SingularityStages.Stage5 &&
+							    fieldGenerator.Energy != 0)
+							{
+								//Stages below 4 can only damage field generators if they have no energy
+								return;
+							}
+						}
+
+						//See if it's a supermatter, uh oh....
 						if (objectToMove.TryGetComponent<SuperMatter>(out var superMatter) && superMatter != null)
 						{
 							//End of the world
 							eatenSuperMatter = true;
 							ChangePoints(3250);
-							Despawn.ServerSingle(objectToMove.gameObject);
-							Chat.AddLocalMsgToChat("<color=red>The singularity expands rapidly, uh oh...</color>", gameObject);
-							return;
-						}
-
-						if (objectToMove.TryGetComponent<FieldGenerator>(out var fieldGenerator)
-						    && fieldGenerator != null
-						    && CurrentStage != SingularityStages.Stage4 && CurrentStage != SingularityStages.Stage5)
-						{
-							//Only stage 4 and 5 can damage field generators
+							_ = Despawn.ServerSingle(objectToMove.gameObject);
+							Chat.AddLocalMsgToChat("<color=red>The singularity expands rapidly, uh oh...</color>",
+								gameObject);
 							return;
 						}
 
@@ -440,7 +455,7 @@ namespace Objects
 			{
 				var matrixInfo = MatrixManager.AtPoint(coord, true);
 
-				var cellPos = MatrixManager.Instance.WorldToLocalInt(coord, matrixInfo.Matrix);
+				var cellPos = MatrixManager.WorldToLocalInt(coord, matrixInfo.Matrix);
 
 				var layerTile = matrixInfo.TileChangeManager.MetaTileMap
 					.GetTile(MatrixManager.WorldToLocalInt(coord, matrixInfo), LayerType.Walls);
@@ -496,12 +511,13 @@ namespace Objects
 					if (MatrixManager.IsPassableAtAllMatricesOneTile(squareCoord, true, false, new List<LayerType>{LayerType.Objects}) == false)
 					{
 						noObstructions = false;
+						break;
 					}
 				}
 			}
 
 			//If could not fit, damage coords around ourself if stage big enough
-			if (!noObstructions)
+			if (noObstructions == false)
 			{
 				if (CurrentStage != SingularityStages.Stage5 && CurrentStage != SingularityStages.Stage4)
 				{
@@ -519,7 +535,7 @@ namespace Objects
 			}
 
 			//Move
-			customNetTransform.SetPosition(coord);
+			ObjectPhysics.AppearAtWorldPositionServer(coord, true);
 		}
 
 		/// <summary>
@@ -619,6 +635,7 @@ namespace Objects
 					if (MatrixManager.IsPassableAtAllMatricesOneTile(squareCoord, true, false) == false)
 					{
 						noObstructions = false;
+						break;
 					}
 				}
 			}
@@ -631,11 +648,53 @@ namespace Objects
 				dynamicScale = Vector3.zero; // keyed value: don't tween; set it to 1x scale immediately
 			}
 		}
+		/// <summary>
+		/// Sets the warp effects in accordance with the correct sprite
+		/// </summary>
+		private void UpdateWarpFX(SingularityStages stage)
+		{
+			float scaledRadius = 0f;
+			float scaledEffect = 0f;
+
+			switch (stage)
+			{
+				case SingularityStages.Stage0:
+					scaledRadius = Mathf.Clamp(0.08f * gameObject.transform.localScale.x, 0.08f,0.15f);
+					scaledEffect = 7f;
+					break;
+				case SingularityStages.Stage1:
+					scaledRadius = Mathf.Clamp(0.26f * gameObject.transform.localScale.x, 0.26f,0.35f);
+					scaledEffect = 9f;
+					break;
+				case SingularityStages.Stage2:
+					scaledRadius = Mathf.Clamp(0.35f * gameObject.transform.localScale.x, 0.35f, 0.6f);
+					scaledEffect = 10f;
+					break;
+				case SingularityStages.Stage3:
+					scaledRadius = Mathf.Clamp(0.55f * gameObject.transform.localScale.x, 0.55f, 0.75f);
+					scaledEffect = 12f;
+					break;
+				case SingularityStages.Stage4:
+					scaledRadius = Mathf.Clamp(0.75f * gameObject.transform.localScale.x, 0.75f, 0.8f);
+					scaledEffect = 15f;
+					break;
+				case SingularityStages.Stage5:
+					scaledRadius = Mathf.Clamp(0.8f * gameObject.transform.localScale.x, 0.8f, 1f);
+					scaledEffect = 20f;
+					break;
+				default:
+					break;
+			}
+
+			WarpEffectFrontMat.SetFloat("_EffectRadius", scaledRadius);
+			WarpEffectBackMat.SetFloat("_EffectRadius", scaledRadius);
+			WarpEffectFrontMat.SetFloat("_EffectAngle", scaledEffect);
+			WarpEffectBackMat.SetFloat("_EffectAngle", scaledEffect);
+		}
 
 		private void UpdateVectors()
 		{
 			int stage = (int)CurrentStage + 1;
-			maxScaleMultiplier = ((float)((stage * 2) + 1) / ((stage * 2) - 1)) - 1;
 			lightVector = new Vector3(5 * stage, 5 * stage, 0);
 		}
 
@@ -667,17 +726,35 @@ namespace Objects
 		{
 			if(data.DamageData.AttackType != AttackType.Rad) return;
 
-			if (data.DamageData.Damage >= 20f)
+			if (data.DamageData.Damage >= 19f)
 			{
 				// PA at any setting will prevent point loss
 				pointLock = true;
 				lockTimer = 20;
 			}
-			if (data.DamageData.Damage > 20f)
+
+			if (data.DamageData.Damage > 21f)
 			{
 				// PA at setting greater than 0 will do 20 damage
 				ChangePoints((int)data.DamageData.Damage);
 			}
+		}
+
+		#endregion
+
+		#region Collider
+
+		private void ColliderScale()
+		{
+			var size = 1;
+
+			if (currentStage != SingularityStages.Stage0)
+			{
+				size = 3;
+			}
+
+			var scale = dynamicScale.x * size;
+			boxCollider2D.size = new Vector2(scale, scale);
 		}
 
 		#endregion
@@ -690,13 +767,15 @@ namespace Objects
 		private Vector3 GetDynamicScale()
 		{
 			int stageNum = (int)CurrentStage;
-			int stageMin = stagePointsBounds[stageNum].Item1;
-			int stageMax = stagePointsBounds[stageNum].Item2;
-			float scale = 1 + ((float) (singularityPoints - stageMin) / (stageMax - stageMin) * maxScaleMultiplier);
+
 			// possible to go below 1 on stage 0 as we define min scale for this stage as 150 points, not 0 (we spawn with 150)
-			scale = Math.Max(scale, 0.5f);
+			int currentPoints = Math.Max(singularityPoints, stagePointsBounds[stageNum].Item1);
+			int stageMax = stagePointsBounds[stageNum].Item2;
+
+			float scale = (currentPoints / (float)stageMax);
+
 			// possible to be scaled further than the size of the next stage -> points exceeds next stage but can't grow (obstructions)
-			scale = Math.Min(scale, maxScaleMultiplier + 1);
+			scale = Math.Min(scale, 1);
 
 			return new Vector3(scale, scale, 1);
 		}

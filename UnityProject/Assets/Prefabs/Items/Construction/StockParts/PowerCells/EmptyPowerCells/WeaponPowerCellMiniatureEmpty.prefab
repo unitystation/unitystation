@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 821293735609805829, guid: bd3d8231022e86e498568076ae000883,
+        type: 3}
+      propertyPath: foreverID
+      value: ec1acdd48cfe36a46acffbd937cc8dcb
+      objectReference: {fileID: 0}
     - target: {fileID: 5004265289773802437, guid: bd3d8231022e86e498568076ae000883,
         type: 3}
       propertyPath: Watts
@@ -15,7 +20,12 @@ PrefabInstance:
     - target: {fileID: 5929936899536002524, guid: bd3d8231022e86e498568076ae000883,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: ec1acdd48cfe36a46acffbd937cc8dcb
+      objectReference: {fileID: 0}
+    - target: {fileID: 6038457975738817820, guid: bd3d8231022e86e498568076ae000883,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6038457975738817820, guid: bd3d8231022e86e498568076ae000883,
         type: 3}
@@ -34,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6038457975738817820, guid: bd3d8231022e86e498568076ae000883,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6038457975738817820, guid: bd3d8231022e86e498568076ae000883,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6038457975738817820, guid: bd3d8231022e86e498568076ae000883,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6038457975738817820, guid: bd3d8231022e86e498568076ae000883,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6038457975738817820, guid: bd3d8231022e86e498568076ae000883,
         type: 3}

@@ -16,11 +16,14 @@ MonoBehaviour:
   isCrewmember: 1
   lateSpawnIsArrivals: 1
   inventoryPopulator: {fileID: 11400000, guid: aeb66e4be690d4b7e9ca83169dc2871a, type: 2}
+  useStandardPopulator: 1
+  useCharacterSettings: 1
   limit: 5
   priority: 88
-  allowedAccess: 1a0000001e0000001f00000020000000220000003100000032000000
+  issuedClearance: 1f0000000a0000000b0000000d0000000c000000
+  issuedLowPopClearance: 1f0000000a0000000b0000000d0000000c000000
   spells: []
-  progress: 50
+  progress: 60
   choiceColor: {r: 1, g: 0.9607843, b: 0.8, a: 1}
   previewSprite: {fileID: 21300000, guid: 43b5f4a4e76c75946ae59cae83ea7c6f, type: 3}
   displayName: Engineer
@@ -28,14 +31,16 @@ MonoBehaviour:
   descriptionShort: "\u2022 Do station repairs\n\u2022 Keep power flowing\n\u2022
     Fix hull breaches"
   descriptionLong: "You are the station\u2019s handyman, always ready and prepared
-    to build and repair whatever that OTHER engineer broke this time. \r\n\r\nYou
+    to build and repair whatever that OTHER engineer broke this time. \r\n\nYour
+    main responsibility is to turn on and maintain the station's power engine and
+    ensure that there are no hull breaches or power failures throughout the station.\n\r\nYou
     are expected to obey the orders from the Chief Engineer and have a good understanding
-    of how construction, repairing and power works. Don\u2019t run off with the hardsuit
-    at the start of the shift!\r\n\r\nNot sure what to do? Try to make the Chief
-    Engineer\u2019s crazy expansion a reality. Patrol the station so you can find
-    breaches and seal them before someone gets spaced. Use your hefty toolbox and
-    be the hero the station needs. Cry because assistants ran off with all of your
-    metal.\r"
+    of how construction, repairing and electricity works. Don\u2019t run off with
+    the hardsuit at the start of the shift!\r\n\r\nNot sure what to do? Try to make
+    the Chief Engineer\u2019s crazy expansion a reality. Patrol the station so you
+    can find breaches and seal them before someone gets spaced. Use your hefty toolbox
+    and be the hero the station needs. Cry because assistants ran off with all of
+    your metal.\r"
   customProperties:
     m_keys: []
     m_values: 
@@ -48,5 +53,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   textColor: {r: 1, g: 0.9607844, b: 0.8000001, a: 1}
   backgroundColor: {r: 1, g: 0, b: 0, a: 0}
+  specialPlayerPrefab: {fileID: 0}

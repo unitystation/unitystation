@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -45,4 +46,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VirtualContainerPrefab: {fileID: 721717256067945856, guid: db8a2e4c2c7146b48abcc5b32a5ccd26,
     type: 3}
+  crawlingVirtualContainerPrefab: {fileID: 1569905260014244245, guid: 5d4af384590c62640ab752c59b27d13c,
+    type: 3}
   TileTraversalsPerSecond: 20
+  disposalEjectionHiss:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/DisposalMachines/DisposalEjectionHiss.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0

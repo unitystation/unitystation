@@ -7,6 +7,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2888345019966124511, guid: ddd85a66da8b22448806f0f8454c01ab,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888345019966124511, guid: ddd85a66da8b22448806f0f8454c01ab,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: fff14bcd0f425ea4592fa927921b161c,
+        type: 2}
     - target: {fileID: 2987011942256334699, guid: ddd85a66da8b22448806f0f8454c01ab,
         type: 3}
       propertyPath: initialName
@@ -31,7 +42,7 @@ PrefabInstance:
     - target: {fileID: 3317552745358689725, guid: ddd85a66da8b22448806f0f8454c01ab,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0038686c411d4f7428723a6a199a8863
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: ddd85a66da8b22448806f0f8454c01ab,
         type: 3}
@@ -97,6 +108,21 @@ PrefabInstance:
         type: 3}
       propertyPath: bodyPartsCovered
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183262993057210465, guid: ddd85a66da8b22448806f0f8454c01ab,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183262993057210465, guid: ddd85a66da8b22448806f0f8454c01ab,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armoringBodyPartType
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8585229615259169892, guid: ddd85a66da8b22448806f0f8454c01ab,
+        type: 3}
+      propertyPath: foreverID
+      value: 0038686c411d4f7428723a6a199a8863
       objectReference: {fileID: 0}
     - target: {fileID: 8638853748845472652, guid: ddd85a66da8b22448806f0f8454c01ab,
         type: 3}

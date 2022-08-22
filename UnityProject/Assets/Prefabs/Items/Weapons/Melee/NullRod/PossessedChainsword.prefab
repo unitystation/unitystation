@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 548610801709823301, guid: 7e7b4be15b786a3409887818a46638f3,
+        type: 3}
+      propertyPath: foreverID
+      value: 2e992a6058dae6d41a9ac3f5b67575f4
+      objectReference: {fileID: 0}
     - target: {fileID: 748064064241009327, guid: 7e7b4be15b786a3409887818a46638f3,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -22,6 +27,16 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: Suffer not a heretic to live.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6470034178287949386, guid: 7e7b4be15b786a3409887818a46638f3,
+        type: 3}
+      propertyPath: traumaDamageChance
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 6470034178287949386, guid: 7e7b4be15b786a3409887818a46638f3,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6470034178287949386, guid: 7e7b4be15b786a3409887818a46638f3,
         type: 3}
@@ -80,7 +95,7 @@ PrefabInstance:
     - target: {fileID: 6823941768137835676, guid: 7e7b4be15b786a3409887818a46638f3,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 2e992a6058dae6d41a9ac3f5b67575f4
       objectReference: {fileID: 0}
     - target: {fileID: 6856650693142427944, guid: 7e7b4be15b786a3409887818a46638f3,
         type: 3}

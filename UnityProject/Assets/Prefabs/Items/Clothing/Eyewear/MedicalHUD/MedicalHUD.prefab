@@ -7,6 +7,28 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2463530834916383129, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2463530834916383129, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 8221091aafab41949a0967eef199a43d,
+        type: 2}
+    - target: {fileID: 2463530834916383129, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: fff14bcd0f425ea4592fa927921b161c,
+        type: 2}
+    - target: {fileID: 2463530834916383129, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2546418124722880301, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
       propertyPath: itemName
@@ -37,7 +59,7 @@ PrefabInstance:
     - target: {fileID: 2607336686439034363, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: ddd85a66da8b22448806f0f8454c01ab
       objectReference: {fileID: 0}
     - target: {fileID: 2713605000496459067, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
@@ -115,12 +137,22 @@ PrefabInstance:
       propertyPath: bodyPartsCovered
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3470201379774433319, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8141721191079898056, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: de8291b682aabb148b0b57cef1cc73c0,
         type: 2}
+    - target: {fileID: 9007641923583695906, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+        type: 3}
+      propertyPath: foreverID
+      value: ddd85a66da8b22448806f0f8454c01ab
+      objectReference: {fileID: 0}
     - target: {fileID: 9062951044728521674, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
       propertyPath: clothData

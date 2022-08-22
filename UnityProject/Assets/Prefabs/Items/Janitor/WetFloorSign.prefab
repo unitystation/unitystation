@@ -1,40 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8338575037906891904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2419386692754613975}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  currentClothData: {fileID: 11400000, guid: 02d07b1e8dc72e14d8d7c99082530b99, type: 2}
-  allClothingData:
-  - {fileID: 11400000, guid: 7edd6ca79c0e81440912e98aef899d45, type: 2}
-  randomInitialClothData: 0
-  hidesIdentity: 0
-  hidesSlots: 0
-  hideClothingFlags: 0
---- !u!114 &-4598349017229395501
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2419386692754613975}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3307020aa3640594a870e4961a6de749, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slot: 0
-  bodyPartsCovered: 144
 --- !u!1001 &2418701848222554733
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -93,7 +58,7 @@ PrefabInstance:
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 6603caafe8df84b4da1c797343cdf8c6
       objectReference: {fileID: 0}
     - target: {fileID: 114883521337486670, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -286,6 +251,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b53dc3b0a84769f47b45ca590d630c20,
         type: 2}
+    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: foreverID
+      value: 6603caafe8df84b4da1c797343cdf8c6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &2419386692754613975 stripped
@@ -294,3 +264,39 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2418701848222554733}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-8338575037906891904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2419386692754613975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  allClothingData:
+  - {fileID: 11400000, guid: 7edd6ca79c0e81440912e98aef899d45, type: 2}
+  CurrentClothIndex: 0
+  randomInitialClothData: 0
+  hidesIdentity: 0
+  hidesSlots: 0
+  hideClothingFlags: 0
+  disallowConsume: 0
+--- !u!114 &-4598349017229395501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2419386692754613975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3307020aa3640594a870e4961a6de749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slot: 0
+  armoredBodyParts: []

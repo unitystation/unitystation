@@ -7,6 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armoringBodyPartType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3525490832341156112, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: m_Name
@@ -75,7 +85,7 @@ PrefabInstance:
     - target: {fileID: 3564945054494194852, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b046050b01e425d4b937899facb6aaf4
       objectReference: {fileID: 0}
     - target: {fileID: 3611036598041473612, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
@@ -99,18 +109,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9e6d4e307f6386f449ed19a4a247f122,
         type: 2}
+    - target: {fileID: 7518679174278335869, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: foreverID
+      value: b046050b01e425d4b937899facb6aaf4
+      objectReference: {fileID: 0}
     - target: {fileID: 7534581208369271445, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: ba3f5399ecc75314fa85375a4edb64f4,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7534581208369271445, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: ba3f5399ecc75314fa85375a4edb64f4,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7534581208369271445, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: allClothingData.Array.size

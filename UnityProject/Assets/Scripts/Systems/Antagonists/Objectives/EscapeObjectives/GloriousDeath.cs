@@ -5,7 +5,7 @@ namespace Antagonists
 	/// <summary>
 	/// Die in a glorious death
 	/// </summary>
-	[CreateAssetMenu(menuName="ScriptableObjects/Objectives/GloriousDeath")]
+	[CreateAssetMenu(menuName="ScriptableObjects/AntagObjectives/GloriousDeath")]
 	public class GloriousDeath : Objective
 	{
 		/// <summary>

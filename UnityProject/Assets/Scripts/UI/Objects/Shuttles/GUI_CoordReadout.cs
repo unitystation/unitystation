@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UI.Core.NetUI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,8 +10,8 @@ using UnityEngine.UI;
 public class GUI_CoordReadout : MonoBehaviour
 {
 	[Header("References")]
-	public Text xText;
-	public Text yText;
+	public NetText_label xText;
+	public NetText_label yText;
 
 	private int valueX = 0;
 	private int valueY = 0;
@@ -43,8 +44,8 @@ public class GUI_CoordReadout : MonoBehaviour
 	{
 		valueX = x;
 		valueY = y;
-		xText.text = valueX.ToString();
-		yText.text = valueY.ToString();
+		xText.SetValueServer(valueX.ToString());
+		yText.SetValueServer(valueY.ToString());
 	}
 
 	/// <summary>

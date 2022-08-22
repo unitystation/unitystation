@@ -7,10 +7,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2417351120508978651, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+        type: 3}
+      propertyPath: foreverID
+      value: d66b5d1b9282e88438707dc53a429f0e
+      objectReference: {fileID: 0}
     - target: {fileID: 8692691054828270594, guid: 83442ea1bc97ef04db1f9962a2f7021d,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: d66b5d1b9282e88438707dc53a429f0e
+      objectReference: {fileID: 0}
+    - target: {fileID: 8729405225780868290, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8729405225780868290, guid: 83442ea1bc97ef04db1f9962a2f7021d,
         type: 3}
@@ -29,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8729405225780868290, guid: 83442ea1bc97ef04db1f9962a2f7021d,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8729405225780868290, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8729405225780868290, guid: 83442ea1bc97ef04db1f9962a2f7021d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8729405225780868290, guid: 83442ea1bc97ef04db1f9962a2f7021d,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8729405225780868290, guid: 83442ea1bc97ef04db1f9962a2f7021d,
         type: 3}
@@ -74,13 +79,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9212969941508220628, guid: 83442ea1bc97ef04db1f9962a2f7021d,
         type: 3}
-      propertyPath: initialDescription
-      value: It's a fancy four-color ink pen, set to black.
+      propertyPath: initialName
+      value: four-color pen
       objectReference: {fileID: 0}
     - target: {fileID: 9212969941508220628, guid: 83442ea1bc97ef04db1f9962a2f7021d,
         type: 3}
-      propertyPath: initialName
-      value: four-color pen
+      propertyPath: initialDescription
+      value: It's a fancy four-color ink pen, set to black.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83442ea1bc97ef04db1f9962a2f7021d, type: 3}

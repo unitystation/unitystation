@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Random = UnityEngine.Random;
 using AddressableReferences;
 using Messages.Server.SoundMessages;
-
+using Shared;
+using Tiles;
 
 namespace Objects.Construction
 {
@@ -13,64 +15,65 @@ namespace Objects.Construction
 	/// </summary>
 	public class WindowFullTileObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
-
-		private RegisterObject registerObject;
-		private ObjectBehaviour objectBehaviour;
+		protected RegisterObject registerObject;
+		protected UniversalObjectPhysics objectPhysics;
 
 		[Header("Tile creation variables")]
 		[Tooltip("Layer tile which this will create when placed.")]
 		public LayerTile layerTile;
 
-		[Header("Deconstruction variables")]
-		[Tooltip("Items to drop when deconstructed.")]
+		[Header("Deconstruct variables.")]
+		[Tooltip("Drops this when deconstructed.")]
+		public List<DeconstructionData> onDeconstruct;
 
-		public GameObject matsOnDeconstruct;
-		[Tooltip("Quantity of mats when deconstructed.")]
+		[Serializable]
+		public struct DeconstructionData
+		{
+			public GameObject prefab;
+			public int count;
+		}
 
-		public int countOfMatsOnDissasemle;
 		[Tooltip("Sound on deconstruction.")]
-
 		public AddressableAudioSource soundOnDeconstruct;
 
-		//PM: Objects below don't have to be shards or rods, but it's more convenient for me to put "shards" and "rods" in the variable names.
+		[Serializable]
+		public struct DestroyData
+		{
+			public GameObject prefab;
+			public int minCountOnDestroy;
+			public int maxCountOnDestroy;
+		}
 
 		[Header("Destroyed variables.")]
 		[Tooltip("Drops this when broken with force.")]
-		public GameObject shardsOnDestroy;
-
-		[Tooltip("Drops this count when destroyed.")]
-		public int minCountOfShardsOnDestroy;
-
-		[Tooltip("Drops this count when destroyed.")]
-		public int maxCountOfShardsOnDestroy;
-
-		[Tooltip("Drops this when broken with force.")]
-		public GameObject rodsOnDestroy;
-
-		[Tooltip("Drops this count when destroyed.")]
-		public int minCountOfRodsOnDestroy;
-
-		[Tooltip("Drops this count when destroyed.")]
-		public int maxCountOfRodsOnDestroy;
+		public List<DestroyData> onDestroy;
 
 		[Tooltip("Sound when destroyed.")]
 		[SerializeField] private AddressableAudioSource soundOnDestroy = null;
 
-		private void Start()
+		private void Awake()
 		{
 			registerObject = GetComponent<RegisterObject>();
-			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectPhysics = GetComponent<UniversalObjectPhysics>();
 		}
 
+		protected virtual void OnEnable()
+		{
+			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
+		}
+
+		protected virtual void OnDisable()
+		{
+			GetComponent<Integrity>().OnWillDestroyServer.RemoveListener(OnWillDestroyServer);
+		}
 
 		private void OnWillDestroyServer(DestructionInfo arg0)
 		{
-			Spawn.ServerPrefab(shardsOnDestroy, gameObject.TileWorldPosition().To3Int(), transform.parent, count: Random.Range(minCountOfShardsOnDestroy, maxCountOfShardsOnDestroy + 1),
-				scatterRadius: Random.Range(0, 3), cancelIfImpassable: true);
-
-			Spawn.ServerPrefab(rodsOnDestroy, gameObject.TileWorldPosition().To3Int(), transform.parent, count: Random.Range(minCountOfRodsOnDestroy, maxCountOfRodsOnDestroy + 1),
-				scatterRadius: Random.Range(0, 3), cancelIfImpassable: true);
+			foreach (var mat in onDestroy)
+			{
+				Spawn.ServerPrefab(mat.prefab, gameObject.TileWorldPosition().To3Int(), transform.parent, count: Random.Range(mat.minCountOnDestroy, mat.maxCountOnDestroy + 1),
+					scatterRadius: Random.Range(0, 3), cancelIfImpassable: true);
+			}
 
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
 			SoundManager.PlayNetworkedAtPos(soundOnDestroy, gameObject.TileWorldPosition().To3Int(), audioSourceParameters, sourceObj: gameObject);
@@ -97,10 +100,10 @@ namespace Objects.Construction
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
 			{
-				if (objectBehaviour.IsPushable)
+				if (objectPhysics.IsNotPushable == false)
 				{
 					//secure it if there's floor
-					if (MatrixManager.IsSpaceAt(registerObject.WorldPositionServer, true))
+					if (MatrixManager.IsSpaceAt(registerObject.WorldPositionServer, true, registerObject.Matrix.MatrixInfo))
 					{
 						Chat.AddExamineMsg(interaction.Performer, "A floor must be present to secure the window!");
 						return;
@@ -114,7 +117,7 @@ namespace Objects.Construction
 							$"{interaction.Performer.ExpensiveName()} starts securing the window...",
 							"You secure the window.",
 							$"{interaction.Performer.ExpensiveName()} secures the window.",
-							() => ScrewToFloor(interaction));
+							() => ChangeAnchorStatus(interaction, true));
 						return;
 					}
 				}
@@ -122,18 +125,18 @@ namespace Objects.Construction
 				{
 					//unsecure it
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
-						"You start unsecuring the girder...",
+						"You start unsecuring the window...",
 						$"{interaction.Performer.ExpensiveName()} starts unsecuring the window...",
 						"You unsecure the window.",
 						$"{interaction.Performer.ExpensiveName()} unsecures the window.",
-						() => objectBehaviour.ServerSetAnchored(false, interaction.Performer));
+						() => ChangeAnchorStatus(interaction, false));
 				}
 
 			}
 			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 			{
 				//disassemble if it's unanchored
-				if (objectBehaviour.IsPushable)
+				if (objectPhysics.IsNotPushable == false)
 				{
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 						"You start to disassemble the window...",
@@ -152,21 +155,32 @@ namespace Objects.Construction
 		}
 
 		[Server]
-		private void ScrewToFloor(HandApply interaction)
+		protected virtual void ChangeAnchorStatus(HandApply interaction, bool newState)
 		{
+			if (newState == false)
+			{
+				objectPhysics.ServerSetAnchored(false, interaction.Performer);
+				return;
+			}
+			
 			var interactableTiles = InteractableTiles.GetAt(interaction.TargetObject.TileWorldPosition(), true);
 			Vector3Int cellPos = interactableTiles.WorldToCell(interaction.TargetObject.TileWorldPosition());
-			interactableTiles.TileChangeManager.UpdateTile(cellPos, layerTile);
+			interactableTiles.TileChangeManager.MetaTileMap.SetTile(cellPos, layerTile);
 			interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
+
 		[Server]
-		private void Disassemble(HandApply interaction)
+		protected virtual void Disassemble(HandApply interaction)
 		{
-			Spawn.ServerPrefab(matsOnDeconstruct, registerObject.WorldPositionServer, count: countOfMatsOnDissasemle);
+			foreach (var mat in onDeconstruct)
+			{
+				Spawn.ServerPrefab(mat.prefab, registerObject.WorldPositionServer, count: mat.count);
+			}
+
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
 			SoundManager.PlayNetworkedAtPos(soundOnDeconstruct, gameObject.TileWorldPosition().To3Int(), audioSourceParameters, sourceObj: gameObject);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 	}
 }

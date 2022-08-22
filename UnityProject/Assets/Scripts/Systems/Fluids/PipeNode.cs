@@ -1,8 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using Objects.Atmospherics;
 
-namespace Pipes
+
+namespace Systems.Pipes
 {
 	public class PipeNode
 	{
@@ -13,7 +14,7 @@ namespace Pipes
 		public PipeData pipeData;
 		//Stuff for pipes to go in here
 
-		public void Initialise(PipeTile DataToTake, MetaDataNode metaDataNode, Vector3Int searchVec, Matrix locatedon,int RotationOffset )
+		public void Initialise(PipeTile DataToTake, MetaDataNode metaDataNode, Vector3Int searchVec, Matrix locatedon, int RotationOffset)
 		{
 			RelatedTile = DataToTake;
 			IsOn = metaDataNode;
@@ -27,5 +28,3 @@ namespace Pipes
 
 	}
 }
-
-

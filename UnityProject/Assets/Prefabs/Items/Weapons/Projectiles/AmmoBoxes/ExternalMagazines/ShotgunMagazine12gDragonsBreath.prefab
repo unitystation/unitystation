@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1476717187692415487, guid: 98da9a96ac84b28439d4baced674700d,
+        type: 3}
+      propertyPath: foreverID
+      value: 857e3b9968507b6419c8eefb3f1dfd9b
+      objectReference: {fileID: 0}
     - target: {fileID: 1838309391298199061, guid: 98da9a96ac84b28439d4baced674700d,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -24,6 +29,12 @@ PrefabInstance:
       propertyPath: ProjectilesFired
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 3108338812106419955, guid: 98da9a96ac84b28439d4baced674700d,
+        type: 3}
+      propertyPath: initalProjectile
+      value: 
+      objectReference: {fileID: 6113211322604708707, guid: ba50a3735a8f0b94a8cff8d24c324f24,
+        type: 3}
     - target: {fileID: 5343935634496596720, guid: 98da9a96ac84b28439d4baced674700d,
         type: 3}
       propertyPath: initialName
@@ -33,6 +44,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ShotgunMagazine12gDragonsBreath
+      objectReference: {fileID: 0}
+    - target: {fileID: 5537001681630345446, guid: 98da9a96ac84b28439d4baced674700d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5537001681630345446, guid: 98da9a96ac84b28439d4baced674700d,
         type: 3}
@@ -51,6 +67,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5537001681630345446, guid: 98da9a96ac84b28439d4baced674700d,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5537001681630345446, guid: 98da9a96ac84b28439d4baced674700d,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +84,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5537001681630345446, guid: 98da9a96ac84b28439d4baced674700d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5537001681630345446, guid: 98da9a96ac84b28439d4baced674700d,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5537001681630345446, guid: 98da9a96ac84b28439d4baced674700d,
         type: 3}
@@ -92,7 +103,7 @@ PrefabInstance:
     - target: {fileID: 5571188075281479718, guid: 98da9a96ac84b28439d4baced674700d,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 857e3b9968507b6419c8eefb3f1dfd9b
       objectReference: {fileID: 0}
     - target: {fileID: 5635434756998985422, guid: 98da9a96ac84b28439d4baced674700d,
         type: 3}

@@ -1,130 +1,120 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Items;
-using UnityEngine;
-using Mirror;
+﻿using Mirror;
+using Player.Movement;
 using UI.Action;
+using UnityEngine;
 
-public class ItemMagBoots : NetworkBehaviour, IServerInventoryMove, PlayerMove.IMovementEffect
+namespace Items.Others
 {
-	[Tooltip("The speed debuff to apply to run speed.")]
-	[SerializeField]
-	private float runSpeedDebuff = 1.5f;
-
-	private SpriteHandler spriteHandler;
-	private ItemAttributesV2 itemAttributesV2;
-	private Pickupable pickupable;
-	private PlayerMove playerMove;
-	private ItemActionButton actionButton;
-
-	private bool isOn = false;
-
-	public float RunningAdd {
-		get => runSpeedDebuff;
-		set { }
-	}
-
-	public float WalkingAdd {
-		get => 0;
-		set { }
-	}
-
-
-	public float CrawlAdd
+	public class ItemMagBoots : NetworkBehaviour, IServerInventoryMove, IMovementEffect
 	{
-		get => 0;
-		set { }
-	}
+		[Tooltip("The speed debuff to apply to run speed.")]
+		[SerializeField]
+		private float runSpeedDebuff = -1.5f;
+
+		private SpriteHandler spriteHandler;
+		private ItemAttributesV2 itemAttributesV2;
+		private Pickupable pickupable;
+		private MovementSynchronisation playerMove;
+		private ItemActionButton actionButton;
+
+		private bool isOn = false;
+
+		public float RunningSpeedModifier => runSpeedDebuff;
+
+		public float WalkingSpeedModifier => 0;
 
 
+		public float CrawlingSpeedModifier => 0;
 
 
-	private enum SpriteState
-	{
-		Off = 0,
-		On = 1
-	}
-
-	#region Lifecycle
-
-	private void Awake()
-	{
-		pickupable = GetComponent<Pickupable>();
-		spriteHandler = GetComponentInChildren<SpriteHandler>();
-		itemAttributesV2 = GetComponent<ItemAttributesV2>();
-		actionButton = GetComponent<ItemActionButton>();
-		pickupable.RefreshUISlotImage();
-	}
-
-	private void OnEnable()
-	{
-		actionButton.ServerActionClicked += ToggleState;
-	}
-
-	private void OnDisable()
-	{
-		actionButton.ServerActionClicked -= ToggleState;
-	}
-
-	#endregion Lifecycle
-
-	public void OnInventoryMoveServer(InventoryMove info)
-	{
-		if (info.ToRootPlayer != null)
+		private enum SpriteState
 		{
-			playerMove = info.ToRootPlayer.PlayerScript.playerMove;
-		}
-		else if (info.FromRootPlayer != null)
-		{
-			playerMove = info.FromRootPlayer.PlayerScript.playerMove;
+			Off = 0,
+			On = 1
 		}
 
-		if (isOn)
+		#region Lifecycle
+
+		private void Awake()
 		{
-			ToggleOff();
+			pickupable = GetComponent<Pickupable>();
+			spriteHandler = GetComponentInChildren<SpriteHandler>();
+			itemAttributesV2 = GetComponent<ItemAttributesV2>();
+			actionButton = GetComponent<ItemActionButton>();
+			pickupable.RefreshUISlotImage();
 		}
-	}
 
-	private void ToggleState()
-	{
-		if (isOn)
+		private void OnEnable()
 		{
-			ToggleOff();
+			actionButton.ServerActionClicked += ToggleState;
 		}
-		else
+
+		private void OnDisable()
 		{
-			ToggleOn();
+			actionButton.ServerActionClicked -= ToggleState;
 		}
-	}
 
-	private void ToggleOn()
-	{
-		isOn = true;
-		ApplyEffect();
-		spriteHandler.ChangeSprite((int) SpriteState.On);
-		pickupable.RefreshUISlotImage();
-	}
+		#endregion Lifecycle
 
-	private void ToggleOff()
-	{
-		isOn = false;
-		RemoveEffect();
-		spriteHandler.ChangeSprite((int) SpriteState.Off);
-		pickupable.RefreshUISlotImage();
-	}
+		public void OnInventoryMoveServer(InventoryMove info)
+		{
+			if (info.ToRootPlayer != null)
+			{
+				playerMove = info.ToRootPlayer.PlayerScript.playerMove;
+			}
+			else if (info.FromRootPlayer != null)
+			{
+				playerMove = info.FromRootPlayer.PlayerScript.playerMove;
+			}
 
-	private void ApplyEffect()
-	{
-		itemAttributesV2.AddTrait(CommonTraits.Instance.NoSlip);
-		playerMove.AddModifier(this);
-		playerMove.PlayerScript.pushPull.ServerSetPushable(false);
-	}
+			if (isOn)
+			{
+				ToggleOff();
+			}
+		}
 
-	private void RemoveEffect()
-	{
-		itemAttributesV2.RemoveTrait(CommonTraits.Instance.NoSlip);
-		playerMove.RemoveModifier(this);
-		playerMove.PlayerScript.pushPull.ServerSetPushable(true);
+		private void ToggleState()
+		{
+			if (isOn)
+			{
+				ToggleOff();
+			}
+			else
+			{
+				ToggleOn();
+			}
+		}
+
+		private void ToggleOn()
+		{
+			isOn = true;
+			ApplyEffect();
+			spriteHandler.ChangeSprite((int) SpriteState.On);
+			pickupable.RefreshUISlotImage();
+		}
+
+		private void ToggleOff()
+		{
+			isOn = false;
+			RemoveEffect();
+			spriteHandler.ChangeSprite((int) SpriteState.Off);
+			pickupable.RefreshUISlotImage();
+		}
+
+		private void ApplyEffect()
+		{
+			itemAttributesV2.AddTrait(CommonTraits.Instance.NoSlip);
+			playerMove.AddModifier(this);
+			playerMove.CanBeWindPushed = false;
+			playerMove.HasOwnGravity = true;
+		}
+
+		private void RemoveEffect()
+		{
+			itemAttributesV2.RemoveTrait(CommonTraits.Instance.NoSlip);
+			playerMove.RemoveModifier(this);
+			playerMove.CanBeWindPushed = true;
+			playerMove.HasOwnGravity = false;
+		}
 	}
 }

@@ -6,7 +6,7 @@ namespace ScriptableObjects
 	[CreateAssetMenu(fileName = "SpeechModManager", menuName = "Singleton/SpeechModManager")]
 	public class SpeechModManager: SingletonScriptableObject<SpeechModManager>
 	{
-		public SpeechModDict speechModifier;
+		public SerializableDictionary<ChatModifier, SpeechModifier> speechModifier;
 
 		public string ApplyMod(ChatModifier modifiers, string message)
 		{
@@ -28,6 +28,4 @@ namespace ScriptableObjects
 		}
 	}
 
-	[Serializable]
-	public class SpeechModDict : SerializableDictionary<ChatModifier, SpeechModifier>{}
 }

@@ -1,33 +1,45 @@
+using System;
 using UnityEngine;
 
 namespace Objects.Medical
 {
 	public class BodyBag : MonoBehaviour, ICheckedInteractable<MouseDrop>, IServerSpawn, IRightClickable
 	{
-		public GameObject prefabVariant;
+		[SerializeField]
+		private GameObject prefabVariant;
+
+		private RegisterObject registerObject;
+		private ObjectContainer container;
+		private ClosetControl closet;
+
+		public void Awake()
+		{
+			registerObject = GetComponent<RegisterObject>();
+		}
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			GetComponent<ClosetControl>().ServerToggleClosed(false);
+			registerObject = GetComponent<RegisterObject>();
+			container = GetComponent<ObjectContainer>();
+			closet = GetComponent<ClosetControl>();
+			closet.SetDoor(ClosetControl.Door.Opened);
 		}
 
 		public bool WillInteract(MouseDrop interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side))
+			if (DefaultWillInteract.Default(interaction, side) == false)
 			{
 				return false;
 			}
 
-			var cnt = GetComponent<CustomNetTransform>();
-			var ps = interaction.Performer.GetComponent<PlayerScript>();
-
-			var pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
+			var ps = interaction.PerformerPlayerScript;
+			var pna = ps.playerNetworkActions;
 
 			if (!pna
 				|| interaction.Performer != interaction.TargetObject
 				|| interaction.DroppedObject != gameObject
 				|| pna.GetActiveHandItem() != null
-				|| !ps.IsRegisterTileReachable(cnt.RegisterTile, side == NetworkSide.Server))
+				|| !ps.IsRegisterTileReachable(registerObject, side == NetworkSide.Server))
 			{
 				return false;
 			}
@@ -37,17 +49,14 @@ namespace Objects.Medical
 
 		public void ServerPerformInteraction(MouseDrop interaction)
 		{
-			var pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
-
-			var closetControl = GetComponent<ClosetControl>();
-			if (!closetControl.IsClosed)
+			if (closet.IsOpen)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer,
 					"You wrestle with the body bag, but it won't fold while unzipped.");
 				return;
 			}
 
-			if (!closetControl.ServerIsEmpty())
+			if (container.IsEmpty == false)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer,
 					"There are too many things inside of the body bag to fold it up!");
@@ -58,16 +67,16 @@ namespace Objects.Medical
 			//TODO: This means that body bag integrity gets reset every time it is picked up. Should be converted to be the same object instead.
 			var folded = Spawn.ServerPrefab(prefabVariant).GameObject;
 			Inventory.ServerAdd(folded,
-				interaction.Performer.GetComponent<ItemStorage>().GetActiveHandSlot());
+				interaction.PerformerPlayerScript.DynamicItemStorage.GetActiveHandSlot());
 			// Remove from world
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		public RightClickableResult GenerateRightClickOptions()
 		{
 			var result = RightClickableResult.Create();
 
-			if (WillInteract(MouseDrop.ByLocalPlayer(gameObject, PlayerManager.LocalPlayer), NetworkSide.Client))
+			if (WillInteract(MouseDrop.ByLocalPlayer(gameObject, PlayerManager.LocalPlayerObject), NetworkSide.Client))
 			{
 				result.AddElement("Fold Up", RightClickInteract);
 			}
@@ -77,7 +86,7 @@ namespace Objects.Medical
 
 		private void RightClickInteract()
 		{
-			InteractionUtils.RequestInteract(MouseDrop.ByLocalPlayer(gameObject, PlayerManager.LocalPlayer), this);
+			InteractionUtils.RequestInteract(MouseDrop.ByLocalPlayer(gameObject, PlayerManager.LocalPlayerObject), this);
 		}
 	}
 }

@@ -7,21 +7,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 855803449108065293, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3,
-        type: 3}
-      propertyPath: armoredBodyParts.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 855803449108065293, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3,
-        type: 3}
-      propertyPath: armoredBodyParts.Array.data[0].armor.Bio
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 855803449108065293, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3,
-        type: 3}
-      propertyPath: armoredBodyParts.Array.data[0].armoringBodyPartType
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3495234765619245072, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3,
         type: 3}
       propertyPath: initialName
@@ -101,7 +86,7 @@ PrefabInstance:
     - target: {fileID: 4033042375367942854, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 1d20e3f3f09719d46870ba3554189ec1
       objectReference: {fileID: 0}
     - target: {fileID: 7145545764318209269, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3,
         type: 3}
@@ -125,5 +110,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8a0045ea43dbada45912cbc5be50f81f,
         type: 2}
+    - target: {fileID: 7986767595912221471, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3,
+        type: 3}
+      propertyPath: foreverID
+      value: 1d20e3f3f09719d46870ba3554189ec1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3, type: 3}

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: BluecherrySnowconeRecipe
+  m_EditorClassIdentifier: 
+  category: 19
+  craftingTime: 3
+  recipeName: Bluecherry Snowcone
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 603864730428163137, guid: 40c34e56c622eb749908c4cf23b4778f,
+      type: 3}
+  requiredReagents:
+  - requiredAmount: 15
+    requiredReagent: {fileID: 11400000, guid: 75ee11073da11b85e9f881d9111589f4, type: 2}
+  - requiredAmount: 5
+    requiredReagent: {fileID: 11400000, guid: 118d53ca3fddf72d2bc3ffe02efc9209, type: 2}
+  requiredToolTraits: []
+  result:
+  - {fileID: 4473377980784368051, guid: 978bc68ac1262294b81c7b95a70abef2, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 145

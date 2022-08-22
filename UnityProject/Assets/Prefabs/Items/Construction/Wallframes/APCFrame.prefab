@@ -10,12 +10,17 @@ PrefabInstance:
     - target: {fileID: 1762559375258620544, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 537bf6f2ef7fbc34cb8636194512f043
       objectReference: {fileID: 0}
     - target: {fileID: 1865031144277094196, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
       propertyPath: m_Name
       value: APCFrame
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
@@ -78,6 +78,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 883b44bafcd3a9b4281b5b19252064a2,
         type: 3}
+    - target: {fileID: 1950092092420660328, guid: 6224e1266c75b0643bd1cef8fbb6e615,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237287659307319382, guid: 6224e1266c75b0643bd1cef8fbb6e615,
+        type: 3}
+      propertyPath: initialName
+      value: APC frame
+      objectReference: {fileID: 0}
     - target: {fileID: 2237287659307319382, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
       propertyPath: initialDescription
@@ -85,8 +95,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2237287659307319382, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
-      propertyPath: initialName
-      value: APC frame
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237287659307319382, guid: 6224e1266c75b0643bd1cef8fbb6e615,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
       objectReference: {fileID: 0}
     - target: {fileID: 2857779259520588454, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
@@ -97,8 +112,13 @@ PrefabInstance:
         type: 3}
       propertyPath: WallMountToSpawn
       value: 
-      objectReference: {fileID: 1238849902553559639, guid: cd57203a8d3f54f478446e9b0ced6cf9,
+      objectReference: {fileID: 260239628808517242, guid: 7cd3db9e6e27eb8448654d61b83c960a,
         type: 3}
+    - target: {fileID: 4709448089315222361, guid: 6224e1266c75b0643bd1cef8fbb6e615,
+        type: 3}
+      propertyPath: foreverID
+      value: 537bf6f2ef7fbc34cb8636194512f043
+      objectReference: {fileID: 0}
     - target: {fileID: 5523652600883287219, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
       propertyPath: PresentSpriteSet

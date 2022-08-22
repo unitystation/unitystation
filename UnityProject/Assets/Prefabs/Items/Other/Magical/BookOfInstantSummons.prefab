@@ -1,17 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &3245850288344695568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6459217844356408720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80b42b100d2feb24b950e7ed38a625e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &3509815024118469271
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19,10 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4067572995854857205, guid: f9b48c194efec7840b9dea9662005173,
+    - target: {fileID: 3579279403042536298, guid: f9b48c194efec7840b9dea9662005173,
         type: 3}
-      propertyPath: remarks.Array.size
-      value: 7
+      propertyPath: foreverID
+      value: 22253e0e1cd72bf48892031645a51198
       objectReference: {fileID: 0}
     - target: {fileID: 4067572995854857205, guid: f9b48c194efec7840b9dea9662005173,
         type: 3}
@@ -30,6 +18,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 75213e88f6e86cb4d8a637d0eeee77c6,
         type: 2}
+    - target: {fileID: 4067572995854857205, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
+      propertyPath: remarks.Array.size
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4067572995854857205, guid: f9b48c194efec7840b9dea9662005173,
         type: 3}
       propertyPath: remarks.Array.data[0]
@@ -74,7 +67,7 @@ PrefabInstance:
     - target: {fileID: 7530770484140264115, guid: f9b48c194efec7840b9dea9662005173,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 22253e0e1cd72bf48892031645a51198
       objectReference: {fileID: 0}
     - target: {fileID: 7567485960501791347, guid: f9b48c194efec7840b9dea9662005173,
         type: 3}
@@ -125,3 +118,23 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3509815024118469271}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3245850288344695568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6459217844356408720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80b42b100d2feb24b950e7ed38a625e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  punishSfx:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Magic/SummonItemsGeneric.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0

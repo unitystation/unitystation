@@ -2,93 +2,105 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-/// <summary>
-/// Main component for the release pressure adjustment wheel
-/// </summary>
-public class Wheel : Selectable
+namespace UI.Core.NetUI
 {
-	[Tooltip("Invoked when wheel is adjusted, on release of the wheel")]
-	public IntEvent OnAdjustmentComplete = new IntEvent();
-
-	[Tooltip("How many kPa each degree of rotation is equivalent to.")]
-	public float KPAPerDegree = 3f;
-
-
-	public float MaxValue = 1000;
 	/// <summary>
-	/// Currently selected amount
+	/// Main component for the release pressure adjustment wheel
 	/// </summary>
-	public int KPA => Mathf.RoundToInt(degrees * KPAPerDegree);
-
-	[Tooltip("Pressure dial this wheel is bound with.")]
-	public NumberSpinner ReleasePressureDial;
-	//vector pointing from wheel center to the previous position of the mouse
-	private Vector2? previousDrag;
-	public float RotationSpeed = 0.2f;
-	public GameObject[] UprightSprites;
-	private WindowDrag windowDrag;
-	private Shadow shadow;
-	//degrees of rotation
-	private float degrees;
-
-	protected override void Awake()
+	public class Wheel : Selectable
 	{
-		base.Start();
-		windowDrag = GetComponentInParent<WindowDrag>();
-		shadow = GetComponent<Shadow>();
-	}
+		[Tooltip("Invoked when wheel is adjusted, on release of the wheel")]
+		public FloatEvent OnAdjustmentComplete = new FloatEvent();
 
-	public void RotateToValue(int kPA)
-	{
-		SetRotation(kPA / KPAPerDegree);
-	}
+		[Tooltip("How many kPa each degree of rotation is equivalent to.")]
+		public float KPAPerDegree = 3f;
 
-	private void SetRotation(float newRotation)
-	{
-		newRotation = Mathf.Clamp(newRotation, 0, MaxValue / KPAPerDegree);
+		public float MaxValue = 1000;
+		/// <summary>
+		/// Currently selected amount
+		/// </summary>
+		public float KPA => degrees * KPAPerDegree;
 
-		var newQuaternion = Quaternion.Euler(0, 0, newRotation);
-		transform.rotation = newQuaternion;
-		foreach (var upright in UprightSprites)
+		[Tooltip("Pressure dial this wheel is bound with.")]
+		public NumberSpinner ReleasePressureDial;
+		// vector pointing from wheel center to the previous position of the mouse
+		private Vector2? previousDrag;
+		public float RotationSpeed = 0.2f;
+		public GameObject[] UprightSprites;
+		private WindowDrag windowDrag;
+		private Shadow shadow;
+		// degrees of rotation
+		private float degrees;
+
+		protected override void Awake()
 		{
-			upright.transform.rotation = Quaternion.identity;
+			base.Start();
+			windowDrag = GetComponentInParent<WindowDrag>();
+			shadow = GetComponent<Shadow>();
 		}
 
-		shadow.effectDistance = Quaternion.Euler(0, 0, -newRotation + 215) * Vector2.up * 10f;
-
-		degrees = newRotation;
-		ReleasePressureDial.DisplaySpinTo(KPA);
-	}
-
-	public override void OnPointerDown(PointerEventData eventData)
-	{
-		base.OnPointerDown(eventData);
-		previousDrag = ((eventData.pressPosition - (Vector2)((RectTransform) transform).position) / UIManager.Instance.transform.localScale.x).normalized;
-		//client prediction on the dial
-		ReleasePressureDial.IgnoreServerUpdates = true;
-		//disable window dragging until done with rotation
-		windowDrag.disableDrag = true;
-	}
-
-	private void Update()
-	{
-		if (previousDrag != null)
+		protected override void OnEnable()
 		{
-			var newDrag = (((Vector2)CommonInput.mousePosition - (Vector2)((RectTransform) transform).position) / UIManager.Instance.transform.localScale.x).normalized;
-			//how far did we rotate from the previous position?
-			var degreeDisplacement = Vector2.SignedAngle((Vector2) previousDrag, newDrag);
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
 
-			//rotate
-			SetRotation(degrees + degreeDisplacement);
+		protected override void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
 
-			previousDrag = newDrag;
+		public void RotateToValue(float kPA)
+		{
+			SetRotation(kPA / KPAPerDegree);
+		}
 
-			if (CommonInput.GetMouseButtonUp(0))
+		private void SetRotation(float newRotation)
+		{
+			newRotation = Mathf.Clamp(newRotation, 0, MaxValue / KPAPerDegree);
+
+			var newQuaternion = Quaternion.Euler(0, 0, newRotation);
+			transform.rotation = newQuaternion;
+			foreach (var upright in UprightSprites)
 			{
-				previousDrag = null;
-				ReleasePressureDial.IgnoreServerUpdates = false;
-				OnAdjustmentComplete.Invoke(KPA);
-				windowDrag.disableDrag = false;
+				upright.transform.rotation = Quaternion.identity;
+			}
+
+			shadow.effectDistance = Quaternion.Euler(0, 0, -newRotation + 215) * Vector2.up * 10f;
+
+			degrees = newRotation;
+			ReleasePressureDial.DisplaySpinTo(Mathf.RoundToInt(KPA));
+		}
+
+		public override void OnPointerDown(PointerEventData eventData)
+		{
+			base.OnPointerDown(eventData);
+			previousDrag = ((eventData.pressPosition - (Vector2)((RectTransform)transform).position) / UIManager.Instance.transform.localScale.x).normalized;
+			// client prediction on the dial
+			ReleasePressureDial.IgnoreServerUpdates = true;
+			// disable window dragging until done with rotation
+			windowDrag.disableDrag = true;
+		}
+
+		private void UpdateMe()
+		{
+			if (previousDrag != null)
+			{
+				var newDrag = (((Vector2)CommonInput.mousePosition - (Vector2)((RectTransform)transform).position) / UIManager.Instance.transform.localScale.x).normalized;
+				// how far did we rotate from the previous position?
+				var degreeDisplacement = Vector2.SignedAngle((Vector2)previousDrag, newDrag);
+
+				// rotate
+				SetRotation(degrees + degreeDisplacement);
+
+				previousDrag = newDrag;
+
+				if (CommonInput.GetMouseButtonUp(0))
+				{
+					previousDrag = null;
+					ReleasePressureDial.IgnoreServerUpdates = false;
+					OnAdjustmentComplete.Invoke(KPA);
+					windowDrag.disableDrag = false;
+				}
 			}
 		}
 	}

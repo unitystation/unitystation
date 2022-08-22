@@ -7,6 +7,76 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 739857834287994787, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: armor.Bomb
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 739857834287994787, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: armor.Fire
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 739857834287994787, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: armor.Laser
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 739857834287994787, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: armor.Melee
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 739857834287994787, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: armor.Bullet
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 739857834287994787, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: armor.Energy
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 1090349022819334625, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: armor.Bomb
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1090349022819334625, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: armor.Fire
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1090349022819334625, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: armor.Laser
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 1090349022819334625, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: armor.Melee
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 1090349022819334625, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: armor.Bullet
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 1090349022819334625, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: armor.Energy
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 1375062400479919026, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: tileMoveSpeed
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3008832837752720817, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: maxHealth
+      value: 250
+      objectReference: {fileID: 0}
     - target: {fileID: 3160441142362989133, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
       propertyPath: m_Sprite
@@ -30,6 +100,12 @@ PrefabInstance:
       propertyPath: SubCatalogue.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: f2aea796840397346a44af2107b43fb9,
+        type: 2}
+    - target: {fileID: 3938342365367457108, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: c4dbf93671c37f34b910dd8b8cdee316,
         type: 2}
     - target: {fileID: 6141197458528421439, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
@@ -63,26 +139,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7497794854410708285, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7497794854410708285, guid: 00a84f751afb412428a586d23cf90b39,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7497794854410708285, guid: 00a84f751afb412428a586d23cf90b39,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7497794854410708285, guid: 00a84f751afb412428a586d23cf90b39,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7497794854410708285, guid: 00a84f751afb412428a586d23cf90b39,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -99,7 +155,7 @@ PrefabInstance:
     - target: {fileID: 7607845521540798885, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b414e56984032634cb046a9c80b00932
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00a84f751afb412428a586d23cf90b39, type: 3}

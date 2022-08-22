@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core.Lighting;
 using Initialisation;
 using TileManagement;
+using Tiles;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -10,13 +12,7 @@ using UnityEngine.Tilemaps;
 [ExecuteInEditMode]
 public class Layer : MonoBehaviour
 {
-	/// <summary>
-	/// When true, tiles will rotate to their new orientation at the end of matrix rotation. When false
-	/// they will rotate to the new orientation at the start of matrix rotation.
-	/// </summary>
-	private const bool ROTATE_AT_END = true;
-
-	private SubsystemManager subsystemManager;
+	public SubsystemManager SubsystemManager { get; private set; }
 
 	public LayerType LayerType;
 	protected Tilemap tilemap;
@@ -41,8 +37,6 @@ public class Layer : MonoBehaviour
 
 	private Coroutine recalculateBoundsHandle;
 
-	public TileChangeEvent OnTileChanged = new TileChangeEvent();
-
 	/// <summary>
 	/// Current offset from our initially mapped orientation. This is used by tiles within the tilemap
 	/// to determine what sprite to display. This could be retrieved directly from MatrixMove but
@@ -55,7 +49,7 @@ public class Layer : MonoBehaviour
 	/// </summary>
 	private MatrixMove matrixMove;
 
-	public Matrix matrix;
+	public Matrix Matrix { get; private set; }
 
 	public Vector3Int WorldToCell(Vector3 pos) => tilemap.WorldToCell(pos);
 	public Vector3Int LocalToCell(Vector3 pos) => tilemap.LocalToCell(pos);
@@ -66,24 +60,16 @@ public class Layer : MonoBehaviour
 	//Used to make sure two overlays dont conflict before being set, cleared on the update
 	public HashSet<Vector3> overlayStore = new HashSet<Vector3>();
 
+	[NonSerialized]
 	public MetaTileMap metaTileMap;
 
 	public void Awake()
 	{
-		matrix = GetComponentInParent<Matrix>();
+		Matrix = GetComponentInParent<Matrix>();
 		tilemap = GetComponent<Tilemap>();
 		TilemapDamage = GetComponent<TilemapDamage>();
-		subsystemManager = GetComponentInParent<SubsystemManager>();
+		SubsystemManager = GetComponentInParent<SubsystemManager>();
 		RecalculateBounds();
-		OnTileChanged.AddListener((pos, tile) => TryRecalculateBounds());
-
-		void TryRecalculateBounds()
-		{
-			if (recalculateBoundsHandle == null)
-			{
-				this.RestartCoroutine(RecalculateBoundsNextFrame(), ref recalculateBoundsHandle);
-			}
-		}
 	}
 
 	/// <summary>
@@ -140,7 +126,6 @@ public class Layer : MonoBehaviour
 		}
 	}
 
-
 	private void OnRotate(MatrixRotationInfo info)
 	{
 		if (info.IsEnding || info.IsObjectBeingRegistered)
@@ -158,10 +143,23 @@ public class Layer : MonoBehaviour
 	public virtual void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix, Color color)
 	{
 		InternalSetTile(position, tile);
-
 		tilemap.SetColor(position, color);
 		tilemap.SetTransformMatrix(position, transformMatrix);
-		subsystemManager?.UpdateAt(position);
+		//Client stuff, never spawn this on the server. (IsServer is technically a client in some cases so only return this on headless)
+		if (CustomNetworkManager.IsHeadless) return;
+		if (tile is not SimpleTile c) return; //Not a tile that has the data we need
+		if(c.CanBeHighlightedThroughScanners == false || c.HighlightObject == null) return;
+		var spawnHighlight = Spawn.ClientPrefab(c.HighlightObject, MatrixManager.LocalToWorld(position, Matrix), this.transform); //Spawn highlight object ontop of tile
+		if(spawnHighlight.Successful == false || spawnHighlight.GameObject.TryGetComponent<HighlightScan>(out var scan) == false) return; //If this fails for whatever reason, return
+		c.AssoicatedSpawnedObjects.Add(spawnHighlight.GameObject); //Add it to a list that the tile will keep track off for when OnDestroy() happens
+		scan.Setup(c.sprite); //setup the highlight sprite rendere
+	}
+
+	public bool RemoveTile(Vector3Int position)
+	{
+		var tileRemoved = false;
+		tileRemoved = InternalSetTile(position, null);
+		return tileRemoved;
 	}
 
 	/// <summary>
@@ -169,69 +167,24 @@ public class Layer : MonoBehaviour
 	/// </summary>
 	protected bool InternalSetTile(Vector3Int position, GenericTile tile)
 	{
-		bool HasTile = tilemap.HasTile(position);
+		var hasTile = tilemap.HasTile(position);
 		tilemap.SetTile(position, tile);
-		OnTileChanged.Invoke(position, tile);
-		return HasTile;
+		if (recalculateBoundsHandle == null)
+		{
+			this.RestartCoroutine(RecalculateBoundsNextFrame(), ref recalculateBoundsHandle);
+		}
+		return hasTile;
 	}
 
-	public virtual LayerTile GetTile(Vector3Int position)
+	public LayerTile GetTile(Vector3Int position)
 	{
 		return tilemap.GetTile<LayerTile>(position);
 	}
 
-	public virtual bool IsDifferent(Vector3Int cellPosition, LayerTile layerTile, Matrix4x4? transformMatrix = null,
-		Color? color = null)
+	public bool HasTile(Vector3Int position)
 	{
-		if (tilemap.GetTile<LayerTile>(cellPosition) != layerTile) return true;
-
-		if (color != null)
-		{
-			if (tilemap.GetColor(cellPosition) != color.GetValueOrDefault(Color.white)) return true;
-		}
-
-		if (transformMatrix != null)
-		{
-			if (tilemap.GetTransformMatrix(cellPosition) !=
-			    transformMatrix.GetValueOrDefault(Matrix4x4.identity)) return true;
-		}
-
-		return false;
-	}
-
-
-	public virtual bool HasTile(Vector3Int position)
-	{
+		if (tilemap == null) return false;
 		return tilemap.HasTile(position);
-	}
-
-	public virtual bool RemoveTile(Vector3Int position, bool removeAll = false)
-	{
-		bool TileREmoved = false;
-		if (removeAll)
-		{
-			position.z = 0;
-			while (tilemap.HasTile(position))
-			{
-				InternalSetTile(position, null);
-				position.z--;
-				TileREmoved = true;
-			}
-		}
-		else
-		{
-			TileREmoved = InternalSetTile(position, null);
-		}
-
-		position.z = 0;
-		subsystemManager.UpdateAt(position);
-		return TileREmoved;
-	}
-
-	public virtual void ClearAllTiles()
-	{
-		tilemap.ClearAllTiles();
-		OnTileChanged.Invoke(TransformState.HiddenPos, null);
 	}
 
 #if UNITY_EDITOR
@@ -245,5 +198,6 @@ public class Layer : MonoBehaviour
 	{
 		tilemap.ClearAllEditorPreviewTiles();
 	}
+
 #endif
 }

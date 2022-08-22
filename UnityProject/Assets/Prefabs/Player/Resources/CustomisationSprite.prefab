@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7972631321468688765}
   - component: {fileID: 5859772658172570302}
   - component: {fileID: 7987984179268195915}
-  - component: {fileID: 3279297986612625504}
   m_Layer: 8
   m_Name: CustomisationSprite
   m_TagString: Untagged
@@ -30,6 +29,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -45,6 +45,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -100,11 +101,11 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
-  pushTextureOnStartUp: 1
-  variantIndex: 0
-  palette: []
-  Sprites: []
   randomInitialSprite: 0
+  doReverseAnimation: 0
+  pushTextureOnStartUp: 1
+  initialVariantIndex: 0
+  palette: []
 --- !u!114 &7987984179268195915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,23 +119,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpriteHandler: {fileID: 5859772658172570302}
-  SpriteOrder:
+  spriteOrder:
     Orders: 00000000000000000000000000000000
   spriteRenderer: {fileID: 7972631321468688765}
-  ClothingHide: 0
---- !u!114 &3279297986612625504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7805668480487436571}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isDirty: 0
-  sceneId: 0
-  serverOnly: 0
-  m_AssetId: 

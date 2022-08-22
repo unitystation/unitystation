@@ -7,10 +7,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 494203577807957586, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 5779498140240239309}
     - target: {fileID: 854479238589397880, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b195e4a9a7ac92b4e9c2f5aa2f002535
       objectReference: {fileID: 0}
     - target: {fileID: 1919541056858231082, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -32,7 +37,7 @@ PrefabInstance:
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.size
-      value: 9
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -86,6 +91,12 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[8].Item
       value: 
+      objectReference: {fileID: 3486841869076151784, guid: a7f5957552c2a364e8df31a14194d6ad,
+        type: 3}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[9].Item
+      value: 
       objectReference: {fileID: 5679653990819878728, guid: 870465133fc9ff74cac3531c276c7547,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
@@ -98,6 +109,18 @@ PrefabInstance:
       propertyPath: InitialVendorContent.Array.data[0].Stock
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[10].Item
+      value: 
+      objectReference: {fileID: 3431291279286482953, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[11].Item
+      value: 
+      objectReference: {fileID: 4683416395492829356, guid: 70403efb456973040a63651bdcb72ca1,
+        type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[1].Price
@@ -171,12 +194,42 @@ PrefabInstance:
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[8].Price
-      value: 5000
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[8].Stock
-      value: 2
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[9].Price
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[9].Stock
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[10].Price
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[10].Stock
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[11].Price
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[11].Stock
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -266,8 +319,49 @@ PrefabInstance:
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[8].ItemName
+      value: Artifact Detector
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[9].Currency
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[9].ItemName
       value: Havanian Cigar Case
       objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[10].Currency
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[10].ItemName
+      value: Night Vision Goggles
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[11].Currency
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[11].ItemName
+      value: Mining Scanner
+      objectReference: {fileID: 0}
+    - target: {fileID: 5293842515076411475, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: foreverID
+      value: b195e4a9a7ac92b4e9c2f5aa2f002535
+      objectReference: {fileID: 0}
+    - target: {fileID: 7077253877563091611, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: MachineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: 563700666a7b1124390c6f9ff0986197,
+        type: 2}
     - target: {fileID: 9036003665837402637, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: m_Sprite
@@ -336,3 +430,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f2954acc32d9d3468c620e34a625966, type: 3}
+--- !u!210 &5779498140240239309 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 5821560771589487274, guid: 2f2954acc32d9d3468c620e34a625966,
+    type: 3}
+  m_PrefabInstance: {fileID: 71688443645419623}
+  m_PrefabAsset: {fileID: 0}

@@ -15,7 +15,17 @@ public class FPSCounter : MonoBehaviour
 		DontDestroyOnLoad(this);
 	}
 
-	private void Update()
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void UpdateMe()
 	{
 		if (Time.timeSinceLevelLoad - timeA <= 1)
 		{

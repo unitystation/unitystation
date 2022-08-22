@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2630582268323205048}
   m_RootOrder: 5
@@ -43,10 +44,12 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -69,7 +72,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 11
+  m_SortingLayer: 13
   m_SortingOrder: 40
   m_Sprite: {fileID: 21300000, guid: 06e8fa63f687ca546aa6e9a89191302c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -97,10 +100,11 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 364b953b5bfcc4b44b574f8627596ae4, type: 2}
+  randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1001 &1820312613656738722
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -166,14 +170,14 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: initialDescription
-      value: A tool that discharges controlled radiation which induces mutation in
-        plant cells.
+      propertyPath: initialName
+      value: floral somatoray
       objectReference: {fileID: 0}
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: initialName
-      value: floral somatoray
+      propertyPath: initialDescription
+      value: A tool that discharges controlled radiation which induces mutation in
+        plant cells.
       objectReference: {fileID: 0}
     - target: {fileID: 4318467024818780366, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -183,7 +187,12 @@ PrefabInstance:
     - target: {fileID: 4342894697621943514, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: fb742889150088d428b407ad4189dd93
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -202,6 +211,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -214,16 +228,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -268,6 +272,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5d681e96b0fabcb46a3918d780452b48,
         type: 2}
+    - target: {fileID: 7308079732379829507, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: foreverID
+      value: fb742889150088d428b407ad4189dd93
+      objectReference: {fileID: 0}
     - target: {fileID: 7536533288437052137, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: PresentSpriteSet

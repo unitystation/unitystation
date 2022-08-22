@@ -10,13 +10,35 @@ PrefabInstance:
     - target: {fileID: 552305384801587101, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 15c5ba9791bcdd940965825e1a84fa69
       objectReference: {fileID: 0}
     - target: {fileID: 1644380039084729807, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
       propertyPath: initialName
       value: virology airlock
       objectReference: {fileID: 0}
+    - target: {fileID: 2268823939221595730, guid: 6af0a221ec6985a46956ac77fab1f771,
+        type: 3}
+      propertyPath: isWindowedDoor
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2423441889713074305, guid: 6af0a221ec6985a46956ac77fab1f771,
+        type: 3}
+      propertyPath: airlockAssemblyPrefab
+      value: 
+      objectReference: {fileID: 295318903328412407, guid: a1f7b5329bed0664795e9c3f5b4ec72d,
+        type: 3}
+    - target: {fileID: 2928157364170990969, guid: 6af0a221ec6985a46956ac77fab1f771,
+        type: 3}
+      propertyPath: restriction
+      value: 78
+      objectReference: {fileID: 0}
+    - target: {fileID: 3469759388258226213, guid: 6af0a221ec6985a46956ac77fab1f771,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b0d9fc45c74a112418ac9cf6f9ddc986,
+        type: 2}
     - target: {fileID: 3469759388258226213, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
       propertyPath: SubCatalogue.Array.data[0]
@@ -41,18 +63,32 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c18db5bf9cbc6c24ca42650862752f59,
         type: 2}
-    - target: {fileID: 3469759388258226213, guid: 6af0a221ec6985a46956ac77fab1f771,
+    - target: {fileID: 4973688389494506678, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: b0d9fc45c74a112418ac9cf6f9ddc986,
-        type: 2}
+      propertyPath: foreverID
+      value: 15c5ba9791bcdd940965825e1a84fa69
+      objectReference: {fileID: 0}
+    - target: {fileID: 5690581577992094493, guid: 6af0a221ec6985a46956ac77fab1f771,
+        type: 3}
+      propertyPath: requiredClearance.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5690581577992094493, guid: 6af0a221ec6985a46956ac77fab1f771,
+        type: 3}
+      propertyPath: requiredClearance.Array.data[0]
+      value: 36
+      objectReference: {fileID: 0}
     - target: {fileID: 8149197489328545512, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 18ef2e743342c6643b210b436bd92c25,
         type: 3}
+    - target: {fileID: 8242232534866279461, guid: 6af0a221ec6985a46956ac77fab1f771,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8242232534866279461, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -70,6 +106,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8242232534866279461, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8242232534866279461, guid: 6af0a221ec6985a46956ac77fab1f771,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -82,16 +123,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8242232534866279461, guid: 6af0a221ec6985a46956ac77fab1f771,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8242232534866279461, guid: 6af0a221ec6985a46956ac77fab1f771,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8242232534866279461, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}

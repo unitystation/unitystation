@@ -1,0 +1,23 @@
+<!-- Copyright (C) 2018 Google Inc. All Rights Reserved.
+
+FirebaseAuth iOS and Android Dependencies.
+-->
+
+<dependencies>
+  <iosPods>
+    <iosPod name="Firebase/Auth" version="7.11.0" minTargetSdk="9.0">
+    </iosPod>
+  </iosPods>
+  <androidPackages>
+    <androidPackage spec="com.google.firebase:firebase-auth:20.0.4">
+    </androidPackage>
+    <androidPackage spec="com.google.firebase:firebase-analytics:18.0.3">
+    </androidPackage>
+    <androidPackage spec="com.google.firebase:firebase-auth-unity:7.2.0">
+      <repositories>
+        <repository>Assets/Firebase/m2repository</repository>
+      </repositories>
+    </androidPackage>
+  </androidPackages>
+</dependencies>
+

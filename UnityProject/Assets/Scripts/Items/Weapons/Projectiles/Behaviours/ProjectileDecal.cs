@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+﻿using Detective;
+using Items;
+using Mirror;
+using UnityEngine;
 
 namespace Weapons.Projectiles.Behaviours
 {
-	public class ProjectileDecal : MonoBehaviour, IOnHit
+	public class ProjectileDecal : NetworkBehaviour, IOnHit
 	{
 		[SerializeField] private GameObject decal = null;
 
@@ -17,11 +20,44 @@ namespace Weapons.Projectiles.Behaviours
 				return false;
 			}
 
-			var newDecal = Spawn.ClientPrefab(decal.name,
-				hit.HitWorld).GameObject;
+			RpcClientSpawn(hit.HitWorld);
+			AppliedDetails AppliedDetails = null;
+			if (hit.CollisionHit.GameObject == null)
+			{
+				var Matrix =  MatrixManager.AtPoint(hit.TileHitWorld, isServer);
+				if (Matrix != null)
+				{
+					var Node = Matrix.MetaDataLayer.Get(hit.TileHitWorld.ToLocal(Matrix.Matrix).RoundToInt());
+					AppliedDetails = Node.AppliedDetails;
+				}
+			}
+			else
+			{
+				var Node = hit.CollisionHit.GameObject.GetComponent<Attributes>().OrNull();
+				if (Node != null)
+				{
+					AppliedDetails = Node.AppliedDetails;
+				}
+			}
+
+			AppliedDetails?.AddDetail(new Detail()
+			{
+				CausedByInstanceID = 0,
+				Description = $"A bullet hole that looks like it was made by a {this.gameObject.name}",
+				DetailType = DetailType.BulletHole
+			});
+
+
+			return false;
+		}
+
+		[ClientRpc]
+		public void RpcClientSpawn(Vector3 WorldPosition)
+		{
+			var newDecal = Spawn.ClientPrefab(decal,
+				WorldPosition).GameObject;
 			var timeLimitedDecal = newDecal.GetComponent<TimeLimitedDecal>();
 			timeLimitedDecal.SetUpDecal(animationTime);
-			return false;
 		}
 	}
 }

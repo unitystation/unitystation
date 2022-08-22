@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 23a462cf13b68af4aaeb2992e263fbfd,
         type: 2}
+    - target: {fileID: 2317960629209797202, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
+        type: 3}
+      propertyPath: foreverID
+      value: 559a6395df37aa249a2e1407680afd35
+      objectReference: {fileID: 0}
     - target: {fileID: 3303296021054694840, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -33,6 +38,21 @@ PrefabInstance:
         type: 3}
       propertyPath: Gases.Array.data[1]
       value: 33.2748
+      objectReference: {fileID: 0}
+    - target: {fileID: 3519444805694504380, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
+        type: 3}
+      propertyPath: StoredGasMix.Volume
+      value: 0.800429
+      objectReference: {fileID: 0}
+    - target: {fileID: 3519444805694504380, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
+        type: 3}
+      propertyPath: StoredGasMix.Pressure
+      value: 1065.7839
+      objectReference: {fileID: 0}
+    - target: {fileID: 3519444805694504380, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].Moles
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 8683563700070376267, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}
@@ -97,7 +117,7 @@ PrefabInstance:
     - target: {fileID: 8720517632814588811, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 559a6395df37aa249a2e1407680afd35
       objectReference: {fileID: 0}
     - target: {fileID: 8818119064869842275, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}

@@ -19,15 +19,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2378148153672396564, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2378148153672396564, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: f225fc056ed995028b8b5192de8f067b,
         type: 2}
+    - target: {fileID: 2378148153672396564, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2378148153672396564, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
@@ -37,6 +37,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: JungleSalad
+      objectReference: {fileID: 0}
+    - target: {fileID: 3474923807543253704, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3474923807543253704, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
         type: 3}
@@ -55,6 +60,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3474923807543253704, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3474923807543253704, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -67,16 +77,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3474923807543253704, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3474923807543253704, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3474923807543253704, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
         type: 3}
@@ -96,7 +96,7 @@ PrefabInstance:
     - target: {fileID: 3584548037582887432, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 1424129d892dc2a4da277c30ba3b2721
       objectReference: {fileID: 0}
     - target: {fileID: 3664557313691784416, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
         type: 3}
@@ -104,19 +104,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 298e39b0452606d4a9ce3c4612c3e687,
         type: 3}
-    - target: {fileID: 3947247151146354910, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
+    - target: {fileID: 3664557313691784416, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
         type: 3}
-      propertyPath: initialDescription
-      value: Exotic fruits in a bowl.
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3947247151146354910, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
         type: 3}
       propertyPath: initialName
       value: jungle salad
       objectReference: {fileID: 0}
+    - target: {fileID: 3947247151146354910, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
+        type: 3}
+      propertyPath: initialDescription
+      value: Exotic fruits in a bowl.
+      objectReference: {fileID: 0}
     - target: {fileID: 4755138025394611660, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
         type: 3}
       propertyPath: NutritionLevel
+      value: 425
+      objectReference: {fileID: 0}
+    - target: {fileID: 4755138025394611660, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
+        type: 3}
+      propertyPath: StartingNutrients
       value: 425
       objectReference: {fileID: 0}
     - target: {fileID: 7308486626998426683, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
@@ -125,5 +135,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b1f4455a78c37ca4aaf20c375455a91b,
         type: 2}
+    - target: {fileID: 7534613500453596113, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
+        type: 3}
+      propertyPath: foreverID
+      value: 1424129d892dc2a4da277c30ba3b2721
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98, type: 3}

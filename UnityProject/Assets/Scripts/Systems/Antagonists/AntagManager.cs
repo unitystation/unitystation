@@ -2,13 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Text;
 using System.Linq;
 using DiscordWebhook;
-using DatabaseAPI;
 using Messages.Server.LocalGuiMessages;
 using Objects.Command;
-using UnityEngine.SceneManagement;
+using Strings;
+using Player;
 
 namespace Antagonists
 {
@@ -55,24 +56,24 @@ namespace Antagonists
 			}
 		}
 
-		void OnEnable()
+		private void OnEnable()
 		{
 			SceneManager.activeSceneChanged += OnSceneChange;
-			EventManager.AddHandler(EVENT.RoundEnded, OnRoundEnd);
+			EventManager.AddHandler(Event.RoundEnded, OnRoundEnd);
 		}
 
-		void OnDisable()
+		private void OnDisable()
 		{
 			SceneManager.activeSceneChanged -= OnSceneChange;
-			EventManager.RemoveHandler(EVENT.RoundEnded, OnRoundEnd);
+			EventManager.RemoveHandler(Event.RoundEnded, OnRoundEnd);
 		}
 
-		void OnSceneChange(Scene oldScene, Scene newScene)
+		private void OnSceneChange(Scene oldScene, Scene newScene)
 		{
 			SyndiNukeCode = Nuke.CodeGenerator();
 		}
 
-		void OnRoundEnd()
+		private void OnRoundEnd()
 		{
 			ResetAntags();
 		}
@@ -92,18 +93,24 @@ namespace Antagonists
 		public void ServerSpawnAntag(Antagonist chosenAntag, PlayerSpawnRequest spawnRequest)
 		{
 			//spawn the antag using their custom spawn logic
-			ConnectedPlayer spawnedPlayer = chosenAntag.ServerSpawn(spawnRequest).Player();
+			PlayerInfo spawnedPlayer = chosenAntag.ServerSpawn(spawnRequest).Player();
 
 			ServerFinishAntag(chosenAntag, spawnedPlayer);
 		}
 
-		public IEnumerator ServerRespawnAsAntag(ConnectedPlayer connectedPlayer, Antagonist antagonist)
+		public IEnumerator ServerRespawnAsAntag(PlayerInfo connectedPlayer, Antagonist antagonist)
 		{
 			var antagOccupation = antagonist.AntagOccupation;
 
 			if (antagOccupation != null)
 			{
 				connectedPlayer.Script.mind.occupation = antagonist.AntagOccupation;
+			}
+
+			//Can be null if respawning spectator ghost as they dont have an occupation and their antag occupation is null too
+			if (connectedPlayer.Script.mind.occupation == null)
+			{
+				yield break;
 			}
 
 			if (antagonist.AntagJobType == JobType.SYNDICATE)
@@ -122,7 +129,7 @@ namespace Antagonists
 			ServerFinishAntag(antagonist, connectedPlayer);
 		}
 
-		private SpawnedAntag SetAntagDetails(Antagonist chosenAntag, ConnectedPlayer connectedPlayer)
+		private SpawnedAntag SetAntagDetails(Antagonist chosenAntag, PlayerInfo connectedPlayer)
 		{
 			// Generate objectives for this antag
 			List<Objective> objectives = antagData.GenerateObjectives(connectedPlayer.Script, chosenAntag);
@@ -132,7 +139,7 @@ namespace Antagonists
 			return spawnedAntag;
 		}
 
-		public void ServerFinishAntag(Antagonist chosenAntag, ConnectedPlayer connectedPlayer)
+		public void ServerFinishAntag(Antagonist chosenAntag, PlayerInfo connectedPlayer)
 		{
 			var spawnedAntag = SetAntagDetails(chosenAntag, connectedPlayer);
 			activeAntags.Add(spawnedAntag);
@@ -149,9 +156,9 @@ namespace Antagonists
 		/// </summary>
 		/// <param name="player">The player that should receive an uplink in the first PDA found on them.</param>
 		/// <param name="tcCount">The amount of telecrystals the uplink should be given.</param>
-		public static void TryInstallPDAUplink(ConnectedPlayer player, int tcCount, bool isNukeOps)
+		public static void TryInstallPDAUplink(PlayerInfo player, int tcCount, bool isNukeOps)
 		{
-			foreach (ItemSlot slot in player.Script.ItemStorage.GetItemSlotTree())
+			foreach (ItemSlot slot in player.Script.DynamicItemStorage.GetItemSlotTree())
 			{
 				if (slot.IsEmpty) continue;
 				if (slot.Item.TryGetComponent<Items.PDA.PDALogic>(out var pda))
@@ -166,7 +173,7 @@ namespace Antagonists
 		/// </summary>
 		/// <param name="player">Who</param>
 		/// <param name="antag">What antag data</param>
-		private static void ShowAntagBanner(ConnectedPlayer player, Antagonist antag)
+		private static void ShowAntagBanner(PlayerInfo player, Antagonist antag)
 		{
 			SpawnBannerMessage.Send(
 				player.GameObject,
@@ -193,16 +200,16 @@ namespace Antagonists
 		/// </summary>
 		public void ShowAntagStatusReport()
 		{
-			StringBuilder statusSB = new StringBuilder($"<color=white><size=60><b>End of Round Report</b></size></color>\n\n", 200);
+			StringBuilder statusSB = new StringBuilder();
 
-			var message = $"End of Round Report on {ServerData.ServerConfig.ServerName}\n";
+			var message = $"";
 
 			if (activeAntags.Count > 0)
 			{
 				// Group all the antags by type and list them together
 				foreach (var antagType in activeAntags.GroupBy(t => t.GetType()))
 				{
-					statusSB.AppendLine($"<size=48>The <b>{antagType.First().Antagonist.AntagName}s</b> were:\n</size>");
+					statusSB.AppendLine($"<size={ChatTemplates.LargeText}>The <b>{antagType.First().Antagonist.AntagName}s</b> were:\n</size>");
 					message += $"The {antagType.First().Antagonist.AntagName}s were:\n";
 					foreach (var antag in antagType)
 					{
@@ -214,7 +221,7 @@ namespace Antagonists
 			else
 			{
 				message += $"\nThere were no antagonists!\n";
-				statusSB.AppendLine("<size=48>There were no antagonists!</size>");
+				statusSB.AppendLine($"<size={ChatTemplates.LargeText}>There were no antagonists!</size>");
 			}
 
 			if (PlayerList.Instance.ConnectionCount == 1)
@@ -241,6 +248,5 @@ namespace Antagonists
 			TargetedPlayers.Clear();
 			TargetedItems.Clear();
 		}
-
 	}
 }

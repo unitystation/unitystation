@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1384538510348964022, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
+      propertyPath: foreverID
+      value: 540c57ee4134ffc42b70e1914c07e63f
+      objectReference: {fileID: 0}
     - target: {fileID: 2218718408021370716, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -19,15 +24,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 166aa16fbe9165f4eb407e406184769b,
         type: 3}
+    - target: {fileID: 5295549301877665671, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5339107572780065135, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 540c57ee4134ffc42b70e1914c07e63f
       objectReference: {fileID: 0}
     - target: {fileID: 5443839937711004891, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
       propertyPath: m_Name
       value: MirrorShield
+      objectReference: {fileID: 0}
+    - target: {fileID: 5449326638544003503, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5449326638544003503, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
@@ -46,6 +61,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5449326638544003503, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5449326638544003503, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +78,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5449326638544003503, guid: d8e28939643d5a34095fed9b0898c45b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5449326638544003503, guid: d8e28939643d5a34095fed9b0898c45b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5449326638544003503, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
@@ -86,27 +96,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
-      propertyPath: attackVerbs.Array.size
-      value: 2
+      propertyPath: hitDamage
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 11400000, guid: e5550afbed98680499d1af5212550fa3,
-        type: 2}
+      propertyPath: throwRange
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 7dbd4c4d845fd944ba5e220292e342c1,
-        type: 2}
-    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
-        type: 3}
-      propertyPath: initialDescription
-      value: An infamous shield used by Nar'Sien sects to confuse and disorient their
-        enemies. Its edges are weighted for use as a throwing weapon - capable of
-        disabling multiple foes with preternatural accuracy.
+      propertyPath: throwSpeed
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
@@ -120,6 +121,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
+      propertyPath: throwDamage
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
+      propertyPath: initialDescription
+      value: An infamous shield used by Nar'Sien sects to confuse and disorient their
+        enemies. Its edges are weighted for use as a throwing weapon - capable of
+        disabling multiple foes with preternatural accuracy.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
+      propertyPath: attackVerbs.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
       propertyPath: attackVerbs.Array.data[0]
       value: bumped
       objectReference: {fileID: 0}
@@ -130,23 +148,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
-      propertyPath: hitDamage
-      value: 5
-      objectReference: {fileID: 0}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: e5550afbed98680499d1af5212550fa3,
+        type: 2}
     - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
-      propertyPath: throwDamage
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
-        type: 3}
-      propertyPath: throwSpeed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
-        type: 3}
-      propertyPath: throwRange
-      value: 4
-      objectReference: {fileID: 0}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 7dbd4c4d845fd944ba5e220292e342c1,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8e28939643d5a34095fed9b0898c45b, type: 3}

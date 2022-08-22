@@ -1,62 +1,73 @@
 ﻿using System;
 using System.Collections;
-using AddressableReferences;
-using NaughtyAttributes;
 using UnityEngine;
+using NaughtyAttributes;
+using Core.Editor.Attributes;
+using AddressableReferences;
+using Audio.Managers;
 using Messages.Server;
+using Messages.Server.SoundMessages;
+
 
 namespace Doors
 {
 	public class DoorAnimatorV2 : MonoBehaviour
 	{
 		#region Sprite layers
-		[BoxGroup("Sprite Layers"),
-		 Tooltip("Game object which represents the base of this door"),
-		 SerializeField]
+		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
+		[Tooltip("Game object which represents the base of this door")]
 		private GameObject doorBase = null;
+		public GameObject DoorBase => doorBase;
 
-		[BoxGroup("Sprite Layers"),
-		 Tooltip("Game object which represents the light layer of this door"),
-		 SerializeField]
+		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
+		[Tooltip("Game object which represents the light layer of this door")]
 		private GameObject overlaySparks = null;
+		public GameObject OverlaySparks => overlaySparks;
 
-		[BoxGroup("Sprite Layers"),
-		 Tooltip("Game object which represents the light layer of this door"),
-		 SerializeField]
+		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
+		[Tooltip("Game object which represents the light layer of this door")]
 		private GameObject overlayLights = null;
+		public GameObject OverlayLights => overlayLights;
 
-		[BoxGroup("Sprite Layers"),
-		 Tooltip("Game object which represents the fill layer of this door"),
-		 SerializeField]
+		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
+		[Tooltip("Game object which represents the fill layer of this door")]
 		private GameObject overlayFill = null;
+		public GameObject OverlayFill => overlayFill;
 
-		[BoxGroup("Sprite Layers"),
-		 Tooltip("Game object which represents the welded and effects layer for this door"),
-		 SerializeField]
+		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
+		[Tooltip("Game object which represents the welded and effects layer for this door")]
 		private GameObject overlayWeld = null;
+		public GameObject OverlayWeld => overlayWeld;
 
-		[BoxGroup("Sprite Layers"),
-		 Tooltip("Game object which represents the hacking panel layer for this door"),
-		 SerializeField]
+		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
+		[Tooltip("Game object which represents the hacking panel layer for this door")]
 		private GameObject overlayHacking = null;
+		public GameObject OverlayHacking => overlayHacking;
 
-		[SerializeField, Tooltip("Time this door's opening animation takes")]
+		[SerializeField, PrefabModeOnly]
+		[Tooltip("Time this door's opening animation takes")]
 		private float openingAnimationTime = 0.6f;
 
-		[SerializeField, Tooltip("Time this door's closing animation takes")]
+		[SerializeField, PrefabModeOnly]
+		[Tooltip("Time this door's closing animation takes")]
 		private float closingAnimationTime = 0.6f;
 
-		[SerializeField, Tooltip("Time this door's denied animation takes")]
+		[SerializeField, PrefabModeOnly]
+		[Tooltip("Time this door's denied animation takes")]
 		private float deniedAnimationTime = 0.6f;
+
+		[SerializeField, PrefabModeOnly]
+		[Tooltip("Time this door's warning animation takes")]
+		private float warningAnimationTime = 0.6f;
 		#endregion
 
-		[SerializeField, Tooltip("Sound that plays when opening this door")]
+		[SerializeField, PrefabModeOnly, Tooltip("Sound that plays when opening this door")]
 		private AddressableAudioSource openingSFX;
-		[SerializeField, Tooltip("Sound that plays when closing this door")]
+		[SerializeField, PrefabModeOnly, Tooltip("Sound that plays when closing this door")]
 		private AddressableAudioSource closingSFX;
-		[SerializeField, Tooltip("Sound that plays when access is denied by this door")]
+		[SerializeField, PrefabModeOnly, Tooltip("Sound that plays when access is denied by this door")]
 		private AddressableAudioSource deniedSFX;
-		[SerializeField, Tooltip("Sound that plays when pressure warning is played by this door")]
+		[SerializeField, PrefabModeOnly, Tooltip("Sound that plays when pressure warning is played by this door")]
 		private AddressableAudioSource warningSFX;
 
 		public event Action AnimationFinished;
@@ -78,15 +89,17 @@ namespace Doors
 			overlayHackingHandler = overlayHacking.GetComponent<SpriteHandler>();
 		}
 
-		public void PlayAnimation(DoorUpdateType type, bool skipAnimation)
+		//Called on client and server
+		// panelExposed and lights not hooked up into the net message yet
+		public void PlayAnimation(DoorUpdateType type, bool skipAnimation, bool panelExposed = false, bool lights = true)
 		{
 			if (type == DoorUpdateType.Open)
 			{
-				StartCoroutine(PlayOpeningAnimation(skipAnimation));
+				StartCoroutine(PlayOpeningAnimation(skipAnimation, panelExposed));
 			}
 			else if (type == DoorUpdateType.Close)
 			{
-				StartCoroutine(PlayClosingAnimation(skipAnimation));
+				StartCoroutine(PlayClosingAnimation(skipAnimation, panelExposed));
 			}
 			else if (type == DoorUpdateType.AccessDenied)
 			{
@@ -99,61 +112,75 @@ namespace Doors
 			}
 		}
 
-		public IEnumerator PlayOpeningAnimation(bool panelExposed = false, bool lights = true)
+		public IEnumerator PlayOpeningAnimation(bool skipAnimation = false, bool panelExposed = false, bool lights = true)
 		{
+			if (skipAnimation == false)
+			{
+				if (panelExposed)
+				{
+					overlayHackingHandler.ChangeSprite((int)Panel.Opening, false);
+				}
+
+				if (lights)
+				{
+					overlayLightsHandler.ChangeSprite((int) Lights.Opening, false);
+				}
+				overlayFillHandler.ChangeSprite((int) DoorFrame.Opening, false);
+				doorBaseHandler.ChangeSprite((int) DoorFrame.Opening, false);
+				ClientPlaySound(openingSFX);
+				yield return WaitFor.Seconds(openingAnimationTime);
+			}
+
+			// Change to open sprite after done opening
 			if (panelExposed)
 			{
-				overlayHackingHandler.ChangeSprite((int)Panel.Opening);
+				overlayHackingHandler.ChangeSprite((int)Panel.Open, false);
 			}
-
-			if (lights)
+			else
 			{
-				overlayLightsHandler.ChangeSprite((int) Lights.Opening);
+				overlayHackingHandler.ChangeSprite((int) Panel.NoPanel, false);
 			}
-			overlayFillHandler.ChangeSprite((int) DoorFrame.Opening);
-			doorBaseHandler.ChangeSprite((int) DoorFrame.Opening);
-			SoundManager.PlayAtPosition(openingSFX, gameObject.AssumedWorldPosServer());
-			yield return WaitFor.Seconds(openingAnimationTime);
 
-			//Change to open sprite after done opening
-			overlayHackingHandler.ChangeSprite((int) Panel.Open);
-			overlayLightsHandler.ChangeSprite((int) Lights.NoLight);
-			overlayFillHandler.ChangeSprite((int) DoorFrame.Open);
-			doorBaseHandler.ChangeSprite((int) DoorFrame.Open);
+			overlayLightsHandler.ChangeSprite((int) Lights.NoLight, false);
+			overlayFillHandler.ChangeSprite((int) DoorFrame.Open, false);
+			doorBaseHandler.ChangeSprite((int) DoorFrame.Open, false);
 
 			AnimationFinished?.Invoke();
 		}
 
-		public IEnumerator PlayClosingAnimation(bool panelExposed = false, bool lights = true)
+		public IEnumerator PlayClosingAnimation(bool skipAnimation = false, bool panelExposed = false, bool lights = true)
 		{
-			if (panelExposed)
+			if (skipAnimation == false)
 			{
-				overlayHackingHandler.ChangeSprite((int)Panel.Closing);
-			}
+				if (panelExposed)
+				{
+					overlayHackingHandler.ChangeSprite((int)Panel.Closing, false);
+				}
 
-			if (lights)
-			{
-				overlayLightsHandler.ChangeSprite((int) Lights.Closing);
-			}
+				if (lights)
+				{
+					overlayLightsHandler.ChangeSprite((int) Lights.Closing, false);
+				}
 
-			overlayFillHandler.ChangeSprite((int) DoorFrame.Closing);
-			doorBaseHandler.ChangeSprite((int) DoorFrame.Closing);
-			SoundManager.PlayNetworkedAtPos(closingSFX, gameObject.AssumedWorldPosServer());
-			yield return WaitFor.Seconds(openingAnimationTime);
+				overlayFillHandler.ChangeSprite((int) DoorFrame.Closing, false);
+				doorBaseHandler.ChangeSprite((int) DoorFrame.Closing, false);
+				ClientPlaySound(closingSFX);
+				yield return WaitFor.Seconds(closingAnimationTime);
+			}
 
 			//Change to closed sprite after it is done closing
 			if (panelExposed)
 			{
-				overlayHackingHandler.ChangeSprite((int) Panel.Closed);
+				overlayHackingHandler.ChangeSprite((int) Panel.Closed, false);
 			}
 			else
 			{
-				overlayHackingHandler.ChangeSprite((int) Panel.NoPanel);
+				overlayHackingHandler.ChangeSprite((int) Panel.NoPanel, false);
 			}
 
-			overlayLightsHandler.ChangeSprite((int) Lights.NoLight);
-			overlayFillHandler.ChangeSprite((int) DoorFrame.Closed);
-			doorBaseHandler.ChangeSprite((int) DoorFrame.Closed);
+			overlayLightsHandler.ChangeSprite((int) Lights.NoLight, false);
+			overlayFillHandler.ChangeSprite((int) DoorFrame.Closed, false);
+			doorBaseHandler.ChangeSprite((int) DoorFrame.Closed, false);
 
 			AnimationFinished?.Invoke();
 		}
@@ -162,9 +189,9 @@ namespace Doors
 		{
 			int previousLightSprite = overlayLightsHandler.CurrentSpriteIndex;
 			overlayLightsHandler.ChangeSprite((int)Lights.Denied);
-			SoundManager.PlayNetworkedAtPos(deniedSFX, gameObject.AssumedWorldPosServer());
 			yield return WaitFor.Seconds(deniedAnimationTime);
 
+			if (previousLightSprite == -1) previousLightSprite = 0;
 			overlayLightsHandler.ChangeSprite(previousLightSprite);
 
 			AnimationFinished?.Invoke();
@@ -172,9 +199,29 @@ namespace Doors
 
 		public IEnumerator PlayPressureWarningAnimation()
 		{
-			SoundManager.PlayNetworkedAtPos(warningSFX, gameObject.AssumedWorldPosServer());
+			int previousLightSprite = overlayLightsHandler.CurrentSpriteIndex;
+			overlayLightsHandler.ChangeSprite((int)Lights.PressureWarning);
+			yield return WaitFor.Seconds(warningAnimationTime);
+
+			if (previousLightSprite == -1) previousLightSprite = 0;
+			overlayLightsHandler.ChangeSprite(previousLightSprite);
 			AnimationFinished?.Invoke();
-			yield break;
+		}
+
+		private void ClientPlaySound(AddressableAudioSource sound)
+		{
+			if(CustomNetworkManager.IsHeadless) return;
+
+			_ = SoundManager.PlayAtPosition(sound, gameObject.AssumedWorldPosServer());
+		}
+
+		public void ServerPlayDeniedSound()
+		{
+			_ = SoundManager.PlayNetworkedAtPosAsync(deniedSFX, gameObject.AssumedWorldPosServer());
+		}
+		public void ServerPlayPressureSound()
+		{
+			_ = SoundManager.PlayNetworkedAtPosAsync(warningSFX, gameObject.AssumedWorldPosServer());
 		}
 
 		public void TurnOffAllLights()
@@ -194,7 +241,6 @@ namespace Doors
 
 		public void RemoveWeldOverlay()
 		{
-
 			overlayWeldHandler.ChangeSprite((int) Weld.NoWeld);
 		}
 

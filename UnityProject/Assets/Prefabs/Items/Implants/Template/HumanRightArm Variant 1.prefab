@@ -25,6 +25,46 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7897d6389c487ff4da3c05718d54bae2,
         type: 2}
+    - target: {fileID: 4548261438558078835, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: foreverID
+      value: da2b91f90731e5343aeee2aec957cdd3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: CanBleedExternally
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: spillChanceWhenCutPresent
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: bodyPartColorWhenCharred.b
+      value: 0.08859915
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: bodyPartColorWhenCharred.g
+      value: 0.08859915
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: bodyPartColorWhenCharred.r
+      value: 0.103773594
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: bodyPartAshesAboveThisDamage
+      value: 125
+      objectReference: {fileID: 0}
     - target: {fileID: 7301997280600668226, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: m_Sprite
@@ -34,12 +74,12 @@ PrefabInstance:
     - target: {fileID: 7363429173861889706, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: da2b91f90731e5343aeee2aec957cdd3
       objectReference: {fileID: 0}
     - target: {fileID: 7468114191605762846, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: m_Name
-      value: HumanRightArm Variant
+      value: HumanRightArm Variant 1
       objectReference: {fileID: 0}
     - target: {fileID: 7473600891628779114, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}

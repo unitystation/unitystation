@@ -7,10 +7,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 528427281233462922, guid: 7d9b1a8c2bbbd0844ba2cb0bfd08dd6c,
+        type: 3}
+      propertyPath: foreverID
+      value: 692933ef4ebdd6447affa7d1ec793b27
+      objectReference: {fileID: 0}
     - target: {fileID: 3469093280727382211, guid: 7d9b1a8c2bbbd0844ba2cb0bfd08dd6c,
         type: 3}
       propertyPath: m_Name
       value: PlasmaDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 3472561457115889177, guid: 7d9b1a8c2bbbd0844ba2cb0bfd08dd6c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3472561457115889177, guid: 7d9b1a8c2bbbd0844ba2cb0bfd08dd6c,
         type: 3}
@@ -29,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3472561457115889177, guid: 7d9b1a8c2bbbd0844ba2cb0bfd08dd6c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3472561457115889177, guid: 7d9b1a8c2bbbd0844ba2cb0bfd08dd6c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3472561457115889177, guid: 7d9b1a8c2bbbd0844ba2cb0bfd08dd6c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3472561457115889177, guid: 7d9b1a8c2bbbd0844ba2cb0bfd08dd6c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3472561457115889177, guid: 7d9b1a8c2bbbd0844ba2cb0bfd08dd6c,
         type: 3}
@@ -73,6 +78,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1985119067632230739, guid: 24a0d9db3589b4b41840b8fed2841744,
         type: 3}
+    - target: {fileID: 3694232753251491028, guid: 7d9b1a8c2bbbd0844ba2cb0bfd08dd6c,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4325161267457618208, guid: 7d9b1a8c2bbbd0844ba2cb0bfd08dd6c,
         type: 3}
       propertyPath: spritePath
@@ -81,7 +91,7 @@ PrefabInstance:
     - target: {fileID: 5042167082329279905, guid: 7d9b1a8c2bbbd0844ba2cb0bfd08dd6c,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 692933ef4ebdd6447affa7d1ec793b27
       objectReference: {fileID: 0}
     - target: {fileID: 6089231750803138547, guid: 7d9b1a8c2bbbd0844ba2cb0bfd08dd6c,
         type: 3}

@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 25715693032685112, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
+        type: 3}
+      propertyPath: foreverID
+      value: 42dd5abdb29322b4488e621e804f183e
+      objectReference: {fileID: 0}
     - target: {fileID: 44155453462962640, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
         type: 3}
       propertyPath: clothData
@@ -39,6 +44,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: eb3234434b428d94f80608a4d7b9151b,
         type: 2}
+    - target: {fileID: 3483897746626099850, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483897746626099850, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armoringBodyPartType
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6404652678407139925, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
         type: 3}
       propertyPath: m_Name
@@ -102,7 +117,7 @@ PrefabInstance:
     - target: {fileID: 6446287369552793569, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 42dd5abdb29322b4488e621e804f183e
       objectReference: {fileID: 0}
     - target: {fileID: 6489704868625973513, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
         type: 3}
@@ -124,6 +139,16 @@ PrefabInstance:
         type: 3}
       propertyPath: initialTraits.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6776931286767099191, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 6776931286767099191, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 996d62bfe3bf26c4e95c2a77cadabbd2, type: 3}

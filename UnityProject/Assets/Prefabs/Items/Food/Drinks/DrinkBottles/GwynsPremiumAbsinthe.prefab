@@ -13,26 +13,36 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 273c131e4153c1147b1a29531714d17e,
         type: 2}
-    - target: {fileID: 7173215006781413682, guid: f59ae305481bbc4419d66c692d312e36,
+    - target: {fileID: 4457229215797049917, guid: f59ae305481bbc4419d66c692d312e36,
         type: 3}
-      propertyPath: initialDescription
-      value: A potent alcoholic beverage, almost makes you forget the ash in your
-        lungs.
+      propertyPath: foreverID
+      value: f51f9cd5bf642cd4fa14eb13f15c70f8
       objectReference: {fileID: 0}
     - target: {fileID: 7173215006781413682, guid: f59ae305481bbc4419d66c692d312e36,
         type: 3}
       propertyPath: initialName
       value: Gwyn's premium absinthe
       objectReference: {fileID: 0}
+    - target: {fileID: 7173215006781413682, guid: f59ae305481bbc4419d66c692d312e36,
+        type: 3}
+      propertyPath: initialDescription
+      value: A potent alcoholic beverage, almost makes you forget the ash in your
+        lungs.
+      objectReference: {fileID: 0}
     - target: {fileID: 7274947440120613860, guid: f59ae305481bbc4419d66c692d312e36,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: f51f9cd5bf642cd4fa14eb13f15c70f8
       objectReference: {fileID: 0}
     - target: {fileID: 7305396868739561040, guid: f59ae305481bbc4419d66c692d312e36,
         type: 3}
       propertyPath: m_Name
       value: GwynsPremiumAbsinthe
+      objectReference: {fileID: 0}
+    - target: {fileID: 7310038869089225508, guid: f59ae305481bbc4419d66c692d312e36,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7310038869089225508, guid: f59ae305481bbc4419d66c692d312e36,
         type: 3}
@@ -51,6 +61,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7310038869089225508, guid: f59ae305481bbc4419d66c692d312e36,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7310038869089225508, guid: f59ae305481bbc4419d66c692d312e36,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +78,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7310038869089225508, guid: f59ae305481bbc4419d66c692d312e36,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7310038869089225508, guid: f59ae305481bbc4419d66c692d312e36,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7310038869089225508, guid: f59ae305481bbc4419d66c692d312e36,
         type: 3}

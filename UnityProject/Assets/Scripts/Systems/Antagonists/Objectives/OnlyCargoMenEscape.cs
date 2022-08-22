@@ -8,7 +8,7 @@ namespace Antagonists
 	/// <summary>
 	/// An objective to set off the nuke on the station
 	/// </summary>
-	[CreateAssetMenu(menuName="ScriptableObjects/Objectives/OnlyCargoMenEscape")]
+	[CreateAssetMenu(menuName="ScriptableObjects/AntagObjectives/OnlyCargoMenEscape")]
 	public class OnlyCargoMenEscape : Objective
 	{
 		protected override void Setup()
@@ -30,7 +30,7 @@ namespace Antagonists
 				if (player != null)
 				{
 					playersFound++;
-					var playerDetails = PlayerList.Instance.Get(player.gameObject);
+					var playerDetails = PlayerList.Instance.GetOnline(player.gameObject);
 					if (playerDetails.Job != JobType.CARGOTECH && playerDetails.Job != JobType.MINER
 					                                           && playerDetails.Job != JobType.QUARTERMASTER)
 					{

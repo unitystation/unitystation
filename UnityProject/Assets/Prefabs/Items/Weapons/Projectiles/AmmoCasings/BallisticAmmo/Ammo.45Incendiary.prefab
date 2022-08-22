@@ -7,20 +7,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 8092018907690234912, guid: 55081c8632462ac4b935fa1133a475cc,
+    - target: {fileID: 3322393197383554863, guid: 55081c8632462ac4b935fa1133a475cc,
         type: 3}
-      propertyPath: initialDescription
-      value: A .45 incendiary bullet casing.
+      propertyPath: foreverID
+      value: e2b6ecf903695934a8c983b6d23a037b
       objectReference: {fileID: 0}
     - target: {fileID: 8092018907690234912, guid: 55081c8632462ac4b935fa1133a475cc,
         type: 3}
       propertyPath: initialName
       value: .45 armor-piercing bullet casing
       objectReference: {fileID: 0}
+    - target: {fileID: 8092018907690234912, guid: 55081c8632462ac4b935fa1133a475cc,
+        type: 3}
+      propertyPath: initialDescription
+      value: A .45 incendiary bullet casing.
+      objectReference: {fileID: 0}
     - target: {fileID: 8548178330402364226, guid: 55081c8632462ac4b935fa1133a475cc,
         type: 3}
       propertyPath: m_Name
       value: Ammo.45Incendiary
+      objectReference: {fileID: 0}
+    - target: {fileID: 8553101805598762550, guid: 55081c8632462ac4b935fa1133a475cc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8553101805598762550, guid: 55081c8632462ac4b935fa1133a475cc,
         type: 3}
@@ -39,6 +49,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8553101805598762550, guid: 55081c8632462ac4b935fa1133a475cc,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8553101805598762550, guid: 55081c8632462ac4b935fa1133a475cc,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +66,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8553101805598762550, guid: 55081c8632462ac4b935fa1133a475cc,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8553101805598762550, guid: 55081c8632462ac4b935fa1133a475cc,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8553101805598762550, guid: 55081c8632462ac4b935fa1133a475cc,
         type: 3}
@@ -80,7 +85,7 @@ PrefabInstance:
     - target: {fileID: 8589788901008025334, guid: 55081c8632462ac4b935fa1133a475cc,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: e2b6ecf903695934a8c983b6d23a037b
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55081c8632462ac4b935fa1133a475cc, type: 3}

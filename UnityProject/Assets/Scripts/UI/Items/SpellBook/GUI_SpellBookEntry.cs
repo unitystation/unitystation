@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UI.Core.NetUI;
 using ScriptableObjects.Items.SpellBook;
 using Systems.Spells;
 using UI.Objects.Robotics;
@@ -8,19 +9,19 @@ namespace UI.SpellBook
 	public class GUI_SpellBookEntry : DynamicEntry
 	{
 		[SerializeField]
-		private NetLabel spellLabel = default;
+		private NetText_label spellLabel = default;
 		[SerializeField]
-		private NetLabel costLabel = default;
+		private NetText_label costLabel = default;
 		[SerializeField]
-		private NetLabel cooldownLabel = default;
+		private NetText_label cooldownLabel = default;
 		[SerializeField]
-		private NetLabel descriptionLabel = default;
+		private NetText_label descriptionLabel = default;
 		[SerializeField]
-		private NetLabel noteLabel = default;
+		private NetText_label noteLabel = default;
 		[SerializeField]
-		private NetLabel buttonLabel = default;
+		private NetText_label buttonLabel = default;
 		[SerializeField]
-		private GUI_ExoFabButton button = default;
+		private NetInteractiveButton button = default;
 
 		private GUI_SpellBook bookGUI;
 		private SpellBookEntry entry;

@@ -1,78 +1,83 @@
 ﻿using UnityEngine;
 using AdminTools;
 using UI.Systems.AdminTools.DevTools;
+using AdminTools.VariableViewer;
 
-/// <summary>
-/// Behavior for the various buttons on the Dev tab
-/// </summary>
-public class AdminTabButtons : MonoBehaviour
+
+namespace UI.AdminTools
 {
-	public GUI_AdminTools adminTools;
-	public GUI_DevSpawner devSpawner;
-	public GUI_DevCloner devCloner;
-	public GUI_DevDestroyer devDestroyer;
-	public GUI_DevSelectVVTile devSelectTile;
-	public GUI_VariableViewer vv;
-	public GUI_DevTileChanger tileChanger;
-
-	void Awake()
+	/// <summary>
+	/// Behavior for the various buttons on the Dev tab
+	/// </summary>
+	public class AdminTabButtons : MonoBehaviour
 	{
-		DisableAllGUI();
-	}
+		public GUI_AdminTools adminTools;
+		public GUI_DevSpawner devSpawner;
+		public GUI_DevCloner devCloner;
+		public GUI_DevDestroyer devDestroyer;
+		public GUI_DevSelectVVTile devSelectTile;
+		public GUI_VariableViewer vv;
+		public GUI_DevTileChanger tileChanger;
 
-	public void BtnAdminPanel()
-	{
-		DisableAllGUI();
-		adminTools.gameObject.SetActive(true);
-	}
+		private void Awake()
+		{
+			DisableAllGUI();
+		}
 
-	public void BtnSpawnItem()
-	{
-		DisableAllGUI();
-		devSpawner.gameObject.SetActive(true);
-		devSpawner.Open();
-	}
+		public void BtnAdminPanel()
+		{
+			DisableAllGUI();
+			adminTools.gameObject.SetActive(true);
+		}
 
-	public void BtnCloneItem()
-	{
-		DisableAllGUI();
-		devCloner.gameObject.SetActive(true);
-		devCloner.Open();
-	}
+		public void BtnSpawnItem()
+		{
+			DisableAllGUI();
+			devSpawner.gameObject.SetActive(true);
+			devSpawner.Open();
+		}
 
-	public void BtnDestroyItem()
-	{
-		DisableAllGUI();
-		devDestroyer.gameObject.SetActive(true);
-	}
+		public void BtnCloneItem()
+		{
+			DisableAllGUI();
+			devCloner.gameObject.SetActive(true);
+			devCloner.Open();
+		}
 
-	public void BtnOpenVV()
-	{
-		DisableAllGUI();
-		vv.Open();
-	}
+		public void BtnDestroyItem()
+		{
+			DisableAllGUI();
+			devDestroyer.gameObject.SetActive(true);
+		}
 
-	public void BtnOpenTileVV()
-	{
-		DisableAllGUI();
-		devSelectTile.gameObject.SetActive(true);
-		devSelectTile.Open();
-	}
+		public void BtnOpenVV()
+		{
+			DisableAllGUI();
+			UIManager.Instance.VariableViewer.Open();
+		}
 
-	public void BtnOpenTileChange()
-	{
-		DisableAllGUI();
-		SoundManager.Play(SingletonSOSounds.Instance.Click01);
-		tileChanger.SetActive(true);
-	}
+		public void BtnOpenTileChange()
+		{
+			DisableAllGUI();
+			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			tileChanger.SetActive(true);
+		}
+		
+		public void BtnOpenTileVV()
+		{
+			DisableAllGUI();
+			devSelectTile.gameObject.SetActive(true);
+			devSelectTile.Open();
+		}
 
-	void DisableAllGUI()
-	{
-		adminTools.gameObject.SetActive(false);
-		devSpawner.gameObject.SetActive(false);
-		devCloner.gameObject.SetActive(false);
-		devDestroyer.gameObject.SetActive(false);
-		devSelectTile.gameObject.SetActive(false);
-		tileChanger.SetActive(false);
+		private void DisableAllGUI()
+		{
+			adminTools.gameObject.SetActive(false);
+			devSpawner.gameObject.SetActive(false);
+			devCloner.gameObject.SetActive(false);
+			devDestroyer.gameObject.SetActive(false);
+			devSelectTile.gameObject.SetActive(false);
+			tileChanger.SetActive(false);
+		}
 	}
 }

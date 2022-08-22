@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Systems.Ai;
+using Systems.MobAIs;
 using UnityEngine;
 using Systems.Spawns;
+using Objects;
 
 namespace Systems.Teleport
 {
@@ -24,7 +28,11 @@ namespace Systems.Teleport
 				yield break;
 			}
 
-			foreach (PlayerScript player in playerBodies)
+			var sortedStr = from name in playerBodies
+				orderby name.name
+				select name;
+
+			foreach (PlayerScript player in sortedStr)
 			{
 				if (player == PlayerManager.LocalPlayerScript)
 				{
@@ -41,17 +49,26 @@ namespace Systems.Teleport
 
 				string status;
 				//Gets Status of Player
+				//TODO better way to do this
 				if (player.IsGhost)
 				{
 					status = "(Ghost)";
 				}
-				else if (!player.IsGhost & player.playerHealth.IsDead)
+				else if (player.IsNormal)
 				{
-					status = "(Dead)";
+					status = player.playerHealth.IsDead ? "(Dead)" : "(Alive)";
 				}
-				else if (!player.IsGhost)
+				else if (player.PlayerType == PlayerTypes.Ai)
 				{
-					status = "(Alive)";
+					status = "(Ai)";
+				}
+				else if (player.PlayerType == PlayerTypes.Blob)
+				{
+					status = "(Blob)";
+				}
+				else if (player.PlayerType == PlayerTypes.Alien)
+				{
+					status = $"(Alien) {(player.playerHealth.IsDead ? "(Dead)" : "(Alive)")}";
 				}
 				else
 				{
@@ -59,9 +76,8 @@ namespace Systems.Teleport
 				}
 
 				//Gets Position of Player
-				var tile = player.gameObject.GetComponent<RegisterTile>();
-
-				var teleportInfo = new TeleportInfo(nameOfObject + "\n" + status, tile.WorldPositionClient, player.gameObject);
+				player.UpdateLastSyncedPosition();
+				var teleportInfo = new TeleportInfo(nameOfObject + "\n" + status, player.SyncedWorldPos, player.gameObject);
 
 				yield return teleportInfo;
 			}
@@ -97,10 +113,89 @@ namespace Systems.Teleport
 			}
 		}
 
+		/// <summary>
+		/// Gets teleport destinations via all security cameras.
+		/// For AI use only
+		/// </summary>
+		/// <returns>TeleportInfo, with name, position and object</returns>
+		public static IEnumerable<TeleportInfo> GetCameraDestinations()
+		{
+			if (PlayerManager.LocalPlayerObject.TryGetComponent<AiPlayer>(out var aiPlayer) == false) yield break;
+
+			var securityCameras = UnityEngine.Object.FindObjectsOfType<SecurityCamera>();
+
+			if (securityCameras == null)
+			{
+				yield break;
+			}
+
+			foreach (var camera in securityCameras)
+			{
+				if(aiPlayer.OpenNetworks.Contains(camera.SecurityCameraChannel) == false) continue;
+
+				var placePosition = camera.transform.position;// Only way to get position of this object.
+
+				var name = camera.CameraName + " - SecCam";
+
+				if (camera.CameraActive == false)
+				{
+					name += " INACTIVE";
+				}
+
+				var teleportInfo = new TeleportInfo(name, placePosition.CutToInt(), camera.gameObject);
+
+				yield return teleportInfo;
+			}
+		}
+
+		/// <summary>
+		/// Gets teleport destinations via all players in security camera vision.
+		/// For AI use only
+		/// </summary>
+		/// <returns>TeleportInfo, with name, position and object</returns>
+		public static IEnumerable<TeleportInfo> GetCameraTrackPlayerDestinations()
+		{
+			if (PlayerManager.LocalPlayerObject.TryGetComponent<AiPlayer>(out var aiPlayer) == false) yield break;
+
+			//Check for players
+			var playerScripts = UnityEngine.Object.FindObjectsOfType<PlayerScript>();
+
+			if (playerScripts != null)
+			{
+				foreach (var playerScript in playerScripts)
+				{
+					if(aiPlayer.CanSeeObject(playerScript.gameObject) == null) continue;
+
+					var placePosition = playerScript.transform.position;// Only way to get position of this object.
+
+					var teleportInfo = new TeleportInfo(playerScript.gameObject.ExpensiveName(), placePosition.CutToInt(), playerScript.gameObject);
+
+					yield return teleportInfo;
+				}
+			}
+
+			//Check for mobs
+			var mobScripts = UnityEngine.Object.FindObjectsOfType<MobAI>();
+
+			if (mobScripts != null)
+			{
+				foreach (var mobAI in mobScripts)
+				{
+					if(aiPlayer.CanSeeObject(mobAI.gameObject) == null) continue;
+
+					var placePosition = mobAI.transform.position;// Only way to get position of this object.
+
+					var teleportInfo = new TeleportInfo(mobAI.gameObject.ExpensiveName(), placePosition.CutToInt(), mobAI.gameObject);
+
+					yield return teleportInfo;
+				}
+			}
+		}
+
 		public static void TeleportLocalGhostTo(TeleportInfo teleportInfo)
 		{
 			var latestPosition = teleportInfo.gameObject.transform.position;
-			var playerPosition = PlayerManager.LocalPlayer.gameObject.GetComponent<RegisterTile>().WorldPositionClient;//Finds current player coords
+			var playerPosition = PlayerManager.LocalPlayerObject.transform.position;//Finds current player coords
 
 			if (latestPosition != playerPosition)//Spam Prevention
 			{
@@ -110,7 +205,8 @@ namespace Systems.Teleport
 
 		public static void TeleportLocalGhostTo(Vector3 vector)
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(vector);
+			var ghost = PlayerManager.LocalPlayerObject.GetComponent<GhostMove>();
+			ghost.CMDSetServerPosition(vector);
 		}
 
 		/// <summary>
@@ -127,16 +223,13 @@ namespace Systems.Teleport
 				GameObject objectToTeleport, int minRadius = 0, int maxRadius = 16,
 				bool tryAvoidSpace = false, bool tryAvoidImpassable = false)
 		{
-			Vector3Int originalPosition = objectToTeleport.RegisterTile().WorldPositionServer;
-			Vector3Int newPosition = GetTeleportPos(originalPosition, minRadius, maxRadius, tryAvoidSpace, tryAvoidImpassable);
+			var registerTile = objectToTeleport.RegisterTile();
+			Vector3Int originalPosition = registerTile.WorldPositionServer;
+			Vector3Int newPosition = GetTeleportPos(originalPosition, minRadius, maxRadius, tryAvoidSpace, tryAvoidImpassable, registerTile.Matrix.MatrixInfo);
 
-			if (objectToTeleport.TryGetComponent(out CustomNetTransform netTransform))
+			if (objectToTeleport.TryGetComponent(out UniversalObjectPhysics netTransform))
 			{
-				netTransform.SetPosition(newPosition);
-			}
-			else if (objectToTeleport.TryGetComponent(out PlayerSync playerSync))
-			{
-				playerSync.SetPosition(newPosition);
+				netTransform.AppearAtWorldPositionServer(newPosition);
 			}
 			else
 			{
@@ -147,17 +240,17 @@ namespace Systems.Teleport
 			return newPosition;
 		}
 
-		private static Vector3Int GetTeleportPos(Vector3Int centrePoint, float minRadius, float maxRadius, bool avoidSpace, bool avoidImpassable)
+		private static Vector3Int GetTeleportPos(Vector3Int centrePoint, float minRadius, float maxRadius, bool avoidSpace, bool avoidImpassable, MatrixInfo possibleMatrix)
 		{
 			Vector3Int randomVector;
 			Vector3Int newPosition = Vector3Int.zero;
 
 			for (int i = 0; i < 8; i++)
 			{
-				randomVector = (Vector3Int) RandomUtils.RandomAnnulusPoint(minRadius, maxRadius).To2Int();
+				randomVector = (Vector3Int) RandomUtils.RandomAnnulusPoint(minRadius, maxRadius).RoundTo2Int();
 				newPosition = centrePoint + randomVector;
 
-				if (avoidSpace && MatrixManager.IsSpaceAt(newPosition, CustomNetworkManager.IsServer))
+				if (avoidSpace && MatrixManager.IsSpaceAt(newPosition, CustomNetworkManager.IsServer, possibleMatrix))
 				{
 					continue;
 				}

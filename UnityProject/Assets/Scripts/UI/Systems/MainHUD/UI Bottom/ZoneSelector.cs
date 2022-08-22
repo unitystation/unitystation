@@ -1,60 +1,62 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
-public class ZoneSelector : TooltipMonoBehaviour
+namespace UI
 {
-	public Sprite[] selectorSprites;
-	public Image selImg;
-	public override string Tooltip => "damage zone";
-
-	private void Start()
+	public class ZoneSelector : TooltipMonoBehaviour
 	{
-		// Select the chest initially
-		SelectAction(BodyPartType.Chest, false);
-	}
+		public Sprite[] selectorSprites;
+		public Image selImg;
+		public override string Tooltip => "damage zone";
 
-	/// <summary>
-	/// Overload of SelectAction function to allow it to be used in unity editor (eg with OnClick)
-	/// </summary>
-	public void SelectAction(int curSelect)
-	{
-		SelectAction((BodyPartType)curSelect);
-	}
-
-	/// <summary>
-	/// Used for targeting specific body parts
-	/// </summary>
-	public void SelectAction(BodyPartType curSelect, bool clickSound = true)
-	{
-		if (clickSound)
+		private void Start()
 		{
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
-		}
-		selImg.sprite = selectorSprites[(int)curSelect];
-		UIManager.DamageZone = curSelect;
-	}
-
-	public void CycleZones(params BodyPartType[] zones)
-	{
-		if(zones.Length == 0)
-			return;
-
-		if(zones.Length == 1)
-		{
-			SelectAction(zones[0]);
-			return;
+			// Select the chest initially
+			SelectAction(BodyPartType.Chest, false);
 		}
 
-		for(int i = 0; i < zones.Length - 1; i++)
+		/// <summary>
+		/// Overload of SelectAction function to allow it to be used in unity editor (eg with OnClick)
+		/// </summary>
+		public void SelectAction(int curSelect)
 		{
-			if(zones[i] == UIManager.DamageZone)
+			SelectAction((BodyPartType)curSelect);
+		}
+
+		/// <summary>
+		/// Used for targeting specific body parts
+		/// </summary>
+		public void SelectAction(BodyPartType curSelect, bool clickSound = true)
+		{
+			if (clickSound)
 			{
-				SelectAction(zones[i+1]);
+				_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			}
+			selImg.sprite = selectorSprites[(int)curSelect];
+			UIManager.DamageZone = curSelect;
+		}
+
+		public void CycleZones(params BodyPartType[] zones)
+		{
+			if (zones.Length == 0)
+				return;
+
+			if (zones.Length == 1)
+			{
+				SelectAction(zones[0]);
 				return;
 			}
-		}
 
-		SelectAction(zones[0]);
+			for (int i = 0; i < zones.Length - 1; i++)
+			{
+				if (zones[i] == UIManager.DamageZone)
+				{
+					SelectAction(zones[i + 1]);
+					return;
+				}
+			}
+
+			SelectAction(zones[0]);
+		}
 	}
 }

@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: 854479238589397880, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 2b347d12ef88b7e4faa2a8e0e3475b55
       objectReference: {fileID: 0}
     - target: {fileID: 1919541056858231082, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -37,13 +37,8 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.size
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: HullColor.r
-      value: 0.7490196
+      propertyPath: HullColor.b
+      value: 0.21960786
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -52,8 +47,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: HullColor.b
-      value: 0.21960786
+      propertyPath: HullColor.r
+      value: 0.7490196
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.size
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -63,30 +63,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[0].ItemName
-      value: Space Twinkie
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[0].Stock
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[1].ItemName
-      value: Cheesie Honkers
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[1].Item
       value: 
       objectReference: {fileID: 5558746297286370, guid: cfd7856285eac82438d38d2aea4002b7,
         type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[1].Stock
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[2].Item
@@ -95,30 +75,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[2].Stock
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[2].ItemName
-      value: Candy Bar
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[3].Item
       value: 
       objectReference: {fileID: 5558746297286370, guid: a4b2b713f6469dc4388f6d77f8f8b7ff,
         type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[3].ItemName
-      value: Chips
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[3].Stock
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[4].Item
@@ -127,35 +87,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[4].ItemName
-      value: Beef Jerky
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[4].Stock
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[5].ItemName
-      value: Raisins
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[5].Item
       value: 
       objectReference: {fileID: 5558746297286370, guid: fd49dd2cee50dce468c4545c460e75a9,
         type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[5].Stock
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[6].ItemName
-      value: Cup Ramen
-      objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[6].Item
@@ -164,30 +99,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[6].Stock
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[7].ItemName
-      value: Bubbblegum Packet
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[7].Item
       value: 
       objectReference: {fileID: 7165034283826899771, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[7].Stock
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[8].ItemName
-      value: Energy Bar
-      objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[8].Item
@@ -196,8 +111,98 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: InitialVendorContent.Array.data[0].Stock
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[1].Stock
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[2].Stock
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[3].Stock
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[4].Stock
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[5].Stock
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[6].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[7].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: InitialVendorContent.Array.data[8].Stock
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[0].ItemName
+      value: Space Twinkie
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[1].ItemName
+      value: Cheesie Honkers
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[2].ItemName
+      value: Candy Bar
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[3].ItemName
+      value: Chips
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[4].ItemName
+      value: Beef Jerky
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[5].ItemName
+      value: Raisins
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[6].ItemName
+      value: Cup Ramen
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[7].ItemName
+      value: Bubbblegum Packet
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[8].ItemName
+      value: Energy Bar
+      objectReference: {fileID: 0}
+    - target: {fileID: 5293842515076411475, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: foreverID
+      value: 2b347d12ef88b7e4faa2a8e0e3475b55
       objectReference: {fileID: 0}
     - target: {fileID: 7077253877563091611, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -218,6 +223,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -233,6 +243,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -245,16 +260,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}

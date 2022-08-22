@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Clothing;
+using Systems.Antagonists;
 using UnityEngine;
-using Doors;
-using Systems.Mob;
-using Random = UnityEngine.Random;
-using AddressableReferences;
-using HealthV2;
-using Messages.Server.SoundMessages;
-using UnityEngine.Serialization;
 
 
 namespace Systems.MobAIs
 {
-	public class FaceHuggerAI : GenericHostileAI, ICheckedInteractable<HandApply>, IServerSpawn
+	public class FaceHuggerAI : GenericHostileAI, ICheckedInteractable<HandApply>
 	{
 		[SerializeField]
 		[Tooltip("If true, this hugger won't be counted for the cap Queens use for lying eggs.")]
@@ -21,11 +15,25 @@ namespace Systems.MobAIs
 		//private MobMeleeAction mobMeleeAction;
 		private FaceHugAction faceHugAction;
 
-		public override void OnEnable()
+		#region Lifecycle
+
+		protected override void Awake()
 		{
-			base.OnEnable();
 			faceHugAction = gameObject.GetComponent<FaceHugAction>();
+			base.Awake();
 		}
+
+		protected override void OnSpawnMob()
+		{
+			base.OnSpawnMob();
+			if (ignoreInQueenCount == false)
+			{
+				XenoQueenAI.AddFacehuggerToCount();
+			}
+			ResetBehaviours();
+		}
+
+		#endregion
 
 		/// <summary>
 		/// Looks around and tries to find players to target
@@ -33,7 +41,7 @@ namespace Systems.MobAIs
 		/// <returns>Gameobject of the first player it found</returns>
 		protected override GameObject SearchForTarget()
 		{
-			var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.Walls , directional.CurrentDirection.Vector, 10f, 20);
+			var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.Walls , rotatable.CurrentDirection.ToLocalVector3(), 10f);
 			if (hits.Count == 0)
 			{
 				return null;
@@ -41,12 +49,13 @@ namespace Systems.MobAIs
 
 			foreach (var coll in hits)
 			{
-				if (coll.GameObject == null) continue;
+				if (coll.layer != playersLayer) continue;
 
-				if (coll.GameObject.layer == playersLayer)
-				{
-					return coll.GameObject;
-				}
+				if(coll.gameObject.TryGetComponent<PlayerScript>(out var playerScript) == false) continue;
+
+				if(playerScript.PlayerType == PlayerTypes.Alien) continue;
+
+				return coll;
 			}
 
 			return null;
@@ -67,9 +76,15 @@ namespace Systems.MobAIs
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			return DefaultWillInteract.Default(interaction, side)
-			       && (interaction.HandObject == null
-			           || (interaction.Intent == Intent.Help || interaction.Intent == Intent.Grab));
+			if (DefaultWillInteract.Default(interaction, side, PlayerTypes.Normal | PlayerTypes.Alien) == false) return false;
+
+			if(interaction.HandObject != null) return false;
+
+			if (interaction.Intent != Intent.Help && interaction.Intent != Intent.Grab) return false;
+
+			if (interaction.PerformerPlayerScript.TryGetComponent<AlienPlayer>(out var alien) && alien.IsLarva) return false;
+
+			return true;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
@@ -86,18 +101,7 @@ namespace Systems.MobAIs
 
 			Inventory.ServerAdd(mask, handSlot, ReplacementStrategy.DropOther);
 
-			Despawn.ServerSingle(gameObject);
-		}
-
-		public override void OnSpawnServer(SpawnInfo info)
-		{
-			if (ignoreInQueenCount == false)
-			{
-				XenoQueenAI.AddFacehuggerToCount();
-			}
-			base.OnSpawnServer(info);
-			ResetBehaviours();
-			BeginSearch();
+			_ = Despawn.ServerSingle(gameObject);
 		}
 	}
 }

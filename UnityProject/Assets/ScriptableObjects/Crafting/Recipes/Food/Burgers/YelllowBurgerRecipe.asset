@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: YelllowBurgerRecipe
+  m_EditorClassIdentifier: 
+  category: 7
+  craftingTime: 3
+  recipeName: Yellow Burger
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 5350462001947810710, guid: 6ec2fa90075639a46b942c8a4feefe01,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 8017736787133888042, guid: 96d25247254a2274f9ee3b36a7185a03,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 5422585021898331275, guid: 0940eb84ffd63a14ba24fab5cc08500b,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits: []
+  result:
+  - {fileID: 56166540928091794, guid: e87af9f9d574eeb48a7b8f0adae31507, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 114

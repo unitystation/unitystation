@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 92a17b9c03385ea4caacbdb0b2b5239e,
         type: 2}
+    - target: {fileID: 837704831083440355, guid: 802a90962afb0e44cbcc98f23c352222,
+        type: 3}
+      propertyPath: foreverID
+      value: 604ea0d57a9660b4b8d0dffbdc584f9a
+      objectReference: {fileID: 0}
     - target: {fileID: 4705436589443679987, guid: 802a90962afb0e44cbcc98f23c352222,
         type: 3}
       propertyPath: prefabVariant
@@ -28,7 +33,12 @@ PrefabInstance:
     - target: {fileID: 5948881717011863866, guid: 802a90962afb0e44cbcc98f23c352222,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 604ea0d57a9660b4b8d0dffbdc584f9a
+      objectReference: {fileID: 0}
+    - target: {fileID: 5983344225588386298, guid: 802a90962afb0e44cbcc98f23c352222,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5983344225588386298, guid: 802a90962afb0e44cbcc98f23c352222,
         type: 3}
@@ -47,6 +57,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5983344225588386298, guid: 802a90962afb0e44cbcc98f23c352222,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5983344225588386298, guid: 802a90962afb0e44cbcc98f23c352222,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -59,16 +74,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5983344225588386298, guid: 802a90962afb0e44cbcc98f23c352222,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5983344225588386298, guid: 802a90962afb0e44cbcc98f23c352222,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5983344225588386298, guid: 802a90962afb0e44cbcc98f23c352222,
         type: 3}
@@ -92,14 +97,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6194423433699068908, guid: 802a90962afb0e44cbcc98f23c352222,
         type: 3}
-      propertyPath: initialDescription
-      value: A folded bluespace body bag designed for the storage and transportation
-        of cadavers.
+      propertyPath: initialName
+      value: bluespace body bag
       objectReference: {fileID: 0}
     - target: {fileID: 6194423433699068908, guid: 802a90962afb0e44cbcc98f23c352222,
         type: 3}
-      propertyPath: initialName
-      value: bluespace body bag
+      propertyPath: initialDescription
+      value: A folded bluespace body bag designed for the storage and transportation
+        of cadavers.
       objectReference: {fileID: 0}
     - target: {fileID: 6194423433699068908, guid: 802a90962afb0e44cbcc98f23c352222,
         type: 3}

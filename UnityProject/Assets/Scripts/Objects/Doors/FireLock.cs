@@ -1,83 +1,64 @@
-using UnityEngine;
 using Objects.Wallmounts;
+using Shared.Systems.ObjectConnection;
+using UnityEngine;
 
 namespace Doors
 {
-	public class FireLock : InteractableDoor, ISetMultitoolSlave
+	public class FireLock : MonoBehaviour, IMultitoolSlaveable
 	{
-		private MetaDataNode metaNode;
 		public FireAlarm fireAlarm;
 
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.FireAlarm;
-		public MultitoolConnectionType ConType => conType;
+		private RegisterTile registerTile;
 
-		public void SetMaster(ISetMultitoolMaster Imaster)
+		private DoorMasterController doorMasterController;
+		public DoorMasterController DoorMasterController => doorMasterController;
+
+		private void Awake()
 		{
-			FireAlarm newFireAlarm = (Imaster as Component)?.gameObject.GetComponent<FireAlarm>();
-			if (newFireAlarm == null) return; // Might try to add firelock to something that is not a firealarm e.g. APC
-
-			if (fireAlarm != null)
-			{
-				fireAlarm.FireLockList.Remove(this);
-			}
-
-			fireAlarm = newFireAlarm;
-			fireAlarm.FireLockList.Add(this);
-		}
-
-		public override void TryClose()
-		{
-		}
-
-		public override void TryOpen(GameObject performer)
-		{
-		}
-
-		void TriggerAlarm()
-		{
-			if (!Controller.IsWelded)
-			{
-				if (fireAlarm)
-				{
-					fireAlarm.SendCloseAlerts();
-				}
-				else
-				{
-					ReceiveAlert();
-				}
-			}
+			doorMasterController = GetComponent<DoorMasterController>();
+			registerTile = GetComponent<RegisterTile>();
 		}
 
 		public void ReceiveAlert()
 		{
-			if (Controller == null)
-				return;
-			Controller.CloseSignal();
+			doorMasterController.TryForceClose();
+
+			if(doorMasterController.IsClosed == false) return;
+
+			//registerTile.SetNewSortingOrder(SortingLayer.NameToID("Door Closed"));
 		}
 
-		public void OnSpawnServer(SpawnInfo info)
+		#region Multitool Interaction
+
+		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.FireAlarm;
+		IMultitoolMasterable IMultitoolSlaveable.Master => fireAlarm;
+		bool IMultitoolSlaveable.RequireLink => true;
+		bool IMultitoolSlaveable.TrySetMaster(GameObject performer, IMultitoolMasterable master)
 		{
-			var integrity = GetComponent<Integrity>();
-			integrity.OnExposedEvent.AddListener(TriggerAlarm);
-			RegisterTile registerTile = GetComponent<RegisterTile>();
-			MetaDataLayer metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
-			metaNode = metaDataLayer.Get(registerTile.LocalPositionServer, false);
-			Controller.Open();
+			SetMaster(master);
+			return true;
+		}
+		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
+		{
+			SetMaster(master);
 		}
 
-		//Copied over from LightSource.cs
-		void OnDrawGizmosSelected()
+		private void SetMaster(IMultitoolMasterable master)
 		{
-			var sprite = GetComponentInChildren<SpriteRenderer>();
-			if (sprite == null)
-				return;
-			if (fireAlarm == null)
-				return;
-			//Highlight associated fireAlarm.
-			Gizmos.color = new Color(1, 0.5f, 0, 1);
-			Gizmos.DrawLine(fireAlarm.transform.position, gameObject.transform.position);
-			Gizmos.DrawSphere(fireAlarm.transform.position, 0.25f);
+			// Disconnect link to currently connected fire alarm.
+			if (fireAlarm != null)
+			{
+				fireAlarm.FireLockList.Remove(this);
+				fireAlarm = null;
+			}
+
+			if (master is FireAlarm alarm)
+			{
+				fireAlarm = alarm;
+				fireAlarm.FireLockList.Add(this);
+			}
 		}
+
+		#endregion
 	}
 }

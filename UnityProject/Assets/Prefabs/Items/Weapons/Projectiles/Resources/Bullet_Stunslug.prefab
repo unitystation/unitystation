@@ -1,34 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-3212425729454647511
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8503226174470518201}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a04173a2848442f582e712cc1c8215a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stunTime: 10
-  willDisarm: 1
---- !u!114 &3333492289853661819
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8503226174470518201}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36a8965dca76e724a86347f5c807dda0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  decal: {fileID: 4049119777014096371, guid: 21a934491a11a804ba82d73b7c923db2, type: 3}
-  animationTime: 0.6
-  isTriggeredOnHit: 1
 --- !u!1001 &6114647171660063940
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49,6 +20,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -64,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -76,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
@@ -116,7 +87,7 @@ PrefabInstance:
     - target: {fileID: 2920371813632314487, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 706335ffb89baf6489ccf920550be6f2
       objectReference: {fileID: 0}
     - target: {fileID: 3329127183625617249, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
@@ -150,3 +121,33 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6114647171660063940}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-3212425729454647511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8503226174470518201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a04173a2848442f582e712cc1c8215a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stunTime: 10
+  willDisarm: 1
+  doMsg: 0
+--- !u!114 &3333492289853661819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8503226174470518201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36a8965dca76e724a86347f5c807dda0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  decal: {fileID: 4049119777014096371, guid: 21a934491a11a804ba82d73b7c923db2, type: 3}
+  animationTime: 0.6
+  isTriggeredOnHit: 1

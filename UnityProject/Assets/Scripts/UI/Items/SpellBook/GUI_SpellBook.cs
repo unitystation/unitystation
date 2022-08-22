@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UI.Core.NetUI;
 using Items.Magical;
 using ScriptableObjects.Systems.Spells;
 using ScriptableObjects.Items.SpellBook;
@@ -11,7 +12,7 @@ namespace UI.SpellBook
 	public class GUI_SpellBook : NetTab
 	{
 		[SerializeField]
-		private NetLabel pointsCounter = default;
+		private NetText_label pointsCounter = default;
 		[SerializeField]
 		private EmptyItemList categoryList = default;
 		[SerializeField]

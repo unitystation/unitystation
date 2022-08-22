@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: CrackerRecipe
+  m_EditorClassIdentifier: 
+  category: 12
+  craftingTime: 1.5
+  recipeName: Cracker
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 7275968390465132960, guid: f595ab18e1bab564c9ce9efb6b081b4e,
+      type: 3}
+  requiredReagents:
+  - requiredAmount: 1
+    requiredReagent: {fileID: 11400000, guid: b9bdb0acb54b8dc40837f92c2e7819a6, type: 2}
+  requiredToolTraits: []
+  result:
+  - {fileID: 1235464830935183441, guid: 64f112cff1b6def4bab9d81471b549f8, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 227

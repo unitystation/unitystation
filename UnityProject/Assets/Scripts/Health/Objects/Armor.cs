@@ -24,6 +24,11 @@ public class Armor
 	[Range(-100,100)] public float Acid;
 	[Range(-100,100)] public float Magic;
 	[Range(-100,100)] public float Bio;
+	[Range(0, 100)] public float Anomaly;
+
+	[Range(0,100)] public int DismembermentProtectionChance;
+
+	public bool StunImmunity = false;
 
 	/// <summary>
 	/// Calculates how much damage would be done based on armor resistance and armor penetration.
@@ -35,6 +40,19 @@ public class Armor
 	public float GetDamage(float damage, AttackType attackType, float armorPenetration = 0)
 	{
 		return damage * GetRatingValue(attackType, armorPenetration);
+	}
+
+
+	/// <summary>
+	/// From the damage done, calculates how much force was put into it
+	/// </summary>
+	/// <param name="damage">Base damage</param>
+	/// <param name="attackType">Type of attack</param>
+	/// <param name="armorPenetration">How well the attack will break through different types of armor</param>
+	/// <returns>New damage after applying protection values</returns>
+	public float GetForce(float damage, AttackType attackType, float armorPenetration = 0)
+	{
+		return damage / GetRatingValue(attackType, armorPenetration);
 	}
 
 	/// <summary>
@@ -119,50 +137,6 @@ public class Armor
 		}
 
 		return 0;
-	}
-
-	/// <summary>
-	/// Operator override to add all armor types with ease. Thank you, Redline.
-	/// </summary>
-	public static Armor operator +(Armor a, Armor b)
-	{
-		var armor = new Armor
-		{
-			Melee = a.Melee + b.Melee,
-			Bullet = a.Bullet + b.Bullet,
-			Laser = a.Laser + b.Laser,
-			Energy = a.Energy + b.Energy,
-			Bomb = a.Bomb + b.Bomb,
-			Rad = a.Rad + b.Rad,
-			Fire = a.Fire + b.Fire,
-			Acid = a.Acid + b.Acid,
-			Magic = a.Magic + b.Magic,
-			Bio = a.Bio + b.Bio
-		};
-
-		return armor;
-	}
-
-	/// <summary>
-	/// Operator override to subtract all armor types with ease. Thank you, Redline.
-	/// </summary>
-	public static Armor operator -(Armor a, Armor b)
-	{
-		var armor = new Armor
-		{
-			Melee = a.Melee - b.Melee,
-			Bullet = a.Bullet - b.Bullet,
-			Laser = a.Laser - b.Laser,
-			Energy = a.Energy - b.Energy,
-			Bomb = a.Bomb - b.Bomb,
-			Rad = a.Rad - b.Rad,
-			Fire = a.Fire - b.Fire,
-			Acid = a.Acid - b.Acid,
-			Magic = a.Magic - b.Magic,
-			Bio = a.Bio - b.Bio
-		};
-
-		return armor;
 	}
 }
 

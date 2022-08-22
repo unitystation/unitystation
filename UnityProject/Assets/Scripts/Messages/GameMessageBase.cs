@@ -1,4 +1,5 @@
 ﻿using System;
+using Managers;
 using Mirror;
 using UnityEngine;
 
@@ -14,7 +15,10 @@ namespace Messages
 		/// </summary>
 		public virtual void PreProcess(NetworkConnection sentBy, T b)
 		{
+			InfiniteLoopTracker.gameMessageProcessing = true;
+			InfiniteLoopTracker.lastGameMessage = ToString();
 			Process(sentBy, b);
+			InfiniteLoopTracker.gameMessageProcessing = false;
 		}
 
 		public abstract void Process(T msg);
@@ -35,24 +39,31 @@ namespace Messages
 
 		protected bool LoadNetworkObject(uint id)
 		{
-			if (NetworkIdentity.spawned.ContainsKey(id) && NetworkIdentity.spawned[id] != null)
+			var spawned =
+				CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+
+			if (spawned.TryGetValue(id, out var networkIdentity) && networkIdentity != null)
 			{
-				NetworkObject = NetworkIdentity.spawned[id].gameObject;
+				NetworkObject = networkIdentity.gameObject;
 				return true;
 			}
 
+			NetworkObject = null;
 			return false;
 		}
 
 		protected void LoadMultipleObjects(uint[] ids)
 		{
+			var spawned =
+				CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+
 			NetworkObjects = new GameObject[ids.Length];
 			for (int i = 0; i < ids.Length; i++)
 			{
 				var netId = ids[i];
-				if (NetworkIdentity.spawned.ContainsKey(netId) && NetworkIdentity.spawned[netId] != null)
+				if (spawned.TryGetValue(netId, out var networkIdentity) && networkIdentity != null)
 				{
-					NetworkObjects[i] = NetworkIdentity.spawned[netId].gameObject;
+					NetworkObjects[i] = networkIdentity.gameObject;
 				}
 			}
 		}

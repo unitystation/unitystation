@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1708838980586552602, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: foreverID
+      value: 809a686030c00e84f8fbf8ddb3b545ea
+      objectReference: {fileID: 0}
     - target: {fileID: 1894789677739313904, guid: 752790e3dadac94449e7417e35974da5,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -15,14 +20,14 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5323290699344764437, guid: 752790e3dadac94449e7417e35974da5,
         type: 3}
-      propertyPath: initialDescription
-      value: Contains a fertilizer that causes mild mutations and gradual plant growth
-        with each harvest.
+      propertyPath: initialName
+      value: bottle of E-Z-Nutrient
       objectReference: {fileID: 0}
     - target: {fileID: 5323290699344764437, guid: 752790e3dadac94449e7417e35974da5,
         type: 3}
-      propertyPath: initialName
-      value: bottle of E-Z-Nutrient
+      propertyPath: initialDescription
+      value: Contains a fertilizer that causes mild mutations and gradual plant growth
+        with each harvest.
       objectReference: {fileID: 0}
     - target: {fileID: 5323290699344764437, guid: 752790e3dadac94449e7417e35974da5,
         type: 3}
@@ -39,12 +44,17 @@ PrefabInstance:
     - target: {fileID: 5663715803261177027, guid: 752790e3dadac94449e7417e35974da5,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 809a686030c00e84f8fbf8ddb3b545ea
       objectReference: {fileID: 0}
     - target: {fileID: 5696413732617859447, guid: 752790e3dadac94449e7417e35974da5,
         type: 3}
       propertyPath: m_Name
       value: BottleOfEZNutrient
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701056008587856899, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5701056008587856899, guid: 752790e3dadac94449e7417e35974da5,
         type: 3}
@@ -63,6 +73,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5701056008587856899, guid: 752790e3dadac94449e7417e35974da5,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701056008587856899, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -75,16 +90,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5701056008587856899, guid: 752790e3dadac94449e7417e35974da5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5701056008587856899, guid: 752790e3dadac94449e7417e35974da5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5701056008587856899, guid: 752790e3dadac94449e7417e35974da5,
         type: 3}

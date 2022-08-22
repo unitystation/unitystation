@@ -1,34 +1,47 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security.Cryptography;
 using Mirror;
 using UnityEngine;
-using Objects;
 using Random = UnityEngine.Random;
 using System.Text;
 using Items;
+using Messages.Server;
 
 public static class SweetExtensions
 {
-	public static IPushable Pushable(this GameObject go)
+	public static Pickupable PickupableOrNull(this GameObject go)
 	{
-		return go.GetComponent<IPushable>();
+		return go.OrNull()?.GetComponent<Pickupable>();
 	}
 
-	public static ConnectedPlayer Player(this GameObject go)
+	public static bool TryGetPlayer(this GameObject gameObject, out PlayerInfo player)
+	{
+		player = PlayerList.Instance?.Get(gameObject);
+		return player != null;
+	}
+
+	public static PlayerInfo Player(this GameObject go)
 	{
 		var connectedPlayer = PlayerList.Instance?.Get(go);
-		return connectedPlayer == ConnectedPlayer.Invalid ? null : connectedPlayer;
+		return connectedPlayer == PlayerInfo.Invalid ? null : connectedPlayer;
 	}
 	public static ItemAttributesV2 Item(this GameObject go)
 	{
-		return go.GetComponent<ItemAttributesV2>();
+		return go.OrNull()?.GetComponent<ItemAttributesV2>();
 	}
 
 	public static ObjectAttributes Object(this GameObject go)
 	{
-		return go.GetComponent<ObjectAttributes>();
+		return go.OrNull()?.GetComponent<ObjectAttributes>();
+	}
+
+	public static bool HasComponent<T>(this GameObject go) where T : Component
+	{
+		return go.TryGetComponent<T>(out _);
 	}
 
 	/// <summary>
@@ -82,23 +95,43 @@ public static class SweetExtensions
 
 	public static uint NetId(this GameObject go)
 	{
-		return go ? go.GetComponent<NetworkIdentity>().netId : global::NetId.Invalid; //maxValue is invalid (see NetId.cs)
+		if (go)
+		{
+			go.TryGetComponent<Matrix>(out var matrix);
+			if (matrix)
+			{
+				return matrix.NetworkedMatrix.MatrixSync.netId;
+			}
+			else
+			{
+				matrix = go.GetComponentInChildren<Matrix>();
+				if (matrix != null)
+				{
+					return matrix.NetworkedMatrix.MatrixSync.netId;
+				}
+				else
+				{
+					return go.GetComponent<NetworkIdentity>().netId;
+				}
+			}
+		}
+		else
+		{
+			return global::NetId.Invalid; //maxValue is invalid (see NetId.cs)
+		}
 	}
 
 	/// Creates garbage! Use very sparsely!
 	public static Vector3 AssumedWorldPosServer(this GameObject go)
 	{
-		return go.GetComponent<ObjectBehaviour>()?.AssumedWorldPositionServer() ?? WorldPosServer(go);
-	}
-	/// Creates garbage! Use very sparsely!
-	public static Vector3 WorldPosServer(this GameObject go)
-	{
-		return go.GetComponent<RegisterTile>()?.WorldPositionServer ?? go.transform.position;
-	}
-	/// Creates garbage! Use very sparsely!
-	public static Vector3 WorldPosClient(this GameObject go)
-	{
-		return go.GetComponent<RegisterTile>()?.WorldPositionClient ?? go.transform.position;
+		if (ComponentManager.TryGetUniversalObjectPhysics(go, out  var UOP))
+		{
+			return UOP.OfficialPosition;
+		}
+		else
+		{
+			return go.transform.position;
+		}
 	}
 
 	/// <summary>
@@ -106,8 +139,8 @@ public static class SweetExtensions
 	/// </summary>
 	public static bool IsAdjacentTo(this Vector3 one, Vector3 two)
 	{
-		var oneInt = one.To2Int();
-		var twoInt = two.To2Int();
+		var oneInt = one.RoundTo2Int();
+		var twoInt = two.RoundTo2Int();
 		return Mathf.Abs(oneInt.x - twoInt.x) == 1 ||
 			Mathf.Abs(oneInt.y - twoInt.y) == 1;
 	}
@@ -117,7 +150,7 @@ public static class SweetExtensions
 	/// </summary>
 	public static bool IsAdjacentToOrSameAs(this Vector3 one, Vector3 two)
 	{
-		return one.To2Int() == two.To2Int() || one.IsAdjacentTo(two);
+		return one.RoundTo2Int() == two.RoundTo2Int() || one.IsAdjacentTo(two);
 	}
 	/// Creates garbage! Use very sparsely!
 	public static RegisterTile RegisterTile(this GameObject go)
@@ -341,16 +374,23 @@ public static class SweetExtensions
 		}
 	}
 
-	/// <summary>
-	/// Helped function for enums to get the next value when sorted by their base type
-	/// </summary>
+	/// <summary>Get the next value in the enum. Will loop to the top.</summary>
+	/// <remarks>Generates garbage; use sparingly.</remarks>
 	public static T Next<T>(this T src) where T : Enum
 	{
 		// if (!typeof(T).IsEnum) throw new ArgumentException(String.Format("Argument {0} is not an Enum", typeof(T).FullName));
 
-		T[] Arr = (T[])Enum.GetValues(src.GetType());
-		int j = Array.IndexOf<T>(Arr, src) + 1;
-		return (Arr.Length==j) ? Arr[0] : Arr[j];
+		T[] values = (T[])Enum.GetValues(src.GetType());
+		int j = Array.IndexOf(values, src) + 1;
+		return (values.Length == j) ? values[0] : values[j];
+	}
+
+	/// <summary>Get a random value from the given enum.</summary>
+	/// <remarks>Generates garbage; use sparingly.</remarks>
+	/// <returns>A random value from the enum</returns>
+	public static T PickRandom<T>(this T src) where T : Enum
+	{
+		return ((T[])Enum.GetValues(src.GetType())).PickRandom();
 	}
 
 	/// <summary>
@@ -440,5 +480,206 @@ public static class SweetExtensions
 			  && Comparer<T>.Default.Compare(value, max) <= 0
 			: Comparer<T>.Default.Compare(value, min) > 0
 			  && Comparer<T>.Default.Compare(value, max) < 0;
+	}
+
+	/// <summary>
+	/// See <see cref="Mathf.Approximately(float, float)"/>
+	/// </summary>
+	public static bool Approx(this float thisValue, float value)
+	{
+		return Mathf.Approximately(thisValue, value);
+	}
+
+	/// <summary>
+	/// See <see cref="Mathf.Clamp(float, float, float)"/>
+	/// </summary>
+	public static float Clamp(this float value, float minValue, float maxValue)
+	{
+		return Mathf.Clamp(value, minValue, maxValue);
+	}
+
+	/// <summary>
+	/// See if two colours are approximately the same
+	/// </summary>
+	public static bool ColorApprox(this Color a, Color b, bool checkAlpha = true)
+	{
+		if (checkAlpha)
+		{
+			return Mathf.Approximately(a.b, b.b) &&
+			       Mathf.Approximately(a.r, b.r) &&
+			       Mathf.Approximately(a.g, b.g) &&
+			       Mathf.Approximately(a.a, b.a);
+		}
+
+		return Mathf.Approximately(a.b, b.b) &&
+			   Mathf.Approximately(a.r, b.r) &&
+		       Mathf.Approximately(a.g, b.g);
+	}
+	public static string Truncate(this string value, int maxLength)
+	{
+		if (string.IsNullOrEmpty(value)) return value;
+
+		return value.Substring(0, Math.Min(value.Length, maxLength));
+	}
+
+	/// <summary>
+	/// <para>Get specific type from a list.</para>
+	/// Credit to <see href="https://coderethinked.com/get-only-specific-types-from-list/">Karthik Chintala</see>.
+	/// </summary>
+	public static IEnumerable<TResult> OfType<TResult>(this IEnumerable source)
+	{
+		if (source == null) return null;
+		return OfTypeIterator<TResult>(source);
+	}
+
+	private static IEnumerable<TResult> OfTypeIterator<TResult>(IEnumerable source)
+	{
+		foreach (object obj in source)
+		{
+			if (obj is TResult) yield return (TResult)obj;
+		}
+	}
+
+	/// <summary>
+	/// Rounds float to largest eg 1.1 => 2, -0.1 => -1
+	/// </summary>
+	public static int RoundToLargestInt(this float source)
+	{
+		if (source < 0)
+		{
+			return Mathf.FloorToInt(source);
+		}
+
+		return Mathf.CeilToInt(source);
+	}
+
+	/// <summary>
+	/// Gets the message and stacktrace of the exception
+	/// </summary>
+	public static string GetStack(this Exception source)
+	{
+		return $"{source.Message}\n{source.StackTrace}";
+	}
+
+	/// <summary>
+	/// Enable this component from the server for all clients, including the server.
+	/// </summary>
+	/// <remarks>
+	/// New joins / rejoins won't have synced state with server (good TODO).
+	/// Assumes the component hierarchy on the gameobject is in sync with the server.
+	/// </remarks>
+	/// <param name="component">The component to enable</param>
+	public static void NetEnable(this Behaviour component)
+	{
+		if (component == null) return;
+
+		EnableComponentMessage.Send(component, true);
+
+		component.enabled = true;
+	}
+
+	/// <summary>
+	/// Disable this component from the server for all clients, including the server.
+	/// </summary>
+	/// <remarks>
+	/// New joins / rejoins won't have synced state with server (good TODO).
+	/// Assumes the component hierarchy on the gameobject is in sync with the server.
+	/// </remarks>
+	/// <param name="component">The component to disable</param>
+	public static void NetDisable(this Behaviour component)
+	{
+		if (component == null) return;
+
+		EnableComponentMessage.Send(component, false);
+
+		component.enabled = false;
+	}
+
+	/// <summary>
+	/// Set the active state of this component from the server for all clients, including the server.
+	/// </summary>
+	/// <remarks>
+	/// New joins / rejoins won't have synced state with server (good TODO).
+	/// Assumes the component hierarchy on the gameobject is in sync with the server.
+	/// </remarks>
+	/// <param name="component">The component to change state on</param>
+	/// <param name="value">The component's new active state</param>
+	public static void NetSetActive(this Behaviour component, bool value)
+	{
+		if (component == null) return;
+
+		EnableComponentMessage.Send(component, value);
+
+		component.enabled = value;
+	}
+
+	public static string ToHexString(this string str)
+	{
+		var sb = new StringBuilder();
+
+		var bytes = Encoding.Unicode.GetBytes(str);
+		foreach (var t in bytes)
+		{
+			sb.Append(t.ToString("X2"));
+		}
+
+		return sb.ToString();
+	}
+
+	public static Vector3Int ToLocalVector3Int(this OrientationEnum @in)
+	{
+		return @in switch
+		{
+			OrientationEnum.Up_By0 => Vector3Int.up,
+			OrientationEnum.Right_By270 => Vector3Int.right,
+			OrientationEnum.Down_By180 => Vector3Int.down,
+			OrientationEnum.Left_By90 => Vector3Int.left,
+			_ => Vector3Int.zero
+		};
+	}
+
+	public static string RemovePunctuation(this string input)
+	{
+		return new string(input.Where(c => !char.IsPunctuation(c)).ToArray());
+	}
+
+	public static string GetTheyPronoun(this GameObject gameObject)
+	{
+		if (gameObject.TryGetComponent<PlayerScript>(out var playerScript) && playerScript.characterSettings != null)
+		{
+			return playerScript.characterSettings.TheyPronoun(playerScript).Capitalize();
+		}
+
+		return "It";
+	}
+
+	public static string GetTheirPronoun(this GameObject gameObject)
+	{
+		if (gameObject.TryGetComponent<PlayerScript>(out var playerScript) && playerScript.characterSettings != null)
+		{
+			return playerScript.characterSettings.TheirPronoun(playerScript).Capitalize();
+		}
+
+		return "Its";
+	}
+
+	public static string GetThemPronoun(this GameObject gameObject)
+	{
+		if (gameObject.TryGetComponent<PlayerScript>(out var playerScript) && playerScript.characterSettings != null)
+		{
+			return playerScript.characterSettings.ThemPronoun(playerScript).Capitalize();
+		}
+
+		return "It";
+	}
+
+	public static string GetTheyrePronoun(this GameObject gameObject)
+	{
+		if (gameObject.TryGetComponent<PlayerScript>(out var playerScript) && playerScript.characterSettings != null)
+		{
+			return playerScript.characterSettings.TheyrePronoun(playerScript).Capitalize();
+		}
+
+		return "Its";
 	}
 }

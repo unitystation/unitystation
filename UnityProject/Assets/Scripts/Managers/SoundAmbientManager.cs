@@ -1,31 +1,20 @@
 ﻿using System;
-using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using UnityEngine;
 using AddressableReferences;
 using Audio.Containers;
 using Initialisation;
-using UnityEngine.Audio;
-using UnityEngine.Serialization;
+using Messages.Server.SoundMessages;
+using Shared.Util;
+using Util;
 
 namespace Audio.Managers
 {
 	public class SoundAmbientManager : MonoBehaviour, IInitialise
 	{
 		private static SoundAmbientManager soundAmbientManager;
-		public static SoundAmbientManager Instance
-		{
-			get
-			{
-				if (soundAmbientManager == null)
-				{
-					soundAmbientManager = FindObjectOfType<SoundAmbientManager>();
-				}
-
-				return soundAmbientManager;
-			}
-		}
+		public static SoundAmbientManager Instance => FindUtils.LazyFindObject(ref soundAmbientManager);
 
 		/// <summary>
 		/// Cache of audioSources on the Manager
@@ -36,8 +25,43 @@ namespace Audio.Managers
 
 		[SerializeField] private AudioClipsArray ambientSoundsArray = null;
 
+		private static AudioSourceParameters parameters = new AudioSourceParameters();
+
+		#region Initialization
+
+		private void Awake()
+		{
+			parameters.MixerType = MixerType.Ambient;
+		}
+
+		public InitialisationSystems Subsystem { get; }
+
+		public void Initialise()
+		{
+			_ = LoadClips(Instance.ambientSoundsArray.AddressableAudioSource);
+		}
+
+		public async Task LoadClips(List<AddressableAudioSource> audioSources)
+		{
+			foreach (var source in audioSources)
+			{
+				var sound = await AudioManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource> { source });
+
+				if (Instance.ambientAudioSources.ContainsKey(sound.AudioSource.clip.name)) continue;
+
+				Instance.ambientAudioSources.Add(sound.AudioSource.clip.name, sound);
+			}
+		}
+
+		#endregion
+
 		public static void PlayAudio(string assetAddress)
 		{
+			if(string.IsNullOrEmpty(assetAddress)) 
+			{
+				Logger.LogError("Cannot play ambient noise because asset address is empty or null");
+				return;
+			}
 			var audioSource = new AddressableAudioSource(assetAddress);
 
 			if (Instance.playingSource.ContainsKey(audioSource))
@@ -48,7 +72,7 @@ namespace Audio.Managers
 
 			var guid = Guid.NewGuid().ToString();
 			Instance.playingSource.Add(audioSource, guid);
-			SoundManager.Play(audioSource, guid);
+			_ = SoundManager.Play(audioSource, guid, parameters);
 		}
 
 		public static void PlayAudio(AddressableAudioSource source)
@@ -66,7 +90,7 @@ namespace Audio.Managers
 
 			var guid = Guid.NewGuid().ToString();
 			Instance.playingSource.Add(source, guid);
-			SoundManager.Play(source, guid);
+			_ = SoundManager.Play(source, guid, parameters);
 		}
 
 		public static void StopAudio(string assetAddress)
@@ -97,59 +121,5 @@ namespace Audio.Managers
 				SoundManager.Stop(audioSource.Value);
 			}
 		}
-
-		/// <summary>
-		/// Sets all ambient tracks to a certain volume
-		/// </summary>
-		/// <param name="newVolume"></param>
-		public static void SetVolumeForAllAudioSources(float newVolume)
-		{
-			foreach (var audioSource in Instance.ambientAudioSources)
-			{
-				audioSource.Value.AudioSource.volume = newVolume;
-			}
-
-			PlayerPrefs.SetFloat(PlayerPrefKeys.AmbientVolumeKey, newVolume);
-			PlayerPrefs.Save();
-		}
-
-		#region Initialization
-
-		private void Awake()
-		{
-			SetVolumeWithPlayerPrefs();
-		}
-
-		private void SetVolumeWithPlayerPrefs()
-		{
-			if (PlayerPrefs.HasKey(PlayerPrefKeys.AmbientVolumeKey))
-			{
-				SetVolumeForAllAudioSources(PlayerPrefs.GetFloat(PlayerPrefKeys.AmbientVolumeKey));
-			}
-			else
-			{
-				SetVolumeForAllAudioSources(0.2f);
-			}
-		}
-
-		public InitialisationSystems Subsystem { get; }
-		public void Initialise()
-		{
-			LoadClips(Instance.ambientSoundsArray.AddressableAudioSource);
-		}
-
-		public async Task LoadClips(List<AddressableAudioSource> audioSources)
-		{
-			foreach (var source in audioSources)
-			{
-				var sound = await SoundManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource>{source});
-
-				if(Instance.ambientAudioSources.ContainsKey(sound.AudioSource.clip.name)) continue;
-
-				Instance.ambientAudioSources.Add(sound.AudioSource.clip.name, sound);
-			}
-		}
-
-		#endregion
 	}
 }

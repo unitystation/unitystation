@@ -348,6 +348,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -357,8 +358,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -379,6 +380,8 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
@@ -1184,7 +1187,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: ea9bdb4566c81df20800000000000000
-      internalID: 3445689561051412910
+      internalID: -6275341413842982110
       vertices: []
       indices: 
       edges: []
@@ -1205,7 +1208,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 715206ad529fe9140800000000000000
-      internalID: 4728490599758439703
+      internalID: -6586284696370208721
       vertices: []
       indices: 
       edges: []
@@ -1226,7 +1229,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: abaab47d9e4249e50800000000000000
-      internalID: 6815112722876443322
+      internalID: -5083227024407926099
       vertices: []
       indices: 
       edges: []
@@ -1247,7 +1250,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 2bbf4d44fd1f71840800000000000000
-      internalID: 5194886636429966258
+      internalID: 687106900599637170
       vertices: []
       indices: 
       edges: []
@@ -1268,7 +1271,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 03323368ef2c773b0800000000000000
-      internalID: -5514724820262902992
+      internalID: 7520429232747698250
       vertices: []
       indices: 
       edges: []
@@ -1289,7 +1292,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3c0d5f3de91ed7530800000000000000
-      internalID: 3854484928376197315
+      internalID: -8710556882059950047
       vertices: []
       indices: 
       edges: []
@@ -1430,6 +1433,55 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      window_rplasma_14: 8846608404661003631
+      window_rplasma_24: -6723937623985264136
+      window_rplasma_41: 2020220085810327164
+      window_rplasma_28: -8823303320662769200
+      window_rplasma_34: -2756341927504983769
+      window_rplasma_36: -217453302986567818
+      window_rplasma_4: 7520429232747698250
+      window_rplasma_47: 166850961874626791
+      window_rplasma_27: 5509223601082494423
+      window_rplasma_17: 5452090640858216511
+      window_rplasma_13: -2063844943829326199
+      window_rplasma_10: 2776490566172020032
+      window_rplasma_6: 4066556126173982904
+      window_rplasma_37: -5499850162127697180
+      window_rplasma_8: -732798790473128324
+      window_rplasma_23: 6362252224561063646
+      window_rplasma_25: -5646103052292638497
+      window_rplasma_11: -5012654035095412341
+      window_rplasma_5: -8710556882059950047
+      window_rplasma_40: 5900305907728767805
+      window_rplasma_3: 687106900599637170
+      window_rplasma_9: -572382209765057897
+      window_rplasma_15: 1052890925429095225
+      window_rplasma_31: -6637602722661758850
+      window_rplasma_46: -7969460455285707451
+      window_rplasma_45: 2841385869450164482
+      window_rplasma_42: -769967846918097820
+      window_rplasma_29: 6754328349233970637
+      window_rplasma_30: -8112025365170517269
+      window_rplasma_7: -392830709559645105
+      window_rplasma_20: -3021471503095476402
+      window_rplasma_39: 2035766219239597498
+      window_rplasma_1: -6586284696370208721
+      window_rplasma_35: 8892203533659550450
+      window_rplasma_32: 766403801185621089
+      window_rplasma_22: -8718914396128078990
+      window_rplasma_2: -5083227024407926099
+      window_rplasma_19: 7088419911788719270
+      window_rplasma_18: -45384032888334258
+      window_rplasma_38: -1534089069474329219
+      window_rplasma_26: -9039164780003518321
+      window_rplasma_0: -6275341413842982110
+      window_rplasma_33: 4864558803347796041
+      window_rplasma_21: -2149137024994101318
+      window_rplasma_43: 1366660552339352835
+      window_rplasma_44: 8074463091467808471
+      window_rplasma_12: 7436343441706566382
+      window_rplasma_16: -2295269893224867404
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

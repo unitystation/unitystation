@@ -1,20 +1,19 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Pipes;
 using UnityEngine;
+
 
 namespace HealthV2
 {
-	public class DamageSymptoms : BodyPartModification
+	public class DamageSymptoms : BodyPartFunctionality
 	{
-
 		public List<SeverityAndSymptoms> severityAndSymptoms = new List<SeverityAndSymptoms>();
 		public float TimeBetweenSymptoms;
 		private float time;
 
-
-		public override void Initialisation()
+		public void Awake()
 		{
 			severityAndSymptoms = severityAndSymptoms.OrderByDescending(x => x.HealthPercentageAndBelow).Reverse().ToList();
 		}
@@ -43,8 +42,7 @@ namespace HealthV2
 
 		}
 
-
-		[System.Serializable]
+		[Serializable]
 		public struct SeverityAndSymptoms
 		{
 			public float HealthPercentageAndBelow;

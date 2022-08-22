@@ -15,12 +15,17 @@ PrefabInstance:
     - target: {fileID: 4030776248151696319, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 6fac15612f36e804cbbc81c6f8a17220
       objectReference: {fileID: 0}
     - target: {fileID: 4444242521069764277, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
       propertyPath: m_Name
       value: Bullet_PracticeLaser
+      objectReference: {fileID: 0}
+    - target: {fileID: 4447352754948125577, guid: f8f5682e74c42bb45851c71a4b53b20b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4447352754948125577, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4447352754948125577, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4447352754948125577, guid: f8f5682e74c42bb45851c71a4b53b20b,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4447352754948125577, guid: f8f5682e74c42bb45851c71a4b53b20b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4447352754948125577, guid: f8f5682e74c42bb45851c71a4b53b20b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4447352754948125577, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
@@ -81,4 +81,5 @@ PrefabInstance:
     - {fileID: 2678535146407671852, guid: f8f5682e74c42bb45851c71a4b53b20b, type: 3}
     - {fileID: 5134017693424603158, guid: f8f5682e74c42bb45851c71a4b53b20b, type: 3}
     - {fileID: 4383945307501813551, guid: f8f5682e74c42bb45851c71a4b53b20b, type: 3}
+    - {fileID: 5334913317036329584, guid: f8f5682e74c42bb45851c71a4b53b20b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f8f5682e74c42bb45851c71a4b53b20b, type: 3}

@@ -1,53 +1,56 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WishSoup : Edible
+namespace Items.Food
 {
-	public override void Eat(PlayerScript eater, PlayerScript feeder)
+	public class WishSoup : Edible
 	{
-		float wishChance = Random.value;
-		if (wishChance <= 0.25)
+		public override void Eat(PlayerScript eater, PlayerScript feeder)
 		{
-			Eat(eater, feeder, true);
-		}
-		else
-		{
-			Eat(eater, feeder, false);
-		}
-	}
-
-
-	private void Eat(PlayerScript eater, PlayerScript feeder, bool FeedNutrients)
-	{
-		//SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
-
-		if (FeedNutrients)
-		{
-			var Stomachs = eater.playerHealth.GetStomachs();
-			if (Stomachs.Count == 0)
+			float wishChance = Random.value;
+			if (wishChance <= 0.25)
 			{
-				//No stomachs?!
-				return;
+				Eat(eater, feeder, true);
 			}
-			FoodContents.Divide(Stomachs.Count);
-			foreach (var Stomach in Stomachs)
+			else
 			{
-				Stomach.StomachContents.Add(FoodContents.CurrentReagentMix.Clone());
+				Eat(eater, feeder, false);
 			}
 		}
 
-		var feederSlot = feeder.ItemStorage.GetActiveHandSlot();
-		Inventory.ServerDespawn(gameObject);
-
-		if (leavings != null)
+		private void Eat(PlayerScript eater, PlayerScript feeder, bool FeedNutrients)
 		{
-			var leavingsInstance = Spawn.ServerPrefab(leavings).GameObject;
-			var pickupable = leavingsInstance.GetComponent<Pickupable>();
-			bool added = Inventory.ServerAdd(pickupable, feederSlot);
-			if (!added)
+			// TODO: sound missing?
+			//SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
+
+			if (FeedNutrients)
 			{
-				//If stackable has leavings and they couldn't go in the same slot, they should be dropped
-				pickupable.CustomNetTransform.SetPosition(feeder.WorldPos);
+				var Stomachs = eater.playerHealth.GetStomachs();
+				if (Stomachs.Count == 0)
+				{
+					//No stomachs?!
+					return;
+				}
+				FoodContents.Divide(Stomachs.Count);
+				foreach (var Stomach in Stomachs)
+				{
+					Stomach.StomachContents.Add(FoodContents.CurrentReagentMix.Clone());
+				}
+			}
+
+			var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
+			Inventory.ServerDespawn(gameObject);
+
+			if (leavings != null)
+			{
+				var leavingsInstance = Spawn.ServerPrefab(leavings).GameObject;
+				var pickupable = leavingsInstance.GetComponent<Pickupable>();
+				bool added = Inventory.ServerAdd(pickupable, feederSlot);
+				if (!added)
+				{
+					//If stackable has leavings and they couldn't go in the same slot, they should be dropped
+					pickupable.UniversalObjectPhysics.AppearAtWorldPositionServer(feeder.WorldPos);
+				}
 			}
 		}
 	}

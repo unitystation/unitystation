@@ -1,5 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using Core.Chat;
+using HealthV2;
+using ScriptableObjects.RP;
+using System.Collections.Generic;
+using System.Linq;
+using Chemistry;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace Health.Sickness
 {
@@ -11,22 +20,50 @@ namespace Health.Sickness
 		[SerializeField]
 		private string sicknessName = "<Unnamed>";
 
-		/// <summary>
-		/// Indicates if the sickness is contagious or not.
-		/// </summary>
-		[SerializeField]
-		private bool contagious = true;
+		[Tooltip(" Indicates if the sickness is contagious or not.")]
+		public bool Contagious = true;
+		[Range(0,12f)] public float ContagiousRadius = 6f;
+		[SerializeField, Range(0,100f)] private float infectOtherChance = 50f;
 
-		/// <summary>
-		/// List of all the stages of a particular sickness
-		/// </summary>
-		[SerializeField]
-		private List<SicknessStage> sicknessStages = null;
+		[Tooltip("The number of levels a sickness has.")]
+		public int NumberOfStages = 1;
 
-		public Sickness()
+		[Range(0f, 9320), Tooltip("Set it to less than 2 ticks to disable automatic progression.")]
+		public int TicksToPogressStages = 50;
+		private int currentTicksSinceLastProgression = 0;
+
+		private int currentStage = 1;
+		public int CurrentStage
 		{
-			sicknessStages = new List<SicknessStage>();
+			get { return currentStage; }
+			set
+			{
+				if (value > NumberOfStages)
+				{
+					Logger.LogError("[Sickness] - Attempted setting stage for sickness that was bigger than the identified stages.");
+					return;
+				}
+				currentStage = value;
+			}
 		}
+
+
+		[FormerlySerializedAs("possibleCures")]public List<Reaction> PossibleCures = new List<Reaction>();
+		public List<PlayerHealthData> ImmuneRaces = new List<PlayerHealthData>();
+		public Reagent CureForSickness = null;
+		public List<Reagent> CureHints = new List<Chemistry.Reagent>();
+
+		[SerializeField, Tooltip("basic Symptomp feedback")] protected EmoteSO emoteFeedback;
+
+		[SerializeField, Range(10f,60f)] private float cooldownTime = 10f;
+		public bool IsOnCooldown = false;
+
+		public LayerMask PlayerMask;
+
+		private int cureIndex = 0;
+		public int CureIndex => cureIndex;
+
+		public bool FrozenProgression = false;
 
 		/// <summary>
 		/// Name of the sickness
@@ -42,26 +79,80 @@ namespace Health.Sickness
 			}
 		}
 
-		/// <summary>
-		/// Indicates if the sickness is contagious or not.
-		/// </summary>
-		public bool Contagious
+		private void Awake()
 		{
-			get
-			{
-				return contagious;
-			}
+			PlayerMask = LayerMask.NameToLayer("Players");
+			SetCure();
+		}
+
+		public void SetCure()
+		{
+			if (PossibleCures.Count == 0) return;
+			cureIndex = Random.Range(0, PossibleCures.Count - 1);
+			CureForSickness = PossibleCures[cureIndex].results.PickRandom().Key;
+			FillCureHints();
+		}
+
+		public void SetCure(Reagent cure)
+		{
+			if (cure == null) return;
+			CureForSickness = cure;
+			FillCureHints();
+		}
+
+		private void FillCureHints()
+		{
+			CureHints.AddRange(PossibleCures[cureIndex].ingredients.Keys);
+		}
+
+		public virtual void SicknessBehavior(LivingHealthMasterBase health)
+		{
+			if(IsOnCooldown) return;
+			SymptompFeedback(health);
+			StageProgressionBehavior();
+			if(Contagious) TrySpreading();
+			if(cooldownTime > 2f) health.StartCoroutine(Cooldown());
+		}
+
+		protected virtual void StageProgressionBehavior()
+		{
+			if(FrozenProgression) return;
+			currentTicksSinceLastProgression += 1;
+			if (currentTicksSinceLastProgression < TicksToPogressStages || NumberOfStages <= currentStage) return;
+			currentTicksSinceLastProgression = 0;
+			currentStage += 1;
 		}
 
 		/// <summary>
-		/// List of all the stages of a particular sickness
+		/// Attempts to spread the virus to nearby mobs.
 		/// </summary>
-		public List<SicknessStage> SicknessStages
+		public virtual void TrySpreading()
 		{
-			get
+			if(DMMath.Prob(infectOtherChance) == false) return;
+			var result = Physics2D.OverlapCircleAll(gameObject.TileLocalPosition(), ContagiousRadius, PlayerMask);
+			foreach (var obj in result)
 			{
-				return sicknessStages;
+				if (obj.TryGetComponent<LivingHealthMasterBase>(out var healthBase) == false) continue;
+				healthBase.AddSickness(this);
+				return; //Balance note : Only infect one person to avoid mass infection problems that leads to chaos.
 			}
+		}
+
+		public virtual void SymptompFeedback(LivingHealthMasterBase health)
+		{
+			EmoteActionManager.DoEmote(emoteFeedback, health.gameObject);
+		}
+
+		public virtual bool CheckForCureInHealth(LivingHealthMasterBase health)
+		{
+			return health.CirculatorySystem.BloodPool.reagentKeys.Contains(CureForSickness) || health.CirculatorySystem.NutrimentToConsume.ContainsKey(CureForSickness);
+		}
+
+		protected virtual IEnumerator Cooldown()
+		{
+			IsOnCooldown = true;
+			yield return WaitFor.Seconds(cooldownTime);
+			IsOnCooldown = false;
 		}
 	}
 }

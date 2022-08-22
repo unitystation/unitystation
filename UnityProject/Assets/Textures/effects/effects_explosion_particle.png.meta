@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: explosion_particle_31
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -119,6 +119,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -128,8 +130,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -150,9 +152,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -863,6 +869,39 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      explosion_particle_1: 21300002
+      explosion_particle_23: 21300046
+      explosion_particle_14: 21300028
+      explosion_particle_29: 21300058
+      explosion_particle_8: 21300016
+      explosion_particle_15: 21300030
+      explosion_particle_22: 21300044
+      explosion_particle_12: 21300024
+      explosion_particle_0: 21300000
+      explosion_particle_28: 21300056
+      explosion_particle_19: 21300038
+      explosion_particle_31: 21300062
+      explosion_particle_20: 21300040
+      explosion_particle_13: 21300026
+      explosion_particle_9: 21300018
+      explosion_particle_18: 21300036
+      explosion_particle_4: 21300008
+      explosion_particle_25: 21300050
+      explosion_particle_11: 21300022
+      explosion_particle_21: 21300042
+      explosion_particle_27: 21300054
+      explosion_particle_3: 21300006
+      explosion_particle_10: 21300020
+      explosion_particle_6: 21300012
+      explosion_particle_16: 21300032
+      explosion_particle_7: 21300014
+      explosion_particle_2: 21300004
+      explosion_particle_5: 21300010
+      explosion_particle_17: 21300034
+      explosion_particle_24: 21300048
+      explosion_particle_26: 21300052
+      explosion_particle_30: 21300060
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

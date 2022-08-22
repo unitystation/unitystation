@@ -54,18 +54,39 @@ namespace Objects.Command
 			//Eject existing id card if there is one and put new one in
 			if (itemSlot.Item != null)
 			{
-				ServerRemoveIDCard();
+				ServerRemoveIDCard(interaction.PerformerPlayerScript.PlayerInfo);
 			}
 
 			Inventory.ServerTransfer(interaction.HandSlot, itemSlot);
 		}
 
 		/// <summary>
+		/// Return an empty hand slot if available
+		/// </summary>
+		/// <param name="item"></param>
+		/// <param name="subject"></param>
+		/// <returns></returns>
+		private ItemSlot GetBestSlot(GameObject item, PlayerInfo subject)
+		{
+			if (subject == null)
+			{
+				return default;
+			}
+
+			var playerStorage = subject.Script.DynamicItemStorage;
+			return playerStorage.GetBestHandOrSlotFor(item);
+		}
+
+		/// <summary>
 		/// Spits out ID card from console and updates login details.
 		/// </summary>
-		public void ServerRemoveIDCard()
+		public void ServerRemoveIDCard(PlayerInfo subject)
 		{
-			Inventory.ServerDrop(itemSlot);
+			var bestSlot = GetBestSlot(itemSlot.ItemObject, subject);
+			if (!Inventory.ServerTransfer(itemSlot, bestSlot))
+			{
+				Inventory.ServerDrop(itemSlot);
+			}
 		}
 	}
 	public class IDEvent : UnityEvent<IDCard> { }

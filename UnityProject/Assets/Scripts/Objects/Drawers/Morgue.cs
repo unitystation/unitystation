@@ -1,7 +1,9 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using AddressableReferences;
-using HealthV2;
+using Items;
 
 namespace Objects.Drawers
 {
@@ -58,8 +60,18 @@ namespace Objects.Drawers
 
 		public override void ServerPerformInteraction(HandApply interaction)
 		{
+			if (container.GetStoredObjects().Contains(interaction.Performer))
+			{
+				Chat.AddExamineMsg(interaction.Performer, "<color=red>I can't reach the controls from the inside!</color>");
+				return;
+			}
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver)) UseScrewdriver(interaction);
-			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag)) UseEmag(interaction);
+			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag)
+				&& interaction.HandObject.TryGetComponent<Emag>(out var emag)
+				&& emag.EmagHasCharges())
+			{
+				UseEmag(emag, interaction);
+			}
 			else if (drawerState == DrawerState.Open) CloseDrawer();
 			else OpenDrawer();
 		}
@@ -77,37 +89,6 @@ namespace Objects.Drawers
 			UpdateCloseState();
 		}
 
-		protected override void EjectPlayers(bool morgueDespawning = false)
-		{
-			base.EjectPlayers(morgueDespawning);
-			UpdateConsciousnessPresent();
-		}
-
-		private void UpdateConsciousnessPresent()
-		{
-			foreach (ObjectBehaviour player in serverHeldPlayers)
-			{
-				if (Conscious(player))
-				{
-					consciousnessPresent = true;
-					return;
-				}
-			}
-
-			consciousnessPresent = false;
-		}
-
-		private bool Conscious(ObjectBehaviour playerMob)
-		{
-			var playerMind = playerMob.GetComponent<PlayerScript>().mind;
-			var playerMobID = playerMob.GetComponent<LivingHealthMasterBase>().mobID;
-
-			// If the mob IDs do not match, player is controlling a new mob, so we don't care about this old mob.
-			if (playerMind.bodyMobID == playerMobID && playerMind.IsOnline()) return true;
-
-			return false;
-		}
-
 		private void UseScrewdriver(HandApply interaction)
 		{
 #pragma warning disable CS0162 // Unreachable code detected
@@ -122,18 +103,17 @@ namespace Objects.Drawers
 					() => ToggleBuzzer());
 		}
 
-		private void UseEmag(HandApply interaction)
+		private void UseEmag(Emag emag, HandApply interaction)
 		{
 #pragma warning disable CS0162 // Unreachable code detected
 			if (!ALARM_SYSTEM_ENABLED || !ALLOW_EMAGGING) return;
 #pragma warning restore CS0162 // Unreachable code detected
 			if (alarmBroken) return;
 			alarmBroken = true;
-
+			emag.UseCharge(interaction);
 			Chat.AddActionMsgToChat(interaction,
-					$"You wave the {interaction.HandObject.name.ToLower()} over the {name.ToLower()}'s electrical panel. " +
 					"The status panel flickers and the buzzer makes sickly popping noises. You can smell smoke...",
-					"You can smell caustic smoke from somewhere...");
+							"You can smell caustic smoke from somewhere...");
 			SoundManager.PlayNetworkedAtPos(emaggedSound, DrawerWorldPosition, sourceObj: gameObject);
 			StartCoroutine(PlayEmagAnimation());
 		}
@@ -147,16 +127,27 @@ namespace Objects.Drawers
 
 		private void UpdateCloseState()
 		{
-			UpdateConsciousnessPresent();
+			var players = container.GetStoredObjects().Select(obj => obj.GetComponent<PlayerScript>()).Where(script => script != null);
+			// Player mind can be null if player was respawned as the old body mind is nulled
+			consciousnessPresent = players.Any(player => player.mind != null && player.mind.IsOnline());
 
 			if (consciousnessPresent && !alarmBroken)
 			{
 				SetDrawerState((DrawerState)MorgueState.ShutWithPlayer);
 				StartCoroutine(PlayAlarm());
 			}
-			else if (serverHeldPlayers.Count > 0) SetDrawerState((DrawerState)MorgueState.ShutWithBraindead);
-			else if (serverHeldItems.Count > 0) SetDrawerState((DrawerState)MorgueState.ShutWithItems);
-			else SetDrawerState(DrawerState.Shut);
+			else if (players.Any())
+			{
+				SetDrawerState((DrawerState)MorgueState.ShutWithBraindead);
+			}
+			else if (container.IsEmpty == false)
+			{
+				SetDrawerState((DrawerState)MorgueState.ShutWithItems);
+			}
+			else
+			{
+				SetDrawerState(DrawerState.Shut);
+			}
 		}
 
 		private IEnumerator PlayAlarm()

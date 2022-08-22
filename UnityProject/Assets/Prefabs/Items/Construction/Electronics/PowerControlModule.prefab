@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3471923577922769642, guid: 1196c3867e61e9e49973dcb106b0a977,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3471923577922769642, guid: 1196c3867e61e9e49973dcb106b0a977,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3471923577922769642, guid: 1196c3867e61e9e49973dcb106b0a977,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3471923577922769642, guid: 1196c3867e61e9e49973dcb106b0a977,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +46,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3471923577922769642, guid: 1196c3867e61e9e49973dcb106b0a977,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3471923577922769642, guid: 1196c3867e61e9e49973dcb106b0a977,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3471923577922769642, guid: 1196c3867e61e9e49973dcb106b0a977,
         type: 3}
@@ -70,7 +70,7 @@ PrefabInstance:
     - target: {fileID: 3578522913692291626, guid: 1196c3867e61e9e49973dcb106b0a977,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 740edf7a0d4b9f84d8230c4c3ca7c91c
       objectReference: {fileID: 0}
     - target: {fileID: 3660502518907182274, guid: 1196c3867e61e9e49973dcb106b0a977,
         type: 3}
@@ -88,11 +88,33 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Heavy-duty switching circuits for power control.
       objectReference: {fileID: 0}
+    - target: {fileID: 3949894974439047420, guid: 1196c3867e61e9e49973dcb106b0a977,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3949894974439047420, guid: 1196c3867e61e9e49973dcb106b0a977,
+        type: 3}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ab47ba198f9b46444a38e8d3d344d8e4,
+        type: 2}
+    - target: {fileID: 3949894974439047420, guid: 1196c3867e61e9e49973dcb106b0a977,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 98b30f47be226514d8026ed918e8ad79,
+        type: 2}
     - target: {fileID: 7312540738445972505, guid: 1196c3867e61e9e49973dcb106b0a977,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: ecc3a0637be7f0744b306411dc2ee494,
         type: 2}
+    - target: {fileID: 7532265830037070835, guid: 1196c3867e61e9e49973dcb106b0a977,
+        type: 3}
+      propertyPath: foreverID
+      value: 740edf7a0d4b9f84d8230c4c3ca7c91c
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1196c3867e61e9e49973dcb106b0a977, type: 3}

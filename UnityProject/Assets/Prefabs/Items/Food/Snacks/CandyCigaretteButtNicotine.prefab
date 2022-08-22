@@ -8,6 +8,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 67647418286998, guid: 9c3dd26f8f4925b4ca73976d18a90408, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 67647418286998, guid: 9c3dd26f8f4925b4ca73976d18a90408, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -20,6 +24,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 67647418286998, guid: 9c3dd26f8f4925b4ca73976d18a90408, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 67647418286998, guid: 9c3dd26f8f4925b4ca73976d18a90408, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -30,14 +38,6 @@ PrefabInstance:
     - target: {fileID: 67647418286998, guid: 9c3dd26f8f4925b4ca73976d18a90408, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 67647418286998, guid: 9c3dd26f8f4925b4ca73976d18a90408, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 67647418286998, guid: 9c3dd26f8f4925b4ca73976d18a90408, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 67647418286998, guid: 9c3dd26f8f4925b4ca73976d18a90408, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -58,7 +58,7 @@ PrefabInstance:
     - target: {fileID: 110208716565644118, guid: 9c3dd26f8f4925b4ca73976d18a90408,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: a93cffe3550500f41b1f51162c3a897b
       objectReference: {fileID: 0}
     - target: {fileID: 503880969611104640, guid: 9c3dd26f8f4925b4ca73976d18a90408,
         type: 3}
@@ -85,6 +85,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6388644428417446543, guid: 9c3dd26f8f4925b4ca73976d18a90408,
+        type: 3}
+      propertyPath: foreverID
+      value: a93cffe3550500f41b1f51162c3a897b
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c3dd26f8f4925b4ca73976d18a90408, type: 3}

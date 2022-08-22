@@ -1,18 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UI.Core.NetUI;
 using Systems.Cargo;
 
 namespace UI.Objects.Cargo
 {
 	public class GUI_CargoPageBounties : GUI_CargoPage
 	{
-		public EmptyItemList orderList;
+		[SerializeField]
+		private EmptyItemList orderList;
 
 		public override void OpenTab()
 		{
 			CargoManager.Instance.OnBountiesUpdate.AddListener(UpdateTab);
 		}
+
 		public override void UpdateTab()
 		{
 			var bounties = CargoManager.Instance.ActiveBounties;

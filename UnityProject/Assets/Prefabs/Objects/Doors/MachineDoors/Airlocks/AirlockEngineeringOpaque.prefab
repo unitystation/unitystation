@@ -19,6 +19,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 266422439240574101, guid: ed01dbb56f7eaec43a7c493afa00559a,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 266422439240574101, guid: ed01dbb56f7eaec43a7c493afa00559a,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -31,6 +36,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 266422439240574101, guid: ed01dbb56f7eaec43a7c493afa00559a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 266422439240574101, guid: ed01dbb56f7eaec43a7c493afa00559a,
         type: 3}
@@ -49,16 +59,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 266422439240574101, guid: ed01dbb56f7eaec43a7c493afa00559a,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 266422439240574101, guid: ed01dbb56f7eaec43a7c493afa00559a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 266422439240574101, guid: ed01dbb56f7eaec43a7c493afa00559a,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -72,6 +72,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1195314703854478558, guid: ed01dbb56f7eaec43a7c493afa00559a,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8685ef3b003fa954bae15f1789d016df,
+        type: 2}
     - target: {fileID: 1195314703854478558, guid: ed01dbb56f7eaec43a7c493afa00559a,
         type: 3}
       propertyPath: SubCatalogue.Array.data[0]
@@ -96,22 +102,41 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7eeda97899f58674d9eaf197726a70cd,
         type: 2}
-    - target: {fileID: 1195314703854478558, guid: ed01dbb56f7eaec43a7c493afa00559a,
+    - target: {fileID: 3807468180640734214, guid: ed01dbb56f7eaec43a7c493afa00559a,
         type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: 8685ef3b003fa954bae15f1789d016df,
-        type: 2}
+      propertyPath: foreverID
+      value: 4d76ade90a370ca43ab3c9a765236a26
+      objectReference: {fileID: 0}
     - target: {fileID: 4361044462024947031, guid: ed01dbb56f7eaec43a7c493afa00559a,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 4f6aca460132fd341bafafcbebbbff9c,
         type: 3}
+    - target: {fileID: 4551396315583896493, guid: ed01dbb56f7eaec43a7c493afa00559a,
+        type: 3}
+      propertyPath: requiredClearance.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4551396315583896493, guid: ed01dbb56f7eaec43a7c493afa00559a,
+        type: 3}
+      propertyPath: requiredClearance.Array.data[0]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445258572411747785, guid: ed01dbb56f7eaec43a7c493afa00559a,
+        type: 3}
+      propertyPath: restriction
+      value: 32
+      objectReference: {fileID: 0}
     - target: {fileID: 6781430717906444833, guid: ed01dbb56f7eaec43a7c493afa00559a,
         type: 3}
       propertyPath: m_Layer
       value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 7974947244934381282, guid: ed01dbb56f7eaec43a7c493afa00559a,
+        type: 3}
+      propertyPath: isWindowedDoor
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8011270201726650846, guid: ed01dbb56f7eaec43a7c493afa00559a,
         type: 3}
@@ -136,7 +161,7 @@ PrefabInstance:
     - target: {fileID: 8537384309980256045, guid: ed01dbb56f7eaec43a7c493afa00559a,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 4d76ade90a370ca43ab3c9a765236a26
       objectReference: {fileID: 0}
     - target: {fileID: 8560522176946829103, guid: ed01dbb56f7eaec43a7c493afa00559a,
         type: 3}

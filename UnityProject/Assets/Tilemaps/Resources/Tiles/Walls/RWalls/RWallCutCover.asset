@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: RWallCutCover
   m_EditorClassIdentifier: 
   displayName: reinforced wall
+  description: 
   LayerType: 0
   TileType: 1
   RequiredTiles:
@@ -24,9 +25,16 @@ MonoBehaviour:
   SpawnWithNoAir: 0
   passable: 0
   mineable: 0
-  RadiationPassability: 0.15
+  miningTime: 5
+  miningHardness: 1
+  constructable: 0
+  RadiationPassability: 0.6
+  ThermalConductivity: 0
+  HeatCapacity: 312500
   doesReflectBullet: 0
   indestructible: 0
+  ExplosionImpassable: 1
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 
     m_values: 
@@ -37,15 +45,17 @@ MonoBehaviour:
     Bullet: 90
     Laser: 90
     Energy: 90
-    Bomb: 90
+    Bomb: 65
     Rad: 100
     Fire: 100
     Acid: 90
     Magic: 0
     Bio: 100
+    DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: 80fa3856a932643f38b929bd7e371344, type: 2}
   - {fileID: 11400000, guid: af5d9791dd6ca4ba2a75443eae419653, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 0}
@@ -60,4 +70,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  SoundOnDestroy: []
   sprite: {fileID: 21300000, guid: 9785839f4bb4c984ea2a4f0c03bf483a, type: 3}

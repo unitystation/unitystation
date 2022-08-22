@@ -1,6 +1,6 @@
-﻿using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.UI;
+using UI.CharacterCreator;
 
 namespace Lobby
 {
@@ -9,11 +9,10 @@ namespace Lobby
 		public static LobbyManager Instance;
 		public AccountLogin accountLogin;
 		public CharacterCustomization characterCustomization;
-		public Toggle hostToggle;
 
 		public GUI_LobbyDialogue lobbyDialogue;
 
-		void Awake()
+		private void Awake()
 		{
 			if (Instance == null)
 			{
@@ -25,26 +24,19 @@ namespace Lobby
 			}
 		}
 
-		void Start()
+		private void Start()
 		{
 			DetermineUIScale();
 			UIManager.Display.SetScreenForLobby();
-			EventManager.AddHandler(EVENT.LoggedOut, SetOnLogOut);
-			CustomNetworkManager.Instance.OnClientDisconnected.AddListener(OnClientDisconnect);
+			EventManager.AddHandler(Event.LoggedOut, SetOnLogOut);
 		}
 
 		private void OnDisable()
 		{
-			EventManager.RemoveHandler(EVENT.LoggedOut, SetOnLogOut);
-			CustomNetworkManager.Instance?.OnClientDisconnected?.RemoveListener(OnClientDisconnect);
+			EventManager.RemoveHandler(Event.LoggedOut, SetOnLogOut);
 		}
 
-		public void OnClientDisconnect()
-		{
-			lobbyDialogue.OnClientDisconnect();
-		}
-
-		void DetermineUIScale()
+		private void DetermineUIScale()
 		{
 			if (Application.isMobilePlatform)
 			{

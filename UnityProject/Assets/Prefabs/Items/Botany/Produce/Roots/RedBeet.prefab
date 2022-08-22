@@ -16,7 +16,17 @@ PrefabInstance:
     - target: {fileID: 3075586618079756424, guid: 65aa5598a8968404e9ca47e68a8d09b6,
         type: 3}
       propertyPath: m_AssetId
+      value: f866b6c644819d54aa67d13c291864a2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3075618960723909792, guid: 65aa5598a8968404e9ca47e68a8d09b6,
+        type: 3}
+      propertyPath: customNetTransform
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3110045621768978504, guid: 65aa5598a8968404e9ca47e68a8d09b6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3110045621768978504, guid: 65aa5598a8968404e9ca47e68a8d09b6,
         type: 3}
@@ -35,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3110045621768978504, guid: 65aa5598a8968404e9ca47e68a8d09b6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3110045621768978504, guid: 65aa5598a8968404e9ca47e68a8d09b6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3110045621768978504, guid: 65aa5598a8968404e9ca47e68a8d09b6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3110045621768978504, guid: 65aa5598a8968404e9ca47e68a8d09b6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3110045621768978504, guid: 65aa5598a8968404e9ca47e68a8d09b6,
         type: 3}
@@ -78,15 +83,42 @@ PrefabInstance:
       propertyPath: m_Name
       value: RedBeet
       objectReference: {fileID: 0}
-    - target: {fileID: 3303111703392490078, guid: 65aa5598a8968404e9ca47e68a8d09b6,
+    - target: {fileID: 3220508457274029290, guid: 65aa5598a8968404e9ca47e68a8d09b6,
         type: 3}
-      propertyPath: initialDescription
-      value: You can't beat red beet.
+      propertyPath: relatedRecipes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3220508457274029290, guid: 65aa5598a8968404e9ca47e68a8d09b6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 04fbdcbe5ced48d4891c148bdc9973be,
+        type: 2}
+    - target: {fileID: 3220508457274029290, guid: 65aa5598a8968404e9ca47e68a8d09b6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 8c8bcede03efc8c4db83aa16e5e54593,
+        type: 2}
+    - target: {fileID: 3220508457274029290, guid: 65aa5598a8968404e9ca47e68a8d09b6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3220508457274029290, guid: 65aa5598a8968404e9ca47e68a8d09b6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3303111703392490078, guid: 65aa5598a8968404e9ca47e68a8d09b6,
         type: 3}
       propertyPath: initialName
       value: red-beet
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303111703392490078, guid: 65aa5598a8968404e9ca47e68a8d09b6,
+        type: 3}
+      propertyPath: initialDescription
+      value: You can't beat red beet.
       objectReference: {fileID: 0}
     - target: {fileID: 3680244759217287499, guid: 65aa5598a8968404e9ca47e68a8d09b6,
         type: 3}
@@ -94,11 +126,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8967479190099124251, guid: dcd3d8f4ab469334fbf3b48a5ef58607,
         type: 3}
+    - target: {fileID: 8322689253528269137, guid: 65aa5598a8968404e9ca47e68a8d09b6,
+        type: 3}
+      propertyPath: foreverID
+      value: f866b6c644819d54aa67d13c291864a2
+      objectReference: {fileID: 0}
     - target: {fileID: 9114308267286873787, guid: 65aa5598a8968404e9ca47e68a8d09b6,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 366e429fce866944d8fda1a97b278048,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -5936286651745845230, guid: 65aa5598a8968404e9ca47e68a8d09b6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 65aa5598a8968404e9ca47e68a8d09b6, type: 3}

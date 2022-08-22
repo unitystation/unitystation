@@ -2,33 +2,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
-using System.Linq;
+using UnityEngine.Serialization;
 
-namespace items.food
+namespace Items.Food
 {
-
-public class Bread : MonoBehaviour, IQuantumReaction
-{
-
-	[SerializeField]
-	private GameObject MutatedBread = default;
-
-	public void OnTeleportStart()
+	public class Bread : MonoBehaviour, IQuantumReaction
 	{
-		//Left Blank on Purpose
-	}
+		[SerializeField, FormerlySerializedAs("MutatedFood")]
+		private GameObject mutatedFood = default;
 
-	public void OnTeleportEnd()
-	{
-		if (DMMath.Prob(10))
+		public void OnTeleportStart()
 		{
-			Spawn.ServerPrefab(MutatedBread, gameObject.AssumedWorldPosServer());
-			Despawn.ServerSingle(gameObject);
+			//Left Blank on Purpose
 		}
+
+		public void OnTeleportEnd()
+		{
+			if (DMMath.Prob(10))
+			{
+				Spawn.ServerPrefab(mutatedFood, gameObject.AssumedWorldPosServer());
+				_ = Despawn.ServerSingle(gameObject);
+			}
+		}
+
+		//Bread Class has big plans for the future WORK-IN-PROGRESS
+
+		// So say we all.
 	}
-
-	//Bread Class has big plans for the future WORK-IN-PROGRESS
-
-}
 }

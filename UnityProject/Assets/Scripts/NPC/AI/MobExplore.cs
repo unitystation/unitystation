@@ -3,10 +3,12 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using Items;
+using Items.Food;
 using NaughtyAttributes;
 using Objects.Construction;
 using AddressableReferences;
 using Chemistry;
+using Random = System.Random;
 
 namespace Systems.MobAIs
 {
@@ -14,7 +16,7 @@ namespace Systems.MobAIs
 	/// AI brain specifically trained to explore
 	/// the surrounding area for specific objects
 	/// </summary>
-	public class MobExplore : MobAgent
+	public class MobExplore : MobObjective, IServerSpawn
 	{
 		private AddressableAudioSource eatFoodSound;
 
@@ -25,8 +27,11 @@ namespace Systems.MobAIs
 			dirtyFloor,
 			missingFloor,
 			injuredPeople,
-			players
+			players,
+			none
 		}
+
+		public float PriorityBalance = 1;
 
 		[Tooltip("The reagent used by emagged cleanbots")]
 		[SerializeField] private Reagent CB_REAGENT;
@@ -56,30 +61,27 @@ namespace Systems.MobAIs
 		protected Vector3Int actionPosition;
 
 		public bool IsEmagged = false;
-		private InteractableTiles interactableTiles {
-			get {
+
+		private readonly Random random = new Random();
+
+		private InteractableTiles interactableTiles
+		{
+			get
+			{
 				if (_interactableTiles == null)
 				{
-					_interactableTiles = InteractableTiles.GetAt((Vector2Int)registerObj.LocalPositionServer, true);
+					_interactableTiles = InteractableTiles.GetAt((Vector2Int)mobTile.LocalPositionServer, true);
 				}
 
 				return _interactableTiles;
 			}
 		}
 
-		public override void Start()
+		public void OnSpawnServer(SpawnInfo info)
 		{
-			base.Start();
-			eatFoodSound = SingletonSOSounds.Instance.EatFood;
+			eatFoodSound = CommonSounds.Instance.EatFood;
 		}
 
-		/// <summary>
-		/// Begin searching for the predefined target
-		/// </summary>
-		public void BeginExploring()
-		{
-			Activate();
-		}
 
 		/// <summary>
 		/// Begin exploring for the given target type
@@ -88,38 +90,8 @@ namespace Systems.MobAIs
 		public void BeginExploring(Target _target)
 		{
 			target = _target;
-			Activate();
 		}
 
-		public override void CollectObservations()
-		{
-			var curPos = registerObj.LocalPositionServer;
-
-			ObserveAdjacentTiles();
-
-			//Search surrounding tiles for the target of interest (food, floors to clean, injured people, etc.)
-			for (int y = 1; y > -2; y--)
-			{
-				for (int x = -1; x < 2; x++)
-				{
-					if (x == 0 && y == 0) continue;
-
-					var checkPos = curPos;
-					checkPos.x += x;
-					checkPos.y += y;
-
-					if (IsTargetFound(checkPos))
-					{
-						// Yes the target is here!
-						AddVectorObs(true);
-					}
-					else
-					{
-						AddVectorObs(false);
-					}
-				}
-			}
-		}
 
 		private bool IsTargetFound(Vector3Int checkPos)
 		{
@@ -127,15 +99,22 @@ namespace Systems.MobAIs
 			{
 				case Target.food:
 					if (hasFoodPrefereces)
-						return registerObj.Matrix.Get<ItemAttributesV2>(checkPos, true).Any(IsInFoodPreferences);
-					return registerObj.Matrix.GetFirst<Edible>(checkPos, true) != null;
+						return mobTile.Matrix.Get<ItemAttributesV2>(checkPos, true).Any(IsInFoodPreferences);
+					return mobTile.Matrix.GetFirst<Edible>(checkPos, true) != null;
 
 				case Target.dirtyFloor:
-					if (IsEmagged == false) return (registerObj.Matrix.Get<FloorDecal>(checkPos, true).Any(p => p.Cleanable));
-					else return (registerObj.Matrix.Get<FloorDecal>(checkPos, true).Any(p => p.Cleanable) || (!registerObj.Matrix.Get<FloorDecal>(checkPos, true).Any() && interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Floors));
+					if (IsEmagged == false) return (mobTile.Matrix.Get<FloorDecal>(checkPos, true).Any(p => p.Cleanable));
+					else return (mobTile.Matrix.Get<FloorDecal>(checkPos, true).Any(p => p.Cleanable) || (!mobTile.Matrix.Get<FloorDecal>(checkPos, true).Any() && interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Floors));
 
 				case Target.missingFloor:
-					if (IsEmagged == false) return (interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Base || interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Underfloor); // Checks the topmost tile if its the base or underfloor layer (below the floor)
+					// Checks the topmost tile if its the base or underfloor layer (below the floor)
+					if (IsEmagged == false)
+					{
+						return (interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Base
+					                                || interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType.IsUnderFloor() != null);
+
+					}
+
 					else return interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Floors;
 
 				case Target.injuredPeople:
@@ -143,7 +122,7 @@ namespace Systems.MobAIs
 
 				// this includes ghosts!
 				case Target.players:
-					return registerObj.Matrix.GetFirst<PlayerScript>(checkPos, true) != null;
+					return mobTile.Matrix.GetFirst<PlayerScript>(checkPos, true) != null;
 
 				default:
 					return false;
@@ -184,7 +163,7 @@ namespace Systems.MobAIs
 		{
 			if (hasFoodPrefereces)
 			{
-				var food = registerObj.Matrix.Get<ItemAttributesV2>(checkPos, true).FirstOrDefault(IsInFoodPreferences);
+				var food = mobTile.Matrix.Get<ItemAttributesV2>(checkPos, true).FirstOrDefault(IsInFoodPreferences);
 
 				if (food is null)
 				{
@@ -194,12 +173,12 @@ namespace Systems.MobAIs
 				// Send the sound to all nearby clients
 				SoundManager.PlayNetworkedAtPos(eatFoodSound, transform.position, sourceObj: gameObject);
 
-				Despawn.ServerSingle(food.gameObject);
+				_ = Despawn.ServerSingle(food.gameObject);
 				FoodEatenEvent?.Invoke();
 			}
 			else
 			{
-				var food = registerObj.Matrix.GetFirst<Edible>(checkPos, true);
+				var food = mobTile.Matrix.GetFirst<Edible>(checkPos, true);
 
 				if (food != null)
 				{
@@ -213,7 +192,7 @@ namespace Systems.MobAIs
 		/// </summary>
 		protected virtual void PerformTargetAction(Vector3Int checkPos)
 		{
-			if (registerObj == null || registerObj.Matrix == null)
+			if (mobTile == null || mobTile.Matrix == null)
 			{
 				return;
 			}
@@ -226,55 +205,67 @@ namespace Systems.MobAIs
 				case Target.dirtyFloor:
 					var matrixInfo = MatrixManager.AtPoint(checkPos, true);
 					var worldPos = MatrixManager.LocalToWorldInt(checkPos, matrixInfo);
-					if (IsEmagged) matrixInfo.MetaDataLayer.ReagentReact(new ReagentMix(CB_REAGENT,5,283.15f),worldPos,checkPos);
+					if (IsEmagged) matrixInfo.MetaDataLayer.ReagentReact(new ReagentMix(CB_REAGENT, 5, 283.15f), worldPos, checkPos);
 					else matrixInfo.MetaDataLayer.Clean(worldPos, checkPos, false);
 					break;
 				case Target.missingFloor:
-					if (IsEmagged == false) interactableTiles.TileChangeManager.UpdateTile(checkPos, TileType.Floor, "Floor");
-					else interactableTiles.TileChangeManager.RemoveTile(checkPos, LayerType.Floors, true);
+					if (IsEmagged == false) interactableTiles.TileChangeManager.MetaTileMap.SetTile(checkPos, TileType.Floor, "Floor");
+					else interactableTiles.TileChangeManager.MetaTileMap.RemoveTileWithlayer(checkPos, LayerType.Floors);
 
 					break;
 				case Target.injuredPeople:
 					break;
 				case Target.players:
-					var people = registerObj.Matrix.GetFirst<PlayerScript>(checkPos, true);
+					var people = mobTile.Matrix.GetFirst<PlayerScript>(checkPos, true);
 					if (people != null) gameObject.GetComponent<MobAI>().ExplorePeople(people);
 					break;
 			}
 		}
 
-		public override void AgentAction(float[] vectorAction, string textAction)
-		{
-			PerformMoveAction(Mathf.FloorToInt(vectorAction[0]));
-		}
-
-		protected override void OnPushSolid(Vector3Int destination)
-		{
-			if (IsTargetFound(destination))
-			{
-				StartPerformAction(destination);
-			}
-		}
 
 		private void StartPerformAction(Vector3Int destination)
 		{
-			performingAction = true;
 			actionPosition = destination;
 
 			OnPerformAction();
 		}
 
-		protected override void OnPerformAction()
+		protected void OnPerformAction()
 		{
-			actionPerformTimer += Time.deltaTime;
+			actionPerformTimer += MobController.UpdateTimeInterval;
 
 			if ((actionPerformTime == 0) || (actionPerformTimer >= actionPerformTime))
 			{
-				SetReward(1f);
 				PerformTargetAction(actionPosition);
 
 				actionPerformTimer = 0;
-				performingAction = false;
+			}
+		}
+
+
+		public override void ContemplatePriority()
+		{
+			if (IsTargetFound(mobTile.LocalPositionServer))
+			{
+				Priority += PriorityBalance * 10;
+			}
+			else
+			{
+				Priority += PriorityBalance;
+			}
+
+		}
+
+
+		public override void DoAction()
+		{
+			if (IsTargetFound(mobTile.LocalPositionServer))
+			{
+				StartPerformAction(mobTile.LocalPositionServer);
+			}
+			else
+			{
+				Move(Directions[random.Next(0, Directions.Count)]);
 			}
 		}
 	}

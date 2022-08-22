@@ -7,7 +7,7 @@ namespace HealthV2
 	[CreateAssetMenu(fileName = "RemovalProcedure", menuName = "ScriptableObjects/Surgery/RemovalProcedure")]
 	public class RemovalProcedure : SurgeryProcedureBase
 	{
-		public override void FinnishSurgeryProcedure(BodyPart OnBodyPart, PositionalHandApply interaction,
+		public override void FinnishSurgeryProcedure(BodyPart OnBodyPart, HandApply interaction,
 			Dissectible.PresentProcedure PresentProcedure)
 		{
 			base.FinnishSurgeryProcedure(OnBodyPart, interaction, PresentProcedure);
@@ -21,8 +21,11 @@ namespace HealthV2
 				PresentProcedure.ISon.SetBodyPartIsOpen(false,false) ;
 				PresentProcedure.ISon.currentlyOn = null;
 			}
-			OnBodyPart.RemoveFromBodyThis();
 
+			PresentProcedure.ISon.ThisPresentProcedure.PreviousBodyPart = null;
+			PresentProcedure.ISon.ThisPresentProcedure.RelatedBodyPart = null;
+
+			OnBodyPart.TryRemoveFromBody();
 		}
 	}
 }

@@ -1,0 +1,127 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6789101911216046944
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2716618988875152164, guid: d0c4b52b477e35e44a7e0c0a6876892c,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 15da386f2300780458f6b29b76b89524,
+        type: 2}
+    - target: {fileID: 2904813239453011150, guid: d0c4b52b477e35e44a7e0c0a6876892c,
+        type: 3}
+      propertyPath: foreverID
+      value: 95d4fab665995b044932cc8be84f78ea
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135404748598492631, guid: d0c4b52b477e35e44a7e0c0a6876892c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135404748598492631, guid: d0c4b52b477e35e44a7e0c0a6876892c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135404748598492631, guid: d0c4b52b477e35e44a7e0c0a6876892c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135404748598492631, guid: d0c4b52b477e35e44a7e0c0a6876892c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135404748598492631, guid: d0c4b52b477e35e44a7e0c0a6876892c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135404748598492631, guid: d0c4b52b477e35e44a7e0c0a6876892c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135404748598492631, guid: d0c4b52b477e35e44a7e0c0a6876892c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135404748598492631, guid: d0c4b52b477e35e44a7e0c0a6876892c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135404748598492631, guid: d0c4b52b477e35e44a7e0c0a6876892c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135404748598492631, guid: d0c4b52b477e35e44a7e0c0a6876892c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135404748598492631, guid: d0c4b52b477e35e44a7e0c0a6876892c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8139484074677452963, guid: d0c4b52b477e35e44a7e0c0a6876892c,
+        type: 3}
+      propertyPath: m_Name
+      value: CaravanIndWeldingTool
+      objectReference: {fileID: 0}
+    - target: {fileID: 8169831684587790655, guid: d0c4b52b477e35e44a7e0c0a6876892c,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 3411286310312521235}
+    - target: {fileID: 8169939000315313431, guid: d0c4b52b477e35e44a7e0c0a6876892c,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 95d4fab665995b044932cc8be84f78ea
+      objectReference: {fileID: 0}
+    - target: {fileID: 8215889776327029759, guid: d0c4b52b477e35e44a7e0c0a6876892c,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1968e658b4d566c4b85183cbdfba2044,
+        type: 3}
+    - target: {fileID: 8509792358199766977, guid: d0c4b52b477e35e44a7e0c0a6876892c,
+        type: 3}
+      propertyPath: initialName
+      value: Caravan industrial welding tool
+      objectReference: {fileID: 0}
+    - target: {fileID: 8509792358199766977, guid: d0c4b52b477e35e44a7e0c0a6876892c,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 59fc25420f7e403478a374b938aef4cf,
+        type: 2}
+    - target: {fileID: 8509792358199766977, guid: d0c4b52b477e35e44a7e0c0a6876892c,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c6f5958cc3390f54a855f3dd3fb2a82b,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d0c4b52b477e35e44a7e0c0a6876892c, type: 3}
+--- !u!114 &3411286310312521235 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8169792389228129651, guid: d0c4b52b477e35e44a7e0c0a6876892c,
+    type: 3}
+  m_PrefabInstance: {fileID: 6789101911216046944}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

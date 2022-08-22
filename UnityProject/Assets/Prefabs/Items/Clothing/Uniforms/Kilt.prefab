@@ -1,19 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6786331949377398488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3011710637427380133}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c33b98e5bab083242b34667c67cc03b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  modifier: 2097152
-  slot: 6
 --- !u!1001 &7594101368484456391
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27,18 +13,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ae2a1aa63cffcf24684c25a825f9e0e3,
         type: 2}
+    - target: {fileID: 1734639913420629007, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: foreverID
+      value: 6aeac73f4196c0a92a6db19aa7d06391
+      objectReference: {fileID: 0}
     - target: {fileID: 1789387693666696167, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: a5090c70681adcc48ac9ff15d6af8bcc,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 1789387693666696167, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: a5090c70681adcc48ac9ff15d6af8bcc,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 1789387693666696167, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: hideClothingFlags
@@ -123,7 +112,7 @@ PrefabInstance:
     - target: {fileID: 4700669166950225366, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 6aeac73f4196c0a92a6db19aa7d06391
       objectReference: {fileID: 0}
     - target: {fileID: 4781100657663286078, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
@@ -151,6 +140,26 @@ PrefabInstance:
       propertyPath: bodyPartsCovered
       value: 144
       objectReference: {fileID: 0}
+    - target: {fileID: 8215174308799955191, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bomb
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 8215174308799955191, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Fire
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8215174308799955191, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bullet
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8215174308799955191, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.StunImmunity
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de234d793cfd842599c9c8726207f217, type: 3}
 --- !u!1 &3011710637427380133 stripped
@@ -159,3 +168,17 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7594101368484456391}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-6786331949377398488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3011710637427380133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c33b98e5bab083242b34667c67cc03b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modifier: 2097152
+  slot: 6

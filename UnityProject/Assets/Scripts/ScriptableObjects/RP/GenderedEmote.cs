@@ -6,28 +6,29 @@ namespace ScriptableObjects.RP
 	[CreateAssetMenu(fileName = "Emote", menuName = "ScriptableObjects/RP/Emotes/GenderedEmote")]
 	public class GenderedEmote : EmoteSO
 	{
-		[SerializeField]
-		private string critViewText = "screams in pain!";
-
 		private string viewTextFinal;
 
+		/// <summary>
+		/// Gendered Emote is designed for Players only and any NPC that uses HealthV2
+		/// </summary>
 		public override void Do(GameObject player)
 		{
+			if(CheckAllBaseConditions(player) == false) return;
 			HealthCheck(player);
 			Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewTextFinal}.");
-			PlayAudio(GetBodyTypeAudio(player), player);
+			if (soundsAreTyped)
+			{
+				PlayAudio(GetBodyTypeAudio(player), player);
+				return;
+			}
+			PlayAudio(defaultSounds, player);
 		}
 
 		private void HealthCheck(GameObject player)
 		{
-			var health = player.GetComponent<LivingHealthMasterBase>();
+			bool playerCondition = CheckPlayerCritState(player);
 
-			if (health == null || health.IsDead)
-			{
-				return;
-			}
-
-			viewTextFinal = health.IsCrit ? critViewText : viewText;
+			viewTextFinal = playerCondition ? critViewText : viewText;
 		}
 	}
 }

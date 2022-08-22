@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: bf8551d6d67f22245b7b6103b5e071d5,
         type: 2}
+    - target: {fileID: 1090811781821981693, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
+      propertyPath: foreverID
+      value: 96623f9859ab9a84fb589e110c401f10
+      objectReference: {fileID: 0}
     - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
       propertyPath: initialName
@@ -22,6 +27,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: Spread the glory of the dark gods!
+      objectReference: {fileID: 0}
+    - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
@@ -44,7 +54,7 @@ PrefabInstance:
     - target: {fileID: 6200854109258175012, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 96623f9859ab9a84fb589e110c401f10
       objectReference: {fileID: 0}
     - target: {fileID: 6307973308067386084, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
@@ -110,14 +120,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: ae11a2c90809700428d5aa97848f8ea1,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7556420510665103617, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: ae11a2c90809700428d5aa97848f8ea1,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7556420510665103617, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

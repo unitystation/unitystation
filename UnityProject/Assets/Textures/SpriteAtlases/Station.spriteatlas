@@ -52,6 +52,8 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 1
       enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: a0446a28cdaeb45468f82eb960c43709, type: 3}
@@ -59,7 +61,6 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 60cd70251dfe92945a154088e9b31358, type: 3}
     - {fileID: 102900000, guid: 8eb1f564560b359478240c7b58b3e272, type: 3}
     - {fileID: 102900000, guid: d0106dde6d76735f6a9312dcaf548958, type: 3}
-    totalSpriteSurfaceArea: 7415588
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
@@ -1680,10 +1681,6 @@ SpriteAtlas:
   - {fileID: 21300002, guid: b21965a32f70e73419f2c12488812de8, type: 3}
   - {fileID: 21300004, guid: b21965a32f70e73419f2c12488812de8, type: 3}
   - {fileID: 21300006, guid: b21965a32f70e73419f2c12488812de8, type: 3}
-  - {fileID: 21300008, guid: b21965a32f70e73419f2c12488812de8, type: 3}
-  - {fileID: 21300010, guid: b21965a32f70e73419f2c12488812de8, type: 3}
-  - {fileID: 21300012, guid: b21965a32f70e73419f2c12488812de8, type: 3}
-  - {fileID: 21300014, guid: b21965a32f70e73419f2c12488812de8, type: 3}
   - {fileID: 21300004, guid: 8d6495a3c85c0004399514051491f3ee, type: 3}
   - {fileID: 21300006, guid: 8d6495a3c85c0004399514051491f3ee, type: 3}
   - {fileID: 21300000, guid: 8d6495a3c85c0004399514051491f3ee, type: 3}
@@ -2773,6 +2770,10 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 8689f5e5ba5264a439a8c91f3bd28002, type: 3}
   - {fileID: 21300000, guid: fe7ff8e5ca04051478a3b597e2137d72, type: 3}
   - {fileID: 21300000, guid: e2a42be579f48214a92ba581c06cbedf, type: 3}
+  - {fileID: -8928149631900030458, guid: 96056be54ac7e50429b8da809820cd63, type: 3}
+  - {fileID: -5353824904825308363, guid: 96056be54ac7e50429b8da809820cd63, type: 3}
+  - {fileID: -7434457427207099699, guid: 96056be54ac7e50429b8da809820cd63, type: 3}
+  - {fileID: -2381079801620455858, guid: 96056be54ac7e50429b8da809820cd63, type: 3}
   - {fileID: 21300000, guid: 38b5abe5584ab8e4682dba97f789a2f4, type: 3}
   - {fileID: 21300002, guid: 38b5abe5584ab8e4682dba97f789a2f4, type: 3}
   - {fileID: 21300004, guid: 38b5abe5584ab8e4682dba97f789a2f4, type: 3}
@@ -8708,10 +8709,6 @@ SpriteAtlas:
   - conpipe_1
   - conpipe_2
   - conpipe_3
-  - conpipe_4
-  - conpipe_5
-  - conpipe_6
-  - conpipe_7
   - pristine_surrounding_tile2_2
   - pristine_surrounding_tile2_3
   - pristine_surrounding_tile2_0
@@ -9801,6 +9798,10 @@ SpriteAtlas:
   - boss_floors_cracked_center2
   - decals_bot_red
   - material floors_plastitanium_dam2
+  - disposal_conpipe_bent_2
+  - disposal_conpipe_bent_3
+  - disposal_conpipe_bent_0
+  - disposal_conpipe_bent_1
   - darkpurple_0
   - darkpurple_1
   - darkpurple_2
@@ -14120,5 +14121,6 @@ SpriteAtlas:
   - redyellow_6
   - resin_wall_2-i
   - shuttleold_swallc4
+  m_RenderDataMap: {}
   m_Tag: Station
   m_IsVariant: 0

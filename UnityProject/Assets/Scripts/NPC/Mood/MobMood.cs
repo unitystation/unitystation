@@ -156,7 +156,7 @@ namespace NPC.Mood
 		public void SetLevel(int amount)
 		{
 			// maybe do a happy/unhappy face animation to represent this change?
-			level = Mathf.Clamp(amount, 1, maxMoodLevel);
+			level = Mathf.Clamp(amount, 0, maxMoodLevel);
 			MoodChanged?.Invoke();
 		}
 	}

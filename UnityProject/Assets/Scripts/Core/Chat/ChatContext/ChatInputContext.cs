@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Items;
 
 public class ChatInputContext : IChatInputContext
 {
@@ -19,31 +20,32 @@ public class ChatInputContext : IChatInputContext
 				return ChatChannel.None;
 			}
 
-			// Player is blob?
-			if (PlayerManager.LocalPlayerScript.IsPlayerSemiGhost)
-			{
-				return ChatChannel.Blob;
-			}
-
 			// Player is some spooky ghost?
 			if (PlayerManager.LocalPlayerScript.IsDeadOrGhost)
 			{
 				return ChatChannel.Ghost;
 			}
 
+			// Is not normal and not radio get default
+			if (PlayerManager.LocalPlayerScript.IsNormal == false
+			    && PlayerManager.LocalPlayerScript.PlayerTypeSettings.CheckForRadios == false)
+			{
+				return PlayerManager.LocalPlayerScript.PlayerTypeSettings.DefaultChannel;
+			}
+
 			// Player has some headset?
 			var playerHeadset = GetPlayerHeadset();
-			if (!playerHeadset)
+			if (playerHeadset == null)
 			{
-				return ChatChannel.None;
+				return PlayerManager.LocalPlayerScript.PlayerTypeSettings.DefaultChannel;
 			}
 
 			// Find default key for this channel
 			var key = playerHeadset.EncryptionKey;
-			if (!EncryptionKey.DefaultChannel.ContainsKey(key))
+			if (EncryptionKey.DefaultChannel.ContainsKey(key) == false)
 			{
 				Logger.LogError($"Can't find default channel for a {key}", Category.Chat);
-				return ChatChannel.None;
+				return PlayerManager.LocalPlayerScript.PlayerTypeSettings.DefaultChannel;
 			}
 
 			return EncryptionKey.DefaultChannel[key];
@@ -53,30 +55,20 @@ public class ChatInputContext : IChatInputContext
 	// TODO: need to move it to Inventory.cs?
 	private Headset GetPlayerHeadset()
 	{
-		var playerStorage = PlayerManager.LocalPlayerScript.GetComponent<ItemStorage>();
-
-		// Player doesn't have any storage? That's bad
-		if (!playerStorage)
-		{
-			Logger.LogError("Can't find current headset, because local player storage doesn't exist", Category.PlayerInventory);
-			return null;
-		}
-
-		// Player doesn't have ears?
-		if (!playerStorage.HasSlot(NamedSlot.ear))
-		{
-			return null;
-		}
+		var playerStorage = PlayerManager.LocalPlayerScript.GetComponent<DynamicItemStorage>();
 
 		// Player has something in his ear?
-		var earSlotItem = playerStorage.GetNamedItemSlot(NamedSlot.ear).ItemObject;
-		if (!earSlotItem)
+		var itemSlotList = playerStorage.GetNamedItemSlots(NamedSlot.ear);
+		foreach (var itemSlot in itemSlotList)
 		{
-			return null;
+			if (itemSlot.ItemObject)
+			{
+				var headset = itemSlot.ItemObject.GetComponent<Headset>();
+				return headset;
+			}
 		}
 
-		var headset = earSlotItem.GetComponent<Headset>();
-		return headset;
+		return null;
 	}
 
 }

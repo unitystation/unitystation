@@ -7,6 +7,51 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -9097270597331898786, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Rad
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -9097270597331898786, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Rad
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -9097270597331898786, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Rad
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -9097270597331898786, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Acid
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -9097270597331898786, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Fire
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -9097270597331898786, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Acid
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -9097270597331898786, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Fire
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -9097270597331898786, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Acid
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -9097270597331898786, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Fire
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: clothData
@@ -33,6 +78,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 756275c435434d14085983efd8ed5bc1,
         type: 2}
+    - target: {fileID: 3585452806818900716, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: foreverID
+      value: 84bf2492879f1134f8127f8229d255d0
+      objectReference: {fileID: 0}
     - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -72,7 +122,7 @@ PrefabInstance:
     - target: {fileID: 7560587375320734517, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 84bf2492879f1134f8127f8229d255d0
       objectReference: {fileID: 0}
     - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}

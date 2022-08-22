@@ -13,6 +13,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d8f6fd5c536dfe5499ad73cbb359f329,
         type: 2}
+    - target: {fileID: 962286876995267014, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: foreverID
+      value: 5a36280e1aa161941bd0d239f6421a9c
+      objectReference: {fileID: 0}
+    - target: {fileID: 4956784215611960579, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 4956784215611960579, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -34,30 +44,30 @@ PrefabInstance:
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
       value: 50
       objectReference: {fileID: 0}
-    - target: {fileID: 4956784215611960579, guid: f1a38b78ce2ca024a92744e263e5e94a,
+    - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
-      propertyPath: maxCapacity
-      value: 50
+      propertyPath: initialName
+      value: Jian Hard Cider
       objectReference: {fileID: 0}
     - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
       propertyPath: initialDescription
       value: Apple juice for adults.
       objectReference: {fileID: 0}
-    - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
-        type: 3}
-      propertyPath: initialName
-      value: Jian Hard Cider
-      objectReference: {fileID: 0}
     - target: {fileID: 6085549112089319455, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 5a36280e1aa161941bd0d239f6421a9c
       objectReference: {fileID: 0}
     - target: {fileID: 6187949413390427563, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
       propertyPath: m_Name
       value: JianHardCider
+      objectReference: {fileID: 0}
+    - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
@@ -76,6 +86,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -88,16 +103,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
@@ -120,5 +125,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 92ada982ad5c06344baffe5b9ef59551,
         type: 3}
+    - target: {fileID: 6274066957328979703, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1a38b78ce2ca024a92744e263e5e94a, type: 3}

@@ -1,39 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &5205937148178918030
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2192416261549870010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1360d2b65a03cdf449035cd3c4cd0153, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  actionData: {fileID: 11400000, guid: a5f5824fd6f60514bae4cfbecbb9e44c, type: 2}
-  allowedSlots: 512
-  useSpriteHandler: 1
-  spriteHandler: {fileID: 5416451353534459965}
---- !u!114 &5865606522136339119
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2192416261549870010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e8deecf3238eac4597c33d91991c2c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  nightVisionVisibility: {x: 10.5, y: 10.5, z: 10.5}
-  visibilityAnimationSpeed: 0.75
 --- !u!1001 &3599330221934539699
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52,6 +18,16 @@ PrefabInstance:
       value: An optical meson scanner fitted with an amplified visible light spectrum
         overlay, providing greater visual clarity in darkness.
       objectReference: {fileID: 0}
+    - target: {fileID: 2987011942256334699, guid: e6f80a7fd02e2c14ea72a1410452b690,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 2987011942256334699, guid: e6f80a7fd02e2c14ea72a1410452b690,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 3273994478765017941, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
       propertyPath: m_Sprite
@@ -61,7 +37,7 @@ PrefabInstance:
     - target: {fileID: 3317552745358689725, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: db61b583bd06b6048a87e09970da5423
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
@@ -123,6 +99,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: NightVisionMesonScanner
       objectReference: {fileID: 0}
+    - target: {fileID: 8585229615259169892, guid: e6f80a7fd02e2c14ea72a1410452b690,
+        type: 3}
+      propertyPath: foreverID
+      value: db61b583bd06b6048a87e09970da5423
+      objectReference: {fileID: 0}
     - target: {fileID: 8638853748845472652, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
       propertyPath: clothData
@@ -158,6 +139,40 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3599330221934539699}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5205937148178918030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2192416261549870010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1360d2b65a03cdf449035cd3c4cd0153, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  actionData: {fileID: 11400000, guid: a5f5824fd6f60514bae4cfbecbb9e44c, type: 2}
+  allowedSlots: 512
+  useSpriteHandler: 1
+  spriteHandler: {fileID: 5416451353534459965}
+--- !u!114 &5865606522136339119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2192416261549870010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e8deecf3238eac4597c33d91991c2c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  nightVisionVisibility: {x: 10.5, y: 10.5, z: 10.5}
+  visibilityAnimationSpeed: 0.75
 --- !u!114 &5416451353534459965 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8851959254138389390, guid: e6f80a7fd02e2c14ea72a1410452b690,

@@ -12,8 +12,7 @@ namespace Objects.Disposals
 		private float weldTime = 3;
 
 		private RegisterTile registerTile;
-		private TileChangeManager tileChangeManager;
-		private ObjectBehaviour behaviour;
+		private UniversalObjectPhysics behaviour;
 
 		[SerializeField]
 		[Tooltip("Tile to spawn when pipe is welded in the Up orientation.")]
@@ -34,13 +33,12 @@ namespace Objects.Disposals
 		private string objectName;
 		private HandApply currentInteraction;
 
-		public bool Anchored => behaviour.IsPushable == false;
+		public bool Anchored => behaviour.IsNotPushable;
 
 		private void Awake()
 		{
 			registerTile = gameObject.RegisterTile();
-			tileChangeManager = registerTile.TileChangeManager;
-			behaviour = GetComponent<ObjectBehaviour>();
+			behaviour = GetComponent<UniversalObjectPhysics>();
 		}
 
 		public override void OnStartServer()
@@ -88,9 +86,13 @@ namespace Objects.Disposals
 
 		private void TryWrench()
 		{
-			if (VerboseFloorExists() == false) return;
-			if (VerbosePlatingExposed() == false) return;
-			if (VerbosePipeExists()) return;
+			if (Anchored == false)
+			{
+				// Try anchor
+				if (VerboseFloorExists() == false) return;
+				if (VerbosePlatingExposed() == false) return;
+				if (VerbosePipeExists()) return;
+			}
 
 			Wrench();
 		}
@@ -123,15 +125,17 @@ namespace Objects.Disposals
 
 		private bool VerboseFloorExists()
 		{
-			if (MatrixManager.IsSpaceAt(registerTile.WorldPositionServer, true) == false) return true;
-
+			if (MatrixManager.IsConstructable(registerTile.WorldPositionServer, registerTile.Matrix.MatrixInfo))
+			{
+				return true;
+			}
 			Chat.AddExamineMsg(currentInteraction.Performer, $"A floor must be present to secure the {objectName}!");
 			return false;
 		}
 
 		private bool VerbosePlatingExposed()
 		{
-			if (tileChangeManager.MetaTileMap.HasTile(registerTile.LocalPositionServer, LayerType.Floors) == false) return true;
+			if (registerTile.TileChangeManager.MetaTileMap.HasTile(registerTile.LocalPositionServer, LayerType.Floors) == false) return true;
 
 			Chat.AddExamineMsg(
 					currentInteraction.Performer,
@@ -202,7 +206,7 @@ namespace Objects.Disposals
 
 		private void ChangePipeObjectToTile()
 		{
-			Orientation orientation = GetComponent<Directional>().CurrentDirection;
+			var orientation = GetComponent<Rotatable>().CurrentDirection;
 
 			// Spawn the correct disposal pipe tile, based on current orientation.
 			DisposalPipe pipeTileToSpawn = GetPipeTileByOrientation(orientation);
@@ -210,9 +214,9 @@ namespace Objects.Disposals
 			{
 				var matrixTransform = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, Vector3.one);
 				Color pipeColor = GetComponentInChildren<SpriteRenderer>().color;
-				registerTile.Matrix.AddUnderFloorTile(registerTile.LocalPositionServer, pipeTileToSpawn, matrixTransform, pipeColor);
-				tileChangeManager.UpdateTile(registerTile.LocalPositionServer, pipeTileToSpawn);
-				Despawn.ServerSingle(gameObject);
+				Vector3Int searchVec = registerTile.Matrix.TileChangeManager.MetaTileMap.SetTile(registerTile.LocalPositionServer, pipeTileToSpawn, matrixTransform, pipeColor);
+				pipeTileToSpawn.InitialiseNode(searchVec, registerTile.Matrix);
+				_ = Despawn.ServerSingle(gameObject);
 			}
 			else
 			{
@@ -221,17 +225,17 @@ namespace Objects.Disposals
 			}
 		}
 
-		private DisposalPipe GetPipeTileByOrientation(Orientation orientation)
+		private DisposalPipe GetPipeTileByOrientation(OrientationEnum orientation)
 		{
-			switch (orientation.AsEnum())
+			switch (orientation)
 			{
-				case OrientationEnum.Up:
+				case OrientationEnum.Up_By0:
 					return disposalPipeTileUp;
-				case OrientationEnum.Down:
+				case OrientationEnum.Down_By180:
 					return disposalPipeTileDown;
-				case OrientationEnum.Left:
+				case OrientationEnum.Left_By90:
 					return disposalPipeTileLeft;
-				case OrientationEnum.Right:
+				case OrientationEnum.Right_By270:
 					return disposalPipeTileRight;
 			}
 

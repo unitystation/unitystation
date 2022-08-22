@@ -22,7 +22,7 @@ namespace AdminTools
 
 		public void RefreshPage()
 		{
-			RequestAdminPageRefresh.Send(ServerData.UserID, PlayerList.Instance.AdminToken);
+			RequestAdminPageRefresh.Send();
 		}
 
 		public virtual void OnPageRefresh(AdminPageRefreshData adminPageData)
@@ -58,6 +58,10 @@ namespace AdminTools
 
 		//Player Management:
 		public List<AdminPlayerEntryData> players = new List<AdminPlayerEntryData>();
+
+		//Server Settings
+		public int playerLimit;
+		public int maxFrameRate;
 	}
 
 	[Serializable]
@@ -70,7 +74,9 @@ namespace AdminTools
 		public bool isAlive;
 		public bool isAntag;
 		public bool isAdmin;
+		public bool isMentor;
 		public bool isOnline;
+		public bool isOOCMuted;
 		public string ipAddress;
 	}
 

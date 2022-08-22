@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcdd86e87cc447d94b99df8b1a383b3, type: 3}
   m_Name: ERTSecurityBackpackPopulator
   m_EditorClassIdentifier: 
-  Contents:
+  SlotContents: []
+  DeprecatedContents:
   - {fileID: 3335297197175331277, guid: a136f1fdcfbaadd44a14b55a1c21b6a7, type: 3}
-  - {fileID: 8127442588295923452, guid: 706cc1f035332384c96f001de4760563, type: 3}
+  - {fileID: 2143156175124004623, guid: 3e49627878e69e941a8ddc6808be2f28, type: 3}
   - {fileID: 8127442588295923452, guid: 263c0469b2b002a488de7b1506c59bcc, type: 3}
   - {fileID: 5455523409350956656, guid: 3143fb61b71aa7c44a9a4adf2d68287f, type: 3}
   - {fileID: 7231615556705506312, guid: 6889368ca37503245b8aee273cc97b03, type: 3}
-  MergeMode: 0

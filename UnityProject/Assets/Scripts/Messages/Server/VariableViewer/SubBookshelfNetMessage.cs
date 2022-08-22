@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using UnityEngine;
 
 namespace Messages.Server.VariableViewer
 {
@@ -6,23 +7,22 @@ namespace Messages.Server.VariableViewer
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public string data;
 			public VariableViewerNetworking.NetFriendlyBookShelf BookShelf;
 		}
 
 		public override void Process(NetMessage msg)
 		{
-			UIManager.Instance.BookshelfViewer.BookShelfIn = msg.BookShelf;
+			UIManager.Instance.UI_BooksInBookshelf.ValueSetUp( msg.BookShelf);
 		}
 
-		public static NetMessage Send(Librarian.BookShelf _BookShelf)
+		public static NetMessage Send(Librarian.Library.LibraryBookShelf _BookShelf, GameObject ToWho)
 		{
 			NetMessage msg = new NetMessage()
 			{
-				BookShelf = VariableViewerNetworking.ProcessSUBBookShelf(_BookShelf)
+				BookShelf = VariableViewerNetworking.ProcessSubBookShelf(_BookShelf)
 			};
 
-			SendToAll(msg);
+			SendTo(ToWho, msg, channel : 3);
 			return msg;
 		}
 	}

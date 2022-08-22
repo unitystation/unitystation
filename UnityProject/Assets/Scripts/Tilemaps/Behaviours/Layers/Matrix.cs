@@ -1,14 +1,22 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Light2D;
-using Pipes;
+using Doors;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
-using Systems.Atmospherics;
-using HealthV2;
 using TileManagement;
+using Tilemaps.Behaviours.Layers;
+using Light2D;
+using HealthV2;
+using Systems.Atmospherics;
+using Systems.Electricity;
+using Systems.Pipes;
+using Tilemaps.Utils;
+using Util;
+using Tiles;
+using PipeLayer = Tilemaps.Behaviours.Layers.PipeLayer;
 
 /// <summary>
 /// Behavior which indicates a matrix - a contiguous grid of tiles.
@@ -22,11 +30,11 @@ public class Matrix : MonoBehaviour
 	public List<TilemapDamage> TilemapsDamage => tilemapsDamage;
 
 	private MetaTileMap metaTileMap;
-	public MetaTileMap MetaTileMap => metaTileMap ? metaTileMap : metaTileMap = GetComponent<MetaTileMap>();
+	public MetaTileMap MetaTileMap => metaTileMap;
 
 	private TileList serverObjects;
 
-	private TileList ServerObjects => serverObjects ??
+	public TileList ServerObjects => serverObjects ??
 	                                  (serverObjects = ((ObjectLayer) MetaTileMap.Layers[LayerType.Objects])
 		                                  .ServerObjects);
 
@@ -36,22 +44,24 @@ public class Matrix : MonoBehaviour
 	                                  (clientObjects = ((ObjectLayer) MetaTileMap.Layers[LayerType.Objects])
 		                                  .ClientObjects);
 
-	private Vector3Int initialOffset;
-	public Vector3Int InitialOffset => initialOffset;
-	private ReactionManager reactionManager;
-	public ReactionManager ReactionManager => reactionManager;
-	public int Id { get; set; } = 0;
-	public MetaDataLayer MetaDataLayer => metaDataLayer;
-	private MetaDataLayer metaDataLayer;
 
-	public UnderFloorLayer UnderFloorLayer => underFloorLayer;
-	private UnderFloorLayer underFloorLayer;
+	public int Id { get; set; } = 0;
+	public Vector3Int InitialOffset { get; private set; }
+	public ReactionManager ReactionManager { get; private set; }
+	public MetaDataLayer MetaDataLayer { get; private set; }
+	public UnderFloorLayer UnderFloorLayer { get; private set; }
+	public ElectricalLayer ElectricalLayer { get; private set; }
+	public PipeLayer PipeLayer { get; private set; }
+	public DisposalsLayer DisposalsLayer { get; private set; }
 
 	public bool IsSpaceMatrix;
 	public bool IsMainStation;
 	public bool IsLavaLand;
 
-	public MatrixMove MatrixMove { get; private set; }
+	private CheckedComponent<MatrixMove> checkedMatrixMove;
+	public bool IsMovable => checkedMatrixMove?.HasComponent ?? false;
+
+	public MatrixMove MatrixMove => checkedMatrixMove.Component;
 
 	private TileChangeManager tileChangeManager;
 	public TileChangeManager TileChangeManager => tileChangeManager;
@@ -61,7 +71,7 @@ public class Matrix : MonoBehaviour
 	/// <summary>
 	/// Does this have a matrix move and is that matrix move moving?
 	/// </summary>
-	public bool IsMovingServer => MatrixMove != null && MatrixMove.IsMovingServer;
+	public bool IsMovingServer => checkedMatrixMove.HasComponent && MatrixMove.IsMovingServer;
 
 	/// <summary>
 	/// Matrix info that is provided via MatrixManager
@@ -86,15 +96,43 @@ public class Matrix : MonoBehaviour
 	/// </summary>
 	public EarthquakeEvent OnEarthquake = new EarthquakeEvent();
 
+	private NetworkedMatrix networkedMatrix;
+	public NetworkedMatrix NetworkedMatrix => networkedMatrix;
+
+	[NonSerialized] public bool Initialized;
+
+	public List<RegisterPlayer> PresentPlayers = new List<RegisterPlayer>();
+
+	//Pretty self-explanatory, TODO gravity generator
+	public bool HasGravity = true;
+
 	private void Awake()
 	{
-		initialOffset = Vector3Int.CeilToInt(gameObject.transform.position);
-		reactionManager = GetComponent<ReactionManager>();
-		metaDataLayer = GetComponent<MetaDataLayer>();
-		MatrixMove = GetComponentInParent<MatrixMove>();
+		metaTileMap = GetComponent<MetaTileMap>();
+		if (metaTileMap == null)
+		{
+			Logger.LogError($"MetaTileMap was null on {gameObject.name}");
+		}
+
+		networkedMatrix = transform.parent.GetComponent<NetworkedMatrix>();
+		InitialOffset = Vector3Int.CeilToInt(gameObject.transform.position);
+		ReactionManager = GetComponent<ReactionManager>();
+		MetaDataLayer = GetComponent<MetaDataLayer>();
+		checkedMatrixMove = new CheckedComponent<MatrixMove>(GetComponentInParent<MatrixMove>());
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
-		underFloorLayer = GetComponentInChildren<UnderFloorLayer>();
+		UnderFloorLayer = GetComponentInChildren<UnderFloorLayer>();
+		ElectricalLayer = GetComponentInChildren<ElectricalLayer>();
+		PipeLayer = GetComponentInChildren<PipeLayer>();
+		DisposalsLayer = GetComponentInChildren<DisposalsLayer>();
 		tilemapsDamage = GetComponentsInChildren<TilemapDamage>().ToList();
+
+		if (MatrixManager.Instance.InitializingMatrixes.ContainsKey(gameObject.scene) == false)
+		{
+			MatrixManager.Instance.InitializingMatrixes.Add(gameObject.scene, new List<Matrix>());
+		}
+		MatrixManager.Instance.InitializingMatrixes[gameObject.scene].Add(this);
+
+
 		OnEarthquake.AddListener((worldPos, magnitude) =>
 		{
 			var cellPos = metaTileMap.WorldToCell(worldPos);
@@ -122,7 +160,7 @@ public class Matrix : MonoBehaviour
 
 	void Start()
 	{
-		MatrixManager.RegisterMatrix(this, IsSpaceMatrix, IsMainStation, IsLavaLand);
+		StartCoroutine(MatrixManager.Instance.RegisterWhenReady(this));
 	}
 
 	public void CompressAllBounds()
@@ -141,8 +179,18 @@ public class Matrix : MonoBehaviour
 	public void ConfigureMatrixInfo(MatrixInfo matrixInfo)
 	{
 		MatrixInfo = matrixInfo;
+		StartCoroutine(WaitForNetId());
+	}
+
+	private IEnumerator WaitForNetId()
+	{
+		while (networkedMatrix.MatrixSync != null && networkedMatrix.MatrixSync.netId == NetId.Empty)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+
 		MatrixInfoConfigured = true;
-		OnConfigLoaded?.Invoke(matrixInfo);
+		OnConfigLoaded?.Invoke(MatrixInfo);
 	}
 
 	/// <inheritdoc cref="IsPassableAtOneMatrix(Vector3Int, Vector3Int, bool, CollisionType, bool, GameObject, List{LayerType}, List{TileType}, bool, bool, bool)"/>
@@ -162,8 +210,10 @@ public class Matrix : MonoBehaviour
 	/// </summary>
 	public bool CanCloseDoorAt(Vector3Int position, bool isServer)
 	{
+		var firelock = GetFirst<FireLock>(position, isServer);
+		if (firelock != null && firelock.fireAlarm.activated) return true;
 		return IsPassableAtOneMatrix(position, position, isServer) &&
-		       GetFirst<LivingHealthMasterBase>(position, isServer) == null;
+		        GetFirst<LivingHealthMasterBase>(position, isServer) == null;
 	}
 
 	/// Can one pass from `origin` to adjacent `position`?
@@ -197,11 +247,6 @@ public class Matrix : MonoBehaviour
 		return MetaTileMap.IsAtmosPassableAt(position, isServer);
 	}
 
-	public bool IsAtmosPassableAt(Vector3Int origin, Vector3Int position, bool isServer)
-	{
-		return MetaTileMap.IsAtmosPassableAt(origin, position, isServer);
-	}
-
 	public bool IsSpaceAt(Vector3Int position, bool isServer)
 	{
 		return MetaTileMap.IsSpaceAt(position, isServer);
@@ -222,23 +267,19 @@ public class Matrix : MonoBehaviour
 		return MetaTileMap.HasTile(position, LayerType.Windows);
 	}
 
+	public bool IsGrillAt(Vector3Int position, bool isServer)
+	{
+		return MetaTileMap.HasTile(position, LayerType.Grills);
+	}
+
+	public bool IsFloorAt(Vector3Int position, bool isServer)
+	{
+		return MetaTileMap.HasTile(position, LayerType.Floors);
+	}
+
 	public bool IsEmptyAt(Vector3Int position, bool isServer)
 	{
 		return MetaTileMap.IsEmptyAt(position, isServer);
-	}
-
-	/// Is this position and surrounding area completely clear of solid objects?
-	public bool IsFloatingAt(Vector3Int position, bool isServer)
-	{
-		foreach (Vector3Int pos in position.BoundsAround().allPositionsWithin)
-		{
-			if (!MetaTileMap.IsEmptyAt(pos, isServer))
-			{
-				return false;
-			}
-		}
-
-		return true;
 	}
 
 	/// Is current position NOT a station tile? (Objects not taken into consideration)
@@ -247,61 +288,50 @@ public class Matrix : MonoBehaviour
 		return MetaTileMap.IsNoGravityAt(position, isServer);
 	}
 
-	/// Should player NOT stick to the station at this position?
-	public bool IsNonStickyAt(Vector3Int position, bool isServer)
-	{
-		foreach (Vector3Int pos in position.BoundsAround().allPositionsWithin)
-		{
-			if (MetaTileMap.IsNoGravityAt(pos, isServer) == false)
-			{
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/// Is this position and surrounding area completely clear of solid objects except for provided one?
-	public bool IsFloatingAt(GameObject[] context, Vector3Int position, bool isServer)
-	{
-		foreach (Vector3Int pos in position.BoundsAround().allPositionsWithin)
-		{
-			if (MetaTileMap.IsEmptyAt(context, pos, isServer) == false)
-			{
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/// <summary>
-	/// Efficient way of iterating through the register tiles at a particular position which
-	/// also is safe against modifications made to the list of tiles while the action is running.
-	/// The limitation compared to Get<> is it can only get RegisterTiles, but the benefit is it avoids
-	/// GetComponent so there's no GC. The OTHER benefit is that normally iterating through these
-	/// would throw an exception if the RegisterTiles at this position were modified, such as
-	/// being destroyed are created. This method uses a locking mechanism to avoid
-	/// such issues.
-	/// </summary>
-	/// <param name="localPosition"></param>
-	/// <returns></returns>
-	public void ForEachRegisterTileSafe(IRegisterTileAction action, Vector3Int localPosition, bool isServer)
-	{
-		(isServer ? ServerObjects : ClientObjects).ForEachSafe(action, localPosition);
-	}
-
-
-	public IEnumerable<RegisterTile> GetRegisterTile(Vector3Int localPosition, bool isServer)
+	public List<RegisterTile> GetRegisterTile(Vector3Int localPosition, bool isServer)
 	{
 		return (isServer ? ServerObjects : ClientObjects).Get(localPosition);
 	}
+
+	//Has to inherit from register tile
+	public IEnumerable<T> GetAs<T>(Vector3Int localPosition, bool isServer) where T : RegisterTile
+	{
+		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
+		{
+			return Enumerable.Empty<T>(); //Enumerable.Empty<T>() Does not GC while new List<T> does
+		}
+
+		var filtered = new List<T>();
+		foreach (RegisterTile t in (isServer ? ServerObjects : ClientObjects).Get(localPosition))
+		{
+			if (t is T x)
+			{
+				filtered.Add(x);
+			}
+		}
+
+		return filtered;
+	}
+
+
+	public IEnumerable<RegisterTile> Get(Vector3Int localPosition, bool isServer)
+	{
+		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
+		{
+			return Enumerable.Empty<RegisterTile>(); //Enumerable.Empty<T>() Does not GC while new List<T> does
+		}
+
+		var filtered = new List<RegisterTile>();
+		filtered.AddRange((isServer ? ServerObjects : ClientObjects).Get(localPosition));
+		return filtered;
+	}
+
 
 	public IEnumerable<T> Get<T>(Vector3Int localPosition, bool isServer)
 	{
 		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
 		{
-			return Enumerable.Empty<T>(); //?
+			return Enumerable.Empty<T>(); //Enumerable.Empty<T>() Does not GC while new List<T> does
 		}
 
 		var filtered = new List<T>();
@@ -322,6 +352,7 @@ public class Matrix : MonoBehaviour
 		//This has been checked in the profiler. 0% CPU and 0kb garbage, so should be fine
 		foreach (RegisterTile t in (isServer ? ServerObjects : ClientObjects).Get(position))
 		{
+			//Note GetComponent GC's in editor but not in build
 			T c = t.GetComponent<T>();
 			if (c != null)
 			{
@@ -335,7 +366,7 @@ public class Matrix : MonoBehaviour
 	{
 		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
 		{
-			return Enumerable.Empty<T>();
+			return  Enumerable.Empty<T>(); //Enumerable.Empty<T>() Does not GC while new List<T> does
 		}
 
 		var filtered = new List<T>();
@@ -358,7 +389,9 @@ public class Matrix : MonoBehaviour
 
 	public bool IsClearUnderfloorConstruction(Vector3Int position, bool isServer)
 	{
-		if (MetaTileMap.HasTile(position, LayerType.Floors))
+		var tile = MetaTileMap.GetTile(position, LayerType.Floors);
+		var basicTile = tile as BasicTile;
+		if (tile != null && (basicTile == null || basicTile.BlocksTileInteractionsUnder))
 		{
 			return (false);
 		}
@@ -381,38 +414,38 @@ public class Matrix : MonoBehaviour
 	public IEnumerable<Objects.Disposals.DisposalPipe> GetDisposalPipesAt(Vector3Int position)
 	{
 		// Return a list, because we may allow disposal pipes to overlap each other - NS with EW e.g.
-		return UnderFloorLayer.GetAllTilesByType<Objects.Disposals.DisposalPipe>(position);
+		return metaTileMap.GetAllTilesByType<Objects.Disposals.DisposalPipe>(position, LayerType.Disposals);
 	}
 
-	public List<IntrinsicElectronicData> GetElectricalConnections(Vector3Int position)
+	public ElectricalPool.IntrinsicElectronicDataList GetElectricalConnections(Vector3Int localPosition)
 	{
 		var list = ElectricalPool.GetFPCList();
 		if (ServerObjects != null)
 		{
-			var collection = ServerObjects.Get(position);
+			var collection = ServerObjects.Get(localPosition);
 			for (int i = collection.Count - 1; i >= 0; i--)
 			{
 				if (i < collection.Count && collection[i] != null
 				                         && collection[i].ElectricalData != null &&
 				                         collection[i].ElectricalData.InData != null)
 				{
-					list.Add(collection[i].ElectricalData.InData);
+					list.List.Add(collection[i].ElectricalData.InData);
 				}
 			}
 		}
 
-		if (metaDataLayer.Get(position)?.ElectricalData != null)
+		if (MetaDataLayer.Get(localPosition)?.ElectricalData != null)
 		{
-			foreach (var electricalMetaData in metaDataLayer.Get(position).ElectricalData)
+			foreach (var electricalMetaData in MetaDataLayer.Get(localPosition).ElectricalData)
 			{
-				list.Add(electricalMetaData.InData);
+				list.List.Add(electricalMetaData.InData);
 			}
 		}
 
 		return (list);
 	}
 
-	public List<Pipes.PipeData> GetPipeConnections(Vector3Int position)
+	public List<PipeData> GetPipeConnections(Vector3Int position)
 	{
 		var list = new List<PipeData>();
 
@@ -426,7 +459,7 @@ public class Matrix : MonoBehaviour
 			}
 		}
 
-		var pipes =  metaDataLayer.Get(position).PipeData;
+		var pipes =  MetaDataLayer.Get(position).PipeData;
 		foreach (var PipeNode in pipes)
 		{
 			list.Add(PipeNode.pipeData);
@@ -438,7 +471,7 @@ public class Matrix : MonoBehaviour
 
 	public void AddElectricalNode(Vector3Int position, WireConnect wireConnect)
 	{
-		var metaData = metaDataLayer.Get(position, true);
+		var metaData = MetaDataLayer.Get(position, true);
 		var newdata = new ElectricalMetaData();
 		newdata.Initialise(wireConnect, metaData, position, this);
 		metaData.ElectricalData.Add(newdata);
@@ -451,17 +484,19 @@ public class Matrix : MonoBehaviour
 	{
 		var checkPos = position;
 		checkPos.z = 0;
-		var metaData = metaDataLayer.Get(checkPos, true);
-		var newdata = new ElectricalMetaData();
-		newdata.Initialise(electricalCableTile, metaData, position, this);
-		metaData.ElectricalData.Add(newdata);
+		var metaData = MetaDataLayer.Get(checkPos, true);
 		if (AddTile)
 		{
 			if (electricalCableTile != null)
 			{
-				AddUnderFloorTile(position, electricalCableTile, Matrix4x4.identity, Color.white);
+				position = TileChangeManager.MetaTileMap.SetTile(position, electricalCableTile);
 			}
 		}
+
+		var newdata = new ElectricalMetaData();
+		newdata.Initialise(electricalCableTile, metaData, position, this);
+		metaData.ElectricalData.Add(newdata);
+
 	}
 
 	public void EditorAddElectricalNode(Vector3Int position, WireConnect wireConnect)
@@ -481,24 +516,23 @@ public class Matrix : MonoBehaviour
 
 		if (Tile != null)
 		{
-			AddUnderFloorTile(position, Tile, Matrix4x4.identity, Color.white);
+			TileChangeManager.MetaTileMap.SetTile(position, Tile, Matrix4x4.identity, Color.white);
 		}
 	}
 
 	public MetaDataNode GetMetaDataNode(Vector3Int localPosition, bool createIfNotExists = true)
 	{
-		return (metaDataLayer.Get(localPosition, createIfNotExists));
+		return (MetaDataLayer.Get(localPosition, createIfNotExists));
 	}
 
 	public MetaDataNode GetMetaDataNode(Vector2Int localPosition, bool createIfNotExists = true)
 	{
-		return (metaDataLayer.Get(new Vector3Int(localPosition.x, localPosition.y, 0), createIfNotExists));
+		return (MetaDataLayer.Get(new Vector3Int(localPosition.x, localPosition.y, 0), createIfNotExists));
 	}
-
 
 	public float GetRadiationLevel(Vector3Int localPosition)
 	{
-		var Node = metaDataLayer.Get(localPosition);
+		var Node = MetaDataLayer.Get(localPosition);
 		if (Node != null)
 		{
 			return (Node.RadiationNode.RadiationLevel);
@@ -512,59 +546,42 @@ public class Matrix : MonoBehaviour
 	}
 
 
-	public void AddUnderFloorTile(Vector3Int position, LayerTile tile, Matrix4x4 transformMatrix, Color color)
-	{
-		if (UnderFloorLayer == null)
-		{
-			underFloorLayer = GetComponentInChildren<UnderFloorLayer>();
-		}
-
-		UnderFloorLayer.SetTile(position, tile, transformMatrix, color);
-	}
-
-
-	public void RemoveUnderFloorTile(Vector3Int position, LayerTile tile, bool UseSpecifiedLocation = false)
-	{
-		if (UnderFloorLayer == null)
-		{
-			underFloorLayer = GetComponentInChildren<UnderFloorLayer>();
-		}
-
-		UnderFloorLayer.RemoveSpecifiedTile(position, tile,UseSpecifiedLocation);
-	}
-
-	//Visual debug
+	// Visual debug
 	private static Color[] colors = new[]
 	{
-		DebugTools.HexToColor("a6caf0"), //winterblue
-		DebugTools.HexToColor("e3949e"), //brick
-		DebugTools.HexToColor("a8e4a0"), //cyanish
-		DebugTools.HexToColor("ffff99"), //canary yellow
-		DebugTools.HexToColor("cbbac5"), //purplish
-		DebugTools.HexToColor("ffcfab"), //peach
-		DebugTools.HexToColor("ccccff"), //bluish
-		DebugTools.HexToColor("caf28d"), //avocado
-		DebugTools.HexToColor("ffb28b"), //pinkorange
-		DebugTools.HexToColor("98ff98"), //mintygreen
-		DebugTools.HexToColor("fcdd76"), //sand
-		DebugTools.HexToColor("afc797"), //swamp green
-		DebugTools.HexToColor("ffca86"), //orange
-		DebugTools.HexToColor("b0e0e6"), //blue-cyanish
-		DebugTools.HexToColor("d1ba73"), //khaki
-		DebugTools.HexToColor("c7fcec"), //also greenish
-		DebugTools.HexToColor("cdb891"), //brownish
+		DebugTools.HexToColor("a6caf0"), // winterblue
+		DebugTools.HexToColor("e3949e"), // brick
+		DebugTools.HexToColor("a8e4a0"), // cyanish
+		DebugTools.HexToColor("ffff99"), // canary yellow
+		DebugTools.HexToColor("cbbac5"), // purplish
+		DebugTools.HexToColor("ffcfab"), // peach
+		DebugTools.HexToColor("ccccff"), // bluish
+		DebugTools.HexToColor("caf28d"), // avocado
+		DebugTools.HexToColor("ffb28b"), // pinkorange
+		DebugTools.HexToColor("98ff98"), // mintygreen
+		DebugTools.HexToColor("fcdd76"), // sand
+		DebugTools.HexToColor("afc797"), // swamp green
+		DebugTools.HexToColor("ffca86"), // orange
+		DebugTools.HexToColor("b0e0e6"), // blue-cyanish
+		DebugTools.HexToColor("d1ba73"), // khaki
+		DebugTools.HexToColor("c7fcec"), // also greenish
+		DebugTools.HexToColor("cdb891"), // brownish
 	};
 #if UNITY_EDITOR
 	private void OnDrawGizmos()
 	{
 		Gizmos.color = Color;
-		BoundsInt bounds = MetaTileMap.GetWorldBounds();
+
+		if (metaTileMap == null)
+		{
+			metaTileMap = GetComponent<MetaTileMap>();
+		}
+
+		var bounds = MetaTileMap.GetWorldBounds();
 		DebugGizmoUtils.DrawText(gameObject.name, bounds.max, 11, 5);
-		DebugGizmoUtils.DrawRect(bounds);
+		DebugGizmoUtils.DrawRect(bounds.Minimum, bounds.Maximum);
 	}
 #endif
 }
 
-public class EarthquakeEvent : UnityEvent<Vector3Int, byte>
-{
-}
+public class EarthquakeEvent : UnityEvent<Vector3Int, byte> { }

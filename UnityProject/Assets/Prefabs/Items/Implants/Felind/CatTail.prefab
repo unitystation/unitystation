@@ -7,11 +7,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3297364101944848990, guid: b87ebcdea6fb0dd49b0fbcf1b308c159,
+        type: 3}
+      propertyPath: foreverID
+      value: ecb05f5372736a748bb900d1a7dddce3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4990853901509658031, guid: b87ebcdea6fb0dd49b0fbcf1b308c159,
+        type: 3}
+      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[2]
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4990853901509658031, guid: b87ebcdea6fb0dd49b0fbcf1b308c159,
+        type: 3}
+      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[3]
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 4990853901509658031, guid: b87ebcdea6fb0dd49b0fbcf1b308c159,
         type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 93f1646149d0a714fabcab7d2f658e85,
+      objectReference: {fileID: 11400000, guid: 495261ef0d8e622429aed0db02c1caeb,
         type: 2}
     - target: {fileID: 8328761539505574225, guid: b87ebcdea6fb0dd49b0fbcf1b308c159,
         type: 3}
@@ -26,7 +41,7 @@ PrefabInstance:
     - target: {fileID: 8425139041998570375, guid: b87ebcdea6fb0dd49b0fbcf1b308c159,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: ecb05f5372736a748bb900d1a7dddce3
       objectReference: {fileID: 0}
     - target: {fileID: 8461046446165312327, guid: b87ebcdea6fb0dd49b0fbcf1b308c159,
         type: 3}

@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entries:
   - name: WhiteServiceDoor
-    prefab: {fileID: 1000013430947772, guid: 37b07457c4df4dc29163cbf5f441b9ed, type: 3}
+    prefab: {fileID: 3219073340430485023, guid: 54a552cbe4002ac44ae29b958a90e545,
+      type: 3}
     cost: 6
     buildTime: 6
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: WinDoor
     prefab: {fileID: 3862765748506000581, guid: ddcfc3ab784dec1419565255774956c5,
       type: 3}
@@ -26,6 +28,7 @@ MonoBehaviour:
     buildTime: 6
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Window
     prefab: {fileID: 5198140336175476872, guid: efb2a118b6e83c046b0a1fe37217644c,
       type: 3}
@@ -33,3 +36,12 @@ MonoBehaviour:
     buildTime: 2
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
+  - name: Directional Window
+    prefab: {fileID: 6436439715640028678, guid: 157fcff274a3644448d1ff3bdc019619,
+      type: 3}
+    cost: 1
+    buildTime: 2
+    spawnAmount: 1
+    onePerTile: 0
+    facePlayerDirectionOnConstruction: 1

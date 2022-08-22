@@ -1,31 +1,35 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Items;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
+using AddressableReferences;
 
-public class HandActivateSpawnItem : MonoBehaviour, IInteractable<HandActivate>
+
+namespace Items
 {
-	public GameObject SeedPacket;
-	public bool DeleteItemOnUse = true;
-	public void ServerPerformInteraction(HandActivate interaction)
+	public class HandActivateSpawnItem : MonoBehaviour, IInteractable<HandActivate>
 	{
-		var _Object = Spawn.ServerPrefab(SeedPacket, interaction.Performer.transform.position, parent: interaction.Performer.transform.parent).GameObject;
-		var Attributes = _Object.GetComponent<ItemAttributesV2>();
-		if (Attributes != null)
+		[SerializeField, FormerlySerializedAs("SeedPacket")]
+		private GameObject seedPacket = default;
+
+		[SerializeField, FormerlySerializedAs("DeleteItemOnUse")]
+		private bool deleteItemOnUse = true;
+
+		[SerializeField]
+		private AddressableAudioSource spawnSound = default;
+
+		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			var slot = interaction.HandSlot;
-			if (DeleteItemOnUse)
+			SoundManager.PlayNetworkedAtPos(spawnSound, interaction.Performer.transform.position, sourceObj: interaction.Performer);
+
+			var obj = Spawn.ServerPrefab(seedPacket, interaction.Performer.transform.position, parent: interaction.Performer.transform.parent).GameObject;
+			var attributes = obj.GetComponent<ItemAttributesV2>();
+			if (attributes != null)
 			{
-				Inventory.ServerAdd(_Object, interaction.HandSlot, ReplacementStrategy.DespawnOther);
+				Inventory.ServerAdd(obj, interaction.HandSlot, deleteItemOnUse ? ReplacementStrategy.DespawnOther : ReplacementStrategy.DropOther);
 			}
-			else {
-				Inventory.ServerAdd(_Object, interaction.HandSlot, ReplacementStrategy.DropOther);
-			}
-		}
-		else {
-			if (DeleteItemOnUse)
+			else if (deleteItemOnUse)
 			{
-				Despawn.ServerSingle(this.gameObject);
+				_ = Despawn.ServerSingle(gameObject);
 			}
 		}
 	}

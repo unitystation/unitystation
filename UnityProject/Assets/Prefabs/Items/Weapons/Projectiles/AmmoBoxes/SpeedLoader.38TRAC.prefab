@@ -9,20 +9,25 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2996950057520413444, guid: 4262f7c3dbc59a8499d9f780d06bd0ad,
         type: 3}
+      propertyPath: initialName
+      value: speed loader (.38 TRAC)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2996950057520413444, guid: 4262f7c3dbc59a8499d9f780d06bd0ad,
+        type: 3}
       propertyPath: initialDescription
       value: Designed to quickly reload revolvers. These rounds are manufactured
         within extremely tight tolerances, making them easy to show off trickshots
         with.
       objectReference: {fileID: 0}
-    - target: {fileID: 2996950057520413444, guid: 4262f7c3dbc59a8499d9f780d06bd0ad,
-        type: 3}
-      propertyPath: initialName
-      value: speed loader (.38 TRAC)
-      objectReference: {fileID: 0}
     - target: {fileID: 3381887893271538130, guid: 4262f7c3dbc59a8499d9f780d06bd0ad,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 51f300832d29f1d4ea34973715e5536c
+      objectReference: {fileID: 0}
+    - target: {fileID: 3416357067512785170, guid: 4262f7c3dbc59a8499d9f780d06bd0ad,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3416357067512785170, guid: 4262f7c3dbc59a8499d9f780d06bd0ad,
         type: 3}
@@ -41,6 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3416357067512785170, guid: 4262f7c3dbc59a8499d9f780d06bd0ad,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3416357067512785170, guid: 4262f7c3dbc59a8499d9f780d06bd0ad,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +63,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3416357067512785170, guid: 4262f7c3dbc59a8499d9f780d06bd0ad,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3416357067512785170, guid: 4262f7c3dbc59a8499d9f780d06bd0ad,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3416357067512785170, guid: 4262f7c3dbc59a8499d9f780d06bd0ad,
         type: 3}
@@ -83,6 +83,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SpeedLoader.38TRAC
+      objectReference: {fileID: 0}
+    - target: {fileID: 8629017157049604107, guid: 4262f7c3dbc59a8499d9f780d06bd0ad,
+        type: 3}
+      propertyPath: foreverID
+      value: 51f300832d29f1d4ea34973715e5536c
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4262f7c3dbc59a8499d9f780d06bd0ad, type: 3}

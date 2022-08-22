@@ -1,9 +1,9 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 using Items;
 using Objects.Machines;
+using UI.Objects.Cargo;
 
 namespace Objects.Mining
 {
@@ -26,7 +26,7 @@ namespace Objects.Mining
 
 		public void LoadNearbyOres()
 		{
-			var nearbyObjects = MatrixManager.GetAdjacent<ObjectBehaviour>(registerObject.WorldPosition, true);
+			var nearbyObjects = MatrixManager.GetAdjacent<UniversalObjectPhysics>(registerObject.WorldPosition, true);
 			foreach (var objectBehaviour in nearbyObjects)
 			{
 				var item = objectBehaviour.gameObject;
@@ -66,7 +66,7 @@ namespace Objects.Mining
 		}
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			var localPosInt = MatrixManager.Instance.WorldToLocalInt(registerObject.WorldPositionServer, registerObject.Matrix);
+			var localPosInt = MatrixManager.WorldToLocalInt(registerObject.WorldPositionServer, registerObject.Matrix);
 			var itemsOnFloor = registerObject.Matrix.Get<ItemAttributesV2>(localPosInt + Vector3Int.up, true);
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.OreGeneral))
@@ -83,7 +83,7 @@ namespace Objects.Mining
 			UpdateLaborPointsUI();
 		}
 
-		void UpdateLaborPointsUI()
+		private void UpdateLaborPointsUI()
 		{
 			if (oreRedemptiomMachineGUI)
 			{
@@ -100,19 +100,26 @@ namespace Objects.Mining
 					var inStackable = ore.GetComponent<Stackable>();
 					laborPoints += inStackable.Amount * materialSheet.laborPoint;
 					materialStorageLink.TryAddSheet(materialSheet.materialTrait, inStackable.Amount);
-					Despawn.ServerSingle(ore);
+					_ = Despawn.ServerSingle(ore);
 				}
 			}
 		}
 
 		public void ClaimLaborPoints(GameObject player)
 		{
-			var playerStorage = player.GetComponent<ItemStorage>();
-			var idCardObj = playerStorage.GetNamedItemSlot(NamedSlot.id).ItemObject;
-			var idCard = AccessRestrictions.GetIDCard(idCardObj);
-			idCard.currencies[(int)CurrencyType.LaborPoints] += laborPoints;
-			laborPoints = 0;
-			oreRedemptiomMachineGUI.UpdateLaborPoints(laborPoints);
+			var playerStorage = player.GetComponent<DynamicItemStorage>();
+			var itemSlotList = playerStorage.GetNamedItemSlots(NamedSlot.id);
+			foreach (var itemSlot in itemSlotList)
+			{
+				if (itemSlot.ItemObject)
+				{
+					var idCard = AccessRestrictions.GetIDCard(itemSlot.ItemObject);
+					idCard.currencies[(int)CurrencyType.LaborPoints] += laborPoints;
+					laborPoints = 0;
+					oreRedemptiomMachineGUI.UpdateLaborPoints(laborPoints);
+					return;
+				}
+			}
 		}
 	}
 }

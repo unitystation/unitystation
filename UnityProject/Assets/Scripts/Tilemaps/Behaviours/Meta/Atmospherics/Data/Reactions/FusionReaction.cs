@@ -15,7 +15,7 @@ namespace Systems.Atmospherics
 			throw new System.NotImplementedException();
 		}
 
-		public void React(GasMix gasMix, Vector3 tilePos, Matrix matrix)
+		public void React(GasMix gasMix, MetaDataNode node)
 		{
 			var oldHeatCap = gasMix.WholeHeatCapacity;
 
@@ -33,11 +33,14 @@ namespace Systems.Atmospherics
 
 			var gasPower = 0f;
 
-
-			foreach (var gas in Gas.All)
+			lock ( gasMix.GasesArray) //no Double lock
 			{
-				gasPower += gas.FusionPower * gasMix.GetMoles(gas);
+				foreach (var gas in gasMix.GasesArray)  //doesn't appear to modify list while iterating
+				{
+					gasPower += gas.GasSO.FusionPower * gas.Moles;
+				}
 			}
+
 
 			var instability =  Mathf.Pow(gasPower * AtmosDefines.INSTABILITY_GAS_POWER_FACTOR, 2) % toroidalSize;
 
@@ -82,12 +85,15 @@ namespace Systems.Atmospherics
 
 			if (reactionEnergy != 0)
 			{
-				RadiationManager.Instance.RequestPulse(matrix, tilePos.RoundToInt(), Mathf.Max((AtmosDefines.FUSION_RAD_COEFFICIENT/instability)+ AtmosDefines.FUSION_RAD_MAX, 0), rnd.Next(Int32.MinValue, Int32.MaxValue));
+				RadiationManager.Instance.RequestPulse(node.Position.ToWorld(node.PositionMatrix).RoundToInt(), Mathf.Max((AtmosDefines.FUSION_RAD_COEFFICIENT/instability)+ AtmosDefines.FUSION_RAD_MAX, 0), rnd.Next(Int32.MinValue, Int32.MaxValue));
 
 				var newHeatCap = gasMix.WholeHeatCapacity;
 				if (newHeatCap > 0.0003f && (gasMix.Temperature <= AtmosDefines.FUSION_MAXIMUM_TEMPERATURE || reactionEnergy <= 0))
 				{
-					gasMix.SetTemperature(Mathf.Clamp(((gasMix.Temperature * oldHeatCap + reactionEnergy) / newHeatCap), 2.7f, Single.PositiveInfinity));
+					gasMix.SetTemperature(
+						Mathf.Clamp(((gasMix.Temperature * oldHeatCap + reactionEnergy) / newHeatCap),
+							AtmosDefines.SPACE_TEMPERATURE,
+							Single.PositiveInfinity));
 				}
 			}
 		}

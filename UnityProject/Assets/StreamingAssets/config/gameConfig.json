@@ -5,6 +5,8 @@
 
 	"MinPlayersForCountdown": 1,
 
+	"MinReadyPlayersForCountdown": 1,
+
 	"PreRoundTime": 120,
 
 	"RoundEndTime": 60,
@@ -21,5 +23,19 @@
 
 	"ShuttleGibbingAllowed": true,
 
-	"AdminOnlyHtml": true
+	"AdminOnlyHtml": true,
+
+	"CharacterNameLimit": 32,
+	
+	"MalfAIRecieveTheirIntendedObjectiveChance": 35,
+	
+	"ServerShutsDownOnRoundEnd" : true,
+	
+	"PlayerLimit" : 100,
+	
+	"LowPopLimit" : 20,
+
+	"LowPopCheckTimeAfterRoundStart" : 300,
+
+	"RebootOnAverageFPSOrLower" : 20
 }

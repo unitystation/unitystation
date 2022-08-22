@@ -22,12 +22,22 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: foreverID
+      value: 60abff55cf0ed704dbca354a14ffe757
+      objectReference: {fileID: 0}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: ac4fa36d2d5d70540ac865d0938d5f6a,
         type: 3}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Name
@@ -37,6 +47,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -55,6 +70,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -67,16 +87,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -95,38 +105,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
-      propertyPath: Resistances.FreezeProof
-      value: 1
+      propertyPath: Armor.Bio
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
-      propertyPath: Resistances.Indestructable
-      value: 1
+      propertyPath: Armor.Rad
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
-      propertyPath: Resistances.UnAcidable
-      value: 1
+      propertyPath: Armor.Acid
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
-      propertyPath: Resistances.Flammable
-      value: 1
+      propertyPath: Armor.Bomb
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
-      propertyPath: Resistances.FireProof
-      value: 1
+      propertyPath: Armor.Fire
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
-      propertyPath: Resistances.LavaProof
-      value: 1
+      propertyPath: Armor.Laser
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
-      propertyPath: Resistances.AcidProof
-      value: 1
+      propertyPath: Armor.Magic
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -140,48 +150,53 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
-      propertyPath: Armor.Laser
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
       propertyPath: Armor.Energy
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: Armor.Bomb
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: Armor.Rad
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: Armor.Fire
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: Armor.Acid
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: Armor.Magic
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: Armor.Bio
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: damageDeflection
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Resistances.AcidProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Resistances.FireProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Resistances.Flammable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Resistances.LavaProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Resistances.UnAcidable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Resistances.FreezeProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Resistances.Indestructable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: ReachableThrough
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -194,11 +209,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0452d0c81c609ef4687682e6c5747a8c,
         type: 2}
-    - target: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: ReachableThrough
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5388634654466307187, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Layer
@@ -207,7 +217,7 @@ PrefabInstance:
     - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 60abff55cf0ed704dbca354a14ffe757
       objectReference: {fileID: 0}
     - target: {fileID: 5971563122362279857, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}

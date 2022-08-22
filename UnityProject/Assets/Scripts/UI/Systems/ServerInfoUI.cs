@@ -1,18 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.IO;
 using DatabaseAPI;
-using UnityEngine;
-using TMPro;
-using Mirror;
-using System.IO;
 using Initialisation;
 using Messages.Client;
 using Messages.Server;
-using UnityEngine.UI;
+using Mirror;
+using Shared.Managers;
+using TMPro;
+using UI;
+using UnityEngine;
 
 namespace ServerInfo
 {
-	public class ServerInfoUI : MonoBehaviour, IInitialise
+	public class ServerInfoUI : SingletonManager<ServerInfoUI>, IInitialise
     {
     	public TMP_Text ServerName;
 
@@ -46,7 +45,7 @@ namespace ServerInfo
         {
 	        ServerName.text = newName;
 	        ServerDesc.text = newDesc;
-	        if(string.IsNullOrEmpty(ServerInfoUILobby.serverDiscordID)) return;
+	        if (string.IsNullOrEmpty(ServerInfoUILobby.serverDiscordID)) return;
 	        DiscordButton.SetActive(true);
 	        DiscordButton.GetComponent<OpenURL>().url = "https://discord.gg/" + ServerInfoUILobby.serverDiscordID;
         }
@@ -80,22 +79,16 @@ namespace ServerInfo
 
 	public class ServerInfoMessageClient : ClientMessage<ServerInfoMessageClient.NetMessage>
 	{
-		public struct NetMessage : NetworkMessage
-		{
-			public string PlayerId;
-		}
+		public struct NetMessage : NetworkMessage { }
 
 		public override void Process(NetMessage msg)
 		{
 			ServerInfoMessageServer.Send(SentByPlayer.Connection, ServerData.ServerConfig.ServerName, ServerInfoUI.serverDesc);
 		}
 
-		public static NetMessage Send(string playerId)
+		public static NetMessage Send()
 		{
-			NetMessage msg = new NetMessage
-			{
-				PlayerId = playerId,
-			};
+			NetMessage msg = new NetMessage();
 
 			Send(msg);
 			return msg;

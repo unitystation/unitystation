@@ -7,6 +7,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1945735897790158259, guid: e9d40516785485e4186335c8a0127177,
+        type: 3}
+      propertyPath: initalProjectile
+      value: 
+      objectReference: {fileID: 4793467416935387913, guid: c15e2b54d5690624caa4fbbbb5fc3187,
+        type: 3}
+    - target: {fileID: 2620522852309627583, guid: e9d40516785485e4186335c8a0127177,
+        type: 3}
+      propertyPath: foreverID
+      value: 65d9c77d70577854184c5137096e84da
+      objectReference: {fileID: 0}
     - target: {fileID: 8794075376680898992, guid: e9d40516785485e4186335c8a0127177,
         type: 3}
       propertyPath: initialName
@@ -16,6 +27,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BoxMagazine7.12x82mmArmorPenetrating
+      objectReference: {fileID: 0}
+    - target: {fileID: 9004046277741806502, guid: e9d40516785485e4186335c8a0127177,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9004046277741806502, guid: e9d40516785485e4186335c8a0127177,
         type: 3}
@@ -34,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9004046277741806502, guid: e9d40516785485e4186335c8a0127177,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9004046277741806502, guid: e9d40516785485e4186335c8a0127177,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9004046277741806502, guid: e9d40516785485e4186335c8a0127177,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9004046277741806502, guid: e9d40516785485e4186335c8a0127177,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9004046277741806502, guid: e9d40516785485e4186335c8a0127177,
         type: 3}
@@ -75,7 +86,7 @@ PrefabInstance:
     - target: {fileID: 9039705054833066854, guid: e9d40516785485e4186335c8a0127177,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 65d9c77d70577854184c5137096e84da
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9d40516785485e4186335c8a0127177, type: 3}

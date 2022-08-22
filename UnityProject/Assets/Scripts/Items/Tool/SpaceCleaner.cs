@@ -56,7 +56,7 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1);
 		SoundManager.PlayNetworkedAtPos(Spray2, startPos, audioSourceParameters, sourceObj: interaction.Performer);
 
-		interaction.Performer.Pushable()?.NewtonianMove((-interaction.TargetVector).NormalizeToInt(), speed: 1f);
+		interaction.PerformerPlayerScript.objectPhysics.NewtonianPush((-interaction.TargetVector).NormalizeToInt(), speed: 1f);
 	}
 
 	private IEnumerator Fire(List<Vector3Int> positionList)
@@ -70,7 +70,23 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 
 	void SprayTile(Vector3Int worldPos)
 	{
-		reagentContainer.Spill(worldPos, reagentsPerUse);
+		MatrixInfo matrixInfo = MatrixManager.AtPoint(worldPos, true);
+		Vector3Int localPos = MatrixManager.WorldToLocalInt(worldPos, matrixInfo);
+		if (reagentContainer != null && reagentContainer.ReagentMixTotal > 0.1)
+		{
+			if (reagentContainer.MajorMixReagent.name == "SpaceCleaner")
+			{
+				matrixInfo.MetaDataLayer.Clean(worldPos, localPos, false);
+			}
+			else if (reagentContainer.MajorMixReagent.name == "Water")
+			{
+				matrixInfo.MetaDataLayer.Clean(worldPos, localPos, true);
+			}
+			else
+			{
+				MatrixManager.ReagentReact(reagentContainer.TakeReagents(reagentsPerUse), worldPos);
+			}
+		}
 	}
 	private List<Vector3Int> CheckPassableTiles(Vector2 startPos, Vector2 targetPos)
 	{

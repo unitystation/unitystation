@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.UI;
 using UI.Core.Radial;
+using Util;
 
 namespace UI.Core.RightClick
 {
@@ -23,11 +24,18 @@ namespace UI.Core.RightClick
 
 		private ParentConstraint parentConstraint;
 
+		private RectTransform BorderPrefab =>
+			this.VerifyNonChildReference(borderPrefab, "a rectangular image prefab", category: Category.UI);
+
+		private Image RadialMask => VerifyChildReference(ref radialMask, "a masked image", "BackgroundMask");
+
+		private Transform Background => VerifyChildReference(ref background, "a background image", "RadialActionRing");
+
 		private ParentConstraint ParentConstraint => this.GetComponentByRef(ref parentConstraint);
 
 		private T InitOrGet<T>(ref T obj, T prefab) where T : Component
 		{
-			if (obj == null)
+			if (obj == null && prefab != null)
 			{
 				obj = Instantiate(prefab, transform);
 				obj.SetActive(true);
@@ -36,23 +44,35 @@ namespace UI.Core.RightClick
 			return obj;
 		}
 
-		private RectTransform StartBorder => InitOrGet(ref startBorder, borderPrefab);
+		private RectTransform StartBorder => InitOrGet(ref startBorder, BorderPrefab);
 
-		private RectTransform EndBorder => InitOrGet(ref endBorder, borderPrefab);
+		private RectTransform EndBorder => InitOrGet(ref endBorder, BorderPrefab);
 
 		public void LateUpdate()
 		{
-			background.rotation = Quaternion.identity;
+			if (Background)
+			{
+				Background.rotation = Quaternion.identity;
+			}
 		}
 
 		public override void Setup(int itemCount)
 		{
 			ArcMeasure = itemCount * (360 / MaxShownItems);
 			base.Setup(itemCount);
-			radialMask.fillAmount = (1f / 360f) * ArcMeasure;
-			StartBorder.localPosition = new Vector3(0, -.5f, 0);
-			EndBorder.localEulerAngles = new Vector3(0f, 0f, ItemArcMeasure * itemCount);
-			EndBorder.localPosition = new Vector3(-0.5f, 0, 0);
+
+			if (RadialMask)
+			{
+				RadialMask.fillAmount = (1f / 360f) * ArcMeasure;
+			}
+
+			if (StartBorder != null && EndBorder != null)
+			{
+				StartBorder.localPosition = new Vector3(0, -.5f, 0);
+				EndBorder.localEulerAngles = new Vector3(0f, 0f, ItemArcMeasure * itemCount);
+				EndBorder.localPosition = new Vector3(-0.5f, 0, 0);
+			}
+
 			if (Items.Count > 0)
 			{
 				Items[0].SetDividerActive(false);

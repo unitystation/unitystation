@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UI.Core.NetUI;
 using Objects.Security;
 
 namespace UI.Objects.Security
@@ -11,13 +11,13 @@ namespace UI.Objects.Security
 		private SecurityRecordCrime crime;
 		private GUI_SecurityRecordsEntryPage entryPage;
 		[SerializeField]
-		private NetLabel crimeText = null;
+		private NetText_label crimeText = null;
 		[SerializeField]
-		private NetLabel detailsText = null;
+		private NetText_label detailsText = null;
 		[SerializeField]
-		private NetLabel authorText = null;
+		private NetText_label authorText = null;
 		[SerializeField]
-		private NetLabel timeText = null;
+		private NetText_label timeText = null;
 
 		public void ReInit(SecurityRecordCrime crimeToInit, GUI_SecurityRecordsEntryPage entryPageToInit)
 		{
@@ -35,12 +35,12 @@ namespace UI.Objects.Security
 			entryPage.DeleteCrime(crime);
 		}
 
-		public void SetEditingField(NetLabel fieldToEdit)
+		public void SetEditingField(NetText_label fieldToEdit)
 		{
 			entryPage.SetEditingField(fieldToEdit, crime);
 		}
 
-		public void OpenPopup(NetLabel fieldToEdit)
+		public void OpenPopup(NetText_label fieldToEdit)
 		{
 			//Previously we set entryPage only server-side, but popup is opening client-side
 			if (entryPage == null)

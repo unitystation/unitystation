@@ -7,8 +7,6 @@ namespace Messages.Client.Admin
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public string Userid;
-			public string AdminToken;
 			public string UserToRespawn;
 			public string OccupationToRespawn;
 			public int Type;
@@ -19,31 +17,31 @@ namespace Messages.Client.Admin
 			VerifyAdminStatus(msg);
 		}
 
-		void VerifyAdminStatus(NetMessage msg)
+		private void VerifyAdminStatus(NetMessage msg)
 		{
-			var player = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
-			if (player == null) return;
-			var deadPlayer = PlayerList.Instance.GetByUserID(msg.UserToRespawn);
-			if (deadPlayer == null || deadPlayer.Script == null) return;
+			if (IsFromAdmin() == false) return;
 
-			//Wasn't so dead, let's kill them
-			if (deadPlayer.Script.playerHealth != null &&
-			    deadPlayer.Script.playerHealth.IsDead == false)
+			if (PlayerList.Instance.TryGetByUserID(msg.UserToRespawn, out var player) == false || player.Script == null)
 			{
-				deadPlayer.Script.playerHealth.ApplyDamageAll(
-					player,
-					200,
-					AttackType.Internal,
-					DamageType.Brute);
+				Logger.LogError($"Player with user ID '{msg.UserToRespawn}' not found or has no script. Cannot respawn player.", Category.Admin);
+				return;
 			}
 
-			TryRespawn(deadPlayer, msg, msg.OccupationToRespawn);
+			// Wasn't so dead, let's kill them
+			if (player.Script.playerHealth != null &&
+				player.Script.playerHealth.IsDead == false)
+			{
+				player.Script.playerHealth.ApplyDamageAll(SentByPlayer.GameObject, 200, AttackType.Internal, DamageType.Brute);
+			}
+
+			TryRespawn(player, msg, msg.OccupationToRespawn);
 		}
 
-		void TryRespawn(ConnectedPlayer deadPlayer, NetMessage msg, string occupation = null)
+		private void TryRespawn(PlayerInfo deadPlayer, NetMessage msg, string occupation = null)
 		{
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
-				$"{PlayerList.Instance.GetByUserID(msg.Userid).Name} respawned dead player {deadPlayer.Name} as {occupation}", msg.Userid);
+			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
+					$"{SentByPlayer.Username} respawned dead player {deadPlayer.Username} ({deadPlayer.Name}) as {occupation}",
+					SentByPlayer.UserId);
 
 			var respawnType = (RespawnType) msg.Type;
 
@@ -61,13 +59,10 @@ namespace Messages.Client.Admin
 			}
 		}
 
-		public static NetMessage SendNormalRespawn(string userId, string adminToken, string userIDToRespawn,
-			Occupation occupation)
+		public static NetMessage SendNormalRespawn(string userIDToRespawn, Occupation occupation)
 		{
 			var msg = new NetMessage
 			{
-				Userid = userId,
-				AdminToken = adminToken,
 				UserToRespawn = userIDToRespawn,
 				OccupationToRespawn = occupation.name,
 				Type = 0
@@ -77,14 +72,10 @@ namespace Messages.Client.Admin
 			return msg;
 		}
 
-		public static NetMessage SendSpecialRespawn(string userID, string adminToken,
-			string userIDToRespawn,
-			Occupation occupation)
+		public static NetMessage SendSpecialRespawn(string userIDToRespawn, Occupation occupation)
 		{
 			var msg = new NetMessage()
 			{
-				Userid = userID,
-				AdminToken = adminToken,
 				UserToRespawn = userIDToRespawn,
 				OccupationToRespawn = occupation.name,
 				Type = 1
@@ -94,13 +85,10 @@ namespace Messages.Client.Admin
 			return msg;
 		}
 
-		public static NetMessage SendAntagRespawn(string userID, string adminToken, string userIdTorespawn,
-			Antagonist antagonist)
+		public static NetMessage SendAntagRespawn(string userIdTorespawn, Antagonist antagonist)
 		{
 			var msg = new NetMessage()
 			{
-				Userid = userID,
-				AdminToken = adminToken,
 				UserToRespawn = userIdTorespawn,
 				OccupationToRespawn = antagonist.AntagName,
 				Type = 2

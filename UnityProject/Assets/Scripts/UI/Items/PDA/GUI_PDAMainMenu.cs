@@ -1,15 +1,16 @@
 ﻿using System;
 using UnityEngine;
+using UI.Core.NetUI;
 
 namespace UI.Items.PDA
 {
 	public class GUI_PDAMainMenu : NetPage, IPageReadyable
 	{
 		[SerializeField] private GUI_PDA controller = null;
-		[SerializeField] private NetLabel idLabel = null;
-		[SerializeField] private NetLabel lightLabel = null;
+		[SerializeField] private NetText_label idLabel = null;
+		[SerializeField] private NetText_label lightLabel = null;
 
-		private IDCard IDCard => controller.PDA.IDCard;
+		private IDCard IDCard => controller.PDA.GetIDCard();
 
 		private void Start()
 		{
@@ -57,14 +58,7 @@ namespace UI.Items.PDA
 
 		private void UpdateIDStatus()
 		{
-			if (IDCard != null)
-			{
-				SetIDStatus($"{IDCard.RegisteredName}, {IDCard.JobType}");
-			}
-			else
-			{
-				SetIDStatus("<No ID Inserted>");
-			}
+			SetIDStatus(IDCard != null ? $"{IDCard.RegisteredName}, {IDCard.GetJobTitle()}" : "<No ID Inserted>");
 
 			if (controller.mainSwitcher.CurrentPage == this)
 			{

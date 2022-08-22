@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Camera2DFollow : MonoBehaviour
 {
@@ -72,6 +74,11 @@ public class Camera2DFollow : MonoBehaviour
 		}
 	}
 
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
 	private void Start()
 	{
 		lookAheadSave = lookAheadFactor;
@@ -84,23 +91,24 @@ public class Camera2DFollow : MonoBehaviour
 		starsBackground.parent = null;
 	}
 
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	//idk I don't know probably should look into the sometime TODO look into this
 	public void SetCameraXOffset()
 	{
 		float xOffSet =
-			(transform.position.x - Camera.main.ScreenToWorldPoint(UIManager.Hands.transform.position).x) * 1.38f;
+			(transform.position.x - Camera.main.ScreenToWorldPoint(UIManager.Instance.transform.position).x) * 1.38f;
 
 		followControl.SetXOffset(xOffSet);
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
-		if(!PlayerManager.LocalPlayerScript){
-			return;
-		}
-		//Really should sort out the load order and then we can remove this check:
-		if(!PlayerManager.LocalPlayerScript.IsGhost && !PlayerManager.LocalPlayerScript.weaponNetworkActions){
-			return;
-		}
+		if(PlayerManager.LocalPlayerScript == false) return;
+
 		if (target != null && !isShaking)
 		{
 			if ( (int)target.position.z == -100 )

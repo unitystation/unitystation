@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Core.Directionals;
 using Systems.Disposals;
@@ -9,7 +7,7 @@ using AddressableReferences;
 
 namespace Objects.Disposals
 {
-	public class DisposalIntake : DisposalMachine, IServerDespawn, IExaminable
+	public class DisposalIntake : DisposalMachine, IExaminable
 	{
 		private const float ANIMATION_TIME = 1.2f; // As per sprite sheet JSON file.
 		private const float FLUSH_DELAY = 1;
@@ -18,7 +16,6 @@ namespace Objects.Disposals
 		private AddressableAudioSource disposalFlushSound = null;
 
 		private DirectionalPassable directionalPassable;
-		private DisposalVirtualContainer virtualContainer;
 
 		public bool IsOperating { get; private set; }
 
@@ -33,13 +30,16 @@ namespace Objects.Disposals
 		protected override void Awake()
 		{
 			base.Awake();
-
-			if (TryGetComponent<Directional>(out var directional))
-			{
-				directional.OnDirectionChange.AddListener(OnDirectionChanged);
-			}
 			directionalPassable = GetComponent<DirectionalPassable>();
 			DenyEntry();
+		}
+
+		private void OnEnable()
+		{
+			if (TryGetComponent<Rotatable>(out var rotatable))
+			{
+				rotatable.OnRotationChange.AddListener(OnDirectionChanged);
+			}
 		}
 
 		private void Start()
@@ -47,26 +47,18 @@ namespace Objects.Disposals
 			UpdateSpriteOrientation();
 		}
 
-		public void OnDespawnServer(DespawnInfo info)
-		{
-			if (virtualContainer != null)
-			{
-				Despawn.ServerSingle(virtualContainer.gameObject);
-			}
-		}
-
 		#endregion Lifecycle
 
 		// Woman! I can hardly express
 		// My mixed motions at my thoughtlessness
 		// TODO: Don't poll, find some sort of trigger for when an entity enters the same tile.
-		void UpdateMe()
+		private void UpdateMe()
 		{
 			if (MachineSecured == false || IsOperating) return;
 			GatherEntities();
 		}
 
-		private void OnDirectionChanged(Orientation newDir)
+		private void OnDirectionChanged(OrientationEnum newDir)
 		{
 			UpdateSpriteOrientation();
 		}
@@ -93,18 +85,18 @@ namespace Objects.Disposals
 
 		private void UpdateSpriteOrientation()
 		{
-			switch (directionalPassable.Directional.CurrentDirection.AsEnum())
+			switch (directionalPassable.RotatableChecked.Component.CurrentDirection)
 			{
-				case OrientationEnum.Up:
+				case OrientationEnum.Up_By0:
 					baseSpriteHandler.ChangeSpriteVariant(1);
 					break;
-				case OrientationEnum.Down:
+				case OrientationEnum.Down_By180:
 					baseSpriteHandler.ChangeSpriteVariant(0);
 					break;
-				case OrientationEnum.Left:
+				case OrientationEnum.Left_By90:
 					baseSpriteHandler.ChangeSpriteVariant(3);
 					break;
-				case OrientationEnum.Right:
+				case OrientationEnum.Right_By270:
 					baseSpriteHandler.ChangeSpriteVariant(2);
 					break;
 			}
@@ -136,24 +128,11 @@ namespace Objects.Disposals
 
 		private void GatherEntities()
 		{
-			var items = registerObject.Matrix.Get<ObjectBehaviour>(registerObject.LocalPosition, ObjectType.Item, true);
-			var objects = registerObject.Matrix.Get<ObjectBehaviour>(registerObject.LocalPosition, ObjectType.Object, true);
-			var players = registerObject.Matrix.Get<ObjectBehaviour>(registerObject.LocalPosition, ObjectType.Player, true);
+			objectContainer.GatherObjects();
 
-			var filteredObjects = objects.ToList();
-			filteredObjects.RemoveAll(entity =>
-					// Only want to transport movable objects
-					entity.GetComponent<ObjectBehaviour>().IsPushable == false ||
-					// Don't add the virtual container to itself.
-					entity.TryGetComponent<DisposalVirtualContainer>(out _)
-			);
-
-			if (items.Count() > 0 || filteredObjects.Count > 0 || players.Count() > 0)
+			if (objectContainer.IsEmpty == false)
 			{
 				StartCoroutine(RunIntakeSequence());
-				virtualContainer.AddItems(items);
-				virtualContainer.AddObjects(filteredObjects);
-				virtualContainer.AddPlayers(players);
 			}
 		}
 
@@ -162,16 +141,17 @@ namespace Objects.Disposals
 			// Intake orifice closes...
 			SetIntakeOperating(true);
 			DenyEntry();
-			virtualContainer = SpawnNewContainer();
 			yield return WaitFor.Seconds(FLUSH_DELAY);
 
 			// Intake orifice closed. Release the charge.
 			SoundManager.PlayNetworkedAtPos(disposalFlushSound, registerObject.WorldPositionServer, sourceObj: gameObject);
-			DisposalsManager.Instance.NewDisposal(virtualContainer);
+			gasContainer.IsSealed = true;
+			gasContainer.EqualiseWithTile();
+			DisposalsManager.Instance.NewDisposal(gameObject);
+			gasContainer.IsSealed = false;
 
 			// Restore charge, open orifice.
 			yield return WaitFor.Seconds(ANIMATION_TIME - FLUSH_DELAY);
-			virtualContainer = null;
 			AllowEntry();
 			SetIntakeOperating(false);
 		}
@@ -188,6 +168,11 @@ namespace Objects.Disposals
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+
+			if (TryGetComponent<Rotatable>(out var rotatable))
+			{
+				rotatable.OnRotationChange.RemoveListener(OnDirectionChanged);
+			}
 		}
 
 		protected override void SetMachineUninstalled()

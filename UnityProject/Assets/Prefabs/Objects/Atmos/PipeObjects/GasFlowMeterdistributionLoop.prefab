@@ -7,10 +7,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 828214197376058291, guid: d50c1bbfd450a3d4abf1cb158b4205da,
+        type: 3}
+      propertyPath: foreverID
+      value: 1be2f6199d1f09c49930fd8c611cf2ec
+      objectReference: {fileID: 0}
     - target: {fileID: 4327818821595430394, guid: d50c1bbfd450a3d4abf1cb158b4205da,
         type: 3}
       propertyPath: m_Name
-      value: GasFlowMeterDistrobutionLoop
+      value: GasFlowMeterdistributionLoop
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330832831029197600, guid: d50c1bbfd450a3d4abf1cb158b4205da,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4330832831029197600, guid: d50c1bbfd450a3d4abf1cb158b4205da,
         type: 3}
@@ -29,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4330832831029197600, guid: d50c1bbfd450a3d4abf1cb158b4205da,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330832831029197600, guid: d50c1bbfd450a3d4abf1cb158b4205da,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4330832831029197600, guid: d50c1bbfd450a3d4abf1cb158b4205da,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4330832831029197600, guid: d50c1bbfd450a3d4abf1cb158b4205da,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4330832831029197600, guid: d50c1bbfd450a3d4abf1cb158b4205da,
         type: 3}
@@ -70,7 +75,7 @@ PrefabInstance:
     - target: {fileID: 5319403735567648920, guid: d50c1bbfd450a3d4abf1cb158b4205da,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 1be2f6199d1f09c49930fd8c611cf2ec
       objectReference: {fileID: 0}
     - target: {fileID: 6389057281990091466, guid: d50c1bbfd450a3d4abf1cb158b4205da,
         type: 3}

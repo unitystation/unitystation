@@ -14,6 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -29,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
@@ -75,7 +75,7 @@ PrefabInstance:
     - target: {fileID: 1549955644806952135, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 51021ec2fd02b4e468627e7b855c7947
       objectReference: {fileID: 0}
     - target: {fileID: 1650371861022734895, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
@@ -83,21 +83,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 9280b8ffd4dd2cd448b53d3d0e5b5d11,
         type: 3}
+    - target: {fileID: 1650371861022734895, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4706445082373976820, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: d284ab0138034cf498dd97af0dd3d418,
         type: 2}
-    - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
+    - target: {fileID: 5524790904487003422, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
-      propertyPath: ammoType
-      value: 19
-      objectReference: {fileID: 0}
-    - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
-        type: 3}
-      propertyPath: magazineSize
-      value: 14
+      propertyPath: foreverID
+      value: 51021ec2fd02b4e468627e7b855c7947
       objectReference: {fileID: 0}
     - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
@@ -106,7 +106,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
+      propertyPath: ammoType
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
       propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 1011412119081755325, guid: 8cb47895c43b08f40a8f1b5aa6e073b5,
+        type: 3}
+    - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: magazineSize
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: initalProjectile
       value: 
       objectReference: {fileID: 1011412119081755325, guid: 8cb47895c43b08f40a8f1b5aa6e073b5,
         type: 3}

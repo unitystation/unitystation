@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using Messages.Server;
+using Shared.Util;
 using UnityEngine;
 using UnityEngine.Events;
+using Util;
 
 
-public class UIEvent : UnityEvent<GameObject>
-{
-}
+public class UIEvent : UnityEvent<GameObject> { }
 
-//For simple broadcasts:
-public enum EVENT
+// For simple broadcasts:
+public enum Event
 {
 	UpdateFov,
 	PowerNetSelfCheck,
@@ -19,6 +19,7 @@ public enum EVENT
 	LoggedOut,
 	RoundStarted,
 	PostRoundStarted,
+	SceneUnloading,
 	RoundEnded,
 	DisableInternals,
 	EnableInternals,
@@ -31,40 +32,31 @@ public enum EVENT
 	PlayerRejoined,
 	PreRoundStarted,
 	MatrixManagerInit,
-	BlobSpawned
+	BlobSpawned,
+	ScenesLoadedServer,
+	LavalandFirstEntered,
+	ChatQuickUnfocus
 } // + other events. Add them as you need them
 
 [ExecuteInEditMode]
 public class EventManager : MonoBehaviour
 {
 	// Stores the delegates that get called when an event is fired (Simple Events)
-	private static readonly Dictionary<EVENT, Action> eventTable
-		= new Dictionary<EVENT, Action>();
+	private static readonly Dictionary<Event, Action> eventTable
+		= new Dictionary<Event, Action>();
 
 	private static EventManager eventManager;
 
-	public static EventManager Instance
-	{
-		get
-		{
-			if (!eventManager)
-			{
-				eventManager = FindObjectOfType<EventManager>();
-			}
-			return eventManager;
-		}
-	}
+	public static EventManager Instance => FindUtils.LazyFindObject(ref eventManager);
 
-	public static void UpdateLights()
-	{
-	}
+	public static void UpdateLights() { }
 
 	/*
 		* Below is for the simple event handlers and broast methods:
 		*/
 
 	// Adds a delegate to get called for a specific event
-	public static void AddHandler(EVENT evnt, Action action)
+	public static void AddHandler(Event evnt, Action action)
 	{
 		if (!eventTable.ContainsKey(evnt))
 		{
@@ -76,7 +68,7 @@ public class EventManager : MonoBehaviour
 		}
 	}
 
-	public static void RemoveHandler(EVENT evnt, Action action)
+	public static void RemoveHandler(Event evnt, Action action)
 	{
 		if (!eventTable.ContainsKey(evnt)) return;
 		if (eventTable[evnt] != null)
@@ -92,7 +84,7 @@ public class EventManager : MonoBehaviour
 	/// <summary>
 	/// Trigger the given event. If networked, will trigger the event on all clients.
 	/// </summary>
-	public static void Broadcast(EVENT evnt, bool network = false)
+	public static void Broadcast(Event evnt, bool network = false)
 	{
 		LogEventBroadcast(evnt);
 		if (eventTable.ContainsKey(evnt) == false || eventTable[evnt] == null) return;
@@ -110,68 +102,68 @@ public class EventManager : MonoBehaviour
 	/// <summary>
 	/// Calls the appropriate logging category for the event
 	/// </summary>
-	private static void LogEventBroadcast(EVENT evnt)
+	private static void LogEventBroadcast(Event evnt)
 	{
 		string msg = "Broadcasting a " + evnt + " event";
 		Category category;
 
 		switch (evnt)
 		{
-			case EVENT.ChatFocused:
+			case Event.ChatFocused:
 				category = Category.Chat;
 				break;
-			case EVENT.ChatUnfocused:
+			case Event.ChatUnfocused:
 				category = Category.Chat;
 				break;
-			case EVENT.UpdateChatChannels:
+			case Event.UpdateChatChannels:
 				category = Category.Chat;
 				break;
-			case EVENT.ToggleChatBubbles:
+			case Event.ToggleChatBubbles:
 				category = Category.Chat;
 				break;
-			case EVENT.UpdateFov:
+			case Event.UpdateFov:
 				category = Category.UI;
 				break;
-			case EVENT.DisableInternals:
+			case Event.DisableInternals:
 				category = Category.PlayerInventory;
 				break;
-			case EVENT.EnableInternals:
+			case Event.EnableInternals:
 				category = Category.PlayerInventory;
 				break;
-			case EVENT.LoggedOut:
+			case Event.LoggedOut:
 				category = Category.Connections;
 				break;
-			case EVENT.PlayerRejoined:
+			case Event.PlayerRejoined:
 				category = Category.Connections;
 				break;
-			case EVENT.PlayerSpawned:
+			case Event.PlayerSpawned:
 				category = Category.EntitySpawn;
 				break;
-			case EVENT.PlayerDied:
+			case Event.PlayerDied:
 				category = Category.Health;
 				break;
-			case EVENT.GhostSpawned:
+			case Event.GhostSpawned:
 				category = Category.Ghosts;
 				break;
-			case EVENT.PowerNetSelfCheck:
+			case Event.PowerNetSelfCheck:
 				category = Category.Electrical;
 				break;
-			case EVENT.PreRoundStarted:
+			case Event.PreRoundStarted:
 				category = Category.Round;
 				break;
-			case EVENT.RoundStarted:
+			case Event.RoundStarted:
 				category = Category.Round;
 				break;
-			case EVENT.PostRoundStarted:
+			case Event.PostRoundStarted:
 				category = Category.Round;
 				break;
-			case EVENT.RoundEnded:
+			case Event.RoundEnded:
 				category = Category.Round;
 				break;
-			case EVENT.BlobSpawned:
+			case Event.BlobSpawned:
 				category = Category.Blob;
 				break;
-			case EVENT.MatrixManagerInit:
+			case Event.MatrixManagerInit:
 				category = Category.Matrix;
 				break;
 			default:

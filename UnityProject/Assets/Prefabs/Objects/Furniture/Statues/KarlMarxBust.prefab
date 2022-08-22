@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 965018858628130221, guid: c88a0949db03aac4694c2d98af338114,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 965018858628130221, guid: c88a0949db03aac4694c2d98af338114,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 965018858628130221, guid: c88a0949db03aac4694c2d98af338114,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 965018858628130221, guid: c88a0949db03aac4694c2d98af338114,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +46,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 965018858628130221, guid: c88a0949db03aac4694c2d98af338114,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 965018858628130221, guid: c88a0949db03aac4694c2d98af338114,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 965018858628130221, guid: c88a0949db03aac4694c2d98af338114,
         type: 3}
@@ -73,6 +73,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 63a8976bd717fdc4fb83f4f7f068c929,
         type: 3}
+    - target: {fileID: 1013845015147104096, guid: c88a0949db03aac4694c2d98af338114,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3896931006115227844, guid: c88a0949db03aac4694c2d98af338114,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -88,6 +93,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 4179395871315860798, guid: c88a0949db03aac4694c2d98af338114,
+        type: 3}
+      propertyPath: foreverID
+      value: 9852e524888fd454d8156da8202ccd7e
+      objectReference: {fileID: 0}
     - target: {fileID: 5701885454677133741, guid: c88a0949db03aac4694c2d98af338114,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -96,19 +106,19 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7625763728120183879, guid: c88a0949db03aac4694c2d98af338114,
         type: 3}
+      propertyPath: initialName
+      value: Karl Marx bust
+      objectReference: {fileID: 0}
+    - target: {fileID: 7625763728120183879, guid: c88a0949db03aac4694c2d98af338114,
+        type: 3}
       propertyPath: initialDescription
       value: A bust depicting a certain 19th century economist. You get the feeling
         a specter is haunting the station.
       objectReference: {fileID: 0}
-    - target: {fileID: 7625763728120183879, guid: c88a0949db03aac4694c2d98af338114,
-        type: 3}
-      propertyPath: initialName
-      value: Karl Marx bust
-      objectReference: {fileID: 0}
     - target: {fileID: 8695337667852260885, guid: c88a0949db03aac4694c2d98af338114,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 9852e524888fd454d8156da8202ccd7e
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c88a0949db03aac4694c2d98af338114, type: 3}

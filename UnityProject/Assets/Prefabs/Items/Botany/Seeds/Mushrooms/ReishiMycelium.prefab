@@ -35,7 +35,7 @@ PrefabInstance:
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: plantData.GrowthSpeed
-      value: 5
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
@@ -101,7 +101,7 @@ PrefabInstance:
     - target: {fileID: 3763059340105120725, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: c1ce6fa13648705408c2308794f9ce69
       objectReference: {fileID: 0}
     - target: {fileID: 3867790606060242529, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
@@ -175,5 +175,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7d24980b7ea103c4183ff660e73a9b00,
         type: 2}
+    - target: {fileID: 7860926447315831308, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: foreverID
+      value: c1ce6fa13648705408c2308794f9ce69
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26abf4c2c542ffa4098216683cb5f652, type: 3}

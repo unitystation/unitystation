@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2374380983259834516, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 38587331617a9c747832658ce8bee272
       objectReference: {fileID: 0}
     - target: {fileID: 2406975489804277024, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
@@ -127,11 +127,55 @@ PrefabInstance:
       propertyPath: Gases.Array.data[0]
       value: 87.3464
       objectReference: {fileID: 0}
+    - target: {fileID: 7575452727574476451, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].GasSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d3c38fe76e3df249ade18fd6fdac274,
+        type: 2}
+    - target: {fileID: 7575452727574476451, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].GasType
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8368062230162943655, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: ff5c89c569c875d4ba08bbec519c7623,
         type: 2}
+    - target: {fileID: 8781441551662356813, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: foreverID
+      value: 38587331617a9c747832658ce8bee272
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48d3c058a9e5a42418875499b82cc5e3, type: 3}
+--- !u!1 &5460881431871714422 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2406975489804277024, guid: 48d3c058a9e5a42418875499b82cc5e3,
+    type: 3}
+  m_PrefabInstance: {fileID: 7687567384431190358}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3121306673738229344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5460881431871714422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  allClothingData:
+  - {fileID: 11400000, guid: ce28dc849db2f0447bad8559b2374bd8, type: 2}
+  CurrentClothIndex: 0
+  randomInitialClothData: 0
+  hidesIdentity: 0
+  hidesSlots: 0
+  hideClothingFlags: 0
+  disallowConsume: 0

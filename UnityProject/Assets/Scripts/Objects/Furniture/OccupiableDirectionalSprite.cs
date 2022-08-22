@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using Mirror;
+using Player.Movement;
 using UnityEngine.Serialization;
 
 namespace Objects
@@ -14,7 +15,7 @@ namespace Objects
 	///
 	/// Initial orientation should be set in Directional.
 	/// </summary>
-	[RequireComponent(typeof(Directional))]
+	[RequireComponent(typeof(Rotatable))]
 	[RequireComponent(typeof(Integrity))]
 	[ExecuteInEditMode]
 	public class OccupiableDirectionalSprite : NetworkBehaviour
@@ -68,7 +69,7 @@ namespace Objects
 		private const string BASE_SPRITE_LAYER_NAME = "Machines";
 		private const string FRONT_SPRITE_LAYER_NAME = "OverPlayers";
 
-		private Directional directional;
+		private Rotatable rotatable;
 
 		// The Cached PlayerScript of the Buckled player
 		private PlayerScript occupantPlayerScript;
@@ -79,11 +80,16 @@ namespace Objects
 
 		private void EnsureInit()
 		{
-			if (directional != null || gameObject == null) return;
-			directional = GetComponent<Directional>();
-			directional.OnDirectionChange.AddListener(OnDirectionChanged);
-			OnDirectionChanged(directional.CurrentDirection);
+			if (rotatable != null || gameObject == null) return;
+			rotatable = GetComponent<Rotatable>();
+			rotatable.OnRotationChange.AddListener(OnDirectionChanged);
+			OnDirectionChanged(rotatable.CurrentDirection);
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
+		}
+
+		private void OnDisable()
+		{
+			rotatable.OnRotationChange.RemoveListener(OnDirectionChanged);
 		}
 
 		private void OnWillDestroyServer(DestructionInfo info)
@@ -92,7 +98,7 @@ namespace Objects
 			if (HasOccupant)
 			{
 				var playerMoveAtPosition =
-					MatrixManager.GetAt<PlayerMove>(transform.position.CutToInt(), true)
+					MatrixManager.GetAt<MovementSynchronisation>(this.gameObject.AssumedWorldPosServer().RoundToInt(), true)
 					.FirstOrDefault(pm => pm.IsBuckled);
 
 				if (playerMoveAtPosition != null)
@@ -118,36 +124,36 @@ namespace Objects
 			EnsureInit();
 			//must invoke this because SyncVar hooks are not called on client init
 			SyncOccupantNetId(occupantNetId, occupantNetId);
-			OnDirectionChanged(directional.InitialOrientation);
+			OnDirectionChanged(rotatable.CurrentDirection);
 		}
 
 		public override void OnStartServer()
 		{
 			EnsureInit();
-			OnDirectionChanged(directional.InitialOrientation);
+			OnDirectionChanged(rotatable.CurrentDirection);
 		}
 
 		public void OnEditorDirectionChange()
 		{
 			if (this == null) return;
-			if (directional == null) directional = GetComponent<Directional>();
-			SetDirectionalSprite(directional.InitialOrientation);
+			if (rotatable == null) rotatable = GetComponent<Rotatable>();
+			SetDirectionalSprite(rotatable.CurrentDirection);
 		}
 
-		private void OnDirectionChanged(Orientation newDir)
+		private void OnDirectionChanged(OrientationEnum newDir)
 		{
 			SetDirectionalSprite(newDir);
 			UpdateFrontSprite();
 			EnsureSpriteLayer();
 		}
 
-		private void SetDirectionalSprite(Orientation orientation)
+		private void SetDirectionalSprite(OrientationEnum orientation)
 		{
 			if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
 
-			if (orientation == Orientation.Up) spriteRenderer.sprite = Up;
-			else if (orientation == Orientation.Down) spriteRenderer.sprite = Down;
-			else if (orientation == Orientation.Left) spriteRenderer.sprite = Left;
+			if (orientation == OrientationEnum.Up_By0) spriteRenderer.sprite = Up;
+			else if (orientation == OrientationEnum.Down_By180) spriteRenderer.sprite = Down;
+			else if (orientation == OrientationEnum.Left_By90) spriteRenderer.sprite = Left;
 			else spriteRenderer.sprite = Right;
 		}
 
@@ -158,15 +164,15 @@ namespace Objects
 			{
 				if (HasOccupant)
 				{
-					if (directional.CurrentDirection == Orientation.Up)
+					if (rotatable.CurrentDirection == OrientationEnum.Up_By0)
 					{
 						spriteRendererFront.sprite = OccupiedUp;
 					}
-					else if (directional.CurrentDirection == Orientation.Down)
+					else if (rotatable.CurrentDirection == OrientationEnum.Down_By180)
 					{
 						spriteRendererFront.sprite = OccupiedDown;
 					}
-					else if (directional.CurrentDirection == Orientation.Left)
+					else if (rotatable.CurrentDirection == OrientationEnum.Left_By90)
 					{
 						spriteRendererFront.sprite = OccupiedLeft;
 					}
@@ -213,7 +219,7 @@ namespace Objects
 		//ensures we are rendering in the correct sprite layer
 		private void EnsureSpriteLayer()
 		{
-			if (directional.CurrentDirection == Orientation.Up && HasOccupant)
+			if (rotatable.CurrentDirection == OrientationEnum.Up_By0 && HasOccupant)
 			{
 				spriteRenderer.sortingLayerName = FRONT_SPRITE_LAYER_NAME;
 			}

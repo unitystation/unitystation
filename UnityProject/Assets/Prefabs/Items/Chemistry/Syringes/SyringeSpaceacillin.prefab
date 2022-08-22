@@ -31,12 +31,17 @@ PrefabInstance:
     - target: {fileID: 1349684638700962633, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 7b95a8b701a593e4faed8291284100c3
       objectReference: {fileID: 0}
     - target: {fileID: 1382392464201793277, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
       propertyPath: m_Name
       value: SyringeSpaceacillin
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
@@ -55,6 +60,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -67,16 +77,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
@@ -95,13 +95,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1567996125810610591, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
-      propertyPath: initialDescription
-      value: Contains antiviral agents.
+      propertyPath: initialName
+      value: syringe (spaceacillin)
       objectReference: {fileID: 0}
     - target: {fileID: 1567996125810610591, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
-      propertyPath: initialName
-      value: syringe (spaceacillin)
+      propertyPath: initialDescription
+      value: Contains antiviral agents.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5446408287170278032, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: foreverID
+      value: 7b95a8b701a593e4faed8291284100c3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc948ccbd770fff438862a32cd45a867, type: 3}

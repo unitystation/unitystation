@@ -75,14 +75,14 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: initialDescription
-      value: A gun that discharges high amounts of controlled radiation to slowly
-        break a target into component elements.
+      propertyPath: initialName
+      value: biological demolecularisor
       objectReference: {fileID: 0}
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: initialName
-      value: biological demolecularisor
+      propertyPath: initialDescription
+      value: A gun that discharges high amounts of controlled radiation to slowly
+        break a target into component elements.
       objectReference: {fileID: 0}
     - target: {fileID: 4318467024818780366, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -92,7 +92,12 @@ PrefabInstance:
     - target: {fileID: 4342894697621943514, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: bf08344f50cd63f40940f4624ebd0263
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -111,6 +116,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -123,16 +133,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -181,6 +181,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7308079732379829507, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: foreverID
+      value: bf08344f50cd63f40940f4624ebd0263
       objectReference: {fileID: 0}
     - target: {fileID: 7536533288437052137, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}

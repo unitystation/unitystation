@@ -30,7 +30,7 @@ namespace Systems.MobAIs
 				}
 				if (despawnBody)
 				{
-					Despawn.ServerSingle(gameObject);
+					_ = Despawn.ServerSingle(gameObject);
 				}
 		}
 	}

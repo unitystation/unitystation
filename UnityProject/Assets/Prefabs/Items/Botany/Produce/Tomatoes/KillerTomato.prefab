@@ -7,16 +7,44 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4082501454514706868, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+      propertyPath: fermentedReagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 32fa5437479bb97fa81b23ddc22fb0de,
+        type: 2}
     - target: {fileID: 53526953103084450, guid: 454947e247b8d27408f72041e753e7be,
         type: 3}
       propertyPath: initialName
-      value: killer-tomato
+      value: killer tomato
       objectReference: {fileID: 0}
     - target: {fileID: 53526953103084450, guid: 454947e247b8d27408f72041e753e7be,
         type: 3}
       propertyPath: initialDescription
       value: I say to-mah-to, you say tom-mae-to... OH GOD IT'S EATING MY LEGS!!
       objectReference: {fileID: 0}
+    - target: {fileID: 133036019159067926, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 133036019159067926, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[18].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: a03357a0b04204046bc58611586c14b8,
+        type: 2}
+    - target: {fileID: 133036019159067926, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[18].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 333905541421504412, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2f0c06c8016a88c4396822978d1a172d,
+        type: 3}
     - target: {fileID: 450415964538263988, guid: 454947e247b8d27408f72041e753e7be,
         type: 3}
       propertyPath: m_RootOrder
@@ -80,13 +108,35 @@ PrefabInstance:
     - target: {fileID: 560563286822459764, guid: 454947e247b8d27408f72041e753e7be,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0c894a9b739c8444e994c33d43e20db6
       objectReference: {fileID: 0}
+    - target: {fileID: 560667140820878684, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 5421610758123853769}
     - target: {fileID: 2196617459955984567, guid: 454947e247b8d27408f72041e753e7be,
         type: 3}
       propertyPath: seedPacket
       value: 
       objectReference: {fileID: 8019590249366242245, guid: 7a79d115737203f48b690f595607172a,
         type: 3}
+    - target: {fileID: 5986884765027999559, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ffed0efdfe46add4b9415c68f98d8fb0,
+        type: 2}
+    - target: {fileID: 6839007588675758253, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+      propertyPath: foreverID
+      value: 0c894a9b739c8444e994c33d43e20db6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 454947e247b8d27408f72041e753e7be, type: 3}
+--- !u!210 &5421610758123853769 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 5973957640222810766, guid: 454947e247b8d27408f72041e753e7be,
+    type: 3}
+  m_PrefabInstance: {fileID: 1862991134588843335}
+  m_PrefabAsset: {fileID: 0}

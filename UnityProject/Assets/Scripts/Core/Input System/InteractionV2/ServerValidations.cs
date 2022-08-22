@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -71,6 +72,96 @@ public static class ServerValidations
 	{
 		return IsConstructionBlocked(handApply.Performer, handApply.TargetObject,
 			handApply.TargetObject.TileWorldPosition(), allowed, messagePerformer);
+	}
+
+	
+
+	/// <summary>
+	/// Validates that the player's character name.
+	/// </summary>
+	/// <param name="characterName">CharacterSettings.Name</param>
+	/// <returns>True if illegal.</returns>
+	public static bool HasIllegalCharacterName(String characterName)
+	{
+		if(characterName.Any(char.IsDigit) || characterName.Any(char.IsSymbol) 
+		|| characterName.Count() > GameManager.Instance.CharacterNameLimit || characterName.Contains("\n") 
+		|| characterName.All(char.IsUpper))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/// <summary>
+	/// Validates that the player's character age.
+	/// </summary>
+	/// <param name="characterName">CharacterSettings.Age</param>
+	/// <returns>True if illegal.</returns>
+	public static bool HasIllegalCharacterAge(int characterAge)
+	{
+		if(characterAge > 78 || characterAge <= 17)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/// <summary>
+	/// Validates that the player's skintone.
+	/// </summary>
+	/// <param name="settings">The character sheet used to check what race the player is.</param>
+	/// <returns>True if illegal.</returns>
+	public static bool HasIllegalSkinTone(CharacterSheet settings)
+	{
+		PlayerHealthData SetRace = null;
+		bool skinToneIsIllegal = false;
+		foreach (var Race in RaceSOSingleton.Instance.Races)
+		{
+			if (Race.name == settings.Species)
+			{
+				SetRace = Race;
+			}
+		}
+		List<Color> availableSkinColors = SetRace.Base.SkinColours;
+		Color currentSkinColor;
+		ColorUtility.TryParseHtmlString(settings.SkinTone, out currentSkinColor);
+		if(availableSkinColors.Count > 0)
+		{
+			foreach (var skinColour in availableSkinColors)
+			{
+				if (Math.Abs(skinColour.a - currentSkinColor.a) < 0.01f
+				    && Math.Abs(skinColour.r - currentSkinColor.r) < 0.01f
+				    && Math.Abs(skinColour.g - currentSkinColor.g) < 0.01f
+				    && Math.Abs(skinColour.b - currentSkinColor.b) < 0.01f)
+				{
+					skinToneIsIllegal = false;
+					break;
+				}
+				else
+				{
+					skinToneIsIllegal = true;
+				}
+			}
+		}
+		else
+		{
+			return false;
+		}
+		if(skinToneIsIllegal == false)
+		{
+			if(currentSkinColor.a <= 0.99f)
+			{
+				skinToneIsIllegal = true;
+			}
+		}
+
+		return skinToneIsIllegal;
 	}
 
 }

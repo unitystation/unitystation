@@ -3,13 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Drink : Edible {
-	private void Start()
+namespace Items.Food
+{
+	public class Drink : Edible
 	{
-		//assuming all drinks are spillable on throw
-		if (itemAttributes)
+		private void Start()
 		{
-			itemAttributes.AddTrait(CommonTraits.Instance.SpillOnThrow);
+			//assuming all drinks are spillable on throw
+			if (itemAttributes)
+			{
+				itemAttributes.AddTrait(CommonTraits.Instance.SpillOnThrow);
+			}
 		}
 	}
 }

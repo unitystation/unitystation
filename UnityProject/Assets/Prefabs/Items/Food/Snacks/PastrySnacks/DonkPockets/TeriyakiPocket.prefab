@@ -13,6 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5745148185789375589, guid: 0309eef670260ba4b971721f96ac3441,
         type: 3}
+    - target: {fileID: 1150929257099711787, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 5745148185789375589, guid: 0309eef670260ba4b971721f96ac3441,
+        type: 3}
     - target: {fileID: 2980378721179210927, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -31,19 +37,24 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2980378721179210927, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2980378721179210927, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 97473bb8bf264de35b63cbcb922a313e,
         type: 2}
     - target: {fileID: 2980378721179210927, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980378721179210927, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
@@ -62,6 +73,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -74,16 +90,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
@@ -108,7 +114,7 @@ PrefabInstance:
     - target: {fileID: 4170985198274634163, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 8b19ede438618a14094de3b94fa1a959
       objectReference: {fileID: 0}
     - target: {fileID: 4217498956441677659, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
@@ -116,25 +122,41 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: e4394d3e3b1f7264d95187dfe5d7a069,
         type: 3}
-    - target: {fileID: 4511480774014382949, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+    - target: {fileID: 4217498956441677659, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
-      propertyPath: initialDescription
-      value: An east-asian take on the classic stationside snack.
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4511480774014382949, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
       propertyPath: initialName
       value: Teriyaki-pocket
       objectReference: {fileID: 0}
+    - target: {fileID: 4511480774014382949, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
+      propertyPath: initialDescription
+      value: An east-asian take on the classic stationside snack.
+      objectReference: {fileID: 0}
     - target: {fileID: 5305569483102412407, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
       propertyPath: NutritionLevel
       value: 160
       objectReference: {fileID: 0}
+    - target: {fileID: 5305569483102412407, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 160
+      objectReference: {fileID: 0}
+    - target: {fileID: 6975192418094665834, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
+      propertyPath: foreverID
+      value: 8b19ede438618a14094de3b94fa1a959
+      objectReference: {fileID: 0}
     - target: {fileID: 7867923100964153216, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 183688d9021a28740aec8cfa80098654,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792, type: 3}

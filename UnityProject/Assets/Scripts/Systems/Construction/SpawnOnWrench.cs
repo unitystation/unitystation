@@ -2,29 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnOnWrench : MonoBehaviour, ICheckedInteractable<HandApply>
+namespace Objects
 {
-	[Tooltip("what is Spawned when you wrench it")]
-	[SerializeField]
-	private GameObject toSpawn = null;
-
-	public GameObject gametoSpawnObject => toSpawn;
-	public virtual bool WillInteract(HandApply interaction, NetworkSide side)
+	public class SpawnOnWrench : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
-		if (DefaultWillInteract.Default(interaction, side) == false) return false;
-		if (interaction.TargetObject != gameObject) return false;
-		if (interaction.HandObject == null) return false;
-		return true;
-	}
+		[Tooltip("What is spawned when you wrench it")]
+		[SerializeField]
+		private GameObject toSpawn = null;
 
-	public virtual void ServerPerformInteraction(HandApply interaction)
-	{
-		if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench))
+		public GameObject gametoSpawnObject => toSpawn;
+
+		public virtual bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			ToolUtils.ServerPlayToolSound(interaction);
-			Spawn.ServerPrefab(toSpawn, this.transform.position);
-			Despawn.ServerSingle(this.gameObject);
-			return;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			if (interaction.TargetObject != gameObject) return false;
+			if (interaction.HandObject == null) return false;
+
+			return true;
+		}
+
+		public virtual void ServerPerformInteraction(HandApply interaction)
+		{
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench))
+			{
+				ToolUtils.ServerPlayToolSound(interaction);
+				Spawn.ServerPrefab(toSpawn, transform.position);
+				_ = Despawn.ServerSingle(gameObject);
+			}
 		}
 	}
 }

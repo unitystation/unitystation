@@ -3,373 +3,297 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using NaughtyAttributes;
 using TMPro;
 
-public class ChatEntry : MonoBehaviour
+namespace UI.Chat_UI
 {
-	[SerializeField] private TMP_Text visibleText = null;
-	[SerializeField] private GameObject adminOverlay = null;
-	[SerializeField] private RectTransform messageRectTransform = null;
-	[SerializeField] private ContentSizeFitter messageContentFitter = null;
-	[SerializeField] private LayoutElement layoutElement = null;
-	[SerializeField] private List<Text> allText = new List<Text>();
-	[SerializeField] private List<Image> allImages = new List<Image>();
-	[SerializeField] private List<Button> allButtons = new List<Button>();
-	public Transform thresholdMarkerBottom;
-	public Transform thresholdMarkerTop;
-	private Coroutine waitToCheck;
-
-
 	/// <summary>
-	/// The current message of the ChatEntry
+	/// <para>Responsible for managing the invidividual chat entry in the chat UI.</para>
+	/// <remarks>Try to keep it lightweight.</remarks>
 	/// </summary>
-	public string Message => visibleText.text;
-
-	private bool isCoolingDown = true;
-	public RectTransform rect;
-
-	private Coroutine coCoolDown;
-	private bool isHidden = false;
-	private bool isAdminMsg = false;
-	public GameObject stackTimesObj;
-	public Text stackTimesText;
-	private Image stackCircle;
-	private int stackTimes = 1;
-	private Vector3 localScaleCache;
-
-	void Awake()
+	public class ChatEntry : MonoBehaviour
 	{
-		localScaleCache = stackTimesObj.transform.localScale;
-	}
+		[SerializeField, BoxGroup("Entry Object")]
+		private RectTransform entryTransform = default;
+		[SerializeField, BoxGroup("Entry Object")]
+		private TMP_Text messageText = default;
+		[SerializeField, BoxGroup("Entry Object")]
+		private ContentSizeFitter messageContentFitter = default;
 
-	void OnEnable()
-	{
-		stackCircle = stackTimesObj.GetComponent<Image>();
-		EventManager.AddHandler(EVENT.ChatFocused, OnChatFocused);
-		EventManager.AddHandler(EVENT.ChatUnfocused, OnChatUnfocused);
-		ChatUI.Instance.scrollBarEvent += OnScrollInteract;
-		ChatUI.Instance.checkPositionEvent += CheckPosition;
-		if (!ChatUI.Instance.chatInputWindow.gameObject.activeInHierarchy)
+		[SerializeField, BoxGroup("Stack Object")]
+		private GameObject stackObject = default;
+		[SerializeField, BoxGroup("Stack Object")]
+		private TMP_Text stackText = default;
+		[SerializeField, BoxGroup("Stack Object")]
+		private Image stackImage = default;
+
+		public RectTransform ViewportTransform { get; set; }
+
+		/// <summary>The current message of the <see cref="ChatEntry"/>.</summary>
+		public string Message => messageText.text;
+
+		private bool IsChatFocused => ChatUI.Instance.chatInputWindow.gameObject.activeInHierarchy;
+
+		private Coroutine waitToCheck;
+		private Coroutine fadeCooldownCoroutine;
+		private bool isHidden = false;
+
+		private int stackCount = 1;
+		private Vector3 stackScaleCache;
+
+		#region Lifecycle
+
+		private void Awake()
 		{
-			if (isCoolingDown)
+			stackScaleCache = stackObject.transform.localScale;
+		}
+
+		private void OnEnable()
+		{
+			EventManager.AddHandler(Event.ChatFocused, OnChatFocused);
+			EventManager.AddHandler(Event.ChatUnfocused, OnChatUnfocused);
+			EventManager.AddHandler(Event.ChatQuickUnfocus, OnQuickChatUnfocused);
+
+			ChatUI.Instance.scrollBarEvent += OnScrollInteract;
+			ChatUI.Instance.checkPositionEvent += CheckPosition;
+			if (IsChatFocused == false)
 			{
-				//coCoolDown = StartCoroutine(CoolDown());
+				this.RestartCoroutine(FadeCooldown(), ref fadeCooldownCoroutine);
 			}
 		}
-	}
 
-	void OnDisable()
-	{
-		EventManager.RemoveHandler(EVENT.ChatFocused, OnChatFocused);
-		EventManager.RemoveHandler(EVENT.ChatUnfocused, OnChatUnfocused);
-		if (ChatUI.Instance != null)
+		private void OnDisable()
 		{
-			ChatUI.Instance.scrollBarEvent -= OnScrollInteract;
-			ChatUI.Instance.checkPositionEvent -= CheckPosition;
+			EventManager.RemoveHandler(Event.ChatFocused, OnChatFocused);
+			EventManager.RemoveHandler(Event.ChatUnfocused, OnChatUnfocused);
+			EventManager.RemoveHandler(Event.ChatQuickUnfocus, OnQuickChatUnfocused);
+			if (ChatUI.Instance != null)
+			{
+				ChatUI.Instance.scrollBarEvent -= OnScrollInteract;
+				ChatUI.Instance.checkPositionEvent -= CheckPosition;
+			}
 		}
-	}
 
-	public void ReturnToPool()
-	{
-		if (ChatUI.Instance != null)
+		public void ReturnToPool()
 		{
+			if (ChatUI.Instance != null)
+			{
+				if (isHidden)
+				{
+					ChatUI.Instance.ReportEntryState(false);
+				}
+
+				ResetEntry();
+				ChatUI.Instance.entryPool.ReturnChatEntry(gameObject);
+			}
+		}
+
+		private void ResetEntry()
+		{
+			messageText.text = string.Empty;
+			stackText.text = string.Empty;
+			stackCount = 1;
+			stackObject.SetActive(false);
+			messageText.raycastTarget = false;
+			AnimateFade(1f, 0f);
+		}
+
+		#endregion
+
+		#region Events
+
+		public void OnChatFocused()
+		{
+			this.TryStopCoroutine(ref fadeCooldownCoroutine);
+
+			AnimateFade(1f, 0f);
 			if (isHidden)
 			{
-				ChatUI.Instance.ReportEntryState(false);
+				SetHidden(false);
 			}
-
-			ResetEntry();
-			ChatUI.Instance.entryPool.ReturnChatEntry(gameObject);
 		}
-	}
 
-	private void ResetEntry()
-	{
-		isCoolingDown = false;
-		isAdminMsg = false;
-		visibleText.text = "";
-		adminOverlay.SetActive(false);
-		stackPosSet = false;
-		stackTimes = 0;
-		stackTimesText.text = "";
-		stackTimesObj.SetActive(false);
-		layoutElement.minHeight = 20f;
-		visibleText.raycastTarget = false;
-	}
-
-	public void SetText(string msg)
-	{
-		visibleText.text = msg;
-		ToggleUIElements(true);
-		StartCoroutine(UpdateMinHeight());
-
-		if (msg.Contains("</link>"))
+		public void OnChatUnfocused()
 		{
-			visibleText.raycastTarget = true;
+			this.RestartCoroutine(FadeCooldown(), ref fadeCooldownCoroutine);
 		}
-	}
 
-	IEnumerator UpdateMinHeight()
-	{
-		messageContentFitter.enabled = true;
-		yield return WaitFor.EndOfFrame;
-		layoutElement.minHeight = messageRectTransform.rect.height / 2;
-		yield return WaitFor.EndOfFrame;
-		messageContentFitter.enabled = false;
-	}
-
-	public void OnChatFocused()
-	{
-		// TODO Revisit fades in chat system v2
-		/*
-		if (isCoolingDown)
+		public void OnQuickChatUnfocused()
 		{
-			if (coCoolDown != null)
+			this.RestartCoroutine(FadeCooldown(true), ref fadeCooldownCoroutine);
+		}
+
+		private void OnScrollInteract(bool isScrolling)
+		{
+			// isScrolling = is mouse button down on the scroll bar handle
+
+			if (isHidden && isScrolling)
 			{
-				StopCoroutine(coCoolDown);
-				coCoolDown = null;
+				AnimateFade(1f, 0f);
+				SetHidden(false);
+			}
+
+			if (!isHidden && !isScrolling && !IsChatFocused)
+			{
+				this.RestartCoroutine(FadeCooldown(), ref fadeCooldownCoroutine);
 			}
 		}
 
-		SetCrossFadeAlpha(1f, 0f);
-		if (isHidden)
+		private void CheckPosition()
 		{
-			ToggleVisibleState(false);
+			this.RestartCoroutine(WaitToCheckPos(), ref waitToCheck);
 		}
-		*/
-	}
 
-	void CheckPosition()
-	{
-		if (waitToCheck != null) StopCoroutine(waitToCheck);
-		waitToCheck = StartCoroutine(WaitToCheckPos());
-	}
+		#endregion
 
-	IEnumerator WaitToCheckPos()
-	{
-		yield return WaitFor.EndOfFrame;
-
-		// Get the chat entry's position outside of it's child position under ChatFeed.
-		float entryYPositionOutsideChatFeedParent = transform.localPosition.y + transform.parent.localPosition.y;
-
-		// Check to see if the chat entry is inside the VIEWPORT thresholds, and if so we will enable viewing it.
-		if (entryYPositionOutsideChatFeedParent > thresholdMarkerBottom.localPosition.y && entryYPositionOutsideChatFeedParent < thresholdMarkerTop.localPosition.y)
+		public void SetText(string message, TMP_SpriteAsset languageSprite)
 		{
+			if (languageSprite != null)
+			{
+				message = $"<sprite=\"{languageSprite.name}\" index=0>{message}";
+			}
+
+			messageText.text = message;
 			ToggleUIElements(true);
-		}
-		else
-		{
-			ToggleUIElements(false);
-		}
 
-		waitToCheck = null;
-	}
+			StartCoroutine(UpdateEntryHeight());
 
-	void ToggleVisibleState(bool hidden, bool fromCoolDown = false)
-	{
-		isHidden = hidden;
-		ChatUI.Instance.ReportEntryState(hidden, fromCoolDown);
-		if (fromCoolDown) return;
-		ToggleUIElements(!hidden);
-	}
-
-	void ToggleUIElements(bool enabled)
-	{
-		foreach (var t in allText)
-		{
-			if(t == null) continue;
-
-			t.enabled = enabled;
-		}
-
-		visibleText.enabled = enabled;
-
-		foreach (var i in allImages)
-		{
-			if(i == null) continue;
-
-			i.enabled = enabled;
-		}
-
-		foreach (var b in allButtons)
-		{
-			if(b == null) continue;
-
-			b.enabled = enabled;
-		}
-	}
-
-	public void OnChatUnfocused()
-	{
-		// TODO Revisit fades in chat system v2
-		/*
-		if (isCoolingDown)
-		{
-			if (coCoolDown != null) StopCoroutine(coCoolDown);
-
-			//coCoolDown = StartCoroutine(CoolDown());
-		}
-		else
-		{
-			SetCrossFadeAlpha(0f, 0f);
-			if (!isHidden)
+			if (message.Contains("</link>"))
 			{
-				ToggleVisibleState(true);
+				messageText.raycastTarget = true;
 			}
 		}
-		*/
-	}
 
-//	IEnumerator CoolDown()
-//	{
-//		Vector2 sizeDelta = rect.sizeDelta;
-//		sizeDelta.x = 472f;
-//		rect.sizeDelta = sizeDelta;
-//		yield return WaitFor.EndOfFrame;
-//		SetStackPos();
-//		yield return WaitFor.Seconds(12f);
-//		bool toggleVisibleState = false;
-//		if (!ChatUI.Instance.chatInputWindow.gameObject.activeInHierarchy)
-//		{
-//			SetCrossFadeAlpha(0.01f, 3f);
-//			if (!isHidden)
-//			{
-//				ToggleVisibleState(true, true);
-//				toggleVisibleState = true;
-//			}
-//		}
-//		else
-//		{
-//			yield break;
-//		}
-//
-//		yield return WaitFor.Seconds(3f);
-//
-//		if (toggleVisibleState)
-//		{
-//			ToggleUIElements(false);
-//		}
-//
-//		isCoolingDown = false;
-//	}
-
-	public void AddChatDuplication()
-	{
-		stackTimes++;
-		// TODO Switched off until we do ChatSystem V2
-		/*
-		stackTimesText.text = $"x{stackTimes}";
-		stackTimesObj.SetActive(true);
-		StartCoroutine(StackPumpAnim());
-		SetCrossFadeAlpha(1f, 0f);
-		if (isCoolingDown)
+		public void AddChatDuplication()
 		{
-			if (coCoolDown != null) StopCoroutine(coCoolDown);
-			//coCoolDown = StartCoroutine(CoolDown());
+			if (stackCount == 1)
+			{
+				// Just need to do this once; message size won't change.
+				SetStackPos();
+			}
+
+			stackText.text = $"x{++stackCount}";
+			ToggleUIElements(true);
+			stackObject.SetActive(true);
+			AnimateFade(1f, 0f);
+			StartCoroutine(AnimateStackObject());
+			this.RestartCoroutine(FadeCooldown(), ref fadeCooldownCoroutine);
 		}
-		else
-		{
-			isCoolingDown = true;
-			//coCoolDown = StartCoroutine(CoolDown());
-		}
-		*/
-	}
 
-	IEnumerator StackPumpAnim()
-	{
-		yield return WaitFor.EndOfFrame;
-		var targetScale = localScaleCache * 1.1f;
-		var progress = 0f;
-		while (progress < 1f)
+		private void SetHidden(bool hidden, bool fromCooldown = false)
 		{
-			progress += Time.deltaTime * 10f;
-			stackTimesObj.transform.localScale = Vector3.Lerp(localScaleCache, targetScale, progress);
+			isHidden = hidden;
+			ChatUI.Instance.ReportEntryState(hidden, fromCooldown);
+			if (fromCooldown) return;
+			ToggleUIElements(!hidden);
+		}
+
+		private void ToggleUIElements(bool enabled)
+		{
+			messageText.enabled = enabled;
+			stackText.enabled = enabled;
+			stackImage.enabled = enabled;
+		}
+
+		private IEnumerator UpdateEntryHeight()
+		{
+			messageContentFitter.enabled = true;
+			LayoutRebuilder.ForceRebuildLayoutImmediate(entryTransform); // Poke fitter to set size on the same frame
+			yield return WaitFor.EndOfFrame; // But, for very large messages this isn't enough, so wait a frame...
+			messageContentFitter.enabled = false;
+		}
+
+		private IEnumerator WaitToCheckPos()
+		{
 			yield return WaitFor.EndOfFrame;
+
+			if (isHidden == false)
+			{
+				// Check to see if the chat entry is inside the viewport, and if so we will enable viewing it.
+				var isInsideViewport = entryTransform.rect.yMax.IsBetween(ViewportTransform.rect.yMin, ViewportTransform.rect.yMax);
+				isInsideViewport |= entryTransform.rect.yMin.IsBetween(ViewportTransform.rect.yMin, ViewportTransform.rect.yMax);
+				ToggleUIElements(isInsideViewport);
+			}
+
+			waitToCheck = null;
 		}
 
-		progress = 0f;
-		while (progress < 1f)
+		private IEnumerator FadeCooldown(bool Quick = false)
 		{
-			progress += Time.deltaTime * 10f;
-			stackTimesObj.transform.localScale = Vector3.Lerp(targetScale, localScaleCache, progress);
+			if (Quick == false)
+			{
+				yield return WaitFor.Seconds(12f);
+			}
+
+			bool toggleVisibleState = false;
+
+			// Chat may have become focused during this time. Don't fade away if now focused.
+			if (IsChatFocused) yield break;
+
+			AnimateFade(UI.Chat_UI.ChatUI.Instance.ChatContentMinimumAlpha, 3f);
+			if (isHidden == false)
+			{
+				SetHidden(true, true);
+				toggleVisibleState = true;
+			}
+
+			yield return WaitFor.Seconds(3f);
+
+
+
+			if (toggleVisibleState)
+			{
+				if (UI.Chat_UI.ChatUI.Instance.ChatContentMinimumAlpha < 0.01f)
+				{
+					ToggleUIElements(false);
+				}
+			}
+		}
+
+		private IEnumerator AnimateStackObject()
+		{
 			yield return WaitFor.EndOfFrame;
+			var scaleFactor = Mathf.Min(0.1f * (stackCount - 1), 2);
+			var targetScale = new Vector3(stackScaleCache.x + scaleFactor, stackScaleCache.y + scaleFactor, 1);
+			var progress = 0f;
+			while (progress < 1f)
+			{
+				progress += Time.deltaTime * 10f;
+				stackObject.transform.localScale = Vector3.Lerp(stackScaleCache, targetScale, progress);
+				yield return WaitFor.EndOfFrame;
+			}
+
+			progress = 0f;
+			while (progress < 1f)
+			{
+				progress += Time.deltaTime * 10f;
+				stackObject.transform.localScale = Vector3.Lerp(targetScale, stackScaleCache, progress);
+				yield return WaitFor.EndOfFrame;
+			}
+
+			stackObject.transform.localScale = stackScaleCache;
 		}
 
-		stackTimesObj.transform.localScale = localScaleCache;
-	}
-
-	//state = is mouse button down on the scroll bar handle
-	private void OnScrollInteract(bool state)
-	{
-		if (isHidden && state)
+		private void SetStackPos()
 		{
-			SetCrossFadeAlpha(1f, 0f);
-			ToggleVisibleState(false);
+			var count = messageText.textInfo.characterCount - 1;
+
+			if(count < 0) return;
+			if (count >= messageText.textInfo.characterInfo.Length) return;
+
+			var lastCharacter = messageText.textInfo.characterInfo[count];
+			var charWorld = messageText.transform.TransformPoint(lastCharacter.bottomRight);
+			var newWorldPos = stackObject.transform.position;
+			newWorldPos.x = charWorld.x + 3;
+			stackObject.transform.position = newWorldPos;
 		}
 
-//		if (!isHidden && !state
-//		              && !ChatUI.Instance.chatInputWindow.gameObject.activeInHierarchy)
-//		{
-//			if (isCoolingDown)
-//			{
-//				if (coCoolDown != null)
-//				{
-//					StopCoroutine(coCoolDown);
-//					coCoolDown = null;
-//				}
-//			}
-//
-//			isCoolingDown = true;
-//			if (gameObject.activeInHierarchy)
-//			{
-//				coCoolDown = StartCoroutine(CoolDown());
-//			}
-//			else
-//			{
-//				isCoolingDown = false;
-//			}
-//		}
-	}
-
-	private bool stackPosSet = false;
-
-	void SetStackPos()
-	{
-		if (string.IsNullOrEmpty(visibleText.text)) return;
-
-		if (stackPosSet) return;
-		stackPosSet = true;
-
-		string _text = visibleText.text;
-
-		TextGenerator textGen = new TextGenerator(_text.Length);
-		Vector2 extents = visibleText.gameObject.GetComponent<RectTransform>().rect.size;
-		//textGen.Populate(_text, visibleText.GetGenerationSettings(extents));
-		if (textGen.vertexCount == 0)
+		private void AnimateFade(float toAlpha, float time)
 		{
-			return;
+			messageText.CrossFadeAlpha(toAlpha, time, false);
+			stackText.CrossFadeAlpha(toAlpha, time, false);
+			stackImage.CrossFadeAlpha(toAlpha, time, false);
 		}
-
-		var newPos = stackTimesObj.transform.localPosition;
-		newPos.x = (textGen.verts[textGen.vertexCount - 1].position / visibleText.canvas.scaleFactor).x;
-
-
-		if (rect.rect.height < 30f)
-		{
-			newPos.y += 3.5f * rect.localScale.y;
-		}
-
-		stackTimesObj.transform.localPosition = newPos;
-	}
-
-	void SetCrossFadeAlpha(float amt, float time)
-	{
-		// TODO Revisit fades in chat system v2
-		/*
-		return;
-		visibleText.CrossFadeAlpha(amt, time, false);
-		stackTimesText.CrossFadeAlpha(amt, time, false);
-		stackCircle.CrossFadeAlpha(amt, time, false);
-		*/
 	}
 }

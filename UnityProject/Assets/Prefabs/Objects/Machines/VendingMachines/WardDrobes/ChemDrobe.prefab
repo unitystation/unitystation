@@ -13,6 +13,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 699ac437947fa6d4599dd253a6424179,
         type: 2}
+    - target: {fileID: 1110249292774473331, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: requiredClearance.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110249292774473331, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: requiredClearance.Array.data[0]
+      value: 32
+      objectReference: {fileID: 0}
     - target: {fileID: 2710638318996389568, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: restriction
@@ -20,13 +30,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3341919125893587911, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: initialDescription
-      value: A vending machine for dispensing chemistry related clothing.
+      propertyPath: initialName
+      value: ChemDrobe
       objectReference: {fileID: 0}
     - target: {fileID: 3341919125893587911, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: initialName
-      value: ChemDrobe
+      propertyPath: initialDescription
+      value: A vending machine for dispensing chemistry related clothing.
       objectReference: {fileID: 0}
     - target: {fileID: 3583758493968387084, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -34,10 +44,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 699ac437947fa6d4599dd253a6424179,
         type: 2}
+    - target: {fileID: 3609835623878286527, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 6126798005132776231}
     - target: {fileID: 4546609781174536597, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 1e5f165272f3a1b43b41231a5c23533e
       objectReference: {fileID: 0}
     - target: {fileID: 5306683621526280416, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -49,6 +64,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ChemDrobe
+      objectReference: {fileID: 0}
+    - target: {fileID: 5390995128888654381, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5390995128888654381, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -67,6 +87,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5390995128888654381, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5390995128888654381, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -79,16 +104,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5390995128888654381, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5390995128888654381, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5390995128888654381, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -113,17 +128,7 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: VendorContent.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.size
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: HullColor.r
+      propertyPath: HullColor.b
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
@@ -133,13 +138,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: HullColor.b
+      propertyPath: HullColor.r
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: VendorContent.Array.data[0].Stock
-      value: 2
+      propertyPath: VendorContent.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.size
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -149,20 +159,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: VendorContent.Array.data[1].Stock
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
       propertyPath: VendorContent.Array.data[2].Item
       value: 
       objectReference: {fileID: 4827279270293072794, guid: f3772ed991e136c44844cff068e0116d,
         type: 3}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: VendorContent.Array.data[2].Stock
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: VendorContent.Array.data[3].Item
@@ -171,20 +171,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: VendorContent.Array.data[3].Stock
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
       propertyPath: VendorContent.Array.data[4].Item
       value: 
       objectReference: {fileID: 3011710637427380133, guid: 54c252491fc58478aac029a841777c90,
         type: 3}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: VendorContent.Array.data[4].Stock
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: VendorContent.Array.data[5].Item
@@ -193,26 +183,51 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: VendorContent.Array.data[5].Stock
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
       propertyPath: VendorContent.Array.data[6].Item
       value: 
       objectReference: {fileID: 7374481989050852271, guid: 1fada2a01fe5e49208acb17e93095002,
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: VendorContent.Array.data[6].Stock
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
       propertyPath: VendorContent.Array.data[7].Item
       value: 
       objectReference: {fileID: 835768756810601639, guid: cad7d826b673041f5b2b4d9b9d64aa09,
         type: 3}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: VendorContent.Array.data[0].Stock
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: VendorContent.Array.data[1].Stock
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: VendorContent.Array.data[2].Stock
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: VendorContent.Array.data[3].Stock
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: VendorContent.Array.data[4].Stock
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: VendorContent.Array.data[5].Stock
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: VendorContent.Array.data[6].Stock
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: VendorContent.Array.data[7].Stock
@@ -230,25 +245,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[0].ItemName
-      value: EMPTY SLOT
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[0].Stock
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[1].Item
       value: 
       objectReference: {fileID: 1129040505000015364, guid: 86141c7e9c63dd840a578746cb3c53c4,
         type: 3}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[1].Stock
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[2].Item
@@ -257,20 +257,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[2].Stock
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[3].Item
       value: 
       objectReference: {fileID: 6179021888983442440, guid: 068aa5798984db4498831a074f5c5102,
         type: 3}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[3].Stock
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[4].Item
@@ -279,20 +269,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[4].Stock
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[5].Item
       value: 
       objectReference: {fileID: 3011710637427380133, guid: 54c252491fc58478aac029a841777c90,
         type: 3}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[5].Stock
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[6].Item
@@ -301,15 +281,57 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[6].Stock
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[7].Item
       value: 
       objectReference: {fileID: 5406834678390223279, guid: c86653856a893cd4a90b1bcda7263a97,
         type: 3}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[8].Item
+      value: 
+      objectReference: {fileID: 1561063771384605203, guid: 39a936911303ddb4cb7eacba813e6a1b,
+        type: 3}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[9].Item
+      value: 
+      objectReference: {fileID: 1598407484917689484, guid: 558f017ca8c1a6443a1b535454f5ee9f,
+        type: 3}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[0].Stock
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[1].Stock
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[2].Stock
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[3].Stock
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[4].Stock
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[5].Stock
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[6].Stock
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[7].Stock
@@ -327,33 +349,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[7].ItemName
-      value: Chemist Labcoat
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[6].ItemName
-      value: Chemist's Jumpskirt
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[5].ItemName
-      value: Chemist's Jumpsuit
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[4].ItemName
-      value: White Shoes
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[3].ItemName
-      value: Chemistry Bag
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[2].ItemName
-      value: Chemist Satchel
+      propertyPath: InitialVendorContent.Array.data[0].ItemName
+      value: EMPTY SLOT
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -362,14 +359,54 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[8].ItemName
-      value: Medical Headset
+      propertyPath: InitialVendorContent.Array.data[2].ItemName
+      value: Chemist Satchel
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[8].Item
-      value: 
-      objectReference: {fileID: 1598407484917689484, guid: 558f017ca8c1a6443a1b535454f5ee9f,
+      propertyPath: InitialVendorContent.Array.data[3].ItemName
+      value: Chemistry Bag
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
+      propertyPath: InitialVendorContent.Array.data[4].ItemName
+      value: White Shoes
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[5].ItemName
+      value: Chemist's Jumpsuit
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[6].ItemName
+      value: Chemist's Jumpskirt
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[7].ItemName
+      value: Chemist Labcoat
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[8].ItemName
+      value: Chemistry Winter Coat
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[9].ItemName
+      value: Medical Headset
+      objectReference: {fileID: 0}
+    - target: {fileID: 9058133508007248574, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: foreverID
+      value: 1e5f165272f3a1b43b41231a5c23533e
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5000c293075c074d80896d211fcd50b, type: 3}
+--- !u!210 &6126798005132776231 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 7208331691177805895, guid: f5000c293075c074d80896d211fcd50b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3535291795520543584}
+  m_PrefabAsset: {fileID: 0}

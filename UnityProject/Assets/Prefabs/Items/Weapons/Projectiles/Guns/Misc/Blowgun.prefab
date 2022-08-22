@@ -13,15 +13,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 42ce87dff4cd62145823e79e4162c0a3,
         type: 2}
-    - target: {fileID: 5843464883585849409, guid: b39d85aa9080f014b9956cb59d760674,
+    - target: {fileID: 1103112571864283982, guid: b39d85aa9080f014b9956cb59d760674,
         type: 3}
-      propertyPath: initialDescription
-      value: Fire syringes at a short distance.
+      propertyPath: foreverID
+      value: 0f7236d12e1c49246a29ec59fe36949a
       objectReference: {fileID: 0}
     - target: {fileID: 5843464883585849409, guid: b39d85aa9080f014b9956cb59d760674,
         type: 3}
       propertyPath: initialName
       value: blowgun
+      objectReference: {fileID: 0}
+    - target: {fileID: 5843464883585849409, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: initialDescription
+      value: Fire syringes at a short distance.
       objectReference: {fileID: 0}
     - target: {fileID: 5843464883585849409, guid: b39d85aa9080f014b9956cb59d760674,
         type: 3}
@@ -44,7 +49,12 @@ PrefabInstance:
     - target: {fileID: 6224405101200099991, guid: b39d85aa9080f014b9956cb59d760674,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0f7236d12e1c49246a29ec59fe36949a
+      objectReference: {fileID: 0}
+    - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
         type: 3}
@@ -63,6 +73,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -75,16 +90,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
         type: 3}

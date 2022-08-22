@@ -16,9 +16,13 @@ MonoBehaviour:
   isCrewmember: 1
   lateSpawnIsArrivals: 1
   inventoryPopulator: {fileID: 11400000, guid: ef17dcb3a7c8748bf9fbddf67338fa10, type: 2}
+  useStandardPopulator: 1
   limit: 2
   priority: 99
   allowedAccess: 060000001a000000220000002e0000001b000000
+  allowedLowPopAccess: 060000001a000000220000002e0000001b0000004400000043000000
+  issuedClearance: 020000001f0000000d0000002300000027000000
+  issuedLowPopClearance: 020000001f0000000d0000002300000027000000
   spells: []
   progress: 40
   choiceColor: {r: 0.8666667, g: 0.8666667, b: 0.8666667, a: 1}
@@ -31,11 +35,11 @@ MonoBehaviour:
     the lawyer and it is your duty to protect every woman, man and children\u2019s
     rights in this station. Your friend Larry is being accused of killing his ex-girlfriend
     with a clock? Get him out of trouble using nothing but your rhetoric. A prisoner\u2019s
-    right to get medical attention is being neglected? Sue the warden, sue the HoS,
-    sue the entire Security department, why stop there? Sue Nanotrasen!\r\n\r\nYou\u2019re
+    right to get medical attention is being neglected? Sue the warden. Sue the HoS.
+    Sue the entire Security department. Why stop there? Sue Nanotrasen!\r\n\r\nYou\u2019re
     expected to be comfortable with roleplaying as this is indeed a heavy-roleplay
     role. You will need to study the Space Law and ensure that security is complying
-    with it, or just make up stuff\u2026  I don\u2019t expect security to actually
+    with it, or just make up stuff\u2026  Don\u2019t expect security to actually
     know the law.\r\n\r\nNot sure what to do? Talk to the prisoners and make sure
     they have a fair sentence, get them food and medical attention, find safety hazards
     in the Engineering department and sue Nanotrasen, participate in trials and try
@@ -52,5 +56,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   textColor: {r: 0.86666673, g: 0.86666673, b: 0.86666673, a: 1}
   backgroundColor: {r: 1, g: 0, b: 0, a: 0}
+  specialPlayerPrefab: {fileID: 0}

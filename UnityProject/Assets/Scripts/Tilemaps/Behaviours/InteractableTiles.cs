@@ -1,11 +1,15 @@
 ﻿using System.Collections;
-using Mirror;
+using System.Collections.Generic;
+using System.Text;
 using System.Linq;
+using UnityEngine;
+using TileManagement;
+using Mirror;
 using HealthV2;
 using Messages.Client.Interaction;
-using TileManagement;
-using UnityEngine;
-using UnityEngine.Tilemaps;
+using Systems.Electricity;
+using Tiles;
+
 
 /// <summary>
 /// Main entry point for Tile Interaction system.
@@ -14,7 +18,7 @@ using UnityEngine.Tilemaps;
 ///
 /// Also provides various utility methods for working with tiles.
 /// </summary>
-public class InteractableTiles : NetworkBehaviour, IClientInteractable<PositionalHandApply>, IExaminable, IClientInteractable<MouseDrop>
+public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHandApply>, IExaminable, IClientInteractable<MouseDrop>
 {
 	private MetaTileMap metaTileMap;
 	private Matrix matrix;
@@ -60,6 +64,11 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 	[SerializeField]
 	private string othersStartActionMessage = null;
 
+	private static readonly List<LayerType> UnderFloorsLayers = new List<LayerType>
+	{
+		LayerType.Underfloor, LayerType.Electrical, LayerType.Pipe, LayerType.Disposals
+	};
+
 	private void Start()
 	{
 		metaTileMap = GetComponentInChildren<MetaTileMap>();
@@ -68,9 +77,13 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		tileChangeManager = GetComponent<TileChangeManager>();
 		CacheTileMaps();
 
-		// register message handler for CableCuttingMessage here because CableCuttingWindow prefab won't be loaded on server
-		// so registration cannot be inside Start or Awake method inside CableCuttingWindow
-		NetworkServer.RegisterHandler<CableCuttingWindow.CableCuttingMessage>(ServerPerformCableCuttingInteraction);
+		// Register message handler for CableCuttingMessage here because CableCuttingWindow prefab won't be loaded on server
+		// so registration cannot be inside Start or Awake method inside CableCuttingWindow. ReplaceHandler does the same
+		// thing as RegisterHandler, except RegisterHandler warns about conflicting ID types. See Mirror's documentation or
+		// Mirror's implementation of these methods in NetworkServer.cs.
+		// TODO: This is somehow called multiple times. Not sure why. Figure out if it's an issue and document why this
+		//       happens.
+		NetworkServer.ReplaceHandler<CableCuttingWindow.CableCuttingMessage>(ServerPerformCableCuttingInteraction);
 	}
 
 	/// <summary>
@@ -82,9 +95,33 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 	public static InteractableTiles GetAt(Vector2 worldPos, bool isServer)
 	{
 		var matrixInfo = MatrixManager.AtPoint(worldPos.RoundToInt(), isServer);
-		var matrix = matrixInfo.Matrix;
-		var tileChangeManager = matrix.GetComponentInParent<TileChangeManager>();
-		return tileChangeManager.GetComponent<InteractableTiles>();
+		return matrixInfo.TileChangeManager.InteractableTiles;
+	}
+
+	/// <summary>
+	/// Gets the interactable tiles for the matrix at the indicated world position. Unless there's only space!
+	/// in that case tries to fetch an adjacent matrix, in the case of none, it returns the space matrix
+	/// </summary>
+	public static Matrix TryGetNonSpaceMatrix(Vector3Int worldPos, bool isServer)
+	{
+		var matrixInfo = MatrixManager.AtPoint(worldPos, isServer);
+		if (matrixInfo.Matrix.IsSpaceMatrix == false)
+		{
+			return matrixInfo.Matrix;
+		}
+
+		//This is just space! Lets try getting an adjacent matrix
+		foreach (var pos in worldPos.BoundsAround().allPositionsWithin)
+		{
+			matrixInfo = MatrixManager.AtPoint(pos, isServer);
+			if (matrixInfo.Matrix.IsSpaceMatrix == false)
+			{
+				return matrixInfo.Matrix;
+			}
+		}
+
+		//we're in space and theres nothing but space all around us, we tried.
+		return MatrixManager.Instance.spaceMatrix;
 	}
 
 	/// <summary>
@@ -103,12 +140,18 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 	/// </summary>
 	/// <param name="worldPos"></param>
 	/// <returns></returns>
-	public LayerTile LayerTileAt(Vector2 worldPos, bool ignoreEffectsLayer = false)
+	public LayerTile LayerTileAt(Vector2 worldPos, bool ignoreEffectsLayer = false, bool excludeNonIntractable = false)
 	{
 		Vector3Int pos = objectLayer.transform.InverseTransformPoint(worldPos).RoundToInt();
 
-		return metaTileMap.GetTile(pos, ignoreEffectsLayer);
+		return metaTileMap.GetTile(pos, ignoreEffectsLayer, excludeNonIntractable: excludeNonIntractable);
 	}
+
+	public LayerTile InteractableLayerTileAt(Vector2 worldPos, bool ignoreEffectsLayer = false)
+	{
+		return LayerTileAt(worldPos, ignoreEffectsLayer, true);
+	}
+
 
 	/// <summary>
 	/// Gets the LayerTile of the tile at the indicated position, null if no tile there (open space).
@@ -178,49 +221,93 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		{
 			return "Space";
 		}
-		string msg = "This is a " + tile.DisplayName + ".";
-		if (tile is IExaminable) msg += "\n" + (tile as IExaminable).Examine();
 
-		return msg;
+		var desc = (tile.Description ?? string.Empty).Trim();
+		StringBuilder sb = new($"This is a {tile.DisplayName}. {desc}");
+		if (desc != string.Empty && !desc.EndsWith('.') && !desc.EndsWith('!') && !desc.EndsWith('?'))
+		{
+			sb.Append('.');
+		}
+
+		if (tile is IExaminable examinable)
+		{
+			sb.AppendLine(examinable.Examine());
+		}
+
+		return sb.ToString();
 	}
 
+	/// <summary>
+	/// Interaction callback to attempt to interact with tiles using a HandApply
+	/// interaction. We check for both basic tiles and under floor tiles and
+	/// attempt to apply its interaction. In the event that an electric cable
+	/// tile is encountered, we open the cable cutting window.
+	/// </summary>
+	/// <param name="interaction">Position of interaction with a hand</param>
 	public bool Interact(PositionalHandApply interaction)
 	{
-		//translate to the tile interaction system
+		// translate to the tile interaction system
 		Vector3Int localPosition = WorldToCell(interaction.WorldPositionTarget);
-		//pass the interaction down to the basic tile
-		LayerTile tile = LayerTileAt(interaction.WorldPositionTarget, true);
+		// pass the interaction down to the basic tile
+		LayerTile tile = InteractableLayerTileAt(interaction.WorldPositionTarget, true);
+
+		// If the tile we're looking at is a basic tile...
 		if (tile is BasicTile basicTile)
 		{
-			// The underfloor layer can be composed of multiple tiles, iterate over them until interaction is found.
-			if (basicTile.LayerType == LayerType.Underfloor)
+			foreach (var layerType in UnderFloorsLayers)
 			{
-				// if pointing at electrical cable tile and player holds Wirecutter in hand
-				if (basicTile is ElectricalCableTile &&
-					Validations.HasItemTrait(UIManager.Hands.CurrentSlot.ItemObject, CommonTraits.Instance.Wirecutter))
-				{
-					// open cable cutting ui window instead of cutting cable
-					EnableCableCuttingWindow();
-					// return false to not cut the cable
-					return false;
-				}
+				if(tile.LayerType != layerType) continue;
 
-				foreach (var underFloorTile in matrix.UnderFloorLayer.GetAllTilesByType<BasicTile>(localPosition))
-				{
-					var underFloorApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent,
-						(Vector2Int) localPosition, this, underFloorTile, interaction.HandSlot, interaction.TargetVector);
-
-					if (TryInteractWithTile(underFloorApply)) return true;
-				}
+				// If the the tile is something that's supposed to be underneath floors...
+				if (FindLayerInteraction(interaction, localPosition, layerType)) return true;
+				break;
 			}
+
+			var tileApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent,
+				(Vector2Int) localPosition, this, basicTile, interaction.HandSlot, interaction.TargetPosition);
+
+			return TryInteractWithTile(tileApply);
+		}
+
+		return false;
+	}
+
+	private bool FindLayerInteraction(PositionalHandApply interaction, Vector3Int localPosition, LayerType layer)
+	{
+		// Then we loop through each under floor layer in the matrix until we
+		// can find an interaction.
+		foreach (BasicTile underFloorTile in matrix.MetaTileMap.GetAllTilesByType<BasicTile>(localPosition,
+			         layer))
+		{
+			// If pointing at electrical cable tile and player is holding
+			// Wirecutter in hand, we enable the cutting window and return false
+			// to indicate that we will not be interacting with anything... yet.
+			// TODO: Check how many cables we have first. Only open the cable
+			//       cutting window when the number of cables exceeds 2.
+			if (underFloorTile is ElectricalCableTile &&
+			    Validations.HasItemTrait(PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject,
+				    CommonTraits.Instance.Wirecutter))
+			{
+				// open cable cutting ui window instead of cutting cable
+				EnableCableCuttingWindow();
+
+				// return false to not cut the cable
+				return false;
+			}
+			// Else, we attempt to interact with the tile with whatever is in our
+			// at the target.
 			else
 			{
-				var tileApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent,
-				(Vector2Int) localPosition, this, basicTile, interaction.HandSlot, interaction.TargetVector);
+				var underFloorApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent,
+					(Vector2Int)localPosition, this, underFloorTile, interaction.HandSlot, interaction.TargetPosition);
 
-				return TryInteractWithTile(tileApply);
+				if (TryInteractWithTile(underFloorApply))
+				{
+					return true;
+				}
 			}
 		}
+
 		return false;
 	}
 
@@ -257,10 +344,9 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 
 		// convert world position to cell position and set Z value to Z value from message
 		Vector3Int targetCellPosition = matrix.MetaTileMap.WorldToCell(message.targetWorldPosition);
-		targetCellPosition.z = message.positionZ;
 
 		// get electical tile from targetCellPosition
-		ElectricalCableTile electricalCable = matrix.UnderFloorLayer.GetTileUsingZ(targetCellPosition) as ElectricalCableTile;
+		ElectricalCableTile electricalCable = TileManager.GetTile(message.TileType, message.Name) as ElectricalCableTile;
 
 		if (electricalCable == null) return;
 
@@ -310,11 +396,11 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 	}
 
 	//for internal IF2 usages only, does server side logic for processing tileapply
-	public void ServerProcessInteraction(GameObject performer, Vector2 targetVector,  GameObject processorObj,
+	public void ServerProcessInteraction(GameObject performer, Vector2 TargetPosition,  GameObject processorObj,
 			ItemSlot usedSlot, GameObject usedObject, Intent intent, TileApply.ApplyType applyType)
 	{
 		//find the indicated tile interaction
-		var worldPosTarget = (Vector2)performer.transform.position + targetVector;
+		var worldPosTarget = (Vector2)TargetPosition.To3().ToWorld(performer.RegisterTile().Matrix);
 		Vector3Int localPosition = WorldToCell(worldPosTarget);
 		//pass the interaction down to the basic tile
 		LayerTile tile = LayerTileAt(worldPosTarget, true);
@@ -325,32 +411,53 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 					"Server checking which tile interaction to trigger for TileApply on tile {0} at worldPos {1}",
 					Category.Interaction, tile.name, worldPosTarget);
 
-			if (basicTile.LayerType == LayerType.Underfloor)
+			switch (basicTile.LayerType)
 			{
-				foreach (var underFloorTile in matrix.UnderFloorLayer.GetAllTilesByType<BasicTile>(localPosition))
+				case LayerType.Underfloor:
+					TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, applyType, localPosition,
+						LayerType.Underfloor);
+					break;
+				case LayerType.Electrical:
+					TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, applyType, localPosition,
+						LayerType.Electrical);
+					break;
+				case LayerType.Pipe:
+					TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, applyType, localPosition,
+						LayerType.Pipe);
+					break;
+				case LayerType.Disposals:
+					TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, applyType, localPosition,
+						LayerType.Disposals);
+					break;
+				default:
 				{
-					var underFloorApply = new TileApply(
-							performer, usedObject, intent, (Vector2Int) localPosition,
-							this, underFloorTile, usedSlot, targetVector, applyType);
+					var tileApply = new TileApply(performer, usedObject, intent, (Vector2Int) localPosition,
+						this, basicTile, usedSlot, TargetPosition, applyType);
 
-					foreach (var tileInteraction in underFloorTile.TileInteractions)
-					{
-						if (tileInteraction == null) continue;
-						if (tileInteraction.WillInteract(underFloorApply, NetworkSide.Server))
-						{
-							PerformTileInteract(underFloorApply);
-							break;
-						}
-					}
+					PerformTileInteract(tileApply);
+					break;
 				}
 			}
-			else
-			{
-				var tileApply = new TileApply(
-						performer, usedObject, intent, (Vector2Int) localPosition,
-						this, basicTile, usedSlot, targetVector, applyType);
+		}
+	}
 
-				PerformTileInteract(tileApply);
+	private void TryLayerInteraction(GameObject performer, Vector2 TargetPosition, ItemSlot usedSlot, GameObject usedObject,
+		Intent intent, TileApply.ApplyType applyType, Vector3Int localPosition, LayerType layer)
+	{
+		foreach (var underFloorTile in matrix.MetaTileMap.GetAllTilesByType<BasicTile>(localPosition, layer))
+		{
+			var underFloorApply = new TileApply(
+				performer, usedObject, intent, (Vector2Int)localPosition,
+				this, underFloorTile, usedSlot, TargetPosition, applyType);
+
+			foreach (var tileInteraction in underFloorTile.TileInteractions)
+			{
+				if (tileInteraction == null) continue;
+				if (tileInteraction.WillInteract(underFloorApply, NetworkSide.Server))
+				{
+					PerformTileInteract(underFloorApply);
+					break;
+				}
 			}
 		}
 	}
@@ -392,8 +499,8 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 
 		if(tile is BasicTile basicTile)
 		{
-			var tileApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent, (Vector2Int)WorldToCell(interaction.ShadowWorldLocation), this, basicTile, null, -((Vector2)interaction.Performer.transform.position - interaction.ShadowWorldLocation), TileApply.ApplyType.MouseDrop);
-			var tileMouseDrop = new TileMouseDrop(interaction.Performer, interaction.UsedObject, interaction.Intent, (Vector2Int)WorldToCell(interaction.ShadowWorldLocation), this, basicTile, -((Vector2)interaction.Performer.transform.position - interaction.ShadowWorldLocation));
+			var tileApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent, (Vector2Int)WorldToCell(interaction.ShadowWorldLocation), this, basicTile, null, interaction.ShadowWorldLocation.To3().ToLocal(interaction.Performer.RegisterTile().Matrix), TileApply.ApplyType.MouseDrop);
+			var tileMouseDrop = new TileMouseDrop(interaction.Performer, interaction.UsedObject, interaction.Intent, (Vector2Int)WorldToCell(interaction.ShadowWorldLocation), this, basicTile, interaction.ShadowWorldLocation.To3().ToLocal(interaction.Performer.RegisterTile().Matrix));
 			foreach (var tileInteraction in basicTile.TileInteractions)
 			{
 				if (tileInteraction == null) continue;
@@ -421,33 +528,33 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		var wallMount = CheckWallMountOverlay();
 		if (wallMount)
 		{
-			Vector2 cameraPos = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+			Vector2 cameraPos = MouseUtils.MouseToWorldPos();
 			var tilePos = cameraPos.RoundToInt();
-			OrientationEnum orientation = OrientationEnum.Down;
+			OrientationEnum orientation = OrientationEnum.Down_By180;
 			Vector3Int PlaceDirection = PlayerManager.LocalPlayerScript.WorldPos - tilePos;
 			bool isWallBlocked = false;
-			if (PlaceDirection.x != 0 && !MatrixManager.IsWallAtAnyMatrix(tilePos + new Vector3Int(PlaceDirection.x > 0 ? 1 : -1, 0, 0), true))
+			if (PlaceDirection.x != 0 && !MatrixManager.IsWallAt(tilePos + new Vector3Int(PlaceDirection.x > 0 ? 1 : -1, 0, 0), true))
 			{
 				if (PlaceDirection.x > 0)
 				{
-					orientation = OrientationEnum.Right;
+					orientation = OrientationEnum.Right_By270;
 				}
 				else
 				{
-					orientation = OrientationEnum.Left;
+					orientation = OrientationEnum.Left_By90;
 				}
 			}
 			else
 			{
-				if (PlaceDirection.y != 0 && !MatrixManager.IsWallAtAnyMatrix(tilePos + new Vector3Int(0, PlaceDirection.y > 0 ? 1 : -1, 0), true))
+				if (PlaceDirection.y != 0 && !MatrixManager.IsWallAt(tilePos + new Vector3Int(0, PlaceDirection.y > 0 ? 1 : -1, 0), true))
 				{
 					if (PlaceDirection.y > 0)
 					{
-						orientation = OrientationEnum.Up;
+						orientation = OrientationEnum.Up_By0;
 					}
 					else
 					{
-						orientation = OrientationEnum.Down;
+						orientation = OrientationEnum.Down_By180;
 					}
 				}
 				else
@@ -456,7 +563,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 				}
 			}
 
-			if (!MatrixManager.IsWallAtAnyMatrix(tilePos, false) || isWallBlocked)
+			if (!MatrixManager.IsWallAt(tilePos, false) || isWallBlocked)
 			{
 				if (instanceActive)
 				{
@@ -469,23 +576,23 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 			if (!instanceActive)
 			{
 				instanceActive = true;
-				Highlight.ShowHighlight(UIManager.Hands.CurrentSlot.ItemObject, true);
+				Highlight.ShowHighlight(PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject, true);
 			}
 
 			Vector3 spritePos = tilePos;
 			if (wallMount.IsWallProtrusion) //for light bulbs, tubes, cameras, etc. move the sprite towards the floor
 			{
-				if(orientation == OrientationEnum.Right)
+				if(orientation == OrientationEnum.Right_By270)
 				{
 					spritePos.x += 0.5f;
 					Highlight.instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,270);
 				}
-				else if(orientation == OrientationEnum.Left)
+				else if(orientation == OrientationEnum.Left_By90)
 				{
 						spritePos.x -= 0.5f;
 						Highlight.instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,90);
 				}
-				else if(orientation == OrientationEnum.Up)
+				else if(orientation == OrientationEnum.Up_By0)
 				{
 					spritePos.y += 0.5f;
 					Highlight.instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,0);
@@ -502,7 +609,8 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 
 	WallMountHandApplySpawn CheckWallMountOverlay()
 	{
-		var itemSlot = UIManager.Hands.CurrentSlot;
+
+		var itemSlot = PlayerManager.LocalPlayerScript?.DynamicItemStorage?.GetActiveHandSlot();
 		if (itemSlot == null || itemSlot.ItemObject == null)
 		{
 			return null;
@@ -532,11 +640,11 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		var getTile = metaTileMap.GetTile(cellPos, LayerType.Walls) as BasicTile;
 		if (getTile == null || getTile.Mineable == false) return false;
 
-		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.BreakStone, worldPosition);
+		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.BreakStone, worldPosition);
 		Spawn.ServerPrefab(getTile.SpawnOnDeconstruct, worldPosition,
 			count: getTile.SpawnAmountOnDeconstruct);
-		tileChangeManager.RemoveTile(cellPos, LayerType.Walls);
-		tileChangeManager.RemoveOverlaysOfType(cellPos, LayerType.Effects, TileChangeManager.OverlayType.Mining);
+		tileChangeManager.MetaTileMap.RemoveTileWithlayer(cellPos, LayerType.Walls);
+		tileChangeManager.MetaTileMap.RemoveOverlaysOfType(cellPos, LayerType.Effects, OverlayType.Mining);
 
 		return true;
 	}
@@ -559,15 +667,11 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		AnimatedOverlayTile animatedTile,
 		float animationTime)
 	{
-		tileChangeManager.AddOverlay(cellPos, animatedTile);
+		tileChangeManager.MetaTileMap.AddOverlay(cellPos, animatedTile);
 
 		yield return WaitFor.Seconds(animationTime);
 
-		RemoveOverlay(cellPos, animatedTile);
+		tileChangeManager.MetaTileMap.RemoveOverlaysOfType(cellPos, LayerType.Effects, animatedTile.OverlayType);
 	}
 
-	private void RemoveOverlay(Vector3Int cellPos, AnimatedOverlayTile animatedTile)
-	{
-		tileChangeManager.RemoveOverlaysOfName(cellPos, LayerType.Effects, animatedTile.name);
-	}
 }

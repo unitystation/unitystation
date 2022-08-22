@@ -17,3 +17,13 @@ public class Cooldown : ScriptableObject, ICooldown
 	/// </summary>
 	public float DefaultTime => defaultTime;
 }
+
+public class CooldownInstance : ICooldown
+{
+	public float DefaultTime { get; set;}
+
+	public CooldownInstance(float defaultTime)
+	{
+		DefaultTime = defaultTime;
+	}
+}

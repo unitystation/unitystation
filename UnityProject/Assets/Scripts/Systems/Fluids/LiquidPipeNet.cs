@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Chemistry;
 using Systems.Atmospherics;
 
-namespace Pipes
+
+namespace Systems.Pipes
 {
 	public class LiquidPipeNet
 	{
@@ -16,7 +16,6 @@ namespace Pipes
 
 		public List<PipeData> CanEqualiseWith = new List<PipeData>();
 
-		//public List<PipeData> Inputs = new List<PipeData>();
 		public PipeNetAction pipeNetAction = null;
 
 		public void AddEqualiseWith(PipeData pipeData)
@@ -26,11 +25,6 @@ namespace Pipes
 				CanEqualiseWith.Add(pipeData);
 			}
 		}
-
-		/*public void AddInput(PipeData pipeData)
-		{
-			Inputs.Add(pipeData);
-		}*/
 
 		public void RemoveEqualiseWith(PipeData pipeData)
 		{
@@ -157,7 +151,6 @@ namespace Pipes
 
 			DisableThis();
 		}
-
 
 		public static LiquidPipeNet MakeNewNet(PipeData pipeData)
 		{

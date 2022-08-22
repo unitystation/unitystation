@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using HealthV2;
 using UnityEngine;
-using UnityEngine.UI;
+using UI.Core.NetUI;
 using Objects.Medical;
+using Health.Sickness;
 
 namespace UI.Objects.Medical
 {
@@ -15,19 +17,39 @@ namespace UI.Objects.Medical
 		public NetPageSwitcher netPageSwitcher;
 		public NetPage PageAllRecords;
 		public NetPage PageSpecificRecord;
+		public NetPage PageHealthInspection;
 
 		public CloningRecord specificRecord;
 
-		public NetLabel[] cloningPodStatus;
-		public NetLabel scannerStatus;
-		public NetLabel buttonTextViewRecord;
-		public NetLabel recordName;
-		public NetLabel recordScanID;
-		public NetLabel recordOxy;
-		public NetLabel recordBurn;
-		public NetLabel recordToxin;
-		public NetLabel recordBrute;
-		public NetLabel recordUniqueID;
+		public NetText_label[] cloningPodStatus;
+		public NetText_label scannerStatus;
+		public NetText_label buttonTextViewRecord;
+		public NetText_label recordName;
+		public NetText_label recordScanID;
+		public NetText_label recordOxy;
+		public NetText_label recordBurn;
+		public NetText_label recordToxin;
+		public NetText_label recordBrute;
+		public NetText_label recordUniqueID;
+		public NetText_label limbName;
+		public NetText_label limbBurn;
+		public NetText_label limbBrute;
+		public NetText_label limbToxin;
+		public NetText_label ailments;
+		public NetText_label tabTitle;
+		public NetText_label tabDamage;
+		public NetText_label tabBurn;
+		public NetText_label tabToxin;
+		public NetText_label tabBrute;
+		public NetText_label tabOxygen;
+		public NetText_label tabBleeding;
+		public NetText_label[] organButtons;
+		public NetColorChanger organStatusTab;
+		public NetColorChanger xButton;
+
+		public NetColorChanger[] overlays;
+
+		private List<BodyPartRecord> organList = new List<BodyPartRecord>();
 
 		protected override void InitServer()
 		{
@@ -52,6 +74,8 @@ namespace UI.Objects.Medical
 			DisplayCurrentRecord();
 			DisplayPodStatus();
 			DisplayScannerStatus();
+			LimbRecord(null);
+			OrganRecord(null);
 			buttonTextViewRecord.SetValueServer($"View Records({CloningConsole.CloningRecords.Count()})");
 		}
 
@@ -100,6 +124,19 @@ namespace UI.Objects.Medical
 			netPageSwitcher.SetActivePage(PageSpecificRecord);
 		}
 
+		public void ViewHealthInspection()
+		{
+			UpdateDisplay();
+			DisplayAilments();
+			SetOverlays();
+			netPageSwitcher.SetActivePage(PageHealthInspection);
+		}
+
+		public void ViewRecordReturn()
+        {
+			ViewRecord(specificRecord);
+        }
+
 		public void DisplayCurrentRecord()
 		{
 			if (specificRecord != null)
@@ -113,6 +150,77 @@ namespace UI.Objects.Medical
 				recordUniqueID.SetValueServer(specificRecord.uniqueIdentifier);
 			}
 		}
+
+		void LimbRecord(BodyPartRecord limb)
+		{
+			if (limb != null)
+			{
+				limbName.SetValueServer($"{limb.name}");
+				limbBrute.SetValueServer($"{limb.brute}");
+				limbBurn.SetValueServer($"{limb.burn}");
+				limbToxin.SetValueServer($"{limb.toxin}");
+			}
+			else
+            {
+				limbName.SetValueServer("---");
+				limbBrute.SetValueServer("0");
+				limbBurn.SetValueServer("0");
+				limbToxin.SetValueServer("0");
+			}
+			CloseOrganTab();
+		}
+
+		public void OrganRecord(BodyPartRecord limb)
+        {
+			foreach(NetText_label button in organButtons)
+            {
+				button.SetValueServer("");
+            }
+
+			if (limb == null) return;
+
+			organList.Clear();
+			var i = 0;
+			foreach(BodyPartRecord organ in limb.organs)
+            {
+				organButtons[i].SetValueServer($"{organ.name}");
+				organList.Add(organ);
+				i++;
+            }
+        }
+
+		//so you can't click buttons through tab
+		private bool tabIsOpen = false;
+
+		public void DisplayOrganTab(int i)
+		{
+			if (i >= organList.Count() || tabIsOpen) return;
+
+			xButton.SetValueServer(Color.black);
+			organStatusTab.SetValueServer(Color.white);
+			tabTitle.SetValueServer($"{organList[i].name} status");
+			tabDamage.SetValueServer("Damage");
+			tabBurn.SetValueServer($"Brn- {organList[i].burn}");
+			tabToxin.SetValueServer($"Tox- {organList[i].toxin}");
+			tabBrute.SetValueServer($"Brt- {organList[i].brute}");
+			tabOxygen.SetValueServer($"Oxy- {organList[i].oxygen}");
+			tabBleeding.SetValueServer("Bleeding: " + (organList[i].isBleeding ? "Yes" : "No"));
+			tabIsOpen = true;
+		}
+
+		public void CloseOrganTab()
+		{
+			xButton.SetValueServer(Color.clear);
+			organStatusTab.SetValueServer(Color.clear);
+			tabTitle.SetValueServer("");
+			tabDamage.SetValueServer("");
+			tabBurn.SetValueServer("");
+			tabToxin.SetValueServer("");
+			tabBrute.SetValueServer("");
+			tabOxygen.SetValueServer("");
+			tabBleeding.SetValueServer("");
+			tabIsOpen = false;
+        }
 
 		public void DisplayAllRecords()
 		{
@@ -156,6 +264,110 @@ namespace UI.Objects.Medical
 			else
 			{
 				scannerStatus.SetValueServer("ERROR: no DNA scanner detected.");
+			}
+		}
+
+		public void LimbInspection(int limbType)
+        {
+	        foreach (BodyPartRecord limbs in specificRecord.surfaceBodyParts)
+	        {
+		        if ((BodyPartType)limbType == limbs.type)
+		        {
+			        LimbRecord(limbs);
+			        OrganRecord(limbs);
+			        return;
+		        }
+	        }
+
+	        LimbRecord(null);
+	        OrganRecord(null);
+        }
+
+		public void DisplayAilments()
+        {
+			Debug.Log("Ailment Run");
+			string sicknesses = "None";
+
+			if(specificRecord.sicknessList.Count != 0)
+            {
+				Debug.Log("is sick");
+				sicknesses = "";
+				foreach (string sickness in specificRecord.sicknessList)
+                {
+					sicknesses += $"{sickness}\n";
+                }
+            }
+			ailments.SetValueServer(sicknesses);
+		}
+		/*
+		 overlays array is ordered to match BodyPartType enums
+			Head = 0,
+			Chest = 1,
+			RightArm = 2,
+			LeftArm = 3,
+			RightLeg = 4,
+			LeftLeg = 5,
+		 */
+		public void SetOverlays()
+        {
+			foreach(NetColorChanger overlay in overlays)
+            {
+				overlay.SetValueServer(Color.clear);
+            }
+
+			for (int i = 0; i < 6; i++)
+			{
+				BodyPartRecord surfaceBodyPart = null;
+				foreach (BodyPartRecord limbs in specificRecord.surfaceBodyParts)
+				{
+					if ((BodyPartType)i == limbs.type)
+					{
+						surfaceBodyPart = limbs;
+						break;
+					}
+				}
+				// Sorry for the algebra
+				// overlays has 36 images, 6 sets of 6 limbs, each set is the same limb from least to most damage
+				// multiplying the six by the int gives you which limb it's looking for
+				// the addition give you the severity of that limb type
+				int arrayPosition = i * 6;
+				if (surfaceBodyPart == null)
+                {
+					arrayPosition += 5;
+					overlays[arrayPosition].SetValueServer(Color.white);
+					continue;
+				}
+				switch (surfaceBodyPart.severity)
+				{
+					case DamageSeverity.Light:
+						overlays[arrayPosition].SetValueServer(Color.white);
+						break;
+
+					case DamageSeverity.LightModerate :
+						arrayPosition += 1;
+						overlays[arrayPosition].SetValueServer(Color.white);
+						break;
+
+					case DamageSeverity.Moderate :
+						arrayPosition += 2;
+						overlays[arrayPosition].SetValueServer(Color.white);
+						break;
+
+					case DamageSeverity.Bad :
+						arrayPosition += 3;
+						overlays[arrayPosition].SetValueServer(Color.white);
+						break;
+
+					case DamageSeverity.Critical :
+						arrayPosition += 4;
+						overlays[arrayPosition].SetValueServer(Color.white);
+						break;
+
+					case DamageSeverity.Max:
+						arrayPosition += 4;
+						overlays[arrayPosition].SetValueServer(Color.white);
+						break;
+				}
 			}
 		}
 	}

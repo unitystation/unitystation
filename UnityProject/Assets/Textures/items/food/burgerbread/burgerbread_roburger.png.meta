@@ -57,7 +57,7 @@ TextureImporter:
       213: 21300034
     second: roburger_17
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -77,6 +77,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -86,8 +88,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -108,9 +110,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -527,6 +533,25 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      roburger_0: 21300000
+      roburger_8: 21300016
+      roburger_14: 21300028
+      roburger_6: 21300012
+      roburger_12: 21300024
+      roburger_9: 21300018
+      roburger_17: 21300034
+      roburger_4: 21300008
+      roburger_2: 21300004
+      roburger_3: 21300006
+      roburger_16: 21300032
+      roburger_1: 21300002
+      roburger_10: 21300020
+      roburger_13: 21300026
+      roburger_5: 21300010
+      roburger_11: 21300022
+      roburger_15: 21300030
+      roburger_7: 21300014
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

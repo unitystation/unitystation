@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: E-Gun Crate
   m_EditorClassIdentifier: 
   OrderName: E-Gun Crate
-  CreditCost: 3600
+  CreditCost: 3000
   Crate: {fileID: 3660769828800606216, guid: 8e84a0677b6a4364386bae0efa717939, type: 3}
   Items:
   - {fileID: 6733076708105069041, guid: d589c17f6fd91da4190edfdd2cb5aa53, type: 3}
   - {fileID: 6733076708105069041, guid: d589c17f6fd91da4190edfdd2cb5aa53, type: 3}
-  ContentSellPrice: 0
+  ContentSellPrice: 500
+  EmagOnly: 0

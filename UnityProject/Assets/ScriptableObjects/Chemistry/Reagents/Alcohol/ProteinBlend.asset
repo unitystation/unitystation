@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1916b10721f72c927a14093e8210cb3f, type: 3}
+  m_Name: ProteinBlend
+  m_EditorClassIdentifier: 
+  displayName: Protein Blend
+  description: A vile blend of protein, pure grain alcohol, korta flour, and blood.
+    Useful for bulking up, if you can keep it down.
+  color: {r: 1, g: 0.35686275, b: 0.4117647, a: 0}
+  state: 1
+  heatDensity: 5
+  indexInSingleton: 105

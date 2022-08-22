@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using UnityEngine;
+using AddressableReferences;
+using Strings;
 
-namespace Items.Others.Magical
+
+namespace Items.Magical
 {
 	// TODO: make the player a statue when petrification is added. 
 
@@ -13,7 +16,10 @@ namespace Items.Others.Magical
 		[SerializeField, Range(1, 300)]
 		private int petrifyTime = 60;
 
-		public override void Punish(ConnectedPlayer player)
+		[SerializeField]
+		private AddressableAudioSource punishSfx = default;
+
+		public override void Punish(PlayerInfo player)
 		{
 			Chat.AddCombatMsgToChat(player.GameObject,
 					"You suddenly feel very solid!",
@@ -26,8 +32,9 @@ namespace Items.Others.Magical
 
 			StartCoroutine(Unpetrify(player.Script));
 
+			SoundManager.PlayNetworkedAtPos(punishSfx, player.Script.WorldPos, sourceObj: player.GameObject);
 			Chat.AddCombatMsgToChat(player.GameObject,
-					"<size=60><b>Your body freezes up! Can't... move... can't... think...</b></size>",
+					$"<size={ChatTemplates.VeryLargeText}><b>Your body freezes up! Can't... move... can't... think...</b></size>",
 					$"{player.GameObject.ExpensiveName()}'s skin rapidly turns to marble!");
 			
 		}

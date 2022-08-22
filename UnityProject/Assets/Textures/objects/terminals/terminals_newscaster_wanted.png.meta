@@ -87,7 +87,7 @@ TextureImporter:
       213: 21300054
     second: newscaster_wanted_27
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -107,6 +107,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -116,8 +118,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -138,9 +140,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -767,6 +773,35 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      newscaster_wanted_10: 21300020
+      newscaster_wanted_7: 21300014
+      newscaster_wanted_9: 21300018
+      newscaster_wanted_19: 21300038
+      newscaster_wanted_0: 21300000
+      newscaster_wanted_4: 21300008
+      newscaster_wanted_1: 21300002
+      newscaster_wanted_12: 21300024
+      newscaster_wanted_3: 21300006
+      newscaster_wanted_15: 21300030
+      newscaster_wanted_16: 21300032
+      newscaster_wanted_22: 21300044
+      newscaster_wanted_23: 21300046
+      newscaster_wanted_18: 21300036
+      newscaster_wanted_26: 21300052
+      newscaster_wanted_27: 21300054
+      newscaster_wanted_5: 21300010
+      newscaster_wanted_24: 21300048
+      newscaster_wanted_8: 21300016
+      newscaster_wanted_14: 21300028
+      newscaster_wanted_2: 21300004
+      newscaster_wanted_25: 21300050
+      newscaster_wanted_6: 21300012
+      newscaster_wanted_21: 21300042
+      newscaster_wanted_13: 21300026
+      newscaster_wanted_11: 21300022
+      newscaster_wanted_17: 21300034
+      newscaster_wanted_20: 21300040
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

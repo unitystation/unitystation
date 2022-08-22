@@ -17,6 +17,7 @@ namespace Clothing
 
 		[SerializeField] [Tooltip("What body parts does this item protect and how well does it protect.")]
 		private List<ArmoredBodyPart> armoredBodyParts = new List<ArmoredBodyPart>();
+		public List<ArmoredBodyPart> ArmoredBodyParts => armoredBodyParts;
 
 		private PlayerHealthV2 playerHealthV2;
 
@@ -83,19 +84,15 @@ namespace Clothing
 
 			foreach (ArmoredBodyPart protectedBodyPart in armoredBodyParts)
 			{
-				foreach (RootBodyPartContainer rootBodyPartContainer in playerHealthV2.RootBodyPartContainers)
+				foreach (var bodyPart in playerHealthV2.BodyPartList)
 				{
-					foreach (BodyPart bodyPart in rootBodyPartContainer.ContainsLimbs)
-					{
-						DeepAddArmorToBodyPart(bodyPart, protectedBodyPart);
-					}
+					DeepAddArmorToBodyPart(bodyPart, protectedBodyPart);
 				}
 			}
 		}
 
 		/// <summary>
 		/// Adds armor per body part depending on the characteristics of this armor.
-		/// Checks not only the bodyPart, but also all other body parts nested in bodyPart.
 		/// </summary>
 		/// <param name="bodyPart">Body part to update</param>
 		/// <param name="armoredBodyPart">A couple of the body part associated with the armor</param>
@@ -106,11 +103,6 @@ namespace Clothing
 			{
 				bodyPart.ClothingArmors.AddFirst(armoredBodyPart.Armor);
 				armoredBodyPart.RelatedBodyParts.AddFirst(bodyPart);
-			}
-
-			foreach (BodyPart innerBodyPart in bodyPart.ContainBodyParts)
-			{
-				DeepAddArmorToBodyPart(innerBodyPart, armoredBodyPart);
 			}
 		}
 	}

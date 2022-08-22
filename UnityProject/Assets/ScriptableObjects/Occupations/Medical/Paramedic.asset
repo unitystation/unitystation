@@ -16,26 +16,32 @@ MonoBehaviour:
   isCrewmember: 1
   lateSpawnIsArrivals: 1
   inventoryPopulator: {fileID: 11400000, guid: f19c080df7b64694fa5cba07af8946d5, type: 2}
+  useStandardPopulator: 1
   limit: 2
   priority: 99
   allowedAccess: 1a00000022000000330000003a0000004600000031000000
+  allowedLowPopAccess: 
+  issuedClearance: 1f0000000d0000000500000006000000280000000c000000
+  issuedLowPopClearance: 1f0000000d0000000500000006000000280000000c000000
   spells: []
-  progress: 30
+  progress: 60
   choiceColor: {r: 1, g: 0.93333334, b: 0.9411765, a: 1}
   previewSprite: {fileID: 21300000, guid: 9957043fd950684409892d53cf9c2707, type: 3}
   displayName: Paramedic
   difficulty: 1
   descriptionShort: "\u2022 Heal minor wounds\r\n\u2022 Rush the dying and dead to
     medbay\r\n\u2022 Search for and rescue injured crewmates"
-  descriptionLong: "You're the Paramedic, treat people that you can and bring those
-    that you can't to medbay for the doctors to handle. You've got just enough to
-    keep someone alive in an emergency, and to heal minor wounds that would otherwise
-    waste the time of the real doctors. You're also the go-to search-and-rescue,
-    grab a spacesuit from EVA and drag the clown that spaced himself back on-board.\r\n\r\nYou\u2019re
-    expected to understand the basics of the health system, healing, and the use
-    of medical supplies.\r\n\r\nNot sure what to do? You've got access to maintenance
-    and to the lobbies of most departments. Use your access to find injured people
-    to treat or recover."
+  descriptionLong: "You're the Paramedic, Respond to medical emergencies and calls
+    for help. You've got just enough to keep someone alive in an emergency, and to
+    heal minor wounds that would otherwise waste the time of the real doctors. \n\r\nYou\u2019re
+    expected to understand the basics of how to treat wounds and stabilize patients.
+    You should also be familiar with the station layout and know how to navigate
+    and evacuate patients from a variety of environments. Be ready to be the person
+    the rest of the station leans on in an emergency.\n\r\nNot sure what to do? You've
+    got access to maintenance and to the lobbies of most departments. Use your access
+    to find injured people to treat or recover. You are the go-to search-and-rescue,
+    so be prepared to grab a spacesuit from EVA and drag the clown that spaced himself
+    back on-board.\r"
   customProperties:
     m_keys: []
     m_values: 
@@ -48,5 +54,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   textColor: {r: 1, g: 0.9333334, b: 0.94117653, a: 1}
   backgroundColor: {r: 1, g: 0, b: 0, a: 0}
+  specialPlayerPrefab: {fileID: 0}

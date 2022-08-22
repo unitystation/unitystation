@@ -12,6 +12,16 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 1590
       objectReference: {fileID: 0}
+    - target: {fileID: 1048207226637103134, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 1590
+      objectReference: {fileID: 0}
+    - target: {fileID: 2874999923228327427, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: foreverID
+      value: dbb1082f0389c244d89f153b379e31c4
+      objectReference: {fileID: 0}
     - target: {fileID: 3033926282393258473, guid: 20e558a25e0b41942a7483724b3e4d45,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -25,13 +35,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8768840950121946380, guid: 20e558a25e0b41942a7483724b3e4d45,
         type: 3}
-      propertyPath: initialDescription
-      value: Greasy pizza with delicious meat.
+      propertyPath: initialName
+      value: meat pizza
       objectReference: {fileID: 0}
     - target: {fileID: 8768840950121946380, guid: 20e558a25e0b41942a7483724b3e4d45,
         type: 3}
-      propertyPath: initialName
-      value: meat pizza
+      propertyPath: initialDescription
+      value: Greasy pizza with delicious meat.
       objectReference: {fileID: 0}
     - target: {fileID: 9055966213179572530, guid: 20e558a25e0b41942a7483724b3e4d45,
         type: 3}
@@ -39,10 +49,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 79dc09e50084b4844b6ec90d6cd6811b,
         type: 3}
+    - target: {fileID: 9055966213179572530, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9135694018600570842, guid: 20e558a25e0b41942a7483724b3e4d45,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: dbb1082f0389c244d89f153b379e31c4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173611398801084186, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9173611398801084186, guid: 20e558a25e0b41942a7483724b3e4d45,
         type: 3}
@@ -61,6 +81,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9173611398801084186, guid: 20e558a25e0b41942a7483724b3e4d45,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173611398801084186, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -73,16 +98,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9173611398801084186, guid: 20e558a25e0b41942a7483724b3e4d45,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9173611398801084186, guid: 20e558a25e0b41942a7483724b3e4d45,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9173611398801084186, guid: 20e558a25e0b41942a7483724b3e4d45,
         type: 3}

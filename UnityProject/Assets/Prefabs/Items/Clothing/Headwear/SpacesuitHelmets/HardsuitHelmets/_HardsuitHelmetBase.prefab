@@ -1,64 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &2760341733104991204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2357564171222291527}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 364f9fbced37d9048b4071fca95e51ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteHandler: {fileID: 8498819338256920512}
---- !u!114 &2932610463863930541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2357564171222291527}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d3d65b4ce352374ba2f4a8645c9476c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  LightEmission: {fileID: 0}
-  objectLightEmission: {fileID: 5751436736299566491}
-  Intensity: 1
-  Colour: {r: 1, g: 1, b: 1, a: 1}
-  EnumSprite: 0
-  Size: 6
-  IsOn: 0
-  PlayerLightData:
-    Intensity: 0
-    Colour: {r: 0, g: 0, b: 0, a: 0}
-    EnumSprite: 0
-    Size: 12
---- !u!114 &6779594202472634928
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2357564171222291527}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1360d2b65a03cdf449035cd3c4cd0153, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  actionData: {fileID: 11400000, guid: 9cf6b1b6994732d4cb5f023e0cefaf19, type: 2}
-  allowedSlots: 4
-  useSpriteHandler: 1
-  spriteHandler: {fileID: 8498819338256920512}
 --- !u!1 &5751436736299566491
 GameObject:
   m_ObjectHideFlags: 0
@@ -88,6 +29,7 @@ Transform:
   m_LocalRotation: {x: 0.00000031610085, y: 0.00000021073383, z: -0.70710677, w: 0.7071069}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 6, y: 6, z: 6}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2352077745602750771}
   m_RootOrder: 1
@@ -121,6 +63,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -182,65 +125,80 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1bc524b932e63a04382723e5219d3f65,
         type: 2}
-    - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+    - target: {fileID: 4600432664360327230, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
-      propertyPath: armoredBodyParts.Array.data[0].armor.Bio
-      value: 45
+      propertyPath: foreverID
+      value: c60440956ff96af4b84ba3e95e41c3e0
       objectReference: {fileID: 0}
     - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[0].armor.Rad
-      value: 45
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[1].armor.Bio
-      value: 45
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[1].armor.Rad
-      value: 45
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[2].armor.Bio
-      value: 45
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[2].armor.Rad
-      value: 45
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Acid
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[0].armor.Bomb
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[0].armor.Fire
-      value: 15
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Acid
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[1].armor.Bomb
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[1].armor.Fire
-      value: 15
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Acid
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[2].armor.Bomb
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[2].armor.Fire
-      value: 15
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
@@ -255,12 +213,17 @@ PrefabInstance:
     - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[1].armor.Laser
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[1].armor.Melee
-      value: 5
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Laser
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
@@ -270,12 +233,12 @@ PrefabInstance:
     - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[0].armor.Bullet
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[0].armor.Energy
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
@@ -285,12 +248,32 @@ PrefabInstance:
     - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[1].armor.Energy
-      value: 5
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[2].armor.Bullet
-      value: 10
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Energy
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.DismembermentProtectionChance
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.DismembermentProtectionChance
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.DismembermentProtectionChance
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 7029879816411904817, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
@@ -307,12 +290,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 66305a19e3614694f868c75a982e6b68,
+      objectReference: {fileID: 0}
+    - target: {fileID: 7319274473113495311, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7419268474676488679, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: c60440956ff96af4b84ba3e95e41c3e0
       objectReference: {fileID: 0}
     - target: {fileID: 7419978175686084007, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
@@ -421,18 +408,77 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5269bbb43ef5a0b40a2676310664d6c6, type: 3}
---- !u!1 &2357564171222291527 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7449724294196008019, guid: 5269bbb43ef5a0b40a2676310664d6c6,
-    type: 3}
-  m_PrefabInstance: {fileID: 5176180618295377940}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2352077745602750771 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7453808017583302951, guid: 5269bbb43ef5a0b40a2676310664d6c6,
     type: 3}
   m_PrefabInstance: {fileID: 5176180618295377940}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2357564171222291527 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7449724294196008019, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+    type: 3}
+  m_PrefabInstance: {fileID: 5176180618295377940}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2760341733104991204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2357564171222291527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 364f9fbced37d9048b4071fca95e51ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  spriteHandler: {fileID: 8498819338256920512}
+--- !u!114 &2932610463863930541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2357564171222291527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3d65b4ce352374ba2f4a8645c9476c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  LightEmission: {fileID: 0}
+  objectLightEmission: {fileID: 5751436736299566491}
+  Intensity: 1
+  Colour: {r: 1, g: 1, b: 1, a: 1}
+  EnumSprite: 0
+  Size: 6
+  IsOn: 0
+  PlayerLightData:
+    Intensity: 0
+    Colour: {r: 0, g: 0, b: 0, a: 0}
+    EnumSprite: 0
+    Size: 12
+--- !u!114 &6779594202472634928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2357564171222291527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1360d2b65a03cdf449035cd3c4cd0153, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  actionData: {fileID: 11400000, guid: 9cf6b1b6994732d4cb5f023e0cefaf19, type: 2}
+  allowedSlots: 4
+  useSpriteHandler: 1
+  spriteHandler: {fileID: 8498819338256920512}
 --- !u!114 &8498819338256920512 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3613193060126830548, guid: 5269bbb43ef5a0b40a2676310664d6c6,

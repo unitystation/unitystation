@@ -16,12 +16,10 @@ namespace SyndicateOps
 		public int TcIncrement = 14;
 
 		private bool warDeclared = false;
-		private bool rewardGiven = false;
+
 		[SerializeField] private int timer = 1200;
 
 		[SerializeField] private int tcToGive = 280;
-
-		[NonSerialized] public List<SpawnedAntag> Operatives = new List<SpawnedAntag>();
 
 		public int Timer => timer;
 
@@ -37,20 +35,10 @@ namespace SyndicateOps
 			}
 		}
 
-		private void OnEnable()
-		{
-			if (CustomNetworkManager.IsServer)
-			{
-				UpdateManager.Add(ServerUpdateTimer, 1f);
-			}
-		}
-
 		private void OnDisable()
 		{
-			if (CustomNetworkManager.IsServer)
-			{
-				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, ServerUpdateTimer);
-			}
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, RewardTelecrystals);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CountDown);
 		}
 
 		public void AnnounceWar(string declarationMessage)
@@ -60,53 +48,30 @@ namespace SyndicateOps
 				warDeclared = true;
 
 				GameManager.Instance.CentComm.ChangeAlertLevel(CentComm.AlertLevel.Red, true);
-				CentComm.MakeAnnouncement(ChatTemplates.PriorityAnnouncement, 
+				CentComm.MakeAnnouncement(ChatTemplates.PriorityAnnouncement,
 				$"Attention all crew! An open message from the syndicate has been picked up on local radiowaves! Message Reads:\n" +
-				$"{declarationMessage}" ,CentComm.UpdateSound.Alert);
-
-				var antagPlayers = AntagManager.Instance.ActiveAntags;
-
-				foreach (var antag in antagPlayers )
-				{
-					if (antag.Antagonist.AntagJobType == JobType.SYNDICATE)
-					{
-						Operatives.Add(antag);
-					}
-				}
+				$"{declarationMessage}", CentComm.UpdateSound.Alert);
+				UpdateManager.Add(RewardTelecrystals, 60);
+				UpdateManager.Add(CountDown, 1);
 			}
 		}
 
-		public void ServerUpdateTimer()
-		{
-			if (warDeclared == false || rewardGiven) return;
-
-			if (timer > 0)
-			{
-				timer--;
-			}
-
-			if (timer % 60 == 0)
-			{
-				RewardTelecrystals();
-			}
-		}
 		public void RewardTelecrystals()
 		{
-			if (tcToGive <= TcIncrement)
+			var amount = Mathf.Min(TcIncrement, tcToGive);
+			TcReserve += amount;
+			tcToGive -= amount;
+			if (tcToGive == 0)
 			{
-				rewardGiven = true;
+				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, RewardTelecrystals);
 			}
-
-			if (tcToGive >= TcIncrement)
-			{	
-				TcReserve += TcIncrement;
-				tcToGive -= TcIncrement;
-			}
-
-			if (tcToGive < TcIncrement)
+		}
+		public void CountDown()
+		{
+			timer -= 1;
+			if(timer == 0)
 			{
-				TcReserve += tcToGive;
-				tcToGive = 0;
+				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CountDown);
 			}
 		}
 	}

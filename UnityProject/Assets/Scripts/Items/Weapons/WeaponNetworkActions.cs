@@ -1,44 +1,74 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TileManagement;
+using Mirror;
 using AddressableReferences;
 using HealthV2;
 using Items;
 using Messages.Server.SoundMessages;
-using UnityEngine;
-using Utility = UnityEngine.Networking.Utility;
-using Mirror;
-using TileManagement;
-using Weapons;
+using Player.Movement;
+using Systems.Interaction;
+using Tiles;
+using Random = UnityEngine.Random;
 
-
-public class WeaponNetworkActions : ManagedNetworkBehaviour
+public class WeaponNetworkActions : NetworkBehaviour
 {
-	private readonly float speed = 7f;
-	float fistDamage = 5;
+	[SerializeField]
+	private float attackSpeed = 7f;
 
-	//muzzle flash
-	private bool isFlashing;
+	[SerializeField]
+	private float handDamage = 5;
+
+	[SerializeField]
+	private uint chanceToHit = 90;
+
+	[SerializeField]
+	private DamageType damageType = DamageType.Brute;
+
+	private float traumaDamageChance = 0;
+	private TraumaticDamageTypes tramuticDamageType;
 
 	private bool isForLerpBack;
 	private Vector3 lerpFrom;
-	public bool lerping { get; private set; } //needs to be read by Camera2DFollow
+	public bool lerping { get; private set; } // needs to be read by Camera2DFollow
 
 	private float lerpProgress;
 
-	//Lerp parameters
+	// Lerp parameters
 	private SpriteRenderer spriteRendererSource; // need renderer for shader configuration
 
 	private Vector3 lerpTo;
-	private PlayerMove playerMove;
+	private MovementSynchronisation playerMove;
 	private PlayerScript playerScript;
 	private GameObject spritesObj;
-	public ItemTrait KnifeTrait;
 
 	private void Start()
 	{
 		spritesObj = transform.Find("Sprites").gameObject;
-		playerMove = GetComponent<PlayerMove>();
+		playerMove = GetComponent<MovementSynchronisation>();
 		playerScript = GetComponent<PlayerScript>();
 		spriteRendererSource = null;
+	}
+
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	[Server]
+	public void SetNewDamageValues(float newAttackSpeed, float newAttackDamage, DamageType newDamageType, uint newChanceToHit)
+	{
+		attackSpeed = newAttackSpeed;
+		handDamage = newAttackDamage;
+		damageType = newDamageType;
+		chanceToHit = newChanceToHit;
 	}
 
 	/// <summary>
@@ -51,140 +81,129 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	/// <param name="damageZone">damage zone if attacking mob, otherwise use None</param>
 	/// <param name="layerType">layer being attacked if attacking tilemap, otherwise use None</param>
 	[Server]
-	public void ServerPerformMeleeAttack(GameObject victim, Vector2 attackDirection,
-		BodyPartType damageZone, LayerType layerType)
+	public void ServerPerformMeleeAttack(GameObject victim, Vector2 attackDirection, BodyPartType damageZone, LayerType layerType)
 	{
+		if (victim == null) return;
 		if (Cooldowns.IsOnServer(playerScript, CommonCooldowns.Instance.Melee)) return;
-		var weapon = playerScript.playerNetworkActions.GetActiveHandItem();
+		if (playerMove.allowInput == false) return;
+		if (playerScript.PlayerTypeSettings.CanMelee == false) return;
+		if (playerScript.playerHealth.serverPlayerConscious == false) return;
 
-		var tiles = victim.GetComponent<InteractableTiles>();
-		if (tiles)
+		if (victim.TryGetComponent<InteractableTiles>(out var tiles))
 		{
-			//validate based on position of target vector
-			if (!Validations.CanApply(playerScript, victim, NetworkSide.Server, targetVector: attackDirection)) return;
+			// validate based on position of target vector
+			if (Validations.CanApply(playerScript, victim, NetworkSide.Server, targetVector: attackDirection,
+				    apt: Validations.CheckState(x => x.CanMelee)) == false) return;
 		}
 		else
 		{
-			//validate based on position of target object
-			if (!Validations.CanApply(playerScript, victim, NetworkSide.Server)) return;
+			// validate based on position of target object
+			if (Validations.CanApply(playerScript, victim, NetworkSide.Server,
+				    apt: Validations.CheckState(x => x.CanMelee)) == false) return;
 		}
 
-		if (!playerMove.allowInput ||
-			playerScript.IsGhost ||
-			!victim ||
-			!playerScript.playerHealth.serverPlayerConscious
-		)
+		float damage = handDamage;
+		DamageType currentDamageType = damageType;
+		GameObject weapon = playerScript.playerNetworkActions.GetActiveHandItem();
+		ItemAttributesV2 weaponAttributes = weapon == null ? null : weapon.GetComponent<ItemAttributesV2>();
+		var miss = playerScript.PlayerTypeSettings.EmptyMeleeAttackData.PickRandom();
+
+		var attackVerb = weapon == null ? miss.attackVerb : weaponAttributes.ServerAttackVerbs.PickRandom();
+		AddressableAudioSource weaponSound = miss.hitSound.PickRandom();
+
+		if (weaponAttributes != null)
 		{
-			return;
+			damage = weaponAttributes.ServerHitDamage;
+			currentDamageType = weaponAttributes.ServerDamageType;
+			weaponSound = weaponAttributes.hitSoundSettings == SoundItemSettings.OnlyObject ? null : weaponAttributes.ServerHitSound;
+			tramuticDamageType = weaponAttributes.TraumaticDamageType;
+			traumaDamageChance = weaponAttributes.TraumaDamageChance;
 		}
 
-		var isWeapon = weapon != null;
-		ItemAttributesV2 weaponAttr = isWeapon ? weapon.GetComponent<ItemAttributesV2>() : null;
-		var damage = isWeapon ? weaponAttr.ServerHitDamage : fistDamage;
-		var damageType = isWeapon ? weaponAttr.ServerDamageType : DamageType.Brute;
-		var attackSound = isWeapon ? weaponAttr.ServerHitSound : null;
 		LayerTile attackedTile = null;
 		bool didHit = false;
-
-		ItemAttributesV2 weaponStats = null;
-		if (isWeapon)
-		{
-			weaponStats = weapon.GetComponent<ItemAttributesV2>();
-		}
-
 
 		// If Tilemap LayerType is not None then it is a tilemap being attacked
 		if (layerType != LayerType.None)
 		{
 			var tileChangeManager = victim.GetComponent<TileChangeManager>();
-			if (tileChangeManager == null) return; //Make sure its on a matrix that is destructable
+			if (tileChangeManager == null) return; // Make sure its on a matrix that is destructable
 
-			//Tilemap stuff:
-			var tileMapDamage = victim.GetComponentInChildren<MetaTileMap>().Layers[layerType].gameObject
-				.GetComponent<TilemapDamage>();
-			if (tileMapDamage != null)
-			{
-				if (isWeapon && weaponStats != null &&
-				    weaponStats.hitSoundSettings == SoundItemSettings.OnlyObject)
-				{
-					attackSound = null;
-				}
-				var worldPos = (Vector2)transform.position + attackDirection;
-				attackedTile = tileChangeManager.InteractableTiles.LayerTileAt(worldPos, true);
-				tileMapDamage.ApplyDamage((int)damage, AttackType.Melee, worldPos);
-				didHit = true;
+			// Tilemap stuff:
+			var tileMapDamage = victim.GetComponentInChildren<MetaTileMap>().Layers[layerType].gameObject.GetComponent<TilemapDamage>();
+			if (tileMapDamage == null) return;
 
-			}
+			var worldPos = (Vector2)transform.position + attackDirection;
+			attackedTile = tileChangeManager.InteractableTiles.LayerTileAt(worldPos, true);
+
+			// Tile itself is responsible for playing victim damage sound
+			tileMapDamage.ApplyDamage(damage, AttackType.Melee, worldPos);
+			didHit = true;
 		}
+		// Damaging an object
+		else if (victim.TryGetComponent<Integrity>(out var integrity) &&
+			victim.TryGetComponent<Meleeable>(out var meleeable) && meleeable.IsMeleeable)
+		{
+			if (weaponAttributes != null && weaponAttributes.hitSoundSettings != SoundItemSettings.OnlyItem)
+			{
+				AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
+				SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.AssumedWorldPosServer(), audioSourceParameters, sourceObj: gameObject);
+			}
+
+			integrity.ApplyDamage(damage, AttackType.Melee, currentDamageType);
+			didHit = true;
+		}
+		// must be a living thing
 		else
 		{
-			//a regular object being attacked
-
-			LivingHealthMasterBase victimHealth = victim.GetComponent<LivingHealthMasterBase>();
-
-			var integrity = victim.GetComponent<Integrity>();
-			var meleeable = victim.GetComponent<Meleeable>();
-			if (integrity != null)
+			// This is based off the alien/humanoid/attack_hand punch code of TGStation's codebase.
+			// Punches have 90% chance to hit, otherwise it is a miss.
+			if (DMMath.Prob(chanceToHit))
 			{
-				if (meleeable.GetMeleeable())
-				{//damaging an object
-					if(isWeapon && weaponStats != null &&
-					weaponStats.hitSoundSettings == SoundItemSettings.Both)
-					{
-						AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
-						SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.WorldPosServer(), audioSourceParameters, sourceObj: gameObject);
-					}
-					else if (isWeapon && weaponStats != null &&
-				    	     weaponStats.hitSoundSettings == SoundItemSettings.OnlyObject && integrity.soundOnHit == null)
-					{
-						AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
-						SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.WorldPosServer(), audioSourceParameters, sourceObj: gameObject);
-						attackSound = null;
-					}
-					integrity.ApplyDamage((int)damage, AttackType.Melee, damageType);
+				// The attack hit.
+				if (victim.TryGetComponent<LivingHealthMasterBase>(out var victimHealth))
+				{
+					victimHealth.ApplyDamageToBodyPart(gameObject, damage, AttackType.Melee, currentDamageType, damageZone, traumaDamageChance: traumaDamageChance, tramuticDamageType: tramuticDamageType);
+					didHit = true;
+				}
+				else if (victim.TryGetComponent<LivingHealthBehaviour>(out var victimHealthOld))
+				{
+					victimHealthOld.ApplyDamageToBodyPart(gameObject, damage, AttackType.Melee, currentDamageType, damageZone);
 					didHit = true;
 				}
 			}
 			else
 			{
-				//damaging a living thing
-				var rng = new System.Random();
-				// This is based off the alien/humanoid/attack_hand punch code of TGStation's codebase.
-				// Punches have 90% chance to hit, otherwise it is a miss.
-				if (isWeapon || 90 >= rng.Next(1, 100))
+				// The punch missed.
+				string victimName = victim.ExpensiveName();
+
+				if (miss.missSound.Count > 0)
 				{
-					if (victimHealth == null || gameObject == null) return;
-					// The attack hit.
-					victimHealth.ApplyDamageToBodyPart(gameObject, (int)damage, AttackType.Melee, damageType, damageZone);
-					didHit = true;
+					SoundManager.PlayNetworkedAtPos(miss.missSound.PickRandom(), transform.position, sourceObj: gameObject);
 				}
-				else
-				{
-					// The punch missed.
-					string victimName = victim.Player()?.Name;
-					SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.PunchMiss, transform.position, sourceObj: gameObject);
-					Chat.AddCombatMsgToChat(gameObject, $"You attempted to punch {victimName} but missed!",
-						$"{gameObject.Player()?.Name} has attempted to punch {victimName}!");
-				}
+
+				Chat.AddCombatMsgToChat(gameObject, $"You attempted to {attackVerb} {victimName} but missed!",
+					$"{gameObject.ExpensiveName()} has attempted to {attackVerb} {victimName}!");
 			}
 		}
 
-		//common logic to do if we hit something
+		// common logic to do if we hit something
 		if (didHit)
 		{
-			if (attackSound != null)
+			if (weaponSound != null)
 			{
-				SoundManager.PlayNetworkedAtPos(attackSound, transform.position, sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(weaponSound, transform.position, sourceObj: gameObject);
 			}
 
 			if (damage > 0)
 			{
-				Chat.AddAttackMsgToChat(gameObject, victim, damageZone, weapon, attackedTile: attackedTile);
+				Chat.AddAttackMsgToChat(gameObject, victim, damageZone, weapon,
+					attackedTile: attackedTile, customAttackVerb: weaponAttributes == null ? attackVerb : null);
 			}
+
 			if (victim != gameObject)
 			{
 				RpcMeleeAttackLerp(attackDirection, weapon);
-				//playerMove.allowInput = false;
 			}
 		}
 
@@ -206,7 +225,9 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 
 		if (spriteRendererSource != null)
 		{
-			playerScript.hitIcon.ShowHitIcon(stabDir, spriteRendererSource);
+			var projectile = Spawn.ClientPrefab("hitIcon", playerScript.transform.position, playerScript.transform.parent).GameObject;
+			var hitIcon = projectile.GetComponent<HitIcon>();
+			hitIcon.ShowHitIcon(stabDir, spriteRendererSource, playerScript);
 		}
 
 		Vector3 lerpFromWorld = spritesObj.transform.position;
@@ -235,30 +256,30 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		}
 	}
 
-	//Server lerps
-	public override void UpdateMe()
+	// Server lerps
+	private void UpdateMe()
 	{
 		if (lerping)
 		{
 			lerpProgress += Time.deltaTime;
-			spritesObj.transform.localPosition = Vector3.Lerp(lerpFrom, lerpTo, lerpProgress * speed);
+			spritesObj.transform.localPosition = Vector3.Lerp(lerpFrom, lerpTo, lerpProgress * attackSpeed);
 			if (spritesObj.transform.localPosition == lerpTo || lerpProgress > 2f)
 			{
 				if (!isForLerpBack)
 				{
 					ResetLerp();
 					spritesObj.transform.localPosition = Vector3.zero;
-					if (PlayerManager.LocalPlayer)
+					if (PlayerManager.LocalPlayerObject)
 					{
-						if (PlayerManager.LocalPlayer == gameObject)
+						if (PlayerManager.LocalPlayerObject == gameObject)
 						{
-							CmdRequestInputActivation(); //Ask server if you can move again after melee attack
+							CmdRequestInputActivation(); // Ask server if you can move again after melee attack
 						}
 					}
 				}
 				else
 				{
-					//To lerp back from knife attack
+					// To lerp back from knife attack
 					ResetLerp();
 					lerpTo = lerpFrom;
 					lerpFrom = spritesObj.transform.localPosition;
@@ -274,5 +295,13 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		lerping = false;
 		isForLerpBack = false;
 		spriteRendererSource = null;
+	}
+
+	[Serializable]
+	public class MeleeData
+	{
+		public string attackVerb;
+		public List<AddressableAudioSource> hitSound = new List<AddressableAudioSource>();
+		public List<AddressableAudioSource> missSound = new List<AddressableAudioSource>();
 	}
 }

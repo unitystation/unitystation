@@ -33,7 +33,7 @@ TextureImporter:
       213: -8284738799439115412
     second: talk_swarmer0_9
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -53,6 +53,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -62,8 +64,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -84,9 +86,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -335,6 +341,17 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      talk_swarmer0_5: 4965447588984651754
+      talk_swarmer0_8: 8140682755941335502
+      talk_swarmer0_0: -5724406844215488599
+      talk_swarmer0_1: -4062494429032347560
+      talk_swarmer0_6: 1646083257338295252
+      talk_swarmer0_7: -6338826082877993243
+      talk_swarmer0_4: 3960390753762640164
+      talk_swarmer0_2: -4663482093924285153
+      talk_swarmer0_3: -7338640242327576374
+      talk_swarmer0_9: -8284738799439115412
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

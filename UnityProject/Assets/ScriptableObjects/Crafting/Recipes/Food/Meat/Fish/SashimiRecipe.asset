@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: SashimiRecipe
+  m_EditorClassIdentifier: 
+  category: 10
+  craftingTime: 3
+  recipeName: Sashimi
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 174840935956465806, guid: f7bfb4c96bfd75240b712bdad9f69379,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 1579524858131255151, guid: 8af808dda238fe44492ea6412cf9ba52,
+      type: 3}
+  requiredReagents:
+  - requiredAmount: 5
+    requiredReagent: {fileID: 11400000, guid: 97473bb8bf264de35b63cbcb922a313e, type: 2}
+  requiredToolTraits: []
+  result:
+  - {fileID: 7259927398293264364, guid: 95f08b6a776370b4486944f73f43161c, type: 3}
+  resultHandlers: []
+  isSimple: 1
+  indexInSingleton: 244

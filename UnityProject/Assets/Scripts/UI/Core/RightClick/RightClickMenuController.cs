@@ -8,6 +8,8 @@ namespace UI.Core.RightClick
 {
 	public class RightClickMenuController : MonoBehaviour
 	{
+		public static RightClickRadialOptions RadialOptions { get; private set; }
+
 		[SerializeField]
 		private RightClickOption examineOption = default;
 
@@ -29,6 +31,10 @@ namespace UI.Core.RightClick
 		private ItemRadial itemRadial;
 
 		private ActionRadial actionRadial;
+
+		private Canvas canvas;
+
+		public Canvas Canvas => this.GetComponentByRef(ref canvas);
 
 		private List<RightClickMenuItem> Items { get; set; }
 
@@ -70,12 +76,25 @@ namespace UI.Core.RightClick
 			}
 		}
 
-		public void SetupMenu(List<RightClickMenuItem> items, IBranchPosition branchPosition)
+		public void SetupMenu(List<RightClickMenuItem> items, IRadialPosition radialPosition, RightClickRadialOptions radialOptions)
 		{
+			if (radialOptions is null) return;
+
+			RadialOptions = radialOptions;
 			Items = items;
-			radialBranch.SetupAndEnable((RectTransform)ItemRadial.transform, ItemRadial.OuterRadius, ItemRadial.Scale, branchPosition);
 			ItemRadial.SetupWithItems(items);
-			ItemRadial.CenterItemsTowardsAngle(Items.Count, radialBranch.GetBranchToTargetAngle());
+			if (RadialOptions.ShowBranch)
+			{
+				radialBranch.SetupAndEnable((RectTransform)ItemRadial.transform, ItemRadial.OuterRadius, ItemRadial.Scale, radialPosition);
+				ItemRadial.CenterItemsTowardsAngle(Items.Count, radialBranch.GetBranchToTargetAngle());
+			}
+			else
+			{
+				radialPosition.BoundsOffset = ((RectTransform)ActionRadial.transform).sizeDelta / 2;
+				var radialTransform = (RectTransform)ItemRadial.transform;
+				radialTransform.position = radialPosition.GetPositionIn(Camera.main, Canvas);
+				radialTransform.rotation = Quaternion.identity;
+			}
 
 			this.SetActive(true);
 			ItemRadial.SetActive(true);
@@ -128,7 +147,7 @@ namespace UI.Core.RightClick
 			var item = Items[index];
 			ItemRadial.ChangeLabel(item.Label);
 			var actions = item.SubMenus;
-			if (actions == null)
+			if (actions is null || RadialOptions.ShowActionRadial == false)
 			{
 				ActionRadial.SetActive(false);
 				return;
@@ -140,10 +159,16 @@ namespace UI.Core.RightClick
 
 		private void OnClickItem(PointerEventData eventData, RightClickRadialButton button)
 		{
-			var subItems = Items[button.Index]?.SubMenus;
+			var item = Items[button.Index];
 
-			if (subItems == null)
+			if (item is null) return;
+
+			var subItems = item.SubMenus;
+
+			if (subItems is null)
 			{
+				item.Action?.Invoke();
+				this.SetActive(item.keepMenuOpen);
 				return;
 			}
 
@@ -164,13 +189,13 @@ namespace UI.Core.RightClick
 
 			void DoAction(RightClickOption option)
 			{
-				foreach (var item in subItems)
+				foreach (var actionItem in subItems)
 				{
-					if (item.Label != option.label)
+					if (actionItem.Label != option.label)
 					{
 						continue;
 					}
-					item.Action();
+					actionItem.Action();
 					this.SetActive(option.keepMenuOpen);
 					return;
 				}
@@ -195,9 +220,27 @@ namespace UI.Core.RightClick
 			this.SetActive(actionMenu.keepMenuOpen);
 		}
 
-		public void Update()
+		private void OnEnable()
 		{
-			radialBranch.UpdateLines(ActionRadial, ItemRadial.OuterRadius);
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			// These need to be disabled for the next time the controller is reactivated
+			ItemRadial.SetActive(false);
+			ActionRadial.SetActive(false);
+			radialBranch.SetActive(false);
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		public void UpdateMe()
+		{
+			if (RadialOptions.ShowBranch)
+			{
+				radialBranch.UpdateLines(ActionRadial, ItemRadial.OuterRadius);
+			}
+
 			ItemRadial.UpdateArrows();
 
 			if (IsAnyPointerDown() == false)
@@ -224,14 +267,6 @@ namespace UI.Core.RightClick
 			}
 
 			return false;
-		}
-
-		private void OnDisable()
-		{
-			// These need to be disabled for the next time the controller is reactivated
-			ItemRadial.SetActive(false);
-			ActionRadial.SetActive(false);
-			radialBranch.SetActive(false);
 		}
 	}
 }

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 33937463476659220}
   - component: {fileID: 2790365158569898244}
   - component: {fileID: 3136316728950698336}
+  - component: {fileID: -8884600944220647437}
   m_Layer: 21
   m_Name: FireLight2D
   m_TagString: Untagged
@@ -31,6 +32,7 @@ Transform:
   m_LocalRotation: {x: 0.00000031610082, y: 0.00000021073387, z: -0.70710665, w: 0.707107}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 12, y: 12, z: 12}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -64,6 +66,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -114,10 +117,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
   sceneId: 0
   serverOnly: 0
-  m_AssetId: 
+  visible: 0
+  m_AssetId: 715614a08d7f9514aab57170abfe56ef
   hasSpawned: 0
 --- !u!114 &3136316728950698336
 MonoBehaviour:
@@ -129,6 +132,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-8884600944220647437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1762630675659964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 210ea710705d58e4bab8dd3bab07fe17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0

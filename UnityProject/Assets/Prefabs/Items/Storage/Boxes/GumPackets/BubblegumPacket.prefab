@@ -18,6 +18,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ec1a753cff9d34242bb678e8421d5692,
         type: 2}
+    - target: {fileID: 3417345767468294455, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: foreverID
+      value: d2416a3be0e9a95469a2c1e06baebbb6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159390639885615672, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: initialName
+      value: bubblegum packet
+      objectReference: {fileID: 0}
     - target: {fileID: 8159390639885615672, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
       propertyPath: initialSize
@@ -29,11 +39,6 @@ PrefabInstance:
       value: The packaging is entirely in japanese, apparently. You can't make out
         a single word of it.
       objectReference: {fileID: 0}
-    - target: {fileID: 8159390639885615672, guid: 3e5919f639f566c4590d07d54ef256dd,
-        type: 3}
-      propertyPath: initialName
-      value: bubblegum packet
-      objectReference: {fileID: 0}
     - target: {fileID: 8441880568126201350, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
       propertyPath: m_Sprite
@@ -43,7 +48,12 @@ PrefabInstance:
     - target: {fileID: 8521467601672753390, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: d2416a3be0e9a95469a2c1e06baebbb6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
@@ -62,6 +72,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -74,16 +89,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
@@ -107,12 +112,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
-      propertyPath: itemStorageStructure
-      value: 
-      objectReference: {fileID: 11400000, guid: 8fdde641eac38ad4da32ccc0eeea50fc,
-        type: 2}
-    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
-        type: 3}
       propertyPath: itemStorageCapacity
       value: 
       objectReference: {fileID: 11400000, guid: f2c439864aa9e7d4fbf3afe2ee82c8df,
@@ -122,6 +121,12 @@ PrefabInstance:
       propertyPath: itemStoragePopulator
       value: 
       objectReference: {fileID: 11400000, guid: 432543b5e99dae14596db2df865601a3,
+        type: 2}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: 8fdde641eac38ad4da32ccc0eeea50fc,
         type: 2}
     - target: {fileID: 8839883583913555898, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}

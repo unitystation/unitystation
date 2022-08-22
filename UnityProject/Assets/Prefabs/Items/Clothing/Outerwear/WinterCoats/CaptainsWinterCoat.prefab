@@ -11,14 +11,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 84a173f3e0078f24d8b1fc2d56e68fea,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 251446803486426646, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 84a173f3e0078f24d8b1fc2d56e68fea,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 251446803486426646, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -36,6 +34,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2d371604aad06f7478e82e61ff3e1f8d,
         type: 2}
+    - target: {fileID: 268759016881297918, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: foreverID
+      value: cfb43e8fa0388fd4db521d36613b7423
+      objectReference: {fileID: 0}
     - target: {fileID: 1028637337542569492, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -51,7 +54,7 @@ PrefabInstance:
     - target: {fileID: 6526945778998519847, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: cfb43e8fa0388fd4db521d36613b7423
       objectReference: {fileID: 0}
     - target: {fileID: 6529050757172429927, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
@@ -147,6 +150,135 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: captain's winter coat
+      objectReference: {fileID: 0}
+    - target: {fileID: 6768331582244846321, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: initialDescription
+      value: A luxurious winter coat, stuffed with the down of the endangered Uka
+        bird and trimmed with genuine sable. The fabric is an indulgently soft micro-fiber,
+        and the deep ultramarine colour is only one that could be achieved with minute
+        amounts of crystalline bluespace dust woven into the thread between the plectrums.
+        Extremely lavish, and extremely durable.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Acid
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bomb
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Acid
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Bomb
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Acid
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Bomb
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.Acid
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.Bomb
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Laser
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Melee
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Laser
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Melee
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Laser
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Melee
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.Laser
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.Melee
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bullet
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Energy
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Bullet
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Energy
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Bullet
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Energy
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.Bullet
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.Energy
+      value: 40
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: caa7ec1293d63a74aa063307403f0c7e, type: 3}

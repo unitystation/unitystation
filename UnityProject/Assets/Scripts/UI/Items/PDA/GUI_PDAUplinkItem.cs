@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UI.Core.NetUI;
 
 namespace UI.Items.PDA
 {
@@ -24,13 +25,13 @@ namespace UI.Items.PDA
 		public void GenerateEntries(UplinkCategory category)
 		{
 			controller.SetBreadcrumb($"{controller.UPLINK_DIRECTORY}/categories/{category.CategoryName}/");
-			bool isNukie = controller.mainController.PDA.IsNukeOps;
-			for (int i = 0; i < category.ItemList.Count; i++)
+			var isNukie = controller.mainController.PDA.IsNukeOps;
+			foreach (var uplinkItem in category.ItemList)
 			{
-				if (isNukie || category.ItemList[i].IsNukeOps == false)
+				if (isNukie || uplinkItem.IsNukeOps == false)
 				{
-					dynamicList.AddItem();
-					dynamicList.Entries[i].GetComponent<GUI_PDAUplinkItemTemplate>().ReInit(category.ItemList[i]);
+					var entry = dynamicList.AddItem();
+					entry.GetComponent<GUI_PDAUplinkItemTemplate>().ReInit(uplinkItem);
 				}
 			}
 		}

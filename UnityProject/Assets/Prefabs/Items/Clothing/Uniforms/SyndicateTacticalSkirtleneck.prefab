@@ -12,10 +12,100 @@ PrefabInstance:
       propertyPath: bodyPartsCovered
       value: 240
       objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 9c1e9db42d990b642a9927850b0258e9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 9c1e9db42d990b642a9927850b0258e9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Acid
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 9c1e9db42d990b642a9927850b0258e9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Fire
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 9c1e9db42d990b642a9927850b0258e9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Acid
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 9c1e9db42d990b642a9927850b0258e9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Fire
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 9c1e9db42d990b642a9927850b0258e9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Acid
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 9c1e9db42d990b642a9927850b0258e9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Fire
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 9c1e9db42d990b642a9927850b0258e9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.Acid
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 9c1e9db42d990b642a9927850b0258e9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.Fire
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 9c1e9db42d990b642a9927850b0258e9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[4].armor.Acid
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 9c1e9db42d990b642a9927850b0258e9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[4].armor.Fire
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 9c1e9db42d990b642a9927850b0258e9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Melee
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 9c1e9db42d990b642a9927850b0258e9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Melee
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 9c1e9db42d990b642a9927850b0258e9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Melee
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 9c1e9db42d990b642a9927850b0258e9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.Melee
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 9c1e9db42d990b642a9927850b0258e9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[4].armor.Melee
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 9c1e9db42d990b642a9927850b0258e9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 9c1e9db42d990b642a9927850b0258e9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[4].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2909197017712554513, guid: 9c1e9db42d990b642a9927850b0258e9,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: ca52fb43c1810bb4391c141eb997ac41
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: 9c1e9db42d990b642a9927850b0258e9,
         type: 3}
@@ -93,18 +183,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A non-descript and slightly suspicious looking skirtleneck.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: 9c1e9db42d990b642a9927850b0258e9,
+        type: 3}
+      propertyPath: foreverID
+      value: ca52fb43c1810bb4391c141eb997ac41
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 9c1e9db42d990b642a9927850b0258e9,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 87bae9ee0cb08dc4b89cab1881dc7691,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 9c1e9db42d990b642a9927850b0258e9,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 87bae9ee0cb08dc4b89cab1881dc7691,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 9c1e9db42d990b642a9927850b0258e9,
         type: 3}
       propertyPath: allClothingData.Array.size

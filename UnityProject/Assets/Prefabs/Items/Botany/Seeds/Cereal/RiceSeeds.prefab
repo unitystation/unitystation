@@ -9,13 +9,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 608201813234702194, guid: 60b83b01df9880443809c84ab556dad6,
         type: 3}
-      propertyPath: initialDescription
-      value: These may, or may not, grow into rice.
+      propertyPath: initialName
+      value: pack of rice seeds
       objectReference: {fileID: 0}
     - target: {fileID: 608201813234702194, guid: 60b83b01df9880443809c84ab556dad6,
         type: 3}
-      propertyPath: initialName
-      value: pack of rice seeds
+      propertyPath: initialDescription
+      value: These may, or may not, grow into rice.
       objectReference: {fileID: 0}
     - target: {fileID: 895278972671265612, guid: 60b83b01df9880443809c84ab556dad6,
         type: 3}
@@ -23,6 +23,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: df3cbb3bd1bdb724ab5591d4e831cda0,
         type: 3}
+    - target: {fileID: 1049018513625433444, guid: 60b83b01df9880443809c84ab556dad6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1049018513625433444, guid: 60b83b01df9880443809c84ab556dad6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -40,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1049018513625433444, guid: 60b83b01df9880443809c84ab556dad6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1049018513625433444, guid: 60b83b01df9880443809c84ab556dad6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1049018513625433444, guid: 60b83b01df9880443809c84ab556dad6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1049018513625433444, guid: 60b83b01df9880443809c84ab556dad6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1049018513625433444, guid: 60b83b01df9880443809c84ab556dad6,
         type: 3}
@@ -86,17 +86,7 @@ PrefabInstance:
     - target: {fileID: 1083515381603730852, guid: 60b83b01df9880443809c84ab556dad6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1828873900730458793, guid: 60b83b01df9880443809c84ab556dad6,
-        type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1828873900730458793, guid: 60b83b01df9880443809c84ab556dad6,
-        type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.size
-      value: 3
+      value: ffb8828049b890f43baeb7c15447d37b
       objectReference: {fileID: 0}
     - target: {fileID: 1828873900730458793, guid: 60b83b01df9880443809c84ab556dad6,
         type: 3}
@@ -109,6 +99,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2294462294022808847, guid: 10ef1e86a1035214a9cbe62d856f1017,
         type: 3}
+    - target: {fileID: 1828873900730458793, guid: 60b83b01df9880443809c84ab556dad6,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: a893befd77ff39846901f45619a3bbc6,
+        type: 2}
+    - target: {fileID: 1828873900730458793, guid: 60b83b01df9880443809c84ab556dad6,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1828873900730458793, guid: 60b83b01df9880443809c84ab556dad6,
         type: 3}
       propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
@@ -129,10 +130,14 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1828873900730458793, guid: 60b83b01df9880443809c84ab556dad6,
         type: 3}
-      propertyPath: plantData.FullyGrownSpriteSO
-      value: 
-      objectReference: {fileID: 11400000, guid: a893befd77ff39846901f45619a3bbc6,
-        type: 2}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6208184613693305981, guid: 60b83b01df9880443809c84ab556dad6,
+        type: 3}
+      propertyPath: foreverID
+      value: ffb8828049b890f43baeb7c15447d37b
+      objectReference: {fileID: 0}
     - target: {fileID: 6618956439072605079, guid: 60b83b01df9880443809c84ab556dad6,
         type: 3}
       propertyPath: PresentSpriteSet

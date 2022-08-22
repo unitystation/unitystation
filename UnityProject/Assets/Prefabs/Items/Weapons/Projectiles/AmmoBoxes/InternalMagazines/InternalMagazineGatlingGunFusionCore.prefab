@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3585117313339668605, guid: 279de6cf129850f4b8a22d99511dfd03,
+        type: 3}
+      propertyPath: foreverID
+      value: 15daf2999c375ae44a9f494aea40087e
+      objectReference: {fileID: 0}
     - target: {fileID: 4340418770804641687, guid: 279de6cf129850f4b8a22d99511dfd03,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -16,7 +21,12 @@ PrefabInstance:
     - target: {fileID: 7561096614868355492, guid: 279de6cf129850f4b8a22d99511dfd03,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 15daf2999c375ae44a9f494aea40087e
+      objectReference: {fileID: 0}
+    - target: {fileID: 7595847401659255140, guid: 279de6cf129850f4b8a22d99511dfd03,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7595847401659255140, guid: 279de6cf129850f4b8a22d99511dfd03,
         type: 3}
@@ -35,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7595847401659255140, guid: 279de6cf129850f4b8a22d99511dfd03,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7595847401659255140, guid: 279de6cf129850f4b8a22d99511dfd03,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7595847401659255140, guid: 279de6cf129850f4b8a22d99511dfd03,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7595847401659255140, guid: 279de6cf129850f4b8a22d99511dfd03,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7595847401659255140, guid: 279de6cf129850f4b8a22d99511dfd03,
         type: 3}
@@ -84,6 +89,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: c7d349b35b8786f4bb88b4ac5a78761a,
         type: 3}
+    - target: {fileID: 7749473724758755148, guid: 279de6cf129850f4b8a22d99511dfd03,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8041113790362737522, guid: 279de6cf129850f4b8a22d99511dfd03,
         type: 3}
       propertyPath: initialName

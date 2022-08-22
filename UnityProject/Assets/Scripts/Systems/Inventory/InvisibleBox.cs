@@ -8,7 +8,7 @@ public class InvisibleBox : Pickupable
 {
 	[Header("Assign these to make it work")]
 	[SerializeField] private SpriteColorSync boxSpriteColor = default;
-	[SerializeField] private CustomNetTransform netTransform = default;
+	[SerializeField] private UniversalObjectPhysics ObjectPhysics = default;
 	private readonly Color transparent = new Color(1f, 1f, 1f, 0f);
 	private readonly Color semiTransparent = new Color(1f, 1f, 1f, 0.5f);
 
@@ -21,7 +21,7 @@ public class InvisibleBox : Pickupable
 			return;
 		}
 
-		if (netTransform)
+		if (ObjectPhysics)
 		{
 			if (boxSpriteColor)
 			{
@@ -29,7 +29,7 @@ public class InvisibleBox : Pickupable
 				boxSpriteColor.SetColorServer(semiTransparent);
 			}
 
-			netTransform.OnTileReached().AddListener(pos =>
+			ObjectPhysics.OnLocalTileReached.AddListener((_, _) =>
 			{
 				if (boxSpriteColor)
 				{

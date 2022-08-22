@@ -11,14 +11,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: c7923793c99bb654997cd3ff28b7af20,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 251446803486426646, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: c7923793c99bb654997cd3ff28b7af20,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 251446803486426646, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -36,6 +34,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4e19e6b9378940c44abb082a725ee37f,
         type: 2}
+    - target: {fileID: 268759016881297918, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: foreverID
+      value: 08a623262084bdb49909620b1fcef62a
+      objectReference: {fileID: 0}
     - target: {fileID: 1028637337542569492, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -51,7 +54,7 @@ PrefabInstance:
     - target: {fileID: 6526945778998519847, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 08a623262084bdb49909620b1fcef62a
       objectReference: {fileID: 0}
     - target: {fileID: 6529050757172429927, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
@@ -122,6 +125,31 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: mining winter coat
+      objectReference: {fileID: 0}
+    - target: {fileID: 6768331582244846321, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: initialDescription
+      value: A dusty button up winter coat. The zipper tab looks like a tiny pickaxe.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Melee
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Melee
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Melee
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.Melee
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: caa7ec1293d63a74aa063307403f0c7e, type: 3}

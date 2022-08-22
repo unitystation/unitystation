@@ -1,17 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1085164783179646393
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5545929812217067487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58efcc097778a3646b453ece41fb2ab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &7163394098860543958
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -84,7 +72,7 @@ PrefabInstance:
     - target: {fileID: 3317552745358689725, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: c0567681ea7a62b45b1d22bc477d4e36
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}
@@ -146,6 +134,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GarGlasses
       objectReference: {fileID: 0}
+    - target: {fileID: 8585229615259169892, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
+        type: 3}
+      propertyPath: foreverID
+      value: c0567681ea7a62b45b1d22bc477d4e36
+      objectReference: {fileID: 0}
     - target: {fileID: 8638853748845472652, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}
       propertyPath: clothData
@@ -181,3 +174,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7163394098860543958}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-1085164783179646393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545929812217067487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58efcc097778a3646b453ece41fb2ab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

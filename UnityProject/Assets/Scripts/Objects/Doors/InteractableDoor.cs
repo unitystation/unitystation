@@ -2,6 +2,8 @@
 using UnityEngine;
 using Mirror;
 using System;
+using Items;
+using Objects;
 
 namespace Doors
 {
@@ -9,7 +11,7 @@ namespace Doors
 	///     Allows a door to be interacted with.
 	///     It also checks for access restrictions on the players ID card
 	/// </summary>
-	public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>
+	public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>, IBumpableObject
 	{
 		private static readonly float weldTime = 5.0f;
 
@@ -43,6 +45,14 @@ namespace Doors
 
 		//nothing to rollback
 		public void ServerRollbackClient(HandApply interaction) { }
+
+		public void OnBump(GameObject byPlayer, GameObject client)
+		{
+			if (Controller.IsClosed && Controller.IsAutomatic)
+			{
+				TryOpen(byPlayer);
+			}
+		}
 
 		/// <summary>
 		/// Invoke this on server when player bumps into door to try to open it.
@@ -110,6 +120,9 @@ namespace Doors
 				Controller.isEmagged = true;
 				emag.UseCharge(interaction);
 				TryOpen(interaction.Performer);
+				Chat.AddActionMsgToChat(interaction,
+					"The access panel errors. A slight amount of smoke pours from behind the panel...",
+							"You can smell caustic smoke from somewhere...");
 			}
 		}
 
@@ -117,7 +130,7 @@ namespace Doors
 		{
 			if (Controller == null) return;
 
-			if (Controller.IsClosed && Controller.IsHackable && Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor))
+			if (Controller.IsClosed && Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor))
 			{
 				//allows the jaws of life to pry open doors
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 4.5f,

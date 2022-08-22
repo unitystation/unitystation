@@ -25,6 +25,31 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7897d6389c487ff4da3c05718d54bae2,
         type: 2}
+    - target: {fileID: 4548261438558078835, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: foreverID
+      value: 15f05a8d8234e1c4984091675efd2cfb
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: DamageThreshold
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: DismembermentChance
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: bodyPartAshesAboveThisDamage
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
@@ -37,6 +62,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: aeab85abc9dd191419966b6c1f7e3589,
         type: 2}
+    - target: {fileID: 7010284919959774332, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: initialName
+      value: moth right arm
+      objectReference: {fileID: 0}
     - target: {fileID: 7010284919959774332, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: initialDescription
@@ -56,12 +86,12 @@ PrefabInstance:
     - target: {fileID: 7363429173861889706, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 15f05a8d8234e1c4984091675efd2cfb
       objectReference: {fileID: 0}
     - target: {fileID: 7468114191605762846, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: m_Name
-      value: HumanRightArm Variant
+      value: MothRightArm
       objectReference: {fileID: 0}
     - target: {fileID: 7473600891628779114, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}

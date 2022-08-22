@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using AddressableReferences;
 using Audio.Containers;
 using Audio.Managers;
-using UnityEditor;
+using Messages.Server.SoundMessages;
 using UnityEngine;
 
 /// <summary>
@@ -15,7 +16,8 @@ public class AmbientSoundArea : MonoBehaviour
 {
 	[SerializeField] private AudioClipsArray enteringSoundTrack = null;
 	[SerializeField] private AudioClipsArray leavingSoundTrack = null;
-	private string guid = "";
+
+	private AddressableAudioSource playing;
 
 	public void OnTriggerEnter2D(Collider2D coll)
 	{
@@ -30,7 +32,17 @@ public class AmbientSoundArea : MonoBehaviour
 	private void ValidatePlayer(GameObject player, bool isEntering)
 	{
 		if (player == null) return;
-		if (player != PlayerManager.LocalPlayer) return;
+		if (player != PlayerManager.LocalPlayerObject) return;
+
+		// Dont change sound when sent to hidden pos, e.g in locker
+		// TODO entering sound still plays when exiting locker, but this at least stops space sound
+		if (player.TryGetComponent<MovementSynchronisation>(out var playerSync))
+		{
+			if (playerSync.registerTile.LocalPosition == TransformState.HiddenPos)
+			{
+				return;
+			}
+		}
 
 		if (isEntering)
 		{
@@ -46,8 +58,8 @@ public class AmbientSoundArea : MonoBehaviour
 	{
 		if (clipToPlay == null) return;
 
-		SoundManager.Stop(guid);
-		guid = Guid.NewGuid().ToString();
-		SoundManager.Play(clipToPlay, guid);
+		SoundAmbientManager.StopAudio(playing);
+		playing = clipToPlay;
+		SoundAmbientManager.PlayAudio(clipToPlay);
 	}
 }

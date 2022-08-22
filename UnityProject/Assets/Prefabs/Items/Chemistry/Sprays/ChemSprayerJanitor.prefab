@@ -9,6 +9,21 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
         type: 3}
+      propertyPath: maxCapacity
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: transferMode
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: transferAmount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -25,20 +40,10 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: b874c725172fcf7d58a34dc3c490ab6c,
         type: 2}
-    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
-        type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 100
-      objectReference: {fileID: 0}
     - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
@@ -47,20 +52,10 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[3]
       value: 
       objectReference: {fileID: 11400000, guid: cb08e4c00d2933413a176598c4bf5977,
         type: 2}
-    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
-        type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[3]
-      value: 100
-      objectReference: {fileID: 0}
     - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[4]
@@ -69,35 +64,69 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[4]
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[5]
       value: 
       objectReference: {fileID: 11400000, guid: cb08e4c00d2933413a176598c4bf5977,
         type: 2}
     - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[5]
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
-        type: 3}
-      propertyPath: maxCapacity
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
       value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
         type: 3}
-      propertyPath: transferAmount
-      value: 5
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
         type: 3}
-      propertyPath: transferMode
-      value: 4
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
+      value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[3]
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[4]
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[5]
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1785356115490905863, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: initialName
+      value: janitor chem sprayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 1785356115490905863, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: initialDescription
+      value: A utility used to spray large amounts of cleaning reagents in a given
+        area. It regenerates space cleaner by itself but it's unable to be fueled
+        by normal means.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1785356115490905863, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 2b77560e69699b24e970634f3b81beff,
+        type: 2}
+    - target: {fileID: 1785356115490905863, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 80180e5aa79428840b2c1ec00272082c,
+        type: 2}
+    - target: {fileID: 1785356115490905863, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 6491f7e911a583344b8cc0eaeed4a4d8, type: 3}
     - target: {fileID: 1785356115490905863, guid: 07120134cc41aa64791c8829078a7e78,
         type: 3}
       propertyPath: itemSprites.RightHand.Texture
@@ -105,38 +134,14 @@ PrefabInstance:
       objectReference: {fileID: 2800000, guid: 35d1ae23db4355540a129965c616c7e8, type: 3}
     - target: {fileID: 1785356115490905863, guid: 07120134cc41aa64791c8829078a7e78,
         type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
+      propertyPath: itemSprites.LeftHand.EquippedData
       value: 
-      objectReference: {fileID: 21300000, guid: 35d1ae23db4355540a129965c616c7e8,
-        type: 3}
-    - target: {fileID: 1785356115490905863, guid: 07120134cc41aa64791c8829078a7e78,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
-      value: 
-      objectReference: {fileID: 21300002, guid: 35d1ae23db4355540a129965c616c7e8,
-        type: 3}
-    - target: {fileID: 1785356115490905863, guid: 07120134cc41aa64791c8829078a7e78,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[2]
-      value: 
-      objectReference: {fileID: 21300004, guid: 35d1ae23db4355540a129965c616c7e8,
-        type: 3}
-    - target: {fileID: 1785356115490905863, guid: 07120134cc41aa64791c8829078a7e78,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[3]
-      value: 
-      objectReference: {fileID: 21300006, guid: 35d1ae23db4355540a129965c616c7e8,
-        type: 3}
+      objectReference: {fileID: 4900000, guid: c6b9ddd87d44a844da7e813cbb3b42ec, type: 3}
     - target: {fileID: 1785356115490905863, guid: 07120134cc41aa64791c8829078a7e78,
         type: 3}
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 34b31639a59c3664e99154066dc883df, type: 3}
-    - target: {fileID: 1785356115490905863, guid: 07120134cc41aa64791c8829078a7e78,
-        type: 3}
-      propertyPath: itemSprites.LeftHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 6491f7e911a583344b8cc0eaeed4a4d8, type: 3}
     - target: {fileID: 1785356115490905863, guid: 07120134cc41aa64791c8829078a7e78,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
@@ -163,33 +168,28 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1785356115490905863, guid: 07120134cc41aa64791c8829078a7e78,
         type: 3}
-      propertyPath: itemSprites.LeftHand.EquippedData
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
       value: 
-      objectReference: {fileID: 4900000, guid: c6b9ddd87d44a844da7e813cbb3b42ec, type: 3}
+      objectReference: {fileID: 21300000, guid: 35d1ae23db4355540a129965c616c7e8,
+        type: 3}
     - target: {fileID: 1785356115490905863, guid: 07120134cc41aa64791c8829078a7e78,
         type: 3}
-      propertyPath: initialName
-      value: janitor chem sprayer
-      objectReference: {fileID: 0}
-    - target: {fileID: 1785356115490905863, guid: 07120134cc41aa64791c8829078a7e78,
-        type: 3}
-      propertyPath: initialDescription
-      value: A utility used to spray large amounts of cleaning reagents in a given
-        area. It regenerates space cleaner by itself but it's unable to be fueled
-        by normal means.
-      objectReference: {fileID: 0}
-    - target: {fileID: 1785356115490905863, guid: 07120134cc41aa64791c8829078a7e78,
-        type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 2b77560e69699b24e970634f3b81beff,
-        type: 2}
+      objectReference: {fileID: 21300002, guid: 35d1ae23db4355540a129965c616c7e8,
+        type: 3}
     - target: {fileID: 1785356115490905863, guid: 07120134cc41aa64791c8829078a7e78,
         type: 3}
-      propertyPath: itemSprites.SpriteRightHand
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: 80180e5aa79428840b2c1ec00272082c,
-        type: 2}
+      objectReference: {fileID: 21300004, guid: 35d1ae23db4355540a129965c616c7e8,
+        type: 3}
+    - target: {fileID: 1785356115490905863, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: 35d1ae23db4355540a129965c616c7e8,
+        type: 3}
     - target: {fileID: 2079172937595798329, guid: 07120134cc41aa64791c8829078a7e78,
         type: 3}
       propertyPath: m_Sprite
@@ -200,6 +200,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ChemSprayerJanitor
+      objectReference: {fileID: 0}
+    - target: {fileID: 2177705346901052689, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2177705346901052689, guid: 07120134cc41aa64791c8829078a7e78,
         type: 3}
@@ -218,6 +223,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2177705346901052689, guid: 07120134cc41aa64791c8829078a7e78,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2177705346901052689, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -230,16 +240,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2177705346901052689, guid: 07120134cc41aa64791c8829078a7e78,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2177705346901052689, guid: 07120134cc41aa64791c8829078a7e78,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2177705346901052689, guid: 07120134cc41aa64791c8829078a7e78,
         type: 3}
@@ -259,12 +259,17 @@ PrefabInstance:
     - target: {fileID: 2287675510519221713, guid: 07120134cc41aa64791c8829078a7e78,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: d7910f35c6369fd4a8fcd9bb52667561
       objectReference: {fileID: 0}
     - target: {fileID: 4001262423026035525, guid: 07120134cc41aa64791c8829078a7e78,
         type: 3}
       propertyPath: reagentsPerUse
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5085118947725835272, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: foreverID
+      value: d7910f35c6369fd4a8fcd9bb52667561
       objectReference: {fileID: 0}
     - target: {fileID: 5435104152487676898, guid: 07120134cc41aa64791c8829078a7e78,
         type: 3}

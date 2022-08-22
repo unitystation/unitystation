@@ -12,18 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
   m_Name: CarpetGreen
   m_EditorClassIdentifier: 
-  displayName: 
+  displayName: carpet
+  description: 
   LayerType: 3
   TileType: 3
   RequiredTiles:
   - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
-  floorTileType: 2
+  floorTileSounds: {fileID: 11400000, guid: 0ccefbe25500f8c4b8e8bae7fc1c693f, type: 2}
+  CanSoundOverride: 0
   atmosPassable: 1
   isSealed: 1
   SpawnWithNoAir: 0
   passable: 1
   mineable: 0
+  miningTime: 5
+  constructable: 1
+  RadiationPassability: 1
+  ThermalConductivity: 0.05
+  HeatCapacity: 10000
   doesReflectBullet: 0
+  indestructible: 0
+  ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 01000000
     m_values: 00
@@ -40,13 +50,26 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 100
+    DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: 7b6820d9f95c544a8bf274f9125b4941, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 8108368654346562078, guid: bf35de76d70bec44aa8c96d7900cde2a,
     type: 3}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 11400000, guid: b1a4143a41e0d3546a6b0b0b08bf9e00, type: 2}
-  soundOnHit: 
+  toTileWhenDestroyed: {fileID: 0}
+  spawnOnDestroy: {fileID: 0}
+  damageOverlayList: {fileID: 0}
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  SoundOnDestroy: []
   connectCategory: 3
   connectType: 2
   spriteSheet:

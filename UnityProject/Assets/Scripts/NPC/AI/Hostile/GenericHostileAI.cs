@@ -20,7 +20,7 @@ namespace Systems.MobAIs
 	/// </summary>
 	[RequireComponent(typeof(MobMeleeAction))]
 	[RequireComponent(typeof(ConeOfSight))]
-	public class GenericHostileAI : MobAI, IServerSpawn
+	public class GenericHostileAI : MobAI
 	{
 		[SerializeField]
 		[Tooltip("Sounds played when this mob dies")]
@@ -39,9 +39,14 @@ namespace Systems.MobAIs
 		protected int randomSoundProbability = 20;
 		[SerializeField]
 		protected float searchTickRate = 0.5f;
+		protected float searchWaitTime = 0f;
+
 		protected float movementTickRate = 1f;
 		protected float moveWaitTime = 0f;
-		protected float searchWaitTime = 0f;
+
+		protected float forceActionTickRate = 1f;
+		protected float forceActionWaitTime = 0f;
+
 		protected bool deathSoundPlayed = false;
 		[SerializeField] protected MobStatus currentStatus;
 		public MobStatus CurrentStatus => currentStatus;
@@ -50,28 +55,63 @@ namespace Systems.MobAIs
 		protected int playersLayer;
 		protected MobMeleeAction mobMeleeAction;
 		protected ConeOfSight coneOfSight;
-		protected SimpleAnimal simpleAnimal;
 		protected int fleeChance = 30;
 		protected int attackLastAttackerChance = 80;
 
-		public override void OnEnable()
+		#region Lifecycle
+
+		protected override void Awake()
 		{
-			base.OnEnable();
 			hitMask = LayerMask.GetMask( "Players");
 			playersLayer = LayerMask.NameToLayer("Players");
 			mobMeleeAction = GetComponent<MobMeleeAction>();
 			coneOfSight = GetComponent<ConeOfSight>();
-			simpleAnimal = GetComponent<SimpleAnimal>();
-
-			if(CustomNetworkManager.IsServer == false) return;
-			PlayRandomSound();
+			base.Awake();
 		}
 
-
-		protected override void AIStartServer()
+		protected override void OnSpawnMob()
 		{
 			movementTickRate = Random.Range(1f, 3f);
+		}
+
+		protected override void OnAIStart()
+		{
+			_ = PlayRandomSound();
 			BeginSearch();
+		}
+
+		#endregion
+		public override void ContemplatePriority()
+		{
+			base.ContemplatePriority();
+
+			if (!isServer || !MatrixManager.IsInitialized)
+			{
+				return;
+			}
+
+			if (IsDead || IsUnconscious)
+			{
+				HandleDeathOrUnconscious();
+				return;
+			}
+
+			switch (currentStatus)
+			{
+				case MobStatus.Searching:
+					HandleSearch();
+					break;
+				case MobStatus.Attacking:
+					if(mobMeleeAction.isOnCooldown) break;
+					MonitorIdleness();
+					break;
+				case MobStatus.None:
+					MonitorIdleness();
+					break;
+				default:
+					HandleSearch();
+					break;
+			}
 		}
 
 		/// <summary>
@@ -103,19 +143,28 @@ namespace Systems.MobAIs
 
 		protected virtual void MonitorIdleness()
 		{
-			if (!mobMeleeAction.performingDecision && mobMeleeAction.FollowTarget == null)
+			if (mobMeleeAction.FollowTarget == null)
 			{
 				BeginSearch();
 			}
+			//We have target but not acting, so force do something
+			else
+			{
+				forceActionWaitTime += MobController.UpdateTimeInterval;
+				if (forceActionWaitTime >= forceActionTickRate)
+				{
+					forceActionWaitTime = 0f;
+					mobMeleeAction.DoAction();
+				}
+			}
 		}
-
 		/// <summary>
 		/// Looks around and tries to find players to target
 		/// </summary>
 		/// <returns>Gameobject of the first player it found</returns>
 		protected virtual GameObject SearchForTarget()
 		{
-			var player = Physics2D.OverlapCircleAll(transform.position, 20f, hitMask);
+			var player = Physics2D.OverlapCircleAll(registerObject.WorldPositionServer.To2Int(), 20f, hitMask);
 			//var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.Walls, dirSprites.CurrentFacingDirection, 10f, 20);
 			if (player.Length == 0)
 			{
@@ -125,12 +174,13 @@ namespace Systems.MobAIs
 			foreach (var coll in player)
 			{
 				if (MatrixManager.Linecast(
-					gameObject.WorldPosServer(),
+					gameObject.AssumedWorldPosServer(),
 					LayerTypeSelection.Walls,
 					null,
-					coll.gameObject.WorldPosServer()).ItHit == false)
+					coll.gameObject.AssumedWorldPosServer()).ItHit == false)
 				{
-					if(coll.gameObject.TryGetComponent<LivingHealthMasterBase>(out var health) && health.IsDead) continue;
+					if(coll.gameObject.TryGetComponent<LivingHealthMasterBase>(out var health) == false ||
+					   health.IsDead) continue;
 
 					return coll.gameObject;
 				}
@@ -210,14 +260,8 @@ namespace Systems.MobAIs
 		/// </summary>
 		protected virtual void HandleSearch()
 		{
-			moveWaitTime += Time.deltaTime;
-			if (moveWaitTime >= movementTickRate)
-			{
-				moveWaitTime = 0f;
-				DoRandomMove();
-			}
-
-			searchWaitTime += Time.deltaTime;
+			moveWaitTime += MobController.UpdateTimeInterval;
+			searchWaitTime += MobController.UpdateTimeInterval;
 			if (!(searchWaitTime >= searchTickRate)) return;
 			searchWaitTime = 0f;
 			var findTarget = SearchForTarget();
@@ -228,38 +272,6 @@ namespace Systems.MobAIs
 			else
 			{
 				BeginSearch();
-			}
-		}
-
-		protected override void UpdateMe()
-		{
-			base.UpdateMe();
-
-			if (!isServer || !MatrixManager.IsInitialized)
-			{
-				return;
-			}
-
-			if (IsDead || IsUnconscious)
-			{
-				HandleDeathOrUnconscious();
-				return;
-			}
-
-			switch (currentStatus)
-			{
-				case MobStatus.Searching:
-					HandleSearch();
-					break;
-				case MobStatus.Attacking:
-					MonitorIdleness();
-					break;
-				case MobStatus.None:
-					MonitorIdleness();
-					break;
-				default:
-					HandleSearch();
-					break;
 			}
 		}
 
@@ -280,15 +292,17 @@ namespace Systems.MobAIs
 				}
 			}
 
-			if ((damagedBy is null) != false || damagedBy == mobMeleeAction.FollowTarget)
+			if ((damagedBy is null) || damagedBy == mobMeleeAction.FollowTarget)
 			{
 				return;
 			}
+
 			//80% chance the mob decides to attack the new attacker
 			if (DMMath.Prob(attackLastAttackerChance) == false)
 			{
 				return;
 			}
+
 			var playerScript = damagedBy.GetComponent<PlayerScript>();
 			if (playerScript != null)
 			{
@@ -304,7 +318,7 @@ namespace Systems.MobAIs
 
 			//face towards the origin:
 			var dir = (chatEvent.originator.transform.position - transform.position).normalized;
-			directional.FaceDirection(Orientation.From(dir));
+			rotatable.SetFaceDirectionLocalVector(dir.RoundTo2Int());
 
 			//Then scan to see if anyone is there:
 			var findTarget = SearchForTarget();
@@ -312,35 +326,6 @@ namespace Systems.MobAIs
 			{
 				BeginAttack(findTarget);
 			}
-		}
-
-		public virtual void OnSpawnServer(SpawnInfo info)
-		{
-			//FIXME This shouldn't be called by client yet it seems it is
-			if (!isServer)
-			{
-				return;
-			}
-
-			OnSpawnMob();
-		}
-
-		protected virtual void OnSpawnMob()
-		{
-			mobSprite.SetToNPCLayer();
-			registerObject.RestoreAllToDefault();
-			if (simpleAnimal != null)
-			{
-				simpleAnimal.SetDeadState(false);
-			}
-		}
-
-		public override void OnDespawnServer(DespawnInfo info)
-		{
-			base.OnDespawnServer(info);
-			mobSprite.SetToBodyLayer();
-			deathSoundPlayed = false;
-			registerObject.SetPassable(false, true);
 		}
 
 		public enum MobStatus

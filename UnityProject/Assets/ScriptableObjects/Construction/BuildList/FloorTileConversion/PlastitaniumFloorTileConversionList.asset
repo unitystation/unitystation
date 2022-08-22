@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba38351aa03f427e90c2f6010b4c1b05, type: 3}
+  m_Name: PlastitaniumFloorTileConversionList
+  m_EditorClassIdentifier: 
+  entries:
+  - name: Black Plastitanium Floor
+    prefab: {fileID: 7655535558420796742, guid: 20f299a7ef11e9d449e974cbac180598,
+      type: 3}
+    cost: 4
+    buildTime: 0
+    spawnAmount: 4
+    onePerTile: 0
+  - name: Red Plastitanium Floor
+    prefab: {fileID: 149304814395043159, guid: 06c886dcfc2e1b74998adc37e736a064, type: 3}
+    cost: 4
+    buildTime: 0
+    spawnAmount: 4
+    onePerTile: 0

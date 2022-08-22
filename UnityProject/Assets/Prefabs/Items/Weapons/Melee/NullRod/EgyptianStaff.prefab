@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3695110123352835740, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: foreverID
+      value: 801efa436c433df4abe9e972c5d0b889
+      objectReference: {fileID: 0}
     - target: {fileID: 4520221803203555702, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -22,7 +27,12 @@ PrefabInstance:
     - target: {fileID: 7667703169655306053, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 801efa436c433df4abe9e972c5d0b889
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7777312831022217093, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
@@ -41,6 +51,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7777312831022217093, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +68,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7777312831022217093, guid: d70fb70bc4fe6534a85996e49221bb53,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7777312831022217093, guid: d70fb70bc4fe6534a85996e49221bb53,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7777312831022217093, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
@@ -86,17 +91,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
-      propertyPath: attackVerbs.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
-        type: 3}
-      propertyPath: initialDescription
-      value: A tutorial in mummification is carved into the staff. You could probably
-        craft the wraps if you had some cloth.
-      objectReference: {fileID: 0}
-    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
-        type: 3}
       propertyPath: initialName
       value: egyptian staff
       objectReference: {fileID: 0}
@@ -107,16 +101,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 89d0c32e58af8524b8fee8e0676e8d03,
-        type: 2}
+      propertyPath: initialDescription
+      value: A tutorial in mummification is carved into the staff. You could probably
+        craft the wraps if you had some cloth.
+      objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 996dc91d5dd1225448aff56919e4e012,
-        type: 2}
+      propertyPath: traumaDamageChance
+      value: 46.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: attackVerbs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
       propertyPath: attackVerbs.Array.data[0]
@@ -132,5 +140,23 @@ PrefabInstance:
       propertyPath: attackVerbs.Array.data[2]
       value: whacks
       objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 89d0c32e58af8524b8fee8e0676e8d03,
+        type: 2}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: c45c93fdd4d59483cbdb87a1d323bcc5,
+        type: 2}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 996dc91d5dd1225448aff56919e4e012,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d70fb70bc4fe6534a85996e49221bb53, type: 3}

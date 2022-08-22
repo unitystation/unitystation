@@ -11,15 +11,20 @@ namespace Systems.Atmospherics
 			throw new System.NotImplementedException();
 		}
 
-		public void React(GasMix gasMix, Vector3 tilePos, Matrix matrix)
+		public void React(GasMix gasMix, MetaDataNode node)
 		{
-			if (gasMix.GetMoles(Gas.WaterVapor) != 0 && gasMix.GetMoles(Gas.WaterVapor) / gasMix.Moles > 0.1)
+			var waterMoles = gasMix.GetMoles(Gas.WaterVapor);
+
+			if (waterMoles != 0 && waterMoles / gasMix.Moles > 0.1)
 			{
 				//No reaction
 				return;
 			}
 
-			var cleanedAir = Mathf.Min(gasMix.GetMoles(Gas.Miasma), 20 + (gasMix.Temperature - 373.15f - 70) / 20);
+			var cleanedAir =
+				Mathf.Min(
+					gasMix.GetMoles(Gas.Miasma),
+					20 + (gasMix.Temperature - AtmosDefines.FIRE_MINIMUM_TEMPERATURE_TO_EXIST - 70) / 20);
 
 			gasMix.RemoveGas(Gas.Miasma, cleanedAir);
 

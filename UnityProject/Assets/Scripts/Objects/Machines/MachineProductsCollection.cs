@@ -48,17 +48,12 @@ namespace Objects.Machines
 
 		[SerializeField]
 		[Tooltip("Product material cost")]
-		public DictionaryMaterialToIntAmount materialToAmounts;
+		public SerializableDictionary<MaterialSheet, int> materialToAmounts;
 
 		[SerializeField]
 		[Tooltip("Base time it takes to create the product")]
 		private float productionTime = 10;
 
 		public float ProductionTime { get => productionTime; }
-	}
-
-	[Serializable]
-	public class DictionaryMaterialToIntAmount : SerializableDictionary<MaterialSheet, int>
-	{
 	}
 }

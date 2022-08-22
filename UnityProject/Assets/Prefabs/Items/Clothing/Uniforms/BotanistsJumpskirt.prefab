@@ -12,10 +12,25 @@ PrefabInstance:
       propertyPath: bodyPartsCovered
       value: 240
       objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 489cb478de43746cda8af4fd63be9282,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 489cb478de43746cda8af4fd63be9282,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 489cb478de43746cda8af4fd63be9282,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[4].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2909197017712554513, guid: 489cb478de43746cda8af4fd63be9282,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: f10fbf4f4a9d423449ef84f1a38684b1
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: 489cb478de43746cda8af4fd63be9282,
         type: 3}
@@ -93,18 +108,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: It's a jumpskirt designed to protect against minor plant-related hazards.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: 489cb478de43746cda8af4fd63be9282,
+        type: 3}
+      propertyPath: foreverID
+      value: f10fbf4f4a9d423449ef84f1a38684b1
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 489cb478de43746cda8af4fd63be9282,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 4543af673c8f41c40893b46fd902bc32,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 489cb478de43746cda8af4fd63be9282,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 4543af673c8f41c40893b46fd902bc32,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 489cb478de43746cda8af4fd63be9282,
         type: 3}
       propertyPath: allClothingData.Array.size

@@ -12,12 +12,31 @@ PrefabInstance:
       propertyPath: bodyPartsCovered
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: -9097270597331898786, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -9097270597331898786, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bio
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: -9097270597331898786, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Bio
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: -9097270597331898786, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armoringBodyPartType
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 5d9a1c1616e97be67a10b9eb423201bd,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: hidesIdentity
@@ -27,8 +46,7 @@ PrefabInstance:
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 5d9a1c1616e97be67a10b9eb423201bd,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: hideClothingFlags
@@ -51,6 +69,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 54029eb2f20a8e34fb15eec209cd8505,
         type: 2}
+    - target: {fileID: 3585452806818900716, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: foreverID
+      value: e9076ebebbcd65e56b189cd1a837d018
+      objectReference: {fileID: 0}
     - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -70,7 +93,7 @@ PrefabInstance:
     - target: {fileID: 7560587375320734517, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: e9076ebebbcd65e56b189cd1a837d018
       objectReference: {fileID: 0}
     - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}

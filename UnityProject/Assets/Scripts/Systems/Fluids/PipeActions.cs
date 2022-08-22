@@ -1,22 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using Systems.Pipes;
 
-namespace Pipes
+
+namespace Objects.Atmospherics
 {
 	public class PipeActions
 	{
 		public PipeData pipeData;
-		public virtual void TickUpdate()
-		{
-
-		}
+		public virtual void TickUpdate() { }
 	}
 
 	public class MonoActions : PipeActions
 	{
 		public MonoPipe MonoPipe;
 		private bool Initialised = false;
+
 		public override void TickUpdate()
 		{
 			if (Initialised == false)
@@ -27,6 +26,7 @@ namespace Pipes
 					Logger.Log("Tried to update MonoPipe, but it was null", Category.Pipes);
 				}
 			}
+
 			MonoPipe.TickUpdate();
 		}
 	}

@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
+using AddressableReferences;
 using Chemistry;
 using Chemistry.Components;
 
@@ -10,60 +11,125 @@ namespace Objects.Kitchen
 	/// A machine into which players can insert certain food items.
 	/// Upon being inserted, they will be ground into another material.
 	/// </summary>
-	[RequireComponent(typeof(ReagentContainer))]
-	public class AIOGrinder : NetworkBehaviour
+	public class AIOGrinder : MonoBehaviour
 	{
-		/// <summary>
-		/// Result of the grinding.
-		/// </summary>
-		[HideInInspector]
-		public string grind;
+		public ReagentContainer Container => itemSlot != null && itemSlot.ItemObject != null
+			? itemSlot.ItemObject.GetComponent<ReagentContainer>()
+			: null;
+		[SerializeField] private AddressableAudioSource grindSound = null;
+		private ItemSlot itemSlot;
+		private ItemStorage itemStorage;
+		public bool GrindOrJuice => grindOrJuice;
+		private bool grindOrJuice = true;
+		private RegisterTile registerTile;
+		private Vector3Int WorldPosition => registerTile.WorldPosition;
 
-		private ReagentContainer grinderStorage;
 
-		private int outputAmount;
-
-		private SpriteRenderer spriteRenderer;
-
-		/// <summary>
-		/// AudioSource for playing the grinding sound.
-		/// </summary>
-		private AudioSource audioSourceGrind;
+		private SpriteHandler spriteHandler;
 
 		/// <summary>
 		/// Set up the AudioSource.
 		/// </summary>
-		private void Start()
+		private void Awake()
 		{
-			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-			audioSourceGrind = GetComponent<AudioSource>();
+			registerTile = GetComponent<RegisterTile>();
+			itemStorage = GetComponent<ItemStorage>();
+			itemSlot = itemStorage.GetIndexedItemSlot(0);
+			spriteHandler = GetComponentInChildren<SpriteHandler>();
 		}
 
-		/// <summary>
-		/// Count remaining time to microwave previously inserted food.
-		/// </summary>
-		public void SetServerStackAmount(int stackAmount)
+		public void EjectContainer()
 		{
-			outputAmount = stackAmount;
-		}
-
-		public void ServerSetOutputMeal(string mealName)
-		{
-			grind = mealName;
-		}
-
-		/// <summary>
-		/// Grind up the object.
-		/// </summary>
-		public void GrindFood()
-		{
-			if (isServer)
+			foreach (var slot in itemStorage.GetItemSlots())
 			{
-				audioSourceGrind.Play();
-				grinderStorage = GetComponent<ReagentContainer>();
-				grinderStorage.Add(new ReagentMix(CraftingManager.Grind.FindOutputReagent(grind), outputAmount));
+				Inventory.ServerDrop(itemSlot);
+				spriteHandler.ChangeSprite(1);
 			}
-			grind = null;
+			return;
+		}
+
+		public void AddItem(ItemSlot fromSlot)
+		{
+			if (fromSlot == null || fromSlot.IsEmpty || ((fromSlot.ItemObject.GetComponent<Grindable>() == null && fromSlot.ItemObject.GetComponent<Juiceable>() == null) && !fromSlot.ItemAttributes.HasTrait(CommonTraits.Instance.Beaker))) return;
+
+
+			if (itemSlot.IsEmpty)
+			{
+				if (fromSlot.Item.GetComponent<ReagentContainer>().TransferMode == TransferMode.Normal) // put beaker to slot
+				{
+
+					Inventory.ServerTransfer(fromSlot, itemStorage.GetIndexedItemSlot(0));
+					spriteHandler.ChangeSprite(0);
+					return;
+				}
+				return;
+			}
+
+
+
+
+			// If there's a stackable component, add one at a time.
+			Stackable stack = fromSlot.ItemObject.GetComponent<Stackable>();
+			if (stack == null || stack.Amount == 1)
+			{
+				Inventory.ServerTransfer(fromSlot, itemStorage.GetNextFreeIndexedSlot());
+			}
+			else {
+				var item = stack.ServerRemoveOne();
+				Inventory.ServerAdd(item, itemStorage.GetNextFreeIndexedSlot());
+			}
+		}
+
+		public void SwitchMode()
+		{
+			grindOrJuice = !grindOrJuice;
+			//make a message about switching into juice or grind mode
+		}
+
+		public void Activate()
+		{
+			SoundManager.PlayNetworkedAtPos(grindSound, WorldPosition, sourceObj: gameObject);
+			foreach (var slot in itemStorage.GetItemSlots())
+			{
+				if (slot == itemSlot) continue;
+
+				if (slot.IsEmpty == true) break;
+
+				// If, somehow, something unprocessable is in the processor (should be impossible), spit it out.
+				if(grindOrJuice){
+					var grindable = slot.ItemObject.GetComponent<Grindable>();
+					if (grindable == null)
+					{
+						Inventory.ServerDrop(slot);
+						continue;
+					}
+
+					foreach(var reagent in grindable.GroundReagents.m_dict)
+					{
+						Container.Add(new ReagentMix(reagent.Key, reagent.Value, 293));
+					}
+
+					var item = slot.ItemObject;
+					_ = Despawn.ServerSingle(item);
+				}
+				else
+				{
+					var juiceable = slot.ItemObject.GetComponent<Juiceable>();
+					if (juiceable == null)
+					{
+						Inventory.ServerDrop(slot);
+						continue;
+					}
+
+					foreach(var reagent in juiceable.JuicedReagents.m_dict)
+					{
+						Container.Add(new ReagentMix(reagent.Key, reagent.Value, 293));
+					}
+
+					var item = slot.ItemObject;
+					_ = Despawn.ServerSingle(item);
+				}
+			}
 		}
 	}
 }

@@ -12,10 +12,25 @@ PrefabInstance:
       propertyPath: bodyPartsCovered
       value: 240
       objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 4d89dbc7c286345419732c18f76c52a2,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 4d89dbc7c286345419732c18f76c52a2,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 4d89dbc7c286345419732c18f76c52a2,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[4].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2909197017712554513, guid: 4d89dbc7c286345419732c18f76c52a2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b9d76994924e03f41b97aa7bbc66cdd9
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: 4d89dbc7c286345419732c18f76c52a2,
         type: 3}
@@ -93,18 +108,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: It's a jumpskirt worn by CentCom's highest-tier Commanders.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: 4d89dbc7c286345419732c18f76c52a2,
+        type: 3}
+      propertyPath: foreverID
+      value: b9d76994924e03f41b97aa7bbc66cdd9
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 4d89dbc7c286345419732c18f76c52a2,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 633bc715bbdaf6a42b20d2f1c262b81c,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 4d89dbc7c286345419732c18f76c52a2,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 633bc715bbdaf6a42b20d2f1c262b81c,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 4d89dbc7c286345419732c18f76c52a2,
         type: 3}
       propertyPath: allClothingData.Array.size

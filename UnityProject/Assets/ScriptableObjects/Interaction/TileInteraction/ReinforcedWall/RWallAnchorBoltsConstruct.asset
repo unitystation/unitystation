@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: RWallAnchorBoltsConstruct
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91, type: 2}
+  harmIntentRequired: 0
   performerStartActionMessage: You start to pry the cover back into place...
   othersStartActionMessage: '{performer} starts to pry the cover back into place...'
   seconds: 2
+  objectsToSpawn: {fileID: 0}
   toTile: {fileID: 11400000, guid: c93afca023a824669a8b47ba373b0df0, type: 2}
   performerFinishActionMessage: The metal cover has been pried back into place.
   othersFinishActionMessage: The metal cover has been pried back into place.

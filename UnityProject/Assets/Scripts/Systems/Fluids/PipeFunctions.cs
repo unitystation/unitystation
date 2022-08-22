@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Systems.Atmospherics;
-using Chemistry;
-using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
+using NaughtyAttributes;
 
-namespace Pipes
+
+namespace Systems.Pipes
 {
 	public static class PipeFunctions
 	{
@@ -25,23 +24,7 @@ namespace Pipes
 			{
 				return (90);
 			}
-			else if (z > -45)
-			{
-				return (0);
-			}
-			else if (z > -135)
-			{
-				return (90);
-			}
-			else if (z > -255)
-			{
-				return (180);
-			}
-			else if (z > -345)
-			{
-				return (270);
-			}
-			else if (z < -345)
+			else //(z > -45)
 			{
 				return (0);
 			}
@@ -49,49 +32,63 @@ namespace Pipes
 			return (0);
 		}
 
-
-		public static List<PipeData> GetConnectedPipes(List<PipeData> ToPutInto, PipeData pipeData, Vector3Int Location,
-			Matrix LocatedOn)
+		public static List<PipeData> GetConnectedPipes(List<PipeData> toPutInto, PipeData pipeData, Vector3Int location,
+			Matrix locatedOn)
 		{
 			for (var i = 0; i < pipeData.Connections.Directions.Length; i++)
 			{
 				if (pipeData.Connections.Directions[i].Bool)
 				{
-					Vector3Int SearchVector = Vector3Int.zero;
+					Vector3Int searchVector = Vector3Int.zero;
 					switch (i)
 					{
 						case (int) PipeDirection.North:
-							SearchVector = Vector3Int.up;
+							searchVector = Vector3Int.up;
 							break;
 
 						case (int) PipeDirection.East:
-							SearchVector = Vector3Int.right;
+							searchVector = Vector3Int.right;
 							break;
 
 						case (int) PipeDirection.South:
-							SearchVector = Vector3Int.down;
+							searchVector = Vector3Int.down;
 							break;
 
 						case (int) PipeDirection.West:
-							SearchVector = Vector3Int.left;
+							searchVector = Vector3Int.left;
 							break;
 					}
 
-					SearchVector = Location + SearchVector;
-					SearchVector.z = 0;
-					var PipesOnTile = LocatedOn.GetPipeConnections(SearchVector);
-					foreach (var pipe in PipesOnTile)
+					searchVector = location + searchVector;
+					searchVector.z = 0;
+					var pipesOnTile = locatedOn.GetPipeConnections(searchVector);
+					foreach (var pipe in pipesOnTile)
 					{
 						if (ArePipeCompatible(pipeData, i, pipe, out var pipe1ConnectAndType))
 						{
 							pipe1ConnectAndType.Connected = pipe;
-							ToPutInto.Add(pipe);
+							toPutInto.Add(pipe);
 						}
 					}
 				}
 			}
 
-			return (ToPutInto);
+			return (toPutInto);
+		}
+
+		public static PipeData GetPipeFromDirection(PipeData pipeData, Vector3Int location, PipeDirection direction, Matrix locatedOn)
+		{
+			location.z = 0;
+			var pipesOnTile = locatedOn.GetPipeConnections(location);
+			foreach (var pipe in pipesOnTile)
+			{
+				if (ArePipeCompatible(pipeData, (int)direction, pipe, out var _))
+				{
+					return pipe;
+				}
+			}
+
+			return null;
 		}
 
 		public static bool ArePipeCompatible(PipeData pipe1, int Direction, PipeData pipe2,
@@ -138,23 +135,32 @@ namespace Pipes
 			return pipe2.Connections.Directions[pipe2Direction].PortType.HasFlag(OutputType.Can_Equalise_With);
 		}
 
-
 		public static PipeDirection PipesToDirections(PipeData pipe1, PipeData pipe2)
 		{
-			var VectorDifference = pipe2.MatrixPos - pipe1.MatrixPos;
-			if (VectorDifference == Vector3Int.up)
+			var vectorDifference = pipe2.MatrixPos - pipe1.MatrixPos;
+			vectorDifference.z = 0; //TODO Tile map upgrade
+
+			return VectorIntToPipeDirection(vectorDifference);
+		}
+
+		public static PipeDirection VectorIntToPipeDirection(Vector3Int vector3Int)
+		{
+			if (vector3Int == Vector3Int.up)
 			{
 				return PipeDirection.North;
 			}
-			else if (VectorDifference == Vector3Int.right)
+
+			if (vector3Int == Vector3Int.right)
 			{
 				return PipeDirection.East;
 			}
-			else if (VectorDifference == Vector3Int.down)
+
+			if (vector3Int == Vector3Int.down)
 			{
 				return PipeDirection.South;
 			}
-			else if (VectorDifference == Vector3Int.left)
+
+			if (vector3Int == Vector3Int.left)
 			{
 				return PipeDirection.West;
 			}
@@ -175,7 +181,7 @@ namespace Pipes
 		}
 	}
 
-	[System.Serializable]
+	[Serializable]
 	public class Connections
 	{
 		public ConnectAndType[] Directions = new ConnectAndType[4];
@@ -202,10 +208,9 @@ namespace Pipes
 			}
 		}
 
-		private void PipeOffset(int OffSet)
+		public void PipeOffset(int OffSet)
 		{
 			var NewConnectionss = new ConnectAndType[4];
-
 
 			for (int i = 0; i < Directions.Length; i++)
 			{
@@ -263,10 +268,13 @@ namespace Pipes
 		}
 	}
 
-	[System.Serializable]
+	[Serializable]
 	public class ConnectAndType
 	{
 		public bool Bool;
+
+		[Tooltip("Whether this connection is needed if mapped (used to detected unconnected monopipes in Tests)")]
+		public bool MappedNeeded;
 
 		[EnumFlags] public PipeType pipeType = PipeType.PipeRun;
 
@@ -274,7 +282,8 @@ namespace Pipes
 		[EnumFlags] [FormerlySerializedAs("OutputType")]
 		public OutputType PortType = OutputType.None;
 
-		[System.NonSerialized] public PipeData Connected = null;
+		[NonSerialized]
+		public PipeData Connected = null;
 
 
 		public FlagLogic flagLogic = FlagLogic.None;
@@ -282,11 +291,12 @@ namespace Pipes
 
 		public ConnectAndType Copy()
 		{
-			var Newone = new ConnectAndType();
-			Newone.Bool = Bool;
-			Newone.pipeType = pipeType;
-			Newone.PortType = PortType;
-			return (Newone);
+			var newOne = new ConnectAndType();
+			newOne.Bool = Bool;
+			newOne.pipeType = pipeType;
+			newOne.PortType = PortType;
+			newOne.MappedNeeded = MappedNeeded;
+			return newOne;
 		}
 	}
 

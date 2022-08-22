@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3695110123352835740, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: foreverID
+      value: 01c2638dc6c850e48a4b92fc0fd02cf6
+      objectReference: {fileID: 0}
     - target: {fileID: 4520221803203555702, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -22,7 +27,12 @@ PrefabInstance:
     - target: {fileID: 7667703169655306053, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 01c2638dc6c850e48a4b92fc0fd02cf6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7777312831022217093, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
@@ -41,6 +51,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7777312831022217093, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +68,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7777312831022217093, guid: d70fb70bc4fe6534a85996e49221bb53,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7777312831022217093, guid: d70fb70bc4fe6534a85996e49221bb53,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7777312831022217093, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
@@ -86,7 +91,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.size
+      propertyPath: initialName
+      value: relic warhammer
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: initialSize
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: initialDescription
+      value: This warhammer cost the chaplain forty thousand space dollars.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: attackVerbs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: traumaDamageMultiplier
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
@@ -96,24 +126,67 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
-      propertyPath: attackVerbs.Array.size
-      value: 4
+      propertyPath: attackVerbs.Array.data[0]
+      value: smashed
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
-      propertyPath: initialName
-      value: relic warhammer
+      propertyPath: attackVerbs.Array.data[1]
+      value: bashed
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
-      propertyPath: initialDescription
-      value: This warhammer cost the chaplain forty thousand space dollars.
+      propertyPath: attackVerbs.Array.data[2]
+      value: hammered
       objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: attackVerbs.Array.data[3]
+      value: crushed
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 9edac88ecee5f984789bd11dad4fb72e,
+        type: 2}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
+        type: 2}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f284f00fa8ded4e4497d577837259406,
+        type: 2}
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
       propertyPath: itemSprites.LeftHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: 6229abcfc57a43b4dad02c0357c0ebf5, type: 3}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: fa39025e568fa584cb8ac50caf06f1fe, type: 3}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: dd53af163ef30bf4cbb8d2cc411d1ede, type: 3}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 581443a71b4c5a24db39d08a15ebcfaa, type: 3}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
@@ -140,16 +213,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
-      propertyPath: itemSprites.LeftHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: dd53af163ef30bf4cbb8d2cc411d1ede, type: 3}
-    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: fa39025e568fa584cb8ac50caf06f1fe, type: 3}
-    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
-        type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
       value: 
       objectReference: {fileID: 21300000, guid: fa39025e568fa584cb8ac50caf06f1fe,
@@ -172,53 +235,5 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300006, guid: fa39025e568fa584cb8ac50caf06f1fe,
         type: 3}
-    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
-        type: 3}
-      propertyPath: itemSprites.RightHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 581443a71b4c5a24db39d08a15ebcfaa, type: 3}
-    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
-        type: 3}
-      propertyPath: initialTraits.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
-        type: 2}
-    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
-        type: 3}
-      propertyPath: initialSize
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
-        type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 9edac88ecee5f984789bd11dad4fb72e,
-        type: 2}
-    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
-        type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: f284f00fa8ded4e4497d577837259406,
-        type: 2}
-    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
-        type: 3}
-      propertyPath: attackVerbs.Array.data[0]
-      value: smashed
-      objectReference: {fileID: 0}
-    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
-        type: 3}
-      propertyPath: attackVerbs.Array.data[1]
-      value: bashed
-      objectReference: {fileID: 0}
-    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
-        type: 3}
-      propertyPath: attackVerbs.Array.data[2]
-      value: hammered
-      objectReference: {fileID: 0}
-    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
-        type: 3}
-      propertyPath: attackVerbs.Array.data[3]
-      value: crushed
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d70fb70bc4fe6534a85996e49221bb53, type: 3}

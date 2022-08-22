@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: RWallSupportLinesConstruct
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: a78723f619e4a41f3ae170507ca20644, type: 2}
+  harmIntentRequired: 0
   performerStartActionMessage: You repair the outer grille.
   othersStartActionMessage: '{performer} repairs the outer grille.'
   seconds: 0
+  objectsToSpawn: {fileID: 0}
   toTile: {fileID: 11400000, guid: 0fcc62fe65ef68645b4ef5863b15eaf0, type: 2}
   performerFinishActionMessage: 
   othersFinishActionMessage: 

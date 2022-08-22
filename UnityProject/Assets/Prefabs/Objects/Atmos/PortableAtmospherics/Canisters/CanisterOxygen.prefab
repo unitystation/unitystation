@@ -7,55 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+    - target: {fileID: 1821887108050511433, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: Gases.Array.size
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: Gases.Array.data[2]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: Gases.Array.data[1]
-      value: 1846.242
-      objectReference: {fileID: 0}
-    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: gasMix.Gases.Array.data[1]
-      value: 61029.93
-      objectReference: {fileID: 0}
-    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: gasMix.Pressure
-      value: 148753.36
-      objectReference: {fileID: 0}
-    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: gasMix.Volume
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: gasMix.Gases.Array.data[0]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: Gases.Array.data[0]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: gasMix.Gases.Array.data[2]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: MaximumMoles
-      value: 1846.242
+      propertyPath: foreverID
+      value: dd86caf1f673b7642be83819773021d8
       objectReference: {fileID: 0}
     - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
@@ -67,12 +22,98 @@ PrefabInstance:
       propertyPath: Temperature
       value: 293.15
       objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: MaximumMoles
+      value: 1846.242
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: gasMix.Volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: gasMix.Pressure
+      value: 148753.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: Gases.Array.size
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: Gases.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: Gases.Array.data[1]
+      value: 1846.242
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: Gases.Array.data[2]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.Volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.Pressure
+      value: 4500.0005
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.Temperature
+      value: 293.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: gasMix.Gases.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: gasMix.Gases.Array.data[1]
+      value: 61029.93
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: gasMix.Gases.Array.data[2]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].GasSO
+      value: 
+      objectReference: {fileID: 11400000, guid: d7d4e6085864f9f4e83593f63d102d08,
+        type: 2}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].Moles
+      value: 1846.242
+      objectReference: {fileID: 0}
     - target: {fileID: 3267766569577888791, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 682575001c0e7bc4d80b0a54fdf8442e,
         type: 3}
+    - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -90,6 +131,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -102,16 +148,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
@@ -135,13 +171,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5376367218187274032, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: initialDescription
-      value: Oxygen. Necessary for human life.
+      propertyPath: initialName
+      value: o2 canister
       objectReference: {fileID: 0}
     - target: {fileID: 5376367218187274032, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: initialName
-      value: o2 canister
+      propertyPath: initialDescription
+      value: Oxygen. Necessary for human life.
       objectReference: {fileID: 0}
     - target: {fileID: 6142982039284312315, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
@@ -149,20 +185,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5ef0657d7830aa84fa605100aca50781,
         type: 2}
+    - target: {fileID: 6261382944912570440, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 1650744744578033140}
     - target: {fileID: 6621590264234028386, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: UIBGTint.r
-      value: 0.26666668
-      objectReference: {fileID: 0}
-    - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: UIBGTint.g
-      value: 0.6156863
+      value: dd86caf1f673b7642be83819773021d8
       objectReference: {fileID: 0}
     - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
@@ -171,13 +202,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: UIInnerPanelTint.r
-      value: 0.79215693
+      propertyPath: UIBGTint.g
+      value: 0.6156863
       objectReference: {fileID: 0}
     - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: UIInnerPanelTint.g
-      value: 0.82745105
+      propertyPath: UIBGTint.r
+      value: 0.26666668
+      objectReference: {fileID: 0}
+    - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: ContentsName
+      value: Oxygen
       objectReference: {fileID: 0}
     - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
@@ -186,12 +222,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: ContentsName
-      value: Oxygen
+      propertyPath: UIInnerPanelTint.g
+      value: 0.82745105
+      objectReference: {fileID: 0}
+    - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: UIInnerPanelTint.r
+      value: 0.79215693
       objectReference: {fileID: 0}
     - target: {fileID: 7811982109262590682, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5ef0657d7830aa84fa605100aca50781,
+        type: 2}
+    - target: {fileID: 7811982109262590682, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 5ef0657d7830aa84fa605100aca50781,
         type: 2}
@@ -201,11 +248,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a3de0367c8c28e44298af384ec19cacd,
         type: 2}
-    - target: {fileID: 7811982109262590682, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 5ef0657d7830aa84fa605100aca50781,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0e96760c016b6140ba8c3979e9213f7, type: 3}
+--- !u!210 &1650744744578033140 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 69088610438818992, guid: c0e96760c016b6140ba8c3979e9213f7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1593689468568701252}
+  m_PrefabAsset: {fileID: 0}

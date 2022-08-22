@@ -1,23 +1,23 @@
-//  This file is part of YamlDotNet - A .NET library for YAML.
-//  Copyright (c) Antoine Aubry and contributors
-
-//  Permission is hereby granted, free of charge, to any person obtaining a copy of
-//  this software and associated documentation files (the "Software"), to deal in
-//  the Software without restriction, including without limitation the rights to
-//  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-//  of the Software, and to permit persons to whom the Software is furnished to do
-//  so, subject to the following conditions:
-
-//  The above copyright notice and this permission notice shall be included in all
-//  copies or substantial portions of the Software.
-
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//  SOFTWARE.
+﻿// This file is part of YamlDotNet - A .NET library for YAML.
+// Copyright (c) Antoine Aubry and contributors
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the "Software"), to deal in
+// the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+// of the Software, and to permit persons to whom the Software is furnished to do
+// so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 using System;
 
@@ -26,35 +26,19 @@ namespace YamlDotNet.Core.Tokens
     /// <summary>
     /// Represents a tag token.
     /// </summary>
-    [Serializable]
-    public class Tag : Token
+    public sealed class Tag : Token
     {
-        private readonly string handle;
-        private readonly string suffix;
-
         /// <summary>
         /// Gets the handle.
         /// </summary>
         /// <value>The handle.</value>
-        public string Handle
-        {
-            get
-            {
-                return handle;
-            }
-        }
+        public string Handle { get; }
 
         /// <summary>
         /// Gets the suffix.
         /// </summary>
         /// <value>The suffix.</value>
-        public string Suffix
-        {
-            get
-            {
-                return suffix;
-            }
-        }
+        public string Suffix { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Tag"/> class.
@@ -76,8 +60,8 @@ namespace YamlDotNet.Core.Tokens
         public Tag(string handle, string suffix, Mark start, Mark end)
             : base(start, end)
         {
-            this.handle = handle;
-            this.suffix = suffix;
+            this.Handle = handle ?? throw new ArgumentNullException(nameof(handle));
+            this.Suffix = suffix ?? throw new ArgumentNullException(nameof(suffix));
         }
     }
 }

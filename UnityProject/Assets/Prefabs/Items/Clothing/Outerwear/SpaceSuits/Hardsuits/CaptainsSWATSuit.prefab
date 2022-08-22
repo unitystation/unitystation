@@ -7,18 +7,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3087960746820223610, guid: 91aad833277815d498e0686d9fc85bed,
+        type: 3}
+      propertyPath: runningSpeedDebuff
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087960746820223610, guid: 91aad833277815d498e0686d9fc85bed,
+        type: 3}
+      propertyPath: walkingSpeedDebuff
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3696664957502459903, guid: 91aad833277815d498e0686d9fc85bed,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 3feeff27729ce7f429ecaa57c2872732,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3696664957502459903, guid: 91aad833277815d498e0686d9fc85bed,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 3feeff27729ce7f429ecaa57c2872732,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3696664957502459903, guid: 91aad833277815d498e0686d9fc85bed,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -30,12 +38,37 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 624923aff3c57ae4cbac46a4f5849500,
         type: 2}
+    - target: {fileID: 3713976962054770711, guid: 91aad833277815d498e0686d9fc85bed,
+        type: 3}
+      propertyPath: foreverID
+      value: ac6c0453ea1ca8d45a402ee8a5590a58
+      objectReference: {fileID: 0}
     - target: {fileID: 4500807473808762877, guid: 91aad833277815d498e0686d9fc85bed,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: a2ebe07ec886a4e4ea6c709dd097ed72,
         type: 2}
+    - target: {fileID: 6249989393794428677, guid: 91aad833277815d498e0686d9fc85bed,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[6].armor.DismembermentProtectionChance
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 6249989393794428677, guid: 91aad833277815d498e0686d9fc85bed,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[7].armor.DismembermentProtectionChance
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 6249989393794428677, guid: 91aad833277815d498e0686d9fc85bed,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[8].armor.DismembermentProtectionChance
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 6249989393794428677, guid: 91aad833277815d498e0686d9fc85bed,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[9].armor.DismembermentProtectionChance
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 7620651485336760102, guid: 91aad833277815d498e0686d9fc85bed,
         type: 3}
       propertyPath: m_Sprite
@@ -45,7 +78,7 @@ PrefabInstance:
     - target: {fileID: 7684335182724719054, guid: 91aad833277815d498e0686d9fc85bed,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: ac6c0453ea1ca8d45a402ee8a5590a58
       objectReference: {fileID: 0}
     - target: {fileID: 7720165483630928142, guid: 91aad833277815d498e0686d9fc85bed,
         type: 3}

@@ -1,16 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 namespace Antagonists
 {
-	[CreateAssetMenu(menuName="ScriptableObjects/Objectives/CargoEliminateSecurity")]
+	[CreateAssetMenu(menuName="ScriptableObjects/AntagObjectives/CargoEliminateSecurity")]
 	public class CargoEliminateSecurity : Objective
 	{
-		protected override void Setup()
-		{
-		}
+		protected override void Setup() { }
 
 		protected override bool CheckCompletion()
 		{
@@ -21,10 +18,8 @@ namespace Antagonists
 
 			foreach (Transform t in transform)
 			{
-				var player = t.GetComponent<PlayerScript>();
-				if (player != null)
+				if (t.gameObject.TryGetPlayer(out var playerDetails))
 				{
-					var playerDetails = PlayerList.Instance.Get(player.gameObject);
 					if (playerDetails.Job == JobType.SECURITY_OFFICER || playerDetails.Job == JobType.HOS
 					                                           || playerDetails.Job == JobType.DETECTIVE
 					                                           || playerDetails.Job == JobType.WARDEN)

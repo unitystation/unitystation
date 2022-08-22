@@ -78,13 +78,35 @@ public class CablePlacementVisualisation : MonoBehaviour
 		lineRenderer = cablePlacementVisualisation.GetComponent<LineRenderer>();
 	}
 
-	private void Update()
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void UpdateMe()
 	{
 		// return if visualisation is disabled or distance is greater than interaction distance
 		if (!cablePlacementVisualisation.activeSelf) return;
 
+
+		if (PlayerManager.LocalPlayerObject.RegisterTile().Matrix.IsMovable)
+		{
+			cablePlacementVisualisation.transform.localRotation = PlayerManager.LocalPlayerObject.RegisterTile().Matrix.MatrixMove
+				.FacingOffsetFromInitial.Quaternion;
+		}
+		else
+		{
+			cablePlacementVisualisation.transform.localRotation = Quaternion.identity;
+		}
+
+
 		// get releative mouse position
-		Vector2 releativeMousePosition = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition) - cablePlacementVisualisation.transform.position;
+		Vector2 releativeMousePosition = MouseUtils.MouseToWorldPos().ToLocal(PlayerManager.LocalPlayerObject.RegisterTile().Matrix) - cablePlacementVisualisation.transform.position.ToLocal(PlayerManager.LocalPlayerObject.RegisterTile().Matrix);
 		// get nearest point
 		int x = Mathf.RoundToInt(releativeMousePosition.x * 2);
 		int y = 2 - Mathf.RoundToInt(releativeMousePosition.y * 2);
@@ -141,8 +163,23 @@ public class CablePlacementVisualisation : MonoBehaviour
 	private void Build()
 	{
 		if (startPoint == endPoint || target == null) return;
+		var Register = PlayerManager.LocalPlayerObject.RegisterTile();
 
-		Vector2 targetVector = (connectionPointRenderers[endPoint].transform.position - transform.position);
+		Vector3 Position = Vector3.zero;
+
+		if (Register.Matrix.IsMovable == false)
+		{
+			Position = cablePlacementVisualisation.transform.position + (new Vector3(0.5f, 0.5f, 0));
+		}
+		else
+		{
+			var InQuaternion = Register.Matrix.MatrixMove.FacingOffsetFromInitial.Quaternion;
+			Position = cablePlacementVisualisation.transform.position + (InQuaternion * new Vector3(0.5f, 0.5f, 0));
+		}
+
+
+		Vector2 targetVector = Position.ToLocal(PlayerManager.LocalPlayerObject.RegisterTile().Matrix); // transform.position ( - transform.position); //TODO? what? is this
+
 		ConnectionApply cableApply = ConnectionApply.ByLocalPlayer(target, startPoint, endPoint, targetVector);
 
 		//if HandObject is null, then its an empty hand apply so we only need to check the receiving object
@@ -263,49 +300,73 @@ public class CablePlacementVisualisation : MonoBehaviour
 
 	public void OnHover()
 	{
-		if (!UIManager.IsMouseInteractionDisabled && UIManager.Hands.CurrentSlot != null)
+
+		if (!UIManager.IsMouseInteractionDisabled )
 		{
+			var hand = PlayerManager.LocalPlayerScript?.DynamicItemStorage?.GetActiveHandSlot();
+			if (hand == null)
+			{
+				DisableVisualisation();
+				return;
+			}
+			if (hand.Item == null)
+			{
+				DisableVisualisation();
+				return;
+			}
+
+			if (hand.Item.ItemAttributesV2.HasTrait(CommonTraits.Instance.Cable) == false)
+			{
+				DisableVisualisation();
+				return;
+			}
+
+
+
 			// get mouse position
-			Vector3 mousePosition = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
-			// round mouse position
-			Vector3Int roundedMousePosition = Vector3Int.RoundToInt(mousePosition);
+			var mousePosition = MouseUtils.MouseToWorldPos().RoundToInt();
 
 			// if distance is greater than interaction distance
-			if (Vector2.Distance(transform.position, (Vector3)roundedMousePosition) > PlayerScript.interactionDistance)
+			if (Vector2.Distance(transform.position, (Vector3)mousePosition) > PlayerScript.interactionDistance)
 			{
 				DisableVisualisation();
 				return;
 			}
 
 			// if position has changed and player has cable in hand
-			if (roundedMousePosition != lastMouseWordlPositionInt
-				&& Validations.HasItemTrait(UIManager.Hands.CurrentSlot.ItemObject, CommonTraits.Instance.Cable))
+			if (mousePosition != lastMouseWordlPositionInt
+			    && Validations.HasItemTrait(PlayerManager.LocalPlayerScript.OrNull()?.DynamicItemStorage.OrNull()?.GetActiveHandSlot()?.ItemObject, CommonTraits.Instance.Cable))
 			{
-				lastMouseWordlPositionInt = roundedMousePosition;
+				lastMouseWordlPositionInt = mousePosition;
 
-				// get metaTileMap and top tile
-				// MetaTileMap metaTileMap = MatrixManager.AtPoint(roundedMousePosition, false).MetaTileMap;
-				// LayerTile topTile = metaTileMap.GetTile(metaTileMap.WorldToCell(mousePosition), true);
-				// *code above works only on Station matrix
-				// TODO: replace GetComponent solution with some built-in method?
+				var metaTileMap = MatrixManager.AtPoint(mousePosition, false).MetaTileMap;
+				var topTile = metaTileMap.GetTile(metaTileMap.WorldToCell(mousePosition), true, excludeNonIntractable : true );
 
-				var hit = MouseUtils.GetOrderedObjectsUnderMouse().FirstOrDefault();
-				MetaTileMap metaTileMap = hit.GetComponentInChildren<MetaTileMap>();
-				if (metaTileMap)
+				if (topTile && (topTile.LayerType == LayerType.Base || topTile.LayerType.IsUnderFloor()))
 				{
-					LayerTile topTile = metaTileMap.GetTile(metaTileMap.WorldToCell(roundedMousePosition), true);
-					if (topTile && (topTile.LayerType == LayerType.Base || topTile.LayerType == LayerType.Underfloor))
+					// move cable placement visualisation to rounded mouse position and enable it
+					var RegisterTile = PlayerManager.LocalPlayerObject.RegisterTile();
+
+					if (RegisterTile.Matrix.IsMovable == false)
 					{
-						// move cable placement visualisation to rounded mouse position and enable it
-						cablePlacementVisualisation.transform.position = roundedMousePosition - new Vector3(0.5f, 0.5f, 0); ;
+						cablePlacementVisualisation.transform.position = mousePosition - (new Vector3(0.5f, 0.5f, 0)) ;
 						cablePlacementVisualisation.SetActive(true);
 					}
-					// disable visualisation if active
 					else
-						DisableVisualisation();
+					{
+						var InQuaternion = RegisterTile.Matrix.MatrixMove
+							.FacingOffsetFromInitial.Quaternion;
+
+						cablePlacementVisualisation.transform.position = mousePosition - (InQuaternion * (new Vector3(0.5f, 0.5f, 0))) ;
+						cablePlacementVisualisation.SetActive(true);
+					}
+
+
 				}
+				// disable visualisation if active
 				else
 					DisableVisualisation();
+
 			}
 		}
 		else

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using DatabaseAPI;
 using Messages.Client.Admin;
 using UnityEngine;
 using UnityEngine.Events;
+
 
 namespace AdminTools
 {
@@ -17,13 +17,13 @@ namespace AdminTools
 		[SerializeField] private bool showAdminsOnly = false;
 		[SerializeField] private bool disableButtonInteract = false;
 		[SerializeField] private bool hideSensitiveFields = false;
-		private float refreshTime = 3f;
+		private readonly float refreshTime = 3f;
 
-		private List<GameObject> HiddenButtons = new List<GameObject>();
+		private readonly List<GameObject> HiddenButtons = new List<GameObject>();
 		[SerializeField] private AdminSearchBar searchBar = null;
 
 		//Loaded playerEntries
-		private List<AdminPlayerEntry> playerEntries = new List<AdminPlayerEntry>();
+		private readonly List<AdminPlayerEntry> playerEntries = new List<AdminPlayerEntry>();
 
 		public OnSelectPlayerEvent OnSelectPlayer;
 
@@ -40,18 +40,14 @@ namespace AdminTools
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 		}
 
-		void PeriodicUpdate()
+		private void PeriodicUpdate()
 		{
 			RefreshPlayerList();
 		}
 
-		void RefreshPlayerList()
+		private void RefreshPlayerList()
 		{
-			if (ServerData.UserID == null || (PlayerList.Instance.AdminToken == null && PlayerList.Instance.MentorToken == null)) return;
-			string MentorOrAdminToken = PlayerList.Instance.MentorToken;
-			if(MentorOrAdminToken == null)
-				MentorOrAdminToken = PlayerList.Instance.AdminToken;
-			RequestAdminPlayerList.Send(ServerData.UserID, MentorOrAdminToken);
+			RequestAdminPlayerList.Send();
 		}
 
 		public void ReceiveUpdatedPlayerList(AdminPlayersList playerList)
@@ -59,7 +55,7 @@ namespace AdminTools
 			RefreshOnlinePlayerList(playerList);
 		}
 
-		void RefreshOnlinePlayerList(AdminPlayersList playerList)
+		private void RefreshOnlinePlayerList(AdminPlayersList playerList)
 		{
 			foreach (var p in playerList.players)
 			{
@@ -108,7 +104,7 @@ namespace AdminTools
 			}
 		}
 
-		void SelectPlayerInList(AdminPlayerEntry selectedEntry)
+		private void SelectPlayerInList(AdminPlayerEntry selectedEntry)
 		{
 			foreach (var p in playerEntries)
 			{
@@ -124,14 +120,14 @@ namespace AdminTools
 			}
 
 			SelectedPlayer = selectedEntry;
-			if(OnSelectPlayer != null) OnSelectPlayer.Invoke(selectedEntry.PlayerData);
+			if (OnSelectPlayer != null) OnSelectPlayer.Invoke(selectedEntry.PlayerData);
 		}
 
 		public void Search()
 		{
 			if (searchBar == null) return;
 
-			foreach (GameObject x in HiddenButtons)//Hidden Buttons stores list of the hidden items which dont contain the search phrase
+			foreach (GameObject x in HiddenButtons) // Hidden Buttons stores list of the hidden items which dont contain the search phrase
 			{
 				if (x != null)
 				{
@@ -142,8 +138,8 @@ namespace AdminTools
 
 			//Grabs fresh list of all the possible buttons
 			// TODO: encapsulate this adminPlayerList search more generic so that it can better be used across different admin systems
-			var buttons = playerEntries.Count > 0 
-				? playerEntries 
+			var buttons = playerEntries.Count > 0
+				? playerEntries
 				: gameObject.transform.parent.parent.parent.GetComponent<GUI_AdminTools>().GetPlayerEntries();
 			var Searchtext = searchBar.SearchText();
 
@@ -151,14 +147,10 @@ namespace AdminTools
 			{
 				if (buttons[i] != null)
 				{
-					if (buttons[i].displayName.text.ToLower().Contains(Searchtext.text.ToLower()) || Searchtext.text.Length == 0)
-					{
-					}
-					else
-					{
-						HiddenButtons.Add(buttons[i].gameObject);//non-results get hidden
-						buttons[i].gameObject.SetActive(false);
-					}
+					if (buttons[i].displayName.text.ToLower().Contains(Searchtext.text.ToLower()) || Searchtext.text.Length == 0) continue;
+
+					HiddenButtons.Add(buttons[i].gameObject); // non-results get hidden
+					buttons[i].gameObject.SetActive(false);
 				}
 			}
 		}

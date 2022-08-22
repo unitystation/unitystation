@@ -59,6 +59,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -68,8 +70,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -90,9 +92,12 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
@@ -138,7 +143,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6abbdb88d66eba3a0800000000000000
-      internalID: -6652970666389816410
+      internalID: -4648566830400703545
       vertices: []
       indices: 
       edges: []
@@ -159,7 +164,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 7efaae5072814fcd0800000000000000
-      internalID: -2525366935165947929
+      internalID: -6683126067521924728
       vertices: []
       indices: 
       edges: []
@@ -180,7 +185,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9d981b4dc5d4c1850800000000000000
-      internalID: 6349034635786291673
+      internalID: -6996915797213883148
       vertices: []
       indices: 
       edges: []
@@ -201,7 +206,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 2fe7e5d0a1d07b440800000000000000
-      internalID: 4951440720861757170
+      internalID: -3167930070325151074
       vertices: []
       indices: 
       edges: []
@@ -216,6 +221,11 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      head_beretnoir_0: -4648566830400703545
+      head_beretnoir_2: -6996915797213883148
+      head_beretnoir_1: -6683126067521924728
+      head_beretnoir_3: -3167930070325151074
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

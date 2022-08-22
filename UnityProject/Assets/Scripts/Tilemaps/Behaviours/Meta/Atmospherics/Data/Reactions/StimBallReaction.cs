@@ -12,7 +12,7 @@ namespace Systems.Atmospherics
 			throw new System.NotImplementedException();
 		}
 
-		public void React(GasMix gasMix, Vector3 tilePos, Matrix matrix)
+		public void React(GasMix gasMix, MetaDataNode node)
 		{
 			var oldHeatCap = gasMix.WholeHeatCapacity;
 
@@ -34,7 +34,10 @@ namespace Systems.Atmospherics
 			gasMix.RemoveGas(Gas.Pluoxium, 10 * pluoxUsed);
 			gasMix.RemoveGas(Gas.Stimulum, 20 * stimUsed);
 
-			gasMix.SetTemperature(Mathf.Clamp((gasMix.Temperature * oldHeatCap + energyReleased)/gasMix.WholeHeatCapacity, 2.7f, Single.PositiveInfinity));
+			gasMix.SetTemperature(
+				Mathf.Clamp((gasMix.Temperature * oldHeatCap + energyReleased) / gasMix.WholeHeatCapacity,
+				AtmosDefines.SPACE_TEMPERATURE,
+				Single.PositiveInfinity));
 		}
 	}
 }

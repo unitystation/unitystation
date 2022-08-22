@@ -38,7 +38,7 @@ MonoBehaviour:
     - cost: 10
       item: {fileID: 3168944121209824662, guid: 0a7ba29086818cf4a8010f3b2743a7ac,
         type: 3}
-      name: Stalker Sub-Machine-Gun
+      name: Stalker .45 Sub-Machine-Gun
       isNukeOps: 1
     - cost: 8
       item: {fileID: 8947746899163356516, guid: 1e9a929a33dead54e9b3584af40d2605,
@@ -48,12 +48,12 @@ MonoBehaviour:
     - cost: 18
       item: {fileID: 4490747135017947362, guid: fc502f4e927543d4ea7c77161dc70761,
         type: 3}
-      name: ' M90-gl Carbine'
+      name: ' [PLACEHOLDER] M90-gl Carbine'
       isNukeOps: 1
     - cost: 18
       item: {fileID: 2524481489369203327, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}
-      name: Buzzsaw Light-Machine-Gun
+      name: Buzzsaw 7.12 Light-Machine-Gun
       isNukeOps: 1
     - cost: 16
       item: {fileID: 6552933947037394245, guid: 24b21da59a1c48248805096709dceca1,
@@ -78,7 +78,7 @@ MonoBehaviour:
     - cost: 20
       item: {fileID: 5535997695813769692, guid: 081bc224eb6f52048b6b5898cdb46bd1,
         type: 3}
-      name: 'Biohazardous Chemical Sprayer '
+      name: '[PLACEHOLDER] Biohazardous Chemical Sprayer '
       isNukeOps: 1
     - cost: 2
       item: {fileID: 331383614235509145, guid: ed9f88270aae41443a71e5406ac73acb, type: 3}
@@ -99,7 +99,7 @@ MonoBehaviour:
     - cost: 2
       item: {fileID: 7476062863988596383, guid: 0bcb562e4cfbd464e8ef507e59b99145,
         type: 3}
-      name: 9mm Pistol Magazine Incendiary (Makarov)
+      name: ' 9mm Pistol Magazine Incendiary (Makarov)'
       isNukeOps: 0
     - cost: 2
       item: {fileID: 208438919457015429, guid: 796601fd29f46de47aea93cd84ab063f, type: 3}
@@ -108,7 +108,7 @@ MonoBehaviour:
     - cost: 3
       item: {fileID: 2678885901133295109, guid: 0d6120c86021a9248ac45d3b4af5cc4e,
         type: 3}
-      name: 9mm Pistol Magazine HP (Makarov)
+      name: '{PLACEHOLDER} 9mm Pistol Magazine HP (Makarov)'
       isNukeOps: 0
     - cost: 4
       item: {fileID: 661569839832110917, guid: 7cbde3b57839c144e933398cfd78e132, type: 3}
@@ -132,30 +132,40 @@ MonoBehaviour:
       item: {fileID: 7508253555952636633, guid: 251c85198dd9873499087ca7a48dd1f7,
         type: 3}
       name: .45 Magazine
-      isNukeOps: 0
+      isNukeOps: 1
     - cost: 4
       item: {fileID: 435832073196029829, guid: 6350e652bf2cf6f4798e94b428abe26a, type: 3}
       name: .45 Incendiary Magazine
-      isNukeOps: 0
+      isNukeOps: 1
     - cost: 5
       item: {fileID: 4430048610868926130, guid: 3ff692322b59b2c42910672d01e80be0,
         type: 3}
       name: .45 AP Magazine
-      isNukeOps: 0
+      isNukeOps: 1
     - cost: 6
       item: {fileID: 9000248426970939090, guid: e9d40516785485e4186335c8a0127177,
         type: 3}
-      name: 7.62 Box Magazine
+      name: 7.12 Box Magazine
+      isNukeOps: 1
+    - cost: 9
+      item: {fileID: 5127872780450208763, guid: 6fab7e0ae57334144b7be8681158ea1f,
+        type: 3}
+      name: 7.12 AP Box Magazine
+      isNukeOps: 1
+    - cost: 6
+      item: {fileID: 3921339601322062170, guid: 8cb730de5c4649342af6adfafb1fc788,
+        type: 3}
+      name: 7.12 Incendiary Box Magazine
       isNukeOps: 1
     - cost: 6
       item: {fileID: 1008370769270868744, guid: bef46d3ead6840548bca44c50cf2b0f0,
         type: 3}
-      name: 7.62 HP Box Magazine
+      name: '[PLACEHOLDER] 7.12 HP Box Magazine'
       isNukeOps: 1
     - cost: 9
       item: {fileID: 6814394828475340149, guid: e9e53c4c86ce8b847a9357dd556d29cb,
         type: 3}
-      name: 7.62 Match Box Magazine
+      name: '[PLACEHOLDER] 7.12 Match Box Magazine'
       isNukeOps: 1
     - cost: 4
       item: {fileID: 6235254427324400780, guid: 7bf36ad773bdc1f49b1d7b0b3314f2e4,
@@ -165,11 +175,11 @@ MonoBehaviour:
     - cost: 5
       item: {fileID: 2758230776231955350, guid: 1ff4434fc7fc4854a96c3553a2bfea85,
         type: 3}
-      name: .50 Penetrator Magazine
+      name: '[PLACEHOLDER] .50 Penetrator Magazine'
       isNukeOps: 1
     - cost: 6
       item: {fileID: 494214967995890161, guid: a6df792f59ac82341bcd9b5f48ecc88b, type: 3}
-      name: .50 Soporific Magazine
+      name: '[PLACEHOLDER] .50 Soporific Magazine'
       isNukeOps: 1
     - cost: 4
       item: {fileID: 7571802707091528828, guid: 5a643a1e715e7bd42af8563fcac22ee2,
@@ -183,7 +193,7 @@ MonoBehaviour:
       isNukeOps: 1
     - cost: 6
       item: {fileID: 739350886795446212, guid: 19fb6e6a3e54bc54e8215d5cbb5163b9, type: 3}
-      name: 40mm Grenade Box
+      name: 40mm Grenade Rounds Box
       isNukeOps: 1
     - cost: 4
       item: {fileID: 7885618348377886950, guid: d449122ab9878fd4dab243529623d4a8,
@@ -212,6 +222,53 @@ MonoBehaviour:
         type: 3}
       name: Syndicate Minibomb
       isNukeOps: 0
+    - cost: 1
+      item: {fileID: 896716891640034833, guid: 0a45eeafcc7b5164bb139db7bf25c0a8, type: 3}
+      name: C4
+      isNukeOps: 0
+    - cost: 4
+      item: {fileID: 896716891640034833, guid: 9ca978c567f2e5c4bb8a6be3190717f7, type: 3}
+      name: X4
+      isNukeOps: 0
+    - cost: 24
+      item: {fileID: 2149007544274266856, guid: 0a6b7e420d85d4f42b5378e35facf718,
+        type: 3}
+      name: Grenadier's Belt
+      isNukeOps: 1
+    - cost: 10
+      item: {fileID: 5724235118832229837, guid: b14ebaef76ba2ea45a602bdac304de0a,
+        type: 3}
+      name: Pizza Bomb
+      isNukeOps: 0
+    - cost: 10
+      item: {fileID: 4222118818240899638, guid: b2fc19add39d4ef45bccea514f0e426c,
+        type: 3}
+      name: EMP grenade box
+      isNukeOps: 0
+    - cost: 15
+      item: {fileID: 1011433845357754, guid: 2354313a50efe2543862cb92150a5388, type: 3}
+      name: Power Sink
+      isNukeOps: 0
+    - cost: 20
+      item: {fileID: 4761250752494374682, guid: 00265c28041a8b84f9012e430f772f08,
+        type: 3}
+      name: Syndicate Bomb
+      isNukeOps: 0
+    - cost: 1
+      item: {fileID: 3349033025192972872, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      name: Implant Explosive
+      isNukeOps: 0
+    - cost: 2
+      item: {fileID: 7387852776840792558, guid: dc94bc35b5fe6704b851fa3e1f97bfff,
+        type: 3}
+      name: Microbomb Implant
+      isNukeOps: 1
+    - cost: 5
+      item: {fileID: 8932607892331406976, guid: a34b9bd5acaa56348acb4c3a83be928a,
+        type: 3}
+      name: Macrobomb Implant
+      isNukeOps: 1
   - categoryName: Stealthy Weapons
     itemList:
     - cost: 2
@@ -236,10 +293,15 @@ MonoBehaviour:
       isNukeOps: 0
   - categoryName: Suits
     itemList:
-    - cost: 4
+    - cost: 5
       item: {fileID: 1558225297725682349, guid: 5e3c47b463befd44ebaa3bc0bfeea116,
         type: 3}
       name: Syndicate Spacesuit
+      isNukeOps: 0
+    - cost: 4
+      item: {fileID: 9141470852570775663, guid: f24cb487d4fbf0b4dbd8979eeb325ab1,
+        type: 3}
+      name: Infiltrator Suit
       isNukeOps: 0
     - cost: 8
       item: {fileID: 1558225297725682349, guid: d8156c3dd0457934192767f6099cb000,
@@ -254,15 +316,10 @@ MonoBehaviour:
     - cost: 30
       item: {fileID: 1558225297725682349, guid: d8156c3dd0457934192767f6099cb000,
         type: 3}
-      name: Shielded Hardsuit
+      name: '[PLACEHOLDER] Shielded Hardsuit'
       isNukeOps: 1
-  - categoryName: Misc. Gadgets
+  - categoryName: Devices and Tools
     itemList:
-    - cost: 2
-      item: {fileID: 6998335104120014203, guid: 24d90ebee10594247988f55484a416d6,
-        type: 3}
-      name: Blood-Red Magboots
-      isNukeOps: 1
     - cost: 1
       item: {fileID: 3668676918291703395, guid: 00019cd41de95b244ac165825679fd64,
         type: 3}
@@ -282,11 +339,26 @@ MonoBehaviour:
       item: {fileID: 467525242527465826, guid: 7446b39999627a540b8ced2abe647ac6, type: 3}
       name: Syndicate Soap
       isNukeOps: 0
+    - cost: 3
+      item: {fileID: 3770642299235649496, guid: c3c0bef0c9fb94c4eb2a53079df54bc8,
+        type: 3}
+      name: Surgical Equipment Bundle
+      isNukeOps: 0
     - cost: 4
-      item: {fileID: 6918947953705996213, guid: 5288f8108626e2ff1aab9bd925ff1346,
+      item: {fileID: 5647395047373439380, guid: e456d62fc63bc3344a513208fbc3018a,
+        type: 3}
+      name: Combat Med Kit
+      isNukeOps: 1
+    - cost: 4
+      item: {fileID: 6081445882463156587, guid: 037968b5e32c4ea41b05e567fa5e0cdf,
         type: 3}
       name: Syndicate Jaws of Life
-      isNukeOps: 0
+      isNukeOps: 1
+    - cost: 2
+      item: {fileID: 6998335104120014203, guid: 24d90ebee10594247988f55484a416d6,
+        type: 3}
+      name: Blood-Red Magboots
+      isNukeOps: 1
     - cost: 25
       item: {fileID: 1932387406643808284, guid: 29bb4fde205c69c8aaa3f76e935c0f68,
         type: 3}
@@ -308,6 +380,21 @@ MonoBehaviour:
       item: {fileID: 8743402964508765710, guid: 8c0cd43087354414196842dd7f64a46a,
         type: 3}
       name: Syndicate Smokes
+      isNukeOps: 0
+    - cost: 4
+      item: {fileID: 2226368129053124309, guid: 970de07033f527d48af8fc68aa02df85,
+        type: 3}
+      name: Clown Disguise
+      isNukeOps: 0
+    - cost: 4
+      item: {fileID: 3368031108693316832, guid: 27af229b89b85ff4ca762bfbad0000ff,
+        type: 3}
+      name: Greytide Disguise
+      isNukeOps: 0
+    - cost: 20
+      item: {fileID: 2561269402831639547, guid: 1bcc710685b02a940bc36cadde3b0ade,
+        type: 3}
+      name: Centcom Officer Disguise
       isNukeOps: 0
   - categoryName: Bundles and Telecrystals
     itemList:
@@ -339,7 +426,7 @@ MonoBehaviour:
         type: 3}
       name: Bulldozer Bundle
       isNukeOps: 1
-    - cost: 14
+    - cost: 15
       item: {fileID: 4052594192556048590, guid: c6a44742c1c75b26f9c4320efd6ec51f,
         type: 3}
       name: Stalker Bundle

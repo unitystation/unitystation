@@ -11,14 +11,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 507bcfb7bc5bc73428b83b40e79395c7,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 368423588061109339, guid: a67aa95de4c8f7349a192a12cdfc84dd,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 507bcfb7bc5bc73428b83b40e79395c7,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 368423588061109339, guid: a67aa95de4c8f7349a192a12cdfc84dd,
         type: 3}
       propertyPath: allClothingData.Array.data[0]
@@ -34,7 +32,7 @@ PrefabInstance:
     - target: {fileID: 4204035148867913800, guid: a67aa95de4c8f7349a192a12cdfc84dd,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 760ad04c7b18eab4685694f1f5de66e9
       objectReference: {fileID: 0}
     - target: {fileID: 4306441978527708668, guid: a67aa95de4c8f7349a192a12cdfc84dd,
         type: 3}
@@ -105,6 +103,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: This is used by your elite security force. Protects ears from flashbangs.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7167821638054115729, guid: a67aa95de4c8f7349a192a12cdfc84dd,
+        type: 3}
+      propertyPath: foreverID
+      value: 760ad04c7b18eab4685694f1f5de66e9
       objectReference: {fileID: 0}
     - target: {fileID: 7963931074447003259, guid: a67aa95de4c8f7349a192a12cdfc84dd,
         type: 3}

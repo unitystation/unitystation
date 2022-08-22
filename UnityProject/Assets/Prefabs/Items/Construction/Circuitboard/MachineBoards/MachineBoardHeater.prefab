@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2691037627184013048, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: foreverID
+      value: 7f7805d52e758bf479a255d76f54ff50
+      objectReference: {fileID: 0}
     - target: {fileID: 2928706061312092434, guid: 890d160c3b8aa074c844215d24be6881,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -33,12 +38,17 @@ PrefabInstance:
     - target: {fileID: 8968619637580689185, guid: 890d160c3b8aa074c844215d24be6881,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 7f7805d52e758bf479a255d76f54ff50
       objectReference: {fileID: 0}
     - target: {fileID: 9070621792283486298, guid: 890d160c3b8aa074c844215d24be6881,
         type: 3}
       propertyPath: m_Name
       value: MachineBoardHeater
+      objectReference: {fileID: 0}
+    - target: {fileID: 9070621792283508593, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9070621792283508593, guid: 890d160c3b8aa074c844215d24be6881,
         type: 3}
@@ -57,6 +67,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9070621792283508593, guid: 890d160c3b8aa074c844215d24be6881,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9070621792283508593, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -69,16 +84,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9070621792283508593, guid: 890d160c3b8aa074c844215d24be6881,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9070621792283508593, guid: 890d160c3b8aa074c844215d24be6881,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9070621792283508593, guid: 890d160c3b8aa074c844215d24be6881,
         type: 3}

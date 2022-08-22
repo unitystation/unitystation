@@ -1,0 +1,125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8356733484390765248
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 185805929322484740, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: foreverID
+      value: 6e29d44acc06ee743b16901af59de78d
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110343267396133870, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 70b83b15bee6bb6459a89b5743ef3651,
+        type: 2}
+    - target: {fileID: 4062638375031680829, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1eea53d9d708d2841a280bbc4075f7c4,
+        type: 2}
+    - target: {fileID: 6403927333314702133, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -7562174062599717527, guid: fc654a8bb67bad647b3d490bf3dea110,
+        type: 3}
+    - target: {fileID: 6498312071342856297, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: m_Name
+      value: VulpkaninRightLeg
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502395519655109917, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502395519655109917, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502395519655109917, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502395519655109917, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502395519655109917, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502395519655109917, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502395519655109917, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502395519655109917, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502395519655109917, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502395519655109917, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502395519655109917, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6609755923973416413, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 6e29d44acc06ee743b16901af59de78d
+      objectReference: {fileID: 0}
+    - target: {fileID: 6684255344632002315, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: initialName
+      value: vulpkanin right leg
+      objectReference: {fileID: 0}
+    - target: {fileID: 6684255344632002315, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: DismembermentChance
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: bodyPartAshesAboveThisDamage
+      value: 145
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 70b83b15bee6bb6459a89b5743ef3651,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 51326f2264a075148a8aaa6bf95604c7, type: 3}

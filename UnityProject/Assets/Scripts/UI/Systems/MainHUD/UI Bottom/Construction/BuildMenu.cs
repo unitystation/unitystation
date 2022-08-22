@@ -18,7 +18,9 @@ namespace UI.UI_Bottom
 
 		[SerializeField] private ConveyorBuildMenu conveyorBuildMenu = null;
 
-		//current object whose menu is being shown
+		public ConveyorBuildMenu ConveyorBuildMenu => conveyorBuildMenu;
+
+		// current object whose menu is being shown
 		private BuildingMaterial currentBuildingMaterial;
 
 		//TODO: Implement, model kinda after dev spawner.
@@ -32,13 +34,13 @@ namespace UI.UI_Bottom
 			conveyorBuildMenu.gameObject.SetActive(false);
 			transform.GetChild(0).gameObject.SetActive(true);
 			currentBuildingMaterial = buildingMaterial;
-			//delete previous results
+			// delete previous results
 			foreach (Transform child in contentPanel.transform)
 			{
 				Destroy(child.gameObject);
 			}
 
-			//display new results
+			// display new results
 			foreach (var entry in buildingMaterial.BuildList.Entries)
 			{
 				CreateListItem(entry);
@@ -51,13 +53,19 @@ namespace UI.UI_Bottom
 			conveyorBuildMenu.OpenConveyorBuildMenu(entry, buildingMaterial);
 		}
 
+		public void ShowConveyorBeltMenu()
+		{
+			CloseBuildMenu();
+			conveyorBuildMenu.OpenConveyorBuildMenu();
+		}
+
 		public void CloseBuildMenu()
 		{
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			transform.GetChild(0).gameObject.SetActive(false);
 		}
 
-		//add a list item to the content panel for spawning the specified result
+		// add a list item to the content panel for spawning the specified result
 		private void CreateListItem(BuildList.Entry entry)
 		{
 			if (!entry.CanBuildWith(currentBuildingMaterial)) return;

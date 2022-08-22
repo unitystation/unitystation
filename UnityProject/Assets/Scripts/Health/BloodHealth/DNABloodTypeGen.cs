@@ -1,6 +1,6 @@
 using System;
 
-[System.Serializable]
+[Serializable]
 public class DNAandBloodType
 {
 	public string DNAString;
@@ -16,7 +16,7 @@ public class DNAandBloodType
 	public DNAandBloodType()
 	{
 		// Assigns DNA a GUID
-		DNAString = System.Guid.NewGuid().ToString();
+		DNAString = Guid.NewGuid().ToString();
 		// Assigns blood type by roll, note that there isnt an equal chance for each roll.
 		if (BloodTypeGenerator <= 364)
 		{

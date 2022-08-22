@@ -1,28 +1,31 @@
-
 using System;
 using UnityEngine;
 
-/**
- * NetUI component for Wheel, handles syncing the value.
- */
-public class NetWheel : NetUIStringElement
+namespace UI.Core.NetUI
 {
-	public Wheel Element;
-
-	public override string Value
+	/// <summary>
+	/// NetUI component for Wheel, handles syncing the value.
+	/// </summary>
+	public class NetWheel : NetUIStringElement
 	{
-		set
+		public Wheel Element;
+
+		public override string Value
 		{
-			externalChange = true;
-			Element.RotateToValue(Convert.ToInt32(Convert.ToDouble(value)));
-			externalChange = false;
+			set
+			{
+				externalChange = true;
+				Element.RotateToValue(Convert.ToInt32(Convert.ToDouble(value)));
+				externalChange = false;
+			}
+			get => Element.KPA.ToString();
 		}
-		get => Element.KPA.ToString();
-	}
 
-	public IntEvent ServerMethod;
+		public FloatEvent ServerMethod;
 
-	public override void ExecuteServer(ConnectedPlayer subject) {
-		ServerMethod.Invoke(Element.KPA);
+		public override void ExecuteServer(PlayerInfo subject)
+		{
+			ServerMethod.Invoke(Element.KPA);
+		}
 	}
 }

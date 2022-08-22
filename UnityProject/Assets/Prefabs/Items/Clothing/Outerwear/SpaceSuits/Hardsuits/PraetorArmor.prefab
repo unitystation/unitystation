@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4022603687467869122
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2387572587440178332, guid: 1ee5ac185235ac14590a10c9e2f7ba3f,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a1c5519a168e7684d9445cf0920588d1,
+        type: 3}
+    - target: {fileID: 2470115108224633460, guid: 1ee5ac185235ac14590a10c9e2f7ba3f,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 823ef3d23ac9eaf469f78e6deb0d9b10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2576106414071368372, guid: 1ee5ac185235ac14590a10c9e2f7ba3f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2576106414071368372, guid: 1ee5ac185235ac14590a10c9e2f7ba3f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2576106414071368372, guid: 1ee5ac185235ac14590a10c9e2f7ba3f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2576106414071368372, guid: 1ee5ac185235ac14590a10c9e2f7ba3f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2576106414071368372, guid: 1ee5ac185235ac14590a10c9e2f7ba3f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2576106414071368372, guid: 1ee5ac185235ac14590a10c9e2f7ba3f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2576106414071368372, guid: 1ee5ac185235ac14590a10c9e2f7ba3f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2576106414071368372, guid: 1ee5ac185235ac14590a10c9e2f7ba3f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2576106414071368372, guid: 1ee5ac185235ac14590a10c9e2f7ba3f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2576106414071368372, guid: 1ee5ac185235ac14590a10c9e2f7ba3f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2576106414071368372, guid: 1ee5ac185235ac14590a10c9e2f7ba3f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2581592840093054912, guid: 1ee5ac185235ac14590a10c9e2f7ba3f,
+        type: 3}
+      propertyPath: m_Name
+      value: PraetorArmor
+      objectReference: {fileID: 0}
+    - target: {fileID: 2683639287366146210, guid: 1ee5ac185235ac14590a10c9e2f7ba3f,
+        type: 3}
+      propertyPath: initialName
+      value: praetor armor
+      objectReference: {fileID: 0}
+    - target: {fileID: 2683639287366146210, guid: 1ee5ac185235ac14590a10c9e2f7ba3f,
+        type: 3}
+      propertyPath: initialDescription
+      value: Powered armor of unknown make. Provides protection from the elements
+        despite lack of coverage through unknown means.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8544936207821474887, guid: 1ee5ac185235ac14590a10c9e2f7ba3f,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8c838f57fb5df1f43b023f04dc55654f,
+        type: 2}
+    - target: {fileID: 8892657522437766061, guid: 1ee5ac185235ac14590a10c9e2f7ba3f,
+        type: 3}
+      propertyPath: foreverID
+      value: 823ef3d23ac9eaf469f78e6deb0d9b10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8912222930386576453, guid: 1ee5ac185235ac14590a10c9e2f7ba3f,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: cc0d2b5caf49c0947930603727add595,
+        type: 2}
+    m_RemovedComponents:
+    - {fileID: 7077689699946998208, guid: 1ee5ac185235ac14590a10c9e2f7ba3f, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 1ee5ac185235ac14590a10c9e2f7ba3f, type: 3}

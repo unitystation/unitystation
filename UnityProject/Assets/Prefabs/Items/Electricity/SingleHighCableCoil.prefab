@@ -15,7 +15,12 @@ PrefabInstance:
     - target: {fileID: 1317881860533816661, guid: 288980126acf5f441841169958c31630,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 930cb494644d9ed46b31e1ecf4222089
+      objectReference: {fileID: 0}
+    - target: {fileID: 1427000246303903125, guid: 288980126acf5f441841169958c31630,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1427000246303903125, guid: 288980126acf5f441841169958c31630,
         type: 3}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1427000246303903125, guid: 288980126acf5f441841169958c31630,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1427000246303903125, guid: 288980126acf5f441841169958c31630,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1427000246303903125, guid: 288980126acf5f441841169958c31630,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1427000246303903125, guid: 288980126acf5f441841169958c31630,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1427000246303903125, guid: 288980126acf5f441841169958c31630,
         type: 3}
@@ -79,13 +79,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3377645697590253390, guid: 288980126acf5f441841169958c31630,
         type: 3}
-      propertyPath: stacksWith.Array.size
-      value: 2
+      propertyPath: initialAmount
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3377645697590253390, guid: 288980126acf5f441841169958c31630,
         type: 3}
-      propertyPath: initialAmount
-      value: 1
+      propertyPath: stacksWith.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3377645697590253390, guid: 288980126acf5f441841169958c31630,
         type: 3}
@@ -93,5 +93,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1431646644770877665, guid: 288980126acf5f441841169958c31630,
         type: 3}
+    - target: {fileID: 5432611008878820492, guid: 288980126acf5f441841169958c31630,
+        type: 3}
+      propertyPath: foreverID
+      value: 930cb494644d9ed46b31e1ecf4222089
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 288980126acf5f441841169958c31630, type: 3}

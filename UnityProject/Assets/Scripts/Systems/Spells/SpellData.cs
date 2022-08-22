@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using Systems.Spells;
-using AddressableReferences;
-using Object = UnityEngine.Object;
 using NaughtyAttributes;
+using AddressableReferences;
+using Systems.Spells;
+using Tiles;
 
 namespace ScriptableObjects.Systems.Spells
 {
@@ -27,6 +27,7 @@ namespace ScriptableObjects.Systems.Spells
 		[Tooltip("Implementation prefab, defaults to SimpleSpell if null")]
 		[SerializeField]
 		private GameObject spellImplementation = null;
+
 
 		[Tooltip("Rechargeable has unlimited uses, LimitedCharges is limited by StartingCharges")]
 		[SerializeField, BoxGroup("Replenishment")]
@@ -103,22 +104,8 @@ namespace ScriptableObjects.Systems.Spells
 
 		#endregion
 
-		private void Awake()
-		{
-			CheckImplementation();
-		}
-
-		private void OnEnable()
-		{
-			CheckImplementation();
-		}
-
-		private void OnValidate()
-		{
-			CheckImplementation();
-		}
-
-		private void CheckImplementation()
+		[NaughtyAttributes.Button()]
+		public void CheckImplementation()
 		{
 			if (spellImplementation == null && SpellList.Instance != null)
 			{

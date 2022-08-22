@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &1263196486094172581
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6354841859598439861}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 522753dae8748be48b7ddc4b3e0e0bf9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  toSpawn: {fileID: 4703772245403916857, guid: b8fb81ca58d782b49bf75a15183aa0e6, type: 3}
 --- !u!1001 &6355556422854715663
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -71,7 +58,7 @@ PrefabInstance:
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: c24157b1840f6d745b42d5842883b391
       objectReference: {fileID: 0}
     - target: {fileID: 114883521337486670, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -279,6 +266,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0ea0c6301632edf46afa524310e9baf4,
         type: 2}
+    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: foreverID
+      value: c24157b1840f6d745b42d5842883b391
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114577415631634126, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
@@ -288,3 +280,16 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6355556422854715663}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1263196486094172581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6354841859598439861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 522753dae8748be48b7ddc4b3e0e0bf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toSpawn: {fileID: 4703772245403916857, guid: b8fb81ca58d782b49bf75a15183aa0e6, type: 3}

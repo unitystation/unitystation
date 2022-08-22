@@ -16,12 +16,17 @@ PrefabInstance:
     - target: {fileID: 1195837410598928031, guid: af405bc87f41b6240ac29b45b235181a,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 7d81962e070184940a817c5c4bf6d974
       objectReference: {fileID: 0}
     - target: {fileID: 1228429718649373483, guid: af405bc87f41b6240ac29b45b235181a,
         type: 3}
       propertyPath: m_Name
       value: ShadowshroomCluster
+      objectReference: {fileID: 0}
+    - target: {fileID: 1233916419008462431, guid: af405bc87f41b6240ac29b45b235181a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1233916419008462431, guid: af405bc87f41b6240ac29b45b235181a,
         type: 3}
@@ -40,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1233916419008462431, guid: af405bc87f41b6240ac29b45b235181a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1233916419008462431, guid: af405bc87f41b6240ac29b45b235181a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1233916419008462431, guid: af405bc87f41b6240ac29b45b235181a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1233916419008462431, guid: af405bc87f41b6240ac29b45b235181a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1233916419008462431, guid: af405bc87f41b6240ac29b45b235181a,
         type: 3}
@@ -86,13 +86,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1720895015312223305, guid: af405bc87f41b6240ac29b45b235181a,
         type: 3}
-      propertyPath: initialDescription
-      value: 'Mycena Umbra: This species of mushroom emits shadow instead of light.'
+      propertyPath: initialName
+      value: shadowshroom cluster
       objectReference: {fileID: 0}
     - target: {fileID: 1720895015312223305, guid: af405bc87f41b6240ac29b45b235181a,
         type: 3}
-      propertyPath: initialName
-      value: shadowshroom cluster
+      propertyPath: initialDescription
+      value: 'Mycena Umbra: This species of mushroom emits shadow instead of light.'
       objectReference: {fileID: 0}
     - target: {fileID: 4920848234185996460, guid: af405bc87f41b6240ac29b45b235181a,
         type: 3}
@@ -100,5 +100,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ee5bdc8301569394ba9343631c20ce2e,
         type: 2}
+    - target: {fileID: 5311709570468056902, guid: af405bc87f41b6240ac29b45b235181a,
+        type: 3}
+      propertyPath: foreverID
+      value: 7d81962e070184940a817c5c4bf6d974
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af405bc87f41b6240ac29b45b235181a, type: 3}

@@ -1,10 +1,10 @@
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Objects;
 
 /// <summary>
 /// Main API for all types of spawning (except players - see PlayerSpawn). If you ever need to spawn something, look here.
@@ -14,7 +14,6 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public static class Spawn
 {
-
 	//dict for looking up spawnable prefabs (prefabs that can be used to instantiate new objects in the game) by name.
 	//Name is basically the only thing that
 	//is similar between client / server (instance ID is not) so we're going with this approach unless naming collisions
@@ -43,7 +42,6 @@ public static class Spawn
 	private static GameObject uniCloth;
 	private static GameObject uniBackpack;
 	private static GameObject uniHeadSet;
-	public static Dictionary<string, PlayerTextureData> RaceData = new Dictionary<string, PlayerTextureData>();
 
 	/// <summary>
 	/// Default scatter radius when spawning multiple things
@@ -54,6 +52,7 @@ public static class Spawn
 	{
 		if (objectPool == null)
 		{
+			CustomNetworkManager.Instance.SetSpawnableList();
 			//only can spawn objects that are networked
 			var spawnablePrefabs = CustomNetworkManager.Instance.spawnPrefabs
 				.Where(IsPrefab)
@@ -70,6 +69,7 @@ public static class Spawn
 			objectPool = new ObjectPool(PoolConfig.Instance);
 		}
 	}
+
 	private static bool IsPrefab(GameObject toCheck) => !toCheck.transform.gameObject.scene.IsValid();
 
 	/// <summary>
@@ -86,7 +86,8 @@ public static class Spawn
 			var prefab = CustomNetworkManager.Instance.GetSpawnablePrefabFromName(prefabName);
 			if (prefab == null)
 			{
-				Logger.LogErrorFormat("Could not find prefab with name {0}, please ensure it is correctly spelled.", Category.ItemSpawn,
+				Logger.LogErrorFormat("Could not find prefab with name {0}, please ensure it is correctly spelled.",
+					Category.ItemSpawn,
 					prefabName);
 				return null;
 			}
@@ -95,6 +96,7 @@ public static class Spawn
 				nameToSpawnablePrefab.Add(prefabName, prefab);
 			}
 		}
+
 		return nameToSpawnablePrefab[prefabName];
 	}
 
@@ -126,13 +128,15 @@ public static class Spawn
 	/// <param name="cancelIfImpassable">If true, the spawn will be cancelled if the location being spawned into is totally impassable.</param>
 	/// <returns>the newly created GameObject</returns>
 	public static SpawnResult ServerPrefab(GameObject prefab, Vector3? worldPosition = null, Transform parent = null,
-		Quaternion? localRotation = null, int count = 1, float? scatterRadius = null, bool cancelIfImpassable = false, bool spawnItems = true, bool AutoOnSpawnServerHook = true)
+		Quaternion? localRotation = null, int count = 1, float? scatterRadius = null, bool cancelIfImpassable = false,
+		bool spawnItems = true, bool AutoOnSpawnServerHook = true,
+		UniversalObjectPhysics sharePosition = null, bool mapspawn = false, bool PrePickRandom = false)
 	{
 		return Server(
 			SpawnInfo.Spawnable(
-				SpawnablePrefab.For(prefab),
-				SpawnDestination.At(worldPosition, parent, localRotation, cancelIfImpassable),
-				count, scatterRadius, spawnItems: spawnItems), AutoOnSpawnServerHook);
+				SpawnablePrefab.For(prefab, PrePickRandom),
+				SpawnDestination.At(worldPosition, parent, localRotation, cancelIfImpassable, sharePosition),
+				count, scatterRadius, spawnItems: spawnItems, mapspawn: mapspawn), AutoOnSpawnServerHook);
 	}
 
 	/// <summary>
@@ -147,13 +151,14 @@ public static class Spawn
 	/// <param name="scatterRadius">radius to scatter the spawned instances by from their spawn position. Defaults to
 	/// null (no scatter).</param>
 	/// <returns>the newly created GameObject</returns>
-	public static SpawnResult ServerPrefab(GameObject prefab, SpawnDestination destination, int count = 1, float? scatterRadius = null)
+	public static SpawnResult ServerPrefab(GameObject prefab, SpawnDestination destination, int count = 1,
+		float? scatterRadius = null,bool mapspawn = false, bool PrePickRandom = false)
 	{
 		return Server(
 			SpawnInfo.Spawnable(
-				SpawnablePrefab.For(prefab),
+				SpawnablePrefab.For(prefab, PrePickRandom),
 				destination,
-				count, scatterRadius));
+				count, scatterRadius,mapspawn : mapspawn));
 	}
 
 	/// <summary>
@@ -172,13 +177,14 @@ public static class Spawn
 	/// <param name="scatterRadius">radius to scatter the spawned instances by from their spawn position. Defaults to
 	/// null (no scatter).</param>
 	/// <returns>the newly created GameObject</returns>
-	public static SpawnResult ClientPrefab(GameObject prefab, Vector3? worldPosition = null, Transform parent = null, Quaternion? localRotation = null, int count = 1, float? scatterRadius = null)
+	public static SpawnResult ClientPrefab(GameObject prefab, Vector3? worldPosition = null, Transform parent = null,
+		Quaternion? localRotation = null, int count = 1, float? scatterRadius = null,bool mapspawn = false)
 	{
 		return Client(
 			SpawnInfo.Spawnable(
 				SpawnablePrefab.For(prefab),
 				SpawnDestination.At(worldPosition, parent, localRotation),
-				count, scatterRadius));
+				count, scatterRadius,mapspawn : mapspawn ));
 	}
 
 	/// <summary>
@@ -199,13 +205,13 @@ public static class Spawn
 	/// <param name="cancelIfImpassable">If true, the spawn will be cancelled if the location being spawned into is totally impassable.</param>
 	/// <returns>the newly created GameObject</returns>
 	public static SpawnResult ServerPrefab(string prefabName, Vector3? worldPosition = null, Transform parent = null,
-		Quaternion? localRotation = null, int count = 1, float? scatterRadius = null, bool cancelIfImpassable = false)
+		Quaternion? localRotation = null, int count = 1, float? scatterRadius = null, bool cancelIfImpassable = false, bool mapspawn = false )
 	{
 		return Server(
 			SpawnInfo.Spawnable(
 				SpawnablePrefab.For(prefabName),
 				SpawnDestination.At(worldPosition, parent, localRotation, cancelIfImpassable),
-				count, scatterRadius));
+				count, scatterRadius,  mapspawn : mapspawn));
 	}
 
 	/// <summary>
@@ -224,13 +230,14 @@ public static class Spawn
 	/// <param name="scatterRadius">radius to scatter the spawned instances by from their spawn position. Defaults to
 	/// null (no scatter).</param>
 	/// <returns>the newly created GameObject</returns>
-	public static SpawnResult ClientPrefab(string prefabName, Vector3? worldPosition = null, Transform parent = null, Quaternion? localRotation = null, int count = 1, float? scatterRadius = null)
+	public static SpawnResult ClientPrefab(string prefabName, Vector3? worldPosition = null, Transform parent = null,
+		Quaternion? localRotation = null, int count = 1, float? scatterRadius = null, bool mapspawn = false)
 	{
 		return Client(
 			SpawnInfo.Spawnable(
 				SpawnablePrefab.For(prefabName),
 				SpawnDestination.At(worldPosition, parent, localRotation),
-				count, scatterRadius));
+				count, scatterRadius, mapspawn : mapspawn));
 	}
 
 	/// <summary>
@@ -277,19 +284,27 @@ public static class Spawn
 
 			if (result.Successful)
 			{
+				if (info.Mapspawn == false)
+				{
+					result.GameObject.AddComponent<RuntimeSpawned>();
+				}
 				spawnedObjects.Add(result.GameObject);
 				//apply scattering if it was specified
 				if (info.ScatterRadius != null)
 				{
-					foreach (var spawned in spawnedObjects)
+					var uop = result.GameObject.GetComponent<UniversalObjectPhysics>();
+					var scatterRadius = info.ScatterRadius.GetValueOrDefault(0);
+					if (uop != null)
 					{
-						var cnt = spawned.GetComponent<CustomNetTransform>();
-						var scatterRadius = info.ScatterRadius.GetValueOrDefault(0);
-						if (cnt != null)
-						{
-							cnt.SetPosition(info.SpawnDestination.WorldPosition + new Vector3(Random.Range(-scatterRadius, scatterRadius), Random.Range(-scatterRadius, scatterRadius)));
-						}
+						uop.AppearAtWorldPositionServer(info.SpawnDestination.WorldPosition + new Vector3(
+							Random.Range(-scatterRadius, scatterRadius), Random.Range(-scatterRadius, scatterRadius)));
 					}
+				}
+
+				if (info.SpawnDestination.SharePosition != null &&
+				    info.SpawnDestination.SharePosition.ContainedInContainer != null)
+				{
+					info.SpawnDestination.SharePosition.ContainedInContainer.StoreObjects(result.GameObjects);
 				}
 			}
 			else
@@ -303,7 +318,6 @@ public static class Spawn
 		if (spawnedObjects.Count == 1)
 		{
 			spawnResult = SpawnResult.Single(info, spawnedObjects[0]);
-
 		}
 		else
 		{
@@ -317,7 +331,6 @@ public static class Spawn
 
 
 		return spawnResult;
-
 	}
 
 	/// <summary>
@@ -372,13 +385,11 @@ public static class Spawn
 		//fire server hooks
 		foreach (var spawnedObject in result.GameObjects)
 		{
+			spawnedObject.GetComponent<RegisterTile>().OrNull()?.ChangeActiveState(true);
 			var comps = spawnedObject.GetComponentsInChildren<IServerSpawn>();
-			if (comps != null)
+			foreach (var comp in comps)
 			{
-				foreach (var comp in comps)
-				{
-					comp.OnSpawnServer(result.SpawnInfo);
-				}
+				comp.OnSpawnServer(result.SpawnInfo);
 			}
 		}
 	}

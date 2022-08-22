@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +23,7 @@ namespace Systems.ElectricalArcs
 
 		public ElectricalArcSettings Settings { get; private set; }
 
-		private List<LightningBoltScript> arcs = new List<LightningBoltScript>();
+		private readonly List<LightningBoltScript> arcs = new();
 
 		/// <summary>
 		/// Informs all clients and the server to create arcs with the given settings.
@@ -45,14 +45,13 @@ namespace Systems.ElectricalArcs
 
 			if (settings.reachCheck && CanReach() == false) return;
 
-			var newArcs = new LightningBoltScript[settings.arcCount];
+			arcs.Clear();
 			for (int i = 0; i < settings.arcCount; i++)
 			{
-				newArcs[i] = CreateSingleArc(settings);
+				arcs.Add(CreateSingleArc(settings));
 			}
-			arcs = newArcs.ToList();
 
-			UpdateManager.Add(TriggerArc, arcs[0].Duration);
+			UpdateManager.Add(TriggerArc, arcs[0].Duration, offsetUpdate: false);
 			UpdateManager.Add(DoPulse, PULSE_INTERVAL);
 			UpdateManager.Add(EndArcs, settings.duration);
 		}
@@ -110,7 +109,7 @@ namespace Systems.ElectricalArcs
 
 			var linecast = MatrixManager.Linecast(
 					startPos,
-					LayerTypeSelection.Walls | LayerTypeSelection.Windows, LayerMask.NameToLayer("Door Closed"),
+					LayerTypeSelection.Walls | LayerTypeSelection.Windows, LayerMask.GetMask("Door Closed"),
 					endPos);
 			return linecast.ItHit == false || Vector3.Distance(endPos, linecast.HitWorld) < 0.1f; // Allow for some raycast/linecast tolerance
 		}

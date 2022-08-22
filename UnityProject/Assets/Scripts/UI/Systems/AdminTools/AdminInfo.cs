@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Mirror;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ namespace AdminTools
 	/// </summary>
 	public class AdminInfo : NetworkBehaviour
 	{
-		private IAdminInfo adminInfos;
+		private IAdminInfo[] adminInfos;
 		[Tooltip("The position offset from the center of the tracked object")]
 		[SerializeField] private Vector2 offsetPosition = Vector2.zero;
 		[Tooltip("Give the server obj time to init before sending overlay data")]
@@ -26,13 +27,20 @@ namespace AdminTools
 		{
 			get
 			{
-				if (adminInfos == null)
+				if (adminInfos == null || adminInfos.Length == 0)
 				{
 					return "";
 				}
 				else
 				{
-					return adminInfos.AdminInfoString();
+					var builder = new StringBuilder();
+
+					foreach (var info in adminInfos)
+					{
+						builder.AppendLine(info.AdminInfoString());
+					}
+
+					return builder.ToString();
 				}
 			}
 		}
@@ -40,7 +48,7 @@ namespace AdminTools
 		public override void OnStartServer()
 		{
 			base.OnStartServer();
-			adminInfos = GetComponent<IAdminInfo>();
+			adminInfos = GetComponents<IAdminInfo>();
 			StartCoroutine(WaitToSet());
 		}
 

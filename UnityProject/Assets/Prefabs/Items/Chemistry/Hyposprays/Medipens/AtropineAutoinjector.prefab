@@ -25,9 +25,46 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
         type: 3}
+      propertyPath: initialName
+      value: atropine autoinjector
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
+      propertyPath: initialDescription
+      value: A rapid way to save a person from a critical injury state!
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 66f0fa4f7bfc82d47b6a7b1a553196d3,
+        type: 2}
+    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d3e620a74e8259141a3e510095c66595,
+        type: 2}
+    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
       propertyPath: itemSprites.LeftHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: 8b7f11a3ef47e0c49826c4c70729369a, type: 3}
+    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 2940f806a9ebd2e40a502d651124978d, type: 3}
+    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 6cc385e1569c6404b89921052cef7e7a, type: 3}
+    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 166524cd8770cc946b01c9aba764401a, type: 3}
     - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
@@ -54,16 +91,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
         type: 3}
-      propertyPath: itemSprites.LeftHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 6cc385e1569c6404b89921052cef7e7a, type: 3}
-    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 2940f806a9ebd2e40a502d651124978d, type: 3}
-    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
-        type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
       value: 
       objectReference: {fileID: 1128076547146861280, guid: 2940f806a9ebd2e40a502d651124978d,
@@ -86,37 +113,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -3055441179793407827, guid: 2940f806a9ebd2e40a502d651124978d,
         type: 3}
-    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
-        type: 3}
-      propertyPath: itemSprites.RightHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 166524cd8770cc946b01c9aba764401a, type: 3}
-    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
-        type: 3}
-      propertyPath: initialDescription
-      value: A rapid way to save a person from a critical injury state!
-      objectReference: {fileID: 0}
-    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
-        type: 3}
-      propertyPath: initialName
-      value: atropine autoinjector
-      objectReference: {fileID: 0}
-    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
-        type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 66f0fa4f7bfc82d47b6a7b1a553196d3,
-        type: 2}
-    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
-        type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: d3e620a74e8259141a3e510095c66595,
-        type: 2}
     - target: {fileID: 2074353254340257071, guid: 6445f714f221b6743aa6d70ac4b73c87,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: faeec4693c9ab0e4f943011178b4e60f
+      objectReference: {fileID: 0}
+    - target: {fileID: 2111663703731086831, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2111663703731086831, guid: 6445f714f221b6743aa6d70ac4b73c87,
         type: 3}
@@ -135,6 +140,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2111663703731086831, guid: 6445f714f221b6743aa6d70ac4b73c87,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2111663703731086831, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -147,16 +157,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2111663703731086831, guid: 6445f714f221b6743aa6d70ac4b73c87,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2111663703731086831, guid: 6445f714f221b6743aa6d70ac4b73c87,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2111663703731086831, guid: 6445f714f221b6743aa6d70ac4b73c87,
         type: 3}
@@ -184,6 +184,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 42f47d40dd75a7c4290e548a3443816b,
         type: 3}
+    - target: {fileID: 5037022434091717878, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
+      propertyPath: foreverID
+      value: faeec4693c9ab0e4f943011178b4e60f
+      objectReference: {fileID: 0}
     - target: {fileID: 5195957585038861084, guid: 6445f714f221b6743aa6d70ac4b73c87,
         type: 3}
       propertyPath: PresentSpriteSet

@@ -1,5 +1,6 @@
 ﻿using System;
 using CameraEffects;
+using Items;
 using Mirror;
 using UnityEngine;
 
@@ -12,6 +13,10 @@ namespace Player
 	{
 		#region SyncVars
 
+		//HiddenHands
+		[SyncVar(hook = nameof(SyncHiddenHands))]
+		private HiddenHandValue hiddenHandSelection;
+
 		//NightVision
 		[SyncVar(hook = nameof(SyncNightVision))]
 		private bool nightVisionState;
@@ -19,6 +24,11 @@ namespace Player
 		private Vector3 nightVisionVisibility = new Vector3(10.5f, 10.5f, 21);
 		[SyncVar]
 		private float visibilityAnimationSpeed = 1.5f;
+
+		//Antag
+		[SyncVar(hook = nameof(SyncAntagState))]
+		private bool isAntag;
+		public bool IsAntag => isAntag;
 
 		#endregion
 
@@ -41,6 +51,12 @@ namespace Player
 		#region Server
 
 		[Server]
+		public void ServerSetHiddenHands(HiddenHandValue newState)
+        {
+			hiddenHandSelection = newState;
+        }
+
+		[Server]
 		public void ServerSetNightVision(bool newState, Vector3 visibility, float speed)
 		{
 			nightVisionVisibility = visibility;
@@ -48,9 +64,23 @@ namespace Player
 			nightVisionState = newState;
 		}
 
+		[Server]
+		public void ServerSetAntag(bool newState)
+		{
+			isAntag = newState;
+			GetComponent<PlayerScript>().ActivateAntagAction(newState);
+		}
+
 		#endregion
 
 		#region Client
+
+		[Client]
+		private void SyncHiddenHands(HiddenHandValue oldState, HiddenHandValue newState)
+        {
+			hiddenHandSelection = newState;
+			HandsController.Instance.HideHands(hiddenHandSelection);
+        }
 
 		[Client]
 		private void SyncNightVision(bool oldState, bool newState)
@@ -58,6 +88,12 @@ namespace Player
 			nightVisionState = newState;
 			cameraEffectControlScript.AdjustPlayerVisibility(nightVisionVisibility, nightVisionState ? visibilityAnimationSpeed : 0.1f);
 			cameraEffectControlScript.ToggleNightVisionEffectState(nightVisionState);
+		}
+
+		[Client]
+		private void SyncAntagState(bool oldState, bool newState)
+		{
+			isAntag = newState;
 		}
 
 		#endregion

@@ -1,12 +1,11 @@
 ﻿using System.Collections;
 using UnityEngine;
-using WebSocketSharp;
 using Systems.Mob;
 using Random = UnityEngine.Random;
 
 namespace Systems.MobAIs
 {
-	public class GenericFriendlyAI : MobAI, IServerSpawn
+	public class GenericFriendlyAI : MobAI
 	{
 		protected float timeForNextRandomAction;
 		protected float timeWaiting;
@@ -16,40 +15,39 @@ namespace Systems.MobAIs
 		protected float maxTimeBetweenRandomActions = 30f;
 		[SerializeField]
 		protected bool doRandomActionWhenInTask = false;
-		protected SimpleAnimal simpleAnimal;
 		public string MobName => mobName.Capitalize();
 
-		protected override void Awake()
-		{
-			base.Awake();
-			simpleAnimal = GetComponent<SimpleAnimal>();
-			BeginExploring();
-		}
+		#region Lifecycle
 
-		protected override void UpdateMe()
-		{
-			if (!MatrixManager.IsInitialized || health.IsDead || health.IsCrit || health.IsCardiacArrest) return;
-
-			base.UpdateMe();
-			MonitorExtras();
-		}
-
-
-		protected override void AIStartServer()
+		protected override void OnSpawnMob()
 		{
 			exploringStopped.AddListener(OnExploringStopped);
 			fleeingStopped.AddListener(OnFleeingStopped);
 			followingStopped.AddListener(OnFollowStopped);
 		}
 
+		protected override void OnAIStart()
+		{
+			BeginExploring();
+		}
+
+		#endregion Lifecycle
+
+		public override void ContemplatePriority()
+		{
+			if (MatrixManager.IsInitialized == false || health.IsDead || health.IsCrit) return;
+			base.ContemplatePriority();
+			MonitorExtras();
+		}
+
 		protected virtual void MonitorExtras()
 		{
-			if (IsPerformingTask && !doRandomActionWhenInTask)
+			if (!doRandomActionWhenInTask)
 			{
 				return;
 			}
 
-			timeWaiting += Time.deltaTime;
+			timeWaiting += MobController.UpdateTimeInterval;
 			if (timeWaiting < timeForNextRandomAction) return;
 			timeWaiting = 0f;
 			timeForNextRandomAction = Random.Range(minTimeBetweenRandomActions, maxTimeBetweenRandomActions);
@@ -67,7 +65,7 @@ namespace Systems.MobAIs
 			{
 				for (int spriteDir = 1; spriteDir < 5; spriteDir++)
 				{
-					directional.FaceDirection(directional.CurrentDirection.Rotate(1));
+					rotatable.RotateBy(1);
 					yield return WaitFor.Seconds(0.3f);
 				}
 			}
@@ -75,31 +73,14 @@ namespace Systems.MobAIs
 			yield return WaitFor.EndOfFrame;
 		}
 
-		protected virtual void DoRandomAction() {}
-
-		public void OnSpawnServer(SpawnInfo info)
-		{
-			OnSpawnMob();
-		}
-
-		protected virtual void OnSpawnMob()
-		{
-			mobSprite.SetToNPCLayer();
-			registerObject.RestoreAllToDefault();
-			if (simpleAnimal != null)
-			{
-				simpleAnimal.SetDeadState(false);
-			}
-		}
-
 		protected override void OnAttackReceived(GameObject damagedBy = null)
 		{
 			StartFleeing(damagedBy, 5f);
 		}
 
-		protected virtual void OnExploringStopped(){}
-		protected virtual void OnFleeingStopped(){}
-		protected virtual void OnFollowStopped(){}
-
+		protected virtual void OnExploringStopped() {}
+		protected virtual void OnFleeingStopped() {}
+		protected virtual void OnFollowStopped() {}
+		protected virtual void DoRandomAction() { }
 	}
 }

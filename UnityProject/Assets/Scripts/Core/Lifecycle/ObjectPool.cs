@@ -84,43 +84,35 @@ public class ObjectPool
 			if (isNetworked)
 			{
 				// failsafe - we should be able to assume we are server if this code path is reached
-				if (!CustomNetworkManager.IsServer)
+				if (CustomNetworkManager.IsServer == false)
 				{
 					Logger.LogErrorFormat("Coding error! Tried to add networked object {0} to pool but we " +
 					                      "are not server.", Category.Objects, target);
 				}
+
 				//destroy for all clients, keep only in the server pool
 				NetworkServer.UnSpawn(target);
 
-				//transform.VisibleState seems to be valid only on server side, so we make it invisible
-				//here when we're going to add it to the pool, but we don't do that on clientside.
-				if (target.TryGetComponent<IPushable>(out var pushable))
+				if (target.TryGetComponent<UniversalObjectPhysics>(out var uop))
 				{
-					pushable.VisibleState = false;
-				}
-
-				if (target.TryGetComponent<CustomNetTransform>(out var cnt))
-				{
-					cnt.DisappearFromWorldServer();
+					uop.DisappearFromWorld();
 				}
 				else
 				{
-					// no CNT - this is typically the case for non-networked objects.
+					// no UOP - this is typically the case for non-networked objects.
 					// in this case we just manually move it to hiddenpos.
 					target.transform.position = TransformState.HiddenPos;
 				}
-
-
 			}
 			else
 			{
-				if (target.TryGetComponent<CustomNetTransform>(out var cnt))
+				if (target.TryGetComponent<UniversalObjectPhysics>(out var uop))
 				{
-					cnt.DisappearFromWorld();
+					uop.DisappearFromWorld();
 				}
 				else
 				{
-					// no CNT - this is typically the case for non-networked objects.
+					// no UOP - this is typically the case for non-networked objects.
 					// in this case we just manually move it to hiddenpos.
 					target.transform.position = TransformState.HiddenPos;
 				}
@@ -186,10 +178,10 @@ public class ObjectPool
 			spawnedObject.transform.localRotation = destination.LocalRotation;
 			spawnedObject.transform.localScale = prefab.transform.localScale;
 			spawnedObject.transform.parent = destination.Parent;
-			if ( spawnedObject.TryGetComponent<CustomNetTransform>(out var cnt) )
+			if ( spawnedObject.TryGetComponent<UniversalObjectPhysics>(out var uop) )
 			{
-				cnt.ReInitServerState();
-				cnt.NotifyPlayers(); //Sending out clientState for already spawned items
+				var Matrix = MatrixManager.AtPoint(spawnedObject.transform.position, CustomNetworkManager.IsServer);
+				uop.ForceSetLocalPosition(spawnedObject.transform.localPosition,Vector2.zero, false, Matrix.Id); //Sending out clientState for already spawned items
 			}
 		}
 		else
@@ -206,7 +198,8 @@ public class ObjectPool
 				return false;
 			}
 			spawnedObject.name = prefab.name;
-			spawnedObject.GetComponent<CustomNetTransform>()?.ReInitServerState();
+			var Matrix = MatrixManager.AtPoint(spawnedObject.transform.position, CustomNetworkManager.IsServer);
+			spawnedObject.GetComponent<UniversalObjectPhysics>()?.ForceSetLocalPosition(spawnedObject.transform.localPosition,Vector2.zero, false, Matrix.Id);
 			// only add pool prefab tracker if the object can be pooled
 			if (IsPoolable(prefab))
 			{
@@ -227,8 +220,8 @@ public class ObjectPool
 			// because there's no clientside pool for networked objects, so
 			// we only need to tell client to spawn it
 			NetworkServer.Spawn(spawnedObject);
-			spawnedObject.GetComponent<CustomNetTransform>()
-				?.NotifyPlayers(); //Sending clientState for newly spawned items
+			spawnedObject.GetComponent<UniversalObjectPhysics>()
+				?.ResetLocationOnClients(); //Sending clientState for newly spawned items
 		}
 
 		return spawnedObject;

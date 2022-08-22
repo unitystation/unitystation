@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3589126943528207218, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: foreverID
+      value: 15e6625615ca78244aa7899d05e981d4
+      objectReference: {fileID: 0}
     - target: {fileID: 4337957255405204632, guid: 625f31aec34e13f48a1ece855fc4fe87,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -16,7 +21,7 @@ PrefabInstance:
     - target: {fileID: 7557514667025625771, guid: 625f31aec34e13f48a1ece855fc4fe87,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 15e6625615ca78244aa7899d05e981d4
       objectReference: {fileID: 0}
     - target: {fileID: 7594784434676019819, guid: 625f31aec34e13f48a1ece855fc4fe87,
         type: 3}
@@ -118,7 +123,7 @@ PrefabInstance:
     - target: {fileID: 9118016749297587622, guid: 625f31aec34e13f48a1ece855fc4fe87,
         type: 3}
       propertyPath: plantData.GrowthSpeed
-      value: 4
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 9118016749297587622, guid: 625f31aec34e13f48a1ece855fc4fe87,
         type: 3}

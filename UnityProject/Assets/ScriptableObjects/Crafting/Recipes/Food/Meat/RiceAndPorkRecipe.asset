@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: RiceAndPorkRecipe
+  m_EditorClassIdentifier: 
+  category: 10
+  craftingTime: 3
+  recipeName: Rice and Pork
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 6345424419799228484, guid: 26b638abe6523ac448cf3b0fd37510b1,
+      type: 3}
+  - requiredAmount: 2
+    requiredItem: {fileID: 7583157834381544897, guid: 22153594ca62ee0418bb92cef2a1a384,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits: []
+  result:
+  - {fileID: 144872026979369123, guid: 6dcbb0d5ea7af0243a4d3a24742cfe3c, type: 3}
+  resultHandlers: []
+  isSimple: 1
+  indexInSingleton: 255

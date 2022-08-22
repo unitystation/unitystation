@@ -1,25 +1,36 @@
-﻿using UnityEngine;
+﻿using Shared.Managers;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class StatsTab : MonoBehaviour
+public class StatsTab : SingletonManager<StatsTab>
 {
 	public GameObject window;
 
-	[SerializeField]
-	private Text roundStatus = default;
-	[SerializeField]
-	private Text currentMap = default;
-	[SerializeField]
-	private Text gameMode = default;
+	[SerializeField] private Text roundStatus = default;
+	[SerializeField] private Text currentMap = default;
+	[SerializeField] private Text gameMode = default;
+	[SerializeField] private Text serverFPS = default;
+	[SerializeField] private Text roundTimer;
 
 	void OnEnable()
 	{
 		Invoke("SetScrollToTop",0.1f);
 
-		EventManager.AddHandler(EVENT.PreRoundStarted, OnPreRoundStarted);
-		EventManager.AddHandler(EVENT.MatrixManagerInit, OnMapInit);
-		EventManager.AddHandler(EVENT.RoundStarted, OnRoundStarted);
-		EventManager.AddHandler(EVENT.RoundEnded, OnRoundEnded);
+		EventManager.AddHandler(Event.PreRoundStarted, OnPreRoundStarted);
+		EventManager.AddHandler(Event.MatrixManagerInit, OnMapInit);
+		EventManager.AddHandler(Event.RoundStarted, OnRoundStarted);
+		EventManager.AddHandler(Event.RoundEnded, OnRoundEnded);
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	public void UpdateMe()
+	{
+		serverFPS.text = $"{GameManager.Instance.ServerCurrentFPS} - avg: {GameManager.Instance.ServerAverageFPS}";
 	}
 
 	private void OnPreRoundStarted()
@@ -43,24 +54,30 @@ public class StatsTab : MonoBehaviour
 		UpdateRoundStatus("ended, restarting soon");
 	}
 
-	private void UpdateRoundStatus(string text)
+	public void UpdateRoundStatus(string text)
 	{
 		if (roundStatus == null) return;
 
 		roundStatus.text = text;
 	}
 
-	private void UpdateCurrentMap()
+	public void UpdateCurrentMap()
 	{
 		if (roundStatus == null) return;
 
 		currentMap.text = MatrixManager.MainStationMatrix.GameObject.scene.name;
 	}
 
-	private void UpdateGameMode()
+	public void UpdateGameMode()
 	{
 		if (roundStatus == null) return;
 
 		gameMode.text = GameManager.Instance.GetGameModeName();
+	}
+
+	public void UpdateRoundTime()
+	{
+		if(roundTimer == null) return;
+		roundTimer.text = GameManager.Instance.stationTime.ToShortTimeString();
 	}
 }

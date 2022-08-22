@@ -9,6 +9,29 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2434424058182641350, guid: 3681ff6246315294c9d3613edcd53e21,
         type: 3}
+      propertyPath: plantData.PlantName
+      value: Galaxythistle
+      objectReference: {fileID: 0}
+    - target: {fileID: 2434424058182641350, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: plantData.DeadSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 699087b987e54df42a11bec1fde9600a,
+        type: 2}
+    - target: {fileID: 2434424058182641350, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 705581024268000826, guid: 66ae74114620a8b4fa372feefe8923f4,
+        type: 3}
+    - target: {fileID: 2434424058182641350, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 721a8d767c0aceb428b763f09d88ae7b,
+        type: 2}
+    - target: {fileID: 2434424058182641350, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
       propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 23e6bed424bb41e43b244fabd0b3e228,
@@ -27,26 +50,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2434424058182641350, guid: 3681ff6246315294c9d3613edcd53e21,
         type: 3}
-      propertyPath: plantData.FullyGrownSpriteSO
+      propertyPath: plantData.MutatesInToGameObject.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 721a8d767c0aceb428b763f09d88ae7b,
-        type: 2}
-    - target: {fileID: 2434424058182641350, guid: 3681ff6246315294c9d3613edcd53e21,
+      objectReference: {fileID: 3588563495385692715}
+    - target: {fileID: 3519981493251986205, guid: 3681ff6246315294c9d3613edcd53e21,
         type: 3}
-      propertyPath: plantData.DeadSpriteSO
-      value: 
-      objectReference: {fileID: 11400000, guid: 699087b987e54df42a11bec1fde9600a,
-        type: 2}
-    - target: {fileID: 2434424058182641350, guid: 3681ff6246315294c9d3613edcd53e21,
-        type: 3}
-      propertyPath: plantData.ProduceObject
-      value: 
-      objectReference: {fileID: 705581024268000826, guid: 66ae74114620a8b4fa372feefe8923f4,
-        type: 3}
-    - target: {fileID: 2434424058182641350, guid: 3681ff6246315294c9d3613edcd53e21,
-        type: 3}
-      propertyPath: plantData.PlantName
-      value: Galaxythistle
+      propertyPath: initialName
+      value: pack of galaxythistle seeds
       objectReference: {fileID: 0}
     - target: {fileID: 3519981493251986205, guid: 3681ff6246315294c9d3613edcd53e21,
         type: 3}
@@ -55,17 +65,17 @@ PrefabInstance:
         simple milk thistle. Contains flavolignans that can help repair a damaged
         liver.
       objectReference: {fileID: 0}
-    - target: {fileID: 3519981493251986205, guid: 3681ff6246315294c9d3613edcd53e21,
-        type: 3}
-      propertyPath: initialName
-      value: pack of galaxythistle seeds
-      objectReference: {fileID: 0}
     - target: {fileID: 3802467091589828387, guid: 3681ff6246315294c9d3613edcd53e21,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: d4332812e70d5e543beed41daa2ff400,
         type: 3}
+    - target: {fileID: 3902197624837652747, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3902197624837652747, guid: 3681ff6246315294c9d3613edcd53e21,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -83,6 +93,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3902197624837652747, guid: 3681ff6246315294c9d3613edcd53e21,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3902197624837652747, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -95,16 +110,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3902197624837652747, guid: 3681ff6246315294c9d3613edcd53e21,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3902197624837652747, guid: 3681ff6246315294c9d3613edcd53e21,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3902197624837652747, guid: 3681ff6246315294c9d3613edcd53e21,
         type: 3}
@@ -129,7 +134,7 @@ PrefabInstance:
     - target: {fileID: 4008436389711970763, guid: 3681ff6246315294c9d3613edcd53e21,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: aa05b25ff4ec73946a0a0ad795ed0c59
       objectReference: {fileID: 0}
     - target: {fileID: 7166063765997520888, guid: 3681ff6246315294c9d3613edcd53e21,
         type: 3}
@@ -137,5 +142,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d0fdc61622db89a4e827966e7dbff55a,
         type: 2}
+    - target: {fileID: 7966410157613494290, guid: 3681ff6246315294c9d3613edcd53e21,
+        type: 3}
+      propertyPath: foreverID
+      value: aa05b25ff4ec73946a0a0ad795ed0c59
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3681ff6246315294c9d3613edcd53e21, type: 3}
+--- !u!1 &3588563495385692715 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3905999873789803647, guid: 3681ff6246315294c9d3613edcd53e21,
+    type: 3}
+  m_PrefabInstance: {fileID: 574707361257866836}
+  m_PrefabAsset: {fileID: 0}

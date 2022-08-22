@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 1762207313667118248, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 6c9425f0b5642004bb0cf91196c9263d
       objectReference: {fileID: 0}
     - target: {fileID: 1764031991386896616, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
@@ -21,6 +21,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CultistBoots
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
@@ -85,13 +85,18 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: initialDescription
-      value: A pair of boots worn by the followers of Nar'Sie.
+      propertyPath: initialName
+      value: cultist boots
       objectReference: {fileID: 0}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
-      propertyPath: initialName
-      value: cultist boots
+      propertyPath: initialDescription
+      value: A pair of boots worn by the followers of Nar'Sie.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4709096474333209969, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: foreverID
+      value: 6c9425f0b5642004bb0cf91196c9263d
       objectReference: {fileID: 0}
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}

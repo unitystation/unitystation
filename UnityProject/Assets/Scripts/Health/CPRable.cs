@@ -21,9 +21,9 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 		if (interaction.HandObject != null) return false;
 		if (interaction.TargetObject == interaction.Performer) return false;
 
-		if (interaction.TargetObject.TryGetComponent(out LivingHealthMasterBase targetPlayerHealth))
+		if (interaction.TargetObject.TryGetComponent(out LivingHealthMasterBase livingHealth))
 		{
-			if (targetPlayerHealth.ConsciousState == ConsciousState.CONSCIOUS) return false;
+			if (livingHealth.ConsciousState == ConsciousState.CONSCIOUS) return false;
 		}
 
 		var performerRegisterPlayer = interaction.Performer.GetComponent<RegisterPlayer>();
@@ -58,30 +58,29 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 	private void ServerDoCPR(GameObject performer, GameObject target, BodyPartType TargetBodyPart)
 	{
 		var health = target.GetComponent<LivingHealthMasterBase>();
-		Vector3Int position = health.ObjectBehaviour.AssumedWorldPositionServer();
+		Vector3Int position = health.ObjectBehaviour.registerTile.WorldPosition;
 		MetaDataNode node = MatrixManager.GetMetaDataAt(position);
 
 		bool hasLung = false;
 		bool hasHeart = false;
-		foreach (var BodyPart in health.GetBodyPartsInZone(TargetBodyPart, false))
+		foreach (var bodyPart in health.BodyPartList)
 		{
-			foreach (var bodyPartModification in BodyPart.BodyPartModifications)
+			if (bodyPart.BodyPartType == TargetBodyPart)
 			{
-				if (bodyPartModification is Lungs lung)
+				foreach (var organ in bodyPart.OrganList)
 				{
-					lung.TryBreathing(node, 1);
-					hasLung = true;
-				}
-
-				if (bodyPartModification is Heart heart)
-				{
-					heart.Heartbeat(1);
-					hasHeart = true;
+					if (organ is Lungs lung)
+					{
+						lung.TryBreathing(node, 1);
+						hasLung = true;
+					}
 				}
 			}
 		}
 
-		if (hasHeart && hasLung)
+		health.CirculatorySystem.Heartbeat(1);
+
+		if (hasLung)
 		{
 			Chat.AddActionMsgToChat(
 				performer,

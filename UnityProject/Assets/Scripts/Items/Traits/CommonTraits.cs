@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using NaughtyAttributes;
 using ScriptableObjects;
 using UnityEngine;
@@ -42,6 +44,8 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	[BoxGroup("Tools")] public ItemTrait RollingPin;
 	[BoxGroup("Tools")] public ItemTrait LightReplacer;
 	[BoxGroup("Tools")] public ItemTrait Pickaxe;
+	[BoxGroup("Tools")] public ItemTrait ScienceScan;
+	[BoxGroup("Tools")] public ItemTrait AirlockPainter;
 
 	[BoxGroup("Surgical")] public ItemTrait Scalpel;
 	[BoxGroup("Surgical")] public ItemTrait Retractor;
@@ -64,6 +68,8 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	[BoxGroup("Characteristics")] public ItemTrait Loomable;
 	[BoxGroup("Characteristics")] public ItemTrait CanisterFillable;
 	[BoxGroup("Characteristics")] public ItemTrait Breakable;
+	[BoxGroup("Characteristics")] public ItemTrait EMPResistant;
+	[BoxGroup("Characteristics")] public ItemTrait Gag;
 
 	[BoxGroup("Materials")] public ItemTrait OreGeneral;
 	[BoxGroup("Materials")] public ItemTrait MetalSheet;
@@ -90,4 +96,13 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait RawDurathreadBundle;
 	public ItemTrait BluespaceActivity;
 	public ItemTrait Id;
+	public ItemTrait ProximitySensor;
+	public ItemTrait PowerControlBoard;
+	public ItemTrait Beaker;
+
+	/// <summary>
+	/// Do not use this list to get references to traits, locally reference them in your scripts instead!
+	/// </summary>
+	[Obsolete]
+	public List<ItemTrait> everyTraitOutThere = new List<ItemTrait>();
 }

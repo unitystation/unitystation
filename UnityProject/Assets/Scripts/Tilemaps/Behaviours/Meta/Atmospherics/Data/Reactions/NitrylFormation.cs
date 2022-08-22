@@ -11,11 +11,11 @@ namespace Systems.Atmospherics
 			throw new System.NotImplementedException();
 		}
 
-		public void React(GasMix gasMix, Vector3 tilePos, Matrix matrix)
+		public void React(GasMix gasMix, MetaDataNode node)
 		{
 			var oldHeatCap = gasMix.WholeHeatCapacity;
 
-			var reactionEfficiency = Mathf.Min(gasMix.Temperature / 37315, gasMix.GetMoles(Gas.Oxygen), gasMix.GetMoles(Gas.Nitrogen));
+			var reactionEfficiency = Mathf.Min(gasMix.Temperature / (AtmosDefines.FIRE_MINIMUM_TEMPERATURE_TO_EXIST * 100), gasMix.GetMoles(Gas.Oxygen), gasMix.GetMoles(Gas.Nitrogen));
 
 			var energyUsed = reactionEfficiency * AtmosDefines.NITRYL_FORMATION_ENERGY;
 
@@ -33,7 +33,9 @@ namespace Systems.Atmospherics
 
 			if (energyUsed > 0)
 			{
-				gasMix.SetTemperature(Mathf.Max((gasMix.Temperature * oldHeatCap - energyUsed)/gasMix.WholeHeatCapacity, 2.7f));
+				gasMix.SetTemperature(
+					Mathf.Max((gasMix.Temperature * oldHeatCap - energyUsed) / gasMix.WholeHeatCapacity,
+					AtmosDefines.SPACE_TEMPERATURE));
 			}
 		}
 	}

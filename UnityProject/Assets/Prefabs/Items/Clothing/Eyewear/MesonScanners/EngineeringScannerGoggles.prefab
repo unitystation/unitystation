@@ -29,7 +29,7 @@ PrefabInstance:
     - target: {fileID: 3317552745358689725, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 67edff078434b7d46a845a17839398cf
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
@@ -91,18 +91,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: EngineeringScannerGoggles
       objectReference: {fileID: 0}
+    - target: {fileID: 8585229615259169892, guid: e6f80a7fd02e2c14ea72a1410452b690,
+        type: 3}
+      propertyPath: foreverID
+      value: 67edff078434b7d46a845a17839398cf
+      objectReference: {fileID: 0}
     - target: {fileID: 8638853748845472652, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: e346fc0f82c9d5e42a724c458e08f0cf,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8638853748845472652, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: e346fc0f82c9d5e42a724c458e08f0cf,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8638853748845472652, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
       propertyPath: allClothingData.Array.size

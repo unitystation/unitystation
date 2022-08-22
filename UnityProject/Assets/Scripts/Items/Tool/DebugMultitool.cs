@@ -1,28 +1,37 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
+using Systems.Electricity;
 
-public class DebugMultitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
+namespace Items.Engineering
 {
-	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
+	public class DebugMultitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 	{
-		if (interaction.HandObject == null) return false;
-		return true;
-	}
-
-	public void ServerPerformInteraction(PositionalHandApply interaction)
-	{
-		Vector3Int worldPosInt = interaction.WorldPositionTarget.To2Int().To3Int();
-		MatrixInfo matrixinfo = MatrixManager.AtPoint(worldPosInt, true);
-		var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrixinfo);
-		var matrix = interaction.Performer.GetComponentInParent<Matrix>();
-		var MetaDataNode = matrix.GetElectricalConnections(localPosInt);
-		Logger.Log("MetaDataNodeCount " + MetaDataNode.Count, Category.Matrix);
-
-		foreach (var D in MetaDataNode) {
-			D.ShowDetails();
+		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
+		{
+			if (interaction.HandObject == null) return false;
+			return true;
 		}
-		MetaDataNode.Clear();
-		ElectricalPool.PooledFPCList.Add(MetaDataNode);
+
+		public void ServerPerformInteraction(PositionalHandApply interaction)
+		{
+			Vector3Int worldPosInt = interaction.WorldPositionTarget.RoundTo2Int().To3Int();
+			MatrixInfo matrixinfo = MatrixManager.AtPoint(worldPosInt, true);
+			var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrixinfo);
+			var matrix = interaction.Performer.GetComponentInParent<Matrix>();
+			var MetaDataNode = matrix.GetElectricalConnections(localPosInt);
+			StringBuilder SB = new StringBuilder();
+			SB.Append("MetaDataNodeCount " + MetaDataNode.List.Count);
+			SB.Append("\n");
+
+			foreach (var D in MetaDataNode.List)
+			{
+				SB.Append(D.ShowDetails());
+			}
+			MetaDataNode.Pool();
+			Chat.AddExamineMsgFromServer(interaction.Performer, SB.ToString());
+			Logger.Log(SB.ToString());
+		}
 	}
 }

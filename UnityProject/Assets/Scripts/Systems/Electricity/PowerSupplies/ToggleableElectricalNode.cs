@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Mirror;
+using Systems.Electricity.NodeModules;
 
 /// <summary>
 /// Allows this object to toggle its electrical node when clicked - turning the supply on or off.
@@ -24,33 +24,23 @@ public class ToggleableElectricalNode : NetworkBehaviour, IInteractable<HandAppl
 		isOn = true;
 		UpdateServerState();
 	}
+
 	public void UpdateServerState()
 	{
 		if (isOn)
 		{
-			//Logger.Log("TurnOnSupply");
 			ElectricalNodeControl.TurnOnSupply();
 		}
 		else
 		{
-			//Logger.Log("TurnOffSupply");
 			ElectricalNodeControl.TurnOffSupply();
 		}
 	}
 
 	public void PowerNetworkUpdate() { }
 
-
 	public void UpdateState(bool _wasOn, bool _isOn)
 	{
 		isOn = _isOn;
-		if (isOn)
-		{
-			//Logger.Log("on");
-		}
-		else
-		{
-			//Logger.Log("off");
-		}
 	}
 }

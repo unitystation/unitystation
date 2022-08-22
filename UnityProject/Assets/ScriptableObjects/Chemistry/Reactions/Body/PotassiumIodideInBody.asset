@@ -23,14 +23,25 @@ MonoBehaviour:
   inhibitors:
     m_keys: []
     m_values: 
+  hasMinTemp: 0
+  serializableTempMin: 0
+  hasMaxTemp: 0
+  serializableTempMax: 0
   results:
     m_keys: []
     m_values: 
   effects: []
   ReagentMetabolismMultiplier: 1
+  InternalAllRequired:
+  - {fileID: 11400000, guid: d859938ed34564a4a932f3beb902e34c, type: 2}
+  InternalBlacklist: []
+  ExternalAllRequired: []
+  ExternalBlacklist: []
   DamageEffect: 6
   AttackType: 9
-  EffectPerOne: -0.1
+  AttackBodyPartPerOneU: -10
   CanOverdose: 0
-  PercentageBloodOverdose: 0.5
+  ConcentrationBloodOverdose: 20
   OverdoseDamageMultiplier: 2
+  MultiEffect: 0
+  Effects: []

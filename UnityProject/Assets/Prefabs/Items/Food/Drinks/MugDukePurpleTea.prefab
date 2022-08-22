@@ -7,10 +7,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1274424468822048381, guid: a3c2eebd1ee083c4f873a4e8475bae26,
+        type: 3}
+      propertyPath: foreverID
+      value: 3c3a5d1ce4eae994098acb2976709701
+      objectReference: {fileID: 0}
     - target: {fileID: 5224499036486209444, guid: a3c2eebd1ee083c4f873a4e8475bae26,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 3c3a5d1ce4eae994098acb2976709701
+      objectReference: {fileID: 0}
+    - target: {fileID: 5262053233861054308, guid: a3c2eebd1ee083c4f873a4e8475bae26,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5262053233861054308, guid: a3c2eebd1ee083c4f873a4e8475bae26,
         type: 3}
@@ -29,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5262053233861054308, guid: a3c2eebd1ee083c4f873a4e8475bae26,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5262053233861054308, guid: a3c2eebd1ee083c4f873a4e8475bae26,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5262053233861054308, guid: a3c2eebd1ee083c4f873a4e8475bae26,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5262053233861054308, guid: a3c2eebd1ee083c4f873a4e8475bae26,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5262053233861054308, guid: a3c2eebd1ee083c4f873a4e8475bae26,
         type: 3}
@@ -74,14 +79,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5762506483007905138, guid: a3c2eebd1ee083c4f873a4e8475bae26,
         type: 3}
-      propertyPath: initialDescription
-      value: An insult to Duke Purple is an insult to the Space Queen! Any proper
-        gentleman will fight you, if you sully this tea."
+      propertyPath: initialName
+      value: Duke Purple tea
       objectReference: {fileID: 0}
     - target: {fileID: 5762506483007905138, guid: a3c2eebd1ee083c4f873a4e8475bae26,
         type: 3}
-      propertyPath: initialName
-      value: Duke Purple tea
+      propertyPath: initialDescription
+      value: An insult to Duke Purple is an insult to the Space Queen! Any proper
+        gentleman will fight you, if you sully this tea."
       objectReference: {fileID: 0}
     - target: {fileID: 6358828029291461304, guid: a3c2eebd1ee083c4f873a4e8475bae26,
         type: 3}
@@ -104,5 +109,6 @@ PrefabInstance:
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
       value: 30
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7745011189370334220, guid: a3c2eebd1ee083c4f873a4e8475bae26, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a3c2eebd1ee083c4f873a4e8475bae26, type: 3}

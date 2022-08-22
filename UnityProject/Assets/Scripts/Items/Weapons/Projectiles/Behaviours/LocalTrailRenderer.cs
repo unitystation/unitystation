@@ -77,6 +77,16 @@ namespace Weapons.Projectiles.Behaviours
 			Reset();
 		}
 
+		private void OnEnable()
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
 		private void Reset() {
 			// Wipe out any old positions in the LineRenderer
 			lineRenderer.positionCount = 0;
@@ -85,7 +95,7 @@ namespace Weapons.Projectiles.Behaviours
 			AddPoint(objToFollow.localPosition);
 		}
 
-		private void Update () {
+		private void UpdateMe() {
 			if (isShooting)
 			{
 				//check if enough time has elapsed to draw the next segment

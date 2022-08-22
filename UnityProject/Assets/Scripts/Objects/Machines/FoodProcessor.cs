@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -9,11 +11,13 @@ using Effects;
 using Items;
 using Machines;
 using Objects.Machines;
+using UnityEngine.AddressableAssets;
+using Messages.Server.SoundMessages;
+using Audio.Containers;
 
 namespace Objects.Kitchen
 {
-
-	//Note : needs sounds
+	// TODO: needs sounds
 
 	/// <summary>
 	/// A machine into which players can insert items for cooking. If the item has the Cookable component,
@@ -21,14 +25,18 @@ namespace Objects.Kitchen
 	/// Otherwise, any food item that doesn't have the cookable component will be cooked using
 	/// the legacy way, of converting to cooked when the processor's timer finishes.
 	/// </summary>
-	public class FoodProcessor : NetworkBehaviour, IAPCPowered, IServerSpawn
+	public class FoodProcessor : NetworkBehaviour, IAPCPowerable, IServerSpawn
 	{
 		private const int TIME_PER_ITEM = 4;
 
-		[SerializeField]
-		[Tooltip("The looped audio source to play while the processor is running.")]
-		private AudioSource RunningAudio = default;
+		[Tooltip("The audio source to play while the processor is running and doesn't require looped sound.")]
+		[SerializeField] private AddressableAudioSource fullAudio;
+		[SerializeField] private AddressableAudioSource runningAudio;
+		[SerializeField] private AddressableAudioSource turnOnAudio;
+		[SerializeField] private AddressableAudioSource finishAudio;
 
+		private Task<AddressableAudioSource> fullSource;
+		private Task<AddressableAudioSource> turnOnSource;
 
 		/// <summary>
 		/// How much time remains on the processor's timer.
@@ -39,9 +47,6 @@ namespace Objects.Kitchen
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
 		private ItemStorage storage;
-
-		[SyncVar(hook = nameof(OnSyncPlayAudioLoop))]
-		private bool playAudioLoop;
 
 		public bool IsOperating => currentState is ProcessorRunning;
 		public Vector3Int WorldPosition => registerTile.WorldPosition;
@@ -66,13 +71,15 @@ namespace Objects.Kitchen
 
 		private void Awake()
 		{
-			EnsureInit();
+			registerTile = GetComponent<RegisterTile>();
+			spriteHandler = GetComponentInChildren<SpriteHandler>();
+			storage = GetComponent<ItemStorage>();
+			_ = fullSource = AudioManager.GetAddressableAudioSourceFromCache(fullAudio);
+			_ = turnOnSource = AudioManager.GetAddressableAudioSourceFromCache(turnOnAudio);
 		}
 
 		public void OnSpawnServer(SpawnInfo spawn)
 		{
-			EnsureInit();
-
 			SetState(new ProcessorUnpowered(this));
 
 			// Get the machine stock parts used in this instance and get the tier of each part.
@@ -103,13 +110,6 @@ namespace Objects.Kitchen
 			}
 		}
 
-		private void EnsureInit()
-		{
-			registerTile = GetComponent<RegisterTile>();
-			spriteHandler = GetComponentInChildren<SpriteHandler>();
-			storage = GetComponent<ItemStorage>();
-		}
-
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
@@ -135,8 +135,6 @@ namespace Objects.Kitchen
 				ProcessTimerComplete();
 			}
 		}
-
-		
 
 		private void SetState(ProcessorState newState)
 		{
@@ -169,32 +167,13 @@ namespace Objects.Kitchen
 			currentState.AddItem(fromSlot);
 		}
 
-		/// <summary>
-		/// Part of interface IAPCPowered. Sets the processor's state according to the given power state.
-		/// </summary>
-		/// <param name="state">The power state to set the processor's state with.</param>
-		public void StateUpdate(PowerStates state)
-		{
-			EnsureInit(); // This method could be called before the component's Awake().
-			if (isServer) // Since state changes affect animations (and call an Rpc animation function), only server can do this.
-			{
-				if (currentState == null)
-				{
-					SetState(new ProcessorUnpowered(this));
-				}
-				currentState.PowerStateUpdate(state);
-			}
-
-			
-		}
-
 		#endregion Requests
-		
+
 		private void AddItem(ItemSlot fromSlot)
 		{
 			if (fromSlot == null || fromSlot.IsEmpty || fromSlot.ItemObject.GetComponent<Processable>() == null) return;
 
-			//If there's a stackable component, add one at a time.
+			// If there's a stackable component, add one at a time.
 			Stackable stack = fromSlot.ItemObject.GetComponent<Stackable>();
 			if (stack == null || stack.Amount == 1)
 			{
@@ -204,8 +183,6 @@ namespace Objects.Kitchen
 				var item = stack.ServerRemoveOne();
 				Inventory.ServerAdd(item, storage.GetNextFreeIndexedSlot());
 			}
-			
-
 		}
 
 		private void EjectContents()
@@ -219,10 +196,8 @@ namespace Objects.Kitchen
 			// time in seconds = 4 * items_in_processor / manipulator tier
 			int slotsOccupied = storage.GetNextFreeIndexedSlot().SlotIdentifier.SlotIndex;
 			processTimer = (float)(TIME_PER_ITEM * slotsOccupied / manipTier);
-			AnimateProcessor(1, processTimer, shakeValue, 0.1f);
+			AnimateProcessor(1, processTimer / 8, shakeValue, 0.1f);
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-			playAudioLoop = true;
-
 		}
 
 		private void HaltProcessor()
@@ -230,8 +205,7 @@ namespace Objects.Kitchen
 			if (IsOperating == false) return;
 
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-			RpcHaltProcessorAnim();
-			playAudioLoop = false;
+			AnimateProcessor(0, 0.0f, 0.0f, 0.0f);
 		}
 
 		[ClientRpc]
@@ -257,12 +231,21 @@ namespace Objects.Kitchen
 			if(state == 1)
 			{
 				shaker.StartShake(duration, distance, delayBetweenShakes);
-				RpcShake(duration, distance, delayBetweenShakes);
+
+				if (CustomNetworkManager.IsServer)
+				{
+					RpcShake(duration, distance, delayBetweenShakes);
+					HandleAudio(duration);
+				}
 			}
 			else
 			{
 				shaker.HaltShake();
-				RpcHaltProcessorAnim();
+
+				if (CustomNetworkManager.IsServer)
+				{
+					RpcHaltProcessorAnim();
+				}
 			}
 		}
 
@@ -275,16 +258,21 @@ namespace Objects.Kitchen
 			shaker.StartShake(duration, distance, delayBetweenShakes);
 		}
 
-		private void OnSyncPlayAudioLoop(bool oldState, bool newState)
+		private async void HandleAudio(float duration)
 		{
-			if (newState)
+			if (duration <= (int) fullSource.Result.AudioSource.clip.length)
 			{
-				RunningAudio.Play();
+				_ = SoundManager.PlayNetworkedAtPosAsync(fullAudio, WorldPosition);
+				return;
 			}
-			else
-			{
-				RunningAudio.Stop();
-			}
+
+			//TODO : Figure out how to make duration in sync with Task.Delay rather than Timer.Deltatime in Shake.cs
+			_ = SoundManager.PlayNetworkedAtPosAsync(turnOnAudio, WorldPosition);
+			await Task.Delay((int)turnOnAudio.AudioSource.clip.length);
+			string guid = SoundManager.PlayNetworked(runningAudio);
+			await Task.Delay((int)(duration - turnOnSource.Result.AudioSource.clip.length));
+			SoundManager.StopNetworked(guid);
+			_ = SoundManager.PlayNetworkedAtPosAsync(finishAudio, WorldPosition);
 		}
 
 		/// <summary>
@@ -317,13 +305,35 @@ namespace Objects.Kitchen
 					Spawn.ServerPrefab(itemToSpawn, WorldPosition);
 				}
 
-				Despawn.ServerSingle(item);
+				_ = Despawn.ServerSingle(item);
 			}
-			
+
 		}
 
+		#region IAPCPowerable
+
 		// Processor functionality doesn't care for voltage.
-		public void PowerNetworkUpdate(float Voltage) { }
+		public void PowerNetworkUpdate(float voltage) { }
+
+		/// <summary>
+		/// Part of interface IAPCPowerable. Sets the processor's state according to the given power state.
+		/// </summary>
+		/// <param name="state">The power state to set the processor's state with.</param>
+		public void StateUpdate(PowerState state)
+		{
+			if (isServer) // Since state changes affect animations (and call an Rpc animation function), only server can do this.
+			{
+				if (currentState == null)
+				{
+					SetState(new ProcessorUnpowered(this));
+				}
+				currentState.PowerStateUpdate(state);
+			}
+
+
+		}
+
+		#endregion
 
 		#region ProcessorStates
 
@@ -335,7 +345,7 @@ namespace Objects.Kitchen
 			public abstract void ToggleActive();
 			public abstract void AddItem(ItemSlot fromSlot);
 			public abstract void EjectContents();
-			public abstract void PowerStateUpdate(PowerStates state);
+			public abstract void PowerStateUpdate(PowerState state);
 		}
 
 		private class ProcessorIdle : ProcessorState
@@ -367,9 +377,9 @@ namespace Objects.Kitchen
 				processor.EjectContents();
 			}
 
-			public override void PowerStateUpdate(PowerStates state)
+			public override void PowerStateUpdate(PowerState state)
 			{
-				if (state == PowerStates.Off || state == PowerStates.LowVoltage)
+				if (state == PowerState.Off || state == PowerState.LowVoltage)
 				{
 					processor.SetState(new ProcessorUnpowered(processor));
 					processor.EjectContents();
@@ -399,9 +409,9 @@ namespace Objects.Kitchen
 				processor.SetState(new ProcessorIdle(processor));
 			}
 
-			public override void PowerStateUpdate(PowerStates state)
+			public override void PowerStateUpdate(PowerState state)
 			{
-				if (state == PowerStates.Off || state == PowerStates.LowVoltage)
+				if (state == PowerState.Off || state == PowerState.LowVoltage)
 				{
 					processor.SetState(new ProcessorUnpowered(processor));
 					processor.EjectContents();
@@ -432,17 +442,15 @@ namespace Objects.Kitchen
 				processor.EjectContents();
 			}
 
-			public override void PowerStateUpdate(PowerStates state)
+			public override void PowerStateUpdate(PowerState state)
 			{
-				if (state == PowerStates.On || state == PowerStates.OverVoltage)
+				if (state == PowerState.On || state == PowerState.OverVoltage)
 				{
 					processor.SetState(new ProcessorIdle(processor));
 				}
 			}
 		}
 
-
-
-		#endregion ProcessorStates
+		#endregion
 	}
 }

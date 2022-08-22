@@ -7,12 +7,57 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3679165279116993520, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: foreverID
+      value: 49bf760d173ffa6448d7853757b910d3
+      objectReference: {fileID: 0}
     - target: {fileID: 4536149052226606106, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: fa20dbd7aed7e0e4ebaf00075f0b62f1,
         type: 2}
+    - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: CanBeBroken
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: CanGetHungry
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: isBloodCirculated
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: HasNaturalToxicity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: isBloodReagentConsumed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: spillChanceWhenCutPresent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: BodyPartDisembowlLogicOnCutSize
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
@@ -40,7 +85,7 @@ PrefabInstance:
     - target: {fileID: 7647544448111186473, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 49bf760d173ffa6448d7853757b910d3
       objectReference: {fileID: 0}
     - target: {fileID: 7756956197327459049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}

@@ -11,7 +11,7 @@ namespace Chemistry
 	/// <summary>
 	/// Main component for chemistry dispenser.
 	/// </summary>
-	public class BoozeDispenser : NetworkBehaviour, ICheckedInteractable<HandApply>, IAPCPowered
+	public class BoozeDispenser : NetworkBehaviour, ICheckedInteractable<HandApply>, IAPCPowerable
 	{
 		public ReagentContainer Container => itemSlot != null && itemSlot.ItemObject != null
 			? itemSlot.ItemObject.GetComponent<ReagentContainer>()
@@ -38,9 +38,42 @@ namespace Chemistry
 			}
 		}
 
-		public void EjectContainer()
+		private ItemSlot GetBestSlot(GameObject item, PlayerInfo subject)
 		{
-			Inventory.ServerDrop(itemSlot);
+			if (subject == null)
+			{
+				return default;
+			}
+
+			var playerStorage = subject.Script.DynamicItemStorage;
+
+			//Can be null if Ai is using machine
+			if (playerStorage == null)
+			{
+				return null;
+			}
+
+			return playerStorage.GetBestHandOrSlotFor(item);
+		}
+
+		/// <summary>
+		/// Ejects input container from ChemMaster into best slot available and clears the buffer
+		/// </summary>
+		/// <param name="subject"></param>
+		public void EjectContainer(PlayerInfo subject)
+		{
+			var bestSlot = GetBestSlot(itemSlot.ItemObject, subject);
+
+			if (bestSlot == null)
+			{
+				Inventory.ServerDrop(itemSlot);
+				return;
+			}
+
+			if (!Inventory.ServerTransfer(itemSlot, bestSlot))
+			{
+				Inventory.ServerDrop(itemSlot);
+			}
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -60,14 +93,17 @@ namespace Chemistry
 			UpdateGUI();
 		}
 
-		//############################## power stuff ########################################
-		public PowerStates ThisState;
+		#region IAPCPowerable
 
-		public void PowerNetworkUpdate(float Voltage) { }
+		public PowerState ThisState;
 
-		public void StateUpdate(PowerStates State)
+		public void PowerNetworkUpdate(float voltage) { }
+
+		public void StateUpdate(PowerState state)
 		{
-			ThisState = State;
+			ThisState = state;
 		}
+
+		#endregion
 	}
 }

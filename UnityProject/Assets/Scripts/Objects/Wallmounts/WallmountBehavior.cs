@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Objects.Wallmounts
 {
@@ -12,21 +13,25 @@ namespace Objects.Wallmounts
 	/// Adds a WallmountSpriteBehavior to all child objects that have SpriteRenderers. Facing / visibility checking is handled in
 	/// there. See <see cref="WallmountSpriteBehavior"/>
 	/// </summary>
-	[RequireComponent(typeof(Directional))]
+	//[RequireComponent(typeof(Directional))]
 	public class WallmountBehavior : MonoBehaviour, IMatrixRotation
 	{
 		//cached spriteRenderers of this gameobject
 		private SpriteRenderer[] spriteRenderers;
-		public Directional directional;
+		public Rotatable directional;
 		private Transform child;
 		private Vector3 upVectorForRotation;
 
-		private void Start()
+		private void Awake()
 		{
 			upVectorForRotation = transform.up;
 			child = transform.GetChild(0);
-			directional = GetComponent<Directional>();
+			directional = GetComponent<Rotatable>();
 			spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+		}
+
+		private void Start()
+		{
 			foreach (SpriteRenderer renderer in spriteRenderers)
 			{
 				//don't add it if it already exists
@@ -34,6 +39,15 @@ namespace Objects.Wallmounts
 				if (existingRenderer == null)
 				{
 					renderer.gameObject.AddComponent<WallmountSpriteBehavior>();
+				}
+			}
+
+			var textRenderers = GetComponentsInChildren<Text>();
+			foreach (var text in textRenderers)
+			{
+				if (GetComponent<WallmountTextBehavior>() == null)
+				{
+					text.gameObject.AddComponent<WallmountTextBehavior>();
 				}
 			}
 		}
@@ -46,6 +60,15 @@ namespace Objects.Wallmounts
 				Gizmos.color = Color.red;
 				DebugGizmoUtils.DrawArrow(transform.position, CalculateFacing());
 			}
+		}
+
+		/// <summary>
+		/// Calculates the tile which is in front of the wall mount
+		/// </summary>
+		/// <returns></returns>
+		public Vector3 CalculateTileInFrontPos()
+		{
+			return CalculateFacing() + transform.position;
 		}
 
 		/// <summary>
@@ -69,7 +92,7 @@ namespace Objects.Wallmounts
 			//when a matrix is static, Directional can be used to determine facing, but when it is rotating,
 			//directional always points in a cardinal direction which doesn't match the actual facing.
 			//so we use the offset from its up direction prior to rotation to determine the offset
-			return Quaternion.Euler(0, 0, Vector2.SignedAngle(upVectorForRotation, transform.up)) * directional.CurrentDirection.Vector;
+			return Quaternion.Euler(0, 0, Vector2.SignedAngle(upVectorForRotation, transform.up)) * directional.CurrentDirection.ToLocalVector3();
 		}
 
 		/// <summary>

@@ -3,162 +3,165 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-/// <summary>
-/// Base class for smokable cigarette
-/// </summary>
-public class Cigarette : NetworkBehaviour, ICheckedInteractable<HandApply>,
-	ICheckedInteractable<InventoryApply>, IServerDespawn
+namespace Items
 {
-	private const int DEFAULT_SPRITE = 0;
-	private const int LIT_SPRITE = 1;
-
-	[SerializeField]
-	[Tooltip("Object to spawn after cigarette burnt")]
-	private GameObject buttPrefab = null;
-
-	[SerializeField]
-	[Tooltip("Time after cigarette will destroy and spawn butt")]
-	private float smokeTimeSeconds = 180;
-
-	public SpriteHandler spriteHandler = null;
-	private FireSource fireSource = null;
-	private Pickupable pickupable = null;
-
-	[SyncVar]
-	private bool isLit = false;
-
-	private void Awake()
+	/// <summary>
+	/// Base class for smokable cigarette
+	/// </summary>
+	public class Cigarette : NetworkBehaviour, ICheckedInteractable<HandApply>,
+		ICheckedInteractable<InventoryApply>, IServerDespawn
 	{
-		pickupable = GetComponent<Pickupable>();
-		fireSource = GetComponent<FireSource>();
-	}
+		private const int DEFAULT_SPRITE = 0;
+		private const int LIT_SPRITE = 1;
 
-	#region Interactions
-	public void ServerPerformInteraction(HandApply interaction)
-	{
-		TryLightByObject(interaction.UsedObject);
-	}
+		[SerializeField]
+		[Tooltip("Object to spawn after cigarette burnt")]
+		private GameObject buttPrefab = null;
 
-	public void ServerPerformInteraction(InventoryApply interaction)
-	{
-		TryLightByObject(interaction.UsedObject);
-	}
+		[SerializeField]
+		[Tooltip("Time after cigarette will destroy and spawn butt")]
+		private float smokeTimeSeconds = 180;
 
-	public bool WillInteract(HandApply interaction, NetworkSide side)
-	{
-		// standard validation for interaction
-		if (!DefaultWillInteract.Default(interaction, side))
+		public SpriteHandler spriteHandler = null;
+		private FireSource fireSource = null;
+		private Pickupable pickupable = null;
+
+		[SyncVar]
+		private bool isLit = false;
+
+		private void Awake()
 		{
-			return false;
+			pickupable = GetComponent<Pickupable>();
+			fireSource = GetComponent<FireSource>();
 		}
 
-		return CheckInteraction(interaction, side);
-	}
-
-	public bool WillInteract(InventoryApply interaction, NetworkSide side)
-	{
-		// standard validation for interaction
-		if (!DefaultWillInteract.Default(interaction, side))
+		public void OnDespawnServer(DespawnInfo info)
 		{
-			return false;
+			ServerChangeLit(false);
 		}
 
-		return CheckInteraction(interaction, side);
-	}
+		#region Interactions
 
-	private bool CheckInteraction(Interaction interaction, NetworkSide side)
-	{
-		// check if player want to use some light-source
-		if (interaction.UsedObject)
+		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			var lightSource = interaction.UsedObject.GetComponent<FireSource>();
-			if (lightSource)
+			// standard validation for interaction
+			if (!DefaultWillInteract.Default(interaction, side))
 			{
-				return true;
+				return false;
 			}
+
+			return CheckInteraction(interaction, side);
 		}
 
-		return false;
-	}
-	#endregion
-
-	private void ServerChangeLit(bool isLitNow)
-	{
-		// TODO: add support for in-hand and clothing animation
-		// update cigarette sprite to lit state
-		if (spriteHandler)
+		public void ServerPerformInteraction(HandApply interaction)
 		{
-			var newSpriteID = isLitNow ? LIT_SPRITE : DEFAULT_SPRITE;
-			spriteHandler.ChangeSprite(newSpriteID);
+			TryLightByObject(interaction.UsedObject);
 		}
 
-		// toggle flame from cigarette
-		if (fireSource)
+		public bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
-			fireSource.IsBurning = isLitNow;
-		}
-
-		if (isLitNow)
-		{
-			StartCoroutine(FireRoutine());
-		}
-
-		isLit = isLitNow;
-	}
-
-	public void OnDespawnServer(DespawnInfo info)
-	{
-		ServerChangeLit(false);
-	}
-
-	private bool TryLightByObject(GameObject usedObject)
-	{
-		if (!isLit)
-		{
-			// check if player tries to lit cigarette with something
-			if (usedObject != null)
+			// standard validation for interaction
+			if (DefaultWillInteract.Default(interaction, side) == false)
 			{
-				// check if it's something like lighter or candle
-				var fireSource = usedObject.GetComponent<FireSource>();
-				if (fireSource && fireSource.IsBurning)
+				return false;
+			}
+
+			return CheckInteraction(interaction, side);
+		}
+
+		public void ServerPerformInteraction(InventoryApply interaction)
+		{
+			TryLightByObject(interaction.UsedObject);
+		}
+
+		private bool CheckInteraction(Interaction interaction, NetworkSide side)
+		{
+			// check if player want to use some light-source
+			if (interaction.UsedObject)
+			{
+				var lightSource = interaction.UsedObject.GetComponent<FireSource>();
+				if (lightSource)
 				{
-					ServerChangeLit(true);
 					return true;
 				}
 			}
+
+			return false;
 		}
 
-		return false;
-	}
+		#endregion
 
-	private void Burn()
-	{
-		var worldPos = gameObject.AssumedWorldPosServer();
-		var tr = gameObject.transform.parent;
-		var rotation = RandomUtils.RandomRotation2D();
-
-		// Print burn out message if in players inventory
-		if (pickupable && pickupable.ItemSlot != null)
+		private void ServerChangeLit(bool isLitNow)
 		{
-			var player = pickupable.ItemSlot.Player;
-			if (player)
+			// TODO: add support for in-hand and clothing animation
+			// update cigarette sprite to lit state
+			if (spriteHandler)
 			{
-				Chat.AddExamineMsgFromServer(player.gameObject,
-					$"Your {gameObject.ExpensiveName()} goes out.");
+				var newSpriteID = isLitNow ? LIT_SPRITE : DEFAULT_SPRITE;
+				spriteHandler.ChangeSprite(newSpriteID);
 			}
+
+			// toggle flame from cigarette
+			if (fireSource)
+			{
+				fireSource.IsBurning = isLitNow;
+			}
+
+			if (isLitNow)
+			{
+				StartCoroutine(FireRoutine());
+			}
+
+			isLit = isLitNow;
 		}
 
-		// Despawn cigarette
-		Despawn.ServerSingle(gameObject);
-		// Spawn cigarette butt
-		Spawn.ServerPrefab(buttPrefab, worldPos, tr, rotation);
-	}
+		private bool TryLightByObject(GameObject usedObject)
+		{
+			if (!isLit)
+			{
+				// check if player tries to lit cigarette with something
+				if (usedObject != null)
+				{
+					// check if it's something like lighter or candle
+					var fireSource = usedObject.GetComponent<FireSource>();
+					if (fireSource && fireSource.IsBurning)
+					{
+						ServerChangeLit(true);
+						return true;
+					}
+				}
+			}
 
-	private IEnumerator FireRoutine()
-	{
-		// wait until cigarette will burn
-		yield return new WaitForSeconds(smokeTimeSeconds);
-		// despawn cigarette and spawn burn
-		Burn();
+			return false;
+		}
+
+		private void Burn()
+		{
+			var worldPos = gameObject.AssumedWorldPosServer();
+			var tr = gameObject.transform.parent;
+			var rotation = RandomUtils.RandomRotation2D();
+
+			// Print burn out message if in players inventory
+			if (pickupable && pickupable.ItemSlot != null)
+			{
+				var player = pickupable.ItemSlot.Player;
+				if (player)
+				{
+					Chat.AddExamineMsgFromServer(player.gameObject,
+						$"Your {gameObject.ExpensiveName()} goes out.");
+				}
+			}
+
+			_ = Despawn.ServerSingle(gameObject);
+			Spawn.ServerPrefab(buttPrefab, worldPos, tr, rotation);
+		}
+
+		private IEnumerator FireRoutine()
+		{
+			// wait until cigarette will burn
+			yield return new WaitForSeconds(smokeTimeSeconds);
+			// despawn cigarette and spawn burn
+			Burn();
+		}
 	}
 }

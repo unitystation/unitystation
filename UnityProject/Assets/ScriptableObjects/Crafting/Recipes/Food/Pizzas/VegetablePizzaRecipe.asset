@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: VegetablePizzaRecipe
+  m_EditorClassIdentifier: 
+  category: 14
+  craftingTime: 3
+  recipeName: Vegetable Pizza
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 1449470387542250284, guid: 41220ca24fe3798478f533c5f8102248,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 510113586209886434, guid: 413875f47fadcac4eba6ed6d27dc0d9d,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 105169253280901931, guid: fde2e8af4ce865a4ab1b2b3bfb4655c6,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 341381325081849216, guid: 30ecca697489a554b8b183fbe164d3df,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 455902390153094336, guid: 454947e247b8d27408f72041e753e7be,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits: []
+  result:
+  - {fileID: 2885268989683678424, guid: efdfbea9346786d479b56232c7b20360, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 11

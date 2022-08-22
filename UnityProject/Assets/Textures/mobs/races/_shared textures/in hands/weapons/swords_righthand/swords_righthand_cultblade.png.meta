@@ -132,6 +132,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -141,8 +142,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -163,6 +164,8 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
@@ -542,6 +545,23 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      swords_righthand_cultblade_5: 7021791985587492734
+      swords_righthand_cultblade_11: 835094364385220130
+      swords_righthand_cultblade_2: -2991258144143474544
+      swords_righthand_cultblade_3: 1375126947761803779
+      swords_righthand_cultblade_1: 999492158127521571
+      swords_righthand_cultblade_13: 6106594185340154544
+      swords_righthand_cultblade_9: 5766072743819205781
+      swords_righthand_cultblade_10: -2885553934175603181
+      swords_righthand_cultblade_7: 8435834513578090965
+      swords_righthand_cultblade_8: 6477230503924987956
+      swords_righthand_cultblade_6: -9011727734876165845
+      swords_righthand_cultblade_0: -1153246963276765414
+      swords_righthand_cultblade_12: -6086967969877628917
+      swords_righthand_cultblade_14: -5093103880952770781
+      swords_righthand_cultblade_4: -6228875165243796857
+      swords_righthand_cultblade_15: 3716223582249044445
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

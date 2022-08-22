@@ -9,23 +9,28 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1370787300050329613, guid: 8af808dda238fe44492ea6412cf9ba52,
         type: 3}
-      propertyPath: initialDescription
-      value: Almost just like the real thing, kinda.
+      propertyPath: initialName
+      value: imitation carp fillet
       objectReference: {fileID: 0}
     - target: {fileID: 1370787300050329613, guid: 8af808dda238fe44492ea6412cf9ba52,
         type: 3}
-      propertyPath: initialName
-      value: imitation carp fillet
+      propertyPath: initialDescription
+      value: Almost just like the real thing, kinda.
       objectReference: {fileID: 0}
     - target: {fileID: 1477089304272319195, guid: 8af808dda238fe44492ea6412cf9ba52,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 77e176923a462b14089caadd967f5b01
       objectReference: {fileID: 0}
     - target: {fileID: 1579524858131255151, guid: 8af808dda238fe44492ea6412cf9ba52,
         type: 3}
       propertyPath: m_Name
       value: CarpFilletImitation
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583045357363032603, guid: 8af808dda238fe44492ea6412cf9ba52,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1583045357363032603, guid: 8af808dda238fe44492ea6412cf9ba52,
         type: 3}
@@ -44,6 +49,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1583045357363032603, guid: 8af808dda238fe44492ea6412cf9ba52,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583045357363032603, guid: 8af808dda238fe44492ea6412cf9ba52,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -59,16 +69,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1583045357363032603, guid: 8af808dda238fe44492ea6412cf9ba52,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1583045357363032603, guid: 8af808dda238fe44492ea6412cf9ba52,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1583045357363032603, guid: 8af808dda238fe44492ea6412cf9ba52,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -81,6 +81,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5571270056622129922, guid: 8af808dda238fe44492ea6412cf9ba52,
+        type: 3}
+      propertyPath: foreverID
+      value: 77e176923a462b14089caadd967f5b01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8af808dda238fe44492ea6412cf9ba52, type: 3}

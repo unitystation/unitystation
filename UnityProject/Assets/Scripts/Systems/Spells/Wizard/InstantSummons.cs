@@ -5,11 +5,11 @@ namespace Systems.Spells.Wizard
 {
 	public class InstantSummons : Spell
 	{
-		private ConnectedPlayer caster;
+		private PlayerInfo caster;
 		private Pickupable markedItem;
 		private bool isSet = false;
 
-		public override bool CastSpellServer(ConnectedPlayer caster)
+		public override bool CastSpellServer(PlayerInfo caster)
 		{
 			this.caster = caster;
 
@@ -31,7 +31,7 @@ namespace Systems.Spells.Wizard
 		}
 
 		private bool TrySummon()
-        {
+		{
 			// backpack, box, player etc, or the item itself if not in storage
 			GameObject objectToSummon = GetItemOrRootStorage(markedItem.gameObject);
 
@@ -57,45 +57,53 @@ namespace Systems.Spells.Wizard
 		{
 			string summonedName = summonedObject.ExpensiveName();
 			Chat.AddActionMsgToChat(summonedObject,
-					"<color='red'>You feel a magical force transposing you!</color>",
-					$"<color='red'>The {summonedName} suddenly disappears!</color>");
+				"<color=red>You feel a magical force transposing you!</color>",
+				$"<color=red>The {summonedName} suddenly disappears!</color>");
 
 			TeleportObjectToPosition(summonedObject, caster.Script.WorldPos);
 
 			if (summonedObject.TryGetComponent<Pickupable>(out var pickupable))
 			{
-				ItemSlot slot = caster.Script.ItemStorage.GetBestHandOrSlotFor(summonedObject);
+				ItemSlot slot = caster.Script.DynamicItemStorage.GetBestHandOrSlotFor(summonedObject);
 				Inventory.ServerAdd(pickupable, slot);
 
 				Chat.AddActionMsgToChat(caster.GameObject, $"The {summonedName} appears in your hand!",
-					$"<color='red'>A {summonedName} suddenly appears in {caster.Script.visibleName}'s hand!</color>");
+					$"<color=red>A {summonedName} suddenly appears in {caster.Script.visibleName}'s hand!</color>");
 			}
 			else
 			{
-				string message = $"<color='red'>The {summonedName} suddenly appears!</color>";
+				string message = $"<color=red>The {summonedName} suddenly appears!</color>";
 				Chat.AddActionMsgToChat(caster.GameObject, message, message);
 			}
 		}
 
 		private void TryAddMark()
-        {
-			ItemStorage playerStorage = caster.Script.ItemStorage;
+		{
+			DynamicItemStorage playerStorage = caster.Script.DynamicItemStorage;
 
 			ItemSlot activeHand = playerStorage.GetActiveHandSlot();
 			if (activeHand.IsOccupied)
 			{
 				AddMark(activeHand.Item);
+				return;
 			}
 
-			ItemSlot leftHand = playerStorage.GetNamedItemSlot(NamedSlot.leftHand);
-			if (leftHand != activeHand && leftHand.IsOccupied)
+			foreach (var leftHand in playerStorage.GetNamedItemSlots(NamedSlot.leftHand))
 			{
-				AddMark(leftHand.Item);
+				if (leftHand != activeHand && leftHand.IsOccupied)
+				{
+					AddMark(leftHand.Item);
+					return;
+				}
 			}
-			ItemSlot rightHand = playerStorage.GetNamedItemSlot(NamedSlot.rightHand);
-			if (rightHand != activeHand && rightHand.IsOccupied)
+
+			foreach (var rightHand in playerStorage.GetNamedItemSlots(NamedSlot.rightHand))
 			{
-				AddMark(rightHand.Item);
+				if (rightHand != activeHand && rightHand.IsOccupied)
+				{
+					AddMark(rightHand.Item);
+					return;
+				}
 			}
 
 			Chat.AddExamineMsgFromServer(caster, "You aren't holding anything that can be marked for recall!");
@@ -112,7 +120,8 @@ namespace Systems.Spells.Wizard
 		{
 			markedItem = null;
 			isSet = false;
-			Chat.AddExamineMsgFromServer(caster, $"You remove the mark on the {item.ExpensiveName()} to use elsewhere.");
+			Chat.AddExamineMsgFromServer(caster,
+				$"You remove the mark on the {item.ExpensiveName()} to use elsewhere.");
 		}
 
 		#region Generic Helpers
@@ -121,7 +130,8 @@ namespace Systems.Spells.Wizard
 		{
 			if (item.TryGetComponent<Pickupable>(out var pickupable) && pickupable.ItemSlot != null)
 			{
-				return pickupable.ItemSlot.GetRootStorage().gameObject;
+				var RootStorage = pickupable.ItemSlot.GetRootStorageOrPlayer();
+				return RootStorage.gameObject;
 			}
 
 			return item;
@@ -129,11 +139,11 @@ namespace Systems.Spells.Wizard
 
 		private GameObject GetRootContainer(GameObject childItem)
 		{
-			ObjectBehaviour objBehaviour = childItem.GetComponent<ObjectBehaviour>();
+			UniversalObjectPhysics objBehaviour = childItem.GetComponent<UniversalObjectPhysics>();
 			int i = 0;
-			while (i < 10 && objBehaviour != null && objBehaviour.parentContainer != null)
+			while (i < 10 && objBehaviour != null && objBehaviour.ContainedInContainer != null)
 			{
-				if (objBehaviour.parentContainer.TryGetComponent<ObjectBehaviour>(out var newBehaviour))
+				if (objBehaviour.ContainedInContainer.TryGetComponent<UniversalObjectPhysics>(out var newBehaviour))
 				{
 					objBehaviour = newBehaviour;
 				}
@@ -146,13 +156,9 @@ namespace Systems.Spells.Wizard
 
 		private void TeleportObjectToPosition(GameObject teleportingObject, Vector3 worldPosition)
 		{
-			if (teleportingObject.TryGetComponent<CustomNetTransform>(out var netTransform))
+			if (teleportingObject.TryGetComponent<UniversalObjectPhysics>(out var netTransform))
 			{
-				netTransform.AppearAtPositionServer(worldPosition);
-			}
-			else if (teleportingObject.TryGetComponent<PlayerSync>(out var playerSync))
-			{
-				playerSync.AppearAtPositionServer(worldPosition);
+				netTransform.AppearAtWorldPositionServer(worldPosition);
 			}
 			else
 			{

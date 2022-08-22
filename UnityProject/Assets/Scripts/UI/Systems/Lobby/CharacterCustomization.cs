@@ -9,14 +9,14 @@ using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
-using Newtonsoft;
+using NaughtyAttributes;
+using System.Globalization;
 
-namespace Lobby
+namespace UI.CharacterCreator
 {
 	public class CharacterCustomization : MonoBehaviour
 	{
-		[Header("Character Customizer")]
-		public GameObject SpriteContainer;
+		[Header("Character Customizer")] public GameObject SpriteContainer;
 
 		public CustomisationSubPart customisationSubPart;
 
@@ -34,8 +34,6 @@ namespace Lobby
 
 		public Dictionary<BodyPart, List<BodyPart>> ParentDictionary = new Dictionary<BodyPart, List<BodyPart>>();
 
-		public List<GameObject> RootCustomisations = new List<GameObject>();
-
 		public List<BodyTypeName> AvailableBodyTypes = new List<BodyTypeName>();
 
 		public int SelectedBodyType = 0;
@@ -45,6 +43,7 @@ namespace Lobby
 		public SpriteHandlerNorder BodyPartSprite;
 
 		public InputField characterNameField;
+		public InputField characterAiNameField;
 		public InputField ageField;
 		public Text errorLabel;
 		public Text genderText;
@@ -56,23 +55,19 @@ namespace Lobby
 
 		public PlayerHealthData ThisSetRace = null;
 
-
-		public CharacterSprites torsoSpriteController;
-		public CharacterSprites headSpriteController;
-
-
-		public PlayerTextureData playerTextureData;
-
 		public CharacterDir currentDir;
 
 		[SerializeField] private List<Color> availableSkinColors;
-		private CharacterSettings currentCharacter;
+		private CharacterSheet currentCharacter;
+
+		public CharacterSheet CurrentCharacter
+		{
+			get { return currentCharacter; }
+		}
 
 		public ColorPicker colorPicker;
 
-		
-
-		public Action onCloseAction;
+		public System.Action onCloseAction;
 
 		public BodyPartDropDownOrgans AdditionalOrgan;
 		public BodyPartDropDownReplaceOrgan ReplacementOrgan;
@@ -81,62 +76,65 @@ namespace Lobby
 
 		public Color CurrentSurfaceColour = Color.white;
 
-		/// <summary>
-		/// Empty, blank sprite texture used for selecting null customizations
-		/// (e.g. selecting or scrolling to "None" for hair, facial hair, underwear,
-		/// or socks).
-		/// </summary>
-		public SpriteDataSO BobTheEmptySprite;
-
 		public List<CustomisationStorage> bodyPartCustomisationStorage = new List<CustomisationStorage>();
 		public List<ExternalCustomisation> ExternalCustomisationStorage = new List<ExternalCustomisation>();
-
 
 		public List<SpriteHandlerNorder> SurfaceSprite = new List<SpriteHandlerNorder>();
 
 		public int SelectedSpecies = 0;
 
-
 		public InputField SerialiseData;
 
-		[SerializeField] private GameObject snapCapturer;
+		[SerializeField] private GameObject CharacterCustomizationContent;
+		[SerializeField] private GameObject CharacterSelectorPreviewContent;
+		private Vector3 SpritesContainerOriginalPosition;
 
-		[Header("Character Selector")]
-		[SerializeField] private Text WindowName;
+		[Header("Character Selector")] [SerializeField]
+		private Text WindowName;
 
-		[SerializeField] private Text SlotsUsed;
-		[SerializeField] private Text CharacterPreviewName;
+		[SerializeField] private TMPro.TMP_Dropdown CharacterPreviewDropdown;
 		[SerializeField] private Text CharacterPreviewRace;
 		[SerializeField] private Text CharacterPreviewBodyType;
-		[SerializeField] private RawImage CharacterPreviewImg;
 
 		[SerializeField] private GameObject CharacterPreviews;
 		[SerializeField] private GameObject NoCharactersError;
-		[SerializeField] private GameObject NoPreviewError;
+		[SerializeField] private GameObject ConfirmDeleteCharacterObject;
+		[SerializeField] private GameObject DeleteCharacterButton;
 		[SerializeField] private GameObject GoBackButton;
+		[SerializeField] private Button EditCharacterButton;
 
 		[SerializeField] private GameObject CharacterSelectorPage;
 		[SerializeField] private GameObject CharacterCreatorPage;
 
-		public List<CharacterSettings> PlayerCharacters = new List<CharacterSettings>();
+		public List<CharacterSheet> PlayerCharacters = new List<CharacterSheet>();
 
-		private CharacterSettings lastSettings;
+		private CharacterSheet lastSettings;
 		private int currentCharacterIndex = 0;
-		private bool savingPictures = false;
 
+		private TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
+
+		#region Lifecycle
+
+		void Awake()
+		{
+			GetSavedCharacters();
+		}
 
 		void OnEnable()
 		{
+			GetOriginalLocalPositionForCharacterPreview();
 			GetSavedCharacters();
+			ShowCharacterPreviewOnCharacterSelector();
+			CheckIfCharacterListIsEmpty();
 			WindowName.text = "Select your character";
-			LoadSettings(PlayerManager.CurrentCharacterSettings);
+			LoadSettings(PlayerManager.CurrentCharacterSheet);
 			var copyStr = JsonConvert.SerializeObject(currentCharacter);
-			lastSettings = JsonConvert.DeserializeObject<CharacterSettings>(copyStr);
+			lastSettings = JsonConvert.DeserializeObject<CharacterSheet>(copyStr);
 			colorPicker.gameObject.SetActive(false);
+			colorPicker.onValueChanged.RemoveAllListeners();
 			colorPicker.onValueChanged.AddListener(OnColorChange);
 			DisplayErrorText("");
 			RefreshSelectorData();
-			
 		}
 
 		void OnDisable()
@@ -181,10 +179,17 @@ namespace Lobby
 			SurfaceSprite.Clear();
 		}
 
+		#endregion
+
 		private void ShowNoCharacterError()
 		{
+			ReturnCharacterPreviewFromTheCharacterSelector();
+			GoBackButton.SetActive(false);
 			CharacterPreviews.SetActive(false);
 			NoCharactersError.SetActive(true);
+			EditCharacterButton.SetActive(false);
+			ConfirmDeleteCharacterObject.SetActive(false);
+			DeleteCharacterButton.SetActive(false);
 		}
 
 		private void ShowCharacterCreator()
@@ -192,98 +197,119 @@ namespace Lobby
 			WindowName.text = "Character Settings";
 			CharacterSelectorPage.SetActive(false);
 			CharacterCreatorPage.SetActive(true);
-			GoBackButton.SetActive(true);
+			GoBackButton.SetActive(false);
+			ReturnCharacterPreviewFromTheCharacterSelector();
 			Cleanup();
 			LoadSettings(currentCharacter);
-			RefreshAll();
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 
-		public void ShowCharacterSelectorPage()
+		private void ShowCharacterSelectorPage()
 		{
 			WindowName.text = "Select your character";
+			ShowCharacterPreviewOnCharacterSelector();
+			GoBackButton.SetActive(true);
 			CharacterSelectorPage.SetActive(true);
 			CharacterCreatorPage.SetActive(false);
-			GoBackButton.SetActive(false);
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			CheckIfCharacterListIsEmpty();
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+		}
+
+		public void ShowCharacterDeletionConfirmation()
+		{
+			DeleteCharacterButton.SetActive(false);
+			ConfirmDeleteCharacterObject.SetActive(true);
+		}
+
+		public void HideCharacterDeletionConfirmation()
+		{
+			DeleteCharacterButton.SetActive(true);
+			ConfirmDeleteCharacterObject.SetActive(false);
 		}
 
 		public void CreateCharacter()
 		{
-			CharacterSettings character = new CharacterSettings();
+			if (currentCharacter != null)
+			{
+				lastSettings = currentCharacter;
+			}
+
+			CharacterSheet character = new CharacterSheet();
 			PlayerCharacters.Add(character);
 			currentCharacterIndex = PlayerCharacters.Count() - 1;
-			currentCharacter = PlayerCharacters[currentCharacterIndex];
+			LoadSettings(PlayerCharacters[currentCharacterIndex]);
+			currentCharacter.Species = Race.Human.ToString();
 			ShowCharacterCreator();
-			DoInitChecks();
-			RefreshAll();
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			ReturnCharacterPreviewFromTheCharacterSelector();
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 
 		public void EditCharacter()
 		{
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			LoadSettings(PlayerCharacters[currentCharacterIndex]);
+			lastSettings = PlayerCharacters[currentCharacterIndex];
+			ReturnCharacterPreviewFromTheCharacterSelector();
 			ShowCharacterCreator();
-			RefreshAll();
 		}
 
+		public void HandleExitButton()
+		{
+			ItemChange(CharacterPreviewDropdown.value);
+			gameObject.SetActive(false);
+		}
+
+		public void DeleteCurrentCharacter()
+		{
+			DeleteCharacterFromCharactersList(currentCharacterIndex);
+			HideCharacterDeletionConfirmation();
+		}
 
 		/// <summary>
 		/// Responsible for refreshing all data in the character selector page.
 		/// </summary>
 		private void RefreshSelectorData()
 		{
-			CharacterPreviewName.text = PlayerCharacters[currentCharacterIndex].Name;
 			CharacterPreviewRace.text = PlayerCharacters[currentCharacterIndex].Species;
 			CharacterPreviewBodyType.text = PlayerCharacters[currentCharacterIndex].BodyType.ToString();
-			SlotsUsed.text = $"{currentCharacterIndex + 1} / {PlayerCharacters.Count()}";
-			CheckPreviewImage();
 		}
 
+		private void UpdateCharactersDropDown()
+		{
+			CharacterPreviewDropdown.ClearOptions();
+			var itemOptions = PlayerCharacters.Select(pcd => pcd.Name).ToList();
+			CharacterPreviewDropdown.AddOptions(itemOptions);
+			CharacterPreviewDropdown.onValueChanged.RemoveAllListeners();
+			CharacterPreviewDropdown.onValueChanged.AddListener(ItemChange);
+		}
 
 		/// <summary>
-		/// If there is no sprite, show an error.
-		/// If there is a sprite, display it.
+		/// Whenever the player changes his character via the dropdown menu we make sure that currentCharacterIndex is set accordingly
+		/// And then we make sure that the currentCharacter is also loaded in.
+		/// Note : to unify the way loading character data is; we mainly use ItemChange now for everything to make bug trackign less and code better.
 		/// </summary>
-		private void CheckPreviewImage()
+		private void ItemChange(int newValue)
 		{
-			string path = Application.persistentDataPath + "/" +
-				$"{PlayerCharacters[currentCharacterIndex].Username}/" + PlayerCharacters[currentCharacterIndex].Name;
-			if (Directory.Exists(path))
+			currentCharacterIndex = newValue;
+			LoadSettings(PlayerCharacters[currentCharacterIndex]);
+			PlayerManager.CurrentCharacterSheet = PlayerCharacters[currentCharacterIndex];
+			SaveLastCharacterIndex();
+			RefreshSelectorData();
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+		}
+
+		private void CheckIfCharacterListIsEmpty()
+		{
+			if (PlayerCharacters.Count == 0)
 			{
-				CharacterPreviewImg.SetActive(true);
-				NoPreviewError.SetActive(false);
-				Debug.Log(path + $"/down_{PlayerCharacters[currentCharacterIndex].Name}.PNG");
-				StartCoroutine(GetPreviewImage(path + $"/down_{PlayerCharacters[currentCharacterIndex].Name}.PNG"));
+				EditCharacterButton.SetActive(false);
+				ShowNoCharacterError();
 			}
 			else
 			{
-				CharacterPreviewImg.SetActive(false);
-				NoPreviewError.SetActive(true);
-			}
-		}
-
-		/// <summary>
-		/// Loads an image from a localpath or from a server.
-		/// </summary>
-		/// <param name="path">The path to the image that will be used as a texture.</param>
-		/// <returns></returns>
-		private IEnumerator<UnityWebRequestAsyncOperation> GetPreviewImage(string path)
-		{
-			using (UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(path))
-			{
-				yield return uwr.SendWebRequest();
-
-				if (uwr.result != UnityWebRequest.Result.Success)
-				{
-					Debug.Log(uwr.error);
-					CharacterPreviewImg.SetActive(false);
-					NoPreviewError.SetActive(true);
-				}
-				else
-				{
-					CharacterPreviewImg.texture = DownloadHandlerTexture.GetContent(uwr);
-				}
+				EditCharacterButton.SetActive(true);
+				GoBackButton.SetActive(true);
+				HideCharacterDeletionConfirmation();
 			}
 		}
 
@@ -292,44 +318,63 @@ namespace Lobby
 			if (currentCharacterIndex != 0)
 			{
 				currentCharacterIndex--;
-				currentCharacter = PlayerCharacters[currentCharacterIndex];
 			}
 			else
 			{
-				currentCharacterIndex = PlayerCharacters.Count() - 1;
-				currentCharacter = PlayerCharacters[currentCharacterIndex];
+				currentCharacterIndex = PlayerCharacters.Count();
 			}
+
+			CharacterPreviewDropdown.value = currentCharacterIndex;
 			RefreshSelectorData();
 			RefreshAll();
 			SaveLastCharacterIndex();
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
-		}
-		public void ScrollSelectorRight()
-		{
-			if (currentCharacterIndex < PlayerCharacters.Count() - 1)
-			{
-				currentCharacterIndex++;
-				currentCharacter = PlayerCharacters[currentCharacterIndex];
-			}
-			else
-			{
-				currentCharacterIndex = 0;
-				currentCharacter = PlayerCharacters[currentCharacterIndex];
-			}
-			RefreshSelectorData();
-			RefreshAll();
-			SaveLastCharacterIndex();
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 
-		private void LoadSettings(CharacterSettings inCharacterSettings)
+		public void ScrollSelectorRight()
 		{
+			if (currentCharacterIndex == PlayerCharacters.Count() ||
+			    currentCharacterIndex == PlayerCharacters.Count() - 1)
+			{
+				currentCharacterIndex = 0;
+			}
+			else
+			{
+				currentCharacterIndex++;
+			}
+
+			CharacterPreviewDropdown.value = currentCharacterIndex;
+			RefreshSelectorData();
+			RefreshAll();
+			SaveLastCharacterIndex();
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+		}
+
+		private void GetOriginalLocalPositionForCharacterPreview()
+		{
+			SpritesContainerOriginalPosition = SpriteContainer.transform.localPosition;
+		}
+
+		private void ShowCharacterPreviewOnCharacterSelector()
+		{
+			SpriteContainer.transform.SetParent(CharacterSelectorPreviewContent.transform);
+		}
+
+		private void ReturnCharacterPreviewFromTheCharacterSelector()
+		{
+			SpriteContainer.transform.SetParent(CharacterCustomizationContent.transform, false);
+			SpriteContainer.transform.localPosition = SpritesContainerOriginalPosition;
+		}
+
+		private void LoadSettings(CharacterSheet inCharacterSettings)
+		{
+			Cleanup();
 			currentCharacter = inCharacterSettings;
 			//If we are playing locally offline, init character settings if they're null
 			if (currentCharacter == null)
 			{
-				currentCharacter = new CharacterSettings();
-				PlayerManager.CurrentCharacterSettings = currentCharacter;
+				currentCharacter = new CharacterSheet();
+				PlayerManager.CurrentCharacterSheet = currentCharacter;
 			}
 
 			PlayerHealthData SetRace = null;
@@ -346,6 +391,13 @@ namespace Lobby
 				SetRace = RaceSOSingleton.Instance.Races.First();
 			}
 
+			InitiateFresh(SetRace);
+			currentCharacter.SkinTone = inCharacterSettings.SkinTone;
+		}
+
+		public void InitiateFresh(PlayerHealthData SetRace)
+		{
+			Cleanup();
 			//SelectedSpecies
 			SelectedSpecies = 0;
 			foreach (var Species in RaceSOSingleton.Instance.Races)
@@ -362,9 +414,11 @@ namespace Lobby
 			ThisSetRace = SetRace;
 
 			availableSkinColors = SetRace.Base.SkinColours;
-			currentCharacter.SkinTone = inCharacterSettings.SkinTone;
+
+			PlayerManager.CurrentCharacterSheet = currentCharacter;
 			SetUpSpeciesBody(SetRace);
 			PopulateAllDropdowns(SetRace);
+			RefreshAll();
 			DoInitChecks();
 		}
 
@@ -405,50 +459,50 @@ namespace Lobby
 			// }
 		}
 
-
-		public void SetUpBodyPart(BodyPart bodyPart, bool addOrganReplacement = true)
+		public void SetUpBodyPart(BodyPart bodyPart, bool InstantiateCustomisations = true)
 		{
 			//bodyPart.LimbSpriteData;
 
 			//OpenBodyCustomisation[bodyPart.name] = new List<GameObject>();
 			ParentDictionary[bodyPart] = new List<BodyPart>();
 
-			//This spawns the eyes.
+			// This spawns the eyes.
 			SetupBodyPartsSprites(bodyPart);
-			if (bodyPart.LobbyCustomisation != null)
+			if (InstantiateCustomisations)
 			{
-				var newSprite = Instantiate(bodyPart.LobbyCustomisation, ScrollListBody.transform);
-				newSprite.SetUp(this, bodyPart, ""); //Update path
-				OpenBodyCustomisation[bodyPart.name] = (newSprite);
-			}
+				if (bodyPart.LobbyCustomisation != null)
+				{
+					var newSprite = Instantiate(bodyPart.LobbyCustomisation, ScrollListBody.transform);
+					newSprite.SetUp(this, bodyPart, ""); // Update path
+					OpenBodyCustomisation[bodyPart.name] = (newSprite);
+				}
 
-			if (bodyPart.OptionalOrgans.Count > 0)
-			{
-				var Option = Instantiate(AdditionalOrgan, ScrollListBody.transform);
-				Option.SetUp(this, bodyPart, "");
-				OpenBodyCustomisation[bodyPart.name] = (Option);
-			}
+				if (bodyPart.OptionalOrgans.Count > 0)
+				{
+					var Option = Instantiate(AdditionalOrgan, ScrollListBody.transform);
+					Option.SetUp(this, bodyPart, "");
+					OpenBodyCustomisation[bodyPart.name] = (Option);
+				}
 
-			if (addOrganReplacement)
-			{
+
 				if (bodyPart.OptionalReplacementOrgan.Count > 0)
 				{
 					var Option = Instantiate(ReplacementOrgan, ScrollListBody.transform);
 					Option.SetUp(this, bodyPart, "");
 					OpenBodyCustomisation[bodyPart.name] = (Option);
 				}
-			}
 
 
-			//Setup sprite//
-			//OpenBodySprites
-			if (bodyPart?.Storage?.Populater?.Contents != null)
-			{
-				foreach (var Organ in bodyPart.Storage.Populater.Contents)
+				//Setup sprite//
+				//OpenBodySprites
+				if (bodyPart?.OrganStorage?.Populater?.DeprecatedContents != null)
 				{
-					var subBodyPart = Organ.GetComponent<BodyPart>();
-					ParentDictionary[bodyPart].Add(subBodyPart);
-					SetUpBodyPart(subBodyPart);
+					foreach (var Organ in bodyPart.OrganStorage.Populater.DeprecatedContents)
+					{
+						var subBodyPart = Organ.GetComponent<BodyPart>();
+						ParentDictionary[bodyPart].Add(subBodyPart);
+						SetUpBodyPart(subBodyPart);
+					}
 				}
 			}
 		}
@@ -516,17 +570,14 @@ namespace Lobby
 				OpenBodySprites.Remove(bodyPart);
 			}
 
-			if (OpenBodyCustomisation.ContainsKey(bodyPart.name))
+			if (removeBodyCustomisation)
 			{
-				//removeBodyCustomisation
-
-				if (removeBodyCustomisation == true &&
-				    OpenBodyCustomisation[bodyPart.name].GetComponent<BodyPartDropDownReplaceOrgan>() == null)
+				if (OpenBodyCustomisation.ContainsKey(bodyPart.name))
 				{
-					Destroy(OpenBodyCustomisation[bodyPart.name]);
+					Destroy(OpenBodyCustomisation[bodyPart.name].gameObject);
+					OpenBodyCustomisation.Remove(bodyPart.name);
 				}
 
-				OpenBodyCustomisation.Remove(bodyPart.name);
 			}
 
 			if (ParentDictionary.ContainsKey(bodyPart))
@@ -542,16 +593,9 @@ namespace Lobby
 
 		#endregion BodyPartsSprites
 
-		//First time setting up this character etc?
+		// First time setting up this character etc?
 		private void DoInitChecks()
 		{
-			if (string.IsNullOrEmpty(currentCharacter.Username))
-			{
-				currentCharacter.Username = ServerData.Auth.CurrentUser.DisplayName;
-				RollRandomCharacter();
-				SaveData();
-			}
-
 			SetAllDropdowns();
 			RefreshAll();
 		}
@@ -614,33 +658,15 @@ namespace Lobby
 			RefreshClothing();
 			RefreshPronoun();
 			RefreshRace();
+			RefreshRotation();
 		}
 
 		public void RollRandomCharacter()
 		{
-			// Randomise gender
-			Type gender = typeof(BodyType);
-			Array genders = gender.GetEnumValues();
-			int index = UnityEngine.Random.Range(0,3);
-			currentCharacter.BodyType = (BodyType)genders.GetValue(index);
-
-			//Randomises player name and age.
-			switch (currentCharacter.BodyType)
-			{
-				case BodyType.Male:
-					currentCharacter.Name = StringManager.GetRandomMaleName();
-					break;
-				case BodyType.Female:
-					currentCharacter.Name = StringManager.GetRandomFemaleName();
-					break;
-				default:
-					currentCharacter.Name = StringManager.GetRandomName(Gender.NonBinary);  //probably should get gender neutral names?
-					break;																	//for now it will pick from both the male and female name pools
-			}
-			currentCharacter.Age = UnityEngine.Random.Range(19, 78);
+			// TODO: previously we were putting in a species. Does not doing that still make sense?
+			currentCharacter = CharacterSheet.GenerateRandomCharacter();
 
 			//Randomises player accents. (Italian, Scottish, etc)
-			randomizeAccent();
 
 
 			//Randomises character skin tones.
@@ -656,30 +682,15 @@ namespace Lobby
 		private void randomizeAppearance()
 		{
 			//Randomizes hair, tails, etc
-			foreach(var custom in GetComponentsInChildren<BodyPartCustomisationBase>())
+			foreach (var custom in OpenBodyCustomisation.Values)
 			{
 				custom.RandomizeValues();
 			}
+
 			//Randomizes clothes
-			foreach(var customSubPart in GetComponentsInChildren<CustomisationSubPart>())
+			foreach (var customSubPart in OpenCustomisation)
 			{
 				customSubPart.RandomizeValues();
-			}
-		}
-
-		private void randomizeAccent()
-		{
-			int accentChance = UnityEngine.Random.Range(0, 100);
-			if(accentChance <= 35)
-			{
-				Type accent = typeof(Speech);
-				Array accents = accent.GetEnumValues();
-				int index = UnityEngine.Random.Range(0, 7);
-				currentCharacter.Speech = (Speech)accents.GetValue(index);
-			}
-			else
-			{
-				currentCharacter.Speech = Speech.None;
 			}
 		}
 
@@ -690,21 +701,21 @@ namespace Lobby
 			if (availableSkinColors.Count != 0)
 			{
 				currentCharacter.SkinTone = "#" +
-					ColorUtility.ToHtmlStringRGB(availableSkinColors[UnityEngine.Random.Range(0, availableSkinColors.Count - 1)]);
+				                            ColorUtility.ToHtmlStringRGB(
+					                            availableSkinColors[
+						                            UnityEngine.Random.Range(0, availableSkinColors.Count - 1)]);
 			}
 			else
 			{
 				currentCharacter.SkinTone = "#" +
-					ColorUtility.ToHtmlStringRGBA(new Color(UnityEngine.Random.Range(0.1f, 1f),
-					UnityEngine.Random.Range(0.1f, 1f),
-					UnityEngine.Random.Range(0.1f, 1f), 1f));
+				                            ColorUtility.ToHtmlStringRGBA(new Color(UnityEngine.Random.Range(0.1f, 1f),
+					                            UnityEngine.Random.Range(0.1f, 1f),
+					                            UnityEngine.Random.Range(0.1f, 1f), 1f));
 			}
 		}
 
+		#region Dropdown Boxes
 
-		//------------------
-		//DROPDOWN BOXES:
-		//------------------
 		private void PopulateAllDropdowns(PlayerHealthData Race)
 		{
 			//Checks what customisation settings the player's race has avaliable
@@ -726,8 +737,8 @@ namespace Lobby
 				nextDir = 0;
 			}
 
-			currentDir = (CharacterCustomization.CharacterDir) nextDir;
-			SetRotation();
+			currentDir = (CharacterDir) nextDir;
+			RefreshRotation();
 		}
 
 		public void RightRotate()
@@ -738,29 +749,29 @@ namespace Lobby
 				nextDir = 3;
 			}
 
-			currentDir = (CharacterCustomization.CharacterDir) nextDir;
-			SetRotation();
+			currentDir = (CharacterDir) nextDir;
+			RefreshRotation();
 		}
 
-		public void SetRotation()
+		public void RefreshRotation()
 		{
 			int referenceOffset = 0;
-			if (currentDir == CharacterCustomization.CharacterDir.down)
+			if (currentDir == CharacterDir.down)
 			{
 				referenceOffset = 0;
 			}
 
-			if (currentDir == CharacterCustomization.CharacterDir.up)
+			if (currentDir == CharacterDir.up)
 			{
 				referenceOffset = 1;
 			}
 
-			if (currentDir == CharacterCustomization.CharacterDir.right)
+			if (currentDir == CharacterDir.right)
 			{
 				referenceOffset = 2;
 			}
 
-			if (currentDir == CharacterCustomization.CharacterDir.left)
+			if (currentDir == CharacterDir.left)
 			{
 				referenceOffset = 3;
 			}
@@ -772,7 +783,7 @@ namespace Lobby
 			int i = 0;
 			foreach (var Sprite in newSprites)
 			{
-				(Sprite as SpriteHandlerNorder).gameObject.transform.SetSiblingIndex(i);
+				Sprite.gameObject.transform.SetSiblingIndex(i);
 				i++;
 			}
 
@@ -841,7 +852,6 @@ namespace Lobby
 			SetDropDownBody(ThisSetRace.Base.LegRight);
 		}
 
-
 		public void SetDropDownBody(ObjectList GameObjectBody)
 		{
 			if (GameObjectBody == null) return;
@@ -854,7 +864,6 @@ namespace Lobby
 				SubSetBodyPart(bodyPart, "");
 			}
 		}
-
 
 		public void SubSetBodyPart(BodyPart bodyPart, string path)
 		{
@@ -877,9 +886,9 @@ namespace Lobby
 				}
 			}
 
-			if (bodyPart?.Storage?.Populater?.Contents != null)
+			if (bodyPart?.OrganStorage?.Populater?.DeprecatedContents != null)
 			{
-				foreach (var Organ in bodyPart.Storage.Populater.Contents)
+				foreach (var Organ in bodyPart.OrganStorage.Populater.DeprecatedContents)
 				{
 					var subBodyPart = Organ.GetComponent<BodyPart>();
 					SubSetBodyPart(subBodyPart, path);
@@ -887,10 +896,11 @@ namespace Lobby
 			}
 		}
 
-		//------------------
-		//PLAYER ACCOUNTS:
-		//------------------
-		[NaughtyAttributes.Button()]
+		#endregion
+
+		#region Player Accounts
+
+		[Button()]
 		private void SaveData()
 		{
 			ExternalCustomisationStorage.Clear();
@@ -904,40 +914,17 @@ namespace Lobby
 
 			SaveExternalCustomisations();
 			currentCharacter.SerialisedExternalCustom = new List<ExternalCustomisation>(ExternalCustomisationStorage);
-			;
+
 			currentCharacter.SerialisedBodyPartCustom = new List<CustomisationStorage>(bodyPartCustomisationStorage);
-			;
+
 			Logger.Log(JsonConvert.SerializeObject(bodyPartCustomisationStorage), Category.Character);
 			Logger.Log(JsonConvert.SerializeObject(ExternalCustomisationStorage), Category.Character);
 
-			PlayerManager.CurrentCharacterSettings = currentCharacter;
-			// TODO Consider adding await. Otherwise this causes a compile warning.
-			ServerData.UpdateCharacterProfile(currentCharacter);
+			PlayerManager.CurrentCharacterSheet = currentCharacter;
+			_ = ServerData.UpdateCharacterProfile(currentCharacter);
 			SaveCharacters();
 		}
 
-		/// <summary>
-		/// Takes 4 pictures of the character from all sides and stores them in %AppData%/Locallow/unitystation
-		/// </summary>
-		private IEnumerator<WaitForEndOfFrame> SaveCurrentCharacterSnaps()
-		{
-			savingPictures = true;
-			Util.CaptureUI capture = snapCapturer.GetComponent<Util.CaptureUI>();
-			int dir = 0;
-			capture.Path = $"/{currentCharacter.Username}/{currentCharacter.Name}"; //Note, we need to add IDs for currentCharacters later to avoid characters who have the same name overriding themselves.
-			while(dir < 4)
-			{
-				RightRotate();
-				capture.FileName = $"{currentDir}_{currentCharacter.Name}.PNG";
-				//Wait for 3 frames to make sure that all sprites have been loaded and layered correctly when rotating.
-				yield return WaitFor.EndOfFrame;
-				yield return WaitFor.EndOfFrame;
-				yield return WaitFor.EndOfFrame;
-				capture.TakeScreenShot();
-				dir++;
-			}
-			savingPictures = false;
-		}
 
 		/// <summary>
 		/// Remembers what was the last character the player chose in the character selector screen.
@@ -960,41 +947,104 @@ namespace Lobby
 				ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
 				Formatting = Formatting.Indented
 			};
-			SaveLastCharacterIndex(); //Remember the current character index, prevents a bug for newly created characters.
-			string json = JsonConvert.SerializeObject(PlayerCharacters, settings);
+			string json;
 			string path = Application.persistentDataPath + "characters.json";
-			if(File.Exists(path))
+			if (PlayerCharacters.Count == 0)
+			{
+				json = "";
+			}
+			else
+			{
+				json = JsonConvert.SerializeObject(PlayerCharacters, settings);
+			}
+
+			if (File.Exists(path))
 			{
 				File.Delete(path);
 			}
+
 			File.WriteAllText(path, json);
+			SaveLastCharacterIndex(); //Remember the current character index, prevents a bug for newly created characters.
 		}
 
 		/// <summary>
 		/// Get all characters that are saved in %APPDATA%/Locallow/unitystation/characters.json
 		/// </summary>
-		private void GetSavedCharacters()
+		public void GetSavedCharacters()
 		{
-			PlayerCharacters.Clear(); //Clear all entries so we don't have duplicates when re-opening the character page.
-			string path = Application.persistentDataPath;
+			PlayerCharacters
+				.Clear(); //Clear all entries so we don't have duplicates when re-opening the character page.
+			string path = Application.persistentDataPath + "characters.json";
 
-			if(File.Exists(path + "characters.json"))
+			if (File.Exists(path))
 			{
+				string json = File.ReadAllText(path);
+				if (json == "")
+				{
+					ShowNoCharacterError();
+					return;
+				}
+
 				CharacterPreviews.SetActive(true);
 				NoCharactersError.SetActive(false);
-				string json = File.ReadAllText(path + "characters.json");
-				var characters = JsonConvert.DeserializeObject<List<CharacterSettings>>(json);
+				var characters = JsonConvert.DeserializeObject<List<CharacterSheet>>(json);
 
 				foreach (var c in characters)
 				{
 					PlayerCharacters.Add(c);
 				}
+
 				currentCharacterIndex = PlayerPrefs.GetInt("lastCharacter", currentCharacterIndex);
+				UpdateCharactersDropDown();
+				CharacterPreviewDropdown.value = currentCharacterIndex;
 				RefreshSelectorData();
 			}
 			else
 			{
 				ShowNoCharacterError();
+			}
+		}
+
+		/// <summary>
+		/// Makes sure that the player spawns with the correct character.
+		/// This is mainly meant for spawning and ensuring that the player doesn't get the wrong character index.
+		/// </summary>
+		public void ValidateCurrentCharacter()
+		{
+			PlayerPrefs.GetInt("lastCharacter", currentCharacterIndex);
+			currentCharacter = PlayerCharacters[currentCharacterIndex];
+		}
+
+		private void DeleteCharacterFromCharactersList(int index)
+		{
+			PlayerCharacters.Remove(PlayerCharacters[index]);
+			currentCharacterIndex -= 1;
+			MakeSureCurrentCharacterIndexIsntABadValue();
+			if (PlayerCharacters.Count == 0)
+			{
+				CheckIfCharacterListIsEmpty();
+				SaveCharacters();
+			}
+			else
+			{
+				UpdateCharactersDropDown();
+				CharacterPreviewDropdown.value = currentCharacterIndex;
+				HideCharacterDeletionConfirmation();
+				SaveCharacters();
+				SaveLastCharacterIndex();
+				RefreshSelectorData();
+				RefreshAll();
+				_ = ServerData.UpdateCharacterProfile(currentCharacter);
+			}
+		}
+
+		private void MakeSureCurrentCharacterIndexIsntABadValue()
+		{
+			if (currentCharacterIndex <= -1)
+			{
+				currentCharacterIndex = 0;
+				UpdateCharactersDropDown();
+				CharacterPreviewDropdown.value = currentCharacterIndex;
 			}
 		}
 
@@ -1022,7 +1072,6 @@ namespace Lobby
 			}
 		}
 
-
 		public void SaveCustomisations(CustomisationStorage CustomisationStorage,
 			BodyPartCustomisationBase CustomisationObject)
 		{
@@ -1039,17 +1088,22 @@ namespace Lobby
 		public void SubSaveBodyPart(BodyPart bodyPart, string path)
 		{
 			path = path + "/" + bodyPart.name;
-			if (OpenBodyCustomisation.ContainsKey(bodyPart.name))
+			foreach (var Customisation in OpenBodyCustomisation)
 			{
-				var NewCustomisationStorage = new CustomisationStorage();
-				NewCustomisationStorage.path = path;
-				bodyPartCustomisationStorage.Add(NewCustomisationStorage);
-				SaveCustomisations(NewCustomisationStorage, OpenBodyCustomisation[bodyPart.name]);
+				if (Customisation.Value.RelatedBodyPart == bodyPart)
+				{
+					var NewCustomisationStorage = new CustomisationStorage();
+					NewCustomisationStorage.path = path;
+					bodyPartCustomisationStorage.Add(NewCustomisationStorage);
+					SaveCustomisations(NewCustomisationStorage, OpenBodyCustomisation[bodyPart.name]);
+					break;
+				}
 			}
 
-			if (bodyPart?.Storage?.Populater?.Contents != null)
+
+			if (bodyPart?.OrganStorage?.Populater?.DeprecatedContents != null)
 			{
-				foreach (var Organ in bodyPart.Storage.Populater.Contents)
+				foreach (var Organ in bodyPart.OrganStorage.Populater.DeprecatedContents)
 				{
 					var subBodyPart = Organ.GetComponent<BodyPart>();
 					SubSaveBodyPart(subBodyPart, path);
@@ -1057,84 +1111,69 @@ namespace Lobby
 			}
 		}
 
-		//------------------
-		//SAVE & CANCEL BUTTONS:
-		//------------------
+		#endregion
+
+		#region Save and Cancel Buttons
 
 		public void OnApplyBtn()
 		{
 			OnApplyBtnLogic();
 		}
 
-		private async Task OnApplyBtnLogic()
+		private void OnApplyBtnLogic()
 		{
-			StartCoroutine(SaveCurrentCharacterSnaps());
-
-			DisplayErrorText("Saving..");
-			//A hacky solution to be able to get character snaps before the UI shuts itself and hides/deletes the player. 
-			await Task.Delay(500);
-
 			DisplayErrorText("");
 			try
 			{
+				currentCharacter.Name = TruncateName(currentCharacter.Name);
+				currentCharacter.AiName = TruncateName(currentCharacter.AiName);
 				currentCharacter.ValidateSettings();
 			}
 			catch (InvalidOperationException e)
 			{
 				Logger.LogFormat("Invalid character settings: {0}", Category.Character, e.Message);
-				SoundManager.Play(SingletonSOSounds.Instance.AccessDenied);
+				_ = SoundManager.Play(CommonSounds.Instance.AccessDenied);
 				DisplayErrorText(e.Message);
 				return;
 			}
 
-
-
-			PlayerCharacters[currentCharacterIndex] = currentCharacter;
-
-			//Ensure that the character skin tone is assigned when saving the character
-			string skintone = currentCharacter.SkinTone = "#" + ColorUtility.ToHtmlStringRGB(CurrentSurfaceColour);
-			PlayerCharacters[currentCharacterIndex].SkinTone = skintone;
-
+			PlayerCharacters[currentCharacterIndex] = currentCharacter; //SaveData Saves the PlayerCharacters
 			SaveData();
+			GetSavedCharacters();
 			ShowCharacterSelectorPage();
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			gameObject.SetActive(false);
 		}
 
 		public void OnCancelBtn()
 		{
-			PlayerManager.CurrentCharacterSettings = lastSettings;
-			gameObject.SetActive(false);
+			PlayerManager.CurrentCharacterSheet = lastSettings;
+			LoadSettings(lastSettings);
+			RefreshAll();
+			ReturnCharacterPreviewFromTheCharacterSelector();
+			ShowCharacterSelectorPage();
 		}
+
+		#endregion
 
 		private void DisplayErrorText(string message)
 		{
 			errorLabel.text = message;
 		}
 
-		//------------------
-		//NAME:
-		//------------------
+		#region Name
+
 		private void RefreshName()
 		{
 			characterNameField.text = TruncateName(currentCharacter.Name);
+			characterAiNameField.text = TruncateName(currentCharacter.AiName);
 		}
 
 		public void RandomNameBtn()
 		{
-			switch (currentCharacter.BodyType)
-			{
-				case BodyType.Male:
-					currentCharacter.Name = StringManager.GetRandomMaleName();
-					break;
-				case BodyType.Female:
-					currentCharacter.Name = StringManager.GetRandomFemaleName();
-					break;
-				default:
-					currentCharacter.Name = StringManager.GetRandomName(Gender.NonBinary);
-					break;
-			}
-
+			currentCharacter.Name = currentCharacter.Species == "Lizard"
+				? StringManager.GetRandomLizardName(currentCharacter.GetGender())
+				: StringManager.GetRandomName(currentCharacter.GetGender());
 			RefreshName();
 		}
 
@@ -1144,19 +1183,26 @@ namespace Lobby
 			characterNameField.text = currentCharacter.Name;
 		}
 
+		public void OnManualAiNameChange()
+		{
+			currentCharacter.AiName = TruncateName(characterAiNameField.text);
+			characterAiNameField.text = currentCharacter.AiName;
+		}
+
 		private string TruncateName(string proposedName)
 		{
-			if (proposedName.Length >= CharacterSettings.MAX_NAME_LENGTH)
+			proposedName = textInfo.ToTitleCase(proposedName.ToLower());
+			if (proposedName.Length >= CharacterSheet.MAX_NAME_LENGTH)
 			{
-				return proposedName.Substring(0, CharacterSettings.MAX_NAME_LENGTH);
+				return proposedName.Substring(0, CharacterSheet.MAX_NAME_LENGTH);
 			}
 
 			return proposedName;
 		}
 
-		//------------------
-		//GENDER:
-		//------------------
+		#endregion
+
+		#region Gender
 
 		public void OnBodyTypeChange()
 		{
@@ -1192,7 +1238,7 @@ namespace Lobby
 
 			currentCharacter.BodyType = AvailableBodyTypes[SelectedBodyType].bodyType;
 			SkinColourChange(CurrentSurfaceColour);
-			SetRotation();
+			RefreshRotation();
 			RefreshBodyType();
 		}
 
@@ -1201,9 +1247,10 @@ namespace Lobby
 			genderText.text = ThisBodyType.Name;
 		}
 
-		//------------------
-		//AGE:
-		//------------------
+		#endregion
+
+		#region Age
+
 		private void RefreshAge()
 		{
 			ageField.text = currentCharacter.Age.ToString();
@@ -1211,16 +1258,21 @@ namespace Lobby
 
 		public void OnAgeChange()
 		{
-			int.TryParse(ageField.text, out int tryInt);
-			tryInt = Mathf.Clamp(tryInt, 18, 99);
-			currentCharacter.Age = tryInt;
-			RefreshAge();
+			if (int.TryParse(ageField.text, out int tryInt))
+			{
+				tryInt = Mathf.Clamp(tryInt, 18, 99);
+				currentCharacter.Age = tryInt;
+				RefreshAge();
+			}
+			else
+			{
+				RefreshAge();
+			}
 		}
 
+		#endregion
 
-		//------------------
-		//COLOR SELECTOR:
-		//------------------
+		#region Colour Selector
 
 		public void OpenColorPicker(Color currentColor, Action<Color> _colorChangeEvent, float yPos)
 		{
@@ -1238,11 +1290,12 @@ namespace Lobby
 		private void OnColorChange(Color newColor)
 		{
 			colorChangedEvent.Invoke(newColor);
+			RefreshAllSkinSharedSkinColoredBodyParts();
 		}
 
-		//------------------
-		//CLOTHING PREFERENCE:
-		//------------------
+		#endregion
+
+		#region Clothing Preference
 
 		public void OnClothingChange()
 		{
@@ -1262,9 +1315,9 @@ namespace Lobby
 			clothingText.text = currentCharacter.ClothingStyle.ToString();
 		}
 
-		//------------------
-		//BACKPACK PREFERENCE
-		//------------------
+		#endregion
+
+		#region Backpack Preference
 
 		public void OnBackpackChange()
 		{
@@ -1284,9 +1337,9 @@ namespace Lobby
 			backpackText.text = currentCharacter.BagStyle.ToString();
 		}
 
-		//------------------
-		//PRONOUN PREFERENCE:
-		//------------------
+		#endregion
+
+		#region Pronoun Preference
 
 		public void OnPronounChange()
 		{
@@ -1296,6 +1349,7 @@ namespace Lobby
 			{
 				pronoun = 0;
 			}
+
 			currentCharacter.PlayerPronoun = (PlayerPronoun) pronoun;
 			RefreshPronoun();
 		}
@@ -1305,9 +1359,10 @@ namespace Lobby
 			pronounText.text = currentCharacter.PlayerPronoun.ToString().Replace("_", "/");
 		}
 
-		//------------------
-		//ACCENT PREFERENCE:
-		//------------------
+		#endregion
+
+		#region Accent Preference
+
 		// This will be a temporal thing until we have proper character traits
 
 		public void OnAccentChange()
@@ -1327,6 +1382,8 @@ namespace Lobby
 		{
 			accentText.text = currentCharacter.Speech.ToString();
 		}
+
+		#endregion
 
 		public void OnSurfaceColourChange()
 		{
@@ -1360,9 +1417,16 @@ namespace Lobby
 			currentCharacter.SkinTone = "#" + ColorUtility.ToHtmlStringRGB(CurrentSurfaceColour);
 		}
 
-		//------------------
-		//RACE PREFERENCE:
-		//------------------
+		public void RefreshAllSkinSharedSkinColoredBodyParts()
+		{
+			foreach (var Customisation in GetComponentsInChildren<BodyPartCustomisationBase>())
+			{
+				Customisation.Refresh();
+			}
+		}
+
+		#region Race Preference
+
 		// This will be a temporal thing until we have proper character traits
 
 		public void OnRaceChange()
@@ -1377,32 +1441,24 @@ namespace Lobby
 
 			Cleanup();
 			var SetRace = RaceSOSingleton.Instance.Races[SelectedSpecies];
-			availableSkinColors = SetRace.Base.SkinColours;
-			SetUpSpeciesBody(SetRace);
-			PopulateAllDropdowns(SetRace);
-			DoInitChecks();
-
-			foreach (var BodyCustomisation in OpenBodyCustomisation)
-			{
-				BodyCustomisation.Value.Refresh();
-			}
-
-			foreach (var Customisation in OpenCustomisation)
-			{
-				Customisation.Refresh();
-			}
-
-
+			InitiateFresh(SetRace);
 			RefreshRace();
-
-			OnSurfaceColourChange();
 		}
 
 		private void RefreshRace()
 		{
 			raceText.text = currentCharacter.Species.ToString();
+
+			foreach (var Race in RaceSOSingleton.Instance.Races)
+			{
+				if (Race.name == currentCharacter.Species)
+				{
+					ThisSetRace = Race;
+				}
+			}
 		}
 
+		#endregion
 
 		public void InputSerialiseData()
 		{
@@ -1410,19 +1466,16 @@ namespace Lobby
 			SerialiseData.text = JsonConvert.SerializeObject(currentCharacter);
 		}
 
-
 		public void LoadSerialisedData()
 		{
-			var inCharacter = JsonConvert.DeserializeObject<CharacterSettings>(SerialiseData.text);
+			var inCharacter = JsonConvert.DeserializeObject<CharacterSheet>(SerialiseData.text);
 			if (inCharacter != null)
 			{
 				currentCharacter = inCharacter;
-				currentCharacter.Username = ServerData.Auth.CurrentUser.DisplayName;
 				Cleanup();
 				LoadSettings(currentCharacter);
 			}
 		}
-
 
 		public enum CharacterDir
 		{
@@ -1436,19 +1489,13 @@ namespace Lobby
 	public class ExternalCustomisation
 	{
 		public string Key;
-		public CharacterSettings.CustomisationClass SerialisedValue;
+		public CharacterSheet.CustomisationClass SerialisedValue;
 	}
 
 	public class CustomisationStorage
 	{
 		public string path;
 		public string Data;
-	}
-
-	public class DataAndType
-	{
-		public CustomisationType CustomisationType;
-		public string data;
 	}
 
 	public enum CustomisationType

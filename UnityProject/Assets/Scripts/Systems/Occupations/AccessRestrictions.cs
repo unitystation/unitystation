@@ -1,4 +1,7 @@
-﻿using Items.PDA;
+﻿using System;
+using Items.PDA;
+using Systems.Clearance;
+using Systems.Clearance.Utils;
 using UnityEngine;
 
 
@@ -7,27 +10,54 @@ public class AccessRestrictions : MonoBehaviour
 {
 	public Access restriction;
 
-	public bool CheckAccess(GameObject Player)
+	//TODO Move doors over to use ClearanceRestrictions
+	[NonSerialized]
+	public Clearance clearanceRestriction = 0;
+
+	public bool CheckAccess(GameObject player)
+	{
+		if (clearanceRestriction != 0)
+		{
+			return CheckAccess(player, clearanceRestriction);
+		}
+
+		return CheckAccess(player, MigrationData.Translation[restriction]);
+	}
+
+	public bool CheckAccessCard(GameObject idCardObj)
+	{
+		if (clearanceRestriction != 0)
+		{
+			return CheckAccessCard(idCardObj, clearanceRestriction);
+		}
+
+		return CheckAccessCard(idCardObj, MigrationData.Translation[restriction]);
+	}
+
+	public static bool CheckAccess(GameObject player, Clearance restriction)
 	{
 		// If there isn't any restriction, grant access right away
 		if ((int) restriction == 0) return true;
 
 		//There is no player object being checked, default to false.
-		if (Player == null) return false;
+		if (player == null) return false;
 
 
-		var playerStorage = Player.GetComponent<ItemStorage>();
+		var playerStorage = player.GetComponent<DynamicItemStorage>();
 		//this isn't a player. It could be an npc. No NPC access logic at the moment
 		if (playerStorage == null) return false;
 
 
 		//check if active hand or equipped id cards have access
-		if (CheckAccessCard(playerStorage.GetNamedItemSlot(NamedSlot.id).ItemObject)) return true;
+		foreach (var itemSlot in playerStorage.GetNamedItemSlots(NamedSlot.id))
+		{
+			if (CheckAccessCard(itemSlot.ItemObject, restriction)) return true;
+		}
 
-		return CheckAccessCard(playerStorage.GetActiveHandSlot().ItemObject);
+		return CheckAccessCard(playerStorage.GetActiveHandSlot()?.ItemObject, restriction);
 	}
 
-	public bool CheckAccessCard(GameObject idCardObj)
+	public static bool CheckAccessCard(GameObject idCardObj, Clearance restriction)
 	{
 		if (idCardObj == null)
 			return false;
@@ -41,16 +71,14 @@ public class AccessRestrictions : MonoBehaviour
 
 	public static IDCard GetIDCard(GameObject idCardObj)
 	{
-		var idCard = idCardObj.GetComponent<IDCard>();
-		var pda = idCardObj.GetComponent<PDALogic>();
-		if (idCard != null)
+		if (idCardObj.TryGetComponent<IDCard>(out var idCard))
 		{
 			return idCard;
 		}
 
-		if (pda != null)
+		if (idCardObj.TryGetComponent<PDALogic>(out var pda))
 		{
-			return pda.IDCard;
+			return pda.GetIDCard();
 		}
 
 		return null;

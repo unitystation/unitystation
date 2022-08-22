@@ -12,6 +12,16 @@ PrefabInstance:
       propertyPath: bodyPartsCovered
       value: 240
       objectReference: {fileID: 0}
+    - target: {fileID: 685173988875441089, guid: 9e1795c845a20134abc7b0eed8f2f750,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 685173988875441089, guid: 9e1795c845a20134abc7b0eed8f2f750,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4168629190914328584, guid: 9e1795c845a20134abc7b0eed8f2f750,
         type: 3}
       propertyPath: m_Sprite
@@ -21,7 +31,7 @@ PrefabInstance:
     - target: {fileID: 4232312920507074272, guid: 9e1795c845a20134abc7b0eed8f2f750,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 02bec04043bbbea48b517d42f7df674f
       objectReference: {fileID: 0}
     - target: {fileID: 4262665523380157268, guid: 9e1795c845a20134abc7b0eed8f2f750,
         type: 3}
@@ -92,20 +102,23 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: af93b07abf6e6464a8b857a013c11c10,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7157694522054977745, guid: 9e1795c845a20134abc7b0eed8f2f750,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: af93b07abf6e6464a8b857a013c11c10,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7157694522054977745, guid: 9e1795c845a20134abc7b0eed8f2f750,
         type: 3}
       propertyPath: allClothingData.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: e097629961a779c43860fcf899f8214e,
         type: 2}
+    - target: {fileID: 7175006413050836793, guid: 9e1795c845a20134abc7b0eed8f2f750,
+        type: 3}
+      propertyPath: foreverID
+      value: 02bec04043bbbea48b517d42f7df674f
+      objectReference: {fileID: 0}
     - target: {fileID: 7957324541968138451, guid: 9e1795c845a20134abc7b0eed8f2f750,
         type: 3}
       propertyPath: PresentSpriteSet

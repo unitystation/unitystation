@@ -7,17 +7,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 455845286104302151, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: foreverID
+      value: 623189688b8953843aa87c899f5b0c31
+      objectReference: {fileID: 0}
     - target: {fileID: 842131404161660333, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 29f83fea326c34241b54b8e24e6cb4ad,
         type: 2}
-    - target: {fileID: 4111275205169505611, guid: d57fa00554efcec4abd669e2d6b24edc,
-        type: 3}
-      propertyPath: magazineSize
-      value: 15
-      objectReference: {fileID: 0}
     - target: {fileID: 4111275205169505611, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
       propertyPath: ammoType
@@ -29,15 +29,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6911475130857718571, guid: 40ea4aea218be439eaf29f853612870c,
         type: 3}
-    - target: {fileID: 6342299245117104456, guid: d57fa00554efcec4abd669e2d6b24edc,
+    - target: {fileID: 4111275205169505611, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 4
+      propertyPath: magazineSize
+      value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 4111275205169505611, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: initalProjectile
+      value: 
+      objectReference: {fileID: 6911475130857718571, guid: 40ea4aea218be439eaf29f853612870c,
+        type: 3}
     - target: {fileID: 6342299245117104456, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
       propertyPath: initialName
       value: stechkin pistol magazine (9mm)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6342299245117104456, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6342299245117104456, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
@@ -51,10 +62,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: a4faadbd426a0a440a5236b2962f0c57,
         type: 3}
+    - target: {fileID: 6636107547650964854, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6839214368423611946, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
       propertyPath: m_Name
       value: StechkinPistolMagazine9mm
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843860766685623134, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6843860766685623134, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
@@ -73,6 +94,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6843860766685623134, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843860766685623134, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -85,16 +111,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6843860766685623134, guid: d57fa00554efcec4abd669e2d6b24edc,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6843860766685623134, guid: d57fa00554efcec4abd669e2d6b24edc,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6843860766685623134, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
@@ -114,7 +130,7 @@ PrefabInstance:
     - target: {fileID: 6880920390388757406, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 623189688b8953843aa87c899f5b0c31
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d57fa00554efcec4abd669e2d6b24edc, type: 3}

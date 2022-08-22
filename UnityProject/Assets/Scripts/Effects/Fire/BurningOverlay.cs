@@ -14,6 +14,10 @@ namespace Effects.Overlays
 		private void Awake()
 		{
 			spriteHandler = GetComponent<SpriteHandler>();
+		}
+
+		private void Start()
+		{
 			//wait until we are told to burn
 			StopBurning();
 		}

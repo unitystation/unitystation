@@ -1,9 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Doors;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects.Systems.Spells;
+using UI.Action;
 
 namespace Systems.Spells
 {
@@ -43,11 +46,11 @@ namespace Systems.Spells
 
 		public virtual void CallActionClient()
 		{
-			UIAction action = UIActionManager.Instance.DicIActionGUI[this];
+			UIAction action = UIActionManager.Instance.DicIActionGUI[this][0];
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestSpell(SpellData.Index, action.LastClickPosition);
 		}
 
-		public void CallActionServer(ConnectedPlayer SentByPlayer, Vector3 clickPosition)
+		public void CallActionServer(PlayerInfo SentByPlayer, Vector3 clickPosition)
 		{
 			if (ValidateCast(SentByPlayer) &&
 				CastSpellServer(SentByPlayer, clickPosition))
@@ -56,7 +59,7 @@ namespace Systems.Spells
 			}
 		}
 
-		private void AfterCast(ConnectedPlayer sentByPlayer)
+		private void AfterCast(PlayerInfo sentByPlayer)
 		{
 			Cooldowns.TryStartServer(sentByPlayer.Script, SpellData, CooldownTime);
 
@@ -83,14 +86,14 @@ namespace Systems.Spells
 
 				if (SpellData.InvocationType == SpellInvocationType.Shout)
 				{
-					Chat.AddChatMsgToChat(sentByPlayer, FormatInvocationMessage(sentByPlayer, modPrefix), ChatChannel.Local);
+					Chat.AddChatMsgToChatServer(sentByPlayer, FormatInvocationMessage(sentByPlayer, modPrefix), ChatChannel.Local, Loudness.NORMAL);
 				}
 			}
 
 			if (SpellData.ChargeType == SpellChargeType.FixedCharges && --ChargesLeft <= 0)
 			{
 				//remove it from spell list
-				UIActionManager.Toggle(this, false, sentByPlayer.GameObject);
+				UIActionManager.ToggleServer(sentByPlayer.Script.mind, this, false);
 			}
 			else
 			{
@@ -98,13 +101,13 @@ namespace Systems.Spells
 			}
 		}
 
-		public virtual bool CastSpellServer(ConnectedPlayer caster, Vector3 clickPosition)
+		public virtual bool CastSpellServer(PlayerInfo caster, Vector3 clickPosition)
 		{
 			return CastSpellServer(caster);
 		}
 
 		/// <returns>false if it was aborted for some reason</returns>
-		public virtual bool CastSpellServer(ConnectedPlayer caster)
+		public virtual bool CastSpellServer(PlayerInfo caster)
 		{
 			if (SpellData.SummonType == SpellSummonType.None)
 			{ //don't want to summon anything physical and that's alright
@@ -124,7 +127,7 @@ namespace Systems.Spells
 					{
 						break;
 					}
-					castPosition = casterPosition + caster.Script.CurrentDirection.VectorInt.To3Int();
+					castPosition = casterPosition + caster.Script.CurrentDirection.ToLocalVector3().RoundToInt();
 					break;
 				case SpellSummonPosition.Custom:
 					castPosition = GetWorldSummonPosition(caster);
@@ -151,7 +154,7 @@ namespace Systems.Spells
 						IEnumerator DespawnAfterDelay()
 						{
 							yield return WaitFor.Seconds(SpellData.SummonLifespan);
-							Despawn.ServerSingle(spawnResult.GameObject);
+							_ = Despawn.ServerSingle(spawnResult.GameObject);
 						}
 					}
 				}
@@ -164,13 +167,19 @@ namespace Systems.Spells
 					var matrixInfo = MatrixManager.AtPoint(castPosition, true);
 					var localPos = MatrixManager.WorldToLocalInt(castPosition, matrixInfo);
 
+					if (matrixInfo.Matrix.Get<DoorMasterController>(localPos, true).Any(door => door.IsClosed))
+					{
+						//This stops tile based spells from being cast ontop of closed doors
+						Chat.AddExamineMsg(caster.GameObject, "You cannot cast this spell while a door is in the way.");
+						return false;
+					}
 					if (matrixInfo.MetaTileMap.HasTile(localPos, tileToSummon.LayerType)
 					&& !SpellData.ReplaceExisting)
 					{
 						return false;
 					}
 
-					matrixInfo.TileChangeManager.UpdateTile(localPos, tileToSummon);
+					matrixInfo.TileChangeManager.MetaTileMap.SetTile(localPos, tileToSummon);
 					if (SpellData.ShouldDespawn)
 					{
 						//but also destroy when lifespan ends
@@ -179,7 +188,7 @@ namespace Systems.Spells
 						IEnumerator DespawnAfterDelay()
 						{
 							yield return WaitFor.Seconds(SpellData.SummonLifespan);
-							matrixInfo.TileChangeManager.RemoveTile(localPos, tileToSummon.LayerType, false);
+							matrixInfo.TileChangeManager.MetaTileMap.RemoveTileWithlayer(localPos, tileToSummon.LayerType);
 						}
 					}
 				}
@@ -191,12 +200,12 @@ namespace Systems.Spells
 		/// <summary>
 		/// Override this in your subclass for custom logic
 		/// </summary>
-		public virtual Vector3Int GetWorldSummonPosition(ConnectedPlayer caster)
+		public virtual Vector3Int GetWorldSummonPosition(PlayerInfo caster)
 		{
 			return TransformState.HiddenPos;
 		}
 
-		public virtual bool ValidateCast(ConnectedPlayer caster)
+		public virtual bool ValidateCast(PlayerInfo caster)
 		{
 			if (SpellData == null)
 			{
@@ -239,33 +248,39 @@ namespace Systems.Spells
 
 		private bool CheckWizardGarb(Equipment casterEquipment)
 		{
-			var outerwear = casterEquipment.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear);
-			if (outerwear.IsEmpty || outerwear.ItemAttributes.HasTrait(CommonTraits.Instance.WizardGarb) == false)
+			foreach (var outerwear in casterEquipment.ItemStorage.GetNamedItemSlots(NamedSlot.outerwear))
 			{
-				Chat.AddExamineMsg(casterEquipment.gameObject, "<color=red>You don't feel strong enough without your robe!</color>");
-				return false;
+				if (outerwear.IsEmpty || outerwear.ItemAttributes.HasTrait(CommonTraits.Instance.WizardGarb) == false)
+				{
+					Chat.AddExamineMsg(casterEquipment.gameObject, "<color=red>You don't feel strong enough without your robe!</color>");
+					return false;
+				}
 			}
 
-			var headwear = casterEquipment.ItemStorage.GetNamedItemSlot(NamedSlot.head);
-			if (headwear.IsEmpty || headwear.ItemAttributes.HasTrait(CommonTraits.Instance.WizardGarb) == false)
+			foreach (var headwear in casterEquipment.ItemStorage.GetNamedItemSlots(NamedSlot.head))
 			{
-				Chat.AddExamineMsg(casterEquipment.gameObject, "<color=red>You don't feel strong enough without your hat!</color>");
-				return false;
+				if (headwear.IsEmpty || headwear.ItemAttributes.HasTrait(CommonTraits.Instance.WizardGarb) == false)
+				{
+					Chat.AddExamineMsg(casterEquipment.gameObject,
+						"<color=red>You don't feel strong enough without your hat!</color>");
+					return false;
+				}
 			}
 
 			return true;
 		}
 
-		protected virtual string FormatInvocationMessage(ConnectedPlayer caster, string modPrefix)
+		protected virtual string FormatInvocationMessage(PlayerInfo caster, string modPrefix)
 		{
 			return modPrefix + SpellData.InvocationMessage;
 		}
 
-		protected virtual string FormatInvocationMessageSelf(ConnectedPlayer caster)
+		protected virtual string FormatInvocationMessageSelf(PlayerInfo caster)
 		{
 			return SpellData.InvocationMessageSelf;
 		}
-		protected virtual string FormatStillRechargingMessage(ConnectedPlayer caster)
+
+		protected virtual string FormatStillRechargingMessage(PlayerInfo caster)
 		{
 			return SpellData.StillRechargingMessage;
 		}

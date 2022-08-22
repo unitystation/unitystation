@@ -13,6 +13,16 @@ MonoBehaviour:
   m_Name: frown
   m_EditorClassIdentifier: 
   emoteName: frown
+  requiresHands: 0
+  allowEmoteWhileInCrit: 1
+  isAudibleEmote: 0
+  allowEmoteWhileCrawling: 1
   viewText: frowns.
   youText: You frown.
-  emoteDefaultSounds: []
+  failText: You were unable to preform this action!
+  mouthBlockedText: You are unable to make a sound!
+  critViewText: screams in pain!
+  soundsAreTyped: 0
+  defaultSounds: []
+  TypedSounds: []
+  pitchRange: {x: 0.7, y: 1}

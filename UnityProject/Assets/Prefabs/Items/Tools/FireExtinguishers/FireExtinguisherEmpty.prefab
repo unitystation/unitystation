@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3850527457399095892, guid: 908afbc5b9f871148b5ccd0b81bd147f,
+        type: 3}
+      propertyPath: foreverID
+      value: a696fba1a403cfb4e8b3752a81bc205d
+      objectReference: {fileID: 0}
     - target: {fileID: 5035609469445439989, guid: 908afbc5b9f871148b5ccd0b81bd147f,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -17,10 +22,25 @@ PrefabInstance:
       propertyPath: initialReagentMix.reagents.m_values.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7726190153568297307, guid: 908afbc5b9f871148b5ccd0b81bd147f,
+        type: 3}
+      propertyPath: traumaDamageChance
+      value: 37
+      objectReference: {fileID: 0}
+    - target: {fileID: 7726190153568297307, guid: 908afbc5b9f871148b5ccd0b81bd147f,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 7800619582892077965, guid: 908afbc5b9f871148b5ccd0b81bd147f,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: a696fba1a403cfb4e8b3752a81bc205d
+      objectReference: {fileID: 0}
+    - target: {fileID: 7910266627795891021, guid: 908afbc5b9f871148b5ccd0b81bd147f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7910266627795891021, guid: 908afbc5b9f871148b5ccd0b81bd147f,
         type: 3}
@@ -39,6 +59,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7910266627795891021, guid: 908afbc5b9f871148b5ccd0b81bd147f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7910266627795891021, guid: 908afbc5b9f871148b5ccd0b81bd147f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +76,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910266627795891021, guid: 908afbc5b9f871148b5ccd0b81bd147f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910266627795891021, guid: 908afbc5b9f871148b5ccd0b81bd147f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7910266627795891021, guid: 908afbc5b9f871148b5ccd0b81bd147f,
         type: 3}

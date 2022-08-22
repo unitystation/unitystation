@@ -25,7 +25,7 @@ PrefabInstance:
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: plantData.GrowthSpeed
-      value: 1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
@@ -37,7 +37,8 @@ PrefabInstance:
         type: 3}
       propertyPath: plantData.ProduceObject
       value: 
-      objectReference: {fileID: 3279069433607158746}
+      objectReference: {fileID: 8320053050054170569, guid: acc71df94cbb60a4abe979bc8d32a4d2,
+        type: 3}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: plantData.FullyGrownSpriteSO
@@ -97,7 +98,7 @@ PrefabInstance:
     - target: {fileID: 3763059340105120725, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 4f7ce98391b8ec54493a831134aa65be
       objectReference: {fileID: 0}
     - target: {fileID: 3867790606060242529, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
@@ -171,11 +172,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d358b74d8d6f1a74c8daf1e645f4dc78,
         type: 2}
+    - target: {fileID: 7860926447315831308, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: foreverID
+      value: 4f7ce98391b8ec54493a831134aa65be
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26abf4c2c542ffa4098216683cb5f652, type: 3}
---- !u!1 &3279069433607158746 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3867790606060242529, guid: 26abf4c2c542ffa4098216683cb5f652,
-    type: 3}
-  m_PrefabInstance: {fileID: 1741977534593940923}
-  m_PrefabAsset: {fileID: 0}

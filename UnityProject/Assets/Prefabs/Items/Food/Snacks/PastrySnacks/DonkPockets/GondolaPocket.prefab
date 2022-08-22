@@ -13,6 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8662884810754849989, guid: bc9e28bfb612e994c8e7cb9b4a2db0c6,
         type: 3}
+    - target: {fileID: 1150929257099711787, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 8662884810754849989, guid: bc9e28bfb612e994c8e7cb9b4a2db0c6,
+        type: 3}
     - target: {fileID: 2980378721179210927, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -36,6 +42,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -51,6 +62,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +79,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
@@ -97,7 +103,7 @@ PrefabInstance:
     - target: {fileID: 4170985198274634163, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: a8b8e46cdc47857479564ff9e846b125
       objectReference: {fileID: 0}
     - target: {fileID: 4217498956441677659, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
@@ -105,21 +111,32 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 2ac9d7f51f3d0644cb26f78261a6e6a6,
         type: 3}
-    - target: {fileID: 4511480774014382949, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+    - target: {fileID: 4217498956441677659, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
-      propertyPath: initialDescription
-      value: The choice to use real gondola meat in the recipe is controversial,
-        to say the least.
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4511480774014382949, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
       propertyPath: initialName
       value: Gondola-pocket
       objectReference: {fileID: 0}
+    - target: {fileID: 4511480774014382949, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
+      propertyPath: initialDescription
+      value: The choice to use real gondola meat in the recipe is controversial,
+        to say the least.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6975192418094665834, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
+      propertyPath: foreverID
+      value: a8b8e46cdc47857479564ff9e846b125
+      objectReference: {fileID: 0}
     - target: {fileID: 7867923100964153216, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: a08d6b1894f30f746b62e491be3d493d,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792, type: 3}

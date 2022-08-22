@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -44,10 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bdd149a73a974c77bd23df0cb28c844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  primaryEscapeShuttle: {fileID: 0}
-  GameModeData: {fileID: 11400000, guid: 050782fd4c93a164e8100c4c7183d5b3, type: 2}
-  SecretGameMode: 1
-  Rebels: 
   counting: 0
   NextGameMode: Random
   roundTimer: {fileID: 0}
@@ -57,6 +54,13 @@ MonoBehaviour:
   solarSystemRadius: 600
   CentComm: {fileID: 5244294626086762232}
   QuickLoad: 0
+  endOfRoundSounds: {fileID: 11400000, guid: 3505a71866d7e9e43a6cdc336306b41f, type: 2}
+  LowPopCheckTimeAfterRoundStart: 300
+  RebootOnAverageFPSOrLower: 35
+  primaryEscapeShuttle: {fileID: 0}
+  GameModeData: {fileID: 11400000, guid: 050782fd4c93a164e8100c4c7183d5b3, type: 2}
+  SecretGameMode: 1
+  Rebels: 
 --- !u!114 &5244294626086762232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,4 +77,5 @@ MonoBehaviour:
   paperPrefab: {fileID: 8734328976324889014, guid: d3c71176f32c1274b929f3a88695a795,
     type: 3}
   initialAlertLevel: 1
+  IsLowPop: 0
   coolDownAlertChange: 5

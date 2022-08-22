@@ -63,7 +63,7 @@ public static class GameObjectExtensions
 		{
 			Logger.LogWarning("Attempting to get world position of object {0} which has no RegisterTile. " +
 			                  "Transform.position will be used instead, which may cause unexpected behavior.", Category.Matrix);
-			return obj.transform.position.To2Int();
+			return obj.transform.position.RoundTo2Int();
 		}
 		else
 		{
@@ -89,7 +89,7 @@ public static class GameObjectExtensions
 		{
 			Logger.LogWarning("Attempting to get local position of object {0} which has no RegisterTile. " +
 			                  "Transform.localposition will be used instead, which may cause unexpected behavior.", Category.Matrix);
-			return obj.transform.localPosition.To2Int();
+			return obj.transform.localPosition.RoundTo2Int();
 		}
 		else
 		{

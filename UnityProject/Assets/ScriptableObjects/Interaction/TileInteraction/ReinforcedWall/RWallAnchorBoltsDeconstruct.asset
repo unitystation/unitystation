@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: RWallAnchorBoltsDeconstruct
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4, type: 2}
+  harmIntentRequired: 0
   performerStartActionMessage: You start loosening the anchoring bolts which secure
     the support rods to their frame...
   othersStartActionMessage: '{performer} starts loosening the anchoring bolts which
     secure the support rods to their frame...'
   seconds: 4
+  objectsToSpawn: {fileID: 0}
   toTile: {fileID: 11400000, guid: b43b0c919cddd46bea60e744d7d6e757, type: 2}
   performerFinishActionMessage: You remove the bolts anchoring the support rods.
   othersFinishActionMessage: '{performer} removes the bolts anchoring the support

@@ -1,28 +1,31 @@
 ﻿using System;
 using UnityEngine;
 
-/// <summary>
-/// For die that are multi-dimensional.
-/// </summary>
-public class RollMultidimensionalDie : RollDie
+namespace Items.Dice
 {
-	[Tooltip("The amount of sides a die for a single dimension has.")]
-	public int singleDieSides;
-
-	public override string Examine(Vector3 worldPos = default)
+	/// <summary>
+	/// For dice that are multi-dimensional.
+	/// </summary>
+	public class RollMultidimensionalDie : RollDie
 	{
-		return $"It is showing Cube-Side: {GetDimensionalMessage()}.";
-	}
+		[Tooltip("The amount of sides a die for a single dimension has.")]
+		public int singleDieSides;
 
-	protected override string GetMessage()
-	{
-		return $"It lands with Cube-Side: {GetDimensionalMessage()}.";
-	}
+		public override string Examine(Vector3 worldPos = default)
+		{
+			return $"It is showing Cube-Side: {GetDimensionalMessage()}.";
+		}
 
-	private string GetDimensionalMessage()
-	{
-		int remainder, quotient = Math.DivRem(result, singleDieSides, out remainder);
+		protected override string GetMessage()
+		{
+			return $"It lands with Cube-Side: {GetDimensionalMessage()}.";
+		}
 
-		return $"{quotient + 1}-{remainder + 1}";
+		private string GetDimensionalMessage()
+		{
+			int remainder, quotient = Math.DivRem(result, singleDieSides, out remainder);
+
+			return $"{quotient + 1}-{remainder + 1}";
+		}
 	}
 }

@@ -9,100 +9,86 @@ namespace Systems.Atmospherics
 	{
 		public bool Satisfies(GasMix gasMix)
 		{
-			return CanHoldHotspot(gasMix);
+			throw new System.NotImplementedException();
 		}
 
-		public static bool CanHoldHotspot(GasMix gasMix)
+		public void React(GasMix gasMix, MetaDataNode node)
 		{
-			if (gasMix.Temperature > Reactions.PlasmaMaintainFire && gasMix.GetMoles(Gas.Plasma) > 0.1f &&
-			    gasMix.GetMoles(Gas.Oxygen) > 0.1f)
+			var energyReleased = 0f;
+			var temperature = gasMix.Temperature;
+			var oldHeatCapacity = gasMix.WholeHeatCapacity;
+
+			//More plasma released at higher temperatures
+			float temperatureScale;
+
+			if (temperature > AtmosDefines.PLASMA_UPPER_TEMPERATURE)
 			{
-				if (GetOxygenContact(gasMix) > Reactions.MinimumOxygenContact)
-				{
-					return true;
-				}
+				temperatureScale = 1;
 			}
-			return false;
-		}
-
-		public void React(GasMix gasMix, Vector3 tilePos, Matrix matrix)
-		{
-			float temperature = gasMix.Temperature;
-
-			float BurnRate = GetOxygenContact(gasMix);
-			//Logger.Log(BurnRate.ToString() + "BurnRate");
-			if (BurnRate > 0)
+			else
 			{
-				var superSaturated = false;
+				//Will be decimal until PLASMA_UPPER_TEMPERATURE is reached
+				temperatureScale = (temperature - AtmosDefines.PLASMA_MINIMUM_BURN_TEMPERATURE) /
+				                   (AtmosDefines.PLASMA_UPPER_TEMPERATURE - AtmosDefines.PLASMA_MINIMUM_BURN_TEMPERATURE);
+			}
 
-				float MolesPlasmaBurnt = gasMix.GetMoles(Gas.Plasma) * Reactions.BurningDelta * BurnRate;
-				if (MolesPlasmaBurnt * 2 > gasMix.GetMoles(Gas.Oxygen)) {
-					MolesPlasmaBurnt = (gasMix.GetMoles(Gas.Oxygen) * Reactions.BurningDelta * BurnRate)/2;
-				}
+			if (temperatureScale > 0)
+			{
+				//Handle plasma burning
+				var oxygenMoles = gasMix.GetMoles(Gas.Oxygen);
+				var plasmaMoles = gasMix.GetMoles(Gas.Plasma);
 
-				if (MolesPlasmaBurnt < 0)
+				float plasmaBurnRate;
+				var oxygenBurnRate = AtmosDefines.OXYGEN_BURN_RATE_BASE - temperatureScale;
+
+				var superSaturation = oxygenMoles / plasmaMoles > AtmosDefines.SUPER_SATURATION_THRESHOLD;
+
+				if (oxygenMoles > plasmaMoles * AtmosDefines.PLASMA_OXYGEN_FULLBURN)
 				{
-					return;
-				}
-
-				if (gasMix.GetMoles(Gas.Oxygen) / gasMix.GetMoles(Gas.Plasma) > AtmosDefines.SUPER_SATURATION_THRESHOLD)
-				{
-					superSaturated = true;
-				}
-
-				gasMix.RemoveGas(Gas.Plasma, MolesPlasmaBurnt);
-				if (gasMix.Gases[Gas.Plasma] < 0) gasMix.Gases[Gas.Plasma] = 0;
-
-				gasMix.RemoveGas(Gas.Oxygen, MolesPlasmaBurnt * 2);
-				if (gasMix.Gases[Gas.Oxygen] < 0) gasMix.Gases[Gas.Oxygen] = 0;
-				var TotalmolestoCO2 = MolesPlasmaBurnt + (MolesPlasmaBurnt * 2);
-
-				if (superSaturated)
-				{
-					gasMix.AddGas(Gas.Tritium, TotalmolestoCO2 / 3);
+					plasmaBurnRate = (plasmaMoles * temperatureScale) / AtmosDefines.PLASMA_BURN_RATE_DELTA;
 				}
 				else
 				{
-					gasMix.AddGas(Gas.CarbonDioxide, TotalmolestoCO2 / 3);
+					plasmaBurnRate = (temperatureScale * (oxygenMoles / AtmosDefines.PLASMA_OXYGEN_FULLBURN)) / AtmosDefines.PLASMA_BURN_RATE_DELTA;
 				}
 
-				float heatCapacity = gasMix.WholeHeatCapacity;
-				gasMix.SetTemperature((temperature * heatCapacity + (Reactions.EnergyPerMole * TotalmolestoCO2)) / gasMix.WholeHeatCapacity);
+				if (plasmaBurnRate > AtmosConstants.MINIMUM_HEAT_CAPACITY)
+				{
+					//Ensures matter is conserved properly
+					plasmaBurnRate = Mathf.Min(plasmaBurnRate, plasmaMoles, oxygenMoles / oxygenBurnRate);
+
+					gasMix.SetGas(Gas.Plasma, plasmaMoles - plasmaBurnRate);
+					gasMix.SetGas(Gas.Oxygen, oxygenMoles - (plasmaBurnRate * oxygenBurnRate));
+
+					if (superSaturation)
+					{
+						gasMix.AddGas(Gas.Tritium, plasmaBurnRate);
+					}
+					else
+					{
+						gasMix.AddGas(Gas.CarbonDioxide, plasmaBurnRate * 0.75f);
+						gasMix.AddGas(Gas.WaterVapor, plasmaBurnRate * 0.25f);
+					}
+
+					energyReleased += AtmosDefines.FIRE_PLASMA_ENERGY_RELEASED * plasmaBurnRate;
+				}
 			}
-		}
 
-		public static float GetOxygenContact(GasMix gasMix)
-		{
-			float Oxygen = gasMix.GasRatio(Gas.Oxygen);
-			float Plasma = gasMix.GasRatio(Gas.Plasma);
-
-			var NeedOXtoplas = Plasma * 2;
-			var Ratio = 0.0f;
-			if (Oxygen > NeedOXtoplas)
+			if (energyReleased > 0)
 			{
-
-				Ratio = 1;
-			}
-			else {
-				Ratio = Oxygen / NeedOXtoplas;
-			}
-			var tempComponent = 0.0f;
-			var temp = gasMix.Temperature;
-			if (temp < Reactions.PlasmaMaintainFire)
-			{
-				tempComponent = 0;
-			}
-			else if (temp >= Reactions.PlasmaMaxTemperatureGain)
-			{
-				tempComponent = 1;
-			}
-			else {
-				tempComponent = (float)Math.Pow((temp - Reactions.PlasmaMaintainFire) /
-				(Reactions.PlasmaMaxTemperatureGain - Reactions.PlasmaMaintainFire), 2);
+				var newHeatCapacity = gasMix.WholeHeatCapacity;
+				if (newHeatCapacity > AtmosConstants.MINIMUM_HEAT_CAPACITY)
+				{
+					gasMix.SetTemperature((gasMix.Temperature * oldHeatCapacity + energyReleased) / newHeatCapacity);
+				}
 			}
 
-			//Logger.Log("Ratio >" + Ratio + " ((Oxygen + Plasma / gasMix.Moles) that suff" + (Oxygen + Plasma / gasMix.Moles) + " (tempComponent * 3) >" +(1 + tempComponent * 2));
-			return (Ratio * ((Oxygen + Plasma / gasMix.Moles) * (1+tempComponent * 2)));
+			//Create fire if possible
+			if (gasMix.Temperature > AtmosDefines.FIRE_MINIMUM_TEMPERATURE_TO_EXIST)
+			{
+				//Dont do expose as we are off the main thread
+				node.ReactionManager.ExposeHotspot(node.Position, doExposure: false);
+			}
 		}
 	}
 }

@@ -15,7 +15,12 @@ PrefabInstance:
     - target: {fileID: 1064887464572126377, guid: 623189688b8953843aa87c899f5b0c31,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: cc645811c71dcdc4d94420953ca28fda
+      objectReference: {fileID: 0}
+    - target: {fileID: 1099030289814701161, guid: 623189688b8953843aa87c899f5b0c31,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1099030289814701161, guid: 623189688b8953843aa87c899f5b0c31,
         type: 3}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1099030289814701161, guid: 623189688b8953843aa87c899f5b0c31,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1099030289814701161, guid: 623189688b8953843aa87c899f5b0c31,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1099030289814701161, guid: 623189688b8953843aa87c899f5b0c31,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1099030289814701161, guid: 623189688b8953843aa87c899f5b0c31,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1099030289814701161, guid: 623189688b8953843aa87c899f5b0c31,
         type: 3}
@@ -76,6 +76,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: StechkinPistolMagazine9mmHollowPoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 6334790055244281200, guid: 623189688b8953843aa87c899f5b0c31,
+        type: 3}
+      propertyPath: foreverID
+      value: cc645811c71dcdc4d94420953ca28fda
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 623189688b8953843aa87c899f5b0c31, type: 3}

@@ -15,5 +15,7 @@ MonoBehaviour:
   displayName: Space Lube
   description: Lubricant is a substance introduced between two moving surfaces to
     reduce the friction and wear between them. giggity.
-  color: {r: 0, g: 0.6117647, b: 0.65882355, a: 1}
-  state: 0
+  color: {r: 0, g: 0.6117647, b: 0.65882355, a: 0}
+  state: 1
+  heatDensity: 5
+  indexInSingleton: 441

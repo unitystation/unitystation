@@ -1,16 +1,19 @@
-﻿using System.Collections.Generic;
-using System;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using DatabaseAPI;
-using Doors;
+﻿using Doors;
 using Items;
 using Messages.Client.VariableViewer;
 using Objects.Wallmounts;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+using Shared.Managers;
+using Tiles;
+using UI;
+using UI.Core.RightClick;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UI.Core.RightClick;
+using Util;
 
 /// <summary>
 /// Main logic for managing right click behavior.
@@ -21,13 +24,29 @@ using UI.Core.RightClick;
 ///
 /// Refer to documentation at https://github.com/unitystation/unitystation/wiki/Right-Click-Menu
 /// </summary>
-public class RightClickManager : MonoBehaviour
+public class RightClickManager : SingletonManager<RightClickManager>
 {
 	public static readonly Color ButtonColor = new Color(0.3f, 0.55f, 0.72f, 0.7f);
 
-	private static readonly BranchWorldPosition BranchWorldPosition = new BranchWorldPosition();
+	private static readonly RadialWorldPosition RadialWorldPosition = new RadialWorldPosition();
 
-	private static readonly BranchScreenPosition BranchScreenPosition = new BranchScreenPosition();
+	private static readonly RadialScreenPosition RadialScreenPosition = new RadialScreenPosition();
+
+	[SerializeField]
+	private RightClickRadialOptions singleRingConfig = default;
+
+	[SerializeField]
+	private RightClickRadialOptions dualRingConfig = default;
+
+	public RightClickRadialOptions SingleRingConfig =>
+		this.VerifyNonChildReference(singleRingConfig, "single ring options SO");
+
+	public RightClickRadialOptions DualRingConfig =>
+		this.VerifyNonChildReference(dualRingConfig, "dual ring options SO");
+
+	[SerializeField]
+	private ScriptableObjects.RightClickOptionsList rightClickOptions = default;
+	public RightClickOption[] RightClickOptions => rightClickOptions.RightClickOptions;
 
 	[Tooltip("Ordering to use for right click options.")]
 	public RightClickOptionOrder rightClickOptionOrder;
@@ -38,7 +57,7 @@ public class RightClickManager : MonoBehaviour
 	/// saved reference to lighting sytem, for checking FOV occlusion
 	private LightingSystem lightingSystem;
 
-	//cached methods attributed with RightClickMethod
+	// cached methods attributed with RightClickMethod
 	private static List<RightClickAttributedComponent> attributedTypes = new List<RightClickAttributedComponent>();
 	private List<RaycastResult> raycastResults = new List<RaycastResult>();
 
@@ -68,9 +87,10 @@ public class RightClickManager : MonoBehaviour
 		}
 	}
 
-	private void Awake()
+	public override void Awake()
 	{
-		//cache all known usages of the RightClickMethod annotation
+		base.Awake();
+		// cache all known usages of the RightClickMethod annotation
 		if (attributedTypes.Count == 0)
 		{
 			new Task(GetRightClickAttributedMethods).Start();
@@ -83,6 +103,12 @@ public class RightClickManager : MonoBehaviour
 	private void OnEnable()
 	{
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void GetRightClickAttributedMethods()
@@ -102,7 +128,8 @@ public class RightClickManager : MonoBehaviour
 			{
 				RightClickAttributedComponent component = new RightClickAttributedComponent
 				{
-					ComponentType = componentType, AttributedMethods = attributedMethodsForType
+					ComponentType = componentType,
+					AttributedMethods = attributedMethodsForType
 				};
 				result.Add(component);
 			}
@@ -111,35 +138,40 @@ public class RightClickManager : MonoBehaviour
 		attributedTypes = result;
 	}
 
-	void Update()
+	void UpdateMe()
 	{
 		// Get right mouse click
-		if (CommonInput.GetMouseButtonDown(1))
+		if (CommonInput.GetMouseButtonDown(1) == false) return;
+
+		var mousePos = CommonInput.mousePosition;
+
+		var objects = GetGameObjects(mousePos, out var isUI);
+		//Generates menus
+		var options = Generate(objects);
+
+		if (options is null || options.Count <= 0) return;
+
+		var radialOptions = DualRingConfig;
+
+		// If there's only one object, use the inner ring as the action ring.
+		if (options.Count == 1)
 		{
-			var mousePos = CommonInput.mousePosition;
-
-			var objects = GetGameObjects(mousePos, out var isUI);
-			//Generates menus
-			var options = Generate(objects);
-
-			if (options == null || options.Count <= 0)
-			{
-				return;
-			}
-
-			IBranchPosition branchPosition = BranchScreenPosition.SetPosition(mousePos);
-
-			if (isUI == false)
-			{
-				var tile = objects.Select(o => o.RegisterTile()).FirstOrDefault();
-				if (tile)
-				{
-					branchPosition = BranchWorldPosition.SetTile(tile);
-				}
-			}
-
-			MenuController.SetupMenu(options, branchPosition);
+			options = options[0].SubMenus;
+			radialOptions = SingleRingConfig;
 		}
+
+		IRadialPosition radialPosition = RadialScreenPosition.SetPosition(mousePos);
+
+		if (isUI == false)
+		{
+			var tile = objects.Select(o => o.RegisterTile()).FirstOrDefault();
+			if (tile)
+			{
+				radialPosition = RadialWorldPosition.SetTile(tile);
+			}
+		}
+
+		MenuController.SetupMenu(options, radialPosition, radialOptions);
 	}
 
 	private List<GameObject> GetGameObjects(Vector3 position, out bool isUI)
@@ -169,7 +201,7 @@ public class RightClickManager : MonoBehaviour
 			var slotObject = itemSlot.OrNull()?.ItemObject;
 			if (slotObject != null)
 			{
-				return new List<GameObject>{ slotObject };
+				return new List<GameObject> { slotObject };
 			}
 		}
 
@@ -184,8 +216,7 @@ public class RightClickManager : MonoBehaviour
 			return null;
 		}
 
-		var position = Camera.main.ScreenToWorldPoint(mousePosition);
-		position.z = 0f;
+		var position = MouseUtils.MouseToWorldPos();
 		var objects = UITileList.GetItemsAtPosition(position);
 
 		//special case, remove wallmounts that are transparent
@@ -211,7 +242,7 @@ public class RightClickManager : MonoBehaviour
 
 	private bool IsUnderFloorTile(GameObject obj)
 	{
-		LayerTile tile = UITileList.GetTileAtPosition(obj.WorldPosClient());
+		LayerTile tile = UITileList.GetTileAtPosition(obj.AssumedWorldPosServer());
 
 		// Layer 22 is the 'Floor' layer
 		return (tile != null && tile.LayerType != LayerType.Base && obj.layer == 22);
@@ -261,8 +292,18 @@ public class RightClickManager : MonoBehaviour
 
 				if (!string.IsNullOrEmpty(PlayerList.Instance.AdminToken))
 				{
-					Action VVAction = () => RequestBookshelfNetMessage.Send(curObject, ServerData.UserID, PlayerList.Instance.AdminToken);
-					subMenus.Add(VariableViewerOption.AsMenu(VVAction));
+					subMenus.Add(VariableViewerOption.AsMenu(() =>
+					{
+						if (UIManager.Instance.LibraryUI.Roots.Count == 0)
+						{
+							RequestBookshelfNetMessage.Send(curObject, true);
+						}
+						else
+						{
+							RequestBookshelfNetMessage.Send(curObject, false);
+						}
+
+					}));
 				}
 			}
 
@@ -291,7 +332,7 @@ public class RightClickManager : MonoBehaviour
 
 	//creates the top-level menu item for this object. If object has a RightClickAppearance, uses that to
 	//define the appearance. Otherwise sticks to defaults. Doesn't populate the sub menus though.
-	private RightClickMenuItem CreateObjectMenu(GameObject forObject, List<RightClickMenuItem> subMenus)
+	public static RightClickMenuItem CreateObjectMenu(GameObject forObject, List<RightClickMenuItem> subMenus, Action action = null)
 	{
 		RightClickAppearance rightClickAppearance = forObject.GetComponent<RightClickAppearance>();
 		if (rightClickAppearance != null)
@@ -330,6 +371,7 @@ public class RightClickManager : MonoBehaviour
 					" on this object.", Category.UserInput, forObject.name);
 		}
 
-		return RightClickMenuItem.CreateObjectMenuItem(ButtonColor, sprite, null, label, subMenus, spriteRenderer.color, palette);
+		return new RightClickMenuItem(sprite, spriteRenderer.color, null, ButtonColor,
+			label, subMenus, action, null, palette, false);
 	}
 }

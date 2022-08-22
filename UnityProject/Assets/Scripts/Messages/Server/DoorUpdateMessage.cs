@@ -14,7 +14,7 @@ namespace Messages.Server
 			public uint Door;
 			// whether the update should occur instantaneously
 			public bool SkipAnimation;
-
+			public bool PanelOpen;
 			public override string ToString() {
 				return $"[DoorUpdateMessage {nameof( Door )}: {Door}, {nameof( Type )}: {Type}]";
 			}
@@ -23,31 +23,31 @@ namespace Messages.Server
 		public override void Process(NetMessage msg)
 		{
 			LoadNetworkObject(msg.Door);
+			if (NetworkObject == null)  return;
 
-			if (NetworkObject != null) {
+			//old doors //needed for fire locks and directional doors
+			var doorAnimator = NetworkObject.GetComponent<DoorAnimator>();
+			if (doorAnimator != null)
+			{
+				if (doorAnimator.isActiveAndEnabled == false) return;
 
-				//old doors
-				var doorAnimator = NetworkObject.GetComponent<DoorAnimator>();
-				if (doorAnimator != null)
+				doorAnimator.PlayAnimation(msg.Type, msg.SkipAnimation);
+				return;
+			}
+
+			//new doors
+			var doorMasterController = NetworkObject.GetComponent<DoorMasterController>();
+			if (doorMasterController != null)
+			{
+				var doorAnimatorV2 = doorMasterController.DoorAnimator;
+				doorAnimatorV2.PlayAnimation(msg.Type, msg.SkipAnimation, msg.PanelOpen);
+				if (msg.Type == DoorUpdateType.Open)
 				{
-					doorAnimator.PlayAnimation(msg.Type, msg.SkipAnimation);
-					return;
+					doorMasterController.BoxCollToggleOff();
 				}
-
-				//new doors
-				var doorMasterController = NetworkObject.GetComponent<DoorMasterController>();
-				if (doorMasterController != null)
+				else if (msg.Type == DoorUpdateType.Close)
 				{
-					var doorAnimatorV2 = doorMasterController.DoorAnimator;
-					doorAnimatorV2.PlayAnimation(msg.Type, msg.SkipAnimation);
-					if (msg.Type == DoorUpdateType.Open)
-					{
-						doorMasterController.BoxCollToggleOff();
-					}
-					else if (msg.Type == DoorUpdateType.Close)
-					{
-						doorMasterController.BoxCollToggleOn();
-					}
+					doorMasterController.BoxCollToggleOn();
 				}
 			}
 		}
@@ -61,26 +61,28 @@ namespace Messages.Server
 		/// <param name="skipAnimation">if true, all sound and animations will be skipped, leaving it in its end position.
 		/// 	Currently only used for when players are joining and there are open doors.</param>
 		/// <returns></returns>
-		public static NetMessage Send( NetworkConnection recipient, GameObject door, DoorUpdateType type, bool skipAnimation = false )
+		public static NetMessage Send( NetworkConnection recipient, GameObject door, DoorUpdateType type, bool skipAnimation = false, bool PanelOpen = false)
 		{
 			var msg = new NetMessage
 			{
 				Door = door.NetId(),
 				Type = type,
-				SkipAnimation = skipAnimation
+				SkipAnimation = skipAnimation,
+				PanelOpen = PanelOpen
 			};
 
 			SendTo(recipient, msg);
 			return msg;
 		}
 
-		public static NetMessage SendToAll( GameObject door, DoorUpdateType type )
+		public static NetMessage SendToAll( GameObject door, DoorUpdateType type , bool PanelOpen = false)
 		{
 			var msg = new NetMessage
 			{
 				Door = door.NetId(),
 				Type = type,
-				SkipAnimation = false
+				SkipAnimation = false,
+				PanelOpen = PanelOpen
 			};
 
 			SendToAll(msg);

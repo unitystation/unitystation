@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: table_reinforced_unwelded
   m_EditorClassIdentifier: 
   displayName: 
+  description: 
   LayerType: 9
   TileType: 4
   RequiredTiles: []
@@ -23,10 +24,18 @@ MonoBehaviour:
   SpawnWithNoAir: 0
   passable: 0
   mineable: 0
+  miningTime: 5
+  constructable: 1
+  RadiationPassability: 1
+  ThermalConductivity: 0.05
+  HeatCapacity: 10000
   doesReflectBullet: 0
+  indestructible: 0
+  ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
-    m_keys: 02000000
-    m_values: 01
+    m_keys: 0200000003000000
+    m_values: 0101
   maxHealth: 200
   damageDeflection: 0
   armor:
@@ -40,15 +49,20 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 70
+    DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: b2ed86334f60cfebe9c02f326c550bfd, type: 2}
   - {fileID: 11400000, guid: 02a799c7125ad1d44b6a5c98cf8353e6, type: 2}
   - {fileID: 11400000, guid: fc968a68963834c05a67838fe15fedec, type: 2}
   - {fileID: 11400000, guid: d27fd166098cf084abd6ebb4f8b2dd25, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 5331286249588652700, guid: 29ecbf5a1d918574cbcf5853927e0944,
     type: 3}
   spawnAmountOnDeconstruct: 2
   lootOnDespawn: {fileID: 11400000, guid: 2fad2125ace992148ab83979ad84ec66, type: 2}
+  toTileWhenDestroyed: {fileID: 0}
+  spawnOnDestroy: {fileID: 0}
+  damageOverlayList: {fileID: 0}
   soundOnHit:
     SetLoadSetting: 0
     AssetAddress: null
@@ -56,6 +70,8 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  SoundOnDestroy: []
   connectCategory: 2
   connectType: 1
   spriteSheet:

@@ -71,14 +71,19 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: initialDescription
-      value: An advanced laser cannon that does more damage the farther away the
-        target is.
+      propertyPath: initialName
+      value: accelerator laser cannon
       objectReference: {fileID: 0}
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: initialName
-      value: accelerator laser cannon
+      propertyPath: initialSize
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: initialDescription
+      value: An advanced laser cannon that does more damage the farther away the
+        target is.
       objectReference: {fileID: 0}
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -92,11 +97,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e107a495cc1b94c42bd5c52d4a90da5c,
         type: 2}
-    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: initialSize
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 4318467024818780366, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_RootOrder
@@ -110,7 +110,12 @@ PrefabInstance:
     - target: {fileID: 4342894697621943514, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 5f29a65f1a758eb4ca895615119e8ff7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -129,6 +134,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -141,16 +151,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -207,6 +207,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 3086363675824091064, guid: 50f5099ff57beaa46abf783ee0adf64d,
+        type: 3}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: FiringSound
+      value: ShootPulse
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: firemodeFiringSound.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -214,11 +225,6 @@ PrefabInstance:
         type: 3}
       propertyPath: firemodeProjectiles.Array.size
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: FiringSound
-      value: ShootPulse
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -231,12 +237,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3294328072042417454, guid: 49a8364f6515be34bac52c48c9214d85,
         type: 3}
-    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+    - target: {fileID: 7308079732379829507, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: ammoPrefab
-      value: 
-      objectReference: {fileID: 3086363675824091064, guid: 50f5099ff57beaa46abf783ee0adf64d,
-        type: 3}
+      propertyPath: foreverID
+      value: 5f29a65f1a758eb4ca895615119e8ff7
+      objectReference: {fileID: 0}
     - target: {fileID: 7536533288437052137, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: PresentSpriteSet

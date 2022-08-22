@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 942de2d1e5138ff479292c0ff88783b8, type: 3}
+  m_Name: Armor and Helmets
+  m_EditorClassIdentifier: 
+  Demands:
+    m_keys:
+    - {fileID: 11400000, guid: 75be80c01c8b8be4891c5261046bad3c, type: 2}
+    - {fileID: 11400000, guid: 33c38f426171f894e9743c69f64fafd3, type: 2}
+    m_values: 0300000003000000
+  Reward: 1000
+  Description: One of our FOBs has under-armored staff. Send 3 sets of armor vests
+    and helmets.

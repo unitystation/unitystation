@@ -37,7 +37,6 @@ namespace Systems.Explosions
 		int y1 = 0;
 		private float Angle = 0;
 
-		Matrix Matrix = null;
 		int dx = 0;
 		int sx = 0;
 		int dy = 0;
@@ -47,7 +46,38 @@ namespace Systems.Explosions
 		public float ExplosionStrength = 0;
 		private bool InitialStep = true;
 
-		public void SetUp(int X0, int Y0, int X1, int Y1, float InExplosionStrength, Matrix matrix)
+		private ExplosionNode NodeType;
+
+		private bool IsAnyMatchingType(ExplosionNode[] expNodes, ExplosionNode nodeType)
+		{
+			foreach(ExplosionNode expNode in expNodes)
+			{
+				if (IsMatchingType(expNode, nodeType)) return true;
+			}
+			return false;
+		}
+
+		private bool IsMatchingType(ExplosionNode expNode, ExplosionNode nodeType)
+		{
+			if (expNode != null && nodeType != null) return expNode.GetType() == NodeType.GetType();
+			return false;
+		}
+
+		private int FirstNullValue(ExplosionNode[] expNodes)
+		{
+			int count = 0;
+			foreach(var val in expNodes)
+			{
+				if(val == null)
+				{
+					return count;
+				}
+				count++;
+			}
+			return -1;
+		}
+
+		public void SetUp(int X0, int Y0, int X1, int Y1, float InExplosionStrength, ExplosionNode nodeType)
 		{
 			x0 = X0;
 			y0 = Y0;
@@ -66,12 +96,13 @@ namespace Systems.Explosions
 
 			err = (dx > dy ? dx : -dy) / 2;
 			ExplosionStrength = InExplosionStrength;
-			Matrix = matrix;
+
+			NodeType = nodeType;
 		}
 
 		public void Step()
 		{
-			if (ExplosionStrength < 0)
+			if (ExplosionStrength <= 0)
 			{
 				Pool();
 				return;
@@ -83,21 +114,31 @@ namespace Systems.Explosions
 				return;
 			}
 
-			var V2int = new Vector2Int(x0, y0);
-			var NodePoint = Matrix.GetMetaDataNode(V2int); //Explosion node
+			Vector3Int WorldPSos = new Vector3Int(x0, y0, 0);
+			MatrixInfo Matrix = MatrixManager.AtPoint(WorldPSos, CustomNetworkManager.IsServer);
+			Vector3Int Local = WorldPSos.ToLocal(Matrix.Matrix).RoundToInt();
+			MetaDataNode NodePoint = Matrix.MetaDataLayer.Get(Local); //Explosion node
+
 			if (NodePoint != null)
 			{
-				if (NodePoint.ExplosionNode == null)
+				if (IsAnyMatchingType(NodePoint.ExplosionNodes, NodeType) == false)
 				{
-					NodePoint.ExplosionNode = new ExplosionNode();
-					NodePoint.ExplosionNode.Initialise(V2int, Matrix);
+					ExplosionNode expNode = (ExplosionNode)Activator.CreateInstance(NodeType.GetType());
+					int fnull = FirstNullValue(NodePoint.ExplosionNodes);
+					if (fnull >= 0) NodePoint.ExplosionNodes[fnull] = expNode;
+					expNode.Initialise(Local, Matrix.Matrix);
 				}
 
-				NodePoint.ExplosionNode.AngleAndIntensity += GetXYDirection(Angle, ExplosionStrength);
-				NodePoint.ExplosionNode.PresentLines.Add(this);
-				ExplosionManager.CheckLocations.Add(NodePoint.ExplosionNode);
+				foreach (ExplosionNode expNode in NodePoint.ExplosionNodes) //separating explosion nodes of our type from others, so we dont interfere with EMPs or whatever
+				{
+					if (IsMatchingType(expNode, NodeType))
+					{
+						expNode.AngleAndIntensity += GetXYDirection(Angle, ExplosionStrength);
+						expNode.PresentLines.Add(this);
+						ExplosionManager.CheckLocations.Add(expNode);
+					}
+				}
 			}
-
 
 			e2 = err;
 			if (e2 > -dx)
@@ -111,6 +152,7 @@ namespace Systems.Explosions
 				err += dx;
 				y0 += sy;
 			}
+
 
 			ExplosionManager.CheckLines.Add(this);
 			if (InitialStep)
@@ -135,40 +177,60 @@ namespace Systems.Explosions
 			public HashSet<Vector2Int> CircleCircumference = new HashSet<Vector2Int>();
 		}
 
-		public static void StartExplosion(Vector3Int MatrixPOS, float strength, Matrix matrix)
+		public static void StartExplosion(Vector3Int WorldPOS, float strength, ExplosionNode nodeType = null, int fixedRadius = -1, int fixedShakingStrength = -1)
 		{
-			int Radius = (int) Math.Round(strength / (Math.PI * 75));
+			if (nodeType == null)
+			{
+				nodeType = new ExplosionNode();
+			}
 
+			int Radius = 0;
+			if (fixedRadius <= 0)
+			{
+				Radius = (int)Math.Round(strength / (Math.PI * 75));
+			}
+			else
+			{
+				Radius = fixedRadius;
+			}
 			if (Radius > 150)
 			{
 				Radius = 150;
 			}
 
-			byte ShakingStrength = 25;
-			if (strength > 800)
+			byte ShakingStrength = 0;
+			if (fixedShakingStrength <= 0 || fixedShakingStrength > 255)
 			{
-				ShakingStrength = 75;
+				ShakingStrength = 25;
+				if (strength > 800)
+				{
+					ShakingStrength = 75;
+				}
+				else if (strength > 8000)
+				{
+					ShakingStrength = 125;
+				}
+				else if (strength > 80000)
+				{
+					ShakingStrength = 255;
+				}
 			}
-			else if (strength > 8000)
+			else
 			{
-				ShakingStrength = 125;
-			}
-			else if (strength > 80000)
-			{
-				ShakingStrength = 255;
+				ShakingStrength = (byte)fixedShakingStrength;
 			}
 
-			ExplosionUtils.PlaySoundAndShake(MatrixManager.LocalToWorld(MatrixPOS, matrix).RoundToInt(), ShakingStrength, Radius / 20);
+			ExplosionUtils.PlaySoundAndShake(WorldPOS, ShakingStrength, Radius / 20, nodeType.CustomSound);
 
 			//Generates the conference
 			var explosionData = new ExplosionData();
-			circleBres(explosionData, MatrixPOS.x, MatrixPOS.y, Radius);
+			circleBres(explosionData, WorldPOS.x, WorldPOS.y, Radius);
 			float InitialStrength = strength / explosionData.CircleCircumference.Count;
 
 			foreach (var ToPoint in explosionData.CircleCircumference)
 			{
 				var Line = ExplosionPropagationLine.Getline();
-				Line.SetUp(MatrixPOS.x, MatrixPOS.y, ToPoint.x, ToPoint.y, InitialStrength, matrix);
+				Line.SetUp(WorldPOS.x, WorldPOS.y, ToPoint.x, ToPoint.y, InitialStrength, nodeType);
 				Line.Step();
 			}
 		}

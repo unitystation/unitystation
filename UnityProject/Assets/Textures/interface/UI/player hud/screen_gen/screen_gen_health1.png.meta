@@ -87,7 +87,7 @@ TextureImporter:
       213: 21300054
     second: health1_27
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -107,6 +107,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -116,8 +118,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -138,9 +140,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -767,6 +773,35 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      health1_21: 21300042
+      health1_11: 21300022
+      health1_3: 21300006
+      health1_26: 21300052
+      health1_23: 21300046
+      health1_16: 21300032
+      health1_7: 21300014
+      health1_19: 21300038
+      health1_27: 21300054
+      health1_15: 21300030
+      health1_24: 21300048
+      health1_9: 21300018
+      health1_4: 21300008
+      health1_13: 21300026
+      health1_18: 21300036
+      health1_8: 21300016
+      health1_14: 21300028
+      health1_20: 21300040
+      health1_25: 21300050
+      health1_0: 21300000
+      health1_1: 21300002
+      health1_17: 21300034
+      health1_22: 21300044
+      health1_6: 21300012
+      health1_10: 21300020
+      health1_5: 21300010
+      health1_2: 21300004
+      health1_12: 21300024
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

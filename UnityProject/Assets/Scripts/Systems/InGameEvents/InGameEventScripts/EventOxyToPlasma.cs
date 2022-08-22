@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Systems.Atmospherics;
 using Managers;
+using ScriptableObjects.Atmospherics;
 using Strings;
 using UnityEngine;
 
@@ -9,8 +10,13 @@ namespace InGameEvents
 {
 	public class EventOxyToPlasma : EventScriptBase
 	{
+		private GasReactions? currentReaction;
+
 		public override void OnEventStart()
 		{
+			//Dont add another reaction if one is already going on
+			if(currentReaction != null) return;
+
 			if (AnnounceEvent)
 			{
 				var text = "It appears the chemistry of the universe has been broken, damn those science nerds.";
@@ -20,11 +26,11 @@ namespace InGameEvents
 
 			if (FakeEvent) return;
 
-			new GasReactions(
+			currentReaction = new GasReactions(
 
 				reaction: new OxyToPlasma(),
 
-				gasReactionData: new Dictionary<Gas, GasReactionData>()
+				gasReactionData: new Dictionary<GasSO, GasReactionData>()
 				{
 					{
 						Gas.Oxygen,
@@ -35,16 +41,24 @@ namespace InGameEvents
 					}
 				},
 
-				minimumTemperature: 0f,
-				maximumTemperature:10000000000f,
-				minimumPressure:0f,
-				maximumPressure: 10000000000f,
-				minimumMoles: 0.01f,
-				maximumMoles:10000000000f,
-				energyChange: 0f
+				minimumTileTemperature: 0,
+				maximumTileTemperature:10000000000,
+				minimumTilePressure:0,
+				maximumTilePressure: 10000000000,
+				minimumTileMoles: 0.01f,
+				maximumTileMoles:10000000000
 				);
 
 			base.OnEventStart();
+		}
+
+		public override void OnEventEnd()
+		{
+			if (currentReaction != null)
+			{
+				GasReactions.RemoveReaction(currentReaction.Value);
+				currentReaction = null;
+			}
 		}
 	}
 
@@ -55,11 +69,12 @@ namespace InGameEvents
 			throw new System.NotImplementedException();
 		}
 
-		public void React(GasMix gasMix, Vector3 tilePos, Matrix matrix)
+		public void React(GasMix gasMix, MetaDataNode node)
 		{
-			gasMix.AddGas(Gas.Plasma, 1f);
+			var oxyMoles = gasMix.GetMoles(Gas.Oxygen);
 
-			gasMix.RemoveGas(Gas.Oxygen, 1f);
+			gasMix.AddGas(Gas.Plasma, oxyMoles);
+			gasMix.RemoveGas(Gas.Oxygen, oxyMoles);
 		}
 	}
 }

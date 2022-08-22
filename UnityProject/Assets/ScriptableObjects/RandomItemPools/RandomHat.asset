@@ -15,73 +15,123 @@ MonoBehaviour:
   pool:
   - prefab: {fileID: 7636118406116123594, guid: c1986e2665f9a413694ce37f09e0f17e,
       type: 3}
-    maxAmount: 0
-    probability: 7
-  - prefab: {fileID: 3328757573197865741, guid: a4904005b4f886143a41a4b3c99a6845,
-      type: 3}
-    maxAmount: 0
-    probability: 7
+    maxAmount: 1
+    probability: 100
   - prefab: {fileID: 7636118406116123594, guid: 489b0e24de7b7dc4ea31a401aadb3779,
       type: 3}
-    maxAmount: 0
-    probability: 7
+    maxAmount: 1
+    probability: 100
   - prefab: {fileID: 7636118406116123594, guid: 97b4b6e6d0aac46f6ad3fb58fb826008,
       type: 3}
-    maxAmount: 0
-    probability: 2
+    maxAmount: 1
+    probability: 5
   - prefab: {fileID: 7636118406116123594, guid: 9445628fd16314b7388c7086f5fd2f26,
       type: 3}
-    maxAmount: 0
-    probability: 7
+    maxAmount: 1
+    probability: 100
   - prefab: {fileID: 7636118406116123594, guid: df90174791c3adda585b7cb6c9f01473,
       type: 3}
-    maxAmount: 0
-    probability: 7
+    maxAmount: 1
+    probability: 100
   - prefab: {fileID: 7636118406116123594, guid: 63587900698efce47a648bd987aef283,
       type: 3}
-    maxAmount: 0
-    probability: 7
+    maxAmount: 1
+    probability: 100
   - prefab: {fileID: 7636118406116123594, guid: 53f4aae14f6dbf24f831146d4c4fb2b7,
       type: 3}
-    maxAmount: 0
-    probability: 7
+    maxAmount: 1
+    probability: 100
   - prefab: {fileID: 7636118406116123594, guid: 5a6e2e3a0a44146198136e4fa2798db5,
       type: 3}
-    maxAmount: 0
-    probability: 7
+    maxAmount: 1
+    probability: 100
   - prefab: {fileID: 7636118406116123594, guid: c61b0ba80af0439449f9a47dfcbdd8a4,
       type: 3}
-    maxAmount: 0
-    probability: 7
+    maxAmount: 1
+    probability: 100
   - prefab: {fileID: 3437465412837995611, guid: 76db9576a63116843a098fe7aadd38d0,
       type: 3}
-    maxAmount: 0
-    probability: 7
+    maxAmount: 1
+    probability: 100
   - prefab: {fileID: 7636118406116123594, guid: 64e430f828cfc465ea88b8d6e6fecda4,
       type: 3}
-    maxAmount: 0
-    probability: 7
+    maxAmount: 1
+    probability: 100
   - prefab: {fileID: 3603808357582370063, guid: 1e04b22eb6f17b7488ba5d9c748bcc91,
       type: 3}
-    maxAmount: 0
-    probability: 3
+    maxAmount: 1
+    probability: 50
   - prefab: {fileID: 7636118406116123594, guid: aec4b97408d594f4d91c03418d9a457f,
       type: 3}
-    maxAmount: 0
-    probability: 3
+    maxAmount: 1
+    probability: 50
   - prefab: {fileID: 6134014816673098307, guid: ea6fb99488cc5b844a2f657ef90c4d90,
       type: 3}
-    maxAmount: 0
-    probability: 1
+    maxAmount: 1
+    probability: 20
   - prefab: {fileID: 5994032052313983460, guid: 5059deed2ffb32a439249dcb385321f4,
       type: 3}
-    maxAmount: 0
-    probability: 7
+    maxAmount: 1
+    probability: 100
   - prefab: {fileID: 7636118406116123594, guid: 77556be90466a4737b39e556f8ff1d41,
       type: 3}
-    maxAmount: 0
-    probability: 7
+    maxAmount: 1
+    probability: 100
   - prefab: {fileID: 1748291999611963142, guid: 4f882acc8095667489ce618083ca7b4a,
       type: 3}
-    maxAmount: 0
-    probability: 1
+    maxAmount: 1
+    probability: 10
+  - prefab: {fileID: 6980020022460415521, guid: c54e94b479657484e86c4cb4f7622f91,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 6980020022460415521, guid: 9c308081529a1fa43850db366eb71631,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8849173994779109555, guid: d658c7db2b934fd36b6c93a517098ae5,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 616735813865956089, guid: c8f2cdc822ad0e543852e74c225f3b14, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 616735813865956089, guid: 9dd23cd6632343f42a2e2ad869d97aa8, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 7636118406116123594, guid: 9542c9504316c3845bbb5f541ec22cfb,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 7636118406116123594, guid: 59b6ec971c7da824b83117e8faa53db3,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 6804612781048497285, guid: 7783baf2677b3a844aff37585692717e,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 2850241452416116279, guid: 3961caf40305bd741b8c919afd07fca2,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 3116170454584013683, guid: db265d83fcf1bbb46aedc59510228a5d,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 1454153603153415932, guid: bcf175e4b2e739a47a94808c336aaa33,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4040753959103249631, guid: ec0203c4cccabd440904f3733552e0d2,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 9131734980111636233, guid: 71a7c952a49de8042b89c9bbdf8df8fd,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8823201312216209349, guid: b1298be73a51bd846a23547ed228e0ce,
+      type: 3}
+    maxAmount: 1
+    probability: 100

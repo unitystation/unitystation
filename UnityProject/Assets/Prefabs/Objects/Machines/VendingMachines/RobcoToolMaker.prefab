@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: 854479238589397880, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 5ef5a33658876894cb92b6dee3f6cec2
       objectReference: {fileID: 0}
     - target: {fileID: 1251273808921218093, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -25,13 +25,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1919541056858231082, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: initialDescription
-      value: Everything you need for do-it-yourself station repair.
+      propertyPath: initialName
+      value: Robco Tool Maker
       objectReference: {fileID: 0}
     - target: {fileID: 1919541056858231082, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: initialName
-      value: Robco Tool Maker
+      propertyPath: initialDescription
+      value: Everything you need for do-it-yourself station repair.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4299547928631692446, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: requiredClearance.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4299547928631692446, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: requiredClearance.Array.data[0]
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4347831001461171392, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -41,8 +51,8 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: HullColor.r
-      value: 0.47450984
+      propertyPath: HullColor.b
+      value: 0.1254902
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -51,8 +61,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: HullColor.b
-      value: 0.1254902
+      propertyPath: HullColor.r
+      value: 0.47450984
+      objectReference: {fileID: 0}
+    - target: {fileID: 5293842515076411475, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: foreverID
+      value: 5ef5a33658876894cb92b6dee3f6cec2
       objectReference: {fileID: 0}
     - target: {fileID: 7077253877563091611, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -73,6 +88,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -88,6 +108,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -100,16 +125,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}

@@ -59,7 +59,7 @@ PrefabInstance:
     - target: {fileID: 2226056215570727727, guid: 82677ff961fa72944936cc923625a1bc,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: f610372b0de613b499d0e53b49c4e605
       objectReference: {fileID: 0}
     - target: {fileID: 2261719527957890031, guid: 82677ff961fa72944936cc923625a1bc,
         type: 3}
@@ -121,6 +121,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlasmaGlassShard
       objectReference: {fileID: 0}
+    - target: {fileID: 5172953896379839222, guid: 82677ff961fa72944936cc923625a1bc,
+        type: 3}
+      propertyPath: foreverID
+      value: f610372b0de613b499d0e53b49c4e605
+      objectReference: {fileID: 0}
     - target: {fileID: 5347638606518830364, guid: 82677ff961fa72944936cc923625a1bc,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -148,6 +153,12 @@ PrefabInstance:
     - target: {fileID: 7942108884443502463, guid: 82677ff961fa72944936cc923625a1bc,
         type: 3}
       propertyPath: TransformTo
+      value: 
+      objectReference: {fileID: 1151981523841236988, guid: dfe30ea3b0c7a1a48ab584f1f6776309,
+        type: 3}
+    - target: {fileID: 7942108884443502463, guid: 82677ff961fa72944936cc923625a1bc,
+        type: 3}
+      propertyPath: transformTo
       value: 
       objectReference: {fileID: 1151981523841236988, guid: dfe30ea3b0c7a1a48ab584f1f6776309,
         type: 3}

@@ -10,7 +10,22 @@ PrefabInstance:
     - target: {fileID: 166655404968254249, guid: 42bd613ccf161f942963c8c5dca69e0f,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: e0790aa991fa6394aa4faf9810d976d8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3083157627457298465, guid: 42bd613ccf161f942963c8c5dca69e0f,
+        type: 3}
+      propertyPath: WopenFrame
+      value: 416
+      objectReference: {fileID: 0}
+    - target: {fileID: 3083157627457298465, guid: 42bd613ccf161f942963c8c5dca69e0f,
+        type: 3}
+      propertyPath: WcloseFrame
+      value: 356
+      objectReference: {fileID: 0}
+    - target: {fileID: 3083157627457298465, guid: 42bd613ccf161f942963c8c5dca69e0f,
+        type: 3}
+      propertyPath: WdeniedFrame
+      value: 428
       objectReference: {fileID: 0}
     - target: {fileID: 3083157627457298465, guid: 42bd613ccf161f942963c8c5dca69e0f,
         type: 3}
@@ -42,31 +57,32 @@ PrefabInstance:
       propertyPath: WanimFrames.Array.data[5]
       value: 412
       objectReference: {fileID: 0}
-    - target: {fileID: 3083157627457298465, guid: 42bd613ccf161f942963c8c5dca69e0f,
+    - target: {fileID: 4682668127000219650, guid: 42bd613ccf161f942963c8c5dca69e0f,
         type: 3}
-      propertyPath: WcloseFrame
-      value: 356
+      propertyPath: foreverID
+      value: e0790aa991fa6394aa4faf9810d976d8
       objectReference: {fileID: 0}
-    - target: {fileID: 3083157627457298465, guid: 42bd613ccf161f942963c8c5dca69e0f,
+    - target: {fileID: 5347492111539166209, guid: 42bd613ccf161f942963c8c5dca69e0f,
         type: 3}
-      propertyPath: WdeniedFrame
-      value: 428
-      objectReference: {fileID: 0}
-    - target: {fileID: 3083157627457298465, guid: 42bd613ccf161f942963c8c5dca69e0f,
+      propertyPath: airlockAssemblyPrefab
+      value: 
+      objectReference: {fileID: 9191400176456096028, guid: 19766b88d9c52d948976f3bd1686beaf,
         type: 3}
-      propertyPath: WopenFrame
-      value: 416
-      objectReference: {fileID: 0}
     - target: {fileID: 8425664358184684124, guid: 42bd613ccf161f942963c8c5dca69e0f,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300712, guid: f0f465f2e2128495683d9e4cb833c45a,
+      objectReference: {fileID: 21300000, guid: 03df0371b3a26a84f834fa23aaa517f0,
         type: 3}
     - target: {fileID: 8614759363235327563, guid: 42bd613ccf161f942963c8c5dca69e0f,
         type: 3}
       propertyPath: m_Name
       value: HoldingCellWindoorRight
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617761260805908625, guid: 42bd613ccf161f942963c8c5dca69e0f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8617761260805908625, guid: 42bd613ccf161f942963c8c5dca69e0f,
         type: 3}
@@ -81,31 +97,6 @@ PrefabInstance:
     - target: {fileID: 8617761260805908625, guid: 42bd613ccf161f942963c8c5dca69e0f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8617761260805908625, guid: 42bd613ccf161f942963c8c5dca69e0f,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8617761260805908625, guid: 42bd613ccf161f942963c8c5dca69e0f,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8617761260805908625, guid: 42bd613ccf161f942963c8c5dca69e0f,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8617761260805908625, guid: 42bd613ccf161f942963c8c5dca69e0f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8617761260805908625, guid: 42bd613ccf161f942963c8c5dca69e0f,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8617761260805908625, guid: 42bd613ccf161f942963c8c5dca69e0f,

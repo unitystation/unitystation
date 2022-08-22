@@ -25,6 +25,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6819783767881871053, guid: 048d1f0aa47e12f4aba56cafa8255b90,
         type: 3}
+    - target: {fileID: 3537619260171532079, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
+      propertyPath: foreverID
+      value: 1b7cd422a8e78fd4b97c30c7328f5380
+      objectReference: {fileID: 0}
     - target: {fileID: 4387776157011116229, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -58,12 +63,17 @@ PrefabInstance:
     - target: {fileID: 7509375819178772214, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 1b7cd422a8e78fd4b97c30c7328f5380
       objectReference: {fileID: 0}
     - target: {fileID: 7611817970648562498, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
       propertyPath: m_Name
       value: LaserTagGunBlue
+      objectReference: {fileID: 0}
+    - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
@@ -82,6 +92,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -94,16 +109,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
@@ -134,14 +139,14 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8020636786365355040, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
-      propertyPath: initialDescription
-      value: A retro laser gun modified to fire harmless blue beams of light. Sound
-        effects included!
+      propertyPath: initialName
+      value: laser tag gun
       objectReference: {fileID: 0}
     - target: {fileID: 8020636786365355040, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
-      propertyPath: initialName
-      value: laser tag gun
+      propertyPath: initialDescription
+      value: A retro laser gun modified to fire harmless blue beams of light. Sound
+        effects included!
       objectReference: {fileID: 0}
     - target: {fileID: 8598678289473679745, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}

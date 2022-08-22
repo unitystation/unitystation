@@ -31,16 +31,11 @@ namespace Systems.MobAIs
 
 		protected override void Awake()
 		{
+			mobMask = LayerMask.GetMask( "NPC");
+			coneOfSight = GetComponent<ConeOfSight>();
 			base.Awake();
 			dogName = mobName.ToLower();
 			ResetBehaviours();
-		}
-
-		public override void OnEnable()
-		{
-			base.OnEnable();
-			mobMask = LayerMask.GetMask( "NPC");
-			coneOfSight = GetComponent<ConeOfSight>();
 		}
 
 		private void SingleBark(GameObject barked = null)
@@ -78,19 +73,18 @@ namespace Systems.MobAIs
 
 		void ProcessLocalChat(ChatEvent chatEvent)
 		{
-			var speaker = PlayerList.Instance.Get(chatEvent.speaker);
+			if (chatEvent.originator.TryGetPlayer(out var player) == false) return;
 
-			if (speaker.Script == null) return;
-			if (speaker.Script.playerNetworkActions == null) return;
-
-			if (speaker.Job == JobType.CAPTAIN || speaker.Job == JobType.HOP)
+			if (player.Job == JobType.CAPTAIN || player.Job == JobType.HOP)
 			{
-				StartCoroutine(PerformVoiceCommand(chatEvent.message.ToLower(), speaker));
+				StartCoroutine(PerformVoiceCommand(chatEvent.message.ToLower(), player));
 			}
 		}
 
-		IEnumerator PerformVoiceCommand(string msg, ConnectedPlayer speaker)
+		IEnumerator PerformVoiceCommand(string msg, PlayerInfo speaker)
 		{
+			msg = msg.RemovePunctuation();
+
 			//We want these ones to happen right away:
 			if (msg.Contains($"{dogName} run") || msg.Contains($"{dogName} get out of here"))
 			{
@@ -196,15 +190,15 @@ namespace Systems.MobAIs
 
 		CatAI AnyCatsNearby()
 		{
-			var hits = coneOfSight.GetObjectsInSight(mobMask, LayerTypeSelection.Walls, directional.CurrentDirection.Vector, 10f, 5);
+			var hits = coneOfSight.GetObjectsInSight(mobMask, LayerTypeSelection.Walls, rotatable.CurrentDirection.ToLocalVector3(), 10f);
 			foreach (var coll in hits)
 			{
-				if (coll.GameObject == null) continue;
+				if (coll == null) continue;
 
-				if (coll.GameObject != gameObject && coll.GameObject.GetComponent<CatAI>() != null
-				                                  && !coll.GameObject.GetComponent<LivingHealthBehaviour>().IsDead)
+				if (coll != gameObject && coll.GetComponent<CatAI>() != null
+				                                  && !coll.GetComponent<LivingHealthBehaviour>().IsDead)
 				{
-					return coll.GameObject.GetComponent<CatAI>();
+					return coll.GetComponent<CatAI>();
 				}
 			}
 			return null;

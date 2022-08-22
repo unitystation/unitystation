@@ -11,8 +11,10 @@ using Newtonsoft.Json;
 
 public class VariableViewerNetworking : MonoBehaviour
 {
-	public class IDnName {
+	public class IDnName
+	{
 		public ulong ID;
+
 		/// <summary>
 		/// The name of the shelf.
 		/// ShelfName
@@ -20,10 +22,33 @@ public class VariableViewerNetworking : MonoBehaviour
 		public string SN;
 	}
 
-	public class NetFriendlyBookShelfView
+	public class NetFriendlyHierarchyBookShelf
 	{
+		public string Nm;
 		public ulong ID;
-		public IDnName[] HeldShelfIDs;
+		public ulong PID;
+
+		private NetFriendlyHierarchyBookShelf Parent;
+
+		public void SetParent(NetFriendlyHierarchyBookShelf _Parent)
+		{
+			Parent = _Parent;
+		}
+
+
+		public NetFriendlyHierarchyBookShelf GetParent()
+		{
+			return Parent;
+		}
+
+		private List<NetFriendlyHierarchyBookShelf>  Children = new List<NetFriendlyHierarchyBookShelf>();
+
+
+		public List<NetFriendlyHierarchyBookShelf> GetChildrenList()
+		{
+			return Children;
+		}
+
 
 	}
 
@@ -40,16 +65,6 @@ public class VariableViewerNetworking : MonoBehaviour
 		/// IsEnabled is enabled.
 		/// </summary>
 		public bool IE;
-
-		/// <summary>
-		/// ObscuredBookShelves
-		/// </summary>
-		public IDnName[] OBS;
-
-		/// <summary>
-		/// ObscuredBy
-		/// </summary>
-		public IDnName OB;
 
 		/// <summary>
 		/// HeldBooks
@@ -116,6 +131,8 @@ public class VariableViewerNetworking : MonoBehaviour
 		public string VariableName;
 		public string Variable;
 		public string VariableType;
+		public bool CanWrite = true;
+		public VVHighlight VVHighlight = VVHighlight.None;
 
 		public NetFriendlySentence[] Sentences;
 
@@ -200,6 +217,7 @@ public class VariableViewerNetworking : MonoBehaviour
 		/// <returns>size of this object (in bytes)</returns>
 		public int GetSize()
 		{
+			//TODO!!!
 			// !	IMPORTANT	!
 			// remember to change this method content after modyfing data structure
 			return sizeof(ulong)
@@ -210,20 +228,7 @@ public class VariableViewerNetworking : MonoBehaviour
 		}
 	}
 
-	public static IDnName ProcessBookShelfToID(Librarian.BookShelf _BookShelf)
-	{
-		IDnName _IDnName = new IDnName
-		{
-			ID = _BookShelf.ID,
-			SN = _BookShelf.ShelfName,
-		};
-		if (_IDnName.SN == null) {
-			_IDnName.SN = "null";
-		}
-		return (_IDnName);
-	}
-
-	public static NetFriendlyBookShelf ProcessSUBBookShelf(Librarian.BookShelf _BookShelf)  {
+	public static NetFriendlyBookShelf ProcessSubBookShelf(Librarian.Library.LibraryBookShelf _BookShelf)  {
 		if (_BookShelf.IsPartiallyGenerated) {
 			_BookShelf.PopulateBookShelf();
 		}
@@ -234,18 +239,6 @@ public class VariableViewerNetworking : MonoBehaviour
 			SN = _BookShelf.ShelfName,
 			IE = _BookShelf.IsEnabled,
 		};
-		List<IDnName> lisofIDnName = new List<IDnName>();
-		foreach (var ObscuredBookShelve in _BookShelf.ObscuredBookShelves) {
-			IDnName _IDnName = new IDnName
-			{
-				ID = ObscuredBookShelve.ID,
-				SN = ObscuredBookShelve.ShelfName
-			};
-			if (_IDnName.SN == null)
-			{_IDnName.SN = "null";}
-			lisofIDnName.Add(_IDnName);
-		}
-		BookShelf.OBS = lisofIDnName.ToArray();
 		List<IDnName> _lisofIDnName = new List<IDnName>();
 		foreach (var HeldBook in _BookShelf.HeldBooks)
 		{
@@ -263,27 +256,7 @@ public class VariableViewerNetworking : MonoBehaviour
 		BookShelf.HB = _lisofIDnName.ToArray();
 
 
-		BookShelf.OB = new IDnName
-		{ID = _BookShelf.ObscuredBy.ID,
-		SN = _BookShelf.ObscuredBy.ShelfName,};
 		return (BookShelf);
-	}
-
-	public static NetFriendlyBookShelfView ProcessBookShelf(Librarian.BookShelf _BookShelf)  {
-		NetFriendlyBookShelfView TopBookShelf = new NetFriendlyBookShelfView
-		{
-			ID = _BookShelf.ID
-		};
-		List<IDnName> NetFriendlyBookShelfs = new List<IDnName>();
-		if (_BookShelf.IsPartiallyGenerated) {
-			_BookShelf.PopulateBookShelf();
-		}
-		foreach (var ObscuredBookShelve in _BookShelf.ObscuredBookShelves) {
-			NetFriendlyBookShelfs.Add(ProcessBookShelfToID(ObscuredBookShelve));
-		}
-		TopBookShelf.HeldShelfIDs = NetFriendlyBookShelfs.ToArray();
-
-		return (TopBookShelf);
 	}
 
 	public static NetFriendlyBook ProcessBook(Librarian.Book _book) {
@@ -311,11 +284,19 @@ public class VariableViewerNetworking : MonoBehaviour
 				ID = bob.ID,
 				Variable = VVUIElementHandler.Serialise(bob.Variable, bob.VariableType),
 				VariableName = bob.VariableName,
-				VariableType = bob.VariableType.ToString()
+				VariableType = bob.VariableType?.ToString(),
+				VVHighlight = bob.VVHighlight
 			};
+			if (bob.PInfo != null)
+			{
+				Page.CanWrite = bob.PCanWrite;
+			}
+
+
+
 			if (Librarian.UEGetType(Page.VariableType) == null)
 			{
-				Page.VariableType = bob.VariableType.AssemblyQualifiedName;
+				Page.VariableType = bob?.VariableType?.AssemblyQualifiedName;
 			}
 			if (bob.Sentences.Sentences != null && (bob.Sentences.Sentences.Count > 0))
 			{
@@ -388,4 +369,42 @@ public class VariableViewerNetworking : MonoBehaviour
 			}
 		}
 	}
+
+	public static List<NetFriendlyHierarchyBookShelf> ProcessLibrary( Librarian.Library Library)
+	{
+
+		List<NetFriendlyHierarchyBookShelf>  Toreturn = new List<NetFriendlyHierarchyBookShelf>();
+		foreach (var roots in Library.Roots)
+		{
+			Toreturn.Add(ProcessLibraryBookShelf(Librarian.TransformToBookShelf[roots.Shelf.transform]));
+			RecursiveProcessLibrary(roots, Toreturn);
+		}
+
+		return Toreturn;
+	}
+
+
+	public static void RecursiveProcessLibrary(Librarian.Library.LibraryBookShelf LibraryBookShelf,
+		List<NetFriendlyHierarchyBookShelf> List)
+	{
+		foreach (var Children in LibraryBookShelf.Contains)
+		{
+			List.Add(ProcessLibraryBookShelf(Librarian.TransformToBookShelf[Children])); //################
+			RecursiveProcessLibrary(Librarian.TransformToBookShelf[Children], List);
+		}
+	}
+
+	public static NetFriendlyHierarchyBookShelf ProcessLibraryBookShelf(Librarian.Library.LibraryBookShelf LibraryBookShelf)
+	{
+		var newone = new NetFriendlyHierarchyBookShelf();
+		newone.Nm = LibraryBookShelf.ShelfName;
+		if (LibraryBookShelf.Parent != null)
+		{
+			newone.PID = Librarian.TransformToBookShelf[LibraryBookShelf.Parent].ID;
+		}
+
+		newone.ID = LibraryBookShelf.ID;
+		return newone;
+	}
+
 }

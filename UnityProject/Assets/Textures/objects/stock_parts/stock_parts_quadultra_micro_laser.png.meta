@@ -38,6 +38,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -47,8 +49,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -69,9 +71,12 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
@@ -117,7 +122,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 7eb5ff2dd61c8df50800000000000000
-      internalID: 6906482706008202215
+      internalID: 21300000
       vertices: []
       indices: 
       edges: []
@@ -138,7 +143,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f6562473eb745ea70800000000000000
-      internalID: 8855563124590404975
+      internalID: 21300002
       vertices: []
       indices: 
       edges: []
@@ -174,6 +179,10 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      quadultra_micro_laser_2: -3875012112144422310
+      quadultra_micro_laser_1: 21300002
+      quadultra_micro_laser_0: 21300000
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

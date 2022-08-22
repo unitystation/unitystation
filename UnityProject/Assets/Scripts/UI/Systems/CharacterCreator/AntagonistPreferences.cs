@@ -79,7 +79,7 @@ namespace UI.CharacterCreator
 		/// </summary>
 		private void LoadAntagPreferences()
 		{
-			antagPrefs = PlayerManager.CurrentCharacterSettings.AntagPreferences;
+			antagPrefs = PlayerManager.CurrentCharacterSheet.AntagPreferences;
 
 			foreach (string antagName in antagPrefs.Keys.ToList())
 			{
@@ -100,8 +100,8 @@ namespace UI.CharacterCreator
 		/// </summary>
 		private void SaveAntagPreferences()
 		{
-			PlayerManager.CurrentCharacterSettings.AntagPreferences = antagPrefs;
-			ServerData.UpdateCharacterProfile(PlayerManager.CurrentCharacterSettings);
+			PlayerManager.CurrentCharacterSheet.AntagPreferences = antagPrefs;
+			_ = ServerData.UpdateCharacterProfile(PlayerManager.CurrentCharacterSheet);
 		}
 
 		/// <summary>

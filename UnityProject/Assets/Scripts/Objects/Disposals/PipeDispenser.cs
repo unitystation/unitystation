@@ -1,20 +1,21 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Mirror;
-using Pipes;
-using Objects.Construction;
 using AddressableReferences;
+using Items.Atmospherics;
+using Objects.Construction;
+
 
 namespace Objects.Atmospherics
 {
-	public class PipeDispenser : NetworkBehaviour
+	public class PipeDispenser : MonoBehaviour
 	{
 		private const float DISPENSING_TIME = 2; // As per sprite sheet JSON file.
 
 		[SerializeField]
 		private AddressableAudioSource OperatingSound = null;
 
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectPhysics;
 		private WrenchSecurable securable;
 		private HasNetworkTab netTab;
 		private SpriteHandler spriteHandler;
@@ -22,9 +23,6 @@ namespace Objects.Atmospherics
 		private Coroutine animationRoutine;
 
 		public bool MachineOperating { get; private set; } = false;
-
-		[SyncVar(hook = nameof(SyncObjectProperties))]
-		private PipeObjectSettings newPipe;
 
 		public enum PipeLayer
 		{
@@ -41,7 +39,7 @@ namespace Objects.Atmospherics
 
 		private void Awake()
 		{
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectPhysics = GetComponent<UniversalObjectPhysics>();
 			securable = GetComponent<WrenchSecurable>();
 			netTab = GetComponent<HasNetworkTab>();
 			spriteHandler = transform.GetChild(0).GetComponent<SpriteHandler>();
@@ -61,33 +59,29 @@ namespace Objects.Atmospherics
 			}
 		}
 
-		private void SyncObjectProperties(PipeObjectSettings oldState, PipeObjectSettings newState)
-		{
-			newPipe = newState;
-			newPipe.pipeObject.GetComponentInChildren<SpriteRenderer>().color = newPipe.pipeColor;
-		}
-
 		public void Dispense(GameObject objectPrefab, PipeLayer pipeLayer, Color pipeColor)
 		{
 			if (MachineOperating || securable.IsAnchored == false) return;
 
 			this.RestartCoroutine(SetMachineOperating(), ref animationRoutine);
-			SpawnResult spawnResult = Spawn.ServerPrefab(objectPrefab, objectBehaviour.AssumedWorldPositionServer());
-
-			if (spawnResult.Successful)
+			SpawnResult spawnResult = Spawn.ServerPrefab(objectPrefab, objectPhysics.registerTile.WorldPosition);
+			if (spawnResult.Successful == false)
 			{
-				spawnResult.GameObject.GetComponent<PipeItem>()?.SetColour(pipeColor);
-
-				newPipe = new PipeObjectSettings
-				{
-					pipeObject = spawnResult.GameObject,
-					pipeColor = pipeColor
-				};
+				Logger.LogError(
+						$"Failed to spawn an object from {name}! " +
+						$"Is {nameof(UI.Objects.Atmospherics.GUI_PipeDispenser)} missing reference to object prefab?",
+						Category.Pipes);
+				return;
 			}
-			else
+
+			foreach (var spriteHandler in spawnResult.GameObject.GetComponentsInChildren<SpriteHandler>())
 			{
-				Logger.LogError($"Failed to spawn an object from {name}! Is GUI_{name} missing reference to object prefab?",
-					Category.Pipes);
+				spriteHandler.SetColor(pipeColor);
+			}
+
+			if (spawnResult.GameObject.TryGetComponent<PipeItem>(out var pipe))
+			{
+				pipe.Colour = pipeColor;
 			}
 		}
 
@@ -95,7 +89,7 @@ namespace Objects.Atmospherics
 		{
 			MachineOperating = true;
 			UpdateSprite();
-			SoundManager.PlayNetworkedAtPos(OperatingSound, objectBehaviour.AssumedWorldPositionServer(), sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(OperatingSound, objectPhysics.registerTile.WorldPosition, sourceObj: gameObject);
 			yield return WaitFor.Seconds(DISPENSING_TIME);
 			MachineOperating = false;
 			UpdateSprite();
@@ -104,12 +98,6 @@ namespace Objects.Atmospherics
 		private void OnAnchoredChange()
 		{
 			netTab.enabled = securable.IsAnchored;
-		}
-
-		private struct PipeObjectSettings
-		{
-			public GameObject pipeObject;
-			public Color pipeColor;
 		}
 	}
 }

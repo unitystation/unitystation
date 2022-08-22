@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3081900810035400876}
   m_RootOrder: 1
@@ -43,6 +44,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -102,68 +104,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c13410044db88504ba1fefa53cc1eaf7, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: c13410044db88504ba1fefa53cc1eaf7, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
-  Sprites: []
---- !u!114 &2581288468855146782
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3086828684011793880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d441a849270a4a818e3af39cdef5ea69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SpeedMultiplier: 1
-  PercentageChance: 100
---- !u!114 &5381172552171494653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3086828684011793880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3396317bdb375ad43bba000678424868, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  startCharges: 5
-  rechargeTimeInSeconds: 30
-  OutOfChargesSFXA:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/Sparks04.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
---- !u!114 &9081093468563381524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3086828684011793880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  allClothingData:
-  - {fileID: 11400000, guid: 4758621c95185244482f05a3d23c4993, type: 2}
-  CurrentClothIndex: 0
-  randomInitialClothData: 0
-  hidesIdentity: 0
-  hidesSlots: 0
-  hideClothingFlags: 0
 --- !u!1001 &5805812536563727567
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -171,6 +115,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2521527662540365178, guid: 08128a9a69925eb4c93bc817c6ec2a88,
+        type: 3}
+      propertyPath: foreverID
+      value: 92d97624df4de9c44b21713ad3a016cc
+      objectReference: {fileID: 0}
     - target: {fileID: 3387519317821303440, guid: 08128a9a69925eb4c93bc817c6ec2a88,
         type: 3}
       propertyPath: NetworkThis
@@ -298,7 +247,7 @@ PrefabInstance:
     - target: {fileID: 8921851247785389219, guid: 08128a9a69925eb4c93bc817c6ec2a88,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 92d97624df4de9c44b21713ad3a016cc
       objectReference: {fileID: 0}
     - target: {fileID: 8982824578945154677, guid: 08128a9a69925eb4c93bc817c6ec2a88,
         type: 3}
@@ -347,15 +296,75 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08128a9a69925eb4c93bc817c6ec2a88, type: 3}
---- !u!1 &3086828684011793880 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8810445946256199959, guid: 08128a9a69925eb4c93bc817c6ec2a88,
-    type: 3}
-  m_PrefabInstance: {fileID: 5805812536563727567}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3081900810035400876 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8815655295075609699, guid: 08128a9a69925eb4c93bc817c6ec2a88,
     type: 3}
   m_PrefabInstance: {fileID: 5805812536563727567}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3086828684011793880 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8810445946256199959, guid: 08128a9a69925eb4c93bc817c6ec2a88,
+    type: 3}
+  m_PrefabInstance: {fileID: 5805812536563727567}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2581288468855146782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3086828684011793880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d441a849270a4a818e3af39cdef5ea69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  PercentageChance: 100
+--- !u!114 &5381172552171494653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3086828684011793880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3396317bdb375ad43bba000678424868, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  startCharges: 5
+  rechargeTimeInSeconds: 30
+  OutOfChargesSFXA:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Sparks04.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+--- !u!114 &9081093468563381524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3086828684011793880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  allClothingData:
+  - {fileID: 11400000, guid: 4758621c95185244482f05a3d23c4993, type: 2}
+  CurrentClothIndex: 0
+  randomInitialClothData: 0
+  hidesIdentity: 0
+  hidesSlots: 0
+  hideClothingFlags: 0
+  disallowConsume: 0

@@ -9,9 +9,8 @@ namespace Messages.Client.VariableViewer
 		{
 			public ulong BookshelfID;
 			public bool IsNewBookshelf;
-			public string AdminId;
-			public string AdminToken;
 			public uint TheObjectToView;
+			public bool RefreshHierarchy;
 		}
 
 		public override void Process(NetMessage msg)
@@ -19,45 +18,44 @@ namespace Messages.Client.VariableViewer
 			ValidateAdmin(msg);
 		}
 
-		void ValidateAdmin(NetMessage msg)
+		private void ValidateAdmin(NetMessage msg)
 		{
+			if (IsFromAdmin() == false) return;
 
-			var admin = PlayerList.Instance.GetAdmin(msg.AdminId, msg.AdminToken);
-			if (admin == null) return;
 			if (msg.TheObjectToView != 0)
 			{
 				LoadNetworkObject(msg.TheObjectToView);
 				if (NetworkObject != null)
 				{
-					global::VariableViewer.ProcessTransform(NetworkObject.transform,SentByPlayer.GameObject);
+					global::VariableViewer.ProcessTransform(NetworkObject.transform,SentByPlayer.GameObject,msg.RefreshHierarchy );
 				}
 			}
 			else
 			{
-				global::VariableViewer.RequestSendBookshelf(msg.BookshelfID, msg.IsNewBookshelf,SentByPlayer.GameObject);
+				global::VariableViewer.RequestSendBookshelf(msg.BookshelfID, msg.IsNewBookshelf, SentByPlayer.GameObject);
 			}
 
 		}
 
-
-		public static NetMessage Send(ulong _BookshelfID, bool _IsNewBookshelf, string adminId, string adminToken)
+		public static NetMessage Send(ulong _BookshelfID, bool _IsNewBookshelf)
 		{
-			NetMessage msg = new NetMessage();
-			msg.BookshelfID = _BookshelfID;
-			msg.IsNewBookshelf = _IsNewBookshelf;
-			msg.AdminId = adminId;
-			msg.AdminToken = adminToken;
+			NetMessage msg = new NetMessage
+			{
+				BookshelfID = _BookshelfID,
+				IsNewBookshelf = _IsNewBookshelf
+			};
 
 			Send(msg);
 			return msg;
 		}
 
-		public static NetMessage Send(GameObject _TheObjectToView, string adminId, string adminToken)
+		public static NetMessage Send(GameObject _TheObjectToView, bool RefreshHierarchy)
 		{
-			NetMessage msg = new NetMessage();
-			msg.TheObjectToView = _TheObjectToView.NetId();
-			msg.AdminId = adminId;
-			msg.AdminToken = adminToken;
+			NetMessage msg = new NetMessage
+			{
+				TheObjectToView = _TheObjectToView.NetId(),
+				RefreshHierarchy = RefreshHierarchy
+			};
 
 			Send(msg);
 			return msg;

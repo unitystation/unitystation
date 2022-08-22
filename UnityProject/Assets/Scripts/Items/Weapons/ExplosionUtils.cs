@@ -11,12 +11,9 @@ namespace Systems.Explosions
 	/// </summary>
 	public static class ExplosionUtils
 	{
-		private static readonly AddressableAudioSource[] EXPLOSION_SOUNDS = { SingletonSOSounds.Instance.Explosion1, SingletonSOSounds.Instance.Explosion2 };
-		private static readonly AddressableAudioSource[] DISTANT_EXPLOSION_SOUNDS = { SingletonSOSounds.Instance.ExplosionDistant1, SingletonSOSounds.Instance.ExplosionDistant2 };
-		private static readonly AddressableAudioSource[] STATION_GROAN_SOUNDS = { SingletonSOSounds.Instance.ExplosionCreak1, SingletonSOSounds.Instance.ExplosionCreak2, SingletonSOSounds.Instance.ExplosionCreak3 };
-
-		private static readonly int DISTANT_THRESHOLD = 63;
-		private static readonly int GROAN_THRESHOLD = 29;
+		private static readonly AddressableAudioSource[] EXPLOSION_SOUNDS = { CommonSounds.Instance.Explosion1, CommonSounds.Instance.Explosion2 };
+		private static readonly AddressableAudioSource[] DISTANT_EXPLOSION_SOUNDS = { CommonSounds.Instance.ExplosionDistant1, CommonSounds.Instance.ExplosionDistant2 };
+		private static readonly AddressableAudioSource[] STATION_GROAN_SOUNDS = { CommonSounds.Instance.ExplosionCreak1, CommonSounds.Instance.ExplosionCreak2, CommonSounds.Instance.ExplosionCreak3 };
 
 		/// <summary>
 		/// Play explosion sound and shake ground
@@ -24,22 +21,40 @@ namespace Systems.Explosions
 		/// <param name="worldPosition">position explosion is centered at</param>
 		/// <param name="shakeIntensity">intensity of shaking</param>
 		/// <param name="shakeDistance">how far away the shaking can be felt</param>
-		public static void PlaySoundAndShake(Vector3Int worldPosition, byte shakeIntensity, int shakeDistance)
+		public static void PlaySoundAndShake(Vector3Int worldPosition, byte shakeIntensity, int shakeDistance, AddressableAudioSource customSound = null)
 		{
-			AddressableAudioSource sndName = EXPLOSION_SOUNDS[Random.Range(0, EXPLOSION_SOUNDS.Length)];
-			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: -1f); //This will play the sound backwards, is that what you want?
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(0f, 100f);
 			ShakeParameters shakeParameters = new ShakeParameters(true, shakeIntensity, shakeDistance);
-			SoundManager.PlayNetworkedAtPos(sndName, worldPosition, audioSourceParameters, true, false, shakeParameters: shakeParameters);
-
-			if (shakeDistance > DISTANT_THRESHOLD)
+			if (customSound != null)
 			{
-				AddressableAudioSource distantName = DISTANT_EXPLOSION_SOUNDS[Random.Range(0, DISTANT_EXPLOSION_SOUNDS.Length)];
-				SoundManager.PlayNetworkedAtPos(distantName, worldPosition, global: true);
+				_ = SoundManager.PlayNetworkedAtPosAsync(customSound, worldPosition, audioSourceParameters, true, false, shakeParameters);
 			}
-			if (shakeIntensity > GROAN_THRESHOLD)
+			else
 			{
-				AddressableAudioSource groanName = STATION_GROAN_SOUNDS[Random.Range(0, STATION_GROAN_SOUNDS.Length)];
-				SoundManager.PlayNetworkedAtPos(groanName, worldPosition, global: true);
+				AddressableAudioSource explosionSound = EXPLOSION_SOUNDS.PickRandom();
+				AddressableAudioSource groanSound = STATION_GROAN_SOUNDS.PickRandom();
+				AddressableAudioSource distantSound = DISTANT_EXPLOSION_SOUNDS.PickRandom();
+
+				//Closest sound
+				_ = SoundManager.PlayNetworkedAtPosAsync(explosionSound, worldPosition, audioSourceParameters, true, false, shakeParameters);
+
+				//Next sound
+				if (distantSound != null)
+				{
+					AudioSourceParameters distantSoundAudioSourceParameters =
+						new AudioSourceParameters(0f, 100f, minDistance: 29, maxDistance: 63);
+
+					_ = SoundManager.PlayNetworkedAtPosAsync(distantSound, worldPosition, distantSoundAudioSourceParameters);
+				}
+
+				//Furthest away sound
+				if (groanSound != null)
+				{
+					AudioSourceParameters groanSoundAudioSourceParameters =
+						new AudioSourceParameters(0f, 100f, minDistance: 63, maxDistance: 200);
+
+					_ = SoundManager.PlayNetworkedAtPosAsync(groanSound, worldPosition, groanSoundAudioSourceParameters);
+				}
 			}
 		}
 	}

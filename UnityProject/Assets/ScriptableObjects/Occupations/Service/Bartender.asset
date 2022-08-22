@@ -16,9 +16,13 @@ MonoBehaviour:
   isCrewmember: 1
   lateSpawnIsArrivals: 1
   inventoryPopulator: {fileID: 11400000, guid: dac8b1a38dcb348eeb279cfcb56d1bf7, type: 2}
+  useStandardPopulator: 1
   limit: 1
   priority: 99
   allowedAccess: 050000001a000000220000004c000000
+  allowedLowPopAccess: 050000001a000000220000004c0000002d0000002a000000
+  issuedClearance: 180000001f0000000d00000029000000
+  issuedLowPopClearance: 180000001f0000000d00000029000000
   spells: []
   progress: 65
   choiceColor: {r: 0.73333335, g: 0.8862745, b: 0.5686275, a: 1}
@@ -30,12 +34,12 @@ MonoBehaviour:
   descriptionLong: "You are the barkeep on this station. Your job is to keep drinks
     flowing, maintain your bar, and have an open ear to whoever stumbles in, be it
     Assistant or Captain.\r\n\r\nYou\u2019re expected to serve your patrons and to
-    relay food orders to the Cook. You should know a couple drink recipes, the fancier
-    the better. This job requires some skill in the RP department, so you can keep
-    your patrons entertained.\r\n\r\nNot sure what to do? Experiment! There may be
-    a few special cocktails for you to discover. Mix drinks, juices, chemicals, and
-    gases together... What's the worst that could happen? The bar can be a lively
-    place, it\u2019s up to you if you want to encourage chaos or run a clean joint.\r"
+    relay food orders to the Cook. You should know a couple drink recipes; the fancier
+    the better. This job requires some skill at role-playing so you can keep your
+    patrons entertained.\r\n\r\nNot sure what to do? Experiment! There may be a few
+    special cocktails for you to discover. Mix drinks, juices, chemicals, and gases
+    together... What's the worst that could happen? The bar can be a lively place,
+    it\u2019s up to you if you want to encourage chaos or run a clean joint.\r"
   customProperties:
     m_keys: []
     m_values: 
@@ -48,5 +52,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   textColor: {r: 0.73333335, g: 0.8862746, b: 0.5686275, a: 1}
   backgroundColor: {r: 1, g: 0, b: 0, a: 0}
+  specialPlayerPrefab: {fileID: 0}

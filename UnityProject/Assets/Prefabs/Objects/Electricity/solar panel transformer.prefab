@@ -11,11 +11,12 @@ GameObject:
   - component: {fileID: 4734855229797344}
   - component: {fileID: 61344596048250936}
   - component: {fileID: 114038174743996046}
-  - component: {fileID: 114703946515217786}
   - component: {fileID: 114421102744754910}
   - component: {fileID: 3451459747492305769}
   - component: {fileID: 6714064522805315501}
   - component: {fileID: 114582707141526168}
+  - component: {fileID: 3508287085359387148}
+  - component: {fileID: 3729784433152794460}
   m_Layer: 11
   m_Name: solar panel transformer
   m_TagString: Untagged
@@ -33,6 +34,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 4, y: -34, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4920401221825478}
   m_Father: {fileID: 0}
@@ -80,24 +82,13 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  prefabTracker: {fileID: 0}
+  CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
-  Passable: 0
---- !u!114 &114703946515217786
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575520830166772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  snapToGridOnStart: 1
-  IsFixedMatrix: 0
+  ReachableThrough: 1
+  initialPassable: 0
+  initialCrawlPassable: 0
+  passableExclusionsToThis: []
 --- !u!114 &114421102744754910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,24 +103,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  InData:
-    WireEndB: 0
-    WireEndA: 0
-    Categorytype: 0
-    ControllingDevice: {fileID: 0}
-    Present: {fileID: 0}
-    Data:
-      CurrentInWire: 0
-      ActualVoltage: 0
-      EstimatedResistance: 0
-      SupplyingCurrent: 0
-      InternalResistance: 0
-      SupplyingVoltage: 0
-      ProducingWatts: 0
-      ChangeToOff: 0
-      CurrentStoreValue: 0
-    DestroyQueueing: 0
-    DestroyAuthorised: 0
   registerTile: {fileID: 0}
   connected: 0
   Logall: 0
@@ -152,7 +125,6 @@ MonoBehaviour:
   WireEndB: 3
   WireEndA: 7
   ListCanConnectTo: 0400000008000000
-  SelfDestruct: 0
   Reactions:
   - ConnectingDevice: 4
     DirectionReaction: 0
@@ -207,6 +179,75 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
+--- !u!114 &3508287085359387148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 7768418aca169b743aa997436a773794
+  hasSpawned: 0
+--- !u!114 &3729784433152794460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  DEBUG: 0
+  SnapToGridOnStart: 0
+  LocalTargetPosition: {x: 0, y: 0, z: 0}
+  ChangesDirectionPush: 0
+  Intangible: 0
+  InitialLocationSynchronised: 0
+  tileMoveSpeed: 1
+  isNotPushable: 1
+  newtonianMovement: {x: 0, y: 0}
+  airTime: 0
+  slideTime: 0
+  thrownBy: {fileID: 0}
+  aim: 0
+  spinMagnitude: 0
+  PushedFrame: 0
+  FramePushDecision: 1
+  stickyMovement: 0
+  maximumStickSpeed: 1.5
+  onStationMovementsRound: 0
+  attributes: {fileID: 0}
+  registerTile: {fileID: 0}
+  ContextGameObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  IsCurrentlyFloating: 0
+  LocalDifferenceNeeded: {x: 0, y: 0}
+  CorrectingCourse: 0
+  Pushing: []
+  Hits: []
+  Speed: 1
+  AIR: 3
+  SLIDE: 4
+  Animating: 0
+  IsFlyingSliding: 0
+  IsMoving: 0
+  MoveIsWalking: 0
+  LastUpdateClientFlying: 0
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,6 +275,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4734855229797344}
   m_RootOrder: 0
@@ -249,10 +291,12 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -275,7 +319,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: ab7afb757a225664587e1ca81456b2a0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

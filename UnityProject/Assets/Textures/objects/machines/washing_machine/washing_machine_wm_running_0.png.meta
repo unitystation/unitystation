@@ -90,6 +90,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -99,8 +100,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -121,6 +122,8 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
@@ -500,6 +503,23 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      washing_machine_wm_running_0_10: 3607408292535813146
+      washing_machine_wm_running_0_7: -8732787368021996148
+      washing_machine_wm_running_0_15: -8015114083782613762
+      washing_machine_wm_running_0_6: -3336730678024382756
+      washing_machine_wm_running_0_2: 1015471203322410844
+      washing_machine_wm_running_0_4: 1643526198161723571
+      washing_machine_wm_running_0_1: -6633571979181011366
+      washing_machine_wm_running_0_9: -735884229063737362
+      washing_machine_wm_running_0_14: 789454005296995611
+      washing_machine_wm_running_0_8: -5135260505570380333
+      washing_machine_wm_running_0_5: -3431688950331731028
+      washing_machine_wm_running_0_11: 3237811029362774771
+      washing_machine_wm_running_0_0: 7863727332075224809
+      washing_machine_wm_running_0_12: 2426778615778542105
+      washing_machine_wm_running_0_3: 8173635605989090159
+      washing_machine_wm_running_0_13: -2550752414525476619
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

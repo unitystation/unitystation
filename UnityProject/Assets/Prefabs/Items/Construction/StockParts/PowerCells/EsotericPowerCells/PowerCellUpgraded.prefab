@@ -9,18 +9,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 716646880682716998, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
-      propertyPath: initialDescription
-      value: A power cell with a slightly higher capacity than normal!
+      propertyPath: initialName
+      value: upgraded power cell
       objectReference: {fileID: 0}
     - target: {fileID: 716646880682716998, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
-      propertyPath: initialName
-      value: upgraded power cell
+      propertyPath: initialDescription
+      value: A power cell with a slightly higher capacity than normal!
       objectReference: {fileID: 0}
     - target: {fileID: 1048113473106476432, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: dae318bdee00c5846830de6a3761fe2c
+      objectReference: {fileID: 0}
+    - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
@@ -91,6 +91,11 @@ PrefabInstance:
         type: 3}
       propertyPath: MaxWatts
       value: 2500
+      objectReference: {fileID: 0}
+    - target: {fileID: 6315500071468813385, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
+      propertyPath: foreverID
+      value: dae318bdee00c5846830de6a3761fe2c
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a910878bd30ff5d439b94cd12e623762, type: 3}

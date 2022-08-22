@@ -69,7 +69,7 @@ TextureImporter:
       213: 21300042
     second: ai-murica_dead_21
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -89,6 +89,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -98,8 +100,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -120,9 +122,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -623,6 +629,29 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      ai-murica_dead_0: 21300000
+      ai-murica_dead_15: 21300030
+      ai-murica_dead_10: 21300020
+      ai-murica_dead_7: 21300014
+      ai-murica_dead_2: 21300004
+      ai-murica_dead_8: 21300016
+      ai-murica_dead_13: 21300026
+      ai-murica_dead_19: 21300038
+      ai-murica_dead_14: 21300028
+      ai-murica_dead_18: 21300036
+      ai-murica_dead_5: 21300010
+      ai-murica_dead_9: 21300018
+      ai-murica_dead_16: 21300032
+      ai-murica_dead_17: 21300034
+      ai-murica_dead_21: 21300042
+      ai-murica_dead_1: 21300002
+      ai-murica_dead_6: 21300012
+      ai-murica_dead_12: 21300024
+      ai-murica_dead_4: 21300008
+      ai-murica_dead_3: 21300006
+      ai-murica_dead_20: 21300040
+      ai-murica_dead_11: 21300022
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

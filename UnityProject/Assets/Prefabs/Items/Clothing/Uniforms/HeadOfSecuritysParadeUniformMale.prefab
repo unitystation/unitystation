@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2909197017712554513, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 4daa88757f3df1341bf5a2f93a68b542
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
@@ -88,18 +88,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A male head of security's luxury-wear, for special occasions.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: foreverID
+      value: 4daa88757f3df1341bf5a2f93a68b542
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 76d65dd18ef68fe45a370d3832477bb7,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 76d65dd18ef68fe45a370d3832477bb7,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
       propertyPath: allClothingData.Array.size

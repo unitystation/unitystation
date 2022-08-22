@@ -16,13 +16,30 @@ PrefabInstance:
     - target: {fileID: 552305384801587101, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 54a552cbe4002ac44ae29b958a90e545
       objectReference: {fileID: 0}
     - target: {fileID: 1644380039084729807, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
       propertyPath: initialName
       value: public airlock
       objectReference: {fileID: 0}
+    - target: {fileID: 2268823939221595730, guid: 6af0a221ec6985a46956ac77fab1f771,
+        type: 3}
+      propertyPath: isWindowedDoor
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2423441889713074305, guid: 6af0a221ec6985a46956ac77fab1f771,
+        type: 3}
+      propertyPath: airlockAssemblyPrefab
+      value: 
+      objectReference: {fileID: 7373807130743467081, guid: 712083b20731b2a4aa8d6da7643e767d,
+        type: 3}
+    - target: {fileID: 3469759388258226213, guid: 6af0a221ec6985a46956ac77fab1f771,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 31f461a440905794da462f9b1fbbb7bf,
+        type: 2}
     - target: {fileID: 3469759388258226213, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
       propertyPath: SubCatalogue.Array.data[0]
@@ -47,12 +64,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ede00bd257c9fc9479c5c0c26ac9cf8c,
         type: 2}
-    - target: {fileID: 3469759388258226213, guid: 6af0a221ec6985a46956ac77fab1f771,
+    - target: {fileID: 4807054220966673627, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
-      propertyPath: PresentSpriteSet
+      propertyPath: CurrentsortingGroup
       value: 
-      objectReference: {fileID: 11400000, guid: 31f461a440905794da462f9b1fbbb7bf,
-        type: 2}
+      objectReference: {fileID: 171221538576478895}
     - target: {fileID: 4835852156939608541, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
       propertyPath: SubCatalogue.Array.data[1]
@@ -77,6 +93,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 21102a7efd8679d41b16ac77c9cae438,
         type: 2}
+    - target: {fileID: 4973688389494506678, guid: 6af0a221ec6985a46956ac77fab1f771,
+        type: 3}
+      propertyPath: foreverID
+      value: 54a552cbe4002ac44ae29b958a90e545
+      objectReference: {fileID: 0}
     - target: {fileID: 5572436852781215207, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
       propertyPath: m_Sprite
@@ -109,6 +130,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7009381670175620206, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0bb7e0014ac109f48a1a00f829079c94,
+        type: 2}
+    - target: {fileID: 7009381670175620206, guid: 6af0a221ec6985a46956ac77fab1f771,
+        type: 3}
       propertyPath: SubCatalogue.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 0bb7e0014ac109f48a1a00f829079c94,
@@ -131,18 +158,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8ddc04e139d743f4dbebb025f6ce927f,
         type: 2}
-    - target: {fileID: 7009381670175620206, guid: 6af0a221ec6985a46956ac77fab1f771,
-        type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: 0bb7e0014ac109f48a1a00f829079c94,
-        type: 2}
     - target: {fileID: 8149197489328545512, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 49bd7faf2b17ed04c9e14769be271a8b,
         type: 3}
+    - target: {fileID: 8242232534866279461, guid: 6af0a221ec6985a46956ac77fab1f771,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8242232534866279461, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -160,6 +186,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8242232534866279461, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8242232534866279461, guid: 6af0a221ec6985a46956ac77fab1f771,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -172,16 +203,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8242232534866279461, guid: 6af0a221ec6985a46956ac77fab1f771,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8242232534866279461, guid: 6af0a221ec6985a46956ac77fab1f771,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8242232534866279461, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
@@ -201,7 +222,7 @@ PrefabInstance:
     - target: {fileID: 8248341723222571775, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
       propertyPath: m_Name
-      value: AirlockPublic2Windowed
+      value: AirlockPublicWindowed
       objectReference: {fileID: 0}
     - target: {fileID: 8542447127197164955, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
@@ -233,5 +254,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5cf00286727ee0a469fc2423f9bfdbdb,
         type: 2}
+    - target: {fileID: 8542447127197164955, guid: 6af0a221ec6985a46956ac77fab1f771,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6713eccb551041346acd9fe25c6aeaad,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6af0a221ec6985a46956ac77fab1f771, type: 3}
+--- !u!210 &171221538576478895 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 6682145752921394767, guid: 6af0a221ec6985a46956ac77fab1f771,
+    type: 3}
+  m_PrefabInstance: {fileID: 6835212155499642080}
+  m_PrefabAsset: {fileID: 0}

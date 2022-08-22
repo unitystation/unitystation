@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 25715693032685112, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
+        type: 3}
+      propertyPath: foreverID
+      value: 2d19dbdc797a03a43b454ba27020415b
+      objectReference: {fileID: 0}
     - target: {fileID: 44155453462962640, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
         type: 3}
       propertyPath: clothData
@@ -38,6 +43,11 @@ PrefabInstance:
         type: 3}
       propertyPath: bodyPartsCovered
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483897746626099850, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6404652678407139925, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
         type: 3}
@@ -102,7 +112,7 @@ PrefabInstance:
     - target: {fileID: 6446287369552793569, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 2d19dbdc797a03a43b454ba27020415b
       objectReference: {fileID: 0}
     - target: {fileID: 6447562287992218529, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
         type: 3}

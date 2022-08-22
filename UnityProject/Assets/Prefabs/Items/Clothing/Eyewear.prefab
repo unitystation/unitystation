@@ -1,19 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &3470201379774433319
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2718814624466391119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3307020aa3640594a870e4961a6de749, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slot: 0
-  bodyPartsCovered: 4
 --- !u!1001 &888517681440989805
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24,12 +10,22 @@ PrefabInstance:
     - target: {fileID: 2917128564446547862, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 28c72054b1f484ed4a6253c4feee3eb4
       objectReference: {fileID: 0}
+    - target: {fileID: 2917169708539712446, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 8146828530602300929}
     - target: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
       propertyPath: m_Name
       value: Eyewear
+      objectReference: {fileID: 0}
+    - target: {fileID: 3025309822768713558, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3025309822768713558, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
@@ -48,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3025309822768713558, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3025309822768713558, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -60,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3025309822768713558, guid: 6b5f74a79e023479cb5b30a2879621da,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3025309822768713558, guid: 6b5f74a79e023479cb5b30a2879621da,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3025309822768713558, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
@@ -94,6 +85,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3387296074795883840, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
+      propertyPath: initialSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3387296074795883840, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
       propertyPath: initialTraits.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -103,10 +99,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a2402731d72264ec4a2baec0351f6858,
         type: 2}
-    - target: {fileID: 3387296074795883840, guid: 6b5f74a79e023479cb5b30a2879621da,
+    - target: {fileID: 8166491247120154191, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
-      propertyPath: initialSize
-      value: 2
+      propertyPath: foreverID
+      value: 28c72054b1f484ed4a6253c4feee3eb4
       objectReference: {fileID: 0}
     - target: {fileID: 8982871833932450213, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
@@ -119,6 +115,39 @@ PrefabInstance:
 --- !u!1 &2718814624466391119 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
+    type: 3}
+  m_PrefabInstance: {fileID: 888517681440989805}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3470201379774433319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2718814624466391119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3307020aa3640594a870e4961a6de749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slot: 9
+  armoredBodyParts:
+  - armoringBodyPartType: 7
+    armor:
+      Melee: 0
+      Bullet: 0
+      Laser: 0
+      Energy: 0
+      Bomb: 0
+      Rad: 0
+      Fire: 0
+      Acid: 0
+      Magic: 0
+      Bio: 0
+      DismembermentProtectionChance: 0
+--- !u!210 &8146828530602300929 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 9033094390735762540, guid: 6b5f74a79e023479cb5b30a2879621da,
     type: 3}
   m_PrefabInstance: {fileID: 888517681440989805}
   m_PrefabAsset: {fileID: 0}

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcdd86e87cc447d94b99df8b1a383b3, type: 3}
   m_Name: BoxOfHugs
   m_EditorClassIdentifier: 
-  Contents:
+  SlotContents: []
+  DeprecatedContents:
   - {fileID: 6748581008247049004, guid: 13186a514a60194429e94407b6cf1e0a, type: 3}
   - {fileID: 6748581008247049004, guid: 13186a514a60194429e94407b6cf1e0a, type: 3}
   - {fileID: 6748581008247049004, guid: 13186a514a60194429e94407b6cf1e0a, type: 3}
@@ -20,4 +21,3 @@ MonoBehaviour:
   - {fileID: 6748581008247049004, guid: 764cc89fcad4df74f92d294e87d2a8de, type: 3}
   - {fileID: 6748581008247049004, guid: 764cc89fcad4df74f92d294e87d2a8de, type: 3}
   - {fileID: 7877648054047527799, guid: a580124e38acafc419b3fff7cdaef75e, type: 3}
-  MergeMode: 0

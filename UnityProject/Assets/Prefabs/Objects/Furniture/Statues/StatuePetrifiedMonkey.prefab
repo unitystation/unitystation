@@ -20,6 +20,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1040484853897520758, guid: e47d4a40d93f49b49bc3721acdb5f2af,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1040484853897520758, guid: e47d4a40d93f49b49bc3721acdb5f2af,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -32,6 +37,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1040484853897520758, guid: e47d4a40d93f49b49bc3721acdb5f2af,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1040484853897520758, guid: e47d4a40d93f49b49bc3721acdb5f2af,
         type: 3}
@@ -50,16 +60,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1040484853897520758, guid: e47d4a40d93f49b49bc3721acdb5f2af,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1040484853897520758, guid: e47d4a40d93f49b49bc3721acdb5f2af,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1040484853897520758, guid: e47d4a40d93f49b49bc3721acdb5f2af,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -72,6 +72,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4113148312535523045, guid: e47d4a40d93f49b49bc3721acdb5f2af,
+        type: 3}
+      propertyPath: foreverID
+      value: 010d438f5c103054e8086a380318d0b9
       objectReference: {fileID: 0}
     - target: {fileID: 5491522248254032502, guid: e47d4a40d93f49b49bc3721acdb5f2af,
         type: 3}
@@ -87,7 +92,7 @@ PrefabInstance:
     - target: {fileID: 8915138753517917646, guid: e47d4a40d93f49b49bc3721acdb5f2af,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 010d438f5c103054e8086a380318d0b9
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7106940428829324534, guid: e47d4a40d93f49b49bc3721acdb5f2af, type: 3}

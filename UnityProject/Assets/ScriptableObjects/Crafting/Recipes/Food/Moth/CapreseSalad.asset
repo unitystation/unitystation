@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: CapreseSalad
+  m_EditorClassIdentifier: 
+  category: 21
+  craftingTime: 1
+  recipeName: Caprese salad
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 455902390153094336, guid: 454947e247b8d27408f72041e753e7be,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 6077335604251108304, guid: 4215b00485a117c4ab360d1276325134,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 1736856700126293973, guid: 96ce86ae72580a44a8eebf7bda807b53,
+      type: 3}
+  requiredReagents:
+  - requiredAmount: 2
+    requiredReagent: {fileID: 11400000, guid: 6d1b99d23c2107645a4602f61e0ee577, type: 2}
+  - requiredAmount: 2
+    requiredReagent: {fileID: 11400000, guid: 615c6227fec8ead46b9e392634114bf5, type: 2}
+  requiredToolTraits: []
+  result:
+  - {fileID: 8739761074242388123, guid: 9a249579b7142914e88f1a3759fee899, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 377

@@ -9,18 +9,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
         type: 3}
-      propertyPath: initialDescription
-      value: Gyaro brand spray tan. Do not spray near eyes or other orifices.
+      propertyPath: initialName
+      value: spray tan
       objectReference: {fileID: 0}
     - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
         type: 3}
-      propertyPath: initialName
-      value: spray tan
+      propertyPath: initialDescription
+      value: Gyaro brand spray tan. Do not spray near eyes or other orifices.
       objectReference: {fileID: 0}
     - target: {fileID: 2785691462360487645, guid: fb073eb335539484b90e5bd9a3dbc4d0,
         type: 3}
       propertyPath: m_Name
       value: SprayTan
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790896412868586409, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2790896412868586409, guid: fb073eb335539484b90e5bd9a3dbc4d0,
         type: 3}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2790896412868586409, guid: fb073eb335539484b90e5bd9a3dbc4d0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790896412868586409, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2790896412868586409, guid: fb073eb335539484b90e5bd9a3dbc4d0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2790896412868586409, guid: fb073eb335539484b90e5bd9a3dbc4d0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2790896412868586409, guid: fb073eb335539484b90e5bd9a3dbc4d0,
         type: 3}
@@ -80,7 +80,12 @@ PrefabInstance:
     - target: {fileID: 2827405387058899817, guid: fb073eb335539484b90e5bd9a3dbc4d0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: a005c9c5d24fd5a43ab6ca078538c4bd
+      objectReference: {fileID: 0}
+    - target: {fileID: 3999979801300213365, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3999979801300213365, guid: fb073eb335539484b90e5bd9a3dbc4d0,
         type: 3}
@@ -94,11 +99,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3999979801300213365, guid: fb073eb335539484b90e5bd9a3dbc4d0,
         type: 3}
-      propertyPath: maxCapacity
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 3999979801300213365, guid: fb073eb335539484b90e5bd9a3dbc4d0,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 1fd7fe4f5764d202fba0de175004d786,
@@ -107,6 +107,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 9084457831133764272, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: foreverID
+      value: a005c9c5d24fd5a43ab6ca078538c4bd
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb073eb335539484b90e5bd9a3dbc4d0, type: 3}

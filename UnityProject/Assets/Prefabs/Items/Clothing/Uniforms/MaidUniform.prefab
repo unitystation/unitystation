@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: 2909197017712554513, guid: 8fd881065be8b411d84cfc10b38be725,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: d77ca13e6df71a4468e5a524d3c698bc
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: 8fd881065be8b411d84cfc10b38be725,
         type: 3}
@@ -93,18 +93,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A simple maid uniform for housekeeping.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: 8fd881065be8b411d84cfc10b38be725,
+        type: 3}
+      propertyPath: foreverID
+      value: d77ca13e6df71a4468e5a524d3c698bc
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 8fd881065be8b411d84cfc10b38be725,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 51ae08cf0a9300442bc28df604d9a9ef,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 8fd881065be8b411d84cfc10b38be725,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 51ae08cf0a9300442bc28df604d9a9ef,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 8fd881065be8b411d84cfc10b38be725,
         type: 3}
       propertyPath: allClothingData.Array.size

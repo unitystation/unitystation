@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: RawPestoPizza
+  m_EditorClassIdentifier: 
+  category: 21
+  craftingTime: 1
+  recipeName: Mothic pesto pizza
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 8453423465276669957, guid: 05af51e48ca1ca04db7ce88fc5304117,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 8272210084503031815, guid: 133d999bace713b45a102593e724c2c2,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 455902390153094336, guid: 454947e247b8d27408f72041e753e7be,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 6077335604251108304, guid: 4215b00485a117c4ab360d1276325134,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits: []
+  result:
+  - {fileID: 4986894185559746735, guid: 0050a50ec85bf0b4da11ed25b93a8103, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 385

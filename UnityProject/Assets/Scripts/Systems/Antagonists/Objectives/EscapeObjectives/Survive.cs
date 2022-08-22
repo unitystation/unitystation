@@ -7,7 +7,7 @@ namespace Antagonists
 	/// <summary>
 	/// An escape objective to survive
 	/// </summary>
-	[CreateAssetMenu(menuName="ScriptableObjects/Objectives/Survive")]
+	[CreateAssetMenu(menuName="ScriptableObjects/AntagObjectives/Survive")]
 	public class Survive : Objective
 	{
 		/// <summary>
@@ -20,6 +20,12 @@ namespace Antagonists
 		/// </summary>
 		protected override bool CheckCompletion()
 		{
+			//If we are null then we are somewhat dead
+			if (Owner?.body.OrNull()?.playerHealth == null)
+			{
+				return false;
+			}
+			
 			return !Owner.body.playerHealth.IsDead;
 		}
 	}

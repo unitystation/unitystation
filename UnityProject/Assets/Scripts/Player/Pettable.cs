@@ -10,38 +10,42 @@ namespace Systems.MobAIs
 	{
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			var npcHealth = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			if (interaction.HandObject != null) return false;
+			if (interaction.Intent != Intent.Help) return false;
 
-			return DefaultWillInteract.Default(interaction, side) &&
-				   interaction.HandObject == null &&
-				   !(npcHealth.IsDead || npcHealth.IsCrit || npcHealth.IsSoftCrit) &&
-				   interaction.Intent == Intent.Help;
+			if (interaction.TargetObject.TryGetComponent<LivingHealthMasterBase>(out var healthV2))
+			{
+				return (healthV2.IsDead || healthV2.IsCrit || healthV2.IsSoftCrit) == false;
+			}
+			// fallback to old system
+			// TODO: convert all mobs to new system then remove this
+			else if (interaction.TargetObject.TryGetComponent<Mob.SimpleAnimal>(out var health))
+			{
+				return (health.IsDead || health.IsCrit || health.IsSoftCrit) == false;
+			}
 
+			Logger.LogError($"{this} is missing a health component. Cannot pet this mob.");
+			return false;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			string npcName;
-			var npc = interaction.TargetObject.GetComponent<MobAI>();
-
-			if (npc == null)
+			string npcName = gameObject.ExpensiveName();
+			if (TryGetComponent<MobAI>(out var npc))
 			{
-				npcName = interaction.TargetObject.name;
-			}
-			else
-			{
-				npcName = npc.mobName;
+				npc.OnPetted(interaction.Performer.gameObject);
+				if (string.IsNullOrWhiteSpace(npc.mobName) == false)
+				{
+					npcName = npc.mobName;
+				}
+				
 			}
 
 			Chat.AddActionMsgToChat(
 				interaction.Performer,
 				$"You pet {npcName}.",
 				$"{interaction.Performer.ExpensiveName()} pets {npcName}.");
-
-			if (npc != null)
-			{
-				gameObject.GetComponent<MobAI>().OnPetted(interaction.Performer.gameObject);
-			}
 		}
 	}
 }

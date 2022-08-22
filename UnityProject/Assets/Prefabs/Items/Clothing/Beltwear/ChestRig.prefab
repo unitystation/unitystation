@@ -7,6 +7,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1595527395133040477, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: 305f2bdfaa6a5914ca12cba2f0591ec6,
+        type: 2}
+    - target: {fileID: 1595527395133040477, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: 0480160aa55493d42b53c8d08da3be7c,
+        type: 2}
     - target: {fileID: 1761629688128651123, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
       propertyPath: Resistances.FireProof
@@ -15,7 +27,7 @@ PrefabInstance:
     - target: {fileID: 1764592290455851827, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 00019cd41de95b244ac165825679fd64
       objectReference: {fileID: 0}
     - target: {fileID: 1867061792278949511, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
@@ -93,6 +105,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A set of tactical webbing worn by Syndicate boarding parties.
       objectReference: {fileID: 0}
+    - target: {fileID: 4707276644318323434, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: foreverID
+      value: 00019cd41de95b244ac165825679fd64
+      objectReference: {fileID: 0}
     - target: {fileID: 5525703409436398848, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -103,14 +120,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 84251875e98760d4d96ef40566030606,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7968275424856731504, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 84251875e98760d4d96ef40566030606,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7968275424856731504, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
       propertyPath: allClothingData.Array.size

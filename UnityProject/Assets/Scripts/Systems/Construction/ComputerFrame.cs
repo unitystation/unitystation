@@ -1,6 +1,4 @@
-
 using System;
-using Construction;
 using ScriptableObjects;
 using UnityEngine;
 using Items.Construction;
@@ -12,7 +10,6 @@ namespace Objects.Construction
 	/// </summary>
 	public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable
 	{
-
 		[SerializeField] private StatefulState initialState = null;
 		[SerializeField] private StatefulState cablesAddedState = null;
 		[SerializeField] private StatefulState circuitScrewedState = null;
@@ -21,14 +18,14 @@ namespace Objects.Construction
 		private ItemSlot circuitBoardSlot;
 		private Stateful stateful;
 		private StatefulState CurrentState => stateful.CurrentState;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private Integrity integrity;
 
 		private void Awake()
 		{
 			circuitBoardSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(0);
 			stateful = GetComponent<Stateful>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 
 			if (!CustomNetworkManager.IsServer) return;
 
@@ -46,7 +43,7 @@ namespace Objects.Construction
 			//different logic depending on state
 			if (CurrentState == initialState)
 			{
-				if (objectBehaviour.IsPushable)
+				if (objectBehaviour.IsNotPushable == false)
 				{
 					//wrench in place or deconstruct
 					return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench) ||
@@ -86,7 +83,7 @@ namespace Objects.Construction
 		{
 			if (CurrentState == initialState)
 			{
-				if (objectBehaviour.IsPushable)
+				if (objectBehaviour.IsNotPushable == false)
 				{
 					if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
 					{
@@ -112,7 +109,7 @@ namespace Objects.Construction
 							() =>
 							{
 								Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), 5);
-								Despawn.ServerSingle(gameObject);
+								_ = Despawn.ServerSingle(gameObject);
 							});
 					}
 				}
@@ -224,7 +221,7 @@ namespace Objects.Construction
 						return;
 					}
 					Spawn.ServerPrefab(circuitBoard.ComputerToSpawn, SpawnDestination.At(gameObject));
-					Despawn.ServerSingle(gameObject);
+					_ = Despawn.ServerSingle(gameObject);
 				}
 				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar))
 				{
@@ -243,7 +240,7 @@ namespace Objects.Construction
 			string msg = "";
 			if (CurrentState == initialState)
 			{
-				if (objectBehaviour.IsPushable)
+				if (objectBehaviour.IsNotPushable == false)
 				{
 					msg = "Use a wrench to secure the frame to the floor, or a welder to deconstruct it.";
 				}
@@ -293,7 +290,7 @@ namespace Objects.Construction
 			Inventory.ServerAdd(board.GameObject, circuitBoardSlot);
 
 			//set initial state
-			objectBehaviour.ServerSetPushable(false);
+			objectBehaviour.SetIsNotPushable(true);
 			stateful.ServerChangeState(glassAddedState);
 		}
 
@@ -306,16 +303,20 @@ namespace Objects.Construction
 
 			if (CurrentState == glassAddedState)
 			{
-				Spawn.ServerPrefab(CommonPrefabs.Instance.GlassSheet, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 2));
-				Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 5));
+				//1-2
+				Spawn.ServerPrefab(CommonPrefabs.Instance.GlassSheet, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 3));
+				//1-5
+				Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 6));
 			}
 
 			if (CurrentState == cablesAddedState)
 			{
-				Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 5));
+				//1-5
+				Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 6));
 			}
 
-			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 5));
+			//1-5
+			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 6));
 
 			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
 		}

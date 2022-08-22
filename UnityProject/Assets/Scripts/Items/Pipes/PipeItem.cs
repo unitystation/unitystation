@@ -1,12 +1,13 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Mirror;
 using UnityEngine;
+using Mirror;
+using Systems.Pipes;
 using Objects;
+using Objects.Atmospherics;
 
-namespace Pipes
+
+namespace Items.Atmospherics
 {
 	public class PipeItem : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<HandActivate>
 	{
@@ -14,17 +15,18 @@ namespace Pipes
 
 		public SpriteHandler SpriteHandler;
 		public RegisterItem registerItem;
-		private PlayerRotatable rotatable;
+		public Rotatable rotatable;
 
 		private void Awake()
 		{
 			SpriteHandler = this.GetComponentInChildren<SpriteHandler>();
 			registerItem = this.GetComponent<RegisterItem>();
-			rotatable = GetComponent<PlayerRotatable>();
+			rotatable = GetComponent<Rotatable>();
 		}
 
 		public void Start()
 		{
+			if (isServer == false) return;
 			SpriteHandler.SetColor(Colour);
 		}
 
@@ -48,28 +50,21 @@ namespace Pipes
 		{
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench))
 			{
-				var ZeroedLocation = new Vector3Int(x:registerItem.LocalPosition.x, y:registerItem.LocalPosition.y,0);
-				var metaData = registerItem.Matrix.MetaDataLayer.Get(ZeroedLocation);
-				var thisConnections = GetConnections();
-				int Offset = PipeFunctions.GetOffsetAngle(transform.localEulerAngles.z);
-				thisConnections.Rotate(Offset);
-
-				foreach (var Pipeo in metaData.PipeData)
+				var metaDataNode = registerItem.Matrix.MetaDataLayer.Get(registerItem.LocalPositionServer);
+				var connectionsCopy = GetConnections();
+				int offset = PipeFunctions.GetOffsetAngle(transform.localEulerAngles.z);
+				connectionsCopy.Rotate(offset);
+				if (PipeTile.CanAddPipe(metaDataNode, connectionsCopy) == false)
 				{
-					var TheConnection = Pipeo.pipeData.Connections;
-					for (int i = 0; i < thisConnections.Directions.Length; i++)
-					{
-						if (thisConnections.Directions[i].Bool && TheConnection.Directions[i].Bool)
-						{
-							return;
-						}
-					}
+					return;
 				}
 				ToolUtils.ServerPlayToolSound(interaction);
 				BuildPipe();
 			}
-
-			rotatable.Rotate();
+			else
+			{
+				rotatable.RotateBy(1);
+			}
 		}
 
 		public virtual bool WillInteract(HandActivate interaction, NetworkSide side)
@@ -79,7 +74,7 @@ namespace Pipes
 
 		public virtual void ServerPerformInteraction(HandActivate interaction)
 		{
-			rotatable.Rotate();
+			rotatable.RotateBy(1);
 		}
 
 		#endregion Interactions

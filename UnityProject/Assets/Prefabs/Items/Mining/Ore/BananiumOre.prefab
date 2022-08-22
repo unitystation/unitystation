@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +46,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
@@ -70,7 +70,7 @@ PrefabInstance:
     - target: {fileID: 4145792851350106790, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 7f36d623d91cac64cb72c7fe44cc9d72
       objectReference: {fileID: 0}
     - target: {fileID: 4246068332199459918, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
@@ -80,13 +80,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4535546548030824560, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
+      propertyPath: initialName
+      value: bananium ore
       objectReference: {fileID: 0}
     - target: {fileID: 4535546548030824560, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
-      propertyPath: initialName
-      value: bananium ore
+      propertyPath: initialTraits.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4535546548030824560, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
@@ -94,6 +94,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1e8921a11f65f9640afc3446c7cb9320,
         type: 2}
+    - target: {fileID: 6964355983317795711, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: foreverID
+      value: 7f36d623d91cac64cb72c7fe44cc9d72
+      objectReference: {fileID: 0}
     - target: {fileID: 7879885434909570197, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
       propertyPath: PresentSpriteSet

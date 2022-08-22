@@ -16,7 +16,7 @@ public class LoadCableCuttingWindow : MonoBehaviour
 	/// Reference to cableCuttingWindow - instead of loading from resources every time, just enable and disable GameObject
 	/// </summary>
 	[SerializeField]
-	private CableCuttingWindow cableCuttingWindowPrefab;
+	private GameObject cableCuttingWindowPrefab;
 
 	/// <summary>
 	/// Reference to cableCuttingWindow - instead of loading from resources every time, just enable and disable GameObject
@@ -40,7 +40,7 @@ public class LoadCableCuttingWindow : MonoBehaviour
 	/// </summary>
 	private GameObject itemInHand;
 
-	private void Update()
+	private void UpdateMe()
 	{
 		// check only if window is active to not waste cpu time
 		if (isWindowActive && !CanWindowBeEnabled())
@@ -50,7 +50,13 @@ public class LoadCableCuttingWindow : MonoBehaviour
 	private void OnEnable()
 	{
 		// store reference to player transform
-		localPlayerTransform = PlayerManager.LocalPlayer.transform;
+		localPlayerTransform = PlayerManager.LocalPlayerObject.transform;
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	/// <summary>
@@ -60,8 +66,8 @@ public class LoadCableCuttingWindow : MonoBehaviour
 	{
 		// check only if object in player's hand has changed
 		// disable window if item is not wirecutter
-		if (itemInHand != UIManager.Hands.CurrentSlot.ItemObject
-			&& !Validations.HasItemTrait(UIManager.Hands.CurrentSlot.ItemObject, CommonTraits.Instance.Wirecutter))
+		if (itemInHand != PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject
+			&& !Validations.HasItemTrait(PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject, CommonTraits.Instance.Wirecutter))
 		{
 			return false;
 		}
@@ -78,7 +84,7 @@ public class LoadCableCuttingWindow : MonoBehaviour
 	public void OpenCableCuttingWindow()
 	{
 		// get mouse position
-		Vector3 mousePosition = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+		Vector3 mousePosition = MouseUtils.MouseToWorldPos();
 		// round mouse position
 		Vector3Int roundedMousePosition = Vector3Int.RoundToInt(mousePosition);
 		targetWorldPosition = roundedMousePosition;
@@ -103,6 +109,9 @@ public class LoadCableCuttingWindow : MonoBehaviour
 		// else, load window from resources, store reference and initialize
 		else
 		{
+			// only load from resources if the prefab is null
+			if (cableCuttingWindowPrefab == null)
+				cableCuttingWindowPrefab = Resources.Load<GameObject>(PATH_TO_WINDOW_PREFAB);
 			cableCuttingWindow = Instantiate(cableCuttingWindowPrefab).GetComponentInChildren<CableCuttingWindow>();
 			cableCuttingWindow.InitializeCableCuttingWindow(matrix, cellPosition, mousePosition);
 		}
@@ -111,7 +120,7 @@ public class LoadCableCuttingWindow : MonoBehaviour
 		cableCuttingWindow.SetWindowActive(true);
 
 		isWindowActive = true;
-		itemInHand = UIManager.Hands.CurrentSlot.ItemObject;
+		itemInHand = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject;
 	}
 
 	/// <summary>

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: PwrGameSnowconeRecipe
+  m_EditorClassIdentifier: 
+  category: 19
+  craftingTime: 3
+  recipeName: Pwr Game Snowcone
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 603864730428163137, guid: 40c34e56c622eb749908c4cf23b4778f,
+      type: 3}
+  requiredReagents:
+  - requiredAmount: 15
+    requiredReagent: {fileID: 11400000, guid: 75ee11073da11b85e9f881d9111589f4, type: 2}
+  - requiredAmount: 5
+    requiredReagent: {fileID: 11400000, guid: bd09efab95ec1da07a0ac1d8b146d026, type: 2}
+  requiredToolTraits: []
+  result:
+  - {fileID: 5408680039725575541, guid: 5da3ec9c50d7a764a8ea9952d7cabb31, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 152

@@ -7,21 +7,31 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7626953478813211696, guid: e1b6777d67d2e244f8149d1eb84fc582,
+    - target: {fileID: 4003491813111447359, guid: e1b6777d67d2e244f8149d1eb84fc582,
         type: 3}
-      propertyPath: initialDescription
-      value: A 7.12x82mm bullet casing manufactured to unfailingly high standards,
-        you could pull off some cool trickshots with this.
+      propertyPath: foreverID
+      value: 3203b8800c2ad6c4eaa921e20781e1d5
       objectReference: {fileID: 0}
     - target: {fileID: 7626953478813211696, guid: e1b6777d67d2e244f8149d1eb84fc582,
         type: 3}
       propertyPath: initialName
       value: 7.12x82mm match bullet casing
       objectReference: {fileID: 0}
+    - target: {fileID: 7626953478813211696, guid: e1b6777d67d2e244f8149d1eb84fc582,
+        type: 3}
+      propertyPath: initialDescription
+      value: A 7.12x82mm bullet casing manufactured to unfailingly high standards,
+        you could pull off some cool trickshots with this.
+      objectReference: {fileID: 0}
     - target: {fileID: 7971880326410833638, guid: e1b6777d67d2e244f8149d1eb84fc582,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 3203b8800c2ad6c4eaa921e20781e1d5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8009222387029429798, guid: e1b6777d67d2e244f8149d1eb84fc582,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8009222387029429798, guid: e1b6777d67d2e244f8149d1eb84fc582,
         type: 3}
@@ -40,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8009222387029429798, guid: e1b6777d67d2e244f8149d1eb84fc582,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8009222387029429798, guid: e1b6777d67d2e244f8149d1eb84fc582,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8009222387029429798, guid: e1b6777d67d2e244f8149d1eb84fc582,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8009222387029429798, guid: e1b6777d67d2e244f8149d1eb84fc582,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8009222387029429798, guid: e1b6777d67d2e244f8149d1eb84fc582,
         type: 3}

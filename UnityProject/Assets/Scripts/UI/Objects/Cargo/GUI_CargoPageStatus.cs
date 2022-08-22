@@ -1,15 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UI.Core.NetUI;
 using Systems.Cargo;
 
 namespace UI.Objects.Cargo
 {
 	public class GUI_CargoPageStatus : GUI_CargoPage
 	{
-		public NetLabel creditsText;
-		public NetLabel shuttleButtonText;
-		public NetLabel messageText;
+		public NetText_label creditsText;
+		public NetText_label shuttleButtonText;
+		public NetText_label messageText;
 		public NetColorChanger statusCargoImage;
 		public NetColorChanger statusTransitImage;
 		public NetColorChanger statusCentcomImage;
@@ -44,14 +44,7 @@ namespace UI.Objects.Cargo
 			}
 			else
 			{
-				if (cm.ShuttleStatus == ShuttleStatus.DockedStation)
-				{
-					SetShuttleStatus(statusCargoImage);
-				}
-				else
-				{
-					SetShuttleStatus(statusCentcomImage);
-				}
+				SetShuttleStatus(cm.ShuttleStatus == ShuttleStatus.DockedStation ? statusCargoImage : statusCentcomImage);
 				shuttleButtonText.SetValueServer("SEND");
 			}
 

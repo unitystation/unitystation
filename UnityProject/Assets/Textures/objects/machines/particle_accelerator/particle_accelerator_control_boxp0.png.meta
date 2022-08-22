@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: control_boxp0_31
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -119,6 +119,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -128,8 +130,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -150,9 +152,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -863,6 +869,39 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      control_boxp0_0: 21300000
+      control_boxp0_6: 21300012
+      control_boxp0_12: 21300024
+      control_boxp0_26: 21300052
+      control_boxp0_14: 21300028
+      control_boxp0_31: 21300062
+      control_boxp0_23: 21300046
+      control_boxp0_15: 21300030
+      control_boxp0_7: 21300014
+      control_boxp0_30: 21300060
+      control_boxp0_21: 21300042
+      control_boxp0_5: 21300010
+      control_boxp0_10: 21300020
+      control_boxp0_3: 21300006
+      control_boxp0_17: 21300034
+      control_boxp0_13: 21300026
+      control_boxp0_20: 21300040
+      control_boxp0_18: 21300036
+      control_boxp0_19: 21300038
+      control_boxp0_29: 21300058
+      control_boxp0_11: 21300022
+      control_boxp0_28: 21300056
+      control_boxp0_8: 21300016
+      control_boxp0_22: 21300044
+      control_boxp0_1: 21300002
+      control_boxp0_24: 21300048
+      control_boxp0_2: 21300004
+      control_boxp0_25: 21300050
+      control_boxp0_9: 21300018
+      control_boxp0_27: 21300054
+      control_boxp0_4: 21300008
+      control_boxp0_16: 21300032
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

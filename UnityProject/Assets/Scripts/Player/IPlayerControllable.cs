@@ -10,5 +10,5 @@ public interface IPlayerControllable
 	/// set to the local MovementControllable
 	/// </summary>
 	/// <param name="moveActions"></param>
-	void RecievePlayerMoveAction(PlayerAction moveActions);
+	void ReceivePlayerMoveAction(PlayerAction moveActions);
 }

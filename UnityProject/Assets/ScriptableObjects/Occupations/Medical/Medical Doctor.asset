@@ -16,11 +16,15 @@ MonoBehaviour:
   isCrewmember: 1
   lateSpawnIsArrivals: 1
   inventoryPopulator: {fileID: 11400000, guid: 0b34ef1c9476a4dcc97321a7a964010b, type: 2}
+  useStandardPopulator: 1
   limit: 5
   priority: 99
   allowedAccess: 1a00000022000000330000003a00000046000000
+  allowedLowPopAccess: 1a00000022000000330000003a0000004600000017000000
+  issuedClearance: 1f0000000d000000050000000600000028000000
+  issuedLowPopClearance: 1f0000000d000000050000000600000028000000
   spells: []
-  progress: 25
+  progress: 60
   choiceColor: {r: 1, g: 0.93333334, b: 0.9411765, a: 1}
   previewSprite: {fileID: 21300000, guid: fc79179351f047740aa45256e237f5a6, type: 3}
   displayName: Medical Doctor
@@ -31,10 +35,10 @@ MonoBehaviour:
     inaccurate, but you do treat people\u2019s wounds and diseases. Nanotrasen has
     equipped you with cutting edge technology to assist you in your labor of keeping
     people alive. Remember, dead people can\u2019t work, but they can be cloned.\r\n\r\nYou\u2019re
-    expected to understand the basics of the health system. Know your medical supplies
-    and machines and treat all health problems accordingly.\r\n\r\nNot sure what
-    to do? Clean all the blood in your workplace, keep an eye on the medbay desk
-    to see if someone is in need of medical attention, get mad when people trespass
+    expected to keep the crew healthy and alive. Perform vital surgeries to save
+    lives. Know your medical tools and consumables, and treat health conditions accordingly.\r\n\r\nNot
+    sure what to do? keep your workplace clean. Keep an eye on the medbay desk to
+    see if someone is in need of medical attention, get mad when people trespass
     into medbay and try to heal themselves.\r"
   customProperties:
     m_keys: []
@@ -48,5 +52,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   textColor: {r: 1, g: 0.9333334, b: 0.94117653, a: 1}
   backgroundColor: {r: 1, g: 0, b: 0, a: 0}
+  specialPlayerPrefab: {fileID: 0}

@@ -14,7 +14,7 @@ public abstract class SerializableDictionaryBase
 {
 	public abstract class Storage { }
 
-	protected class Dictionary<TKey, TValue> : System.Collections.Generic.Dictionary<TKey, TValue>
+	public class Dictionary<TKey, TValue> : System.Collections.Generic.Dictionary<TKey, TValue>
 	{
 		public Dictionary() { }
 		public Dictionary(IDictionary<TKey, TValue> dict) : base(dict) { }
@@ -25,7 +25,7 @@ public abstract class SerializableDictionaryBase
 [Serializable]
 public abstract class SerializableDictionaryBase<TKey, TValue, TValueStorage> : SerializableDictionaryBase, IDictionary<TKey, TValue>, IDictionary, ISerializationCallbackReceiver, IDeserializationCallback, ISerializable
 {
-	Dictionary<TKey, TValue> m_dict;
+	public Dictionary<TKey, TValue> m_dict;
 	[SerializeField]
 	TKey[] m_keys;
 	[SerializeField]
@@ -239,6 +239,7 @@ public static class SerializableDictionary
 	}
 }
 
+[Serializable]
 public class SerializableDictionary<TKey, TValue> : SerializableDictionaryBase<TKey, TValue, TValue>
 {
 	public SerializableDictionary() { }
@@ -271,31 +272,5 @@ public class SerializableDictionary<TKey, TValue, TValueStorage> : SerializableD
 	{
 		storage[i] = new TValueStorage();
 		storage[i].data = value;
-	}
-}
-
-
-[Serializable]
-public class GridDictionary<TValue> : SerializableDictionary<long, TValue>
-{
-	public TValue this[int x, int y]
-	{
-		get { return this[CalculateKey(x, y)]; }
-		set { this[CalculateKey(x, y)] = value; }
-	}
-
-	public bool ContainsKey(int x, int y)
-	{
-		return ContainsKey(CalculateKey(x, y));
-	}
-
-	public void Remove(int x, int y)
-	{
-		Remove(CalculateKey(x, y));
-	}
-
-	private static long CalculateKey(int x, int y)
-	{
-		return ((long) x << 32) + y;
 	}
 }

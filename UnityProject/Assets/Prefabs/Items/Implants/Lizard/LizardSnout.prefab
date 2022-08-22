@@ -13,10 +13,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d8e1663e2a6832040bf0054b4501f955,
         type: 2}
+    - target: {fileID: 1817806423449182988, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: foreverID
+      value: 2e6e8409def4d76428e3e72233ab61c6
+      objectReference: {fileID: 0}
     - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 2e6e8409def4d76428e3e72233ab61c6
       objectReference: {fileID: 0}
     - target: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -112,28 +117,38 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: DismembermentChance
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: bodyPartAshesAboveThisDamage
+      value: 145
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[0]
-      value: 20
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[1]
-      value: 20
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[2]
-      value: 20
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[3]
-      value: 20
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}

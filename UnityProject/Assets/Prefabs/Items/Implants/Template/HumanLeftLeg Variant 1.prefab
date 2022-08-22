@@ -7,10 +7,45 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: CanBleedExternally
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: spillChanceWhenCutPresent
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 1.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: bodyPartColorWhenCharred.b
+      value: 0.08859915
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: bodyPartColorWhenCharred.g
+      value: 0.08859915
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: bodyPartColorWhenCharred.r
+      value: 0.103773594
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: bodyPartAshesAboveThisDamage
+      value: 125
+      objectReference: {fileID: 0}
     - target: {fileID: 2648266232423228038, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 3f85725bdc354964b84b6c7f96cd0bf0
       objectReference: {fileID: 0}
     - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
@@ -70,7 +105,7 @@ PrefabInstance:
     - target: {fileID: 2689983249500970802, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: m_Name
-      value: HumanLeftLeg Variant
+      value: HumanLeftLeg Variant 1
       objectReference: {fileID: 0}
     - target: {fileID: 2856768839702850670, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
@@ -90,5 +125,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c9191e040f023ed4fb5eb384a338f1b1,
         type: 2}
+    - target: {fileID: 9074195140769878879, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: foreverID
+      value: 3f85725bdc354964b84b6c7f96cd0bf0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e6f2ff9beb985749940d242877d84f0, type: 3}

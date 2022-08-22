@@ -21,3 +21,23 @@ public class MetabolismSystemV2 : NetworkBehaviour
 	}
 
 }
+
+/// <summary>
+/// Used by the Metabolism class to apply the desired effects. Substances are applied evenly over the duration of the effect.
+/// </summary>
+public struct MetabolismEffect
+{
+
+
+
+}
+
+public enum HungerState
+{
+	Full,
+	Normal,
+	Hungry,
+	Malnourished,
+	Starving
+
+}

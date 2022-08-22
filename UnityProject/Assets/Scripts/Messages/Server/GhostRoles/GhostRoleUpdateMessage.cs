@@ -1,4 +1,5 @@
-﻿using Systems.GhostRoles;
+﻿using System.Net.Configuration;
+using Systems.GhostRoles;
 using Mirror;
 
 namespace Messages.Server.GhostRoles
@@ -21,7 +22,7 @@ namespace Messages.Server.GhostRoles
 		// To be run on client
 		public override void Process(NetMessage msg)
 		{
-			if (PlayerManager.LocalPlayer == null) return;
+			if (PlayerManager.LocalPlayerObject == null) return;
 
 			if (MatrixManager.IsInitialized == false) return;
 
@@ -35,16 +36,22 @@ namespace Messages.Server.GhostRoles
 		{
 			if (GhostRoleManager.Instance != null)
 			{
-				GhostRoleServer role = GhostRoleManager.Instance.serverAvailableRoles[key];
-
-				foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
+				if (GhostRoleManager.Instance.serverAvailableRoles.TryGetValue(key, out var role) == false)
 				{
-					if (player?.Script == null) 
-					{ 
-						Logger.LogError("SendToDead, player?.Script == null", Category.Ghosts); 
+					Logger.LogError($"Failed to find ghost role key: {key}");
+					return new NetMessage();
+				}
+
+				foreach (PlayerInfo player in PlayerList.Instance.InGamePlayers)
+				{
+					if (player?.Script == null)
+					{
+						Logger.LogError("SendToDead, player?.Script == null", Category.Ghosts);
 						continue;
 					}
+
 					if (player.Script.IsDeadOrGhost == false) continue;
+
 					SendTo(player, key, role);
 				}
 				return GetMessage(key, role);
@@ -60,9 +67,10 @@ namespace Messages.Server.GhostRoles
 		/// <summary>
 		/// Sends a message to the specific player, informing them about a new ghost role that has become available.
 		/// </summary>
-		public static NetMessage SendTo(ConnectedPlayer player, uint key, GhostRoleServer role)
+		public static NetMessage SendTo(PlayerInfo player, uint key, GhostRoleServer role)
 		{
 			NetMessage msg = GetMessage(key, role);
+			if (PlayerList.Instance.loggedOff.Contains(player)) return msg;
 
 			SendTo(player, msg);
 			return msg;
@@ -70,15 +78,25 @@ namespace Messages.Server.GhostRoles
 
 		private static NetMessage GetMessage(uint key, GhostRoleServer role)
 		{
-			return new NetMessage
+			var MSG =  new NetMessage
 			{
 				roleID = key,
 				roleType = role.RoleListIndex,
 				minPlayers = role.MinPlayers,
 				maxPlayers = role.MaxPlayers,
-				playerCount = role.WaitingPlayers.Count,
+				playerCount = role.PlayersSpawned,
 				timeRemaining = role.TimeRemaining,
 			};
+			if (MSG.minPlayers > 0 && role.PlayersSpawned == 0)
+			{
+				MSG.playerCount = role.WaitingPlayers.Count;
+			}
+			else
+			{
+				MSG.playerCount = role.PlayersSpawned;
+			}
+
+			return MSG;
 		}
 	}
 }

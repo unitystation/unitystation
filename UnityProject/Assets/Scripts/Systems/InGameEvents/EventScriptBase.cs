@@ -26,12 +26,14 @@ namespace InGameEvents
 		/// </summary>
 		public string EventName = null;
 		/// <summary>
-		/// Delayed method start time
+		/// Delayed method start time in seconds
 		/// </summary>
+		[Tooltip("Delayed method start time in seconds")]
 		public float StartTimer = 0f;
 		/// <summary>
-		/// Delayed method end time
+		/// Delayed method end time in seconds
 		/// </summary>
+		[Tooltip("Delayed method end time in seconds")]
 		public float EndTimer = 0f;
 
 		/// <summary>
@@ -73,7 +75,7 @@ namespace InGameEvents
 
 		private void OnDestroy()
 		{
-			InGameEventsManager.Instance.RemoveEventFromList(this, EventType);
+			InGameEventsManager.Instance.OrNull()?.RemoveEventFromList(this, EventType);
 			CancelInvoke();
 		}
 

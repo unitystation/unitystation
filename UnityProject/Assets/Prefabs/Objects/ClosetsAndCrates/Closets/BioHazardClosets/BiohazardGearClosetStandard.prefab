@@ -77,7 +77,7 @@ PrefabInstance:
     - target: {fileID: 933576176691117832, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: m_Name
-      value: Closet_BioHazard_General
+      value: BiohazardGearClosetStandard
       objectReference: {fileID: 0}
     - target: {fileID: 1122670086388767519, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
@@ -106,6 +106,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 3ceaafc3766acc9489defdd989d6bdbe,
         type: 3}
+    - target: {fileID: 4288925150764073281, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: foreverID
+      value: 6e50bbcfbfcddd349a8159ee099033d0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4591883347473822096, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: initialContents
+      value: 
+      objectReference: {fileID: 11400000, guid: fe55899fa8e8d4e4ab395599e3564203,
+        type: 2}
     - target: {fileID: 5029123947003194478, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: m_Sprite
@@ -154,7 +165,7 @@ PrefabInstance:
     - target: {fileID: 8730627397065656938, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 6e50bbcfbfcddd349a8159ee099033d0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73, type: 3}

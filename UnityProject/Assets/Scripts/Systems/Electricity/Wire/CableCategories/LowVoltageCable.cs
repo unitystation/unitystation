@@ -1,24 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using Mirror;
 
-public class LowVoltageCable : CableInheritance
+namespace Objects.Electrical
 {
-	public new HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>(){
-		PowerTypeCategory.LowMachineConnector,
-		PowerTypeCategory.LowVoltageCable,
-		PowerTypeCategory.SolarPanelController,
-		PowerTypeCategory.SolarPanel,
-		PowerTypeCategory.PowerSink,
-	};
-
-
-	void Awake()
+	public class LowVoltageCable : CableInheritance
 	{
-		ApplianceType = PowerTypeCategory.LowVoltageCable;
-		CableType = WiringColor.low;
-		wireConnect.InData.CanConnectTo = CanConnectTo;
-		wireConnect.InData.Categorytype = ApplianceType;
+		public new HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>()
+		{
+			PowerTypeCategory.LowMachineConnector,
+			PowerTypeCategory.LowVoltageCable,
+			PowerTypeCategory.SolarPanelController,
+			PowerTypeCategory.SolarPanel,
+			PowerTypeCategory.PowerSink,
+		};
+
+		private void Awake()
+		{
+			ApplianceType = PowerTypeCategory.LowVoltageCable;
+			CableType = WiringColor.low;
+			wireConnect.InData.CanConnectTo = CanConnectTo;
+			wireConnect.InData.Categorytype = ApplianceType;
+		}
 	}
 }

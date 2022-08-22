@@ -7,17 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 539145108793705079, guid: 318d763691da60547af2d92d0fed09a4,
+        type: 3}
+      propertyPath: foreverID
+      value: 9d38d05935ee3be43915c3d0c69a2104
+      objectReference: {fileID: 0}
     - target: {fileID: 758798594705782173, guid: 318d763691da60547af2d92d0fed09a4,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: ba164592654b9a3479a41ff0e37f286b,
-        type: 2}
-    - target: {fileID: 5768131466933356480, guid: 318d763691da60547af2d92d0fed09a4,
-        type: 3}
-      propertyPath: itemStorageStructure
-      value: 
-      objectReference: {fileID: 11400000, guid: 72f86270876774165a3778d641b8a8bb,
         type: 2}
     - target: {fileID: 5768131466933356480, guid: 318d763691da60547af2d92d0fed09a4,
         type: 3}
@@ -31,10 +30,71 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3b3d52c06dbe03948a59f82bb5d6c3c7,
         type: 2}
+    - target: {fileID: 5768131466933356480, guid: 318d763691da60547af2d92d0fed09a4,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: 72f86270876774165a3778d641b8a8bb,
+        type: 2}
+    - target: {fileID: 6425597417549177208, guid: 318d763691da60547af2d92d0fed09a4,
+        type: 3}
+      propertyPath: hitDamage
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6425597417549177208, guid: 318d763691da60547af2d92d0fed09a4,
+        type: 3}
+      propertyPath: throwRange
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6425597417549177208, guid: 318d763691da60547af2d92d0fed09a4,
+        type: 3}
+      propertyPath: initialName
+      value: secure briefcase
+      objectReference: {fileID: 0}
+    - target: {fileID: 6425597417549177208, guid: 318d763691da60547af2d92d0fed09a4,
+        type: 3}
+      propertyPath: initialSize
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6425597417549177208, guid: 318d763691da60547af2d92d0fed09a4,
+        type: 3}
+      propertyPath: throwDamage
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6425597417549177208, guid: 318d763691da60547af2d92d0fed09a4,
+        type: 3}
+      propertyPath: initialDescription
+      value: A large briefcase with a digital locking system.
+      objectReference: {fileID: 0}
     - target: {fileID: 6425597417549177208, guid: 318d763691da60547af2d92d0fed09a4,
         type: 3}
       propertyPath: attackVerbs.Array.size
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6425597417549177208, guid: 318d763691da60547af2d92d0fed09a4,
+        type: 3}
+      propertyPath: attackVerbs.Array.data[0]
+      value: bashed
+      objectReference: {fileID: 0}
+    - target: {fileID: 6425597417549177208, guid: 318d763691da60547af2d92d0fed09a4,
+        type: 3}
+      propertyPath: attackVerbs.Array.data[1]
+      value: battered
+      objectReference: {fileID: 0}
+    - target: {fileID: 6425597417549177208, guid: 318d763691da60547af2d92d0fed09a4,
+        type: 3}
+      propertyPath: attackVerbs.Array.data[2]
+      value: bludgeoned
+      objectReference: {fileID: 0}
+    - target: {fileID: 6425597417549177208, guid: 318d763691da60547af2d92d0fed09a4,
+        type: 3}
+      propertyPath: attackVerbs.Array.data[3]
+      value: thrashed
+      objectReference: {fileID: 0}
+    - target: {fileID: 6425597417549177208, guid: 318d763691da60547af2d92d0fed09a4,
+        type: 3}
+      propertyPath: attackVerbs.Array.data[4]
+      value: whacked
       objectReference: {fileID: 0}
     - target: {fileID: 6425597417549177208, guid: 318d763691da60547af2d92d0fed09a4,
         type: 3}
@@ -48,56 +108,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2180cefb5bcc265449d17c6ec1ff09ac,
         type: 2}
-    - target: {fileID: 6425597417549177208, guid: 318d763691da60547af2d92d0fed09a4,
-        type: 3}
-      propertyPath: initialName
-      value: secure briefcase
-      objectReference: {fileID: 0}
-    - target: {fileID: 6425597417549177208, guid: 318d763691da60547af2d92d0fed09a4,
-        type: 3}
-      propertyPath: initialDescription
-      value: A large briefcase with a digital locking system.
-      objectReference: {fileID: 0}
-    - target: {fileID: 6425597417549177208, guid: 318d763691da60547af2d92d0fed09a4,
-        type: 3}
-      propertyPath: hitDamage
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6425597417549177208, guid: 318d763691da60547af2d92d0fed09a4,
-        type: 3}
-      propertyPath: initialSize
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6425597417549177208, guid: 318d763691da60547af2d92d0fed09a4,
-        type: 3}
-      propertyPath: throwRange
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6425597417549177208, guid: 318d763691da60547af2d92d0fed09a4,
-        type: 3}
-      propertyPath: attackVerbs.Array.data[4]
-      value: whacked
-      objectReference: {fileID: 0}
-    - target: {fileID: 6425597417549177208, guid: 318d763691da60547af2d92d0fed09a4,
-        type: 3}
-      propertyPath: attackVerbs.Array.data[3]
-      value: thrashed
-      objectReference: {fileID: 0}
-    - target: {fileID: 6425597417549177208, guid: 318d763691da60547af2d92d0fed09a4,
-        type: 3}
-      propertyPath: attackVerbs.Array.data[2]
-      value: bludgeoned
-      objectReference: {fileID: 0}
-    - target: {fileID: 6425597417549177208, guid: 318d763691da60547af2d92d0fed09a4,
-        type: 3}
-      propertyPath: attackVerbs.Array.data[1]
-      value: battered
-      objectReference: {fileID: 0}
-    - target: {fileID: 6425597417549177208, guid: 318d763691da60547af2d92d0fed09a4,
-        type: 3}
-      propertyPath: attackVerbs.Array.data[0]
-      value: bashed
-      objectReference: {fileID: 0}
     - target: {fileID: 6714904317339860294, guid: 318d763691da60547af2d92d0fed09a4,
         type: 3}
       propertyPath: m_Sprite
@@ -107,12 +117,17 @@ PrefabInstance:
     - target: {fileID: 6797587575614501806, guid: 318d763691da60547af2d92d0fed09a4,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 9d38d05935ee3be43915c3d0c69a2104
       objectReference: {fileID: 0}
     - target: {fileID: 6900029727082434074, guid: 318d763691da60547af2d92d0fed09a4,
         type: 3}
       propertyPath: m_Name
       value: SecureBriefcase
+      objectReference: {fileID: 0}
+    - target: {fileID: 6904676125545739118, guid: 318d763691da60547af2d92d0fed09a4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6904676125545739118, guid: 318d763691da60547af2d92d0fed09a4,
         type: 3}
@@ -131,6 +146,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6904676125545739118, guid: 318d763691da60547af2d92d0fed09a4,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6904676125545739118, guid: 318d763691da60547af2d92d0fed09a4,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -143,16 +163,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6904676125545739118, guid: 318d763691da60547af2d92d0fed09a4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6904676125545739118, guid: 318d763691da60547af2d92d0fed09a4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6904676125545739118, guid: 318d763691da60547af2d92d0fed09a4,
         type: 3}

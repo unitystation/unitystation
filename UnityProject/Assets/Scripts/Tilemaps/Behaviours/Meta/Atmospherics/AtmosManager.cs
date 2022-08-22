@@ -1,81 +1,68 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Pipes;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using Objects.Wallmounts;
-using System.Collections.Concurrent;
+using Shared.Managers;
+using Systems.Pipes;
+using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Systems.Atmospherics
 {
-	public class AtmosManager : MonoBehaviour
+	public class AtmosManager : SingletonManager<AtmosManager>
 	{
-		/// <summary>
-		/// Time it takes per update in milliseconds
-		/// </summary>
-		public float Speed = 40;
-		public int NumberThreads = 1;
-
-		public AtmosMode Mode = AtmosMode.Threaded;
-
-		public bool Running { get; private set; }
-
 		public HashSet<PipeData> inGameNewPipes = new HashSet<PipeData>();
 		public HashSet<FireAlarm> inGameFireAlarms = new HashSet<FireAlarm>();
-		private ThreadSafeList<PipeData> pipeList = new ThreadSafeList<PipeData>();
-		private GenericDelegate<PipeData> processPipeDelegator;
+		public ThreadSafeList<PipeData> pipeList = new ThreadSafeList<PipeData>();
+		public GenericDelegate<PipeData> processPipeDelegator;
 
-		public static int currentTick;
-		private const int Steps = 1;
+		public List<ReactionManager> reactionManagerList = new List<ReactionManager>();
 
-		public static AtmosManager Instance;
+		private AtmosThread atmosThread;
+		public AtmosSimulation simulation;
+		public CustomSampler sampler;
 
 		public bool StopPipes = false;
 
+		//TODO: move these prefabs somewhere else more appropiate
 		public GameObject fireLight = null;
-
 		public GameObject iceShard = null;
 		public GameObject hotIce = null;
 
-		private void Awake()
+		public override void Awake()
 		{
+			base.Awake();
 			processPipeDelegator = ProcessPipe;
-			if (Instance == null)
-			{
-				Instance = this;
-			}
-			else
-			{
-				Destroy(this);
-			}
+			atmosThread = gameObject.AddComponent<AtmosThread>();
+			atmosThread.tickDelay = 40;
+			simulation = new AtmosSimulation();
+			sampler = CustomSampler.Create("AtmosphericsStep");
 		}
 
-		private void Update()
+		private void OnEnable()
 		{
-			if (Mode == AtmosMode.GameLoop && Running)
-			{
-				try
-				{
-					AtmosThread.RunStep();
-				}
-				catch (Exception e)
-				{
-					Logger.LogError($"Exception in Atmos Thread! Will no longer mix gases!\n{e.StackTrace}",
-						Category.Atmos);
-					throw;
-				}
-			}
+			EventManager.AddHandler(Event.PostRoundStarted, OnPostRoundStart);
 		}
 
-		public void DoTick()
+		private void OnDisable()
 		{
-			if (StopPipes == false)
-			{
-				pipeList.Iterate(processPipeDelegator);
-			}
+			EventManager.RemoveHandler(Event.PostRoundStarted, OnPostRoundStart);
+			Stop();
+		}
 
-			currentTick = ++currentTick % Steps;
+		private void OnPostRoundStart()
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+
+			atmosThread.StartThread();
+		}
+
+		private void Stop()
+		{
+			atmosThread.StopThread();
+			GasReactions.ResetReactionList();
+			simulation.ClearUpdateList();
+			inGameNewPipes.Clear();
+			inGameFireAlarms.Clear();
+			reactionManagerList.Clear();
 		}
 
 		private void ProcessPipe(PipeData pipeData)
@@ -93,83 +80,9 @@ namespace Systems.Atmospherics
 			pipeList.Remove(pipeData);
 		}
 
-		void OnEnable()
+		public void UpdateNode(MetaDataNode node)
 		{
-			EventManager.AddHandler(EVENT.PostRoundStarted, OnPostRoundStart);
-			EventManager.AddHandler(EVENT.RoundEnded, OnRoundEnd);
-			SceneManager.activeSceneChanged += OnSceneChange;
+			simulation.AddToUpdateList(node);
 		}
-
-		void OnDisable()
-		{
-			EventManager.RemoveHandler(EVENT.PostRoundStarted, OnPostRoundStart);
-			EventManager.RemoveHandler(EVENT.RoundEnded, OnRoundEnd);
-			SceneManager.activeSceneChanged -= OnSceneChange;
-		}
-
-		void OnPostRoundStart()
-		{
-			if (Mode != AtmosMode.Manual)
-			{
-				StartSimulation();
-			}
-		}
-
-		void OnRoundEnd()
-		{
-			AtmosThread.ClearAllNodes();
-			inGameNewPipes.Clear();
-			StopSimulation();
-		}
-
-		private void OnApplicationQuit()
-		{
-			StopSimulation();
-		}
-
-		public void StartSimulation()
-		{
-			if (!CustomNetworkManager.Instance._isServer) return;
-
-			Running = true;
-
-			if (Mode == AtmosMode.Threaded)
-			{
-				AtmosThread.SetSpeed((int)Speed);
-				AtmosThread.Start();
-			}
-		}
-
-		public void StopSimulation()
-		{
-			if (!CustomNetworkManager.Instance._isServer) return;
-
-			Running = false;
-
-			AtmosThread.Stop();
-		}
-
-		public static void SetInternalSpeed()
-		{
-			AtmosThread.SetSpeed((int)Instance.Speed);
-		}
-
-		public static void Update(MetaDataNode node)
-		{
-			AtmosThread.Enqueue(node);
-		}
-
-		void OnSceneChange(Scene oldScene, Scene newScene)
-		{
-			inGameNewPipes.Clear();
-			inGameFireAlarms.Clear();
-		}
-	}
-
-	public enum AtmosMode
-	{
-		Threaded,
-		GameLoop,
-		Manual
 	}
 }

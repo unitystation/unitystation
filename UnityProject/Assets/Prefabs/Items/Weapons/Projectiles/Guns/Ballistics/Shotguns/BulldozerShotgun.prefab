@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8952956248049344528}
   m_RootOrder: 1
@@ -43,6 +44,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -72,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 41
-  m_Sprite: {fileID: 21300002, guid: 8a744ce4a899148499067592fdd98461, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8a744ce4a899148499067592fdd98461, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,10 +101,10 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 969f370ba378d7e479e68212bf295e8f, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &8897308059029132826
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,6 +133,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8952956248049344528}
   m_RootOrder: 2
@@ -146,6 +149,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -202,10 +206,10 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 6345ccfc8983cdd489aa04c42d86260c, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1001 &5984584776123358415
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -249,7 +253,7 @@ PrefabInstance:
         type: 3}
       propertyPath: ammoPrefab
       value: 
-      objectReference: {fileID: 3417397333577640349, guid: 857e3b9968507b6419c8eefb3f1dfd9b,
+      objectReference: {fileID: 5531796456047199634, guid: 98da9a96ac84b28439d4baced674700d,
         type: 3}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
@@ -270,6 +274,11 @@ PrefabInstance:
         type: 3}
       propertyPath: FiringSoundA.AssetAddress
       value: Assets/Prefabs/Weapons/Gun/Shotgun/ShotgunShotAlt.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: loadMagSound.AssetAddress
+      value: Assets/Prefabs/Weapons/Gun/General/GeneralMagInsertFull.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 2297580117821714339, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
@@ -314,7 +323,7 @@ PrefabInstance:
     - target: {fileID: 3365730268199074847, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 1e9a929a33dead54e9b3584af40d2605
       objectReference: {fileID: 0}
     - target: {fileID: 3396079434555916715, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
@@ -375,6 +384,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618752398906396102, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: foreverID
+      value: 1e9a929a33dead54e9b3584af40d2605
       objectReference: {fileID: 0}
     - target: {fileID: 8820110165900900908, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}

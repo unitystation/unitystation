@@ -2,9 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AddressableReferences;
+using Items;
 using Mirror;
 using UnityEngine;
 using UI.Objects.Cargo;
+using Systems.Cargo;
 
 namespace Objects.Cargo
 {
@@ -17,6 +20,11 @@ namespace Objects.Cargo
 
 		[SerializeField]
 		private List<JobType> allowedTypes = null;
+
+		[SerializeField] private AddressableAudioSource creditArrivalSound;
+		private bool soundIsOnCooldown = false;
+
+		[SerializeField] private string offlineMessage = "The console flashes red as an error message appears and says that access is denied.";
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
@@ -40,26 +48,28 @@ namespace Objects.Cargo
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Id))
+			if(CargoOfflineCheck()) return;
+			if (interaction.HandSlot.Item.TryGetComponent<IDCard>(out var id))
 			{
-				CheckID(interaction.HandSlot.Item.GetComponent<IDCard>().JobType, interaction.Performer);
+
+				CheckID(id.JobType, interaction.Performer);
+				return;
 			}
-			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag))
+			Emag mag = interaction.HandSlot.Item.GetComponent<Emag>();
+			if (mag == null || Emagged) return;
+			if (mag.UseCharge(interaction))
 			{
-				//"You adjust the supply console's routing and receiver spectrum, unlocking special supplies and contraband.
 				Emagged = true;
-				if (cargoGUI)
-				{
-					cargoGUI.pageCart.UpdateTab();
-				}
+				CorrectID = true;
+				if (cargoGUI) cargoGUI.pageCart.UpdateTab();
 			}
 		}
 
 		[Server]
 		private void CheckID(JobType usedID, GameObject playeref)
 		{
-			if (cargoGUI == null)
-				return;
+			if (cargoGUI == null) return;
+
 			foreach (var aJob in allowedTypes.Where(aJob => usedID == aJob))
 			{
 				CorrectID = true;
@@ -75,6 +85,31 @@ namespace Objects.Cargo
 			Chat.AddActionMsgToChat(playeref, $"You swipe your ID through the supply console's ID slot, {denyString}",
 				$"{playeref.ExpensiveName()} swiped their ID through the supply console's ID slot");
 
+		}
+
+		public void PlayBudgetUpdateSound()
+		{
+			if(soundIsOnCooldown) return;
+			_ = SoundManager.PlayNetworkedAtPosAsync(creditArrivalSound, gameObject.AssumedWorldPosServer());
+			StartCoroutine(SoundCooldown());
+		}
+
+		public bool CargoOfflineCheck()
+		{
+			if(CargoManager.Instance.CargoOffline)
+			{
+				Chat.AddActionMsgToChat(gameObject, offlineMessage, offlineMessage);
+				return true;
+			}
+
+			return false;
+		}
+
+		private IEnumerator SoundCooldown()
+		{
+			soundIsOnCooldown = true;
+			yield return WaitFor.Seconds(2f);
+			soundIsOnCooldown = false;
 		}
 	}
 }

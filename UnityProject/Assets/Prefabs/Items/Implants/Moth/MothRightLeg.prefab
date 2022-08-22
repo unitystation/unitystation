@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 185805929322484740, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: foreverID
+      value: 0d632ce6050def64a9fd2881bd27e639
+      objectReference: {fileID: 0}
     - target: {fileID: 1110343267396133870, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -28,7 +33,7 @@ PrefabInstance:
     - target: {fileID: 6498312071342856297, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: m_Name
-      value: HumanRightLeg Variant
+      value: MothRightLeg
       objectReference: {fileID: 0}
     - target: {fileID: 6502395519655109917, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
@@ -88,7 +93,12 @@ PrefabInstance:
     - target: {fileID: 6609755923973416413, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0d632ce6050def64a9fd2881bd27e639
+      objectReference: {fileID: 0}
+    - target: {fileID: 6684255344632002315, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: initialName
+      value: moth right leg
       objectReference: {fileID: 0}
     - target: {fileID: 6684255344632002315, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
@@ -99,6 +109,26 @@ PrefabInstance:
         type: 3}
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: DamageThreshold
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: DismembermentChance
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: bodyPartAshesAboveThisDamage
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}

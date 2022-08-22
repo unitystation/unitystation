@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using AdminTools;
-using DatabaseAPI;
 using Messages.Client.Admin;
 using Mirror;
 using UnityEngine.UI;
+
 
 public class PlayerAlertView : ChatEntryView
 {
@@ -49,31 +49,32 @@ public class PlayerAlertView : ChatEntryView
 
 	public void TeleportTo()
 	{
-		if (PlayerManager.PlayerScript != null)
-		{
-			var target = NetworkIdentity.spawned[playerAlertData.playerNetId];
-			if (target != null)
-			{
-				if (!PlayerManager.PlayerScript.IsGhost)
-				{
-					teleportButton.interactable = false;
-					PlayerManager.PlayerScript.playerNetworkActions.CmdAGhost(ServerData.UserID, PlayerList.Instance.AdminToken);
-					cancelSource = new CancellationTokenSource();
-					StartCoroutine(GhostWait(target.gameObject, cancelSource.Token));
+		if (PlayerManager.LocalPlayerScript == null) return;
 
-				}
-				else
-				{
-					PlayerManager.PlayerScript.playerNetworkActions.CmdGhostPerformTeleport(target.transform.position);
-				}
-			}
+		var spawned =
+			CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+
+		var target = spawned[playerAlertData.playerNetId];
+		if (target == null) return;
+
+		if (PlayerManager.LocalPlayerScript.IsGhost == false)
+		{
+			teleportButton.interactable = false;
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAGhost();
+			cancelSource = new CancellationTokenSource();
+			StartCoroutine(GhostWait(target.gameObject, cancelSource.Token));
+		}
+		else
+		{
+			PlayerManager.LocalPlayerObject.GetComponent<GhostMove>()
+				.CMDSetServerPosition(target.transform.position);
 		}
 	}
 
 	IEnumerator GhostWait(GameObject target, CancellationToken cancelToken)
 	{
 		var timeOutCount = 0f;
-		while (PlayerManager.PlayerScript != null && !PlayerManager.PlayerScript.IsGhost)
+		while (PlayerManager.LocalPlayerScript != null && !PlayerManager.LocalPlayerScript.IsGhost)
 		{
 			timeOutCount += Time.deltaTime;
 			if (timeOutCount > 5f || cancelToken.IsCancellationRequested)
@@ -85,9 +86,9 @@ public class PlayerAlertView : ChatEntryView
 		}
 
 		teleportButton.interactable = true;
-		if (PlayerManager.PlayerScript != null && target != null && PlayerManager.PlayerScript.IsGhost)
+		if (PlayerManager.LocalPlayerScript != null && target != null && PlayerManager.LocalPlayerScript.IsGhost)
 		{
-			PlayerManager.PlayerScript.playerNetworkActions.CmdGhostPerformTeleport(target.transform.position);
+			PlayerManager.LocalPlayerObject.GetComponent<GhostMove>().CMDSetServerPosition(target.transform.position);
 		}
 	}
 
@@ -97,5 +98,3 @@ public class PlayerAlertView : ChatEntryView
 		takenCareOfButton.interactable = false;
 	}
 }
-
-

@@ -40,8 +40,16 @@ MonoBehaviour:
         Name: Female
       - bodyType: 0
         Name: Non-Binary
-    SkinColours:
-    - {r: 1, g: 1, b: 1, a: 1}
+    SkinColours: []
     BloodType: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
-    RootImplantProcedure: {fileID: 11400000, guid: 042d01452f7f9ec4aa0e9ca6ea309242,
+    RootImplantProcedure: {fileID: 11400000, guid: 3de247ed9ca572941975e45430051197,
       type: 2}
+    BodyPartsThatShareTheSkinTone: []
+    NumberOfMinutesBeforeStarving: 30
+    TotalToxinGenerationPerSecond: 0.1
+    InternalMetabolismPerSecond: 1
+    ExternalMetabolismPerSecond: 2
+    BodyNutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
+    BodyNaturalToxinReagent: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12,
+      type: 2}
+    ClueString: a short light fuzzy hair

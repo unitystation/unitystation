@@ -10,12 +10,17 @@ PrefabInstance:
     - target: {fileID: 3674494696006091993, guid: 4b15c4fbaeb5864419f3dcd655e88774,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: e677f446d46d23e4c91efd80c9cb8c66
       objectReference: {fileID: 0}
     - target: {fileID: 3704871419419441517, guid: 4b15c4fbaeb5864419f3dcd655e88774,
         type: 3}
       propertyPath: m_Name
       value: ResupplyCanisterChapDrobe
+      objectReference: {fileID: 0}
+    - target: {fileID: 3709236342704194585, guid: 4b15c4fbaeb5864419f3dcd655e88774,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3709236342704194585, guid: 4b15c4fbaeb5864419f3dcd655e88774,
         type: 3}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3709236342704194585, guid: 4b15c4fbaeb5864419f3dcd655e88774,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3709236342704194585, guid: 4b15c4fbaeb5864419f3dcd655e88774,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3709236342704194585, guid: 4b15c4fbaeb5864419f3dcd655e88774,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3709236342704194585, guid: 4b15c4fbaeb5864419f3dcd655e88774,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3709236342704194585, guid: 4b15c4fbaeb5864419f3dcd655e88774,
         type: 3}
@@ -74,13 +74,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3857265294384027151, guid: 4b15c4fbaeb5864419f3dcd655e88774,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 1
+      propertyPath: initialName
+      value: ChapDrobe restocking unit
       objectReference: {fileID: 0}
     - target: {fileID: 3857265294384027151, guid: 4b15c4fbaeb5864419f3dcd655e88774,
         type: 3}
-      propertyPath: initialName
-      value: ChapDrobe restocking unit
+      propertyPath: initialTraits.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3857265294384027151, guid: 4b15c4fbaeb5864419f3dcd655e88774,
         type: 3}
@@ -88,5 +88,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4a4fb25ef45374845a93c51ee0460aac,
         type: 2}
+    - target: {fileID: 7768956786498188544, guid: 4b15c4fbaeb5864419f3dcd655e88774,
+        type: 3}
+      propertyPath: foreverID
+      value: e677f446d46d23e4c91efd80c9cb8c66
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b15c4fbaeb5864419f3dcd655e88774, type: 3}

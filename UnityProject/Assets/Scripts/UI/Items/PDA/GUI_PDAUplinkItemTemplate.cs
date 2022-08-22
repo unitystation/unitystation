@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
+using UI.Core.NetUI;
 
 namespace UI.Items.PDA
 {
 	public class GUI_PDAUplinkItemTemplate : DynamicEntry
 	{
 		[SerializeField]
-		private NetLabel itemName = null;
+		private NetText_label itemName = null;
 		[SerializeField]
-		private NetLabel itemCost = null;
+		private NetText_label itemCost = null;
 
 		private GUI_PDAUplinkItem itemPage = null;
 		private UplinkItem item;

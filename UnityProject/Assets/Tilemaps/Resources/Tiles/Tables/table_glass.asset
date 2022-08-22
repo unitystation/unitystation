@@ -13,19 +13,29 @@ MonoBehaviour:
   m_Name: table_glass
   m_EditorClassIdentifier: 
   displayName: 
+  description: 
   LayerType: 9
   TileType: 4
   RequiredTiles: []
-  floorTileType: 0
+  floorTileSounds: {fileID: 0}
+  CanSoundOverride: 0
   atmosPassable: 1
   isSealed: 0
   SpawnWithNoAir: 0
   passable: 0
   mineable: 0
+  miningTime: 5
+  constructable: 1
+  RadiationPassability: 1
+  ThermalConductivity: 0.05
+  HeatCapacity: 10000
   doesReflectBullet: 0
+  indestructible: 0
+  ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
-    m_keys: 02000000
-    m_values: 01
+    m_keys: 0200000003000000
+    m_values: 0101
   maxHealth: 70
   damageDeflection: 0
   armor:
@@ -39,14 +49,28 @@ MonoBehaviour:
     Acid: 100
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: 60c558a8dfbf4ee4e8225a3484933424, type: 2}
   - {fileID: 11400000, guid: fc968a68963834c05a67838fe15fedec, type: 2}
+  - {fileID: 11400000, guid: 3aa4d5af2288ea1449aa0d183fe484a5, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 8579127030982015588, guid: 66a5287d0bf216847a2f4fe34228a0cf,
     type: 3}
   spawnAmountOnDeconstruct: 2
   lootOnDespawn: {fileID: 11400000, guid: 2fad2125ace992148ab83979ad84ec66, type: 2}
-  soundOnHit: 
+  toTileWhenDestroyed: {fileID: 0}
+  spawnOnDestroy: {fileID: 11400000, guid: bff4a7f1af3f56a498a49154ee69de68, type: 2}
+  damageOverlayList: {fileID: 0}
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  SoundOnDestroy: []
   connectCategory: 2
   connectType: 1
   spriteSheet:

@@ -80,7 +80,7 @@ PrefabInstance:
     - target: {fileID: 951152395019604039, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0864b6bda1cfe4b4390cb0157d95829e
       objectReference: {fileID: 0}
     - target: {fileID: 1033272737750900399, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
@@ -88,18 +88,36 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: d7a57704f4173c84daae492b9c3ef689,
         type: 3}
+    - target: {fileID: 3980457662688195350, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.DismembermentProtectionChance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3980457662688195350, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.DismembermentProtectionChance
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3980457662688195350, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.DismembermentProtectionChance
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6061177061013348766, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
+      propertyPath: foreverID
+      value: 0864b6bda1cfe4b4390cb0157d95829e
+      objectReference: {fileID: 0}
     - target: {fileID: 6114237942327262838, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 7f36dd18648bd4d48932b3008021520d,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 6114237942327262838, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 7f36dd18648bd4d48932b3008021520d,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 6114237942327262838, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

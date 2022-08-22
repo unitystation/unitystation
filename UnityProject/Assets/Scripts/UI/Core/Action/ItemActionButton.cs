@@ -7,7 +7,7 @@ using NaughtyAttributes;
 
 namespace UI.Action
 {
-	public class ItemActionButton : NetworkBehaviour, IServerActionGUI, IClientInventoryMove
+	public class ItemActionButton : NetworkBehaviour, IServerActionGUI, IServerInventoryMove, IOnPlayerLeaveBody, IOnPlayerTransfer
 	{
 		[Tooltip("The button action data SO this component should use.")]
 		[SerializeField]
@@ -37,13 +37,16 @@ namespace UI.Action
 
 			if(useSpriteHandler)
 			{
-				spriteHandler.OnSpriteDataSOChanged += SpriteHandlerSOChanged;
+				if (isServer)
+				{
+					spriteHandler.OnSpriteDataSOChanged += so => SpriteHandlerSOChanged(so);
+				}
 			}
 		}
 
 		private void SpriteHandlerSOChanged(SpriteDataSO obj)
 		{
-			UIActionManager.SetSpriteSO(this, spriteHandler.GetCurrentSpriteSO(), false, spriteHandler.Palette);
+			UIActionManager.SetServerSpriteSO(this, obj, spriteHandler.Palette);
 		}
 
 		public void CallActionClient()
@@ -51,83 +54,83 @@ namespace UI.Action
 			if (Validations.CanInteract(PlayerManager.LocalPlayerScript, NetworkSide.Client, allowSoftCrit: true))
 			{
 				ClientActionClicked?.Invoke();
-				UpdateButtonSprite(false);
 			}
 		}
 
-		public void CallActionServer(ConnectedPlayer SentByPlayer)
+		public void CallActionServer(PlayerInfo playerInfo)
 		{
-			if (Validations.CanInteract(SentByPlayer.GameObject, NetworkSide.Server, allowSoftCrit: true))
+			if (Validations.CanInteract(playerInfo.Script , NetworkSide.Server, true))
 			{
 				ServerActionClicked?.Invoke();
 				UpdateButtonSprite(true);
 			}
 		}
 
-		public void OnInventoryMoveClient(ClientInventoryMove info)
-		{
-			bool shouldShow = ShouldShowButton(info);
-			ClientSetActionButtonVisibility(shouldShow);
+		public Mind PreviouslyOn;
 
-			if (PlayerManager.LocalPlayerScript == null || PlayerManager.LocalPlayerScript.playerHealth == null) return;
-			if (shouldShow)
+		public void OnInventoryMoveServer(InventoryMove info)
+		{
+			if (info.ToPlayer != null)
 			{
-				PlayerManager.LocalPlayerScript.playerHealth.OnDeathNotifyEvent += OnDeath;
+				var showAlert = ShowAlert();
+
+				if (showAlert == false && PreviouslyOn != null)
+				{
+					UIActionManager.ToggleServer(PreviouslyOn, this, false);
+					PreviouslyOn = null;
+				}
+
+				if (showAlert && PreviouslyOn == null)
+				{
+					UIActionManager.ToggleServer(info.ToPlayer.PlayerScript.mind, this, true);
+					UIActionManager.SetServerSpriteSO(this, spriteHandler.GetCurrentSpriteSO(), spriteHandler.Palette);
+					PreviouslyOn = info.ToPlayer.PlayerScript.mind;
+				}
+			}
+			else if (PreviouslyOn != null)
+			{
+				UIActionManager.ToggleServer(PreviouslyOn, this, false);
+				PreviouslyOn = null;
+			}
+		}
+
+		private bool ShowAlert()
+		{
+			bool showAlert;
+			if (pickupable.ItemSlot.NamedSlot == null)
+			{
+				showAlert = false;
 			}
 			else
 			{
-				PlayerManager.LocalPlayerScript.playerHealth.OnDeathNotifyEvent -= OnDeath;
+				showAlert = (allowedSlots.HasFlag(ItemSlot.GetFlaggedSlot(pickupable.ItemSlot.NamedSlot.Value)));
 			}
-		}
 
-		public void ClientSetActionButtonVisibility(bool isVisible)
-		{
-			if (isVisible)
-			{
-				ClientShowActionButton();
-			}
-			else
-			{
-				ClientHideActionButton();
-			}
-		}
-
-		public void ClientShowActionButton()
-		{
-			UIActionManager.ToggleLocal(this, true);
-			UpdateButtonSprite(false);
-		}
-
-		public void ClientHideActionButton()
-		{
-			UIActionManager.ToggleLocal(this, false);
-		}
-
-		private bool ShouldShowButton(ClientInventoryMove info)
-		{
-			// Check if we are in an inventory
-			if (info.ClientInventoryMoveType == ClientInventoryMoveType.Removed) return false;
-			// ... we are not on a player
-			if (pickupable.ItemSlot.Player == null) return false;
-			// ... not the client that owns this object
-			if (pickupable.ItemSlot.LocalUISlot == null) return false;
-			// ... item is not in an allowed slot
-			if (!allowedSlots.HasFlag(ItemSlot.GetFlaggedSlot(pickupable.ItemSlot.NamedSlot.Value))) return false;
-
-			return true;
-		}
-
-		private void OnDeath()
-		{
-			ClientHideActionButton();
+			return showAlert;
 		}
 
 		private void UpdateButtonSprite(bool isServer)
 		{
 			if (useSpriteHandler)
 			{
-				UIActionManager.SetSpriteSO(this, spriteHandler.GetCurrentSpriteSO(), networked: isServer, palette: spriteHandler.Palette );
+				UIActionManager.SetServerSpriteSO(this, spriteHandler.GetCurrentSpriteSO(), palette: spriteHandler.Palette );
 			}
+		}
+
+		public void OnPlayerLeaveBody(Mind mind)
+		{
+			UIActionManager.ToggleServer(mind, this, false);
+			PreviouslyOn = null;
+		}
+
+		public void OnPlayerTransfer(Mind mind)
+		{
+			if (ShowAlert())
+			{
+				UIActionManager.ToggleServer(mind, this, true);
+			}
+
+			PreviouslyOn = mind;
 		}
 	}
 }

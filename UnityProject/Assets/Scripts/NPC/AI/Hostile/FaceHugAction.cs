@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Clothing;
 using UnityEngine;
 using Doors;
@@ -15,22 +16,28 @@ namespace Systems.MobAIs
 {
 	public class FaceHugAction : MobMeleeAction
 	{
-		[SerializeField] private GameObject maskObject = null;
+		[SerializeField]
+		private GameObject maskObject = null;
+
 		public GameObject MaskObject {get{return maskObject;}}
-		[FormerlySerializedAs("Bite")] [SerializeField] private AddressableAudioSource bite = null;
 
-		protected override void ActOnLivingV2(Vector3 dir, LivingHealthMasterBase healthBehaviour)
+		[FormerlySerializedAs("Bite")] [SerializeField]
+		private AddressableAudioSource bite = null;
+
+		protected override void ActOnLivingV2(Vector3 dir, LivingHealthMasterBase livingHealth)
 		{
-			TryFacehug(dir, healthBehaviour);
+			TryFacehug(dir, livingHealth);
 		}
-		private void TryFacehug(Vector3 dir, LivingHealthMasterBase player)
-		{
-			var playerInventory = player.gameObject.GetComponent<PlayerScript>()?.Equipment;
 
-			if (playerInventory == null)
-			{
-				return;
-			}
+		private void TryFacehug(Vector3 dir, LivingHealthMasterBase livingHealth)
+		{
+			if (livingHealth.gameObject.TryGetComponent<PlayerScript>(out var playerScript) == false) return;
+
+			if(playerScript.PlayerType == PlayerTypes.Alien) return;
+
+			var playerInventory = playerScript.Equipment;
+
+			if (playerInventory == null) return;
 
 			string verb;
 			bool success;
@@ -50,18 +57,18 @@ namespace Systems.MobAIs
 
 			Chat.AddAttackMsgToChat(
 				gameObject,
-				player.gameObject,
+				livingHealth.gameObject,
 				BodyPartType.Head,
 				null,
 				verb);
 
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
-			SoundManager.PlayNetworkedAtPos(bite, player.gameObject.RegisterTile().WorldPositionServer,
-				audioSourceParameters, true, player.gameObject);
+			SoundManager.PlayNetworkedAtPos(bite, livingHealth.gameObject.RegisterTile().WorldPositionServer,
+				audioSourceParameters, true, livingHealth.gameObject);
 
 			if (success)
 			{
-				RegisterPlayer registerPlayer = player.gameObject.GetComponent<RegisterPlayer>();
+				RegisterPlayer registerPlayer = livingHealth.gameObject.GetComponent<RegisterPlayer>();
 				Facehug(playerInventory, registerPlayer);
 			}
 
@@ -71,12 +78,17 @@ namespace Systems.MobAIs
 			var result = Spawn.ServerPrefab(maskObject);
 			var mask = result.GameObject;
 
-			Inventory.ServerAdd(
-				mask,
-				playerInventory.ItemStorage.GetNamedItemSlot(NamedSlot.mask),
-				ReplacementStrategy.DespawnOther);
+			foreach (var itemSlot in playerInventory.ItemStorage.GetNamedItemSlots(NamedSlot.mask))
+			{
+				Inventory.ServerAdd(
+					mask,
+					itemSlot,
+					ReplacementStrategy.DespawnOther);
+				break;
+			}
 
-			Despawn.ServerSingle(gameObject);
+
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		/// <summary>
@@ -85,39 +97,53 @@ namespace Systems.MobAIs
 		/// </summary>
 		/// <param name="equipment"></param>
 		/// <returns>True if the player is protected against huggers, false it not</returns>
-		private bool HasAntihuggerItem(Equipment equipment)
+		public static bool HasAntihuggerItem(Equipment equipment)
 		{
 			bool antiHugger = false;
+			bool doubleBreak = false;
 
-			foreach (var slot in faceSlots)
+			foreach (var slot in FaceSlots)
 			{
-				var item = equipment.ItemStorage.GetNamedItemSlot(slot)?.Item;
-				if (item == null || item.gameObject == null)
+				foreach (var itemSlot in equipment.ItemStorage.GetNamedItemSlots(slot))
 				{
-					continue;
+					var item = itemSlot?.Item;
+					if (item == null || item.gameObject == null)
+					{
+						continue;
+					}
+
+					if (!Validations.HasItemTrait(item.gameObject, CommonTraits.Instance.AntiFacehugger))
+					{
+						Inventory.ServerDrop(itemSlot);
+					}
+					else
+					{
+						var integrity = item.gameObject.GetComponent<Integrity>();
+						if (integrity != null)
+						{
+							// Your protection might break!
+							integrity.ApplyDamage(7.5f, AttackType.Melee, DamageType.Brute);
+						}
+
+						doubleBreak = true;
+						antiHugger = true;
+						break;
+					}
 				}
 
-				if (!Validations.HasItemTrait(item.gameObject, CommonTraits.Instance.AntiFacehugger))
+				if (doubleBreak)
 				{
-					Inventory.ServerDrop(equipment.ItemStorage.GetNamedItemSlot(slot));
+					break;
 				}
-				else
-				{
-					var integrity = item.gameObject.GetComponent<Integrity>();
-					if (integrity != null)
-					{
-						// Your protection might break!
-						integrity.ApplyDamage(7.5f, AttackType.Melee, DamageType.Brute);
-					}
-					antiHugger = true;
-				}
+
 			}
 			return antiHugger;
 		}
-		private readonly List<NamedSlot> faceSlots = new List<NamedSlot>()
+
+		private static readonly List<NamedSlot> FaceSlots = new List<NamedSlot>
 		{
-			NamedSlot.eyes,
 			NamedSlot.head,
+			NamedSlot.eyes,
 			NamedSlot.mask
 		};
 	}

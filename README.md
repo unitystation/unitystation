@@ -1,7 +1,6 @@
 # unitystation
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/052e45816e6d46b8bc12b7e07bc021a5)](https://www.codacy.com/gh/unitystation/unitystation/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=unitystation/unitystation&amp;utm_campaign=Badge_Grade)
-[![Tests](https://github.com/unitystation/unitystation/workflows/Tests/badge.svg)](https://github.com/unitystation/unitystation/actions?query=workflow%3ATests)
-[![Build Project](https://github.com/unitystation/unitystation/workflows/Build%20Project/badge.svg?branch=develop)](https://github.com/unitystation/unitystation/actions?query=workflow%3ABuild+branch%3Adevelop)
+[![Tests](https://github.com/unitystation/unitystation/actions/workflows/test.yml/badge.svg)](https://github.com/unitystation/unitystation/actions/workflows/test.yml)
 [![GitHub last commit](https://img.shields.io/github/last-commit/unitystation/unitystation.svg)](https://github.com/unitystation/unitystation/commits/develop)
 [![Discord](https://img.shields.io/discord/273774715741667329.svg)](https://discord.gg/H6EunER)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
@@ -24,7 +23,7 @@ Please join us on Discord:
 ## Feel like getting involved?
 Read our Quick Start guide [here](https://unitystation.github.io/unitystation/contribution-guides/Starting-contribution/)
 1. [Get Unity Hub](https://unity3d.com/get-unity/download)
-2. Install editor version **2020.1.17f1**
+2. Install editor version **2021.3.0f1 LTS**
 3. Fork the repo
 4. Add your changes
 5. Read the contribution guidelines
@@ -38,7 +37,8 @@ All code before [commit 44695c862d6d84cfc99354d6dfba1f0b70f20407 on 2017/03/12 a
 _If you have committed code to this repository before this time, please contact us if you want your code distributed under GNU AGPL v3 instead_
 (Including tools unless their readme specifies otherwise.)
 
-See [LICENCE](https://github.com/unitystation/unitystation/blob/develop/LICENSE) and [GPLv3.txt](https://github.com/unitystation/unitystation/blob/develop/docs/GPLv3.txt) for more details.  
-![cc-by-nd](http://forthebadge.com/images/badges/cc-by-nd.svg)
+See [LICENCE](https://github.com/unitystation/unitystation/blob/develop/LICENSE) for more details.  
 
 All assets including icons and sound are under a [Creative Commons 3.0 BY-SA license](https://creativecommons.org/licenses/by-sa/3.0/) unless otherwise indicated.
+
+[![cc-by-sa](https://img.shields.io/badge/License-CC%20BY--SA%203.0-green.svg)](https://creativecommons.org/licenses/by-sa/3.0/)

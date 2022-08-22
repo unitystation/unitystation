@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: SausagePizzaRecipe
+  m_EditorClassIdentifier: 
+  category: 14
+  craftingTime: 3
+  recipeName: Sausage Pizza
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 1449470387542250284, guid: 41220ca24fe3798478f533c5f8102248,
+      type: 3}
+  - requiredAmount: 3
+    requiredItem: {fileID: 7817552169887828174, guid: 36006112e2a486147a7d18112e1cacd0,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 4912214335510186018, guid: be31518b02dec6e459cc5ac4a4398ded,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 455902390153094336, guid: 454947e247b8d27408f72041e753e7be,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits: []
+  result:
+  - {fileID: 4210522598976347836, guid: b7115b784ecf9894d8d5d60c1c290269, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 9

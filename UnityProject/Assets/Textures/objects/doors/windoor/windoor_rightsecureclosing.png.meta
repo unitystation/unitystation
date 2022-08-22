@@ -87,7 +87,7 @@ TextureImporter:
       213: 21300054
     second: rightsecureclosing_27
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -107,6 +107,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -116,8 +118,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -138,9 +140,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -767,6 +773,35 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      rightsecureclosing_15: 21300030
+      rightsecureclosing_26: 21300052
+      rightsecureclosing_25: 21300050
+      rightsecureclosing_12: 21300024
+      rightsecureclosing_19: 21300038
+      rightsecureclosing_4: 21300008
+      rightsecureclosing_23: 21300046
+      rightsecureclosing_14: 21300028
+      rightsecureclosing_20: 21300040
+      rightsecureclosing_11: 21300022
+      rightsecureclosing_17: 21300034
+      rightsecureclosing_0: 21300000
+      rightsecureclosing_24: 21300048
+      rightsecureclosing_1: 21300002
+      rightsecureclosing_10: 21300020
+      rightsecureclosing_5: 21300010
+      rightsecureclosing_7: 21300014
+      rightsecureclosing_16: 21300032
+      rightsecureclosing_6: 21300012
+      rightsecureclosing_18: 21300036
+      rightsecureclosing_9: 21300018
+      rightsecureclosing_2: 21300004
+      rightsecureclosing_27: 21300054
+      rightsecureclosing_8: 21300016
+      rightsecureclosing_21: 21300042
+      rightsecureclosing_13: 21300026
+      rightsecureclosing_3: 21300006
+      rightsecureclosing_22: 21300044
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -4,6 +4,8 @@ using UnityEngine;
 using Mirror;
 using Systems.Explosions;
 using AddressableReferences;
+using Messages.Server.SoundMessages;
+using Objects;
 
 namespace Items.Weapons
 {
@@ -11,7 +13,7 @@ namespace Items.Weapons
 	/// Generic grenade base.
 	/// </summary>
 	[RequireComponent(typeof(Pickupable))]
-	public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, IServerDespawn
+	public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, IServerDespawn, ITrapComponent
 	{
 		[Tooltip("Explosion effect prefab, which creates when timer ends")]
 		public ExplosionComponent explosionPrefab;
@@ -40,12 +42,12 @@ namespace Items.Weapons
 
 		//this object's registerObject
 		private RegisterItem registerItem;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectPhysics;
 
 		private void Start()
 		{
 			registerItem = GetComponent<RegisterItem>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectPhysics = GetComponent<UniversalObjectPhysics>();
 
 			// Set grenade to locked state by default
 			UpdateSprite(LOCKED_SPRITE);
@@ -77,7 +79,7 @@ namespace Items.Weapons
 				return;
 
 			// Toggle the throw action after activation
-			if (interaction.Performer == PlayerManager.LocalPlayer)
+			if (interaction.Performer == PlayerManager.LocalPlayerObject)
 			{
 				UIManager.Action.Throw();
 			}
@@ -92,7 +94,7 @@ namespace Items.Weapons
 			{
 				timerRunning = true;
 				UpdateTimer(timerRunning);
-				PlayPinSFX(originator.transform.position);
+				PlayPinSFX(originator.AssumedWorldPosServer());
 
 				if (unstableFuse)
 				{
@@ -140,29 +142,21 @@ namespace Items.Weapons
 			{
 				// Get data from grenade before despawning
 				var explosionMatrix = registerItem.Matrix;
-				var worldPos = objectBehaviour.AssumedWorldPositionServer();
-
-				// If the grenade was in a closet before despawning it,
-				// it would be useful to remove it from the closet item list to avoid NullReferenceExceptions
-				ClosetControl closetControl = null;
-				if ((objectBehaviour.parentContainer != null) && (objectBehaviour.parentContainer.TryGetComponent(out closetControl)))
-				{
-					closetControl.ServerHeldItems.Remove(objectBehaviour);
-				}
+				var worldPos = objectPhysics.registerTile.WorldPosition;
 
 				// Despawn grenade
-				Despawn.ServerSingle(gameObject);
+				_ = Despawn.ServerSingle(gameObject);
 
 				// Explosion here
 				var explosionGO = Instantiate(explosionPrefab, explosionMatrix.transform);
 				explosionGO.transform.position = worldPos;
-				explosionGO.Explode(explosionMatrix);
+				explosionGO.Explode();
 			}
 		}
 
 		private void PlayPinSFX(Vector3 position)
 		{
-			SoundManager.PlayNetworkedAtPos(armbomb, position, sourceObj: gameObject);
+			_ = SoundManager.PlayNetworkedAtPosAsync(armbomb, position);
 		}
 
 		private void UpdateTimer(bool timerRunning)
@@ -184,15 +178,15 @@ namespace Items.Weapons
 
 		}
 
-#if UNITY_EDITOR
-		/// <summary>
-		/// Used only for debug in editor
-		/// </summary>
 		[ContextMenu("Pull a pin")]
 		private void PullPin()
 		{
 			StartCoroutine(TimeExplode(gameObject));
 		}
-#endif
+
+		public void TriggerTrap()
+		{
+			PullPin();
+		}
 	}
 }

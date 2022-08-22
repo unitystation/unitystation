@@ -12,10 +12,25 @@ PrefabInstance:
       propertyPath: bodyPartsCovered
       value: 112
       objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 548b2e942a9ec6d69af3374e3be7dd50,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 548b2e942a9ec6d69af3374e3be7dd50,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armoringBodyPartType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 548b2e942a9ec6d69af3374e3be7dd50,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[4].armoringBodyPartType
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2909197017712554513, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 6f5212571bb81a544ae4c46c8960a0f8
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
@@ -83,6 +98,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 98c44e6f8ba3c574c8246e0e3e6f93fd,
         type: 3}
+    - target: {fileID: 3332854615132767859, guid: 548b2e942a9ec6d69af3374e3be7dd50,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3332854615132767859, guid: 548b2e942a9ec6d69af3374e3be7dd50,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 19330cbb75880b04494c6988d7a8381d,
+        type: 2}
     - target: {fileID: 3397443007502491847, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
       propertyPath: initialName
@@ -93,18 +119,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: The uniform of a bygone institute of learning.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: 548b2e942a9ec6d69af3374e3be7dd50,
+        type: 3}
+      propertyPath: foreverID
+      value: 6f5212571bb81a544ae4c46c8960a0f8
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 07ee11881cad43d40b730ef7217b3ead,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 07ee11881cad43d40b730ef7217b3ead,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
       propertyPath: hideClothingFlags

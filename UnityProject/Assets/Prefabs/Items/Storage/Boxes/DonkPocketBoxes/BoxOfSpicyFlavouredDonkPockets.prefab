@@ -7,21 +7,37 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1598802539592424413, guid: 160baf50e4a27c24a8c1f40b3232c886,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a8e76006c20364a439638c242eb704c1,
+        type: 2}
     - target: {fileID: 3565510291699974393, guid: 160baf50e4a27c24a8c1f40b3232c886,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 82e98271fe381704e8d30d5bb2552cf2,
         type: 3}
+    - target: {fileID: 3611493419046441529, guid: 160baf50e4a27c24a8c1f40b3232c886,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 5552734359730988329}
     - target: {fileID: 3611601839509589521, guid: 160baf50e4a27c24a8c1f40b3232c886,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b2635e9d9a9147f499bb49f9e17c6acd
       objectReference: {fileID: 0}
     - target: {fileID: 3714002003377255333, guid: 160baf50e4a27c24a8c1f40b3232c886,
         type: 3}
       propertyPath: m_Name
       value: BoxOfSpicyFlavouredDonkPockets
+      objectReference: {fileID: 0}
+    - target: {fileID: 3718085451752902353, guid: 160baf50e4a27c24a8c1f40b3232c886,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3718085451752902353, guid: 160baf50e4a27c24a8c1f40b3232c886,
         type: 3}
@@ -40,6 +56,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3718085451752902353, guid: 160baf50e4a27c24a8c1f40b3232c886,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3718085451752902353, guid: 160baf50e4a27c24a8c1f40b3232c886,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +73,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3718085451752902353, guid: 160baf50e4a27c24a8c1f40b3232c886,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3718085451752902353, guid: 160baf50e4a27c24a8c1f40b3232c886,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3718085451752902353, guid: 160baf50e4a27c24a8c1f40b3232c886,
         type: 3}
@@ -89,10 +100,33 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6a7081d815a6dc5468fc356b55049035,
         type: 2}
+    - target: {fileID: 4535470444308916549, guid: 160baf50e4a27c24a8c1f40b3232c886,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7407530865711990818, guid: 160baf50e4a27c24a8c1f40b3232c886,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
+      objectReference: {fileID: 11400000, guid: 93cc3fb9120f3404eb4812eb1ef10c15,
+        type: 2}
+    - target: {fileID: 7723797334500868040, guid: 160baf50e4a27c24a8c1f40b3232c886,
+        type: 3}
+      propertyPath: foreverID
+      value: b2635e9d9a9147f499bb49f9e17c6acd
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 160baf50e4a27c24a8c1f40b3232c886, type: 3}
+--- !u!114 &5552734359730988329 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3611718007549288053, guid: 160baf50e4a27c24a8c1f40b3232c886,
+    type: 3}
+  m_PrefabInstance: {fileID: 9155853361688640348}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

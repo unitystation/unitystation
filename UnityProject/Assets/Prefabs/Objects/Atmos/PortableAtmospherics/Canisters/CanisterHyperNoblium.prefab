@@ -7,10 +7,51 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1821887108050511433, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: foreverID
+      value: e6c8f407b1811b744ab4215eedc56930
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.Volume
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
       propertyPath: Gases.Array.data[11]
       value: 1846.242
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.Pressure
+      value: 4500.0005
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.Temperature
+      value: 293.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].GasSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 11e42acdbb1ebba44973680d44d95653,
+        type: 2}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].Moles
+      value: 1846.242
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].GasType
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 3267766569577888791, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
@@ -18,6 +59,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 62f0092e8f2f9164fb43e599a1fc4fb5,
         type: 3}
+    - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -35,6 +81,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +98,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
@@ -80,28 +121,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5376367218187274032, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: initialDescription
-      value: Hyper-Noblium. More noble than all other gases.
-      objectReference: {fileID: 0}
-    - target: {fileID: 5376367218187274032, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
       propertyPath: initialName
       value: hyper-noblium canister
       objectReference: {fileID: 0}
+    - target: {fileID: 5376367218187274032, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: initialDescription
+      value: Hyper-Noblium. More noble than all other gases.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6261382944912570440, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 5422937105986886418}
     - target: {fileID: 6621590264234028386, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: UIBGTint.r
-      value: 0.098039225
-      objectReference: {fileID: 0}
-    - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: UIBGTint.g
-      value: 0.72156864
+      value: e6c8f407b1811b744ab4215eedc56930
       objectReference: {fileID: 0}
     - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
@@ -110,13 +146,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: UIInnerPanelTint.r
-      value: 0.5019608
+      propertyPath: UIBGTint.g
+      value: 0.72156864
       objectReference: {fileID: 0}
     - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: UIInnerPanelTint.g
-      value: 0.8862746
+      propertyPath: UIBGTint.r
+      value: 0.098039225
+      objectReference: {fileID: 0}
+    - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: ContentsName
+      value: Hyper-Noblium
       objectReference: {fileID: 0}
     - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
@@ -125,8 +166,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: ContentsName
-      value: Hyper-Noblium
+      propertyPath: UIInnerPanelTint.g
+      value: 0.8862746
+      objectReference: {fileID: 0}
+    - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: UIInnerPanelTint.r
+      value: 0.5019608
       objectReference: {fileID: 0}
     - target: {fileID: 7811982109262590682, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
@@ -148,3 +194,9 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0e96760c016b6140ba8c3979e9213f7, type: 3}
+--- !u!210 &5422937105986886418 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 69088610438818992, guid: c0e96760c016b6140ba8c3979e9213f7,
+    type: 3}
+  m_PrefabInstance: {fileID: 5455925308305258402}
+  m_PrefabAsset: {fileID: 0}

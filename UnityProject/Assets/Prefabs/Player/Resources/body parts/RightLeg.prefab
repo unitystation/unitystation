@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2176706412531517369}
-  - component: {fileID: 4122681959148068511}
   - component: {fileID: 40188319599867987}
   - component: {fileID: 8110462367333746613}
   m_Layer: 8
@@ -29,33 +28,11 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4122681959148068511
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1881577608003220358}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7763c616bb0554240a552b5d0ff05b3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  healthMaster: {fileID: 0}
-  optionalOrgans: []
-  BodyPartType: 4
-  ItemStorage: {fileID: 40188319599867987}
-  PlayerSprites: {fileID: 0}
-  PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
-    type: 3}
-  ContainsLimbs: []
-  SerialisedNetIDs: 
 --- !u!114 &40188319599867987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,10 +50,13 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 85a98e52d37b73846953062eec2127ff,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 1
+  dropItemsOnDespawn: 0
   UesAddlistPopulater: 1
   Populater:
-    MergeMode: 0
-    Contents: []
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}
 --- !u!114 &8110462367333746613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,7 +69,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
   sceneId: 0
   serverOnly: 0
-  m_AssetId: 
+  visible: 0
+  m_AssetId: 436eee3e7f30f2b4987a0b90cbc5bd69
+  hasSpawned: 0

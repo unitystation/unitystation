@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2909197017712554513, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: f35d0866de924544cb77825bf36fad17
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
@@ -88,18 +88,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Some tan pants. You look like a white collar worker with these on.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: db6925c2066e4fb49a396bacd6dc7552,
+        type: 3}
+      propertyPath: foreverID
+      value: f35d0866de924544cb77825bf36fad17
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 65bdbeace8888394fb418d6f6a53a334,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 65bdbeace8888394fb418d6f6a53a334,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

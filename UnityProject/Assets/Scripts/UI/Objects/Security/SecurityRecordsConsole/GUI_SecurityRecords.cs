@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UI.Core.NetUI;
 using Objects.Security;
+using Systems.Clearance;
 
 namespace UI.Objects.Security
 {
@@ -14,7 +16,7 @@ namespace UI.Objects.Security
 		[SerializeField]
 		private GUI_SecurityRecordsEntryPage entryPage = null;
 		[SerializeField]
-		private NetLabel idText = null;
+		private NetText_label idText = null;
 		private SecurityRecordsConsole console;
 
 		public override void OnEnable()
@@ -54,21 +56,29 @@ namespace UI.Objects.Security
 			}
 		}
 
-		public void RemoveId()
+		public void RemoveId(PlayerInfo player)
 		{
 			if (console.IdCard)
 			{
-				console.ServerRemoveIDCard();
+				console.ServerRemoveIDCard(player);
+				UpdateScreen();
+			}
+			else if (IsAIInteracting())
+			{
 				UpdateScreen();
 			}
 		}
 
-		public void UpdateIdText(NetLabel labelToSet)
+		public void UpdateIdText(NetText_label labelToSet)
 		{
 			var IdCard = console.IdCard;
 			if (IdCard)
 			{
-				labelToSet.SetValueServer($"{IdCard.RegisteredName}, {IdCard.JobType.ToString()}");
+				labelToSet.SetValueServer($"{IdCard.RegisteredName}, {IdCard.GetJobTitle()}");
+			}
+			else if (IsAIInteracting())
+			{
+				labelToSet.SetValueServer("AI Control");
 			}
 			else
 			{
@@ -78,7 +88,7 @@ namespace UI.Objects.Security
 
 		public void LogIn()
 		{
-			if (console.IdCard == null || !console.IdCard.HasAccess(Access.security))
+			if ((console.IdCard == null || console.IdCard.HasAccess(Clearance.Security) == false) && IsAIInteracting() == false)
 			{
 				return;
 			}
@@ -112,6 +122,7 @@ namespace Objects.Security
 	{
 		None,
 		Arrest,
+		Criminal,
 		Parole
 	}
 
@@ -128,7 +139,7 @@ namespace Objects.Security
 		public SecurityStatus Status;
 		public List<SecurityRecordCrime> Crimes;
 		public Occupation Occupation;
-		public CharacterSettings characterSettings;
+		public CharacterSheet characterSettings;
 
 		public SecurityRecord()
 		{

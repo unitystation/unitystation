@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d529031dd9699b34484b72e1f74ec41a,
         type: 2}
+    - target: {fileID: 1090811781821981693, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
+      propertyPath: foreverID
+      value: fbc155f6d8ab45d4fb0e0dc600b79f12
+      objectReference: {fileID: 0}
     - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
       propertyPath: initialName
@@ -28,6 +33,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Capable of cutting clean through a holy claymore.
       objectReference: {fileID: 0}
+    - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
+      propertyPath: traumaDamageChance
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
+      propertyPath: traumaticDamageType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6154199615781592268, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
       propertyPath: m_Sprite
@@ -37,7 +57,7 @@ PrefabInstance:
     - target: {fileID: 6200854109258175012, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: fbc155f6d8ab45d4fb0e0dc600b79f12
       objectReference: {fileID: 0}
     - target: {fileID: 6307973308067386084, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
@@ -103,14 +123,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 7bc36a4f3d7f2cb4ba9bd33d3b6bdbe5,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7556420510665103617, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 7bc36a4f3d7f2cb4ba9bd33d3b6bdbe5,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7556420510665103617, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

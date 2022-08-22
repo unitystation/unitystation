@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d529031dd9699b34484b72e1f74ec41a,
         type: 2}
+    - target: {fileID: 1947406906936637606, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: foreverID
+      value: 1b5f662435784494fad82ddf6c809db9
+      objectReference: {fileID: 0}
     - target: {fileID: 4705654935379183511, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
       propertyPath: m_Sprite
@@ -27,7 +32,12 @@ PrefabInstance:
     - target: {fileID: 4767086867303369087, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 1b5f662435784494fad82ddf6c809db9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
@@ -46,6 +56,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +73,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
@@ -91,40 +96,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
-        type: 3}
-      propertyPath: initialName
-      value: replica katana
-      objectReference: {fileID: 0}
-    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
-        type: 3}
-      propertyPath: initialDescription
-      value: Woefully underpowered in D20.
-      objectReference: {fileID: 0}
-    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
-        type: 3}
-      propertyPath: initialSize
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
-        type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 11400000, guid: c06d41f0caccbf44aba84182daf54443,
-        type: 2}
-    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
-        type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 96f93e73237315b49971c6b52a79ad3b,
-        type: 2}
-    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
-        type: 3}
-      propertyPath: throwSpeed
-      value: 5
+      propertyPath: hitSound
+      value: BladeSlice
       objectReference: {fileID: 0}
     - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
@@ -133,9 +106,40 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
-      propertyPath: hitSound
-      value: BladeSlice
+      propertyPath: throwSpeed
+      value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: initialName
+      value: replica katana
+      objectReference: {fileID: 0}
+    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: initialSize
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: initialDescription
+      value: Woefully underpowered in D20.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/BladeSlice.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c06d41f0caccbf44aba84182daf54443,
+        type: 2}
     - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
       propertyPath: initialTraits.Array.data[0]
@@ -150,8 +154,9 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
-      propertyPath: hitSound.AssetAddress
-      value: Assets/Prefabs/Effects/BladeSlice.prefab
-      objectReference: {fileID: 0}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 96f93e73237315b49971c6b52a79ad3b,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2cc2b1c514be164282a4cdd366643e5, type: 3}

@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 114590706900826186}
   - component: {fileID: 61697181358093446}
   - component: {fileID: 114469741977146778}
-  - component: {fileID: 114460259331596316}
   - component: {fileID: 3903394726411491279}
   - component: {fileID: 1461403780681083615}
   - component: {fileID: 1120991291872144437}
@@ -21,6 +20,7 @@ GameObject:
   - component: {fileID: 114211369790186800}
   - component: {fileID: 114104876763743222}
   - component: {fileID: -5913724462256824930}
+  - component: {fileID: -5277618406934252154}
   m_Layer: 11
   m_Name: AntiBreachingShield
   m_TagString: Untagged
@@ -38,6 +38,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 9, y: -33, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4301764206996866}
   m_Father: {fileID: 0}
@@ -56,14 +57,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!114 &114590706900826186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,10 +69,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5abc7c87dbf4367935e3e1dbce8d42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ElectricalNodeControl: {fileID: 3903394726411491279}
-  ResistanceSourceModule: {fileID: 1461403780681083615}
-  connectedToOther: 0
-  Voltage: 0
 --- !u!61 &61697181358093446
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -122,26 +111,13 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  prefabTracker: {fileID: 0}
+  CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
-  Passable: 0
   ReachableThrough: 1
+  initialPassable: 0
+  initialCrawlPassable: 0
   passableExclusionsToThis: []
---- !u!114 &114460259331596316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1305738920282892}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  snapToGridOnStart: 1
-  IsFixedMatrix: 0
 --- !u!114 &3903394726411491279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,7 +137,6 @@ MonoBehaviour:
   WireEndB: 0
   WireEndA: 0
   ListCanConnectTo: 01000000
-  SelfDestruct: 0
   Reactions: []
 --- !u!114 &1461403780681083615
 MonoBehaviour:
@@ -181,7 +156,6 @@ MonoBehaviour:
     Ohms: 1500
     ResistanceAvailable: 1
   EditorResistance: 500
-  NotEditorResistanceset: 0
   ReactionTo:
     ConnectingDevice: 1
     DirectionReaction: 0
@@ -206,24 +180,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  InData:
-    WireEndB: 0
-    WireEndA: 0
-    Categorytype: 0
-    ControllingDevice: {fileID: 0}
-    Present: {fileID: 0}
-    Data:
-      CurrentInWire: 0
-      ActualVoltage: 0
-      EstimatedResistance: 0
-      SupplyingCurrent: 0
-      InternalResistance: 0
-      SupplyingVoltage: 0
-      ProducingWatts: 0
-      ChangeToOff: 0
-      CurrentStoreValue: 0
-    DestroyQueueing: 0
-    DestroyAuthorised: 0
   registerTile: {fileID: 0}
   connected: 0
   Logall: 0
@@ -241,6 +197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!114 &114211369790186800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,6 +220,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -275,6 +233,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -283,7 +242,11 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
+    LightningDamageProof: 0
   HeatResistance: 100
+  ExplosionsDamage: 100
+  doDamageMessage: 1
+  Meleeable: {fileID: 0}
 --- !u!114 &114104876763743222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,10 +259,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
   sceneId: 0
   serverOnly: 0
-  m_AssetId: 
+  visible: 0
+  m_AssetId: 6a56185793a3b4708af836336a64229a
+  hasSpawned: 0
 --- !u!114 &-5913724462256824930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,6 +276,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-5277618406934252154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1305738920282892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  DEBUG: 0
+  SnapToGridOnStart: 0
+  LocalTargetPosition: {x: 0, y: 0, z: 0}
+  ChangesDirectionPush: 0
+  isNotPushable: 0
+  newtonianMovement: {x: 0, y: 0}
+  airTime: 0
+  slideTime: 0
+  thrownBy: {fileID: 0}
+  aim: 0
+  spinMagnitude: 0
+  stickyMovement: 0
+  maximumStickSpeed: 1.5
+  onStationMovementsRound: 0
+  attributes: {fileID: 0}
+  registerTile: {fileID: 0}
+  ContextGameObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  IsCurrentlyFloating: 0
+  LocalDifferenceNeeded: {x: 0, y: 0}
+  CorrectingCourse: 0
+  Pushing: []
+  Hits: []
+  Speed: 1
+  AIR: 3
+  SLIDE: 4
+  Animating: 0
+  IsFlyingSliding: 0
+  IsMoving: 0
+  IsWalking: 0
+  MoveIsWalking: 0
+  LastUpdateClientFlying: 0
 --- !u!1 &1712574560713454
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,6 +351,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4647312529661892}
   m_RootOrder: 0
@@ -355,6 +367,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -415,7 +428,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 82e31717630d55443830fa28d53ff2d1, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 5a6f6c9082b345f40a9fced30d44d90b, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
-  Sprites: []

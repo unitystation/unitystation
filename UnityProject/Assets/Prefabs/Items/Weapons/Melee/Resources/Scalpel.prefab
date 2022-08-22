@@ -13,10 +13,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 23f4f0e625b420b4da3213b9b9891d5e,
         type: 2}
+    - target: {fileID: 688350503109327316, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: foreverID
+      value: f7a04efe5e6bebf44856e6d70b991929
+      objectReference: {fileID: 0}
     - target: {fileID: 5810504842801530893, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: f7a04efe5e6bebf44856e6d70b991929
+      objectReference: {fileID: 0}
+    - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
@@ -35,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
@@ -91,23 +96,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
-      propertyPath: initialName
-      value: Scalpel
-      objectReference: {fileID: 0}
-    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
-      propertyPath: initialDescription
-      value: A specialist Surgery knife, hellish sharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
-      propertyPath: initialSize
-      value: 0
+      propertyPath: hitSound
+      value: BladeSlice
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
@@ -116,7 +106,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
-      propertyPath: throwDamage
+      propertyPath: throwRange
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
@@ -126,13 +116,48 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
-      propertyPath: throwRange
+      propertyPath: initialName
+      value: Scalpel
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: initialSize
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: throwDamage
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
-      propertyPath: hitSound
-      value: BladeSlice
+      propertyPath: initialDescription
+      value: A specialist Surgery knife, hellish sharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: traumaDamageChance
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/BladeSlice.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: CanBeUsedOnSelfOnHelpIntent
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
@@ -140,10 +165,5 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 30127bfedd67541a3afa2a5582daa98c,
         type: 2}
-    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
-      propertyPath: hitSound.AssetAddress
-      value: Assets/Prefabs/Effects/BladeSlice.prefab
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93af1c166793efb498012ddc7370f8ec, type: 3}

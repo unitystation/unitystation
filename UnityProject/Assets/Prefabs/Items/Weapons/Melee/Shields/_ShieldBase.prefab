@@ -12,6 +12,10 @@ PrefabInstance:
       value: _ShieldBase
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +28,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -34,14 +42,6 @@ PrefabInstance:
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -58,22 +58,12 @@ PrefabInstance:
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: d8e28939643d5a34095fed9b0898c45b
       objectReference: {fileID: 0}
     - target: {fileID: 114883521337486670, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: Armor.Melee
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 114883521337486670, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: Armor.Bullet
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 114883521337486670, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: Armor.Laser
-      value: 50
+      propertyPath: Armor.Acid
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 114883521337486670, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -87,13 +77,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114883521337486670, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: Armor.Acid
-      value: 70
+      propertyPath: Armor.Laser
+      value: 50
       objectReference: {fileID: 0}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+    - target: {fileID: 114883521337486670, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 1
+      propertyPath: Armor.Melee
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 114883521337486670, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: Armor.Bullet
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -102,9 +97,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: traumaDamageChance
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: initialTraits.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 4a6864f4624daeb4781dad0cca75a00e,
         type: 2}
+    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: foreverID
+      value: d8e28939643d5a34095fed9b0898c45b
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}

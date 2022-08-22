@@ -7,6 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1984926235737303078, guid: bf1232ff5948494499fb98f10c1c1ef6,
+        type: 3}
+      propertyPath: foreverID
+      value: 71efae9a783472643a1f47ed64530211
+      objectReference: {fileID: 0}
+    - target: {fileID: 3237949637132849333, guid: bf1232ff5948494499fb98f10c1c1ef6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3237949637132849333, guid: bf1232ff5948494499fb98f10c1c1ef6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -24,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3237949637132849333, guid: bf1232ff5948494499fb98f10c1c1ef6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3237949637132849333, guid: bf1232ff5948494499fb98f10c1c1ef6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3237949637132849333, guid: bf1232ff5948494499fb98f10c1c1ef6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3237949637132849333, guid: bf1232ff5948494499fb98f10c1c1ef6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3237949637132849333, guid: bf1232ff5948494499fb98f10c1c1ef6,
         type: 3}
@@ -73,16 +78,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 3fe4dac4b6a49f144aeab62bb7ea493d,
         type: 3}
+    - target: {fileID: 3430066335556137592, guid: bf1232ff5948494499fb98f10c1c1ef6,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5215109230894565727, guid: bf1232ff5948494499fb98f10c1c1ef6,
+        type: 3}
+      propertyPath: initialName
+      value: stump
+      objectReference: {fileID: 0}
     - target: {fileID: 5215109230894565727, guid: bf1232ff5948494499fb98f10c1c1ef6,
         type: 3}
       propertyPath: initialDescription
       value: This represents our promise to the crew, and the station itself, to
         cut down as many trees as possible.
       objectReference: {fileID: 0}
-    - target: {fileID: 5215109230894565727, guid: bf1232ff5948494499fb98f10c1c1ef6,
+    - target: {fileID: 6424356324654834445, guid: bf1232ff5948494499fb98f10c1c1ef6,
         type: 3}
-      propertyPath: initialName
-      value: stump
+      propertyPath: m_AssetId
+      value: 71efae9a783472643a1f47ed64530211
       objectReference: {fileID: 0}
     - target: {fileID: 7974405029056674997, guid: bf1232ff5948494499fb98f10c1c1ef6,
         type: 3}

@@ -10,67 +10,33 @@ namespace Messages.Server
 		{
 			public Vector3 Position;
 			public LayerType LayerType;
-			public bool RemoveAll;
-			public uint TileChangeManager;
+			public uint MatrixSyncNetId;
 		}
 
-		public static List<delayedData> DelayedStuff = new List<delayedData>();
-
-		public struct delayedData
-		{
-			public Vector3 Position;
-			public LayerType LayerType;
-			public bool RemoveAll;
-			public uint TileChangeManager;
-			public delayedData(Vector3 inPosition, LayerType inLayerType, bool inRemoveAll, uint inTileChangeManager)
-			{
-				Position = inPosition;
-				LayerType = inLayerType;
-				RemoveAll = inRemoveAll;
-				TileChangeManager = inTileChangeManager;
-			}
-		}
 		public override void Process(NetMessage msg)
 		{
-			LoadNetworkObject(msg.TileChangeManager);
+			if (CustomNetworkManager.IsServer)
+			{
+				return;
+			}
+			LoadNetworkObject(msg.MatrixSyncNetId);
+			//client hasnt finished loading the scene, it'll ask for the bundle of changes aftewards
 			if (NetworkObject == null)
-			{
-				DelayedStuff.Add(new delayedData(msg.Position, msg.LayerType, msg.RemoveAll, msg.TileChangeManager));
-			}
-			else
-			{
-				var tileChangerManager = NetworkObject.GetComponent<TileChangeManager>();
-				tileChangerManager.InternalRemoveTile(msg.Position, msg.LayerType, msg.RemoveAll);
-				TryDoNotDoneTiles();
-			}
+				return;
+
+			var tileChangerManager = NetworkObject.transform.parent.GetComponent<TileChangeManager>();
+			tileChangerManager.MetaTileMap.RemoveTileWithlayer(msg.Position.RoundToInt(), msg.LayerType);
 		}
 
-		public void TryDoNotDoneTiles()
-		{
-			for (int i = 0; i < DelayedStuff.Count; i++)
-			{
-				NetworkObject = null;
-				LoadNetworkObject(DelayedStuff[i].TileChangeManager);
-				if (NetworkObject != null)
-				{
-					var tileChangerManager = NetworkObject.GetComponent<TileChangeManager>();
-					tileChangerManager.InternalRemoveTile(DelayedStuff[i].Position, DelayedStuff[i].LayerType, DelayedStuff[i].RemoveAll);
-					DelayedStuff.RemoveAt(i);
-					i--;
-				}
-			}
-		}
 
-		public static NetMessage Send(uint tileChangeManagerNetID, Vector3 position, LayerType layerType, bool removeAll)
+		public static NetMessage Send(uint matrixSyncNetId, Vector3 position, LayerType layerType)
 		{
 			NetMessage msg = new NetMessage
 			{
 				Position = position,
 				LayerType = layerType,
-				RemoveAll = removeAll,
-				TileChangeManager = tileChangeManagerNetID
+				MatrixSyncNetId = matrixSyncNetId
 			};
-
 			SendToAll(msg);
 			return msg;
 		}

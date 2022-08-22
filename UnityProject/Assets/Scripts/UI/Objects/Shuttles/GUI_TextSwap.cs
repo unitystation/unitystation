@@ -11,22 +11,25 @@ namespace UI.Objects.Shuttles
 	public class GUI_TextSwap : MonoBehaviour
 	{
 		[Header("References")]
-		public GUI_ShuttleControl shuttleControlScript;
-		public Text textToSet;
+		[SerializeField]
+		private GUI_ShuttleControl shuttleControlScript = default;
+		[SerializeField]
+		private Text textToSet = default;
 
 		[Header("Settings")]
-		public UISwapDictionary textSetupDict;
+		[SerializeField]
+		private SerializableDictionary<UIType, string> textSetupDict = default;
 
-		void Start()
+		private void Start()
 		{
 			if (shuttleControlScript == null || textToSet == null)
 			{
 				Logger.LogError("TextSwap script reference failure!", Category.UI);
-				this.enabled = false;
+				enabled = false;
 				return;
 			}
 
-			UIType keyToCheck = shuttleControlScript.MatrixMove.uiType;
+			UIType keyToCheck = shuttleControlScript.matrixMove.uiType;
 			if (textSetupDict.ContainsKey(keyToCheck))
 			{
 				textToSet.text = textSetupDict[keyToCheck].Replace("\\n", "\n");

@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 /// <summary>
@@ -11,41 +10,34 @@ public class HandApply : BodyPartTargetedInteraction
 {
 	private static readonly HandApply Invalid = new HandApply(null, null, null, BodyPartType.None, null, Intent.Help, false);
 
-	private readonly ItemSlot handSlot;
-
-	public ItemSlot HandSlot => handSlot;
-
-	/// <summary>
-	/// Object being used in hand (same as UsedObject). Returns null if nothing in hand).
-	/// </summary>
 	public GameObject HandObject => UsedObject;
 
-	/// <summary>
-	/// True if the alt button is pressed by the user. Performed clientside
-	/// </summary>
-	public bool IsAltClick;
+	public ItemSlot HandSlot { get; protected set; }
 
-	/// <summary>
-	///
-	/// </summary>
+	/// <summary>True if the alt button is pressed by the user. Performed clientside</summary>
+	public bool IsAltClick { get; protected set; }
+
+	/// <summary>True if the highlight system is calling it, doesnt get sent to server, clientside only</summary>
+	public bool IsHighlight;
+
 	/// <param name="performer">The gameobject of the player performing the drop interaction</param>
 	/// <param name="handObject">Object in the player's active hand. Null if player's hand is empty.</param>
 	/// <param name="targetObject">Object that the player clicked on</param>
 	/// <param name="handSlot">active hand slot that is being used.</param>
 	/// <param name="targetBodyPart">targeted body part</param>
 	protected HandApply(GameObject performer, GameObject handObject, GameObject targetObject, BodyPartType targetBodyPart,
-		ItemSlot handSlot, Intent intent, bool IsAltClick) :
+		ItemSlot handSlot, Intent intent, bool isAltClick, bool isHighlight = false) :
 		base(performer, handObject, targetObject, targetBodyPart, intent)
 	{
-		this.handSlot = handSlot;
-		this.IsAltClick = IsAltClick;
+		HandSlot = handSlot;
+		IsAltClick = isAltClick;
+		IsHighlight = isHighlight;
 	}
 
 	/// <summary>
 	/// Creates a HandApply interaction performed by the local player targeting the specified object.
 	/// </summary>
 	/// <param name="targetObject">object targeted by the interaction</param>
-	/// <returns></returns>
 	public static HandApply ByLocalPlayer(GameObject targetObject)
 	{
 		if (PlayerManager.LocalPlayerScript.IsGhost)
@@ -53,13 +45,14 @@ public class HandApply : BodyPartTargetedInteraction
 			//hand apply never works when local player
 			return HandApply.Invalid;
 		}
-		return new HandApply(PlayerManager.LocalPlayer,
-			UIManager.Hands.CurrentSlot.ItemObject,
+
+		return new HandApply(PlayerManager.LocalPlayerObject,
+			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot()?.ItemObject,
 			targetObject,
 			UIManager.DamageZone,
-			UIManager.Instance.hands.CurrentSlot.ItemSlot,
+			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(),
 			UIManager.CurrentIntent,
-			KeyboardInputManager.IsAltPressed());
+			KeyboardInputManager.IsAltActionKeyPressed());
 	}
 
 	/// <summary>

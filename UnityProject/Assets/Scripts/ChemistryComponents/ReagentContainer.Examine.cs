@@ -10,7 +10,8 @@ namespace Chemistry.Components
 		public enum ExamineAmountMode
 		{
 			APROXIMATE_AMOUNT, // player only can see that container is empty, half-empty or full
-			EXACT_AMOUNT // player can see exact reagent mix ammount in units
+			EXACT_AMOUNT, // player can see exact reagent mix ammount in units
+			UNKNOWN_AMOUNT //player has no idea how much could be in there or doesnt have a container
 		}
 
 		public enum ExamineContentMode
@@ -21,7 +22,7 @@ namespace Chemistry.Components
 		}
 
 		[Header("Examine settings")]
-		[Tooltip("Generate automatic examine message about contauner content?")]
+		[Tooltip("Generate automatic examine message about container content?")]
 		public bool UseStandardExamine = true;
 		public ExamineAmountMode ExamineAmount = ExamineAmountMode.APROXIMATE_AMOUNT;
 		public ExamineContentMode ExamineContent = ExamineContentMode.NONE;
@@ -73,7 +74,16 @@ namespace Chemistry.Components
 					return $"It's {fillDesc}. It contains {units} units, mostly of {name}.";
 				}
 			}
+			else if (ExamineAmount == ExamineAmountMode.UNKNOWN_AMOUNT)
+			{
+				var output = $"It's a pool of {colorDesc} {stateDesc}";
 
+				if (stateDesc == "powder")
+				{
+					output = $"It's a pile of {colorDesc} {stateDesc}";
+				}
+				return output;
+			}
 			return null;
 		}
 	}

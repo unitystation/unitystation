@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 162552311794462770, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: a2961d363c395164682f88a6c89baab9
       objectReference: {fileID: 0}
     - target: {fileID: 1385327801538468448, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
@@ -63,6 +63,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 07a850ad0f334de4fab44d78dab0a66b,
         type: 3}
+    - target: {fileID: 4678599651769793305, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: foreverID
+      value: a2961d363c395164682f88a6c89baab9
+      objectReference: {fileID: 0}
     - target: {fileID: 5773371694829651476, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
       propertyPath: m_Enabled
@@ -154,7 +159,8 @@ PrefabInstance:
         type: 3}
       propertyPath: matsOnDestroy
       value: 
-      objectReference: {fileID: 692427375325588567}
+      objectReference: {fileID: 2663802320431471963, guid: 9ae38f6aa43b5cd4ba608cd31b462b24,
+        type: 3}
     - target: {fileID: 8912345532600371149, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
       propertyPath: matsDroppedOnDestroy
@@ -162,9 +168,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3, type: 3}
---- !u!1 &692427375325588567 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
-    type: 3}
-  m_PrefabInstance: {fileID: 9081419288995195143}
-  m_PrefabAsset: {fileID: 0}

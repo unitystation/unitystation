@@ -10,7 +10,12 @@ PrefabInstance:
     - target: {fileID: 6260622887161348618, guid: 185c1b3771fb7bf448fe6fa9d415bb06,
         type: 3}
       propertyPath: m_Name
-      value: Bullet_IonBolt
+      value: Bullet_IonBoltWeak
+      objectReference: {fileID: 0}
+    - target: {fileID: 6266485767676874550, guid: 185c1b3771fb7bf448fe6fa9d415bb06,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6266485767676874550, guid: 185c1b3771fb7bf448fe6fa9d415bb06,
         type: 3}
@@ -29,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6266485767676874550, guid: 185c1b3771fb7bf448fe6fa9d415bb06,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6266485767676874550, guid: 185c1b3771fb7bf448fe6fa9d415bb06,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6266485767676874550, guid: 185c1b3771fb7bf448fe6fa9d415bb06,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6266485767676874550, guid: 185c1b3771fb7bf448fe6fa9d415bb06,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6266485767676874550, guid: 185c1b3771fb7bf448fe6fa9d415bb06,
         type: 3}
@@ -67,5 +67,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6683093333931958016, guid: 185c1b3771fb7bf448fe6fa9d415bb06,
+        type: 3}
+      propertyPath: m_AssetId
+      value: d8be5859da138e641922c276694c01c7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8265206592782456799, guid: 185c1b3771fb7bf448fe6fa9d415bb06,
+        type: 3}
+      propertyPath: explosionPrefab
+      value: 
+      objectReference: {fileID: 7454803469833167074, guid: c3494df70e36c064a8988a73c023538b,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 185c1b3771fb7bf448fe6fa9d415bb06, type: 3}

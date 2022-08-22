@@ -12,10 +12,20 @@ PrefabInstance:
       propertyPath: bodyPartsCovered
       value: 240
       objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 6e6c876b4d53442588042c04884308f2,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 6e6c876b4d53442588042c04884308f2,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2909197017712554513, guid: 6e6c876b4d53442588042c04884308f2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 45c3cbada4660604e8fb72afd758c4e2
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: 6e6c876b4d53442588042c04884308f2,
         type: 3}
@@ -37,8 +47,7 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 984d390bf4cf5e944acbf3a8c3f35775,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7594101368484477531, guid: 6e6c876b4d53442588042c04884308f2,
         type: 3}
       propertyPath: initialName
@@ -115,18 +124,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: LawyerBlackSuitskirt
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: 6e6c876b4d53442588042c04884308f2,
+        type: 3}
+      propertyPath: foreverID
+      value: 45c3cbada4660604e8fb72afd758c4e2
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 6e6c876b4d53442588042c04884308f2,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 984d390bf4cf5e944acbf3a8c3f35775,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 6e6c876b4d53442588042c04884308f2,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 984d390bf4cf5e944acbf3a8c3f35775,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 6e6c876b4d53442588042c04884308f2,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

@@ -43,12 +43,11 @@ namespace Weapons.Projectiles.Behaviours
 			{
 				GameObject explosionObject = Spawn.ServerPrefab(explosionPrefab, worldPosition).GameObject;
 				ExplosionComponent explosion = explosionObject.GetComponent<ExplosionComponent>();
-				explosion.Explode(MatrixManager.AtPoint(worldTilePosition, true).Matrix);
+				explosion.Explode();
 				return;
 			}
 
-			Matrix matrix = MatrixManager.AtPoint(worldTilePosition, true).Matrix;
-			Explosion.StartExplosion(worldTilePosition, explosionStrength, matrix);
+			Explosion.StartExplosion(worldTilePosition, explosionStrength);
 		}
 	}
 }

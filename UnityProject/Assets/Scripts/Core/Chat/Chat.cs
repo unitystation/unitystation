@@ -1,15 +1,21 @@
-using UnityEngine;
 using System;
-using AdminTools;
-using Tilemaps.Behaviours.Meta;
-using DiscordWebhook;
-using DatabaseAPI;
-using Systems.MobAIs;
 using System.Text;
 using System.Text.RegularExpressions;
+using UnityEngine;
+using Tilemaps.Behaviours.Meta;
+using AdminTools;
+using DiscordWebhook;
+using DatabaseAPI;
+using Systems.Communications;
+using Systems.MobAIs;
 using Core.Chat;
-using Items;
 using Messages.Server;
+using Items;
+using Managers;
+using Player.Language;
+using Shared.Util;
+using Tiles;
+using Util;
 
 /// <summary>
 /// The Chat API
@@ -20,31 +26,21 @@ public partial class Chat : MonoBehaviour
 {
 	private static Chat chat;
 
-	public static Chat Instance
-	{
-		get
-		{
-			if (chat == null)
-			{
-				chat = FindObjectOfType<Chat>();
-			}
+	public static Chat Instance => FindUtils.LazyFindObject(ref chat);
 
-			return chat;
-		}
-	}
 	//Does the ghost hear everyone or just local
 	public bool GhostHearAll { get; set; } = true;
 
 	public bool OOCMute = false;
 
-	public EmoteActionManager emoteActionManager;
-
 	private static Regex htmlRegex = new Regex(@"^(http|https)://.*$");
 
-	public static void InvokeChatEvent(ChatEvent chatEvent)
+	public static void  InvokeChatEvent(ChatEvent chatEvent)
 	{
 		var channels = chatEvent.channels;
 		StringBuilder discordMessageBuilder = new StringBuilder();
+
+		chatEvent.allChannels = channels;
 
 		// There could be multiple channels we need to send a message for each.
 		// We do this on the server side so that local chans can be validated correctly
@@ -71,7 +67,7 @@ public partial class Chat : MonoBehaviour
 			discordMessageBuilder.Append($"[{channel}] ");
 		}
 
-		discordMessageBuilder.Append($"\n```css\n{chatEvent.speaker}: {chatEvent.message}\n```\n");
+		discordMessageBuilder.Append($"{(chatEvent.language != null ? $"[{chatEvent.language.LanguageName}]" : "")}\n```css\n{chatEvent.speaker}: {chatEvent.message}\n```\n");
 
 		string discordMessage = discordMessageBuilder.ToString();
 		//Sends All Chat messages to a discord webhook
@@ -82,119 +78,304 @@ public partial class Chat : MonoBehaviour
 	/// Send a Chat Msg from a player to the selected Chat Channels
 	/// Server only
 	/// </summary>
-	public static void AddChatMsgToChat(ConnectedPlayer sentByPlayer, string message, ChatChannel channels)
+	public static void AddChatMsgToChatServer(PlayerInfo sentByPlayer, string message, ChatChannel channels,
+		Loudness loudness = Loudness.NORMAL, ushort languageId = 0)
 	{
 		message = AutoMod.ProcessChatServer(sentByPlayer, message);
 		if (string.IsNullOrWhiteSpace(message)) return;
 
+		//Sanity check for null username
+		if (string.IsNullOrWhiteSpace(sentByPlayer.Username))
+		{
+			Logger.Log($"Null/empty Username, Details: Username: {sentByPlayer.Username}, ClientID: {sentByPlayer.ClientId}, IP: {sentByPlayer.ConnectionIP}",
+				Category.Admin);
+			return;
+		}
+
 		var player = sentByPlayer.Script;
+
+		//Check to see whether this player is allowed to send on the chosen channels
+		if (player != null)
+		{
+			channels &= player.GetAvailableChannelsMask(true);
+		}
+		else
+		{
+			//If player is null, must be in lobby therefore lock to OOC
+			channels = ChatChannel.OOC;
+		}
+
+		if (channels == ChatChannel.None) return;
 
 		// The exact words that leave the player's mouth (or that are narrated). Already includes HONKs, stutters, etc.
 		// This step is skipped when speaking in the OOC channel.
 		(string message, ChatModifier chatModifiers) processedMessage = (string.Empty, ChatModifier.None); // Placeholder values
+
 		bool isOOC = channels.HasFlag(ChatChannel.OOC);
-		if (!isOOC)
+		if (isOOC == false)
 		{
 			processedMessage = ProcessMessage(sentByPlayer, message);
+
+			if (string.IsNullOrWhiteSpace(processedMessage.message)) return;
 		}
 
 		var chatEvent = new ChatEvent
 		{
 			message = isOOC ? message : processedMessage.message,
 			modifiers = (player == null) ? ChatModifier.None : processedMessage.chatModifiers,
-			speaker = (player == null) ? sentByPlayer.Username : player.name,
-			position = (player == null) ? TransformState.HiddenPos : player.gameObject.AssumedWorldPosServer(),
+			speaker = (player == null) ? sentByPlayer.Username : player.playerName,
+			position = (player == null) ? TransformState.HiddenPos : player.PlayerChatLocation.AssumedWorldPosServer(),
 			channels = channels,
-			originator = sentByPlayer.GameObject
+			originator = sentByPlayer.GameObject,
+			VoiceLevel = loudness
 		};
 
-		if (channels.HasFlag(ChatChannel.OOC))
+		//This is to make sure OOC doesn't break
+		if (sentByPlayer.Job != JobType.NULL)
 		{
-			chatEvent.speaker = sentByPlayer.Username;
-
-			var isAdmin = PlayerList.Instance.IsAdmin(sentByPlayer.UserId);
-
-			if (isAdmin)
-			{
-				chatEvent.speaker = "<color=red>[Admin]</color> " + chatEvent.speaker;
-			}
-			else if(PlayerList.Instance.IsMentor(sentByPlayer.UserId)){
-				chatEvent.speaker = "<color=#6400ff>[Mentor]</color> " + chatEvent.speaker;
-			}
-
-			if (Instance.OOCMute && !isAdmin) return;
-
-			//http/https links in OOC chat
-			if (isAdmin || !GameManager.Instance.AdminOnlyHtml)
-			{
-				if (htmlRegex.IsMatch(chatEvent.message))
-				{
-					var messageParts = chatEvent.message.Split(' ');
-
-					var builder = new StringBuilder();
-
-					foreach (var part in messageParts)
-					{
-						if (!htmlRegex.IsMatch(part))
-						{
-							builder.Append(part);
-							builder.Append(" ");
-							continue;
-						}
-
-						builder.Append($"<link={part}><color=blue>{part}</color></link> ");
-					}
-
-					chatEvent.message = builder.ToString();
-
-					//TODO have a config file available to whitelist/blacklist links if all players are allowed to post links
-					//disables client side tag protection to allow <link=></link> tag
-					chatEvent.stripTags = false;
-				}
-			}
-
-			ChatRelay.Instance.PropagateChatToClients(chatEvent);
-
-			//Sends OOC message to a discord webhook
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, message, chatEvent.speaker, ServerData.ServerConfig.DiscordWebhookOOCMentionsID);
-
-			if (!ServerData.ServerConfig.DiscordWebhookSendOOCToAllChat) return;
-
-			//Send it to All chat
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAllChatURL, $"[{ChatChannel.OOC}]  {message}\n", chatEvent.speaker);
-
-			return;
+			CheckVoiceLevel(sentByPlayer.Script, chatEvent.channels);
 		}
 
-		// TODO the following code uses player.playerHealth, but ConciousState would be more appropriate.
-		// Check if the player is allowed to talk:
-		if (player != null && player.playerHealth != null)
+		//If OOC or Ghost then show the Admin and Mentor tags
+		if (isOOC || chatEvent.channels == ChatChannel.Ghost)
 		{
-			if (!player.IsDeadOrGhost && player.mind.IsMiming && !processedMessage.chatModifiers.HasFlag(ChatModifier.Emote))
+			chatEvent.speaker = StripAll(sentByPlayer.Username);
+
+			//Show admin tag for ghosts
+			var isAdmin = PlayerList.Instance.IsAdmin(sentByPlayer.UserId);
+			if (isAdmin)
 			{
-				AddWarningMsgFromServer(sentByPlayer.GameObject, "You can't talk because you made a vow of silence.");
-				return;
+				chatEvent.speaker = "<color=red>[A]</color> " + chatEvent.speaker;
+				chatEvent.VoiceLevel = Loudness.LOUD;
 			}
 
-			if (player.playerHealth.IsCrit)
+			//Handle OOC messages
+			if (isOOC)
 			{
-				if (!player.playerHealth.IsDead)
+				//Add mentor tag for non-admin mentors for OOC
+				if (isAdmin == false && PlayerList.Instance.IsMentor(sentByPlayer.UserId))
 				{
+					chatEvent.speaker = "<color=#6400ff>[M]</color> " + chatEvent.speaker;
+				}
+
+				AddOOCChatMessage(sentByPlayer, message, chatEvent);
+				return;
+			}
+		}
+
+		//Try find the language
+		if (TryGetLanguage(languageId, player, out var languageToUse) == false) return;
+		chatEvent.language = languageToUse;
+
+		// TODO the following code uses player.playerHealth, but ConsciousState would be more appropriate.
+		// Check if the player is allowed to talk:
+		if (player != null)
+		{
+			if (player.playerHealth != null)
+			{
+				if (player.IsDeadOrGhost == false && player.mind.IsMiming && !processedMessage.chatModifiers.HasFlag(ChatModifier.Emote))
+				{
+					AddWarningMsgFromServer(sentByPlayer.GameObject, "You can't talk because you made a vow of silence.");
 					return;
 				}
-				else
+
+				if (player.playerHealth.IsCrit)
 				{
+					if (player.playerHealth.IsDead == false)
+					{
+						//Crit players can't talk
+						return;
+					}
+
+					//Crit and dead ghost in body then only ghost channel
 					chatEvent.channels = ChatChannel.Ghost;
 				}
+
+				if (player.IsDeadOrGhost == false)
+				{
+					//Check if there's any items on the player that affects their chat (e.g : headphones, muzzles, etc)
+					foreach (var slots in player.DynamicItemStorage.ServerContents.Values)
+					{
+						foreach (var slot in slots)
+						{
+							if (slot.IsEmpty) continue;
+							if (slot.Item.TryGetComponent<IChatInfluencer>(out var listener)
+							    && listener.WillInfluenceChat() == true)
+							{
+								chatEvent = listener.InfluenceChat(chatEvent);
+							}
+						}
+					}
+				}
 			}
-			else if (!player.playerHealth.IsDead && !player.IsGhost)
-			{
-				//Control the chat bubble
-				player.playerNetworkActions.CmdToggleChatIcon(true, processedMessage.message, channels, processedMessage.chatModifiers);
-			}
+
+			//Do chat bubble for nearby players
+			player.playerNetworkActions.ServerToggleChatIcon(processedMessage.message, processedMessage.chatModifiers, languageToUse);
 		}
 
 		InvokeChatEvent(chatEvent);
+	}
+
+	private static bool TryGetLanguage(ushort languageId, PlayerScript player, out LanguageSO languageToUse)
+	{
+		var playerLanguages = player.MobLanguages.OrNull();
+
+		//If the player sent a custom language in chat use that if allowed, or default to the current set language
+		languageToUse = null;
+		if (playerLanguages != null)
+		{
+			if (languageId != 0)
+			{
+				languageToUse = LanguageManager.Instance.GetLanguageById(languageId);
+			}
+
+			//Check to make sure we can speak that language, if not get the default language
+			if (playerLanguages.CanSpeakLanguage(languageToUse) == false)
+			{
+				languageToUse = playerLanguages.CurrentLanguage;
+
+				if (languageToUse == null)
+				{
+					AddExamineMsgFromServer(player.gameObject, "You have no selected language!");
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	/// <summary>
+	/// ServerSide Only, note there is no validation of message contents here for this type, normal player messages do no go this route
+	/// Chat modifiers do not work here
+	/// </summary>
+	public static void AddChatMsgToChatServer(string message, ChatChannel channels, LanguageSO language, Loudness loudness = Loudness.NORMAL)
+	{
+		if (channels == ChatChannel.None) return;
+
+		// The exact words that leave the player's mouth (or that are narrated). Already includes HONKs, stutters, etc.
+		// This step is skipped when speaking in the OOC channel.
+		(string message, ChatModifier chatModifiers) processedMessage = (string.Empty, ChatModifier.None); // Placeholder values
+
+		processedMessage.message = message;
+
+		bool isOOC = channels.HasFlag(ChatChannel.OOC);
+
+		var chatEvent = new ChatEvent
+		{
+			message = isOOC ? message : processedMessage.message,
+			modifiers = ChatModifier.None,
+			speaker = "",
+			position = TransformState.HiddenPos,
+			channels = channels,
+			originator = null,
+			VoiceLevel = loudness,
+			language = language
+		};
+
+		//Handle OOC messages
+		if (isOOC)
+		{
+			ChatRelay.Instance.PropagateChatToClients(chatEvent);
+			return;
+		}
+
+		InvokeChatEvent(chatEvent);
+	}
+
+	private static void AddOOCChatMessage(PlayerInfo sentByPlayer, string message, ChatEvent chatEvent)
+	{
+		//Check to see if this player has been OOC muted
+		if (sentByPlayer.IsOOCMuted)
+		{
+			Chat.AddWarningMsgFromServer(sentByPlayer.GameObject, "You are OOC muted!");
+			return;
+		}
+
+		var isAdmin = PlayerList.Instance.IsAdmin(sentByPlayer.UserId);
+
+		//If global OOCMute don't allow anyone but admins to talk on OOC
+		if (Instance.OOCMute && isAdmin == false) return;
+
+		//http/https links in OOC chat
+		if (isAdmin || GameManager.Instance.AdminOnlyHtml == false)
+		{
+			if (htmlRegex.IsMatch(chatEvent.message))
+			{
+				var messageParts = chatEvent.message.Split(' ');
+
+				var builder = new StringBuilder();
+
+				foreach (var part in messageParts)
+				{
+					if (!htmlRegex.IsMatch(part))
+					{
+						builder.Append(part);
+						builder.Append(" ");
+						continue;
+					}
+
+					builder.Append($"<link={part}><color=blue>{part}</color></link> ");
+				}
+
+				chatEvent.message = builder.ToString();
+
+				//TODO have a config file available to whitelist/blacklist links if all players are allowed to post links
+				//disables client side tag protection to allow <link=></link> tag
+				chatEvent.stripTags = false;
+			}
+		}
+
+		ChatRelay.Instance.PropagateChatToClients(chatEvent);
+
+		var strippedSpeaker = StripTags(chatEvent.speaker);
+
+		//Sends OOC message to a discord webhook
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, message,
+			strippedSpeaker, ServerData.ServerConfig.DiscordWebhookOOCMentionsID);
+
+		if (ServerData.ServerConfig.DiscordWebhookSendOOCToAllChat == false) return;
+
+		//Send it to All chat
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAllChatURL,
+			$"[{ChatChannel.OOC}]  {message}\n", strippedSpeaker);
+	}
+
+	private static Loudness CheckVoiceLevel(PlayerScript script, ChatChannel channels)
+	{
+		//Check if is not a ghost/spectator and the player has an inventory.
+		if (script.IsDeadOrGhost || script.DynamicItemStorage == null)
+		{
+			return Loudness.NORMAL;
+		}
+
+		foreach (ItemSlot slot in script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.ear))
+		{
+			Headset headset = slot.Item?.gameObject.GetComponent<Headset>();
+			if (headset == null) continue;
+
+			//TODO this sets the voice level by the first headset found, if multiple should we choose loudest instead?
+			if (headset.LoudSpeakOn && IsOnCorrectChannels(channels))
+			{
+				return headset.LoudspeakLevel;
+			}
+		}
+
+		return Loudness.NORMAL;
+	}
+
+	private static bool IsOnCorrectChannels(ChatChannel channels)
+	{
+		if (channels.HasFlag(ChatChannel.Common) ||
+		    channels.HasFlag(ChatChannel.Command) || channels.HasFlag(ChatChannel.Security)
+		    || channels.HasFlag(ChatChannel.Engineering) || channels.HasFlag(ChatChannel.Medical)
+		    || channels.HasFlag(ChatChannel.Science)
+		    || channels.HasFlag(ChatChannel.Syndicate) || channels.HasFlag(ChatChannel.Supply))
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	/// <summary>
@@ -205,9 +386,11 @@ public partial class Chat : MonoBehaviour
 	/// <param name="channels">The channels to broadcast on.</param>
 	/// <param name="chatModifiers">Chat modifiers to use e.g. ChatModifier.ColdlyState.</param>
 	/// <param name="broadcasterName">Optional name for the broadcaster. Pulls name from GameObject if not used.</param>
+	/// <param name="voiceLevel">How loud is this message?</param>
+	/// <param name="language">The language the message is in, null for no language</param>
 	public static void AddCommMsgByMachineToChat(
-			GameObject sentByMachine, string message, ChatChannel channels,
-			ChatModifier chatModifiers = ChatModifier.None, string broadcasterName = default)
+			GameObject sentByMachine, string message, ChatChannel channels, Loudness voiceLevel,
+			ChatModifier chatModifiers = ChatModifier.None, string broadcasterName = default, LanguageSO language = null)
 	{
 		if (string.IsNullOrWhiteSpace(message)) return;
 
@@ -216,9 +399,11 @@ public partial class Chat : MonoBehaviour
 			message = message,
 			modifiers = chatModifiers,
 			speaker = broadcasterName != default ? broadcasterName : sentByMachine.ExpensiveName(),
-			position = sentByMachine.WorldPosServer(),
+			position = sentByMachine.AssumedWorldPosServer(),
 			channels = channels,
-			originator = sentByMachine
+			originator = sentByMachine,
+			VoiceLevel = voiceLevel,
+			language = language
 		};
 
 		InvokeChatEvent(chatEvent);
@@ -231,7 +416,8 @@ public partial class Chat : MonoBehaviour
 	/// </summary>
 	/// <param name="message"> message to add to each clients chat stream</param>
 	/// <param name="stationMatrix"> the matrix to broadcast the message too</param>
-	public static void AddSystemMsgToChat(string message, MatrixInfo stationMatrix)
+	/// <param name="language">The language the message is in, null for no language</param>
+	public static void AddSystemMsgToChat(string message, MatrixInfo stationMatrix, LanguageSO language = null)
 	{
 		if (!IsServer()) return;
 
@@ -239,7 +425,8 @@ public partial class Chat : MonoBehaviour
 		{
 			message = message,
 			channels = ChatChannel.System,
-			matrix = stationMatrix
+			matrix = stationMatrix,
+			language = language
 		});
 	}
 
@@ -488,7 +675,11 @@ public partial class Chat : MonoBehaviour
 	/// <param name="message">The message to show in the chat stream</param>
 	/// <param name="worldPos">The position of the local message</param>
 	/// <param name="originator">The object (i.e. vending machine) that said message</param>
-	public static void AddLocalMsgToChat(string message, Vector2 worldPos, GameObject originator, string speakerName = null)
+	/// <param name="language">Language of the message (null means everyone can understand)</param>
+	/// <param name="speakerName">The speakers name</param>
+	/// <param name="doSpeechBubble">Do speech bubble at originator?</param>
+	public static void AddLocalMsgToChat(string message, Vector2 worldPos, GameObject originator,
+		LanguageSO language = null, string speakerName = null, bool doSpeechBubble = false)
 	{
 		if (!IsServer()) return;
 		Instance.TryStopCoroutine(ref composeMessageHandle);
@@ -501,6 +692,10 @@ public partial class Chat : MonoBehaviour
 			originator = originator,
 			speaker = speakerName
 		});
+
+		if(doSpeechBubble == false) return;
+
+		ShowChatBubbleMessage.SendToNearby(originator, message, language);
 	}
 
 	/// <summary>
@@ -510,9 +705,14 @@ public partial class Chat : MonoBehaviour
 	/// </summary>
 	/// <param name="message">The message to show in the chat stream</param>
 	/// <param name="originator">The object (i.e. vending machine) that said message</param>
-	public static void AddLocalMsgToChat(string message, GameObject originator, string speakerName = null)
+	/// <param name="language">Language of the message (null means everyone can understand)</param>
+	/// <param name="speakerName">The speakers name</param>
+	/// /// <param name="doSpeechBubble">Do speech bubble at originator?</param>
+	public static void AddLocalMsgToChat(string message, GameObject originator, LanguageSO language = null,
+		string speakerName = null, bool doSpeechBubble = false)
 	{
-		AddLocalMsgToChat(message, originator.AssumedWorldPosServer(), originator, speakerName);
+		AddLocalMsgToChat(message, originator.AssumedWorldPosServer(), originator, language,
+			speakerName, doSpeechBubble);
 	}
 
 	/// <summary>
@@ -524,13 +724,13 @@ public partial class Chat : MonoBehaviour
 	public static void AddExamineMsgFromServer(GameObject recipient, string msg)
 	{
 		if (!IsServer()) return;
-		UpdateChatMessage.Send(recipient, ChatChannel.Examine, ChatModifier.None, msg);
+		UpdateChatMessage.Send(recipient, ChatChannel.Examine, ChatModifier.None, msg, Loudness.NORMAL);
 	}
 
 	/// <inheritdoc cref="AddExamineMsgFromServer(GameObject, string)"/>
-	public static void AddExamineMsgFromServer(ConnectedPlayer recipient, string msg)
+	public static void AddExamineMsgFromServer(PlayerInfo recipient, string msg)
 	{
-		if (recipient == null || recipient.Equals(ConnectedPlayer.Invalid))
+		if (recipient == null || recipient.Equals(PlayerInfo.Invalid))
 		{
 			Logger.LogError($"Can't send message \"{msg}\" to invalid player!", Category.Chat);
 			return;
@@ -546,7 +746,7 @@ public partial class Chat : MonoBehaviour
 	/// <param name="message"> The message to add to the client chat stream</param>
 	public static void AddExamineMsgToClient(string message)
 	{
-		ChatRelay.Instance.UpdateClientChat(message, ChatChannel.Examine, true, PlayerManager.LocalPlayer);
+		ChatRelay.Instance.UpdateClientChat(message, ChatChannel.Examine, true, PlayerManager.LocalPlayerObject, Loudness.NORMAL, ChatModifier.None);
 	}
 
 	/// <summary>
@@ -581,13 +781,18 @@ public partial class Chat : MonoBehaviour
 
 	public static void AddWarningMsgToClient(string message)
 	{
-		message = ProcessMessageFurther(message, "", ChatChannel.Warning, ChatModifier.None); //TODO: Put processing in a unified place for server and client.
-		ChatRelay.Instance.UpdateClientChat(message, ChatChannel.Warning, true, PlayerManager.LocalPlayer);
+		message = ProcessMessageFurther(message, "", ChatChannel.Warning, ChatModifier.None, Loudness.NORMAL); //TODO: Put processing in a unified place for server and client.
+		ChatRelay.Instance.UpdateClientChat(message, ChatChannel.Warning, true, PlayerManager.LocalPlayerObject, Loudness.NORMAL, ChatModifier.None);
 	}
 
 	public static void AddAdminPrivMsg(string message)
 	{
 		ChatRelay.Instance.AddAdminPrivMessageToClient(message);
+	}
+
+	public static void AddPrayerPrivMsg(string message)
+	{
+		ChatRelay.Instance.AddPrayerPrivMessageToClient(message);
 	}
 
 	public static void AddMentorPrivMsg(string message)

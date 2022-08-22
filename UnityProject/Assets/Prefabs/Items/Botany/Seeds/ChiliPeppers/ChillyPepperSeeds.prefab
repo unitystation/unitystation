@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3856594560014231766, guid: a8b053482da561b4eba3bd81d8fe51ab,
+        type: 3}
+      propertyPath: foreverID
+      value: b4231ee97d30f1741b984958f27fb1e1
+      objectReference: {fileID: 0}
     - target: {fileID: 4069502000924139324, guid: a8b053482da561b4eba3bd81d8fe51ab,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -15,18 +20,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7769345981341780953, guid: a8b053482da561b4eba3bd81d8fe51ab,
         type: 3}
-      propertyPath: initialDescription
-      value: These seeds grow into chilly pepper plants.
+      propertyPath: initialName
+      value: pack of chilly pepper seeds
       objectReference: {fileID: 0}
     - target: {fileID: 7769345981341780953, guid: a8b053482da561b4eba3bd81d8fe51ab,
         type: 3}
-      propertyPath: initialName
-      value: pack of chilly pepper seeds
+      propertyPath: initialDescription
+      value: These seeds grow into chilly pepper plants.
       objectReference: {fileID: 0}
     - target: {fileID: 7830612057451895055, guid: a8b053482da561b4eba3bd81d8fe51ab,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b4231ee97d30f1741b984958f27fb1e1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7866763346833693135, guid: a8b053482da561b4eba3bd81d8fe51ab,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7866763346833693135, guid: a8b053482da561b4eba3bd81d8fe51ab,
         type: 3}
@@ -45,6 +55,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7866763346833693135, guid: a8b053482da561b4eba3bd81d8fe51ab,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7866763346833693135, guid: a8b053482da561b4eba3bd81d8fe51ab,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -57,16 +72,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7866763346833693135, guid: a8b053482da561b4eba3bd81d8fe51ab,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7866763346833693135, guid: a8b053482da561b4eba3bd81d8fe51ab,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7866763346833693135, guid: a8b053482da561b4eba3bd81d8fe51ab,
         type: 3}
@@ -96,13 +101,8 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8846178307786653186, guid: a8b053482da561b4eba3bd81d8fe51ab,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8846178307786653186, guid: a8b053482da561b4eba3bd81d8fe51ab,
-        type: 3}
-      propertyPath: plantData.GrowthSpeed
-      value: 4
+      propertyPath: plantData.Lifespan
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 8846178307786653186, guid: a8b053482da561b4eba3bd81d8fe51ab,
         type: 3}
@@ -111,14 +111,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8846178307786653186, guid: a8b053482da561b4eba3bd81d8fe51ab,
         type: 3}
+      propertyPath: plantData.GrowthSpeed
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 8846178307786653186, guid: a8b053482da561b4eba3bd81d8fe51ab,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 8329191792013788309, guid: 5891e1fe8aa31854c932ddf0c72fc012,
+        type: 3}
+    - target: {fileID: 8846178307786653186, guid: a8b053482da561b4eba3bd81d8fe51ab,
+        type: 3}
       propertyPath: plantData.FullyGrownSpriteSO
       value: 
       objectReference: {fileID: 11400000, guid: dc46f4531e549844bb193cc9b7c270d0,
         type: 2}
     - target: {fileID: 8846178307786653186, guid: a8b053482da561b4eba3bd81d8fe51ab,
         type: 3}
-      propertyPath: plantData.Lifespan
-      value: 25
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8b053482da561b4eba3bd81d8fe51ab, type: 3}

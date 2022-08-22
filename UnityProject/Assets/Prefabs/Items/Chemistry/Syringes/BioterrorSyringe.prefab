@@ -25,20 +25,10 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 145581183726909013, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 145581183726909013, guid: bc948ccbd770fff438862a32cd45a867,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: acf5aada393318ae79eda0faba3acc14,
         type: 2}
-    - target: {fileID: 145581183726909013, guid: bc948ccbd770fff438862a32cd45a867,
-        type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 145581183726909013, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
@@ -47,18 +37,33 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 145581183726909013, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 145581183726909013, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 145581183726909013, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1349684638700962633, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 018ad5c461e41a547bf8d3f668639da8
       objectReference: {fileID: 0}
     - target: {fileID: 1382392464201793277, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
       propertyPath: m_Name
       value: BioterrorSyringe
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
@@ -77,6 +82,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -89,16 +99,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
@@ -117,13 +117,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1567996125810610591, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
-      propertyPath: initialDescription
-      value: Contains several paralyzing reagents.
+      propertyPath: initialName
+      value: bioterror syringe
       objectReference: {fileID: 0}
     - target: {fileID: 1567996125810610591, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
-      propertyPath: initialName
-      value: bioterror syringe
+      propertyPath: initialDescription
+      value: Contains several paralyzing reagents.
       objectReference: {fileID: 0}
     - target: {fileID: 1567996125810610591, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
@@ -143,5 +143,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: eaf99639db15fef409e10f6d89480371,
         type: 2}
+    - target: {fileID: 5446408287170278032, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: foreverID
+      value: 018ad5c461e41a547bf8d3f668639da8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc948ccbd770fff438862a32cd45a867, type: 3}

@@ -119,6 +119,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -128,8 +130,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -150,9 +152,12 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
@@ -864,6 +869,39 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      yellow_vape_14: 21300028
+      yellow_vape_21: 21300042
+      yellow_vape_7: 21300014
+      yellow_vape_28: 21300056
+      yellow_vape_19: 21300038
+      yellow_vape_6: 21300012
+      yellow_vape_10: 21300020
+      yellow_vape_13: 21300026
+      yellow_vape_3: 21300006
+      yellow_vape_11: 21300022
+      yellow_vape_17: 21300034
+      yellow_vape_16: 21300032
+      yellow_vape_0: 21300000
+      yellow_vape_1: 21300002
+      yellow_vape_29: 21300058
+      yellow_vape_27: 21300054
+      yellow_vape_12: 21300024
+      yellow_vape_26: 21300052
+      yellow_vape_4: 21300008
+      yellow_vape_30: 21300060
+      yellow_vape_25: 21300050
+      yellow_vape_2: 21300004
+      yellow_vape_5: 21300010
+      yellow_vape_9: 21300018
+      yellow_vape_20: 21300040
+      yellow_vape_18: 21300036
+      yellow_vape_24: 21300048
+      yellow_vape_8: 21300016
+      yellow_vape_22: 21300044
+      yellow_vape_23: 21300046
+      yellow_vape_31: 21300062
+      yellow_vape_15: 21300030
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

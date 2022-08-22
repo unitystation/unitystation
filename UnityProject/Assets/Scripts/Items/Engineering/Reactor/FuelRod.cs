@@ -13,7 +13,7 @@ namespace Items.Engineering
 		public float EditorOutputtingEnergy;
 
 
-		public decimal energyPerAtom = 53.333333333M;
+		public decimal energyPerAtom = 17M;
 
 		public decimal PresentAtoms = 100000000000000000;
 		public decimal fuelNeutronGeneration = 2.5M;

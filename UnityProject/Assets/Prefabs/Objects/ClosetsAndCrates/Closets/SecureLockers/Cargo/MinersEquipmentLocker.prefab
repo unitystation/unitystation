@@ -82,7 +82,7 @@ PrefabInstance:
     - target: {fileID: 684083229040743669, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: m_Name
-      value: Closet_Locker_Mining
+      value: MinersEquipmentLocker
       objectReference: {fileID: 0}
     - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
@@ -111,6 +111,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 360a0d7faf8c0a547a5c71690807c55a,
         type: 3}
+    - target: {fileID: 4193771647284746861, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: initialContents
+      value: 
+      objectReference: {fileID: 11400000, guid: 7f9e2aba4336a4c89a6506db8fe75a9d,
+        type: 2}
+    - target: {fileID: 4471988908426422972, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: foreverID
+      value: 1f176cfc086093d4383dc5c0eab2f58b
+      objectReference: {fileID: 0}
     - target: {fileID: 4630238151158220691, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: m_Sprite
@@ -154,7 +165,7 @@ PrefabInstance:
     - target: {fileID: 8981175845054980503, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 1f176cfc086093d4383dc5c0eab2f58b
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f3b5940c1a9ba34c856057c8b910cbe, type: 3}

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using HealthV2;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -6,7 +7,8 @@ namespace Systems.MobAIs
 {
 	public class XenoAI: GenericHostileAI
 	{
-		[SerializeField][Tooltip("If true, this Xeno won't ever attempt to become Queen.")]
+		[SerializeField]
+		[Tooltip("If true, this Xeno won't ever attempt to become Queen.")]
 		private bool disableAscension = false;
 
 		[SerializeField]
@@ -19,6 +21,44 @@ namespace Systems.MobAIs
 		[HideIf(nameof(disableAscension))]
 		[Tooltip("Reference to the Queen prefab to be spawned if this xeno becomes a Queen")]
 		private GameObject queenPrefab = default;
+
+		protected override void OnAIStart()
+		{
+			base.OnAIStart();
+			TryBecomingQueen();
+		}
+
+		/// <summary>
+		/// Looks around and tries to find players to target
+		/// </summary>
+		/// <returns>Gameobject of the first player it found</returns>
+		protected override GameObject SearchForTarget()
+		{
+			var player = Physics2D.OverlapCircleAll(registerObject.WorldPositionServer.To2Int(), 20f, hitMask);
+			if (player.Length == 0)
+			{
+				return null;
+			}
+
+			foreach (var coll in player)
+			{
+				if (MatrixManager.Linecast(
+					    gameObject.AssumedWorldPosServer(),
+					    LayerTypeSelection.Walls,
+					    null,
+					    coll.gameObject.AssumedWorldPosServer()).ItHit == false)
+				{
+					if(coll.gameObject.TryGetComponent<LivingHealthMasterBase>(out var healthMasterBase) == false || healthMasterBase.IsDead) continue;
+
+					if(healthMasterBase.playerScript.PlayerType == PlayerTypes.Alien) continue;
+
+					return coll.gameObject;
+				}
+
+			}
+
+			return null;
+		}
 
 		private void TryBecomingQueen()
 		{
@@ -35,7 +75,7 @@ namespace Systems.MobAIs
 			yield return WaitFor.Seconds(10);
 			if (QueenCapReached()) yield break;
 			Spawn.ServerPrefab(queenPrefab, gameObject.AssumedWorldPosServer());
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		private bool QueenCapReached()
@@ -46,12 +86,6 @@ namespace Systems.MobAIs
 			}
 
 			return XenoQueenAI.CurrentQueensAmt >= queenCap;
-		}
-
-		protected override void OnSpawnMob()
-		{
-			base.OnSpawnMob();
-			TryBecomingQueen();
 		}
 	}
 }

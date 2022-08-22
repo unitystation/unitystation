@@ -1,25 +1,29 @@
 using System;
 using System.Collections;
-using Systems.Electricity.NodeModules;
-using Mirror;
 using UnityEngine;
-using ScriptableObjects;
+using Mirror;
+using Systems.Electricity.NodeModules;
+using Systems.Explosions;
+using Systems.Interaction;
+using Objects.Machines;
+
 
 namespace Objects.Engineering
 {
 	[RequireComponent(typeof(ElectricalNodeControl))]
 	[RequireComponent(typeof(BatterySupplyingModule))]
-	public class SMES : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeControl, IExaminable
+	public class SMES : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, INodeControl, IExaminable, IEmpAble
 	{
 		[Tooltip("How often (in seconds) the SMES's charging status should be updated.")]
 		[SerializeField]
 		[Range(1, 20)]
 		private int indicatorUpdatePeriod = 5;
 		private RegisterTile registerTile;
+		private UniversalObjectPhysics objectBehaviour;
 
 		private ElectricalNodeControl electricalNodeControl;
 		private BatterySupplyingModule batterySupplyingModule;
-		private GameObject currentSparkEffect;
+		private Machine machine;
 
 
 		private SpriteHandler baseSpriteHandler;
@@ -32,6 +36,8 @@ namespace Objects.Engineering
 		private float MaxCharge => batterySupplyingModule.CapacityMax;
 		private float CurrentCharge => batterySupplyingModule.CurrentCapacity;
 		private int ChargePercent => Convert.ToInt32(Math.Round(CurrentCharge * 100 / MaxCharge));
+
+		private bool isExploding = false;
 
 
 		private bool outputEnabled = false;
@@ -63,6 +69,8 @@ namespace Objects.Engineering
 			outputEnabledIndicator = transform.GetChild(2).GetComponent<SpriteHandler>();
 			chargeLevelIndicator = transform.GetChild(3).GetComponent<SpriteHandler>();
 			registerTile = GetComponent<RegisterTile>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
+			machine = GetComponent<Machine>();
 
 			electricalNodeControl = GetComponent<ElectricalNodeControl>();
 			batterySupplyingModule = GetComponent<BatterySupplyingModule>();
@@ -71,6 +79,7 @@ namespace Objects.Engineering
 		public override void OnStartServer()
 		{
 			base.OnStartServer();
+			outputEnabled = batterySupplyingModule.StartOnStartUp;
 			UpdateMe();
 			UpdateManager.Add(UpdateMe, indicatorUpdatePeriod);
 		}
@@ -112,17 +121,20 @@ namespace Objects.Engineering
 		{
 			UpdateMe();
 			return $"The charge indicator shows a {ChargePercent} percent charge. " +
-			       $"The input level is: {batterySupplyingModule.InputLevel} % The output level is: {batterySupplyingModule.OutputLevel} %. " +
-			       $"The power input/output is " +
-			       $"{(outputEnabled ? $"enabled, and it seems to {(IsCharging ? "be" : "not be")} charging" : "disabled")}. " + 
-			       "Use a crowbar to adjust the output level and a wrench to adjust the input level.";
+				   $"The input level is: {batterySupplyingModule.InputLevel} % The output level is: {batterySupplyingModule.OutputLevel} %. " +
+				   $"The power input/output is " +
+				   $"{(outputEnabled ? $"enabled, and it seems to {(IsCharging ? "be" : "not be")} charging" : "disabled")}. " +
+				   "Use a crowbar to adjust the output level and a wrench to adjust the input level.";
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 			if (interaction.TargetObject != gameObject) return false;
-			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar)) return true;
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
+			{
+				return !machine.GetPanelOpen();
+			}
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) return true;
 			if (interaction.HandObject != null) return false;
 
@@ -147,6 +159,24 @@ namespace Objects.Engineering
 
 		#endregion Interaction
 
+		#region Ai Interaction
+
+		public bool WillInteract(AiActivate interaction, NetworkSide side)
+		{
+			if (interaction.ClickType != AiActivate.ClickTypes.NormalClick) return false;
+
+			if (DefaultWillInteract.AiActivate(interaction, side) == false) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(AiActivate interaction)
+		{
+			ServerToggleOutputMode();
+		}
+
+		#endregion
+
 		private void ServerToggleOutputMode()
 		{
 			TrySpark();
@@ -166,7 +196,7 @@ namespace Objects.Engineering
 			if (!outputEnabled)
 			{
 				var worldPos = registerTile.WorldPositionServer;
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Tick, worldPos, sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Tick, worldPos, sourceObj: gameObject);
 				if (batterySupplyingModule.InputLevel < 100)
 				{
 					batterySupplyingModule.InputLevel++;
@@ -182,13 +212,12 @@ namespace Objects.Engineering
 			}
 		}
 
-
 		private void ServerToggleOutputLevel(HandApply interaction)
 		{
 			if (!outputEnabled)
 			{
 				var worldPos = registerTile.WorldPositionServer;
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Tick, worldPos, sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Tick, worldPos, sourceObj: gameObject);
 				if (batterySupplyingModule.OutputLevel < 100)
 				{
 					batterySupplyingModule.OutputLevel++;
@@ -223,23 +252,25 @@ namespace Objects.Engineering
 
 		private void TrySpark()
 		{
+			SparkUtil.TrySpark(gameObject);
+		}
 
-			//75% chance to do effect and not already doing an effect
-			if(DMMath.Prob(25) || currentSparkEffect != null) return;
-
-			var worldPos = registerTile.WorldPositionServer;
-
-			var result = Spawn.ServerPrefab(CommonPrefabs.Instance.SparkEffect, worldPos, gameObject.transform.parent);
-			if (result.Successful)
+		public void OnEmp(int EmpStrength)
+		{
+			if (CurrentCharge > 10000000 && DMMath.Prob(25) && isExploding == false)
 			{
-				currentSparkEffect = result.GameObject;
-
-				//Try start fire if possible
-				var reactionManager = MatrixManager.AtPoint(worldPos, true).ReactionManager;
-				reactionManager.ExposeHotspotWorldPosition(worldPos.To2Int());
-
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Sparks, worldPos, sourceObj: gameObject);
+				isExploding = true;
+				TrySpark();
+				Chat.AddLocalMsgToChat($"<color=red>{gameObject.ExpensiveName()} starts to spit out sparks and smoke! No way this can end good...", gameObject);
+				StartCoroutine(Emp());
 			}
+			batterySupplyingModule.CurrentCapacity -= EmpStrength * 1000;
+		}
+
+		private IEnumerator Emp()
+		{
+			yield return WaitFor.Seconds(3);
+			Explosion.StartExplosion(gameObject.GetComponent<RegisterObject>().WorldPosition,UnityEngine.Random.Range(100,300));
 		}
 	}
 }

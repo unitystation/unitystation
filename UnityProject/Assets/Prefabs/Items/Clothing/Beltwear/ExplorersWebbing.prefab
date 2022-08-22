@@ -9,25 +9,30 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1595527395133040477, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
-      propertyPath: itemStorageStructure
+      propertyPath: itemStorageCapacity
       value: 
-      objectReference: {fileID: 11400000, guid: e8b6fa61b6bdb4b8aa2833a751dfc487,
+      objectReference: {fileID: 11400000, guid: 305f2bdfaa6a5914ca12cba2f0591ec6,
         type: 2}
     - target: {fileID: 1595527395133040477, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
-      propertyPath: itemStorageCapacity
+      propertyPath: itemStorageStructure
       value: 
-      objectReference: {fileID: 11400000, guid: a491b7976fc330345abb948c739115a6,
+      objectReference: {fileID: 11400000, guid: 0480160aa55493d42b53c8d08da3be7c,
         type: 2}
     - target: {fileID: 1764592290455851827, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 6050fe71b1f8f6a4cb17dc69b4e9223b
       objectReference: {fileID: 0}
     - target: {fileID: 1867061792278949511, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
       propertyPath: m_Name
       value: ExplorersWebbing
+      objectReference: {fileID: 0}
+    - target: {fileID: 1871985542549853171, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1871985542549853171, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
@@ -46,6 +51,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1871985542549853171, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1871985542549853171, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +68,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1871985542549853171, guid: 51c105fae1f0b074abf4c80745d8b129,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1871985542549853171, guid: 51c105fae1f0b074abf4c80745d8b129,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1871985542549853171, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
@@ -92,11 +92,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2235114152810004965, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
-      propertyPath: initialDescription
-      value: A versatile chest rig, cherished by miners and hunters alike.
-      objectReference: {fileID: 0}
-    - target: {fileID: 2235114152810004965, guid: 51c105fae1f0b074abf4c80745d8b129,
-        type: 3}
       propertyPath: initialName
       value: explorer's webbing
       objectReference: {fileID: 0}
@@ -105,11 +100,32 @@ PrefabInstance:
       propertyPath: initialSize
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 2235114152810004965, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: initialDescription
+      value: A versatile chest rig, cherished by miners and hunters alike.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4707276644318323434, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: foreverID
+      value: 6050fe71b1f8f6a4cb17dc69b4e9223b
+      objectReference: {fileID: 0}
     - target: {fileID: 5525703409436398848, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: d6e31725a453ad444a5d6944d6100b63,
+        type: 2}
+    - target: {fileID: 7968275424856731504, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7968275424856731504, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 11ec410ac3c9e6f4a9155a7adc2349e1,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51c105fae1f0b074abf4c80745d8b129, type: 3}

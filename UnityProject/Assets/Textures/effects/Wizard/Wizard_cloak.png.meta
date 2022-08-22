@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: cloak_31
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -119,6 +119,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -128,8 +130,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -150,9 +152,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -863,6 +869,39 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      cloak_14: 21300028
+      cloak_26: 21300052
+      cloak_7: 21300014
+      cloak_24: 21300048
+      cloak_3: 21300006
+      cloak_1: 21300002
+      cloak_13: 21300026
+      cloak_8: 21300016
+      cloak_19: 21300038
+      cloak_29: 21300058
+      cloak_4: 21300008
+      cloak_12: 21300024
+      cloak_22: 21300044
+      cloak_27: 21300054
+      cloak_9: 21300018
+      cloak_0: 21300000
+      cloak_31: 21300062
+      cloak_2: 21300004
+      cloak_25: 21300050
+      cloak_28: 21300056
+      cloak_15: 21300030
+      cloak_10: 21300020
+      cloak_16: 21300032
+      cloak_30: 21300060
+      cloak_23: 21300046
+      cloak_17: 21300034
+      cloak_11: 21300022
+      cloak_5: 21300010
+      cloak_18: 21300036
+      cloak_6: 21300012
+      cloak_20: 21300040
+      cloak_21: 21300042
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

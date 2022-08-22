@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcdd86e87cc447d94b99df8b1a383b3, type: 3}
   m_Name: AgentBeltPopulator
   m_EditorClassIdentifier: 
-  Contents:
+  SlotContents: []
+  DeprecatedContents:
   - {fileID: 5425176333133955786, guid: 0c3dfd367ef5208489f3507c90369d49, type: 3}
   - {fileID: 2911411287416645564, guid: 6cbe115a4da05634580766f105e60841, type: 3}
   - {fileID: 2105782632595794741, guid: ae1035aa6a0a89d449b49518b87e10b7, type: 3}
@@ -20,4 +21,3 @@ MonoBehaviour:
   - {fileID: 5318174538626623759, guid: c99325882b72aa54ea2a455df0dc6c6a, type: 3}
   - {fileID: 4066472661166580465, guid: 854070063eb06bb43be51bb1b4131ebc, type: 3}
   - {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943, type: 3}
-  MergeMode: 0

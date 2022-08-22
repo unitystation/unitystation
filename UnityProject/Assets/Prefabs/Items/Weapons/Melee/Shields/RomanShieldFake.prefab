@@ -13,6 +13,11 @@ PrefabInstance:
       value: 'Bears an inscription on the inside: "Romanes venio domus". It appears
         to be a bit flimsy.'
       objectReference: {fileID: 0}
+    - target: {fileID: 4102840502084102926, guid: 1004a7237ebbcbe4b874170b8f17d186,
+        type: 3}
+      propertyPath: traumaDamageChance
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 4471563324410525976, guid: 1004a7237ebbcbe4b874170b8f17d186,
         type: 3}
       propertyPath: m_RootOrder
@@ -111,7 +116,12 @@ PrefabInstance:
     - target: {fileID: 4578358304740030936, guid: 1004a7237ebbcbe4b874170b8f17d186,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: e0c1da4a3680e7d4bb1318cf4eb88a0a
+      objectReference: {fileID: 0}
+    - target: {fileID: 7396903877270341633, guid: 1004a7237ebbcbe4b874170b8f17d186,
+        type: 3}
+      propertyPath: foreverID
+      value: e0c1da4a3680e7d4bb1318cf4eb88a0a
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1004a7237ebbcbe4b874170b8f17d186, type: 3}

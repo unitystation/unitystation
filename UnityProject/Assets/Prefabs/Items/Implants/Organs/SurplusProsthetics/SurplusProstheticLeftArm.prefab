@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: 1932092293800375185, guid: 6288c623448564447ad3e18185754a58,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: d54e83a323b3e524c81d88b4b04ff6d3
       objectReference: {fileID: 0}
     - target: {fileID: 1964728513064046117, guid: 6288c623448564447ad3e18185754a58,
         type: 3}
@@ -88,6 +88,28 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A skeletal, robotic limb. Outdated and fragile, but it's still better
         than nothing.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3134263208076850617, guid: 6288c623448564447ad3e18185754a58,
+        type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3134263208076850617, guid: 6288c623448564447ad3e18185754a58,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 75daacd150eb34b47bdf127f59b739a1,
+        type: 2}
+    - target: {fileID: 3134263208076850617, guid: 6288c623448564447ad3e18185754a58,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 992d09f3670837845bec40346b8b7175,
+        type: 2}
+    - target: {fileID: 4899537923925869128, guid: 6288c623448564447ad3e18185754a58,
+        type: 3}
+      propertyPath: foreverID
+      value: d54e83a323b3e524c81d88b4b04ff6d3
       objectReference: {fileID: 0}
     - target: {fileID: 5621056504391087522, guid: 6288c623448564447ad3e18185754a58,
         type: 3}

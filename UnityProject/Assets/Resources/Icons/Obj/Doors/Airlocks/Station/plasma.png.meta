@@ -113,6 +113,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -122,8 +124,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -144,9 +146,12 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
@@ -840,6 +845,37 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      plasma_9: 21300018
+      plasma_23: 21300046
+      plasma_26: 21300052
+      plasma_16: 21300032
+      plasma_24: 21300048
+      plasma_25: 21300050
+      plasma_13: 21300026
+      plasma_21: 21300042
+      plasma_5: 21300010
+      plasma_3: 21300006
+      plasma_4: 21300008
+      plasma_17: 21300034
+      plasma_28: 21300056
+      plasma_27: 21300054
+      plasma_7: 21300014
+      plasma_15: 21300030
+      plasma_1: 21300002
+      plasma_6: 21300012
+      plasma_8: 21300016
+      plasma_18: 21300036
+      plasma_20: 21300040
+      plasma_12: 21300024
+      plasma_2: 21300004
+      plasma_29: 21300058
+      plasma_11: 21300022
+      plasma_14: 21300028
+      plasma_19: 21300038
+      plasma_10: 21300020
+      plasma_0: 21300000
+      plasma_22: 21300044
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

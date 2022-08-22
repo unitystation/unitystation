@@ -53,6 +53,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -62,8 +64,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -84,9 +86,12 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
@@ -132,7 +137,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9cc5e4dbaa8d30bb0800000000000000
-      internalID: -4970891335854826295
+      internalID: 21300000
       vertices: []
       indices: 
       edges: []
@@ -153,7 +158,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: ccf7ba71064575460800000000000000
-      internalID: 7230340498457329612
+      internalID: 21300002
       vertices: []
       indices: 
       edges: []
@@ -174,7 +179,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: cce312a0130e2d5a0800000000000000
-      internalID: -6497884811114234164
+      internalID: 21300004
       vertices: []
       indices: 
       edges: []
@@ -195,7 +200,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 57665a5f12bec3db0800000000000000
-      internalID: -4810711770850826635
+      internalID: 21300006
       vertices: []
       indices: 
       edges: []
@@ -252,6 +257,13 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      broadcast_receiver_1: 21300002
+      broadcast_receiver_3: 21300006
+      broadcast_receiver_2: 21300004
+      broadcast_receiver_4: -351039204862478377
+      broadcast_receiver_5: -5330452343655380654
+      broadcast_receiver_0: 21300000
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -73,7 +73,7 @@ static class BuildScript
 
 		if (validatedOptions.TryGetValue("devBuild", out var devBuild))
 		{
-			Console.WriteLine("Found -devBuild argument. This build will be a devBuild");
+			Console.WriteLine("Found -devBuild argument. This build will be a devBuild and include deep profiling!");
 			validatedOptions["devBuild"] = "true";
 		}
 		else
@@ -111,6 +111,7 @@ static class BuildScript
 		if (devBuild.Equals("true"))
 		{
 			buildOptions.options |= BuildOptions.Development;
+			buildOptions.options |= BuildOptions.EnableDeepProfilingSupport;
 		}
 
 		ReportOptions(buildOptions);

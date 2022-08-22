@@ -63,7 +63,7 @@ TextureImporter:
       213: 21300038
     second: vortex_talisman_19
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -83,6 +83,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -92,8 +94,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -114,9 +116,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -575,6 +581,27 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      vortex_talisman_5: 21300010
+      vortex_talisman_9: 21300018
+      vortex_talisman_19: 21300038
+      vortex_talisman_13: 21300026
+      vortex_talisman_1: 21300002
+      vortex_talisman_12: 21300024
+      vortex_talisman_16: 21300032
+      vortex_talisman_17: 21300034
+      vortex_talisman_10: 21300020
+      vortex_talisman_4: 21300008
+      vortex_talisman_15: 21300030
+      vortex_talisman_2: 21300004
+      vortex_talisman_8: 21300016
+      vortex_talisman_14: 21300028
+      vortex_talisman_18: 21300036
+      vortex_talisman_7: 21300014
+      vortex_talisman_6: 21300012
+      vortex_talisman_0: 21300000
+      vortex_talisman_3: 21300006
+      vortex_talisman_11: 21300022
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

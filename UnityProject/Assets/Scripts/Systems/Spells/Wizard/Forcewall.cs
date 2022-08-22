@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Mirror;
 
 namespace Systems.Spells.Wizard
 {
@@ -18,23 +17,23 @@ namespace Systems.Spells.Wizard
 
 		public override void CallActionClient()
 		{
-			SetCasterPassable(PlayerManager.LocalPlayer);
+			SetCasterPassable(PlayerManager.LocalPlayerObject);
 			base.CallActionClient();
 		}
 
-		public override bool CastSpellServer(ConnectedPlayer caster)
+		public override bool CastSpellServer(PlayerInfo caster)
 		{
 			GameObject[] obstructions = new GameObject[3];
 			obstructions[0] = Spawn.ServerPrefab(obstructionPrefab, caster.Script.WorldPos).GameObject;
 
-			if (caster.GameObject.TryGetComponent<Directional>(out var directional))
+			if (caster.GameObject.TryGetComponent<Rotatable>(out var directional))
 			{
-				if (directional.CurrentDirection == Orientation.Down || directional.CurrentDirection == Orientation.Up)
+				if (directional.CurrentDirection == OrientationEnum.Down_By180 || directional.CurrentDirection == OrientationEnum.Up_By0)
 				{
 					obstructions[1] = Spawn.ServerPrefab(obstructionPrefab, caster.Script.WorldPos + Vector3.left).GameObject;
 					obstructions[2] = Spawn.ServerPrefab(obstructionPrefab, caster.Script.WorldPos + Vector3.right).GameObject;
 				}
-				else if (directional.CurrentDirection == Orientation.Left || directional.CurrentDirection == Orientation.Right)
+				else if (directional.CurrentDirection == OrientationEnum.Left_By90 || directional.CurrentDirection == OrientationEnum.Right_By270)
 				{
 					obstructions[1] = Spawn.ServerPrefab(obstructionPrefab, caster.Script.WorldPos + Vector3.up).GameObject;
 					obstructions[2] = Spawn.ServerPrefab(obstructionPrefab, caster.Script.WorldPos + Vector3.down).GameObject;
@@ -67,7 +66,7 @@ namespace Systems.Spells.Wizard
 			{
 				if (obstruction == null) continue;
 
-				Despawn.ServerSingle(obstruction);
+				_ = Despawn.ServerSingle(obstruction);
 			}
 		}
 	}

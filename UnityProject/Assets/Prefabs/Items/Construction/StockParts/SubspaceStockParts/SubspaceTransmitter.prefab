@@ -13,6 +13,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 84e45497d0411674c843d3d6df64b918,
         type: 3}
+    - target: {fileID: 4044236217969615630, guid: aa2175a532ddc614fbd4cebc49ab22fb,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4234075059877604646, guid: aa2175a532ddc614fbd4cebc49ab22fb,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4234075059877604646, guid: aa2175a532ddc614fbd4cebc49ab22fb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -30,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4234075059877604646, guid: aa2175a532ddc614fbd4cebc49ab22fb,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4234075059877604646, guid: aa2175a532ddc614fbd4cebc49ab22fb,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -42,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4234075059877604646, guid: aa2175a532ddc614fbd4cebc49ab22fb,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4234075059877604646, guid: aa2175a532ddc614fbd4cebc49ab22fb,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4234075059877604646, guid: aa2175a532ddc614fbd4cebc49ab22fb,
         type: 3}
@@ -76,17 +81,22 @@ PrefabInstance:
     - target: {fileID: 4271034696529489382, guid: aa2175a532ddc614fbd4cebc49ab22fb,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: d8dd29686830f794685ba3582c773423
+      objectReference: {fileID: 0}
+    - target: {fileID: 4340463169029930800, guid: aa2175a532ddc614fbd4cebc49ab22fb,
+        type: 3}
+      propertyPath: initialName
+      value: subspace transmitter
       objectReference: {fileID: 0}
     - target: {fileID: 4340463169029930800, guid: aa2175a532ddc614fbd4cebc49ab22fb,
         type: 3}
       propertyPath: initialDescription
       value: A large piece of equipment used to open a window into the subspace dimension.
       objectReference: {fileID: 0}
-    - target: {fileID: 4340463169029930800, guid: aa2175a532ddc614fbd4cebc49ab22fb,
+    - target: {fileID: 7091848973800414271, guid: aa2175a532ddc614fbd4cebc49ab22fb,
         type: 3}
-      propertyPath: initialName
-      value: subspace transmitter
+      propertyPath: foreverID
+      value: d8dd29686830f794685ba3582c773423
       objectReference: {fileID: 0}
     - target: {fileID: 8041152682441747413, guid: aa2175a532ddc614fbd4cebc49ab22fb,
         type: 3}

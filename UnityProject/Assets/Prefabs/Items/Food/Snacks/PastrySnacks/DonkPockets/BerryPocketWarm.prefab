@@ -11,12 +11,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 3f825d1633a888743b102e90455d730d,
+      objectReference: {fileID: 21300000, guid: 63adcc33620c02740b73c02fd81ebc48,
         type: 3}
     - target: {fileID: 3028951143565990583, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 429c9d26520f04649863932e986b4979
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
@@ -35,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
@@ -80,13 +80,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3274486538061236321, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
-      propertyPath: initialDescription
-      value: A relentlessly sweet donk-pocket, now warm and delicious.
+      propertyPath: initialName
+      value: warm Berry-pocket
       objectReference: {fileID: 0}
     - target: {fileID: 3274486538061236321, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
-      propertyPath: initialName
-      value: warm Berry-pocket
+      propertyPath: initialDescription
+      value: A relentlessly sweet donk-pocket, now warm and delicious.
       objectReference: {fileID: 0}
     - target: {fileID: 4230781465489895339, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
@@ -106,18 +106,28 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4230781465489895339, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
-      value: 3
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4230781465489895339, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 1
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6506439916034532723, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
       propertyPath: NutritionLevel
       value: 158
+      objectReference: {fileID: 0}
+    - target: {fileID: 6506439916034532723, guid: 76e58cccbbfd2ab40b893f51eddd9094,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 158
+      objectReference: {fileID: 0}
+    - target: {fileID: 8297446324460465006, guid: 76e58cccbbfd2ab40b893f51eddd9094,
+        type: 3}
+      propertyPath: foreverID
+      value: 429c9d26520f04649863932e986b4979
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76e58cccbbfd2ab40b893f51eddd9094, type: 3}

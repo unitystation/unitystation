@@ -76,7 +76,7 @@ PrefabInstance:
     - target: {fileID: 1972636957058363524, guid: 83c862ecf47a1fc44be594cc5e19b980,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 28fa3712f32c53546817cb5e0918ed9d
       objectReference: {fileID: 0}
     - target: {fileID: 1976993738005044420, guid: 83c862ecf47a1fc44be594cc5e19b980,
         type: 3}
@@ -98,18 +98,36 @@ PrefabInstance:
       propertyPath: bodyPartsCovered
       value: 144
       objectReference: {fileID: 0}
+    - target: {fileID: 2844133956285234767, guid: 83c862ecf47a1fc44be594cc5e19b980,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2844133956285234767, guid: 83c862ecf47a1fc44be594cc5e19b980,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2844133956285234767, guid: 83c862ecf47a1fc44be594cc5e19b980,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777961452559450461, guid: 83c862ecf47a1fc44be594cc5e19b980,
+        type: 3}
+      propertyPath: foreverID
+      value: 28fa3712f32c53546817cb5e0918ed9d
+      objectReference: {fileID: 0}
     - target: {fileID: 4794426842226564789, guid: 83c862ecf47a1fc44be594cc5e19b980,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: ea19a7dc4f0c0894da41b678adea98cc,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4794426842226564789, guid: 83c862ecf47a1fc44be594cc5e19b980,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: ea19a7dc4f0c0894da41b678adea98cc,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4794426842226564789, guid: 83c862ecf47a1fc44be594cc5e19b980,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

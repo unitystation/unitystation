@@ -16,27 +16,31 @@ MonoBehaviour:
   isCrewmember: 1
   lateSpawnIsArrivals: 1
   inventoryPopulator: {fileID: 11400000, guid: 2f0352dd65eed4792941053f944c8a53, type: 2}
+  useStandardPopulator: 1
   limit: 2
   priority: 99
   allowedAccess: 170000001a0000002200000033000000
+  allowedLowPopAccess: 170000001a000000220000003300000046000000
+  issuedClearance: 200000001f0000000d00000005000000
+  issuedLowPopClearance: 200000001f0000000d00000005000000
   spells: []
-  progress: 30
+  progress: 40
   choiceColor: {r: 1, g: 0.93333334, b: 0.9411765, a: 1}
   previewSprite: {fileID: 21300000, guid: 041850facbfd8f94888f41156a3c4255, type: 3}
   displayName: Chemist
   difficulty: 2
-  descriptionShort: "\u2022 Mess with chemicals\n\u2022 Produce medicine\n\u2022
-    Produce other substances"
+  descriptionShort: "\u2022 Mess with chemicals\n\u2022 Produce pills and medicine\n\u2022
+    craft other substances"
   descriptionLong: "You\u2019re the Chemist and it\u2019s time to cook. You have
     all the implements and knowledge to break in anywhere you desire or kill anyone
     in the most inhuman ways or even make half the station addicts to something,
     but  yet you don\u2019t, because this is not about harming people, this is about
     the power of chemistry.\r\n\r\nAs the chemist you\u2019re expected to know and
     understand how the chemistry system works, how substances react to each other
-    and how to supply medicines to the medbay.\r\n\r\nNot sure what to do? Make medicines
-    for the stationeers. Experiment, learn all the different interactions between
-    substances. Do not make lube grenades or transform your workplace into a drug
-    lab. \r"
+    and how to supply medicines to the rest of the Medical team.\r\n\r\nNot sure
+    what to do? Make medicines for the stationeers. Experiment, learn all the different
+    interactions between substances. Do not make lube grenades or transform your
+    workplace into a drug lab. \r"
   customProperties:
     m_keys: []
     m_values: 
@@ -49,5 +53,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   textColor: {r: 1, g: 0.9333334, b: 0.94117653, a: 1}
   backgroundColor: {r: 1, g: 0, b: 0, a: 0}
+  specialPlayerPrefab: {fileID: 0}

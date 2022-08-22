@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
+using Audio.Containers;
 using UnityWebRequest = UnityEngine.Networking.UnityWebRequest;
 using Utility = UnityEngine.Networking.Utility;
 using Mirror;
@@ -16,6 +18,10 @@ public class MaryTTS : MonoBehaviour {
 		if ( Instance == null ) {
 			Instance = this;
 		} //else gets destroyed by parent
+	}
+
+	private void Start() {
+		audioSource.outputAudioMixerGroup = AudioManager.Instance.TTSMixer;
 	}
 
 	public void Synthesize( string textToSynth ) {

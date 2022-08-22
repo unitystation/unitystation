@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2745377269052413757, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: foreverID
+      value: 538cebc4fa9119344aa630d0f273bced
+      objectReference: {fileID: 0}
     - target: {fileID: 3162983547074257111, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -57,6 +62,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
+      propertyPath: loadMagSound.AssetAddress
+      value: Assets/Prefabs/Weapons/Gun/Revolver/RevolverLoadBullet.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: unloadMagSound.AssetAddress
+      value: Assets/Prefabs/Weapons/Gun/Revolver/RevolverEmpty.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
       propertyPath: SuppressedSoundA.AssetAddress
       value: null
       objectReference: {fileID: 0}
@@ -78,13 +93,19 @@ PrefabInstance:
     - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
       propertyPath: initialTraits.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: a6adad4523390e74b900fb3fce5d1c23,
+        type: 2}
+    - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: initialTraits.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: d9d368b74aa1775409e836d2fbbf52e0,
         type: 2}
     - target: {fileID: 8958440777353242636, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
@@ -155,7 +176,7 @@ PrefabInstance:
     - target: {fileID: 9166802612737582820, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 538cebc4fa9119344aa630d0f273bced
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b17740819c0bf4b44a53be1e477dc4d5, type: 3}

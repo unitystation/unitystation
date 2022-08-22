@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2909197017712554513, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 73168f92b78512c4286f7026c2b2b23e
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
@@ -89,18 +89,21 @@ PrefabInstance:
       value: There are old men, and there are bold men, but there are very few old,
         bold men.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: foreverID
+      value: 73168f92b78512c4286f7026c2b2b23e
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 0ad63692b04fc9943b970aba1d51786f,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 0ad63692b04fc9943b970aba1d51786f,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
       propertyPath: allClothingData.Array.size

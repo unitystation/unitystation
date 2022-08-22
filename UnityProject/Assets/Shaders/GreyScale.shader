@@ -7,7 +7,7 @@ Shader "Custom/GrayScale"
         [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
         _Color ("Tint", Color) = (1,1,1,1)
         [MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
-        _EffectAmount ("Effect Amount", Range (0, 1)) = 1.0
+        _EffectAmount ("Grey Amount", Range (0, 1)) = 1.0
     }
  
     SubShader
@@ -50,7 +50,11 @@ Shader "Custom/GrayScale"
             };
            
             fixed4 _Color;
- 
+
+			sampler2D _MainTex;
+			float4 _MainTex_TexelSize;
+			uniform float _EffectAmount;
+
             v2f vert(appdata_t IN)
             {
                 v2f OUT;
@@ -60,16 +64,15 @@ Shader "Custom/GrayScale"
                 #ifdef PIXELSNAP_ON
                 OUT.vertex = UnityPixelSnap (OUT.vertex);
                 #endif
- 
+
                 return OUT;
             }
  
-            sampler2D _MainTex;
-            uniform float _EffectAmount;
- 
+      
             fixed4 frag(v2f IN) : COLOR
             {
-                half4 texcol = tex2D (_MainTex, IN.texcoord);              
+                half4 texcol = tex2D (_MainTex, IN.texcoord);  
+
                 texcol.rgb = lerp(texcol.rgb, dot(texcol.rgb, float3(0.3, 0.59, 0.11)), _EffectAmount);
                 texcol = texcol * IN.color;
                 return texcol;

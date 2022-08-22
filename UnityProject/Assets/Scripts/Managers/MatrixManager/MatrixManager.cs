@@ -1,19 +1,20 @@
-using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using Chemistry;
 using Doors;
 using TileManagement;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
-using Debug = UnityEngine.Debug;
 using Systems.Atmospherics;
-using Objects.Construction;
+using Messages.Client.NewPlayer;
+using Messages.Client.SpriteMessages;
+using Shared.Managers;
+using Mirror;
+using Objects;
+using Tiles;
 
 /// <summary>
 /// Defines collision type we expect
@@ -23,22 +24,22 @@ public enum CollisionType
 	None = -1,
 	Player = 0,
 	Shuttle = 1,
-	Airborne = 2
+	Airborne = 2,
+	Click = 3
 };
 
 /// Matrix manager keeps a list of matrices that you can access from both client and server.
 /// Contains world/local position conversion methods, as well as several cross-matrix adaptations of Matrix methods.
 /// Also very common use scenario is Get()'ting matrix info using matrixId from PlayerState
 [ExecuteInEditMode]
-public partial class MatrixManager : MonoBehaviour
+public partial class MatrixManager : SingletonManager<MatrixManager>
 {
-	private static MatrixManager matrixManager;
+	public Dictionary<int, MatrixInfo> ActiveMatrices { get; private set; } = new Dictionary<int, MatrixInfo>();
 
-	public static MatrixManager Instance => matrixManager;
+	public List<MatrixInfo> ActiveMatricesList { get; private set; } = new List<MatrixInfo>();
 
-	private static LayerMask tileDmgMask;
+	public Dictionary<Scene, List<Matrix>> InitializingMatrixes = new Dictionary<Scene, List<Matrix>>();
 
-	public List<MatrixInfo> ActiveMatrices { get; private set; } = new List<MatrixInfo>();
 	public List<MatrixInfo> MovableMatrices { get; private set; } = new List<MatrixInfo>();
 
 	public static bool IsInitialized;
@@ -54,42 +55,29 @@ public partial class MatrixManager : MonoBehaviour
 
 	public static MatrixInfo MainStationMatrix => Get(Instance.mainStationMatrix);
 
-	private IEnumerator WaitForLoad()
+	public override void Start()
 	{
-		while (Instance.spaceMatrix == null || Instance.mainStationMatrix == null)
+		base.Start();
+		if (Application.isPlaying)
 		{
-			yield return WaitFor.EndOfFrame;
-		}
-
-		//Wait half a second to capture the majority of other matrices loading in
-		yield return WaitFor.Seconds(0.1f);
-		IsInitialized = true;
-
-		EventManager.Broadcast(EVENT.MatrixManagerInit);
-	}
-
-	private void Awake()
-	{
-		if (matrixManager == null)
-		{
-			matrixManager = this;
-		}
-		else
-		{
-			if (Application.isEditor && !Application.isPlaying) return;
-
-			Destroy(this);
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 	}
 
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
+		EventManager.AddHandler(Event.ScenesLoadedServer, OnScenesLoaded);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
+		EventManager.RemoveHandler(Event.ScenesLoadedServer, OnScenesLoaded);
+		if (Application.isPlaying)
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
 	}
 
 	void OnSceneChange(Scene oldScene, Scene newScene)
@@ -98,49 +86,158 @@ public partial class MatrixManager : MonoBehaviour
 		if (newScene.name.Equals("Lobby") == false)
 		{
 			IsInitialized = false;
-			StartCoroutine(WaitForLoad());
 		}
 	}
 
 	void ResetMatrixManager()
 	{
-		tileDmgMask = LayerMask.GetMask("Windows", "Walls");
 		Instance.spaceMatrix = null;
 		Instance.mainStationMatrix = null;
 		MovableMatrices.Clear();
 		ActiveMatrices.Clear();
+		ActiveMatricesList.Clear();
 		movingMatrices.Clear();
 		wallsTileMaps.Clear();
 		trackedIntersections.Clear();
+		InitializingMatrixes.Clear();
 	}
 
-	public static void RegisterMatrix(Matrix matrixToRegister, bool isSpaceMatrix = false, bool isMainStation = false,
-		bool isLavaLand = false)
+	public IEnumerator RegisterWhenReady(Matrix matrix)
 	{
-		foreach (var curInfo in Instance.ActiveMatrices)
+		while (matrix.NetworkedMatrix.Initialized == false ||
+		       (matrix.MatrixMove && matrix.MatrixMove.Initialized == false))
 		{
-			if (curInfo.Matrix == matrixToRegister) return;
+			yield return null;
 		}
 
-		var matrixInfo = CreateMatrixInfoFromMatrix(matrixToRegister, Instance.ActiveMatrices.Count);
+		RegisterMatrix(matrix);
+		matrix.Initialized = true;
 
-		if (Instance.ActiveMatrices.Contains(matrixInfo) == false)
+		var registerTileList = matrix.GetComponentsInChildren<RegisterTile>();
+		foreach (var registerTile in registerTileList)
 		{
-			Instance.ActiveMatrices.Add(matrixInfo);
+			registerTile.Initialize(matrix);
 		}
 
-		if (Instance.MovableMatrices.Contains(matrixInfo) == false && matrixInfo.MatrixMove != null)
+		if (CustomNetworkManager.IsServer)
 		{
-			Instance.MovableMatrices.Add(matrixInfo);
-		}
-
-		matrixToRegister.Id = matrixInfo.Id;
-
-		if (isSpaceMatrix)
-		{
-			if (Instance.spaceMatrix == null)
+			if (IsInitialized)
 			{
-				Instance.spaceMatrix = matrixToRegister;
+				//mid-round scene only
+				ServerMatrixInitialization(matrix);
+			}
+		}
+		else
+		{
+			if (AreAllMatrixReady())
+			{
+				if (IsInitialized)
+				{
+					ClientMatrixInitialization(matrix);
+				}
+				else
+				{
+					IsInitialized = true;
+					ClientAllMatrixReady();
+				}
+			}
+		}
+	}
+
+	private bool AreAllMatrixReady()
+	{
+		if (SubSceneManager.Instance.loadedScenesList.Count != InitializingMatrixes.Count)
+		{
+			return false;
+		}
+
+		foreach (var matrixList in InitializingMatrixes.Values)
+		{
+			foreach (var matrix in matrixList)
+			{
+				if (matrix.Initialized == false)
+				{
+					return false;
+				}
+			}
+		}
+
+		InitializingMatrixes.Clear();
+		return true;
+	}
+
+	[Server]
+	private void OnScenesLoaded()
+	{
+		StartCoroutine(WaitForAllMatrices());
+	}
+
+	[Server]
+	private IEnumerator WaitForAllMatrices()
+	{
+		while (AreAllMatrixReady() == false)
+		{
+			yield return null;
+		}
+
+		IsInitialized = true;
+
+		foreach (var matrixInfo in ActiveMatricesList)
+		{
+			ServerMatrixInitialization(matrixInfo.Matrix);
+		}
+
+		EventManager.Broadcast(Event.MatrixManagerInit);
+	}
+
+	[Server]
+	private void ServerMatrixInitialization(Matrix matrix)
+	{
+		var subsystemManager = matrix.GetComponentInParent<SubsystemManager>();
+		subsystemManager.Initialize();
+
+		var iServerSpawnList = matrix.GetComponentsInChildren<IServerSpawn>();
+		GameManager.Instance.MappedOnSpawnServer(iServerSpawnList);
+	}
+
+	[Client]
+	private void ClientAllMatrixReady()
+	{
+		for (int i = 0; i < ActiveMatricesList.Count; i++)
+		{
+			//TODO fixme: expensive and overly complicated way to make tiles interactable by the client (wrenching pipe tiles, etc)
+			ActiveMatricesList[i].Matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
+			TileChangeNewPlayer.Send(ActiveMatricesList[i].NetID);
+		}
+
+		SpriteRequestCurrentStateMessage.Send(SpriteHandlerManager.Instance.GetComponent<NetworkIdentity>().netId);
+	}
+
+	[Client]
+	private void ClientMatrixInitialization(Matrix matrix)
+	{
+		var subsystemManager = matrix.GetComponentInParent<SubsystemManager>();
+		subsystemManager.Initialize();
+	}
+
+	private void RegisterMatrix(Matrix matrix)
+	{
+		var matrixInfo = CreateMatrixInfoFromMatrix(matrix, matrix.NetworkedMatrix.MatrixSync.matrixID);
+
+		ActiveMatrices.Add(matrixInfo.Id, matrixInfo);
+		ActiveMatricesList.Add(matrixInfo);
+		if (matrixInfo.IsMovable)
+		{
+			MovableMatrices.Add(matrixInfo);
+		}
+
+		matrix.Id = matrixInfo.Id;
+
+		if (matrix.IsSpaceMatrix)
+		{
+			if (spaceMatrix == null)
+			{
+				spaceMatrix = matrix;
 			}
 			else
 			{
@@ -148,11 +245,11 @@ public partial class MatrixManager : MonoBehaviour
 			}
 		}
 
-		if (isMainStation)
+		if (matrix.IsMainStation)
 		{
-			if (Instance.mainStationMatrix == null)
+			if (mainStationMatrix == null)
 			{
-				Instance.mainStationMatrix = matrixToRegister;
+				mainStationMatrix = matrix;
 			}
 			else
 			{
@@ -160,11 +257,11 @@ public partial class MatrixManager : MonoBehaviour
 			}
 		}
 
-		if (isLavaLand)
+		if (matrix.IsLavaLand)
 		{
-			if (Instance.lavaLandMatrix == null)
+			if (lavaLandMatrix == null)
 			{
-				Instance.lavaLandMatrix = matrixToRegister;
+				lavaLandMatrix = matrix;
 			}
 			else
 			{
@@ -172,8 +269,8 @@ public partial class MatrixManager : MonoBehaviour
 			}
 		}
 
-		matrixToRegister.ConfigureMatrixInfo(matrixInfo);
-		Instance.InitCollisions(matrixInfo);
+		matrix.ConfigureMatrixInfo(matrixInfo);
+		InitCollisions(matrixInfo);
 	}
 
 	private static MatrixInfo CreateMatrixInfoFromMatrix(Matrix matrix, int id)
@@ -184,7 +281,6 @@ public partial class MatrixManager : MonoBehaviour
 			Matrix = matrix,
 			GameObject = gameObj,
 			Objects = gameObj.transform.GetComponentInChildren<ObjectLayer>().transform,
-			MatrixMove = gameObj.GetComponentInParent<MatrixMove>(),
 			MetaTileMap = gameObj.GetComponent<MetaTileMap>(),
 			MetaDataLayer = gameObj.GetComponent<MetaDataLayer>(),
 			SubsystemManager = gameObj.GetComponentInParent<SubsystemManager>(),
@@ -195,39 +291,68 @@ public partial class MatrixManager : MonoBehaviour
 	}
 
 	/// Finds first matrix that is not empty at given world pos
-	public static MatrixInfo AtPoint(Vector3Int worldPos, bool isServer)
+	public static MatrixInfo AtPoint(Vector3 worldPos, bool isServer, MatrixInfo possibleMatrix = null)
 	{
-		for (var i = Instance.ActiveMatrices.Count - 1; i >= 0; i--)
+		//for performance, this is just a suggestion on which matrix we believe this point could be in, not always correct
+		if (possibleMatrix != null && IsInMatrix(worldPos, isServer, possibleMatrix))
 		{
-			MatrixInfo mat = Instance.ActiveMatrices[i];
-			if (mat.Matrix == Instance.spaceMatrix) continue;
-			if (mat.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, mat), isServer) == false)
+			return possibleMatrix;
+		}
+
+		for (int i = 0; i < Instance.ActiveMatricesList.Count; i++)
+		{
+			var matrixInfo = Instance.ActiveMatricesList[i];
+			if (IsInMatrix(worldPos, isServer, matrixInfo))
 			{
-				return mat;
+				return matrixInfo;
 			}
 		}
 
-		return Instance.ActiveMatrices[Instance.spaceMatrix.Id];
+		return Instance.spaceMatrix.MatrixInfo;
 	}
+
+	public static MatrixInfo GetByName_DEBUG_ONLY(string Name)
+	{
+		for (int i = 0; i < Instance.ActiveMatricesList.Count; i++)
+		{
+			if (Instance.ActiveMatricesList[i].Name == Name)
+			{
+				return Instance.ActiveMatricesList[i];
+			}
+		}
+
+		return null;
+	}
+
+	private static bool IsInMatrix(Vector3 worldPos, bool isServer, MatrixInfo matrixInfo)
+	{
+		if (matrixInfo.WorldBounds.Contains(worldPos) == false)
+			return false;
+
+		if (matrixInfo.Matrix == Instance.spaceMatrix)
+			return false;
+
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		if (matrixInfo.Matrix.IsEmptyAt(localPos, isServer) == false)
+			return true;
+
+		return false;
+	}
+
 
 	public static CustomPhysicsHit Linecast(Vector3 Worldorigin, LayerTypeSelection layerMask, LayerMask? Layermask2D,
-		Vector3 WorldTo)
+		Vector3 WorldTo, bool DEBUG = false)
 	{
-		return RayCast(Worldorigin, Vector2.zero, 0, layerMask, Layermask2D, WorldTo);
+		return RayCast(Worldorigin, Vector2.zero, 0, layerMask, Layermask2D, WorldTo, DEBUG: DEBUG);
 	}
-
-
 
 	public static CustomPhysicsHit RayCast(Vector3 Worldorigin,
 		Vector2 direction,
 		float distance,
 		LayerTypeSelection layerMask, LayerMask? Layermask2D = null, Vector3? WorldTo = null,
-		LayerTile[] tileNamesToIgnore = null)
+		LayerTile[] tileNamesToIgnore = null, bool DEBUG = false)
 	{
-
-
 		Worldorigin.z = 0;
-
 
 		//TODO RRT
 		//get to  from vector
@@ -240,6 +365,18 @@ public partial class MatrixManager : MonoBehaviour
 		{
 			WorldTo = Worldorigin + (Vector3) (direction.normalized * distance);
 		}
+		else
+		{
+			distance = (WorldTo - Worldorigin).Value.magnitude;
+		}
+
+		if (distance > 30)
+		{
+			Logger.LogError(
+				$" Limit exceeded on raycast, Look at stack trace for What caused it at {distance}"); //Meant to catch up stuff that's been naughty and doing stuff like 900 tile Ray casts
+			return new CustomPhysicsHit();
+		}
+
 
 		if (direction.x == 0 && direction.y == 0)
 		{
@@ -248,22 +385,23 @@ public partial class MatrixManager : MonoBehaviour
 
 		if (layerMask != LayerTypeSelection.None)
 		{
-			for (var i = Instance.ActiveMatrices.Count - 1; i >= 0; i--)
+			//TODO do we really need to go through all matrixes? Can we break out at some point?
+			foreach (var matrixInfo in Instance.ActiveMatricesList)
 			{
-				MatrixInfo mat = Instance.ActiveMatrices[i];
-				//if (mat.Matrix == Instance.spaceMatrix) continue;
-				if (LineIntersectsRect(Worldorigin, (Vector2) WorldTo, mat.WorldBounds))
+				if (LineIntersectsRect(Worldorigin, WorldTo.Value, matrixInfo.WorldBounds))
 				{
-					Checkhit = mat.MetaTileMap.Raycast(Worldorigin.ToLocal(mat.Matrix), Vector2.zero, distance,
+					var localOrigin = WorldToLocal(Worldorigin, matrixInfo).To2();
+					var localTo = WorldToLocal(WorldTo.Value, matrixInfo).To2();
+					Checkhit = matrixInfo.MetaTileMap.Raycast(localOrigin, Vector2.zero,
+						distance,
 						layerMask,
-						WorldTo.Value.ToLocal(mat.Matrix), tileNamesToIgnore);
-
+						localTo, tileNamesToIgnore, DEBUG: DEBUG);
 
 					if (Checkhit != null)
 					{
 						if (ClosestHit != null)
 						{
-							if (ClosestHit.Value.Distance < Checkhit.Value.Distance)
+							if (ClosestHit.Value.Distance > Checkhit.Value.Distance)
 							{
 								ClosestHit = Checkhit;
 							}
@@ -291,7 +429,6 @@ public partial class MatrixManager : MonoBehaviour
 			{
 				ClosestHit = new CustomPhysicsHit(Hit2D);
 			}
-
 		}
 
 		if (ClosestHit == null)
@@ -301,6 +438,7 @@ public partial class MatrixManager : MonoBehaviour
 
 		return ClosestHit.Value;
 	}
+
 
 	public struct CustomPhysicsHit
 	{
@@ -355,7 +493,7 @@ public partial class MatrixManager : MonoBehaviour
 		public TileLocation TileLocation;
 	}
 
-	public static bool LineIntersectsRect(Vector2 p1, Vector2 p2, BoundsInt r)
+	public static bool LineIntersectsRect(Vector2 p1, Vector2 p2, BetterBounds r)
 	{
 		var xMin = r.xMin;
 		var yMin = r.yMin;
@@ -369,7 +507,7 @@ public partial class MatrixManager : MonoBehaviour
 		       (FindPoint(r.min, r.max, p1) && FindPoint(r.min, r.max, p2));
 	}
 
-	static bool FindPoint(Vector3Int min, Vector3Int max, Vector2 Point)
+	static bool FindPoint(Vector3 min, Vector3 max, Vector2 Point)
 	{
 		if (Point.x > min.x && Point.x < max.x &&
 		    Point.y > min.y && Point.y < max.y)
@@ -401,111 +539,34 @@ public partial class MatrixManager : MonoBehaviour
 		return true;
 	}
 
-	public static void ListAllMatrices()
-	{
-		for (var i = Instance.ActiveMatrices.Count - 1; i >= 0; i--)
-		{
-			Logger.Log("MATRIX: " + Instance.ActiveMatrices[i].Name, Category.Matrix);
-		}
-	}
-
-	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int,bool)"/>
-	///<inheritdoc cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int,bool)"/>
-	public static bool IsFloatingAt(Vector3Int worldPos, bool isServer)
-	{
-		return AllMatchInternal(mat => mat.Matrix.IsFloatingAt(WorldToLocalInt(worldPos, mat), isServer));
-	}
-
-	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int,bool)"/>
-	///<inheritdoc cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int,bool)"/>
-	public static bool IsNonStickyAt(Vector3Int worldPos, bool isServer)
-	{
-		return AllMatchInternal(mat => mat.Matrix.IsNonStickyAt(WorldToLocalInt(worldPos, mat), isServer));
-	}
-
-	///Cross-matrix edition of <see cref="Matrix.IsNoGravityAt"/>
-	///<inheritdoc cref="Matrix.IsNoGravityAt"/>
-	public static bool IsNoGravityAt(Vector3Int worldPos, bool isServer)
-	{
-		return AllMatchInternal(mat => mat.Matrix.IsNoGravityAt(WorldToLocalInt(worldPos, mat), isServer));
-	}
-
-	/// <summary>
-	/// Server only.
-	/// Returns true if it's slippery or no gravity at provided position.
-	/// </summary>
-	public static bool IsSlipperyOrNoGravityAt(Vector3Int worldPos)
-	{
-		return IsSlipperyAt(worldPos) || IsNoGravityAt(worldPos, isServer: true);
-	}
-
-	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int,bool)"/>
-	///<inheritdoc cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int,bool)"/>
-	public static bool IsFloatingAt(GameObject context, Vector3Int worldPos, bool isServer)
-	{
-		return AllMatchInternal(mat =>
-			mat.Matrix.IsFloatingAt(new[] {context}, WorldToLocalInt(worldPos, mat), isServer));
-	}
-
-	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int)"/>
-	///<inheritdoc cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int)"/>
-	public static bool IsFloatingAt(GameObject[] context, Vector3Int worldPos, bool isServer)
-	{
-		return AllMatchInternal(mat => mat.Matrix.IsFloatingAt(context, WorldToLocalInt(worldPos, mat), isServer));
-	}
-
 	///Cross-matrix edition of <see cref="Matrix.IsSpaceAt"/>
 	///<inheritdoc cref="Matrix.IsSpaceAt"/>
-	public static bool IsSpaceAt(Vector3Int worldPos, bool isServer)
+	public static bool IsSpaceAt(Vector3Int worldPos, bool isServer, MatrixInfo possibleMatrix = null)
 	{
-		foreach (MatrixInfo mat in Instance.ActiveMatrices)
+		var matrixInfo = AtPoint(worldPos, isServer, possibleMatrix);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.Matrix.IsSpaceAt(localPos, isServer);
+		return value;
+	}
+
+	public static bool IsConstructable(Vector3Int worldPos, MatrixInfo matrixInfo)
+	{
+		if (matrixInfo.Matrix.MetaTileMap.IsConstructable(WorldToLocalInt(worldPos, matrixInfo)))
 		{
-			if (mat.Matrix.IsSpaceAt(WorldToLocalInt(worldPos, mat), isServer) == false)
-			{
-				return false;
-			}
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsEmptyAt"/>
 	///<inheritdoc cref="Matrix.IsEmptyAt"/>
-	public static bool IsEmptyAt(Vector3Int worldPos, bool isServer)
+	public static bool IsEmptyAt(Vector3Int worldPos, bool isServer, MatrixInfo possibleMatrix)
 	{
-		foreach (MatrixInfo mat in Instance.ActiveMatrices)
-		{
-			if (mat.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, mat), isServer) == false)
-			{
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/// <inheritdoc cref="ObjectLayer.HasAnyDepartureBlockedByRegisterTile(Vector3Int, bool, RegisterTile)"/>
-	public static bool HasAnyDepartureBlockedAnyMatrix(Vector3Int to, bool isServer, RegisterTile context)
-	{
-		return AnyMatchInternal(mat => mat.Matrix.HasAnyDepartureBlockedOneMatrix(WorldToLocalInt(to, mat), isServer, context));
-	}
-
-	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
-	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
-	public static bool IsPassableAtAllMatrices(Vector3Int worldOrigin, Vector3Int worldTarget, bool isServer,
-		CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null,
-		int[] excludeList = null, List<LayerType> excludeLayers = null, bool isReach = false, bool onlyExcludeLayerOnDestination = false)
-	{
-		// Gets the list of Matrixes to actually check
-		MatrixInfo[] includeList = excludeList != null
-			? ExcludeFromAllMatrixes(GetList(excludeList)).ToArray()
-			: Instance.ActiveMatrices.ToArray();
-
-		return AllMatchInternal(mat =>
-			mat.Matrix.IsPassableAtOneMatrix(WorldToLocalInt(worldOrigin, mat), WorldToLocalInt(worldTarget, mat), isServer,
-				collisionType: collisionType, includingPlayers: includingPlayers, context: context,
-				excludeLayers: excludeLayers, isReach: isReach, onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination),
-				includeList);
+		var matrixInfo = AtPoint(worldPos, isServer, possibleMatrix);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.Matrix.IsEmptyAt(localPos, isServer);
+		return value;
 	}
 
 	/// <summary>
@@ -518,85 +579,6 @@ public partial class MatrixManager : MonoBehaviour
 	{
 		var Matrix = MatrixManager.AtPoint(worldTarget, CustomNetworkManager.Instance._isServer);
 		return Matrix.Matrix.TilemapsDamage;
-
-	}
-
-	/// <summary>
-	/// Checks what type of bump occurs at the specified destination.
-	/// </summary>
-	/// <param name="worldOrigin">current position in world coordinates</param>
-	/// <param name="dir">direction of movement</param>
-	/// <param name="bumper">PlayerMove trying to bump / move, used to check if we can swap with another player with help intent.</param>
-	/// <returns>the bump type which occurs at the specified point (BumpInteraction.None if it's open space)</returns>
-	public static BumpType GetBumpTypeAt(Vector3Int worldOrigin, Vector2Int dir, PlayerMove bumper, bool isServer)
-	{
-		Vector3Int targetPos = worldOrigin + dir.To3Int();
-
-
-		bool hasHelpIntent = false;
-		if (bumper.gameObject == PlayerManager.LocalPlayer && isServer == false)
-		{
-			//locally predict based on our set intent.
-			hasHelpIntent = UIManager.CurrentIntent == Intent.Help;
-		}
-
-		if (isServer)
-		{
-			//use value known to server
-			hasHelpIntent = bumper.IsHelpIntentServer;
-		}
-
-		if (hasHelpIntent)
-		{
-			//check for other players we can swap with
-			PlayerMove other = GetSwappableAt(targetPos, bumper.gameObject, isServer);
-			if (other != null)
-			{
-				//if we are pulling something, we can only swap with that thing
-				if (bumper.PlayerScript.pushPull.IsPullingSomething &&
-				    bumper.PlayerScript.pushPull.PulledObject == other.PlayerScript.pushPull)
-				{
-					return BumpType.Swappable;
-				}
-				else if (bumper.PlayerScript.pushPull.IsPullingSomething == false)
-				{
-					return BumpType.Swappable;
-				}
-			}
-		}
-
-		bool isPassable = IsPassableAtAllMatrices(worldOrigin, targetPos, isServer, includingPlayers: true, context: bumper.gameObject);
-		// Only push if not passable, e.g. for directional windows being pushed from parallel
-		if (isPassable == false && GetPushableAt(worldOrigin, dir, bumper.gameObject, isServer, true).Count > 0)
-		{
-			return BumpType.Push;
-		}
-
-		if (GetClosedDoorAt(worldOrigin, targetPos, isServer) != null)
-		{
-			return BumpType.ClosedDoor;
-		}
-
-		if (isPassable == false)
-		{
-			return BumpType.Blocked;
-		}
-
-		return BumpType.None;
-	}
-
-
-	/// <summary>
-	/// Checks what type of bump occurs at the specified destination.
-	/// </summary>
-	/// <param name="playerState">player state, used to get current world position</param>
-	/// <param name="playerAction">action indicating the direction player is trying to move</param>
-	/// <param name="bumper">PlayerMove trying to bump / move, used to check if we can swap with another player with help intent.</param>
-	/// <returns>the bump type which occurs at the specified point (BumpInteraction.None if it's open space)</returns>
-	public static BumpType GetBumpTypeAt(PlayerState playerState, PlayerAction playerAction, PlayerMove bumper,
-		bool isServer)
-	{
-		return GetBumpTypeAt(playerState.WorldPosition.RoundToInt(), playerAction.Direction(), bumper, isServer);
 	}
 
 	/// <summary>
@@ -607,24 +589,37 @@ public partial class MatrixManager : MonoBehaviour
 	/// <param name="targetPos">target world position to check</param>
 	/// <returns>The DoorTrigger of the closed door object specified in the summary, null if no such object
 	/// exists at that location</returns>
-	public static InteractableDoor GetClosedDoorAt(Vector3Int worldOrigin, Vector3Int targetPos, bool isServer)
+	public static InteractableDoor GetClosedDoorAt(Vector3Int worldOrigin, Vector3Int targetPos, bool isServer,
+		MatrixInfo MatrixAtOrigin = null, MatrixInfo MatrixAtTarget = null)
 	{
-		// Check door on the local tile first
-		Vector3Int localTarget = Instance.WorldToLocalInt(targetPos, AtPoint(targetPos, isServer).Matrix);
-		var originDoorList = GetAt<InteractableDoor>(worldOrigin, isServer);
-		foreach (InteractableDoor originDoor in originDoorList)
+		if (MatrixAtOrigin == null)
 		{
-			if (originDoor && originDoor.GetComponent<RegisterDoor>().IsPassableFromInside(localTarget, isServer) == false)
-				return originDoor;
+			MatrixAtOrigin = AtPoint(worldOrigin, isServer);
+		}
+
+		if (MatrixAtTarget == null)
+		{
+			MatrixAtTarget = AtPoint(targetPos, isServer);
+		}
+
+		// Check door on the local tile first
+		Vector3Int localTarget = WorldToLocalInt(targetPos, MatrixAtTarget.Matrix);
+		var originDoorList = GetAs<RegisterDoor>(worldOrigin, isServer, MatrixAtOrigin);
+		foreach (var originDoor in originDoorList)
+		{
+			if (originDoor && originDoor.IsPassableFromInside(localTarget, isServer) ==
+			    false)
+				return originDoor.InteractableDoor;
 		}
 
 		// No closed door on local tile, check target tile
-		Vector3Int localOrigin = Instance.WorldToLocalInt(worldOrigin, AtPoint(worldOrigin, isServer).Matrix);
-		var targetDoorList = GetAt<InteractableDoor>(targetPos, isServer);
-		foreach (InteractableDoor targetDoor in targetDoorList)
+		Vector3Int localOrigin = WorldToLocalInt(worldOrigin, MatrixAtOrigin.Matrix);
+		var targetDoorList = GetAs<RegisterDoor>(targetPos, isServer, MatrixAtTarget);
+		foreach (var targetDoor in targetDoorList)
 		{
-			if (targetDoor && targetDoor.GetComponent<RegisterDoor>().IsPassableFromOutside(localOrigin, isServer) == false)
-				return targetDoor;
+			if (targetDoor && targetDoor.IsPassableFromOutside(localOrigin, isServer) ==
+			    false)
+				return targetDoor.InteractableDoor;
 		}
 
 		// No closed doors on either tile
@@ -635,20 +630,22 @@ public partial class MatrixManager : MonoBehaviour
 	public static DoorMasterController GetNewClosedDoorAt(Vector3Int worldOrigin, Vector3Int targetPos, bool isServer)
 	{
 		// Check door on the local tile first
-		Vector3Int localTarget = Instance.WorldToLocalInt(targetPos, AtPoint(targetPos, isServer).Matrix);
+		Vector3Int localTarget = WorldToLocalInt(targetPos, AtPoint(targetPos, isServer).Matrix);
 		var originDoorList = GetAt<DoorMasterController>(worldOrigin, isServer);
 		foreach (DoorMasterController originDoor in originDoorList)
 		{
-			if (originDoor && originDoor.GetComponent<RegisterDoor>().IsPassableFromInside(localTarget, isServer) == false)
+			if (originDoor && originDoor.GetComponent<RegisterDoor>().IsPassableFromInside(localTarget, isServer) ==
+			    false)
 				return originDoor;
 		}
 
 		// No closed door on local tile, check target tile
-		Vector3Int localOrigin = Instance.WorldToLocalInt(worldOrigin, AtPoint(worldOrigin, isServer).Matrix);
+		Vector3Int localOrigin = WorldToLocalInt(worldOrigin, AtPoint(worldOrigin, isServer).Matrix);
 		var targetDoorList = GetAt<DoorMasterController>(targetPos, isServer);
 		foreach (DoorMasterController targetDoor in targetDoorList)
 		{
-			if (targetDoor && targetDoor.GetComponent<RegisterDoor>().IsPassableFromOutside(localOrigin, isServer) == false)
+			if (targetDoor && targetDoor.GetComponent<RegisterDoor>().IsPassableFromOutside(localOrigin, isServer) ==
+			    false)
 				return targetDoor;
 		}
 
@@ -663,17 +660,13 @@ public partial class MatrixManager : MonoBehaviour
 	/// <returns>MetaDataNode at the position. If no Node that isn't space is found, MetaDataNode.Node will be returned.</returns>
 	public static MetaDataNode GetMetaDataAt(Vector3Int worldPosition)
 	{
-		foreach (MatrixInfo mat in Instance.ActiveMatrices)
+		var mat = AtPoint(worldPosition, CustomNetworkManager.Instance._isServer, MainStationMatrix);
+		Vector3Int position = WorldToLocalInt(worldPosition, mat);
+		MetaDataNode node = mat.MetaDataLayer.Get(position, false);
+
+		if (node.Exists && node.IsSpace == false)
 		{
-			if (mat == null) continue;
-
-			Vector3Int position = WorldToLocalInt(worldPosition, mat);
-			MetaDataNode node = mat.MetaDataLayer.Get(position, false);
-
-			if (node.Exists && node.IsSpace == false)
-			{
-				return node;
-			}
+			return node;
 		}
 
 		return MetaDataNode.None;
@@ -706,7 +699,7 @@ public partial class MatrixManager : MonoBehaviour
 	/// <param name="worldPosition">Position where the update is triggered.</param>
 	public static void TriggerSubsystemUpdateAt(Vector3Int worldPosition)
 	{
-		foreach (MatrixInfo mat in Instance.ActiveMatrices)
+		foreach (MatrixInfo mat in Instance.ActiveMatricesList)
 		{
 			Vector3Int position = WorldToLocalInt(worldPosition, mat);
 
@@ -717,142 +710,54 @@ public partial class MatrixManager : MonoBehaviour
 		}
 	}
 
-	/// Gets pushables residing on one tile
-	/// <see cref="MatrixManager.GetPushableAt(Vector3Int, Vector2Int, GameObject, bool)"/>
-	private static void GetPushablesOneTile(ref List<PushPull> pushableList, Vector3Int pushableLocation, Vector2Int dir, GameObject pusher, bool isServer,
-		bool ignoreNonBlockable, bool isLeaving)
-	{
-		Vector3Int localPushableLocation = Instance.WorldToLocalInt(pushableLocation, AtPoint(pushableLocation, isServer).Matrix);
-		foreach (PushPull pushPull in GetAt<PushPull>(pushableLocation, isServer))
-		{
-			if (pushPull == null || pushPull.gameObject == pusher) continue;
-
-			if (ignoreNonBlockable)
-			{
-				if (isLeaving)
-				{
-					// ignore nonblocking pushables on tile we're leaving
-					if (pushPull.registerTile.IsPassableFromInside(localPushableLocation + (Vector3Int)dir, isServer: isServer))
-					{
-						continue;
-					}
-				}
-				else
-				{
-					// ignore nonblocking pushables on tile we're entering
-					if (pushPull.registerTile.IsPassableFromOutside(pushableLocation - (Vector3Int)dir,isServer: isServer))
-					{
-						continue;
-					}
-				}
-			}
-
-			// If the object being Push/Pulled is a player, and that player is buckled, we should use the pushPull object that the player is buckled to.
-			// By design, chairs are not "solid" so, the condition above will filter chairs but won't filter players
-			PushPull pushable = pushPull;
-			PlayerMove playerMove = pushPull.GetComponent<PlayerMove>();
-			if (playerMove && playerMove.IsBuckled)
-			{
-				PushPull buckledPushPull = playerMove.BuckledObject.GetComponent<PushPull>();
-
-				if (buckledPushPull)
-					pushable = buckledPushPull;
-			}
-
-			pushableList.Add(pushable);
-		}
-	}
-
-	/// <summary>
-	/// Checks if there are any pushables int the specified direction which can be pushed from the current position.
-	/// </summary>
-	/// <param name="worldOrigin">position pushing from</param>
-	/// <param name="dir">direction to push</param>
-	/// <param name="pusher">gameobject of the thing attempting the push, only used to prevent itself from being able to push itself</param>
-	/// <param name="ignoreNonBlockable">true if only objects that block the indicated movement should be included</param>
-	/// <returns>each pushable other than pusher at worldTarget for which it is possible to actually move it
-	/// when pushing from worldOrigin (i.e. if it's against a wall and you try to push against the wall, that pushable would be excluded).
-	/// Empty list if no pushables.</returns>
-	public static List<PushPull> GetPushableAt(Vector3Int worldOrigin, Vector2Int dir, GameObject pusher, bool isServer, bool ignoreNonBlockable)
-	{
-		List<PushPull> result = new List<PushPull>();
-
-		// Get pushables the pusher is pushing "inside" from
-		GetPushablesOneTile(ref result, worldOrigin, dir, pusher, isServer, ignoreNonBlockable, true);
-
-		// Get pushables the pusher is pushing into in the destination space
-		Vector3Int worldTarget = worldOrigin + dir.To3Int();
-		GetPushablesOneTile(ref result, worldTarget, dir, pusher, isServer, ignoreNonBlockable, false);
-
-		return result;
-	}
-
-	/// <summary>
-	/// Gets the player move at the position which is currently able to be swapped with (if one exists).
-	/// </summary>
-	/// <param name="targetWorldPos">Position to check</param>
-	/// <param name="mover">gameobject of the thing attempting the move, only used to prevent itself from being checked</param>
-	/// <returns>the player move that is swappable, otherwise null</returns>
-	public static PlayerMove GetSwappableAt(Vector3Int targetWorldPos, GameObject mover, bool isServer)
-	{
-		var playerMoves = GetAt<PlayerMove>(targetWorldPos, isServer);
-		foreach (PlayerMove playerMove in playerMoves)
-		{
-			if (playerMove && playerMove.IsSwappable && playerMove.gameObject != mover)
-			{
-				return playerMove;
-			}
-		}
-
-		return null;
-	}
 
 	public static bool IsTotallyImpassable(Vector3Int worldTarget, bool isServer)
 	{
-		return IsPassableAtAllMatricesOneTile(worldTarget, isServer) == false && IsAtmosPassableAt(worldTarget, isServer) == false;
-	}
-
-	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,bool)"/>
-	///<inheritdoc cref="Vector3Int"/>
-	public static bool IsPassableAtAllMatricesOneTile(Vector3Int worldTarget, bool isServer, bool includingPlayers = true,
-		List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, GameObject context = null, bool ignoreObjects = false,
-		bool onlyExcludeLayerOnDestination = false)
-	{
-		return AllMatchInternal(mat =>
-			mat.Matrix.IsPassableAtOneMatrixOneTile(WorldToLocalInt(worldTarget, mat), isServer, includingPlayers,
-				excludeLayers, excludeTiles, context, ignoreObjects, onlyExcludeLayerOnDestination));
-	}
-
-	/// <summary>
-	/// Serverside only: checks if tile is slippery
-	/// </summary>
-	public static bool IsSlipperyAt(Vector3Int worldPos)
-	{
-
-
-		return AnyMatchInternal(mat => mat.MetaDataLayer.IsSlipperyAt(WorldToLocalInt(worldPos, mat)));
-	}
-
-	///Cross-matrix edition of <see cref="Matrix.IsAtmosPassableAt(UnityEngine.Vector3Int,bool)"/>
-	///<inheritdoc cref="Matrix.IsAtmosPassableAt(UnityEngine.Vector3Int,bool)"/>
-	public static bool IsAtmosPassableAt(Vector3Int worldTarget, bool isServer)
-	{
-		return AllMatchInternal(mat => mat.Matrix.IsAtmosPassableAt(WorldToLocalInt(worldTarget, mat), isServer));
+		return IsPassableAtAllMatricesOneTile(worldTarget, isServer) == false &&
+		       IsAtmosPassableAt(worldTarget, isServer) == false;
 	}
 
 	/// <see cref="Matrix.Get{T}(UnityEngine.Vector3Int,bool)"/>
-	public static List<T> GetAt<T>(Vector3Int worldPos, bool isServer) where T : MonoBehaviour
+	public static IEnumerable<T> GetAt<T>(Vector3Int worldPos, bool isServer, MatrixInfo MatrixAt = null)
 	{
-		List<T> t = new List<T>();
-		var activeMatrices = Instance.ActiveMatrices;
-		for (var i = 0; i < activeMatrices.Count; i++)
+		if (MatrixAt == null)
 		{
-			var matrixInfo = activeMatrices[i];
-			var position = WorldToLocalInt(worldPos, matrixInfo);
-			t.AddRange(matrixInfo.Matrix.Get<T>(position, isServer));
+			MatrixAt = AtPoint(worldPos, isServer);
 		}
 
-		return t;
+		var position = WorldToLocalInt(worldPos, MatrixAt);
+		return MatrixAt.Matrix.Get<T>(position, isServer);
+	}
+
+
+	public static IEnumerable<T> GetAs<T>(Vector3Int worldPos, bool isServer, MatrixInfo matrixAt = null)
+		where T : RegisterTile
+	{
+		if (matrixAt == null)
+		{
+			matrixAt = AtPoint(worldPos, isServer);
+		}
+
+		var position = WorldToLocalInt(worldPos, matrixAt);
+		return matrixAt.Matrix.GetAs<T>(position, isServer);
+	}
+
+	public static IEnumerable<RegisterTile> GetRegisterTiles(Vector3Int worldPos, bool isServer)
+	{
+		var matrixInfo = AtPoint(worldPos, isServer);
+		var position = WorldToLocalInt(worldPos, matrixInfo);
+		return matrixInfo.Matrix.Get(position, isServer);
+	}
+
+	public static IEnumerable<T> GetReachableAt<T>(Vector3Int fromPos, Vector3Int toPos, bool isServer)
+		where T : MonoBehaviour
+	{
+		if (Validations.IsReachableByPositions(fromPos, toPos, isServer))
+		{
+			return GetAt<T>(toPos, isServer);
+		}
+
+		return Enumerable.Empty<T>();
 	}
 
 	/// <summary>
@@ -879,17 +784,105 @@ public partial class MatrixManager : MonoBehaviour
 		return result;
 	}
 
-	//shorthand for calling GetAt at the targeted object's position
-	public static List<T> GetAt<T>(GameObject targetObject, NetworkSide side) where T : MonoBehaviour
+	/// <summary>
+	/// checks all reachable tiles adjacent to the indicated world position for objects with the indicated component.
+	/// Probably pretty expensive.
+	/// </summary>
+	/// <param name="worldPos"></param>
+	/// <param name="isServer"></param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns></returns>
+	public static List<T> GetReachableAdjacent<T>(Vector3Int worldPos, bool isServer) where T : MonoBehaviour
 	{
-		return GetAt<T>((Vector3Int) targetObject.TileWorldPosition(), side == NetworkSide.Server);
+		List<T> result = new List<T>();
+
+		result.AddRange(GetReachableAt<T>(worldPos, worldPos + Vector3Int.right, isServer));
+		result.AddRange(GetReachableAt<T>(worldPos, worldPos + Vector3Int.right + Vector3Int.up, isServer));
+		result.AddRange(GetReachableAt<T>(worldPos, worldPos + Vector3Int.up, isServer));
+		result.AddRange(GetReachableAt<T>(worldPos, worldPos + Vector3Int.up + Vector3Int.left, isServer));
+		result.AddRange(GetReachableAt<T>(worldPos, worldPos + Vector3Int.left, isServer));
+		result.AddRange(GetReachableAt<T>(worldPos, worldPos + Vector3Int.left + Vector3Int.down, isServer));
+		result.AddRange(GetReachableAt<T>(worldPos, worldPos + Vector3Int.down, isServer));
+		result.AddRange(GetReachableAt<T>(worldPos, worldPos + Vector3Int.down + Vector3Int.right, isServer));
+
+		return result;
 	}
 
-	private static bool AllMatchInternal(Func<MatrixInfo, bool> condition, MatrixInfo[] matrixInfos)
+	//shorthand for calling GetAt at the targeted object's position
+	public static IEnumerable<T> GetAt<T>(GameObject targetObject, NetworkSide side, MatrixInfo MatrixAt = null)
+		where T : MonoBehaviour
 	{
-		for (var i = 0; i < matrixInfos.Length; i++)
+		return GetAt<T>((Vector3Int) targetObject.TileWorldPosition(), side == NetworkSide.Server, MatrixAt);
+	}
+
+	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,bool)"/>
+	///<inheritdoc cref="Vector3Int"/>
+	public static bool IsPassableAtAllMatricesOneTile(Vector3Int worldPos, bool isServer,
+		bool includingPlayers = true,
+		List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, GameObject context = null,
+		bool ignoreObjects = false,
+		bool onlyExcludeLayerOnDestination = false)
+	{
+		var matrixInfo = AtPoint(worldPos, isServer);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.Matrix.IsPassableAtOneMatrixOneTile(localPos, isServer, includingPlayers,
+			excludeLayers, excludeTiles, context, ignoreObjects, onlyExcludeLayerOnDestination);
+		return value;
+	}
+
+	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
+	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
+	public static bool IsPassableAtAllMatrices(Vector3Int worldOrigin, Vector3Int worldTarget, bool isServer,
+		CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null,
+		MatrixInfo excludeMatrix = null, List<LayerType> excludeLayers = null, bool isReach = false,
+		bool onlyExcludeLayerOnDestination = false, MatrixInfo matrixOrigin = null, MatrixInfo matrixTarget = null)
+	{
+		MatrixInfo possibleMatrix = context ? context.GetComponent<RegisterTile>()?.Matrix.MatrixInfo : null;
+
+		if (matrixOrigin == null)
 		{
-			if (condition(matrixInfos[i]) == false)
+			matrixOrigin = AtPoint(worldOrigin, isServer, possibleMatrix);
+		}
+
+		if (matrixTarget == null)
+		{
+			matrixTarget = AtPoint(worldTarget, isServer, possibleMatrix);
+		}
+
+
+		if (excludeMatrix != null)
+		{
+			if (excludeMatrix == matrixOrigin)
+			{
+				matrixOrigin = Instance.spaceMatrix.MatrixInfo;
+			}
+
+			if (excludeMatrix == matrixTarget)
+			{
+				matrixTarget = Instance.spaceMatrix.MatrixInfo;
+			}
+		}
+
+		var localPosOrigin = WorldToLocalInt(worldOrigin, matrixOrigin);
+		var localPosTarget = WorldToLocalInt(worldTarget, matrixOrigin);
+
+		var value = matrixOrigin.Matrix.IsPassableAtOneMatrix(localPosOrigin, localPosTarget, isServer,
+			collisionType, includingPlayers, context, excludeLayers, isReach: isReach,
+			onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination);
+		if (value == false)
+		{
+			return false;
+		}
+
+		if (matrixOrigin != matrixTarget)
+		{
+			localPosOrigin = WorldToLocalInt(worldOrigin, matrixTarget);
+			localPosTarget = WorldToLocalInt(worldTarget, matrixTarget);
+
+			value = matrixTarget.Matrix.IsPassableAtOneMatrix(localPosOrigin, localPosTarget, isServer,
+				collisionType, includingPlayers, context, excludeLayers, isReach: isReach,
+				onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination);
+			if (value == false)
 			{
 				return false;
 			}
@@ -898,43 +891,292 @@ public partial class MatrixManager : MonoBehaviour
 		return true;
 	}
 
-	// By default will just check every Matrix
-	private static bool AllMatchInternal(Func<MatrixInfo, bool> condition)
+	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
+	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
+	public static bool IsPassableAtAllMatricesV2(Vector3 worldOrigin, Vector3 worldTarget,
+		MatrixCash MatrixCash, UniversalObjectPhysics Context, List<UniversalObjectPhysics> PushIng,
+		List<IBumpableObject> Bumps, List<UniversalObjectPhysics> Hits = null)
 	{
-		return AllMatchInternal(condition, Instance.ActiveMatrices.ToArray());
-	}
+		var MatrixOrigin = MatrixCash.GetforDirection(Vector3Int.zero);
 
-	private static bool AnyMatchInternal(Func<MatrixInfo, bool> condition, MatrixInfo[] matrixInfos)
-	{
-		for (var i = 0; i < matrixInfos.Length; i++)
+		var localPosOrigin = WorldToLocal(worldOrigin, MatrixOrigin);
+		var localPosTarget = WorldToLocal(worldTarget, MatrixOrigin);
+
+		bool IsPassable = MatrixOrigin.Matrix.MetaTileMap.IsPassableAtOneObjectsV2(localPosOrigin.RoundToInt(),
+			localPosTarget.RoundToInt(), Context, PushIng, Bumps, Hits);
+
+		if (IsPassable == false)
 		{
-			if (condition(matrixInfos[i]))
+			return false;
+		}
+
+
+		// PushIng.Clear();
+		if (Hits != null) Hits.Clear();
+
+		var matrixTarget = MatrixCash.GetforDirection((worldTarget - worldOrigin).RoundToInt());
+
+
+		localPosOrigin = WorldToLocal(worldOrigin, matrixTarget);
+		localPosTarget = WorldToLocal(worldTarget, matrixTarget);
+
+		var intlocalPosOrigin = localPosOrigin.RoundToInt();
+		var intlocalPosTarget = localPosTarget.RoundToInt();
+		bool isSpace = matrixTarget.Matrix == MatrixManager.Instance.spaceMatrix;
+		var CollisionType = global::CollisionType.Player;
+		if (Context.airTime > 0)
+		{
+			CollisionType = CollisionType.Airborne;
+		}
+		else if (Context.pickupable.HasComponent)
+		{
+			CollisionType = CollisionType.Airborne;
+		}
+
+		if (intlocalPosOrigin.x == intlocalPosTarget.x || intlocalPosOrigin.y == intlocalPosTarget.y)
+		{
+			if (isSpace || matrixTarget.Matrix.MetaTileMap.IsPassableAtOneTileMapV2(intlocalPosOrigin, intlocalPosTarget,
+				    CollisionType))
 			{
-				return true;
+				if (matrixTarget.Matrix.MetaTileMap.IsPassableAtOneObjectsV2(intlocalPosOrigin, intlocalPosTarget,
+					    Context,
+					    PushIng, Bumps, Hits))
+				{
+					return true;
+				}
 			}
 		}
+		else
+		{
+			if (isSpace || matrixTarget.Matrix.MetaTileMap.IsPassableTileMapHorizontal(intlocalPosOrigin, intlocalPosTarget,
+				    CollisionType))
+			{
+				if (matrixTarget.Matrix.MetaTileMap.IsPassableObjectsHorizontal(intlocalPosOrigin,
+					    intlocalPosTarget, Context,
+					    PushIng, Bumps, Hits))
+				{
+					return true;
+				}
+			}
+
+			if (Hits != null) Hits.Clear();
+			Bumps.Clear();
+			PushIng.Clear();
+
+			if (isSpace || matrixTarget.Matrix.MetaTileMap.IsPassableTileMapVertical(intlocalPosOrigin, intlocalPosTarget,
+				    CollisionType))
+			{
+				if (matrixTarget.Matrix.MetaTileMap.IsPassableObjectsVertical(intlocalPosOrigin, intlocalPosTarget,
+					    Context,
+					    PushIng, Bumps, Hits))
+				{
+					return true;
+				}
+			}
+		}
+
 
 		return false;
 	}
 
-	private static bool AnyMatchInternal(Func<MatrixInfo, bool> condition)
+	public static bool IsTableAt(Vector3Int worldPos, bool isServer)
 	{
-		return AnyMatchInternal(condition, Instance.ActiveMatrices.ToArray());
+		var matrixInfo = AtPoint(worldPos, isServer);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.Matrix.IsTableAt(localPos, isServer);
+		return value;
 	}
 
-	public static bool IsTableAtAnyMatrix(Vector3Int worldTarget, bool isServer)
+	public static bool IsWallAt(Vector3Int worldPos, bool isServer)
 	{
-		return AnyMatchInternal(mat => mat != null && mat.Matrix.IsTableAt(WorldToLocalInt(worldTarget, mat), isServer));
+		var matrixInfo = AtPoint(worldPos, isServer);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.Matrix.IsWallAt(localPos, isServer);
+		return value;
 	}
 
-	public static bool IsWallAtAnyMatrix(Vector3Int worldTarget, bool isServer)
+	public static bool IsWindowAt(Vector3Int worldPos, bool isServer)
 	{
-		return AnyMatchInternal(mat => mat != null && mat.Matrix.IsWallAt(WorldToLocalInt(worldTarget, mat), isServer));
+		var matrixInfo = AtPoint(worldPos, isServer);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.Matrix.IsWindowAt(localPos, isServer);
+		return value;
 	}
 
-	public static bool IsWindowAtAnyMatrix(Vector3Int worldTarget, bool isServer)
+	public static bool IsGrillAt(Vector3Int worldPos, bool isServer)
 	{
-		return AnyMatchInternal(mat => mat != null && mat.Matrix.IsWindowAt(WorldToLocalInt(worldTarget, mat), isServer));
+		var matrixInfo = AtPoint(worldPos, isServer);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.Matrix.IsGrillAt(localPos, isServer);
+		return value;
+	}
+
+	public static bool IsFloorAt(Vector3Int worldPos, bool isServer)
+	{
+		var matrixInfo = AtPoint(worldPos, isServer);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.Matrix.IsFloorAt(localPos, isServer);
+		return value;
+	}
+
+	/// <summary>
+	/// Serverside only: checks if tile is slippery
+	/// </summary>
+	[Server]
+	public static bool IsSlipperyAt(Vector3Int worldPos, MatrixInfo possibleMatrix)
+	{
+		var matrixInfo = AtPoint(worldPos, true, possibleMatrix);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.MetaDataLayer.IsSlipperyAt(localPos);
+		return value;
+	}
+
+	/// <inheritdoc cref="ObjectLayer.HasAnyDepartureBlockedByRegisterTile(Vector3Int, bool, RegisterTile)"/>
+	public static bool HasAnyDepartureBlockedAt(Vector3Int worldPos, bool isServer, RegisterTile context)
+	{
+		var matrixInfo = AtPoint(worldPos, isServer);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.Matrix.HasAnyDepartureBlockedOneMatrix(localPos, isServer, context);
+		return value;
+	}
+
+	public static bool IsNonStickyAt(Vector3Int worldPos, bool isServer, MatrixInfo possibleMatrix = null)
+	{
+		foreach (Vector3Int pos in worldPos.BoundsAround().allPositionsWithin)
+		{
+			var matrixInfo = AtPoint(pos, isServer, possibleMatrix);
+			var localPos = WorldToLocalInt(pos, matrixInfo);
+			if (matrixInfo.MetaTileMap.IsNoGravityAt(localPos, isServer) == false)
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	///Cross-matrix edition of <see cref="Matrix.IsNoGravityAt"/>
+	///<inheritdoc cref="Matrix.IsNoGravityAt"/>
+	public static bool IsNoGravityAt(Vector3Int worldPos, bool isServer, MatrixInfo possibleMatrix)
+	{
+		var matrixInfo = AtPoint(worldPos, isServer, possibleMatrix);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.Matrix.IsNoGravityAt(localPos, isServer);
+		return value;
+	}
+
+	/// <summary>
+	/// Server only.
+	/// Returns true if it's slippery or no gravity at provided position.
+	/// </summary>
+	[Server]
+	public static bool IsSlipperyOrNoGravityAt(Vector3Int worldPos, MatrixInfo possibleMatrix)
+	{
+		return IsSlipperyAt(worldPos, possibleMatrix) || IsNoGravityAt(worldPos, true, possibleMatrix);
+	}
+
+	public static bool IsFloatingAt(GameObject context, Vector3Int worldPos, bool isServer, MatrixInfo possibleMatrix)
+	{
+		return IsFloatingAt(new[] {context}, worldPos, isServer, possibleMatrix);
+	}
+
+	public static bool IsFloatingAt(GameObject[] context, Vector3Int worldPos, bool isServer, MatrixInfo possibleMatrix)
+	{
+		foreach (Vector3Int pos in worldPos.BoundsAround().allPositionsWithin)
+		{
+			var matrixInfo = AtPoint(pos, isServer, possibleMatrix);
+			var localPos = WorldToLocalInt(pos, matrixInfo);
+			if (matrixInfo.MetaTileMap.IsEmptyAt(context, localPos, isServer) == false)
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	public static bool IsFloatingAtV2Tile(Vector3 worldPos, bool isServer,
+		MatrixCash MatrixCash, bool DEBUG = false) //Assuming MatrixCash is Initialised
+	{
+		for (int i = 0; i < MatrixCash.DIRs.Length; i++)
+		{
+			var DIR = MatrixCash.DIRs[i];
+			var matrixInfo = MatrixCash.GetforDirection(DIR);
+			var localPos = WorldToLocalInt(worldPos + DIR, matrixInfo);
+			if (matrixInfo.Matrix.HasGravity)
+			{
+				if (matrixInfo.MetaTileMap.IsEmptyTileMap(localPos) == false)
+				{
+					return false;
+				}
+			}
+			else
+			{
+				if (matrixInfo.MetaTileMap.HasGrabbleTileMap(localPos, isServer))
+				{
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	public static bool IsNotFloatingAtV2Objects(MovementSynchronisation.MoveData moveAction, GameObject[] context,
+		Vector3Int worldPos, bool isServer,
+		MatrixCash MatrixCash, out RegisterTile CanPushOff) //Assuming MatrixCash is Initialised
+	{
+		bool SomethingToHold = false;
+		var Direction = moveAction.GlobalMoveDirection.ToVector().To3Int();
+		for (int i = 0; i < MatrixCash.DIRs.Length; i++)
+		{
+			var DIR = MatrixCash.DIRs[i];
+			var matrixInfo = MatrixCash.GetforDirection(DIR);
+
+			var localPos = WorldToLocalInt(worldPos + DIR, matrixInfo);
+			if (matrixInfo.MetaTileMap.IsObjectPresent(context, localPos, isServer, out var registerTile))
+			{
+				if (Direction != DIR)
+				{
+					SomethingToHold = true;
+					CanPushOff = registerTile;
+					return true;
+				}
+			}
+		}
+
+		CanPushOff = null;
+		return SomethingToHold;
+	}
+
+
+	public static bool IsFloatingAtV2Objects(GameObject[] context, Vector3Int worldPos, bool isServer,
+		MatrixCash MatrixCash) //Assuming MatrixCash is Initialised
+	{
+		for (int i = 0; i < MatrixCash.DIRs.Length; i++)
+		{
+			var DIR = MatrixCash.DIRs[i];
+			var matrixInfo = MatrixCash.GetforDirection(DIR);
+
+			var localPos = WorldToLocalInt(worldPos + DIR, matrixInfo);
+			if (matrixInfo.MetaTileMap.IsObjectPresent(context, localPos, isServer, out var _))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+
+	///Cross-matrix edition of <see cref="Matrix.IsAtmosPassableAt(UnityEngine.Vector3Int,bool)"/>
+	///<inheritdoc cref="Matrix.IsAtmosPassableAt(UnityEngine.Vector3Int,bool)"/>
+	public static bool IsAtmosPassableAt(Vector3Int worldPos, bool isServer)
+	{
+		var matrixInfo = AtPoint(worldPos, isServer);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.Matrix.IsAtmosPassableAt(localPos, isServer);
+		return value;
 	}
 
 	/// <Summary>
@@ -943,10 +1185,9 @@ public partial class MatrixManager : MonoBehaviour
 	/// </Summary>
 	public T GetFirst<T>(Vector3Int position, bool isServer) where T : MonoBehaviour
 	{
-		//reverse loop so that station matrix comes last
-		for (var i = ActiveMatrices.Count - 1; i >= 0; i--)
+		foreach (var matrixInfo in ActiveMatricesList)
 		{
-			T first = ActiveMatrices[i].Matrix.GetFirst<T>(WorldToLocalInt(position, ActiveMatrices[i]), isServer);
+			T first = matrixInfo.Matrix.GetFirst<T>(WorldToLocalInt(position, matrixInfo), isServer);
 			if (first)
 			{
 				return first;
@@ -966,7 +1207,8 @@ public partial class MatrixManager : MonoBehaviour
 	{
 		//Sometimes Get is still being called on the old matrixmanager instance on a
 		//round restart
-		if (id >= Instance.ActiveMatrices.Count) return MatrixInfo.Invalid;
+		if (Instance.ActiveMatrices.ContainsKey(id) == false)
+			return MatrixInfo.Invalid;
 
 		return Instance.ActiveMatrices[id];
 	}
@@ -991,12 +1233,11 @@ public partial class MatrixManager : MonoBehaviour
 
 	private static MatrixInfo getInternal(Func<MatrixInfo, bool> condition)
 	{
-		//reverse loop so that station comes up last
-		for (var i = Instance.ActiveMatrices.Count - 1; i >= 0; i--)
+		foreach (var matrixInfo in Instance.ActiveMatricesList)
 		{
-			if (condition(Instance.ActiveMatrices[i]))
+			if (condition(matrixInfo))
 			{
-				return Instance.ActiveMatrices[i];
+				return matrixInfo;
 			}
 		}
 
@@ -1004,104 +1245,37 @@ public partial class MatrixManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Gets the MatrixInfo for multiple matrix ids
+	/// <inheritdoc cref="LocalToWorld(Vector3, Matrix)"/>
+	/// <para>Rounds to <c>Vector3Int</c>.</para>
 	/// </summary>
-	/// <param name="idList"></param>
-	/// <returns>List of MatrixInfos</returns>
-	public static MatrixInfo[] GetList(int[] idList)
+	public static Vector3Int LocalToWorldInt(Vector3 localPos, Matrix matrix)
 	{
-		if (idList == null)
-		{
-			return null;
-		}
-
-		MatrixInfo[] matrixInfoList = new MatrixInfo[idList.Length];
-		for (int i = 0; i < idList.Length; i++)
-		{
-			matrixInfoList[i] = Get(idList[i]);
-		}
-
-		return matrixInfoList;
+		return LocalToWorldInt(localPos, matrix?.MatrixInfo);
 	}
 
-	/// <summary>
-	/// Gets the MatrixInfo for multiple matrixs
-	/// </summary>
-	/// <param name="matrixList"></param>
-	/// <returns>List of MatrixInfos</returns>
-	public static MatrixInfo[] GetList(Matrix[] matrixList)
-	{
-		if (matrixList == null)
-		{
-			return null;
-		}
-
-		int[] intList = new int[matrixList.Length];
-		for (int i = 0; i < matrixList.Length; i++)
-		{
-			intList[i] = matrixList[i].Id;
-		}
-
-		return GetList(intList);
-	}
-
-	public static MatrixInfo[] ExcludeFromAllMatrixes(MatrixInfo[] excludeList)
-	{
-		MatrixInfo[] matrixList = new MatrixInfo[Instance.ActiveMatrices.Count];
-
-		if (excludeList == null)
-		{
-			Array.Copy(Instance.ActiveMatrices.ToArray(), matrixList, matrixList.Length);
-			return matrixList;
-		}
-
-		int currentIndex = 0;
-		bool toAdd = true;
-		for (int i = 0; i < Instance.ActiveMatrices.Count; i++)
-		{
-			toAdd = true;
-			for (int j = 0; j < excludeList.Length; j++)
-			{
-				if (Instance.ActiveMatrices[i].Id == excludeList[j].Id)
-				{
-					toAdd = false;
-					break;
-				}
-			}
-
-			if (toAdd)
-			{
-				matrixList[currentIndex++] = Instance.ActiveMatrices[i];
-			}
-		}
-
-		// Only return the number of matrix's actually included
-		MatrixInfo[] returnList = new MatrixInfo[currentIndex];
-		Array.Copy(matrixList, returnList, currentIndex);
-
-		return returnList;
-	}
-
-	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
-	public Vector3Int LocalToWorldInt(Vector3 localPos, Matrix matrix)
-	{
-		return LocalToWorldInt(localPos, Get(matrix));
-	}
-
-	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
+	/// <inheritdoc cref="LocalToWorldInt(Vector3, Matrix)"/>
 	public static Vector3Int LocalToWorldInt(Vector3 localPos, MatrixInfo matrix,
 		MatrixState state = default(MatrixState))
 	{
 		return Vector3Int.RoundToInt(LocalToWorld(localPos, matrix, state));
 	}
 
-	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
-	public static Vector3 LocalToWorld(Vector3 localPos, Matrix matrix)
+	/// <inheritdoc cref="LocalToWorldInt(Vector3, Matrix)"/>
+	public static Vector3Int LocalToWorldInt(Vector3Int localPos, MatrixInfo matrix,
+		MatrixState state = default(MatrixState))
 	{
-		return LocalToWorld(localPos, Get(matrix));
+		return Vector3Int.RoundToInt(LocalToWorld(localPos, matrix, state));
 	}
 
+	/// <summary>
 	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
+	/// </summary>
+	public static Vector3 LocalToWorld(Vector3 localPos, Matrix matrix)
+	{
+		return LocalToWorld(localPos, matrix?.MatrixInfo);
+	}
+
+	/// <inheritdoc cref="LocalToWorld(Vector3, Matrix)"/>
 	public static Vector3 LocalToWorld(Vector3 localPos, MatrixInfo matrix, MatrixState state = default(MatrixState))
 	{
 		//Invalid matrix info provided
@@ -1112,9 +1286,14 @@ public partial class MatrixManager : MonoBehaviour
 
 //		return matrix.MetaTileMap.LocalToWorld( localPos );
 
-		if (matrix.MatrixMove == null)
+		if (matrix.IsMovable == false)
 		{
 			return localPos + matrix.Offset;
+		}
+
+		if (matrix.MetaTileMap.localToWorldMatrix != null)
+		{
+			return matrix.MetaTileMap.localToWorldMatrix.Value.MultiplyPoint(localPos);
 		}
 
 		if (state.Equals(default(MatrixState)))
@@ -1132,60 +1311,59 @@ public partial class MatrixManager : MonoBehaviour
 		return rotatedPivoted;
 	}
 
-	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
+	/// <inheritdoc cref="WorldToLocal(Vector3, Matrix)"/>
 	public static Vector3 WorldToLocal(Vector3 worldPos, MatrixInfo matrix)
 	{
-		//Invalid matrix info provided
+		// Invalid matrix info provided
 		if (matrix is null || matrix.Equals(MatrixInfo.Invalid) || worldPos == TransformState.HiddenPos)
 		{
 			return TransformState.HiddenPos;
 		}
 
-
-		if (matrix.MatrixMove == null)
+		if (matrix.IsMovable == false)
 		{
 			return worldPos - matrix.Offset;
 		}
 
+		if (matrix.MetaTileMap.worldToLocalMatrix !=
+		    null) //TODO After fixing Shuttle offset and Change movement to local
+		{
+			return matrix.MetaTileMap.worldToLocalMatrix.Value.MultiplyPoint(worldPos);
+		}
+
+
 		var state = matrix.MatrixMove.ClientState;
+		var pivot = matrix.MatrixMove.Pivot.To3();
 
-		return (state.FacingOffsetFromInitial(matrix.MatrixMove).QuaternionInverted * (worldPos -
-			matrix.MatrixMove.Pivot -
-			matrix.GetOffset(state))) + matrix.MatrixMove.Pivot;
-
-
-		return (matrix.MatrixMove.FacingOffsetFromInitial.QuaternionInverted *
-		        (worldPos - matrix.Offset - matrix.MatrixMove.Pivot)) +
-		       matrix.MatrixMove.Pivot;
-
-
-		//return
-
-		// return (matrix.MatrixMove.FacingOffsetFromInitial.QuaternionInverted *
-		// (worldPos - matrix.Offset - matrix.MatrixMove.Pivot)) +
-		// matrix.MatrixMove.Pivot;
+		return (state.FacingOffsetFromInitial(matrix.MatrixMove).QuaternionInverted *
+		        (worldPos - pivot - matrix.GetOffset(state))) + pivot;
 	}
 
-	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
+	/// <summary>
+	/// <inheritdoc cref="WorldToLocal(Vector3, Matrix)"/>
+	/// <para>Rounds to <c>Vector3Int</c>.</para>
+	/// </summary>
 	public static Vector3Int WorldToLocalInt(Vector3 worldPos, int id)
 	{
 		return WorldToLocalInt(worldPos, Get(id));
 	}
 
-	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
-	public Vector3Int WorldToLocalInt(Vector3 worldPos, Matrix matrix)
+	/// <inheritdoc cref="WorldToLocalInt(Vector3, int)"/>
+	public static Vector3Int WorldToLocalInt(Vector3 worldPos, Matrix matrix)
 	{
 		return WorldToLocalInt(worldPos, Get(matrix));
 	}
 
-	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
+	/// <inheritdoc cref="WorldToLocalInt(Vector3, int)"/>
 	public static Vector3Int WorldToLocalInt(Vector3 worldPos, MatrixInfo matrix)
 	{
 		return Vector3Int.RoundToInt(WorldToLocal(worldPos, matrix));
 	}
 
+	/// <summary>
 	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
-	public Vector3 WorldToLocal(Vector3 worldPos, Matrix matrix)
+	/// </summary>
+	public static Vector3 WorldToLocal(Vector3 worldPos, Matrix matrix)
 	{
 		return WorldToLocal(worldPos, Get(matrix));
 	}
@@ -1199,35 +1377,13 @@ public partial class MatrixManager : MonoBehaviour
 		for (int i = 0; i < travelDistance; i++)
 		{
 			startPos = Vector2.MoveTowards(startPos, targetPos, 1);
-			positionList.Add((startPos).CutToInt());
+			positionList.Add((startPos).RoundToInt());
 		}
 
 		return positionList;
 	}
 
-	public void CleanTile(Vector3 worldPos, bool makeSlippery)
-	{
-		var worldPosInt = worldPos.CutToInt();
-		var matrix = AtPoint(worldPosInt, true);
-		var localPosInt = WorldToLocalInt(worldPosInt, matrix);
-		var floorDecals = GetAt<FloorDecal>(worldPosInt, isServer: true);
-
-		for (var i = 0; i < floorDecals.Count; i++)
-		{
-			floorDecals[i].TryClean();
-		}
-
-		if (IsSpaceAt(worldPosInt, true) == false && makeSlippery)
-		{
-			// Create a WaterSplat Decal (visible slippery tile)
-			EffectsFactory.WaterSplat(worldPosInt);
-
-			// Sets a tile to slippery
-			matrix.MetaDataLayer.MakeSlipperyAt(localPosInt);
-		}
-	}
-
-	public static Transform GetDefaultParent( Vector3? position, bool isServer )
+	public static Transform GetDefaultParent(Vector3? position, bool isServer)
 	{
 		if (position.HasValue == false)
 		{

@@ -7,10 +7,51 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1821887108050511433, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: foreverID
+      value: 624f249d9fff2a744b3156de63051320
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.Volume
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
       propertyPath: Gases.Array.data[10]
       value: 1846.242
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.Pressure
+      value: 4500.0005
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.Temperature
+      value: 293.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].GasSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 2dc2b9cbfa71299438285909b02ca481,
+        type: 2}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].Moles
+      value: 1846.242
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].GasType
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3267766569577888791, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
@@ -18,6 +59,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 16e4ee3fc2cb1864094ebfc7d22884d3,
         type: 3}
+    - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -35,6 +81,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +98,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
@@ -80,28 +121,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5376367218187274032, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: initialDescription
-      value: Tritium. Inhalation might cause irradiation.
-      objectReference: {fileID: 0}
-    - target: {fileID: 5376367218187274032, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
       propertyPath: initialName
       value: tritium canister
       objectReference: {fileID: 0}
+    - target: {fileID: 5376367218187274032, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: initialDescription
+      value: Tritium. Inhalation might cause irradiation.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6261382944912570440, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 1651256920515343517}
     - target: {fileID: 6621590264234028386, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: UIBGTint.r
-      value: 0.97647065
-      objectReference: {fileID: 0}
-    - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: UIBGTint.g
-      value: 0.27058825
+      value: 624f249d9fff2a744b3156de63051320
       objectReference: {fileID: 0}
     - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
@@ -110,13 +146,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: UIInnerPanelTint.r
-      value: 0.9921569
+      propertyPath: UIBGTint.g
+      value: 0.27058825
       objectReference: {fileID: 0}
     - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: UIInnerPanelTint.g
-      value: 0.6666667
+      propertyPath: UIBGTint.r
+      value: 0.97647065
+      objectReference: {fileID: 0}
+    - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: ContentsName
+      value: Tritium
       objectReference: {fileID: 0}
     - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
@@ -125,8 +166,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: ContentsName
-      value: Tritium
+      propertyPath: UIInnerPanelTint.g
+      value: 0.6666667
+      objectReference: {fileID: 0}
+    - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: UIInnerPanelTint.r
+      value: 0.9921569
       objectReference: {fileID: 0}
     - target: {fileID: 7811982109262590682, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
@@ -136,15 +182,21 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7811982109262590682, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 6db5f1cb13c2ef64b8007836fd9989c7,
-        type: 2}
-    - target: {fileID: 7811982109262590682, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
       propertyPath: SubCatalogue.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 57ccf0348f8cebd429f37708749dbe3f,
         type: 2}
+    - target: {fileID: 7811982109262590682, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6db5f1cb13c2ef64b8007836fd9989c7,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0e96760c016b6140ba8c3979e9213f7, type: 3}
+--- !u!210 &1651256920515343517 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 69088610438818992, guid: c0e96760c016b6140ba8c3979e9213f7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1593995894196525101}
+  m_PrefabAsset: {fileID: 0}

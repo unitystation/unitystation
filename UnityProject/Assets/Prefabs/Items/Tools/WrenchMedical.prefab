@@ -11,23 +11,17 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 6f9822853e7fef845a2cc817dd4c2938,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 1237339817834502954, guid: 7976a84ef9209f14697cdd941b913e2a,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 0f1f2e454cd404d4fae5c568219ef93e,
         type: 2}
-    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+    - target: {fileID: 2078214216639179968, guid: 7976a84ef9209f14697cdd941b913e2a,
         type: 3}
-      propertyPath: attackVerbs.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
-        type: 3}
-      propertyPath: throwDamage
-      value: 4
+      propertyPath: foreverID
+      value: 08f9e67ed1e17a14890eb94d6a9a729d
       objectReference: {fileID: 0}
     - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
         type: 3}
@@ -36,23 +30,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
         type: 3}
-      propertyPath: initialDescription
-      value: A medical wrench with common (medical?) uses. Can be found in your hand.
-      objectReference: {fileID: 0}
-    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
-        type: 3}
       propertyPath: initialName
       value: medical wrench
       objectReference: {fileID: 0}
     - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
         type: 3}
-      propertyPath: attackVerbs.Array.data[4]
-      value: analyzed
+      propertyPath: throwDamage
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
         type: 3}
-      propertyPath: attackVerbs.Array.data[5]
-      value: whacked
+      propertyPath: initialDescription
+      value: A medical wrench with common (medical?) uses. Can be found in your hand.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: traumaDamageChance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: attackVerbs.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: traumaDamageMultiplier
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
         type: 3}
@@ -76,9 +85,46 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
         type: 3}
+      propertyPath: attackVerbs.Array.data[4]
+      value: analyzed
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: attackVerbs.Array.data[5]
+      value: whacked
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 5c8f5adbb7e35c34abf77ff8b8e6983d,
+        type: 2}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: a0501631b430bf247a7ecc8e2f2665bc,
+        type: 2}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
       propertyPath: itemSprites.LeftHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: 187ea46febca5234cb42357b4b548143, type: 3}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: a934268866dc3f540bd8b0e9c5e35c13, type: 3}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 4faef72bfa4d9b643bf2a797e96e306f, type: 3}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 392a6041830de8f42bf0167ec045f22d, type: 3}
     - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
@@ -105,16 +151,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
         type: 3}
-      propertyPath: itemSprites.LeftHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 4faef72bfa4d9b643bf2a797e96e306f, type: 3}
-    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: a934268866dc3f540bd8b0e9c5e35c13, type: 3}
-    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
-        type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
       value: 
       objectReference: {fileID: 21300000, guid: a934268866dc3f540bd8b0e9c5e35c13,
@@ -137,27 +173,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300006, guid: a934268866dc3f540bd8b0e9c5e35c13,
         type: 3}
-    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
-        type: 3}
-      propertyPath: itemSprites.RightHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 392a6041830de8f42bf0167ec045f22d, type: 3}
-    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
-        type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 5c8f5adbb7e35c34abf77ff8b8e6983d,
-        type: 2}
-    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
-        type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: a0501631b430bf247a7ecc8e2f2665bc,
-        type: 2}
     - target: {fileID: 4930866777566109869, guid: 7976a84ef9209f14697cdd941b913e2a,
         type: 3}
       propertyPath: m_Name
       value: WrenchMedical
+      objectReference: {fileID: 0}
+    - target: {fileID: 4935513176033598937, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4935513176033598937, guid: 7976a84ef9209f14697cdd941b913e2a,
         type: 3}
@@ -176,6 +200,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4935513176033598937, guid: 7976a84ef9209f14697cdd941b913e2a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4935513176033598937, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -188,16 +217,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4935513176033598937, guid: 7976a84ef9209f14697cdd941b913e2a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4935513176033598937, guid: 7976a84ef9209f14697cdd941b913e2a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4935513176033598937, guid: 7976a84ef9209f14697cdd941b913e2a,
         type: 3}
@@ -217,7 +236,7 @@ PrefabInstance:
     - target: {fileID: 5042273109359746329, guid: 7976a84ef9209f14697cdd941b913e2a,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 08f9e67ed1e17a14890eb94d6a9a729d
       objectReference: {fileID: 0}
     - target: {fileID: 5087942406049846257, guid: 7976a84ef9209f14697cdd941b913e2a,
         type: 3}

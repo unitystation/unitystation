@@ -7,6 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 20195573776928961, guid: dae318bdee00c5846830de6a3761fe2c,
+        type: 3}
+      propertyPath: foreverID
+      value: ae9f2f15a4053fc41a35b6974815b07e
+      objectReference: {fileID: 0}
+    - target: {fileID: 6408204456626594264, guid: dae318bdee00c5846830de6a3761fe2c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6408204456626594264, guid: dae318bdee00c5846830de6a3761fe2c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -24,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6408204456626594264, guid: dae318bdee00c5846830de6a3761fe2c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6408204456626594264, guid: dae318bdee00c5846830de6a3761fe2c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6408204456626594264, guid: dae318bdee00c5846830de6a3761fe2c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6408204456626594264, guid: dae318bdee00c5846830de6a3761fe2c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6408204456626594264, guid: dae318bdee00c5846830de6a3761fe2c,
         type: 3}
@@ -70,17 +75,17 @@ PrefabInstance:
     - target: {fileID: 6442737608422842648, guid: dae318bdee00c5846830de6a3761fe2c,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6778089600064959438, guid: dae318bdee00c5846830de6a3761fe2c,
-        type: 3}
-      propertyPath: initialDescription
-      value: A power cell with an even higher capacity than the base model!
+      value: ae9f2f15a4053fc41a35b6974815b07e
       objectReference: {fileID: 0}
     - target: {fileID: 6778089600064959438, guid: dae318bdee00c5846830de6a3761fe2c,
         type: 3}
       propertyPath: initialName
       value: upgraded power cell+
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778089600064959438, guid: dae318bdee00c5846830de6a3761fe2c,
+        type: 3}
+      propertyPath: initialDescription
+      value: A power cell with an even higher capacity than the base model!
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dae318bdee00c5846830de6a3761fe2c, type: 3}

@@ -1,26 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8540259882413935037
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7781396554342910705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  allClothingData:
-  - {fileID: 11400000, guid: 13cf3e3523fd9504cbf46948140e6972, type: 2}
-  CurrentClothIndex: 0
-  randomInitialClothData: 0
-  hidesIdentity: 0
-  hidesSlots: 0
-  hideClothingFlags: 0
 --- !u!1001 &4236242615490559816
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34,10 +13,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 95e694dba5ed9204a91e57dcb1951da9,
         type: 2}
+    - target: {fileID: 688350503109327316, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: foreverID
+      value: 6ec2cf5e4acf23543ba1612545d2fca4
+      objectReference: {fileID: 0}
     - target: {fileID: 5810504842801530893, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 6ec2cf5e4acf23543ba1612545d2fca4
       objectReference: {fileID: 0}
     - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
@@ -129,6 +113,16 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A wooden truncheon for beating criminal scum.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: traumaDamageChance
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
@@ -235,3 +229,25 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4236242615490559816}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-8540259882413935037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7781396554342910705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  allClothingData:
+  - {fileID: 11400000, guid: 13cf3e3523fd9504cbf46948140e6972, type: 2}
+  CurrentClothIndex: 0
+  randomInitialClothData: 0
+  hidesIdentity: 0
+  hidesSlots: 0
+  hideClothingFlags: 0
+  disallowConsume: 0

@@ -12,7 +12,7 @@ using Random = UnityEngine.Random;
 /// that initiated the action only gets sprite index updates. Other players do not receive any updates.
 ///
 /// Due to the pecularities of how it only needs to appear for one player, this doesn't use monobehavior /
-/// registertile / CNT...it is just a regular game object and is updated in response to net messages.
+/// registertile / UniversalObjectPhysics... it is just a regular game object and is updated in response to net messages.
 ///
 /// NOTE: Might want to turn this into a more re-usable system if there are other things that should have
 /// this sort of behavior - known only to one client and the server but still being able to use
@@ -91,7 +91,7 @@ public class ProgressBar : MonoBehaviour
 		this.progressAction = progressAction;
 		id = GetInstanceID();
 
-		if (startInfo.Performer != PlayerManager.LocalPlayer)
+		if (startInfo.Performer != PlayerManager.LocalPlayerObject)
 		{
 			//server should not see clients progress bar
 			spriteRenderer.enabled = false;
@@ -107,7 +107,7 @@ public class ProgressBar : MonoBehaviour
 		//Start the progress for the player:
 		//note: using transform position for the offset, because progress bar has no register tile and
 		//otherwise it would give an incorrect offset if player is on moving matrix
-		ProgressBarMessage.SendCreate(startInfo.Performer, 0, (transform.position - startInfo.Performer.transform.position).To2Int(), id);
+		ProgressBarMessage.SendCreate(startInfo.Performer, 0, (transform.position - startInfo.Performer.transform.position).RoundTo2Int(), id);
 	}
 
 	private void OnEnable()
@@ -192,7 +192,7 @@ public class ProgressBar : MonoBehaviour
 			return;
 		}
 
-		if (registerPlayer != null && registerPlayer.gameObject != PlayerManager.LocalPlayer)
+		if (registerPlayer != null && registerPlayer.gameObject != PlayerManager.LocalPlayerObject)
 		{
 			//this is for server's copy of client's progress bar -
 			//server should not render clients progress bar
@@ -235,7 +235,7 @@ public class ProgressBar : MonoBehaviour
 		//check if progress should continue
 		if (!progressAction.OnServerContinueProgress(new InProgressInfo(progress)))
 		{
-			// Remove from UpdateMe before invoking action, lest action fails and so infinite loop.
+			// Remove from FlyingUpdateMe before invoking action, lest action fails and so infinite loop.
 			ServerCloseProgressBar();
 			progressAction.OnServerEndProgress(new EndProgressInfo(false));
 			Logger.LogTraceFormat("Server progress bar {0} interrupted.", Category.ProgressAction, ID);
@@ -244,7 +244,7 @@ public class ProgressBar : MonoBehaviour
 		//Finished! Invoke the action and close the progress bar for the player
 		if (progress >= timeToFinish)
 		{
-			// Remove from UpdateMe before invoking action, lest action fails and so infinite loop.
+			// Remove from FlyingUpdateMe before invoking action, lest action fails and so infinite loop.
 			ServerCloseProgressBar();
 			progressAction.OnServerEndProgress(new EndProgressInfo(true));
 			Logger.LogTraceFormat("Server progress bar {0} completed.", Category.ProgressAction, ID);
@@ -269,7 +269,7 @@ public class ProgressBar : MonoBehaviour
 	{
 		done = true;
 		//Notify player to turn off progress bar:
-		if (PlayerManager.LocalPlayer == registerPlayer.gameObject)
+		if (PlayerManager.LocalPlayerObject == registerPlayer.gameObject)
 		{
 			//server player's bar, just destroy it
 			DestroyProgressBar();

@@ -12,6 +12,10 @@ PrefabInstance:
       value: DonutBungo
       objectReference: {fileID: 0}
     - target: {fileID: 5683633870943417, guid: 270ed493bf3f6684388bc3ad5696003b, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5683633870943417, guid: 270ed493bf3f6684388bc3ad5696003b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +28,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5683633870943417, guid: 270ed493bf3f6684388bc3ad5696003b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5683633870943417, guid: 270ed493bf3f6684388bc3ad5696003b, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -34,14 +42,6 @@ PrefabInstance:
     - target: {fileID: 5683633870943417, guid: 270ed493bf3f6684388bc3ad5696003b, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5683633870943417, guid: 270ed493bf3f6684388bc3ad5696003b, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5683633870943417, guid: 270ed493bf3f6684388bc3ad5696003b, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5683633870943417, guid: 270ed493bf3f6684388bc3ad5696003b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -58,7 +58,7 @@ PrefabInstance:
     - target: {fileID: 113582317908489337, guid: 270ed493bf3f6684388bc3ad5696003b,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: dd8adeab0c2e6b245a484c119653f74b
       objectReference: {fileID: 0}
     - target: {fileID: 213435551916259985, guid: 270ed493bf3f6684388bc3ad5696003b,
         type: 3}
@@ -68,13 +68,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 498256511366112943, guid: 270ed493bf3f6684388bc3ad5696003b,
         type: 3}
-      propertyPath: initialDescription
-      value: Goes great with a mason jar of hippie's delight.
+      propertyPath: initialName
+      value: bungo donut
       objectReference: {fileID: 0}
     - target: {fileID: 498256511366112943, guid: 270ed493bf3f6684388bc3ad5696003b,
         type: 3}
-      propertyPath: initialName
-      value: bungo donut
+      propertyPath: initialDescription
+      value: Goes great with a mason jar of hippie's delight.
       objectReference: {fileID: 0}
     - target: {fileID: 6143380670014026314, guid: 270ed493bf3f6684388bc3ad5696003b,
         type: 3}
@@ -82,5 +82,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 258c7ac60dc25ec4fae51652e187fbc7,
         type: 2}
+    - target: {fileID: 6394279106701608352, guid: 270ed493bf3f6684388bc3ad5696003b,
+        type: 3}
+      propertyPath: foreverID
+      value: dd8adeab0c2e6b245a484c119653f74b
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 270ed493bf3f6684388bc3ad5696003b, type: 3}

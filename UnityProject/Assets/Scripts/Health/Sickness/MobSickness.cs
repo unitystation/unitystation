@@ -67,5 +67,17 @@ namespace Health.Sickness
 				return sicknessAfflictions.Exists(p => p.Sickness == sickness);
 			}
 		}
+
+		public void TriggerCustomSicknessLogic()
+		{
+			lock (sicknessAfflictions)
+			{
+				foreach (var sickness in sicknessAfflictions)
+				{
+					sickness.Sickness.SicknessBehavior(mobHealth);
+					if (sickness.Sickness.CheckForCureInHealth(MobHealth)) sickness.Heal();
+				}
+			}
+		}
 	}
 }

@@ -1,8 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using Systems.Interaction;
+using Systems.Pipes;
 
-namespace Pipes
+
+namespace Objects.Atmospherics
 {
 	public class Pump : MonoPipe
 	{
@@ -10,8 +12,6 @@ namespace Pipes
 
 		private float MaxPressure = 4500f;
 		private float TransferMoles = 500f;
-
-
 
 		public bool IsOn = false;
 
@@ -28,7 +28,18 @@ namespace Pipes
 			base.OnSpawnServer(info);
 		}
 
-		public override void Interaction(HandApply interaction)
+		public override void HandApplyInteraction(HandApply interaction)
+		{
+			ToggleState();
+		}
+
+		//Ai interaction
+		public override void AiInteraction(AiActivate interaction)
+		{
+			ToggleState();
+		}
+
+		private void ToggleState()
 		{
 			IsOn = !IsOn;
 			if (IsOn)

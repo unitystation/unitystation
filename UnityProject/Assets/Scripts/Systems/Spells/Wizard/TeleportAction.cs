@@ -32,7 +32,7 @@ namespace Systems.Spells.Wizard
 			TeleportWindow.onTeleportToVector += ClientTeleportDestinationSelected;
 		}
 
-		public override bool CastSpellServer(ConnectedPlayer caster, Vector3 destination)
+		public override bool CastSpellServer(PlayerInfo caster, Vector3 destination)
 		{
 			// Do the actual teleportation here.
 			if ((caster.Script.WorldPos - destination).magnitude > MAX_TELEPORT_DISTANCE)

@@ -11,7 +11,7 @@ namespace Systems.Atmospherics
 			throw new System.NotImplementedException();
 		}
 
-		public void React(GasMix gasMix, Vector3 tilePos, Matrix matrix)
+		public void React(GasMix gasMix, MetaDataNode node)
 		{
 			if (gasMix.Temperature > AtmosDefines.WATER_VAPOR_FREEZE) return;
 
@@ -31,7 +31,7 @@ namespace Systems.Atmospherics
 
 			if (numberOfIceToSpawn < 1) return;
 
-			SpawnSafeThread.SpawnPrefab(tilePos, AtmosManager.Instance.iceShard, amountIfStackable: numberOfIceToSpawn);
+			SpawnSafeThread.SpawnPrefab(node.Position, AtmosManager.Instance.iceShard, amountIfStackable: numberOfIceToSpawn);
 
 			gasMix.RemoveGas(Gas.WaterVapor, numberOfIceToSpawn * 2f);
 		}

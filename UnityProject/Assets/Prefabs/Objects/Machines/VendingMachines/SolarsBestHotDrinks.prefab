@@ -15,8 +15,8 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: Color.r
-      value: 0.54509807
+      propertyPath: Color.b
+      value: 0.23137255
       objectReference: {fileID: 0}
     - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -25,23 +25,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: Color.b
-      value: 0.23137255
+      propertyPath: Color.r
+      value: 0.54509807
       objectReference: {fileID: 0}
     - target: {fileID: 854479238589397880, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1919541056858231082, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: initialDescription
-      value: A vending machine which dispenses hot drinks.
+      value: 16aeef193cef4574984596beeac8eb29
       objectReference: {fileID: 0}
     - target: {fileID: 1919541056858231082, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: initialName
       value: Solar's Best Hot Drinks
+      objectReference: {fileID: 0}
+    - target: {fileID: 1919541056858231082, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: initialDescription
+      value: A vending machine which dispenses hot drinks.
       objectReference: {fileID: 0}
     - target: {fileID: 4347831001461171392, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -51,29 +51,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: HullColor.b
+      value: 0.1254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: HullColor.g
+      value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: HullColor.r
+      value: 0.47450984
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: InitialVendorContent.Array.size
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[2].Item
-      value: 
-      objectReference: {fileID: 4200815317194351670, guid: 50e6b098c9851db4f93450e02a82b587,
-        type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[2].Stock
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[2].ItemName
-      value: Dutch Hot Coco
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[0].ItemName
-      value: Robust Coffee
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -89,8 +83,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[1].ItemName
-      value: Duke Purple Tea
+      propertyPath: InitialVendorContent.Array.data[2].Item
+      value: 
+      objectReference: {fileID: 4200815317194351670, guid: 50e6b098c9851db4f93450e02a82b587,
+        type: 3}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[0].Stock
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -99,23 +99,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[0].Stock
-      value: 6
+      propertyPath: InitialVendorContent.Array.data[2].Stock
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: HullColor.r
-      value: 0.47450984
+      propertyPath: InitialVendorContent.Array.data[0].ItemName
+      value: Robust Coffee
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: HullColor.g
-      value: 0.5019608
+      propertyPath: InitialVendorContent.Array.data[1].ItemName
+      value: Duke Purple Tea
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: HullColor.b
-      value: 0.1254902
+      propertyPath: InitialVendorContent.Array.data[2].ItemName
+      value: Dutch Hot Coco
+      objectReference: {fileID: 0}
+    - target: {fileID: 5293842515076411475, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: foreverID
+      value: 16aeef193cef4574984596beeac8eb29
       objectReference: {fileID: 0}
     - target: {fileID: 7077253877563091611, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -136,6 +141,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -151,6 +161,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -163,16 +178,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}

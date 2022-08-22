@@ -10,7 +10,12 @@ PrefabInstance:
     - target: {fileID: 1487812944719290307, guid: 5f8f71237e56b5244a4119555cda299e,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: bebd7acbb85fa544784c08545a845e2c
+      objectReference: {fileID: 0}
+    - target: {fileID: 1522905266836922115, guid: 5f8f71237e56b5244a4119555cda299e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1522905266836922115, guid: 5f8f71237e56b5244a4119555cda299e,
         type: 3}
@@ -29,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1522905266836922115, guid: 5f8f71237e56b5244a4119555cda299e,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1522905266836922115, guid: 5f8f71237e56b5244a4119555cda299e,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1522905266836922115, guid: 5f8f71237e56b5244a4119555cda299e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1522905266836922115, guid: 5f8f71237e56b5244a4119555cda299e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1522905266836922115, guid: 5f8f71237e56b5244a4119555cda299e,
         type: 3}
@@ -72,9 +72,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: OxygenTankEmpty
       objectReference: {fileID: 0}
+    - target: {fileID: 5587640584239918618, guid: 5f8f71237e56b5244a4119555cda299e,
+        type: 3}
+      propertyPath: foreverID
+      value: bebd7acbb85fa544784c08545a845e2c
+      objectReference: {fileID: 0}
     - target: {fileID: 6735081632615268852, guid: 5f8f71237e56b5244a4119555cda299e,
         type: 3}
       propertyPath: Gases.Array.data[1]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6735081632615268852, guid: 5f8f71237e56b5244a4119555cda299e,
+        type: 3}
+      propertyPath: StoredGasMix.Pressure
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6735081632615268852, guid: 5f8f71237e56b5244a4119555cda299e,
+        type: 3}
+      propertyPath: StoredGasMix.Temperature
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6735081632615268852, guid: 5f8f71237e56b5244a4119555cda299e,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6735081632615268852, guid: 5f8f71237e56b5244a4119555cda299e,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].Moles
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

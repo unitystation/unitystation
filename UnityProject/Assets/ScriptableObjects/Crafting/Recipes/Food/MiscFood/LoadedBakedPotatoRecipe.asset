@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: LoadedBakedPotatoRecipe
+  m_EditorClassIdentifier: 
+  category: 11
+  craftingTime: 3
+  recipeName: Loaded Baked Potato
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 8320053050054170569, guid: acc71df94cbb60a4abe979bc8d32a4d2,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 4912214335510186018, guid: be31518b02dec6e459cc5ac4a4398ded,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits: []
+  result:
+  - {fileID: 1420422943757928508, guid: 4bdb227b9a64d5047b79ff89ccbee020, type: 3}
+  resultHandlers: []
+  isSimple: 1
+  indexInSingleton: 263

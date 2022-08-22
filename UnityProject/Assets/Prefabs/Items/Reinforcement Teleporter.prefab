@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &5759598751738333234
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1932387406643808284}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e5aaa84cab61354ab96569d75969828, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ghostRole: {fileID: 11400000, guid: ba4d90971ca72aba1861e17fb48e5e50, type: 2}
 --- !u!1001 &7204624451302885876
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2418562999013494149, guid: 22069d3e294f7e2ad9d264cebe1709bc,
+        type: 3}
+      propertyPath: foreverID
+      value: 29bb4fde205c69c8aaa3f76e935c0f68
+      objectReference: {fileID: 0}
     - target: {fileID: 3201163131188640367, guid: 22069d3e294f7e2ad9d264cebe1709bc,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -29,12 +21,12 @@ PrefabInstance:
     - target: {fileID: 8700666717087464540, guid: 22069d3e294f7e2ad9d264cebe1709bc,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 29bb4fde205c69c8aaa3f76e935c0f68
       objectReference: {fileID: 0}
     - target: {fileID: 8731019388145222120, guid: 22069d3e294f7e2ad9d264cebe1709bc,
         type: 3}
       propertyPath: m_Name
-      value: nuke_ops
+      value: Reinforcement Teleporter
       objectReference: {fileID: 0}
     - target: {fileID: 8735098714090486940, guid: 22069d3e294f7e2ad9d264cebe1709bc,
         type: 3}
@@ -121,3 +113,16 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7204624451302885876}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5759598751738333234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932387406643808284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e5aaa84cab61354ab96569d75969828, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ghostRole: {fileID: 11400000, guid: ba4d90971ca72aba1861e17fb48e5e50, type: 2}

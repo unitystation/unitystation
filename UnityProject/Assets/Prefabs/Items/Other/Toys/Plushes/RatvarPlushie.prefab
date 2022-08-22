@@ -16,12 +16,17 @@ PrefabInstance:
     - target: {fileID: 169216062924189193, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: d79ebe8cd2cdb6a42942d66268ca94e9
       objectReference: {fileID: 0}
     - target: {fileID: 273902110919939005, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
       propertyPath: m_Name
       value: RatvarPlushie
+      objectReference: {fileID: 0}
+    - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
@@ -40,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
@@ -80,14 +80,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
-      propertyPath: initialDescription
-      value: An adorable plushie of the clockwork justiciar himself with new and
-        improved spring arm action.
+      propertyPath: initialName
+      value: Ratvar plushie
       objectReference: {fileID: 0}
     - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
-      propertyPath: initialName
-      value: Ratvar plushie
+      propertyPath: initialDescription
+      value: An adorable plushie of the clockwork justiciar himself with new and
+        improved spring arm action.
       objectReference: {fileID: 0}
     - target: {fileID: 6236086576208570426, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
@@ -95,5 +95,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5344ab2b589e16b4182a7b1f1cebdbe6,
         type: 2}
+    - target: {fileID: 6590914017311023056, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
+      propertyPath: foreverID
+      value: d79ebe8cd2cdb6a42942d66268ca94e9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75421751b31ee7f49b1adb8b70cd2375, type: 3}

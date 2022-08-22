@@ -18,10 +18,7 @@ namespace UI.Core.RightClick
 		private ReversibleObjectScale nextArrow = default;
 
 		[SerializeField]
-		private RectTransform background = default;
-
-		[SerializeField]
-		private Graphic itemRing = default;
+		private Graphic itemRing;
 
 		[SerializeField]
 		private TMP_Text itemLabel = default;
@@ -33,6 +30,14 @@ namespace UI.Core.RightClick
 		private RadialDrag drag;
 
 		private AnimatedRadialRotation rotationAnimator;
+
+		private ReversibleObjectScale PreviousArrow => VerifyChildReference(ref previousArrow, "an image");
+
+		private ReversibleObjectScale NextArrow => VerifyChildReference(ref nextArrow, "an image");
+
+		private Graphic ItemRing => VerifyChildReference(ref itemRing, "a SVG graphic", "RadialItemRing");
+
+		private TMP_Text ItemLabel => VerifyChildReference(ref itemLabel, "a label");
 
 		protected override float RaycastableArcMeasure => raycastableArcMeasure;
 
@@ -69,9 +74,10 @@ namespace UI.Core.RightClick
 		public override void Setup(int itemCount)
 		{
 			base.Setup(itemCount);
-			itemLabel.SetText(string.Empty);
-			previousArrow.transform.SetAsLastSibling();
-			nextArrow.transform.SetAsLastSibling();
+
+			ItemLabel.OrNull()?.SetText(string.Empty);
+			PreviousArrow.OrNull()?.transform.SetAsLastSibling();
+			NextArrow.OrNull()?.transform.SetAsLastSibling();
 			UpdateArrows();
 		}
 
@@ -99,21 +105,26 @@ namespace UI.Core.RightClick
 		{
 			Drag.enabled = value;
 			Scroll.enabled = value;
-			itemRing.raycastTarget = value;
-			itemLabel.raycastTarget = value;
+
+			if (ItemRing == null || ItemLabel == null) return;
+
+			ItemRing.raycastTarget = value;
+			ItemLabel.raycastTarget = value;
 		}
 
 		public void UpdateArrows()
 		{
 			var roundedRotation = Mathf.Round(TotalRotation);
-			previousArrow.SetActive(roundedRotation > 0);
-			nextArrow.SetActive(roundedRotation < Mathf.Round(MaxIndex * ItemArcMeasure));
+			PreviousArrow.OrNull()?.SetActive(roundedRotation > 0);
+			NextArrow.OrNull()?.SetActive(roundedRotation < Mathf.Round(MaxIndex * ItemArcMeasure));
 		}
 
 		public void LateUpdate()
 		{
-			background.rotation = Quaternion.identity;
-			itemLabel.transform.rotation = Quaternion.identity;
+			if (ItemRing == null || ItemLabel == null) return;
+
+			ItemRing.transform.rotation = Quaternion.identity;
+			ItemLabel.transform.rotation = Quaternion.identity;
 		}
 
 		public override void RotateRadial(float rotation)
@@ -210,16 +221,16 @@ namespace UI.Core.RightClick
 
 		private void TweenArrows(bool forward)
 		{
-			nextArrow.TweenScale(forward);
-			previousArrow.TweenScale(!forward);
+			NextArrow.OrNull()?.TweenScale(forward);
+			PreviousArrow.OrNull()?.TweenScale(!forward);
 		}
 
 		private void TweenArrowsBack()
 		{
-			nextArrow.TweenScale(AnimationDirection.Backward);
-			previousArrow.TweenScale(AnimationDirection.Backward);
+			NextArrow.OrNull()?.TweenScale(AnimationDirection.Backward);
+			PreviousArrow.OrNull()?.TweenScale(AnimationDirection.Backward);
 		}
 
-		public void ChangeLabel(string text) => itemLabel.SetText(text);
+		public void ChangeLabel(string text) => ItemLabel.OrNull()?.SetText(text);
 	}
 }

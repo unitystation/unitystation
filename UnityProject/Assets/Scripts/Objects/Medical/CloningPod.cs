@@ -43,6 +43,7 @@ namespace Objects.Medical
 		private IEnumerator ServerProcessCloning(CloningRecord record)
 		{
 			yield return WaitFor.Seconds(10f);
+			statusSync = CloningPodStatus.Empty;
 			statusString = "Cloning process complete.";
 			if (console)
 			{
@@ -51,23 +52,9 @@ namespace Objects.Medical
 			if (record.mind.IsOnline())
 			{
 				var playerBody = PlayerSpawn.ServerClonePlayer(record.mind, transform.position.CutToInt()).GetComponent<LivingHealthMasterBase>();
-
-				void ApplyDamage()
-				{
-					ApplyCloningDamage(playerBody);
-				}
-
-				playerBody.OnFullyInitialised(ApplyDamage);
-				//GameObject
-				//Do cloning damage
-				//Initialisation order
+				playerBody.ApplyDamageAll(this.gameObject, LimbCloningDamage, AttackType.Internal, DamageType.Clone, false);
 			}
-			statusSync = CloningPodStatus.Empty;
-		}
 
-		public void ApplyCloningDamage(LivingHealthMasterBase Body)
-		{
-			Body.ApplyDamageAll(this.gameObject, LimbCloningDamage, AttackType.Internal, DamageType.Clone, false);
 		}
 
 		public bool CanClone()

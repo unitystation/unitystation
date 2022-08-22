@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
+using UI.Core.NetUI;
 using Items.Scrolls.TeleportScroll;
 
 namespace UI.Scroll
@@ -7,7 +7,7 @@ namespace UI.Scroll
 	public class GUI_TeleportScrollEntry : DynamicEntry
 	{
 		[SerializeField]
-		private NetLabel destinationLabel = default;
+		private NetText_label destinationLabel = default;
 
 		private GUI_TeleportScroll scrollGUI;
 

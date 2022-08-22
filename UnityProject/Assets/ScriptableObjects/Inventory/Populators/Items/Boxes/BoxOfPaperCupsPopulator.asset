@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcdd86e87cc447d94b99df8b1a383b3, type: 3}
   m_Name: BoxOfPaperCupsPopulator
   m_EditorClassIdentifier: 
-  Contents:
+  SlotContents: []
+  DeprecatedContents:
   - {fileID: 603864730428163137, guid: 40c34e56c622eb749908c4cf23b4778f, type: 3}
   - {fileID: 603864730428163137, guid: 40c34e56c622eb749908c4cf23b4778f, type: 3}
   - {fileID: 603864730428163137, guid: 40c34e56c622eb749908c4cf23b4778f, type: 3}
@@ -20,4 +21,3 @@ MonoBehaviour:
   - {fileID: 603864730428163137, guid: 40c34e56c622eb749908c4cf23b4778f, type: 3}
   - {fileID: 603864730428163137, guid: 40c34e56c622eb749908c4cf23b4778f, type: 3}
   - {fileID: 603864730428163137, guid: 40c34e56c622eb749908c4cf23b4778f, type: 3}
-  MergeMode: 0

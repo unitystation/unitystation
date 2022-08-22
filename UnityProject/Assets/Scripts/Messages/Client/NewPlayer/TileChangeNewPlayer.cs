@@ -6,21 +6,32 @@ namespace Messages.Client.NewPlayer
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public uint TileChangeManager;
+			public uint MatrixSyncNetId;
 		}
 
 		public override void Process(NetMessage msg)
 		{
-			LoadNetworkObject(msg.TileChangeManager);
-			NetworkObject.GetComponent<TileChangeManager>().UpdateNewPlayer(
+			LoadNetworkObject(msg.MatrixSyncNetId);
+
+			if (NetworkObject == null)
+			{
+				Logger.LogError("Failed to load matrix sync for new player", Category.Matrix);
+				return;
+			}
+
+			var parent = NetworkObject.transform.parent;
+			parent.GetComponent<TileChangeManager>().UpdateNewPlayer(
+				SentByPlayer.Connection);
+
+			parent.GetComponentInChildren<MetaDataLayer>().UpdateNewPlayer(
 				SentByPlayer.Connection);
 		}
 
-		public static NetMessage Send(uint tileChangeNetId)
+		public static NetMessage Send(uint matrixSyncNetId)
 		{
 			NetMessage msg = new NetMessage
 			{
-				TileChangeManager = tileChangeNetId
+				MatrixSyncNetId = matrixSyncNetId
 			};
 
 			Send(msg);

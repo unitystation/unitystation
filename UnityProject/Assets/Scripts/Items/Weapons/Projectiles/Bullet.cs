@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using Initialisation;
+using UnityEngine;
 using NaughtyAttributes;
 using ScriptableObjects.Gun;
 using Weapons.Projectiles.Behaviours;
@@ -26,7 +28,13 @@ namespace Weapons.Projectiles
 
 		public LayerMaskData MaskData => maskData;
 
+		[SerializeField]
+		private PlayerTypes playerThatCanBeHit = PlayerTypes.Normal | PlayerTypes.Alien;
+
 		private GameObject shooter;
+
+		private bool destroyed;
+		public bool Destroyed => destroyed;
 
 		public bool WillHurtShooter { get; set; }
 
@@ -79,12 +87,13 @@ namespace Weapons.Projectiles
 		/// </summary>
 		/// <param name="distanceTraveled"></param>
 		/// <param name="worldPosition"> Actual world position of the moving projectile </param>
+		/// <param name="previousWorldPosition"> Previous world position of the moving projectile</param>
 		/// <returns> Is despawning bullet? </returns>
-		public bool ProcessMove(Vector3 distanceTraveled, Vector3 worldPosition)
+		public bool ProcessMove(Vector3 distanceTraveled, Vector3 worldPosition, Vector3 previousWorldPosition)
 		{
 			foreach (var behaviour in behavioursOnMove)
 			{
-				if (behaviour.OnMove(distanceTraveled))
+				if (behaviour.OnMove(distanceTraveled, previousWorldPosition))
 				{
 					DespawnThis(new MatrixManager.CustomPhysicsHit(), worldPosition);
 					return false;
@@ -116,8 +125,15 @@ namespace Weapons.Projectiles
 		private bool IsHitValid(MatrixManager.CustomPhysicsHit  hit)
 		{
 			if (hit.ItHit == false) return false;
-			if (WillHurtShooter) return true;
-			if (hit.CollisionHit.GameObject == shooter) return false;
+			if (hit.CollisionHit.GameObject == shooter && WillHurtShooter == false) return false;
+
+			if (hit.CollisionHit.GameObject != null &&
+			    hit.CollisionHit.GameObject.TryGetComponent<PlayerScript>(out var playerScript) &&
+			    playerThatCanBeHit.HasFlag(playerScript.PlayerType) == false)
+			{
+				return false;
+			}
+
 			return true;
 		}
 
@@ -127,28 +143,21 @@ namespace Weapons.Projectiles
 		/// </summary>
 		private void DespawnThis(MatrixManager.CustomPhysicsHit  hit, Vector2 point)
 		{
+			destroyed = true;
+
 			foreach (var behaviour in behavioursOnBulletDespawn)
 			{
 				behaviour.OnDespawn(hit, point);
 			}
 
-			if (CustomNetworkManager.IsServer)
-			{
-				Despawn.ServerSingle(gameObject);
-			}
-			else
-			{
-				if (Despawn.ClientSingle(gameObject).Successful == false)
-				{
-					Destroy(gameObject);
-				}
-			}
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		private void OnDisable()
 		{
 			shooter = null;
 			WillHurtShooter = false;
+			destroyed = false;
 		}
 	}
 }

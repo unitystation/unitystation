@@ -1,16 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Systems.Atmospherics;
-using Mirror;
-using Pipes;
+
 
 namespace Systems.Shuttles
 {
 	/// <summary>
 	/// Used to monitor the fuel level and to remove fuel from the canister and also stop the shuttle if the fuel has run out
 	/// </summary>
-	public class ShuttleFuelSystem : ManagedNetworkBehaviour
+	public class ShuttleFuelSystem : MonoBehaviour
 	{
 		public float FuelLevel;
 		public ShuttleFuelConnector Connector;
@@ -23,17 +21,27 @@ namespace Systems.Shuttles
 		public float optimumMassConsumption = 0.05f;
 
 
-		protected override void OnEnable()
+		private void Awake()
 		{
-			base.OnEnable();
-			if (MatrixMove == null)
-			{
-				MatrixMove = this.GetComponent<MatrixMove>();
-				MatrixMove.RegisterShuttleFuelSystem(this);
-			}
+			if(MatrixMove == null) MatrixMove = GetComponent<MatrixMove>();
 		}
 
-		public override void UpdateMe()
+
+		protected void OnEnable()
+		{
+			if(MatrixMove.ShuttleFuelSystem == null) MatrixMove.RegisterShuttleFuelSystem(this); //For constructable shuttles.
+			if(CustomNetworkManager.IsServer == false) return;
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void UpdateMe()
 		{
 			if (Connector == null)
 			{
@@ -52,7 +60,7 @@ namespace Systems.Shuttles
 				{
 					MatrixMove.IsFueled = true;
 				}
-				FuelLevel = Connector.canister.GasContainer.GasMix.GetMoles(Gas.Plasma) / 60000;
+				FuelLevel = Connector.canister.GasContainer.GasMix.GetMoles(Gas.Plasma) / Connector.canister.GasContainer.MaximumMoles;
 			}
 			else
 			{
@@ -130,6 +138,7 @@ namespace Systems.Shuttles
 			}
 
 		}
+
 		bool IsFuelled()
 		{
 			if (IsFuelledOptimum())

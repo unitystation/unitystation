@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 61344596048250936}
   - component: {fileID: 114429980035310924}
   - component: {fileID: 114038174743996046}
-  - component: {fileID: 114703946515217786}
   - component: {fileID: -6323473989204236853}
   - component: {fileID: 3432798136324343086}
   - component: {fileID: 8848522590704173912}
@@ -24,6 +23,7 @@ GameObject:
   - component: {fileID: 1502216706390324168}
   - component: {fileID: 2504760058904090374}
   - component: {fileID: 114705152130084640}
+  - component: {fileID: 8572853224832002655}
   m_Layer: 11
   m_Name: SMES
   m_TagString: Untagged
@@ -41,6 +41,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 4, y: -34, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4920401221825478}
   - {fileID: 6736603676201583526}
@@ -87,11 +88,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: 
+  m_AssetId: 35eed4273d90143b0926de4715bbc06e
   hasSpawned: 0
 --- !u!114 &114038174743996046
 MonoBehaviour:
@@ -109,27 +109,13 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  prefabTracker: {fileID: 0}
+  CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
   ReachableThrough: 1
   initialPassable: 0
   initialCrawlPassable: 0
   passableExclusionsToThis: []
---- !u!114 &114703946515217786
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575520830166772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  snapToGridOnStart: 1
-  IsFixedMatrix: 0
 --- !u!114 &-6323473989204236853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,8 +129,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound: BladeSlice
 --- !u!114 &3432798136324343086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,6 +151,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -179,6 +164,8 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
+    StunImmunity: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -191,6 +178,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  Meleeable: {fileID: 0}
 --- !u!114 &8848522590704173912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,8 +198,10 @@ MonoBehaviour:
     unit.
   willHighlight: 1
   exportCost: 200
+  exportType: 0
   exportName: 
   exportMessage: 
+  initialSize: 3
 --- !u!114 &-3958875245984225180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,8 +214,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &2733088097871749730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,6 +230,7 @@ MonoBehaviour:
   machineBoardPrefab: {fileID: 8026946951644424067, guid: 7f7934b263cb23040ade0147d14b39aa,
     type: 3}
   canNotBeDeconstructed: 0
+  isEMPResistant: 0
   mustBeUnanchored: 0
   secondsToScrewdrive: 2
 --- !u!114 &114897658894920132
@@ -273,24 +262,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  InData:
-    WireEndB: 0
-    WireEndA: 0
-    Categorytype: 0
-    ControllingDevice: {fileID: 0}
-    Present: {fileID: 0}
-    Data:
-      CurrentInWire: 0
-      ActualVoltage: 0
-      EstimatedResistance: 0
-      SupplyingCurrent: 0
-      InternalResistance: 0
-      SupplyingVoltage: 0
-      ProducingWatts: 0
-      ChangeToOff: 0
-      CurrentStoreValue: 0
-    DestroyQueueing: 0
-    DestroyAuthorised: 0
   registerTile: {fileID: 0}
   connected: 0
   Logall: 0
@@ -341,7 +312,6 @@ MonoBehaviour:
     Ohms: 0
     ResistanceAvailable: 1
   EditorResistance: 0
-  NotEditorResistanceset: 1
   ReactionTo:
     ConnectingDevice: 1
     DirectionReaction: 0
@@ -366,7 +336,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ModuleType: 0
   ControllingNode: {fileID: 0}
-  StartOnStartUp: 0
+  StartOnStartUp: 1
   Previouscurrent: 0
   current: 0
   PreviousSupplyingVoltage: 0
@@ -385,19 +355,15 @@ MonoBehaviour:
   StandardChargeNumber: 1
   MaxChargingDivider: 750
   ChargingDivider: 10
+  InputLevel: 100
+  OutputLevel: 100
   CanCharge: 1
   Cansupport: 1
   ToggleCanCharge: 1
   ToggleCansupport: 1
   SlowResponse: 0
-  PullLastDeductedTime: 0
-  ChargLastDeductedTime: 0
   PullingWatts: 0
   ChargingWatts: 0
-  CircuitResistance: 0
-  VoltageAtChargePort: 0
-  VoltageAtSupplyPort: 0
-  isOnForInterface: 0
 --- !u!114 &114705152130084640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,6 +379,57 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   indicatorUpdatePeriod: 5
+--- !u!114 &8572853224832002655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  DEBUG: 0
+  SnapToGridOnStart: 0
+  LocalTargetPosition: {x: 0, y: 0, z: 0}
+  ChangesDirectionPush: 0
+  Intangible: 0
+  InitialLocationSynchronised: 0
+  tileMoveSpeed: 1
+  isNotPushable: 1
+  newtonianMovement: {x: 0, y: 0}
+  airTime: 0
+  slideTime: 0
+  thrownBy: {fileID: 0}
+  aim: 0
+  spinMagnitude: 0
+  PushedFrame: 0
+  FramePushDecision: 1
+  stickyMovement: 0
+  maximumStickSpeed: 1.5
+  onStationMovementsRound: 0
+  attributes: {fileID: 0}
+  registerTile: {fileID: 0}
+  ContextGameObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  IsCurrentlyFloating: 0
+  LocalDifferenceNeeded: {x: 0, y: 0}
+  CorrectingCourse: 0
+  Pushing: []
+  Hits: []
+  Speed: 1
+  AIR: 3
+  SLIDE: 4
+  Animating: 0
+  IsFlyingSliding: 0
+  IsMoving: 0
+  MoveIsWalking: 0
+  LastUpdateClientFlying: 0
 --- !u!1 &1610444276709522
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,6 +458,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4734855229797344}
   m_RootOrder: 3
@@ -456,6 +474,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -517,10 +536,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4df32e0c22d2c0a4cb2cece53e2791f5, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: bd329062e4ba725438d3b6775fa20f6f, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0
@@ -549,6 +568,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4734855229797344}
   m_RootOrder: 0
@@ -564,6 +584,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -622,10 +643,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0fed0ab9d0449274aa1f22b4433a42a9, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: e4214d0cb98499d4c919e029794bcf5f, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &1755787157714290
 GameObject:
   m_ObjectHideFlags: 0
@@ -654,6 +675,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4734855229797344}
   m_RootOrder: 2
@@ -669,6 +691,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -698,7 +721,7 @@ SpriteRenderer:
   m_SortingLayerID: -24161425
   m_SortingLayer: 8
   m_SortingOrder: 13
-  m_Sprite: {fileID: 21300002, guid: 4135247828c256c4dbd1fdb1a39a2d1b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 03e8bd3eeae9aeb4a8f984ce5db604a7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -725,12 +748,12 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: 04bdc709610a043459bc04e8a56cdd75, type: 2}
   - {fileID: 11400000, guid: f67f3880b2b405f418bce2e5aa83cad6, type: 2}
-  PresentSpriteSet: {fileID: 0}
+  PresentSpriteSet: {fileID: 11400000, guid: 04bdc709610a043459bc04e8a56cdd75, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 0
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &8159420298327335241
 GameObject:
   m_ObjectHideFlags: 0
@@ -759,6 +782,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4734855229797344}
   m_RootOrder: 1
@@ -774,6 +798,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -832,7 +857,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 76e1ddfdf021c5442a3571c4d9d1cfc7, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 099b545340b1ba449a6fa244256f1f97, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
-  Sprites: []

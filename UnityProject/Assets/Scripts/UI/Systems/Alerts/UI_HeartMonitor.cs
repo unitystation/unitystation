@@ -20,8 +20,7 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 
 	[SerializeField] private Image bgImage = default;
 
-	[SerializeField]
-	public List<Spritelist> StatesSprites;
+	[SerializeField] public List<Spritelist> StatesSprites;
 
 	[SerializeField] private Sprite[] statesBgImages = default;
 
@@ -29,9 +28,9 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 	private float timeWait;
 	private float blinkTimer;
 
-	[Tooltip("Time between monitor bg blinks")]
-	[SerializeField]
+	[Tooltip("Time between monitor bg blinks")] [SerializeField]
 	private float criticalBlinkingTime = 0.5f;
+
 	private float overallHealthCache = 100;
 
 
@@ -56,7 +55,7 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 	//Managed by UpdateManager
 	void UpdateMe()
 	{
-		if (PlayerManager.LocalPlayer == null || PlayerManager.LocalPlayerScript.IsGhost) return;
+		if (PlayerManager.LocalPlayerObject == null || PlayerManager.LocalPlayerScript.IsNormal == false) return;
 
 		CheckHealth();
 		timeWait += Time.deltaTime;
@@ -80,7 +79,7 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 			}
 		}
 
-		if(blinkTimer >= criticalBlinkingTime)
+		if (blinkTimer >= criticalBlinkingTime)
 		{
 			blinkTimer = 0;
 			// blinking bg when state is Crit
@@ -89,7 +88,7 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 				CurrentSpriteSet = 5;
 				bgImage.sprite = statesBgImages[CurrentSpriteSet];
 			}
-			else if(CurrentSpriteSet == 5)
+			else if (CurrentSpriteSet == 5)
 			{
 				CurrentSpriteSet = 4;
 				bgImage.sprite = statesBgImages[CurrentSpriteSet];
@@ -97,56 +96,93 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 		}
 	}
 
+	private float TemporaryDamageIndicator = 0;
+	private float Decay = 2000;
+	private float Magnifyer = 50f;
+
 	private void CheckHealth()
 	{
 		if (PlayerManager.LocalPlayerScript.playerHealth.OverallHealth == overallHealthCache)
 		{
 			return;
 		}
+
 		float maxHealth = PlayerManager.LocalPlayerScript.playerHealth.MaxHealth;
+		float DamagedDelta = overallHealthCache - PlayerManager.LocalPlayerScript.playerHealth.OverallHealth;
+
+		if (0 > DamagedDelta)
+		{
+			DamagedDelta = 0;
+		}
+
+		TemporaryDamageIndicator += DamagedDelta * Magnifyer;
+
+
 		overallHealthCache = PlayerManager.LocalPlayerScript.playerHealth.OverallHealth;
 
-		if (overallHealthCache >= maxHealth)
+		float HealthPercentage = overallHealthCache / maxHealth;
+
+
+		if (TemporaryDamageIndicator > 85)
 		{
-			CurrentSpriteSet = 0;
-			overlayCrits.SetState(OverlayState.normal);
+			TemporaryDamageIndicator = 85;
 		}
-		else if (overallHealthCache >= maxHealth*(2/3))
+
+
+		if (HealthPercentage > 0)
 		{
-			CurrentSpriteSet = 1;
-			overlayCrits.SetState(OverlayState.normal);
+			if (HealthPercentage >= 1)
+			{
+				CurrentSpriteSet = 0;
+			}
+			else if (HealthPercentage >= 0.66f)
+			{
+				CurrentSpriteSet = 1;
+			}
+			else if (HealthPercentage >= 0.33f)
+			{
+				CurrentSpriteSet = 2;
+			}
+			else
+			{
+				CurrentSpriteSet = 3;
+			}
 		}
-		else if (overallHealthCache <= maxHealth*(2/3) &&
-			overallHealthCache > maxHealth/3)
+		else
 		{
-			CurrentSpriteSet = 2;
-			overlayCrits.SetState(OverlayState.injured);
+			HealthPercentage = overallHealthCache / 100f;
+
+			if (HealthPercentage > -0.66f)
+			{
+				CurrentSpriteSet = 3;
+			}
+			else if (HealthPercentage > -1)
+			{
+				// crit state has 2 sprite sets (blinking)
+				// so next state is 6 instead of 5
+				CurrentSpriteSet = 4;
+			}
+			else
+			{
+				CurrentSpriteSet = 6;
+			}
 		}
-		else if (overallHealthCache <= maxHealth/3 &&
-			overallHealthCache > 0)
+
+
+		if (TemporaryDamageIndicator > 0)
 		{
-			CurrentSpriteSet = 3;
-			overlayCrits.SetState(OverlayState.injured);
+			TemporaryDamageIndicator -= Decay * Time.deltaTime;
+			if (TemporaryDamageIndicator < 0)
+			{
+				TemporaryDamageIndicator = 0;
+			}
+
+			HealthPercentage = (overallHealthCache - TemporaryDamageIndicator) / maxHealth;
 		}
-		else if (overallHealthCache <= 0 &&
-			overallHealthCache > -15)
-		{
-			CurrentSpriteSet = 3;
-			overlayCrits.SetState(OverlayState.unconscious);
-		}
-		else if (overallHealthCache <= -15 &&
-			overallHealthCache > -100)
-		{
-			// crit state has 2 sprite sets (blinking)
-			// so next state is 6 instead of 5
-			CurrentSpriteSet = 4;
-			overlayCrits.SetState(OverlayState.crit);
-		}
-		else if (overallHealthCache <= -100)
-		{
-			CurrentSpriteSet = 6;
-			overlayCrits.SetState(OverlayState.death);
-		}
+
+
+		overlayCrits.SetState(HealthPercentage);
+
 
 		// crit state has 2 sprite sets (blinking)
 		if (CurrentSpriteSet != 4 && CurrentSpriteSet != 5)

@@ -1,7 +1,10 @@
 ﻿
+	using System;
+
 	/// <summary>
 	///     Used to set access restrictions on ID cards and doors
 	/// </summary>
+	[Obsolete]
 	public enum Access
 	{
 		ai_upload = 1,
@@ -18,11 +21,11 @@
 
 		//cent_captain = 11,
 		//cent_creed = 12,
-		//cent_ert = 13,
+		cent_ert = 13,
 		//cent_general = 14,
 		//cent_living = 15,
 		//cent_medical = 16,
-		//cent_specops = 17,
+		cent_specops = 17,
 		//cent_storage = 18,
 		//cent_teleporter = 19,
 		//cent_thunder = 20,
@@ -89,7 +92,8 @@
 		tox_storage = 77, // Toxins mixing and storage
 		virology = 78,
 		weapons = 79, //Weapon authorization for secbots
-		xenobiology = 80
+		xenobiology = 80,
+		centcom = 81,
 	}
 
 	/// <summary>

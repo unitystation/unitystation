@@ -1,17 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &5865673803328853950
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6433518719526052612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65a8731c836944efb4baf302526fc662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &7248905475842763370
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -138,8 +126,13 @@ PrefabInstance:
     - target: {fileID: 4342894697621943514, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: a12add7b219842843b678dec171704cb
       objectReference: {fileID: 0}
+    - target: {fileID: 4342993046395136242, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 1007681705463031114}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_RootOrder
@@ -254,6 +247,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: FiringSoundA.AssetAddress
+      value: Assets/Prefabs/Weapons/PlasmaCutter.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: loadMagSound.AssetAddress
+      value: Assets/Prefabs/Weapons/KineticReload.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: firemodeName.Array.data[0]
       value: Plasma
       objectReference: {fileID: 0}
@@ -304,6 +307,11 @@ PrefabInstance:
       propertyPath: firemodeFiringSound.Array.data[0].AssetAddress
       value: Assets/Prefabs/Weapons/PlasmaCutter.prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 7308079732379829507, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: foreverID
+      value: a12add7b219842843b678dec171704cb
+      objectReference: {fileID: 0}
     - target: {fileID: 7536533288437052137, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -317,9 +325,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
+--- !u!210 &1007681705463031114 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 7594555733416693536, guid: 143d3926d4a5fa84f95f987c152b33a2,
+    type: 3}
+  m_PrefabInstance: {fileID: 7248905475842763370}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6433518719526052612 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4454405483554457966, guid: 143d3926d4a5fa84f95f987c152b33a2,
     type: 3}
   m_PrefabInstance: {fileID: 7248905475842763370}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5865673803328853950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6433518719526052612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65a8731c836944efb4baf302526fc662, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -2,158 +2,152 @@
 using System.Collections.Generic;
 using System.Linq;
 using HealthV2;
-using Lobby;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BodyPartDropDownReplaceOrgan : BodyPartCustomisationBase
+namespace UI.CharacterCreator
 {
-	public Dropdown Dropdown;
-
-	public List<BodyPart> ToChooseFromBodyParts = new List<BodyPart>();
-	
-	public BodyPart CurrentBodyPart;
-
-	public BodyPart ParentBodyPart; //can be null with root
-
-	public override void SetUp(CharacterCustomization incharacterCustomization, BodyPart Body_Part, string path)
+	public class BodyPartDropDownReplaceOrgan : BodyPartCustomisationBase
 	{
-		base.SetUp(incharacterCustomization, Body_Part, path);
-		RelatedBodyPart = Body_Part;
-		List<string> itemOptions = null;
-		// Make a list of all available options which can then be passed to the dropdown box
-		foreach (var Keyv in incharacterCustomization.ParentDictionary)
+		public Dropdown Dropdown;
+
+		public List<BodyPart> ToChooseFromBodyParts = new List<BodyPart>();
+
+		public BodyPart CurrentBodyPart;
+
+		public BodyPart ParentBodyPart; // can be null with root
+
+		public override void SetUp(CharacterCustomization incharacterCustomization, BodyPart Body_Part, string path)
 		{
-			if (Keyv.Value.Contains(Body_Part))
+			base.SetUp(incharacterCustomization, Body_Part, path);
+			RelatedBodyPart = Body_Part;
+			List<string> itemOptions = null;
+			// Make a list of all available options which can then be passed to the dropdown box
+			foreach (var Keyv in incharacterCustomization.ParentDictionary)
 			{
-				ParentBodyPart = Keyv.Key;
+				if (Keyv.Value.Contains(Body_Part))
+				{
+					ParentBodyPart = Keyv.Key;
+				}
+			}
+
+			CurrentBodyPart = Body_Part;
+			ToChooseFromBodyParts = Body_Part.OptionalReplacementOrgan;
+			itemOptions = Body_Part.OptionalReplacementOrgan.Select(gameObject => gameObject.name).ToList();
+
+
+			itemOptions.Sort();
+
+			// Ensure "None" is at the top of the option lists
+			itemOptions.Insert(0, Body_Part.name);
+			Dropdown.AddOptions(itemOptions);
+			Dropdown.onValueChanged.AddListener(ItemChange);
+		}
+
+		public override void Deserialise(string InData)
+		{
+			var Newvalue = JsonConvert.DeserializeObject<int>(InData);
+			if (Newvalue >= (ToChooseFromBodyParts.Count + 1))
+			{
+				Newvalue = 0;
+			}
+
+			Dropdown.value = Newvalue;
+		}
+
+		public override string Serialise()
+		{
+			return JsonConvert.SerializeObject(Dropdown.value);
+		}
+
+		public static void OnPlayerBodyDeserialise(BodyPart bodyPart, string InData)
+		{
+			var PreviousOptions = JsonConvert.DeserializeObject<int>(InData);
+			if (PreviousOptions >= bodyPart.OptionalReplacementOrgan.Count + 1 || PreviousOptions == 0) //0 == Default
+			{
+				return;
+			}
+
+			var ActualIndex = PreviousOptions - 1;
+
+			var spawned = Spawn.ServerPrefab(bodyPart.OptionalReplacementOrgan[ActualIndex].gameObject);
+
+			var Storage = bodyPart.ContainedIn;
+
+			Storage.OrganStorage.ServerTryAdd(spawned.GameObject);
+			Storage.OrganStorage.ServerTryRemove(bodyPart.gameObject);
+		}
+
+		public void SetDropdownValue(string currentSetting)
+		{
+			// Find the index of the setting in the dropdown list which matches the currentSetting
+			int settingIndex = Dropdown.options.FindIndex(option => option.text == currentSetting);
+
+			if (settingIndex != -1)
+			{
+				// Make sure FindIndex is successful before changing value
+				Dropdown.value = settingIndex;
+			}
+			else
+			{
+				Logger.LogWarning($"Unable to find index of {currentSetting}! Using default", Category.Character);
+				Dropdown.value = 0;
 			}
 		}
 
-		CurrentBodyPart = Body_Part;
-		ToChooseFromBodyParts = Body_Part.OptionalReplacementOrgan;
-		itemOptions = Body_Part.OptionalReplacementOrgan.Select(gameObject => gameObject.name).ToList();
-
-
-		itemOptions.Sort();
-
-		// Ensure "None" is at the top of the option lists
-		itemOptions.Insert(0, Body_Part.name);
-		Dropdown.AddOptions(itemOptions);
-		Dropdown.onValueChanged.AddListener(ItemChange);
-	}
-
-	public override void Deserialise(string InData)
-	{
-		var Newvalue = JsonConvert.DeserializeObject<int>(InData);
-		if (Newvalue >= ToChooseFromBodyParts.Count)
+		public void DropdownScrollRight()
 		{
-			Newvalue = 0;
-		}
-		Dropdown.value = Newvalue;
-	}
-
-	public override string Serialise()
-	{
-		return JsonConvert.SerializeObject(Dropdown.value);
-	}
-
-	public static void OnPlayerBodyDeserialise(BodyPart Body_Part, string InData,
-		LivingHealthMasterBase LivingHealthMasterBase)
-	{
-		var PreviousOptions = JsonConvert.DeserializeObject<int>(InData);
-		if (PreviousOptions >= Body_Part.OptionalReplacementOrgan.Count)
-		{
-			return;
+			// Check if value should wrap around
+			if (Dropdown.value < Dropdown.options.Count - 1)
+			{
+				Dropdown.value++;
+			}
+			else
+			{
+				Dropdown.value = 0;
+			}
 		}
 
-		var spawned = Spawn.ServerPrefab(Body_Part.OptionalReplacementOrgan[PreviousOptions].gameObject);
-		var Parent = Body_Part.GetParent();
-		if (Parent != null)
+		public void DropdownScrollLeft()
 		{
-			Parent.Storage.ServerTryAdd(spawned.GameObject);
-			Parent.Storage.ServerTryRemove(Body_Part.gameObject);
+			// Check if value should wrap around
+			if (Dropdown.value > 0)
+			{
+				Dropdown.value--;
+			}
+			else
+			{
+				Dropdown.value = Dropdown.options.Count - 1;
+			}
 		}
-	}
 
-
-	public void SetDropdownValue(string currentSetting)
-	{
-		// Find the index of the setting in the dropdown list which matches the currentSetting
-		int settingIndex = Dropdown.options.FindIndex(option => option.text == currentSetting);
-
-		if (settingIndex != -1)
+		public override void RandomizeValues()
 		{
-			// Make sure FindIndex is successful before changing value
-			Dropdown.value = settingIndex;
+			Dropdown.value = Random.Range(0, Dropdown.options.Count - 1);
+			Refresh();
 		}
-		else
+
+		public void ItemChange(int newValue)
 		{
-			Logger.LogWarning($"Unable to find index of {currentSetting}! Using default", Category.Character);
-			Dropdown.value = 0;
+			Refresh();
 		}
-	}
 
-
-	public void DropdownScrollRight()
-	{
-		// Check if value should wrap around
-		if (Dropdown.value < Dropdown.options.Count - 1)
+		public override void Refresh()
 		{
-			Dropdown.value++;
-		}
-		else
-		{
-			Dropdown.value = 0;
-		}
-	}
+			base.Refresh();
 
-	public void DropdownScrollLeft()
-	{
-		// Check if value should wrap around
-		if (Dropdown.value > 0)
-		{
-			Dropdown.value--;
-		}
-		else
-		{
-			Dropdown.value = Dropdown.options.Count - 1;
-		}
-	}
-
-	public override void RandomizeValues()
-	{
-		Dropdown.value = Random.Range(0, Dropdown.options.Count - 1);
-		Refresh();
-	}
-
-	public void ItemChange(int newValue)
-	{
-		Refresh();
-	}
-
-
-	public override void Refresh()
-	{
-		base.Refresh();
-
-		if (Dropdown.value == 0)
-		{
-			if (CurrentBodyPart != null)
+			if (Dropdown.value == 0) //Going to 0
 			{
 				characterCustomization.RemoveBodyPart(CurrentBodyPart);
+				characterCustomization.ParentDictionary[ParentBodyPart].Add(RelatedBodyPart);
+				characterCustomization.SetUpBodyPart(RelatedBodyPart, false);
+				CurrentBodyPart = RelatedBodyPart;
 			}
-
-			characterCustomization.ParentDictionary[ParentBodyPart].Add(RelatedBodyPart);
-			characterCustomization.SetUpBodyPart(RelatedBodyPart, false);
-			CurrentBodyPart = RelatedBodyPart;
-		}
-		else
-		{
-			if (CurrentBodyPart != null)
+			else
 			{
-				if (CurrentBodyPart == RelatedBodyPart)
+
+				if (CurrentBodyPart == RelatedBodyPart) //Don't delete the customisations of this
 				{
 					characterCustomization.RemoveBodyPart(CurrentBodyPart, false);
 				}
@@ -161,12 +155,12 @@ public class BodyPartDropDownReplaceOrgan : BodyPartCustomisationBase
 				{
 					characterCustomization.RemoveBodyPart(CurrentBodyPart);
 				}
-			}
 
-			var ChosenOption = Dropdown.options[Dropdown.value].text;
-			CurrentBodyPart = ToChooseFromBodyParts.First(x => x.name == ChosenOption);
-			characterCustomization.ParentDictionary[ParentBodyPart].Add(CurrentBodyPart);
-			characterCustomization.SetUpBodyPart(CurrentBodyPart);
+				var ChosenOption = Dropdown.options[Dropdown.value].text;
+				CurrentBodyPart = ToChooseFromBodyParts.First(x => x.name == ChosenOption);
+				characterCustomization.ParentDictionary[ParentBodyPart].Add(CurrentBodyPart);
+				characterCustomization.SetUpBodyPart(CurrentBodyPart);
+			}
 		}
 	}
 }

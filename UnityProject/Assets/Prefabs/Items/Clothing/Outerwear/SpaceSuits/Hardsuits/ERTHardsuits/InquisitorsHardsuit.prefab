@@ -7,6 +7,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 145137995162664296, guid: 12c1799d210b6b444a768fd61642f614,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Magic
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 145137995162664296, guid: 12c1799d210b6b444a768fd61642f614,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Magic
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 145137995162664296, guid: 12c1799d210b6b444a768fd61642f614,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Magic
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 145137995162664296, guid: 12c1799d210b6b444a768fd61642f614,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.Magic
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 145137995162664296, guid: 12c1799d210b6b444a768fd61642f614,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[4].armor.Magic
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 145137995162664296, guid: 12c1799d210b6b444a768fd61642f614,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[5].armor.Magic
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 145137995162664296, guid: 12c1799d210b6b444a768fd61642f614,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.StunImmunity
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4134971925973852533, guid: 12c1799d210b6b444a768fd61642f614,
         type: 3}
       propertyPath: initialName
@@ -21,7 +56,7 @@ PrefabInstance:
     - target: {fileID: 4475434688161362851, guid: 12c1799d210b6b444a768fd61642f614,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 56cfb724879d54c49bf28514d6b10369
       objectReference: {fileID: 0}
     - target: {fileID: 4580096753062088215, guid: 12c1799d210b6b444a768fd61642f614,
         type: 3}
@@ -83,18 +118,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7436987107694084730, guid: 12c1799d210b6b444a768fd61642f614,
+        type: 3}
+      propertyPath: foreverID
+      value: 56cfb724879d54c49bf28514d6b10369
+      objectReference: {fileID: 0}
     - target: {fileID: 7490329715578232210, guid: 12c1799d210b6b444a768fd61642f614,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 6d686889c908edd45bfee1412c62e29b,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7490329715578232210, guid: 12c1799d210b6b444a768fd61642f614,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 6d686889c908edd45bfee1412c62e29b,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7490329715578232210, guid: 12c1799d210b6b444a768fd61642f614,
         type: 3}
       propertyPath: allClothingData.Array.size

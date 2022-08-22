@@ -1,16 +1,61 @@
-﻿using Items;
+﻿using System.Collections;
+using Items;
 using Mirror;
+using Systems.Explosions;
+using UnityEngine;
 
 /// <summary>
 ///     Headset properties
 /// </summary>
-public class Headset : NetworkBehaviour
+public class Headset : NetworkBehaviour, IInteractable<HandActivate>, IExaminable, IEmpAble
 {
 	[SyncVar] public EncryptionKeyType EncryptionKey;
+	[SyncVar] public bool LoudSpeakOn = false;
+	[SyncVar] public bool isEMPed = false;
+	public bool HasLoudSpeak = false;
+	public Loudness LoudspeakLevel = Loudness.SCREAMING;
 
 	public void init()
 	{
 		getEncryptionTypeFromHier();
+	}
+
+	public void ServerPerformInteraction(HandActivate interaction)
+	{
+		if (HasLoudSpeak)
+		{
+			LoudSpeakOn = !LoudSpeakOn;
+			string result = LoudSpeakOn ? "turn on" : "turn off";
+			Chat.AddExamineMsg(interaction.Performer, $"You {result} the {gameObject.ExpensiveName()}");
+		}
+	}
+
+	public string Examine(Vector3 worldPos = default)
+	{
+		string status = "";
+		if (isEMPed)
+		{
+			status = $"<color=red> It appears to be disabled. Perhaps it will become active again later?";
+		}
+		return $"{gameObject.GetComponent<ItemAttributesV2>().InitialDescription}" +status;
+	}
+
+	public void OnEmp(int EmpStrength)
+	{
+		if (isEMPed == false)
+		{
+			StartCoroutine(Emp(EmpStrength));
+		}
+	}
+
+	public IEnumerator Emp(int EmpStrength)
+	{
+		int effectTime = (int)(EmpStrength * 0.75f);
+		isEMPed = true;
+		Chat.AddExamineMsg(PlayerManager.LocalPlayerScript.gameObject, $"Your {gameObject.ExpensiveName()} suddenly becomes very quiet...");
+		yield return WaitFor.Seconds(effectTime);
+		isEMPed = false;
+		Chat.AddExamineMsg(PlayerManager.LocalPlayerScript.gameObject, $"Your {gameObject.ExpensiveName()} became emmiting buzz and radio messages again.");
 	}
 
 	private void getEncryptionTypeFromHier()

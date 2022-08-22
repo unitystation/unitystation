@@ -17,38 +17,52 @@ namespace Chemistry.Editor
 
 			GUILayout.Label("Temperature");
 			EditorGUILayout.BeginHorizontal();
-			NullableFloat(ref reaction.tempMin,0, "Min");
-			NullableFloat(ref reaction.tempMax, MaxLimit, "Max");
+			NullableFloat(ref reaction.serializableTempMin, ref reaction.hasMinTemp, 0, "Min");
+			NullableFloat(ref reaction.serializableTempMax, ref reaction.hasMaxTemp, MaxLimit, "Max");
 			EditorGUILayout.EndHorizontal();
 
-			var tempMin = reaction.tempMin ?? 0;
-			var tempMax = reaction.tempMax ?? MaxLimit;
+			var tempMin = reaction.hasMinTemp ? reaction.serializableTempMin : 0;
+			var tempMax = reaction.hasMaxTemp ? reaction.serializableTempMax : MaxLimit;
 			EditorGUILayout.MinMaxSlider(
 				ref tempMin,
 				ref tempMax,
 				0,
 				MaxLimit);
 
-			reaction.tempMin = reaction.tempMin == null ? null : (float?)tempMin;
-			reaction.tempMax = reaction.tempMax == null ? null : (float?)tempMax;
+			if (reaction.hasMinTemp == true) 
+			{
+                reaction.serializableTempMin = tempMin;
+			}
+            if (reaction.hasMaxTemp == true) 
+			{
+				reaction.serializableTempMax = tempMax;
+			}
+
+			if(GUILayout.Button("Set Dirty")) 
+			{
+                EditorUtility.SetDirty(target);
+			}
+
 		}
 
-		private static void NullableFloat(ref float? value, float def, string name)
+		private static void NullableFloat(ref float value, ref bool tempState, float def, string name)
 		{
-			EditorGUI.BeginDisabledGroup(value == null);
-			var newValue = EditorGUILayout.FloatField(value ?? 0);
-			if (value != null)
+			EditorGUI.BeginDisabledGroup(tempState == false);
+			var newValue = EditorGUILayout.FloatField(tempState ? value : 0);
+			if (tempState)
 			{
 				value = newValue;
 			}
 			EditorGUI.EndDisabledGroup();
 
-			if (!EditorGUILayout.ToggleLeft(name, value.HasValue))
+			if (!EditorGUILayout.ToggleLeft(name, tempState))
 			{
-				value = null;
+				tempState = false;
+				value = 0;
 			}
-			else if (value == null)
+			else if (tempState == false)
 			{
+				tempState = true;
 				value = def;
 			}
 		}

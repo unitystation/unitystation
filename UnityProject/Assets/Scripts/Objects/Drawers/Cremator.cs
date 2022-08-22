@@ -1,8 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using AddressableReferences;
 using HealthV2;
+using Items;
+using Systems.Clearance;
 
 namespace Objects.Drawers
 {
@@ -26,13 +29,17 @@ namespace Objects.Drawers
 		}
 
 		private AccessRestrictions accessRestrictions;
+		private ClearanceCheckable clearanceCheckable;
 
-		private const float BURNING_DURATION = 1.5f; // In seconds - timed to the Ding SFX.
+		private const float BURNING_DURATION = 5f;
+
+		[SerializeField] private float burningDamage = 25f;
 
 		protected override void Awake()
 		{
 			base.Awake();
 			accessRestrictions = GetComponent<AccessRestrictions>();
+			clearanceCheckable = GetComponent<ClearanceCheckable>();
 		}
 
 		// This region (Interaction-RightClick) shouldn't exist once TODO in class summary is done.
@@ -42,7 +49,21 @@ namespace Objects.Drawers
 		{
 			RightClickableResult result = RightClickableResult.Create();
 			if (drawerState == DrawerState.Open) return result;
-			if (!accessRestrictions.CheckAccess(PlayerManager.LocalPlayer)) return result;
+
+			/* --ACCESS REWORK--
+			 *  TODO Remove the AccessRestriction check when we finish migrating!
+			 *
+			 */
+
+			if (accessRestrictions)
+			{
+				if (accessRestrictions.CheckAccess(PlayerManager.LocalPlayerObject) == false) return result;
+			}
+			else if (clearanceCheckable)
+			{
+				if (clearanceCheckable.HasClearance(PlayerManager.LocalPlayerObject) == false) return result;
+			}
+
 			var cremateInteraction = ContextMenuApply.ByLocalPlayer(gameObject, null);
 			if (!WillInteract(cremateInteraction, NetworkSide.Client)) return result;
 
@@ -67,17 +88,27 @@ namespace Objects.Drawers
 			Cremate();
 		}
 
-		#endregion Interaction-RightClick
+		#endregion
 
 		#region Interaction
 
 		public override void ServerPerformInteraction(HandApply interaction)
 		{
 			if (drawerState == (DrawerState)CrematorState.ShutAndActive) return;
+			if (container.GetStoredObjects().Contains(interaction.Performer))
+			{
+				Chat.AddExamineMsg(interaction.Performer, "<color=red>I can't reach the controls from the inside!</color>");
+				EntityTryEscape(interaction.Performer, null, MoveAction.NoMove);
+				return;
+			}
+			if (interaction.IsAltClick && drawerState != DrawerState.Open)
+			{
+				Cremate();
+			}
 			base.ServerPerformInteraction(interaction);
 		}
 
-		#endregion Interaction
+		#endregion
 
 		#region Server Only
 
@@ -90,74 +121,67 @@ namespace Objects.Drawers
 			UpdateCloseState();
 		}
 
+		public override void OpenDrawer()
+		{
+			base.OpenDrawer();
+			if(drawerState == (DrawerState)CrematorState.ShutAndActive) StopCoroutine(BurnContent());
+		}
+
 		private void UpdateCloseState()
 		{
-			if (serverHeldItems.Count > 0 || serverHeldPlayers.Count > 0)
+			if (container.IsEmpty == false)
 			{
 				SetDrawerState((DrawerState)CrematorState.ShutWithContents);
+				return;
 			}
-			else SetDrawerState(DrawerState.Shut);
+			SetDrawerState(DrawerState.Shut);
 		}
 
 		private void Cremate()
 		{
-			OnStartPlayerCremation();
-			StartCoroutine(PlayIncineratingAnim());
 			SoundManager.PlayNetworkedAtPos(CremationSound, DrawerWorldPosition, sourceObj: gameObject);
-			DestroyItems();
+			SetDrawerState((DrawerState)CrematorState.ShutAndActive);
+			UpdateCloseState();
+			OnStartPlayerCremation();
+			StartCoroutine(nameof(BurnContent));
 		}
 
-		private void DestroyItems()
+		private IEnumerator BurnContent()
 		{
-			foreach (KeyValuePair<ObjectBehaviour, Vector3> item in serverHeldItems)
+			foreach (var obj in container.GetStoredObjects())
 			{
-				Despawn.ServerSingle(item.Key.gameObject);
+				if(obj.TryGetComponent<Integrity>(out var integrity)) //For items
+					integrity.ApplyDamage(burningDamage, AttackType.Fire, DamageType.Burn, true);
+				if (obj.TryGetComponent<LivingHealthBehaviour>(out var healthBehaviour)) //For NPCs
+					healthBehaviour.ApplyDamage(gameObject, burningDamage, AttackType.Fire, DamageType.Burn);
+				if (obj.TryGetComponent<PlayerHealthV2>(out var playerHealthV2)) //For Players
+					playerHealthV2.ApplyDamageAll(gameObject, burningDamage, AttackType.Fire, DamageType.Burn);
 			}
 
-			serverHeldItems = new Dictionary<ObjectBehaviour, Vector3>();
+			yield return WaitFor.Seconds(BURNING_DURATION);
+			//if it's just closed but not active don't start this again.
+			if (drawerState == DrawerState.Shut || drawerState == DrawerState.Open) yield break;
+			StartCoroutine(nameof(BurnContent));
 		}
 
 		private void OnStartPlayerCremation()
 		{
-			var containsConsciousPlayer = false;
 
-			foreach (ObjectBehaviour player in serverHeldPlayers)
+			var objectsInContainer = container.GetStoredObjects();
+			foreach (var player in objectsInContainer)
 			{
-				LivingHealthMasterBase playerLHB = player.GetComponent<LivingHealthMasterBase>();
-				if (playerLHB.ConsciousState == ConsciousState.CONSCIOUS ||
-					playerLHB.ConsciousState == ConsciousState.BARELY_CONSCIOUS)
+				if (player.TryGetComponent<PlayerHealthV2>(out var healthBehaviour))
 				{
-					containsConsciousPlayer = true;
+					if(healthBehaviour.ConsciousState == ConsciousState.CONSCIOUS ||
+					   healthBehaviour.ConsciousState == ConsciousState.BARELY_CONSCIOUS)
+						EntityTryEscape(player, null, MoveAction.NoMove);
+					// TODO: This is an incredibly brutal SFX... it also needs chopping up.
+					// (Max): We should use the scream emote from the emote system when sounds are added for them
+					// codacy ignore this ->SoundManager.PlayNetworkedAtPos("ShyguyScream", DrawerWorldPosition, sourceObj: gameObject);
 				}
 			}
-
-			if (containsConsciousPlayer)
-			{
-				// This is an incredibly brutal SFX... it also needs chopping up.
-				// SoundManager.PlayNetworkedAtPos("ShyguyScream", DrawerWorldPosition, sourceObj: gameObject);
-			}
 		}
 
-		private void OnFinishPlayerCremation()
-		{
-			foreach (var player in serverHeldPlayers)
-			{
-				var playerScript = player.GetComponent<PlayerScript>();
-				PlayerSpawn.ServerSpawnGhost(playerScript.mind);
-				Despawn.ServerSingle(player.gameObject);
-			}
-
-			serverHeldPlayers = new List<ObjectBehaviour>();
-		}
-
-		private IEnumerator PlayIncineratingAnim()
-		{
-			SetDrawerState((DrawerState)CrematorState.ShutAndActive);
-			yield return WaitFor.Seconds(BURNING_DURATION);
-			OnFinishPlayerCremation();
-			UpdateCloseState();
-		}
-
-		#endregion Server Only
+		#endregion
 	}
 }

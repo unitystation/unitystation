@@ -1,19 +1,21 @@
-﻿using System.Linq;
-using DatabaseAPI;
-using Messages.Client.DevSpawner;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Messages.Client.DevSpawner;
 
-namespace UI.Systems.AdminTools.DevTools
+
+namespace UI.AdminTools
 {
 	/// <summary>
 	/// Main logic for the UI for destroying objects
 	/// </summary>
 	public class GUI_DevDestroyer : MonoBehaviour
 	{
-
 		// destroyable objects
 		private LayerMask layerMask;
 		private LightingSystem lightingSystem;
+
+		private bool cachedLightingState;
 
 		void Awake()
 		{
@@ -24,33 +26,35 @@ namespace UI.Systems.AdminTools.DevTools
 
 		private void OnEnable()
 		{
+			cachedLightingState = lightingSystem.enabled;
 			lightingSystem.enabled = false;
 			UIManager.IsMouseInteractionDisabled = true;
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
 		private void OnDisable()
 		{
-			lightingSystem.enabled = true;
+			lightingSystem.enabled = cachedLightingState;
 			UIManager.IsMouseInteractionDisabled = false;
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
-		private void Update()
+		private void UpdateMe()
 		{
-			//check which objects we are over, pick the top one to delete
+			// check which objects we are over, pick the top one to delete
 			if (CommonInput.GetMouseButtonDown(0))
 			{
 				var hits = MouseUtils.GetOrderedObjectsUnderMouse(layerMask,
-					go => go.GetComponent<CustomNetTransform>() != null);
+					go => go.GetComponent<UniversalObjectPhysics>() != null);
 				if (hits.Any())
 				{
 					if (CustomNetworkManager.IsServer)
 					{
-						Despawn.ServerSingle(hits.First().GetComponentInParent<CustomNetTransform>().gameObject);
+						_ = Despawn.ServerSingle(hits.First().GetComponentInParent<UniversalObjectPhysics>().gameObject);
 					}
 					else
 					{
-						DevDestroyMessage.Send(hits.First().GetComponentInParent<CustomNetTransform>().gameObject,
-							ServerData.UserID, PlayerList.Instance.AdminToken);
+						DevDestroyMessage.Send(hits.First().GetComponentInParent<UniversalObjectPhysics>().gameObject);
 					}
 				}
 			}

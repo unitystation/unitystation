@@ -9,12 +9,17 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4780239401564943, guid: a096b50447bc34448ab67474a463eaef, type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 24c987967588bb14688c5f71dd985be4
       objectReference: {fileID: 0}
     - target: {fileID: 109438799603730107, guid: a096b50447bc34448ab67474a463eaef,
         type: 3}
       propertyPath: m_Name
       value: CombustibleLemonSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 114644025392430031, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114644025392430031, guid: a096b50447bc34448ab67474a463eaef,
         type: 3}
@@ -33,6 +38,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114644025392430031, guid: a096b50447bc34448ab67474a463eaef,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114644025392430031, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -45,16 +55,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114644025392430031, guid: a096b50447bc34448ab67474a463eaef,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114644025392430031, guid: a096b50447bc34448ab67474a463eaef,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114644025392430031, guid: a096b50447bc34448ab67474a463eaef,
         type: 3}
@@ -79,19 +79,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 534051172148537817, guid: a096b50447bc34448ab67474a463eaef,
         type: 3}
-      propertyPath: initialDescription
-      value: When life gives you lemons, don't make lemonade. Make life take the
-        lemons back! Get mad! I don't want your damn lemons!
-      objectReference: {fileID: 0}
-    - target: {fileID: 534051172148537817, guid: a096b50447bc34448ab67474a463eaef,
-        type: 3}
       propertyPath: initialName
       value: pack of combustible seeds
       objectReference: {fileID: 0}
-    - target: {fileID: 1619299131167382530, guid: a096b50447bc34448ab67474a463eaef,
+    - target: {fileID: 534051172148537817, guid: a096b50447bc34448ab67474a463eaef,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
+      propertyPath: initialDescription
+      value: When life gives you lemons, don't make lemonade. Make life take the
+        lemons back! Get mad! I don't want your damn lemons!
       objectReference: {fileID: 0}
     - target: {fileID: 1619299131167382530, guid: a096b50447bc34448ab67474a463eaef,
         type: 3}
@@ -100,21 +95,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1619299131167382530, guid: a096b50447bc34448ab67474a463eaef,
         type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 317081173677754432, guid: 4a97daa0e75797e4db2831ba502ad9e1,
+        type: 3}
+    - target: {fileID: 1619299131167382530, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
       propertyPath: plantData.FullyGrownSpriteSO
       value: 
       objectReference: {fileID: 11400000, guid: 6b51274301104b6468c9a564c9111565,
         type: 2}
     - target: {fileID: 1619299131167382530, guid: a096b50447bc34448ab67474a463eaef,
         type: 3}
-      propertyPath: plantData.ProduceObject
-      value: 
-      objectReference: {fileID: 317081173677754432, guid: 4a97daa0e75797e4db2831ba502ad9e1,
-        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6107674072460836156, guid: a096b50447bc34448ab67474a463eaef,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: c0178f8eb864b52499105419e7a92187,
         type: 2}
+    - target: {fileID: 6430709147748862678, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
+      propertyPath: foreverID
+      value: 24c987967588bb14688c5f71dd985be4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a096b50447bc34448ab67474a463eaef, type: 3}

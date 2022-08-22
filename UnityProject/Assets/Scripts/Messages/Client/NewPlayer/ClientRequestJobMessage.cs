@@ -1,6 +1,7 @@
-﻿using Messages.Server;
+using Messages.Server;
 using Mirror;
 using Newtonsoft.Json;
+using Player;
 
 namespace Messages.Client.NewPlayer
 {
@@ -42,7 +43,7 @@ namespace Messages.Client.NewPlayer
 
 		private bool ValidateMessage(NetMessage msg)
 		{
-			if (SentByPlayer == null || SentByPlayer.Equals(ConnectedPlayer.Invalid))
+			if (SentByPlayer == null || SentByPlayer.Equals(PlayerInfo.Invalid))
 			{
 				Logger.LogError($"Cannot process {nameof(ClientRequestJobMessage)}: {nameof(SentByPlayer)} is null!", Category.Jobs);
 				return false;
@@ -83,7 +84,7 @@ namespace Messages.Client.NewPlayer
 				return false;
 			}
 
-			int slotsTaken = GameManager.Instance.GetOccupationsCount(msg.JobType);
+			int slotsTaken = GameManager.Instance.ServerGetOccupationsCount(msg.JobType);
 			int slotsMax = GameManager.Instance.GetOccupationMaxCount(msg.JobType);
 			if (slotsTaken >= slotsMax)
 			{
@@ -96,12 +97,10 @@ namespace Messages.Client.NewPlayer
 
 		private void AcceptRequest(NetMessage msg)
 		{
-			var characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(msg.JsonCharSettings);
-			var spawnRequest = PlayerSpawnRequest.RequestOccupation(
-					SentByPlayer.ViewerScript, GameManager.Instance.GetRandomFreeOccupation(msg.JobType), characterSettings, SentByPlayer.UserId);
+			var character = JsonConvert.DeserializeObject<CharacterSheet>(msg.JsonCharSettings);
+			var spawnRequest = new PlayerSpawnRequest(SentByPlayer, GameManager.Instance.GetRandomFreeOccupation(msg.JobType), character);
 
-			GameManager.Instance.SpawnPlayerRequestQueue.Enqueue(spawnRequest);
-			GameManager.Instance.ProcessSpawnPlayerQueue();
+			GameManager.Instance.TrySpawnPlayer(spawnRequest);
 		}
 
 		private void NotifyError(JobRequestError error, string message)

@@ -35,7 +35,7 @@ PrefabInstance:
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: plantData.GrowthSpeed
-      value: 1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
@@ -91,7 +91,7 @@ PrefabInstance:
         type: 3}
       propertyPath: plantData.MutatesInToGameObject.Array.data[0]
       value: 
-      objectReference: {fileID: 2264896177038291652, guid: b57b4d5dde16ad548a35aa615340a4d8,
+      objectReference: {fileID: 8167876323874460231, guid: 15e6625615ca78244aa7899d05e981d4,
         type: 3}
     - target: {fileID: 3693160207910545667, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
@@ -106,7 +106,7 @@ PrefabInstance:
     - target: {fileID: 3763059340105120725, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 625f31aec34e13f48a1ece855fc4fe87
       objectReference: {fileID: 0}
     - target: {fileID: 3867790606060242529, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
@@ -180,5 +180,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3f387f15d52fe524990f68a685574217,
         type: 2}
+    - target: {fileID: 7860926447315831308, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: foreverID
+      value: 625f31aec34e13f48a1ece855fc4fe87
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26abf4c2c542ffa4098216683cb5f652, type: 3}

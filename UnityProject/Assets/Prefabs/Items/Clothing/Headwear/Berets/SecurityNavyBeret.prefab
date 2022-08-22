@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: 3061756049588866409, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 14669856ddf44564fac40935a5a8e2b4
       objectReference: {fileID: 0}
     - target: {fileID: 3164270768286331101, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
@@ -104,8 +104,7 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: a3b8a91d02c6dec49b0ff6fcbc261d1c,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4760672335869356814, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
       propertyPath: m_AssetId
@@ -122,18 +121,21 @@ PrefabInstance:
       value: A special beret with the security insignia emblazoned on it. For officers
         with class.
       objectReference: {fileID: 0}
+    - target: {fileID: 8309993002612325552, guid: a4d736b34e26278479563c6bf5f121ce,
+        type: 3}
+      propertyPath: foreverID
+      value: 14669856ddf44564fac40935a5a8e2b4
+      objectReference: {fileID: 0}
     - target: {fileID: 8328428895886091096, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: a3b8a91d02c6dec49b0ff6fcbc261d1c,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8328428895886091096, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: a3b8a91d02c6dec49b0ff6fcbc261d1c,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8328428895886091096, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

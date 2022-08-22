@@ -10,7 +10,7 @@ namespace Objects.Engineering
 {
 	public class FuelTank : MonoBehaviour
 	{
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private RegisterObject registerObject;
 		private ReagentContainer reagentContainerScript;
 		private Integrity integrity;
@@ -23,7 +23,7 @@ namespace Objects.Engineering
 		private void Awake()
 		{
 			BlewUp = false;
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			registerObject = GetComponent<RegisterObject>();
 			integrity = GetComponent<Integrity>();
 			reagentContainerScript = GetComponent<ReagentContainer>();
@@ -82,13 +82,11 @@ namespace Objects.Engineering
 
 			if (registerObject == null)
 			{
-				Explosion.StartExplosion(objectBehaviour.registerTile.LocalPosition, strength,
-					objectBehaviour.registerTile.Matrix);
+				Explosion.StartExplosion(objectBehaviour.registerTile.WorldPositionServer, strength);
 			}
 			else
 			{
-				Explosion.StartExplosion(registerObject.LocalPosition, strength,
-					registerObject.Matrix);
+				Explosion.StartExplosion(registerObject.WorldPositionServer, strength);
 			}
 
 			reagentContainerObjectInteractionScript.OnHandApply.RemoveListener(TryServerPerformInteraction);

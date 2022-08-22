@@ -111,18 +111,14 @@ namespace Objects
 			yield return WaitFor.Seconds(TRAVEL_TIME);
 
 			// Swap to stationary drop pod.
-			if (IsServer)
-			{
-				closetControl.ServerToggleLocked(false);
-			}
-			baseSpriteHandler.ChangeSprite((int)BaseSprite.Stationary, false);
+			baseSpriteHandler.ChangeSprite((int) BaseSprite.Stationary, false);
 			doorSpriteHandler.PushTexture(false);
 			landingSpriteHandler.PushClear(false);
 			registerObject.SetPassable(false, false);
 
 			// Create a small explosion to apply damage to objects underneath.
 			var matrixInfo = MatrixManager.AtPoint(WorldPosition, IsServer);
-			Explosion.StartExplosion(registerObject.LocalPosition, EXPLOSION_STRENGTH, matrixInfo.Matrix);
+			Explosion.StartExplosion(registerObject.WorldPositionServer, EXPLOSION_STRENGTH);
 
 			isLanding = false;
 		}
@@ -130,7 +126,7 @@ namespace Objects
 		private IEnumerator DelayLandingSFX()
 		{
 			yield return WaitFor.Seconds(TRAVEL_TIME - 1);
-			SoundManager.PlayAtPosition(RocketLand, WorldPosition, gameObject);
+			_ = SoundManager.PlayAtPosition(RocketLand, WorldPosition, gameObject);
 		}
 	}
 }

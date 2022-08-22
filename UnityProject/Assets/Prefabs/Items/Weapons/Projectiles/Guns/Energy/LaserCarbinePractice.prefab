@@ -25,6 +25,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5927664929231282384, guid: 6fac15612f36e804cbbc81c6f8a17220,
         type: 3}
+    - target: {fileID: 3537619260171532079, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
+      propertyPath: foreverID
+      value: 0a178c941669a314aada0759a9b4cc1c
+      objectReference: {fileID: 0}
     - target: {fileID: 4387776157011116229, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -46,12 +51,17 @@ PrefabInstance:
     - target: {fileID: 7509375819178772214, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0a178c941669a314aada0759a9b4cc1c
       objectReference: {fileID: 0}
     - target: {fileID: 7611817970648562498, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
       propertyPath: m_Name
       value: LaserCarbinePractice
+      objectReference: {fileID: 0}
+    - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
@@ -70,6 +80,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -82,16 +97,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
@@ -116,26 +121,26 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8020636786365355040, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
+      propertyPath: initialName
+      value: practice laser carbine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8020636786365355040, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
       propertyPath: initialDescription
       value: A modified version of the basic laser carbine, this one fires less concentrated
         energy bolts designed for target practice.
       objectReference: {fileID: 0}
     - target: {fileID: 8020636786365355040, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
-      propertyPath: initialName
-      value: practice laser carbine
-      objectReference: {fileID: 0}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: b169c8e231a58314a800b27a0109fe76,
+        type: 2}
     - target: {fileID: 8020636786365355040, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: 1e5d64e0ca48e834fa1e28762ca6e514,
-        type: 2}
-    - target: {fileID: 8020636786365355040, guid: 7fd11f09765590540b2685a0dfa2b8ea,
-        type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 11400000, guid: b169c8e231a58314a800b27a0109fe76,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7fd11f09765590540b2685a0dfa2b8ea, type: 3}

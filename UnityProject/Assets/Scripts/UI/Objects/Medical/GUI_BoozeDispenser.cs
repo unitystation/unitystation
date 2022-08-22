@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Text;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Chemistry;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UI.Core.NetUI;
+using Chemistry;
 using Systems.Electricity;
 
 namespace UI.Objects.Booze
@@ -21,58 +20,28 @@ namespace UI.Objects.Booze
 		[SerializeField]
 		private Reagent[] dispensableReagents = null;
 
-		private List<string> DispenseAmounts = new List<string>()
-	{
-		"5",
-		"10",
-		"15",
-		"20",
-		"25",
-		"30",
-		"50",
-		"100",
-	};
+		private readonly List<string> DispenseAmounts = new List<string>
+		{
+			"5",
+			"10",
+			"15",
+			"20",
+			"25",
+			"30",
+			"50",
+			"100",
+		};
 
 		private NetUIElement<string> listOfReagents;
-
-		private NetUIElement<string> ListOfReagents {
-			get {
-				if (!listOfReagents)
-				{
-					listOfReagents = (NetUIElement<string>)this["IngredientList"];
-				}
-
-				return listOfReagents;
-			}
-		}
+		private NetUIElement<string> ListOfReagents => listOfReagents ??= (NetUIElement<string>) this["IngredientList"];
 
 		private NetUIElement<string> quantity;
-
-		private NetUIElement<string> QuantityList {
-			get {
-				if (!quantity)
-				{
-					quantity = (NetUIElement<string>)this["QuantityList"];
-				}
-
-				return quantity;
-			}
-		}
+		private NetUIElement<string> QuantityList => quantity ??= (NetUIElement<string>)this["QuantityList"];
 
 		private NetUIElement<string> total;
+		private NetUIElement<string> Total => total ??= (NetUIElement<string>)this["Amount"];
 
-		private NetUIElement<string> Total {
-			get {
-				if (!total)
-				{
-					total = (NetUIElement<string>)this["Amount"];
-				}
-
-				return total;
-			}
-		}
-
-		void Start()
+		private void Start()
 		{
 			((NetUIElement<string>)this["20"]).SetValueServer("1");
 			if (Provider != null)
@@ -85,22 +54,16 @@ namespace UI.Objects.Booze
 			}
 		}
 
-		//set how much it should dispense
+		// set how much it should dispense
 		public void SetAddAmount(int Number)
 		{
 			DispensedNumber = Number;
 
 			for (int i = 0; i < DispenseAmounts.Count; i++)
 			{
-				if (DispenseAmounts[i] == Number.ToString()
-				) //Checks what button has been pressed  And sets the correct position appropriate
-				{
-					((NetUIElement<string>)this[DispenseAmounts[i]]).SetValueServer("1");
-				}
-				else
-				{
-					((NetUIElement<string>)this[DispenseAmounts[i]]).SetValueServer("0");
-				}
+				// Checks what button has been pressed and sets the correct position appropriate
+				((NetUIElement<string>)this[DispenseAmounts[i]])
+						.SetValueServer(DispenseAmounts[i] == Number.ToString() ? "1" : "0");
 			}
 
 			UpdateAll();
@@ -120,27 +83,18 @@ namespace UI.Objects.Booze
 		{
 			if (BoozeDispenser.Container != null)
 			{
-				if (BoozeDispenser.ThisState == PowerStates.On
-					|| BoozeDispenser.ThisState == PowerStates.LowVoltage
-					|| BoozeDispenser.ThisState == PowerStates.OverVoltage)
+				if (BoozeDispenser.ThisState == PowerState.On
+					|| BoozeDispenser.ThisState == PowerState.LowVoltage
+					|| BoozeDispenser.ThisState == PowerState.OverVoltage)
 				{
 					if (dispensableReagents.Contains(reagent)) //Checks if the the dispenser can dispense this chemical
 					{
-						float OutDispensedNumber = 0;
-						switch (BoozeDispenser.ThisState)
+						var OutDispensedNumber = BoozeDispenser.ThisState switch
 						{
-							case (PowerStates.OverVoltage):
-								OutDispensedNumber = DispensedNumber * 2;
-								break;
-							case (PowerStates.LowVoltage):
-								OutDispensedNumber = DispensedNumber * 0.5f;
-								break;
-
-							default:
-								OutDispensedNumber = DispensedNumber;
-								break;
-						}
-
+							PowerState.OverVoltage => DispensedNumber * 2,
+							PowerState.LowVoltage => DispensedNumber * 0.5f,
+							_ => DispensedNumber,
+						};
 						BoozeDispenser.Container.Add(new ReagentMix(reagent, OutDispensedNumber,18));
 					}
 				}
@@ -149,11 +103,11 @@ namespace UI.Objects.Booze
 			UpdateAll();
 		}
 
-		public void EjectContainer()
+		public void EjectContainer(PlayerInfo player)
 		{
 			if (BoozeDispenser.Container != null)
 			{
-				BoozeDispenser.EjectContainer();
+				BoozeDispenser.EjectContainer(player);
 			}
 
 			UpdateAll();

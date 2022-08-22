@@ -1,17 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &4667287083811707211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2333946950029219510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13a7ceb0b04f4b95be674bb7cc7bdd5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2332887495389882706
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22,6 +10,10 @@ PrefabInstance:
     - target: {fileID: 1069497300762596, guid: 9b1be47551bf2f24cba05ae90ae92bef, type: 3}
       propertyPath: m_Name
       value: TempVisualBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 4726396450817676, guid: 9b1be47551bf2f24cba05ae90ae92bef, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4726396450817676, guid: 9b1be47551bf2f24cba05ae90ae92bef, type: 3}
       propertyPath: m_LocalPosition.x
@@ -36,6 +28,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4726396450817676, guid: 9b1be47551bf2f24cba05ae90ae92bef, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4726396450817676, guid: 9b1be47551bf2f24cba05ae90ae92bef, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -45,14 +41,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4726396450817676, guid: 9b1be47551bf2f24cba05ae90ae92bef, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4726396450817676, guid: 9b1be47551bf2f24cba05ae90ae92bef, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4726396450817676, guid: 9b1be47551bf2f24cba05ae90ae92bef, type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4726396450817676, guid: 9b1be47551bf2f24cba05ae90ae92bef, type: 3}
@@ -75,3 +63,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2332887495389882706}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4667287083811707211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2333946950029219510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13a7ceb0b04f4b95be674bb7cc7bdd5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

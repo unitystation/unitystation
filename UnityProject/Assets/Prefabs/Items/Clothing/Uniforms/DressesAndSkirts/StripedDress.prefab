@@ -12,10 +12,25 @@ PrefabInstance:
       propertyPath: bodyPartsCovered
       value: 240
       objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 4319a1b0d53702e458b176248bc470bb,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 4319a1b0d53702e458b176248bc470bb,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armoringBodyPartType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 4319a1b0d53702e458b176248bc470bb,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armoringBodyPartType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2909197017712554513, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: fb01a4b61c02ff6429e8ac49ea2144ff
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
@@ -93,18 +108,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Fashion in space.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: 4319a1b0d53702e458b176248bc470bb,
+        type: 3}
+      propertyPath: foreverID
+      value: fb01a4b61c02ff6429e8ac49ea2144ff
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: a7fb2e81820c75a4d83bcb5a2c613ee9,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: a7fb2e81820c75a4d83bcb5a2c613ee9,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
       propertyPath: allClothingData.Array.size

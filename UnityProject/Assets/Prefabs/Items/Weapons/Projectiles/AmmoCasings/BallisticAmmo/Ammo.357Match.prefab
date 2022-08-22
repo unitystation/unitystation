@@ -7,10 +7,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2414510256709215877, guid: 5bd4694ba27611b46b8e2161fa3132af,
+        type: 3}
+      propertyPath: foreverID
+      value: 68fd1a472b398354b9a4872d9eaf7c87
+      objectReference: {fileID: 0}
     - target: {fileID: 8695496732523698012, guid: 5bd4694ba27611b46b8e2161fa3132af,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 68fd1a472b398354b9a4872d9eaf7c87
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731120187480168348, guid: 5bd4694ba27611b46b8e2161fa3132af,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8731120187480168348, guid: 5bd4694ba27611b46b8e2161fa3132af,
         type: 3}
@@ -29,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8731120187480168348, guid: 5bd4694ba27611b46b8e2161fa3132af,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731120187480168348, guid: 5bd4694ba27611b46b8e2161fa3132af,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8731120187480168348, guid: 5bd4694ba27611b46b8e2161fa3132af,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8731120187480168348, guid: 5bd4694ba27611b46b8e2161fa3132af,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8731120187480168348, guid: 5bd4694ba27611b46b8e2161fa3132af,
         type: 3}
@@ -74,13 +79,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9211324795576567178, guid: 5bd4694ba27611b46b8e2161fa3132af,
         type: 3}
-      propertyPath: initialDescription
-      value: A .357 bullet casing, manufactured to exceedingly high standards.
+      propertyPath: initialName
+      value: .357 match bullet casing
       objectReference: {fileID: 0}
     - target: {fileID: 9211324795576567178, guid: 5bd4694ba27611b46b8e2161fa3132af,
         type: 3}
-      propertyPath: initialName
-      value: .357 match bullet casing
+      propertyPath: initialDescription
+      value: A .357 bullet casing, manufactured to exceedingly high standards.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5bd4694ba27611b46b8e2161fa3132af, type: 3}

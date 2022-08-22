@@ -25,7 +25,7 @@ public class ClothingItem : MonoBehaviour
 	/// <summary>
 	/// Absolute orientation
 	/// </summary>
-	private Orientation currentDirection = Orientation.Down;
+	private OrientationEnum currentDirection = OrientationEnum.Down_By180;
 
 	protected int referenceOffset;
 
@@ -39,14 +39,9 @@ public class ClothingItem : MonoBehaviour
 	public PlayerScript thisPlayerScript;
 
 	/// <summary>
-	/// Player equipped or unequipped some clothing from ClothingItem slot
-	/// </summary>
-	public event OnClothingEquippedDelegate OnClothingEquipped;
-
-	/// <summary>
 	/// Direction clothing is facing (absolute)
 	/// </summary>
-	public Orientation Direction
+	public OrientationEnum Direction
 	{
 		set
 		{
@@ -62,11 +57,6 @@ public class ClothingItem : MonoBehaviour
 	private bool InHands
 	{
 		get { return spriteType == SpriteHandType.RightHand || spriteType == SpriteHandType.LeftHand; }
-	}
-
-	private void Awake()
-	{
-		UpdateSprite();
 	}
 
 	public void SetColor(Color value)
@@ -91,12 +81,11 @@ public class ClothingItem : MonoBehaviour
 			{
 				// did we take off clothing?
 				var unequippedClothing = GameObjectReference.GetComponent<ClothingV2>();
-
-				// Unhide the players's slots defined in the clothing's HiddenSlots, as we're removing it.
-				thisPlayerScript.Equipment.obscuredSlots &= ~unequippedClothing.HiddenSlots;
-
-				if (unequippedClothing)
-					OnClothingEquipped?.Invoke(unequippedClothing, false);
+				if (unequippedClothing != null)
+				{
+					if (unequippedClothing)
+						thisPlayerScript.playerSprites.OnClothingEquipped(unequippedClothing, false);
+				}
 			}
 
 			GameObjectReference = null; // Remove the item from equipment
@@ -124,8 +113,7 @@ public class ClothingItem : MonoBehaviour
 				// But for the others, we call the OnClothingEquipped event.
 				if (equippedClothing)
 				{
-					// call the event of equiped clothing
-					OnClothingEquipped?.Invoke(equippedClothing, true);
+					thisPlayerScript.playerSprites.OnClothingEquipped(equippedClothing, true);
 				}
 			}
 		}
@@ -140,7 +128,7 @@ public class ClothingItem : MonoBehaviour
 		List<Color> palette = clothing.GetComponent<ItemAttributesV2>()?.ItemSprites?.Palette;
 		if (palette != null)
 		{
-			spriteHandler.SetPaletteOfCurrentSprite(palette, Network: false);
+			spriteHandler.SetPaletteOfCurrentSprite(palette, networked: false);
 		}
 
 
@@ -149,22 +137,22 @@ public class ClothingItem : MonoBehaviour
 
 	private void UpdateReferenceOffset()
 	{
-		if (currentDirection == Orientation.Down)
+		if (currentDirection == OrientationEnum.Down_By180)
 		{
 			referenceOffset = 0;
 		}
 
-		if (currentDirection == Orientation.Up)
+		if (currentDirection == OrientationEnum.Up_By0)
 		{
 			referenceOffset = 1;
 		}
 
-		if (currentDirection == Orientation.Right)
+		if (currentDirection == OrientationEnum.Right_By270)
 		{
 			referenceOffset = 2;
 		}
 
-		if (currentDirection == Orientation.Left)
+		if (currentDirection == OrientationEnum.Left_By90)
 		{
 			referenceOffset = 3;
 		}
@@ -194,14 +182,14 @@ public class ClothingItem : MonoBehaviour
 		{
 			if (spriteType == SpriteHandType.RightHand)
 			{
-				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteRightHand, Network: false);
+				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteRightHand, networked: false);
 			}
 			else
 			{
-				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteLeftHand, Network: false);
+				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteLeftHand, networked: false);
 			}
 
-			spriteHandler.SetPaletteOfCurrentSprite(_ItemsSprites.Palette, Network: false);
+			spriteHandler.SetPaletteOfCurrentSprite(_ItemsSprites.Palette, networked: false);
 		}
 	}
 }

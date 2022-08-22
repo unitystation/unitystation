@@ -150,12 +150,12 @@ namespace IngameDebugConsole
 		/// <summary>
 		/// Determine whether Debug Log is collapsed
 		/// </summary>
-		private bool isCollapseOn = false;
+		private bool isCollapseOn = true;
 
 		/// <summary>
 		/// Filters to apply to the list of debug entries to show
 		/// </summary>
-		private DebugLogFilter logFilter = DebugLogFilter.All;
+		private DebugLogFilter logFilter = DebugLogFilter.Warning | DebugLogFilter.Error;
 
 		/// <summary>
 		/// If the last log item is completely visible (scrollbar is at the bottom),
@@ -210,10 +210,14 @@ namespace IngameDebugConsole
 					{ LogType.Assert, errorLog }
 				};
 
-				// Initially, all log types are visible
-				filterInfoButton.color = filterButtonsSelectedColor;
-				filterWarningButton.color = filterButtonsSelectedColor;
-				filterErrorButton.color = filterButtonsSelectedColor;
+				// Set initial button colors
+				collapseButton.color = isCollapseOn ? collapseButtonSelectedColor : collapseButtonNormalColor;
+				filterInfoButton.color = (logFilter & DebugLogFilter.Info) == DebugLogFilter.Info
+						? filterButtonsSelectedColor : filterButtonsNormalColor;
+				filterWarningButton.color = (logFilter & DebugLogFilter.Warning) == DebugLogFilter.Warning
+						? filterButtonsSelectedColor : filterButtonsNormalColor;
+				filterErrorButton.color = (logFilter & DebugLogFilter.Error) == DebugLogFilter.Error
+						? filterButtonsSelectedColor : filterButtonsNormalColor;
 
 				collapsedLogEntries = new List<DebugLogEntry>(128);
 				collapsedLogEntriesMap = new Dictionary<DebugLogEntry, int>(128);
@@ -221,6 +225,7 @@ namespace IngameDebugConsole
 				indicesOfListEntriesToShow = new DebugLogIndexList();
 
 				recycledListView.Initialize(this, collapsedLogEntries, indicesOfListEntriesToShow, logItemPrefab.Transform.sizeDelta.y);
+				recycledListView.SetCollapseMode(isCollapseOn);
 				recycledListView.UpdateItemsInTheList(true);
 
 				nullPointerEventData = new PointerEventData(null);
@@ -427,7 +432,7 @@ namespace IngameDebugConsole
 				infoEntryCountText.text = infoEntryCount.ToString();
 
 				// If debug popup is visible, notify it of the new debug entry
-				if (isLogWindowVisible == false)
+				if (isLogWindowVisible == false && CustomNetworkManager.IsHeadless == false)
 					popupManager.NewInfoLogArrived();
 			}
 			else if (logType == LogType.Warning)
@@ -436,7 +441,7 @@ namespace IngameDebugConsole
 				warningEntryCountText.text = warningEntryCount.ToString();
 
 				// If debug popup is visible, notify it of the new debug entry
-				if (isLogWindowVisible == false)
+				if (isLogWindowVisible == false && CustomNetworkManager.IsHeadless == false)
 					popupManager.NewWarningLogArrived();
 			}
 			else
@@ -445,7 +450,7 @@ namespace IngameDebugConsole
 				errorEntryCountText.text = errorEntryCount.ToString();
 
 				// If debug popup is visible, notify it of the new debug entry
-				if (isLogWindowVisible == false)
+				if (isLogWindowVisible == false && CustomNetworkManager.IsHeadless == false)
 					popupManager.NewErrorLogArrived();
 			}
 		}
@@ -597,6 +602,22 @@ namespace IngameDebugConsole
 			{
 				ProfileManager.Instance.StartProfile(30);
 				Logger.Log("Running a local profile, saving on installation folder", Category.DebugConsole);
+			}
+			else
+			{
+				Logger.Log("Unable to run local profile, the build needs to be in development mode", Category.DebugConsole);
+			}
+		}
+
+		/// <summary>
+		/// Creates a local memory profile
+		/// </summary>
+		public void LocalMemoryProfileButtonPressed()
+		{
+			if (Debug.isDebugBuild)
+			{
+				ProfileManager.Instance.RunMemoryProfile();
+				Logger.Log("Running a local memory profile, saving on installation folder", Category.DebugConsole);
 			}
 			else
 			{

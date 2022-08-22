@@ -2,6 +2,7 @@
 using UnityEngine;
 using Managers;
 using Strings;
+using Objects.Lighting;
 
 namespace InGameEvents
 {
@@ -23,7 +24,7 @@ namespace InGameEvents
 
 		public override void OnEventStartTimed()
 		{
-			var stationBounds = MatrixManager.MainStationMatrix.Bounds;
+			var stationBounds = MatrixManager.MainStationMatrix.LocalBounds;
 
 			float width = 0.35f * (stationBounds.xMax - stationBounds.xMin);
 			float height = 0.35f * (stationBounds.yMax - stationBounds.yMin);
@@ -35,7 +36,7 @@ namespace InGameEvents
 
 			foreach (var light in FindObjectsOfType<LightSource>())
 			{
-				if (region.Contains(light.gameObject.RegisterTile().WorldPositionServer))
+				if (BoundsExtensions.Contains(region, light.gameObject.RegisterTile().WorldPositionServer))
 				{
 					StartCoroutine(BreakLight(light));
 				}

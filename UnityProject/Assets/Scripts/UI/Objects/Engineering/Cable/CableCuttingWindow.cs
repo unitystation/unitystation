@@ -24,6 +24,7 @@ public class CableCuttingWindow : MonoBehaviour
 	/// Paths to sprite atlases
 	/// </summary>
 	[SerializeField] private string HIGH_VOLTAGE_CABLE_PATH = "power_cond_high";
+
 	[SerializeField] private string STANDARD_CABLE_PATH = "power_cond_red";
 	[SerializeField] private string LOW_VOLTAGE_CABLE_PATH = "power_cond_low";
 
@@ -61,10 +62,7 @@ public class CableCuttingWindow : MonoBehaviour
 		CableUICell cableUICell = cableUI.GetComponent<CableUICell>();
 
 		// add on click listener
-		cableUICell.cutWireButton.onClick.AddListener(() =>
-		{
-			CutWire(cableUI, data);
-		});
+		cableUICell.cutWireButton.onClick.AddListener(() => { CutWire(cableUI, data); });
 
 		// set ui cell text
 		cableUICell.wireLabelText.text = data.electricalCable.WireEndA + " - " + data.electricalCable.WireEndB;
@@ -94,21 +92,23 @@ public class CableCuttingWindow : MonoBehaviour
 		Vector3Int cellPos = targetCellPosition;
 		electricalCablesCount = 0;
 
+		//No Hardcoded depth
+		//know Location exactly
+		//loop through all tiles on layer and check if a certain type
+
+
 		// loop trough all layers searching for electrical cable tiles
-		for (int i = 0; i < 50; i++)
+		foreach (var CableTile in matrix.MetaTileMap.GetAllTilesByType<ElectricalCableTile>(cellPos, LayerType.Electrical))
 		{
-			cellPos.z = -i + 1;
-			if (matrix.UnderFloorLayer.GetTileUsingZ(cellPos) is ElectricalCableTile electricalCableTile)
+			ElectricalCableTileData data = new ElectricalCableTileData
 			{
-				ElectricalCableTileData data = new ElectricalCableTileData
-				{
-					electricalCable = electricalCableTile,
-					positionZ = cellPos.z
-				};
-				// instantiate ui object
-				InstantiateCableUICell(data);
-				electricalCablesCount++;
-			}
+				electricalCable = CableTile,
+				TileType =  CableTile.TileType,
+				Name = CableTile.name
+			};
+			// instantiate ui object
+			InstantiateCableUICell(data);
+			electricalCablesCount++;
 		}
 
 		// resize scroll view height after spawning objects
@@ -130,6 +130,7 @@ public class CableCuttingWindow : MonoBehaviour
 				{
 					cableSpritesDict.Add(powerTypeCategory, Resources.LoadAll<Sprite>(HIGH_VOLTAGE_CABLE_PATH));
 				}
+
 				// else - return cached sprite atlas
 				return cableSpritesDict[powerTypeCategory];
 			case PowerTypeCategory.StandardCable:
@@ -137,12 +138,14 @@ public class CableCuttingWindow : MonoBehaviour
 				{
 					cableSpritesDict.Add(powerTypeCategory, Resources.LoadAll<Sprite>(STANDARD_CABLE_PATH));
 				}
+
 				return cableSpritesDict[powerTypeCategory];
 			case PowerTypeCategory.LowVoltageCable:
 				if (!cableSpritesDict.ContainsKey(powerTypeCategory))
 				{
 					cableSpritesDict.Add(powerTypeCategory, Resources.LoadAll<Sprite>(LOW_VOLTAGE_CABLE_PATH));
 				}
+
 				return cableSpritesDict[powerTypeCategory];
 		}
 
@@ -177,6 +180,7 @@ public class CableCuttingWindow : MonoBehaviour
 					case Connection.Overlap:
 						return 0;
 				}
+
 				break;
 			case Connection.NorthEast:
 				switch (wireEndB)
@@ -198,6 +202,7 @@ public class CableCuttingWindow : MonoBehaviour
 					case Connection.Overlap:
 						return 3;
 				}
+
 				break;
 			case Connection.East:
 				switch (wireEndB)
@@ -219,6 +224,7 @@ public class CableCuttingWindow : MonoBehaviour
 					case Connection.Overlap:
 						return 2;
 				}
+
 				break;
 			case Connection.SouthEast:
 				switch (wireEndB)
@@ -240,6 +246,7 @@ public class CableCuttingWindow : MonoBehaviour
 					case Connection.Overlap:
 						return 4;
 				}
+
 				break;
 			case Connection.South:
 				switch (wireEndB)
@@ -261,6 +268,7 @@ public class CableCuttingWindow : MonoBehaviour
 					case Connection.Overlap:
 						return 1;
 				}
+
 				break;
 			case Connection.SouthWest:
 				switch (wireEndB)
@@ -282,6 +290,7 @@ public class CableCuttingWindow : MonoBehaviour
 					case Connection.Overlap:
 						return 7;
 				}
+
 				break;
 			case Connection.West:
 				switch (wireEndB)
@@ -303,6 +312,7 @@ public class CableCuttingWindow : MonoBehaviour
 					case Connection.Overlap:
 						return 5;
 				}
+
 				break;
 			case Connection.NorthWest:
 				switch (wireEndB)
@@ -324,6 +334,7 @@ public class CableCuttingWindow : MonoBehaviour
 					case Connection.Overlap:
 						return 6;
 				}
+
 				break;
 			case Connection.Overlap:
 				switch (wireEndB)
@@ -345,6 +356,7 @@ public class CableCuttingWindow : MonoBehaviour
 					case Connection.NorthWest:
 						return 6;
 				}
+
 				break;
 		}
 
@@ -381,14 +393,14 @@ public class CableCuttingWindow : MonoBehaviour
 	{
 		if (data.electricalCable == null) return;
 
-		Vector3 targetVec = targetWorldPosition - PlayerManager.LocalPlayer.transform.position;
-		var apply = PositionalHandApply.ByLocalPlayer(matrix.gameObject, targetVec);
+		Vector3 targetPosition = targetWorldPosition.ToLocal(matrix);
+		var apply = PositionalHandApply.ByLocalPlayer(matrix.gameObject, targetPosition);
 
 		// if can interact and there are no cooldown - send message to server and destroy UI cell
 		if (WillInteract(apply) && Cooldowns.TryStartClient(apply, CommonCooldowns.Instance.Interaction))
 		{
 			// send message to destroy cable
-			SendCableCuttingMessage(targetWorldPosition, data.positionZ);
+			SendCableCuttingMessage(targetWorldPosition, data.Name, data.TileType);
 			// destroy ui object
 			Destroy(cableUI);
 			// decrease cable count
@@ -408,7 +420,9 @@ public class CableCuttingWindow : MonoBehaviour
 	private bool WillInteract(PositionalHandApply apply)
 	{
 		if (!DefaultWillInteract.Default(apply, NetworkSide.Client)) return false;
-		return Validations.HasItemTrait(UIManager.Hands.CurrentSlot.ItemObject, CommonTraits.Instance.Wirecutter);
+		return Validations.HasItemTrait(
+			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject,
+			CommonTraits.Instance.Wirecutter);
 	}
 
 	/// <summary>
@@ -416,14 +430,15 @@ public class CableCuttingWindow : MonoBehaviour
 	/// </summary>
 	/// <param name="targetWorldPosition">World position of target tile</param>
 	/// <param name="positionZ">Z position of target tile</param>
-	private void SendCableCuttingMessage(Vector3 targetWorldPosition, int positionZ)
+	private void SendCableCuttingMessage(Vector3 targetWorldPosition, string Name,TileType TileType)
 	{
 		// create  message
 		CableCuttingMessage message = new CableCuttingMessage()
 		{
-			performer = PlayerManager.LocalPlayer,
+			performer = PlayerManager.LocalPlayerObject,
 			targetWorldPosition = targetWorldPosition,
-			positionZ = positionZ
+			Name = Name,
+			TileType = TileType
 		};
 
 		// send message
@@ -435,7 +450,8 @@ public class CableCuttingWindow : MonoBehaviour
 	/// </summary>
 	public struct ElectricalCableTileData
 	{
-		public int positionZ;
+		public string Name;
+		public TileType TileType;
 		public ElectricalCableTile electricalCable;
 	}
 
@@ -446,6 +462,7 @@ public class CableCuttingWindow : MonoBehaviour
 	{
 		public GameObject performer;
 		public Vector3 targetWorldPosition;
-		public int positionZ;
+		public string Name;
+		public TileType TileType;
 	}
 }

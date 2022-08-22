@@ -13,16 +13,31 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 73e06f534bfd3b24a99b9fec5f80a03b,
         type: 2}
+    - target: {fileID: 783613402110013882, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: foreverID
+      value: 8925448019fc1a24f9d9826573df52a8
+      objectReference: {fileID: 0}
     - target: {fileID: 5806468422754504331, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: b8b94a0d6bf927c4888eaa75474d7680,
         type: 3}
+    - target: {fileID: 5806468422754504331, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5937237277765483991, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: m_Name
       value: CoalLump
+      objectReference: {fileID: 0}
+    - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
@@ -41,6 +56,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +73,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
@@ -82,22 +92,7 @@ PrefabInstance:
     - target: {fileID: 6048747994970652771, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      propertyPath: initialName
-      value: coal
-      objectReference: {fileID: 0}
-    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      propertyPath: initialDescription
-      value: Someone's gotten on the naughty list.
+      value: 8925448019fc1a24f9d9826573df52a8
       objectReference: {fileID: 0}
     - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
@@ -111,9 +106,46 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
+      propertyPath: initialName
+      value: coal
+      objectReference: {fileID: 0}
+    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: initialDescription
+      value: Someone's gotten on the naughty list.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
       propertyPath: initialTraits.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 0cc2ad176104e28499e43f2219b23ee2,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a023982b9ee4fd40b87f69c23492dd6, type: 3}
+--- !u!1 &3104687633016545256 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5937237277765483991, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+    type: 3}
+  m_PrefabInstance: {fileID: 8751440940580004415}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-50448137792730596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3104687633016545256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundReagents:
+    m_keys:
+    - {fileID: 11400000, guid: 82692ea8680693d459ad97993dbda0f3, type: 2}
+    m_values: 14000000

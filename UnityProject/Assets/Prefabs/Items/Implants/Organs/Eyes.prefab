@@ -13,15 +13,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: fc29430444625854dad475fdbd530566,
         type: 2}
-    - target: {fileID: 2392288886832539726, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+    - target: {fileID: 1817806423449182988, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: maxCapacity
-      value: 0.05
+      propertyPath: foreverID
+      value: 5c61c3c9e64efa740accb280f8923222
       objectReference: {fileID: 0}
     - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 5c61c3c9e64efa740accb280f8923222
       objectReference: {fileID: 0}
     - target: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -94,10 +94,42 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5047286037071161015, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5047286037071161015, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 1e5179b672979cc498486883881f85a2,
+        type: 2}
+    - target: {fileID: 5047286037071161015, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: ab0f1a85c6aceea4a834f8543f9e317f,
+        type: 2}
+    - target: {fileID: 5047286037071161015, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5047286037071161015, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: initialName
       value: eyes
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: initialSize
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -111,14 +143,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: wasteReagent
-      value: 
-      objectReference: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4,
-        type: 2}
-    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
-        type: 3}
       propertyPath: bloodThroughput
-      value: 0.0025
+      value: 0.35714287
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -128,18 +154,28 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: BodyPartReadableName
+      value: Eyes
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: NutrimentConsumption
       value: 0.002
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: bloodReagentConsumed
-      value: 0.00002
+      propertyPath: NutrimentPassiveConsumption
+      value: 0.0001
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: NutrimentPassiveConsumption
-      value: 0.0001
+      propertyPath: MinMaxInternalBleedingValues.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: MinMaxInternalBleedingValues.y
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}

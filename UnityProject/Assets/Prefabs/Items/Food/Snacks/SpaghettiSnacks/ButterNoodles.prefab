@@ -18,6 +18,16 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 338
       objectReference: {fileID: 0}
+    - target: {fileID: 664517479487356933, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 338
+      objectReference: {fileID: 0}
+    - target: {fileID: 2329804638538092056, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+        type: 3}
+      propertyPath: foreverID
+      value: 513dcd2b604e7944cb04cad96aa1d5ff
+      objectReference: {fileID: 0}
     - target: {fileID: 3290308518079887858, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -36,6 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -51,6 +66,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +83,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
@@ -92,7 +102,7 @@ PrefabInstance:
     - target: {fileID: 8753779990741090241, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 513dcd2b604e7944cb04cad96aa1d5ff
       objectReference: {fileID: 0}
     - target: {fileID: 8799590024976822569, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
@@ -100,15 +110,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 4b6a965146226d5479d0bee8bf2c2e59,
         type: 3}
-    - target: {fileID: 9079823826182253847, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+    - target: {fileID: 8799590024976822569, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
-      propertyPath: initialDescription
-      value: Noodles covered in savory butter. Simple and slippery, but delicious.
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9079823826182253847, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
       propertyPath: initialName
       value: butter noodles
+      objectReference: {fileID: 0}
+    - target: {fileID: 9079823826182253847, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+        type: 3}
+      propertyPath: initialDescription
+      value: Noodles covered in savory butter. Simple and slippery, but delicious.
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 921317910642135246, guid: a859eb3fcda3a8747aba7894b40cfdb6, type: 3}

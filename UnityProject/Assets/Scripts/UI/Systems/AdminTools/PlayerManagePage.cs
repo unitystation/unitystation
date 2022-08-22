@@ -2,23 +2,33 @@
 using DatabaseAPI;
 using Messages.Client.Admin;
 using UI.AdminTools;
+using UI.Systems.AdminTools;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 namespace AdminTools
 {
 	public class PlayerManagePage : AdminPage
 	{
-		[SerializeField] private Button deputiseBtn = null;
+		[SerializeField] private Toggle mentorToggle = null;
+		[SerializeField] private Toggle quickRespawnToggle = default;
+		[SerializeField] private Text mentorButtonText = null;
 		[SerializeField] private AdminRespawnPage adminRespawnPage = default;
+
+		[SerializeField] private Text oocMuteButtonText = null;
+
 
 		public AdminPlayerEntry PlayerEntry { get; private set; }
 
 		public void SetData(AdminPlayerEntry entry)
 		{
 			PlayerEntry = entry;
-			deputiseBtn.interactable = !entry.PlayerData.isAdmin;
-			// respawnBtn.interactable = !playerEntry.PlayerData.isAlive;
+
+			mentorButtonText.text = entry.PlayerData.isMentor ? "REMOVE MENTOR" : "MAKE MENTOR";
+			mentorToggle.gameObject.SetActive(entry.PlayerData.isMentor == false);
+
+			oocMuteButtonText.text = entry.PlayerData.isOOCMuted ? "Unmute OOC" : "Mute OOC";
 		}
 
 		public void OnKickBtn()
@@ -45,32 +55,66 @@ namespace AdminTools
 
 		public void OnDeputiseBtn()
 		{
+			if (PlayerEntry.PlayerData.isMentor == false)
+			{
+				adminTools.areYouSurePage.SetAreYouSurePage(
+					$"Are you sure you want to make {PlayerEntry.PlayerData.accountName} a {(mentorToggle.isOn ? "temporary" : "permanent")} mentor?",
+					SendMakePlayerMentorRequest);
+
+				return;
+			}
+
 			adminTools.areYouSurePage.SetAreYouSurePage(
-				$"Are you sure you want to make {PlayerEntry.PlayerData.name} an admin?",
-				SendMakePlayerAdminRequest);
+				$"Are you sure you want to remove {PlayerEntry.PlayerData.accountName} mentor?",
+				SendRemovePlayerMentorRequest);
 		}
 
 		public void OnRespawnButton()
 		{
+			if (quickRespawnToggle.isOn)
+			{
+				Occupation spawnOcc = new Occupation();
+				foreach (var connectedPlayer in PlayerList.Instance.AllPlayers)
+				{
+					if(connectedPlayer.UserId != PlayerEntry.PlayerData.uid) continue;
+					spawnOcc = connectedPlayer.Script.mind.occupation;
+				}
+				if (spawnOcc == null)
+				{
+					Logger.LogError("Cannot find Occupation for selected player, they most likely haven't joined yet.");
+					return;
+				}
+				RequestRespawnPlayer.SendNormalRespawn(PlayerEntry.PlayerData.uid, spawnOcc);
+				return;
+			}
 			adminRespawnPage.SetTabsWithPlayerEntry(PlayerEntry);
 			adminTools.ShowRespawnPage();
+		}
+
+		public void OnHealUpButton()
+		{
+			AdminCommandsManager.Instance.CmdHealUpPlayer(PlayerEntry.PlayerData.uid);
+			RefreshPage();
 		}
 
 		/// <summary>
 		/// Sends the command to smite a player
 		/// </summary>
-		void SendSmitePlayerRequest()
+		private void SendSmitePlayerRequest()
 		{
-			AdminCommandsManager.Instance.CmdSmitePlayer(ServerData.UserID, PlayerList.Instance.AdminToken, PlayerEntry.PlayerData.uid);
+			AdminCommandsManager.Instance.CmdSmitePlayer(PlayerEntry.PlayerData.uid);
 			RefreshPage();
 		}
 
-		void SendMakePlayerAdminRequest()
+		private void SendMakePlayerMentorRequest()
 		{
-			RequestAdminPromotion.Send(
-				ServerData.UserID,
-				PlayerList.Instance.AdminToken,
-				PlayerEntry.PlayerData.uid);
+			AdminCommandsManager.Instance.CmdAddMentor(PlayerEntry.PlayerData.uid, mentorToggle.isOn == false);
+			RefreshPage();
+		}
+
+		private void SendRemovePlayerMentorRequest()
+		{
+			AdminCommandsManager.Instance.CmdRemoveMentor(PlayerEntry.PlayerData.uid);
 			RefreshPage();
 		}
 
@@ -83,10 +127,7 @@ namespace AdminTools
 
 		private void SendTeleportAdminToPlayerRequest()
 		{
-
 			RequestAdminTeleport.Send(
-				ServerData.UserID,
-				PlayerList.Instance.AdminToken,
 				null,
 				PlayerEntry.PlayerData.uid,
 				RequestAdminTeleport.OpperationList.AdminToPlayer,
@@ -105,13 +146,11 @@ namespace AdminTools
 		private void SendTeleportPlayerToAdmin()
 		{
 			RequestAdminTeleport.Send(
-				ServerData.UserID,
-				PlayerList.Instance.AdminToken,
 				PlayerEntry.PlayerData.uid,
 				null,
 				RequestAdminTeleport.OpperationList.PlayerToAdmin,
 				false,
-				PlayerManager.LocalPlayerScript.PlayerSync.ClientPosition
+				PlayerManager.LocalPlayerScript.PlayerSync.OrNull()?.registerTile.OrNull()?.WorldPosition != null ? PlayerManager.LocalPlayerScript.PlayerSync.registerTile.WorldPosition : PlayerManager.LocalPlayerScript.transform.position
 				);
 		}
 
@@ -124,14 +163,12 @@ namespace AdminTools
 
 		private void SendTeleportAdminToPlayerAghost()
 		{
-			if (!PlayerManager.LocalPlayerScript.IsGhost)
+			if (PlayerManager.LocalPlayerScript.IsGhost == false)
 			{
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAGhost(ServerData.UserID, PlayerList.Instance.AdminToken);
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAGhost();
 			}
 
 			RequestAdminTeleport.Send(
-				ServerData.UserID,
-				PlayerList.Instance.AdminToken,
 				null,
 				PlayerEntry.PlayerData.uid,
 				RequestAdminTeleport.OpperationList.AdminToPlayer,
@@ -155,7 +192,7 @@ namespace AdminTools
 
 			if (PlayerManager.LocalPlayerScript.IsGhost && PlayerEntry.PlayerData.uid == ServerData.UserID)
 			{
-				coord = PlayerManager.LocalPlayerScript.PlayerSync.ClientPosition;
+				coord = PlayerManager.LocalPlayerScript.PlayerSync.registerTile.WorldPosition;
 				isAghost = true;
 			}
 			else
@@ -165,14 +202,25 @@ namespace AdminTools
 			}
 
 			RequestAdminTeleport.Send(
-				ServerData.UserID,
-				PlayerList.Instance.AdminToken,
 				null,
 				PlayerEntry.PlayerData.uid,
 				RequestAdminTeleport.OpperationList.AllPlayersToPlayer,
 				isAghost,
 				coord
 				);
+		}
+
+		public void GiveItemToPlayerButton()
+		{
+			adminTools.giveItemPage.selectedPlayerId = PlayerEntry.PlayerData.uid;
+
+			adminTools.ShowGiveItemPagePage();
+		}
+
+		public void OnOOCMuteBtn()
+		{
+			AdminCommandsManager.Instance.CmdOOCMutePlayer(PlayerEntry.PlayerData.uid);
+			RefreshPage();
 		}
 	}
 }

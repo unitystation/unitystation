@@ -16,12 +16,17 @@ PrefabInstance:
     - target: {fileID: 736879533213848147, guid: a4df6b632a40f5c448d93a5ac982967a,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 54259db5b139dc54b95abec80453b354
       objectReference: {fileID: 0}
     - target: {fileID: 841567918206070759, guid: a4df6b632a40f5c448d93a5ac982967a,
         type: 3}
       propertyPath: m_Name
       value: CherryBulbPits
+      objectReference: {fileID: 0}
+    - target: {fileID: 846214591685710483, guid: a4df6b632a40f5c448d93a5ac982967a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 846214591685710483, guid: a4df6b632a40f5c448d93a5ac982967a,
         type: 3}
@@ -40,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 846214591685710483, guid: a4df6b632a40f5c448d93a5ac982967a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 846214591685710483, guid: a4df6b632a40f5c448d93a5ac982967a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 846214591685710483, guid: a4df6b632a40f5c448d93a5ac982967a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 846214591685710483, guid: a4df6b632a40f5c448d93a5ac982967a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 846214591685710483, guid: a4df6b632a40f5c448d93a5ac982967a,
         type: 3}
@@ -80,8 +80,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2040676439104927070, guid: a4df6b632a40f5c448d93a5ac982967a,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
+      propertyPath: plantData.PlantName
+      value: Cherry Bulb Tree
       objectReference: {fileID: 0}
     - target: {fileID: 2040676439104927070, guid: a4df6b632a40f5c448d93a5ac982967a,
         type: 3}
@@ -91,8 +91,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2040676439104927070, guid: a4df6b632a40f5c448d93a5ac982967a,
         type: 3}
-      propertyPath: plantData.PlantName
-      value: Cherry Bulb Tree
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5987360281773351818, guid: a4df6b632a40f5c448d93a5ac982967a,
+        type: 3}
+      propertyPath: foreverID
+      value: 54259db5b139dc54b95abec80453b354
       objectReference: {fileID: 0}
     - target: {fileID: 6839778882622264416, guid: a4df6b632a40f5c448d93a5ac982967a,
         type: 3}

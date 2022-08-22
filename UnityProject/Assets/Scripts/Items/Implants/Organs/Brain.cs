@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HealthV2
 {
-	public class Brain : BodyPartModification
+	public class Brain : BodyPartFunctionality
 	{
 		//stuff in here?
 		//nah
@@ -15,9 +15,14 @@ namespace HealthV2
 		}
 		//Ensure removal of brain
 
-		public override void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase)
+		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
-			livingHealthMasterBase.brain = null;
+			livingHealth.Setbrain(this);
+		}
+
+		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
+		{
+			livingHealth.brain = null;
 
 		}
 	}

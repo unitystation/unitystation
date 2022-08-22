@@ -75,7 +75,7 @@ TextureImporter:
       213: 21300046
     second: light_on-dancefloor_B_23
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -95,6 +95,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -104,8 +106,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -126,9 +128,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -671,6 +677,31 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      light_on-dancefloor_B_10: 21300020
+      light_on-dancefloor_B_8: 21300016
+      light_on-dancefloor_B_5: 21300010
+      light_on-dancefloor_B_23: 21300046
+      light_on-dancefloor_B_12: 21300024
+      light_on-dancefloor_B_14: 21300028
+      light_on-dancefloor_B_19: 21300038
+      light_on-dancefloor_B_16: 21300032
+      light_on-dancefloor_B_1: 21300002
+      light_on-dancefloor_B_22: 21300044
+      light_on-dancefloor_B_3: 21300006
+      light_on-dancefloor_B_0: 21300000
+      light_on-dancefloor_B_4: 21300008
+      light_on-dancefloor_B_21: 21300042
+      light_on-dancefloor_B_11: 21300022
+      light_on-dancefloor_B_15: 21300030
+      light_on-dancefloor_B_18: 21300036
+      light_on-dancefloor_B_13: 21300026
+      light_on-dancefloor_B_17: 21300034
+      light_on-dancefloor_B_2: 21300004
+      light_on-dancefloor_B_7: 21300014
+      light_on-dancefloor_B_6: 21300012
+      light_on-dancefloor_B_9: 21300018
+      light_on-dancefloor_B_20: 21300040
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

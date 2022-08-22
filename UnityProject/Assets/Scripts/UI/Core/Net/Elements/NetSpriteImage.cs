@@ -3,55 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-/// Holds value of what sprite to load
-/// sprite-based
-[RequireComponent(typeof(Image))]
-public class NetSpriteImage : NetUIStringElement
+namespace UI.Core.NetUI
 {
-	[Tooltip("The sprites this networked image can choose from.")]
-	[SerializeField]
-	private Sprite[] sprites = default;
-
-	private Image element;
-	public Image Element
+	/// Holds value of what sprite to load
+	/// sprite-based
+	[RequireComponent(typeof(Image))]
+	public class NetSpriteImage : NetUIStringElement
 	{
-		get
-		{
-			if (!element)
-			{
-				element = GetComponent<Image>();
+		[Tooltip("The sprites this networked image can choose from.")]
+		[SerializeField]
+		private Sprite[] sprites = default;
+
+		public Image Element => element ??= GetComponent<Image>();
+		private Image element;
+
+		private int spriteIndex;
+
+		public override ElementMode InteractionMode => ElementMode.ServerWrite;
+
+		public override string Value {
+			get => spriteIndex.ToString() ?? "-1";
+			set {
+				externalChange = true;
+				SetSprite(value);
+				externalChange = false;
 			}
-			return element;
 		}
-	}
 
-	private int spriteIndex;
-
-	public override ElementMode InteractionMode => ElementMode.ServerWrite;
-
-	public override string Value
-	{
-		get { return spriteIndex.ToString() ?? "-1"; }
-		set
+		public void SetSprite(int spriteIndex)
 		{
-			externalChange = true;
-			SetSprite(value);
-			externalChange = false;
+			SetValueServer(spriteIndex.ToString());
 		}
-	}
 
-	public void SetSprite(int spriteIndex)
-	{
-		SetValueServer(spriteIndex.ToString());
-	}
+		private void SetSprite(string sprite)
+		{
+			if (int.TryParse(sprite, out int spriteIndex) == false) return;
+			if (spriteIndex > sprites.Length) return;
+			if (Element.sprite == sprites[spriteIndex]) return;
 
-	private void SetSprite(string sprite)
-	{
-		if (!int.TryParse(sprite, out int spriteIndex)) return;
-		if (spriteIndex > sprites.Length) return;
-		if (Element.sprite == sprites[spriteIndex]) return;
-
-		Element.sprite = sprites[spriteIndex];
-		this.spriteIndex = spriteIndex;
+			Element.sprite = sprites[spriteIndex];
+			this.spriteIndex = spriteIndex;
+		}
 	}
 }

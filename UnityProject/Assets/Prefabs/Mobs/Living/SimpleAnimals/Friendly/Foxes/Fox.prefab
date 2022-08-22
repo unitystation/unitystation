@@ -18,6 +18,11 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2213213429927762426, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
+        type: 3}
+      propertyPath: mobName
+      value: fox
+      objectReference: {fileID: 0}
     - target: {fileID: 2981390789209867571, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
         type: 3}
       propertyPath: deadSprite
@@ -108,26 +113,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7542410175053245887, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7542410175053245887, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7542410175053245887, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7542410175053245887, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7542410175053245887, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -144,7 +129,7 @@ PrefabInstance:
     - target: {fileID: 7581244375763357991, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 99f427c13b626c146a2a6efa08139c18
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f74cbb9054020dd4f8c9dcdedd7398eb, type: 3}

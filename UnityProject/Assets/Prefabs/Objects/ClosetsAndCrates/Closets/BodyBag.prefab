@@ -1,34 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4703770079027199103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7083714065036306717}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d80668073924c6a819f2671001f1fe8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabVariant: {fileID: 5988267975595058318, guid: 802a90962afb0e44cbcc98f23c352222,
-    type: 3}
---- !u!114 &-4702241663443400538
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7083714065036306717}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9ffa270baac4723983d4ed66622180e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shadow: {fileID: 21300000, guid: 4e5ba2ee6f8cf2d48a8276afe672270a, type: 3}
-  draggerMustBeAdjacent: 1
-  allowDragWhileSoftCrit: 1
 --- !u!1001 &7978921683146610197
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: c4c8e4f0eae328d4abb69b55a4a37752,
         type: 3}
+    - target: {fileID: -9167103284037124715, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: isWeldable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -9167103284037124715, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: playerLimit
@@ -174,6 +150,11 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4288925150764073281, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: foreverID
+      value: 0b5947e822d9f344081d63a1ad0b291e
+      objectReference: {fileID: 0}
     - target: {fileID: 5029123947003194478, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: m_Sprite
@@ -257,7 +238,7 @@ PrefabInstance:
     - target: {fileID: 8730627397065656938, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0b5947e822d9f344081d63a1ad0b291e
       objectReference: {fileID: 0}
     - target: {fileID: 8970863354629131570, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
@@ -273,3 +254,32 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7978921683146610197}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-4703770079027199103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083714065036306717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d80668073924c6a819f2671001f1fe8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabVariant: {fileID: 5988267975595058318, guid: 802a90962afb0e44cbcc98f23c352222,
+    type: 3}
+--- !u!114 &-4702241663443400538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083714065036306717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9ffa270baac4723983d4ed66622180e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shadow: {fileID: 21300000, guid: 4e5ba2ee6f8cf2d48a8276afe672270a, type: 3}
+  draggerMustBeAdjacent: 1
+  allowDragWhileSoftCrit: 1

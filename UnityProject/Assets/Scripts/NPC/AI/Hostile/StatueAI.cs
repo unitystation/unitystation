@@ -13,7 +13,7 @@ namespace Systems.MobAIs
 	[RequireComponent(typeof(ConeOfSight))]
 	public class StatueAI : GenericHostileAI
 	{
-		protected override void UpdateMe()
+		public override void ContemplatePriority()
 		{
 			if (!isServer) return;
 
@@ -35,13 +35,13 @@ namespace Systems.MobAIs
 
 			if (currentStatus == MobStatus.Searching)
 			{
-				moveWaitTime += Time.deltaTime;
+				moveWaitTime += MobController.UpdateTimeInterval;
 				if (moveWaitTime >= movementTickRate)
 				{
 					moveWaitTime = 0f;
 				}
 
-				searchWaitTime += Time.deltaTime;
+				searchWaitTime += MobController.UpdateTimeInterval;
 				if (searchWaitTime >= searchTickRate)
 				{
 					searchWaitTime = 0f;
@@ -60,18 +60,18 @@ namespace Systems.MobAIs
 
 		private bool IsSomeoneLookingAtMe()
 		{
-			var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.None , directional.CurrentDirection.Vector, 10f, 20);
+			var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.None , rotatable.CurrentDirection.ToLocalVector3(), 10f);
 			if (hits.Count == 0) return false;
 
 			foreach (var coll in hits)
 			{
-				if (coll.GameObject == null) continue;
+				if (coll == null) continue;
 
-				var dir = (transform.position - coll.GameObject.transform.position).normalized;
+				var dir = (transform.position - coll.transform.position).normalized;
 
-				if (coll.GameObject.layer == playersLayer
-				    && !coll.GameObject.GetComponent<LivingHealthMasterBase>().IsDead
-				    && coll.GameObject.GetComponent<Directional>()?.CurrentDirection == orientations[DirToInt(dir)])
+				if (coll.layer == playersLayer
+				    && !coll.GetComponent<LivingHealthMasterBase>().IsDead
+				    && coll.GetComponent<Rotatable>()?.CurrentDirection == orientations[DirToInt(dir)])
 				{
 					Freeze();
 					return true;
@@ -84,13 +84,13 @@ namespace Systems.MobAIs
 		protected override void MonitorIdleness()
 		{
 
-			if (!mobMeleeAction.performingDecision && mobMeleeAction.FollowTarget == null && !IsSomeoneLookingAtMe())
+			if (mobMeleeAction.FollowTarget == null && !IsSomeoneLookingAtMe())
 			{
 				BeginSearch();
 			}
 		}
 
-		void Freeze()
+		private void Freeze()
 		{
 			ResetBehaviours();
 			currentStatus = MobStatus.None;
@@ -104,7 +104,7 @@ namespace Systems.MobAIs
 			StartCoroutine(StatueStalk(target));
 		}
 
-		IEnumerator StatueStalk(GameObject stalked)
+		private IEnumerator StatueStalk(GameObject stalked)
 		{
 			while (!IsSomeoneLookingAtMe())
 			{
@@ -119,7 +119,7 @@ namespace Systems.MobAIs
 			yield break;
 		}
 
-		int DirToInt(Vector3 direction)
+		private int DirToInt(Vector3 direction)
 		{
 			var angleOfDir = Vector3.Angle((Vector2) direction, transform.up);
 			if (direction.x < 0f)
@@ -152,18 +152,12 @@ namespace Systems.MobAIs
 			}
 		}
 
-		protected override void OnSpawnMob()
+		private readonly Dictionary<int, OrientationEnum> orientations = new Dictionary<int, OrientationEnum>()
 		{
-			base.OnSpawnMob();
-			BeginSearch();
-		}
-
-		private readonly Dictionary<int, Orientation> orientations = new Dictionary<int, Orientation>()
-		{
-			{1, Orientation.Up},
-			{2, Orientation.Right},
-			{3, Orientation.Down},
-			{4, Orientation.Left}
+			{1, OrientationEnum.Up_By0},
+			{2, OrientationEnum.Right_By270},
+			{3, OrientationEnum.Down_By180},
+			{4, OrientationEnum.Left_By90}
 		};
 	}
 }

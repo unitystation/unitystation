@@ -11,14 +11,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 4f4735af74e992843ad64f32c7bd0b1e,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 1546171526804525473, guid: 24b9c6501c7eda64d91eb11c94bff56e,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 4f4735af74e992843ad64f32c7bd0b1e,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 1546171526804525473, guid: 24b9c6501c7eda64d91eb11c94bff56e,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -36,10 +34,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 10cbc8985f71cce4f816b9d139f5829a,
         type: 3}
+    - target: {fileID: 2987393643287149629, guid: 24b9c6501c7eda64d91eb11c94bff56e,
+        type: 3}
+      propertyPath: HasLoudSpeak
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3043947584277661106, guid: 24b9c6501c7eda64d91eb11c94bff56e,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 4ebee4b27fc34a242b2394d916ad6145
       objectReference: {fileID: 0}
     - target: {fileID: 3146454469487196166, guid: 24b9c6501c7eda64d91eb11c94bff56e,
         type: 3}
@@ -111,6 +114,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A syndicate headset that can be used to hear all radio frequencies.
         Protects ears from flashbangs.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8291349356684178539, guid: 24b9c6501c7eda64d91eb11c94bff56e,
+        type: 3}
+      propertyPath: foreverID
+      value: 4ebee4b27fc34a242b2394d916ad6145
       objectReference: {fileID: 0}
     - target: {fileID: 9145804364720096129, guid: 24b9c6501c7eda64d91eb11c94bff56e,
         type: 3}

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: ChickenNuggetRecipe
+  m_EditorClassIdentifier: 
+  category: 10
+  craftingTime: 0.5
+  recipeName: Chicken Nugget
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 7583157834381544897, guid: 22153594ca62ee0418bb92cef2a1a384,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits: []
+  result:
+  - {fileID: 127002792104048084, guid: 0b2bbc86c2309e5458c80937419c663f, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 251

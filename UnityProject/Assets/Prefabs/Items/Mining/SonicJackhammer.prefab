@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 4042108494770091111, guid: 4d508ff5a5539124bb4e3e4c33ff3dda,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: fa482ab3865ec5d4483cc2d9c5d214fd
       objectReference: {fileID: 0}
     - target: {fileID: 4146761764113091027, guid: 4d508ff5a5539124bb4e3e4c33ff3dda,
         type: 3}
@@ -90,6 +90,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4567172765289801393, guid: 4d508ff5a5539124bb4e3e4c33ff3dda,
         type: 3}
+      propertyPath: traumaDamageChance
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 4567172765289801393, guid: 4d508ff5a5539124bb4e3e4c33ff3dda,
+        type: 3}
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Weapons/SonicJackhammer.prefab
       objectReference: {fileID: 0}
@@ -99,12 +104,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3779b8b9b92ee7340843ce6213187890,
         type: 2}
+    - target: {fileID: 7005059218751980990, guid: 4d508ff5a5539124bb4e3e4c33ff3dda,
+        type: 3}
+      propertyPath: foreverID
+      value: fa482ab3865ec5d4483cc2d9c5d214fd
+      objectReference: {fileID: 0}
     - target: {fileID: 7839182474428068436, guid: 4d508ff5a5539124bb4e3e4c33ff3dda,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 3779b8b9b92ee7340843ce6213187890,
         type: 2}
+    - target: {fileID: 8637307195371743201, guid: 4d508ff5a5539124bb4e3e4c33ff3dda,
+        type: 3}
+      propertyPath: pickHardness
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8637307195371743201, guid: 4d508ff5a5539124bb4e3e4c33ff3dda,
         type: 3}
       propertyPath: timeMultiplier

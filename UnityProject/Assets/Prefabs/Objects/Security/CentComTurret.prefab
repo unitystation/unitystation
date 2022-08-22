@@ -1,0 +1,156 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7680304258638169096
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1526276624429649764, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: m_Name
+      value: CentComTurret
+      objectReference: {fileID: 0}
+    - target: {fileID: 1530055412931709374, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1530055412931709374, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1530055412931709374, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1530055412931709374, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1530055412931709374, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1530055412931709374, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1530055412931709374, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1530055412931709374, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1530055412931709374, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1530055412931709374, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1530055412931709374, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1586561495887623337, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: restriction
+      value: 81
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: CheckForArrest
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: CheckSecurityRecords
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: CheckWeaponAuthorisation
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: CheckUnauthorisedPersonnel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: CheckUnidentifiedLifeSigns
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: authorisedAccess.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: authorisedAccess.Array.data[0]
+      value: 81
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: authorisedClearance.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: weaponAuthorisation.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: authorisedClearance.Array.data[0]
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: weaponAuthorisation.Array.data[0]
+      value: 81
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: weaponAuthorisationClearance.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: weaponAuthorisationClearance.Array.data[0]
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 2476844167198961965, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: foreverID
+      value: b5ad133516f9c7a4d957505a336aa1f7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2506153195070795302, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: isSelfPowered
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6986135575158340102, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: m_AssetId
+      value: b5ad133516f9c7a4d957505a336aa1f7
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 24217cb8b2338a3479aaf8d32b727ed1, type: 3}

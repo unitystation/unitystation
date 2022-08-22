@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcdd86e87cc447d94b99df8b1a383b3, type: 3}
   m_Name: BoxOfSterileMasksPopulator
   m_EditorClassIdentifier: 
-  Contents:
+  SlotContents: []
+  DeprecatedContents:
   - {fileID: 6404652678407139925, guid: e9076ebebbcd65e56b189cd1a837d018, type: 3}
   - {fileID: 6404652678407139925, guid: e9076ebebbcd65e56b189cd1a837d018, type: 3}
   - {fileID: 6404652678407139925, guid: e9076ebebbcd65e56b189cd1a837d018, type: 3}
@@ -20,4 +21,3 @@ MonoBehaviour:
   - {fileID: 6404652678407139925, guid: e9076ebebbcd65e56b189cd1a837d018, type: 3}
   - {fileID: 6404652678407139925, guid: e9076ebebbcd65e56b189cd1a837d018, type: 3}
   - {fileID: 6404652678407139925, guid: e9076ebebbcd65e56b189cd1a837d018, type: 3}
-  MergeMode: 0

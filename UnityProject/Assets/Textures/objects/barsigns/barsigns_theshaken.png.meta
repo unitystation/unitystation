@@ -60,7 +60,7 @@ TextureImporter:
       213: 21300036
     second: theshaken_18
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -80,6 +80,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -89,8 +91,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -111,9 +113,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -551,6 +557,26 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      theshaken_11: 21300022
+      theshaken_5: 21300010
+      theshaken_7: 21300014
+      theshaken_0: 21300000
+      theshaken_18: 21300036
+      theshaken_12: 21300024
+      theshaken_16: 21300032
+      theshaken_3: 21300006
+      theshaken_10: 21300020
+      theshaken_13: 21300026
+      theshaken_9: 21300018
+      theshaken_14: 21300028
+      theshaken_15: 21300030
+      theshaken_1: 21300002
+      theshaken_2: 21300004
+      theshaken_6: 21300012
+      theshaken_17: 21300034
+      theshaken_8: 21300016
+      theshaken_4: 21300008
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

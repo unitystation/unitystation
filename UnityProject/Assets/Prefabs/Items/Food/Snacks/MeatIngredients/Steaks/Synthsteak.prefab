@@ -9,13 +9,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 773223925429699056, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
-      propertyPath: initialDescription
-      value: A synthetic meat steak. It doesn't look quite right, now does it?
+      propertyPath: initialName
+      value: synthsteak
       objectReference: {fileID: 0}
     - target: {fileID: 773223925429699056, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
-      propertyPath: initialName
-      value: synthsteak
+      propertyPath: initialDescription
+      value: A synthetic meat steak. It doesn't look quite right, now does it?
+      objectReference: {fileID: 0}
+    - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
@@ -80,7 +80,7 @@ PrefabInstance:
     - target: {fileID: 991535446379057958, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: a33ba3b3c605b754fa18ddb7e7d805d1
       objectReference: {fileID: 0}
     - target: {fileID: 1055922833323646414, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
@@ -88,6 +88,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: c7cbf90cbab081c4b88d4d6f4e1c45b6,
         type: 3}
+    - target: {fileID: 6119310249531040511, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: foreverID
+      value: a33ba3b3c605b754fa18ddb7e7d805d1
+      objectReference: {fileID: 0}
     - target: {fileID: 6417786233635558677, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
       propertyPath: PresentSpriteSet

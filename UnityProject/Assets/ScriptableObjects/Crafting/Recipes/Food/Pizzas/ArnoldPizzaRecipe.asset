@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: ArnoldPizzaRecipe
+  m_EditorClassIdentifier: 
+  category: 14
+  craftingTime: 3
+  recipeName: Arnold Pizza
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 1449470387542250284, guid: 41220ca24fe3798478f533c5f8102248,
+      type: 3}
+  - requiredAmount: 3
+    requiredItem: {fileID: 7537345380150340854, guid: eae3273562cc275408dc688bd15d2c87,
+      type: 3}
+  - requiredAmount: 8
+    requiredItem: {fileID: 5107909693011956803, guid: 5d37ebc7a0cbd0948a172b21dd46ca54,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 4912214335510186018, guid: be31518b02dec6e459cc5ac4a4398ded,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 455902390153094336, guid: 454947e247b8d27408f72041e753e7be,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits: []
+  result:
+  - {fileID: 454651801540966, guid: d6cdc7afef0d54d4b89a11801a760a6e, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 14

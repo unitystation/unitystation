@@ -45,7 +45,9 @@ namespace Effects
 			}
 			else
 			{
-				spriteReference.transform.position = new Vector2(0,0);
+				//(MaxIsJoe) : Please do not use transform.position for this again unless you want
+				//Sprites to disappear into hiddenpos.
+				spriteReference.transform.localPosition = new Vector2(0,0);
 			}
 		}
 

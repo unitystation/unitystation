@@ -13,6 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8465615844769295329, guid: 429c9d26520f04649863932e986b4979,
         type: 3}
+    - target: {fileID: 1150929257099711787, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 8465615844769295329, guid: 429c9d26520f04649863932e986b4979,
+        type: 3}
     - target: {fileID: 2980378721179210927, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -36,6 +42,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -51,6 +62,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +79,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
@@ -97,29 +103,39 @@ PrefabInstance:
     - target: {fileID: 4170985198274634163, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: c7e2497f5aa608d45850eaf20ed2a5a0
       objectReference: {fileID: 0}
     - target: {fileID: 4217498956441677659, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 3f825d1633a888743b102e90455d730d,
+      objectReference: {fileID: 21300000, guid: 63adcc33620c02740b73c02fd81ebc48,
         type: 3}
+    - target: {fileID: 4511480774014382949, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
+      propertyPath: initialName
+      value: Berry-pocket
+      objectReference: {fileID: 0}
     - target: {fileID: 4511480774014382949, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
       propertyPath: initialDescription
       value: A relentlessly sweet donk-pocket first created for use in Operation
         Dessert Storm.
       objectReference: {fileID: 0}
-    - target: {fileID: 4511480774014382949, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
-        type: 3}
-      propertyPath: initialName
-      value: Berry-pocket
-      objectReference: {fileID: 0}
     - target: {fileID: 5305569483102412407, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
       propertyPath: NutritionLevel
       value: 158
+      objectReference: {fileID: 0}
+    - target: {fileID: 5305569483102412407, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 158
+      objectReference: {fileID: 0}
+    - target: {fileID: 6975192418094665834, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
+      propertyPath: foreverID
+      value: c7e2497f5aa608d45850eaf20ed2a5a0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792, type: 3}

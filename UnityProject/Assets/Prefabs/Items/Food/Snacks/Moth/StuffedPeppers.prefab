@@ -1,0 +1,129 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1833886991901609865
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1120720014035424503, guid: 60bb3b03d93ce144cb6a6394caa68d5e,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1120720014035424503, guid: 60bb3b03d93ce144cb6a6394caa68d5e,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1750221926638564157, guid: 60bb3b03d93ce144cb6a6394caa68d5e,
+        type: 3}
+      propertyPath: initialName
+      value: "volt\xF6lpaprik"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1750221926638564157, guid: 60bb3b03d93ce144cb6a6394caa68d5e,
+        type: 3}
+      propertyPath: initialDescription
+      value: A soft yet still crisp bell pepper, with a wonderful melty cheesy interior.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2041932427526205187, guid: 60bb3b03d93ce144cb6a6394caa68d5e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7faee08bc37d7274f955244076409562,
+        type: 3}
+    - target: {fileID: 2208895932452953183, guid: 60bb3b03d93ce144cb6a6394caa68d5e,
+        type: 3}
+      propertyPath: m_Name
+      value: StuffedPeppers
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212412032962896171, guid: 60bb3b03d93ce144cb6a6394caa68d5e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212412032962896171, guid: 60bb3b03d93ce144cb6a6394caa68d5e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212412032962896171, guid: 60bb3b03d93ce144cb6a6394caa68d5e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212412032962896171, guid: 60bb3b03d93ce144cb6a6394caa68d5e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212412032962896171, guid: 60bb3b03d93ce144cb6a6394caa68d5e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212412032962896171, guid: 60bb3b03d93ce144cb6a6394caa68d5e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212412032962896171, guid: 60bb3b03d93ce144cb6a6394caa68d5e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212412032962896171, guid: 60bb3b03d93ce144cb6a6394caa68d5e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212412032962896171, guid: 60bb3b03d93ce144cb6a6394caa68d5e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212412032962896171, guid: 60bb3b03d93ce144cb6a6394caa68d5e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212412032962896171, guid: 60bb3b03d93ce144cb6a6394caa68d5e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2248323972482982379, guid: 60bb3b03d93ce144cb6a6394caa68d5e,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 459429b7553b6514b84ef7910c298a81
+      objectReference: {fileID: 0}
+    - target: {fileID: 2965930702489376115, guid: 60bb3b03d93ce144cb6a6394caa68d5e,
+        type: 3}
+      propertyPath: CookTime
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2965930702489376115, guid: 60bb3b03d93ce144cb6a6394caa68d5e,
+        type: 3}
+      propertyPath: CookableBy
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 2965930702489376115, guid: 60bb3b03d93ce144cb6a6394caa68d5e,
+        type: 3}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 6880415347540399089, guid: c4d884c9f2e69424d8d72dca94257e05,
+        type: 3}
+    - target: {fileID: 5052241367909158962, guid: 60bb3b03d93ce144cb6a6394caa68d5e,
+        type: 3}
+      propertyPath: foreverID
+      value: stuffedbellpepper
+      objectReference: {fileID: 0}
+    - target: {fileID: 5467805431882278872, guid: 60bb3b03d93ce144cb6a6394caa68d5e,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8aa2fc9648c19ce40ac5ec1b33edf108,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 60bb3b03d93ce144cb6a6394caa68d5e, type: 3}

@@ -38,10 +38,10 @@ public class ContextMenuApply : TargetedInteraction
 	/// <returns>a ContextMenuApply, for activating the specified context menu option of the target object</returns>
 	public static ContextMenuApply ByLocalPlayer(GameObject targetObject, string requestedOption)
 	{
-		if (PlayerManager.LocalPlayerScript.IsGhost) return Invalid;
+		if (PlayerManager.LocalPlayerScript.IsNormal == false) return Invalid;
 
 		return new ContextMenuApply(
-				PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.ItemObject, targetObject, requestedOption, UIManager.CurrentIntent);
+				PlayerManager.LocalPlayerObject, PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot()?.ItemObject, targetObject, requestedOption, UIManager.CurrentIntent);
 	}
 
 	/// <summary>

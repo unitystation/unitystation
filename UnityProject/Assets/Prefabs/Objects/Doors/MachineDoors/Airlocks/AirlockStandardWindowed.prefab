@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 552305384801587101, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: c04905100b9b3d746ad50b5a62efe998
       objectReference: {fileID: 0}
     - target: {fileID: 813378137164787325, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
@@ -47,16 +47,27 @@ PrefabInstance:
       propertyPath: initialName
       value: airlock
       objectReference: {fileID: 0}
-    - target: {fileID: 3070069579326465151, guid: 6af0a221ec6985a46956ac77fab1f771,
+    - target: {fileID: 2268823939221595730, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
+      propertyPath: isWindowedDoor
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2423441889713074305, guid: 6af0a221ec6985a46956ac77fab1f771,
+        type: 3}
+      propertyPath: airlockAssemblyPrefab
+      value: 
+      objectReference: {fileID: 1098236831370060136, guid: b94283d564a6208458af271a84369985,
+        type: 3}
     - target: {fileID: 3070069579326465151, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3070069579326465151, guid: 6af0a221ec6985a46956ac77fab1f771,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
     - target: {fileID: 3124762361460343352, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -72,6 +83,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 4973688389494506678, guid: 6af0a221ec6985a46956ac77fab1f771,
+        type: 3}
+      propertyPath: foreverID
+      value: c04905100b9b3d746ad50b5a62efe998
+      objectReference: {fileID: 0}
     - target: {fileID: 7804456258490904056, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -86,6 +102,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8242232534866279461, guid: 6af0a221ec6985a46956ac77fab1f771,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8242232534866279461, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
@@ -104,6 +125,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8242232534866279461, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8242232534866279461, guid: 6af0a221ec6985a46956ac77fab1f771,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -116,16 +142,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8242232534866279461, guid: 6af0a221ec6985a46956ac77fab1f771,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8242232534866279461, guid: 6af0a221ec6985a46956ac77fab1f771,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8242232534866279461, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
@@ -145,7 +161,7 @@ PrefabInstance:
     - target: {fileID: 8248341723222571775, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
       propertyPath: m_Name
-      value: AirlockPublicWindowed
+      value: AirlockStandardWindowed
       objectReference: {fileID: 0}
     - target: {fileID: 8660843556563420507, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}

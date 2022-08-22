@@ -16,7 +16,12 @@ PrefabInstance:
     - target: {fileID: 2471947350406219582, guid: e95a1fa76d625d348b07406df101d4c0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 3b32fd41464b370419128198e6ff6356
+      objectReference: {fileID: 0}
+    - target: {fileID: 2578777789774956542, guid: e95a1fa76d625d348b07406df101d4c0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2578777789774956542, guid: e95a1fa76d625d348b07406df101d4c0,
         type: 3}
@@ -35,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2578777789774956542, guid: e95a1fa76d625d348b07406df101d4c0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2578777789774956542, guid: e95a1fa76d625d348b07406df101d4c0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2578777789774956542, guid: e95a1fa76d625d348b07406df101d4c0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2578777789774956542, guid: e95a1fa76d625d348b07406df101d4c0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2578777789774956542, guid: e95a1fa76d625d348b07406df101d4c0,
         type: 3}
@@ -80,13 +80,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2681805792136238568, guid: e95a1fa76d625d348b07406df101d4c0,
         type: 3}
-      propertyPath: initialDescription
-      value: A yellow slime core infused with plasma, it crackles with power.
+      propertyPath: initialName
+      value: charged slime core
       objectReference: {fileID: 0}
     - target: {fileID: 2681805792136238568, guid: e95a1fa76d625d348b07406df101d4c0,
         type: 3}
-      propertyPath: initialName
-      value: charged slime core
+      propertyPath: initialDescription
+      value: A yellow slime core infused with plasma, it crackles with power.
       objectReference: {fileID: 0}
     - target: {fileID: 8546765201934041357, guid: e95a1fa76d625d348b07406df101d4c0,
         type: 3}
@@ -94,5 +94,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a44707b1a6d2e3b4a91f64ac1b2fe355,
         type: 2}
+    - target: {fileID: 8890267810693641959, guid: e95a1fa76d625d348b07406df101d4c0,
+        type: 3}
+      propertyPath: foreverID
+      value: 3b32fd41464b370419128198e6ff6356
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e95a1fa76d625d348b07406df101d4c0, type: 3}

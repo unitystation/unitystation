@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AddressableReferences;
+using Objects;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Items.Cargo.Wrapping
 {
-	public abstract class WrappedBase: MonoBehaviour
+	public abstract class WrappedBase: ObjectContainer
 	{
 		[SerializeField][Tooltip("When unwrapped, if no content was defined, we will spawn one of these")]
 		private List<GameObject> randomContentList;
@@ -24,25 +26,20 @@ namespace Items.Cargo.Wrapping
 		[SerializeField] [Tooltip("Time to unwrap.")]
 		private float timeToUnwrap = 2;
 
-		private PushPull content;
-		private PushPull pushPull;
 		private Attributes attributes;
 		protected SpriteHandler spriteHandler;
 
-		protected virtual void Awake()
+		protected virtual void OnEnable()
 		{
-			pushPull = GetComponent<PushPull>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			attributes = GetComponent<Attributes>();
 		}
 
 		public void SetContent(GameObject toWrap)
 		{
-			content = toWrap.GetComponent<PushPull>();
+			StoreObject(toWrap);
 			var exportCost = toWrap.GetComponent<Attributes>().ExportCost;
 			UpdateExportCost(exportCost);
-			content.parentContainer = pushPull;
-			content.VisibleState = false;
 		}
 
 		private void UpdateExportCost(int value)
@@ -52,7 +49,7 @@ namespace Items.Cargo.Wrapping
 
 		protected void PlayUnwrappingSound()
 		{
-			SoundManager.PlayNetworkedAtPos(alternativeUnwrapSound != null ? alternativeUnwrapSound : SingletonSOSounds.Instance.PosterRipped, gameObject.AssumedWorldPosServer());
+			SoundManager.PlayNetworkedAtPos(alternativeUnwrapSound != null ? alternativeUnwrapSound : CommonSounds.Instance.PosterRipped, gameObject.AssumedWorldPosServer());
 		}
 
 		protected void StartUnwrapAction(GameObject performer)
@@ -69,7 +66,7 @@ namespace Items.Cargo.Wrapping
 				.ServerStartProgress(ActionTarget.Object(performer.RegisterTile()), timeToUnwrap, performer);
 		}
 
-		protected abstract void UnWrap();
+		public abstract void UnWrap();
 
 		/// <summary>
 		/// Used to get the content of the current package. If no content was set, then it will try to generate
@@ -78,23 +75,24 @@ namespace Items.Cargo.Wrapping
 		/// <returns>The game object related to the content of this package</returns>
 		public GameObject GetOrGenerateContent()
 		{
-			if (content == null && randomContentList.Count > 0)
+			GameObject content = null;
+			if (randomContentList.Count > 0)
 			{
-				var unwrapped = Spawn.ServerPrefab(randomContentList.PickRandom(), gameObject.AssumedWorldPosServer()).GameObject;
-				content = unwrapped.GetComponent<PushPull>();
-				return unwrapped;
+				content  = Spawn.ServerPrefab(randomContentList.PickRandom(), gameObject.AssumedWorldPosServer()).GameObject;
+				return content;
 			}
-
-			return content.gameObject;
+			if (GetStoredObjects() != null)
+			{
+				content = GetStoredObjects().FirstOrDefault();
+			}
+			return content;
 		}
 
 		protected void MakeContentVisible()
 		{
-			var netTransform = content.gameObject.GetComponent<CustomNetTransform>();
+			var netTransform = GetOrGenerateContent().gameObject.GetComponent<UniversalObjectPhysics>();
 			var pos = gameObject.RegisterTile().WorldPositionServer;
-			content.parentContainer = null;
-			netTransform.AppearAtPositionServer(pos);
-			content = null;
+			netTransform.AppearAtWorldPositionServer(pos);
 		}
 	}
 }

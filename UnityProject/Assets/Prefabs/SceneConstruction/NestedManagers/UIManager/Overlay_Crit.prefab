@@ -27,6 +27,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.86, y: 0.86, z: 0.86}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5288348493137659960}
   m_Father: {fileID: 0}
@@ -49,30 +50,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3033b5d39951d430299684ac3cd06d7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  critcalSettings:
-    holeRadius: 0.03
-    holeShape: 2
-    shroudActive: 1
-    shroudColor: {r: 0.509434, g: 0, b: 0, a: 1}
   currentState: 0
   holeMat: {fileID: 2100000, guid: ecc97e9b19bc34985b4b01b0121c9683, type: 2}
-  injuredSettings:
-    holeRadius: 0.38
-    holeShape: 3.2
-    shroudActive: 1
-    shroudColor: {r: 0, g: 0, b: 0, a: 1}
-  normalSettings:
-    holeRadius: 0
-    holeShape: 0
-    shroudActive: 0
-    shroudColor: {r: 0, g: 0, b: 0, a: 1}
   shroud: {fileID: 5288348493137659960}
   shroudImg: {fileID: 5470271345630498554}
-  unconsciousSettings:
-    holeRadius: 0.06
-    holeShape: 1
-    shroudActive: 1
-    shroudColor: {r: 0.509434, g: 0, b: 0, a: 1}
+  shroudColor: {r: 0.50980395, g: 0, b: 0, a: 0}
+  Radius: 5
+  Epow: 1.5
 --- !u!1 &5367048007662142620
 GameObject:
   m_ObjectHideFlags: 0
@@ -101,6 +85,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 8, y: 8, z: 8}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5287873272021720522}
   m_RootOrder: 0
@@ -127,17 +112,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 5367048007662142620}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: ecc97e9b19bc34985b4b01b0121c9683, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: cc7b6c9df049c4bc087df56fc987fe1c, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
@@ -147,3 +132,4 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1

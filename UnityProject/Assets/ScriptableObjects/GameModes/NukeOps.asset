@@ -20,9 +20,10 @@ MonoBehaviour:
   antagRatio: 0.2
   minAntags: 1
   maxAntags: 100
-  requiresMinAntags: 1
+  forceMinAntags: 1
   teamGameMode: 1
   midRoundAntags: 0
+  midRoundAntagsChance: 25
   possibleAntags:
   - {fileID: 11400000, guid: 4bc36e6d8aa946c4081073eabc2472eb, type: 2}
   allocateJobsToAntags: 0

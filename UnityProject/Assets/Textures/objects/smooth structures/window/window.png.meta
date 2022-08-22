@@ -147,7 +147,7 @@ TextureImporter:
       213: 21300094
     second: window_47
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -167,6 +167,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -176,8 +178,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -198,9 +200,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -1283,6 +1289,55 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      window_14: 21300028
+      window_23: 21300046
+      window_35: 21300070
+      window_6: 21300012
+      window_21: 21300042
+      window_34: 21300068
+      window_36: 21300072
+      window_44: 21300088
+      window_39: 21300078
+      window_47: 21300094
+      window_13: 21300026
+      window_12: 21300024
+      window_19: 21300038
+      window_31: 21300062
+      window_4: 21300008
+      window_38: 21300076
+      window_22: 21300044
+      window_28: 21300056
+      window_29: 21300058
+      window_40: 21300080
+      window_46: 21300092
+      window_0: 21300000
+      window_24: 21300048
+      window_17: 21300034
+      window_30: 21300060
+      window_33: 21300066
+      window_43: 21300086
+      window_45: 21300090
+      window_37: 21300074
+      window_2: 21300004
+      window_18: 21300036
+      window_3: 21300006
+      window_1: 21300002
+      window_27: 21300054
+      window_5: 21300010
+      window_42: 21300084
+      window_16: 21300032
+      window_32: 21300064
+      window_10: 21300020
+      window_26: 21300052
+      window_9: 21300018
+      window_25: 21300050
+      window_41: 21300082
+      window_11: 21300022
+      window_7: 21300014
+      window_8: 21300016
+      window_15: 21300030
+      window_20: 21300040
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

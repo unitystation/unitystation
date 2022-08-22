@@ -7,9 +7,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2317960629209797202, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
+        type: 3}
+      propertyPath: foreverID
+      value: 1a040146036b65b499f540b92ce87ac8
+      objectReference: {fileID: 0}
     - target: {fileID: 3519444805694504380, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}
       propertyPath: Gases.Array.data[1]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3519444805694504380, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
+        type: 3}
+      propertyPath: StoredGasMix.Pressure
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3519444805694504380, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
+        type: 3}
+      propertyPath: StoredGasMix.Temperature
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3519444805694504380, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3519444805694504380, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].Moles
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8683563700070376267, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
@@ -75,7 +100,7 @@ PrefabInstance:
     - target: {fileID: 8720517632814588811, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 1a040146036b65b499f540b92ce87ac8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a, type: 3}

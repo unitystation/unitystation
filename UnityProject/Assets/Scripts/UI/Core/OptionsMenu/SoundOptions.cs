@@ -1,4 +1,5 @@
 ﻿using Audio.Managers;
+using Audio.Containers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,32 +16,82 @@ namespace Unitystation.Options
 		[SerializeField]
 		private Slider masterSlider = null;
 
+        [SerializeField]
+		private Slider soundFXSlider = null;
+
+        [SerializeField]
+		private Slider musicSlider = null;
+
+        [SerializeField]
+		private Slider TTSSlider = null;
+
+		[SerializeField]
+		private Slider RadioSlider = null;
+
+		[SerializeField]
+		private Toggle CommonRadioToggle = null;
+
 		void OnEnable()
         {
             Refresh();
-
 		}
-
-        public void OnAmbientVolumeChange()
-        {
-	        SoundAmbientManager.SetVolumeForAllAudioSources(ambientSlider.value);
-        }
 
 		public void OnMasterVolumeChange()
 		{
-			SoundManager.MasterVolume(masterSlider.value);
+			AudioManager.MasterVolume(masterSlider.value);
 		}
 
-		public void TTSToggle()
+        public void OnSoundFXVolumeChange()
+        {
+	        AudioManager.SoundFXVolume(soundFXSlider.value);
+        }
+
+        public void OnMusicVolumeChange()
+        {
+	        AudioManager.MusicVolume(musicSlider.value);
+        }
+
+        public void OnAmbientVolumeChange()
+        {
+	        AudioManager.AmbientVolume(ambientSlider.value);
+        }
+
+
+        public void OnRadioChatterChange()
+        {
+	        AudioManager.RadioChatterVolume(RadioSlider.value);
+        }
+
+        public void OnCommonRadioChatterChange()
+        {
+	        AudioManager.CommonRadioChatter(CommonRadioToggle.isOn);
+        }
+
+
+
+        public void TTSToggle()
         {
             UIManager.ToggleTTS(ttsToggle.isOn);
+            TTSSlider.transform.parent.SetActive(ttsToggle.isOn);
+        }
+
+        public void OnTtsVolumeChange()
+        {
+	        AudioManager.TtsVolume(TTSSlider.value);
         }
 
         void Refresh()
         {
+            musicSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.MusicVolumeKey);
+            soundFXSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.SoundFXVolumeKey);
             ambientSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.AmbientVolumeKey);
+            TTSSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.TtsVolumeKey);
             ttsToggle.isOn = PlayerPrefs.GetInt(PlayerPrefKeys.TTSToggleKey) == 1;
 			masterSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.MasterVolumeKey);
+            TTSSlider.transform.parent.SetActive(ttsToggle.isOn);
+
+            CommonRadioToggle.isOn = PlayerPrefs.GetInt(PlayerPrefKeys.CommonRadioToggleKey) == 1;
+            RadioSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.RadioVolumeKey);
 
 		}
 
@@ -51,8 +102,13 @@ namespace Unitystation.Options
                 () =>
                 {
                     UIManager.ToggleTTS(false);
-                    SoundAmbientManager.SetVolumeForAllAudioSources(1f);
+                    AudioManager.AmbientVolume(0.2f);
+                    AudioManager.SoundFXVolume(0.2f);
+                    AudioManager.MusicVolume(0.2f);
+                    AudioManager.TtsVolume(0.2f);
 					AudioListener.volume = 1;
+					AudioManager.CommonRadioChatter(false);
+					AudioManager.RadioChatterVolume(0.2f);
                     Refresh();
                 },
                 "Reset"

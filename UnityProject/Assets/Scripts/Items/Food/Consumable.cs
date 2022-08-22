@@ -1,7 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
+using HealthV2;
+using Items;
 using UnityEngine;
+using NaughtyAttributes;
+using Player;
+
 
 /// <summary>
 /// Item that can be drinked or eaten by player
@@ -11,6 +17,21 @@ public abstract class Consumable : MonoBehaviour, ICheckedInteractable<HandApply
 {
 	public void ServerPerformInteraction(HandApply interaction)
 	{
+		if (interaction.HandObject == null && interaction.Performer.GetComponent<ConsumeFromFloor>() != null)
+		{
+			//If consume from floor just try to consume
+			TryConsume(interaction.Performer);
+			return;
+		}
+
+		if (gameObject.TryGetComponent<HandPreparable>(out var preparable))
+		{
+			if (preparable.IsPrepared == false)
+			{
+				Chat.AddExamineMsg(interaction.Performer, preparable.openingRequirementText);
+				return;
+			}
+		}
 		var targetPlayer = interaction.TargetObject.GetComponent<PlayerScript>();
 		if (targetPlayer == null)
 		{
@@ -18,7 +39,7 @@ public abstract class Consumable : MonoBehaviour, ICheckedInteractable<HandApply
 		}
 
 		PlayerScript feeder = interaction.PerformerPlayerScript;
-		var feederSlot = feeder.ItemStorage.GetActiveHandSlot();
+		var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
 		if (feederSlot.Item == null)
 		{   //Already been eaten or the food is no longer in hand
 			return;
@@ -30,8 +51,22 @@ public abstract class Consumable : MonoBehaviour, ICheckedInteractable<HandApply
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
+		if (interaction.HandObject == null && interaction.Performer.GetComponent<ConsumeFromFloor>() != null)
+		{
+			//Default check and allow any player if they have this script to do this
+			if (DefaultWillInteract.Default(interaction, side, interaction.PerformerPlayerScript.PlayerType)) return true;
+		}
+
 		//this item shouldn't be a target
 		if (Validations.IsTarget(gameObject, interaction)) return false;
+		var Dissectible = interaction?.TargetObject.OrNull()?.GetComponent<Dissectible>();
+		if (Dissectible != null)
+		{
+			if (Dissectible.GetBodyPartIsopen && Dissectible.WillInteract(interaction, side))
+			{
+				return false;
+			}
+		}
 
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
@@ -47,7 +82,7 @@ public abstract class Consumable : MonoBehaviour, ICheckedInteractable<HandApply
 	{
 		//todo: support npc force feeding
 		var targetPlayer = eater.GetComponent<PlayerScript>();
-		if (targetPlayer == null || targetPlayer.IsDeadOrGhost)
+		if (targetPlayer == null || targetPlayer.IsDeadOrGhost || targetPlayer.IsNormal == false)
 		{
 			return false;
 		}

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Mirror;
 using Systems.Botany;
@@ -14,7 +13,7 @@ namespace Objects.Botany
 	/// <summary>
 	/// Where the magic happens in botany. This tray grows all of the plants
 	/// </summary>
-	public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
+	public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>, IServerSpawn
 	{
 		public bool HasPlant => plantData?.FullyGrownSpriteSO != null;
 		public bool ReadyToHarvest => plantCurrentStage == PlantSpriteStage.FullyGrown;
@@ -50,14 +49,13 @@ namespace Objects.Botany
 		[SerializeField] private SpriteHandler nutrimentNotifier = null;
 		[SerializeField] private float tickRate = 0;
 
-
-		private static readonly System.Random random = new System.Random();
-
 		[SerializeField] private PlantData plantData;
 
 		private readonly List<GameObject> readyProduce = new List<GameObject>();
 		private float tickCount;
 		private float weedLevel;
+
+		#region Lifecycle
 
 		public void Start()
 		{
@@ -71,6 +69,11 @@ namespace Objects.Botany
 		{
 			base.OnStartServer();
 			EnsureInit();
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			EnsureInit();
 			ServerInit();
 		}
 
@@ -78,7 +81,7 @@ namespace Objects.Botany
 		{
 			if (isWild)
 			{
-				var data = potentialWildPlants[random.Next(potentialWildPlants.Count)];
+				var data = potentialWildPlants.PickRandom();
 				plantData = PlantData.CreateNewPlant(data.plantData);
 				UpdatePlantStage(PlantSpriteStage.None, PlantSpriteStage.FullyGrown);
 				UpdatePlantGrowthStage(growingPlantStage, plantData.GrowthSpritesSOs.Count - 1);
@@ -97,7 +100,6 @@ namespace Objects.Botany
 			UpdateNutrimentFlag(showNutrimenetFlag, false);
 		}
 
-
 		private void EnsureInit()
 		{
 			if (registerTile != null) return;
@@ -109,13 +111,17 @@ namespace Objects.Botany
 			harvestNotifier.PushClear();
 		}
 
+		#endregion Lifecycle
+
 		/// <summary>
 		/// Server updates plant status and updates clients as needed
+		/// Server Side Only
 		/// </summary>
 		public override void UpdateMe()
 		{
+			if (isServer == false) return;
 			//Only server checks plant status, wild plants do not grow
-			if (!isServer || isWild) return;
+			if (isWild) return;
 
 			//Only update at set rate
 			tickCount += Time.deltaTime;
@@ -230,7 +236,7 @@ namespace Objects.Botany
 				{
 					if (weedLevel >= 10)
 					{
-						var data = potentialWeeds[random.Next(potentialWeeds.Count)];
+						var data = potentialWeeds.PickRandom();
 						plantData = PlantData.CreateNewPlant(data.plantData);
 						growingPlantStage = 0;
 						plantCurrentStage = PlantSpriteStage.Growing;
@@ -330,7 +336,6 @@ namespace Objects.Botany
 			}
 		}
 
-
 		private void UpdatePlant(string oldPlantSyncString, string newPlantSyncString)
 		{
 			UpdateSprite();
@@ -384,7 +389,6 @@ namespace Objects.Botany
 			}
 		}
 
-
 		private void CropDeath()
 		{
 			if (plantData.PlantTrays.Contains(PlantTrays.Weed_Adaptation))
@@ -427,18 +431,17 @@ namespace Objects.Botany
 					continue;
 				}
 
-				CustomNetTransform netTransform = produceObject.GetComponent<CustomNetTransform>();
+				UniversalObjectPhysics ObjectPhysics  = produceObject.GetComponent<UniversalObjectPhysics>();
 				var food = produceObject.GetComponent<GrownFood>();
 				if (food != null)
 				{
 					food.SetUpFood(plantData, modification);
 				}
 
-				netTransform.DisappearFromWorldServer();
+				ObjectPhysics.DisappearFromWorld();
 				readyProduce.Add(produceObject);
 			}
 		}
-
 
 		/// <summary>
 		/// Server handles hand interaction with tray
@@ -453,7 +456,7 @@ namespace Objects.Botany
 			{
 				if (plantData.MutatesInToGameObject.Count > 0)
 				{
-					var objectContainer = slot?.Item?.GetComponent<ReagentContainer>();
+					var objectContainer = slot?.Item.OrNull()?.GetComponent<ReagentContainer>();
 					if (objectContainer != null)
 					{
 						objectContainer.MoveReagentsTo(5, reagentContainer);
@@ -471,7 +474,7 @@ namespace Objects.Botany
 			}
 
 
-			var objectItemAttributes = slot?.Item?.GetComponent<ItemAttributesV2>();
+			var objectItemAttributes = slot?.Item.OrNull()?.GetComponent<ItemAttributesV2>();
 			if (objectItemAttributes != null)
 			{
 				//If hand slot contains Cultivator remove weeds
@@ -516,7 +519,7 @@ namespace Objects.Botany
 
 			//If hand slot contains grown food, plant the food
 			//This temporarily replaces the seed machine until it is implemented, see commented code for original compost behavior
-			var foodObject = slot?.Item?.GetComponent<GrownFood>();
+			var foodObject = slot?.Item.OrNull()?.GetComponent<GrownFood>();
 			if (foodObject != null)
 			{
 				if (HasPlant)
@@ -525,7 +528,7 @@ namespace Objects.Botany
 						$"You compost the {foodObject.name} in the {gameObject.ExpensiveName()}.",
 						$"{interaction.Performer.name} composts {foodObject.name} in the {gameObject.ExpensiveName()}.");
 					reagentContainer.Add(new ReagentMix(nutriment, foodObject.GetPlantData().Potency));
-					Despawn.ServerSingle(interaction.HandObject);
+					_ = Despawn.ServerSingle(interaction.HandObject);
 					return;
 				}
 				else
@@ -543,7 +546,7 @@ namespace Objects.Botany
 			}
 
 			//If hand slot contains seeds, plant the seeds
-			var Object = slot?.Item?.GetComponent<SeedPacket>();
+			var Object = slot?.Item.OrNull()?.GetComponent<SeedPacket>();
 			if (Object != null)
 			{
 				plantData = PlantData.CreateNewPlant(slot.Item.GetComponent<SeedPacket>().plantData);
@@ -562,9 +565,8 @@ namespace Objects.Botany
 			{
 				for (int i = 0; i < readyProduce.Count; i++)
 				{
-					CustomNetTransform netTransform = readyProduce[i].GetComponent<CustomNetTransform>();
-					netTransform.AppearAtPosition(registerTile.WorldPositionServer);
-					netTransform.AppearAtPositionServer(registerTile.WorldPositionServer);
+					UniversalObjectPhysics ObjectPhysics = readyProduce[i].GetComponent<UniversalObjectPhysics>();
+					ObjectPhysics.AppearAtWorldPositionServer(registerTile.WorldPositionServer);
 				}
 
 				readyProduce.Clear();

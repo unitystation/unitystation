@@ -12,10 +12,40 @@ PrefabInstance:
       propertyPath: bodyPartsCovered
       value: 240
       objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 669c8831af14a4225968399b65b23461,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 669c8831af14a4225968399b65b23461,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Rad
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 669c8831af14a4225968399b65b23461,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Acid
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 669c8831af14a4225968399b65b23461,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Fire
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 669c8831af14a4225968399b65b23461,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 669c8831af14a4225968399b65b23461,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[4].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2909197017712554513, guid: 669c8831af14a4225968399b65b23461,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: cab0ec567d4192b4fb04ae3e9bcd3cbf
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: 669c8831af14a4225968399b65b23461,
         type: 3}
@@ -94,18 +124,21 @@ PrefabInstance:
       value: It's an orange high visibility jumpskirt worn by engineers. It has minor
         radiation shielding.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: 669c8831af14a4225968399b65b23461,
+        type: 3}
+      propertyPath: foreverID
+      value: cab0ec567d4192b4fb04ae3e9bcd3cbf
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 669c8831af14a4225968399b65b23461,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 69fb9d79cd51a89439a17fec363877e5,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 669c8831af14a4225968399b65b23461,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 69fb9d79cd51a89439a17fec363877e5,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 669c8831af14a4225968399b65b23461,
         type: 3}
       propertyPath: allClothingData.Array.size

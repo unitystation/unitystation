@@ -13,16 +13,28 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2539371129866867016, guid: 89f21760b213f6c408db255ec5984545,
         type: 3}
-    - target: {fileID: 2326103295181735537, guid: 9914f83c172606747877a09872724398,
+    - target: {fileID: 1235368713201754175, guid: 9914f83c172606747877a09872724398,
         type: 3}
-      propertyPath: initialDescription
-      value: A slab of raw chicken. Remember to wash your hands!
-      objectReference: {fileID: 0}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 2539371129866867016, guid: 89f21760b213f6c408db255ec5984545,
+        type: 3}
     - target: {fileID: 2326103295181735537, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: initialName
       value: chicken meat
       objectReference: {fileID: 0}
+    - target: {fileID: 2326103295181735537, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: initialDescription
+      value: A slab of raw chicken. Remember to wash your hands!
+      objectReference: {fileID: 0}
+    - target: {fileID: 2513557761079566364, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: processedProduct
+      value: 
+      objectReference: {fileID: 708051136698692199, guid: 397b8d20a45927c449d19e89679f0b86,
+        type: 3}
     - target: {fileID: 2619852224633018959, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: m_Sprite
@@ -33,6 +45,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ChickenMeat
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
         type: 3}
@@ -51,6 +68,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +85,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
         type: 3}
@@ -92,7 +104,7 @@ PrefabInstance:
     - target: {fileID: 2827791845413590183, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 7d0886a9531d70647be3830983bb598a
       objectReference: {fileID: 0}
     - target: {fileID: 8353191170574324372, guid: 9914f83c172606747877a09872724398,
         type: 3}
@@ -100,5 +112,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 84152202fe6ffc741a13f6f862f852e6,
         type: 2}
+    - target: {fileID: 9083999932805424510, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: foreverID
+      value: 7d0886a9531d70647be3830983bb598a
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9914f83c172606747877a09872724398, type: 3}

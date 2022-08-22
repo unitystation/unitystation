@@ -10,12 +10,17 @@ PrefabInstance:
     - target: {fileID: 4086796152908822152, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 630e95b6bf6f9e2439487630ee85cfaf
       objectReference: {fileID: 0}
     - target: {fileID: 4117137691947961148, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
       propertyPath: m_Name
       value: P357AutoMag
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
@@ -88,6 +88,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A retro high-powered autorevolver typically used by officers of the
         New Russia military. Uses .357 ammo.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7032857965971736401, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: foreverID
+      value: 630e95b6bf6f9e2439487630ee85cfaf
       objectReference: {fileID: 0}
     - target: {fileID: 7810681965648851131, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}

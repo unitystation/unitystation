@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: cb7ddeae705bf13418e49719c7a53a3e,
         type: 2}
+    - target: {fileID: 3442741923849517114, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: foreverID
+      value: 75714a236b0522844b47ac0e27cd2487
+      objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: hitDamage
@@ -42,6 +47,16 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: You can drill using this item. You dig?
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: traumaDamageChance
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -95,7 +110,7 @@ PrefabInstance:
     - target: {fileID: 8568555645537651171, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 75714a236b0522844b47ac0e27cd2487
       objectReference: {fileID: 0}
     - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}

@@ -25,7 +25,7 @@ PrefabInstance:
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: plantData.GrowthSpeed
-      value: 4
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 3762358368885102485, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
@@ -40,8 +40,13 @@ PrefabInstance:
     - target: {fileID: 3763059340105120725, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 896c6e3b4d7bb56428ed81d5353e7db0
       objectReference: {fileID: 0}
+    - target: {fileID: 3763166601069668349, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 3793009738897990195}
     - target: {fileID: 3867790606060242529, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: m_Name
@@ -102,5 +107,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7860926447315831308, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: foreverID
+      value: 896c6e3b4d7bb56428ed81d5353e7db0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26abf4c2c542ffa4098216683cb5f652, type: 3}
+--- !u!210 &3793009738897990195 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 6996717006832910383, guid: 26abf4c2c542ffa4098216683cb5f652,
+    type: 3}
+  m_PrefabInstance: {fileID: 6177301854413218332}
+  m_PrefabAsset: {fileID: 0}

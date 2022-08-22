@@ -212,8 +212,9 @@ namespace UI.Core.RightClick
 		public void OnPointerEnter(PointerEventData eventData)
 		{
 			LastPointerEnterData = eventData;
+			var hasDelay = RightClickMenuController.RadialOptions.ShowActionRadial;
 
-			if (ReferenceEquals(Radial.Selected, null) || selectionDelay < 0.01f)
+			if (Radial.Selected is null || selectionDelay < 0.01f || hasDelay == false)
 			{
 				Select();
 			}

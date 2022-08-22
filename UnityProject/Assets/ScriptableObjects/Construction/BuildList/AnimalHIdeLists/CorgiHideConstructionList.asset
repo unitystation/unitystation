@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba38351aa03f427e90c2f6010b4c1b05, type: 3}
+  m_Name: CorgiHideConstructionList
+  m_EditorClassIdentifier: 
+  entries:
+  - name: Corgi Costume
+    prefab: {fileID: 3921521694364753778, guid: 76d3668ace33a504db5e9b1c973c3c47,
+      type: 3}
+    cost: 3
+    buildTime: 1
+    spawnAmount: 1
+    onePerTile: 0

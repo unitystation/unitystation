@@ -63,7 +63,7 @@ TextureImporter:
       213: 21300038
     second: phazon-phase_19
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -83,6 +83,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -92,8 +94,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -114,9 +116,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -575,6 +581,27 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      phazon-phase_8: 21300016
+      phazon-phase_12: 21300024
+      phazon-phase_18: 21300036
+      phazon-phase_6: 21300012
+      phazon-phase_2: 21300004
+      phazon-phase_13: 21300026
+      phazon-phase_9: 21300018
+      phazon-phase_3: 21300006
+      phazon-phase_5: 21300010
+      phazon-phase_14: 21300028
+      phazon-phase_7: 21300014
+      phazon-phase_4: 21300008
+      phazon-phase_11: 21300022
+      phazon-phase_10: 21300020
+      phazon-phase_0: 21300000
+      phazon-phase_16: 21300032
+      phazon-phase_1: 21300002
+      phazon-phase_19: 21300038
+      phazon-phase_17: 21300034
+      phazon-phase_15: 21300030
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

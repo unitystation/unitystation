@@ -10,12 +10,17 @@ PrefabInstance:
     - target: {fileID: 2649628719294901639, guid: 75867e9a7d7d96f449d4b98d3e158a2a,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 82ec8b323baa4804db53ae18e02fbfe6
       objectReference: {fileID: 0}
     - target: {fileID: 2690085739034687259, guid: 75867e9a7d7d96f449d4b98d3e158a2a,
         type: 3}
       propertyPath: m_Name
       value: PenguinChick
+      objectReference: {fileID: 0}
+    - target: {fileID: 2692207857748955423, guid: 75867e9a7d7d96f449d4b98d3e158a2a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2692207857748955423, guid: 75867e9a7d7d96f449d4b98d3e158a2a,
         type: 3}
@@ -30,31 +35,6 @@ PrefabInstance:
     - target: {fileID: 2692207857748955423, guid: 75867e9a7d7d96f449d4b98d3e158a2a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2692207857748955423, guid: 75867e9a7d7d96f449d4b98d3e158a2a,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2692207857748955423, guid: 75867e9a7d7d96f449d4b98d3e158a2a,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2692207857748955423, guid: 75867e9a7d7d96f449d4b98d3e158a2a,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2692207857748955423, guid: 75867e9a7d7d96f449d4b98d3e158a2a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2692207857748955423, guid: 75867e9a7d7d96f449d4b98d3e158a2a,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2692207857748955423, guid: 75867e9a7d7d96f449d4b98d3e158a2a,
@@ -78,10 +58,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 83a1585bf76ba9c4382465837a54ba50,
         type: 2}
-    - target: {fileID: 7246474319160326547, guid: 75867e9a7d7d96f449d4b98d3e158a2a,
+    - target: {fileID: 6000566278648276314, guid: 75867e9a7d7d96f449d4b98d3e158a2a,
         type: 3}
-      propertyPath: butcherResults.Array.size
-      value: 1
+      propertyPath: mobName
+      value: penguin chick
       objectReference: {fileID: 0}
     - target: {fileID: 7246474319160326547, guid: 75867e9a7d7d96f449d4b98d3e158a2a,
         type: 3}
@@ -89,6 +69,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: b867a78a552570641a62035e55bd9dc3,
         type: 3}
+    - target: {fileID: 7246474319160326547, guid: 75867e9a7d7d96f449d4b98d3e158a2a,
+        type: 3}
+      propertyPath: butcherResults.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7246474319160326547, guid: 75867e9a7d7d96f449d4b98d3e158a2a,
         type: 3}
       propertyPath: butcherResults.Array.data[0]
@@ -101,6 +86,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 2e84acbf525977d46a7be17327b3933c,
         type: 3}
+    - target: {fileID: 7389566965277382255, guid: 75867e9a7d7d96f449d4b98d3e158a2a,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8932588570726359414, guid: 75867e9a7d7d96f449d4b98d3e158a2a,
         type: 3}
       propertyPath: PresentSpriteSet

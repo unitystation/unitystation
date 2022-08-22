@@ -111,20 +111,6 @@ public partial class GameManager
 	}
 
 	/// <summary>
-	/// Checks if the conditions are met to spawn an antag, and spawns them
-	/// as the antag if so, spawning them as an actual player and transferring them into the body
-	/// (meaning there's no need to call PlayerSpawn.ServerSpawnPlayer). Does nothing
-	/// if the conditions are not met to spawn this viewer as an antag.
-	///
-	/// </summary>
-	/// <param name="spawnRequest">spawn requested by the player</param>
-	/// <returns>true if the player was spawned as an antag.</returns>
-	public bool TrySpawnAntag(PlayerSpawnRequest spawnRequest)
-	{
-		return GameMode.TrySpawnAntag(spawnRequest);
-	}
-
-	/// <summary>
 	/// Waits before starting the game mode (to stop players being spawned in before everything has initialised)
 	/// </summary>
 	private IEnumerator WaitToStartGameMode()

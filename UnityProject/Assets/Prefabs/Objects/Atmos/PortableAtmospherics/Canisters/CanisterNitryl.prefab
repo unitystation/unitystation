@@ -7,10 +7,51 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1821887108050511433, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: foreverID
+      value: 10e51ca3bf5adb44da2a54f62113268e
+      objectReference: {fileID: 0}
     - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
       propertyPath: Gases.Array.data[9]
       value: 1846.242
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.Volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.Pressure
+      value: 4500.0005
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.Temperature
+      value: 293.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].GasSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 2288a757346dcb042b408b689437cc79,
+        type: 2}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].Moles
+      value: 1846.242
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].GasType
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3267766569577888791, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
@@ -18,6 +59,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 2d09c619a1bd56641aa1b8477e07bc65,
         type: 3}
+    - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -35,6 +81,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +98,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
@@ -80,28 +121,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5376367218187274032, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: initialDescription
-      value: Nitryl gas. Feels great 'til the acid eats your lungs.
-      objectReference: {fileID: 0}
-    - target: {fileID: 5376367218187274032, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
       propertyPath: initialName
       value: nitryl canister
       objectReference: {fileID: 0}
+    - target: {fileID: 5376367218187274032, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: initialDescription
+      value: Nitryl gas. Feels great 'til the acid eats your lungs.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6261382944912570440, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 8243325046863223403}
     - target: {fileID: 6621590264234028386, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: UIBGTint.r
-      value: 0.68235296
-      objectReference: {fileID: 0}
-    - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
-      propertyPath: UIBGTint.g
-      value: 0.41960788
+      value: 10e51ca3bf5adb44da2a54f62113268e
       objectReference: {fileID: 0}
     - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
@@ -110,13 +146,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: UIInnerPanelTint.r
-      value: 0.73333335
+      propertyPath: UIBGTint.g
+      value: 0.41960788
       objectReference: {fileID: 0}
     - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: UIInnerPanelTint.g
-      value: 0.63529414
+      propertyPath: UIBGTint.r
+      value: 0.68235296
+      objectReference: {fileID: 0}
+    - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: ContentsName
+      value: Nitryl
       objectReference: {fileID: 0}
     - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
@@ -125,8 +166,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: ContentsName
-      value: Nitryl
+      propertyPath: UIInnerPanelTint.g
+      value: 0.63529414
+      objectReference: {fileID: 0}
+    - target: {fileID: 7067097863662868376, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: UIInnerPanelTint.r
+      value: 0.73333335
       objectReference: {fileID: 0}
     - target: {fileID: 7811982109262590682, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
@@ -136,15 +182,21 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7811982109262590682, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: e1c950fc35d51454a87432417408f1b9,
-        type: 2}
-    - target: {fileID: 7811982109262590682, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
       propertyPath: SubCatalogue.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 17281b879e5af7b40aee58a30a42caa6,
         type: 2}
+    - target: {fileID: 7811982109262590682, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: e1c950fc35d51454a87432417408f1b9,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0e96760c016b6140ba8c3979e9213f7, type: 3}
+--- !u!210 &8243325046863223403 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 69088610438818992, guid: c0e96760c016b6140ba8c3979e9213f7,
+    type: 3}
+  m_PrefabInstance: {fileID: 8256047876533647067}
+  m_PrefabAsset: {fileID: 0}

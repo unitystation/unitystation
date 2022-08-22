@@ -13,16 +13,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 12e8148e78d1edf488eda95caea66a9c,
         type: 2}
-    - target: {fileID: 5843464883585849409, guid: b39d85aa9080f014b9956cb59d760674,
+    - target: {fileID: 1103112571864283982, guid: b39d85aa9080f014b9956cb59d760674,
         type: 3}
-      propertyPath: initialDescription
-      value: A modification of the syringe gun design, using a rotating cylinder
-        to store up to six syringes.
+      propertyPath: foreverID
+      value: 1fb218da4f222db438bf948fbefd38ba
       objectReference: {fileID: 0}
     - target: {fileID: 5843464883585849409, guid: b39d85aa9080f014b9956cb59d760674,
         type: 3}
       propertyPath: initialName
       value: rapid syringe gun
+      objectReference: {fileID: 0}
+    - target: {fileID: 5843464883585849409, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: initialDescription
+      value: A modification of the syringe gun design, using a rotating cylinder
+        to store up to six syringes.
       objectReference: {fileID: 0}
     - target: {fileID: 6126099951621653631, guid: b39d85aa9080f014b9956cb59d760674,
         type: 3}
@@ -33,7 +38,12 @@ PrefabInstance:
     - target: {fileID: 6224405101200099991, guid: b39d85aa9080f014b9956cb59d760674,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 1fb218da4f222db438bf948fbefd38ba
+      objectReference: {fileID: 0}
+    - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
         type: 3}
@@ -52,6 +62,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -64,16 +79,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
         type: 3}

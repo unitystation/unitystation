@@ -22,7 +22,9 @@ namespace InGameEvents
 			{
 				var text = "Ionizing electromagnetic emissions detected near the station. Avoid areas of high radiation.";
 
-				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Alert);
+				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.NoSound);
+
+				_ = SoundManager.PlayNetworked(CommonSounds.Instance.RadiationAnnouncement);
 			}
 
 			if (FakeEvent) return;

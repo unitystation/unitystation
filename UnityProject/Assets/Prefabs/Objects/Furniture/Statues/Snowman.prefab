@@ -13,6 +13,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: b6976578133da45449327d634207af43,
         type: 3}
+    - target: {fileID: 1790912408412475822, guid: 435b47dee4994034e85a3b3f00c2afe2,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1994831277335917411, guid: 435b47dee4994034e85a3b3f00c2afe2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1994831277335917411, guid: 435b47dee4994034e85a3b3f00c2afe2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -30,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1994831277335917411, guid: 435b47dee4994034e85a3b3f00c2afe2,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1994831277335917411, guid: 435b47dee4994034e85a3b3f00c2afe2,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -42,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1994831277335917411, guid: 435b47dee4994034e85a3b3f00c2afe2,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1994831277335917411, guid: 435b47dee4994034e85a3b3f00c2afe2,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1994831277335917411, guid: 435b47dee4994034e85a3b3f00c2afe2,
         type: 3}
@@ -73,6 +78,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Snowman
       objectReference: {fileID: 0}
+    - target: {fileID: 3227758862365035504, guid: 435b47dee4994034e85a3b3f00c2afe2,
+        type: 3}
+      propertyPath: foreverID
+      value: afd19108e6ae5874fb594966aef4b0be
+      objectReference: {fileID: 0}
     - target: {fileID: 6479084952470708067, guid: 435b47dee4994034e85a3b3f00c2afe2,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -82,17 +92,17 @@ PrefabInstance:
     - target: {fileID: 7955455335317061851, guid: 435b47dee4994034e85a3b3f00c2afe2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 9160137227413383817, guid: 435b47dee4994034e85a3b3f00c2afe2,
-        type: 3}
-      propertyPath: initialDescription
-      value: Several lumps of snow put together to form a snowman.
+      value: afd19108e6ae5874fb594966aef4b0be
       objectReference: {fileID: 0}
     - target: {fileID: 9160137227413383817, guid: 435b47dee4994034e85a3b3f00c2afe2,
         type: 3}
       propertyPath: initialName
       value: snowman
+      objectReference: {fileID: 0}
+    - target: {fileID: 9160137227413383817, guid: 435b47dee4994034e85a3b3f00c2afe2,
+        type: 3}
+      propertyPath: initialDescription
+      value: Several lumps of snow put together to form a snowman.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 435b47dee4994034e85a3b3f00c2afe2, type: 3}

@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using Shuttles;
 
 namespace Messages.Client.NewPlayer
 {
@@ -6,24 +7,24 @@ namespace Messages.Client.NewPlayer
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public uint MatrixMove;
+			public uint MatrixSyncNetId;
 		}
 
 		public override void Process(NetMessage msg)
 		{
 			// LoadNetworkObject returns bool, so it can be used to check if object is loaded correctly
-			if (LoadNetworkObject(msg.MatrixMove))
+			if (LoadNetworkObject(msg.MatrixSyncNetId))
 			{
-				NetworkObject.GetComponent<MatrixMove>()?.UpdateNewPlayer(
+				NetworkObject.GetComponent<MatrixSync>().OrNull()?.MatrixMove.OrNull()?.UpdateNewPlayer(
 					SentByPlayer.Connection);
 			}
 		}
 
-		public static NetMessage Send(uint matrixMoveNetId)
+		public static NetMessage Send(uint matrixSyncNetId)
 		{
 			NetMessage msg = new NetMessage
 			{
-				MatrixMove = matrixMoveNetId
+				MatrixSyncNetId = matrixSyncNetId
 			};
 
 			Send(msg);

@@ -5,7 +5,11 @@
 	public enum MixerType
 	{
 		Master,
-		Muffled
+		Muffled,
+		Ambient,
+		SoundFX,
+		JukeBox,
+		Music
 	}
 
 	public enum VolumeRolloffType

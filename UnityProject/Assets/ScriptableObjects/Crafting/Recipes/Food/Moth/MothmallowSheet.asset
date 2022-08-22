@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: MothmallowSheet
+  m_EditorClassIdentifier: 
+  category: 21
+  craftingTime: 0
+  recipeName: Mothmallow sheet
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 4137019389915574006, guid: dcc2401b5302cca48b189fb9f2ef52ed,
+      type: 3}
+  requiredReagents:
+  - requiredAmount: 5
+    requiredReagent: {fileID: 11400000, guid: 20567dacb4ce347419c383d443a0ade6, type: 2}
+  - requiredAmount: 15
+    requiredReagent: {fileID: 11400000, guid: 911271db97b77da51889f97d6688a103, type: 2}
+  - requiredAmount: 5
+    requiredReagent: {fileID: 11400000, guid: a42ee1808745235d6992c36a45c1f94b, type: 2}
+  requiredToolTraits: []
+  result:
+  - {fileID: 1356312134200129213, guid: d21e2489535d1be409528c543c2b33dc, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 429

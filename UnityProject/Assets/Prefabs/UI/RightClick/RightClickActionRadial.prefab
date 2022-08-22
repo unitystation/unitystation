@@ -31,6 +31,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8169210235622068763}
   m_Father: {fileID: 0}
@@ -108,7 +109,7 @@ MonoBehaviour:
   borderPrefab: {fileID: 8380797343613280308, guid: fd3b76d65a417a64399cb3e8421946e6,
     type: 3}
   radialMask: {fileID: 8639802405008243711}
-  background: {fileID: 4244721469443374232}
+  background: {fileID: 1583039639458426719}
 --- !u!1773428102 &6186643238481727165
 ParentConstraint:
   m_ObjectHideFlags: 0
@@ -160,9 +161,10 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4244721469443374232}
-  - {fileID: 1006286627157970256}
+  - {fileID: 1583039639458426719}
+  - {fileID: 8132207552006571774}
   m_Father: {fileID: 9148614775400851224}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -229,6 +231,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8169210235622068763}
     m_Modifications:
+    - target: {fileID: -8524424544509167813, guid: 355aa1c925725fb4fa05974e5e5d7241,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 448
+      objectReference: {fileID: 0}
+    - target: {fileID: -8524424544509167813, guid: 355aa1c925725fb4fa05974e5e5d7241,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 448
+      objectReference: {fileID: 0}
     - target: {fileID: -6439170484653939460, guid: 355aa1c925725fb4fa05974e5e5d7241,
         type: 3}
       propertyPath: m_Pivot.x
@@ -364,6 +376,31 @@ PrefabInstance:
       propertyPath: m_RaycastTarget
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -2304375700400688866, guid: 355aa1c925725fb4fa05974e5e5d7241,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.2509804
+      objectReference: {fileID: 0}
+    - target: {fileID: -2304375700400688866, guid: 355aa1c925725fb4fa05974e5e5d7241,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.38431373
+      objectReference: {fileID: 0}
+    - target: {fileID: -2304375700400688866, guid: 355aa1c925725fb4fa05974e5e5d7241,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.3254902
+      objectReference: {fileID: 0}
+    - target: {fileID: -2304375700400688866, guid: 355aa1c925725fb4fa05974e5e5d7241,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.25490198
+      objectReference: {fileID: 0}
+    - target: {fileID: -2304375700400688866, guid: 355aa1c925725fb4fa05974e5e5d7241,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -2297074923088305696, guid: 355aa1c925725fb4fa05974e5e5d7241,
         type: 3}
       propertyPath: m_Color.a
@@ -394,12 +431,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: RadialActionRing
       objectReference: {fileID: 0}
+    - target: {fileID: 5567868813287497981, guid: 355aa1c925725fb4fa05974e5e5d7241,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 7243324766535440047, guid: 355aa1c925725fb4fa05974e5e5d7241,
     type: 3}
---- !u!224 &4244721469443374232 stripped
+--- !u!224 &1583039639458426719 stripped
 RectTransform:
-  m_CorrespondingSourceObject: {fileID: -6439170484653939460, guid: 355aa1c925725fb4fa05974e5e5d7241,
+  m_CorrespondingSourceObject: {fileID: -8524424544509167813, guid: 355aa1c925725fb4fa05974e5e5d7241,
     type: 3}
   m_PrefabInstance: {fileID: 2038792665849452644}
   m_PrefabAsset: {fileID: 0}
@@ -410,6 +452,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8169210235622068763}
     m_Modifications:
+    - target: {fileID: -8524424544509167813, guid: 6c693e934b75fbc438c8c5dcd34aa000,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8524424544509167813, guid: 6c693e934b75fbc438c8c5dcd34aa000,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 325
+      objectReference: {fileID: 0}
+    - target: {fileID: -8524424544509167813, guid: 6c693e934b75fbc438c8c5dcd34aa000,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 325
+      objectReference: {fileID: 0}
     - target: {fileID: -2514867084737055250, guid: 6c693e934b75fbc438c8c5dcd34aa000,
         type: 3}
       propertyPath: m_Color.a
@@ -431,6 +488,31 @@ PrefabInstance:
       value: 0.3019608
       objectReference: {fileID: 0}
     - target: {fileID: -2514867084737055250, guid: 6c693e934b75fbc438c8c5dcd34aa000,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2304375700400688866, guid: 6c693e934b75fbc438c8c5dcd34aa000,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.69803923
+      objectReference: {fileID: 0}
+    - target: {fileID: -2304375700400688866, guid: 6c693e934b75fbc438c8c5dcd34aa000,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.5137255
+      objectReference: {fileID: 0}
+    - target: {fileID: -2304375700400688866, guid: 6c693e934b75fbc438c8c5dcd34aa000,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.5137255
+      objectReference: {fileID: 0}
+    - target: {fileID: -2304375700400688866, guid: 6c693e934b75fbc438c8c5dcd34aa000,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.3019608
+      objectReference: {fileID: 0}
+    - target: {fileID: -2304375700400688866, guid: 6c693e934b75fbc438c8c5dcd34aa000,
         type: 3}
       propertyPath: m_RaycastTarget
       value: 0
@@ -548,9 +630,9 @@ PrefabInstance:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 7243324766535440047, guid: 6c693e934b75fbc438c8c5dcd34aa000,
     type: 3}
---- !u!224 &1006286627157970256 stripped
+--- !u!224 &8132207552006571774 stripped
 RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8403509093570657429, guid: 6c693e934b75fbc438c8c5dcd34aa000,
+  m_CorrespondingSourceObject: {fileID: -8524424544509167813, guid: 6c693e934b75fbc438c8c5dcd34aa000,
     type: 3}
   m_PrefabInstance: {fileID: 8748328743202795973}
   m_PrefabAsset: {fileID: 0}

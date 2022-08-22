@@ -3,6 +3,8 @@ using System;
 //using NUnit.Framework.Internal;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using TileManagement;
+using Tiles;
 
 /// <summary>
 /// Changes the tile to a different tile when an item with a particular
@@ -76,9 +78,9 @@ public class ChangeTileWhenItemUsed : TileInteraction
 			() =>
 			{
 				//change tile
-				interaction.TileChangeManager.UpdateTile(interaction.TargetCellPos, toTile);
+				interaction.TileChangeManager.MetaTileMap.SetTile(interaction.TargetCellPos, toTile);
 				//remove overlays
-				interaction.TileChangeManager.RemoveFloorWallOverlaysOfType(interaction.TargetCellPos, TileChangeManager.OverlayType.Cleanable);
+				interaction.TileChangeManager.MetaTileMap.RemoveFloorWallOverlaysOfType(interaction.TargetCellPos, OverlayType.Cleanable);
 				if (objectsToSpawn != null)
 				{
 					objectsToSpawn.SpawnAt(SpawnDestination.At(interaction.WorldPositionTarget));

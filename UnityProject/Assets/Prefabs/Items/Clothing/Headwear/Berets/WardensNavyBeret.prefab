@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1185515222228594232, guid: a4d736b34e26278479563c6bf5f121ce,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Fire
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 2961199095919592321, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
       propertyPath: m_Sprite
@@ -21,7 +26,7 @@ PrefabInstance:
     - target: {fileID: 3061756049588866409, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 74cd65778d34db64b94072663b172249
       objectReference: {fileID: 0}
     - target: {fileID: 3164270768286331101, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
@@ -109,8 +114,7 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: c591040b0eb3a4c489de8a8950e63498,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4760672335869355142, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
       propertyPath: Armor.Fire
@@ -132,18 +136,21 @@ PrefabInstance:
       value: A special beret with the Warden's insignia emblazoned on it. For wardens
         with class.
       objectReference: {fileID: 0}
+    - target: {fileID: 8309993002612325552, guid: a4d736b34e26278479563c6bf5f121ce,
+        type: 3}
+      propertyPath: foreverID
+      value: 74cd65778d34db64b94072663b172249
+      objectReference: {fileID: 0}
     - target: {fileID: 8328428895886091096, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: c591040b0eb3a4c489de8a8950e63498,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8328428895886091096, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: c591040b0eb3a4c489de8a8950e63498,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8328428895886091096, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

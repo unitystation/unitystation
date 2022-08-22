@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: CopypastaRecipe
+  m_EditorClassIdentifier: 
+  category: 18
+  craftingTime: 3
+  recipeName: Copypasta
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 2
+    requiredItem: {fileID: 7146889895397617575, guid: 13e9d532c5f8c554e8fbee1e512d3b50,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits: []
+  result:
+  - {fileID: 935468322602067901, guid: 966461e0e354e3d4682a32a35df2fe73, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 20

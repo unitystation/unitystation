@@ -85,7 +85,7 @@ public class Highlight : MonoBehaviour, IInitialise
 
 	public static void HighlightThis(GameObject Highlightobject)
 	{
-		if (!PlayerManager.LocalPlayerScript.IsGhost && HighlightEnabled)
+		if (PlayerManager.LocalPlayerScript.IsNormal && HighlightEnabled)
 		{
 			ShowHighlight(Highlightobject);
 		}
@@ -102,9 +102,10 @@ public class Highlight : MonoBehaviour, IInitialise
 		instance.spriteRenderer.enabled = true;
 		var SpriteRenderers = Highlightobject.GetComponentsInChildren<SpriteRenderer>();
 
-		instance.spriteRenderer.transform.SetParent(SpriteRenderers[0].transform, true);
+		instance.spriteRenderer.transform.SetParent(SpriteRenderers[0].transform, false);
 		instance.spriteRenderer.transform.localPosition = Vector3.zero;
 		instance.spriteRenderer.transform.transform.localRotation = Quaternion.Euler(0, 0, 0);
+		instance.spriteRenderer.transform.localScale = Vector3.one;
 		instance.spriteRenderer.sortingLayerID = SpriteRenderers[0].sortingLayerID;
 
 		SpriteRenderers = SpriteRenderers.Where(x => x.sprite != null && x != instance.spriteRenderer).ToArray();
@@ -161,6 +162,9 @@ public class Highlight : MonoBehaviour, IInitialise
 		//call the used object's handapply interaction methods if it has any, for each object we are applying to
 		var handApply = HandApply.ByLocalPlayer(target);
 		var posHandApply = PositionalHandApply.ByLocalPlayer(target);
+
+		handApply.IsHighlight = true;
+		posHandApply.IsHighlight = true;
 
 		//if handobj is null, then its an empty hand apply so we only need to check the receiving object
 		if (handApply.HandObject != null)

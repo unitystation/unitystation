@@ -1,93 +1,105 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using DatabaseAPI;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class VotePopUp : MonoBehaviour
+namespace UI
 {
-	[SerializeField] private Text voteTitle = null;
-	[SerializeField] private Text voteInstigator = null;
-	[SerializeField] private Text voteCount = null;
-	[SerializeField] private Text voteTimer = null;
-	[SerializeField] private Button yesBtn = null;
-	[SerializeField] private Button noBtn = null;
-	[SerializeField] private Button vetoBtn = null;
-
-	private int buttonPresses = 0;
-
-	public void ShowVotePopUp(string title, string instigator, string currentCount, string timer)
+	public class VotePopUp : MonoBehaviour
 	{
-		buttonPresses = 0;
-		gameObject.SetActive(true);
-		yesBtn.interactable = true;
-		noBtn.interactable = true;
-		voteTitle.text = title;
-		voteInstigator.text = instigator;
-		voteCount.text = currentCount;
-		voteTimer.text = timer;
+		[SerializeField] private Text voteTitle = null;
+		[SerializeField] private Text voteInstigator = null;
+		[SerializeField] private Text voteCount = null;
+		[SerializeField] private Text voteTimer = null;
+		[SerializeField] private GameObject buttonsList = null;
+		[SerializeField] private Button vetoBtn = null;
+		[SerializeField] private GameObject buttonTemp = null;
 
-		if (PlayerList.Instance.AdminToken == null) return;
+		private int buttonPresses = 0;
 
-		vetoBtn.gameObject.SetActive(true);
-	}
-
-	public void UpdateVoteWindow(string currentCount, string timer)
-	{
-		if (!gameObject.activeInHierarchy) return;
-		voteCount.text = currentCount;
-		voteTimer.text = timer;
-	}
-
-	public void CloseVoteWindow()
-	{
-		vetoBtn.gameObject.SetActive(false);
-		gameObject.SetActive(false);
-	}
-
-	public void VoteYes()
-	{
-		SoundManager.Play(SingletonSOSounds.Instance.Click01);
-		if (PlayerManager.PlayerScript != null)
+		public void ShowVotePopUp(string title, string instigator, string currentCount, string timer, List<string> options)
 		{
-			PlayerManager.PlayerScript.playerNetworkActions.CmdRegisterVote(true);
+			buttonPresses = 0;
+			gameObject.SetActive(true);
+			GenerateButtons(options);
+			DisableButtons(false);
+			voteTitle.text = title;
+			voteInstigator.text = instigator;
+			voteCount.text = currentCount;
+			voteTimer.text = timer;
+
+			if (PlayerList.Instance.AdminToken == null) return;
+
+			vetoBtn.gameObject.SetActive(true);
 		}
 
-		buttonPresses ++;
-		yesBtn.interactable = false;
-		noBtn.interactable = true;
-		ToggleButtons(false);
-	}
-
-	public void VoteNo()
-	{
-		SoundManager.Play(SingletonSOSounds.Instance.Click01);
-		if (PlayerManager.PlayerScript != null)
+		private void DisableButtons(bool state = true)
 		{
-			PlayerManager.PlayerScript.playerNetworkActions.CmdRegisterVote(false);
+			foreach (var btn in buttonsList.GetComponentsInChildren<Button>())
+			{
+				btn.interactable = !state;
+			}
 		}
-		buttonPresses++;
-		yesBtn.interactable = true;
-		noBtn.interactable = false;
-		ToggleButtons(false);
-	}
 
-	public void AdminVeto()
-	{
-		SoundManager.Play(SingletonSOSounds.Instance.Click01);
-		if (PlayerManager.PlayerScript != null)
+		private void GenerateButtons(List<string> options)
 		{
-			PlayerManager.PlayerScript.playerNetworkActions.CmdVetoRestartVote(ServerData.UserID, PlayerList.Instance.AdminToken);
+			//clear out all buttons
+			foreach (var btn in buttonsList.GetComponentsInChildren<Button>())
+			{
+				Destroy(btn.gameObject);
+			}
+
+			foreach (var newBtn in options)
+			{
+				var b = Instantiate(buttonTemp, buttonsList.transform);
+				b.GetComponent<VotingButton>().Initialize(newBtn, this);
+			}
 		}
-		buttonPresses++;
-		ToggleButtons(false);
-	}
 
-	void ToggleButtons(bool isOn)
-	{
-		if (buttonPresses < 10) return;
+		public void UpdateVoteWindow(string currentCount, string timer)
+		{
+			if (!gameObject.activeInHierarchy) return;
+			voteCount.text = currentCount;
+			voteTimer.text = timer;
+		}
 
-		yesBtn.interactable = isOn;
-		noBtn.interactable = isOn;
+		public void CloseVoteWindow()
+		{
+			vetoBtn.gameObject.SetActive(false);
+			gameObject.SetActive(false);
+		}
+
+		public void Vote(string vote)
+		{
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			if (PlayerManager.LocalPlayerScript != null)
+			{
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRegisterVote(vote);
+			}
+
+			buttonPresses++;
+			DisableButtons();
+		}
+
+		public void AdminVeto()
+		{
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			if (PlayerManager.LocalPlayerScript != null)
+			{
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdVetoRestartVote();
+			}
+			buttonPresses++;
+		}
+
+		public void VoteYes()
+		{
+			foreach (var btn in buttonsList.transform.GetComponentsInChildren<VotingButton>())
+			{
+				if(btn.btnText.text != "Yes") continue;
+				btn.OnClick();
+			}
+		}
 	}
 }

@@ -1,29 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using ScriptableObjects.RP;
+using Shared.Managers;
 using UnityEngine;
 
 namespace Core.Chat
 {
-	public class EmoteActionManager : MonoBehaviour
+	public class EmoteActionManager : SingletonManager<EmoteActionManager>
 	{
-		[SerializeField]
-		private List<EmoteSO> emotes;
+		[SerializeField] private EmoteListSO emoteList;
+		public EmoteListSO EmoteList => emoteList;
 
-		public static bool HasEmote(string emote, EmoteActionManager instance)
+		public static bool HasEmote(string emote)
 		{
-			string[] emoteArray;
-			if (emote.StartsWith("*"))
+			string[] emoteArray = emote.Split(' ');
+
+			foreach (var e in Instance.emoteList.Emotes)
 			{
-				emoteArray = emote.Split('*');
-			}
-			else
-			{
-				emoteArray = emote.Split(' ');
-			}
-			foreach (var e in instance.emotes)
-			{
-				if(emoteArray[1].Equals(e.EmoteName, StringComparison.CurrentCultureIgnoreCase))
+				if(emoteArray[0].Equals(e.EmoteName, StringComparison.CurrentCultureIgnoreCase))
 				{
 					return true;
 				}
@@ -31,9 +24,9 @@ namespace Core.Chat
 			return false;
 		}
 
-		public static void DoEmote(string emote, GameObject player, EmoteActionManager instance)
+		public static void DoEmote(string emote, GameObject player)
 		{
-			foreach (var e in instance.emotes)
+			foreach (var e in Instance.emoteList.Emotes)
 			{
 				if(emote.Equals(e.EmoteName, StringComparison.CurrentCultureIgnoreCase))
 				{
@@ -41,6 +34,12 @@ namespace Core.Chat
 					return;
 				}
 			}
+		}
+
+		public static void DoEmote(EmoteSO emoteSo, GameObject player)
+		{
+			if (emoteSo == null) return;
+			emoteSo.Do(player);
 		}
 	}
 }

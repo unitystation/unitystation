@@ -3,8 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using AddressableReferences;
 using Initialisation;
+using Shared.Util;
 using UnityEngine;
+using Util;
 using YamlDotNet.RepresentationModel;
 
 namespace Unitystation.Options
@@ -16,17 +19,12 @@ namespace Unitystation.Options
     public class ThemeManager : MonoBehaviour, IInitialise
     {
         private static ThemeManager themeManager;
-        public static ThemeManager Instance
-        {
-            get
-            {
-                if (themeManager == null)
-                {
-                    themeManager = FindObjectOfType<ThemeManager>();
-                }
-                return themeManager;
-            }
-        }
+        public static ThemeManager Instance => FindUtils.LazyFindObject(ref themeManager);
+
+        [SerializeField]
+        private List<AddressableAudioSource> mentionSounds = new List<AddressableAudioSource>();
+
+        public List<AddressableAudioSource> MentionSounds => mentionSounds;
 
         //Add the root folder paths for each config type here:
         private static string[] folderPaths = new string[] { "ChatBubbleThemes" };
@@ -42,6 +40,12 @@ namespace Unitystation.Options
         //Set to true when all the themes have been successfully loaded
         private bool themesLoaded = false;
 
+        public static bool ChatHighlight;
+        public static bool MentionSound;
+        public static int MentionSoundIndex;
+
+        public static AddressableAudioSource CurrentMentionSound;
+
         public InitialisationSystems Subsystem => InitialisationSystems.ThemeManager;
 
         void IInitialise.Initialise()
@@ -54,6 +58,54 @@ namespace Unitystation.Options
 	        }
 
 	        LoadAllThemes();
+
+	        if (PlayerPrefs.HasKey(PlayerPrefKeys.HighlightChat) == false)
+	        {
+		        PlayerPrefs.SetInt(PlayerPrefKeys.HighlightChat, 1);
+	        }
+
+	        if (PlayerPrefs.HasKey(PlayerPrefKeys.MentionSound) == false)
+	        {
+		        PlayerPrefs.SetInt(PlayerPrefKeys.MentionSound, 1);
+	        }
+
+	        if (PlayerPrefs.HasKey(PlayerPrefKeys.MentionSoundIndex) == false)
+	        {
+		        PlayerPrefs.SetInt(PlayerPrefKeys.MentionSoundIndex, 0);
+	        }
+
+	        ChatHighlight = PlayerPrefs.GetInt(PlayerPrefKeys.HighlightChat) == 1;
+	        MentionSound = PlayerPrefs.GetInt(PlayerPrefKeys.MentionSound) == 1;
+
+	        foreach (var sound in mentionSounds)
+	        {
+		        sound.Preload();
+	        }
+
+	        MentionSoundIndex = PlayerPrefs.GetInt(PlayerPrefKeys.MentionSoundIndex);
+	        CurrentMentionSound = MentionSounds[MentionSoundIndex];
+        }
+
+        public void ChatHighlightToggle(bool toggle)
+        {
+	        ChatHighlight = toggle;
+	        PlayerPrefs.SetInt(PlayerPrefKeys.HighlightChat, toggle ? 1 : 0);
+	        PlayerPrefs.Save();
+        }
+
+        public void MentionSoundToggle(bool toggle)
+        {
+	        MentionSound = toggle;
+	        PlayerPrefs.SetInt(PlayerPrefKeys.MentionSound, toggle ? 1 : 0);
+	        PlayerPrefs.Save();
+        }
+
+        public void MentionSoundIndexChange(int newValue)
+        {
+	        MentionSoundIndex = newValue;
+	        CurrentMentionSound = MentionSounds[MentionSoundIndex];
+	        PlayerPrefs.SetInt(PlayerPrefKeys.MentionSoundIndex, newValue);
+	        PlayerPrefs.Save();
         }
 
         public static void RegisterHandler(ThemeHandler handler)
@@ -81,7 +133,17 @@ namespace Unitystation.Options
             }
         }
 
-        void Update()
+        private void OnEnable()
+        {
+	        UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+        }
+
+        private void OnDisable()
+        {
+	        UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+        }
+
+        void UpdateMe()
         {
             if (themesLoaded)
             {

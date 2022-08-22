@@ -1,0 +1,202 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7011289302787412777
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 375916895662906244, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: d5386cc24a0a08cab9f2e1dab976ee2f,
+        type: 2}
+    - target: {fileID: 375916895662906244, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1364616075872484430, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: initialName
+      value: mothic pizza dough
+      objectReference: {fileID: 0}
+    - target: {fileID: 1364616075872484430, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: initialDescription
+      value: A strong, glutenous dough, made with cornmeal and flour, designed to
+        hold up to cheese and sauce.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1411490219227224826, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1411490219227224826, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 0e11f174435be8f4f8ba699fd2d4c7df,
+        type: 2}
+    - target: {fileID: 1411490219227224826, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: b7d95e1f9e884334d830a5de06329848,
+        type: 2}
+    - target: {fileID: 1411490219227224826, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: ff2833a86566ad54e976ac54939c4af3,
+        type: 2}
+    - target: {fileID: 1411490219227224826, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 792e614da7cb1c24e848719f74f47241,
+        type: 2}
+    - target: {fileID: 1411490219227224826, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: a57cd7541b322e74e8229447a2af3603,
+        type: 2}
+    - target: {fileID: 1411490219227224826, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[5].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: d4fdfc9dbe0666e459c07f05b9f1d65f,
+        type: 2}
+    - target: {fileID: 1411490219227224826, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[6].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: c773937e10483e44f99faf358f2b16e2,
+        type: 2}
+    - target: {fileID: 1411490219227224826, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[7].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: c773937e10483e44f99faf358f2b16e2,
+        type: 2}
+    - target: {fileID: 1411490219227224826, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[8].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: c773937e10483e44f99faf358f2b16e2,
+        type: 2}
+    - target: {fileID: 1445109587220049496, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1445109587220049496, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1445109587220049496, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1445109587220049496, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1445109587220049496, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1445109587220049496, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1445109587220049496, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1445109587220049496, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1445109587220049496, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1445109587220049496, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1445109587220049496, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1449470387542250284, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: m_Name
+      value: MothicPizzaDough
+      objectReference: {fileID: 0}
+    - target: {fileID: 1551974111651655320, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 05af51e48ca1ca04db7ce88fc5304117
+      objectReference: {fileID: 0}
+    - target: {fileID: 1552016355403248304, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 8414193716670770645}
+    - target: {fileID: 1651827377870889072, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: beba97f43f139af4c842e44c907950d5,
+        type: 3}
+    - target: {fileID: 4709519003625056427, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e7c0674bd70890340b2629b8ab3c9ae6,
+        type: 2}
+    - target: {fileID: 5523440949344919361, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: foreverID
+      value: pizzapastaputitinabox
+      objectReference: {fileID: 0}
+    - target: {fileID: 7334890028787814748, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: Nutriment
+      value: 
+      objectReference: {fileID: 11400000, guid: d5386cc24a0a08cab9f2e1dab976ee2f,
+        type: 2}
+    - target: {fileID: 7334890028787814748, guid: 41220ca24fe3798478f533c5f8102248,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 41220ca24fe3798478f533c5f8102248, type: 3}
+--- !u!114 &8414193716670770645 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1551528433595449084, guid: 41220ca24fe3798478f533c5f8102248,
+    type: 3}
+  m_PrefabInstance: {fileID: 7011289302787412777}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

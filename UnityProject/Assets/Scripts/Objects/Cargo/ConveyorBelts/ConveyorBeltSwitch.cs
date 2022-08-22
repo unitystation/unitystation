@@ -1,16 +1,17 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
 using ScriptableObjects;
+using Shared.Systems.ObjectConnection;
+using Systems.Interaction;
 
 namespace Construction.Conveyors
 {
 	/// <summary>
 	/// Used for controlling conveyor belts.
 	/// </summary>
-	public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>, ISetMultitoolSlaveMultiMaster
+	public class ConveyorBeltSwitch : MonoBehaviour, IServerLifecycle, IMultitoolMultiMasterSlaveable,
+			ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>
 	{
 		[Tooltip("Assign the conveyor belts this switch should control.")]
 		[SerializeField]
@@ -33,16 +34,16 @@ namespace Construction.Conveyors
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 		}
 
-		private void OnDisable()
-		{
-			if (!isServer) return;
-
-			SetState(SwitchState.Off);
-		}
-
-		public override void OnStartServer()
+		public void OnSpawnServer(SpawnInfo info)
 		{
 			SetBeltInfo();
+		}
+
+		public void OnDespawnServer(DespawnInfo info)
+		{
+			// turn off conveyors
+			SetState(SwitchState.Off);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 		}
 
 		#endregion Lifecycle
@@ -56,7 +57,7 @@ namespace Construction.Conveyors
 		{
 			for (int i = 0; i < conveyorBelts.Count; i++)
 			{
-				if (conveyorBelts[i] != null) conveyorBelts[i].MoveBelt();
+				if (conveyorBelts[i] != null) conveyorBelts[i].MoveBelt(ConveyorBeltSpeed);
 			}
 		}
 
@@ -123,7 +124,7 @@ namespace Construction.Conveyors
 			SetState(SwitchState.Off);
 			conveyorBelts.Clear();
 			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), 5);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		#endregion Interaction
@@ -164,11 +165,17 @@ namespace Construction.Conveyors
 
 			if (CurrentState != SwitchState.Off)
 			{
-				UpdateManager.Add(UpdateMe, ConveyorBeltSpeed);
+				UpdateManager.Add(UpdateMe, 0.5f);
 			}
 			else
 			{
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+				for (int i = 0; i < conveyorBelts.Count; i++)
+				{
+					conveyorBelts[i]?.MoveBelt(0);
+				}
+
+
 			}
 
 			UpdateConveyorStates();
@@ -198,7 +205,7 @@ namespace Construction.Conveyors
 		private MultitoolConnectionType conType = MultitoolConnectionType.Conveyor;
 		public MultitoolConnectionType ConType => conType;
 
-		public void SetMasters(List<ISetMultitoolMaster> Imasters)
+		public void SetMasters(List<IMultitoolMasterable> Imasters)
 		{
 			List<ConveyorBelt> InnewConveyorBelts = new List<ConveyorBelt>();
 			foreach (var Conveyor in Imasters)
@@ -209,5 +216,23 @@ namespace Construction.Conveyors
 		}
 
 		#endregion Multitool Interaction
+
+		#region Ai Interaction
+
+		public bool WillInteract(AiActivate interaction, NetworkSide side)
+		{
+			if (interaction.ClickType != AiActivate.ClickTypes.NormalClick) return false;
+
+			if (DefaultWillInteract.AiActivate(interaction, side) == false) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(AiActivate interaction)
+		{
+			ToggleSwitch();
+		}
+
+		#endregion
 	}
 }

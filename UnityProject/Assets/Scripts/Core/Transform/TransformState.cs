@@ -4,7 +4,7 @@ using UnityEngine;
 /// Current state of transform, server modifies these and sends to clients.
 /// Clients can modify these as well for prediction
 public struct TransformState {
-	public bool Active => Position != HiddenPos;
+	public bool Active => LocalPosition != HiddenPos;
 	///Don't set directly, use Speed instead.
 	///public in order to be serialized :\
 	public float speed;
@@ -23,7 +23,7 @@ public struct TransformState {
 	public int MatrixId;
 
 	/// Local position on current matrix
-	public Vector3 Position;
+	public Vector3 LocalPosition;
 	/// World position, more expensive to use
 	public Vector3 WorldPosition
 	{
@@ -34,15 +34,15 @@ public struct TransformState {
 				return HiddenPos;
 			}
 
-			return MatrixManager.LocalToWorld( Position, MatrixManager.Get( MatrixId ) );
+			return MatrixManager.LocalToWorld( LocalPosition, MatrixManager.Get( MatrixId ) );
 		}
 		set {
 			if (value == HiddenPos) {
-				Position = HiddenPos;
+				LocalPosition = HiddenPos;
 			}
 			else
 			{
-				Position = MatrixManager.WorldToLocal( value, MatrixManager.Get( MatrixId ) );
+				LocalPosition = MatrixManager.WorldToLocal( value, MatrixManager.Get( MatrixId ) );
 			}
 		}
 	}
@@ -65,7 +65,7 @@ public struct TransformState {
 	public static readonly Vector3Int HiddenPos = new Vector3Int(0, 0, -100);
 	/// Should only be used for uninitialized transform states, should NOT be used for anything else.
 	public static readonly TransformState Uninitialized =
-		new TransformState{ Position = HiddenPos, ActiveThrow = ThrowInfo.NoThrow, MatrixId = -1};
+		new TransformState{ LocalPosition = HiddenPos, ActiveThrow = ThrowInfo.NoThrow, MatrixId = -1};
 
 
 	/// <summary>
@@ -80,15 +80,15 @@ public struct TransformState {
 		{
 			return "[Uninitialized]";
 		}
-		else if (Position == HiddenPos)
+		else if (LocalPosition == HiddenPos)
 		{
-			return  $"[{nameof( Position )}: Hidden, {nameof( WorldPosition )}: Hidden, " +
+			return  $"[{nameof( LocalPosition )}: Hidden, {nameof( WorldPosition )}: Hidden, " +
 			        $"{nameof( Speed )}: {Speed}, {nameof( WorldImpulse )}: {WorldImpulse}, {nameof( SpinRotation )}: {SpinRotation}, " +
 			        $"{nameof( SpinFactor )}: {SpinFactor}, {nameof( IsFollowUpdate )}: {IsFollowUpdate}, {nameof( MatrixId )}: {MatrixId}]";
 		}
 		else
 		{
-			return  $"[{nameof( Position )}: {(Vector2)Position}, {nameof( WorldPosition )}: {(Vector2)WorldPosition}, " +
+			return  $"[{nameof( LocalPosition )}: {(Vector2)LocalPosition}, {nameof( WorldPosition )}: {(Vector2)WorldPosition}, " +
 			        $"{nameof( Speed )}: {Speed}, {nameof( WorldImpulse )}: {WorldImpulse}, {nameof( SpinRotation )}: {SpinRotation}, " +
 			        $"{nameof( SpinFactor )}: {SpinFactor}, {nameof( IsFollowUpdate )}: {IsFollowUpdate}, {nameof( MatrixId )}: {MatrixId}]";
 		}

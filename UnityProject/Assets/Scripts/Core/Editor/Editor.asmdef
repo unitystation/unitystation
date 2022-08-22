@@ -1,5 +1,6 @@
 {
     "name": "Editor",
+    "rootNamespace": "",
     "references": [
         "Mirror",
         "Mirror.Components",
@@ -11,7 +12,9 @@
         "Unity.Addressables.Editor",
         "Unity.ResourceManager",
         "NaughtyAttributes.Core",
-        "SerializableDictionary"
+        "SerializableDictionary",
+        "NewAssembly",
+        "Shared"
     ],
     "includePlatforms": [
         "Editor"

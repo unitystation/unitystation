@@ -14,7 +14,7 @@ namespace Chemistry.Editor
 {
 	public class Importer : EditorWindow
 	{
-		Deserializer deserializer = new DeserializerBuilder().Build();
+		Deserializer deserializer = (Deserializer) new DeserializerBuilder().Build();
 		private string reagentExportPath;
 		private string reactionExportPath;
 		private string reactionSetExportPath;
@@ -275,7 +275,7 @@ namespace Chemistry.Editor
 
 			if (value.TryGetValue("results", out var resultsData))
 			{
-				reaction.results = new DictionaryReagentInt();
+				reaction.results = new SerializableDictionary<Reagent, int>();
 				var results = ((Dictionary<object, object>) resultsData).ToDictionary(
 					r => {
 						return reagents[(string)r.Key]; },
@@ -283,33 +283,33 @@ namespace Chemistry.Editor
 
 				foreach (var result in results)
 				{
-					reaction.results.Add(result);
+					reaction.results.m_dict.Add(result.Key, result.Value);
 				}
 			}
 
 			if (value.TryGetValue("required_reagents", out var ingredientsData))
 			{
-				reaction.ingredients = new DictionaryReagentInt();
+				reaction.ingredients = new SerializableDictionary<Reagent, int>();
 				var ingredients = ((Dictionary<object, object>) ingredientsData).ToDictionary(
 					r => reagents[(string) r.Key],
 					r => int.Parse((string) r.Value));
 
 				foreach (var ingredient in ingredients)
 				{
-					reaction.ingredients.Add(ingredient);
+					reaction.ingredients.m_dict.Add(ingredient.Key, ingredient.Value);
 				}
 			}
 
 			if (value.TryGetValue("required_catalysts", out var catalystsData))
 			{
-				reaction.catalysts = new DictionaryReagentInt();
+				reaction.catalysts = new SerializableDictionary<Reagent, int>();
 				var catalysts = ((Dictionary<object, object>) catalystsData).ToDictionary(
 					r => reagents[(string) r.Key],
 					r => int.Parse((string) r.Value));
 
 				foreach (var catalyst in catalysts)
 				{
-					reaction.catalysts.Add(catalyst);
+					reaction.catalysts.m_dict.Add(catalyst.Key, catalyst.Value);
 				}
 			}
 

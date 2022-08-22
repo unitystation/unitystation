@@ -8,7 +8,7 @@ using AddressableReferences;
 using Antagonists;
 using HealthV2;
 using Managers;
-using Messages.Server;
+using UI.Chat_UI;
 using Random = UnityEngine.Random;
 
 namespace Objects.Command
@@ -16,13 +16,13 @@ namespace Objects.Command
 	/// <summary>
 	/// Main component for nuke.
 	/// </summary>
-	public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>, IAdminInfo, IServerSpawn
+	public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>, IAdminInfo, IServerLifecycle
 	{
 		public NukeTimerEvent OnTimerUpdate = new NukeTimerEvent();
 
 		[SerializeField] private AddressableAudioSource TimerTickSound = null;
 
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private ItemStorage itemNuke;
 		private Coroutine timerHandle;
 		private CentComm.AlertLevel CurrentAlertLevel;
@@ -72,7 +72,7 @@ namespace Objects.Command
 		private void Awake()
 		{
 			currentTimerSeconds = minTimer;
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			itemNuke = GetComponent<ItemStorage>();
 			nukeSlot = itemNuke.GetIndexedItemSlot(0);
 			Detonated = false;
@@ -88,6 +88,18 @@ namespace Objects.Command
 			{
 				nukeCode = CodeGenerator();
 			}
+		}
+
+		private void OnDisable()
+		{
+			//Stop nuke detonating after round end or if its been destroyed!
+			StopAllCoroutines();
+		}
+
+		public void OnDespawnServer(DespawnInfo info)
+		{
+			//Stop nuke detonating after round end or if its been destroyed!
+			StopAllCoroutines();
 		}
 
 		public static int CodeGenerator()
@@ -206,8 +218,8 @@ namespace Objects.Command
 		{
 			if (IsCodeRight && !isSafetyOn)
 			{
-				bool isPushable = !objectBehaviour.IsPushable;
-				GetComponent<ObjectBehaviour>().ServerSetPushable(isPushable);
+				bool isPushable = !objectBehaviour.IsNotPushable;
+				objectBehaviour.SetIsNotPushable(isPushable);
 				return isPushable;
 			}
 			return null;
@@ -282,12 +294,12 @@ namespace Objects.Command
 		{
 			yield return WaitFor.Seconds(5f);
 			var worldPos = gameObject.GetComponent<RegisterTile>().WorldPosition;
-			foreach (LivingHealthMasterBase living in FindObjectsOfType<LivingHealthMasterBase>())
+			foreach (LivingHealthMasterBase livingHealth in FindObjectsOfType<LivingHealthMasterBase>())
 			{
-				var dist = Vector3.Distance(worldPos, living.GetComponent<RegisterTile>().WorldPosition);
+				var dist = Vector3.Distance(worldPos, livingHealth.GetComponent<RegisterTile>().WorldPosition);
 				if (dist < explosionRadius)
 				{
-					living.Death();
+					livingHealth.Death();
 				}
 			}
 			yield return WaitFor.Seconds(15f);

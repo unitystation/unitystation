@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: DulceDeBatataRecipe
+  m_EditorClassIdentifier: 
+  category: 13
+  craftingTime: 3
+  recipeName: Dulce de Batata
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 2
+    requiredItem: {fileID: 6566968074743570130, guid: ecb6bbe8004762f4b81979e93ea9b788,
+      type: 3}
+  requiredReagents:
+  - requiredAmount: 5
+    requiredReagent: {fileID: 11400000, guid: 20567dacb4ce347419c383d443a0ade6, type: 2}
+  - requiredAmount: 5
+    requiredReagent: {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
+  requiredToolTraits: []
+  result:
+  - {fileID: 5267316855268426051, guid: 0a36878b7d5196b45b592118937306fb, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 176

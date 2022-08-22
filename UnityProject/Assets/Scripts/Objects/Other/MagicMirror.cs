@@ -29,7 +29,7 @@ namespace Objects
 
 		public void SetPlayerName(string newName)
 		{
-			ConnectedPlayer player = GetPlayer();
+			PlayerInfo player = GetPlayer();
 
 			if (newName.Length < 3)
 			{
@@ -40,7 +40,7 @@ namespace Objects
 			this.RestartCoroutine(RunNameSetSequence(player, newName), ref nameSettingRoutine);
 		}
 
-		private IEnumerator RunNameSetSequence(ConnectedPlayer player, string newName)
+		private IEnumerator RunNameSetSequence(PlayerInfo player, string newName)
 		{
 			SoundManager.PlayNetworkedAtPos(PrintSound, gameObject.RegisterTile().WorldPositionServer, sourceObj: gameObject);
 			yield return WaitFor.Seconds(PRINTING_TIME);
@@ -49,13 +49,13 @@ namespace Objects
 			SpawnPaper(player);
 		}
 
-		private void SpawnPaper(ConnectedPlayer forPlayer)
+		private void SpawnPaper(PlayerInfo forPlayer)
 		{
 			GameObject paper = Spawn.ServerPrefab(paperPrefab, gameObject.RegisterTile().WorldPositionServer).GameObject;
 			paper.GetComponent<Paper>().SetServerString(Wizard.GetIdentityPaperText(forPlayer));
 		}
 
-		private ConnectedPlayer GetPlayer()
+		private PlayerInfo GetPlayer()
 		{
 			return netTab.LastInteractedPlayer().Player();
 		}

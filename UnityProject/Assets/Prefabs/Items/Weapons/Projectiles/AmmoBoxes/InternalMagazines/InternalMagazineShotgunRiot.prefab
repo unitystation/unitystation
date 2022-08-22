@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4037422484015181766, guid: 863f3c5765447184b8b0d23ff0b9ddff,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4037422484015181766, guid: 863f3c5765447184b8b0d23ff0b9ddff,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4037422484015181766, guid: 863f3c5765447184b8b0d23ff0b9ddff,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4037422484015181766, guid: 863f3c5765447184b8b0d23ff0b9ddff,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +46,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4037422484015181766, guid: 863f3c5765447184b8b0d23ff0b9ddff,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4037422484015181766, guid: 863f3c5765447184b8b0d23ff0b9ddff,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4037422484015181766, guid: 863f3c5765447184b8b0d23ff0b9ddff,
         type: 3}
@@ -70,7 +70,7 @@ PrefabInstance:
     - target: {fileID: 4143445675893075718, guid: 863f3c5765447184b8b0d23ff0b9ddff,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 743525ecb25075c4a931a26989c82712
       objectReference: {fileID: 0}
     - target: {fileID: 4244002627406733806, guid: 863f3c5765447184b8b0d23ff0b9ddff,
         type: 3}
@@ -89,6 +89,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 513614875607323754, guid: b76dd6e6c052eb64aa9cc4fa8b3ef72b,
         type: 3}
+    - target: {fileID: 6914052666156841427, guid: 863f3c5765447184b8b0d23ff0b9ddff,
+        type: 3}
+      propertyPath: initalProjectile
+      value: 
+      objectReference: {fileID: 513614875607323754, guid: b76dd6e6c052eb64aa9cc4fa8b3ef72b,
+        type: 3}
+    - target: {fileID: 6966775739448925919, guid: 863f3c5765447184b8b0d23ff0b9ddff,
+        type: 3}
+      propertyPath: foreverID
+      value: 743525ecb25075c4a931a26989c82712
+      objectReference: {fileID: 0}
     - target: {fileID: 7877450284545386805, guid: 863f3c5765447184b8b0d23ff0b9ddff,
         type: 3}
       propertyPath: PresentSpriteSet

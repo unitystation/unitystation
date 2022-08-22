@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CommonEquipment
   m_EditorClassIdentifier: 
   pool:
-  - prefab: {fileID: 6404652678407139925, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
+  - prefab: {fileID: 2067037423068783515, guid: 8af2303907239bb4b82b108c9ca02d07,
       type: 3}
     maxAmount: 1
     probability: 100
@@ -62,6 +62,14 @@ MonoBehaviour:
     maxAmount: 1
     probability: 100
   - prefab: {fileID: 3011710637427380133, guid: 5a4f48d58142749de92013eb1e1d0523,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8977591776819106885, guid: cae650b8120e1f04a840374168f5169e,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4359284668368546568, guid: 80e91b3d70a3cd243bf738ab00ffb082,
       type: 3}
     maxAmount: 1
     probability: 100

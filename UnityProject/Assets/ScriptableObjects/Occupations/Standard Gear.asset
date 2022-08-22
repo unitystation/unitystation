@@ -16,9 +16,13 @@ MonoBehaviour:
   isCrewmember: 1
   lateSpawnIsArrivals: 1
   inventoryPopulator: {fileID: 11400000, guid: e9fa91afc36164817bc3c3c26eb54266, type: 2}
+  useStandardPopulator: 1
   limit: 0
   priority: 0
   allowedAccess: 
+  allowedLowPopAccess: 
+  issuedClearance: 
+  issuedLowPopClearance: 
   spells: []
   progress: 50
   choiceColor: {r: 1, g: 1, b: 1, a: 1}
@@ -39,5 +43,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   backgroundColor: {r: 1, g: 0, b: 0, a: 0}
+  specialPlayerPrefab: {fileID: 0}

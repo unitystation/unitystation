@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UI.Core.NetUI;
 
 namespace UI.Items.PDA
 {
@@ -21,7 +22,7 @@ namespace UI.Items.PDA
 		public GUI_PDAUplinkCategory categoryPage = null;
 
 		[SerializeField]
-		private NetLabel tcCounter = null;
+		private NetText_label tcCounter = null;
 		
 		public void OnPageActivated()
 		{

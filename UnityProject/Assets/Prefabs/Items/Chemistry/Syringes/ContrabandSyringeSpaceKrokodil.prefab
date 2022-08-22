@@ -7,10 +7,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1609844329796780718, guid: 45be202b015c7df4ea023a669e9461d6,
+        type: 3}
+      propertyPath: foreverID
+      value: 2687735201a75bc46bc5bde5827c4030
+      objectReference: {fileID: 0}
     - target: {fileID: 5687458122312797891, guid: 45be202b015c7df4ea023a669e9461d6,
         type: 3}
       propertyPath: m_Name
       value: ContrabandSyringeSpaceKrokodil
+      objectReference: {fileID: 0}
+    - target: {fileID: 5692104795389244343, guid: 45be202b015c7df4ea023a669e9461d6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5692104795389244343, guid: 45be202b015c7df4ea023a669e9461d6,
         type: 3}
@@ -29,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5692104795389244343, guid: 45be202b015c7df4ea023a669e9461d6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5692104795389244343, guid: 45be202b015c7df4ea023a669e9461d6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5692104795389244343, guid: 45be202b015c7df4ea023a669e9461d6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5692104795389244343, guid: 45be202b015c7df4ea023a669e9461d6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5692104795389244343, guid: 45be202b015c7df4ea023a669e9461d6,
         type: 3}
@@ -70,7 +75,7 @@ PrefabInstance:
     - target: {fileID: 5726850977963930487, guid: 45be202b015c7df4ea023a669e9461d6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 2687735201a75bc46bc5bde5827c4030
       objectReference: {fileID: 0}
     - target: {fileID: 6901734306108147307, guid: 45be202b015c7df4ea023a669e9461d6,
         type: 3}

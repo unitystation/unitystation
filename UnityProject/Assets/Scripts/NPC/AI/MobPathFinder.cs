@@ -1,8 +1,10 @@
-﻿using PathFinding;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
+using PathFinding;
 using Doors;
+
 
 namespace Systems.MobAIs
 {
@@ -10,16 +12,18 @@ namespace Systems.MobAIs
 	{
 		protected RegisterTile registerTile;
 		protected Matrix matrix => registerTile.Matrix;
-		protected CustomNetTransform cnt;
+		protected UniversalObjectPhysics uop;
 
-		protected Directional directional;
+		protected Rotatable rotatable;
 		protected LivingHealthBehaviour health;
 
 		protected bool isServer;
 
 		public bool activated;
 
-		public float tickRate = 1f;
+		[Range(0.01f, 1), FormerlySerializedAs("tickRate")]
+		[Tooltip("Delay (in seconds) between mob actions/decisions.")]
+		public float TickDelay = 1f;
 		private float tickWait;
 		private float timeOut;
 
@@ -47,11 +51,11 @@ namespace Systems.MobAIs
 
 		private bool isComplete = false;
 
-		private void Awake()
+		public virtual void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
-			cnt = GetComponent<CustomNetTransform>();
-			directional = GetComponent<Directional>();
+			uop = GetComponent<UniversalObjectPhysics>();
+			rotatable = GetComponent<Rotatable>();
 			health = GetComponent<LivingHealthBehaviour>();
 		}
 
@@ -62,7 +66,7 @@ namespace Systems.MobAIs
 
 			if (CustomNetworkManager.Instance._isServer)
 			{
-				cnt.OnTileReached().AddListener(OnTileReached);
+				uop.OnLocalTileReached.AddListener(OnTileReached);
 				isServer = true;
 			}
 		}
@@ -71,7 +75,7 @@ namespace Systems.MobAIs
 		{
 			if (isServer)
 			{
-				cnt.OnTileReached().RemoveListener(OnTileReached);
+				uop.OnLocalTileReached.RemoveListener(OnTileReached);
 			}
 		}
 
@@ -293,7 +297,7 @@ namespace Systems.MobAIs
 		/// </summary>
 		protected void FollowPath(List<Node> path)
 		{
-			if (health.IsDead || health.IsCrit || health.IsCardiacArrest)
+			if (health.IsDead || health.IsCrit)
 			{
 				Logger.Log("You are trying to follow a path when living thing is dead or in crit", Category.Movement);
 				status = Status.idle;
@@ -319,9 +323,9 @@ namespace Systems.MobAIs
 
 				if (!movingToTile)
 				{
-					if (tickRate != 0f)
+					if (TickDelay.Approx(0) == false)
 					{
-						yield return WaitFor.Seconds(tickRate);
+						yield return WaitFor.Seconds(TickDelay);
 					}
 
 					var dir = path[node].position - Vector2Int.RoundToInt(transform.localPosition);
@@ -343,12 +347,12 @@ namespace Systems.MobAIs
 						}
 					}
 
-					if (directional != null)
+					if (rotatable != null)
 					{
-						directional.FaceDirection(Orientation.From(dir));
+						rotatable.SetFaceDirectionLocalVector(dir);
 					}
 
-					cnt.Push(dir, context: gameObject);
+					uop.TryTilePush(dir, null);
 					movingToTile = true;
 				}
 				else
@@ -364,7 +368,7 @@ namespace Systems.MobAIs
 					{
 						//Mob has 5 seconds to get to the next tile
 						//or the AI should do something else
-						timeOut += Time.deltaTime;
+						timeOut += MobController.UpdateTimeInterval;
 						if (timeOut > 5f)
 						{
 							ResetMovingValues();
@@ -411,7 +415,7 @@ namespace Systems.MobAIs
 		{
 		}
 
-		protected virtual void OnTileReached(Vector3Int tilePos)
+		protected virtual void OnTileReached(Vector3Int oldLocalPos, Vector3Int newLocalPos)
 		{
 			if (!activated) return;
 

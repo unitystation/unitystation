@@ -5,6 +5,7 @@ using TileManagement;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEditor;
+using Tiles;
 
 namespace Doors
 {
@@ -21,7 +22,7 @@ namespace Doors
 		[Tooltip("A list of frame numbers for the open/close animation, not including the openFrame and closeFrame")]
 		public int[] animFrames;
 
-		public int animLength;
+		private int animLength;
 		public int closeFrame;
 		public int deniedFrame;
 		public int openFrame;
@@ -84,7 +85,7 @@ namespace Doors
 			}
 
 			doorController.isPerformingAction = true;
-			SoundManager.PlayAtPosition(SingletonSOSounds.Instance.AccessDenied, transform.position, gameObject);
+			_ = SoundManager.PlayAtPosition(CommonSounds.Instance.AccessDenied, transform.position, gameObject);
 			StartCoroutine(PlayDeniedAnim());
 		}
 

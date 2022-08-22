@@ -10,7 +10,6 @@ namespace Objects.Construction
 	/// janitorial actions. Decal can have random variations in its sprite among other
 	/// capabilities.
 	/// </summary>
-	[RequireComponent(typeof(CustomNetTransform))]
 	public class FloorDecal : NetworkBehaviour
 	{
 		/// <summary>
@@ -20,6 +19,8 @@ namespace Objects.Construction
 		public bool Cleanable = true;
 
 		public bool CanDryUp = false;
+
+		public bool isBlood = false;
 
 		[SyncVar(hook = "OnColorChanged")]
 		[HideInInspector]
@@ -87,7 +88,7 @@ namespace Objects.Construction
 		{
 			if (Cleanable)
 			{
-				Despawn.ServerSingle(gameObject);
+				_ = Despawn.ServerSingle(gameObject);
 			}
 		}
 	}

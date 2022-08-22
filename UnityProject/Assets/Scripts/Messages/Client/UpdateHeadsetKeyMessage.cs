@@ -1,5 +1,6 @@
 ﻿using Mirror;
 using UnityEngine;
+using Items;
 
 namespace Messages.Client
 {
@@ -51,7 +52,7 @@ namespace Messages.Client
 			}
 		}
 
-		private static void setKey(ConnectedPlayer player, GameObject headsetGO, GameObject keyGO)
+		private static void setKey(PlayerInfo player, GameObject headsetGO, GameObject keyGO)
 		{
 			var pna = player.Script.playerNetworkActions;
 			if ( pna.HasItem(keyGO) )
@@ -63,7 +64,7 @@ namespace Messages.Client
 			}
 		}
 
-		private static void detachKey(GameObject headsetGO, ConnectedPlayer player)
+		private static void detachKey(GameObject headsetGO, PlayerInfo player)
 		{
 			Headset headset = headsetGO.GetComponent<Headset>();
 			var encryptionKey =
@@ -79,7 +80,7 @@ namespace Messages.Client
 			encryptionKey.GameObject.GetComponent<EncryptionKey>().Type = headset.EncryptionKey;
 			headset.EncryptionKey = EncryptionKeyType.None;
 
-			var emptyHand = player.Script.Equipment.ItemStorage.GetEmptyHandSlot();
+			var emptyHand = player.Script.DynamicItemStorage.GetBestHand();
 			if (emptyHand != null)
 			{
 				Inventory.ServerAdd(encryptionKey.GameObject, emptyHand);

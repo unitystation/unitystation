@@ -2,6 +2,7 @@
 using Systems.Explosions;
 using UnityEngine;
 using Mirror;
+using NaughtyAttributes;
 using Core.Directionals;
 using Effects.Overlays;
 
@@ -10,9 +11,15 @@ namespace Systems.Mob
 	/// <summary>
 	/// Easy to use Directional sprite handler for mobs
 	/// </summary>
-	[RequireComponent(typeof(DirectionalSpriteV2))]
 	public class MobSprite : NetworkBehaviour, IOnLightningHit
 	{
+		private enum MobStateRepType
+		{
+			None = 0,
+			UseSprite = 1,
+			UseRotation = 2
+		}
+
 		[Header("References")]
 		[SerializeField]
 		private SpriteHandler spriteHandler = default;
@@ -20,10 +27,29 @@ namespace Systems.Mob
 		private SpriteRenderer spriteRend = default;
 
 		[Header("Settings")]
-		[SerializeField]
+		[SerializeField, BoxGroup("Sprites")]
 		private int aliveSpriteIndex = 0;
-		[SerializeField]
+
+		[Tooltip("How to represent a dead sprite: via sprite, rotation or do nothing.")]
+		[SerializeField, BoxGroup("Sprites")]
+		private MobStateRepType deadStateRep = MobStateRepType.UseSprite;
+		private bool UsesDeadSprite => deadStateRep == MobStateRepType.UseSprite;
+		private bool UsesDeadRotation => deadStateRep == MobStateRepType.UseRotation;
+		[SerializeField, BoxGroup("Sprites"), ShowIf(nameof(UsesDeadSprite))]
 		private int deadSpriteIndex = 1;
+		[Tooltip("0 upright, 90 is prone with head to the left.")]
+		[SerializeField, BoxGroup("Sprites"), ShowIf(nameof(UsesDeadRotation))]
+		private float deadOrientation = 90;
+
+		[SerializeField, BoxGroup("Sprites")]
+		private MobStateRepType knockedDownStateRep = MobStateRepType.UseSprite;
+		private bool UsesKnockedDownSprite => knockedDownStateRep == MobStateRepType.UseSprite;
+		private bool UsesKnockedDownRotation => knockedDownStateRep == MobStateRepType.UseRotation;
+		[SerializeField, BoxGroup("Sprites"), ShowIf(nameof(UsesKnockedDownSprite))]
+		private int knockedDownSpriteIndex = 1;
+		[Tooltip("0 upright, 90 is prone with head to the left.")]
+		[SerializeField, BoxGroup("Sprites"), ShowIf(nameof(UsesKnockedDownRotation))]
+		private float knockedDownOrientation = 90;
 
 		[Tooltip("Assign the prefab responsible for the burning overlay.")]
 		[SerializeField]
@@ -34,8 +60,8 @@ namespace Systems.Mob
 		private GameObject electrocutedPrefab = default;
 
 		private LivingHealthBehaviour health;
-		private Directional directional;
-		private DirectionalSpriteV2 directionalSprite;
+		private Rotatable rotatable;
+
 
 		private PlayerDirectionalOverlay burningOverlay;
 		private PlayerDirectionalOverlay electrocutedOverlay;
@@ -53,10 +79,12 @@ namespace Systems.Mob
 		{
 			if (health != null) return;
 			health = GetComponent<LivingHealthBehaviour>();
-			directional = GetComponent<Directional>();
-			directionalSprite = GetComponent<DirectionalSpriteV2>();
+			rotatable = GetComponent<Rotatable>();
 
-			directional.OnDirectionChange.AddListener(OnDirectionChange);
+			if (rotatable != null)
+			{
+				rotatable.OnRotationChange.AddListener(OnDirectionChange);
+			}
 		}
 
 		public override void OnStartServer()
@@ -110,10 +138,7 @@ namespace Systems.Mob
 			spriteRot = newRot;
 		}
 
-		/// <summary>
-		/// Set the mob sprite to the first alive sprite.
-		/// </summary>
-		public void SetToAlive(bool network = false)
+		public void SetSprite(int index, bool network = false)
 		{
 			if (spriteHandler == null)
 			{
@@ -121,7 +146,23 @@ namespace Systems.Mob
 				return;
 			}
 
-			spriteHandler.ChangeSprite(aliveSpriteIndex, network);
+			spriteHandler.ChangeSprite(index, network);
+		}
+
+		/// <summary>
+		/// Set the mob sprite to the first alive sprite.
+		/// </summary>
+		public void SetToAlive(bool network = false)
+		{
+			switch (deadStateRep)
+			{
+				case MobStateRepType.UseSprite:
+					SetSprite(aliveSpriteIndex, network);
+					break;
+				case MobStateRepType.UseRotation:
+					SetRotationServer(0);
+					break;
+			}
 		}
 
 		/// <summary>
@@ -129,13 +170,28 @@ namespace Systems.Mob
 		/// </summary>
 		public void SetToDead(bool network = false)
 		{
-			if (spriteHandler == null)
+			switch (deadStateRep)
 			{
-				Logger.LogWarning($"{nameof(SpriteHandler)} missing on {gameObject}!", Category.Mobs);
-				return;
+				case MobStateRepType.UseSprite:
+					SetSprite(deadSpriteIndex, network);
+					break;
+				case MobStateRepType.UseRotation:
+					SetRotationServer(deadOrientation);
+					break;
 			}
+		}
 
-			spriteHandler.ChangeSprite(deadSpriteIndex, network);
+		public void SetToKnockedDown(bool network = false)
+		{
+			switch (knockedDownStateRep)
+			{
+				case MobStateRepType.UseSprite:
+					SetSprite(knockedDownSpriteIndex, network);
+					break;
+				case MobStateRepType.UseRotation:
+					SetRotationServer(knockedDownOrientation);
+					break;
+			}
 		}
 
 		/// <summary>
@@ -171,7 +227,7 @@ namespace Systems.Mob
 				AddOverlayGameObjects();
 			}
 
-			burningOverlay.StartOverlay(directional.CurrentDirection);
+			burningOverlay.StartOverlay(rotatable.CurrentDirection);
 		}
 
 		/// <summary>
@@ -190,7 +246,7 @@ namespace Systems.Mob
 				StartCoroutine(StopElectrocutedOverlayAfter(time));
 			}
 
-			electrocutedOverlay.StartOverlay(directional.CurrentDirection);
+			electrocutedOverlay.StartOverlay(rotatable.CurrentDirection);
 		}
 
 		/// <summary>
@@ -206,7 +262,7 @@ namespace Systems.Mob
 			electrocutedOverlay.StopOverlay();
 		}
 
-		private void OnDirectionChange(Orientation newDirection)
+		private void OnDirectionChange(OrientationEnum newDirection)
 		{
 			if (burningOverlay != null && burningOverlay.OverlayActive)
 			{

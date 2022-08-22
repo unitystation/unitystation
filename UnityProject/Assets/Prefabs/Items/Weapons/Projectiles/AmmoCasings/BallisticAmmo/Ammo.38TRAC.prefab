@@ -9,13 +9,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 602167641720205660, guid: ddfe5a6d629eafb418fe9879b98bda39,
         type: 3}
-      propertyPath: initialDescription
-      value: A .38 "TRAC" bullet casing.
+      propertyPath: initialName
+      value: .38 TRAC bullet casing
       objectReference: {fileID: 0}
     - target: {fileID: 602167641720205660, guid: ddfe5a6d629eafb418fe9879b98bda39,
         type: 3}
-      propertyPath: initialName
-      value: .38 TRAC bullet casing
+      propertyPath: initialDescription
+      value: A .38 "TRAC" bullet casing.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1055334159043404618, guid: ddfe5a6d629eafb418fe9879b98bda39,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1055334159043404618, guid: ddfe5a6d629eafb418fe9879b98bda39,
         type: 3}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1055334159043404618, guid: ddfe5a6d629eafb418fe9879b98bda39,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1055334159043404618, guid: ddfe5a6d629eafb418fe9879b98bda39,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1055334159043404618, guid: ddfe5a6d629eafb418fe9879b98bda39,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1055334159043404618, guid: ddfe5a6d629eafb418fe9879b98bda39,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1055334159043404618, guid: ddfe5a6d629eafb418fe9879b98bda39,
         type: 3}
@@ -80,7 +80,12 @@ PrefabInstance:
     - target: {fileID: 1090710499093668746, guid: ddfe5a6d629eafb418fe9879b98bda39,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0894d3b9d8beaf343969924eb9648a2c
+      objectReference: {fileID: 0}
+    - target: {fileID: 6200461730759430739, guid: ddfe5a6d629eafb418fe9879b98bda39,
+        type: 3}
+      propertyPath: foreverID
+      value: 0894d3b9d8beaf343969924eb9648a2c
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddfe5a6d629eafb418fe9879b98bda39, type: 3}

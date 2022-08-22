@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Initialisation;
+using Shared.Managers;
+using Tiles;
 using UnityEngine;
 
 public static class TilePaths
@@ -19,7 +21,9 @@ public static class TilePaths
 		{TileType.WindowDamaged, "Tiles/WindowDamage"},
 		{TileType.Effects, "Tiles/Effects"},
 		{TileType.UnderFloor, "Tiles/UnderFloors"},
-		{TileType.ElectricalCable, "Tiles/Electrical"}
+		{TileType.Electrical, "Tiles/Electrical"},
+		{TileType.Pipe, "Tiles/Pipes"},
+		{TileType.Disposals, "Tiles/Disposals"}
 	};
 
 	public static string Get(TileType type)
@@ -36,12 +40,8 @@ public class TilePathEntry
 	public List<LayerTile> layerTiles = new List<LayerTile>();
 }
 
-public class TileManager : MonoBehaviour, IInitialise
+public class TileManager : SingletonManager<TileManager>, IInitialise
 {
-	private static TileManager tileManager;
-
-	public static TileManager Instance => tileManager;
-
 	private int tilesToLoad = 0;
 	private int tilesLoaded = 0;
 	public static int TilesToLoad => Instance.tilesToLoad;
@@ -61,25 +61,17 @@ public class TileManager : MonoBehaviour, IInitialise
 #endif
 		if (!GameData.IsInGame)
 		{
-			StartCoroutine(LoadAllTiles(true));
+			if (!Instance.initialized) StartCoroutine(LoadAllTiles(true));
 		}
 	}
 
-	private void Awake()
+	public override void Awake()
 	{
-		if (tileManager == null)
-		{
-			tileManager = this;
-		}
-		else
-		{
-			Destroy(this);
-		}
+		base.Awake();
 
 #if UNITY_EDITOR
 		CacheAllAssets();
 #endif
-
 		if (!initialized) StartCoroutine(LoadAllTiles());
 	}
 
@@ -107,6 +99,7 @@ public class TileManager : MonoBehaviour, IInitialise
 
 	private IEnumerator LoadAllTiles(bool staggeredload = false)
 	{
+		initialized = true;
 		tilesToLoad = 0;
 		tilesLoaded = 0;
 		foreach (var type in layerTileCollections)
@@ -119,7 +112,7 @@ public class TileManager : MonoBehaviour, IInitialise
 		{
 			if (!tiles.ContainsKey(type.tileType))
 			{
-				Instance.tiles.Add(type.tileType, new Dictionary<string, LayerTile>());
+				tiles.Add(type.tileType, new Dictionary<string, LayerTile>());
 			}
 
 			foreach (var t in type.layerTiles)
@@ -155,7 +148,7 @@ public class TileManager : MonoBehaviour, IInitialise
 			}
 		}
 
-		initialized = true;
+
 	}
 
 	public static LayerTile GetTile(TileType tileType, string key)

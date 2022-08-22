@@ -70,7 +70,7 @@ namespace Items
 				return false;
 			}
 
-			if (!MatrixManager.IsWallAtAnyMatrix(interaction.WorldPositionTarget.RoundToInt(), side == NetworkSide.Server))
+			if (!MatrixManager.IsWallAt(interaction.WorldPositionTarget.RoundToInt(), side == NetworkSide.Server))
 			{
 				return false;
 			}
@@ -81,8 +81,7 @@ namespace Items
 		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
 			wallPrefab.GetComponent<PosterBehaviour>().posterVariant = posterVariant;
-			wallPrefab.GetComponent<Directional>().InitialDirection = Orientation
-				.From(interaction.Performer.TileWorldPosition() - interaction.WorldPositionTarget).AsEnum();
+			wallPrefab.GetComponent<Rotatable>().SetFaceDirectionLocalVector((interaction.Performer.TileLocalPosition() - interaction.TargetPosition).RoundTo2Int());
 
 			Spawn.ServerPrefab(wallPrefab, interaction.WorldPositionTarget.RoundToInt(),
 				interaction.Performer.transform.parent);

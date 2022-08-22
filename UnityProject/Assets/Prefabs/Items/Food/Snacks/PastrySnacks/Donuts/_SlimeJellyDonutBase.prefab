@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 165
       objectReference: {fileID: 0}
+    - target: {fileID: 3165337639998408403, guid: c97d4bcbe36a3a2448a6ebe3e9ac50e6,
+        type: 3}
+      propertyPath: foreverID
+      value: 76d59c6190d1ae34897c499233364f53
+      objectReference: {fileID: 0}
     - target: {fileID: 7096894540094997014, guid: c97d4bcbe36a3a2448a6ebe3e9ac50e6,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[3]
@@ -21,7 +26,12 @@ PrefabInstance:
     - target: {fileID: 8269459577751402250, guid: c97d4bcbe36a3a2448a6ebe3e9ac50e6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 76d59c6190d1ae34897c499233364f53
+      objectReference: {fileID: 0}
+    - target: {fileID: 8305959412385232842, guid: c97d4bcbe36a3a2448a6ebe3e9ac50e6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8305959412385232842, guid: c97d4bcbe36a3a2448a6ebe3e9ac50e6,
         type: 3}
@@ -40,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8305959412385232842, guid: c97d4bcbe36a3a2448a6ebe3e9ac50e6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8305959412385232842, guid: c97d4bcbe36a3a2448a6ebe3e9ac50e6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8305959412385232842, guid: c97d4bcbe36a3a2448a6ebe3e9ac50e6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8305959412385232842, guid: c97d4bcbe36a3a2448a6ebe3e9ac50e6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8305959412385232842, guid: c97d4bcbe36a3a2448a6ebe3e9ac50e6,
         type: 3}
@@ -81,7 +86,7 @@ PrefabInstance:
     - target: {fileID: 8311164638174431934, guid: c97d4bcbe36a3a2448a6ebe3e9ac50e6,
         type: 3}
       propertyPath: m_Name
-      value: SlimeJellyDonutBase
+      value: _SlimeJellyDonutBase
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c97d4bcbe36a3a2448a6ebe3e9ac50e6, type: 3}

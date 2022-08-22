@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using ScriptableObjects;
-using UnityEngine;
-using UnityEditor;
-using Random = UnityEngine.Random;
 using Objects.Science;
+using ScriptableObjects;
+using Shared.Managers;
 using TileManagement;
+using UnityEngine;
 
 namespace Systems.Scenes
 {
-	public class LavaLandManager : MonoBehaviour
+	public class LavaLandManager : SingletonManager<LavaLandManager>
 	{
-		private static LavaLandManager instance;
-		public static LavaLandManager Instance => instance;
-
 		public List<LavaLandRandomAreaSO> areaSOs = new List<LavaLandRandomAreaSO>();
 
 		private List<LavaLandData> dataList = new List<LavaLandData>();
@@ -54,33 +49,25 @@ namespace Systems.Scenes
 		[HideInInspector]
 		public QuantumPad LavaLandBase2Connector;
 
-		private void Awake()
-		{
-			if (instance == null)
-			{
-				instance = this;
-			}
-			else
-			{
-				Destroy(this);
-			}
-		}
-
 		private void OnEnable()
 		{
-			EventManager.AddHandler(EVENT.RoundStarted, SpawnLavaLand);
+			EventManager.AddHandler(Event.ScenesLoadedServer, SpawnLavaLand);
 		}
 
 		private void OnDisable()
 		{
-			EventManager.RemoveHandler(EVENT.RoundStarted, SpawnLavaLand);
+			EventManager.RemoveHandler(Event.ScenesLoadedServer, SpawnLavaLand);
 		}
 
 		public void SpawnLavaLand()
 		{
-			if (!CustomNetworkManager.IsServer) return;
+			if (CustomNetworkManager.IsServer == false) return;
 
-			if (MatrixManager.Instance.lavaLandMatrix == null) return;
+			if (MatrixManager.Instance.lavaLandMatrix == null)
+			{
+				Logger.LogError("LavaLandMatrix not found!");
+				return;
+			}
 
 			StartCoroutine(SpawnLavaLandCo());
 		}
@@ -94,11 +81,11 @@ namespace Systems.Scenes
 				script.numR = Random.Range(1, 7);
 				script.DoSim();
 			}
-
+			yield return WaitFor.Seconds(1f);
 			tileChangeManager = MatrixManager.Instance.lavaLandMatrix.transform.parent.GetComponent<TileChangeManager>();
 
 			GenerateStructures();
-
+			yield return WaitFor.Seconds(1f);
 			MatrixManager.Instance.lavaLandMatrix.transform.parent.GetComponent<OreGenerator>().RunOreGenerator();
 
 			SetQuantumPads();
@@ -214,7 +201,7 @@ namespace Systems.Scenes
 
 			var bounds = new BoundsInt(minPosition, maxPosition - minPosition);
 
-			var gameObjectPos = script.gameObject.WorldPosServer().RoundToInt();
+			var gameObjectPos = script.transform.position.RoundToInt();
 
 			foreach (var layer in layers)
 			{
@@ -227,7 +214,7 @@ namespace Systems.Scenes
 					{
 						var posTarget = gameObjectPos + pos - script.gameObject.transform.parent.parent.parent.position.RoundToInt();
 
-						tileChangeManager.UpdateTile(posTarget, layerTile);
+						tileChangeManager.MetaTileMap.SetTile(posTarget, layerTile);
 					}
 				}
 

@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: 159418868575386266, guid: c432d0b09f765e440a39dea62e9a423e,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: eb6e678136f03fe4896e35207b70e1cc
       objectReference: {fileID: 0}
     - target: {fileID: 261889401176459054, guid: c432d0b09f765e440a39dea62e9a423e,
         type: 3}
@@ -83,24 +83,33 @@ PrefabInstance:
       propertyPath: initialName
       value: atmospherics winter coat
       objectReference: {fileID: 0}
+    - target: {fileID: 382790239474542668, guid: c432d0b09f765e440a39dea62e9a423e,
+        type: 3}
+      propertyPath: initialDescription
+      value: A yellow and blue winter coat. The zipper pull-tab is made to look like
+        a miniature breath mask.
+      objectReference: {fileID: 0}
     - target: {fileID: 6261257142002695337, guid: c432d0b09f765e440a39dea62e9a423e,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: dbeb2967eec103a4cadae7692694c9bc,
         type: 2}
+    - target: {fileID: 6564228324828875587, guid: c432d0b09f765e440a39dea62e9a423e,
+        type: 3}
+      propertyPath: foreverID
+      value: eb6e678136f03fe4896e35207b70e1cc
+      objectReference: {fileID: 0}
     - target: {fileID: 6620099647839425707, guid: c432d0b09f765e440a39dea62e9a423e,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 706bd24884e17fc489e4c6e86ffa937a,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 6620099647839425707, guid: c432d0b09f765e440a39dea62e9a423e,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 706bd24884e17fc489e4c6e86ffa937a,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 6620099647839425707, guid: c432d0b09f765e440a39dea62e9a423e,
         type: 3}
       propertyPath: allClothingData.Array.size

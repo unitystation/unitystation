@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: MimanaBreadRecipe
+  m_EditorClassIdentifier: 
+  category: 6
+  craftingTime: 3
+  recipeName: Mimana Bread
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 8293460573435019875, guid: f297c5f7ec90e204fa5a9991c56a8388,
+      type: 3}
+  - requiredAmount: 3
+    requiredItem: {fileID: 8206807289480147764, guid: 2751f86e853d6dd43a2b3614c3e6c24c,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 4194489179573270521, guid: 34da2b139e809884a9410b7686b957db,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits: []
+  result:
+  - {fileID: 5376177816146244158, guid: 03258b1012774a041ba1c4760b64e20f, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 96

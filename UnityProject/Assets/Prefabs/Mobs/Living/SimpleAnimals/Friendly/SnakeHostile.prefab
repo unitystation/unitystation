@@ -1,25 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &6549672480811829761
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7564339403847584538}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 243a3c078e195af4dadbc9f673627997, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mobName: snake
-  knockedDownRotation: 90
-  deathSounds: []
-  randomSounds: []
-  playRandomSoundTimer: 3
-  randomSoundProbability: 20
-  searchTickRate: 0.5
-  currentStatus: 0
 --- !u!1001 &7215389563540883255
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49,26 +29,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 923913548677835305, guid: a842771eff0d78e42bb2686d82094c96,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 923913548677835305, guid: a842771eff0d78e42bb2686d82094c96,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 923913548677835305, guid: a842771eff0d78e42bb2686d82094c96,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 923913548677835305, guid: a842771eff0d78e42bb2686d82094c96,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 923913548677835305, guid: a842771eff0d78e42bb2686d82094c96,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -90,8 +50,13 @@ PrefabInstance:
     - target: {fileID: 958033044131174065, guid: a842771eff0d78e42bb2686d82094c96,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: c71b69d16f6a07f47b380cf452b82699
       objectReference: {fileID: 0}
+    - target: {fileID: 5100212195727588504, guid: a842771eff0d78e42bb2686d82094c96,
+        type: 3}
+      propertyPath: mobAI
+      value: 
+      objectReference: {fileID: 6549672480811829761}
     m_RemovedComponents:
     - {fileID: 6087648716899028521, guid: a842771eff0d78e42bb2686d82094c96, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a842771eff0d78e42bb2686d82094c96, type: 3}
@@ -101,3 +66,23 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7215389563540883255}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6549672480811829761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7564339403847584538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 243a3c078e195af4dadbc9f673627997, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mobName: snake
+  registerObject: {fileID: 0}
+  deathSounds: []
+  randomSounds: []
+  playRandomSoundTimer: 3
+  randomSoundProbability: 20
+  searchTickRate: 0.5
+  currentStatus: 0

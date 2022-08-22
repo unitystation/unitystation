@@ -28,6 +28,8 @@ namespace Audio.Containers
 		/// </summary>
 		public bool PlayingRandomPlayList { get; private set; }
 
+		#region Lifecycle
+
 		private void Awake()
 		{
 			ToggleUI(false);
@@ -36,37 +38,49 @@ namespace Audio.Containers
 				PlayerPrefs.SetInt(PlayerPrefKeys.MuteMusic, 1);
 				PlayerPrefs.Save();
 			}
-
-			if (PlayerPrefs.HasKey(PlayerPrefKeys.MusicVolume))
-			{
-				volumeSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.MusicVolume);
-			}
-			else
-			{
-				volumeSlider.value = 0.5f;
-			}
 		}
 
 		private void Start()
 		{
 			DetermineMuteState();
+
+			if (PlayerPrefs.HasKey(PlayerPrefKeys.MusicVolumeKey))
+			{
+				volumeSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.MusicVolumeKey);
+			}
+			else
+			{
+				volumeSlider.value = 0.8f;
+			}
 		}
 
-		private void Update()
+		private void OnEnable()
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void UpdateMe()
 		{
 			if (PlayingRandomPlayList == false || CustomNetworkManager.IsHeadless) return;
 
-			if (MusicManager.isLobbyMusicPlaying()) return;
+			if (MusicManager.isMusicPlaying()) return;
 
 			currentWaitTime += Time.deltaTime;
 			if (currentWaitTime >= timeBetweenSongs)
 			{
 				currentWaitTime = 0f;
-				PlayRandomTrack();
+				_ = PlayRandomTrack();
 			}
 
 			DetermineMuteState();
 		}
+
+		#endregion
 
 		public void StartPlayingRandomPlaylist()
 		{
@@ -149,12 +163,23 @@ namespace Audio.Containers
 
 		public void OnVolumeSliderChange()
 		{
-			MusicManager.Instance.ChangeVolume(volumeSlider.value);
+			if (volumeSlider.value == 0)
+            {
+				ToggleMusicMute();
+			}
+			else
+			{
+				if (PlayerPrefs.GetInt(PlayerPrefKeys.MuteMusic) == 0)
+                {
+					ToggleMusicMute();
+				}
+				MusicManager.Instance.ChangeVolume(volumeSlider.value);
+			}
 		}
 
 		public void OnTrackButtonClick()
 		{
-			PlayRandomTrack();
+			_ = PlayRandomTrack();
 		}
 	}
 }

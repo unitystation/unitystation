@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2529686714885275403}
   m_RootOrder: 3
@@ -43,6 +44,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -99,10 +101,10 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 4f57749cea3a42f438cd8e62d34dd09d, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &7427627602401574627
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,6 +133,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2529686714885275403}
   m_RootOrder: 2
@@ -146,6 +149,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -202,10 +206,10 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 1d69824cf81322f49a32f340ef4ac35f, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &9171831868174908090
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,6 +238,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2529686714885275403}
   m_RootOrder: 1
@@ -249,6 +254,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -305,10 +311,10 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 414529b7583f44c4dae2dffa78f64590, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1001 &5938049191058846253
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -322,6 +328,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 58cabe8bff8ac22419b12f2377947e35,
         type: 2}
+    - target: {fileID: 3015805540452711487, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: foreverID
+      value: 24274bda3be42c049b4bbb150f6e1220
+      objectReference: {fileID: 0}
     - target: {fileID: 3383358116270698800, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: setRestriction
@@ -394,7 +405,7 @@ PrefabInstance:
     - target: {fileID: 8139349595194068454, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 24274bda3be42c049b4bbb150f6e1220
       objectReference: {fileID: 0}
     - target: {fileID: 8169796687342940242, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
@@ -481,7 +492,7 @@ PrefabInstance:
     - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
@@ -493,7 +504,8 @@ PrefabInstance:
         type: 3}
       propertyPath: initialTraits.Array.data[1]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: d9d368b74aa1775409e836d2fbbf52e0,
+        type: 2}
     - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand

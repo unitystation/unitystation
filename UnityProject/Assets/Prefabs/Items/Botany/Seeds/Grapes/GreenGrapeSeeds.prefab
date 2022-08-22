@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1706642875058271368, guid: d22737e4cfaa38b4ba554a6281d8452a,
+        type: 3}
+      propertyPath: foreverID
+      value: c39de858242b4ac4a9d9613878d79fff
+      objectReference: {fileID: 0}
     - target: {fileID: 1897018698490020706, guid: d22737e4cfaa38b4ba554a6281d8452a,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -15,13 +20,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5330034310481893255, guid: d22737e4cfaa38b4ba554a6281d8452a,
         type: 3}
-      propertyPath: initialDescription
-      value: These seeds grow into green-grape vines.
+      propertyPath: initialName
+      value: pack of green grape seeds
       objectReference: {fileID: 0}
     - target: {fileID: 5330034310481893255, guid: d22737e4cfaa38b4ba554a6281d8452a,
         type: 3}
-      propertyPath: initialName
-      value: pack of green grape seeds
+      propertyPath: initialDescription
+      value: These seeds grow into green-grape vines.
       objectReference: {fileID: 0}
     - target: {fileID: 5612746137657281465, guid: d22737e4cfaa38b4ba554a6281d8452a,
         type: 3}
@@ -32,7 +37,12 @@ PrefabInstance:
     - target: {fileID: 5657008057324471633, guid: d22737e4cfaa38b4ba554a6281d8452a,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: c39de858242b4ac4a9d9613878d79fff
+      objectReference: {fileID: 0}
+    - target: {fileID: 5694253498414351761, guid: d22737e4cfaa38b4ba554a6281d8452a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5694253498414351761, guid: d22737e4cfaa38b4ba554a6281d8452a,
         type: 3}
@@ -51,6 +61,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5694253498414351761, guid: d22737e4cfaa38b4ba554a6281d8452a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5694253498414351761, guid: d22737e4cfaa38b4ba554a6281d8452a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +78,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5694253498414351761, guid: d22737e4cfaa38b4ba554a6281d8452a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5694253498414351761, guid: d22737e4cfaa38b4ba554a6281d8452a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5694253498414351761, guid: d22737e4cfaa38b4ba554a6281d8452a,
         type: 3}
@@ -96,11 +101,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6406835270917104220, guid: d22737e4cfaa38b4ba554a6281d8452a,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6406835270917104220, guid: d22737e4cfaa38b4ba554a6281d8452a,
-        type: 3}
       propertyPath: plantData.PlantName
       value: Green Grape Vines
       objectReference: {fileID: 0}
@@ -116,5 +116,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 45cdf1da6714f4a4a8a71d0c8a7887d6,
         type: 2}
+    - target: {fileID: 6406835270917104220, guid: d22737e4cfaa38b4ba554a6281d8452a,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d22737e4cfaa38b4ba554a6281d8452a, type: 3}

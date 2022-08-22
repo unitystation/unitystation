@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Microwave
   m_EditorClassIdentifier: 
   displayName: 
+  description: 
   LayerType: 2
   TileType: 0
   RequiredTiles: []
@@ -23,7 +24,15 @@ MonoBehaviour:
   SpawnWithNoAir: 0
   passable: 0
   mineable: 0
+  miningTime: 5
+  constructable: 0
+  RadiationPassability: 1
+  ThermalConductivity: 0.05
+  HeatCapacity: 10000
   doesReflectBullet: 0
+  indestructible: 0
+  ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 
     m_values: 
@@ -40,10 +49,15 @@ MonoBehaviour:
     Acid: 90
     Magic: 0
     Bio: 100
+    DismembermentProtectionChance: 0
   tileInteractions: []
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 0}
+  toTileWhenDestroyed: {fileID: 0}
+  spawnOnDestroy: {fileID: 0}
+  damageOverlayList: {fileID: 0}
   soundOnHit:
     SetLoadSetting: 0
     AssetAddress: null
@@ -51,6 +65,8 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  SoundOnDestroy: []
   IsItem: 0
   KeepOrientation: 0
   Object: {fileID: 3250310938253979280, guid: cbae9a210d638ba4b9402e836c970fa2, type: 3}

@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 285738389053349974, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: foreverID
+      value: 8320e2a8e4acb6f4ca66b59187a74efd
+      objectReference: {fileID: 0}
     - target: {fileID: 1012046983369496508, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -63,12 +68,17 @@ PrefabInstance:
     - target: {fileID: 6546450386853695887, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 8320e2a8e4acb6f4ca66b59187a74efd
       objectReference: {fileID: 0}
     - target: {fileID: 6579086606120791099, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
       propertyPath: m_Name
       value: DisruptorCarbine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6583733005057544527, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6583733005057544527, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
@@ -87,6 +97,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6583733005057544527, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6583733005057544527, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -99,16 +114,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6583733005057544527, guid: 1c2ebf5951e982c4cb87e7204c670f99,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6583733005057544527, guid: 1c2ebf5951e982c4cb87e7204c670f99,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6583733005057544527, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
@@ -127,8 +132,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6746399788739183449, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 4
+      propertyPath: initialName
+      value: disruptor carbine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6746399788739183449, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: initialSize
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6746399788739183449, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
@@ -138,19 +148,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6746399788739183449, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
-      propertyPath: initialName
-      value: disruptor carbine
-      objectReference: {fileID: 0}
-    - target: {fileID: 6746399788739183449, guid: 1c2ebf5951e982c4cb87e7204c670f99,
-        type: 3}
-      propertyPath: initialTraits.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
-        type: 2}
-    - target: {fileID: 6746399788739183449, guid: 1c2ebf5951e982c4cb87e7204c670f99,
-        type: 3}
-      propertyPath: initialSize
-      value: 3
+      propertyPath: initialTraits.Array.size
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6746399788739183449, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
@@ -160,15 +159,21 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6746399788739183449, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
-      propertyPath: itemSprites.SpriteRightHand
+      propertyPath: initialTraits.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: fe93480e6f657a84f949a9a3b7b1ea9e,
+      objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
         type: 2}
     - target: {fileID: 6746399788739183449, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
       propertyPath: initialTraits.Array.data[3]
       value: 
       objectReference: {fileID: 11400000, guid: 17a405825a3b91049abaedff4c27bd1b,
+        type: 2}
+    - target: {fileID: 6746399788739183449, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: fe93480e6f657a84f949a9a3b7b1ea9e,
         type: 2}
     - target: {fileID: 6753185735506847169, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}

@@ -1,43 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UI.Chat_UI;
 
-public class MiniActionsHelpWindowUI : WindowDrag
+namespace UI
 {
-    [SerializeField] private string wikiURL = "https://unitystation.github.io/unitystation-wiki/";
-
-	public void OnClickExit()
+	public class MiniActionsHelpWindowUI : WindowDrag // TODO: Interesting inheritance?
 	{
-        SoundManager.Play(SingletonSOSounds.Instance.Click01);
+		[SerializeField] private string wikiURL = "https://unitystation.github.io/unitystation-wiki/";
 
-		gameObject.SetActive(false);
-	}
+		public void OnClickExit()
+		{
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
-    /// <summary>
-    /// A) Report something to the Admins
-    /// </summary>
-	public void OnClickOption1()
-	{
-        SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			gameObject.SetActive(false);
+		}
 
-        ChatUI.Instance.OnAdminHelpButton();
-	}
+		/// <summary>
+		/// A) Report something to the Admins
+		/// </summary>
+		public void OnClickOption1()
+		{
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
-    /// <summary>
-    /// B) Request the help of a Mentor
-    /// </summary>
-	public void OnClickOption2()
-	{
-        SoundManager.Play(SingletonSOSounds.Instance.Click01);
-	}
+			ChatUI.Instance.OnAdminHelpButton();
+		}
 
-    /// <summary>
-    /// C) Open the Wiki in your browser
-    /// </summary>
-	public void OnClickOption3()
-	{
-        SoundManager.Play(SingletonSOSounds.Instance.Click01);
+		/// <summary>
+		/// B) Request the help of a Mentor
+		/// </summary>
+		public void OnClickOption2()
+		{
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+		}
 
-        Application.OpenURL(wikiURL);
+		/// <summary>
+		/// C) Open the Wiki in your browser
+		/// </summary>
+		public void OnClickOption3()
+		{
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+
+			Application.OpenURL(wikiURL);
+		}
 	}
 }

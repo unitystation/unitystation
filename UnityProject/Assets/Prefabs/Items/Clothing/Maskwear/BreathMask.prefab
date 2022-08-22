@@ -12,12 +12,26 @@ PrefabInstance:
       propertyPath: bodyPartsCovered
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: -9097270597331898786, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -9097270597331898786, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armoringBodyPartType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -9097270597331898786, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armoringBodyPartType
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 7396b9308d8284df280e4b2036e0a90d,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: hidesIdentity
@@ -25,10 +39,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
+      propertyPath: disallowConsume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 7396b9308d8284df280e4b2036e0a90d,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -46,6 +64,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 65578cc06048c5745888229dddbe895d,
         type: 2}
+    - target: {fileID: 3585452806818900716, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: foreverID
+      value: dce8e376d2eca40eabe3f055b41a021c
+      objectReference: {fileID: 0}
     - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -60,7 +83,7 @@ PrefabInstance:
     - target: {fileID: 7560587375320734517, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: dce8e376d2eca40eabe3f055b41a021c
       objectReference: {fileID: 0}
     - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
@@ -147,6 +170,16 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A close-fitting mask that can be connected to an air supply.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05a135eab68164d34bb02b82fff3cde0, type: 3}

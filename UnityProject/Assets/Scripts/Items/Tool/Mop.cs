@@ -1,5 +1,6 @@
 ﻿using Chemistry.Components;
 using System;
+using Chemistry;
 using UnityEngine;
 
 /// <summary>
@@ -9,6 +10,9 @@ using UnityEngine;
 [RequireComponent(typeof(ReagentContainer))]
 public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IExaminable
 {
+	public Reagent Water;
+	public Reagent SpaceCleaner;
+
 	private static readonly StandardProgressActionConfig ProgressConfig =
 		new StandardProgressActionConfig(StandardProgressActionType.Mop, true, false);
 
@@ -38,7 +42,7 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IEx
 		if (!Validations.HasComponent<InteractableTiles>(interaction.TargetObject)) return false;
 
 		//don't attempt to mop walls
-		if (MatrixManager.IsWallAtAnyMatrix(interaction.WorldPositionTarget.RoundToInt(), isServer: side == NetworkSide.Server))
+		if (MatrixManager.IsWallAt(interaction.WorldPositionTarget.RoundToInt(), isServer: side == NetworkSide.Server))
 		{
 			return false;
 		}
@@ -57,7 +61,27 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IEx
 		//do the mopping
 		void CompleteProgress()
 		{
-			CleanTile(interaction.WorldPositionTarget);
+			Vector3Int worldPos = interaction.WorldPositionTarget.RoundToInt();
+			MatrixInfo matrixInfo = MatrixManager.AtPoint(worldPos, true);
+			Vector3Int localPos = MatrixManager.WorldToLocalInt(worldPos, matrixInfo);
+			if (reagentContainer)
+			{
+				if (reagentContainer.MajorMixReagent == Water)
+				{
+					matrixInfo.MetaDataLayer.Clean(worldPos, localPos, true);
+					reagentContainer.TakeReagents(reagentsPerUse);
+				}
+				else if (reagentContainer.MajorMixReagent ==  SpaceCleaner)
+				{
+					matrixInfo.MetaDataLayer.Clean(worldPos, localPos, false);
+					reagentContainer.TakeReagents(reagentsPerUse);
+				}
+				else
+				{
+					MatrixManager.ReagentReact(reagentContainer.TakeReagents(reagentsPerUse), worldPos);
+				}
+			}
+
 			Chat.AddExamineMsg(interaction.Performer, "You finish mopping.");
 		}
 
@@ -71,11 +95,6 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IEx
 				$"You begin to clean the floor with the {gameObject.ExpensiveName()}...",
 				$"{interaction.Performer.name} begins to clean the floor with the {gameObject.ExpensiveName()}.");
 		}
-	}
-
-	public void CleanTile(Vector3 worldPos)
-	{
-		MatrixManager.ReagentReact(reagentContainer.TakeReagents(reagentsPerUse), worldPos.CutToInt());
 	}
 
 	public string Examine(Vector3 worldPos = default)

@@ -14,6 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 311235556692342817, guid: 7953abf1584ad8241b2281698de84f40,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 311235556692342817, guid: 7953abf1584ad8241b2281698de84f40,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -26,6 +31,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 311235556692342817, guid: 7953abf1584ad8241b2281698de84f40,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 311235556692342817, guid: 7953abf1584ad8241b2281698de84f40,
         type: 3}
@@ -44,16 +54,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 311235556692342817, guid: 7953abf1584ad8241b2281698de84f40,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 311235556692342817, guid: 7953abf1584ad8241b2281698de84f40,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 311235556692342817, guid: 7953abf1584ad8241b2281698de84f40,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -69,16 +69,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1762336435003005562, guid: 7953abf1584ad8241b2281698de84f40,
         type: 3}
-      propertyPath: machineBoardPrefab
-      value: 
-      objectReference: {fileID: 2543230530522642436, guid: 3fb2ee5eebfcd6243a94c7df2ffb5d7c,
-        type: 3}
-    - target: {fileID: 1762336435003005562, guid: 7953abf1584ad8241b2281698de84f40,
-        type: 3}
       propertyPath: MachineParts
       value: 
       objectReference: {fileID: 11400000, guid: 85253b45152fef24fb3a383259780e67,
         type: 2}
+    - target: {fileID: 1762336435003005562, guid: 7953abf1584ad8241b2281698de84f40,
+        type: 3}
+      propertyPath: machineBoardPrefab
+      value: 
+      objectReference: {fileID: 2543230530522642436, guid: 3fb2ee5eebfcd6243a94c7df2ffb5d7c,
+        type: 3}
+    - target: {fileID: 3690109430269935794, guid: 7953abf1584ad8241b2281698de84f40,
+        type: 3}
+      propertyPath: foreverID
+      value: f96ffa2f88a11e646bc2e979cbe9dfba
+      objectReference: {fileID: 0}
+    - target: {fileID: 6981128259847217611, guid: 7953abf1584ad8241b2281698de84f40,
+        type: 3}
+      propertyPath: initialName
+      value: department circuit imprinter
+      objectReference: {fileID: 0}
     - target: {fileID: 6981128259847217611, guid: 7953abf1584ad8241b2281698de84f40,
         type: 3}
       propertyPath: initialDescription
@@ -86,15 +96,10 @@ PrefabInstance:
         usage, with built in ExoSync receivers allowing it to print designs researched
         that match its ROM-encoded department type.
       objectReference: {fileID: 0}
-    - target: {fileID: 6981128259847217611, guid: 7953abf1584ad8241b2281698de84f40,
-        type: 3}
-      propertyPath: initialName
-      value: department circuit imprinter
-      objectReference: {fileID: 0}
     - target: {fileID: 8185819087572781977, guid: 7953abf1584ad8241b2281698de84f40,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: f96ffa2f88a11e646bc2e979cbe9dfba
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7953abf1584ad8241b2281698de84f40, type: 3}

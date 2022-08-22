@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: RWallCutCoverDeconstruct
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91, type: 2}
+  harmIntentRequired: 0
   performerStartActionMessage: You struggle to pry off the cover...
   othersStartActionMessage: '{performer} struggles to pry off the cover...'
   seconds: 10
+  objectsToSpawn: {fileID: 0}
   toTile: {fileID: 11400000, guid: 1ca46934f095c48c9a3c4e6c8807c778, type: 2}
   performerFinishActionMessage: You pry off the cover.
   othersFinishActionMessage: '{performer} pries off the cover.'

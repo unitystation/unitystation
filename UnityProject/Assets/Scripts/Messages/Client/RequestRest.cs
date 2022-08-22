@@ -17,10 +17,17 @@ public class RequestRest : ClientMessage<RequestRest.NetMessage>
 	{
 		if (msg.LayDown)
 		{
+			if(SentByPlayer.Script.PlayerTypeSettings.CanRest == false) return;
+
 			SentByPlayer.Script.registerTile.ServerLayDown();
 		}
 		else
 		{
+			if (SentByPlayer.Script.playerMove.HasALeg == false)
+			{
+				Chat.AddExamineMsg(SentByPlayer.GameObject,"You try standing up stand up but you have no legs!");
+				return;
+			}
 			SentByPlayer.Script.registerTile.ServerStandUp(true, 0.3f);
 		}
 	}

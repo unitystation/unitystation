@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Systems.Clearance;
 using AddressableReferences;
 using NaughtyAttributes;
 using UnityEditor;
@@ -38,6 +39,16 @@ public class Occupation : ScriptableObject
 	private ItemStoragePopulator inventoryPopulator = null;
 	public ItemStoragePopulator InventoryPopulator => inventoryPopulator;
 
+	[SerializeField]
+	[Tooltip("Whether to use the StandardOccupationPopulator too")]
+	private bool useStandardPopulator = true;
+	public bool UseStandardPopulator => useStandardPopulator;
+
+	[SerializeField]
+	[Tooltip("Whether to use the players character settings during spawn (sets player name and race)")]
+	private bool useCharacterSettings = true;
+	public bool UseCharacterSettings => useCharacterSettings;
+
 	[FormerlySerializedAs("Limit")]
 	[SerializeField]
 	[Tooltip("Maximum simultaneous players with this occupation. Set to -1 for unlimited")]
@@ -50,11 +61,22 @@ public class Occupation : ScriptableObject
 	private int priority = 0;
 	public int Priority => priority;
 
-	[FormerlySerializedAs("AllowedAccess")]
 	[SerializeField]
-	[Tooltip("Default access allowed for this occupation.")]
-	private List<Access> allowedAccess = null;
-	public List<Access> AllowedAccess => allowedAccess;
+	[Tooltip("Default clearance issued to this occupation.")]
+	private List<Clearance> issuedClearance = default;
+	public List<Clearance> IssuedClearance
+	{
+		get => issuedClearance;
+		set => issuedClearance = value; //Change me to read only when we're ready migrating!
+	}
+
+	[SerializeField] [Tooltip("Default clearance issued to this occupation when round is LowPop.")]
+	private List<Clearance> issuedLowPopClearance = default;
+	public List<Clearance> IssuedLowPopClearance
+	{
+		get => issuedLowPopClearance;
+		set => issuedLowPopClearance = value; //Change me to read only when we're ready migrating!
+	}
 
 	[SerializeField]
 	[Tooltip("Default spells available for this occupation.")]
@@ -121,8 +143,8 @@ public class Occupation : ScriptableObject
 	public string DescriptionLong => descriptionLong;
 
 	[Header("Custom properties that will be applied\nto new bodies with this occupation")]
-	[SerializeField] private PropertyDictionary customProperties = default;
-	public PropertyDictionary CustomProperties => customProperties;
+	[SerializeField] private SerializableDictionary<string, bool> customProperties = default;
+	public SerializableDictionary<string, bool> CustomProperties => customProperties;
 
 	[Header("If enabled, players with this job can be targeted by antags")]
 	[SerializeField] private bool isTargeteable=true;
@@ -154,4 +176,9 @@ public class Occupation : ScriptableObject
 	[SerializeField]
 	private Color backgroundColor = Color.red;
 	public Color BackgroundColor => backgroundColor;
+
+	[Header("If used will spawn player using this prefab instead of human body.")]
+	[SerializeField]
+	private GameObject specialPlayerPrefab = null;
+	public GameObject SpecialPlayerPrefab => specialPlayerPrefab;
 }

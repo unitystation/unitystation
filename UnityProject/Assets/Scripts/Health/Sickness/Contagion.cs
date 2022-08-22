@@ -1,10 +1,11 @@
 ﻿using HealthV2;
+using Objects;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Health.Sickness
 {
-	public class Contagion: MonoBehaviour
+	public class Contagion: EnterTileBase
 	{
 		public Sickness Sickness;
 
@@ -16,35 +17,43 @@ namespace Health.Sickness
 
 		private RegisterTile registerTile;
 
+		protected override void Awake()
+		{
+			base.Awake();
+			registerTile = GetComponent<RegisterTile>();
+		}
+
 		public void Start()
 		{
 			spawnedTime = Time.time;
 		}
 
-		public void Update()
+		protected override void OnEnable()
+		{
+			base.OnEnable();
+
+			if(CustomNetworkManager.IsServer == false) return;
+
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		protected override void OnDisable()
+		{
+			base.OnDisable();
+
+			if(CustomNetworkManager.IsServer == false) return;
+
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		//Server Side Only
+		private void UpdateMe()
 		{
 			// Check if the contagion zone should despawn itself (after a set amount of time).
 			// One day, we should hook this with the air scrubbers and general atmos system
 			if (Time.time > spawnedTime + contagionTime)
 			{
-				// Despawns itself
-				Despawn.ServerSingle(gameObject);
-			}
-		}
-
-		public void Awake()
-		{
-			registerTile = GetComponent<RegisterTile>();
-		}
-
-		/// <summary>
-		/// Called from the Enterable component.  Handles what happens when a player enters the location of the contagion.
-		/// </summary>
-		public void OnEnterableEnter(BaseEventData eventData)
-		{
-			if (eventData.selectedObject.TryGetComponent(out PlayerHealthV2 playerHealth))
-			{
-				playerHealth.AddSickness(Sickness);
+				_ = Despawn.ServerSingle(gameObject);
 			}
 		}
 
@@ -54,6 +63,26 @@ namespace Health.Sickness
 		void OnDrawGizmos()
 		{
 			DebugGizmoUtils.DrawText(Sickness.SicknessName, registerTile.WorldPositionServer);
+		}
+
+		public override bool WillAffectPlayer(PlayerScript playerScript)
+		{
+			return playerScript.IsNormal;
+		}
+
+		public override void OnPlayerStep(PlayerScript playerScript)
+		{
+			SpawnResult sickNessResult = Spawn.ServerPrefab(transform.GetChild(0).gameObject, Vector3.zero, playerScript.gameObject.transform);
+			if (sickNessResult.Successful && sickNessResult.GameObject.TryGetComponent<Sickness>(out var sickness))
+			{
+				sickness.SetCure(transform.GetChild(0).GetComponent<Sickness>().CureForSickness);
+				playerScript.playerHealth.AddSickness(sickness);
+			}
+		}
+
+		public void Setup(GameObject sicknessObject)
+		{
+			sicknessObject.transform.SetParent(this.transform);
 		}
 	}
 }

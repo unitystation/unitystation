@@ -17,7 +17,7 @@ namespace Weapons.Projectiles.Behaviours
 		public bool OnHit(MatrixManager.CustomPhysicsHit hit)
 		{
 			if (hit.CollisionHit.TileLocation == null) return false;
-			var interactableTile = hit.CollisionHit.TileLocation.PresentMetaTileMap.GetComponentInParent<InteractableTiles>();
+			var interactableTile = hit.CollisionHit.TileLocation.metaTileMap.GetComponentInParent<InteractableTiles>();
 
 			var bulletHitTarget = GetHitTileWorldPosition(hit);
 

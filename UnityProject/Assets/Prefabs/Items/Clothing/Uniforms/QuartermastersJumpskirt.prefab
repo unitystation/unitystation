@@ -12,10 +12,25 @@ PrefabInstance:
       propertyPath: bodyPartsCovered
       value: 240
       objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: c9cafc4cfdf774b66b6d76a563646fd7,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: c9cafc4cfdf774b66b6d76a563646fd7,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: c9cafc4cfdf774b66b6d76a563646fd7,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[4].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2909197017712554513, guid: c9cafc4cfdf774b66b6d76a563646fd7,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 8bcfe12b1602c0b4089d1a9e639a2873
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: c9cafc4cfdf774b66b6d76a563646fd7,
         type: 3}
@@ -94,18 +109,21 @@ PrefabInstance:
       value: It's a jumpskirt worn by the quartermaster. It's specially designed
         to prevent back injuries caused by pushing paper.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: c9cafc4cfdf774b66b6d76a563646fd7,
+        type: 3}
+      propertyPath: foreverID
+      value: 8bcfe12b1602c0b4089d1a9e639a2873
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: c9cafc4cfdf774b66b6d76a563646fd7,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: f98bc57025bc7d049939a144989a69af,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: c9cafc4cfdf774b66b6d76a563646fd7,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: f98bc57025bc7d049939a144989a69af,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: c9cafc4cfdf774b66b6d76a563646fd7,
         type: 3}
       propertyPath: allClothingData.Array.size

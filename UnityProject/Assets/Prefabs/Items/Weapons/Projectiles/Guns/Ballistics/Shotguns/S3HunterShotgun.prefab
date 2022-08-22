@@ -1,24 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &1369005104990738433
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8261965186490909529}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80ea89a879a2d3c8ba477fca535a2332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ammoBackfire: 1
-  sawnSize: 3
-  sawnMaxRecoilVariance: 0.1
-  SawnCameraRecoilConfig:
-    Distance: 0.5
-    RecoilDuration: 0.1
-    RecoveryDuration: 0.6
 --- !u!1001 &6739964293130240754
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36,6 +17,12 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 502150733691229820, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1645d0a433ca4334b9a3e43f6bdcdf6b,
+        type: 2}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: FireRate
@@ -114,7 +101,7 @@ PrefabInstance:
     - target: {fileID: 3365730268199074847, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 3da33d6eccc1bbe4cb49cdc7fd00662f
       objectReference: {fileID: 0}
     - target: {fileID: 3396079434555916715, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
@@ -176,6 +163,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8618752398906396102, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: foreverID
+      value: 3da33d6eccc1bbe4cb49cdc7fd00662f
+      objectReference: {fileID: 0}
     - target: {fileID: 8820110165900900908, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -207,3 +199,22 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6739964293130240754}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1369005104990738433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8261965186490909529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80ea89a879a2d3c8ba477fca535a2332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammoBackfire: 1
+  sawnSize: 3
+  sawnMaxRecoilVariance: 0.1
+  SawnCameraRecoilConfig:
+    Distance: 0.5
+    RecoilDuration: 0.1
+    RecoveryDuration: 0.6

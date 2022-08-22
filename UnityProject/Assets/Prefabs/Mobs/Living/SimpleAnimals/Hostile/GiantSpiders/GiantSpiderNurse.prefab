@@ -17,6 +17,11 @@ PrefabInstance:
       propertyPath: MaxDamage
       value: 40
       objectReference: {fileID: 0}
+    - target: {fileID: 1176695197127037381, guid: 843edc78b2c231249a2c4936447b61fe,
+        type: 3}
+      propertyPath: tileMoveSpeed
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2403005513873529339, guid: 843edc78b2c231249a2c4936447b61fe,
         type: 3}
       propertyPath: hitDamage
@@ -26,17 +31,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300008, guid: 48711b34c394aea478d63e379acb812b,
+      objectReference: {fileID: 21300000, guid: 48711b34c394aea478d63e379acb812b,
         type: 3}
-    - target: {fileID: 3062659392533669830, guid: 843edc78b2c231249a2c4936447b61fe,
-        type: 3}
-      propertyPath: butcherResults.Array.size
-      value: 14
-      objectReference: {fileID: 0}
     - target: {fileID: 3062659392533669830, guid: 843edc78b2c231249a2c4936447b61fe,
         type: 3}
       propertyPath: maxHealth
       value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 3062659392533669830, guid: 843edc78b2c231249a2c4936447b61fe,
+        type: 3}
+      propertyPath: butcherResults.Array.size
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 3062659392533669830, guid: 843edc78b2c231249a2c4936447b61fe,
         type: 3}
@@ -77,12 +82,17 @@ PrefabInstance:
     - target: {fileID: 7698123779403150290, guid: 843edc78b2c231249a2c4936447b61fe,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 9c078bd06d8a43943ab0e581a334abf4
       objectReference: {fileID: 0}
     - target: {fileID: 7729724215270615374, guid: 843edc78b2c231249a2c4936447b61fe,
         type: 3}
       propertyPath: m_Name
       value: GiantSpiderNurse
+      objectReference: {fileID: 0}
+    - target: {fileID: 7731767184041791306, guid: 843edc78b2c231249a2c4936447b61fe,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7731767184041791306, guid: 843edc78b2c231249a2c4936447b61fe,
         type: 3}
@@ -97,31 +107,6 @@ PrefabInstance:
     - target: {fileID: 7731767184041791306, guid: 843edc78b2c231249a2c4936447b61fe,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7731767184041791306, guid: 843edc78b2c231249a2c4936447b61fe,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7731767184041791306, guid: 843edc78b2c231249a2c4936447b61fe,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7731767184041791306, guid: 843edc78b2c231249a2c4936447b61fe,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7731767184041791306, guid: 843edc78b2c231249a2c4936447b61fe,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7731767184041791306, guid: 843edc78b2c231249a2c4936447b61fe,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7731767184041791306, guid: 843edc78b2c231249a2c4936447b61fe,

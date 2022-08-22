@@ -7,20 +7,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 8886012489182465320, guid: 76c1cf9465a29384faac0d9df2eec3c9,
+    - target: {fileID: 2667914488157679143, guid: 76c1cf9465a29384faac0d9df2eec3c9,
         type: 3}
-      propertyPath: initialDescription
-      value: A manky old roach, or for non-stoners, a used rollup.
+      propertyPath: foreverID
+      value: ab2d2e4cb3ad42343836eb491c8dc037
       objectReference: {fileID: 0}
+    - target: {fileID: 2952937234531654093, guid: 76c1cf9465a29384faac0d9df2eec3c9,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8c531b5c1a1d41647bde7b83e878d17d,
+        type: 2}
     - target: {fileID: 8886012489182465320, guid: 76c1cf9465a29384faac0d9df2eec3c9,
         type: 3}
       propertyPath: initialName
       value: roach
       objectReference: {fileID: 0}
+    - target: {fileID: 8886012489182465320, guid: 76c1cf9465a29384faac0d9df2eec3c9,
+        type: 3}
+      propertyPath: initialDescription
+      value: A manky old roach, or for non-stoners, a used rollup.
+      objectReference: {fileID: 0}
     - target: {fileID: 8946640814207148030, guid: 76c1cf9465a29384faac0d9df2eec3c9,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: ab2d2e4cb3ad42343836eb491c8dc037
+      objectReference: {fileID: 0}
+    - target: {fileID: 9056578129770733374, guid: 76c1cf9465a29384faac0d9df2eec3c9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9056578129770733374, guid: 76c1cf9465a29384faac0d9df2eec3c9,
         type: 3}
@@ -39,6 +55,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9056578129770733374, guid: 76c1cf9465a29384faac0d9df2eec3c9,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9056578129770733374, guid: 76c1cf9465a29384faac0d9df2eec3c9,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +72,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9056578129770733374, guid: 76c1cf9465a29384faac0d9df2eec3c9,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9056578129770733374, guid: 76c1cf9465a29384faac0d9df2eec3c9,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9056578129770733374, guid: 76c1cf9465a29384faac0d9df2eec3c9,
         type: 3}

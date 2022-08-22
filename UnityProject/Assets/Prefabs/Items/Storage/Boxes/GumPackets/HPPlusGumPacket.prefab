@@ -19,6 +19,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5072e1b83fca5b943b9379c14b6f8d50,
         type: 2}
+    - target: {fileID: 4311608800572663638, guid: d2416a3be0e9a95469a2c1e06baebbb6,
+        type: 3}
+      propertyPath: foreverID
+      value: 42d26f75297217143a9e01ea81b3b6ea
+      objectReference: {fileID: 0}
     - target: {fileID: 5104143999673467715, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -34,12 +39,17 @@ PrefabInstance:
     - target: {fileID: 7132405623160919695, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 42d26f75297217143a9e01ea81b3b6ea
       objectReference: {fileID: 0}
     - target: {fileID: 7165034283826899771, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
       propertyPath: m_Name
       value: HPPlusGumPacket
+      objectReference: {fileID: 0}
+    - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
@@ -58,6 +68,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -70,16 +85,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
@@ -98,14 +103,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7314630898131043417, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
-      propertyPath: initialDescription
-      value: A seemingly homemade packaging with an odd smell. It has a weird drawing
-        of a smiling face sticking out its tongue.
+      propertyPath: initialName
+      value: HP+ gum packet
       objectReference: {fileID: 0}
     - target: {fileID: 7314630898131043417, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
-      propertyPath: initialName
-      value: HP+ gum packet
+      propertyPath: initialDescription
+      value: A seemingly homemade packaging with an odd smell. It has a weird drawing
+        of a smiling face sticking out its tongue.
       objectReference: {fileID: 0}
     - target: {fileID: 7827821029367866081, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}

@@ -9,18 +9,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.size
-      value: 3
+      propertyPath: plantData.Potency
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 2
+      propertyPath: plantData.Lifespan
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.PlantTrays.Array.size
-      value: 1
+      propertyPath: plantData.Endurance
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
@@ -29,10 +29,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.ProduceObject
-      value: 
-      objectReference: {fileID: 1228429718649373483, guid: af405bc87f41b6240ac29b45b235181a,
-        type: 3}
+      propertyPath: plantData.GrowthSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: plantData.DeadSpriteSO
@@ -41,10 +40,31 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 1228429718649373483, guid: af405bc87f41b6240ac29b45b235181a,
+        type: 3}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
       propertyPath: plantData.FullyGrownSpriteSO
       value: 
       objectReference: {fileID: 11400000, guid: 53a2e752f8d12eb41913337c3567f916,
         type: 2}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.PlantTrays.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.PlantTrays.Array.data[0]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
@@ -65,27 +85,7 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.Lifespan
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: plantData.Endurance
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: plantData.GrowthSpeed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: plantData.Potency
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: plantData.PlantTrays.Array.data[0]
+      propertyPath: plantData.MutatesInToGameObject.Array.size
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
@@ -98,27 +98,32 @@ PrefabInstance:
         type: 3}
       propertyPath: plantData.MutatesInToGameObject.Array.data[1]
       value: 
-      objectReference: {fileID: 8712231725255122534, guid: 7d81962e070184940a817c5c4bf6d974,
+      objectReference: {fileID: 6836280301614190584, guid: 2aec4da529a347b4099ea486e256e9e7,
         type: 3}
-    - target: {fileID: 3693160207910545667, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: initialDescription
-      value: This mycelium -glows- into mushrooms!
-      objectReference: {fileID: 0}
     - target: {fileID: 3693160207910545667, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: initialName
       value: pack of glowshroom mycelium
       objectReference: {fileID: 0}
+    - target: {fileID: 3693160207910545667, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: initialDescription
+      value: This mycelium -glows- into mushrooms!
+      objectReference: {fileID: 0}
     - target: {fileID: 3763059340105120725, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 9d50a0a8790aa454c824ffd039c07e6f
       objectReference: {fileID: 0}
     - target: {fileID: 3867790606060242529, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: m_Name
       value: GlowshroomMycelium
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
@@ -137,6 +142,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -149,16 +159,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
@@ -187,5 +187,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 933d98cf2eaa590429591f481cd4fca6,
         type: 2}
+    - target: {fileID: 7860926447315831308, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: foreverID
+      value: 9d50a0a8790aa454c824ffd039c07e6f
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26abf4c2c542ffa4098216683cb5f652, type: 3}

@@ -1,0 +1,131 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3662565912330585500
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2466764617220362192, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6a90bb5d7e4390c4b83b421bc4f70271,
+        type: 2}
+    - target: {fileID: 3442741923849517114, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: foreverID
+      value: bc6dcd4d5798e4e4687c9d8e58735178
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: initialName
+      value: Door Bolt Toggle
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: initialDescription
+      value: Used for toggling bolts on doors
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: cf3b09017623921439e0c774d656f53f,
+        type: 2}
+    - target: {fileID: 8470250495983453963, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 91ce29174def5364c9c80c0f47e99ad6,
+        type: 3}
+    - target: {fileID: 8470250495983453963, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568555645537651171, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_AssetId
+      value: bc6dcd4d5798e4e4687c9d8e58735178
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568654006262552011, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 1233375212116932485}
+    - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8610225452865205335, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_Name
+      value: Door Bolt Toggle
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1532865850067323565, guid: c9c58a9243d494537abcb4ee470efab0, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: c9c58a9243d494537abcb4ee470efab0, type: 3}
+--- !u!210 &1233375212116932485 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 2578830247057895961, guid: c9c58a9243d494537abcb4ee470efab0,
+    type: 3}
+  m_PrefabInstance: {fileID: 3662565912330585500}
+  m_PrefabAsset: {fileID: 0}

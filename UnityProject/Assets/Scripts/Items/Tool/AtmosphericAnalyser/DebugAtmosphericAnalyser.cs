@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Pipes
+
+namespace Items.Atmospherics
 {
 	public class DebugAtmosphericAnalyser : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 	{
@@ -14,7 +14,7 @@ namespace Pipes
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
-			Vector3Int worldPosInt = interaction.WorldPositionTarget.To2Int().To3Int();
+			Vector3Int worldPosInt = interaction.WorldPositionTarget.RoundTo2Int().To3Int();
 			MatrixInfo matrixinfo = MatrixManager.AtPoint(worldPosInt, true);
 			var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrixinfo);
 			var matrix = interaction.Performer.GetComponentInParent<Matrix>();
@@ -26,6 +26,7 @@ namespace Pipes
 			}
 
 			Chat.AddExamineMsgFromServer(interaction.Performer, toShow);
+			Logger.Log(toShow);
 		}
 	}
 }

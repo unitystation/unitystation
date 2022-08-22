@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0c8fd537387459c95edf35f9c5dd2c3, type: 3}
   m_Name: Body Bag Crate
   m_EditorClassIdentifier: 
-  OrderName: Body Bag Crate
+  OrderName: Body Bags Crate
   CreditCost: 800
   Crate: {fileID: 2395943996647778371, guid: a85bb77436de9574c8523fe45acffb14, type: 3}
   Items:
   - {fileID: 6354141011021534515, guid: de5178dc540b92244acea8e15022313a, type: 3}
   - {fileID: 6354141011021534515, guid: de5178dc540b92244acea8e15022313a, type: 3}
-  ContentSellPrice: 0
+  ContentSellPrice: 500
+  EmagOnly: 0

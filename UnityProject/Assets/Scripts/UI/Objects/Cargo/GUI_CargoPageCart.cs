@@ -1,15 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UI.Core.NetUI;
 using Systems.Cargo;
 
 namespace UI.Objects.Cargo
 {
 	public class GUI_CargoPageCart : GUI_CargoPage
 	{
-		public NetLabel confirmButtonText;
-		public NetLabel totalPriceText;
-		public EmptyItemList orderList;
+		[SerializeField]
+		private NetText_label confirmButtonText;
+		[SerializeField]
+		private NetText_label totalPriceText;
+		[SerializeField]
+		private EmptyItemList orderList;
 
 		public override void OpenTab()
 		{
@@ -19,16 +22,10 @@ namespace UI.Objects.Cargo
 		public override void UpdateTab()
 		{
 			DisplayCurrentCart();
-			if (cargoGUI.cargoConsole.CorrectID)
+			if (cargoGUI.cargoConsole.CorrectID || cargoGUI.IsAIInteracting())
 			{
-				if (CanAffordCart())
-				{
-					confirmButtonText.SetValueServer("CONFIRM CART");
-				}
-				else
-				{
-					confirmButtonText.SetValueServer("NOT ENOUGH CREDITS");
-				}
+				confirmButtonText.SetValueServer(CanAffordCart() ? "CONFIRM CART" : "NOT ENOUGH CREDITS");
+
 				CheckTotalPrice();
 				if (CargoManager.Instance.CurrentCart.Count == 0)
 				{
@@ -50,10 +47,8 @@ namespace UI.Objects.Cargo
 
 		public void ConfirmCart()
 		{
-			if (!CanAffordCart() || !cargoGUI.cargoConsole.CorrectID)
-			{
-				return;
-			}
+			if (CanAffordCart() == false || (cargoGUI.cargoConsole.CorrectID == false && cargoGUI.IsAIInteracting() == false)) return;
+
 			CargoManager.Instance.ConfirmCart();
 			cargoGUI.ResetId();
 		}
@@ -76,10 +71,12 @@ namespace UI.Objects.Cargo
 				item.SetValues(currentCart[i]);
 				item.gameObject.SetActive(true);
 			}
-			if (cargoGUI.cargoConsole.CorrectID)
+
+			if (cargoGUI.cargoConsole.CorrectID || cargoGUI.IsAIInteracting())
 			{
 				confirmButtonText.SetValueServer("InvalidID");
 			}
+
 			CheckTotalPrice();
 		}
 	}

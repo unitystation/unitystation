@@ -16,9 +16,13 @@ MonoBehaviour:
   isCrewmember: 1
   lateSpawnIsArrivals: 1
   inventoryPopulator: {fileID: 11400000, guid: c5829e459bf994e76a43543d29dd0e85, type: 2}
+  useStandardPopulator: 1
   limit: 3
   priority: 99
   allowedAccess: 220000002a000000
+  allowedLowPopAccess: 050000001a000000220000004c0000002d0000002a000000
+  issuedClearance: 0d00000021000000
+  issuedLowPopClearance: 0d00000021000000
   spells: []
   progress: 40
   choiceColor: {r: 0.73333335, g: 0.8862745, b: 0.5686275, a: 1}
@@ -29,10 +33,10 @@ MonoBehaviour:
     Experiment!"
   descriptionLong: "You are the chilliest dude on board, like seriously, you\u2019re
     the kind of guy who enjoys watching the grass grow. Your principal labor is to
-    supply the kitchen with fresh produce to keep the station fed but there is always
+    supply the kitchen with fresh produce to keep the station fed, but there is always
     time to grow other stuff for recreational purposes.\r\n\r\nYou\u2019re expected
     to know at least the basics of hydroponics and supply the kitchen with fresh
-    produce. The rest of the time, you can do whatever you can.\r\n\r\nNot sure what
+    produce. The rest of the time, you can do whatever, really\n\r\nNot sure what
     to do? Experiment! Try to improve the produce combining characteristics of different
     vegetables. Grow exotic plants that may or may not eat humans. Make manufactured
     products from hemp.\r"
@@ -48,5 +52,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   textColor: {r: 0.73333335, g: 0.8862746, b: 0.5686275, a: 1}
   backgroundColor: {r: 1, g: 0, b: 0, a: 0}
+  specialPlayerPrefab: {fileID: 0}

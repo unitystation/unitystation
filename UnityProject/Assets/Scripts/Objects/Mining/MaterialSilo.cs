@@ -21,7 +21,8 @@ namespace Objects.Machines
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			var array = FindObjectsOfType<MaterialStorageLink>();
+			var registerTile = GetComponent<RegisterTile>();
+			var array = registerTile.Matrix.GetComponentsInChildren<MaterialStorageLink>();
 			foreach (var otherStorage in array)
 			{
 				var registerObject = otherStorage.GetComponent<RegisterObject>();

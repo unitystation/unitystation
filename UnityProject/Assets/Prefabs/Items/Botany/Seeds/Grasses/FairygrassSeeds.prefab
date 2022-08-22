@@ -9,14 +9,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3231893189219563044, guid: 1f4cf8ca3c57601448405702729464c2,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3231893189219563044, guid: 1f4cf8ca3c57601448405702729464c2,
-        type: 3}
       propertyPath: plantData.PlantName
       value: Fairygrass
       objectReference: {fileID: 0}
+    - target: {fileID: 3231893189219563044, guid: 1f4cf8ca3c57601448405702729464c2,
+        type: 3}
+      propertyPath: plantData.DeadSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 9772fd8bc3287984f9f3f57a98190934,
+        type: 2}
     - target: {fileID: 3231893189219563044, guid: 1f4cf8ca3c57601448405702729464c2,
         type: 3}
       propertyPath: plantData.ProduceObject
@@ -25,9 +26,9 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3231893189219563044, guid: 1f4cf8ca3c57601448405702729464c2,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[1]
+      propertyPath: plantData.FullyGrownSpriteSO
       value: 
-      objectReference: {fileID: 11400000, guid: 045d6c441d28e044ab768a51a4d88e51,
+      objectReference: {fileID: 11400000, guid: a09d25605408c4d4c964ef0f3e3119db,
         type: 2}
     - target: {fileID: 3231893189219563044, guid: 1f4cf8ca3c57601448405702729464c2,
         type: 3}
@@ -37,16 +38,15 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3231893189219563044, guid: 1f4cf8ca3c57601448405702729464c2,
         type: 3}
-      propertyPath: plantData.FullyGrownSpriteSO
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: a09d25605408c4d4c964ef0f3e3119db,
+      objectReference: {fileID: 11400000, guid: 045d6c441d28e044ab768a51a4d88e51,
         type: 2}
     - target: {fileID: 3231893189219563044, guid: 1f4cf8ca3c57601448405702729464c2,
         type: 3}
-      propertyPath: plantData.DeadSpriteSO
-      value: 
-      objectReference: {fileID: 11400000, guid: 9772fd8bc3287984f9f3f57a98190934,
-        type: 2}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4166992798959574977, guid: 1f4cf8ca3c57601448405702729464c2,
         type: 3}
       propertyPath: m_Sprite
@@ -56,12 +56,17 @@ PrefabInstance:
     - target: {fileID: 4229409858916684073, guid: 1f4cf8ca3c57601448405702729464c2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b07be31fd36ba864ba7c6f0c8fec865a
       objectReference: {fileID: 0}
     - target: {fileID: 4262046009460108445, guid: 1f4cf8ca3c57601448405702729464c2,
         type: 3}
       propertyPath: m_Name
       value: FairygrassSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 4266692683203465705, guid: 1f4cf8ca3c57601448405702729464c2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4266692683203465705, guid: 1f4cf8ca3c57601448405702729464c2,
         type: 3}
@@ -80,6 +85,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4266692683203465705, guid: 1f4cf8ca3c57601448405702729464c2,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4266692683203465705, guid: 1f4cf8ca3c57601448405702729464c2,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -92,16 +102,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4266692683203465705, guid: 1f4cf8ca3c57601448405702729464c2,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4266692683203465705, guid: 1f4cf8ca3c57601448405702729464c2,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4266692683203465705, guid: 1f4cf8ca3c57601448405702729464c2,
         type: 3}
@@ -120,13 +120,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4451895057287496703, guid: 1f4cf8ca3c57601448405702729464c2,
         type: 3}
-      propertyPath: initialDescription
-      value: These seeds grow into a more mystical grass.
+      propertyPath: initialName
+      value: pack of fairygrass seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4451895057287496703, guid: 1f4cf8ca3c57601448405702729464c2,
         type: 3}
-      propertyPath: initialName
-      value: pack of fairygrass seeds
+      propertyPath: initialDescription
+      value: These seeds grow into a more mystical grass.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7178576897366171888, guid: 1f4cf8ca3c57601448405702729464c2,
+        type: 3}
+      propertyPath: foreverID
+      value: b07be31fd36ba864ba7c6f0c8fec865a
       objectReference: {fileID: 0}
     - target: {fileID: 7954425066108688154, guid: 1f4cf8ca3c57601448405702729464c2,
         type: 3}

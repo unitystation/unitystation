@@ -1,130 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &2524372829327985435
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1626197849799790230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f0eb35888c6dfb4dbac823eb8cad23b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  matrixDebugLogging: 0
-  objectType: 1
-  OneDirectionRestricted: 0
-  isClosed: 0
---- !u!114 &3123194050341043285
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1626197849799790230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abede496a2014828a4bdb14c65ffd675, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  openSFX:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Doors/stonedoor_openclose.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  closeSFX:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Doors/stonedoor_openclose.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  doorAnimationSize: 3
-  doorAnimator: {fileID: 5998840072448781685}
-  DoorDeniedSpriteOffset: 4
-  DoorCoverSpriteOffset: 4
-  DoorLightSpriteOffset: 0
-  DoorSpriteOffset: 2
-  weldOverlay: {fileID: 0}
-  weldSprite: {fileID: 0}
-  isEmagged: 0
-  doorType: 13
-  damageOnClose: 0
-  damageClosed: 90
-  ignorePassableChecks: 0
-  IsAutomatic: 0
-  conType: 0
-  connectedDoorSwitch: {fileID: 0}
-  isPerformingAction: 0
-  isWindowedDoor: 0
-  useSimpleLightAnimation: 0
-  useSimpleDeniedAnimation: 0
-  maxTimeOpen: -1
-  enablePressureWarning: 0
-  DoorPressureSpriteOffset: 25
-  pressureLevel: 0
-  openingDirection: 0
-  spriteRenderer: {fileID: 0}
-  BlockAutoClose: 0
---- !u!114 &5759204677302852279
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1626197849799790230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6b651f691d994be2a711f3504b85ac4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  normalMat: {fileID: 2100000, guid: 79d9d8d688d284d558cdadf8c6f348a3, type: 2}
-  greyScaleMat: {fileID: 2100000, guid: aad05d4fe726a4ae4bddf6f152db8fe6, type: 2}
-  fovMaskMat: {fileID: 2100000, guid: c122dd7923e087c48bf08da9da455514, type: 2}
---- !u!114 &5998840072448781685
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1626197849799790230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2cf30704fd754096ad1a718fc9b2782, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  doorController: {fileID: 3123194050341043285}
-  spritePath: icons/obj/doors/metal_fwall_closing
-  animFrames: 030000000200000001000000
-  animLength: 0
-  closeFrame: 4
-  deniedFrame: 4
-  openFrame: 0
-  direction: 0
-  IncludeAccessDeniedAnim: 0
-  Smoothed: 0
---- !u!114 &8261635703963174013
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1626197849799790230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5cc73c31b95f9e4c888601cdf661a56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  allowInput: 1
 --- !u!1001 &7109442641318188876
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -135,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 136634061082832056, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: e3fb07aeead92a74091216ef8df2c338
       objectReference: {fileID: 0}
     - target: {fileID: 338588115043544032, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -161,6 +36,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A huge chunk of metal used to separate rooms.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4848496751115757459, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: foreverID
+      value: e3fb07aeead92a74091216ef8df2c338
       objectReference: {fileID: 0}
     - target: {fileID: 5718954047647765097, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -281,3 +161,130 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7109442641318188876}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2524372829327985435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626197849799790230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f0eb35888c6dfb4dbac823eb8cad23b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  matrixDebugLogging: 0
+  objectType: 1
+  customNetTransform: {fileID: 0}
+  prefabTracker: {fileID: 0}
+  CurrentsortingGroup: {fileID: 0}
+  OneDirectionRestricted: 0
+  isClosed: 0
+--- !u!114 &3123194050341043285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626197849799790230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abede496a2014828a4bdb14c65ffd675, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  openSFX:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Doors/stonedoor_openclose.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  closeSFX:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Doors/stonedoor_openclose.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  doorAnimationSize: 3
+  doorAnimator: {fileID: 5998840072448781685}
+  DoorDeniedSpriteOffset: 4
+  DoorCoverSpriteOffset: 4
+  DoorLightSpriteOffset: 0
+  DoorSpriteOffset: 2
+  weldOverlay: {fileID: 0}
+  weldSprite: {fileID: 0}
+  isEmagged: 0
+  doorType: 13
+  damageOnClose: 0
+  damageClosed: 90
+  ignorePassableChecks: 0
+  IsAutomatic: 0
+  isPerformingAction: 0
+  isWindowedDoor: 0
+  useSimpleLightAnimation: 0
+  useSimpleDeniedAnimation: 0
+  maxTimeOpen: -1
+  enablePressureWarning: 0
+  DoorPressureSpriteOffset: 25
+  openingDirection: 0
+  BlockAutoClose: 0
+  conType: 0
+  requireLink: 0
+--- !u!114 &5759204677302852279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626197849799790230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6b651f691d994be2a711f3504b85ac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  normalMat: {fileID: 2100000, guid: 79d9d8d688d284d558cdadf8c6f348a3, type: 2}
+  greyScaleMat: {fileID: 2100000, guid: aad05d4fe726a4ae4bddf6f152db8fe6, type: 2}
+  fovMaskMat: {fileID: 2100000, guid: c122dd7923e087c48bf08da9da455514, type: 2}
+--- !u!114 &5998840072448781685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626197849799790230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2cf30704fd754096ad1a718fc9b2782, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorController: {fileID: 3123194050341043285}
+  spritePath: icons/obj/doors/metal_fwall_closing
+  animFrames: 030000000200000001000000
+  closeFrame: 4
+  deniedFrame: 4
+  openFrame: 0
+  direction: 0
+  IncludeAccessDeniedAnim: 0
+  Smoothed: 0
+--- !u!114 &8261635703963174013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626197849799790230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5cc73c31b95f9e4c888601cdf661a56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  allowInput: 1

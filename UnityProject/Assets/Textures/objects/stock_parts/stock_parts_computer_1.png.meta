@@ -47,6 +47,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -56,8 +58,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -78,9 +80,12 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
@@ -126,7 +131,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f2f28da60a3479510800000000000000
-      internalID: 1555786552546176815
+      internalID: -3927419714144167664
       vertices: []
       indices: 
       edges: []
@@ -147,7 +152,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b278a5ed4945cbe90800000000000000
-      internalID: -7008633921732966613
+      internalID: -9139462052999495786
       vertices: []
       indices: 
       edges: []
@@ -168,7 +173,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b51f451ecfd4ae610800000000000000
-      internalID: 1651217961892245851
+      internalID: -4873873504226723766
       vertices: []
       indices: 
       edges: []
@@ -189,7 +194,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: fba84061fadb2c000800000000000000
-      internalID: 54814705168190143
+      internalID: -8642349957397422658
       vertices: []
       indices: 
       edges: []
@@ -204,6 +209,11 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      stock_parts_computer_1_1: -9139462052999495786
+      stock_parts_computer_1_0: -3927419714144167664
+      stock_parts_computer_1_3: -8642349957397422658
+      stock_parts_computer_1_2: -4873873504226723766
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

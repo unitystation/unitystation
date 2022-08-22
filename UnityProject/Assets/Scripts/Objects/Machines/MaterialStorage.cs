@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,6 +9,9 @@ namespace Objects.Machines
 {
 	public class MaterialStorage : MonoBehaviour
 	{
+		/// <summary>
+		/// A list of current matterials in this storage, ItemTrait is the material type and int is it's quantity.
+		/// </summary>
 		public Dictionary<ItemTrait, int> MaterialList = new Dictionary<ItemTrait, int>();
 		private int currentResources;
 
@@ -54,22 +58,19 @@ namespace Objects.Machines
 			return false;
 		}
 
-		public bool TryRemoveSheet(ItemTrait material, int quantity)
+		public int TryRemoveSheet(ItemTrait material, int quantity)
 		{
-			quantity *= Cm3PerSheet;
-			if (MaterialList[material] >= quantity)
-			{
-				ConsumeMaterial(material, quantity);
-				UpdateGUIs.Invoke();
-				return true;
-			}
-			return false;
+			quantity = Mathf.Min(quantity, MaterialList[material] / Cm3PerSheet);
+			var Cm3Used = Cm3PerSheet * quantity;
+			ConsumeMaterial(material, Cm3Used);
+			UpdateGUIs.Invoke();
+			return quantity;
 		}
 
 		/// <summary>
 		/// Attempt to remove an amount of materials from a Dictionary of materials
 		/// </summary>
-		public bool TryConsumeList(DictionaryMaterialToIntAmount consume)
+		public bool TryConsumeList(SerializableDictionary<MaterialSheet, int> consume)
 		{
 			foreach (var materialSheet in consume.Keys)
 			{
@@ -91,10 +92,11 @@ namespace Objects.Machines
 
 		public void DispenseSheet(int amountOfSheets, ItemTrait material, Vector3 worldPos)
 		{
-			if (TryRemoveSheet(material, amountOfSheets))
+			var removedSheets = TryRemoveSheet(material, amountOfSheets);
+			if (removedSheets != 0)
 			{
 				var materialToSpawn = CraftingManager.MaterialSheetData[material].RefinedPrefab;
-				Spawn.ServerPrefab(materialToSpawn, worldPos, transform.parent, count: amountOfSheets);
+				Spawn.ServerPrefab(materialToSpawn, worldPos, transform.parent, count: removedSheets);
 			}
 		}
 
@@ -106,7 +108,7 @@ namespace Objects.Machines
 				var amountToSpawn = MaterialList[material] / Cm3PerSheet;
 				if (amountToSpawn > 0)
 				{
-					Spawn.ServerPrefab(materialToSpawn, gameObject.WorldPosServer(), transform.parent, count: amountToSpawn);
+					Spawn.ServerPrefab(materialToSpawn, gameObject.AssumedWorldPosServer(), transform.parent, count: amountToSpawn);
 				}
 			}
 		}

@@ -12,10 +12,25 @@ PrefabInstance:
       propertyPath: bodyPartsCovered
       value: 240
       objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 57b4739d8947544f387d028cd2dd59b9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 57b4739d8947544f387d028cd2dd59b9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 57b4739d8947544f387d028cd2dd59b9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[4].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2909197017712554513, guid: 57b4739d8947544f387d028cd2dd59b9,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 3d55f979c8704f140978abc825d2b2fd
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: 57b4739d8947544f387d028cd2dd59b9,
         type: 3}
@@ -93,18 +108,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: The only time when you DON'T enjoy looking at someone's rack.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: 57b4739d8947544f387d028cd2dd59b9,
+        type: 3}
+      propertyPath: foreverID
+      value: 3d55f979c8704f140978abc825d2b2fd
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 57b4739d8947544f387d028cd2dd59b9,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 331d621c67d9e624489f6d95437ab525,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 57b4739d8947544f387d028cd2dd59b9,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 331d621c67d9e624489f6d95437ab525,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 57b4739d8947544f387d028cd2dd59b9,
         type: 3}
       propertyPath: allClothingData.Array.size

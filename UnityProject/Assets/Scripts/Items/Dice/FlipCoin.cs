@@ -22,7 +22,7 @@ public class FlipCoin : MonoBehaviour, IExaminable, ICheckedInteractable<HandAct
 	private string tailName = "tail";
 
 	private SpriteHandler spriteHandler;
-	private CustomNetTransform netTransform;
+	private UniversalObjectPhysics universalObjectPhysics;
 
 	public bool IsUpright { get; private set; } = true;
 
@@ -31,19 +31,19 @@ public class FlipCoin : MonoBehaviour, IExaminable, ICheckedInteractable<HandAct
 	private void Awake()
 	{
 		spriteHandler = GetComponentInChildren<SpriteHandler>();
-		netTransform = GetComponent<CustomNetTransform>();
+		universalObjectPhysics = GetComponent<UniversalObjectPhysics>();
 	}
 
 	private void OnEnable()
 	{
-		netTransform.OnThrowStart.AddListener(ThrowStart);
-		netTransform.OnThrowEnd.AddListener(ThrowEnd);
+		universalObjectPhysics.OnThrowStart.AddListener(ThrowStart);
+		universalObjectPhysics.OnImpact.AddListener(ThrowEnd);
 	}
 
 	private void OnDisable()
 	{
-		netTransform.OnThrowStart.RemoveListener(ThrowStart);
-		netTransform.OnThrowEnd.RemoveListener(ThrowEnd);
+		universalObjectPhysics.OnThrowStart.RemoveListener(ThrowStart);
+		universalObjectPhysics.OnImpact.RemoveListener(ThrowEnd);
 	}
 
 	#endregion Lifecycle
@@ -81,14 +81,21 @@ public class FlipCoin : MonoBehaviour, IExaminable, ICheckedInteractable<HandAct
 
 	#region Throwing
 
-	private void ThrowStart(ThrowInfo throwInfo)
+	private void ThrowStart(UniversalObjectPhysics throwInfo)
 	{
-		Chat.AddActionMsgToChat(throwInfo.ThrownBy, $"You throw the coin...", $"{throwInfo.ThrownBy} throws the coin...");
+		if (throwInfo.thrownBy != null)
+		{
+			Chat.AddActionMsgToChat(throwInfo.thrownBy, $"You throw the coin...", $"{throwInfo.thrownBy} throws the coin...");
+		}
 	}
 
-	private void ThrowEnd(ThrowInfo throwInfo)
+	private void ThrowEnd(UniversalObjectPhysics throwInfo, Vector2 Force)
 	{
-		StartCoroutine(Flip());
+		if (Force.magnitude > 0.5f)
+		{
+			StartCoroutine(Flip());
+		}
+
 	}
 
 	private IEnumerator Flip()

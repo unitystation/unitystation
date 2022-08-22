@@ -48,7 +48,7 @@ TextureImporter:
       213: 21300028
     second: speedspace_ew_5_14
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -68,6 +68,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -77,8 +79,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -99,9 +101,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -455,6 +461,22 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      speedspace_ew_5_2: 21300004
+      speedspace_ew_5_1: 21300002
+      speedspace_ew_5_3: 21300006
+      speedspace_ew_5_6: 21300012
+      speedspace_ew_5_9: 21300018
+      speedspace_ew_5_11: 21300022
+      speedspace_ew_5_0: 21300000
+      speedspace_ew_5_13: 21300026
+      speedspace_ew_5_8: 21300016
+      speedspace_ew_5_10: 21300020
+      speedspace_ew_5_14: 21300028
+      speedspace_ew_5_5: 21300010
+      speedspace_ew_5_4: 21300008
+      speedspace_ew_5_7: 21300014
+      speedspace_ew_5_12: 21300024
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

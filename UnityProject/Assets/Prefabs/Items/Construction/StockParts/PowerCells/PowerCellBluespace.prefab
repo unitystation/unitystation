@@ -9,13 +9,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 716646880682716998, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
-      propertyPath: initialDescription
-      value: A rechargeable transdimensional power cell.
+      propertyPath: initialName
+      value: bluespace power cell
       objectReference: {fileID: 0}
     - target: {fileID: 716646880682716998, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
-      propertyPath: initialName
-      value: bluespace power cell
+      propertyPath: initialDescription
+      value: A rechargeable transdimensional power cell.
       objectReference: {fileID: 0}
     - target: {fileID: 716646880682716998, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
@@ -32,7 +32,12 @@ PrefabInstance:
     - target: {fileID: 1048113473106476432, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 4fe646094fef97d47b13f0d2dd3f3b0c
+      objectReference: {fileID: 0}
+    - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
@@ -51,6 +56,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +73,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
@@ -103,6 +103,11 @@ PrefabInstance:
         type: 3}
       propertyPath: MaxWatts
       value: 40000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6315500071468813385, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
+      propertyPath: foreverID
+      value: 4fe646094fef97d47b13f0d2dd3f3b0c
       objectReference: {fileID: 0}
     - target: {fileID: 6510392005750913955, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}

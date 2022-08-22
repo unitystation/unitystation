@@ -1,31 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &7865254825470833407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7470833408491854134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d3d65b4ce352374ba2f4a8645c9476c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  LightEmission: {fileID: 0}
-  objectLightEmission: {fileID: 8008070255442440296}
-  Intensity: 1
-  Colour: {r: 0.9882353, g: 0.7607843, b: 0.003921569, a: 1}
-  EnumSprite: 0
-  Size: 5
-  IsOn: 0
-  PlayerLightData:
-    Intensity: 0
-    Colour: {r: 0, g: 0, b: 0, a: 0}
-    EnumSprite: 0
-    Size: 12
 --- !u!1 &8008070255442440296
 GameObject:
   m_ObjectHideFlags: 0
@@ -55,6 +29,7 @@ Transform:
   m_LocalRotation: {x: 0.00000031610085, y: 0.00000021073383, z: -0.70710677, w: 0.7071069}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 5}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7475475409650541634}
   m_RootOrder: 1
@@ -88,6 +63,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -152,7 +128,7 @@ PrefabInstance:
     - target: {fileID: 441189880119871534, guid: f92b2950637a12c408848cede6089288,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 43513ab6d8fbf664eaf879a7d16a51c3
       objectReference: {fileID: 0}
     - target: {fileID: 543631825431754138, guid: f92b2950637a12c408848cede6089288,
         type: 3}
@@ -226,6 +202,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9e404222cf767454089431059003ac1c,
         type: 2}
+    - target: {fileID: 6859518415952902647, guid: f92b2950637a12c408848cede6089288,
+        type: 3}
+      propertyPath: foreverID
+      value: 43513ab6d8fbf664eaf879a7d16a51c3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f92b2950637a12c408848cede6089288, type: 3}
 --- !u!1 &7470833408491854134 stripped
@@ -234,6 +215,32 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6928477023601159340}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7865254825470833407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7470833408491854134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3d65b4ce352374ba2f4a8645c9476c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  LightEmission: {fileID: 0}
+  objectLightEmission: {fileID: 8008070255442440296}
+  Intensity: 1
+  Colour: {r: 0.9882353, g: 0.7607843, b: 0.003921569, a: 1}
+  EnumSprite: 0
+  Size: 5
+  IsOn: 0
+  PlayerLightData:
+    Intensity: 0
+    Colour: {r: 0, g: 0, b: 0, a: 0}
+    EnumSprite: 0
+    Size: 12
 --- !u!4 &7475475409650541634 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 547429675929995502, guid: f92b2950637a12c408848cede6089288,

@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 namespace Objects.Engineering
 {
-	public class ParticleAcceleratorPart : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable
+	public class ParticleAcceleratorPart : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable, IServerSpawn
 	{
 		private ParticleAcceleratorState currentState = ParticleAcceleratorState.Frame;
 		public ParticleAcceleratorState CurrentState => currentState;
@@ -16,8 +16,8 @@ namespace Objects.Engineering
 		private SpriteHandler spriteHandler;
 		private WrenchSecurable wrenchSecurable;
 
-		private Directional directional;
-		public Directional Directional => directional;
+		private Rotatable directional;
+		public Rotatable Directional => directional;
 
 		[SerializeField]
 		private ParticleAcceleratorType particleAcceleratorType = ParticleAcceleratorType.Back;
@@ -47,25 +47,22 @@ namespace Objects.Engineering
 			integrity = GetComponent<Integrity>();
 			wrenchSecurable = GetComponent<WrenchSecurable>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
-			directional = GetComponent<Directional>();
+			directional = GetComponent<Rotatable>();
 		}
 
-		private void Start()
+		public void OnSpawnServer(SpawnInfo info)
 		{
-			if(startSetUp == false) return;
-
-			ChangeState(ParticleAcceleratorState.Closed);
-			amountOfWiresUsed = amountOfWiresNeeded;
-			wrenchSecurable.ServerSetPushable(false);
-		}
-
-		private void OnEnable()
-		{
+			if (startSetUp)
+			{
+				ChangeState(ParticleAcceleratorState.Closed);
+				amountOfWiresUsed = amountOfWiresNeeded;
+				wrenchSecurable.ServerSetPushable(false);
+			}
 			registerTile.OnLocalPositionChangedServer.AddListener(OnRegisterTileMove);
 			integrity.OnWillDestroyServer.AddListener(OnIntegrityDestroy);
 		}
 
-		private void OnDisable()
+		public void OnDisable()
 		{
 			registerTile.OnLocalPositionChangedServer.RemoveListener(OnRegisterTileMove);
 			integrity.OnWillDestroyServer.RemoveListener(OnIntegrityDestroy);
@@ -103,7 +100,7 @@ namespace Objects.Engineering
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (DefaultWillInteract.HandApply(interaction, side) == false) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Cable)) return true;
 

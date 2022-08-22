@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: isInitiallyNotPushable
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7146803245469049995, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: pushPullSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 1499169744200704914, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
       propertyPath: m_Sprite
@@ -23,9 +28,54 @@ PrefabInstance:
       propertyPath: m_Name
       value: DisposalPipeBrokenUp
       objectReference: {fileID: 0}
+    - target: {fileID: 1710127415778951519, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1710127415778951519, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1710127415778951519, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2368834295612078540, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: foreverID
+      value: 28c21e0c89ae252409ef8b1e07449688
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227768396750277686, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227768396750277686, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227768396750277686, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003302111046931253, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: CurrentDirection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4003302111046931253, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
       propertyPath: InitialDirection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196621891592203615, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: variantIndex
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6196621891592203615, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
@@ -36,13 +86,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6196621891592203615, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
-      propertyPath: variantIndex
+      propertyPath: initialVariantIndex
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7094281925372949223, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 28c21e0c89ae252409ef8b1e07449688
       objectReference: {fileID: 0}
     - target: {fileID: 7176090347676206105, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
@@ -56,13 +106,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7176090347676219337, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
-      propertyPath: initialDescription
-      value: A broken segment of disposal pipe. You should probably cut this off.
+      propertyPath: initialName
+      value: broken disposal pipe
       objectReference: {fileID: 0}
     - target: {fileID: 7176090347676219337, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
-      propertyPath: initialName
-      value: broken disposal pipe
+      propertyPath: initialDescription
+      value: A broken segment of disposal pipe. You should probably cut this off.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7176090347676240723, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7176090347676240723, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
@@ -81,6 +136,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7176090347676240723, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7176090347676240723, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -93,16 +153,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7176090347676240723, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7176090347676240723, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7176090347676240723, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
@@ -143,15 +193,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7692975016165225976, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
-      propertyPath: Down
+      propertyPath: Up
       value: 
-      objectReference: {fileID: 21300000, guid: b9c2d7df7a7b58e45880288543504914,
+      objectReference: {fileID: 21300002, guid: b9c2d7df7a7b58e45880288543504914,
         type: 3}
     - target: {fileID: 7692975016165225976, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
-      propertyPath: Right
+      propertyPath: Down
       value: 
-      objectReference: {fileID: 21300004, guid: b9c2d7df7a7b58e45880288543504914,
+      objectReference: {fileID: 21300000, guid: b9c2d7df7a7b58e45880288543504914,
         type: 3}
     - target: {fileID: 7692975016165225976, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
@@ -161,9 +211,9 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7692975016165225976, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
-      propertyPath: Up
+      propertyPath: Right
       value: 
-      objectReference: {fileID: 21300002, guid: b9c2d7df7a7b58e45880288543504914,
+      objectReference: {fileID: 21300004, guid: b9c2d7df7a7b58e45880288543504914,
         type: 3}
     m_RemovedComponents:
     - {fileID: 5066112798346183791, guid: b9bb4cf2e55ac1249ae2afe0243cf436, type: 3}

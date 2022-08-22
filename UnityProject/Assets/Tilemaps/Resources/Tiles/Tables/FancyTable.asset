@@ -13,19 +13,29 @@ MonoBehaviour:
   m_Name: FancyTable
   m_EditorClassIdentifier: 
   displayName: fancy table
+  description: 
   LayerType: 9
   TileType: 4
   RequiredTiles: []
-  floorTileType: 0
+  floorTileSounds: {fileID: 0}
+  CanSoundOverride: 0
   atmosPassable: 1
   isSealed: 0
   SpawnWithNoAir: 0
   passable: 0
   mineable: 0
+  miningTime: 5
+  constructable: 1
+  RadiationPassability: 1
+  ThermalConductivity: 0.05
+  HeatCapacity: 10000
   doesReflectBullet: 0
+  indestructible: 0
+  ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
-    m_keys: 02000000
-    m_values: 01
+    m_keys: 0200000003000000
+    m_values: 0101
   maxHealth: 70
   damageDeflection: 0
   armor:
@@ -39,15 +49,28 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   tileInteractions:
-  - {fileID: 11400000, guid: 60c558a8dfbf4ee4e8225a3484933424, type: 2}
+  - {fileID: 11400000, guid: 433c4f9163700f44e9f51a94fa7d4acf, type: 2}
   - {fileID: 11400000, guid: fc968a68963834c05a67838fe15fedec, type: 2}
   - {fileID: 11400000, guid: d27fd166098cf084abd6ebb4f8b2dd25, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 7602444472548548205, guid: bae9e1730d4424fbfa160f045597a604,
     type: 3}
   spawnAmountOnDeconstruct: 2
   lootOnDespawn: {fileID: 11400000, guid: e2de6ab4c37a99b4daca9502504bdb76, type: 2}
-  soundOnHit: 
+  toTileWhenDestroyed: {fileID: 0}
+  spawnOnDestroy: {fileID: 0}
+  damageOverlayList: {fileID: 0}
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  SoundOnDestroy: []
   connectCategory: 2
   connectType: 1
   spriteSheet:

@@ -1,20 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &1957473696940495703
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3177982829949495349}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6a1dcb130a349d408bb67f27beaa113, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RelatedPart: {fileID: 0}
-  BloodGeneratedByOneNutriment: 1
-  GeneratesThis: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
 --- !u!1001 &7897882321571350356
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28,15 +13,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ef0ca067a7be3cf4b96388f1ec632ab6,
         type: 2}
-    - target: {fileID: 2392288886832539726, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+    - target: {fileID: 1817806423449182988, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: maxCapacity
-      value: 0.3
+      propertyPath: foreverID
+      value: 760dc1119d22a8c4ab6fbbf78f8705b0
       objectReference: {fileID: 0}
     - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 760dc1119d22a8c4ab6fbbf78f8705b0
       objectReference: {fileID: 0}
     - target: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -109,6 +94,57 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5047286037071161015, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5047286037071161015, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 6d4fc2a13396cd848a11ffe3d371aa86,
+        type: 2}
+    - target: {fileID: 5047286037071161015, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 33fc2247c38bfd3448c9b39a85b09bb6,
+        type: 2}
+    - target: {fileID: 5047286037071161015, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 49e42fc6f2fd48b43a24d7be55b35c32,
+        type: 2}
+    - target: {fileID: 5047286037071161015, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 8ff58bba342ca2b4db0804ab0732c674,
+        type: 2}
+    - target: {fileID: 5047286037071161015, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].recipe
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5047286037071161015, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[5].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: e21a50f9d4170f5458983459162b7d68,
+        type: 2}
+    - target: {fileID: 5047286037071161015, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[6].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 8cbc19aaab18937498954e73ebba23e7,
+        type: 2}
+    - target: {fileID: 5047286037071161015, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].ingredientIndex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: initialName
@@ -121,10 +157,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: CanBeBroken
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: BodyPartType
       value: -1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: bloodThroughput
+      value: 7.142857
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: BodyPartReadableName
+      value: Bone
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: -4791504671035111961, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
+    - {fileID: 8095853447068111044, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
 --- !u!1 &3177982829949495349 stripped
 GameObject:
@@ -132,3 +185,33 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7897882321571350356}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1637282562550164045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3177982829949495349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundReagents:
+    m_keys:
+    - {fileID: 11400000, guid: 82692ea8680693d459ad97993dbda0f3, type: 2}
+    m_values: 0a000000
+--- !u!114 &1957473696940495703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3177982829949495349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6a1dcb130a349d408bb67f27beaa113, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BloodGeneratedByOneNutriment: 1
+  GeneratesThis: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}

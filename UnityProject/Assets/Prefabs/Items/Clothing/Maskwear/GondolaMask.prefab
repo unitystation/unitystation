@@ -12,18 +12,21 @@ PrefabInstance:
       propertyPath: bodyPartsCovered
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: -9097270597331898786, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: d964844f949896143aabb95b938ea1a0,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: d964844f949896143aabb95b938ea1a0,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: hideClothingFlags
@@ -40,6 +43,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1cc977a79a340d7478c8eed64d5279a5,
         type: 2}
+    - target: {fileID: 3585452806818900716, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: foreverID
+      value: 74ff45c24da2a354c926a07813318a1c
+      objectReference: {fileID: 0}
     - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -54,7 +62,7 @@ PrefabInstance:
     - target: {fileID: 7560587375320734517, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 74ff45c24da2a354c926a07813318a1c
       objectReference: {fileID: 0}
     - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}

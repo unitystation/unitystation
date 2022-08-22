@@ -13,6 +13,16 @@ MonoBehaviour:
   m_Name: smug
   m_EditorClassIdentifier: 
   emoteName: smug
+  requiresHands: 0
+  allowEmoteWhileInCrit: 1
+  isAudibleEmote: 0
+  allowEmoteWhileCrawling: 1
   viewText: grins smugly.
   youText: Smugness has made your face punchable to some people.
-  emoteDefaultSounds: []
+  failText: You were unable to preform this action!
+  mouthBlockedText: You are unable to make a sound!
+  critViewText: screams in pain!
+  soundsAreTyped: 0
+  defaultSounds: []
+  TypedSounds: []
+  pitchRange: {x: 0.7, y: 1}

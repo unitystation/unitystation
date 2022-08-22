@@ -11,14 +11,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 2441fc18a91ac204d986254deaaac616,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 251446803486426646, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 2441fc18a91ac204d986254deaaac616,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 251446803486426646, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -36,6 +34,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4cb358698c9d8324d9a2a2be8ec72092,
         type: 2}
+    - target: {fileID: 268759016881297918, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: foreverID
+      value: 235c4b516e37ca441a0a0d9763f7f152
+      objectReference: {fileID: 0}
     - target: {fileID: 1028637337542569492, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -51,7 +54,7 @@ PrefabInstance:
     - target: {fileID: 6526945778998519847, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 235c4b516e37ca441a0a0d9763f7f152
       objectReference: {fileID: 0}
     - target: {fileID: 6557358717024540051, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
@@ -117,6 +120,13 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: hydroponics winter coat
+      objectReference: {fileID: 0}
+    - target: {fileID: 6768331582244846321, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: initialDescription
+      value: A green and blue winter coat. The zipper tab looks like the flower from
+        a member of Rosa Hesperrhodos, a pretty pink-and-white rose. The colours
+        absolutely clash.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: caa7ec1293d63a74aa063307403f0c7e, type: 3}

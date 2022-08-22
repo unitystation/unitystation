@@ -15,7 +15,12 @@ PrefabInstance:
     - target: {fileID: 1064887464572126377, guid: 623189688b8953843aa87c899f5b0c31,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 7c5161b952b39194c8194b6b1c7fc326
+      objectReference: {fileID: 0}
+    - target: {fileID: 1099030289814701161, guid: 623189688b8953843aa87c899f5b0c31,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1099030289814701161, guid: 623189688b8953843aa87c899f5b0c31,
         type: 3}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1099030289814701161, guid: 623189688b8953843aa87c899f5b0c31,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1099030289814701161, guid: 623189688b8953843aa87c899f5b0c31,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1099030289814701161, guid: 623189688b8953843aa87c899f5b0c31,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1099030289814701161, guid: 623189688b8953843aa87c899f5b0c31,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1099030289814701161, guid: 623189688b8953843aa87c899f5b0c31,
         type: 3}
@@ -77,5 +77,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: StechkinPistolMagazine9mmArmorPiercing
       objectReference: {fileID: 0}
+    - target: {fileID: 6334790055244281200, guid: 623189688b8953843aa87c899f5b0c31,
+        type: 3}
+      propertyPath: foreverID
+      value: 7c5161b952b39194c8194b6b1c7fc326
+      objectReference: {fileID: 0}
+    - target: {fileID: 7544903932459635324, guid: 623189688b8953843aa87c899f5b0c31,
+        type: 3}
+      propertyPath: initalProjectile
+      value: 
+      objectReference: {fileID: 3202897330630479361, guid: 4c01b344baee17a48816d1bd84920101,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 623189688b8953843aa87c899f5b0c31, type: 3}

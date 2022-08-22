@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Mirror;
 using Messages;
 using Messages.Client;
 using Messages.Server;
-using Mirror;
-using UnityEngine;
 
 public static class NetworkManagerExtensions
 {
@@ -47,11 +46,11 @@ public static class NetworkManagerExtensions
 
 		if (!isServer)
 		{
-			NetworkClient.RegisterHandler<U>(new Action<NetworkConnection, U>(message.PreProcess));
+			NetworkClient.RegisterHandler(new Action<NetworkConnection, U>(message.PreProcess));
 		}
 		else
 		{
-			NetworkServer.RegisterHandler<U>(new Action<NetworkConnection, U>(message.PreProcess));
+			NetworkServer.RegisterHandler(new Action<NetworkConnection, U>(message.PreProcess));
 		}
 	}
 

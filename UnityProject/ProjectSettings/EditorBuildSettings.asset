@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/ActiveScenes/OnlineScene.unity
     guid: 7d8189749bcfdd448a8ac2c6b81f6fd7
   - enabled: 1
+    path: Assets/Scenes/SpaceScene.unity
+    guid: 8c90d82c743003445ac756fa25f65490
+  - enabled: 1
     path: Assets/Scenes/MainStations/BoxStationV1.unity
     guid: 9914c1efe6add5240bacdf51262b3b38
   - enabled: 1
@@ -32,9 +35,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainStations/SquareStation.unity
     guid: cb6ee1226a7d4bc49a627da4d478754e
-  - enabled: 0
-    path: Assets/Scenes/DevScenes/OBSOLETE/AsteroidStation.unity
-    guid: b8d53969c04b0054480e8f9835e8f4ea
   - enabled: 1
     path: Assets/Scenes/AsteroidScenes/Asteroid01.unity
     guid: 9d439a68630b3c9419e7216271d9bc7f
@@ -119,6 +119,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/AdditionalScenes/AncientStation.unity
     guid: 33ae55578dfdf7545b2b64b39eb28a70
+  - enabled: 1
+    path: Assets/Scenes/MainStations/MiniStation.unity
+    guid: 59627857a66655d418c0296e40eaba1c
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 7ac8cd75382a23042b1a13021adfae5d,
       type: 2}

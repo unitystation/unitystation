@@ -1,6 +1,7 @@
-
 using UnityEngine;
 using UnityEngine.Serialization;
+using TileManagement;
+using Tiles;
 
 /// <summary>
 /// Tile which is merely an effect / overlay. Doesn't really
@@ -32,7 +33,26 @@ public class OverlayTile : LayerTile
 
 	[Tooltip("The type of overlay?")]
 	[SerializeField]
-	private TileChangeManager.OverlayType overlayType = TileChangeManager.OverlayType.None;
+	private OverlayType overlayType = OverlayType.None;
 
-	public TileChangeManager.OverlayType OverlayType => overlayType;
+	public OverlayType OverlayType => overlayType;
+
+	public override bool Equals(object other)
+	{
+		if (other != null && this.GetType().Equals(other.GetType()))
+		{
+			OverlayTile comparedOverlay = (OverlayTile)other;
+			return (OverlayName == comparedOverlay.OverlayName)
+				&& (PreviewSprite == comparedOverlay.PreviewSprite)
+				&& (overlayType == comparedOverlay.OverlayType)
+				&& (isCleanable == comparedOverlay.isCleanable)
+				&& (isGraffiti == comparedOverlay.isGraffiti);
+		}
+		return false;
+	}
+
+	public override int GetHashCode()
+	{
+		return base.GetHashCode();
+	}
 }

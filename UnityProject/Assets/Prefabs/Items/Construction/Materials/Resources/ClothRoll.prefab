@@ -19,6 +19,45 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: eac70d156b3066d449cb3a0b08fa0ba3,
         type: 2}
+    - target: {fileID: 3285299878679120978, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: foreverID
+      value: e04b035c5758bbf479e3d67c638b1310
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261308650186557929, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261308650186557929, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261308650186557929, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: c9271d7afd825fa4aace8071a9b8a707,
+        type: 2}
+    - target: {fileID: 8261308650186557929, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 99cb66d43f5e1e14ba05dd3e735f91dd,
+        type: 2}
+    - target: {fileID: 8261308650186557929, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: b8d4c40c7dce4fe4699d454073011b26,
+        type: 2}
+    - target: {fileID: 8261308650186557929, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: b982219312ec796428c0b0cf34a868f9,
+        type: 2}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: hitDamage
@@ -57,7 +96,7 @@ PrefabInstance:
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
@@ -65,6 +104,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 95d948fb504e68045b6fa3d725c57b50,
         type: 2}
+    - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 10196b348bc94184cbb087529ac01c0c,
+        type: 2}
+    - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 8410104111733346763, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: Resistances.Flammable
@@ -73,7 +128,7 @@ PrefabInstance:
     - target: {fileID: 8410813880369429899, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: e04b035c5758bbf479e3d67c638b1310
       objectReference: {fileID: 0}
     - target: {fileID: 8443408387443916863, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
@@ -148,3 +203,42 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b56fec0300832ce48ade0ddf2e577ee7, type: 3}
+--- !u!1 &8766114959041811600 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8443408387443916863, guid: b56fec0300832ce48ade0ddf2e577ee7,
+    type: 3}
+  m_PrefabInstance: {fileID: 903671208942949551}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2643857475631494502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8766114959041811600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundReagents:
+    m_keys:
+    - {fileID: 11400000, guid: f972208dc79aa9241bf34b9cedd44993, type: 2}
+    m_values: 14000000
+--- !u!114 &5280873051720640614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8766114959041811600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19988dde784f6ae4f874dcb496f6115d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healType: 0
+  StopsExternalBleeding: 1
+  HealsTraumaDamage: 0
+  TraumaDamageToHeal: 20
+  TraumaTypeToHeal: 0

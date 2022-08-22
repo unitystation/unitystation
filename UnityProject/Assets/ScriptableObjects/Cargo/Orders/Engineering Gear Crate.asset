@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Engineering Gear Crate
   m_EditorClassIdentifier: 
   OrderName: Engineering Gear Crate
-  CreditCost: 800
+  CreditCost: 1000
   Crate: {fileID: 1191069438927925888, guid: 007d9f81d20c55d479d86a1d7d4343db, type: 3}
   Items:
   - {fileID: 8185621817755172087, guid: 3e81def4ec9dcac419a017125d9ce991, type: 3}
@@ -30,4 +30,5 @@ MonoBehaviour:
   - {fileID: 8823201312216209349, guid: b1298be73a51bd846a23547ed228e0ce, type: 3}
   - {fileID: 3431291279286482953, guid: e6f80a7fd02e2c14ea72a1410452b690, type: 3}
   - {fileID: 3431291279286482953, guid: e6f80a7fd02e2c14ea72a1410452b690, type: 3}
-  ContentSellPrice: 0
+  ContentSellPrice: 500
+  EmagOnly: 0

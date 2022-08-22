@@ -11,7 +11,7 @@ namespace Doors
 	[ExecuteInEditMode]
 	public class AirLockAnimator : DoorAnimator
 	{
-		//fix replace the hardcoded animation sizes;
+		// TODO: FIXME: replace the hardcoded animation sizes;
 		public int animSize;
 
 		public SpriteRenderer doorbase;
@@ -25,16 +25,13 @@ namespace Doors
 
 		public AddressableAudioSource TripleBeep;
 
-		//animations
+		// animations
 		public override void AccessDenied(bool skipAnimation)
 		{
-			if (skipAnimation)
-			{
-				//do nothing
-				return;
-			}
+			if (skipAnimation) return;
+
 			doorController.isPerformingAction = true;
-			SoundManager.PlayAtPosition(SingletonSOSounds.Instance.AccessDenied, transform.position, gameObject);
+			_ = SoundManager.PlayAtPosition(CommonSounds.Instance.AccessDenied, transform.position, gameObject);
 
 			// check if door uses a simple denied animation (flashes 1 frame on and off)
 			if (doorController.useSimpleDeniedAnimation)
@@ -57,11 +54,7 @@ namespace Doors
 
 		public override void PressureWarn(bool skipAnimation)
 		{
-			if (skipAnimation)
-			{
-				//do nothing
-				return;
-			}
+			if (skipAnimation) return;
 
 			doorController.isPerformingAction = true;
 			_ = SoundManager.PlayAtPosition(TripleBeep, transform.position, gameObject, polyphonic: true, isGlobal: true);
@@ -71,7 +64,7 @@ namespace Doors
 		public override void OpenDoor(bool skipAnimation)
 		{
 			doorController.isPerformingAction = true;
-			if (!skipAnimation)
+			if (skipAnimation == false)
 			{
 				doorController.PlayOpenSound();
 			}
@@ -86,7 +79,7 @@ namespace Doors
 				// check if door uses a simple light animation (turn on 1 frame, turn it off at the end)
 				if (doorController.useSimpleLightAnimation)
 				{
-					if (!skipAnimation)
+					if (skipAnimation == false)
 					{
 						StartCoroutine(PlaySimpleLightAnim());
 					}
@@ -111,7 +104,7 @@ namespace Doors
 				StartCoroutine(PlayAnim(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset, skipToEnd: skipAnimation));
 			}
 
-			//mabe the boxColliderStuff should be on the DoorController.
+			// maybe the boxColliderStuff should be on the DoorController.
 			StartCoroutine(MakePassable(skipAnimation));
 		}
 
@@ -224,7 +217,7 @@ namespace Doors
 				{
 					if (doorbase.isVisible)
 					{
-						EventManager.Broadcast(EVENT.UpdateFov);
+						EventManager.Broadcast(Event.UpdateFov);
 					}
 				}
 				if (updateAction)
@@ -288,7 +281,7 @@ namespace Doors
 			// Choose emergency lights sprite, overwrite with door bolt lights if
 			// pressureLevel is Warning and not Caution.
 			int spriteOffset = doorController.DoorPressureSpriteOffset;
-			if (doorController.pressureLevel == DoorController.PressureLevel.Warning)
+			if (doorController.CurrentPressureLevel == DoorController.PressureLevel.Warning)
 			{
 				spriteOffset = doorController.DoorDeniedSpriteOffset;
 			}

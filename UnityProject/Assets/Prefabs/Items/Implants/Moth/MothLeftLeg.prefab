@@ -9,10 +9,35 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
+      propertyPath: DamageThreshold
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: DismembermentChance
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: bodyPartAshesAboveThisDamage
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: c9191e040f023ed4fb5eb384a338f1b1,
         type: 2}
+    - target: {fileID: 2574131780916113488, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: initialName
+      value: moth left leg
+      objectReference: {fileID: 0}
     - target: {fileID: 2574131780916113488, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: initialDescription
@@ -26,7 +51,7 @@ PrefabInstance:
     - target: {fileID: 2648266232423228038, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 7565228022b9e5643905aed9a7302328
       objectReference: {fileID: 0}
     - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
@@ -86,7 +111,7 @@ PrefabInstance:
     - target: {fileID: 2689983249500970802, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: m_Name
-      value: HumanLeftLeg Variant
+      value: MothLeftLeg
       objectReference: {fileID: 0}
     - target: {fileID: 2856768839702850670, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
@@ -106,5 +131,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c9191e040f023ed4fb5eb384a338f1b1,
         type: 2}
+    - target: {fileID: 9074195140769878879, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: foreverID
+      value: 7565228022b9e5643905aed9a7302328
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e6f2ff9beb985749940d242877d84f0, type: 3}

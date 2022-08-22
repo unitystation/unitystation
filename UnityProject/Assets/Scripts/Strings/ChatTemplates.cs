@@ -5,32 +5,40 @@ namespace Strings
 {
 	public static class ChatTemplates
 	{
+		public const int SmallText = 12;
+		public const int NormalText = 14;
+		public const int LargeText = 18;
+		public const int VeryLargeText = 24;
+		public const int ExtremelyLargeText = 36;
+		public const int AnnoyingText = 64;
+
+		public const string Blue = "#0077ff";
+
 		public static readonly string CaptainAnnounce =
-			"\n\n<color=white><size=60><b>Captain Announces</b></size></color>\n\n"
+			$"\n\n<color=white><size={ExtremelyLargeText}><b>Captain Announces</b></size></color>\n\n"
 			+ "<color=#FF151F><b>{0}</b></color>\n\n";
 
 		public static readonly string CentcomAnnounce =
-			"\n\n<color=white><size=60><b>Central Command Update</b></size></color>\n\n"
+			$"\n\n<color=white><size={ExtremelyLargeText}><b>Central Command Update</b></size></color>\n\n"
 			+ "<color=#FF151F><b>{0}</b></color>\n\n";
 
 		public static readonly string PriorityAnnouncement =
-			"\n\n<color=white><size=60><b>Priority Announcement</b></size></color>\n\n"
+			$"\n\n<color=white><size={ExtremelyLargeText}><b>Priority Announcement</b></size></color>\n\n"
 			+ "<color=#FF151F>{0}</color>\n\n";
 
 		public static readonly string ShuttleCallSub =
-			"\n\nThe emergency shuttle has been called. It will arrive in {0} "
-			+ "\nNature of emergency:" + "\n\n{1}";
+			$"<size={LargeText}>The emergency shuttle has been called. It will arrive in <b>{{0}}</b>.\n</size>" +
+			"<b>Nature of emergency:</b>\n{1}";
 
 		public static readonly string ShuttleRecallSub =
-			"\n\nThe emergency shuttle has been recalled. \n\n{0}";
-
+			$"<size={LargeText}>The emergency shuttle has been recalled.\n</size>{{0}}";
 
 		public static readonly string CommandNewReport =
-			"<color=#FF151F>Incoming Classified Message</color>\n\n"
+			$"<color=#FF151F><size={LargeText}>Incoming Classified Message</size></color>\n\n"
 			+ "A report has been downloaded and printed out at all communications consoles.";
 
 		private static readonly string alertLevel =
-			"<color=#FF151F><size=40><b>Attention! Security level {0}:</b></size></color>\n"+
+			$"<color=#FF151F><size={VeryLargeText}><b>Attention! Security level {{0}}:</b></size></color>\n" +
 			"<color=white><b>{1}</b></color>";
 
 		public static string GetAlertLevelMessage(AlertLevelChange alertLevelChange)

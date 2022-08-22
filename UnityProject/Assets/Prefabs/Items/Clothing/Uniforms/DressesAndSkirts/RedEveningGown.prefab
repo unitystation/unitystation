@@ -12,10 +12,25 @@ PrefabInstance:
       propertyPath: bodyPartsCovered
       value: 912
       objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 4319a1b0d53702e458b176248bc470bb,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 4319a1b0d53702e458b176248bc470bb,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armoringBodyPartType
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 4319a1b0d53702e458b176248bc470bb,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armoringBodyPartType
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2909197017712554513, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 7dcbaacd5a0b23e47a30461265e1d4f9
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
@@ -93,18 +108,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Fancy dress for space bar singers.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: 4319a1b0d53702e458b176248bc470bb,
+        type: 3}
+      propertyPath: foreverID
+      value: 7dcbaacd5a0b23e47a30461265e1d4f9
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 28f2869bd9455b249b778b5a5b8497d6,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 28f2869bd9455b249b778b5a5b8497d6,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
       propertyPath: allClothingData.Array.size

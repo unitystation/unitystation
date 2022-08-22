@@ -4,11 +4,11 @@ using System.Linq;
 using Chemistry;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 using Chemistry.Components;
 
 namespace Tests.Chemistry
 {
+	[Category(nameof(Chemistry))]
 	public class ReagentContainerTests
 	{
 		private static ReagentContainer GetContainer(int maxCapacity, ReagentMix contents)
@@ -22,8 +22,8 @@ namespace Tests.Chemistry
 
 		private static void AssertContainerContentsEqualTo(ReagentContainer container, ReagentMix expected)
 		{
-			Assert.AreEqual(expected.Count(), container.Count());
-			foreach (var pair in expected)
+			Assert.AreEqual(expected.reagents.m_dict.Count(), container.Count());
+			foreach (var pair in expected.reagents.m_dict)
 			{
 				var val = container[pair.Key];
 
@@ -38,10 +38,13 @@ namespace Tests.Chemistry
 		{
 			var a = ScriptableObject.CreateInstance<Reagent>();
 			a.Name = "a";
+			a.IndexInSingleton = 0;
 			var b = ScriptableObject.CreateInstance<Reagent>();
 			b.Name = "b";
+			b.IndexInSingleton = 1;
 			var c = ScriptableObject.CreateInstance<Reagent>();
 			c.Name = "c";
+			c.IndexInSingleton = 2;
 
 			//Test adding without overflow
 			yield return new object[]
@@ -56,28 +59,28 @@ namespace Tests.Chemistry
 				50,
 				new ReagentMix(a, 10),
 				new ReagentMix(b, 10),
-				new ReagentMix(new DictionaryReagentFloat {{a, 10}, {b, 10}})
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 10}, {b, 10}})
 			};
 			yield return new object[]
 			{
 				50,
-				new ReagentMix(new DictionaryReagentFloat {{a, 10}, {b, 10}}),
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 10}, {b, 10}}),
 				new ReagentMix(a, 5),
-				new ReagentMix(new DictionaryReagentFloat {{a, 15}, {b, 10}})
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 15}, {b, 10}})
 			};
 			yield return new object[]
 			{
 				50,
-				new ReagentMix(new DictionaryReagentFloat {{a, 10}, {b, 10}}),
-				new ReagentMix(new DictionaryReagentFloat {{a, 5}, {b, 20}}),
-				new ReagentMix(new DictionaryReagentFloat {{a, 15}, {b, 30}})
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 10}, {b, 10}}),
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 5}, {b, 20}}),
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 15}, {b, 30}})
 			};
 			yield return new object[]
 			{
 				50,
 				new ReagentMix(),
-				new ReagentMix(new DictionaryReagentFloat {{a, 8}, {b, 22}}),
-				new ReagentMix(new DictionaryReagentFloat {{a, 8}, {b, 22}})
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 8}, {b, 22}}),
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 8}, {b, 22}})
 			};
 			//Test overflow
 			yield return new object[]
@@ -106,8 +109,8 @@ namespace Tests.Chemistry
 			{
 				10,
 				new ReagentMix(),
-				new ReagentMix(new DictionaryReagentFloat {{a, 60}, {b, 10}, {c, 30}}),
-				new ReagentMix(new DictionaryReagentFloat {{a, 6}, {b, 1}, {c, 3}})
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 60}, {b, 10}, {c, 30}}),
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 6}, {b, 1}, {c, 3}})
 			};
 		}
 
@@ -127,10 +130,13 @@ namespace Tests.Chemistry
 		{
 			var a = ScriptableObject.CreateInstance<Reagent>();
 			a.Name = "a";
+			a.IndexInSingleton = 0;
 			var b = ScriptableObject.CreateInstance<Reagent>();
 			b.Name = "b";
+			b.IndexInSingleton = 1;
 			var c = ScriptableObject.CreateInstance<Reagent>();
 			c.Name = "c";
+			c.IndexInSingleton = 2;
 
 			yield return new object[]
 			{
@@ -156,72 +162,72 @@ namespace Tests.Chemistry
 			yield return new object[]
 			{
 				50,
-				new ReagentMix(new DictionaryReagentFloat {{a, 10}, {b, 10}}),
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 10}, {b, 10}}),
 				10,
-				new ReagentMix(new DictionaryReagentFloat {{a, 5}, {b, 5}})
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 5}, {b, 5}})
 			};
 			yield return new object[]
 			{
 				50,
-				new ReagentMix(new DictionaryReagentFloat {{a, 10}, {b, 10}}),
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 10}, {b, 10}}),
 				16,
-				new ReagentMix(new DictionaryReagentFloat {{a, 2}, {b, 2}})
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 2}, {b, 2}})
 			};
 			yield return new object[]
 			{
 				50,
-				new ReagentMix(new DictionaryReagentFloat {{a, 10}, {b, 10}}),
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 10}, {b, 10}}),
 				20,
 				new ReagentMix()
 			};
 			yield return new object[]
 			{
 				50,
-				new ReagentMix(new DictionaryReagentFloat {{a, 10}, {b, 10}}),
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 10}, {b, 10}}),
 				30,
 				new ReagentMix()
 			};
 			yield return new object[]
 			{
 				50,
-				new ReagentMix(new DictionaryReagentFloat {{a, 10}, {b, 10}, {c, 10}}),
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 10}, {b, 10}, {c, 10}}),
 				15,
-				new ReagentMix(new DictionaryReagentFloat {{a, 5}, {b, 5}, {c, 5}})
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 5}, {b, 5}, {c, 5}})
 			};
 			yield return new object[]
 			{
 				50,
-				new ReagentMix(new DictionaryReagentFloat {{a, 10}, {b, 10}, {c, 10}}),
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 10}, {b, 10}, {c, 10}}),
 				21,
-				new ReagentMix(new DictionaryReagentFloat {{a, 3}, {b, 3}, {c, 3}})
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 3}, {b, 3}, {c, 3}})
 			};
 			yield return new object[]
 			{
 				50,
-				new ReagentMix(new DictionaryReagentFloat {{a, 10}, {b, 10}, {c, 10}}),
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 10}, {b, 10}, {c, 10}}),
 				30,
 				new ReagentMix()
 			};
 			yield return new object[]
 			{
 				50,
-				new ReagentMix(new DictionaryReagentFloat {{a, 10}, {b, 10}, {c, 10}}),
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 10}, {b, 10}, {c, 10}}),
 				100,
 				new ReagentMix()
 			};
 			yield return new object[]
 			{
 				50,
-				new ReagentMix(new DictionaryReagentFloat {{a, 10}, {b, 20}}),
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 10}, {b, 20}}),
 				6,
-				new ReagentMix(new DictionaryReagentFloat {{a, 8}, {b, 16}})
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 8}, {b, 16}})
 			};
 			yield return new object[]
 			{
 				50,
-				new ReagentMix(new DictionaryReagentFloat {{a, 5}, {b, 10}, {c, 15}}),
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 5}, {b, 10}, {c, 15}}),
 				12,
-				new ReagentMix(new DictionaryReagentFloat {{a, 3}, {b, 6}, {c, 9}})
+				new ReagentMix(new SerializableDictionary<Reagent, float> {{a, 3}, {b, 6}, {c, 9}})
 			};
 		}
 

@@ -15,15 +15,15 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1924874740640411365, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
+      propertyPath: initialName
+      value: Shady Jim's Super Slims packet
+      objectReference: {fileID: 0}
+    - target: {fileID: 1924874740640411365, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
+        type: 3}
       propertyPath: initialDescription
       value: Is your weight slowing you down? Having trouble running away from gravitational
         singularities? Can't stop stuffing your mouth? Smoke Shady Jim's Super Slims
         and watch all that fat burn away. Guaranteed results!
-      objectReference: {fileID: 0}
-    - target: {fileID: 1924874740640411365, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
-        type: 3}
-      propertyPath: initialName
-      value: Shady Jim's Super Slims packet
       objectReference: {fileID: 0}
     - target: {fileID: 1924874740640411365, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
@@ -37,6 +37,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9899c19637aa6eb448f465f63ed672eb,
         type: 2}
+    - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -54,6 +59,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -66,16 +76,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
@@ -100,7 +100,7 @@ PrefabInstance:
     - target: {fileID: 2147979857387961395, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 062d0147cd763a74e92a69bde7b76f0e
       objectReference: {fileID: 0}
     - target: {fileID: 2209833963140592347, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
@@ -108,6 +108,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: abd8c49e9b1448a41a270ebf52a71a0a,
         type: 3}
+    - target: {fileID: 4963428794470239722, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
+        type: 3}
+      propertyPath: foreverID
+      value: 062d0147cd763a74e92a69bde7b76f0e
+      objectReference: {fileID: 0}
     - target: {fileID: 5268370315017271808, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
       propertyPath: PresentSpriteSet

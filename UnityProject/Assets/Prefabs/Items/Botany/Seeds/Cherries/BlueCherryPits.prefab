@@ -16,12 +16,17 @@ PrefabInstance:
     - target: {fileID: 736879533213848147, guid: a4df6b632a40f5c448d93a5ac982967a,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 7be99732ebd190746be21f4797ec639c
       objectReference: {fileID: 0}
     - target: {fileID: 841567918206070759, guid: a4df6b632a40f5c448d93a5ac982967a,
         type: 3}
       propertyPath: m_Name
       value: BlueCherryPits
+      objectReference: {fileID: 0}
+    - target: {fileID: 846214591685710483, guid: a4df6b632a40f5c448d93a5ac982967a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 846214591685710483, guid: a4df6b632a40f5c448d93a5ac982967a,
         type: 3}
@@ -40,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 846214591685710483, guid: a4df6b632a40f5c448d93a5ac982967a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 846214591685710483, guid: a4df6b632a40f5c448d93a5ac982967a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 846214591685710483, guid: a4df6b632a40f5c448d93a5ac982967a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 846214591685710483, guid: a4df6b632a40f5c448d93a5ac982967a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 846214591685710483, guid: a4df6b632a40f5c448d93a5ac982967a,
         type: 3}
@@ -80,18 +80,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 954836943232057477, guid: a4df6b632a40f5c448d93a5ac982967a,
         type: 3}
-      propertyPath: initialDescription
-      value: The blue kind of cherries.
-      objectReference: {fileID: 0}
-    - target: {fileID: 954836943232057477, guid: a4df6b632a40f5c448d93a5ac982967a,
-        type: 3}
       propertyPath: initialName
       value: pack of blue cherry pits
       objectReference: {fileID: 0}
+    - target: {fileID: 954836943232057477, guid: a4df6b632a40f5c448d93a5ac982967a,
+        type: 3}
+      propertyPath: initialDescription
+      value: The blue kind of cherries.
+      objectReference: {fileID: 0}
     - target: {fileID: 2040676439104927070, guid: a4df6b632a40f5c448d93a5ac982967a,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
+      propertyPath: plantData.PlantName
+      value: Blue Cherry Tree
       objectReference: {fileID: 0}
     - target: {fileID: 2040676439104927070, guid: a4df6b632a40f5c448d93a5ac982967a,
         type: 3}
@@ -101,15 +101,20 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2040676439104927070, guid: a4df6b632a40f5c448d93a5ac982967a,
         type: 3}
-      propertyPath: plantData.PlantName
-      value: Blue Cherry Tree
-      objectReference: {fileID: 0}
-    - target: {fileID: 2040676439104927070, guid: a4df6b632a40f5c448d93a5ac982967a,
-        type: 3}
       propertyPath: plantData.FullyGrownSpriteSO
       value: 
       objectReference: {fileID: 11400000, guid: 0806cae1cd1eb62428b18a8c29f5c80f,
         type: 2}
+    - target: {fileID: 2040676439104927070, guid: a4df6b632a40f5c448d93a5ac982967a,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5987360281773351818, guid: a4df6b632a40f5c448d93a5ac982967a,
+        type: 3}
+      propertyPath: foreverID
+      value: 7be99732ebd190746be21f4797ec639c
+      objectReference: {fileID: 0}
     - target: {fileID: 6839778882622264416, guid: a4df6b632a40f5c448d93a5ac982967a,
         type: 3}
       propertyPath: PresentSpriteSet

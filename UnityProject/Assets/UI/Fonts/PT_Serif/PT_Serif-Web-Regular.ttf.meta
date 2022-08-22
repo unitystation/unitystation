@@ -1,8 +1,7 @@
 fileFormatVersion: 2
 guid: 4b66630b812144919da66601440fa930
-timeCreated: 1479973342
-licenseType: Pro
 TrueTypeFontImporter:
+  externalObjects: {}
   serializedVersion: 4
   fontSize: 16
   forceTextureCase: -2
@@ -11,10 +10,15 @@ TrueTypeFontImporter:
   includeFontData: 1
   fontNames:
   - PT Serif
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {instanceID: 0}
+  - {instanceID: 0}
+  - {instanceID: 0}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
   userData: 
   assetBundleName: 
   assetBundleVariant: 

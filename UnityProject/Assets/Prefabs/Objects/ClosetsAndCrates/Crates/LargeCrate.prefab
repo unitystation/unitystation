@@ -1,20 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &2472077913866120027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6264972350131591085}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31de5902c8d951f4e8b5f6905f3b74c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deconstructToolTrait: {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91,
-    type: 2}
-  deconstructTime: 3
 --- !u!1001 &2408852499328209661
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 162552311794462770, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: dde361d656542f048bdeebf4e87dd7d3
       objectReference: {fileID: 0}
     - target: {fileID: 1385327801538468448, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
@@ -70,6 +55,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0110e24fba3465649a1af2dca92fe1a2,
         type: 2}
+    - target: {fileID: 4678599651769793305, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: foreverID
+      value: dde361d656542f048bdeebf4e87dd7d3
+      objectReference: {fileID: 0}
     - target: {fileID: 5773371694829651476, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
       propertyPath: m_Enabled
@@ -198,3 +188,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2408852499328209661}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2472077913866120027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6264972350131591085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31de5902c8d951f4e8b5f6905f3b74c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deconstructToolTrait: {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91,
+    type: 2}
+  deconstructTime: 3

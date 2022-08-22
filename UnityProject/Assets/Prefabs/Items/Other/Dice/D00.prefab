@@ -1,19 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &2985423887104175581
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2001582070428754231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 280217c1c10160e4094d421d5d308ee5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sides: 10
-  isRiggable: 1
 --- !u!1001 &7071486407508621004
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25,6 +11,11 @@ PrefabInstance:
         type: 3}
       propertyPath: sides
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2404714145071242134, guid: 77d2a86d1e994c64485b5240c8f917ec,
+        type: 3}
+      propertyPath: foreverID
+      value: 65d74b963b1b8e844af3334c449f14c0
       objectReference: {fileID: 0}
     - target: {fileID: 3216665340718951548, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
@@ -68,7 +59,7 @@ PrefabInstance:
     - target: {fileID: 8678945255199976015, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 65d74b963b1b8e844af3334c449f14c0
       objectReference: {fileID: 0}
     - target: {fileID: 8783702771992860667, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
@@ -170,3 +161,17 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7071486407508621004}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2985423887104175581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001582070428754231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 280217c1c10160e4094d421d5d308ee5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sides: 10
+  isRiggable: 1

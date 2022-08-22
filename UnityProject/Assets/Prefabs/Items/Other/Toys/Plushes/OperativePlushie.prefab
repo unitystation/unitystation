@@ -16,12 +16,17 @@ PrefabInstance:
     - target: {fileID: 169216062924189193, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b0299a1d730d1564489a7ca43b497a34
       objectReference: {fileID: 0}
     - target: {fileID: 273902110919939005, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
       propertyPath: m_Name
       value: OperativePlushie
+      objectReference: {fileID: 0}
+    - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
@@ -40,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
@@ -80,14 +80,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
-      propertyPath: initialDescription
-      value: A stuffed toy that resembles a syndicate nuclear operative. The tag
-        claims operatives to be purely fictitious.
+      propertyPath: initialName
+      value: operative plushie
       objectReference: {fileID: 0}
     - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
-      propertyPath: initialName
-      value: operative plushie
+      propertyPath: initialDescription
+      value: A stuffed toy that resembles a syndicate nuclear operative. The tag
+        claims operatives to be purely fictitious.
       objectReference: {fileID: 0}
     - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
@@ -110,5 +110,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d926616b37096f541b2c72f8bf3ab2d3,
         type: 2}
+    - target: {fileID: 6590914017311023056, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
+      propertyPath: foreverID
+      value: b0299a1d730d1564489a7ca43b497a34
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75421751b31ee7f49b1adb8b70cd2375, type: 3}

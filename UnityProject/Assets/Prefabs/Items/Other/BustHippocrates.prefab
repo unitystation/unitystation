@@ -10,12 +10,17 @@ PrefabInstance:
     - target: {fileID: 67653447299552786, guid: 4383a2e1200db8d4e8ed3c116873b878,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 9f668aa9c57264a4db0de7978e0cacd2
       objectReference: {fileID: 0}
     - target: {fileID: 100328150011014054, guid: 4383a2e1200db8d4e8ed3c116873b878,
         type: 3}
       propertyPath: m_Name
       value: BustHippocrates
+      objectReference: {fileID: 0}
+    - target: {fileID: 105814575089489618, guid: 4383a2e1200db8d4e8ed3c116873b878,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 105814575089489618, guid: 4383a2e1200db8d4e8ed3c116873b878,
         type: 3}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 105814575089489618, guid: 4383a2e1200db8d4e8ed3c116873b878,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 105814575089489618, guid: 4383a2e1200db8d4e8ed3c116873b878,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 105814575089489618, guid: 4383a2e1200db8d4e8ed3c116873b878,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 105814575089489618, guid: 4383a2e1200db8d4e8ed3c116873b878,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 105814575089489618, guid: 4383a2e1200db8d4e8ed3c116873b878,
         type: 3}
@@ -80,14 +80,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 543235021644563652, guid: 4383a2e1200db8d4e8ed3c116873b878,
         type: 3}
-      propertyPath: initialDescription
-      value: A bust of the famous Greek physician Hippocrates of Kos, often referred
-        to as the father of western medicine.
+      propertyPath: initialName
+      value: hippocrates bust
       objectReference: {fileID: 0}
     - target: {fileID: 543235021644563652, guid: 4383a2e1200db8d4e8ed3c116873b878,
         type: 3}
-      propertyPath: initialName
-      value: hippocrates bust
+      propertyPath: initialDescription
+      value: A bust of the famous Greek physician Hippocrates of Kos, often referred
+        to as the father of western medicine.
       objectReference: {fileID: 0}
     - target: {fileID: 6062532139084304417, guid: 4383a2e1200db8d4e8ed3c116873b878,
         type: 3}
@@ -95,5 +95,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 640e5f1ef11689c4dae64a2622581256,
         type: 2}
+    - target: {fileID: 6475848676736198603, guid: 4383a2e1200db8d4e8ed3c116873b878,
+        type: 3}
+      propertyPath: foreverID
+      value: 9f668aa9c57264a4db0de7978e0cacd2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4383a2e1200db8d4e8ed3c116873b878, type: 3}

@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 324373696492979455, guid: f80586e0fe8257c44afa4d5dcffd86e6,
+        type: 3}
+      propertyPath: foreverID
+      value: fe06f23c1ff3aaf48a407b48060a1045
+      objectReference: {fileID: 0}
     - target: {fileID: 6050446135475618120, guid: f80586e0fe8257c44afa4d5dcffd86e6,
         type: 3}
       propertyPath: itemStoragePopulator
@@ -15,14 +20,19 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6545783565049112560, guid: f80586e0fe8257c44afa4d5dcffd86e6,
         type: 3}
+      propertyPath: initialName
+      value: science award box
+      objectReference: {fileID: 0}
+    - target: {fileID: 6545783565049112560, guid: f80586e0fe8257c44afa4d5dcffd86e6,
+        type: 3}
       propertyPath: initialDescription
       value: A locked box used to store medals to be given to members of the science
         department.
       objectReference: {fileID: 0}
-    - target: {fileID: 6545783565049112560, guid: f80586e0fe8257c44afa4d5dcffd86e6,
+    - target: {fileID: 6640931401661036006, guid: f80586e0fe8257c44afa4d5dcffd86e6,
         type: 3}
-      propertyPath: initialName
-      value: science award box
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6640931401661036006, guid: f80586e0fe8257c44afa4d5dcffd86e6,
         type: 3}
@@ -41,6 +51,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6640931401661036006, guid: f80586e0fe8257c44afa4d5dcffd86e6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6640931401661036006, guid: f80586e0fe8257c44afa4d5dcffd86e6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +68,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6640931401661036006, guid: f80586e0fe8257c44afa4d5dcffd86e6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6640931401661036006, guid: f80586e0fe8257c44afa4d5dcffd86e6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6640931401661036006, guid: f80586e0fe8257c44afa4d5dcffd86e6,
         type: 3}
@@ -87,7 +92,7 @@ PrefabInstance:
     - target: {fileID: 6750583944055649574, guid: f80586e0fe8257c44afa4d5dcffd86e6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: fe06f23c1ff3aaf48a407b48060a1045
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f80586e0fe8257c44afa4d5dcffd86e6, type: 3}

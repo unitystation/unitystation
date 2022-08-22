@@ -1,33 +1,25 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
+using Mirror;
 using AdminTools;
 using Health.Sickness;
 using Messages.Server;
 using Messages.Server.SoundMessages;
-using Mirror;
-using UnityEngine;
+using Player;
+using Player.Movement;
+using Systems.StatusesAndEffects.Implementations;
 
 namespace HealthV2
 {
 	public class PlayerHealthV2 : LivingHealthMasterBase, RegisterPlayer.IControlPlayerState
 	{
-
-		private PlayerMove playerMove;
+		private MovementSynchronisation playerMove;
 		/// <summary>
 		/// Controller for sprite direction and walking into objects
 		/// </summary>
-		public PlayerMove PlayerMove => playerMove;
-
-		private PlayerSprites playerSprites;
-
-
-		private PlayerScript playerScript;
-		/// <summary>
-		/// The associated Player Script
-		/// </summary>
-		public PlayerScript PlayerScript => playerScript;
+		public MovementSynchronisation PlayerMove => playerMove;
 
 		private PlayerNetworkActions playerNetworkActions;
 
@@ -37,16 +29,7 @@ namespace HealthV2
 		/// </summary>
 		public RegisterPlayer RegisterPlayer => registerPlayer;
 
-
-		private Equipment equipment;
-		/// <summary>
-		/// The associated Player Equipment
-		/// </summary>
-		public Equipment Equipment => equipment;
-
-		private ItemStorage itemStorage;
-
-		private bool init = false;
+		private DynamicItemStorage dynamicItemStorage;
 
 		/// <summary>
 		/// The percentage of players that start with common allergies.
@@ -63,58 +46,39 @@ namespace HealthV2
 		//fixme: not actually set or modified. keep an eye on this!
 		public bool serverPlayerConscious { get; set; } = true; //Only used on the server
 
-		public override void EnsureInit()
+		[SerializeField]
+		private Convulsing convulsionEffect;
+
+		public override void Awake()
 		{
-			if (init) return;
-			init = true;
-			base.EnsureInit();
+			base.Awake();
 			playerNetworkActions = GetComponent<PlayerNetworkActions>();
-			playerMove = GetComponent<PlayerMove>();
+			playerMove = GetComponent<MovementSynchronisation>();
 			playerSprites = GetComponent<PlayerSprites>();
 			registerPlayer = GetComponent<RegisterPlayer>();
-			itemStorage = GetComponent<ItemStorage>();
-			equipment = GetComponent<Equipment>();
-			playerScript = GetComponent<PlayerScript>();
+			dynamicItemStorage = GetComponent<DynamicItemStorage>();
 			OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
 			registerPlayer.AddStatus(this);
 		}
 
 		private void OnPlayerConsciousStateChangeServer(ConsciousState oldState, ConsciousState newState)
 		{
-			if (playerNetworkActions == null || registerPlayer == null) EnsureInit();
-
 			if (isServer)
 			{
 				playerNetworkActions.OnConsciousStateChanged(oldState, newState);
 			}
 
 			//we stay upright if buckled or conscious
-			registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || PlayerMove.IsBuckled);
+			registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || PlayerMove.BuckledToObject != null);
 		}
 
-		/// <summary>
-		/// Server only. Gibs the player.
-		/// </summary>
-		[Server]
-		public void ServerGibPlayer()
+		public override void OnGib()
 		{
-			Gib();
-		}
-
-		protected override void Gib()
-		{
-			Death();
-			EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
-			//drop clothes, gib... but don't destroy actual player, a piece should remain
-
-			//drop everything
-			foreach (var slot in itemStorage.GetItemSlots())
-			{
-				Inventory.ServerDrop(slot);
-			}
-
-			PlayerMove.PlayerScript.pushPull.VisibleState = false;
-			playerNetworkActions.ServerSpawnPlayerGhost();
+			//Drop everything
+			playerNetworkActions.ServerSpawnPlayerGhost(true);
+			Inventory.ServerDropAll(dynamicItemStorage);
+			base.OnGib();
+			PlayerMove.playerScript.objectPhysics.DisappearFromWorld();
 		}
 
 		bool RegisterPlayer.IControlPlayerState.AllowChange(bool rest)
@@ -135,77 +99,76 @@ namespace HealthV2
 		/// </summary>
 		protected override void OnDeathActions()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.Instance._isServer == false) return;
+
+			PlayerInfo player = gameObject.Player();
+
+			string killerName = null;
+			if (LastDamagedBy != null)
 			{
-				ConnectedPlayer player = PlayerList.Instance.Get(gameObject);
-
-				string killerName = null;
-				if (LastDamagedBy != null)
+				if (LastDamagedBy.TryGetPlayer(out var lastDamager))
 				{
-					var lastDamager = PlayerList.Instance.Get(LastDamagedBy);
-					if (lastDamager != null)
-					{
-						killerName = lastDamager.Name;
-						AutoMod.ProcessPlayerKill(lastDamager, player);
-					}
+					killerName = lastDamager.Name;
+					AutoMod.ProcessPlayerKill(lastDamager, player);
 				}
-
-				if (killerName == null)
-				{
-					killerName = "stressful work";
-				}
-
-				string playerName = player?.Name ?? "dummy";
-				if (killerName == playerName)
-				{
-					Chat.AddActionMsgToChat(gameObject, "You committed suicide, what a waste.", $"{playerName} committed suicide.");
-				}
-				else if (killerName.EndsWith(playerName))
-				{
-					string themself = null;
-					if (player != null)
-					{
-						themself = player.CharacterSettings?.ThemselfPronoun(player.Script);
-					}
-					if (themself == null)
-					{
-						themself = "themself";
-					}
-					//chain reactions
-					Chat.AddActionMsgToChat(gameObject, $"You screwed yourself up with some help from {killerName}",
-						$"{playerName} screwed {themself} up with some help from {killerName}");
-				}
-				else
-				{
-					PlayerList.Instance.TrackKill(LastDamagedBy, gameObject);
-				}
-
-				//drop items in hand
-				if (itemStorage != null)
-				{
-					Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.leftHand));
-					Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.rightHand));
-				}
-
-				if (isServer)
-				{
-					EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
-					string their = null;
-					if (player != null)
-					{
-						their = player.CharacterSettings?.TheirPronoun(player.Script);
-					}
-
-					if (their == null)
-					{
-						their = "their";
-					}
-
-					Chat.AddLocalMsgToChat($"<b>{player.Name}</b> seizes up and falls limp, {their} eyes dead and lifeless...", gameObject);
-				}
-
-				TriggerEventMessage.SendTo(gameObject, EVENT.PlayerDied);
 			}
+
+			if (killerName == null)
+			{
+				killerName = "stressful work";
+			}
+
+			string playerName = playerScript.visibleName ?? "dummy";
+			if (killerName == playerName)
+			{
+				Chat.AddActionMsgToChat(gameObject, "You committed suicide, what a waste.", $"{playerName} committed suicide.");
+			}
+			else if (killerName.EndsWith(playerName))
+			{
+				string themself = null;
+				if (player != null)
+				{
+					themself = player.CharacterSettings?.ThemselfPronoun(player.Script);
+				}
+				if (themself == null)
+				{
+					themself = "themself";
+				}
+
+				//chain reactions
+				Chat.AddActionMsgToChat(gameObject, $"You screwed yourself up with some help from {killerName}",
+					$"{playerName} screwed {themself} up with some help from {killerName}");
+			}
+			else
+			{
+				PlayerList.Instance.TrackKill(LastDamagedBy, gameObject);
+			}
+
+			//drop items in hand
+			if (dynamicItemStorage != null)
+			{
+				foreach (var itemSlot in dynamicItemStorage.GetHandSlots())
+				{
+					Inventory.ServerDrop(itemSlot);
+				}
+			}
+
+			//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
+			//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer);
+			string their = null;
+			if (player != null)
+			{
+				their = player.CharacterSettings?.TheirPronoun(player.Script);
+			}
+
+			if (their == null)
+			{
+				their = "their";
+			}
+
+			Chat.AddLocalMsgToChat($"<b>{playerScript.visibleName}</b> seizes up and falls limp, {their} eyes dead and lifeless...", gameObject);
+
+			TriggerEventMessage.SendTo(gameObject, Event.PlayerDied);
 		}
 
 		#region Sickness
@@ -233,7 +196,7 @@ namespace HealthV2
 		private const int ELECTROCUTION_ANIM_PERIOD = 5; // Set less than stun period.
 		private const int ELECTROCUTION_MICROLERP_PERIOD = 15;
 		private BodyPartType electrocutedHand;
-
+		private BodyPart electrocutedPart;
 		/// <summary>
 		/// Electrocutes a player, applying effects to the victim depending on the electrocution power.
 		/// </summary>
@@ -241,7 +204,9 @@ namespace HealthV2
 		/// <returns>Returns an ElectrocutionSeverity for when the following logic depends on the elctrocution severity.</returns>
 		public override LivingShockResponse Electrocute(Electrocution electrocution)
 		{
-			if (playerNetworkActions.activeHand == NamedSlot.leftHand)
+			electrocutedPart = playerNetworkActions.activeHand.GetComponent<BodyPart>();
+
+			if (playerNetworkActions.CurrentActiveHand == NamedSlot.leftHand)
 			{
 				electrocutedHand = BodyPartType.LeftArm;
 			}
@@ -279,10 +244,18 @@ namespace HealthV2
 			float resistance = GetNakedHumanoidElectricalResistance(voltage);
 
 			// Give the humanoid extra/less electrical resistance based on what they're holding/wearing
-			resistance += Electrocution.GetItemElectricalResistance(itemStorage.GetNamedItemSlot(NamedSlot.hands).ItemObject);
-			resistance += Electrocution.GetItemElectricalResistance(itemStorage.GetNamedItemSlot(NamedSlot.feet).ItemObject);
+			foreach (var itemSlot in dynamicItemStorage.GetNamedItemSlots(NamedSlot.hands))
+			{
+				resistance += Electrocution.GetItemElectricalResistance(itemSlot.ItemObject);
+			}
+
+			foreach (var itemSlot in dynamicItemStorage.GetNamedItemSlots(NamedSlot.feet))
+			{
+				resistance += Electrocution.GetItemElectricalResistance(itemSlot.ItemObject);
+			}
+
 			// A solid grip on a conductive item will reduce resistance - assuming it is conductive.
-			if (itemStorage.GetActiveHandSlot().Item != null) resistance -= 300;
+			if (dynamicItemStorage.GetActiveHandSlot().Item != null) resistance -= 300;
 
 			// Broken skin reduces electrical resistance - arbitrarily chosen at 4 to 1.
 			resistance -= 4 * GetTotalBruteDamage();
@@ -305,24 +278,33 @@ namespace HealthV2
 
 		protected override void MildElectrocution(Electrocution electrocution, float shockPower)
 		{
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.ElectricShock, registerPlayer.WorldPosition);
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.ElectricShock, registerPlayer.WorldPosition);
 			Chat.AddExamineMsgFromServer(gameObject, $"The {electrocution.ShockSourceName} gives you a slight tingling sensation...");
+		}
+
+		private void AddConvulsingEffect(int stacks = 1)
+		{
+			var convulsing = Instantiate(convulsionEffect);
+			convulsing.InitialStacks = stacks;
+			playerScript.statusEffectManager.AddStatus(convulsing);
 		}
 
 		protected override void PainfulElectrocution(Electrocution electrocution, float shockPower)
 		{
 			// TODO: Add sparks VFX at shockSourcePos.
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Sparks, electrocution.ShockSourcePos);
-			Inventory.ServerDrop(itemStorage.GetActiveHandSlot());
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Sparks, electrocution.ShockSourcePos);
+			Inventory.ServerDrop(dynamicItemStorage.GetActiveHandSlot());
 
 			// Slip is essentially a yelp SFX.
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.4f, 1.2f));
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Slip, registerPlayer.WorldPosition,
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Slip, registerPlayer.WorldPosition,
 					audioSourceParameters, sourceObj: gameObject);
 
 			string victimChatString = (electrocution.ShockSourceName != null ? $"The {electrocution.ShockSourceName}" : "Something") +
 					" gives you a small electric shock!";
 			Chat.AddExamineMsgFromServer(gameObject, victimChatString);
+
+			AddConvulsingEffect();
 
 			DealElectrocutionDamage(5, electrocutedHand);
 		}
@@ -332,7 +314,7 @@ namespace HealthV2
 
 			PlayerMove.allowInput = false;
 			// TODO: Add sparks VFX at shockSourcePos.
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Sparks, electrocution.ShockSourcePos);
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Sparks, electrocution.ShockSourcePos);
 			StartCoroutine(ElectrocutionSequence());
 
 			string victimChatString, observerChatString;
@@ -354,6 +336,8 @@ namespace HealthV2
 			DealElectrocutionDamage(damage * 0.25f, BodyPartType.Chest);
 			DealElectrocutionDamage(damage * 0.175f, BodyPartType.LeftLeg);
 			DealElectrocutionDamage(damage * 0.175f, BodyPartType.RightLeg);
+
+			AddConvulsingEffect(5);
 		}
 
 		private IEnumerator ElectrocutionSequence()
@@ -368,7 +352,7 @@ namespace HealthV2
 			registerPlayer.ServerStun(ELECTROCUTION_STUN_PERIOD - timeBeforeDrop);
 
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.8f, 1.2f));
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Bodyfall, registerPlayer.WorldPosition,
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bodyfall, registerPlayer.WorldPosition,
 					audioSourceParameters, sourceObj: gameObject);
 
 			yield return WaitFor.Seconds(ELECTROCUTION_ANIM_PERIOD - timeBeforeDrop);

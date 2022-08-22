@@ -5,7 +5,7 @@ using AddressableReferences;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>, IServerInventoryMove
+public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>, IServerInventoryMove, IServerSpawn
 {
 	[SerializeField]
 	private List<AddressableAudioSource> lowSounds = new List<AddressableAudioSource>();
@@ -20,17 +20,13 @@ public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>, IServer
 	private RegisterPlayer registerPlayer;
 	private RegisterItem registerItem = null;
 
-	private void OnEnable()
+	public void OnSpawnServer(SpawnInfo info)
 	{
-		if (CustomNetworkManager.IsServer == false) return;
-
 		UpdateManager.Add(CycleUpdate, 1f);
 	}
 
-	private void OnDisable()
+	public void OnDisable()
 	{
-		if (CustomNetworkManager.IsServer == false) return;
-
 		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
 	}
 

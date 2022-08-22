@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c58d5c5a6190436e9d4ae8e32a26ee6a, type: 3}
+  m_Name: Redshield Officer
+  m_EditorClassIdentifier: 
+  jobType: 57
+  isCrewmember: 0
+  lateSpawnIsArrivals: 0
+  inventoryPopulator: {fileID: 11400000, guid: 6c9404f82a7d0fd448d109148b7b625b, type: 2}
+  useStandardPopulator: 1
+  limit: -1
+  priority: 0
+  allowedAccess: 51000000260000002200000031000000060000001b00000044000000430000001a000000
+  allowedLowPopAccess: 
+  issuedClearance: 40000000120000000d0000000c000000020000002700000001000000370000001f000000
+  issuedLowPopClearance: 40000000120000000d0000000c000000020000002700000001000000370000001f000000
+  spells: []
+  progress: 75
+  choiceColor: {r: 0.8, g: 0.8, b: 1, a: 1}
+  previewSprite: {fileID: 21300000, guid: b28046094f565534fb33fd7c050a3f22, type: 3}
+  displayName: Redshield Officer
+  difficulty: 3
+  descriptionShort: "\u2022 Protect VIPs\n\u2022 Secure High Risk Items"
+  descriptionLong: 'Welcome, Redshield. You have been given special training by Central
+    Command, and been dispatched to serve as the personal bodyguard of everyone with
+    access to Command Comms.
+
+
+
+    Most of your time will be spent shadowing those
+    you have been assigned to protect, making sure that they''re alive and well,
+    and keep an eye on a crew monitor to make sure they''re still on sensors. Your
+    job is to keep everyone in Command, as well as CentCom VIPs, alive.
+
+
+
+    One
+    very important detail of your job is that you are not Security. Do not let your
+    Security (and Detective) access fool you. Your ID lets you reach every single
+    Command Office on the station. You should not be concerned with the goings-on
+    at Security, nor should you be doing their job for them. You are not a Security
+    Officer with elevated access and snazzy outfit. You are a bodyguard.'
+  customProperties:
+    m_keys: []
+    m_values: 
+  isTargeteable: 0
+  playSound: 1
+  spawnSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbientTracks/SpawnSounds/departments/Command_Spawn.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  textColor: {r: 0.8000001, g: 0.8000001, b: 1, a: 1}
+  backgroundColor: {r: 1, g: 0, b: 0, a: 0}
+  specialPlayerPrefab: {fileID: 0}

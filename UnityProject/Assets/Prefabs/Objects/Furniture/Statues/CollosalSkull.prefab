@@ -7,16 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3173731526971722593, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
+    - target: {fileID: 1736851031246721343, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
         type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 72d58d493efa6e34ba781cf371677976,
-        type: 3}
-    - target: {fileID: 3173731526971722593, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
+      propertyPath: foreverID
+      value: feb9d6fcdf52ff040a33966fc9819a74
       objectReference: {fileID: 0}
     - target: {fileID: 3173731526971722593, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
         type: 3}
@@ -28,10 +22,26 @@ PrefabInstance:
       propertyPath: m_Size.y
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3173731526971722593, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 72d58d493efa6e34ba781cf371677976,
+        type: 3}
+    - target: {fileID: 3173731526971722593, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3416931304602840950, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
         type: 3}
       propertyPath: m_Name
       value: CollosalSkull
+      objectReference: {fileID: 0}
+    - target: {fileID: 3422407103395555756, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3422407103395555756, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
         type: 3}
@@ -50,6 +60,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3422407103395555756, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3422407103395555756, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -62,16 +77,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3422407103395555756, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3422407103395555756, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3422407103395555756, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
         type: 3}
@@ -90,18 +95,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5462476143495360582, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
         type: 3}
-      propertyPath: initialDescription
-      value: The gaping maw of a dead, titanic monster.
+      propertyPath: initialName
+      value: collosal skull
       objectReference: {fileID: 0}
     - target: {fileID: 5462476143495360582, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
         type: 3}
-      propertyPath: initialName
-      value: collosal skull
+      propertyPath: initialDescription
+      value: The gaping maw of a dead, titanic monster.
       objectReference: {fileID: 0}
     - target: {fileID: 6536606663306582548, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: feb9d6fcdf52ff040a33966fc9819a74
       objectReference: {fileID: 0}
     - target: {fileID: 7871043331994682796, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
         type: 3}

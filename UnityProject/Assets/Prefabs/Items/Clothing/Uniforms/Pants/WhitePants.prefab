@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2909197017712554513, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 4067a3af33d411749956ea60371d8c57
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
@@ -88,18 +88,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Plain white pants. Boring.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: db6925c2066e4fb49a396bacd6dc7552,
+        type: 3}
+      propertyPath: foreverID
+      value: 4067a3af33d411749956ea60371d8c57
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: aa429a844a671b34d9f8da81a142f3c3,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: aa429a844a671b34d9f8da81a142f3c3,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

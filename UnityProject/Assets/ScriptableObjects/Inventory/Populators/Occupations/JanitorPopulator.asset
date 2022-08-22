@@ -13,24 +13,70 @@ MonoBehaviour:
   m_Name: JanitorPopulator
   m_EditorClassIdentifier: 
   Entries:
-  - NamedSlot: 12
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 12
     Prefab: {fileID: 4257228480532492980, guid: c564124daeebb4d479474858c16e6e3d,
       type: 3}
-  - NamedSlot: 3
+    ReplacementStrategy: 0
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 3
     Prefab: {fileID: 7106618204054676533, guid: 7a2370ed5124e4897ba86392a2d9052b,
       type: 3}
-  - NamedSlot: 6
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 6
     Prefab: {fileID: 3011710637427380133, guid: 8fd881065be8b411d84cfc10b38be725,
       type: 3}
-  - NamedSlot: 18
+    ReplacementStrategy: 0
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 18
     Prefab: {fileID: 7699639150654183039, guid: 75129454ae28b3440922d87574b63b1d,
       type: 3}
-  - NamedSlot: 11
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 11
     Prefab: {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73,
       type: 3}
-  - NamedSlot: 1
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 1
+    Prefab: {fileID: 7699639150654183039, guid: 75129454ae28b3440922d87574b63b1d,
+      type: 3}
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 15
+    Prefab: {fileID: 4303657253753073484, guid: a964a6c1326a47c40a104866a6ebce52,
+      type: 3}
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 16
     Prefab: {fileID: 4793099437346693035, guid: 7011699b61000fd4cabe5779f41df18b,
       type: 3}
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
   skirtVariant: {fileID: 4011149429169960813, guid: cad85b5dad5b95d468fc34d2c6a01947,
     type: 3}
   duffelVariant: {fileID: 0}

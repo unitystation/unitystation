@@ -1,17 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &4737599641855960426
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4765479427566261873}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60ab2691c833e4d47acba80181e7ebd3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2994307515490301448
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27,9 +15,9 @@ PrefabInstance:
         type: 3}
     - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Sprites.Array.size
-      value: 88
-      objectReference: {fileID: 0}
+      propertyPath: onSprites.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 9c816bd48a093fa419b56d16946eb9d1, type: 3}
     - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: timeBetweenFrames
@@ -37,9 +25,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Texture
+      propertyPath: onSprites.EquippedData
       value: 
-      objectReference: {fileID: 2800000, guid: 9c816bd48a093fa419b56d16946eb9d1, type: 3}
+      objectReference: {fileID: 4900000, guid: c27f276fbc6c24846b10f6e0e6e13bbd, type: 3}
+    - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: onSprites.Sprites.Array.size
+      value: 88
+      objectReference: {fileID: 0}
     - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: onSprites.Sprites.Array.data[0]
@@ -568,11 +561,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300174, guid: 9c816bd48a093fa419b56d16946eb9d1,
         type: 3}
-    - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: onSprites.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: c27f276fbc6c24846b10f6e0e6e13bbd, type: 3}
     - target: {fileID: 345856930608096068, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Sprite
@@ -581,13 +569,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: initialDescription
-      value: Used to clone people and manage DNA.
+      propertyPath: initialName
+      value: cloning console
       objectReference: {fileID: 0}
     - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: initialName
-      value: cloning console
+      propertyPath: initialDescription
+      value: Used to clone people and manage DNA.
       objectReference: {fileID: 0}
     - target: {fileID: 1213303998874603650, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -598,7 +586,7 @@ PrefabInstance:
     - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: c229b2348b62daf499ff1c45745ef9df
       objectReference: {fileID: 0}
     - target: {fileID: 3166760548704001533, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -626,7 +614,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300120, guid: 9c816bd48a093fa419b56d16946eb9d1,
+      objectReference: {fileID: 21300000, guid: 9c816bd48a093fa419b56d16946eb9d1,
         type: 3}
     - target: {fileID: 4739251602149975544, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -641,18 +629,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531316036, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: initialDescription
-      value: Used to clone people and manage DNA.
+      propertyPath: initialName
+      value: cloning console
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531316036, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: initialName
-      value: cloning console
+      propertyPath: initialDescription
+      value: Used to clone people and manage DNA.
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531339735, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Name
       value: CloningConsole
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -671,6 +664,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -683,16 +681,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -711,8 +699,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: Color.r
-      value: 0.344
+      propertyPath: Color.b
+      value: 0.28
       objectReference: {fileID: 0}
     - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -721,19 +709,34 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: Color.b
-      value: 0.28
+      propertyPath: Color.r
+      value: 0.344
       objectReference: {fileID: 0}
-    - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
+    - target: {fileID: 6691892461727964720, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Sprites.Array.size
-      value: 88
+      propertyPath: foreverID
+      value: c229b2348b62daf499ff1c45745ef9df
       objectReference: {fileID: 0}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: onSprites.Texture
       value: 
       objectReference: {fileID: 2800000, guid: 9c816bd48a093fa419b56d16946eb9d1, type: 3}
+    - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: timeBetweenFrames
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: onSprites.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: c27f276fbc6c24846b10f6e0e6e13bbd, type: 3}
+    - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: onSprites.Sprites.Array.size
+      value: 88
+      objectReference: {fileID: 0}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: onSprites.Sprites.Array.data[0]
@@ -1262,16 +1265,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300174, guid: 9c816bd48a093fa419b56d16946eb9d1,
         type: 3}
-    - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: onSprites.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: c27f276fbc6c24846b10f6e0e6e13bbd, type: 3}
-    - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: timeBetweenFrames
-      value: 0.2
-      objectReference: {fileID: 0}
     - target: {fileID: 7644385245236715337, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: circuitBoardPrefab
@@ -1297,3 +1290,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2994307515490301448}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4737599641855960426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4765479427566261873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60ab2691c833e4d47acba80181e7ebd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

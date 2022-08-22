@@ -4,7 +4,8 @@ using System.Text;
 using Messages.Server;
 using ScriptableObjects.Gun;
 using UnityEngine;
-using Weapons;
+using Systems.Electricity.NodeModules;
+using Weapons.Projectiles;
 using Weapons.Projectiles.Behaviours;
 
 namespace Objects.Engineering
@@ -129,14 +130,14 @@ namespace Objects.Engineering
 		private void ShootParticleAccelerator()
 		{
 			var damageIntegrity = particleAcceleratorBulletPrefab.GetComponent<ProjectileDamageIntegrity>();
-			damageData.SetDamage(10 * ((int)CurrentState - 3));
+			damageData.SetDamage(10 * ((int)CurrentState - 2));
 			damageIntegrity.damageData = damageData;
 
 			foreach (var connectedPart in connectedParts)
 			{
 				if (connectedPart.ShootsBullet)
 				{
-					CastProjectileMessage.SendToAll(connectedPart.gameObject, particleAcceleratorBulletPrefab, orientation.Vector, default);
+					ProjectileManager.InstantiateAndShoot( particleAcceleratorBulletPrefab, orientation.LocalVector, connectedPart.gameObject,default);
 				}
 			}
 		}
@@ -182,13 +183,13 @@ namespace Objects.Engineering
 						coord = RotateVector90(coord).To2Int();
 					}
 
-					var objects = MatrixManager.GetAt<ParticleAcceleratorPart>(registerTile.WorldPositionServer + coord.To3Int() , true);
+					var objects = MatrixManager.GetAt<ParticleAcceleratorPart>(registerTile.WorldPositionServer + coord.To3Int() , true) as List<ParticleAcceleratorPart>;
 
-					if (objects.Count > 0 && section.Value == objects[0].ParticleAcceleratorType)
+					if (objects != null && objects.Count > 0 && section.Value == objects[0].ParticleAcceleratorType)
 					{
 						//Correct Part there woo but now check status
 						if (objects[0].CurrentState == ParticleAcceleratorState.Frame || objects[0].CurrentState == ParticleAcceleratorState.Wired
-						    || objects[0].Directional.CurrentDirection.AsEnum() != (OrientationEnum) enumDirection || objects[0].ParticleAcceleratorType != section.Value)
+						    || objects[0].Directional.CurrentDirection != (OrientationEnum) enumDirection || objects[0].ParticleAcceleratorType != section.Value)
 						{
 							//Frame or wired are not ready and isn't right direction so failed check
 							correctArrangement = false;
@@ -305,7 +306,7 @@ namespace Objects.Engineering
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (DefaultWillInteract.HandApply(interaction, side) == false) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			return Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag);
 		}
@@ -359,6 +360,9 @@ namespace Objects.Engineering
 
 		private void UpdateGUI()
 		{
+			var peppers = NetworkTabManager.Instance.GetPeepers(gameObject, NetTabType.ParticleAccelerator);
+			if(peppers.Count == 0) return;
+
 			List<ElementValue> valuesToSend = new List<ElementValue>();
 			valuesToSend.Add(new ElementValue() { Id = "TextSetting", Value = Encoding.UTF8.GetBytes(status) });
 			valuesToSend.Add(new ElementValue() { Id = "TextPower", Value = Encoding.UTF8.GetBytes(powerUsage + " volts") });

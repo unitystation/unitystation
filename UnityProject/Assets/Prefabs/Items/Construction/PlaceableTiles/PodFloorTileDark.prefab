@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 561594046493836635, guid: 822fad4a227b1f5439faf0e35f2d180c,
+        type: 3}
+      propertyPath: foreverID
+      value: d89f5acb21cccd6479127f30b6fde403
+      objectReference: {fileID: 0}
     - target: {fileID: 736206721440314033, guid: 822fad4a227b1f5439faf0e35f2d180c,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -21,13 +26,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6457050944232957524, guid: 822fad4a227b1f5439faf0e35f2d180c,
         type: 3}
-      propertyPath: initialDescription
-      value: A darkly colored grooved floor tile.
+      propertyPath: initialName
+      value: dark pod floor tile
       objectReference: {fileID: 0}
     - target: {fileID: 6457050944232957524, guid: 822fad4a227b1f5439faf0e35f2d180c,
         type: 3}
-      propertyPath: initialName
-      value: dark pod floor tile
+      propertyPath: initialDescription
+      value: A darkly colored grooved floor tile.
       objectReference: {fileID: 0}
     - target: {fileID: 6737493583398697578, guid: 822fad4a227b1f5439faf0e35f2d180c,
         type: 3}
@@ -38,7 +43,12 @@ PrefabInstance:
     - target: {fileID: 6838050500578440322, guid: 822fad4a227b1f5439faf0e35f2d180c,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: d89f5acb21cccd6479127f30b6fde403
+      objectReference: {fileID: 0}
+    - target: {fileID: 6873079120145855554, guid: 822fad4a227b1f5439faf0e35f2d180c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6873079120145855554, guid: 822fad4a227b1f5439faf0e35f2d180c,
         type: 3}
@@ -57,6 +67,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6873079120145855554, guid: 822fad4a227b1f5439faf0e35f2d180c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6873079120145855554, guid: 822fad4a227b1f5439faf0e35f2d180c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -69,16 +84,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6873079120145855554, guid: 822fad4a227b1f5439faf0e35f2d180c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6873079120145855554, guid: 822fad4a227b1f5439faf0e35f2d180c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6873079120145855554, guid: 822fad4a227b1f5439faf0e35f2d180c,
         type: 3}

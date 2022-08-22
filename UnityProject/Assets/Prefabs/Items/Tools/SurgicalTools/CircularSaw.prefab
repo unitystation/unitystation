@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9a1e296b3df4563409de21bc7bc0b9cb,
         type: 2}
+    - target: {fileID: 3442741923849517114, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: foreverID
+      value: eaa56f4c8fd7aa64d8fa44b70ed9ccb3
+      objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: hitDamage
@@ -55,6 +60,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
+      propertyPath: traumaDamageChance
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Weapons/CircularSawHit.prefab
       objectReference: {fileID: 0}
@@ -62,6 +77,11 @@ PrefabInstance:
         type: 3}
       propertyPath: attackVerbs.Array.size
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: traumaDamageMultiplier
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -120,7 +140,7 @@ PrefabInstance:
     - target: {fileID: 8568555645537651171, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: eaa56f4c8fd7aa64d8fa44b70ed9ccb3
       objectReference: {fileID: 0}
     - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}

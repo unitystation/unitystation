@@ -1,86 +1,180 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Strings;
+using System.Globalization;
+using AdminCommands;
+using AdminTools;
+using Managers;
 using UnityEngine;
-using Random = UnityEngine.Random;
+using Strings;
+using Systems.Clearance;
 
-/// <summary>
-/// Escape shuttle logic
-/// </summary>
-public class EscapeShuttleConsole : MonoBehaviour, ICheckedInteractable<HandApply>
+namespace Objects
 {
-	[SerializeField]
-	private float timeToHack = 20f;
-
-	[SerializeField]
-	private float chanceToFailHack = 25f;
-
-	private bool beenEmagged;
-
-	private RegisterTile registerTile;
-
-	private void Awake()
+	/// <summary>
+	/// Escape shuttle logic
+	/// </summary>
+	public class EscapeShuttleConsole : MonoBehaviour, ICheckedInteractable<HandApply>, IRightClickable
 	{
-		registerTile = GetComponent<RegisterTile>();
-	}
+		[SerializeField]
+		private float timeToHack = 20f;
 
-	public bool WillInteract(HandApply interaction, NetworkSide side)
-	{
-		if (DefaultWillInteract.Default(interaction, side) == false) return false;
+		[SerializeField]
+		private float chanceToFailHack = 25f;
 
-		return Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag);
-	}
+		private bool beenEmagged;
 
-	public void ServerPerformInteraction(HandApply interaction)
-	{
-		TryEmagConsole(interaction);
-	}
+		private RegisterTile registerTile;
 
-	private void TryEmagConsole(HandApply interaction)
-	{
-		if (beenEmagged)
+		[SerializeField]
+		private List<Clearance> validAccess = new List<Clearance>();
+
+		private HashSet<IDCard> registeredIDs = new HashSet<IDCard>();
+
+		private int requiredSwipesEarlyLaunch => GameManager.Instance.CentComm.CurrentAlertLevel is CentComm.AlertLevel.Red or CentComm.AlertLevel.Delta ? 2 : 4;
+
+		private void Awake()
 		{
-			Chat.AddExamineMsgFromServer(interaction.Performer, "The shuttle has already been hacked!");
-			return;
+			registerTile = GetComponent<RegisterTile>();
 		}
 
-		Chat.AddActionMsgToChat(interaction.Performer, $"You attempt to hack the shuttle console, this will take around {timeToHack} seconds",
-			$"{interaction.Performer.ExpensiveName()} starts hacking the shuttle console");
-
-		var cfg = new StandardProgressActionConfig(StandardProgressActionType.Restrain);
-
-		StandardProgressAction.Create(
-			cfg,
-			() => FinishHack(interaction)
-		).ServerStartProgress(ActionTarget.Object(registerTile), timeToHack, interaction.Performer);
-
-	}
-
-	private void FinishHack(HandApply interaction)
-	{
-		if (DMMath.Prob(chanceToFailHack))
+		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			Chat.AddActionMsgToChat(interaction.Performer, "Your attempt to hack the shuttle console failed",
-				$"{interaction.Performer.ExpensiveName()} failed to hack the shuttle console");
-			return;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			return Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag) || Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Id);
 		}
 
-		Chat.AddActionMsgToChat(interaction.Performer, "You hack the shuttle console",
-			$"{interaction.Performer.ExpensiveName()} hacked the shuttle console");
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			if (interaction.HandObject.TryGetComponent<IDCard>(out var card))
+			{
+				if (card.HasAccess(validAccess))
+				{
+					RegisterEarlyShuttleLaunch(card, interaction.PerformerPlayerScript);
+					ServerLogEarlyVoteEvent(interaction);
+				}
+				return;
+			}
+			TryEmagConsole(interaction);
+		}
 
-		beenEmagged = true;
+		private void TryEmagConsole(HandApply interaction)
+		{
+			if (beenEmagged)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The shuttle has already been Emagged!");
+				return;
+			}
 
-		if (GameManager.Instance.ShuttleSent) return;
+			Chat.AddActionMsgToChat(interaction.Performer, $"You attempt to hack the shuttle console, this will take around {timeToHack} seconds",
+				$"{interaction.Performer.ExpensiveName()} starts hacking the shuttle console");
 
-		Chat.AddSystemMsgToChat("\n\n<color=#FF151F><size=40><b>Escape Shuttle Emergency Launch Triggered!</b></size></color>\n\n",
-			MatrixManager.MainStationMatrix);
+			var cfg = new StandardProgressActionConfig(StandardProgressActionType.Restrain);
 
-		Chat.AddSystemMsgToChat("\n\n<color=#FF151F><size=40><b>Escape Shuttle Emergency Launch Triggered!</b></size></color>\n\n",
-			GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo);
+			StandardProgressAction.Create(
+				cfg,
+				() => FinishHack(interaction)
+			).ServerStartProgress(ActionTarget.Object(registerTile), timeToHack, interaction.Performer);
 
-		SoundManager.PlayNetworked(SingletonSOSounds.Instance.Notice1);
+		}
 
-		GameManager.Instance.ForceSendEscapeShuttleFromStation(10);
+		private void FinishHack(HandApply interaction)
+		{
+			if (DMMath.Prob(chanceToFailHack))
+			{
+				Chat.AddActionMsgToChat(interaction.Performer, "Your attempt to hack the shuttle console failed",
+					$"{interaction.Performer.ExpensiveName()} failed to hack the shuttle console");
+				return;
+			}
+
+			Chat.AddActionMsgToChat(interaction.Performer, "You hack the shuttle console",
+				$"{interaction.Performer.ExpensiveName()} hacked the shuttle console");
+
+			ServerLogEmagEvent(interaction);
+
+			beenEmagged = true;
+
+			DepartShuttle();
+		}
+
+		private void ServerLogEmagEvent(HandApply prep)
+		{
+			var time = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+			UIManager.Instance.playerAlerts.ServerAddNewEntry(time, PlayerAlertTypes.Emag, prep.PerformerPlayerScript.PlayerInfo,
+				$"{time} : {prep.PerformerPlayerScript.playerName} emmaged the escape shuttle successfully!");
+		}
+
+		private void ServerLogEarlyVoteEvent(HandApply prep)
+		{
+			var time = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+			UIManager.Instance.playerAlerts.ServerAddNewEntry(time, PlayerAlertTypes.Emag, prep.PerformerPlayerScript.PlayerInfo,
+				$"{time} : {prep.PerformerPlayerScript.playerName} voted for the shuttle to leave early.");
+		}
+
+		private void RegisterEarlyShuttleLaunch(IDCard card, PlayerScript performer)
+		{
+			if (GameManager.Instance.ShuttleSent)
+			{
+				Chat.AddExamineMsg(performer.gameObject, "The shuttle is already moving!");
+				return;
+			}
+			if (registeredIDs.Contains(card))
+			{
+				Chat.AddExamineMsg(performer.gameObject, "You've already done this!");
+				return;
+			}
+			registeredIDs.Add(card);
+
+			if (registeredIDs.Count >= requiredSwipesEarlyLaunch)
+			{
+				DepartShuttle();
+				return;
+			}
+
+			AnnounceRemainingSwipesRequired();
+		}
+
+		private void AnnounceRemainingSwipesRequired()
+		{
+			var remainingSwipes = requiredSwipesEarlyLaunch - registeredIDs.Count;
+			string announcemnt =
+				$"\n\n<color=#FF151F><size={ChatTemplates.LargeText}><b>Escape Shuttle Emergency Launch has been request! need {remainingSwipes} more votes.</b></size></color>\n\n";
+			Chat.AddSystemMsgToChat(announcemnt, MatrixManager.MainStationMatrix, LanguageManager.Common);
+
+			Chat.AddSystemMsgToChat(announcemnt, GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo, LanguageManager.Common);
+			_ = SoundManager.PlayNetworked(CommonSounds.Instance.Notice1);
+		}
+
+		public void DepartShuttle()
+		{
+			if (GameManager.Instance.ShuttleSent) return;
+			var departTime = beenEmagged ? 5 : 10;
+			string announcement =
+				$"\n\n<color=#FF151F><size={ChatTemplates.LargeText}><b>Escape Shuttle Emergency Launch Triggered! Launching in {departTime} seconds..</b></size></color>\n\n";
+			Chat.AddSystemMsgToChat(announcement, MatrixManager.MainStationMatrix, LanguageManager.Common);
+
+			Chat.AddSystemMsgToChat(announcement, GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo, LanguageManager.Common);
+
+			_ = SoundManager.PlayNetworked(CommonSounds.Instance.Notice1);
+			GameManager.Instance.ForceSendEscapeShuttleFromStation(departTime);
+		}
+
+		public RightClickableResult GenerateRightClickOptions()
+		{
+			if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) ||
+			    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions,
+				    KeyboardInputManager.KeyEventType.Hold) == false)
+			{
+				return null;
+			}
+
+			return RightClickableResult.Create().AddAdminElement("Launch Early", AdminEarlyLaunch);
+		}
+
+		private void AdminEarlyLaunch()
+		{
+			AdminCommandsManager.Instance.CmdEarlyLaunch(gameObject);
+		}
 	}
 }

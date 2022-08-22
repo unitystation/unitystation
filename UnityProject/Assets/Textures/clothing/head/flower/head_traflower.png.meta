@@ -48,6 +48,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -57,8 +58,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -79,6 +80,8 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
@@ -128,7 +131,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 49454662a4bbd7870800000000000000
-      internalID: 8682301583786267796
+      internalID: 3680331050079360457
       vertices: []
       indices: 
       edges: []
@@ -149,7 +152,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9a5fee954c67eecf0800000000000000
-      internalID: -221108746000075351
+      internalID: 4365270538006200722
       vertices: []
       indices: 
       edges: []
@@ -170,7 +173,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 830f7253010853ba0800000000000000
-      internalID: -6109836512358567880
+      internalID: -680564065637353321
       vertices: []
       indices: 
       edges: []
@@ -191,7 +194,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 12cdb6aa1e382bde0800000000000000
-      internalID: -1318846735616058335
+      internalID: 2765770611192884056
       vertices: []
       indices: 
       edges: []
@@ -206,6 +209,11 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      head_traflower_0: 3680331050079360457
+      head_traflower_1: 4365270538006200722
+      head_traflower_2: -680564065637353321
+      head_traflower_3: 2765770611192884056
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

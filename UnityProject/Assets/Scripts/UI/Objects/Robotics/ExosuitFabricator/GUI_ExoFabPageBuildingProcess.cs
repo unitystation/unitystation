@@ -1,19 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UI.Core.NetUI;
 
 namespace UI.Objects.Robotics
 {
 	public class GUI_ExoFabPageBuildingProcess : NetPage
 	{
 		private bool isAnimating = false;
-		public bool IsAnimating { get => isAnimating; }
+		public bool IsAnimating => isAnimating;
 
 		[SerializeField]
-		private NetLabel buildingLabel = null;
+		private NetText_label buildingLabel = null;
 
 		[SerializeField]
-		private NetLabel pleaseWaitLabel = null;
+		private NetText_label pleaseWaitLabel = null;
 
 		private string[] pleaseWaitText = { "Please wait until completion . . .",
 		"Please wait until completion . .", "Please wait until completion .", "Please wait until completion" };

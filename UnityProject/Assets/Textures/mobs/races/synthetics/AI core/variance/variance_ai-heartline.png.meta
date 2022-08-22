@@ -69,7 +69,7 @@ TextureImporter:
       213: 21300042
     second: ai-heartline_21
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -89,6 +89,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -98,8 +100,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -120,9 +122,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -623,6 +629,29 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      ai-heartline_3: 21300006
+      ai-heartline_7: 21300014
+      ai-heartline_14: 21300028
+      ai-heartline_11: 21300022
+      ai-heartline_0: 21300000
+      ai-heartline_18: 21300036
+      ai-heartline_17: 21300034
+      ai-heartline_20: 21300040
+      ai-heartline_8: 21300016
+      ai-heartline_10: 21300020
+      ai-heartline_15: 21300030
+      ai-heartline_9: 21300018
+      ai-heartline_13: 21300026
+      ai-heartline_5: 21300010
+      ai-heartline_19: 21300038
+      ai-heartline_16: 21300032
+      ai-heartline_12: 21300024
+      ai-heartline_6: 21300012
+      ai-heartline_2: 21300004
+      ai-heartline_4: 21300008
+      ai-heartline_1: 21300002
+      ai-heartline_21: 21300042
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

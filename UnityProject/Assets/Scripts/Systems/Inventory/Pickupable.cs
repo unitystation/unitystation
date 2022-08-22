@@ -1,10 +1,11 @@
 using System;
+using Messages.Server;
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
-using Messages.Server;
+using Items;
+using UI;
 using UnityEngine;
-using Mirror;
-using Objects;
 using Random = UnityEngine.Random;
 
 /// <summary>
@@ -18,12 +19,10 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	[SerializeField, Tooltip("The speed of the pickup animation.")]
 	private float pickupAnimSpeed = 0.2f;
 
-	private CustomNetTransform customNetTransform;
-	public CustomNetTransform CustomNetTransform => customNetTransform;
-	private ObjectBehaviour objectBehaviour;
-	private RegisterTile registerTile;
+	private UniversalObjectPhysics universalObjectPhysics;
+	public UniversalObjectPhysics UniversalObjectPhysics => universalObjectPhysics;
 
-	//controls whether this can currently be picked up.
+	// controls whether this can currently be picked up.
 	[SyncVar]
 	private bool canPickup = true;
 
@@ -42,11 +41,17 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	/// </summary>
 	public UI_ItemSlot LocalUISlot => itemSlot != null ? ItemSlot.LocalUISlot : null;
 
+	public ItemAttributesV2 ItemAttributesV2;
+
+	public event Action OnMoveToPlayerInventory;
+
+	
+	#region Lifecycle
+
 	private void Awake()
 	{
-		this.customNetTransform = GetComponent<CustomNetTransform>();
-		this.objectBehaviour = GetComponent<ObjectBehaviour>();
-		this.registerTile = GetComponent<RegisterTile>();
+		ItemAttributesV2 =  GetComponent<ItemAttributesV2>();
+		universalObjectPhysics = GetComponent<UniversalObjectPhysics>();
 	}
 
 	// make sure to call this in subclasses
@@ -64,6 +69,8 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		}
 	}
 
+	#endregion
+
 	public virtual void OnInventoryMoveServer(InventoryMove info)
 	{
 		/*
@@ -75,7 +82,6 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		 *
 		 * Bubbling should help prevent this
 		 */
-
 
 		//update appearance depending on the slot that was changed
 		if (info.FromPlayer != null &&
@@ -110,16 +116,16 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		return equipment.GetClothingItem(infoToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none)) != null;
 	}
 
-
 	/// <summary>
 	/// Server-side method, sets whether this object can be picked up.
 	/// </summary>
-	/// <param name="canPickup"></param>
 	[Server]
 	public void ServerSetCanPickup(bool canPickup)
 	{
 		this.canPickup = canPickup;
 	}
+
+	#region Interaction
 
 	public virtual bool WillInteract(HandApply interaction, NetworkSide side)
 	{
@@ -129,7 +135,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		//hand needs to be empty for pickup
 		if (interaction.HandObject != null) return false;
 		//instead of the base logic, we need to use extended range check for CanApply
-		if (!Validations.CanApply(interaction, side, true, ReachRange.Standard, isPlayerClick: true)) return false;
+		if (!Validations.CanApply(interaction.PerformerPlayerScript, interaction.TargetObject, side, true)) return false;
 
 		return true;
 	}
@@ -139,27 +145,27 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		if ( interaction.Performer.GetComponent<PlayerScript>().IsGameObjectReachable( this.gameObject, false ))
 		{
 			//Predictive disappear only if item is within normal range
-			gameObject.GetComponent<CustomNetTransform>().DisappearFromWorld();
+			gameObject.GetComponent<UniversalObjectPhysics>().DisappearFromWorld();
 		}
 	}
 
 	public void ServerRollbackClient(HandApply interaction)
 	{
 		//Rollback prediction (inform player about item's true state)
-		GetComponent<CustomNetTransform>().NotifyPlayer(interaction.Performer.GetComponent<NetworkIdentity>().connectionToClient);
+		GetComponent<UniversalObjectPhysics>().ResetLocationOnClients();
 	}
 
 	public virtual void ServerPerformInteraction(HandApply interaction)
 	{
-		StartCoroutine(serverPreformInteractionLogic(interaction));
+		StartCoroutine(ServerPerformInteractionLogic(interaction));
 	}
 
-	private IEnumerator serverPreformInteractionLogic(HandApply interaction)
+	private IEnumerator ServerPerformInteractionLogic(HandApply interaction)
 	{
 		//we validated, but object may only be in extended range
-		var cnt = GetComponent<CustomNetTransform>();
+		var uop = GetComponent<UniversalObjectPhysics>();
 		var ps = interaction.Performer.GetComponent<PlayerScript>();
-		var extendedRangeOnly = !ps.IsRegisterTileReachable(cnt.RegisterTile, true);
+		var extendedRangeOnly = !ps.IsRegisterTileReachable(uop.registerTile, true);
 
 		//Start the animation on the server and clients.
 		PickupAnim(interaction.Performer.gameObject);
@@ -172,22 +178,17 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 		//if it's in extended range only, then we will nudge it if it is stationary
 		//or pick it up if it is floating.
-		if (extendedRangeOnly && !cnt.IsFloatingServer)
+		if (extendedRangeOnly && !uop.IsCurrentlyFloating)
 		{
 			//this item is not floating and it was not within standard range but is within extended range,
 			//so we will nudge it
-			var worldPosition = cnt.RegisterTile.WorldPositionServer;
+			var position = uop.transform.position;
+			var worldPosition = position;
 			var trajectory = ((Vector3)ps.WorldPos - worldPosition) / Random.Range(10, 31);
-			cnt.Nudge(new NudgeInfo
-			{
-				OriginPos = worldPosition - trajectory,
-				Trajectory = trajectory,
-				SpinMode = SpinMode.Clockwise,
-				SpinMultiplier = 15,
-				InitialSpeed = 2
-			} );
+			uop.NewtonianPush(trajectory ,2 , spinFactor: 15 );
+
 			Logger.LogTraceFormat( "Nudging! server pos:{0} player pos:{1}", Category.Movement,
-				cnt.ServerState.WorldPosition, interaction.Performer.transform.position);
+				position, interaction.Performer.transform.position);
 			//client prediction doesn't handle nudging, so we need to roll them back
 			ServerRollbackClient(interaction);
 		}
@@ -198,7 +199,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			if (Inventory.ServerAdd(this, interaction.HandSlot))
 			{
 				Logger.LogTraceFormat("Pickup success! server pos:{0} player pos:{1} (floating={2})", Category.Movement,
-					cnt.ServerState.WorldPosition, interaction.Performer.transform.position, cnt.IsFloatingServer);
+					uop.transform.position, interaction.Performer.transform.position, uop.IsCurrentlyFloating);
 			}
 			else
 			{
@@ -208,8 +209,11 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		}
 	}
 
+	#endregion
+
 	private void PickupAnim(GameObject interactor)
 	{
+		OnMoveToPlayerInventory?.Invoke();
 		LeanTween.move(gameObject, interactor.transform, pickupAnimSpeed);
 		LeanTween.scale(gameObject, new Vector3(0, 0), pickupAnimSpeed);
 	}
@@ -217,6 +221,9 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	[ClientRpc]
 	private void RpcPickupAnimation(GameObject interactor)
 	{
+		//Can happen if object isnt loaded on client yet, e.g during join
+		if (interactor == null) return;
+
 		PickupAnim(interactor);
 	}
 
@@ -232,7 +239,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		var interaction = HandApply.ByLocalPlayer(gameObject);
 		if (interaction.TargetObject != gameObject) return null;
 		if (interaction.HandObject != null) return null;
-		if (!Validations.CanApply(interaction, NetworkSide.Client, true, ReachRange.Standard, isPlayerClick: false)) return null;
+		if (!Validations.CanApply(interaction.PerformerPlayerScript, interaction.TargetObject, NetworkSide.Client, true, ReachRange.Standard)) return null;
 
 		return RightClickableResult.Create()
 				.AddElement("PickUp", RightClickInteract);
@@ -275,12 +282,10 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	/// Internal lifecycle system use only.
 	/// Change the slot this pickupable thinks it is in. Null to make it be in no slot.
 	/// </summary>
-	/// <param name="toSlot"></param>
 	public void _SetItemSlot(ItemSlot toSlot)
 	{
 		this.itemSlot = toSlot;
 	}
-
 
 	/// <summary>
 	/// If this is currently in an item slot linked to the local UI, refreshes that local UI slot to display
@@ -312,7 +317,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			var equipment = itemSlot.Player.GetComponent<Equipment>();
 			if (equipment == null) return;
 			var CT = equipment.GetClothingItem(itemSlot.NamedSlot.Value);
-			CT.spriteHandler.SetPaletteOfCurrentSprite(palette, Network:false);
+			CT.spriteHandler.SetPaletteOfCurrentSprite(palette, networked:false);
 		}
 	}
 }

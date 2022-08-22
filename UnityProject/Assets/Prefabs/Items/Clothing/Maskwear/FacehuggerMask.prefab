@@ -1,25 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5248330620639955473
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8320299039891337921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66e7a7ed3ad74a8d9ce6e019bc076e8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  isToy: 0
-  coitusTime: 10
-  pregnancyTime: 300
-  facehugger: {fileID: 3580619421430961846, guid: 28f0f699598b8074389bd2fecadaaf7a,
-    type: 3}
-  larvae: {fileID: 7455546943915704510, guid: 2ba8c4b90a981a94fb6946f53f09667f, type: 3}
 --- !u!1001 &1877733125468623936
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59,16 +39,38 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3a224a42781f9284298672a16fb1ba35,
         type: 2}
+    - target: {fileID: 3585452806818900716, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: foreverID
+      value: 6fecf534029349145b17735e15c9498c
+      objectReference: {fileID: 0}
     - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 4aa643bb597b9cc4881cd70a3cdf8994,
         type: 2}
+    - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4aa643bb597b9cc4881cd70a3cdf8994,
+        type: 2}
+    - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 191b489a5fd0fe543942fe52c7097879,
+        type: 2}
     - target: {fileID: 7560587375320734517, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 6fecf534029349145b17735e15c9498c
       objectReference: {fileID: 0}
     - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
@@ -134,12 +136,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300024, guid: 4866054b12864074ca72678ebef13a7c,
+      objectReference: {fileID: 21300000, guid: 4866054b12864074ca72678ebef13a7c,
         type: 3}
     - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: initialName
-      value: Facehugger
+      value: facehugger
       objectReference: {fileID: 0}
     - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
@@ -149,18 +151,24 @@ PrefabInstance:
     - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: initialDescription
-      value: Watch out! It is Alive!
+      value: It's still quite alive.
       objectReference: {fileID: 0}
     - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: initialTraits.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: ba923436cf6803a4f99a5ed73f885d61,
+        type: 2}
+    - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 47ca66de1b3472542a4b5fe877dbed3d,
         type: 2}
     - target: {fileID: 8797898182386189490, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
@@ -170,12 +178,6 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: -9097270597331898786, guid: 05a135eab68164d34bb02b82fff3cde0, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 05a135eab68164d34bb02b82fff3cde0, type: 3}
---- !u!1 &8320299039891337921 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7600017545650087553, guid: 05a135eab68164d34bb02b82fff3cde0,
-    type: 3}
-  m_PrefabInstance: {fileID: 1877733125468623936}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2752188463777155398 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
@@ -188,3 +190,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &8320299039891337921 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7600017545650087553, guid: 05a135eab68164d34bb02b82fff3cde0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1877733125468623936}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-5248330620639955473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8320299039891337921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66e7a7ed3ad74a8d9ce6e019bc076e8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  isToy: 0
+  coitusTime: 10
+  facehugger: {fileID: 3580619421430961846, guid: 28f0f699598b8074389bd2fecadaaf7a,
+    type: 3}
+  larvae: {fileID: 2515321529866027611, guid: cd0a7f50aede9e84599a86e571f388bb, type: 3}

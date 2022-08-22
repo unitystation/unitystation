@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcdd86e87cc447d94b99df8b1a383b3, type: 3}
   m_Name: BoxOfPillBottlesPopulator
   m_EditorClassIdentifier: 
-  Contents:
+  SlotContents: []
+  DeprecatedContents:
   - {fileID: 8680994867995415037, guid: dd97c290495c57e47b54b45eb7d49a38, type: 3}
   - {fileID: 8680994867995415037, guid: dd97c290495c57e47b54b45eb7d49a38, type: 3}
   - {fileID: 8680994867995415037, guid: dd97c290495c57e47b54b45eb7d49a38, type: 3}
@@ -20,4 +21,3 @@ MonoBehaviour:
   - {fileID: 8680994867995415037, guid: dd97c290495c57e47b54b45eb7d49a38, type: 3}
   - {fileID: 8680994867995415037, guid: dd97c290495c57e47b54b45eb7d49a38, type: 3}
   - {fileID: 8680994867995415037, guid: dd97c290495c57e47b54b45eb7d49a38, type: 3}
-  MergeMode: 0

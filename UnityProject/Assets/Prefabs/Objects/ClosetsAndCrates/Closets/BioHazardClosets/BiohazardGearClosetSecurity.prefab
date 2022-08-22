@@ -71,7 +71,7 @@ PrefabInstance:
     - target: {fileID: 168188376783432363, guid: 6e50bbcfbfcddd349a8159ee099033d0,
         type: 3}
       propertyPath: m_Name
-      value: Closet_BioHazard_Security
+      value: BiohazardGearClosetSecurity
       objectReference: {fileID: 0}
     - target: {fileID: 1037750719417952310, guid: 6e50bbcfbfcddd349a8159ee099033d0,
         type: 3}
@@ -91,6 +91,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 2deb958cda34c1e48b94a88d3fe7d5cd,
         type: 3}
+    - target: {fileID: 3537746237166134323, guid: 6e50bbcfbfcddd349a8159ee099033d0,
+        type: 3}
+      propertyPath: initialContents
+      value: 
+      objectReference: {fileID: 11400000, guid: 8d678af0037013c4aa5edebad524469b,
+        type: 2}
+    - target: {fileID: 3829306896477476066, guid: 6e50bbcfbfcddd349a8159ee099033d0,
+        type: 3}
+      propertyPath: foreverID
+      value: 02158af4b8bd9fa43b6a2fc2230a9707
+      objectReference: {fileID: 0}
     - target: {fileID: 4613223890691620977, guid: 6e50bbcfbfcddd349a8159ee099033d0,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -124,7 +135,7 @@ PrefabInstance:
     - target: {fileID: 8613230744922365897, guid: 6e50bbcfbfcddd349a8159ee099033d0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 02158af4b8bd9fa43b6a2fc2230a9707
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e50bbcfbfcddd349a8159ee099033d0, type: 3}

@@ -29,12 +29,6 @@ public class Paper : NetworkBehaviour, IServerSpawn
 
 	private void Awake()
 	{
-		EnsureInit();
-	}
-
-	private void EnsureInit()
-	{
-		if (pickupable != null) return;
 		pickupable = GetComponent<Pickupable>();
 		spriteHandler = GetComponentInChildren<SpriteHandler>();
 	}
@@ -61,7 +55,6 @@ public class Paper : NetworkBehaviour, IServerSpawn
 
 	private void UpdateState(SpriteState state)
 	{
-		EnsureInit();
 		spriteHandler.ChangeSprite((int) state);
 	}
 

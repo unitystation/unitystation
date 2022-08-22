@@ -14,10 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   emoteName: sway
   requiresHands: 0
+  allowEmoteWhileInCrit: 1
+  isAudibleEmote: 0
+  allowEmoteWhileCrawling: 1
   viewText: sways dizzily.
   youText: You sway dizzily.
   failText: You were unable to preform this action!
+  mouthBlockedText: You are unable to make a sound!
+  critViewText: screams in pain!
+  soundsAreTyped: 0
   defaultSounds: []
-  maleSounds: []
-  femaleSounds: []
+  TypedSounds: []
   pitchRange: {x: 0.7, y: 1}

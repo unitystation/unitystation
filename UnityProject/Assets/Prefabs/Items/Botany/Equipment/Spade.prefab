@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 213163831047894284, guid: 1488f67a55cb9b84098e095e65e5a2b3,
+        type: 3}
+      propertyPath: foreverID
+      value: a7eeb10882fa2f042aa33b28946184a4
+      objectReference: {fileID: 0}
     - target: {fileID: 1083653974962930406, guid: 1488f67a55cb9b84098e095e65e5a2b3,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -82,7 +87,7 @@ PrefabInstance:
     - target: {fileID: 6619098635907335381, guid: 1488f67a55cb9b84098e095e65e5a2b3,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: a7eeb10882fa2f042aa33b28946184a4
       objectReference: {fileID: 0}
     - target: {fileID: 6675016413124777475, guid: 1488f67a55cb9b84098e095e65e5a2b3,
         type: 3}
@@ -121,6 +126,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6675016413124777475, guid: 1488f67a55cb9b84098e095e65e5a2b3,
         type: 3}
+      propertyPath: traumaDamageChance
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6675016413124777475, guid: 1488f67a55cb9b84098e095e65e5a2b3,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6675016413124777475, guid: 1488f67a55cb9b84098e095e65e5a2b3,
+        type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: 01e9e5f3d3acd4048813e1c3e946e958,
@@ -139,3 +154,31 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1488f67a55cb9b84098e095e65e5a2b3, type: 3}
+--- !u!1 &798374024810194274 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6507691273333881185, guid: 1488f67a55cb9b84098e095e65e5a2b3,
+    type: 3}
+  m_PrefabInstance: {fileID: 5862440185610656771}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-7279915846094834819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798374024810194274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  allClothingData:
+  - {fileID: 11400000, guid: f0c07e9f341122740b51aa8aebacaa67, type: 2}
+  CurrentClothIndex: 0
+  randomInitialClothData: 0
+  hidesIdentity: 0
+  hidesSlots: 0
+  hideClothingFlags: 0
+  disallowConsume: 0

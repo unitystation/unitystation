@@ -14,6 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1193621169871522634, guid: 55d1882970fa8d14780637edab8da0b8,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193621169871522634, guid: 55d1882970fa8d14780637edab8da0b8,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -26,6 +31,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193621169871522634, guid: 55d1882970fa8d14780637edab8da0b8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1193621169871522634, guid: 55d1882970fa8d14780637edab8da0b8,
         type: 3}
@@ -44,16 +54,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1193621169871522634, guid: 55d1882970fa8d14780637edab8da0b8,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1193621169871522634, guid: 55d1882970fa8d14780637edab8da0b8,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1193621169871522634, guid: 55d1882970fa8d14780637edab8da0b8,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -67,10 +67,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2879143552246690777, guid: 55d1882970fa8d14780637edab8da0b8,
+        type: 3}
+      propertyPath: foreverID
+      value: 42b6820b415420f458301d5ce3f81940
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136247375156711188, guid: 55d1882970fa8d14780637edab8da0b8,
+        type: 3}
+      propertyPath: requiredClearance.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7302864015567976690, guid: 55d1882970fa8d14780637edab8da0b8,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 42b6820b415420f458301d5ce3f81940
       objectReference: {fileID: 0}
     - target: {fileID: 8367916933163012768, guid: 55d1882970fa8d14780637edab8da0b8,
         type: 3}

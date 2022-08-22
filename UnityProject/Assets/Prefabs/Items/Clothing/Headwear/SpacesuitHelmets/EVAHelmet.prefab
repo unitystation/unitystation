@@ -17,14 +17,17 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: f7547e1a886c3b844be84a4e62c738e4,
-        type: 2}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4548501816867735510, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: disallowConsume
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4548501816867735510, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: f7547e1a886c3b844be84a4e62c738e4,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4548501816867735510, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -36,6 +39,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: bf62a22f9b69f8140b40cf65e1e8abfa,
         type: 2}
+    - target: {fileID: 4600432664360327230, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: foreverID
+      value: 63c3fd2e57a93dc4a921082eac8835ef
+      objectReference: {fileID: 0}
+    - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.DismembermentProtectionChance
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.DismembermentProtectionChance
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.DismembermentProtectionChance
+      value: 65
+      objectReference: {fileID: 0}
     - target: {fileID: 7029879816411904817, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: initialName
@@ -56,7 +79,7 @@ PrefabInstance:
     - target: {fileID: 7419268474676488679, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 63c3fd2e57a93dc4a921082eac8835ef
       objectReference: {fileID: 0}
     - target: {fileID: 7419978175686084007, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}

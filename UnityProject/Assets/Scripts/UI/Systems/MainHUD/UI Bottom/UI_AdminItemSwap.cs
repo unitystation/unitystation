@@ -1,49 +1,50 @@
-﻿using System.Linq;
+﻿using Managers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Mirror;
-using AdminCommands;
 using Messages.Client;
 using Messages.Client.Interaction;
+using UI;
 
-public class UI_AdminItemSwap : TooltipMonoBehaviour, IPointerClickHandler
+namespace UI.AdminTools
 {
-	private UI_ItemSlot ui_itemSlot;
-	public override string Tooltip => ui_itemSlot.NamedSlot.ToString();
-
-	private void Awake()
+	public class UI_AdminItemSwap : TooltipMonoBehaviour, IPointerClickHandler
 	{
-		ui_itemSlot = GetComponentInChildren<UI_ItemSlot>();
-	}
+		private UI_ItemSlot ui_itemSlot;
+		public override string Tooltip => ui_itemSlot.NamedSlot.ToString();
 
-	public void OnPointerClick(BaseEventData eventData)
-	{
-		OnPointerClick((PointerEventData) eventData);
-	}
-
-	public void OnPointerClick(PointerEventData eventData)
-	{
-		if (eventData.button == PointerEventData.InputButton.Left && !eventData.dragging)
+		private void Awake()
 		{
-			OnClick();
-		}
-	}
-
-	public void OnClick()
-	{
-		if (!PlayerList.Instance.IsClientAdmin)
-			return;
-
-		//If shift is pressed, don't check anything, just send Examine on contained item if any.
-		if (KeyboardInputManager.IsShiftPressed() && ui_itemSlot.Item != null)
-		{
-			RequestExamineMessage.Send(ui_itemSlot.Item.GetComponent<NetworkIdentity>().netId);
-			return;
+			ui_itemSlot = GetComponentInChildren<UI_ItemSlot>();
 		}
 
-		var adminHand = AdminManager.Instance.LocalAdminGhostStorage.GetNamedItemSlot(NamedSlot.ghostStorage01);
-		if (ui_itemSlot.ItemSlot != adminHand)
+		public void OnPointerClick(BaseEventData eventData)
 		{
+			OnPointerClick((PointerEventData)eventData);
+		}
+
+		public void OnPointerClick(PointerEventData eventData)
+		{
+			if (eventData.button == PointerEventData.InputButton.Left && !eventData.dragging)
+			{
+				OnClick();
+			}
+		}
+
+		public void OnClick()
+		{
+			if (PlayerList.Instance.IsClientAdmin == false) return;
+
+			// If shift is pressed, don't check anything, just send Examine on contained item if any.
+			if (KeyboardInputManager.IsShiftPressed() && ui_itemSlot.Item != null)
+			{
+				RequestExamineMessage.Send(ui_itemSlot.Item.GetComponent<NetworkIdentity>().netId);
+				return;
+			}
+
+			var adminHand = AdminManager.Instance.LocalAdminGhostStorage.GetNamedItemSlot(NamedSlot.ghostStorage01);
+			if (ui_itemSlot.ItemSlot == adminHand) return;
+
 			if (ui_itemSlot.Item == null)
 			{
 				if (adminHand.Item)
@@ -58,8 +59,6 @@ public class UI_AdminItemSwap : TooltipMonoBehaviour, IPointerClickHandler
 					AdminInventoryTransferMessage.Send(ui_itemSlot.ItemSlot, adminHand);
 				}
 			}
-
 		}
 	}
-
 }

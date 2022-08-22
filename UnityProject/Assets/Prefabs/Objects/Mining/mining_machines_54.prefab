@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4600215391598352}
   m_RootOrder: 0
@@ -43,6 +44,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -100,10 +102,10 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: d03d262ab7838bc49870a54711f8cb2c, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &1148151089360074
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,7 +120,6 @@ GameObject:
   - component: {fileID: 6253077211462791056}
   - component: {fileID: 114770512620025736}
   - component: {fileID: 114030207048474028}
-  - component: {fileID: 114404534068749718}
   - component: {fileID: 114774815397134544}
   - component: {fileID: 114698186089058472}
   - component: {fileID: 114430213137055408}
@@ -126,6 +127,7 @@ GameObject:
   - component: {fileID: -4055719543417172584}
   - component: {fileID: 6108340017713445561}
   - component: {fileID: 6697179338285310534}
+  - component: {fileID: -8724689783810518687}
   m_Layer: 11
   m_Name: mining_machines_54
   m_TagString: Untagged
@@ -143,6 +145,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4901653180667874}
   m_Father: {fileID: 0}
@@ -187,8 +190,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound: 
 --- !u!114 &6253077211462791056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,6 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 0
+  aiInteractable: 1
 --- !u!114 &114770512620025736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,24 +220,38 @@ MonoBehaviour:
   - ItemName: Mining Satchel
     Item: {fileID: 6032624691665936685, guid: 351d85b68a3a62f4c841f26a61d8b3aa, type: 3}
     Stock: 5
+    Currency: 0
+    Price: 0
   - ItemName: Pickaxe
     Item: {fileID: 2654136094092541073, guid: 82cb1c39112974a498a9756981eb07d0, type: 3}
     Stock: 5
+    Currency: 0
+    Price: 0
   - ItemName: Lantern
     Item: {fileID: 3546095837535277525, guid: abe9c13902b62ce449fdfec99db8f554, type: 3}
     Stock: 5
+    Currency: 0
+    Price: 0
   - ItemName: Shovel
     Item: {fileID: 6507691273333881185, guid: 1488f67a55cb9b84098e095e65e5a2b3, type: 3}
     Stock: 5
+    Currency: 0
+    Price: 0
   - ItemName: Proto-Kinetic Accelerator
     Item: {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4, type: 3}
     Stock: 3
+    Currency: 0
+    Price: 0
   - ItemName: Silver Plated Pickaxe
     Item: {fileID: 320759090315932535, guid: 9ebdd8fb093d8434db3fe4a38f8100c6, type: 3}
     Stock: 1
+    Currency: 0
+    Price: 0
   - ItemName: Mining Conscription Bundle
     Item: {fileID: 7117549204377160164, guid: 95a01097dc5810b45840fca81b8a1e6e, type: 3}
     Stock: 3
+    Currency: 0
+    Price: 0
   HullColor: {r: 0.5882353, g: 0.4392157, b: 0.19607843, a: 1}
   EjectObjects: 0
   EjectDirection: 0
@@ -246,6 +262,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
   isEmagged: 0
@@ -253,15 +270,23 @@ MonoBehaviour:
   - ItemName: 
     Item: {fileID: 6700281191928912403, guid: 51db727353f37334c9bfdbb512f2d530, type: 3}
     Stock: 5
+    Currency: 0
+    Price: 0
   - ItemName: 
     Item: {fileID: 2654578771155045139, guid: 5a7fa3c926dc42141889e9b72c5d314d, type: 3}
     Stock: 5
+    Currency: 0
+    Price: 0
   - ItemName: 
     Item: {fileID: 2654578771155045139, guid: 82cb1c39112974a498a9756981eb07d0, type: 3}
     Stock: 5
+    Currency: 0
+    Price: 0
   - ItemName: 
     Item: {fileID: 6507691273333881185, guid: 1488f67a55cb9b84098e095e65e5a2b3, type: 3}
     Stock: 5
+    Currency: 0
+    Price: 0
   ActualCurrentPowerState: 2
   DoesntRequirePower: 0
 --- !u!114 &114030207048474028
@@ -280,26 +305,13 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  prefabTracker: {fileID: 0}
+  CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
-  Passable: 0
   ReachableThrough: 1
+  initialPassable: 0
+  initialCrawlPassable: 0
   passableExclusionsToThis: []
---- !u!114 &114404534068749718
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1148151089360074}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  snapToGridOnStart: 1
-  IsFixedMatrix: 0
 --- !u!114 &114774815397134544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -337,6 +349,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -349,6 +362,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -361,6 +375,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  Meleeable: {fileID: 0}
 --- !u!114 &114430213137055408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373,11 +388,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: 
+  m_AssetId: 8e03aa759c4c84574af1a9542be7093c
   hasSpawned: 0
 --- !u!114 &-5194193326582353321
 MonoBehaviour:
@@ -397,8 +411,10 @@ MonoBehaviour:
   initialDescription: for all your mining needs
   willHighlight: 1
   exportCost: 0
+  exportType: 0
   exportName: 
   exportMessage: 
+  initialSize: 3
 --- !u!114 &-4055719543417172584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,8 +427,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &6108340017713445561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -433,11 +447,10 @@ MonoBehaviour:
   deviceType: 0
   isSelfPowered: 0
   wattusage: 0.01
-  resistance: 100000000
+  InitialResistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
-  conType: 1
 --- !u!114 &6697179338285310534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -451,3 +464,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   restriction: 53
+--- !u!114 &-8724689783810518687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1148151089360074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  SnapToGridOnStart: 0
+  LocalTargetPosition: {x: 0, y: 0, z: 0}
+  TileMoveSpeed: 1
+  isNotPushable: 0
+  newtonianMovement: {x: 0, y: 0}
+  airTime: 0
+  slideTime: 0
+  thrownBy: {fileID: 0}
+  aim: 0
+  spinMagnitude: 0
+  stickyMovement: 0
+  maximumStickSpeed: 1.5
+  onStationMovementsRound: 0
+  attributes: {fileID: 0}
+  registerTile: {fileID: 0}
+  ContextGameObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  IsCurrentlyFloating: 0
+  LocalDifferenceNeeded: {x: 0, y: 0}
+  CorrectingCourse: 0
+  Pushing: []
+  Hits: []
+  Speed: 1
+  AIR: 3
+  SLIDE: 4
+  Animating: 0
+  IsFlyingSliding: 0
+  IsMoving: 0
+  IsWalking: 0
+  MoveIsWalking: 0
+  LastUpdateClientFlying: 0

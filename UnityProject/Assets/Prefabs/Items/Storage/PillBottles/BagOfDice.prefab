@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2360923261265550736, guid: dd97c290495c57e47b54b45eb7d49a38,
+        type: 3}
+      propertyPath: foreverID
+      value: 5ce99e777d6594e4290b2ea91b279289
+      objectReference: {fileID: 0}
     - target: {fileID: 3260335517349816954, guid: dd97c290495c57e47b54b45eb7d49a38,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -19,6 +24,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: edcaf958c8170f24187911b3be5f0011,
         type: 2}
+    - target: {fileID: 8676911419418963081, guid: dd97c290495c57e47b54b45eb7d49a38,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8676911419418963081, guid: dd97c290495c57e47b54b45eb7d49a38,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -36,6 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8676911419418963081, guid: dd97c290495c57e47b54b45eb7d49a38,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8676911419418963081, guid: dd97c290495c57e47b54b45eb7d49a38,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -48,16 +63,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8676911419418963081, guid: dd97c290495c57e47b54b45eb7d49a38,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8676911419418963081, guid: dd97c290495c57e47b54b45eb7d49a38,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8676911419418963081, guid: dd97c290495c57e47b54b45eb7d49a38,
         type: 3}
@@ -82,7 +87,7 @@ PrefabInstance:
     - target: {fileID: 8785717269132291145, guid: dd97c290495c57e47b54b45eb7d49a38,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 5ce99e777d6594e4290b2ea91b279289
       objectReference: {fileID: 0}
     - target: {fileID: 8829556978482029217, guid: dd97c290495c57e47b54b45eb7d49a38,
         type: 3}
@@ -92,13 +97,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 9121069500737191583, guid: dd97c290495c57e47b54b45eb7d49a38,
         type: 3}
-      propertyPath: initialDescription
-      value: Contains all the luck you'll ever need.
+      propertyPath: initialName
+      value: bag of dice
       objectReference: {fileID: 0}
     - target: {fileID: 9121069500737191583, guid: dd97c290495c57e47b54b45eb7d49a38,
         type: 3}
-      propertyPath: initialName
-      value: bag of dice
+      propertyPath: initialDescription
+      value: Contains all the luck you'll ever need.
       objectReference: {fileID: 0}
     - target: {fileID: 9121069500737191583, guid: dd97c290495c57e47b54b45eb7d49a38,
         type: 3}

@@ -10,7 +10,12 @@ PrefabInstance:
     - target: {fileID: 642537021473028356, guid: 1f332585069499e49a1f8f8bd17f486d,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 10603003756653a4d9ee543456987de7
+      objectReference: {fileID: 0}
+    - target: {fileID: 679330769377016260, guid: 1f332585069499e49a1f8f8bd17f486d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 679330769377016260, guid: 1f332585069499e49a1f8f8bd17f486d,
         type: 3}
@@ -29,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 679330769377016260, guid: 1f332585069499e49a1f8f8bd17f486d,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 679330769377016260, guid: 1f332585069499e49a1f8f8bd17f486d,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 679330769377016260, guid: 1f332585069499e49a1f8f8bd17f486d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 679330769377016260, guid: 1f332585069499e49a1f8f8bd17f486d,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 679330769377016260, guid: 1f332585069499e49a1f8f8bd17f486d,
         type: 3}
@@ -80,13 +80,18 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1122362951200418770, guid: 1f332585069499e49a1f8f8bd17f486d,
         type: 3}
-      propertyPath: initialDescription
-      value: A gold flask belonging to the captain.
+      propertyPath: initialName
+      value: captain's flask
       objectReference: {fileID: 0}
     - target: {fileID: 1122362951200418770, guid: 1f332585069499e49a1f8f8bd17f486d,
         type: 3}
-      propertyPath: initialName
-      value: captain's flask
+      propertyPath: initialDescription
+      value: A gold flask belonging to the captain.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5891918292766574813, guid: 1f332585069499e49a1f8f8bd17f486d,
+        type: 3}
+      propertyPath: foreverID
+      value: 10603003756653a4d9ee543456987de7
       objectReference: {fileID: 0}
     - target: {fileID: 6645319274446683959, guid: 1f332585069499e49a1f8f8bd17f486d,
         type: 3}

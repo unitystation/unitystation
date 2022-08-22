@@ -7,18 +7,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3547883628967403028, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: foreverID
+      value: bc9ecae73e8cb5444b638c268a0b923c
+      objectReference: {fileID: 0}
     - target: {fileID: 3601505531603534332, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 14daa1d8240a50042809a80d239ed753,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3601505531603534332, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 14daa1d8240a50042809a80d239ed753,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3601505531603534332, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -54,10 +57,70 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2fd580f19436823439e793f6e54eff5b,
         type: 2}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Rad
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Rad
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Rad
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Acid
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bomb
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Acid
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Bomb
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Acid
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Bomb
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Melee
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Melee
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Melee
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 7499075161934737357, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: bc9ecae73e8cb5444b638c268a0b923c
       objectReference: {fileID: 0}
     - target: {fileID: 7502318203366802317, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}

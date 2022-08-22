@@ -11,12 +11,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300004, guid: a66daa6c84d771445bf2a00e0e1389a6,
+      objectReference: {fileID: 21300000, guid: a66daa6c84d771445bf2a00e0e1389a6,
         type: 3}
     - target: {fileID: 1999798114661103113, guid: 1e7847d11a7d63b41a689c581767d8ae,
         type: 3}
       propertyPath: m_Name
-      value: BoozeOMatAllAcces
+      value: BoozeOMatAllAccess
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005509211021586643, guid: 1e7847d11a7d63b41a689c581767d8ae,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2005509211021586643, guid: 1e7847d11a7d63b41a689c581767d8ae,
         type: 3}
@@ -35,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2005509211021586643, guid: 1e7847d11a7d63b41a689c581767d8ae,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005509211021586643, guid: 1e7847d11a7d63b41a689c581767d8ae,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2005509211021586643, guid: 1e7847d11a7d63b41a689c581767d8ae,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2005509211021586643, guid: 1e7847d11a7d63b41a689c581767d8ae,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2005509211021586643, guid: 1e7847d11a7d63b41a689c581767d8ae,
         type: 3}
@@ -73,10 +73,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3220458490818857024, guid: 1e7847d11a7d63b41a689c581767d8ae,
+        type: 3}
+      propertyPath: foreverID
+      value: 6bf5ba5b83af4b345b7cebcdc70b90f2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6804319293778474125, guid: 1e7847d11a7d63b41a689c581767d8ae,
+        type: 3}
+      propertyPath: requiredClearance.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7934608071618872171, guid: 1e7847d11a7d63b41a689c581767d8ae,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 6bf5ba5b83af4b345b7cebcdc70b90f2
       objectReference: {fileID: 0}
     - target: {fileID: 8402510402082354238, guid: 1e7847d11a7d63b41a689c581767d8ae,
         type: 3}

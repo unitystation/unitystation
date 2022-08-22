@@ -1,70 +1,73 @@
 using System;
 using UnityEngine;
+using Objects;
 
-public class ExportScanner : MonoBehaviour, ICheckedInteractable<HandApply>
+namespace Items.Cargo
 {
-	public bool WillInteract(HandApply interaction, NetworkSide side)
+	public class ExportScanner : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
-		if (!DefaultWillInteract.Default(interaction, side))
+		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			return false;
-		}
-
-		if (interaction.HandObject != gameObject)
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	public void ServerPerformInteraction(HandApply interaction)
-	{
-		var (containedContents, price) = GetPrice(interaction.TargetObject);
-		var exportName = interaction.TargetObject.ExpensiveName();
-		var message = price > 0
-			? $"Scanned { exportName }, value: { price } credits."
-			: $"Scanned { exportName }, no export value.";
-
-		if (containedContents)
-		{
-			message += " (contents included)";
-		}
-
-		Chat.AddExamineMsg(interaction.Performer, message);
-	}
-
-	private Tuple<bool, int> GetPrice(GameObject pricedObject)
-	{
-		var attributes = pricedObject.GetComponent<Attributes>();
-		var price = attributes ? attributes.ExportCost : 0;
-
-		var containedContents = false;
-		var storage = pricedObject.GetComponent<InteractableStorage>();
-		if (storage)
-		{
-			foreach (var slot in storage.ItemStorage.GetItemSlots())
+			if (!DefaultWillInteract.Default(interaction, side))
 			{
-				if (!slot.Item)
+				return false;
+			}
+
+			if (interaction.HandObject != gameObject)
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			var (containedContents, price) = GetPrice(interaction.TargetObject);
+			var exportName = interaction.TargetObject.ExpensiveName();
+			var message = price > 0
+				? $"Scanned { exportName }, value: { price } credits."
+				: $"Scanned { exportName }, no export value.";
+
+			if (containedContents)
+			{
+				message += " (contents included)";
+			}
+
+			Chat.AddExamineMsg(interaction.Performer, message);
+		}
+
+		private Tuple<bool, int> GetPrice(GameObject pricedObject)
+		{
+			var attributes = pricedObject.GetComponent<Attributes>();
+			var price = attributes ? attributes.ExportCost : 0;
+
+			var containedContents = false;
+			var storage = pricedObject.GetComponent<InteractableStorage>();
+			if (storage)
+			{
+				foreach (var slot in storage.ItemStorage.GetItemSlots())
 				{
-					continue;
+					if (!slot.Item)
+					{
+						continue;
+					}
+
+					containedContents = true;
+					price += GetPrice(slot.Item.gameObject).Item2;
 				}
-
-				containedContents = true;
-				price += GetPrice(slot.Item.gameObject).Item2;
 			}
-		}
 
-		var closet = pricedObject.GetComponent<ClosetControl>();
-		if (closet)
-		{
-			foreach (var item in closet.ServerHeldItems)
+			if (pricedObject.TryGetComponent<ObjectContainer>(out var container))
 			{
-				containedContents = true;
-				price += GetPrice(item.gameObject).Item2;
+				foreach (var obj in container.GetStoredObjects())
+				{
+					containedContents = true;
+					price += GetPrice(obj).Item2;
+				}
 			}
-		}
 
-		return new Tuple<bool, int>(containedContents, price);
+			return new Tuple<bool, int>(containedContents, price);
+		}
 	}
 }

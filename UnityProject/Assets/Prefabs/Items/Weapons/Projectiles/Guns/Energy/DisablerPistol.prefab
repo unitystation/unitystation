@@ -75,11 +75,6 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
       propertyPath: initialName
       value: disabler pistol
       objectReference: {fileID: 0}
@@ -96,6 +91,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: initialTraits.Array.data[3]
       value: 
       objectReference: {fileID: 11400000, guid: ad8a6873f4f12504094b58741204ea6a,
@@ -103,7 +103,12 @@ PrefabInstance:
     - target: {fileID: 4342894697621943514, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 67a89d8633e64344ab64d40cf9ffcae2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -122,6 +127,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -134,16 +144,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -195,45 +195,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: firemodeProjectiles.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: firemodeFiringSound.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: firemodeName.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: FiringSound
-      value: ShootLaser
-      objectReference: {fileID: 0}
-    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
       propertyPath: Projectile
       value: 
       objectReference: {fileID: 5418626791516505491, guid: b4492e96cb32b8941a4cf47edcf7c3cc,
         type: 3}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: firemodeProjectiles.Array.data[0]
-      value: 
-      objectReference: {fileID: 5418626791516505491, guid: b4492e96cb32b8941a4cf47edcf7c3cc,
-        type: 3}
-    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: firemodeFiringSound.Array.data[0]
+      propertyPath: FiringSound
       value: ShootLaser
-      objectReference: {fileID: 0}
-    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: firemodeName.Array.data[0]
-      value: Disable
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -242,8 +211,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: firemodeName.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: FiringSoundA.AssetAddress
+      value: Assets/Prefabs/Weapons/Taser2.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: firemodeName.Array.data[0]
+      value: Disable
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: firemodeName.Array.data[1]
       value: Disable
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: firemodeUsage.Array.data[0]
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: firemodeFiringSound.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: firemodeProjectiles.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: firemodeFiringSound.Array.data[0]
+      value: ShootLaser
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -252,24 +256,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: firemodeProjectiles.Array.data[0]
+      value: 
+      objectReference: {fileID: 5418626791516505491, guid: b4492e96cb32b8941a4cf47edcf7c3cc,
+        type: 3}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: firemodeProjectiles.Array.data[1]
       value: 
       objectReference: {fileID: 5418626791516505491, guid: b4492e96cb32b8941a4cf47edcf7c3cc,
         type: 3}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: firemodeUsage.Array.data[0]
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
       propertyPath: firemodeFiringSound.Array.data[0].AssetAddress
       value: Assets/Prefabs/Weapons/Taser2.prefab
       objectReference: {fileID: 0}
-    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+    - target: {fileID: 7308079732379829507, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: FiringSoundA.AssetAddress
-      value: Assets/Prefabs/Weapons/Taser2.prefab
+      propertyPath: foreverID
+      value: 67a89d8633e64344ab64d40cf9ffcae2
       objectReference: {fileID: 0}
     - target: {fileID: 7536533288437052137, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}

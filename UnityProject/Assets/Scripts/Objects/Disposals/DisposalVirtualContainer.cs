@@ -1,7 +1,10 @@
 using System.Collections.Generic;
-using AddressableReferences;
-using Messages.Server;
+using System;
+using System.Linq;
 using UnityEngine;
+using AddressableReferences;
+using Objects.Atmospherics;
+using Random = UnityEngine.Random;
 
 namespace Objects.Disposals
 {
@@ -9,217 +12,30 @@ namespace Objects.Disposals
 	/// A virtual container for disposal instances. Contains the disposed contents,
 	/// and allows the contents to be dealt with when the disposal instance ends.
 	/// </summary>
-	public class DisposalVirtualContainer : MonoBehaviour, IServerDespawn, IExaminable
+	public class DisposalVirtualContainer : MonoBehaviour, IExaminable, IEscapable
 	{
 		[Tooltip("The sound made when someone is trying to move in pipes.")]
 		[SerializeField]
-		private AddressableAudioSource ClangSound;
+		private AddressableAudioSource ClangSound = default;
 
-		private Matrix Matrix;
-		private ObjectBehaviour ContainerBehaviour;
+		private ObjectContainer objectContainer;
+		private GasContainer gasContainer;
 
 		// transform.position seems to be the only reliable method after OnDespawnServer() has been called.
 		private Vector3 ContainerWorldPosition => transform.position;
 
-		// We store each type of entity separately, because each entity type requires different operations.
-		private readonly List<ObjectBehaviour> containedItems = new List<ObjectBehaviour>();
-		private readonly List<ObjectBehaviour> containedObjects = new List<ObjectBehaviour>();
-		private readonly List<ObjectBehaviour> containedPlayers = new List<ObjectBehaviour>();
-
-		public int ContentsCount => containedItems.Count + containedObjects.Count + containedPlayers.Count;
-		public bool HasContents => ContentsCount > 0;
-
 		private void Awake()
 		{
-			Matrix = gameObject.RegisterTile().Matrix;
-			ContainerBehaviour = GetComponent<ObjectBehaviour>();
+			objectContainer = GetComponent<ObjectContainer>();
+			gasContainer = GetComponent<GasContainer>();
 		}
-
-		#region AddContents
-
-		public void AddItems(IEnumerable<ObjectBehaviour> items)
-		{
-			foreach (ObjectBehaviour item in items)
-			{
-				AddItem(item);
-			}
-		}
-
-		public void AddObjects(IEnumerable<ObjectBehaviour> objects)
-		{
-			foreach (ObjectBehaviour entity in objects)
-			{
-				AddObject(entity);
-			}
-		}
-
-		public void AddPlayers(IEnumerable<ObjectBehaviour> players)
-		{
-			foreach (ObjectBehaviour player in players)
-			{
-				AddPlayer(player);
-			}
-		}
-
-		public void AddItem(ObjectBehaviour item)
-		{
-			containedItems.Add(item);
-			SetContainerAndMakeInvisible(item);
-		}
-
-		public void AddObject(ObjectBehaviour entity)
-		{
-			containedObjects.Add(entity);
-			SetContainerAndMakeInvisible(entity);
-		}
-
-		public void AddPlayer(ObjectBehaviour player)
-		{
-			containedPlayers.Add(player);
-			SetContainerAndMakeInvisible(player);
-			FollowCameraMessage.Send(player.gameObject, gameObject);
-		}
-
-		void SetContainerAndMakeInvisible(ObjectBehaviour entity)
-		{
-			entity.parentContainer = ContainerBehaviour;
-			entity.VisibleState = false;
-		}
-
-		#endregion AddContents
-
-		#region RemoveContents
-
-		public void RemoveItem(ObjectBehaviour item)
-		{
-			if (containedItems.Remove(item))
-			{
-				EjectItemOrObject(item);
-			}
-		}
-
-		public void RemoveObject(ObjectBehaviour entity)
-		{
-			if (containedObjects.Remove(entity))
-			{
-				EjectItemOrObject(entity);
-			}
-		}
-
-		public void RemovePlayer(ObjectBehaviour player)
-		{
-			if (containedPlayers.Remove(player))
-			{
-				EjectPlayer(player);
-			}
-		}
-
-		#endregion RemoveContents
 
 		#region EjectContents
 
-		private void EjectContainedItems()
+		private void ThrowItem(UniversalObjectPhysics uop, Vector3 throwVector)
 		{
-			foreach (ObjectBehaviour item in containedItems)
-			{
-				EjectItemOrObject(item);
-			}
-		}
-
-		private void EjectContainedObjects()
-		{
-			foreach (ObjectBehaviour entity in containedObjects)
-			{
-				EjectItemOrObject(entity);
-			}
-		}
-
-		private void EjectContainedPlayers()
-		{
-			foreach (ObjectBehaviour player in containedPlayers)
-			{
-				EjectPlayer(player);
-			}
-		}
-
-		private void EjectItemOrObject(ObjectBehaviour entity)
-		{
-			if (entity == null) return;
-
-			entity.parentContainer = null;
-			if (entity.TryGetComponent<CustomNetTransform>(out var netTransform))
-			{
-				netTransform.SetPosition(ContainerWorldPosition);
-			}
-		}
-
-		private void EjectPlayer(ObjectBehaviour player)
-		{
-			if (player == null) return;
-
-			player.parentContainer = null;
-			if (player.TryGetComponent<PlayerSync>(out var playerSync))
-			{
-				playerSync.SetPosition(ContainerWorldPosition);
-				FollowCameraMessage.Send(player.gameObject, player.gameObject);
-			}
-		}
-
-		private void ThrowContainedItems(Vector3 throwVector)
-		{
-			foreach (ObjectBehaviour item in containedItems)
-			{
-				ThrowItem(item, throwVector);
-			}
-		}
-
-		private void ThrowContainedObjects(Vector3 throwVector)
-		{
-			foreach (ObjectBehaviour entity in containedObjects)
-			{
-				// Objects cannot currently be thrown, so just push them in the direction for now.
-				PushObject(entity, throwVector);
-			}
-		}
-
-		private void ThrowContainedPlayers(Vector3 throwVector)
-		{
-			foreach (ObjectBehaviour player in containedPlayers)
-			{
-				// Players cannot currently be thrown, so just push them in the direction for now.
-				PushPlayer(player, throwVector);
-			}
-		}
-
-		private void ThrowItem(ObjectBehaviour item, Vector3 throwVector)
-		{
-			Vector3 vector = item.transform.rotation * throwVector;
-			ThrowInfo throwInfo = new ThrowInfo
-			{
-				ThrownBy = Matrix.transform.parent.gameObject,
-				Aim = BodyPartType.Chest,
-				OriginWorldPos = ContainerWorldPosition,
-				WorldTrajectory = vector,
-				SpinMode = SpinMode.Clockwise // TODO: randomise this
-			};
-
-			CustomNetTransform itemTransform = item.GetComponent<CustomNetTransform>();
-			if (itemTransform == null) return;
-			itemTransform.Throw(throwInfo);
-		}
-
-		private void PushObject(ObjectBehaviour entity, Vector3 pushVector)
-		{
-			entity.QueuePush(pushVector.NormalizeTo2Int());
-			//entity.TryPush(pushVector.NormalizeTo2Int());
-			//GetComponent<CustomNetTransform>().Push(pushVector.NormalizeTo2Int());
-		}
-
-		private void PushPlayer(ObjectBehaviour player, Vector3 pushVector)
-		{
-			//PushObject(player, pushVector);
-			player.GetComponent<RegisterPlayer>().ServerStun();
-			player.QueuePush(pushVector.NormalizeTo2Int());
+			Vector3 vector = uop.transform.rotation * throwVector;
+			uop.NewtonianPush(vector, Random.Range(1, 100)/10f , Random.Range(1, 85)/100f, Random.Range(1, 25)/100f, (BodyPartType) Random.Range(0, 13), gameObject, Random.Range(0, 13));
 		}
 
 		/// <summary>
@@ -227,62 +43,47 @@ namespace Objects.Disposals
 		/// </summary>
 		public void EjectContents()
 		{
-			EjectContainedItems();
-			EjectContainedObjects();
-			EjectContainedPlayers();
-
-			containedItems.Clear();
-			containedObjects.Clear();
-			containedPlayers.Clear();
+			objectContainer.RetrieveObjects();
+			gasContainer.ReleaseContentsInstantly();
+			gasContainer.IsSealed = false;
 		}
 
 		/// <summary>
-		/// Ejects contents at the virtual container's position, then throws each entity with the given throw vector.
+		/// Ejects contents at the virtual container's position, then throws or pushes each entity with the given exit vector.
 		/// </summary>
-		/// <param name="throwVector">The direction and distance to throw the contents with</param>
-		public void EjectContentsAndThrow(Vector3 throwVector)
+		/// <param name="exitVector">The direction (and distance) to throw or push the contents with</param>
+		public void EjectContentsWithVector(Vector3 exitVector)
 		{
-			EjectContainedItems();
-			EjectContainedObjects();
-			EjectContainedPlayers();
-			ThrowContainedItems(throwVector);
-			ThrowContainedObjects(throwVector);
-			ThrowContainedPlayers(throwVector);
+			var objects = objectContainer.GetStoredObjects().ToArray();
+			objectContainer.RetrieveObjects();
 
-			containedItems.Clear();
-			containedObjects.Clear();
-			containedPlayers.Clear();
+			foreach (var obj in objects)
+			{
+				if (obj.TryGetComponent<UniversalObjectPhysics>(out var uop))
+				{
+					uop.AppearAtWorldPositionServer(this.gameObject.AssumedWorldPosServer() + exitVector);
+					ThrowItem(uop, exitVector);
+				}
+				if (obj.TryGetComponent<PlayerScript>(out var script))
+				{
+					script.registerTile.ServerStun();
+				}
+			}
+
+			gasContainer.ReleaseContentsInstantly();
+			gasContainer.IsSealed = false;
 		}
 
 		#endregion EjectContents
 
-		public void PlayerTryEscaping(GameObject player)
+		public void EntityTryEscape(GameObject entity, Action ifCompleted, MoveAction moveAction)
 		{
-			if (player.TryGetComponent<ObjectBehaviour>(out var playerBehaviour) == false) return;
-			if (containedPlayers.Contains(playerBehaviour) == false) return;
-			if (ContainerBehaviour.parentContainer == null) return;
-
-			GameObject disposalMachine = ContainerBehaviour.parentContainer.gameObject;
-			if (disposalMachine == null)
-			{
-				// Must be in the disposal pipes
-				SoundManager.PlayNetworkedAtPos(ClangSound, ContainerWorldPosition);
-			}
-			else if (disposalMachine.TryGetComponent<DisposalBin>(out var disposalBin))
-			{
-				// In a disposal bin
-				disposalBin.PlayerTryClimbingOut(player);
-			}
-		}
-
-		public void OnDespawnServer(DespawnInfo info)
-		{
-			EjectContents();
+			SoundManager.PlayNetworkedAtPos(ClangSound, ContainerWorldPosition);
 		}
 
 		public string Examine(Vector3 worldPos = default)
 		{
-			int contentsCount = ContentsCount;
+			int contentsCount = objectContainer.GetStoredObjects().Count();
 			return $"There {(contentsCount == 1 ? "is one entity" : $"are {contentsCount} entities")} inside.";
 		}
 	}

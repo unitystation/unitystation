@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2909197017712554513, guid: de7c66806376e49fd871dfce32fb6d26,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 5c40f1e282a3589419bfcca5e7c95320
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: de7c66806376e49fd871dfce32fb6d26,
         type: 3}
@@ -88,18 +88,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A hard-boiled private investigator's grey suit, complete with tie clip.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: de7c66806376e49fd871dfce32fb6d26,
+        type: 3}
+      propertyPath: foreverID
+      value: 5c40f1e282a3589419bfcca5e7c95320
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: de7c66806376e49fd871dfce32fb6d26,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 48bc2ec68f3896940907b08dd4b2b67c,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: de7c66806376e49fd871dfce32fb6d26,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 48bc2ec68f3896940907b08dd4b2b67c,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: de7c66806376e49fd871dfce32fb6d26,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

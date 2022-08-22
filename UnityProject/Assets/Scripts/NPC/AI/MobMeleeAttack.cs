@@ -23,28 +23,28 @@ namespace Systems.MobAIs
 			var ctc = healthBehaviour.connectionToClient;
 			var rtt = healthBehaviour.RTT;
 			var pos = healthBehaviour.GetComponent<RegisterTile>().WorldPositionServer;
-			AttackFleshRoutine(dir, healthBehaviour, null, pos, ctc, rtt);
+			_ = AttackFleshRoutine(dir, healthBehaviour, null, pos, ctc, rtt);
 		}
-		protected override void ActOnLivingV2(Vector3 dir, LivingHealthMasterBase healthBehaviour)
+		protected override void ActOnLivingV2(Vector3 dir, LivingHealthMasterBase livingHealth)
 		{
-			var ctc = healthBehaviour.connectionToClient;
-			var rtt = healthBehaviour.RTT;
-			var pos = healthBehaviour.RegisterTile.WorldPositionServer;
-			AttackFleshRoutine(dir, null, healthBehaviour, pos, ctc, rtt);
+			var ctc = livingHealth.connectionToClient;
+			var rtt = livingHealth.RTT;
+			var pos = livingHealth.RegisterTile.WorldPositionServer;
+			_ = AttackFleshRoutine(dir, null, livingHealth, pos, ctc, rtt);
 		}
 
 		//We need to slow the attack down because clients are behind server
-		private async Task AttackFleshRoutine(Vector2 dir, LivingHealthBehaviour targetHealth, LivingHealthMasterBase targetHealthV2, 
+		private async Task AttackFleshRoutine(Vector2 dir, LivingHealthBehaviour targetHealth, LivingHealthMasterBase livingHealth,
 			Vector3 worldPos, NetworkConnection ctc, float rtt)
 		{
-			if (targetHealth == null && targetHealthV2 == null) return;
+			if (targetHealth == null && livingHealth == null) return;
 			if (ctc == null) return;
 
 			ServerDoLerpAnimation(dir);
 
 			if (PlayerManager.LocalPlayerScript != null
 				&& PlayerManager.LocalPlayerScript.playerHealth != null
-				&& PlayerManager.LocalPlayerScript.playerHealth == targetHealthV2 ||
+				&& PlayerManager.LocalPlayerScript.playerHealth == livingHealth ||
 				rtt < 0.02f)
 			{
 				//Wait until the end of the frame
@@ -57,29 +57,105 @@ namespace Systems.MobAIs
 				await Task.Delay((int)(rtt * 500));
 			}
 
-			if (Vector3.Distance(OriginTile.WorldPositionServer, worldPos) < 1.5f)
+			if (Vector3.Distance(mobTile.WorldPositionServer, worldPos) < 1.5f)
 			{
+				var bodyPartTarget = defaultTarget.Randomize();
 				if(targetHealth != null)
 				{
 					targetHealth.ApplyDamageToBodyPart(gameObject, hitDamage, AttackType.Melee, DamageType.Brute,
-						defaultTarget.Randomize());
-					Chat.AddAttackMsgToChat(gameObject, targetHealth.gameObject, defaultTarget, null, attackVerb);
+						bodyPartTarget);
+					Chat.AddAttackMsgToChat(gameObject, targetHealth.gameObject, bodyPartTarget, null, attackVerb);
 				}
 				else
 				{
-					targetHealthV2.ApplyDamageToBodyPart(gameObject, hitDamage, AttackType.Melee, DamageType.Brute,
-						defaultTarget.Randomize());
-					Chat.AddAttackMsgToChat(gameObject, targetHealthV2.gameObject, defaultTarget, null, attackVerb);
+					livingHealth.ApplyDamageToBodyPart(gameObject, hitDamage, AttackType.Melee, DamageType.Brute,
+						bodyPartTarget);
+					Chat.AddAttackMsgToChat(gameObject, livingHealth.gameObject, bodyPartTarget, null, attackVerb);
 				}
-				SoundManager.PlayNetworkedAtPos(attackSound, OriginTile.WorldPositionServer, sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(attackSound, mobTile.WorldPositionServer, sourceObj: gameObject);
 			}
 		}
 
 		protected override void ActOnTile(Vector3Int worldPos, Vector3 dir)
 		{
 			var matrix = MatrixManager.AtPoint(worldPos, true);
+
+			var pos = (worldPos - mobTile.WorldPositionServer).sqrMagnitude;
+
+			//Greater than 4 means more than one tile away
+			if (pos > 4)
+			{
+				//Attack adjacent tiles instead
+				var normalised = (worldPos - mobTile.WorldPositionServer).Normalize();
+				var posShift = mobTile.WorldPositionServer;
+				var xSuccess = false;
+
+				//x must be either -1, or 1 for us to attack it
+				if (normalised.x != 0)
+				{
+					posShift.x += normalised.x;
+
+					//Check for the tiles on the x tile
+					xSuccess = CheckTile(true);
+
+					//Check for impassable objects to hit on the x tile
+					if(TryAttackObjects(posShift, dir)) return;
+				}
+
+				//x must have failed and y must be either -1, or 1 for us to attack it
+				if (xSuccess == false && normalised.y != 0)
+				{
+					//Remove x change and then add y change
+					posShift.x -= normalised.x;
+					posShift.y += normalised.y;
+
+					//Check for impassable objects to hit first before tile
+					if(TryAttackObjects(posShift, new Vector3(0, normalised.y, 0))) return;
+
+					if (CheckTile() == false)
+					{
+						//Else nothing to attack, x and y failed so stop
+						return;
+					}
+				}
+
+				bool CheckTile(bool isX = false)
+				{
+					dir = new Vector3(isX ? normalised.x : 0, isX ? 0 : normalised.y , 0);
+
+					if (MatrixManager.IsWindowAt(posShift, true) || MatrixManager.IsGrillAt(posShift, true))
+					{
+						worldPos = posShift;
+						return true;
+					}
+
+					return false;
+				}
+			}
+			else
+			{
+				//This is the target tile so check for impassable objects to hit before attacking tile
+				if(TryAttackObjects(worldPos, dir)) return;
+			}
+
 			matrix.MetaTileMap.ApplyDamage(MatrixManager.WorldToLocalInt(worldPos, matrix), hitDamage * 2, worldPos);
 			ServerDoLerpAnimation(dir);
+		}
+
+		protected bool TryAttackObjects(Vector3Int worldPos, Vector3 dir)
+		{
+			var objects = MatrixManager.GetAt<RegisterObject>(worldPos, true);
+			foreach (var objectOnTile in objects)
+			{
+				if(objectOnTile.IsPassable(true, gameObject)) continue;
+				if(objectOnTile.TryGetComponent<Integrity>(out var objectIntegrity) == false || objectIntegrity.Resistances.Indestructable) continue;
+
+				objectIntegrity.ApplyDamage(hitDamage, AttackType.Melee, DamageType.Brute);
+				ServerDoLerpAnimation(dir);
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

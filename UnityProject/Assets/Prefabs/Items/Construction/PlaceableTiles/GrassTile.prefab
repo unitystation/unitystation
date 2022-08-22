@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1593224944700185510, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: foreverID
+      value: 1655a6297a3d0ff46b3b1d7467ee999f
+      objectReference: {fileID: 0}
     - target: {fileID: 2008855533471951948, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -20,8 +25,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
-      propertyPath: waysToPlace.Array.data[0].placeableOn
-      value: 4
+      propertyPath: waysToPlace.Array.data[0].itemCost
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
@@ -31,8 +36,8 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
-      propertyPath: waysToPlace.Array.data[0].itemCost
-      value: 1
+      propertyPath: waysToPlace.Array.data[0].placeableOn
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
@@ -40,20 +45,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
         type: 2}
-    - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
+    - target: {fileID: 5209370598559660201, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
-      propertyPath: placeSound.AssetAddress
-      value: null
+      propertyPath: initialName
+      value: grass tile
       objectReference: {fileID: 0}
     - target: {fileID: 5209370598559660201, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
       propertyPath: initialDescription
       value: A patch of grass like they use on space golf courses.
-      objectReference: {fileID: 0}
-    - target: {fileID: 5209370598559660201, guid: a435d5d64bc4b48baa27fecfcab9e111,
-        type: 3}
-      propertyPath: initialName
-      value: grass tile
       objectReference: {fileID: 0}
     - target: {fileID: 5209370598559660201, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
@@ -85,6 +85,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5671578262437538495, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671578262437538495, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -100,6 +105,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5671578262437538495, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671578262437538495, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -112,16 +122,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5671578262437538495, guid: a435d5d64bc4b48baa27fecfcab9e111,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5671578262437538495, guid: a435d5d64bc4b48baa27fecfcab9e111,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5671578262437538495, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
@@ -141,7 +141,7 @@ PrefabInstance:
     - target: {fileID: 5706845613525625471, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 1655a6297a3d0ff46b3b1d7467ee999f
       objectReference: {fileID: 0}
     - target: {fileID: 5709806014564648511, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}

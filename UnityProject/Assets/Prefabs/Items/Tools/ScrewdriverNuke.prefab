@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: SpeedMultiplier
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2570994847589109501, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
+      propertyPath: foreverID
+      value: 21a1d84ff5f5826499a52dc27b21d236
+      objectReference: {fileID: 0}
     - target: {fileID: 3337911567363717399, guid: 366fb594c17e76346bbb29ad4ce021ad,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -38,7 +43,12 @@ PrefabInstance:
     - target: {fileID: 8827211731076726564, guid: 366fb594c17e76346bbb29ad4ce021ad,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 21a1d84ff5f5826499a52dc27b21d236
+      objectReference: {fileID: 0}
+    - target: {fileID: 8865118116160962532, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8865118116160962532, guid: 366fb594c17e76346bbb29ad4ce021ad,
         type: 3}
@@ -57,6 +67,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8865118116160962532, guid: 366fb594c17e76346bbb29ad4ce021ad,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8865118116160962532, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -69,16 +84,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8865118116160962532, guid: 366fb594c17e76346bbb29ad4ce021ad,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8865118116160962532, guid: 366fb594c17e76346bbb29ad4ce021ad,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8865118116160962532, guid: 366fb594c17e76346bbb29ad4ce021ad,
         type: 3}
@@ -102,9 +107,34 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9077323224761429490, guid: 366fb594c17e76346bbb29ad4ce021ad,
         type: 3}
+      propertyPath: slashChance
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 9077323224761429490, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
+      propertyPath: slashDamage
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9077323224761429490, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
+      propertyPath: pierceChance
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 9077323224761429490, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
+      propertyPath: pierceDamage
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9077323224761429490, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
       propertyPath: initialDescription
       value: A screwdriver with an ultra thin tip that's carefully designed to boost
         screwing speed.
+      objectReference: {fileID: 0}
+    - target: {fileID: 9077323224761429490, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
+      propertyPath: traumaDamageChance
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 9077323224761429490, guid: 366fb594c17e76346bbb29ad4ce021ad,
         type: 3}

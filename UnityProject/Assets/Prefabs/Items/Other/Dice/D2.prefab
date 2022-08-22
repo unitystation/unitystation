@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: sides
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2404714145071242134, guid: 77d2a86d1e994c64485b5240c8f917ec,
+        type: 3}
+      propertyPath: foreverID
+      value: cdb5ac7b85fd6ec43aad70ed242938b8
+      objectReference: {fileID: 0}
     - target: {fileID: 3216665340718951548, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -31,8 +36,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5127478345631143613, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
-      propertyPath: SubCatalogue.Array.size
-      value: 1
+      propertyPath: variantIndex
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5127478345631143613, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
@@ -42,8 +47,8 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5127478345631143613, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
-      propertyPath: variantIndex
-      value: 0
+      propertyPath: SubCatalogue.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5127478345631143613, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
@@ -54,12 +59,17 @@ PrefabInstance:
     - target: {fileID: 8678945255199976015, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: cdb5ac7b85fd6ec43aad70ed242938b8
       objectReference: {fileID: 0}
     - target: {fileID: 8783702771992860667, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
       propertyPath: m_Name
       value: D2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8788344772610484879, guid: 77d2a86d1e994c64485b5240c8f917ec,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8788344772610484879, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
@@ -78,6 +88,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8788344772610484879, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8788344772610484879, guid: 77d2a86d1e994c64485b5240c8f917ec,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -90,16 +105,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788344772610484879, guid: 77d2a86d1e994c64485b5240c8f917ec,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788344772610484879, guid: 77d2a86d1e994c64485b5240c8f917ec,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8788344772610484879, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
@@ -124,13 +129,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 9153673539804625049, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
-      propertyPath: initialDescription
-      value: A die with two sides. Coins are undignified!
+      propertyPath: initialName
+      value: d2
       objectReference: {fileID: 0}
     - target: {fileID: 9153673539804625049, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
-      propertyPath: initialName
-      value: d2
+      propertyPath: initialDescription
+      value: A die with two sides. Coins are undignified!
       objectReference: {fileID: 0}
     - target: {fileID: 9153673539804625049, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}

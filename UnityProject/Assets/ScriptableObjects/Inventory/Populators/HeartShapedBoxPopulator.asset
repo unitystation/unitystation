@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcdd86e87cc447d94b99df8b1a383b3, type: 3}
   m_Name: HeartShapedBoxPopulator
   m_EditorClassIdentifier: 
-  Contents:
+  SlotContents: []
+  DeprecatedContents:
   - {fileID: 4521296401457874193, guid: d6d01621e7a1d6e44906babba7abd475, type: 3}
   - {fileID: 4521296401457874193, guid: d6d01621e7a1d6e44906babba7abd475, type: 3}
   - {fileID: 4521296401457874193, guid: d6d01621e7a1d6e44906babba7abd475, type: 3}
@@ -21,4 +22,3 @@ MonoBehaviour:
   - {fileID: 4521296401457874193, guid: d6d01621e7a1d6e44906babba7abd475, type: 3}
   - {fileID: 4521296401457874193, guid: d6d01621e7a1d6e44906babba7abd475, type: 3}
   - {fileID: 4521296401457874193, guid: d6d01621e7a1d6e44906babba7abd475, type: 3}
-  MergeMode: 0

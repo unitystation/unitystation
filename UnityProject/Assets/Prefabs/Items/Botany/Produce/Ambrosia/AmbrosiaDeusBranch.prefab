@@ -7,6 +7,19 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 84666059701324, guid: f92b2950637a12c408848cede6089288, type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 84666059701324, guid: f92b2950637a12c408848cede6089288, type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 1fadfe45913210c4787e4aa34b43364f,
+        type: 2}
+    - target: {fileID: 84666059701324, guid: f92b2950637a12c408848cede6089288, type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 100984610350504696, guid: f92b2950637a12c408848cede6089288,
         type: 3}
       propertyPath: initialName
@@ -26,7 +39,7 @@ PrefabInstance:
     - target: {fileID: 441189880119871534, guid: f92b2950637a12c408848cede6089288,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 63994efa92f0a844eb9ca8ce5ef44efc
       objectReference: {fileID: 0}
     - target: {fileID: 543631825431754138, guid: f92b2950637a12c408848cede6089288,
         type: 3}
@@ -100,18 +113,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 556cc9a9c9ae8dc4686924fcaa003ce3,
         type: 2}
+    - target: {fileID: 6859518415952902647, guid: f92b2950637a12c408848cede6089288,
+        type: 3}
+      propertyPath: foreverID
+      value: 63994efa92f0a844eb9ca8ce5ef44efc
+      objectReference: {fileID: 0}
     - target: {fileID: 8997218289043230485, guid: f92b2950637a12c408848cede6089288,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 946d664695cfa0d41bb7c5c59a23f35f,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8997218289043230485, guid: f92b2950637a12c408848cede6089288,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 946d664695cfa0d41bb7c5c59a23f35f,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8997218289043230485, guid: f92b2950637a12c408848cede6089288,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

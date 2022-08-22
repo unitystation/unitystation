@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2909197017712554513, guid: 6e6c876b4d53442588042c04884308f2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: cc8ff9ea40dc642448c2ff8860ac2c9b
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: 6e6c876b4d53442588042c04884308f2,
         type: 3}
@@ -83,18 +83,21 @@ PrefabInstance:
       propertyPath: initialName
       value: female black suit
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: 6e6c876b4d53442588042c04884308f2,
+        type: 3}
+      propertyPath: foreverID
+      value: cc8ff9ea40dc642448c2ff8860ac2c9b
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 6e6c876b4d53442588042c04884308f2,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: b9501fa81ce3462498d2d496c4ae4699,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 6e6c876b4d53442588042c04884308f2,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: b9501fa81ce3462498d2d496c4ae4699,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 6e6c876b4d53442588042c04884308f2,
         type: 3}
       propertyPath: allClothingData.Array.size

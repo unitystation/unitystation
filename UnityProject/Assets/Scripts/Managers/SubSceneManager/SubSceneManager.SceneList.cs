@@ -1,11 +1,10 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
 using Mirror;
 using UnityEditor;
 using UnityEngine.SceneManagement;
 using WebSocketSharp;
 using UnityEngine;
-using System.Linq;
-using Messages.Server.SubScenes;
 
 //The scene list on the server
 public partial class SubSceneManager
@@ -31,6 +30,8 @@ public partial class SubSceneManager
 			yield return null;
 		}
 
+		yield return StartCoroutine(ServerLoadSpaceScene(loadTimer));
+
 		//Choose and load a mainstation
 		yield return StartCoroutine(ServerLoadMainStation(loadTimer));
 
@@ -50,8 +51,21 @@ public partial class SubSceneManager
 
 		yield return WaitFor.Seconds(0.1f);
 		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
-
+		EventManager.Broadcast( Event.ScenesLoadedServer, false);
 		Logger.Log($"Server has loaded {serverChosenAwaySite} away site", Category.Round);
+	}
+
+	//Load the space scene on the server
+	IEnumerator ServerLoadSpaceScene(SubsceneLoadTimer loadTimer)
+	{
+		loadTimer.IncrementLoadBar($"Loading the void of time and space");
+		yield return StartCoroutine(LoadSubScene("SpaceScene", loadTimer));
+		loadedScenesList.Add(new SceneInfo
+		{
+			SceneName = "SpaceScene",
+			SceneType = SceneType.Space
+		});
+		netIdentity.isDirty = true;
 	}
 
 	//Choose and load a main station on the server
@@ -60,11 +74,11 @@ public partial class SubSceneManager
 		MainStationLoaded = true;
 		//Auto scene load stuff in editor:
 		var prevEditorScene = GetEditorPrevScene();
-		if (mainStationList.MainStations.Contains(prevEditorScene) && AdminForcedMainStation == "Random")
+		if (AdminForcedMainStation == "Random" && prevEditorScene.Contains("Lobby") == false && (prevEditorScene != ""))
 		{
 			serverChosenMainStation = prevEditorScene;
 		}
-		else if(AdminForcedMainStation == "Random")
+		else if (AdminForcedMainStation == "Random")
 		{
 			serverChosenMainStation = mainStationList.GetRandomMainStation();
 		}
@@ -84,6 +98,7 @@ public partial class SubSceneManager
 			SceneName = serverChosenMainStation,
 			SceneType = SceneType.MainStation
 		});
+		netIdentity.isDirty = true;
 	}
 
 	//Load all the asteroids on the server
@@ -100,6 +115,7 @@ public partial class SubSceneManager
 				SceneName = asteroid,
 				SceneType = SceneType.Asteroid
 			});
+			netIdentity.isDirty = true;
 		}
 	}
 
@@ -125,11 +141,13 @@ public partial class SubSceneManager
 				SceneName = centComData.CentComSceneName,
 				SceneType = SceneType.AdditionalScenes
 			});
-
+			netIdentity.isDirty = true;
 			yield break;
 		}
 
 		var pickedMap = additionalSceneList.defaultCentComScenes.PickRandom();
+
+		if (string.IsNullOrEmpty(pickedMap)) yield break;
 
 		//If no special CentCom load default.
 		yield return StartCoroutine(LoadSubScene(pickedMap, loadTimer));
@@ -139,6 +157,7 @@ public partial class SubSceneManager
 			SceneName = pickedMap,
 			SceneType = SceneType.AdditionalScenes
 		});
+		netIdentity.isDirty = true;
 	}
 
 	//Load all the asteroids on the server
@@ -176,6 +195,7 @@ public partial class SubSceneManager
 				SceneName = additionalScene,
 				SceneType = SceneType.AdditionalScenes
 			});
+			netIdentity.isDirty = true;
 		}
 	}
 
@@ -211,8 +231,9 @@ public partial class SubSceneManager
 			loadedScenesList.Add(new SceneInfo
 			{
 				SceneName = serverChosenAwaySite,
-				SceneType = SceneType.AwaySite
+				SceneType = SceneType.HiddenScene
 			});
+			netIdentity.isDirty = true;
 		}
 	}
 
@@ -238,29 +259,12 @@ public partial class SubSceneManager
 		loadedScenesList.Add(new SceneInfo
 		{
 			SceneName = pickedMap,
-			SceneType = SceneType.AdditionalScenes
+			SceneType = SceneType.HiddenScene
 		});
+		netIdentity.isDirty = true;
 
-		PokeClientSubScene.SendToAll( pickedMap);
 		SyndicateScene = SceneManager.GetSceneByName(pickedMap);
-		yield return StartCoroutine(RunOnSpawnServer(pickedMap));
 		SyndicateLoaded = true;
-	}
-
-	private IEnumerator RunOnSpawnServer(string map)
-	{
-		if (GameManager.Instance.CurrentRoundState == RoundState.Started) // the game started long ago!
-		{
-			yield return new WaitForEndOfFrame(); //let the matrix initialize first
-			var loadedScene = SceneManager.GetSceneByName(map);
-
-			var rootObjects = loadedScene.GetRootGameObjects();
-			foreach (var matrix in rootObjects) //different matrix of a scene, ex: syndie outpost and shuttle
-			{
-				var iserverspawnlist = matrix.GetComponentsInChildren<IServerSpawn>();
-				GameManager.Instance.MappedOnSpawnServer(iserverspawnlist);
-			}
-		}
 	}
 
 	public IEnumerator LoadWizard()
@@ -274,27 +278,20 @@ public partial class SubSceneManager
 		loadedScenesList.Add(new SceneInfo
 		{
 			SceneName = pickedScene,
-			SceneType = SceneType.AdditionalScenes
+			SceneType = SceneType.HiddenScene
 		});
+		netIdentity.isDirty = true;
 
-		PokeClientSubScene.SendToAll(pickedScene);
-		yield return StartCoroutine(RunOnSpawnServer(pickedScene));
 		WizardLoaded = true;
 	}
 
 	#endregion
 
-	string GetEditorPrevScene()
+	public static string GetEditorPrevScene()
 	{
-		var prevEditorScene = "";
+		var prevEditorScene = string.Empty;
 #if UNITY_EDITOR
-		if (EditorPrefs.HasKey("prevEditorScene"))
-		{
-			if (!string.IsNullOrEmpty(EditorPrefs.GetString("prevEditorScene")))
-			{
-				prevEditorScene = EditorPrefs.GetString("prevEditorScene");
-			}
-		}
+		prevEditorScene = EditorPrefs.GetString("prevEditorScene", prevEditorScene);
 #endif
 		return prevEditorScene;
 	}
@@ -302,7 +299,7 @@ public partial class SubSceneManager
 	/// <summary>
 	/// Add a new scene to a specific connections observable list
 	/// </summary>
-	void AddObservableSceneToConnection(NetworkConnection conn, Scene sceneContext)
+	void AddObservableSceneToConnection(NetworkConnectionToClient conn, Scene sceneContext)
 	{
 		if (!NetworkServer.observerSceneList.ContainsKey(conn))
 		{

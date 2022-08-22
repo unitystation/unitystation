@@ -19,11 +19,33 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 49e22d6e732fb2d449bba83c94a07a05,
         type: 2}
+    - target: {fileID: 2492938137568144680, guid: 05849a8c832dadc4dbdbb0e5bbe37ec8,
+        type: 3}
+      propertyPath: foreverID
+      value: fe16e822bbefbd74b988a6d9cd4893c9
+      objectReference: {fileID: 0}
     - target: {fileID: 3414877321059687106, guid: 05849a8c832dadc4dbdbb0e5bbe37ec8,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: bedffcd9d8de3c845b899dc160d9b19a,
+        type: 2}
+    - target: {fileID: 5339358238428289753, guid: 05849a8c832dadc4dbdbb0e5bbe37ec8,
+        type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5339358238428289753, guid: 05849a8c832dadc4dbdbb0e5bbe37ec8,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4df6e6374131dd14f89f87c9fc3e8183,
+        type: 2}
+    - target: {fileID: 5339358238428289753, guid: 05849a8c832dadc4dbdbb0e5bbe37ec8,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 49e22d6e732fb2d449bba83c94a07a05,
         type: 2}
     - target: {fileID: 8706582329726554649, guid: 05849a8c832dadc4dbdbb0e5bbe37ec8,
         type: 3}
@@ -94,7 +116,7 @@ PrefabInstance:
     - target: {fileID: 8914381210878237937, guid: 05849a8c832dadc4dbdbb0e5bbe37ec8,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: fe16e822bbefbd74b988a6d9cd4893c9
       objectReference: {fileID: 0}
     - target: {fileID: 8993566783904648743, guid: 05849a8c832dadc4dbdbb0e5bbe37ec8,
         type: 3}

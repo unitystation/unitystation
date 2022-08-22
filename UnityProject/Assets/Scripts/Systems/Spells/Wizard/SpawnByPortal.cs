@@ -109,7 +109,7 @@ namespace Systems.Spells.Wizard
 			yield return WaitFor.Seconds(settings.PortalOpenTime + (settings.PortalSuspenseTime / 2));
 			OnPortalReady?.Invoke(portal);
 			yield return WaitFor.Seconds(settings.PortalCloseTime + (settings.PortalSuspenseTime / 2));
-			Despawn.ServerSingle(portal);
+			_ = Despawn.ServerSingle(portal);
 		}
 
 		private IEnumerator ServerRunObjectSequence(GameObject entity, PortalSpawnInfo settings)

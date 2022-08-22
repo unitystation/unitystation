@@ -4,73 +4,83 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
-public class EmergencyLightAnimator : NetworkBehaviour
+namespace Objects.Lighting
 {
-	public Sprite[] sprites;
-
-	public float animateTime = 0.4f;
-	private float timeElapsedSprite = 0;
-	private int currentSprite = 0;
-	public float rotateSpeed = 40f;
-
-	private SpriteRenderer spriteRenderer;
-	private LightSource lightSource;
-
-	private void OnEnable()
+	public class EmergencyLightAnimator : NetworkBehaviour
 	{
-		lightSource = GetComponent<LightSource>();
-		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-	}
+		public Sprite[] sprites;
 
-	private void OnDisable()
-	{
-		StopAnimation();
-	}
+		public float animateTime = 0.4f;
+		private float timeElapsedSprite = 0;
+		private int currentSprite = 0;
+		public float rotateSpeed = 40f;
 
-	public void StartAnimation()
-	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-	}
+		private SpriteRenderer spriteRenderer;
+		private LightSource lightSource;
 
-	public void StopAnimation()
-	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-	}
-
-
-	protected virtual void UpdateMe()
-	{
-		AnimateLight();
-	}
-
-	private void AnimateLight()
-	{
-		if (lightSource == null || lightSource.mLightRendererObject == null ||
-		    lightSource.mLightRendererObject.transform == null)
+		private void OnEnable()
 		{
-			Debug.LogError($"{gameObject.name} had something null");
-			StopAnimation();
-			return;
+			lightSource = GetComponent<LightSource>();
+			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		}
 
-		lightSource.mLightRendererObject.transform.Rotate(0f, 0f, rotateSpeed * Time.deltaTime, Space.World);
-	}
-	private void AnimateSprite()
-	{
-		timeElapsedSprite += Time.deltaTime;
-		if (timeElapsedSprite >= animateTime)
+		private void OnDisable()
 		{
-			spriteRenderer.sprite = sprites[currentSprite];
-			if (sprites.Length == currentSprite)
+			StopAnimation();
+		}
+
+		public void StartAnimation()
+		{
+			if(CustomNetworkManager.IsHeadless) return;
+
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		public void StopAnimation()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		protected virtual void UpdateMe()
+		{
+			AnimateLight();
+		}
+
+		private void AnimateLight()
+		{
+			if (lightSource == null || lightSource.mLightRendererObject == null ||
+			    lightSource.mLightRendererObject.transform == null)
 			{
-				currentSprite = 0;
-			}
-			else
-			{
-				currentSprite++;
+				StopAnimation();
+
+				if (this != null && gameObject != null)
+				{
+					Logger.LogError($"{gameObject.name} had something null");
+				}
+
+				return;
 			}
 
-			timeElapsedSprite = 0;
+			lightSource.mLightRendererObject.transform.Rotate(0f, 0f, rotateSpeed * Time.deltaTime, Space.World);
+		}
+
+		private void AnimateSprite()
+		{
+			timeElapsedSprite += Time.deltaTime;
+			if (timeElapsedSprite >= animateTime)
+			{
+				spriteRenderer.sprite = sprites[currentSprite];
+				if (sprites.Length == currentSprite)
+				{
+					currentSprite = 0;
+				}
+				else
+				{
+					currentSprite++;
+				}
+
+				timeElapsedSprite = 0;
+			}
 		}
 	}
 }

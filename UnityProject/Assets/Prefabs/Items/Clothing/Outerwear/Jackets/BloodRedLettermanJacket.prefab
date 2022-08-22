@@ -76,7 +76,7 @@ PrefabInstance:
     - target: {fileID: 1972636957058363524, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: d667f28df79db614cb0461c8ee6d3054
       objectReference: {fileID: 0}
     - target: {fileID: 2024818765580378706, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
         type: 3}
@@ -88,18 +88,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Oddly, this jacket seems to have a large S on the back...
       objectReference: {fileID: 0}
+    - target: {fileID: 4777961452559450461, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
+        type: 3}
+      propertyPath: foreverID
+      value: d667f28df79db614cb0461c8ee6d3054
+      objectReference: {fileID: 0}
     - target: {fileID: 4794426842226564789, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: b52167e7952511145ab5ae9eb430b469,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4794426842226564789, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: b52167e7952511145ab5ae9eb430b469,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4794426842226564789, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
         type: 3}
       propertyPath: allClothingData.Array.size

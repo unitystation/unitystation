@@ -7,18 +7,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3549479581640830887, guid: d3d950d792abb79fba51d3166022f581,
+        type: 3}
+      propertyPath: foreverID
+      value: 35d441544668d5d459549f16cadb2503
+      objectReference: {fileID: 0}
     - target: {fileID: 3568482238077595727, guid: d3d950d792abb79fba51d3166022f581,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: dc54ab84b7429a549b14160fb4f285e7,
-        type: 2}
+      objectReference: {fileID: 0}
+    - target: {fileID: 3568482238077595727, guid: d3d950d792abb79fba51d3166022f581,
+        type: 3}
+      propertyPath: disallowConsume
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3568482238077595727, guid: d3d950d792abb79fba51d3166022f581,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: dc54ab84b7429a549b14160fb4f285e7,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3568482238077595727, guid: d3d950d792abb79fba51d3166022f581,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -39,7 +47,7 @@ PrefabInstance:
     - target: {fileID: 7524605284256423550, guid: d3d950d792abb79fba51d3166022f581,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 35d441544668d5d459549f16cadb2503
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: d3d950d792abb79fba51d3166022f581,
         type: 3}
@@ -116,6 +124,16 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: None may pass!
+      objectReference: {fileID: 0}
+    - target: {fileID: 8004422176852823208, guid: d3d950d792abb79fba51d3166022f581,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 8004422176852823208, guid: d3d950d792abb79fba51d3166022f581,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3d950d792abb79fba51d3166022f581, type: 3}

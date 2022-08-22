@@ -18,12 +18,28 @@ PrefabInstance:
       propertyPath: ProjectilesFired
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: -4441519557137854397, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
+      propertyPath: initalProjectile
+      value: 
+      objectReference: {fileID: 7895740979636810340, guid: d8be5859da138e641922c276694c01c7,
+        type: 3}
     - target: {fileID: 2361978366132242104, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: de530c271aa38da48b81fa552828cd73,
         type: 2}
+    - target: {fileID: 3259418781305368914, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
+      propertyPath: foreverID
+      value: 3f794c433436b6c4f94ac936e1b4819e
+      objectReference: {fileID: 0}
+    - target: {fileID: 8317281327444857437, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
+      propertyPath: initialName
+      value: ion shell
+      objectReference: {fileID: 0}
     - target: {fileID: 8317281327444857437, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
       propertyPath: initialDescription
@@ -31,20 +47,20 @@ PrefabInstance:
         an effect similar to a standard ion rifle. The unique properties of the crystal
         split the pulse into a spread of individually weaker bolts.
       objectReference: {fileID: 0}
-    - target: {fileID: 8317281327444857437, guid: b564e5d916b891446903adc342af08bd,
-        type: 3}
-      propertyPath: initialName
-      value: ion shell
-      objectReference: {fileID: 0}
     - target: {fileID: 8364667066244186251, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 3f794c433436b6c4f94ac936e1b4819e
       objectReference: {fileID: 0}
     - target: {fileID: 8467174088351874367, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
       propertyPath: m_Name
       value: AmmoShotgunIon
+      objectReference: {fileID: 0}
+    - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
@@ -63,6 +79,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -75,16 +96,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
         type: 3}

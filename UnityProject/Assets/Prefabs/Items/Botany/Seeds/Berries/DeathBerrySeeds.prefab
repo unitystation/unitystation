@@ -9,8 +9,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3452548350861020900, guid: 0a1175404af7039419a7794cb4bda0d9,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
+      propertyPath: plantData.Potency
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3452548350861020900, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: plantData.Lifespan
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3452548350861020900, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: plantData.PlantName
+      value: Death-Berry Bush
       objectReference: {fileID: 0}
     - target: {fileID: 3452548350861020900, guid: 0a1175404af7039419a7794cb4bda0d9,
         type: 3}
@@ -20,25 +30,20 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3452548350861020900, guid: 0a1175404af7039419a7794cb4bda0d9,
         type: 3}
-      propertyPath: plantData.PlantName
-      value: Death-Berry Bush
-      objectReference: {fileID: 0}
-    - target: {fileID: 3452548350861020900, guid: 0a1175404af7039419a7794cb4bda0d9,
-        type: 3}
-      propertyPath: plantData.Lifespan
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3452548350861020900, guid: 0a1175404af7039419a7794cb4bda0d9,
-        type: 3}
-      propertyPath: plantData.Potency
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 3452548350861020900, guid: 0a1175404af7039419a7794cb4bda0d9,
-        type: 3}
       propertyPath: plantData.FullyGrownSpriteSO
       value: 
       objectReference: {fileID: 11400000, guid: 5aa1b8efcb5e5c64aba07e64906533cf,
         type: 2}
+    - target: {fileID: 3452548350861020900, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4036986366017988905, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4036986366017988905, guid: 0a1175404af7039419a7794cb4bda0d9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -56,6 +61,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4036986366017988905, guid: 0a1175404af7039419a7794cb4bda0d9,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4036986366017988905, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -68,16 +78,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4036986366017988905, guid: 0a1175404af7039419a7794cb4bda0d9,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4036986366017988905, guid: 0a1175404af7039419a7794cb4bda0d9,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4036986366017988905, guid: 0a1175404af7039419a7794cb4bda0d9,
         type: 3}
@@ -102,7 +102,7 @@ PrefabInstance:
     - target: {fileID: 4143863672344848873, guid: 0a1175404af7039419a7794cb4bda0d9,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 9ebf460acd73b94449ac0b171e2607de
       objectReference: {fileID: 0}
     - target: {fileID: 4243576168858101505, guid: 0a1175404af7039419a7794cb4bda0d9,
         type: 3}
@@ -112,13 +112,18 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4537474627599956799, guid: 0a1175404af7039419a7794cb4bda0d9,
         type: 3}
-      propertyPath: initialDescription
-      value: These seeds grow into death berries.
+      propertyPath: initialName
+      value: pack of death-berry seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4537474627599956799, guid: 0a1175404af7039419a7794cb4bda0d9,
         type: 3}
-      propertyPath: initialName
-      value: pack of death-berry seeds
+      propertyPath: initialDescription
+      value: These seeds grow into death berries.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6966921779580704816, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: foreverID
+      value: 9ebf460acd73b94449ac0b171e2607de
       objectReference: {fileID: 0}
     - target: {fileID: 7877882760342155226, guid: 0a1175404af7039419a7794cb4bda0d9,
         type: 3}

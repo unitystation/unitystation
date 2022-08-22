@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3369941105774643026}
   m_RootOrder: 4
@@ -43,6 +44,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -99,10 +101,10 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 502919bc4e09ee34295e27012c544287, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1001 &999569588493334617
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -162,7 +164,7 @@ PrefabInstance:
     - target: {fileID: 2494139950867988427, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: fa30aa9352ebf92499cf7e500e5ce0d9
       objectReference: {fileID: 0}
     - target: {fileID: 2524481489369203327, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}
@@ -239,6 +241,11 @@ PrefabInstance:
         type: 3}
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 8913322325660470802, guid: 24274bda3be42c049b4bbb150f6e1220,
+        type: 3}
+      propertyPath: foreverID
+      value: fa30aa9352ebf92499cf7e500e5ce0d9
       objectReference: {fileID: 0}
     - target: {fileID: 8979097940314571549, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}

@@ -15,9 +15,9 @@ PrefabInstance:
         type: 3}
     - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Sprites.Array.size
-      value: 60
-      objectReference: {fileID: 0}
+      propertyPath: onSprites.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 23e84ef0722e9d747a03ae44bb6582ed, type: 3}
     - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: timeBetweenFrames
@@ -25,9 +25,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Texture
+      propertyPath: onSprites.EquippedData
       value: 
-      objectReference: {fileID: 2800000, guid: 23e84ef0722e9d747a03ae44bb6582ed, type: 3}
+      objectReference: {fileID: 4900000, guid: a1fd52f352e245845ab2b5d6842bfdf8, type: 3}
+    - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: onSprites.Sprites.Array.size
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: onSprites.Sprites.Array.data[0]
@@ -388,11 +393,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300118, guid: 23e84ef0722e9d747a03ae44bb6582ed,
         type: 3}
-    - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: onSprites.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: a1fd52f352e245845ab2b5d6842bfdf8, type: 3}
     - target: {fileID: 345856930608096068, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Sprite
@@ -401,18 +401,18 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: initialDescription
-      value: This can be used to check medical records.
+      propertyPath: initialName
+      value: medical records console
       objectReference: {fileID: 0}
     - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: initialName
-      value: medical records console
+      propertyPath: initialDescription
+      value: This can be used to check medical records.
       objectReference: {fileID: 0}
     - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 69dfd2945b85d4f42904f8b7a00ade80
       objectReference: {fileID: 0}
     - target: {fileID: 3806105522999988684, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -430,7 +430,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300096, guid: 23e84ef0722e9d747a03ae44bb6582ed,
+      objectReference: {fileID: 21300000, guid: 23e84ef0722e9d747a03ae44bb6582ed,
         type: 3}
     - target: {fileID: 4571869433525098128, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -450,18 +450,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531316036, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: initialDescription
-      value: This can be used to check medical records.
+      propertyPath: initialName
+      value: medical records console
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531316036, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: initialName
-      value: medical records console
+      propertyPath: initialDescription
+      value: This can be used to check medical records.
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531339735, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Name
       value: MedicalRecordsConsole
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -480,6 +485,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -492,16 +502,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -520,8 +520,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: Color.r
-      value: 0.361
+      propertyPath: Color.b
+      value: 0.227
       objectReference: {fileID: 0}
     - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -530,14 +530,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: Color.b
-      value: 0.227
+      propertyPath: Color.r
+      value: 0.361
+      objectReference: {fileID: 0}
+    - target: {fileID: 6691892461727964720, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: foreverID
+      value: 69dfd2945b85d4f42904f8b7a00ade80
       objectReference: {fileID: 0}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Sprites.Array.size
-      value: 60
-      objectReference: {fileID: 0}
+      propertyPath: onSprites.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 23e84ef0722e9d747a03ae44bb6582ed, type: 3}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: timeBetweenFrames
@@ -545,9 +550,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Texture
+      propertyPath: onSprites.EquippedData
       value: 
-      objectReference: {fileID: 2800000, guid: 23e84ef0722e9d747a03ae44bb6582ed, type: 3}
+      objectReference: {fileID: 4900000, guid: a1fd52f352e245845ab2b5d6842bfdf8, type: 3}
+    - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: onSprites.Sprites.Array.size
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: onSprites.Sprites.Array.data[0]
@@ -908,11 +918,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300118, guid: 23e84ef0722e9d747a03ae44bb6582ed,
         type: 3}
-    - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: onSprites.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: a1fd52f352e245845ab2b5d6842bfdf8, type: 3}
     - target: {fileID: 7644385245236715337, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: circuitBoardPrefab
@@ -930,5 +935,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 56e6dc79f0cfac746bdbccbbc9fe4e20,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3509344053301837447, guid: b46887a995abc224aab70e21b9e53697, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b46887a995abc224aab70e21b9e53697, type: 3}

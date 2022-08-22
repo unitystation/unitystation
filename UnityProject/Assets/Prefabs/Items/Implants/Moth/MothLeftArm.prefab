@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 1766215212362074963, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
       propertyPath: m_Name
-      value: HumanLeftArm Variant
+      value: MothLeftArm
       objectReference: {fileID: 0}
     - target: {fileID: 1770294262758372903, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
@@ -67,10 +67,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1807782268030479055, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 6276861095716975216}
     - target: {fileID: 1807895052203439847, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 71ec0d1be11ec7e4688369c70bc77f62
       objectReference: {fileID: 0}
     - target: {fileID: 1905918728921331727, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
@@ -95,6 +100,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
+      propertyPath: DamageThreshold
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
+      propertyPath: DismembermentChance
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
+      propertyPath: bodyPartAshesAboveThisDamage
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 7b6257530324e1c40b6fe34a0f8f1957,
@@ -105,6 +125,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0723fa5ca6e0e044989622682154ea0a,
         type: 2}
+    - target: {fileID: 4627556938812491582, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
+      propertyPath: foreverID
+      value: 71ec0d1be11ec7e4688369c70bc77f62
+      objectReference: {fileID: 0}
     - target: {fileID: 5603819714738991316, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -125,3 +150,15 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 719377fefb0114b448fc6ca9f7a5a6df, type: 3}
+--- !u!114 &6276861095716975216 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1808041456854836867, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+    type: 3}
+  m_PrefabInstance: {fileID: 5624036924989560051}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -13,15 +13,31 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a3b1ffc19079a184d91a1420790320d5,
         type: 2}
-    - target: {fileID: 7035654688744863322, guid: 4bf8c38cb85116e4babedf03228412de,
+    - target: {fileID: 4608460023768847701, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
-      propertyPath: initialDescription
-      value: Delicous Titanium!
+      propertyPath: foreverID
+      value: 1ba0d3da7b6ee0245b09824929aaa10c
       objectReference: {fileID: 0}
+    - target: {fileID: 6973018487860121838, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6973018487860121838, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: df24abeb268ff5942962132dd2d16d24,
+        type: 2}
     - target: {fileID: 7035654688744863322, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
       propertyPath: initialName
       value: white burger
+      objectReference: {fileID: 0}
+    - target: {fileID: 7035654688744863322, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
+      propertyPath: initialDescription
+      value: Delicous Titanium!
       objectReference: {fileID: 0}
     - target: {fileID: 7331795877928512100, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
@@ -32,12 +48,17 @@ PrefabInstance:
     - target: {fileID: 7411242208336094348, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 1ba0d3da7b6ee0245b09824929aaa10c
       objectReference: {fileID: 0}
     - target: {fileID: 7443940138226227512, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
       propertyPath: m_Name
       value: WhiteBurger
+      objectReference: {fileID: 0}
+    - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
@@ -56,6 +77,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -68,16 +94,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}

@@ -6,19 +6,21 @@ using UnityEngine;
 /// Parsed data from player chat input
 /// Contains meta information about channels, modifiers, etc
 /// </summary>
-public class ParsedChatInput 
+public class ParsedChatInput
 {
 	/// <summary>
-	/// 
+	///
 	/// </summary>
 	/// <param name="rawInput">The raw message from input field</param>
 	/// <param name="clearMessage">The message cleared from all tags</param>
 	/// <param name="extractedChannel">The channels parsed from tags</param>
-	public ParsedChatInput(string rawInput, string clearMessage, ChatChannel extractedChannel)
+	/// <param name="languageId">The language id of the language being spoken</param>
+	public ParsedChatInput(string rawInput, string clearMessage, ChatChannel extractedChannel, ushort languageId)
 	{
 		RawInput = rawInput;
 		ClearMessage = clearMessage;
 		ParsedChannel = extractedChannel;
+		LanguageId = languageId;
 	}
 
 	/// <summary>
@@ -35,4 +37,9 @@ public class ParsedChatInput
 	/// The channel flag parsed from tag. ChatChannel.None if no tag found
 	/// </summary>
 	public ChatChannel ParsedChannel { get; set; }
+
+	/// <summary>
+	/// The language id parsed from the input
+	/// </summary>
+	public ushort LanguageId { get; set; }
 }

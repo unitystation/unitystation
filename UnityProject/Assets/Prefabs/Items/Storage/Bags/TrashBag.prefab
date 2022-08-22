@@ -30,9 +30,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2945219828330548335, guid: a4904005b4f886143a41a4b3c99a6845,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2945219828330548335, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: d61a462861cf99947b8e7da8ce1e0c79,
+        type: 2}
+    - target: {fileID: 2945219828330548335, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3bc88a6fd0eb5cd49a3295a04e1ca62d,
         type: 2}
     - target: {fileID: 2945219828330548335, guid: a4904005b4f886143a41a4b3c99a6845,
         type: 3}
@@ -109,7 +120,12 @@ PrefabInstance:
     - target: {fileID: 3433479011725450937, guid: a4904005b4f886143a41a4b3c99a6845,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 8c5919c02a742274a82e60ed2153f555
+      objectReference: {fileID: 0}
+    - target: {fileID: 8541259781182205792, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: foreverID
+      value: 8c5919c02a742274a82e60ed2153f555
       objectReference: {fileID: 0}
     - target: {fileID: 8895735541756795018, guid: a4904005b4f886143a41a4b3c99a6845,
         type: 3}

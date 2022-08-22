@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using UnityEngine;
 using NaughtyAttributes;
+using UI.Core.NetUI;
 using Items.Magical;
 
-namespace UI
+namespace UI.Items
 {
 	/// <summary>
 	/// UI for the <see cref="ContractOfApprenticeship"/>.
@@ -21,11 +22,11 @@ namespace UI
 		[SerializeField, Required] private NetPage pageTimeout = default;
 		[SerializeField, Required] private NetPage pageApprentice = default;
 		[Space]
-		[SerializeField, Required] private NetLabel labelWaitingMessage = default;
+		[SerializeField, Required] private NetText_label labelWaitingMessage = default;
 		[Space]
-		[SerializeField, Required] private NetLabel labelApprenticeName = default;
-		[SerializeField, Required] private NetLabel labelWizardName = default;
-		[SerializeField, Required] private NetLabel labelSchoolName = default;
+		[SerializeField, Required] private NetText_label labelApprenticeName = default;
+		[SerializeField, Required] private NetText_label labelWizardName = default;
+		[SerializeField, Required] private NetText_label labelSchoolName = default;
 
 		private ContractOfApprenticeship contract;
 

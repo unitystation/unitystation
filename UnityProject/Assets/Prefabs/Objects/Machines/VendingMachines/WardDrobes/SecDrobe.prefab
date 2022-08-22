@@ -13,6 +13,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: cea388363c34fe34286fd073c319cebd,
         type: 2}
+    - target: {fileID: 1110249292774473331, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: requiredClearance.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110249292774473331, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: requiredClearance.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2710638318996389568, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: restriction
@@ -20,13 +30,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3341919125893587911, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: initialDescription
-      value: A vending machine for security and security-related clothing!
+      propertyPath: initialName
+      value: SecDrobe
       objectReference: {fileID: 0}
     - target: {fileID: 3341919125893587911, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: initialName
-      value: SecDrobe
+      propertyPath: initialDescription
+      value: A vending machine for security and security-related clothing!
       objectReference: {fileID: 0}
     - target: {fileID: 3583758493968387084, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -37,28 +47,33 @@ PrefabInstance:
     - target: {fileID: 4546609781174536597, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4581204742557119992, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: Color.g
-      value: 0.2
+      value: bedf02a0739149743a41fe984184951d
       objectReference: {fileID: 0}
     - target: {fileID: 4581204742557119992, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: Color.b
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4581204742557119992, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: Color.g
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 5306683621526280416, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300004, guid: 071f58d5f3d68ca40bdcb62f7c00bef8,
+      objectReference: {fileID: 21300000, guid: 071f58d5f3d68ca40bdcb62f7c00bef8,
         type: 3}
     - target: {fileID: 5387743639968234743, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: m_Name
       value: SecDrobe
+      objectReference: {fileID: 0}
+    - target: {fileID: 5390995128888654381, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5390995128888654381, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -77,6 +92,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5390995128888654381, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5390995128888654381, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -89,16 +109,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5390995128888654381, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5390995128888654381, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5390995128888654381, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -123,18 +133,8 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: VendorContent.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.size
-      value: 18
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: HullColor.r
-      value: 0.49803925
+      propertyPath: HullColor.b
+      value: 0.18039216
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -143,8 +143,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: HullColor.b
-      value: 0.18039216
+      propertyPath: HullColor.r
+      value: 0.49803925
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: VendorContent.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.size
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -154,20 +164,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: VendorContent.Array.data[0].Stock
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
       propertyPath: VendorContent.Array.data[1].Item
       value: 
       objectReference: {fileID: 6150311403527200410, guid: 1a291489c8aa9da8598c8026ac53f935,
         type: 3}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: VendorContent.Array.data[1].Stock
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: VendorContent.Array.data[2].Item
@@ -176,20 +176,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: VendorContent.Array.data[2].Stock
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
       propertyPath: VendorContent.Array.data[3].Item
       value: 
       objectReference: {fileID: 5246620180480384242, guid: ed03c800dbd4d674d8f01df08a62ce57,
         type: 3}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: VendorContent.Array.data[3].Stock
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: VendorContent.Array.data[4].Item
@@ -198,20 +188,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: VendorContent.Array.data[4].Stock
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
       propertyPath: VendorContent.Array.data[5].Item
       value: 
       objectReference: {fileID: 7778659549401236757, guid: 8087f011fc841754da147d221e5c2fe8,
         type: 3}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: VendorContent.Array.data[5].Stock
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: VendorContent.Array.data[6].Item
@@ -220,20 +200,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: VendorContent.Array.data[6].Stock
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
       propertyPath: VendorContent.Array.data[7].Item
       value: 
       objectReference: {fileID: 2737947386721379442, guid: 6642e0b20df9dc743b1885dcd01e3024,
         type: 3}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: VendorContent.Array.data[7].Stock
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: VendorContent.Array.data[8].Item
@@ -242,18 +212,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: VendorContent.Array.data[8].Stock
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
       propertyPath: VendorContent.Array.data[9].Item
       value: 
       objectReference: {fileID: 7106618204054676533, guid: eaeac5365190b4842bedb2b846ff15da,
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: VendorContent.Array.data[9].Stock
+      propertyPath: VendorContent.Array.data[0].Stock
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
@@ -264,20 +229,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: VendorContent.Array.data[10].Stock
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
       propertyPath: VendorContent.Array.data[11].Item
       value: 
       objectReference: {fileID: 6275557669645425591, guid: 97f84dca143c7fb4fbd86610313472a0,
         type: 3}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: VendorContent.Array.data[11].Stock
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: VendorContent.Array.data[12].Item
@@ -286,20 +241,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: VendorContent.Array.data[12].Stock
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
       propertyPath: VendorContent.Array.data[13].Item
       value: 
       objectReference: {fileID: 5437448505016987486, guid: 3f0da6473d897f11f88cf172ed0c5f30,
         type: 3}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: VendorContent.Array.data[13].Stock
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: VendorContent.Array.data[14].Item
@@ -308,20 +253,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: VendorContent.Array.data[14].Stock
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
       propertyPath: VendorContent.Array.data[15].Item
       value: 
       objectReference: {fileID: 3921521694364753778, guid: 453dfbebf99d34049a240acec7a49706,
         type: 3}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: VendorContent.Array.data[15].Stock
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: VendorContent.Array.data[16].Item
@@ -330,13 +265,83 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: VendorContent.Array.data[16].Stock
+      propertyPath: VendorContent.Array.data[1].Stock
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[0].ItemName
-      value: Security Winter Coat
+      propertyPath: VendorContent.Array.data[2].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: VendorContent.Array.data[3].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: VendorContent.Array.data[4].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: VendorContent.Array.data[5].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: VendorContent.Array.data[6].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: VendorContent.Array.data[7].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: VendorContent.Array.data[8].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: VendorContent.Array.data[9].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: VendorContent.Array.data[10].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: VendorContent.Array.data[11].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: VendorContent.Array.data[12].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: VendorContent.Array.data[13].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: VendorContent.Array.data[14].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: VendorContent.Array.data[15].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: VendorContent.Array.data[16].Stock
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -346,30 +351,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[0].Stock
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[1].ItemName
-      value: Security Backpack
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[1].Item
       value: 
       objectReference: {fileID: 6150311403527200410, guid: 1a291489c8aa9da8598c8026ac53f935,
         type: 3}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[1].Stock
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[2].ItemName
-      value: Security Satchel
-      objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[2].Item
@@ -378,30 +363,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[2].Stock
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[3].ItemName
-      value: Security Duffel Bag
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[3].Item
       value: 
       objectReference: {fileID: 5246620180480384242, guid: ed03c800dbd4d674d8f01df08a62ce57,
         type: 3}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[3].Stock
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[4].ItemName
-      value: Security Jumpsuit
-      objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[4].Item
@@ -410,30 +375,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[4].Stock
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[5].ItemName
-      value: Security Jumpskirt
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[5].Item
       value: 
       objectReference: {fileID: 7778659549401236757, guid: 8087f011fc841754da147d221e5c2fe8,
         type: 3}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[5].Stock
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[6].ItemName
-      value: Security Jumpsuit, Grey
-      objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[6].Item
@@ -442,30 +387,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[6].Stock
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[7].ItemName
-      value: Blue Shirt And Tie
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[7].Item
       value: 
       objectReference: {fileID: 2737947386721379442, guid: 6642e0b20df9dc743b1885dcd01e3024,
         type: 3}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[7].Stock
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[8].ItemName
-      value: Khaki Pants
-      objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[8].Item
@@ -474,8 +399,214 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
+      propertyPath: InitialVendorContent.Array.data[9].Item
+      value: 
+      objectReference: {fileID: 7106618204054676533, guid: eaeac5365190b4842bedb2b846ff15da,
+        type: 3}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[0].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[10].Item
+      value: 
+      objectReference: {fileID: 7019925540262486990, guid: 7a5bc4eb879170843a619029adff792b,
+        type: 3}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[11].Item
+      value: 
+      objectReference: {fileID: 7019925540262486990, guid: 80f01cc1e23fda44b8a70fb7237dd285,
+        type: 3}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[12].Item
+      value: 
+      objectReference: {fileID: 3164270768286331101, guid: a4d736b34e26278479563c6bf5f121ce,
+        type: 3}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[13].Item
+      value: 
+      objectReference: {fileID: 6275557669645425591, guid: 97f84dca143c7fb4fbd86610313472a0,
+        type: 3}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[14].Item
+      value: 
+      objectReference: {fileID: 5346501866518943165, guid: ab2acbff0b11d6d4aa18a2211082f330,
+        type: 3}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[15].Item
+      value: 
+      objectReference: {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73,
+        type: 3}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[16].Item
+      value: 
+      objectReference: {fileID: 4306441978527708668, guid: a67aa95de4c8f7349a192a12cdfc84dd,
+        type: 3}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[17].Item
+      value: 
+      objectReference: {fileID: 1070110363393237790, guid: 591574bb7d99d2245b5f15166ea5be76,
+        type: 3}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[18].Item
+      value: 
+      objectReference: {fileID: 3921521694364753778, guid: 453dfbebf99d34049a240acec7a49706,
+        type: 3}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[19].Item
+      value: 
+      objectReference: {fileID: 8054706762914598631, guid: 14669856ddf44564fac40935a5a8e2b4,
+        type: 3}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[1].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[2].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[3].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[4].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[5].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[6].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[7].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
       propertyPath: InitialVendorContent.Array.data[8].Stock
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[9].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[10].Stock
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[11].Stock
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[12].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[13].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[14].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[15].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[16].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[17].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[18].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[19].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[0].ItemName
+      value: Security Winter Coat
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[1].ItemName
+      value: Security Backpack
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[2].ItemName
+      value: Security Satchel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[3].ItemName
+      value: Security Duffel Bag
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[4].ItemName
+      value: Security Jumpsuit
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[5].ItemName
+      value: Security Jumpskirt
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[6].ItemName
+      value: Security Jumpsuit, Grey
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[7].ItemName
+      value: Blue Shirt And Tie
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[8].ItemName
+      value: Khaki Pants
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -484,142 +615,58 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[9].Item
-      value: 
-      objectReference: {fileID: 7106618204054676533, guid: eaeac5365190b4842bedb2b846ff15da,
-        type: 3}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[9].Stock
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[10].ItemName
-      value: Security Beret
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[10].Item
-      value: 
-      objectReference: {fileID: 3164270768286331101, guid: a4d736b34e26278479563c6bf5f121ce,
-        type: 3}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[10].Stock
-      value: 3
+      value: Black Tie
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[11].ItemName
-      value: Security Cap
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[11].Item
-      value: 
-      objectReference: {fileID: 6275557669645425591, guid: 97f84dca143c7fb4fbd86610313472a0,
-        type: 3}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[11].Stock
-      value: 3
+      value: Red Tie
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[12].ItemName
-      value: Red Bandana
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[12].Item
-      value: 
-      objectReference: {fileID: 5346501866518943165, guid: ab2acbff0b11d6d4aa18a2211082f330,
-        type: 3}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[12].Stock
-      value: 3
+      value: Security Beret
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[13].ItemName
-      value: Black Gloves
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[13].Item
-      value: 
-      objectReference: {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73,
-        type: 3}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[13].Stock
-      value: 3
+      value: Security Cap
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[14].ItemName
-      value: Security Headset
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[14].Item
-      value: 
-      objectReference: {fileID: 4306441978527708668, guid: a67aa95de4c8f7349a192a12cdfc84dd,
-        type: 3}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[14].Stock
-      value: 3
+      value: Red Bandana
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[15].ItemName
-      value: Security Officer's Formal Uniform
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[15].Item
-      value: 
-      objectReference: {fileID: 1070110363393237790, guid: 591574bb7d99d2245b5f15166ea5be76,
-        type: 3}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[15].Stock
-      value: 3
+      value: Black Gloves
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[16].ItemName
-      value: Security Officer's Formal Jacket
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[16].Item
-      value: 
-      objectReference: {fileID: 3921521694364753778, guid: 453dfbebf99d34049a240acec7a49706,
-        type: 3}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[16].Stock
-      value: 3
+      value: Security Headset
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[17].ItemName
-      value: Security Navy Beret
+      value: Security Officer's Formal Uniform
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[17].Item
-      value: 
-      objectReference: {fileID: 8054706762914598631, guid: 14669856ddf44564fac40935a5a8e2b4,
-        type: 3}
+      propertyPath: InitialVendorContent.Array.data[18].ItemName
+      value: Security Officer's Formal Jacket
+      objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[17].Stock
-      value: 3
+      propertyPath: InitialVendorContent.Array.data[19].ItemName
+      value: Security Navy Beret
+      objectReference: {fileID: 0}
+    - target: {fileID: 9058133508007248574, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: foreverID
+      value: bedf02a0739149743a41fe984184951d
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5000c293075c074d80896d211fcd50b, type: 3}

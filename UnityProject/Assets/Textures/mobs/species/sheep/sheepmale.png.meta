@@ -23,8 +23,11 @@ TextureImporter:
   - first:
       213: -4249162540570618167
     second: sheepmale_6
+  - first:
+      213: 669053264439333102
+    second: sheepmale_7
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -44,6 +47,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -53,8 +58,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -75,9 +80,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -121,7 +130,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 00e6b05738e46544aa45a3a4802950f2
+      spriteID: 069a356e9996cfeb0800000000000000
       internalID: -4684753402657003168
       vertices: []
       indices: 
@@ -142,7 +151,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7cd08892245b8e24c9666e373d1aff9b
+      spriteID: 35702616487a671f0800000000000000
       internalID: -1047465676305725613
       vertices: []
       indices: 
@@ -163,7 +172,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c2ca195b5f00ed04f9af153c6bc173df
+      spriteID: 37eb418f9cee34160800000000000000
       internalID: 7008707996336569971
       vertices: []
       indices: 
@@ -184,7 +193,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9fcf80cea20ce584fa0033929a8242cf
+      spriteID: ad7050a1c267d6090800000000000000
       internalID: -8039639827999291430
       vertices: []
       indices: 
@@ -205,7 +214,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: df12faedc3e3edd41b63ac40784ddaa2
+      spriteID: a9c3a41439fb3e840800000000000000
       internalID: 5252252229620612250
       vertices: []
       indices: 
@@ -213,6 +222,27 @@ TextureImporter:
       weights: []
     - serializedVersion: 2
       name: sheepmale_5
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15f092965b0597e50800000000000000
+      internalID: 6807561051830816593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sheepmale_6
       rect:
         serializedVersion: 2
         x: 64
@@ -226,14 +256,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 490d9a2102ff23a498536b3ae4fbcb07
-      internalID: 6807561051830816593
+      spriteID: 9c65460be21f705c0800000000000000
+      internalID: -4249162540570618167
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: sheepmale_6
+      name: sheepmale_7
       rect:
         serializedVersion: 2
         x: 96
@@ -247,8 +277,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 33106570511ebc447a5e5debd5cd824f
-      internalID: -4249162540570618167
+      spriteID: ee0d8b23664f84900800000000000000
+      internalID: 669053264439333102
       vertices: []
       indices: 
       edges: []
@@ -263,6 +293,15 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      sheepmale_2: 7008707996336569971
+      sheepmale_3: -8039639827999291430
+      sheepmale_5: 6807561051830816593
+      sheepmale_4: 5252252229620612250
+      sheepmale_7: 669053264439333102
+      sheepmale_0: -4684753402657003168
+      sheepmale_1: -1047465676305725613
+      sheepmale_6: -4249162540570618167
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

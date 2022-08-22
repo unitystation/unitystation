@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: Kachumbari
+  m_EditorClassIdentifier: 
+  category: 21
+  craftingTime: 1
+  recipeName: "K\xE6niatknusksolt (Kenyan salad)"
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 166398149337034204, guid: 430cc93dd74c6f84dae776271fdf1a99,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 6181865501679963244, guid: c1f6076f8e09d6841a682007c710f04f,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 4576629341593487400, guid: 101f7aeb13e450746a2931079199fa48,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 455902390153094336, guid: 454947e247b8d27408f72041e753e7be,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 1736856700126293973, guid: 96ce86ae72580a44a8eebf7bda807b53,
+      type: 3}
+  requiredReagents:
+  - requiredAmount: 2
+    requiredReagent: {fileID: 11400000, guid: 8b43bbb6db549967ba9f96fd90713159, type: 2}
+  requiredToolTraits: []
+  result:
+  - {fileID: 8739761074242388123, guid: e69d738dba9f09943a8c0c944ff4155d, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 380

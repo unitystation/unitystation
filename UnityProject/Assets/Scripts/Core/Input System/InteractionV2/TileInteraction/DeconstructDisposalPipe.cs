@@ -1,4 +1,5 @@
 using UnityEngine;
+using Systems.DisposalPipes;
 
 namespace Objects.Disposals
 {
@@ -35,7 +36,7 @@ namespace Objects.Disposals
 
 		private bool VerboseDisposalMachineExists(TileApply interaction)
 		{
-			Matrix matrix = interaction.TileChangeManager.MetaTileMap.Layers[LayerType.Underfloor].matrix;
+			Matrix matrix = interaction.TileChangeManager.MetaTileMap.Layers[LayerType.Disposals].Matrix;
 
 			if ((interaction.BasicTile as DisposalPipe).PipeType == DisposalPipeType.Terminal)
 			{
@@ -73,11 +74,27 @@ namespace Objects.Disposals
 
 		private void DeconstructPipe(TileApply interaction)
 		{
-			DisposalPipe pipe = interaction.BasicTile as DisposalPipe;
+			DisposalPipe pipeTile = interaction.BasicTile as DisposalPipe;
 
 			// Despawn pipe tile
-			var matrix = MatrixManager.AtPoint(interaction.WorldPositionTarget.NormalizeTo3Int(), true).Matrix;
-			matrix.RemoveUnderFloorTile(interaction.TargetCellPos, pipe);
+			var matrix = MatrixManager.AtPoint(interaction.WorldPositionTarget.RoundToInt(), true).Matrix;
+			MetaDataNode metaDataNode = matrix.GetMetaDataNode(interaction.TargetCellPos, false);
+			DisposalPipeNode disPipeNode = null;
+			for (var i = 0; i < metaDataNode.DisposalPipeData.Count; i++)
+			{
+				if (metaDataNode.DisposalPipeData[i].DisposalPipeTile == pipeTile)
+				{
+					disPipeNode = metaDataNode.DisposalPipeData[i];
+				}
+			}
+			if(disPipeNode == null)
+			{
+				Logger.LogError($"Impossible to deconstruct the disposal pipe at {interaction.TargetCellPos} in {matrix.gameObject.scene.name} - {matrix.name}. Disposal pipe node wasn't found",
+					Category.Pipes);
+				return;
+			}
+
+			matrix.TileChangeManager.MetaTileMap.RemoveTileWithlayer(disPipeNode.NodeLocation, LayerType.Disposals);
 
 			// Spawn pipe GameObject
 			if (interaction.BasicTile.SpawnOnDeconstruct == null) return;
@@ -85,14 +102,14 @@ namespace Objects.Disposals
 			var spawn = Spawn.ServerPrefab(interaction.BasicTile.SpawnOnDeconstruct, interaction.WorldPositionTarget);
 			if (spawn.Successful == false) return;
 
-			if (spawn.GameObject.TryGetComponent<Directional>(out var directional))
+			if (spawn.GameObject.TryGetComponent<Rotatable>(out var Rotatable))
 			{
-				directional.FaceDirection(Orientation.FromEnum(pipe.DisposalPipeObjectOrientation));
+				Rotatable.FaceDirection(pipeTile.DisposalPipeObjectOrientation);
 			}
 
-			if (spawn.GameObject.TryGetComponent<ObjectBehaviour>(out var behaviour))
+			if (spawn.GameObject.TryGetComponent<UniversalObjectPhysics>(out var behaviour))
 			{
-				behaviour.ServerSetPushable(false);
+				behaviour.SetIsNotPushable(true);
 			}
 		}
 

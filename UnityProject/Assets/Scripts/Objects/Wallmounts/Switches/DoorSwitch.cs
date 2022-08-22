@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Electricity.Inheritance;
+using AdminCommands;
 using UnityEngine;
 using Mirror;
 using NaughtyAttributes;
+using Systems.Interaction;
 using Doors;
+using CustomInspectors;
+using Shared.Systems.ObjectConnection;
 
 namespace Objects.Wallmounts
 {
@@ -13,64 +16,30 @@ namespace Objects.Wallmounts
 	/// Allows object to function as a door switch - opening / closing door when clicked.
 	/// </summary>
 	[ExecuteInEditMode]
-	public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply>, ISetMultitoolMaster, IServerSpawn
+	public class DoorSwitch : ImnterfaceMultitoolGUI, ISubscriptionController, ICheckedInteractable<HandApply>, IMultitoolMasterable,
+		IServerSpawn, ICheckedInteractable<AiActivate>, IRightClickable
 	{
 		private SpriteRenderer spriteRenderer;
 		public Sprite greenSprite;
 		public Sprite offSprite;
 		public Sprite redSprite;
 
-		[Header("Access Restrictions for ID")]
-		[Tooltip("Is this door restricted?")]
+		[Header("Access Restrictions for ID")] [Tooltip("Is this door restricted?")]
 		public bool restricted;
 
-		[Tooltip("Access level to limit door if above is set.")]
-		[ShowIf(nameof(restricted))]
+		[Tooltip("Access level to limit door if above is set.")] [ShowIf(nameof(restricted))]
 		public Access access;
 
-		[SerializeField]
-		[Tooltip("List of doors that this switch can control")]
+		[SerializeField] [Tooltip("List of doors that this switch can control")]
 		private List<DoorController> doorControllers = new List<DoorController>();
-		public List<DoorController> DoorControllers => doorControllers;
+
+		private List<DoorMasterController> NewdoorControllers = new List<DoorMasterController>();
 
 		private bool buttonCoolDown = false;
 		private AccessRestrictions accessRestrictions;
 
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;
-		public MultitoolConnectionType ConType => conType;
-
-		private bool multiMaster = true;
-		public bool MultiMaster => multiMaster;
-
-		public void AddSlave(object SlaveObject)
-		{
-		}
-
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			foreach (var door in doorControllers)
-			{
-				if (door == null) continue;
-
-				if (door.IsHackable)
-				{
-					HackingNode outsideSignalOpen = door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OutsideSignalOpen);
-					outsideSignalOpen.AddConnectedNode(door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OpenDoor));
-
-					HackingNode outsideSignalClose = door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OutsideSignalClose);
-					outsideSignalClose.AddConnectedNode(door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.CloseDoor));
-				}
-			}
-		}
-
-		private Texture noDoorsImg;
-
-		private void Awake()
-		{
-#if Unity_Editor
-		noDoorsImg = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Textures/EditorAssets/noDoor.png");
-#endif
 		}
 
 		private void Start()
@@ -113,43 +82,44 @@ namespace Objects.Wallmounts
 			}
 
 			RunDoorController();
-			RpcPlayButtonAnim(true);
-
 		}
 
-		private void RunDoorController()
+		public void RunDoorController()
 		{
-			if (doorControllers.Count == 0)
+			if (doorControllers.Count == 0 && NewdoorControllers.Count == 0)
 			{
 				return;
 			}
 
-			foreach (DoorController door in doorControllers)
+			RpcPlayButtonAnim(true);
+
+			foreach (var door in doorControllers)
 			{
 				// Door doesn't exist anymore - shuttle crash, admin smash, etc.
 				if (door == null) continue;
 
 				if (door.IsClosed)
 				{
-					if (door.IsHackable)
-					{
-						door.HackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OutsideSignalOpen);
-					}
-					else
-					{
-						door.TryOpen();
-					}
+					door.TryOpen(null);
 				}
 				else
 				{
-					if (door.IsHackable)
-					{
-						door.HackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OutsideSignalClose);
-					}
-					else
-					{
-						door.TryClose();
-					}
+					door.TryClose();
+				}
+			}
+
+			foreach (var door in NewdoorControllers)
+			{
+				// Door doesn't exist anymore - shuttle crash, admin smash, etc.
+				if (door == null) continue;
+
+				if (door.IsClosed)
+				{
+					door.TryOpen(null);
+				}
+				else
+				{
+					door.TryClose();
 				}
 			}
 		}
@@ -224,32 +194,50 @@ namespace Objects.Wallmounts
 				Gizmos.DrawLine(sprite.transform.position, doorController.transform.position);
 				Gizmos.DrawSphere(doorController.transform.position, 0.25f);
 			}
+
+			for (int i = 0; i < NewdoorControllers.Count; i++)
+			{
+				var doorController = NewdoorControllers[i];
+				if (doorController == null) continue;
+				Gizmos.DrawLine(sprite.transform.position, doorController.transform.position);
+				Gizmos.DrawSphere(doorController.transform.position, 0.25f);
+			}
 		}
 
 		private void OnDrawGizmos()
 		{
-			if (doorControllers.Count == 0 || doorControllers.Any(controller => controller == null))
+			if ((doorControllers.Count == 0 || doorControllers.Any(controller => controller == null)) ||
+			    (NewdoorControllers.Count == 0 || NewdoorControllers.Any(controller => controller == null)))
 			{
 				Gizmos.DrawIcon(transform.position, "noDoor");
 			}
 		}
 
-		public override IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
+		public IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
 		{
 			var approvedObjects = new List<GameObject>();
 
 			foreach (var potentialObject in potentialObjects)
 			{
-				var doorController = potentialObject.GetComponent<DoorController>();
-				if (doorController == null) continue;
-				AddDoorControllerFromScene(doorController);
+				var doorController = potentialObject.GetComponent<DoorMasterController>();
+				if (doorController == null)
+				{
+					var OlddoorController = potentialObject.GetComponent<DoorController>();
+					if (OlddoorController == null )continue;
+					AddDoorControllerFromScene(OlddoorController);
+				}
+				else
+				{
+					NewAddDoorControllerFromScene(doorController);
+				}
+
 				approvedObjects.Add(potentialObject);
 			}
 
 			return approvedObjects;
 		}
 
-		private void AddDoorControllerFromScene(DoorController doorController)
+		public void AddDoorControllerFromScene(DoorController doorController)
 		{
 			if (doorControllers.Contains(doorController))
 			{
@@ -261,6 +249,63 @@ namespace Objects.Wallmounts
 			}
 		}
 
+		public void NewAddDoorControllerFromScene(DoorMasterController doorController)
+		{
+			if (NewdoorControllers.Contains(doorController))
+			{
+				NewdoorControllers.Remove(doorController);
+			}
+			else
+			{
+				NewdoorControllers.Add(doorController);
+			}
+		}
+
 		#endregion
+
+		#region Ai Interaction
+
+		public bool WillInteract(AiActivate interaction, NetworkSide side)
+		{
+			if (interaction.ClickType != AiActivate.ClickTypes.NormalClick) return false;
+
+			if (DefaultWillInteract.AiActivate(interaction, side) == false) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(AiActivate interaction)
+		{
+			RunDoorController();
+		}
+
+		#endregion
+
+		#region Multitool Interaction
+
+		[SerializeField] private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;
+		public MultitoolConnectionType ConType => conType;
+
+		public bool MultiMaster => true;
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
+
+		#endregion
+
+		public RightClickableResult GenerateRightClickOptions()
+		{
+			if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) ||
+			    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold) == false)
+			{
+				return null;
+			}
+
+			return RightClickableResult.Create()
+				.AddAdminElement("Activate", AdminPressButton);
+		}
+
+		private void AdminPressButton()
+		{
+			AdminCommandsManager.Instance.CmdActivateButton(gameObject);
+		}
 	}
 }

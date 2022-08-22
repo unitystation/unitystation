@@ -23,6 +23,8 @@ namespace Messages.Server
 			public uint Originator;
 			public string Speaker;
 			public bool StripTags;
+			public Loudness Loudness;
+			public ushort LanguageId;
 		}
 
 		public override void Process(NetMessage msg)
@@ -30,7 +32,8 @@ namespace Messages.Server
 			LoadNetworkObject(msg.Recipient);
 			var recipientObject = NetworkObject;
 			Chat.ProcessUpdateChatMessage(msg.Recipient, msg.Originator,
-				msg.Message, msg.OthersMessage, msg.Channels, msg.ChatModifiers, msg.Speaker, recipientObject, msg.StripTags);
+				msg.Message, msg.OthersMessage, msg.Channels, msg.ChatModifiers, msg.Speaker, recipientObject,
+				msg.Loudness, msg.StripTags, msg.LanguageId);
 		}
 
 		/// <summary>
@@ -38,8 +41,9 @@ namespace Messages.Server
 		/// the Chat API (the only exception to this rule is if you just need to send 1 msg to 1 client from the server
 		/// i.e syndi special roles)
 		/// </summary>
-		public static NetMessage Send(GameObject recipient, ChatChannel channels, ChatModifier chatMods, string chatMessage, string othersMsg = "",
-			GameObject originator = null, string speaker = "", bool stripTags = true)
+		public static NetMessage Send(GameObject recipient, ChatChannel channels, ChatModifier chatMods, string chatMessage,
+			Loudness loudness = Loudness.NORMAL, string othersMsg = "",
+			GameObject originator = null, string speaker = "", bool stripTags = true, ushort languageId = 0)
 		{
 			uint origin = NetId.Empty;
 			if (originator != null)
@@ -55,10 +59,12 @@ namespace Messages.Server
 					OthersMessage = othersMsg,
 					Originator = origin,
 					Speaker = speaker,
-					StripTags = stripTags
+					StripTags = stripTags,
+					Loudness = loudness,
+					LanguageId = languageId
 				};
 
-			SendTo(recipient, msg, Category.Chat);
+			SendTo(recipient, msg, Category.Chat, 2);
 			return msg;
 		}
 	}

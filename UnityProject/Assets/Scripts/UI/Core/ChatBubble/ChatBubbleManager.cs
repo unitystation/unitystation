@@ -1,8 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Initialisation;
+using Managers.SettingsManager;
+using Shared.Util;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Util;
 
 /// <summary>
 /// Handles ChatBubbles and displays them in ScreenSpace
@@ -11,18 +14,7 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise
 {
 	private static ChatBubbleManager chatBubbleManager;
 
-	public static ChatBubbleManager Instance
-	{
-		get
-		{
-			if (chatBubbleManager == null)
-			{
-				chatBubbleManager = FindObjectOfType<ChatBubbleManager>();
-			}
-
-			return chatBubbleManager;
-		}
-	}
+	public static ChatBubbleManager Instance => FindUtils.LazyFindObject(ref chatBubbleManager);
 
 	private List<ChatBubble> chatBubblePool = new List<ChatBubble>();
 	private List<ActionText> actionPool = new List<ActionText>();
@@ -35,9 +27,33 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise
 
 	void IInitialise.Initialise()
 	{
-		if (!PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleSize))
+		if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleSize) == false)
 		{
-			PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleSize, 2f);
+			PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleSize, DisplaySettings.DEFAULT_CHATBUBBLESIZE);
+			PlayerPrefs.Save();
+		}
+
+		if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleInstant) == false)
+		{
+			PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleInstant, DisplaySettings.DEFAULT_CHATBUBBLEINSTANT);
+			PlayerPrefs.Save();
+		}
+
+		if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubblePopInSpeed) == false)
+		{
+			PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubblePopInSpeed, DisplaySettings.DEFAULT_CHATBUBBLEPOPINSPEED);
+			PlayerPrefs.Save();
+		}
+
+		if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleAdditionalTime) == false)
+		{
+			PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleAdditionalTime, DisplaySettings.DEFAULT_CHATBUBBLEADDITIONALTIME);
+			PlayerPrefs.Save();
+		}
+
+		if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleClownColour) == false)
+		{
+			PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleClownColour, DisplaySettings.DEFAULT_CHATBUBBLECLOWNCOLOUR);
 			PlayerPrefs.Save();
 		}
 
@@ -104,7 +120,7 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise
 
 	ActionText GetChatBubbleActionText()
 	{
-		var index = actionPool.FindIndex(x => !x.gameObject.activeInHierarchy);
+		var index = actionPool.FindIndex(x => x.OrNull()?.gameObject.activeInHierarchy == false);
 
 		if (index != -1)
 		{
@@ -129,7 +145,7 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise
 
 	ChatBubble GetChatBubbleFromPool()
 	{
-		var index = chatBubblePool.FindIndex(x => !x.gameObject.activeInHierarchy);
+		var index = chatBubblePool.FindIndex(x => x.gameObject.OrNull()?.activeInHierarchy == false);
 
 		if (index != -1)
 		{

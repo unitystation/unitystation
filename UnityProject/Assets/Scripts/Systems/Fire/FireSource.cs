@@ -13,7 +13,14 @@ public class FireSource : MonoBehaviour, IServerSpawn
 	[Tooltip("Does this fire emit flame from start?")]
 	private bool isBurningOnSpawn = false;
 
-	private PushPull pushPull = null;
+	[SerializeField]
+	private float hotspotTemperature = 700;
+
+	[SerializeField]
+	[Tooltip("Will change temperature of tile to the hotspotTemperature if this temperature is greater than the current gas mix temperature when true")]
+	private bool changeGasMixTemp = false;
+
+	private UniversalObjectPhysics objectPhysics = null;
 	private bool isBurning = false;
 
 	/// <summary>
@@ -35,7 +42,7 @@ public class FireSource : MonoBehaviour, IServerSpawn
 			isBurning = value;
 
 			// when item emits flame we need to send heat to surroundings
-			if (pushPull && CustomNetworkManager.IsServer)
+			if (objectPhysics && CustomNetworkManager.IsServer)
 			{
 				if (isBurning)
 				{
@@ -53,13 +60,13 @@ public class FireSource : MonoBehaviour, IServerSpawn
 
 	private void Awake()
 	{
-		pushPull = GetComponent<PushPull>();
+		objectPhysics = GetComponent<UniversalObjectPhysics>();
 	}
 
 	private void OnDisable()
 	{
 		// unsubscribe hotspot from updates
-		if (pushPull && CustomNetworkManager.IsServer)
+		if (objectPhysics && CustomNetworkManager.IsServer)
 		{
 			if (isBurning)
 			{
@@ -71,14 +78,14 @@ public class FireSource : MonoBehaviour, IServerSpawn
 	private void CreateHotspot()
 	{
 		// send some heat on firesource position
-		var position = pushPull.AssumedWorldPositionServer();
+		var position = objectPhysics.registerTile.WorldPosition;
 		if (position != TransformState.HiddenPos)
 		{
-			var registerTile = pushPull.registerTile;
+			var registerTile = objectPhysics.registerTile;
 			if (registerTile)
 			{
 				var reactionManager = registerTile.Matrix.ReactionManager;
-				reactionManager.ExposeHotspotWorldPosition(position.To2Int());
+				reactionManager.ExposeHotspotWorldPosition(position.To2Int(), hotspotTemperature, changeGasMixTemp);
 			}
 		}
 	}

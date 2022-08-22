@@ -38,8 +38,9 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 		NamedSlot.suitStorage,
 		NamedSlot.belt,
 		NamedSlot.back,
-		NamedSlot.storage01,
-		NamedSlot.storage02,
+		NamedSlot.storage01, NamedSlot.storage02, NamedSlot.storage03, NamedSlot.storage04,
+		NamedSlot.storage05, NamedSlot.storage06, NamedSlot.storage07, NamedSlot.storage08,
+		NamedSlot.storage09, NamedSlot.storage10,
 		NamedSlot.suitStorage,
 		NamedSlot.head,
 		NamedSlot.id // PDA in ID slot
@@ -59,22 +60,11 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 
 	private float CachedIntensity = 0.5f;
 
-	public PlayerLightData PlayerLightData;
+	[NaughtyAttributes.ReadOnlyAttribute] public PlayerLightData PlayerLightData;
 
 	private Light2D.LightSprite objectLightSprite;
 
 	private void Awake()
-	{
-		if (objectLightEmission == null)
-		{
-			Logger.LogError($"{this} field objectLightEmission is null, please check {gameObject} prefab.", Category.Lighting);
-			return;
-		}
-
-		objectLightSprite = objectLightEmission.GetComponent<Light2D.LightSprite>();
-	}
-
-	private void Start()
 	{
 		PlayerLightData = new PlayerLightData()
 		{
@@ -83,8 +73,15 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 			EnumSprite = EnumSprite,
 			Size = Size,
 		};
-	}
 
+		if (objectLightEmission == null)
+		{
+			Logger.LogError($"{this} field objectLightEmission is null, please check {gameObject} prefab.", Category.Lighting);
+			return;
+		}
+
+		objectLightSprite = objectLightEmission.GetComponent<Light2D.LightSprite>();
+	}
 
 	public void OnInventoryMoveServer(InventoryMove info)
 	{

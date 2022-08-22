@@ -13,6 +13,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5b5b27eb9431681499961ca1f5b02b93,
         type: 2}
+    - target: {fileID: 3401626133584349601, guid: 351fa36521ade244b9d7d66b21f7f333,
+        type: 3}
+      propertyPath: foreverID
+      value: c9c8ffe7c5a0a044bbe8343e681e1fe2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8170131852768406190, guid: 351fa36521ade244b9d7d66b21f7f333,
+        type: 3}
+      propertyPath: initialName
+      value: Space Cigarettes packet
+      objectReference: {fileID: 0}
+    - target: {fileID: 8170131852768406190, guid: 351fa36521ade244b9d7d66b21f7f333,
+        type: 3}
+      propertyPath: initialSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8170131852768406190, guid: 351fa36521ade244b9d7d66b21f7f333,
+        type: 3}
+      propertyPath: initialDescription
+      value: The most popular brand of cigarettes, sponsors of the Space Olympics.
+      objectReference: {fileID: 0}
     - target: {fileID: 8170131852768406190, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
       propertyPath: initialTraits.Array.size
@@ -26,30 +46,15 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8170131852768406190, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 4ecac3b2cf17d144db27868f2356cdca,
-        type: 2}
-    - target: {fileID: 8170131852768406190, guid: 351fa36521ade244b9d7d66b21f7f333,
-        type: 3}
-      propertyPath: initialSize
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8170131852768406190, guid: 351fa36521ade244b9d7d66b21f7f333,
-        type: 3}
-      propertyPath: initialName
-      value: Space Cigarettes packet
-      objectReference: {fileID: 0}
-    - target: {fileID: 8170131852768406190, guid: 351fa36521ade244b9d7d66b21f7f333,
-        type: 3}
-      propertyPath: initialDescription
-      value: The most popular brand of cigarettes, sponsors of the Space Olympics.
-      objectReference: {fileID: 0}
-    - target: {fileID: 8170131852768406190, guid: 351fa36521ade244b9d7d66b21f7f333,
-        type: 3}
       propertyPath: initialTraits.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
+        type: 2}
+    - target: {fileID: 8170131852768406190, guid: 351fa36521ade244b9d7d66b21f7f333,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ecac3b2cf17d144db27868f2356cdca,
         type: 2}
     - target: {fileID: 8466288508669376144, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
@@ -60,12 +65,17 @@ PrefabInstance:
     - target: {fileID: 8510550462711117944, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: c9c8ffe7c5a0a044bbe8343e681e1fe2
       objectReference: {fileID: 0}
     - target: {fileID: 8615308116400047564, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
       propertyPath: m_Name
       value: SpaceCigarettesPacket
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618828890442627256, guid: 351fa36521ade244b9d7d66b21f7f333,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8618828890442627256, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
@@ -84,6 +94,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8618828890442627256, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618828890442627256, guid: 351fa36521ade244b9d7d66b21f7f333,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -96,16 +111,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8618828890442627256, guid: 351fa36521ade244b9d7d66b21f7f333,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8618828890442627256, guid: 351fa36521ade244b9d7d66b21f7f333,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8618828890442627256, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
@@ -124,12 +129,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8665744195155266582, guid: 351fa36521ade244b9d7d66b21f7f333,
         type: 3}
-      propertyPath: itemStorageStructure
-      value: 
-      objectReference: {fileID: 11400000, guid: e8b6fa61b6bdb4b8aa2833a751dfc487,
-        type: 2}
-    - target: {fileID: 8665744195155266582, guid: 351fa36521ade244b9d7d66b21f7f333,
-        type: 3}
       propertyPath: itemStorageCapacity
       value: 
       objectReference: {fileID: 11400000, guid: 3741f7e028bab5847b67fa099a533e75,
@@ -139,6 +138,12 @@ PrefabInstance:
       propertyPath: itemStoragePopulator
       value: 
       objectReference: {fileID: 11400000, guid: 58e513f04e4cb2e478b4313f3bee60f3,
+        type: 2}
+    - target: {fileID: 8665744195155266582, guid: 351fa36521ade244b9d7d66b21f7f333,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: e8b6fa61b6bdb4b8aa2833a751dfc487,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 351fa36521ade244b9d7d66b21f7f333, type: 3}

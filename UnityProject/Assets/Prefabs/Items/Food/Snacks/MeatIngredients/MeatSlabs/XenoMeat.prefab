@@ -13,11 +13,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 424831302151599900, guid: 4b81268e7c738bc4bb40a869f270dce6,
         type: 3}
+    - target: {fileID: 1235368713201754175, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 424831302151599900, guid: 4b81268e7c738bc4bb40a869f270dce6,
+        type: 3}
     - target: {fileID: 2326103295181735537, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: initialName
       value: xeno meat
       objectReference: {fileID: 0}
+    - target: {fileID: 2513557761079566364, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: processedProduct
+      value: 
+      objectReference: {fileID: 2646537145077023328, guid: 32cf8faa6ec40dc40899c36f870a5bcd,
+        type: 3}
     - target: {fileID: 2619852224633018959, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: m_Sprite
@@ -28,6 +40,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: XenoMeat
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
         type: 3}
@@ -46,6 +63,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +80,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
         type: 3}
@@ -87,12 +99,7 @@ PrefabInstance:
     - target: {fileID: 2827791845413590183, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3999315099893948859, guid: 9914f83c172606747877a09872724398,
-        type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 1
+      value: ec415b83dd52aba48a8c3eb34564b8dc
       objectReference: {fileID: 0}
     - target: {fileID: 3999315099893948859, guid: 9914f83c172606747877a09872724398,
         type: 3}
@@ -100,9 +107,19 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d5386cc24a0a08cab9f2e1dab976ee2f,
         type: 2}
+    - target: {fileID: 3999315099893948859, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6304245728322857827, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: NutritionLevel
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 6304245728322857827, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: StartingNutrients
       value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 8353191170574324372, guid: 9914f83c172606747877a09872724398,
@@ -116,5 +133,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f2b2dc89722003b4bb8ddabb32409f96,
         type: 2}
+    - target: {fileID: 9083999932805424510, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: foreverID
+      value: ec415b83dd52aba48a8c3eb34564b8dc
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9914f83c172606747877a09872724398, type: 3}

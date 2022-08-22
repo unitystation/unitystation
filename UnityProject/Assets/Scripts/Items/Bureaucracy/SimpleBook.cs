@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
+using AddressableReferences;
+
 
 namespace Items.Bureaucracy
 {
@@ -27,21 +28,26 @@ namespace Items.Bureaucracy
 		[SerializeField, ReorderableList]
 		private string[] remarks = default;
 
-		private readonly Dictionary<ConnectedPlayer, int> readerProgress = new Dictionary<ConnectedPlayer, int>();
+		[SerializeField]
+		private List<AddressableAudioSource> pageturnSfx = default;
+
+		private readonly Dictionary<PlayerInfo, int> readerProgress = new Dictionary<PlayerInfo, int>();
 		protected bool hasBeenRead = false;
 
 		protected bool AllowOnlyOneReader => allowOnlyOneReader;
 
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (interaction.IsAltClick) return false;
+
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			return true;
 		}
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			ConnectedPlayer player = interaction.Performer.Player();
+			PlayerInfo player = interaction.Performer.Player();
 
 			if (TryReading(player))
 			{
@@ -53,7 +59,7 @@ namespace Items.Bureaucracy
 		/// Whether it is possible for the reader to read this book.
 		/// </summary>
 		/// <returns></returns>
-		protected virtual bool TryReading(ConnectedPlayer player)
+		protected virtual bool TryReading(PlayerInfo player)
 		{
 			if (canBeReadMultipleTimes == false &&
 					readerProgress.ContainsKey(player) && readerProgress[player] > pagesToRead)
@@ -66,11 +72,11 @@ namespace Items.Bureaucracy
 				Chat.AddExamineMsgFromServer(player.GameObject, $"It seems you can't read this book... has someone claimed it?");
 				return false;
 			}
-			
+
 			return true;
 		}
 
-		private void StartReading(ConnectedPlayer player)
+		private void StartReading(PlayerInfo player)
 		{
 			if (readerProgress.ContainsKey(player) == false)
 			{
@@ -90,24 +96,32 @@ namespace Items.Bureaucracy
 		}
 
 		// Note: this is a recursive method.
-		private void ReadBook(ConnectedPlayer player, int pageToRead = 0)
+		private void ReadBook(PlayerInfo player, int pageToRead = 0)
 		{
+			var playerTile = player.GameObject.RegisterTile();
 			if (pageToRead >= pagesToRead || pageToRead > 10)
 			{
 				FinishReading(player);
 				return;
 			}
 
-			StandardProgressActionConfig cfg = new StandardProgressActionConfig(StandardProgressActionType.Construction, false, false);
-			StandardProgressAction.Create(cfg, ReadPage).ServerStartProgress(player.GameObject.RegisterTile(), timeToReadPage, player.GameObject);
+			StandardProgressActionConfig cfg = new StandardProgressActionConfig(
+				StandardProgressActionType.Construction,
+				false,
+				false
+			);
+			StandardProgressAction.Create(cfg, ReadPage).ServerStartProgress(
+				playerTile,
+				timeToReadPage,
+				player.GameObject
+			);
 
 			void ReadPage()
 			{
 				readerProgress[player]++;
 
-				// TODO: play random page-turning sound => pageturn1.ogg || pageturn2.ogg || pageturn3.ogg
-				string remark = remarks[Random.Range(0, remarks.Length)];
-				Chat.AddExamineMsgFromServer(player.GameObject, remark);
+				SoundManager.PlayNetworkedAtPos(pageturnSfx.PickRandom(), playerTile.WorldPositionServer, sourceObj: player.GameObject);
+				Chat.AddExamineMsgFromServer(player.GameObject, remarks.PickRandom());
 
 				ReadBook(player, readerProgress[player]);
 			}
@@ -116,7 +130,7 @@ namespace Items.Bureaucracy
 		/// <summary>
 		/// Triggered when the reader has read all of the pages.
 		/// </summary>
-		protected virtual void FinishReading(ConnectedPlayer player)
+		protected virtual void FinishReading(PlayerInfo player)
 		{
 			hasBeenRead = true;
 

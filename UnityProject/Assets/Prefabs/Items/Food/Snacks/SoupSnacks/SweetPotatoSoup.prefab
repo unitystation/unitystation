@@ -13,12 +13,27 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e3df5cf48fbf44846a82b8ec35183882,
         type: 2}
+    - target: {fileID: 3026820318657467769, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: foreverID
+      value: 3cda84b4ccd9aa441b94f1bf8e5856d8
+      objectReference: {fileID: 0}
     - target: {fileID: 8091316462478551624, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 2ac46a2279918b644a588414d83c1d1f,
         type: 3}
+    - target: {fileID: 8091316462478551624, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -36,6 +51,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -48,16 +68,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
@@ -82,17 +92,17 @@ PrefabInstance:
     - target: {fileID: 8300100540400329888, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8382973909785720438, guid: 09d98d684f3dbe544a3f54331019cba1,
-        type: 3}
-      propertyPath: initialDescription
-      value: Delicious sweet potato in soup form.
+      value: 3cda84b4ccd9aa441b94f1bf8e5856d8
       objectReference: {fileID: 0}
     - target: {fileID: 8382973909785720438, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
       propertyPath: initialName
       value: sweet potato soup
+      objectReference: {fileID: 0}
+    - target: {fileID: 8382973909785720438, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: initialDescription
+      value: Delicious sweet potato in soup form.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09d98d684f3dbe544a3f54331019cba1, type: 3}

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: ReinforcedWall
   m_EditorClassIdentifier: 
   displayName: reinforced wall
+  description: A strong, composite structure design to resist a good deal of punishment.
   LayerType: 0
   TileType: 1
   RequiredTiles:
@@ -24,14 +25,21 @@ MonoBehaviour:
   SpawnWithNoAir: 0
   passable: 0
   mineable: 0
-  RadiationPassability: 0.15
+  miningTime: 5
+  miningHardness: 1
+  constructable: 0
+  RadiationPassability: 0.6
+  ThermalConductivity: 0
+  HeatCapacity: 312500
   doesReflectBullet: 0
   indestructible: 0
+  ExplosionImpassable: 1
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 
     m_values: 
-  maxHealth: 100
-  damageDeflection: 0
+  maxHealth: 400
+  damageDeflection: 21
   armor:
     Melee: 90
     Bullet: 90
@@ -43,8 +51,10 @@ MonoBehaviour:
     Acid: 90
     Magic: 0
     Bio: 100
+    DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: df2824a08f89f459e90d745b5e8e07a2, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 0
   lootOnDespawn: {fileID: 0}
@@ -59,6 +69,8 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  SoundOnDestroy: []
   connectCategory: 0
   connectType: 1
   spriteSheet:

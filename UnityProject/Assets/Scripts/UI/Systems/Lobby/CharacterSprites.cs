@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Lobby
+namespace UI.CharacterCreator
 {
 	public class CharacterSprites : MonoBehaviour
 	{
@@ -15,28 +15,33 @@ namespace Lobby
 
 		public Image image;
 
-		void Awake()
+		private void Awake()
 		{
 			sprites = GetComponent<SpriteHandler>();
 			if(!sprites)
 				Logger.LogWarning("SpriteHandler component is missing!", Category.Sprites);
 		}
+
 		private void Start()
 		{
 			UpdateSprite();
 		}
 
-		void OnEnable()
+		private void OnEnable()
 		{
 			characterView = GetComponentInParent<CharacterView>();
 			characterView.dirChangeEvent.AddListener(OnDirChange);
 		}
 
-		void OnDisable()
+		private void OnDisable()
 		{
 			characterView.dirChangeEvent.RemoveListener(OnDirChange);
 		}
 
+		private void OnDestroy()
+		{
+			characterView.dirChangeEvent.RemoveListener(OnDirChange);
+		}
 		public void OnDirChange()
 		{
 			currentDir = characterView.currentDir;
@@ -70,8 +75,7 @@ namespace Lobby
 			// It's possible that UpdateSprite gets called before Awake
 			// so try to grab the image here just in case that happens
 			if(sprites != null || TryGetComponent(out sprites))
-				sprites.ChangeSpriteVariant(referenceOffset , NetWork:false);
+				sprites.ChangeSpriteVariant(referenceOffset , networked:false);
 		}
-
 	}
 }

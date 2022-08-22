@@ -15,27 +15,6 @@ public class DamageMonitorListener : MonoBehaviour
 			Logger.LogWarning($"Missing reference on {name}.DamageMonitorListener.{nameof(damageMaskImage)}", Category.UI);
 	}
 
-	private void OnEnable()
-	{
-		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
-	}
-
-	private void OnDisable()
-	{
-		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
-	}
-
-	//Reset healthHUD
-	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)
-	{
-		Reset();
-	}
-
-	public void Reset()
-	{
-		SetDamageColor(new Color());
-		SetBodyPartColor(Color.white);
-	}
 
 	public void SetBodyPartColor(Color color)
 	{
@@ -49,7 +28,7 @@ public class DamageMonitorListener : MonoBehaviour
 	{
 		if (damageMaskImage == null)
 			return;
-		
+
 		damageMaskImage.color = color;
 	}
 }

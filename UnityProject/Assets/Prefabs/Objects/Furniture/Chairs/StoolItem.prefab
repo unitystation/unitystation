@@ -7,12 +7,27 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 542775556866826484, guid: c8af057edecfa6c4f877ae1b042d6ead,
+        type: 3}
+      propertyPath: foreverID
+      value: 5615206684c0a714997f9e856ba438ce
+      objectReference: {fileID: 0}
     - target: {fileID: 753497164315285278, guid: c8af057edecfa6c4f877ae1b042d6ead,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 1ab24fdd83efb3f41b5abf80b8c9ee96,
         type: 2}
+    - target: {fileID: 6476018133687174139, guid: c8af057edecfa6c4f877ae1b042d6ead,
+        type: 3}
+      propertyPath: initialName
+      value: stool
+      objectReference: {fileID: 0}
+    - target: {fileID: 6476018133687174139, guid: c8af057edecfa6c4f877ae1b042d6ead,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 6476018133687174139, guid: c8af057edecfa6c4f877ae1b042d6ead,
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
@@ -27,8 +42,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6476018133687174139, guid: c8af057edecfa6c4f877ae1b042d6ead,
         type: 3}
-      propertyPath: initialName
-      value: stool
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 6476018133687174139, guid: c8af057edecfa6c4f877ae1b042d6ead,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
       objectReference: {fileID: 0}
     - target: {fileID: 6573704770868306816, guid: c8af057edecfa6c4f877ae1b042d6ead,
         type: 3}
@@ -42,10 +62,35 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 0807c2d90fec6994db0bc7e535cb666a,
         type: 3}
+    - target: {fileID: 6820342781826501893, guid: c8af057edecfa6c4f877ae1b042d6ead,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 8011809051361095837}
     - target: {fileID: 6820383887292256557, guid: c8af057edecfa6c4f877ae1b042d6ead,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 5615206684c0a714997f9e856ba438ce
+      objectReference: {fileID: 0}
+    - target: {fileID: 6854495679386025829, guid: c8af057edecfa6c4f877ae1b042d6ead,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6854495679386025829, guid: c8af057edecfa6c4f877ae1b042d6ead,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6854495679386025829, guid: c8af057edecfa6c4f877ae1b042d6ead,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6854875258046910957, guid: c8af057edecfa6c4f877ae1b042d6ead,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6854875258046910957, guid: c8af057edecfa6c4f877ae1b042d6ead,
         type: 3}
@@ -65,26 +110,16 @@ PrefabInstance:
     - target: {fileID: 6854875258046910957, guid: c8af057edecfa6c4f877ae1b042d6ead,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6854875258046910957, guid: c8af057edecfa6c4f877ae1b042d6ead,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6854875258046910957, guid: c8af057edecfa6c4f877ae1b042d6ead,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6854875258046910957, guid: c8af057edecfa6c4f877ae1b042d6ead,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6854875258046910957, guid: c8af057edecfa6c4f877ae1b042d6ead,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6854875258046910957, guid: c8af057edecfa6c4f877ae1b042d6ead,
@@ -109,3 +144,42 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8af057edecfa6c4f877ae1b042d6ead, type: 3}
+--- !u!1 &7978696986387520845 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6859803131222715545, guid: c8af057edecfa6c4f877ae1b042d6ead,
+    type: 3}
+  m_PrefabInstance: {fileID: 3569362433136914900}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2755492268855524102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7978696986387520845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MethodRotation: 0
+  ChangeSprites: 1
+  isChangingSO: 0
+  CurrentDirection: 3
+  IgnoreServerUpdatesIfLocalPlayer: 0
+  IsAtmosphericDevice: 0
+  doNotResetOtherSpriteOptions: 0
+--- !u!114 &8011809051361095837 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6820496967561167177, guid: c8af057edecfa6c4f877ae1b042d6ead,
+    type: 3}
+  m_PrefabInstance: {fileID: 3569362433136914900}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7978696986387520845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

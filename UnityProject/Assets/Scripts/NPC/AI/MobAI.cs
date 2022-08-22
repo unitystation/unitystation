@@ -10,22 +10,19 @@ namespace Systems.MobAIs
 	[RequireComponent(typeof(MobFollow))]
 	[RequireComponent(typeof(MobExplore))]
 	[RequireComponent(typeof(MobFlee))]
-	public class MobAI : MonoBehaviour, IServerDespawn
+	public class MobAI : MobObjective, IServerLifecycle
 	{
 		public string mobName;
-		[Tooltip("When the mob is unconscious, how much should the sprite obj " +
-				"be rotated to indicate a knocked down or dead NPC")]
-		public float knockedDownRotation = 90f;
 
 		public event Action PettedEvent;
+		protected SimpleAnimal simpleAnimal;
 		protected MobFollow mobFollow;
 		protected MobExplore mobExplore;
 		protected MobFlee mobFlee;
 		[NonSerialized] public LivingHealthBehaviour health;
-		protected Directional directional;
 		protected MobSprite mobSprite;
-		protected CustomNetTransform cnt;
-		protected RegisterObject registerObject;
+
+		public RegisterObject registerObject;
 		protected UprightSprites uprightSprites;
 		protected bool isServer;
 		private float followingTime = 0f;
@@ -46,69 +43,72 @@ namespace Systems.MobAIs
 		protected UnityEvent exploringStopped = new UnityEvent();
 		protected UnityEvent fleeingStopped = new UnityEvent();
 
-		/// <summary>
-		/// Is MobAI currently performing an AI task like following or exploring
-		/// </summary>
-		public bool IsPerformingTask {
-			get {
-				return (mobExplore.activated || mobFollow.activated || mobFlee.activated);
-			}
-		}
-
 		public bool IsDead => health.IsDead;
 
 		public bool IsUnconscious => health.IsCrit;
 
 		private bool isKnockedDown = false;
 
+		#region Lifecycle
+
 		protected virtual void Awake()
 		{
+			base.Awake();
+
+			simpleAnimal = GetComponent<SimpleAnimal>();
 			mobFollow = GetComponent<MobFollow>();
 			mobExplore = GetComponent<MobExplore>();
 			mobFlee = GetComponent<MobFlee>();
 			health = GetComponent<LivingHealthBehaviour>();
-			directional = GetComponent<Directional>();
 			mobSprite = GetComponent<MobSprite>();
-			cnt = GetComponent<CustomNetTransform>();
 			registerObject = GetComponent<RegisterObject>();
 			uprightSprites = GetComponent<UprightSprites>();
 		}
 
-		public virtual void OnEnable()
+		public void OnSpawnServer(SpawnInfo info)
 		{
-			//only needed for starting via a map scene through the editor:
-			if (CustomNetworkManager.Instance == null) return;
-
-			if (CustomNetworkManager.Instance._isServer)
+			mobSprite.SetToNPCLayer();
+			registerObject.RestoreAllToDefault();
+			if (simpleAnimal != null)
 			{
-				UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-				UpdateManager.Add(PeriodicUpdate, 1f);
-				health.applyDamageEvent += AttackReceivedCoolDown;
-				isServer = true;
-				AIStartServer();
+				simpleAnimal.SetDeadState(false);
 			}
+
+			health.applyDamageEvent += AttackReceivedCoolDown;
+			isServer = true;
+
+			OnSpawnMob();
+			OnAIStart();
 		}
 
-		public void OnDisable()
+		public virtual void OnDespawnServer(DespawnInfo info)
 		{
-			if (isServer)
-			{
-				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
-				health.applyDamageEvent += AttackReceivedCoolDown;
-			}
+			health.applyDamageEvent -= AttackReceivedCoolDown;
+			ResetBehaviours();
 		}
+
+
+		/// <summary>
+		/// Called after the mob is spawned, before the AI comes online
+		/// (at tne end of <see cref="OnSpawnServer(SpawnInfo)"/> and before <see cref="OnSpawnMob"/>)
+		/// </summary>
+		protected virtual void OnSpawnMob() { }
 
 		/// <summary>
 		/// Called when the AI has come online on the server
+		/// (at the end of <see cref="OnSpawnServer(SpawnInfo)"/> and after <see cref="OnSpawnMob"/>)
 		/// </summary>
-		protected virtual void AIStartServer() { }
+		protected virtual void OnAIStart() { }
 
-		/// <summary>
-		/// Server only update loop. Make sure to call base.UpdateMe() if overriding
-		/// </summary>
-		protected virtual void UpdateMe()
+		#endregion
+
+
+		public override void ContemplatePriority()
 		{
+			if (damageAttempts >= maxDamageAttempts)
+			{
+				damageAttempts = 0;
+			}
 			if (MonitorKnockedDown())
 			{
 				return;
@@ -119,13 +119,6 @@ namespace Systems.MobAIs
 			MonitorFleeingTime();
 		}
 
-		protected void PeriodicUpdate()
-		{
-			if (damageAttempts >= maxDamageAttempts)
-			{
-				damageAttempts = 0;
-			}
-		}
 
 		/// <summary>
 		/// Updates the mob to fall down or stand up where appropriate
@@ -157,8 +150,8 @@ namespace Systems.MobAIs
 				registerObject.SetPassable(false, true);
 				mobSprite.SetToBodyLayer();
 
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
-				mobSprite.SetRotationServer(knockedDownRotation);
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
+				mobSprite.SetToKnockedDown(true);
 			}
 		}
 
@@ -178,11 +171,11 @@ namespace Systems.MobAIs
 			}
 		}
 
-		void MonitorFollowingTime()
+		private void MonitorFollowingTime()
 		{
-			if (mobFollow.activated && followTimeMax != -1f)
+			if (mobFollow.Priority < 25 && followTimeMax > 0)
 			{
-				followingTime += Time.deltaTime;
+				followingTime += MobController.UpdateTimeInterval;
 				if (followingTime > followTimeMax)
 				{
 					StopFollowing();
@@ -190,11 +183,11 @@ namespace Systems.MobAIs
 			}
 		}
 
-		void MonitorExploreTime()
+		private void MonitorExploreTime()
 		{
-			if (mobExplore.activated && exploreTimeMax != -1f)
+			if (mobExplore.Priority < 25 && exploreTimeMax > 0)
 			{
-				exploringTime += Time.deltaTime;
+				exploringTime += MobController.UpdateTimeInterval;
 				if (exploringTime > exploreTimeMax)
 				{
 					StopExploring();
@@ -202,11 +195,11 @@ namespace Systems.MobAIs
 			}
 		}
 
-		void MonitorFleeingTime()
+		private void MonitorFleeingTime()
 		{
-			if (mobFlee.activated && fleeTimeMax != -1f)
+			if (mobFlee.activated && fleeTimeMax > 0)
 			{
-				fleeingTime += Time.deltaTime;
+				fleeingTime += MobController.UpdateTimeInterval;
 				if (fleeingTime > fleeTimeMax)
 				{
 					StopFleeing();
@@ -256,7 +249,7 @@ namespace Systems.MobAIs
 		/// </summary>
 		protected void StopFollowing()
 		{
-			mobFollow.Deactivate();
+			mobFollow.FollowTarget = null;
 			followTimeMax = -1f;
 			followingTime = 0f;
 			followingStopped.Invoke();
@@ -265,8 +258,12 @@ namespace Systems.MobAIs
 		/// <summary>
 		/// Begins exploring for the target
 		/// </summary>
-		protected void BeginExploring(MobExplore.Target target = MobExplore.Target.food, float exploreDuration = -1f)
+		protected void BeginExploring(MobExplore.Target target = MobExplore.Target.none, float exploreDuration = -1f)
 		{
+			if (target == MobExplore.Target.none)
+            {
+				target = mobExplore.target; //so we don't interfere with existing target in MobExplore if it's set
+            }
 			ResetBehaviours();
 			mobExplore.BeginExploring(target);
 			exploreTimeMax = exploreDuration;
@@ -278,7 +275,6 @@ namespace Systems.MobAIs
 		/// </summary>
 		protected void StopExploring()
 		{
-			mobExplore.Deactivate();
 			exploreTimeMax = -1f;
 			exploringTime = 0f;
 			exploringStopped.Invoke();
@@ -301,7 +297,7 @@ namespace Systems.MobAIs
 			fleeingTime = 0f;
 		}
 
-		//Stop fleeing
+		///<summary>Stop fleeing</summary>
 		protected void StopFleeing()
 		{
 			mobFlee.Deactivate();
@@ -378,8 +374,8 @@ namespace Systems.MobAIs
 		{
 			if (dir != Vector2Int.zero)
 			{
-				cnt.Push(dir, context: gameObject);
-				directional.FaceDirection(Orientation.From(dir));
+				objectPhysics.TryTilePush(dir, null);
+				rotatable.SetFaceDirectionLocalVector(dir);
 			}
 		}
 
@@ -416,16 +412,6 @@ namespace Systems.MobAIs
 				mobFlee.Deactivate();
 			}
 
-			if (mobFollow.activated)
-			{
-				mobFollow.Deactivate();
-			}
-
-			if (mobExplore.activated)
-			{
-				mobExplore.Deactivate();
-			}
-
 			fleeTimeMax = -1f;
 			fleeingTime = 0f;
 			exploreTimeMax = -1f;
@@ -442,7 +428,7 @@ namespace Systems.MobAIs
 		{
 			// face performer
 			var dir = (performer.transform.position - transform.position).normalized;
-			directional.FaceDirection(Orientation.From(dir));
+			rotatable.SetFaceDirectionLocalVector(dir.RoundTo2Int());
 			PettedEvent?.Invoke();
 		}
 
@@ -456,9 +442,9 @@ namespace Systems.MobAIs
 		/// Virtual method to override on extensions of this class. Called when paired with MobMeleeAction
 		/// </summary>
 		/// <param name="dir"></param>
-		/// <param name="healthBehaviour"></param>
+		/// <param name="livingHealth"></param>
 		/// <param name="doLerpAnimation"></param>
-		public virtual void ActOnLiving(Vector3 dir, LivingHealthMasterBase healthBehaviour) { }
+		public virtual void ActOnLiving(Vector3 dir, LivingHealthMasterBase livingHealth) { }
 
 		/// <summary>
 		/// Virtual method to override on extensions of this class. Called when paired with MobMeleeAction
@@ -467,10 +453,5 @@ namespace Systems.MobAIs
 		/// <param name="dir"></param>
 		/// <param name="doLerpAnimation"></param>
 		public virtual void ActOnTile(Vector3Int roundToInt, Vector3 dir) { }
-
-		public virtual void OnDespawnServer(DespawnInfo info)
-		{
-			ResetBehaviours();
-		}
 	}
 }

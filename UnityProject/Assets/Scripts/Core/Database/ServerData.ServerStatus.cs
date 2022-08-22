@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityWebRequest = UnityEngine.Networking.UnityWebRequest;
-using Utility = UnityEngine.Networking.Utility;
 using Mirror;
-using UnityEngine.SceneManagement;
 using System.Text.RegularExpressions;
 using IgnoranceTransport;
+using Managers;
 
 namespace DatabaseAPI
 {
@@ -227,6 +226,9 @@ namespace DatabaseAPI
 		public string WinDownload;
 		public string OSXDownload;
 		public string LinuxDownload;
+
+		//End of a discord invite used for serverinfo page
+		public string DiscordLinkID;
 
 		//Discord Webhook URL//
 

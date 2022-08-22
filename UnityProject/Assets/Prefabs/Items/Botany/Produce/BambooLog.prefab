@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 992a15a55349f51498eb6d97bb260c9a,
         type: 2}
+    - target: {fileID: 907837489939857478, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
+        type: 3}
+      propertyPath: foreverID
+      value: bf94a997601ad824c808b3c40696274c
+      objectReference: {fileID: 0}
     - target: {fileID: 4477217724768421945, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
         type: 3}
       propertyPath: seedPacket
@@ -29,6 +34,22 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A long and resistant bamboo log.
       objectReference: {fileID: 0}
+    - target: {fileID: 6028318533108303357, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6028318533108303357, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6028318533108303357, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 5ea5add3a4598b1419b6d325d10f3101,
+        type: 2}
     - target: {fileID: 6062953987052555307, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
         type: 3}
       propertyPath: m_Name
@@ -92,7 +113,7 @@ PrefabInstance:
     - target: {fileID: 6176622151696675231, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: bf94a997601ad824c808b3c40696274c
       objectReference: {fileID: 0}
     - target: {fileID: 6256068449893318519, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
         type: 3}
@@ -102,3 +123,24 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93, type: 3}
+--- !u!1 &7200069575054802167 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6062953987052555307, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
+    type: 3}
+  m_PrefabInstance: {fileID: 4019526055725592796}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-4484960163944526681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7200069575054802167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundReagents:
+    m_keys: []
+    m_values: 

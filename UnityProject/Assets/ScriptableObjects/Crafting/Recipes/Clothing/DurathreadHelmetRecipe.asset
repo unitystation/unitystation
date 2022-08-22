@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: DurathreadHelmetRecipe
+  m_EditorClassIdentifier: 
+  category: 5
+  craftingTime: 4
+  recipeName: Durathread Helmet
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 4
+    requiredItem: {fileID: 6518234990418498199, guid: 55ab7eb20bc5aee4bbcac44ce16ab954,
+      type: 3}
+  - requiredAmount: 5
+    requiredItem: {fileID: 3466088626968261983, guid: 5ceb1c94bee21ee46b0ec3929285f3b2,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits: []
+  result:
+  - {fileID: 8937610153750975940, guid: bbf5929133a2c4e488ad3ea8b1a1ba21, type: 3}
+  resultHandlers: []
+  isSimple: 1
+  indexInSingleton: 309

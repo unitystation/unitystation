@@ -5,11 +5,17 @@ using System;
 
 public class TestVariableViewerScript : MonoBehaviour
 {
-	public bool Pbool = true;
-	public int Pint = 55;
+	[VVNote(VVHighlight.SafeToModify)] public bool Pbool = true;
+
+	[VVNote(VVHighlight.UnsafeToModify)] public int Pint = 55;
+
+	[VVNote(VVHighlight.SafeToModify100)]
 	public string pstring = "yoyyyoy";
+
+	[VVNote(VVHighlight.VariableChangeUpdate)]
 	public Teststruct pTeststruct;
-	public Connection pConnection = Connection.Overlap;
+
+	[VVNote(VVHighlight.DEBUG)] public Connection pConnection = Connection.Overlap;
 
 
 	public Tuple<int, string> Trees;
@@ -51,6 +57,17 @@ public class TestVariableViewerScript : MonoBehaviour
 	public Dictionary<string, List<int>> DictionaryList = new Dictionary<string, List<int>>();
 
 	public int length = 10;
+
+	private void DOThingPrivate()
+	{
+		Logger.Log("DOThingPrivate");
+	}
+
+
+	public void DOThingPublic()
+	{
+		Logger.Log("DOThingPublic");
+	}
 
 
 	void Start()

@@ -1,30 +1,32 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using Objects.Machines;
+using UI.Core.NetUI;
 
 namespace UI.Objects.Robotics
 {
 	public class GUI_ExoFabMaterialEntry : DynamicEntry
 	{
-		private GUI_ExosuitFabricator ExoFabMasterTab {
-			get => MasterTab as GUI_ExosuitFabricator;
-		}
+		private GUI_ExosuitFabricator ExoFabMasterTab => MasterTab as GUI_ExosuitFabricator;
 
 		private ItemTrait materialType;
 		private int currentAmount;
 
-		private NetLabel amountLabel;
+		private NetText_label amountLabel;
 
-		private GUI_ExoFabButton buttonOne;
-		private GUI_ExoFabButton buttonTen;
-		private GUI_ExoFabButton buttonFifty;
+		private NetInteractiveButton buttonOne;
+		private NetInteractiveButton buttonTen;
+		private NetInteractiveButton buttonFifty;
 
 		public void DispenseMaterial(int amount)
 		{
-			if (ExoFabMasterTab == null) ExoFabMasterTab.GetComponent<GUI_ExosuitFabricator>().OnDispenseSheetClicked.Invoke(amount, materialType);
-			else { ExoFabMasterTab?.OnDispenseSheetClicked.Invoke(amount, materialType); }
+			if (ExoFabMasterTab == null)
+			{
+				ExoFabMasterTab.GetComponent<GUI_ExosuitFabricator>().OnDispenseSheetClicked.Invoke(amount, materialType);
+			}
+			else
+			{
+				ExoFabMasterTab?.OnDispenseSheetClicked.Invoke(amount, materialType);
+			}
 		}
 
 		public void ReInit(ItemTrait material, int amount)
@@ -42,19 +44,19 @@ namespace UI.Objects.Robotics
 
 					case "MaterialAmount":
 						((NetUIElement<string>)element).SetValueServer(currentAmount + " cm3");
-						amountLabel = element as NetLabel;
+						amountLabel = element as NetText_label;
 						break;
 
 					case "OneSheetButton":
-						buttonOne = element as GUI_ExoFabButton;
+						buttonOne = element as NetInteractiveButton;
 						break;
 
 					case "TenSheetButton":
-						buttonTen = element as GUI_ExoFabButton;
+						buttonTen = element as NetInteractiveButton;
 						break;
 
 					case "FiftySheetButton":
-						buttonFifty = element as GUI_ExoFabButton;
+						buttonFifty = element as NetInteractiveButton;
 						break;
 				}
 			}

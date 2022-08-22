@@ -14,11 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   emoteName: whimper
   requiresHands: 0
+  allowEmoteWhileInCrit: 1
+  isAudibleEmote: 0
+  allowEmoteWhileCrawling: 1
   viewText: whimpers.
   youText: You whimper.
   failText: You were unable to preform this action!
-  defaultSounds: []
-  maleSounds: []
-  femaleSounds: []
-  audioToUse: []
+  mouthBlockedText: You are unable to make a sound!
   critViewText: whimpers in pain, they appear to be hurt!
+  soundsAreTyped: 0
+  defaultSounds: []
+  TypedSounds: []
+  pitchRange: {x: 0.7, y: 1}

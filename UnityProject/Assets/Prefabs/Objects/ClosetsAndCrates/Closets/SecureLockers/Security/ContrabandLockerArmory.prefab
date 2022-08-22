@@ -7,10 +7,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2072433824431658920, guid: 86649e4eafe8e014b925a49dbc892d4f,
+        type: 3}
+      propertyPath: foreverID
+      value: 4d2d20453d200b04e9e461991b4f2de4
+      objectReference: {fileID: 0}
     - target: {fileID: 2972820296577483190, guid: 86649e4eafe8e014b925a49dbc892d4f,
         type: 3}
       propertyPath: restriction
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3145375638573150011, guid: 86649e4eafe8e014b925a49dbc892d4f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3145375638573150011, guid: 86649e4eafe8e014b925a49dbc892d4f,
         type: 3}
@@ -29,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3145375638573150011, guid: 86649e4eafe8e014b925a49dbc892d4f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3145375638573150011, guid: 86649e4eafe8e014b925a49dbc892d4f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3145375638573150011, guid: 86649e4eafe8e014b925a49dbc892d4f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3145375638573150011, guid: 86649e4eafe8e014b925a49dbc892d4f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3145375638573150011, guid: 86649e4eafe8e014b925a49dbc892d4f,
         type: 3}
@@ -75,7 +80,7 @@ PrefabInstance:
     - target: {fileID: 6804651490878987395, guid: 86649e4eafe8e014b925a49dbc892d4f,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 4d2d20453d200b04e9e461991b4f2de4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 86649e4eafe8e014b925a49dbc892d4f, type: 3}

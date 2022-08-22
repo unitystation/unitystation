@@ -70,7 +70,46 @@ PrefabInstance:
     - target: {fileID: 1274760333973328556, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: m_AssetId
+      value: e241039a7933eb347bd1a9bb67a9078a
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: limbLossBleedingValue
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.data[0]
       value: 
+      objectReference: {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329,
+        type: 2}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 10171eea099bebb4c8fa8ec66c5ed051,
+        type: 2}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: b6fd9e69eadae4148bbd6a85d785f16a,
+        type: 2}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3a60d21cb4e18b14ba0387530f2dccd5,
+        type: 2}
+    - target: {fileID: 5232716269704749941, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: foreverID
+      value: e241039a7933eb347bd1a9bb67a9078a
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1162a9966a460f940a18b4d183b04c30, type: 3}

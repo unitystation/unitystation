@@ -11,14 +11,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 4d797a041601d264aa974a54e67cd2d7,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 226526901835897784, guid: 4870238ed625c0e45839e280fab63823,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 4d797a041601d264aa974a54e67cd2d7,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 226526901835897784, guid: 4870238ed625c0e45839e280fab63823,
         type: 3}
       propertyPath: allClothingData.Array.data[0]
@@ -31,6 +29,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d61804e346ba1414ab6c53b13833118f,
         type: 2}
+    - target: {fileID: 280149427953091664, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: foreverID
+      value: b9f24bba431b4954d90487de487848e9
+      objectReference: {fileID: 0}
     - target: {fileID: 1017792316374873018, guid: 4870238ed625c0e45839e280fab63823,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -58,7 +61,7 @@ PrefabInstance:
     - target: {fileID: 6543103638195795337, guid: 4870238ed625c0e45839e280fab63823,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b9f24bba431b4954d90487de487848e9
       objectReference: {fileID: 0}
     - target: {fileID: 6578195204801803593, guid: 4870238ed625c0e45839e280fab63823,
         type: 3}
@@ -129,6 +132,36 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A helmet worn by those who deal with paranormal threats for a living.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6972565221476718296, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Magic
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 6972565221476718296, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Magic
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 6972565221476718296, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Magic
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 6972565221476718296, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.DismembermentProtectionChance
+      value: 67
+      objectReference: {fileID: 0}
+    - target: {fileID: 6972565221476718296, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.DismembermentProtectionChance
+      value: 67
+      objectReference: {fileID: 0}
+    - target: {fileID: 6972565221476718296, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.DismembermentProtectionChance
+      value: 67
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6746541494595479454, guid: 4870238ed625c0e45839e280fab63823, type: 3}

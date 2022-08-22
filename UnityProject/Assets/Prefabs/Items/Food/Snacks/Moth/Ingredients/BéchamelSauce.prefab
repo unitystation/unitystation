@@ -1,0 +1,141 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6274327657073336155
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 113459902040873899, guid: 6027b24496823464eb766a0d38365cb6,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e029d4dbef2408b43b27a26fc0c3e35e,
+        type: 2}
+    - target: {fileID: 896130553284963393, guid: 6027b24496823464eb766a0d38365cb6,
+        type: 3}
+      propertyPath: foreverID
+      value: superwhitestuff
+      objectReference: {fileID: 0}
+    - target: {fileID: 5043754326014453892, guid: 6027b24496823464eb766a0d38365cb6,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: d5386cc24a0a08cab9f2e1dab976ee2f,
+        type: 2}
+    - target: {fileID: 5043754326014453892, guid: 6027b24496823464eb766a0d38365cb6,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5924646584322805582, guid: 6027b24496823464eb766a0d38365cb6,
+        type: 3}
+      propertyPath: initialName
+      value: "b\xE9chamel sauce"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5924646584322805582, guid: 6027b24496823464eb766a0d38365cb6,
+        type: 3}
+      propertyPath: initialDescription
+      value: A classic white sauce common to several European cultures.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6007269029265959418, guid: 6027b24496823464eb766a0d38365cb6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6007269029265959418, guid: 6027b24496823464eb766a0d38365cb6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: e1d711423c264d7489fff25190951c48,
+        type: 2}
+    - target: {fileID: 6007269029265959418, guid: 6027b24496823464eb766a0d38365cb6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: d4fdfc9dbe0666e459c07f05b9f1d65f,
+        type: 2}
+    - target: {fileID: 6007269029265959418, guid: 6027b24496823464eb766a0d38365cb6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6007269029265959418, guid: 6027b24496823464eb766a0d38365cb6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6108721925090139480, guid: 6027b24496823464eb766a0d38365cb6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6108721925090139480, guid: 6027b24496823464eb766a0d38365cb6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6108721925090139480, guid: 6027b24496823464eb766a0d38365cb6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6108721925090139480, guid: 6027b24496823464eb766a0d38365cb6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6108721925090139480, guid: 6027b24496823464eb766a0d38365cb6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6108721925090139480, guid: 6027b24496823464eb766a0d38365cb6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6108721925090139480, guid: 6027b24496823464eb766a0d38365cb6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6108721925090139480, guid: 6027b24496823464eb766a0d38365cb6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6108721925090139480, guid: 6027b24496823464eb766a0d38365cb6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6108721925090139480, guid: 6027b24496823464eb766a0d38365cb6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6108721925090139480, guid: 6027b24496823464eb766a0d38365cb6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112800975486394412, guid: 6027b24496823464eb766a0d38365cb6,
+        type: 3}
+      propertyPath: m_Name
+      value: "B\xE9chamelSauce"
+      objectReference: {fileID: 0}
+    - target: {fileID: 6143258994039922072, guid: 6027b24496823464eb766a0d38365cb6,
+        type: 3}
+      propertyPath: m_AssetId
+      value: b6f4927c5fbeade40b684c073301ddaf
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207364936094585712, guid: 6027b24496823464eb766a0d38365cb6,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 353e856ed1d748f459dcac0931281752,
+        type: 3}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6027b24496823464eb766a0d38365cb6, type: 3}

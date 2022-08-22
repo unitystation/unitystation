@@ -12,18 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
   m_Name: ironsand15
   m_EditorClassIdentifier: 
-  displayName: 
+  displayName: sand
+  description: 
   LayerType: 4
   TileType: 7
-  RequiredTiles:
-  - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
-  floorTileType: 8
+  RequiredTiles: []
+  floorTileSounds: {fileID: 11400000, guid: 8a557bb6a08766c489c5b59f51354498, type: 2}
+  CanSoundOverride: 0
   atmosPassable: 1
   isSealed: 1
   SpawnWithNoAir: 0
   passable: 1
   mineable: 0
+  miningTime: 5
+  constructable: 1
+  RadiationPassability: 1
+  ThermalConductivity: 0.05
+  HeatCapacity: 10000
   doesReflectBullet: 0
+  indestructible: 0
+  ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 01000000
     m_values: 00
@@ -40,10 +49,23 @@ MonoBehaviour:
     Acid: 50
     Magic: 0
     Bio: 100
+    DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: 7532420ce3464b348b4018420cba3044, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 11400000, guid: 97c5dfde9f162f4409c8103d4137de31, type: 2}
-  soundOnHit: 
+  toTileWhenDestroyed: {fileID: 0}
+  spawnOnDestroy: {fileID: 0}
+  damageOverlayList: {fileID: 0}
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  SoundOnDestroy: []
   sprite: {fileID: 21300000, guid: e8c49036f677c474ba044c100529a39f, type: 3}

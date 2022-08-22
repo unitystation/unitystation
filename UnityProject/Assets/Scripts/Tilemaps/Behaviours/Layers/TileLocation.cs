@@ -1,85 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Tiles;
 
 namespace TileManagement
 {
 	public class TileLocation //No directly accessing this class!!!
 	{
-		public bool InQueue = false;
+		public MetaTileMap metaTileMap = null;
+		public Layer layer = null;
+		public Color Colour = Color.white;
+		public LayerTile layerTile;
+		public Matrix4x4 transformMatrix = Matrix4x4.identity;
 
-		public MetaTileMap PresentMetaTileMap = null;
-		public Layer PresentlyOn = null;
-
-		public Vector3Int TileCoordinates = Vector3Int.zero;
-		private Color colour = Color.white;
-
-		public Color Colour
-		{
-			get => colour;
-			set
-			{
-				if (colour != value)
-				{
-					colour = value;
-					//OnStateChange();
-				}
-			}
-		}
-
-		private LayerTile tile;
-
-		public LayerTile Tile
-		{
-			get => tile;
-			set
-			{
-				if (tile != value)
-				{
-					tile = value;
-					//OnStateChange();
-				}
-			}
-		}
-
-		private Matrix4x4 transformMatrix = Matrix4x4.identity;
-
-		public Matrix4x4 TransformMatrix
-		{
-			get => transformMatrix;
-			set
-			{
-				if (transformMatrix != value)
-				{
-					transformMatrix = value;
-					//OnStateChange();
-				}
-			}
-		}
-
-		public void OnStateChange()
-		{
-			lock (PresentMetaTileMap.QueuedChanges)
-			{
-				lock (this)
-				{
-					if (InQueue) return;
-					InQueue = true;
-				}
-
-				PresentMetaTileMap.QueuedChanges.Enqueue(this);
-			}
-		}
+		//TODO Tile map upgrade , Converts into Vector4Int For under floor tiles
+		public Vector3Int position = Vector3Int.zero;
 
 		public void Clean()
 		{
-			PresentMetaTileMap = null;
-			PresentlyOn = null;
-			TileCoordinates = Vector3Int.zero;
-			colour = Color.white;
-			tile = null;
+			metaTileMap = null;
+			layer = null;
+			position = Vector3Int.zero;
+			Colour = Color.white;
+			layerTile = null;
 			transformMatrix = Matrix4x4.identity;
-			InQueue = false;
 		}
 	}
 }

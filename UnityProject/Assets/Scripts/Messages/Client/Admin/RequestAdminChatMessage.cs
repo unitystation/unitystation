@@ -1,5 +1,5 @@
-﻿using Messages.Client;
-using Mirror;
+﻿using Mirror;
+
 
 namespace Messages.Client.Admin
 {
@@ -7,8 +7,6 @@ namespace Messages.Client.Admin
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public string Userid;
-			public string AdminToken;
 			public string Message;
 		}
 
@@ -17,21 +15,18 @@ namespace Messages.Client.Admin
 			VerifyAdminStatus(msg);
 		}
 
-		void VerifyAdminStatus(NetMessage msg)
+		private void VerifyAdminStatus(NetMessage msg)
 		{
-			var player = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
-			if (player != null)
+			if (IsFromAdmin())
 			{
-				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg.Message, msg.Userid);
+				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg.Message, SentByPlayer.UserId);
 			}
 		}
 
-		public static NetMessage Send(string userId, string adminToken, string message)
+		public static NetMessage Send(string message)
 		{
 			NetMessage msg = new NetMessage
 			{
-				Userid = userId,
-				AdminToken = adminToken,
 				Message = message
 			};
 

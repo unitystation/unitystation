@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 4042108494770091111, guid: 4d508ff5a5539124bb4e3e4c33ff3dda,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 249e10edcbf912247bd1c3d83556b212
       objectReference: {fileID: 0}
     - target: {fileID: 4146761764113091027, guid: 4d508ff5a5539124bb4e3e4c33ff3dda,
         type: 3}
@@ -85,8 +85,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4567172765289801393, guid: 4d508ff5a5539124bb4e3e4c33ff3dda,
         type: 3}
+      propertyPath: pierceChance
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4567172765289801393, guid: 4d508ff5a5539124bb4e3e4c33ff3dda,
+        type: 3}
+      propertyPath: pierceDamage
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4567172765289801393, guid: 4d508ff5a5539124bb4e3e4c33ff3dda,
+        type: 3}
       propertyPath: initialDescription
       value: Yours is the drill that will pierce the heavens!
+      objectReference: {fileID: 0}
+    - target: {fileID: 4567172765289801393, guid: 4d508ff5a5539124bb4e3e4c33ff3dda,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4567172765289801393, guid: 4d508ff5a5539124bb4e3e4c33ff3dda,
         type: 3}
@@ -94,12 +109,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 62e58207be4a9a54fac30e1697846313,
         type: 2}
+    - target: {fileID: 7005059218751980990, guid: 4d508ff5a5539124bb4e3e4c33ff3dda,
+        type: 3}
+      propertyPath: foreverID
+      value: 249e10edcbf912247bd1c3d83556b212
+      objectReference: {fileID: 0}
     - target: {fileID: 7839182474428068436, guid: 4d508ff5a5539124bb4e3e4c33ff3dda,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 62e58207be4a9a54fac30e1697846313,
         type: 2}
+    - target: {fileID: 8637307195371743201, guid: 4d508ff5a5539124bb4e3e4c33ff3dda,
+        type: 3}
+      propertyPath: pickHardness
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8637307195371743201, guid: 4d508ff5a5539124bb4e3e4c33ff3dda,
         type: 3}
       propertyPath: timeMultiplier

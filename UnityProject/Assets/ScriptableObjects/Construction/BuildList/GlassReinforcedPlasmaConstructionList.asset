@@ -20,3 +20,12 @@ MonoBehaviour:
     buildTime: 2
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
+  - name: Directional Reinforced Plasma Window
+    prefab: {fileID: 6247378726357475816, guid: 9028811e852742d40ac5ae72a716a679,
+      type: 3}
+    cost: 1
+    buildTime: 2
+    spawnAmount: 1
+    onePerTile: 0
+    facePlayerDirectionOnConstruction: 1

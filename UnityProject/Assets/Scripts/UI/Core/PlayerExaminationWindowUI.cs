@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using Managers;
 using Messages.Client;
 using Messages.Client.Interaction;
 using UnityEngine;
@@ -17,24 +19,22 @@ namespace UI.Core
 		[SerializeField] private GameObject expandedView = default;
 		[SerializeField] private Text additionalInformationsText = default;
 
-		private PlayerExaminationWindowSlot[] examinationSlotsUI;
+		public List<GameObject> UISlots = new List<GameObject>();
+
+
+		public GameObject SlotPrefab;
+
+
+		public GameObject AreaGameObject;
 
 		/// <summary>
 		/// Storage that is currenly displayed
 		/// </summary>
-		public ItemStorage CurrentOpenStorage { get; private set; }
+		public DynamicItemStorage CurrentOpenStorage { get; private set; }
 		private Equipment currentEquipment;
 
 		private void Start()
 		{
-			// find all slots
-			examinationSlotsUI = GetComponentsInChildren<PlayerExaminationWindowSlot>();
-
-			// set parent to this
-			foreach (var slotUI in examinationSlotsUI)
-			{
-				slotUI.parent = this;
-			}
 
 			gameObject.SetActive(false);
 		}
@@ -53,17 +53,15 @@ namespace UI.Core
 
 			if (CurrentOpenStorage != null)
 			{
-				foreach (var slotUI in examinationSlotsUI)
+				foreach (var slotUI in UISlots)
 				{
 					// remove event listener
-					ItemSlot playerSlot = CurrentOpenStorage.GetNamedItemSlot(slotUI.UI_ItemSlot.NamedSlot);
+					ItemSlot playerSlot = slotUI.GetComponent<PlayerExaminationWindowSlot>().UI_ItemSlot.ItemSlot;
 					playerSlot.OnSlotContentsChangeClient.RemoveListener(OnSlotContentsChangeClient);
-
-					// reset inventory slot
-					slotUI.Reset();
+					Destroy(slotUI);
 				}
 			}
-
+			UISlots.Clear();
 			CurrentOpenStorage = null;
 			currentEquipment = null;
 
@@ -76,7 +74,7 @@ namespace UI.Core
 		/// </summary>
 		public void OnClickExit()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
 			Reset();
 		}
@@ -86,7 +84,7 @@ namespace UI.Core
 		/// </summary>
 		public void OnClickExpandCollapse()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
 			expandedView.SetActive(!expandedView.activeSelf);
 		}
@@ -97,7 +95,7 @@ namespace UI.Core
 		/// <param name="slot">clicket slot</param>
 		public void TryInteract(PlayerExaminationWindowSlot slot)
 		{
-			var targetSlot = CurrentOpenStorage.GetNamedItemSlot(slot.UI_ItemSlot.NamedSlot);
+			var targetSlot = slot.UI_ItemSlot.ItemSlot;
 
 			if (slot.IsObscured || slot.IsPocket)
 			{
@@ -140,7 +138,7 @@ namespace UI.Core
 			}
 			else
 			{
-				playerSlot = UIManager.Hands.CurrentSlot.ItemSlot;
+				playerSlot = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot();
 			}
 			OtherPlayerSlotTransferMessage.Send(playerSlot, targetSlot, isGhost);
 		}
@@ -148,13 +146,13 @@ namespace UI.Core
 		/// <summary>
 		/// Enable window and start listening for inventory updates
 		/// </summary>
-		/// <param name="itemStorage">reference to player item storage</param>
+		/// <param name="itemStorage">reference to player's DynamicItemStorage</param>
 		/// <param name="visibleName">player's visible name</param>
 		/// <param name="species">player's species</param>
 		/// <param name="job">player's job</param>
 		/// <param name="status">player's status</param>
 		/// <param name="additionalInformation">extra information characters can see about this character</param>
-		public void ExaminePlayer(ItemStorage itemStorage, string visibleName, string species, string job, string status, string additionalInformation)
+		public void ExaminePlayer(DynamicItemStorage itemStorage, string visibleName, string species, string job, string status, string additionalInformation)
 		{
 			Reset();
 
@@ -173,29 +171,34 @@ namespace UI.Core
 			additionalInformationsText.text = additionalInformation;
 
 			// add listeners
-			foreach (var slotUI in examinationSlotsUI)
+			foreach (var slotUI in CurrentOpenStorage.ClientSlotCharacteristic)
 			{
-				ItemSlot playerSlot = CurrentOpenStorage.GetNamedItemSlot(slotUI.UI_ItemSlot.NamedSlot);
+				ItemSlot playerSlot = slotUI.Key;
 				playerSlot.OnSlotContentsChangeClient.AddListener(OnSlotContentsChangeClient);
+				var slot = Instantiate(SlotPrefab, Vector3.zero, Quaternion.identity, AreaGameObject.transform);
+				slot.transform.localScale = Vector3.one;
+				slot.GetComponent<PlayerExaminationWindowSlot>().SetUp(slotUI.Value, slotUI.Key, this);
+				UISlots.Add(slot);
 			}
 
 			gameObject.SetActive(true);
+			OnSlotContentsChangeClient();
 		}
 
 		/// <summary>
 		/// Update ui inventory slots
 		/// </summary>
-		public void UpdateStorageUI(bool test = false)
+		public void UpdateStorageUI()
 		{
-			foreach (var slotUI in examinationSlotsUI)
+			foreach (var UISlot in UISlots)
 			{
-				// reset inventory slot
-				slotUI.Reset();
+				var slotUI = UISlot.GetComponent<PlayerExaminationWindowSlot>();
 
-				var namedSlot = slotUI.UI_ItemSlot.NamedSlot;
+				// reset inventory slot
+				slotUI.RefreshImage();
 
 				// if slot is obscured - enable overlay
-				if (currentEquipment.IsSlotObscured(namedSlot))
+				if (currentEquipment.IsSlotObscured(slotUI.UI_ItemSlot.ItemSlot.NamedSlot.GetValueOrDefault()))
 				{
 					slotUI.SetObscuredOverlayActive(true);
 				}
@@ -206,9 +209,6 @@ namespace UI.Core
 					{
 						continue;
 					}
-
-					var playerSlot = CurrentOpenStorage.GetNamedItemSlot(namedSlot);
-					slotUI.UI_ItemSlot.LinkSlot(playerSlot);
 				}
 			}
 		}
@@ -218,6 +218,7 @@ namespace UI.Core
 		/// </summary>
 		private void OnSlotContentsChangeClient()
 		{
+			gameObject.SetActive(true);
 			// need to wait one frame because item needs to refresh before updating UI
 			StartCoroutine(WaitOneFrameForUpdate());
 		}

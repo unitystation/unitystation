@@ -6,10 +6,10 @@ using Systems.Electricity;
 
 namespace Objects.Machines
 {
-	public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn, IServerDespawn, IAPCPowered
+	[RequireComponent(typeof(MaterialStorageLink))]
+	public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn, IServerDespawn, IAPCPowerable
 	{
-
-		public PowerStates PoweredState;
+		public PowerState PoweredState;
 
 		[SyncVar(hook = nameof(SyncSprite))]
 		private AutolatheState stateSync;
@@ -49,10 +49,7 @@ namespace Objects.Machines
 			Production,
 		}
 
-		public void OnSpawnServer(SpawnInfo info)
-		{
-			SyncSprite(AutolatheState.Idle, AutolatheState.Idle);
-		}
+		#region Lifecycle
 
 		public void Awake()
 		{
@@ -60,9 +57,29 @@ namespace Objects.Machines
 			materialStorageLink = GetComponent<MaterialStorageLink>();
 		}
 
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			SyncSprite(AutolatheState.Idle, AutolatheState.Idle);
+		}
+
+		public void OnDespawnServer(DespawnInfo info)
+		{
+			if (currentProduction != null)
+			{
+				StopCoroutine(currentProduction);
+				currentProduction = null;
+			}
+			if (materialStorageLink != null)
+			{
+				materialStorageLink.Despawn();
+			}
+		}
+
+		#endregion
+
 		private void UpdateGUI()
 		{
-			//Delegate calls method in all subscribers when material is changed
+			// Delegate calls method in all subscribers when material is changed
 			if (MaterialsManipulated != null)
 			{
 				MaterialsManipulated();
@@ -84,7 +101,7 @@ namespace Objects.Machines
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			//Can't insert materials while exofab is in production.
+			// Can't insert materials while exofab is in production.
 			if (stateSync != AutolatheState.Production)
 			{
 				int materialSheetAmount = interaction.HandSlot.Item.GetComponent<Stackable>().Amount;
@@ -111,7 +128,7 @@ namespace Objects.Machines
 			yield return WaitFor.Seconds(0.9f);
 			if (stateSync == AutolatheState.Production)
 			{
-				//Do nothing if production was started during the material insertion animation
+				// Do nothing if production was started during the material insertion animation
 			}
 			else
 			{
@@ -121,7 +138,7 @@ namespace Objects.Machines
 
 		public void DispenseMaterialSheet(int amountOfSheets, ItemTrait materialType)
 		{
-			materialStorageLink.usedStorage.DispenseSheet(amountOfSheets, materialType, gameObject.WorldPosServer());
+			materialStorageLink.usedStorage.DispenseSheet(amountOfSheets, materialType, gameObject.AssumedWorldPosServer());
 			UpdateGUI();
 		}
 
@@ -167,24 +184,15 @@ namespace Objects.Machines
 			}
 		}
 
-		public void OnDespawnServer(DespawnInfo info)
+		#region IAPCPowerable
+
+		public void PowerNetworkUpdate(float voltage) { }
+
+		public void StateUpdate(PowerState state)
 		{
-			if (currentProduction != null)
-			{
-				StopCoroutine(currentProduction);
-				currentProduction = null;
-			}
-			if (materialStorageLink != null)
-			{
-				materialStorageLink.Despawn();
-			}
+			PoweredState = state;
 		}
 
-		public void PowerNetworkUpdate(float Voltage) { }
-
-		public void StateUpdate(PowerStates State)
-		{
-			PoweredState = State;
-		}
+		#endregion
 	}
 }

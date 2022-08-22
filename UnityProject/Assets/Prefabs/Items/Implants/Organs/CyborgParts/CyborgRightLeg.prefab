@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 185805929322484740, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: foreverID
+      value: 5c22d550fc2d31941bf147d721294daa
+      objectReference: {fileID: 0}
     - target: {fileID: 1110343267396133870, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -88,7 +93,7 @@ PrefabInstance:
     - target: {fileID: 6609755923973416413, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 5c22d550fc2d31941bf147d721294daa
       objectReference: {fileID: 0}
     - target: {fileID: 6684255344632002315, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
@@ -112,5 +117,52 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 51ca87009f5327b44b59092dea2460c5,
         type: 2}
-    m_RemovedComponents: []
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: CanBeBroken
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: CanGetHungry
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: isBloodCirculated
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: HasNaturalToxicity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: isBloodReagentConsumed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: spillChanceWhenCutPresent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: BodyPartDisembowlLogicOnCutSize
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: dee4e2d62c8727f43a4a4d3c4e8ff6a9,
+        type: 2}
+    m_RemovedComponents:
+    - {fileID: 650803851519789982, guid: 51326f2264a075148a8aaa6bf95604c7, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 51326f2264a075148a8aaa6bf95604c7, type: 3}

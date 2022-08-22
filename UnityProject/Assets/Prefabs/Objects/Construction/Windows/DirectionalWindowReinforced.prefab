@@ -20,13 +20,45 @@ PrefabInstance:
         type: 3}
     - target: {fileID: -5694877607498037915, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
-      propertyPath: minCountOfRodsOnDestroy
-      value: 1
+      propertyPath: onDestroy.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -5694877607498037915, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
       propertyPath: maxCountOfRodsOnDestroy
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -5694877607498037915, guid: 157fcff274a3644448d1ff3bdc019619,
+        type: 3}
+      propertyPath: minCountOfRodsOnDestroy
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5694877607498037915, guid: 157fcff274a3644448d1ff3bdc019619,
+        type: 3}
+      propertyPath: onDestroy.Array.data[1].prefab
+      value: 
+      objectReference: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
+        type: 3}
+    - target: {fileID: -5694877607498037915, guid: 157fcff274a3644448d1ff3bdc019619,
+        type: 3}
+      propertyPath: onDeconstruct.Array.data[0].prefab
+      value: 
+      objectReference: {fileID: 3024028113330201771, guid: d2f2400aac0da54468da76680579c29b,
+        type: 3}
+    - target: {fileID: -5694877607498037915, guid: 157fcff274a3644448d1ff3bdc019619,
+        type: 3}
+      propertyPath: onDestroy.Array.data[1].maxCountOnDestroy
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5694877607498037915, guid: 157fcff274a3644448d1ff3bdc019619,
+        type: 3}
+      propertyPath: onDestroy.Array.data[1].minCountOnDestroy
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2373824299144082348, guid: 157fcff274a3644448d1ff3bdc019619,
+        type: 3}
+      propertyPath: ChangeSprites
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1946156532474512604, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
@@ -34,26 +66,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0eaa4bbd38a1e5c4c87cebd272c83366,
         type: 2}
-    - target: {fileID: 2503472526692704667, guid: 157fcff274a3644448d1ff3bdc019619,
-        type: 3}
-      propertyPath: HeatResistance
-      value: 1600
-      objectReference: {fileID: 0}
-    - target: {fileID: 2503472526692704667, guid: 157fcff274a3644448d1ff3bdc019619,
-        type: 3}
-      propertyPath: initialIntegrity
-      value: 75
-      objectReference: {fileID: 0}
-    - target: {fileID: 2503472526692704667, guid: 157fcff274a3644448d1ff3bdc019619,
-        type: 3}
-      propertyPath: Armor.Melee
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 2503472526692704667, guid: 157fcff274a3644448d1ff3bdc019619,
-        type: 3}
-      propertyPath: Armor.Bomb
-      value: 25
-      objectReference: {fileID: 0}
     - target: {fileID: 2503472526692704667, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
       propertyPath: Armor.Bio
@@ -66,23 +78,48 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2503472526692704667, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
+      propertyPath: Armor.Bomb
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2503472526692704667, guid: 157fcff274a3644448d1ff3bdc019619,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 2503472526692704667, guid: 157fcff274a3644448d1ff3bdc019619,
+        type: 3}
+      propertyPath: HeatResistance
+      value: 1600
+      objectReference: {fileID: 0}
+    - target: {fileID: 2503472526692704667, guid: 157fcff274a3644448d1ff3bdc019619,
+        type: 3}
       propertyPath: damageDeflection
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2503472526692704667, guid: 157fcff274a3644448d1ff3bdc019619,
+        type: 3}
+      propertyPath: initialIntegrity
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 3210787376857357156, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: c80393b4412660b41937e05425ceb921
+      objectReference: {fileID: 0}
+    - target: {fileID: 4465088301726249270, guid: 157fcff274a3644448d1ff3bdc019619,
+        type: 3}
+      propertyPath: initialName
+      value: reinforced window
       objectReference: {fileID: 0}
     - target: {fileID: 4465088301726249270, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
       propertyPath: initialDescription
       value: A window that is reinforced with metal rods.
       objectReference: {fileID: 0}
-    - target: {fileID: 4465088301726249270, guid: 157fcff274a3644448d1ff3bdc019619,
+    - target: {fileID: 6433222861398829276, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
-      propertyPath: initialName
-      value: reinforced window
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6433222861398829276, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
@@ -97,31 +134,6 @@ PrefabInstance:
     - target: {fileID: 6433222861398829276, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6433222861398829276, guid: 157fcff274a3644448d1ff3bdc019619,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6433222861398829276, guid: 157fcff274a3644448d1ff3bdc019619,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6433222861398829276, guid: 157fcff274a3644448d1ff3bdc019619,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6433222861398829276, guid: 157fcff274a3644448d1ff3bdc019619,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6433222861398829276, guid: 157fcff274a3644448d1ff3bdc019619,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6433222861398829276, guid: 157fcff274a3644448d1ff3bdc019619,
@@ -150,10 +162,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: b55914c312633d843934330df6c731b9,
         type: 3}
+    - target: {fileID: 7936252890283790415, guid: 157fcff274a3644448d1ff3bdc019619,
+        type: 3}
+      propertyPath: foreverID
+      value: c80393b4412660b41937e05425ceb921
+      objectReference: {fileID: 0}
     - target: {fileID: 8211889008010393860, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
       propertyPath: IsFixedMatrix
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9143203722852423802, guid: 157fcff274a3644448d1ff3bdc019619, type: 3}
+    - {fileID: 992935627982901909, guid: 157fcff274a3644448d1ff3bdc019619, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 157fcff274a3644448d1ff3bdc019619, type: 3}

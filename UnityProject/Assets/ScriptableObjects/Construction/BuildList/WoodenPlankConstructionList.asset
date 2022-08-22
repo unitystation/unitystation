@@ -16,7 +16,7 @@ MonoBehaviour:
   - name: Wooden Chair
     prefab: {fileID: 5346880051612449098, guid: ce971a77eb7c2894e8583efec1c56965,
       type: 3}
-    cost: 1
+    cost: 3
     buildTime: 1
     spawnAmount: 1
     onePerTile: 1
@@ -61,6 +61,33 @@ MonoBehaviour:
     onePerTile: 1
   - name: Ore Box
     prefab: {fileID: 8309667075700373638, guid: f5de2b6011113f0469b27cd8289f2d8b,
+      type: 3}
+    cost: 4
+    buildTime: 5
+    spawnAmount: 1
+    onePerTile: 1
+  - name: Wooden Crate
+    prefab: {fileID: 6829341300379324721, guid: 6ecb8b1a0d8d9184fa74bdd3c7ded42d,
+      type: 3}
+    cost: 6
+    buildTime: 5
+    spawnAmount: 1
+    onePerTile: 1
+  - name: Drying Rack
+    prefab: {fileID: 6385563160038612826, guid: eb544c62ea86cf24f8a88cdcd1ed8d70,
+      type: 3}
+    cost: 10
+    buildTime: 5
+    spawnAmount: 1
+    onePerTile: 1
+  - name: Wooden Barrel
+    prefab: {fileID: 1239712576668220, guid: db8717f3f2a8a4170a0d870dcc9662e1, type: 3}
+    cost: 8
+    buildTime: 5
+    spawnAmount: 1
+    onePerTile: 1
+  - name: Wooden Airlock Assembly
+    prefab: {fileID: 8253473784596383832, guid: 00e4cb42a21df154c8608a588271cf86,
       type: 3}
     cost: 4
     buildTime: 5

@@ -9,13 +9,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2885894583948305796, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
-      propertyPath: initialDescription
-      value: These seeds grow into ambrosia deus. Could it be the food of the gods..?
+      propertyPath: initialName
+      value: pack of ambrosia deus seeds
       objectReference: {fileID: 0}
     - target: {fileID: 2885894583948305796, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
-      propertyPath: initialName
-      value: pack of ambrosia deus seeds
+      propertyPath: initialDescription
+      value: These seeds grow into ambrosia deus. Could it be the food of the gods..?
       objectReference: {fileID: 0}
     - target: {fileID: 3175230141867407802, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
@@ -27,6 +27,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AmbrosiaDeusSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 3383005144942638994, guid: 2018cb5a1d387c147a97f2913eafeb21,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3383005144942638994, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
@@ -45,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3383005144942638994, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3383005144942638994, guid: 2018cb5a1d387c147a97f2913eafeb21,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -57,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3383005144942638994, guid: 2018cb5a1d387c147a97f2913eafeb21,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3383005144942638994, guid: 2018cb5a1d387c147a97f2913eafeb21,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3383005144942638994, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
@@ -86,25 +86,19 @@ PrefabInstance:
     - target: {fileID: 3419761509658900306, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 3b4af1b581ee3ab48b2ad693596cd29c
       objectReference: {fileID: 0}
     - target: {fileID: 4115571638675279967, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.data[0]
-      value: 
-      objectReference: {fileID: 9122989393151911348, guid: 34a11862539658743b96c2c59b31a717,
-        type: 3}
+      propertyPath: plantData.PlantName
+      value: Ambrosia Deus
+      objectReference: {fileID: 0}
     - target: {fileID: 4115571638675279967, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
       propertyPath: plantData.ProduceObject
       value: 
       objectReference: {fileID: 7977172695244846685, guid: 63994efa92f0a844eb9ca8ce5ef44efc,
         type: 3}
-    - target: {fileID: 4115571638675279967, guid: 2018cb5a1d387c147a97f2913eafeb21,
-        type: 3}
-      propertyPath: plantData.PlantName
-      value: Ambrosia Deus
-      objectReference: {fileID: 0}
     - target: {fileID: 4115571638675279967, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
       propertyPath: plantData.FullyGrownSpriteSO
@@ -147,6 +141,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6c795c30182094640bfbe044105d9244,
         type: 2}
+    - target: {fileID: 4115571638675279967, guid: 2018cb5a1d387c147a97f2913eafeb21,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.data[0]
+      value: 
+      objectReference: {fileID: 9122989393151911348, guid: 34a11862539658743b96c2c59b31a717,
+        type: 3}
+    - target: {fileID: 8528659381788608139, guid: 2018cb5a1d387c147a97f2913eafeb21,
+        type: 3}
+      propertyPath: foreverID
+      value: 3b4af1b581ee3ab48b2ad693596cd29c
+      objectReference: {fileID: 0}
     - target: {fileID: 8910165527630524769, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
       propertyPath: PresentSpriteSet

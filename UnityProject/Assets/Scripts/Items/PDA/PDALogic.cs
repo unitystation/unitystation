@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Systems.Clearance;
 using UnityEngine;
 using Mirror;
 using NaughtyAttributes;
 using Random = UnityEngine.Random;
 using UI.Action;
 using AddressableReferences;
+using UI.Items.PDA;
 
 namespace Items.PDA
 {
@@ -14,7 +16,11 @@ namespace Items.PDA
 	[RequireComponent(typeof(ItemLightControl))]
 	[RequireComponent(typeof(ItemAttributesV2))]
 	[RequireComponent(typeof(PDANotesNetworkHandler))]
-	public class PDALogic : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<InventoryApply>, IServerInventoryMove
+	public class PDALogic : NetworkBehaviour,
+		ICheckedInteractable<HandApply>,
+		ICheckedInteractable<InventoryApply>,
+		IServerInventoryMove,
+		IClearanceProvider
 	{
 		// TODO: consider moving uplink code into its own class (perhaps compatible with pen, headset uplinks)
 
@@ -51,6 +57,8 @@ namespace Items.PDA
 		[BoxGroup("GUI")]
 		public int OVERLAY;
 
+		public GUI_PDA PDAGui;
+
 		[Tooltip("How long the delay before the owner is informed of the uplink code " +
 			"(intedned to reduce information overload - likely just received objectives)")]
 		[SerializeField, BoxGroup("Uplink"), Range(0, 60)]
@@ -69,12 +77,13 @@ namespace Items.PDA
 
 		// GameObject attached components
 		private Pickupable pickupable;
-		private ItemStorage storage;
+		public ItemStorage storage {get; private set;}
 		private ItemLightControl flashlight;
 		private ItemActionButton actionButton;
 
 		/// <summary> The IDCard that is currently inserted into the PDA </summary>
-		public IDCard IDCard { get; private set; }
+		private IDCard IDCard;
+
 		/// <summary> The name of the currently registered player (since the last PDA reset) </summary>
 		public string RegisteredPlayerName { get; private set; }
 		public AddressableAudioSource Ringtone { get; private set; }
@@ -93,9 +102,6 @@ namespace Items.PDA
 
 		private ItemSlot IDSlot = default;
 		private ItemSlot CartridgeSlot = default;
-
-		//The actual list of access allowed set via the server and synced to all clients
-		private readonly SyncListInt accessSyncList = new SyncListInt();
 
 		#region Lifecycle
 
@@ -143,7 +149,7 @@ namespace Items.PDA
 			if (RegisteredPlayerName != default) return; // PDA already registered to someone
 			if (info.ToRootPlayer == null) return; // PDA was not added to player
 
-			ConnectedPlayer pickedUpBy = info.ToRootPlayer.gameObject.Player();
+			PlayerInfo pickedUpBy = info.ToRootPlayer.gameObject.Player();
 			RegisterTo(pickedUpBy);
 
 			if (debugUplink)
@@ -152,7 +158,7 @@ namespace Items.PDA
 			}
 		}
 
-		private void RegisterTo(ConnectedPlayer player)
+		private void RegisterTo(PlayerInfo player)
 		{
 			RegisteredPlayerName = player.Script.playerName;
 			gameObject.name = $"{player.Script.playerName}'s PDA ({player.Script.mind.occupation.DisplayName})";
@@ -177,7 +183,7 @@ namespace Items.PDA
 		public void ResetPDA()
 		{
 			if (RegisteredPlayerName == default ||
-					IDSlot.IsOccupied && IDCard.RegisteredName == RegisteredPlayerName)
+					IDSlot.IsOccupied && GetIDCard().RegisteredName == RegisteredPlayerName)
 			{
 				if (willResetName)
 				{
@@ -197,7 +203,7 @@ namespace Items.PDA
 			}
 		}
 
-		private ConnectedPlayer GetPlayerByParentInventory()
+		private PlayerInfo GetPlayerByParentInventory()
 		{
 			if (pickupable.ItemSlot == null) return default;
 
@@ -233,7 +239,7 @@ namespace Items.PDA
 		{
 			GameObject sourceObject = gameObject;
 
-			ConnectedPlayer player = GetPlayerByParentInventory();
+			PlayerInfo player = GetPlayerByParentInventory();
 			if (player != null)
 			{
 				sourceObject = player.GameObject;
@@ -247,7 +253,7 @@ namespace Items.PDA
 			var player = GetPlayerByParentInventory();
 			if (player == null) return;
 
-			SoundManager.PlayNetworkedForPlayerAtPos(player.GameObject, player.Script.WorldPos, soundName, sourceObj: player.GameObject);
+			_ = SoundManager.PlayNetworkedForPlayerAtPos(player.GameObject, player.Script.WorldPos, soundName, sourceObj: player.GameObject);
 		}
 
 		#endregion Sounds
@@ -269,10 +275,13 @@ namespace Items.PDA
 			if (interaction.IsAltClick && IDSlot.IsOccupied)
 			{
 				EjectIDCard();
+				Chat.AddActionMsgToChat(gameObject, "You eject the ID from the PDA.",
+					$"{interaction.Performer.ExpensiveName()} ejects an ID from the {gameObject.ExpensiveName()}");
 				return;
 			}
 
 			ServerInsertItem(interaction.UsedObject, interaction.HandSlot, interaction.Performer);
+			Chat.AddActionMsgToChat(gameObject, "You insert the ID inside the PDA.", $"{interaction.Performer.ExpensiveName()} inserts an ID into the {gameObject.ExpensiveName()}");
 		}
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
@@ -344,14 +353,23 @@ namespace Items.PDA
 				{
 					var quantity = item.GetComponent<Stackable>().Amount;
 					UplinkTC +=  quantity;
-					Despawn.ServerSingle(item);
+					_ = Despawn.ServerSingle(item);
 
 					var uplinkMessage =
 						$"You press the Telecrystal{(quantity == 1 ? "" : "s")} into the screen of your {this.gameObject.ExpensiveName()}\n" +
 						$"After a moment it disappears, your Telecrystal counter ticks up a second later";
 
 					Chat.AddExamineMsgFromServer(player, uplinkMessage);
+					UpdateTCCountGui();
 				}
+			}
+		}
+
+		public void UpdateTCCountGui()
+		{
+			if (PDAGui)
+			{
+				PDAGui.uplinkPage.UpdateTCCounter();
 			}
 		}
 
@@ -365,7 +383,7 @@ namespace Items.PDA
 		/// <param name="informPlayer">The player that will be informed the code to the PDA uplink</param>
 		/// <param name="tcCount">The amount of telecrystals to add to the uplink.</param>
 		/// <param name="isNukie">Determines if the uplink can purchase nukeop exclusive items</param>
-		public void InstallUplink(ConnectedPlayer informPlayer, int tcCount, bool isNukie)
+		public void InstallUplink(PlayerInfo informPlayer, int tcCount, bool isNukie)
 		{
 			UplinkTC = tcCount; // Add; if uplink installed again (e.g. via admin tools (player request more TC)).
 			UplinkUnlockCode = GenerateUplinkUnlockCode();
@@ -377,26 +395,22 @@ namespace Items.PDA
 
 		private string GenerateUplinkUnlockCode()
 		{
-			var code = "";
 			var codeList = UplinkPasswordList.Instance.WordList;
-			for (int i = 0; i < 3; i++)
-			{
-				string word = codeList[Random.Range(0, codeList.Count)];
-				code += word;
-			}
+
+			string code = codeList[Random.Range(0, codeList.Count)];
 
 			string nums = Random.Range(111, 999).ToString();
-			return code += nums;
+			return code + nums;
 		}
 
-		private IEnumerator DelayInformUplinkCode(ConnectedPlayer forPlayer)
+		private IEnumerator DelayInformUplinkCode(PlayerInfo forPlayer)
 		{
 			// We delay the uplink code inform to reduce information overload (player was likely just given objectives)
 			yield return WaitFor.Seconds(informUplinkCodeDelay);
 			InformUplinkCode(forPlayer);
 		}
 
-		private void InformUplinkCode(ConnectedPlayer player)
+		private void InformUplinkCode(PlayerInfo player)
 		{
 			var uplinkMessage =
 					$"{(debugUplink ? "<b>UPLINK DEBUGGING ENABLED: </b>" : "")}" +
@@ -436,7 +450,7 @@ namespace Items.PDA
 
 			if (cost > UplinkTC) return;
 
-			var result = Spawn.ServerPrefab(objectRequested);
+			var result = Spawn.ServerPrefab(objectRequested,GetComponent<Pickupable>().ItemSlot.Player.WorldPosition, PrePickRandom: true);
 			if (result.Successful)
 			{
 				UplinkTC -= cost;
@@ -458,7 +472,7 @@ namespace Items.PDA
 
 				if (RegisteredPlayerName == default)
 				{
-					RegisterTo(IDCard.RegisteredName);
+					RegisterTo(GetIDCard().RegisteredName);
 				}
 			}
 
@@ -480,7 +494,7 @@ namespace Items.PDA
 			var bestSlot = GetBestSlot(slot.ItemObject);
 			if (!Inventory.ServerTransfer(slot, bestSlot))
 			{
-				Inventory.ServerDrop(IDSlot);
+				Inventory.ServerDrop(slot);
 			}
 		}
 
@@ -492,7 +506,7 @@ namespace Items.PDA
 				return default;
 			}
 
-			var playerStorage = player.Script.ItemStorage;
+			var playerStorage = player.Script.DynamicItemStorage;
 			return playerStorage.GetBestHandOrSlotFor(item);
 		}
 
@@ -501,33 +515,27 @@ namespace Items.PDA
 		#region IDAccess
 		// All these methods handle ID card access, should only be ran server side because we cant trust client
 
-		[Server]
-		public bool HasAccess(Access access)
+		/// <summary>
+		/// Returns null if empty. Clientside only works if the player holds the PDA in their inventory.
+		/// </summary>
+		public IDCard GetIDCard()
 		{
-			return accessSyncList.Contains((int)access);
+			if (isServer)
+			{
+				return IDCard;
+			}
+			else
+			{
+				if (IDSlot.Item && IDSlot.Item.TryGetComponent<IDCard>(out var insertedID))
+				{
+					return insertedID;
+				}
+			}
+			return null;
 		}
 
-		[Server]
-		public SyncListInt AccessList()
-		{
-			return accessSyncList;
-		}
-
-		// Removes the indicated access from this IDCard
-		[Server]
-		public void ServerRemoveAccess(Access access)
-		{
-			if (!HasAccess(access)) return;
-			accessSyncList.Remove((int)access);
-		}
-
-		// Adds the indicated access to this IDCard
-		[Server]
-		public void ServerAddAccess(Access access)
-		{
-			if (HasAccess(access)) return;
-			accessSyncList.Add((int)access);
-		}
+		// All the methods above will be obsolete as soon as we migrate
+		public IEnumerable<Clearance> GetClearance => GetIDCard().OrNull()?.GetComponent<IClearanceProvider>()?.GetClearance;
 
 		#endregion IDAccess
 	}

@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: ai-matrix_31
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -119,6 +119,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -128,8 +130,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -150,9 +152,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -863,6 +869,39 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      ai-matrix_0: 21300000
+      ai-matrix_12: 21300024
+      ai-matrix_7: 21300014
+      ai-matrix_9: 21300018
+      ai-matrix_28: 21300056
+      ai-matrix_19: 21300038
+      ai-matrix_1: 21300002
+      ai-matrix_4: 21300008
+      ai-matrix_11: 21300022
+      ai-matrix_25: 21300050
+      ai-matrix_22: 21300044
+      ai-matrix_16: 21300032
+      ai-matrix_26: 21300052
+      ai-matrix_14: 21300028
+      ai-matrix_27: 21300054
+      ai-matrix_5: 21300010
+      ai-matrix_17: 21300034
+      ai-matrix_3: 21300006
+      ai-matrix_2: 21300004
+      ai-matrix_8: 21300016
+      ai-matrix_23: 21300046
+      ai-matrix_20: 21300040
+      ai-matrix_15: 21300030
+      ai-matrix_10: 21300020
+      ai-matrix_13: 21300026
+      ai-matrix_30: 21300060
+      ai-matrix_6: 21300012
+      ai-matrix_21: 21300042
+      ai-matrix_18: 21300036
+      ai-matrix_29: 21300058
+      ai-matrix_24: 21300048
+      ai-matrix_31: 21300062
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

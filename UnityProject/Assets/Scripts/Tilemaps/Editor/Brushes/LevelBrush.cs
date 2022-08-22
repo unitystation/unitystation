@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEditor.Tilemaps;
 using Random = UnityEngine.Random;
-
+using Tiles;
 
 [CustomGridBrush(false, true, true, "Level Brush")]
 public class LevelBrush : GridBrush
@@ -83,7 +83,7 @@ public class LevelBrush : GridBrush
 		{
 			if (metaTileMap)
 			{
-				metaTileMap.RemoveTile(position,  false);
+				metaTileMap.RemoveTile(position);
 			}
 			else
 			{
@@ -94,7 +94,7 @@ public class LevelBrush : GridBrush
 
 	public override void Flip(FlipAxis flip, GridLayout.CellLayout layout)
 	{
-		if (Event.current.character == '>')
+		if (UnityEngine.Event.current.character == '>')
 		{
 			// TODO flip?
 		}

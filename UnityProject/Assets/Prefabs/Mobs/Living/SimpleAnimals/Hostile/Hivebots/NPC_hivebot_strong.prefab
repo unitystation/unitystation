@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: 4215125423003293217, guid: d4a3f41d96f2c4143b8556508db41c57,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: e007b4548279217449b704355d9e112b
       objectReference: {fileID: 0}
     - target: {fileID: 4316376699312728761, guid: d4a3f41d96f2c4143b8556508db41c57,
         type: 3}
@@ -35,26 +35,6 @@ PrefabInstance:
     - target: {fileID: 4316376699312728761, guid: d4a3f41d96f2c4143b8556508db41c57,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4316376699312728761, guid: d4a3f41d96f2c4143b8556508db41c57,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4316376699312728761, guid: d4a3f41d96f2c4143b8556508db41c57,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4316376699312728761, guid: d4a3f41d96f2c4143b8556508db41c57,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4316376699312728761, guid: d4a3f41d96f2c4143b8556508db41c57,
-        type: 3}
-      propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4316376699312728761, guid: d4a3f41d96f2c4143b8556508db41c57,
@@ -95,12 +75,12 @@ PrefabInstance:
     - target: {fileID: 6462627854477596711, guid: d4a3f41d96f2c4143b8556508db41c57,
         type: 3}
       propertyPath: armor.Bomb
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6462627854477596711, guid: d4a3f41d96f2c4143b8556508db41c57,
         type: 3}
       propertyPath: armor.Fire
-      value: 50
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 6462627854477596711, guid: d4a3f41d96f2c4143b8556508db41c57,
         type: 3}
@@ -125,7 +105,12 @@ PrefabInstance:
     - target: {fileID: 6686420084488877669, guid: d4a3f41d96f2c4143b8556508db41c57,
         type: 3}
       propertyPath: armor.Bomb
-      value: 0
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6686420084488877669, guid: d4a3f41d96f2c4143b8556508db41c57,
+        type: 3}
+      propertyPath: armor.Fire
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 6686420084488877669, guid: d4a3f41d96f2c4143b8556508db41c57,
         type: 3}
@@ -175,5 +160,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: d48358e3232608f4797959034c02d878,
         type: 3}
+    - target: {fileID: 8803086511187690037, guid: d4a3f41d96f2c4143b8556508db41c57,
+        type: 3}
+      propertyPath: maxHealth
+      value: 80
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4a3f41d96f2c4143b8556508db41c57, type: 3}

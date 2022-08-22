@@ -13,6 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1195980258585240782, guid: 71b6b53819674ac499ee6dfcbaa14b73,
         type: 3}
+    - target: {fileID: 1150929257099711787, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 1195980258585240782, guid: 71b6b53819674ac499ee6dfcbaa14b73,
+        type: 3}
     - target: {fileID: 2980378721179210927, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -36,6 +42,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -51,6 +62,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +79,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4063908537020457331, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
@@ -97,7 +103,7 @@ PrefabInstance:
     - target: {fileID: 4170985198274634163, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0ce99ba5ac47e8e4f96313267983218a
       objectReference: {fileID: 0}
     - target: {fileID: 4217498956441677659, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
@@ -105,25 +111,41 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: fb5cf8cd620f1434c8d5954ac03aa2b7,
         type: 3}
-    - target: {fileID: 4511480774014382949, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+    - target: {fileID: 4217498956441677659, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
-      propertyPath: initialDescription
-      value: Delicious, cheesy and surprisingly filling.
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4511480774014382949, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
       propertyPath: initialName
       value: Pizza-pocket
       objectReference: {fileID: 0}
+    - target: {fileID: 4511480774014382949, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
+      propertyPath: initialDescription
+      value: Delicious, cheesy and surprisingly filling.
+      objectReference: {fileID: 0}
     - target: {fileID: 5305569483102412407, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
       propertyPath: NutritionLevel
       value: 154
       objectReference: {fileID: 0}
+    - target: {fileID: 5305569483102412407, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 154
+      objectReference: {fileID: 0}
+    - target: {fileID: 6975192418094665834, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
+      propertyPath: foreverID
+      value: 0ce99ba5ac47e8e4f96313267983218a
+      objectReference: {fileID: 0}
     - target: {fileID: 7867923100964153216, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 10c8ee6c6dfa73948a4a9ea6f6f20c51,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792, type: 3}

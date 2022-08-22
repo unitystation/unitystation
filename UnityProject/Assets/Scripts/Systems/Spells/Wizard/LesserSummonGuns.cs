@@ -28,7 +28,7 @@ namespace Systems.Spells.Wizard
 		[SerializeField, BoxGroup("Settings"), Range(0, 1)]
 		private float timeBetweenPortals = 0.3f;
 
-		public override bool CastSpellServer(ConnectedPlayer caster)
+		public override bool CastSpellServer(PlayerInfo caster)
 		{
 			StartCoroutine(SpawnPortals(caster.Script.WorldPos));
 
@@ -53,13 +53,13 @@ namespace Systems.Spells.Wizard
 			SoundManager.PlayNetworkedAtPos(LesserSummonGunsSFX, position);
 		}
 
-		private bool SpawnGunInHand(ConnectedPlayer caster)
+		private bool SpawnGunInHand(PlayerInfo caster)
 		{
 			SpawnResult result = Spawn.ServerPrefab(gunPrefab, caster.Script.WorldPos);
 			if (result.Successful)
 			{
 				GameObject gun = result.GameObject;
-				ItemSlot bestSlot = caster.Script.ItemStorage.GetBestHandOrSlotFor(gun);
+				ItemSlot bestSlot = caster.Script.DynamicItemStorage.GetBestHandOrSlotFor(gun);
 				Inventory.ServerAdd(gun, bestSlot);
 
 				return true;

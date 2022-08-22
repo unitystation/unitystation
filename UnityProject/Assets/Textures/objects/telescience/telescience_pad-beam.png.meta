@@ -59,6 +59,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -68,8 +70,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -90,9 +92,12 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
@@ -138,7 +143,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 77b935ba72f732fa0800000000000000
-      internalID: -5826673684532454537
+      internalID: 21300000
       vertices: []
       indices: 
       edges: []
@@ -159,7 +164,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9ebf7a0fc18b36100800000000000000
-      internalID: 100126051168418793
+      internalID: 21300002
       vertices: []
       indices: 
       edges: []
@@ -180,7 +185,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c24b26f514ab6f090800000000000000
-      internalID: -8001002898041162708
+      internalID: 21300004
       vertices: []
       indices: 
       edges: []
@@ -201,7 +206,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c9984a878cfa06670800000000000000
-      internalID: 8530010969792088476
+      internalID: 21300006
       vertices: []
       indices: 
       edges: []
@@ -222,7 +227,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0377e48fb4e344dc0800000000000000
-      internalID: -3655728501508638928
+      internalID: 21300008
       vertices: []
       indices: 
       edges: []
@@ -279,6 +284,14 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      pad-beam_1: 21300002
+      pad-beam_0: 21300000
+      pad-beam_2: 21300004
+      pad-beam_3: 21300006
+      pad-beam_4: 21300008
+      pad-beam_6: 4939174673231444950
+      pad-beam_5: -4449821318475876358
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

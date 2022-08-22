@@ -8,7 +8,7 @@ using UnityEngine;
 /// This is used to contain data about the basic rendering of a body part.
 /// It will have info about what to render when there's no limb, the position of the rendering, etc.
 /// </summary>
-public class BodyPartSprites : NetworkBehaviour
+public class BodyPartSprites : MonoBehaviour
 {
 	[SerializeField] public SpriteHandler baseSpriteHandler;
 
@@ -16,28 +16,39 @@ public class BodyPartSprites : NetworkBehaviour
 
 	public SpriteRenderer spriteRenderer;
 
-	public CharacterSettings ThisCharacter;
+	public CharacterSheet ThisCharacter;
 
 	public SpriteOrder SpriteOrder;
 
 	public ClothingHideFlags ClothingHide;
 
-	[SyncVar(hook = nameof(UpdateData))]
-	private string Data;
+	public string Data;
 
-	public void UpdateData(string InOld, string InNew)
+	public int referenceOffset = 0;
+
+
+	public void UpdateData(string InNew)
 	{
+		if (string.IsNullOrEmpty(InNew)) return;
 		Data = InNew;
-		if (CustomNetworkManager.Instance._isServer) return;
 		SpriteOrder = JsonConvert.DeserializeObject<SpriteOrder>(Data);
 		SpriteOrder.Orders.RemoveRange(0, 4);
+		if (SpriteOrder != null)
+		{
+			if (SpriteOrder.Orders.Count > referenceOffset)
+			{
+				spriteRenderer.sortingOrder = SpriteOrder.Orders[referenceOffset];
+			}
+		}
+		if (baseSpriteHandler == null) return;
+		baseSpriteHandler.ChangeSpriteVariant(referenceOffset, false);
 	}
 
-	public virtual void UpdateSpritesForImplant(BodyPart implant,ClothingHideFlags INClothingHide, SpriteDataSO Sprite, RootBodyPartContainer rootBodyPartContainer, SpriteOrder _SpriteOrder = null)
+	public virtual void UpdateSpritesForImplant(BodyPart implant,ClothingHideFlags INClothingHide, SpriteDataSO Sprite, SpriteOrder _SpriteOrder = null)
 	{
 		if (baseSpriteHandler == null) return;
 		ClothingHide = INClothingHide;
-		UpdateData("", JsonConvert.SerializeObject(_SpriteOrder));
+		UpdateData( JsonConvert.SerializeObject(_SpriteOrder));
 		//baseSpriteHandler.name = baseSpriteHandler.name + implant.name;
 		baseSpriteHandler.SetSpriteSO(Sprite, Color.white);
 		SpriteOrder = _SpriteOrder;
@@ -48,29 +59,36 @@ public class BodyPartSprites : NetworkBehaviour
 				spriteRenderer.sortingOrder = SpriteOrder.Orders[0];
 			}
 		}
+		baseSpriteHandler.ChangeSpriteVariant(referenceOffset, false);
 	}
 
-	public virtual void OnDirectionChange(Orientation direction)
+
+	public virtual void SetName(string Name)
+	{
+		gameObject.name = Name;
+		baseSpriteHandler.name = Name;
+	}
+	public virtual void OnDirectionChange(OrientationEnum direction)
 	{
 
-		int referenceOffset = 0;
+		referenceOffset = 0;
 
-		if (direction == Orientation.Down)
+		if (direction == OrientationEnum.Down_By180)
 		{
 			referenceOffset = 0;
 		}
 
-		if (direction == Orientation.Up)
+		if (direction == OrientationEnum.Up_By0)
 		{
 			referenceOffset = 1;
 		}
 
-		if (direction == Orientation.Right)
+		if (direction == OrientationEnum.Right_By270)
 		{
 			referenceOffset = 2;
 		}
 
-		if (direction == Orientation.Left)
+		if (direction == OrientationEnum.Left_By90)
 		{
 			referenceOffset = 3;
 		}
@@ -83,7 +101,10 @@ public class BodyPartSprites : NetworkBehaviour
 			}
 		}
 
-		baseSpriteHandler.ChangeSpriteVariant(referenceOffset);
+		//Not networked so don't run sprite change on headless
+		if (CustomNetworkManager.IsHeadless) return;
+
+		baseSpriteHandler.ChangeSpriteVariant(referenceOffset, false);
 	}
 
 

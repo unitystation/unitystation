@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using HealthV2;
 using UnityEngine;
 using UI.Objects.Medical;
 using Random = UnityEngine.Random;
+using Health.Sickness;
 
 namespace Objects.Medical
 {
@@ -16,11 +16,11 @@ namespace Objects.Medical
 	{
 		private List<CloningRecord> cloningRecords = new List<CloningRecord>();
 
-		private DNAscanner scanner;
+		private DNAScanner scanner;
 		/// <summary>
 		/// Scanner this is attached to. Null if none found.
 		/// </summary>
-		public DNAscanner Scanner => scanner;
+		public DNAScanner Scanner => scanner;
 
 		private CloningPod cloningPod;
 		/// <summary>
@@ -30,6 +30,7 @@ namespace Objects.Medical
 
 		private GUI_Cloning consoleGUI;
 		private RegisterTile registerTile;
+		private ClosetControl closet;
 
 		/// <summary>
 		/// Saved cloning records.
@@ -39,17 +40,18 @@ namespace Objects.Medical
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
+			closet = GetComponent<ClosetControl>();
 		}
-
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			scanner = null;
 			cloningPod = null;
 			consoleGUI = null;
+
 			//TODO: Support persistance of this info somewhere, such as to a circuit board.
 			//scan for adjacent dna scanner and cloning pod
-			scanner = MatrixManager.GetAdjacent<DNAscanner>(registerTile.WorldPositionServer, true).FirstOrDefault();
+			scanner = MatrixManager.GetAdjacent<DNAScanner>(registerTile.WorldPositionServer, true).FirstOrDefault();
 			cloningPod = MatrixManager.GetAdjacent<CloningPod>(registerTile.WorldPositionServer, true).FirstOrDefault();
 
 			if (cloningPod)
@@ -68,10 +70,10 @@ namespace Objects.Medical
 				UpdateInoperableStatus();
 				return;
 			}
-			if (scanner.IsClosed)
+			if (closet.IsOpen == false)
 			{
-				scanner.ServerToggleLocked();
-				scanner.statusString = scanner.IsLocked ? "Scanner locked." : "Scanner unlocked.";
+				closet.SetLock(closet.IsLocked ? ClosetControl.Lock.Unlocked : ClosetControl.Lock.Locked);
+				scanner.statusString = closet.IsLocked ? "Scanner locked." : "Scanner unlocked.";
 			}
 			else
 			{
@@ -88,16 +90,18 @@ namespace Objects.Medical
 				UpdateInoperableStatus();
 				return;
 			}
+
 			if (scanner.occupant)
 			{
 				var mob = scanner.occupant;
 				var mobID = scanner.occupant.mobID;
 				var playerScript = mob.GetComponent<PlayerScript>();
-				if (playerScript?.mind?.bodyMobID != mobID)
+				if (playerScript.OrNull()?.mind?.bodyMobID != mobID)
 				{
 					scanner.statusString = "Bad mind/body interface.";
 					return;
 				}
+
 				for (int i = 0; i < cloningRecords.Count; i++)
 				{
 					var record = cloningRecords[i];
@@ -108,6 +112,7 @@ namespace Objects.Medical
 						return;
 					}
 				}
+
 				CreateRecord(mob, playerScript);
 				scanner.statusString = "Subject successfully scanned.";
 			}
@@ -124,10 +129,16 @@ namespace Objects.Medical
 
 		private void UpdateInoperableStatus()
 		{
-			if (!scanner.RelatedAPC)
-				scanner.statusString = "Scanner not connected to APC.";
-			else if (!scanner.Powered)
-				scanner.statusString = "Voltage too low.";
+			if (scanner.RelatedAPC == null)
+			{
+				scanner.statusString = "Scanner not connected to APC!";
+				return;
+			}
+
+			if (scanner.Powered == false)
+			{
+				scanner.statusString = "Voltage too low!";
+			}
 		}
 
 		public void ServerTryClone(CloningRecord record)
@@ -148,10 +159,10 @@ namespace Objects.Medical
 			}
 		}
 
-		private void CreateRecord(LivingHealthMasterBase mob, PlayerScript playerScript)
+		private void CreateRecord(LivingHealthMasterBase livingHealth, PlayerScript playerScript)
 		{
 			var record = new CloningRecord();
-			record.UpdateRecord(mob, playerScript);
+			record.UpdateRecord(livingHealth, playerScript);
 			cloningRecords.Add(record);
 		}
 
@@ -180,26 +191,73 @@ namespace Objects.Medical
 		public float toxinDmg;
 		public float bruteDmg;
 		public string uniqueIdentifier;
-		public CharacterSettings characterSettings;
+		public CharacterSheet characterSettings;
 		public int mobID;
 		public Mind mind;
+		public List<BodyPartRecord> surfaceBodyParts = new List<BodyPartRecord>();
+		public List<string> sicknessList = new List<string>();
 
 		public CloningRecord()
 		{
 			scanID = Random.Range(0, 9999).ToString();
 		}
 
-		public void UpdateRecord(LivingHealthMasterBase mob, PlayerScript playerScript)
+		public void UpdateRecord(LivingHealthMasterBase livingHealth, PlayerScript playerScript)
 		{
-			mobID = mob.mobID;
+			mobID = livingHealth.mobID;
 			mind = playerScript.mind;
 			name = playerScript.playerName;
 			characterSettings = playerScript.characterSettings;
-			oxyDmg = mob.GetOxyDamage();
-			burnDmg = mob.GetTotalBurnDamage();
-			toxinDmg = 0;
-			bruteDmg = mob.GetTotalBruteDamage();
-			uniqueIdentifier = "35562Eb18150514630991";
+			oxyDmg = livingHealth.GetOxyDamage;
+			burnDmg = livingHealth.GetTotalBurnDamage();
+			toxinDmg = livingHealth.GetTotalToxDamage();
+			bruteDmg = livingHealth.GetTotalBruteDamage();
+			uniqueIdentifier = $"{livingHealth.mobID}{playerScript.playerName}".ToHexString();
+			foreach(BodyPart part in livingHealth.SurfaceBodyParts)
+            {
+				BodyPartRecord partRecord = new BodyPartRecord();
+				surfaceBodyParts.Add(partRecord.Copy(part));
+            }
+			foreach(SicknessAffliction sickness in livingHealth.mobSickness.sicknessAfflictions)
+            {
+				sicknessList.Add(sickness.Sickness.SicknessName);
+            }
 		}
 	}
+
+	public class BodyPartRecord
+    {
+		public string name;
+		public decimal brute;
+		public decimal burn;
+		public decimal toxin;
+		public decimal oxygen;
+		public bool isBleeding;
+		public BodyPartType type;
+		public DamageSeverity severity;
+		public List<BodyPartRecord> organs = new List<BodyPartRecord>();
+
+		public BodyPartRecord Copy(BodyPart part)
+        {
+			name = part.gameObject.ExpensiveName();
+			brute = Math.Round((decimal)part.Brute, 1);
+			burn = Math.Round((decimal)part.Burn, 1);
+			toxin = Math.Round((decimal)part.Toxin, 1);
+			oxygen = Math.Round((decimal)part.Oxy, 1);
+			isBleeding = part.IsBleeding;
+			type = part.BodyPartType;
+			severity = part.Severity;
+			for (int i = 0; i < part.ContainBodyParts.Count(); i++)
+			{
+				organs.Add(new BodyPartRecord());
+				organs[i].name = part.ContainBodyParts[i].gameObject.ExpensiveName();
+				organs[i].brute = Math.Round((decimal)part.ContainBodyParts[i].Brute, 1);
+				organs[i].burn = Math.Round((decimal)part.ContainBodyParts[i].Burn, 1);
+				organs[i].toxin = Math.Round((decimal)part.ContainBodyParts[i].Toxin, 1);
+				organs[i].oxygen = Math.Round((decimal)part.ContainBodyParts[i].Oxy, 1);
+				organs[i].isBleeding = part.ContainBodyParts[i].IsBleeding;
+			}
+			return this;
+		}
+    }
 }

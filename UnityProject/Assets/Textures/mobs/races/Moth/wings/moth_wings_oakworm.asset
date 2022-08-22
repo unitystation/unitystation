@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: moth_wings_oakworm
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: -5142484676290032374, guid: 51da3460c6afd1e4d9904b8fdba610e4,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 3408384617906969556, guid: 51da3460c6afd1e4d9904b8fdba610e4,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 4109747125720556225, guid: 51da3460c6afd1e4d9904b8fdba610e4,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -5825679033732681371, guid: 51da3460c6afd1e4d9904b8fdba610e4,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: Oak Worm

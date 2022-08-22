@@ -10,7 +10,7 @@ namespace Messages.Server
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public EVENT EventType;
+			public Event EventType;
 		}
 
 		public override void Process(NetMessage msg)
@@ -21,7 +21,7 @@ namespace Messages.Server
 		/// <summary>
 		/// Send the event message to a specific player.
 		/// </summary>
-		public static NetMessage SendTo(GameObject recipient, EVENT eventType)
+		public static NetMessage SendTo(GameObject recipient, Event eventType)
 		{
 			var msg = CreateMessage(eventType);
 
@@ -32,7 +32,7 @@ namespace Messages.Server
 		/// <summary>
 		/// Send the event message to all players.
 		/// </summary>
-		public static NetMessage SendToAll(EVENT eventType)
+		public static NetMessage SendToAll(Event eventType)
 		{
 			var msg = CreateMessage(eventType);
 
@@ -40,7 +40,7 @@ namespace Messages.Server
 			return msg;
 		}
 
-		private static NetMessage CreateMessage(EVENT eventType)
+		private static NetMessage CreateMessage(Event eventType)
 		{
 			return new NetMessage
 			{

@@ -9,13 +9,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1303968071525807852, guid: c85b28d3e2e443540933f905c954c98d,
         type: 3}
-      propertyPath: initialDescription
-      value: Whose smart idea was it to use toys as crowd control? Ages 18 and up.
+      propertyPath: initialName
+      value: riot foam dart
       objectReference: {fileID: 0}
     - target: {fileID: 1303968071525807852, guid: c85b28d3e2e443540933f905c954c98d,
         type: 3}
-      propertyPath: initialName
-      value: riot foam dart
+      propertyPath: initialDescription
+      value: Whose smart idea was it to use toys as crowd control? Ages 18 and up.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506094094740792570, guid: c85b28d3e2e443540933f905c954c98d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1506094094740792570, guid: c85b28d3e2e443540933f905c954c98d,
         type: 3}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1506094094740792570, guid: c85b28d3e2e443540933f905c954c98d,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506094094740792570, guid: c85b28d3e2e443540933f905c954c98d,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1506094094740792570, guid: c85b28d3e2e443540933f905c954c98d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1506094094740792570, guid: c85b28d3e2e443540933f905c954c98d,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1506094094740792570, guid: c85b28d3e2e443540933f905c954c98d,
         type: 3}
@@ -80,7 +80,7 @@ PrefabInstance:
     - target: {fileID: 1540529183909536826, guid: c85b28d3e2e443540933f905c954c98d,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: da6a3431e038e8042a1797d4de5e23b5
       objectReference: {fileID: 0}
     - target: {fileID: 1586620729596046034, guid: c85b28d3e2e443540933f905c954c98d,
         type: 3}
@@ -94,9 +94,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c0790faf2fe0a3a4d8e5a147634b715d,
         type: 2}
+    - target: {fileID: 5498758106690704867, guid: c85b28d3e2e443540933f905c954c98d,
+        type: 3}
+      propertyPath: foreverID
+      value: da6a3431e038e8042a1797d4de5e23b5
+      objectReference: {fileID: 0}
     - target: {fileID: 8503423773277236794, guid: c85b28d3e2e443540933f905c954c98d,
         type: 3}
       propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 4235057242747518089, guid: 373a003621961ff4db0b4d6d222dbd67,
+        type: 3}
+    - target: {fileID: 8503423773277236794, guid: c85b28d3e2e443540933f905c954c98d,
+        type: 3}
+      propertyPath: initalProjectile
       value: 
       objectReference: {fileID: 4235057242747518089, guid: 373a003621961ff4db0b4d6d222dbd67,
         type: 3}

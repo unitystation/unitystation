@@ -75,7 +75,7 @@ TextureImporter:
       213: 21300046
     second: swarmer_ranged_23
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -95,6 +95,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -104,8 +106,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -126,9 +128,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -671,6 +677,31 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      swarmer_ranged_1: 21300002
+      swarmer_ranged_10: 21300020
+      swarmer_ranged_19: 21300038
+      swarmer_ranged_11: 21300022
+      swarmer_ranged_15: 21300030
+      swarmer_ranged_12: 21300024
+      swarmer_ranged_22: 21300044
+      swarmer_ranged_14: 21300028
+      swarmer_ranged_4: 21300008
+      swarmer_ranged_7: 21300014
+      swarmer_ranged_6: 21300012
+      swarmer_ranged_13: 21300026
+      swarmer_ranged_18: 21300036
+      swarmer_ranged_17: 21300034
+      swarmer_ranged_2: 21300004
+      swarmer_ranged_9: 21300018
+      swarmer_ranged_5: 21300010
+      swarmer_ranged_21: 21300042
+      swarmer_ranged_20: 21300040
+      swarmer_ranged_16: 21300032
+      swarmer_ranged_8: 21300016
+      swarmer_ranged_23: 21300046
+      swarmer_ranged_3: 21300006
+      swarmer_ranged_0: 21300000
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

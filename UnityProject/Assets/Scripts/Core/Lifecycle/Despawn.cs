@@ -1,14 +1,12 @@
-
 using System.Threading.Tasks;
-using Mirror;
 using UnityEngine;
+using Systems.Electricity;
 
 /// <summary>
 /// Main API for despawning objects. If you ever need to despawn something, look here
 /// </summary>
 public static class Despawn
 {
-
 	/// <summary>
 	/// Despawn the specified game object, syncing to all clients. Should only be called
 	/// on networked objects (i.e. ones which have NetworkIdentity component). Despawning removes an
@@ -63,7 +61,7 @@ public static class Despawn
 		}
 
 		var Electrical = info.GameObject.GetComponent<ElectricalOIinheritance>();
-		//TODO: What's the purpose of this?
+		// TODO: What's the purpose of this?
 		if (Electrical != null)
 		{
 			if (!Electrical.InData.DestroyAuthorised)
@@ -75,10 +73,10 @@ public static class Despawn
 
 		_ServerFireDespawnHooks(DespawnResult.Single(info));
 
-		var cnt = info.GameObject.GetComponent<CustomNetTransform>();
-		if (cnt != null)
+		var objectPhysics = info.GameObject.GetComponent<UniversalObjectPhysics>();
+		if (objectPhysics != null)
 		{
-			cnt.DisappearFromWorldServer();
+			objectPhysics.DisappearFromWorld();
 		}
 
 		await Task.Delay(10);
@@ -138,6 +136,8 @@ public static class Despawn
 	/// <param name="result"></param>
 	public static void _ServerFireDespawnHooks(DespawnResult result)
 	{
+		result.GameObject.GetComponent<RegisterTile>().OrNull()?.ChangeActiveState(false);
+
 		//fire server hooks
 		var comps = result.GameObject.GetComponents<IServerDespawn>();
 		if (comps != null)

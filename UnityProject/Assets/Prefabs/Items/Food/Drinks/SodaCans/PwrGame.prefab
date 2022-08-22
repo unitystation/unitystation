@@ -9,9 +9,47 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
         type: 3}
+      propertyPath: initialName
+      value: Pwr Game
+      objectReference: {fileID: 0}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: initialDescription
+      value: The only drink with the PWR that true gamers crave. When a gamer talks
+        about gamerfuel, this is what they're literally referring to.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 849af62a01066ec4e985c3920b530c5b,
+        type: 2}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 1835a609254aa9349bf3cad1ef350f68,
+        type: 2}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
       propertyPath: itemSprites.LeftHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: 6a0cfad37b912934782238044c6f0263, type: 3}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 538be610d84793e4ab6e49880530e35b, type: 3}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 24ea18457d9a0d748841de1dcc9718c1, type: 3}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 8054aa37d76d40545aa75c564ac75021, type: 3}
     - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
@@ -38,16 +76,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
         type: 3}
-      propertyPath: itemSprites.LeftHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 24ea18457d9a0d748841de1dcc9718c1, type: 3}
-    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 538be610d84793e4ab6e49880530e35b, type: 3}
-    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
-        type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
       value: 
       objectReference: {fileID: 21300000, guid: 538be610d84793e4ab6e49880530e35b,
@@ -70,44 +98,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300006, guid: 538be610d84793e4ab6e49880530e35b,
         type: 3}
-    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
-        type: 3}
-      propertyPath: itemSprites.RightHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 8054aa37d76d40545aa75c564ac75021, type: 3}
-    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
-        type: 3}
-      propertyPath: initialDescription
-      value: The only drink with the PWR that true gamers crave. When a gamer talks
-        about gamerfuel, this is what they're literally referring to.
-      objectReference: {fileID: 0}
-    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
-        type: 3}
-      propertyPath: initialName
-      value: Pwr Game
-      objectReference: {fileID: 0}
-    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
-        type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 849af62a01066ec4e985c3920b530c5b,
-        type: 2}
-    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
-        type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 1835a609254aa9349bf3cad1ef350f68,
-        type: 2}
     - target: {fileID: 3243769371402153946, guid: b04d0f9770ef17c459a1af178889e3ba,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 4a27092c0f342b74388d283e119531cb,
         type: 3}
+    - target: {fileID: 3243769371402153946, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3342215226231398706, guid: b04d0f9770ef17c459a1af178889e3ba,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: e0be282d3112cf044b7f9ddc40f04655
+      objectReference: {fileID: 0}
+    - target: {fileID: 3451543687366369778, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3451543687366369778, guid: b04d0f9770ef17c459a1af178889e3ba,
         type: 3}
@@ -126,6 +136,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3451543687366369778, guid: b04d0f9770ef17c459a1af178889e3ba,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3451543687366369778, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -138,16 +153,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3451543687366369778, guid: b04d0f9770ef17c459a1af178889e3ba,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3451543687366369778, guid: b04d0f9770ef17c459a1af178889e3ba,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3451543687366369778, guid: b04d0f9770ef17c459a1af178889e3ba,
         type: 3}
@@ -189,6 +194,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8597199573883621611, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: foreverID
+      value: e0be282d3112cf044b7f9ddc40f04655
       objectReference: {fileID: 0}
     - target: {fileID: 8841627809843521281, guid: b04d0f9770ef17c459a1af178889e3ba,
         type: 3}

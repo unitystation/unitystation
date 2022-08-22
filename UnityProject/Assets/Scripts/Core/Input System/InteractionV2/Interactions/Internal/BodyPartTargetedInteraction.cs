@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 /// <summary>
@@ -7,13 +6,8 @@ using UnityEngine;
 /// </summary>
 public abstract class BodyPartTargetedInteraction: TargetedInteraction
 {
-	private readonly GameObject targetObject;
-	private readonly BodyPartType targetBodyPart;
-
-	/// <summary>
-	/// Body part being targeted.
-	/// </summary>
-	public BodyPartType TargetBodyPart => targetBodyPart;
+	/// <summary>Body part being targeted.</summary>
+	public BodyPartType TargetBodyPart { get; protected set; }
 
 	/// <summary>
 	///
@@ -25,7 +19,6 @@ public abstract class BodyPartTargetedInteraction: TargetedInteraction
 	public BodyPartTargetedInteraction(GameObject performer, GameObject usedObject, GameObject targetObject, BodyPartType targetBodyPart, Intent intent) :
 		base(performer, usedObject, targetObject, intent)
 	{
-		this.targetObject = targetObject;
-		this.targetBodyPart = targetBodyPart;
+		TargetBodyPart = targetBodyPart;
 	}
 }

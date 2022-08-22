@@ -28,6 +28,38 @@ PrefabInstance:
       propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 1354904975009631927, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1354904975009631927, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1354904975009631927, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: bdc1d0c570f63574799d50120a2024d4,
+        type: 2}
+    - target: {fileID: 1354904975009631927, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 7bc4854fc802d5b4bb3fda1ba37bb651,
+        type: 2}
+    - target: {fileID: 1354904975009631927, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1354904975009631927, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1417260671552940035, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
       propertyPath: initialName
@@ -41,12 +73,22 @@ PrefabInstance:
     - target: {fileID: 1500455408126966485, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
       propertyPath: m_AssetId
+      value: b3d41585e23dd2045892c06de579cb7f
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500497625030977277, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+        type: 3}
+      propertyPath: customNetTransform
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1533059672834475873, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
       propertyPath: m_Name
       value: BirthdayCake
+      objectReference: {fileID: 0}
+    - target: {fileID: 1537143122019154453, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1537143122019154453, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
@@ -65,6 +107,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1537143122019154453, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1537143122019154453, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -77,16 +124,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1537143122019154453, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1537143122019154453, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1537143122019154453, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
@@ -109,15 +146,36 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: f3099d674423e3b4ea22848c16d25f56,
         type: 3}
+    - target: {fileID: 1708957981030462525, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2506267218571071053, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+        type: 3}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 7779693398996215842, guid: 6adc5712511f76f47ae4d940f549b628,
+        type: 3}
     - target: {fileID: 4611855969228700902, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 907e4d310fa126349a1e7e03a3906de0,
         type: 2}
+    - target: {fileID: 5619432690302126860, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+        type: 3}
+      propertyPath: foreverID
+      value: b3d41585e23dd2045892c06de579cb7f
+      objectReference: {fileID: 0}
     - target: {fileID: 7246797144736269585, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
       propertyPath: NutritionLevel
+      value: 950
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246797144736269585, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+        type: 3}
+      propertyPath: StartingNutrients
       value: 950
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07c2baaf060fc8f49bdd7d1dacbe5437, type: 3}
+  m_Name: GenericAttachProcedure
+  m_EditorClassIdentifier: 
+  ProcedureName: Attach procedure
+  ProcedureSprite: {fileID: 11400000, guid: f14b95e131d73894da43dee1b93a3cf2, type: 2}
+  SurgerySteps:
+  - RequiredTrait: {fileID: 11400000, guid: 30127bfedd67541a3afa2a5582daa98c, type: 2}
+    Time: 2
+    SuccessChance: 100
+    StartSelf: you start to use {Using} to cut open {WhoOn}'s {OnPart}
+    StartOther: '{performer} starts to use {Using} to cut open {WhoOn}''s {OnPart}'
+    SuccessSelf: you use {Using} to cut open {WhoOn}'s {OnPart}
+    SuccessOther: '{performer} uses {Using} to cut open {WhoOn}''s {OnPart}'
+    FailSelf: you miss cut with {Using} cutting into{WhoOn}'s {OnPart}
+    FailOther: '{performer} miss cutts with {Using} cutting into{WhoOn}''s {OnPart}'
+  - RequiredTrait: {fileID: 11400000, guid: fc51d63cf9b06574ca78a62da76969e5, type: 2}
+    Time: 2
+    SuccessChance: 100
+    StartSelf: you start to use {Using} to clamp {WhoOn}'s {OnPart}
+    StartOther: '{performer} starts to use {Using} to clamp {WhoOn}''s {OnPart}'
+    SuccessSelf: you use {Using} to clamp {WhoOn}'s {OnPart}
+    SuccessOther: '{performer} uses {Using} to clamp {WhoOn}''s {OnPart}'
+    FailSelf: you misuse {Using} failing to clamp {WhoOn}'s {OnPart}
+    FailOther: '{performer} misuses {Using} failing to clamp {WhoOn}''s {OnPart}'
+  - RequiredTrait: {fileID: 11400000, guid: 1e5559e895a286845ae6c1d616f3f26d, type: 2}
+    Time: 2
+    SuccessChance: 100
+    StartSelf: you start to use {Using} to hold open {WhoOn}'s {OnPart}
+    StartOther: '{performer} starts to use {Using} to hold open {WhoOn}''s {OnPart}'
+    SuccessSelf: you use {Using} to hold open {WhoOn}'s {OnPart}
+    SuccessOther: '{performer} uses {Using} to hold open {WhoOn}''s {OnPart}'
+    FailSelf: you misuse {Using} failing to hold open {WhoOn}'s {OnPart}
+    FailOther: '{performer} misuses {Using} failing to hold open {WhoOn}''s {OnPart}'
+  - RequiredTrait: {fileID: 11400000, guid: d859938ed34564a4a932f3beb902e34c, type: 2}
+    Time: 2
+    SuccessChance: 100
+    StartSelf: you try to insert {Using} into {WhoOn}'s {OnPart}
+    StartOther: '{performer} tries to insert {Using} into {WhoOn}''s {OnPart}'
+    SuccessSelf: you successfully insert {Using} into {WhoOn}'s {OnPart}
+    SuccessOther: '{performer} successfully inserts {Using} into {WhoOn}''s {OnPart}'
+    FailSelf: you fail to fit {Using} into {WhoOn}'s {OnPart}
+    FailOther: '{performer} fails to fit {Using} into {WhoOn}''s {OnPart}'
+  RequiredImplantTrait: {fileID: 11400000, guid: d859938ed34564a4a932f3beb902e34c,
+    type: 2}

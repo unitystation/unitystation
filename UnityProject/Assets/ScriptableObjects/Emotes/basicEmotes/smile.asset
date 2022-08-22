@@ -13,6 +13,16 @@ MonoBehaviour:
   m_Name: smile
   m_EditorClassIdentifier: 
   emoteName: smile
+  requiresHands: 0
+  allowEmoteWhileInCrit: 0
+  isAudibleEmote: 0
+  allowEmoteWhileCrawling: 1
   viewText: smiles.
   youText: You let out a smile.
-  emoteDefaultSounds: []
+  failText: You were unable to preform this action!
+  mouthBlockedText: You are unable to make a sound!
+  critViewText: lets out a weak smile.
+  soundsAreTyped: 0
+  defaultSounds: []
+  TypedSounds: []
+  pitchRange: {x: 0.7, y: 1}

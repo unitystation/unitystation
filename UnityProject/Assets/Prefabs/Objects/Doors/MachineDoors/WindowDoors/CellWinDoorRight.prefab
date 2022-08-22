@@ -10,7 +10,22 @@ PrefabInstance:
     - target: {fileID: 1145543468140709448, guid: 5516fc74bd367c64baa5a82dff0e929c,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: beddb1591c4895c4b90b9f3232dc2f12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845234847224642880, guid: 5516fc74bd367c64baa5a82dff0e929c,
+        type: 3}
+      propertyPath: WopenFrame
+      value: 416
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845234847224642880, guid: 5516fc74bd367c64baa5a82dff0e929c,
+        type: 3}
+      propertyPath: WcloseFrame
+      value: 356
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845234847224642880, guid: 5516fc74bd367c64baa5a82dff0e929c,
+        type: 3}
+      propertyPath: WdeniedFrame
+      value: 428
       objectReference: {fileID: 0}
     - target: {fileID: 2845234847224642880, guid: 5516fc74bd367c64baa5a82dff0e929c,
         type: 3}
@@ -42,27 +57,28 @@ PrefabInstance:
       propertyPath: WanimFrames.Array.data[5]
       value: 412
       objectReference: {fileID: 0}
-    - target: {fileID: 2845234847224642880, guid: 5516fc74bd367c64baa5a82dff0e929c,
+    - target: {fileID: 5153180361575694688, guid: 5516fc74bd367c64baa5a82dff0e929c,
         type: 3}
-      propertyPath: WcloseFrame
-      value: 356
-      objectReference: {fileID: 0}
-    - target: {fileID: 2845234847224642880, guid: 5516fc74bd367c64baa5a82dff0e929c,
+      propertyPath: airlockAssemblyPrefab
+      value: 
+      objectReference: {fileID: 9191400176456096028, guid: 19766b88d9c52d948976f3bd1686beaf,
         type: 3}
-      propertyPath: WdeniedFrame
-      value: 428
-      objectReference: {fileID: 0}
-    - target: {fileID: 2845234847224642880, guid: 5516fc74bd367c64baa5a82dff0e929c,
+    - target: {fileID: 5569246675885067619, guid: 5516fc74bd367c64baa5a82dff0e929c,
         type: 3}
-      propertyPath: WopenFrame
-      value: 416
+      propertyPath: foreverID
+      value: beddb1591c4895c4b90b9f3232dc2f12
       objectReference: {fileID: 0}
     - target: {fileID: 8743778901224281917, guid: 5516fc74bd367c64baa5a82dff0e929c,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300712, guid: f0f465f2e2128495683d9e4cb833c45a,
+      objectReference: {fileID: 21300000, guid: 03df0371b3a26a84f834fa23aaa517f0,
         type: 3}
+    - target: {fileID: 8803883848157279728, guid: 5516fc74bd367c64baa5a82dff0e929c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8803883848157279728, guid: 5516fc74bd367c64baa5a82dff0e929c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -76,31 +92,6 @@ PrefabInstance:
     - target: {fileID: 8803883848157279728, guid: 5516fc74bd367c64baa5a82dff0e929c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8803883848157279728, guid: 5516fc74bd367c64baa5a82dff0e929c,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8803883848157279728, guid: 5516fc74bd367c64baa5a82dff0e929c,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8803883848157279728, guid: 5516fc74bd367c64baa5a82dff0e929c,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8803883848157279728, guid: 5516fc74bd367c64baa5a82dff0e929c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8803883848157279728, guid: 5516fc74bd367c64baa5a82dff0e929c,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8803883848157279728, guid: 5516fc74bd367c64baa5a82dff0e929c,
@@ -121,7 +112,7 @@ PrefabInstance:
     - target: {fileID: 8806815997670421290, guid: 5516fc74bd367c64baa5a82dff0e929c,
         type: 3}
       propertyPath: m_Name
-      value: SecureWinDoorCellRight
+      value: CellWinDoorRight
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5516fc74bd367c64baa5a82dff0e929c, type: 3}

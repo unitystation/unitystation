@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 3986728344648371431, guid: fff8b3ada084c1b408e9c34ee1a1dd27,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 902bc0c50dbc90942adaad3bc8731c82
       objectReference: {fileID: 0}
     - target: {fileID: 4750832977346551186, guid: fff8b3ada084c1b408e9c34ee1a1dd27,
         type: 3}
@@ -26,7 +26,12 @@ PrefabInstance:
     - target: {fileID: 4795882274240067973, guid: fff8b3ada084c1b408e9c34ee1a1dd27,
         type: 3}
       propertyPath: m_Name
-      value: Closet_Bomb_Security
+      value: EODClosetSecurity
+      objectReference: {fileID: 0}
+    - target: {fileID: 4799658863714516831, guid: fff8b3ada084c1b408e9c34ee1a1dd27,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4799658863714516831, guid: fff8b3ada084c1b408e9c34ee1a1dd27,
         type: 3}
@@ -45,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4799658863714516831, guid: fff8b3ada084c1b408e9c34ee1a1dd27,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4799658863714516831, guid: fff8b3ada084c1b408e9c34ee1a1dd27,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -57,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4799658863714516831, guid: fff8b3ada084c1b408e9c34ee1a1dd27,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4799658863714516831, guid: fff8b3ada084c1b408e9c34ee1a1dd27,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4799658863714516831, guid: fff8b3ada084c1b408e9c34ee1a1dd27,
         type: 3}
@@ -89,5 +89,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5847db704552aa64c80c6343ef000b26,
         type: 2}
+    - target: {fileID: 8197530444215777053, guid: fff8b3ada084c1b408e9c34ee1a1dd27,
+        type: 3}
+      propertyPath: initialContents
+      value: 
+      objectReference: {fileID: 11400000, guid: 5847db704552aa64c80c6343ef000b26,
+        type: 2}
+    - target: {fileID: 8502670347304372172, guid: fff8b3ada084c1b408e9c34ee1a1dd27,
+        type: 3}
+      propertyPath: foreverID
+      value: 902bc0c50dbc90942adaad3bc8731c82
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fff8b3ada084c1b408e9c34ee1a1dd27, type: 3}

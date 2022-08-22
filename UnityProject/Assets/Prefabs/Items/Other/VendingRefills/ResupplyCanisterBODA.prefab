@@ -13,12 +13,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6ae9c7fc63e8ed2408ddc08a266019ab,
         type: 2}
+    - target: {fileID: 3047043127081644350, guid: 5b03a0d328244a244bde82abc2b3e98a,
+        type: 3}
+      propertyPath: foreverID
+      value: 64d6a4799de2602438ad6f10e698ec22
+      objectReference: {fileID: 0}
     - target: {fileID: 8071024393418018319, guid: 5b03a0d328244a244bde82abc2b3e98a,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 5e563e413c6ec87458cfd932ccc5a2d3,
         type: 3}
+    - target: {fileID: 8277755000268046375, guid: 5b03a0d328244a244bde82abc2b3e98a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8277755000268046375, guid: 5b03a0d328244a244bde82abc2b3e98a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -36,6 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8277755000268046375, guid: 5b03a0d328244a244bde82abc2b3e98a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8277755000268046375, guid: 5b03a0d328244a244bde82abc2b3e98a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -48,16 +63,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8277755000268046375, guid: 5b03a0d328244a244bde82abc2b3e98a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8277755000268046375, guid: 5b03a0d328244a244bde82abc2b3e98a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8277755000268046375, guid: 5b03a0d328244a244bde82abc2b3e98a,
         type: 3}
@@ -82,17 +87,17 @@ PrefabInstance:
     - target: {fileID: 8315837238301327591, guid: 5b03a0d328244a244bde82abc2b3e98a,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8367238152491455025, guid: 5b03a0d328244a244bde82abc2b3e98a,
-        type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 1
+      value: 64d6a4799de2602438ad6f10e698ec22
       objectReference: {fileID: 0}
     - target: {fileID: 8367238152491455025, guid: 5b03a0d328244a244bde82abc2b3e98a,
         type: 3}
       propertyPath: initialName
       value: BODA restocking unit.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8367238152491455025, guid: 5b03a0d328244a244bde82abc2b3e98a,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8367238152491455025, guid: 5b03a0d328244a244bde82abc2b3e98a,
         type: 3}

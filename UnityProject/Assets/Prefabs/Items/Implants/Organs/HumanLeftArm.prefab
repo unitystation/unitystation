@@ -113,10 +113,117 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 13fa3e7a251a7b54aa67fd153c616ab7,
         type: 2}
-    - target: {fileID: 511036447239998513, guid: ba9a875c31908af4ab3749cd127a2edb,
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
-      propertyPath: maxCapacity
-      value: 0.4
+      propertyPath: Storage.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: storage.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: Storage.Array.data[1].SlotArea
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: storage.Array.data[2].SlotArea
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: Storage.Array.data[0].namedSlot
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: Storage.Array.data[1].hoverName
+      value: Gloves
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: Storage.Array.data[1].namedSlot
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: storage.Array.data[0].namedSlot
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: storage.Array.data[2].hoverName
+      value: Handcuffs
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: storage.Array.data[2].namedSlot
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: Storage.Array.data[1].Conditional
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: storage.Array.data[2].Conditional
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: storage.Array.data[2].DropContents
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: storage.Array.data[2].NotPresentOnUI
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: Storage.Array.data[1].placeholderSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6a3323a2fdeef3d49be11e00db272555,
+        type: 3}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: storage.Array.data[2].placeholderSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e0ee395497afd79428fc1704fe4463b8,
+        type: 3}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: Storage.Array.data[1].Condition.CategoryID
+      value: hands1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: storage.Array.data[2].Condition.CategoryID
+      value: Handcuffs1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: Storage.Array.data[1].Condition.XAmountConditional
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: storage.Array.data[2].Condition.XAmountConditional
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: Storage.Array.data[1].Condition.ConditionalParameter
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: storage.Array.data[2].Condition.ConditionalParameter
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3666507880365142169, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
@@ -124,10 +231,46 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c1a6b7603a812b34b908525796b891c5,
         type: 2}
+    - target: {fileID: 4548261438558078835, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: foreverID
+      value: 719377fefb0114b448fc6ca9f7a5a6df
+      objectReference: {fileID: 0}
+    - target: {fileID: 5756682103643324902, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: c98166b4cf3dbc946a89ac6356e48fdc,
+        type: 2}
     - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: BodyPartType
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: DamageThreshold
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: CanBleedExternally
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: GibsOnSeverityLevel
+      value: 125
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: MinMaxInternalBleedingValues.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: MinMaxInternalBleedingValues.y
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
@@ -137,7 +280,7 @@ PrefabInstance:
     - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[3]
-      value: 6
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
@@ -182,7 +325,7 @@ PrefabInstance:
     - target: {fileID: 7363429173861889706, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 719377fefb0114b448fc6ca9f7a5a6df
       objectReference: {fileID: 0}
     - target: {fileID: 7468114191605762846, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
@@ -244,5 +387,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: ba9a875c31908af4ab3749cd127a2edb, type: 3}

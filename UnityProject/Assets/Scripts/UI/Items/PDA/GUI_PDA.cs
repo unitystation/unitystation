@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using UnityEngine.UI;
+using UI.Core.NetUI;
 using Items.PDA;
 
 namespace UI.Items.PDA
@@ -12,7 +13,7 @@ namespace UI.Items.PDA
 	{
 		[Tooltip("Assign the breadcrumb here")]
 		[SerializeField]
-		private NetLabel breadcrumb = null;
+		private NetText_label breadcrumb = null;
 
 		[Tooltip("Put the main NetPage switcher here")]
 		public NetPageSwitcher mainSwitcher = null;
@@ -24,7 +25,7 @@ namespace UI.Items.PDA
 		public Image BackgroundOverlay = null;
 
 		[Tooltip("Put the overlay images here")]
-		[SerializeField] 
+		[SerializeField]
 		List<Sprite> overlays = default;
 
 		[Header("Assign the PDA's main pages here")]
@@ -55,6 +56,7 @@ namespace UI.Items.PDA
 			Background.color = PDA.UIBG;
 			BackgroundOverlay.sprite = overlays[PDA.OVERLAY];
 			BackgroundOverlay.color = PDA.UIOVER;
+			PDA.PDAGui = this;
 			OpenPage(MainPage);
 		}
 

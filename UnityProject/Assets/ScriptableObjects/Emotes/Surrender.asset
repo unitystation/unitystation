@@ -14,11 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   emoteName: surrender
   requiresHands: 0
+  allowEmoteWhileInCrit: 0
+  isAudibleEmote: 0
+  allowEmoteWhileCrawling: 0
   viewText: raises their arms up as they surrender then lay down on the ground.
   youText: You've surrender! Better keep those hands above your head while you're
     laying down.
   failText: You forgot how to get down!
+  mouthBlockedText: You are unable to make a sound!
+  critViewText: are unable to do anything in their condition! They've surrender.
+  soundsAreTyped: 0
   defaultSounds: []
-  maleSounds: []
-  femaleSounds: []
-  audioToUse: []
+  TypedSounds: []
+  pitchRange: {x: 0.7, y: 1}

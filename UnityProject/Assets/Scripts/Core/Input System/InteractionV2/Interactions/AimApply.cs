@@ -9,14 +9,19 @@ using UnityEngine;
 /// fires continuously while the mouse button is being held down, and fires once on the initial click and
 /// also on the release. This is used for things like guns.
 /// </summary>
-public class AimApply : Interaction
+public class AimApply : BodyPartTargetedInteraction
 {
 	//cache player layermask
 	private static LayerMask PLAYER_LAYER_MASK = -1;
 
 	private readonly MouseButtonState mouseButtonState;
-	private readonly Vector2 targetVector;
+	private readonly Vector2 targetPosition;
+	public readonly Vector2 originatorPosition; //Warning this includes client prediction unsafe
 	private readonly ItemSlot handSlot;
+
+
+	public Vector2 TargetPosition => targetPosition;
+
 
 	/// <summary>
 	/// Hand slot being used.
@@ -28,20 +33,16 @@ public class AimApply : Interaction
 	/// </summary>
 	public MouseButtonState MouseButtonState => mouseButtonState;
 
-	/// <summary>
-	/// Targeted world position deduced from target vector and performer position.
-	/// </summary>
-	public Vector2 WorldPositionTarget => (Vector2)Performer.transform.position + targetVector;
 
-	/// <summary>
-	/// Vector pointing from the performer to the targeted position. Set to Vector2.zero if aiming at self.
-	/// </summary>
-	public Vector2 TargetVector => targetVector;
+	/// <summary>Target world position calculated from matrix local position.</summary>
+	public Vector2 WorldPositionTarget => (Vector2)targetPosition.To3().ToWorld(Performer.RegisterTile().Matrix);
 
+	/// <summary>Vector pointing from the performer's position to the target position.</summary>
+	public Vector2 TargetVector => WorldPositionTarget.To3() - Performer.RegisterTile().WorldPosition;
 	/// <summary>
 	/// Whether player is aiming at themselves.
 	/// </summary>
-	public bool IsAimingAtSelf => targetVector == Vector2.zero;
+	public bool IsAimingAtSelf => originatorPosition == targetPosition;
 
 	/// <summary>
 	///
@@ -51,12 +52,14 @@ public class AimApply : Interaction
 	/// <param name="handSlot">slot of the active hand</param>
 	/// <param name="buttonState">state of the mouse button, indicating whether it is being initiated
 	/// or ending.</param>
-	/// <param name="targetVector">vector pointing from shooter to the spot they are targeting - should NOT be normalized. Set to
-	/// Vector2.zero if aiming at self.</param>
-	private AimApply(GameObject performer, GameObject handObject, ItemSlot handSlot, MouseButtonState buttonState, Vector2 targetVector, Intent intent) :
-		base(performer, handObject, intent)
+	/// <param name="targetPosition"> The local position the player is aiming at
+	///  Same as originatorPosition Assuming hitting self </param>
+	private AimApply(GameObject performer, GameObject handObject, ItemSlot handSlot, MouseButtonState buttonState,
+		Vector2 targetPosition, BodyPartType bodyPartType, Intent intent, Vector2 originatorPosition) :
+		base(performer, handObject, null, bodyPartType, intent)
 	{
-		this.targetVector = targetVector;
+		this.originatorPosition = originatorPosition;
+		this.targetPosition = targetPosition;
 		this.handSlot = handSlot;
 		this.mouseButtonState = buttonState;
 	}
@@ -75,20 +78,26 @@ public class AimApply : Interaction
 			PLAYER_LAYER_MASK = LayerMask.GetMask("Players");
 		}
 
-		var targetVector = (Vector2) Camera.main.ScreenToWorldPoint(CommonInput.mousePosition) -
-		                   (Vector2) PlayerManager.LocalPlayer.transform.position;
+
+		var InternaltargetPosition = MouseUtils.MouseToWorldPos().ToLocal(PlayerManager.LocalPlayerObject.RegisterTile().Matrix).To2();
+
+
 		//check for self aim if target vector is sufficiently small so we can avoid raycast
 		var selfAim = false;
+		var targetVector = (Vector2) MouseUtils.MouseToWorldPos() -
+		                   (Vector2) PlayerManager.LocalPlayerObject.transform.position;
+
 		if (targetVector.magnitude < 0.6)
 		{
 			selfAim = MouseUtils.GetOrderedObjectsUnderMouse(PLAYER_LAYER_MASK,
-				go => go == PlayerManager.LocalPlayer).Any();
+				go => go == PlayerManager.LocalPlayerObject).Any();
 		}
 
-		return new AimApply(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.ItemObject,
-			UIManager.Hands.CurrentSlot.ItemSlot,
+		return new AimApply(PlayerManager.LocalPlayerObject, PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject,
+			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(),
 			buttonState,
-			selfAim ? Vector2.zero : targetVector, UIManager.CurrentIntent);
+
+			selfAim ? PlayerManager.LocalPlayerObject.transform.localPosition.To2() : InternaltargetPosition, UIManager.DamageZone, UIManager.CurrentIntent, PlayerManager.LocalPlayerObject.transform.localPosition.To2());
 	}
 
 	/// <summary>
@@ -104,10 +113,10 @@ public class AimApply : Interaction
 	/// the message processing logic. Should match HandSlot.ForName(SentByPlayer.Script.playerNetworkActions.activeHand).</param>
 	/// <returns>a hand apply by the client, targeting the specified object with the item in the active hand</returns>
 	/// <param name="mouseButtonState">state of the mouse button</param>
-	public static AimApply ByClient(GameObject clientPlayer, Vector2 targetVector, GameObject handObject, ItemSlot handSlot, MouseButtonState mouseButtonState,
-		Intent intent)
+	public static AimApply ByClient(GameObject clientPlayer, Vector2 TargetPosition, GameObject handObject, ItemSlot handSlot, MouseButtonState mouseButtonState,
+		BodyPartType TargetBodyPart, Intent intent, Vector2 originatorPosition)
 	{
-		return new AimApply(clientPlayer, handObject, handSlot,  mouseButtonState, targetVector, intent);
+		return new AimApply(clientPlayer, handObject, handSlot,  mouseButtonState, TargetPosition, TargetBodyPart, intent, originatorPosition );
 	}
 }
 

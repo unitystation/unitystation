@@ -12,6 +12,101 @@ PrefabInstance:
       propertyPath: bodyPartsCovered
       value: 112
       objectReference: {fileID: 0}
+    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Acid
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Acid
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Acid
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Laser
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Melee
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Laser
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Melee
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Laser
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Melee
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bullet
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Energy
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Bullet
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Energy
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Bullet
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Energy
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armoringBodyPartType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armoringBodyPartType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armoringBodyPartType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3525490832341156112, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: m_Name
@@ -105,8 +200,13 @@ PrefabInstance:
     - target: {fileID: 3564945054494194852, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b67b665e16e3047c28f852c453112321
       objectReference: {fileID: 0}
+    - target: {fileID: 3564982001466876044, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 7122576024641788220}
     - target: {fileID: 3611036598041473612, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: m_Sprite
@@ -124,24 +224,86 @@ PrefabInstance:
       value: Both fashionable and lightly armoured, this jacket is favoured by treasure
         hunters the galaxy over.
       objectReference: {fileID: 0}
+    - target: {fileID: 4247485008670982582, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: storage.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247485008670982582, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: storage.Array.data[1].SlotArea
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247485008670982582, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: storage.Array.data[2].SlotArea
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247485008670982582, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: storage.Array.data[1].hoverName
+      value: Pocket
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247485008670982582, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: storage.Array.data[1].namedSlot
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247485008670982582, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: storage.Array.data[2].hoverName
+      value: Pocket
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247485008670982582, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: storage.Array.data[2].namedSlot
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247485008670982582, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: storage.Array.data[1].placeholderSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0cd89423299c9c749b386915e51cecca,
+        type: 3}
+    - target: {fileID: 4247485008670982582, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: storage.Array.data[2].placeholderSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0cd89423299c9c749b386915e51cecca,
+        type: 3}
+    - target: {fileID: 4279701593722495436, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: aa8fbe26ddc59ba45b15ea5dc9d24158,
+        type: 2}
+    - target: {fileID: 4279701593722495436, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: ecc7c8df4e403e241806904560c9bd11,
+        type: 2}
     - target: {fileID: 7325966862900394647, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 33808453db57df54c95877031809827c,
         type: 2}
+    - target: {fileID: 7518679174278335869, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: foreverID
+      value: b67b665e16e3047c28f852c453112321
+      objectReference: {fileID: 0}
     - target: {fileID: 7534581208369271445, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: d45227d46aa007a48825a393d0b5848f,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7534581208369271445, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: d45227d46aa007a48825a393d0b5848f,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7534581208369271445, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -155,3 +317,9 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0c29a11d2c864b7982765b5340eed0e, type: 3}
+--- !u!210 &7122576024641788220 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 7230948286556981086, guid: a0c29a11d2c864b7982765b5340eed0e,
+    type: 3}
+  m_PrefabInstance: {fileID: 468660300893003362}
+  m_PrefabAsset: {fileID: 0}

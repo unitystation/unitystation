@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UI.Core.NetUI;
 using Items.Scrolls.TeleportScroll;
 
 namespace UI.Scroll
@@ -9,7 +10,7 @@ namespace UI.Scroll
 	public class GUI_TeleportScroll : NetTab
 	{
 		[SerializeField]
-		private NetLabel chargesLabel = default;
+		private NetText_label chargesLabel = default;
 		[SerializeField]
 		private EmptyItemList dynamicList = null;
 

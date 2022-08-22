@@ -3,129 +3,123 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GUI_PlayerOptions : MonoBehaviour
+namespace UI
 {
-	private const string UserNamePlayerPref = "PlayerName";
-
-	public string DefaultServer = "LocalHost";
-	private const string DefaultPort = "7777";
-	public GameObject button;
-
-	public Toggle hostServer;
-	private CustomNetworkManager networkManager;
-
-	public InputField playerNameInput;
-	public InputField portInput;
-	public GameObject screen_ConnectTo;
-	public GameObject screen_PlayerName;
-	public GameObject screen_WrongVersion;
-	public InputField serverAddressInput;
-	public Text title;
-
-	public void Start()
+	public class GUI_PlayerOptions : MonoBehaviour
 	{
-		networkManager = CustomNetworkManager.Instance;
-		screen_PlayerName.SetActive(true);
-		screen_ConnectTo.SetActive(false);
-		string steamName = "";
-		string prefsName;
+		private const string UserNamePlayerPref = "PlayerName";
 
-		if (!string.IsNullOrEmpty(steamName))
-		{
-			prefsName = steamName;
-		}
-		else
-		{
-			prefsName = PlayerPrefs.GetString(UserNamePlayerPref);
-		}
+		public string DefaultServer = "LocalHost";
+		private const string DefaultPort = "7777";
+		public GameObject button;
 
-		if (!string.IsNullOrEmpty(prefsName))
-		{
-			playerNameInput.text = prefsName;
-		}
-		serverAddressInput.text = DefaultServer;
-		portInput.text = DefaultPort;
-	}
+		public Toggle hostServer;
+		private CustomNetworkManager networkManager;
 
-	private void WrongVersion()
-	{
-		screen_PlayerName.SetActive(false);
-		screen_ConnectTo.SetActive(false);
-		button.SetActive(false);
-		screen_WrongVersion.SetActive(true);
-	}
+		public InputField playerNameInput;
+		public InputField portInput;
+		public GameObject screen_ConnectTo;
+		public GameObject screen_PlayerName;
+		public GameObject screen_WrongVersion;
+		public InputField serverAddressInput;
+		public Text title;
 
-	public void EndEditOnEnter()
-	{
-		if (KeyboardInputManager.IsEnterPressed())
+		public void Start()
 		{
-			BtnOk();
-		}
-	}
+			networkManager = CustomNetworkManager.Instance;
+			screen_PlayerName.SetActive(true);
+			screen_ConnectTo.SetActive(false);
+			string steamName = "";
+			string prefsName = string.IsNullOrEmpty(steamName) ? PlayerPrefs.GetString(UserNamePlayerPref) : steamName;
 
-	public void BtnOk()
-	{
-		SoundManager.Play(SingletonSOSounds.Instance.Click01);
-		if (string.IsNullOrEmpty(playerNameInput.text.Trim()))
-		{
-			return;
+			if (string.IsNullOrEmpty(prefsName) == false)
+			{
+				playerNameInput.text = prefsName;
+			}
+			serverAddressInput.text = DefaultServer;
+			portInput.text = DefaultPort;
 		}
 
-		//Connecting as client
-		if (screen_ConnectTo.activeInHierarchy || BuildPreferences.isForRelease)
-		{
-			ConnectToServer();
-			gameObject.SetActive(false);
-			//		UIManager.Chat.CurrentChannelText.text = "<color=green>Loading game please wait..</color>\r\n";
-			return;
-		}
-
-		if (screen_PlayerName.activeInHierarchy && !hostServer.isOn)
+		private void WrongVersion()
 		{
 			screen_PlayerName.SetActive(false);
-			screen_ConnectTo.SetActive(true);
-			title.text = "Connection";
+			screen_ConnectTo.SetActive(false);
+			button.SetActive(false);
+			screen_WrongVersion.SetActive(true);
 		}
 
-		//Connecting as server from a map scene
-		if (screen_PlayerName.activeInHierarchy && hostServer.isOn && GameData.IsInGame)
+		public void EndEditOnEnter()
 		{
-			networkManager.StartHost();
-			gameObject.SetActive(false);
+			if (KeyboardInputManager.IsEnterPressed())
+			{
+				BtnOk();
+			}
 		}
 
-		//Connecting as server from the lobby
-		if (screen_PlayerName.activeInHierarchy && hostServer.isOn && !GameData.IsInGame)
+		public void BtnOk()
 		{
-			networkManager.StartHost();
-			gameObject.SetActive(false);
-		}
-	}
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			if (string.IsNullOrEmpty(playerNameInput.text.Trim()))
+			{
+				return;
+			}
 
-	private void ConnectToServer()
-	{
-		if (BuildPreferences.isForRelease)
+			// Connecting as client
+			if (screen_ConnectTo.activeInHierarchy || BuildPreferences.isForRelease)
+			{
+				ConnectToServer();
+				gameObject.SetActive(false);
+				//		UIManager.Chat.CurrentChannelText.text = "<color=green>Loading game please wait..</color>\r\n";
+				return;
+			}
+
+			if (screen_PlayerName.activeInHierarchy && !hostServer.isOn)
+			{
+				screen_PlayerName.SetActive(false);
+				screen_ConnectTo.SetActive(true);
+				title.text = "Connection";
+			}
+
+			// Connecting as server from a map scene
+			if (screen_PlayerName.activeInHierarchy && hostServer.isOn && GameData.IsInGame)
+			{
+				networkManager.StartHost();
+				gameObject.SetActive(false);
+			}
+
+			// Connecting as server from the lobby
+			if (screen_PlayerName.activeInHierarchy && hostServer.isOn && !GameData.IsInGame)
+			{
+				networkManager.StartHost();
+				gameObject.SetActive(false);
+			}
+		}
+
+		private void ConnectToServer()
 		{
-			networkManager.networkAddress = GameScreenManager.Instance.serverIP;
+			if (BuildPreferences.isForRelease)
+			{
+				networkManager.networkAddress = GameScreenManager.Instance.serverIP;
+				networkManager.StartClient();
+				return;
+			}
+
+			networkManager.networkAddress = serverAddressInput.text;
+			TelepathyTransport transport = CustomNetworkManager.Instance.GetComponent<TelepathyTransport>();
+			ushort port = 0;
+			if (portInput.text.Length >= 4)
+			{
+				ushort.TryParse(portInput.text, out port);
+			}
+			if (port == 0)
+			{
+				transport.port = 7777;
+			}
+			else
+			{
+				transport.port = port;
+			}
 			networkManager.StartClient();
-			return;
 		}
-
-		networkManager.networkAddress = serverAddressInput.text;
-		TelepathyTransport transport = CustomNetworkManager.Instance.GetComponent<TelepathyTransport>();
-		ushort port = 0;
-		if (portInput.text.Length >= 4)
-		{
-			ushort.TryParse(portInput.text, out port);
-		}
-		if (port == 0)
-		{
-			transport.port = 7777;
-		}
-		else
-		{
-			transport.port = port;
-		}
-		networkManager.StartClient();
 	}
 }

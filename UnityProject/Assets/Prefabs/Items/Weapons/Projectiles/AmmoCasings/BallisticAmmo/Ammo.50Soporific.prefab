@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 229dbb93b27651145a7cb409ae3f5b5e,
         type: 2}
+    - target: {fileID: 4315868323956475258, guid: 5fcdd7b5846d1734381c1bf52c4ffdba,
+        type: 3}
+      propertyPath: foreverID
+      value: aa0d150c3ee5f394fbeb7afdde02d793
+      objectReference: {fileID: 0}
     - target: {fileID: 7038641501412784715, guid: 5fcdd7b5846d1734381c1bf52c4ffdba,
         type: 3}
       propertyPath: m_Sprite
@@ -22,7 +27,12 @@ PrefabInstance:
     - target: {fileID: 7118932224558036131, guid: 5fcdd7b5846d1734381c1bf52c4ffdba,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: aa0d150c3ee5f394fbeb7afdde02d793
+      objectReference: {fileID: 0}
+    - target: {fileID: 7155147354398962787, guid: 5fcdd7b5846d1734381c1bf52c4ffdba,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7155147354398962787, guid: 5fcdd7b5846d1734381c1bf52c4ffdba,
         type: 3}
@@ -41,6 +51,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7155147354398962787, guid: 5fcdd7b5846d1734381c1bf52c4ffdba,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7155147354398962787, guid: 5fcdd7b5846d1734381c1bf52c4ffdba,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +68,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7155147354398962787, guid: 5fcdd7b5846d1734381c1bf52c4ffdba,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7155147354398962787, guid: 5fcdd7b5846d1734381c1bf52c4ffdba,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7155147354398962787, guid: 5fcdd7b5846d1734381c1bf52c4ffdba,
         type: 3}
@@ -86,14 +91,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7327963592474437237, guid: 5fcdd7b5846d1734381c1bf52c4ffdba,
         type: 3}
-      propertyPath: initialDescription
-      value: A .50 bullet casing, specialised in sending the target to sleep, instead
-        of hell.
+      propertyPath: initialName
+      value: .50 soporific bullet casing
       objectReference: {fileID: 0}
     - target: {fileID: 7327963592474437237, guid: 5fcdd7b5846d1734381c1bf52c4ffdba,
         type: 3}
-      propertyPath: initialName
-      value: .50 soporific bullet casing
+      propertyPath: initialDescription
+      value: A .50 bullet casing, specialised in sending the target to sleep, instead
+        of hell.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fcdd7b5846d1734381c1bf52c4ffdba, type: 3}

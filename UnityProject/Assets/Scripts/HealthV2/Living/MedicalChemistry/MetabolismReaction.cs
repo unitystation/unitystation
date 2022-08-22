@@ -1,127 +1,95 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Chemistry;
 using HealthV2;
+using HealthV2.Living.CirculatorySystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class MetabolismReaction : Reaction
 {
+
 	//Should it metabolise faster or slower
 	public float ReagentMetabolismMultiplier = 1;
+
+	//Reaction.metabolismspeedmultiplier
+
+
+	[FormerlySerializedAs("AllRequired")] public List<ItemTrait> InternalAllRequired = new List<ItemTrait>();
+	//public List<ItemTrait> SingleRequired = new List<ItemTrait>(); TODO add ability to Apply to multiple tags
+	[FormerlySerializedAs("Blacklist")] public List<ItemTrait> InternalBlacklist  = new List<ItemTrait>();
+
+
+	public List<ItemTrait> ExternalAllRequired = new List<ItemTrait>();
+	//public List<ItemTrait> SingleRequired = new List<ItemTrait>(); TODO add ability to Apply to multiple tags
+	public List<ItemTrait> ExternalBlacklist  = new List<ItemTrait>();
+
 	public override bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
 	{
-		if (tempMin != null && reagentMix.Temperature <= tempMin ||
-		    tempMax != null && reagentMix.Temperature >= tempMax)
+		if (HasIngredients(reagentMix) == false)
 		{
 			return false;
 		}
 
-		if (!ingredients.All(reagent => reagentMix[reagent.Key] > 0))
+		if (CanReactionHappen(reagentMix) == false)
 		{
 			return false;
 		}
 
-		if (!ingredients.Any())
+		var circulatorySystem = sender as IAreaReactionBase;
+		if (circulatorySystem == null)
 		{
 			return false;
 		}
 
-		var reactionAmount = ingredients.Min(i => reagentMix[i.Key] / i.Value);
-
-		if (useExactAmounts == true)
-		{
-			reactionAmount = (float) Math.Floor(reactionAmount);
-			if (reactionAmount == 0)
-			{
-				return false;
-			}
-		}
-
-
-
-		if (!catalysts.All(catalyst =>
-			reagentMix[catalyst.Key] >= catalyst.Value * reactionAmount))
-		{
-			return false;
-		}
-
-		if (inhibitors.Count > 0)
-		{
-			if (inhibitors.All(inhibitor => reagentMix[inhibitor.Key] > inhibitor.Value * reactionAmount))
-			{
-				return false;
-			}
-		}
-
-		var BodyPart = sender.GetComponent<BodyPart>();
-
-		if (BodyPart == null) return false;
-
-		BodyPart.MetabolismReactions.Add(this);
-
-
+		circulatorySystem.MetabolismReactions.Add(this);
 		return false;
 	}
 
-	public virtual void React(BodyPart sender, ReagentMix reagentMix, float INreactionAmount)
+	public void React(List<BodyPart> sender, ReagentMix reagentMix, float ReactionAmount)
 	{
+		var reactionMultiple = GetReactionAmount(reagentMix);
 
-		if (tempMin != null && reagentMix.Temperature <= tempMin ||
-		    tempMax != null && reagentMix.Temperature >= tempMax)
+		ReactionAmount *=  ReagentMetabolismMultiplier;
+
+		var AmountProcessing = 0f;
+		foreach (var ingredient in ingredients.m_dict)
 		{
-			return;
+			AmountProcessing += (ingredient.Value * reactionMultiple);
 		}
 
-		if (!ingredients.All(reagent => reagentMix[reagent.Key] > 0))
+		if (AmountProcessing > ReactionAmount)
 		{
-			return;
+			reactionMultiple *= (ReactionAmount / AmountProcessing);
 		}
-
-		if (!ingredients.Any())
-		{
-			return;
-		}
-
-		var OptimalAmount = ingredients.Min(i => reagentMix[i.Key] / i.Value);
-
-		var reactionAmount = Mathf.Min(OptimalAmount, INreactionAmount*ReagentMetabolismMultiplier);
-
-		if (!catalysts.All(catalyst =>
-			reagentMix[catalyst.Key] >= catalyst.Value * reactionAmount))
-		{
-			return;
-		}
-
-		if (inhibitors.Count > 0)
-		{
-			if (inhibitors.All(inhibitor => reagentMix[inhibitor.Key] > inhibitor.Value * reactionAmount))
-			{
-				return;
-			}
-		}
-
-		PossibleReaction(sender, reagentMix, reactionAmount);
+		//out must be asigned to something, overdose is never used here
+		bool overdose;
+		PossibleReaction(sender, reagentMix, reactionMultiple, ReactionAmount, AmountProcessing, out overdose);
 	}
 
-	public virtual void PossibleReaction(BodyPart sender, ReagentMix reagentMix, float LimitedreactionAmount)
+	public virtual void PossibleReaction(List<BodyPart> senders, ReagentMix reagentMix, float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed, out bool overdose)
 	{
-		foreach (var ingredient in ingredients)
+		//out must be asigned to something, overdose is never used here.
+		overdose = false;
+		foreach (var ingredient in ingredients.m_dict)
 		{
-			reagentMix.Subtract(ingredient.Key, LimitedreactionAmount * ingredient.Value);
+			reagentMix.Subtract(ingredient.Key, reactionMultiple * ingredient.Value);
 		}
 
-		foreach (var result in results)
+		foreach (var result in results.m_dict)
 		{
-			var reactionResult = LimitedreactionAmount * result.Value;
+			var reactionResult = reactionMultiple * result.Value;
 			reagentMix.Add(result.Key, reactionResult);
 		}
 
 		foreach (var effect in effects)
 		{
-			effect.Apply(sender, LimitedreactionAmount);
+			foreach (var sender in senders)
+			{
+				effect.Apply(sender, reactionMultiple);
+			}
+
 		}
 	}
-
 }

@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 459137905406169173, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9d8287453182cdf419f024593753d7d4,
+        type: 3}
     - target: {fileID: 492649207374439926, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
       propertyPath: initialName
@@ -16,12 +22,18 @@ PrefabInstance:
         type: 3}
       propertyPath: SubCatalogue.Array.data[0]
       value: 
+      objectReference: {fileID: 11400000, guid: 6ccaabd067e953b4bb15d6ef7d52bfb4,
+        type: 2}
+    - target: {fileID: 700425905060650895, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
       objectReference: {fileID: 11400000, guid: 9f978dc2b27cc8344a90d548bf1eda9d,
         type: 2}
     - target: {fileID: 1706320983422357412, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: d42de2dfb338387489b8b61816b205c2
       objectReference: {fileID: 0}
     - target: {fileID: 2315748446456795164, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
@@ -29,12 +41,40 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6f22ec3db5df47346b2562ad5ace1646,
         type: 2}
+    - target: {fileID: 3120403218613559149, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: airlockToSpawn
+      value: 
+      objectReference: {fileID: 4005191650574824467, guid: 4e421f8fcc4ec2e4f8d1c9c4bebe1387,
+        type: 3}
+    - target: {fileID: 3120403218613559149, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: airlockMaterial
+      value: 
+      objectReference: {fileID: 2351081241306927526, guid: 3d84de77e83e1134ea51dd84d20bc84b,
+        type: 3}
+    - target: {fileID: 3120403218613559149, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: airlockWindowedToSpawn
+      value: 
+      objectReference: {fileID: 7667568523356956365, guid: 86e0f7d4c8f79894aa974cec417094df,
+        type: 3}
+    - target: {fileID: 6125502474817307791, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: foreverID
+      value: d42de2dfb338387489b8b61816b205c2
+      objectReference: {fileID: 0}
     - target: {fileID: 6995212575028010705, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 35002ef5f7394d5479d8cbebcc30536b,
         type: 3}
+    - target: {fileID: 7090484289108851740, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7090484289108851740, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -52,6 +92,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7090484289108851740, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7090484289108851740, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -64,16 +109,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7090484289108851740, guid: b52e9566ba635f944a7a656928335414,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7090484289108851740, guid: b52e9566ba635f944a7a656928335414,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7090484289108851740, guid: b52e9566ba635f944a7a656928335414,
         type: 3}

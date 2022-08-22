@@ -1,5 +1,7 @@
 ﻿using System;
 using UnityEngine;
+using Systems.Electricity.NodeModules;
+using Objects.Construction;
 
 namespace Objects.Engineering
 {
@@ -7,17 +9,13 @@ namespace Objects.Engineering
 	{
 		private ElectricalNodeControl electricalNodeControl;
 		private ModuleSupplyingDevice moduleSupplyingDevice;
-		private PushPull pushPull;
+		private WrenchSecurable wrenchSecurable;
 		private RegisterTile registerTile;
 
 		private bool isOn;
-		private bool isWrenched;
-		private GameObject slotObject;
 
 		[SerializeField]
 		private SpriteHandler mainSpriteHandler = null;
-		[SerializeField]
-		private SpriteHandler slotHandler = null;
 
 		[SerializeField]
 		[Tooltip("Whether this radiation collector should start wrenched")]
@@ -36,7 +34,7 @@ namespace Objects.Engineering
 		{
 			electricalNodeControl = GetComponent<ElectricalNodeControl>();
 			moduleSupplyingDevice = GetComponent<ModuleSupplyingDevice>();
-			pushPull = GetComponent<PushPull>();
+			wrenchSecurable = GetComponent<WrenchSecurable>();
 			registerTile = GetComponent<RegisterTile>();
 		}
 
@@ -52,12 +50,11 @@ namespace Objects.Engineering
 
 		private void Start()
 		{
-			if(CustomNetworkManager.IsServer == false) return;
+			if (CustomNetworkManager.IsServer == false) return;
 
 			if (startSetUp)
 			{
-				isWrenched = true;
-				pushPull.ServerSetPushable(false);
+				wrenchSecurable.ServerSetPushable(false);
 			}
 		}
 
@@ -91,7 +88,7 @@ namespace Objects.Engineering
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) return true;
+			if (interaction.TargetObject != gameObject) return false;
 
 			if (interaction.HandObject == null) return true;
 
@@ -102,58 +99,9 @@ namespace Objects.Engineering
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
-			{
-				TryWrench(interaction);
-			}
-			else if (interaction.HandObject == null)
+			if (interaction.HandObject == null)
 			{
 				SupplyToggle(interaction);
-			}
-		}
-
-		private void TryWrench(HandApply interaction)
-		{
-			if (isOn)
-			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, "Turn off the collector first");
-				return;
-			}
-
-			if (isWrenched)
-			{
-				//unwrench
-				ToolUtils.ServerUseToolWithActionMessages(interaction, 1,
-					"You start to wrench the radiation collector...",
-					$"{interaction.Performer.ExpensiveName()} starts to wrench the radiation collector...",
-					"You wrench the radiation collector off the floor.",
-					$"{interaction.Performer.ExpensiveName()} wrenches the radiation collector off the floor.",
-					() =>
-					{
-						isWrenched = false;
-						pushPull.ServerSetPushable(true);
-						ChangePowerState(false);
-					});
-			}
-			else
-			{
-				if (!registerTile.Matrix.MetaTileMap.HasTile(registerTile.WorldPositionServer, LayerType.Base))
-				{
-					Chat.AddExamineMsgFromServer(interaction.Performer, "Radiation collector needs to be on a base floor");
-					return;
-				}
-
-				//wrench
-				ToolUtils.ServerUseToolWithActionMessages(interaction, 1,
-					"You start to wrench the radiation collector...",
-					$"{interaction.Performer.ExpensiveName()} starts to wrench the radiation collector...",
-					"You wrench the radiation collector onto the floor.",
-					$"{interaction.Performer.ExpensiveName()} wrenches the radiation collector onto the floor.",
-					() =>
-					{
-						isWrenched = true;
-						pushPull.ServerSetPushable(false);
-					});
 			}
 		}
 
@@ -166,7 +114,7 @@ namespace Objects.Engineering
 				Chat.AddActionMsgToChat(interaction.Performer, "You turn off the radiation collector",
 					$"{interaction.Performer.ExpensiveName()} turns off the radiation collector");
 			}
-			else if (isWrenched)
+			else if (wrenchSecurable.IsAnchored)
 			{
 				ChangePowerState(true);
 				mainSpriteHandler.AnimateOnce(1);
@@ -193,7 +141,7 @@ namespace Objects.Engineering
 			}
 		}
 
-		public string Examine(Vector3 worldPos = default(Vector3))
+		public string Examine(Vector3 worldPos = default)
 		{
 			if (isOn == false)
 			{

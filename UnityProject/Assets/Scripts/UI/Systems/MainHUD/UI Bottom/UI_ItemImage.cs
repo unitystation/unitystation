@@ -42,12 +42,12 @@ public class UI_ItemImage
 	///
 	/// </summary>
 	/// <param name="root">Object to be used as parent for new Image instances</param>
-	public UI_ItemImage(GameObject root)
+	public UI_ItemImage(GameObject root, Material imgMat)
 	{
 		this.root = root;
 
 		// generate and hide overlay image
-		overlay = CreateNewImage("uiItemImageOverlay");
+		overlay = CreateNewImage(imgMat, "uiItemImageOverlay");
 		SetOverlay(null);
 	}
 
@@ -67,7 +67,7 @@ public class UI_ItemImage
 	/// <summary>
 	/// Display item as a composition of Image objects in UI
 	/// </summary>
-	public void ShowItem(GameObject item, Color? forcedColor = null)
+	public void ShowItem(GameObject item,  Material imgMat , Color? forcedColor = null)
 	{
 		// hide previous image
 		ClearAll();
@@ -78,10 +78,10 @@ public class UI_ItemImage
 		foreach (var handler in spriteHandlers)
 		{
 			// get unused image from stack and subscribe it handler updates
-			var image = ConnectFreeImageToHandler(handler);
+			var image = ConnectFreeImageToHandler(handler, imgMat);
 
 			// check if handler is hidden
-			image.gameObject.SetActive(!handler.IsHiden);
+			image.gameObject.SetActive(!handler.IsHidden);
 
 			// set sprite
 			var sprite = handler.CurrentSprite;
@@ -169,7 +169,7 @@ public class UI_ItemImage
 		SetOverlay(null);
 	}
 
-	private Image ConnectFreeImageToHandler(SpriteHandler handler)
+	private Image ConnectFreeImageToHandler(SpriteHandler handler, Material imgMat)
 	{
 		ImageAndHandler pair;
 		if (freeImages.Count > 0)
@@ -178,7 +178,7 @@ public class UI_ItemImage
 		}
 		else
 		{
-			var img = CreateNewImage();
+			var img = CreateNewImage(imgMat);
 			pair = new ImageAndHandler(img);
 		}
 
@@ -188,7 +188,7 @@ public class UI_ItemImage
 		return pair.UIImage;
 	}
 
-	private Image CreateNewImage(string name = "uiItemImage")
+	private Image CreateNewImage(Material imgMat, string name = "uiItemImage")
 	{
 		var go = new GameObject(name, typeof(RectTransform));
 
@@ -201,7 +201,6 @@ public class UI_ItemImage
 		rt.localScale = Vector3.one;
 
 		var img = go.AddComponent<Image>();
-		var imgMat = Resources.Load<Material>("Materials/Palettable UI");
 		img.material = Object.Instantiate(imgMat);
 		img.alphaHitTestMinimumThreshold = 0.5f;
 

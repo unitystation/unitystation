@@ -1,19 +1,19 @@
 using System;
 using UnityEngine;
 using Mirror;
-using Pipes;
 using Systems.Atmospherics;
+using Systems.Shuttles;
+using UI.Core.NetUI;
 
 namespace Objects.Atmospherics
 {
 	/// <summary>
-	/// Main component for canister
+	/// Main component for canister.
 	/// </summary>
 	[RequireComponent(typeof(Integrity))]
-	public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>, IExaminable
+	public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>, IExaminable, IServerSpawn
 	{
-		private const float ONE_ATMOSPHERE = 101.325f; // kPa.
-		public static readonly int MAX_RELEASE_PRESSURE = 4000;
+		public const float MAX_RELEASE_PRESSURE = AtmosConstants.ONE_ATMOSPHERE * 50;
 		private const int BURST_SPRITE = 1;
 
 		[Header("Canister GUI Settings")]
@@ -44,7 +44,7 @@ namespace Objects.Atmospherics
 		// Components attached to GameObject.
 		public GasContainer GasContainer { get; private set; }
 		private RegisterObject registerObject;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectPhysics;
 		private HasNetworkTab networkTab;
 
 		private Connector connector;
@@ -94,11 +94,10 @@ namespace Objects.Atmospherics
 			GasContainer = GetComponent<GasContainer>();
 			networkTab = GetComponent<HasNetworkTab>();
 			registerObject = GetComponent<RegisterObject>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
-			SetDefaultIntegrity();
+			objectPhysics = GetComponent<UniversalObjectPhysics>();
 		}
 
-		public override void OnStartServer()
+		public void OnSpawnServer(SpawnInfo info)
 		{
 			// Update gas mix manually, in case Canister component loads before GasContainer.
 			// This ensures pressure indicator and canister tier are set correctly.
@@ -140,34 +139,9 @@ namespace Objects.Atmospherics
 			hasBurst = true;
 		}
 
-		private void OnDisable()
+		public void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
-		}
-
-		//this is just here so anyone trying to change the armor value in inspector sees it being
-		//reset
-		private void OnValidate()
-		{
-			SetDefaultIntegrity();
-		}
-
-		private void SetDefaultIntegrity()
-		{
-			//default canister integrity values
-			GetComponent<Integrity>().HeatResistance = 1000;
-			GetComponent<Integrity>().Armor = new Armor
-			{
-				Melee = 50,
-				Bullet = 50,
-				Laser = 50,
-				Energy = 100,
-				Bomb = 10,
-				Bio = 100,
-				Rad = 100,
-				Fire = 80,
-				Acid = 50
-			};
 		}
 
 		private void SyncBurstState(bool oldState, bool newState)
@@ -230,7 +204,7 @@ namespace Objects.Atmospherics
 			EjectInsertedContainer();
 
 			var playerScript = networkTab.LastInteractedPlayer().GetComponent<PlayerScript>();
-			var bestHand = playerScript.ItemStorage.GetBestHand();
+			var bestHand = playerScript.DynamicItemStorage.GetBestHand();
 			if (bestHand != null)
 			{
 				Inventory.ServerAdd(gasContainer, bestHand);
@@ -239,7 +213,7 @@ namespace Objects.Atmospherics
 
 		private void EjectInsertedContainer()
 		{
-			InsertedContainer.GetComponent<CustomNetTransform>().AppearAtPositionServer(gameObject.WorldPosServer());
+			InsertedContainer.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(gameObject.AssumedWorldPosServer());
 			InsertedContainer = null;
 			ServerOnExternalTankInserted.Invoke(false);
 			RefreshOverlays();
@@ -331,7 +305,7 @@ namespace Objects.Atmospherics
 					$"{interaction.Performer.ExpensiveName()} inserts a tank into the {this.ContentsName} canister.");
 				Inventory.ServerDrop(interaction.HandSlot);
 				InsertedContainer = interaction.UsedObject;
-				interaction.UsedObject.GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+				interaction.UsedObject.GetComponent<UniversalObjectPhysics>().DisappearFromWorld();
 				ServerOnExternalTankInserted.Invoke(true);
 				RefreshOverlays();
 			}
@@ -350,7 +324,7 @@ namespace Objects.Atmospherics
 		{
 			ToolUtils.ServerPlayToolSound(interaction);
 			RefreshOverlays();
-			objectBehaviour.ServerSetPushable(!IsConnected);
+			objectPhysics.SetIsNotPushable(IsConnected);
 			ServerOnConnectionStatusChange.Invoke(IsConnected);
 		}
 
@@ -376,6 +350,9 @@ namespace Objects.Atmospherics
 
 		public void MergeCanisterAndTank()
 		{
+			//Check for inserted tank
+			if(HasContainerInserted == false) return;
+
 			GasContainer canisterTank = GetComponent<GasContainer>();
 			GasContainer externalTank = InsertedContainer.GetComponent<GasContainer>();
 			GasMix canisterGas = canisterTank.GasMix;
@@ -391,23 +368,23 @@ namespace Objects.Atmospherics
 			{
 				pressureIndicatorOverlay.ChangeSprite((int)PressureIndicatorState.Green);
 			}
-			else if (pressure >= 40 * ONE_ATMOSPHERE)
+			else if (pressure >= 40 * AtmosConstants.ONE_ATMOSPHERE)
 			{
 				pressureIndicatorOverlay.ChangeSprite((int)PressureIndicatorState.YellowGreen);
 			}
-			else if (pressure >= 30 * ONE_ATMOSPHERE)
+			else if (pressure >= 30 * AtmosConstants.ONE_ATMOSPHERE)
 			{
 				pressureIndicatorOverlay.ChangeSprite((int)PressureIndicatorState.Yellow);
 			}
-			else if (pressure >= 20 * ONE_ATMOSPHERE)
+			else if (pressure >= 20 * AtmosConstants.ONE_ATMOSPHERE)
 			{
 				pressureIndicatorOverlay.ChangeSprite((int)PressureIndicatorState.OrangeYellow);
 			}
-			else if (pressure >= 10 * ONE_ATMOSPHERE)
+			else if (pressure >= 10 * AtmosConstants.ONE_ATMOSPHERE)
 			{
 				pressureIndicatorOverlay.ChangeSprite((int)PressureIndicatorState.Orange);
 			}
-			else if (pressure >= 5 * ONE_ATMOSPHERE)
+			else if (pressure >= 5 * AtmosConstants.ONE_ATMOSPHERE)
 			{
 				pressureIndicatorOverlay.ChangeSprite((int)PressureIndicatorState.Red);
 			}

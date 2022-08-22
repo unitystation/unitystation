@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Electricity.Inheritance;
+using AdminCommands;
 using UnityEngine;
 using Mirror;
+using CustomInspectors;
+using Shared.Systems.ObjectConnection;
 
 namespace Objects.Wallmounts
 {
-	public class GeneralSwitch : SubscriptionController, ICheckedInteractable<HandApply>, ISetMultitoolMaster
+	public class GeneralSwitch : ImnterfaceMultitoolGUI, ISubscriptionController, ICheckedInteractable<HandApply>,
+		IMultitoolMasterable, IRightClickable
 	{
 		private SpriteRenderer spriteRenderer;
 		public Sprite greenSprite;
@@ -24,18 +27,6 @@ namespace Objects.Wallmounts
 
 		private bool buttonCoolDown = false;
 		private AccessRestrictions accessRestrictions;
-
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.GeneralSwitch;
-		public MultitoolConnectionType ConType => conType;
-
-		private bool multiMaster = true;
-		public bool MultiMaster => multiMaster;
-
-		public void AddSlave(object SlaveObject)
-		{
-		}
-
 
 		private void Start()
 		{
@@ -76,12 +67,12 @@ namespace Objects.Wallmounts
 			}
 
 			RunDoorController();
-			RpcPlayButtonAnim(true);
-
 		}
 
-		private void RunDoorController()
+		public void RunDoorController()
 		{
+			RpcPlayButtonAnim(true);
+
 			for (int i = 0; i < generalSwitchControllers.Count; i++)
 			{
 				if (generalSwitchControllers[i] == null) continue;
@@ -144,6 +135,17 @@ namespace Objects.Wallmounts
 			spriteRenderer.sprite = greenSprite;
 		}
 
+		#region Multitool Interaction
+
+		[SerializeField]
+		private MultitoolConnectionType conType = MultitoolConnectionType.GeneralSwitch;
+		public MultitoolConnectionType ConType => conType;
+
+		public bool MultiMaster => true;
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
+
+		#endregion
+
 		#region Editor
 
 		void OnDrawGizmosSelected()
@@ -163,7 +165,7 @@ namespace Objects.Wallmounts
 			}
 		}
 
-		public override IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
+		public IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
 		{
 			var approvedObjects = new List<GameObject>();
 
@@ -191,5 +193,22 @@ namespace Objects.Wallmounts
 		}
 
 		#endregion
+
+		public RightClickableResult GenerateRightClickOptions()
+		{
+			if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) ||
+			    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold) == false)
+			{
+				return null;
+			}
+
+			return RightClickableResult.Create()
+				.AddAdminElement("Activate", AdminPressButton);
+		}
+
+		private void AdminPressButton()
+		{
+			AdminCommandsManager.Instance.CmdActivateButton(gameObject);
+		}
 	}
 }

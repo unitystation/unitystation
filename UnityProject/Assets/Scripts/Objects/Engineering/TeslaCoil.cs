@@ -2,6 +2,7 @@
 using Systems.Explosions;
 using Objects.Construction;
 using UnityEngine;
+using Systems.Electricity.NodeModules;
 
 namespace Objects.Engineering
 {
@@ -82,9 +83,19 @@ namespace Objects.Engineering
 			{
 				hitTimer = 0;
 				hitRecently = false;
+
+				if (generatedWatts != 0)
+				{
+					moduleSupplyingDevice.TurnOffSupply();
+				}
 			}
 			else
 			{
+				if(generatedWatts == 0)
+				{
+					moduleSupplyingDevice.TurnOnSupply();
+				}
+
 				hitRecently = true;
 			}
 
@@ -142,7 +153,7 @@ namespace Objects.Engineering
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.HandApply(interaction, side)) return false;
+			if (!DefaultWillInteract.Default(interaction, side)) return false;
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver)) return true;
 

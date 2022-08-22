@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcdd86e87cc447d94b99df8b1a383b3, type: 3}
   m_Name: CrayonBoxPopulator
   m_EditorClassIdentifier: 
-  Contents:
+  SlotContents: []
+  DeprecatedContents:
   - {fileID: 1473638832000363851, guid: f2c227eb9d06e794f97ffa435a309294, type: 3}
   - {fileID: 4745808646258318139, guid: 2351bd739000003439b0da331110340d, type: 3}
   - {fileID: 5422585021898331275, guid: 0940eb84ffd63a14ba24fab5cc08500b, type: 3}
@@ -20,4 +21,3 @@ MonoBehaviour:
   - {fileID: 1918061236335486708, guid: 6f79d66785d7a074488257c65846ac31, type: 3}
   - {fileID: 6157934158638298822, guid: 72e907be607682940b51fe0914f30fd4, type: 3}
   - {fileID: 346495773371960178, guid: d55e3b115d487d84697ccbe909aa61e6, type: 3}
-  MergeMode: 0

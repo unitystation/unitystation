@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mirror;
+using Objects;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -8,17 +9,32 @@ namespace Items
 {
 	public class RandomItemSpot : NetworkBehaviour, IServerSpawn
 	{
-		[Tooltip("Amout of items we could get from this pool")] [SerializeField]
+		[Tooltip("Amount of items we could get from this pool")] [SerializeField]
 		private int lootCount = 1;
 		[Tooltip("Should we spread the items in the tile once spawned?")][SerializeField]
 		private bool fanOut = false;
 		[Tooltip("List of possible pools of items to choose from")][SerializeField]
 		private List<PoolData> poolList = null;
 
+		public GameObject spawnedItem = null;
+
 		private const int MaxAmountRolls = 5;
 
-		private void RollRandomPool(MatrixInfo matrixInfo)
+		[SerializeField]
+		private bool triggerManually = false;
+
+		public void OnSpawnServer(SpawnInfo info)
 		{
+
+			RollRandomPool(true);
+
+		}
+
+		public void RollRandomPool(bool UnrestrictedAndspawn, bool overrideTrigger = false)
+		{
+			if(overrideTrigger == false && triggerManually) return;
+
+			var RegisterTile = this.GetComponent<RegisterTile>();
 			for (int i = 0; i < lootCount; i++)
 			{
 				PoolData pool = null;
@@ -47,18 +63,44 @@ namespace Items
 
 				if (pool == null)
 				{
-					// didn't spawned anything - just destroy spawner
-					Despawn.ServerSingle(gameObject);
+					continue;
+				}
+
+				GenerateItem(pool, UnrestrictedAndspawn);
+				if (UnrestrictedAndspawn == false) return;
+			}
+
+			if (UnrestrictedAndspawn)
+			{
+				if (this.GetComponent<RuntimeSpawned>() != null)
+				{
+					Destroy(this.gameObject);
 					return;
 				}
 
-				SpawnItems(pool);
-			}
+				if (RegisterTile.TryGetComponent<UniversalObjectPhysics>(out var ObjectBehaviour))
+				{
+					if (ObjectBehaviour.ContainedInContainer != null)
+					{
+						//TODO Do item storage
+						if (ObjectBehaviour.ContainedInContainer.TryGetComponent<ObjectContainer>(out var ObjectContainer))
+						{
+							ObjectContainer.RetrieveObject(this.gameObject);
+						}
+					}
+				}
 
-			Despawn.ServerSingle(gameObject);
+
+
+				RegisterTile.Matrix.MetaDataLayer.InitialObjects[this.gameObject] = this.transform.localPosition;
+				this.GetComponent<UniversalObjectPhysics>()?.DisappearFromWorld();
+				this.GetComponent<RegisterTile>().UpdatePositionServer();
+
+
+			}
 		}
 
-		private void SpawnItems(PoolData poolData)
+		private void GenerateItem(PoolData poolData, bool spawn)
 		{
 			if (poolData == null) return;
 
@@ -79,19 +121,13 @@ namespace Items
 			}
 
 			var maxAmt = Random.Range(1, item.MaxAmount+1);
-			var worldPos = gameObject.RegisterTile().WorldPositionServer;
 
-			Spawn.ServerPrefab(
-				item.Prefab,
-				worldPos,
-				count: maxAmt,
-				scatterRadius: spread);
-		}
+			this.spawnedItem = item.Prefab;
+			if (spawn == false) return;
 
-		public void OnSpawnServer(SpawnInfo info)
-		{
-			var registerTile = GetComponent<RegisterTile>();
-			registerTile.WaitForMatrixInit(RollRandomPool);
+			var worldPos = gameObject.AssumedWorldPosServer();
+			var pushPull = GetComponent<UniversalObjectPhysics>();
+			Spawn.ServerPrefab(item.Prefab, worldPos, count: maxAmt, scatterRadius: spread, sharePosition: pushPull);
 		}
 	}
 

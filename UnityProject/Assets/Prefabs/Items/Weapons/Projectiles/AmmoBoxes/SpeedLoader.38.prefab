@@ -19,6 +19,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
@@ -80,7 +80,7 @@ PrefabInstance:
     - target: {fileID: 1549955644806952135, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 4262f7c3dbc59a8499d9f780d06bd0ad
       objectReference: {fileID: 0}
     - target: {fileID: 1650371861022734895, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
@@ -88,21 +88,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 59fd0dc2ca435f0459d3b4ec07cff7cb,
         type: 3}
+    - target: {fileID: 1650371861022734895, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4706445082373976820, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 2ee34e7be2a6c8d448e3f1b774e9aeae,
         type: 2}
-    - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
+    - target: {fileID: 5524790904487003422, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
-      propertyPath: ammoType
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
-        type: 3}
-      propertyPath: magazineSize
-      value: 6
+      propertyPath: foreverID
+      value: 4262f7c3dbc59a8499d9f780d06bd0ad
       objectReference: {fileID: 0}
     - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
@@ -111,7 +111,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
+      propertyPath: ammoType
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
       propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 5028489969333880017, guid: 7b41205052d6c7e4895869394631a735,
+        type: 3}
+    - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: magazineSize
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: initalProjectile
       value: 
       objectReference: {fileID: 5028489969333880017, guid: 7b41205052d6c7e4895869394631a735,
         type: 3}

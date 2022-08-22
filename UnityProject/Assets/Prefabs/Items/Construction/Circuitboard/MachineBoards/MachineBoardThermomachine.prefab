@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -9144785475698281503, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
+      propertyPath: machineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: 16cae5a1b7dcd6b4ca3345bb593a1fdd,
+        type: 2}
     - target: {fileID: 1781480007949509983, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
       propertyPath: m_Name
@@ -19,13 +25,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1781878732229235056, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
-      propertyPath: initialDescription
-      value: You can use a screwdriver to switch between heater and freezer.
+      propertyPath: initialName
+      value: Thermomachine (Machine Board)
       objectReference: {fileID: 0}
     - target: {fileID: 1781878732229235056, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
-      propertyPath: initialName
-      value: Thermomachine (Machine Board)
+      propertyPath: initialDescription
+      value: You can use a screwdriver to switch between heater and freezer.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1781878732229380283, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1781878732229380283, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
@@ -44,6 +55,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1781878732229380283, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1781878732229380283, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -56,16 +72,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1781878732229380283, guid: f8fbe534e67ffd048b68ffb59a80c10f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1781878732229380283, guid: f8fbe534e67ffd048b68ffb59a80c10f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1781878732229380283, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
@@ -96,7 +102,7 @@ PrefabInstance:
     - target: {fileID: 1814144952489498859, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 890d160c3b8aa074c844215d24be6881
       objectReference: {fileID: 0}
     - target: {fileID: 1894013491118822915, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
@@ -108,6 +114,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: Thermomachine (Machine Board)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4612723153341376818, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
+      propertyPath: foreverID
+      value: 890d160c3b8aa074c844215d24be6881
       objectReference: {fileID: 0}
     - target: {fileID: 5620221405395738328, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}

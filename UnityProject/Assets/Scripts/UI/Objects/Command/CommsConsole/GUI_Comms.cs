@@ -1,10 +1,13 @@
 using System;
 using System.Collections;
-using Managers;
+using System.Linq;
 using UnityEngine;
+using UI.Core.NetUI;
+using Managers;
 using Objects.Wallmounts;
 using Objects.Command;
 using Strings;
+using Systems.Clearance;
 
 namespace UI.Objects.Command
 {
@@ -23,23 +26,23 @@ namespace UI.Objects.Command
 		private NetPage captainAccessPage = null;
 
 		[SerializeField]
-		private NetLabel idLabel = null;
+		private NetText_label idLabel = null;
 		[SerializeField]
-		private NetLabel shuttleStatusLabel = null;
+		private NetText_label shuttleStatusLabel = null;
 		[SerializeField]
-		private NetLabel shuttleTimerLabel = null;
+		private NetText_label shuttleTimerLabel = null;
 		[SerializeField]
-		private NetLabel shuttleCallResultLabel = null;
+		private NetText_label shuttleCallResultLabel = null;
 		[SerializeField]
-		private NetLabel shuttleCallButtonLabel = null;
+		private NetText_label shuttleCallButtonLabel = null;
 		[SerializeField]
 		private NetSpriteImage statusImage = null;
 		[SerializeField]
-		private NetLabel CurrentAlertLevelLabel = null;
+		private NetText_label CurrentAlertLevelLabel = null;
 		[SerializeField]
-		private NetLabel NewAlertLevelLabel = null;
+		private NetText_label NewAlertLevelLabel = null;
 		[SerializeField]
-		private NetLabel AlertErrorLabel = null;
+		private NetText_label AlertErrorLabel = null;
 
 		private CommsConsole console;
 		private EscapeShuttle shuttle;
@@ -55,7 +58,7 @@ namespace UI.Objects.Command
 			}
 		}
 
-		IEnumerator WaitForProvider()
+		private IEnumerator WaitForProvider()
 		{
 			string FormatTime(int timerSeconds)
 			{
@@ -102,7 +105,8 @@ namespace UI.Objects.Command
 		private void ProcessIdChange(IDCard newId = null)
 		{
 			UpdateIdTexts();
-			if (newId != null)
+
+			if (newId != null || IsAIInteracting())
 			{
 				LogIn();
 			}
@@ -114,6 +118,8 @@ namespace UI.Objects.Command
 
 		public void CallOrRecallShuttle(string text)
 		{
+			text = Chat.StripTags(text);
+
 			Logger.Log(nameof(CallOrRecallShuttle), Category.Shuttles);
 
 			bool isRecall = shuttle.Status == EscapeShuttleStatus.OnRouteStation;
@@ -144,8 +150,7 @@ namespace UI.Objects.Command
 					ok = shuttle.CallShuttle(out callResult);
 					if (ok)
 					{
-						var minutes = TimeSpan.FromSeconds(shuttle.InitialTimerSeconds).ToString();
-						CentComm.MakeShuttleCallAnnouncement(minutes, text);
+						CentComm.MakeShuttleCallAnnouncement(shuttle.InitialTimerSeconds, text);
 						RefreshCallButtonText();
 					}
 				}
@@ -174,20 +179,26 @@ namespace UI.Objects.Command
 
 		public void SetStatusDisplay(string text)
 		{
+			text = Chat.StripTags(text);
+
 			Logger.Log(nameof(SetStatusDisplay), Category.Shuttles);
 			GameManager.Instance.CentComm.UpdateStatusDisplay(StatusDisplayChannel.Command, text.Substring(0, Mathf.Min(text.Length, 50)));
 			OpenMenu();
 		}
+
 		public void MakeAnAnnouncement(string text)
 		{
+			text = Chat.StripTags(text);
+			var language = Peepers.Count == 0 ? null : Peepers.ElementAt(0).Script.MobLanguages.CurrentLanguage;
+
 			Logger.Log(nameof(MakeAnAnnouncement), Category.Shuttles);
 			if (text.Length > 200)
 			{
-				CentComm.MakeAnnouncement(ChatTemplates.CaptainAnnounce, text.Substring(0, 200), CentComm.UpdateSound.Announce);
+				CentComm.MakeAnnouncement(ChatTemplates.CaptainAnnounce, text.Substring(0, 200), CentComm.UpdateSound.Announce, language);
 			}
 			else
 			{
-				CentComm.MakeAnnouncement(ChatTemplates.CaptainAnnounce, text, CentComm.UpdateSound.Announce);
+				CentComm.MakeAnnouncement(ChatTemplates.CaptainAnnounce, text, CentComm.UpdateSound.Announce, language);
 			}
 			OpenMenu();
 		}
@@ -197,6 +208,7 @@ namespace UI.Objects.Command
 			CurrentAlertLevelLabel.SetValueServer(GameManager.Instance.CentComm.CurrentAlertLevel.ToString().ToUpper());
 			NewAlertLevelLabel.SetValueServer(LocalAlertLevel.ToString().ToUpper());
 		}
+
 		public void ChangeAlertLevel()
 		{
 			if (GameManager.Instance.stationTime < GameManager.Instance.CentComm.lastAlertChange.AddMinutes(
@@ -213,7 +225,7 @@ namespace UI.Objects.Command
 			OpenMenu();
 		}
 
-		IEnumerator DisplayAlertErrorMessage(string text)
+		private IEnumerator DisplayAlertErrorMessage(string text)
 		{
 			AlertErrorLabel.SetValueServer(text);
 			for (int _i = 0; _i < 5; _i++)
@@ -240,42 +252,52 @@ namespace UI.Objects.Command
 			Logger.Log(nameof(RequestNukeCodes), Category.Shuttles);
 		}
 
-		public void RemoveId()
+		public void RemoveId(PlayerInfo player)
 		{
-			if (console.IdCard)
+			if (console.IdCard && IsAIInteracting() == false)
 			{
-				console.ServerRemoveIDCard();
+				console.ServerRemoveIDCard(player);
 			}
 			CloseTab();
 		}
 
 		public void UpdateIdTexts()
 		{
-			var IdCard = console.IdCard;
-			if (IdCard)
+			var idCard = console.IdCard;
+			if (idCard != null)
 			{
-				idLabel.SetValueServer($"{IdCard.RegisteredName}, {IdCard.JobType.ToString()}");
+				idLabel.SetValueServer($"{idCard.RegisteredName}, {idCard.GetJobTitle()}");
+				return;
 			}
-			else
+
+			if (IsAIInteracting())
 			{
-				idLabel.SetValueServer("<No ID inserted>");
+				idLabel.SetValueServer("AI Control");
+				return;
 			}
+
+			idLabel.SetValueServer("<No ID inserted>");
 		}
 
 		public void LogIn()
 		{
-			if (console.IdCard == null)
+			var AI = IsAIInteracting();
+			if (console.IdCard == null && AI == false) return;
+
+			if (AI)
 			{
+				captainOnlySwitcher.SetActivePage(captainAccessPage);
+				OpenMenu();
 				return;
 			}
 
-			if (!console.IdCard.HasAccess(Access.heads))
+			if (!console.IdCard.HasAccess(Clearance.Heads))
 			{
 				idLabel.SetValueServer(idLabel.Value + " (No access)");
 				return;
 			}
 
-			bool isCaptain = console.IdCard.HasAccess(Access.captain);
+			bool isCaptain = console.IdCard.HasAccess(Clearance.Captain);
 			captainOnlySwitcher.SetActivePage(isCaptain ? captainAccessPage : noCaptainAccessPage);
 
 			OpenMenu();

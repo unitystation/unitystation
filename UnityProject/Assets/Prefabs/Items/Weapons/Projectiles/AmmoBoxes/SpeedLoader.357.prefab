@@ -9,13 +9,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1367725800532977169, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
-      propertyPath: initialDescription
-      value: Designed to quickly reload revolvers.
+      propertyPath: initialName
+      value: speed loader (.357)
       objectReference: {fileID: 0}
     - target: {fileID: 1367725800532977169, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
-      propertyPath: initialName
-      value: speed loader (.357)
+      propertyPath: initialDescription
+      value: Designed to quickly reload revolvers.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
@@ -80,7 +80,7 @@ PrefabInstance:
     - target: {fileID: 1549955644806952135, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 7cbde3b57839c144e933398cfd78e132
       objectReference: {fileID: 0}
     - target: {fileID: 1650371861022734895, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
@@ -88,21 +88,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 304231f58b8ed7f4a9942ee2cdc2a284,
         type: 3}
+    - target: {fileID: 1650371861022734895, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4706445082373976820, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 5fc839a5bac00d04daebb0d747731685,
         type: 2}
-    - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
+    - target: {fileID: 5524790904487003422, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
-      propertyPath: ammoType
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
-        type: 3}
-      propertyPath: magazineSize
-      value: 7
+      propertyPath: foreverID
+      value: 7cbde3b57839c144e933398cfd78e132
       objectReference: {fileID: 0}
     - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
@@ -111,7 +111,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
+      propertyPath: ammoType
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
       propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 1011412119081755325, guid: f1e541b806000994b970a77f497619ca,
+        type: 3}
+    - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: magazineSize
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: initalProjectile
       value: 
       objectReference: {fileID: 1011412119081755325, guid: f1e541b806000994b970a77f497619ca,
         type: 3}

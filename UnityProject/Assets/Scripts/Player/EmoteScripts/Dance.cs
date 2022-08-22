@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Player.Movement;
 using ScriptableObjects.RP;
 using UnityEngine;
 
@@ -9,32 +10,39 @@ namespace Player.EmoteScripts
 	{
 		public override void Do(GameObject player)
 		{
-			//Hacky way to run a coroutine inside an SO
-			var something = player.GetComponent<PlayerScript>();
-			something.StartCoroutine(PerformDance(player));
+			if (allowEmoteWhileInCrit == false && CheckPlayerCritState(player) == false)
+			{
+				//Hacky way to run a coroutine inside an SO
+				var something = player.GetComponent<PlayerScript>();
+				something.StartCoroutine(PerformDance(player));
+			}
+			else
+			{
+				base.Do(player);
+			}
 		}
 
 		private IEnumerator PerformDance(GameObject player)
 		{
-			var directional = player.transform.GetComponent<Directional>();
-			var move = player.transform.GetComponent<PlayerMove>();
+			var directional = player.transform.GetComponent<Rotatable>();
+			var move = player.transform.GetComponent<MovementSynchronisation>();
 
 			if (move.allowInput && !move.IsBuckled)
 			{
-				base.Do(player);
-				directional.FaceDirection(Orientation.Up);
+				Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewText}.");
+				directional.FaceDirection(OrientationEnum.Up_By0);
 				yield return WaitFor.Seconds(Random.Range(0.1f, 0.5f));
-				directional.FaceDirection(Orientation.Left);
+				directional.FaceDirection(OrientationEnum.Left_By90);
 				yield return WaitFor.Seconds(Random.Range(0.1f, 0.5f));
-				directional.FaceDirection(Orientation.Right);
+				directional.FaceDirection(OrientationEnum.Right_By270);
 				yield return WaitFor.Seconds(Random.Range(0.1f, 0.5f));
-				directional.FaceDirection(Orientation.Down);
+				directional.FaceDirection(OrientationEnum.Down_By180);
 				yield return WaitFor.Seconds(Random.Range(0.1f, 0.5f));
-				directional.FaceDirection(Orientation.Up);
+				directional.FaceDirection(OrientationEnum.Up_By0);
 				yield return WaitFor.Seconds(Random.Range(0.1f, 0.5f));
-				directional.FaceDirection(Orientation.Left);
+				directional.FaceDirection(OrientationEnum.Left_By90);
 				yield return WaitFor.Seconds(Random.Range(0.1f, 0.5f));
-				directional.FaceDirection(Orientation.Right);
+				directional.FaceDirection(OrientationEnum.Right_By270);
 				yield return WaitFor.Seconds(Random.Range(0.1f, 0.5f));
 			}
 			else

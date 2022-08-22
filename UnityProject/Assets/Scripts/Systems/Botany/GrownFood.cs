@@ -3,106 +3,119 @@ using UnityEngine;
 using Mirror;
 using Chemistry.Components;
 using Systems.Botany;
+using Chemistry;
 using Objects.Botany;
+using Items;
 using Items.Botany;
+using Items.Food;
 
-//Used when spawning the food
-[RequireComponent(typeof(CustomNetTransform))]
-[RequireComponent(typeof(ReagentContainer))]
-[DisallowMultipleComponent]
-public class GrownFood : NetworkBehaviour
+namespace Systems.Botany
 {
-	[SerializeField]
-	private PlantData plantData;
-
-	public ReagentContainer reagentContainer;
-	public Chemistry.Reagent nutrient;
-	public GameObject SeedPacket => seedPacket;
-
-	[SerializeField]
-	public GameObject seedPacket = null;
-	[SerializeField]
-	private SpriteRenderer SpriteSizeAdjustment = null;
-	[SerializeField]
-	private SpriteHandler Sprite;
-	[SerializeField]
-	private Edible edible = default;
-
-	[SyncVar(hook = nameof(SyncSize))]
-	public float sizeScale = 1;
-	
-	public void SyncSize(float oldScale, float newScale)
+	//Used when spawning the food
+	[RequireComponent(typeof(ReagentContainer))]
+	[DisallowMultipleComponent]
+	public class GrownFood : NetworkBehaviour
 	{
-		sizeScale = newScale;
-		SpriteSizeAdjustment.transform.localScale = new Vector3((sizeScale), (sizeScale), (sizeScale));
-	}
+		[SerializeField]
+		private PlantData plantData;
 
-	public PlantData GetPlantData()
-	{
-		PlantData _plantData = null;
-		if (plantData.FullyGrownSpriteSO == null)
+		public ReagentContainer reagentContainer;
+		public Chemistry.Reagent nutrient;
+		public GameObject SeedPacket => seedPacket;
+
+		[SerializeField]
+		public GameObject seedPacket = null;
+		[SerializeField]
+		private SpriteRenderer SpriteSizeAdjustment = null;
+		[SerializeField]
+		private SpriteHandler Sprite;
+		[SerializeField]
+		private Edible edible = default;
+
+		[SyncVar(hook = nameof(SyncSize))]
+		public float sizeScale = 1;
+
+		public void SyncSize(float oldScale, float newScale)
 		{
-			_plantData = SeedPacket.GetComponent<SeedPacket>().plantData;
-		}
-		else
-		{
-			_plantData = plantData;
+			sizeScale = newScale;
+			SpriteSizeAdjustment.transform.localScale = new Vector3((sizeScale), (sizeScale), (sizeScale));
 		}
 
-		return _plantData;
-	}
-
-	/*private void Awake()
-	{
-		if (SpriteSizeAdjustment.sprite.texture == null)
+		public PlantData GetPlantData()
 		{
-			Debug.LogError("Attempted awake on food, failed to find texture", this);
-			return;
+			PlantData _plantData = null;
+			if (plantData.FullyGrownSpriteSO == null)
+			{
+				_plantData = SeedPacket.GetComponent<SeedPacket>().plantData;
+			}
+			else
+			{
+				_plantData = plantData;
+			}
+
+			return _plantData;
 		}
-		var spritesheet = new SpriteSheetAndData { Texture = SpriteSizeAdjustment.sprite.texture };
-		spritesheet.setSprites();
-		Sprite.spriteData = SpriteFunctions.SetupSingleSprite(spritesheet);
-		Sprite.PushTexture();
-	}*/
 
-	public void Start()
-	{
-		SyncSize(sizeScale, sizeScale);
-	}
-
-	/// <summary>
-	/// Called when plant creates food
-	/// </summary>
-	public void SetUpFood(PlantData newPlantData, PlantTrayModification modification)
-	{
-		plantData = PlantData.MutateNewPlant(newPlantData, modification);
-		SyncSize(sizeScale, 0.5f + (newPlantData.Potency / 200f));
-		SetupChemicalContents();
-		if(edible != null)
+		/*private void Awake()
 		{
-			SetupEdible();
+			if (SpriteSizeAdjustment.sprite.texture == null)
+			{
+				Debug.LogError("Attempted awake on food, failed to find texture", this);
+				return;
+			}
+			var spritesheet = new SpriteSheetAndData { Texture = SpriteSizeAdjustment.sprite.texture };
+			spritesheet.setSprites();
+			Sprite.spriteData = SpriteFunctions.SetupSingleSprite(spritesheet);
+			Sprite.PushTexture();
+		}*/
+
+		public void Start()
+		{
+			SyncSize(sizeScale, sizeScale);
 		}
-	}
 
-	public void SetPlantData(PlantData newData)
-	{
-		plantData = newData;
-	}
+		/// <summary>
+		/// Called when plant creates food
+		/// </summary>
+		public void SetUpFood(PlantData newPlantData, PlantTrayModification modification)
+		{
+			plantData = PlantData.MutateNewPlant(newPlantData, modification);
+			SyncSize(sizeScale, 0.5f + (newPlantData.Potency / 200f));
+			SetupChemicalContents();
+			if (edible != null)
+			{
+				SetupEdible();
+			}
+		}
 
-	/// <summary>
-	/// Takes initial values and scales them based on potency
-	/// </summary>
-	private void SetupChemicalContents()
-	{
-		reagentContainer.Multiply(plantData.Potency);
-	}
+		public void SetPlantData(PlantData newData)
+		{
+			plantData = newData;
+		}
 
-	/// <summary>
-	/// Set NutritionLevel to be equal to nuriment amount
-	/// </summary>
-	private void SetupEdible()
-	{
-		//DOES NOT WORK! DO NOT USE THIS!
-		// edible.NutritionLevel = Mathf.FloorToInt(reagentContainer[nutrient]);
+		/// <summary>
+		/// Takes initial values and scales them based on potency
+		/// </summary>
+		private void SetupChemicalContents()
+		{
+			ReagentMix CurrentReagentMix = new ReagentMix();
+			foreach (var reagentAndAmount in plantData.ReagentProduction)
+			{
+				CurrentReagentMix.Add(reagentAndAmount.ChemistryReagent, reagentAndAmount.Amount);
+			}
+
+			reagentContainer.Add(CurrentReagentMix);
+
+			reagentContainer.Multiply( plantData.Potency / 100f * 2.5f ); //40 Potency = * 1
+		}
+
+		/// <summary>
+		/// Set NutritionLevel to be equal to nuriment amount
+		/// </summary>
+		private void SetupEdible()
+		{
+			//DOES NOT WORK! DO NOT USE THIS!
+			// edible.NutritionLevel = Mathf.FloorToInt(reagentContainer[nutrient]);
+		}
 	}
 }

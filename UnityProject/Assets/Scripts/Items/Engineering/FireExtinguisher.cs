@@ -72,7 +72,7 @@ public class FireExtinguisher : NetworkBehaviour,
 
 
 		Vector2 startPos = gameObject.AssumedWorldPosServer();
-		Vector2 targetPos = interaction.WorldPositionTarget.To2Int();
+		Vector2 targetPos = interaction.WorldPositionTarget.RoundTo2Int();
 		List<Vector3Int> positionList = CheckPassableTiles(startPos, targetPos);
 		StartCoroutine(Fire(positionList));
 
@@ -89,7 +89,7 @@ public class FireExtinguisher : NetworkBehaviour,
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1);
 		SoundManager.PlayNetworkedAtPos(SpraySound, startPos, audioSourceParameters, sourceObj: interaction.Performer);
 
-		interaction.Performer.Pushable()?.NewtonianMove((-interaction.TargetVector).NormalizeToInt());
+		interaction.PerformerPlayerScript.objectPhysics.NewtonianPush((-interaction.TargetVector).NormalizeToInt(), 4);
 	}
 
 	#endregion Interaction;

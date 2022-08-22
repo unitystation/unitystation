@@ -1,41 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &1954267061334375369
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2720625993976664686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  allClothingData:
-  - {fileID: 11400000, guid: 9cde52bc3b745174792c289919248f5c, type: 2}
-  CurrentClothIndex: 0
-  randomInitialClothData: 0
-  hidesIdentity: 0
-  hidesSlots: 0
-  hideClothingFlags: 0
---- !u!114 &2818888289589057109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2720625993976664686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3dc5bf41c2d60a74dbc6d60ff537eb85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  EncryptionKey: 1
 --- !u!1001 &5893240999034216288
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e2683a26972448043b926ad4a3cad8f1,
         type: 2}
+    - target: {fileID: 3221160594119065955, guid: 23a0b694284152342b2ec0817fade0d6,
+        type: 3}
+      propertyPath: foreverID
+      value: 6c06d764ea0ea9e4f9dff0e83cbb46e6
+      objectReference: {fileID: 0}
     - target: {fileID: 8279022589428523628, guid: 23a0b694284152342b2ec0817fade0d6,
         type: 3}
       propertyPath: initialName
@@ -139,7 +108,7 @@ PrefabInstance:
     - target: {fileID: 8475018044423385274, guid: 23a0b694284152342b2ec0817fade0d6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 6c06d764ea0ea9e4f9dff0e83cbb46e6
       objectReference: {fileID: 0}
     - target: {fileID: 8572760248345607762, guid: 23a0b694284152342b2ec0817fade0d6,
         type: 3}
@@ -147,7 +116,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 70f387a63a6b45d47b7417b73f4a2352,
         type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 166801742205184598, guid: 23a0b694284152342b2ec0817fade0d6, type: 3}
+    - {fileID: 5110815081077416878, guid: 23a0b694284152342b2ec0817fade0d6, type: 3}
+    - {fileID: 1587260748569161296, guid: 23a0b694284152342b2ec0817fade0d6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 23a0b694284152342b2ec0817fade0d6, type: 3}
 --- !u!1 &2720625993976664686 stripped
 GameObject:
@@ -155,3 +127,44 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5893240999034216288}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1954267061334375369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2720625993976664686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  allClothingData:
+  - {fileID: 11400000, guid: 9cde52bc3b745174792c289919248f5c, type: 2}
+  CurrentClothIndex: 0
+  randomInitialClothData: 0
+  hidesIdentity: 0
+  hidesSlots: 0
+  hideClothingFlags: 0
+  disallowConsume: 0
+--- !u!114 &2818888289589057109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2720625993976664686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dc5bf41c2d60a74dbc6d60ff537eb85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  EncryptionKey: 1
+  LoudSpeakOn: 0
+  isEMPed: 0
+  HasLoudSpeak: 0
+  LoudspeakLevel: 3

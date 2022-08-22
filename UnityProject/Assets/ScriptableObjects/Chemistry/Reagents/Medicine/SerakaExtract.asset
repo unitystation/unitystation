@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1916b10721f72c927a14093e8210cb3f, type: 3}
+  m_Name: SerakaExtract
+  m_EditorClassIdentifier: 
+  displayName: Seraka Extract
+  description: A deeply coloured oil present in small amounts in Seraka Mushrooms.
+    Acts as an effective blood clotting agent, but has a low overdose threshold.
+  color: {r: 0, g: 0.4627451, b: 0.4862745, a: 0}
+  state: 1
+  heatDensity: 5
+  indexInSingleton: 326

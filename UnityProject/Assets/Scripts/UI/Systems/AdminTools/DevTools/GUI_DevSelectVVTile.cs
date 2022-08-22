@@ -4,111 +4,115 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace UI.Systems.AdminTools.DevTools
+public class GUI_DevSelectVVTile : MonoBehaviour
 {
-	public class GUI_DevSelectVVTile : MonoBehaviour
+	private enum State
 	{
-		private enum State
+		INACTIVE,
+		SELECTING,
+	}
+
+	public Text statusText;
+
+	// objects selectable for cloning
+	private LayerMask layerMask;
+
+	//current state
+	private State state;
+
+	//object selected for cloning
+	private EscapeKeyTarget escapeKeyTarget;
+
+	private LightingSystem lightingSystem;
+	private bool cachedLightingState;
+
+	public LightingSystem LightingSystem
+	{
+		get
 		{
-			INACTIVE,
-			SELECTING,
+			if (lightingSystem == null)
+			{
+				lightingSystem = Camera.main.GetComponent<LightingSystem>();
+			}
+
+			return lightingSystem;
+		}
+		set
+		{
+			lightingSystem = value;
+		}
+	}
+
+	private void Awake()
+	{
+		escapeKeyTarget = GetComponent<EscapeKeyTarget>();
+		lightingSystem = Camera.main.GetComponent<LightingSystem>();
+		ToState(State.SELECTING);
+	}
+
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		ToState(State.INACTIVE);
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void ToState(State newState)
+	{
+		if (newState == state)
+		{
+			return;
 		}
 
-		public Text statusText;
-
-		// objects selectable for cloning
-		private LayerMask layerMask;
-
-		//current state
-		private State state;
-
-		//object selected for cloning
-		private EscapeKeyTarget escapeKeyTarget;
-
-		private LightingSystem lightingSystem;
-		public LightingSystem LightingSystem
+		if (newState == State.SELECTING)
 		{
-			get
-			{
-				if (lightingSystem == null)
-				{
-					lightingSystem = Camera.main.GetComponent<LightingSystem>();
-				}
-
-				return lightingSystem;
-			}
-			set
-			{
-				lightingSystem = value;
-			}
+			statusText.text = "Click to select object to view (ESC to Cancel)";
+			UIManager.IsMouseInteractionDisabled = true;
+			cachedLightingState = LightingSystem.enabled;
+			LightingSystem.enabled = false;
 		}
-
-		void Awake()
+		else if (newState == State.INACTIVE)
 		{
-			escapeKeyTarget = GetComponent<EscapeKeyTarget>();
-			lightingSystem = Camera.main.GetComponent<LightingSystem>();
-			ToState(State.SELECTING);
+			statusText.text = "Click to select object to view (ESC to Cancel)";
+			UIManager.IsMouseInteractionDisabled = false;
+			LightingSystem.enabled = cachedLightingState;
+			gameObject.SetActive(false);
 		}
+		state = newState;
+	}
 
-		private void ToState(State newState)
-		{
-			if (newState == state)
-			{
-				return;
-			}
-
-			if (newState == State.SELECTING)
-			{
-				statusText.text = "Click to select object to view (ESC to Cancel)";
-				UIManager.IsMouseInteractionDisabled = true;
-				LightingSystem.enabled = false;
-
-			}
-			else if (newState == State.INACTIVE)
-			{
-				statusText.text = "Click to select object to view (ESC to Cancel)";
-				UIManager.IsMouseInteractionDisabled = false;
-				LightingSystem.enabled = true;
-				gameObject.SetActive(false);
-			}
-			state = newState;
-		}
-
-		public void OnEscape()
-		{
-			if (state == State.SELECTING)
-			{
-				ToState(State.INACTIVE);
-			}
-		}
-
-		private void OnDisable()
+	public void OnEscape()
+	{
+		if (state == State.SELECTING)
 		{
 			ToState(State.INACTIVE);
 		}
+	}
 
-		public void Open()
-		{
-			ToState(State.SELECTING);
-		}
+	public void Open()
+	{
+		ToState(State.SELECTING);
+	}
 
-		private void Update()
+	private void UpdateMe()
+	{
+		if (state == State.SELECTING)
 		{
-			if (state == State.SELECTING)
+			// ignore when we are over UI
+			if (EventSystem.current.IsPointerOverGameObject())
 			{
-				// ignore when we are over UI
-				if (EventSystem.current.IsPointerOverGameObject())
-				{
-					return;
-				}
-				if (CommonInput.GetMouseButtonDown(0))
-				{
-					RequestToViewObjectsAtTile.Send(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition),
-						ServerData.UserID, PlayerList.Instance.AdminToken);
-					OnEscape();
-				}
-
+				return;
 			}
+			if (CommonInput.GetMouseButtonDown(0))
+			{
+				RequestToViewObjectsAtTile.Send(MouseUtils.MouseToWorldPos());
+				OnEscape();
+			}
+
 		}
 	}
 }

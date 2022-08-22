@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using Player.Movement;
 using UnityEngine;
 
 namespace Messages.Client
@@ -9,9 +10,11 @@ namespace Messages.Client
 		{
 			public uint PlayerStorage;
 			public int PlayerSlotIndex;
+			public int StorageIndexOnPlayer;
 			public NamedSlot PlayerNamedSlot;
 			public uint TargetStorage;
 			public int TargetSlotIndex;
+			public int StorageIndexOnGameObject;
 			public NamedSlot TargetNamedSlot;
 			public bool IsGhost;
 		}
@@ -21,8 +24,8 @@ namespace Messages.Client
 			LoadMultipleObjects(new uint[]{msg.PlayerStorage, msg.TargetStorage});
 			if (NetworkObjects[0] == null || NetworkObjects[1] == null) return;
 
-			var playerSlot = ItemSlot.Get(NetworkObjects[0].GetComponent<ItemStorage>(), msg.PlayerNamedSlot, msg.PlayerSlotIndex);
-			var targetSlot = ItemSlot.Get(NetworkObjects[1].GetComponent<ItemStorage>(), msg.TargetNamedSlot, msg.TargetSlotIndex);
+			var playerSlot = ItemSlot.Get(NetworkObjects[0].GetComponents<ItemStorage>()[msg.StorageIndexOnPlayer], msg.PlayerNamedSlot, msg.PlayerSlotIndex);
+			var targetSlot = ItemSlot.Get(NetworkObjects[1].GetComponents<ItemStorage>()[msg.StorageIndexOnGameObject], msg.TargetNamedSlot, msg.TargetSlotIndex);
 
 			var playerScript = SentByPlayer.Script;
 			var playerObject = playerScript.gameObject;
@@ -30,15 +33,20 @@ namespace Messages.Client
 
 			if (msg.IsGhost)
 			{
-				if (playerScript.IsGhost && PlayerList.Instance.IsAdmin(playerScript.connectedPlayer.UserId))
+				if (playerScript.IsGhost && PlayerList.Instance.IsAdmin(playerScript.PlayerInfo.UserId))
 				{
 					FinishTransfer();
 				}
 				return;
 			}
 
-			if (!Validation(playerSlot, targetSlot, playerScript, targetObject, NetworkSide.Server, msg.IsGhost))
+			if (!Validation(playerSlot, targetSlot, playerScript, targetObject, NetworkSide.Server, msg.IsGhost)) return;
+
+			if (targetSlot.NamedSlot == NamedSlot.handcuffs)
+			{
+				targetObject.GetComponent< MovementSynchronisation>().TryUnCuff(targetObject, playerObject);
 				return;
+			}
 
 			int speed;
 			if (!targetSlot.IsEmpty)
@@ -110,6 +118,31 @@ namespace Messages.Client
 				TargetNamedSlot = targetSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.back),
 				IsGhost = isGhost
 			};
+
+			var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+
+			msg.StorageIndexOnPlayer = 0;
+			foreach (var itemStorage in spawned[playerSlot.ItemStorageNetID].GetComponents<ItemStorage>())
+			{
+				if (itemStorage == playerSlot.ItemStorage)
+				{
+					break;
+				}
+
+				msg.StorageIndexOnPlayer++;
+			}
+
+			msg.StorageIndexOnGameObject = 0;
+			foreach (var itemStorage in spawned[targetSlot.ItemStorageNetID].GetComponents<ItemStorage>())
+			{
+				if (itemStorage == targetSlot.ItemStorage)
+				{
+					break;
+				}
+
+				msg.StorageIndexOnGameObject++;
+			}
+
 
 			Send(msg);
 		}

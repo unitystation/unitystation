@@ -8,55 +8,46 @@ using UI.Action;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
+using TileManagement;
 
 namespace Items.Tool
 {
-	public class CrayonSprayCan : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>, IClientInteractable<HandActivate>, IExaminable, IServerInventoryMove
+	public class CrayonSprayCan : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>,
+		IClientInteractable<HandActivate>, IExaminable, IServerInventoryMove
 	{
 		[FormerlySerializedAs("setColour")] [SerializeField]
 		private CrayonColour setCrayonColour = CrayonColour.White;
 
 		public CrayonColour SetCrayonColour => setCrayonColour;
 
-		[SerializeField]
-		[Tooltip("If this isn't white then this colour will be used instead")]
+		[SerializeField] [Tooltip("If this isn't white then this colour will be used instead")]
 		private Color customColour = Color.white;
 
-		[SerializeField]
-		[Min(0)]
-		private float timeToDraw = 5;
+		[SerializeField] [Min(0)] private float timeToDraw = 5;
 
-		[SerializeField]
-		[Min(-1)]
-		private int charges = 30;
+		[SerializeField] [Min(-1)] private int charges = 30;
 
 		//Have to have two lists of the same thing due to layering issues, and cannot dynamically change SO LayerTile
 		//Due to late join client syncing as they wouldn't have that SO
 		//These two lists need to be identical in sequence, i.e. have same tile in same index but with different layerTile
-		[SerializeField]
-		private GraffitiCategoriesScriptableObject graffitiListsFloor = null;
+		[SerializeField] private GraffitiCategoriesScriptableObject graffitiListsFloor = null;
 
-		[SerializeField]
-		private GraffitiCategoriesScriptableObject graffitiListsWalls = null;
+		[SerializeField] private GraffitiCategoriesScriptableObject graffitiListsWalls = null;
 
-		[SerializeField]
-		private bool isCan;
+		[SerializeField] private bool isCan;
 		public bool IsCan => isCan;
 
-		[SerializeField]
-		private AddressableAudioSource spraySound = null;
+		[SerializeField] private AddressableAudioSource spraySound = null;
 
-		[SerializeField]
-		private ItemStorageCapacity crayonBoxCapacity = null;
+		[SerializeField] private ItemStorageCapacity crayonBoxCapacity = null;
 
-		[SyncVar(hook = nameof(SyncCapState))]
-		private bool capRemoved;
+		[SyncVar(hook = nameof(SyncCapState))] private bool capRemoved;
 
 		private int categoryIndex = -1;
 		private int index = -1;
-		private OrientationEnum orientation = OrientationEnum.Up;
+		private OrientationEnum orientation = OrientationEnum.Up_By0;
 
-		public static readonly Dictionary<CrayonColour, Color> PickableColours = new Dictionary<CrayonColour,Color>
+		public static readonly Dictionary<CrayonColour, Color> PickableColours = new Dictionary<CrayonColour, Color>
 		{
 			{CrayonColour.White, Color.white},
 			{CrayonColour.Black, Color.black},
@@ -120,13 +111,15 @@ namespace Items.Tool
 			//If space cannot use
 			if (registerItem.Matrix.IsSpaceAt(cellPos, true))
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"Cannot use {gameObject.ExpensiveName()} on space");
+				Chat.AddExamineMsgFromServer(interaction.Performer,
+					$"Cannot use {gameObject.ExpensiveName()} on space");
 				return;
 			}
 
 			if (charges <= 0)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"The {gameObject.ExpensiveName()} needs refilling");
+				Chat.AddExamineMsgFromServer(interaction.Performer,
+					$"The {gameObject.ExpensiveName()} needs refilling");
 				return;
 			}
 
@@ -145,14 +138,16 @@ namespace Items.Tool
 			if (registerItem.Matrix.IsPassableAtOneMatrixOneTile(cellPos, true, false,
 				ignoreObjects: true) == false)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"Cannot use {gameObject.ExpensiveName()} on that surface");
+				Chat.AddExamineMsgFromServer(interaction.Performer,
+					$"Cannot use {gameObject.ExpensiveName()} on that surface");
 				return;
 			}
 
 			//Cant use crayons on walls
 			if (registerItem.Matrix.IsWallAt(cellPos, true))
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"Cannot use {gameObject.ExpensiveName()} on a wall, try a spray can instead");
+				Chat.AddExamineMsgFromServer(interaction.Performer,
+					$"Cannot use {gameObject.ExpensiveName()} on a wall, try a spray can instead");
 				return;
 			}
 
@@ -173,7 +168,8 @@ namespace Items.Tool
 			if (isWall == false
 			    && registerItem.Matrix.IsPassableAtOneMatrixOneTile(cellPos, true, false) == false)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"Cannot use {gameObject.ExpensiveName()} on that surface");
+				Chat.AddExamineMsgFromServer(interaction.Performer,
+					$"Cannot use {gameObject.ExpensiveName()} on that surface");
 				return;
 			}
 
@@ -190,12 +186,13 @@ namespace Items.Tool
 
 			if (tileToUse == null)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"You need to chose a type of graffiti to {(isCan ? "spray" : "draw")} first");
+				Chat.AddExamineMsgFromServer(interaction.Performer,
+					$"You need to chose a type of graffiti to {(isCan ? "spray" : "draw")} first");
 				return;
 			}
 
-			var graffitiAlreadyOnTile = registerItem.TileChangeManager
-				.GetAllOverlayTiles(cellPos, isWall ? LayerType.Walls : LayerType.Floors, TileChangeManager.OverlayType.Cleanable)
+			var graffitiAlreadyOnTile = registerItem.TileChangeManager.MetaTileMap.GetOverlayTilesByType(cellPos,
+					isWall ? LayerType.Walls : LayerType.Floors, OverlayType.Cleanable)
 				.Where(t => t.IsGraffiti).ToList();
 
 			foreach (var graffiti in graffitiAlreadyOnTile)
@@ -213,8 +210,10 @@ namespace Items.Tool
 						{
 							if (charges > 0 || charges == -1)
 							{
-								registerItem.TileChangeManager.RemoveOverlaysOfName(cellPos, isWall ? LayerType.Walls : LayerType.Floors, graffiti.OverlayName);
-								registerItem.TileChangeManager.AddOverlay(cellPos, tileToUse, chosenDirection, chosenColour);
+								registerItem.TileChangeManager.MetaTileMap.RemoveOverlaysOfType(cellPos,
+									isWall ? LayerType.Walls : LayerType.Floors, OverlayType.Cleanable);
+								registerItem.TileChangeManager.MetaTileMap.AddOverlay(cellPos, tileToUse, chosenDirection,
+									chosenColour);
 							}
 
 							UseAndCheckCharges(interaction);
@@ -231,7 +230,8 @@ namespace Items.Tool
 			//Only allow 5 graffiti overlays on a tile
 			if (graffitiAlreadyOnTile.Count > 5)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, "Adding any more graffiti would make the art messy");
+				Chat.AddExamineMsgFromServer(interaction.Performer,
+					"Adding any more graffiti would make the art messy");
 				return;
 			}
 
@@ -245,7 +245,7 @@ namespace Items.Tool
 				{
 					if (charges > 0 || charges == -1)
 					{
-						registerItem.TileChangeManager.AddOverlay(cellPos, tileToUse, chosenDirection, chosenColour);
+						registerItem.TileChangeManager.MetaTileMap.AddOverlay(cellPos, tileToUse, chosenDirection, chosenColour);
 					}
 
 					UseAndCheckCharges(interaction);
@@ -264,7 +264,7 @@ namespace Items.Tool
 			if (SetCrayonColour == CrayonColour.UnlimitedRainbow)
 			{
 				//any random colour
-				return new Color(Random.Range(0, 1f), Random.Range(0, 1f) , Random.Range(0, 1f));
+				return new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f));
 			}
 
 			if (SetCrayonColour == CrayonColour.NormalRainbow)
@@ -281,14 +281,14 @@ namespace Items.Tool
 		{
 			switch (orientation)
 			{
-				case OrientationEnum.Up:
+				case OrientationEnum.Up_By0:
 					return Matrix4x4.identity;
-				case OrientationEnum.Right:
-					return Matrix4x4.TRS(Vector3.zero,  Quaternion.Euler(0f, 0f, 270f), Vector3.one);
-				case OrientationEnum.Left:
-					return Matrix4x4.TRS(Vector3.zero,  Quaternion.Euler(0f, 0f, 90f), Vector3.one);
-				case OrientationEnum.Down:
-					return Matrix4x4.TRS(Vector3.zero,  Quaternion.Euler(0f, 0f, 180f), Vector3.one);
+				case OrientationEnum.Right_By270:
+					return Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0f, 0f, 270f), Vector3.one);
+				case OrientationEnum.Left_By90:
+					return Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0f, 0f, 90f), Vector3.one);
+				case OrientationEnum.Down_By180:
+					return Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0f, 0f, 180f), Vector3.one);
 				default:
 					return Matrix4x4.identity;
 			}
@@ -303,7 +303,8 @@ namespace Items.Tool
 
 			if (isCan)
 			{
-				SoundManager.PlayNetworkedAtPos(spraySound, interaction.Performer.WorldPosServer(), sourceObj: interaction.Performer);
+				SoundManager.PlayNetworkedAtPos(spraySound, interaction.Performer.AssumedWorldPosServer(),
+					sourceObj: interaction.Performer);
 			}
 
 			// -1 means infinite
@@ -311,12 +312,14 @@ namespace Items.Tool
 
 			if (isCan)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"The {gameObject.ExpensiveName()} needs refilling!");
+				Chat.AddExamineMsgFromServer(interaction.Performer,
+					$"The {gameObject.ExpensiveName()} needs refilling!");
 				return;
 			}
 
-			Chat.AddExamineMsgFromServer(interaction.Performer, $"There is no more of the {gameObject.ExpensiveName()} left!");
-			Despawn.ServerSingle(gameObject);
+			Chat.AddExamineMsgFromServer(interaction.Performer,
+				$"There is no more of the {gameObject.ExpensiveName()} left!");
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		#endregion
@@ -340,15 +343,15 @@ namespace Items.Tool
 
 		public void SetTileFromClient(uint newCategoryIndex, uint newIndex, uint colourIndex, OrientationEnum direction)
 		{
-			categoryIndex = (int)newCategoryIndex;
-			index = (int)newIndex;
+			categoryIndex = (int) newCategoryIndex;
+			index = (int) newIndex;
 			orientation = direction;
 
-			if(isCan == false) return;
+			if (isCan == false) return;
 
-			if(colourIndex >= Enum.GetNames(typeof(CrayonColour)).Length) return;
+			if (colourIndex >= Enum.GetNames(typeof(CrayonColour)).Length) return;
 
-			setCrayonColour = (CrayonColour)colourIndex;
+			setCrayonColour = (CrayonColour) colourIndex;
 		}
 
 		//Both lists must have the same layout as this assumes indexes are the same
@@ -362,15 +365,15 @@ namespace Items.Tool
 			//If wall get wall variant of the overlay tile
 			if (isWall)
 			{
-				if(graffitiListsWalls.GraffitiTilesCategories.Count < categoryIndex)
+				if (graffitiListsWalls.GraffitiTilesCategories.Count < categoryIndex)
 				{
 					categoryIndex = -1;
 					return null;
 				}
 
-				var wallCategory = graffitiListsWalls.GraffitiTilesCategories[(int)categoryIndex];
+				var wallCategory = graffitiListsWalls.GraffitiTilesCategories[(int) categoryIndex];
 
-				if(wallCategory.GraffitiTiles.Count < index)
+				if (wallCategory.GraffitiTiles.Count < index)
 				{
 					categoryIndex = -1;
 					index = -1;
@@ -381,13 +384,13 @@ namespace Items.Tool
 			}
 
 			//Else get floor variant of the overlay tile
-			if(graffitiListsFloor.GraffitiTilesCategories.Count < categoryIndex)
+			if (graffitiListsFloor.GraffitiTilesCategories.Count < categoryIndex)
 			{
 				categoryIndex = -1;
 				return null;
 			}
 
-			var floorCategory = graffitiListsFloor.GraffitiTilesCategories[(int)categoryIndex];
+			var floorCategory = graffitiListsFloor.GraffitiTilesCategories[(int) categoryIndex];
 
 			if (floorCategory.GraffitiTiles.Count < index)
 			{
@@ -444,9 +447,9 @@ namespace Items.Tool
 
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
-			if(info.ToSlot == null || info.ToSlot.ItemStorage == null) return;
+			if (info.ToSlot == null || info.ToSlot.ItemStorage == null) return;
 
-			if(info.ToSlot.ItemStorage.ItemStorageCapacity != crayonBoxCapacity) return;
+			if (info.ToSlot.ItemStorage.ItemStorageCapacity != crayonBoxCapacity) return;
 
 			if (isCan)
 			{
@@ -456,14 +459,16 @@ namespace Items.Tool
 
 			if (setCrayonColour == CrayonColour.Mime)
 			{
-				Chat.AddExamineMsgFromServer(info.FromPlayer.OrNull()?.gameObject, "This crayon is too sad to be contained in this box!");
+				Chat.AddExamineMsgFromServer(info.FromPlayer.OrNull()?.gameObject,
+					"This crayon is too sad to be contained in this box!");
 				Inventory.ServerTransfer(info.ToSlot, info.FromSlot);
 				return;
 			}
 
 			if (setCrayonColour == CrayonColour.NormalRainbow || setCrayonColour == CrayonColour.UnlimitedRainbow)
 			{
-				Chat.AddExamineMsgFromServer(info.FromPlayer.OrNull()?.gameObject, "This crayon is too powerful to be contained in this box!");
+				Chat.AddExamineMsgFromServer(info.FromPlayer.OrNull()?.gameObject,
+					"This crayon is too powerful to be contained in this box!");
 				Inventory.ServerTransfer(info.ToSlot, info.FromSlot);
 			}
 		}

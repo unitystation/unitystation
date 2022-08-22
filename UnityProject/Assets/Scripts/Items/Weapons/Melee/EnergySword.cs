@@ -17,8 +17,8 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	private SwordColor color = default;
 
 	[SerializeField]
-	private ItemSize activatedSize = ItemSize.Huge;
-	private ItemSize offSize;
+	private Size activatedSize = Size.Huge;
+	private Size offSize;
 
 	[SerializeField]
 	private AddressableAudioSource activatedHitSound = null;
@@ -60,11 +60,6 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		itemAttributes = GetComponent<ItemAttributesV2>();
 		lightControl = GetComponent<ItemLightControl>();
 		spriteHandler = GetComponentInChildren<SpriteHandler>();
-		if (color == SwordColor.Random)
-		{
-			// Get random color
-			color = (SwordColor)Enum.GetValues(typeof(SwordColor)).GetValue(Random.Range(1, 5));
-		}
 	}
 
 	private void Start()
@@ -74,6 +69,11 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		offHitDamage = itemAttributes.ServerHitDamage;
 		offThrowDamage = itemAttributes.ServerThrowDamage;
 		offAttackVerbs = new List<string>(itemAttributes.ServerAttackVerbs);
+		if (color == SwordColor.Random)
+		{
+			// Get random color
+			color = (SwordColor)Enum.GetValues(typeof(SwordColor)).GetValue(Random.Range(1, 5));
+		}
 	}
 
 	#endregion Lifecycle

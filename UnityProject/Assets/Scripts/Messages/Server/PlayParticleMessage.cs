@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
+using Objects;
 using UnityEngine;
 
 namespace Messages.Server
@@ -30,74 +31,15 @@ namespace Messages.Server
 				return;
 			}
 
+			//Dont play particles on headless server
+			if(CustomNetworkManager.IsHeadless) return;
+
 			LoadMultipleObjects(new uint[] {msg.ParticleObject, msg.ParentObject});
 
 			GameObject particleObject = NetworkObjects[0];
 			GameObject parentObject = NetworkObjects[1];
 
-			if (particleObject == null)
-			{
-				Logger.LogError("Failed to load particle in PlayParticleMessage", Category.Particles);
-				return;
-			}
-
-			if ( !particleObject.activeInHierarchy )
-			{
-				Logger.LogFormat("PlayParticle request ignored because gameobject {0} is inactive", Category.Particles, particleObject);
-				return;
-			}
-
-
-			ParticleSystem particleSystem = particleObject.GetComponentInChildren<ParticleSystem>();
-
-			var reclaimer = particleObject.GetComponent<ParentReclaimer>();
-
-			if (particleSystem == null && reclaimer != null)
-			{ //if it's already parented to something else
-				reclaimer.ReclaimNow();
-				particleSystem = particleObject.GetComponentInChildren<ParticleSystem>();
-			}
-
-			if ( particleSystem == null )
-			{
-				Logger.LogWarningFormat("ParticleSystem not found for gameobject {0}, PlayParticle request ignored", Category.Particles, particleObject);
-				return;
-			}
-
-			var renderer = particleSystem.GetComponent<ParticleSystemRenderer>();
-			renderer.enabled = true;
-
-			if ( msg.TargetVector != Vector2.zero)
-			{
-				var angle = Orientation.AngleFromUp(msg.TargetVector);
-				particleSystem.transform.rotation = Quaternion.Euler(0, 0, -angle+90);
-			}
-
-			if (parentObject != null)
-			{
-				//temporary change of parent, but setting it back after playback ends!
-				if (reclaimer == null)
-				{
-					reclaimer = particleObject.AddComponent<ParentReclaimer>();
-				}
-
-				reclaimer.ReclaimWithDelay(particleSystem.main.duration, particleSystem, particleObject.transform);
-
-				particleSystem.transform.SetParent(parentObject.transform, false);
-			}
-
-			particleSystem.transform.localPosition = Vector3.zero;
-
-			var customEffectBehaviour = particleSystem.GetComponent<CustomEffectBehaviour>();
-			if (customEffectBehaviour)
-			{
-				customEffectBehaviour.RunEffect(msg.TargetVector);
-			}
-			else
-			{
-				//only needs to run on the clients other than the shooter
-				particleSystem.Play();
-			}
+			Effect.ClientPlayParticle(particleObject, parentObject, msg.TargetVector);
 		}
 
 		/// <summary>
@@ -108,11 +50,20 @@ namespace Messages.Server
 			GameObject topContainer = null;
 			try
 			{
-				topContainer = obj.GetComponent<PushPull>().TopContainer.gameObject;
+				var Physics = obj.GetComponent<UniversalObjectPhysics>();
+				if (Physics.ContainedInContainer == null)
+				{
+					topContainer = Physics.gameObject;
+				}
+				else
+				{
+					topContainer = Physics.ContainedInContainer.TopContainer.gameObject;
+				}
+
 			}
 			catch (Exception ignored)
 			{
-				Logger.Log($"PlayParticleMessage threw an exception {ignored} which has been ignored.", Category.Particles);
+				Logger.LogError($"PlayParticleMessage threw an exception {ignored} which has been ignored.", Category.Particles);
 			}
 
 

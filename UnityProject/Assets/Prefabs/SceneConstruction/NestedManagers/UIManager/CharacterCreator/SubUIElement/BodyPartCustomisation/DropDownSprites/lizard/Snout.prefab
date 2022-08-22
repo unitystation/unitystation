@@ -119,8 +119,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7055774701040658935, guid: 89855ce616f6fac4db5a551a6b8ace28,
         type: 3}
+      propertyPath: ColourAppliesToItemsSprite
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7055774701040658935, guid: 89855ce616f6fac4db5a551a6b8ace28,
+        type: 3}
       propertyPath: OptionalSprites.Array.size
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7055774701040658935, guid: 89855ce616f6fac4db5a551a6b8ace28,
         type: 3}
@@ -138,19 +143,19 @@ PrefabInstance:
         type: 3}
       propertyPath: OptionalSprites.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: d8e1663e2a6832040bf0054b4501f955,
+      objectReference: {fileID: 11400000, guid: 89ce8ef7058acf64e832356cb99f244c,
         type: 2}
     - target: {fileID: 7055774701040658935, guid: 89855ce616f6fac4db5a551a6b8ace28,
         type: 3}
       propertyPath: OptionalSprites.Array.data[3]
       value: 
-      objectReference: {fileID: 11400000, guid: 89ce8ef7058acf64e832356cb99f244c,
+      objectReference: {fileID: 11400000, guid: f8085eddb93f60443b90137f3efa3311,
         type: 2}
     - target: {fileID: 7055774701040658935, guid: 89855ce616f6fac4db5a551a6b8ace28,
         type: 3}
       propertyPath: OptionalSprites.Array.data[4]
       value: 
-      objectReference: {fileID: 11400000, guid: f8085eddb93f60443b90137f3efa3311,
+      objectReference: {fileID: 11400000, guid: d8e1663e2a6832040bf0054b4501f955,
         type: 2}
     - target: {fileID: 7055774701040658935, guid: 89855ce616f6fac4db5a551a6b8ace28,
         type: 3}

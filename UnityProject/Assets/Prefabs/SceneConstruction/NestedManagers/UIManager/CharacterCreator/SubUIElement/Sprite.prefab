@@ -30,6 +30,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -92,10 +93,11 @@ MonoBehaviour:
   NetworkThis: 0
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 0
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
-  Sprites: []
 --- !u!114 &2411645831157785180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,5 +111,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpriteHandler: {fileID: 4830751456365533255}
-  SpriteOrder:
+  spriteOrder:
     Orders: 00000000000000000000000000000000
+  spriteRenderer: {fileID: 0}

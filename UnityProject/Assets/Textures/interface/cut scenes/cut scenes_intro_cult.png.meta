@@ -69,7 +69,7 @@ TextureImporter:
       213: 21300042
     second: intro_cult_21
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -89,6 +89,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -98,8 +100,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -120,9 +122,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -623,6 +629,29 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      intro_cult_8: 21300016
+      intro_cult_21: 21300042
+      intro_cult_4: 21300008
+      intro_cult_1: 21300002
+      intro_cult_3: 21300006
+      intro_cult_14: 21300028
+      intro_cult_10: 21300020
+      intro_cult_2: 21300004
+      intro_cult_15: 21300030
+      intro_cult_11: 21300022
+      intro_cult_17: 21300034
+      intro_cult_18: 21300036
+      intro_cult_19: 21300038
+      intro_cult_7: 21300014
+      intro_cult_20: 21300040
+      intro_cult_6: 21300012
+      intro_cult_0: 21300000
+      intro_cult_5: 21300010
+      intro_cult_9: 21300018
+      intro_cult_12: 21300024
+      intro_cult_16: 21300032
+      intro_cult_13: 21300026
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

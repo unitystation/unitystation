@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using Mirror;
 using UnityEngine.SceneManagement;
@@ -12,6 +12,7 @@ using IgnoranceTransport;
 using Initialisation;
 using Messages.Server;
 using UnityEditor;
+using Util;
 
 public class CustomNetworkManager : NetworkManager, IInitialise
 {
@@ -33,20 +34,28 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	/// List of ALL prefabs in the game which can be spawned, networked or not.
 	/// use spawnPrefabs to get only networked prefabs
 	/// </summary>
-	[HideInInspector]
-	public List<GameObject> allSpawnablePrefabs = new List<GameObject>();
+	[HideInInspector] public List<GameObject> allSpawnablePrefabs = new();
 
-	private Dictionary<string, DateTime> connectCoolDown = new Dictionary<string, DateTime>();
-	private const double minCoolDown = 1f;
+	public Dictionary<GameObject, int> IndexLookupSpawnablePrefabs = new();
+
+	public Dictionary<string, GameObject> ForeverIDLookupSpawnablePrefabs = new();
 
 	/// <summary>
 	/// Invoked client side when the player has disconnected from a server.
 	/// </summary>
-	[NonSerialized]
-	public UnityEvent OnClientDisconnected = new UnityEvent();
+	[NonSerialized] public UnityEvent OnClientDisconnected = new UnityEvent();
 
 	public override void Awake()
 	{
+		if (IndexLookupSpawnablePrefabs.Count == 0)
+		{
+			new Task(SetUpSpawnablePrefabsIndex).Start();
+		}
+		if (ForeverIDLookupSpawnablePrefabs.Count == 0)
+		{
+			new Task(SetUpSpawnablePrefabsForEverID).Start();
+		}
+
 		if (Instance == null)
 		{
 			Instance = this;
@@ -56,14 +65,55 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			Destroy(gameObject);
 		}
 	}
+
+	private int CurrentLocation = 0;
+
+	public void UpdateMe()
+	{
+		if (allSpawnablePrefabs.Count > CurrentLocation)
+		{
+			for (int i = 0; i < 50; i++)
+			{
+				if (allSpawnablePrefabs.Count > CurrentLocation + i)
+				{
+					if (allSpawnablePrefabs[CurrentLocation + i] == null) continue;
+					if (allSpawnablePrefabs[CurrentLocation + i].TryGetComponent<PrefabTracker>(out var PrefabTracker))
+					{
+						ForeverIDLookupSpawnablePrefabs[PrefabTracker.ForeverID] =
+							allSpawnablePrefabs[CurrentLocation + i];
+					}
+				}
+			}
+
+			CurrentLocation = CurrentLocation + 50;
+		}
+	}
+
+	public void SetUpSpawnablePrefabsIndex()
+	{
+		for (int i = 0; i < allSpawnablePrefabs.Count; i++)
+		{
+			IndexLookupSpawnablePrefabs[allSpawnablePrefabs[i]] = i;
+		}
+	}
+
+	public void SetUpSpawnablePrefabsForEverID()
+	{
+		for (int i = 0; i < allSpawnablePrefabs.Count; i++)
+		{
+			ForeverIDLookupSpawnablePrefabs[allSpawnablePrefabs[i].GetComponent<PrefabTracker>().ForeverID] = allSpawnablePrefabs[i];
+		}
+	}
+
 	public InitialisationSystems Subsystem => InitialisationSystems.CustomNetworkManager;
 
 	void IInitialise.Initialise()
 	{
 		CheckTransport();
 		ApplyConfig();
-		//Automatically host if starting up game *not* from lobby
-		if (SceneManager.GetActiveScene().name != "Lobby")
+
+		var prevEditorScene = SubSceneManager.GetEditorPrevScene();
+		if (prevEditorScene != string.Empty && prevEditorScene != "StartUp" && prevEditorScene != "Lobby")
 		{
 			StartHost();
 		}
@@ -114,37 +164,98 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			var telepathy = GetComponent<TelepathyTransport>();
 			if (telepathy != null)
 			{
-				telepathy.port = (ushort)config.ServerPort;
+				telepathy.port = (ushort) config.ServerPort;
 			}
 
 			var ignorance = GetComponent<Ignorance>();
 			if (ignorance != null)
 			{
-				ignorance.port = (ushort)config.ServerPort;
+				ignorance.port = (ushort) config.ServerPort;
 			}
 		}
+	}
+
+	[ContextMenu("Print network server")]
+	public void PrintNetworkServer()
+	{
+		Logger.LogError(NetworkServer.spawned.Count.ToString());
+	}
+
+	[ContextMenu("Print network client")]
+	public void PrintNetworkClient()
+	{
+		Logger.LogError(NetworkClient.spawned.Count.ToString());
 	}
 
 	public void SetSpawnableList()
 	{
 #if UNITY_EDITOR
+		AssetDatabase.StartAssetEditing();
 		spawnPrefabs.Clear();
 		allSpawnablePrefabs.Clear();
+
+		Dictionary<string, PrefabTracker> StoredIDs = new Dictionary<string, PrefabTracker>();
 
 		var networkObjectsGUIDs = AssetDatabase.FindAssets("t:prefab", new string[] {"Assets/Prefabs"});
 		var objectsPaths = networkObjectsGUIDs.Select(AssetDatabase.GUIDToAssetPath);
 		foreach (var objectsPath in objectsPaths)
 		{
 			var asset = AssetDatabase.LoadAssetAtPath<GameObject>(objectsPath);
-			if(asset == null) continue;
+			if (asset == null) continue;
 
-			if (asset.TryGetComponent<NetworkIdentity>(out _))
+			if (asset.TryGetComponent<NetworkIdentity>(out _) && playerPrefab != asset)
 			{
 				spawnPrefabs.Add(asset);
 			}
 
 			allSpawnablePrefabs.Add(asset);
+
+			if (asset.TryGetComponent<PrefabTracker>(out var prefabTracker))
+			{
+				if (StoredIDs.ContainsKey(prefabTracker.ForeverID))
+				{
+					var OriginalOldID = prefabTracker.ForeverID;
+
+					var OriginDictionary =
+						PrefabUtility.GetCorrespondingObjectFromSource(StoredIDs[prefabTracker.ForeverID].gameObject);
+					if (OriginDictionary == prefabTracker.gameObject)
+					{
+						StoredIDs[prefabTracker.ForeverID].ReassignID();
+					}
+					else
+					{
+						prefabTracker.ReassignID();
+					}
+
+					var Preexisting = StoredIDs[OriginalOldID];
+
+					if (Preexisting.ForeverID != OriginalOldID &&
+					    prefabTracker.ForeverID != OriginalOldID)
+					{
+						Logger.LogError("OH GOD What is the original I can't tell!! " +
+						                "Manually edit the ForeverID For the newly created prefab to not be the same as " +
+						                "the prefab variant parent for " +
+						                Preexisting.gameObject +
+						                " and " + prefabTracker.gameObject);
+
+						prefabTracker.ForeverID = OriginalOldID;
+						Preexisting.ForeverID = OriginalOldID;
+						continue;
+					}
+
+
+					StoredIDs[Preexisting.ForeverID] = Preexisting;
+					StoredIDs[prefabTracker.ForeverID] = prefabTracker;
+					PrefabUtility.SavePrefabAsset(Preexisting.gameObject);
+					PrefabUtility.SavePrefabAsset(prefabTracker.gameObject);
+				}
+
+				StoredIDs[prefabTracker.ForeverID] = prefabTracker;
+			}
 		}
+
+		AssetDatabase.StopAssetEditing();
+		AssetDatabase.SaveAssets();
 #endif
 	}
 
@@ -162,7 +273,9 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			return prefab[0];
 		}
 
-		Logger.LogError($"There is no spawnable prefab with the name: {prefabName}, can only find prefabs which have net identities using this method");
+		Logger.LogError(
+			$"There is no prefab with the name: {prefabName} inside the AllSpawnablePrefabs list in the network manager," +
+			" all prefabs must be in this list if they need to be spawnable");
 
 		return null;
 	}
@@ -170,11 +283,13 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	public override void OnStartServer()
@@ -204,68 +319,56 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public override void OnStartClient()
 	{
-		if(AddressableCatalogueManager.Instance == null) return;
+		if (AddressableCatalogueManager.Instance == null) return;
 
 		AddressableCatalogueManager.Instance.LoadClientCatalogues();
 	}
 
 	//called on server side when player is being added, this is the main entry point for a client connecting to this server
-	public override void OnServerAddPlayer(NetworkConnection conn)
+	public override void OnServerAddPlayer(NetworkConnectionToClient conn)
 	{
 		if (IsHeadless || GameData.Instance.testServer)
 		{
 			if (conn == NetworkServer.localConnection)
 			{
-				Logger.Log("Prevented headless server from spawning a player", Category.Server);
+				Logger.Log("Prevented headless server from spawning a player", Category.Connections);
 				return;
 			}
 		}
 
-		Logger.LogFormat("Client connecting to server {0}", Category.Connections, conn);
+		Logger.LogTrace($"Spawning a GameObject for the client {conn}.", Category.Connections);
 		base.OnServerAddPlayer(conn);
 		SubSceneManager.Instance.AddNewObserverScenePermissions(conn);
 		UpdateRoundTimeMessage.Send(GameManager.Instance.stationTime.ToString("O"));
 	}
 
 	//called on client side when client first connects to the server
-	public override void OnClientConnect(NetworkConnection conn)
+	public override void OnClientConnect()
 	{
-		Logger.LogFormat("We (the client) connected to the server {0}", Category.Connections, conn);
+		Logger.Log($"We (the client) connected to the server {NetworkClient.connection.address}.", Category.Connections);
 		//Does this need to happen all the time? OnClientConnect can be called multiple times
 		NetworkManagerExtensions.RegisterClientHandlers();
 
-		base.OnClientConnect(conn);
+		base.OnClientConnect();
 	}
 
-	public override void OnClientDisconnect(NetworkConnection conn)
+	public override void OnClientDisconnect()
 	{
-		base.OnClientDisconnect(conn);
+		Logger.Log("Client disconnected from the server.");
+		base.OnClientDisconnect();
 		OnClientDisconnected.Invoke();
 	}
 
-	public override void OnServerConnect(NetworkConnection conn)
+	public override void OnServerConnect(NetworkConnectionToClient conn)
 	{
-		if (!connectCoolDown.ContainsKey(conn.address))
-		{
-			connectCoolDown.Add(conn.address, DateTime.Now);
-		}
-		else
-		{
-			var totalSeconds = (DateTime.Now - connectCoolDown[conn.address]).TotalSeconds;
-			if (totalSeconds < minCoolDown)
-			{
-				Logger.Log($"Connect spam alert. Address {conn.address} is trying to spam connections", Category.Connections);
-				conn.Disconnect();
-				return;
-			}
+		// Connection has been authenticated via Authentication.cs
+		Logger.LogTrace($"A client has been authenticated and has joined. Address: {conn.address}.");
 
-			connectCoolDown[conn.address] = DateTime.Now;
-		}
 		base.OnServerConnect(conn);
 	}
 
 	/// server actions when client disconnects
-	public override void OnServerDisconnect(NetworkConnection conn)
+	public override void OnServerDisconnect(NetworkConnectionToClient conn)
 	{
 		//register them as removed from our own player list
 		PlayerList.Instance.RemoveByConnection(conn);
@@ -283,6 +386,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		//now we can call mirror's normal disconnect logic, which will destroy all the player's owned objects
 		//which will preserve their actual body because they no longer own it
 		base.OnServerDisconnect(conn);
+		SubSceneManager.Instance.RemoveSceneObserver(conn);
 	}
 
 	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)
@@ -293,7 +397,11 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			// TODO check if this is needed
 			// EventManager.Broadcast(EVENT.RoundStarted);
 			StartCoroutine(DoHeadlessCheck());
-
+		}
+		else
+		{
+			// must've disconnected, let lobby know (now that scene is loaded)
+			Lobby.LobbyManager.Instance.lobbyDialogue.wasDisconnected = true;
 		}
 	}
 
@@ -328,11 +436,11 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	private IEnumerator TransformWaltz()
 	{
-		CustomNetTransform[] scripts = FindObjectsOfType<CustomNetTransform>();
-		var sequence = new []
+		UniversalObjectPhysics[] scripts = FindObjectsOfType<UniversalObjectPhysics>();
+		var sequence = new[]
 		{
 			Vector3.right, Vector3.up, Vector3.left, Vector3.down,
-				Vector3.down, Vector3.left, Vector3.up, Vector3.right
+			Vector3.down, Vector3.left, Vector3.up, Vector3.right
 		};
 		for (var i = 0; i < sequence.Length; i++)
 		{
@@ -340,13 +448,14 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			{
 				NudgeTransform(scripts[j], sequence[i]);
 			}
+
 			yield return WaitFor.Seconds(1.5f);
 		}
 	}
 
-	private static void NudgeTransform(CustomNetTransform netTransform, Vector3 where)
+	private static void NudgeTransform(UniversalObjectPhysics ObjectPhysics, Vector3 where)
 	{
-		netTransform.SetPosition(netTransform.ServerState.Position + where);
+		ObjectPhysics.AppearAtWorldPositionServer(ObjectPhysics.OfficialPosition + where);
 	}
 #endif
 }

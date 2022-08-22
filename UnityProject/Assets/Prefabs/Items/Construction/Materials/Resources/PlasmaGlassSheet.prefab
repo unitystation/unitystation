@@ -1,50 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &5890203577239317802
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1151981523841236988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a92be9a13622bf48a10f05367a474f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  rods: 2
-  sheetsGlass: 1
-  sheetsReinforcedGlass: 1
-  sheetsReinforcedGlassType: {fileID: 77673353444578627, guid: b6a0d928019a24a4f9cee04a1d06b3b1,
-    type: 3}
---- !u!114 &7753296470096805340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1151981523841236988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d95e80c8fc844f38a2d4a6f11bee3c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waysToPlace:
-  - layerTile: {fileID: 11400000, guid: ae105d9364e52524f854296e03bc894e, type: 2}
-    placeableOn: 5
-    placeableOnlyOnTile: {fileID: 11400000, guid: 3975642db6c52ed4fa2086247abc1f28,
-      type: 2}
-    itemCost: 2
-  placeTime: 6
-  placeSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/GlassHit.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!1001 &8850041826560229315
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64,6 +19,49 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4186ff50cbdbff241a9f20e27af524ff,
         type: 2}
+    - target: {fileID: 3285299878679120978, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: foreverID
+      value: dfe30ea3b0c7a1a48ab584f1f6776309
+      objectReference: {fileID: 0}
+    - target: {fileID: 5200803135255930768, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: stackSprites.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5200803135255930768, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: stackSprites.Array.data[0].SpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 60d48ace82878ad49a58a0d58bffba61,
+        type: 2}
+    - target: {fileID: 5200803135255930768, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: stackSprites.Array.data[1].SpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 1f7368cf5aab61e489a768161ee811d0,
+        type: 2}
+    - target: {fileID: 5200803135255930768, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: stackSprites.Array.data[2].SpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: dfec86c6d5a66eb4b8996956992d949e,
+        type: 2}
+    - target: {fileID: 5200803135255930768, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: stackSprites.Array.data[0].OverAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5200803135255930768, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: stackSprites.Array.data[1].OverAmount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5200803135255930768, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: stackSprites.Array.data[2].OverAmount
+      value: 51
+      objectReference: {fileID: 0}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: exportCost
@@ -126,7 +124,7 @@ PrefabInstance:
     - target: {fileID: 8410813880369429899, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: dfe30ea3b0c7a1a48ab584f1f6776309
       objectReference: {fileID: 0}
     - target: {fileID: 8443408387443916863, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
@@ -207,3 +205,66 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8850041826560229315}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-6588257826460687609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151981523841236988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundReagents:
+    m_keys:
+    - {fileID: 11400000, guid: 0dbe4ccb54c65da5e88a73f36441a195, type: 2}
+    - {fileID: 11400000, guid: 3f8ba0db83a8157ae8fbb3c4115580e7, type: 2}
+    m_values: 140000000a000000
+--- !u!114 &5890203577239317802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151981523841236988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a92be9a13622bf48a10f05367a474f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  rods: 2
+  sheetsGlass: 1
+  sheetsReinforcedGlass: 1
+  sheetsReinforcedGlassType: {fileID: 77673353444578627, guid: b6a0d928019a24a4f9cee04a1d06b3b1,
+    type: 3}
+--- !u!114 &7753296470096805340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151981523841236988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d95e80c8fc844f38a2d4a6f11bee3c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waysToPlace:
+  - layerTile: {fileID: 11400000, guid: ae105d9364e52524f854296e03bc894e, type: 2}
+    placeableOn: 5
+    placeableOnlyOnTile: {fileID: 11400000, guid: 3975642db6c52ed4fa2086247abc1f28,
+      type: 2}
+    itemCost: 2
+    timeToPlace: 1
+  placeSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GlassHit.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0

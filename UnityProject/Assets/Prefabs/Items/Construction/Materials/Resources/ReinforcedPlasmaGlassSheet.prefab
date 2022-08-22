@@ -1,31 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &7202611667669030427
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 77673353444578627}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d95e80c8fc844f38a2d4a6f11bee3c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waysToPlace:
-  - layerTile: {fileID: 11400000, guid: 7e4862f8c5d385d448754a86a2f73169, type: 2}
-    placeableOn: 5
-    placeableOnlyOnTile: {fileID: 11400000, guid: 3975642db6c52ed4fa2086247abc1f28,
-      type: 2}
-    itemCost: 2
-  placeTime: 6
-  placeSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/GlassHit.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!1001 &8376397002567964028
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45,6 +19,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 60d48ace82878ad49a58a0d58bffba61,
         type: 2}
+    - target: {fileID: 3285299878679120978, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: foreverID
+      value: b6a0d928019a24a4f9cee04a1d06b3b1
+      objectReference: {fileID: 0}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: exportCost
@@ -112,7 +91,7 @@ PrefabInstance:
     - target: {fileID: 8410813880369429899, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b6a0d928019a24a4f9cee04a1d06b3b1
       objectReference: {fileID: 0}
     - target: {fileID: 8443408387443916863, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
@@ -193,3 +172,48 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8376397002567964028}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-6379179027792655928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77673353444578627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundReagents:
+    m_keys:
+    - {fileID: 11400000, guid: 0dbe4ccb54c65da5e88a73f36441a195, type: 2}
+    - {fileID: 11400000, guid: 3f8ba0db83a8157ae8fbb3c4115580e7, type: 2}
+    - {fileID: 11400000, guid: bb1b374d9154ed45ca903a8ace087e8d, type: 2}
+    m_values: 140000000a0000000a000000
+--- !u!114 &7202611667669030427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77673353444578627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d95e80c8fc844f38a2d4a6f11bee3c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waysToPlace:
+  - layerTile: {fileID: 11400000, guid: 7e4862f8c5d385d448754a86a2f73169, type: 2}
+    placeableOn: 5
+    placeableOnlyOnTile: {fileID: 11400000, guid: 3975642db6c52ed4fa2086247abc1f28,
+      type: 2}
+    itemCost: 2
+    timeToPlace: 1
+  placeSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GlassHit.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0

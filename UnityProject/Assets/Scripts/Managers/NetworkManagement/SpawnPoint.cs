@@ -11,10 +11,20 @@ namespace Systems.Spawns
 		[SerializeField, FormerlySerializedAs("Department")]
 		private SpawnPointCategory category = default;
 
+		[SerializeField]
+		private SpawnPointType type = SpawnPointType.Unlimited;
+
+		[SerializeField]
+		[Range(0, 10)]
+		[Tooltip("Higher number means higher priority")]
+		private int priority = 0;
+
+		private bool used;
+
 		public static IEnumerable<Transform> GetPointsForCategory(SpawnPointCategory category)
 		{
 			return NetworkManager.startPositions.Select(x => x.transform)
-				.Where(x => x.GetComponent<SpawnPoint>().category == category);
+				.Where(x => x.TryGetComponent<SpawnPoint>(out var spawn) && spawn.category == category && spawn.used == false);
 		}
 
 		public static Transform GetRandomPointForLateSpawn()
@@ -22,13 +32,47 @@ namespace Systems.Spawns
 			return GetPointsForCategory(SpawnPointCategory.LateJoin).ToList().PickRandom();
 		}
 
-		public static Transform GetRandomPointForJob(JobType job)
+		public static Transform GetRandomPointForJob(JobType job, bool isGhost = false)
 		{
-			Transform point;
-			if (categoryByJob.ContainsKey(job) &&
-			    (point = GetPointsForCategory(categoryByJob[job]).ToList().PickRandom()) != null)
+			if (categoryByJob.ContainsKey(job))
 			{
-				return point;
+				//Get all available points and order by priority, higher numbers picked first
+				var points = GetPointsForCategory(categoryByJob[job]).OrderBy(x => x.GetComponent<SpawnPoint>().priority).ToList();
+
+				if (points.Any() == false)
+				{
+					// Default to arrivals if there is no mapped spawn point for this job!
+					// Will still return null if there is no arrivals spawn points set (and people will just not spawn!).
+					return GetRandomPointForLateSpawn();
+				}
+
+				//Get last point as that should have biggest priority
+				var last = points.Last();
+				if (last != null && last.TryGetComponent<SpawnPoint>(out var spawn))
+				{
+					//If the priority isnt 0 then we use this one else choose random
+					if (spawn.priority != 0)
+					{
+						//If this point is only allowed once then set it to used, dont allow ghosts to use up a spawn point
+						if (spawn.type == SpawnPointType.Once && isGhost == false)
+						{
+							spawn.used = true;
+						}
+
+						return last;
+					}
+
+					//Pick random as all points will be 0
+					last = points.PickRandom();
+
+					//If this point is only allowed once then set it to used, dont allow ghosts to use up a spawn point
+					if (spawn.type == SpawnPointType.Once && isGhost == false)
+					{
+						spawn.used = true;
+					}
+
+					return last;
+				}
 			}
 
 			// Default to arrivals if there is no mapped spawn point for this job!
@@ -91,6 +135,7 @@ namespace Systems.Spawns
 
 			{ JobType.CENTCOMM_COMMANDER, SpawnPointCategory.CentCommCommander },
 			{ JobType.CENTCOMM_OFFICER, SpawnPointCategory.CentComm },
+			{ JobType.REDSHIELD_OFFICER, SpawnPointCategory.CentComm },
 			{ JobType.CENTCOMM_INTERN, SpawnPointCategory.CentComm },
 			{ JobType.ERT_COMMANDER, SpawnPointCategory.EmergencyResponseTeam },
 			{ JobType.ERT_SECURITY, SpawnPointCategory.EmergencyResponseTeam },
@@ -106,6 +151,7 @@ namespace Systems.Spawns
 			{ JobType.SYNDICATE, SpawnPointCategory.NuclearOperative },
 			{ JobType.WIZARD, SpawnPointCategory.WizardFederation },
 			{JobType.ANCIENT_ENGINEER, SpawnPointCategory.AncientEngineering},
+			{JobType.ASHWALKER, SpawnPointCategory.Ashwalker},
 		};
 
 		private static readonly Dictionary<SpawnPointCategory, string> iconNames = new Dictionary<SpawnPointCategory, string>()
@@ -148,7 +194,8 @@ namespace Systems.Spawns
 			{SpawnPointCategory.MaintSpawns, "Mapping/mapping_mouse.png"},
 			{SpawnPointCategory.WizardFederation, "Mapping/mapping_wiznerd_spawn.png"},
 			{SpawnPointCategory.SpaceExterior, "Mapping/mapping_carp_spawn.png"},
-			{SpawnPointCategory.AncientEngineering, "Mapping/mapping_station_engineer.png"}
+			{SpawnPointCategory.AncientEngineering, "Mapping/mapping_station_engineer.png"},
+			{SpawnPointCategory.Ashwalker, "Mapping/mapping_ashwalker.png"}
 		};
 
 	}
@@ -199,5 +246,12 @@ namespace Systems.Spawns
 		WizardFederation,
 		SpaceExterior,
 		AncientEngineering,
+		Ashwalker
+	}
+
+	public enum SpawnPointType
+	{
+		Unlimited,
+		Once
 	}
 }

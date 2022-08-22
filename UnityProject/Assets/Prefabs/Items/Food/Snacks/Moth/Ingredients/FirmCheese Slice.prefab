@@ -1,0 +1,234 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5481375493975853895
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 462785647928366020, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: CookTime
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 462785647928366020, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: CookableBy
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 462785647928366020, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 8850463315335230013, guid: b23453ce7e53947438cee3cf417ac942,
+        type: 3}
+    - target: {fileID: 2362322378926985792, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 84c6e08358573194c8c518895b225efd,
+        type: 2}
+    - target: {fileID: 2362322378926985792, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3492147781147125596, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 2be275b6dee5972428142f972b0b88e9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3594625116439272168, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: m_Name
+      value: FirmCheese Slice
+      objectReference: {fileID: 0}
+    - target: {fileID: 3598708565221255068, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3598708565221255068, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3598708565221255068, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3598708565221255068, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3598708565221255068, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3598708565221255068, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3598708565221255068, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3598708565221255068, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3598708565221255068, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3598708565221255068, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3598708565221255068, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3680384153589279156, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 754d36205e5137e4c8bd694f2f011e85,
+        type: 3}
+    - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 16b8fb19654502748828992a303593f4,
+        type: 2}
+    - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: d15b6d91bab74654794b2b5d837545e7,
+        type: 2}
+    - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 0e11f174435be8f4f8ba699fd2d4c7df,
+        type: 2}
+    - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: b7d95e1f9e884334d830a5de06329848,
+        type: 2}
+    - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: e1d711423c264d7489fff25190951c48,
+        type: 2}
+    - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[5].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 792e614da7cb1c24e848719f74f47241,
+        type: 2}
+    - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[6].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: d4fdfc9dbe0666e459c07f05b9f1d65f,
+        type: 2}
+    - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].ingredientIndex
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[5].ingredientIndex
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[6].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3967450044638082442, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: initialName
+      value: firm cheese slice
+      objectReference: {fileID: 0}
+    - target: {fileID: 3967450044638082442, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: initialDescription
+      value: A slice of firm cheese. Perfect for grilling or making into delicious
+        pesto.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3967450044638082442, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3967450044638082442, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: a9ac8cfeac7f9cc409369a06ea01aa79,
+        type: 2}
+    - target: {fileID: 3967450044638082442, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 3967450044638082442, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252118422562922863, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d69ee497f29437847b54ce28ae791583,
+        type: 2}
+    - target: {fileID: 7590840930289374853, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: foreverID
+      value: grillme
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 22393c79daa24284fa0c95a3af36f4a3, type: 3}

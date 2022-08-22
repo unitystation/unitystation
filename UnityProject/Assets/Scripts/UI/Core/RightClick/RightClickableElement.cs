@@ -11,7 +11,7 @@ using UnityEngine;
 /// </summary>
 public class RightClickableElement
 {
-	private static Dictionary<string, RightClickOption> optionNameToOption;
+	private static Dictionary<string, RightClickOption> optionNameToOption = new Dictionary<string, RightClickOption>();
 
 	private readonly RightClickOption option;
 	private readonly Action action;
@@ -51,9 +51,9 @@ public class RightClickableElement
 		Sprite bgSpriteOverride = null, bool keepMenuOpen = true)
 
 	{
-		if (optionNameToOption == null)
+		if (optionNameToOption == null || optionNameToOption.Count == 0)
 		{
-			initOptionDict();
+			InitOptionsDict();
 		}
 
 		if (optionNameToOption.TryGetValue(optionName, out var option))
@@ -70,14 +70,13 @@ public class RightClickableElement
 		}
 	}
 
-	private static void initOptionDict()
+	private static void InitOptionsDict()
 	{
 		optionNameToOption = new Dictionary<string, RightClickOption>();
-		var allOptions = RightClickOptionSingleton.Instance.RightClickOptions;
 
-		foreach (var option in allOptions)
+		foreach (var opt in RightClickManager.Instance.RightClickOptions)
 		{
-			optionNameToOption.Add(option.name, option);
+			optionNameToOption.Add(opt.name, opt);
 		}
 	}
 

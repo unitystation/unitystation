@@ -35,7 +35,6 @@ namespace Systems.MobAIs
 		{
 			base.OnSpawnMob();
 			currentLaidEggs = 0;
-			BeginExploring();
 		}
 
 		protected override void DoRandomAction()
@@ -73,7 +72,7 @@ namespace Systems.MobAIs
 			{
 				// grow to become a cute chicken
 				Spawn.ServerPrefab(possibleGrownForms.PickRandom(), gameObject.RegisterTile().WorldPosition);
-				Despawn.ServerSingle(gameObject);
+				_ = Despawn.ServerSingle(gameObject);
 			}
 		}
 	}

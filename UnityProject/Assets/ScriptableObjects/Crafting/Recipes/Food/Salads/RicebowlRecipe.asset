@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: RicebowlRecipe
+  m_EditorClassIdentifier: 
+  category: 15
+  craftingTime: 0
+  recipeName: Ricebowl
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 3046611069451632629, guid: fe66ec36f566be84a9ccbc5a90aacd6f,
+      type: 3}
+  requiredReagents:
+  - requiredAmount: 10
+    requiredReagent: {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
+  - requiredAmount: 10
+    requiredReagent: {fileID: 11400000, guid: 5492c9211fc87fdb7bdab55f9cdcfccc, type: 2}
+  requiredToolTraits: []
+  result:
+  - {fileID: 5650794415485264529, guid: 2a53211e0815cf94ca865f63d3c50da6, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 341

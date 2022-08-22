@@ -7,6 +7,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1715204488864381413, guid: b58112df4b5764d479ff1b2118341579,
+        type: 3}
+      propertyPath: foreverID
+      value: 8a3201daa7af98f45afe909d3d9267c4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1887298199834824207, guid: b58112df4b5764d479ff1b2118341579,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e194ed0824047074abd890f08151d517,
+        type: 2}
+    - target: {fileID: 3288822452712985832, guid: b58112df4b5764d479ff1b2118341579,
+        type: 3}
+      propertyPath: groundReagents.m_keys.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3288822452712985832, guid: b58112df4b5764d479ff1b2118341579,
+        type: 3}
+      propertyPath: groundReagents.m_values.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3288822452712985832, guid: b58112df4b5764d479ff1b2118341579,
+        type: 3}
+      propertyPath: groundReagents.m_keys.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 394c1da54edee07e1930589510b8ec51,
+        type: 2}
+    - target: {fileID: 3288822452712985832, guid: b58112df4b5764d479ff1b2118341579,
+        type: 3}
+      propertyPath: groundReagents.m_values.Array.data[1]
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5303694675348871914, guid: b58112df4b5764d479ff1b2118341579,
         type: 3}
       propertyPath: initialName
@@ -17,10 +49,16 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Increases robustness by 37 percent!
       objectReference: {fileID: 0}
+    - target: {fileID: 5586413100101535444, guid: b58112df4b5764d479ff1b2118341579,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 57e17df00a92389499b393eb3adc2613,
+        type: 3}
     - target: {fileID: 5684436740371056700, guid: b58112df4b5764d479ff1b2118341579,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 8a3201daa7af98f45afe909d3d9267c4
       objectReference: {fileID: 0}
     - target: {fileID: 5720867443478710524, guid: b58112df4b5764d479ff1b2118341579,
         type: 3}

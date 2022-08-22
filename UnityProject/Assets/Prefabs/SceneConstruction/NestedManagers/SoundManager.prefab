@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1466.5907, y: 1598.2742, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -43,8 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d935ea8480c849ad9b03708ffaa3ef6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultMixer: {fileID: 24300001, guid: 94208a0928046438d9b8a00796e7a5a7, type: 2}
-  MuffledMixer: {fileID: 7689869653675604508, guid: 94208a0928046438d9b8a00796e7a5a7,
-    type: 2}
   soundSpawnPrefab: {fileID: 7013270530123256728, guid: e9f60ed79c0ab4b479d37f3f8ebb5164,
     type: 3}

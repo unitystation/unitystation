@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using TileManagement;
 
 /// <summary>
 /// Deconstruct the tile and spawn its deconstruction object (if defined) and (optionally) additional objects when an item with a particular
@@ -39,7 +40,6 @@ public class DeconstructWhenItemUsed : TileInteraction
 	public override bool WillInteract(TileApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
-		if (requiredTrait == CommonTraits.Instance.Wrench && interaction.Intent != Intent.Harm) return false;
 		if (requiredTrait == CommonTraits.Instance.Welder)
 		{
 			return Validations.HasUsedActiveWelder(interaction);
@@ -58,20 +58,20 @@ public class DeconstructWhenItemUsed : TileInteraction
 			() =>
 			{
 
-				interaction.TileChangeManager.RemoveTile(interaction.TargetCellPos, interaction.BasicTile.LayerType);
-				interaction.TileChangeManager.RemoveFloorWallOverlaysOfType(interaction.TargetCellPos, TileChangeManager.OverlayType.Cleanable);
+				interaction.TileChangeManager.MetaTileMap.RemoveTileWithlayer(interaction.TargetCellPos, interaction.BasicTile.LayerType);
+				interaction.TileChangeManager.MetaTileMap.RemoveFloorWallOverlaysOfType(interaction.TargetCellPos, OverlayType.Cleanable);
 
 				//spawn things that need to be spawned
 				if (interaction.BasicTile.SpawnOnDeconstruct != null &&
 				    interaction.BasicTile.SpawnAmountOnDeconstruct > 0)
 				{
-					Spawn.ServerPrefab(interaction.BasicTile.SpawnOnDeconstruct, interaction.WorldPositionTarget,
+					Spawn.ServerPrefab(interaction.BasicTile.SpawnOnDeconstruct, interaction.TargetPosition.RoundToInt().ToWorld(interaction.Performer.RegisterTile().Matrix),
 						count: interaction.BasicTile.SpawnAmountOnDeconstruct);
 				}
 
 				if (objectsToSpawn != null)
 				{
-					objectsToSpawn.SpawnAt(SpawnDestination.At(interaction.WorldPositionTarget));
+					objectsToSpawn.SpawnAt(SpawnDestination.At(interaction.TargetPosition.RoundToInt().ToWorld(interaction.Performer.RegisterTile().Matrix)));
 				}
 
 				interaction.TileChangeManager.SubsystemManager.UpdateAt(interaction.TargetCellPos);

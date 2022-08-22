@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Blob;
 using UnityEngine;
-using Mirror;
 using UnityEngine.Serialization;
+using Mirror;
+using Core.Editor.Attributes;
+
 
 /// <summary>
 /// <see cref="RegisterTile"/> for an object, adds additional logic to
@@ -13,6 +14,7 @@ using UnityEngine.Serialization;
 [ExecuteInEditMode]
 public class RegisterObject : RegisterTile
 {
+	[PrefabModeOnly]
 	public bool AtmosPassable = true;
 
 	[NonSerialized]
@@ -23,19 +25,21 @@ public class RegisterObject : RegisterTile
 	[SyncVar(hook = nameof(SetCrawlingPassable))]
 	public bool CrawlPassable = false;
 
+	[PrefabModeOnly]
 	[Tooltip("If true, this object won't block players from interacting with other objects")]
 	public bool ReachableThrough = true;
 
 
 	private bool initialAtmosPassable;
 
-	[SerializeField][FormerlySerializedAs("Passable")]
+	[SerializeField, FormerlySerializedAs("Passable"), PrefabModeOnly]
 	private bool initialPassable;
 
-	[SerializeField][FormerlySerializedAs("CrawlPassable")]
+	[SerializeField, FormerlySerializedAs("CrawlPassable"), PrefabModeOnly]
 	private bool initialCrawlPassable;
 
-	[SerializeField] private List<PassableExclusionTrait> passableExclusionsToThis = default;
+	[SerializeField, PrefabModeOnly]
+	private List<PassableExclusionTrait> passableExclusionsToThis = default;
 
 	protected override void Awake()
 	{
@@ -92,7 +96,11 @@ public class RegisterObject : RegisterTile
 
 	public override bool IsPassable(bool isServer, GameObject context = null)
 	{
-		if (context == gameObject) return true; // Object can pass through its own RegisterTile.
+		if (context != null)
+		{
+			if (context == gameObject) return true; // Object can pass through its own RegisterTile.
+		}
+
 		if (CheckPassableExclusions(context)) return true;
 
 		if (Passable != CrawlPassable)
@@ -108,6 +116,9 @@ public class RegisterObject : RegisterTile
 
 	public override bool IsAtmosPassable(Vector3Int enteringFrom, bool isServer)
 	{
+		//If despawning then always be atmos passable
+		if (Active == false) return true;
+
 		return AtmosPassable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos );
 	}
 

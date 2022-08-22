@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 346633510809408503, guid: fb326cff61a55704ca244f0116325115,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.DismembermentProtectionChance
+      value: 23
+      objectReference: {fileID: 0}
     - target: {fileID: 4159236212715709040, guid: fb326cff61a55704ca244f0116325115,
         type: 3}
       propertyPath: initialName
@@ -27,7 +32,7 @@ PrefabInstance:
     - target: {fileID: 4521961886344786086, guid: fb326cff61a55704ca244f0116325115,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 746ca02f4810e98409a7ac5c0c5a556d
       objectReference: {fileID: 0}
     - target: {fileID: 4559485435225960550, guid: fb326cff61a55704ca244f0116325115,
         type: 3}
@@ -93,14 +98,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: c8e0a7d44222b4b49b3231007f1ddb1d,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7433247755527118487, guid: fb326cff61a55704ca244f0116325115,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: c8e0a7d44222b4b49b3231007f1ddb1d,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7433247755527118487, guid: fb326cff61a55704ca244f0116325115,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -118,6 +121,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c7407bb507fe93e4092d487b54e11682,
         type: 2}
+    - target: {fileID: 7489398342355124607, guid: fb326cff61a55704ca244f0116325115,
+        type: 3}
+      propertyPath: foreverID
+      value: 746ca02f4810e98409a7ac5c0c5a556d
+      objectReference: {fileID: 0}
     - target: {fileID: 7643478071444715157, guid: fb326cff61a55704ca244f0116325115,
         type: 3}
       propertyPath: PresentSpriteSet

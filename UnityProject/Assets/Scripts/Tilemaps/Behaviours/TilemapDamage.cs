@@ -2,6 +2,7 @@
 using Light2D;
 using Mirror;
 using TileManagement;
+using Tiles;
 using UnityEngine;
 
 public class TilemapDamage : MonoBehaviour, IFireExposable
@@ -24,22 +25,21 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		Layer = GetComponent<Layer>();
 		matrix = GetComponentInParent<Matrix>();
+	}
 
-		tileChangeManager.OnFloorOrPlatingRemoved.RemoveAllListeners();
-		tileChangeManager.OnFloorOrPlatingRemoved.AddListener(cellPos =>
-		{ //Poke items when both floor and plating are gone
-			//As they might want to change matrix
-			if (!metaTileMap.HasTile(cellPos, LayerType.Floors)
-			    && !metaTileMap.HasTile(cellPos, LayerType.Base)
-			    && metaTileMap.HasObject(cellPos, CustomNetworkManager.Instance._isServer)
-			)
+	//Poke items when both floor and plating are gone
+	//As they might want to change matrix
+	public void SwitchObjectsMatrixAt(Vector3Int cellPos)
+	{
+		if (!metaTileMap.HasTile(cellPos, LayerType.Floors)
+		    && !metaTileMap.HasTile(cellPos, LayerType.Base))
+
+		{
+			foreach (var objectPhysics in matrix.Get<UniversalObjectPhysics>(cellPos, true))
 			{
-				foreach (var customNetTransform in matrix.Get<CustomNetTransform>(cellPos, true))
-				{
-					customNetTransform.CheckMatrixSwitch();
-				}
+				objectPhysics.CheckMatrixSwitch();
 			}
-		});
+		}
 	}
 
 	public float ApplyDamage(float dmgAmt, AttackType attackType, Vector3 worldPos)
@@ -74,21 +74,36 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		return AddDamage(damage, attackType, data, basicTile, worldPosition);
 	}
 
-	private float AddDamage(float damage, AttackType attackType, MetaDataNode data,
+	private float AddDamage(float Energy, AttackType attackType, MetaDataNode data,
 		BasicTile basicTile, Vector3 worldPosition)
 	{
-		if (basicTile.indestructible || damage < basicTile.damageDeflection)
+		float energyAbsorbed = 0;
+		if (basicTile.indestructible || Energy < basicTile.damageDeflection)
 		{
-			return 0;
+			if (attackType == AttackType.Bomb && basicTile.ExplosionImpassable == false)
+			{
+				return Energy * 0.375f;
+			}
+			else
+			{
+				if (attackType == AttackType.Bomb)
+				{
+					return energyAbsorbed * 0.85f;
+				}
+				else
+				{
+					return energyAbsorbed;
+				}
+			}
 		}
 
-		var damageTaken = basicTile.Armor.GetDamage(damage < basicTile.damageDeflection ? 0 : damage, attackType);
+		var damageTaken = basicTile.Armor.GetDamage(Energy, attackType);
 
 		data.AddTileDamage(Layer.LayerType, damageTaken);
 
 		if(basicTile.SoundOnHit != null && !string.IsNullOrEmpty(basicTile.SoundOnHit.AssetAddress) && basicTile.SoundOnHit.AssetAddress != "null")
 		{
-			if(damage >= 1)
+			if(damageTaken >= 1)
 				SoundManager.PlayNetworkedAtPos(basicTile.SoundOnHit, worldPosition);
 		}
 
@@ -96,47 +111,50 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		if (totalDamageTaken >= basicTile.MaxHealth)
 		{
+			float excessEnergy = basicTile.Armor.GetForce( totalDamageTaken - basicTile.MaxHealth, attackType);
 			if (basicTile.SoundOnDestroy.Count > 0)
 			{
 				SoundManager.PlayNetworkedAtPos(basicTile.SoundOnDestroy.RandomElement(), worldPosition);
 			}
 			data.RemoveTileDamage(Layer.LayerType);
-			tileChangeManager.RemoveTile(data.Position, Layer.LayerType);
-			tileChangeManager.RemoveOverlaysOfType(data.Position, LayerType.Effects, TileChangeManager.OverlayType.Damage);
+			tileChangeManager.MetaTileMap.RemoveTileWithlayer(data.Position, Layer.LayerType);
+			tileChangeManager.MetaTileMap.RemoveOverlaysOfType(data.Position, LayerType.Effects, OverlayType.Damage);
 
 			if (Layer.LayerType == LayerType.Floors || Layer.LayerType == LayerType.Base)
 			{
-				tileChangeManager.RemoveOverlaysOfType(data.Position, LayerType.Floors, TileChangeManager.OverlayType.Cleanable);
+				tileChangeManager.MetaTileMap.RemoveOverlaysOfType(data.Position, LayerType.Floors, OverlayType.Cleanable);
 			}
 
 			if (Layer.LayerType == LayerType.Walls)
 			{
-				tileChangeManager.RemoveOverlaysOfType(data.Position, LayerType.Walls, TileChangeManager.OverlayType.Cleanable);
+				tileChangeManager.MetaTileMap.RemoveOverlaysOfType(data.Position, LayerType.Walls, OverlayType.Cleanable);
+				tileChangeManager.MetaTileMap.RemoveOverlaysOfType(data.Position, LayerType.Effects, OverlayType.Mining);
 			}
 
 			//Add new tile if needed
 			//TODO change floors to using overlays, but generic overlay will need to be sprited
+			//TODO Use Armour values
+			//TODO have tiles present but one z down
 			if (basicTile.ToTileWhenDestroyed != null)
 			{
-				var damageLeft = totalDamageTaken - basicTile.MaxHealth;
 				var tile = basicTile.ToTileWhenDestroyed as BasicTile;
 
 				var overFlowProtection = 0;
 
-				while (damageLeft > 0 && tile != null)
+				while (excessEnergy > 0 && tile != null)
 				{
 					overFlowProtection++;
 
-					if (tile.MaxHealth <= damageLeft)
+					if (tile.MaxHealth <= excessEnergy)
 					{
-						damageLeft -= tile.MaxHealth;
+						excessEnergy -= tile.MaxHealth;
 						tile = tile.ToTileWhenDestroyed as BasicTile;
 					}
 					else
 					{
 						//Atm we just set remaining damage to 0, instead of absorbing it for the new tile
-						damageLeft = 0;
-						tileChangeManager.UpdateTile(data.Position, tile);
+						excessEnergy = 0;
+						tileChangeManager.MetaTileMap.SetTile(data.Position, tile);
 						break;
 					}
 
@@ -147,7 +165,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 					}
 				}
 
-				damageTaken = damageLeft;
+				energyAbsorbed = Energy - excessEnergy;
 			}
 
 			if (basicTile.SpawnOnDestroy != null)
@@ -165,14 +183,14 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 				{
 					if (overlayData.damagePercentage <= totalDamageTaken / basicTile.MaxHealth)
 					{
-						tileChangeManager.AddOverlay(data.Position, overlayData.overlayTile);
+						tileChangeManager.MetaTileMap.AddOverlay(data.Position, overlayData.overlayTile);
 						break;
 					}
 				}
 			}
 
 			//All the damage was absorbed, none left to return for next layer
-			damageTaken = 0;
+			energyAbsorbed = Energy;
 		}
 
 		if (basicTile.MaxHealth < basicTile.MaxHealth - totalDamageTaken)
@@ -180,13 +198,21 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			data.ResetDamage(Layer.LayerType);
 		}
 
-		if (damageTaken > totalDamageTaken){
-			Logger.LogError($"Applying damage to {basicTile.DisplayName} increased the damage to be dealt, when it should have decreased!", Category.Damage);
-			return totalDamageTaken;
+		if (attackType == AttackType.Bomb && basicTile.ExplosionImpassable == false)
+		{
+			return energyAbsorbed  * 0.375f;
 		}
-
-		//Return how much damage is left
-		return damageTaken;
+		else
+		{
+			if (attackType == AttackType.Bomb)
+			{
+				return energyAbsorbed*  0.85f;
+			}
+			else
+			{
+				return energyAbsorbed;
+			}
+		}
 	}
 
 	public float Integrity(Vector3Int pos)
@@ -204,7 +230,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	{
 		var data = metaDataLayer.Get(cellPos);
 
-		tileChangeManager.RemoveOverlaysOfType(cellPos, LayerType.Effects, TileChangeManager.OverlayType.Damage);
+		tileChangeManager.MetaTileMap.RemoveOverlaysOfType(cellPos, LayerType.Effects, OverlayType.Damage);
 		data.ResetDamage(Layer.LayerType);
 	}
 }

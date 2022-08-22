@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: 1764592290455851827, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 50df01ef60a031640b4faafe2df999ce
       objectReference: {fileID: 0}
     - target: {fileID: 1867061792278949511, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
@@ -94,6 +94,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A dorky fannypack for keeping small items in.
       objectReference: {fileID: 0}
+    - target: {fileID: 4707276644318323434, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: foreverID
+      value: 50df01ef60a031640b4faafe2df999ce
+      objectReference: {fileID: 0}
     - target: {fileID: 5525703409436398848, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -104,14 +109,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 1b2ff81073380c54084dfebc6e048573,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7968275424856731504, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 1b2ff81073380c54084dfebc6e048573,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7968275424856731504, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
       propertyPath: allClothingData.Array.size

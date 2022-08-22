@@ -13,24 +13,62 @@ MonoBehaviour:
   m_Name: GeneticistPopulator
   m_EditorClassIdentifier: 
   Entries:
-  - NamedSlot: 12
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 12
     Prefab: {fileID: 8972170866961157136, guid: 4d6289555a2e3b244ac981ef029dd7c8,
       type: 3}
-  - NamedSlot: 3
+    ReplacementStrategy: 0
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 3
     Prefab: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4,
       type: 3}
-  - NamedSlot: 0
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 0
     Prefab: {fileID: 3897939628877172860, guid: b8dfc33d8571c5a4381cdbdbd51a40ad,
       type: 3}
-  - NamedSlot: 6
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 6
     Prefab: {fileID: 3011710637427380133, guid: 05d3054c3617b467ea8e086e2969e172,
       type: 3}
-  - NamedSlot: 10
+    ReplacementStrategy: 0
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 10
     Prefab: {fileID: 8541207335635205697, guid: 3eb130e231b60914a8b231815835140b,
       type: 3}
-  - NamedSlot: 1
+    ReplacementStrategy: 0
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 1
     Prefab: {fileID: 4685602324805225724, guid: b28456c6b73dae843ac930742beca4a5,
       type: 3}
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 15
+    Prefab: {fileID: 4303657253753073484, guid: a964a6c1326a47c40a104866a6ebce52,
+      type: 3}
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
   skirtVariant: {fileID: 2283914521931275349, guid: a925b6dda477c1148bfd2997307dec63,
     type: 3}
   duffelVariant: {fileID: 0}

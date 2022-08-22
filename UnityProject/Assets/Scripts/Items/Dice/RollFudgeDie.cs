@@ -1,25 +1,28 @@
 using UnityEngine;
 
-public class RollFudgeDie : RollSpecialDie
+namespace Items.Dice
 {
-	public override string Examine(Vector3 worldPos = default)
+	public class RollFudgeDie : RollSpecialDie
 	{
-		return $"It is showing {GetFudgeMessage()}";
-	}
-
-	protected override string GetMessage()
-	{
-		return $"The {dieName} lands {GetFudgeMessage()}";
-	}
-
-	private string GetFudgeMessage()
-	{
-		// Result 2 is a strange side, we modify the formatting such that it reads "a... what?".
-		if (result == 2)
+		public override string Examine(Vector3 worldPos = default)
 		{
-			return $"a{specialFaces[1]}";
+			return $"It is showing {GetFudgeMessage()}";
 		}
-		
-		return $"a {specialFaces[result - 1]}.";
+
+		protected override string GetMessage()
+		{
+			return $"The {dieName} lands {GetFudgeMessage()}";
+		}
+
+		private string GetFudgeMessage()
+		{
+			// Result 2 is a strange side, we modify the formatting such that it reads "a... what?".
+			if (result == 2)
+			{
+				return $"a{specialFaces[1]}";
+			}
+
+			return $"a {specialFaces[result - 1]}.";
+		}
 	}
 }

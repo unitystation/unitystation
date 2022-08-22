@@ -1,0 +1,158 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7027924507297259513
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2881683467392410259, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c95e4338dca8eb944b2a9d505624ee99,
+        type: 2}
+    - target: {fileID: 3026820318657467769, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: foreverID
+      value: mothballsoup
+      objectReference: {fileID: 0}
+    - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: d5386cc24a0a08cab9f2e1dab976ee2f,
+        type: 2}
+    - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: d5386cc24a0a08cab9f2e1dab976ee2f,
+        type: 2}
+    - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8091316462478551624, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5aefe7c22bc6f654cbd3912966a8c2e8,
+        type: 3}
+    - target: {fileID: 8091316462478551624, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8267435664583743764, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: m_Name
+      value: MothCottonSoup
+      objectReference: {fileID: 0}
+    - target: {fileID: 8300002079815481480, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 1343849178394487613}
+    - target: {fileID: 8300100540400329888, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: m_AssetId
+      value: b3efd0fcd0dd267408480873819ee96f
+      objectReference: {fileID: 0}
+    - target: {fileID: 8382973909785720438, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: initialName
+      value: "fl\xF6fr\xF6lenm\xE6sch"
+      objectReference: {fileID: 0}
+    - target: {fileID: 8382973909785720438, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: initialDescription
+      value: A soup made from raw cotton in a flavourful vegetable broth. Enjoyed
+        only by moths and the criminally tasteless.
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 09d98d684f3dbe544a3f54331019cba1, type: 3}
+--- !u!114 &1343849178394487613 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8299707157932176580, guid: 09d98d684f3dbe544a3f54331019cba1,
+    type: 3}
+  m_PrefabInstance: {fileID: 7027924507297259513}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

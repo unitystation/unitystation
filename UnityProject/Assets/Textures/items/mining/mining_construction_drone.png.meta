@@ -51,7 +51,7 @@ TextureImporter:
       213: 21300030
     second: construction_drone_15
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -71,6 +71,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -80,8 +82,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -102,9 +104,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -479,6 +485,23 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      construction_drone_15: 21300030
+      construction_drone_4: 21300008
+      construction_drone_0: 21300000
+      construction_drone_13: 21300026
+      construction_drone_9: 21300018
+      construction_drone_8: 21300016
+      construction_drone_10: 21300020
+      construction_drone_11: 21300022
+      construction_drone_1: 21300002
+      construction_drone_6: 21300012
+      construction_drone_5: 21300010
+      construction_drone_7: 21300014
+      construction_drone_3: 21300006
+      construction_drone_12: 21300024
+      construction_drone_14: 21300028
+      construction_drone_2: 21300004
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

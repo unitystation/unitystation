@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DatabaseAPI;
 using UnityEngine.UI;
 using InGameEvents;
 using AdminTools;
@@ -11,7 +9,8 @@ using Assets.Scripts.UI.AdminTools;
 using System.Linq;
 using Messages.Client.Admin;
 
-public class EventsManagerPage : AdminPage
+
+public class EventsManagerPage : AdminPage, ICooldown
 {
 	[SerializeField]
 	private Dropdown nextDropDown = null;
@@ -40,8 +39,16 @@ public class EventsManagerPage : AdminPage
 		eventsParametersPages = GetComponent<EventParameterPages>();
 	}
 
+	float ICooldown.DefaultTime => 5; // cooldown for triggering events
+
 	public void TriggerEvent()
 	{
+		if (Cooldowns.TryStartClient(PlayerManager.LocalPlayerScript, this) == false)
+		{
+			Chat.AddExamineMsgToClient("Wait a few seconds before triggering another event.");
+			return;
+		}
+
 		if (!InGameEventType.TryParse(eventTypeDropDown.options[eventTypeDropDown.value].text,
 			out InGameEventType eventType)) return;
 
@@ -54,14 +61,13 @@ public class EventsManagerPage : AdminPage
 
 		if (index != 0) // Index 0 (Random Event) will never have a parameter page
 		{
-			// Instead of triggering the event right away, if we have an extra parameter page, we show it
+				// Instead of triggering the event right away, if we have an extra parameter page, we show it
 			List<EventScriptBase> listEvents = InGameEventsManager.Instance.GetListFromEnum(eventType);
 			if (listEvents[index - 1].parametersPageType != ParametersPageType.None)
 			{
 				GameObject parameterPage = eventsParametersPages.eventParameterPages
 					.FirstOrDefault(p => p.ParametersPageType == listEvents[index - 1].parametersPageType)
 					.ParameterPage;
-
 				if (parameterPage)
 				{
 					parameterPage.SetActive(true);
@@ -72,15 +78,13 @@ public class EventsManagerPage : AdminPage
 			}
 		}
 
-		AdminCommandsManager.Instance.CmdTriggerGameEvent(ServerData.UserID, PlayerList.Instance.AdminToken, index,
-			isFakeToggle.isOn, announceToggle.isOn, eventType, null);
-
+		AdminCommandsManager.Instance.CmdTriggerGameEvent(index, isFakeToggle.isOn, announceToggle.isOn, eventType, null);
 	}
 
 	public void ToggleRandomEvents()
 	{
 		currentData.randomEventsAllowed = randomEventToggle.isOn;
-		RequestRandomEventAllowedChange.Send(ServerData.UserID, PlayerList.Instance.AdminToken, randomEventToggle.isOn);
+		RequestRandomEventAllowedChange.Send(randomEventToggle.isOn);
 	}
 
 	public override void OnPageRefresh(AdminPageRefreshData adminPageData)

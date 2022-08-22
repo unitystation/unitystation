@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2eeb975c8f168a54085fea5a5deed800,
         type: 2}
+    - target: {fileID: 1090811781821981693, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
+      propertyPath: foreverID
+      value: bf2d33a3f590f174d89812ca5d3c6ff5
+      objectReference: {fileID: 0}
     - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
       propertyPath: initialName
@@ -23,6 +28,16 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A long, tall staff made of polished wood. Traditionally used in ancient
         old-Earth martial arts, it is now used to harass the clown.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
+      propertyPath: traumaDamageChance
+      value: 43
+      objectReference: {fileID: 0}
+    - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
@@ -70,7 +85,7 @@ PrefabInstance:
     - target: {fileID: 6200854109258175012, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: bf2d33a3f590f174d89812ca5d3c6ff5
       objectReference: {fileID: 0}
     - target: {fileID: 6307973308067386084, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
@@ -136,14 +151,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 1c8d0c3fed92a0e459dc7685224c6d71,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7556420510665103617, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 1c8d0c3fed92a0e459dc7685224c6d71,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7556420510665103617, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

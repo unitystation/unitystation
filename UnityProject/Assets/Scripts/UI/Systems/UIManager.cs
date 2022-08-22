@@ -1,32 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
-using AdminTools;
-using Audio.Managers;
-using Initialisation;
-using Mirror;
-using UI.Core;
-using UI.Jobs;
-using UI.UI_Bottom;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
+using Mirror;
+using AdminTools;
+using AdminTools.VariableViewer;
+using Audio.Managers;
+using Initialisation;
+using UI;
+using UI.Core;
 using UI.Core.Windows;
-using UI.Systems.AdminTools.DevTools;
+using UI.Chat_UI;
+using UI.Jobs;
+using UI.UI_Bottom;
 using UI.Windows;
+using Systems.CraftingV2.GUI;
+using UI.Core.RightClick;
 
 public class UIManager : MonoBehaviour, IInitialise
 {
 	private static UIManager uiManager;
 	public GUI_VariableViewer VariableViewer;
-	public BookshelfViewer BookshelfViewer;
+	public UI_BooksInBookshelf UI_BooksInBookshelf;
+	public LibraryUI LibraryUI;
 	public GUI_TextInputDialog TextInputDialog;
 	public ControlAction actionControl;
 	[FormerlySerializedAs("dragAndDrop")] public UIDragAndDrop uiDragAndDrop;
 	public ControlDisplays displayControl;
 	public ControlClothing controlClothing;
 	public PanelHudBottomController panelHudBottomController;
-	public Hands hands;
 	public ControlInternals internalControls;
 	public PlayerExaminationWindowUI playerExaminationWindow;
 	public ControlIntent intentControl;
@@ -49,6 +53,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	public AnimationCurve strandedZoomOutCurve;
 	public AdminChatButtons adminChatButtons;
 	public AdminChatButtons mentorChatButtons;
+	public AdminChatButtons prayerChatButtons;
 	public AdminChatWindows adminChatWindows;
 	public ProfileScrollView profileScrollView;
 	public PlayerAlerts playerAlerts;
@@ -60,7 +65,14 @@ public class UIManager : MonoBehaviour, IInitialise
 	public SurgeryDialogue SurgeryDialogue;
 
 	public CrayonUI CrayonUI;
-	public GUI_DevTileChanger TileChanger;
+
+	public UI_SlotManager UI_SlotManager;
+
+	public GeneralInputField GeneralInputField;
+
+	public CraftingMenu CraftingMenu;
+
+	public SplittingMenu SplittingMenu;
 
 	public static bool PreventChatInput
 	{
@@ -153,8 +165,6 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	public static PlayerExaminationWindowUI PlayerExaminationWindow => Instance.playerExaminationWindow;
 
-	public static Hands Hands => Instance.hands;
-
 	public static ControlIntent Intent => Instance.intentControl;
 
 	public static ControlInternals Internals => Instance.internalControls;
@@ -182,6 +192,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	}
 
 	public static BuildMenu BuildMenu => Instance.buildMenu;
+
 	public static ZoneSelector ZoneSelector => Instance.zoneSelector;
 
 	public static GUI_Info InfoWindow => Instance.infoWindow;
@@ -212,9 +223,9 @@ public class UIManager : MonoBehaviour, IInitialise
 			currentIntent = value;
 
 			//update the intent of the player on server so server knows we are swappable or not
-			if (PlayerManager.LocalPlayerScript != null)
+			if (PlayerManager.LocalPlayerScript != null && PlayerManager.LocalPlayerScript.IsNormal)
 			{
-				PlayerManager.LocalPlayerScript.playerMove.CmdSetHelpIntent(currentIntent == global::Intent.Help);
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetCurrentIntent(currentIntent);
 			}
 		}
 	}
@@ -257,6 +268,7 @@ public class UIManager : MonoBehaviour, IInitialise
 
 		adminChatButtons.transform.parent.gameObject.SetActive(false);
 		mentorChatButtons.transform.parent.gameObject.SetActive(false);
+		prayerChatButtons.transform.parent.gameObject.SetActive(false);
 		SetVersionDisplay = $"Work In Progress {GameData.BuildNumber}";
 	}
 
@@ -287,17 +299,20 @@ public class UIManager : MonoBehaviour, IInitialise
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	void OnSceneChange(Scene oldScene, Scene newScene)
 	{
 		adminChatButtons.ClearAllNotifications();
 		mentorChatButtons.ClearAllNotifications();
+		prayerChatButtons.ClearAllNotifications();
 		adminChatWindows.ResetAll();
 		playerAlerts.ClearLogs();
 	}
@@ -318,7 +333,7 @@ public class UIManager : MonoBehaviour, IInitialise
 		Application.targetFrameRate = targetFrameRate;
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
 		//Read out of ping in toolTip
 		pingUpdate += Time.deltaTime;
@@ -331,42 +346,45 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	public static void UpdateKeybindText(KeyAction keyAction, KeybindManager.KeyCombo keyCombo)
 	{
-		switch (keyAction)
-		{
-			case KeyAction.OpenBackpack:
-				Instance.panelHudBottomController.SetBackPackKeybindText(
-					FormatKeybind(keyCombo.MainKey)
-				);
-				break;
-			case KeyAction.OpenPDA:
-				Instance.panelHudBottomController.SetPDAKeybindText(
-					FormatKeybind(keyCombo.MainKey)
-				);
-				break;
-			case KeyAction.OpenBelt:
-				Instance.panelHudBottomController.SetBeltKeybindText(
-					FormatKeybind(keyCombo.MainKey)
-				);
-				break;
-			case KeyAction.PocketOne:
-				Instance.panelHudBottomController.SetPocketOneKeybindText(
-					FormatKeybind(keyCombo.MainKey)
-				);
-				break;
-			case KeyAction.PocketTwo:
-				Instance.panelHudBottomController.SetPocketTwoKeybindText(
-					FormatKeybind(keyCombo.MainKey)
-				);
-				break;
-			case KeyAction.PocketThree:
-				Instance.panelHudBottomController.SetPocketThreeKeybindText(
-					FormatKeybind(keyCombo.MainKey)
-				);
-				break;
-			default:
-				Logger.LogWarning($"There is no keybind text for KeyAction {keyAction}", Category.Keybindings);
-				break;
-		}
+		return;
+		//TODO needs to be re-implemented with dynamic UI issue #7948
+
+		// switch (keyAction)
+		// {
+		// 	case KeyAction.OpenBackpack:
+		// 		Instance.panelHudBottomController.SetBackPackKeybindText(
+		// 			FormatKeybind(keyCombo.MainKey)
+		// 		);
+		// 		break;
+		// 	case KeyAction.OpenPDA:
+		// 		Instance.panelHudBottomController.SetPDAKeybindText(
+		// 			FormatKeybind(keyCombo.MainKey)
+		// 		);
+		// 		break;
+		// 	case KeyAction.OpenBelt:
+		// 		Instance.panelHudBottomController.SetBeltKeybindText(
+		// 			FormatKeybind(keyCombo.MainKey)
+		// 		);
+		// 		break;
+		// 	case KeyAction.PocketOne:
+		// 		Instance.panelHudBottomController.SetPocketOneKeybindText(
+		// 			FormatKeybind(keyCombo.MainKey)
+		// 		);
+		// 		break;
+		// 	case KeyAction.PocketTwo:
+		// 		Instance.panelHudBottomController.SetPocketTwoKeybindText(
+		// 			FormatKeybind(keyCombo.MainKey)
+		// 		);
+		// 		break;
+		// 	case KeyAction.PocketThree:
+		// 		Instance.panelHudBottomController.SetPocketThreeKeybindText(
+		// 			FormatKeybind(keyCombo.MainKey)
+		// 		);
+		// 		break;
+		// 	default:
+		// 		Logger.LogWarning($"There is no keybind text for KeyAction {keyAction}", Category.Keybindings);
+		// 		break;
+		// }
 	}
 
 	private static string FormatKeybind(KeyCode key)
@@ -393,13 +411,7 @@ public class UIManager : MonoBehaviour, IInitialise
 			slot.Reset();
 		}
 
-		foreach (DamageMonitorListener listener in Instance.GetComponentsInChildren<DamageMonitorListener>())
-		{
-			listener.Reset();
-		}
-
 		StorageHandler.CloseStorageUI();
-		Hands.SetHand(true);
 		Camera2DFollow.followControl.ZeroStars();
 		IsOxygen = false;
 		GamePad.gameObject.SetActive(UseGamePad);
@@ -432,8 +444,8 @@ public class UIManager : MonoBehaviour, IInitialise
 	{
 		//convert to local position so it appears correct on moving matrix
 		//do not use tileworldposition for actual spawn position - bar will appear shifted on moving matrix
-		var targetWorldPosition = PlayerManager.LocalPlayer.transform.position + offsetFromPlayer.To3Int();
-		var targetTilePosition = PlayerManager.LocalPlayer.TileWorldPosition() + offsetFromPlayer;
+		var targetWorldPosition = PlayerManager.LocalPlayerObject.transform.position + offsetFromPlayer.To3Int();
+		var targetTilePosition = PlayerManager.LocalPlayerObject.TileWorldPosition() + offsetFromPlayer;
 		var targetMatrixInfo = MatrixManager.AtPoint(targetTilePosition.To3Int(), true);
 		var targetParent = targetMatrixInfo.Objects;
 		//snap to local position
@@ -517,7 +529,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	/// </summary>
 	public static void LinkUISlots(ItemStorageLinkOrigin itemStorageLinkOrigin)
 	{
-		//link the UI slots to this player
+		// link the UI slots to this player
 		foreach (var uiSlot in Instance.GetComponentsInChildren<UI_ItemSlot>(true))
 		{
 			if (uiSlot.ItemStorageLinkOrigin == itemStorageLinkOrigin)

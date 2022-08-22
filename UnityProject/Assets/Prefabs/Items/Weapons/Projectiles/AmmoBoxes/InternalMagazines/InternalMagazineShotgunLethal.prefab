@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4037422484015181766, guid: 863f3c5765447184b8b0d23ff0b9ddff,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4037422484015181766, guid: 863f3c5765447184b8b0d23ff0b9ddff,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4037422484015181766, guid: 863f3c5765447184b8b0d23ff0b9ddff,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4037422484015181766, guid: 863f3c5765447184b8b0d23ff0b9ddff,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +46,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4037422484015181766, guid: 863f3c5765447184b8b0d23ff0b9ddff,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4037422484015181766, guid: 863f3c5765447184b8b0d23ff0b9ddff,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4037422484015181766, guid: 863f3c5765447184b8b0d23ff0b9ddff,
         type: 3}
@@ -65,7 +65,17 @@ PrefabInstance:
     - target: {fileID: 4040938859939369650, guid: 863f3c5765447184b8b0d23ff0b9ddff,
         type: 3}
       propertyPath: m_Name
-      value: InternalMagazineShotgun
+      value: InternalMagazineShotgunLethal
+      objectReference: {fileID: 0}
+    - target: {fileID: 4143445675893075718, guid: 863f3c5765447184b8b0d23ff0b9ddff,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 3aa4b5b45a2d036428a43751f9e37313
+      objectReference: {fileID: 0}
+    - target: {fileID: 6966775739448925919, guid: 863f3c5765447184b8b0d23ff0b9ddff,
+        type: 3}
+      propertyPath: foreverID
+      value: 3aa4b5b45a2d036428a43751f9e37313
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 863f3c5765447184b8b0d23ff0b9ddff, type: 3}

@@ -1,146 +1,114 @@
 ﻿using System.Collections.Generic;
-using HealthV2;
 using UnityEngine;
+using Core.Editor.Attributes;
+using Items;
 
-//Do not derive from NetworkBehaviour, this is also used on tilemap layers
-/// <summary>
-/// Allows an object or tiles to be attacked by melee.
-/// </summary>
-public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<PositionalHandApply>
+
+namespace Systems.Interaction
 {
-	[SerializeField] private bool isMeleeable = true;
-
-	[SerializeField] private static readonly StandardProgressActionConfig ProgressConfig
-		= new StandardProgressActionConfig(StandardProgressActionType.Restrain);
-
-	[SerializeField] private float butcherTime = 2.0f;
-
-	[SerializeField] private string butcherSound = "BladeSlice";
-
+	// Do not derive from NetworkBehaviour, this is also used on tilemap layers
 	/// <summary>
-	/// Which layers are allowed to be attacked on tiles regardless of intent
+	/// Allows an object or tiles to be attacked by melee.
 	/// </summary>
-	private static readonly HashSet<LayerType> attackableLayers = new HashSet<LayerType>(
-		new[]
+	public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<PositionalHandApply>
+	{
+		[SerializeField, PrefabModeOnly]
+		private bool isMeleeable = true;
+		// If it has this component, isn't it assumed to be meleeable? Is this still true for tilemaps?
+		public bool IsMeleeable
 		{
+			get
+			{
+				if (isMeleeable == false)
+				{
+					Logger.LogWarning($"Remove {nameof(Meleeable)} component from {this} if it isn't meleeable, " +
+						$"instead of relying on the isMeleeable field.");
+				}
+				return isMeleeable;
+			}
+			set
+			{
+				isMeleeable = value;
+			}
+		}
+
+		/// <summary>
+		/// Which layers are allowed to be attacked
+		/// </summary>
+		private static readonly HashSet<LayerType> attackableLayers = new HashSet<LayerType>(
+			new[]
+			{
 			LayerType.Grills,
 			LayerType.Walls,
 			LayerType.Windows
-		});
+			});
 
-	/// <summary>
-	/// Which layers are allowed to be attacked on tiles only on harm intent
-	/// </summary>
-	/// NOTE: Not allowing attacking base or floors now because it's annoying during combat when you misclick
-	// private static readonly HashSet<LayerType> harmIntentOnlyAttackableLayers = new HashSet<LayerType>(
-	// 	new[] {
-	// 		LayerType.Base,
-	// 		LayerType.Floors
-	// 	});
-	private static readonly HashSet<LayerType> harmIntentOnlyAttackableLayers = new HashSet<LayerType>();
+		private InteractableTiles interactableTiles;
 
-	private InteractableTiles interactableTiles;
-
-	private void Start()
-	{
-		interactableTiles = GetComponent<InteractableTiles>();
-	}
-
-	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
-	{
-		//are we in range
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
-		//must be targeting us
-		if (interaction.TargetObject != gameObject) return false;
-		//allowed to attack due to cooldown?
-		//note: actual cooldown is started in WeaponNetworkActions melee logic on server side,
-		//clientPredictInteraction on clientside
-		if (Cooldowns.IsOn(interaction, CooldownID.Asset(CommonCooldowns.Instance.Melee, side)))
+		private void Start()
 		{
-			interaction = PositionalHandApply.Invalid;
+			interactableTiles = GetComponent<InteractableTiles>();
+		}
+
+		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
+		{
+			if (isMeleeable == false) return false;
+			if (DefaultWillInteract.Default(interaction, side, Validations.CheckState(x => x.CanMelee)) == false) return false;
+			// must be targeting us
+			if (interaction.TargetObject != gameObject) return false;
+			// allowed to attack due to cooldown?
+			// note: actual cooldown is started in WeaponNetworkActions melee logic on server side,
+			// clientPredictInteraction on clientside
+			if (side == NetworkSide.Client && Cooldowns.IsOn(interaction, CooldownID.Asset(CommonCooldowns.Instance.Melee, side))) return false;
+
+			bool LocalItemCheck()
+			{
+				return interaction.HandObject.OrNull()?.Item().CanBeUsedOnSelfOnHelpIntent ?? false;
+			}
+			// not punching unless harm intent
+			if (interaction.Intent != Intent.Harm && !LocalItemCheck()) return false;
+
+			// if attacking tiles, only some layers are allowed to be attacked
+			if (interactableTiles != null)
+			{
+				var tileAt = interactableTiles.LayerTileAt(interaction.WorldPositionTarget, true);
+
+				// Nothing there, could be space?
+				if (tileAt == null) return false;
+
+				if (attackableLayers.Contains(tileAt.LayerType) == false) return false;
+			}
+
 			return true;
 		}
 
-		//not punching unless harm intent
-		if (interaction.HandObject == null && interaction.Intent != Intent.Harm) return false;
-
-		//if attacking tiles, only some layers are allowed to be attacked
-		if (interactableTiles != null)
+		public void ClientPredictInteraction(PositionalHandApply interaction)
 		{
-			var tileAt = interactableTiles.LayerTileAt(interaction.WorldPositionTarget, true);
-
-			//Nothing there, could be space?
-			if (tileAt == null) return false;
-
-			if (!attackableLayers.Contains(tileAt.LayerType))
-			{
-				return interaction.Intent == Intent.Harm && harmIntentOnlyAttackableLayers.Contains(tileAt.LayerType);
-			}
+			// start clientside melee cooldown so we don't try to spam melee
+			// requests to server
+			Cooldowns.TryStartClient(interaction, CommonCooldowns.Instance.Melee);
 		}
 
-		return true;
-	}
+		// no rollback logic
+		public void ServerRollbackClient(PositionalHandApply interaction) { }
 
-
-	public void ClientPredictInteraction(PositionalHandApply interaction)
-	{
-		//start clientside melee cooldown so we don't try to spam melee
-		//requests to server
-		Cooldowns.TryStartClient(interaction, CommonCooldowns.Instance.Melee);
-	}
-
-	//no rollback logic
-	public void ServerRollbackClient(PositionalHandApply interaction)
-	{
-	}
-
-	public void ServerPerformInteraction(PositionalHandApply interaction)
-	{
-		var handObject = interaction.HandObject;
-
-		bool emptyHand = interaction.HandSlot.IsEmpty;
-
-		var wna = interaction.Performer.GetComponent<WeaponNetworkActions>();
-		if (interactableTiles != null && !emptyHand)
+		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
-			//attacking tiles
-			var tileAt = interactableTiles.LayerTileAt(interaction.WorldPositionTarget, true);
-			if (tileAt == null)
+			var handObject = interaction.HandObject;
+
+			var wna = interaction.Performer.GetComponent<WeaponNetworkActions>();
+			var layerType = LayerType.None;
+			if (interactableTiles != null)
 			{
-				return;
+				// attacking tiles
+				layerType = interactableTiles.LayerTileAt(interaction.WorldPositionTarget, true).LayerType;
 			}
 
-			if (tileAt.TileType == TileType.Wall)
-			{
-				return;
-			}
-
-			wna.ServerPerformMeleeAttack(gameObject, interaction.TargetVector, BodyPartType.None, tileAt.LayerType);
+			wna.ServerPerformMeleeAttack(gameObject, interaction.TargetVector, interaction.TargetBodyPart, layerType);
 			if (Validations.HasItemTrait(handObject, CommonTraits.Instance.Breakable))
 			{
 				handObject.GetComponent<ItemBreakable>().AddDamage();
 			}
 		}
-		else
-		{
-			if (interaction.Intent == Intent.Help) return;
-			GameObject victim = interaction.TargetObject;
-			var healthComponent = victim.GetComponent<LivingHealthMasterBase>();
-
-
-			if (gameObject.GetComponent<Integrity>() && emptyHand) return;
-
-			wna.ServerPerformMeleeAttack(gameObject, interaction.TargetVector, interaction.TargetBodyPart,
-				LayerType.None);
-			if (Validations.HasItemTrait(handObject, CommonTraits.Instance.Breakable))
-			{
-				handObject.GetComponent<ItemBreakable>().AddDamage();
-			}
-		}
-	}
-
-	public bool GetMeleeable()
-	{
-		return isMeleeable;
 	}
 }

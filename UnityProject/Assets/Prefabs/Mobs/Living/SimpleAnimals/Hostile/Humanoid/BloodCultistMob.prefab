@@ -1,22 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &6482826002500360209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4374597950098147390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10470e342fd41de468f149e991721d5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  despawnBody: 1
-  lootDrop:
-  - {fileID: 4801339576872443896, guid: e507b79cc25485b46b2b9a34029c95de, type: 3}
-  - {fileID: 8168246026424338935, guid: 2d38bd05b126a474fb2bb0bc351220ee, type: 3}
-  - {fileID: 733360818655498300, guid: f165d0512a4d5ef44ba3d22decd038b7, type: 3}
 --- !u!1001 &7649114448273075618
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -105,26 +88,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6240602369214284696, guid: 411e38af01d5a8249afcbd5beb9de197,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6240602369214284696, guid: 411e38af01d5a8249afcbd5beb9de197,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6240602369214284696, guid: 411e38af01d5a8249afcbd5beb9de197,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6240602369214284696, guid: 411e38af01d5a8249afcbd5beb9de197,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6240602369214284696, guid: 411e38af01d5a8249afcbd5beb9de197,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -141,7 +104,7 @@ PrefabInstance:
     - target: {fileID: 6269830135824793344, guid: 411e38af01d5a8249afcbd5beb9de197,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 8fe52be2d61eb7f42987726d76a55d06
       objectReference: {fileID: 0}
     - target: {fileID: 7590973992759467133, guid: 411e38af01d5a8249afcbd5beb9de197,
         type: 3}
@@ -156,3 +119,20 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7649114448273075618}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6482826002500360209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4374597950098147390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10470e342fd41de468f149e991721d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  despawnBody: 1
+  lootDrop:
+  - {fileID: 4801339576872443896, guid: e507b79cc25485b46b2b9a34029c95de, type: 3}
+  - {fileID: 8168246026424338935, guid: 2d38bd05b126a474fb2bb0bc351220ee, type: 3}
+  - {fileID: 733360818655498300, guid: f165d0512a4d5ef44ba3d22decd038b7, type: 3}

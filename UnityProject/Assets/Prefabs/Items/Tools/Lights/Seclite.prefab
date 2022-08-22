@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -760478612880655057, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 898efb5b2d6e91c44b6f69a484df6b68,
+        type: 2}
     - target: {fileID: 440387127209129005, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -21,6 +27,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1669989403256579251, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: foreverID
+      value: 06fa88552c4d5c84a9356cc79c6d43c6
       objectReference: {fileID: 0}
     - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
@@ -95,7 +106,7 @@ PrefabInstance:
     - target: {fileID: 5295069687449651132, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5295069687449651132, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
@@ -196,7 +207,7 @@ PrefabInstance:
     - target: {fileID: 5621181726967715178, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 06fa88552c4d5c84a9356cc79c6d43c6
       objectReference: {fileID: 0}
     - target: {fileID: 5730203012241659306, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}

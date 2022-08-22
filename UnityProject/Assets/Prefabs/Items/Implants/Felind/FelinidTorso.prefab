@@ -7,21 +7,56 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2527589168897478388, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: foreverID
+      value: 6fe803952bb24864c85fce226d058b78
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: cutChance
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: DamageThreshold
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: cutDamgeThreshold
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: ExternalBleedingBloodLoss
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: InternalBleedingBloodLoss
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5634484993905305047, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
-      propertyPath: Populater.Contents.Array.size
+      propertyPath: Populater.DeprecatedContents.Array.size
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5634484993905305047, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
-      propertyPath: Populater.Contents.Array.data[6]
+      propertyPath: Populater.DeprecatedContents.Array.data[6]
       value: 
       objectReference: {fileID: 8002264998709622030, guid: ecb05f5372736a748bb900d1a7dddce3,
         type: 3}
     - target: {fileID: 8808267403971002157, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 6fe803952bb24864c85fce226d058b78
       objectReference: {fileID: 0}
     - target: {fileID: 8910782054479282841, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}

@@ -7,18 +7,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3549479581640830887, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
+        type: 3}
+      propertyPath: foreverID
+      value: 76db9576a63116843a098fe7aadd38d0
+      objectReference: {fileID: 0}
     - target: {fileID: 3568482238077595727, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 46f8c48d2d3f7da41b60d83614f8fee0,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3568482238077595727, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 46f8c48d2d3f7da41b60d83614f8fee0,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3568482238077595727, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -36,6 +39,51 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 15ee7fc32f7bcc74889f4b696da59496,
         type: 2}
+    - target: {fileID: 5936454131396164911, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bio
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Rad
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Acid
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bomb
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Fire
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Laser
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Melee
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bullet
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Energy
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7521929656741835326, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
         type: 3}
       propertyPath: Armor.Bio
@@ -99,7 +147,7 @@ PrefabInstance:
     - target: {fileID: 7524605284256423550, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 76db9576a63116843a098fe7aadd38d0
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
         type: 3}
@@ -171,6 +219,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: It has WIZZARD written across it in sequins. Comes with a cool beard.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8004422176852823208, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8004422176852823208, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
         type: 3}

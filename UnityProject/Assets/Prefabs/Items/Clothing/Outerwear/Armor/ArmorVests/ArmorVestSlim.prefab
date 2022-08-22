@@ -11,20 +11,23 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 663b76470f971c7439dd57d2aa9d481c,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 2603394941573166480, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 663b76470f971c7439dd57d2aa9d481c,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 2603394941573166480, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
       propertyPath: allClothingData.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 2ea420730e25286418f487bff81ec8b4,
         type: 2}
+    - target: {fileID: 2658986937302887032, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: foreverID
+      value: a9e6210024846bd47b0410272526dadb
+      objectReference: {fileID: 0}
     - target: {fileID: 2961741670957096338, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -34,8 +37,8 @@ PrefabInstance:
     - target: {fileID: 8841056279837395319, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
       propertyPath: initialDescription
-      value: A slim Type I armored vest that provides decent protection against most
-        types of damage.
+      value: A slim Type I-A armored vest that provides decent protection against
+        most types of damage.
       objectReference: {fileID: 0}
     - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
@@ -100,7 +103,7 @@ PrefabInstance:
     - target: {fileID: 9063515089906310049, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: a9e6210024846bd47b0410272526dadb
       objectReference: {fileID: 0}
     - target: {fileID: 9128183951869416777, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}

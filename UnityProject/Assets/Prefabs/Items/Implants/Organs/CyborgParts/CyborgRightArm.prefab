@@ -25,6 +25,63 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0378a9ca5bc5ce945aac0e998962e216,
         type: 2}
+    - target: {fileID: 4548261438558078835, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: foreverID
+      value: 05849a8c832dadc4dbdbb0e5bbe37ec8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: CanBeBroken
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: CanGetHungry
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: isBloodCirculated
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: HasNaturalToxicity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: isBloodReagentConsumed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: spillChanceWhenCutPresent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: BodyPartDisembowlLogicOnCutSize
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 14e93bb467f8ed649bd366a6cef200b7,
+        type: 2}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 39e8bd810cff8b042ba80636a74b3505,
+        type: 2}
     - target: {fileID: 7010284919959774332, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: initialName
@@ -56,7 +113,7 @@ PrefabInstance:
     - target: {fileID: 7363429173861889706, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 05849a8c832dadc4dbdbb0e5bbe37ec8
       objectReference: {fileID: 0}
     - target: {fileID: 7468114191605762846, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
@@ -118,5 +175,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3783771954129541353, guid: ba9a875c31908af4ab3749cd127a2edb, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ba9a875c31908af4ab3749cd127a2edb, type: 3}

@@ -7,6 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 208349597168355847, guid: fb9217ba5e9d4a84cbc897250c78134d,
+        type: 3}
+      propertyPath: fermentedReagents.m_keys.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 208349597168355847, guid: fb9217ba5e9d4a84cbc897250c78134d,
+        type: 3}
+      propertyPath: fermentedReagents.m_values.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3118299035556845955, guid: fb9217ba5e9d4a84cbc897250c78134d,
         type: 3}
       propertyPath: seedPacket
@@ -22,12 +32,17 @@ PrefabInstance:
     - target: {fileID: 3673277946006235200, guid: fb9217ba5e9d4a84cbc897250c78134d,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 5e93d1a52c2e395488ca9a198c3b402e
       objectReference: {fileID: 0}
     - target: {fileID: 3705951548657128948, guid: fb9217ba5e9d4a84cbc897250c78134d,
         type: 3}
       propertyPath: m_Name
       value: SpaceTobaccoLeaves
+      objectReference: {fileID: 0}
+    - target: {fileID: 3710312349314328704, guid: fb9217ba5e9d4a84cbc897250c78134d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3710312349314328704, guid: fb9217ba5e9d4a84cbc897250c78134d,
         type: 3}
@@ -46,6 +61,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3710312349314328704, guid: fb9217ba5e9d4a84cbc897250c78134d,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3710312349314328704, guid: fb9217ba5e9d4a84cbc897250c78134d,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +78,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3710312349314328704, guid: fb9217ba5e9d4a84cbc897250c78134d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3710312349314328704, guid: fb9217ba5e9d4a84cbc897250c78134d,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3710312349314328704, guid: fb9217ba5e9d4a84cbc897250c78134d,
         type: 3}
@@ -100,5 +110,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6bd66f2db815c3f47bfe5dc01926ffbb,
         type: 2}
-    m_RemovedComponents: []
+    - target: {fileID: 7770000906743962009, guid: fb9217ba5e9d4a84cbc897250c78134d,
+        type: 3}
+      propertyPath: foreverID
+      value: 5e93d1a52c2e395488ca9a198c3b402e
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 208349597168355847, guid: fb9217ba5e9d4a84cbc897250c78134d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: fb9217ba5e9d4a84cbc897250c78134d, type: 3}

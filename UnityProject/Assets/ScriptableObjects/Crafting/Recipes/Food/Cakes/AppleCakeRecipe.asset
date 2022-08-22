@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: AppleCakeRecipe
+  m_EditorClassIdentifier: 
+  category: 8
+  craftingTime: 3
+  recipeName: Apple Cake
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 2206566251415716, guid: 63b7e278f90fc1941bfda902538bae3a,
+      type: 3}
+  - requiredAmount: 2
+    requiredItem: {fileID: 1444600451693040640, guid: 2b2e2481ef2e72b48a6b355894ce0eb5,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits: []
+  result:
+  - {fileID: 3578122675324631673, guid: 4012ea1139271ac488669ea408a24ced, type: 3}
+  resultHandlers: []
+  isSimple: 1
+  indexInSingleton: 75

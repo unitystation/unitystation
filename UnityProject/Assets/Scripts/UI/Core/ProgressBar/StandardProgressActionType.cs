@@ -16,4 +16,5 @@ public enum StandardProgressActionType
 	Escape = 7,
 	Unbuckle = 8,
 	ItemTransfer = 9,
+	Craft = 10
 }

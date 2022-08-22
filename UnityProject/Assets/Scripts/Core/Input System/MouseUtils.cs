@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Tilemaps;
 
 /// <summary>
@@ -29,6 +30,17 @@ public static class MouseUtils
 	}
 
 	/// <summary>
+	/// orthographic cameras print their z position when using ScreenToWorldPoint()
+	/// this function is meant to set that to 0 which is the usual position of objects and tiles
+	/// </summary>
+	public static Vector3 MouseToWorldPos()
+	{
+		var worldPos = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+		worldPos.z = 0;
+		return worldPos;
+	}
+
+	/// <summary>
 	/// Gets the game objects under the given world position, ordered so that highest item comes first.
 	///
 	/// The top-level matrix gameobject (the one with InteractableTiles) at this point is included at the end (if any of its tilemap gameobjects were at this point)
@@ -41,10 +53,11 @@ public static class MouseUtils
 	/// Be aware that the GameObject passed to this function will be the one that the SpriteRenderer or TilemapRenderer lives on, which may NOT
 	/// be the "root" of the gameobject this renderer lives on.</param>
 	/// <returns>the ordered game objects that were under the mouse, top first</returns>
-	public static IEnumerable<GameObject> GetOrderedObjectsAtPoint(Vector3 worldPoint, LayerMask? layerMask = null, Func<GameObject,bool> gameObjectFilter = null)
+	public static IEnumerable<GameObject> GetOrderedObjectsAtPoint(Vector3 worldPoint, LayerMask? layerMask = null,
+		Func<GameObject, bool> gameObjectFilter = null)
 	{
-		worldPoint.z = 0;
-		var matrix = MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPoint), CustomNetworkManager.Instance._isServer).Matrix;
+		var matrix = MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPoint), CustomNetworkManager.Instance._isServer)
+			.Matrix;
 		if (!matrix)
 		{
 			return new List<GameObject>();
@@ -57,25 +70,28 @@ public static class MouseUtils
 
 		//humm probably there's a better way of doing this
 		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition, false).ToList());
-		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition+Vector3Int.up, false).ToList());
-		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition+Vector3Int.down, false).ToList());
-		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition+Vector3Int.right, false).ToList());
-		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition+Vector3Int.left, false).ToList());
-		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition+Vector3Int.up+Vector3Int.right, false).ToList());
-		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition+Vector3Int.up+Vector3Int.left, false).ToList());
-		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition+Vector3Int.down+Vector3Int.right, false).ToList());
-		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition+Vector3Int.down+Vector3Int.left, false).ToList());
-
+		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition + Vector3Int.up, false).ToList());
+		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition + Vector3Int.down, false).ToList());
+		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition + Vector3Int.right, false).ToList());
+		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition + Vector3Int.left, false).ToList());
+		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition + Vector3Int.up + Vector3Int.right, false)
+			.ToList());
+		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition + Vector3Int.up + Vector3Int.left, false)
+			.ToList());
+		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition + Vector3Int.down + Vector3Int.right, false)
+			.ToList());
+		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition + Vector3Int.down + Vector3Int.left, false)
+			.ToList());
 
 
 		var result = resultRegisterTile.Select(x => x.gameObject);
 		var IInteractableTiles = matrix.GetComponentInParent<InteractableTiles>().gameObject;
 		// var result = Physics2D.RaycastAll(worldPoint, Vector2.zero, 10f,
-				// layerMaskToUse)
-			// failsafe - exclude hidden / despawned things in case they happen to mouse over hiddenpos
-			// .Where(hit => !hit.collider.gameObject.IsAtHiddenPos())
-			// get the hit game object
-			// .Select(hit => hit.collider.gameObject);
+		// layerMaskToUse)
+		// failsafe - exclude hidden / despawned things in case they happen to mouse over hiddenpos
+		// .Where(hit => !hit.collider.gameObject.IsAtHiddenPos())
+		// get the hit game object
+		// .Select(hit => hit.collider.gameObject);
 
 
 		if (gameObjectFilter != null)
@@ -88,14 +104,22 @@ public static class MouseUtils
 			.Select(go => IsPixelHit(go.transform))
 			.Where(r => r != null)
 			//order by sort layer
-			.OrderByDescending(r => SortingLayer.GetLayerValueFromID(r.sortingLayerID))
+			.OrderByDescending(r =>
+				SortingLayer.GetLayerValueFromID(r.GetComponentInParent<SortingGroup>().OrNull()?.sortingLayerID == null
+					? r.sortingLayerID
+					: r.GetComponentInParent<SortingGroup>().sortingLayerID))
 			//then by sort order
-			.ThenByDescending(renderer => renderer.sortingOrder)
+			.ThenByDescending(renderer =>
+				renderer.GetComponentInParent<SortingGroup>().OrNull()?.sortingOrder == null
+					? renderer.sortingOrder
+					: renderer.GetComponentInParent<SortingGroup>().sortingOrder)
 			//get the "parent" game object of each of the hit renderers
 			//for a sprite renderer, the parent is the object that has a RegisterTile.
 			//for a tilemap renderer, the parent is the oject that has a Matrix
-			.Select(r => r is TilemapRenderer ? r.GetComponentInParent<InteractableTiles>().OrNull()?.gameObject :
-				r.GetComponentInParent<RegisterTile>().OrNull()?.gameObject)
+			.Select(r =>
+				r is TilemapRenderer
+					? r.GetComponentInParent<InteractableTiles>().OrNull()?.gameObject
+					: r.GetComponentInParent<RegisterTile>().OrNull()?.gameObject)
 			//each gameobject should only show up once
 			.Append(IInteractableTiles).Distinct();
 	}
@@ -111,9 +135,11 @@ public static class MouseUtils
 	/// Be aware that the GameObject passed to this function will be the one that the SpriteRenderer or TilemapRenderer lives on, which may NOT
 	/// be the "root" of the gameobject this renderer lives on.</param>
 	/// <returns>the ordered game objects that were under the mouse, top first</returns>
-	public static IEnumerable<GameObject> GetOrderedObjectsUnderMouse(LayerMask? layerMask = null, Func<GameObject,bool> gameObjectFilter = null)
+	public static IEnumerable<GameObject> GetOrderedObjectsUnderMouse(LayerMask? layerMask = null,
+		Func<GameObject, bool> gameObjectFilter = null)
 	{
-		return GetOrderedObjectsAtPoint(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition), layerMask, gameObjectFilter);
+		return GetOrderedObjectsAtPoint(MouseToWorldPos(), layerMask,
+			gameObjectFilter);
 	}
 
 	/// <summary>
@@ -124,7 +150,8 @@ public static class MouseUtils
 	/// <param name="recentTouches">Dictionary from touch position to the pixel color and time the touch occurred,
 	/// will be updated with the hit information if a hit occurs.</param>
 	/// <returns>spriterenderer that was hit if there is a hit, or tilemaprenderer if transform has one</returns>
-	public static Renderer IsPixelHit(Transform transform, Dictionary<Vector2, Tuple<Color, float>> recentTouches = null)
+	public static Renderer IsPixelHit(Transform transform,
+		Dictionary<Vector2, Tuple<Color, float>> recentTouches = null)
 	{
 		var tilemapRenderer = transform.gameObject.GetComponent<TilemapRenderer>();
 		if (tilemapRenderer != null)
@@ -136,7 +163,8 @@ public static class MouseUtils
 
 		//check order in layer for what should be triggered first
 		//each item ontop of a table should have a higher order in layer
-		SpriteRenderer[] bySortingOrder = spriteRenderers.OrderByDescending(sRenderer => sRenderer.sortingOrder).ToArray();
+		SpriteRenderer[] bySortingOrder =
+			spriteRenderers.OrderByDescending(sRenderer => sRenderer.sortingOrder).ToArray();
 
 		for (var i = 0; i < bySortingOrder.Length; i++)
 		{
@@ -155,8 +183,8 @@ public static class MouseUtils
 						if (recentTouches.ContainsKey(mousePos))
 						{
 							recentTouches.Remove(mousePos);
-
 						}
+
 						recentTouches.Add(mousePos, new Tuple<Color, float>(pixelColor, Time.time));
 					}
 
@@ -167,6 +195,7 @@ public static class MouseUtils
 
 		return null;
 	}
+
 	/// <summary>
 	/// Gets the sprite pixel of this sprite renderer that is under the mouse position
 	/// </summary>
@@ -183,8 +212,9 @@ public static class MouseUtils
 
 		Vector2 viewportPos = cam.ScreenToViewportPoint(mousePos);
 
-		if (viewportPos.x < 0.0f || viewportPos.x > 1.0f || viewportPos.y < 0.0f || viewportPos.y > 1.0f) return false; // out of viewport bounds
-																											// Cast a ray from viewport point into world
+		if (viewportPos.x < 0.0f || viewportPos.x > 1.0f || viewportPos.y < 0.0f || viewportPos.y > 1.0f)
+			return false; // out of viewport bounds
+		// Cast a ray from viewport point into world
 		Ray ray = cam.ViewportPointToRay(viewportPos);
 
 		// Check for intersection with sprite and get the color
@@ -207,21 +237,24 @@ public static class MouseUtils
 			// TODO: support tightly packed sprites
 			return false;
 		}
+
 		// Craete a plane so it has the same orientation as the sprite transform
-		Plane plane = new Plane(spriteRenderer.transform.forward, (Vector2)spriteRenderer.transform.position); //????????
-																				 // Intersect the ray and the plane
+		Plane plane =
+			new Plane(spriteRenderer.transform.forward, (Vector2) spriteRenderer.transform.position); //????????
+		// Intersect the ray and the plane
 		float rayIntersectDist; // the distance from the ray origin to the intersection point
 		if (!plane.Raycast(ray, out rayIntersectDist)) return false; // no intersection
-																	 // worldToLocalMatrix.MultiplyPoint3x4 returns a value from based on the texture dimensions (+/- half texDimension / pixelsPerUnit) )
-																	 // 0, 0 corresponds to the center of the TEXTURE ITSELF, not the center of the trimmed sprite textureRect
-		Vector3 spritePos = spriteRenderer.worldToLocalMatrix.MultiplyPoint3x4(ray.origin + (ray.direction * rayIntersectDist));
+		// worldToLocalMatrix.MultiplyPoint3x4 returns a value from based on the texture dimensions (+/- half texDimension / pixelsPerUnit) )
+		// 0, 0 corresponds to the center of the TEXTURE ITSELF, not the center of the trimmed sprite textureRect
+		Vector3 spritePos =
+			spriteRenderer.worldToLocalMatrix.MultiplyPoint3x4(ray.origin + (ray.direction * rayIntersectDist));
 		Rect textureRect = sprite.textureRect;
 		float pixelsPerUnit = sprite.pixelsPerUnit;
 		float halfRealTexWidth = sprite.rect.width * 0.5f;
 		float halfRealTexHeight = sprite.rect.height * 0.5f;
 
-		int texPosX = (int)(sprite.textureRect.position.x + (spritePos.x * pixelsPerUnit + halfRealTexWidth));
-		int texPosY = (int)(sprite.textureRect.position.y + (spritePos.y * pixelsPerUnit + halfRealTexHeight));
+		int texPosX = (int) (sprite.textureRect.position.x + (spritePos.x * pixelsPerUnit + halfRealTexWidth));
+		int texPosY = (int) (sprite.textureRect.position.y + (spritePos.y * pixelsPerUnit + halfRealTexHeight));
 		//Logger.Log(texPosX.ToString() + "texPosX");
 		//Logger.Log(textureRect.x.ToString() + "textureRect");
 		//Logger.Log(Mathf.FloorToInt(textureRect.xMax).ToString() + "textureRect.xMax");
@@ -230,9 +263,10 @@ public static class MouseUtils
 		if (texPosX < 0 || texPosX < textureRect.x || texPosX >= Mathf.FloorToInt(textureRect.xMax)) return false;
 		if (texPosY < 0 || texPosY < textureRect.y || texPosY >= Mathf.FloorToInt(textureRect.yMax)) return false;
 
-		// Get pixel color
-		color = texture.GetPixel(texPosX, texPosY);
+		// Check to make sure texture is readable and get pixel color
+		if(texture.isReadable)
+			color = texture.GetPixel(texPosX, texPosY);
+
 		return true;
 	}
-
 }

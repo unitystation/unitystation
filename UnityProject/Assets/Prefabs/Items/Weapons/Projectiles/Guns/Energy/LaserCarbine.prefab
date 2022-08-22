@@ -26,22 +26,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: SmartGun
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: FiringSound
-      value: ShootLaser
-      objectReference: {fileID: 0}
-    - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
       propertyPath: FireRate
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: ProjectilesFired
+      propertyPath: SmartGun
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
@@ -56,6 +46,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 319333690820393223, guid: 0912d5acb5187db4aae8172dda64914c,
         type: 3}
+    - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: FiringSound
+      value: ShootLaser
+      objectReference: {fileID: 0}
+    - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: ProjectilesFired
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2153160782301408824, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_IsActive
@@ -68,14 +68,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: initialDescription
-      value: A basic energy-based laser gun that fires concentrated beams of light
-        which pass through glass and thin metal.
+      propertyPath: initialName
+      value: laser carbine
       objectReference: {fileID: 0}
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: initialName
-      value: laser carbine
+      propertyPath: initialDescription
+      value: A basic energy-based laser gun that fires concentrated beams of light
+        which pass through glass and thin metal.
       objectReference: {fileID: 0}
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -97,7 +97,12 @@ PrefabInstance:
     - target: {fileID: 4342894697621943514, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 7fd11f09765590540b2685a0dfa2b8ea
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -116,6 +121,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -128,16 +138,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -182,13 +182,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: firemodeProjectiles.Array.size
-      value: 1
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 3294328072042417454, guid: 49a8364f6515be34bac52c48c9214d85,
+        type: 3}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: FiringSound
+      value: ShootLaser
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: firemodeFiringSound.Array.size
-      value: 1
+      propertyPath: countFiremode
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -197,16 +203,34 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: Projectile
-      value: 
-      objectReference: {fileID: 3294328072042417454, guid: 49a8364f6515be34bac52c48c9214d85,
-        type: 3}
+      propertyPath: FiringSoundA.AssetAddress
+      value: Assets/Prefabs/Weapons/Laser1.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: firemodeProjectiles.Array.data[0]
-      value: 
-      objectReference: {fileID: 3294328072042417454, guid: 49a8364f6515be34bac52c48c9214d85,
+      propertyPath: firemodeName.Array.data[0]
+      value: Kill
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: firemodeName.Array.data[1]
+      value: Kill
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: firemodeName.Array.data[2]
+      value: Stun
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: firemodeFiringSound.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: firemodeProjectiles.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: firemodeFiringSound.Array.data[0]
@@ -214,9 +238,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: firemodeName.Array.data[0]
-      value: Kill
+      propertyPath: firemodeFiringSound.Array.data[1]
+      value: ShootLaser
       objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: firemodeFiringSound.Array.data[2]
+      value: ShootTazer
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: firemodeProjectiles.Array.data[0]
+      value: 
+      objectReference: {fileID: 3294328072042417454, guid: 49a8364f6515be34bac52c48c9214d85,
+        type: 3}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: firemodeProjectiles.Array.data[1]
@@ -231,43 +266,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: firemodeFiringSound.Array.data[1]
-      value: ShootLaser
-      objectReference: {fileID: 0}
-    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: firemodeFiringSound.Array.data[2]
-      value: ShootTazer
-      objectReference: {fileID: 0}
-    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: firemodeName.Array.data[1]
-      value: Kill
-      objectReference: {fileID: 0}
-    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: firemodeName.Array.data[2]
-      value: Stun
-      objectReference: {fileID: 0}
-    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: FiringSound
-      value: ShootLaser
-      objectReference: {fileID: 0}
-    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: countFiremode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
       propertyPath: firemodeFiringSound.Array.data[0].AssetAddress
       value: Assets/Prefabs/Weapons/Laser1.prefab
       objectReference: {fileID: 0}
-    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+    - target: {fileID: 7308079732379829507, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: FiringSoundA.AssetAddress
-      value: Assets/Prefabs/Weapons/Laser1.prefab
+      propertyPath: foreverID
+      value: 7fd11f09765590540b2685a0dfa2b8ea
       objectReference: {fileID: 0}
     - target: {fileID: 7536533288437052137, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}

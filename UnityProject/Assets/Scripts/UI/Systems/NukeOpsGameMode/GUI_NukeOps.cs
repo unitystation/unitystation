@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 //This is for the first nuke ops demo:
@@ -15,11 +13,21 @@ public class GUI_NukeOps : MonoBehaviour
 
 	public Button nukeOpsbtn;
 
-
-	void Update()
+	private void OnEnable()
 	{
-		syndiActive = GameManager.Instance.GetOccupationsCount(JobType.SYNDICATE);
-		nanoActive = GameManager.Instance.GetNanoTrasenCount();
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	void UpdateMe()
+	{
+		//THIS WONT WORK AS SYNDICATE ISNT SYNC'D
+		syndiActive = GameManager.Instance.ClientGetOccupationsCount(JobType.SYNDICATE);
+		nanoActive = GameManager.Instance.ClientGetNanoTrasenCount();
 		UpdateCounts();
 		SyndiesAllowed();
 	}

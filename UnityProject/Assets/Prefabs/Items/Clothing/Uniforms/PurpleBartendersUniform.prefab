@@ -7,10 +7,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1973002661359593264, guid: c842b429251c54792a95e292b838d034,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: c842b429251c54792a95e292b838d034,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: c842b429251c54792a95e292b838d034,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[4].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2909197017712554513, guid: c842b429251c54792a95e292b838d034,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: e91ce8b61d4df214a9ea32f3adc87154
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: c842b429251c54792a95e292b838d034,
         type: 3}
@@ -88,18 +103,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: It looks like it has lots of flair!
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: c842b429251c54792a95e292b838d034,
+        type: 3}
+      propertyPath: foreverID
+      value: e91ce8b61d4df214a9ea32f3adc87154
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: c842b429251c54792a95e292b838d034,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 4c69c5811f6544f4980d6e688be49da9,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: c842b429251c54792a95e292b838d034,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 4c69c5811f6544f4980d6e688be49da9,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: c842b429251c54792a95e292b838d034,
         type: 3}
       propertyPath: allClothingData.Array.size

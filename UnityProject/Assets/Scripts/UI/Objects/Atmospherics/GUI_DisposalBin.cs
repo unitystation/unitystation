@@ -1,16 +1,18 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Objects.Disposals;
+using UI.Core;
+using UI.Core.NetUI;
 using UI.Objects.Robotics;
 
 namespace UI.Objects.Disposals
 {
 	public class GUI_DisposalBin : NetTab
 	{
-		[SerializeField] private NetLabel LabelBinStatus = default;
-		[SerializeField] private GUI_ExoFabButton ButtonBinPower = default;
-		[SerializeField] private GUI_ExoFabButton ButtonFlushContents = default;
-		[SerializeField] private GUI_ExoFabButton ButtonEjectContents = default;
+		[SerializeField] private NetText_label LabelBinStatus = default;
+		[SerializeField] private NetInteractiveButton ButtonBinPower = default;
+		[SerializeField] private NetInteractiveButton ButtonFlushContents = default;
+		[SerializeField] private NetInteractiveButton ButtonEjectContents = default;
 		[SerializeField] private NumberSpinner StoredPressureSpinner = default;
 		[SerializeField] private NetColorChanger LEDRed = default;
 		[SerializeField] private NetColorChanger LEDYellow = default;
@@ -62,7 +64,7 @@ namespace UI.Objects.Disposals
 
 		private void ServerUpdatePressureSpinner()
 		{
-			StoredPressureSpinner.ServerSpinTo(bin.ChargePressure);
+			StoredPressureSpinner.ServerSpinTo(Mathf.FloorToInt(bin.ChargePressure));
 		}
 
 		private void ServerSetButtonsAndLEDsByState()
@@ -99,12 +101,12 @@ namespace UI.Objects.Disposals
 			}
 		}
 
-		private void ServerEnableButtonInteraction(GUI_ExoFabButton button)
+		private void ServerEnableButtonInteraction(NetInteractiveButton button)
 		{
 			button.SetValueServer("true");
 		}
 
-		private void ServerDisableButtonInteraction(GUI_ExoFabButton button)
+		private void ServerDisableButtonInteraction(NetInteractiveButton button)
 		{
 			button.SetValueServer("false");
 		}

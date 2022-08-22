@@ -20,6 +20,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -35,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
         type: 3}
@@ -76,17 +76,17 @@ PrefabInstance:
     - target: {fileID: 276477913924184936, guid: c8966d5986e801548b806fb2ab2bbf3c,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 337646958669920702, guid: c8966d5986e801548b806fb2ab2bbf3c,
-        type: 3}
-      propertyPath: initialDescription
-      value: Goes great with a mug of hot coco.
+      value: 3a35482a8584c964da096f526a3b3193
       objectReference: {fileID: 0}
     - target: {fileID: 337646958669920702, guid: c8966d5986e801548b806fb2ab2bbf3c,
         type: 3}
       propertyPath: initialName
       value: caramel donut
+      objectReference: {fileID: 0}
+    - target: {fileID: 337646958669920702, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: initialDescription
+      value: Goes great with a mug of hot coco.
       objectReference: {fileID: 0}
     - target: {fileID: 6270160345599159643, guid: c8966d5986e801548b806fb2ab2bbf3c,
         type: 3}
@@ -94,5 +94,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2b6b02d5a579a2742b03b74d63af4219,
         type: 2}
+    - target: {fileID: 6555186407737170609, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: foreverID
+      value: 3a35482a8584c964da096f526a3b3193
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8966d5986e801548b806fb2ab2bbf3c, type: 3}

@@ -9,13 +9,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1250843745268640460, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 4
+      propertyPath: initialName
+      value: foam force pistol magazine
       objectReference: {fileID: 0}
     - target: {fileID: 1250843745268640460, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
         type: 3}
-      propertyPath: initialName
-      value: foam force pistol magazine
+      propertyPath: initialTraits.Array.size
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1250843745268640460, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
         type: 3}
@@ -29,10 +29,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: f4b29a15c4846d24d829d1f4071b90d5,
         type: 3}
+    - target: {fileID: 1533349136993711858, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1594921804251691034, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 215c07b6aa6d556439078165149ba3a5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1704044382101453018, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1704044382101453018, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
         type: 3}
@@ -51,6 +61,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1704044382101453018, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1704044382101453018, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +78,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1704044382101453018, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1704044382101453018, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1704044382101453018, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
         type: 3}
@@ -100,6 +105,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1c7a995e702f0bd45b4b524d35c4767e,
         type: 2}
+    - target: {fileID: 5696139363908831683, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
+        type: 3}
+      propertyPath: foreverID
+      value: 215c07b6aa6d556439078165149ba3a5
+      objectReference: {fileID: 0}
     - target: {fileID: 8093411948979334863, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
         type: 3}
       propertyPath: magazineSize

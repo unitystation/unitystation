@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 932420383064505029, guid: 2937fbb42f33c07428faabfd58578633,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 850a00ce2fc547b499ef46733c95c580
       objectReference: {fileID: 0}
     - target: {fileID: 964010665609781337, guid: 2937fbb42f33c07428faabfd58578633,
         type: 3}
@@ -39,26 +39,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 966414532031153757, guid: 2937fbb42f33c07428faabfd58578633,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 966414532031153757, guid: 2937fbb42f33c07428faabfd58578633,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 966414532031153757, guid: 2937fbb42f33c07428faabfd58578633,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 966414532031153757, guid: 2937fbb42f33c07428faabfd58578633,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 966414532031153757, guid: 2937fbb42f33c07428faabfd58578633,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -77,6 +57,16 @@ PrefabInstance:
       propertyPath: mobName
       value: xenomorph queen
       objectReference: {fileID: 0}
+    - target: {fileID: 1143423393386790465, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: playRandomSoundTimer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5151156347480821996, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: hitDamage
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 5522932471367266001, guid: 2937fbb42f33c07428faabfd58578633,
         type: 3}
       propertyPath: maxHealth
@@ -85,7 +75,7 @@ PrefabInstance:
     - target: {fileID: 5522932471367266001, guid: 2937fbb42f33c07428faabfd58578633,
         type: 3}
       propertyPath: butcherResults.Array.size
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5522932471367266001, guid: 2937fbb42f33c07428faabfd58578633,
         type: 3}
@@ -123,6 +113,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2434222561616808047, guid: ec415b83dd52aba48a8c3eb34564b8dc,
         type: 3}
+    - target: {fileID: 5522932471367266001, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: butcherResults.Array.data[10]
+      value: 
+      objectReference: {fileID: 7186820348635746022, guid: 8cd3dcf86127057478c50a027e9ac1ea,
+        type: 3}
+    - target: {fileID: 5522932471367266001, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: butcherResults.Array.data[11]
+      value: 
+      objectReference: {fileID: 7186820348635746022, guid: 8cd3dcf86127057478c50a027e9ac1ea,
+        type: 3}
     - target: {fileID: 5672499428234854701, guid: 2937fbb42f33c07428faabfd58578633,
         type: 3}
       propertyPath: m_Sprite
@@ -147,5 +149,86 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 69ab4592eaf82ca47902b08e156411e9,
         type: 2}
+    - target: {fileID: 6035718330051049012, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 95b47db093e33d3448c2951ed087b77d,
+        type: 2}
+    - target: {fileID: 7657617986430163585, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Rad
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7657617986430163585, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Bomb
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7657617986430163585, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Fire
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 7657617986430163585, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Laser
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 7657617986430163585, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Melee
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7657617986430163585, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Bullet
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 7657617986430163585, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Energy
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007506324854043843, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Rad
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007506324854043843, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Bomb
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007506324854043843, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Fire
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007506324854043843, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Laser
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007506324854043843, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Melee
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007506324854043843, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Bullet
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007506324854043843, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Energy
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534835468762683602, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: tileMoveSpeed
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2937fbb42f33c07428faabfd58578633, type: 3}

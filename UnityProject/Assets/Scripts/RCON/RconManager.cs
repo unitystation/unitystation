@@ -1,29 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using DatabaseAPI;
+using IngameDebugConsole;
+using Managers;
+using Shared.Managers;
 using UnityEngine;
 using WebSocketSharp;
 using WebSocketSharp.Net;
 using WebSocketSharp.Server;
 
-public class RconManager : RconConsole
+public class RconManager : SingletonManager<RconManager>
 {
-	private static RconManager rconManager;
-
-	public static RconManager Instance
-	{
-		get
-		{
-			if (rconManager == null)
-			{
-				rconManager = FindObjectOfType<RconManager>();
-			}
-
-			return rconManager;
-		}
-	}
-
 	private HttpServer httpServer;
 
 	private WebSocketServiceHost consoleHost;
@@ -37,9 +25,15 @@ public class RconManager : RconConsole
 
 	float monitorUpdate = 0f;
 
-	void Start()
+	public override void Start()
 	{
+		base.Start();
 		Instance.Init();
+	}
+
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
@@ -48,13 +42,27 @@ public class RconManager : RconConsole
 		{
 			httpServer.Stop();
 		}
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void Init()
 	{
 		Logger.Log("Init RconManager", Category.Rcon);
-		DontDestroyOnLoad(rconManager.gameObject);
+		DontDestroyOnLoad(gameObject);
 
+		if (ServerData.ServerConfig == null)
+		{
+			ServerData.serverDataLoaded += OnServerDataLoaded;
+		}
+		else
+		{
+			OnServerDataLoaded();
+		}
+	}
+
+	private void OnServerDataLoaded()
+	{
+		ServerData.serverDataLoaded -= OnServerDataLoaded;
 		if (ServerData.ServerConfig == null)
 		{
 			Logger.Log("No server config found: rcon", Category.Rcon);
@@ -85,7 +93,7 @@ public class RconManager : RconConsole
 
 		Logger.Log("config loaded", Category.Rcon);
 
-		if (!GameData.IsHeadlessServer)
+		if (GameData.IsHeadlessServer == false && Application.isEditor == false)
 		{
 			Logger.Log("Dercon", Category.Rcon);
 			Destroy(gameObject);
@@ -126,9 +134,14 @@ public class RconManager : RconConsole
 			foreach (var path in httpServer.WebSocketServices.Paths)
 				Logger.LogFormat("- {0}", Category.Rcon, path);
 		}
+		else
+		{
+			Logger.LogError("Failed to start Rcon server.", Category.Rcon);
+			Destroy(gameObject);
+		}
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
 		if (rconChatQueue.Count > 0)
 		{
@@ -155,7 +168,9 @@ public class RconManager : RconConsole
 
 	public static void AddChatLog(string msg)
 	{
-		msg = DateTime.UtcNow + ":    " + msg + "<br>";
+		if(Instance.chatHost == null) return;
+
+		msg = $"{DateTime.UtcNow}:    {msg}<br>";
 		AmendChatLog(msg);
 		Instance.chatHost.Sessions.Broadcast(msg);
 		BroadcastToSessions(msg, Instance.chatHost.Sessions.Sessions);
@@ -163,7 +178,7 @@ public class RconManager : RconConsole
 
 	public static void AddLog(string msg)
 	{
-		msg = DateTime.UtcNow + ":    " + msg + "<br>";
+		msg = $"{DateTime.UtcNow}:    {msg}<br>";
 		AmendLog(msg);
 		if (Instance.consoleHost != null)
 		{
@@ -173,6 +188,7 @@ public class RconManager : RconConsole
 
 	public static void UpdatePlayerListRcon()
 	{
+		if(Instance.playerListHost == null) return;
 		var json = JsonUtility.ToJson(new Players());
 		BroadcastToSessions(json, Instance.playerListHost.Sessions.Sessions);
 	}
@@ -235,7 +251,9 @@ public class RconManager : RconConsole
 
 	public static string GetFullLog()
 	{
-		var log = ServerLog;
+		var stringBuilder = new StringBuilder();
+		stringBuilder.Append(ServerLog);
+		var log = stringBuilder.ToString();
 		if (log.Length > 5000)
 		{
 			log = log.Substring(4000);
@@ -245,7 +263,10 @@ public class RconManager : RconConsole
 
 	public static string GetFullChatLog()
 	{
-		var log = ChatLog;
+		var stringBuilder = new StringBuilder();
+		stringBuilder.Append(ChatLog);
+		var log = stringBuilder.ToString();
+
 		if (string.IsNullOrEmpty(log))
 		{
 			return "No one has said anything yet..";
@@ -257,6 +278,37 @@ public class RconManager : RconConsole
 		}
 		return log;
 	}
+
+	#region RconConsole
+
+	protected static List<string> serverLog = new List<string>(1000);
+	protected static List<string> ServerLog => serverLog;
+	protected static string LastLog { get; private set; }
+
+
+	protected static List<string> chatLog = new List<string>(1000);
+	protected static List<string> ChatLog => chatLog;
+	protected static string ChatLastLog { get; private set; }
+
+	protected static void AmendLog(string msg)
+	{
+		ServerLog.Add(msg);
+		LastLog = msg;
+	}
+
+	protected static void AmendChatLog(string msg)
+	{
+		ChatLog.Add(msg);
+		ChatLastLog = msg;
+	}
+
+	protected static void ExecuteCommand(string command)
+	{
+		command = command.Substring(1, command.Length - 1);
+		DebugLogConsole.ExecuteCommand(command);
+	}
+
+	#endregion
 }
 
 public class RconSocket : WebSocketBehavior
@@ -349,7 +401,7 @@ public class Players
 			var player = PlayerList.Instance.InGamePlayers[i];
 			var playerEntry = new PlayerDetails()
 			{
-				playerName = player.Name + $" {player.Job.ToString()} : Acc: {player.Username} {player.UserId} {player.Connection.address} ",
+				playerName = player.Name + $" {player.Job.ToString()} : Acc: {player.Username} {player.UserId} {player.ConnectionIP} ",
 					job = player.Job.ToString()
 			};
 			players.Add(playerEntry);

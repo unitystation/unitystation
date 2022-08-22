@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2527589168897478388, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: foreverID
+      value: b28ea5dc6586186429459abdd1a63af4
+      objectReference: {fileID: 0}
     - target: {fileID: 3382038559166527774, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: variantIndex
@@ -18,6 +23,31 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5104905171ff46a40950259df066250b,
         type: 2}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: CanBleedExternally
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: gibsEntireBodyOnRemoval
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: spillChanceWhenCutPresent
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: bodyPartAshesAboveThisDamage
+      value: 125
+      objectReference: {fileID: 0}
     - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
@@ -36,17 +66,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5104905171ff46a40950259df066250b,
         type: 2}
-    - target: {fileID: 5634484993905305047, guid: cc032f91cda505e44b066c36db32760d,
-        type: 3}
-      propertyPath: Populater.Contents.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5634484993905305047, guid: cc032f91cda505e44b066c36db32760d,
-        type: 3}
-      propertyPath: Populater.Contents.Array.data[3]
-      value: 
-      objectReference: {fileID: 7627884330611038406, guid: 502b359a296b6db44b8a0e8b3020ecae,
-        type: 3}
     - target: {fileID: 8743880023469781445, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: m_Sprite
@@ -56,12 +75,12 @@ PrefabInstance:
     - target: {fileID: 8808267403971002157, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b28ea5dc6586186429459abdd1a63af4
       objectReference: {fileID: 0}
     - target: {fileID: 8910782054479282841, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: m_Name
-      value: HumanChest Variant
+      value: HumanChest Variant 1
       objectReference: {fileID: 0}
     - target: {fileID: 8915710202864320493, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}

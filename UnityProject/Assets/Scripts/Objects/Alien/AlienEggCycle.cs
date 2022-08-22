@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using Mirror;
 using AddressableReferences;
 using Messages.Server.SoundMessages;
 
 
 namespace Alien
 {
-	public class AlienEggCycle : MonoBehaviour, IInteractable<HandApply>, IServerSpawn, IServerDespawn
+	public class AlienEggCycle : MonoBehaviour, IServerSpawn, IServerDespawn, ICheckedInteractable<HandApply>
 	{
 		[SerializeField] private AddressableAudioSource squishSFX = null;
 
@@ -29,10 +28,6 @@ namespace Alien
 		[SerializeField]
 		private EggState initialState = EggState.Growing;
 
-		// TODO This is entirely unused and is creating a compiler warning.
-		[Tooltip("Allows mappers to have eggs that won't start cycle once spawned, but are still intractable")][SerializeField]
-		private bool freezeCycle = false;
-
 		[Tooltip("A reference for the facehugger mob so we can spawn it.")]
 		[SerializeField]
 		private GameObject facehugger = null;
@@ -51,7 +46,6 @@ namespace Alien
 			objectAttributes = GetComponent<ObjectAttributes>();
 		}
 
-
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			incubationTime = UnityEngine.Random.Range(60f, incubationTime);
@@ -60,12 +54,10 @@ namespace Alien
 			registerObject.SetPassable(false, false);
 		}
 
-
 		public void OnDespawnServer(DespawnInfo info)
 		{
 			StopAllCoroutines();
 		}
-
 
 		private void UpdatePhase(EggState state)
 		{
@@ -81,7 +73,7 @@ namespace Alien
 				case EggState.Grown:
 					spriteHandler.ChangeSprite(BIG_SPRITE);
 					StopAllCoroutines();
-					StartCoroutine(HatchEgg());
+					StartCoroutine(WaitForHatchEgg());
 					break;
 				case EggState.Burst:
 					spriteHandler.ChangeSprite(HATCHED_SPRITE);
@@ -95,24 +87,27 @@ namespace Alien
 			UpdateExamineMessage();
 		}
 
-
-		IEnumerator GrowEgg()
+		private IEnumerator GrowEgg()
 		{
 			yield return WaitFor.Seconds(incubationTime / 2);
 			UpdatePhase(EggState.Grown);
 		}
 
-
-		IEnumerator HatchEgg()
+		private IEnumerator WaitForHatchEgg()
 		{
 			yield return WaitFor.Seconds(incubationTime / 2);
+
+			StartCoroutine(HatchEggAnimation());
+		}
+
+		private IEnumerator HatchEggAnimation()
+		{
 			spriteHandler.ChangeSprite(OPENING_SPRITE);
 			yield return WaitFor.Seconds(OPENING_ANIM_TIME);
 			UpdatePhase(EggState.Burst);
 
 			Spawn.ServerPrefab(facehugger, gameObject.RegisterTile().WorldPositionServer);
 		}
-
 
 		private void UpdateExamineMessage()
 		{
@@ -139,7 +134,6 @@ namespace Alien
 			objectAttributes.ServerSetArticleDescription(examineMessage);
 		}
 
-
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			switch (currentState)
@@ -148,13 +142,16 @@ namespace Alien
 					FeelsSlimy(interaction);
 					break;
 				case EggState.Burst:
-					FeelsSlimy(interaction);
+					if (interaction.Intent == Intent.Harm)
+						Squish(interaction);
+					else
+						FeelsSlimy(interaction);
 					break;
 				case EggState.Growing:
 					Squish(interaction);
 					break;
 				case EggState.Grown:
-					UpdatePhase(EggState.Burst);
+					Open(interaction);
 					break;
 				default:
 					UpdatePhase(EggState.Burst);
@@ -162,6 +159,18 @@ namespace Alien
 			}
 		}
 
+		private void Open(HandApply interaction)
+		{
+			StopAllCoroutines();
+
+			Chat.AddActionMsgToChat(
+				interaction.Performer.gameObject,
+				"You open the alien egg!",
+				$"{interaction.Performer.ExpensiveName()} opens the alien egg!");
+
+			StartCoroutine(HatchEggAnimation());
+			registerObject.SetPassable(false, true);
+		}
 
 		private void Squish(HandApply interaction)
 		{
@@ -180,7 +189,6 @@ namespace Alien
 			registerObject.SetPassable(false, true);
 		}
 
-
 		private void FeelsSlimy(Interaction interaction)
 		{
 			Chat.AddActionMsgToChat(
@@ -189,6 +197,12 @@ namespace Alien
 				$"{interaction.Performer.ExpensiveName()} touches the slimy egg!");
 		}
 
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			return side == NetworkSide.Server ? !(interaction.Intent == Intent.Harm && currentState == EggState.Grown) : true;
+		}
 
 		public enum EggState
 		{

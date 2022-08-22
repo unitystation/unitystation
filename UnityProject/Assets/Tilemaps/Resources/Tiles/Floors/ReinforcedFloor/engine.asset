@@ -12,18 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
   m_Name: engine
   m_EditorClassIdentifier: 
-  displayName: 
+  displayName: reinforced floor
+  description: 
   LayerType: 3
   TileType: 3
   RequiredTiles:
   - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
-  floorTileType: 0
+  floorTileSounds: {fileID: 11400000, guid: b6656d824eea91648b8ada5f88db78ca, type: 2}
+  CanSoundOverride: 0
   atmosPassable: 1
   isSealed: 1
   SpawnWithNoAir: 0
   passable: 1
   mineable: 0
+  miningTime: 5
+  constructable: 1
+  RadiationPassability: 1
+  ThermalConductivity: 0.05
+  HeatCapacity: 0
   doesReflectBullet: 0
+  indestructible: 0
+  ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 01000000
     m_values: 00
@@ -40,11 +50,24 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 50
+    DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: 3573a00d8b086489180e20299fd2a40f, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
     type: 3}
   spawnAmountOnDeconstruct: 2
   lootOnDespawn: {fileID: 11400000, guid: 4448344eea08d8a4887e16cb85e387cc, type: 2}
-  soundOnHit: 
+  toTileWhenDestroyed: {fileID: 0}
+  spawnOnDestroy: {fileID: 0}
+  damageOverlayList: {fileID: 0}
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  SoundOnDestroy: []
   sprite: {fileID: 21300000, guid: 91c0600c38b8bd84a86f9ac8a86c7d19, type: 3}

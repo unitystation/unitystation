@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2909197017712554513, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: f6585ad95f0d0ef4d95e6829e22a7954
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
@@ -89,18 +89,21 @@ PrefabInstance:
       value: The insignia on this uniform tells you that this uniform belongs to
         the Head of Security.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: foreverID
+      value: f6585ad95f0d0ef4d95e6829e22a7954
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: e3c7c31ac5dec564c87b9fbc2769ecb2,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: e3c7c31ac5dec564c87b9fbc2769ecb2,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
       propertyPath: allClothingData.Array.size

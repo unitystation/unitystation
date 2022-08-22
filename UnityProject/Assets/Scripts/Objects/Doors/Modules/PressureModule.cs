@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using Initialisation;
+using Items;
 using UnityEngine;
 
 namespace Doors.Modules
 {
-	public class PressureModule : DoorModuleBase
+	public class PressureModule : DoorModuleBase, IServerSpawn
 	{
 		[SerializeField]
 		[Tooltip("If the door shows a pressure warning and is used again within this duration, it will open.")]
@@ -17,12 +20,17 @@ namespace Doors.Modules
 		private int pressureThresholdWarning = 120;
 		private bool warningActive;
 
-		public override ModuleSignal OpenInteraction(HandApply interaction)
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			master.HackingProcessBase.RegisterPort(PlayPressureWarning, master.GetType());
+		}
+
+		public override ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
 			return ModuleSignal.Continue;
 		}
 
-		private ModuleSignal TryPressureWarning()
+		private ModuleSignal TryPressureWarning( HashSet<DoorProcessingStates> States)
 		{
 			//If the door isn't powered, we skip this check. We don't have the power to scan pressure.
 			if (!master.HasPower)
@@ -35,29 +43,36 @@ namespace Doors.Modules
 				return ModuleSignal.Continue;
 			}
 
+			if (States.Contains(DoorProcessingStates.SoftwareHacked))
+			{
+				return ModuleSignal.Continue;
+			}
+
 			if (!IsPressureDangerous())
 			{
 				return ModuleSignal.Continue;
 			}
 
-			StartCoroutine(master.DoorAnimator.PlayPressureWarningAnimation());
-			StartCoroutine(ResetWarning());
+			master.HackingProcessBase.ImpulsePort(PlayPressureWarning);
 			return ModuleSignal.ContinueWithoutDoorStateChange;
 		}
 
-		public override ModuleSignal ClosedInteraction(HandApply interaction)
+		public void PlayPressureWarning()
 		{
-			return TryPressureWarning();
+			StartCoroutine(master.DoorAnimator.PlayPressureWarningAnimation());
+			master.DoorAnimator.ServerPlayPressureSound();
+			StartCoroutine(ResetWarning());
 		}
 
-		public override ModuleSignal BumpingInteraction(GameObject byPlayer)
+		public override ModuleSignal ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
-			return TryPressureWarning();
+
+			return TryPressureWarning (States);
 		}
 
-		public override bool CanDoorStateChange()
+		public override ModuleSignal BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
 		{
-			return true;
+			return TryPressureWarning( States);
 		}
 
 		/// <summary>

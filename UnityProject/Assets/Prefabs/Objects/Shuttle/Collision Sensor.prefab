@@ -11,14 +11,13 @@ GameObject:
   - component: {fileID: 4725794095997998}
   - component: {fileID: 114121394006510822}
   - component: {fileID: -6328763256277720383}
-  - component: {fileID: 493828552897054551}
   - component: {fileID: 5745080215759849378}
   - component: {fileID: -8848886095367057909}
   - component: {fileID: -4487154595025906358}
   - component: {fileID: -2051729626694222704}
   - component: {fileID: -3038391285617089312}
-  - component: {fileID: 2975738231047666242}
   - component: {fileID: -6044478302198418988}
+  - component: {fileID: -3907515638948252111}
   m_Layer: 19
   m_Name: Collision Sensor
   m_TagString: Untagged
@@ -36,6 +35,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4887873931970760}
   m_Father: {fileID: 0}
@@ -65,28 +65,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: 
+  m_AssetId: c0760b4fcab625b41a604576e37ca584
   hasSpawned: 0
---- !u!114 &493828552897054551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1395871990776010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  snapToGridOnStart: 1
-  IsFixedMatrix: 0
 --- !u!114 &5745080215759849378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,6 +86,8 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 0
+  prefabTracker: {fileID: 0}
+  CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
   ReachableThrough: 1
   initialPassable: 1
@@ -122,12 +107,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  InitialDirection: 1
-  onEditorDirectionChange:
-    m_PersistentCalls:
-      m_Calls: []
-  ChangeDirectionWithMatrix: 1
-  DisableSyncing: 0
+  MethodRotation: 2
+  ChangeSprites: 0
+  isChangingSO: 0
+  CurrentDirection: 1
+  IgnoreServerUpdatesIfLocalPlayer: 0
+  IsAtmosphericDevice: 0
+  doNotResetOtherSpriteOptions: 0
 --- !u!114 &-4487154595025906358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,8 +140,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound: 
 --- !u!114 &-3038391285617089312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,6 +162,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -190,6 +175,8 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
+    StunImmunity: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -202,19 +189,6 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
---- !u!114 &2975738231047666242
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1395871990776010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44c7afb8a6dc4ed8bf0f983b7ff65e10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabSpriteOrientation: 1
 --- !u!114 &-6044478302198418988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,8 +201,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-3907515638948252111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395871990776010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  DEBUG: 0
+  SnapToGridOnStart: 0
+  LocalTargetPosition: {x: 0, y: 0, z: 0}
+  ChangesDirectionPush: 0
+  Intangible: 0
+  CanBeWindPushed: 1
+  IsPlayer: 0
+  InitialLocationSynchronised: 0
+  tileMoveSpeed: 1
+  isNotPushable: 1
+  airTime: 0
+  slideTime: 0
+  SetIgnoreSticky: 0
+  thrownBy: {fileID: 0}
+  aim: 0
+  spinMagnitude: 0
+  ForcedPushedFrame: 0
+  TryPushedFrame: 0
+  PushedFrame: 0
+  FramePushDecision: 1
+  stickyMovement: 0
+  OnThrowEndResetRotation: 0
+  maximumStickSpeed: 1.5
+  onStationMovementsRound: 0
+  registerTile: {fileID: 0}
+  ContextGameObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  IsCurrentlyFloating: 0
+  LocalDifferenceNeeded: {x: 0, y: 0}
+  CorrectingCourse: 0
+  Pushing: []
+  Hits: []
+  Animating: 0
+  isFlyingSliding: 0
+  IsMoving: 0
+  MoveIsWalking: 0
+  LastUpdateClientFlying: 0
+  BuckledToObject: {fileID: 0}
 --- !u!1 &1587334133710578
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,9 +278,10 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1587334133710578}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4725794095997998}
   m_RootOrder: 0
@@ -271,6 +297,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1

@@ -1,67 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &177576810467860530
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4132242788693647151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f888b335971e08846a5f560ec1eead9f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  ammoPrefab: {fileID: 5999901686547831408, guid: bd07fb3945875634685790190ea8decc,
-    type: 3}
-  casingPrefabOverride: {fileID: 0}
-  allowMagazineRemoval: 1
-  ammoType: 18
-  pinPrefab: {fileID: 6004521592186936485, guid: 0c0328cbf94ffe648a0903cfc375ab91,
-    type: 3}
-  suppressorPrefab: {fileID: 0}
-  SpawnsCasing: 0
-  MagInternal: 1
-  SmartGun: 0
-  CurrentRecoilVariance: 0
-  FireCountDown: 0
-  FiringSoundA:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Weapons/KineticShot.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  SuppressedSoundA:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Weapons/Gun/General/GeneralHeavyShotSuppressed.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  DryFireSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Weapons/Gun/General/GeneralDryFire.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  FireDelay: 0
-  MaxRecoilVariance: 0
-  ProjectileVelocity: 20
-  CameraRecoilConfig:
-    Distance: 0
-    RecoilDuration: 0
-    RecoveryDuration: 0
-  WeaponType: 1
-  allowPinSwap: 1
-  isSuppressed: 0
-  isSuppressible: 0
-  Projectile: {fileID: 7081206667275519994, guid: a4c2debd67d612549b05801d1e37121a,
-    type: 3}
-  rechargeTime: 1.6
 --- !u!1001 &326958216201229889
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -97,9 +35,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: d8207bd9c629e0f4bbef0855255e82c8,
+        type: 2}
+    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: initialTraits.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4b8a2d1facb43884ca56a1643ba18bbc,
         type: 2}
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -110,7 +59,7 @@ PrefabInstance:
     - target: {fileID: 4342894697621943514, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: ad527ba4de069794796e314f236794f4
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -183,6 +132,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7308079732379829507, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: foreverID
+      value: ad527ba4de069794796e314f236794f4
+      objectReference: {fileID: 0}
     - target: {fileID: 7536533288437052137, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -205,3 +159,75 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 326958216201229889}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &177576810467860530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4132242788693647151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f888b335971e08846a5f560ec1eead9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  ammoPrefab: {fileID: 5999901686547831408, guid: bd07fb3945875634685790190ea8decc,
+    type: 3}
+  casingPrefabOverride: {fileID: 0}
+  allowMagazineRemoval: 1
+  ammoType: 18
+  pinPrefab: {fileID: 6004521592186936485, guid: 0c0328cbf94ffe648a0903cfc375ab91,
+    type: 3}
+  suppressorPrefab: {fileID: 0}
+  SpawnsCasing: 0
+  MagInternal: 1
+  SmartGun: 0
+  FiringSoundA:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Weapons/KineticShot.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  SuppressedSoundA:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Weapons/Gun/General/GeneralHeavyShotSuppressed.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  DryFireSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Weapons/Gun/General/GeneralDryFire.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  FireDelay: 0
+  AllowSuicide: 0
+  MaxRecoilVariance: 0
+  ProjectileVelocity: 20
+  CameraRecoilConfig:
+    Distance: 0
+    RecoilDuration: 0
+    RecoveryDuration: 0
+  WeaponType: 1
+  allowPinSwap: 1
+  isSuppressed: 0
+  isSuppressible: 0
+  projectile: {fileID: 7081206667275519994, guid: a4c2debd67d612549b05801d1e37121a,
+    type: 3}
+  rechargeTime: 2
+  rechargeSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Weapons/KineticReload.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0

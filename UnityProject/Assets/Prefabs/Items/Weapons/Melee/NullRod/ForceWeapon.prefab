@@ -13,15 +13,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 439d6bc3e9fd56041a38fb230719710f,
         type: 2}
-    - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
+    - target: {fileID: 1090811781821981693, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
-        type: 3}
-      propertyPath: initialTraits.Array.data[2]
-      value: 
+      propertyPath: foreverID
+      value: 76b983d2469f9c34a8edfeb6e955a980
       objectReference: {fileID: 0}
     - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
@@ -35,10 +30,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
+      propertyPath: TraumaticDamageType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: 284a4d44c3dc0404ca7fa792a5e50f0b,
         type: 2}
+    - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
@@ -54,7 +64,12 @@ PrefabInstance:
     - target: {fileID: 6200854109258175012, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 76b983d2469f9c34a8edfeb6e955a980
+      objectReference: {fileID: 0}
+    - target: {fileID: 6307973308067386084, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6307973308067386084, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
@@ -73,6 +88,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6307973308067386084, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6307973308067386084, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -85,16 +105,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6307973308067386084, guid: 9c123336301845541830989cb9e3d606,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6307973308067386084, guid: 9c123336301845541830989cb9e3d606,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6307973308067386084, guid: 9c123336301845541830989cb9e3d606,
         type: 3}

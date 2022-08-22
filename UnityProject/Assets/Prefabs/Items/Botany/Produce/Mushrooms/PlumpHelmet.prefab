@@ -14,6 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2915500602375708721, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915500602375708721, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -29,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2915500602375708721, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915500602375708721, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915500602375708721, guid: f0108676c1bf82d41a7c4efdfc660dc0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915500602375708721, guid: f0108676c1bf82d41a7c4efdfc660dc0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2915500602375708721, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
@@ -70,7 +70,7 @@ PrefabInstance:
     - target: {fileID: 3022557335325303025, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: e275b4076a6fc414583fa344a4177552
       objectReference: {fileID: 0}
     - target: {fileID: 3069071089172475417, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
@@ -85,13 +85,56 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3354030318127624743, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
-      propertyPath: initialDescription
-      value: 'Plumus Hellmus: Plump, soft and s-so inviting~'
+      propertyPath: initialName
+      value: plump-helmet
       objectReference: {fileID: 0}
     - target: {fileID: 3354030318127624743, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
-      propertyPath: initialName
-      value: plump-helmet
+      propertyPath: initialDescription
+      value: 'Plumus Hellmus: Plump, soft and s-so inviting~'
+      objectReference: {fileID: 0}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 8b9fc3ffd8cb6984f977bc1513695092,
+        type: 2}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: b573352479efb894b9bee858b071d500,
+        type: 2}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 42348e1e40a363a4fb76cf92f5484f6b,
+        type: 2}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].ingredientIndex
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3480773739466297650, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
@@ -99,6 +142,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7891588707496553622, guid: ab1442ccdc53ec149820ae45ec942a3a,
         type: 3}
+    - target: {fileID: 8132598906308874536, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: foreverID
+      value: e275b4076a6fc414583fa344a4177552
+      objectReference: {fileID: 0}
     - target: {fileID: 9016326637629499074, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -107,3 +155,26 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0108676c1bf82d41a7c4efdfc660dc0, type: 3}
+--- !u!1 &1092885839560266486 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2911140076600614213, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+    type: 3}
+  m_PrefabInstance: {fileID: 2831857724481179571}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-8850167245028627511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092885839560266486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1468e3dc2ea50c647aea7b69f0986db9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FermentTime: 10
+  fermentedReagents:
+    m_keys:
+    - {fileID: 11400000, guid: 112c8439d23e2818f98f34a1bdc4bb10, type: 2}
+    m_values: 00000000

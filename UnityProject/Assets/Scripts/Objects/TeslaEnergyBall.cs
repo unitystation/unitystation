@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Systems.ElectricalArcs;
 using Systems.Explosions;
-using Systems.Mob;
 using AddressableReferences;
 using HealthV2;
 using Mirror;
 using Objects.Engineering;
-using ScriptableObjects.Gun;
 using UnityEngine;
 using Weapons.Projectiles.Behaviours;
 using Random = UnityEngine.Random;
+using Tiles;
 
 namespace Objects
 {
@@ -67,7 +66,7 @@ namespace Objects
 
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
-		private CustomNetTransform customNetTransform;
+		private UniversalObjectPhysics ObjectPhysics ;
 
 		private int lockTimer;
 		private bool pointLock;
@@ -92,7 +91,7 @@ namespace Objects
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
-			customNetTransform = GetComponent<CustomNetTransform>();
+			ObjectPhysics = GetComponent<UniversalObjectPhysics>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 		}
 
@@ -132,7 +131,7 @@ namespace Objects
 			if (teslaPoints <= 0 && zeroPointDeath)
 			{
 				Chat.AddLocalMsgToChat("The energy ball fizzles out", gameObject);
-				Despawn.ServerSingle(gameObject);
+				_ = Despawn.ServerSingle(gameObject);
 				return;
 			}
 
@@ -356,7 +355,7 @@ namespace Objects
 				pos.x += Random.Range(-range, range + 1);
 				pos.y += Random.Range(-range, range + 1);
 
-				if (MatrixManager.IsEmptyAt(pos, true))
+				if (MatrixManager.IsEmptyAt(pos, true, registerTile.Matrix.MatrixInfo))
 				{
 					return pos;
 				}
@@ -432,7 +431,7 @@ namespace Objects
 			if (layerTile != null && layerTilesToIgnore.Any(l => l.name == layerTile.name )) return;
 
 			//Move
-			customNetTransform.SetPosition(coord);
+			ObjectPhysics.AppearAtWorldPositionServer(coord);
 		}
 
 		#endregion
@@ -463,7 +462,7 @@ namespace Objects
 		{
 			if(data.DamageData.AttackType != AttackType.Rad) return;
 
-			if (data.DamageData.Damage >= 20f)
+			if (data.DamageData.Damage >= 19f)
 			{
 				//PA at setting 0 will do 20 damage
 				pointLock = true;

@@ -1,6 +1,6 @@
-﻿using Messages.Client;
-using Messages.Server.AdminTools;
+﻿using Messages.Server.AdminTools;
 using Mirror;
+
 
 namespace Messages.Client.Admin
 {
@@ -9,33 +9,19 @@ namespace Messages.Client.Admin
 	/// </summary>
 	public class RequestAdminPageRefresh : ClientMessage<RequestAdminPageRefresh.NetMessage>
 	{
-		public struct NetMessage : NetworkMessage
-		{
-			public string Userid;
-			public string AdminToken;
-		}
+		public struct NetMessage : NetworkMessage { }
 
 		public override void Process(NetMessage msg)
 		{
-			VerifyAdminStatus(msg);
-		}
-
-		void VerifyAdminStatus(NetMessage msg)
-		{
-			var player = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
-			if (player != null)
+			if (IsFromAdmin())
 			{
-				AdminToolRefreshMessage.Send(player, msg.Userid);
+				AdminToolRefreshMessage.Send(SentByPlayer.GameObject, SentByPlayer.UserId);
 			}
 		}
 
-		public static NetMessage Send(string userId, string adminToken)
+		public static NetMessage Send()
 		{
-			NetMessage msg = new NetMessage
-			{
-				Userid = userId,
-				AdminToken = adminToken
-			};
+			NetMessage msg = new NetMessage();
 
 			Send(msg);
 			return msg;

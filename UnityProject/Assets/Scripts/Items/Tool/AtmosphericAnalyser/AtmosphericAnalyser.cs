@@ -1,34 +1,49 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using Systems.Atmospherics;
 using Objects.Atmospherics;
 
+
 namespace Items.Atmospherics
 {
-	public class AtmosphericAnalyser : MonoBehaviour, IInteractable<HandActivate>, ICheckedInteractable<PositionalHandApply>
+	public class AtmosphericAnalyser : MonoBehaviour, ICheckedInteractable<HandActivate>,
+		ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<InventoryApply>
 	{
+		public bool WillInteract(HandActivate interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			return true;
+		}
+
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			string toShow = "";
-			var metaDataLayer = MatrixManager.AtPoint(interaction.PerformerPlayerScript.registerTile.WorldPositionServer, true).MetaDataLayer;
+			if (interaction.PerformerPlayerScript.objectPhysics.ContainedInContainer != null &&
+			    interaction.PerformerPlayerScript.objectPhysics.ContainedInContainer.TryGetComponent<GasContainer>(
+				    out var container))
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(container.GasMix));
+				return;
+			}
+
+			var metaDataLayer = interaction.PerformerPlayerScript.registerTile.Matrix.MetaDataLayer;
 			if (metaDataLayer != null)
 			{
 				var node = metaDataLayer.Get(interaction.Performer.transform.localPosition.RoundToInt());
 				if (node != null)
 				{
-					toShow = GetGasMixInfo(node.GasMix);
+					Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(node.GasMix));
 				}
 			}
-
-			Chat.AddExamineMsgFromServer(interaction.Performer, toShow);
 		}
 
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
-			if (interaction.HandObject == null) return false;
-			if (Validations.IsReachableByPositions(interaction.PerformerPlayerScript.WorldPos, interaction.WorldPositionTarget,
-				side == NetworkSide.Server) == false) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			if (interaction.TargetObject == gameObject) return false;
+
 			return true;
 		}
 
@@ -39,6 +54,13 @@ namespace Items.Atmospherics
 				if (interaction.TargetObject.TryGetComponent(out GasContainer container))
 				{
 					Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(container.GasMix));
+					return;
+				}
+
+				if (interaction.TargetObject.TryGetComponent(out MonoPipe monoPipe))
+				{
+					Chat.AddExamineMsgFromServer(interaction.Performer,
+						GetGasMixInfo(monoPipe.pipeData.mixAndVolume.GetGasMix()));
 					return;
 				}
 			}
@@ -55,24 +77,49 @@ namespace Items.Atmospherics
 			}
 		}
 
-		private string GetGasMixInfo(GasMix gasMix)
+		public bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
-			string info = $"Pressure: {gasMix.Pressure:0.###} kPa\n" +
-					$"Temperature: {gasMix.Temperature:0.###} K ({gasMix.Temperature - Reactions.KOffsetC:0.###} °C)\n" +
-					// You want Fahrenheit? HAHAHAHA
-					$"Total mols of gas: {gasMix.Moles:0.###}\n";
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			foreach (var gas in Gas.All)
+			if (interaction.TargetObject == null || interaction.UsedObject == null) return false;
+
+			//Dont target self
+			if (interaction.TargetObject == gameObject) return false;
+
+			//Make sure used object is ourself
+			if (interaction.UsedObject != gameObject) return false;
+
+			return interaction.TargetObject.TryGetComponent<GasContainer>(out _);
+		}
+
+		public void ServerPerformInteraction(InventoryApply interaction)
+		{
+			if (interaction.TargetObject.TryGetComponent<GasContainer>(out var container) == false) return;
+
+			Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(container.GasMix));
+		}
+
+		private static string GetGasMixInfo(GasMix gasMix)
+		{
+			StringBuilder sb = new StringBuilder(
+				$"Pressure: {gasMix.Pressure:0.###} kPa, {gasMix.Moles:0.##} moles\n" +
+				$"Temperature: {gasMix.Temperature:0.##} K ({gasMix.Temperature - Reactions.KOffsetC:0.##} °C)\n");
+			// You want Fahrenheit? HAHAHAHA
+
+			lock (gasMix.GasesArray) //no Double lock
 			{
-				var ratio = gasMix.GasRatio(gas);
-
-				if (ratio != 0)
+				foreach (var gas in gasMix.GasesArray) //doesn't appear to modify list while iterating
 				{
-					info += $"{gas.Name}: {ratio * 100:0.###} %\n";
+					var ratio = gasMix.GasRatio(gas.GasSO);
+
+					if (ratio.Approx(0) == false)
+					{
+						sb.AppendLine($"{gas.GasSO.Name}: {ratio:P}");
+					}
 				}
 			}
 
-			return info;
+			return $"</i>{sb}<i>";
 		}
 	}
 }

@@ -1,30 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &5065649438966261308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2866542968491397233}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb8324d02f1bc094abd472d69fa10b43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spawnFalling: 1
-  RocketLand:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Explosion/Explosion2.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  baseSpriteHandler: {fileID: 8659308481253826351}
-  doorSpriteHandler: {fileID: 7320866707655981739}
-  landingSpriteHandler: {fileID: 506294873535275696}
 --- !u!1 &4820097870749401849
 GameObject:
   m_ObjectHideFlags: 0
@@ -53,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2872650522546607787}
   m_RootOrder: 3
@@ -68,6 +44,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -125,10 +102,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f3e23c8b0ccd0334ca8b9d4b92bdff65, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: f3e23c8b0ccd0334ca8b9d4b92bdff65, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1001 &3115570867604696953
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -141,6 +118,33 @@ PrefabInstance:
       propertyPath: doorOpened
       value: 
       objectReference: {fileID: 21300000, guid: 15eb8c29cc18d204cbc9b6cedfaa79ed,
+        type: 3}
+    - target: {fileID: -9167103284037124715, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: isOnlySealedWhenWelded
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -9167103284037124715, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: soundOnOpen.AssetAddress
+      value: Assets/Prefabs/Effects/OpenClose.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: -9167103284037124715, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: soundOnClose.AssetAddress
+      value: Assets/Prefabs/Effects/OpenClose.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 155103358482146377, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 68a872a0913eee649b8110d32567f595,
+        type: 2}
+    - target: {fileID: 877469643864734438, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c3fd932f54dbc104c8aae0fb5e3f9eeb,
         type: 3}
     - target: {fileID: 928039887571597778, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
@@ -221,7 +225,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 84baa3e7bf6484b4baa6baa5ebfde826,
+      objectReference: {fileID: 21300000, guid: 0619cf16fa8330c45ad71702b4ff67b8,
         type: 3}
     - target: {fileID: 1122670086388767519, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
@@ -231,7 +235,12 @@ PrefabInstance:
     - target: {fileID: 2237112784066852278, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4288925150764073281, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: foreverID
+      value: 3b78df7a6bcb5d043a184b848eddfa74
       objectReference: {fileID: 0}
     - target: {fileID: 5029123947003194478, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
@@ -313,10 +322,11 @@ PrefabInstance:
     - target: {fileID: 8730627397065656938, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 3b78df7a6bcb5d043a184b848eddfa74
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2306329102698743654, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73, type: 3}
+    - {fileID: -3721001473523075953, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73, type: 3}
 --- !u!1 &2866542968491397233 stripped
 GameObject:
@@ -324,6 +334,32 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3115570867604696953}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5065649438966261308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2866542968491397233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb8324d02f1bc094abd472d69fa10b43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  spawnFalling: 1
+  RocketLand:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Explosion/Explosion2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  baseSpriteHandler: {fileID: 8659308481253826351}
+  doorSpriteHandler: {fileID: 7320866707655981739}
+  landingSpriteHandler: {fileID: 506294873535275696}
 --- !u!4 &2872650522546607787 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 928039887571597778, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,

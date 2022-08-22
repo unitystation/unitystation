@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: CannoliRecipe
+  m_EditorClassIdentifier: 
+  category: 12
+  craftingTime: 1.5
+  recipeName: Cannoli
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 7275968390465132960, guid: f595ab18e1bab564c9ce9efb6b081b4e,
+      type: 3}
+  requiredReagents:
+  - requiredAmount: 1
+    requiredReagent: {fileID: 11400000, guid: a1724b1210d8177c097a28325415c0b1, type: 2}
+  - requiredAmount: 3
+    requiredReagent: {fileID: 11400000, guid: 911271db97b77da51889f97d6688a103, type: 2}
+  requiredToolTraits: []
+  result:
+  - {fileID: 7909602308677676447, guid: e3c31760717a2bf4ca926f064e06af5b, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 235

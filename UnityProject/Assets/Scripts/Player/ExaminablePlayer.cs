@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Systems;
 using HealthV2;
@@ -8,7 +9,7 @@ using UnityEngine;
 
 namespace Player
 {
-	public class ExaminablePlayer : MonoBehaviour, IExaminable
+	public class ExaminablePlayer : MonoBehaviour, IExaminable, ICheckedInteractable<MouseDrop>
 	{
 		private const string LILAC_COLOR = "#b495bf";
 
@@ -26,7 +27,21 @@ namespace Player
 		/// Check if player is wearing a mask
 		/// </summary>
 		/// <returns>true if player don't wear mask</returns>
-		private bool IsFaceVisible => script.ItemStorage.GetNamedItemSlot(NamedSlot.mask).IsEmpty;
+		private bool IsFaceVisible
+		{
+			get
+			{
+				foreach (var itemSlot in script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.mask))
+				{
+					if (itemSlot.IsEmpty == false)
+					{
+						return false;
+					}
+				}
+
+				return true;
+			}
+		}
 
 		[Tooltip("Slots from which other players can read ID card data")]
 		[SerializeField]
@@ -47,6 +62,26 @@ namespace Player
 		{
 			script = GetComponent<PlayerScript>();
 			interactableStorage = GetComponent<InteractableStorage>();
+		}
+
+		public bool WillInteract(MouseDrop interaction, NetworkSide side)
+		{
+			if(DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			if (interaction.DroppedObject == null) return false;
+
+			if (interaction.DroppedObject != gameObject) return false;
+
+			if (interaction.TargetObject == null) return false;
+
+			if (interaction.TargetObject != interaction.Performer) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(MouseDrop interaction)
+		{
+			Examine(interaction.Performer);
 		}
 
 		/// <summary>
@@ -82,26 +117,28 @@ namespace Player
 		{
 			foreach (var slot in readableIDslots)
 			{
-				var itemSlot = script.ItemStorage.GetNamedItemSlot(slot);
-				if (itemSlot.IsOccupied == false)
+				foreach (var itemSlot in script.DynamicItemStorage.GetNamedItemSlots(slot))
 				{
-					continue;
-				}
-				// if item is ID card
-				if (itemSlot.ItemObject.TryGetComponent(out idCard))
-				{
+					if (itemSlot.IsOccupied == false)
+					{
+						continue;
+					}
+					// if item is ID card
+					if (itemSlot.ItemObject.TryGetComponent(out idCard))
+					{
+						return true;
+					}
+
+					// if item is PDA and IDCard is not null
+					if (itemSlot.ItemObject.TryGetComponent<PDALogic>(out var pdaLogic) == false ||
+					    pdaLogic.GetIDCard() == null)
+					{
+						continue;
+					}
+
+					idCard = pdaLogic.GetIDCard();
 					return true;
 				}
-
-				// if item is PDA and IDCard is not null
-				if (itemSlot.ItemObject.TryGetComponent<PDALogic>(out var pdaLogic) == false ||
-				    pdaLogic.IDCard == null)
-				{
-					continue;
-				}
-
-				idCard = pdaLogic.IDCard;
-				return true;
 			}
 
 			idCard = null;
@@ -110,23 +147,37 @@ namespace Player
 
 		public void Examine(GameObject sentByPlayer)
 		{
-			// if distance is too big or is self-examination, send normal examine message
-			if (PlayerUtils.IsGhost(sentByPlayer) == false)
+			if(sentByPlayer.TryGetComponent<PlayerScript>(out var sentByPlayerScript) == false) return;
+
+			var settings = sentByPlayerScript.PlayerTypeSettings;
+			if (settings.CanExamineOthers == ExamineType.None) return;
+
+			if (settings.CanExamineOthers != ExamineType.AlwaysAdvanced && settings.CanExamineOthers.HasFlag(ExamineType.Basic))
 			{
-				if (Vector3.Distance(sentByPlayer.WorldPosServer(), gameObject.WorldPosServer()) >= maxInteractionDistance || sentByPlayer == gameObject)
+				// if distance is too big or is self-examination, send normal examine message
+				if (Vector3.Distance(sentByPlayer.AssumedWorldPosServer(), gameObject.AssumedWorldPosServer()) >= maxInteractionDistance || sentByPlayer == gameObject)
 				{
-					Chat.AddExamineMsg(sentByPlayer,
-						$"This is <b>{VisibleName}</b>.\n" +
-						$"{Equipment.Examine()}" +
-						$"<color={LILAC_COLOR}>{Health.GetExamineText()}</color>");
+					BasicExamine(sentByPlayer);
 					return;
 				}
 			}
 
+			//If only allow basic examination
+			if (settings.CanExamineOthers == ExamineType.AlwaysBasic)
+			{
+				BasicExamine(sentByPlayer);
+				return;
+			}
+
+			if(settings.CanExamineOthers.HasFlag(ExamineType.Advanced) == false) return;
+
 			// start itemslot observation
-			interactableStorage.ItemStorage.ServerAddObserverPlayer(sentByPlayer);
+			this.GetComponent<DynamicItemStorage>().ServerAddObserverPlayer(sentByPlayer, true);
 			// send message to enable examination window
 			PlayerExaminationMessage.Send(sentByPlayer, this, true);
+
+			//Allow ghosts to keep the screen open even if player moves away
+			if(sentByPlayerScript.PlayerType == PlayerTypes.Ghost) return;
 
 			//stop observing when target player is too far away
 			var relationship = RangeRelationship.Between(
@@ -138,10 +189,23 @@ namespace Player
 			SpatialRelationship.ServerActivate(relationship);
 		}
 
+		private void BasicExamine(GameObject sentByPlayer)
+		{
+			if (Equipment == null)
+			{
+				return;
+			}
+
+			Chat.AddExamineMsg(sentByPlayer,
+				$"This is <b>{VisibleName}</b>.\n" +
+				$"{Equipment.Examine()}" +
+				$"<color={LILAC_COLOR}>{Health.GetExamineText(script)}</color>");
+		}
+
 		private void ServerOnObservationEnded(RangeRelationship cancelled)
 		{
 			// stop observing item storage
-			interactableStorage.ItemStorage.ServerRemoveObserverPlayer(cancelled.obj1.gameObject);
+			this.GetComponent<DynamicItemStorage>().ServerRemoveObserverPlayer(cancelled.obj1.gameObject);
 			// send message to disable examination window
 			PlayerExaminationMessage.Send(cancelled.obj1.gameObject, this, false);
 		}
@@ -156,11 +220,7 @@ namespace Player
 		public string GetPlayerSpeciesString()
 		{
 			// if face is visible - get species by face
-			if (IsFaceVisible)
-				// TODO: get player species
-			{
-				return "HUMAN";
-			}
+			if (IsFaceVisible) { return script.characterSettings.Species; }
 
 			//  try get species from security records
 			if (TryFindIDCard(out var idCard))
@@ -181,7 +241,7 @@ namespace Player
 			// search for ID identity
 			if (TryFindIDCard(out var idCard))
 			{
-				return idCard.JobType.ToString();
+				return idCard.GetJobTitle();
 			}
 
 			// search for face identity
@@ -197,10 +257,37 @@ namespace Player
 			return UNKNOWN_VALUE;
 		}
 
+		/// <summary>
+		/// Reports back if the player is alive or dead.
+		/// </summary>
+		/// <returns></returns>
 		public string GetPlayerStatusString()
 		{
-			return "";
-			//return Health.GetShortStatus();
+			var healthString = new StringBuilder($"<color={LILAC_COLOR}>");
+
+			if (script.IsDeadOrGhost)
+			{
+				healthString.Append("Dead");
+
+				if (script.HasSoul == false)
+				{
+					healthString.Append(" and no soul");
+				}
+			}
+			else
+			{
+				healthString.Append("Alive");
+
+				//Alive but not in body
+				if (script.HasSoul == false)
+				{
+					healthString.Append(" but vacant");
+				}
+			}
+
+			healthString.Append("</color>");
+
+			return healthString.ToString();
 		}
 
 		/// <summary>
@@ -208,7 +295,6 @@ namespace Player
 		/// </summary>
 		public string GetAdditionalInformation()
 		{
-
 			var result = new StringBuilder();
 
 			if (IsFaceVisible)
@@ -221,6 +307,7 @@ namespace Player
 			return result.ToString();
 		}
 
+		//Needed so thr examine system knows this script exists
 		public string Examine(Vector3 worldPos = default(Vector3))
 		{
 			return string.Empty;

@@ -9,13 +9,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2953435279983986442, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
-      propertyPath: initialDescription
-      value: A small bottle of aluminium - would have cost a fortune once.
+      propertyPath: initialName
+      value: aluminium bottle
       objectReference: {fileID: 0}
     - target: {fileID: 2953435279983986442, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
-      propertyPath: initialName
-      value: aluminium bottle
+      propertyPath: initialDescription
+      value: A small bottle of aluminium - would have cost a fortune once.
       objectReference: {fileID: 0}
     - target: {fileID: 2953435279983986442, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
@@ -29,6 +29,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9935983888621df448290a33c2f2e47a,
         type: 2}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -46,6 +51,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +68,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
@@ -92,7 +92,7 @@ PrefabInstance:
     - target: {fileID: 3424172302466455004, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0bff7c903954c9249825453fd55d6ddc
       objectReference: {fileID: 0}
     - target: {fileID: 4332256062918035871, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
@@ -119,6 +119,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8551094262549914629, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: foreverID
+      value: 0bff7c903954c9249825453fd55d6ddc
       objectReference: {fileID: 0}
     - target: {fileID: 8887625435062604783, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}

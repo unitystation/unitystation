@@ -1,57 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7942213876400827127
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 307387015785611003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a9cc33842e80b54aa608c12d31b8750, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  PoweredState: 2
-  spriteHandler: {fileID: 5049940372972917793}
-  idleSprite: {fileID: 11400000, guid: d70277bfa0ca32049b0f6f1f24452b40, type: 2}
-  productionSprite: {fileID: 11400000, guid: 2b81f2d46411ec24ea7ffd84d0461ce1, type: 2}
-  acceptingMaterialsSprite: {fileID: 11400000, guid: d70277bfa0ca32049b0f6f1f24452b40,
-    type: 2}
-  materialStorage: {fileID: 3037224626631790655}
-  autolatheProducts: {fileID: 11400000, guid: f4149bd30d5f03f4cb903a9418d550e3, type: 2}
---- !u!114 &2623882693397774114
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 307387015785611003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetTabType: 18
---- !u!114 &3037224626631790655
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 307387015785611003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cbbddbea96e4804186a58b019b786fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  materialsInMachines: {fileID: 11400000, guid: b6e83d10ca1eed247949504321b25658,
-    type: 2}
-  maximumResources: 1000000
 --- !u!1001 &3769997559527688213
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 532654248772749479, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: foreverID
+      value: 7953abf1584ad8241b2281698de84f40
+      objectReference: {fileID: 0}
     - target: {fileID: 745243067259640128, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
       propertyPath: m_Name
@@ -171,7 +124,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: a1e27439aa4c6c44e950fa5e4af24801,
+      objectReference: {fileID: 21300000, guid: 0f654b1c2a36d3a45a6b5dfd318777e9,
         type: 3}
     - target: {fileID: 3708022675270210297, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
@@ -180,8 +133,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5028383164152644492, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
+      propertyPath: isDirty
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5028383164152644492, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 7953abf1584ad8241b2281698de84f40
       objectReference: {fileID: 0}
     - target: {fileID: 5434924483550922261, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
@@ -199,6 +157,51 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Manufactures circuit boards for the construction of machines.
       objectReference: {fileID: 0}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: idleSprite
+      value: 
+      objectReference: {fileID: 11400000, guid: d70277bfa0ca32049b0f6f1f24452b40,
+        type: 2}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: machineType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: CategoryList
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b43a77d9f7f85d43ad2c69831ed6a9e,
+        type: 2}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: spriteHandler
+      value: 
+      objectReference: {fileID: 5049940372972917793}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: InitialDesigns
+      value: 
+      objectReference: {fileID: 11400000, guid: 609c09da260de0d44973ad4365a605eb,
+        type: 2}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: productionSprite
+      value: 
+      objectReference: {fileID: 11400000, guid: 2b81f2d46411ec24ea7ffd84d0461ce1,
+        type: 2}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: MachineDepartment
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: acceptingMaterialsSprite
+      value: 
+      objectReference: {fileID: 11400000, guid: d70277bfa0ca32049b0f6f1f24452b40,
+        type: 2}
     - target: {fileID: 8234065340674907188, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -207,12 +210,6 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76c4b888beee06f4c9fda031b6e4d47b, type: 3}
---- !u!1 &307387015785611003 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3464875680645986030, guid: 76c4b888beee06f4c9fda031b6e4d47b,
-    type: 3}
-  m_PrefabInstance: {fileID: 3769997559527688213}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5049940372972917793 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8234065340674907188, guid: 76c4b888beee06f4c9fda031b6e4d47b,

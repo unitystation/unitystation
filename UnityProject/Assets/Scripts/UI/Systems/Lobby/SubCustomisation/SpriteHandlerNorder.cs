@@ -4,7 +4,7 @@ using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
 
-public class SpriteHandlerNorder : NetworkBehaviour
+public class SpriteHandlerNorder : MonoBehaviour
 {
 	public SpriteHandler SpriteHandler;
 
@@ -15,7 +15,6 @@ public class SpriteHandlerNorder : NetworkBehaviour
 
 	public SpriteRenderer spriteRenderer;
 
-	[SyncVar(hook = nameof(UpdateData))]
 	private string Data;
 
 
@@ -24,12 +23,13 @@ public class SpriteHandlerNorder : NetworkBehaviour
 		spriteOrder = InSpriteOrder;
 		if (Lobby == false)
 		{
-			UpdateData("",JsonConvert.SerializeObject(spriteOrder));
+			UpdateData(JsonConvert.SerializeObject(spriteOrder));
 		}
 	}
 
-	public void UpdateData(string InOld, string InNew)
+	public void UpdateData(string InNew)
 	{
+		if (InNew == null) return;
 		Data = InNew;
 		if (CustomNetworkManager.Instance._isServer) return;
 		spriteOrder = JsonConvert.DeserializeObject<SpriteOrder>(Data);
@@ -41,26 +41,26 @@ public class SpriteHandlerNorder : NetworkBehaviour
 		SpriteHandler.ChangeSpriteVariant(number);
 	}
 
-	public virtual void OnDirectionChange(Orientation direction)
+	public virtual void OnDirectionChange(OrientationEnum direction)
 	{
 		int referenceOffset = 0;
 
-		if (direction == Orientation.Down)
+		if (direction == OrientationEnum.Down_By180)
 		{
 			referenceOffset = 0;
 		}
 
-		if (direction == Orientation.Up)
+		if (direction == OrientationEnum.Up_By0)
 		{
 			referenceOffset = 1;
 		}
 
-		if (direction == Orientation.Right)
+		if (direction == OrientationEnum.Right_By270)
 		{
 			referenceOffset = 2;
 		}
 
-		if (direction == Orientation.Left)
+		if (direction == OrientationEnum.Left_By90)
 		{
 			referenceOffset = 3;
 		}
@@ -73,7 +73,10 @@ public class SpriteHandlerNorder : NetworkBehaviour
 			}
 		}
 
-		SpriteHandler.ChangeSpriteVariant(referenceOffset);
+		//Not networked so don't run sprite change on headless
+		if (CustomNetworkManager.IsHeadless) return;
+
+		SpriteHandler.ChangeSpriteVariant(referenceOffset, false);
 	}
 
 }

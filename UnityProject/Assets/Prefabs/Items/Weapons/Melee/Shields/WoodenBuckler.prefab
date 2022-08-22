@@ -24,6 +24,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
+      propertyPath: traumaDamageChance
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: 3ac2bc47ddc0e084495eb48d9f6738f7,
@@ -53,7 +58,7 @@ PrefabInstance:
     - target: {fileID: 3904014449823356494, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: a9fcb6a6ae3fc3d46ad498b9c5d31eb7
       objectReference: {fileID: 0}
     - target: {fileID: 4011141344954996366, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
@@ -125,19 +130,22 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 0c8691f2b757ff840ac510bef3cf97ab,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7802048611900235560, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 0c8691f2b757ff840ac510bef3cf97ab,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7802048611900235560, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
       propertyPath: allClothingData.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 868fedf5141d03c478bb491d017c2533,
         type: 2}
+    - target: {fileID: 7999329761268803479, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      propertyPath: foreverID
+      value: a9fcb6a6ae3fc3d46ad498b9c5d31eb7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f9896c0cca80e14f8144be44d05e0a0, type: 3}

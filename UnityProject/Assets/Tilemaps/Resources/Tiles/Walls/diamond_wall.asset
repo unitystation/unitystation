@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
   m_Name: diamond_wall
   m_EditorClassIdentifier: 
-  displayName: 
+  displayName: solid diamond wall
+  description: A wall with diamond plating. You monster.
   LayerType: 0
   TileType: 1
   RequiredTiles:
@@ -24,16 +25,23 @@ MonoBehaviour:
   SpawnWithNoAir: 0
   passable: 0
   mineable: 0
-  RadiationPassability: 0.35
+  miningTime: 5
+  miningHardness: 1
+  constructable: 0
+  RadiationPassability: 0.75
+  ThermalConductivity: 0
+  HeatCapacity: 312500
   doesReflectBullet: 0
   indestructible: 0
+  ExplosionImpassable: 1
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 
     m_values: 
-  maxHealth: 100
-  damageDeflection: 0
+  maxHealth: 400
+  damageDeflection: 16
   armor:
-    Melee: 90
+    Melee: 100
     Bullet: 90
     Laser: 90
     Energy: 90
@@ -43,7 +51,9 @@ MonoBehaviour:
     Acid: 90
     Magic: 0
     Bio: 100
+    DismembermentProtectionChance: 0
   tileInteractions: []
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 0}
@@ -57,6 +67,8 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  SoundOnDestroy: []
   connectCategory: 0
   connectType: 1
   spriteSheet:

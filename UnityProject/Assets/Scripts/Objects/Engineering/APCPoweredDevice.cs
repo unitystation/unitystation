@@ -1,29 +1,40 @@
-﻿using UnityEngine;
-using Mirror;
-using UnityEditor;
+﻿using System;
+using System.Linq;
+using System.Collections;
+using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
+using Mirror;
+using Core.Editor.Attributes;
+using Shared.Systems.ObjectConnection;
+using Systems.Explosions;
+using ScriptableObjects;
 using Objects.Engineering;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 
 namespace Systems.Electricity
 {
 	[ExecuteInEditMode]
-	public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolSlave
+	public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, IEmpAble, IMultitoolSlaveable
 	{
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		[FormerlySerializedAs("MinimumWorkingVoltage")]
 		private float minimumWorkingVoltage = 190;
 
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		[FormerlySerializedAs("ExpectedRunningVoltage")]
 		private float expectedRunningVoltage = 240;
 
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		[FormerlySerializedAs("MaximumWorkingVoltage")]
 		private float maximumWorkingVoltage = 300;
 
-		[SerializeField]
-		[Tooltip("Category of this powered device. Different categories work like a set of breakers, so you" +
-								 " can turn off lights and keep machines working.")]
+		[SerializeField, PrefabModeOnly]
+		[Tooltip("Category of this powered device. " +
+				"Different categories work like a set of breakers, so you can turn off lights and keep machines working.")]
 		private DeviceType deviceType = DeviceType.None;
 
 		[SerializeField]
@@ -32,92 +43,89 @@ namespace Systems.Electricity
 
 		public bool IsSelfPowered => isSelfPowered;
 
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		[Tooltip("Watts consumed per update when running at 240v")]
 		private float wattusage = 0.01f;
 
-		public float Wattusage {
+		public float Wattusage
+		{
 			get => wattusage;
-			set {
+			set
+			{
 				wattusage = value;
-				resistance = 240 / (value / 240);
+				Resistance = 240 / (value / 240);
 			}
 		}
 
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		[FormerlySerializedAs("Resistance")]
-		private float resistance = 99999999;
+		[FormerlySerializedAs("resistance")]
+		private float InitialResistance = 99999999;
 
-		public float Resistance {
-			get => resistance;
-			set => resistance = value;
-		}
+		[NonSerialized]
+		public float Resistance = 99999999;
 
 		[HideInInspector] public APC RelatedAPC;
-		public IAPCPowered Powered;
+		private IAPCPowerable Powered;
+
+		[PrefabModeOnly]
 		public bool AdvancedControlToScript;
 
+		[PrefabModeOnly]
 		public bool StateUpdateOnClient = true;
 
 		[SyncVar(hook = nameof(UpdateSynchronisedState))]
 		[FormerlySerializedAs("State")]
-		private PowerStates state = PowerStates.Off;
-		public PowerStates State => state;
+		private PowerState state = PowerState.Off;
+		public PowerState State => state;
 
+		/// <summary>
+		/// 1 PowerState is the old state, 2 PowerState is the new state
+		/// </summary>
+		[NonSerialized]
+		public UnityEvent<Tuple<PowerState, PowerState>> OnStateChangeEvent = new UnityEvent<Tuple<PowerState, PowerState>>();
 
 		[SyncVar(hook = nameof(UpdateSynchronisedVoltage))]
 		private float recordedVoltage = 0;
 
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.APC;
-		public MultitoolConnectionType ConType => conType;
+		public float Voltage => RelatedAPC == null ? 0 : RelatedAPC.Voltage;
 
 		private Texture disconnectedImg;
+		private RegisterTile registerTile;
 
-		public void SetMaster(ISetMultitoolMaster imaster)
-		{
-			var inApc = (imaster as Component)?.gameObject.GetComponent<APC>();
-			if (RelatedAPC != null)
-			{
-				RemoveFromAPC();
-			}
-			RelatedAPC = inApc;
-			RelatedAPC.AddDevice(this);
-		}
+		private bool blockApcChange;
 
-		/// <summary>
-		/// In case is a bit more tidy up needed when removing APC so not doing it it from APC end
-		/// </summary>
-		public void RemoveFromAPC()
-		{
-			if (RelatedAPC == null) return;
-			RelatedAPC.RemoveDevice(this);
-		}
+		private bool isEMPed = false;
+
+		#region Lifecycle
 
 		private void Awake()
 		{
-#if Unity_Editor
+#if UNITY_EDITOR
 		disconnectedImg = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Textures/EditorAssets/disconnected.png");
-#endif
 
+#endif
+			if (Application.isPlaying == false) return;
 			EnsureInit();
 		}
 
-		void Start()
+		private void Start()
 		{
-			if (!Application.isPlaying) return;
+			if (Application.isPlaying == false) return;
 
-			//Logger.LogTraceFormat("{0}({1}) starting, state {2}", Category.Electrical, name, transform.position.To2Int(), State);
 			if (Wattusage > 0)
 			{
-				resistance = 240 / (Wattusage / 240);
+				Resistance = 240 / (Wattusage / 240);
 			}
 		}
 
 		private void EnsureInit()
 		{
+			if (this == null) return;
 			if (Powered != null) return;
-			Powered = GetComponent<IAPCPowered>();
+			Resistance = InitialResistance;
+			Powered = GetComponent<IAPCPowerable>();
+			registerTile = GetComponent<RegisterTile>();
 			if (isSelfPowered)
 			{
 				if (AdvancedControlToScript)
@@ -127,9 +135,8 @@ namespace Systems.Electricity
 				}
 				else
 				{
-					Powered?.StateUpdate(PowerStates.On);
+					Powered?.StateUpdate(PowerState.On);
 				}
-
 			}
 		}
 
@@ -156,10 +163,63 @@ namespace Systems.Electricity
 			else
 			{
 				UpdateSynchronisedState(state, state);
+				OnStateChangeEvent.Invoke(new Tuple<PowerState, PowerState>(PowerState.Off, state));
 			}
 		}
 
-		public void PowerNetworkUpdate(float voltage) //Could be optimised to not update when voltage is same as previous voltage
+		#endregion
+
+		#region Multitool Interaction
+
+		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.APC;
+		IMultitoolMasterable IMultitoolSlaveable.Master => RelatedAPC;
+		bool IMultitoolSlaveable.RequireLink => isSelfPowered == false;
+
+		bool IMultitoolSlaveable.TrySetMaster(GameObject performer, IMultitoolMasterable master)
+		{
+			if (blockApcChange)
+			{
+				Chat.AddExamineMsgFromServer(performer,
+						$"You try to set the {gameObject.ExpensiveName()}'s APC connection but it seems to be locked!");
+				return false;
+			}
+
+			SetMaster(master);
+			return true;
+		}
+
+		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
+		{
+			SetMaster(master);
+		}
+
+		private void SetMaster(IMultitoolMasterable master)
+		{
+			if (RelatedAPC != null)
+			{
+				RemoveFromAPC();
+				RelatedAPC = null;
+			}
+
+			if (master is APC apc)
+			{
+				RelatedAPC = apc;
+				RelatedAPC.AddDevice(this);
+			}
+		}
+
+		#endregion
+
+		/// <summary>
+		/// In case is a bit more tidy up needed when removing APC so not doing it it from APC end
+		/// </summary>
+		public void RemoveFromAPC()
+		{
+			if (RelatedAPC == null) return;
+			RelatedAPC.RemoveDevice(this);
+		}
+
+		public void PowerNetworkUpdate(float voltage) // Could be optimised to not update when voltage is same as previous voltage
 		{
 			if (AdvancedControlToScript)
 			{
@@ -168,25 +228,24 @@ namespace Systems.Electricity
 			}
 			else
 			{
-				var newState = PowerStates.Off;
+				var newState = PowerState.On;
 				if (voltage <= 1)
 				{
-					newState = PowerStates.Off;
+					newState = PowerState.Off;
 				}
 				else if (voltage > maximumWorkingVoltage)
 				{
-					newState = PowerStates.OverVoltage;
+					newState = PowerState.OverVoltage;
 				}
 				else if (voltage < minimumWorkingVoltage)
 				{
-					newState = PowerStates.LowVoltage;
-				}
-				else
-				{
-					newState = PowerStates.On;
+					newState = PowerState.LowVoltage;
 				}
 
 				if (newState == state) return;
+
+				OnStateChangeEvent.Invoke(new Tuple<PowerState, PowerState>(state, newState));
+
 				state = newState;
 				Powered?.StateUpdate(state);
 			}
@@ -197,7 +256,7 @@ namespace Systems.Electricity
 			EnsureInit();
 			if (oldVoltage != newVoltage)
 			{
-				Logger.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.To2Int(), oldVoltage, newVoltage);
+				Logger.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.RoundTo2Int(), oldVoltage, newVoltage);
 			}
 
 			recordedVoltage = newVoltage;
@@ -210,64 +269,86 @@ namespace Systems.Electricity
 			{
 				if (isSelfPowered)
 				{
-					Powered?.PowerNetworkUpdate(expectedRunningVoltage);
+					Powered.PowerNetworkUpdate(expectedRunningVoltage);
 				}
 				else
 				{
-					Powered?.PowerNetworkUpdate(newVoltage);
+					Powered.PowerNetworkUpdate(newVoltage);
 				}
 			}
 		}
 
-		private void UpdateSynchronisedState(PowerStates oldState, PowerStates newState)
+		private void UpdateState()
 		{
-			EnsureInit();
-			if (newState != state)
-			{
-				Logger.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.To2Int(), this.state, newState);
-			}
-
-			state = newState;
-
 			if (isSelfPowered)
 			{
-				state = PowerStates.On;
+				state = PowerState.On;
 			}
-
-			if (Powered != null && StateUpdateOnClient)
+			if (isSelfPowered)
 			{
+				recordedVoltage = expectedRunningVoltage;
+			}
+		}
+
+		private void UpdateSynchronisedState(PowerState oldState, PowerState newState)
+		{
+			EnsureInit();
+			if (!isEMPed)
+			{
+				if (newState != state)
+				{
+					Logger.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.RoundTo2Int(), this.state, newState);
+				}
+
+				state = newState;
+
 				if (isSelfPowered)
 				{
-					Powered?.StateUpdate(PowerStates.On);
+					state = PowerState.On;
 				}
-				else
+
+				if (Powered != null && StateUpdateOnClient)
 				{
-					Powered?.StateUpdate(state);
+					if (isSelfPowered)
+					{
+						Powered?.StateUpdate(PowerState.On);
+					}
+					else
+					{
+						Powered?.StateUpdate(state);
+					}
 				}
 			}
+			else
+			{
+				state = PowerState.Off;
+			}
 		}
 
-		private void OnDrawGizmosSelected()
+		public void OnEmp(int EmpStrength)
 		{
-			if (RelatedAPC == null || isSelfPowered)
-			{
-				return;
-			}
-
-			//Highlighting APC
-			Gizmos.color = new Color(0.5f, 0.5f, 1, 1);
-			Gizmos.DrawLine(RelatedAPC.transform.position, gameObject.transform.position);
-			Gizmos.DrawSphere(RelatedAPC.transform.position, 0.15f);
+			StartCoroutine(Emp(EmpStrength));
 		}
 
-		private void OnDrawGizmos()
+		private IEnumerator Emp(int EmpStrength)
 		{
-			if (RelatedAPC != null || isSelfPowered)
+			int effectTime = (int)(EmpStrength * 0.5f);
+
+			if (DMMath.Prob(75))
 			{
-				return;
+				_ = Spawn.ServerPrefab(CommonPrefabs.Instance.SparkEffect, registerTile.WorldPositionServer).GameObject;
 			}
 
-			Gizmos.DrawIcon(transform.position, "disconnected");
+			isEMPed = true;
+			UpdateSynchronisedState(State, PowerState.Off);
+			yield return WaitFor.Seconds(effectTime);
+			isEMPed = false;
+			UpdateSynchronisedState(State, PowerState.On);
+		}
+
+		public void LockApcLinking(bool newState)
+		{
+			blockApcChange = newState;
 		}
 
 		public void OnDespawnServer(DespawnInfo info)
@@ -275,9 +356,49 @@ namespace Systems.Electricity
 			RemoveFromAPC();
 		}
 
-		public static bool IsOn(PowerStates states)
+		public static bool IsOn(PowerState states)
 		{
-			return (states == PowerStates.On || states == PowerStates.LowVoltage || states == PowerStates.OverVoltage);
+			return (states == PowerState.On || states == PowerState.LowVoltage || states == PowerState.OverVoltage);
+		}
+
+		public bool ConnectToClosestApc()
+		{
+			var apcs = Physics2D.OverlapCircleAll(registerTile.WorldPositionServer.To2Int(), 30);
+
+			apcs = apcs.Where(a => a.gameObject.GetComponent<APC>() != null).ToArray();
+
+			if (apcs.Length == 0)
+			{
+				return false;
+			}
+
+			APC bestTarget = null;
+			float closestDistance = Mathf.Infinity;
+			var devicePosition = gameObject.transform.position;
+
+			foreach (var potentialTarget in apcs)
+			{
+				var directionToTarget = potentialTarget.gameObject.transform.position - devicePosition;
+				float dSqrToTarget = directionToTarget.sqrMagnitude;
+
+				if (dSqrToTarget >= closestDistance) continue;
+				closestDistance = dSqrToTarget;
+				bestTarget = potentialTarget.gameObject.GetComponent<APC>();
+			}
+
+			if (bestTarget == null || bestTarget == RelatedAPC) return false;
+
+			//If connected to apc before remove us
+			if(RelatedAPC != null)
+			{
+				RelatedAPC.RemoveDevice(this);
+			}
+
+			RelatedAPC = bestTarget;
+
+			bestTarget.AddDevice(this);
+
+			return true;
 		}
 	}
 
@@ -289,7 +410,7 @@ namespace Systems.Electricity
 		Equipment
 	}
 
-	public enum PowerStates
+	public enum PowerState
 	{
 		Off,
 		LowVoltage,

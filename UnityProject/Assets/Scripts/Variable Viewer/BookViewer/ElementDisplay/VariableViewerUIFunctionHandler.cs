@@ -16,6 +16,15 @@ public static class VVUIElementHandler
 	public static List<PageElement> ToDestroy = new List<PageElement>();
 	public static Dictionary<Type, PageElement> Type2Element = new Dictionary<Type, PageElement>();
 
+	public static void ReSet()
+	{
+		PoolDictionary.Clear();
+		AvailableElements.Clear();
+		CurrentlyOpen.Clear();
+		ToDestroy.Clear();
+		Type2Element.Clear();
+	}
+
 	public static void ProcessElement(GameObject DynamicPanel, VariableViewerNetworking.NetFriendlyPage Page = null,
 		VariableViewerNetworking.NetFriendlySentence Sentence = null, bool iskey = false)
 	{
@@ -149,7 +158,7 @@ public static class VVUIElementHandler
 
 	public static string Serialise(object InObject, Type TypeOf)
 	{
-		if (Type2Element.ContainsKey(TypeOf))
+		if (TypeOf != null && Type2Element.ContainsKey(TypeOf))
 		{
 			return (Type2Element[TypeOf].Serialise(InObject));
 		}
@@ -160,9 +169,9 @@ public static class VVUIElementHandler
 
 public enum PageElementEnum
 {
-	Colour,
+	Colour = 0,
 	Vectors,
-	Bool = 0,
+	Bool,
 	Collection,
 	Enum,
 	Class,

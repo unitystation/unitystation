@@ -1,38 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using AddressableReferences;
+using Objects;
+using Objects.Atmospherics;
 using Objects.Disposals;
+using Shared.Managers;
+using Systems.Atmospherics;
+using UnityEngine;
 
 namespace Systems.Disposals
 {
 	/// <summary>
 	/// Creates, updates, and removes all disposal instances.
 	/// </summary>
-	public class DisposalsManager : MonoBehaviour
+	public class DisposalsManager : SingletonManager<DisposalsManager>
 	{
-		private static DisposalsManager instance;
-		public static DisposalsManager Instance {
-			get {
-				if (instance == null)
-				{
-					instance = FindObjectOfType<DisposalsManager>();
-				}
-
-				return instance;
-			}
-			set { instance = value; }
-		}
-
 		[SerializeField]
 		[Tooltip("Set the virtual container prefab to be used in disposal instances.")]
 		public GameObject VirtualContainerPrefab;
+
+		[SerializeField]
+		[Tooltip("Crawling virtual container prefab")]
+		private GameObject crawlingVirtualContainerPrefab = null;
+		public GameObject CrawlingVirtualContainerPrefab => crawlingVirtualContainerPrefab;
+
 		[SerializeField]
 		[Tooltip("Set how many tiles every disposal instance can traverse in one second.")]
 		private float TileTraversalsPerSecond = 20;
+		[SerializeField]
+		private AddressableAudioSource disposalEjectionHiss = default;
+
+		public AddressableAudioSource DisposalEjectionHiss => disposalEjectionHiss;
 
 		private readonly List<DisposalTraversal> disposalInstances = new List<DisposalTraversal>();
 
-		private void Update()
+		private void OnEnable()
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void UpdateMe()
 		{
 			// TODO: this is terrible.
 
@@ -75,10 +87,24 @@ namespace Systems.Disposals
 		/// <summary>
 		/// Create a new disposal instance, which will move its contents along the disposal pipe network.
 		/// </summary>
-		/// <param name="container">The virtual container holding the entities to be disposed of.</param>
-		public void NewDisposal(DisposalVirtualContainer container)
+		/// <param name="sourceContainer">The container holding the entities to be disposed of.</param>
+		public void NewDisposal(GameObject sourceObject)
 		{
-			DisposalTraversal traversal = new DisposalTraversal(container);
+			// Spawn virtual container
+			var disposalContainer = SpawnVirtualContainer(sourceObject.RegisterTile().WorldPositionServer);
+
+			// Transfer contents
+			if (sourceObject.TryGetComponent<ObjectContainer>(out var objectContainer))
+			{
+				objectContainer.TransferObjectsTo(disposalContainer.GetComponent<ObjectContainer>());
+			}
+			if (sourceObject.TryGetComponent<GasContainer>(out var gasContainer))
+			{
+				GasMix.TransferGas(disposalContainer.GetComponent<GasContainer>().GasMix, gasContainer.GasMix, gasContainer.GasMix.Moles);
+			}
+
+			// Start traversing
+			var traversal = new DisposalTraversal(disposalContainer.GetComponent<DisposalVirtualContainer>());
 			disposalInstances.Add(traversal);
 		}
 

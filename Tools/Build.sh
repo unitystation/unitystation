@@ -23,6 +23,7 @@ echo "Build logs (Windows)"
 cat $script_dir/Logs/WindowsBuild.log
 
 
+
 echo "Attempting build of UnityStation for OSX"
 /opt/2019.2.11f1/Editor/Unity \
 	-batchmode \

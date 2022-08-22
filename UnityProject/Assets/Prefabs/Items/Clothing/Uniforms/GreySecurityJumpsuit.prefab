@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2909197017712554513, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 917bee919ce4fb54593ed1120ba407af
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
         type: 3}
@@ -89,18 +89,21 @@ PrefabInstance:
       value: A tactical relic of years past before Nanotrasen decided it was cheaper
         to dye the suits red instead of washing out the blood.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
+        type: 3}
+      propertyPath: foreverID
+      value: 917bee919ce4fb54593ed1120ba407af
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 99942ca5706b65f45a3e084e8a2bbc71,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 99942ca5706b65f45a3e084e8a2bbc71,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
         type: 3}
       propertyPath: allClothingData.Array.size

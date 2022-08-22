@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3823680117459157953, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: foreverID
+      value: 1a8ca75092f9cdd4d9c6022e08419c9b
+      objectReference: {fileID: 0}
     - target: {fileID: 4101888782254060587, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -117,7 +122,7 @@ PrefabInstance:
     - target: {fileID: 7799949450078925336, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 1a8ca75092f9cdd4d9c6022e08419c9b
       objectReference: {fileID: 0}
     - target: {fileID: 7902349682654515116, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
@@ -213,3 +218,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46bb2fe95f4f66341aadfb4600751333, type: 3}
+--- !u!1 &4501053395374146654 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7902349682654515116, guid: 46bb2fe95f4f66341aadfb4600751333,
+    type: 3}
+  m_PrefabInstance: {fileID: 6042771998409264114}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-3608348479036750439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4501053395374146654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86536f54b4694d5a98b2f4962a473b7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  spriteHandler: {fileID: 0}
+  destroyThisComponentOnOpen: 1
+  openingNoise:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GenHit.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  openedSprite: {fileID: 0}
+  openingVerb: pop open a cold one and enjoy the sound of the
+  openingRequirementText: You need to open this first before using it!

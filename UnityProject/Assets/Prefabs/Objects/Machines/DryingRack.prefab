@@ -7,6 +7,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 55285483987348138, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
+      propertyPath: MachineParts
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 55285483987348138, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
+      propertyPath: machineBoardPrefab
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -24,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
@@ -73,10 +83,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: d54d71d7a5ea98044bf94900199c5a8a,
         type: 3}
+    - target: {fileID: 3135803337226006626, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
+      propertyPath: foreverID
+      value: eb544c62ea86cf24f8a88cdcd1ed8d70
+      objectReference: {fileID: 0}
     - target: {fileID: 3537368556672211879, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
-      propertyPath: HullColor.r
-      value: 0.6431373
+      propertyPath: HullColor.b
+      value: 0.23529413
       objectReference: {fileID: 0}
     - target: {fileID: 3537368556672211879, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
@@ -85,8 +100,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3537368556672211879, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
-      propertyPath: HullColor.b
-      value: 0.23529413
+      propertyPath: HullColor.r
+      value: 0.6431373
       objectReference: {fileID: 0}
     - target: {fileID: 6820002895454037233, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
@@ -94,20 +109,98 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 844a4a7afd525c145b5c5b199b735fed,
         type: 2}
+    - target: {fileID: 7217263268926205539, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 8086984464816162904}
     - target: {fileID: 7577488249132383049, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8669580287412949275, guid: 9d444ad6dde436d44920ac030fc733de,
-        type: 3}
-      propertyPath: initialDescription
-      value: A wooden contraption, used to dry plant products, food and hide.
+      value: eb544c62ea86cf24f8a88cdcd1ed8d70
       objectReference: {fileID: 0}
     - target: {fileID: 8669580287412949275, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
       propertyPath: initialName
       value: drying rack
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8669580287412949275, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
+      propertyPath: initialDescription
+      value: A wooden contraption, used to dry plant products, food and hide.
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 3537368556672211879, guid: 9d444ad6dde436d44920ac030fc733de, type: 3}
+    - {fileID: 2113994910920152532, guid: 9d444ad6dde436d44920ac030fc733de, type: 3}
+    - {fileID: 3289875697544077319, guid: 9d444ad6dde436d44920ac030fc733de, type: 3}
+    - {fileID: 55285483987348138, guid: 9d444ad6dde436d44920ac030fc733de, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 9d444ad6dde436d44920ac030fc733de, type: 3}
+--- !u!1 &6385563160038612826 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2086702233188027947, guid: 9d444ad6dde436d44920ac030fc733de,
+    type: 3}
+  m_PrefabInstance: {fileID: 4930148002410254705}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-3314006952415964248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6385563160038612826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 74bf3e872403e488695c17ecdde194ab,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 51557be05ba9141e7849ea1c1c3ed19d,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
+--- !u!114 &4287802351136866684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6385563160038612826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5037c1a6e33442c4b8e4ca89c248b067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+--- !u!114 &8580516019668165460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6385563160038612826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4965049a29576ac468cf2514bb95ea45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8086984464816162904 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3770035132992035113, guid: 9d444ad6dde436d44920ac030fc733de,
+    type: 3}
+  m_PrefabInstance: {fileID: 4930148002410254705}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6385563160038612826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -3,39 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Mirror;
+using Objects.Telecomms;
+using Messages.Client;
+using ScriptableObjects.Communications;
 
-public enum EncryptionKeyType
+namespace Items
 {
-	None, //For when headsets don't have any key inside. Key itself cannot be this type.
-	Common,
-	Medical,
-	Science,
-	Service,
-	Security,
-	Supply,
-	QuarterMaster,
-	Engineering,
-	HeadOfPersonnel,
-	Captain,
-	ResearchDirector,
-	HeadOfSecurity,
-	ChiefEngineer,
-	ChiefMedicalOfficer,
-	Binary,
-	Syndicate,
-	CentComm,
-	Mining,
-	Genetics,
-	SrvSec,
-	CentCommPlus,
-	SrvMed,
-}
 
 /// <summary>
 ///     Encryption Key properties
 /// </summary>
-public class EncryptionKey : NetworkBehaviour
+public class EncryptionKey : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<MouseDrop>, IClientInteractable<InventoryApply>
 {
+	//TODO (Max): Turn this into a list and support multiple encryption data in one key
+	public EncryptionDataSO EncryptionDataSo;
+
 	public static readonly Dictionary<EncryptionKeyType, ChatChannel> Permissions = new Dictionary<EncryptionKeyType, ChatChannel>
 	{
 		{EncryptionKeyType.None, ChatChannel.None},
@@ -153,33 +135,6 @@ public class EncryptionKey : NetworkBehaviour
 		return channelsByMask;
 	}
 
-	public Sprite binarySprite;
-	public Sprite captainSprite;
-	public Sprite centCommSprite;
-	public Sprite chiefEngineerSprite;
-	public Sprite chiefMedicalOfficerSprite;
-
-	public Sprite commonSprite;
-	public Sprite engineeringSprite;
-	public Sprite headOfPersonnelSprite;
-	public Sprite headOfSecuritySprite;
-	public Sprite medicalSprite;
-	public Sprite quarterMasterSprite;
-	public Sprite researchDirectorSprite;
-	public Sprite scienceSprite;
-	public Sprite securitySprite;
-
-	public Sprite serviceSprite;
-
-	//So that we don't have to create a different item for each type
-	public SpriteRenderer spriteRenderer;
-
-	public Sprite supplySprite;
-	public Sprite syndicateSprite;
-	public Sprite srvsecSprite;
-	public Sprite centCommPlusSprite;
-	public Sprite srvmedSprite;
-
 	[SerializeField] //to show in inspector
 	private EncryptionKeyType type;
 
@@ -194,13 +149,7 @@ public class EncryptionKey : NetworkBehaviour
 				Logger.LogError("Encryption keys cannot be None type!", Category.Chat);
 				type = EncryptionKeyType.Common;
 			}
-			UpdateSprite();
 		}
-	}
-
-	private void Start()
-	{
-		UpdateSprite();
 	}
 
 /// Look ma, no syncvars!
@@ -220,82 +169,78 @@ public class EncryptionKey : NetworkBehaviour
 		base.OnDeserialize(reader, initialState);
 	}
 
-	#region Set the sprite based on key type
-
-	private void UpdateSprite()
-	{
-		switch (type)
-		{
-			case EncryptionKeyType.Binary:
-				spriteRenderer.sprite = binarySprite;
-				break;
-			case EncryptionKeyType.Captain:
-				spriteRenderer.sprite = captainSprite;
-				break;
-			case EncryptionKeyType.Supply:
-				spriteRenderer.sprite = supplySprite;
-				break;
-			case EncryptionKeyType.CentComm:
-				spriteRenderer.sprite = centCommSprite;
-				break;
-			case EncryptionKeyType.ChiefEngineer:
-				spriteRenderer.sprite = chiefEngineerSprite;
-				break;
-			case EncryptionKeyType.ChiefMedicalOfficer:
-				spriteRenderer.sprite = chiefMedicalOfficerSprite;
-				break;
-			case EncryptionKeyType.Common:
-				spriteRenderer.sprite = commonSprite;
-				break;
-			case EncryptionKeyType.Engineering:
-				spriteRenderer.sprite = engineeringSprite;
-				break;
-			case EncryptionKeyType.HeadOfPersonnel:
-				spriteRenderer.sprite = headOfPersonnelSprite;
-				break;
-			case EncryptionKeyType.HeadOfSecurity:
-				spriteRenderer.sprite = headOfSecuritySprite;
-				break;
-			case EncryptionKeyType.Medical:
-				spriteRenderer.sprite = medicalSprite;
-				break;
-			case EncryptionKeyType.QuarterMaster:
-				spriteRenderer.sprite = quarterMasterSprite;
-				break;
-			case EncryptionKeyType.ResearchDirector:
-				spriteRenderer.sprite = researchDirectorSprite;
-				break;
-			case EncryptionKeyType.Science:
-				spriteRenderer.sprite = scienceSprite;
-				break;
-			case EncryptionKeyType.Security:
-				spriteRenderer.sprite = securitySprite;
-				break;
-			case EncryptionKeyType.Service:
-				spriteRenderer.sprite = serviceSprite;
-				break;
-			case EncryptionKeyType.Syndicate:
-				spriteRenderer.sprite = syndicateSprite;
-				break;
-			case EncryptionKeyType.SrvSec:
-				spriteRenderer.sprite = srvsecSprite;
-				break;
-			case EncryptionKeyType.SrvMed:
-				spriteRenderer.sprite = srvmedSprite;
-				break;
-			case EncryptionKeyType.CentCommPlus:
-				spriteRenderer.sprite = centCommPlusSprite;
-				break;
-			default:
-				spriteRenderer.sprite = commonSprite;
-				break;
-		}
-	}
-
-	#endregion
-
 	public void onExamine(Vector3 worldPos)
 	{
 		Chat.AddExamineMsgToClient(ExamineTexts[Type]);
 	}
+
+	public bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
+		if (interaction.TargetObject.TryGetComponent<StationBouncedRadio>(out var _)) return true;
+		return false;
+	}
+
+	public void ServerPerformInteraction(HandApply interaction)
+	{
+		if (interaction.TargetObject.TryGetComponent<StationBouncedRadio>(out var radio))
+		{
+			radio.AddEncryptionKey(this);
+		}
+	}
+
+	public bool WillInteract(MouseDrop interaction, NetworkSide side)
+	{
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
+		if (interaction.TargetObject.TryGetComponent<StationBouncedRadio>(out var _)) return true;
+		return false;
+	}
+
+	public void ServerPerformInteraction(MouseDrop interaction)
+	{
+		if (interaction.TargetObject.TryGetComponent<StationBouncedRadio>(out var radio))
+		{
+			radio.AddEncryptionKey(this);
+		}
+	}
+
+	public bool Interact(InventoryApply interaction)
+	{
+		//insert the headset key if this is used on a headset
+		if (interaction.UsedObject == gameObject
+		    && interaction.TargetObject.GetComponent<Headset>() != null)
+		{
+			UpdateHeadsetKeyMessage.Send(interaction.TargetObject, gameObject);
+			return true;
+		}
+
+		return false;
+	}
+}
+}
+public enum EncryptionKeyType
+{
+	None, //For when headsets don't have any key inside. Key itself cannot be this type.
+	Common,
+	Medical,
+	Science,
+	Service,
+	Security,
+	Supply,
+	QuarterMaster,
+	Engineering,
+	HeadOfPersonnel,
+	Captain,
+	ResearchDirector,
+	HeadOfSecurity,
+	ChiefEngineer,
+	ChiefMedicalOfficer,
+	Binary,
+	Syndicate,
+	CentComm,
+	Mining,
+	Genetics,
+	SrvSec,
+	CentCommPlus,
+	SrvMed,
 }

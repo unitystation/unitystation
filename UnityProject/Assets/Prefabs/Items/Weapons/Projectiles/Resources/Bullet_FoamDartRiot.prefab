@@ -22,7 +22,7 @@ PrefabInstance:
     - target: {fileID: 8195968128360273813, guid: f29df69b3b938f941b3064a2cb7dc4b6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 373a003621961ff4db0b4d6d222dbd67
       objectReference: {fileID: 0}
     - target: {fileID: 8725569383394882549, guid: f29df69b3b938f941b3064a2cb7dc4b6,
         type: 3}
@@ -34,6 +34,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Bullet_FoamDartRiot
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932318074123978659, guid: f29df69b3b938f941b3064a2cb7dc4b6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8932318074123978659, guid: f29df69b3b938f941b3064a2cb7dc4b6,
         type: 3}
@@ -52,6 +57,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8932318074123978659, guid: f29df69b3b938f941b3064a2cb7dc4b6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932318074123978659, guid: f29df69b3b938f941b3064a2cb7dc4b6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -64,16 +74,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8932318074123978659, guid: f29df69b3b938f941b3064a2cb7dc4b6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8932318074123978659, guid: f29df69b3b938f941b3064a2cb7dc4b6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8932318074123978659, guid: f29df69b3b938f941b3064a2cb7dc4b6,
         type: 3}

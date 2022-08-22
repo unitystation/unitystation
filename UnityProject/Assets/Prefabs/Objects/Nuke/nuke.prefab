@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: 0.00000014901144, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4335463542504290}
   m_RootOrder: 0
@@ -42,6 +43,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -95,7 +97,6 @@ GameObject:
   - component: {fileID: 114558280790144458}
   - component: {fileID: 114966510063373710}
   - component: {fileID: 114958218028397826}
-  - component: {fileID: 114970301685184636}
   - component: {fileID: 114285602872890758}
   - component: {fileID: 8332996165049030563}
   - component: {fileID: 114093552067593536}
@@ -103,9 +104,9 @@ GameObject:
   - component: {fileID: 114138874156132524}
   - component: {fileID: 5128493137642477549}
   - component: {fileID: -4905299131361276724}
-  - component: {fileID: 3598894608692613034}
   - component: {fileID: 4928958365628969513}
   - component: {fileID: -4869448396190159755}
+  - component: {fileID: -1119632047508149799}
   m_Layer: 11
   m_Name: nuke
   m_TagString: Untagged
@@ -123,6 +124,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0.00000014901144, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4768635789907820}
   m_Father: {fileID: 0}
@@ -170,6 +172,8 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  prefabTracker: {fileID: 0}
+  CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
   ReachableThrough: 1
   initialPassable: 0
@@ -188,8 +192,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound: 
 --- !u!114 &114958218028397826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,25 +213,10 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   isAncharable: 1
   explosionRadius: 500
   minTimer: 270
---- !u!114 &114970301685184636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1754288526301548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  snapToGridOnStart: 1
-  IsFixedMatrix: 0
 --- !u!114 &114285602872890758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,6 +242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 2
+  aiInteractable: 1
 --- !u!114 &114093552067593536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,6 +280,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -304,6 +293,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   Resistances:
     LavaProof: 1
     FireProof: 1
@@ -316,6 +306,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  Meleeable: {fileID: 0}
 --- !u!114 &114138874156132524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,11 +319,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: 
+  m_AssetId: 4ce92eb606dc8b34a8b7718dd975fcaa
   hasSpawned: 0
 --- !u!114 &5128493137642477549
 MonoBehaviour:
@@ -352,8 +342,10 @@ MonoBehaviour:
   initialDescription: You probably shouldn't stick around to see if this is armed.
   willHighlight: 1
   exportCost: 0
+  exportType: 0
   exportName: 
   exportMessage: 
+  initialSize: 3
 --- !u!114 &-4905299131361276724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,41 +363,13 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: ef59926623998a6429428063cd92eb79,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
-    MergeMode: 0
-    Contents: []
---- !u!114 &3598894608692613034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1754288526301548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  registerTile: {fileID: 0}
-  floorDecal: {fileID: 0}
-  isInitiallyNotPushable: 1
-  pushPullSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  soundDelayTime: 0
-  soundMinimumPitchVariance: 1
-  soundMaximumPitchVariance: 1
-  OnPullingSomethingChangedServer:
-    m_PersistentCalls:
-      m_Calls: []
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}
 --- !u!114 &4928958365628969513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -434,5 +398,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-1119632047508149799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754288526301548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  DEBUG: 0
+  SnapToGridOnStart: 0
+  LocalTargetPosition: {x: 0, y: 0, z: 0}
+  ChangesDirectionPush: 0
+  isNotPushable: 0
+  newtonianMovement: {x: 0, y: 0}
+  airTime: 0
+  slideTime: 0
+  thrownBy: {fileID: 0}
+  aim: 0
+  spinMagnitude: 0
+  stickyMovement: 0
+  maximumStickSpeed: 1.5
+  onStationMovementsRound: 0
+  attributes: {fileID: 0}
+  registerTile: {fileID: 0}
+  ContextGameObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  IsCurrentlyFloating: 0
+  LocalDifferenceNeeded: {x: 0, y: 0}
+  CorrectingCourse: 0
+  Pushing: []
+  Hits: []
+  Speed: 1
+  AIR: 3
+  SLIDE: 4
+  Animating: 0
+  IsFlyingSliding: 0
+  IsMoving: 0
+  IsWalking: 0
+  MoveIsWalking: 0
+  LastUpdateClientFlying: 0

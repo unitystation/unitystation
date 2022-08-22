@@ -5,10 +5,11 @@ using Systems.ElectricalArcs;
 using ScriptableObjects.Gun;
 using UnityEngine;
 using Weapons.Projectiles.Behaviours;
+using Tiles;
 
 namespace Objects.Engineering
 {
-	public class FieldGenerator : MonoBehaviour, ICheckedInteractable<HandApply>, IOnHitDetect, IExaminable
+	public class FieldGenerator : MonoBehaviour, ICheckedInteractable<HandApply>, IOnHitDetect, IExaminable, IServerSpawn
 	{
 		[SerializeField]
 		private SpriteHandler topSpriteHandler = null;
@@ -53,11 +54,7 @@ namespace Objects.Engineering
 		/// </summary>
 		[SerializeField]
 		private int energy;
-
-		/// <summary>
-		/// energy increases health, if health 0 then field fails
-		/// </summary>
-		private int health;
+		public int Energy => energy;
 
 		/// <summary>
 		/// Gameobject = connectedgenerator, then bool = slave/master
@@ -70,7 +67,7 @@ namespace Objects.Engineering
 
 		private Integrity integrity;
 		private RegisterTile registerTile;
-		private PushPull pushPull;
+		private UniversalObjectPhysics objectPhysics;
 
 		[SerializeField]
 		private Vector3 arcOffSet = new Vector3(0 ,0.5f, 0);
@@ -81,42 +78,42 @@ namespace Objects.Engineering
 		{
 			integrity = GetComponent<Integrity>();
 			registerTile = GetComponent<RegisterTile>();
-			pushPull = GetComponent<PushPull>();
+			objectPhysics = GetComponent<UniversalObjectPhysics>();
 		}
 
 		private void OnEnable()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
+
 			UpdateManager.Add(FieldGenUpdate, 1f);
 			integrity.OnWillDestroyServer.AddListener(OnDestroySelf);
 		}
 
 		private void OnDisable()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
+
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, FieldGenUpdate);
 			integrity.OnWillDestroyServer.RemoveListener(OnDestroySelf);
 		}
 
-		private void Start()
+		public void OnSpawnServer(SpawnInfo info)
 		{
-			if(CustomNetworkManager.IsServer == false) return;
+			if (startSetUp == false) return;
 
-			if (startSetUp)
-			{
-				isWelded = true;
-				isWrenched = true;
-				pushPull.ServerSetPushable(false);
-			}
+			isWelded = true;
+			isWrenched = true;
+			objectPhysics.SetIsNotPushable(true);
 		}
 
 		#endregion
 
 		/// <summary>
 		/// Field Gen Update loop, runs every 1 second
+		/// Server Side Only
 		/// </summary>
 		private void FieldGenUpdate()
 		{
-			if (CustomNetworkManager.IsServer == false) return;
-
 			if(isOn == false && alwaysOn == false) return;
 
 			//Lose energy every second
@@ -264,22 +261,23 @@ namespace Objects.Engineering
 				{
 					var pos = registerTile.WorldPositionServer + GetCoordFromDirection((Direction)value) * i;
 
-					var objects = MatrixManager.GetAt<FieldGenerator>(pos, true);
+					var objects = MatrixManager.GetAt<FieldGenerator>(pos, true) as List<FieldGenerator>;
 
-					//If there isn't a field generator but it is impassable dont check further
-					if (objects.Count == 0 && !MatrixManager.IsPassableAtAllMatricesOneTile(pos, true, false))
+					if (objects == null) continue;
+
+					//If there isn't a field generator and it is impassable dont check further
+					if (objects.Count == 0 && MatrixManager.IsPassableAtAllMatricesOneTile(pos, true, false) == false)
 					{
 						break;
 					}
 
-					if (objects.Count > 0 && objects[0].isWelded)
-					{
-						//Shouldn't be more than one, but just in case pick first
-						//Add to connected gen dictionary
-						connectedGenerator.Add((Direction)value, new Tuple<GameObject, bool>(objects[0].gameObject, false));
-						objects[0].integrity.OnWillDestroyServer.AddListener(OnConnectedDestroy);
-						break;
-					}
+					if (objects.Count <= 0 || objects[0].isWelded == false) continue;
+
+					//Shouldn't be more than one, but just in case pick first
+					//Add to connected gen dictionary
+					connectedGenerator.Add((Direction)value, new Tuple<GameObject, bool>(objects[0].gameObject, false));
+					objects[0].integrity.OnWillDestroyServer.AddListener(OnConnectedDestroy);
+					break;
 				}
 			}
 		}
@@ -303,7 +301,7 @@ namespace Objects.Engineering
 					{
 						var pos = registerTile.WorldPositionServer + GetCoordFromDirection(generator.Key) * i;
 
-						if (pos == generator.Value.Item1.WorldPosServer())
+						if (pos == generator.Value.Item1.AssumedWorldPosServer())
 						{
 							passCheck = true;
 							break;
@@ -324,7 +322,7 @@ namespace Objects.Engineering
 					{
 						var matrix = MatrixManager.AtPoint(coord, true);
 
-						matrix.TileChangeManager.UpdateTile(MatrixManager.WorldToLocalInt(coord, matrix), GetTileFromDirection(generator.Key));
+						matrix.TileChangeManager.MetaTileMap.SetTile(MatrixManager.WorldToLocalInt(coord, matrix), GetTileFromDirection(generator.Key));
 					}
 
 					connectedGenerator[generator.Key] = new Tuple<GameObject, bool>(generator.Value.Item1, true);
@@ -346,8 +344,6 @@ namespace Objects.Engineering
 
 		private void OnDestroySelf(DestructionInfo info)
 		{
-			if (CustomNetworkManager.IsServer == false) return;
-
 			RemoveAllShields();
 		}
 
@@ -402,7 +398,7 @@ namespace Objects.Engineering
 			{
 				var pos = registerTile.WorldPositionServer + GetCoordFromDirection(direction) * i;
 
-				if (pos == generatorToRemove.WorldPosServer())
+				if (pos == generatorToRemove.AssumedWorldPosServer())
 				{
 					break;
 				}
@@ -416,7 +412,7 @@ namespace Objects.Engineering
 
 				if (layerTile.name == horizontal.name || layerTile.name == vertical.name)
 				{
-					matrix.TileChangeManager.RemoveTile(MatrixManager.WorldToLocalInt(pos, matrix), LayerType.Walls);
+					matrix.TileChangeManager.MetaTileMap.RemoveTileWithlayer(MatrixManager.WorldToLocalInt(pos, matrix), LayerType.Walls);
 				}
 			}
 		}
@@ -493,7 +489,7 @@ namespace Objects.Engineering
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (DefaultWillInteract.HandApply(interaction, side) == false) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) return true;
 
@@ -635,13 +631,13 @@ namespace Objects.Engineering
 					() =>
 					{
 						isWrenched = false;
-						pushPull.ServerSetPushable(true);
+						objectPhysics.SetIsNotPushable(false);
 						TogglePower(false);
 					});
 			}
 			else
 			{
-				if (MatrixManager.IsSpaceAt(registerTile.WorldPositionServer, true))
+				if (MatrixManager.IsSpaceAt(registerTile.WorldPositionServer, true, registerTile.Matrix.MatrixInfo))
 				{
 					Chat.AddExamineMsgFromServer(interaction.Performer, "Emitter needs to be on a floor or plating");
 					return;
@@ -656,7 +652,7 @@ namespace Objects.Engineering
 					() =>
 					{
 						isWrenched = true;
-						pushPull.ServerSetPushable(false);
+						objectPhysics.SetIsNotPushable(true);
 					});
 			}
 		}

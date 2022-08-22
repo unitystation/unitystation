@@ -14,41 +14,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
-      propertyPath: armoredBodyParts.Array.data[0].armor.Rad
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
-      propertyPath: armoredBodyParts.Array.data[0].armor.Acid
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
-      propertyPath: armoredBodyParts.Array.data[0].armor.Bomb
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
-      propertyPath: armoredBodyParts.Array.data[0].armor.Fire
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
-      propertyPath: armoredBodyParts.Array.data[0].armor.Laser
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
-      propertyPath: armoredBodyParts.Array.data[0].armor.Melee
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
-      propertyPath: armoredBodyParts.Array.data[0].armor.Bullet
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 964166953619812975, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
       propertyPath: armoredBodyParts.Array.data[0].armoringBodyPartType
       value: 1
       objectReference: {fileID: 0}
@@ -120,7 +85,7 @@ PrefabInstance:
     - target: {fileID: 3564945054494194852, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 35cd853acdce0094f9462e049e31ed8e
       objectReference: {fileID: 0}
     - target: {fileID: 3611036598041473612, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
@@ -144,6 +109,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f0c69f3f73cb53d49803663835b95cf4,
         type: 2}
+    - target: {fileID: 7518679174278335869, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: foreverID
+      value: 35cd853acdce0094f9462e049e31ed8e
+      objectReference: {fileID: 0}
     - target: {fileID: 7534581208369271445, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: clothData

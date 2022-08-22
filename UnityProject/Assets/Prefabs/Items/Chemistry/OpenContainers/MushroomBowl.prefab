@@ -26,6 +26,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3050131568678634113, guid: fe66ec36f566be84a9ccbc5a90aacd6f,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050131568678634113, guid: fe66ec36f566be84a9ccbc5a90aacd6f,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -41,6 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3050131568678634113, guid: fe66ec36f566be84a9ccbc5a90aacd6f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3050131568678634113, guid: fe66ec36f566be84a9ccbc5a90aacd6f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +63,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3050131568678634113, guid: fe66ec36f566be84a9ccbc5a90aacd6f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3050131568678634113, guid: fe66ec36f566be84a9ccbc5a90aacd6f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3050131568678634113, guid: fe66ec36f566be84a9ccbc5a90aacd6f,
         type: 3}
@@ -82,7 +82,12 @@ PrefabInstance:
     - target: {fileID: 3158018638721696321, guid: fe66ec36f566be84a9ccbc5a90aacd6f,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 11c3adf2fac4de349b072587d490a5dc
+      objectReference: {fileID: 0}
+    - target: {fileID: 3218426752185536663, guid: fe66ec36f566be84a9ccbc5a90aacd6f,
+        type: 3}
+      propertyPath: initialName
+      value: mushroom bowl
       objectReference: {fileID: 0}
     - target: {fileID: 3218426752185536663, guid: fe66ec36f566be84a9ccbc5a90aacd6f,
         type: 3}
@@ -90,10 +95,10 @@ PrefabInstance:
       value: A bowl made out of mushrooms. Not food, though it might have contained
         some at some point.
       objectReference: {fileID: 0}
-    - target: {fileID: 3218426752185536663, guid: fe66ec36f566be84a9ccbc5a90aacd6f,
+    - target: {fileID: 8285784680675177368, guid: fe66ec36f566be84a9ccbc5a90aacd6f,
         type: 3}
-      propertyPath: initialName
-      value: mushroom bowl
+      propertyPath: foreverID
+      value: 11c3adf2fac4de349b072587d490a5dc
       objectReference: {fileID: 0}
     - target: {fileID: 9151775790496302194, guid: fe66ec36f566be84a9ccbc5a90aacd6f,
         type: 3}

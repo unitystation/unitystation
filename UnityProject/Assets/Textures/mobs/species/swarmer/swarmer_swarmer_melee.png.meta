@@ -75,7 +75,7 @@ TextureImporter:
       213: 21300046
     second: swarmer_melee_23
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -95,6 +95,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -104,8 +106,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -126,9 +128,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -671,6 +677,31 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      swarmer_melee_21: 21300042
+      swarmer_melee_13: 21300026
+      swarmer_melee_10: 21300020
+      swarmer_melee_18: 21300036
+      swarmer_melee_0: 21300000
+      swarmer_melee_11: 21300022
+      swarmer_melee_17: 21300034
+      swarmer_melee_19: 21300038
+      swarmer_melee_3: 21300006
+      swarmer_melee_22: 21300044
+      swarmer_melee_23: 21300046
+      swarmer_melee_15: 21300030
+      swarmer_melee_9: 21300018
+      swarmer_melee_16: 21300032
+      swarmer_melee_14: 21300028
+      swarmer_melee_6: 21300012
+      swarmer_melee_1: 21300002
+      swarmer_melee_5: 21300010
+      swarmer_melee_4: 21300008
+      swarmer_melee_8: 21300016
+      swarmer_melee_20: 21300040
+      swarmer_melee_2: 21300004
+      swarmer_melee_12: 21300024
+      swarmer_melee_7: 21300014
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

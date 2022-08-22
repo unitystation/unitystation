@@ -9,12 +9,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1411399836556658781, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
-      propertyPath: itemStorageStructure
-      value: 
-      objectReference: {fileID: 11400000, guid: 54cbb4402f813441cb503dcd1d440082,
-        type: 2}
-    - target: {fileID: 1411399836556658781, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
-        type: 3}
       propertyPath: itemStorageCapacity
       value: 
       objectReference: {fileID: 11400000, guid: 6af6620011b82e943a16addd0993ebd9,
@@ -25,11 +19,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: abb511785495e3b44bd8be38231a3afb,
         type: 2}
-    - target: {fileID: 1924874740640411365, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
+    - target: {fileID: 1411399836556658781, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
-      propertyPath: initialDescription
-      value: A case of premium cigars. Very expensive.
-      objectReference: {fileID: 0}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: 54cbb4402f813441cb503dcd1d440082,
+        type: 2}
     - target: {fileID: 1924874740640411365, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
       propertyPath: initialName
@@ -39,6 +34,16 @@ PrefabInstance:
         type: 3}
       propertyPath: initialSize
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1924874740640411365, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
+        type: 3}
+      propertyPath: initialDescription
+      value: A case of premium cigars. Very expensive.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
@@ -57,6 +62,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -69,16 +79,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
@@ -103,7 +103,7 @@ PrefabInstance:
     - target: {fileID: 2147979857387961395, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: a9fa99a5af6e9a147a033ca72de0e554
       objectReference: {fileID: 0}
     - target: {fileID: 2209833963140592347, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
@@ -111,6 +111,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 6ea94eed89fef764ba20c344a7947518,
         type: 3}
+    - target: {fileID: 4963428794470239722, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
+        type: 3}
+      propertyPath: foreverID
+      value: a9fa99a5af6e9a147a033ca72de0e554
+      objectReference: {fileID: 0}
     - target: {fileID: 5268370315017271808, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
       propertyPath: PresentSpriteSet

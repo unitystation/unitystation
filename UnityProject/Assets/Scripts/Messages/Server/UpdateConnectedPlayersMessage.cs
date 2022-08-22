@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mirror;
+using UI;
 
 namespace Messages.Server
 {
@@ -15,11 +16,7 @@ namespace Messages.Server
 
 		public override void Process(NetMessage msg)
 		{
-			//Logger.Log("Processed " + ToString());
-			if (PlayerList.Instance == null || PlayerList.Instance.ClientConnectedPlayers == null)
-			{
-				return;
-			}
+			if (PlayerList.Instance == null || PlayerList.Instance.ClientConnectedPlayers == null) return;
 
 			if (msg.Players != null)
 			{
@@ -37,41 +34,22 @@ namespace Messages.Server
 
 		public static NetMessage Send()
 		{
-			Logger.LogFormat("This server informing all clients of the new PlayerList state: {0}", Category.Connections,
-				string.Join(",", PlayerList.Instance.AllPlayers));
-			NetMessage msg = new NetMessage();
+			//Performance issue with string.Join doing this at high player count
+			//If this is necessary in the future cache it when players leave/join?
+			//Logger.LogFormat("This server informing all clients of the new PlayerList state: {0}", Category.Connections,
+			//	string.Join(",", PlayerList.Instance.AllPlayers));
+
 			var prepareConnectedPlayers = new List<ClientConnectedPlayer>();
-			bool pendingSpawn = false;
-			foreach (ConnectedPlayer c in PlayerList.Instance.AllPlayers)
+			var count = 0;
+			foreach (PlayerInfo c in PlayerList.Instance.AllPlayers)
 			{
-				if(c.Connection == null) continue; //offline player
-
-				if (string.IsNullOrEmpty(c.Name))
-				{
-					if (c.GameObject != null)
-					{
-						var joinedViewer = c.GameObject.GetComponent<JoinedViewer>();
-						if (joinedViewer != null)
-						{
-							pendingSpawn = true;
-						}
-						else
-						{
-							continue;
-						}
-					}
-					else
-					{
-						continue;
-					}
-				}
-
 				var tag = "";
 
 				if (PlayerList.Instance.IsAdmin(c.UserId))
 				{
 					tag = "<color=red>[Admin]</color>";
-				} else if (PlayerList.Instance.IsMentor(c.UserId))
+				}
+				else if (PlayerList.Instance.IsMentor(c.UserId))
 				{
 					tag = "<color=#6400ff>[Mentor]</color>";
 				}
@@ -79,13 +57,15 @@ namespace Messages.Server
 				prepareConnectedPlayers.Add(new ClientConnectedPlayer
 				{
 					UserName = c.Username,
-					Name = c.Name,
-					Job = c.Job,
-					PendingSpawn = pendingSpawn,
-					Tag = tag
+					Tag = tag,
+					Index = count,
+					PingToServer = (int?)(c.Script?.RTT * 1000) ?? -1
 				});
+
+				count++;
 			}
 
+			NetMessage msg = new NetMessage();
 			msg.Players = prepareConnectedPlayers.ToArray();
 
 			SendToAll(msg);

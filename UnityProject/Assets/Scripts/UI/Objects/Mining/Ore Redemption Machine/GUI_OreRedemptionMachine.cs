@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Objects.Machines;
+using UI.Core.NetUI;
+using Objects.Mining;
 
-namespace Objects.Mining
+namespace UI.Objects.Cargo
 {
 	public class GUI_OreRedemptionMachine : NetTab
 	{
@@ -13,7 +14,7 @@ namespace Objects.Mining
 		private OreRedemptionMachine oreRedemptionMachine;
 		private bool loadOresCooldown;
 
-		public NetLabel laborPointsLabel;
+		public NetText_label laborPointsLabel;
 		protected override void InitServer()
 		{
 			StartCoroutine(WaitForProvider());
@@ -39,7 +40,7 @@ namespace Objects.Mining
 			laborPointsLabel.SetValueServer($"Unclaimed points: {laborPoints.ToString()}");
 		}
 
-		public void ClaimLaborPoints(ConnectedPlayer connectedPlayer)
+		public void ClaimLaborPoints(PlayerInfo connectedPlayer)
 		{
 			oreRedemptionMachine.ClaimLaborPoints(connectedPlayer.GameObject);
 		}

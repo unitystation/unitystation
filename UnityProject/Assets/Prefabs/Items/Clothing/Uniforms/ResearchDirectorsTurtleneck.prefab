@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2909197017712554513, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 31017c31c01102c43a4bc47f230ce2d8
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}
@@ -89,18 +89,21 @@ PrefabInstance:
       value: A dark purple turtleneck and tan khakis, for a director with a superior
         sense of style.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: 14673e0d9505d4a20ba67712d7358daa,
+        type: 3}
+      propertyPath: foreverID
+      value: 31017c31c01102c43a4bc47f230ce2d8
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: ca66ea0f2af30a94c803a55b5bd69189,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: ca66ea0f2af30a94c803a55b5bd69189,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}
       propertyPath: allClothingData.Array.size

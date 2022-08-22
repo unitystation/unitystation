@@ -30,9 +30,11 @@ namespace Messages.Server.AdminTools
 
 		public static NetMessage Send(GameObject recipient, string adminID)
 		{
-			AdminPlayersList playerList = new AdminPlayersList();
-			//Player list info:
-			playerList.players = GetAllPlayerStates(adminID);
+			AdminPlayersList playerList = new AdminPlayersList
+			{
+				//Player list info:
+				players = AdminToolRefreshMessage.GetAllPlayerStates(adminID, true)
+			};
 
 			var data = JsonUtility.ToJson(playerList);
 
@@ -41,46 +43,6 @@ namespace Messages.Server.AdminTools
 
 			SendTo(recipient, msg);
 			return msg;
-		}
-
-		private static List<AdminPlayerEntryData> GetAllPlayerStates(string adminID)
-		{
-			var playerList = new List<AdminPlayerEntryData>();
-			if (string.IsNullOrEmpty(adminID)) return playerList;
-			foreach (var player in PlayerList.Instance.AllPlayers)
-			{
-				if (player == null) continue;
-				if (player.Connection == null) continue;
-
-				var entry = new AdminPlayerEntryData();
-				entry.name = player.Name;
-				entry.uid = player.UserId;
-				entry.currentJob = player.Job.ToString();
-				entry.accountName = player.Username;
-				if (player.Connection != null)
-				{
-					entry.ipAddress = player.Connection.address;
-					if (player.Script != null && player.Script.playerHealth != null)
-					{
-						entry.isAlive = player.Script.playerHealth.ConsciousState != ConsciousState.DEAD;
-					}
-					else
-					{
-						entry.isAdmin = false;
-					}
-					entry.isOnline = true;
-					entry.isAntag = PlayerList.Instance.AntagPlayers.Contains(player);
-					entry.isAdmin = PlayerList.Instance.IsAdmin(player.UserId);
-				}
-				else
-				{
-					entry.isOnline = false;
-				}
-
-				playerList.Add(entry);
-			}
-
-			return playerList.OrderBy(p => p.name).ThenBy(p => p.isOnline).ToList();
 		}
 	}
 }

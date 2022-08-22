@@ -66,11 +66,25 @@ namespace AddressableReferences
 					return null;
 				}
 
-				var AsynchronousHandle = Addressables.LoadAssetAsync<T>(AssetAddress);
-				await AsynchronousHandle.Task;
-				StoredLoadedReference = AsynchronousHandle.Result;
-				return StoredLoadedReference;
+				var validateAddress = Addressables.LoadResourceLocationsAsync(AssetAddress);
+
+				await validateAddress.Task;
+
+				if (validateAddress.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded) {
+					if (validateAddress.Result.Count > 0) {
+						// asset exists go ahead and load
+						var AsynchronousHandle = Addressables.LoadAssetAsync<T>(AssetAddress);
+						await AsynchronousHandle.Task;
+						StoredLoadedReference = AsynchronousHandle.Result;
+						return StoredLoadedReference;
+					}
+					else
+					{
+						Logger.LogError("Address is invalid for " + AssetReference, Category.Addressables);
+					}
+				}
 			}
+			return null;
 		}
 
 		#endregion
@@ -83,7 +97,7 @@ namespace AddressableReferences
 		{
 			if (IsNotValidKey) return;
 			if (IsReadyLoaded) return;
-			LoadAsset();
+			_ = LoadAsset();
 		}
 
 
@@ -205,6 +219,15 @@ namespace AddressableReferences
 
 				return audioSource;
 			}
+		}
+
+		/// <summary>
+		/// A default constructor is required in order to pass addressableAudioSources as network messages
+		/// </summary>
+		/// <param name="assetReferenceGuid">The primary key (AssetGuid) of the AssetReference</param>
+		public AddressableAudioSource()
+		{
+			AssetReference = null;
 		}
 
 		/// <summary>

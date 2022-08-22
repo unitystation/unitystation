@@ -9,12 +9,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 716646880682716998, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
-      propertyPath: initialDescription
-      value: A tiny power cell with a very low power capacity. Used in light fixtures
-        to power them in the event of an outage.
-      objectReference: {fileID: 0}
-    - target: {fileID: 716646880682716998, guid: a910878bd30ff5d439b94cd12e623762,
-        type: 3}
       propertyPath: initialName
       value: miniature power cell
       objectReference: {fileID: 0}
@@ -23,10 +17,21 @@ PrefabInstance:
       propertyPath: initialSize
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 716646880682716998, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
+      propertyPath: initialDescription
+      value: A tiny power cell with a very low power capacity. Used in light fixtures
+        to power them in the event of an outage.
+      objectReference: {fileID: 0}
     - target: {fileID: 1048113473106476432, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 025d501fc3a54c347a562e5fccf50c23
+      objectReference: {fileID: 0}
+    - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
@@ -45,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -57,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1084261533008379216, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
@@ -97,6 +97,11 @@ PrefabInstance:
         type: 3}
       propertyPath: MaxWatts
       value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 6315500071468813385, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
+      propertyPath: foreverID
+      value: 025d501fc3a54c347a562e5fccf50c23
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a910878bd30ff5d439b94cd12e623762, type: 3}

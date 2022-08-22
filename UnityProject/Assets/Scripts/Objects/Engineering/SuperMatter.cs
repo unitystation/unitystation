@@ -7,10 +7,13 @@ using Systems.ElectricalArcs;
 using Systems.Explosions;
 using Systems.Radiation;
 using AddressableReferences;
+using Core.Lighting;
 using HealthV2;
 using Light2D;
+using Managers;
 using Messages.Server;
 using Mirror;
+using ScriptableObjects.Atmospherics;
 using ScriptableObjects.Gun;
 using UnityEngine;
 using Weapons.Projectiles;
@@ -31,13 +34,7 @@ namespace Objects.Engineering
 		private LightSprite lightSprite;
 
 		[SerializeField]
-		private float pulseSpeed = 0.5f; //here, a value of 0.5f would take 2 seconds and a value of 2f would take half a second
-
-		private const float MAXIntensity = 0.9f; // Max alpha is 1f, but lower so not blinding
-		private const float MINIntensity = 0.1f; // Min alpha is 0f, 0.1f so light doesnt go away completely
-
-		private float targetIntensity = 1f;
-		private float currentIntensity;
+		private LightPulser lightPulser;
 
 		#endregion
 
@@ -54,18 +51,7 @@ namespace Objects.Engineering
 		#region HeatPenaltyDefines
 
 		// Higher == Bigger heat and waste penalty from having the crystal surrounded by this gas. Negative numbers reduce penalty.
-		private Dictionary<Gas, float> heatPenaltyDefines = new Dictionary<Gas, float>
-		{
-			{Gas.Plasma, 15},
-			{Gas.Oxygen, 1},
-			{Gas.Pluoxium, -1},
-			{Gas.Tritium, 10},
-			{Gas.CarbonDioxide, 0.1f},
-			{Gas.Nitrogen, -1.5f},
-			{Gas.BZ, 5},
-			{Gas.WaterVapor, 8},
-			{Gas.Freon, -10}
-		};
+		private Dictionary<GasSO, float> heatPenaltyDefines;
 
 		#endregion
 
@@ -74,27 +60,14 @@ namespace Objects.Engineering
 		//All of these get divided by 10-bzcomp * 5 before having 1 added and being multiplied with power to determine rads
 		//Keep the negative values here above -10 and we won't get negative rads
 		//Higher == Bigger bonus to power generation.
-		private Dictionary<Gas, float> transmitDefines = new Dictionary<Gas, float>
-		{
-			{Gas.Oxygen, 1.5f},
-			{Gas.Plasma, 4},
-			{Gas.BZ, -2},
-			{Gas.Tritium, 30},
-			{Gas.Pluoxium, -5},
-			{Gas.WaterVapor, -9}
-		};
+		private Dictionary<GasSO, float> transmitDefines;
 
 		#endregion
 
 		#region HeatResistanceDefines
 
 		//Higher == Gas makes the crystal more resistant against heat damage.
-		private Dictionary<Gas, float> heatResistanceDefines = new Dictionary<Gas, float>
-		{
-			{Gas.NitrousOxide, 6},
-			{Gas.Pluoxium, 3},
-			{Gas.WaterVapor, 10}
-		};
+		private Dictionary<GasSO, float> heatResistanceDefines;
 
 		#endregion
 
@@ -178,6 +151,12 @@ namespace Objects.Engineering
 
 		[SerializeField]
 		private ItemTrait superMatterScalpel = null;
+
+		[SerializeField]
+		private ItemTrait superMatterTongs = null;
+
+		[SerializeField]
+		private ItemTrait superMatterSliver = null;
 
 		[SerializeField]
 		private GameObject nuclearParticlePrefab = null;
@@ -275,7 +254,7 @@ namespace Objects.Engineering
 
 		private RegisterTile registerTile;
 
-		private GasMix removeMix = GasMix.NewGasMix(GasMixes.EmptyTile);
+		private GasMix removeMix = new GasMix();
 
 		private bool finalCountdown; //uh oh
 		private int finalCountdownTime = 30; //30 seconds
@@ -285,6 +264,8 @@ namespace Objects.Engineering
 		[SyncVar(hook = nameof(SyncIsDelam))]
 		private bool isDelam;
 
+		[SerializeField] private int explosionStrength = 55000;
+
 		#region LifeCycle
 
 		private void Awake()
@@ -292,6 +273,36 @@ namespace Objects.Engineering
 			registerTile = GetComponent<RegisterTile>();
 			emitterBulletName = emitterBulletPrefab.GetComponent<Bullet>().visibleName;
 			mask = LayerMask.GetMask("Machines", "WallMounts", "Objects", "Players", "NPC");
+
+			heatResistanceDefines = new Dictionary<GasSO, float>
+			{
+				{Gas.NitrousOxide, 6},
+				{Gas.Pluoxium, 3},
+				{Gas.WaterVapor, 10}
+			};
+
+			transmitDefines = new Dictionary<GasSO, float>
+			{
+				{Gas.Oxygen, 1.5f},
+				{Gas.Plasma, 4},
+				{Gas.BZ, -2},
+				{Gas.Tritium, 30},
+				{Gas.Pluoxium, -5},
+				{Gas.WaterVapor, -9}
+			};
+
+			heatPenaltyDefines = new Dictionary<GasSO, float>
+			{
+				{Gas.Plasma, 15},
+				{Gas.Oxygen, 1},
+				{Gas.Pluoxium, -1},
+				{Gas.Tritium, 10},
+				{Gas.CarbonDioxide, 0.1f},
+				{Gas.Nitrogen, -1.5f},
+				{Gas.BZ, 5},
+				{Gas.WaterVapor, 8},
+				{Gas.Freon, -10}
+			};
 		}
 
 		public override void OnStartClient()
@@ -310,13 +321,11 @@ namespace Objects.Engineering
 		private void OnEnable()
 		{
 			UpdateManager.Add(SuperMatterUpdate, updateTime);
-			UpdateManager.Add(CallbackType.UPDATE, SuperMatterLightUpdate);
 		}
 
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, SuperMatterUpdate);
-			UpdateManager.Remove(CallbackType.UPDATE, SuperMatterLightUpdate);
 			SoundManager.Stop(loopingSoundGuid);
 		}
 
@@ -328,20 +337,20 @@ namespace Objects.Engineering
 				//Delam state
 				SoundManager.Stop(loopingSoundGuid);
 				loopingSoundGuid = Guid.NewGuid().ToString();
-				SoundManager.PlayAtPosition(delamLoopSound, registerTile.WorldPositionServer, gameObject, loopingSoundGuid);
+				_ = SoundManager.PlayAtPosition(delamLoopSound, registerTile.WorldPositionServer, gameObject, loopingSoundGuid);
 
 				lightSprite.transform.localScale = new Vector3(9, 9, 9);
-				pulseSpeed = 1f;
+				lightPulser.SetPulseSpeed(1);
 			}
 			else
 			{
 				//Normal state
 				SoundManager.Stop(loopingSoundGuid);
 				loopingSoundGuid = Guid.NewGuid().ToString();
-				SoundManager.PlayAtPosition(normalLoopSound, registerTile.WorldPositionServer, gameObject, loopingSoundGuid);
+				_ = SoundManager.PlayAtPosition(normalLoopSound, registerTile.WorldPositionServer, gameObject, loopingSoundGuid);
 
 				lightSprite.transform.localScale = new Vector3(3, 3, 3);
-				pulseSpeed = 0.5f;
+				lightPulser.SetPulseSpeed(0.5f);
 			}
 		}
 
@@ -360,25 +369,6 @@ namespace Objects.Engineering
 			CheckEffects();
 
 			CheckWarnings();
-		}
-
-		private void SuperMatterLightUpdate()
-		{
-			//Looping the light alpha to create a pulsing effect
-			currentIntensity = Mathf.MoveTowards(lightSprite.Color.a, targetIntensity, Time.deltaTime * pulseSpeed);
-
-			if(currentIntensity >= MAXIntensity)
-			{
-				currentIntensity = MAXIntensity;
-				targetIntensity = MINIntensity;
-			}
-			else if(currentIntensity <= MINIntensity)
-			{
-				currentIntensity = MINIntensity;
-				targetIntensity = MAXIntensity;
-			}
-
-			lightSprite.Color.a = currentIntensity;
 		}
 
 		#endregion
@@ -519,7 +509,7 @@ namespace Objects.Engineering
 				{
 					//If there are more then 20 mols, or more then 20% co2
 					powerlossDynamicScaling = Mathf.Clamp(powerlossDynamicScaling +
-					                                        Mathf.Clamp(co2Compositon - powerlossDynamicScaling, -0.02f, 0.02f), 0, 1);
+															Mathf.Clamp(co2Compositon - powerlossDynamicScaling, -0.02f, 0.02f), 0, 1);
 				}
 				else
 				{
@@ -531,7 +521,7 @@ namespace Objects.Engineering
 				powerlossInhibitor =
 					Mathf.Clamp(
 						1 - (powerlossDynamicScaling *
-						     Mathf.Clamp(combinedGas / PowerlossInhibitionMoleBoostThreshold, 1, 1.5f)), 0, 1);
+							 Mathf.Clamp(combinedGas / PowerlossInhibitionMoleBoostThreshold, 1, 1.5f)), 0, 1);
 
 				//Releases stored power into the general pool
 				//We get this by consuming shit or being scalpeled
@@ -567,7 +557,7 @@ namespace Objects.Engineering
 				{
 					var strength = power * Mathf.Max(0,
 						(1 + (powerTransmissionBonus / (10 - (bzCompositon * 5))) * freonBonus));
-					RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, strength, GetInstanceID());
+					RadiationManager.Instance.RequestPulse( registerTile.WorldPositionServer, strength, GetInstanceID());
 				}
 
 				if (bzCompositon >= 0.4 && DMMath.Prob(30 * bzCompositon))
@@ -622,8 +612,8 @@ namespace Objects.Engineering
 			//Heat and moles account for each other, a lot of hot moles are more damaging then a few
 			//Moles start to have a positive effect on damage after 350
 			superMatterIntegrity -= (Mathf.Max(Mathf.Clamp(removeMix.Moles / 200f, 0.5f, 1f) * removeMix.Temperature -
-			                                   ((273.15f + HeatPenaltyThreshold) * dynamicHeatResistance), 0f)
-				                        * moleHeatPenalty / 150f) * DamageIncreaseMultiplier;
+											   ((273.15f + HeatPenaltyThreshold) * dynamicHeatResistance), 0f)
+										* moleHeatPenalty / 150f) * DamageIncreaseMultiplier;
 
 			//Power only starts affecting damage when it is above 5000
 			superMatterIntegrity -= (Mathf.Max(power - PowerPenaltyThreshold, 0) / 500) * DamageIncreaseMultiplier;
@@ -734,7 +724,7 @@ namespace Objects.Engineering
 				pos.x += Random.Range(-range, range + 1);
 				pos.y += Random.Range(-range, range + 1);
 
-				if (MatrixManager.IsEmptyAt(pos, true))
+				if (MatrixManager.IsEmptyAt(pos, true, registerTile.Matrix.MatrixInfo))
 				{
 					return pos;
 				}
@@ -747,7 +737,8 @@ namespace Objects.Engineering
 
 		private void FireNuclearParticle()
 		{
-			CastProjectileMessage.SendToAll(gameObject, nuclearParticlePrefab, VectorExtensions.DegreeToVector2(Random.Range(0, 361)), default);
+			ProjectileManager.InstantiateAndShoot(nuclearParticlePrefab,
+				VectorExtensions.DegreeToVector2(Random.Range(0, 361)), gameObject, null, BodyPartType.None);
 		}
 
 		#endregion
@@ -867,12 +858,12 @@ namespace Objects.Engineering
 
 		private void Explode()
 		{
-			SendMessageToAllPlayers("</color=red>You feel reality distort for a moment...<color>");
+			SendMessageToAllPlayers("<color=red>You feel reality distort for a moment...</color>");
 
 			if (combinedGas > MolePenaltyThreshold)
 			{
 				//Spawns a singularity which can eat the crystal...
-				SendMessageToAllPlayers("</color=red>A horrible screeching fills your ears, and a wave of dread washes over you...<color>");
+				SendMessageToAllPlayers("<color=red>A horrible screeching fills your ears, and a wave of dread washes over you...</color>");
 				Spawn.ServerPrefab(singularity, registerTile.WorldPosition, transform.parent);
 
 				//Dont explode if singularity is spawned
@@ -885,11 +876,11 @@ namespace Objects.Engineering
 				Spawn.ServerPrefab(energyBall, registerTile.WorldPosition, transform.parent);
 			}
 
-			RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, detonationRads, GetInstanceID());
+			RadiationManager.Instance.RequestPulse( registerTile.LocalPositionServer, detonationRads, GetInstanceID());
 
-			Explosion.StartExplosion(registerTile.LocalPositionServer, 10000, registerTile.Matrix);
+			Explosion.StartExplosion(registerTile.WorldPositionServer, explosionStrength);
 
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		#endregion
@@ -941,7 +932,7 @@ namespace Objects.Engineering
 			if (teslaCoils.Any())
 			{
 				var groundingRods = teslaCoils.Where(o => o.TryGetComponent<TeslaCoil>(out var teslaCoil) && teslaCoil != null &&
-				                                          teslaCoil.CurrentState == TeslaCoil.TeslaCoilState.Grounding).ToList();
+														  teslaCoil.CurrentState == TeslaCoil.TeslaCoilState.Grounding).ToList();
 
 				if (doTeslaFirst == false)
 				{
@@ -1019,7 +1010,7 @@ namespace Objects.Engineering
 
 		private void OnPulse(ElectricalArc arc)
 		{
-			if (arc.Settings.endObject == null) return;
+			if (arc.Settings.endObject == null || gameObject == null) return;
 
 			if (arc.Settings.endObject.TryGetComponent<LivingHealthMasterBase>(out var health) && health != null)
 			{
@@ -1067,11 +1058,13 @@ namespace Objects.Engineering
 
 		private void AddMessageToChat(string message, bool sendToCommon = false)
 		{
-			Chat.AddCommMsgByMachineToChat(gameObject, message, ChatChannel.Engineering, broadcasterName: "Supermatter Warning System: ");
+			Chat.AddCommMsgByMachineToChat(gameObject, message, ChatChannel.Engineering,
+				Loudness.SCREAMING,  broadcasterName: "Supermatter Warning System: ", language: LanguageManager.Common);
 
 			if (sendToCommon)
 			{
-				Chat.AddCommMsgByMachineToChat(gameObject, message, ChatChannel.Common, broadcasterName: "Supermatter Warning System: ");
+				Chat.AddCommMsgByMachineToChat(gameObject, message, ChatChannel.Common,
+					Loudness.SCREAMING, broadcasterName: "Supermatter Warning System: ", language: LanguageManager.Common);
 			}
 		}
 
@@ -1107,8 +1100,9 @@ namespace Objects.Engineering
 		}
 
 		//Called when bumped by players or collided with by flying items
-		public void OnBump(GameObject bumpedBy)
+		public void OnBump(GameObject bumpedBy, GameObject client)
 		{
+			if (isServer == false) return;
 			if(isHugBox) return;
 
 			if (bumpedBy.TryGetComponent<PlayerHealthV2>(out var playerHealth))
@@ -1120,7 +1114,7 @@ namespace Objects.Engineering
 					$"You slam into the {gameObject.ExpensiveName()} as your ears are filled with unearthly ringing. Your last thought is 'Oh, fuck.'",
 					$"The {(job != null ? job.JobType.JobString() : "person")} slams into the {gameObject.ExpensiveName()} inducing a resonance... {bumpedBy.ExpensiveName()} body starts to glow and burst into flames before flashing into dust!");
 
-				playerHealth.ServerGibPlayer();
+				playerHealth.OnGib();
 				matterPower += 100;
 			}
 			else if (bumpedBy.TryGetComponent<LivingHealthMasterBase>(out var health))
@@ -1130,7 +1124,7 @@ namespace Objects.Engineering
 					$"The {bumpedBy.ExpensiveName()} slams into the {gameObject.ExpensiveName()} inducing a resonance... its body starts to glow and burst into flames before flashing into dust!",
 					bumpedBy);
 
-				health.ApplyDamageAll(gameObject, 1000, AttackType.Internal, DamageType.Brute);
+				health.OnGib();
 			}
 			else if(bumpedBy.TryGetComponent<Integrity>(out var integrity))
 			{
@@ -1141,7 +1135,7 @@ namespace Objects.Engineering
 			}
 
 			matterPower += 150;
-			RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, 200, GetInstanceID());
+			RadiationManager.Instance.RequestPulse( registerTile.WorldPositionServer, 200, GetInstanceID());
 			SoundManager.PlayNetworkedAtPos(lightningSound, registerTile.WorldPositionServer, sourceObj: gameObject);
 		}
 
@@ -1151,10 +1145,13 @@ namespace Objects.Engineering
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (DefaultWillInteract.HandApply(interaction, side) == false) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			//Dont destroy wrench, it is used to unwrench crystal
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) return false;
+
+			//We dont want to vaporize unvaporizible things
+			if (Validations.HasItemTrait(interaction.HandObject, superMatterSliver) || Validations.HasItemTrait(interaction.HandObject, superMatterTongs)) return false;
 
 			return true;
 		}
@@ -1164,33 +1161,41 @@ namespace Objects.Engineering
 			//Kill player if they touched with empty hand
 			if (interaction.HandObject == null)
 			{
+				RadiationManager.Instance.RequestPulse(registerTile.WorldPositionServer, 200, GetInstanceID());
+
+				if (isHugBox && DMMath.Prob(95))
+				{
+					Chat.AddExamineMsg(interaction.Performer, "You're lucky, that could have gone very badly");
+					interaction.Performer.GetComponent<RegisterPlayer>().ServerStun();
+					return;
+				}
+
 				Chat.AddActionMsgToChat(interaction.Performer,
 					$"You reach out and touch {gameObject.ExpensiveName()}. Everything starts burning and all you can hear is ringing. Your last thought is 'That was not a wise decision'",
 					$"{interaction.Performer.ExpensiveName()} reaches out and touches {gameObject.ExpensiveName()}, inducing a resonance... {interaction.Performer.ExpensiveName()} body starts to glow and burst into flames before flashing into dust!");
 
-				interaction.Performer.GetComponent<PlayerHealthV2>().ServerGibPlayer();
+				interaction.Performer.GetComponent<PlayerHealthV2>().OnGib();
 				matterPower += 200;
-				RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, 200, GetInstanceID());
 				return;
 			}
 
 			//Try removing piece if using supermatter scalpel
 			if (Validations.HasItemTrait(interaction.HandObject, superMatterScalpel))
 			{
-				ToolUtils.ServerUseToolWithActionMessages(interaction, 20,
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 30,
 					$"You carefully begin to scrape the {gameObject.ExpensiveName()} with the {interaction.HandObject.ExpensiveName()}...",
 					$"{interaction.Performer.ExpensiveName()} starts scraping off a part of the {gameObject.ExpensiveName()}...",
 					$"You extract a sliver from the {gameObject.ExpensiveName()}. <color=red>The {gameObject.ExpensiveName()} begins to react violently!</color>",
 					$"{interaction.Performer.ExpensiveName()} scrapes off a shard from the {gameObject.ExpensiveName()}.",
 					() =>
 					{
-						Spawn.ServerPrefab(superMatterShard, interaction.Performer.WorldPosServer(),
+						Spawn.ServerPrefab(superMatterShard, interaction.Performer.AssumedWorldPosServer(),
 							interaction.Performer.transform.parent);
 						matterPower += 800;
 
 						//Destroy Scalpel
 						Chat.AddExamineMsgFromServer(interaction.Performer, $"A tiny piece of the {interaction.HandObject.ExpensiveName()} falls off, rendering it useless!");
-						Despawn.ServerSingle(interaction.HandObject);
+						_ = Despawn.ServerSingle(interaction.HandObject);
 					}
 				);
 
@@ -1201,8 +1206,8 @@ namespace Objects.Engineering
 			Chat.AddActionMsgToChat(interaction.Performer,
 				$"You touch the {gameObject.ExpensiveName()} with the {interaction.HandObject.ExpensiveName()}, and everything suddenly goes silent.\n The {interaction.HandObject.ExpensiveName()} flashes into dust as you flinch away from the {gameObject.ExpensiveName()}.",
 				$"As {interaction.Performer.ExpensiveName()} touches the {gameObject.ExpensiveName()} with {interaction.HandObject.ExpensiveName()}, silence fills the room...");
-			Despawn.ServerSingle(interaction.HandObject);
-			RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, 150, GetInstanceID());
+			_ = Despawn.ServerSingle(interaction.HandObject);
+			RadiationManager.Instance.RequestPulse(registerTile.WorldPositionServer, 150, GetInstanceID());
 			SoundManager.PlayNetworkedAtPos(lightningSound, registerTile.WorldPositionServer, sourceObj: gameObject);
 			matterPower += 200;
 		}

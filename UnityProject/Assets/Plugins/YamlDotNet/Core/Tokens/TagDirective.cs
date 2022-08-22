@@ -1,26 +1,25 @@
-//  This file is part of YamlDotNet - A .NET library for YAML.
-//  Copyright (c) Antoine Aubry and contributors
-
-//  Permission is hereby granted, free of charge, to any person obtaining a copy of
-//  this software and associated documentation files (the "Software"), to deal in
-//  the Software without restriction, including without limitation the rights to
-//  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-//  of the Software, and to permit persons to whom the Software is furnished to do
-//  so, subject to the following conditions:
-
-//  The above copyright notice and this permission notice shall be included in all
-//  copies or substantial portions of the Software.
-
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//  SOFTWARE.
+﻿// This file is part of YamlDotNet - A .NET library for YAML.
+// Copyright (c) Antoine Aubry and contributors
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the "Software"), to deal in
+// the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+// of the Software, and to permit persons to whom the Software is furnished to do
+// so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 using System;
-using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace YamlDotNet.Core.Tokens
@@ -28,35 +27,20 @@ namespace YamlDotNet.Core.Tokens
     /// <summary>
     /// Represents a tag directive token.
     /// </summary>
-    [Serializable]
     public class TagDirective : Token
     {
-        private readonly string handle;
-        private readonly string prefix;
 
         /// <summary>
         /// Gets the handle.
         /// </summary>
         /// <value>The handle.</value>
-        public string Handle
-        {
-            get
-            {
-                return handle;
-            }
-        }
+        public string Handle { get; }
 
         /// <summary>
         /// Gets the prefix.
         /// </summary>
         /// <value>The prefix.</value>
-        public string Prefix
-        {
-            get
-            {
-                return prefix;
-            }
-        }
+        public string Prefix { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TagDirective"/> class.
@@ -68,7 +52,7 @@ namespace YamlDotNet.Core.Tokens
         {
         }
 
-        private static readonly Regex tagHandleValidator = new Regex(@"^!([0-9A-Za-z_\-]*!)?$", StandardRegexOptions.Compiled);
+        private static readonly Regex TagHandlePattern = new Regex(@"^!([0-9A-Za-z_\-]*!)?$", StandardRegexOptions.Compiled);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TagDirective"/> class.
@@ -82,22 +66,22 @@ namespace YamlDotNet.Core.Tokens
         {
             if (string.IsNullOrEmpty(handle))
             {
-                throw new ArgumentNullException("handle", "Tag handle must not be empty.");
+                throw new ArgumentNullException(nameof(handle), "Tag handle must not be empty.");
             }
 
-            if (!tagHandleValidator.IsMatch(handle))
+            if (!TagHandlePattern.IsMatch(handle))
             {
-                throw new ArgumentException("Tag handle must start and end with '!' and contain alphanumerical characters only.", "handle");
+                throw new ArgumentException("Tag handle must start and end with '!' and contain alphanumerical characters only.", nameof(handle));
             }
 
-            this.handle = handle;
+            this.Handle = handle;
 
             if (string.IsNullOrEmpty(prefix))
             {
-                throw new ArgumentNullException("prefix", "Tag prefix must not be empty.");
+                throw new ArgumentNullException(nameof(prefix), "Tag prefix must not be empty.");
             }
 
-            this.prefix = prefix;
+            this.Prefix = prefix;
         }
 
         /// <summary>
@@ -107,10 +91,11 @@ namespace YamlDotNet.Core.Tokens
         /// <returns>
         /// true if the specified System.Object is equal to the current System.Object; otherwise, false.
         /// </returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            var other = obj as TagDirective;
-            return other != null && handle.Equals(other.handle) && prefix.Equals(other.prefix);
+            return obj is TagDirective other
+                && Handle.Equals(other.Handle)
+                && Prefix.Equals(other.Prefix);
         }
 
         /// <summary>
@@ -121,13 +106,13 @@ namespace YamlDotNet.Core.Tokens
         /// </returns>
         public override int GetHashCode()
         {
-            return handle.GetHashCode() ^ prefix.GetHashCode();
+            return Handle.GetHashCode() ^ Prefix.GetHashCode();
         }
 
         /// <summary/>
         public override string ToString()
         {
-            return string.Format(CultureInfo.InvariantCulture, "{0} => {1}", handle, prefix);
+            return $"{Handle} => {Prefix}";
         }
     }
 }

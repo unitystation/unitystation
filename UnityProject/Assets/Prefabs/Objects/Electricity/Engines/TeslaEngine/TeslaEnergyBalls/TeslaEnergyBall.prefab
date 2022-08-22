@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 3}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9133152852355986278}
   m_RootOrder: 0
@@ -43,6 +44,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -119,6 +121,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4692177491394706899}
   m_RootOrder: 1
@@ -134,6 +137,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -210,6 +214,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 6, y: 6, z: 3}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8794419188578605167}
   m_RootOrder: 0
@@ -225,6 +230,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -302,6 +308,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -1.94, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2645458664862408649}
   m_Father: {fileID: 4692177491394706899}
@@ -318,6 +325,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -376,10 +384,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9262c6514f25f5646af1350b0fe67f4a, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: be9f24c4d5dce124ab4b7f9caeef2aa1, type: 2}
   randomInitialSprite: 1
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
-  Sprites: []
 --- !u!114 &7001752464615975729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,6 +401,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformToRotateAround: {fileID: 4692177491394706899}
+  offset: {x: 0, y: 0, z: 0}
 --- !u!1 &2589383615245030061
 GameObject:
   m_ObjectHideFlags: 0
@@ -421,6 +430,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 3}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4083645607645159274}
   m_RootOrder: 0
@@ -436,6 +446,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -513,6 +524,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.83, y: 2.36, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3970324012631485683}
   m_Father: {fileID: 4692177491394706899}
@@ -529,6 +541,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -587,10 +600,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9262c6514f25f5646af1350b0fe67f4a, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: be9f24c4d5dce124ab4b7f9caeef2aa1, type: 2}
   randomInitialSprite: 1
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
-  Sprites: []
 --- !u!114 &1017634262663089071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -604,6 +617,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformToRotateAround: {fileID: 4692177491394706899}
+  offset: {x: 0, y: 0, z: 0}
 --- !u!1 &4123462233261535561
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,6 +647,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.09, y: -1.54, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1719648495393934223}
   m_Father: {fileID: 4692177491394706899}
@@ -649,6 +664,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -707,10 +723,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9262c6514f25f5646af1350b0fe67f4a, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 9262c6514f25f5646af1350b0fe67f4a, type: 2}
   randomInitialSprite: 1
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
-  Sprites: []
 --- !u!114 &4447488622026321139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -724,6 +740,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformToRotateAround: {fileID: 4692177491394706899}
+  offset: {x: 0, y: 0, z: 0}
 --- !u!1 &5478954080418723350
 GameObject:
   m_ObjectHideFlags: 0
@@ -753,6 +770,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.75, y: -0.99, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1031192935359913415}
   m_Father: {fileID: 4692177491394706899}
@@ -769,6 +787,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -827,10 +846,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9262c6514f25f5646af1350b0fe67f4a, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 9262c6514f25f5646af1350b0fe67f4a, type: 2}
   randomInitialSprite: 1
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
-  Sprites: []
 --- !u!114 &1852759312853154550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -844,6 +863,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformToRotateAround: {fileID: 4692177491394706899}
+  offset: {x: 0, y: 0, z: 0}
 --- !u!1 &5996174213941823587
 GameObject:
   m_ObjectHideFlags: 0
@@ -872,6 +892,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 3}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4563353910097466322}
   m_RootOrder: 0
@@ -887,6 +908,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -963,6 +985,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 6, y: 6, z: 3}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7185877768737720660}
   m_RootOrder: 0
@@ -978,6 +1001,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1055,6 +1079,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.43, y: 1.34, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2119273060962167698}
   m_Father: {fileID: 4692177491394706899}
@@ -1071,6 +1096,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1129,10 +1155,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9262c6514f25f5646af1350b0fe67f4a, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: be9f24c4d5dce124ab4b7f9caeef2aa1, type: 2}
   randomInitialSprite: 1
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
-  Sprites: []
 --- !u!114 &3234945245400687119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1146,6 +1172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformToRotateAround: {fileID: 4692177491394706899}
+  offset: {x: 0, y: 0, z: 0}
 --- !u!1 &8319164585466541317
 GameObject:
   m_ObjectHideFlags: 0
@@ -1174,6 +1201,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 3}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1247032518108266173}
   m_RootOrder: 0
@@ -1189,6 +1217,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1237,49 +1266,6 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
---- !u!114 &9158331600152464318
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4686069471335676681}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab9251baec3e44140a15e4fc5a7bc8cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  startingStage: 0
-  teslaPoints: 150
-  maximumPoints: 3250
-  pointLossRate: 4
-  preventDowngrade: 0
-  zeroPointDeath: 1
-  orbitingBalls:
-  - {fileID: 8794419188578605167}
-  - {fileID: 4563353910097466322}
-  - {fileID: 7185877768737720660}
-  - {fileID: 9133152852355986278}
-  - {fileID: 1247032518108266173}
-  - {fileID: 4083645607645159274}
-  arcEffect: {fileID: 106988, guid: 3f23c24bde2f784479d91bce3b78b3b3, type: 3}
-  layerTilesToIgnore:
-  - {fileID: 11400000, guid: 36ea0bfaed379084fb2513e68ccffb50, type: 2}
-  - {fileID: 11400000, guid: 51840014302a39247966acfe3275576f, type: 2}
-  arcCount: 1
-  duration: 0.5
-  damage: 7
-  primaryRange: 8
-  secondaryRange: 4
-  lightningSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/SuperMatter.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!1 &9007031484790628963
 GameObject:
   m_ObjectHideFlags: 0
@@ -1309,6 +1295,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 2.19, y: 1.17, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6440517040481412166}
   m_Father: {fileID: 4692177491394706899}
@@ -1325,6 +1312,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1383,10 +1371,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9262c6514f25f5646af1350b0fe67f4a, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 9262c6514f25f5646af1350b0fe67f4a, type: 2}
   randomInitialSprite: 1
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
-  Sprites: []
 --- !u!114 &3564515056948173374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1400,6 +1388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformToRotateAround: {fileID: 4692177491394706899}
+  offset: {x: 0, y: 0, z: 0}
 --- !u!1001 &8884009795189538112
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1421,6 +1410,51 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: foreverID
+      value: dc99674f0fbee4e418905101c63ad564
+      objectReference: {fileID: 0}
+    - target: {fileID: 1481169419180323577, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1481169419180323577, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1481169419180323577, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1964781063
+      objectReference: {fileID: 0}
+    - target: {fileID: 4083520829584162099, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Intangible
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4083520829584162099, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: HasOwnGravity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4083520829584162099, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: stickyMovement
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4083520829584162099, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: CanBeWindPushed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4083520829584162099, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: maximumStickSpeed
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -1500,6 +1534,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: doDamageMessage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: damageDeflection
       value: 100
       objectReference: {fileID: 0}
@@ -1525,13 +1564,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 8053698836628426681}
+    - target: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: initialCrawlPassable
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: dc99674f0fbee4e418905101c63ad564
       objectReference: {fileID: 0}
     - target: {fileID: 5971563122362279857, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -1614,9 +1658,74 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8884009795189538112}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5436240715850702555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4686069471335676681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  category: 32
+  type: 0
+  priority: 0
+--- !u!114 &9158331600152464318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4686069471335676681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab9251baec3e44140a15e4fc5a7bc8cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  startingStage: 0
+  teslaPoints: 150
+  maximumPoints: 3250
+  pointLossRate: 4
+  preventDowngrade: 0
+  zeroPointDeath: 1
+  orbitingBalls:
+  - {fileID: 8794419188578605167}
+  - {fileID: 4563353910097466322}
+  - {fileID: 7185877768737720660}
+  - {fileID: 9133152852355986278}
+  - {fileID: 1247032518108266173}
+  - {fileID: 4083645607645159274}
+  arcEffect: {fileID: 106988, guid: 3f23c24bde2f784479d91bce3b78b3b3, type: 3}
+  layerTilesToIgnore:
+  - {fileID: 11400000, guid: 36ea0bfaed379084fb2513e68ccffb50, type: 2}
+  - {fileID: 11400000, guid: 51840014302a39247966acfe3275576f, type: 2}
+  arcCount: 1
+  duration: 0.5
+  damage: 7
+  primaryRange: 8
+  secondaryRange: 4
+  lightningSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/SuperMatter.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
 --- !u!4 &4692177491394706899 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+    type: 3}
+  m_PrefabInstance: {fileID: 8884009795189538112}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &8053698836628426681 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 1481169419180323577, guid: ebb08cf966efc084aa918bd8d9429604,
     type: 3}
   m_PrefabInstance: {fileID: 8884009795189538112}
   m_PrefabAsset: {fileID: 0}

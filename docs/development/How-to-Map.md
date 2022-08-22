@@ -37,13 +37,14 @@ Additional Scenes – the scenes which the antagonists start on.
 
 Here is a handy diagram which you can use if you want to add a new antagonist or job and ensure that it updates across all the scenes.
 ![](../assets/images/HowToMap/adding_role_to_maps.png)
+
 ## Important Sidebar Functions
 ![](../assets/images/HowToMap/sidebar.png)
 When you open the editor, there should be a sidebar open on the right hand side of your screen. If it is not present, go Window -> Sidebar to make it appear. This sidebar will help you through some of the processes as you map. From Top to Bottom they are:
 
 ### Test Runner
 
-![](../assets/images/HowToMap/test_runner.PNG)
+![](../assets/images/HowToMap/test_runner.png)
 
 Performs a variety of tests to check for Null references and other things. These tests are also used when you send a Pull Request. To run these tests, click __Run All__ and then leave it for a while, it is not a quick process (use this opportunity to get something to eat/drink or some other professional/recreational activity of your choice).
 
@@ -85,13 +86,17 @@ Not necessary for mapping purposes.
 #### Electrical
 
 1.	Copy and paste the TestStation Scene inside Asset/Scenes Folder, do not have Unity open when you do this. Be sure to relabel the TestStation Matrix!!!
-1.	Delete all the objects in the Object Layer of the MainStation, then open up the Tile Palette, erase all the tiles, select base floors and begin the process of painting the tiles to make up the Station.
-1.	Next you will want to designate where the departments should go and how big they should be. Move the spawn points to generally mark out the areas so you can keep track of where everything is going. How you approach the rest is up to you, Part 2 and 3 below is a suggested method for you to use if you wish.
+2.	Go to the tab `Mapping` at the top bar and then click the button `Set all sceneids to 0`, this is needed to reset networking id's
+4.	Delete all the objects in the Object Layer of the MainStation, then open up the Tile Palette, erase all the tiles, select base floors and begin the process of painting the tiles to make up the Station.
+5.	Next you will want to designate where the departments should go and how big they should be. Move the spawn points to generally mark out the areas so you can keep track of where everything is going. How you approach the rest is up to you, Part 2 and 3 below is a suggested method for you to use if you wish.
 Consider then mapping in all the power cables, atmos pipes and disposal pipes. This is all the important life support stuff that makes the station function. This step can be done at any time, however, a lot of **LighTubeFixtures**, **LightBulbFixtures**, **AirVents**, **Scrubbers**, **Pumps**, **Mixers**, **GasConnectors**, **Filters**, **UnaryVents**, **Metres** and **DisposalBins** prefabs are required for the station to run. See Part 2 step 2 for details on how to add existing prefabs onto a Scene.
 
 UnityStation’s Electrical Wiring differs from base SS13. Follow the guide below to make sure you correctly hook everything up.
 ![](../assets/images/HowToMap/wire_connections.png)
 Make sure to always put a machine connector (white square in diagram) on the lower voltage side of the device. If you are still stuck, consult the wiring on TestStation Scene in the Electrical Testing Area and inspect the relevant prefabs.
+
+!!! Tip
+    It is strongly encouraged to avoid mapping underfloor utilities (wires, atmos / disposal pipes) under walls, windows. While mapping more than one type of underfloor utilities on one tile is currently annoying in that they aren't yet layered correctly for rendering, doing this will allow players who are playing the engineer role the ability to debug the wire pathways to find a fault without ever having to deconstruct a wall or window in the way. If it is unavoidable, that's ok, but don't make a habit of it.
 
 #### Atmospherics
 
@@ -113,6 +118,8 @@ The atmos prefabs have been laid out so you do not need to tinker too much with 
 * **GasMixerAirMixer**, **GasMixerOff**, **GasMixerOffFlipped**, **GasMixerOn**, **GasMixerOnFlipped** are mixer prefabs which mixes two gases together in a particular proportion. The "Air" that the crew breathes on the station has been deliberately set in the AirMixer, make sure you use that one in the department.
 * **GasPumpOn**, **GasPumpOff** are the pump prefabs which are set to be on and off when the round starts.
 
+**ACUs** (air alarms) allow atmospheric technicians to control the local room's atmopshere, but they're useful to everyone as it allows you to quickly gauge a room's atmospheric state. ACUs should be as similarly common as APCs. Consider placing these in high-traffic areas where they're easily observed. Any connected ACU device (scrubbers, vents) can act as a sensor for the ACU, optionally including the tile in front of the unit itself. If the ACU is not directly in the room that it monitors, such as SM core, server room or (at least temporarily, until we have atmospheric tank control consoles) atmospheric tanks, then be sure to turn off `Acu Samples Air` in the `AirController` component so as not to skew the monitoring. There are several AirController presets designed for particular rooms in mind, like cold rooms, server rooms etc - be sure to take a look for special usages.
+
 #### Disposals
 
 The **Disposal System** is straightforward to map in if do the following steps. Be sure to connect the  **ConveyorSwitch** prefab to the relevant **ConveyorBelt** prefabs.
@@ -133,10 +140,16 @@ To help with completing Part 3, click and drag all prefabs onto the scene, selec
 
 ### Part 3 - Adding and linking in all the other Prefabs
 
-1.	Add in all the other prefabs. Don’t worry if you aren’t getting the x,y co-ordinates close to the centre of a grid square, the Custom Net Transform always has Snap To Grid enabled, so it will have perfect co-ordinates in-game.
-1.	As you progress placing the objects down onto the matrix, make sure you modify the relevant fields on the prefabs so that they can be referred to by the other relevant prefabs. The best way to see what prefabs relate to what is to open an existing map and turn on gizmos. Make sure all of the gizmos are turned on and if a line exists between the prefab and another, then a relationship exists. As there are a multitude of components that can exist on a prefab, it is best to read through them to understand what they are doing and what they need, some have tooltips to help. Always remember you can look at existing maps to see how the prefabs are connected.
-1.	All the shuttles need the Retro Control System (RCS) Thrusters to be added onto the outside of the shuttle matrixes. Follow instructions detailed [here](https://github.com/unitystation/unitystation/pull/5111).
-
+1.	Add in all the other prefabs. Don’t worry if you aren’t getting the x,y co-ordinates close to the centre of a grid square, the Custom Net Transform always has Snap To Grid enabled, so it will have perfect co-ordinates in-game. If you like, you can also use the `Mapping > Snap to Grid All Applicable Objects` tool to ensure this before runtime.
+1.	As you progress placing the objects down onto the matrix, make sure you modify the relevant fields on the prefabs so that they can be referred to by the other relevant prefabs. You can use the `Tools/Mapping/Device Linker` tool to assist in linking certain objects together, like APC devices to APCs.
+![Tools/Mapping/Device Linker](https://i.imgur.com/P3jANhA.png)
+Each device can also be linked via the controls on the relevant component. For example, on `APCPoweredDevice`.
+![APCPoweredDevice](https://i.imgur.com/Qt1tY2v.png)
+    You can see that the selected Fire Alarm is connected to the APC and to three firelocks, the quantum pad is not connected to an APC and the console is not connected to some sort of device - these two need attention.<br>
+ The best way to see what prefabs relate to what is to open an existing map and turn on gizmos. Make sure all of the gizmos are turned on and if a line exists between the prefab and another, then a relationship exists. As there are a multitude of components that can exist on a prefab, it is best to read through them to understand what they are doing and what they need, some have tooltips to help. Always remember you can look at existing maps to see how the prefabs are connected.
+1.	All the shuttles need the reaction control system (RCS) Thrusters to be added onto the outside of the shuttle matrixes. Follow instructions detailed [here](https://github.com/unitystation/unitystation/pull/5111).
+1.	Use the `Tools > Mapping > Name Validator` tool to ensure certain objects have appropriate names.<br>
+![Tools/Mapping/Name Validator](https://camo.githubusercontent.com/96a31100a53119d13b4131c6ead7e6b4dd9575c8fdb10420916e328701b164e1/68747470733a2f2f692e696d6775722e636f6d2f3642634a5458662e706e67)
 ## Asteroids and Ruins
 
 Asteroids and ruins are different obstacles Shaft Miners, Curators or Assistants can stumble upon on their travels. Asteroids primarily serve as Ore Deposits for Shaft Miners, sometimes they also have exotic plants or mobs to fight as well. Ruins are derelict stations or shuttles for the players to explore. Copy an existing asteroid or ruin scene inside the **AsteroidScenes** Scene Folder to get started, **make sure you define the location of your scene to somewhere well away from (0,0) otherwise it will spawn inside the station.**

@@ -14,21 +14,18 @@ namespace Systems.Disposals
 	{
 		readonly Matrix matrix;
 		readonly DisposalVirtualContainer virtualContainer;
-		readonly CustomNetTransform containerTransform;
+		readonly UniversalObjectPhysics ObjectPhysics;
 
 		public bool ReadyToTraverse = false;
 		public bool CurrentlyDelayed = false;
 		public bool TraversalFinished = false;
-
-		[SerializeField]
-		private AddressableAudioSource DisposalEjectionHiss = null;
 
 		private bool justStarted;
 		private DisposalPipe currentPipe;
 		private Vector3Int currentPipeLocalPos;
 		private Orientation currentPipeOutputSide;
 
-		private Vector3Int NextPipeVector => currentPipeOutputSide.VectorInt.To3Int();
+		private Vector3Int NextPipeVector => currentPipeOutputSide.LocalVectorInt.To3Int();
 		private Vector3Int NextPipeLocalPosition => currentPipeLocalPos + NextPipeVector;
 
 		/// <summary>
@@ -43,7 +40,7 @@ namespace Systems.Disposals
 			matrix = registerTile.Matrix;
 			currentPipeLocalPos = registerTile.LocalPositionServer;
 			virtualContainer = container;
-			containerTransform = container.GetComponent<CustomNetTransform>();
+			ObjectPhysics = container.GetComponent<UniversalObjectPhysics>();
 
 			currentPipe = GetPipeAt(currentPipeLocalPos, DisposalPipeType.Terminal);
 			if (currentPipe == null)
@@ -112,10 +109,10 @@ namespace Systems.Disposals
 		{
 			switch (side.AsEnum())
 			{
-				case OrientationEnum.Up: return Orientation.Down;
-				case OrientationEnum.Down: return Orientation.Up;
-				case OrientationEnum.Left: return Orientation.Right;
-				case OrientationEnum.Right: return Orientation.Left;
+				case OrientationEnum.Up_By0: return Orientation.Down;
+				case OrientationEnum.Down_By180: return Orientation.Up;
+				case OrientationEnum.Left_By90: return Orientation.Right;
+				case OrientationEnum.Right_By270: return Orientation.Left;
 			}
 
 			return Orientation.Left;
@@ -150,16 +147,17 @@ namespace Systems.Disposals
 
 		private void TransferContainerToVector(Vector3Int nextPipePosition)
 		{
-			containerTransform.Push(nextPipePosition.To2Int(), ignorePassable: true);
+			ObjectPhysics.Pushing.Clear();
+			ObjectPhysics.ForceTilePush(nextPipePosition.To2Int(), ObjectPhysics.Pushing, null);
 		}
 
 		private void EjectViaPipeEnd()
 		{
 			TryDamageTileFromEjection(NextPipeLocalPosition);
 			var worldPos = MatrixManager.LocalToWorld(NextPipeLocalPosition, matrix);
-			SoundManager.PlayNetworkedAtPos(DisposalEjectionHiss, worldPos);
+			SoundManager.PlayNetworkedAtPos(DisposalsManager.Instance.DisposalEjectionHiss, worldPos);
 			TransferContainerToVector(NextPipeVector);
-			virtualContainer.EjectContentsAndThrow(currentPipeOutputSide.Vector);
+			virtualContainer.EjectContentsWithVector(currentPipeOutputSide.LocalVector);
 			DespawnContainerAndFinish();
 		}
 
@@ -175,7 +173,7 @@ namespace Systems.Disposals
 				// Ended at a pipe terminal, but no disposal machinery was detected at its location. Ejecting upwards...
 				TryDamageTileFromEjection(currentPipeLocalPos);
 				// Eject contents with zero vector to give spin on contents.
-				virtualContainer.EjectContentsAndThrow(Vector3.zero);
+				virtualContainer.EjectContentsWithVector(Vector3.zero);
 				DespawnContainerAndFinish();
 			}
 		}
@@ -202,7 +200,7 @@ namespace Systems.Disposals
 		private void TryDamageTileFromEjection(Vector3Int localPosition)
 		{
 			if (matrix.TileChangeManager.MetaTileMap.HasTile(localPosition, LayerType.Floors) == false) return;
-			matrix.TileChangeManager.UpdateTile(localPosition, TileType.Floor, "damaged3");
+			matrix.TileChangeManager.MetaTileMap.SetTile(localPosition, TileType.Floor, "damaged3");
 		}
 
 		/// <summary>
@@ -210,7 +208,7 @@ namespace Systems.Disposals
 		/// </summary>
 		private void DespawnContainerAndFinish()
 		{
-			Despawn.ServerSingle(virtualContainer.gameObject);
+			_ = Despawn.ServerSingle(virtualContainer.gameObject);
 			TraversalFinished = true;
 		}
 	}

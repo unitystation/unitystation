@@ -9,19 +9,24 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1231411499212372502, guid: 8108519e2214a09419583900dbd1c899,
         type: 3}
+      propertyPath: despawnBody
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1231411499212372502, guid: 8108519e2214a09419583900dbd1c899,
+        type: 3}
       propertyPath: lootDrop.Array.data[0]
       value: 
       objectReference: {fileID: 4801339576872443896, guid: e507b79cc25485b46b2b9a34029c95de,
         type: 3}
-    - target: {fileID: 1231411499212372502, guid: 8108519e2214a09419583900dbd1c899,
+    - target: {fileID: 2022382833860619044, guid: 8108519e2214a09419583900dbd1c899,
         type: 3}
-      propertyPath: despawnBody
-      value: 1
+      propertyPath: mobName
+      value: Poly's ghost
       objectReference: {fileID: 0}
     - target: {fileID: 3810538610030977224, guid: 8108519e2214a09419583900dbd1c899,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 2a6a30bb6be97d442b55b5b4ea995772
       objectReference: {fileID: 0}
     - target: {fileID: 3810583380164896390, guid: 8108519e2214a09419583900dbd1c899,
         type: 3}
@@ -32,6 +37,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ParrotPolyGhost
+      objectReference: {fileID: 0}
+    - target: {fileID: 3852894546938829904, guid: 8108519e2214a09419583900dbd1c899,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3852894546938829904, guid: 8108519e2214a09419583900dbd1c899,
         type: 3}
@@ -46,31 +56,6 @@ PrefabInstance:
     - target: {fileID: 3852894546938829904, guid: 8108519e2214a09419583900dbd1c899,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852894546938829904, guid: 8108519e2214a09419583900dbd1c899,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852894546938829904, guid: 8108519e2214a09419583900dbd1c899,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852894546938829904, guid: 8108519e2214a09419583900dbd1c899,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852894546938829904, guid: 8108519e2214a09419583900dbd1c899,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852894546938829904, guid: 8108519e2214a09419583900dbd1c899,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3852894546938829904, guid: 8108519e2214a09419583900dbd1c899,

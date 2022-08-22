@@ -108,7 +108,7 @@ TextureImporter:
       213: 21300068
     second: entertainment_xmas_34
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -128,6 +128,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -137,8 +139,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -159,9 +161,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -935,6 +941,42 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      entertainment_xmas_24: 21300048
+      entertainment_xmas_34: 21300068
+      entertainment_xmas_23: 21300046
+      entertainment_xmas_6: 21300012
+      entertainment_xmas_10: 21300020
+      entertainment_xmas_18: 21300036
+      entertainment_xmas_9: 21300018
+      entertainment_xmas_17: 21300034
+      entertainment_xmas_13: 21300026
+      entertainment_xmas_28: 21300056
+      entertainment_xmas_32: 21300064
+      entertainment_xmas_4: 21300008
+      entertainment_xmas_22: 21300044
+      entertainment_xmas_3: 21300006
+      entertainment_xmas_12: 21300024
+      entertainment_xmas_15: 21300030
+      entertainment_xmas_20: 21300040
+      entertainment_xmas_7: 21300014
+      entertainment_xmas_25: 21300050
+      entertainment_xmas_21: 21300042
+      entertainment_xmas_14: 21300028
+      entertainment_xmas_5: 21300010
+      entertainment_xmas_11: 21300022
+      entertainment_xmas_27: 21300054
+      entertainment_xmas_2: 21300004
+      entertainment_xmas_1: 21300002
+      entertainment_xmas_33: 21300066
+      entertainment_xmas_0: 21300000
+      entertainment_xmas_29: 21300058
+      entertainment_xmas_31: 21300062
+      entertainment_xmas_19: 21300038
+      entertainment_xmas_30: 21300060
+      entertainment_xmas_8: 21300016
+      entertainment_xmas_26: 21300052
+      entertainment_xmas_16: 21300032
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

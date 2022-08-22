@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1646121470075433740, guid: 00585e1640b90704c80577abf89e78fe,
+        type: 3}
+      propertyPath: foreverID
+      value: 0d3831f20ce509542b9b058a5826ebe6
+      objectReference: {fileID: 0}
     - target: {fileID: 5228417008115847171, guid: 00585e1640b90704c80577abf89e78fe,
         type: 3}
       propertyPath: initialName
@@ -27,6 +32,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5652308925827154453, guid: 00585e1640b90704c80577abf89e78fe,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5652308925827154453, guid: 00585e1640b90704c80577abf89e78fe,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -42,6 +52,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5652308925827154453, guid: 00585e1640b90704c80577abf89e78fe,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5652308925827154453, guid: 00585e1640b90704c80577abf89e78fe,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -54,16 +69,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5652308925827154453, guid: 00585e1640b90704c80577abf89e78fe,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5652308925827154453, guid: 00585e1640b90704c80577abf89e78fe,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5652308925827154453, guid: 00585e1640b90704c80577abf89e78fe,
         type: 3}
@@ -83,7 +88,7 @@ PrefabInstance:
     - target: {fileID: 5762002493750428373, guid: 00585e1640b90704c80577abf89e78fe,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0d3831f20ce509542b9b058a5826ebe6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00585e1640b90704c80577abf89e78fe, type: 3}

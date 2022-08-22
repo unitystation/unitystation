@@ -1,65 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &6141197458528421439
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7495180291926065977}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab0b22d0dd164c31bcc4746cd3300663, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mobName: xenomorph hunter
-  knockedDownRotation: 90
-  deathSounds:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/NPC/Xenodie.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  randomSounds:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/NPC/Hiss1.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/NPC/Hiss2.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/NPC/Hiss3.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/NPC/Hiss4.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/NPC/Hiss5.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  playRandomSoundTimer: 3
-  randomSoundProbability: 20
-  searchTickRate: 0.5
-  currentStatus: 0
-  disableAscension: 0
-  queenCap: 1
-  queenPrefab: {fileID: 2058504753171968459, guid: 850a00ce2fc547b499ef46733c95c580,
-    type: 3}
 --- !u!1001 &6669738361148403581
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -71,6 +11,21 @@ PrefabInstance:
         type: 3}
       propertyPath: mobName
       value: xenomorph hunter
+      objectReference: {fileID: 0}
+    - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
@@ -90,26 +45,6 @@ PrefabInstance:
     - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
-        type: 3}
-      propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
@@ -135,7 +70,72 @@ PrefabInstance:
     - target: {fileID: 3826885964139575000, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 00a84f751afb412428a586d23cf90b39
+      objectReference: {fileID: 0}
+    - target: {fileID: 5736064494939018447, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: tileMoveSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029784556651730588, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Rad
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029784556651730588, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Acid
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029784556651730588, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Laser
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029784556651730588, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Melee
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029784556651730588, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Bullet
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029784556651730588, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Energy
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6254140286428870878, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Rad
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6254140286428870878, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Acid
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6254140286428870878, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Laser
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6254140286428870878, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Melee
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6254140286428870878, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Bullet
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6254140286428870878, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Energy
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
@@ -143,6 +143,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 168b86a8105cfe24e9d8e8355fc1630b,
         type: 2}
+    - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: SubCatalogue.Array.data[0]
@@ -154,6 +159,12 @@ PrefabInstance:
       propertyPath: SubCatalogue.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 89bf18cf883b5694787c1667470999e3,
+        type: 2}
+    - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 02c39b25cb731c4428e807a79f477120,
         type: 2}
     - target: {fileID: 8452744359610409676, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
@@ -172,8 +183,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8452744359610409676, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
+      propertyPath: canBreatheAnywhere
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8452744359610409676, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
       propertyPath: butcherResults.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8452744359610409676, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
@@ -199,6 +215,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2434222561616808047, guid: ec415b83dd52aba48a8c3eb34564b8dc,
         type: 3}
+    - target: {fileID: 8452744359610409676, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: butcherResults.Array.data[4]
+      value: 
+      objectReference: {fileID: 7186820348635746022, guid: 8cd3dcf86127057478c50a027e9ac1ea,
+        type: 3}
+    - target: {fileID: 8528472920219531194, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: knockedDownSpriteIndex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8598374214700404016, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: m_Size.x
@@ -220,6 +247,11 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9122004212597972209, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: mobAI
+      value: 
+      objectReference: {fileID: 6141197458528421439}
     - target: {fileID: 9122004212597972209, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: hitDamage
@@ -244,3 +276,69 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6669738361148403581}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6141197458528421439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7495180291926065977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab0b22d0dd164c31bcc4746cd3300663, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mobName: xenomorph hunter
+  registerObject: {fileID: 0}
+  deathSounds:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/NPC/Xenodie.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  randomSounds:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/NPC/Hiss1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/NPC/Hiss2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/NPC/Hiss3.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/NPC/Hiss4.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/NPC/Hiss5.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  playRandomSoundTimer: 6
+  randomSoundProbability: 20
+  searchTickRate: 0.5
+  currentStatus: 0
+  disableAscension: 1
+  queenCap: 1
+  queenPrefab: {fileID: 2058504753171968459, guid: 850a00ce2fc547b499ef46733c95c580,
+    type: 3}

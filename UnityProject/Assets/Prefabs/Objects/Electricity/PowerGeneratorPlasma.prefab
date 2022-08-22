@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4297268230046392}
   m_RootOrder: 0
@@ -43,6 +44,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -102,11 +104,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 04aab938d3b952f4c836fb603ccaa46c, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 978c2be3703d9bd4ca7a8a187ba5a327, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 1
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
-  Sprites: []
-  randomInitialSprite: 0
 --- !u!1 &1642589051554738
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,6 +136,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0.642414, w: 0.76635784}
   m_LocalPosition: {x: 0.24, y: 0.12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4297268230046392}
   m_RootOrder: 1
@@ -146,19 +148,19 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1642589051554738}
-  serializedVersion: 6
+  serializedVersion: 8
   lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 1
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
+  emitterVelocityMode: 0
   looping: 1
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
-  useRigidbodyForVelocity: 1
   startDelay:
     serializedVersion: 2
     minMaxState: 0
@@ -708,6 +710,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     maxNumParticles: 82
+    customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -3718,19 +3721,20 @@ ParticleSystem:
     range: {x: 0, y: 1}
   CollisionModule:
     enabled: 0
-    serializedVersion: 3
+    serializedVersion: 4
     type: 0
     collisionMode: 0
     colliderForce: 0
     multiplyColliderForceByParticleSize: 0
     multiplyColliderForceByParticleSpeed: 0
     multiplyColliderForceByCollisionAngle: 1
-    plane0: {fileID: 0}
-    plane1: {fileID: 0}
-    plane2: {fileID: 0}
-    plane3: {fileID: 0}
-    plane4: {fileID: 0}
-    plane5: {fileID: 0}
+    m_Planes:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
@@ -3904,17 +3908,20 @@ ParticleSystem:
     interiorCollisions: 0
   TriggerModule:
     enabled: 0
-    collisionShape0: {fileID: 0}
-    collisionShape1: {fileID: 0}
-    collisionShape2: {fileID: 0}
-    collisionShape3: {fileID: 0}
-    collisionShape4: {fileID: 0}
-    collisionShape5: {fileID: 0}
+    serializedVersion: 2
     inside: 1
     outside: 0
     enter: 0
     exit: 0
+    colliderQueryMode: 0
     radiusScale: 1
+    primitives:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
   SubModule:
     serializedVersion: 2
     enabled: 0
@@ -4865,6 +4872,7 @@ ParticleSystemRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -4895,6 +4903,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 22
   m_SortingOrder: 34
   m_RenderMode: 0
+  m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 0.5
@@ -4918,6 +4927,10 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+  m_MeshWeighting: 1
+  m_MeshWeighting1: 1
+  m_MeshWeighting2: 1
+  m_MeshWeighting3: 1
   m_MaskInteraction: 0
 --- !u!1 &1853426429102140
 GameObject:
@@ -4931,20 +4944,19 @@ GameObject:
   - component: {fileID: 61778593853642650}
   - component: {fileID: 114904772816368656}
   - component: {fileID: 114738137265545768}
-  - component: {fileID: 114537316452419530}
   - component: {fileID: 2031766418865421906}
   - component: {fileID: 1348606562097783112}
   - component: {fileID: 3535876737568715888}
   - component: {fileID: -3599987768168059985}
   - component: {fileID: 7951845945411301283}
   - component: {fileID: 114102132577365772}
-  - component: {fileID: 820786687953803850}
   - component: {fileID: 2256282160280969908}
   - component: {fileID: 4667894046416146223}
   - component: {fileID: 7281671087508858390}
   - component: {fileID: 6324674111779620640}
   - component: {fileID: 579887912259031821}
   - component: {fileID: 114093731737732554}
+  - component: {fileID: 3828433566454111575}
   m_Layer: 11
   m_Name: PowerGeneratorPlasma
   m_TagString: Untagged
@@ -4962,6 +4974,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 70, y: 67, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4552222611090834}
   - {fileID: 4251179346184678}
@@ -5006,10 +5019,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
   sceneId: 0
   serverOnly: 0
-  m_AssetId: 
+  visible: 0
+  m_AssetId: 69c27c4a07b053d458c6fec363e66403
+  hasSpawned: 0
 --- !u!114 &114738137265545768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5026,26 +5040,13 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  prefabTracker: {fileID: 0}
+  CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
-  Passable: 0
   ReachableThrough: 1
+  initialPassable: 0
+  initialCrawlPassable: 0
   passableExclusionsToThis: []
---- !u!114 &114537316452419530
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1853426429102140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  snapToGridOnStart: 1
-  IsFixedMatrix: 0
 --- !u!114 &2031766418865421906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5059,14 +5060,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!114 &1348606562097783112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5089,6 +5082,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -5101,6 +5095,9 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    Anomaly: 0
+    DismembermentProtectionChance: 0
+    StunImmunity: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -5112,6 +5109,7 @@ MonoBehaviour:
     LightningDamageProof: 0
   HeatResistance: 100
   ExplosionsDamage: 100
+  doDamageMessage: 1
 --- !u!114 &3535876737568715888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5126,12 +5124,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialName: portable generator
+  initialName: P.A.C.M.A.N
   initialDescription: A portable generator for emergency backup power.
   willHighlight: 1
   exportCost: 50
+  CanBeSoldInCargo: 1
   exportName: 
   exportMessage: 
+  initialSize: 3
 --- !u!114 &-3599987768168059985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5160,6 +5160,7 @@ MonoBehaviour:
   machineBoardPrefab: {fileID: 4184383661120845852, guid: 23ae18d4d92f03a4faba5c8e2e04ab49,
     type: 3}
   canNotBeDeconstructed: 0
+  isEMPResistant: 0
   mustBeUnanchored: 0
   secondsToScrewdrive: 2
 --- !u!114 &114102132577365772
@@ -5177,36 +5178,6 @@ MonoBehaviour:
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
   RotateParent: {fileID: 0}
---- !u!114 &820786687953803850
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1853426429102140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  registerTile: {fileID: 114738137265545768}
-  floorDecal: {fileID: 0}
-  isInitiallyNotPushable: 1
-  pushPullSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  soundDelayTime: 0
-  soundMinimumPitchVariance: 1
-  soundMaximumPitchVariance: 1
-  OnPullingSomethingChangedServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &2256282160280969908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5222,7 +5193,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   isSecuredStateExaminable: 1
-  isExposedFloorPlatingRequired: 0
+  isExposedFloorPlatingRequired: 1
   secondsToSecure: 0
   secondsToUnsecure: 0
   lockSpriteDirection: 0
@@ -5245,10 +5216,13 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 2c004a22c0d6abf47880f2e3e86d62fe,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
-    MergeMode: 0
-    Contents: []
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}
 --- !u!114 &7281671087508858390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5263,24 +5237,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  InData:
-    WireEndB: 10
-    WireEndA: 8
-    Categorytype: 13
-    ControllingDevice: {fileID: 0}
-    Present: {fileID: 0}
-    Data:
-      CurrentInWire: 0
-      ActualVoltage: 0
-      EstimatedResistance: 0
-      SupplyingCurrent: 0
-      InternalResistance: 0
-      SupplyingVoltage: 0
-      ProducingWatts: 0
-      ChangeToOff: 0
-      CurrentStoreValue: 0
-    DestroyQueueing: 0
-    DestroyAuthorised: 0
   registerTile: {fileID: 0}
   connected: 0
   Logall: 0
@@ -5303,7 +5259,6 @@ MonoBehaviour:
   WireEndB: 9
   WireEndA: 0
   ListCanConnectTo: 010000000b000000
-  SelfDestruct: 0
   Reactions:
   - ConnectingDevice: 1
     DirectionReaction: 0
@@ -5361,7 +5316,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   startAsOn: 0
-  plasmaConsumptionRate: 0.02
+  fuelConsumptionRate: 0.02
+  fuelTypes:
+  - {fileID: 11400000, guid: 70d28796af421c64a8770cb93c818bd4, type: 2}
   generatorRunSfx:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/GeneratorRun.prefab
@@ -5369,6 +5326,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   generatorEndSfx:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/GeneratorEnd.prefab
@@ -5376,4 +5334,59 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   smokeParticles: {fileID: 198581407923697672}
+--- !u!114 &3828433566454111575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853426429102140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  DEBUG: 0
+  SnapToGridOnStart: 0
+  LocalTargetPosition: {x: 0, y: 0, z: 0}
+  ChangesDirectionPush: 0
+  Intangible: 0
+  CanBeWindPushed: 1
+  IsPlayer: 0
+  InitialLocationSynchronised: 0
+  tileMoveSpeed: 1
+  isNotPushable: 0
+  HasOwnGravity: 0
+  airTime: 0
+  slideTime: 0
+  SetIgnoreSticky: 0
+  thrownBy: {fileID: 0}
+  aim: 0
+  spinMagnitude: 0
+  ForcedPushedFrame: 0
+  TryPushedFrame: 0
+  PushedFrame: 0
+  FramePushDecision: 1
+  stickyMovement: 0
+  OnThrowEndResetRotation: 0
+  maximumStickSpeed: 1.5
+  onStationMovementsRound: 0
+  registerTile: {fileID: 0}
+  ContextGameObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  IsCurrentlyFloating: 0
+  LocalDifferenceNeeded: {x: 0, y: 0}
+  CorrectingCourse: 0
+  Pushing: []
+  Hits: []
+  Animating: 0
+  isFlyingSliding: 0
+  IsMoving: 0
+  MoveIsWalking: 0
+  LastUpdateClientFlying: 0
+  BuckledToObject: {fileID: 0}

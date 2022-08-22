@@ -16,13 +16,12 @@ public struct ThrowInfo
 	public GameObject ThrownBy;
 	public BodyPartType Aim;
 	public float InitialSpeed;
-	public SpinMode SpinMode;
 
 
 	public override string ToString() {
 		return Equals(NoThrow) ? "[No throw]" :
 			$"[{nameof( OriginWorldPos )}: {OriginWorldPos}, {nameof( WorldTrajectory )}: {WorldTrajectory}, {nameof( ThrownBy )}: {ThrownBy}, " +
-			$"{nameof( Aim )}: {Aim}, {nameof( InitialSpeed )}: {InitialSpeed}, {nameof( SpinMode )}: {SpinMode}]";
+			$"{nameof( Aim )}: {Aim}, {nameof( InitialSpeed )}: {InitialSpeed}]";
 	}
 
 	public bool Equals( ThrowInfo other ) {

@@ -7,6 +7,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2888345019966124511, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888345019966124511, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 431b2f4ebbd988a40898e832141fe6aa,
+        type: 2}
     - target: {fileID: 2987011942256334699, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}
       propertyPath: initialName
@@ -27,7 +38,7 @@ PrefabInstance:
     - target: {fileID: 3317552745358689725, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 7919ffc0a7c666742a83c767f7cb427f
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}
@@ -89,18 +100,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: ScienceGlasses
       objectReference: {fileID: 0}
+    - target: {fileID: 8585229615259169892, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
+        type: 3}
+      propertyPath: foreverID
+      value: 7919ffc0a7c666742a83c767f7cb427f
+      objectReference: {fileID: 0}
     - target: {fileID: 8638853748845472652, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: eb52ad3c8540c5d4ea5d77666ca3e7f6,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8638853748845472652, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: eb52ad3c8540c5d4ea5d77666ca3e7f6,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8638853748845472652, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}
       propertyPath: allClothingData.Array.size

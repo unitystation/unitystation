@@ -7,6 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4003491813111447359, guid: e1b6777d67d2e244f8149d1eb84fc582,
+        type: 3}
+      propertyPath: foreverID
+      value: bd0aa0e776b871143802f0a11b5044ac
+      objectReference: {fileID: 0}
+    - target: {fileID: 7626953478813211696, guid: e1b6777d67d2e244f8149d1eb84fc582,
+        type: 3}
+      propertyPath: initialName
+      value: 7.12x82mm incendiary bullet casing
+      objectReference: {fileID: 0}
     - target: {fileID: 7626953478813211696, guid: e1b6777d67d2e244f8149d1eb84fc582,
         type: 3}
       propertyPath: initialDescription
@@ -14,15 +24,15 @@ PrefabInstance:
         the tip that when bursted, reacts with the atmosphere to produce a fireball,
         engulfing the target in flames.
       objectReference: {fileID: 0}
-    - target: {fileID: 7626953478813211696, guid: e1b6777d67d2e244f8149d1eb84fc582,
-        type: 3}
-      propertyPath: initialName
-      value: 7.12x82mm incendiary bullet casing
-      objectReference: {fileID: 0}
     - target: {fileID: 7971880326410833638, guid: e1b6777d67d2e244f8149d1eb84fc582,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: bd0aa0e776b871143802f0a11b5044ac
+      objectReference: {fileID: 0}
+    - target: {fileID: 8009222387029429798, guid: e1b6777d67d2e244f8149d1eb84fc582,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8009222387029429798, guid: e1b6777d67d2e244f8149d1eb84fc582,
         type: 3}
@@ -41,6 +51,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8009222387029429798, guid: e1b6777d67d2e244f8149d1eb84fc582,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8009222387029429798, guid: e1b6777d67d2e244f8149d1eb84fc582,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +68,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8009222387029429798, guid: e1b6777d67d2e244f8149d1eb84fc582,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8009222387029429798, guid: e1b6777d67d2e244f8149d1eb84fc582,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8009222387029429798, guid: e1b6777d67d2e244f8149d1eb84fc582,
         type: 3}

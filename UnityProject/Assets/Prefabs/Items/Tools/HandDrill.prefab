@@ -1,59 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &6165183157056971393
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4930866777566109869}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76265263b12ffbbc0ab21ee84affc2ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  initialStateIndex: 0
-  states:
-  - ExamineMessage: It's fitted with a bolt bit.
-    changeMessage: You attach the bolt bit to the drill.
-    changeSound:
-      SetLoadSetting: 0
-      AssetAddress: Assets/Prefabs/Items/ChangeDrill.prefab
-      AssetReference:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-    spriteIndex: 0
-    traits:
-    - {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4, type: 2}
-    usingSound:
-      SetLoadSetting: 0
-      AssetAddress: Assets/Prefabs/Items/DrillUse.prefab
-      AssetReference:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-  - ExamineMessage: It's fitted with a screw bit.
-    changeMessage: You attach the screw bit to the drill.
-    changeSound:
-      SetLoadSetting: 0
-      AssetAddress: Assets/Prefabs/Items/ChangeDrill.prefab
-      AssetReference:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-    spriteIndex: 1
-    traits:
-    - {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
-    usingSound:
-      SetLoadSetting: 0
-      AssetAddress: Assets/Prefabs/Items/DrillUse.prefab
-      AssetReference:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
 --- !u!1001 &3679545742786352378
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -89,6 +35,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b29e39efdbe8bb3468a2993c5cc6d62e,
         type: 2}
+    - target: {fileID: 3442741923849517114, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: foreverID
+      value: 4cc65f36e5cab72e7bad12609e155642
+      objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: hitSound
@@ -138,6 +89,16 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A simple powered hand drill.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: traumaDamageChance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -297,7 +258,7 @@ PrefabInstance:
     - target: {fileID: 8568555645537651171, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 4cc65f36e5cab72e7bad12609e155642
       objectReference: {fileID: 0}
     - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -367,3 +328,61 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3679545742786352378}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6165183157056971393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4930866777566109869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76265263b12ffbbc0ab21ee84affc2ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialStateIndex: 0
+  states:
+  - ExamineMessage: It's fitted with a bolt bit.
+    changeMessage: You attach the bolt bit to the drill.
+    changeSound:
+      SetLoadSetting: 0
+      AssetAddress: Assets/Prefabs/Items/ChangeDrill.prefab
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    spriteIndex: 0
+    traits:
+    - {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4, type: 2}
+    usingSound:
+      SetLoadSetting: 0
+      AssetAddress: Assets/Prefabs/Items/DrillUse.prefab
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+  - ExamineMessage: It's fitted with a screw bit.
+    changeMessage: You attach the screw bit to the drill.
+    changeSound:
+      SetLoadSetting: 0
+      AssetAddress: Assets/Prefabs/Items/ChangeDrill.prefab
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    spriteIndex: 1
+    traits:
+    - {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
+    usingSound:
+      SetLoadSetting: 0
+      AssetAddress: Assets/Prefabs/Items/DrillUse.prefab
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0

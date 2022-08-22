@@ -56,7 +56,7 @@ namespace InGameEvents
 
 				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.NoSound);
 
-				_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.MeteorsAnnouncement);
+				_ = SoundManager.PlayNetworked(CommonSounds.Instance.MeteorsAnnouncement);
 			}
 
 			if (FakeEvent) return;
@@ -72,7 +72,7 @@ namespace InGameEvents
 
 			for (var i = 1; i <= asteroidAmount; i++)
 			{
-				Vector3 position = new Vector3(UnityEngine.Random.Range(stationMatrix.WorldBounds.xMin, stationMatrix.WorldBounds.xMax), UnityEngine.Random.Range(stationMatrix.WorldBounds.yMin, stationMatrix.WorldBounds.yMax), 0);
+				Vector3 position = new Vector3(UnityEngine.Random.Range(stationMatrix.WorldBounds.min.x, stationMatrix.WorldBounds.max.x), UnityEngine.Random.Range(stationMatrix.WorldBounds.min.y, stationMatrix.WorldBounds.max.y), 0);
 				impactCoords.Enqueue(position);
 			}
 
@@ -112,8 +112,7 @@ namespace InGameEvents
 
 				var strength = UnityEngine.Random.Range(minStrength * multiplier, maxStrength * multiplier);
 
-				Explosion.StartExplosion(impactCoords.Dequeue().ToLocalInt(stationMatrix), strength,
-					stationMatrix.Matrix);
+				Explosion.StartExplosion(impactCoords.Dequeue().RoundToInt(), strength);
 
 				yield return new WaitForSeconds(UnityEngine.Random.Range(minTimeBetweenMeteors, maxTimeBetweenMeteors));
 			}

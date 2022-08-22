@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -14,146 +15,37 @@ using UnityEngine.AddressableAssets;
 [CustomPropertyDrawer(typeof(AddressableAudioSource))]
 public class AddressableReferencePropertyDrawer : PropertyDrawer
 {
-	private string[] temarry;
-	int _choiceIndex = 0;
-	private string searchString = "";
-	private const int Height = 24;
-	private const int x = 40;
-
 	public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 	{
 		EditorGUI.BeginProperty(position, label, property);
-		float width = position.width - x;
-		EditorGUI.LabelField(new Rect(x, position.y * (Height * 0), width, Height), label);
-		string labelText = label.text;
-		position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
-
-		string AddressableType = "";
-
-		if (property.name == "AddressableAudioSource")
-		{
-			AddressableType = "SoundAndMusic";
-		}
-		else
-		{
-			AddressableType = "SoundAndMusic";
-		}
-
-		bool Refresh = GUILayout.Button("Refresh catalogue");
-		if (Refresh)
-		{
-			AddressablePicker.Refresh();
-		}
-		//EditorGUI.indentLevel++;
-		EditorGUI.BeginChangeCheck();
+		string addressableType = "SoundAndMusic";
 		var Path = property.FindPropertyRelative("AssetAddress");
-		var AssetReference = property.FindPropertyRelative("AssetReference");
-
-		EditorGUI.PropertyField(new Rect(x, position.y + (Height * 1), width, Height),
-			property.FindPropertyRelative("SetLoadSetting"), new GUIContent("Dispose Mode"));
-
-		//EditorGUI.BeginDisabledGroup(true);
-		EditorGUI.PropertyField(new Rect(x, position.y + (Height * 2), width, Height), Path,
-			new GUIContent("Addressable Path"));
-		//EditorGUI.EndDisabledGroup();
-
-		//UnityEngine.Object oldAssetReference = AssetReference.objectReferenceValue;
-		EditorGUI.indentLevel++;
-		var newsearchString = GUILayout.TextField(searchString, GUI.skin.FindStyle("ToolbarSeachTextField"));
-
-		if (newsearchString != searchString)
+		string stringpath = Path.stringValue;
+		if (string.IsNullOrEmpty(stringpath))
 		{
-			//searchChange = true;
-			searchString = newsearchString;
+			stringpath = "Null";
 		}
 
+		Rect labelposition = position;
+		Rect buttonposition = position;
+		labelposition.xMax -= 150;
+		buttonposition.xMin += 150;
 
-		if (GUILayout.Button("", GUI.skin.FindStyle("ToolbarSeachCancelButton")))
+		EditorGUI.LabelField(labelposition,$"{property.displayName}");
+		// EditorGUILayout.LabelField($"{property.displayName}", GUILayout.ExpandWidth(false), ;
+		if (GUI.Button( buttonposition, $"{stringpath}", EditorStyles.popup))
 		{
-			// Remove focus if cleared
-			searchString = "";
-			GUI.FocusControl(null);
-		}
-
-		var inint = 0;
-		if (searchString != "")
-		{
-			temarry = (AddressablePicker.options[AddressableType].Where(x =>
-				x.IndexOf(searchString, StringComparison.CurrentCultureIgnoreCase) >= 0)).ToArray();
-			inint = temarry.ToList().IndexOf(Path.stringValue);
-		}
-		else
-		{
-			inint = AddressablePicker.options[AddressableType].ToList().IndexOf(Path.stringValue);
-		}
-
-		if (inint == -1)
-		{
-			inint = 0;
-		}
-
-		if (searchString != "")
-		{
-			_choiceIndex = EditorGUILayout.Popup(inint, temarry);
-		}
-		else
-		{
-			_choiceIndex = EditorGUILayout.Popup(inint, AddressablePicker.options[AddressableType]);
-		}
-
-
-
-		EditorGUI.indentLevel--;
-		if (searchString != "")
-		{
-			if (temarry.Length <= _choiceIndex)
-			{
-				if (temarry.Length > 0)
+			SearchWindow.Open(
+				new SearchWindowContext(GUIUtility.GUIToScreenPoint((UnityEngine.Event.current.mousePosition))),
+				new StringSearchList(AddressablePicker.options[addressableType], s =>
 				{
-					Path.stringValue = temarry[0];
-				}
-				else
-				{
-					Path.stringValue = "None";
-				}
-			}
-			else
-			{
-				Path.stringValue = temarry[_choiceIndex];
-			}
-		}
-		else
-		{
-			Path.stringValue = AddressablePicker.options[AddressableType][_choiceIndex];
+					Path.stringValue = s;
+					Path.serializedObject.ApplyModifiedProperties();
+				}));
+
 		}
 
-		EditorGUI.PropertyField(new Rect(x, position.y + (Height * 3), width, Height), AssetReference,
-			new GUIContent("AssetReference"));
-
-		// Drag & Drop of AssetReference doesn't seem to trigger EndChangeCheck.  So, we verify it manually.
-		if (EditorGUI.EndChangeCheck())
-		{
-			var m_AssetRefObject =
-				SerializedPropertyExtensions.GetActualObjectForSerializedProperty<AssetReference>(AssetReference,
-					fieldInfo, ref labelText);
-			var Addressable = AddressableAssetSettingsDefaultObject.Settings.FindAssetEntry(m_AssetRefObject.AssetGUID);
-			if (Addressable != null)
-			{
-				Path.stringValue = AddressableAssetSettingsDefaultObject.Settings
-					.FindAssetEntry(m_AssetRefObject.AssetGUID).address;
-			}
-		}
-
-
-
-		//EditorGUI.indentLevel--;
-		property.serializedObject.ApplyModifiedProperties();
 		EditorGUI.EndProperty();
-	}
-
-	public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-	{
-		return Height * 4;
 	}
 
 	/// <summary>
@@ -169,8 +61,7 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 		/// <param name="field">The field data.</param>
 		/// <param name="label">The label name.</param>
 		/// <returns>Returns the target object type.</returns>
-		public static T GetActualObjectForSerializedProperty<T>(SerializedProperty property, FieldInfo field,
-			ref string label)
+		public static T GetActualObjectForSerializedProperty<T>(SerializedProperty property, FieldInfo field, ref string label)
 		{
 			try
 			{
@@ -287,7 +178,6 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 			}
 			else if (arrayIndex >= 0)
 			{
-
 				if (newObj is IList list)
 				{
 					newObj = list[arrayIndex];

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: TrappistBottleRecipe
+  m_EditorClassIdentifier: 
+  category: 20
+  craftingTime: 1.5
+  recipeName: Trappist Bottle
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 8890508313335230696, guid: d9bb4c3a966c7df4b9af9f656d04c21c,
+      type: 3}
+  requiredReagents:
+  - requiredAmount: 50
+    requiredReagent: {fileID: 11400000, guid: 1c7be66a31629112089340cafc6e7489, type: 2}
+  requiredToolTraits: []
+  result:
+  - {fileID: 7305396868739561040, guid: 449e03a70664f9d4b96200cbe184b274, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 65

@@ -7,6 +7,27 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2502483156053070859, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: groundReagents.m_keys.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -2502483156053070859, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: groundReagents.m_values.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -2502483156053070859, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: groundReagents.m_keys.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3f8ba0db83a8157ae8fbb3c4115580e7,
+        type: 2}
+    - target: {fileID: -2502483156053070859, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: groundReagents.m_values.Array.data[1]
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2881235331250953825, guid: 94dfead23e20498409009e55d3dfe3ca,
         type: 3}
       propertyPath: uses
@@ -16,6 +37,11 @@ PrefabInstance:
         type: 3}
       propertyPath: useTime
       value: 2.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3798299677133241229, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: foreverID
+      value: f9e1c882fbe2384428dd2e8cca1f375c
       objectReference: {fileID: 0}
     - target: {fileID: 4128362409855863911, guid: 94dfead23e20498409009e55d3dfe3ca,
         type: 3}
@@ -198,7 +224,7 @@ PrefabInstance:
     - target: {fileID: 7897283028627769940, guid: 94dfead23e20498409009e55d3dfe3ca,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: f9e1c882fbe2384428dd2e8cca1f375c
       objectReference: {fileID: 0}
     - target: {fileID: 7997558505216099516, guid: 94dfead23e20498409009e55d3dfe3ca,
         type: 3}

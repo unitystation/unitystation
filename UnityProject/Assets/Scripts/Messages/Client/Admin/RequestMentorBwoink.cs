@@ -1,5 +1,6 @@
-﻿using Messages.Server.AdminTools;
 using Mirror;
+using Messages.Server.AdminTools;
+
 
 namespace Messages.Client.Admin
 {
@@ -7,42 +8,24 @@ namespace Messages.Client.Admin
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public string Userid;
-			public string MentorToken;
 			public string UserToBwoink;
 			public string Message;
 		}
 
 		public override void Process(NetMessage msg)
 		{
-			VerifyMentorStatus(msg);
+			if (IsFromAdmin() == false && PlayerList.Instance.IsMentor(SentByPlayer.UserId) == false) return;
+
+			if (PlayerList.Instance.TryGetByUserID(msg.UserToBwoink, out var recipient) == false) return;
+
+			MentorBwoinkMessage.Send(recipient.GameObject, SentByPlayer.UserId, $"<color=#6400FF>{SentByPlayer.Username}: {msg.Message}</color>");
+			UIManager.Instance.adminChatWindows.mentorPlayerChat.ServerAddChatRecord(msg.Message, recipient, SentByPlayer);
 		}
 
-		void VerifyMentorStatus(NetMessage msg)
-		{
-			var player = PlayerList.Instance.GetMentor(msg.Userid, msg.MentorToken);
-			if (player == null)
-			{
-				player = PlayerList.Instance.GetAdmin(msg.Userid, msg.MentorToken);
-				if(player == null){
-					//theoretically this shouldnt happen, and indicates someone might be tampering with the client.
-					return;
-				}
-			}
-			var recipient = PlayerList.Instance.GetAllByUserID(msg.UserToBwoink);
-			foreach (var r in recipient)
-			{
-				MentorBwoinkMessage.Send(r.GameObject, msg.Userid, "<color=#6400FF>" + msg.Message + "</color>");
-				UIManager.Instance.adminChatWindows.mentorPlayerChat.ServerAddChatRecord(msg.Message, msg.UserToBwoink, msg.Userid);
-			}
-		}
-
-		public static NetMessage Send(string userId, string mentorToken, string userIDToBwoink, string message)
+		public static NetMessage Send(string userIDToBwoink, string message)
 		{
 			NetMessage msg = new NetMessage
 			{
-				Userid = userId,
-				MentorToken = mentorToken,
 				UserToBwoink = userIDToBwoink,
 				Message = message
 			};

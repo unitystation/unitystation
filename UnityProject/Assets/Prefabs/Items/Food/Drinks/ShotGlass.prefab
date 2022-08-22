@@ -26,6 +26,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 148008419558734031, guid: b11a6375f84ff814ea50a3309a00cc96,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 148008419558734031, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -41,6 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 148008419558734031, guid: b11a6375f84ff814ea50a3309a00cc96,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 148008419558734031, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +63,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 148008419558734031, guid: b11a6375f84ff814ea50a3309a00cc96,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 148008419558734031, guid: b11a6375f84ff814ea50a3309a00cc96,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 148008419558734031, guid: b11a6375f84ff814ea50a3309a00cc96,
         type: 3}
@@ -87,22 +87,22 @@ PrefabInstance:
     - target: {fileID: 255125625512851471, guid: b11a6375f84ff814ea50a3309a00cc96,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 356853420293434073, guid: b11a6375f84ff814ea50a3309a00cc96,
-        type: 3}
-      propertyPath: initialDescription
-      value: A shot glass - the universal symbol for bad decisions.
+      value: 5bbcb62944b6e4448947fa7df1e53bb6
       objectReference: {fileID: 0}
     - target: {fileID: 356853420293434073, guid: b11a6375f84ff814ea50a3309a00cc96,
         type: 3}
       propertyPath: initialName
       value: shot glass
       objectReference: {fileID: 0}
+    - target: {fileID: 356853420293434073, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      propertyPath: initialDescription
+      value: A shot glass - the universal symbol for bad decisions.
+      objectReference: {fileID: 0}
     - target: {fileID: 1383833446372969747, guid: b11a6375f84ff814ea50a3309a00cc96,
         type: 3}
-      propertyPath: possibleTransferAmounts.Array.size
-      value: 0
+      propertyPath: maxCapacity
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 1383833446372969747, guid: b11a6375f84ff814ea50a3309a00cc96,
         type: 3}
@@ -111,8 +111,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1383833446372969747, guid: b11a6375f84ff814ea50a3309a00cc96,
         type: 3}
-      propertyPath: maxCapacity
-      value: 15
+      propertyPath: possibleTransferAmounts.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6293861603302866492, guid: b11a6375f84ff814ea50a3309a00cc96,
         type: 3}
@@ -120,6 +120,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7abaf790469d81344a67a288b3e3c44d,
         type: 2}
+    - target: {fileID: 6531608261720754646, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      propertyPath: foreverID
+      value: 5bbcb62944b6e4448947fa7df1e53bb6
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4190863051787287766, guid: b11a6375f84ff814ea50a3309a00cc96, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b11a6375f84ff814ea50a3309a00cc96, type: 3}

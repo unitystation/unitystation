@@ -20,6 +20,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2458227233805839563, guid: e746d3505715fa14eb99a37456d99398,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2458227233805839563, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -35,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2458227233805839563, guid: e746d3505715fa14eb99a37456d99398,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2458227233805839563, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2458227233805839563, guid: e746d3505715fa14eb99a37456d99398,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2458227233805839563, guid: e746d3505715fa14eb99a37456d99398,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2458227233805839563, guid: e746d3505715fa14eb99a37456d99398,
         type: 3}
@@ -76,22 +76,17 @@ PrefabInstance:
     - target: {fileID: 2565599457671015435, guid: e746d3505715fa14eb99a37456d99398,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2658100357042388701, guid: e746d3505715fa14eb99a37456d99398,
-        type: 3}
-      propertyPath: initialDescription
-      value: These seeds grow into parsnips.
+      value: b627c8cce47c65e44bd56e8cc6736173
       objectReference: {fileID: 0}
     - target: {fileID: 2658100357042388701, guid: e746d3505715fa14eb99a37456d99398,
         type: 3}
       propertyPath: initialName
       value: pack of parsnip seeds
       objectReference: {fileID: 0}
-    - target: {fileID: 3887393169784326918, guid: e746d3505715fa14eb99a37456d99398,
+    - target: {fileID: 2658100357042388701, guid: e746d3505715fa14eb99a37456d99398,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
+      propertyPath: initialDescription
+      value: These seeds grow into parsnips.
       objectReference: {fileID: 0}
     - target: {fileID: 3887393169784326918, guid: e746d3505715fa14eb99a37456d99398,
         type: 3}
@@ -112,9 +107,9 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3887393169784326918, guid: e746d3505715fa14eb99a37456d99398,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[2]
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 2a90f1d1a03d588439e8adc828380a93,
+      objectReference: {fileID: 11400000, guid: 43b1aad0943644346ac14e5e446be546,
         type: 2}
     - target: {fileID: 3887393169784326918, guid: e746d3505715fa14eb99a37456d99398,
         type: 3}
@@ -124,15 +119,25 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3887393169784326918, guid: e746d3505715fa14eb99a37456d99398,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: 43b1aad0943644346ac14e5e446be546,
+      objectReference: {fileID: 11400000, guid: 2a90f1d1a03d588439e8adc828380a93,
         type: 2}
+    - target: {fileID: 3887393169784326918, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8595398832567020088, guid: e746d3505715fa14eb99a37456d99398,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: d004b5c016d382e4cb69b156054433aa,
         type: 2}
+    - target: {fileID: 8841792441217441234, guid: e746d3505715fa14eb99a37456d99398,
+        type: 3}
+      propertyPath: foreverID
+      value: b627c8cce47c65e44bd56e8cc6736173
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e746d3505715fa14eb99a37456d99398, type: 3}

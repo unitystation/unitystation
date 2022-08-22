@@ -16,18 +16,18 @@ PrefabInstance:
     - target: {fileID: 854479238589397880, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 27fd3a8677d1bb2459ad2c45b5dbd4d3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1919541056858231082, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: initialName
+      value: Sustenance Vendor
       objectReference: {fileID: 0}
     - target: {fileID: 1919541056858231082, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: initialDescription
       value: A vending machine which vends food, as required by section 47-C of the
         NT's Prisoner Ethical Treatment Agreement.
-      objectReference: {fileID: 0}
-    - target: {fileID: 1919541056858231082, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: initialName
-      value: Sustenance Vendor
       objectReference: {fileID: 0}
     - target: {fileID: 4347831001461171392, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -37,13 +37,8 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: HullColor.r
-      value: 0.3254902
+      propertyPath: HullColor.b
+      value: 0.3137255
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -52,8 +47,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: HullColor.b
-      value: 0.3137255
+      propertyPath: HullColor.r
+      value: 0.3254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.size
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -63,30 +63,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[0].ItemName
-      value: Tofu
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[0].Stock
-      value: 24
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[1].Item
       value: 
       objectReference: {fileID: 6341727172056241946, guid: 50ddf753015b97b418e540407c39402b,
         type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[1].ItemName
-      value: Bread Slice
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[1].Stock
-      value: 15
-      objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[2].Item
@@ -95,8 +75,19 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[2].ItemName
-      value: Ice Cup
+      propertyPath: InitialVendorContent.Array.data[3].Item
+      value: 
+      objectReference: {fileID: 4333777065519394023, guid: d6584800c34433142bab8904dc5c5ecc,
+        type: 3}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[0].Stock
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[1].Stock
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -105,19 +96,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[3].ItemName
-      value: Candy Corn
+      propertyPath: InitialVendorContent.Array.data[3].Stock
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[3].Item
-      value: 
-      objectReference: {fileID: 4333777065519394023, guid: d6584800c34433142bab8904dc5c5ecc,
-        type: 3}
+      propertyPath: InitialVendorContent.Array.data[0].ItemName
+      value: Tofu
+      objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[3].Stock
-      value: 6
+      propertyPath: InitialVendorContent.Array.data[1].ItemName
+      value: Bread Slice
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[2].ItemName
+      value: Ice Cup
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[3].ItemName
+      value: Candy Corn
+      objectReference: {fileID: 0}
+    - target: {fileID: 5293842515076411475, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: foreverID
+      value: 27fd3a8677d1bb2459ad2c45b5dbd4d3
       objectReference: {fileID: 0}
     - target: {fileID: 7077253877563091611, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -138,6 +143,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -153,6 +163,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -165,16 +180,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}

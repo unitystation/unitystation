@@ -15,12 +15,17 @@ PrefabInstance:
     - target: {fileID: 3772952514296108479, guid: 4fc25c61215094048b41943837cf2e3f,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 9eb0145b641125740bab65bf0babc3ec
       objectReference: {fileID: 0}
     - target: {fileID: 3875362642490517515, guid: 4fc25c61215094048b41943837cf2e3f,
         type: 3}
       propertyPath: m_Name
       value: EncryptionKeySyndicate
+      objectReference: {fileID: 0}
+    - target: {fileID: 3880853740962649471, guid: 4fc25c61215094048b41943837cf2e3f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3880853740962649471, guid: 4fc25c61215094048b41943837cf2e3f,
         type: 3}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3880853740962649471, guid: 4fc25c61215094048b41943837cf2e3f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3880853740962649471, guid: 4fc25c61215094048b41943837cf2e3f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3880853740962649471, guid: 4fc25c61215094048b41943837cf2e3f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3880853740962649471, guid: 4fc25c61215094048b41943837cf2e3f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3880853740962649471, guid: 4fc25c61215094048b41943837cf2e3f,
         type: 3}
@@ -83,11 +83,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 7f0a7e771115d3f4a8643ea77539c6b8,
         type: 3}
+    - target: {fileID: 4791085273085273267, guid: 4fc25c61215094048b41943837cf2e3f,
+        type: 3}
+      propertyPath: EncryptionDataSo
+      value: 
+      objectReference: {fileID: 11400000, guid: ac245a75f505077448bdadeb56c21a3a,
+        type: 2}
     - target: {fileID: 6957519355703055244, guid: 4fc25c61215094048b41943837cf2e3f,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 73572a2399f59e64998d380f7bec1d16,
         type: 2}
+    - target: {fileID: 7886564008535057510, guid: 4fc25c61215094048b41943837cf2e3f,
+        type: 3}
+      propertyPath: foreverID
+      value: 9eb0145b641125740bab65bf0babc3ec
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4fc25c61215094048b41943837cf2e3f, type: 3}

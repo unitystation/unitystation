@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2909197017712554513, guid: a08b3d5119d894fcb917204c9c820035,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: c8da485465c6fb940bbbddcf4f5f35ea
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: a08b3d5119d894fcb917204c9c820035,
         type: 3}
@@ -88,18 +88,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A jolly dress, well suited to entertain your master, nuncle.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: a08b3d5119d894fcb917204c9c820035,
+        type: 3}
+      propertyPath: foreverID
+      value: c8da485465c6fb940bbbddcf4f5f35ea
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: a08b3d5119d894fcb917204c9c820035,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 732842e3c90c00440a4a98185d72e7e4,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: a08b3d5119d894fcb917204c9c820035,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 732842e3c90c00440a4a98185d72e7e4,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: a08b3d5119d894fcb917204c9c820035,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

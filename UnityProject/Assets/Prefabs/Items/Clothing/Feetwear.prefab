@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4406013424356263684
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1864679013969520924}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a8b83d5d8f2fff468002618ef0d7ff5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SoundChange: {fileID: 0}
 --- !u!1001 &3463029306022828862
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23,8 +10,13 @@ PrefabInstance:
     - target: {fileID: 2917128564446547862, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 502f496beb9034b9b9c97868e845ed7e
       objectReference: {fileID: 0}
+    - target: {fileID: 2917169708539712446, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 5572318003902738258}
     - target: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
       propertyPath: m_Name
@@ -104,7 +96,7 @@ PrefabInstance:
     - target: {fileID: 3387296074795883840, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3387296074795883840, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
@@ -112,6 +104,27 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9dd6c830eadb94ceb8578c8ac94dde66,
         type: 2}
+    - target: {fileID: 3387296074795883840, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7410b4f6e26235e4f93aa1ebcbab0cec,
+        type: 2}
+    - target: {fileID: 3387296074795883840, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 3387296074795883840, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 8166491247120154191, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: foreverID
+      value: 502f496beb9034b9b9c97868e845ed7e
+      objectReference: {fileID: 0}
     - target: {fileID: 8982871833932450213, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -123,6 +136,52 @@ PrefabInstance:
 --- !u!1 &1864679013969520924 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
+    type: 3}
+  m_PrefabInstance: {fileID: 3463029306022828862}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &577579610606509638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1864679013969520924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3307020aa3640594a870e4961a6de749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slot: 3
+  armoredBodyParts:
+  - armoringBodyPartType: 11
+    armor:
+      Melee: 0
+      Bullet: 0
+      Laser: 0
+      Energy: 0
+      Bomb: 0
+      Rad: 0
+      Fire: 0
+      Acid: 0
+      Magic: 0
+      Bio: 0
+      DismembermentProtectionChance: 0
+  - armoringBodyPartType: 12
+    armor:
+      Melee: 0
+      Bullet: 0
+      Laser: 0
+      Energy: 0
+      Bomb: 0
+      Rad: 0
+      Fire: 0
+      Acid: 0
+      Magic: 0
+      Bio: 0
+      DismembermentProtectionChance: 0
+--- !u!210 &5572318003902738258 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 9033094390735762540, guid: 6b5f74a79e023479cb5b30a2879621da,
     type: 3}
   m_PrefabInstance: {fileID: 3463029306022828862}
   m_PrefabAsset: {fileID: 0}

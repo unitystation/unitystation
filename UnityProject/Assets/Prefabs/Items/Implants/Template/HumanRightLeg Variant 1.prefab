@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 185805929322484740, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: foreverID
+      value: ea15e90b57b542d4fb19d3d1340f4a88
+      objectReference: {fileID: 0}
     - target: {fileID: 1110343267396133870, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -28,7 +33,7 @@ PrefabInstance:
     - target: {fileID: 6498312071342856297, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: m_Name
-      value: HumanRightLeg Variant
+      value: HumanRightLeg Variant 1
       objectReference: {fileID: 0}
     - target: {fileID: 6502395519655109917, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
@@ -88,7 +93,42 @@ PrefabInstance:
     - target: {fileID: 6609755923973416413, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: ea15e90b57b542d4fb19d3d1340f4a88
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: CanBleedExternally
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: spillChanceWhenCutPresent
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 1.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: bodyPartColorWhenCharred.b
+      value: 0.08859915
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: bodyPartColorWhenCharred.g
+      value: 0.08859915
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: bodyPartColorWhenCharred.r
+      value: 0.103773594
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: bodyPartAshesAboveThisDamage
+      value: 125
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51326f2264a075148a8aaa6bf95604c7, type: 3}

@@ -1,0 +1,152 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1204098816338481726
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1593224944700185510, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: foreverID
+      value: a435d5d64bc4AHEbaa27fecfcab9e111
+      objectReference: {fileID: 0}
+    - target: {fileID: 2008855533471951948, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 744cd2bc76889c149a7405b9db420b58,
+        type: 2}
+    - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: waysToPlace.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: waysToPlace.Array.data[0].itemCost
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: waysToPlace.Array.data[0].layerTile
+      value: 
+      objectReference: {fileID: 11400000, guid: 3504f9d02c766d7418a365943705c57e,
+        type: 2}
+    - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: waysToPlace.Array.data[0].placeableOn
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: waysToPlace.Array.data[0].placeableOnlyOnTile
+      value: 
+      objectReference: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+        type: 2}
+    - target: {fileID: 5209370598559660201, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: initialName
+      value: engraved floor tile
+      objectReference: {fileID: 0}
+    - target: {fileID: 5209370598559660201, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: initialDescription
+      value: A tile with ominous writings on it.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5500876317600244887, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 29cbcfcb1372d034da15be9e31b97784,
+        type: 3}
+    - target: {fileID: 5500876317600244887, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5667494539314517963, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: m_Name
+      value: EngravedFloorTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671578262437538495, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671578262437538495, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671578262437538495, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671578262437538495, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671578262437538495, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671578262437538495, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671578262437538495, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671578262437538495, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671578262437538495, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671578262437538495, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671578262437538495, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5706816387826169431, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 6883332564847994917}
+    - target: {fileID: 5706845613525625471, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 43e09ddafe3576c43bccb2c5c0c31445
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a435d5d64bc4b48baa27fecfcab9e111, type: 3}
+--- !u!114 &6883332564847994917 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5706996420342872603, guid: a435d5d64bc4b48baa27fecfcab9e111,
+    type: 3}
+  m_PrefabInstance: {fileID: 1204098816338481726}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

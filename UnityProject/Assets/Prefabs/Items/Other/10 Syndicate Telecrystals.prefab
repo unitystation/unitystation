@@ -7,11 +7,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4382741292055327694, guid: 4f6dc808d452bb8289bcdb51d4e5e220,
+        type: 3}
+      propertyPath: foreverID
+      value: 31d42344f8cfb396192d9f4e23dc1618
+      objectReference: {fileID: 0}
     - target: {fileID: 6442913614411307020, guid: 4f6dc808d452bb8289bcdb51d4e5e220,
         type: 3}
       propertyPath: initialAmount
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 6442913614411307020, guid: 4f6dc808d452bb8289bcdb51d4e5e220,
+        type: 3}
+      propertyPath: stacksWith.Array.data[2]
+      value: 
+      objectReference: {fileID: 8615086969907841310}
     - target: {fileID: 7235074719665323939, guid: 4f6dc808d452bb8289bcdb51d4e5e220,
         type: 3}
       propertyPath: m_Name
@@ -75,7 +85,13 @@ PrefabInstance:
     - target: {fileID: 7348770165950071319, guid: 4f6dc808d452bb8289bcdb51d4e5e220,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 31d42344f8cfb396192d9f4e23dc1618
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4f6dc808d452bb8289bcdb51d4e5e220, type: 3}
+--- !u!1 &8615086969907841310 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7235074719665323939, guid: 4f6dc808d452bb8289bcdb51d4e5e220,
+    type: 3}
+  m_PrefabInstance: {fileID: 1434055544858703549}
+  m_PrefabAsset: {fileID: 0}

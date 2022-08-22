@@ -21,7 +21,7 @@ PrefabInstance:
     - target: {fileID: 4030776248151696319, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 49a8364f6515be34bac52c48c9214d85
       objectReference: {fileID: 0}
     - target: {fileID: 4383945307501813551, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
@@ -33,6 +33,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Bullet_Laser
+      objectReference: {fileID: 0}
+    - target: {fileID: 4447352754948125577, guid: f8f5682e74c42bb45851c71a4b53b20b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4447352754948125577, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
@@ -51,6 +56,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4447352754948125577, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4447352754948125577, guid: f8f5682e74c42bb45851c71a4b53b20b,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -62,16 +72,6 @@ PrefabInstance:
     - target: {fileID: 4447352754948125577, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4447352754948125577, guid: f8f5682e74c42bb45851c71a4b53b20b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4447352754948125577, guid: f8f5682e74c42bb45851c71a4b53b20b,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4447352754948125577, guid: f8f5682e74c42bb45851c71a4b53b20b,

@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d580d06f67df45a4eb48ddb36d14ba4d,
         type: 2}
+    - target: {fileID: 3547700795691028992, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
+      propertyPath: foreverID
+      value: 741e06c10138afa4c9bc10b866d3c2a1
+      objectReference: {fileID: 0}
     - target: {fileID: 4379559048807310826, guid: bae9e1730d4424fbfa160f045597a604,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -22,12 +27,17 @@ PrefabInstance:
     - target: {fileID: 7500036475197416409, guid: bae9e1730d4424fbfa160f045597a604,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 741e06c10138afa4c9bc10b866d3c2a1
       objectReference: {fileID: 0}
     - target: {fileID: 7602444472548548205, guid: bae9e1730d4424fbfa160f045597a604,
         type: 3}
       propertyPath: m_Name
       value: CarpetFloorTileRoyalBlue
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
         type: 3}
@@ -46,6 +56,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +73,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
         type: 3}

@@ -19,10 +19,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a7deac4afc9363468b68c229a32d3ed0,
         type: 2}
+    - target: {fileID: 2920640290182722895, guid: d7baf14ff3cf76f489318502c06c7f49,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 3448900115048526877}
     - target: {fileID: 2920677005122447719, guid: d7baf14ff3cf76f489318502c06c7f49,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 9cdbc0923c6568f4fa3a813aba3752b0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2958834147644402087, guid: d7baf14ff3cf76f489318502c06c7f49,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2958834147644402087, guid: d7baf14ff3cf76f489318502c06c7f49,
         type: 3}
@@ -41,6 +51,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2958834147644402087, guid: d7baf14ff3cf76f489318502c06c7f49,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2958834147644402087, guid: d7baf14ff3cf76f489318502c06c7f49,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +68,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2958834147644402087, guid: d7baf14ff3cf76f489318502c06c7f49,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2958834147644402087, guid: d7baf14ff3cf76f489318502c06c7f49,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2958834147644402087, guid: d7baf14ff3cf76f489318502c06c7f49,
         type: 3}
@@ -84,17 +89,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: MedicalSurvivalBox
       objectReference: {fileID: 0}
+    - target: {fileID: 3165349148998412175, guid: d7baf14ff3cf76f489318502c06c7f49,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8756c8cef6558e04ba1a77278f377151,
+        type: 3}
     - target: {fileID: 6523235642982611901, guid: d7baf14ff3cf76f489318502c06c7f49,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 2b1d42a87c49a774b80174fe1ad35d64,
         type: 3}
-    - target: {fileID: 8960613963677380436, guid: d7baf14ff3cf76f489318502c06c7f49,
+    - target: {fileID: 8189470738385475774, guid: d7baf14ff3cf76f489318502c06c7f49,
         type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: aada1f61d1ea0b446976c4ebb8a492fb,
-        type: 2}
+      propertyPath: foreverID
+      value: 9cdbc0923c6568f4fa3a813aba3752b0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7baf14ff3cf76f489318502c06c7f49, type: 3}
+--- !u!114 &3448900115048526877 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2921093000845015299, guid: d7baf14ff3cf76f489318502c06c7f49,
+    type: 3}
+  m_PrefabInstance: {fileID: 528393377247022366}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

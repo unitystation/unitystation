@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df7a70c401d44b34a907aa592ed71ee3, type: 3}
+  m_Name: Ship Resources
+  m_EditorClassIdentifier: 
+  description: <size=26>Asteroid bodies have been sighted in the local area around
+    {1}. Locate and exploit local sources for {0} deposits.</size><br><br><color=blue><size=32>Crew
+    Objectives:</size></color><br><br><size=24> - Locate and mine local {0} Deposits<br><br>
+    - Fulfill order of {2} {0} sheets and dispatch to Central Command via Cargo Shuttle</size>
+  roundEndReport: 'Locate and mine local {1} Deposits<br> - Fulfill order of {0}
+    {1} sheets and dispatch to Central Command via Cargo Shuttle<br>Amount of {1}
+    sheets shipped: {2}/{0}'
+  itemPool:
+    m_keys:
+    - {fileID: 11400000, guid: f27d5423a79d84fcab6199b0c5a47f4e, type: 2}
+    - {fileID: 11400000, guid: 70d28796af421c64a8770cb93c818bd4, type: 2}
+    - {fileID: 11400000, guid: 4f4583e504cb03c41b2c0a97202be49e, type: 2}
+    - {fileID: 11400000, guid: 66d1cd8016198e74c92a755f9b2bdeb0, type: 2}
+    m_values: 640000001e0000000a00000014000000

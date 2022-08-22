@@ -83,6 +83,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -92,8 +94,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -114,9 +116,12 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
@@ -600,6 +605,27 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      depbat_overlays_2: 21300004
+      depbat_overlays_0: 21300000
+      depbat_overlays_10: 21300020
+      depbat_overlays_19: 21300038
+      depbat_overlays_15: 21300030
+      depbat_overlays_6: 21300012
+      depbat_overlays_1: 21300002
+      depbat_overlays_3: 21300006
+      depbat_overlays_12: 21300024
+      depbat_overlays_16: 21300032
+      depbat_overlays_4: 21300008
+      depbat_overlays_17: 21300034
+      depbat_overlays_14: 21300028
+      depbat_overlays_5: 21300010
+      depbat_overlays_11: 21300022
+      depbat_overlays_18: 21300036
+      depbat_overlays_7: 21300014
+      depbat_overlays_9: 21300018
+      depbat_overlays_13: 21300026
+      depbat_overlays_8: 21300016
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

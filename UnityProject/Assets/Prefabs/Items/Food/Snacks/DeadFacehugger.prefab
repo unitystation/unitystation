@@ -1,43 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-2628764230532770903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8193842406185741322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7c26f467e8e3034aa80b29130890432, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leavings: {fileID: 0}
-  sound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  StartingNutrients: 38
-  Nutriment: {fileID: 0}
-  killTime: 400
-  larvae: {fileID: 7455546943915704510, guid: 2ba8c4b90a981a94fb6946f53f09667f, type: 3}
---- !u!114 &-937846160698383887
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8193842406185741322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4ad9570c5ec4b1e995fad54bc897280, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meatSteakPrefab: {fileID: 4288812248974762331, guid: d226d67161fbb874db2ebfa36a3e6020,
-    type: 3}
 --- !u!1001 &7155435966522761677
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64,7 +26,7 @@ PrefabInstance:
     - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 1
+      value: 3.3333333
       objectReference: {fileID: 0}
     - target: {fileID: 1155915217242832539, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
@@ -140,7 +102,7 @@ PrefabInstance:
     - target: {fileID: 1400446589329289331, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 41ddf8c0cdfea52419bfb81527dc1d67
       objectReference: {fileID: 0}
     - target: {fileID: 1447570747421811365, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
@@ -149,14 +111,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1447570747421811365, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
+      propertyPath: initialSize
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1447570747421811365, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
       propertyPath: initialDescription
       value: This looks disgusting... but edible?
+      objectReference: {fileID: 0}
+    - target: {fileID: 1447570747421811365, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1447570747421811365, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: 837c44216b08c6545a61f88559aaabc7,
+        type: 2}
+    - target: {fileID: 1447570747421811365, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: c8638032fd153e647ac57a837892e321,
         type: 2}
     - target: {fileID: 1447570747421811365, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
@@ -170,6 +148,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 191b489a5fd0fe543942fe52c7097879,
         type: 2}
+    - target: {fileID: 5350820327707673002, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: foreverID
+      value: 41ddf8c0cdfea52419bfb81527dc1d67
+      objectReference: {fileID: 0}
+    - target: {fileID: 7146114630749491127, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: leavings
+      value: 
+      objectReference: {fileID: 4288812248974762331, guid: d226d67161fbb874db2ebfa36a3e6020,
+        type: 3}
     - target: {fileID: 7146114630749491127, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: NutritionLevel
@@ -188,3 +177,26 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7155435966522761677}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-2628764230532770903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8193842406185741322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7c26f467e8e3034aa80b29130890432, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leavings: {fileID: 0}
+  sound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/EatFood.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  killTime: 400
+  larvae: {fileID: 2515321529866027611, guid: cd0a7f50aede9e84599a86e571f388bb, type: 3}

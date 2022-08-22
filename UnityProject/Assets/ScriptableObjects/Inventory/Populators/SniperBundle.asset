@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcdd86e87cc447d94b99df8b1a383b3, type: 3}
   m_Name: SniperBundle
   m_EditorClassIdentifier: 
-  Contents:
+  SlotContents: []
+  DeprecatedContents:
   - {fileID: 6552933947037394245, guid: 24b21da59a1c48248805096709dceca1, type: 3}
   - {fileID: 494214967995890161, guid: a6df792f59ac82341bcd9b5f48ecc88b, type: 3}
   - {fileID: 494214967995890161, guid: a6df792f59ac82341bcd9b5f48ecc88b, type: 3}
@@ -20,4 +21,3 @@ MonoBehaviour:
   - {fileID: 3011710637427380133, guid: de7c66806376e49fd871dfce32fb6d26, type: 3}
   - {fileID: 5302982331206035619, guid: bb7d1020ce10a7348b237ddd07a02fc2, type: 3}
   - {fileID: 7019925540262486990, guid: 7a5bc4eb879170843a619029adff792b, type: 3}
-  MergeMode: 0

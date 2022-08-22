@@ -1,21 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7428436057667655002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3650686735825012231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15547858c4462dc4fb5dcad7eb78f118, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShuttleMatrixMove: {fileID: 0}
-  OnStateChange:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &6414903393843979902
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31,14 +15,19 @@ PrefabInstance:
         type: 3}
     - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Sprites.Array.size
-      value: 32
-      objectReference: {fileID: 0}
-    - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
       propertyPath: onSprites.Texture
       value: 
       objectReference: {fileID: 2800000, guid: 83da5f04981c86e4b808fc32aa424e9e, type: 3}
+    - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: onSprites.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: e7a6179ee529aa140a30126c08945962, type: 3}
+    - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: onSprites.Sprites.Array.size
+      value: 32
+      objectReference: {fileID: 0}
     - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: onSprites.Sprites.Array.data[0]
@@ -231,11 +220,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300062, guid: 83da5f04981c86e4b808fc32aa424e9e,
         type: 3}
-    - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: onSprites.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: e7a6179ee529aa140a30126c08945962, type: 3}
     - target: {fileID: 345856930608096068, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Sprite
@@ -252,10 +236,15 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Used to pilot a shuttle.
       objectReference: {fileID: 0}
+    - target: {fileID: 1401220419065593905, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 1877286795687809285}
     - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0a56d7747596df141be0aa6803f20980
       objectReference: {fileID: 0}
     - target: {fileID: 3166760548704001533, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -283,13 +272,13 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -8084113955194252400, guid: 6c8ca234bc73f434098080d753669712,
+      objectReference: {fileID: 6654473845117689798, guid: 6c8ca234bc73f434098080d753669712,
         type: 3}
     - target: {fileID: 4739251602149975544, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -396410952250788042, guid: 5f34cc165956f1847943f94c1bbb6de9,
+      objectReference: {fileID: 124375931300013382, guid: 5f34cc165956f1847943f94c1bbb6de9,
         type: 3}
     - target: {fileID: 5903546303531293955, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -298,18 +287,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531316036, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: initialDescription
-      value: Used to control a shuttle's movement.
+      propertyPath: initialName
+      value: shuttle piloting console
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531316036, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: initialName
-      value: shuttle piloting console
+      propertyPath: initialDescription
+      value: Used to control a shuttle's movement.
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531339735, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Name
       value: ShuttlePilotingConsole
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -328,6 +322,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -340,16 +339,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -368,8 +357,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: Color.r
-      value: 0.526
+      propertyPath: Color.b
+      value: 0.694
       objectReference: {fileID: 0}
     - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -378,19 +367,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: Color.b
-      value: 0.694
+      propertyPath: Color.r
+      value: 0.526
       objectReference: {fileID: 0}
-    - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
+    - target: {fileID: 6691892461727964720, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Sprites.Array.size
-      value: 32
+      propertyPath: foreverID
+      value: 0a56d7747596df141be0aa6803f20980
       objectReference: {fileID: 0}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: onSprites.Texture
       value: 
       objectReference: {fileID: 2800000, guid: 83da5f04981c86e4b808fc32aa424e9e, type: 3}
+    - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: onSprites.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: e7a6179ee529aa140a30126c08945962, type: 3}
+    - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: onSprites.Sprites.Array.size
+      value: 32
+      objectReference: {fileID: 0}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: onSprites.Sprites.Array.data[0]
@@ -583,11 +582,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300062, guid: 83da5f04981c86e4b808fc32aa424e9e,
         type: 3}
-    - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: onSprites.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: e7a6179ee529aa140a30126c08945962, type: 3}
     - target: {fileID: 7644385245236715337, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: circuitBoardPrefab
@@ -601,21 +595,57 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8201155816690774842, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
+      propertyPath: variantIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8201155816690774842, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: dccfff9f4fb95f14481d23fd37d7556f,
         type: 2}
-    - target: {fileID: 8201155816690774842, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: variantIndex
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 6556397441920388693, guid: b46887a995abc224aab70e21b9e53697, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b46887a995abc224aab70e21b9e53697, type: 3}
+--- !u!114 &1877286795687809285 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4830997643641780091, guid: b46887a995abc224aab70e21b9e53697,
+    type: 3}
+  m_PrefabInstance: {fileID: 6414903393843979902}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3650686735825012231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3650686735825012231 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7759570870767460473, guid: b46887a995abc224aab70e21b9e53697,
     type: 3}
   m_PrefabInstance: {fileID: 6414903393843979902}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-7428436057667655002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3650686735825012231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15547858c4462dc4fb5dcad7eb78f118, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  ShuttleMatrixMove: {fileID: 0}
+  radarDetectionSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  GUItab: {fileID: 0}
+  shuttleConsoleState: 0

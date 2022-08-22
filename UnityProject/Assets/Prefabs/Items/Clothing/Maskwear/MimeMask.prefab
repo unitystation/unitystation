@@ -11,14 +11,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: e5ef51a685b24984cb84da33bf28987f,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: e5ef51a685b24984cb84da33bf28987f,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -30,6 +28,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5129e434a6f62634ca62d7db42bfd189,
         type: 2}
+    - target: {fileID: 3585452806818900716, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: foreverID
+      value: 82493ba3850304e50a7d25606a4f59f1
+      objectReference: {fileID: 0}
     - target: {fileID: 7557917173024864117, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: Resistances.Flammable
@@ -38,7 +41,7 @@ PrefabInstance:
     - target: {fileID: 7560587375320734517, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 82493ba3850304e50a7d25606a4f59f1
       objectReference: {fileID: 0}
     - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
@@ -111,6 +114,27 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 4bf4ed780ba111442b14747c272ac81f,
         type: 3}
+    - target: {fileID: 7994941519237279575, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7994941519237279575, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7994941519237279575, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: eefbf136eeb55fa41a920381570bd447,
+        type: 2}
+    - target: {fileID: 7994941519237279575, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: initialName

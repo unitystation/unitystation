@@ -1,8 +1,6 @@
 using System;
-using AddressableReferences;
 using UnityEngine;
 using UnityEngine.UI;
-using Objects.Atmospherics;
 
 namespace UI.Objects.Atmospherics
 {
@@ -11,7 +9,7 @@ namespace UI.Objects.Atmospherics
 	/// </summary>
 	public class ReleaseLever : MonoBehaviour
 	{
-		//the shadow on the upper part of the lever
+		// the shadow on the upper part of the lever
 		public Shadow upperShadow;
 		public float ShadowDistance = 10;
 		private bool muteSounds;
@@ -24,13 +22,13 @@ namespace UI.Objects.Atmospherics
 
 		public void OnToggled(bool isOpen)
 		{
-			//play toggle sound
-			if (!muteSounds)
+			// play toggle sound
+			if (muteSounds == false)
 			{
-				SoundManager.Play(SingletonSOSounds.Instance.Valve); //volume 0.1f, pan: 0.3f
+				_ = SoundManager.Play(CommonSounds.Instance.Valve); //volume 0.1f, pan: 0.3f
 			}
 
-			//fix the shadow and rotate
+			// fix the shadow and rotate
 			if (isOpen)
 			{
 				transform.rotation = Quaternion.Euler(0, 0, 90);
@@ -42,6 +40,5 @@ namespace UI.Objects.Atmospherics
 				upperShadow.effectDistance = new Vector2(ShadowDistance, -ShadowDistance);
 			}
 		}
-
 	}
 }

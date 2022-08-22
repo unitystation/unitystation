@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3695110123352835740, guid: f7a04efe5e6bebf44856e6d70b991929,
+        type: 3}
+      propertyPath: foreverID
+      value: a78cb9180ca3add4eb99760832618f15
+      objectReference: {fileID: 0}
     - target: {fileID: 4520221803203555702, guid: f7a04efe5e6bebf44856e6d70b991929,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -22,7 +27,7 @@ PrefabInstance:
     - target: {fileID: 7667703169655306053, guid: f7a04efe5e6bebf44856e6d70b991929,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: a78cb9180ca3add4eb99760832618f15
       objectReference: {fileID: 0}
     - target: {fileID: 7777312831022217093, guid: f7a04efe5e6bebf44856e6d70b991929,
         type: 3}
@@ -93,6 +98,26 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A specialist for removing crystals
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: f7a04efe5e6bebf44856e6d70b991929,
+        type: 3}
+      propertyPath: traumaDamageChance
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: f7a04efe5e6bebf44856e6d70b991929,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: f7a04efe5e6bebf44856e6d70b991929,
+        type: 3}
+      propertyPath: traumaticDamageType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: f7a04efe5e6bebf44856e6d70b991929,
+        type: 3}
+      propertyPath: CanBeUsedOnSelfOnHelpIntent
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: f7a04efe5e6bebf44856e6d70b991929,
         type: 3}

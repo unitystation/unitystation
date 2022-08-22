@@ -2,70 +2,67 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
+using Objects.Shuttles;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Player;
+using Shared.Util;
+using Util;
 
 public class PlayerManager : MonoBehaviour
 {
 	private static PlayerManager playerManager;
 
 	public static IPlayerControllable MovementControllable { get; private set; }
-	public static GameObject LocalPlayer { get; private set; }
+
+	public static ShuttleConsole ShuttleConsole { get;  set; } //So Hardcoded for RCS but I don't want to mess around with messages and Make a mess of new movement
 
 	public static Equipment Equipment { get; private set; }
 
+	/// <summary>The player GameObject. Null if not in game.</summary>
+	public static GameObject LocalPlayerObject { get; set; }
+	/// <summary>The player script for the player while in the game.</summary>
 	public static PlayerScript LocalPlayerScript { get; private set; }
+	/// <summary>The player script for the player while in the lobby.</summary>
 	public static JoinedViewer LocalViewerScript { get; private set; }
-
-	//For access via other parts of the game
-	public static PlayerScript PlayerScript { get; private set; }
 
 	public static bool HasSpawned { get; private set; }
 
-	public static CharacterSettings CurrentCharacterSettings { get; set; }
+	public static CharacterSheet CurrentCharacterSheet { get; set; }
 
 	private int mobIDcount;
 
-	public static PlayerManager Instance
-	{
-		get
-		{
-			if (!playerManager)
-			{
-				playerManager = FindObjectOfType<PlayerManager>();
-			}
-
-			return playerManager;
-		}
-	}
+	public static PlayerManager Instance => FindUtils.LazyFindObject(ref playerManager);
 
 #if UNITY_EDITOR	//Opening the station scene instead of going through the lobby
 	private void Awake()
 	{
-		if (CurrentCharacterSettings != null)
+		if (CurrentCharacterSheet != null)
 		{
 			return;
 		}
 		// Load CharacterSettings from PlayerPrefs or create a new one
 		string unescapedJson = Regex.Unescape(PlayerPrefs.GetString("currentcharacter"));
-		var deserialized = JsonConvert.DeserializeObject<CharacterSettings>(unescapedJson);
-		CurrentCharacterSettings = deserialized ?? new CharacterSettings();
+		var deserialized = JsonConvert.DeserializeObject<CharacterSheet>(unescapedJson);
+		CurrentCharacterSheet = deserialized ?? new CharacterSheet();
 	}
 #endif
 
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
-		EventManager.AddHandler(EVENT.PlayerDied, OnPlayerDeath);
-		EventManager.AddHandler(EVENT.PlayerRejoined, OnRejoinPlayer);
+		EventManager.AddHandler(Event.PlayerDied, OnPlayerDeath);
+		EventManager.AddHandler(Event.PlayerRejoined, OnRejoinPlayer);
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
-		EventManager.RemoveHandler(EVENT.PlayerDied, OnPlayerDeath);
-		EventManager.RemoveHandler(EVENT.PlayerRejoined, OnRejoinPlayer);
+		EventManager.RemoveHandler(Event.PlayerDied, OnPlayerDeath);
+		EventManager.RemoveHandler(Event.PlayerRejoined, OnRejoinPlayer);
 		PlayerPrefs.Save();
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnRejoinPlayer()
@@ -75,7 +72,7 @@ public class PlayerManager : MonoBehaviour
 
 	IEnumerator WaitForCamera()
 	{
-		while (LocalPlayer == null
+		while (LocalPlayerObject == null
 		       || Vector2.Distance(Camera2DFollow.followControl.transform.position,
 			       Camera2DFollow.followControl.target.position) > 5f)
 		{
@@ -85,12 +82,28 @@ public class PlayerManager : MonoBehaviour
 		UIManager.Display.RejoinedEvent();
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
+
+
+		if (ShuttleConsole != null)
+		{
+			var move = GetMovementActions();
+			if (move.moveActions.Length > 0)
+			{
+				ShuttleConsole.CmdMove(Orientation.From(GetMovementActions().ToPlayerMoveDirection().ToVector()));
+				return;
+			}
+		}
+
+
 		if (MovementControllable != null)
 		{
-			MovementControllable.RecievePlayerMoveAction(GetMovementActions());
+			MovementControllable.ReceivePlayerMoveAction(GetMovementActions());
 		}
+
+
+
 	}
 
 	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)
@@ -101,7 +114,7 @@ public class PlayerManager : MonoBehaviour
 	public static void Reset()
 	{
 		HasSpawned = false;
-		EventManager.Broadcast(EVENT.DisableInternals);
+		EventManager.Broadcast(Event.DisableInternals);
 	}
 
 	public static void SetViewerForControl(JoinedViewer viewer)
@@ -111,13 +124,11 @@ public class PlayerManager : MonoBehaviour
 
 	public static void SetPlayerForControl(GameObject playerObjToControl, IPlayerControllable movementControllable)
 	{
-		LocalPlayer = playerObjToControl;
+		LocalPlayerObject = playerObjToControl;
 		LocalPlayerScript = playerObjToControl.GetComponent<PlayerScript>();
 		Equipment = playerObjToControl.GetComponent<Equipment>();
 
-		PlayerScript =
-			LocalPlayerScript; // Set this on the manager so it can be accessed by other components/managers
-		Camera2DFollow.followControl.target = LocalPlayer.transform;
+		Camera2DFollow.followControl.target = playerObjToControl.transform;
 
 		HasSpawned = true;
 
@@ -145,7 +156,7 @@ public class PlayerManager : MonoBehaviour
 		List<int> actionKeys = new List<int>();
 
 		// Only move if player is out of UI
-		if (!(LocalPlayer == gameObject && UIManager.IsInputFocus))
+		if (!(LocalPlayerObject == gameObject && UIManager.IsInputFocus))
 		{
 			bool moveL = KeyboardInputManager.CheckMoveAction(MoveAction.MoveLeft);
 			bool moveR = KeyboardInputManager.CheckMoveAction(MoveAction.MoveRight);
@@ -188,7 +199,7 @@ public class PlayerManager : MonoBehaviour
 
 	private void OnPlayerDeath()
 	{
-		EventManager.Broadcast(EVENT.DisableInternals);
+		EventManager.Broadcast(Event.DisableInternals);
 	}
 
 	public int GetMobID()

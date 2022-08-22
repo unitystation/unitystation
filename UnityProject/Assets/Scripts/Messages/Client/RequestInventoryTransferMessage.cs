@@ -1,4 +1,5 @@
-﻿using Messages.Server;
+﻿using System.Linq;
+using Messages.Server;
 using Mirror;
 
 namespace Messages.Client
@@ -16,9 +17,11 @@ namespace Messages.Client
 			public uint FromStorage;
 			public int FromSlotIndex;
 			public NamedSlot FromNamedSlot;
+			public int StorageIndexOnGameObjectFrom;
 			public uint ToStorage;
 			public int ToSlotIndex;
 			public NamedSlot ToNamedSlot;
+			public int StorageIndexOnGameObjectTo;
 		}
 
 		public override void Process(NetMessage msg)
@@ -26,8 +29,8 @@ namespace Messages.Client
 			LoadMultipleObjects(new uint[]{msg.FromStorage, msg.ToStorage});
 			if (NetworkObjects[0] == null || NetworkObjects[1] == null) return;
 
-			var fromSlot = ItemSlot.Get(NetworkObjects[0].GetComponent<ItemStorage>(), msg.FromNamedSlot, msg.FromSlotIndex);
-			var toSlot = ItemSlot.Get(NetworkObjects[1].GetComponent<ItemStorage>(), msg.ToNamedSlot, msg.ToSlotIndex);
+			var fromSlot = ItemSlot.Get(NetworkObjects[0].GetComponents<ItemStorage>()[msg.StorageIndexOnGameObjectFrom], msg.FromNamedSlot, msg.FromSlotIndex);
+			var toSlot = ItemSlot.Get(NetworkObjects[1].GetComponents<ItemStorage>()[msg.StorageIndexOnGameObjectTo], msg.ToNamedSlot, msg.ToSlotIndex);
 
 			if (!Validations.CanPutItemToSlot(SentByPlayer.Script, toSlot, fromSlot.Item, NetworkSide.Server, examineRecipient: SentByPlayer.GameObject))
 			{
@@ -46,12 +49,12 @@ namespace Messages.Client
 
 		private bool ValidSlot(ItemSlot toCheck)
 		{
-			var holder = toCheck.GetRootStorage().gameObject;
+			var holder = toCheck.GetRootStorageOrPlayer().gameObject;
 			//its in their inventory, this is valid
 			if (holder == SentByPlayer.GameObject) return true;
 
 			//it's not in their inventory but they may be observing this in an interactable storage
-			var interactableStorage = toCheck.ItemStorage != null ? toCheck.ItemStorage.GetComponent<InteractableStorage>() : null;
+			var interactableStorage = toCheck.ItemStorage != null ? toCheck.ItemStorage.GetComponents<ItemStorage>() : null;
 			if (interactableStorage != null)
 			{
 				return toCheck.ServerIsObservedBy(SentByPlayer.GameObject);
@@ -94,6 +97,31 @@ namespace Messages.Client
 				ToSlotIndex = toSlot.SlotIdentifier.SlotIndex,
 				ToNamedSlot = toSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.back)
 			};
+
+			var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+
+			//If there's multiple ItemStorage On one game object it can find the correct one by index
+			msg.StorageIndexOnGameObjectFrom = 0;
+			foreach (var itemStorage in spawned[fromSlot.ItemStorageNetID].GetComponents<ItemStorage>())
+			{
+				if (itemStorage == fromSlot.ItemStorage)
+				{
+					break;
+				}
+
+				msg.StorageIndexOnGameObjectFrom++;
+			}
+
+			msg.StorageIndexOnGameObjectTo = 0;
+			foreach (var itemStorage in spawned[toSlot.ItemStorageNetID].GetComponents<ItemStorage>())
+			{
+				if (itemStorage == toSlot.ItemStorage)
+				{
+					break;
+				}
+
+				msg.StorageIndexOnGameObjectTo++;
+			}
 
 			Send(msg);
 		}

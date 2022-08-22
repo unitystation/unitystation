@@ -4,12 +4,15 @@ using System.Net.Http;
 using Firebase.Extensions;
 using Initialisation;
 using UnityEngine;
+using Firebase.Auth;
+using Shared.Util;
+using Util;
 
 namespace DatabaseAPI
 {
 	public partial class ServerData : MonoBehaviour, IInitialise
 	{
-		class Status
+		private class Status
 		{
 			public bool error = false;
 			public bool profileSet = false;
@@ -18,53 +21,28 @@ namespace DatabaseAPI
 
 		private static ServerData serverData;
 
-		public static ServerData Instance
-		{
-			get
-			{
-				if (serverData == null)
-				{
-					serverData = FindObjectOfType<ServerData>();
-				}
+		public static ServerData Instance => FindUtils.LazyFindObject(ref serverData);
 
-				return serverData;
-			}
-		}
+		public static string UserFirestoreURL => "https://firestore.googleapis.com/v1/projects/" +
+				$"unitystation-c6a53/databases/(default)/documents/users/{Auth.CurrentUser.UserId}";
 
-		public static string UserFirestoreURL
-		{
-			get
-			{
-				return "https://firestore.googleapis.com/v1/projects/" +
-				       $"unitystation-c6a53/databases/(default)/documents/users/{Auth.CurrentUser.UserId}";
-			}
-		}
+		private FirebaseAuth auth;
+		public static FirebaseAuth Auth => Instance.auth;
 
-		private Firebase.Auth.FirebaseAuth auth;
-		public static Firebase.Auth.FirebaseAuth Auth => Instance.auth;
+		private readonly Dictionary<string, FirebaseUser> userByAuth = new();
 
-		private Dictionary<string, Firebase.Auth.FirebaseUser> userByAuth =
-			new Dictionary<string, Firebase.Auth.FirebaseUser>();
+		private FirebaseUser user = null;
 
-		private Firebase.Auth.FirebaseUser user = null;
+		public static string UserID => Instance.user == null
+				? string.Empty
+				: Instance.user.UserId;
 
-		public static string UserID
-		{
-			get
-			{
-				if (Instance.user == null)
-				{
-					return "";
-				}
-
-				return Instance.user.UserId;
-			}
-		}
+		public static Action serverDataLoaded;
 
 		private bool fetchingToken = false;
 		public string idToken;
 		public static string IdToken => Instance.idToken;
-		private HttpClient httpClient = new HttpClient();
+		private readonly HttpClient httpClient = new HttpClient();
 
 		public static HttpClient HttpClient => Instance.httpClient;
 
@@ -75,6 +53,8 @@ namespace DatabaseAPI
 			//Handles config for RCON and Server Status API for dedicated servers
 			AttemptConfigLoad();
 			InitializeFirebase();
+
+			serverDataLoaded?.Invoke();
 		}
 
 		// Handle initialization of the necessary firebase modules:
@@ -86,17 +66,19 @@ namespace DatabaseAPI
 			AuthStateChanged(this, null);
 		}
 
-		void OnEnable()
+		private void OnEnable()
 		{
-			EventManager.AddHandler(EVENT.LoggedOut, OnLogOut);
+			EventManager.AddHandler(Event.LoggedOut, OnLogOut);
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
-		void OnDisable()
+		private void OnDisable()
 		{
-			EventManager.RemoveHandler(EVENT.LoggedOut, OnLogOut);
+			EventManager.RemoveHandler(Event.LoggedOut, OnLogOut);
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
-		void Update()
+		private void UpdateMe()
 		{
 			if (config != null)
 			{
@@ -123,7 +105,7 @@ namespace DatabaseAPI
 		}
 
 		// Track state changes of the auth object.
-		void AuthStateChanged(object sender, System.EventArgs eventArgs)
+		private void AuthStateChanged(object sender, EventArgs eventArgs)
 		{
 			Firebase.Auth.FirebaseAuth senderAuth = sender as Firebase.Auth.FirebaseAuth;
 			if (senderAuth != null) userByAuth.TryGetValue(senderAuth.App.Name, out user);
@@ -141,7 +123,7 @@ namespace DatabaseAPI
 		}
 
 		// Track ID token changes.
-		void IdTokenChanged(object sender, System.EventArgs eventArgs)
+		private void IdTokenChanged(object sender, EventArgs eventArgs)
 		{
 			Firebase.Auth.FirebaseAuth senderAuth = sender as Firebase.Auth.FirebaseAuth;
 			if (senderAuth == auth && senderAuth.CurrentUser != null && !fetchingToken)
@@ -151,7 +133,7 @@ namespace DatabaseAPI
 			}
 		}
 
-		void SetToken(string result)
+		private void SetToken(string result)
 		{
 			Instance.idToken = result;
 		}

@@ -17,6 +17,22 @@ PrefabInstance:
       propertyPath: initialDescription
       value: These may, or may not, grow into oat.
       objectReference: {fileID: 0}
+    - target: {fileID: 654796165489553862, guid: 60b83b01df9880443809c84ab556dad6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 654796165489553862, guid: 60b83b01df9880443809c84ab556dad6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 7885f96dd287c034197ed85738778712,
+        type: 2}
+    - target: {fileID: 654796165489553862, guid: 60b83b01df9880443809c84ab556dad6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 895278972671265612, guid: 60b83b01df9880443809c84ab556dad6,
         type: 3}
       propertyPath: m_Sprite
@@ -86,7 +102,7 @@ PrefabInstance:
     - target: {fileID: 1083515381603730852, guid: 60b83b01df9880443809c84ab556dad6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: bb2b122b224a22444b2274ecc7bb85f9
       objectReference: {fileID: 0}
     - target: {fileID: 1828873900730458793, guid: 60b83b01df9880443809c84ab556dad6,
         type: 3}
@@ -106,7 +122,7 @@ PrefabInstance:
     - target: {fileID: 1828873900730458793, guid: 60b83b01df9880443809c84ab556dad6,
         type: 3}
       propertyPath: plantData.GrowthSpeed
-      value: 6
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 1828873900730458793, guid: 60b83b01df9880443809c84ab556dad6,
         type: 3}
@@ -160,6 +176,11 @@ PrefabInstance:
         type: 3}
       propertyPath: plantData.MutatesInToGameObject.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6208184613693305981, guid: 60b83b01df9880443809c84ab556dad6,
+        type: 3}
+      propertyPath: foreverID
+      value: bb2b122b224a22444b2274ecc7bb85f9
       objectReference: {fileID: 0}
     - target: {fileID: 6618956439072605079, guid: 60b83b01df9880443809c84ab556dad6,
         type: 3}

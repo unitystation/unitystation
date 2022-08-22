@@ -31,6 +31,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2157605072799214636}
   m_RootOrder: 5
@@ -84,6 +85,7 @@ TilemapRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -133,8 +135,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 0}
   LayerType: 3
   matrix: {fileID: 5156976889034893132}
+  metaTileMap: {fileID: 0}
 --- !u!19719996 &7653112832519059229
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -194,6 +198,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2157605072799214636}
   m_RootOrder: 1
@@ -4389,6 +4394,7 @@ TilemapRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -4454,8 +4460,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 0}
   LayerType: 0
   matrix: {fileID: 5156976889034893132}
+  metaTileMap: {fileID: 0}
 --- !u!114 &6837392762130424027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4497,6 +4505,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2157605072799214636}
   m_RootOrder: 6
@@ -4550,6 +4559,7 @@ TilemapRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -4599,8 +4609,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6975cdddc19a5e14b8b76849d95d0f38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 0}
   LayerType: 8
   matrix: {fileID: 5156976889034893132}
+  metaTileMap: {fileID: 0}
 --- !u!1 &1974955690381953462
 GameObject:
   m_ObjectHideFlags: 0
@@ -4627,6 +4639,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 13, y: -13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3403624046251864172}
   m_RootOrder: 4
@@ -4657,6 +4670,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -13, y: 13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3403624046251864172}
   m_RootOrder: 1
@@ -4692,6 +4706,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.5, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2157605072799214636}
   m_RootOrder: 4
@@ -4745,6 +4760,7 @@ TilemapRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -4794,8 +4810,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2845199befc4cf8ad5a9702b3bc76ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 0}
   LayerType: 2
   matrix: {fileID: 5156976889034893132}
+  metaTileMap: {fileID: 0}
 --- !u!19719996 &1284684411567756645
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -4850,6 +4868,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -13, y: -13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3403624046251864172}
   m_RootOrder: 2
@@ -4885,6 +4904,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2157605072799214636}
   m_RootOrder: 7
@@ -11153,7 +11173,7 @@ Tilemap:
   - m_RefCount: 39
     m_Data: {fileID: 11400000, guid: bd0f463fc13b19d4bbf97a19ba2b4c66, type: 2}
   - m_RefCount: 55
-    m_Data: {fileID: 11400000, guid: 068e679d7fef26648824ef1bcd6e912c, type: 2}
+    m_Data: {fileID: 0}
   - m_RefCount: 28
     m_Data: {fileID: 11400000, guid: 159ea19702c41804b901e1d9b0b93402, type: 2}
   - m_RefCount: 35
@@ -11161,7 +11181,7 @@ Tilemap:
   - m_RefCount: 50
     m_Data: {fileID: 11400000, guid: beec3f4bd4d111e4e9cc60aaee03d2be, type: 2}
   - m_RefCount: 34
-    m_Data: {fileID: 11400000, guid: 8cce0b95f5f1d7f46bfe789aa87a4951, type: 2}
+    m_Data: {fileID: 0}
   - m_RefCount: 38
     m_Data: {fileID: 11400000, guid: d7bba1e77f496684391c83cb7babe6d0, type: 2}
   - m_RefCount: 132
@@ -11260,6 +11280,7 @@ TilemapRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -11309,8 +11330,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 0}
   LayerType: 4
   matrix: {fileID: 5156976889034893132}
+  metaTileMap: {fileID: 0}
 --- !u!19719996 &754952934645146753
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -11370,6 +11393,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2157605072799214636}
   m_RootOrder: 3
@@ -11423,6 +11447,7 @@ TilemapRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -11488,8 +11513,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 0}
   LayerType: 5
   matrix: {fileID: 5156976889034893132}
+  metaTileMap: {fileID: 0}
 --- !u!114 &406815112812093163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11528,6 +11555,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 13, y: 13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3403624046251864172}
   m_RootOrder: 3
@@ -11567,6 +11595,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2157605072799214636}
   - {fileID: 1407076537858482487}
@@ -11588,8 +11617,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 974152dca9d54d57a8f2e4283fb52093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &112860118344546147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11602,6 +11629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf585bb4ff8944df896c3974105a1d53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultRoomGasMixOverride: {fileID: 0}
 --- !u!114 &4052606742898096041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11615,14 +11643,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!114 &7669799494311554818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11635,8 +11655,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905a243a2c1a4fd79fd17a43b3c6f208, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   performerStartActionMessage: 
   othersStartActionMessage: 
 --- !u!114 &2486038549347119973
@@ -11663,8 +11681,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ce68dd13aa41cc94841314b4c66a61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &7454973929432759514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11677,10 +11693,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
   sceneId: 0
   serverOnly: 0
-  m_AssetId: 
+  visible: 0
+  m_AssetId: 33b73cdbc4bb7914bacfaed10ef7e1a1
   hasSpawned: 0
 --- !u!114 &8712151677553073087
 MonoBehaviour:
@@ -11694,8 +11710,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5afc5c9322044160b00462b567287636, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
+  MatrixSync: {fileID: 0}
+  matrix: {fileID: 0}
 --- !u!114 &-1418098279201981992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11708,8 +11724,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!1 &4761340652211027666
 GameObject:
   m_ObjectHideFlags: 0
@@ -11739,6 +11753,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2157605072799214636}
   m_RootOrder: 0
@@ -11792,6 +11807,7 @@ TilemapRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -11841,8 +11857,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 0}
   LayerType: 6
   matrix: {fileID: 5156976889034893132}
+  metaTileMap: {fileID: 0}
 --- !u!1 &5464687757808586870
 GameObject:
   m_ObjectHideFlags: 0
@@ -11874,6 +11892,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2546846847057803040}
   - {fileID: 551699218857086337}
@@ -11912,6 +11931,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetMSpreFrame: 5
   ffLayersValues: []
+  matrix: {fileID: 0}
 --- !u!114 &5156976889034893132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11982,6 +12002,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2157605072799214636}
   m_RootOrder: 2
@@ -12035,6 +12056,7 @@ TilemapRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -12100,8 +12122,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 0}
   LayerType: 1
   matrix: {fileID: 5156976889034893132}
+  metaTileMap: {fileID: 0}
 --- !u!114 &7702784462889878392
 MonoBehaviour:
   m_ObjectHideFlags: 0

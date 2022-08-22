@@ -1,0 +1,119 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4815574771696971042
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 152834535113729542, guid: 211616cbdb7012b4eb5b07baff781d16,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b429fc33539095940acbe04c6fb5960d,
+        type: 2}
+    - target: {fileID: 1091524291415461380, guid: 211616cbdb7012b4eb5b07baff781d16,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 83636ebe08ba7e04583cd23261ad0eb8,
+        type: 2}
+    - target: {fileID: 1144579375389512172, guid: 211616cbdb7012b4eb5b07baff781d16,
+        type: 3}
+      propertyPath: foreverID
+      value: 8b820e5f4d901f543a2800a2dda15d7f
+      objectReference: {fileID: 0}
+    - target: {fileID: 5887752484129272547, guid: 211616cbdb7012b4eb5b07baff781d16,
+        type: 3}
+      propertyPath: initialName
+      value: mining winter hood
+      objectReference: {fileID: 0}
+    - target: {fileID: 5887752484129272547, guid: 211616cbdb7012b4eb5b07baff781d16,
+        type: 3}
+      propertyPath: initialDescription
+      value: A dusty purple winter coat hood.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6172483010862657245, guid: 211616cbdb7012b4eb5b07baff781d16,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: eacecc40ec7379549bb7c05ee8b79ac3,
+        type: 3}
+    - target: {fileID: 6251936453043031157, guid: 211616cbdb7012b4eb5b07baff781d16,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6254603353582542901, guid: 211616cbdb7012b4eb5b07baff781d16,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 8b820e5f4d901f543a2800a2dda15d7f
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290234711337558261, guid: 211616cbdb7012b4eb5b07baff781d16,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290234711337558261, guid: 211616cbdb7012b4eb5b07baff781d16,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290234711337558261, guid: 211616cbdb7012b4eb5b07baff781d16,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290234711337558261, guid: 211616cbdb7012b4eb5b07baff781d16,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290234711337558261, guid: 211616cbdb7012b4eb5b07baff781d16,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290234711337558261, guid: 211616cbdb7012b4eb5b07baff781d16,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290234711337558261, guid: 211616cbdb7012b4eb5b07baff781d16,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290234711337558261, guid: 211616cbdb7012b4eb5b07baff781d16,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290234711337558261, guid: 211616cbdb7012b4eb5b07baff781d16,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290234711337558261, guid: 211616cbdb7012b4eb5b07baff781d16,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290234711337558261, guid: 211616cbdb7012b4eb5b07baff781d16,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294032286962621825, guid: 211616cbdb7012b4eb5b07baff781d16,
+        type: 3}
+      propertyPath: m_Name
+      value: MiningWinterHood
+      objectReference: {fileID: 0}
+    - target: {fileID: 7836986466833269604, guid: 211616cbdb7012b4eb5b07baff781d16,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Melee
+      value: 10
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 211616cbdb7012b4eb5b07baff781d16, type: 3}

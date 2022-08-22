@@ -7,26 +7,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5323290699344764437, guid: 752790e3dadac94449e7417e35974da5,
+    - target: {fileID: 1708838980586552602, guid: 752790e3dadac94449e7417e35974da5,
         type: 3}
-      propertyPath: initialDescription
-      value: Contains a fertilizer that increases the yield of a plant while gradually
-        preventing mutations.
+      propertyPath: foreverID
+      value: a2f9aca219accaa41850895d69007e20
       objectReference: {fileID: 0}
     - target: {fileID: 5323290699344764437, guid: 752790e3dadac94449e7417e35974da5,
         type: 3}
       propertyPath: initialName
       value: bottle of Robust Harvest
       objectReference: {fileID: 0}
+    - target: {fileID: 5323290699344764437, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: initialDescription
+      value: Contains a fertilizer that increases the yield of a plant while gradually
+        preventing mutations.
+      objectReference: {fileID: 0}
     - target: {fileID: 5663715803261177027, guid: 752790e3dadac94449e7417e35974da5,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: a2f9aca219accaa41850895d69007e20
       objectReference: {fileID: 0}
     - target: {fileID: 5696413732617859447, guid: 752790e3dadac94449e7417e35974da5,
         type: 3}
       propertyPath: m_Name
       value: BottleOfRobustHarvest
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701056008587856899, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5701056008587856899, guid: 752790e3dadac94449e7417e35974da5,
         type: 3}
@@ -45,6 +55,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5701056008587856899, guid: 752790e3dadac94449e7417e35974da5,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701056008587856899, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -57,16 +72,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5701056008587856899, guid: 752790e3dadac94449e7417e35974da5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5701056008587856899, guid: 752790e3dadac94449e7417e35974da5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5701056008587856899, guid: 752790e3dadac94449e7417e35974da5,
         type: 3}

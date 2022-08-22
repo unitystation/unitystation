@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
-using Systems.Electricity.Inheritance;
 using UnityEngine;
+using Systems.Electricity.Inheritance;
 
 namespace Systems.Electricity.NodeModules
 {
 	public class TransformerModule : ElectricalModuleInheritance
 	{
 		[Header("Transformer Settings")]
-		public float TurnRatio; //the Turn ratio of the transformer so if it 2, 1v in 2v out
-		public bool InvertingTurnRatio;  //what it will be limited to
-		public float VoltageLimiting; //If it requires VoltageLimiting and  At what point the VoltageLimiting will kick in
-		public float VoltageLimitedTo;  //what it will be limited to
+		public float TurnRatio; // the Turn ratio of the transformer so if it 2, 1v in 2v out
+		public bool InvertingTurnRatio;  // what it will be limited to
+		public float VoltageLimiting; // If it requires VoltageLimiting and  At what point the VoltageLimiting will kick in
+		public float VoltageLimitedTo;  // what it will be limited to
 
 		public List<PowerTypeCategory> HighsideConnections = new List<PowerTypeCategory>();
 		public List<PowerTypeCategory> LowsideConnections = new List<PowerTypeCategory>();
@@ -37,16 +37,14 @@ namespace Systems.Electricity.NodeModules
 		{
 			float Resistance = ElectricityFunctions.WorkOutResistance(ControllingNode.Node.InData.Data.SupplyDependent[SourceInstance].ResistanceGoingTo);
 			var Voltage = ElectricityFunctions.WorkOutVoltage(ControllingNode.Node);
-			//Logger.Log("Voltage" + Voltage);
 
-			//Logger.Log (Voltage.ToString() + " < Voltage " + Resistance.ToString() + " < Resistance"  + Current.ToString() + " < Current");
-			VIRCurrent Currentout=
+			VIRCurrent Currentout =
 				TransformerCalculations.ElectricalStageTransformerCalculate(this,
 					Current,
 					Resistance,
 					Voltage,
 					HighsideConnections.Contains(ComingFromm.Categorytype));
-			return (Currentout);
+			return Currentout;
 		}
 
 		public override ResistanceWrap ModifyResistancyOutput(ResistanceWrap Resistance, ElectricalOIinheritance SourceInstance)
@@ -63,6 +61,5 @@ namespace Systems.Electricity.NodeModules
 			ResistanceWrap ResistanceM = TransformerCalculations.ResistanceStageTransformerCalculate(this, ResistanceToModify: Resistance, FromHighSide : FromHighSide);
 			return (ResistanceM);
 		}
-
 	}
 }

@@ -7,18 +7,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 25715693032685112, guid: e560948fdd6edc3448ac06d10906c4fc,
+        type: 3}
+      propertyPath: foreverID
+      value: 518823bf8eeebc848b0d18a293a1f56f
+      objectReference: {fileID: 0}
     - target: {fileID: 44155453462962640, guid: e560948fdd6edc3448ac06d10906c4fc,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 6e87523797c430744a3647210825ac9e,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 44155453462962640, guid: e560948fdd6edc3448ac06d10906c4fc,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 6e87523797c430744a3647210825ac9e,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 44155453462962640, guid: e560948fdd6edc3448ac06d10906c4fc,
         type: 3}
       propertyPath: hideClothingFlags
@@ -41,6 +44,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 36cf84ca21ae9a849aa777ad981fb7c7,
         type: 2}
+    - target: {fileID: 3483897746626099850, guid: e560948fdd6edc3448ac06d10906c4fc,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483897746626099850, guid: e560948fdd6edc3448ac06d10906c4fc,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armoringBodyPartType
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483897746626099850, guid: e560948fdd6edc3448ac06d10906c4fc,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armoringBodyPartType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6404652678407139925, guid: e560948fdd6edc3448ac06d10906c4fc,
         type: 3}
       propertyPath: m_Name
@@ -104,7 +122,7 @@ PrefabInstance:
     - target: {fileID: 6446287369552793569, guid: e560948fdd6edc3448ac06d10906c4fc,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 518823bf8eeebc848b0d18a293a1f56f
       objectReference: {fileID: 0}
     - target: {fileID: 6489704868625973513, guid: e560948fdd6edc3448ac06d10906c4fc,
         type: 3}

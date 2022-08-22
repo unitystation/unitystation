@@ -7,27 +7,43 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1398402634916865754, guid: 678d8623073f29f4cb23d4cb26359cd4,
+        type: 3}
+      propertyPath: initalProjectile
+      value: 
+      objectReference: {fileID: 3202897330630479361, guid: 4c01b344baee17a48816d1bd84920101,
+        type: 3}
     - target: {fileID: 2434735188447524412, guid: 678d8623073f29f4cb23d4cb26359cd4,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 22858e927a645cb43bdd1d11a00785d2,
         type: 2}
-    - target: {fileID: 8242272600229782233, guid: 678d8623073f29f4cb23d4cb26359cd4,
+    - target: {fileID: 3185535953976934870, guid: 678d8623073f29f4cb23d4cb26359cd4,
         type: 3}
-      propertyPath: initialDescription
-      value: A gun magazine. Loaded with rounds which penetrate armour, but are less
-        effective against normal targets.
+      propertyPath: foreverID
+      value: 796601fd29f46de47aea93cd84ab063f
       objectReference: {fileID: 0}
     - target: {fileID: 8242272600229782233, guid: 678d8623073f29f4cb23d4cb26359cd4,
         type: 3}
       propertyPath: initialName
       value: pistol magazine (9mm armor-piercing)
       objectReference: {fileID: 0}
+    - target: {fileID: 8242272600229782233, guid: 678d8623073f29f4cb23d4cb26359cd4,
+        type: 3}
+      propertyPath: initialDescription
+      value: A gun magazine. Loaded with rounds which penetrate armour, but are less
+        effective against normal targets.
+      objectReference: {fileID: 0}
     - target: {fileID: 8399202269906357691, guid: 678d8623073f29f4cb23d4cb26359cd4,
         type: 3}
       propertyPath: m_Name
       value: PistolMagazine9mmArmorPiercing
+      objectReference: {fileID: 0}
+    - target: {fileID: 8402722768730730703, guid: 678d8623073f29f4cb23d4cb26359cd4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8402722768730730703, guid: 678d8623073f29f4cb23d4cb26359cd4,
         type: 3}
@@ -46,6 +62,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8402722768730730703, guid: 678d8623073f29f4cb23d4cb26359cd4,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8402722768730730703, guid: 678d8623073f29f4cb23d4cb26359cd4,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +79,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8402722768730730703, guid: 678d8623073f29f4cb23d4cb26359cd4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8402722768730730703, guid: 678d8623073f29f4cb23d4cb26359cd4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8402722768730730703, guid: 678d8623073f29f4cb23d4cb26359cd4,
         type: 3}
@@ -87,7 +98,7 @@ PrefabInstance:
     - target: {fileID: 8438549908676571151, guid: 678d8623073f29f4cb23d4cb26359cd4,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 796601fd29f46de47aea93cd84ab063f
       objectReference: {fileID: 0}
     - target: {fileID: 8538262400951484135, guid: 678d8623073f29f4cb23d4cb26359cd4,
         type: 3}

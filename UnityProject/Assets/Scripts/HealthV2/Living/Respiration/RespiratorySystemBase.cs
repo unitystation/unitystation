@@ -1,10 +1,8 @@
-﻿using Systems.Atmospherics;
+﻿using UnityEngine;
 using Chemistry;
-using Items;
-using NaughtyAttributes;
+using Systems.Atmospherics;
 using Objects.Atmospherics;
-using UnityEngine;
-using Random = UnityEngine.Random;
+using ScriptableObjects.Atmospherics;
 
 namespace HealthV2
 {
@@ -14,43 +12,58 @@ namespace HealthV2
 	{
 		private LivingHealthMasterBase healthMaster;
 		private PlayerScript playerScript;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private HealthStateController healthStateController;
-		private CirculatorySystemBase circulatorySystem;
+
 		[Tooltip("If this is turned on, the organism can breathe anywhere and wont affect atmospherics.")]
-		[SerializeField] private bool canBreathAnywhere = false;
-		public bool CanBreathAnywhere => canBreathAnywhere;
-		[Tooltip("How often the respiration system should update.")]
-		[SerializeField] private float tickRate = 1f;
+		[SerializeField]
+		private bool canBreathAnywhere = false;
+
+		public bool CanBreatheAnywhere => canBreathAnywhere;
+
+		[Tooltip("If this is turned on, the organism takes low pressure damage.")]
+		[SerializeField]
+		private bool takeLowPressureDamage = true;
+
+		[Tooltip("If this is turned on, the organism takes high pressure damage.")]
+		[SerializeField]
+		private bool takeHighPressureDamage = true;
+
+		[Tooltip("How often the respiration system should update.")] [SerializeField]
+		private float tickRate = 1f;
+
 		public bool IsSuffocating => healthStateController.IsSuffocating;
-		public float temperature => healthStateController.Temperature;
-		public float pressure => healthStateController.Pressure;
+		public float Temperature => healthStateController.Temperature;
+		public float Pressure => healthStateController.Pressure;
+
 
 		private void Awake()
 		{
-			circulatorySystem = GetComponent<CirculatorySystemBase>();
 			healthMaster = GetComponent<LivingHealthMasterBase>();
 			playerScript = GetComponent<PlayerScript>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			healthStateController = GetComponent<HealthStateController>();
 		}
 
-		void OnEnable()
+		private void OnEnable()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
+
 			UpdateManager.Add(UpdateMe, tickRate);
 		}
 
-		void OnDisable()
+		private void OnDisable()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
+
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 		}
 
 		//Handle by UpdateManager
-		void UpdateMe()
+		//Server Side Only
+		private void UpdateMe()
 		{
-			//Server Only:
-			if (CustomNetworkManager.IsServer && MatrixManager.IsInitialized
-											  && !canBreathAnywhere)
+			if (MatrixManager.IsInitialized && !canBreathAnywhere)
 			{
 				MonitorSystem();
 			}
@@ -58,31 +71,31 @@ namespace HealthV2
 
 		private void MonitorSystem()
 		{
-			if (!healthMaster.IsDead)
+			if (healthMaster.IsDead) return;
+
+			if (IsEVACompatible())
 			{
-				Vector3Int position = objectBehaviour.AssumedWorldPositionServer();
-				MetaDataNode node = MatrixManager.GetMetaDataAt(position);
-
-				if (!IsEVACompatible())
-				{
-					healthStateController.SetTemperature(node.GasMix.Temperature);
-					healthStateController.SetPressure(node.GasMix.Pressure);
-					CheckPressureDamage();
-				}
-				else
-				{
-					healthStateController.SetPressure(101.325f);
-					healthStateController.SetTemperature(293.15f);
-				}
-
-				// if(healthMaster.OverallHealth >= HealthThreshold.SoftCrit)
-				// {
-				// 	if (Breathe(node))
-				// 	{
-				// 		AtmosManager.Update(node);
-				// 	}
-				// }
+				healthStateController.SetPressure(AtmosConstants.ONE_ATMOSPHERE);
+				healthStateController.SetTemperature(293.15f);
+				return;
 			}
+
+			GasMix ambientGasMix;
+			if (objectBehaviour.ContainedInContainer != null &&
+					objectBehaviour.ContainedInContainer.TryGetComponent<GasContainer>(out var gasContainer))
+			{
+				ambientGasMix = gasContainer.GasMix;
+			}
+			else
+			{
+				var matrix = healthMaster.RegisterTile.Matrix;
+				Vector3Int localPosition = MatrixManager.WorldToLocalInt(objectBehaviour.registerTile.WorldPosition, matrix);
+				ambientGasMix = matrix.MetaDataLayer.Get(localPosition).GasMix;
+			}
+
+			healthStateController.SetTemperature(ambientGasMix.Temperature);
+			healthStateController.SetPressure(ambientGasMix.Pressure);
+			CheckPressureDamage();
 		}
 
 		/// <summary>
@@ -90,88 +103,131 @@ namespace HealthV2
 		/// </summary>
 		public void GasExchangeFromBlood(GasMix atmos, ReagentMix blood, ReagentMix toProcess)
 		{
-			foreach (var Reagent in toProcess)
+			foreach (var reagent in toProcess.reagents.m_dict)
 			{
-				blood.Remove(Reagent.Key, Reagent.Value);
-				if (!canBreathAnywhere)
-					atmos.AddGas(GAS2ReagentSingleton.Instance.GetReagentToGas(Reagent.Key), Reagent.Value);
+				blood.Remove(reagent.Key, float.MaxValue);
+
+				if (canBreathAnywhere || Gas.ReagentToGas.TryGetValue(reagent.Key, out var gas) == false) continue;
+
+				//For now block breathing out water vapour as it will just fill a room
+				if(gas == Gas.WaterVapor) continue;
+
+				atmos.AddGas(gas, reagent.Value);
 			}
 		}
 
 		/// <summary>
 		/// Takes gases from a GasMix and puts them into blood as a reagent
 		/// </summary>
-		public void GasExchangeToBlood(GasMix atmos, ReagentMix blood, ReagentMix toProcess)
+		public void GasExchangeToBlood(GasMix atmos, ReagentMix blood, ReagentMix toProcess, float LungCapacity)
 		{
-			foreach (var Reagent in toProcess)
+			lock (toProcess.reagents)
 			{
-				blood.Add(Reagent.Key, Reagent.Value);
-				if (!canBreathAnywhere)
-					atmos.RemoveGas(GAS2ReagentSingleton.Instance.GetReagentToGas(Reagent.Key), Reagent.Value);
+				foreach (var Reagent in toProcess.reagents.m_dict)
+				{
+					blood.Add(Reagent.Key, Reagent.Value);
+				}
+			}
+
+
+			if (!canBreathAnywhere)
+			{
+				if (LungCapacity + 0.1f > atmos.Moles) //Just so scenario where there isn't Gas * 0 = 0
+				{
+					atmos.MultiplyGas(0.01f);
+				}
+				else
+				{
+					if (atmos.Moles == 0)
+					{
+						return;
+					}
+
+					var percentageRemaining =  1 - (LungCapacity / atmos.Moles);
+					atmos.MultiplyGas(percentageRemaining);
+				}
 			}
 		}
 
 		public GasContainer GetInternalGasMix()
 		{
-			if (playerScript != null)
+			if (playerScript == null || playerScript.Equipment == null) return null;
+
+			// Check if internals exist
+			var hasMask = false;
+
+			foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.mask))
 			{
-				// Check if internals exist
-				var maskItemAttrs = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.mask).ItemAttributes;
-				bool internalsEnabled = playerScript.Equipment.IsInternalsEnabled;
-				if (maskItemAttrs != null && maskItemAttrs.CanConnectToTank && internalsEnabled)
+				if (itemSlot.Item == null) continue;
+				if (itemSlot.ItemAttributes.CanConnectToTank)
 				{
-					foreach (var gasSlot in playerScript.ItemStorage.GetGasSlots())
+					hasMask = true;
+					break;
+				}
+			}
+
+			var internalsEnabled = playerScript.Equipment.IsInternalsEnabled; //TPODPPPP
+			if (hasMask && internalsEnabled)
+			{
+				foreach (var gasSlot in playerScript.DynamicItemStorage.GetGasSlots())
+				{
+					if (gasSlot.Item == null) continue;
+					var gasContainer = gasSlot.Item.GetComponent<GasContainer>();
+					if (gasContainer)
 					{
-						if (gasSlot.Item == null) continue;
-						var gasContainer = gasSlot.Item.GetComponent<GasContainer>();
-						if (gasContainer)
-						{
-							return gasContainer;
-						}
+						return gasContainer;
 					}
 				}
 			}
+
 			return null;
 		}
 
 		private void CheckPressureDamage()
 		{
-			if (pressure < AtmosConstants.MINIMUM_OXYGEN_PRESSURE)
+			if (takeLowPressureDamage && Pressure < AtmosConstants.MINIMUM_OXYGEN_PRESSURE)
 			{
 				ApplyDamage(AtmosConstants.LOW_PRESSURE_DAMAGE, DamageType.Brute);
+				return;
 			}
-			else if (pressure > AtmosConstants.HAZARD_HIGH_PRESSURE)
+
+			if (takeHighPressureDamage && Pressure > AtmosConstants.HAZARD_HIGH_PRESSURE)
 			{
-				float damage = Mathf.Min(((pressure / AtmosConstants.HAZARD_HIGH_PRESSURE) - 1) * AtmosConstants.PRESSURE_DAMAGE_COEFFICIENT,
+				float damage = Mathf.Min(
+					((Pressure / AtmosConstants.HAZARD_HIGH_PRESSURE) - 1) * AtmosConstants.PRESSURE_DAMAGE_COEFFICIENT,
 					AtmosConstants.MAX_HIGH_PRESSURE_DAMAGE);
 
 				ApplyDamage(damage, DamageType.Brute);
 			}
 		}
 
-		private bool IsEVACompatible()
+		public bool IsEVACompatible()
 		{
 			if (playerScript == null)
 			{
 				return false;
 			}
 
-			ItemAttributesV2 headItem = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.head).ItemAttributes;
-			ItemAttributesV2 suitItem = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear).ItemAttributes;
 
-			if (headItem != null && suitItem != null)
+			foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.head))
 			{
-				return headItem.IsEVACapable && suitItem.IsEVACapable;
+				if (itemSlot.Item == null) return false;
+				if (itemSlot.ItemAttributes.IsEVACapable == false) return false;
 			}
 
-			return false;
+			foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.outerwear))
+			{
+				if (itemSlot.Item == null) return false;
+				if (itemSlot.ItemAttributes.IsEVACapable == false) return false;
+			}
+
+			return true;
 		}
 
-		private void ApplyDamage(float amount, DamageType damageType)
+		public void ApplyDamage(float amount, DamageType damageType)
 		{
 			//TODO: Figure out what kind of damage low pressure should be doing.
 			healthMaster.ApplyDamageAll(null, amount, AttackType.Internal, damageType);
 		}
 	}
-
 }

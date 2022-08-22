@@ -13,16 +13,31 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9cd825648398ed448ab430a14a0dd6b0,
         type: 2}
+    - target: {fileID: 783613402110013882, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: foreverID
+      value: 680b02587c8343542a4b918d0dbae089
+      objectReference: {fileID: 0}
     - target: {fileID: 5806468422754504331, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 93652bf167d096c44bf238fbbd583eda,
         type: 3}
+    - target: {fileID: 5806468422754504331, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5937237277765483991, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: m_Name
       value: BluespacePolyscrystal
+      objectReference: {fileID: 0}
+    - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
@@ -41,6 +56,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +73,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
@@ -82,12 +92,33 @@ PrefabInstance:
     - target: {fileID: 6048747994970652771, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 680b02587c8343542a4b918d0dbae089
+      objectReference: {fileID: 0}
+    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: exportCost
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: exportName
+      value: cm3 of bluespace polycrystal
+      objectReference: {fileID: 0}
+    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: initialName
+      value: bluespace polycrystal
+      objectReference: {fileID: 0}
+    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: initialDescription
+      value: A stable polycrystal, made of fused-together bluespace crystals. You
+        could probably break one off.
       objectReference: {fileID: 0}
     - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
@@ -122,24 +153,31 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
-      propertyPath: initialDescription
-      value: A stable polycrystal, made of fused-together bluespace crystals. You
-        could probably break one off.
-      objectReference: {fileID: 0}
-    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      propertyPath: initialName
-      value: bluespace polycrystal
-      objectReference: {fileID: 0}
-    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      propertyPath: exportCost
-      value: 300
-      objectReference: {fileID: 0}
-    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      propertyPath: exportName
-      value: cm3 of bluespace polycrystal
-      objectReference: {fileID: 0}
+      propertyPath: initialTraits.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5454ae301f8f02a43ae7496ed16f70bc,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a023982b9ee4fd40b87f69c23492dd6, type: 3}
+--- !u!1 &8887578544498410888 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5937237277765483991, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2968514552198412383}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-1904841469272333650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8887578544498410888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundReagents:
+    m_keys:
+    - {fileID: 11400000, guid: c8b0a877670e84d8aa73864eb8152aa5, type: 2}
+    m_values: 14000000

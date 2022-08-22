@@ -13,6 +13,7 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 		public int ComponentLocation;
 		public uint NetObject;
 		public ushort ComponentID;
+		public short listIndex;
 	}
 
 	public static readonly Dictionary<ushort, Type> componentIDToComponentType = new Dictionary<ushort, Type>(); //These are useful
@@ -22,8 +23,8 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 	{
 		//initialize id mappings
 		var alphabeticalComponentTypes =
-			typeof(IActionGUI).Assembly.GetTypes()
-				.Where(type => typeof(IActionGUI).IsAssignableFrom(type))
+			typeof(IAction).Assembly.GetTypes()
+				.Where(type => typeof(IAction).IsAssignableFrom(type))
 				.OrderBy(type => type.FullName);
 		ushort i = 0;
 		foreach (var componentType in alphabeticalComponentTypes)
@@ -40,18 +41,25 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 		var type = componentIDToComponentType[msg.ComponentID];
 		LoadNetworkObject(msg.NetObject);
 
-		if (SentByPlayer != ConnectedPlayer.Invalid)
+		if (SentByPlayer == PlayerInfo.Invalid) return;
+
+		var IActionGUIs = NetworkObject.GetComponentsInChildren(type);
+		if (IActionGUIs.Length > msg.ComponentLocation)
 		{
-			var IActionGUIs = NetworkObject.GetComponentsInChildren(type);
-			if (IActionGUIs.Length > msg.ComponentLocation)
+			if (IActionGUIs[msg.ComponentLocation] is IServerActionGUI IServerActionGUI)
 			{
-				var IServerActionGUI = IActionGUIs[msg.ComponentLocation] as IServerActionGUI;
 				IServerActionGUI.CallActionServer(SentByPlayer);
+				return;
+			}
+
+			if (IActionGUIs[msg.ComponentLocation] is IServerActionGUIMulti IServerActionGUIMulti)
+			{
+				IServerActionGUIMulti.CallActionServer(IServerActionGUIMulti.ActionData[msg.listIndex], SentByPlayer);
 			}
 		}
 	}
 
-	public static void Send(IActionGUI iServerActionGUI )
+	public static void Send(IActionGUI iServerActionGUI)
 	{
 		if (iServerActionGUI is Component)
 		{
@@ -67,6 +75,7 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 		var childActions = netObject.GetComponentsInChildren(componentType);
 		int componentLocation = 0;
 		bool found = false;
+
 		foreach (var action in childActions)
 		{
 			if ((action as IServerActionGUI) == actionComponent)
@@ -76,6 +85,7 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 			}
 			componentLocation++;
 		}
+
 		if (found)
 		{
 			var msg = new NetMessage
@@ -89,5 +99,60 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 		}
 
 		Logger.LogError("Failed to find IServerActionGUI on NetworkIdentity", Category.UserInput);
+	}
+
+	public static void Send(IActionGUIMulti iServerActionGUIMulti, ActionData action)
+	{
+		if (iServerActionGUIMulti is Component)
+		{
+			SendToComponent(iServerActionGUIMulti, action);
+		}
+		//else not doing anything, implying custom sending
+	}
+
+	private static void SendToComponent(IActionGUIMulti actionComponent, ActionData actionChosen)
+	{
+		var netObject = ((Component) actionComponent).GetComponent<NetworkIdentity>();
+		var componentType = actionComponent.GetType();
+		var childActions = netObject.GetComponentsInChildren(componentType);
+		int componentLocation = 0;
+		bool found = false;
+
+		foreach (var action in childActions)
+		{
+			if ((action as IServerActionGUIMulti) == actionComponent)
+			{
+				found = true;
+				break;
+			}
+			componentLocation++;
+		}
+
+		if (found)
+		{
+			var msg = new NetMessage
+			{
+				NetObject = netObject.netId,
+				ComponentLocation = componentLocation,
+				ComponentID = componentTypeToComponentID[componentType],
+				listIndex = FindIndex(actionComponent, actionChosen)
+			};
+			Send(msg);
+			return;
+		}
+
+		Logger.LogError("Failed to find IServerActionGUI on NetworkIdentity", Category.UserInput);
+	}
+
+	public static short FindIndex(IActionGUIMulti actionComponent, ActionData actionChosen)
+	{
+		for (int i = 0; i < actionComponent.ActionData.Count; i++)
+		{
+			if(actionComponent.ActionData[i] != actionChosen) continue;
+
+			return (short)i;
+		}
+
+		return 0;
 	}
 }

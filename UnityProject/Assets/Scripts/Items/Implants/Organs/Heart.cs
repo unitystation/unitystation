@@ -1,142 +1,162 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using Chemistry;
-using HealthV2;
 using UnityEngine;
+using Chemistry;
 
-public class Heart : BodyPartModification
+namespace HealthV2
 {
-	//The actual heartrate of this implant, in BPM.
-	/// <summary>
-	/// Heart Rate in BPM (beats per minute).
-	/// </summary>
-	private float heartRate = 0;
-
-	[SerializeField]
-	[Tooltip("How quickly the heart can change its heartrate per second. Human maximum is around 10.")]
-	private float heartRateDelta = 10;
-
-	[SerializeField]
-	[Tooltip("The maximum heartrate of the implant. Human maximum is about 200.")]
-	private float maxHeartRate = 200;
-
-	[Tooltip("Arbitrary rating of 'strength'. Used to determine how much bloodflow the heart can provide." +
-			 "100 is a human heart." +
-			 "The higher this is, the more total blood can be pushed around per heartbeat.")]
-	[SerializeField] private float heartStrength = 100f;
-
-	private float lastHeartBeat = 0f;
-	private float nextHeartBeat = 0f;
-
-	private float heartBeatDelay;
-
-	public bool HeartAttack = false;
-
-	System.Random RNGesus = new System.Random();
-
-
-	public bool CanTriggerHeartAttack = true;
-
-	public int SecondsOfRevivePulse = 30;
-
-	public int CurrentPulse = 0;
-
-	public override void ImplantPeriodicUpdate()
+	public class Heart : BodyPartFunctionality
 	{
-		base.ImplantPeriodicUpdate();
-		if (RelatedPart.HealthMaster.OverallHealth < -100)
-		{
+		public bool HeartAttack = false;
 
-			if (CanTriggerHeartAttack)
+		public bool CanTriggerHeartAttack = true;
+
+		public int heartAttackThreshold = -80;
+
+		public int SecondsOfRevivePulse = 30;
+
+		public int CurrentPulse = 0;
+
+		private bool alarmedForInternalBleeding = false;
+
+		[SerializeField] private Reagent salt;
+
+		[SerializeField] private float dangerSaltLevel = 20f; //in u
+
+		public override void EmpResult(int strength)
+		{
+			if (DMMath.Prob(0.5f))
 			{
 				DoHeartAttack();
-				CanTriggerHeartAttack = false;
+			}
+			else
+			{
+				base.EmpResult(strength);
+			}
+		}
+
+		public override void ImplantPeriodicUpdate()
+		{
+			base.ImplantPeriodicUpdate();
+			if (RelatedPart.HealthMaster.OverallHealth <= heartAttackThreshold)
+			{
+				if (CanTriggerHeartAttack)
+				{
+					DoHeartAttack();
+					CanTriggerHeartAttack = false;
+					CurrentPulse = 0;
+					return;
+				}
+
+				if (HeartAttack == false)
+				{
+					CurrentPulse++;
+					if (SecondsOfRevivePulse < CurrentPulse)
+					{
+						DoHeartAttack();
+					}
+				}
+			}
+			else if (RelatedPart.HealthMaster.OverallHealth < heartAttackThreshold/2)
+			{
+				CanTriggerHeartAttack = true;
 				CurrentPulse = 0;
+			}
+
+			DoHeartBeat();
+		}
+
+		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
+		{
+			livingHealth.CirculatorySystem.Hearts.Remove(this);
+		}
+
+		public override void AddedToBody(LivingHealthMasterBase livingHealth)
+		{
+			livingHealth.CirculatorySystem.Hearts.Add(this);
+		}
+
+		public override void InternalDamageLogic()
+		{
+			base.InternalDamageLogic();
+			if (RelatedPart.CurrentInternalBleedingDamage > 50 && alarmedForInternalBleeding == false)
+			{
+				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject,
+					$"You feel a sharp pain in your {RelatedPart.gameObject.ExpensiveName()}!",
+					$"{RelatedPart.HealthMaster.playerScript.visibleName} holds their {RelatedPart.gameObject.ExpensiveName()} in pain!");
+				alarmedForInternalBleeding = true;
+			}
+
+			if (RelatedPart.CurrentInternalBleedingDamage > RelatedPart.MaximumInternalBleedDamage)
+			{
+				DoHeartAttack();
+			}
+		}
+
+		public void DoHeartBeat()
+		{
+			//If we actually have a circulatory system.
+			if (HeartAttack)
+			{
+				if (SecondsOfRevivePulse < CurrentPulse) return;
+				if (DMMath.Prob(0.1))
+				{
+					HeartAttack = false;
+					alarmedForInternalBleeding = false;
+				}
+
 				return;
 			}
 
-			if (HeartAttack == false)
+			if (RelatedPart.HealthMaster.IsDead)
+				return; //For some reason the heart will randomly still continue to try and beat after death.
+			if (RelatedPart.HealthMaster.CirculatorySystem.BloodPool.MajorMixReagent == salt ||
+			    RelatedPart.HealthMaster.CirculatorySystem.BloodPool[salt] > dangerSaltLevel)
 			{
-				CurrentPulse++;
-				if (SecondsOfRevivePulse < CurrentPulse)
+				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject,
+					"<color=red>Your body spasms as a jolt of pain surges all over your body then into your heart!</color>",
+					$"<color=red>{RelatedPart.HealthMaster.playerScript.visibleName} spasms before holding " +
+					$"{RelatedPart.HealthMaster.playerScript.characterSettings.TheirPronoun(RelatedPart.HealthMaster.playerScript)} chest in shock before falling to the ground!</color>");
+				RelatedPart.HealthMaster.Death();
+			}
+		}
+
+
+		public float CalculateHeartbeat()
+		{
+			if (HeartAttack)
+			{
+				return 0;
+			}
+
+			//To exclude stuff like hunger and oxygen damage
+			var TotalModified = 1f;
+			foreach (var modifier in bodyPart.AppliedModifiers)
+			{
+				var toMultiply = 1f;
+				if (modifier == bodyPart.DamageModifier)
 				{
-					DoHeartAttack();
+					toMultiply = Mathf.Max(0f,
+						Mathf.Max(bodyPart.MaxHealth - bodyPart.TotalDamageWithoutOxyCloneRadStam, 0) / bodyPart.MaxHealth);
 				}
+				else if (modifier == bodyPart.HungerModifier)
+				{
+					continue;
+				}
+				else
+				{
+					toMultiply = Mathf.Max(0f, modifier.Multiplier);
+				}
+
+				TotalModified *= toMultiply;
 			}
+
+			return TotalModified;
 		}
-		else if (RelatedPart.HealthMaster.OverallHealth < -50)
+
+		public void DoHeartAttack()
 		{
-			CanTriggerHeartAttack = true;
-			CurrentPulse = 0;
+			HeartAttack = true;
 		}
-
-		DoHeartBeat(RelatedPart.HealthMaster);
-	}
-
-	public void DoHeartBeat(LivingHealthMasterBase healthMaster)
-	{
-		//If we actually have a circulatory system.
-		if (HeartAttack)
-		{
-			if (SecondsOfRevivePulse < CurrentPulse) return;
-			var RNGInt = RNGesus.Next(0, 10000);
-			if (RNGInt > 9990)
-			{
-				HeartAttack = false;
-			}
-
-			return;
-		}
-
-		Heartbeat(RelatedPart.TotalModified);
-	}
-
-
-	public void Heartbeat(float efficiency)
-	{
-		CirculatorySystemBase circulatorySystem = RelatedPart.HealthMaster.CirculatorySystem;
-		if (circulatorySystem)
-		{
-			//circulatorySystem.HeartBeat(heartStrength * TotalModified);
-			//TODOH Balance all this stuff, Currently takes an eternity to suffocate
-			// Logger.Log("heart Available  " + ReadyBloodPool);
-			// Logger.Log("heart pumpedReagent " + pumpedReagent);
-
-			float totalWantedBlood = 0;
-			foreach (BodyPart implant in RelatedPart.HealthMaster.ImplantList)
-			{
-				if (implant.IsBloodCirculated == false) continue;
-				totalWantedBlood += implant.BloodThroughput * efficiency;
-				// Due to how blood is implemented as a single pool with its solutes, we need to compensate for
-				// consumed solutes.  This may change in the future if blood changes
-				totalWantedBlood += implant.BloodContainer.MaxCapacity - implant.BloodContainer.ReagentMixTotal;
-			}
-			float toPump = Mathf.Min(totalWantedBlood, heartStrength * efficiency);
-			var bloodToGive = circulatorySystem.ReadyBloodPool.Take(Mathf.Min(toPump, circulatorySystem.ReadyBloodPool.Total));
-			if (bloodToGive.Total < toPump)
-			{
-				// Try to maintain blood levels in organs by taking the remainder from used
-				circulatorySystem.UsedBloodPool.TransferTo(bloodToGive, Mathf.Min(toPump - bloodToGive.Total, circulatorySystem.UsedBloodPool.Total));
-			}
-
-			ReagentMix SpareBlood = new ReagentMix();
-			foreach (BodyPart implant in RelatedPart.HealthMaster.ImplantList)
-			{
-				if (implant.IsBloodCirculated == false) continue;
-				ReagentMix transfer = bloodToGive.Take((implant.BloodThroughput * efficiency + implant.BloodContainer.MaxCapacity
-					- implant.BloodContainer.ReagentMixTotal) / totalWantedBlood * bloodToGive.Total);
-				transfer.Add(SpareBlood);
-				SpareBlood.Clear();
-				SpareBlood.Add(implant.BloodPumpedEvent(transfer, efficiency));
-			}
-			circulatorySystem.ReadyBloodPool.Add(SpareBlood);
-			circulatorySystem.ReadyBloodPool.Add(bloodToGive);
-		}
-	}
-
-	public void DoHeartAttack()
-	{
-		HeartAttack = true;
 	}
 }

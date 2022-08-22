@@ -19,6 +19,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
+      propertyPath: slashChance
+      value: 29
+      objectReference: {fileID: 0}
+    - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
+      propertyPath: slashDamage
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
       propertyPath: throwDamage
       value: 12
       objectReference: {fileID: 0}
@@ -109,7 +119,7 @@ PrefabInstance:
     - target: {fileID: 2684522713096356133, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: dc22a784e8d8725458457111b43b4525
       objectReference: {fileID: 0}
     - target: {fileID: 2748487887573520333, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
@@ -117,6 +127,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 62ceda4db9b861f4da9c9991c64d74a9,
         type: 3}
+    - target: {fileID: 7675473296682472099, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
+      propertyPath: pickHardness
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 7675473296682472099, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
       propertyPath: timeMultiplier
@@ -128,5 +143,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 11f4063bc48a2f24495e774f47aa8ec8,
         type: 2}
+    - target: {fileID: 8966626532705841404, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
+      propertyPath: foreverID
+      value: dc22a784e8d8725458457111b43b4525
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82cb1c39112974a498a9756981eb07d0, type: 3}

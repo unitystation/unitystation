@@ -11,14 +11,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: fefa8e031f53aa84d80ed032421a30fc,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 251446803486426646, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: fefa8e031f53aa84d80ed032421a30fc,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 251446803486426646, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -36,6 +34,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9e8d4df17c8576b4599bd843cbe434e0,
         type: 2}
+    - target: {fileID: 268759016881297918, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: foreverID
+      value: 6920da5d154527242970c7c2f00fcd16
+      objectReference: {fileID: 0}
     - target: {fileID: 1028637337542569492, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -51,7 +54,7 @@ PrefabInstance:
     - target: {fileID: 6526945778998519847, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 6920da5d154527242970c7c2f00fcd16
       objectReference: {fileID: 0}
     - target: {fileID: 6529050757172429927, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
@@ -147,6 +150,133 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: security winter coat
+      objectReference: {fileID: 0}
+    - target: {fileID: 6768331582244846321, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: initialDescription
+      value: A red, armour-padded winter coat. It glitters with a mild ablative coating
+        and a robust air of authority.  The zipper tab is a pair of jingly little
+        handcuffs that get annoying after the first ten seconds.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Acid
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bomb
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Acid
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Bomb
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Acid
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Bomb
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.Acid
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.Bomb
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Laser
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Melee
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Laser
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Melee
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Laser
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Melee
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.Laser
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.Melee
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bullet
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Energy
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Bullet
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Energy
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Bullet
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Energy
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.Bullet
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.Energy
+      value: 40
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: caa7ec1293d63a74aa063307403f0c7e, type: 3}

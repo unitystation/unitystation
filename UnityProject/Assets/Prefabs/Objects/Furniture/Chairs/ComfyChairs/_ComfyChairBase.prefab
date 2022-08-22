@@ -25,9 +25,10 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 75840651836233892}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4762619992935748996}
   m_RootOrder: 2
@@ -43,6 +44,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -70,7 +72,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 18
+  m_SortingLayer: 23
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 91fb6c1c729e4894289f9306c808427d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -98,10 +100,11 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 42ab2025145ef5e4a8948d5573d74701, type: 2}
+  randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &5178273871970585101
 GameObject:
   m_ObjectHideFlags: 0
@@ -127,9 +130,10 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5178273871970585101}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4762619992935748996}
   m_RootOrder: 1
@@ -145,6 +149,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -172,7 +177,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 0
   m_Sprite: {fileID: -1425884554549205036, guid: 4860eddafee2e8b479cbe11b0e62fa2f,
     type: 3}
@@ -201,10 +206,11 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 5c354fe9d180af1448eff7510b47b852, type: 2}
+  randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1001 &3717610439667369382
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -220,17 +226,17 @@ PrefabInstance:
     - target: {fileID: 308434288503612314, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 754031595620211045, guid: 1a00e842e154f7d43811c5d45328988c,
-        type: 3}
-      propertyPath: Resistances.Flammable
-      value: 1
+      value: 670ba51760414e64093966f4abfab82d
       objectReference: {fileID: 0}
     - target: {fileID: 754031595620211045, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
       propertyPath: initialIntegrity
       value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 754031595620211045, guid: 1a00e842e154f7d43811c5d45328988c,
+        type: 3}
+      propertyPath: Resistances.Flammable
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1531201218411481544, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
@@ -253,6 +259,16 @@ PrefabInstance:
       propertyPath: howMany
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5110458263462389937, guid: 1a00e842e154f7d43811c5d45328988c,
+        type: 3}
+      propertyPath: foreverID
+      value: 670ba51760414e64093966f4abfab82d
+      objectReference: {fileID: 0}
+    - target: {fileID: 8182938654540533794, guid: 1a00e842e154f7d43811c5d45328988c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8182938654540533794, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -266,31 +282,6 @@ PrefabInstance:
     - target: {fileID: 8182938654540533794, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8182938654540533794, guid: 1a00e842e154f7d43811c5d45328988c,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8182938654540533794, guid: 1a00e842e154f7d43811c5d45328988c,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8182938654540533794, guid: 1a00e842e154f7d43811c5d45328988c,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8182938654540533794, guid: 1a00e842e154f7d43811c5d45328988c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8182938654540533794, guid: 1a00e842e154f7d43811c5d45328988c,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8182938654540533794, guid: 1a00e842e154f7d43811c5d45328988c,

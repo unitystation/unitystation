@@ -12,6 +12,94 @@ PrefabInstance:
       propertyPath: initialName
       value: xeno steak
       objectReference: {fileID: 0}
+    - target: {fileID: 854983433838044996, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 854983433838044996, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 854983433838044996, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 1e9cbc79a37389b40b5ca9ab25b9770c,
+        type: 2}
+    - target: {fileID: 854983433838044996, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: ed8f275a3275ffb4aadc4acccf7f51b1,
+        type: 2}
+    - target: {fileID: 854983433838044996, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[5].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f57c2d78ea325a40be48e1187a390a0,
+        type: 2}
+    - target: {fileID: 854983433838044996, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[6].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 6827275bd0c842d4aaf67202b86be579,
+        type: 2}
+    - target: {fileID: 854983433838044996, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[7].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 46a0a14befc42c84089fcd8f62fa6546,
+        type: 2}
+    - target: {fileID: 854983433838044996, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[8].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 01495aa97f1f15d4c81002c4e2fc7918,
+        type: 2}
+    - target: {fileID: 854983433838044996, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[9].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 323aed30de9f90a40ac87aaacc3f7161,
+        type: 2}
+    - target: {fileID: 854983433838044996, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[10].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: bf5871250e2e7704e848602a3def3de7,
+        type: 2}
+    - target: {fileID: 854983433838044996, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 854983433838044996, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 854983433838044996, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[5].ingredientIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 854983433838044996, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[6].ingredientIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 854983433838044996, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[8].ingredientIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -29,6 +117,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +134,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
@@ -75,12 +158,17 @@ PrefabInstance:
     - target: {fileID: 991535446379057958, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 4b81268e7c738bc4bb40a869f270dce6
       objectReference: {fileID: 0}
     - target: {fileID: 1055922833323646414, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6119310249531040511, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: foreverID
+      value: 4b81268e7c738bc4bb40a869f270dce6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bdbfea1235c0674488cd2a61b2e9cfa4, type: 3}

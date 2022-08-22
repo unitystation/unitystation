@@ -21,7 +21,7 @@ PrefabInstance:
     - target: {fileID: 2230048137830517118, guid: e585654aca660b04298c0256d0f33b3c,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0a933270d4c4d6545b3e7043f324a84a
       objectReference: {fileID: 0}
     - target: {fileID: 2262651372276479178, guid: e585654aca660b04298c0256d0f33b3c,
         type: 3}
@@ -88,18 +88,26 @@ PrefabInstance:
       propertyPath: bodyPartsCovered
       value: 240
       objectReference: {fileID: 0}
+    - target: {fileID: 3300206995603463263, guid: e585654aca660b04298c0256d0f33b3c,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3300206995603463263, guid: e585654aca660b04298c0256d0f33b3c,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 5123891193220867919, guid: e585654aca660b04298c0256d0f33b3c,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: e7c4acadde2a05548bd5cc6bff1a1919,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 5123891193220867919, guid: e585654aca660b04298c0256d0f33b3c,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: e7c4acadde2a05548bd5cc6bff1a1919,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 5123891193220867919, guid: e585654aca660b04298c0256d0f33b3c,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -111,6 +119,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: bb9165f4f0165d04e8ec1fa870eb8563,
         type: 2}
+    - target: {fileID: 5178071445279701159, guid: e585654aca660b04298c0256d0f33b3c,
+        type: 3}
+      propertyPath: foreverID
+      value: 0a933270d4c4d6545b3e7043f324a84a
+      objectReference: {fileID: 0}
     - target: {fileID: 5341430068960055117, guid: e585654aca660b04298c0256d0f33b3c,
         type: 3}
       propertyPath: PresentSpriteSet

@@ -12,18 +12,31 @@ PrefabInstance:
       propertyPath: bodyPartsCovered
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: -9097270597331898786, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -9097270597331898786, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armoringBodyPartType
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 64cad92d96d61754196317409f935f85,
-        type: 2}
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: hidesIdentity
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 64cad92d96d61754196317409f935f85,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: hideClothingFlags
@@ -46,6 +59,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d6144d0b9eec84944be290f793477e44,
         type: 2}
+    - target: {fileID: 3585452806818900716, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: foreverID
+      value: ff09e60d118a31e478d827be7faa2f0b
+      objectReference: {fileID: 0}
     - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -60,7 +78,7 @@ PrefabInstance:
     - target: {fileID: 7560587375320734517, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: ff09e60d118a31e478d827be7faa2f0b
       objectReference: {fileID: 0}
     - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}

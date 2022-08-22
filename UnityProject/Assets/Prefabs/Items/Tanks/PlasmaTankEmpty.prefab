@@ -12,10 +12,30 @@ PrefabInstance:
       propertyPath: Gases.Array.data[0]
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 441705632711067785, guid: 00d992124da9752419c592def689f69c,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 441705632711067785, guid: 00d992124da9752419c592def689f69c,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].Moles
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1647710949482686311, guid: 00d992124da9752419c592def689f69c,
+        type: 3}
+      propertyPath: foreverID
+      value: 05081ac8757063941b7c352220fe371b
+      objectReference: {fileID: 0}
     - target: {fileID: 5649591480579549962, guid: 00d992124da9752419c592def689f69c,
         type: 3}
       propertyPath: m_Name
       value: PlasmaTankEmpty
+      objectReference: {fileID: 0}
+    - target: {fileID: 5653393729262720638, guid: 00d992124da9752419c592def689f69c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5653393729262720638, guid: 00d992124da9752419c592def689f69c,
         type: 3}
@@ -34,6 +54,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5653393729262720638, guid: 00d992124da9752419c592def689f69c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5653393729262720638, guid: 00d992124da9752419c592def689f69c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +71,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5653393729262720638, guid: 00d992124da9752419c592def689f69c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5653393729262720638, guid: 00d992124da9752419c592def689f69c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5653393729262720638, guid: 00d992124da9752419c592def689f69c,
         type: 3}
@@ -75,7 +90,7 @@ PrefabInstance:
     - target: {fileID: 5761040831305373374, guid: 00d992124da9752419c592def689f69c,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 05081ac8757063941b7c352220fe371b
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00d992124da9752419c592def689f69c, type: 3}

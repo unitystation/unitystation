@@ -1,68 +1,65 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UI.Core;
+using UI.Core.NetUI;
+using Objects.Atmospherics;
 
-public class GUI_Mixer  : NetTab
+namespace UI.Objects.Atmospherics
 {
-	public NetSlider Slider;
-
-	public Pipes.Mixer Mixer;
-
-	public NumberSpinner numberSpinner;
-
-	public NetToggle PToggle;
-
-	public NetWheel NetWheel;
-
-	public NetLabel ToTakeFromInputOne;
-	public NetLabel ToTakeFromInputTwo;
-
-	public void Set()
+	public class GUI_Mixer : NetTab
 	{
-		float Number = (float.Parse(Slider.Value) / 100f);
-		Mixer.ToTakeFromInputOne = Number;
-		Mixer.ToTakeFromInputTwo = 1-Number;
+		public NetSlider Slider;
 
-		ToTakeFromInputOne.SetValueServer(Mathf.RoundToInt(Number * 100f).ToString() + "%");
-		ToTakeFromInputTwo.SetValueServer(Mathf.RoundToInt(Mixer.ToTakeFromInputTwo * 100f).ToString() + "%");
-	}
+		public Mixer Mixer;
 
-	void Start()
-	{
-		if (Provider != null)
+		public NumberSpinner numberSpinner;
+
+		public NetToggle PToggle;
+
+		public NetWheel NetWheel;
+
+		public NetText_label ToTakeFromInputOne;
+		public NetText_label ToTakeFromInputTwo;
+
+		public void Set()
 		{
-			Mixer = Provider.GetComponentInChildren<Pipes.Mixer>();
+			float Number = (float.Parse(Slider.Value) / 100f);
+			Mixer.ToTakeFromInputOne = Number;
+			Mixer.ToTakeFromInputTwo = 1 - Number;
+
+			ToTakeFromInputOne.SetValueServer(Mathf.RoundToInt(Number * 100f).ToString() + "%");
+			ToTakeFromInputTwo.SetValueServer(Mathf.RoundToInt(Mixer.ToTakeFromInputTwo * 100f).ToString() + "%");
 		}
-		numberSpinner.ServerSpinTo( Mixer.MaxPressure);
-		numberSpinner.DisplaySpinTo(Mixer.MaxPressure);
-		NetWheel.SetValueServer(Mixer.MaxPressure.ToString());
-		numberSpinner.OnValueChange.AddListener(SetMaxPressure);
-		PToggle.SetValueServer(BOOLTOstring(Mixer.IsOn)) ;
 
-		ToTakeFromInputOne.SetValueServer(Mathf.RoundToInt(Mixer.ToTakeFromInputOne * 100f).ToString() + "%");
-		ToTakeFromInputTwo.SetValueServer(Mathf.RoundToInt(Mixer.ToTakeFromInputTwo * 100f).ToString() + "%");
-	}
-
-	public string BOOLTOstring(bool Bool)
-	{
-		if (Bool)
+		private void Start()
 		{
-			return "1";
+			if (Provider != null)
+			{
+				Mixer = Provider.GetComponentInChildren<Mixer>();
+			}
+			numberSpinner.ServerSpinTo(Mixer.MaxPressure);
+			numberSpinner.DisplaySpinTo(Mixer.MaxPressure);
+			NetWheel.SetValueServer(Mixer.MaxPressure.ToString());
+			numberSpinner.OnValueChange.AddListener(SetMaxPressure);
+			PToggle.SetValueServer(BoolToString(Mixer.IsOn));
+
+			ToTakeFromInputOne.SetValueServer(Mathf.RoundToInt(Mixer.ToTakeFromInputOne * 100f).ToString() + "%");
+			ToTakeFromInputTwo.SetValueServer(Mathf.RoundToInt(Mixer.ToTakeFromInputTwo * 100f).ToString() + "%");
 		}
-		else
+
+		public string BoolToString(bool _bool)
 		{
-			return "0";
+			return _bool ? "1" : "0";
 		}
-	}
 
-	public void TogglePower()
-	{
-		Mixer.TogglePower();
-	}
+		public void TogglePower()
+		{
+			Mixer.TogglePower();
+		}
 
-
-	public void SetMaxPressure(int To)
-	{
-		Mixer.MaxPressure = To;
+		public void SetMaxPressure(int To)
+		{
+			Mixer.MaxPressure = To;
+		}
 	}
 }

@@ -16,9 +16,12 @@ MonoBehaviour:
   isCrewmember: 1
   lateSpawnIsArrivals: 1
   inventoryPopulator: {fileID: 11400000, guid: 10c1b9e247410430d8775c168c9faec5, type: 2}
+  useStandardPopulator: 1
+  useCharacterSettings: 1
   limit: 1
   priority: 2
-  allowedAccess: 040000000a0000001a0000001e0000001f0000002100000022000000260000002c0000003100000032000000490000004a00000020000000
+  issuedClearance: 17000000300000001f0000000a0000000b000000110000000d00000012000000340000000c0000003500000016000000
+  issuedLowPopClearance: 17000000300000001f0000000a0000000b000000110000000d00000012000000340000000c0000003500000016000000
   spells: []
   progress: 45
   choiceColor: {r: 1, g: 0.93333334, b: 0.6666667, a: 1}
@@ -33,9 +36,10 @@ MonoBehaviour:
     and no repairs are needed on the station.\r\n\r\nYou\u2019re expected to have
     decent knowledge of how power, atmospherics, construction and repair works, but
     also know how to make your people move their butts and get to work.\r\n\r\nNot
-    sure what to do? Plan a crazy expansion for the station, we surely need a new
-    party room. Get yelled at the radio because the station is in darkness, discover
-    that it actually was someone turning off the lights.\r"
+    sure what to do? Build a new supermatter engine in the unused bathrooms. Plan
+    a crazy expansion for the station, we surely need a new party room. Get yelled
+    at the radio because the station is in darkness, discover that it actually was
+    someone turning off the lights.\r "
   customProperties:
     m_keys: []
     m_values: 
@@ -48,5 +52,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   textColor: {r: 1, g: 0.9333334, b: 0.6666667, a: 1}
   backgroundColor: {r: 1, g: 0, b: 0, a: 0}
+  specialPlayerPrefab: {fileID: 0}

@@ -1,64 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &2457300640628433396
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7540635897288641467}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4497ffd350d542aaa0dbd389f722acb4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  veryGoodMood:
-  - It looks incredibly happy and healthy!
-  goodMood:
-  - It looks happy.
-  - It looks healthy.
-  normalMood:
-  - 
-  badMood:
-  - It looks kind of sad.
-  - It looks stressed out.
-  - It looks badly treated.
---- !u!114 &3329383262291247399
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7540635897288641467}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfeb6401c1a57b4489160d9ef2571ef4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mobName: 
-  knockedDownRotation: 90
---- !u!114 &6265352052849887098
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7540635897288641467}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 198e62f73ad0d294699f0d7d013cefc1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialMoodLevel: 0
-  maxMoodLevel: 100
-  isAffectedByDamage: 1
-  moodOnHit: -10
-  isAffectedByPetting: 1
-  moodOnPetted: 10
-  pettingCooldown: -1
-  isAffectedByFood: 0
-  moodOnFood: 10
-  timeBetweenFoodCheck: 300
 --- !u!1001 &47169248964713256
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -98,26 +39,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7497246779718121111, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7497246779718121111, guid: 64d782023543d4542b89ce3f9402b084,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7497246779718121111, guid: 64d782023543d4542b89ce3f9402b084,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7497246779718121111, guid: 64d782023543d4542b89ce3f9402b084,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7497246779718121111, guid: 64d782023543d4542b89ce3f9402b084,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -134,7 +55,7 @@ PrefabInstance:
     - target: {fileID: 7607258964611336719, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: f74cbb9054020dd4f8c9dcdedd7398eb
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4275609206241353299, guid: 64d782023543d4542b89ce3f9402b084, type: 3}
@@ -145,3 +66,48 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 47169248964713256}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2457300640628433396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7540635897288641467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4497ffd350d542aaa0dbd389f722acb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  veryGoodMood:
+  - It looks incredibly happy and healthy!
+  goodMood:
+  - It looks happy.
+  - It looks healthy.
+  normalMood:
+  - 
+  badMood:
+  - It looks kind of sad.
+  - It looks stressed out.
+  - It looks badly treated.
+--- !u!114 &6265352052849887098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7540635897288641467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 198e62f73ad0d294699f0d7d013cefc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialMoodLevel: 0
+  maxMoodLevel: 100
+  isAffectedByDamage: 1
+  moodOnHit: -10
+  isAffectedByPetting: 1
+  moodOnPetted: 10
+  pettingCooldown: -1
+  isAffectedByFood: 0
+  moodOnFood: 10
+  timeBetweenFoodCheck: 300

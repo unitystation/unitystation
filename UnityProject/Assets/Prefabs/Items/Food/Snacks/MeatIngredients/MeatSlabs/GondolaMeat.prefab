@@ -13,21 +13,32 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9057938701420536624, guid: 39c1da748b65ed748ac55693f56927a4,
         type: 3}
+    - target: {fileID: 1235368713201754175, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 9057938701420536624, guid: 39c1da748b65ed748ac55693f56927a4,
+        type: 3}
+    - target: {fileID: 2326103295181735537, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: initialName
+      value: gondola meat
+      objectReference: {fileID: 0}
     - target: {fileID: 2326103295181735537, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: initialDescription
       value: According to legends of old, consuming raw gondola flesh grants one
         inner peace.
       objectReference: {fileID: 0}
-    - target: {fileID: 2326103295181735537, guid: 9914f83c172606747877a09872724398,
-        type: 3}
-      propertyPath: initialName
-      value: gondola meat
-      objectReference: {fileID: 0}
     - target: {fileID: 2786145059108661523, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: m_Name
       value: GondolaMeat
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
         type: 3}
@@ -46,6 +57,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +74,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
         type: 3}
@@ -87,7 +93,7 @@ PrefabInstance:
     - target: {fileID: 2827791845413590183, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 475fa145c1f671b4d916dfc2f18de701
       objectReference: {fileID: 0}
     - target: {fileID: 3999315099893948859, guid: 9914f83c172606747877a09872724398,
         type: 3}
@@ -101,15 +107,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3999315099893948859, guid: 9914f83c172606747877a09872724398,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3999315099893948859, guid: 9914f83c172606747877a09872724398,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: dd10310c18d4bdabca267178a4fe7963,
         type: 2}
+    - target: {fileID: 3999315099893948859, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3999315099893948859, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
@@ -120,11 +126,21 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 162
       objectReference: {fileID: 0}
+    - target: {fileID: 6304245728322857827, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 162
+      objectReference: {fileID: 0}
     - target: {fileID: 8353191170574324372, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 2fd0300851494cd4c9b0f8604e1aa3a2,
         type: 2}
+    - target: {fileID: 9083999932805424510, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: foreverID
+      value: 475fa145c1f671b4d916dfc2f18de701
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9914f83c172606747877a09872724398, type: 3}

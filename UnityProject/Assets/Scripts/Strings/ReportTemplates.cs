@@ -5,7 +5,7 @@
 		public static readonly string CentcomReport = "<size=40><b>CentComm Report</b></size> " +
 		                                              "\n __________________________________\n\n{0}";
 
-		public static readonly string InitialUpdate = "<color=white><size=40><b>{0}</b></size></color>\n\n"
+		public static readonly string InitialUpdate = $"<color=white><size={ChatTemplates.LargeText}><b>{{0}}</b></size></color>\n\n"
 		                                              + "<color=#FF151F>A summary has been copied and" +
 		                                              " printed to all communications consoles</color>";
 
@@ -26,12 +26,5 @@
 			"<color=blue><size=32>Crew Objectives:</size></color>\n\n"+
 			"<size=24>- Subvert the threat.\n\n- Keep the productivity in the station.</size>";
 
-		public static readonly string StationObjective =
-			" <size=26>Asteroid bodies have been sighted in the local area around " +
-			"OutpostStation IV. Locate and exploit local sources for plasma deposits.</size>\n \n " +
-			"<color=blue><size=32>Crew Objectives:</size></color>\n \n <size=24>- Locate and mine " +
-			"local Plasma Deposits\n \n - Fulfill order of {0} Solid Plasma units and dispatch to " +
-			"Central Command via Cargo Shuttle</size>\n \n <size=32>Latest Asteroid Sightings:" +
-			"</size>\n \n";
 	}
 }

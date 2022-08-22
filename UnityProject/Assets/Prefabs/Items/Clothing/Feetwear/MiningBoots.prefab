@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 1762207313667118248, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: afe0b0cc9e24249c1aaf8b7b2c4b3a3c
       objectReference: {fileID: 0}
     - target: {fileID: 1764031991386896616, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
@@ -99,18 +99,21 @@ PrefabInstance:
       value: Steel-toed mining boots for mining in hazardous environments. Very good
         at keeping toes uncrushed.
       objectReference: {fileID: 0}
+    - target: {fileID: 4709096474333209969, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: foreverID
+      value: afe0b0cc9e24249c1aaf8b7b2c4b3a3c
+      objectReference: {fileID: 0}
     - target: {fileID: 4728094771363396249, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: e5b9d5d568d0aa24db5b41adcbcd2a0d,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4728094771363396249, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: e5b9d5d568d0aa24db5b41adcbcd2a0d,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4728094771363396249, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: allClothingData.Array.size

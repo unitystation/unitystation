@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: false_open
   m_EditorClassIdentifier: 
   displayName: fwallO
+  description: 
   LayerType: 0
   TileType: 1
   RequiredTiles:
@@ -24,9 +25,15 @@ MonoBehaviour:
   SpawnWithNoAir: 0
   passable: 1
   mineable: 0
-  RadiationPassability: 0.35
+  miningTime: 5
+  constructable: 1
+  RadiationPassability: 0.75
+  ThermalConductivity: 0
+  HeatCapacity: 312500
   doesReflectBullet: 0
   indestructible: 0
+  ExplosionImpassable: 1
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 
     m_values: 
@@ -43,8 +50,10 @@ MonoBehaviour:
     Acid: 90
     Magic: 0
     Bio: 100
+    DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: bb76dc79372e14705abf68e3caa3e0f9, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 0
   lootOnDespawn: {fileID: 0}
@@ -58,6 +67,8 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  SoundOnDestroy: []
   connectCategory: 0
   connectType: 1
   spriteSheet:

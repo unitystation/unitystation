@@ -41,6 +41,9 @@ public class MouseDraggable : MonoBehaviour
 	//cached list of MouseDrop interaction components on this object (may be empty)
 	private IBaseInteractable<MouseDrop>[] mouseDrops;
 
+	[SerializeField]
+	private PlayerTypes allowedToMouseDrag = PlayerTypes.Normal;
+
 	void Start()
 	{
 		mouseDrops = GetComponents<IBaseInteractable<MouseDrop>>();
@@ -72,6 +75,8 @@ public class MouseDraggable : MonoBehaviour
 
 	private void LateUpdate()
 	{
+		if(CustomNetworkManager.IsHeadless) return;
+
 		if (shadowObject == null)
 		{
 			return;
@@ -122,9 +127,9 @@ public class MouseDraggable : MonoBehaviour
 	/// </summary>
 	/// <param name="dragger">player attempting the drag</param>
 	/// <returns></returns>
-	public bool CanBeginDrag(GameObject dragger)
+	public bool CanBeginDrag(PlayerScript dragger)
 	{
 		return Validations.CanApply(dragger, gameObject, NetworkSide.Client, allowDragWhileSoftCrit,
-			draggerMustBeAdjacent ? ReachRange.Standard : ReachRange.Unlimited);
+			draggerMustBeAdjacent ? ReachRange.Standard : ReachRange.Unlimited, apt: allowedToMouseDrag);
 	}
 }

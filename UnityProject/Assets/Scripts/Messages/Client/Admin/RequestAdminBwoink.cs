@@ -1,6 +1,6 @@
-﻿using Messages.Client;
+﻿using Mirror;
 using Messages.Server.AdminTools;
-using Mirror;
+
 
 namespace Messages.Client.Admin
 {
@@ -8,40 +8,28 @@ namespace Messages.Client.Admin
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public string Userid;
-			public string AdminToken;
 			public string UserToBwoink;
 			public string Message;
 		}
 
 		public override void Process(NetMessage msg)
 		{
-			VerifyAdminStatus(msg);
+			if (IsFromAdmin() == false) return;
+
+			if (PlayerList.Instance.TryGetByUserID(msg.UserToBwoink, out var recipient) == false) return;
+
+			AdminBwoinkMessage.Send(recipient.GameObject, SentByPlayer.UserId, $"<color=red>{SentByPlayer.Username}: {msg.Message}</color>");
+			UIManager.Instance.adminChatWindows.adminPlayerChat.ServerAddChatRecord(msg.Message, recipient, SentByPlayer);
 		}
 
-		void VerifyAdminStatus(NetMessage msg)
+		public static NetMessage Send(string userIDToBwoink, string message)
 		{
-			var player = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
-			if (player != null)
+			NetMessage msg = new()
 			{
-				var recipient = PlayerList.Instance.GetAllByUserID(msg.UserToBwoink);
-				foreach (var r in recipient)
-				{
-					AdminBwoinkMessage.Send(r.GameObject, msg.Userid, "<color=red>" + msg.Message + "</color>");
-					UIManager.Instance.adminChatWindows.adminPlayerChat.ServerAddChatRecord(msg.Message, msg.UserToBwoink, msg.Userid);
-				}
-			}
-		}
-
-		public static NetMessage Send(string userId, string adminToken, string userIDToBwoink, string message)
-		{
-			NetMessage msg = new NetMessage
-			{
-				Userid = userId,
-				AdminToken = adminToken,
 				UserToBwoink = userIDToBwoink,
 				Message = message
 			};
+
 			Send(msg);
 			return msg;
 		}

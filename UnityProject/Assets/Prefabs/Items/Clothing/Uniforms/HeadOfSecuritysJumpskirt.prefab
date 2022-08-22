@@ -12,10 +12,100 @@ PrefabInstance:
       propertyPath: bodyPartsCovered
       value: 240
       objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Acid
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Fire
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Acid
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Fire
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Acid
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Fire
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.Acid
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.Fire
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[4].armor.Acid
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[4].armor.Fire
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Melee
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Melee
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Melee
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.Melee
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[4].armor.Melee
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[4].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2909197017712554513, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: a94b49d043cfe8446899d837f0429a38
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
@@ -43,8 +133,7 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: d8624097696794e4c9372b8789d7208c,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7594101368484477531, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
       propertyPath: initialName
@@ -127,18 +216,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: HeadOfSecurityJumpskirt
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: foreverID
+      value: a94b49d043cfe8446899d837f0429a38
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: d8624097696794e4c9372b8789d7208c,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: d8624097696794e4c9372b8789d7208c,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
       propertyPath: allClothingData.Array.size

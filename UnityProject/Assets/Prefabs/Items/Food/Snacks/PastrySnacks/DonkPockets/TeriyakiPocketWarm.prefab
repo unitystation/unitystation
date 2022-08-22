@@ -18,10 +18,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: e4394d3e3b1f7264d95187dfe5d7a069,
         type: 3}
+    - target: {fileID: 2985111399859524703, guid: 76e58cccbbfd2ab40b893f51eddd9094,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3028951143565990583, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0309eef670260ba4b971721f96ac3441
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
@@ -40,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
@@ -85,14 +90,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3274486538061236321, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
-      propertyPath: initialDescription
-      value: An east-asian take on the classic stationside snack, now steamy and
-        warm.
+      propertyPath: initialName
+      value: warm Teriyaki-pocket
       objectReference: {fileID: 0}
     - target: {fileID: 3274486538061236321, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
-      propertyPath: initialName
-      value: warm Teriyaki-pocket
+      propertyPath: initialDescription
+      value: An east-asian take on the classic stationside snack, now steamy and
+        warm.
       objectReference: {fileID: 0}
     - target: {fileID: 4230781465489895339, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
@@ -120,11 +125,22 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 160
       objectReference: {fileID: 0}
+    - target: {fileID: 6506439916034532723, guid: 76e58cccbbfd2ab40b893f51eddd9094,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 160
+      objectReference: {fileID: 0}
+    - target: {fileID: 8297446324460465006, guid: 76e58cccbbfd2ab40b893f51eddd9094,
+        type: 3}
+      propertyPath: foreverID
+      value: 0309eef670260ba4b971721f96ac3441
+      objectReference: {fileID: 0}
     - target: {fileID: 9140853328041680004, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 183688d9021a28740aec8cfa80098654,
+        type: 2}
     m_RemovedComponents:
     - {fileID: 2243081511552140860, guid: 76e58cccbbfd2ab40b893f51eddd9094, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 76e58cccbbfd2ab40b893f51eddd9094, type: 3}

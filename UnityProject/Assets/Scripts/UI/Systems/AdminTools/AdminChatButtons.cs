@@ -11,11 +11,13 @@ namespace AdminTools
 		public GUI_Notification mentorNotification = null;
 		public GUI_Notification playerNotification = null;
 		public GUI_Notification prayerNotification = null;
+		public GUI_Notification adminLogNotification = null;
 		[SerializeField] private AdminChatWindows adminChatWindows = null;
 		[SerializeField] private Button adminChatButton = null;
 		[SerializeField] private Button mentorChatButton = null;
 		[SerializeField] private Button playerChatButton = null;
 		[SerializeField] private Button prayerWindowButton = null;
+		[SerializeField] private Button adminLogButton = null;
 		// Ignore default color warning
 #pragma warning disable CS0649
 		[SerializeField] private Color selectedColor;
@@ -41,32 +43,38 @@ namespace AdminTools
 
 		void ToggleButtons(AdminChatWindow selectedWindow)
 		{
-			if(adminChatButton != null)
+			if (adminChatButton != null)
 				adminChatButton.image.color = unSelectedColor;
-			if(mentorChatButton != null)
+			if (mentorChatButton != null)
 				mentorChatButton.image.color = unSelectedColor;
-			if(playerChatButton != null)
+			if (playerChatButton != null)
 				playerChatButton.image.color = unSelectedColor;
-			if(prayerWindowButton != null)
+			if (prayerWindowButton != null)
 				prayerWindowButton.image.color = unSelectedColor;
+			if (adminLogButton != null)
+				adminLogButton.image.color = unSelectedColor;
 
 			switch (selectedWindow)
 			{
 				case AdminChatWindow.AdminPlayerChat:
-					if(playerChatButton != null)
+					if (playerChatButton != null)
 						playerChatButton.image.color = selectedColor;
 					break;
 				case AdminChatWindow.MentorPlayerChat:
-					if(mentorChatButton != null)
+					if (mentorChatButton != null)
 						mentorChatButton.image.color = selectedColor;
 					break;
 				case AdminChatWindow.AdminToAdminChat:
-					if(adminChatButton != null)
+					if (adminChatButton != null)
 						adminChatButton.image.color = selectedColor;
 					break;
 				case AdminChatWindow.PrayerWindow:
-					if(prayerWindowButton != null)
+					if (prayerWindowButton != null)
 						prayerWindowButton.image.color = selectedColor;
+					break;
+				case AdminChatWindow.AdminLogWindow:
+					if (adminLogButton != null)
+						adminLogButton.image.color = selectedColor;
 					break;
 			}
 		}
@@ -77,6 +85,7 @@ namespace AdminTools
 			mentorNotification?.ClearAll();
 			playerNotification?.ClearAll();
 			prayerNotification?.ClearAll();
+			adminLogNotification?.ClearAll();
 		}
 
 		/// <summary>
@@ -87,7 +96,8 @@ namespace AdminTools
 		{
 			var update = new AdminChatNotificationFullUpdate();
 
-			if(adminNotification != null){
+			if (adminNotification != null)
+			{
 				foreach (var n in adminNotification?.notifications)
 				{
 					update.notificationEntries.Add(new AdminChatNotificationEntry
@@ -99,47 +109,68 @@ namespace AdminTools
 				}
 			}
 
-			if(playerNotification != null){
-			foreach (var n in playerNotification?.notifications)
+			if (playerNotification != null)
 			{
-				if (PlayerList.Instance.GetByUserID(n.Key) == null
-				    || PlayerList.Instance.GetByUserID(n.Key).Connection == null) continue;
-
-				update.notificationEntries.Add(new AdminChatNotificationEntry
+				foreach (var n in playerNotification?.notifications)
 				{
-					Amount = n.Value,
-					Key = n.Key,
-					TargetWindow = AdminChatWindow.AdminPlayerChat
-				});
-			}}
+					if (PlayerList.Instance.TryGetOnlineByUserID(n.Key, out var player) == false
+							|| player.Connection == null) continue;
 
-			if(mentorNotification != null){
-			foreach (var n in mentorNotification?.notifications)
-			{
-				if (PlayerList.Instance.GetByUserID(n.Key) == null
-				    || PlayerList.Instance.GetByUserID(n.Key).Connection == null) continue;
-
-				update.notificationEntries.Add(new AdminChatNotificationEntry
-				{
-					Amount = n.Value,
-					Key = n.Key,
-					TargetWindow = AdminChatWindow.MentorPlayerChat
-				});
-			}}
-
-			if(prayerNotification != null) {
-			foreach (var n in prayerNotification?.notifications)
-			{
-				if (PlayerList.Instance.GetByUserID(n.Key) == null
-				    || PlayerList.Instance.GetByUserID(n.Key).Connection == null) continue;
-
-				update.notificationEntries.Add(new AdminChatNotificationEntry
-				{
-					Amount = n.Value,
-					Key = n.Key,
-					TargetWindow = AdminChatWindow.PrayerWindow
-				});
+					update.notificationEntries.Add(new AdminChatNotificationEntry
+					{
+						Amount = n.Value,
+						Key = n.Key,
+						TargetWindow = AdminChatWindow.AdminPlayerChat
+					});
+				}
 			}
+
+			if (mentorNotification != null)
+			{
+				foreach (var n in mentorNotification?.notifications)
+				{
+					if (PlayerList.Instance.TryGetOnlineByUserID(n.Key, out var player) == false
+							|| player.Connection == null) continue;
+
+					update.notificationEntries.Add(new AdminChatNotificationEntry
+					{
+						Amount = n.Value,
+						Key = n.Key,
+						TargetWindow = AdminChatWindow.MentorPlayerChat
+					});
+				}
+			}
+
+			if (prayerNotification != null)
+			{
+				foreach (var n in prayerNotification?.notifications)
+				{
+					if (PlayerList.Instance.TryGetOnlineByUserID(n.Key, out var player) == false
+							|| player.Connection == null) continue;
+
+					update.notificationEntries.Add(new AdminChatNotificationEntry
+					{
+						Amount = n.Value,
+						Key = n.Key,
+						TargetWindow = AdminChatWindow.PrayerWindow
+					});
+				}
+			}
+
+			if (adminLogNotification != null)
+			{
+				foreach (var n in adminLogNotification?.notifications)
+				{
+					if (PlayerList.Instance.TryGetOnlineByUserID(n.Key, out var player) == false
+							|| player.Connection == null) continue;
+
+					update.notificationEntries.Add(new AdminChatNotificationEntry
+					{
+						Amount = n.Value,
+						Key = n.Key,
+						TargetWindow = AdminChatWindow.AdminLogWindow
+					});
+				}
 			}
 
 			AdminChatNotifications.Send(adminConn, update);
@@ -160,7 +191,7 @@ namespace AdminTools
 					if (adminChatWindows.SelectedWindow == AdminChatWindow.AdminPlayerChat)
 					{
 						if (adminChatWindows.adminPlayerChat?.SelectedPlayer != null
-						    && adminChatWindows.adminPlayerChat?.SelectedPlayer.uid == notificationKey)
+							&& adminChatWindows.adminPlayerChat?.SelectedPlayer.uid == notificationKey)
 						{
 							break;
 						}
@@ -177,7 +208,7 @@ namespace AdminTools
 					if (adminChatWindows.SelectedWindow == AdminChatWindow.MentorPlayerChat)
 					{
 						if (adminChatWindows.mentorPlayerChat?.SelectedPlayer != null
-						    && adminChatWindows.mentorPlayerChat?.SelectedPlayer.uid == notificationKey)
+							&& adminChatWindows.mentorPlayerChat?.SelectedPlayer.uid == notificationKey)
 						{
 							break;
 						}
@@ -199,9 +230,25 @@ namespace AdminTools
 					if (clearAll)
 					{
 						prayerNotification?.RemoveNotification(notificationKey);
-						if(amt==0) return;
+						if (amt == 0) return;
+					}
+					if (adminChatWindows.SelectedWindow == AdminChatWindow.PrayerWindow)
+					{
+						if (adminChatWindows.playerPrayerWindow?.SelectedPlayer != null
+							&& adminChatWindows.playerPrayerWindow?.SelectedPlayer.uid == notificationKey)
+						{
+							break;
+						}
 					}
 					prayerNotification?.AddNotification(notificationKey, amt);
+					break;
+				case AdminChatWindow.AdminLogWindow:
+					if(clearAll)
+					{
+						adminLogNotification?.RemoveNotification(notificationKey);
+						if (amt == 0) return;
+					}
+					adminLogNotification?.AddNotification(notificationKey, amt);
 					break;
 			}
 		}

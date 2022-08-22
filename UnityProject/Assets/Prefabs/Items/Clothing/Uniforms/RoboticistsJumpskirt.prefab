@@ -12,10 +12,25 @@ PrefabInstance:
       propertyPath: bodyPartsCovered
       value: 240
       objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 2a2d871db32f24302b1aeb03f3652c48,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 2a2d871db32f24302b1aeb03f3652c48,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 2a2d871db32f24302b1aeb03f3652c48,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[4].armoringBodyPartType
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2909197017712554513, guid: 2a2d871db32f24302b1aeb03f3652c48,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 676e9af4e37de5645a97d7ad338cfcef
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: 2a2d871db32f24302b1aeb03f3652c48,
         type: 3}
@@ -88,18 +103,21 @@ PrefabInstance:
       propertyPath: initialName
       value: roboticist's jumpskirt
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: 2a2d871db32f24302b1aeb03f3652c48,
+        type: 3}
+      propertyPath: foreverID
+      value: 676e9af4e37de5645a97d7ad338cfcef
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 2a2d871db32f24302b1aeb03f3652c48,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: c0b25c3df362f4c4cb2c55b067624218,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 2a2d871db32f24302b1aeb03f3652c48,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: c0b25c3df362f4c4cb2c55b067624218,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 2a2d871db32f24302b1aeb03f3652c48,
         type: 3}
       propertyPath: allClothingData.Array.size

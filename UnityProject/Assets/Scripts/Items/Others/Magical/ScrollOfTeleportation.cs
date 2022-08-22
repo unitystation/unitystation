@@ -28,7 +28,7 @@ namespace Items.Scrolls.TeleportScroll
 
 		public void TeleportTo(TeleportDestination destination)
 		{
-			ConnectedPlayer teleportingPlayer = GetLastReader();
+			PlayerInfo teleportingPlayer = GetLastReader();
 
 			if (!HasChargesRemaining(teleportingPlayer.GameObject)) return;
 
@@ -47,7 +47,7 @@ namespace Items.Scrolls.TeleportScroll
 					teleportSpell.CastSound, teleportingPlayer.Script.WorldPos, sourceObj: teleportingPlayer.GameObject);
 
 			var incantation = $"{teleportSpell.InvocationMessage.Trim('!')} {destination.ToString().ToUpper()}!";
-			Chat.AddChatMsgToChat(teleportingPlayer, incantation, ChatChannel.Local);
+			Chat.AddChatMsgToChatServer(teleportingPlayer, incantation, ChatChannel.Local, Loudness.LOUD);
 
 			ChargesRemaining--;
 		}
@@ -55,7 +55,7 @@ namespace Items.Scrolls.TeleportScroll
 		/// <summary>
 		/// Gets the latest player to interact with tab.
 		/// </summary>
-		public ConnectedPlayer GetLastReader()
+		public PlayerInfo GetLastReader()
 		{
 			return netTab.LastInteractedPlayer().Player();
 		}

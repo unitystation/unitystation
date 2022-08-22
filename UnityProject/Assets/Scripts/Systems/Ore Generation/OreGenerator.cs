@@ -4,13 +4,17 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System;
 using Initialisation;
+using Mirror;
+using Shuttles;
 using TileManagement;
+using Tilemaps.Behaviours.Layers;
 using UnityEngine.Serialization;
+using Tiles;
 
 /// <summary>
 /// Component which should go on a Matrix and which generates ore tiles in any mineable tiles of that matrix.
 /// </summary>
-public class OreGenerator : MonoBehaviour
+public class OreGenerator : MonoBehaviour, IServerSpawn
 {
 	private static readonly List<Vector3Int> DIRECTIONS = new List<Vector3Int>() {
 		Vector3Int.up,
@@ -35,14 +39,11 @@ public class OreGenerator : MonoBehaviour
 
 	public bool runOnStart = true;
 
-	// Start is called before the first frame update
-	void Start()
+	public void OnSpawnServer(SpawnInfo info)
 	{
-		if(!runOnStart) return;
-		LoadManager.RegisterAction(RunOreGenerator);
+		if(runOnStart == false) return;
+		RunOreGenerator();
 	}
-
-
 
 	public void RunOreGenerator()
 	{
@@ -50,49 +51,54 @@ public class OreGenerator : MonoBehaviour
 		wallTilemap = metaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>();
 		tileChangeManager = GetComponent<TileChangeManager>();
 
-		if (CustomNetworkManager.IsServer)
+		if (TryGetComponent<NetworkedMatrix>(out var net) && net.MatrixSync == null)
 		{
-			List<OreProbability> weightedList = new List<OreProbability>();
-			foreach (var ores in config.OreProbabilities) {
-				for (int i = 0; i < ores.SpawnChance; i++)
+			net.BackUpSetMatrixSync();
+
+			if (net.MatrixSync.netId == 0)
+			{
+				StartCoroutine(WaitForNetId(net.MatrixSync));
+				return;
+			}
+		}
+
+		List<OreProbability> weightedList = new List<OreProbability>();
+		foreach (var ores in config.OreProbabilities) {
+			for (int i = 0; i < ores.SpawnChance; i++)
+			{
+				weightedList.Add(ores);
+			}
+		}
+
+		//TODO move BoundsInt bounds = wallTilemap.cellBounds to metaTileMap
+		BoundsInt bounds = wallTilemap.cellBounds;
+		List<Vector3Int> miningTiles = new List<Vector3Int>();
+
+		for (int n = bounds.xMin; n < bounds.xMax; n++)
+		{
+			for (int p = bounds.yMin; p < bounds.yMax; p++)
+			{
+				Vector3Int localPlace = (new Vector3Int(n, p, 0));
+
+				if (metaTileMap.HasTile(localPlace))
 				{
-					weightedList.Add(ores);
+					BasicTile tile = metaTileMap.GetTile(localPlace, LayerType.Walls) as BasicTile;
+					if(tile != null && tile.Mineable) miningTiles.Add(localPlace);
 				}
 			}
+		}
 
-			//TODO move BoundsInt bounds = wallTilemap.cellBounds to metaTileMap
-			BoundsInt bounds = wallTilemap.cellBounds;
-			List<Vector3Int> miningTiles = new List<Vector3Int>();
+		int numberOfTiles = (int)((miningTiles.Count / 100f) * config.Density);
+		for (int i = 0; i < numberOfTiles; i++)
+		{
+			var oreTile = miningTiles[RANDOM.Next(miningTiles.Count)];
+			var oreCategory = weightedList[RANDOM.Next(weightedList.Count)];
+			tileChangeManager.MetaTileMap.SetTile(oreTile, oreCategory.WallTile);
+			var intLocation = oreTile + Vector3Int.zero;
+			intLocation.z = -1;
+			tileChangeManager.MetaTileMap.AddOverlay(intLocation, oreCategory.OverlayTile as OverlayTile);
 
-			for (int n = bounds.xMin; n < bounds.xMax; n++)
-			{
-				for (int p = bounds.yMin; p < bounds.yMax; p++)
-				{
-					Vector3Int localPlace = (new Vector3Int(n, p, 0));
-
-					if (metaTileMap.HasTile(localPlace))
-					{
-						var tile = metaTileMap.GetTile(localPlace);
-						if (tile.name.Contains("rock_wall"))
-						{
-							miningTiles.Add(localPlace);
-						}
-					}
-				}
-			}
-
-			int numberOfTiles = (int)((miningTiles.Count / 100f) * config.Density);
-			for (int i = 0; i < numberOfTiles; i++)
-			{
-				var oreTile = miningTiles[RANDOM.Next(miningTiles.Count)];
-				var oreCategory = weightedList[RANDOM.Next(weightedList.Count)];
-				tileChangeManager.UpdateTile(oreTile, oreCategory.WallTile);
-				var intLocation = oreTile + Vector3Int.zero;
-				intLocation.z = -1;
-				tileChangeManager.AddOverlay(intLocation, oreCategory.OverlayTile as OverlayTile);
-
-				NodeScatter(oreTile, oreCategory);
-			}
+			NodeScatter(oreTile, oreCategory);
 		}
 	}
 
@@ -107,15 +113,25 @@ public class OreGenerator : MonoBehaviour
 			var chosenLocation = locations[RANDOM.Next(locations.Count)];
 			var ranLocation = chosenLocation + DIRECTIONS[RANDOM.Next(DIRECTIONS.Count)];
 			var tile = metaTileMap.GetTile(ranLocation);
-			if (tile != null && tile.name.Contains("rock_wall"))
+			if (tile != null)
 			{
-				tileChangeManager.UpdateTile(ranLocation, materialSpecified.WallTile);
+				tileChangeManager.MetaTileMap.SetTile(ranLocation, materialSpecified.WallTile);
 				locations.Add(ranLocation);
 				ranLocation.z = -1;
-				tileChangeManager.AddOverlay(ranLocation, materialSpecified.OverlayTile as OverlayTile);
+				tileChangeManager.MetaTileMap.AddOverlay(ranLocation, materialSpecified.OverlayTile as OverlayTile);
 			}
 			strength--;
 		}
+	}
+
+	private IEnumerator WaitForNetId(MatrixSync matrixSync)
+	{
+		while (matrixSync.netId == 0)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+
+		RunOreGenerator();
 	}
 }
 

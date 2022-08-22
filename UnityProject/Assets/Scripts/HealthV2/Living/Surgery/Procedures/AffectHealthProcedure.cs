@@ -13,27 +13,45 @@ namespace HealthV2
 		public DamageType Affects;
 		public float HeelStrength;
 
+		public bool ConsumeItem;
+
 		public AttackType FailAttackType = AttackType.Melee;
 
-		public override void FinnishSurgeryProcedure(BodyPart OnBodyPart, PositionalHandApply interaction,
+		public bool UseUpItem = false;
+
+		public override void FinnishSurgeryProcedure(BodyPart OnBodyPart, HandApply interaction,
 			Dissectible.PresentProcedure PresentProcedure)
 		{
+			if (PresentProcedure.RelatedBodyPart.ContainedIn != null)
+			{
+				PresentProcedure.ISon.currentlyOn = PresentProcedure.RelatedBodyPart.ContainedIn.gameObject;
+			}
+			else
+			{
+				PresentProcedure.ISon.currentlyOn = null;
+			}
+
 			if (interaction.HandSlot.Item != null && interaction.HandSlot.Item.GetComponent<ItemAttributesV2>().HasTrait(RequiredTrait))
 			{
 				OnBodyPart.HealDamage(interaction.UsedObject,HeelStrength,Affects);
-				var stackable = interaction.UsedObject.GetComponent<Stackable>();
-				if (stackable != null)
+
+				if (ConsumeItem)
 				{
-					stackable.ServerConsume(1);
+					var stackable = interaction.UsedObject.GetComponent<Stackable>();
+					if (stackable != null)
+					{
+						stackable.ServerConsume(1);
+					}
+					else
+					{
+						_ = Despawn.ServerSingle(interaction.UsedObject);
+					}
 				}
-				else
-				{
-					Despawn.ServerSingle(interaction.UsedObject);
-				}
+
 			}
 		}
 
-		public override void UnsuccessfulStep(BodyPart OnBodyPart, PositionalHandApply interaction,
+		public override void UnsuccessfulStep(BodyPart OnBodyPart, HandApply interaction,
 			Dissectible.PresentProcedure PresentProcedure)
 		{
 			OnBodyPart.TakeDamage(interaction.UsedObject,HeelStrength*0.1f,FailAttackType,Affects);

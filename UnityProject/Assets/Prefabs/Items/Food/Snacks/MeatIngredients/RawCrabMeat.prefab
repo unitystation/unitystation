@@ -1,19 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1453282224718682131
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7066661816360981142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4ad9570c5ec4b1e995fad54bc897280, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meatSteakPrefab: {fileID: 5312545187966225107, guid: 5ecad40040be9b848af97507c5003164,
-    type: 3}
 --- !u!1001 &3660743667673015532
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21,9 +7,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 403739247926365693, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a34e1913b49ae8a459cd16c142dd665f,
+        type: 2}
+    - target: {fileID: 605444323189848599, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: foreverID
+      value: 4f0e1e0d2da2ffb49bd1db4bb38df9ef
+      objectReference: {fileID: 0}
     - target: {fileID: 2381014139213378570, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
       propertyPath: NutritionLevel
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2381014139213378570, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: StartingNutrients
       value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 4753068150696918738, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
@@ -44,19 +46,24 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4753068150696918738, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4753068150696918738, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: c1160dd86dc720e3eb0ed3dc2fc7338e,
         type: 2}
     - target: {fileID: 4753068150696918738, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 3.3333333
+      objectReference: {fileID: 0}
+    - target: {fileID: 4753068150696918738, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823087949323832078, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5823087949323832078, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
@@ -75,6 +82,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5823087949323832078, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823087949323832078, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -87,16 +99,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5823087949323832078, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5823087949323832078, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5823087949323832078, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
@@ -121,7 +123,7 @@ PrefabInstance:
     - target: {fileID: 5857058975867227086, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 4f0e1e0d2da2ffb49bd1db4bb38df9ef
       objectReference: {fileID: 0}
     - target: {fileID: 5921587132527232294, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
@@ -129,21 +131,57 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 3d514a1068edd3f44a9c0475b025f62d,
         type: 3}
-    - target: {fileID: 6210986391827355928, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+    - target: {fileID: 5921587132527232294, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
-      propertyPath: initialDescription
-      value: A pile of raw crab meat.
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6210986391827355928, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
       propertyPath: initialName
       value: raw crab meat
       objectReference: {fileID: 0}
+    - target: {fileID: 6210986391827355928, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: initialDescription
+      value: A pile of raw crab meat.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: fd08a10be4c12074cac517702918b2fb,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7445234018201534294, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: CookableBy
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7445234018201534294, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 5312545187966225107, guid: 5ecad40040be9b848af97507c5003164,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 699a33dd843ab594e9b3dbbf5b6305d4, type: 3}
---- !u!1 &7066661816360981142 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5826604050240140922, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
-    type: 3}
-  m_PrefabInstance: {fileID: 3660743667673015532}
-  m_PrefabAsset: {fileID: 0}

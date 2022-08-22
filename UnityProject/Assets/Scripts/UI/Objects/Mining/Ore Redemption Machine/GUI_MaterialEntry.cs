@@ -1,25 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UI.Core.NetUI;
 
-public class GUI_MaterialEntry : DynamicEntry
+namespace UI.Objects.Cargo
 {
-	private GUI_MaterialsList materialList;
-
-	private ItemTrait materialType;
-
-	public NetLabel labelName;
-	public NetLabel labelAmount;
-	public void DispenseMaterial(int amount)
+	public class GUI_MaterialEntry : DynamicEntry
 	{
-		materialList.materialStorageLink.usedStorage.DispenseSheet(amount, materialType, materialList.materialStorageLink.gameObject.WorldPosServer());
-	}
+		private GUI_MaterialsList materialList;
 
-	public void SetValues(ItemTrait material, int amount, GUI_MaterialsList matListDisplay)
-	{
-		materialList = matListDisplay;
-		materialType = material;
-		labelAmount.SetValueServer($"{amount} cm3");
-		labelName.SetValueServer(material.name);
+		private ItemTrait materialType;
+
+		public NetText_label labelName;
+		public NetText_label labelAmount;
+
+		public void DispenseMaterial(int amount)
+		{
+			materialList.materialStorageLink.usedStorage.DispenseSheet(amount, materialType, materialList.materialStorageLink.gameObject.AssumedWorldPosServer());
+		}
+
+		public void SetValues(ItemTrait material, int amount, GUI_MaterialsList matListDisplay)
+		{
+			materialList = matListDisplay;
+			materialType = material;
+			labelAmount.SetValueServer($"{amount} cm3");
+			labelName.SetValueServer(material.name);
+		}
 	}
 }

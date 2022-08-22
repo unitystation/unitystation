@@ -25,16 +25,11 @@ namespace Systems.MobAIs
 
 		protected override void Awake()
 		{
-			base.Awake();
-			ResetBehaviours();
-		}
-
-		public override void OnEnable()
-		{
-			base.OnEnable();
 			mobMask = LayerMask.GetMask( "NPC");
 			coneOfSight = GetComponent<ConeOfSight>();
 			mobAttack = GetComponent<MobMeleeAttack>();
+			base.Awake();
+			ResetBehaviours();
 		}
 
 		protected override void ResetBehaviours()
@@ -81,18 +76,17 @@ namespace Systems.MobAIs
 		private MouseAI AnyMiceNearby()
 		{
 			var hits = coneOfSight.GetObjectsInSight(mobMask, LayerTypeSelection.Walls,
-				directional.CurrentDirection.Vector,
-				10f,
-				20);
+				rotatable.CurrentDirection.ToLocalVector3(),
+				10f);
 
 			foreach (var coll in hits)
 			{
-				if (coll.GameObject == null) continue;
+				if (coll == null) continue;
 
-				if (coll.GameObject != gameObject && coll.GameObject.GetComponent<MouseAI>() != null
-				                                  && !coll.GameObject.GetComponent<LivingHealthBehaviour>().IsDead)
+				if (coll != gameObject && coll.GetComponent<MouseAI>() != null
+				                                  && !coll.GetComponent<LivingHealthBehaviour>().IsDead)
 				{
-					return coll.GameObject.GetComponent<MouseAI>();
+					return coll.GetComponent<MouseAI>();
 				}
 			}
 			return null;
@@ -110,7 +104,7 @@ namespace Systems.MobAIs
 		private void Purr(GameObject purred = null)
 		{
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.8f, 1.2f));
-			SoundManager.PlayNetworkedAtPos(PurrSFX, gameObject.WorldPosServer(), audioSourceParameters);
+			SoundManager.PlayNetworkedAtPos(PurrSFX, gameObject.AssumedWorldPosServer(), audioSourceParameters);
 
 			if (purred != null)
 			{
@@ -128,7 +122,7 @@ namespace Systems.MobAIs
 		private void Meow(GameObject meowed = null)
 		{
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.8f, 1.2f));
-			SoundManager.PlayNetworkedAtPos(MeowSFX, gameObject.WorldPosServer(), audioSourceParameters);
+			SoundManager.PlayNetworkedAtPos(MeowSFX, gameObject.AssumedWorldPosServer(), audioSourceParameters);
 
 			if (meowed != null)
 			{
@@ -146,7 +140,7 @@ namespace Systems.MobAIs
 		private void Hiss(GameObject hissed = null)
 		{
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.9f, 1f));
-			SoundManager.PlayNetworkedAtPos(CatHissSFX, gameObject.WorldPosServer(), audioSourceParameters);
+			SoundManager.PlayNetworkedAtPos(CatHissSFX, gameObject.AssumedWorldPosServer(), audioSourceParameters);
 
 			if (hissed != null)
 			{

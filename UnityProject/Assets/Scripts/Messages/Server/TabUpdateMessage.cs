@@ -1,9 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Mirror;
 using UnityEngine;
+using Mirror;
+using Systems.Interaction;
+using UI;
+
 
 namespace Messages.Server
 {
@@ -42,17 +44,17 @@ namespace Messages.Server
 			Logger.LogTraceFormat("Processed {0}", Category.NetUI, this);
 			LoadNetworkObject(msg.Provider);
 
-			//If start or middle of message add to cache then stop
+			// If start or middle of message add to cache then stop
 			if (msg.ID == TabMessageType.MoreIncoming)
 			{
-				//If Unique Id doesnt exist make new entry
+				// If Unique Id doesnt exist make new entry
 				if (ElementValuesCache.Count == 0 || !ElementValuesCache.ContainsKey(msg.UniqueID))
 				{
 					ElementValuesCache.Add(msg.UniqueID, new Tuple<ElementValue[], int>(msg.ElementValues, 1));
 					return;
 				}
 
-				//Sanity check to make sure this isnt the last message
+				// Sanity check to make sure this isnt the last message
 				if (msg.NumOfMessages == ElementValuesCache[msg.UniqueID].Item2 + 1)
 				{
 					Logger.LogError("This message didnt arrive in time before the end message!", Category.NetUI);
@@ -60,18 +62,18 @@ namespace Messages.Server
 					return;
 				}
 
-				//Unique Id already exists so add arrays to each other
+				// Unique Id already exists so add arrays to each other
 				ElementValuesCache[msg.UniqueID] = new Tuple<ElementValue[], int>(Concat(ElementValuesCache[msg.UniqueID].Item1, msg.ElementValues), ElementValuesCache[msg.UniqueID].Item2 + 1);
 				return;
 			}
 
-			//If end of message add and continue
+			// If end of message add and continue
 			if(msg.ID == TabMessageType.EndOfMessage)
 			{
-				//Add the arrays together
+				// Add the arrays together
 				ElementValuesCache[msg.UniqueID] = new Tuple<ElementValue[], int>(Concat(ElementValuesCache[msg.UniqueID].Item1, msg.ElementValues), ElementValuesCache[msg.UniqueID].Item2 + 1);
 
-				//Check to make sure its the last message
+				// Check to make sure its the last message
 				if (msg.NumOfMessages != ElementValuesCache[msg.UniqueID].Item2)
 				{
 					Logger.LogError("Not all the messages arrived in time for the NetUI update.", Category.NetUI);
@@ -99,7 +101,7 @@ namespace Messages.Server
 
 		public static void SendToPeepers(GameObject provider, NetTabType type, TabAction tabAction, ElementValue[] values = null)
 		{
-			//Notify all peeping players of the change
+			// Notify all peeping players of the change
 			var list = NetworkTabManager.Instance.GetPeepers(provider, type);
 			foreach (var connectedPlayer in list)
 			{
@@ -117,16 +119,28 @@ namespace Messages.Server
 				case TabAction.Open:
 					NetworkTabManager.Instance.Add(provider, type, recipient);
 					var instance = NetworkTabManager.Instance.Get(provider, type);
-					if (instance == null) return null;
+					if (instance == null)
+					{
+						Logger.LogError($"Couldn't find NetTab to send for {provider.OrNull()?.ExpensiveName()} " +
+								$"Does the tab prefab match the type '{type}'? Make sure that 'Tab{type}' is listed inside the NetTabs SO.");
+						return default;
+					}
 					values = instance.ElementValues;
 					break;
 				case TabAction.Close:
 					NetworkTabManager.Instance.Remove(provider, type, recipient);
 					break;
 				case TabAction.Update:
-					//fixme: duplication of NetTab.ValidatePeepers
-					//Not sending updates and closing tab for players that don't pass the validation anymore
-					var validate = Validations.CanApply(recipient, provider, NetworkSide.Server);
+					// TODO: FIXME: duplication of NetTab.ValidatePeepers
+					// Not sending updates and closing tab for players that don't pass the validation anymore
+					var validate = Validations.CanApply(recipient.GetComponent<PlayerScript>(), provider, NetworkSide.Server);
+
+					if (recipient.GetComponent<PlayerScript>().OrNull()?.PlayerType == PlayerTypes.Ai)
+					{
+						validate = Validations.CanApply(new AiActivate(recipient, null,
+							provider, Intent.Help, AiActivate.ClickTypes.NormalClick), NetworkSide.Server);
+					}
+
 					if (!validate)
 					{
 						Send(recipient, provider, type, TabAction.Close);
@@ -156,21 +170,21 @@ namespace Messages.Server
 				// set currentSize start value to max TCP header size (60b)
 				var currentSize = 100;
 
-				//Stores the current cycle of ElementValues
+				// Stores the current cycle of ElementValues
 				var elementValues = new List<ElementValue>();
 
-				//How many values are being sent
+				// How many values are being sent
 				var length = values.Length;
 
-				//Total packet size if all values sent together
+				// Total packet size if all values sent together
 				var totalSize = 0;
 
-				//Work out totalSize
+				// Work out totalSize
 				foreach (var value in values)
 				{
 					var size = value.GetSize();
 
-					//If a single value is bigger than max packet size cannot proceed
+					// If a single value is bigger than max packet size cannot proceed
 					if (size + 60 >= maxPacketSize)
 					{
 						Logger.LogError($"This value is above the max mirror packet limit, and cannot be split. Is {size + 60} bytes", Category.NetUI);
@@ -180,16 +194,16 @@ namespace Messages.Server
 					totalSize += size;
 				}
 
-				//Rounds up to the max number of divisions of the max packet size will be needed for values
+				// Rounds up to the max number of divisions of the max packet size will be needed for values
 				var divisions = (int)Math.Ceiling((float)totalSize / maxPacketSize);
 
-				//Counter for which division is currently being made
+				// Counter for which division is currently being made
 				var currentDivision = 0;
 
-				//The loop for making the messages from the values
+				// The loop for making the messages from the values
 				for (var i = 0; i < length; i++)
 				{
-					//Keep adding values until bigger than packet size
+					// Keep adding values until bigger than packet size
 					currentSize += values[i].GetSize();
 
 					if (currentSize > maxPacketSize)
@@ -197,16 +211,16 @@ namespace Messages.Server
 						currentDivision ++;
 						currentSize = 100;
 
-						//Id MoreIncoming, means it is a multimessage but not the end.
+						// Id MoreIncoming, means it is a multimessage but not the end.
 						id = TabMessageType.MoreIncoming;
 
-						//If last division then this will be the end, set to end Id of EndOfMessage
+						// If last division then this will be the end, set to end Id of EndOfMessage
 						if (currentDivision == divisions)
 						{
 							id = TabMessageType.EndOfMessage;
 						}
 
-						//Add value list to the message list
+						// Add value list to the message list
 						elementValuesLists.Add(elementValues, id);
 						elementValues = new List<ElementValue>();
 					}
@@ -214,12 +228,12 @@ namespace Messages.Server
 					elementValues.Add(values[i]);
 				}
 
-				//Single message
+				// Single message
 				if (elementValuesLists.Count == 0)
 				{
 					values = elementValues.ToArray();
 				}
-				//Multimessage, if end division hasnt been reached yet then this last list must be end.
+				// Multimessage, if end division hasnt been reached yet then this last list must be end.
 				else if (currentDivision != divisions)
 				{
 					elementValuesLists.Add(elementValues, TabMessageType.EndOfMessage);
@@ -228,7 +242,7 @@ namespace Messages.Server
 
 			var count = elementValuesLists.Count;
 
-			//Single message
+			// Single message
 			if (count == 0)
 			{
 				var msg = new NetMessage
@@ -268,7 +282,7 @@ namespace Messages.Server
 			return null;
 		}
 
-		//Merge arrays together
+		// Merge arrays together
 		public static T[] Concat<T>(params T[][] arrays)
 		{
 			var result = new T[arrays.Sum(a => a.Length)];

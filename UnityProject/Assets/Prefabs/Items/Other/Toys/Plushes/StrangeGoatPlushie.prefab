@@ -16,12 +16,17 @@ PrefabInstance:
     - target: {fileID: 169216062924189193, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 144df93ae5cdd7143a8be2ee292ffd72
       objectReference: {fileID: 0}
     - target: {fileID: 273902110919939005, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
       propertyPath: m_Name
       value: StrangeGoatPlushie
+      objectReference: {fileID: 0}
+    - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
@@ -40,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
@@ -80,14 +80,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
-      propertyPath: initialDescription
-      value: Despite its cuddly appearance and plush nature, it will beat you up
-        all the same. Goats never change.
+      propertyPath: initialName
+      value: strange goat plushie
       objectReference: {fileID: 0}
     - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
-      propertyPath: initialName
-      value: strange goat plushie
+      propertyPath: initialDescription
+      value: Despite its cuddly appearance and plush nature, it will beat you up
+        all the same. Goats never change.
       objectReference: {fileID: 0}
     - target: {fileID: 6236086576208570426, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
@@ -95,5 +95,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d04dacf1f9454af49b04d14cf507e228,
         type: 2}
+    - target: {fileID: 6590914017311023056, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
+      propertyPath: foreverID
+      value: 144df93ae5cdd7143a8be2ee292ffd72
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75421751b31ee7f49b1adb8b70cd2375, type: 3}

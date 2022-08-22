@@ -6,12 +6,12 @@ namespace Systems.Explosions
 {
 	public class TestExplosionScript : MonoBehaviour
 	{
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private RegisterObject registerObject;
 
 		private void Awake()
 		{
-			objectBehaviour = this.GetComponent<ObjectBehaviour>();
+			objectBehaviour = this.GetComponent<UniversalObjectPhysics>();
 			registerObject = this.GetComponent<RegisterObject>();
 		}
 
@@ -22,13 +22,11 @@ namespace Systems.Explosions
 		{
 			if (registerObject == null)
 			{
-				Systems.Explosions.Explosion.StartExplosion(objectBehaviour.registerTile.LocalPosition, Strength,
-					objectBehaviour.registerTile.Matrix);
+				Systems.Explosions.Explosion.StartExplosion(objectBehaviour.registerTile.WorldPositionServer, Strength);
 			}
 			else
 			{
-				Explosion.StartExplosion(registerObject.LocalPosition, Strength,
-					registerObject.Matrix);
+				Explosion.StartExplosion(registerObject.WorldPositionServer, Strength);
 			}
 			//Logger.Log("RequestPulse!!" + Time.time);
 		}

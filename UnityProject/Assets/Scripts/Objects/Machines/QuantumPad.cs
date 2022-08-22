@@ -6,12 +6,11 @@ using Mirror;
 using System.Linq;
 using Gateway;
 using Systems.Scenes;
-using Random=UnityEngine.Random;
 
 namespace Objects.Science
 {
 
-	public class QuantumPad : NetworkBehaviour, ICheckedInteractable<HandApply>
+	public class QuantumPad : NetworkBehaviour, IServerSpawn, ICheckedInteractable<HandApply>
 	{
 		public QuantumPad connectedPad;
 
@@ -51,6 +50,7 @@ namespace Objects.Science
 		/// Temp until shuttle landings possible
 		/// </summary>
 		public bool IsLavaLandBase1Connector;
+		private bool firstEnteredTriggered;
 
 		/// <summary>
 		/// Temp until shuttle landings possible
@@ -72,7 +72,6 @@ namespace Objects.Science
 		{
 			registerTile = GetComponent<RegisterTile>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
-			spriteHandler.ChangeSprite(0);
 		}
 
 		private void Start()
@@ -98,12 +97,13 @@ namespace Objects.Science
 			{
 				LavaLandManager.Instance.LavaLandBase2Connector = this;
 			}
+
+			spriteHandler.ChangeSprite(0);
 		}
 
-		private void OnEnable()
+		public void OnSpawnServer(SpawnInfo info)
 		{
 			if (!passiveDetect) return;
-			if (!CustomNetworkManager.IsServer) return;
 
 			UpdateManager.Add(ServerDetectObjectsOnTile, 1f);
 		}
@@ -127,7 +127,7 @@ namespace Objects.Science
 			ServerDetectObjectsOnTile();
 		}
 
-		public void ServerDetectObjectsOnTile()
+		private void ServerDetectObjectsOnTile()
 		{
 			if (connectedPad == null) return;
 
@@ -172,19 +172,28 @@ namespace Objects.Science
 			//Use the transport object code from StationGateway
 
 			//detect players positioned on the portal bit of the gateway
-			foreach (ObjectBehaviour player in Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Player, true))
+			foreach (UniversalObjectPhysics player in Matrix.Get<UniversalObjectPhysics>(registerTileLocation, ObjectType.Player, true))
 			{
-				Chat.AddLocalMsgToChat(message, travelCoord, gameObject);
-				SoundManager.PlayNetworkedForPlayer(player.gameObject, SingletonSOSounds.Instance.StealthOff); //very weird, sometimes does the sound other times not.
+				Chat.AddExamineMsgFromServer(player.gameObject, message);
+				SoundManager.PlayNetworkedForPlayer(player.gameObject, CommonSounds.Instance.StealthOff); //very weird, sometimes does the sound other times not.
 				TransportUtility.TransportObjectAndPulled(player, travelCoord);
 				somethingTeleported = true;
+
+				if (IsLavaLandBase1Connector && firstEnteredTriggered == false)
+				{
+					//Trigger lavaland first entered event
+					EventManager.Broadcast(Event.LavalandFirstEntered);
+					firstEnteredTriggered = true;
+				}
 			}
 
 			//detect objects and items
-			foreach (var item in Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Object, true)
-									.Concat(Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Item, true)))
+			foreach (var item in Matrix.Get<UniversalObjectPhysics>(registerTileLocation, ObjectType.Object, true)
+									.Concat(Matrix.Get<UniversalObjectPhysics>(registerTileLocation, ObjectType.Item, true)))
 			{
-				
+				//Don't teleport self lol
+				if(item.gameObject == gameObject) continue;
+
 				if (item.gameObject.TryGetComponent(out IQuantumReaction reaction))
 				{
 					reaction.OnTeleportStart();

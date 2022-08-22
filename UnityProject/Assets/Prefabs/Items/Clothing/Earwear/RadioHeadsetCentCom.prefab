@@ -11,14 +11,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 1b71a375db919c22ab7fb87ad8b9da77,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 1954267061334375369, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 1b71a375db919c22ab7fb87ad8b9da77,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 1954267061334375369, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}
       propertyPath: allClothingData.Array.data[0]
@@ -38,7 +36,7 @@ PrefabInstance:
     - target: {fileID: 2618191676536156122, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: f0eaf27830684a4468f1786b2a5df3c8
       objectReference: {fileID: 0}
     - target: {fileID: 2720625993976664686, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}
@@ -102,6 +100,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2818888289589057109, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}
+      propertyPath: HasLoudSpeak
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2818888289589057109, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
+        type: 3}
       propertyPath: EncryptionKey
       value: 17
       objectReference: {fileID: 0}
@@ -117,5 +120,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a6a80e1d051002a4bb4a1ef681005523,
         type: 2}
+    - target: {fileID: 9041859200380558851, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
+        type: 3}
+      propertyPath: foreverID
+      value: f0eaf27830684a4468f1786b2a5df3c8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6, type: 3}

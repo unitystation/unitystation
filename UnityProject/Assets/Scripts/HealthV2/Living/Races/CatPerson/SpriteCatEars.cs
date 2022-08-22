@@ -7,7 +7,7 @@ public class SpriteCatEars : BodyPartSprites
 {
 
 	[SerializeField] protected SpriteHandler OverlySpriteHandler;
-	public override void UpdateSpritesForImplant(BodyPart implant,ClothingHideFlags INClothingHide, SpriteDataSO Sprite, RootBodyPartContainer rootBodyPartContainer, SpriteOrder _SpriteOrder = null)
+	public override void UpdateSpritesForImplant(BodyPart implant,ClothingHideFlags INClothingHide, SpriteDataSO Sprite, SpriteOrder _SpriteOrder = null)
 	{
 		ClothingHide = INClothingHide;
 		SpriteOrder = _SpriteOrder;
@@ -15,29 +15,37 @@ public class SpriteCatEars : BodyPartSprites
 		OverlySpriteHandler.PushTexture();
 	}
 
-	public override void OnDirectionChange(Orientation direction)
+	public override void SetName(string Name)
+	{
+		this.gameObject.name = Name;
+		baseSpriteHandler.name = Name;
+		OverlySpriteHandler.name = Name + "_" + "Overly";
+	}
+
+	public override void OnDirectionChange(OrientationEnum direction)
 	{
 		int referenceOffset = 0;
 
-		if (direction == Orientation.Down)
+		if (direction == OrientationEnum.Down_By180)
 		{
 			referenceOffset = 0;
 		}
 
-		if (direction == Orientation.Up)
+		if (direction == OrientationEnum.Up_By0)
 		{
 			referenceOffset = 1;
 		}
 
-		if (direction == Orientation.Right)
+		if (direction == OrientationEnum.Right_By270)
 		{
 			referenceOffset = 2;
 		}
 
-		if (direction == Orientation.Left)
+		if (direction == OrientationEnum.Left_By90)
 		{
 			referenceOffset = 3;
 		}
+
 		baseSpriteHandler.ChangeSpriteVariant(referenceOffset);
 		OverlySpriteHandler.ChangeSpriteVariant(referenceOffset);
 	}

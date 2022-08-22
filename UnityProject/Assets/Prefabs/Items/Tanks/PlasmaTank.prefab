@@ -10,12 +10,17 @@ PrefabInstance:
     - target: {fileID: 2374380983259834516, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 00d992124da9752419c592def689f69c
       objectReference: {fileID: 0}
     - target: {fileID: 2406975489804277024, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
       propertyPath: m_Name
       value: PlasmaTank
+      objectReference: {fileID: 0}
+    - target: {fileID: 2410773065630705748, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2410773065630705748, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2410773065630705748, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2410773065630705748, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2410773065630705748, guid: 48d3c058a9e5a42418875499b82cc5e3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2410773065630705748, guid: 48d3c058a9e5a42418875499b82cc5e3,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2410773065630705748, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
@@ -78,10 +78,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: dd3ab4bfc52bd29499949126afcbdc08,
         type: 3}
+    - target: {fileID: 2564446943044314748, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2849320339179502146, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
-      propertyPath: initialDescription
-      value: 'Contains dangerous plasma. Do not inhale. Warning: extremely flammable.'
+      propertyPath: hitDamage
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2849320339179502146, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
@@ -90,8 +95,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2849320339179502146, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
-      propertyPath: hitDamage
-      value: 8
+      propertyPath: initialDescription
+      value: 'Contains dangerous plasma. Do not inhale. Warning: extremely flammable.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2849320339179502146, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2849320339179502146, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
@@ -110,11 +120,27 @@ PrefabInstance:
       propertyPath: Gases.Array.data[0]
       value: 8.73464
       objectReference: {fileID: 0}
+    - target: {fileID: 7575452727574476451, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].GasSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d3c38fe76e3df249ade18fd6fdac274,
+        type: 2}
+    - target: {fileID: 7575452727574476451, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].GasType
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8368062230162943655, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 1874f86c4337ecb438d49e2bd71a781f,
         type: 2}
+    - target: {fileID: 8781441551662356813, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: foreverID
+      value: 00d992124da9752419c592def689f69c
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48d3c058a9e5a42418875499b82cc5e3, type: 3}
