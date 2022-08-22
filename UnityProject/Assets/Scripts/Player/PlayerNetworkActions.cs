@@ -1002,22 +1002,42 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		worldPosition.z = 0;
 
-		var tile = TileCategorySO.Instance.TileCategories[categoryIndex].CombinedTileList[tileIndex] as LayerTile;
-
-		if (tile == null)
-		{
-			Chat.AddExamineMsgFromServer(gameObject, "Invalid tile!");
-			return;
-		}
-
 		var localPos = MatrixManager.WorldToLocalInt(worldPosition, matrixInfo);
 
 		Matrix4x4? matrix4X4 = null;
-		if (orientation is not OrientationEnum.Default or OrientationEnum.Up_By0)
+		if (orientation != OrientationEnum.Default && orientation != OrientationEnum.Up_By0)
 		{
 			int offset = PipeFunctions.GetOffsetAngle(Orientation.FromEnum(orientation).Degrees);
 			Quaternion rot = Quaternion.Euler(0.0f, 0.0f, offset);
 			matrix4X4 = Matrix4x4.TRS(Vector3.zero, rot, Vector3.one);
+		}
+
+		var tile = TileCategorySO.Instance.TileCategories[categoryIndex].CombinedTileList[tileIndex] as LayerTile;
+
+		if (tile == null)
+		{
+			var metaTile = TileCategorySO.Instance.TileCategories[categoryIndex].CombinedTileList[tileIndex] as MetaTile;
+
+			if (metaTile != null)
+			{
+				foreach (var tileToPlace in metaTile.GetTiles())
+				{
+					PlaceTile(colour, tileToPlace, matrix4X4, matrixInfo, localPos);
+				}
+			}
+
+			return;
+		}
+
+		PlaceTile(colour, tile, matrix4X4, matrixInfo, localPos);
+	}
+
+	private void PlaceTile(Color? colour, LayerTile tile, Matrix4x4? matrix4X4, MatrixInfo matrixInfo, Vector3Int localPos)
+	{
+		if (tile == null)
+		{
+			Chat.AddExamineMsgFromServer(gameObject, "Invalid tile!");
+			return;
 		}
 
 		Vector3Int searchVector;
