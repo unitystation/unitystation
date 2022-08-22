@@ -25,7 +25,11 @@ using UI.Items;
 using Doors;
 using Managers;
 using Objects;
+using Objects.Atmospherics;
+using Objects.Disposals;
 using Player.Language;
+using Systems.Electricity;
+using Systems.Pipes;
 using Tiles;
 using Util;
 using Random = UnityEngine.Random;
@@ -983,20 +987,82 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdPlaceTile(string adminId, string adminToken, int categoryIndex, int tileIndex, Vector3Int worldPosition, int matrixId)
+	public void CmdPlaceTile(string adminId, string adminToken, int categoryIndex, int tileIndex,
+		Vector3Int worldPosition, int matrixId, OrientationEnum orientation, Color? colour)
 	{
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 		if (admin == null) return;
 
 		var matrixInfo = MatrixManager.Get(matrixId);
-		if(matrixInfo == null) return;
+		if (matrixInfo == null || matrixInfo == MatrixInfo.Invalid)
+		{
+			Chat.AddExamineMsgFromServer(gameObject, "Invalid matrix!");
+			return;
+		}
+
+		worldPosition.z = 0;
 
 		var tile = TileCategorySO.Instance.TileCategories[categoryIndex].CombinedTileList[tileIndex] as LayerTile;
 
-		//TODO electrical/pipe
-		if (tile != null)
+		if (tile == null)
 		{
-			matrixInfo.MetaTileMap.SetTile(MatrixManager.WorldToLocalInt(worldPosition, matrixInfo), tile);
+			Chat.AddExamineMsgFromServer(gameObject, "Invalid tile!");
+			return;
+		}
+
+		var localPos = MatrixManager.WorldToLocalInt(worldPosition, matrixInfo);
+
+		Matrix4x4? matrix4X4 = null;
+		if (orientation != OrientationEnum.Default)
+		{
+			int offset = PipeFunctions.GetOffsetAngle(Orientation.FromEnum(orientation).Degrees);
+			Quaternion rot = Quaternion.Euler(0.0f, 0.0f, offset);
+			matrix4X4 = Matrix4x4.TRS(Vector3.zero, rot, Vector3.one);
+		}
+
+		Vector3Int searchVector;
+
+		if (matrix4X4 == null && colour == null)
+		{
+			searchVector = matrixInfo.MetaTileMap.SetTile(localPos, tile);
+		}
+
+		else if (matrix4X4 != null && colour == null)
+		{
+			searchVector = matrixInfo.MetaTileMap.SetTile(localPos, tile, matrix4X4);
+		}
+
+		else if (matrix4X4 == null && colour != null)
+		{
+			searchVector = matrixInfo.MetaTileMap.SetTile(localPos, tile, color: colour);
+		}
+
+		else
+		{
+			searchVector = matrixInfo.MetaTileMap.SetTile(localPos, tile, matrix4X4, colour);
+		}
+
+		if (tile is ElectricalCableTile electricalCableTile)
+		{
+			//TODO make this actually work, looking at CableCoil.cs i've got no idea whats going on. Get Bod to do it?
+			ElectricalManager.Instance.electricalSync.StructureChange = true;
+			return;
+		}
+
+		if (tile is PipeTile pipeTile)
+		{
+			if (matrix4X4 == null)
+			{
+				matrix4X4 = Matrix4x4.identity;
+			}
+
+			pipeTile.InitialiseNodeNew(searchVector, matrixInfo.Matrix, matrix4X4.Value);
+			return;
+		}
+
+		if (tile is DisposalPipe disposalPipe)
+		{
+			disposalPipe.InitialiseNode(searchVector, matrixInfo.Matrix);
 		}
 	}
 
@@ -1007,9 +1073,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (admin == null) return;
 
 		var matrixInfo = MatrixManager.Get(matrixId);
-		if(matrixInfo == null) return;
+		if (matrixInfo == null || matrixInfo == MatrixInfo.Invalid)
+		{
+			Chat.AddExamineMsgFromServer(gameObject, "Invalid matrix!");
+			return;
+		}
 
-		matrixInfo.MetaTileMap.RemoveTileWithlayer(MatrixManager.WorldToLocalInt(worldPosition, matrixInfo), layerType);
+		worldPosition.z = 0;
+
+		matrixInfo.MetaTileMap.RemoveTileWithlayer(MatrixManager.WorldToLocalInt(worldPosition, matrixInfo),
+			layerType, false);
 	}
 
 	[Command]

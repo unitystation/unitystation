@@ -36,13 +36,23 @@ namespace UI.Systems.AdminTools.DevTools
 		private TMP_Dropdown matrixDropdown = null;
 
 		[SerializeField]
-		private TMP_Text modeText= null;
+		private TMP_Text modeText = null;
+
+		[SerializeField]
+		private TMP_Dropdown directionDropdown = null;
+
+		[SerializeField]
+		private Toggle colourToggle = null;
+
+		[SerializeField]
+		private ColorPicker colourPicker = null;
 
 		private bool isFocused;
 		private int lastCategory = 0;
 		private int categoryIndex = -1;
 		private int tileIndex = -1;
 		private int matrixIndex = 0;
+		private int directionIndex = 0;
 
 		private Image selectedButton;
 		private LightingSystem lightingSystem;
@@ -54,6 +64,8 @@ namespace UI.Systems.AdminTools.DevTools
 		private void Awake()
 		{
 			lightingSystem = Camera.main.GetComponent<LightingSystem>();
+
+			SetUpDirections();
 		}
 
 		private void OnEnable()
@@ -277,14 +289,43 @@ namespace UI.Systems.AdminTools.DevTools
 
 		#endregion
 
+		#region Directions
+
+		private void SetUpDirections()
+		{
+			var optionsData = new List<TMP_Dropdown.OptionData>();
+
+			foreach (OrientationEnum orientation in Enum.GetValues(typeof(OrientationEnum)))
+			{
+				optionsData.Add(new TMP_Dropdown.OptionData(orientation.ToString()));
+			}
+
+			directionDropdown.options = optionsData;
+			directionDropdown.value = directionIndex;
+		}
+
+		public void OnDirectionChange()
+		{
+			directionIndex = directionDropdown.value;
+		}
+
+		#endregion
+
 		private void PlaceTile()
 		{
 			if(categoryIndex == -1 || tileIndex == -1) return;
 
-			//TODO detect wires and do custom add instead?
+			if (Enum.TryParse(directionDropdown.options[directionDropdown.value].text, out OrientationEnum value) == false)
+			{
+				Chat.AddExamineMsgToClient("Failed to find orientation!");
+				return;
+			}
+
+			Color? colour = colourToggle.isOn ? colourPicker.CurrentColor : null;
 
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPlaceTile(ServerData.UserID,
-				PlayerList.Instance.AdminToken, categoryIndex, tileIndex, MouseInputController.MouseWorldPosition.RoundToInt(), matrixIndex);
+				PlayerList.Instance.AdminToken, categoryIndex, tileIndex,
+				MouseInputController.MouseWorldPosition.RoundToInt(), matrixIndex, value, colour);
 		}
 
 		private void RemoveTile()
