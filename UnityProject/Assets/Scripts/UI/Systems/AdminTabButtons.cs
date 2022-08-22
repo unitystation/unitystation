@@ -59,10 +59,10 @@ namespace UI.AdminTools
 		public void BtnOpenTileChange()
 		{
 			DisableAllGUI();
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			tileChanger.SetActive(true);
 		}
-		
+
 		public void BtnOpenTileVV()
 		{
 			DisableAllGUI();

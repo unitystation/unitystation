@@ -964,7 +964,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			ServerAGhost();
 		}
 	}
-	
+
 	[Server]
 	public void ServerAGhost()
 	{
@@ -996,7 +996,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		//TODO electrical/pipe
 		if (tile != null)
 		{
-			matrixInfo.TileChangeManager.UpdateTile(MatrixManager.WorldToLocalInt(worldPosition, matrixInfo), tile);
+			matrixInfo.MetaTileMap.SetTile(MatrixManager.WorldToLocalInt(worldPosition, matrixInfo), tile);
 		}
 	}
 
@@ -1009,7 +1009,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var matrixInfo = MatrixManager.Get(matrixId);
 		if(matrixInfo == null) return;
 
-		matrixInfo.TileChangeManager.RemoveTile(MatrixManager.WorldToLocalInt(worldPosition, matrixInfo), layerType);
+		matrixInfo.MetaTileMap.RemoveTileWithlayer(MatrixManager.WorldToLocalInt(worldPosition, matrixInfo), layerType);
 	}
 
 	[Command]
@@ -1043,7 +1043,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		UIManager.Instance.TileChanger.MatrixIds = matrixIds;
 		UIManager.Instance.TileChanger.SetUpMatrix();
 	}
-	
+
 	#endregion
 
 	// If we end up needing more information to send to server,
