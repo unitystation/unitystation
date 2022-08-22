@@ -48,7 +48,6 @@ namespace UI.Systems.AdminTools.DevTools
 		private ColorPicker colourPicker = null;
 
 		private bool isFocused;
-		private int lastCategory = 0;
 		private int categoryIndex = -1;
 		private int tileIndex = -1;
 		private int matrixIndex = 0;
@@ -59,7 +58,7 @@ namespace UI.Systems.AdminTools.DevTools
 
 		private ActionType currentAction = ActionType.None;
 
-		public SortedDictionary<int, string> MatrixIds = new SortedDictionary<int, string>();
+		private SortedDictionary<int, string> matrixIds = new SortedDictionary<int, string>();
 
 		private void Awake()
 		{
@@ -145,10 +144,9 @@ namespace UI.Systems.AdminTools.DevTools
 			}
 
 			categoryButtonPrefab.SetActive(false);
-			categoryIndex = lastCategory;
 			tileIndex = -1;
 
-			LoadTiles(lastCategory);
+			LoadTiles(categoryIndex);
 		}
 
 		private void OnClickCategory(int index)
@@ -233,7 +231,7 @@ namespace UI.Systems.AdminTools.DevTools
 			var stationId = MatrixManager.MainStationMatrix.Id;
 			TMP_Dropdown.OptionData stationOption = null;
 
-			foreach (var matrix in MatrixIds)
+			foreach (var matrix in matrixIds)
 			{
 				var option = new TMP_Dropdown.OptionData(matrix.Value);
 				optionsData.Add(option);
@@ -250,6 +248,11 @@ namespace UI.Systems.AdminTools.DevTools
 		{
 			//Sorted dictionary so it should be correct to get index from this dropdown directly
 			matrixIndex = matrixDropdown.value;
+		}
+
+		public void SetMatrices(SortedDictionary<int, string> newIds)
+		{
+			matrixIds = newIds;
 		}
 
 		#endregion
@@ -304,6 +307,9 @@ namespace UI.Systems.AdminTools.DevTools
 					case ActionType.Remove:
 						RemoveTile();
 						return;
+					default:
+						Logger.LogError($"Unknown case: {currentAction.ToString()} in switch!");
+						return;
 				}
 			}
 		}
@@ -325,13 +331,14 @@ namespace UI.Systems.AdminTools.DevTools
 
 			//1 index is up by 0 degrees
 			directionDropdown.value = 1;
+			directionIndex = directionDropdown.value;
 		}
 
 		public void OnDirectionChange()
 		{
 			directionIndex = directionDropdown.value;
 
-			if (Enum.TryParse(directionDropdown.options[directionDropdown.value].text, out OrientationEnum value) == false)
+			if (Enum.TryParse(directionDropdown.options[directionIndex].text, out OrientationEnum value) == false)
 			{
 				Chat.AddExamineMsgToClient("Failed to find orientation!");
 				return;
@@ -366,7 +373,7 @@ namespace UI.Systems.AdminTools.DevTools
 		{
 			if(categoryIndex == -1 || tileIndex == -1) return;
 
-			if (Enum.TryParse(directionDropdown.options[directionDropdown.value].text, out OrientationEnum value) == false)
+			if (Enum.TryParse(directionDropdown.options[directionIndex].text, out OrientationEnum value) == false)
 			{
 				Chat.AddExamineMsgToClient("Failed to find orientation!");
 				return;

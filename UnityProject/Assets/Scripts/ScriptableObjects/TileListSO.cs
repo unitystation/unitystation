@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Tiles;
 using UnityEngine;
 
@@ -29,8 +27,9 @@ namespace ScriptableObjects
 		[Tooltip("Other tiles of this type")]
 		private List<GenericTile> tileList = new List<GenericTile>();
 
-		[HideInInspector]
-		public List<GenericTile> CombinedTileList = new List<GenericTile>();
+		[field: HideInInspector]
+		[field: SerializeField]
+		public List<GenericTile> CombinedTileList { get; private set; }
 
 #if UNITY_EDITOR
 		private void OnValidate()

@@ -1042,21 +1042,25 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		Vector3Int searchVector;
 
+		//No rotation and no colour
 		if (matrix4X4 == null && colour == null)
 		{
 			searchVector = matrixInfo.MetaTileMap.SetTile(localPos, tile);
 		}
 
+		//Rotation and no colour
 		else if (matrix4X4 != null && colour == null)
 		{
 			searchVector = matrixInfo.MetaTileMap.SetTile(localPos, tile, matrix4X4);
 		}
 
-		else if (matrix4X4 == null && colour != null)
+		//No rotation and colour
+		else if (matrix4X4 == null)
 		{
 			searchVector = matrixInfo.MetaTileMap.SetTile(localPos, tile, color: colour);
 		}
 
+		//Rotation and colour
 		else
 		{
 			searchVector = matrixInfo.MetaTileMap.SetTile(localPos, tile, matrix4X4, colour);
@@ -1136,7 +1140,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			matrixIds.Add(ids[i], names[i]);
 		}
 
-		UIManager.Instance.TileChanger.MatrixIds = matrixIds;
+		UIManager.Instance.TileChanger.SetMatrices(matrixIds);
 		UIManager.Instance.TileChanger.SetUpMatrix();
 	}
 
