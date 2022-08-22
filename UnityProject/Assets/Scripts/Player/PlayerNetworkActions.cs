@@ -1013,7 +1013,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var localPos = MatrixManager.WorldToLocalInt(worldPosition, matrixInfo);
 
 		Matrix4x4? matrix4X4 = null;
-		if (orientation != OrientationEnum.Default)
+		if (orientation is not OrientationEnum.Default or OrientationEnum.Up_By0)
 		{
 			int offset = PipeFunctions.GetOffsetAngle(Orientation.FromEnum(orientation).Degrees);
 			Quaternion rot = Quaternion.Euler(0.0f, 0.0f, offset);
@@ -1053,7 +1053,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			if (matrix4X4 == null)
 			{
-				matrix4X4 = Matrix4x4.identity;
+				matrix4X4 = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, Vector3.one);
 			}
 
 			pipeTile.InitialiseNodeNew(searchVector, matrixInfo.Matrix, matrix4X4.Value);

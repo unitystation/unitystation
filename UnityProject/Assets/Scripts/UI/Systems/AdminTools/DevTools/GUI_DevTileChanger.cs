@@ -177,6 +177,14 @@ namespace UI.Systems.AdminTools.DevTools
 
 			tileButtonPrefab.SetActive(true);
 
+			if (Enum.TryParse(directionDropdown.options[directionDropdown.value].text, out OrientationEnum value) == false)
+			{
+				Chat.AddExamineMsgToClient("Failed to find orientation!");
+				return;
+			}
+
+			var rotation = Orientation.FromEnum(value).Degrees;
+
 			for (int i = 0; i < TileCategorySO.Instance.TileCategories[categoryIndex].CombinedTileList.Count; i++)
 			{
 				var newTile = Instantiate(tileButtonPrefab, tileContentPanel.transform);
@@ -186,7 +194,13 @@ namespace UI.Systems.AdminTools.DevTools
 
 				var tile = TileCategorySO.Instance.TileCategories[categoryIndex].CombinedTileList[i];
 
-				newTile.GetComponentInChildren<Image>().sprite = tile.PreviewSprite;
+				var image = newTile.GetComponentInChildren<Image>();
+				image.sprite = tile.PreviewSprite;
+				image.color = colourToggle.isOn ? colourPicker.CurrentColor : Color.white;
+
+				var rect = image.GetComponent<RectTransform>();
+				rect.localRotation = Quaternion.Euler(0, 0, rotation);
+
 				newTile.GetComponentInChildren<TMP_Text>().text = tile.name;
 			}
 
@@ -301,12 +315,42 @@ namespace UI.Systems.AdminTools.DevTools
 			}
 
 			directionDropdown.options = optionsData;
-			directionDropdown.value = directionIndex;
+
+			//1 index is up by 0 degrees
+			directionDropdown.value = 1;
 		}
 
 		public void OnDirectionChange()
 		{
 			directionIndex = directionDropdown.value;
+
+			if (Enum.TryParse(directionDropdown.options[directionDropdown.value].text, out OrientationEnum value) == false)
+			{
+				Chat.AddExamineMsgToClient("Failed to find orientation!");
+				return;
+			}
+
+			var rotation = Orientation.FromEnum(value).Degrees;
+
+			foreach (Transform child in tileContentPanel.transform)
+			{
+				var image = child.GetComponentInChildren<Image>();
+				var rect = image.GetComponent<RectTransform>();
+				rect.localRotation = Quaternion.Euler(0, 0, rotation);
+			}
+		}
+
+		#endregion
+
+		#region colour
+
+		public void OnColourChange()
+		{
+			foreach (Transform child in tileContentPanel.transform)
+			{
+				var image = child.GetComponentInChildren<Image>();
+				image.color = colourToggle.isOn ? colourPicker.CurrentColor : Color.white;
+			}
 		}
 
 		#endregion
