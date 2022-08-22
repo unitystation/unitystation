@@ -1021,10 +1021,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var matrixIds = new int[MatrixManager.Instance.ActiveMatrices.Count];
 		var matrixNames = new string[MatrixManager.Instance.ActiveMatrices.Count];
 
-		for (int i = 0; i < MatrixManager.Instance.ActiveMatrices.Count; i++)
+		var count = 0;
+
+		foreach (var matrix in MatrixManager.Instance.ActiveMatrices)
 		{
-			matrixIds[i] = MatrixManager.Instance.ActiveMatrices[i].Id;
-			matrixNames[i] = MatrixManager.Instance.ActiveMatrices[i].Name;
+			matrixIds[count] = matrix.Value.Id;
+			matrixNames[count] = matrix.Value.Name;
+			count++;
 		}
 
 		TargetRpcSendMatrixIds(connectionToClient, matrixIds, matrixNames);

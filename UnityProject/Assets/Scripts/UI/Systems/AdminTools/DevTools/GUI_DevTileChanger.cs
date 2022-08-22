@@ -171,8 +171,11 @@ namespace UI.Systems.AdminTools.DevTools
 
 				var i1 = i;
 				newTile.GetComponent<Button>().onClick.AddListener(() => OnTileSelect(categoryIndex, i1, newTile));
-				newTile.GetComponentInChildren<Image>().sprite = TileCategorySO.Instance.TileCategories[categoryIndex].CombinedTileList[i].PreviewSprite;
-				newTile.GetComponentInChildren<TMP_Text>().text = TileCategorySO.Instance.TileCategories[categoryIndex].CombinedTileList[i].name;
+
+				var tile = TileCategorySO.Instance.TileCategories[categoryIndex].CombinedTileList[i];
+
+				newTile.GetComponentInChildren<Image>().sprite = tile.PreviewSprite;
+				newTile.GetComponentInChildren<TMP_Text>().text = tile.name;
 			}
 
 			tileButtonPrefab.SetActive(false);

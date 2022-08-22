@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Tiles;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace ScriptableObjects
 {
@@ -24,26 +29,38 @@ namespace ScriptableObjects
 		[Tooltip("Other tiles of this type")]
 		private List<GenericTile> tileList = new List<GenericTile>();
 
-		private List<GenericTile> combinedTileList = new List<GenericTile>();
-		public List<GenericTile> CombinedTileList => combinedTileList;
+		[HideInInspector]
+		public List<GenericTile> CombinedTileList = new List<GenericTile>();
 
+#if UNITY_EDITOR
 		private void OnValidate()
 		{
-			foreach (var value in commonTileList)
+			var newList = new List<GenericTile>();
+
+			foreach (var tile in commonTileList)
 			{
-				if (tileList.Contains(value))
-				{
-					tileList.Remove(value);
-				}
+				if(tile == null) continue;
+
+				if(newList.Contains(tile)) continue;
+
+				newList.Add(tile);
 			}
 
-			combinedTileList = commonTileList;
-			combinedTileList.AddRange(tileList);
-
-			if (combinedTileList.Count > commonTileList.Count + tileList.Count)
+			foreach (var tile in tileList)
 			{
-				Debug.LogError("That shouldnt happen...");
+				if(tile == null) continue;
+
+				if(newList.Contains(tile)) continue;
+
+				newList.Add(tile);
 			}
+
+			CombinedTileList = newList;
+
+			EditorUtility.SetDirty(this);
+			//AssetDatabase.SaveAssets();
+			//AssetDatabase.Refresh();
 		}
+#endif
 	}
 }
