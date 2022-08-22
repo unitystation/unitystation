@@ -7,7 +7,7 @@ namespace MiniGames
 	/// They are meant to be used when an object can house more than one minigame or if the minigame's behavior is too complex
 	/// to be stored in just the StartMiniGame() method.
 	/// </summary>
-	public class MiniGameModule : MonoBehaviour
+	public abstract class MiniGameModule : MonoBehaviour
 	{
 		protected MiniGameResultTracker Tracker;
 		protected GameObject MiniGameParent;
