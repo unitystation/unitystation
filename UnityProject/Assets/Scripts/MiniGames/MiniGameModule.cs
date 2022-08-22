@@ -10,13 +10,15 @@ namespace MiniGames
 	public class MiniGameModule : MonoBehaviour
 	{
 		protected MiniGameResultTracker Tracker;
+		protected GameObject MiniGameParent;
 
 		/// <summary>
 		/// Use the Setup() function only when you're assigned events programatically and not from the inspector.
 		/// </summary>
-		public virtual void Setup(MiniGameResultTracker tracker)
+		public virtual void Setup(MiniGameResultTracker tracker, GameObject parent)
 		{
 			Tracker = tracker;
+			MiniGameParent = parent;
 			Tracker.OnStartGame.AddListener(StartMiniGame);
 			Tracker.OnGameDone.AddListener(OnGameDone);
 		}

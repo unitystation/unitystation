@@ -27,7 +27,7 @@ namespace Objects.Closets
 				return;
 			}
 			currentMiniGameIndex = Random.Range(0, miniGameModules.Count - 1);
-			miniGameModules[currentMiniGameIndex].Setup(miniGameTracker);
+			miniGameModules[currentMiniGameIndex].Setup(miniGameTracker, gameObject);
 			SetLock(Lock.Locked);
 		}
 
@@ -41,23 +41,10 @@ namespace Objects.Closets
 					Logger.LogError("[ClosetControl/MiniGames] - Found MiniGameTracker but no minigame is assigned!");
 					return;
 				}
-				RpcStartMiniGameForTargetClient(interaction.PerformerPlayerScript.connectionToServer);
+				StartGame();
 				return;
 			}
 			base.InteractionChecks(interaction);
-		}
-
-
-		[TargetRpc]
-		private void RpcStartMiniGameForTargetClient(NetworkConnection target)
-		{
-			StartGame();
-		}
-
-		[Command(requiresAuthority = false)]
-		public void CmdGameEnd(bool result)
-		{
-			GameEnd(result);
 		}
 
 		public void StartGame()
@@ -76,12 +63,5 @@ namespace Objects.Closets
 			SetLock(Lock.Unlocked);
 			SetDoor(Door.Opened);
 		}
-
-		[Command(requiresAuthority = false)]
-		public void ServerCheckResult()
-		{
-
-		}
-
 	}
 }
