@@ -58,7 +58,7 @@ namespace UI.Systems.AdminTools.DevTools
 
 		private ActionType currentAction = ActionType.None;
 
-		private SortedDictionary<int, string> matrixIds = new SortedDictionary<int, string>();
+		private Vector3Int? dragStartPos;
 
 		private void Awake()
 		{
@@ -109,7 +109,10 @@ namespace UI.Systems.AdminTools.DevTools
 				InputUnfocus();
 			}
 
-			OnClick();
+			//Single click
+			if(OnClick()) return;
+
+			OnDrag();
 		}
 
 		private void InputFocus()
@@ -157,6 +160,7 @@ namespace UI.Systems.AdminTools.DevTools
 			}
 
 			tileSearchBox.text = "";
+			tileIndex = -1;
 
 			categoryIndex = index;
 			LoadTiles(index);
@@ -251,11 +255,6 @@ namespace UI.Systems.AdminTools.DevTools
 			matrixIndex = matrixDropdown.value;
 		}
 
-		public void SetMatrices(SortedDictionary<int, string> newIds)
-		{
-			matrixIds = newIds;
-		}
-
 		#endregion
 
 		#region ActionButtons
@@ -272,22 +271,24 @@ namespace UI.Systems.AdminTools.DevTools
 
 		#region Clicking
 
-		private void OnClick()
+		private bool OnClick()
 		{
-			if(currentAction == ActionType.None) return;
+			dragStartPos = null;
+
+			if(currentAction == ActionType.None) return false;
 
 			//Right click to stop placing
 			if (Input.GetMouseButtonDown(1))
 			{
 				currentAction = ActionType.None;
 				modeText.text = currentAction.ToString();
-				return;
+				return true;
 			}
 
 			//Ignore click if pointer is hovering over GUI
 			if (EventSystem.current.IsPointerOverGameObject())
 			{
-				return;
+				return true;
 			}
 
 			//Clicking once
@@ -300,19 +301,72 @@ namespace UI.Systems.AdminTools.DevTools
 						if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
 						{
 							RemoveTile();
-							return;
+							return true;
 						}
 
 						PlaceTile();
-						return;
+						return true;
 					case ActionType.Remove:
 						RemoveTile();
-						return;
+						return true;
 					default:
 						Logger.LogError($"Unknown case: {currentAction.ToString()} in switch!");
-						return;
+						return true;
 				}
 			}
+
+			return false;
+		}
+
+		private void OnDrag()
+		{
+			if(currentAction == ActionType.None) return;
+
+			//Ignore click if pointer is hovering over GUI
+			if (EventSystem.current.IsPointerOverGameObject())
+			{
+				return;
+			}
+
+			//Being held down, start drag
+			if (Input.GetMouseButton(0))
+			{
+				dragStartPos = MouseInputController.MouseWorldPosition.RoundToInt();
+				return;
+			}
+
+			if (Input.GetMouseButtonUp(0) == false || dragStartPos == null) return;
+
+			//End drag
+			switch (currentAction)
+			{
+				case ActionType.Place:
+					//Also remove if shift is pressed when placing for quick remove
+					if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+					{
+						RemoveTileDrag();
+						return;
+					}
+
+					PlaceTileDrag();
+					return;
+				case ActionType.Remove:
+					RemoveTileDrag();
+					return;
+				default:
+					Logger.LogError($"Unknown case: {currentAction.ToString()} in switch!");
+					return;
+			}
+		}
+
+		private void RemoveTileDrag()
+		{
+
+		}
+
+		private void PlaceTileDrag()
+		{
+
 		}
 
 		#endregion
@@ -420,8 +474,11 @@ namespace UI.Systems.AdminTools.DevTools
 
 			Color? colour = colourToggle.isOn ? colourPicker.CurrentColor : null;
 
-			AdminCommandsManager.Instance.CmdPlaceTile(categoryIndex, tileIndex,
-				MouseInputController.MouseWorldPosition.RoundToInt(), matrixId.First().Key, value, colour);
+			var startPos = MouseInputController.MouseWorldPosition.RoundToInt();
+			var endPos = dragStartPos ?? startPos;
+
+			AdminCommandsManager.Instance.CmdPlaceTile(categoryIndex, tileIndex, startPos, endPos,
+			matrixId.First().Key, value, colour);
 		}
 
 		private void RemoveTile()
@@ -440,8 +497,10 @@ namespace UI.Systems.AdminTools.DevTools
 
 			var layerType = TileCategorySO.Instance.TileCategories[categoryIndex].LayerType;
 
-			AdminCommandsManager.Instance.CmdRemoveTile(MouseInputController.MouseWorldPosition.RoundToInt(),
-				matrixId.First().Key, layerType);
+			var startPos = MouseInputController.MouseWorldPosition.RoundToInt();
+			var endPos = dragStartPos ?? startPos;
+
+			AdminCommandsManager.Instance.CmdRemoveTile(startPos, endPos, matrixId.First().Key, layerType);
 		}
 
 		private enum ActionType

@@ -931,7 +931,7 @@ namespace AdminCommands
 		#region TilePlacer
 
 		[Command(requiresAuthority = false)]
-		public void CmdPlaceTile(int categoryIndex, int tileIndex, Vector3Int worldPosition, int matrixId,
+		public void CmdPlaceTile(int categoryIndex, int tileIndex, Vector3Int startWorldPosition, Vector3Int endWorldPosition, int matrixId,
 			OrientationEnum orientation, Color? colour, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
@@ -943,9 +943,11 @@ namespace AdminCommands
 				return;
 			}
 
-			worldPosition.z = 0;
+			startWorldPosition.z = 0;
+			endWorldPosition.z = 0;
 
-			var localPos = MatrixManager.WorldToLocalInt(worldPosition, matrixInfo);
+			var startLocalPos = MatrixManager.WorldToLocalInt(startWorldPosition, matrixInfo);
+			var endLocalPos = MatrixManager.WorldToLocalInt(endWorldPosition, matrixInfo);
 
 			Matrix4x4? matrix4X4 = null;
 			if (orientation != OrientationEnum.Default && orientation != OrientationEnum.Up_By0)
@@ -955,24 +957,80 @@ namespace AdminCommands
 				matrix4X4 = Matrix4x4.TRS(Vector3.zero, rot, Vector3.one);
 			}
 
-			var tile = TileCategorySO.Instance.TileCategories[categoryIndex].CombinedTileList[tileIndex] as LayerTile;
-
-			if (tile == null)
+			if (categoryIndex >= TileCategorySO.Instance.TileCategories.Count)
 			{
-				var metaTile = TileCategorySO.Instance.TileCategories[categoryIndex].CombinedTileList[tileIndex] as MetaTile;
-
-				if (metaTile != null)
-				{
-					foreach (var tileToPlace in metaTile.GetTiles())
-					{
-						PlaceTile(colour, tileToPlace, matrix4X4, matrixInfo, localPos, admin);
-					}
-				}
-
+				Chat.AddExamineMsgFromServer(admin, "Invalid categoryIndex!");
 				return;
 			}
 
-			PlaceTile(colour, tile, matrix4X4, matrixInfo, localPos, admin);
+			if (tileIndex >= TileCategorySO.Instance.TileCategories[categoryIndex].CombinedTileList.Count)
+			{
+				Chat.AddExamineMsgFromServer(admin, "Invalid tileIndex!");
+				return;
+			}
+
+			var tile = TileCategorySO.Instance.TileCategories[categoryIndex].CombinedTileList[tileIndex];
+
+			//Do meta tiles if possible
+			if (PlaceMetaTile(tile, matrix4X4, matrixInfo, colour, startLocalPos, endLocalPos, admin)) return;
+
+			//If single clicking do only one tile
+			if (startLocalPos == endLocalPos)
+			{
+				PlaceTile(colour, tile as LayerTile, matrix4X4, matrixInfo, startLocalPos, admin);
+				return;
+			}
+
+			//Drag clicking get all positions in and place tiles
+			var bounds = new BoundsInt(
+				startLocalPos.x < endLocalPos.x ? startLocalPos.x : endLocalPos.x,
+				startLocalPos.y < endLocalPos.y ? startLocalPos.y : endLocalPos.y,
+				0,
+				Math.Abs(startLocalPos.x - endLocalPos.x),
+				Math.Abs(startLocalPos.y - endLocalPos.y),
+				0);
+
+			foreach (var localPos in bounds.allPositionsWithin)
+			{
+				PlaceTile(colour, tile as LayerTile, matrix4X4, matrixInfo, localPos, admin);
+			}
+		}
+
+		private bool PlaceMetaTile(GenericTile tile, Matrix4x4? matrix4X4, MatrixInfo matrixInfo, Color? colour,
+			Vector3Int startLocalPos, Vector3Int endLocalPos, PlayerInfo admin)
+		{
+			if (tile == null) return true;
+
+			var metaTile = tile as MetaTile;
+			if (metaTile == null) return false;
+
+			if (startLocalPos == endLocalPos)
+			{
+				foreach (var tileToPlace in metaTile.GetTiles())
+				{
+					PlaceTile(colour, tileToPlace, matrix4X4, matrixInfo, startLocalPos, admin);
+				}
+
+				return true;
+			}
+
+			var bounds = new BoundsInt(
+				startLocalPos.x < endLocalPos.x ? startLocalPos.x : endLocalPos.x,
+				startLocalPos.y < endLocalPos.y ? startLocalPos.y : endLocalPos.y,
+				0,
+				Math.Abs(startLocalPos.x - endLocalPos.x),
+				Math.Abs(startLocalPos.y - endLocalPos.y),
+				0);
+
+			foreach (var localPos in bounds.allPositionsWithin)
+			{
+				foreach (var tileToPlace in metaTile.GetTiles())
+				{
+					PlaceTile(colour, tileToPlace, matrix4X4, matrixInfo, localPos, admin);
+				}
+			}
+
+			return true;
 		}
 
 		private void PlaceTile(Color? colour, LayerTile tile, Matrix4x4? matrix4X4, MatrixInfo matrixInfo,
@@ -1035,7 +1093,7 @@ namespace AdminCommands
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdRemoveTile(Vector3 worldPosition, int matrixId, LayerType layerType, NetworkConnectionToClient sender = null)
+		public void CmdRemoveTile(Vector3Int startWorldPosition, Vector3Int endWorldPosition, int matrixId, LayerType layerType, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 
@@ -1046,10 +1104,32 @@ namespace AdminCommands
 				return;
 			}
 
-			worldPosition.z = 0;
+			startWorldPosition.z = 0;
+			endWorldPosition.z = 0;
 
-			matrixInfo.MetaTileMap.RemoveTileWithlayer(MatrixManager.WorldToLocalInt(worldPosition, matrixInfo),
-				layerType, false);
+			var startLocalPos = MatrixManager.WorldToLocalInt(startWorldPosition, matrixInfo);
+			var endLocalPos = MatrixManager.WorldToLocalInt(endWorldPosition, matrixInfo);
+
+			//If single clicking do only remove one tile
+			if (startLocalPos == endLocalPos)
+			{
+				matrixInfo.MetaTileMap.RemoveTileWithlayer(startLocalPos, layerType, false);
+				return;
+			}
+
+			//Drag clicking get all positions in and remove tiles
+			var bounds = new BoundsInt(
+				startLocalPos.x < endLocalPos.x ? startLocalPos.x : endLocalPos.x,
+				startLocalPos.y < endLocalPos.y ? startLocalPos.y : endLocalPos.y,
+				0,
+				Math.Abs(startLocalPos.x - endLocalPos.x),
+				Math.Abs(startLocalPos.y - endLocalPos.y),
+				0);
+
+			foreach (var localPos in bounds.allPositionsWithin)
+			{
+				matrixInfo.MetaTileMap.RemoveTileWithlayer(localPos, layerType, false);
+			}
 		}
 
 		#endregion
