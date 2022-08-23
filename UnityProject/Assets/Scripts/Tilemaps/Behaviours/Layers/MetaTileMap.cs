@@ -1714,7 +1714,7 @@ namespace TileManagement
 			}
 		}
 
-		public void RemoveTileWithlayer(Vector3Int position, LayerType refLayer)
+		public void RemoveTileWithlayer(Vector3Int position, LayerType refLayer, bool exactPosition = true)
 		{
 			if (refLayer == LayerType.Objects) return;
 
@@ -1724,7 +1724,32 @@ namespace TileManagement
 
 				if (layer.LayerType.IsUnderFloor()) //TODO Tile map upgrade
 				{
-					tileLocation = GetTileExactLocationMultilayer(position, layer);
+					if (exactPosition)
+					{
+						tileLocation = GetTileExactLocationMultilayer(position, layer);
+					}
+					else
+					{
+						var positionNew = position;
+						for (int i = 0; i < 50; i++)
+						{
+							positionNew.z = 1 - i;
+
+							tileLocation = GetTileExactLocationMultilayer(positionNew, layer);
+
+							if (tileLocation != null)
+							{
+								tileLocation.layerTile = null;
+								ApplyTileChange(tileLocation);
+								if (refLayer != LayerType.Effects)
+								{
+									RemoveOverlaysOfType(tileLocation.position, LayerType.Effects, OverlayType.Damage);
+								}
+
+								return;
+							}
+						}
+					}
 				}
 				else
 				{

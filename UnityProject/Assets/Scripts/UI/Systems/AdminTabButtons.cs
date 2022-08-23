@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using AdminTools;
+using UI.Systems.AdminTools.DevTools;
 using AdminTools.VariableViewer;
 
 
@@ -10,12 +11,20 @@ namespace UI.AdminTools
 	/// </summary>
 	public class AdminTabButtons : MonoBehaviour
 	{
-		public GUI_AdminTools adminTools;
-		public GUI_DevSpawner devSpawner;
-		public GUI_DevCloner devCloner;
-		public GUI_DevDestroyer devDestroyer;
-		public GUI_DevSelectVVTile devSelectTile;
-		public GUI_VariableViewer vv;
+		[SerializeField]
+		private GUI_AdminTools adminTools = null;
+		[SerializeField]
+		private GUI_DevSpawner devSpawner = null;
+		[SerializeField]
+		private GUI_DevCloner devCloner = null;
+		[SerializeField]
+		private GUI_DevDestroyer devDestroyer = null;
+		[SerializeField]
+		private GUI_DevSelectVVTile devSelectTile = null;
+		[SerializeField]
+		private GUI_VariableViewer vv = null;
+		[SerializeField]
+		private GUI_DevTileChanger tileChanger = null;
 
 		private void Awake()
 		{
@@ -54,6 +63,13 @@ namespace UI.AdminTools
 			UIManager.Instance.VariableViewer.Open();
 		}
 
+		public void BtnOpenTileChange()
+		{
+			DisableAllGUI();
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			tileChanger.SetActive(true);
+		}
+
 		public void BtnOpenTileVV()
 		{
 			DisableAllGUI();
@@ -68,6 +84,8 @@ namespace UI.AdminTools
 			devCloner.gameObject.SetActive(false);
 			devDestroyer.gameObject.SetActive(false);
 			devSelectTile.gameObject.SetActive(false);
+			vv.SetActive(false);
+			tileChanger.SetActive(false);
 		}
 	}
 }

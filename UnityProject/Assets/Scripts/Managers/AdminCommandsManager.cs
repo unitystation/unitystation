@@ -18,9 +18,15 @@ using Audio.Containers;
 using Doors;
 using Doors.Modules;
 using Objects;
+using Objects.Atmospherics;
+using Objects.Disposals;
 using Objects.Wallmounts;
+using ScriptableObjects;
 using Systems.Atmospherics;
 using Systems.Cargo;
+using Systems.Electricity;
+using Systems.Pipes;
+using Tiles;
 using UI.Systems.AdminTools;
 using Util;
 
@@ -919,6 +925,132 @@ namespace AdminCommands
 		}
 
 		#endregion
+
+		#endregion
+
+		#region TilePlacer
+
+		[Command(requiresAuthority = false)]
+		public void CmdPlaceTile(int categoryIndex, int tileIndex, Vector3Int worldPosition, int matrixId,
+			OrientationEnum orientation, Color? colour, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+
+			var matrixInfo = MatrixManager.Get(matrixId);
+			if (matrixInfo == null || matrixInfo == MatrixInfo.Invalid)
+			{
+				Chat.AddExamineMsgFromServer(admin, "Invalid matrix!");
+				return;
+			}
+
+			worldPosition.z = 0;
+
+			var localPos = MatrixManager.WorldToLocalInt(worldPosition, matrixInfo);
+
+			Matrix4x4? matrix4X4 = null;
+			if (orientation != OrientationEnum.Default && orientation != OrientationEnum.Up_By0)
+			{
+				int offset = PipeFunctions.GetOffsetAngle(Orientation.FromEnum(orientation).Degrees);
+				Quaternion rot = Quaternion.Euler(0.0f, 0.0f, offset);
+				matrix4X4 = Matrix4x4.TRS(Vector3.zero, rot, Vector3.one);
+			}
+
+			var tile = TileCategorySO.Instance.TileCategories[categoryIndex].CombinedTileList[tileIndex] as LayerTile;
+
+			if (tile == null)
+			{
+				var metaTile = TileCategorySO.Instance.TileCategories[categoryIndex].CombinedTileList[tileIndex] as MetaTile;
+
+				if (metaTile != null)
+				{
+					foreach (var tileToPlace in metaTile.GetTiles())
+					{
+						PlaceTile(colour, tileToPlace, matrix4X4, matrixInfo, localPos, admin);
+					}
+				}
+
+				return;
+			}
+
+			PlaceTile(colour, tile, matrix4X4, matrixInfo, localPos, admin);
+		}
+
+		private void PlaceTile(Color? colour, LayerTile tile, Matrix4x4? matrix4X4, MatrixInfo matrixInfo,
+			Vector3Int localPos, PlayerInfo adminInfo)
+		{
+			if (tile == null)
+			{
+				Chat.AddExamineMsgFromServer(adminInfo, "Invalid tile!");
+				return;
+			}
+
+			Vector3Int searchVector;
+
+			//No rotation and no colour
+			if (matrix4X4 == null && colour == null)
+			{
+				searchVector = matrixInfo.MetaTileMap.SetTile(localPos, tile);
+			}
+
+			//Rotation and no colour
+			else if (matrix4X4 != null && colour == null)
+			{
+				searchVector = matrixInfo.MetaTileMap.SetTile(localPos, tile, matrix4X4);
+			}
+
+			//No rotation and colour
+			else if (matrix4X4 == null)
+			{
+				searchVector = matrixInfo.MetaTileMap.SetTile(localPos, tile, color: colour);
+			}
+
+			//Rotation and colour
+			else
+			{
+				searchVector = matrixInfo.MetaTileMap.SetTile(localPos, tile, matrix4X4, colour);
+			}
+
+			if (tile is ElectricalCableTile electricalCableTile)
+			{
+				//TODO make this actually work, looking at CableCoil.cs i've got no idea whats going on. Get Bod to do it?
+				ElectricalManager.Instance.electricalSync.StructureChange = true;
+				return;
+			}
+
+			if (tile is PipeTile pipeTile)
+			{
+				if (matrix4X4 == null)
+				{
+					matrix4X4 = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, Vector3.one);
+				}
+
+				pipeTile.InitialiseNodeNew(searchVector, matrixInfo.Matrix, matrix4X4.Value);
+				return;
+			}
+
+			if (tile is DisposalPipe disposalPipe)
+			{
+				disposalPipe.InitialiseNode(searchVector, matrixInfo.Matrix);
+			}
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdRemoveTile(Vector3 worldPosition, int matrixId, LayerType layerType, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+
+			var matrixInfo = MatrixManager.Get(matrixId);
+			if (matrixInfo == null || matrixInfo == MatrixInfo.Invalid)
+			{
+				Chat.AddExamineMsgFromServer(admin, "Invalid matrix!");
+				return;
+			}
+
+			worldPosition.z = 0;
+
+			matrixInfo.MetaTileMap.RemoveTileWithlayer(MatrixManager.WorldToLocalInt(worldPosition, matrixInfo),
+				layerType, false);
+		}
 
 		#endregion
 	}
