@@ -376,7 +376,7 @@ namespace UI.Systems.AdminTools.DevTools
 		{
 			var inputText = tileSearchBox.text.ToLower();
 
-			if (inputText.Length <= MinCharactersForSearch)
+			if (inputText.Length < MinCharactersForSearch)
 			{
 				//Set all tiles active
 				foreach (Transform child in tileContentPanel.transform)
