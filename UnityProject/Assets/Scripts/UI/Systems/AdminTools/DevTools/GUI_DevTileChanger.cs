@@ -26,13 +26,9 @@ namespace UI.Systems.AdminTools.DevTools
 		[SerializeField]
 		[Tooltip("content panel into which the list items should be placed")]
 		private GameObject tileContentPanel;
+
 		[SerializeField]
 		private InputField tileSearchBox;
-
-		[Tooltip("If searchWhileTyping is turned on, don't start searching until at least this many" +
-		         " characters are entered.")]
-		[SerializeField]
-		private int minCharactersForSearch = 3;
 
 		[SerializeField]
 		private TMP_Dropdown matrixDropdown = null;
@@ -57,6 +53,8 @@ namespace UI.Systems.AdminTools.DevTools
 
 		private Image selectedButton;
 		private LightingSystem lightingSystem;
+
+		private const int MinCharactersForSearch = 1;
 
 		private ActionType currentAction = ActionType.None;
 
@@ -157,6 +155,8 @@ namespace UI.Systems.AdminTools.DevTools
 			{
 				GameObject.Destroy(child.gameObject);
 			}
+
+			tileSearchBox.text = "";
 
 			categoryIndex = index;
 			LoadTiles(index);
@@ -357,7 +357,7 @@ namespace UI.Systems.AdminTools.DevTools
 
 		#endregion
 
-		#region colour
+		#region Colour
 
 		public void OnColourChange()
 		{
@@ -365,6 +365,34 @@ namespace UI.Systems.AdminTools.DevTools
 			{
 				var image = child.GetComponentInChildren<Image>();
 				image.color = colourToggle.isOn ? colourPicker.CurrentColor : Color.white;
+			}
+		}
+
+		#endregion
+
+		#region Searching
+
+		public void OnSearchBox()
+		{
+			var inputText = tileSearchBox.text.ToLower();
+
+			if (inputText.Length <= MinCharactersForSearch)
+			{
+				//Set all tiles active
+				foreach (Transform child in tileContentPanel.transform)
+				{
+					child.SetActive(true);
+				}
+
+				return;
+			}
+
+			//Search for tile
+			foreach (Transform child in tileContentPanel.transform)
+			{
+				var text = child.GetComponentInChildren<TMP_Text>().text.ToLower();
+
+				child.SetActive(text.Contains(inputText));
 			}
 		}
 
