@@ -10,7 +10,7 @@ namespace Core.Cam
 {
 	public class CaptureScreen : MonoBehaviour
 	{
-		public Camera cam;
+		public UnityEngine.Camera cam;
 
 		public int width;
 		public int height;
@@ -27,7 +27,7 @@ namespace Core.Cam
 			//specifc use cases that does not require taking an entire picture of the screen.
 			if(cam == null)
 			{
-				cam = Camera.main;
+				cam = UnityEngine.Camera.main;
 			}
 		}
 

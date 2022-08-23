@@ -114,6 +114,7 @@ MonoBehaviour:
   RcsMatrixMove: {fileID: 0}
   actionData: {fileID: 0}
   playerChatLocation: {fileID: 4390267312333422610}
+  canVentCrawl: 0
   ClueHandsImprintInverseChance: 55
   ClueUniformImprintInverseChance: 65
   ClueSpeciesImprintInverseChance: 85
@@ -308,6 +309,9 @@ MonoBehaviour:
   MoveSpeed: 8
   GhostSpeedMultiplier: 8
   Moving: 0
+  registerTile: {fileID: 843330595842111116}
+  playerScript: {fileID: 5316147545403001103}
+  rotatable: {fileID: 1176408661413567387}
   LocalTargetPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &93686595326039348
 MonoBehaviour:
@@ -679,7 +683,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: -4549444404219585148, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

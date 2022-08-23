@@ -1244,7 +1244,7 @@ namespace Systems.Ai
 			}
 
 			//Transfer player to ghost
-			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
+			PlayerSpawn.ServerGhost(playerScript.mind);
 
 			//Despawn this player object
 			_ = Despawn.ServerSingle(gameObject);

@@ -12,12 +12,18 @@ public class SpriteHandlerManager : NetworkBehaviour
 	private static SpriteHandlerManager spriteHandlerManager;
 	public static SpriteHandlerManager Instance => spriteHandlerManager;
 
-	public static Dictionary<NetworkIdentity, Dictionary<string, SpriteHandler>> PresentSprites =
-		new Dictionary<NetworkIdentity, Dictionary<string, SpriteHandler>>();
+	public static Dictionary<NetworkIdentity, Dictionary<string, SpriteHandler>> PresentSprites = new Dictionary<NetworkIdentity, Dictionary<string, SpriteHandler>>();
+
+	public static Dictionary<string, SpriteHandler> SpecialPresentSprites = new Dictionary<string, SpriteHandler>();
+
 
 	public Dictionary<SpriteHandler, SpriteChange> QueueChanges = new Dictionary<SpriteHandler, SpriteChange>();
 
 	public Dictionary<SpriteHandler, SpriteChange> NewClientChanges = new Dictionary<SpriteHandler, SpriteChange>();
+
+	public Dictionary<string, SpriteChange> SpecialQueueChanges = new Dictionary<string, SpriteChange>();
+
+	public Dictionary<string, SpriteChange> SpecialNewClientChanges = new Dictionary<string, SpriteChange>();
 
 	private void Awake()
 	{
@@ -48,6 +54,10 @@ public class SpriteHandlerManager : NetworkBehaviour
 
 	void OnRoundRestart(Scene oldScene, Scene newScene)
 	{
+		SpecialQueueChanges.Clear();
+		SpecialNewClientChanges.Clear();
+		SpecialPresentSprites.Clear();
+
 		QueueChanges.Clear();
 		NewClientChanges.Clear();
 		PresentSprites.Clear();
@@ -85,6 +95,25 @@ public class SpriteHandlerManager : NetworkBehaviour
 				PresentSprites[networkIdentity].Remove(spriteHandler.name);
 			}
 		}
+	}
+
+
+	public static void RegisterSpecialHandler(string Name, SpriteHandler spriteHandler = null)
+	{
+		if (SpecialPresentSprites.ContainsKey(Name) == false || spriteHandler != null)
+		{
+			SpecialPresentSprites[Name] = spriteHandler;
+		}
+
+	}
+
+	public static void UnRegisterSpecialHandler(string Name)
+	{
+		if (SpecialPresentSprites.ContainsKey(Name))
+		{
+			SpecialPresentSprites.Remove(Name);
+		}
+
 	}
 
 
@@ -127,6 +156,12 @@ public class SpriteHandlerManager : NetworkBehaviour
 	public void UpdateNewPlayer(NetworkConnection requestedBy)
 	{
 		SpriteUpdateMessage.SendToSpecified(requestedBy, NewClientChanges);
+		SpriteUpdateMessage.SendToSpecified(requestedBy, SpecialNewClientChanges);
+	}
+
+	public void UpdateSpecialNewPlayer(NetworkConnection requestedBy)
+	{
+		SpriteUpdateMessage.SendToSpecified(requestedBy, SpecialNewClientChanges);
 	}
 
 	public void ClientRequestForceUpdate(List<SpriteHandler> Specifyed ,NetworkConnection requestedBy)
@@ -160,6 +195,11 @@ public class SpriteHandlerManager : NetworkBehaviour
 			//maybe bring down to 500
 			SpriteUpdateMessage.SendToAll(QueueChanges);
 		}
+
+		if (SpecialQueueChanges.Count > 0)
+		{
+			SpriteUpdateMessage.SendToAll(SpecialQueueChanges); //Probably unsecured but oh well
+		}
 	}
 
 
@@ -178,6 +218,21 @@ public class SpriteHandlerManager : NetworkBehaviour
 		}
 
 		QueueChanges.Clear();
+
+
+		foreach (var Change in SpecialQueueChanges)
+		{
+			if (SpecialNewClientChanges.ContainsKey(Change.Key))
+			{
+				SpecialNewClientChanges[Change.Key].MergeInto(Change.Value, this);
+			}
+			else
+			{
+				SpecialNewClientChanges[Change.Key] = Change.Value;
+			}
+		}
+
+		SpecialQueueChanges.Clear();
 	}
 
 	//Ignore startingGameObject when calling externally, as its used internally in this functions recursion

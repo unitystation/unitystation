@@ -7,7 +7,7 @@ public class WindowDrag : MonoBehaviour
 	/// Disable ability to drag the window
 	/// </summary>
 	public bool disableDrag = false;
-	public bool resetPositionOnDisable = false;
+
 	private float offsetX;
 	private float offsetY;
 	private Vector3 startPositon;
@@ -19,14 +19,10 @@ public class WindowDrag : MonoBehaviour
 	/// Tells the OnRectTransformDimensionsChange() that this window object is set up and "isReady" to be clamped
 	/// within it's bounds.
 	/// </summary>
-	private void Start () {
+	private void Start ()
+	{
 		rectTransform = GetComponent<RectTransform>();
-
-		var cameraHeight = Camera.main.orthographicSize * 2.0f;
-		var cameraWidth = cameraHeight * Camera.main.aspect;
-		var worldPointResolution = new Vector3(cameraWidth, cameraHeight);
-		startPositon = new Vector3(	rectTransform.position.x / worldPointResolution.x,
-									rectTransform.position.y / worldPointResolution.y);;
+		startPositon = transform.localPosition;
 
 		isReady = true;
 	}
@@ -57,19 +53,7 @@ public class WindowDrag : MonoBehaviour
 	{
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 
-		if (Camera.main == null || !isReady)
-		{
-			return;
-		}
-
-		var cameraHeight = Camera.main.orthographicSize * 2.0f;
-		var cameraWidth = cameraHeight * Camera.main.aspect;
-		var worldPointResolution = new Vector3(cameraWidth, cameraHeight);
-		if (resetPositionOnDisable)
-		{
-			rectTransform.position = new Vector3(	startPositon.x * worldPointResolution.x,
-													startPositon.y * worldPointResolution.y);
-		}
+		transform.localPosition = startPositon;
 	}
 
 	/// <summary>

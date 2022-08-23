@@ -176,21 +176,21 @@ namespace Items.Tool
 			tileRenderer.sortingOrder = state ? 100 : oldLayerOrder;
 		}
 
-		public void OnPlayerRejoin()
+		public void OnPlayerRejoin(Mind mind)
 		{
 			if(pickupable.ItemSlot?.Player == null) return;
 
 			DoRpc(pickupable.ItemSlot.Player, currentMode != Mode.Off);
 		}
 
-		public void OnPlayerTransfer()
+		public void OnPlayerTransfer(Mind mind)
 		{
 			if(pickupable.ItemSlot?.Player == null) return;
 
 			DoRpc(pickupable.ItemSlot.Player, currentMode != Mode.Off);
 		}
 
-		public void OnPlayerLeaveBody()
+		public void OnPlayerLeaveBody(Mind mind)
 		{
 			if(pickupable.ItemSlot?.Player == null) return;
 

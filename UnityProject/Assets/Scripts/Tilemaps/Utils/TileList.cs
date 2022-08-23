@@ -1,156 +1,191 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Objects;
 using UnityEngine;
 
-/// <summary>
-/// Stores the RegisterTiles at each tile position.
-/// </summary>
-public class TileList
+namespace Tilemaps.Utils
 {
-	private readonly Dictionary<Vector3Int, List<RegisterTile>> _objects = new Dictionary<Vector3Int, List<RegisterTile>>();
+	/// <summary>
+	/// Stores the RegisterTiles at each tile position.
+	/// </summary>
+	public class TileList
+	{
+		private readonly Dictionary<Vector3Int, TileListChunk<RegisterTile>> objects = new Dictionary<Vector3Int, TileListChunk<RegisterTile>>();
 
-	private static readonly List<RegisterTile> emptyList = new List<RegisterTile>();
+		private static readonly List<RegisterTile> EmptyList = new List<RegisterTile>();
 
-	//permanent list to avoid the usage of ienumerators
-	private readonly List<RegisterTile> TempRegisterTiles = new List<RegisterTile>();
+		//permanent list to avoid the usage of ienumerators
+		private readonly List<RegisterTile> tempRegisterTiles = new List<RegisterTile>();
 
-	public List<RegisterTile> AllObjects {
-		get {
-			var list = new List<RegisterTile>();
-			foreach (var x in _objects.Values) {
-				foreach (var registerTile in x)
+		//20x20 = 400 tiles in chunk
+		private const int ChunkSize = 20;
+
+		public List<RegisterTile> AllObjects
+		{
+			get
+			{
+				var list = new List<RegisterTile>();
+
+				foreach (var chunk in objects.Values)
 				{
-					list.Add(registerTile);
+					chunk.GetAllObjects(list);
+				}
+
+				return list;
+			}
+		}
+
+		public void Add(Vector3Int position, RegisterTile obj)
+		{
+			var chunkPos = GetChunkPos(position);
+
+			if (objects.ContainsKey(chunkPos) == false)
+			{
+				objects[chunkPos] = new TileListChunk<RegisterTile>();
+			}
+
+			objects[chunkPos].Add(position, obj);
+		}
+
+		public void Remove(Vector3Int position, RegisterTile obj)
+		{
+			var chunkPos = GetChunkPos(position);
+
+			if (objects.TryGetValue(chunkPos, out var objectsOut))
+			{
+				objectsOut.Remove(position, obj);
+
+				if (objectsOut.HasObjects() == false)
+				{
+					objects.Remove(chunkPos);
 				}
 			}
+		}
+
+		public void ReorderObjects(Vector3Int position)
+		{
+			var offset = 0;
+			if (position.x % 2 != 0)
+			{
+				offset = position.y % 2 != 0 ? 1 : 0;
+			}
+			else
+			{
+				offset = position.y % 2 != 0 ? 3 : 2;
+			}
+
+			var chunkPos = GetChunkPos(position);
+
+			var i = 0;
+			foreach (var register in objects[chunkPos].Get(position))
+			{
+				if (register.OrNull()?.CurrentsortingGroup == null) continue;
+
+				register.CurrentsortingGroup.sortingOrder = (i * 4) + offset;
+				i++;
+			}
+		}
+
+		public bool HasObjects(Vector3Int localPosition)
+		{
+			var chunkPos = GetChunkPos(localPosition);
+
+			return objects.TryGetValue(chunkPos, out var chunk) && chunk.HasObjects(localPosition);
+		}
+
+		public List<RegisterTile> Get(Vector3Int position)
+		{
+			var chunkPos = GetChunkPos(position);
+
+			return objects.TryGetValue(chunkPos, out var objectsOut) ? objectsOut.Get(position) : EmptyList;
+		}
+
+		public IEnumerable<RegisterTile> Get(Vector3Int position, ObjectType type)
+		{
+			var chunkPos = GetChunkPos(position);
+
+			if (objects.TryGetValue(chunkPos, out var objectsOut) == false)
+			{
+				return EmptyList;
+			}
+
+			var list = new List<RegisterTile>();
+			foreach (var x in objectsOut.Get(position))
+			{
+				if (x.ObjectType == type)
+				{
+					list.Add(x);
+				}
+			}
+
 			return list;
 		}
-	}
 
-	public void Add(Vector3Int position, RegisterTile obj)
-	{
-		if (!_objects.ContainsKey(position))
+		public void InvokeOnObjects(IRegisterTileAction action, Vector3Int localPosition)
 		{
-			_objects[position] = new List<RegisterTile>();
-		}
-		if (!_objects[position].Contains(obj))
-		{
-			_objects[position].Add(obj);
-			ReorderObjects(position);
-		}
-	}
+			tempRegisterTiles.Clear();
+			tempRegisterTiles.AddRange(Get(localPosition));
 
-	public void Remove(Vector3Int position, RegisterTile obj = null)
-	{
-		if (_objects.TryGetValue(position, out var objectsOut))
-		{
-			if (obj == null)
+			for (int i = tempRegisterTiles.Count - 1; i >= 0; i--)
 			{
-				objectsOut.Clear();
+				if (tempRegisterTiles[i] != null) //explosions can delete many objects in this tile!
+				{
+					action.Invoke(tempRegisterTiles[i]);
+				}
 			}
-			else
+		}
+
+		private Vector3Int GetChunkPos(Vector3Int tileLocalPos)
+		{
+			return new Vector3Int(tileLocalPos.x / ChunkSize, tileLocalPos.y / ChunkSize);
+		}
+	}
+
+	public class EnterTileBaseList
+	{
+		private readonly Dictionary<Vector3Int, TileListChunk<EnterTileBase>> objects = new Dictionary<Vector3Int, TileListChunk<EnterTileBase>>();
+
+		private static readonly List<EnterTileBase> EmptyList = new List<EnterTileBase>();
+
+		//20x20 = 400 tiles in chunk
+		private const int ChunkSize = 20;
+
+		public void Add(Vector3Int position, EnterTileBase obj)
+		{
+			var chunkPos = GetChunkPos(position);
+
+			if (objects.ContainsKey(chunkPos) == false)
 			{
-				objectsOut.Remove(obj);
+				objects[chunkPos] = new TileListChunk<EnterTileBase>();
 			}
-		}
-	}
 
-	public void ReorderObjects(Vector3Int position)
-	{
-		var offset = 0;
-		if (position.x % 2 != 0)
-		{
-			offset = position.y % 2 != 0 ? 1 : 0;
+			objects[chunkPos].Add(position, obj);
 		}
-		else
-		{
-			offset = position.y % 2 != 0 ? 3 : 2;
-		}
-		var i = 0;
-		foreach (var register in _objects[position])
-		{
-			if (register.OrNull()?.CurrentsortingGroup == null) continue;
-			register.CurrentsortingGroup.sortingOrder = (i * 4) + offset;
-			i++;
-		}
-	}
 
-	public bool HasObjects(Vector3Int localPosition)
-	{
-		return _objects.ContainsKey(localPosition) && _objects[localPosition].Count > 0;
-	}
-	public List<RegisterTile> Get(Vector3Int position)
-	{
-		return _objects.TryGetValue(position, out var objectsOut) ? objectsOut : emptyList;
-	}
-
-	public IEnumerable<RegisterTile> Get(Vector3Int position, ObjectType type)
-	{
-		if (_objects.TryGetValue(position, out var objectsOut) == false)
+		public void Remove(Vector3Int position, EnterTileBase obj = null)
 		{
-			return emptyList;
-		}
-		var list = new List<RegisterTile>();
-		foreach (var x in objectsOut)
-		{
-			if (x.ObjectType == type) {
-				list.Add(x);
-			}
-		}
-		return list;
-	}
+			var chunkPos = GetChunkPos(position);
 
-	public void InvokeOnObjects(IRegisterTileAction action, Vector3Int localPosition)
-	{
-		TempRegisterTiles.Clear();
-		TempRegisterTiles.AddRange(Get(localPosition));
-
-		for (int i = TempRegisterTiles.Count - 1; i >= 0; i--)
-		{
-			if (TempRegisterTiles[i] != null) //explosions can delete many objects in this tile!
+			if (objects.TryGetValue(chunkPos, out var objectsOut))
 			{
-				action.Invoke(TempRegisterTiles[i]);
+				objectsOut.Remove(position, obj);
+
+				if (objectsOut.HasObjects() == false)
+				{
+					objects.Remove(chunkPos);
+				}
 			}
 		}
-	}
-}
 
-public class EnterTileBaseList
-{
-	private readonly Dictionary<Vector3Int, List<EnterTileBase>> _objects = new Dictionary<Vector3Int, List<EnterTileBase>>();
-
-	private static readonly List<EnterTileBase> emptyList = new List<EnterTileBase>();
-
-	public void Add(Vector3Int position, EnterTileBase obj)
-	{
-		if (!_objects.ContainsKey(position))
+		public List<EnterTileBase> Get(Vector3Int position)
 		{
-			_objects[position] = new List<EnterTileBase>();
-		}
-		if (!_objects[position].Contains(obj))
-		{
-			_objects[position].Add(obj);
-		}
-	}
+			var chunkPos = GetChunkPos(position);
 
-	public void Remove(Vector3Int position, EnterTileBase obj = null)
-	{
-		if (_objects.TryGetValue(position, out var objectsOut))
-		{
-			if (obj == null)
-			{
-				objectsOut.Clear();
-			}
-			else
-			{
-				objectsOut.Remove(obj);
-			}
+			return objects.TryGetValue(chunkPos, out var objectsOut) ? objectsOut.Get(position) : EmptyList;
 		}
-	}
 
-	public List<EnterTileBase> Get(Vector3Int position)
-	{
-		return _objects.TryGetValue(position, out var objectsOut) ? objectsOut : emptyList;
+		private Vector3Int GetChunkPos(Vector3Int tileLocalPos)
+		{
+			return new Vector3Int(tileLocalPos.x / ChunkSize, tileLocalPos.y / ChunkSize);
+		}
 	}
 }

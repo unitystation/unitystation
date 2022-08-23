@@ -85,12 +85,7 @@ namespace HealthV2
 		/// <summary>
 		/// The health of the creature when it has taken no damage
 		/// </summary>
-		[SerializeField] private float maxHealth = 100;
-
-		public float MaxHealth
-		{
-			get => maxHealth;
-		}
+		public float MaxHealth => healthStateController.MaxHealth;
 
 		/// <summary>
 		/// The current overall health of the creature.
@@ -454,6 +449,12 @@ namespace HealthV2
 			brain = _brain;
 		}
 
+		[Server]
+		public void SetMaxHealth(float newMaxHealth)
+		{
+			healthStateController.SetMaxHealth(newMaxHealth);
+		}
+
 		public override void OnStartServer()
 		{
 			mobID = PlayerManager.Instance.GetMobID();
@@ -652,7 +653,7 @@ namespace HealthV2
 		/// </summary>
 		public void CalculateOverallHealth()
 		{
-			float currentHealth = maxHealth;
+			float currentHealth = MaxHealth;
 			foreach (var implant in BodyPartList)
 			{
 				if (implant.DamageContributesToOverallHealth == false) continue;
@@ -831,7 +832,7 @@ namespace HealthV2
 
 		public float HealthPercentage()
 		{
-			return (OverallHealth / maxHealth) * 100;
+			return (OverallHealth / MaxHealth) * 100;
 		}
 
 		/// <summary>
@@ -931,7 +932,7 @@ namespace HealthV2
 			Extinguish(); //Remove any fire on them.
 			ResetDamageAll(); //Bring their entire body parts that are on them in good shape.
 			healthStateController
-				.SetOverallHealth(maxHealth); //Set the player's overall health to their race's maxHealth.
+				.SetOverallHealth(MaxHealth); //Set the player's overall health to their race's maxHealth.
 			RestartHeart();
 			playerScript.playerMove.allowInput = true; //Let them interact with the world again.
 			playerScript.registerTile.ServerStandUp();
@@ -1194,7 +1195,7 @@ namespace HealthV2
 
 			healthString.Append($"{ConsciousState.ToString().ToLower().Replace("_", " ")} and ");
 
-			var healthFraction = OverallHealth / maxHealth;
+			var healthFraction = OverallHealth / MaxHealth;
 			if (healthFraction < 0.2f)
 			{
 				healthString.Append("heavily wounded.");

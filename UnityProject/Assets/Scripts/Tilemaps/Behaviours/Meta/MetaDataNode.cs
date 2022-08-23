@@ -36,10 +36,22 @@ public class MetaDataNode : IGasMixContainer
 	/// </summary>
 	public ExplosionNode[] ExplosionNodes = new ExplosionNode[5];
 
+	private RadiationNode radiationNode;
+
 	/// <summary>
 	/// Used for storing useful information for the radiation system and The radiation level
 	/// </summary>
-	public RadiationNode RadiationNode = new RadiationNode();
+	public RadiationNode RadiationNode
+	{
+		get
+		{
+			if (radiationNode != null) return radiationNode;
+
+			radiationNode = new RadiationNode();
+
+			return radiationNode;
+		}
+	}
 
 	/// <summary>
 	/// Contains all electrical data for this tile
@@ -76,10 +88,24 @@ public class MetaDataNode : IGasMixContainer
 	/// </summary>
 	public NodeOccupiedType OccupiedType;
 
+	private GasMix gasMix;
+
 	/// <summary>
 	/// The mixture of gases currently on this node.
 	/// </summary>
-	public GasMix GasMix { get; set; }
+	public GasMix GasMix
+	{
+		get
+		{
+			if (gasMix != null) return gasMix;
+
+			gasMix = GasMix.NewGasMix(GasMixes.BaseSpaceMix);
+
+			return gasMix;
+		}
+
+		set => gasMix = value;
+	}
 
 	/// <summary>
 	/// The hotspot state of this node - indicates a potential to ignite gases, and
@@ -96,9 +122,37 @@ public class MetaDataNode : IGasMixContainer
 	public AppliedDetails AppliedDetails = new AppliedDetails();
 
 
-	public SmokeNode SmokeNode;
+	private SmokeNode smokeNode;
+	public SmokeNode SmokeNode
+	{
+		get
+		{
+			if (smokeNode != null) return smokeNode;
 
-	public FoamNode FoamNode;
+			smokeNode = new SmokeNode()
+			{
+				OnMetaDataNode = this
+			};
+
+			return smokeNode;
+		}
+	}
+
+	private FoamNode foamNode;
+	public FoamNode FoamNode
+	{
+		get
+		{
+			if (foamNode != null) return foamNode;
+
+			foamNode = new FoamNode()
+			{
+				OnMetaDataNode = this
+			};
+
+			return foamNode;
+		}
+	}
 
 
 	//Conductivity Stuff//
@@ -194,22 +248,14 @@ public class MetaDataNode : IGasMixContainer
 		MetaDataSystem = InMetaDataSystem;
 		PositionMatrix = matrix;
 		Position = position;
+
 		neighborList = new List<MetaDataNode>(4);
 		for (var i = 0; i < neighborList.Capacity; i++)
 		{
 			neighborList.Add(null);
 		}
-		GasMix = GasMix.NewGasMix(GasMixes.BaseSpaceMix);
-		this.reactionManager = reactionManager;
-		SmokeNode = new SmokeNode()
-		{
-			OnMetaDataNode = this
-		};
 
-		FoamNode = new FoamNode()
-		{
-			OnMetaDataNode = this
-		};
+		this.reactionManager = reactionManager;
 	}
 
 	static MetaDataNode()

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using Random = System.Random;
@@ -119,6 +120,62 @@ public static class ConverterExtensions
 		};
 
 	//======== | Cool serialisation stuff | =========
+
+	public static string PalletToString(List<Color> Pallet)
+	{
+		if (Pallet == null) return "";
+		StringBuilder ToReturn = new StringBuilder();
+		foreach (var Colour in Pallet)
+		{
+			ToReturn.Append('◉');
+			ToReturn.Append(Colour.r.ToString());
+			ToReturn.Append(',');
+			ToReturn.Append(Colour.g.ToString());
+			ToReturn.Append(',');
+			ToReturn.Append(Colour.b.ToString());
+			ToReturn.Append(',');
+			ToReturn.Append(Colour.a.ToString());
+		}
+
+		return ToReturn.ToString();
+	}
+
+	public static List<Color> StringToPallet(string stringPallet)
+	{
+
+		List<Color> ToReturn = new List<Color>();
+		if (string.IsNullOrEmpty(stringPallet)) return ToReturn;
+
+		var Loop = stringPallet.Split('◉');
+		foreach (var StringColour in Loop)
+		{
+			var colour = Color.white;
+			var RGBA = StringColour.Split(',');
+			for (int i = 0; i < RGBA.Length; i++)
+			{
+				switch (i)
+				{
+					case 0:
+						colour.r = float.Parse(RGBA[i]);
+						break;
+					case 1:
+						colour.g = float.Parse(RGBA[i]);
+						break;
+					case 2:
+						colour.b = float.Parse(RGBA[i]);
+						break;
+					case 3:
+						colour.a = float.Parse(RGBA[i]);
+						break;
+				}
+			}
+			ToReturn.Add(colour);
+		}
+
+		return ToReturn;
+	}
+
+
 
 	public static Color UncompresseToColour(this string SerialiseData)
 	{

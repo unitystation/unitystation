@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using AdminCommands;
+using AdminTools;
 using Managers;
 using UnityEngine;
 using Strings;
@@ -47,7 +49,11 @@ namespace Objects
 		{
 			if (interaction.HandObject.TryGetComponent<IDCard>(out var card))
 			{
-				if(card.HasAccess(validAccess)) RegisterEarlyShuttleLaunch(card, interaction.PerformerPlayerScript);
+				if (card.HasAccess(validAccess))
+				{
+					RegisterEarlyShuttleLaunch(card, interaction.PerformerPlayerScript);
+					ServerLogEarlyVoteEvent(interaction);
+				}
 				return;
 			}
 			TryEmagConsole(interaction);
@@ -85,9 +91,25 @@ namespace Objects
 			Chat.AddActionMsgToChat(interaction.Performer, "You hack the shuttle console",
 				$"{interaction.Performer.ExpensiveName()} hacked the shuttle console");
 
+			ServerLogEmagEvent(interaction);
+
 			beenEmagged = true;
 
 			DepartShuttle();
+		}
+
+		private void ServerLogEmagEvent(HandApply prep)
+		{
+			var time = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+			UIManager.Instance.playerAlerts.ServerAddNewEntry(time, PlayerAlertTypes.Emag, prep.PerformerPlayerScript.PlayerInfo,
+				$"{time} : {prep.PerformerPlayerScript.playerName} emmaged the escape shuttle successfully!");
+		}
+
+		private void ServerLogEarlyVoteEvent(HandApply prep)
+		{
+			var time = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+			UIManager.Instance.playerAlerts.ServerAddNewEntry(time, PlayerAlertTypes.Emag, prep.PerformerPlayerScript.PlayerInfo,
+				$"{time} : {prep.PerformerPlayerScript.playerName} voted for the shuttle to leave early.");
 		}
 
 		private void RegisterEarlyShuttleLaunch(IDCard card, PlayerScript performer)

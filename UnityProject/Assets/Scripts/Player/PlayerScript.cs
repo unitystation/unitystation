@@ -686,7 +686,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public void ActivateAntagAction(bool state)
 	{
-		UIActionManager.ToggleLocal(this, state);
+		UIActionManager.ToggleServer(mind , this, state);
 	}
 
 	//Used for Admins to VV function to toggle vent crawl as for some reason in build VV variable isnt working

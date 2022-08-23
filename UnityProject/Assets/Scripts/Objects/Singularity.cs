@@ -45,8 +45,6 @@ namespace Objects
 		[SyncVar(hook = nameof(SyncDynamicScale))]
 		private Vector3 dynamicScale = Vector3.one;
 
-		private float maxScaleMultiplier;
-
 		[SerializeField]
 		private SingularityStages startingStage = SingularityStages.Stage0;
 
@@ -94,6 +92,8 @@ namespace Objects
 		private UniversalObjectPhysics ObjectPhysics;
 		private int objectId;
 
+		private BoxCollider2D boxCollider2D;
+
 		private Material WarpEffectFrontMat;
 		private Material WarpEffectBackMat;
 
@@ -130,12 +130,13 @@ namespace Objects
 			registerTile = GetComponent<RegisterTile>();
 			ObjectPhysics = GetComponent<UniversalObjectPhysics>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
+			boxCollider2D = GetComponent<BoxCollider2D>();
+
 			lightTransform = light.transform;
 			objectId = GetInstanceID();
 
 			WarpEffectFrontMat = WarpEffectFront.GetComponent<MeshRenderer>().materials[0];
 			WarpEffectBackMat = WarpEffectBack.GetComponent<MeshRenderer>().materials[0];
-
 		}
 
 		private void Start()
@@ -187,7 +188,7 @@ namespace Objects
 		/// </summary>
 		private void SingularityUpdate()
 		{
-			if(!CustomNetworkManager.IsServer) return;
+			if(CustomNetworkManager.IsServer == false) return;
 
 			pushTimer++;
 
@@ -234,6 +235,8 @@ namespace Objects
 			// will sync to clients
 			dynamicScale = GetDynamicScale();
 
+			ColliderScale();
+
 			//Radiation Pulse
 			var radStrength = Mathf.Max(((float) CurrentStage + 1) / 6 * maxRadiation, 0);
 
@@ -241,11 +244,11 @@ namespace Objects
 
 			if(DMMath.Prob(5))
 			{
-				int EMPStrength = UnityEngine.Random.Range((int)CurrentStage * 100, (int)CurrentStage * 100 + 300);
-				Vector3Int EMPPosition = registerTile.WorldPositionServer;
-				EMPPosition.x += UnityEngine.Random.Range(-3 - (int)CurrentStage, 3 + (int)CurrentStage);
-				EMPPosition.y += UnityEngine.Random.Range(-3 - (int)CurrentStage, 3 + (int)CurrentStage);
-				Explosion.StartExplosion(EMPPosition, EMPStrength, new ExplosionEmpNode());
+				int empStrength = Random.Range((int)CurrentStage * 100, (int)CurrentStage * 100 + 300);
+				Vector3Int empPosition = registerTile.WorldPositionServer;
+				empPosition.x += Random.Range(-3 - (int)CurrentStage, 3 + (int)CurrentStage);
+				empPosition.y += Random.Range(-3 - (int)CurrentStage, 3 + (int)CurrentStage);
+				Explosion.StartExplosion(empPosition, empStrength, new ExplosionEmpNode());
 			}
 		}
 
@@ -508,12 +511,13 @@ namespace Objects
 					if (MatrixManager.IsPassableAtAllMatricesOneTile(squareCoord, true, false, new List<LayerType>{LayerType.Objects}) == false)
 					{
 						noObstructions = false;
+						break;
 					}
 				}
 			}
 
 			//If could not fit, damage coords around ourself if stage big enough
-			if (!noObstructions)
+			if (noObstructions == false)
 			{
 				if (CurrentStage != SingularityStages.Stage5 && CurrentStage != SingularityStages.Stage4)
 				{
@@ -631,6 +635,7 @@ namespace Objects
 					if (MatrixManager.IsPassableAtAllMatricesOneTile(squareCoord, true, false) == false)
 					{
 						noObstructions = false;
+						break;
 					}
 				}
 			}
@@ -642,7 +647,6 @@ namespace Objects
 				UpdateVectors();
 				dynamicScale = Vector3.zero; // keyed value: don't tween; set it to 1x scale immediately
 			}
-
 		}
 		/// <summary>
 		/// Sets the warp effects in accordance with the correct sprite
@@ -691,7 +695,6 @@ namespace Objects
 		private void UpdateVectors()
 		{
 			int stage = (int)CurrentStage + 1;
-			maxScaleMultiplier = ((float)((stage * 2) + 1) / ((stage * 2) - 1)) - 1;
 			lightVector = new Vector3(5 * stage, 5 * stage, 0);
 		}
 
@@ -723,17 +726,35 @@ namespace Objects
 		{
 			if(data.DamageData.AttackType != AttackType.Rad) return;
 
-			if (data.DamageData.Damage >= 20f)
+			if (data.DamageData.Damage >= 19f)
 			{
 				// PA at any setting will prevent point loss
 				pointLock = true;
 				lockTimer = 20;
 			}
-			if (data.DamageData.Damage > 20f)
+
+			if (data.DamageData.Damage > 21f)
 			{
 				// PA at setting greater than 0 will do 20 damage
 				ChangePoints((int)data.DamageData.Damage);
 			}
+		}
+
+		#endregion
+
+		#region Collider
+
+		private void ColliderScale()
+		{
+			var size = 1;
+
+			if (currentStage != SingularityStages.Stage0)
+			{
+				size = 3;
+			}
+
+			var scale = dynamicScale.x * size;
+			boxCollider2D.size = new Vector2(scale, scale);
 		}
 
 		#endregion
@@ -746,13 +767,15 @@ namespace Objects
 		private Vector3 GetDynamicScale()
 		{
 			int stageNum = (int)CurrentStage;
-			int stageMin = stagePointsBounds[stageNum].Item1;
-			int stageMax = stagePointsBounds[stageNum].Item2;
-			float scale = 1 + ((float) (singularityPoints - stageMin) / (stageMax - stageMin) * maxScaleMultiplier);
+
 			// possible to go below 1 on stage 0 as we define min scale for this stage as 150 points, not 0 (we spawn with 150)
-			scale = Math.Max(scale, 0.5f);
+			int currentPoints = Math.Max(singularityPoints, stagePointsBounds[stageNum].Item1);
+			int stageMax = stagePointsBounds[stageNum].Item2;
+
+			float scale = (currentPoints / (float)stageMax);
+
 			// possible to be scaled further than the size of the next stage -> points exceeds next stage but can't grow (obstructions)
-			scale = Math.Min(scale, maxScaleMultiplier + 1);
+			scale = Math.Min(scale, 1);
 
 			return new Vector3(scale, scale, 1);
 		}

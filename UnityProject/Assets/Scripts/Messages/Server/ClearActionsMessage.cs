@@ -10,7 +10,7 @@ namespace Messages.Server
 
 		public override void Process(NetMessage msg)
 		{
-			UIActionManager.ClearAllActions();
+			UIActionManager.ClearAllActionsClient();
 		}
 
 		public static NetMessage SendTo(GameObject recipient)

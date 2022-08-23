@@ -282,7 +282,10 @@ namespace HealthV2
 				containBodyParts.Remove(removedOrgan);
 
 				removedOrgan.ContainedIn = null;
-				removedOrgan.BodyPartRemoveHealthMaster();
+				if (HealthMaster)
+				{
+					removedOrgan.BodyPartRemoveHealthMaster();
+				}
 			}
 		}
 

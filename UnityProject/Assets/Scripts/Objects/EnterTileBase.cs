@@ -56,7 +56,7 @@ namespace Objects
 		{
 			if (previousMatrix != null)
 			{
-				previousMatrix.MetaTileMap.ObjectLayer.EnterTileBaseList.Remove(previousLocation);
+				previousMatrix.MetaTileMap.ObjectLayer.EnterTileBaseList.Remove(previousLocation, this);
 			}
 		}
 	}
