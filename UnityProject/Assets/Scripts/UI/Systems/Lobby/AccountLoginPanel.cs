@@ -1,14 +1,14 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using Core.Utils;
+using System.Collections.Generic;
 
 namespace Lobby
 {
 	/// <summary>
-	/// Scripting for the account login screen.
+	/// Scripting for the account login panel found in the lobby UI.
 	/// </summary>
-	public class AccountLogin : MonoBehaviour
+	public class AccountLoginPanel : MonoBehaviour
 	{
 		[SerializeField]
 		private InputField emailControl;
@@ -55,41 +55,47 @@ namespace Lobby
 
 		private bool ValidateLogin()
 		{
-			if (!ValidateEmail()) return false;
+			if (ValidateEmail() == false) return false;
 
-			if (!ValidatePassword()) return false;
+			if (ValidatePassword() == false) return false;
 
 			return true;
 		}
 
 		private bool ValidateEmail()
 		{
-			if (string.IsNullOrWhiteSpace(emailControl.text))
+			var errorStrings = new Dictionary<ValidationUtils.StringValidateError, string>()
 			{
-				errorControl.text = "Email address is required.";
+				{ ValidationUtils.StringValidateError.NullOrWhitespace, "Email address is required." },
+				{ ValidationUtils.StringValidateError.Invalid, "Email address is invalid." },
+			};
+
+			if (ValidationUtils.ValidateEmail(emailControl.text, out var failReason) == false)
+			{
+				SetError(errorStrings[failReason]);
 				return false;
 			}
 
-			// 👀 courtesy of https://uibakery.io/regex-library/email-regex-csharp
-			string pattern = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
-			if (new Regex(pattern).IsMatch(emailControl.text) == false)
-			{
-				errorControl.text = "Email address is invalid.";
-				return false;
-			}
-
-			errorControl.text = string.Empty;
+			ClearError();
 			return true;
 		}
 
 		private bool ValidatePassword()
 		{
-			if (string.IsNullOrWhiteSpace(passwordControl.text))
+			var errorStrings = new Dictionary<ValidationUtils.StringValidateError, string>()
 			{
-				SetError("Password is required.");
+				{ ValidationUtils.StringValidateError.NullOrWhitespace, "Password is required." },
+				{ ValidationUtils.StringValidateError.TooShort, "Password is too short." },
+				{ ValidationUtils.StringValidateError.Invalid, "Password is invalid." },
+			};
+
+			if (ValidationUtils.ValidatePassword(passwordControl.text, out var failReason) == false)
+			{
+				SetError(errorStrings[failReason]);
 				return false;
 			}
 
+			ClearError();
 			return true;
 		}
 

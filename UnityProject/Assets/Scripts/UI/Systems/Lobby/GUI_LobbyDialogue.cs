@@ -6,8 +6,6 @@ using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
-using Firebase.Auth;
-using IgnoranceTransport;
 using Newtonsoft.Json;
 using System.Linq;
 
@@ -22,35 +20,25 @@ namespace Lobby
 		public GameObject joinPanel;
 		public GameObject accountLoginPanel;
 		public GameObject createAccountPanel;
-		public GameObject pendingCreationPanel;
 		public GameObject informationPanel;
-		public GameObject wrongVersionPanel;
 		public GameObject controlInformationPanel;
-		public GameObject loggingInPanel;
-		public GameObject disconnectPanel;
 
-		//Account Creation screen:
-		public InputField chosenUsernameInput;
-		public InputField chosenPasswordInput;
-		public InputField emailAddressInput;
-		public GameObject goBackCreationButton;
-		public GameObject nextCreationButton;
-
-		//Account login:
+		// UI scripts
 		[SerializeField]
-		private AccountLogin loginUIScript;
-		public GameObject loginNextButton;
-		public GameObject loginGoBackButton;
-		public Button resendEmailButton;
+		private LoadingPanel loadingPanelScript;
+		[SerializeField]
+		private InfoPanel infoPanelScript;
+		[SerializeField]
+		private AccountLoginPanel accountLoginScript;
+		[SerializeField]
+		private AccountCreatePanel accountCreateScript;
 
+		// TODO move
 		public InputField serverAddressInput;
 		public InputField serverPortInput;
 		public Text dialogueTitle;
 		public Text menuUsernameText;
 		public Text serverConnectionFailedText;
-		public Text pleaseWaitCreationText;
-		public Text loggingInText;
-		public Toggle autoLoginToggle;
 
 		[SerializeField] private GameObject historyLogEntryGameObject;
 		[SerializeField] private GameObject historyEntries;
@@ -68,7 +56,7 @@ namespace Lobby
 		[NonSerialized]
 		public bool wasDisconnected = false;
 
-		public AccountLogin LoginUIScript => loginUIScript;
+		public AccountLoginPanel LoginUIScript => accountLoginScript;
 
 		private GameObject[] allPanels;
 
@@ -80,8 +68,13 @@ namespace Lobby
 
 		private void Awake()
 		{
-			allPanels = new GameObject[] { mainPanel, joinPanel, accountLoginPanel, createAccountPanel,
-					pendingCreationPanel,informationPanel, controlInformationPanel, loggingInPanel, disconnectPanel };
+			// TODO sort out new generic panels
+			allPanels = new GameObject[]
+			{
+					accountLoginScript.gameObject, accountCreateScript.gameObject,
+					mainPanel, joinPanel, accountLoginPanel, createAccountPanel,
+					informationPanel, controlInformationPanel
+			};
 
 			isWindows = Application.persistentDataPath.Contains("/") ? $"/" : $"\\";
 			Instance = this;
@@ -107,7 +100,16 @@ namespace Lobby
 			}
 			else if (wasDisconnected && GameManager.Instance.DisconnectExpected == false)
 			{
-				ShowDisconnectPanel();
+				ShowInfoPanel(new InfoPanelArgs
+				{
+					IsError = true,
+					Heading = "Lost Connection",
+					Text = "Lost connection to the server. Check your console (F5).",
+					LeftButtonText = "Back",
+					LeftButtonCallback = ShowMainPanel,
+					RightButtonText = "Rejoin",
+					RightButtonCallback = ConnectToLastServer,
+				});
 			}
 			else
 			{
@@ -225,78 +227,29 @@ namespace Lobby
 			dialogueTitle.text = "Join Game";
 		}
 
-		public void ShowDisconnectPanel()
+		public void ShowInfoPanel(InfoPanelArgs args)
 		{
 			HideAllPanels();
-			disconnectPanel.SetActive(true);
-			dialogueTitle.text = "Disconnected";
+			infoPanelScript.gameObject.SetActive(true);
+			infoPanelScript.Show(args);
 		}
 
-		//Make sure we have the latest DisplayName from Auth
-		private IEnumerator WaitForReloadProfile()
+		public void ShowLoadingPanel(LoadingPanelArgs args)
 		{
-			ServerData.ReloadProfile();
+			HideAllPanels();
+			loadingPanelScript.gameObject.SetActive(true);
+			loadingPanelScript.Show(args);
+		}
 
-			float timeOutLimit = 60f;
-			float timeOutCount = 0f;
-			while (string.IsNullOrEmpty(ServerData.Auth.CurrentUser.DisplayName))
+		// TODO check usages
+		public void ShowLoadingPanel(string loadingMessage)
+		{
+			HideAllPanels();
+
+			ShowLoadingPanel(new LoadingPanelArgs
 			{
-				timeOutCount += Time.deltaTime;
-				if (timeOutCount >= timeOutLimit)
-				{
-					Logger.LogError("Failed to load users profile data", Category.DatabaseAPI);
-					break;
-				}
-
-				yield return WaitFor.EndOfFrame;
-			}
-
-			menuUsernameText.text = $"Logged in as {ServerData.Auth.CurrentUser.DisplayName}";
-		}
-
-		public void CreationNextButton()
-		{
-			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			HideAllPanels();
-			pendingCreationPanel.SetActive(true);
-			nextCreationButton.SetActive(false);
-			goBackCreationButton.SetActive(false);
-			pleaseWaitCreationText.text = "Please wait..";
-
-			ServerData.TryCreateAccount(chosenUsernameInput.text, chosenPasswordInput.text,
-				emailAddressInput.text, AccountCreationSuccess, AccountCreationError);
-		}
-
-		private void AccountCreationSuccess(CharacterSheet charSettings)
-		{
-			pleaseWaitCreationText.text = $"Success! An email has been sent to {emailAddressInput.text}. " +
-										  $"Please click the link in the email to verify " +
-										  $"your account before signing in.";
-			PlayerManager.CurrentCharacterSheet = charSettings;
-			GameData.LoggedInUsername = chosenUsernameInput.text;
-			chosenPasswordInput.text = "";
-			chosenUsernameInput.text = "";
-			goBackCreationButton.SetActive(true);
-			PlayerPrefs.SetString(PlayerPrefKeys.AccountEmail, emailAddressInput.text);
-			PlayerPrefs.Save();
-			loginUIScript.SetEmailField(emailAddressInput.text);
-			emailAddressInput.text = "";
-		}
-
-		private void AccountCreationError(string errorText)
-		{
-			pleaseWaitCreationText.text = errorText;
-			goBackCreationButton.SetActive(true);
-		}
-
-		public void ShowLoadingWindow(string loadingMessage)
-		{
-			HideAllPanels();
-
-			loggingInPanel.SetActive(true);
-			loggingInText.text = loadingMessage;
-			loginNextButton.SetActive(false);
-			loginGoBackButton.SetActive(false);
+				Text = loadingMessage,
+			});
 		}
 
 		public void OnExit()
@@ -307,12 +260,14 @@ namespace Lobby
 
 		public void LoginSuccess()
 		{
-			loggingInText.text = "Login Success";
 			ShowMainPanel();
 		}
 
 		public void LoginError(string msg)
 		{
+			// TODO use ShowInfoPanel()
+
+			/*
 			loggingInText.text = $"Login failed: {msg}";
 			if (msg.Contains("Email Not Verified"))
 			{
@@ -326,16 +281,7 @@ namespace Lobby
 			}
 
 			loginGoBackButton.SetActive(true);
-		}
-
-		public void OnEmailResend()
-		{
-			resendEmailButton.interactable = false;
-			loggingInText.text =
-				$"A new verification email has been sent to {FirebaseAuth.DefaultInstance.CurrentUser.Email}.";
-			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			FirebaseAuth.DefaultInstance.CurrentUser.SendEmailVerificationAsync();
-			FirebaseAuth.DefaultInstance.SignOut();
+			*/
 		}
 
 		#region Button handlers
@@ -350,7 +296,7 @@ namespace Lobby
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
-			ShowLoadingWindow("Hosting a game....");
+			ShowLoadingPanel("Hosting a game....");
 			LoadingScreenManager.LoadFromLobby(CustomNetworkManager.Instance.StartHost);
 		}
 
@@ -459,7 +405,9 @@ namespace Lobby
 		private void ShowWrongVersionPanel()
 		{
 			HideAllPanels();
-			wrongVersionPanel.SetActive(true);
+
+			// TODO use ShowInfoPanel()
+			//wrongVersionPanel.SetActive(true);
 		}
 
 		public void HideAllPanels()

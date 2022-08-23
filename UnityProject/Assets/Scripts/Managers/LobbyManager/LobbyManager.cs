@@ -39,39 +39,11 @@ namespace Lobby
 
 		#endregion
 
-		public void JoinServer(string address, ushort port)
-		{
-			lobbyDialogue.ShowLoadingWindow("Joining game...");
-
-			GameScreenManager.Instance.serverIP = address;
-
-			LoadingScreenManager.LoadFromLobby(() =>
-			{
-				// Init network client
-				Logger.LogFormat("Client trying to connect to {0}:{1}", Category.Connections, address, port);
-				lobbyDialogue.LogConnectionToHistory(address, port);
-
-				CustomNetworkManager.Instance.networkAddress = address;
-
-				if (CustomNetworkManager.Instance.TryGetComponent<TelepathyTransport> (out var telepathy))
-				{
-					telepathy.port = port;
-				}
-
-				if (CustomNetworkManager.Instance.TryGetComponent<Ignorance>(out var ignorance))
-				{
-					ignorance.port = port;
-				}
-
-				CustomNetworkManager.Instance.StartClient();
-			});
-		}
-
 		#region Login
 
 		public async void TryLogin(string email, string password)
 		{
-			lobbyDialogue.ShowLoadingWindow("Logging in...");
+			lobbyDialogue.ShowLoadingPanel("Logging in...");
 
 			await FirebaseAuth.DefaultInstance.SignInWithEmailAndPasswordAsync(email, password)
 				.ContinueWithOnMainThread(async task =>
@@ -103,7 +75,7 @@ namespace Lobby
 
 		public async Task<bool> TryTokenLogin(string uid, string token)
 		{
-			lobbyDialogue.ShowLoadingWindow("Logging you in...");
+			lobbyDialogue.ShowLoadingPanel("Logging you in...");
 
 			var refreshToken = new RefreshToken();
 			refreshToken.refreshToken = token;
@@ -162,7 +134,7 @@ namespace Lobby
 			bool isLoginSuccess = false;
 			if (FirebaseAuth.DefaultInstance.CurrentUser != null)
 			{
-				lobbyDialogue.ShowLoadingWindow($"Loading user profile for {FirebaseAuth.DefaultInstance.CurrentUser.DisplayName}");
+				lobbyDialogue.ShowLoadingPanel($"Loading user profile for {FirebaseAuth.DefaultInstance.CurrentUser.DisplayName}");
 
 				await FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread(task => {
 					if (task.IsCanceled || task.IsFaulted)
@@ -197,6 +169,34 @@ namespace Lobby
 		}
 
 		#endregion
+
+		public void JoinServer(string address, ushort port)
+		{
+			lobbyDialogue.ShowLoadingPanel("Joining game...");
+
+			GameScreenManager.Instance.serverIP = address;
+
+			LoadingScreenManager.LoadFromLobby(() =>
+			{
+				// Init network client
+				Logger.LogFormat("Client trying to connect to {0}:{1}", Category.Connections, address, port);
+				lobbyDialogue.LogConnectionToHistory(address, port);
+
+				CustomNetworkManager.Instance.networkAddress = address;
+
+				if (CustomNetworkManager.Instance.TryGetComponent<TelepathyTransport>(out var telepathy))
+				{
+					telepathy.port = port;
+				}
+
+				if (CustomNetworkManager.Instance.TryGetComponent<Ignorance>(out var ignorance))
+				{
+					ignorance.port = port;
+				}
+
+				CustomNetworkManager.Instance.StartClient();
+			});
+		}
 
 		private void DetermineUIScale()
 		{
