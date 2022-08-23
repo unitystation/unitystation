@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using AdminCommands;
 using DatabaseAPI;
 using ScriptableObjects;
 using TMPro;
@@ -48,7 +50,7 @@ namespace UI.Systems.AdminTools.DevTools
 		private ColorPicker colourPicker = null;
 
 		private bool isFocused;
-		private int categoryIndex = -1;
+		private int categoryIndex = 0;
 		private int tileIndex = -1;
 		private int matrixIndex = 0;
 		private int directionIndex = 0;
@@ -69,8 +71,7 @@ namespace UI.Systems.AdminTools.DevTools
 
 		private void OnEnable()
 		{
-			//request matrix ids
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAskForMatrixIds(ServerData.UserID, PlayerList.Instance.AdminToken);
+			SetUpMatrix();
 
 			SetUpCategories();
 
@@ -224,16 +225,16 @@ namespace UI.Systems.AdminTools.DevTools
 
 		#region Matrix
 
-		public void SetUpMatrix()
+		private void SetUpMatrix()
 		{
 			var optionsData = new List<TMP_Dropdown.OptionData>();
 
 			var stationId = MatrixManager.MainStationMatrix.Id;
 			TMP_Dropdown.OptionData stationOption = null;
 
-			foreach (var matrix in matrixIds)
+			foreach (var matrix in MatrixManager.Instance.ActiveMatrices)
 			{
-				var option = new TMP_Dropdown.OptionData(matrix.Value);
+				var option = new TMP_Dropdown.OptionData(matrix.Value.Name);
 				optionsData.Add(option);
 
 				if(matrix.Key != stationId) continue;
@@ -379,21 +380,40 @@ namespace UI.Systems.AdminTools.DevTools
 				return;
 			}
 
+			var matrixId =
+				MatrixManager.Instance.ActiveMatrices.Where(x =>
+					x.Value.Name == matrixDropdown.options[matrixIndex].text).ToList();
+
+			if (matrixId.Any() == false)
+			{
+				Chat.AddExamineMsgToClient("Invalid matrix selected!");
+				return;
+			}
+
 			Color? colour = colourToggle.isOn ? colourPicker.CurrentColor : null;
 
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPlaceTile(ServerData.UserID,
-				PlayerList.Instance.AdminToken, categoryIndex, tileIndex,
-				MouseInputController.MouseWorldPosition.RoundToInt(), matrixIndex, value, colour);
+			AdminCommandsManager.Instance.CmdPlaceTile(categoryIndex, tileIndex,
+				MouseInputController.MouseWorldPosition.RoundToInt(), matrixId.First().Key, value, colour);
 		}
 
 		private void RemoveTile()
 		{
 			if(categoryIndex == -1) return;
 
+			var matrixId =
+				MatrixManager.Instance.ActiveMatrices.Where(x =>
+					x.Value.Name == matrixDropdown.options[matrixIndex].text).ToList();
+
+			if (matrixId.Any() == false)
+			{
+				Chat.AddExamineMsgToClient("Invalid matrix selected!");
+				return;
+			}
+
 			var layerType = TileCategorySO.Instance.TileCategories[categoryIndex].LayerType;
 
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRemoveTile(ServerData.UserID,
-				PlayerList.Instance.AdminToken, MouseInputController.MouseWorldPosition.RoundToInt(), matrixIndex, layerType);
+			AdminCommandsManager.Instance.CmdRemoveTile(MouseInputController.MouseWorldPosition.RoundToInt(),
+				matrixId.First().Key, layerType);
 		}
 
 		private enum ActionType
