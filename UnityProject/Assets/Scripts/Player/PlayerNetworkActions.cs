@@ -749,6 +749,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			PlayerSpawn.ServerGhost(playerScript.mind);
 			return;
 		}
+
 		var currentMobID = GetComponent<LivingHealthMasterBase>().mobID;
 		if (GetComponent<LivingHealthMasterBase>().IsDead && !playerScript.IsGhost && playerScript.mind != null &&
 			playerScript.mind.bodyMobID == currentMobID)

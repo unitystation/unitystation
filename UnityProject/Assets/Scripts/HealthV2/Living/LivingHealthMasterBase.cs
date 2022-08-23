@@ -29,7 +29,7 @@ namespace HealthV2
 	[RequireComponent(typeof(HealthStateController))]
 	[RequireComponent(typeof(MobSickness))]
 	public abstract class LivingHealthMasterBase : NetworkBehaviour, IFireExposable, IExaminable, IFullyHealable, IGib,
-		IAreaReactionBase, IRightClickable
+		IAreaReactionBase, IRightClickable, IServerSpawn
 	{
 		/// <summary>
 		/// Server side, each mob has a different one and never it never changes
@@ -296,8 +296,16 @@ namespace HealthV2
 			mobSickness = GetComponent<MobSickness>();
 			playerScript = GetComponent<PlayerScript>();
 			BodyPartStorage.ServerInventoryItemSlotSet += BodyPartTransfer;
+
+			//Needs to be in awake so the mobId is set before mind transfer (OnSpawnServer happens after that so cannot be used)
+			mobID = PlayerManager.Instance.GetMobID();
 		}
 
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			//Generate BloodType and DNA
+			healthStateController.SetDNA(new DNAandBloodType());
+		}
 
 		//TODO: confusing, make it not depend from the inventory storage Action
 		/// <summary>
@@ -453,13 +461,6 @@ namespace HealthV2
 		public void SetMaxHealth(float newMaxHealth)
 		{
 			healthStateController.SetMaxHealth(newMaxHealth);
-		}
-
-		public override void OnStartServer()
-		{
-			mobID = PlayerManager.Instance.GetMobID();
-			//Generate BloodType and DNA
-			healthStateController.SetDNA(new DNAandBloodType());
 		}
 
 		public Reagent CHem;
