@@ -982,17 +982,17 @@ namespace AdminCommands
 			}
 
 			//Drag clicking get all positions in and place tiles
-			var bounds = new BoundsInt(
-				startLocalPos.x < endLocalPos.x ? startLocalPos.x : endLocalPos.x,
-				startLocalPos.y < endLocalPos.y ? startLocalPos.y : endLocalPos.y,
-				0,
-				Math.Abs(startLocalPos.x - endLocalPos.x),
-				Math.Abs(startLocalPos.y - endLocalPos.y),
-				0);
+			var xMin = startLocalPos.x < endLocalPos.x ? startLocalPos.x : endLocalPos.x;
+			var yMin = startLocalPos.y < endLocalPos.y ? startLocalPos.y : endLocalPos.y;
 
-			foreach (var localPos in bounds.allPositionsWithin)
+			for (int i = 0; i <= Math.Abs(startLocalPos.x - endLocalPos.x); i++)
 			{
-				PlaceTile(colour, tile as LayerTile, matrix4X4, matrixInfo, localPos, admin);
+				for (int j = 0; j <= Math.Abs(startLocalPos.y - endLocalPos.y); j++)
+				{
+					var localPos = new Vector3Int(xMin + i, yMin + j);
+
+					PlaceTile(colour, tile as LayerTile, matrix4X4, matrixInfo, localPos, admin);
+				}
 			}
 		}
 
@@ -1014,19 +1014,20 @@ namespace AdminCommands
 				return true;
 			}
 
-			var bounds = new BoundsInt(
-				startLocalPos.x < endLocalPos.x ? startLocalPos.x : endLocalPos.x,
-				startLocalPos.y < endLocalPos.y ? startLocalPos.y : endLocalPos.y,
-				0,
-				Math.Abs(startLocalPos.x - endLocalPos.x),
-				Math.Abs(startLocalPos.y - endLocalPos.y),
-				0);
+			//Drag clicking get all positions in and place tiles
+			var xMin = startLocalPos.x < endLocalPos.x ? startLocalPos.x : endLocalPos.x;
+			var yMin = startLocalPos.y < endLocalPos.y ? startLocalPos.y : endLocalPos.y;
 
-			foreach (var localPos in bounds.allPositionsWithin)
+			for (int i = 0; i <= Math.Abs(startLocalPos.x - endLocalPos.x); i++)
 			{
-				foreach (var tileToPlace in metaTile.GetTiles())
+				for (int j = 0; j <= Math.Abs(startLocalPos.y - endLocalPos.y); j++)
 				{
-					PlaceTile(colour, tileToPlace, matrix4X4, matrixInfo, localPos, admin);
+					var localPos = new Vector3Int(xMin + i, yMin + j);
+
+					foreach (var tileToPlace in metaTile.GetTiles())
+					{
+						PlaceTile(colour, tileToPlace, matrix4X4, matrixInfo, localPos, admin);
+					}
 				}
 			}
 
@@ -1117,18 +1118,18 @@ namespace AdminCommands
 				return;
 			}
 
-			//Drag clicking get all positions in and remove tiles
-			var bounds = new BoundsInt(
-				startLocalPos.x < endLocalPos.x ? startLocalPos.x : endLocalPos.x,
-				startLocalPos.y < endLocalPos.y ? startLocalPos.y : endLocalPos.y,
-				0,
-				Math.Abs(startLocalPos.x - endLocalPos.x),
-				Math.Abs(startLocalPos.y - endLocalPos.y),
-				0);
+			//Drag clicking get all positions in and place tiles
+			var xMin = startLocalPos.x < endLocalPos.x ? startLocalPos.x : endLocalPos.x;
+			var yMin = startLocalPos.y < endLocalPos.y ? startLocalPos.y : endLocalPos.y;
 
-			foreach (var localPos in bounds.allPositionsWithin)
+			for (int i = 0; i <= Math.Abs(startLocalPos.x - endLocalPos.x); i++)
 			{
-				matrixInfo.MetaTileMap.RemoveTileWithlayer(localPos, layerType, false);
+				for (int j = 0; j <= Math.Abs(startLocalPos.y - endLocalPos.y); j++)
+				{
+					var localPos = new Vector3Int(xMin + i, yMin + j);
+
+					matrixInfo.MetaTileMap.RemoveTileWithlayer(localPos, layerType, false);
+				}
 			}
 		}
 

@@ -58,7 +58,7 @@ namespace UI.Systems.AdminTools.DevTools
 
 		private ActionType currentAction = ActionType.None;
 
-		private Vector3Int? dragStartPos;
+		private Vector3Int dragStartPos;
 
 		private void Awake()
 		{
@@ -107,6 +107,20 @@ namespace UI.Systems.AdminTools.DevTools
 			else if (tileSearchBox.isFocused == false && isFocused)
 			{
 				InputUnfocus();
+			}
+
+			//Right click to stop placing
+			if (CommonInput.GetMouseButtonDown(1))
+			{
+				currentAction = ActionType.None;
+				modeText.text = currentAction.ToString();
+				return;
+			}
+
+			//Ignore click if pointer is hovering over GUI
+			if (EventSystem.current.IsPointerOverGameObject())
+			{
+				return;
 			}
 
 			//Single click
@@ -273,27 +287,13 @@ namespace UI.Systems.AdminTools.DevTools
 
 		private bool OnClick()
 		{
-			dragStartPos = null;
-
-			if(currentAction == ActionType.None) return false;
-
-			//Right click to stop placing
-			if (Input.GetMouseButtonDown(1))
-			{
-				currentAction = ActionType.None;
-				modeText.text = currentAction.ToString();
-				return true;
-			}
-
-			//Ignore click if pointer is hovering over GUI
-			if (EventSystem.current.IsPointerOverGameObject())
-			{
-				return true;
-			}
+			if(currentAction == ActionType.None) return true;
 
 			//Clicking once
-			if (Input.GetMouseButtonDown(0))
+			if (CommonInput.GetMouseButtonDown(0))
 			{
+				dragStartPos = MouseInputController.MouseWorldPosition.RoundToInt();
+
 				switch (currentAction)
 				{
 					case ActionType.Place:
@@ -322,20 +322,12 @@ namespace UI.Systems.AdminTools.DevTools
 		{
 			if(currentAction == ActionType.None) return;
 
-			//Ignore click if pointer is hovering over GUI
-			if (EventSystem.current.IsPointerOverGameObject())
-			{
-				return;
-			}
+			//Being held down
+			if (CommonInput.GetMouseButton(0)) return;
 
-			//Being held down, start drag
-			if (Input.GetMouseButton(0))
-			{
-				dragStartPos = MouseInputController.MouseWorldPosition.RoundToInt();
-				return;
-			}
+			if (CommonInput.GetMouseButtonUp(0) == false) return;
 
-			if (Input.GetMouseButtonUp(0) == false || dragStartPos == null) return;
+			if(dragStartPos == MouseInputController.MouseWorldPosition.RoundToInt()) return;
 
 			//End drag
 			switch (currentAction)
@@ -344,29 +336,19 @@ namespace UI.Systems.AdminTools.DevTools
 					//Also remove if shift is pressed when placing for quick remove
 					if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
 					{
-						RemoveTileDrag();
-						return;
+						RemoveTile();
+						break;
 					}
 
-					PlaceTileDrag();
-					return;
+					PlaceTile();
+					break;
 				case ActionType.Remove:
-					RemoveTileDrag();
-					return;
+					RemoveTile();
+					break;
 				default:
 					Logger.LogError($"Unknown case: {currentAction.ToString()} in switch!");
-					return;
+					break;
 			}
-		}
-
-		private void RemoveTileDrag()
-		{
-
-		}
-
-		private void PlaceTileDrag()
-		{
-
 		}
 
 		#endregion
@@ -475,9 +457,8 @@ namespace UI.Systems.AdminTools.DevTools
 			Color? colour = colourToggle.isOn ? colourPicker.CurrentColor : null;
 
 			var startPos = MouseInputController.MouseWorldPosition.RoundToInt();
-			var endPos = dragStartPos ?? startPos;
 
-			AdminCommandsManager.Instance.CmdPlaceTile(categoryIndex, tileIndex, startPos, endPos,
+			AdminCommandsManager.Instance.CmdPlaceTile(categoryIndex, tileIndex, startPos, dragStartPos,
 			matrixId.First().Key, value, colour);
 		}
 
@@ -498,9 +479,8 @@ namespace UI.Systems.AdminTools.DevTools
 			var layerType = TileCategorySO.Instance.TileCategories[categoryIndex].LayerType;
 
 			var startPos = MouseInputController.MouseWorldPosition.RoundToInt();
-			var endPos = dragStartPos ?? startPos;
 
-			AdminCommandsManager.Instance.CmdRemoveTile(startPos, endPos, matrixId.First().Key, layerType);
+			AdminCommandsManager.Instance.CmdRemoveTile(startPos, dragStartPos, matrixId.First().Key, layerType);
 		}
 
 		private enum ActionType
