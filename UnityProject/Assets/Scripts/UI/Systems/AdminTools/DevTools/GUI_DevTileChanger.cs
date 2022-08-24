@@ -491,6 +491,7 @@ namespace UI.Systems.AdminTools.DevTools
 			var data = new PlaceStruct
 			{
 				categoryIndex = categoryIndex,
+				tileIndex = tileIndex,
 				startWorldPosition = startPos,
 				endWorldPosition = dragStartPos,
 				matrixId = matrixId.First().Key,
