@@ -84,7 +84,6 @@ namespace UI.AdminTools
 			devCloner.gameObject.SetActive(false);
 			devDestroyer.gameObject.SetActive(false);
 			devSelectTile.gameObject.SetActive(false);
-			vv.SetActive(false);
 			tileChanger.Close();
 		}
 	}
