@@ -18,12 +18,12 @@ namespace Items.Food
 			}
 		}
 
-		private void Eat(PlayerScript eater, PlayerScript feeder, bool deedNutrients)
+		private void Eat(PlayerScript eater, PlayerScript feeder, bool feedNutrients)
 		{
 			// TODO: sound missing?
 			//SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
 
-			if (deedNutrients)
+			if (feedNutrients)
 			{
 				var stomachs = eater.playerHealth.GetStomachs();
 				if (stomachs.Count == 0)
