@@ -179,7 +179,7 @@ namespace Items.Food
 			}
 			else
 			{
-				Inventory.ServerDespawn(gameObject);
+				_ = Inventory.ServerDespawn(gameObject);
 			}
 
 			if (leavings != null)

@@ -82,7 +82,7 @@ namespace Objects.Robotics
 				int materialSheetAmount = interaction.HandSlot.Item.GetComponent<Stackable>().Amount;
 				if (materialStorageLink.usedStorage.TryAddSheet(InsertedMaterialType, materialSheetAmount))
 				{
-					Inventory.ServerDespawn(interaction.HandObject);
+					_ = Inventory.ServerDespawn(interaction.HandObject);
 					if (stateSync == ExosuitFabricatorState.Idle)
 					{
 						StartCoroutine(AnimateAcceptingMaterials());

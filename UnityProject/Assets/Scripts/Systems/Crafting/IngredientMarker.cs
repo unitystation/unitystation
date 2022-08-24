@@ -41,8 +41,8 @@ public class IngredientMarker : MonoBehaviour, ICheckedInteractable<InventoryApp
 		GameObject cut2 = CraftingManager.SimpleMeal.FindRecipe(new List<Ingredient> { self, ingredient });
 		if (cut)
 		{
-			Inventory.ServerDespawn(interaction.TargetObject);
-			Inventory.ServerDespawn(interaction.UsedObject);
+			_ = Inventory.ServerDespawn(interaction.TargetObject);
+			_ = Inventory.ServerDespawn(interaction.UsedObject);
 
 			SpawnResult spwn = Spawn.ServerPrefab(CraftingManager.SimpleMeal.FindOutputMeal(cut.name),
 			SpawnDestination.At(), 1);
@@ -54,8 +54,8 @@ public class IngredientMarker : MonoBehaviour, ICheckedInteractable<InventoryApp
 		}
 		else if (cut2)
 		{
-			Inventory.ServerDespawn(interaction.TargetObject);
-			Inventory.ServerDespawn(interaction.UsedObject);
+			_ = Inventory.ServerDespawn(interaction.TargetObject);
+			_ = Inventory.ServerDespawn(interaction.UsedObject);
 
 			SpawnResult spwn = Spawn.ServerPrefab(CraftingManager.SimpleMeal.FindOutputMeal(cut2.name),
 			SpawnDestination.At(), 1);
