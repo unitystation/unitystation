@@ -18,28 +18,28 @@ namespace Items.Food
 			}
 		}
 
-		private void Eat(PlayerScript eater, PlayerScript feeder, bool FeedNutrients)
+		private void Eat(PlayerScript eater, PlayerScript feeder, bool feedNutrients)
 		{
 			// TODO: sound missing?
 			//SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
 
-			if (FeedNutrients)
+			if (feedNutrients)
 			{
-				var Stomachs = eater.playerHealth.GetStomachs();
-				if (Stomachs.Count == 0)
+				var stomachs = eater.playerHealth.GetStomachs();
+				if (stomachs.Count == 0)
 				{
 					//No stomachs?!
 					return;
 				}
-				FoodContents.Divide(Stomachs.Count);
-				foreach (var Stomach in Stomachs)
+				FoodContents.Divide(stomachs.Count);
+				foreach (var stomach in stomachs)
 				{
-					Stomach.StomachContents.Add(FoodContents.CurrentReagentMix.Clone());
+					stomach.StomachContents.Add(FoodContents.CurrentReagentMix.Clone());
 				}
 			}
 
 			var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
-			Inventory.ServerDespawn(gameObject);
+			_ = Inventory.ServerDespawn(gameObject);
 
 			if (leavings != null)
 			{

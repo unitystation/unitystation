@@ -79,7 +79,7 @@ namespace Items
 			// Checks to see if stackableMaterials is not true (false) if so just despawn the item in hand
 			if (stackableMaterials != true)
 			{
-				Inventory.ServerDespawn(interaction.HandObject);
+				_ = Inventory.ServerDespawn(interaction.HandObject);
 			}
 			else
 			{   // If stackableMaterials IS true then consume the amount set by material cost

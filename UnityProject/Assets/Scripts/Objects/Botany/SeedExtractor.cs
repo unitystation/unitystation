@@ -105,7 +105,7 @@ namespace Objects.Botany
 			UpdateEvent.Invoke();
 
 			// De-spawn processed food
-			Inventory.ServerDespawn(grownFood.gameObject);
+			_ = Inventory.ServerDespawn(grownFood.gameObject);
 			if (foodToBeProcessed.Count == 0)
 			{
 				Chat.AddLocalMsgToChat("The seed extractor finishes processing", gameObject);

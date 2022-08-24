@@ -1011,12 +1011,16 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			UniversalObjectPhysics toRemove = null;
 			if (intent == Intent.Help)
 			{
-				foreach (var toPush in Pushing)
+				var count = Pushing.Count;
+				for (int i = count - 1; i >= 0; i--)
 				{
+					if(i >= Pushing.Count) continue;
+
+					var toPush = Pushing[i];
+
 					if(toPush.Intangible) continue;
 
-					var player = toPush as MovementSynchronisation;
-					if (player != null)
+					if (toPush is MovementSynchronisation player)
 					{
 						if (player.intent == Intent.Help)
 						{
