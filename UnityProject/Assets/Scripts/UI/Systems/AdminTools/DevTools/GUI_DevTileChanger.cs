@@ -476,11 +476,12 @@ namespace UI.Systems.AdminTools.DevTools
 				return;
 			}
 
-			var layerType = TileCategorySO.Instance.TileCategories[categoryIndex].LayerType;
+			var category = TileCategorySO.Instance.TileCategories[categoryIndex];
 
 			var startPos = MouseInputController.MouseWorldPosition.RoundToInt();
 
-			AdminCommandsManager.Instance.CmdRemoveTile(startPos, dragStartPos, matrixId.First().Key, layerType);
+			AdminCommandsManager.Instance.CmdRemoveTile(startPos, dragStartPos, matrixId.First().Key,
+				category.LayerType, category.OverlayType);
 		}
 
 		private enum ActionType

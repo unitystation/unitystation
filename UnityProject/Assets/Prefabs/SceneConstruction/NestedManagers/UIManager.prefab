@@ -6039,7 +6039,7 @@ PrefabInstance:
     - target: {fileID: 1400473042914744764, guid: 0edf411a426a89c48ae2ba868296b471,
         type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1463334698454404542, guid: 0edf411a426a89c48ae2ba868296b471,
         type: 3}
@@ -6089,7 +6089,7 @@ PrefabInstance:
     - target: {fileID: 1917127637245545471, guid: 0edf411a426a89c48ae2ba868296b471,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 178.15015
+      value: 46.427597
       objectReference: {fileID: 0}
     - target: {fileID: 1917127637245545471, guid: 0edf411a426a89c48ae2ba868296b471,
         type: 3}
@@ -6099,7 +6099,7 @@ PrefabInstance:
     - target: {fileID: 2149525579945121317, guid: 0edf411a426a89c48ae2ba868296b471,
         type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4113822440349019706, guid: 0edf411a426a89c48ae2ba868296b471,
         type: 3}
@@ -6107,6 +6107,11 @@ PrefabInstance:
       value: DevTileChangeMenu
       objectReference: {fileID: 0}
     - target: {fileID: 4113822440349019706, guid: 0edf411a426a89c48ae2ba868296b471,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4113884316881524652, guid: 0edf411a426a89c48ae2ba868296b471,
         type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -6254,7 +6259,7 @@ PrefabInstance:
     - target: {fileID: 4757178436588602441, guid: 0edf411a426a89c48ae2ba868296b471,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 318.15015
+      value: 186.4276
       objectReference: {fileID: 0}
     - target: {fileID: 4757178436588602441, guid: 0edf411a426a89c48ae2ba868296b471,
         type: 3}
@@ -6284,7 +6289,7 @@ PrefabInstance:
     - target: {fileID: 8242910034143137984, guid: 0edf411a426a89c48ae2ba868296b471,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 248.15015
+      value: 116.4276
       objectReference: {fileID: 0}
     - target: {fileID: 8242910034143137984, guid: 0edf411a426a89c48ae2ba868296b471,
         type: 3}
@@ -6306,6 +6311,12 @@ PrefabInstance:
 --- !u!224 &592822916030934437 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4183651651856864320, guid: 0edf411a426a89c48ae2ba868296b471,
+    type: 3}
+  m_PrefabInstance: {fileID: 3617921364299332069}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &802207749258456649 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4113884316881524652, guid: 0edf411a426a89c48ae2ba868296b471,
     type: 3}
   m_PrefabInstance: {fileID: 3617921364299332069}
   m_PrefabAsset: {fileID: 0}
@@ -6891,7 +6902,7 @@ PrefabInstance:
         type: 3}
       propertyPath: tileChanger
       value: 
-      objectReference: {fileID: 8822393536165021703}
+      objectReference: {fileID: 802207749258456649}
     - target: {fileID: 6672079186135509757, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
       propertyPath: devDestroyer

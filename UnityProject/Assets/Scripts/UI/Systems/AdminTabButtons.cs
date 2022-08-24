@@ -24,7 +24,7 @@ namespace UI.AdminTools
 		[SerializeField]
 		private GUI_VariableViewer vv = null;
 		[SerializeField]
-		private GUI_DevTileChanger tileChanger = null;
+		private GameObject tileChanger = null;
 
 		private void Awake()
 		{

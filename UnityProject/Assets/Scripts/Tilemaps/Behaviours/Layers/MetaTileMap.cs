@@ -2341,23 +2341,23 @@ namespace TileManagement
 		/// <summary>
 		/// Dynamically adds overlays to tile position
 		/// </summary>
-		public void AddOverlay(Vector3Int cellPosition, OverlayTile overlayTile, Matrix4x4? transformMatrix = null,
+		public Vector3Int AddOverlay(Vector3Int cellPosition, OverlayTile overlayTile, Matrix4x4? transformMatrix = null,
 			Color? color = null, bool allowMultiple = false)
 		{
 			//use remove methods to remove overlay instead
-			if (overlayTile == null) return;
+			if (overlayTile == null) return cellPosition;
 
 			cellPosition.z = 0;
 
 			//Dont add the same overlay twice
-			if (HasOverlay(cellPosition, overlayTile.LayerType, overlayTile) && allowMultiple == false) return;
+			if (HasOverlay(cellPosition, overlayTile.LayerType, overlayTile) && allowMultiple == false) return cellPosition;
 
 			var overlayPos = GetFreeOverlayPos(cellPosition, overlayTile.LayerType);
-			if (overlayPos == null) return;
+			if (overlayPos == null) return cellPosition;
 
 			cellPosition = overlayPos.Value;
 
-			SetTile(cellPosition, overlayTile, transformMatrix, color);
+			return SetTile(cellPosition, overlayTile, transformMatrix, color);
 		}
 
 		public void AddOverlay(Vector3Int cellPosition, TileType tileType, string tileName,

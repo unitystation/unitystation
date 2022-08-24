@@ -26,6 +26,7 @@ using Systems.Atmospherics;
 using Systems.Cargo;
 using Systems.Electricity;
 using Systems.Pipes;
+using TileManagement;
 using Tiles;
 using UI.Systems.AdminTools;
 using Util;
@@ -1045,25 +1046,10 @@ namespace AdminCommands
 
 			Vector3Int searchVector;
 
-			//No rotation and no colour
-			if (matrix4X4 == null && colour == null)
+			if (tile is OverlayTile overlayTile)
 			{
-				searchVector = matrixInfo.MetaTileMap.SetTile(localPos, tile);
+				searchVector = matrixInfo.MetaTileMap.AddOverlay(localPos, overlayTile, matrix4X4, colour);
 			}
-
-			//Rotation and no colour
-			else if (matrix4X4 != null && colour == null)
-			{
-				searchVector = matrixInfo.MetaTileMap.SetTile(localPos, tile, matrix4X4);
-			}
-
-			//No rotation and colour
-			else if (matrix4X4 == null)
-			{
-				searchVector = matrixInfo.MetaTileMap.SetTile(localPos, tile, color: colour);
-			}
-
-			//Rotation and colour
 			else
 			{
 				searchVector = matrixInfo.MetaTileMap.SetTile(localPos, tile, matrix4X4, colour);
@@ -1094,7 +1080,8 @@ namespace AdminCommands
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdRemoveTile(Vector3Int startWorldPosition, Vector3Int endWorldPosition, int matrixId, LayerType layerType, NetworkConnectionToClient sender = null)
+		public void CmdRemoveTile(Vector3Int startWorldPosition, Vector3Int endWorldPosition, int matrixId,
+			LayerType layerType, OverlayType overlayType, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 
@@ -1114,7 +1101,7 @@ namespace AdminCommands
 			//If single clicking do only remove one tile
 			if (startLocalPos == endLocalPos)
 			{
-				matrixInfo.MetaTileMap.RemoveTileWithlayer(startLocalPos, layerType, false);
+				RemoveTile(layerType, matrixInfo, startLocalPos, overlayType);
 				return;
 			}
 
@@ -1127,10 +1114,20 @@ namespace AdminCommands
 				for (int j = 0; j <= Math.Abs(startLocalPos.y - endLocalPos.y); j++)
 				{
 					var localPos = new Vector3Int(xMin + i, yMin + j);
-
-					matrixInfo.MetaTileMap.RemoveTileWithlayer(localPos, layerType, false);
+					RemoveTile(layerType, matrixInfo, localPos, overlayType);
 				}
 			}
+		}
+
+		private static void RemoveTile(LayerType layerType, MatrixInfo matrixInfo, Vector3Int startLocalPos, OverlayType overlayType)
+		{
+			if (overlayType != OverlayType.None)
+			{
+				matrixInfo.MetaTileMap.RemoveFloorWallOverlaysOfType(startLocalPos, overlayType);
+				return;
+			}
+
+			matrixInfo.MetaTileMap.RemoveTileWithlayer(startLocalPos, layerType, false);
 		}
 
 		#endregion
