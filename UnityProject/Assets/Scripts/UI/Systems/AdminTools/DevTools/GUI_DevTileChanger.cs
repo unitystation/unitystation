@@ -4,6 +4,7 @@ using System.Linq;
 using AdminCommands;
 using DatabaseAPI;
 using ScriptableObjects;
+using TileManagement;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -15,20 +16,20 @@ namespace UI.Systems.AdminTools.DevTools
 	{
 		[SerializeField]
 		[Tooltip("Prefab that should be used for each category item")]
-		private GameObject categoryButtonPrefab;
+		private GameObject categoryButtonPrefab = null;
 		[SerializeField]
 		[Tooltip("content panel into which the list category items should be placed")]
-		private GameObject categoryContentPanel;
+		private GameObject categoryContentPanel = null;
 
 		[Tooltip("Prefab that should be used for each tile item")]
 		[SerializeField]
-		private GameObject tileButtonPrefab;
+		private GameObject tileButtonPrefab = null;
 		[SerializeField]
 		[Tooltip("content panel into which the list items should be placed")]
-		private GameObject tileContentPanel;
+		private GameObject tileContentPanel = null;
 
 		[SerializeField]
-		private InputField tileSearchBox;
+		private InputField tileSearchBox = null;
 
 		[SerializeField]
 		private TMP_Dropdown matrixDropdown = null;
@@ -58,7 +59,7 @@ namespace UI.Systems.AdminTools.DevTools
 
 		private ActionType currentAction = ActionType.None;
 
-		private SortedDictionary<int, string> matrixIds = new SortedDictionary<int, string>();
+		private Vector3Int dragStartPos;
 
 		private void Awake()
 		{
@@ -95,6 +96,16 @@ namespace UI.Systems.AdminTools.DevTools
 			lightingSystem.enabled = true;
 		}
 
+		public void Open()
+		{
+			gameObject.SetActive(true);
+		}
+
+		public void Close()
+		{
+			gameObject.SetActive(false);
+		}
+
 		/// <summary>
 		/// There is no event for focusing input, so we must check for it manually in Update
 		/// </summary>
@@ -109,7 +120,23 @@ namespace UI.Systems.AdminTools.DevTools
 				InputUnfocus();
 			}
 
-			OnClick();
+			//Right click to stop placing
+			if (CommonInput.GetMouseButtonDown(1))
+			{
+				OnActionButtonClick((int)ActionType.None);
+				return;
+			}
+
+			//Ignore click if pointer is hovering over GUI
+			if (EventSystem.current.IsPointerOverGameObject())
+			{
+				return;
+			}
+
+			//Single click
+			if(OnClick()) return;
+
+			OnDrag();
 		}
 
 		private void InputFocus()
@@ -157,6 +184,7 @@ namespace UI.Systems.AdminTools.DevTools
 			}
 
 			tileSearchBox.text = "";
+			tileIndex = -1;
 
 			categoryIndex = index;
 			LoadTiles(index);
@@ -251,11 +279,6 @@ namespace UI.Systems.AdminTools.DevTools
 			matrixIndex = matrixDropdown.value;
 		}
 
-		public void SetMatrices(SortedDictionary<int, string> newIds)
-		{
-			matrixIds = newIds;
-		}
-
 		#endregion
 
 		#region ActionButtons
@@ -272,27 +295,15 @@ namespace UI.Systems.AdminTools.DevTools
 
 		#region Clicking
 
-		private void OnClick()
+		private bool OnClick()
 		{
-			if(currentAction == ActionType.None) return;
-
-			//Right click to stop placing
-			if (Input.GetMouseButtonDown(1))
-			{
-				currentAction = ActionType.None;
-				modeText.text = currentAction.ToString();
-				return;
-			}
-
-			//Ignore click if pointer is hovering over GUI
-			if (EventSystem.current.IsPointerOverGameObject())
-			{
-				return;
-			}
+			if(currentAction == ActionType.None) return true;
 
 			//Clicking once
-			if (Input.GetMouseButtonDown(0))
+			if (CommonInput.GetMouseButtonDown(0))
 			{
+				dragStartPos = MouseInputController.MouseWorldPosition.RoundToInt();
+
 				switch (currentAction)
 				{
 					case ActionType.Place:
@@ -300,18 +311,73 @@ namespace UI.Systems.AdminTools.DevTools
 						if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
 						{
 							RemoveTile();
-							return;
+							return true;
 						}
 
 						PlaceTile();
-						return;
+						return true;
 					case ActionType.Remove:
+						//Also place if shift is pressed when placing for quick place
+						if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+						{
+							PlaceTile();
+							return true;
+						}
+
 						RemoveTile();
-						return;
+						return true;
+					case ActionType.Colour:
+						ChangeColour();
+						return true;
 					default:
 						Logger.LogError($"Unknown case: {currentAction.ToString()} in switch!");
-						return;
+						return true;
 				}
+			}
+
+			return false;
+		}
+
+		private void OnDrag()
+		{
+			if(currentAction == ActionType.None) return;
+
+			//Being held down
+			if (CommonInput.GetMouseButton(0)) return;
+
+			if (CommonInput.GetMouseButtonUp(0) == false) return;
+
+			if(dragStartPos == MouseInputController.MouseWorldPosition.RoundToInt()) return;
+
+			//End drag
+			switch (currentAction)
+			{
+				case ActionType.Place:
+					//Also remove if shift is pressed when placing for quick remove
+					if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+					{
+						RemoveTile();
+						break;
+					}
+
+					PlaceTile();
+					break;
+				case ActionType.Remove:
+					//Also place if shift is pressed when placing for quick place
+					if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+					{
+						PlaceTile();
+						break;
+					}
+
+					RemoveTile();
+					break;
+				case ActionType.Colour:
+					ChangeColour();
+					break;
+				default:
+					Logger.LogError($"Unknown case: {currentAction.ToString()} in switch!");
+					break;
 			}
 		}
 
@@ -402,7 +468,7 @@ namespace UI.Systems.AdminTools.DevTools
 		{
 			if(categoryIndex == -1 || tileIndex == -1) return;
 
-			if (Enum.TryParse(directionDropdown.options[directionIndex].text, out OrientationEnum value) == false)
+			if (Enum.TryParse(directionDropdown.options[directionIndex].text, out OrientationEnum orientation) == false)
 			{
 				Chat.AddExamineMsgToClient("Failed to find orientation!");
 				return;
@@ -420,8 +486,19 @@ namespace UI.Systems.AdminTools.DevTools
 
 			Color? colour = colourToggle.isOn ? colourPicker.CurrentColor : null;
 
-			AdminCommandsManager.Instance.CmdPlaceTile(categoryIndex, tileIndex,
-				MouseInputController.MouseWorldPosition.RoundToInt(), matrixId.First().Key, value, colour);
+			var startPos = MouseInputController.MouseWorldPosition.RoundToInt();
+
+			var data = new PlaceStruct
+			{
+				categoryIndex = categoryIndex,
+				startWorldPosition = startPos,
+				endWorldPosition = dragStartPos,
+				matrixId = matrixId.First().Key,
+				orientation = orientation,
+				colour = colour
+			};
+
+			AdminCommandsManager.Instance.CmdPlaceTile(data);
 		}
 
 		private void RemoveTile()
@@ -438,17 +515,89 @@ namespace UI.Systems.AdminTools.DevTools
 				return;
 			}
 
-			var layerType = TileCategorySO.Instance.TileCategories[categoryIndex].LayerType;
+			var category = TileCategorySO.Instance.TileCategories[categoryIndex];
 
-			AdminCommandsManager.Instance.CmdRemoveTile(MouseInputController.MouseWorldPosition.RoundToInt(),
-				matrixId.First().Key, layerType);
+			var startPos = MouseInputController.MouseWorldPosition.RoundToInt();
+
+			var data = new RemoveStruct
+			{
+				categoryIndex = categoryIndex,
+				startWorldPosition = startPos,
+				endWorldPosition = dragStartPos,
+				matrixId = matrixId.First().Key,
+				layerType = category.LayerType,
+				overlayType = category.OverlayType
+			};
+
+			AdminCommandsManager.Instance.CmdRemoveTile(data);
+		}
+
+		private void ChangeColour()
+		{
+			if(categoryIndex == -1) return;
+
+			var matrixId =
+				MatrixManager.Instance.ActiveMatrices.Where(x =>
+					x.Value.Name == matrixDropdown.options[matrixIndex].text).ToList();
+
+			if (matrixId.Any() == false)
+			{
+				Chat.AddExamineMsgToClient("Invalid matrix selected!");
+				return;
+			}
+
+			Color? colour = colourToggle.isOn ? colourPicker.CurrentColor : null;
+
+			var startPos = MouseInputController.MouseWorldPosition.RoundToInt();
+
+			var data = new ColourStruct
+			{
+				categoryIndex = categoryIndex,
+				startWorldPosition = startPos,
+				endWorldPosition = dragStartPos,
+				matrixId = matrixId.First().Key,
+				colour = colour
+			};
+
+			AdminCommandsManager.Instance.CmdColourTile(data);
+		}
+
+		public struct PlaceStruct
+		{
+			public int categoryIndex;
+			public int tileIndex;
+			public Vector3Int startWorldPosition;
+			public Vector3Int endWorldPosition;
+			public int matrixId;
+			public OrientationEnum orientation;
+			public Color? colour;
+		}
+
+		public struct RemoveStruct
+		{
+			public int categoryIndex;
+			public Vector3Int startWorldPosition;
+			public Vector3Int endWorldPosition;
+			public int matrixId;
+			public LayerType layerType;
+			public OverlayType overlayType;
+		}
+
+		public struct ColourStruct
+		{
+			public int categoryIndex;
+			public Vector3Int startWorldPosition;
+			public Vector3Int endWorldPosition;
+			public int matrixId;
+			public Color? colour;
 		}
 
 		private enum ActionType
 		{
 			None,
 			Place,
-			Remove
+			Remove,
+			Colour
 		}
 	}
 }

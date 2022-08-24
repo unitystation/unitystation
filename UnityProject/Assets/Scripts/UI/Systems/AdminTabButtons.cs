@@ -67,7 +67,7 @@ namespace UI.AdminTools
 		{
 			DisableAllGUI();
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			tileChanger.SetActive(true);
+			tileChanger.Open();
 		}
 
 		public void BtnOpenTileVV()
@@ -84,7 +84,7 @@ namespace UI.AdminTools
 			devCloner.gameObject.SetActive(false);
 			devDestroyer.gameObject.SetActive(false);
 			devSelectTile.gameObject.SetActive(false);
-			tileChanger.SetActive(false);
+			tileChanger.Close();
 		}
 	}
 }

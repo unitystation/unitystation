@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TileManagement;
 using Tiles;
 using UnityEngine;
 
@@ -18,6 +19,11 @@ namespace ScriptableObjects
 		[Tooltip("The layertype these tiles use, this is used to determine removal")]
 		private LayerType layerType = LayerType.Base;
 		public LayerType LayerType => layerType;
+
+		[SerializeField]
+		[Tooltip("Overlay type of theses tiles")]
+		private OverlayType overlayType = OverlayType.None;
+		public OverlayType OverlayType => overlayType;
 
 		[SerializeField]
 		[Tooltip("The most used tiles of this type")]
