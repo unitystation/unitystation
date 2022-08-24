@@ -157,6 +157,9 @@ public class MatrixMove : ManagedBehaviour
 	///client's transform, can get dirty/predictive
 	private MatrixState clientState = MatrixState.Invalid;
 
+	public MatrixState CurrentState => CustomNetworkManager.IsServer ? serverState : clientState;
+
+
 	private List<ShipThruster> thrusters = new List<ShipThruster>();
 	public bool HasWorkingThrusters => thrusters.Count > 0;
 
@@ -747,8 +750,7 @@ public class MatrixMove : ManagedBehaviour
 			if (!MatrixManager.IsPassableAtAllMatrices(sensorPos, sensorPos + dir.RoundToInt(), isServer: true,
 											collisionType: matrixColliderType, excludeMatrix: MatrixInfo))
 			{
-				Logger.LogTrace(
-					$"Can't pass {serverTargetState.Position}->{serverTargetState.Position + dir} (because {sensorPos}->{sensorPos + dir})!",
+				Logger.LogTrace($"Can't pass {serverTargetState.Position}->{serverTargetState.Position + dir} (because {sensorPos}->{sensorPos + dir})!",
 					Category.Shuttles);
 				return false;
 			}
