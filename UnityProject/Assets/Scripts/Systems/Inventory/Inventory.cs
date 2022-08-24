@@ -106,7 +106,9 @@ public static class Inventory
 		if (pu == null || pu.ItemSlot == null)
 		{
 			_ = Despawn.ServerSingle(objectInSlot);
+			return true;
 		}
+
 		return ServerDespawn(pu.ItemSlot);
 	}
 
