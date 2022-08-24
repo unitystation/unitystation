@@ -3208,7 +3208,6 @@ MonoBehaviour:
   tileButtonPrefab: {fileID: 4212682771390189743}
   tileContentPanel: {fileID: 4228042807187021209}
   tileSearchBox: {fileID: 8733358033406559583}
-  minCharactersForSearch: 3
   matrixDropdown: {fileID: 8814345287653489380}
   modeText: {fileID: 7224065376513531324}
   directionDropdown: {fileID: 6286412696060456541}
@@ -3384,8 +3383,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnEscapeKey:
     m_PersistentCalls:
-      m_Calls: []
-  DisableOnEscape: 1
+      m_Calls:
+      - m_Target: {fileID: 4113822440349019706}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  DisableOnEscape: 0
 --- !u!1 &4113997969474828364
 GameObject:
   m_ObjectHideFlags: 0

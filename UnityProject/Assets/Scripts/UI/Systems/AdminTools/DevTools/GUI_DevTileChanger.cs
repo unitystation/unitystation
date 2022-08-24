@@ -15,20 +15,20 @@ namespace UI.Systems.AdminTools.DevTools
 	{
 		[SerializeField]
 		[Tooltip("Prefab that should be used for each category item")]
-		private GameObject categoryButtonPrefab;
+		private GameObject categoryButtonPrefab = null;
 		[SerializeField]
 		[Tooltip("content panel into which the list category items should be placed")]
-		private GameObject categoryContentPanel;
+		private GameObject categoryContentPanel = null;
 
 		[Tooltip("Prefab that should be used for each tile item")]
 		[SerializeField]
-		private GameObject tileButtonPrefab;
+		private GameObject tileButtonPrefab = null;
 		[SerializeField]
 		[Tooltip("content panel into which the list items should be placed")]
-		private GameObject tileContentPanel;
+		private GameObject tileContentPanel = null;
 
 		[SerializeField]
-		private InputField tileSearchBox;
+		private InputField tileSearchBox = null;
 
 		[SerializeField]
 		private TMP_Dropdown matrixDropdown = null;
@@ -93,6 +93,16 @@ namespace UI.Systems.AdminTools.DevTools
 
 			UIManager.IsMouseInteractionDisabled = false;
 			lightingSystem.enabled = true;
+		}
+
+		public void Open()
+		{
+			gameObject.SetActive(true);
+		}
+
+		public void Close()
+		{
+			gameObject.SetActive(false);
 		}
 
 		/// <summary>

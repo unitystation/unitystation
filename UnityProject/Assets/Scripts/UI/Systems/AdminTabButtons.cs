@@ -24,7 +24,7 @@ namespace UI.AdminTools
 		[SerializeField]
 		private GUI_VariableViewer vv = null;
 		[SerializeField]
-		private GameObject tileChanger = null;
+		private GUI_DevTileChanger tileChanger = null;
 
 		private void Awake()
 		{
@@ -67,7 +67,7 @@ namespace UI.AdminTools
 		{
 			DisableAllGUI();
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			tileChanger.SetActive(true);
+			tileChanger.Open();
 		}
 
 		public void BtnOpenTileVV()
@@ -85,7 +85,7 @@ namespace UI.AdminTools
 			devDestroyer.gameObject.SetActive(false);
 			devSelectTile.gameObject.SetActive(false);
 			vv.SetActive(false);
-			tileChanger.SetActive(false);
+			tileChanger.Close();
 		}
 	}
 }

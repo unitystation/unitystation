@@ -6109,12 +6109,12 @@ PrefabInstance:
     - target: {fileID: 4113822440349019706, guid: 0edf411a426a89c48ae2ba868296b471,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4113884316881524652, guid: 0edf411a426a89c48ae2ba868296b471,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4128018427919184280, guid: 0edf411a426a89c48ae2ba868296b471,
         type: 3}
@@ -6311,12 +6311,6 @@ PrefabInstance:
 --- !u!224 &592822916030934437 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4183651651856864320, guid: 0edf411a426a89c48ae2ba868296b471,
-    type: 3}
-  m_PrefabInstance: {fileID: 3617921364299332069}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &802207749258456649 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4113884316881524652, guid: 0edf411a426a89c48ae2ba868296b471,
     type: 3}
   m_PrefabInstance: {fileID: 3617921364299332069}
   m_PrefabAsset: {fileID: 0}
@@ -6902,7 +6896,7 @@ PrefabInstance:
         type: 3}
       propertyPath: tileChanger
       value: 
-      objectReference: {fileID: 802207749258456649}
+      objectReference: {fileID: 8822393536165021703}
     - target: {fileID: 6672079186135509757, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
       propertyPath: devDestroyer
