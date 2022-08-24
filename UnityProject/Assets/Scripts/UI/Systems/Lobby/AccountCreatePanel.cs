@@ -11,19 +11,19 @@ namespace Lobby
 	public class AccountCreatePanel : MonoBehaviour
 	{
 		[SerializeField]
-		private InputField emailControl;
+		private InputField emailControl = default;
 		[SerializeField]
-		private InputField usernameControl;
+		private InputField usernameControl = default;
 		[SerializeField]
-		private InputField passwordControl;
+		private InputField passwordControl = default;
 
 		[SerializeField]
-		private Text errorControl; // TODO create this in prefab
+		private Text errorControl = default; // TODO create this in prefab
 
 		[SerializeField]
-		private Button backButton;
+		private Button backButton = default;
 		[SerializeField]
-		private Button createButton;
+		private Button createButton = default;
 
 		private GUI_LobbyDialogue lobbyDialogue;
 
@@ -55,13 +55,13 @@ namespace Lobby
 
 		private bool ValidateEmail()
 		{
-			var errorStrings = new Dictionary<ValidationUtils.StringValidateError, string>()
+			var errorStrings = new Dictionary<ValidationUtils.StringValidateError, string>
 			{
 				{ ValidationUtils.StringValidateError.NullOrWhitespace, "Email address is required." },
 				{ ValidationUtils.StringValidateError.Invalid, "Email address is invalid." },
 			};
 
-			if (ValidationUtils.ValidateEmail(emailControl.text, out var failReason) == false)
+			if (ValidationUtils.TryValidateEmail(emailControl.text, out var failReason) == false)
 			{
 				SetError(errorStrings[failReason]);
 				return false;
@@ -73,14 +73,14 @@ namespace Lobby
 
 		private bool ValidateUsername()
 		{
-			var errorStrings = new Dictionary<ValidationUtils.StringValidateError, string>()
+			var errorStrings = new Dictionary<ValidationUtils.StringValidateError, string>
 			{
 				{ ValidationUtils.StringValidateError.NullOrWhitespace, "Username is required." },
 				{ ValidationUtils.StringValidateError.TooShort, "Username is too short." },
 				{ ValidationUtils.StringValidateError.Invalid, "Username is invalid." },
 			};
 
-			if (ValidationUtils.ValidatePassword(passwordControl.text, out var failReason) == false)
+			if (ValidationUtils.TryValidatePassword(passwordControl.text, out var failReason) == false)
 			{
 				SetError(errorStrings[failReason]);
 				return false;
@@ -92,14 +92,14 @@ namespace Lobby
 
 		private bool ValidatePassword()
 		{
-			var errorStrings = new Dictionary<ValidationUtils.StringValidateError, string>()
+			var errorStrings = new Dictionary<ValidationUtils.StringValidateError, string>
 			{
 				{ ValidationUtils.StringValidateError.NullOrWhitespace, "Password is required." },
 				{ ValidationUtils.StringValidateError.TooShort, "Password is too short." },
 				{ ValidationUtils.StringValidateError.Invalid, "Password is invalid." },
 			};
 
-			if (ValidationUtils.ValidatePassword(passwordControl.text, out var failReason) == false)
+			if (ValidationUtils.TryValidatePassword(passwordControl.text, out var failReason) == false)
 			{
 				SetError(errorStrings[failReason]);
 				return false;
@@ -127,7 +127,8 @@ namespace Lobby
 			});
 
 			ServerData.TryCreateAccount(usernameControl.text, passwordControl.text, emailControl.text,
-					ShowInfoPanelSuccess, ShowInfoPanelFail);
+					// TODO: TryCreateAccount expects CharacterSheet param for Success... should be account stuff
+					(_) => ShowInfoPanelSuccess(emailControl.text), ShowInfoPanelFail);
 		}
 
 		private void ResendEmail()
@@ -137,23 +138,22 @@ namespace Lobby
 				Heading = "Email Resend",
 				Text = $"A new verification email will be sent to {FirebaseAuth.DefaultInstance.CurrentUser.Email}.",
 				LeftButtonText = "Back",
-				LeftButtonCallback = lobbyDialogue.ShowLoginScreen,
+				LeftButtonCallback = lobbyDialogue.ShowLoginPanel,
 			});
 
 			FirebaseAuth.DefaultInstance.CurrentUser.SendEmailVerificationAsync();
 			FirebaseAuth.DefaultInstance.SignOut();
 		}
 
-		// TODO: TryCreateAccount expects CharacterSheet param for Success... should be account stuff
-		private void ShowInfoPanelSuccess(CharacterSheet charSettings)
+		private void ShowInfoPanelSuccess(string email)
 		{
 			lobbyDialogue.ShowInfoPanel(new InfoPanelArgs
 			{
 				Heading = "Account Created",
-				Text = $"Success! An email has been sent to {emailControl.text}.<br>" +
+				Text = $"Success! An email will be sent to {email}.<br>" +
 					$"Please click the link in the email to verify your account before signing in.",
 				LeftButtonText = "Back",
-				LeftButtonCallback = lobbyDialogue.ShowLoginScreen,
+				LeftButtonCallback = lobbyDialogue.ShowLoginPanel,
 				RightButtonText = "Resend Email",
 				RightButtonCallback = ResendEmail,
 			});
@@ -176,16 +176,9 @@ namespace Lobby
 				Text = errorText,
 				IsError = true,
 				LeftButtonText = "Back",
-				LeftButtonCallback = () => {
-					_ = SoundManager.Play(CommonSounds.Instance.Click01);
-					lobbyDialogue.ShowCreationPanel();
-				},
+				LeftButtonCallback = lobbyDialogue.ShowCreationPanel,
 				RightButtonText = "Retry",
-				RightButtonCallback = () =>
-				{
-					_ = SoundManager.Play(CommonSounds.Instance.Click01);
-					CreateAccount();
-				},
+				RightButtonCallback = CreateAccount,
 			});
 		}
 
@@ -194,7 +187,7 @@ namespace Lobby
 		private void OnBackBtn()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			lobbyDialogue.ShowLoginScreen();
+			lobbyDialogue.ShowLoginPanel();
 		}
 
 		private void OnCreateBtn()

@@ -17,7 +17,7 @@ namespace Core.Utils
 		/// </summary>
 		/// <param name="email">email to validate</param>
 		/// <returns>true if valid</returns>
-		public static bool ValidateEmail(string email, out StringValidateError failReason)
+		public static bool TryValidateEmail(string email, out StringValidateError failReason)
 		{
 			if (string.IsNullOrWhiteSpace(email))
 			{
@@ -43,7 +43,7 @@ namespace Core.Utils
 		/// </summary>
 		/// <param name="username">the username to validate</param>
 		/// <returns>true if valid</returns>
-		public static bool ValidateUsername(string username, out StringValidateError failReason)
+		public static bool TryValidateUsername(string username, out StringValidateError failReason)
 		{
 			if (string.IsNullOrWhiteSpace(username))
 			{
@@ -69,7 +69,7 @@ namespace Core.Utils
 		/// </summary>
 		/// <param name="password">the password to validate</param>
 		/// <returns>true if valid</returns>
-		public static bool ValidatePassword(string password, out StringValidateError failReason)
+		public static bool TryValidatePassword(string password, out StringValidateError failReason)
 		{
 			if (string.IsNullOrWhiteSpace(password))
 			{

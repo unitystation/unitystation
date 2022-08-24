@@ -29,22 +29,17 @@ namespace Lobby
 
 			DetermineUIScale();
 			UIManager.Display.SetScreenForLobby();
-			EventManager.AddHandler(Event.LoggedOut, SetOnLogOut);
-		}
-
-		private void OnDisable()
-		{
-			EventManager.RemoveHandler(Event.LoggedOut, SetOnLogOut);
 		}
 
 		#endregion
 
 		#region Login
 
-		public async void TryLogin(string email, string password)
+		public async Task<bool> TryLogin(string email, string password)
 		{
 			lobbyDialogue.ShowLoadingPanel("Logging in...");
 
+			bool isLoginSuccess = false;
 			await FirebaseAuth.DefaultInstance.SignInWithEmailAndPasswordAsync(email, password)
 				.ContinueWithOnMainThread(async task =>
 				{
@@ -62,8 +57,10 @@ namespace Lobby
 						return;
 					}
 
-					await ServerData.ValidateUser(task.Result, (successStr) =>
+					await ServerData.ValidateUser(task.Result, (_) =>
 					{
+						isLoginSuccess = true;
+						SaveAccountPrefs(task.Result.Email, String.Empty); // TODO ???? token sort it
 						lobbyDialogue.LoginSuccess();
 					}, (errorStr) =>
 					{
@@ -71,6 +68,8 @@ namespace Lobby
 						lobbyDialogue.LoginError($"Account validation error. {errorStr}");
 					});
 				});
+
+			return isLoginSuccess;
 		}
 
 		public async Task<bool> TryTokenLogin(string uid, string token)
@@ -92,7 +91,7 @@ namespace Lobby
 
 			if (string.IsNullOrEmpty(response.errorMsg) == false)
 			{
-				Logger.LogError($"Something went wrong with hub token validation {response.errorMsg}", Category.DatabaseAPI);
+				Logger.LogError($"Something went wrong with hub token validation: {response.errorMsg}", Category.DatabaseAPI);
 				lobbyDialogue.LoginError($"Could not verify your details {response.errorMsg}");
 				return false;
 			}
@@ -140,11 +139,10 @@ namespace Lobby
 					if (task.IsCanceled || task.IsFaulted)
 					{
 						lobbyDialogue.LoginError(task.Exception?.Message);
-						return;
 					}
 				});
 
-				await ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser, (str) => {
+				await ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser, (_) => {
 					isLoginSuccess = true;
 				}, lobbyDialogue.LoginError);
 			}
@@ -198,6 +196,30 @@ namespace Lobby
 			});
 		}
 
+		public void HostServer()
+		{
+			lobbyDialogue.ShowLoadingPanel("Hosting a game....");
+			LoadingScreenManager.LoadFromLobby(CustomNetworkManager.Instance.StartHost);
+		}
+
+		public void Logout()
+		{
+			ServerData.Auth.SignOut();
+			PlayerPrefs.DeleteKey(PlayerPrefKeys.AccountUsername);
+			PlayerPrefs.DeleteKey(PlayerPrefKeys.AccountToken);
+			PlayerPrefs.Save();
+
+			characterCustomization.gameObject.SetActive(false);
+			lobbyDialogue.gameObject.SetActive(true);
+			lobbyDialogue.ShowLoginPanel();
+		}
+
+		public void Quit()
+		{
+			// TODO: doesn't work in editor.
+			Application.Quit();
+		}
+
 		private void DetermineUIScale()
 		{
 			if (Application.isMobilePlatform)
@@ -221,13 +243,6 @@ namespace Lobby
 					lobbyDialogue.transform.localScale *= 0.9f;
 				}
 			}
-		}
-
-		private void SetOnLogOut()
-		{
-			characterCustomization.gameObject.SetActive(false);
-			lobbyDialogue.gameObject.SetActive(true);
-			lobbyDialogue.ShowLoginScreen();
 		}
 	}
 }

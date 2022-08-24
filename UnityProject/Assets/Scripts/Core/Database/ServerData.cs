@@ -68,13 +68,13 @@ namespace DatabaseAPI
 
 		private void OnEnable()
 		{
-			EventManager.AddHandler(Event.LoggedOut, OnLogOut);
+			EventManager.AddHandler(Event.AccountLoggedOut, OnLogOut);
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
 		private void OnDisable()
 		{
-			EventManager.RemoveHandler(Event.LoggedOut, OnLogOut);
+			EventManager.RemoveHandler(Event.AccountLoggedOut, OnLogOut);
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
@@ -145,7 +145,7 @@ namespace DatabaseAPI
 			PlayerPrefs.DeleteKey(PlayerPrefKeys.AccountUsername);
 			PlayerPrefs.DeleteKey(PlayerPrefKeys.AccountEmail);
 			PlayerPrefs.DeleteKey(PlayerPrefKeys.AccountToken);
-			PlayerPrefs.SetInt("autoLogin", 0);
+			PlayerPrefs.SetInt("autoLogin", 0); // TODO remove these,
 			PlayerPrefs.Save();
 		}
 	}

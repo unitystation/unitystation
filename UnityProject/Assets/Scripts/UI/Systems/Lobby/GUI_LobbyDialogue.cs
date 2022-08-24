@@ -16,6 +16,10 @@ namespace Lobby
 	{
 		#region Inspector fields
 
+		[SerializeField]
+		private Text dialogueTitle = default;
+
+		// TODO handle
 		public GameObject mainPanel;
 		public GameObject joinPanel;
 		public GameObject accountLoginPanel;
@@ -25,19 +29,19 @@ namespace Lobby
 
 		// UI scripts
 		[SerializeField]
-		private LoadingPanel loadingPanelScript;
+		private LoadingPanel loadingPanelScript = default;
 		[SerializeField]
-		private InfoPanel infoPanelScript;
+		private InfoPanel infoPanelScript = default;
 		[SerializeField]
-		private AccountLoginPanel accountLoginScript;
+		private MainMenuPanel mainMenuScript = default;
 		[SerializeField]
-		private AccountCreatePanel accountCreateScript;
+		private AccountLoginPanel accountLoginScript = default;
+		[SerializeField]
+		private AccountCreatePanel accountCreateScript = default;
 
-		// TODO move
+		// join panel TODO move
 		public InputField serverAddressInput;
 		public InputField serverPortInput;
-		public Text dialogueTitle;
-		public Text menuUsernameText;
 		public Text serverConnectionFailedText;
 
 		[SerializeField] private GameObject historyLogEntryGameObject;
@@ -50,8 +54,6 @@ namespace Lobby
 
 		private const string DefaultServerAddress = "127.0.0.1";
 		private const ushort DefaultServerPort = 7777;
-
-		public static GUI_LobbyDialogue Instance;
 
 		[NonSerialized]
 		public bool wasDisconnected = false;
@@ -77,7 +79,6 @@ namespace Lobby
 			};
 
 			isWindows = Application.persistentDataPath.Contains("/") ? $"/" : $"\\";
-			Instance = this;
 			historyFilePath = $"{Application.persistentDataPath}{isWindows}ConnectionHistory.json";
 			if (File.Exists(historyFilePath))
 			{
@@ -96,7 +97,7 @@ namespace Lobby
 
 			if (ServerData.Auth?.CurrentUser == null)
 			{
-				ShowLoginScreen();
+				ShowLoginPanel();
 			}
 			else if (wasDisconnected && GameManager.Instance.DisconnectExpected == false)
 			{
@@ -185,11 +186,11 @@ namespace Lobby
 		{
 			HideAllPanels();
 			mainPanel.SetActive(true);
-			menuUsernameText.text = $"Logged in as {ServerData.Auth.CurrentUser.DisplayName}";
+			mainMenuScript.SetSignedInText();
 			dialogueTitle.text = string.Empty;
 		}
 
-		public void ShowLoginScreen()
+		public void ShowLoginPanel()
 		{
 			HideAllPanels();
 			accountLoginPanel.SetActive(true);
@@ -252,12 +253,7 @@ namespace Lobby
 			});
 		}
 
-		public void OnExit()
-		{
-			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			Application.Quit();
-		}
-
+		// TODO not needed?
 		public void LoginSuccess()
 		{
 			ShowMainPanel();
@@ -286,19 +282,7 @@ namespace Lobby
 
 		#region Button handlers
 
-		public void OnMainMenuJoinBtn()
-		{
-			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			ShowJoinPanel();
-		}
-
-		public void OnMainMenuHostBtn()
-		{
-			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-
-			ShowLoadingPanel("Hosting a game....");
-			LoadingScreenManager.LoadFromLobby(CustomNetworkManager.Instance.StartHost);
-		}
+		// TODO re/move these
 
 		public void OnJoinMenuJoinBtn()
 		{
@@ -323,18 +307,6 @@ namespace Lobby
 			LobbyManager.Instance.JoinServer(serverAddressInput.text, serverPort);
 		}
 
-		public void OnShowInformationPanel()
-		{
-			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			ShowInformationPanel();
-		}
-
-		public void OnShowControlInformationPanel()
-		{
-			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			ShowControlInformationPanel();
-		}
-
 		public void OnCharacterButton()
 		{
 			ShowCharacterEditor(OnCharacterExit);
@@ -350,21 +322,8 @@ namespace Lobby
 			else
 			{
 				Logger.LogWarning("User is not logged in! Returning to login screen.", Category.Connections);
-				ShowLoginScreen();
+				ShowLoginPanel();
 			}
-		}
-
-		public void OnLogoutBtn()
-		{
-			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			HideAllPanels();
-			ServerData.Auth.SignOut();
-			NetworkClient.Disconnect();
-			PlayerPrefs.DeleteKey(PlayerPrefKeys.AccountUsername);
-			PlayerPrefs.DeleteKey(PlayerPrefKeys.AccountToken);
-			PlayerPrefs.SetInt("autoLogin", 0);
-			PlayerPrefs.Save();
-			ShowLoginScreen();
 		}
 
 		#endregion
@@ -390,24 +349,27 @@ namespace Lobby
 			}
 		}
 
-		private void ShowInformationPanel()
+		public void ShowInformationPanel()
 		{
 			HideAllPanels();
 			informationPanel.SetActive(true);
+			dialogueTitle.text = "Alpha";
 		}
 
-		private void ShowControlInformationPanel()
+		public void ShowControlInformationPanel()
 		{
 			HideAllPanels();
 			controlInformationPanel.SetActive(true);
+			dialogueTitle.text = "Controls";
 		}
 
-		private void ShowWrongVersionPanel()
+		private void ShowWrongVersionPanel() // TODO
 		{
 			HideAllPanels();
 
 			// TODO use ShowInfoPanel()
 			//wrongVersionPanel.SetActive(true);
+			dialogueTitle.text = "Wrong Version";
 		}
 
 		public void HideAllPanels()

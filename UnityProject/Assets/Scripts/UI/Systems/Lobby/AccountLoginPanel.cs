@@ -11,27 +11,27 @@ namespace Lobby
 	public class AccountLoginPanel : MonoBehaviour
 	{
 		[SerializeField]
-		private InputField emailControl;
+		private InputField emailControl = default;
 		[SerializeField]
-		private InputField passwordControl;
+		private InputField passwordControl = default;
 		[SerializeField]
-		private Text errorControl;
+		private Text errorControl = default;
 		[SerializeField]
-		private Toggle autoLoginControl;
+		private Toggle autoLoginControl = default;
 		[SerializeField]
-		private Button loginButtonControl;
+		private Button loginButtonControl = default;
 
 		public bool IsAutoLoginEnabled => autoLoginControl.isOn;
 
 		private void Awake()
 		{
-			emailControl.onValueChanged.AddListener((value) => ClearError());
-			emailControl.onEndEdit.AddListener((value) => ValidateEmail());
-			emailControl.onSubmit.AddListener((value) => TryLogin());
+			emailControl.onValueChanged.AddListener((_) => ClearError());
+			emailControl.onEndEdit.AddListener((_) => ValidateEmail());
+			emailControl.onSubmit.AddListener((_) => TryLogin());
 
-			passwordControl.onValueChanged.AddListener((value) => ClearError());
-			passwordControl.onEndEdit.AddListener((value) => ValidatePassword());
-			passwordControl.onSubmit.AddListener((value) => TryLogin());
+			passwordControl.onValueChanged.AddListener((_) => ClearError());
+			passwordControl.onEndEdit.AddListener((_) => ValidatePassword());
+			passwordControl.onSubmit.AddListener((_) => TryLogin());
 
 			loginButtonControl.onClick.AddListener(() => OnLoginBtn());
 		}
@@ -45,12 +45,10 @@ namespace Lobby
 
 		private void TryLogin()
 		{
-			if (!ValidateLogin()) return;
+			if (ValidateLogin() == false) return;
 
-			var password = passwordControl.text;
+			_ = LobbyManager.Instance.TryLogin(emailControl.text, passwordControl.text);
 			passwordControl.text = string.Empty;
-
-			LobbyManager.Instance.TryLogin(emailControl.text, password);
 		}
 
 		private bool ValidateLogin()
@@ -64,13 +62,13 @@ namespace Lobby
 
 		private bool ValidateEmail()
 		{
-			var errorStrings = new Dictionary<ValidationUtils.StringValidateError, string>()
+			var errorStrings = new Dictionary<ValidationUtils.StringValidateError, string>
 			{
 				{ ValidationUtils.StringValidateError.NullOrWhitespace, "Email address is required." },
 				{ ValidationUtils.StringValidateError.Invalid, "Email address is invalid." },
 			};
 
-			if (ValidationUtils.ValidateEmail(emailControl.text, out var failReason) == false)
+			if (ValidationUtils.TryValidateEmail(emailControl.text, out var failReason) == false)
 			{
 				SetError(errorStrings[failReason]);
 				return false;
@@ -82,14 +80,14 @@ namespace Lobby
 
 		private bool ValidatePassword()
 		{
-			var errorStrings = new Dictionary<ValidationUtils.StringValidateError, string>()
+			var errorStrings = new Dictionary<ValidationUtils.StringValidateError, string>
 			{
 				{ ValidationUtils.StringValidateError.NullOrWhitespace, "Password is required." },
 				{ ValidationUtils.StringValidateError.TooShort, "Password is too short." },
 				{ ValidationUtils.StringValidateError.Invalid, "Password is invalid." },
 			};
 
-			if (ValidationUtils.ValidatePassword(passwordControl.text, out var failReason) == false)
+			if (ValidationUtils.TryValidatePassword(passwordControl.text, out var failReason) == false)
 			{
 				SetError(errorStrings[failReason]);
 				return false;

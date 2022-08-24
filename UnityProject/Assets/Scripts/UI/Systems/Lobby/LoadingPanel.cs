@@ -10,12 +10,12 @@ namespace Lobby
 	public class LoadingPanel : MonoBehaviour
 	{
 		[SerializeField]
-		private Text textControl;
+		private Text textControl = default;
 
 		[SerializeField]
-		private Button leftButton;
+		private Button leftButton = default;
 		[SerializeField]
-		private Button rightButton;
+		private Button rightButton = default;
 
 		private Text leftButtonLabel;
 		private Text rightButtonLabel;
@@ -86,10 +86,10 @@ namespace Lobby
 
 	public class LoadingPanelArgs
 	{
-		public string Text;
-		public Action LeftButtonCallback;
-		public Action RightButtonCallback;
-		public string LeftButtonText;
-		public string RightButtonText;
+		public string Text { get; set; }
+		public Action LeftButtonCallback { get; set; }
+		public Action RightButtonCallback { get; set; }
+		public string LeftButtonText { get; set; }
+		public string RightButtonText { get; set; }
 	}
 }

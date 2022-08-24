@@ -10,14 +10,14 @@ namespace Lobby
 	public class InfoPanel : MonoBehaviour
 	{
 		[SerializeField]
-		private Text headingControl;
+		private Text headingControl = default;
 		[SerializeField]
-		private Text textControl;
+		private Text textControl = default;
 
 		[SerializeField]
-		private Button leftButton;
+		private Button leftButton = default;
 		[SerializeField]
-		private Button rightButton;
+		private Button rightButton = default;
 
 		private Text leftButtonLabel;
 		private Text rightButtonLabel;
@@ -100,12 +100,12 @@ namespace Lobby
 
 	public class InfoPanelArgs
 	{
-		public string Heading;
-		public string Text;
-		public bool IsError;
-		public Action LeftButtonCallback;
-		public Action RightButtonCallback;
-		public string LeftButtonText;
-		public string RightButtonText;
+		public string Heading { get; set; }
+		public string Text { get; set; }
+		public bool IsError { get; set; }
+		public Action LeftButtonCallback { get; set; }
+		public Action RightButtonCallback { get; set; }
+		public string LeftButtonText { get; set; }
+		public string RightButtonText { get; set; }
 	}
 }

@@ -23,7 +23,7 @@ namespace Lobby
 
 		public void OnJoinButton()
 		{
-			Lobby.GUI_LobbyDialogue.Instance.ConnectToServerFromHistory(indexInHistory);
+			LobbyManager.Instance.lobbyDialogue.ConnectToServerFromHistory(indexInHistory);
 		}
 	}
 }

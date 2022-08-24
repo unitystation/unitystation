@@ -64,7 +64,7 @@ public class GameData : MonoBehaviour
 
 	private void Start()
 	{
-		Init();
+		_ = Init();
 	}
 
 	public async void APITest()
@@ -91,7 +91,7 @@ public class GameData : MonoBehaviour
 	}
 
 
-	private void Init()
+	private async Task Init()
 	{
 #if UNITY_EDITOR
 		DevBuild = true;
@@ -113,7 +113,7 @@ public class GameData : MonoBehaviour
 			testServer = Convert.ToBoolean(testServerEnv);
 		}
 
-		if (TryJoinViaHub()) return;
+		if (await TryJoinViaCmdArgs()) return;
 		_ = TryAutoLogin();
 	}
 
@@ -186,31 +186,25 @@ public class GameData : MonoBehaviour
 
 	#endregion
 
-	private bool TryJoinViaHub()
+	private async Task<bool> TryJoinViaCmdArgs()
 	{
-		//Check for Hub Message
 		string serverIp = GetArgument("-server");
 		string portStr = GetArgument("-port");
 		string token = GetArgument("-refreshtoken");
 		string uid = GetArgument("-uid");
 
-		//This is a hub message, attempt to login and connect to server
-		if (!string.IsNullOrEmpty(serverIp) && !string.IsNullOrEmpty(portStr))
-		{
-			if (ushort.TryParse(portStr, out var port) == false)
-			{
-				Logger.LogWarning("Invalid port provided in command line. Cannot join game via hub.");
-				return false;
-			};
+		if (string.IsNullOrEmpty(serverIp) || string.IsNullOrEmpty(portStr)) return false;
 
-			HubToServerConnect(serverIp, port, uid, token);
-			return true;
+		if (ushort.TryParse(portStr, out var port) == false)
+		{
+			Logger.LogWarning("Invalid port provided in command line. Cannot join game via args.");
+			return false;
 		}
 
-		return false;
+		return await HubToServerConnect(serverIp, port, uid, token);
 	}
 
-	private async void HubToServerConnect(string ip, ushort port, string uid, string token)
+	private async Task<bool> HubToServerConnect(string ip, ushort port, string uid, string token)
 	{
 		await Task.Delay(TimeSpan.FromSeconds(0.1));
 
@@ -220,7 +214,7 @@ public class GameData : MonoBehaviour
 			if (await LobbyManager.Instance.TryTokenLogin(uid, token))
 			{
 				LobbyManager.Instance.JoinServer(ip, port);
-				return;
+				return true;
 			}
 			Logger.LogWarning("Logging in via hub account (via command line args) failed.");
 		}
@@ -228,7 +222,11 @@ public class GameData : MonoBehaviour
 		if (await LobbyManager.Instance.TryAutoLogin())
 		{
 			LobbyManager.Instance.JoinServer(ip, port);
+			return true;
 		}
+
+		Logger.LogWarning("Logging in via stored account token failed.");
+		return false;
 	}
 
 	private async Task TryAutoLogin()
@@ -240,7 +238,7 @@ public class GameData : MonoBehaviour
 		}
 		else
 		{
-			LobbyManager.Instance.lobbyDialogue.ShowLoginScreen();
+			LobbyManager.Instance.lobbyDialogue.ShowLoginPanel();
 		}
 	}
 
