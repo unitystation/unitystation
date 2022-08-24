@@ -1130,6 +1130,53 @@ namespace AdminCommands
 			matrixInfo.MetaTileMap.RemoveTileWithlayer(startLocalPos, layerType, false);
 		}
 
+		[Command(requiresAuthority = false)]
+		public void CmdColourTile(int categoryIndex, Vector3Int startWorldPosition,
+			Vector3Int endWorldPosition, int matrixId, Color? colour, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+
+			var matrixInfo = MatrixManager.Get(matrixId);
+			if (matrixInfo == null || matrixInfo == MatrixInfo.Invalid)
+			{
+				Chat.AddExamineMsgFromServer(admin, "Invalid matrix!");
+				return;
+			}
+
+			startWorldPosition.z = 0;
+			endWorldPosition.z = 0;
+
+			var startLocalPos = MatrixManager.WorldToLocalInt(startWorldPosition, matrixInfo);
+			var endLocalPos = MatrixManager.WorldToLocalInt(endWorldPosition, matrixInfo);
+
+			var category = TileCategorySO.Instance.TileCategories[categoryIndex];
+
+			//If single clicking do only remove one tile
+			if (startLocalPos == endLocalPos)
+			{
+				ColourTile(matrixInfo, startLocalPos, category.LayerType, colour);
+				return;
+			}
+
+			//Drag clicking get all positions in and place tiles
+			var xMin = startLocalPos.x < endLocalPos.x ? startLocalPos.x : endLocalPos.x;
+			var yMin = startLocalPos.y < endLocalPos.y ? startLocalPos.y : endLocalPos.y;
+
+			for (int i = 0; i <= Math.Abs(startLocalPos.x - endLocalPos.x); i++)
+			{
+				for (int j = 0; j <= Math.Abs(startLocalPos.y - endLocalPos.y); j++)
+				{
+					var localPos = new Vector3Int(xMin + i, yMin + j);
+					ColourTile(matrixInfo, localPos, category.LayerType, colour);
+				}
+			}
+		}
+
+		private void ColourTile(MatrixInfo matrixInfo, Vector3Int localPos, LayerType layerType, Color? colour)
+		{
+			matrixInfo.MetaTileMap.SetColour(localPos, layerType, colour);
+		}
+
 		#endregion
 	}
 }

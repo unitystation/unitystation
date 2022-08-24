@@ -122,8 +122,7 @@ namespace UI.Systems.AdminTools.DevTools
 			//Right click to stop placing
 			if (CommonInput.GetMouseButtonDown(1))
 			{
-				currentAction = ActionType.None;
-				modeText.text = currentAction.ToString();
+				OnActionButtonClick((int)ActionType.None);
 				return;
 			}
 
@@ -317,7 +316,17 @@ namespace UI.Systems.AdminTools.DevTools
 						PlaceTile();
 						return true;
 					case ActionType.Remove:
+						//Also place if shift is pressed when placing for quick place
+						if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+						{
+							PlaceTile();
+							return true;
+						}
+
 						RemoveTile();
+						return true;
+					case ActionType.Colour:
+						ChangeColour();
 						return true;
 					default:
 						Logger.LogError($"Unknown case: {currentAction.ToString()} in switch!");
@@ -353,7 +362,17 @@ namespace UI.Systems.AdminTools.DevTools
 					PlaceTile();
 					break;
 				case ActionType.Remove:
+					//Also place if shift is pressed when placing for quick place
+					if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+					{
+						PlaceTile();
+						break;
+					}
+
 					RemoveTile();
+					break;
+				case ActionType.Colour:
+					ChangeColour();
 					break;
 				default:
 					Logger.LogError($"Unknown case: {currentAction.ToString()} in switch!");
@@ -494,11 +513,34 @@ namespace UI.Systems.AdminTools.DevTools
 				category.LayerType, category.OverlayType);
 		}
 
+		private void ChangeColour()
+		{
+			if(categoryIndex == -1) return;
+
+			var matrixId =
+				MatrixManager.Instance.ActiveMatrices.Where(x =>
+					x.Value.Name == matrixDropdown.options[matrixIndex].text).ToList();
+
+			if (matrixId.Any() == false)
+			{
+				Chat.AddExamineMsgToClient("Invalid matrix selected!");
+				return;
+			}
+
+			Color? colour = colourToggle.isOn ? colourPicker.CurrentColor : null;
+
+			var startPos = MouseInputController.MouseWorldPosition.RoundToInt();
+
+			AdminCommandsManager.Instance.CmdColourTile(categoryIndex, startPos, dragStartPos,
+				matrixId.First().Key, colour);
+		}
+
 		private enum ActionType
 		{
 			None,
 			Place,
-			Remove
+			Remove,
+			Colour
 		}
 	}
 }
