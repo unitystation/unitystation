@@ -4,6 +4,7 @@ using System.Linq;
 using AdminCommands;
 using DatabaseAPI;
 using ScriptableObjects;
+using TileManagement;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -467,7 +468,7 @@ namespace UI.Systems.AdminTools.DevTools
 		{
 			if(categoryIndex == -1 || tileIndex == -1) return;
 
-			if (Enum.TryParse(directionDropdown.options[directionIndex].text, out OrientationEnum value) == false)
+			if (Enum.TryParse(directionDropdown.options[directionIndex].text, out OrientationEnum orientation) == false)
 			{
 				Chat.AddExamineMsgToClient("Failed to find orientation!");
 				return;
@@ -487,8 +488,17 @@ namespace UI.Systems.AdminTools.DevTools
 
 			var startPos = MouseInputController.MouseWorldPosition.RoundToInt();
 
-			AdminCommandsManager.Instance.CmdPlaceTile(categoryIndex, tileIndex, startPos, dragStartPos,
-			matrixId.First().Key, value, colour);
+			var data = new PlaceStruct
+			{
+				categoryIndex = categoryIndex,
+				startWorldPosition = startPos,
+				endWorldPosition = dragStartPos,
+				matrixId = matrixId.First().Key,
+				orientation = orientation,
+				colour = colour
+			};
+
+			AdminCommandsManager.Instance.CmdPlaceTile(data);
 		}
 
 		private void RemoveTile()
@@ -509,8 +519,17 @@ namespace UI.Systems.AdminTools.DevTools
 
 			var startPos = MouseInputController.MouseWorldPosition.RoundToInt();
 
-			AdminCommandsManager.Instance.CmdRemoveTile(startPos, dragStartPos, matrixId.First().Key,
-				category.LayerType, category.OverlayType);
+			var data = new RemoveStruct
+			{
+				categoryIndex = categoryIndex,
+				startWorldPosition = startPos,
+				endWorldPosition = dragStartPos,
+				matrixId = matrixId.First().Key,
+				layerType = category.LayerType,
+				overlayType = category.OverlayType
+			};
+
+			AdminCommandsManager.Instance.CmdRemoveTile(data);
 		}
 
 		private void ChangeColour()
@@ -531,8 +550,46 @@ namespace UI.Systems.AdminTools.DevTools
 
 			var startPos = MouseInputController.MouseWorldPosition.RoundToInt();
 
-			AdminCommandsManager.Instance.CmdColourTile(categoryIndex, startPos, dragStartPos,
-				matrixId.First().Key, colour);
+			var data = new ColourStruct
+			{
+				categoryIndex = categoryIndex,
+				startWorldPosition = startPos,
+				endWorldPosition = dragStartPos,
+				matrixId = matrixId.First().Key,
+				colour = colour
+			};
+
+			AdminCommandsManager.Instance.CmdColourTile(data);
+		}
+
+		public struct PlaceStruct
+		{
+			public int categoryIndex;
+			public int tileIndex;
+			public Vector3Int startWorldPosition;
+			public Vector3Int endWorldPosition;
+			public int matrixId;
+			public OrientationEnum orientation;
+			public Color? colour;
+		}
+
+		public struct RemoveStruct
+		{
+			public int categoryIndex;
+			public Vector3Int startWorldPosition;
+			public Vector3Int endWorldPosition;
+			public int matrixId;
+			public LayerType layerType;
+			public OverlayType overlayType;
+		}
+
+		public struct ColourStruct
+		{
+			public int categoryIndex;
+			public Vector3Int startWorldPosition;
+			public Vector3Int endWorldPosition;
+			public int matrixId;
+			public Color? colour;
 		}
 
 		private enum ActionType

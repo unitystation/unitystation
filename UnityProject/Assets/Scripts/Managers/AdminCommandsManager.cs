@@ -29,6 +29,7 @@ using Systems.Pipes;
 using TileManagement;
 using Tiles;
 using UI.Systems.AdminTools;
+using UI.Systems.AdminTools.DevTools;
 using Util;
 
 namespace AdminCommands
@@ -932,53 +933,52 @@ namespace AdminCommands
 		#region TilePlacer
 
 		[Command(requiresAuthority = false)]
-		public void CmdPlaceTile(int categoryIndex, int tileIndex, Vector3Int startWorldPosition, Vector3Int endWorldPosition, int matrixId,
-			OrientationEnum orientation, Color? colour, NetworkConnectionToClient sender = null)
+		public void CmdPlaceTile(GUI_DevTileChanger.PlaceStruct data, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 
-			var matrixInfo = MatrixManager.Get(matrixId);
+			var matrixInfo = MatrixManager.Get(data.matrixId);
 			if (matrixInfo == null || matrixInfo == MatrixInfo.Invalid)
 			{
 				Chat.AddExamineMsgFromServer(admin, "Invalid matrix!");
 				return;
 			}
 
-			startWorldPosition.z = 0;
-			endWorldPosition.z = 0;
+			data.startWorldPosition.z = 0;
+			data.endWorldPosition.z = 0;
 
-			var startLocalPos = MatrixManager.WorldToLocalInt(startWorldPosition, matrixInfo);
-			var endLocalPos = MatrixManager.WorldToLocalInt(endWorldPosition, matrixInfo);
+			var startLocalPos = MatrixManager.WorldToLocalInt(data.startWorldPosition, matrixInfo);
+			var endLocalPos = MatrixManager.WorldToLocalInt(data.endWorldPosition, matrixInfo);
 
 			Matrix4x4? matrix4X4 = null;
-			if (orientation != OrientationEnum.Default && orientation != OrientationEnum.Up_By0)
+			if (data.orientation != OrientationEnum.Default && data.orientation != OrientationEnum.Up_By0)
 			{
-				int offset = PipeFunctions.GetOffsetAngle(Orientation.FromEnum(orientation).Degrees);
+				int offset = PipeFunctions.GetOffsetAngle(Orientation.FromEnum(data.orientation).Degrees);
 				Quaternion rot = Quaternion.Euler(0.0f, 0.0f, offset);
 				matrix4X4 = Matrix4x4.TRS(Vector3.zero, rot, Vector3.one);
 			}
 
-			if (categoryIndex >= TileCategorySO.Instance.TileCategories.Count)
+			if (data.categoryIndex >= TileCategorySO.Instance.TileCategories.Count)
 			{
 				Chat.AddExamineMsgFromServer(admin, "Invalid categoryIndex!");
 				return;
 			}
 
-			if (tileIndex >= TileCategorySO.Instance.TileCategories[categoryIndex].CombinedTileList.Count)
+			if (data.tileIndex >= TileCategorySO.Instance.TileCategories[data.categoryIndex].CombinedTileList.Count)
 			{
 				Chat.AddExamineMsgFromServer(admin, "Invalid tileIndex!");
 				return;
 			}
 
-			var tile = TileCategorySO.Instance.TileCategories[categoryIndex].CombinedTileList[tileIndex];
+			var tile = TileCategorySO.Instance.TileCategories[data.categoryIndex].CombinedTileList[data.tileIndex];
 
 			//Do meta tiles if possible
-			if (PlaceMetaTile(tile, matrix4X4, matrixInfo, colour, startLocalPos, endLocalPos, admin)) return;
+			if (PlaceMetaTile(tile, matrix4X4, matrixInfo, data.colour, startLocalPos, endLocalPos, admin)) return;
 
 			//If single clicking do only one tile
 			if (startLocalPos == endLocalPos)
 			{
-				PlaceTile(colour, tile as LayerTile, matrix4X4, matrixInfo, startLocalPos, admin);
+				PlaceTile(data.colour, tile as LayerTile, matrix4X4, matrixInfo, startLocalPos, admin);
 				return;
 			}
 
@@ -992,7 +992,7 @@ namespace AdminCommands
 				{
 					var localPos = new Vector3Int(xMin + i, yMin + j);
 
-					PlaceTile(colour, tile as LayerTile, matrix4X4, matrixInfo, localPos, admin);
+					PlaceTile(data.colour, tile as LayerTile, matrix4X4, matrixInfo, localPos, admin);
 				}
 			}
 		}
@@ -1080,28 +1080,27 @@ namespace AdminCommands
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdRemoveTile(Vector3Int startWorldPosition, Vector3Int endWorldPosition, int matrixId,
-			LayerType layerType, OverlayType overlayType, NetworkConnectionToClient sender = null)
+		public void CmdRemoveTile(GUI_DevTileChanger.RemoveStruct data, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 
-			var matrixInfo = MatrixManager.Get(matrixId);
+			var matrixInfo = MatrixManager.Get(data.matrixId);
 			if (matrixInfo == null || matrixInfo == MatrixInfo.Invalid)
 			{
 				Chat.AddExamineMsgFromServer(admin, "Invalid matrix!");
 				return;
 			}
 
-			startWorldPosition.z = 0;
-			endWorldPosition.z = 0;
+			data.startWorldPosition.z = 0;
+			data.endWorldPosition.z = 0;
 
-			var startLocalPos = MatrixManager.WorldToLocalInt(startWorldPosition, matrixInfo);
-			var endLocalPos = MatrixManager.WorldToLocalInt(endWorldPosition, matrixInfo);
+			var startLocalPos = MatrixManager.WorldToLocalInt(data.startWorldPosition, matrixInfo);
+			var endLocalPos = MatrixManager.WorldToLocalInt(data.endWorldPosition, matrixInfo);
 
 			//If single clicking do only remove one tile
 			if (startLocalPos == endLocalPos)
 			{
-				RemoveTile(layerType, matrixInfo, startLocalPos, overlayType);
+				RemoveTile(data.layerType, matrixInfo, startLocalPos, data.overlayType);
 				return;
 			}
 
@@ -1114,7 +1113,7 @@ namespace AdminCommands
 				for (int j = 0; j <= Math.Abs(startLocalPos.y - endLocalPos.y); j++)
 				{
 					var localPos = new Vector3Int(xMin + i, yMin + j);
-					RemoveTile(layerType, matrixInfo, localPos, overlayType);
+					RemoveTile(data.layerType, matrixInfo, localPos, data.overlayType);
 				}
 			}
 		}
@@ -1131,30 +1130,29 @@ namespace AdminCommands
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdColourTile(int categoryIndex, Vector3Int startWorldPosition,
-			Vector3Int endWorldPosition, int matrixId, Color? colour, NetworkConnectionToClient sender = null)
+		public void CmdColourTile(GUI_DevTileChanger.ColourStruct data, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 
-			var matrixInfo = MatrixManager.Get(matrixId);
+			var matrixInfo = MatrixManager.Get(data.matrixId);
 			if (matrixInfo == null || matrixInfo == MatrixInfo.Invalid)
 			{
 				Chat.AddExamineMsgFromServer(admin, "Invalid matrix!");
 				return;
 			}
 
-			startWorldPosition.z = 0;
-			endWorldPosition.z = 0;
+			data.startWorldPosition.z = 0;
+			data.endWorldPosition.z = 0;
 
-			var startLocalPos = MatrixManager.WorldToLocalInt(startWorldPosition, matrixInfo);
-			var endLocalPos = MatrixManager.WorldToLocalInt(endWorldPosition, matrixInfo);
+			var startLocalPos = MatrixManager.WorldToLocalInt(data.startWorldPosition, matrixInfo);
+			var endLocalPos = MatrixManager.WorldToLocalInt(data.endWorldPosition, matrixInfo);
 
-			var category = TileCategorySO.Instance.TileCategories[categoryIndex];
+			var category = TileCategorySO.Instance.TileCategories[data.categoryIndex];
 
 			//If single clicking do only remove one tile
 			if (startLocalPos == endLocalPos)
 			{
-				ColourTile(matrixInfo, startLocalPos, category.LayerType, colour);
+				ColourTile(matrixInfo, startLocalPos, category.LayerType, data.colour);
 				return;
 			}
 
@@ -1167,7 +1165,7 @@ namespace AdminCommands
 				for (int j = 0; j <= Math.Abs(startLocalPos.y - endLocalPos.y); j++)
 				{
 					var localPos = new Vector3Int(xMin + i, yMin + j);
-					ColourTile(matrixInfo, localPos, category.LayerType, colour);
+					ColourTile(matrixInfo, localPos, category.LayerType, data.colour);
 				}
 			}
 		}
