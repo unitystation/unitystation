@@ -221,17 +221,17 @@ PrefabInstance:
     - target: {fileID: 8325943561578412539, guid: 8e4c205a853b5d44bb1b793530feaefe,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8325943561578412539, guid: 8e4c205a853b5d44bb1b793530feaefe,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8325943561578412539, guid: 8e4c205a853b5d44bb1b793530feaefe,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8325943561578412539, guid: 8e4c205a853b5d44bb1b793530feaefe,
         type: 3}
@@ -278,17 +278,17 @@ MonoBehaviour:
       - Bool: 1
         MappedNeeded: 1
         pipeType: 1
-        PortType: 0
-        flagLogic: 0
-      - Bool: 0
-        MappedNeeded: 0
-        pipeType: 1
-        PortType: 0
-        flagLogic: 0
-      - Bool: 0
-        MappedNeeded: 0
-        pipeType: 1
         PortType: 3
+        flagLogic: 0
+      - Bool: 0
+        MappedNeeded: 0
+        pipeType: 1
+        PortType: 0
+        flagLogic: 0
+      - Bool: 0
+        MappedNeeded: 0
+        pipeType: 1
+        PortType: 0
         flagLogic: 0
       - Bool: 0
         MappedNeeded: 0
