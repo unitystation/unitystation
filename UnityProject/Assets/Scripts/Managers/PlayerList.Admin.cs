@@ -335,7 +335,7 @@ public partial class PlayerList
 	public void RpcShowCharacterCreatorScreenRemotely(NetworkConnection target)
 	{
 		LobbyManager.Instance.SetActive(true);
-		LobbyManager.Instance.characterCustomization.SetActive(true);
+		LobbyManager.Instance.ShowCharacterEditor();
 	}
 
 	#region Login

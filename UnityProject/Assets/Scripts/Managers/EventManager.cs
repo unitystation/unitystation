@@ -132,6 +132,9 @@ public class EventManager : MonoBehaviour
 				category = Category.PlayerInventory;
 				break;
 			case Event.AccountLoggedOut:
+				category = Category.DatabaseAPI;
+				break;
+			case Event.ServerLoggedOut:
 				category = Category.Connections;
 				break;
 			case Event.PlayerRejoined:

@@ -26,6 +26,11 @@ namespace Lobby
 			rightButtonLabel = rightButton.GetComponentInChildren<Text>();
 		}
 
+		private void OnEnable()
+		{
+			Reset();
+		}
+
 		public void Reset()
 		{
 			textControl.text = "Loading...";
@@ -42,8 +47,6 @@ namespace Lobby
 
 		public void Show(LoadingPanelArgs args)
 		{
-			Reset();
-
 			SetText(args.Text);
 
 			if (args.LeftButtonCallback != null)

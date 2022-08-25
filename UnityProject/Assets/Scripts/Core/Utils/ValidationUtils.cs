@@ -1,10 +1,14 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 
 namespace Core.Utils
 {
+	/// <summary>
+	/// A collection of utility methods for value validation.
+	/// </summary>
 	public static class ValidationUtils
 	{
-		public enum StringValidateError
+		public enum ValidationError
 		{
 			None = 0,
 			NullOrWhitespace,
@@ -13,15 +17,62 @@ namespace Core.Utils
 		}
 
 		/// <summary>
+		/// Determine whether the given server address is considered a valid host name or address.
+		/// </summary>
+		/// <param name="port">address to validate</param>
+		/// <returns>true if valid</returns>
+		public static bool TryValidateAddress(string port, out ValidationError failReason)
+		{
+			if (string.IsNullOrWhiteSpace(port))
+			{
+				failReason = ValidationError.NullOrWhitespace;
+				return false;
+			}
+
+			UriHostNameType addressType = Uri.CheckHostName(port);
+			if (addressType == UriHostNameType.Unknown || addressType == UriHostNameType.Basic)
+			{
+				failReason = ValidationError.Invalid;
+				return false;
+			}
+
+			failReason = default;
+			return true;
+		}
+
+		/// <summary>
+		/// Determine whether the given server port is considered a valid port.
+		/// </summary>
+		/// <param name="port">port to validate</param>
+		/// <returns>true if valid</returns>
+		public static bool TryValidatePort(string port, out ValidationError failReason)
+		{
+			if (string.IsNullOrWhiteSpace(port))
+			{
+				failReason = ValidationError.NullOrWhitespace;
+				return false;
+			}
+
+			// If it can be represented as an unsigned 16-bit integer, it's valid.
+			if (ushort.TryParse(port, out _) == false) {
+				failReason = ValidationError.Invalid;
+				return false;
+			}
+
+			failReason = default;
+			return true;
+		}
+
+		/// <summary>
 		/// Determine whether the given email string is considered a valid email according to RFC 5322.
 		/// </summary>
 		/// <param name="email">email to validate</param>
 		/// <returns>true if valid</returns>
-		public static bool TryValidateEmail(string email, out StringValidateError failReason)
+		public static bool TryValidateEmail(string email, out ValidationError failReason)
 		{
 			if (string.IsNullOrWhiteSpace(email))
 			{
-				failReason = StringValidateError.NullOrWhitespace;
+				failReason = ValidationError.NullOrWhitespace;
 				return false;
 			}
 
@@ -30,7 +81,7 @@ namespace Core.Utils
 
 			if (new Regex(pattern).IsMatch(email) == false)
 			{
-				failReason = StringValidateError.None;
+				failReason = ValidationError.None;
 				return false;
 			}
 
@@ -43,24 +94,24 @@ namespace Core.Utils
 		/// </summary>
 		/// <param name="username">the username to validate</param>
 		/// <returns>true if valid</returns>
-		public static bool TryValidateUsername(string username, out StringValidateError failReason)
+		public static bool TryValidateUsername(string username, out ValidationError failReason)
 		{
 			if (string.IsNullOrWhiteSpace(username))
 			{
-				failReason = StringValidateError.NullOrWhitespace;
+				failReason = ValidationError.NullOrWhitespace;
 				return false;
 			}
 
 			// TODO: consider determining actual minimum length.
 			if (username.Length < 3)
 			{
-				failReason = StringValidateError.TooShort;
+				failReason = ValidationError.TooShort;
 				return false;
 			}
 
 			// TODO: consider a regex test to ensure legal characters only.
 
-			failReason = StringValidateError.None;
+			failReason = ValidationError.None;
 			return true;
 		}
 
@@ -69,24 +120,24 @@ namespace Core.Utils
 		/// </summary>
 		/// <param name="password">the password to validate</param>
 		/// <returns>true if valid</returns>
-		public static bool TryValidatePassword(string password, out StringValidateError failReason)
+		public static bool TryValidatePassword(string password, out ValidationError failReason)
 		{
 			if (string.IsNullOrWhiteSpace(password))
 			{
-				failReason = StringValidateError.NullOrWhitespace;
+				failReason = ValidationError.NullOrWhitespace;
 				return false;
 			}
 
 			// TODO: consider determining actual minimum length.
 			if (password.Length < 3)
 			{
-				failReason = StringValidateError.TooShort;
+				failReason = ValidationError.TooShort;
 				return false;
 			}
 
 			// TODO: consider a regex test to ensure legal characters only.
 
-			failReason = StringValidateError.None;
+			failReason = ValidationError.None;
 			return true;
 		}
 	}

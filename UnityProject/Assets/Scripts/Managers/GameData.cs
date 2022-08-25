@@ -5,8 +5,6 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using DatabaseAPI;
-using Firebase.Auth;
-using Firebase.Extensions;
 using Lobby;
 using Managers;
 using Shared.Util;
@@ -234,11 +232,11 @@ public class GameData : MonoBehaviour
 		bool loggedIn = await LobbyManager.Instance.TryAutoLogin();
 		if (loggedIn)
 		{
-			LobbyManager.Instance.lobbyDialogue.ShowMainPanel();
+			LobbyManager.UI.ShowMainPanel();
 		}
 		else
 		{
-			LobbyManager.Instance.lobbyDialogue.ShowLoginPanel();
+			LobbyManager.UI.ShowLoginPanel();
 		}
 	}
 

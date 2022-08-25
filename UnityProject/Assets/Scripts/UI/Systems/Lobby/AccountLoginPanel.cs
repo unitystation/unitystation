@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 using Core.Utils;
-using System.Collections.Generic;
 
 namespace Lobby
 {
@@ -18,8 +18,13 @@ namespace Lobby
 		private Text errorControl = default;
 		[SerializeField]
 		private Toggle autoLoginControl = default;
+
+		[SerializeField]
+		private Button createButtonControl = default;
 		[SerializeField]
 		private Button loginButtonControl = default;
+		[SerializeField]
+		private Button exitButtonControl = default;
 
 		public bool IsAutoLoginEnabled => autoLoginControl.isOn;
 
@@ -33,7 +38,9 @@ namespace Lobby
 			passwordControl.onEndEdit.AddListener((_) => ValidatePassword());
 			passwordControl.onSubmit.AddListener((_) => TryLogin());
 
-			loginButtonControl.onClick.AddListener(() => OnLoginBtn());
+			createButtonControl.onClick.AddListener(OnCreateBtn);
+			loginButtonControl.onClick.AddListener(OnLoginBtn);
+			exitButtonControl.onClick.AddListener(OnExitBtn);
 		}
 
 		private void Start()
@@ -62,10 +69,10 @@ namespace Lobby
 
 		private bool ValidateEmail()
 		{
-			var errorStrings = new Dictionary<ValidationUtils.StringValidateError, string>
+			var errorStrings = new Dictionary<ValidationUtils.ValidationError, string>
 			{
-				{ ValidationUtils.StringValidateError.NullOrWhitespace, "Email address is required." },
-				{ ValidationUtils.StringValidateError.Invalid, "Email address is invalid." },
+				{ ValidationUtils.ValidationError.NullOrWhitespace, "Email address is required." },
+				{ ValidationUtils.ValidationError.Invalid, "Email address is invalid." },
 			};
 
 			if (ValidationUtils.TryValidateEmail(emailControl.text, out var failReason) == false)
@@ -80,11 +87,11 @@ namespace Lobby
 
 		private bool ValidatePassword()
 		{
-			var errorStrings = new Dictionary<ValidationUtils.StringValidateError, string>
+			var errorStrings = new Dictionary<ValidationUtils.ValidationError, string>
 			{
-				{ ValidationUtils.StringValidateError.NullOrWhitespace, "Password is required." },
-				{ ValidationUtils.StringValidateError.TooShort, "Password is too short." },
-				{ ValidationUtils.StringValidateError.Invalid, "Password is invalid." },
+				{ ValidationUtils.ValidationError.NullOrWhitespace, "Password is required." },
+				{ ValidationUtils.ValidationError.TooShort, "Password is too short." },
+				{ ValidationUtils.ValidationError.Invalid, "Password is invalid." },
 			};
 
 			if (ValidationUtils.TryValidatePassword(passwordControl.text, out var failReason) == false)
@@ -105,6 +112,18 @@ namespace Lobby
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			TryLogin();
+		}
+
+		private void OnCreateBtn()
+		{
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			LobbyManager.UI.ShowAccountCreatePanel();
+		}
+
+		private void OnExitBtn()
+		{
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			LobbyManager.Instance.Quit();
 		}
 	}
 }

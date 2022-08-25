@@ -1,16 +1,16 @@
-﻿using DatabaseAPI;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using DatabaseAPI;
 
 namespace Lobby
 {
 	/// <summary>
-	/// Scripting for the maiun menu panel found in the lobby UI.
+	/// Scripting for the main menu panel found in the lobby UI.
 	/// </summary>
 	public class MainMenuPanel : MonoBehaviour
 	{
 		[SerializeField]
-		private Button joinButton = default; // TODO: still need to assign default?
+		private Button joinButton = default;
 		[SerializeField]
 		private Button hostButton = default;
 		[SerializeField]
@@ -25,8 +25,6 @@ namespace Lobby
 		[SerializeField]
 		private Text signedInAsText = default;
 
-		private GUI_LobbyDialogue lobbyDialogue; // TODO
-
 		private void Awake()
 		{
 			joinButton.onClick.AddListener(OnJoinBtn);
@@ -37,7 +35,12 @@ namespace Lobby
 			exitButton.onClick.AddListener(OnExitBtn);
 		}
 
-		public void SetSignedInText()
+		private void OnEnable()
+		{
+			SetSignedInText();
+		}
+
+		private void SetSignedInText()
 		{
 			signedInAsText.text = $"Logged in as {ServerData.Auth.CurrentUser.DisplayName}";
 		}
@@ -45,7 +48,7 @@ namespace Lobby
 		private void OnJoinBtn()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			lobbyDialogue.ShowJoinPanel();
+			LobbyManager.UI.ShowJoinPanel();
 		}
 
 		private void OnHostBtn()
@@ -57,13 +60,13 @@ namespace Lobby
 		private void OnInfoBtn()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			lobbyDialogue.ShowInformationPanel();
+			LobbyManager.UI.ShowInformationPanel();
 		}
 
 		private void OnControlInfoBtn()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			lobbyDialogue.ShowControlInformationPanel();
+			LobbyManager.UI.ShowControlInformationPanel();
 		}
 
 		private void OnLogoutBtn()

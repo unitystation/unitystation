@@ -1,14 +1,18 @@
-using UnityEngine;
-using UI.CharacterCreator;
-using Shared.Managers;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
-using Managers;
-using IgnoranceTransport;
+using Newtonsoft.Json;
+using UnityEngine;
 using Mirror;
-using DatabaseAPI;
+using IgnoranceTransport;
 using Firebase.Auth;
 using Firebase.Extensions;
-using System;
+using Shared.Managers;
+using Managers;
+using DatabaseAPI;
+using UI.CharacterCreator;
+using System.Linq;
 
 namespace Lobby
 {
@@ -17,15 +21,25 @@ namespace Lobby
 	/// </summary>
 	public class LobbyManager : SingletonManager<LobbyManager>
 	{
-		public CharacterCustomization characterCustomization;
+		[SerializeField]
+		private CharacterCustomization characterCustomization;
+		[SerializeField]
+		private GUI_LobbyDialogue lobbyDialogue;
 
-		public GUI_LobbyDialogue lobbyDialogue;
+		public static GUI_LobbyDialogue UI => Instance.lobbyDialogue;
+
+		public List<ConnectionHistory> ServerJoinHistory { get; private set; }
+
+		// Set true by custom network manager if disconnected from server
+		public bool WasDisconnected { get; set; } = false;
 
 		#region Lifecycle
 
 		public override void Start()
 		{
 			base.Start();
+
+			LoadHistoricalServers();
 
 			DetermineUIScale();
 			UIManager.Display.SetScreenForLobby();
@@ -168,6 +182,11 @@ namespace Lobby
 
 		#endregion
 
+		public void ShowCharacterEditor()
+		{
+			characterCustomization.SetActive(true);
+		}
+
 		public void JoinServer(string address, ushort port)
 		{
 			lobbyDialogue.ShowLoadingPanel("Joining game...");
@@ -178,7 +197,7 @@ namespace Lobby
 			{
 				// Init network client
 				Logger.LogFormat("Client trying to connect to {0}:{1}", Category.Connections, address, port);
-				lobbyDialogue.LogConnectionToHistory(address, port);
+				LogServerConnHistory(address, port);
 
 				CustomNetworkManager.Instance.networkAddress = address;
 
@@ -198,7 +217,7 @@ namespace Lobby
 
 		public void HostServer()
 		{
-			lobbyDialogue.ShowLoadingPanel("Hosting a game....");
+			lobbyDialogue.ShowLoadingPanel("Hosting a game...");
 			LoadingScreenManager.LoadFromLobby(CustomNetworkManager.Instance.StartHost);
 		}
 
@@ -243,6 +262,99 @@ namespace Lobby
 					lobbyDialogue.transform.localScale *= 0.9f;
 				}
 			}
+		}
+
+		#region Server History
+
+		private static string HistoryFile => $"{Application.persistentDataPath}{Path.DirectorySeparatorChar}ConnectionHistory.json";
+
+		private void LoadHistoricalServers()
+		{
+			if (File.Exists(HistoryFile))
+			{
+				string json = File.ReadAllText(HistoryFile);
+
+				ServerJoinHistory = JsonConvert.DeserializeObject<List<ConnectionHistory>>(json);
+				ServerJoinHistory ??= new List<ConnectionHistory>();
+			}
+		}
+
+		public void LogServerConnHistory(string address, ushort port)
+		{
+			var entry = new ConnectionHistory
+			{
+				Address = address,
+				Port = port,
+			};
+
+			var i = ServerJoinHistory.IndexOf(entry);
+			if (i != -1)
+			{
+				// Move to start of list
+				ServerJoinHistory.RemoveAt(i);
+			}
+
+			ServerJoinHistory.Insert(0, entry);
+
+			if (ServerJoinHistory.Count >= 20)
+			{
+				// Remove older entries
+				ServerJoinHistory.RemoveRange(20, ServerJoinHistory.Count - 20);
+			}
+
+			SaveServerHistoryFile();
+		}
+
+		public void ConnectToLastServer()
+		{
+			var entry = ServerJoinHistory.FirstOrDefault();
+
+			JoinServer(entry.Address, entry.Port);
+		}
+
+		private void SaveServerHistoryFile()
+		{
+			string json = JsonConvert.SerializeObject(ServerJoinHistory);
+			if (File.Exists(HistoryFile))
+			{
+				File.Delete(HistoryFile);
+			}
+			while (File.Exists(HistoryFile) == false) // TODO isn't this quite dangerous??
+			{
+				var fs = new FileStream(HistoryFile, FileMode.Create); //To avoid share rule violations
+				fs.Dispose();
+				File.WriteAllText(HistoryFile, json);
+			}
+		}
+
+		#endregion
+	}
+
+	public struct ConnectionHistory
+	{
+		[JsonProperty("IP")]
+		public string Address;
+
+		[JsonProperty("Port")]
+		public ushort Port;
+
+		public override string ToString()
+		{
+			return $"{Address}:{Port}";
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (obj is ConnectionHistory other) {
+				return other.Address == Address && other.Port == Port;
+			}
+
+			return false;
+		}
+
+		public override int GetHashCode()
+		{
+			return ToString().GetHashCode(); // lazy
 		}
 	}
 }

@@ -8,6 +8,9 @@ using Firebase.Auth;
 
 namespace Lobby
 {
+	/// <summary>
+	/// Scripting for the account creation panel found in the lobby UI.
+	/// </summary>
 	public class AccountCreatePanel : MonoBehaviour
 	{
 		[SerializeField]
@@ -18,19 +21,26 @@ namespace Lobby
 		private InputField passwordControl = default;
 
 		[SerializeField]
-		private Text errorControl = default; // TODO create this in prefab
+		private Text errorControl = default;
 
 		[SerializeField]
 		private Button backButton = default;
 		[SerializeField]
-		private Button createButton = default;
-
-		private GUI_LobbyDialogue lobbyDialogue;
+		private Button submitButton = default;
 
 		private void Awake()
 		{
+			emailControl.onValueChanged.AddListener((_) => ClearError());
+			emailControl.onEndEdit.AddListener((_) => ValidateEmail());
+
+			passwordControl.onValueChanged.AddListener((_) => ClearError());
+			passwordControl.onEndEdit.AddListener((_) => ValidatePassword());
+
+			usernameControl.onValueChanged.AddListener((_) => ClearError());
+			usernameControl.onEndEdit.AddListener((_) => ValidateUsername());
+
 			backButton.onClick.AddListener(OnBackBtn);
-			createButton.onClick.AddListener(OnCreateBtn);
+			submitButton.onClick.AddListener(OnSubmitBtn);
 		}
 
 		private void Reset()
@@ -55,10 +65,10 @@ namespace Lobby
 
 		private bool ValidateEmail()
 		{
-			var errorStrings = new Dictionary<ValidationUtils.StringValidateError, string>
+			var errorStrings = new Dictionary<ValidationUtils.ValidationError, string>
 			{
-				{ ValidationUtils.StringValidateError.NullOrWhitespace, "Email address is required." },
-				{ ValidationUtils.StringValidateError.Invalid, "Email address is invalid." },
+				{ ValidationUtils.ValidationError.NullOrWhitespace, "Email address is required." },
+				{ ValidationUtils.ValidationError.Invalid, "Email address is invalid." },
 			};
 
 			if (ValidationUtils.TryValidateEmail(emailControl.text, out var failReason) == false)
@@ -73,11 +83,11 @@ namespace Lobby
 
 		private bool ValidateUsername()
 		{
-			var errorStrings = new Dictionary<ValidationUtils.StringValidateError, string>
+			var errorStrings = new Dictionary<ValidationUtils.ValidationError, string>
 			{
-				{ ValidationUtils.StringValidateError.NullOrWhitespace, "Username is required." },
-				{ ValidationUtils.StringValidateError.TooShort, "Username is too short." },
-				{ ValidationUtils.StringValidateError.Invalid, "Username is invalid." },
+				{ ValidationUtils.ValidationError.NullOrWhitespace, "Username is required." },
+				{ ValidationUtils.ValidationError.TooShort, "Username is too short." },
+				{ ValidationUtils.ValidationError.Invalid, "Username is invalid." },
 			};
 
 			if (ValidationUtils.TryValidatePassword(passwordControl.text, out var failReason) == false)
@@ -92,11 +102,11 @@ namespace Lobby
 
 		private bool ValidatePassword()
 		{
-			var errorStrings = new Dictionary<ValidationUtils.StringValidateError, string>
+			var errorStrings = new Dictionary<ValidationUtils.ValidationError, string>
 			{
-				{ ValidationUtils.StringValidateError.NullOrWhitespace, "Password is required." },
-				{ ValidationUtils.StringValidateError.TooShort, "Password is too short." },
-				{ ValidationUtils.StringValidateError.Invalid, "Password is invalid." },
+				{ ValidationUtils.ValidationError.NullOrWhitespace, "Password is required." },
+				{ ValidationUtils.ValidationError.TooShort, "Password is too short." },
+				{ ValidationUtils.ValidationError.Invalid, "Password is invalid." },
 			};
 
 			if (ValidationUtils.TryValidatePassword(passwordControl.text, out var failReason) == false)
@@ -119,7 +129,7 @@ namespace Lobby
 		{
 			if (ValidateInputs() == false) return;
 
-			lobbyDialogue.ShowLoadingPanel(new LoadingPanelArgs {
+			LobbyManager.UI.ShowLoadingPanel(new LoadingPanelArgs {
 				Text = "Creating your account...",
 				RightButtonText = "Cancel",
 				// TODO: implement cancellation
@@ -133,12 +143,12 @@ namespace Lobby
 
 		private void ResendEmail()
 		{
-			lobbyDialogue.ShowInfoPanel(new InfoPanelArgs
+			LobbyManager.UI.ShowInfoPanel(new InfoPanelArgs
 			{
 				Heading = "Email Resend",
 				Text = $"A new verification email will be sent to {FirebaseAuth.DefaultInstance.CurrentUser.Email}.",
 				LeftButtonText = "Back",
-				LeftButtonCallback = lobbyDialogue.ShowLoginPanel,
+				LeftButtonCallback = LobbyManager.UI.ShowLoginPanel,
 			});
 
 			FirebaseAuth.DefaultInstance.CurrentUser.SendEmailVerificationAsync();
@@ -147,19 +157,19 @@ namespace Lobby
 
 		private void ShowInfoPanelSuccess(string email)
 		{
-			lobbyDialogue.ShowInfoPanel(new InfoPanelArgs
+			LobbyManager.UI.ShowInfoPanel(new InfoPanelArgs
 			{
 				Heading = "Account Created",
 				Text = $"Success! An email will be sent to {email}.<br>" +
 					$"Please click the link in the email to verify your account before signing in.",
 				LeftButtonText = "Back",
-				LeftButtonCallback = lobbyDialogue.ShowLoginPanel,
+				LeftButtonCallback = LobbyManager.UI.ShowLoginPanel,
 				RightButtonText = "Resend Email",
 				RightButtonCallback = ResendEmail,
 			});
 
 			GameData.LoggedInUsername = usernameControl.text; // TODO why
-			lobbyDialogue.LoginUIScript.SetEmailField(usernameControl.text);
+			LobbyManager.UI.LoginUIScript.SetEmailField(usernameControl.text); // TODO don't like this
 
 			
 			PlayerPrefs.SetString(PlayerPrefKeys.AccountEmail, emailControl.text);
@@ -170,13 +180,13 @@ namespace Lobby
 
 		private void ShowInfoPanelFail(string errorText)
 		{
-			lobbyDialogue.ShowInfoPanel(new InfoPanelArgs
+			LobbyManager.UI.ShowInfoPanel(new InfoPanelArgs
 			{
 				Heading = "Account Creation Failed",
 				Text = errorText,
 				IsError = true,
 				LeftButtonText = "Back",
-				LeftButtonCallback = lobbyDialogue.ShowCreationPanel,
+				LeftButtonCallback = LobbyManager.UI.ShowAccountCreatePanel,
 				RightButtonText = "Retry",
 				RightButtonCallback = CreateAccount,
 			});
@@ -187,10 +197,10 @@ namespace Lobby
 		private void OnBackBtn()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			lobbyDialogue.ShowLoginPanel();
+			LobbyManager.UI.ShowLoginPanel();
 		}
 
-		private void OnCreateBtn()
+		private void OnSubmitBtn()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			if (ValidateInputs())

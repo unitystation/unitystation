@@ -28,6 +28,11 @@ namespace Lobby
 			rightButtonLabel = rightButton.GetComponentInChildren<Text>();
 		}
 
+		private void OnEnable()
+		{
+			Reset();
+		}
+
 		public void Reset()
 		{
 			headingControl.text = "Information";
@@ -46,8 +51,6 @@ namespace Lobby
 
 		public void Show(InfoPanelArgs args)
 		{
-			Reset();
-
 			SetHeading(args.Heading);
 			SetText(args.Text, args.IsError);
 
