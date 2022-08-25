@@ -81,7 +81,7 @@ namespace Core.Utils
 
 			if (new Regex(pattern).IsMatch(email) == false)
 			{
-				failReason = ValidationError.None;
+				failReason = ValidationError.Invalid;
 				return false;
 			}
 

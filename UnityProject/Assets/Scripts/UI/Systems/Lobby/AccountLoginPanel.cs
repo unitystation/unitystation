@@ -48,7 +48,37 @@ namespace Lobby
 			emailControl.text = PlayerPrefs.GetString(PlayerPrefKeys.AccountEmail);
 		}
 
-		public void SetEmailField(string newEmail) => emailControl.text = newEmail;
+		private void OnEnable()
+		{
+			Reset();
+
+			if (string.IsNullOrEmpty(emailControl.text))
+			{
+				emailControl.text = PlayerPrefs.GetString(PlayerPrefKeys.AccountEmail);
+			}
+
+			if (string.IsNullOrEmpty(emailControl.text))
+			{
+				emailControl.Select();
+				emailControl.ActivateInputField();
+			}
+			else
+			{
+				passwordControl.Select();
+				passwordControl.ActivateInputField();
+			}
+		}
+
+		private void OnDisable()
+		{
+			passwordControl.text = string.Empty;
+		}
+
+		private void Reset()
+		{
+			passwordControl.text = string.Empty;
+			ClearError();
+		}
 
 		private void TryLogin()
 		{

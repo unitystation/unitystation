@@ -38,6 +38,7 @@ namespace Lobby
 		private void OnEnable()
 		{
 			SetSignedInText();
+			joinButton.Select();
 		}
 
 		private void SetSignedInText()

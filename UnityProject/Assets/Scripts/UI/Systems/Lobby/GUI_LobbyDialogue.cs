@@ -11,6 +11,8 @@ namespace Lobby
 
 		[SerializeField]
 		private Text dialogueTitle = default;
+		[SerializeField]
+		private Transform panelContainer;
 
 		// Static panels
 		[SerializeField]
@@ -133,7 +135,7 @@ namespace Lobby
 		{
 			ClearTitle();
 
-			foreach (GameObject panel in transform)
+			foreach (Transform panel in panelContainer)
 			{
 				panel.SetActive(false);
 			}

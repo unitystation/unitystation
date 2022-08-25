@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Firebase.Auth;
 using Core.Utils;
 using DatabaseAPI;
-using Firebase.Auth;
 
 namespace Lobby
 {
@@ -43,11 +43,20 @@ namespace Lobby
 			submitButton.onClick.AddListener(OnSubmitBtn);
 		}
 
+		private void OnEnable()
+		{
+			ClearError();
+			emailControl.Select();
+			emailControl.ActivateInputField();
+		}
+
 		private void Reset()
 		{
 			emailControl.text = string.Empty;
 			usernameControl.text = string.Empty;
 			passwordControl.text = string.Empty;
+
+			ClearError();
 		}
 
 		#region Validation
@@ -90,7 +99,7 @@ namespace Lobby
 				{ ValidationUtils.ValidationError.Invalid, "Username is invalid." },
 			};
 
-			if (ValidationUtils.TryValidatePassword(passwordControl.text, out var failReason) == false)
+			if (ValidationUtils.TryValidateUsername(usernameControl.text, out var failReason) == false)
 			{
 				SetError(errorStrings[failReason]);
 				return false;
@@ -137,41 +146,37 @@ namespace Lobby
 			});
 
 			ServerData.TryCreateAccount(usernameControl.text, passwordControl.text, emailControl.text,
-					// TODO: TryCreateAccount expects CharacterSheet param for Success... should be account stuff
-					(_) => ShowInfoPanelSuccess(emailControl.text), ShowInfoPanelFail);
+					ShowInfoPanelSuccess,
+					ShowInfoPanelFail);
 		}
 
-		private void ResendEmail()
+		private void ResendEmail(string email)
 		{
+			FirebaseAuth.DefaultInstance.CurrentUser.SendEmailVerificationAsync();
+			FirebaseAuth.DefaultInstance.SignOut();
+
 			LobbyManager.UI.ShowInfoPanel(new InfoPanelArgs
 			{
 				Heading = "Email Resend",
-				Text = $"A new verification email will be sent to {FirebaseAuth.DefaultInstance.CurrentUser.Email}.",
+				Text = $"A new verification email will be sent to \n<b>{email}</b>",
 				LeftButtonText = "Back",
 				LeftButtonCallback = LobbyManager.UI.ShowLoginPanel,
 			});
-
-			FirebaseAuth.DefaultInstance.CurrentUser.SendEmailVerificationAsync();
-			FirebaseAuth.DefaultInstance.SignOut();
 		}
 
-		private void ShowInfoPanelSuccess(string email)
+		private void ShowInfoPanelSuccess(FirebaseUser account)
 		{
 			LobbyManager.UI.ShowInfoPanel(new InfoPanelArgs
 			{
 				Heading = "Account Created",
-				Text = $"Success! An email will be sent to {email}.<br>" +
+				Text = $"Success! An email will be sent to\n<b>{account.Email}</b>\n\n" +
 					$"Please click the link in the email to verify your account before signing in.",
 				LeftButtonText = "Back",
 				LeftButtonCallback = LobbyManager.UI.ShowLoginPanel,
 				RightButtonText = "Resend Email",
-				RightButtonCallback = ResendEmail,
+				RightButtonCallback = () => ResendEmail(account.Email),
 			});
 
-			GameData.LoggedInUsername = usernameControl.text; // TODO why
-			LobbyManager.UI.LoginUIScript.SetEmailField(usernameControl.text); // TODO don't like this
-
-			
 			PlayerPrefs.SetString(PlayerPrefKeys.AccountEmail, emailControl.text);
 			PlayerPrefs.Save();
 

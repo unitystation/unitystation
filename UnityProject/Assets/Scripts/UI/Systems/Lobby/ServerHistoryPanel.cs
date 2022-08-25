@@ -48,11 +48,11 @@ namespace Lobby
 
 		private void ClearEntries()
 		{
-			foreach (GameObject entry in entriesContainer.transform)
+			foreach (Transform entry in entriesContainer.transform)
 			{
-				if (entry == historyLogTemplate) continue;
+				if (entry.gameObject == historyLogTemplate) continue;
 
-				Destroy(entry);
+				Destroy(entry.gameObject);
 			}
 		}
 	}

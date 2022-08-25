@@ -46,6 +46,7 @@ namespace Lobby
 		private void OnEnable()
 		{
 			LoadLastServerDetails();
+			joinButton.Select();
 		}
 
 		private void LoadLastServerDetails()
