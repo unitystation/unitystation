@@ -17,7 +17,7 @@ namespace Systems.Research
 
 		public override void OnEffect(PlayerScript player, BodyPart part = null)
 		{
-			player.registerTile.ServerStun(StunDuration, DropItems, ArmourBlockable, StopMovement);
+			player.RegisterPlayer.ServerStun(StunDuration, DropItems, ArmourBlockable, StopMovement);
 		}
 	}
 }

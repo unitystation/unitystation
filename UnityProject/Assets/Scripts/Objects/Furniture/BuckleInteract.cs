@@ -129,7 +129,7 @@ namespace Objects
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Click01, gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
 			if (forceLayingDown)
 			{
-				playerScript.registerTile.ServerLayDown();
+				playerScript.RegisterPlayer.ServerLayDown();
 			}
 
 			objectPhysics.BuckleObjectToThis(playerScript.playerMove);

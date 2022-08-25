@@ -307,7 +307,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	private void ThrowEnding(UniversalObjectPhysics thing)
 	{
-		if (playerScript.registerTile.IsLayingDown)
+		if (playerScript.RegisterPlayer.IsLayingDown)
 		{
 			transform.localRotation = Quaternion.Euler(0, 0, 90);
 		}
@@ -371,10 +371,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public void RemoveLeg(IMovementEffect oldLeg)
 	{
 		legs.Remove(oldLeg);
-		if (legs.Count == 0)
+
+		if (legs.Count == 0 && TryGetComponent<RegisterPlayer>(out var registerPlayer))
 		{
-			RequestRest.Send(true);
+			registerPlayer.ServerCheckStandingChange(true);
 		}
+
 		UpdateSpeeds();
 	}
 

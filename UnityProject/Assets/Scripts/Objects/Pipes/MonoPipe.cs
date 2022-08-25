@@ -212,7 +212,7 @@ namespace Objects.Atmospherics
 				return;
 			}
 
-			virtualContainer.Setup(pipeData, interaction.PerformerPlayerScript.registerTile);
+			virtualContainer.Setup(pipeData, interaction.PerformerPlayerScript.RegisterPlayer);
 
 			// Transfer contents
 			if (container.GameObject.TryGetComponent<ObjectContainer>(out var objectContainer))

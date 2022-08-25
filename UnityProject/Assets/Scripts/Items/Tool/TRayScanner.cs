@@ -130,7 +130,7 @@ namespace Items.Tool
 			if(PlayerManager.LocalPlayerScript == null) return;
 
 			if(pickupable.ItemSlot == null || pickupable.ItemSlot.Player == null ||
-			   pickupable.ItemSlot.Player != PlayerManager.LocalPlayerScript.registerTile) return;
+			   pickupable.ItemSlot.Player != PlayerManager.LocalPlayerScript.RegisterPlayer) return;
 
 			DoState(currentMode);
 		}

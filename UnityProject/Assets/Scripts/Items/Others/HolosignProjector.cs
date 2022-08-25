@@ -127,7 +127,7 @@ namespace Items.Others
 
 		private bool ValidatePosition(PositionalHandApply interaction)
 		{
-			var matrixAt = MatrixManager.AtPoint(interaction.WorldPositionTarget, true, interaction.PerformerPlayerScript.registerTile.Matrix.MatrixInfo);
+			var matrixAt = MatrixManager.AtPoint(interaction.WorldPositionTarget, true, interaction.PerformerPlayerScript.RegisterPlayer.Matrix.MatrixInfo);
 			var holosignsAtPos = matrixAt.Matrix.GetFirst<Holosign>(interaction.TargetPosition.To3Int(), true);
 
 			if (holosignsAtPos != null)

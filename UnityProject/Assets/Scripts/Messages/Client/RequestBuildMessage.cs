@@ -80,7 +80,7 @@ namespace Messages.Client
 			void ProgressComplete()
 			{
 				var builtObject =
-					entry.ServerBuild(SpawnDestination.At(playerScript.registerTile), hasConstructionMenu);
+					entry.ServerBuild(SpawnDestination.At(playerScript.RegisterPlayer), hasConstructionMenu);
 
 				if(builtObject == null) return;
 
@@ -98,7 +98,7 @@ namespace Messages.Client
 			Chat.AddActionMsgToChat(playerObject, $"You begin building the {entry.Name}...",
 				$"{playerObject.ExpensiveName()} begins building the {entry.Name}...");
 			ToolUtils.ServerUseTool(playerObject, usedSlot.ItemObject,
-				ActionTarget.Tile(playerScript.registerTile.WorldPositionServer), entry.BuildTime,
+				ActionTarget.Tile(playerScript.RegisterPlayer.WorldPositionServer), entry.BuildTime,
 				ProgressComplete);
 		}
 

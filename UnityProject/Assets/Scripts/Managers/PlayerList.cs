@@ -137,7 +137,7 @@ public partial class PlayerList : NetworkBehaviour
 	/// </summary>
 	public List<PlayerInfo> GetPlayersOnMatrix(MatrixInfo matrix)
 	{
-		return InGamePlayers.FindAll(p => (p.Script != null) && p.Script.registerTile.Matrix.Id == matrix?.Id);
+		return InGamePlayers.FindAll(p => (p.Script != null) && p.Script.RegisterPlayer.Matrix.Id == matrix?.Id);
 	}
 
 	public PlayerInfo GetPlayerByID(string id)

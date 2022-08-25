@@ -150,7 +150,7 @@ public class Matrix : MonoBehaviour
 						continue;
 					}
 
-					player.registerTile.ServerSlip(true);
+					player.RegisterPlayer.ServerSlip(true);
 				}
 
 				//maybe shake items somehow, too

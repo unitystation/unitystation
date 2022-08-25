@@ -71,11 +71,11 @@ namespace UI.Items
 			}
 
 
-			positionCache = thisPlayerScript.registerTile.LocalPositionServer;
+			positionCache = thisPlayerScript.RegisterPlayer.LocalPositionServer;
 			if (!CanUncuff()) return;
 
 			var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.Unbuckle, false, false, true), TryUncuff);
-			bar.ServerStartProgress(thisPlayerScript.registerTile, resistTime, thisPlayerScript.gameObject);
+			bar.ServerStartProgress(thisPlayerScript.RegisterPlayer, resistTime, thisPlayerScript.gameObject);
 			Chat.AddActionMsgToChat(
 				thisPlayerScript.gameObject,
 				$"You are attempting to remove the cuffs. This takes up to {resistTime:0} seconds",
@@ -99,8 +99,8 @@ namespace UI.Items
 			if (playerHealth == null ||
 				playerHealth.ConsciousState == ConsciousState.DEAD ||
 				playerHealth.ConsciousState == ConsciousState.UNCONSCIOUS ||
-				thisPlayerScript.registerTile.IsSlippingServer ||
-				positionCache != thisPlayerScript.registerTile.LocalPositionServer)
+				thisPlayerScript.RegisterPlayer.IsSlippingServer ||
+				positionCache != thisPlayerScript.RegisterPlayer.LocalPositionServer)
 			{
 				return false;
 			}

@@ -495,7 +495,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 						if (PlayerManager.LocalPlayerScript == null) return;
 						if (Validations.IsInReachDistanceByPositions(
-							    PlayerManager.LocalPlayerScript.registerTile.WorldPosition,
+							    PlayerManager.LocalPlayerScript.RegisterPlayer.WorldPosition,
 							    interaction.WorldPositionTarget) == false) return;
 						if (MatrixManager.IsPassableAtAllMatricesOneTile(interaction.WorldPositionTarget.RoundToInt(),
 							    CustomNetworkManager.Instance._isServer) == false) return;

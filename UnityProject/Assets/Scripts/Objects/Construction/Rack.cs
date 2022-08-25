@@ -60,7 +60,7 @@ namespace Objects.Construction
 			// TODO: Make it less awkward by adding a serverdrop method that accepts absolute position instead of vector.
 			var targetTileWorldPosition = gameObject.TileWorldPosition();
 			var targetTileVector =
-				(Vector3Int)targetTileWorldPosition - interaction.PerformerPlayerScript.registerTile.WorldPositionServer;
+				(Vector3Int)targetTileWorldPosition - interaction.PerformerPlayerScript.RegisterPlayer.WorldPositionServer;
 			Inventory.ServerDrop(interaction.HandSlot, targetTileVector.To2Int());
 		}
 	}

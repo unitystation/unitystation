@@ -597,7 +597,7 @@ namespace Player
 			StandardProgressAction.Create(
 				craftProgressActionConfig,
 				() => TryToFinishCrafting(recipe, craftingActionParameters)
-			).ServerStartProgress(playerScript.registerTile, recipe.CraftingTime, playerScript.gameObject);
+			).ServerStartProgress(playerScript.RegisterPlayer, recipe.CraftingTime, playerScript.gameObject);
 		}
 
 		#endregion

@@ -288,7 +288,7 @@ public static class Validations
 			}
 
 			Logger.LogTraceFormat($"Not in reach! Target: {targetName} server pos:{worldPosition} "+
-				                  $"Player Name: {playerScript.playerName} Player pos:{playerScript.registerTile.WorldPositionServer} " +
+				                  $"Player Name: {playerScript.playerName} Player pos:{playerScript.RegisterPlayer.WorldPositionServer} " +
 								  $"(floating={isFloating})", Category.Exploits);
 		}
 
@@ -316,7 +316,7 @@ public static class Validations
 			//Use the smart range check which works better on moving matrices
 			if (regTarget != null)
 			{
-				result = IsReachableByRegisterTiles(playerScript.registerTile, regTarget, side == NetworkSide.Server, context: target);
+				result = IsReachableByRegisterTiles(playerScript.RegisterPlayer, regTarget, side == NetworkSide.Server, context: target);
 			}
 			else
 			{
@@ -335,7 +335,7 @@ public static class Validations
 			Vector3 playerWorldPos = playerScript.WorldPos;
 			if (TargetPosition != null)
 			{
-				result = IsReachableByPositions(playerWorldPos, TargetPosition.Value.To3().ToWorld(playerScript.registerTile.Matrix), side == NetworkSide.Server, context: target);
+				result = IsReachableByPositions(playerWorldPos, TargetPosition.Value.To3().ToWorld(playerScript.RegisterPlayer.Matrix), side == NetworkSide.Server, context: target);
 			}
 			else
 			{
@@ -672,7 +672,7 @@ public static class Validations
 		if (side == NetworkSide.Client)
 		{
 			//we don't know their exact health state and whether they are slipping, but we can guess if they're downed we can do this
-			var registerPlayer = playerScript.registerTile;
+			var registerPlayer = playerScript.RegisterPlayer;
 			var playerMove = playerScript.playerMove;
 			if (registerPlayer == null || playerMove == null) return false;
 			return registerPlayer.IsLayingDown || playerMove.IsCuffed;
@@ -681,7 +681,7 @@ public static class Validations
 		{
 			//find their exact conscious state, slipping state, cuffed state
 			var playerHealth = playerScript.playerHealth;
-			var registerPlayer = playerScript.registerTile;
+			var registerPlayer = playerScript.RegisterPlayer;
 			var playerMove = playerScript.playerMove;
 			if (playerHealth == null || playerMove == null || registerPlayer == null) return false;
 			return playerHealth.ConsciousState != ConsciousState.CONSCIOUS || registerPlayer.IsSlippingServer || playerMove.IsCuffed;

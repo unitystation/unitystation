@@ -936,7 +936,7 @@ namespace HealthV2
 				.SetOverallHealth(MaxHealth); //Set the player's overall health to their race's maxHealth.
 			RestartHeart();
 			playerScript.playerMove.allowInput = true; //Let them interact with the world again.
-			playerScript.registerTile.ServerStandUp();
+			playerScript.RegisterPlayer.ServerStandUp();
 			playerScript.ReturnGhostToBody();
 		}
 
@@ -1628,7 +1628,7 @@ namespace HealthV2
 
 		private void FastRegen()
 		{
-			playerScript.registerTile.ServerRemoveStun();
+			playerScript.RegisterPlayer.ServerRemoveStun();
 			if(OverallHealth > fastRegenThreshold) return;
 
 			HealDamageOnAll(null, fastRegenHeal, DamageType.Brute);

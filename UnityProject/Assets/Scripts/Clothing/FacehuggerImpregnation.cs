@@ -208,7 +208,7 @@ namespace Clothing
 			if (interaction.TargetObject.TryGetComponent<PlayerScript>(out var playerScript) == false) return;
 
 			//If not laying down small chance to hug and check for anti hugger items
-			bool success = (playerScript.registerTile.IsLayingDown == false && DMMath.Prob(80)
+			bool success = (playerScript.RegisterPlayer.IsLayingDown == false && DMMath.Prob(80)
 			                || FaceHugAction.HasAntihuggerItem(playerScript.Equipment)) == false;
 
 			interaction.PerformerPlayerScript.weaponNetworkActions.RpcMeleeAttackLerp(interaction.TargetVector, gameObject);
