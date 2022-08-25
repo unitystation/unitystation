@@ -1,0 +1,146 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4332416280850810126
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -5592012004282470109, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: rotatable
+      value: 
+      objectReference: {fileID: 5981825375216107588}
+    - target: {fileID: -5592012004282470109, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: pipeObject
+      value: 
+      objectReference: {fileID: 4405213657912395397, guid: 0ce04d2255009ed439a0cdba7a369368,
+        type: 3}
+    - target: {fileID: 3701280433139661901, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6cf6a417f1ee3c64a8d22d46ed493e4c,
+        type: 2}
+    - target: {fileID: 4512941224573635495, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: foreverID
+      value: 605dfcf2fdd8ae24ca75b48f39a26790
+      objectReference: {fileID: 0}
+    - target: {fileID: 6986793253136492712, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: initialName
+      value: manual Valve Fitting
+      objectReference: {fileID: 0}
+    - target: {fileID: 7271761278176277654, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8ac7653bf5639124597808f1fa7cd002,
+        type: 3}
+    - target: {fileID: 7271761278176277654, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7352139474868009662, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7352139474868009662, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7352139474868009662, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7352139474868009662, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7352139474868009662, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7352139474868009662, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7352139474868009662, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7352139474868009662, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7352139474868009662, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7352139474868009662, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7352139474868009662, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7352527561515242550, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.00000004371139
+      objectReference: {fileID: 0}
+    - target: {fileID: 7352527561515242550, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7352527561515242550, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7352527561515242550, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7357625900617566154, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: m_Name
+      value: GasManualValveFitting
+      objectReference: {fileID: 0}
+    - target: {fileID: 7462390220109396606, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 605dfcf2fdd8ae24ca75b48f39a26790
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c7c6619435930be4e91730eea5485a29, type: 3}
+--- !u!114 &5981825375216107588 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8006384031570052426, guid: c7c6619435930be4e91730eea5485a29,
+    type: 3}
+  m_PrefabInstance: {fileID: 4332416280850810126}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

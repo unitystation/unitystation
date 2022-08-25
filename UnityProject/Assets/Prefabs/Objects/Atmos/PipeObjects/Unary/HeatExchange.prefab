@@ -184,7 +184,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spritehandler: {fileID: 0}
-  SpawnOnDeconstruct: {fileID: 0}
+  SpawnOnDeconstruct: {fileID: 5441921274793921930, guid: f76261f957c52e845bc0856f2c6f8272,
+    type: 3}
   registerTile: {fileID: 6266835237918800915}
   pipeData:
     PipeLayer: 1
@@ -225,7 +226,7 @@ MonoBehaviour:
         Pressure: 0
         Volume: 2.5
         Temperature: 293.15
-    MonoPipe: {fileID: 0}
+    MonoPipe: {fileID: 3905221925973493106}
   Colour: {r: 1, g: 1, b: 1, a: 1}
   spawnedFromItem: 1
   directional: {fileID: 9059593038761234394}

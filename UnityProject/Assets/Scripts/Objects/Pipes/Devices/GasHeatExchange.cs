@@ -22,7 +22,7 @@ namespace Objects.Atmospherics
 			difference = Mathf.Clamp(difference, -maxTempExchange, maxTempExchange);
 
 			pipeData.mixAndVolume.Temperature += difference;
-			
+
 			foreach (var pipe in pipeData.ConnectedPipes)
 			{
 				pipe.mixAndVolume.Temperature += difference;
