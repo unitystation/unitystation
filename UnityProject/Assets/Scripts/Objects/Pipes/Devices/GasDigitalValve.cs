@@ -61,7 +61,10 @@ namespace Objects.Atmospherics
 			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.ConnectedPipes);
 		}
 
-		public void PowerNetworkUpdate(float voltage) { }
+		public void PowerNetworkUpdate(float voltage) 
+		{ 
+			//Voltage data not needed
+		}
 
 		public void StateUpdate(PowerState state)
 		{
