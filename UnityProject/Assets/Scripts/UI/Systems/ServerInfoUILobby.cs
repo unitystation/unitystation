@@ -59,7 +59,6 @@ namespace ServerInfo
 
         private void LoadNameAndDesc()
         {
-	        Debug.Log("called on start");
 	        var pathDesc = Path.Combine(Application.streamingAssetsPath, "config", "serverDesc.txt");
 	        var pathRules = Path.Combine(Application.streamingAssetsPath, "config", "serverRules.txt");
 
@@ -68,14 +67,11 @@ namespace ServerInfo
 
 	        if (File.Exists(pathDesc))
 	        {
-		        Debug.Log("found path desc");
 		        descText = File.ReadAllText(pathDesc);
 	        }
 	        if (File.Exists(pathRules))
 	        {
-		        Debug.Log("found rule desc");
 		        rulesText = File.ReadAllText(pathRules);
-		        Debug.Log(rulesText);
 	        }
 
 	        var nameText = ServerData.ServerConfig.ServerName;
@@ -95,7 +91,6 @@ namespace ServerInfo
 
         public void ClientSetValues(string newName, string newDesc, string newDiscordID, string rules)
         {
-	        Debug.Log("setting stuff on client");
 	        ServerName.text = newName;
 	        ServerDesc.text = newDesc;
 	        serverDiscordID = newDiscordID;
