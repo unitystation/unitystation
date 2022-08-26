@@ -56,12 +56,12 @@ namespace Lobby
 
 			if (args.LeftButtonCallback != null)
 			{
-				SetupLeftButton(args.LeftButtonCallback, args.LeftButtonText);
+				SetupLeftButton(args.LeftButtonCallback, args.LeftButtonLabel);
 			}
 
 			if (args.RightButtonCallback != null)
 			{
-				SetupRightButton(args.RightButtonCallback, args.RightButtonText);
+				SetupRightButton(args.RightButtonCallback, args.RightButtonLabel);
 			}
 		}
 
@@ -108,7 +108,7 @@ namespace Lobby
 		public bool IsError { get; set; }
 		public Action LeftButtonCallback { get; set; }
 		public Action RightButtonCallback { get; set; }
-		public string LeftButtonText { get; set; }
-		public string RightButtonText { get; set; }
+		public string LeftButtonLabel { get; set; }
+		public string RightButtonLabel { get; set; }
 	}
 }

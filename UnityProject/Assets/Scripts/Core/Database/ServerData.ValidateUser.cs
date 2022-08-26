@@ -12,20 +12,19 @@ namespace DatabaseAPI
 {
 	public partial class ServerData
 	{
-		public static async Task<bool> ValidateUser(FirebaseUser user, Action<string> successAction,
-			Action<string> errorAction)
+		public static async Task<bool> ValidateUser(FirebaseUser user, Action<string> errorAction)
 		{
 			if (GameData.IsHeadlessServer) return false;
 
 			await user.ReloadAsync();
 
-			if (!user.IsEmailVerified)
+			if (user.IsEmailVerified == false)
 			{
 				errorAction?.Invoke("Email Not Verified");
 				return false;
 			}
 
-			HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, ServerData.UserFirestoreURL);
+			var req = new HttpRequestMessage(HttpMethod.Get, ServerData.UserFirestoreURL);
 			req.Headers.Add("Authorization", $"Bearer {ServerData.IdToken}");
 
 			CancellationToken cancellationToken = new CancellationTokenSource(120000).Token;
@@ -38,7 +37,7 @@ namespace DatabaseAPI
 			catch (Exception e)
 			{
 				Logger.LogError($"Error Accessing Firestore: {e.Message}", Category.DatabaseAPI);
-				errorAction?.Invoke($"Error Accessing Firestore: {e.Message}");
+				errorAction?.Invoke($"Error accessing Firestore. Check your console (F5)");
 				return false;
 			}
 
@@ -90,7 +89,6 @@ namespace DatabaseAPI
 
 			PlayerManager.CurrentCharacterSheet = characterSettings;
 
-			successAction?.Invoke("Login success");
 			PlayerPrefs.SetString(PlayerPrefKeys.AccountEmail, user.Email);
 			PlayerPrefs.Save();
 			return true;

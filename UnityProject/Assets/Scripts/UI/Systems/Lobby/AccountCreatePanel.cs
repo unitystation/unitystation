@@ -140,7 +140,7 @@ namespace Lobby
 
 			LobbyManager.UI.ShowLoadingPanel(new LoadingPanelArgs {
 				Text = "Creating your account...",
-				RightButtonText = "Cancel",
+				RightButtonLabel = "Cancel",
 				// TODO: implement cancellation
 				RightButtonCallback = () => throw new NotImplementedException(),
 			});
@@ -155,13 +155,7 @@ namespace Lobby
 			FirebaseAuth.DefaultInstance.CurrentUser.SendEmailVerificationAsync();
 			FirebaseAuth.DefaultInstance.SignOut();
 
-			LobbyManager.UI.ShowInfoPanel(new InfoPanelArgs
-			{
-				Heading = "Email Resend",
-				Text = $"A new verification email will be sent to \n<b>{email}</b>",
-				LeftButtonText = "Back",
-				LeftButtonCallback = LobbyManager.UI.ShowLoginPanel,
-			});
+			LobbyManager.UI.ShowEmailResendPanel(email);
 		}
 
 		private void ShowInfoPanelSuccess(FirebaseUser account)
@@ -171,9 +165,9 @@ namespace Lobby
 				Heading = "Account Created",
 				Text = $"Success! An email will be sent to\n<b>{account.Email}</b>\n\n" +
 					$"Please click the link in the email to verify your account before signing in.",
-				LeftButtonText = "Back",
+				LeftButtonLabel = "Back",
 				LeftButtonCallback = LobbyManager.UI.ShowLoginPanel,
-				RightButtonText = "Resend Email",
+				RightButtonLabel = "Resend Email",
 				RightButtonCallback = () => ResendEmail(account.Email),
 			});
 
@@ -190,9 +184,9 @@ namespace Lobby
 				Heading = "Account Creation Failed",
 				Text = errorText,
 				IsError = true,
-				LeftButtonText = "Back",
+				LeftButtonLabel = "Back",
 				LeftButtonCallback = LobbyManager.UI.ShowAccountCreatePanel,
-				RightButtonText = "Retry",
+				RightButtonLabel = "Retry",
 				RightButtonCallback = CreateAccount,
 			});
 		}

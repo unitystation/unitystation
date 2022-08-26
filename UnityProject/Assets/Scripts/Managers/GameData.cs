@@ -112,7 +112,7 @@ public class GameData : MonoBehaviour
 		}
 
 		if (await TryJoinViaCmdArgs()) return;
-		_ = TryAutoLogin();
+		_ = LobbyManager.Instance.TryAutoLogin();
 	}
 
 	private void OnEnable()
@@ -225,19 +225,6 @@ public class GameData : MonoBehaviour
 
 		Logger.LogWarning("Logging in via stored account token failed.");
 		return false;
-	}
-
-	private async Task TryAutoLogin()
-	{
-		bool loggedIn = await LobbyManager.Instance.TryAutoLogin();
-		if (loggedIn)
-		{
-			LobbyManager.UI.ShowMainPanel();
-		}
-		else
-		{
-			LobbyManager.UI.ShowLoginPanel();
-		}
 	}
 
 	private bool CheckHeadlessState()

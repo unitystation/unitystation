@@ -1,4 +1,3 @@
-using System;
 using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -125,6 +124,71 @@ namespace Lobby
 			serverHistoryScript.SetActive(true);
 		}
 
+		public void ShowInformationPanel()
+		{
+			HideAllPanels();
+			SetTitle("Alpha");
+			informationPanel.SetActive(true);
+		}
+
+		public void ShowControlInformationPanel()
+		{
+			HideAllPanels();
+			SetTitle("Controls");
+			controlInformationPanel.SetActive(true);
+		}
+
+		public void ShowWrongVersion()
+		{
+			ShowInfoPanel(new InfoPanelArgs
+			{
+				IsError = true,
+				Heading = "Wrong Version",
+				Text = "This game client version does not match that of the server.",
+				LeftButtonLabel = "Back",
+				LeftButtonCallback = ShowJoinPanel,
+			});
+		}
+
+		public void ShowLoadingPanel(string loadingMessage)
+		{
+			ShowLoadingPanel(new LoadingPanelArgs
+			{
+				Text = loadingMessage,
+			});
+		}
+
+		public void ShowEmailResendPanel(string email)
+		{
+			LobbyManager.UI.ShowInfoPanel(new InfoPanelArgs
+			{
+				Heading = "Email Resend",
+				Text = $"A new verification email will be sent to \n<b>{email}</b>",
+				LeftButtonLabel = "Back",
+				LeftButtonCallback = LobbyManager.UI.ShowLoginPanel,
+			});
+		}
+
+		public void ShowLoginError(string msg)
+		{
+			var infoArgs = new InfoPanelArgs
+			{
+				IsError = true,
+				Heading = "Sign-in Failed",
+				Text = msg,
+				LeftButtonLabel = "Back",
+				LeftButtonCallback = ShowLoginPanel,
+			};
+
+			if (msg.Contains("Email Not Verified"))
+			{
+				infoArgs.RightButtonLabel = "Resend Email";
+				infoArgs.RightButtonCallback = LobbyManager.Instance.ResendEmail;
+			}
+
+			ShowInfoPanel(infoArgs);
+		}
+
 		#endregion
 
 		private void SetTitle(string title) => dialogueTitle.text = title;
@@ -156,9 +220,9 @@ namespace Lobby
 					IsError = true,
 					Heading = "Lost Connection",
 					Text = "Lost connection to the server. Check your console (F5).",
-					LeftButtonText = "Back",
+					LeftButtonLabel = "Back",
 					LeftButtonCallback = ShowMainPanel,
-					RightButtonText = "Rejoin",
+					RightButtonLabel = "Rejoin",
 					RightButtonCallback = LobbyManager.Instance.ConnectToLastServer,
 				});
 			}
@@ -170,66 +234,6 @@ namespace Lobby
 			// reset
 			LobbyManager.Instance.WasDisconnected = false;
 			GameManager.Instance.DisconnectExpected = false;
-		}
-
-		public void ShowLoadingPanel(string loadingMessage)
-		{
-			HideAllPanels();
-
-			ShowLoadingPanel(new LoadingPanelArgs
-			{
-				Text = loadingMessage,
-			});
-		}
-
-		// TODO not needed?
-		public void LoginSuccess()
-		{
-			ShowMainPanel();
-		}
-
-		public void LoginError(string msg)
-		{
-			// TODO use ShowInfoPanel()
-
-			/*
-			loggingInText.text = $"Login failed: {msg}";
-			if (msg.Contains("Email Not Verified"))
-			{
-				resendEmailButton.gameObject.SetActive(true);
-				resendEmailButton.interactable = true;
-			}
-			else
-			{
-				resendEmailButton.gameObject.SetActive(false);
-				ServerData.Auth.SignOut();
-			}
-
-			loginGoBackButton.SetActive(true);
-			*/
-		}
-
-		public void ShowInformationPanel()
-		{
-			HideAllPanels();
-			informationPanel.SetActive(true);
-			dialogueTitle.text = "Alpha";
-		}
-
-		public void ShowControlInformationPanel()
-		{
-			HideAllPanels();
-			controlInformationPanel.SetActive(true);
-			dialogueTitle.text = "Controls";
-		}
-
-		public void ShowWrongVersionPanel() // TODO
-		{
-			HideAllPanels();
-
-			// TODO use ShowInfoPanel()
-			//wrongVersionPanel.SetActive(true);
-			dialogueTitle.text = "Wrong Version";
 		}
 	}
 }

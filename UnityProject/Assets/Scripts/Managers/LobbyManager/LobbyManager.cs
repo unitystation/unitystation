@@ -49,46 +49,60 @@ namespace Lobby
 
 		#region Login
 
+		private static readonly List<string> greetings = new()
+		{
+			"Hello {0}!",
+			"Hi {0}!",
+			"Hey {0}!",
+			"Hiya {0}!",
+			"Heya {0}!",
+			"Hello there {0}!",
+			"Well hello there {0}!",
+			"Hi there {0}!",
+			"Hey there {0}!",
+			"Greetings {0}!",
+			"Welcome {0}!",
+			"Welcome back {0}!",
+			"Good to see you, {0}!",
+			"G'day {0}!",
+			"Howdy {0}!",
+		};
+
 		public async Task<bool> TryLogin(string email, string password)
 		{
-			lobbyDialogue.ShowLoadingPanel("Logging in...");
+			lobbyDialogue.ShowLoadingPanel("Signing in...");
 
 			bool isLoginSuccess = false;
 			await FirebaseAuth.DefaultInstance.SignInWithEmailAndPasswordAsync(email, password)
-				.ContinueWithOnMainThread(async task =>
+					.ContinueWithOnMainThread(async task =>
+			{
+				if (task.IsCanceled)
 				{
-					if (task.IsCanceled)
-					{
-						Logger.LogError($"Sign in error: {task.Exception.Message}", Category.DatabaseAPI);
-						lobbyDialogue.LoginError("Sign in canceled.");
-						return;
-					}
-
-					if (task.IsFaulted)
-					{
-						Logger.LogError($"Sign in error: {task.Exception.Message}", Category.DatabaseAPI);
-						lobbyDialogue.LoginError($"Sign in error. Check the console (F5)");
-						return;
-					}
-
-					await ServerData.ValidateUser(task.Result, (_) =>
-					{
-						isLoginSuccess = true;
-						SaveAccountPrefs(task.Result.Email, String.Empty); // TODO ???? token sort it
-						lobbyDialogue.LoginSuccess();
-					}, (errorStr) =>
-					{
-						Logger.LogError($"Account validation error: {errorStr}", Category.DatabaseAPI);
-						lobbyDialogue.LoginError($"Account validation error. {errorStr}");
-					});
-				});
+					Logger.LogWarning($"Sign in canceled.", Category.DatabaseAPI);
+					lobbyDialogue.ShowLoginPanel();
+				}
+				else if (task.IsFaulted)
+				{
+					Logger.LogError($"Sign in error: {task.Exception.Message}", Category.DatabaseAPI);
+					lobbyDialogue.ShowLoginError($"Unexpected error. Check your console (F5)");
+				}
+				else if (await ServerData.ValidateUser(task.Result, (errorStr) => {
+					Logger.LogError($"Account validation error: {errorStr}", Category.DatabaseAPI);
+					lobbyDialogue.ShowLoginError($"Account validation error. {errorStr}");
+				}))
+				{
+					isLoginSuccess = true;
+					SaveAccountPrefs(task.Result.Email, string.Empty); // TODO ???? token sort it
+					lobbyDialogue.ShowMainPanel();
+				}
+			});
 
 			return isLoginSuccess;
 		}
 
 		public async Task<bool> TryTokenLogin(string uid, string token)
 		{
-			lobbyDialogue.ShowLoadingPanel("Logging you in...");
+			lobbyDialogue.ShowLoadingPanel("Welcome back! Signing you in...");
 
 			var refreshToken = new RefreshToken();
 			refreshToken.refreshToken = token;
@@ -98,70 +112,72 @@ namespace Lobby
 
 			if (response == null)
 			{
-				lobbyDialogue.LoginError(
-					$"Unknown server error. Please check your logs for more information by press F5");
+				lobbyDialogue.ShowLoginError($"Unknown server error. Check your console (F5)");
 				return false;
 			}
 
 			if (string.IsNullOrEmpty(response.errorMsg) == false)
 			{
 				Logger.LogError($"Something went wrong with hub token validation: {response.errorMsg}", Category.DatabaseAPI);
-				lobbyDialogue.LoginError($"Could not verify your details {response.errorMsg}");
+				lobbyDialogue.ShowLoginError($"Could not verify your details. {response.errorMsg}");
 				return false;
 			}
 
 			bool isLoginSuccess = false;
-			await FirebaseAuth.DefaultInstance.SignInWithCustomTokenAsync(response.message).ContinueWithOnMainThread(
-				async task =>
+			await FirebaseAuth.DefaultInstance.SignInWithCustomTokenAsync(response.message)
+					.ContinueWithOnMainThread(async task =>
+			{
+				if (task.IsCanceled)
 				{
-					if (task.IsCanceled)
-					{
-						Logger.LogError("Custom token sign in was canceled.", Category.DatabaseAPI);
-						lobbyDialogue.LoginError($"Sign in was cancelled");
-						return;
-					}
-
-					if (task.IsFaulted)
-					{
-						Logger.LogError("Task Faulted: " + task.Exception, Category.DatabaseAPI);
-						lobbyDialogue.LoginError($"Task Faulted: " + task.Exception);
-						return;
-					}
-
-					var success = await ServerData.ValidateUser(task.Result, null, null);
-
-					if (success)
-					{
-						Logger.Log("Signed in successfully with valid token", Category.DatabaseAPI);
-						isLoginSuccess = true;
-					}
-				});
+					Logger.LogError("Custom token sign in was canceled.", Category.DatabaseAPI);
+					lobbyDialogue.ShowLoginError($"Sign in was cancelled.");
+				}
+				else if (task.IsFaulted)
+				{
+					Logger.LogError($"Token login task faulted: {task.Exception}", Category.DatabaseAPI);
+					lobbyDialogue.ShowLoginError($"Unexpected error encountered. Check your console (F5)");
+				}
+				else if (await ServerData.ValidateUser(task.Result, lobbyDialogue.ShowLoginError))
+				{
+					Logger.Log("Sign in with token successful.", Category.DatabaseAPI);
+					isLoginSuccess = true;
+				}
+			});
 
 			return isLoginSuccess;
 		}
 
 		public async Task<bool> TryAutoLogin()
 		{
-			await Task.Delay(TimeSpan.FromSeconds(0.1));
+			if (FirebaseAuth.DefaultInstance.CurrentUser == null) return false;
+
+			var randomGreeting = string.Format(greetings.PickRandom(), FirebaseAuth.DefaultInstance.CurrentUser.DisplayName);
+			lobbyDialogue.ShowLoadingPanel($"{randomGreeting}\n\nSigning you in...");
 
 			bool isLoginSuccess = false;
-			if (FirebaseAuth.DefaultInstance.CurrentUser != null)
+			await FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread(task => {
+				if (task.IsCanceled)
+				{
+					Logger.LogWarning($"Auto sign in cancelled.");
+					lobbyDialogue.ShowLoginPanel();
+				}
+				else if (task.IsFaulted)
+				{
+					Logger.LogError($"Auto sign in failed: {task.Exception?.Message}");
+					lobbyDialogue.ShowLoginError("Unexpected error encountered. Check your console (F5)");
+				}
+				isLoginSuccess = true;
+			});
+
+			if (isLoginSuccess == false) return false;
+
+			if (await ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser, lobbyDialogue.ShowLoginError))
 			{
-				lobbyDialogue.ShowLoadingPanel($"Loading user profile for {FirebaseAuth.DefaultInstance.CurrentUser.DisplayName}");
-
-				await FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread(task => {
-					if (task.IsCanceled || task.IsFaulted)
-					{
-						lobbyDialogue.LoginError(task.Exception?.Message);
-					}
-				});
-
-				await ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser, (_) => {
-					isLoginSuccess = true;
-				}, lobbyDialogue.LoginError);
+				lobbyDialogue.ShowMainPanel();
+				return true;
 			}
 
-			return isLoginSuccess;
+			return false;
 		}
 
 		private void SaveAccountPrefs(string email, string token)
@@ -181,6 +197,20 @@ namespace Lobby
 		}
 
 		#endregion
+
+		public void ResendEmail()
+		{
+			if (FirebaseAuth.DefaultInstance.CurrentUser == null)
+			{
+				Logger.LogError("Cannot resend email for unknown account.", Category.DatabaseAPI);
+				return;
+			}
+
+			FirebaseAuth.DefaultInstance.CurrentUser.SendEmailVerificationAsync();
+			UI.ShowEmailResendPanel(FirebaseAuth.DefaultInstance.CurrentUser.Email);
+
+			FirebaseAuth.DefaultInstance.SignOut();
+		}
 
 		public void ShowCharacterEditor()
 		{
