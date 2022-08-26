@@ -36,7 +36,6 @@ namespace MiniGames.MiniGameModules
 
 		public override void StartMiniGame()
 		{
-			base.StartMiniGame();
 			if(miniGameActive) return;
 			StartCoroutine(IdentifySequence());
 			miniGameActive = true;

@@ -22,14 +22,10 @@ namespace MiniGames
 			Tracker.OnStartGame.AddListener(StartMiniGame);
 		}
 
-		public virtual void StartMiniGame()
-		{
-			//Add your game setup/reset/ui show/etc here
-		}
+		//Add your game setup/reset/ui show/etc here
+		public abstract void StartMiniGame();
 
-		protected virtual void OnGameDone(bool t)
-		{
-			//Add your logic here when a player has won or lost a game or has left the game
-		}
+		//Add your logic here when a player has won or lost a game or has left the game
+		protected abstract void OnGameDone(bool t);
 	}
 }
