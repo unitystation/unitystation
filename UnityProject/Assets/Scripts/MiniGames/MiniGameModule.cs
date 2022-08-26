@@ -24,5 +24,8 @@ namespace MiniGames
 
 		//Add your game setup/reset/ui show/etc here
 		public abstract void StartMiniGame();
+
+		//Add your logic here when a player has won or lost a game or has left the game
+		protected abstract void OnGameDone(bool t);
 	}
 }
