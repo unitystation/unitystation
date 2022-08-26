@@ -9,6 +9,7 @@ using AdminTools;
 using AdminTools.VariableViewer;
 using Audio.Managers;
 using Initialisation;
+using ServerInfo;
 using UI;
 using UI.Core;
 using UI.Core.Windows;
@@ -76,6 +77,8 @@ public class UIManager : MonoBehaviour, IInitialise
 	public SplittingMenu SplittingMenu;
 
 	public GUI_DevTileChanger TileChanger;
+
+	public ServerInfoUILobby ServerInfoUILobby;
 
 	public static bool PreventChatInput
 	{

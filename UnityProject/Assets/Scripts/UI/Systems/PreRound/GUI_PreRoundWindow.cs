@@ -61,8 +61,6 @@ namespace UI
 		[SerializeField]
 		private Button characterButton = null;
 
-		public GameObject serverInfo;
-
 		// Internal variables
 		private bool doCountdown;
 		private double countdownEndTime;
@@ -265,9 +263,6 @@ namespace UI
 		private void SetInfoScreenOn()
 		{
 			ServerInfoLobbyMessageClient.Send();
-			serverInfo.SetActive(false);
-			if (string.IsNullOrEmpty(ServerInfoUI.serverDesc)) return;
-			serverInfo.SetActive(true);
 		}
 
 		/// <summary>

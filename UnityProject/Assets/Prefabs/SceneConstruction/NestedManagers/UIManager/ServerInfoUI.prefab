@@ -502,9 +502,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0, g: 0.43834248, b: 0.509434, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0, g: 0.6006255, b: 1, a: 1}
+    m_PressedColor: {r: 0, g: 0.27682126, b: 0.5660378, a: 1}
+    m_SelectedColor: {r: 0, g: 0.6015169, b: 0.6698113, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -523,7 +523,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1096852428331814065}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9220880058318359698}
+        m_TargetAssemblyTypeName: ServerInfo.ServerInfoUILobby, Assets
+        m_MethodName: OnPageEventsClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1663128119011646807
 GameObject:
   m_ObjectHideFlags: 0
@@ -894,6 +906,7 @@ GameObject:
   - component: {fileID: 7977208623514874582}
   - component: {fileID: 2646686272004900444}
   - component: {fileID: 5995932937447617088}
+  - component: {fileID: 9220880058318359698}
   m_Layer: 5
   m_Name: ServerInfoUI
   m_TagString: Untagged
@@ -1035,7 +1048,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disableDrag: 0
-  resetPositionOnDisable: 1
+--- !u!114 &9220880058318359698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2000303885238257291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32c36a37336cc4d4faf14a20136f6865, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ServerName: {fileID: 7482758579037927162}
+  ServerDesc: {fileID: 7356092877986841519}
+  ServerRules: {fileID: 3539862864358998656}
+  ServerInfoUILobbyObject: {fileID: 2000303885238257291}
+  DiscordButton: {fileID: 572809139780144240}
+  tabButtons: {fileID: 7482455786003326493}
+  eventButton: {fileID: 3429273097439320198}
+  ruleButton: {fileID: 3453679148296521922}
+  pageMOTD: {fileID: 7586487943026319103}
+  pageRules: {fileID: 3653465215123746318}
+  pageEvents: {fileID: 6225593736160551748}
+  eventEntry: {fileID: 0}
 --- !u!1 &2585826686699623957
 GameObject:
   m_ObjectHideFlags: 0
@@ -1446,9 +1482,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0, g: 0.43834248, b: 0.509434, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0, g: 0.6, b: 1, a: 1}
+    m_PressedColor: {r: 0, g: 0.2784314, b: 0.5647059, a: 1}
+    m_SelectedColor: {r: 0, g: 0.6, b: 0.67058825, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -1467,7 +1503,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2463093017586942931}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9220880058318359698}
+        m_TargetAssemblyTypeName: ServerInfo.ServerInfoUILobby, Assets
+        m_MethodName: OnPageRulesClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5247585465350279747
 GameObject:
   m_ObjectHideFlags: 0
@@ -2850,9 +2898,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8789854534531755148}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7798779404575317049}
@@ -2924,9 +2972,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0, g: 0.43834248, b: 0.509434, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0, g: 0.6, b: 1, a: 1}
+    m_PressedColor: {r: 0, g: 0.2784314, b: 0.5647059, a: 1}
+    m_SelectedColor: {r: 0, g: 0.6, b: 0.67058825, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -2945,7 +2993,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7366237775780629095}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9220880058318359698}
+        m_TargetAssemblyTypeName: ServerInfo.ServerInfoUILobby, Assets
+        m_MethodName: OnPageMotdClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &9040611321695137741
 GameObject:
   m_ObjectHideFlags: 0

@@ -218,7 +218,7 @@ namespace UI
 			preRoundWindow.gameObject.SetActive(true);
 			preRoundWindow.SetUIForCountdown();
 
-			ServerInfoMessageClient.Send();
+			ServerInfoLobbyMessageClient.Send();
 		}
 
 		public void SetScreenForJoining()

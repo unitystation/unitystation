@@ -29,7 +29,8 @@ namespace ServerInfo
 
         public static string serverDesc;
 
-        public static string serverDiscordID;
+        private static string serverDiscordID;
+        public string ServerDiscordID => serverDiscordID;
 
         public static string serverRules;
 
@@ -47,12 +48,18 @@ namespace ServerInfo
 
         void IInitialise.Initialise()
         {
+	       ServerSetup();
+        }
+
+        public void ServerSetup()
+        {
 	        LoadNameAndDesc();
 	        LoadLinks();
         }
 
         private void LoadNameAndDesc()
         {
+	        Debug.Log("called on start");
 	        var pathDesc = Path.Combine(Application.streamingAssetsPath, "config", "serverDesc.txt");
 	        var pathRules = Path.Combine(Application.streamingAssetsPath, "config", "serverRules.txt");
 
@@ -61,11 +68,14 @@ namespace ServerInfo
 
 	        if (File.Exists(pathDesc))
 	        {
+		        Debug.Log("found path desc");
 		        descText = File.ReadAllText(pathDesc);
 	        }
 	        if (File.Exists(pathRules))
 	        {
+		        Debug.Log("found rule desc");
 		        rulesText = File.ReadAllText(pathRules);
+		        Debug.Log(rulesText);
 	        }
 
 	        var nameText = ServerData.ServerConfig.ServerName;
@@ -85,6 +95,7 @@ namespace ServerInfo
 
         public void ClientSetValues(string newName, string newDesc, string newDiscordID, string rules)
         {
+	        Debug.Log("setting stuff on client");
 	        ServerName.text = newName;
 	        ServerDesc.text = newDesc;
 	        serverDiscordID = newDiscordID;
@@ -172,7 +183,7 @@ namespace ServerInfo
 
 		public override void Process(NetMessage msg)
 		{
-			GUI_PreRoundWindow.Instance.GetComponent<ServerInfoUILobby>().ClientSetValues(
+			UIManager.Instance.ServerInfoUILobby.ClientSetValues(
 					msg.ServerName, msg.ServerDesc, msg.ServerDiscordID, msg.ServerRules);
 		}
 
@@ -199,7 +210,7 @@ namespace ServerInfo
 		{
 			ServerInfoLobbyMessageServer.Send(
 					SentByPlayer.Connection, ServerData.ServerConfig.ServerName,
-					ServerInfoUILobby.serverDesc, ServerInfoUILobby.serverDiscordID, ServerInfoUILobby.serverRules);
+					UIManager.Instance.ServerInfoUILobby.ServerDesc.text, UIManager.Instance.ServerInfoUILobby.ServerDiscordID, UIManager.Instance.ServerInfoUILobby.ServerRules.text);
 		}
 
 		public static NetMessage Send()
