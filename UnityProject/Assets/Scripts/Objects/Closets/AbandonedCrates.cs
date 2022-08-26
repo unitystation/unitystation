@@ -10,7 +10,7 @@ namespace Objects.Closets
 
 		[SerializeField] private MiniGameResultTracker miniGameTracker;
 		[SerializeField] private List<MiniGameModule> miniGameModules;
-		[SyncVar] private int currentMiniGameIndex = -1;
+		private int currentMiniGameIndex = -1;
 
 		public override void OnSpawnServer(SpawnInfo info)
 		{
