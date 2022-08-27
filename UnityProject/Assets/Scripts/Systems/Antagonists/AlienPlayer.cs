@@ -750,11 +750,12 @@ namespace Systems.Antagonists
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, OnUpdate);
 
+			//Set to null so can't reenter
+			if(playerScript.mind == null) return;
+
 			//Force player into ghost
 			PlayerSpawn.ServerGhost(playerScript.mind);
 
-			//Set to null so can't reenter
-			if(playerScript.mind == null) return;
 			playerScript.mind.body = null;
 		}
 

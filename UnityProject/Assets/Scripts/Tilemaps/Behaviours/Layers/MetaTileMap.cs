@@ -879,11 +879,12 @@ namespace TileManagement
 		/// </summary>
 		/// <param name="worldPosition">world position to check</param>
 		/// <param name="layerType"></param>
+		/// <param name="useExactForMultilayer"></param>
 		/// <returns></returns>
 		public LayerTile GetTileAtWorldPos(Vector3 worldPosition, LayerType layerType,
-			bool UseExactForMultilayer = false)
+			bool useExactForMultilayer = false)
 		{
-			return GetTileAtWorldPos(worldPosition.RoundToInt(), layerType, UseExactForMultilayer);
+			return GetTileAtWorldPos(worldPosition.RoundToInt(), layerType, useExactForMultilayer);
 		}
 
 		/// <summary>
@@ -891,12 +892,13 @@ namespace TileManagement
 		/// </summary>
 		/// <param name="worldPosition">world position to check</param>
 		/// <param name="layerType"></param>
+		/// <param name="useExactForMultilayer"></param>
 		/// <returns></returns>
 		public LayerTile GetTileAtWorldPos(Vector3Int worldPosition, LayerType layerType,
-			bool UseExactForMultilayer = false)
+			bool useExactForMultilayer = false)
 		{
 			var cellPos = WorldToCell(worldPosition);
-			return GetTile(cellPos, layerType, UseExactForMultilayer: UseExactForMultilayer);
+			return GetTile(cellPos, layerType, useExactForMultilayer: useExactForMultilayer);
 		}
 
 		/// <summary>
@@ -905,16 +907,30 @@ namespace TileManagement
 		/// <param name="cellPosition">cell position within the tilemap to get the tile of. NOT the same
 		/// as world position.</param>
 		/// <param name="layerType"></param>
+		/// <param name="useExactForMultilayer"></param>
 		/// <returns></returns>
-		public LayerTile GetTile(Vector3Int cellPosition, LayerType layerType, bool UseExactForMultilayer = false)
+		public LayerTile GetTile(Vector3Int cellPosition, LayerType layerType, bool useExactForMultilayer = false)
+		{
+			return GetTileLocation(cellPosition, layerType, useExactForMultilayer)?.layerTile;
+		}
+
+		/// <summary>
+		/// Gets the tile with the specified layer type at the specified cell position
+		/// </summary>
+		/// <param name="cellPosition">cell position within the tilemap to get the tile of. NOT the same
+		/// as world position.</param>
+		/// <param name="layerType"></param>
+		/// <param name="useExactForMultilayer"></param>
+		/// <returns></returns>
+		public TileLocation GetTileLocation(Vector3Int cellPosition, LayerType layerType, bool useExactForMultilayer = false)
 		{
 			if (layerType == LayerType.Objects) return null;
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
 				TileLocation tileLocation = null;
-				tileLocation = GetCorrectTileLocationForLayer(cellPosition, layer, UseExactForMultilayer);
+				tileLocation = GetCorrectTileLocationForLayer(cellPosition, layer, useExactForMultilayer);
 
-				return tileLocation?.layerTile;
+				return tileLocation;
 			}
 
 			LogMissingLayer(cellPosition, layerType);
@@ -995,19 +1011,37 @@ namespace TileManagement
 		/// <param name="cellPosition">cell position within the tilemap to get the tile of. NOT the same
 		/// as world position.</param>
 		/// <param name="layerType"></param>
+		/// <param name="useExactForMultilayer"></param>
 		/// <returns></returns>
-		public Color? GetColour(Vector3Int cellPosition, LayerType layerType, bool UseExactForMultilayer = false)
+		public Color? GetColour(Vector3Int cellPosition, LayerType layerType, bool useExactForMultilayer = false)
 		{
 			if (layerType == LayerType.Objects) return null;
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
 				TileLocation tileLocation = null;
-				tileLocation = GetCorrectTileLocationForLayer(cellPosition, layer, UseExactForMultilayer);
+				tileLocation = GetCorrectTileLocationForLayer(cellPosition, layer, useExactForMultilayer);
 				return tileLocation?.Colour;
 			}
 
 			LogMissingLayer(cellPosition, layerType);
 			return null;
+		}
+
+		/// <summary>
+		/// Sets the colour of the tile with the specified layer type at the specified cell position
+		/// </summary>
+		/// <param name="cellPosition">cell position within the tilemap to get the tile of. NOT the same
+		/// as world position.</param>
+		/// <param name="layerType"></param>
+		/// <param name="colour">Colour to set tile</param>
+		/// <param name="useExactForMultilayer"></param>
+		/// <returns></returns>
+		public void SetColour(Vector3Int cellPosition, LayerType layerType, Color? colour, bool useExactForMultilayer = false)
+		{
+			var tile = GetTileLocation(cellPosition, layerType, useExactForMultilayer);
+			if(tile == null || tile.layerTile == null) return;
+
+			SetTile(cellPosition, tile.layerTile, tile.transformMatrix, colour);
 		}
 
 		/// <summary>
@@ -1056,7 +1090,7 @@ namespace TileManagement
 		/// as world position.</param>
 		/// <returns></returns>
 		public LayerTile GetTile(Vector3Int cellPosition, bool ignoreEffectsLayer = false,
-			bool UseExactForMultilayer = false, bool excludeNonIntractable = false)
+			bool useExactForMultilayer = false, bool excludeNonIntractable = false)
 		{
 			TileLocation tileLocation = null;
 			foreach (var layer in LayersValues)
@@ -1065,7 +1099,7 @@ namespace TileManagement
 
 				if (ignoreEffectsLayer && layer.LayerType == LayerType.Effects) continue;
 
-				tileLocation = GetCorrectTileLocationForLayer(cellPosition, layer, UseExactForMultilayer);
+				tileLocation = GetCorrectTileLocationForLayer(cellPosition, layer, useExactForMultilayer);
 
 				if (tileLocation != null && tileLocation.layerTile != null)
 				{
@@ -1094,7 +1128,7 @@ namespace TileManagement
 		/// as world position.</param>
 		/// <returns></returns>
 		public LayerTile GetTile(Vector3Int cellPosition, LayerTypeSelection ExcludedLayers,
-			bool UseExactForMultilayer = false)
+			bool useExactForMultilayer = false)
 		{
 			TileLocation tileLocation = null;
 			foreach (var layer in LayersValues)
@@ -1103,7 +1137,7 @@ namespace TileManagement
 
 				if (LTSUtil.IsLayerIn(ExcludedLayers, layer.LayerType)) continue;
 
-				tileLocation = GetCorrectTileLocationForLayer(cellPosition, layer, UseExactForMultilayer);
+				tileLocation = GetCorrectTileLocationForLayer(cellPosition, layer, useExactForMultilayer);
 
 				if (tileLocation != null)
 				{
@@ -1714,7 +1748,7 @@ namespace TileManagement
 			}
 		}
 
-		public void RemoveTileWithlayer(Vector3Int position, LayerType refLayer)
+		public void RemoveTileWithlayer(Vector3Int position, LayerType refLayer, bool exactPosition = true)
 		{
 			if (refLayer == LayerType.Objects) return;
 
@@ -1724,7 +1758,32 @@ namespace TileManagement
 
 				if (layer.LayerType.IsUnderFloor()) //TODO Tile map upgrade
 				{
-					tileLocation = GetTileExactLocationMultilayer(position, layer);
+					if (exactPosition)
+					{
+						tileLocation = GetTileExactLocationMultilayer(position, layer);
+					}
+					else
+					{
+						var positionNew = position;
+						for (int i = 0; i < 50; i++)
+						{
+							positionNew.z = 1 - i;
+
+							tileLocation = GetTileExactLocationMultilayer(positionNew, layer);
+
+							if (tileLocation != null)
+							{
+								tileLocation.layerTile = null;
+								ApplyTileChange(tileLocation);
+								if (refLayer != LayerType.Effects)
+								{
+									RemoveOverlaysOfType(tileLocation.position, LayerType.Effects, OverlayType.Damage);
+								}
+
+								return;
+							}
+						}
+					}
 				}
 				else
 				{
@@ -2316,23 +2375,23 @@ namespace TileManagement
 		/// <summary>
 		/// Dynamically adds overlays to tile position
 		/// </summary>
-		public void AddOverlay(Vector3Int cellPosition, OverlayTile overlayTile, Matrix4x4? transformMatrix = null,
+		public Vector3Int AddOverlay(Vector3Int cellPosition, OverlayTile overlayTile, Matrix4x4? transformMatrix = null,
 			Color? color = null, bool allowMultiple = false)
 		{
 			//use remove methods to remove overlay instead
-			if (overlayTile == null) return;
+			if (overlayTile == null) return cellPosition;
 
 			cellPosition.z = 0;
 
 			//Dont add the same overlay twice
-			if (HasOverlay(cellPosition, overlayTile.LayerType, overlayTile) && allowMultiple == false) return;
+			if (HasOverlay(cellPosition, overlayTile.LayerType, overlayTile) && allowMultiple == false) return cellPosition;
 
 			var overlayPos = GetFreeOverlayPos(cellPosition, overlayTile.LayerType);
-			if (overlayPos == null) return;
+			if (overlayPos == null) return cellPosition;
 
 			cellPosition = overlayPos.Value;
 
-			SetTile(cellPosition, overlayTile, transformMatrix, color);
+			return SetTile(cellPosition, overlayTile, transformMatrix, color);
 		}
 
 		public void AddOverlay(Vector3Int cellPosition, TileType tileType, string tileName,

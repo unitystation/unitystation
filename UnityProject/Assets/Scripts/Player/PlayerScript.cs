@@ -420,11 +420,12 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public void ReturnGhostToBody()
 	{
-		var ghost = mind?.ghost;
-		if (ghost != null)
-		{
-			ghost.playerNetworkActions.GhostEnterBody();
-		}
+		if(mind == null) return;
+		
+		var ghost = mind.ghost;
+		if (mind.IsGhosting == false || ghost == null) return;
+
+		ghost.playerNetworkActions.GhostEnterBody();
 	}
 
 	public object Chat { get; internal set; }

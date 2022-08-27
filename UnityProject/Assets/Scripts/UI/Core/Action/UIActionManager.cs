@@ -139,7 +139,7 @@ namespace UI.Action
 			{
 				if (ActivePlayerActions[RelatedMind].Contains(iActionGUI) == false)
 				{
-					Logger.LogError("iActionGUI Not present on mind");
+					Logger.LogError($"iActionGUI {iActionGUI?.ActionData.OrNull()?.Name}, not present on mind");
 					return;
 				}
 
@@ -541,7 +541,7 @@ namespace UI.Action
 			{
 				if (MultiActivePlayerActions[relatedMind][iActionGUIMulti].Contains(actionData))
 				{
-					Logger.LogError("ActionData Already present on mind");
+					Logger.LogError($"ActionData: {actionData.OrNull()?.Name}, already present on mind");
 					return;
 				}
 

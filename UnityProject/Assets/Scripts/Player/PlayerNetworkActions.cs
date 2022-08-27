@@ -16,6 +16,7 @@ using HealthV2;
 using Items;
 using Items.Tool;
 using Messages.Server;
+using UI.Systems.AdminTools.DevTools;
 using Objects.Other;
 using Player.Movement;
 using Shuttles;
@@ -24,7 +25,11 @@ using UI.Items;
 using Doors;
 using Managers;
 using Objects;
+using Objects.Atmospherics;
+using Objects.Disposals;
 using Player.Language;
+using Systems.Electricity;
+using Systems.Pipes;
 using Tiles;
 using Util;
 using Random = UnityEngine.Random;
@@ -749,6 +754,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			PlayerSpawn.ServerGhost(playerScript.mind);
 			return;
 		}
+
 		var currentMobID = GetComponent<LivingHealthMasterBase>().mobID;
 		if (GetComponent<LivingHealthMasterBase>().IsDead && !playerScript.IsGhost && playerScript.mind != null &&
 			playerScript.mind.bodyMobID == currentMobID)

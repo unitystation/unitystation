@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Items.Science;
@@ -10,6 +11,7 @@ using Mirror;
 using Systems.Atmospherics;
 using ScriptableObjects.Atmospherics;
 using CustomInspectors;
+using Random = UnityEngine.Random;
 
 [System.Serializable]
 public class ArtifactSprite
@@ -109,7 +111,7 @@ namespace Objects.Research
 
 			ArtifactClass Compostion;
 
-			//Add elements to the artifacts compisition 
+			//Add elements to the artifacts compisition
 			for (int i = 0; i < Random.Range(1, 5); i++)
 			{
 				//Choose what the artifact should be made of
@@ -151,7 +153,7 @@ namespace Objects.Research
 
 			GetComponent<ObjectAttributes>().ServerSetArticleName("Artifact - " + ID);
 
-			ArtifactClass chosenClass;	
+			ArtifactClass chosenClass;
 
 			//Randomises the effects of the artifacts, probabilities of certain effects change with composition
 			if (AreaEffect == null)
@@ -210,6 +212,10 @@ namespace Objects.Research
 				ServerSpawnedArtifacts.Remove(this);
 		}
 
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+		}
 
 		#endregion
 
@@ -282,7 +288,7 @@ namespace Objects.Research
 			}
 
 			TryActivateByTouch(interaction);
-			
+
 		}
 		private void TakeSample(HandApply interaction)
 		{

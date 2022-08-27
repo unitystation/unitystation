@@ -107,7 +107,7 @@ namespace Objects.Machines
 				int materialSheetAmount = interaction.HandSlot.Item.GetComponent<Stackable>().Amount;
 				if (materialStorageLink.TryAddSheet(InsertedMaterialType, materialSheetAmount))
 				{
-					Inventory.ServerDespawn(interaction.HandObject);
+					_ = Inventory.ServerDespawn(interaction.HandObject);
 					if (stateSync == AutolatheState.Idle)
 					{
 						StartCoroutine(AnimateAcceptingMaterials());

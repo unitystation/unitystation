@@ -1255,14 +1255,14 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	/// <inheritdoc cref="LocalToWorldInt(Vector3, Matrix)"/>
 	public static Vector3Int LocalToWorldInt(Vector3 localPos, MatrixInfo matrix,
-		MatrixState state = default(MatrixState))
+		MatrixState? state = null)
 	{
 		return Vector3Int.RoundToInt(LocalToWorld(localPos, matrix, state));
 	}
 
 	/// <inheritdoc cref="LocalToWorldInt(Vector3, Matrix)"/>
 	public static Vector3Int LocalToWorldInt(Vector3Int localPos, MatrixInfo matrix,
-		MatrixState state = default(MatrixState))
+		MatrixState? state = null)
 	{
 		return Vector3Int.RoundToInt(LocalToWorld(localPos, matrix, state));
 	}
@@ -1276,7 +1276,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	}
 
 	/// <inheritdoc cref="LocalToWorld(Vector3, Matrix)"/>
-	public static Vector3 LocalToWorld(Vector3 localPos, MatrixInfo matrix, MatrixState state = default(MatrixState))
+	public static Vector3 LocalToWorld(Vector3 localPos, MatrixInfo matrix, MatrixState? state = null) //Only used if you want a different rotation from the current rotation
 	{
 		//Invalid matrix info provided
 		if (matrix == null || matrix.Equals(MatrixInfo.Invalid) || localPos == TransformState.HiddenPos)
@@ -1291,23 +1291,29 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			return localPos + matrix.Offset;
 		}
 
-		if (matrix.MetaTileMap.localToWorldMatrix != null)
+		if (state == null && matrix.MetaTileMap.localToWorldMatrix != null)
 		{
 			return matrix.MetaTileMap.localToWorldMatrix.Value.MultiplyPoint(localPos);
 		}
 
-		if (state.Equals(default(MatrixState)))
+		var Setstate = default(MatrixState);
+		if (state != null)
 		{
-			state = matrix.MatrixMove.ClientState;
+			Setstate = state.Value;
+		}
+
+		if (Setstate.Equals(default(MatrixState)))
+		{
+			Setstate = matrix.MatrixMove.ClientState;
 		}
 
 		Vector3 unpivotedPos = localPos - matrix.MatrixMove.Pivot; //localPos - localPivot
 		Vector3 rotatedPos =
-			state.FacingOffsetFromInitial(matrix.MatrixMove).Quaternion *
+			Setstate.FacingOffsetFromInitial(matrix.MatrixMove).Quaternion *
 			unpivotedPos; //unpivotedPos rotated by N degrees
 		Vector3 rotatedPivoted =
 			rotatedPos + matrix.MatrixMove.Pivot +
-			matrix.GetOffset(state); //adding back localPivot and applying localToWorldOffset
+			matrix.GetOffset(Setstate); //adding back localPivot and applying localToWorldOffset
 		return rotatedPivoted;
 	}
 

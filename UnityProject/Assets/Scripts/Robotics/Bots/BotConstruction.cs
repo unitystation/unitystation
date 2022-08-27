@@ -47,7 +47,7 @@ namespace Items.Robotics
 			// Gets the component ItemAttributesV2 and grabs the InitalName from the object in the list according to the stageCounter
 			string checkItem = stageParts[stageCounter].GetComponent<ItemAttributesV2>().InitialName;
 
-			// Checks if armLast is true, if so it will accept anything in the list no matter the order 
+			// Checks if armLast is true, if so it will accept anything in the list no matter the order
 			if (armLast)
 			{
 				foreach (var part in stageParts)
@@ -68,7 +68,7 @@ namespace Items.Robotics
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			// Despawns item in hand, might cause problems later if it's stackable
-			Inventory.ServerDespawn(interaction.HandObject);
+			_ = Inventory.ServerDespawn(interaction.HandObject);
 
 			if (armLast)
 			{

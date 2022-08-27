@@ -185,8 +185,19 @@ namespace Player
 				}
 			}
 
-			// Check if they have a player to rejoin before creating a new ConnectedPlayer
-			var loggedOffPlayer = PlayerList.Instance.RemovePlayerbyClientId(STUnverifiedClientId, STVerifiedUserid, STVerifiedConnPlayer);
+			PlayerInfo loggedOffPlayer = null;
+
+			if (GameData.Instance.OfflineMode)
+			{
+				// Check if they have a player to rejoin before creating a new ConnectedPlayer Doing it by a STUnverifiedClientId So multiple can connect with the same account for devs
+				loggedOffPlayer = PlayerList.Instance.RemovePlayerbyClientId(STUnverifiedClientId, STVerifiedUserid, STVerifiedConnPlayer);
+			}
+			else
+			{
+				loggedOffPlayer = PlayerList.Instance.RemovePlayerbyUserId(STVerifiedUserid, STVerifiedConnPlayer);
+			}
+
+
 			var checkForViewer = loggedOffPlayer?.GameObject.GetComponent<JoinedViewer>();
 			if (checkForViewer)
 			{

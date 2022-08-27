@@ -18,6 +18,7 @@ using UI.UI_Bottom;
 using UI.Windows;
 using Systems.CraftingV2.GUI;
 using UI.Core.RightClick;
+using UI.Systems.AdminTools.DevTools;
 
 public class UIManager : MonoBehaviour, IInitialise
 {
@@ -73,6 +74,8 @@ public class UIManager : MonoBehaviour, IInitialise
 	public CraftingMenu CraftingMenu;
 
 	public SplittingMenu SplittingMenu;
+
+	public GUI_DevTileChanger TileChanger;
 
 	public static bool PreventChatInput
 	{
