@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using HealthV2;
+using Machines;
 using UnityEngine;
 using Mirror;
+using Objects.Machines;
+using UnityEngine.Serialization;
 
 namespace Objects.Medical
 {
-	public class CloningPod : NetworkBehaviour
+	public class CloningPod : NetworkBehaviour, IRefreshParts
 	{
 		[SyncVar(hook = nameof(SyncSprite))] public CloningPodStatus statusSync;
 		public SpriteRenderer spriteRenderer;
@@ -15,7 +18,18 @@ namespace Objects.Medical
 		public string statusString;
 		public CloningConsole console;
 
+		[FormerlySerializedAs("LimbCloningDamage"), SerializeField] private float internalLimbCloningDamage = 25;
+
+		[SerializeField] private float internalCloningTime = 60;
+
+
 		public float LimbCloningDamage = 25;
+
+		public float CloningTime = 60;
+
+		public ItemTrait UpgradePart;
+
+		private Machine Machine;
 
 		public enum CloningPodStatus
 		{
@@ -42,7 +56,7 @@ namespace Objects.Medical
 
 		private IEnumerator ServerProcessCloning(CloningRecord record)
 		{
-			yield return WaitFor.Seconds(10f);
+			yield return WaitFor.Seconds(CloningTime);
 			statusSync = CloningPodStatus.Empty;
 			statusString = "Cloning process complete.";
 			if (console)
@@ -93,5 +107,20 @@ namespace Objects.Medical
 			}
 		}
 
+		public void RefreshParts(IDictionary<PartReference, int> partsInFrame)
+		{
+			var Multiplier = Machine.GetCertainPartMultiplier(UpgradePart);
+			var DamageMultiplier = 1f / Multiplier;
+			if (DamageMultiplier == 0.25f)
+			{
+				LimbCloningDamage = 0;
+			}
+			else
+			{
+				LimbCloningDamage = DamageMultiplier * internalLimbCloningDamage;
+			}
+
+			CloningTime = DamageMultiplier * internalCloningTime;
+		}
 	}
 }

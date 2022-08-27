@@ -50,5 +50,35 @@ namespace Machines
 		public ItemTrait SuperCapacityPowerCell;
 		public ItemTrait HyperCapacityPowerCell;
 		public ItemTrait BluespacePowerCell;
+
+		public bool IsComponent(ItemTrait ItemTrait)
+		{
+			if (ItemTrait == MachinePartsItemTraits.Instance.MicroLaser)
+			{
+				return true;
+			}
+			else if (ItemTrait == MachinePartsItemTraits.Instance.Capacitor)
+			{
+				return true;
+			}
+			else if (ItemTrait == MachinePartsItemTraits.Instance.Manipulator)
+			{
+				return true;
+			}
+			else if (ItemTrait == MachinePartsItemTraits.Instance.ScanningModule)
+			{
+				return true;
+			}
+			else if (ItemTrait == MachinePartsItemTraits.Instance.PowerCell)
+			{
+				return true;
+			}
+			else if (ItemTrait == MachinePartsItemTraits.Instance.MatterBin)
+			{
+				return true;
+			}
+
+			return false;
+		}
 	}
 }
