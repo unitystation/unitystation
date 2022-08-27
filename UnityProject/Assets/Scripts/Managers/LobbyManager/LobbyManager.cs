@@ -13,6 +13,7 @@ using Managers;
 using DatabaseAPI;
 using UI.CharacterCreator;
 using System.Linq;
+using Firebase;
 
 namespace Lobby
 {
@@ -26,12 +27,13 @@ namespace Lobby
 		[SerializeField]
 		private GUI_LobbyDialogue lobbyDialogue;
 
-		public static GUI_LobbyDialogue UI => Instance.lobbyDialogue;
-
-		public List<ConnectionHistory> ServerJoinHistory { get; private set; }
+		public static GUI_LobbyDialogue UI => Instance.OrNull()?.lobbyDialogue;
 
 		// Set true by custom network manager if disconnected from server
 		public bool WasDisconnected { get; set; } = false;
+
+		public List<ConnectionHistory> ServerJoinHistory { get; private set; }
+		private static readonly int MaxJoinHistory = 20; // Aribitrary & more than enough
 
 		#region Lifecycle
 
@@ -83,8 +85,19 @@ namespace Lobby
 				}
 				else if (task.IsFaulted)
 				{
+					var knownCodes = new List<int>() { 12 };
+
+					var exception = task.Exception.Flatten().InnerExceptions[0];
 					Logger.LogError($"Sign in error: {task.Exception.Message}", Category.DatabaseAPI);
-					lobbyDialogue.ShowLoginError($"Unexpected error. Check your console (F5)");
+
+					if (exception is FirebaseException firebaseException && knownCodes.Contains(firebaseException.ErrorCode))
+					{
+						lobbyDialogue.ShowLoginError($"Account sign in failed. {firebaseException.Message}");
+					}
+					else
+					{
+						lobbyDialogue.ShowLoginError($"Unexpected error. Check your console (F5)");
+					}
 				}
 				else if (await ServerData.ValidateUser(task.Result, (errorStr) => {
 					Logger.LogError($"Account validation error: {errorStr}", Category.DatabaseAPI);
@@ -149,7 +162,12 @@ namespace Lobby
 
 		public async Task<bool> TryAutoLogin()
 		{
-			if (FirebaseAuth.DefaultInstance.CurrentUser == null) return false;
+			if (FirebaseAuth.DefaultInstance.CurrentUser == null)
+			{
+				// We haven't seen this user before.
+				lobbyDialogue.ShowAlphaPanel();
+				return false;
+			};
 
 			var randomGreeting = string.Format(greetings.PickRandom(), FirebaseAuth.DefaultInstance.CurrentUser.DisplayName);
 			lobbyDialogue.ShowLoadingPanel($"{randomGreeting}\n\nSigning you in...");
@@ -304,7 +322,7 @@ namespace Lobby
 			{
 				string json = File.ReadAllText(HistoryFile);
 
-				ServerJoinHistory = JsonConvert.DeserializeObject<List<ConnectionHistory>>(json);
+				ServerJoinHistory = JsonConvert.DeserializeObject<List<ConnectionHistory>>(json).Distinct().ToList();
 				ServerJoinHistory ??= new List<ConnectionHistory>();
 			}
 		}
@@ -326,10 +344,10 @@ namespace Lobby
 
 			ServerJoinHistory.Insert(0, entry);
 
-			if (ServerJoinHistory.Count >= 20)
+			if (ServerJoinHistory.Count >= MaxJoinHistory)
 			{
 				// Remove older entries
-				ServerJoinHistory.RemoveRange(20, ServerJoinHistory.Count - 20);
+				ServerJoinHistory.RemoveRange(20, ServerJoinHistory.Count - MaxJoinHistory);
 			}
 
 			SaveServerHistoryFile();
@@ -363,10 +381,10 @@ namespace Lobby
 	public struct ConnectionHistory
 	{
 		[JsonProperty("IP")]
-		public string Address;
+		public string Address { get; set; }
 
 		[JsonProperty("Port")]
-		public ushort Port;
+		public ushort Port { get; set; }
 
 		public override string ToString()
 		{

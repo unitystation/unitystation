@@ -251,10 +251,18 @@ namespace DiscordWebhook
 		{
 			if (type == LogType.Exception || type == LogType.Error)
 			{
-				GameManager.Instance.errorCounter++;
-				if (ErrorMessageHashSet.Contains(stackTrace))
-					return;
-				GameManager.Instance.uniqueErrorCounter++;
+				bool isUnique = ErrorMessageHashSet.Contains(stackTrace);
+
+				if (GameManager.Instance != null)
+				{
+					GameManager.Instance.errorCounter++;
+					if (isUnique)
+					{
+						GameManager.Instance.uniqueErrorCounter++;
+					}
+				}
+
+				if (isUnique) return;
 
 				ErrorMessageHashSet.Add(stackTrace);
 

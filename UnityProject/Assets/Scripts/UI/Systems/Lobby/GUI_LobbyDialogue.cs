@@ -41,10 +41,13 @@ namespace Lobby
 
 		#region Lifecycle
 
-		private void OnEnable()
+		private void Start()
 		{
 			DeterminePanel();
+		}
 
+		private void OnEnable()
+		{
 			//login skip only allowed (and only works properly) in offline mode
 			if (GameData.Instance.OfflineMode)
 			{
@@ -124,7 +127,7 @@ namespace Lobby
 			serverHistoryScript.SetActive(true);
 		}
 
-		public void ShowInformationPanel()
+		public void ShowAlphaPanel()
 		{
 			HideAllPanels();
 			SetTitle("Alpha");
@@ -136,18 +139,6 @@ namespace Lobby
 			HideAllPanels();
 			SetTitle("Controls");
 			controlInformationPanel.SetActive(true);
-		}
-
-		public void ShowWrongVersion()
-		{
-			ShowInfoPanel(new InfoPanelArgs
-			{
-				IsError = true,
-				Heading = "Wrong Version",
-				Text = "This game client version does not match that of the server.",
-				LeftButtonLabel = "Back",
-				LeftButtonCallback = ShowJoinPanel,
-			});
 		}
 
 		public void ShowLoadingPanel(string loadingMessage)
@@ -211,7 +202,7 @@ namespace Lobby
 
 			if (ServerData.Auth?.CurrentUser == null)
 			{
-				ShowLoginPanel();
+				ShowAlphaPanel();
 			}
 			else if (LobbyManager.Instance.WasDisconnected && GameManager.Instance.DisconnectExpected == false)
 			{

@@ -27,7 +27,7 @@ namespace DatabaseAPI
 				$"unitystation-c6a53/databases/(default)/documents/users/{Auth.CurrentUser.UserId}";
 
 		private FirebaseAuth auth;
-		public static FirebaseAuth Auth => Instance.auth;
+		public static FirebaseAuth Auth => Instance.OrNull()?.auth;
 
 		private readonly Dictionary<string, FirebaseUser> userByAuth = new();
 

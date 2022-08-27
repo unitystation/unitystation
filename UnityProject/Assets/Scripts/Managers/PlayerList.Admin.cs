@@ -955,7 +955,7 @@ public partial class PlayerList
 			message = $"You have been kicked. Reason: {reason}";
 		}
 
-		SendClientLogMessage.SendLogToClient(connPlayer.GameObject, message, Category.Admin, true);
+		SendClientLogMessage.SendErrorToClient(connPlayer, message, Category.Admin);
 		yield return WaitFor.Seconds(0.1f);
 
 		if (connPlayer.Connection == null)

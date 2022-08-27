@@ -14,8 +14,6 @@ namespace Lobby
 		[SerializeField]
 		private Button hostButton = default;
 		[SerializeField]
-		private Button infoButton = default;
-		[SerializeField]
 		private Button controlInfoButton = default;
 		[SerializeField]
 		private Button logoutButton = default;
@@ -29,7 +27,6 @@ namespace Lobby
 		{
 			joinButton.onClick.AddListener(OnJoinBtn);
 			hostButton.onClick.AddListener(OnHostBtn);
-			infoButton.onClick.AddListener(OnInfoBtn);
 			controlInfoButton.onClick.AddListener(OnControlInfoBtn);
 			logoutButton.onClick.AddListener(OnLogoutBtn);
 			exitButton.onClick.AddListener(OnExitBtn);
@@ -43,6 +40,9 @@ namespace Lobby
 
 		private void SetSignedInText()
 		{
+			// Probably the main menu panel GameObject was set active in the prefab
+			if (ServerData.Auth?.CurrentUser == null) return;
+
 			signedInAsText.text = $"Logged in as {ServerData.Auth.CurrentUser.DisplayName}";
 		}
 
@@ -56,12 +56,6 @@ namespace Lobby
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			LobbyManager.Instance.HostServer();
-		}
-
-		private void OnInfoBtn()
-		{
-			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			LobbyManager.UI.ShowInformationPanel();
 		}
 
 		private void OnControlInfoBtn()

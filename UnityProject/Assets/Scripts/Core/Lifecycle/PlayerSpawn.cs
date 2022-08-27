@@ -124,12 +124,13 @@ public static class PlayerSpawn
 			message += " Invalid player character name.";
 			isOk = false;
 		}
-		*/
+		
 		if (ServerValidations.HasIllegalCharacterAge(request.CharacterSettings.Age))
 		{
 			message += " Invalid character age.";
 			isOk = false;
 		}
+		*/
 
 		if (isOk == false)
 		{

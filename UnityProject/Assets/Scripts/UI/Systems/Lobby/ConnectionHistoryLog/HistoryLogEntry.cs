@@ -25,6 +25,8 @@ namespace Lobby
 		public void SetData(ConnectionHistory entry)
 		{
 			this.entry = entry;
+
+			addressText.text = $"{entry.Address}:{entry.Port}";
 		}
 
 		private void OnJoinButton()
