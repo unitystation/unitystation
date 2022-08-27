@@ -34,9 +34,9 @@ public class Implanter : MonoBehaviour, ICheckedInteractable<HandApply>, IChecke
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
 		//can only be applied to LHB
-		if (!Validations.HasComponent<LivingHealthMasterBase>(interaction.TargetObject)) return false;
+		if (Validations.HasComponent<LivingHealthMasterBase>(interaction.TargetObject) == false) return false;
 
 		if (interaction.Intent != Intent.Help || primed == false) return false;
 
@@ -55,17 +55,14 @@ public class Implanter : MonoBehaviour, ICheckedInteractable<HandApply>, IChecke
 
 		foreach (var bodyPart in LHB.SurfaceBodyParts)
 		{
-			bool selected = false;
 
 			if (bodyPart.BodyPartType == interaction.TargetBodyPart)
 			{
 				ItemSlot toSlot = bodyPart.OrganStorage.GetNextFreeIndexedSlot();
 				ItemSlot fromSlot = itemStorage.GetIndexedItemSlot(0);
 
-				if (toSlot != null && selected == false)
+				if (toSlot != null)
 				{
-					selected = true;
-
 					ToolUtils.ServerUseToolWithActionMessages(interaction, timeToImplant,
 					$"You begin injecting {interaction.TargetObject.ExpensiveName()}'s {bodyPart.gameObject.ExpensiveName()} with the implanter...",
 					$"{interaction.Performer.ExpensiveName()} begins injecting {interaction.TargetObject.ExpensiveName()}'s {bodyPart.gameObject.ExpensiveName()} with the implanter...",
@@ -73,11 +70,19 @@ public class Implanter : MonoBehaviour, ICheckedInteractable<HandApply>, IChecke
 					$"{interaction.Performer.ExpensiveName()} injects {interaction.TargetObject.ExpensiveName()}'s {bodyPart.gameObject.ExpensiveName()} with the implanter.",
 					() =>
 					{
-						Inventory.ServerTransfer(fromSlot, toSlot,ReplacementStrategy.DropOther);
-						
-						TogglePrimed();	
+						if (Inventory.ServerTransfer(fromSlot, toSlot, ReplacementStrategy.DropOther))
+						{
+							TogglePrimed();
+						}
+						else
+						{
+							Chat.AddWarningMsgFromServer(interaction.Performer, "Unable to inject implant! The target body part might not have room for this implant!");
+						}
+
+
 					});
-					
+
+					break;
 				}
 			}
 		}
@@ -120,8 +125,14 @@ public class Implanter : MonoBehaviour, ICheckedInteractable<HandApply>, IChecke
 		}
 		else
 		{
-			if (itemStorage.GetIndexedItemSlot(0).IsEmpty) Chat.AddExamineMsg(interaction.Performer, "Cannot prime without implant");
-			else TogglePrimed();
+			if (itemStorage.GetIndexedItemSlot(0).IsEmpty)
+			{
+				Chat.AddExamineMsg(interaction.Performer, "Cannot prime without implant");
+			}
+			else
+			{
+				TogglePrimed();
+			}
 		}
 	}
 

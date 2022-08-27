@@ -30,8 +30,8 @@ namespace Items.Weapons
 					bodyPart.HealthMaster.DismemberBodyPart(bodyPart.ContainedIn);
 				}
 
-				//This prevents those with bomb proof armour from just tanking an explosion thats supposed to me inside them
-				bodyPart.HealthMaster.ApplyDamageToBodyPart(gameObject, 200, AttackType.Bomb, DamageType.Burn, bodyPart.ContainedIn.BodyPartType);
+				//This prevents those with bomb proof armour from just tanking an explosion thats supposed to be inside them
+				bodyPart.HealthMaster.ApplyDamageToBodyPart(gameObject, 200, AttackType.Internal, DamageType.Burn, bodyPart.ContainedIn.BodyPartType);
 
 			}
 
