@@ -4,7 +4,7 @@ using Items;
 
 public class Implanter : MonoBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<InventoryApply>, ICheckedInteractable<HandActivate>
 {
-	[SerializeField]
+	[SerializeField,Tooltip("The implant that this implanter starts with, leave as null if implanter is inted to be empty.")]
 	private GameObject implantObject = null;
 
 	[SerializeField]
@@ -13,22 +13,27 @@ public class Implanter : MonoBehaviour, ICheckedInteractable<HandApply>, IChecke
 	[SerializeField]
 	private ItemTrait ImplantableTrait = null;
 
-	[SerializeField]
 	private SpriteHandler spriteHandler;
 
 	private ItemStorage itemStorage;
+
+	private ItemSlot implantSlot;
+
 	private bool primed = false;
+
 
 	private void Awake()
 	{
+		spriteHandler = GetComponentInChildren<SpriteHandler>();
 		itemStorage = GetComponent<ItemStorage>();
+		implantSlot = itemStorage.GetIndexedItemSlot(0);
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		if (implantObject != null)
 		{
-			Inventory.ServerSpawnPrefab(implantObject, itemStorage.GetIndexedItemSlot(0));
+			Inventory.ServerSpawnPrefab(implantObject, implantSlot);
 		}
 	}
 
@@ -40,7 +45,7 @@ public class Implanter : MonoBehaviour, ICheckedInteractable<HandApply>, IChecke
 
 		if (interaction.Intent != Intent.Help || primed == false) return false;
 
-		if(itemStorage.GetIndexedItemSlot(0).IsEmpty)
+		if(implantSlot.IsEmpty)
 		{
 			Chat.AddExamineMsgFromServer(interaction.Performer, "No implant present in implanter!");
 			return false;
@@ -51,15 +56,14 @@ public class Implanter : MonoBehaviour, ICheckedInteractable<HandApply>, IChecke
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		var LHB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
+		var lhb = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 
-		foreach (var bodyPart in LHB.SurfaceBodyParts)
+		foreach (var bodyPart in lhb.SurfaceBodyParts)
 		{
 
 			if (bodyPart.BodyPartType == interaction.TargetBodyPart)
 			{
 				ItemSlot toSlot = bodyPart.OrganStorage.GetNextFreeIndexedSlot();
-				ItemSlot fromSlot = itemStorage.GetIndexedItemSlot(0);
 
 				if (toSlot != null)
 				{
@@ -70,7 +74,7 @@ public class Implanter : MonoBehaviour, ICheckedInteractable<HandApply>, IChecke
 					$"{interaction.Performer.ExpensiveName()} injects {interaction.TargetObject.ExpensiveName()}'s {bodyPart.gameObject.ExpensiveName()} with the implanter.",
 					() =>
 					{
-						if (Inventory.ServerTransfer(fromSlot, toSlot, ReplacementStrategy.DropOther))
+						if (Inventory.ServerTransfer(implantSlot, toSlot, ReplacementStrategy.DropOther))
 						{
 							TogglePrimed();
 						}
@@ -101,11 +105,11 @@ public class Implanter : MonoBehaviour, ICheckedInteractable<HandApply>, IChecke
 		{
 			if (interaction.UsedObject != null)
 			{
-				Inventory.ServerTransfer(interaction.FromSlot, itemStorage.GetIndexedItemSlot(0));
+				Inventory.ServerTransfer(interaction.FromSlot, implantSlot);
 			}
 			else
 			{
-				Inventory.ServerTransfer(itemStorage.GetIndexedItemSlot(0), interaction.FromSlot);
+				Inventory.ServerTransfer(implantSlot, interaction.FromSlot);
 			}
 		}
 	}
