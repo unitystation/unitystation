@@ -54,7 +54,7 @@ public class Mind : MonoBehaviour
 	}
 
 	// use Create to create a mind.
-	private Mind()
+	public void Awake()
 	{
 		// add spell to the UI bar as soon as they're added to the spell list
 		spells.CollectionChanged += (sender, e) =>
