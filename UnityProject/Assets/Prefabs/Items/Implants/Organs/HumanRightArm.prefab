@@ -259,6 +259,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
         type: 3}
+    - target: {fileID: 6999556221578282813, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: 138efc982f45730428c17206ecc50c77,
+        type: 2}
     - target: {fileID: 7241952607628385263, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
       propertyPath: IsSurface
@@ -441,6 +447,22 @@ MonoBehaviour:
       CategoryID: Handcuffs1
       ConditionalParameter: 1
       XAmountConditional: 2
+--- !u!114 &3523244764140818517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7468114191605762846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79a26cefea34ae3ad4615dab28acf61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEMPVunerable: 0
+  EMPResistance: 2
+  armEfficiency: 1
+  crawlingSpeed: 0.3
 --- !u!114 &5756682103643324902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -465,19 +487,3 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   ashPrefab: {fileID: 0}
---- !u!114 &3523244764140818517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7468114191605762846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a79a26cefea34ae3ad4615dab28acf61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isEMPVunerable: 0
-  EMPResistance: 2
-  armEfficiency: 1
-  crawlingSpeed: 0.3
