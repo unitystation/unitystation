@@ -17,7 +17,7 @@ public enum Event
 	ChatFocused,
 	ChatUnfocused,
 	AccountLoggedOut,
-	ServerLoggedOut, // TODO: invoke this somewhere
+	ServerLoggedOut,
 	RoundStarted,
 	PostRoundStarted,
 	SceneUnloading,

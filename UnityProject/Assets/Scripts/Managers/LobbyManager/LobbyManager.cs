@@ -85,7 +85,7 @@ namespace Lobby
 				}
 				else if (task.IsFaulted)
 				{
-					var knownCodes = new List<int>() { 12 };
+					var knownCodes = new List<int> { 12 };
 
 					var exception = task.Exception.Flatten().InnerExceptions[0];
 					Logger.LogError($"Sign in error: {task.Exception.Message}", Category.DatabaseAPI);
@@ -105,7 +105,7 @@ namespace Lobby
 				}))
 				{
 					isLoginSuccess = true;
-					SaveAccountPrefs(task.Result.Email, string.Empty); // TODO ???? token sort it
+					PlayerPrefs.SetString(PlayerPrefKeys.AccountEmail, task.Result.Email);
 					lobbyDialogue.ShowMainPanel();
 				}
 			});
@@ -167,7 +167,7 @@ namespace Lobby
 				// We haven't seen this user before.
 				lobbyDialogue.ShowAlphaPanel();
 				return false;
-			};
+			}
 
 			var randomGreeting = string.Format(greetings.PickRandom(), FirebaseAuth.DefaultInstance.CurrentUser.DisplayName);
 			lobbyDialogue.ShowLoadingPanel($"{randomGreeting}\n\nSigning you in...");
@@ -196,22 +196,6 @@ namespace Lobby
 			}
 
 			return false;
-		}
-
-		private void SaveAccountPrefs(string email, string token)
-		{
-			PlayerPrefs.SetString(PlayerPrefKeys.AccountEmail, email);
-
-			if (lobbyDialogue.LoginUIScript.IsAutoLoginEnabled)
-			{
-				PlayerPrefs.SetString(PlayerPrefKeys.AccountToken, token);
-			}
-			else
-			{
-				PlayerPrefs.DeleteKey(PlayerPrefKeys.AccountToken);
-			}
-
-			PlayerPrefs.Save();
 		}
 
 		#endregion
@@ -283,7 +267,7 @@ namespace Lobby
 
 		public void Quit()
 		{
-			// TODO: doesn't work in editor.
+			// TODO: doesn't work in editor. Not a big deal.
 			Application.Quit();
 		}
 
@@ -347,7 +331,7 @@ namespace Lobby
 			if (ServerJoinHistory.Count >= MaxJoinHistory)
 			{
 				// Remove older entries
-				ServerJoinHistory.RemoveRange(20, ServerJoinHistory.Count - MaxJoinHistory);
+				ServerJoinHistory.RemoveRange(MaxJoinHistory, ServerJoinHistory.Count - MaxJoinHistory);
 			}
 
 			SaveServerHistoryFile();
