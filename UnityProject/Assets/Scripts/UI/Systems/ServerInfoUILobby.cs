@@ -27,12 +27,8 @@ namespace ServerInfo
 
         public GameObject DiscordButton;
 
-        public static string serverDesc;
-
-        private static string serverDiscordID;
-        public string ServerDiscordID => serverDiscordID;
-
-        public static string serverRules;
+        private static string serverDesc;
+        public string ServerDiscordID { get; private set;}
 
         public InitialisationSystems Subsystem => InitialisationSystems.ServerInfoUILobby;
 
@@ -86,14 +82,14 @@ namespace ServerInfo
         {
 	        if (string.IsNullOrEmpty(ServerData.ServerConfig.DiscordLinkID)) return;
 
-	        serverDiscordID = ServerData.ServerConfig.DiscordLinkID;
+	        ServerDiscordID = ServerData.ServerConfig.DiscordLinkID;
         }
 
         public void ClientSetValues(string newName, string newDesc, string newDiscordID, string rules)
         {
 	        ServerName.text = newName;
 	        ServerDesc.text = newDesc;
-	        serverDiscordID = newDiscordID;
+	        ServerDiscordID = newDiscordID;
 	        ServerRules.text = rules;
 
 
@@ -204,8 +200,11 @@ namespace ServerInfo
 		public override void Process(NetMessage msg)
 		{
 			ServerInfoLobbyMessageServer.Send(
-					SentByPlayer.Connection, ServerData.ServerConfig.ServerName,
-					UIManager.Instance.ServerInfoUILobby.ServerDesc.text, UIManager.Instance.ServerInfoUILobby.ServerDiscordID, UIManager.Instance.ServerInfoUILobby.ServerRules.text);
+					SentByPlayer.Connection, //To player that requested this
+					ServerData.ServerConfig.ServerName, //Server name
+					UIManager.Instance.ServerInfoUILobby.ServerDesc.text, //MOTD
+					UIManager.Instance.ServerInfoUILobby.ServerDiscordID, //Discord link for button
+					UIManager.Instance.ServerInfoUILobby.ServerRules.text); //Server rules
 		}
 
 		public static NetMessage Send()
