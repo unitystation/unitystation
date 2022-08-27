@@ -934,7 +934,6 @@ MonoBehaviour:
   syncInterval: 0.1
   BodyType: 0
   RTT: 0
-  maxHealth: 100
   brain: {fileID: 0}
   BodyPartList: []
   SurfaceBodyParts: []
@@ -1011,6 +1010,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canBreathAnywhere: 0
+  takeLowPressureDamage: 0
+  takeHighPressureDamage: 1
   tickRate: 1
 --- !u!114 &-5098788322438649402
 MonoBehaviour:
@@ -1314,6 +1315,7 @@ MonoBehaviour:
   InitialLocationSynchronised: 0
   tileMoveSpeed: 1
   isNotPushable: 0
+  HasOwnGravity: 0
   airTime: 0
   slideTime: 0
   SetIgnoreSticky: 0

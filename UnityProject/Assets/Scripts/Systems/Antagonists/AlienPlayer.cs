@@ -539,13 +539,19 @@ namespace Systems.Antagonists
 
 		#region Plasma
 
+		private const int MinimumPlasmaRegen = 1;
+
 		private void PlasmaCheck()
 		{
 			//Don't need to check if full
 			if(currentPlasma == alienType.MaxPlasma) return;
 
-			//Need to be on weeds
-			if(onWeeds == false) return;
+			//Need to be on weeds for full plasma gain
+			if (onWeeds == false)
+			{
+				TryAddPlasma(MinimumPlasmaRegen);
+				return;
+			}
 
 			TryAddPlasma(currentPlasma + alienType.PlasmaGainRate);
 		}
@@ -699,11 +705,14 @@ namespace Systems.Antagonists
 
 		private void SetUpNewHealthValues()
 		{
+			livingHealthMasterBase.SetMaxHealth(alienType.MaxBodyPartHealth);
+
 			var bodyParts = livingHealthMasterBase.SurfaceBodyParts;
 
 			foreach (var bodyPart in bodyParts)
 			{
 				bodyPart.SelfArmor = alienType.BodyPartArmor;
+				bodyPart.SetMaxHealth(alienType.MaxBodyPartHealth);
 
 				//TODO when limb is separated out into Arm and Leg redo this
 				if(bodyPart.TryGetComponent<Limb>(out var limb) == false) continue;
@@ -741,11 +750,12 @@ namespace Systems.Antagonists
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, OnUpdate);
 
-			//Force player into ghost
-			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
-
 			//Set to null so can't reenter
 			if(playerScript.mind == null) return;
+
+			//Force player into ghost
+			PlayerSpawn.ServerGhost(playerScript.mind);
+
 			playerScript.mind.body = null;
 		}
 
@@ -1556,7 +1566,7 @@ namespace Systems.Antagonists
 				if (playerScript.mind.GetCurrentMob().OrNull()?.GetComponent<PlayerScript>().IsGhost == false)
 				{
 					//Force player current into ghost
-					PlayerSpawn.ServerSpawnGhost(playerScript.mind);
+					PlayerSpawn.ServerGhost(playerScript.mind);
 				}
 			}
 

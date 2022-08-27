@@ -29,7 +29,7 @@ namespace HealthV2
 	[RequireComponent(typeof(HealthStateController))]
 	[RequireComponent(typeof(MobSickness))]
 	public abstract class LivingHealthMasterBase : NetworkBehaviour, IFireExposable, IExaminable, IFullyHealable, IGib,
-		IAreaReactionBase, IRightClickable
+		IAreaReactionBase, IRightClickable, IServerSpawn
 	{
 		/// <summary>
 		/// Server side, each mob has a different one and never it never changes
@@ -85,12 +85,7 @@ namespace HealthV2
 		/// <summary>
 		/// The health of the creature when it has taken no damage
 		/// </summary>
-		[SerializeField] private float maxHealth = 100;
-
-		public float MaxHealth
-		{
-			get => maxHealth;
-		}
+		public float MaxHealth => healthStateController.MaxHealth;
 
 		/// <summary>
 		/// The current overall health of the creature.
@@ -301,8 +296,16 @@ namespace HealthV2
 			mobSickness = GetComponent<MobSickness>();
 			playerScript = GetComponent<PlayerScript>();
 			BodyPartStorage.ServerInventoryItemSlotSet += BodyPartTransfer;
+
+			//Needs to be in awake so the mobId is set before mind transfer (OnSpawnServer happens after that so cannot be used)
+			mobID = PlayerManager.Instance.GetMobID();
 		}
 
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			//Generate BloodType and DNA
+			healthStateController.SetDNA(new DNAandBloodType());
+		}
 
 		//TODO: confusing, make it not depend from the inventory storage Action
 		/// <summary>
@@ -454,11 +457,10 @@ namespace HealthV2
 			brain = _brain;
 		}
 
-		public override void OnStartServer()
+		[Server]
+		public void SetMaxHealth(float newMaxHealth)
 		{
-			mobID = PlayerManager.Instance.GetMobID();
-			//Generate BloodType and DNA
-			healthStateController.SetDNA(new DNAandBloodType());
+			healthStateController.SetMaxHealth(newMaxHealth);
 		}
 
 		public Reagent CHem;
@@ -652,7 +654,7 @@ namespace HealthV2
 		/// </summary>
 		public void CalculateOverallHealth()
 		{
-			float currentHealth = maxHealth;
+			float currentHealth = MaxHealth;
 			foreach (var implant in BodyPartList)
 			{
 				if (implant.DamageContributesToOverallHealth == false) continue;
@@ -831,7 +833,7 @@ namespace HealthV2
 
 		public float HealthPercentage()
 		{
-			return (OverallHealth / maxHealth) * 100;
+			return (OverallHealth / MaxHealth) * 100;
 		}
 
 		/// <summary>
@@ -931,7 +933,7 @@ namespace HealthV2
 			Extinguish(); //Remove any fire on them.
 			ResetDamageAll(); //Bring their entire body parts that are on them in good shape.
 			healthStateController
-				.SetOverallHealth(maxHealth); //Set the player's overall health to their race's maxHealth.
+				.SetOverallHealth(MaxHealth); //Set the player's overall health to their race's maxHealth.
 			RestartHeart();
 			playerScript.playerMove.allowInput = true; //Let them interact with the world again.
 			playerScript.registerTile.ServerStandUp();
@@ -1194,7 +1196,7 @@ namespace HealthV2
 
 			healthString.Append($"{ConsciousState.ToString().ToLower().Replace("_", " ")} and ");
 
-			var healthFraction = OverallHealth / maxHealth;
+			var healthFraction = OverallHealth / MaxHealth;
 			if (healthFraction < 0.2f)
 			{
 				healthString.Append("heavily wounded.");

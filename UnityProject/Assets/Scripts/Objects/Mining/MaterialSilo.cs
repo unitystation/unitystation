@@ -52,7 +52,7 @@ namespace Objects.Machines
 		{
 			var stackable = interaction.HandObject.GetComponent<Stackable>();
 			materialStorage.TryAddSheet(InsertedMaterialType, stackable.Amount);
-			Inventory.ServerDespawn(interaction.HandObject);
+			_ = Inventory.ServerDespawn(interaction.HandObject);
 		}
 
 		public void OnDespawnServer(DespawnInfo info)

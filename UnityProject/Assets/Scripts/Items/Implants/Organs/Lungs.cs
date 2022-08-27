@@ -5,7 +5,6 @@ using Chemistry;
 using Objects.Atmospherics;
 using ScriptableObjects.Atmospherics;
 using UnityEngine;
-using NaughtyAttributes;
 
 namespace HealthV2
 {
@@ -66,7 +65,8 @@ namespace HealthV2
 
 			Vector3Int position = RelatedPart.HealthMaster.ObjectBehaviour.registerTile.WorldPosition;
 			MetaDataNode node = MatrixManager.GetMetaDataAt(position);
-			var TotalModified = 1f;
+
+			var totalModified = 1f;
 			foreach (var modifier in bodyPart.AppliedModifiers)
 			{
 				var toMultiply = 1f;
@@ -85,10 +85,10 @@ namespace HealthV2
 					toMultiply = Mathf.Max(0f, modifier.Multiplier);
 				}
 
-				TotalModified *= toMultiply;
+				totalModified *= toMultiply;
 			}
 
-			if (TryBreathing(node, TotalModified))
+			if (TryBreathing(node, totalModified))
 			{
 				AtmosManager.Instance.UpdateNode(node);
 			}
@@ -122,7 +122,7 @@ namespace HealthV2
 				return false; //No point breathing if we dont have blood.
 			}
 
-			bool InternalGasMix = true;
+			bool internalGasMix = true;
 
 			// Try to get internal breathing if possible, otherwise get from the surroundings
 			IGasMixContainer container = RelatedPart.HealthMaster.RespiratorySystem.GetInternalGasMix();
@@ -138,7 +138,7 @@ namespace HealthV2
 				}
 				else
 				{
-					InternalGasMix = false;
+					internalGasMix = false;
 					container = node;
 				}
 			}
@@ -148,22 +148,22 @@ namespace HealthV2
 				efficiency = 1;
 			}
 
-			ReagentMix AvailableBlood =
+			ReagentMix availableBlood =
 				RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Take(
 					(RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Total * efficiency) / 2f);
 
-			if (InternalGasMix == false)
+			if (internalGasMix == false)
 			{
-				var Innode = RelatedPart.HealthMaster.RegisterTile.Matrix.MetaDataLayer.Get(RelatedPart.HealthMaster.transform.localPosition.RoundToInt());
-				if (Innode != null && Innode.SmokeNode.IsActive)
+				var inNode = RelatedPart.HealthMaster.RegisterTile.Matrix.MetaDataLayer.Get(RelatedPart.HealthMaster.transform.localPosition.RoundToInt());
+				if (inNode != null && inNode.SmokeNode.IsActive)
 				{
-					AvailableBlood.Add(Innode.SmokeNode.Present.Clone());
+					availableBlood.Add(inNode.SmokeNode.Present.Clone());
 				}
 			}
 
-			bool tryExhale = BreatheOut(gasMixSink, AvailableBlood);
-			bool tryInhale = BreatheIn(container.GasMix, AvailableBlood, efficiency);
-			RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Add(AvailableBlood);
+			bool tryExhale = BreatheOut(gasMixSink, availableBlood);
+			bool tryInhale = BreatheIn(container.GasMix, availableBlood, efficiency);
+			RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Add(availableBlood);
 			return tryExhale || tryInhale;
 		}
 
@@ -178,18 +178,18 @@ namespace HealthV2
 		private bool BreatheOut(GasMix gasMix, ReagentMix blood)
 		{
 			SpecialCarrier.Clear();
-			var OptimalBloodGasCapacity = 0f;
-			var BloodGasCapacity = 0f;
+			var optimalBloodGasCapacity = 0f;
+			var bloodGasCapacity = 0f;
 
 			foreach (var Reagent in blood.reagents.m_dict)
 			{
-				var BloodType = Reagent.Key as BloodType;
-				if (BloodType != null)
+				var bloodType = Reagent.Key as BloodType;
+				if (bloodType != null)
 				{
-					OptimalBloodGasCapacity += Reagent.Value * BloodType.BloodCapacityOf;
-					BloodGasCapacity += Reagent.Value * BloodType.BloodGasCapability;
-					SpecialCarrier.Add(BloodType.CirculatedReagent);
-					SpecialCarrier.Add(BloodType.WasteCarryReagent);
+					optimalBloodGasCapacity += Reagent.Value * bloodType.BloodCapacityOf;
+					bloodGasCapacity += Reagent.Value * bloodType.BloodGasCapability;
+					SpecialCarrier.Add(bloodType.CirculatedReagent);
+					SpecialCarrier.Add(bloodType.WasteCarryReagent);
 				}
 			}
 
@@ -203,11 +203,11 @@ namespace HealthV2
 
 				if (SpecialCarrier.Contains(reagent.Key))
 				{
-					toExhale.Add(reagent.Key, (reagent.Value / OptimalBloodGasCapacity) * LungSize);
+					toExhale.Add(reagent.Key, (reagent.Value / optimalBloodGasCapacity) * LungSize);
 				}
 				else
 				{
-					toExhale.Add(reagent.Key, (reagent.Value / BloodGasCapacity) * LungSize);
+					toExhale.Add(reagent.Key, (reagent.Value / bloodGasCapacity) * LungSize);
 				}
 			}
 
@@ -219,10 +219,10 @@ namespace HealthV2
 		/// <summary>
 		/// Pulls in the desired gas, as well as others, from the specified gas mix and adds them to the blood stream
 		/// </summary>
-		/// <param name="gasMix">The gas mix to breathe in from</param>
+		/// <param name="breathGasMix">The gas mix to breathe in from</param>
 		/// <param name="blood">The blood to put gases into</param>
 		/// <returns> True if breathGasMix was changed </returns>
-		private bool BreatheIn(GasMix breathGasMix, ReagentMix blood, float efficiency)
+		protected virtual bool BreatheIn(GasMix breathGasMix, ReagentMix blood, float efficiency)
 		{
 			if (RelatedPart.HealthMaster.RespiratorySystem.CanBreatheAnywhere)
 			{
@@ -231,28 +231,28 @@ namespace HealthV2
 			}
 
 			ReagentMix toInhale = new ReagentMix();
-			var Available = RelatedPart.bloodType.GetNormalGasCapacity(blood);
+			var available = RelatedPart.bloodType.GetNormalGasCapacity(blood);
 
 			ToxinBreathinCheck(breathGasMix);
-			float PercentageCanTake = 1;
+			float percentageCanTake = 1;
 
 			if (breathGasMix.Moles != 0)
 			{
-				PercentageCanTake = LungSize / breathGasMix.Moles;
+				percentageCanTake = LungSize / breathGasMix.Moles;
 			}
 
-			if (PercentageCanTake > 1)
+			if (percentageCanTake > 1)
 			{
-				PercentageCanTake = 1;
+				percentageCanTake = 1;
 			}
 
-			var PressureMultiplier = breathGasMix.Pressure / pressureSafeMin;
-			if (PressureMultiplier > 1)
+			var pressureMultiplier = breathGasMix.Pressure / pressureSafeMin;
+			if (pressureMultiplier > 1)
 			{
-				PressureMultiplier = 1;
+				pressureMultiplier = 1;
 			}
 
-			var TotalMoles = breathGasMix.Moles * PercentageCanTake;
+			var totalMoles = breathGasMix.Moles * percentageCanTake;
 
 
 			lock (breathGasMix.GasData.GasesArray) //no Double lock
@@ -263,20 +263,20 @@ namespace HealthV2
 					if (Gas.GasToReagent.TryGetValue(gas, out var gasReagent) == false) continue;
 
 					// n = PV/RT
-					float gasMoles = breathGasMix.GetMoles(gas) * PercentageCanTake;
+					float gasMoles = breathGasMix.GetMoles(gas) * percentageCanTake;
 
 					// Get as much as we need, or as much as in the lungs, whichever is lower
 					float molesRecieved = 0;
 
 					if (gasReagent == RelatedPart.bloodType.CirculatedReagent)
 					{
-						var PercentageMultiplier = (gasMoles / (TotalMoles));
-						molesRecieved = RelatedPart.bloodType.GetSpecialGasCapacity(blood) * PercentageMultiplier *
-										PressureMultiplier;
+						var percentageMultiplier = (gasMoles / (totalMoles));
+						molesRecieved = RelatedPart.bloodType.GetSpecialGasCapacity(blood) * percentageMultiplier *
+										pressureMultiplier;
 					}
 					else if (gasMoles != 0)
 					{
-						molesRecieved = (Available * (gasMoles / TotalMoles)) * PressureMultiplier;
+						molesRecieved = (available * (gasMoles / totalMoles)) * pressureMultiplier;
 					}
 
 					if (molesRecieved > 0)
@@ -320,6 +320,9 @@ namespace HealthV2
 		{
 			if (RelatedPart.HealthMaster.RespiratorySystem.CanBreatheAnywhere ||
 				RelatedPart.HealthMaster.playerScript == null) return;
+
+			var hasToxins = false;
+
 			foreach (ToxicGas gas in toxicGases)
 			{
 				float pressure = gasMix.GetPressure(gas.GasType);
@@ -327,8 +330,12 @@ namespace HealthV2
 				{
 					RelatedPart.HealthMaster.RespiratorySystem.ApplyDamage(gas.UnsafeLevelDamage,
 						gas.UnsafeLevelDamageType);
+
+					hasToxins = true;
 				}
 			}
+
+			RelatedPart.HealthMaster.HealthStateController.SetToxins(hasToxins);
 		}
 
 		public override void InternalDamageLogic()

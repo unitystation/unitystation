@@ -462,7 +462,7 @@ namespace Objects
 		{
 			if(data.DamageData.AttackType != AttackType.Rad) return;
 
-			if (data.DamageData.Damage >= 20f)
+			if (data.DamageData.Damage >= 19f)
 			{
 				//PA at setting 0 will do 20 damage
 				pointLock = true;

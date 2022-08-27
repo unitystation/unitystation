@@ -372,7 +372,7 @@ public partial class PlayerList
 			Logger.Log($"{player.Username} logged in successfully in offline mode. userid: {player.UserId}", Category.Admin);
 			serverAdmins.Add(player.UserId);
 		}
-		
+
 		return serverAdmins.Contains(player.UserId);
 	}
 
@@ -426,7 +426,7 @@ public partial class PlayerList
 
 		return true;
 	}
-	
+
 	/// <summary>
 	/// Check if the player is logging in with multiple clients or connections.
 	/// </summary>
@@ -484,7 +484,7 @@ public partial class PlayerList
 	public JobBanEntry FindPlayerJobBanEntryServer(string userID, JobType jobType, bool serverSideCheck = false)
 	{
 		if (TryGetByUserID(userID, out var player) == false) return null;
-		
+
 		return FindPlayerJobBanEntry(player, jobType, serverSideCheck);
 	}
 
@@ -611,7 +611,7 @@ public partial class PlayerList
 	public List<JobBanEntry> ListOfBanEntries(string playerID)
 	{
 		if (TryGetByUserID(playerID, out var player) == false) return null;
-		
+
 		return ClientAskingAboutJobBans(player);
 	}
 
@@ -1006,7 +1006,7 @@ public partial class PlayerList
 		{
 			if (!player.Script.IsGhost)
 			{
-				PlayerSpawn.ServerSpawnGhost(player.Script.mind);
+				PlayerSpawn.ServerGhost(player.Script.mind);
 				player.Script.mind.ghostLocked = true;
 			}
 		}

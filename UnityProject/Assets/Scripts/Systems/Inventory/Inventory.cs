@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Items;
 using Messages.Client;
 using UnityEngine;
@@ -100,13 +101,16 @@ public static class Inventory
 	/// </summary>
 	/// <param name="objectInSlot">object to despawn from inventory. Will be despawned normally if not in slot.</param>
 	/// <returns>true if successful</returns>
-	public static bool ServerDespawn(GameObject objectInSlot)
+	public static async Task<bool> ServerDespawn(GameObject objectInSlot)
 	{
 		var pu = objectInSlot.GetComponent<Pickupable>();
 		if (pu == null || pu.ItemSlot == null)
 		{
-			_ = Despawn.ServerSingle(objectInSlot);
+			var result = await Despawn.ServerSingle(objectInSlot);
+
+			return result.Successful;
 		}
+
 		return ServerDespawn(pu.ItemSlot);
 	}
 

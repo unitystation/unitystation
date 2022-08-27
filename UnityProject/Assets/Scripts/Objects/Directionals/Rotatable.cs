@@ -312,12 +312,12 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		}
 
 
-		if (MethodRotation is not RotationMethod.Parent or RotationMethod.ParentLockSprite)
+		if (MethodRotation != RotationMethod.Parent && MethodRotation != RotationMethod.ParentLockSprite)
 		{
 			transform.localRotation = ByDegreesToQuaternion(dir);
 		}
 
-		if (MethodRotation is not RotationMethod.Sprites or RotationMethod.ParentLockSprite)
+		if (MethodRotation != RotationMethod.Sprites && MethodRotation != RotationMethod.ParentLockSprite)
 		{
 			var quaternion = ByDegreesToQuaternion(dir);
 

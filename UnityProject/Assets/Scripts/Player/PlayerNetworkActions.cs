@@ -16,6 +16,7 @@ using HealthV2;
 using Items;
 using Items.Tool;
 using Messages.Server;
+using UI.Systems.AdminTools.DevTools;
 using Objects.Other;
 using Player.Movement;
 using Shuttles;
@@ -24,7 +25,11 @@ using UI.Items;
 using Doors;
 using Managers;
 using Objects;
+using Objects.Atmospherics;
+using Objects.Disposals;
 using Player.Language;
+using Systems.Electricity;
+using Systems.Pipes;
 using Tiles;
 using Util;
 using Random = UnityEngine.Random;
@@ -746,14 +751,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		//Only force to ghost if the mind belongs in to that body
 		if (skipCheck)
 		{
-			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
+			PlayerSpawn.ServerGhost(playerScript.mind);
 			return;
 		}
+
 		var currentMobID = GetComponent<LivingHealthMasterBase>().mobID;
 		if (GetComponent<LivingHealthMasterBase>().IsDead && !playerScript.IsGhost && playerScript.mind != null &&
 			playerScript.mind.bodyMobID == currentMobID)
 		{
-			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
+			PlayerSpawn.ServerGhost(playerScript.mind);
 		}
 	}
 
@@ -970,7 +976,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (playerScript.IsGhost == false)
 		{
 			//Admin turns into ghost
-			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
+			PlayerSpawn.ServerGhost(playerScript.mind);
 		}
 		else if (playerScript.IsGhost)
 		{

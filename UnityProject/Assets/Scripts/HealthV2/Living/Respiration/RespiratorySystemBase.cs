@@ -21,6 +21,14 @@ namespace HealthV2
 
 		public bool CanBreatheAnywhere => canBreathAnywhere;
 
+		[Tooltip("If this is turned on, the organism takes low pressure damage.")]
+		[SerializeField]
+		private bool takeLowPressureDamage = true;
+
+		[Tooltip("If this is turned on, the organism takes high pressure damage.")]
+		[SerializeField]
+		private bool takeHighPressureDamage = true;
+
 		[Tooltip("How often the respiration system should update.")] [SerializeField]
 		private float tickRate = 1f;
 
@@ -177,11 +185,13 @@ namespace HealthV2
 
 		private void CheckPressureDamage()
 		{
-			if (Pressure < AtmosConstants.MINIMUM_OXYGEN_PRESSURE)
+			if (takeLowPressureDamage && Pressure < AtmosConstants.MINIMUM_OXYGEN_PRESSURE)
 			{
 				ApplyDamage(AtmosConstants.LOW_PRESSURE_DAMAGE, DamageType.Brute);
+				return;
 			}
-			else if (Pressure > AtmosConstants.HAZARD_HIGH_PRESSURE)
+
+			if (takeHighPressureDamage && Pressure > AtmosConstants.HAZARD_HIGH_PRESSURE)
 			{
 				float damage = Mathf.Min(
 					((Pressure / AtmosConstants.HAZARD_HIGH_PRESSURE) - 1) * AtmosConstants.PRESSURE_DAMAGE_COEFFICIENT,

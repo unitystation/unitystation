@@ -101,20 +101,22 @@ namespace Items
 			//TODO: Reimplement metabolism.
 			SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
 
-			var Stomachs = eater.playerHealth.GetStomachs();
-			if (Stomachs.Count == 0)
+			var stomachs = eater.playerHealth.GetStomachs();
+			if (stomachs.Count == 0)
 			{
 				//No stomachs?!
 				return;
 			}
-			FoodContents.Divide(Stomachs.Count);
-			foreach (var Stomach in Stomachs)
+
+			FoodContents.Divide(stomachs.Count);
+
+			foreach (var stomach in stomachs)
 			{
-				Stomach.StomachContents.Add(FoodContents.CurrentReagentMix.Clone());
+				stomach.StomachContents.Add(FoodContents.CurrentReagentMix.Clone());
 			}
 
-
 			var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
+
 			//If food has a stack component, decrease amount by one instead of deleting the entire stack.
 			if (stackable != null)
 			{
@@ -122,7 +124,7 @@ namespace Items
 			}
 			else
 			{
-				Inventory.ServerDespawn(gameObject);
+				_ = Inventory.ServerDespawn(gameObject);
 			}
 
 			if (leavings != null)

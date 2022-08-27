@@ -513,6 +513,46 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
+	public PlayerInfo RemovePlayerbyUserId(string userId, PlayerInfo newPlayer)
+	{
+		Logger.LogTraceFormat("Searching for players with userId: {0}", Category.Connections, userId);
+		foreach (var player in loggedOff)
+		{
+			if ((player.UserId == userId))
+			{
+				Logger.LogTraceFormat("Found player with userId {0} clientId: {1}", Category.Connections, player.UserId, player.ClientId);
+				loggedOff.Remove(player);
+				return player;
+			}
+		}
+		foreach (var player in loggedIn)
+		{
+			if (PlayerManager.LocalViewerScript && PlayerManager.LocalViewerScript.gameObject == player.GameObject ||
+			    PlayerManager.LocalPlayerObject == player.GameObject)
+			{
+				continue; //server player
+			}
+
+			if (GameData.Instance.OfflineMode)
+			{
+				if (serverAdmins.Contains(player.UserId)) continue; //Allow admins to multikey (local devs connecting multiple clients)
+			}
+
+
+			if (player.UserId == userId && newPlayer != player)
+			{
+				Logger.LogTraceFormat("Found player with userId {0} clientId: {1}", Category.Connections, player.UserId, player.ClientId);
+				player.Connection.Disconnect(); //new client while online or dc timer not triggering yet
+				loggedIn.Remove(player);
+				return player;
+			}
+		}
+
+		return null;
+	}
+
+
+	[Server]
 	public PlayerInfo RemovePlayerbyClientId(string clientId, string userId, PlayerInfo newPlayer)
 	{
 		Logger.LogTraceFormat("Searching for players with userId: {0} clientId: {1}", Category.Connections, userId, clientId);
