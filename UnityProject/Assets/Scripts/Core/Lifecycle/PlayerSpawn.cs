@@ -205,6 +205,35 @@ public static class PlayerSpawn
 	//Time to start spawning players at arrivals
 	private static readonly DateTime ARRIVALS_SPAWN_TIME = new DateTime().AddHours(12).AddMinutes(2);
 
+	private static Vector3Int GetSpawnPointForOccupation(Occupation occupation)
+	{
+		Transform spawnTransform;
+		//Spawn normal location for special jobs or if less than 2 minutes passed
+		if (GameManager.Instance.stationTime < ARRIVALS_SPAWN_TIME || occupation.LateSpawnIsArrivals == false)
+		{
+			spawnTransform = SpawnPoint.GetRandomPointForJob(occupation.JobType);
+		}
+		else
+		{
+			spawnTransform = SpawnPoint.GetRandomPointForLateSpawn();
+			//Fallback to assistant spawn location if none found for late join
+			if (spawnTransform == null && occupation.JobType != JobType.NULL)
+			{
+				spawnTransform = SpawnPoint.GetRandomPointForJob(JobType.ASSISTANT);
+			}
+		}
+
+		if (spawnTransform == null)
+		{
+			Logger.LogErrorFormat(
+				"Unable to determine spawn position for  occupation {0}. Cannot spawn player.",
+				Category.EntitySpawn, occupation.DisplayName);
+			return Vector3Int.zero;
+		}
+
+		return spawnTransform.transform.position.CutToInt();
+	}
+
 	/// <summary>
 	/// Spawns a new player character and transfers the connection's control into the new body.
 	/// If existingMind is null, creates the new mind and assigns it to the new body.
@@ -229,52 +258,35 @@ public static class PlayerSpawn
 		//determine where to spawn them
 		if (spawnPos == null)
 		{
-			Transform spawnTransform;
-			//Spawn normal location for special jobs or if less than 2 minutes passed
-			if (GameManager.Instance.stationTime < ARRIVALS_SPAWN_TIME || occupation.LateSpawnIsArrivals == false)
-			{
-				spawnTransform = SpawnPoint.GetRandomPointForJob(occupation.JobType);
-			}
-			else
-			{
-				spawnTransform = SpawnPoint.GetRandomPointForLateSpawn();
-				//Fallback to assistant spawn location if none found for late join
-				if (spawnTransform == null && occupation.JobType != JobType.NULL)
-				{
-					spawnTransform = SpawnPoint.GetRandomPointForJob(JobType.ASSISTANT);
-				}
-			}
-
-			if (spawnTransform == null)
-			{
-				Logger.LogErrorFormat(
-					"Unable to determine spawn position for connection {0} occupation {1}. Cannot spawn player.",
-					Category.EntitySpawn,
-					connection.address, occupation.DisplayName);
-				return null;
-			}
-
-			spawnPos = spawnTransform.transform.position.CutToInt();
+			spawnPos = GetSpawnPointForOccupation(occupation);
 		}
+
+
+		if (existingMind == null)
+		{
+			//Spawn ghost
+			var Playerinfo = PlayerList.Instance.GetOnline(connection);
+			var ghosty =  ServerSpawnGhost(Playerinfo,  spawnPos.Value ,characterSettings);
+
+			existingMind = ghosty.GetComponent<Mind>();
+			existingMind.occupation = occupation;
+			existingMind.SetGhost(ghosty);
+			existingMind.IsGhosting = true;
+		}
+
 
 		//create the player object
 		var newPlayer = ServerCreatePlayer(spawnPos.GetValueOrDefault(), occupation.SpecialPlayerPrefab);
 		var newPlayerScript = newPlayer.GetComponent<PlayerScript>();
 
 		//get the old body if they have one.
-		var oldBody = existingMind?.GetCurrentMob();
+		var oldBody = existingMind.OrNull()?.GetCurrentMob();
 
 		var toUseCharacterSettings = occupation.UseCharacterSettings ? characterSettings : null;
 
-		var newMind = existingMind;
-		if (newMind == null)
-		{
-			//create the mind of the player
-			newMind = Mind.Create(newPlayer, occupation);
-		}
 
 		//transfer control to the player object
-		ServerTransferPlayer(connection, newPlayer, oldBody, Event.PlayerSpawned, toUseCharacterSettings, newMind,
+		ServerTransferPlayer(connection, newPlayer, oldBody, Event.PlayerSpawned, toUseCharacterSettings, existingMind,
 			willDestroyOldBody);
 
 		if (existingMind != null)
@@ -310,13 +322,6 @@ public static class PlayerSpawn
 			newPlayer.GetComponent<DynamicItemStorage>()?.SetUpOccupation(occupation);
 		}
 
-
-
-		if (newMind.ghost == null)
-		{
-			//Spawn ghost
-			ServerSpawnGhost(ps.mind, false);
-		}
 
 		return newPlayer;
 	}
@@ -379,7 +384,8 @@ public static class PlayerSpawn
 
 	public static void ServerGhost(Mind forMind)
 	{
-		forMind.ghost.gameObject.GetComponent<GhostMove>().ForcePositionClient(forMind.body.AssumedWorldPos, false, false);
+		forMind.ghost.gameObject.GetComponent<GhostMove>()
+			.ForcePositionClient(forMind.body.AssumedWorldPos, false, false);
 		forMind.Ghosting(forMind.ghost.gameObject);
 		var settings = forMind.body.GetComponent<PlayerScript>().characterSettings;
 		var connection = forMind.body.GetComponent<NetworkIdentity>().connectionToClient;
@@ -396,52 +402,8 @@ public static class PlayerSpawn
 	/// <param name="characterSettings"></param>
 	/// <param name="occupation"></param>
 	/// <returns></returns>
-	private static void ServerSpawnGhost(Mind forMind, bool AndOccupy = true)
+	private static PlayerScript ServerSpawnGhost(PlayerInfo playerInfo, Vector3Int spawnPosition, CharacterSheet characterSettings)
 	{
-		if (forMind == null)
-		{
-			Logger.LogError("Mind was null for ServerSpawnGhost", Category.Ghosts);
-			return;
-		}
-
-		//determine where to spawn the ghost
-		var body = forMind.GetCurrentMob();
-
-		if (body == null)
-		{
-			Logger.LogError("Body was null for ServerSpawnGhost", Category.Ghosts);
-			return;
-		}
-
-		var settings = body.GetComponent<PlayerScript>().characterSettings;
-		var connection = body.GetComponent<NetworkIdentity>().connectionToClient;
-		var registerTile = body.GetComponent<RegisterTile>();
-		if (registerTile == null)
-		{
-			Logger.LogErrorFormat("Cannot spawn ghost for body {0} because it has no registerTile", Category.Ghosts,
-				body.name);
-			return;
-		}
-
-		Vector3Int spawnPosition = TransformState.HiddenPos;
-		var objBeh = body.GetComponent<UniversalObjectPhysics>();
-		if (objBeh != null) spawnPosition = objBeh.registerTile.WorldPosition;
-
-		if (spawnPosition == TransformState.HiddenPos)
-		{
-			//spawn ghost at occupation location if we can't determine where their body is
-			Transform spawnTransform = SpawnPoint.GetRandomPointForJob(forMind.occupation.JobType, true);
-			if (spawnTransform == null)
-			{
-				Logger.LogErrorFormat("Unable to determine spawn position for occupation {1}. Cannot spawn ghost.",
-					Category.Ghosts,
-					forMind.occupation.DisplayName);
-				return;
-			}
-
-			spawnPosition = spawnTransform.transform.position.CutToInt();
-		}
-
 		var matrixInfo = MatrixManager.AtPoint(spawnPosition, true);
 		var parentTransform = matrixInfo.Objects;
 
@@ -451,30 +413,23 @@ public static class PlayerSpawn
 			parentTransform.rotation,
 			parentTransform);
 
-		forMind.SetGhost(ghost);
-
-		if (AndOccupy)
-		{
-			ServerGhost(forMind);
-			forMind.Ghosting(ghost);
-			ServerTransferPlayer(connection, ghost, body, Event.GhostSpawned, settings, forMind);
-		}
-
-
 		//fire all hooks
-		var info = SpawnInfo.Ghost(forMind.occupation, settings, CustomNetworkManager.Instance.ghostPrefab,
+		var info = SpawnInfo.Ghost(characterSettings, CustomNetworkManager.Instance.ghostPrefab,
 			SpawnDestination.At(spawnPosition, parentTransform));
 		Spawn._ServerFireClientServerSpawnHooks(SpawnResult.Single(info, ghost));
 
-		var isAdmin = forMind.body.PlayerInfo.IsAdmin;
+		var isAdmin = playerInfo.IsAdmin;
 		if (isAdmin)
 		{
-			var adminItemStorage = AdminManager.Instance.GetItemSlotStorage(forMind.body.PlayerInfo);
+			var adminItemStorage = AdminManager.Instance.GetItemSlotStorage(playerInfo);
 			adminItemStorage.ServerAddObserverPlayer(ghost);
 		}
 
 		//Set ghost sprite
 		ghost.GetComponent<GhostSprites>().SetGhostSprite(isAdmin);
+
+		return ghost.GetComponent<PlayerScript>();
+
 	}
 
 
@@ -486,6 +441,13 @@ public static class PlayerSpawn
 		//Hard coding to assistant
 		Vector3Int spawnPosition = SpawnPoint.GetRandomPointForJob(JobType.ASSISTANT).transform.position.CutToInt();
 
+		//Spawn ghost
+		var Playerinfo = PlayerList.Instance.GetOnline(joinedViewer.connectionToClient);
+		var ghosty =  ServerSpawnGhost(Playerinfo, spawnPosition, characterSettings);
+
+		var newMind = ghosty.GetComponent<Mind>();
+		newMind.SetGhost(ghosty);
+
 		//Get spawn location
 		var matrixInfo = MatrixManager.AtPoint(spawnPosition, true);
 		var parentTransform = matrixInfo.Objects;
@@ -493,11 +455,8 @@ public static class PlayerSpawn
 			parentTransform.rotation, parentTransform);
 
 		//Create the mind without a job refactor this to make it as a ghost mind
-		var newMind = Mind.Create(newPlayer);
 		ServerTransferPlayer(joinedViewer.connectionToClient, newPlayer, null, Event.GhostSpawned, characterSettings,
 			newMind);
-
-		newMind.SetGhost(newPlayer);
 
 		var isAdmin = PlayerList.Instance.GetOnline(joinedViewer.connectionToClient).IsAdmin;
 		newPlayer.GetComponent<GhostSprites>().SetGhostSprite(isAdmin);

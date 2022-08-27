@@ -17,7 +17,7 @@ using ScriptableObjects.Systems.Spells;
 /// IC character information (job role, antag info, real name, etc). A body and their ghost link to the same mind
 /// SERVER SIDE VALID ONLY, is not sync'd
 /// </summary>
-public class Mind
+public class Mind : MonoBehaviour
 {
 	public Occupation occupation;
 	public PlayerScript ghost;
@@ -80,33 +80,6 @@ public class Mind
 				}
 			}
 		};
-	}
-
-	/// <summary>
-	/// Creates and populates the mind for the specified player.
-	/// </summary>
-	/// <param name="player"></param>
-	/// <param name="occupation"></param>
-	public static Mind Create(GameObject player, Occupation occupation)
-	{
-		var mind = new Mind {occupation = occupation};
-		var playerScript = player.GetComponent<PlayerScript>();
-		mind.SetNewBody(playerScript);
-		return mind;
-	}
-
-	/// <summary>
-	/// Create as a Ghost
-	/// </summary>
-	/// <param name="player"></param>
-	public static Mind Create(GameObject player)
-	{
-		var playerScript = player.GetComponent<PlayerScript>();
-		var mind = new Mind { };
-		playerScript.mind = mind;
-		// Forces you into ghosting, the IsGhosting field should make it so it never points to Body
-		mind.Ghosting(player);
-		return mind;
 	}
 
 	public void SetNewBody(PlayerScript playerScript)
@@ -188,10 +161,9 @@ public class Mind
 		}
 	}
 
-	public void SetGhost(GameObject newGhost)
+	public void SetGhost(PlayerScript newGhost)
 	{
-		var PS = newGhost.GetComponent<PlayerScript>();
-		ghost = PS;
+		ghost = newGhost;
 	}
 
 	public void Ghosting(GameObject newGhost)
