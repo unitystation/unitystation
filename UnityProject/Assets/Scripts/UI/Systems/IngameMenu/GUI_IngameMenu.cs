@@ -94,11 +94,11 @@ namespace UI
 			if (!sentData)
 			{
 				sentData = true;
-				ServerInfoMessageClient.Send();
+				ServerInfoLobbyMessageClient.Send();
 			}
 
 			serverInfo.SetActive(false);
-			if (string.IsNullOrEmpty(GetComponent<ServerInfoUI>().ServerDesc.text)) return;
+			if (string.IsNullOrEmpty(UIManager.Instance.ServerInfoUILobby.ServerDesc.text)) return;
 			serverInfo.SetActive(true);
 		}
 

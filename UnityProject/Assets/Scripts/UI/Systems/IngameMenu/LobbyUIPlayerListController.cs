@@ -13,8 +13,6 @@ public class LobbyUIPlayerListController : MonoBehaviour
 
 	public GameObject playerTemplate = null;
 
-	private ServerInfoUI serverInfoUi;
-
 	private IDictionary<ClientConnectedPlayer, LobbyUIListTemplate> playerEntryList = new Dictionary<ClientConnectedPlayer, LobbyUIListTemplate>();
 
 	public void GenerateList()
