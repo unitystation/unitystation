@@ -26,6 +26,7 @@ namespace Systems.Atmospherics
 		public GameObject fireLight = null;
 		public GameObject iceShard = null;
 		public GameObject hotIce = null;
+		public GameObject metalHydrogen = null;
 
 		public override void Awake()
 		{

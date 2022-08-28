@@ -37,6 +37,7 @@ namespace ScriptableObjects.Atmospherics
 		public GasSO Freon = null;
 		public GasSO Smoke = null;
 		public GasSO Ash = null;
+		public GasSO CarbonMonoxide = null;
 
 		private void OnEnable()
 		{
@@ -68,6 +69,7 @@ namespace ScriptableObjects.Atmospherics
 			AddNewGasSo(Freon);
 			AddNewGasSo(Smoke);
 			AddNewGasSo(Ash);
+			AddNewGasSo(CarbonMonoxide);
 		}
 
 		public void AddNewGasSo(GasSO so)
