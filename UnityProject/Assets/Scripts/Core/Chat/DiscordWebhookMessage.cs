@@ -251,7 +251,7 @@ namespace DiscordWebhook
 		{
 			if (type == LogType.Exception || type == LogType.Error)
 			{
-				bool isUnique = ErrorMessageHashSet.Contains(stackTrace);
+				bool isUnique = ErrorMessageHashSet.Contains(stackTrace) == false;
 
 				if (GameManager.Instance != null)
 				{
