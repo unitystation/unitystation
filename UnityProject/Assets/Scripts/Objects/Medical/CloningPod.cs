@@ -23,9 +23,9 @@ namespace Objects.Medical
 		[SerializeField] private float internalCloningTime = 60;
 
 
-		public float LimbCloningDamage = 25;
+		private float LimbCloningDamage = 25;
 
-		public float CloningTime = 60;
+		private float CloningTime = 60;
 
 		public ItemTrait UpgradePart;
 
