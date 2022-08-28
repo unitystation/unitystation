@@ -6,7 +6,7 @@ namespace Systems.Score
 {
 	public class ScoreMachine : SingletonManager<ScoreMachine>
 	{
-		private Dictionary<string, ScoreEntry> Scores;
+		public Dictionary<string, ScoreEntry> Scores { get; private set; }
 
 		public enum ScoreType
 		{
@@ -24,20 +24,36 @@ namespace Systems.Score
 		/// <summary>
 		/// Used to add a new entry to the score machine to keep track of a subject. Make sure the ID is unique and saved somewhere!!!
 		/// </summary>
-		public void AddNewScoreEntry(string ID, ScoreType type)
+		/// <param name="ID">The unique ID of the score entry. Used to grab and manipulate the entry from scores dictionary.</param>
+		/// <param name="scoreName">The name of the score shown on UIs</param>
+		/// <param name="type">Are you tracking a number? bool? or string?</param>
+		/// <param name="category">What category does this score fall under? (MiscScore does not appear on round end UI)</param>
+		public void AddNewScoreEntry(string ID, string scoreName, ScoreType type, ScoreCategory category = ScoreCategory.MiscScore)
 		{
 			switch (type)
 			{
 				case ScoreType.Int:
-					ScoreEntryInt newEntryInt = new ScoreEntryInt();
+					ScoreEntryInt newEntryInt = new ScoreEntryInt
+					{
+						ScoreName = scoreName,
+						Category = category
+					};
 					Scores.Add(ID, newEntryInt);
 					break;
 				case ScoreType.Bool:
-					ScoreEntryBool newEntryBool = new ScoreEntryBool();
+					ScoreEntryBool newEntryBool = new ScoreEntryBool
+					{
+						ScoreName = scoreName,
+						Category = category
+					};
 					Scores.Add(ID, newEntryBool);
 					break;
 				case ScoreType.String:
-					ScoreEntryString newEntryString = new ScoreEntryString();
+					ScoreEntryString newEntryString = new ScoreEntryString
+					{
+						ScoreName = scoreName,
+						Category = category
+					};
 					Scores.Add(ID, newEntryString);
 					break;
 				default:
