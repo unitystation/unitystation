@@ -50,9 +50,12 @@ namespace Systems.Score
 
 			stationScores = ScoresInString(stationScoreEntries);
 			antagScores = ScoresInString(antagScoreEntries);
-			//Display UI code here
+			//TODO : Display UI code here
 		}
 
+		/// <summary>
+		/// Returns entries as strings for UI and chat use.
+		/// </summary>
 		private List<String> ScoresInString(List<ScoreEntry> scoreEntries)
 		{
 			List<String> strings = new List<string>();

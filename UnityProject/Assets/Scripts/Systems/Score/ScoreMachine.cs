@@ -118,6 +118,9 @@ namespace Systems.Score
 			c.Score = newValue;
 		}
 
+		/// <summary>
+		/// Returns the int score winner from a select number of entries.
+		/// </summary>
 		public string ScoreIntWinner(List<string> IDs)
 		{
 			var highestScoreIndex = -1;
@@ -129,6 +132,24 @@ namespace Systems.Score
 					Logger.LogError($"{id} does not exist in the score machine!");
 					continue;
 				}
+				if (Scores[id] is not ScoreEntryInt c || c.Score <= highestScoreIndex) continue;
+				highestScoreIndex = c.Score;
+				winner = id;
+			}
+
+			return winner;
+		}
+
+		/// <summary>
+		/// Returns an entry that has the highest int score.
+		/// </summary>
+		/// <returns></returns>
+		public string ScoreIntWinner()
+		{
+			var highestScoreIndex = -1;
+			var winner = "";
+			foreach (var id in Scores.Keys)
+			{
 				if (Scores[id] is not ScoreEntryInt c || c.Score <= highestScoreIndex) continue;
 				highestScoreIndex = c.Score;
 				winner = id;
