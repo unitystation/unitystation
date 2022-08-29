@@ -14,7 +14,6 @@ namespace Systems.Atmospherics
 
 		public void React(GasMix gasMix, MetaDataNode node)
 		{
-			Debug.Log("Hydrogen is trying to form");
 
 			var oldHeatCap = gasMix.WholeHeatCapacity;
 

@@ -38,7 +38,7 @@ namespace Systems.Atmospherics
 
 					if (gasMix.Temperature > AtmosDefines.HYRDOGEN_MIN_CRYSTALLISE_TEMPERATURE && gasMix.Temperature < AtmosDefines.HYRDOGEN_MAX_CRYSTALLISE_TEMPERATURE && rnd.Next(0, 2) == 0)
 					{
-						SpawnSafeThread.SpawnPrefab(node.Position, AtmosManager.Instance.metalHydrogen);
+						SpawnSafeThread.SpawnPrefab(node.Position.ToWorldInt(node.PositionMatrix), AtmosManager.Instance.metalHydrogen);
 					}
 
 					energyNeeded += AtmosDefines.HYRDOGEN_CRYSTALLISE_ENERGY * crystalliseRate;
