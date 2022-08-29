@@ -468,17 +468,19 @@ namespace UI.Chat_UI
 		public void OpenChatWindow(ChatChannel newChannel = ChatChannel.None, bool inputFocus = true)
 		{
 			//Prevent input spam
+			Logger.LogError("1");
 			if (windowCoolDown || UIManager.PreventChatInput) return;
+			Logger.LogError("2");
 			StartWindowCooldown();
-
+			Logger.LogError("3");
 			// Can't open chat window while main menu open
 			if (GUI_IngameMenu.Instance.menuWindow.activeInHierarchy)
 			{
 				return;
 			}
-
+			Logger.LogError("4");
 			var availChannels = GetAvailableChannels();
-
+			Logger.LogError("5");
 			// Change the selected channel if one is passed to the function and it's available
 			if (newChannel != ChatChannel.None && (availChannels & newChannel) == newChannel)
 			{
@@ -490,18 +492,25 @@ namespace UI.Chat_UI
 				TrySelectDefaultChannel();
 			}
 			// Otherwise use the previously selected channels again
-
+			Logger.LogError("6");
 
 			EventManager.Broadcast(Event.ChatFocused);
+			Logger.LogError("7");
 			chatInputWindow.SetActive(true);
+			Logger.LogError("8");
 			Showing = true;
+			Logger.LogError("9");
 			StartCoroutine(AnimateBackground());
+			Logger.LogError("10");
 			if (inputFocus)
 			{
-
+				Logger.LogError("11");
 				UIManager.IsInputFocus = true; // should work implicitly with InputFieldFocus
+				Logger.LogError("12");
 				EventSystem.current.SetSelectedGameObject(InputFieldChat.gameObject, null);
+				Logger.LogError("13");
 				InputFieldChat.OnPointerClick(new PointerEventData(EventSystem.current));
+				Logger.LogError("14");
 			}
 
 			RefreshChannelPanel();
