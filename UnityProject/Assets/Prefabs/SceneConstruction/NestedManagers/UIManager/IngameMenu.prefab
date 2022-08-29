@@ -2731,8 +2731,6 @@ GameObject:
   - component: {fileID: 4183651651856864320}
   - component: {fileID: 4072559114180336216}
   - component: {fileID: 4073146126709088526}
-  - component: {fileID: -1000567342684567745}
-  - component: {fileID: 8496813535983533541}
   m_Layer: 5
   m_Name: IngameMenu
   m_TagString: Untagged
@@ -2792,77 +2790,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae02394a20fbbee41a76b4df5ce01a59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-1000567342684567745
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4113822440349019706}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  serverOnly: 0
-  visible: 0
-  m_AssetId: e680a6b11b31c1341bca6818c96b9712
-  hasSpawned: 0
---- !u!114 &8496813535983533541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4113822440349019706}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  DEBUG: 0
-  SnapToGridOnStart: 0
-  LocalTargetPosition: {x: 0, y: 0, z: 0}
-  ChangesDirectionPush: 0
-  Intangible: 0
-  CanBeWindPushed: 1
-  IsPlayer: 0
-  InitialLocationSynchronised: 0
-  tileMoveSpeed: 1
-  isNotPushable: 0
-  HasOwnGravity: 0
-  airTime: 0
-  slideTime: 0
-  SetIgnoreSticky: 0
-  thrownBy: {fileID: 0}
-  aim: 0
-  spinMagnitude: 0
-  ForcedPushedFrame: 0
-  TryPushedFrame: 0
-  PushedFrame: 0
-  FramePushDecision: 1
-  stickyMovement: 0
-  OnThrowEndResetRotation: 0
-  maximumStickSpeed: 1.5
-  onStationMovementsRound: 0
-  registerTile: {fileID: 0}
-  ContextGameObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  IsCurrentlyFloating: 0
-  LocalDifferenceNeeded: {x: 0, y: 0}
-  CorrectingCourse: 0
-  Pushing: []
-  Hits: []
-  Animating: 0
-  isFlyingSliding: 0
-  IsMoving: 0
-  MoveIsWalking: 0
-  LastUpdateClientFlying: 0
-  BuckledToObject: {fileID: 0}
 --- !u!1 &4113884316881524652
 GameObject:
   m_ObjectHideFlags: 0
