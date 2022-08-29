@@ -68,12 +68,11 @@ namespace HealthV2
 
 		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
-			StartCoroutine(AddFat());
+			AddFat();
 		}
 
-		public IEnumerator AddFat()
+		public void AddFat()
 		{
-			yield return null;
 			if (InitialFatSpawned == false)
 			{
 				InitialFatSpawned = true;
