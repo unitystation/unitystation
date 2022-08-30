@@ -5,8 +5,6 @@ namespace Systems.Atmospherics
 	//Very similliar reaction to hot ice formation but without the oxygen requirement and different parameters
 	public class MetalHydrogenFormation : Reaction
 	{
-		private static Random rnd = new Random();
-
 		public bool Satisfies(GasMix gasMix)
 		{
 			throw new System.NotImplementedException();
@@ -17,7 +15,7 @@ namespace Systems.Atmospherics
 			var energyNeeded = 0f;
 			var oldHeatCap = gasMix.WholeHeatCapacity;
 
-			var temperatureScale = 0f;
+			float temperatureScale;
 
 			if (gasMix.Temperature < AtmosDefines.HYRDOGEN_MIN_CRYSTALLISE_TEMPERATURE)
 			{
@@ -30,26 +28,26 @@ namespace Systems.Atmospherics
 
 			if (temperatureScale >= 0)
 			{
-				var crystalliseRate = gasMix.GetMoles(Gas.Hydrogen) * temperatureScale / AtmosDefines.HYDROGEN_CRYSTALLISE_RATE;
+				int numberOfBarsToSpawn = (int)(gasMix.GetMoles(Gas.Hydrogen) * temperatureScale / AtmosDefines.HYDROGEN_CRYSTALLISE_RATE);
+
+				int stackSize = 50;
+
+				Math.Clamp(numberOfBarsToSpawn, 0, stackSize);
+
+				if (numberOfBarsToSpawn >= 1) return;
 				
-				if (crystalliseRate > 0.0001f)
-				{
-					gasMix.RemoveGas(Gas.Hydrogen, crystalliseRate);
+				gasMix.RemoveGas(Gas.Hydrogen, numberOfBarsToSpawn);
 
-					if (gasMix.Temperature > AtmosDefines.HYRDOGEN_MIN_CRYSTALLISE_TEMPERATURE && gasMix.Temperature < AtmosDefines.HYRDOGEN_MAX_CRYSTALLISE_TEMPERATURE && rnd.Next(0, 2) == 0)
-					{
-						SpawnSafeThread.SpawnPrefab(node.Position.ToWorldInt(node.PositionMatrix), AtmosManager.Instance.metalHydrogen);
-					}
+				SpawnSafeThread.SpawnPrefab(node.Position.ToWorldInt(node.PositionMatrix), AtmosManager.Instance.MetalHydrogen, amountIfStackable: numberOfBarsToSpawn);
 
-					energyNeeded += AtmosDefines.HYRDOGEN_CRYSTALLISE_ENERGY * crystalliseRate;
-				}
+				energyNeeded += AtmosDefines.HYRDOGEN_CRYSTALLISE_ENERGY * numberOfBarsToSpawn;
 			}
 
 			if (energyNeeded > 0)
 			{
 				var newHeatCap = gasMix.WholeHeatCapacity;
 
-				if (newHeatCap > 0.0003f)
+				if (newHeatCap > 0f)
 				{
 					gasMix.SetTemperature((gasMix.Temperature * oldHeatCap - energyNeeded) / newHeatCap);
 				}

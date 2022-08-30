@@ -31,7 +31,7 @@ namespace Systems.Atmospherics
 
 			if (numberOfIceToSpawn < 1) return;
 
-			SpawnSafeThread.SpawnPrefab(node.Position, AtmosManager.Instance.iceShard, amountIfStackable: numberOfIceToSpawn);
+			SpawnSafeThread.SpawnPrefab(node.Position, AtmosManager.Instance.IceShard, amountIfStackable: numberOfIceToSpawn);
 
 			gasMix.RemoveGas(Gas.WaterVapor, numberOfIceToSpawn * 2f);
 		}

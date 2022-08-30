@@ -23,10 +23,21 @@ namespace Systems.Atmospherics
 		public bool StopPipes = false;
 
 		//TODO: move these prefabs somewhere else more appropiate
-		public GameObject fireLight = null;
-		public GameObject iceShard = null;
-		public GameObject hotIce = null;
-		public GameObject metalHydrogen = null;
+		[SerializeField]
+		private GameObject fireLight = null;
+		public GameObject FireLight => fireLight;
+
+		[SerializeField]
+		private GameObject iceShard = null;
+		public GameObject IceShard => iceShard;
+
+		[SerializeField]
+		private GameObject hotIce = null;
+		public GameObject HotIce => hotIce;
+
+		[SerializeField]
+		private GameObject metalHydrogen = null;
+		public GameObject MetalHydrogen => metalHydrogen;
 
 		public override void Awake()
 		{

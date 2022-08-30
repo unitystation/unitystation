@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 
@@ -30,7 +28,7 @@ namespace Systems.Atmospherics
 			gasMix.RemoveGas(Gas.WaterVapor, reactionRate);
 			gasMix.RemoveGas(Gas.Plasma, reactionRate);
 
-			gasMix.AddGas(Gas.Hydrogen, 3 * reactionRate);
+			gasMix.AddGas(Gas.Hydrogen, AtmosDefines.HYDROGEN_FORMATION_RATIO * reactionRate);
 			gasMix.AddGas(Gas.CarbonMonoxide, reactionRate);
 
 			if (energyUsed > 0)

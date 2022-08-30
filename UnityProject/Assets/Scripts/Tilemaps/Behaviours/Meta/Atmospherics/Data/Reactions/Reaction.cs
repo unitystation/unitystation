@@ -167,7 +167,7 @@ namespace Systems.Atmospherics
 						Gas.Hydrogen,
 						new GasReactionData()
 						{
-							minimumMolesToReact = 0.1f
+							minimumMolesToReact = AtmosDefines.HYDROGEN_CRYSTALLISE_MIN_MOLES
 						}
 					},
 				},
@@ -196,7 +196,7 @@ namespace Systems.Atmospherics
 						Gas.WaterVapor,
 						new GasReactionData()
 						{
-							minimumMolesToReact = 0.1f
+							minimumMolesToReact = AtmosDefines.HYDROGEN_FORM_MIN_MOLES
 						}
 					},
 
@@ -204,13 +204,13 @@ namespace Systems.Atmospherics
 						Gas.Plasma,
 						new GasReactionData()
 						{
-							minimumMolesToReact = 0.1f
+							minimumMolesToReact = AtmosDefines.HYDROGEN_FORM_MIN_MOLES
 						}
 					},
 				},
 
 				minimumTileTemperature: AtmosDefines.HYDROGEN_FORM_MIN_TEMPERATURE,
-				maximumTileTemperature: 10000,
+				maximumTileTemperature: AtmosDefines.HYDROGEN_FORM_MAX_TEMPERATURE,
 
 				minimumTilePressure: 0,
 				maximumTilePressure: 10000000000,

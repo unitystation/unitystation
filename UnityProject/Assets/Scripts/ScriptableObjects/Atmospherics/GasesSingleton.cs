@@ -20,24 +20,77 @@ namespace ScriptableObjects.Atmospherics
 		private readonly Dictionary<GasSO, Reagent> gasToReagent = new  Dictionary<GasSO, Reagent>();
 		public Dictionary<GasSO, Reagent> GasToReagent => gasToReagent;
 
-		public GasSO Plasma = null;
-		public GasSO Oxygen = null;
-		public GasSO Nitrogen = null;
-		public GasSO CarbonDioxide = null;
-		public GasSO NitrousOxide = null;
-		public GasSO Hydrogen = null;
-		public GasSO WaterVapor = null;
-		public GasSO BZ = null;
-		public GasSO Miasma = null;
-		public GasSO Nitryl = null;
-		public GasSO Tritium = null;
-		public GasSO HyperNoblium = null;
-		public GasSO Stimulum = null;
-		public GasSO Pluoxium = null;
-		public GasSO Freon = null;
-		public GasSO Smoke = null;
-		public GasSO Ash = null;
-		public GasSO CarbonMonoxide = null;
+		[SerializeField]
+		private GasSO plasma = null;
+		public GasSO Plasma => plasma;
+
+		[SerializeField]
+		private GasSO oxygen = null;
+		public GasSO Oxygen => oxygen;
+
+		[SerializeField]
+		private GasSO nitrogen = null;
+		public GasSO Nitrogen => nitrogen;
+
+		[SerializeField]
+		private GasSO carbonDioxide = null;
+		public GasSO CarbonDioxide => carbonDioxide;
+
+		[SerializeField]
+		private GasSO nitrousOxide = null;
+		public GasSO NitrousOxide => nitrousOxide;
+
+		[SerializeField]
+		private GasSO hydrogen = null;
+		public GasSO Hydrogen => hydrogen;
+
+		[SerializeField]
+		private GasSO waterVapor = null;
+		public GasSO WaterVapor => waterVapor;
+	
+		[SerializeField]
+		private GasSO bz = null;
+		public GasSO BZ => bz;
+	
+		[SerializeField]
+		private GasSO miasma = null;
+		public GasSO Miasma => miasma;
+
+		[SerializeField]
+		private GasSO nitryl = null;
+		public GasSO Nitryl => nitryl;
+
+		[SerializeField]
+		private GasSO tritium = null;
+		public GasSO Tritium => tritium;
+
+		[SerializeField]
+		private GasSO hyperNoblium = null;
+		public GasSO HyperNoblium => hyperNoblium;
+
+		[SerializeField]
+		private GasSO stimulum = null;
+		public GasSO Stimulum => stimulum;
+
+		[SerializeField]
+		private GasSO pluoxium = null;
+		public GasSO Pluoxium => pluoxium;
+
+		[SerializeField]
+		private GasSO freon = null;
+		public GasSO Freon => freon;
+
+		[SerializeField]
+		private GasSO smoke = null;
+		public GasSO Smoke => smoke;
+
+		[SerializeField]
+		private GasSO ash = null;
+		public GasSO Ash => ash;
+
+		[SerializeField]
+		private GasSO carbonMonoxide = null;
+		public GasSO CarbonMonoxide => carbonMonoxide;
 
 		private void OnEnable()
 		{
@@ -52,24 +105,24 @@ namespace ScriptableObjects.Atmospherics
 			gasToReagent.Clear();
 
 			//Could maybe change this to use reflection?
-			AddNewGasSo(Plasma);
-			AddNewGasSo(Oxygen);
-			AddNewGasSo(Nitrogen);
-			AddNewGasSo(CarbonDioxide);
-			AddNewGasSo(NitrousOxide);
-			AddNewGasSo(Hydrogen);
-			AddNewGasSo(WaterVapor);
-			AddNewGasSo(BZ);
-			AddNewGasSo(Miasma);
-			AddNewGasSo(Nitryl);
-			AddNewGasSo(Tritium);
-			AddNewGasSo(HyperNoblium);
-			AddNewGasSo(Stimulum);
-			AddNewGasSo(Pluoxium);
-			AddNewGasSo(Freon);
-			AddNewGasSo(Smoke);
-			AddNewGasSo(Ash);
-			AddNewGasSo(CarbonMonoxide);
+			AddNewGasSo(plasma);
+			AddNewGasSo(oxygen);
+			AddNewGasSo(nitrogen);
+			AddNewGasSo(carbonDioxide);
+			AddNewGasSo(nitrousOxide);
+			AddNewGasSo(hydrogen);
+			AddNewGasSo(waterVapor);
+			AddNewGasSo(bz);
+			AddNewGasSo(miasma);
+			AddNewGasSo(nitryl);
+			AddNewGasSo(tritium);
+			AddNewGasSo(hyperNoblium);
+			AddNewGasSo(stimulum);
+			AddNewGasSo(pluoxium);
+			AddNewGasSo(freon);
+			AddNewGasSo(smoke);
+			AddNewGasSo(ash);
+			AddNewGasSo(carbonMonoxide);
 		}
 
 		public void AddNewGasSo(GasSO so)
