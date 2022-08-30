@@ -73,7 +73,7 @@ public class Implanter : MonoBehaviour, ICheckedInteractable<HandApply>, IChecke
 					{
 						if (Inventory.ServerTransfer(implantSlot, toSlot, ReplacementStrategy.DropOther))
 						{
-							TogglePrimed(false);
+							SetPrimed(false);
 						}
 						else
 						{
@@ -120,7 +120,7 @@ public class Implanter : MonoBehaviour, ICheckedInteractable<HandApply>, IChecke
 	{
 		if (interaction.IsAltClick)
 		{
-			TogglePrimed(false);
+			SetPrimed(false);
 			itemStorage.ServerDropAll();
 		}
 		else
@@ -131,12 +131,12 @@ public class Implanter : MonoBehaviour, ICheckedInteractable<HandApply>, IChecke
 			}
 			else
 			{
-				TogglePrimed(true);
+				SetPrimed(true);
 			}
 		}
 	}
 
-	private void TogglePrimed(bool isPrimed)
+	private void SetPrimed(bool isPrimed)
 	{
 		primed = isPrimed;
 		var index = primed == true ? 1 : 0;
