@@ -29,9 +29,11 @@ namespace Items.Weapons
 					//Removes limb it is implanted in
 					bodyPart.HealthMaster.DismemberBodyPart(bodyPart.ContainedIn);
 				}
-
-				//This prevents those with bomb proof armour from just tanking an explosion thats supposed to be inside them
-				bodyPart.HealthMaster.ApplyDamageToBodyPart(gameObject, 200, AttackType.Internal, DamageType.Burn, bodyPart.ContainedIn.BodyPartType);
+				else
+				{
+					//This prevents those with bomb proof armour from just tanking an explosion thats supposed to be inside them
+					bodyPart.HealthMaster.ApplyDamageToBodyPart(gameObject, 200, AttackType.Internal, DamageType.Burn, bodyPart.ContainedIn.BodyPartType);
+				}
 
 			}
 

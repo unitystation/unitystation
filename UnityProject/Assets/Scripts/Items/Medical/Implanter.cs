@@ -45,12 +45,6 @@ public class Implanter : MonoBehaviour, ICheckedInteractable<HandApply>, IChecke
 
 		if (interaction.Intent != Intent.Help || primed == false) return false;
 
-		if(implantSlot.IsEmpty)
-		{
-			Chat.AddExamineMsgFromServer(interaction.Performer, "No implant present in implanter!");
-			return false;
-		}
-
 		return true;
 	}
 
@@ -58,15 +52,18 @@ public class Implanter : MonoBehaviour, ICheckedInteractable<HandApply>, IChecke
 	{
 		var lhb = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 
+		bool hasFoundPart = false; //A player can have multiple surface body parts in the same 'target' such as multiple right arms. This bool is here so it only tries to implant into one bodypart.
+
 		foreach (var bodyPart in lhb.SurfaceBodyParts)
 		{
-
-			if (bodyPart.BodyPartType == interaction.TargetBodyPart)
+			if (bodyPart.BodyPartType == interaction.TargetBodyPart && hasFoundPart == false)
 			{
 				ItemSlot toSlot = bodyPart.OrganStorage.GetNextFreeIndexedSlot();
 
 				if (toSlot != null)
 				{
+					hasFoundPart = true;
+
 					ToolUtils.ServerUseToolWithActionMessages(interaction, timeToImplant,
 					$"You begin injecting {interaction.TargetObject.ExpensiveName()}'s {bodyPart.gameObject.ExpensiveName()} with the implanter...",
 					$"{interaction.Performer.ExpensiveName()} begins injecting {interaction.TargetObject.ExpensiveName()}'s {bodyPart.gameObject.ExpensiveName()} with the implanter...",
@@ -76,7 +73,7 @@ public class Implanter : MonoBehaviour, ICheckedInteractable<HandApply>, IChecke
 					{
 						if (Inventory.ServerTransfer(implantSlot, toSlot, ReplacementStrategy.DropOther))
 						{
-							TogglePrimed();
+							SetPrimed(false);
 						}
 						else
 						{
@@ -85,8 +82,6 @@ public class Implanter : MonoBehaviour, ICheckedInteractable<HandApply>, IChecke
 
 
 					});
-
-					break;
 				}
 			}
 		}
@@ -125,6 +120,7 @@ public class Implanter : MonoBehaviour, ICheckedInteractable<HandApply>, IChecke
 	{
 		if (interaction.IsAltClick)
 		{
+			SetPrimed(false);
 			itemStorage.ServerDropAll();
 		}
 		else
@@ -135,14 +131,14 @@ public class Implanter : MonoBehaviour, ICheckedInteractable<HandApply>, IChecke
 			}
 			else
 			{
-				TogglePrimed();
+				SetPrimed(true);
 			}
 		}
 	}
 
-	private void TogglePrimed()
+	private void SetPrimed(bool isPrimed)
 	{
-		primed = !primed;
+		primed = isPrimed;
 		var index = primed == true ? 1 : 0;
 
 		spriteHandler.ChangeSprite(index);
