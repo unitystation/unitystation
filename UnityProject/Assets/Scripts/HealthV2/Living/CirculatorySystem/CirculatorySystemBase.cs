@@ -385,7 +385,7 @@ namespace HealthV2
 
 			var  Bymultiply = numberOfMinutesBeforeHunger / MinutesAvailable;
 
-			Bymultiply += UnityEngine.Random.Range(-0.25f, 0.25f);
+			Bymultiply *= (1 + UnityEngine.Random.Range(-0.25f, 0.25f));
 
 			foreach (var Stomach in Stomachs)
 			{
