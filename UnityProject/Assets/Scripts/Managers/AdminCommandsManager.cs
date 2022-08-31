@@ -1057,7 +1057,7 @@ namespace AdminCommands
 
 			if (tile is ElectricalCableTile electricalCableTile)
 			{
-				//TODO make this actually work, looking at CableCoil.cs i've got no idea whats going on. Get Bod to do it?
+				matrixInfo.Matrix.AddElectricalNode(localPos, electricalCableTile);
 				ElectricalManager.Instance.electricalSync.StructureChange = true;
 				return;
 			}
