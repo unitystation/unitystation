@@ -7,6 +7,32 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8674756814998932604, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: groundReagents.m_keys.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8674756814998932604, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: groundReagents.m_values.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8674756814998932604, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: groundReagents.m_keys.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3afb1893f74fb775d806cbc4563ed1e7,
+        type: 2}
+    - target: {fileID: -8674756814998932604, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: groundReagents.m_values.Array.data[0]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -8674756814998932604, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: groundReagents.m_values.Array.data[1]
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 143472338891529204, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -238,6 +264,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
         type: 3}
+    - target: {fileID: 6999556221578282813, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: c4bde3d59893d0d4887bd4672bb9dc97,
+        type: 2}
     - target: {fileID: 7241952607628385263, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
       propertyPath: IsSurface

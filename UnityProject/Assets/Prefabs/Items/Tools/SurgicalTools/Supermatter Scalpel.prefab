@@ -1,0 +1,119 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6785727791411564288
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 622957899849383377, guid: 6d3ab6351590fb943aea84485346e1c0,
+        type: 3}
+      propertyPath: initialName
+      value: supermatter scalpel
+      objectReference: {fileID: 0}
+    - target: {fileID: 622957899849383377, guid: 6d3ab6351590fb943aea84485346e1c0,
+        type: 3}
+      propertyPath: initialDescription
+      value: A specialist scalpel for removing crystals.
+      objectReference: {fileID: 0}
+    - target: {fileID: 622957899849383377, guid: 6d3ab6351590fb943aea84485346e1c0,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 622957899849383377, guid: 6d3ab6351590fb943aea84485346e1c0,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 635f2dad6ee0ce749a89253fd4a13f8f,
+        type: 2}
+    - target: {fileID: 916869277852852719, guid: 6d3ab6351590fb943aea84485346e1c0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 676d3f2efffc760448c443a748302989,
+        type: 3}
+    - target: {fileID: 1029259830361477811, guid: 6d3ab6351590fb943aea84485346e1c0,
+        type: 3}
+      propertyPath: m_Name
+      value: Supermatter Scalpel
+      objectReference: {fileID: 0}
+    - target: {fileID: 1034465056015921095, guid: 6d3ab6351590fb943aea84485346e1c0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1034465056015921095, guid: 6d3ab6351590fb943aea84485346e1c0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1034465056015921095, guid: 6d3ab6351590fb943aea84485346e1c0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1034465056015921095, guid: 6d3ab6351590fb943aea84485346e1c0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1034465056015921095, guid: 6d3ab6351590fb943aea84485346e1c0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1034465056015921095, guid: 6d3ab6351590fb943aea84485346e1c0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1034465056015921095, guid: 6d3ab6351590fb943aea84485346e1c0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1034465056015921095, guid: 6d3ab6351590fb943aea84485346e1c0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1034465056015921095, guid: 6d3ab6351590fb943aea84485346e1c0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1034465056015921095, guid: 6d3ab6351590fb943aea84485346e1c0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1034465056015921095, guid: 6d3ab6351590fb943aea84485346e1c0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1142964073268801287, guid: 6d3ab6351590fb943aea84485346e1c0,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 8e8facb223b7bf1429fb24d94f8e9251
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265091716516011742, guid: 6d3ab6351590fb943aea84485346e1c0,
+        type: 3}
+      propertyPath: foreverID
+      value: 8e8facb223b7bf1429fb24d94f8e9251
+      objectReference: {fileID: 0}
+    - target: {fileID: 6561381180063934772, guid: 6d3ab6351590fb943aea84485346e1c0,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 46591e28ced073c4a94efdc88d6d94e0,
+        type: 2}
+    - target: {fileID: 7813980015365712969, guid: 6d3ab6351590fb943aea84485346e1c0,
+        type: 3}
+      propertyPath: SpeedMultiplier
+      value: 1.25
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6d3ab6351590fb943aea84485346e1c0, type: 3}

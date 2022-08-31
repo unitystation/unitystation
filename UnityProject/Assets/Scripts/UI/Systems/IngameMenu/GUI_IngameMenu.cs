@@ -20,8 +20,6 @@ namespace UI
 
 		public VotePopUp VotePopUp;
 
-		public GameObject serverInfo;
-
 		private ModalPanelManager ModalPanelManager => ModalPanelManager.Instance;
 
 		private CustomNetworkManager NetworkManager => CustomNetworkManager.Instance;
@@ -90,16 +88,7 @@ namespace UI
 			Logger.Log($"Opening {menuWindow.name} menu", Category.UI);
 			menuWindow.SetActive(true);
 			if (UIManager.Display.disclaimer != null) UIManager.Display.disclaimer.SetActive(true);
-
-			if (!sentData)
-			{
-				sentData = true;
-				ServerInfoMessageClient.Send();
-			}
-
-			serverInfo.SetActive(false);
-			if (string.IsNullOrEmpty(GetComponent<ServerInfoUI>().ServerDesc.text)) return;
-			serverInfo.SetActive(true);
+			ServerInfoLobbyMessageClient.Send();
 		}
 
 		/// <summary>
@@ -249,7 +238,6 @@ namespace UI
 		private void HideAllMenus()
 		{
 			menuWindow.SetActive(false);
-			serverInfo.SetActive(false);
 			votingWindow.SetActive(false);
 			if (UIManager.Display.disclaimer != null) UIManager.Display.disclaimer.SetActive(false);
 		}
