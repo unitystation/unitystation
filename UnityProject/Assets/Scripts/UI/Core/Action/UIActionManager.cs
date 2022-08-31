@@ -411,7 +411,7 @@ namespace UI.Action
 
 		public void LoggedOut()
 		{
-			CheckEvent(Event.LoggedOut);
+			CheckEvent(Event.ServerLoggedOut);
 		}
 
 		public void RoundStarted()
@@ -476,7 +476,7 @@ namespace UI.Action
 			EventManager.AddHandler(Event.PlayerDied, OnPlayerDie);
 			EventManager.AddHandler(Event.PlayerSpawned, OnPlayerSpawn);
 
-			EventManager.AddHandler(Event.LoggedOut, LoggedOut);
+			EventManager.AddHandler(Event.ServerLoggedOut, LoggedOut);
 			EventManager.AddHandler(Event.RoundStarted, RoundStarted);
 			EventManager.AddHandler(Event.GhostSpawned, GhostSpawned);
 			EventManager.AddHandler(Event.PlayerRejoined, PlayerRejoined);
@@ -488,7 +488,7 @@ namespace UI.Action
 			EventManager.RemoveHandler(Event.PlayerDied, OnPlayerDie);
 			EventManager.RemoveHandler(Event.PlayerSpawned, OnPlayerSpawn);
 
-			EventManager.RemoveHandler(Event.LoggedOut, LoggedOut);
+			EventManager.RemoveHandler(Event.ServerLoggedOut, LoggedOut);
 			EventManager.RemoveHandler(Event.RoundStarted, RoundStarted);
 			EventManager.RemoveHandler(Event.GhostSpawned, GhostSpawned);
 			EventManager.RemoveHandler(Event.PlayerRejoined, PlayerRejoined);

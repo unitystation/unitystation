@@ -16,7 +16,8 @@ public enum Event
 	PowerNetSelfCheck,
 	ChatFocused,
 	ChatUnfocused,
-	LoggedOut,
+	AccountLoggedOut,
+	ServerLoggedOut,
 	RoundStarted,
 	PostRoundStarted,
 	SceneUnloading,
@@ -130,7 +131,10 @@ public class EventManager : MonoBehaviour
 			case Event.EnableInternals:
 				category = Category.PlayerInventory;
 				break;
-			case Event.LoggedOut:
+			case Event.AccountLoggedOut:
+				category = Category.DatabaseAPI;
+				break;
+			case Event.ServerLoggedOut:
 				category = Category.Connections;
 				break;
 			case Event.PlayerRejoined:

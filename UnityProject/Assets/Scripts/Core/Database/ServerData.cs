@@ -27,7 +27,7 @@ namespace DatabaseAPI
 				$"unitystation-c6a53/databases/(default)/documents/users/{Auth.CurrentUser.UserId}";
 
 		private FirebaseAuth auth;
-		public static FirebaseAuth Auth => Instance.auth;
+		public static FirebaseAuth Auth => Instance.OrNull()?.auth;
 
 		private readonly Dictionary<string, FirebaseUser> userByAuth = new();
 
@@ -68,13 +68,13 @@ namespace DatabaseAPI
 
 		private void OnEnable()
 		{
-			EventManager.AddHandler(Event.LoggedOut, OnLogOut);
+			EventManager.AddHandler(Event.AccountLoggedOut, OnLogOut);
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
 		private void OnDisable()
 		{
-			EventManager.RemoveHandler(Event.LoggedOut, OnLogOut);
+			EventManager.RemoveHandler(Event.AccountLoggedOut, OnLogOut);
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
@@ -142,9 +142,10 @@ namespace DatabaseAPI
 		{
 			auth.SignOut();
 			idToken = "";
-			PlayerPrefs.SetString("username", "");
-			PlayerPrefs.SetString("cookie", "");
-			PlayerPrefs.SetInt("autoLogin", 0);
+			PlayerPrefs.DeleteKey(PlayerPrefKeys.AccountUsername);
+			PlayerPrefs.DeleteKey(PlayerPrefKeys.AccountEmail);
+			PlayerPrefs.DeleteKey(PlayerPrefKeys.AccountToken);
+			PlayerPrefs.SetInt("autoLogin", 0); // TODO remove these,
 			PlayerPrefs.Save();
 		}
 	}

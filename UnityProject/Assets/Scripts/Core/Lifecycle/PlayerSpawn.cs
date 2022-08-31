@@ -125,12 +125,13 @@ public static class PlayerSpawn
 			message += " Invalid player character name.";
 			isOk = false;
 		}
-		*/
+
 		if (ServerValidations.HasIllegalCharacterAge(request.CharacterSettings.Age))
 		{
 			message += " Invalid character age.";
 			isOk = false;
 		}
+		*/
 
 		if (isOk == false)
 		{
@@ -272,7 +273,6 @@ public static class PlayerSpawn
 			existingMind = ghosty.GetComponent<Mind>();
 			existingMind.occupation = occupation;
 
-
 		}
 
 
@@ -288,6 +288,7 @@ public static class PlayerSpawn
 
 		//transfer control to the player object
 		ServerTransferPlayer(connection, newPlayer, oldBody, Event.PlayerSpawned, toUseCharacterSettings, existingMind);
+
 
 		if (existingMind != null)
 		{

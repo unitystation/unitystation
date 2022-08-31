@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Mirror;
 using DatabaseAPI;
+using Lobby;
 
 namespace Core.Networking
 {
@@ -278,7 +279,24 @@ namespace Core.Networking
 			}
 
 			Logger.Log($"Disconnected from server. Reason: {msg.Code}.");
-			UIManager.InfoWindow.Show(msg.Message, bwoink: false, "Disconnected");
+
+			// LobbyManager.UI null check, perhaps it will be possible to join a server while not in the lobby scene.
+			if (msg.Code == ResponseCode.InvalidClientVersion && LobbyManager.UI != null)
+			{
+				LobbyManager.UI.ShowInfoPanel(new InfoPanelArgs
+				{
+					IsError = true,
+					Heading = "Wrong Version",
+					Text = msg.Message,
+					LeftButtonLabel = "Back",
+					LeftButtonCallback = LobbyManager.UI.ShowJoinPanel,
+				});
+			}
+			else
+			{
+				UIManager.InfoWindow.Show(msg.Message, bwoink: false, "Disconnected");
+			}
+
 			ClientReject(); // Gracefully handle rejection by disconnecting.
 			CustomNetworkManager.Instance.StopClient(); // Then shut down the client to return to the main menu.
 		}

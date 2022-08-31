@@ -61,8 +61,6 @@ namespace UI
 		[SerializeField]
 		private Button characterButton = null;
 
-		public GameObject serverInfo;
-
 		// Internal variables
 		private bool doCountdown;
 		private double countdownEndTime;
@@ -204,16 +202,10 @@ namespace UI
 		public void OnReadyButton()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			CharacterCreator.CharacterCustomization customizerScript = characterCustomization.GetComponentInChildren<CharacterCreator.CharacterCustomization>();
-			customizerScript.GetSavedCharacters();
-			if (customizerScript.PlayerCharacters.Count == 0)
+			if (PlayerManager.CurrentCharacterSheet == null)
 			{
 				warnText.SetActive(true);
 				return;
-			}
-			else
-			{
-				customizerScript.ValidateCurrentCharacter();
 			}
 			SetReady(!isReady);
 			TryShowAdminPanel();
@@ -265,9 +257,6 @@ namespace UI
 		private void SetInfoScreenOn()
 		{
 			ServerInfoLobbyMessageClient.Send();
-			serverInfo.SetActive(false);
-			if (string.IsNullOrEmpty(ServerInfoUI.serverDesc)) return;
-			serverInfo.SetActive(true);
 		}
 
 		/// <summary>

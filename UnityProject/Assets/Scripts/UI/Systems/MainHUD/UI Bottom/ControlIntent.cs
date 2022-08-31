@@ -27,8 +27,6 @@ namespace UI
 		[SerializeField] private string startRunningMessage = "You start running";
 		[SerializeField] private string startWalkingMessage = "You start walking";
 
-		private bool clientResting = false;
-
 		public bool Running { get; set; } = true;
 
 		private void Start()
@@ -53,12 +51,10 @@ namespace UI
 		/// </summary>
 		public void OnClickRest()
 		{
-			if(PlayerManager.LocalPlayerScript.PlayerTypeSettings.CanRest == false && clientResting == false) return;
 			Logger.Log("OnClickRest", Category.UserInput);
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			clientResting = !clientResting;
-			RequestRest.Send(clientResting);
-			Chat.AddExamineMsgToClient(clientResting ? startRestMessage : endRestMessage);
+			RequestRest.Send();
+			Chat.AddExamineMsgToClient(PlayerManager.LocalPlayerScript.registerTile.IsLayingDown == false ? startRestMessage : endRestMessage);
 			// TODO: trigger rest intent
 		}
 
