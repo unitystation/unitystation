@@ -19,7 +19,14 @@ using ScriptableObjects.Systems.Spells;
 /// </summary>
 public class Mind : MonoBehaviour
 {
+	public GameObject PossessingObject;
+	public IPlayerPossessble IPlayerPossessble;
+
+
 	public Occupation occupation;
+
+
+
 	public PlayerScript ghost;
 	public PlayerScript body;
 	private SpawnedAntag antag;
@@ -129,6 +136,12 @@ public class Mind : MonoBehaviour
 		antag = newAntag;
 		ShowObjectives();
 		body.OrNull()?.GetComponent<PlayerOnlySyncValues>().OrNull()?.ServerSetAntag(true);
+	}
+
+	public void SetPossessingObject(GameObject obj)
+	{
+		PossessingObject = obj;
+		IPlayerPossessble = obj.GetComponent<IPlayerPossessble>();
 	}
 
 	public void AddObjectiveToAntag(Objective objectiveToAdd)

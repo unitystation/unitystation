@@ -826,6 +826,22 @@ namespace HealthV2
 			if (HealthIsLow()) OnLowHealth?.Invoke();
 		}
 
+
+
+		public BodyPart GetFirstBodyPartInArea(BodyPartType bodyPartAim)
+		{
+			foreach (var bodyPart in SurfaceBodyParts.ToArray())
+			{
+				if (bodyPart.BodyPartType == bodyPartAim)
+				{
+					return bodyPart;
+				}
+			}
+
+			return null;
+		}
+
+
 		private bool HealthIsLow()
 		{
 			return HealthPercentage() < 35;

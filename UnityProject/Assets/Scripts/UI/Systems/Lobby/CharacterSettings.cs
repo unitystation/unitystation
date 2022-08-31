@@ -264,6 +264,19 @@ public class CharacterSheet
 		}
 	}
 
+	public PlayerHealthData GetRaceSo()
+	{
+		foreach (var Race in RaceSOSingleton.Instance.Races)
+		{
+			if (Race.name == this.Species)
+			{
+				return Race;
+			}
+		}
+
+		return null;
+	}
+
 	#region StaticCustomizationFunctions
 
 	public static CharacterSheet GenerateRandomCharacter()

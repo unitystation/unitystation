@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using HealthV2;
 using UnityEngine;
 using Mirror;
 using Systems;
@@ -180,7 +181,7 @@ public static class PlayerSpawn
 		var player = oldBody.Player();
 		var oldGhost = forMind.ghost;
 
-		ServerSpawnInternal(connection, occupation, settings, forMind, spawnPos, willDestroyOldBody: oldGhost != null);
+		ServerSpawnInternal(connection, occupation, settings, forMind, spawnPos);
 	}
 
 	/// <summary>
@@ -252,7 +253,7 @@ public static class PlayerSpawn
 	/// <returns>the spawned object</returns>
 	private static GameObject ServerSpawnInternal(NetworkConnectionToClient connection, Occupation occupation,
 		CharacterSheet characterSettings,
-		Mind existingMind, Vector3Int? spawnPos = null, bool spawnItems = true, bool willDestroyOldBody = false,
+		Mind existingMind, Vector3Int? spawnPos = null, bool spawnItems = true,
 		bool showBanner = true)
 	{
 		//determine where to spawn them
@@ -266,7 +267,7 @@ public static class PlayerSpawn
 		{
 			//Spawn ghost
 			var Playerinfo = PlayerList.Instance.GetOnline(connection);
-			var ghosty =  ServerSpawnGhost(Playerinfo,  spawnPos.Value ,characterSettings);
+			var ghosty = ServerSpawnGhost(Playerinfo, spawnPos.Value, characterSettings);
 
 			existingMind = ghosty.GetComponent<Mind>();
 			existingMind.occupation = occupation;
@@ -286,8 +287,7 @@ public static class PlayerSpawn
 
 
 		//transfer control to the player object
-		ServerTransferPlayer(connection, newPlayer, oldBody, Event.PlayerSpawned, toUseCharacterSettings, existingMind,
-			willDestroyOldBody);
+		ServerTransferPlayer(connection, newPlayer, oldBody, Event.PlayerSpawned, toUseCharacterSettings, existingMind);
 
 		if (existingMind != null)
 		{
@@ -306,6 +306,9 @@ public static class PlayerSpawn
 			SpawnDestination.At(spawnPos), spawnItems: spawnItems);
 		Spawn._ServerFireClientServerSpawnHooks(SpawnResult.Single(info, newPlayer));
 
+		var Race = characterSettings.GetRaceSo().Base.BrainPrefab;
+		var brain =  Spawn.ServerPrefab(Race).GameObject;
+
 		if (occupation != null && showBanner)
 		{
 			SpawnBannerMessage.Send(
@@ -316,6 +319,26 @@ public static class PlayerSpawn
 				occupation.BackgroundColor,
 				occupation.PlaySound);
 		}
+
+
+		ps.characterSettings = characterSettings;
+		ps.playerName = ps.PlayerType != PlayerTypes.Ai
+			? characterSettings.Name
+			: characterSettings.AiName;
+		newPlayer.name = ps.playerName;
+		var playerSprites = newPlayer.GetComponent<PlayerSprites>();
+		if (playerSprites)
+		{
+			// This causes body parts to be made for the race, will cause death if body parts are needed and
+			// CharacterSettings is null
+			playerSprites.OnCharacterSettingsChange(characterSettings);
+		}
+
+
+		var Head = newPlayer.GetComponent<LivingHealthMasterBase>().GetFirstBodyPartInArea(BodyPartType.Head);
+
+		Head.OrganStorage.ServerTryAdd(brain);
+		existingMind.SetPossessingObject(brain);
 
 		if (info.SpawnItems)
 		{
@@ -340,7 +363,7 @@ public static class PlayerSpawn
 		var oldGhost = forMind.ghost;
 		var ps = body.GetComponent<PlayerScript>();
 		var mind = ps.mind;
-		var occupation = mind.occupation;
+		var occupation = mind.occupation.OrNull();
 		var settings = ps.characterSettings;
 
 		if (ps.connectionToClient != null)
@@ -350,7 +373,7 @@ public static class PlayerSpawn
 			return;
 		}
 
-		ServerTransferPlayer(forConnection, body, fromObject, Event.PlayerSpawned, settings, forMind, oldGhost != null);
+		ServerTransferPlayer(forConnection, body, fromObject, Event.PlayerSpawned, settings, forMind);
 		body.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates();
 	}
 
@@ -402,7 +425,8 @@ public static class PlayerSpawn
 	/// <param name="characterSettings"></param>
 	/// <param name="occupation"></param>
 	/// <returns></returns>
-	private static PlayerScript ServerSpawnGhost(PlayerInfo playerInfo, Vector3Int spawnPosition, CharacterSheet characterSettings)
+	private static PlayerScript ServerSpawnGhost(PlayerInfo playerInfo, Vector3Int spawnPosition,
+		CharacterSheet characterSettings)
 	{
 		var matrixInfo = MatrixManager.AtPoint(spawnPosition, true);
 		var parentTransform = matrixInfo.Objects;
@@ -429,7 +453,6 @@ public static class PlayerSpawn
 		ghost.GetComponent<GhostSprites>().SetGhostSprite(isAdmin);
 
 		return ghost.GetComponent<PlayerScript>();
-
 	}
 
 
@@ -443,7 +466,7 @@ public static class PlayerSpawn
 
 		//Spawn ghost
 		var Playerinfo = PlayerList.Instance.GetOnline(joinedViewer.connectionToClient);
-		var ghosty =  ServerSpawnGhost(Playerinfo, spawnPosition, characterSettings);
+		var ghosty = ServerSpawnGhost(Playerinfo, spawnPosition, characterSettings);
 
 		var newMind = ghosty.GetComponent<Mind>();
 		newMind.SetGhost(ghosty);
@@ -521,7 +544,7 @@ public static class PlayerSpawn
 
 	public static void ServerTransferPlayerToNewBody(NetworkConnectionToClient conn, Mind mind, GameObject newBody,
 		Event eventType,
-		CharacterSheet characterSettings, bool willDestroyOldBody = false)
+		CharacterSheet characterSettings)
 	{
 		//get the old body if they have one.
 		var oldBody = mind.body.OrNull()?.gameObject;
@@ -531,7 +554,7 @@ public static class PlayerSpawn
 			characterSettings = null;
 		}
 
-		ServerTransferPlayer(conn, newBody, oldBody, eventType, characterSettings, mind, willDestroyOldBody);
+		ServerTransferPlayer(conn, newBody, oldBody, eventType, characterSettings, mind);
 
 		var newPlayerScript = newBody.GetComponent<PlayerScript>();
 
@@ -539,10 +562,6 @@ public static class PlayerSpawn
 		mind.SetNewBody(newPlayerScript);
 
 		oldBody.GetComponent<PlayerScript>().mind = null;
-
-		if (willDestroyOldBody == false) return;
-
-		_ = Despawn.ServerSingle(oldBody);
 	}
 
 	/// <summary>
@@ -557,7 +576,7 @@ public static class PlayerSpawn
 	/// <param name="willDestroyOldBody">if true, indicates the old body is going to be destroyed rather than pooled,
 	/// thus we shouldn't send any network message which reference's the old body's ID since it won't exist.</param>
 	private static void ServerTransferPlayer(NetworkConnectionToClient conn, GameObject newBody, GameObject oldBody,
-		Event eventType, CharacterSheet characterSettings, Mind mind, bool willDestroyOldBody = false)
+		Event eventType, CharacterSheet characterSettings, Mind mind)
 	{
 		if (oldBody)
 		{
@@ -611,24 +630,6 @@ public static class PlayerSpawn
 		if (playerObjectBehavior && playerObjectBehavior.ContainedInContainer)
 		{
 			FollowCameraMessage.Send(newBody, playerObjectBehavior.ContainedInContainer.gameObject);
-		}
-
-		var playerScript = newBody.GetComponent<PlayerScript>();
-
-		if (characterSettings != null)
-		{
-			playerScript.characterSettings = characterSettings;
-			playerScript.playerName = playerScript.PlayerType != PlayerTypes.Ai
-				? characterSettings.Name
-				: characterSettings.AiName;
-			newBody.name = playerScript.playerName;
-			var playerSprites = newBody.GetComponent<PlayerSprites>();
-			if (playerSprites)
-			{
-				// This causes body parts to be made for the race, will cause death if body parts are needed and
-				// CharacterSettings is null
-				playerSprites.OnCharacterSettingsChange(characterSettings);
-			}
 		}
 
 		var transfers = newBody.GetComponents<IOnPlayerTransfer>();

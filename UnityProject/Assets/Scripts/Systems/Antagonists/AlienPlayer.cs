@@ -1605,7 +1605,7 @@ namespace Systems.Antagonists
 
 			//Transfer player chosen into body
 			PlayerSpawn.ServerTransferPlayerToNewBody(player.Connection, player.Script.mind, gameObject,
-				Event.PlayerSpawned, null, true);
+				Event.PlayerSpawned, null);
 
 			//Remove the player so they can join again once they die
 			GhostRoleManager.Instance.ServerRemoveWaitingPlayer(createdRoleKey, player);

@@ -439,15 +439,7 @@ namespace Player
 				}
 
 				ThisCharacter = characterSettings;
-
-				foreach (var Race in RaceSOSingleton.Instance.Races)
-				{
-					if (Race.name == ThisCharacter.Species)
-					{
-						RaceBodyparts = Race;
-						break;
-					}
-				}
+				RaceBodyparts = characterSettings.GetRaceSo();
 
 				if (RaceBodyparts == null)
 				{
