@@ -52,20 +52,19 @@ namespace Lobby
 		{
 			Reset();
 
-			if (string.IsNullOrEmpty(emailControl.text))
+			if (string.IsNullOrEmpty(emailControl.text) == false)
 			{
-				emailControl.text = PlayerPrefs.GetString(PlayerPrefKeys.AccountEmail);
+				passwordControl.Select();
+				passwordControl.ActivateInputField();
+				return;
 			}
+
+			emailControl.text = PlayerPrefs.GetString(PlayerPrefKeys.AccountEmail);
 
 			if (string.IsNullOrEmpty(emailControl.text))
 			{
 				emailControl.Select();
 				emailControl.ActivateInputField();
-			}
-			else
-			{
-				passwordControl.Select();
-				passwordControl.ActivateInputField();
 			}
 		}
 

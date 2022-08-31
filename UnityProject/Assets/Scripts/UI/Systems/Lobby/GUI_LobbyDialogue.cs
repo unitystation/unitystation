@@ -1,6 +1,6 @@
-using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.UI;
+using Firebase.Auth;
 
 namespace Lobby
 {
@@ -41,7 +41,7 @@ namespace Lobby
 
 		#region Lifecycle
 
-		private void Start()
+		private void Awake()
 		{
 			DeterminePanel();
 		}
@@ -200,7 +200,7 @@ namespace Lobby
 		{
 			HideAllPanels();
 
-			if (ServerData.Auth?.CurrentUser == null)
+			if (FirebaseAuth.DefaultInstance.CurrentUser == null)
 			{
 				ShowAlphaPanel();
 			}
