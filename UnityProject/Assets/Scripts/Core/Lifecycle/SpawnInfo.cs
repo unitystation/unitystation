@@ -108,11 +108,11 @@ public class SpawnInfo
 	/// <param name="spawnDestination">destinaton to spawn at</param>
 	/// <returns>the newly created GameObject</returns>
 	/// <returns></returns>
-	public static SpawnInfo Ghost(Occupation occupation, CharacterSheet characterSettings, GameObject ghostPrefab,
+	public static SpawnInfo Ghost(CharacterSheet characterSettings, GameObject ghostPrefab,
 		SpawnDestination spawnDestination)
 	{
 		return new SpawnInfo(SpawnType.Ghost, SpawnablePrefab.For(ghostPrefab), spawnDestination,
-			null, 1, occupation, characterSettings: characterSettings);
+			null, 1, null, characterSettings: characterSettings);
 	}
 
 	/// <summary>
