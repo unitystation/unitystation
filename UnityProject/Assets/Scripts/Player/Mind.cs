@@ -39,6 +39,7 @@ public class Mind : MonoBehaviour
 	public ChatModifier inventorySpeechModifiers = ChatModifier.None;
 	// Current way to check if it's not actually a ghost but a spectator, should set this not have it be the below.
 
+	public CharacterSheet CurrentCharacterSettings;
 
 	public PlayerScript CurrentPlayScript => IsGhosting ? ghost : body;
 

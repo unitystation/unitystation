@@ -176,7 +176,7 @@ public static class PlayerSpawn
 		var occupation = forMind.occupation;
 		var oldBody = forMind.GetCurrentMob();
 		var connection = oldBody.GetComponent<NetworkIdentity>().connectionToClient;
-		var settings = oldBody.GetComponent<PlayerScript>().characterSettings;
+		var settings = forMind.CurrentCharacterSettings;
 
 		var player = oldBody.Player();
 		var oldGhost = forMind.ghost;
@@ -271,8 +271,8 @@ public static class PlayerSpawn
 
 			existingMind = ghosty.GetComponent<Mind>();
 			existingMind.occupation = occupation;
-			existingMind.SetGhost(ghosty);
-			existingMind.IsGhosting = true;
+
+
 		}
 
 
@@ -452,7 +452,16 @@ public static class PlayerSpawn
 		//Set ghost sprite
 		ghost.GetComponent<GhostSprites>().SetGhostSprite(isAdmin);
 
-		return ghost.GetComponent<PlayerScript>();
+		ghost.name = characterSettings.Name;
+		var existingMind = ghost.GetComponent<Mind>();
+		var ghosty = ghost.GetComponent<PlayerScript>();
+
+		existingMind.SetGhost(ghosty);
+		existingMind.IsGhosting = true;
+		existingMind.CurrentCharacterSettings = characterSettings;
+		playerInfo.SetMind(existingMind);
+		ghosty.mind = existingMind;
+		return ghosty;
 	}
 
 
@@ -468,21 +477,12 @@ public static class PlayerSpawn
 		var Playerinfo = PlayerList.Instance.GetOnline(joinedViewer.connectionToClient);
 		var ghosty = ServerSpawnGhost(Playerinfo, spawnPosition, characterSettings);
 
-		var newMind = ghosty.GetComponent<Mind>();
-		newMind.SetGhost(ghosty);
-
-		//Get spawn location
-		var matrixInfo = MatrixManager.AtPoint(spawnPosition, true);
-		var parentTransform = matrixInfo.Objects;
-		var newPlayer = UnityEngine.Object.Instantiate(CustomNetworkManager.Instance.ghostPrefab, spawnPosition,
-			parentTransform.rotation, parentTransform);
-
 		//Create the mind without a job refactor this to make it as a ghost mind
-		ServerTransferPlayer(joinedViewer.connectionToClient, newPlayer, null, Event.GhostSpawned, characterSettings,
-			newMind);
+		ServerTransferPlayer(joinedViewer.connectionToClient, ghosty.gameObject, null, Event.GhostSpawned, characterSettings,
+			ghosty.mind);
 
 		var isAdmin = PlayerList.Instance.GetOnline(joinedViewer.connectionToClient).IsAdmin;
-		newPlayer.GetComponent<GhostSprites>().SetGhostSprite(isAdmin);
+		ghosty.gameObject.GetComponent<GhostSprites>().SetGhostSprite(isAdmin);
 	}
 
 	/// <summary>
