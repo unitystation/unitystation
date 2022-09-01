@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Systems.Score;
 using UnityEngine;
 
 namespace Systems.Explosions
@@ -233,6 +234,8 @@ namespace Systems.Explosions
 				Line.SetUp(WorldPOS.x, WorldPOS.y, ToPoint.x, ToPoint.y, InitialStrength, nodeType);
 				Line.Step();
 			}
+
+			ScoreMachine.AddToScoreInt(1, "explosions");
 		}
 
 
