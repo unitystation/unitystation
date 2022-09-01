@@ -9,6 +9,7 @@ using AddressableReferences;
 using HealthV2;
 using Messages.Server.SoundMessages;
 using System.Threading.Tasks;
+using Systems.Score;
 
 
 namespace Systems.MobAIs
@@ -57,6 +58,8 @@ namespace Systems.MobAIs
 		protected ConeOfSight coneOfSight;
 		protected int fleeChance = 30;
 		protected int attackLastAttackerChance = 80;
+
+		private int ScoreForKilling = 5;
 
 		#region Lifecycle
 
@@ -253,6 +256,7 @@ namespace Systems.MobAIs
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
 			SoundManager.PlayNetworkedAtPos(deathSounds, transform.position,
 				audioSourceParameters, sourceObj: gameObject);
+			ScoreMachine.AddToScoreInt(ScoreForKilling, "hostileNPCdead");
 		}
 
 		/// <summary>
