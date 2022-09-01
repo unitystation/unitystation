@@ -70,6 +70,7 @@ namespace Systems.Score
 
 		public void CalculateScoresAndShow()
 		{
+			if(CustomNetworkManager.IsServer == false) return;
 			RoundEndChecks();
 
 			List<ScoreEntry> stationScoreEntries = new List<ScoreEntry>();

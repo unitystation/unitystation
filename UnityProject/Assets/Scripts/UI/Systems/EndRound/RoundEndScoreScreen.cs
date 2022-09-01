@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Messages.Server;
+using Mirror;
 using Systems.Score;
 using TMPro;
 using UnityEngine;
@@ -72,6 +74,31 @@ namespace UI.Systems.EndRound
 			scoreSummary.text = finalResult.ToString();
 			scoreResult.text = finalScore.ToString();
 			this.SetActive(true);
+			ServerShowUIToClients.NetMessage msg = new ServerShowUIToClients.NetMessage();
+			msg.ScoreResult = scoreResult.text;
+			msg.ScoreSummary = scoreSummary.text;
+			ServerShowUIToClients.SendToAll(msg);
+		}
+
+		public void SyncScore(string finalResult, string finalScore)
+		{
+			scoreSummary.text = finalResult;
+			scoreResult.text = finalScore;
+			this.SetActive(true);
+		}
+	}
+
+	public class ServerShowUIToClients : ServerMessage<ServerShowUIToClients.NetMessage>
+	{
+		public struct NetMessage : NetworkMessage
+		{
+			public string ScoreSummary;
+			public string ScoreResult;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			UIManager.Instance.ScoreScreen.SyncScore(msg.ScoreSummary, msg.ScoreResult);
 		}
 	}
 }
