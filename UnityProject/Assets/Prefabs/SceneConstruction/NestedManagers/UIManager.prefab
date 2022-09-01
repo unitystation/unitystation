@@ -1745,6 +1745,7 @@ MonoBehaviour:
   SplittingMenu: {fileID: 5740148413491463265}
   TileChanger: {fileID: 8822393536165021703}
   ServerInfoUILobby: {fileID: 5451786514405146483}
+  ScoreScreen: {fileID: 1177098319968032072}
   isInputFocus: 0
 --- !u!114 &8587366065717414501
 MonoBehaviour:
@@ -2846,6 +2847,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7889464995967173604, guid: 7ae89d6105393c64bb4e43d5c870eaad,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8465115023143424114, guid: 7ae89d6105393c64bb4e43d5c870eaad,
         type: 3}
       propertyPath: m_IsActive
@@ -2971,6 +2977,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8980146822108390584, guid: 7ae89d6105393c64bb4e43d5c870eaad,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ae89d6105393c64bb4e43d5c870eaad, type: 3}
 --- !u!114 &762300764782378492 stripped
@@ -2983,6 +2994,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4cfa17c47748c23449a253fcac613b1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1177098319968032072 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1410099724605830599, guid: 7ae89d6105393c64bb4e43d5c870eaad,
+    type: 3}
+  m_PrefabInstance: {fileID: 271423881433505935}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cfd22eb3d244337a792bdb3917df4df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1863444386893704392 stripped
@@ -8215,6 +8238,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6686322100248419671}
     m_Modifications:
+    - target: {fileID: -1000567342684567745, guid: e680a6b11b31c1341bca6818c96b9712,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 2e51a3d610891a643ba27bbe15bda3fa
+      objectReference: {fileID: 0}
     - target: {fileID: 1468624363771964038, guid: e680a6b11b31c1341bca6818c96b9712,
         type: 3}
       propertyPath: m_AnchorMax.y
