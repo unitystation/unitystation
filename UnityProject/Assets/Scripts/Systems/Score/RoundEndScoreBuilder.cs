@@ -19,6 +19,20 @@ namespace Systems.Score
 			EventManager.AddHandler(Event.RoundEnded, CalculateScoresAndShow);
 		}
 
+
+		private void CreateCommonScoreEntries()
+		{
+			ScoreMachine.AddNewScoreEntry("laborPoints", "Total Labor Points", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Good);
+			ScoreMachine.AddNewScoreEntry("randomEventsTriggered", "Random Events Endured", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Good);
+			ScoreMachine.AddNewScoreEntry("foodmade", "Meals Prepared", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Good);
+			ScoreMachine.AddNewScoreEntry("roundLength", "Shift Length", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Good);
+			ScoreMachine.AddNewScoreEntry("hostileNPCdead", "Hostile NPCs dead", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Good);
+			ScoreMachine.AddNewScoreEntry("foodeaten", "Food Eaten", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Weird);
+			ScoreMachine.AddNewScoreEntry("happypill", "Happy Pills Ingested", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Weird);
+			ScoreMachine.AddNewScoreEntry("clownBeaten", "Clown Abused", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Bad);
+			ScoreMachine.AddNewScoreEntry("abandonedCrew", "AbanondedCrew", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Bad);
+		}
+
 		private void CalculateScoresAndShow()
 		{
 

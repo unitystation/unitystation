@@ -29,9 +29,9 @@ namespace Systems.Score
 		/// <param name="type">Are you tracking a number? bool? or string?</param>
 		/// <param name="category">What category does this score fall under? (MiscScore does not appear on round end UI)</param>
 		/// <param name="alignment">Is entry considered a negative thing? a good thing? a weird thing? or do you not want to specify it's alignment?</param>
-		public void AddNewScoreEntry(string ID, string scoreName, ScoreType type, ScoreCategory category = ScoreCategory.MiscScore, ScoreAlignment alignment = ScoreAlignment.Unspecified)
+		public static void AddNewScoreEntry(string ID, string scoreName, ScoreType type, ScoreCategory category = ScoreCategory.MiscScore, ScoreAlignment alignment = ScoreAlignment.Unspecified)
 		{
-			if (Scores.ContainsKey(ID))
+			if (Instance.Scores.ContainsKey(ID))
 			{
 				Logger.LogWarning($"[ScoreMachine] - Attempting to add new entry with id ({ID}) but it already exists!");
 				return;
@@ -45,7 +45,7 @@ namespace Systems.Score
 						Category = category,
 						Alignment = alignment
 					};
-					Scores.Add(ID, newEntryInt);
+					Instance.Scores.Add(ID, newEntryInt);
 					break;
 				case ScoreType.Bool:
 					ScoreEntryBool newEntryBool = new ScoreEntryBool
@@ -54,7 +54,7 @@ namespace Systems.Score
 						Category = category,
 						Alignment = alignment
 					};
-					Scores.Add(ID, newEntryBool);
+					Instance.Scores.Add(ID, newEntryBool);
 					break;
 				case ScoreType.String:
 					ScoreEntryString newEntryString = new ScoreEntryString
@@ -63,7 +63,7 @@ namespace Systems.Score
 						Category = category,
 						Alignment = alignment
 					};
-					Scores.Add(ID, newEntryString);
+					Instance.Scores.Add(ID, newEntryString);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException(nameof(type), type, null);
