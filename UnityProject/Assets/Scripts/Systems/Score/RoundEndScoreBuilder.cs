@@ -20,8 +20,8 @@ namespace Systems.Score
 		{
 			base.Awake();
 			EventManager.AddHandler(Event.RoundEnded, CalculateScoresAndShow);
+			CreateCommonScoreEntries();
 		}
-
 
 		private void CreateCommonScoreEntries()
 		{
@@ -57,6 +57,7 @@ namespace Systems.Score
 
 		private void CalculateScoresAndShow()
 		{
+			RoundEndChecks();
 
 			List<String> stationScores = new List<String>();
 			List<String> antagScores = new List<String>();
