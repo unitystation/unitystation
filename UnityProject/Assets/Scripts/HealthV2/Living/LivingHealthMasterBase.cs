@@ -300,17 +300,17 @@ namespace HealthV2
 
 			//Needs to be in awake so the mobId is set before mind transfer (OnSpawnServer happens after that so cannot be used)
 			mobID = PlayerManager.Instance.GetMobID();
-
-			if (playerScript.mind.occupation.DisplayName == "Clown")
-			{
-				OnTakeDamageType += ClownAbuseScoreEvent;
-			}
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			//Generate BloodType and DNA
 			healthStateController.SetDNA(new DNAandBloodType());
+
+			if (playerScript.mind.occupation.DisplayName == "Clown")
+			{
+				OnTakeDamageType += ClownAbuseScoreEvent;
+			}
 		}
 
 		//TODO: confusing, make it not depend from the inventory storage Action
