@@ -61,9 +61,6 @@ namespace Systems.Score
 		{
 			RoundEndChecks();
 
-			List<String> stationScores = new List<String>();
-			List<String> antagScores = new List<String>();
-
 			List<ScoreEntry> stationScoreEntries = new List<ScoreEntry>();
 			List<ScoreEntry> antagScoreEntries = new List<ScoreEntry>();
 
