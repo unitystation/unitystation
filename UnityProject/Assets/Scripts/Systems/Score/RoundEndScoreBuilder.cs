@@ -47,19 +47,8 @@ namespace Systems.Score
 					if (entry.Value is ScoreEntryBool g) finalAntagScore += g.Score ? boolScore : -boolScore;
 				}
 			}
-			
-			UIManager.Instance.ScoreScreen.ShowScore(stationScoreEntries, finalStationScore);
-		}
 
-		public String ScoreTypeResultAsString(ScoreEntry entry)
-		{
-			return entry switch
-			{
-				ScoreEntryInt integerScore => integerScore.Score.ToString(),
-				ScoreEntryBool booleanScore => booleanScore.Score.ToString(),
-				ScoreEntryString stringScore => stringScore.Score,
-				_ => null
-			};
+			UIManager.Instance.ScoreScreen.ShowScore(stationScoreEntries, finalStationScore);
 		}
 	}
 }

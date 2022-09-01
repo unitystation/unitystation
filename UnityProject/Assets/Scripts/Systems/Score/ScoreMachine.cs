@@ -161,5 +161,16 @@ namespace Systems.Score
 
 			return winner;
 		}
+
+		public static String ScoreTypeResultAsString(ScoreEntry entry)
+		{
+			return entry switch
+			{
+				ScoreEntryInt integerScore => integerScore.Score.ToString(),
+				ScoreEntryBool booleanScore => booleanScore.Score.ToString(),
+				ScoreEntryString stringScore => stringScore.Score,
+				_ => null
+			};
+		}
 	}
 }
