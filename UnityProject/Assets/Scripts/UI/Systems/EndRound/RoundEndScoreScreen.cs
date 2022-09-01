@@ -22,11 +22,11 @@ namespace UI.Systems.EndRound
 			// Based on the context and content
 			// NOTE //
 			StringBuilder theGoodList = new StringBuilder();
-			theGoodList.AppendLine("The Good:");
+			theGoodList.AppendLine("<u><b>The Good:</b></u>");
 			StringBuilder theBadList = new StringBuilder();
-			theBadList.AppendLine("The Bad:");
+			theBadList.AppendLine("<u><b>The Bad:</b></u>");
 			StringBuilder theWeirdList = new StringBuilder();
-			theWeirdList.AppendLine("The Weird");
+			theWeirdList.AppendLine("<u><b>The Weird</b></u>");
 
 			StringBuilder finalResult = new StringBuilder();
 
@@ -45,36 +45,35 @@ namespace UI.Systems.EndRound
 					Logger.LogError("[ScoreMachine] - Unidentified score entry type detected while building UI text for round end.");
 					continue;
 				}
-				if (result == "true") result = "<color=green> Success! </color>";
-				if (result == "false") result = "<color=red> Failed! </color>";
+				if (result.ToLower().Contains("true")) result = "<color=green>Success!</color>";
+				if (result.ToLower().Contains("false")) result = "<color=red>Failed!</color>";
 				switch (Entry.Alignment)
 				{
 					case ScoreAlignment.Good:
 						if(numberOfGoodEntriesFound >= NumberOfScoresToShow) break;
-						theGoodList.AppendLine($"{Entry.ScoreName} :{result}");
+						theGoodList.AppendLine($"{Entry.ScoreName} : {result}");
 						numberOfGoodEntriesFound++;
 						break;
 					case ScoreAlignment.Bad:
 						if(numberOfBadEntriesFound >= NumberOfScoresToShow) break;
-						theBadList.AppendLine($"{Entry.ScoreName} :{result}");
+						theBadList.AppendLine($"{Entry.ScoreName} : {result}");
 						numberOfBadEntriesFound++;
 						break;
 					case ScoreAlignment.Weird:
 						if(numberOfWeirdEntriesFound >= NumberOfScoresToShow) break;
-						theWeirdList.AppendLine($"{Entry.ScoreName} :{result}");
+						theWeirdList.AppendLine($"{Entry.ScoreName} : {result}");
 						numberOfWeirdEntriesFound++;
 						break;
 				}
-
-				finalResult.Append(theGoodList);
-				finalResult.Append(theBadList);
-				finalResult.Append(theWeirdList);
-
-				scoreSummary.text = finalResult.ToString();
-				scoreResult.text = finalScore.ToString();
-
-				this.SetActive(true);
 			}
+
+			finalResult.Append(theGoodList);
+			finalResult.Append(theBadList);
+			finalResult.Append(theWeirdList);
+
+			scoreSummary.text = finalResult.ToString();
+			scoreResult.text = finalScore.ToString();
+			this.SetActive(true);
 		}
 	}
 }

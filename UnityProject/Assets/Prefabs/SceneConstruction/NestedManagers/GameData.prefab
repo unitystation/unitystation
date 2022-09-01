@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 839482601120855914}
   - component: {fileID: 2960250731806234843}
   - component: {fileID: 8115948098267028479}
+  - component: {fileID: 7111023755091482494}
   m_Layer: 0
   m_Name: GameData
   m_TagString: Untagged
@@ -87,3 +88,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaximumDistanceBetweenPlayerAndScanObjects: 50
+  MaximumHighlightCallsPerFrame: 25
+--- !u!114 &7111023755091482494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8929341582706713524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a9ebfd5d49245c3aae9c470e3101480, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

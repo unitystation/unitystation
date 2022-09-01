@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using Shared.Managers;
+using UnityEngine;
 
 namespace Systems.Score
 {
 	public class ScoreMachine : SingletonManager<ScoreMachine>
 	{
-		public Dictionary<string, ScoreEntry> Scores { get; private set; }
+		public Dictionary<string, ScoreEntry> Scores { get; private set; } = new Dictionary<string, ScoreEntry>();
 
 		public enum ScoreType
 		{
