@@ -7,7 +7,7 @@ namespace Systems.Score
 {
 	public class ScoreMachine : SingletonManager<ScoreMachine>
 	{
-		public Dictionary<string, ScoreEntry> Scores { get; private set; } = new Dictionary<string, ScoreEntry>();
+		public Dictionary<string, ScoreEntry> Scores { get; private set; }
 
 		public enum ScoreType
 		{
@@ -19,7 +19,8 @@ namespace Systems.Score
 		public override void Awake()
 		{
 			base.Awake();
-			EventManager.AddHandler(Event.RoundStarted, () => Scores.Clear());
+			EventManager.AddHandler(Event.PreRoundStarted, () => Scores.Clear());
+			Scores = new Dictionary<string, ScoreEntry>(); //This only works if set on Awake()
 		}
 
 		/// <summary>

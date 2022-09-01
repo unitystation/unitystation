@@ -22,7 +22,7 @@ namespace Systems.Score
 		{
 			base.Start();
 			EventManager.AddHandler(Event.RoundEnded, CalculateScoresAndShow);
-			CreateCommonScoreEntries();
+			EventManager.AddHandler(Event.RoundStarted, CreateCommonScoreEntries);
 		}
 
 		private void CreateCommonScoreEntries()
@@ -55,6 +55,18 @@ namespace Systems.Score
 			//How many dead crew are there?
 			ScoreMachine.AddNewScoreEntry("deadCrew", "Dead Crew", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Bad);
 			ScoreMachine.AddToScoreInt(-PlayerList.Instance.AllPlayers.Count(playerbody => playerbody.Script.playerHealth.IsDead) * negativeModifer, "deadCrew");
+			//Who's the crew member with the worst overall health?
+			var lowestHealthCrewMemberNumber = 200f;
+			var lowestHealthCrewMemberName = "";
+			foreach (var alivePlayer in PlayerList.Instance.GetAlivePlayers())
+			{
+				if (alivePlayer.Script.playerHealth.OverallHealth >= lowestHealthCrewMemberNumber) continue;
+				lowestHealthCrewMemberNumber = alivePlayer.Script.playerHealth.OverallHealth;
+				lowestHealthCrewMemberName = alivePlayer.Script.playerName;
+			}
+			var lowestHealthWinner = $"{lowestHealthCrewMemberName} - {lowestHealthCrewMemberNumber}HP";
+			ScoreMachine.AddNewScoreEntry("worstBatteredCrewMemeber", "Crewmember with the lowest health", ScoreMachine.ScoreType.String, ScoreCategory.StationScore, ScoreAlignment.Bad);
+			ScoreMachine.AddToScoreString(lowestHealthWinner, "worstBatteredCrewMemeber");
 		}
 
 		public void CalculateScoresAndShow()
