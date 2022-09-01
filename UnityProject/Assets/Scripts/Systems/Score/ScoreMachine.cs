@@ -28,7 +28,8 @@ namespace Systems.Score
 		/// <param name="scoreName">The name of the score shown on UIs</param>
 		/// <param name="type">Are you tracking a number? bool? or string?</param>
 		/// <param name="category">What category does this score fall under? (MiscScore does not appear on round end UI)</param>
-		public void AddNewScoreEntry(string ID, string scoreName, ScoreType type, ScoreCategory category = ScoreCategory.MiscScore)
+		/// <param name="alignment">Is entry considered a negative thing? a good thing? a weird thing? or do you not want to specify it's alignment?</param>
+		public void AddNewScoreEntry(string ID, string scoreName, ScoreType type, ScoreCategory category = ScoreCategory.MiscScore, ScoreAlignment alignment = ScoreAlignment.Unspecified)
 		{
 			switch (type)
 			{
@@ -36,7 +37,8 @@ namespace Systems.Score
 					ScoreEntryInt newEntryInt = new ScoreEntryInt
 					{
 						ScoreName = scoreName,
-						Category = category
+						Category = category,
+						Alignment = alignment
 					};
 					Scores.Add(ID, newEntryInt);
 					break;
@@ -44,7 +46,8 @@ namespace Systems.Score
 					ScoreEntryBool newEntryBool = new ScoreEntryBool
 					{
 						ScoreName = scoreName,
-						Category = category
+						Category = category,
+						Alignment = alignment
 					};
 					Scores.Add(ID, newEntryBool);
 					break;
@@ -52,7 +55,8 @@ namespace Systems.Score
 					ScoreEntryString newEntryString = new ScoreEntryString
 					{
 						ScoreName = scoreName,
-						Category = category
+						Category = category,
+						Alignment = alignment
 					};
 					Scores.Add(ID, newEntryString);
 					break;

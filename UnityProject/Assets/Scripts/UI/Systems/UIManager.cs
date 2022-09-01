@@ -20,6 +20,7 @@ using UI.Windows;
 using Systems.CraftingV2.GUI;
 using UI.Core.RightClick;
 using UI.Systems.AdminTools.DevTools;
+using UI.Systems.EndRound;
 
 public class UIManager : MonoBehaviour, IInitialise
 {
@@ -79,6 +80,8 @@ public class UIManager : MonoBehaviour, IInitialise
 	public GUI_DevTileChanger TileChanger;
 
 	public ServerInfoUILobby ServerInfoUILobby;
+
+	public RoundEndScoreScreen ScoreScreen;
 
 	public static bool PreventChatInput
 	{

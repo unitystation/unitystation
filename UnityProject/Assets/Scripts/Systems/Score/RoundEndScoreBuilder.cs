@@ -47,28 +47,11 @@ namespace Systems.Score
 					if (entry.Value is ScoreEntryBool g) finalAntagScore += g.Score ? boolScore : -boolScore;
 				}
 			}
-
-			stationScores = ScoresInString(stationScoreEntries);
-			antagScores = ScoresInString(antagScoreEntries);
-			//TODO : Display UI code here
+			
+			UIManager.Instance.ScoreScreen.ShowScore(stationScoreEntries, finalStationScore);
 		}
 
-		/// <summary>
-		/// Returns entries as strings for UI and chat use.
-		/// </summary>
-		private List<String> ScoresInString(List<ScoreEntry> scoreEntries)
-		{
-			List<String> strings = new List<string>();
-			foreach (var entry in scoreEntries)
-			{
-				var newString = $"{entry.ScoreName} : {GrabScoreTypeResult(entry)}";
-				strings.Add(newString);
-			}
-
-			return strings;
-		}
-
-		private String GrabScoreTypeResult(ScoreEntry entry)
+		public String ScoreTypeResultAsString(ScoreEntry entry)
 		{
 			return entry switch
 			{
