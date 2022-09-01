@@ -22,11 +22,11 @@ namespace UI.Systems.EndRound
 			// Based on the context and content
 			// NOTE //
 			StringBuilder theGoodList = new StringBuilder();
-			theGoodList.AppendLine("<u><b>The Good:</b></u>");
+			theGoodList.AppendLine("<i><u><b>The Good:</b></u></i>");
 			StringBuilder theBadList = new StringBuilder();
-			theBadList.AppendLine("<u><b>The Bad:</b></u>");
+			theBadList.AppendLine("<i><u><b>The Bad:</b></u></i>");
 			StringBuilder theWeirdList = new StringBuilder();
-			theWeirdList.AppendLine("<u><b>The Weird</b></u>");
+			theWeirdList.AppendLine("<i><u><b>The Weird</b></u></i>");
 
 			StringBuilder finalResult = new StringBuilder();
 
@@ -51,25 +51,28 @@ namespace UI.Systems.EndRound
 				{
 					case ScoreAlignment.Good:
 						if(numberOfGoodEntriesFound >= NumberOfScoresToShow) break;
-						theGoodList.AppendLine($"{Entry.ScoreName} : {result}");
+						theGoodList.AppendLine($"<b>{Entry.ScoreName}</b> : {result}");
 						numberOfGoodEntriesFound++;
 						break;
 					case ScoreAlignment.Bad:
 						if(numberOfBadEntriesFound >= NumberOfScoresToShow) break;
-						theBadList.AppendLine($"{Entry.ScoreName} : {result}");
+						theBadList.AppendLine($"<b>{Entry.ScoreName}</b> : {result}");
 						numberOfBadEntriesFound++;
 						break;
 					case ScoreAlignment.Weird:
 						if(numberOfWeirdEntriesFound >= NumberOfScoresToShow) break;
-						theWeirdList.AppendLine($"{Entry.ScoreName} : {result}");
+						theWeirdList.AppendLine($"<b>{Entry.ScoreName}</b> : {result}");
 						numberOfWeirdEntriesFound++;
 						break;
 				}
 			}
 
 			finalResult.Append(theGoodList);
+			finalResult.AppendLine(" ");
 			finalResult.Append(theBadList);
+			finalResult.AppendLine(" ");
 			finalResult.Append(theWeirdList);
+			finalResult.AppendLine(" ");
 
 			scoreSummary.text = finalResult.ToString();
 			scoreResult.text = finalScore.ToString();
