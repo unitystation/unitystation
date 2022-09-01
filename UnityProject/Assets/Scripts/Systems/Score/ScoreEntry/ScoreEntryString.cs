@@ -2,6 +2,12 @@ namespace Systems.Score
 {
 	public class ScoreEntryString : ScoreEntry
 	{
-		public string Score;
+		private string score;
+
+		public string Score
+		{
+			get => score;
+			set => score = value;
+		}
 	}
 }

@@ -2,6 +2,12 @@ namespace Systems.Score
 {
 	public class ScoreEntryBool : ScoreEntry
 	{
-		public bool Score = false;
+		private bool score = false;
+
+		public bool Score
+		{
+			get => score;
+			set => score = value;
+		}
 	}
 }

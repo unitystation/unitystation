@@ -2,6 +2,11 @@ namespace Systems.Score
 {
 	public class ScoreEntryInt : ScoreEntry
 	{
-		public int Score = 0;
+		private int score = 0;
+		public int Score
+		{
+			get => score;
+			set => score = value;
+		}
 	}
 }

@@ -57,6 +57,8 @@ namespace UI.Systems.EndRound
 					case ScoreAlignment.Weird:
 						theWeirdList.AppendLine($"<b>{Entry.ScoreName}</b> : {result}");
 						break;
+					default:
+						throw new NotImplementedException();
 				}
 			}
 

@@ -2,9 +2,25 @@ namespace Systems.Score
 {
 	public abstract class ScoreEntry
 	{
-		public string ScoreName;
-		public ScoreCategory Category;
-		public ScoreAlignment Alignment;
+		private string scoreName;
+		private ScoreCategory category;
+		private ScoreAlignment alignment;
+
+		public string ScoreName
+		{
+			get => scoreName;
+			set => scoreName = value;
+		}
+		public ScoreCategory Category
+		{
+			get => category;
+			set => category = value;
+		}
+		public ScoreAlignment Alignment
+		{
+			get => alignment;
+			set => alignment = value;
+		}
 	}
 
 	public enum ScoreCategory

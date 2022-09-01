@@ -29,6 +29,8 @@ namespace InGameEvents
 		[SerializeField]
 		private int chanceItIsFake = 25;
 
+		[SerializeField] private int scoreForSpawningEvents = 25;
+
 		public bool RandomEventsAllowed;
 
 		public int minPlayersForRandomEventsToHappen = 5;
@@ -160,7 +162,7 @@ namespace InGameEvents
 					eventInList.FakeEvent = isFake;
 					eventInList.AnnounceEvent = announceEvent;
 					eventInList.TriggerEvent();
-					ScoreMachine.AddToScoreInt(25, "randomEventsTriggered");
+					ScoreMachine.AddToScoreInt(scoreForSpawningEvents, "randomEventsTriggered");
 
 					if (serverTriggered)
 					{
