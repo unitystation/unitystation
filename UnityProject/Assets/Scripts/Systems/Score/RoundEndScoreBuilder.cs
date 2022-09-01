@@ -72,9 +72,9 @@ namespace Systems.Score
 		{
 			return entry switch
 			{
-				ScoreEntryInt i => i.Score.ToString(),
-				ScoreEntryBool c => c.Score.ToString(),
-				ScoreEntryString u => u.Score,
+				ScoreEntryInt integerScore => integerScore.Score.ToString(),
+				ScoreEntryBool booleanScore => booleanScore.Score.ToString(),
+				ScoreEntryString stringScore => stringScore.Score,
 				_ => null
 			};
 		}
