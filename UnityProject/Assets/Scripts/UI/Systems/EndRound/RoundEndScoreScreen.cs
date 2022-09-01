@@ -42,7 +42,7 @@ namespace UI.Systems.EndRound
 				var result = ScoreMachine.ScoreTypeResultAsString(Entry);
 				if (result == null)
 				{
-					Logger.LogError("[ScoreMachine] - Unidentifed score entry type detected while building UI text for round end.");
+					Logger.LogError("[ScoreMachine] - Unidentified score entry type detected while building UI text for round end.");
 					continue;
 				}
 				if (result == "true") result = "<color=green> Success! </color>";
