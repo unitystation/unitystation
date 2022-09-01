@@ -11,6 +11,7 @@ using Messages.Client;
 using Messages.Server;
 using Messages.Server.HealthMessages;
 using ScriptableObjects;
+using Systems.Score;
 using UI.Action;
 
 namespace IngameDebugConsole
@@ -44,6 +45,19 @@ namespace IngameDebugConsole
 				return;
 			}
 			UIManager.BuildMenu.ShowConveyorBeltMenu();
+		}
+#if UNITY_EDITOR
+		[MenuItem("Networking/ShowScoreUI")]
+#endif
+		public static void ShowScoreUI()
+		{
+			if (AdminCommands.AdminCommandsManager.IsAdmin(PlayerManager.LocalPlayerScript.PlayerInfo.Connection, out _) == false)
+			{
+				Logger.Log("This function can only be executed by admins.", Category.DebugConsole);
+				return;
+			}
+
+			RoundEndScoreBuilder.Instance.CalculateScoresAndShow();
 		}
 
 		[ConsoleMethod("CloneSelf", "Allows user to test cloning quickly.")]

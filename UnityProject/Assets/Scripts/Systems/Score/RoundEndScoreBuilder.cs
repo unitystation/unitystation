@@ -57,7 +57,7 @@ namespace Systems.Score
 			ScoreMachine.AddToScoreInt(-PlayerList.Instance.AllPlayers.Count(playerbody => playerbody.Script.playerHealth.IsDead) * negativeModifer, "deadCrew");
 		}
 
-		private void CalculateScoresAndShow()
+		public void CalculateScoresAndShow()
 		{
 			RoundEndChecks();
 
