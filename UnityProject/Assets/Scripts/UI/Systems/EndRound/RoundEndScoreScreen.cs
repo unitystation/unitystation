@@ -11,7 +11,6 @@ namespace UI.Systems.EndRound
 	{
 		[SerializeField] private TMP_Text scoreSummary;
 		[SerializeField] private TMP_Text scoreResult;
-		[SerializeField] private int NumberOfScoresToShow = 5;
 
 
 		public void ShowScore(List<ScoreEntry> entries, int finalScore)
@@ -26,7 +25,7 @@ namespace UI.Systems.EndRound
 			StringBuilder theBadList = new StringBuilder();
 			theBadList.AppendLine("<i><u><b>The Bad:</b></u></i>");
 			StringBuilder theWeirdList = new StringBuilder();
-			theWeirdList.AppendLine("<i><u><b>The Weird</b></u></i>");
+			theWeirdList.AppendLine("<i><u><b>The Weird:</b></u></i>");
 
 			StringBuilder finalResult = new StringBuilder();
 
@@ -50,19 +49,13 @@ namespace UI.Systems.EndRound
 				switch (Entry.Alignment)
 				{
 					case ScoreAlignment.Good:
-						if(numberOfGoodEntriesFound >= NumberOfScoresToShow) break;
 						theGoodList.AppendLine($"<b>{Entry.ScoreName}</b> : {result}");
-						numberOfGoodEntriesFound++;
 						break;
 					case ScoreAlignment.Bad:
-						if(numberOfBadEntriesFound >= NumberOfScoresToShow) break;
 						theBadList.AppendLine($"<b>{Entry.ScoreName}</b> : {result}");
-						numberOfBadEntriesFound++;
 						break;
 					case ScoreAlignment.Weird:
-						if(numberOfWeirdEntriesFound >= NumberOfScoresToShow) break;
 						theWeirdList.AppendLine($"<b>{Entry.ScoreName}</b> : {result}");
-						numberOfWeirdEntriesFound++;
 						break;
 				}
 			}
