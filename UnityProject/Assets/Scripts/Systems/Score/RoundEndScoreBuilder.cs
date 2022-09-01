@@ -14,6 +14,8 @@ namespace Systems.Score
 		/// How much does score entry that returns true or false score?
 		/// </summary>
 		[SerializeField] private int boolScore = 10;
+		[SerializeField] private int negativeModifer = 5;
+		[SerializeField] private int positiveModifer = 10;
 		[SerializeField] private Occupation captainOccupation;
 
 		public override void Awake()
@@ -42,7 +44,7 @@ namespace Systems.Score
 			ScoreMachine.AddToScoreInt(GameManager.Instance.stationTime.Minute, "roundLength");
 			//How many crew members are still on the station?
 			ScoreMachine.AddNewScoreEntry("abandonedCrew", "Abandoned Crew", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Bad);
-			ScoreMachine.AddToScoreInt(-MatrixManager.MainStationMatrix.Matrix.PresentPlayers.Count * 10, "abandonedCrew");
+			ScoreMachine.AddToScoreInt(-MatrixManager.MainStationMatrix.Matrix.PresentPlayers.Count * negativeModifer, "abandonedCrew");
 			//Is the captain still on his ship during a red alert or higher?
 			if (GameManager.Instance.CentComm.CurrentAlertLevel >= CentComm.AlertLevel.Red)
 			{
@@ -52,7 +54,7 @@ namespace Systems.Score
 			}
 			//How many dead crew are there?
 			ScoreMachine.AddNewScoreEntry("deadCrew", "Dead Crew", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Bad);
-			ScoreMachine.AddToScoreInt(-PlayerList.Instance.AllPlayers.Count(playerbody => playerbody.Script.playerHealth.IsDead) * 10, "deadCrew");
+			ScoreMachine.AddToScoreInt(-PlayerList.Instance.AllPlayers.Count(playerbody => playerbody.Script.playerHealth.IsDead) * negativeModifer, "deadCrew");
 		}
 
 		private void CalculateScoresAndShow()
