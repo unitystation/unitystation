@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using Messages.Server.SoundMessages;
+using Systems.Score;
 
 namespace Items.Food
 {
@@ -193,6 +194,7 @@ namespace Items.Food
 					pickupable.UniversalObjectPhysics.DropAtAndInheritMomentum(feeder.GetComponent<UniversalObjectPhysics>());
 				}
 			}
+			ScoreMachine.AddToScoreInt(1, "foodeaten");
 		}
 	}
 }

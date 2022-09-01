@@ -73,15 +73,15 @@ namespace Systems.Score
 		/// <summary>
 		/// How much do you want to add or subtract from a score? (Use negative numbers to subtract from the score.)
 		/// </summary>
-		public void AddToScoreInt(int valueToAddOnTop, string ID)
+		public static void AddToScoreInt(int valueToAddOnTop, string ID)
 		{
-			if (Scores.ContainsKey(ID) == false)
+			if (Instance.Scores.ContainsKey(ID) == false)
 			{
 				Logger.LogError($"[ScoreMachine] - {ID} does not exist in the score machine!");
 				return;
 			}
 
-			if (Scores[ID] is not ScoreEntryInt c)
+			if (Instance.Scores[ID] is not ScoreEntryInt c)
 			{
 				Logger.LogError($"[ScoreMachine] - Attempted to add an integer to {ID} but it's entry is not a ScoreEntryInt!");
 				return;
@@ -92,15 +92,15 @@ namespace Systems.Score
 		/// <summary>
 		/// whats the new bool for this score?
 		/// </summary>
-		public void AddToScoreBool(bool newValue, string ID)
+		public static void AddToScoreBool(bool newValue, string ID)
 		{
-			if (Scores.ContainsKey(ID) == false)
+			if (Instance.Scores.ContainsKey(ID) == false)
 			{
 				Logger.LogError($"[ScoreMachine] - {ID} does not exist in the score machine!");
 				return;
 			}
 
-			if (Scores[ID] is not ScoreEntryBool c)
+			if (Instance.Scores[ID] is not ScoreEntryBool c)
 			{
 				Logger.LogError($"[ScoreMachine] - Attempted to change a bool in {ID} but it's entry is not a ScoreEntryBool!");
 				return;
@@ -111,15 +111,15 @@ namespace Systems.Score
 		/// <summary>
 		/// whats the new string for this score?
 		/// </summary>
-		public void AddToScoreString(String newValue, string ID)
+		public static void AddToScoreString(String newValue, string ID)
 		{
-			if (Scores.ContainsKey(ID) == false)
+			if (Instance.Scores.ContainsKey(ID) == false)
 			{
 				Logger.LogError($"[ScoreMachine] - {ID} does not exist in the score machine!");
 				return;
 			}
 
-			if (Scores[ID] is not ScoreEntryString c)
+			if (Instance.Scores[ID] is not ScoreEntryString c)
 			{
 				Logger.LogError($"[ScoreMachine] - Attempted to change a string in {ID} but it's entry is not a ScoreEntryString!");
 				return;
