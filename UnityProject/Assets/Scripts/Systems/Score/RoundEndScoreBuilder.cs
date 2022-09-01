@@ -18,9 +18,9 @@ namespace Systems.Score
 		[SerializeField] private int positiveModifer = 10;
 		[SerializeField] private Occupation captainOccupation;
 
-		public override void Awake()
+		public override void Start()
 		{
-			base.Awake();
+			base.Start();
 			EventManager.AddHandler(Event.RoundEnded, CalculateScoresAndShow);
 			CreateCommonScoreEntries();
 		}
