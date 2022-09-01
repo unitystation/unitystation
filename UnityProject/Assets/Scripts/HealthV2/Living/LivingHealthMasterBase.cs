@@ -266,7 +266,7 @@ namespace HealthV2
 
 		public PlayerScript playerScript;
 
-		public event Action<DamageType> OnTakeDamageType;
+		public event Action<DamageType, GameObject> OnTakeDamageType;
 		public event Action OnLowHealth;
 
 		[SyncVar] public bool CannotRecognizeNames = false;
@@ -300,6 +300,11 @@ namespace HealthV2
 
 			//Needs to be in awake so the mobId is set before mind transfer (OnSpawnServer happens after that so cannot be used)
 			mobID = PlayerManager.Instance.GetMobID();
+
+			if (playerScript.mind.occupation.DisplayName == "Clown")
+			{
+				OnTakeDamageType += ClownAbuseScoreEvent;
+			}
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -823,7 +828,7 @@ namespace HealthV2
 			}
 
 			IndicatePain(damage);
-			OnTakeDamageType?.Invoke(damageType);
+			OnTakeDamageType?.Invoke(damageType, damagedBy);
 			if (HealthIsLow()) OnLowHealth?.Invoke();
 		}
 
@@ -1687,6 +1692,13 @@ namespace HealthV2
 		private void AdminSmash()
 		{
 			AdminCommandsManager.Instance.CmdHealMob(gameObject);
+		}
+
+		private void ClownAbuseScoreEvent(DamageType damageType, GameObject abuser)
+		{
+			if(damageType == DamageType.Clone || damageType == DamageType.Oxy || damageType == DamageType.Radiation) return;
+			if(abuser.TryGetComponent<PlayerScript>(out var script) == false) return;
+			ScoreMachine.AddToScoreInt(-5, "clownBeaten");
 		}
 	}
 
