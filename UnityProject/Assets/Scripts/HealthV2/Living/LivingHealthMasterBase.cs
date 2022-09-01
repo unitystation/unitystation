@@ -17,6 +17,7 @@ using NaughtyAttributes;
 using Player;
 using Newtonsoft.Json;
 using ScriptableObjects.RP;
+using Systems.Score;
 using UnityEngine.Serialization;
 
 namespace HealthV2
@@ -976,6 +977,8 @@ namespace HealthV2
 					bodyPart.HealDamage(healingItem, healAmt, damageTypeToHeal);
 				}
 			}
+
+			ScoreMachine.AddToScoreInt(5, "healing");
 		}
 
 		/// <summary>

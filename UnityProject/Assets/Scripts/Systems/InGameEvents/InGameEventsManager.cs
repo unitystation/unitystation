@@ -4,6 +4,7 @@ using System.Linq;
 using AdminCommands;
 using GameConfig;
 using Shared.Managers;
+using Systems.Score;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -159,6 +160,7 @@ namespace InGameEvents
 					eventInList.FakeEvent = isFake;
 					eventInList.AnnounceEvent = announceEvent;
 					eventInList.TriggerEvent();
+					ScoreMachine.AddToScoreInt(25, "randomEventsTriggered");
 
 					if (serverTriggered)
 					{
