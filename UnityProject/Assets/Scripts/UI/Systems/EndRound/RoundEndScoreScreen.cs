@@ -40,6 +40,11 @@ namespace UI.Systems.EndRound
 			{
 				if (Entry.Alignment == ScoreAlignment.Unspecified || Entry.Category == ScoreCategory.MiscScore) continue;
 				var result = ScoreMachine.ScoreTypeResultAsString(Entry);
+				if (result == null)
+				{
+					Logger.LogError("[ScoreMachine] - Unidentifed score entry type detected while building UI text for round end.");
+					continue;
+				}
 				if (result == "true") result = "<color=green> Success! </color>";
 				if (result == "false") result = "<color=red> Failed! </color>";
 				switch (Entry.Alignment)

@@ -31,6 +31,11 @@ namespace Systems.Score
 		/// <param name="alignment">Is entry considered a negative thing? a good thing? a weird thing? or do you not want to specify it's alignment?</param>
 		public void AddNewScoreEntry(string ID, string scoreName, ScoreType type, ScoreCategory category = ScoreCategory.MiscScore, ScoreAlignment alignment = ScoreAlignment.Unspecified)
 		{
+			if (Scores.ContainsKey(ID))
+			{
+				Logger.LogWarning($"[ScoreMachine] - Attempting to add new entry with id ({ID}) but it already exists!");
+				return;
+			}
 			switch (type)
 			{
 				case ScoreType.Int:
@@ -72,13 +77,13 @@ namespace Systems.Score
 		{
 			if (Scores.ContainsKey(ID) == false)
 			{
-				Logger.LogError($"{ID} does not exist in the score machine!");
+				Logger.LogError($"[ScoreMachine] - {ID} does not exist in the score machine!");
 				return;
 			}
 
 			if (Scores[ID] is not ScoreEntryInt c)
 			{
-				Logger.LogError($"Attempted to add an integer to {ID} but it's entry is not a ScoreEntryInt!");
+				Logger.LogError($"[ScoreMachine] - Attempted to add an integer to {ID} but it's entry is not a ScoreEntryInt!");
 				return;
 			}
 			c.Score += valueToAddOnTop;
@@ -91,13 +96,13 @@ namespace Systems.Score
 		{
 			if (Scores.ContainsKey(ID) == false)
 			{
-				Logger.LogError($"{ID} does not exist in the score machine!");
+				Logger.LogError($"[ScoreMachine] - {ID} does not exist in the score machine!");
 				return;
 			}
 
 			if (Scores[ID] is not ScoreEntryBool c)
 			{
-				Logger.LogError($"Attempted to change a bool in {ID} but it's entry is not a ScoreEntryBool!");
+				Logger.LogError($"[ScoreMachine] - Attempted to change a bool in {ID} but it's entry is not a ScoreEntryBool!");
 				return;
 			}
 			c.Score = newValue;
@@ -110,13 +115,13 @@ namespace Systems.Score
 		{
 			if (Scores.ContainsKey(ID) == false)
 			{
-				Logger.LogError($"{ID} does not exist in the score machine!");
+				Logger.LogError($"[ScoreMachine] - {ID} does not exist in the score machine!");
 				return;
 			}
 
 			if (Scores[ID] is not ScoreEntryString c)
 			{
-				Logger.LogError($"Attempted to change a string in {ID} but it's entry is not a ScoreEntryString!");
+				Logger.LogError($"[ScoreMachine] - Attempted to change a string in {ID} but it's entry is not a ScoreEntryString!");
 				return;
 			}
 			c.Score = newValue;
@@ -133,7 +138,7 @@ namespace Systems.Score
 			{
 				if (Scores.ContainsKey(id) == false)
 				{
-					Logger.LogError($"{id} does not exist in the score machine!");
+					Logger.LogError($"[ScoreMachine] - {id} does not exist in the score machine!");
 					continue;
 				}
 				if (Scores[id] is not ScoreEntryInt c || c.Score <= highestScoreIndex) continue;
