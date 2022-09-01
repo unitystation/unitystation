@@ -15,7 +15,6 @@ namespace Systems.Score
 		/// </summary>
 		[SerializeField] private int boolScore = 10;
 		[SerializeField] private int negativeModifer = 5;
-		[SerializeField] private int positiveModifer = 10;
 		[SerializeField] private Occupation captainOccupation;
 
 		public override void Start()
