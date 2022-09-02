@@ -104,6 +104,8 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		return IsPassable(isServer);
 	}
 
+	private const float LayingDownTime = 0.5f;
+
 	[Command]
 	public void CmdSetRest(bool layingDown)
 	{
@@ -125,7 +127,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 			return;
 		}
 
-		if (ServerCheckStandingChange(false, true, 0.5f))
+		if (ServerCheckStandingChange(false, true, LayingDownTime))
 		{
 			Chat.AddExamineMsgFromServer(gameObject, "You try to stand up.");
 		}
