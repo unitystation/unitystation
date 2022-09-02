@@ -5,8 +5,6 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using DatabaseAPI;
-using Firebase.Auth;
-using Firebase.Extensions;
 using Lobby;
 using Managers;
 using Shared.Util;
@@ -14,7 +12,6 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
-using Util;
 
 public class GameData : MonoBehaviour
 {
@@ -65,7 +62,7 @@ public class GameData : MonoBehaviour
 
 	private void Start()
 	{
-		Init();
+		_ = Init();
 	}
 
 	public async void APITest()
@@ -92,7 +89,7 @@ public class GameData : MonoBehaviour
 	}
 
 
-	private void Init()
+	private async Task Init()
 	{
 #if UNITY_EDITOR
 		DevBuild = true;
@@ -114,21 +111,8 @@ public class GameData : MonoBehaviour
 			testServer = Convert.ToBoolean(testServerEnv);
 		}
 
-		if (!CheckCommandLineArgs())
-		{
-			if (FirebaseAuth.DefaultInstance.CurrentUser != null)
-			{
-				if (LobbyManager.Instance.OrNull()?.lobbyDialogue != null)
-				{
-					AttemptAutoJoin(LobbyManager.Instance.lobbyDialogue.LoginSuccess);
-				}
-				else
-				{
-					Logger.LogWarning("LobbyManager.Instance == null");
-				}
-
-			}
-		}
+		if (await TryJoinViaCmdArgs()) return;
+		_ = LobbyManager.Instance.TryAutoLogin();
 	}
 
 	private void OnEnable()
@@ -200,133 +184,47 @@ public class GameData : MonoBehaviour
 
 	#endregion
 
-	private bool CheckCommandLineArgs()
+	private async Task<bool> TryJoinViaCmdArgs()
 	{
-		//Check for Hub Message
 		string serverIp = GetArgument("-server");
-		string port = GetArgument("-port");
+		string portStr = GetArgument("-port");
 		string token = GetArgument("-refreshtoken");
 		string uid = GetArgument("-uid");
 
-		//This is a hub message, attempt to login and connect to server
-		if (!string.IsNullOrEmpty(serverIp) && !string.IsNullOrEmpty(port))
+		if (string.IsNullOrEmpty(serverIp) || string.IsNullOrEmpty(portStr)) return false;
+
+		if (ushort.TryParse(portStr, out var port) == false)
 		{
-			HubToServerConnect(serverIp, port, uid, token);
-			return true;
+			Logger.LogWarning("Invalid port provided in command line. Cannot join game via args.");
+			return false;
 		}
 
-		return false;
+		return await HubToServerConnect(serverIp, port, uid, token);
 	}
 
-	private async void AttemptAutoJoin(Action<string> OnLoginSuccess)
+	private async Task<bool> HubToServerConnect(string ip, ushort port, string uid, string token)
 	{
 		await Task.Delay(TimeSpan.FromSeconds(0.1));
-
-		if (LobbyManager.Instance == null) return;
-
-		LobbyManager.Instance.lobbyDialogue.ShowLoggingInStatus(
-			$"Loading user profile for {FirebaseAuth.DefaultInstance.CurrentUser.DisplayName}");
-
-		await FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread(
-			task => {
-				if (task.IsCanceled || task.IsFaulted)
-				{
-					LobbyManager.Instance.lobbyDialogue.LoginError(task.Exception?.Message);
-					return;
-				}
-			});
-
-		await ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser,
-			OnLoginSuccess,
-			LobbyManager.Instance.lobbyDialogue.LoginError);
-	}
-
-	private async void HubToServerConnect(string ip, string port, string uid, string token)
-	{
-		await Task.Delay(TimeSpan.FromSeconds(0.1));
-
-		LobbyManager.Instance.lobbyDialogue.serverAddressInput.text = ip;
-		LobbyManager.Instance.lobbyDialogue.serverPortInput.text = port;
-
-		GameScreenManager.Instance.serverIP = ip;
 
 		if (string.IsNullOrEmpty(token) == false)
 		{
-			LobbyManager.Instance.lobbyDialogue.ShowLoggingInStatus("Verifying account details..");
-			var refreshToken = new RefreshToken();
-			refreshToken.refreshToken = token;
-			refreshToken.userID = uid;
-
-			var response = await ServerData.ValidateToken(refreshToken);
-
-			if (response == null)
+			Logger.Log("Logging in via hub account...");
+			if (await LobbyManager.Instance.TryTokenLogin(uid, token))
 			{
-				LobbyManager.Instance.lobbyDialogue.LoginError(
-					$"Unknown server error. Please check your logs for more information by press F5");
-				return;
+				LobbyManager.Instance.JoinServer(ip, port);
+				return true;
 			}
-
-			if (string.IsNullOrEmpty(response.errorMsg) == false)
-			{
-				Logger.LogError($"Something went wrong with hub token validation {response.errorMsg}", Category.DatabaseAPI);
-				LobbyManager.Instance.lobbyDialogue.LoginError($"Could not verify your details {response.errorMsg}");
-				return;
-			}
-
-			await FirebaseAuth.DefaultInstance.SignInWithCustomTokenAsync(response.message).ContinueWithOnMainThread(
-				async task =>
-				{
-					if (task.IsCanceled)
-					{
-						Logger.LogError("Custom token sign in was canceled.", Category.DatabaseAPI);
-						LobbyManager.Instance.lobbyDialogue.LoginError($"Sign in was cancelled");
-						return;
-					}
-
-					if (task.IsFaulted)
-					{
-						Logger.LogError("Task Faulted: " + task.Exception, Category.DatabaseAPI);
-						LobbyManager.Instance.lobbyDialogue.LoginError($"Task Faulted: " + task.Exception);
-						return;
-					}
-
-					var success = await ServerData.ValidateUser(task.Result, null, null);
-
-					if (success)
-					{
-						Logger.Log("Signed in successfully with valid token", Category.DatabaseAPI);
-						var prefsCheck = PlayerPrefs.GetString("currentcharacter");
-						if (string.IsNullOrEmpty(prefsCheck))
-						{
-							LobbyManager.Instance.lobbyDialogue.ShowCharacterEditor(OnCharacterScreenCloseFromHubConnect);
-							return;
-						}
-						OnCharacterScreenCloseFromHubConnect();
-					}
-					else
-					{
-						LobbyManager.Instance.lobbyDialogue.LoginError(
-							"Unknown error occured when verifying character settings on the server");
-					}
-				});
+			Logger.LogWarning("Logging in via hub account (via command line args) failed.");
 		}
-		else
+
+		if (await LobbyManager.Instance.TryAutoLogin())
 		{
-			if (FirebaseAuth.DefaultInstance.CurrentUser != null)
-			{
-				AttemptAutoJoin(OnCharacterScreenCloseFromHubConnect);
-			}
+			LobbyManager.Instance.JoinServer(ip, port);
+			return true;
 		}
-	}
 
-	private void OnCharacterScreenCloseFromHubConnect()
-	{
-		LobbyManager.Instance.lobbyDialogue.OnStartGameFromHub();
-	}
-
-	private void OnCharacterScreenCloseFromHubConnect(string msg)
-	{
-		LobbyManager.Instance.lobbyDialogue.OnStartGameFromHub();
+		Logger.LogWarning("Logging in via stored account token failed.");
+		return false;
 	}
 
 	private bool CheckHeadlessState()
@@ -340,7 +238,9 @@ public class GameData : MonoBehaviour
 		return false;
 	}
 
-	private string GetArgument(string name)
+	#region Helpers
+
+	private static string GetArgument(string name)
 	{
 		string[] args = Environment.GetCommandLineArgs();
 		for (int i = 0; i < args.Length; i++)
@@ -353,4 +253,6 @@ public class GameData : MonoBehaviour
 
 		return null;
 	}
+
+	#endregion
 }

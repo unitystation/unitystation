@@ -401,7 +401,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		else
 		{
 			// must've disconnected, let lobby know (now that scene is loaded)
-			Lobby.LobbyManager.Instance.lobbyDialogue.wasDisconnected = true;
+			Lobby.LobbyManager.Instance.WasDisconnected = true;
 		}
 	}
 

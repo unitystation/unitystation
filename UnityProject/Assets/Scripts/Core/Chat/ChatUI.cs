@@ -470,15 +470,12 @@ namespace UI.Chat_UI
 			//Prevent input spam
 			if (windowCoolDown || UIManager.PreventChatInput) return;
 			StartWindowCooldown();
-
 			// Can't open chat window while main menu open
 			if (GUI_IngameMenu.Instance.menuWindow.activeInHierarchy)
 			{
 				return;
 			}
-
 			var availChannels = GetAvailableChannels();
-
 			// Change the selected channel if one is passed to the function and it's available
 			if (newChannel != ChatChannel.None && (availChannels & newChannel) == newChannel)
 			{
@@ -491,14 +488,12 @@ namespace UI.Chat_UI
 			}
 			// Otherwise use the previously selected channels again
 
-
 			EventManager.Broadcast(Event.ChatFocused);
 			chatInputWindow.SetActive(true);
 			Showing = true;
 			StartCoroutine(AnimateBackground());
 			if (inputFocus)
 			{
-
 				UIManager.IsInputFocus = true; // should work implicitly with InputFieldFocus
 				EventSystem.current.SetSelectedGameObject(InputFieldChat.gameObject, null);
 				InputFieldChat.OnPointerClick(new PointerEventData(EventSystem.current));

@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: HeadImplantItemsCapacity
   m_EditorClassIdentifier: 
   maxSize: 4
-  Whitelist:
+  Whitelist: []
+  Required:
   - {fileID: 11400000, guid: d859938ed34564a4a932f3beb902e34c, type: 2}
-  Required: []
-  Blacklist:
-  - {fileID: 11400000, guid: 5e9ac88966a35d34a9fd90c34e1ddaa0, type: 2}
+  Blacklist: []

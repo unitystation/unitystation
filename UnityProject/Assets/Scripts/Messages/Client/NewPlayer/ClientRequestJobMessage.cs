@@ -100,7 +100,10 @@ namespace Messages.Client.NewPlayer
 			var character = JsonConvert.DeserializeObject<CharacterSheet>(msg.JsonCharSettings);
 			var spawnRequest = new PlayerSpawnRequest(SentByPlayer, GameManager.Instance.GetRandomFreeOccupation(msg.JobType), character);
 
-			GameManager.Instance.TrySpawnPlayer(spawnRequest);
+			if (GameManager.Instance.TrySpawnPlayer(spawnRequest) == false)
+			{
+				SendClientLogMessage.SendErrorToClient(SentByPlayer, "Server couldn't spawn you.");
+			}
 		}
 
 		private void NotifyError(JobRequestError error, string message)

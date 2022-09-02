@@ -249,6 +249,10 @@ MonoBehaviour:
     PressureSafeMax: 18
     UnsafeLevelDamage: 0.5
     UnsafeLevelDamageType: 3
+  - GasType: {fileID: 11400000, guid: 6d81a1eb93070a241bc0d18204e1febc, type: 2}
+    PressureSafeMax: 1.5
+    UnsafeLevelDamage: 0.1
+    UnsafeLevelDamageType: 2
   requiredGas: {fileID: 11400000, guid: d7d4e6085864f9f4e83593f63d102d08, type: 2}
   LungSize: 0.5
   coughChanceWhenInternallyBleeding: 35

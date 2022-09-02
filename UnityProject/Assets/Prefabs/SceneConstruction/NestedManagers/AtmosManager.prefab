@@ -46,7 +46,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reactionManagerList: []
   StopPipes: 0
-  fireLight: {fileID: 1762630675659964, guid: 715614a08d7f9514aab57170abfe56ef, type: 3}
-  iceShard: {fileID: 2265521501557685915, guid: 0a1bb784a4392e94aa77541dd0939565,
+  <FireLight>k__BackingField: {fileID: 1762630675659964, guid: 715614a08d7f9514aab57170abfe56ef,
     type: 3}
-  hotIce: {fileID: 2265521501557685915, guid: 7c9b308fb19afbd47bbc03df800f8d63, type: 3}
+  <IceShard>k__BackingField: {fileID: 2265521501557685915, guid: 0a1bb784a4392e94aa77541dd0939565,
+    type: 3}
+  <HotIce>k__BackingField: {fileID: 2265521501557685915, guid: 7c9b308fb19afbd47bbc03df800f8d63,
+    type: 3}
+  <MetalHydrogen>k__BackingField: {fileID: 7265401691325103712, guid: e337916fff9e0c34f8dcb03c7abc4ae5,
+    type: 3}
