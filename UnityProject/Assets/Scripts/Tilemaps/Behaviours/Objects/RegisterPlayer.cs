@@ -105,7 +105,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	}
 
 	[Command]
-	public void CmdToggleRest(bool layingDown)
+	public void CmdSetRest(bool layingDown)
 	{
 		if (layingDown)
 		{

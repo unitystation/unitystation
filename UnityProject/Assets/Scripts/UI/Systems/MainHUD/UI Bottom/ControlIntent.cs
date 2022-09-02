@@ -58,7 +58,7 @@ namespace UI
 
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
-			registerPlayer.CmdToggleRest(!registerPlayer.IsLayingDown);
+			registerPlayer.CmdSetRest(!registerPlayer.IsLayingDown);
 			// TODO: trigger rest intent
 		}
 
