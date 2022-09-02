@@ -259,7 +259,7 @@ MonoBehaviour:
         type: 3}
       name: Implant Explosive
       isNukeOps: 0
-    - cost: 2
+    - cost: 3
       item: {fileID: 7387852776840792558, guid: dc94bc35b5fe6704b851fa3e1f97bfff,
         type: 3}
       name: Microbomb Implant
@@ -324,6 +324,11 @@ MonoBehaviour:
       item: {fileID: 3668676918291703395, guid: 00019cd41de95b244ac165825679fd64,
         type: 3}
       name: Chest Rig
+      isNukeOps: 0
+    - cost: 2
+      item: {fileID: 5743668296517273336, guid: 01e3ea9613a7f1a4a9daee3064c63702,
+        type: 3}
+      name: Implanter
       isNukeOps: 0
     - cost: 6
       item: {fileID: 3086828684011793880, guid: 92d97624df4de9c44b21713ad3a016cc,

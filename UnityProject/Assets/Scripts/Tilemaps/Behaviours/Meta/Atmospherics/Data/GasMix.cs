@@ -24,9 +24,15 @@ namespace Systems.Atmospherics
 		/// <summary>In cubic metres.</summary>
 		public float Volume;
 
+		private float temperature;
 		/// <summary>In Kelvin.</summary>
-		public float Temperature;
+		public float Temperature
+		{
+			get { return temperature; }
+			set { temperature = Math.Clamp(value, 0, Single.MaxValue); }
+		}
 
+		
 		private HashSet<GasSO> cache = new HashSet<GasSO>();
 		private HashSet<GasSO> pipeCache = new HashSet<GasSO>();
 

@@ -226,7 +226,7 @@ namespace UI.Systems.AdminTools.DevTools
 				image.color = colourToggle.isOn ? colourPicker.CurrentColor : Color.white;
 
 				var rect = image.GetComponent<RectTransform>();
-				rect.localRotation = Quaternion.Euler(0, 0, rotation);
+				rect.localRotation = Quaternion.Euler(0, 0, -(rotation-90)); //Orientation angles are starting from the positive x axis going anti-clockwise (Like unit circle), but unity transforms start from positive y and go clockwise.
 
 				newTile.GetComponentInChildren<TMP_Text>().text = tile.name;
 			}

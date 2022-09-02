@@ -656,27 +656,29 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	}
 
 	[Server]
-	public void TrySpawnPlayer(PlayerSpawnRequest spawnRequest)
+	public bool TrySpawnPlayer(PlayerSpawnRequest spawnRequest)
 	{
 		if (spawnRequest?.Player?.ViewerScript == null)
 		{
 			Logger.LogError("Invalid spawn request, player is null.");
-			return;
+			return false;
 		}
 
 		//regardless of their chosen occupation, they might spawn as an antag instead.
 		//If they do, bypass the normal spawn logic.
-		if (Instance.GameMode.TrySpawnAntag(spawnRequest)) return;
+		if (Instance.GameMode.TrySpawnAntag(spawnRequest)) return false;
 
 		int slotsTaken = Instance.ServerGetOccupationsCount(spawnRequest.RequestedOccupation.JobType);
 		int slotsMax = Instance.GetOccupationMaxCount(spawnRequest.RequestedOccupation.JobType);
 		if (slotsTaken >= slotsMax)
 		{
+			SendClientLogMessage.SendErrorToClient(spawnRequest.Player,
+					$"Occupation {spawnRequest.RequestedOccupation.JobType} is full. Cannot spawn you.");
 			Logger.LogError($"Occupation {spawnRequest.RequestedOccupation.JobType} is full. Cannot spawn player.");
-			return;
+			return false;
 		}
-
-		PlayerSpawn.ServerSpawnPlayer(spawnRequest);
+		
+		return PlayerSpawn.ServerSpawnPlayer(spawnRequest) != null;
 	}
 
 	/// <summary>

@@ -70,6 +70,20 @@ namespace Systems.Atmospherics
 		public const float NOBLIUM_FORMATION_ENERGY = 2e9f; 	//1 Mole of Noblium takes the planck energy to condense.
 		public const float STIM_BALL_GAS_AMOUNT = 5f;
 
+		//Hydrogen reactions
+		public const float HYRDOGEN_MIN_CRYSTALLISE_TEMPERATURE = 1273f; //The minimum temperature needed for hydrogen to crystallise
+		public const float HYRDOGEN_MAX_CRYSTALLISE_TEMPERATURE = 3273f; //The maximum temperature needed for hydrogen to crystallise
+		public const float HYRDOGEN_CRYSTALLISE_ENERGY = 50000f; //Amount of energy it takes to crystallise hydrogen (per mol of H2)
+		public const float HYDROGEN_CRYSTALLISE_RATE = 2f;
+		public const float HYDROGEN_CRYSTALLISE_MIN_MOLES = 0.1f;
+
+		//Hydrogen formation is based off of the process of steam reforming. For the purpose of unitystation, plasma is assumed to be methane for this reaction. Reaction is endothermic.
+		public const float HYDROGEN_FORM_MIN_TEMPERATURE = 473f;
+		public const float HYDROGEN_FORM_MAX_TEMPERATURE = 1573f;
+		public const float HYDROGEN_FORMATION_ENERGY = 206000f;
+		public const int HYDROGEN_FORMATION_RATIO = 3;
+		public const float HYDROGEN_FORM_MIN_MOLES = 0.1f;
+
 		//Research point amounts
 		public const float NOBLIUM_RESEARCH_AMOUNT = 1000f;
 		public const float BZ_RESEARCH_SCALE = 4f;

@@ -34,6 +34,8 @@ namespace Systems.Atmospherics
 		private static GasReactions StimBallReaction;
 		private static GasReactions HyperNobliumForm;
 		private static GasReactions MiasmaDecomp;
+		private static GasReactions MetalHydrogenForm;
+		private static GasReactions HydrogenForm;
 
 		public static void SetUpReactions()
 		{
@@ -148,6 +150,74 @@ namespace Systems.Atmospherics
 				//Freon + Oxygen
 				minimumTileMoles: 0.02f,
 				maximumTileMoles: 10000000000,
+				addToBaseReactions: true
+			);
+
+			#endregion
+
+			#region MetalHydrogenFormation
+
+			MetalHydrogenForm = new GasReactions(
+
+				reaction: new MetalHydrogenFormation(),
+
+				gasReactionData: new Dictionary<GasSO, GasReactionData>()
+				{
+					{
+						Gas.Hydrogen,
+						new GasReactionData()
+						{
+							minimumMolesToReact = AtmosDefines.HYDROGEN_CRYSTALLISE_MIN_MOLES
+						}
+					},
+				},
+
+				minimumTileTemperature: AtmosDefines.HYRDOGEN_MIN_CRYSTALLISE_TEMPERATURE,
+				maximumTileTemperature: AtmosDefines.HYRDOGEN_MAX_CRYSTALLISE_TEMPERATURE,
+				minimumTilePressure: 10000,
+				maximumTilePressure: 100000,
+
+				minimumTileMoles: 0.1f,
+				maximumTileMoles: 10000000,
+				addToBaseReactions: true
+			);
+
+			#endregion
+
+			#region HydrogenForm
+
+			HydrogenForm = new GasReactions(
+
+				reaction: new HydrogenFormation(),
+
+				gasReactionData: new Dictionary<GasSO, GasReactionData>()
+				{
+					{
+						Gas.WaterVapor,
+						new GasReactionData()
+						{
+							minimumMolesToReact = AtmosDefines.HYDROGEN_FORM_MIN_MOLES
+						}
+					},
+
+					{
+						Gas.Plasma,
+						new GasReactionData()
+						{
+							minimumMolesToReact = AtmosDefines.HYDROGEN_FORM_MIN_MOLES
+						}
+					},
+				},
+
+				minimumTileTemperature: AtmosDefines.HYDROGEN_FORM_MIN_TEMPERATURE,
+				maximumTileTemperature: AtmosDefines.HYDROGEN_FORM_MAX_TEMPERATURE,
+
+				minimumTilePressure: 0,
+				maximumTilePressure: 10000000000,
+
+				minimumTileMoles: 0.2f,
+				maximumTileMoles: 10000000000,
+
 				addToBaseReactions: true
 			);
 

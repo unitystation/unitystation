@@ -32,7 +32,7 @@ public class UI_SlotManager : MonoBehaviour
 	public List<Tuple<int, BodyPartUISlots.StorageCharacteristics>> ContainSlots = new List<Tuple<int, BodyPartUISlots.StorageCharacteristics>>();
 	public void Start()
 	{
-		EventManager.AddHandler(Event.LoggedOut, CompleteClean);
+		EventManager.AddHandler(Event.ServerLoggedOut, CompleteClean);
 		EventManager.AddHandler(Event.PlayerSpawned, UpdateUI);
 		EventManager.AddHandler(Event.RoundEnded, UpdateUI);
 		EventManager.AddHandler(Event.PreRoundStarted, CompleteClean);

@@ -9,7 +9,7 @@ namespace DatabaseAPI
 		///Tries to create an account for the user in player accounts (now using firebase as of nov '19)
 		///</summary>
 		public async static void TryCreateAccount(string proposedName, string _password, string emailAcc,
-			Action<CharacterSheet> callBack, Action<string> errorCallBack)
+			Action<FirebaseUser> callBack, Action<string> errorCallBack)
 		{
 			try
 			{
@@ -17,7 +17,7 @@ namespace DatabaseAPI
 
 				await user.SendEmailVerificationAsync();
 
-				UserProfile profile = new UserProfile
+				var profile = new UserProfile
 				{
 					DisplayName = proposedName,
 					PhotoUrl = null
@@ -28,19 +28,17 @@ namespace DatabaseAPI
 				Logger.LogFormat($"Firebase user created successfully: {proposedName}",
 					Category.DatabaseAPI);
 
-				var newCharacter = CharacterSheet.GenerateRandomCharacter();
-
-				callBack.Invoke(newCharacter);
+				callBack.Invoke(user);
 			}
 			catch (AggregateException ex)
 			{
 				var innerEx = ex.Flatten().InnerExceptions[0];
-				Logger.LogError($"Failed to sign up {innerEx.Message}", Category.DatabaseAPI);
+				Logger.LogError($"Failed to sign up: {innerEx.Message}", Category.DatabaseAPI);
 				errorCallBack.Invoke(innerEx.Message);
 			}
 			catch (Exception ex)
 			{
-				Logger.LogError($"Failed to sign up {ex.Message}", Category.DatabaseAPI);
+				Logger.LogError($"Failed to sign up: {ex.Message}", Category.DatabaseAPI);
 				errorCallBack.Invoke(ex.Message);
 			}
 		}

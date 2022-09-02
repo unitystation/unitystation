@@ -292,7 +292,7 @@ namespace HealthV2
 		/// <summary>
 		/// Body part was added to the body
 		/// </summary>
-		public void BodyPartAddHealthMaster(LivingHealthMasterBase livingHealth)
+		public void BodyPartAddHealthMaster(LivingHealthMasterBase livingHealth) //Only add Body parts
 		{
 			if (livingHealth.BodyPartList.Contains(this) == false)
 			{
@@ -304,13 +304,14 @@ namespace HealthV2
 
 			foreach (var organ in OrganList)
 			{
-				organ.AddedToBody(HealthMaster);
+				organ.AddedToBody(HealthMaster); //Only add Body parts
 			}
 
-			foreach (var organ in containBodyParts)
+			for (int i = 0; i < containBodyParts.Count; i++) //Only add Body parts
 			{
-				organ.BodyPartAddHealthMaster(livingHealth);
+				containBodyParts[i].BodyPartAddHealthMaster(livingHealth);
 			}
+
 			livingHealth.BodyPartListChange();
 		}
 

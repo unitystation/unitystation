@@ -1,30 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 namespace Lobby
 {
+	/// <summary>
+	/// Scripting for an entry in the history panel found in the lobby UI.
+	/// </summary>
 	public class HistoryLogEntry : MonoBehaviour
 	{
-		[SerializeField] private TMP_Text serverIPtext;
-		private int indexInHistory = 0;
+		[SerializeField]
+		private TMP_Text addressText;
 
-		public void SetData(string ip, int index)
+		[SerializeField]
+		private Button joinButton;
+
+		private ConnectionHistory entry;
+
+		private void Awake()
 		{
-
-			serverIPtext.text = ip;
-			indexInHistory = index;
-			if (Application.isEditor)
-			{
-				serverIPtext.text = "localhost";
-			}
+			joinButton.onClick.AddListener(OnJoinButton);
 		}
 
-		public void OnJoinButton()
+		public void SetData(ConnectionHistory entry)
 		{
-			Lobby.GUI_LobbyDialogue.Instance.ConnectToServerFromHistory(indexInHistory);
+			this.entry = entry;
+
+			addressText.text = $"{entry.Address}:{entry.Port}";
+		}
+
+		private void OnJoinButton()
+		{
+			LobbyManager.Instance.JoinServer(entry.Address, entry.Port);
 		}
 	}
 }
-

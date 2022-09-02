@@ -75,7 +75,7 @@ namespace Systems.Atmospherics
 
 		private void Start()
 		{
-			fireLight = AtmosManager.Instance.fireLight;
+			fireLight = AtmosManager.Instance.FireLight;
 			AtmosManager.Instance.reactionManagerList.Add(this);
 		}
 

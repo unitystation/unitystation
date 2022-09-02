@@ -20,23 +20,59 @@ namespace ScriptableObjects.Atmospherics
 		private readonly Dictionary<GasSO, Reagent> gasToReagent = new  Dictionary<GasSO, Reagent>();
 		public Dictionary<GasSO, Reagent> GasToReagent => gasToReagent;
 
-		public GasSO Plasma = null;
-		public GasSO Oxygen = null;
-		public GasSO Nitrogen = null;
-		public GasSO CarbonDioxide = null;
-		public GasSO NitrousOxide = null;
-		public GasSO Hydrogen = null;
-		public GasSO WaterVapor = null;
-		public GasSO BZ = null;
-		public GasSO Miasma = null;
-		public GasSO Nitryl = null;
-		public GasSO Tritium = null;
-		public GasSO HyperNoblium = null;
-		public GasSO Stimulum = null;
-		public GasSO Pluoxium = null;
-		public GasSO Freon = null;
-		public GasSO Smoke = null;
-		public GasSO Ash = null;
+		[field: SerializeField]
+		public GasSO Plasma { get; private set; }
+
+		[field: SerializeField]
+		public GasSO Oxygen { get; private set; }
+
+		[field: SerializeField]
+		public GasSO Nitrogen { get; private set; }
+
+		[field: SerializeField]
+		public GasSO CarbonDioxide { get; private set; }
+
+		[field: SerializeField]
+		public GasSO NitrousOxide { get; private set; }
+
+		[field: SerializeField]
+		public GasSO Hydrogen { get; private set; }
+
+		[field: SerializeField]
+		public GasSO WaterVapor { get; private set; }
+
+		[field: SerializeField]
+		public GasSO BZ { get; private set; }
+
+		[field: SerializeField]
+		public GasSO Miasma { get; private set; }
+
+		[field: SerializeField]
+		public GasSO Nitryl { get; private set; }
+
+		[field: SerializeField]
+		public GasSO Tritium { get; private set; }
+
+		[field: SerializeField]
+		public GasSO HyperNoblium { get; private set; }
+
+		[field: SerializeField]
+		public GasSO Stimulum { get; private set; }
+
+		[field: SerializeField]
+		public GasSO Pluoxium { get; private set; }
+
+		[field: SerializeField]
+		public GasSO Freon { get; private set; }
+
+		[field: SerializeField]
+		public GasSO Smoke { get; private set; }
+
+		[field: SerializeField]
+		public GasSO Ash { get; private set; }
+
+		[field: SerializeField]
+		public GasSO CarbonMonoxide { get; private set; }
 
 		private void OnEnable()
 		{
@@ -68,6 +104,7 @@ namespace ScriptableObjects.Atmospherics
 			AddNewGasSo(Freon);
 			AddNewGasSo(Smoke);
 			AddNewGasSo(Ash);
+			AddNewGasSo(CarbonMonoxide);
 		}
 
 		public void AddNewGasSo(GasSO so)
