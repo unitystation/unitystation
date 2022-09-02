@@ -22,8 +22,6 @@ namespace UI
 		[SerializeField] private GameObject runWalkBorder = default;
 		[SerializeField] private GameObject helpWindow = default;
 		[Header("Message settings")]
-		[SerializeField] private string startRestMessage = "You try to lie down.";
-		[SerializeField] private string endRestMessage = "You try to stand up.";
 		[SerializeField] private string startRunningMessage = "You start running";
 		[SerializeField] private string startWalkingMessage = "You start walking";
 
@@ -51,10 +49,16 @@ namespace UI
 		/// </summary>
 		public void OnClickRest()
 		{
+			var registerPlayer = PlayerManager.LocalPlayerScript.OrNull()?.RegisterPlayer;
+			if (registerPlayer == null) return;
+
+			if(registerPlayer.PlayerScript.PlayerTypeSettings.CanRest == false) return;
+
 			Logger.Log("OnClickRest", Category.UserInput);
+
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			RequestRest.Send();
-			Chat.AddExamineMsgToClient(PlayerManager.LocalPlayerScript.registerTile.IsLayingDown == false ? startRestMessage : endRestMessage);
+
+			registerPlayer.CmdSetRest(!registerPlayer.IsLayingDown);
 			// TODO: trigger rest intent
 		}
 

@@ -24,7 +24,7 @@ namespace ScriptableObjects.Audio
 		public static void PlayerFootstepAtPosition(Vector3 worldPos,
 			MovementSynchronisation playerSync)
 		{
-			if (playerSync.playerScript.registerTile.IsLayingDown == false)
+			if (playerSync.playerScript.RegisterPlayer.IsLayingDown == false)
 			{
 				if(playerSync.playerScript.mind == null) return;
 
@@ -35,7 +35,7 @@ namespace ScriptableObjects.Audio
 					stepType,
 					playerSync.playerScript.mind.StepSound,
 					playerSync.gameObject,
-					playerSync.playerScript.registerTile.Matrix.MatrixInfo);
+					playerSync.playerScript.RegisterPlayer.Matrix.MatrixInfo);
 			}
 			else
 			{

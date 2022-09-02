@@ -87,11 +87,8 @@ namespace HealthV2
 			{
 				return true;
 			}
-			else
-			{
-				return ConsciousState == ConsciousState.CONSCIOUS;
-			}
 
+			return ConsciousState == ConsciousState.CONSCIOUS;
 		}
 
 		/// <summary>
@@ -167,6 +164,8 @@ namespace HealthV2
 			}
 
 			Chat.AddLocalMsgToChat($"<b>{playerScript.visibleName}</b> seizes up and falls limp, {their} eyes dead and lifeless...", gameObject);
+
+			registerPlayer.ServerLayDown();
 
 			TriggerEventMessage.SendTo(gameObject, Event.PlayerDied);
 		}

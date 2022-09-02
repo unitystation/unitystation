@@ -48,7 +48,7 @@ public static class PlayerUtils
 				ps.playerMove.Uncuff();
 
 				ps.playerHealth.ResetDamageAll();
-				ps.registerTile.ServerStandUp();
+				ps.RegisterPlayer.ServerStandUp();
 
 
 				foreach (var itemSlot in player.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.leftHand))

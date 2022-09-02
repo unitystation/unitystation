@@ -76,7 +76,7 @@ public class DrinkableContainer : Consumable
 			{
 				ConsumableTextUtils.SendGenericForceFeedMessage(feeder, eater, HungerState.Hungry, name, "drink");
 				Drink(eater, feeder);
-			}).ServerStartProgress(eater.registerTile, 3f, feeder.gameObject);
+			}).ServerStartProgress(eater.RegisterPlayer, 3f, feeder.gameObject);
 			return;
 		}
 		else

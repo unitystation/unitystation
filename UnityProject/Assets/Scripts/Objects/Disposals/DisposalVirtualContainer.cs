@@ -66,7 +66,7 @@ namespace Objects.Disposals
 				}
 				if (obj.TryGetComponent<PlayerScript>(out var script))
 				{
-					script.registerTile.ServerStun();
+					script.RegisterPlayer.ServerStun();
 				}
 			}
 

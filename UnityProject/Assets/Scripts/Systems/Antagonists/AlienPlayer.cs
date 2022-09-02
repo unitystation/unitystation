@@ -146,7 +146,7 @@ namespace Systems.Antagonists
 
 		private LayerMask playerMask;
 
-		public RegisterPlayer RegisterPlayer => playerScript.registerTile;
+		public RegisterPlayer RegisterPlayer => playerScript.RegisterPlayer;
 
 		[SyncVar]
 		private bool isDead;
@@ -209,7 +209,7 @@ namespace Systems.Antagonists
 			UpdateManager.Add(OnUpdate, 1f);
 			livingHealthMasterBase.OnConsciousStateChangeServer.AddListener(OnConsciousHealthChange);
 			rotatable.OnRotationChange.AddListener(OnRotation);
-			playerScript.registerTile.OnLyingDownChangeEvent.AddListener(OnLyingDownChange);
+			playerScript.RegisterPlayer.OnLyingDownChangeEvent.AddListener(OnLyingDownChange);
 			playerScript.PlayerSync.MovementStateEventServer.AddListener(OnMovementTypeChange);
 			EventManager.AddHandler(Event.RoundStarted, ClearStatics);
 		}
@@ -219,7 +219,7 @@ namespace Systems.Antagonists
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, OnUpdate);
 			livingHealthMasterBase.OnConsciousStateChangeServer.RemoveListener(OnConsciousHealthChange);
 			rotatable.OnRotationChange.RemoveListener(OnRotation);
-			playerScript.registerTile.OnLyingDownChangeEvent.RemoveListener(OnLyingDownChange);
+			playerScript.RegisterPlayer.OnLyingDownChangeEvent.RemoveListener(OnLyingDownChange);
 			playerScript.PlayerSync.MovementStateEventServer.RemoveListener(OnMovementTypeChange);
 			EventManager.RemoveHandler(Event.RoundStarted, ClearStatics);
 		}
@@ -811,7 +811,7 @@ namespace Systems.Antagonists
 
 			if(livingHealthMasterBase.IsDead) return;
 
-			if (playerScript.registerTile.IsLayingDown) return;
+			if (playerScript.RegisterPlayer.IsLayingDown) return;
 
 			ChangeAlienMode(isRunning ? AlienMode.Running : AlienMode.Normal);
 		}

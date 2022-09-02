@@ -534,7 +534,7 @@ namespace IngameDebugConsole
 			if (CustomNetworkManager.Instance._isServer)
 			{
 				var playerScript = PlayerManager.LocalPlayerScript;
-				var matrix = MatrixManager.Get(playerScript.registerTile.Matrix);
+				var matrix = MatrixManager.Get(playerScript.RegisterPlayer.Matrix);
 
 				foreach (var worldPos in playerScript.WorldPos.BoundsAround().allPositionsWithin)
 				{
@@ -557,7 +557,7 @@ namespace IngameDebugConsole
 				var playerScript = PlayerManager.LocalPlayerScript;
 				var health = playerScript.playerHealth;
 				health.ResetDamageAll();
-				playerScript.registerTile.ServerStandUp();
+				playerScript.RegisterPlayer.ServerStandUp();
 			}
 		}
 
@@ -578,7 +578,7 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer)
 			{
-				PlayerManager.LocalPlayerScript.registerTile.ServerSlip( true );
+				PlayerManager.LocalPlayerScript.RegisterPlayer.ServerSlip( true );
 			}
 		}
 		// TODO: Removing this capability at the moment because some antags require an actual spawn (such as

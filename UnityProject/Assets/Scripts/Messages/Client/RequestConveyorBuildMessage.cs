@@ -25,7 +25,7 @@ namespace Messages.Client
 			var playerScript = SentByPlayer.Script;
 			if (msg.Sandboxing && AdminCommands.AdminCommandsManager.IsAdmin(playerScript.connectionToClient, out var _))
 			{
-				var spawnedObj = Spawn.ServerPrefab(UIManager.BuildMenu.ConveyorBuildMenu.ConveyorBeltPrefab.Prefab, playerScript.registerTile.WorldPosition)?.GameObject;
+				var spawnedObj = Spawn.ServerPrefab(UIManager.BuildMenu.ConveyorBuildMenu.ConveyorBeltPrefab.Prefab, playerScript.RegisterPlayer.WorldPosition)?.GameObject;
 				if (spawnedObj)
 				{
 					var conveyorBelt = spawnedObj.GetComponent<ConveyorBelt>();
@@ -93,7 +93,7 @@ namespace Messages.Client
 			//build and consume
 			void ProgressComplete()
 			{
-				var spawnedObj = entry.ServerBuild(SpawnDestination.At(playerScript.registerTile), hasConstructionMenu);
+				var spawnedObj = entry.ServerBuild(SpawnDestination.At(playerScript.RegisterPlayer), hasConstructionMenu);
 				if (spawnedObj)
 				{
 					var conveyorBelt = spawnedObj.GetComponent<ConveyorBelt>();
@@ -106,7 +106,7 @@ namespace Messages.Client
 			Chat.AddActionMsgToChat(playerObject, $"You begin building the {entry.Name}...",
 				$"{playerObject.ExpensiveName()} begins building the {entry.Name}...");
 			ToolUtils.ServerUseTool(playerObject, usedSlot.ItemObject,
-				ActionTarget.Tile(playerScript.registerTile.WorldPositionServer), entry.BuildTime,
+				ActionTarget.Tile(playerScript.RegisterPlayer.WorldPositionServer), entry.BuildTime,
 				ProgressComplete);
 		}
 

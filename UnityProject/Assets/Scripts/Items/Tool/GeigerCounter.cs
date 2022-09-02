@@ -75,7 +75,7 @@ public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>, IServer
 
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
-		Vector3Int worldPosInt = interaction.Performer.GetComponent<PlayerScript>().registerTile.WorldPosition;
+		Vector3Int worldPosInt = interaction.Performer.GetComponent<PlayerScript>().RegisterPlayer.WorldPosition;
 		MatrixInfo matrixinfo = MatrixManager.AtPoint(worldPosInt, true);
 		var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrixinfo);
 		var matrix = interaction.Performer.GetComponentInParent<Matrix>();

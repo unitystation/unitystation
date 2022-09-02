@@ -64,7 +64,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public Equipment Equipment { get; private set; }
 
-	public RegisterPlayer registerTile { get; set; }
+	public RegisterPlayer RegisterPlayer { get; private set; }
 
 	private PlayerCrafting playerCrafting;
 
@@ -94,7 +94,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// World position of the player.
 	/// Returns InvalidPos if you're hidden (e.g. in a locker)
 	/// </summary>If the
-	public Vector3Int WorldPos => registerTile.WorldPosition;
+	public Vector3Int WorldPos => RegisterPlayer.WorldPosition;
 
 	/// <summary>
 	/// This player's item storage.
@@ -138,7 +138,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	{
 		playerSprites = GetComponent<PlayerSprites>();
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
-		registerTile = GetComponent<RegisterPlayer>();
+		RegisterPlayer = GetComponent<RegisterPlayer>();
 		playerHealth = GetComponent<PlayerHealthV2>();
 		objectPhysics = GetComponent<UniversalObjectPhysics>();
 		weaponNetworkActions = GetComponent<WeaponNetworkActions>();
@@ -421,7 +421,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	public void ReturnGhostToBody()
 	{
 		if(mind == null) return;
-		
+
 		var ghost = mind.ghost;
 		if (mind.IsGhosting == false || ghost == null) return;
 
@@ -449,7 +449,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	public bool IsRegisterTileReachable(RegisterTile otherObject, bool isServer,
 		float interactDist = interactionDistance, GameObject context = null)
 	{
-		return Validations.IsReachableByRegisterTiles(registerTile, otherObject, isServer, interactDist,
+		return Validations.IsReachableByRegisterTiles(RegisterPlayer, otherObject, isServer, interactDist,
 			context: context);
 	}
 
@@ -462,7 +462,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		GameObject context = null)
 	{
 		return Validations.IsReachableByPositions(
-			isServer ? registerTile.WorldPositionServer : registerTile.WorldPosition, otherPosition, isServer,
+			isServer ? RegisterPlayer.WorldPositionServer : RegisterPlayer.WorldPosition, otherPosition, isServer,
 			interactDist, context: context);
 	}
 

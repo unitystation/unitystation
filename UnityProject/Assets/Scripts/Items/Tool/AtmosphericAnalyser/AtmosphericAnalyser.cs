@@ -27,7 +27,7 @@ namespace Items.Atmospherics
 				return;
 			}
 
-			var metaDataLayer = interaction.PerformerPlayerScript.registerTile.Matrix.MetaDataLayer;
+			var metaDataLayer = interaction.PerformerPlayerScript.RegisterPlayer.Matrix.MetaDataLayer;
 			if (metaDataLayer != null)
 			{
 				var node = metaDataLayer.Get(interaction.Performer.transform.localPosition.RoundToInt());

@@ -159,7 +159,7 @@ namespace Systems.Ai
 			//Set up laws
 			SetRandomDefaultLawSet();
 
-			var newVesselObject = Spawn.ServerPrefab(corePrefab, playerScript.registerTile.WorldPosition, transform.parent).GameObject;
+			var newVesselObject = Spawn.ServerPrefab(corePrefab, playerScript.RegisterPlayer.WorldPosition, transform.parent).GameObject;
 
 			if (newVesselObject == null)
 			{
@@ -598,7 +598,7 @@ namespace Systems.Ai
 				if(checkPlayerScript.gameObject == gameObject) return null;
 
 				//If we are player get position
-				objectPos = checkPlayerScript.registerTile.WorldPosition;
+				objectPos = checkPlayerScript.RegisterPlayer.WorldPosition;
 			}
 			else
 			{

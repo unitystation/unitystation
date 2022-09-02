@@ -165,7 +165,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	IEnumerator Roll()
 	{
 		//Can't roll if you're already rolling or have slipped
-		if (IsRolling || playerScript.registerTile.IsSlippingServer)
+		if (IsRolling || playerScript.RegisterPlayer.IsSlippingServer)
 		{
 			yield return null;
 		}
@@ -173,9 +173,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		IsRolling = true;
 
 		// Drop the player if they aren't already, prevent them from moving until the action is complete
-		if (playerScript.registerTile.IsLayingDown == false)
+		if (playerScript.RegisterPlayer.IsLayingDown == false)
 		{
-			playerScript.registerTile.ServerSetIsStanding(false);
+			playerScript.RegisterPlayer.ServerSetIsStanding(false);
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
 		}
 		playerScript.playerMove.allowInput = false;
@@ -198,7 +198,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			//Can only roll if you're conscious and not stunned
 			if (playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS ||
-				playerScript.registerTile.IsSlippingServer)
+				playerScript.RegisterPlayer.IsSlippingServer)
 			{
 				break;
 			}
@@ -218,13 +218,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (playerScript.playerHealth.FireStacks == 0)
 		{
 			playerScript.playerHealth.Extinguish();
-			playerScript.registerTile.ServerStandUp(true);
+			playerScript.RegisterPlayer.ServerStandUp(true);
 			playerScript.playerMove.allowInput = true;
 		}
 
 		//Allow barely conscious players to move again if they are not stunned
 		if (playerScript.playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS
-			&& playerScript.registerTile.IsSlippingServer == false) {
+			&& playerScript.RegisterPlayer.IsSlippingServer == false) {
 			playerScript.playerMove.allowInput = true;
 		}
 
@@ -285,17 +285,17 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (slots == null) return;
 
 		var validateSlot = storage.GetIndexedItemSlot(0);
-		if (validateSlot.RootPlayer() != playerScript.registerTile) return;
+		if (validateSlot.RootPlayer() != playerScript.RegisterPlayer) return;
 
 
 		Vector2? possibleTarget = null;
 		if (Target != TransformState.HiddenPos)
 		{
-			if (Validations.IsReachableByPositions(PlayerManager.LocalPlayerScript.registerTile.WorldPosition, Target, false))
+			if (Validations.IsReachableByPositions(PlayerManager.LocalPlayerScript.RegisterPlayer.WorldPosition, Target, false))
 			{
 				if (MatrixManager.IsPassableAtAllMatricesOneTile(Target.RoundToInt(), CustomNetworkManager.Instance._isServer))
 				{
-					possibleTarget = (Target - PlayerManager.LocalPlayerScript.registerTile.WorldPosition);
+					possibleTarget = (Target - PlayerManager.LocalPlayerScript.RegisterPlayer.WorldPosition);
 				}
 			}
 		}

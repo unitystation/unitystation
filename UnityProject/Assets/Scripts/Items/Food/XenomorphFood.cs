@@ -43,7 +43,7 @@ namespace Items.Food
 				{
 					ConsumableTextUtils.SendGenericForceFeedMessage(feeder, eater, eaterHungerState, Name, "eat");
 					Eat(eater, feeder);
-				}).ServerStartProgress(eater.registerTile, 3f, feeder.gameObject);
+				}).ServerStartProgress(eater.RegisterPlayer, 3f, feeder.gameObject);
 				return;
 			}
 			else

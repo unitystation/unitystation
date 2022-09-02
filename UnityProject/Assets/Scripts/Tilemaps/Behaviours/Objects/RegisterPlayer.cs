@@ -104,6 +104,35 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		return IsPassable(isServer);
 	}
 
+	private const float LayingDownTime = 0.5f;
+
+	[Command]
+	public void CmdSetRest(bool layingDown)
+	{
+		if (layingDown)
+		{
+			if(playerScript.PlayerTypeSettings.CanRest == false) return;
+
+			if (ServerCheckStandingChange(true))
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "You try to lie down.");
+			}
+
+			return;
+		}
+
+		if (playerScript.playerMove.HasALeg == false)
+		{
+			Chat.AddExamineMsg(gameObject,"You try standing up stand up but you have no legs!");
+			return;
+		}
+
+		if (ServerCheckStandingChange(false, true, LayingDownTime))
+		{
+			Chat.AddExamineMsgFromServer(gameObject, "You try to stand up.");
+		}
+	}
+
 	/// <summary>
 	/// Make the player appear laying down
 	/// When down, they become passable.
@@ -119,19 +148,9 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	/// When up, they become impassable.
 	/// </summary>
 	[Server]
-	public void ServerStandUp()
+	public void ServerStandUp(bool doBar = false, float time = 1.5f)
 	{
-		ServerCheckStandingChange(false);
-	}
-
-	/// <summary>
-	/// Make the player appear standing up.
-	/// When up, they become impassable.
-	/// </summary>
-	[Server]
-	public void ServerStandUp(bool DoBar = false, float Time = 0.5f)
-	{
-		ServerCheckStandingChange(false, DoBar, Time);
+		ServerCheckStandingChange(false, doBar, time);
 	}
 
 	/// <summary>
@@ -145,31 +164,35 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	}
 
 
-	public void ServerCheckStandingChange(bool LayingDown, bool DoBar = false, float Time = 0.5f)
+	public bool ServerCheckStandingChange(bool layingDown, bool doBar = false, float time = 1.5f)
 	{
-		if (this.isLayingDown != LayingDown)
+		if (isLayingDown == layingDown) return false;
+
+		foreach (var status in CheckableStatuses)
 		{
-			foreach (var Status in CheckableStatuses)
+			if (status.AllowChange(layingDown) == false)
 			{
-				if (Status.AllowChange(LayingDown) == false)
-				{
-					return;
-				}
+				return false;
 			}
-
-			if (DoBar)
-			{
-				var bar = StandardProgressAction.Create(
-					new StandardProgressActionConfig(StandardProgressActionType.SelfHeal, false, false, true),
-					ServerStandUp);
-				bar.ServerStartProgress(this, 1.5f, gameObject);
-			}
-			else
-			{
-				SyncIsLayingDown(isLayingDown, LayingDown);
-			}
-
 		}
+
+		if (doBar)
+		{
+			var bar = StandardProgressAction.Create(
+				new StandardProgressActionConfig(StandardProgressActionType.SelfHeal, false, false, true),
+				() =>
+				{
+					SyncIsLayingDown(isLayingDown, layingDown);
+				});
+
+			bar.ServerStartProgress(this, time, gameObject);
+		}
+		else
+		{
+			SyncIsLayingDown(isLayingDown, layingDown);
+		}
+
+		return true;
 	}
 
 	public override void MatrixChange(Matrix MatrixOld, Matrix MatrixNew)
@@ -200,23 +223,26 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		{
 			//uprightSprites.ExtraRotation = Quaternion.Euler(0, 0, -90);
 			//Change sprite layer
-			foreach (SpriteRenderer spriteRenderer in this.GetComponentsInChildren<SpriteRenderer>())
+			foreach (SpriteRenderer spriteRenderer in GetComponentsInChildren<SpriteRenderer>())
 			{
 				spriteRenderer.sortingLayerName = "Bodies";
 			}
+
 			playerScript.PlayerSync.CurrentMovementType  = MovementType.Crawling;
+
 			//lock current direction
-			playerDirectional.LockDirectionTo(true, playerDirectional.CurrentDirection );
+			playerDirectional.LockDirectionTo(true, playerDirectional.CurrentDirection);
 		}
 		else
 		{
 			//uprightSprites.ExtraRotation = Quaternion.identity;
 			//back to original layer
-			foreach (SpriteRenderer spriteRenderer in this.GetComponentsInChildren<SpriteRenderer>())
+			foreach (SpriteRenderer spriteRenderer in GetComponentsInChildren<SpriteRenderer>())
 			{
 				spriteRenderer.sortingLayerName = "Players";
 			}
-			playerDirectional.LockDirectionTo(false, playerDirectional.CurrentDirection );
+
+			playerDirectional.LockDirectionTo(false, playerDirectional.CurrentDirection);
 			playerScript.PlayerSync.CurrentMovementType = MovementType.Running;
 		}
 	}
@@ -239,7 +265,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	[Server]
 	public void ServerHelpUp()
 	{
-		if (!IsLayingDown) return;
+		if (IsLayingDown == false) return;
 
 		// Can't help a player up if they're rolling
 		if (playerScript.playerNetworkActions.IsRolling) return;
@@ -250,17 +276,14 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		ServerRemoveStun();
 	}
 
-	bool RegisterPlayer.IControlPlayerState.AllowChange(bool rest)
+	bool IControlPlayerState.AllowChange(bool rest)
 	{
 		if (rest)
 		{
 			return true;
 		}
-		else
-		{
-			return !IsSlippingServer;
-		}
 
+		return IsSlippingServer == false;
 	}
 
 
@@ -369,7 +392,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		// Do not raise up a dead body
 		if (playerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS)
 		{
-			ServerCheckStandingChange( false);
+			ServerCheckStandingChange(false);
 		}
 
 		OnSlipChangeServer.Invoke(oldVal, IsSlippingServer);
@@ -380,13 +403,13 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 			playerScript.playerMove.allowInput = true;
 		}
 	}
-	// <summary>
+
+	/// <summary>
 	/// Performs bluespace activity (teleports randomly) on player if they have slipped on an object
-	/// with bluespace activity or are hit by an object with bluespace acivity and
+	/// with bluespace activity or are hit by an object with bluespace activity and
 	/// has Liquid Contents.
 	/// Assumes max potency if none is given.
 	/// </summary>
-	///
 	public void ServerBluespaceActivity(int potency = 100)
 	{
 		int maxRange = 11;
