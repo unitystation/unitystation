@@ -44,11 +44,11 @@ namespace Objects.Atmospherics
 		{
 			if (isOn)
 			{
-				spriteHandlerValve.ChangeSprite(2);
+				spriteHandlerValve.ChangeSprite((int)DigitalValveSprites.On);
 			}
 			else
 			{
-				spriteHandlerValve.ChangeSprite(1);
+				spriteHandlerValve.ChangeSprite((int)DigitalValveSprites.Off);
 			}
 		}
 
@@ -61,8 +61,8 @@ namespace Objects.Atmospherics
 			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.ConnectedPipes);
 		}
 
-		public void PowerNetworkUpdate(float voltage) 
-		{ 
+		public void PowerNetworkUpdate(float voltage)
+		{
 			//Voltage data not needed
 		}
 
@@ -72,11 +72,18 @@ namespace Objects.Atmospherics
 
 			if (powerState == PowerState.Off)
 			{
-				spriteHandlerValve.ChangeSprite(0);
+				spriteHandlerValve.ChangeSprite((int)DigitalValveSprites.Unpowered);
 				return;
 			}
 
 			UpdateSprite();
+		}
+
+		private enum DigitalValveSprites
+		{
+			Unpowered,
+			Off,
+			On
 		}
 	}
 }

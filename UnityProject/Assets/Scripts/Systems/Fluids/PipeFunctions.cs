@@ -324,8 +324,7 @@ namespace Systems.Pipes
 		None = 0,
 		PipeRun = 1 << 0,
 		//Used for stopping cooling pipes to connect to usual pipes
-		CoolingPipe = 1 << 1,
-		HeatExchange = 1 << 2,
+		HeatExchange = 1 << 1
 	}
 
 

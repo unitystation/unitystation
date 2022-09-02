@@ -203,7 +203,7 @@ MonoBehaviour:
         flagLogic: 0
       - Bool: 1
         MappedNeeded: 0
-        pipeType: 4
+        pipeType: 2
         PortType: 0
         flagLogic: 0
       - Bool: 0
@@ -225,7 +225,6 @@ MonoBehaviour:
           GasesArray: []
         Pressure: 0
         Volume: 2.5
-        Temperature: 293.15
     MonoPipe: {fileID: 3905221925973493106}
   Colour: {r: 1, g: 1, b: 1, a: 1}
   spawnedFromItem: 1

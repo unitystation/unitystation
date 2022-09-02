@@ -34,11 +34,11 @@ namespace Objects.Atmospherics
 		{
 			if (isOn)
 			{
-				spriteHandlerValve.ChangeSprite(1);
+				spriteHandlerValve.ChangeSprite((int)ManualValveSprites.On);
 			}
 			else
 			{
-				spriteHandlerValve.ChangeSprite(0);
+				spriteHandlerValve.ChangeSprite((int)ManualValveSprites.Off);
 			}
 		}
 
@@ -47,6 +47,12 @@ namespace Objects.Atmospherics
 			if (isOn == false) return;
 
 			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.ConnectedPipes);
+		}
+
+		private enum ManualValveSprites
+		{
+			Off,
+			On
 		}
 	}
 }
