@@ -87,6 +87,7 @@ namespace UI
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			EventManager.AddHandler(Event.PostRoundStarted, OnCountdownEnd);
+			SetInfoScreenOn();
 		}
 
 		private void OnDisable()
@@ -269,8 +270,6 @@ namespace UI
 			playerWaitPanel.SetActive(true);
 			mainPanel.SetActive(false);
 			rejoiningRoundPanel.SetActive(false);
-
-			SetInfoScreenOn();
 		}
 
 		/// <summary>
@@ -284,8 +283,6 @@ namespace UI
 			playerWaitPanel.SetActive(false);
 			mainPanel.SetActive(true);
 			rejoiningRoundPanel.SetActive(false);
-
-			SetInfoScreenOn();
 		}
 
 		/// <summary>
@@ -300,7 +297,6 @@ namespace UI
 			playerWaitPanel.SetActive(false);
 			mainPanel.SetActive(true);
 			rejoiningRoundPanel.SetActive(false);
-			SetInfoScreenOn();
 		}
 
 		public void ShowRejoiningPanel()
