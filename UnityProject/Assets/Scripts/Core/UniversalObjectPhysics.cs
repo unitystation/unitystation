@@ -1562,18 +1562,19 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 								var damage = (IAV2.ServerThrowDamage);
 
 
-								if (hit.TryGetComponent<Integrity>(out var integrity))
-								{
-									integrity.ApplyDamage(damage, AttackType.Melee, IAV2.ServerDamageType);
-								}
-
+								var randomHitZone = aim.Randomize();
 								if (hit.TryGetComponent<LivingHealthMasterBase>(out var livingHealthMasterBase))
 								{
-									var hitZone = aim.Randomize();
 									livingHealthMasterBase.ApplyDamageToBodyPart(thrownBy, damage, AttackType.Melee,
 										DamageType.Brute,
-										hitZone);
-									Chat.AddThrowHitMsgToChat(gameObject, livingHealthMasterBase.gameObject, hitZone);
+										randomHitZone);
+									Chat.AddThrowHitMsgToChat(gameObject, livingHealthMasterBase.gameObject, randomHitZone);
+								}
+
+								if (hit.TryGetComponent<LivingHealthBehaviour>(out var oldMob))
+								{
+									oldMob.ApplyDamage(thrownBy, damage, AttackType.Melee, DamageType.Brute);
+									Chat.AddThrowHitMsgToChat(gameObject, livingHealthMasterBase.gameObject, randomHitZone);
 								}
 
 								AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.85f, 1f));
