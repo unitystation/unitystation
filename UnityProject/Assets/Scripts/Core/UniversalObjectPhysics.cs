@@ -1560,7 +1560,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 							{
 								//Remove cast to int when moving health values to float
 								var damage = (IAV2.ServerThrowDamage);
-
+								
+								if (hit.TryGetComponent<Integrity>(out var integrity))
+								{
+									integrity.ApplyDamage(damage, AttackType.Melee, IAV2.ServerDamageType);
+								}
 
 								var randomHitZone = aim.Randomize();
 								if (hit.TryGetComponent<LivingHealthMasterBase>(out var livingHealthMasterBase))
