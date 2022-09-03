@@ -32,10 +32,6 @@ namespace UI.Systems.EndRound
 			StringBuilder finalResult = new StringBuilder();
 
 			entries.Shuffle(); //Randomize the positions of all entries.
-			var numberOfGoodEntriesFound = 0;
-			var numberOfBadEntriesFound = 0;
-			var numberOfWeirdEntriesFound = 0;
-
 
 			foreach (var Entry in entries)
 			{
