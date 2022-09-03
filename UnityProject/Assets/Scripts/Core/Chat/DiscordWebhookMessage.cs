@@ -262,7 +262,7 @@ namespace DiscordWebhook
 					}
 				}
 
-				if (isUnique) return;
+				if (isUnique == false) return;
 
 				ErrorMessageHashSet.Add(stackTrace);
 
