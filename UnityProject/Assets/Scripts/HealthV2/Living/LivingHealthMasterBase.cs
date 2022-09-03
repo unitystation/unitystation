@@ -283,6 +283,9 @@ namespace HealthV2
 			//Maybe add feet for blood on boots?
 		};
 
+		private const string HEALING_SCORE = "healing";
+		private const string CLOWN_HARM_SCORE = "clownBeaten";
+
 
 		public virtual void Awake()
 		{
@@ -307,7 +310,8 @@ namespace HealthV2
 			//Generate BloodType and DNA
 			healthStateController.SetDNA(new DNAandBloodType());
 
-			if (playerScript.mind.occupation.DisplayName == "Clown")
+			if(playerScript == null) return;
+			if (playerScript.mind?.occupation?.DisplayName == "Clown")
 			{
 				OnTakeDamageType += ClownAbuseScoreEvent;
 			}
@@ -983,7 +987,7 @@ namespace HealthV2
 				}
 			}
 
-			ScoreMachine.AddToScoreInt(5, "healing");
+			ScoreMachine.AddToScoreInt(5, HEALING_SCORE);
 		}
 
 		/// <summary>
@@ -1698,7 +1702,8 @@ namespace HealthV2
 		{
 			if(damageType == DamageType.Clone || damageType == DamageType.Oxy || damageType == DamageType.Radiation) return;
 			if(abuser.TryGetComponent<PlayerScript>(out var script) == false) return;
-			ScoreMachine.AddToScoreInt(-5, "clownBeaten");
+			if(script.gameObject == abuser) return; //Don't add to the score if the clown hits themselves.
+			ScoreMachine.AddToScoreInt(-5, CLOWN_HARM_SCORE);
 		}
 	}
 

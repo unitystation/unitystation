@@ -96,6 +96,7 @@ namespace Objects.Engineering
 		private GameObject singularity = null;
 
 		[SerializeField] private int scoreForReleasingSingularity = -500;
+		private const string LOOSE_SCORE = "gooseisloose";
 
 		[SerializeField]
 		private GameObject energyBall = null;
@@ -869,8 +870,8 @@ namespace Objects.Engineering
 				SendMessageToAllPlayers("<color=red>A horrible screeching fills your ears, and a wave of dread washes over you...</color>");
 				Spawn.ServerPrefab(singularity, registerTile.WorldPosition, transform.parent);
 
-				ScoreMachine.AddNewScoreEntry("gooseisloose", "Singularity created", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore);
-				ScoreMachine.AddToScoreInt(scoreForReleasingSingularity, "gooseisloose");
+				ScoreMachine.AddNewScoreEntry(LOOSE_SCORE, "Singularity created", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore);
+				ScoreMachine.AddToScoreInt(scoreForReleasingSingularity, LOOSE_SCORE);
 
 				//Dont explode if singularity is spawned
 				return;
