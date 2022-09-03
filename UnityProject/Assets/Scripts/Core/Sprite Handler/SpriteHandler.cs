@@ -892,7 +892,8 @@ public class SpriteHandler : MonoBehaviour
 #if UNITY_EDITOR
 	IEnumerator EditorAnimations()
 	{
-		yield return new Unity.EditorCoroutines.Editor.EditorWaitForSeconds(PresentFrame.secondDelay);
+		yield return new EditorWaitForSeconds(PresentFrame.secondDelay);
+		timeElapsed += PresentFrame.secondDelay;
 		UpdateMe();
 		editorAnimating = null;
 		if (isAnimation && !(this == null))
