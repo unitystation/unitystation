@@ -38,6 +38,7 @@ namespace UI.Items
 
 			if (CustomNetworkManager.IsServer)
 			{
+				if(thisPlayerScript == null || thisPlayerScript.mind == null) return;
 				UIActionManager.ToggleServer( thisPlayerScript.mind ,this, GameObjectReference != null);
 			}
 		}
