@@ -59,7 +59,7 @@ namespace Systems.MobAIs
 		protected int fleeChance = 30;
 		protected int attackLastAttackerChance = 80;
 
-		private int ScoreForKilling = 5;
+		[SerializeField] private int ScoreForKilling = 5;
 
 		#region Lifecycle
 
