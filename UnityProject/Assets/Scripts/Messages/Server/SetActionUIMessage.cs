@@ -167,23 +167,24 @@ namespace Messages.Server
 			{
 				// Action pre-placed on a networked object
 				var netObject = (action as Component).GetComponent<NetworkIdentity>();
-				var type = action.GetType();
-				var foundActions = netObject.GetComponentsInChildren(type);
-				var componentLocation = 0;
-				bool isFound = false;
-				foreach (var foundAction in foundActions)
+				if (netObject != null)
 				{
-					if ((foundAction as IActionGUI) == action)
+					var type = action.GetType();
+					var foundActions = netObject.GetComponentsInChildren(type);
+					var componentLocation = 0;
+					bool isFound = false;
+					foreach (var foundAction in foundActions)
 					{
-						isFound = true;
-						break;
+						if ((foundAction as IActionGUI) == action)
+						{
+							isFound = true;
+							break;
+						}
+
+						componentLocation++;
 					}
 
-					componentLocation++;
-				}
-
-				if (isFound)
-				{
+					if (isFound == false) return new NetMessage();
 					NetMessage msg = new NetMessage
 					{
 						NetObject = netObject.netId,
