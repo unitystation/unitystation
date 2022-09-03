@@ -80,7 +80,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 7461943992423197210}
+      objectReference: {fileID: 0}
     - target: {fileID: 114883521337486670, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: Armor.Acid
@@ -228,18 +228,6 @@ MonoBehaviour:
   IgnoreServerUpdatesIfLocalPlayer: 0
   IsAtmosphericDevice: 1
   doNotResetOtherSpriteOptions: 0
---- !u!114 &7461943992423197210 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114341119007412586, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 7356663126975511408}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7357625900617566154}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7462423640777778774 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114776788309089574, guid: a7abba22164ce49f0bf9b9b219f39298,

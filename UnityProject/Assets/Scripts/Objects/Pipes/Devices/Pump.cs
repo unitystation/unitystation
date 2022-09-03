@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Systems.Interaction;
 using Systems.Pipes;
 
@@ -25,6 +24,7 @@ namespace Objects.Atmospherics
 			{
 				spriteHandlerOverlay.PushClear();
 			}
+
 			base.OnSpawnServer(info);
 		}
 
@@ -59,55 +59,45 @@ namespace Objects.Atmospherics
 				return;
 			}
 
-			var PressureDensity = pipeData.mixAndVolume.Density();
-			if (PressureDensity.x > MaxPressure && PressureDensity.y > MaxPressure)
+			var pressureDensity = pipeData.mixAndVolume.Density();
+			if (pressureDensity.x > MaxPressure && pressureDensity.y > MaxPressure)
 			{
 				return;
 			}
 
-			var tomove = new Vector2(Mathf.Abs((PressureDensity.x / MaxPressure) - 1),
-				Mathf.Abs((PressureDensity.y / MaxPressure) - 1));
+			var toMove = new Vector2(Mathf.Abs((pressureDensity.x / MaxPressure) - 1),
+				Mathf.Abs((pressureDensity.y / MaxPressure) - 1));
 
-			Vector2 AvailableReagents = new Vector2(0f, 0f);
-			foreach (var Pipe in pipeData.ConnectedPipes)
+			Vector2 availableReagents = new Vector2(0f, 0f);
+			foreach (var pipe in pipeData.ConnectedPipes)
 			{
-				if (pipeData.Outputs.Contains(Pipe) == false && CanEqualiseWithThis(Pipe))
+				if (pipeData.Outputs.Contains(pipe) == false && PipeFunctions.CanEqualiseWithThis(pipeData, pipe))
 				{
-					var Data = PipeFunctions.PipeOrNet(Pipe);
-					AvailableReagents += Data.Total;
+					var data = PipeFunctions.PipeOrNet(pipe);
+					availableReagents += data.Total;
 				}
 			}
 
-			Vector2 TotalRemove = Vector2.zero;
-			TotalRemove.x = (TransferMoles) > AvailableReagents.x ? AvailableReagents.x : TransferMoles;
-			TotalRemove.y = (TransferMoles) > AvailableReagents.y ? AvailableReagents.y : TransferMoles;
+			Vector2 totalRemove = Vector2.zero;
+			totalRemove.x = (TransferMoles) > availableReagents.x ? availableReagents.x : TransferMoles;
+			totalRemove.y = (TransferMoles) > availableReagents.y ? availableReagents.y : TransferMoles;
 
-			TotalRemove.x = tomove.x > 1 ? 0 : TotalRemove.x;
-			TotalRemove.y = tomove.y > 1 ? 0 : TotalRemove.y;
+			totalRemove.x = toMove.x > 1 ? 0 : totalRemove.x;
+			totalRemove.y = toMove.y > 1 ? 0 : totalRemove.y;
 
 
-			foreach (var Pipe in pipeData.ConnectedPipes)
+			foreach (var pipe in pipeData.ConnectedPipes)
 			{
-				if (pipeData.Outputs.Contains(Pipe) == false && CanEqualiseWithThis(Pipe))
+				if (pipeData.Outputs.Contains(pipe) == false && PipeFunctions.CanEqualiseWithThis(pipeData, pipe))
 				{
 					//TransferTo
-					var Data = PipeFunctions.PipeOrNet(Pipe);
-					Data.TransferTo(pipeData.mixAndVolume,
-						(Data.Total / AvailableReagents) * TotalRemove);
+					var data = PipeFunctions.PipeOrNet(pipe);
+					data.TransferTo(pipeData.mixAndVolume,
+						(data.Total / availableReagents) * totalRemove);
 				}
 			}
 
 			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
-		}
-
-		public bool CanEqualiseWithThis(PipeData Pipe)
-		{
-			if (Pipe.NetCompatible == false)
-			{
-				return PipeFunctions.CanEqualiseWith(this.pipeData, Pipe);
-			}
-
-			return true;
 		}
 	}
 }

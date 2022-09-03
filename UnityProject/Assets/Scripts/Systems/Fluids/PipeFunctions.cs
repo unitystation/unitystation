@@ -123,10 +123,20 @@ namespace Systems.Pipes
 			return Data.Bool && Data.PortType.HasFlag(OutputType.Output_Allowed);
 		}
 
+		public static bool CanEqualiseWithThis(PipeData pipe1, PipeData pipe2)
+		{
+			if (pipe2.NetCompatible == false)
+			{
+				return CanEqualiseWith(pipe1, pipe2);
+			}
+
+			return true;
+		}
+
 		public static bool CanEqualiseWith(PipeData pipe1, PipeData pipe2)
 		{
-			var PipeDirectio = PipesToDirections(pipe1, pipe2);
-			int pipe2Direction = (int) PipeDirectio + 2;
+			var pipeDirection = PipesToDirections(pipe1, pipe2);
+			int pipe2Direction = (int) pipeDirection + 2;
 			if (pipe2Direction > 3)
 			{
 				pipe2Direction -= 4;
@@ -313,8 +323,8 @@ namespace Systems.Pipes
 	{
 		None = 0,
 		PipeRun = 1 << 0,
-		CoolingPipe = 1 << 1,
 		//Used for stopping cooling pipes to connect to usual pipes
+		HeatExchange = 1 << 1
 	}
 
 
