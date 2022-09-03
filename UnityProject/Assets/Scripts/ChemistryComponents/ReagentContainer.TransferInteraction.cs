@@ -84,6 +84,8 @@ namespace Chemistry.Components
 			}
 			else
 			{
+				//Only spill if we're holding the alt key.
+				if (interaction.IsAltClick == false) return false;
 				//checks if it's possible to spill contents on player
 				if (!WillInteractHarm(interaction.HandObject, interaction.TargetObject, side)) return false;
 			}
