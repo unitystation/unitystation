@@ -321,8 +321,9 @@ namespace Lobby
 				string json = File.ReadAllText(HistoryFile);
 
 				ServerJoinHistory = JsonConvert.DeserializeObject<List<ConnectionHistory>>(json)?.Distinct()?.ToList();
-				ServerJoinHistory ??= new List<ConnectionHistory>();
 			}
+
+			ServerJoinHistory ??= new List<ConnectionHistory>();
 		}
 
 		public void LogServerConnHistory(string address, ushort port)
