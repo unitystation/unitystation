@@ -152,7 +152,7 @@ namespace Systems.Score
 		}
 
 		/// <summary>
-		/// Returns an entry that has the highest int score.
+		/// Returns an entry that has the highest int score from the ScoreMachine score dictionary.
 		/// </summary>
 		/// <returns></returns>
 		public string ScoreIntWinner()
