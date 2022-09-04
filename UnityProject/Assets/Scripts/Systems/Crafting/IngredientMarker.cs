@@ -63,7 +63,7 @@ public class IngredientMarker : MonoBehaviour, ICheckedInteractable<InventoryApp
 
 			if (spwn.Successful == false) return;
 			Inventory.ServerAdd(spwn.GameObject, interaction.TargetSlot);
-			ScoreMachine.AddToScoreInt(1, "foodmade");
+			ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_FOODMADE);
 
 		}
 	}
