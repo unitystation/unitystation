@@ -124,16 +124,16 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 		}
 	}
 
-	//Returns all slots depending if server or client
+	//Returns all slots Including subinventories depending if server or client
 	public IEnumerable<ItemSlot> GetItemSlotTree()
 	{
 		if (isServer)
 		{
-			return ServerTotal;
+			return ServerTotal.SelectMany(ItemStorage.SlotSubtree);
 		}
 		else
 		{
-			return ClientTotal;
+			return ClientTotal.SelectMany(ItemStorage.SlotSubtree);
 		}
 	}
 

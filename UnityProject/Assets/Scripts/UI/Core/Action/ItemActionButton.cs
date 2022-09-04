@@ -7,7 +7,7 @@ using NaughtyAttributes;
 
 namespace UI.Action
 {
-	public class ItemActionButton : NetworkBehaviour, IServerActionGUI, IServerInventoryMove, IOnPlayerLeaveBody, IOnPlayerTransfer
+	public class ItemActionButton : NetworkBehaviour, IServerActionGUI, IItemInOutMovedPlayer
 	{
 		[Tooltip("The button action data SO this component should use.")]
 		[SerializeField]
@@ -66,35 +66,10 @@ namespace UI.Action
 			}
 		}
 
-		public Mind PreviouslyOn;
+		public Mind CurrentlyOn { get; set; }
+		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
-		public void OnInventoryMoveServer(InventoryMove info)
-		{
-			if (info.ToPlayer != null)
-			{
-				var showAlert = ShowAlert();
-
-				if (showAlert == false && PreviouslyOn != null)
-				{
-					UIActionManager.ToggleServer(PreviouslyOn, this, false);
-					PreviouslyOn = null;
-				}
-
-				if (showAlert && PreviouslyOn == null)
-				{
-					UIActionManager.ToggleServer(info.ToPlayer.PlayerScript.mind, this, true);
-					UIActionManager.SetServerSpriteSO(this, spriteHandler.GetCurrentSpriteSO(), spriteHandler.Palette);
-					PreviouslyOn = info.ToPlayer.PlayerScript.mind;
-				}
-			}
-			else if (PreviouslyOn != null)
-			{
-				UIActionManager.ToggleServer(PreviouslyOn, this, false);
-				PreviouslyOn = null;
-			}
-		}
-
-		private bool ShowAlert()
+		public bool IsValidSetup(Mind player)
 		{
 			bool showAlert;
 			if (pickupable.ItemSlot.NamedSlot == null)
@@ -109,6 +84,20 @@ namespace UI.Action
 			return showAlert;
 		}
 
+		void IItemInOutMovedPlayer.ChangingPlayer(Mind hideForPlayer, Mind showForPlayer)
+		{
+			if (hideForPlayer != null)
+			{
+				UIActionManager.ToggleServer(hideForPlayer, this, false);
+			}
+
+			if (showForPlayer != null)
+			{
+				UIActionManager.ToggleServer(showForPlayer, this, true);
+				UIActionManager.SetServerSpriteSO(this, spriteHandler.GetCurrentSpriteSO(), spriteHandler.Palette);
+			}
+		}
+
 		private void UpdateButtonSprite(bool isServer)
 		{
 			if (useSpriteHandler)
@@ -117,20 +106,5 @@ namespace UI.Action
 			}
 		}
 
-		public void OnPlayerLeaveBody(Mind mind)
-		{
-			UIActionManager.ToggleServer(mind, this, false);
-			PreviouslyOn = null;
-		}
-
-		public void OnPlayerTransfer(Mind mind)
-		{
-			if (ShowAlert())
-			{
-				UIActionManager.ToggleServer(mind, this, true);
-			}
-
-			PreviouslyOn = mind;
-		}
 	}
 }

@@ -20,8 +20,7 @@ using UnityEngine;
 public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActivate>,
 	IClientInteractable<InventoryApply>,
 	ICheckedInteractable<InventoryApply>, ICheckedInteractable<PositionalHandApply>,
-	ICheckedInteractable<HandApply>, ICheckedInteractable<MouseDrop>,
-	IServerInventoryMove, IActionGUI, IItemInOutMovedPlayer
+	ICheckedInteractable<HandApply>, ICheckedInteractable<MouseDrop>, IActionGUI, IItemInOutMovedPlayer
 {
 	/// <summary>
 	/// The click pickup mode.
@@ -636,40 +635,37 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	}
 
 	public Mind CurrentlyOn { get; set; }
+	bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
-	void IItemInOutMovedPlayer.InventoryInOutMovedPlayer(Mind fromPlayer, Mind toPlayer)
+	public bool IsValidSetup(Mind player)
 	{
 		if (canClickPickup)
 		{
-			if (fromPlayer != null && toPlayer != fromPlayer)
+			foreach (var itemSlot in player.CurrentPlayScript.DynamicItemStorage.GetHandSlots())
 			{
-				UIActionManager.ToggleServer(fromPlayer, this, false);
-				itemStorage.ServerRemoveAllObserversExceptOwner();
-				ObserveInteractableStorageMessage.Send(fromPlayer.CurrentPlayScript.gameObject, this, false);
-			}
-
-			if (toPlayer != null)
-			{
-				bool showAlert = false;
-				foreach (var itemSlot in toPlayer.CurrentPlayScript.DynamicItemStorage.GetHandSlots())
+				if (itemSlot.ItemObject == gameObject)
 				{
-					if (itemSlot.ItemObject == gameObject)
-					{
-						showAlert = true;
-					}
-				}
-
-				if (showAlert)
-				{
-					itemStorage.ServerAddObserverPlayer(toPlayer.CurrentPlayScript.gameObject);
-					UIActionManager.ToggleServer(toPlayer, this, true);
-				}
-				else if (toPlayer == fromPlayer)
-				{
-					itemStorage.ServerRemoveAllObserversExceptOwner();
-					UIActionManager.ToggleServer(toPlayer, this, false);
+					return true;
 				}
 			}
+		}
+
+		return false;
+	}
+
+	void IItemInOutMovedPlayer.ChangingPlayer(Mind hideForPlayer, Mind showForPlayer)
+	{
+		if (hideForPlayer != null)
+		{
+			UIActionManager.ToggleServer(hideForPlayer, this, false);
+			itemStorage.ServerRemoveAllObserversExceptOwner();
+			ObserveInteractableStorageMessage.Send(hideForPlayer.CurrentPlayScript.gameObject, this, false);
+		}
+
+		if (showForPlayer != null)
+		{
+			itemStorage.ServerAddObserverPlayer(showForPlayer.CurrentPlayScript.gameObject);
+			UIActionManager.ToggleServer(showForPlayer, this, true);
 		}
 	}
 
