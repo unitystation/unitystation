@@ -8,7 +8,6 @@ using Messages.Server.HealthMessages;
 using Systems.Atmospherics;
 using Light2D;
 using HealthV2;
-using Systems.Score;
 
 
 /// <summary>
