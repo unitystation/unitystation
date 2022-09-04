@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using HealthV2;
 using UnityEngine;
 
-public interface IBrain
+public interface IPlayerPossessable
 {
 
 	LivingHealthMasterBase LHMB { get; set; }

@@ -830,7 +830,7 @@ namespace HealthV2
 
 		public BodyPart GetFirstBodyPartInArea(BodyPartType bodyPartAim)
 		{
-			foreach (var bodyPart in SurfaceBodyParts.ToArray())
+			foreach (var bodyPart in SurfaceBodyParts)
 			{
 				if (bodyPart.BodyPartType == bodyPartAim)
 				{
@@ -1286,14 +1286,9 @@ namespace HealthV2
 		{
 			if (IsDead) return;
 
-			foreach (var Race in RaceSOSingleton.Instance.Races)
-			{
-				if (Race.name == playerScript.characterSettings.Species)
-				{
-					if (sickness.ImmuneRaces.Contains(Race)) return;
-					break;
-				}
-			}
+			var Race = playerScript.characterSettings.GetRaceSo();
+
+			if (sickness.ImmuneRaces.Contains(Race)) return;
 
 			if ((mobSickness.HasSickness(sickness) == false) && (immunedSickness.Contains(sickness) == false))
 				mobSickness.Add(sickness, Time.time);

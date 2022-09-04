@@ -19,8 +19,8 @@ using ScriptableObjects.Systems.Spells;
 /// </summary>
 public class Mind : MonoBehaviour
 {
-	public GameObject PossessingObject;
-	public IPlayerPossessble IPlayerPossessble;
+	public GameObject PossessingObject { get; private set; }
+	public IPlayerPossessable PlayerPossessable { get; private set; }
 
 
 	public Occupation occupation;
@@ -142,7 +142,7 @@ public class Mind : MonoBehaviour
 	public void SetPossessingObject(GameObject obj)
 	{
 		PossessingObject = obj;
-		IPlayerPossessble = obj.GetComponent<IPlayerPossessble>();
+		PlayerPossessable = obj.GetComponent<IPlayerPossessable>();
 	}
 
 	public void AddObjectiveToAntag(Objective objectiveToAdd)
