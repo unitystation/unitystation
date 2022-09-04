@@ -235,7 +235,7 @@ namespace Systems.Explosions
 				Line.Step();
 			}
 
-			ScoreMachine.AddToScoreInt(1, "explosions");
+			ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_EXPLOSION);
 		}
 
 

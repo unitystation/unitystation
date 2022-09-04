@@ -19,8 +19,6 @@ namespace Objects.Mining
 		public GUI_OreRedemptionMachine oreRedemptiomMachineGUI;
 		public int laborPoints;
 
-		private const string LABOR_POINT_SCORE = "laborPoints";
-
 		private void Awake()
 		{
 			registerObject = GetComponent<RegisterObject>();
@@ -117,7 +115,7 @@ namespace Objects.Mining
 				if (itemSlot.ItemObject)
 				{
 					var idCard = AccessRestrictions.GetIDCard(itemSlot.ItemObject);
-					ScoreMachine.AddToScoreInt(laborPoints, LABOR_POINT_SCORE);
+					ScoreMachine.AddToScoreInt(laborPoints, RoundEndScoreBuilder.COMMON_SCORE_LABORPOINTS);
 					idCard.currencies[(int)CurrencyType.LaborPoints] += laborPoints;
 					laborPoints = 0;
 					oreRedemptiomMachineGUI.UpdateLaborPoints(laborPoints);

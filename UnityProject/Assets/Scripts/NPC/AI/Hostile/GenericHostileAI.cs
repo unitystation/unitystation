@@ -256,7 +256,7 @@ namespace Systems.MobAIs
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
 			SoundManager.PlayNetworkedAtPos(deathSounds, transform.position,
 				audioSourceParameters, sourceObj: gameObject);
-			ScoreMachine.AddToScoreInt(ScoreForKilling, "hostileNPCdead");
+			ScoreMachine.AddToScoreInt(ScoreForKilling, RoundEndScoreBuilder.COMMON_SCORE_HOSTILENPCDEAD);
 		}
 
 		/// <summary>

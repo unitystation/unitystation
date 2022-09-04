@@ -8,15 +8,8 @@ using UnityEngine;
 
 namespace Systems.Score
 {
-	public class RoundEndScoreBuilder : SingletonManager<RoundEndScoreBuilder>
+	public partial class RoundEndScoreBuilder : SingletonManager<RoundEndScoreBuilder>
 	{
-		/// <summary>
-		/// How much does score entry that returns true or false score?
-		/// </summary>
-		[SerializeField] private int boolScore = 10;
-		[SerializeField] private int negativeModifer = 5;
-		[SerializeField] private Occupation captainOccupation;
-
 		public override void Start()
 		{
 			base.Start();
@@ -26,14 +19,14 @@ namespace Systems.Score
 
 		private void CreateCommonScoreEntries()
 		{
-			ScoreMachine.AddNewScoreEntry("laborPoints", "Total Labor Points", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Good);
-			ScoreMachine.AddNewScoreEntry("randomEventsTriggered", "Random Events Endured", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Good);
-			ScoreMachine.AddNewScoreEntry("foodmade", "Meals Prepared", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Good);
-			ScoreMachine.AddNewScoreEntry("hostileNPCdead", "Hostile NPCs dead", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Good);
-			ScoreMachine.AddNewScoreEntry("healing", "Healing Done", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Good);
-			ScoreMachine.AddNewScoreEntry("foodeaten", "Food Eaten", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Weird);
-			ScoreMachine.AddNewScoreEntry("explosions", "Number of explosions this round", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Weird);
-			ScoreMachine.AddNewScoreEntry("clownBeaten", "Clown Abused", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Bad);
+			ScoreMachine.AddNewScoreEntry(COMMON_SCORE_LABORPOINTS, "Total Labor Points", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Good);
+			ScoreMachine.AddNewScoreEntry(COMMON_SCORE_RANDOMEVENTSTRIGGERED, "Random Events Endured", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Good);
+			ScoreMachine.AddNewScoreEntry(COMMON_SCORE_FOODMADE, "Meals Prepared", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Good);
+			ScoreMachine.AddNewScoreEntry(COMMON_SCORE_HOSTILENPCDEAD, "Hostile NPCs dead", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Good);
+			ScoreMachine.AddNewScoreEntry(COMMON_SCORE_HEALING, "Healing Done", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Good);
+			ScoreMachine.AddNewScoreEntry(COMMON_SCORE_FOODEATEN, "Food Eaten", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Weird);
+			ScoreMachine.AddNewScoreEntry(COMMON_SCORE_EXPLOSION, "Number of explosions this round", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Weird);
+			ScoreMachine.AddNewScoreEntry(COMMON_SCORE_CLOWNABUSE, "Clown Abused", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Bad);
 		}
 
 		private void RoundEndChecks()

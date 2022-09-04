@@ -162,7 +162,7 @@ namespace InGameEvents
 					eventInList.FakeEvent = isFake;
 					eventInList.AnnounceEvent = announceEvent;
 					eventInList.TriggerEvent();
-					ScoreMachine.AddToScoreInt(scoreForSpawningEvents, "randomEventsTriggered");
+					ScoreMachine.AddToScoreInt(scoreForSpawningEvents, RoundEndScoreBuilder.COMMON_SCORE_RANDOMEVENTSTRIGGERED);
 
 					if (serverTriggered)
 					{

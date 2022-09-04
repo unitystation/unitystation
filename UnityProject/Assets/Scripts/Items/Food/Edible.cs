@@ -37,8 +37,6 @@ namespace Items.Food
 
 		private string Name => itemAttributes.ArticleName;
 
-		private const string FOOD_EATEN_SCORE = "foodeaten";
-
 		private void Awake()
 		{
 			FoodContents = GetComponent<ReagentContainer>();
@@ -196,7 +194,7 @@ namespace Items.Food
 					pickupable.UniversalObjectPhysics.DropAtAndInheritMomentum(feeder.GetComponent<UniversalObjectPhysics>());
 				}
 			}
-			ScoreMachine.AddToScoreInt(1, FOOD_EATEN_SCORE);
+			ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_FOODEATEN);
 		}
 	}
 }
