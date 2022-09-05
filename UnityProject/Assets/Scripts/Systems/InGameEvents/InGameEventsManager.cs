@@ -4,6 +4,7 @@ using System.Linq;
 using AdminCommands;
 using GameConfig;
 using Shared.Managers;
+using Systems.Score;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -27,6 +28,8 @@ namespace InGameEvents
 		/// </summary>
 		[SerializeField]
 		private int chanceItIsFake = 25;
+
+		[SerializeField] private int scoreForSpawningEvents = 25;
 
 		public bool RandomEventsAllowed;
 
@@ -159,6 +162,7 @@ namespace InGameEvents
 					eventInList.FakeEvent = isFake;
 					eventInList.AnnounceEvent = announceEvent;
 					eventInList.TriggerEvent();
+					ScoreMachine.AddToScoreInt(scoreForSpawningEvents, RoundEndScoreBuilder.COMMON_SCORE_RANDOMEVENTSTRIGGERED);
 
 					if (serverTriggered)
 					{

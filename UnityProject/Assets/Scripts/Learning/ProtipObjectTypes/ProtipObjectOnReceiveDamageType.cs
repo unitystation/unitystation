@@ -17,7 +17,7 @@ namespace Learning.ProtipObjectTypes
 			PlayerManager.LocalPlayerScript.playerHealth.OnTakeDamageType -= DamageTypeSimilar;
 		}
 
-		private void DamageTypeSimilar(DamageType type)
+		private void DamageTypeSimilar(DamageType type, GameObject affector)
 		{
 			if(type == damageTypeThatTriggersTip) TriggerTip(gameObject);
 		}

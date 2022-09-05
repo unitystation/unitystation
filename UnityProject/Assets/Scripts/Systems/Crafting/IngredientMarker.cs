@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Items;
+using Systems.Score;
 using UnityEngine;
 
 /// <summary>
@@ -60,10 +61,9 @@ public class IngredientMarker : MonoBehaviour, ICheckedInteractable<InventoryApp
 			SpawnResult spwn = Spawn.ServerPrefab(CraftingManager.SimpleMeal.FindOutputMeal(cut2.name),
 			SpawnDestination.At(), 1);
 
-			if (spwn.Successful)
-			{
-				Inventory.ServerAdd(spwn.GameObject, interaction.TargetSlot);
-			}
+			if (spwn.Successful == false) return;
+			Inventory.ServerAdd(spwn.GameObject, interaction.TargetSlot);
+			ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_FOODMADE);
 
 		}
 	}

@@ -15,6 +15,7 @@ using Messages.Server;
 using Mirror;
 using ScriptableObjects.Atmospherics;
 using ScriptableObjects.Gun;
+using Systems.Score;
 using UnityEngine;
 using Weapons.Projectiles;
 using Weapons.Projectiles.Behaviours;
@@ -93,6 +94,9 @@ namespace Objects.Engineering
 
 		[SerializeField]
 		private GameObject singularity = null;
+
+		[SerializeField] private int scoreForReleasingSingularity = -500;
+		private const string LOOSE_SCORE = "gooseisloose";
 
 		[SerializeField]
 		private GameObject energyBall = null;
@@ -865,6 +869,9 @@ namespace Objects.Engineering
 				//Spawns a singularity which can eat the crystal...
 				SendMessageToAllPlayers("<color=red>A horrible screeching fills your ears, and a wave of dread washes over you...</color>");
 				Spawn.ServerPrefab(singularity, registerTile.WorldPosition, transform.parent);
+
+				ScoreMachine.AddNewScoreEntry(LOOSE_SCORE, "Singularity created", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore);
+				ScoreMachine.AddToScoreInt(scoreForReleasingSingularity, LOOSE_SCORE);
 
 				//Dont explode if singularity is spawned
 				return;
