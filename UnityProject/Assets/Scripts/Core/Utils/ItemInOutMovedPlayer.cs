@@ -49,7 +49,16 @@ public interface IItemInOutMovedPlayer : IServerInventoryMove, IOnPlayerLeaveBod
 
 	void IOnPlayerTransfer.OnPlayerTransfer(Mind mind)
 	{
-		InventoryInOutMovedPlayer(CurrentlyOn, mind);
+		if (CurrentlyOn != mind)
+		{
+			InventoryInOutMovedPlayer(CurrentlyOn, mind);
+		}
+		else
+		{
+			CurrentlyOn = null;
+			InventoryInOutMovedPlayer(null, mind);
+		}
+
 		CurrentlyOn = mind;
 	}
 
@@ -60,26 +69,34 @@ public interface IItemInOutMovedPlayer : IServerInventoryMove, IOnPlayerLeaveBod
 		Mind ShowForPlayer = null;
 		Mind HideForPlayer = null;
 
-		if (fromPlayer != null && toPlayer != fromPlayer)
+		if (fromPlayer != null)
 		{
-			PreviousSetValid = false; //Because different player now
-			HideForPlayer = fromPlayer;
-		}
-
-		if (toPlayer != null && PreviousSetValid == false)
-		{
-			PreviousSetValid = IsValidSetup(toPlayer);
-
-			if (PreviousSetValid)
+			if (toPlayer == null || toPlayer != fromPlayer)
 			{
-				ShowForPlayer = toPlayer;
-			}
-			else if (PreviousSetValid == false && toPlayer == fromPlayer)
-			{
+				PreviousSetValid = false;
 				HideForPlayer = fromPlayer;
 			}
 		}
 
+		if (toPlayer != null )
+		{
+			bool Valid = IsValidSetup(toPlayer);
+
+			if (PreviousSetValid != Valid || (fromPlayer != null && toPlayer != fromPlayer) )
+			{
+				PreviousSetValid = Valid;
+				if (PreviousSetValid)
+				{
+					ShowForPlayer = toPlayer;
+				}
+				else if (PreviousSetValid == false && toPlayer == fromPlayer)
+				{
+					HideForPlayer = fromPlayer;
+				}
+			}
+		}
+
+		if (HideForPlayer == null && ShowForPlayer == null) return;
 		ChangingPlayer(HideForPlayer, ShowForPlayer);
 	}
 

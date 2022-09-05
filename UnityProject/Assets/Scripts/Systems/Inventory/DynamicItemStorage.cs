@@ -1277,7 +1277,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 	public void OnPlayerRejoin(Mind mind)
 	{
 		//Trigger IOnPlayerRejoin for all items in top level player inventory
-		foreach (var itemSlot in GetItemSlots())
+		foreach (var itemSlot in GetItemSlotTree())
 		{
 			if(itemSlot.IsEmpty) continue;
 
@@ -1292,7 +1292,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 	public void OnPlayerTransfer(Mind mind)
 	{
 		//Trigger IOnPlayerTransfer for all items in top level player inventory
-		foreach (var itemSlot in GetItemSlots())
+		foreach (var itemSlot in GetItemSlotTree())
 		{
 			if(itemSlot.IsEmpty) continue;
 
@@ -1307,7 +1307,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 	public void OnPlayerLeaveBody(Mind mind)
 	{
 		//Trigger IOnPlayerLeaveBody for all items in top level player inventory
-		foreach (var itemSlot in GetItemSlots())
+		foreach (var itemSlot in GetItemSlotTree())
 		{
 			if(itemSlot.IsEmpty) continue;
 

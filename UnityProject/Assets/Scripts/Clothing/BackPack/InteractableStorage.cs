@@ -655,17 +655,20 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 	void IItemInOutMovedPlayer.ChangingPlayer(Mind hideForPlayer, Mind showForPlayer)
 	{
-		if (hideForPlayer != null)
+		if (canClickPickup)
 		{
-			UIActionManager.ToggleServer(hideForPlayer, this, false);
-			itemStorage.ServerRemoveAllObserversExceptOwner();
-			ObserveInteractableStorageMessage.Send(hideForPlayer.CurrentPlayScript.gameObject, this, false);
-		}
+			if (hideForPlayer != null)
+			{
+				UIActionManager.ToggleServer(hideForPlayer, this, false);
+				itemStorage.ServerRemoveAllObserversExceptOwner();
+				ObserveInteractableStorageMessage.Send(hideForPlayer.CurrentPlayScript.gameObject, this, false);
+			}
 
-		if (showForPlayer != null)
-		{
-			itemStorage.ServerAddObserverPlayer(showForPlayer.CurrentPlayScript.gameObject);
-			UIActionManager.ToggleServer(showForPlayer, this, true);
+			if (showForPlayer != null)
+			{
+				itemStorage.ServerAddObserverPlayer(showForPlayer.CurrentPlayScript.gameObject);
+				UIActionManager.ToggleServer(showForPlayer, this, true);
+			}
 		}
 	}
 
