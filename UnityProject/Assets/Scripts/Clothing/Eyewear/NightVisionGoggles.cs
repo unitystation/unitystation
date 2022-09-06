@@ -3,7 +3,8 @@ using Mirror;
 using Player;
 using UI.Action;
 
-public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove, ICheckedInteractable<HandActivate>
+public class NightVisionGoggles : NetworkBehaviour, IItemInOutMovedPlayerButClientTracked,
+	ICheckedInteractable<HandActivate>
 {
 	[SerializeField, Tooltip("How far the player will be able to see in the dark while he has the goggles on.")]
 	private Vector3 nightVisionVisibility;
@@ -13,14 +14,14 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove, ICheck
 
 	private bool isOn;
 	private ItemActionButton actionButton;
-
-	private RegisterPlayer currentPlayer;
+	private Pickupable pickupable;
 
 	#region LifeCycle
 
 	private void Awake()
 	{
 		actionButton = GetComponent<ItemActionButton>();
+		pickupable =  GetComponent<Pickupable>();
 	}
 
 	private void OnEnable()
@@ -37,32 +38,31 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove, ICheck
 
 	#region InventoryMove
 
-	//IServerInventoryMove should be replaced with IClientInventoryMove but that needs more functionality first
-	public void OnInventoryMoveServer(InventoryMove info)
+	public Mind CurrentlyOn { get; set; }
+	bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
+
+	public bool IsValidSetup(Mind player)
 	{
-		currentPlayer = info.ToRootPlayer;
-
-		//Equipping goggles
-		if (info.ToSlot?.NamedSlot != null)
+		if (player != null && player.CurrentPlayScript.RegisterPlayer == pickupable.ItemSlot.Player && pickupable.ItemSlot is {NamedSlot: NamedSlot.eyes}) // Checks if it's not null and checks if NamedSlot == NamedSlot.eyes
 		{
-			if (currentPlayer != null && info.ToSlot.NamedSlot == NamedSlot.eyes)
-			{
-				//Only turn on goggle for client if they are on
-				if(isOn == false) return;
-
-				ServerToggleClient(true);
-			}
+			//Only turn on goggle for client if they are on
+			return isOn;
 		}
 
-		//Removing goggles
-		if (info.FromSlot?.NamedSlot != null)
+		return false;
+	}
+
+
+	void IItemInOutMovedPlayer.ChangingPlayer(Mind HideForPlayer, Mind ShowForPlayer)
+	{
+		if (HideForPlayer != null)
 		{
-			if (currentPlayer != null && info.FromSlot.NamedSlot == NamedSlot.eyes)
-			{
-				//Always try to turn client off when removing
-				ServerToggleClient(false);
-				currentPlayer = null;
-			}
+			ServerToggleClient(HideForPlayer, false);
+		}
+
+		if (ShowForPlayer != null)
+		{
+			ServerToggleClient(ShowForPlayer, true);
 		}
 	}
 
@@ -96,23 +96,21 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove, ICheck
 	[Server]
 	private void SetGoggleState(bool newState)
 	{
-		if(currentPlayer == null || currentPlayer.connectionToClient == null) return;
+		if (CurrentlyOn == null || CurrentlyOn.CurrentPlayScript.connectionToClient == null) return;
 
 		isOn = newState;
-		var item = currentPlayer.PlayerScript.Equipment.GetClothingItem(NamedSlot.eyes).OrNull()?.GameObjectReference;
-		if (item == gameObject)
+		if (IsValidSetup(CurrentlyOn))
 		{
-			ServerToggleClient(newState);
-			Chat.AddExamineMsgFromServer(currentPlayer.gameObject, $"You turned {(isOn ? "on" : "off")} the {gameObject.ExpensiveName()}.");
+			ServerToggleClient(CurrentlyOn,newState);
+			Chat.AddExamineMsgFromServer(CurrentlyOn.CurrentPlayScript.gameObject,
+				$"You turned {(isOn ? "on" : "off")} the {gameObject.ExpensiveName()}.");
 		}
 	}
 
 	[Server]
-	private void ServerToggleClient(bool newState)
+	private void ServerToggleClient(Mind forPlayer, bool newState)
 	{
-		if(currentPlayer == null) return;
-
-		currentPlayer.PlayerScript.PlayerOnlySyncValues.ServerSetNightVision(newState, nightVisionVisibility, visibilityAnimationSpeed);
+		forPlayer.CurrentPlayScript.PlayerOnlySyncValues.ServerSetNightVision(newState, nightVisionVisibility,
+			visibilityAnimationSpeed);
 	}
 }
-

@@ -461,7 +461,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		return GetItemSlots().SelectMany(SlotSubtree);
 	}
 
-	private IEnumerable<ItemSlot> SlotSubtree(ItemSlot slot)
+	public static IEnumerable<ItemSlot> SlotSubtree(ItemSlot slot)
 	{
 		if (slot.Item == null)
 		{

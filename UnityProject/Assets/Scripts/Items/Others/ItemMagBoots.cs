@@ -58,13 +58,13 @@ namespace Items.Others
 
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
-			if (info.ToRootPlayer != null)
+			if (info.ToPlayer != null)
 			{
-				playerMove = info.ToRootPlayer.PlayerScript.playerMove;
+				playerMove = info.ToPlayer.PlayerScript.playerMove;
 			}
-			else if (info.FromRootPlayer != null)
+			else if (info.FromPlayer != null)
 			{
-				playerMove = info.FromRootPlayer.PlayerScript.playerMove;
+				playerMove = info.FromPlayer.PlayerScript.playerMove;
 			}
 
 			if (isOn)
