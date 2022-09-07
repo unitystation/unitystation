@@ -108,6 +108,8 @@ namespace DatabaseAPI
 					{
 						req = UnityWebRequest.Get("http://ipinfo.io/ip");
 						yield return req.SendWebRequest();
+						// Regex: /\t|\n|\r/ = Matches Tab, Newline, or Carriage Return.
+						// Effectively, this line removes those three characters from the response body, assigning it to the publicIp variable.
 						publicIP = Regex.Replace(req.downloadHandler.text, @"\t|\n|\r", "");
 					}
 				}
