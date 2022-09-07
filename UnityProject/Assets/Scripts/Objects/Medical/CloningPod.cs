@@ -27,7 +27,7 @@ namespace Objects.Medical
 
 		private float CloningTime = 60;
 
-		public ItemTrait UpgradePart;
+		[SerializeField] private ItemTrait UpgradePart;
 
 		private Machine Machine;
 
