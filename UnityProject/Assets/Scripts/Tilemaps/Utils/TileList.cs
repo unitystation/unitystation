@@ -44,6 +44,7 @@ namespace Tilemaps.Utils
 			}
 
 			objects[chunkPos].Add(position, obj);
+			ReorderObjects(position);
 		}
 
 		public void Remove(Vector3Int position, RegisterTile obj)
