@@ -32,6 +32,8 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 	[Tooltip("Controls the light the object emits while out of a player's or other object's inventory.")]
 	public GameObject objectLightEmission;
 
+	public CommonComponents CommonComponents;
+
 	public HashSet<NamedSlot> CompatibleSlots = new HashSet<NamedSlot>() {
 		NamedSlot.leftHand,
 		NamedSlot.rightHand,
@@ -73,6 +75,9 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 			EnumSprite = EnumSprite,
 			Size = Size,
 		};
+		CommonComponents = this.GetComponent<CommonComponents>();
+		CommonComponents.RegisterTile.OnAppearClient.AddListener(StateHiddenChange);
+		CommonComponents.RegisterTile.OnDisappearClient.AddListener(StateHiddenChange);
 
 		if (objectLightEmission == null)
 		{
@@ -156,7 +161,10 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 
 	private void SyncState(bool oldState, bool newState)
 	{
-		objectLightEmission.SetActive(newState);
+		if (CommonComponents.UniversalObjectPhysics.IsVisible == false)
+		{
+			objectLightEmission.SetActive(newState);
+		}
 	}
 
 	private void UpdateLights()
@@ -171,6 +179,19 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 		else
 		{
 			LightEmission.RemoveLight(PlayerLightData);
+			objectLightEmission.SetActive(false);
+		}
+	}
+
+
+	private void StateHiddenChange()
+	{
+		if (CommonComponents.UniversalObjectPhysics.IsVisible == false)
+		{
+			objectLightEmission.SetActive(IsOn);
+		}
+		else
+		{
 			objectLightEmission.SetActive(false);
 		}
 	}

@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 1481169419180323577}
   - component: {fileID: 951381747229521920}
   - component: {fileID: 4083520829584162099}
+  - component: {fileID: 7995357239597924047}
   m_Layer: 11
   m_Name: Object
   m_TagString: Untagged
@@ -157,6 +158,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    Anomaly: 0
     DismembermentProtectionChance: 0
     StunImmunity: 0
   Resistances:
@@ -171,7 +173,6 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  Meleeable: {fileID: 0}
 --- !u!114 &6838691275677014393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,7 +191,7 @@ MonoBehaviour:
   initialDescription: 
   willHighlight: 1
   exportCost: 0
-  exportType: 0
+  CanBeSoldInCargo: 1
   exportName: 
   exportMessage: 
   initialSize: 3
@@ -264,12 +265,15 @@ MonoBehaviour:
   LocalTargetPosition: {x: 0, y: 0, z: 0}
   ChangesDirectionPush: 0
   Intangible: 0
+  CanBeWindPushed: 1
+  IsPlayer: 0
   InitialLocationSynchronised: 0
   tileMoveSpeed: 1
   isNotPushable: 1
-  newtonianMovement: {x: 0, y: 0}
+  HasOwnGravity: 0
   airTime: 0
   slideTime: 0
+  SetIgnoreSticky: 0
   thrownBy: {fileID: 0}
   aim: 0
   spinMagnitude: 0
@@ -281,7 +285,6 @@ MonoBehaviour:
   OnThrowEndResetRotation: 1
   maximumStickSpeed: 1.5
   onStationMovementsRound: 1
-  attributes: {fileID: 0}
   registerTile: {fileID: 0}
   ContextGameObjects:
   - {fileID: 0}
@@ -292,10 +295,23 @@ MonoBehaviour:
   Pushing: []
   Hits: []
   Animating: 0
-  IsFlyingSliding: 0
+  isFlyingSliding: 0
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
+  BuckledToObject: {fileID: 0}
+--- !u!114 &7995357239597924047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4197940402254186057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b3f20d3b30cb24fb70b1f35524c360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5388634654466307187
 GameObject:
   m_ObjectHideFlags: 0
