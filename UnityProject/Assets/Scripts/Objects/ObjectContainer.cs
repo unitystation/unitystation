@@ -78,6 +78,8 @@ namespace Objects
 		// stored contents and their positional offsets, if applicable
 		private readonly Dictionary<GameObject, Vector3> storedObjects = new Dictionary<GameObject, Vector3>();
 
+		public Dictionary<GameObject, Vector3> StoredObjects => storedObjects;
+
 		#region Lifecycle
 
 		private void Awake()

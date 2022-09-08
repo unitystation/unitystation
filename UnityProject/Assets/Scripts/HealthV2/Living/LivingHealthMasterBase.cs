@@ -158,6 +158,8 @@ namespace HealthV2
 		[SerializeField, BoxGroup("PainFeedback")]
 		private float painScreamDamage = 20f;
 
+		public float PainScreamDamage => painScreamDamage;
+
 		[SerializeField, BoxGroup("PainFeedback")]
 		private float painScreamCooldown = 15f;
 
@@ -282,6 +284,9 @@ namespace HealthV2
 			{BodyPartType.Chest, new ReagentMix()},
 			//Maybe add feet for blood on boots?
 		};
+
+		public GameObject MeatProduce;
+		public GameObject SkinProduce;
 
 
 		public virtual void Awake()
@@ -1629,7 +1634,8 @@ namespace HealthV2
 		{
 			if (EmoteActionManager.Instance == null || screamEmote == null ||
 			    canScream == false || ConsciousState == ConsciousState.UNCONSCIOUS || IsDead) return;
-			if (dmgTaken >= painScreamDamage) EmoteActionManager.DoEmote(screamEmote, playerScript.gameObject);
+			if (dmgTaken < painScreamDamage) return;
+			EmoteActionManager.DoEmote(screamEmote, playerScript.gameObject);
 			StartCoroutine(ScreamCooldown());
 		}
 
@@ -1675,6 +1681,9 @@ namespace HealthV2
 			CirculatorySystem.InitialiseMetabolism(RaceBodyparts);
 			CirculatorySystem.InitialiseDefaults(RaceBodyparts);
 			CirculatorySystem.BodyPartListChange();
+
+			MeatProduce = RaceBodyparts.Base.MeatProduce;
+			SkinProduce = RaceBodyparts.Base.SkinProduce;
 		}
 
 		public void InstantiateAndSetUp(ObjectList ListToSpawn)
