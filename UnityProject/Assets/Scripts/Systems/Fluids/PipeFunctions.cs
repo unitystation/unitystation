@@ -117,10 +117,16 @@ namespace Systems.Pipes
 			return false;
 		}
 
-		public static bool IsPipeOutputTo(PipeData pipe1, PipeData pipe2)
+		public static bool IsPipePortFlagTo(PipeData pipe1, PipeData pipe2, OutputType typeToCheckFor)
 		{
-			var Data = pipe1.Connections.Directions[(int) PipesToDirections(pipe1, pipe2)];
-			return Data.Bool && Data.PortType.HasFlag(OutputType.Output_Allowed);
+			var data = pipe1.Connections.Directions[(int) PipesToDirections(pipe1, pipe2)];
+			return data.Bool && data.PortType.HasFlag(typeToCheckFor);
+		}
+
+		public static bool IsPipeTypeFlagTo(PipeData pipe1, PipeData pipe2, PipeType typeToCheckFor)
+		{
+			var data = pipe1.Connections.Directions[(int) PipesToDirections(pipe1, pipe2)];
+			return data.Bool && data.pipeType.HasFlag(typeToCheckFor);
 		}
 
 		public static bool CanEqualiseWithThis(PipeData pipe1, PipeData pipe2)
