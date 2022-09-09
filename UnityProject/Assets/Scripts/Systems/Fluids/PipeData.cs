@@ -114,7 +114,7 @@ namespace Systems.Pipes
 					if (Pipe.NetCompatible == false)
 					{
 						//What is connecting to is a special pipe
-						if (PipeFunctions.IsPipeOutputTo(this, Pipe) &&
+						if (PipeFunctions.IsPipePortFlagTo(this, Pipe, OutputType.Output_Allowed) &&
 						    PipeFunctions.CanEqualiseWith(this, Pipe))
 						{
 							Outputs.Add(Pipe);
@@ -125,7 +125,7 @@ namespace Systems.Pipes
 					else
 					{
 						//What is connecting to is a Net
-						if (PipeFunctions.IsPipeOutputTo(this, Pipe))
+						if (PipeFunctions.IsPipePortFlagTo(this, Pipe, OutputType.Output_Allowed))
 						{
 							Outputs.Add(Pipe);
 						}
@@ -250,7 +250,7 @@ namespace Systems.Pipes
 				if (NewConnection.NetCompatible == false)
 				{
 					//NewConnection is a special pipe
-					if (PipeFunctions.IsPipeOutputTo(this, NewConnection) &&
+					if (PipeFunctions.IsPipePortFlagTo(this, NewConnection, OutputType.Output_Allowed) &&
 					    PipeFunctions.CanEqualiseWith(this, NewConnection))
 					{
 						pipe1Connection.Connected = NewConnection;
@@ -260,7 +260,7 @@ namespace Systems.Pipes
 				else
 				{
 					//NewConnection is a Pipe net
-					if (PipeFunctions.IsPipeOutputTo(this, NewConnection))
+					if (PipeFunctions.IsPipePortFlagTo(this, NewConnection, OutputType.Output_Allowed))
 					{
 						//An input to the pipe net it does not need to be recorded
 						Outputs.Add(NewConnection);
