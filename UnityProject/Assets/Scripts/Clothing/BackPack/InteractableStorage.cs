@@ -20,8 +20,7 @@ using UnityEngine;
 public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActivate>,
 	IClientInteractable<InventoryApply>,
 	ICheckedInteractable<InventoryApply>, ICheckedInteractable<PositionalHandApply>,
-	ICheckedInteractable<HandApply>, ICheckedInteractable<MouseDrop>,
-	IServerInventoryMove, IActionGUI
+	ICheckedInteractable<HandApply>, ICheckedInteractable<MouseDrop>, IActionGUI, IItemInOutMovedPlayer
 {
 	/// <summary>
 	/// The click pickup mode.
@@ -635,64 +634,41 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		ObserveInteractableStorageMessage.Send(cancelled.ObserverPlayer.gameObject, this, false);
 	}
 
-	public Mind PreviouslyOn;
+	public Mind CurrentlyOn { get; set; }
+	bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
-	public void OnInventoryMoveServer(InventoryMove info)
+	public bool IsValidSetup(Mind player)
 	{
 		if (canClickPickup)
 		{
-			bool showAlert = false;
-			if (info.ToPlayer != null)
+			foreach (var itemSlot in player.CurrentPlayScript.DynamicItemStorage.GetHandSlots())
 			{
-				foreach (var itemSlot in info.ToPlayer.PlayerScript.DynamicItemStorage.GetHandSlots())
+				if (itemSlot.ItemObject == gameObject)
 				{
-					if (itemSlot.ItemObject == gameObject)
-					{
-						showAlert = true;
-					}
+					return true;
 				}
-
-				if (showAlert == false && PreviouslyOn != null)
-				{
-					UIActionManager.ToggleServer(PreviouslyOn, this, false);
-					PreviouslyOn = null;
-				}
-
-				if (showAlert == true && PreviouslyOn == null)
-				{
-					UIActionManager.ToggleServer(info.ToPlayer.PlayerScript.mind, this, true);
-					PreviouslyOn = info.ToPlayer.PlayerScript.mind;
-				}
-			}
-			else if (PreviouslyOn != null)
-			{
-				UIActionManager.ToggleServer(PreviouslyOn, this, false);
-				PreviouslyOn = null;
 			}
 		}
 
-		// stop any observers (except for owner) from observing it if it's moved
-		var fromRootPlayer = info.FromRootPlayer;
-		if (fromRootPlayer != null)
+		return false;
+	}
+
+	void IItemInOutMovedPlayer.ChangingPlayer(Mind hideForPlayer, Mind showForPlayer)
+	{
+		if (canClickPickup)
 		{
-			itemStorage.ServerRemoveAllObserversExceptOwner();
-		}
+			if (hideForPlayer != null)
+			{
+				UIActionManager.ToggleServer(hideForPlayer, this, false);
+				itemStorage.ServerRemoveAllObserversExceptOwner();
+				ObserveInteractableStorageMessage.Send(hideForPlayer.CurrentPlayScript.gameObject, this, false);
+			}
 
-		// stop owner observing if it's dropped from the owner's storage
-		var toRootPlayer = info.ToRootPlayer;
-		// no need to do anything, hasn't moved into player inventory
-
-		if (toRootPlayer != null)
-		{
-			itemStorage.ServerAddObserverPlayer(toRootPlayer.gameObject);
-		}
-
-		if (fromRootPlayer == toRootPlayer) return;
-
-		// make sure it's closed and any children as well
-		if (fromRootPlayer != null)
-		{
-			ObserveInteractableStorageMessage.Send(fromRootPlayer.gameObject, this, false);
+			if (showForPlayer != null)
+			{
+				itemStorage.ServerAddObserverPlayer(showForPlayer.CurrentPlayScript.gameObject);
+				UIActionManager.ToggleServer(showForPlayer, this, true);
+			}
 		}
 	}
 

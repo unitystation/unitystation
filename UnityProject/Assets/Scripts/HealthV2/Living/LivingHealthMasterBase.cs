@@ -17,6 +17,7 @@ using NaughtyAttributes;
 using Player;
 using Newtonsoft.Json;
 using ScriptableObjects.RP;
+using Systems.Score;
 using UnityEngine.Serialization;
 
 namespace HealthV2
@@ -265,7 +266,7 @@ namespace HealthV2
 
 		public PlayerScript playerScript;
 
-		public event Action<DamageType> OnTakeDamageType;
+		public event Action<DamageType, GameObject> OnTakeDamageType;
 		public event Action OnLowHealth;
 
 		[SyncVar] public bool CannotRecognizeNames = false;
@@ -305,6 +306,12 @@ namespace HealthV2
 		{
 			//Generate BloodType and DNA
 			healthStateController.SetDNA(new DNAandBloodType());
+
+			if(playerScript == null) return;
+			if (playerScript.mind?.occupation?.DisplayName == "Clown")
+			{
+				OnTakeDamageType += ClownAbuseScoreEvent;
+			}
 		}
 
 		//TODO: confusing, make it not depend from the inventory storage Action
@@ -822,7 +829,7 @@ namespace HealthV2
 			}
 
 			IndicatePain(damage);
-			OnTakeDamageType?.Invoke(damageType);
+			OnTakeDamageType?.Invoke(damageType, damagedBy);
 			if (HealthIsLow()) OnLowHealth?.Invoke();
 		}
 
@@ -976,6 +983,8 @@ namespace HealthV2
 					bodyPart.HealDamage(healingItem, healAmt, damageTypeToHeal);
 				}
 			}
+
+			ScoreMachine.AddToScoreInt((int)healAmt, RoundEndScoreBuilder.COMMON_SCORE_HEALING);
 		}
 
 		/// <summary>
@@ -1684,6 +1693,15 @@ namespace HealthV2
 		private void AdminSmash()
 		{
 			AdminCommandsManager.Instance.CmdHealMob(gameObject);
+		}
+
+		private void ClownAbuseScoreEvent(DamageType damageType, GameObject abuser)
+		{
+			if(abuser == null) return;
+			if(damageType == DamageType.Clone || damageType == DamageType.Oxy || damageType == DamageType.Radiation) return;
+			if(abuser.TryGetComponent<PlayerScript>(out var script) == false) return;
+			if(script.gameObject == abuser) return; //Don't add to the score if the clown hits themselves.
+			ScoreMachine.AddToScoreInt(-5, RoundEndScoreBuilder.COMMON_SCORE_CLOWNABUSE);
 		}
 	}
 

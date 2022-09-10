@@ -53,7 +53,7 @@ namespace Clothing
 					if (mind.StepSound) return;
 				}
 
-				mind.StepSound = soundChange;
+				mind.StepSound = soundChange; //Why is this on the mind!!!
 			}
 
 			if (IsTakingOff(info))

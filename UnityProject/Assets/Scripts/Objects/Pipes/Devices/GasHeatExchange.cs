@@ -1,32 +1,42 @@
-﻿using UnityEngine;
+﻿using Systems.Pipes;
+using UnityEngine;
 
 namespace Objects.Atmospherics
 {
 	public class GasHeatExchange : MonoPipe
 	{
-		[SerializeField]
-		private float maxTempExchange = 10f;
-
 		public override void TickUpdate()
 		{
-			var averageTemp = pipeData.mixAndVolume.Temperature;
+			MixAndVolume otherMixAndVolume = null;
 
 			foreach (var pipe in pipeData.ConnectedPipes)
 			{
-				averageTemp += pipe.mixAndVolume.Temperature;
+				if(PipeFunctions.IsPipeTypeFlagTo(pipeData, pipe, PipeType.HeatExchange) == false) continue;
+
+				if(PipeFunctions.IsPipeTypeFlagTo(pipe, pipeData, PipeType.HeatExchange) == false) continue;
+
+				otherMixAndVolume = pipe.GetMixAndVolume;
+				break;
 			}
 
-			averageTemp /= (pipeData.ConnectedPipes.Count + 1);
+			if(otherMixAndVolume == null) return;
 
-			var difference = averageTemp - pipeData.mixAndVolume.Temperature;
-			difference = Mathf.Clamp(difference, -maxTempExchange, maxTempExchange);
+			var thisMixAndVolume = pipeData.mixAndVolume;
 
-			pipeData.mixAndVolume.Temperature += difference;
+			var thisHeatCapacity = thisMixAndVolume.WholeHeatCapacity;
+			var otherHeatCapacity = otherMixAndVolume.WholeHeatCapacity;
+			var combinedHeatCapacity = thisHeatCapacity + otherHeatCapacity;
 
-			foreach (var pipe in pipeData.ConnectedPipes)
-			{
-				pipe.mixAndVolume.Temperature += difference;
-			}
+			if (combinedHeatCapacity <= 0) return;
+
+			var thisOldTemperature = thisMixAndVolume.Temperature;
+			var otherOldTemperature = otherMixAndVolume.Temperature;
+
+			var combinedEnergy = (otherOldTemperature * otherHeatCapacity) + (thisOldTemperature * thisHeatCapacity);
+			var newTemperature = combinedEnergy / combinedHeatCapacity;
+
+			thisMixAndVolume.Temperature = newTemperature;
+			otherMixAndVolume.Temperature = newTemperature;
 		}
 	}
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Items;
 using Objects.Machines;
+using Systems.Score;
 using UI.Objects.Cargo;
 
 namespace Objects.Mining
@@ -114,6 +115,7 @@ namespace Objects.Mining
 				if (itemSlot.ItemObject)
 				{
 					var idCard = AccessRestrictions.GetIDCard(itemSlot.ItemObject);
+					ScoreMachine.AddToScoreInt(laborPoints, RoundEndScoreBuilder.COMMON_SCORE_LABORPOINTS);
 					idCard.currencies[(int)CurrencyType.LaborPoints] += laborPoints;
 					laborPoints = 0;
 					oreRedemptiomMachineGUI.UpdateLaborPoints(laborPoints);

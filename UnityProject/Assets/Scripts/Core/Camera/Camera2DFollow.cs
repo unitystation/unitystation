@@ -34,8 +34,6 @@ public class Camera2DFollow : MonoBehaviour
 
 	private bool isShaking;
 
-	private Vector3 lastTargetPosition;
-
 	public GameObject listenerObj;
 
 	private float lookAheadFactor;
@@ -76,7 +74,7 @@ public class Camera2DFollow : MonoBehaviour
 
 	private void OnEnable()
 	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		UpdateManager.Add(CallbackType.LATE_UPDATE, UpdateMe);
 	}
 
 	private void Start()
@@ -84,7 +82,6 @@ public class Camera2DFollow : MonoBehaviour
 		lookAheadSave = lookAheadFactor;
 		if (target != null)
 		{
-			lastTargetPosition = target.position;
 			offsetZ = (transform.position - target.position).z;
 		}
 		transform.parent = null;
@@ -93,7 +90,7 @@ public class Camera2DFollow : MonoBehaviour
 
 	private void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		UpdateManager.Remove(CallbackType.LATE_UPDATE, UpdateMe);
 	}
 
 	//idk I don't know probably should look into the sometime TODO look into this
@@ -142,22 +139,7 @@ public class Camera2DFollow : MonoBehaviour
 
 			}
 
-
-			// only update lookahead pos if accelerating or changed direction
-			float xMoveDelta = (target.position - lastTargetPosition).x;
-
-			bool updateLookAheadTarget = Mathf.Abs(xMoveDelta) > lookAheadMoveThreshold;
-
-			if (updateLookAheadTarget)
-			{
-				lookAheadPos = lookAheadFactor * Vector3.right * Mathf.Sign(xMoveDelta);
-			}
-			else
-			{
-				lookAheadPos = Vector3.MoveTowards(lookAheadPos, Vector3.zero, Time.deltaTime * lookAheadReturnSpeed);
-			}
-
-			Vector3 aheadTargetPos = target.position + lookAheadPos + Vector3.forward * offsetZ;
+			Vector3 aheadTargetPos = target.position  + Vector3.forward * offsetZ;
 
 			aheadTargetPos.y += yOffSet;
 
@@ -177,7 +159,6 @@ public class Camera2DFollow : MonoBehaviour
 			listenerObj.transform.position = target.position;
 			starsBackground.position = -newPos * starScroll;
 
-			lastTargetPosition = target.position;
 			if (stencilMask != null && stencilMask.transform.parent != target) {
 				stencilMask.transform.parent = target;
 				stencilMask.transform.localPosition = Vector3.zero;

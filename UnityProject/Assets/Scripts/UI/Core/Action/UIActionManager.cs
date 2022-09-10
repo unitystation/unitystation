@@ -119,12 +119,6 @@ namespace UI.Action
 					return;
 				}
 
-				if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
-				{
-					Logger.Log("iActionGUI Already added", Category.UI);
-					return;
-				}
-
 				var IDString = (RelatedMind.GetHashCode().ToString() + iActionGUI.GetHashCode().ToString());
 
 				SpriteHandlerManager.RegisterSpecialHandler(IDString+"F"); //Front icon
@@ -302,47 +296,51 @@ namespace UI.Action
 
 		private static void Show(string ID ,IActionGUI iActionGUI, Mind RelatedMind)
 		{
-			if(RelatedMind == null || RelatedMind.CurrentPlayScript == null) return;
+
 			if (CustomNetworkManager.IsServer && RelatedMind != null)
 			{
 				//Send message
+				if( RelatedMind.CurrentPlayScript == null) return;
 				SetActionUIMessage.SetAction(Instance.IActionGUIToID[iActionGUI], RelatedMind.CurrentPlayScript.gameObject, iActionGUI, true);
 			}
 
-			foreach (var actionButton in Instance.DicIActionGUI)
+			if (RelatedMind == null)
 			{
-				//Remove old button from list. Don't spawn the same button if it already exists!
-				if (actionButton.Key is IActionGUI keyI &&
-				    actionButton.Value[0].ActionData == iActionGUI.ActionData)
+				foreach (var actionButton in Instance.DicIActionGUI)
 				{
-					Hide(keyI, null);
-					break;
+					//Remove old button from list. Don't spawn the same button if it already exists!
+					if (actionButton.Key is IActionGUI keyI &&
+					    actionButton.Value[0].ActionData == iActionGUI.ActionData)
+					{
+						Hide(keyI, null);
+						break;
+					}
 				}
-			}
 
-			UIAction _UIAction;
-			if (Instance.PooledUIAction.Count > 0)
-			{
-				_UIAction = Instance.PooledUIAction[0];
-				Instance.PooledUIAction.RemoveAt(0);
-			}
-			else
-			{
-				_UIAction = Instantiate(Instance.UIAction);
-				_UIAction.transform.SetParent(Instance.Panel.transform, false);
-			}
+				UIAction _UIAction;
+				if (Instance.PooledUIAction.Count > 0)
+				{
+					_UIAction = Instance.PooledUIAction[0];
+					Instance.PooledUIAction.RemoveAt(0);
+				}
+				else
+				{
+					_UIAction = Instantiate(Instance.UIAction);
+					_UIAction.transform.SetParent(Instance.Panel.transform, false);
+				}
 
-			Instance.ClientIActionGUIToID[iActionGUI] = ID;
-			SpriteHandlerManager.RegisterSpecialHandler(ID+"F", _UIAction.IconFront); //Front icon
-			SpriteHandlerManager.RegisterSpecialHandler(ID+"B", _UIAction.IconBackground); //back icon
+				Instance.ClientIActionGUIToID[iActionGUI] = ID;
+				SpriteHandlerManager.RegisterSpecialHandler(ID + "F", _UIAction.IconFront); //Front icon
+				SpriteHandlerManager.RegisterSpecialHandler(ID + "B", _UIAction.IconBackground); //back icon
 
-			if (Instance.DicIActionGUI.ContainsKey(iActionGUI) == false)
-			{
-				Instance.DicIActionGUI.Add(iActionGUI, new List<UIAction>());
+				if (Instance.DicIActionGUI.ContainsKey(iActionGUI) == false)
+				{
+					Instance.DicIActionGUI.Add(iActionGUI, new List<UIAction>());
+				}
+
+				Instance.DicIActionGUI[iActionGUI].Add(_UIAction);
+				_UIAction.SetUp(iActionGUI);
 			}
-
-			Instance.DicIActionGUI[iActionGUI].Add(_UIAction);
-			_UIAction.SetUp(iActionGUI);
 		}
 
 		private static void Hide( IActionGUI iAction, Mind RelatedMind)

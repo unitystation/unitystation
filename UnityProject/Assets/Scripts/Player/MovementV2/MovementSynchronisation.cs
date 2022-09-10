@@ -93,6 +93,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	private CooldownInstance moveCooldown = new CooldownInstance (0.1f);
 
+	private const float MINIMUM_MOVEMENT_SPEED = 0.6f;
+
 	/// <summary>
 	/// Event which fires when movement type changes (run/walk)
 	/// </summary>
@@ -404,9 +406,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			newCrawlSpeed += movementAffect.CrawlingSpeedModifier;
 		}
 
-		RunSpeed = Mathf.Clamp(newRunSpeed, 0, float.MaxValue);
-		WalkSpeed = Mathf.Clamp(newWalkSpeed, 0, float.MaxValue);
-		CrawlSpeed = Mathf.Clamp(newCrawlSpeed, 0, float.MaxValue);
+		RunSpeed = Mathf.Clamp(newRunSpeed, MINIMUM_MOVEMENT_SPEED, float.MaxValue);
+		WalkSpeed = Mathf.Clamp(newWalkSpeed, MINIMUM_MOVEMENT_SPEED, float.MaxValue);
+		CrawlSpeed = Mathf.Clamp(newCrawlSpeed, MINIMUM_MOVEMENT_SPEED, float.MaxValue);
 		UpdateMovementSpeed();
 	}
 

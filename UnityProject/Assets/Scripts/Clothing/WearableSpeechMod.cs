@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ using UnityEngine;
 /// when the item is wore.
 ///</summary>
 
-public class WearableSpeechMod : MonoBehaviour, IServerInventoryMove
+public class WearableSpeechMod : MonoBehaviour, IItemInOutMovedPlayer
 {
 	[SerializeField]
 	[Tooltip("What modifier/s this item adds")]
@@ -17,26 +18,37 @@ public class WearableSpeechMod : MonoBehaviour, IServerInventoryMove
 	[SerializeField]
 	private NamedSlot slot = NamedSlot.head;
 
+	private Pickupable pickupable;
 
-	public void OnInventoryMoveServer(InventoryMove info)
+	public void Awake()
 	{
-		//Wearing
-		if (info.ToSlot != null && info.ToSlot?.NamedSlot != null)
+		pickupable = GetComponent<Pickupable>();
+	}
+
+
+	public Mind CurrentlyOn { get; set; }
+	bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
+
+	public bool IsValidSetup(Mind player)
+	{
+		if (player == null) return false;
+		if (pickupable.ItemSlot == null) return false;
+		if (pickupable.ItemSlot?.Player != player.CurrentPlayScript.RegisterPlayer) return false;
+		if (pickupable.ItemSlot?.NamedSlot != slot) return false;
+
+		return true;
+	}
+
+	void IItemInOutMovedPlayer.ChangingPlayer(Mind hideForPlayer, Mind showForPlayer)
+	{
+		if (hideForPlayer != null)
 		{
-			var mind = info.ToRootPlayer.PlayerScript.mind;
-			if(mind != null && info.ToSlot.NamedSlot == slot)
-			{
-				mind.inventorySpeechModifiers |= modifier;
-			}
+			hideForPlayer.inventorySpeechModifiers |= modifier;
 		}
-		//taking off
-		if (info.FromSlot != null && info.FromSlot?.NamedSlot != null)
+
+		if (showForPlayer != null)
 		{
-			var mind = info.FromPlayer.PlayerScript.mind;
-			if(mind != null && info.FromSlot.NamedSlot == slot)
-			{
-				mind.inventorySpeechModifiers &= ~modifier;
-			}
+			showForPlayer.inventorySpeechModifiers &= ~modifier;
 		}
 	}
 }

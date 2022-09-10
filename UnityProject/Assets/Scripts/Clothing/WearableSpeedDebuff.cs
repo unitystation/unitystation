@@ -50,7 +50,7 @@ namespace Clothing
 				return false;
 			}
 
-			player = info.ToRootPlayer.OrNull()?.PlayerScript;
+			player = info.ToPlayer.OrNull()?.PlayerScript;
 
 			return player != null && info.ToSlot.NamedSlot == slot;
 		}
@@ -62,7 +62,7 @@ namespace Clothing
 				return false;
 			}
 
-			player = info.FromRootPlayer.OrNull()?.PlayerScript;
+			player = info.ToPlayer.OrNull()?.PlayerScript;
 
 			return player != null && info.FromSlot.NamedSlot == slot;
 		}

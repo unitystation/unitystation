@@ -8,7 +8,7 @@ using UnityEngine.Tilemaps;
 namespace Items.Tool
 {
 	public class TRayScanner : NetworkBehaviour, ICheckedInteractable<HandActivate>, ISuicide, IExaminable,
-		IServerInventoryMove, IOnPlayerRejoin, IOnPlayerTransfer, IOnPlayerLeaveBody
+		IItemInOutMovedPlayerButClientTracked
 	{
 		[SyncVar(hook = nameof(SyncMode))] private Mode currentMode = Mode.Off;
 
@@ -59,36 +59,31 @@ namespace Items.Tool
 			currentMode = (Mode)currentModeInt;
 		}
 
-		public void OnInventoryMoveServer(InventoryMove info)
+		public Mind CurrentlyOn { get; set; }
+		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
+
+		public bool IsValidSetup(Mind player)
 		{
-			//From a player
-			if (info.FromPlayer != null)
+			if (player != null && pickupable.ItemSlot?.Player == player.CurrentPlayScript.RegisterPlayer)
 			{
-				//Removed or put in backpack
-				if (info.ToSlot == null || info.ToSlot.Player == null)
-				{
-					//Turn off
-					DoRpc(info.FromPlayer, false);
-				}
+				//Only turn on goggle for client if they are on
+				return currentMode != Mode.Off;
 			}
 
-			if(info.FromPlayer == info.ToPlayer) return;
+			return false;
+		}
 
-			//Put on ground dont need to go further
-			if(info.ToSlot == null) return;
 
-			//To new player
-			if (info.ToPlayer != null)
+		void IItemInOutMovedPlayer.ChangingPlayer(Mind HideForPlayer, Mind ShowForPlayer)
+		{
+			if (HideForPlayer != null)
 			{
-				//Put in backpack
-				if (info.ToSlot.Player == null)
-				{
-					//Should already be off so dont need to do anything
-					return;
-				}
+				DoRpc(HideForPlayer.CurrentPlayScript.RegisterPlayer, false);
+			}
 
-				//Ping to turn on if needed
-				DoRpc(info.ToPlayer, currentMode != Mode.Off);
+			if (ShowForPlayer != null)
+			{
+				DoRpc(HideForPlayer.CurrentPlayScript.RegisterPlayer, true);
 			}
 		}
 
@@ -174,27 +169,6 @@ namespace Items.Tool
 		{
 			tileRenderer.sortingLayerName = state ? "Walls" : "UnderFloor";
 			tileRenderer.sortingOrder = state ? 100 : oldLayerOrder;
-		}
-
-		public void OnPlayerRejoin(Mind mind)
-		{
-			if(pickupable.ItemSlot?.Player == null) return;
-
-			DoRpc(pickupable.ItemSlot.Player, currentMode != Mode.Off);
-		}
-
-		public void OnPlayerTransfer(Mind mind)
-		{
-			if(pickupable.ItemSlot?.Player == null) return;
-
-			DoRpc(pickupable.ItemSlot.Player, currentMode != Mode.Off);
-		}
-
-		public void OnPlayerLeaveBody(Mind mind)
-		{
-			if(pickupable.ItemSlot?.Player == null) return;
-
-			DoRpc(pickupable.ItemSlot.Player, false);
 		}
 
 		private enum Mode
