@@ -388,9 +388,9 @@ namespace Objects.Construction
 				}
 
 				//Send circuit board data to the new machine
-				spawnedObject.SetPartsInFrame(partsInFrame);
-				spawnedObject.SetBasicPartsUsed(basicPartsUsed);
 				spawnedObject.SetMachineParts(machineParts);
+				spawnedObject.SetPartsInFrame(partsInFrame);
+
 
 				//Restoring previous vendor content if possible
 				var vendor = spawnedObject.GetComponent<Vendor>();
@@ -673,8 +673,7 @@ namespace Objects.Construction
 
 			// Basic items to the machine frame from the despawned machine
 			machineParts = machine.MachineParts;
-			partsInFrame = machine.PartsInFrame;
-			basicPartsUsed = machine.BasicPartsUsed;
+			partsInFrame = machine.ActiveGameObjectpartsInFrame;
 
 			// Save vendor content if necessary, which is stored temporarily in the machine frame and transferred to the restock item if it exists
 			var vendor = machine.GetComponent<Vendor>();
@@ -753,7 +752,7 @@ namespace Objects.Construction
 			stateful.ServerChangeState(wrenchedState);
 
 			//If frame in mapped; count == 0 and its the only time putBoardInManually will be false as putting in board makes it true
-			if (partsInFrame.Count == 0 && !putBoardInManually)
+			if (partsInFrame.Count != machineParts.machineParts.Length && !putBoardInManually)
 			{
 				foreach (var part in machineParts.machineParts)
 				{

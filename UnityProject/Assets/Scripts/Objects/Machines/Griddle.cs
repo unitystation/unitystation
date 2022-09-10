@@ -211,16 +211,15 @@ namespace Objects.Kitchen
 
 		#region IRefreshParts
 
-		public void RefreshParts(IDictionary<GameObject, int> partsInFrame)
+		public void RefreshParts(IDictionary<PartReference, int> partsInFrame)
 		{
 			// Get the machine stock parts used in this instance and get the tier of each part.
 			// Collection is unorganized so run through the whole list.
-			foreach (GameObject part in partsInFrame.Keys)
+			foreach (var part in partsInFrame.Keys)
 			{
-				ItemAttributesV2 partAttributes = part.GetComponent<ItemAttributesV2>();
-				if (partAttributes.HasTrait(MachinePartsItemTraits.Instance.MicroLaser))
+				if (part.itemTrait == MachinePartsItemTraits.Instance.MicroLaser)
 				{
-					laserTier = part.GetComponent<StockTier>().Tier;
+					laserTier = part.tier;
 				}
 			}
 		}
