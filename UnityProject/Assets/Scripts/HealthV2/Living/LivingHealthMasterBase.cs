@@ -285,8 +285,8 @@ namespace HealthV2
 			//Maybe add feet for blood on boots?
 		};
 
-		public GameObject MeatProduce;
-		public GameObject SkinProduce;
+		[NonSerialized] public GameObject MeatProduce;
+		[NonSerialized] public GameObject SkinProduce;
 
 
 		public virtual void Awake()
