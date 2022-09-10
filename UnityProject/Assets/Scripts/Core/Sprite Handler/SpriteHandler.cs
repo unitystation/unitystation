@@ -50,6 +50,8 @@ public class SpriteHandler : MonoBehaviour
 
 	private int cataloguePage = -1;
 
+	private UniversalObjectPhysics ParentUniversalObjectPhysics;
+
 	/// <summary>
 	/// Returns the current catalogue page
 	/// </summary>
@@ -582,6 +584,7 @@ public class SpriteHandler : MonoBehaviour
 	{
 		if (Application.isPlaying)
 		{
+			ParentUniversalObjectPhysics = this.transform.parent.GetComponent<UniversalObjectPhysics>();
 			spriteRenderer = GetComponent<SpriteRenderer>();
 			image = GetComponent<Image>();
 			if (image != null)
@@ -701,7 +704,11 @@ public class SpriteHandler : MonoBehaviour
 
 		if (spriteRenderer != null)
 		{
-			spriteRenderer.enabled = true;
+			if (ParentUniversalObjectPhysics != null && ParentUniversalObjectPhysics.IsVisible)
+			{
+				spriteRenderer.enabled = true;
+			}
+
 			spriteRenderer.sprite = value;
 
 			if (isPaletteSet == false)

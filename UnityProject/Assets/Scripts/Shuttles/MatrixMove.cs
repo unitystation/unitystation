@@ -630,15 +630,6 @@ public class MatrixMove : ManagedBehaviour
 		{
 			float distance = Vector3.Distance(clientState.Position, transform.position);
 
-			//Teleport (Greater then 30 unity meters away from server target):
-			if (distance > 30f)
-			{
-				matrixPositionFilter.FilterPosition(transform, clientState.Position, clientState.FlyingDirection);
-				return;
-			}
-
-
-
 			transform.position = clientState.Position;
 
 			matrix.MetaTileMap.UpdateTransformMatrix();
