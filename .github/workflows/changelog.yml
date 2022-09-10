@@ -18,18 +18,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          repository: unitystation/changelog
-          token: ${{ secrets.PR2CHANGELOG_TOKEN }}
-          fetch-depth: 0
-
       - name: pr2changelog
         id: pr2changelog
-        uses: corp-0/pr2changelog@master
+        uses: corp-0/pr2changelog@api-integration
         with:
           categories: Fix;New;Improvement;Balance
+          write_to_file: false
 
   after_merge:
     if: github.event.pull_request.merged == true
@@ -38,13 +32,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          repository: unitystation/changelog
-          token: ${{ secrets.PR2CHANGELOG_TOKEN }}
-          fetch-depth: 0
-
       - name: pr2changelog
         id: pr2changelog
         uses: corp-0/pr2changelog@api-integration
