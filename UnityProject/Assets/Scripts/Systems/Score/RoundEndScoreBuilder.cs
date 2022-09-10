@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Managers;
-using NSubstitute.ReceivedExtensions;
 using Shared.Managers;
-using UnityEngine;
 
 namespace Systems.Score
 {
