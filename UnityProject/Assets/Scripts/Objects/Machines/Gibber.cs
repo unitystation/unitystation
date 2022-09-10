@@ -71,62 +71,9 @@ namespace Objects.Machines
 			{
 				if(timeToGib <= time) break;
 				//Always update the list to avoid collection NREs when moving things in and out of storage.
-				var list = storage.StoredObjects.ToArray();
-				foreach (var slot in list)
-				{
-					time++;
-					yield return WaitFor.Seconds(0.6f);
-					if (slot.Key.TryGetComponent<LivingHealthMasterBase>(out var gib))
-					{
-						gib.ApplyDamageAll(gameObject, gib.PainScreamDamage + damagePerFrame,
-							AttackType.Melee, DamageType.Brute, true);
-						if (gib.OverallHealth > -100) continue;
-						var meatToProduce = gib.MeatProduce != null ? gib.MeatProduce : defaultProduce;
-						var skinToProduce = gib.SkinProduce != null ? gib.SkinProduce : defaultProduce;
-						if (gibbed.ContainsKey(meatToProduce))
-						{
-							gibbed[meatToProduce] += 1 * produceMultiplier;
-						}
-						else
-						{
-							gibbed.Add(meatToProduce, 1);
-						}
-
-						if (gibbed.ContainsKey(skinToProduce))
-						{
-							gibbed[skinToProduce] += 1 * produceMultiplier;
-						}
-						else
-						{
-							gibbed.Add(skinToProduce, 1);
-						}
-
-						storage.RemoveObject(slot.Key);
-						yield return WaitFor.EndOfFrame;
-						gib.OnGib();
-						continue;
-					}
-
-					if (slot.Key.TryGetComponent<LivingHealthBehaviour>(out var oldMob))
-					{
-						oldMob.Death();
-						if (gibbed.ContainsKey(defaultProduce))
-						{
-							gibbed[defaultProduce] += 1 * produceMultiplier;
-						}
-						else
-						{
-							gibbed.Add(defaultProduce, 1 * produceMultiplier);
-						}
-						continue;
-					}
-					if (slot.Key.TryGetComponent<Integrity>(out var integrity) == false) continue;
-					if (integrity.gameObject.Item() != null) continue;
-					//Non-meaty items shall be damaged.. in exchange of damaging the machine itself.
-					machineIntegrity.ApplyDamage(damagePerFrame / 2, AttackType.Melee, DamageType.Brute,
-						false, false, false, true);
-					integrity.ApplyDamage(damagePerFrame, AttackType.Melee, DamageType.Brute);
-				}
+				time++;
+				yield return WaitFor.Seconds(0.6f);
+				yield return CheckContentAndHarm();
 			}
 
 			storage.RetrieveObjects();
@@ -139,6 +86,64 @@ namespace Objects.Machines
 			isRunning = false;
 			Chat.AddLocalMsgToChat("The gibber stops vibrating as it finishes it's operation.", gameObject);
 			lights.SetSpriteSO(lightsoff);
+		}
+
+		private IEnumerator CheckContentAndHarm()
+		{
+			var list = storage.GetStoredObjects().ToArray();
+			foreach (var slot in list)
+			{
+				if (slot.TryGetComponent<LivingHealthMasterBase>(out var gib))
+				{
+					gib.ApplyDamageAll(gameObject, gib.PainScreamDamage + damagePerFrame,
+						AttackType.Melee, DamageType.Brute, true);
+					if (gib.OverallHealth > -100) continue;
+					var meatToProduce = gib.MeatProduce != null ? gib.MeatProduce : defaultProduce;
+					var skinToProduce = gib.SkinProduce != null ? gib.SkinProduce : defaultProduce;
+					if (gibbed.ContainsKey(meatToProduce))
+					{
+						gibbed[meatToProduce] += 1 * produceMultiplier;
+					}
+					else
+					{
+						gibbed.Add(meatToProduce, 1);
+					}
+
+					if (gibbed.ContainsKey(skinToProduce))
+					{
+						gibbed[skinToProduce] += 1 * produceMultiplier;
+					}
+					else
+					{
+						gibbed.Add(skinToProduce, 1);
+					}
+
+					storage.RemoveObject(slot);
+					yield return WaitFor.EndOfFrame;
+					gib.OnGib();
+					continue;
+				}
+
+				if (slot.TryGetComponent<LivingHealthBehaviour>(out var oldMob))
+				{
+					oldMob.Death();
+					if (gibbed.ContainsKey(defaultProduce))
+					{
+						gibbed[defaultProduce] += 1 * produceMultiplier;
+					}
+					else
+					{
+						gibbed.Add(defaultProduce, 1 * produceMultiplier);
+					}
+					continue;
+				}
+				if (slot.TryGetComponent<Integrity>(out var integrity) == false) continue;
+				if (integrity.gameObject.Item() != null) continue;
+				//Non-meaty items shall be damaged.. in exchange of damaging the machine itself.
+				machineIntegrity.ApplyDamage(damagePerFrame / 2, AttackType.Melee, DamageType.Brute,
+					false, false, false, true);
+				integrity.ApplyDamage(damagePerFrame, AttackType.Melee, DamageType.Brute);
+			}
 		}
 
 		public string Examine(Vector3 worldPos = default(Vector3))
