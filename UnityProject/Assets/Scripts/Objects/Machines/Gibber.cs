@@ -16,7 +16,6 @@ namespace Objects.Machines
 		[SerializeField] private Integrity machineIntegrity;
 		[SerializeField] private float timeToGib = 12f;
 		[SerializeField] private int produceMultiplier = 4;
-		[SerializeField, Tooltip("In watts.")] private int powerUseWhenActive = 1000;
 		[SerializeField] private int damagePerFrame = 20;
 		[SerializeField] private GameObject defaultProduce;
 		[SerializeField] private SpriteHandler lights;
