@@ -29,7 +29,7 @@ jobs:
           write_to_file: false
           
       - name: Comment PR
-        if: ${{ steps.pr2changelog.outputs.generated_changelog == 0}}
+        if: ${{ steps.pr2changelog.outputs.found_changes == 0}}
         uses: thollander/actions-comment-pull-request@v1
         with:
           message: |
@@ -60,6 +60,6 @@ jobs:
         uses: thollander/actions-comment-pull-request@v1
         with:
           message: |
-            Your PR was merged with no registered changes!
+            Your PR was merged with no registered changes or there was a problem with the API caller.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
