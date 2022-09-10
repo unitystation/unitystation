@@ -74,7 +74,7 @@ public static class ServerValidations
 			handApply.TargetObject.TileWorldPosition(), allowed, messagePerformer);
 	}
 
-	
+
 
 	/// <summary>
 	/// Validates that the player's character name.
@@ -83,8 +83,8 @@ public static class ServerValidations
 	/// <returns>True if illegal.</returns>
 	public static bool HasIllegalCharacterName(String characterName)
 	{
-		if(characterName.Any(char.IsDigit) || characterName.Any(char.IsSymbol) 
-		|| characterName.Count() > GameManager.Instance.CharacterNameLimit || characterName.Contains("\n") 
+		if(characterName.Any(char.IsDigit) || characterName.Any(char.IsSymbol)
+		|| characterName.Count() > GameManager.Instance.CharacterNameLimit || characterName.Contains("\n")
 		|| characterName.All(char.IsUpper))
 		{
 			return true;
@@ -121,13 +121,7 @@ public static class ServerValidations
 	{
 		PlayerHealthData SetRace = null;
 		bool skinToneIsIllegal = false;
-		foreach (var Race in RaceSOSingleton.Instance.Races)
-		{
-			if (Race.name == settings.Species)
-			{
-				SetRace = Race;
-			}
-		}
+		SetRace = settings.GetRaceSo();
 		List<Color> availableSkinColors = SetRace.Base.SkinColours;
 		Color currentSkinColor;
 		ColorUtility.TryParseHtmlString(settings.SkinTone, out currentSkinColor);

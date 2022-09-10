@@ -239,14 +239,7 @@ namespace Player
 				SubSetBodyPart(bodyPart.Item.GetComponent<BodyPart>(), "");
 			}
 
-			PlayerHealthData SetRace = null;
-			foreach (var Race in RaceSOSingleton.Instance.Races)
-			{
-				if (Race.name == ThisCharacter.Species)
-				{
-					SetRace = Race;
-				}
-			}
+			PlayerHealthData SetRace = ThisCharacter.GetRaceSo();
 
 			List<IntName> ToClient = new List<IntName>();
 			foreach (var Customisation in SetRace.Base.CustomisationSettings)
@@ -439,15 +432,7 @@ namespace Player
 				}
 
 				ThisCharacter = characterSettings;
-
-				foreach (var Race in RaceSOSingleton.Instance.Races)
-				{
-					if (Race.name == ThisCharacter.Species)
-					{
-						RaceBodyparts = Race;
-						break;
-					}
-				}
+				RaceBodyparts = characterSettings.GetRaceSo();
 
 				if (RaceBodyparts == null)
 				{

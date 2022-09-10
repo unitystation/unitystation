@@ -33,6 +33,8 @@ public class PlayerInfo
 	/// <summary>The player script for the player while in the lobby.</summary>
 	public JoinedViewer ViewerScript { get; private set; }
 
+	public Mind Mind { get; private set; }
+
 	public string ClientId { get; set; }
 	public string UserId { get; set; }
 	public NetworkConnectionToClient Connection { get; set; }
@@ -140,6 +142,11 @@ public class PlayerInfo
 
 		string uniqueName = GetUniqueName(playerName, UserId);
 		name = uniqueName;
+	}
+
+	public void SetMind(Mind InMind)
+	{
+		Mind = InMind;
 	}
 
 	/// <summary>

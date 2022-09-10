@@ -19,7 +19,14 @@ using ScriptableObjects.Systems.Spells;
 /// </summary>
 public class Mind : MonoBehaviour
 {
+	public GameObject PossessingObject { get; private set; }
+	public IPlayerPossessable PlayerPossessable { get; private set; }
+
+
 	public Occupation occupation;
+
+
+
 	public PlayerScript ghost;
 	public PlayerScript body;
 	private SpawnedAntag antag;
@@ -32,6 +39,7 @@ public class Mind : MonoBehaviour
 	public ChatModifier inventorySpeechModifiers = ChatModifier.None;
 	// Current way to check if it's not actually a ghost but a spectator, should set this not have it be the below.
 
+	public CharacterSheet CurrentCharacterSettings;
 
 	public PlayerScript CurrentPlayScript => IsGhosting ? ghost : body;
 
@@ -129,6 +137,12 @@ public class Mind : MonoBehaviour
 		antag = newAntag;
 		ShowObjectives();
 		body.OrNull()?.GetComponent<PlayerOnlySyncValues>().OrNull()?.ServerSetAntag(true);
+	}
+
+	public void SetPossessingObject(GameObject obj)
+	{
+		PossessingObject = obj;
+		PlayerPossessable = obj.GetComponent<IPlayerPossessable>();
 	}
 
 	public void AddObjectiveToAntag(Objective objectiveToAdd)
