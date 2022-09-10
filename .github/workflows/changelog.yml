@@ -18,12 +18,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        
       - name: pr2changelog
         id: pr2changelog
         uses: corp-0/pr2changelog@api-integration
         with:
           categories: Fix;New;Improvement;Balance
           write_to_file: false
+          
+      - name: Comment PR
+        if: ${{ steps.pr2changelog.outputs.generated_changelog == 0}}
+        uses: thollander/actions-comment-pull-request@v1
+        with:
+          message: |
+            Your PR has no registered changes in its description!
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   after_merge:
     if: github.event.pull_request.merged == true
@@ -32,6 +43,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        
       - name: pr2changelog
         id: pr2changelog
         uses: corp-0/pr2changelog@api-integration
@@ -40,4 +54,12 @@ jobs:
           write_to_file: false
           api_secret_token: ${{ secrets.CHANGELOG_API_SECRET }}
           api_url: "https://changelog.unitystation.org/register-change"
+          
+      - name: Comment PR
+        if: ${{ steps.pr2changelog.outputs.generated_changelog == 0}}
+        uses: thollander/actions-comment-pull-request@v1
+        with:
+          message: |
+            Your PR was merged with no registered changes!
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
