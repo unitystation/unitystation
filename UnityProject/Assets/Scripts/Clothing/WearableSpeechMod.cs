@@ -43,12 +43,12 @@ public class WearableSpeechMod : MonoBehaviour, IItemInOutMovedPlayer
 	{
 		if (hideForPlayer != null)
 		{
-			hideForPlayer.inventorySpeechModifiers |= modifier;
+			hideForPlayer.inventorySpeechModifiers &= ~modifier;
 		}
 
 		if (showForPlayer != null)
 		{
-			showForPlayer.inventorySpeechModifiers &= ~modifier;
+			showForPlayer.inventorySpeechModifiers |= modifier;
 		}
 	}
 }
