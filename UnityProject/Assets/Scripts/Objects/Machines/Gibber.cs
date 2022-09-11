@@ -83,7 +83,7 @@ namespace Objects.Machines
 			}
 			gibbed.Clear();
 			isRunning = false;
-			Chat.AddLocalMsgToChat("The gibber stops vibrating as it finishes it's operation.", gameObject);
+			Chat.AddLocalMsgToChat("The gibber stops vibrating as it finishes its operation.", gameObject);
 			lights.SetSpriteSO(lightsoff);
 		}
 
