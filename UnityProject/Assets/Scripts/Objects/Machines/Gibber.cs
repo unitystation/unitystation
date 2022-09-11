@@ -89,8 +89,7 @@ namespace Objects.Machines
 
 		private IEnumerator CheckContentAndHarm()
 		{
-			var list = storage.GetStoredObjects().ToArray();
-			foreach (var slot in list)
+			foreach (var slot in storage.GetStoredObjects().Reverse())
 			{
 				if (slot.TryGetComponent<LivingHealthMasterBase>(out var gib))
 				{
