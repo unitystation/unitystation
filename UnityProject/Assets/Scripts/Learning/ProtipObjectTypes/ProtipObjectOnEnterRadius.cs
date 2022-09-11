@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
-using Util;
 
 namespace Learning.ProtipObjectTypes
 {
