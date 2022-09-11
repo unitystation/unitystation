@@ -1,4 +1,6 @@
-﻿using UI.Chat_UI;
+﻿using System;
+using System.Collections;
+using UI.Chat_UI;
 using UI.Systems.AdminTools.DevTools.Search;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,11 +11,31 @@ using UnityEngine.UI;
 public class GUI_DevSpawner : MonoBehaviour
 {
 
+	public static GUI_DevSpawner Instance;
+
 	[Tooltip("Prefab that should be used for each list item")]
 	public GameObject listItemPrefab;
 	[Tooltip("content panel into which the list items should be placed")]
 	public GameObject contentPanel;
 	public InputField searchBox;
+
+	public InputField StackAmountBox;
+
+	public int StackAmount
+	{
+		get
+		{
+
+			if (int.TryParse(StackAmountBox.text, out var number))
+			{
+				return number;
+			}
+			else
+			{
+				return -1;
+			}
+		}
+	}
 
 	[Tooltip("Always perform a wildcard search, with wildcard being added at the end")]
 	public bool alwaysWildcard = true;
@@ -27,6 +49,11 @@ public class GUI_DevSpawner : MonoBehaviour
 	private SpawnerSearch spawnerSearch;
 
 	private bool isFocused;
+
+	public void Awake()
+	{
+		Instance = this;
+	}
 
 	void Start()
     {
