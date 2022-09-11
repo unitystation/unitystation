@@ -43,9 +43,9 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	public ItemAttributesV2 ItemAttributesV2;
 
-	public event Action OnMoveToPlayerInventory;
+	public event Action<GameObject> OnMoveToPlayerInventory;
 
-	
+
 	#region Lifecycle
 
 	private void Awake()
@@ -213,7 +213,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	private void PickupAnim(GameObject interactor)
 	{
-		OnMoveToPlayerInventory?.Invoke();
+		OnMoveToPlayerInventory?.Invoke(interactor);
 		LeanTween.move(gameObject, interactor.transform, pickupAnimSpeed);
 		LeanTween.scale(gameObject, new Vector3(0, 0), pickupAnimSpeed);
 	}
