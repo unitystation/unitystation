@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using HealthV2;
 using Objects.Medical;
 using UnityEngine;
 
@@ -7,8 +8,11 @@ public class DNAConsole : MonoBehaviour
 {
 	public DNAScanner DNAScanner;
 
-	public char SelectionChar;
+	public char SelectionChar = 'h';
 	public BodyPartSelectionType SelectionType;
+
+	public string CustomisationTarget;
+	public string CustomisationReplaceWith;
 
 	public enum BodyPartSelectionType
 	{
@@ -17,6 +21,20 @@ public class DNAConsole : MonoBehaviour
 	}
 
 
+	public void ModifyCustomisation(BodyPart bodyPart, string InCustomisationTarget, string InCustomisationReplaceWith  )
+	{
+		if (bodyPart.SetCustomisationData.Contains(InCustomisationTarget))
+		{
+			Logger.LogError($"{bodyPart.name} has {InCustomisationTarget} in SetCustomisationData");
+			var newone = bodyPart.SetCustomisationData.Replace(InCustomisationTarget, InCustomisationReplaceWith);
+			Logger.LogError($"Changing from {bodyPart.SetCustomisationData} to {newone} ");
+			bodyPart.LobbyCustomisation.OnPlayerBodyDeserialise(bodyPart, newone, bodyPart.HealthMaster);
+		}
+
+	}
+
+
+	[RightClickMethod()]
 	[NaughtyAttributes.Button()]
 	public void Inject()
 	{
@@ -27,17 +45,18 @@ public class DNAConsole : MonoBehaviour
 				case BodyPartSelectionType.MustNotContain:
 					if (BP.name.Contains(SelectionChar) == false)
 					{
-						Logger.LogError($"Found {BP.name}");
+						ModifyCustomisation(BP, CustomisationTarget, CustomisationReplaceWith);
 					}
 					break;
 				case BodyPartSelectionType.MustInclude:
 					if (BP.name.Contains(SelectionChar))
 					{
-						Logger.LogError($"Found {BP.name}");
+						ModifyCustomisation(BP, CustomisationTarget, CustomisationReplaceWith);
 					}
 					break;
-
 			}
+
+
 
 		}
 
