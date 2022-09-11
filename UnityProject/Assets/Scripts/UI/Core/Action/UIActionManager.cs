@@ -310,7 +310,7 @@ namespace UI.Action
 				{
 					//Remove old button from list. Don't spawn the same button if it already exists!
 					if (actionButton.Key is IActionGUI keyI &&
-					    actionButton.Value[0].ActionData == iActionGUI.ActionData)
+					    actionButton.Value[0].iAction == iActionGUI)
 					{
 						Hide(keyI, null);
 						break;
