@@ -60,8 +60,8 @@ namespace Learning
 			isShown = false;
 			LeanTween.scale(gameObject, Vector3.zero, 0.7f).setEase(LeanTweenType.easeInBounce);
 			yield return WaitFor.Seconds(1.5f);
-			gameObject.SetActive(false);
 			ProtipManager.Instance.IsShowingTip = false;
+			gameObject.SetActive(false);
 		}
 
 		private IEnumerator DoImageRockAnimations()
