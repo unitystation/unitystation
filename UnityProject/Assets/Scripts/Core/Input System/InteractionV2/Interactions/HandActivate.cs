@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 public class HandActivate : Interaction
 {
-	private static readonly HandActivate Invalid = new HandActivate(null, null, null, Intent.Help, false);
+	private static readonly HandActivate Invalid = new HandActivate(null, null, null, Intent.Help, null, false);
 
 	private readonly ItemSlot handSlot;
 
@@ -23,8 +23,8 @@ public class HandActivate : Interaction
 	/// <param name="performer">The gameobject of the player activating the item</param>
 	/// <param name="activatedObject">Object that is being activated</param>
 	/// <param name="handSlot">hand slot that is being activated</param>
-	private HandActivate(GameObject performer, GameObject activatedObject, ItemSlot handSlot, Intent intent, bool isAltClick) :
-		base(performer, activatedObject, intent)
+	private HandActivate(GameObject performer, GameObject activatedObject, ItemSlot handSlot, Intent intent, Mind InPerformerMind, bool isAltClick) :
+		base(performer, activatedObject, intent, InPerformerMind)
 	{
 		this.handSlot = handSlot;
 		this.IsAltClick = isAltClick;
@@ -42,8 +42,12 @@ public class HandActivate : Interaction
 			return HandActivate.Invalid;
 		}
 
-		return new HandActivate(PlayerManager.LocalPlayerObject, PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot()?.ItemObject,
-			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(), UIManager.CurrentIntent, KeyboardInputManager.IsAltActionKeyPressed());
+		return new HandActivate(PlayerManager.LocalPlayerObject,
+			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot()?.ItemObject,
+			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(),
+			UIManager.CurrentIntent,
+			PlayerManager.LocalPlayerScript.mind,
+			KeyboardInputManager.IsAltActionKeyPressed());
 	}
 
 	/// <summary>
@@ -55,8 +59,8 @@ public class HandActivate : Interaction
 	/// it doesn't need to be looked up again, since it already should've been looked up in
 	/// the message processing logic. Should match HandSlot.ForName(SentByPlayer.Script.playerNetworkActions.activeHand).</param>
 	/// <returns></returns>
-	public static HandActivate ByClient(GameObject clientPlayer, GameObject activatedObject, ItemSlot handSlot, Intent intent, bool isAltClick)
+	public static HandActivate ByClient(GameObject clientPlayer, GameObject activatedObject, ItemSlot handSlot, Intent intent ,Mind InPerformerMind, bool isAltClick)
 	{
-		return new HandActivate(clientPlayer, activatedObject, handSlot, intent, isAltClick);
+		return new HandActivate(clientPlayer, activatedObject, handSlot, intent, InPerformerMind, isAltClick);
 	}
 }

@@ -19,9 +19,9 @@ namespace Items.Magical
 
 		protected override bool TryReading(PlayerInfo player)
 		{
-			if (player.Script.mind.HasSpell(spell))
+			if (player.Mind.HasSpell(spell))
 			{
-				if (player.Script.mind.IsOfAntag<Antagonists.Wizard>())
+				if (player.Mind.IsOfAntag<Antagonists.Wizard>())
 				{
 					Chat.AddExamineMsgFromServer(player.GameObject,
 							"You're already far more versed in this spell than this flimsy how-to book can provide!");
@@ -62,7 +62,7 @@ namespace Items.Magical
 			Chat.AddExamineMsgFromServer(player.GameObject, $"You feel like you've experienced enough to cast <b>{spell.Name}</b>!");
 
 			var learnedSpell = spell.AddToPlayer(player.Script);
-			player.Script.mind.AddSpell(learnedSpell);
+			player.Mind.AddSpell(learnedSpell);
 		}
 
 		private void Punish(PlayerInfo player)

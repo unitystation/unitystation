@@ -86,7 +86,7 @@ namespace Systems.Ai
 				var behaviours = applyTarget.GetComponents<IBaseInteractable<AiActivate>>()
 					.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
 
-				var aiActivate = new AiActivate(gameObject, null, applyTarget, Intent.Help, clickType);
+				var aiActivate = new AiActivate(gameObject, null, applyTarget, Intent.Help,aiPlayer.PlayerScript.mind , clickType);
 				InteractionUtils.ClientCheckAndTrigger(behaviours, aiActivate);
 			}
 		}

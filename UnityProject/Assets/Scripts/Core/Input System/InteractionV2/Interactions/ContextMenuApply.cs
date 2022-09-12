@@ -10,7 +10,7 @@ using UnityEngine;
 /// </summary>
 public class ContextMenuApply : TargetedInteraction
 {
-	private static readonly ContextMenuApply Invalid = new ContextMenuApply(null, null, null, null, Intent.Help);
+	private static readonly ContextMenuApply Invalid = new ContextMenuApply(null, null, null, null, Intent.Help, null);
 
 	private readonly string requestedOption;
 	public string RequestedOption => requestedOption;
@@ -23,8 +23,8 @@ public class ContextMenuApply : TargetedInteraction
 	/// <param name="targetObject">object that the player right-clicked on</param>
 	/// <param name="requestedOption">activated option in target object's right-click context menu.</param>
 	protected ContextMenuApply(
-			GameObject performer, GameObject handObject, GameObject targetObject, string requestedOption, Intent intent) :
-			base(performer, handObject, targetObject, intent)
+			GameObject performer, GameObject handObject, GameObject targetObject, string requestedOption, Intent intent, Mind InPerformerMind) :
+			base(performer, handObject, targetObject, intent, InPerformerMind)
 	{
 		this.requestedOption = requestedOption;
 	}
@@ -41,7 +41,12 @@ public class ContextMenuApply : TargetedInteraction
 		if (PlayerManager.LocalPlayerScript.IsNormal == false) return Invalid;
 
 		return new ContextMenuApply(
-				PlayerManager.LocalPlayerObject, PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot()?.ItemObject, targetObject, requestedOption, UIManager.CurrentIntent);
+				PlayerManager.LocalPlayerObject,
+				PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot()?.ItemObject,
+				targetObject,
+				requestedOption,
+				UIManager.CurrentIntent,
+				PlayerManager.LocalPlayerScript.mind);
 	}
 
 	/// <summary>
@@ -55,8 +60,8 @@ public class ContextMenuApply : TargetedInteraction
 	/// the message processing logic. Should match SentByPlayer.Script.playerNetworkActions.GetActiveHandItem().</param>
 	/// <returns>a ContextMenuApply by the client, activating the specified context menu option of the target object</returns>
 	public static ContextMenuApply ByClient(
-			GameObject clientPlayer, GameObject handObject, GameObject targetObject, string requestedOption, Intent intent)
+			GameObject clientPlayer, GameObject handObject, GameObject targetObject, string requestedOption, Intent intent, Mind InPerformerMind)
 	{
-		return new ContextMenuApply(clientPlayer, handObject, targetObject, requestedOption, intent);
+		return new ContextMenuApply(clientPlayer, handObject, targetObject, requestedOption, intent, InPerformerMind);
 	}
 }

@@ -34,10 +34,10 @@ public partial class PlayerList : NetworkBehaviour
 	public List<PlayerInfo> InGamePlayers => loggedIn.FindAll(player => player.Script != null);
 
 	public List<PlayerInfo> NonAntagPlayers =>
-		loggedIn.FindAll(player => player.Script.OrNull()?.mind  != null && !player.Script.mind.IsAntag);
+		loggedIn.FindAll(player => player.Script.OrNull()?.mind  != null && !player.Mind.IsAntag);
 
 	public List<PlayerInfo> AntagPlayers =>
-		loggedIn.FindAll(player => player.Script.OrNull()?.mind != null && player.Script.mind.IsAntag);
+		loggedIn.FindAll(player => player.Script.OrNull()?.mind != null && player.Mind.IsAntag);
 
 	public List<PlayerInfo> AllPlayers =>
 		loggedIn.FindAll(player => (player.Script.OrNull()?.mind  != null || player.ViewerScript != null));
@@ -619,7 +619,7 @@ public partial class PlayerList : NetworkBehaviour
 			// Update connection with locked in job prefs
 			if (charSettings != null)
 			{
-				player.CharacterSettings = charSettings;
+				player.RequestedCharacterSettings = charSettings;
 			}
 			else
 			{
@@ -686,16 +686,16 @@ public partial class PlayerList : NetworkBehaviour
 
 	public static bool HasAntagEnabled(PlayerInfo connectedPlayer, Antagonist antag)
 	{
-		if (connectedPlayer.CharacterSettings == null)
+		if (connectedPlayer.RequestedCharacterSettings == null)
 		{
 			if (connectedPlayer.Script.characterSettings == null) return false;
 
-			connectedPlayer.CharacterSettings = connectedPlayer.Script.characterSettings;
+			connectedPlayer.RequestedCharacterSettings = connectedPlayer.Script.characterSettings;
 		}
 
 		return !antag.ShowInPreferences ||
-		       (connectedPlayer.CharacterSettings.AntagPreferences.ContainsKey(antag.AntagName)
-		        && connectedPlayer.CharacterSettings.AntagPreferences[antag.AntagName]);
+		       (connectedPlayer.RequestedCharacterSettings.AntagPreferences.ContainsKey(antag.AntagName)
+		        && connectedPlayer.RequestedCharacterSettings.AntagPreferences[antag.AntagName]);
 	}
 }
 

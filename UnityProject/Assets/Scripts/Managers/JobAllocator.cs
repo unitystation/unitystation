@@ -132,8 +132,8 @@ namespace Managers
 		{
 			// Find any players that selected the job with the specified priority
 			candidates = playerPool.Where(player =>
-				player.CharacterSettings.JobPreferences.ContainsKey(occupation.JobType) &&
-				player.CharacterSettings.JobPreferences[occupation.JobType] == priority && PlayerList.Instance.FindPlayerJobBanEntry(player, occupation.JobType, false) == null).ToList();
+				player.RequestedCharacterSettings.JobPreferences.ContainsKey(occupation.JobType) &&
+				player.RequestedCharacterSettings.JobPreferences[occupation.JobType] == priority && PlayerList.Instance.FindPlayerJobBanEntry(player, occupation.JobType, false) == null).ToList();
 
 			return candidates.Any();
 		}
@@ -146,7 +146,7 @@ namespace Managers
 		private void AllocateJobs(IReadOnlyCollection<PlayerInfo> players, Occupation job)
 		{
 			// Update determined players and players left
-			determinedPlayers.AddRange(players.Select(player => new PlayerSpawnRequest(player, job, player.CharacterSettings)));
+			determinedPlayers.AddRange(players.Select(player => new PlayerSpawnRequest(player, job, player.RequestedCharacterSettings)));
 			playersLeft.RemoveAll(players.Contains);
 			missedOutPlayers.RemoveAll(players.Contains);
 

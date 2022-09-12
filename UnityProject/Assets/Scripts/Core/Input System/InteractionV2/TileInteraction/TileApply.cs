@@ -71,8 +71,8 @@ public class TileApply : Interaction
 	/// <param name="basicTile">info of the tile being targeted</param>
 	/// <param name="handSlot">slot being used</param>
 	/// <param name="targetVector">vector pointing from perform to the targeted position</param>
-	public TileApply(GameObject performer, GameObject usedObject, Intent intent, Vector2Int targetCellPos,
-		InteractableTiles targetInteractableTiles, BasicTile basicTile, ItemSlot handSlot, Vector2 targetPosition, ApplyType type = ApplyType.HandApply) : base(performer, usedObject, intent)
+	public TileApply(GameObject performer, GameObject usedObject, Intent intent, Mind inMind, Vector2Int targetCellPos,
+		InteractableTiles targetInteractableTiles, BasicTile basicTile, ItemSlot handSlot, Vector2 targetPosition, ApplyType type = ApplyType.HandApply) : base(performer, usedObject, intent, inMind)
 	{
 		this.targetCellPos = targetCellPos;
 		this.targetInteractableTiles = targetInteractableTiles;

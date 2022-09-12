@@ -9,7 +9,7 @@ using UnityEngine;
 public class PositionalHandApply : HandApply
 {
 	private static readonly PositionalHandApply Invalid
-			= new PositionalHandApply(null, null, null, Vector2.zero, null, Intent.Help, BodyPartType.None, false);
+			= new PositionalHandApply(null, null, null, Vector2.zero, null, Intent.Help, null , BodyPartType.None, false);
 
 	/// <summary>Target position, the Local position that the performer is pointing at</summary>
 	public Vector2 TargetPosition { get; protected set; }
@@ -26,8 +26,8 @@ public class PositionalHandApply : HandApply
 	/// <param name="targetObject">Object that the player clicked on</param>
 	/// <param name="handSlot">active hand slot that is being used.</param>
 	private PositionalHandApply(GameObject performer, GameObject handObject, GameObject targetObject, Vector2 targetPosition,
-		ItemSlot handSlot, Intent intent, BodyPartType targetBodyPart, bool isAltClick) :
-		base(performer, handObject, targetObject, targetBodyPart, handSlot, intent, isAltClick)
+		ItemSlot handSlot, Intent intent, Mind inMind, BodyPartType targetBodyPart, bool isAltClick) :
+		base(performer, handObject, targetObject, targetBodyPart, handSlot, intent, inMind, isAltClick)
 	{
 		TargetPosition = targetPosition;
 	}
@@ -52,6 +52,7 @@ public class PositionalHandApply : HandApply
 				targePosition,
 				PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(),
 				UIManager.CurrentIntent,
+				PlayerManager.LocalPlayerScript.mind,
 				UIManager.DamageZone,
 				KeyboardInputManager.IsAltActionKeyPressed());
 	}
@@ -70,8 +71,8 @@ public class PositionalHandApply : HandApply
 	/// the message processing logic. Should match SentByPlayer.Script.playerNetworkActions.activeHand.</param>
 	/// <returns>a hand apply by the client, targeting the specified object with the item in the active hand</returns>
 	public static PositionalHandApply ByClient(GameObject clientPlayer, GameObject handObject, GameObject targetObject,
-			Vector2 TargetPosition, ItemSlot handSlot, Intent intent, BodyPartType targetBodyPart, bool isAltClick)
+			Vector2 TargetPosition, ItemSlot handSlot, Intent intent, Mind inMind, BodyPartType targetBodyPart, bool isAltClick)
 	{
-		return new PositionalHandApply(clientPlayer, handObject, targetObject, TargetPosition, handSlot, intent, targetBodyPart, isAltClick);
+		return new PositionalHandApply(clientPlayer, handObject, targetObject, TargetPosition, handSlot, intent, inMind, targetBodyPart, isAltClick);
 	}
 }

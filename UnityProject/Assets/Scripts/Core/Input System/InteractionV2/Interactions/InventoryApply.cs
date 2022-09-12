@@ -9,7 +9,7 @@ using UnityEngine;
 /// </summary>
 public class InventoryApply : TargetedInteraction
 {
-	private static readonly InventoryApply Invalid = new InventoryApply(null, null, null, Intent.Help, false);
+	private static readonly InventoryApply Invalid = new InventoryApply(null, null, null, Intent.Help, null , false);
 
 	private ItemSlot fromSlot;
 	private ItemSlot targetSlot;
@@ -50,8 +50,9 @@ public class InventoryApply : TargetedInteraction
 	/// <param name="targetSlot">object that the player applying the used object to</param>
 	/// <param name="fromSlot">hand slot if clicking on something in inventory, otherwise slot
 	/// the item is being dragged from</param>
-	private InventoryApply(GameObject performer, ItemSlot targetSlot, ItemSlot fromSlot, Intent intent, bool IsAltClick) :
-		base(performer, fromSlot?.ItemObject, targetSlot?.ItemObject, intent)
+	private InventoryApply(GameObject performer, ItemSlot targetSlot, ItemSlot fromSlot, Intent intent, Mind inMind
+		, bool IsAltClick) :
+		base(performer, fromSlot?.ItemObject, targetSlot?.ItemObject, intent, inMind)
 	{
 		this.fromSlot = fromSlot;
 		this.targetSlot = targetSlot;
@@ -72,7 +73,11 @@ public class InventoryApply : TargetedInteraction
 			return Invalid;
 		}
 		return new InventoryApply(PlayerManager.LocalPlayerObject,
-			targetObjectSlot, fromSlot, UIManager.CurrentIntent, KeyboardInputManager.IsAltActionKeyPressed());
+			targetObjectSlot,
+			fromSlot,
+			UIManager.CurrentIntent,
+			PlayerManager.LocalPlayerScript.mind,
+			KeyboardInputManager.IsAltActionKeyPressed());
 	}
 
 	/// <summary>
@@ -89,8 +94,9 @@ public class InventoryApply : TargetedInteraction
 	/// <returns>a hand apply by the client, targeting the specified object with the item in the active hand</returns>
 
 	public static InventoryApply ByClient(GameObject clientPlayer, ItemSlot targetObjectSlot,
-		ItemSlot fromSlot, Intent intent, bool IsAltClick)
+		ItemSlot fromSlot, Intent intent
+		, Mind inMind, bool IsAltClick)
 	{
-		return new InventoryApply(clientPlayer, targetObjectSlot, fromSlot, intent, IsAltClick);
+		return new InventoryApply(clientPlayer, targetObjectSlot, fromSlot, intent, inMind, IsAltClick);
 	}
 }

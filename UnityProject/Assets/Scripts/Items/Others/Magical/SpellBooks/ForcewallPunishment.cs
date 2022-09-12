@@ -6,7 +6,7 @@ using Strings;
 
 namespace Items.Magical
 {
-	// TODO: make the player a statue when petrification is added. 
+	// TODO: make the player a statue when petrification is added.
 
 	/// <summary>
 	/// Punishes the player by temporarily preventing movement input and removing player speech.
@@ -28,7 +28,7 @@ namespace Items.Magical
 			player.Script.playerMove.allowInput = false;
 			// Piggy-back off IsMiming property to prevent the player from speaking.
 			// TODO: convert to player trait when we have that system.
-			player.Script.mind.IsMiming = true;
+			player.Mind.IsMiming = true;
 
 			StartCoroutine(Unpetrify(player.Script));
 
@@ -36,7 +36,7 @@ namespace Items.Magical
 			Chat.AddCombatMsgToChat(player.GameObject,
 					$"<size={ChatTemplates.VeryLargeText}><b>Your body freezes up! Can't... move... can't... think...</b></size>",
 					$"{player.GameObject.ExpensiveName()}'s skin rapidly turns to marble!");
-			
+
 		}
 
 		private IEnumerator Unpetrify(PlayerScript script)
