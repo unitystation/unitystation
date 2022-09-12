@@ -98,24 +98,7 @@ namespace Objects.Machines
 					if (gib.OverallHealth > -100) continue;
 					var meatToProduce = gib.MeatProduce != null ? gib.MeatProduce : defaultProduce;
 					var skinToProduce = gib.SkinProduce != null ? gib.SkinProduce : defaultProduce;
-					if (gibbed.ContainsKey(meatToProduce))
-					{
-						gibbed[meatToProduce] += 1 * produceMultiplier;
-					}
-					else
-					{
-						gibbed.Add(meatToProduce, 1);
-					}
-
-					if (gibbed.ContainsKey(skinToProduce))
-					{
-						gibbed[skinToProduce] += 1 * produceMultiplier;
-					}
-					else
-					{
-						gibbed.Add(skinToProduce, 1);
-					}
-
+					AddItemsThatWillBeSpawned(meatToProduce, skinToProduce);
 					storage.RemoveObject(slot);
 					yield return WaitFor.EndOfFrame;
 					gib.OnGib();
@@ -125,14 +108,7 @@ namespace Objects.Machines
 				if (slot.TryGetComponent<LivingHealthBehaviour>(out var oldMob))
 				{
 					oldMob.Death();
-					if (gibbed.ContainsKey(defaultProduce))
-					{
-						gibbed[defaultProduce] += 1 * produceMultiplier;
-					}
-					else
-					{
-						gibbed.Add(defaultProduce, 1 * produceMultiplier);
-					}
+					AddItemsThatWillBeSpawned(defaultProduce, defaultProduce);
 					continue;
 				}
 				if (slot.TryGetComponent<Integrity>(out var integrity) == false) continue;
@@ -141,6 +117,27 @@ namespace Objects.Machines
 				machineIntegrity.ApplyDamage(damagePerFrame / 2, AttackType.Melee, DamageType.Brute,
 					false, false, false, true);
 				integrity.ApplyDamage(damagePerFrame, AttackType.Melee, DamageType.Brute);
+			}
+		}
+
+		private void AddItemsThatWillBeSpawned(GameObject meat, GameObject skin)
+		{
+			if (gibbed.ContainsKey(meat))
+			{
+				gibbed[meat] += 1 * produceMultiplier;
+			}
+			else
+			{
+				gibbed.Add(meat, 1);
+			}
+
+			if (gibbed.ContainsKey(skin))
+			{
+				gibbed[skin] += 1 * produceMultiplier;
+			}
+			else
+			{
+				gibbed.Add(skin, 1);
 			}
 		}
 
