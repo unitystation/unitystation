@@ -69,7 +69,6 @@ namespace Objects.Machines
 			while (isRunning)
 			{
 				if(timeToGib <= time) break;
-				//Always update the list to avoid collection NREs when moving things in and out of storage.
 				time++;
 				yield return WaitFor.Seconds(0.6f);
 				yield return CheckContentAndHarm();
