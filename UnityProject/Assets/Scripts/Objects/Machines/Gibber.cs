@@ -111,7 +111,7 @@ namespace Objects.Machines
 				if (slot.TryGetComponent<LivingHealthBehaviour>(out var oldMob))
 				{
 					oldMob.Death();
-					AddItemsThatWillBeSpawned(defaultProduce, defaultProduce);
+					AddItemsThatWillBeSpawned(defaultProduce);
 					continue;
 				}
 				if (slot.TryGetComponent<Integrity>(out var integrity) == false) continue;
@@ -123,7 +123,7 @@ namespace Objects.Machines
 			}
 		}
 
-		private void AddItemsThatWillBeSpawned(GameObject meat, GameObject skin)
+		private void AddItemsThatWillBeSpawned(GameObject meat, GameObject skin = null)
 		{
 			if (gibbed.ContainsKey(meat))
 			{
@@ -133,7 +133,7 @@ namespace Objects.Machines
 			{
 				gibbed.Add(meat, 1 * produceMultiplier);
 			}
-
+			if(skin == null) return;
 			if (gibbed.ContainsKey(skin))
 			{
 				gibbed[skin] += 1 * produceMultiplier;
