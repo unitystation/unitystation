@@ -11,7 +11,7 @@ namespace Learning
 		public ExperienceLevel PlayerExperienceLevel;
 		public List<ProtipSO> RecordedProtips;
 
-		private List<ProTipUIData> queuedTips = new List<ProTipUIData>();
+		private Queue<ProTipUIData> queuedTips = new Queue<ProTipUIData>();
 
 		public enum ExperienceLevel
 		{
@@ -69,8 +69,8 @@ namespace Learning
 		private void CheckQueue()
 		{
 			if(IsShowingTip || queuedTips.Count == 0) return;
-			ShowTip(queuedTips[0].Text, queuedTips[0].Duration, queuedTips[0].Sprite, queuedTips[0].Animation);
-			queuedTips.Remove(queuedTips[0]);
+			var tip = queuedTips.Dequeue();
+			ShowTip(tip.Text, tip.Duration, tip.Sprite, tip.Animation);
 		}
 
 		public void QueueTip(string TipText, float duration = 25f, Sprite img = null, ProtipUI.SpriteAnimation showAnim = ProtipUI.SpriteAnimation.ROCKING)
@@ -82,7 +82,7 @@ namespace Learning
 				Sprite = img,
 				Animation = showAnim
 			};
-			queuedTips.Add(newEntry);
+			queuedTips.Enqueue(newEntry);
 		}
 
 		private void ShowTip(string TipText, float duration = 25f, Sprite img = null, ProtipUI.SpriteAnimation showAnim = ProtipUI.SpriteAnimation.ROCKING)
