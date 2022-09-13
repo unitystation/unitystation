@@ -26,6 +26,10 @@ namespace Objects.Machines
 
 		private Dictionary<GameObject, int> gibbed = new Dictionary<GameObject, int>();
 
+		private const float DAMAGE_TIME = 0.6f;
+		private const int HALF = 2;
+		private const float LOW_HEALTH = -100f;
+
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			// Only interact with this if it's anchored.
@@ -70,7 +74,7 @@ namespace Objects.Machines
 			{
 				if(timeToGib <= time) break;
 				time++;
-				yield return WaitFor.Seconds(0.6f);
+				yield return WaitFor.Seconds(DAMAGE_TIME);
 				yield return CheckContentAndHarm();
 			}
 
@@ -94,7 +98,7 @@ namespace Objects.Machines
 				{
 					gib.ApplyDamageAll(gameObject, gib.PainScreamDamage + damagePerFrame,
 						AttackType.Melee, DamageType.Brute, true);
-					if (gib.OverallHealth > -100) continue;
+					if (gib.OverallHealth > LOW_HEALTH) continue;
 					var meatToProduce = gib.MeatProduce.OrNull() ?? defaultProduce;
 					var skinToProduce = gib.SkinProduce.OrNull() ?? defaultProduce;
 					AddItemsThatWillBeSpawned(meatToProduce, skinToProduce);
@@ -113,7 +117,7 @@ namespace Objects.Machines
 				if (slot.TryGetComponent<Integrity>(out var integrity) == false) continue;
 				if (integrity.gameObject.Item() != null) continue;
 				//Non-meaty items shall be damaged.. in exchange of damaging the machine itself.
-				machineIntegrity.ApplyDamage(damagePerFrame / 2, AttackType.Melee, DamageType.Brute,
+				machineIntegrity.ApplyDamage(damagePerFrame / HALF, AttackType.Melee, DamageType.Brute,
 					false, false, false, true);
 				integrity.ApplyDamage(damagePerFrame, AttackType.Melee, DamageType.Brute);
 			}
