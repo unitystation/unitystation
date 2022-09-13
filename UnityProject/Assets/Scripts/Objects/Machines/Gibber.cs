@@ -78,7 +78,7 @@ namespace Objects.Machines
 			foreach (var products in gibbed)
 			{
 				_ = Spawn.ServerPrefab(products.Key, gameObject.TileWorldPosition().To3(), gameObject.RegisterTile().Matrix.transform,
-					null, Mathf.Min(1, products.Value));
+					null, Mathf.Max(1, products.Value));
 			}
 			gibbed.Clear();
 			isRunning = false;
@@ -127,7 +127,7 @@ namespace Objects.Machines
 			}
 			else
 			{
-				gibbed.Add(meat, 1);
+				gibbed.Add(meat, 1 * produceMultiplier);
 			}
 
 			if (gibbed.ContainsKey(skin))
@@ -136,7 +136,7 @@ namespace Objects.Machines
 			}
 			else
 			{
-				gibbed.Add(skin, 1);
+				gibbed.Add(skin, 1 * produceMultiplier);
 			}
 		}
 
