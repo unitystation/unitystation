@@ -95,8 +95,8 @@ namespace Objects.Machines
 					gib.ApplyDamageAll(gameObject, gib.PainScreamDamage + damagePerFrame,
 						AttackType.Melee, DamageType.Brute, true);
 					if (gib.OverallHealth > -100) continue;
-					var meatToProduce = gib.MeatProduce != null ? gib.MeatProduce : defaultProduce;
-					var skinToProduce = gib.SkinProduce != null ? gib.SkinProduce : defaultProduce;
+					var meatToProduce = gib.MeatProduce.OrNull() ?? defaultProduce;
+					var skinToProduce = gib.SkinProduce.OrNull() ?? defaultProduce;
 					AddItemsThatWillBeSpawned(meatToProduce, skinToProduce);
 					storage.RemoveObject(slot);
 					yield return WaitFor.EndOfFrame;
