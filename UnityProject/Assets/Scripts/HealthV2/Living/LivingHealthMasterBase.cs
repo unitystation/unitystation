@@ -285,8 +285,10 @@ namespace HealthV2
 			//Maybe add feet for blood on boots?
 		};
 
-		public GameObject MeatProduce { get; set; }
-		public GameObject SkinProduce { get; set; }
+		[SerializeField] private GameObject meatProduce;
+		[SerializeField] private GameObject skinProduce;
+		public GameObject MeatProduce => meatProduce;
+		public GameObject SkinProduce => skinProduce;
 
 
 		public virtual void Awake()
@@ -1682,8 +1684,8 @@ namespace HealthV2
 			CirculatorySystem.InitialiseDefaults(RaceBodyparts);
 			CirculatorySystem.BodyPartListChange();
 
-			MeatProduce = RaceBodyparts.Base.MeatProduce;
-			SkinProduce = RaceBodyparts.Base.SkinProduce;
+			meatProduce = RaceBodyparts.Base.MeatProduce;
+			skinProduce = RaceBodyparts.Base.SkinProduce;
 		}
 
 		public void InstantiateAndSetUp(ObjectList ListToSpawn)
