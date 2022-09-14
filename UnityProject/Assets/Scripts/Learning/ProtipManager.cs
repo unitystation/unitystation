@@ -11,7 +11,7 @@ namespace Learning
 		public ExperienceLevel PlayerExperienceLevel;
 		public List<ProtipSO> RecordedProtips;
 
-		private Queue<ProTipUIData> queuedTips = new Queue<ProTipUIData>();
+		private readonly Queue<ProTipUIData> queuedTips = new Queue<ProTipUIData>();
 
 		public enum ExperienceLevel
 		{
