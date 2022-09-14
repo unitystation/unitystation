@@ -26,14 +26,14 @@ namespace Learning
 
 		private void Awake()
 		{
-			var saved = PlayerPrefs.GetString($"{gameObject.GetComponent<PrefabTracker>().ForeverID}/{saveID.ToString()}");
+			var saved = PlayerPrefs.GetString($"{gameObject.GetComponent<PrefabTracker>().ForeverID}/{saveID.ToString()}", "false");
 			if(saved == "true" || TipSO == null) Destroy(this);
 		}
 
 		protected virtual bool TriggerConditions(GameObject triggeredBy)
 		{
 			//To avoid issues with NREs, Protips should only trigger if a PlayerScript exists.
-			if (PlayerManager.LocalPlayerScript == null) return false; 
+			if (PlayerManager.LocalPlayerScript == null) return false;
 			//triggeredBy check should only be null when you want a global protip incase of something like an event
 			if (triggeredBy != null && triggeredBy != PlayerManager.LocalPlayerScript.gameObject) return false;
 			if (isOnCooldown) return false;
@@ -46,7 +46,7 @@ namespace Learning
 		public void TriggerTip(GameObject triggeredBy = null)
 		{
 			if(TriggerConditions(triggeredBy) == false) return;
-			ProtipManager.Instance.ShowTip(TipSO.TipData.Tip, TipSO.TipData.ShowDuration, TipSO.TipData.TipIcon, TipSO.TipData.ShowAnimation);
+			ProtipManager.Instance.QueueTip(TipSO.TipData.Tip, TipSO.TipData.ShowDuration, TipSO.TipData.TipIcon, TipSO.TipData.ShowAnimation);
 			if (triggerOnce)
 			{
 				PlayerPrefs.SetString($"{gameObject.GetComponent<PrefabTracker>().ForeverID}/{saveID.ToString()}", "true");
@@ -60,12 +60,12 @@ namespace Learning
 		public void TriggerTip(ProtipSO protipSo, GameObject triggeredBy = null)
 		{
 			if(TriggerConditions(triggeredBy) == false) return;
-			if(protipSo == null) 
+			if(protipSo == null)
 			{
 				Logger.LogError("Passed ProtipSO is null. Cannot trigger tip.");
 				return;
 			}
-			ProtipManager.Instance.ShowTip(protipSo.TipData.Tip, protipSo.TipData.ShowDuration, protipSo.TipData.TipIcon, protipSo.TipData.ShowAnimation);
+			ProtipManager.Instance.QueueTip(protipSo.TipData.Tip, protipSo.TipData.ShowDuration, protipSo.TipData.TipIcon, protipSo.TipData.ShowAnimation);
 			if (triggerOnce)
 			{
 				PlayerPrefs.SetString($"{gameObject.GetComponent<PrefabTracker>().ForeverID}/{saveID.ToString()}", "true");
