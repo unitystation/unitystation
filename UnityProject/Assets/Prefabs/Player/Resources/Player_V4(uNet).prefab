@@ -531,6 +531,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  mind: {fileID: 0}
   playerTypeSettings: {fileID: 11400000, guid: f1ddb9807767eb342a542c93328653f0, type: 2}
   playerName: ' '
   visibleName: ' '
@@ -1005,7 +1006,6 @@ MonoBehaviour:
   syncInterval: 0.1
   BodyType: 0
   RTT: 0
-  maxHealth: 100
   brain: {fileID: 0}
   BodyPartList: []
   SurfaceBodyParts: []
@@ -1068,6 +1068,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c3c30039428d04945891a05a5b24d90b, type: 2}
   - {fileID: 11400000, guid: d6d894f88c77aa54e814bcd831ff6eab, type: 2}
   - {fileID: 11400000, guid: 132f2cd5d79066e46af78ea80a196713, type: 2}
+  - {fileID: 11400000, guid: c08bfc7b09a88c34d9be46b34e311204, type: 2}
   bloodType: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
   BloodPool:
     temperature: 0
@@ -1091,6 +1092,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canBreathAnywhere: 0
+  takeLowPressureDamage: 1
+  takeHighPressureDamage: 1
   tickRate: 1
 --- !u!114 &-5098788322438649402
 MonoBehaviour:
@@ -8238,7 +8241,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: -4549444404219585148, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
