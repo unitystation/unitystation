@@ -5,7 +5,7 @@ public static class WaitFor
 {
 	public static readonly WaitForEndOfFrame EndOfFrame = new WaitForEndOfFrame();
 	public static readonly WaitForFixedUpdate FixedUpdate = new WaitForFixedUpdate();
-	
+
 	private static Dictionary<float, WaitForSeconds> cachedWaitForSeconds = new Dictionary<float, WaitForSeconds>();
 	private static Dictionary<float, WaitForSecondsRealtime> cachedWaitForSecondsRealtime = new Dictionary<float, WaitForSecondsRealtime>();
 
@@ -17,6 +17,11 @@ public static class WaitFor
 	private static void RoundStarted()
 	{
 		Clear();
+	}
+
+	public static WaitForSeconds Minutes(float Minutes)
+	{
+		return Seconds(Minutes * 60);
 	}
 
 	public static WaitForSeconds Seconds(float seconds){

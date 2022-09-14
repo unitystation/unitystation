@@ -29,6 +29,9 @@ namespace HealthV2
 		[HorizontalLine] [Tooltip("Things (eg other organs) held within this")]
 		public ItemStorage OrganStorage = null;
 
+
+		public CommonComponents CommonComponents;
+
 		//Organs on the same body part
 		[NonSerialized] public List<BodyPartFunctionality> OrganList = new List<BodyPartFunctionality>();
 
@@ -149,6 +152,7 @@ namespace HealthV2
 
 		void Awake()
 		{
+			CommonComponents = GetComponent<CommonComponents>();
 			ItemAttributes = GetComponent<ItemAttributesV2>();
 			OrganStorage = GetComponent<ItemStorage>();
 			OrganStorage.ServerInventoryItemSlotSet += BodyPartTransfer;

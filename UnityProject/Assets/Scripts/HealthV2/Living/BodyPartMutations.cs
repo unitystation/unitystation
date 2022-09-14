@@ -12,13 +12,22 @@ public class BodyPartMutations : BodyPartFunctionality
 
 	public List<MutationSO> CapableMutations = new List<MutationSO>();
 	public List<Mutation> ActiveMutations = new List<Mutation>();
+
+
+
+
 	public int Stability = 0;
 
+
 	[NaughtyAttributes.Button()]
-	public void AddMutation()
+	public void AddFirstMutation()
 	{
 		var  Mutation = CapableMutations[0];
+		AddMutation(Mutation);
+	}
 
+	public void AddMutation(MutationSO Mutation)
+	{
 		if (MutationVariants.ContainsKey(Mutation) == false)
 		{
 			MutationVariants[Mutation] = new NumberAndRoundID()
@@ -38,12 +47,15 @@ public class BodyPartMutations : BodyPartFunctionality
 		}
 
 
-		var ActiveMutation = Mutation.GetMutation(bodyPart);
+		var ActiveMutation = Mutation.GetMutation(bodyPart,Mutation);
 		ActiveMutation.Stability = MutationVariants[Mutation].Stability;
 
 
 		ActiveMutations.Add(ActiveMutation);
 		ActiveMutation.SetUp();
+		CalculateStability();
+
+		bodyPart.HealthMaster.OrNull()?.BodyPartsChangeMutation();
 	}
 
 	public void RemoveMutation()
@@ -51,7 +63,44 @@ public class BodyPartMutations : BodyPartFunctionality
 		Mutation Mutation = ActiveMutations[0];
 		ActiveMutations.Remove(Mutation);
 		Mutation.Remove();
+		CalculateStability();
+		bodyPart.HealthMaster.OrNull()?.BodyPartsChangeMutation();
 	}
+
+	public List<MutationAndBodyPart> GetAvailableNegativeMutations(List<MutationAndBodyPart> AvailableMutations)
+	{
+		foreach (var Mutation in CapableMutations)
+		{
+			if (Mutation.Stability > 0)
+			{
+				bool AlreadyActive = false;
+				foreach (var ActiveMutation in ActiveMutations)
+				{
+					if (ActiveMutation.RelatedMutationSO == Mutation)
+					{
+						AlreadyActive = true;
+						break;
+					}
+				}
+
+				if (AlreadyActive == false)
+				{
+					AvailableMutations.Add(new MutationAndBodyPart(){BodyPartMutations = this, MutationSO = Mutation});
+				}
+			}
+		}
+
+		return AvailableMutations;
+	}
+
+	public struct MutationAndBodyPart
+	{
+		public MutationSO MutationSO;
+		public BodyPartMutations BodyPartMutations;
+
+	}
+
+
 
 	public void CalculateStability()
 	{

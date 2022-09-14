@@ -7,15 +7,14 @@ using UnityEngine;
 public class BigStomachMutation : MutationSO
 {
 
-	public override Mutation GetMutation(BodyPart BodyPart)
+	public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
 	{
-		return new InBigStomachMutation(BodyPart);
+		return new InBigStomachMutation(BodyPart,_RelatedMutationSO);
 	}
-
 
 	public class InBigStomachMutation : Mutation
 	{
-		public InBigStomachMutation(BodyPart BodyPart) : base(BodyPart)
+		public InBigStomachMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
 		{
 
 		}

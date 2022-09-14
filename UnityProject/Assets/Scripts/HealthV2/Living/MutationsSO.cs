@@ -7,9 +7,9 @@ using UnityEngine;
 public class MutationSO : ScriptableObject
 {
 	public int Stability = 0;
-	public virtual Mutation GetMutation(BodyPart BodyPart)
+	public virtual Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
 	{
-		return new Mutation(BodyPart);
+		return new Mutation(BodyPart,_RelatedMutationSO);
 	}
 }
 
@@ -17,13 +17,16 @@ public class MutationSO : ScriptableObject
 
 public class Mutation
 {
+	public MutationSO RelatedMutationSO;
+
 	public int Stability = 0;
 
 	public BodyPart BodyPart;
 
-	public Mutation(BodyPart _BodyPart)
+	public Mutation(BodyPart _BodyPart,MutationSO _RelatedMutationSO)
 	{
 		BodyPart = _BodyPart;
+		RelatedMutationSO = _RelatedMutationSO;
 	}
 
 	public virtual void SetUp()

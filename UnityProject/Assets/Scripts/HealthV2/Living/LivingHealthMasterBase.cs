@@ -19,6 +19,7 @@ using Newtonsoft.Json;
 using ScriptableObjects.RP;
 using Systems.Score;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace HealthV2
 {
@@ -339,6 +340,7 @@ namespace HealthV2
 		{
 			CirculatorySystem.OrNull()?.BodyPartListChange();
 			SurfaceBodyPartChanges();
+			BodyPartsChangeMutation();
 		}
 
 		public void SurfaceBodyPartChanges()
@@ -513,6 +515,68 @@ namespace HealthV2
 			mobSickness.TriggerCustomSicknessLogic();
 
 			CalculateOverallHealth();
+		}
+
+
+
+		public int Stability = 0;
+		public int NegativeMutationMinimumTimeMinutes = 5;
+		public int NegativeMutationMaximumTimeMinutes = 15;
+		private Coroutine routine;
+
+
+		public void BodyPartsChangeMutation()
+		{
+			Stability = 0;
+			foreach (var BP in BodyPartList)
+			{
+				var Mutation = BP.CommonComponents.SafeGetComponent<BodyPartMutations>();
+				if (Mutation != null)
+				{
+					Stability += Mutation.Stability;
+				}
+			}
+
+			if (routine == null)
+			{
+				if (Stability < 0)
+				{
+					routine = StartCoroutine(ApplyNegativeMutation());
+				}
+			}
+		}
+
+
+		private IEnumerator ApplyNegativeMutation()
+		{
+			List<BodyPartMutations.MutationAndBodyPart> AvailableMutations =  new
+				 List<BodyPartMutations.MutationAndBodyPart>();
+			while (Stability < 0)
+			{
+				yield return WaitFor.Minutes(Random.Range(NegativeMutationMinimumTimeMinutes, NegativeMutationMaximumTimeMinutes));
+				AvailableMutations.Clear();
+
+				foreach (var BP in BodyPartList)
+				{
+					var Mutation = BP.CommonComponents.SafeGetComponent<BodyPartMutations>();
+					if (Mutation != null)
+					{
+						Mutation.GetAvailableNegativeMutations(AvailableMutations);
+					}
+				}
+
+				if (AvailableMutations.Count == 0)
+				{
+					routine = null;
+					yield break;
+				}
+
+				var MutationToApply =  AvailableMutations.PickRandom();
+
+				MutationToApply.BodyPartMutations.AddMutation(MutationToApply.MutationSO);
+			}
+
+			routine = null;
 		}
 
 		/// <summary>
