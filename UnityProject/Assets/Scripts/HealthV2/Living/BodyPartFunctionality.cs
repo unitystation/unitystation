@@ -35,6 +35,7 @@ namespace HealthV2
 
 		public virtual void EmpResult(int strength)
 		{
+			//TODO With this implementation somewhere else generic
 			RelatedPart.TakeDamage(this.gameObject,(int)(5f * strength / (EMPResistance + 1)), AttackType.Internal, DamageType.Burn, false, false, 0, (int)(100/EMPResistance + 1), TraumaticDamageTypes.BURN);
 		}
 

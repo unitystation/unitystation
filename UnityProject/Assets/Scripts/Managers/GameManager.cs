@@ -118,6 +118,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	public DateTime stationTime;
 	public int RoundsPerMap { get; set; } = 10;
 
+	//Is dependent on number of results
+	public int RoundID;
+
 	/// <summary>
 	/// The chance of traitor AIs get the "Prevent all organic lifeforms from escpaing" objective.
 	/// </summary>
@@ -160,7 +163,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	[NonSerialized]
 	public bool DisconnectExpected = false;
-	
+
 	void IInitialise.Initialise()
 	{
 		// Set up server defaults, needs to be loaded here to ensure gameConfigManager is load.
@@ -574,6 +577,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		CurrentRoundState = RoundState.Ended;
 		EventManager.Broadcast(Event.RoundEnded, true);
 		counting = false;
+		RoundID++;
 
 		StartCoroutine(WaitForRoundRestart());
 		GameMode.EndRoundReport();
@@ -677,7 +681,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			Logger.LogError($"Occupation {spawnRequest.RequestedOccupation.JobType} is full. Cannot spawn player.");
 			return false;
 		}
-		
+
 		return PlayerSpawn.ServerSpawnPlayer(spawnRequest) != null;
 	}
 
