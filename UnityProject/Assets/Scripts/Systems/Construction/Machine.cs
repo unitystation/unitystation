@@ -235,7 +235,7 @@ namespace Objects.Machines
 
 			foreach (var refresh in toRefresh)
 			{
-				refresh.RefreshParts(ObjectpartsInFrame);
+				refresh.RefreshParts(ObjectpartsInFrame, this);
 			}
 		}
 
@@ -280,7 +280,7 @@ namespace Objects.Machines
 
 			foreach (var refresh in toRefresh)
 			{
-				refresh.RefreshParts(ObjectpartsInFrame);
+				refresh.RefreshParts(ObjectpartsInFrame, this);
 			}
 		}
 
@@ -336,7 +336,7 @@ namespace Objects.Machines
 
 	public interface IRefreshParts
 	{
-		void RefreshParts(IDictionary<PartReference, int> partsInFrame);
+		void RefreshParts(IDictionary<PartReference, int> partsInFrame, Machine Frame);
 	}
 
 

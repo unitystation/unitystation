@@ -84,7 +84,7 @@ namespace Objects.Kitchen
 		}
 
 		// Get the machine stock parts used in this instance and get the tier of each part.
-		public void RefreshParts(IDictionary<PartReference, int> partsInFrame)
+		public void RefreshParts(IDictionary<PartReference, int> partsInFrame, Machine Frame)
 		{
 			// Collection is unorganized so run through the whole list.
 			foreach (var part in partsInFrame)

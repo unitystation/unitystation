@@ -57,6 +57,8 @@ namespace Objects
 
 		protected void HurtFeet(LivingHealthMasterBase health)
 		{
+			if (health.OrNull()?.playerScript.OrNull()?.DynamicItemStorage == null) return;
+
 			if (ignoresFootwear == false)
 			{
 				foreach (var slot in health.playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.feet))

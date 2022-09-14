@@ -756,7 +756,6 @@ namespace Systems.Antagonists
 			//Force player into ghost
 			PlayerSpawn.ServerGhost(playerScript.mind);
 
-			playerScript.mind.body = null;
 		}
 
 		private void OnQueenDeath()

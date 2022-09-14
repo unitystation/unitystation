@@ -461,7 +461,6 @@ public static class PlayerSpawn
 		existingMind.IsGhosting = true;
 		existingMind.CurrentCharacterSettings = characterSettings;
 		playerInfo.SetMind(existingMind);
-		ghosty.mind = existingMind;
 		return ghosty;
 	}
 
@@ -561,8 +560,6 @@ public static class PlayerSpawn
 
 		//transfer the mind to the new body
 		mind.SetNewBody(newPlayerScript);
-
-		oldBody.GetComponent<PlayerScript>().mind = null;
 	}
 
 	/// <summary>

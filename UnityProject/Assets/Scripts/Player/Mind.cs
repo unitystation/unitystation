@@ -27,8 +27,8 @@ public class Mind : MonoBehaviour
 
 
 
-	public PlayerScript ghost;
-	public PlayerScript body;
+	public PlayerScript ghost { private set; get; }
+	public PlayerScript body { private set; get; }
 	private SpawnedAntag antag;
 	public bool IsAntag => antag != null;
 	public bool IsGhosting;
@@ -94,7 +94,7 @@ public class Mind : MonoBehaviour
 	{
 		Spells.Clear();
 		ClearOldBody();
-		playerScript.mind = this;
+		playerScript.SetMind(this);
 		body = playerScript;
 		if(antag != null) SetAntag(antag);
 
@@ -125,7 +125,7 @@ public class Mind : MonoBehaviour
 		if (body)
 		{
 			ClearActionsMessage.SendTo(body.gameObject);
-			body.mind = null;
+			//body.mind = null;
 		}
 	}
 
@@ -178,13 +178,23 @@ public class Mind : MonoBehaviour
 	public void SetGhost(PlayerScript newGhost)
 	{
 		ghost = newGhost;
+		newGhost.SetMind(this);
 	}
+
+	public void SetBody(PlayerScript newBody)
+	{
+		body = newBody;
+		newBody.SetMind(this);
+	}
+
+
+
 
 	public void Ghosting(GameObject newGhost)
 	{
 		IsGhosting = true;
 		var PS = newGhost.GetComponent<PlayerScript>();
-		PS.mind = this;
+		PS.SetMind(this);
 		ghost = PS;
 	}
 
