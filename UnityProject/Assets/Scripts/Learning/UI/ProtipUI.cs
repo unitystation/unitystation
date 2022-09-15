@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -60,6 +59,7 @@ namespace Learning
 			isShown = false;
 			LeanTween.scale(gameObject, Vector3.zero, 0.7f).setEase(LeanTweenType.easeInBounce);
 			yield return WaitFor.Seconds(1.5f);
+			ProtipManager.Instance.IsShowingTip = false;
 			gameObject.SetActive(false);
 		}
 

@@ -16,11 +16,9 @@ namespace Learning.ProtipObjectTypes
 			gameObject.PickupableOrNull().OnMoveToPlayerInventory -= Trigger;
 		}
 
-		private void Trigger()
+		private void Trigger(GameObject picker)
 		{
-			var pickup = gameObject.PickupableOrNull();
-			if (pickup == null || pickup.ItemSlot == null || pickup.ItemSlot.Player?.PlayerScript.gameObject == null) return;
-			TriggerTip(pickup.ItemSlot.Player?.PlayerScript.gameObject);
+			TriggerTip(picker);
 		}
 	}
 }

@@ -64,6 +64,9 @@ public class RaceHealthData
 
 	[Tooltip("The text that indicates that it's a clue of what species did an interaction for the detectives scanner")]
 	public string ClueString;
+
+	public GameObject MeatProduce;
+	public GameObject SkinProduce;
 }
 
 
