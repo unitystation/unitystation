@@ -82,7 +82,7 @@ namespace UI.Systems.EndRound
 		{
 			scoreSummary.text = finalResult;
 			scoreResult.text = finalScore;
-			ratingResult.text = finalScore;
+			ratingResult.text = finalRating;
 			this.SetActive(true);
 		}
 
