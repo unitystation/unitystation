@@ -17,9 +17,12 @@ namespace Messages.Client.DevSpawner
 			// position to spawn at.
 			public Vector2 WorldPosition;
 
+			//If a stackable item how many Should be in the stack
+			public int SpawnStackAmount;
+
 			public override string ToString()
 			{
-				return $"[DevSpawnMessage PrefabAssetID={PrefabAssetID} WorldPosition={WorldPosition}]";
+				return $"[DevSpawnMessage PrefabAssetID={PrefabAssetID} WorldPosition={WorldPosition} Amount={SpawnStackAmount}]";
 			}
 		}
 
@@ -35,7 +38,11 @@ namespace Messages.Client.DevSpawner
 			//no longer checks impassability, spawn anywhere, go hog wild.
 			if (NetworkClient.prefabs.TryGetValue(msg.PrefabAssetID, out var prefab))
 			{
-				Spawn.ServerPrefab(prefab, msg.WorldPosition);
+				var game = Spawn.ServerPrefab(prefab, msg.WorldPosition).GameObject;
+				if (game.TryGetComponent<Stackable>(out var Stackable) && msg.SpawnStackAmount != -1)
+				{
+					Stackable.ServerSetAmount(msg.SpawnStackAmount);
+				}
 				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
 					$"{SentByPlayer.Username} spawned a {prefab.name} at {msg.WorldPosition}", SentByPlayer.UserId);
 			}
@@ -55,7 +62,7 @@ namespace Messages.Client.DevSpawner
 		/// <param name="adminId">user id of the admin trying to perform this action</param>
 		/// <param name="adminToken">token of the admin trying to perform this action</param>
 		/// <returns></returns>
-		public static void Send(GameObject prefab, Vector2 worldPosition)
+		public static void Send(GameObject prefab, Vector2 worldPosition, int InSpawnStackAmount)
 		{
 			if (prefab.TryGetComponent<NetworkIdentity>(out var networkIdentity))
 			{
@@ -63,6 +70,7 @@ namespace Messages.Client.DevSpawner
 				{
 					PrefabAssetID = networkIdentity.assetId,
 					WorldPosition = worldPosition,
+					SpawnStackAmount = InSpawnStackAmount
 				};
 				Send(msg);
 			}

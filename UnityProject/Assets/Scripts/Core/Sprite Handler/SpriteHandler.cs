@@ -584,7 +584,7 @@ public class SpriteHandler : MonoBehaviour
 	{
 		if (Application.isPlaying)
 		{
-			ParentUniversalObjectPhysics = this.transform.parent.GetComponent<UniversalObjectPhysics>();
+			ParentUniversalObjectPhysics = this.transform.parent.OrNull()?.GetComponent<UniversalObjectPhysics>();
 			spriteRenderer = GetComponent<SpriteRenderer>();
 			image = GetComponent<Image>();
 			if (image != null)

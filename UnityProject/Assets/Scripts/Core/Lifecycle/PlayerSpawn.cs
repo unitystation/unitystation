@@ -199,7 +199,7 @@ public static class PlayerSpawn
 		var oldBody = forMind.GetCurrentMob();
 		var occupation = forMind.occupation;
 		var connection = oldBody.GetComponent<NetworkIdentity>().connectionToClient;
-		var settings = oldBody.GetComponent<PlayerScript>().characterSettings;
+		var settings = forMind.CurrentCharacterSettings;
 
 		return ServerSpawnInternal(connection, occupation, settings, forMind, worldPosition, false, showBanner: false);
 	}
