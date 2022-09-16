@@ -155,7 +155,7 @@ public static class SweetExtensions
 	/// Creates garbage! Use very sparsely!
 	public static RegisterTile RegisterTile(this GameObject go)
 	{
-		return go.GetComponent<RegisterTile>();
+		return go.OrNull()?.GetComponent<RegisterTile>();
 	}
 
 	/// Wraps provided index value if it's more than array length or is negative

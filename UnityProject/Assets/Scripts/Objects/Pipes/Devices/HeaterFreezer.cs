@@ -139,7 +139,7 @@ namespace Objects.Atmospherics
 
 		#region Machine Parts
 
-		public void RefreshParts(IDictionary<PartReference, int> partsInFrame)
+		public void RefreshParts(IDictionary<PartReference, int> partsInFrame, Machine Frame )
 		{
 			var rating = 0;
 

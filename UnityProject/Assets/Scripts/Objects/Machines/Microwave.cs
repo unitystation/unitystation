@@ -402,7 +402,7 @@ namespace Objects.Kitchen
 
 		#region IRefreshParts
 
-		public void RefreshParts(IDictionary<PartReference, int> partsInFrame)
+		public void RefreshParts(IDictionary<PartReference, int> partsInFrame, Machine Frame)
 		{
 			// Get the machine stock parts used in this instance and get the tier of each part.
 			// Collection is unorganized so run through the whole list.

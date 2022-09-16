@@ -107,9 +107,9 @@ namespace Objects.Medical
 			}
 		}
 
-		public void RefreshParts(IDictionary<PartReference, int> partsInFrame)
+		public void RefreshParts(IDictionary<PartReference, int> partsInFrame, Machine Frame)
 		{
-			var Multiplier = Machine.GetCertainPartMultiplier(UpgradePart);
+			var Multiplier = Frame.GetCertainPartMultiplier(UpgradePart);
 			var DamageMultiplier = 1f / Multiplier;
 			if (DamageMultiplier == 0.25f)
 			{
