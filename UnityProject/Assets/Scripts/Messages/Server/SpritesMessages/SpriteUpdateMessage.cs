@@ -40,7 +40,7 @@ namespace Messages.Server.SpritesMessages
 
 		private bool ProcessEntry(SpriteUpdateEntry spriteUpdateEntry)
 		{
-			var spawned = CustomNetworkManager.spawned;
+			var spawned = CustomNetworkManager.Spawned;
 			if (spawned.TryGetValue(spriteUpdateEntry.id, out var networkIdentity) == false) return false;
 			if (networkIdentity == null) return false;
 

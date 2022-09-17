@@ -95,7 +95,7 @@ public static class SweetExtensions
 
 	public static GameObject NetIdToGameObject(this uint NetID)
 	{
-		if ( NetID != global::NetId.Invalid && NetID != global::NetId.Empty && CustomNetworkManager.spawned.TryGetValue(NetID, out var Object  ))
+		if ( NetID != global::NetId.Invalid && NetID != global::NetId.Empty && CustomNetworkManager.Spawned.TryGetValue(NetID, out var Object  ))
 		{
 			return Object.gameObject;
 		}
