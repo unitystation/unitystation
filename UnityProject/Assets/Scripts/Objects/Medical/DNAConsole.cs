@@ -55,14 +55,33 @@ public class DNAConsole : MonoBehaviour
 					}
 					break;
 			}
-
-
-
 		}
-
-
-
-
 	}
+
+
+	//humm
+	//
+
+
+	/*
+	 ok, Species changing equals unlocks a puzzle,
+	 target body part , mutate into x Body part in Species
+
+	 For adding or removing requires unlock from upgrades, then it is just
+	 Target X body part , tell it to make new body part and that becomes new organ
+	 or Target X body part to Tell it Remove itself
+
+
+	Customisation editing
+
+	Target body part, change XY
+
+
+	Mutation modification
+	Target body part, change XY After unlocking it
+
+
+
+	*/
 
 }

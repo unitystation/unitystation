@@ -5,16 +5,10 @@ using UnityEngine;
 
 public class BodyPartMutations : BodyPartFunctionality
 {
-
 	public static Dictionary<MutationSO, NumberAndRoundID> MutationVariants = new Dictionary<MutationSO, NumberAndRoundID>();
-
-
 
 	public List<MutationSO> CapableMutations = new List<MutationSO>();
 	public List<Mutation> ActiveMutations = new List<Mutation>();
-
-
-
 
 	public int Stability = 0;
 
@@ -112,6 +106,21 @@ public class BodyPartMutations : BodyPartFunctionality
 
 		Stability = InStability;
 	}
+
+
+	public void ChangeToSpecies(PlayerHealthData PlayerHealthData, GameObject BodyPart)
+	{
+
+		//To do wait some time
+		//Work out how On  earth to do messages? It would be assumed that one body part at a time would be changing/ ok, just add text for that then don't have to worry about stacking
+		//wait indeterminate amount of time again
+		//spawn in body part
+		//Transfer sub body parts of this into New body part
+		//Remove this
+		//transfer new body part into body
+	}
+
+	//ok Let's add in species change stuff here to
 
 
 	public class NumberAndRoundID
