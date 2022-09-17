@@ -17,7 +17,14 @@ namespace Systems.Spells.Wizard
 
 		// We sync the teleporting player so we can play animations locally.
 		[SyncVar(hook = nameof(SyncPlayer))]
-		private GameObject teleportingPlayer;
+		private uint IDteleportingPlayer;
+
+		private GameObject teleportingPlayer
+		{
+			get => IDteleportingPlayer.NetIdToGameObject();
+			set => SyncPlayer(IDteleportingPlayer, value.NetId());
+		}
+
 
 		private Transform playerSprite;
 
@@ -55,9 +62,9 @@ namespace Systems.Spells.Wizard
 			IsBusy = false;
 		}
 
-		private void SyncPlayer(GameObject oldPlayer, GameObject newPlayer)
+		private void SyncPlayer(uint oldPlayer, uint newPlayer)
 		{
-			teleportingPlayer = newPlayer;
+			IDteleportingPlayer = newPlayer;
 			playerSprite = teleportingPlayer.transform.Find("Sprites");
 
 			if (playerSprite == null)

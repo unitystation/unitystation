@@ -16,7 +16,13 @@ namespace Items.Bureaucracy
 		private int paperCount;
 
 		[SyncVar (hook = nameof(SyncStoredPen))]
-		private GameObject storedPen;
+		private uint storedPenID;
+
+		private GameObject storedPen
+		{
+			get => storedPenID.NetIdToGameObject();
+			set => SyncStoredPen(storedPenID, value.NetId());
+		}
 
 		private ItemStorage itemStorage;
 		private ItemSlot penSlot;
@@ -36,10 +42,10 @@ namespace Items.Bureaucracy
 			UpdateSpriteState();
 		}
 
-		private void SyncStoredPen(GameObject oldPen, GameObject pen)
+		private void SyncStoredPen(uint oldPen, uint pen)
 		{
+			storedPenID = pen;
 			EnsureInit();
-			storedPen = pen;
 			UpdateSpriteState();
 		}
 
@@ -61,8 +67,9 @@ namespace Items.Bureaucracy
 			binRenderer = renderers[0];
 			penRenderer = renderers[1];
 
+			SyncStoredPen(storedPenID, storedPenID);
 			SyncPaperCount(paperCount, paperCount);
-			SyncStoredPen(storedPen, storedPen);
+
 		}
 
 		private void Awake()
@@ -172,7 +179,8 @@ namespace Items.Bureaucracy
 				{
 					Chat.AddExamineMsgFromServer(interaction.Performer, "You take the pen out of the paper bin.");
 					Inventory.ServerTransfer(penSlot, interaction.HandSlot);
-					SyncStoredPen(storedPen, null);
+					storedPen = null;
+					SyncStoredPen(storedPenID, storedPenID);
 					return;
 				}
 
@@ -211,7 +219,8 @@ namespace Items.Bureaucracy
 				// Player is adding a piece of paper or a pen
 				if (handObj.GetComponent<Pen>())
 				{
-					SyncStoredPen(storedPen, handObj);
+					storedPen = handObj;
+					SyncStoredPen(storedPenID, storedPenID);
 					Chat.AddExamineMsgFromServer(interaction.Performer, "You put the pen in the paper bin.");
 					Inventory.ServerTransfer(interaction.HandSlot, penSlot);
 					return;

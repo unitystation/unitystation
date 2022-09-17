@@ -45,6 +45,9 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	/// </summary>
 	[NonSerialized] public UnityEvent OnClientDisconnected = new UnityEvent();
 
+	public static Dictionary<uint, NetworkIdentity> spawned => IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+
+
 	public override void Awake()
 	{
 		if (IndexLookupSpawnablePrefabs.Count == 0)
