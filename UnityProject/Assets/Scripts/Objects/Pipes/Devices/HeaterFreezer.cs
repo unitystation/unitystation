@@ -68,6 +68,12 @@ namespace Objects.Atmospherics
 			apcPoweredDevice.OnStateChangeEvent.RemoveListener(PowerStateChange);
 		}
 
+		private void OnDestroy()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Loop);
+			apcPoweredDevice.OnStateChangeEvent.RemoveListener(PowerStateChange);
+		}
+
 		public override void TickUpdate()
 		{
 			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
