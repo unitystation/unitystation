@@ -15,7 +15,7 @@ namespace Player
 
 		private GameObject target
 		{
-			get => IDtarget.gameObject;
+			get => IDtarget.OrNull()?.gameObject;
 			set => SyncOrbitObject(IDtarget, value.NetWorkIdentity());
 		}
 

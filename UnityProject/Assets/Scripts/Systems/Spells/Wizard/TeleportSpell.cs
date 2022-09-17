@@ -21,7 +21,7 @@ namespace Systems.Spells.Wizard
 
 		private GameObject teleportingPlayer
 		{
-			get => IDteleportingPlayer.gameObject;
+			get => IDteleportingPlayer.OrNull()?.gameObject;
 			set => SyncPlayer(IDteleportingPlayer, value.NetWorkIdentity());
 		}
 
