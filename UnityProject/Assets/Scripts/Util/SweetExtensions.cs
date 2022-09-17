@@ -93,27 +93,53 @@ public static class SweetExtensions
 		return list?.Count > 0 ? list.PickRandom() : default(T);
 	}
 
-	public static uint NetId(this GameObject go)
+	public static GameObject NetIdToGameObject(this uint NetID)
+	{
+		if ( NetID != global::NetId.Invalid && NetID != global::NetId.Empty && CustomNetworkManager.Spawned.TryGetValue(NetID, out var Object  ))
+		{
+			return Object.gameObject;
+		}
+		else
+		{
+			return null;
+		}
+
+	}
+
+	public static NetworkIdentity NetWorkIdentity(this GameObject go)
 	{
 		if (go)
 		{
 			go.TryGetComponent<Matrix>(out var matrix);
 			if (matrix)
 			{
-				return matrix.NetworkedMatrix.MatrixSync.netId;
+				return matrix.NetworkedMatrix.MatrixSync.netIdentity;
 			}
 			else
 			{
 				matrix = go.GetComponentInChildren<Matrix>();
 				if (matrix != null)
 				{
-					return matrix.NetworkedMatrix.MatrixSync.netId;
+					return matrix.NetworkedMatrix.MatrixSync.netIdentity;
 				}
 				else
 				{
-					return go.GetComponent<NetworkIdentity>().netId;
+					return go.GetComponent<NetworkIdentity>();
 				}
 			}
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	public static uint NetId(this GameObject go)
+	{
+		var net = NetWorkIdentity(go);
+		if (go)
+		{
+			return net.netId;
 		}
 		else
 		{

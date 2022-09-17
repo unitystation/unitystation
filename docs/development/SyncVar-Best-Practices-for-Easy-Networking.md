@@ -3,7 +3,27 @@ The [SyncVar attribute](https://mirror-networking.com/docs/Guides/Sync/SyncVars.
 # Proper SyncVar Usage
 These are things you should almost ALWAYS do if using syncvar. If you see places in the code where these rules are violated, be suspicious of bugs. Note that most of these tips only apply if you define a "hook" method.
 
-1. Add SyncVar to the field you want to sync. The field should ALWAYS be private, and it should NOT be editor assignable. NEVER allow the field to be directly modified by other components or in editor. If you want to configure an initial value for this field, create a separate editor field for it.
+
+1. ****** **Do not use Gameobject in SyncVars** ******, Due to our multithreaded implementation of mirror, 
+Mirror does a get component In one of the threads outside of the main unity thread causing unity, Throw an error in the network loop causing many unforeseen consequences
+Use something like this Instead.
+
+
+        :::csharp
+        public class ItemAttributes : NetworkBehavior
+        {
+           [SyncVar(hook = nameof(SyncOrbitObject))]
+           private NetworkIdentity IDtarget;
+   
+           private GameObject target //ues target as your main reference
+           {
+               get => IDtarget.gameObject;
+               set => SyncOrbitObject(IDtarget, value.NetWorkIdentity());
+           }
+        }
+
+
+2. Add SyncVar to the field you want to sync. The field should ALWAYS be private, and it should NOT be editor assignable. NEVER allow the field to be directly modified by other components or in editor. If you want to configure an initial value for this field, create a separate editor field for it.
 
         :::csharp
         public class ItemAttributes : NetworkBehavior
@@ -43,7 +63,7 @@ These are things you should almost ALWAYS do if using syncvar. If you see places
             }
         }
 
-2. (Only if you have a hook method) Define a private hook method named "Sync(name of field)". The line of the hook after EnsureInit should update the field based on the new value. Do NOT make a protected or public hook method. Starting the method name with Sync is important because it makes it easier for others to know that this method is exclusively for changing this syncvar.
+4. (Only if you have a hook method) Define a private hook method named "Sync(name of field)". The line of the hook after EnsureInit should update the field based on the new value. Do NOT make a protected or public hook method. Starting the method name with Sync is important because it makes it easier for others to know that this method is exclusively for changing this syncvar.
 
         :::csharp
         private void SyncItemName(string oldName, string newName)
@@ -56,7 +76,7 @@ These are things you should almost ALWAYS do if using syncvar. If you see places
     * You generally will need a hook unless the client doesn't need to invoke any special logic when the value changes.
     * Note that Mirror actually does set the field automatically on the clientside when the hook is triggered by a server update, but if you called the hook directly on server side (instead of actually changing the field's value) it would not automatically change the value. This has created a lot of needless confusion and mistakes in the past because it is so situational, so sticking to the conventions documented on this page will avoid that confusion.
 
-3. (Only if you have a hook method) Override OnStartClient (make sure to use the "override" keyword!) and invoke the hook, passing it the current value of the field. If you are extending a component, make sure to call base.OnStartClient(). This ensures the SyncVar hook is called based on the initial value of the field that the server sends. Also call EnsureInit at the top to ensure any necessary init logic is called (Mirror may call OnStartClient before Awake/Start)
+5. (Only if you have a hook method) Override OnStartClient (make sure to use the "override" keyword!) and invoke the hook, passing it the current value of the field. If you are extending a component, make sure to call base.OnStartClient(). This ensures the SyncVar hook is called based on the initial value of the field that the server sends. Also call EnsureInit at the top to ensure any necessary init logic is called (Mirror may call OnStartClient before Awake/Start)
 
         :::csharp
         //make sure to use "override" and use correct name "OnStartClient"
@@ -67,7 +87,7 @@ These are things you should almost ALWAYS do if using syncvar. If you see places
             base.OnStartClient();
         }
         
-4. (Only if you have a hook method) Implement the IServerSpawn interface and set the syncvar field to the initial value in the method. This is a method which is invoked when an object is being spawned, regardless of if it's coming from the pool or not. This ensures that the object is properly re-initialized when it is being spawned from the object pool.
+6. (Only if you have a hook method) Implement the IServerSpawn interface and set the syncvar field to the initial value in the method. This is a method which is invoked when an object is being spawned, regardless of if it's coming from the pool or not. This ensures that the object is properly re-initialized when it is being spawned from the object pool.
 
         :::csharp
         public void OnSpawnServer()
@@ -79,7 +99,7 @@ These are things you should almost ALWAYS do if using syncvar. If you see places
             base.OnSpawnServer();
         }
         
-5. (Only if you have a hook method) The ONLY place you are allowed to change the value of the syncvar field is via the syncvar hook and only on the server! Never change the value on the client side, and never modify the field directly. If you are on the server and you want to change the field value, call the hook method and pass it the new value. This ensures that the hook logic will always be fired on both client and server side.
+7. (Only if you have a hook method) The ONLY place you are allowed to change the value of the syncvar field is via the syncvar hook and only on the server! Never change the value on the client side, and never modify the field directly. If you are on the server and you want to change the field value, call the hook method and pass it the new value. This ensures that the hook logic will always be fired on both client and server side.
 
         :::csharp
         [Server]
@@ -92,7 +112,7 @@ These are things you should almost ALWAYS do if using syncvar. If you see places
             SyncItemName(newName);
         }
         
-6. Do not rely on a consistent ordering when it comes to syncvar changes and net messages sent from the server. Due to network latency, if you change 2 syncvars and send a net message on the server, the updates could arrive on the client in any order.
+8. Do not rely on a consistent ordering when it comes to syncvar changes and net messages sent from the server. Due to network latency, if you change 2 syncvars and send a net message on the server, the updates could arrive on the client in any order.
 
 # Various Issues Caused by Improper SyncVar Usage
 Here's some symptoms of improper syncvar usage:
