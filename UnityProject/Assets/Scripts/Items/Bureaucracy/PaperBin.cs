@@ -20,7 +20,7 @@ namespace Items.Bureaucracy
 
 		private GameObject storedPen
 		{
-			get => _storedPenID.gameObject;
+			get => _storedPenID.OrNull()?.gameObject;
 			set => SyncStoredPen(_storedPenID, value.NetWorkIdentity());
 		}
 

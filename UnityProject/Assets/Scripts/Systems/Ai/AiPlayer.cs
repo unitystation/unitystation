@@ -35,7 +35,7 @@ namespace Systems.Ai
 
 		private GameObject vesselObject
 		{
-			get => IDvesselObject.gameObject;
+			get => IDvesselObject.OrNull()?.gameObject;
 			set => SyncCore(IDvesselObject, value.NetWorkIdentity());
 		}
 
