@@ -31,12 +31,12 @@ namespace Systems.Ai
 
 		[SyncVar(hook = nameof(SyncCore))]
 		//Ai core or card
-		private uint IDvesselObject;
+		private NetworkIdentity IDvesselObject;
 
 		private GameObject vesselObject
 		{
-			get => IDvesselObject.NetIdToGameObject();
-			set => SyncCore(IDvesselObject, value.NetId());
+			get => IDvesselObject.gameObject;
+			set => SyncCore(IDvesselObject, value.NetWorkIdentity());
 		}
 
 
@@ -274,7 +274,7 @@ namespace Systems.Ai
 		/// This is only sync'd to the client which owns this object, due to setting on script
 		/// </summary>
 		[Client]
-		private void SyncCore(uint oldCore, uint newCore)
+		private void SyncCore(NetworkIdentity oldCore, NetworkIdentity newCore)
 		{
 			IDvesselObject = newCore;
 			if(vesselObject == null) return;

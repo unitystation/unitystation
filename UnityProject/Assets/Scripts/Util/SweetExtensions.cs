@@ -106,27 +106,40 @@ public static class SweetExtensions
 
 	}
 
-	public static uint NetId(this GameObject go)
+	public static NetworkIdentity NetWorkIdentity(this GameObject go)
 	{
 		if (go)
 		{
 			go.TryGetComponent<Matrix>(out var matrix);
 			if (matrix)
 			{
-				return matrix.NetworkedMatrix.MatrixSync.netId;
+				return matrix.NetworkedMatrix.MatrixSync.netIdentity;
 			}
 			else
 			{
 				matrix = go.GetComponentInChildren<Matrix>();
 				if (matrix != null)
 				{
-					return matrix.NetworkedMatrix.MatrixSync.netId;
+					return matrix.NetworkedMatrix.MatrixSync.netIdentity;
 				}
 				else
 				{
-					return go.GetComponent<NetworkIdentity>().netId;
+					return go.GetComponent<NetworkIdentity>();
 				}
 			}
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	public static uint NetId(this GameObject go)
+	{
+		var net = NetWorkIdentity(go);
+		if (go)
+		{
+			return net.netId;
 		}
 		else
 		{

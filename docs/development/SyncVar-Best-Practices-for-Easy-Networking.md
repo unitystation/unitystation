@@ -13,12 +13,12 @@ Use something like this Instead.
         public class ItemAttributes : NetworkBehavior
         {
            [SyncVar(hook = nameof(SyncOrbitObject))]
-           private uint IDtarget;
+           private NetworkIdentity IDtarget;
    
            private GameObject target //ues target as your main reference
            {
-               get => IDtarget.NetIdToGameObject();
-               set => SyncOrbitObject(IDtarget, value.NetId());
+               get => IDtarget.gameObject;
+               set => SyncOrbitObject(IDtarget, value.NetWorkIdentity());
            }
         }
 

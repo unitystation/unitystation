@@ -16,12 +16,12 @@ namespace Items.Bureaucracy
 		private int paperCount;
 
 		[SyncVar (hook = nameof(SyncStoredPen))]
-		private uint storedPenID;
+		private NetworkIdentity _storedPenID;
 
 		private GameObject storedPen
 		{
-			get => storedPenID.NetIdToGameObject();
-			set => SyncStoredPen(storedPenID, value.NetId());
+			get => _storedPenID.gameObject;
+			set => SyncStoredPen(_storedPenID, value.NetWorkIdentity());
 		}
 
 		private ItemStorage itemStorage;
@@ -42,9 +42,9 @@ namespace Items.Bureaucracy
 			UpdateSpriteState();
 		}
 
-		private void SyncStoredPen(uint oldPen, uint pen)
+		private void SyncStoredPen(NetworkIdentity oldPen, NetworkIdentity pen)
 		{
-			storedPenID = pen;
+			_storedPenID = pen;
 			EnsureInit();
 			UpdateSpriteState();
 		}
@@ -67,7 +67,7 @@ namespace Items.Bureaucracy
 			binRenderer = renderers[0];
 			penRenderer = renderers[1];
 
-			SyncStoredPen(storedPenID, storedPenID);
+			SyncStoredPen(_storedPenID, _storedPenID);
 			SyncPaperCount(paperCount, paperCount);
 
 		}
@@ -180,7 +180,7 @@ namespace Items.Bureaucracy
 					Chat.AddExamineMsgFromServer(interaction.Performer, "You take the pen out of the paper bin.");
 					Inventory.ServerTransfer(penSlot, interaction.HandSlot);
 					storedPen = null;
-					SyncStoredPen(storedPenID, storedPenID);
+					SyncStoredPen(_storedPenID, _storedPenID);
 					return;
 				}
 
@@ -220,7 +220,7 @@ namespace Items.Bureaucracy
 				if (handObj.GetComponent<Pen>())
 				{
 					storedPen = handObj;
-					SyncStoredPen(storedPenID, storedPenID);
+					SyncStoredPen(_storedPenID, _storedPenID);
 					Chat.AddExamineMsgFromServer(interaction.Performer, "You put the pen in the paper bin.");
 					Inventory.ServerTransfer(interaction.HandSlot, penSlot);
 					return;
