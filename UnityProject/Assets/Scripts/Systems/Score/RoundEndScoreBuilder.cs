@@ -41,9 +41,15 @@ namespace Systems.Score
 				ScoreMachine.AddToScoreBool(MatrixManager.MainStationMatrix.Matrix.PresentPlayers.Any(crew =>
 					crew.PlayerScript.mind.occupation == captainOccupation), "captainWithHisShip");
 			}
-			//How many dead crew are there?
-			ScoreMachine.AddNewScoreEntry("deadCrew", "Dead Crew", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Bad);
-			ScoreMachine.AddToScoreInt(-PlayerList.Instance.AllPlayers.Count(playerbody => playerbody.Script.playerHealth.IsDead) * negativeModifer, "deadCrew");
+			//How many dead crew are there if there are more than two crewmembers?
+			if (PlayerList.Instance.AllPlayers.Count > 2)
+			{
+				ScoreMachine.AddNewScoreEntry("deadCrew", "Dead Crew", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Bad);
+				foreach (var player in PlayerList.Instance.AllPlayers.Where(player => player.Mind != null && player.Script != null))
+				{
+					ScoreMachine.AddToScoreInt(DEAD_CREW_SCORE * negativeModifer, "deadCrew");
+				}
+			}
 			//Who's the crew member with the worst overall health?
 			var lowestHealthCrewMemberNumber = 200f;
 			var lowestHealthCrewMemberName = "";
