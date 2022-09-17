@@ -12,6 +12,8 @@ public class BodyPartMutations : BodyPartFunctionality
 
 	public int Stability = 0;
 
+	public int SecondsForSpeciesMutation = 60;
+
 
 	[NaughtyAttributes.Button()]
 	public void AddFirstMutation()
@@ -107,21 +109,75 @@ public class BodyPartMutations : BodyPartFunctionality
 		Stability = InStability;
 	}
 
+	private IEnumerator ProcessChangeToSpecies(PlayerHealthData NewSpecies, GameObject BodyPart)
+	{
+		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 2f)  * (1 + UnityEngine.Random.Range(-0.25f, 0.25f)));
+
+		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.gameObject, $" Your {RelatedPart.gameObject.ExpensiveName()} Feels strange");
+
+		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 2f) * (1 + UnityEngine.Random.Range(-0.25f, 0.25f)));
+
+		var SpawnedBodypart = Spawn.ServerPrefab(BodyPart).GameObject.GetComponent<BodyPart>();
+
+		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.gameObject, $" Your {RelatedPart.gameObject.ExpensiveName()} Morphs into a {SpawnedBodypart.gameObject.ExpensiveName()}");
+
+		foreach (var itemSlot in SpawnedBodypart.OrganStorage.GetItemSlots())
+		{
+			Inventory.ServerDespawn(itemSlot);
+		}
+
+		foreach (var itemSlot in RelatedPart.OrganStorage.GetItemSlots())
+		{
+			if (itemSlot.Item != null)
+			{
+				var toSlot = SpawnedBodypart.OrganStorage;
+				Inventory.ServerTransfer(itemSlot, toSlot.GetBestSlotFor(itemSlot.Item));
+			}
+		}
+
+
+		var ContainedIn = RelatedPart.HealthMaster;
+		var Region = RelatedPart.BodyPartType;
+
+		var Parent = RelatedPart.ContainedIn;
+
+
+		RelatedPart.TryRemoveFromBody( CausesBleed: false, Destroy: true, PreventGibb_Death: true );
+//dropping UI slots??
+//Relink fat / stomach
+
+
+		if (Parent != null)
+		{
+			Inventory.ServerAdd(SpawnedBodypart.gameObject, Parent.OrganStorage.GetBestSlotFor(SpawnedBodypart.gameObject));
+		}
+		else
+		{
+			Inventory.ServerAdd(SpawnedBodypart.gameObject, ContainedIn.BodyPartStorage.GetBestSlotFor(SpawnedBodypart.gameObject));
+		}
+
+
+
+
+
+
+	}
+
+	public PlayerHealthData PlayerHealthData;
+	public GameObject TOMutateBodyPart;
+
+	[NaughtyAttributes.Button()]
+	public void MutateBodyPart()
+	{
+		ChangeToSpecies(PlayerHealthData, TOMutateBodyPart);
+
+	}
+
 
 	public void ChangeToSpecies(PlayerHealthData PlayerHealthData, GameObject BodyPart)
 	{
-
-		//To do wait some time
-		//Work out how On  earth to do messages? It would be assumed that one body part at a time would be changing/ ok, just add text for that then don't have to worry about stacking
-		//wait indeterminate amount of time again
-		//spawn in body part
-		//Transfer sub body parts of this into New body part
-		//Remove this
-		//transfer new body part into body
+		StartCoroutine(ProcessChangeToSpecies(PlayerHealthData , BodyPart));
 	}
-
-	//ok Let's add in species change stuff here to
-
 
 	public class NumberAndRoundID
 	{

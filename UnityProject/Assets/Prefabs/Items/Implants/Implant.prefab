@@ -117,6 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OrganStorage: {fileID: 2719098251223779414}
+  CommonComponents: {fileID: 0}
   playerSprites: {fileID: 0}
   IsBleeding: 0
   limbLossBleedingValue: 3.5
@@ -173,6 +174,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    Anomaly: 0
     DismembermentProtectionChance: 0
     StunImmunity: 0
   SubOrganBodyPartArmour:
@@ -186,6 +188,7 @@ MonoBehaviour:
     Acid: 100
     Magic: 100
     Bio: 0
+    Anomaly: 0
     DismembermentProtectionChance: 0
     StunImmunity: 0
   SubOrganDamageIncreasePoint: 80
@@ -263,6 +266,25 @@ MonoBehaviour:
   transferMode: 0
   possibleTransferAmounts: []
   transferAmount: 20
+--- !u!114 &1644590815055589727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1163316686972202776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d72619b419eb784d89be0849c02177b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEMPVunerable: 0
+  EMPResistance: 2
+  CapableMutations: []
+  Stability: 0
+  SecondsForSpeciesMutation: 60
+  PlayerHealthData: {fileID: 0}
+  TOMutateBodyPart: {fileID: 0}
 --- !u!210 &4940620596253206870 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 6104600676241079028, guid: a7abba22164ce49f0bf9b9b219f39298,
