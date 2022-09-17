@@ -9,6 +9,7 @@ using Systems.Interaction;
 using Items;
 using Machines;
 using Objects.Machines;
+using UnityEngine.EventSystems;
 
 
 namespace Objects.Atmospherics
@@ -334,6 +335,11 @@ namespace Objects.Atmospherics
 
 		private void UpdateGui()
 		{
+			if (this == null)
+			{
+				OnDisable();
+				return;
+			}
 			var peppers = NetworkTabManager.Instance.GetPeepers(gameObject, NetTabType.ThermoMachine);
 			if(peppers.Count == 0) return;
 
