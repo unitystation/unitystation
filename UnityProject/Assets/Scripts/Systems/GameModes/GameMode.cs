@@ -377,7 +377,7 @@ namespace GameModes
 			{
 				// Choose antags first then allocate jobs to all other players
 				var antagCandidates = playerPool.Where(p =>
-					HasPossibleAntagEnabled(ref p.CharacterSettings.AntagPreferences) && HasPossibleAntagNotBanned(p.UserId));
+					HasPossibleAntagEnabled(ref p.RequestedCharacterSettings.AntagPreferences) && HasPossibleAntagNotBanned(p.UserId));
 				var chosenAntags = antagCandidates.PickRandom(antagsToSpawn).ToList();
 				// Player and antag spawn requests are kept separate to stop players being spawned twice
 				playerPool.RemoveAll(chosenAntags.Contains);

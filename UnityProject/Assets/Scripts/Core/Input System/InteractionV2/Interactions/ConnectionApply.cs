@@ -6,7 +6,7 @@
 public class ConnectionApply : TargetedInteraction
 {
 	public static readonly ConnectionApply Invalid = new ConnectionApply(null, null,
-		null, Connection.NA, Connection.NA, Vector2.zero, null, Intent.Help);
+		null, Connection.NA, Connection.NA, Vector2.zero, null, Intent.Help, null);
 
 	private readonly ItemSlot handSlot;
 
@@ -53,8 +53,8 @@ public class ConnectionApply : TargetedInteraction
 	/// <param name="worldPositionTarget">position of target tile (world space)</param>
 	/// <param name="handSlot">active hand slot that is being used</param>
 	private ConnectionApply(GameObject performer, GameObject handObject, GameObject targetObject, Connection startPoint, Connection endPoint, Vector2 targetPosition,
-		ItemSlot handSlot, Intent intent) :
-		base(performer, handObject, targetObject, intent)
+		ItemSlot handSlot, Intent intent, Mind inMind) :
+		base(performer, handObject, targetObject, intent, inMind)
 	{
 		this.targetPosition = targetPosition;
 		this.connectionPointA = startPoint;
@@ -92,9 +92,11 @@ public class ConnectionApply : TargetedInteraction
 			targetObject,
 			wireEndA,
 			wireEndB,
-			targetVec,PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(),
+			targetVec,
+			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(),
 
-			UIManager.CurrentIntent
+			UIManager.CurrentIntent,
+			PlayerManager.LocalPlayerScript.mind
 		);
 	}
 
@@ -108,7 +110,7 @@ public class ConnectionApply : TargetedInteraction
 	/// <param name="handSlot">active hand slot that is being used</param>
 	/// <returns></returns>
 	public static ConnectionApply ByClient(GameObject clientPlayer, GameObject handObject, GameObject targetObject, Connection startPoint, Connection endPoint, Vector2 targetVec,
-		ItemSlot handSlot, Intent intent)
+		ItemSlot handSlot, Intent intent, Mind inMind)
 	{
 		return new ConnectionApply(
 			clientPlayer,
@@ -118,7 +120,8 @@ public class ConnectionApply : TargetedInteraction
 			endPoint,
 			targetVec,
 			handSlot,
-			intent
+			intent,
+			inMind
 		);
 	}
 }

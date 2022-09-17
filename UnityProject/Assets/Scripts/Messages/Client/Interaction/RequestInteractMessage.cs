@@ -138,13 +138,14 @@ namespace Messages.Client.Interaction
 
 			var UnsafeClientPredictedPosition = msg.UnsafeClientPredictedPosition;
 
-			var performer = SentByPlayer.GameObject;
 
-
-			if (SentByPlayer == null || SentByPlayer.Script == null)
+			if (SentByPlayer == null || SentByPlayer.Script == null || SentByPlayer.Mind == null)
 			{
 				return;
 			}
+
+			var performer = SentByPlayer.GameObject;
+			var Mind = SentByPlayer.Mind;
 
 			if (SentByPlayer.Script.DynamicItemStorage == null)
 			{
@@ -154,7 +155,7 @@ namespace Messages.Client.Interaction
 					var targetObj = NetworkObjects[0];
 					var processorObj = NetworkObjects[1];
 
-					var interaction = new AiActivate(performer, null, targetObj, Intent, msg.ClickTypes);
+					var interaction = new AiActivate(performer, null, targetObj, Intent, Mind, msg.ClickTypes);
 					ProcessInteraction(interaction, processorObj, ComponentType);
 				}
 
@@ -176,7 +177,7 @@ namespace Messages.Client.Interaction
 				CheckMatrixSync(ref processorObj);
 
 				var interaction = PositionalHandApply.ByClient(
-						performer, usedObject, targetObj, TargetPosition, usedSlot, Intent, TargetBodyPart, IsAltUsed);
+						performer, usedObject, targetObj, TargetPosition, usedSlot, Intent, Mind, TargetBodyPart, IsAltUsed);
 				ProcessInteraction(interaction, processorObj, ComponentType);
 			}
 			else if (InteractionType == typeof(HandApply))
@@ -192,7 +193,7 @@ namespace Messages.Client.Interaction
 				CheckMatrixSync(ref targetObj);
 				CheckMatrixSync(ref processorObj);
 
-				var interaction = HandApply.ByClient(performer, usedObject, targetObj, TargetBodyPart, usedSlot, Intent, IsAltUsed);
+				var interaction = HandApply.ByClient(performer, usedObject, targetObj, TargetBodyPart, usedSlot, Intent,Mind, IsAltUsed);
 				ProcessInteraction(interaction, processorObj, ComponentType);
 			}
 			else if (InteractionType == typeof(AimApply))
@@ -204,7 +205,7 @@ namespace Messages.Client.Interaction
 				var processorObj = NetworkObject;
 				CheckMatrixSync(ref processorObj);
 
-				var interaction = AimApply.ByClient(performer, TargetPosition, usedObject, usedSlot, MouseButtonState, TargetBodyPart, Intent, UnsafeClientPredictedPosition);
+				var interaction = AimApply.ByClient(performer, TargetPosition, usedObject, usedSlot, MouseButtonState, TargetBodyPart, Intent, UnsafeClientPredictedPosition, Mind);
 				ProcessInteraction(interaction, processorObj, ComponentType);
 			}
 			else if (InteractionType == typeof(MouseDrop))
@@ -219,7 +220,7 @@ namespace Messages.Client.Interaction
 				CheckMatrixSync(ref targetObj);
 				CheckMatrixSync(ref processorObj);
 
-				var interaction = MouseDrop.ByClient(performer, usedObj, targetObj, Intent);
+				var interaction = MouseDrop.ByClient(performer, usedObj, targetObj, Intent, Mind);
 				ProcessInteraction(interaction, processorObj, ComponentType);
 			}
 			else if (InteractionType == typeof(HandActivate))
@@ -234,7 +235,7 @@ namespace Messages.Client.Interaction
 				var clientStorage = SentByPlayer.Script.DynamicItemStorage;
 				var usedSlot = clientStorage.GetActiveHandSlot();
 				var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
-				var interaction = HandActivate.ByClient(performer, usedObject, usedSlot, Intent, IsAltUsed);
+				var interaction = HandActivate.ByClient(performer, usedObject, usedSlot, Intent, Mind, IsAltUsed);
 				ProcessInteraction(interaction, processorObj, ComponentType);
 			}
 			else if (InteractionType == typeof(InventoryApply))
@@ -267,7 +268,7 @@ namespace Messages.Client.Interaction
 				{
 					fromSlot = usedObj.GetComponent<Pickupable>().ItemSlot;
 				}
-				var interaction = InventoryApply.ByClient(performer, targetSlot, fromSlot, Intent, IsAltUsed);
+				var interaction = InventoryApply.ByClient(performer, targetSlot, fromSlot, Intent, Mind, IsAltUsed);
 				ProcessInteraction(interaction, processorObj, ComponentType);
 			}
 			else if (InteractionType == typeof(TileApply))
@@ -282,7 +283,7 @@ namespace Messages.Client.Interaction
 					CheckMatrixSync(ref processorObj);
 
 					processorObj.GetComponent<InteractableTiles>().ServerProcessInteraction(SentByPlayer.GameObject,
-						TargetPosition, processorObj, usedSlot, usedObject, Intent,
+						TargetPosition, processorObj, usedSlot, usedObject, Intent, Mind,
 						TileApply.ApplyType.HandApply);
 				}
 				catch (NullReferenceException exception)
@@ -301,7 +302,7 @@ namespace Messages.Client.Interaction
 				CheckMatrixSync(ref processorObj);
 
 				processorObj.GetComponent<InteractableTiles>().ServerProcessInteraction(SentByPlayer.GameObject,
-					TargetPosition, processorObj, null, usedObj, Intent,
+					TargetPosition, processorObj, null, usedObj, Intent, Mind,
 					TileApply.ApplyType.MouseDrop);
 			}
 			else if (InteractionType == typeof(ConnectionApply))
@@ -318,7 +319,7 @@ namespace Messages.Client.Interaction
 				CheckMatrixSync(ref targetObj);
 				CheckMatrixSync(ref processorObj);
 
-				var interaction = ConnectionApply.ByClient(performer, usedObject, targetObj, connectionPointA, connectionPointB, TargetPosition, usedSlot, Intent);
+				var interaction = ConnectionApply.ByClient(performer, usedObject, targetObj, connectionPointA, connectionPointB, TargetPosition, usedSlot, Intent, Mind);
 				ProcessInteraction(interaction, processorObj, ComponentType);
 			}
 			else if (InteractionType == typeof(ContextMenuApply))
@@ -331,7 +332,7 @@ namespace Messages.Client.Interaction
 				CheckMatrixSync(ref targetObj);
 				CheckMatrixSync(ref processorObj);
 
-				var interaction = ContextMenuApply.ByClient(performer, usedObj, targetObj, RequestedOption, Intent);
+				var interaction = ContextMenuApply.ByClient(performer, usedObj, targetObj, RequestedOption, Intent, Mind);
 				ProcessInteraction(interaction, processorObj, ComponentType);
 			}
 		}

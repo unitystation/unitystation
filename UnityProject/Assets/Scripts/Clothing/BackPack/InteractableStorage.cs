@@ -258,7 +258,8 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 				MouseDrop.ByClient(interaction.Performer,
 					interaction.TargetObject,
 					interaction.Performer,
-					interaction.Intent));
+					interaction.Intent,
+					interaction.PerformerMind));
 			return;
 		}
 
@@ -267,7 +268,8 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			MouseDrop.ByClient(interaction.Performer,
 				interaction.UsedObject,
 				interaction.TargetObject,
-				interaction.Intent));
+				interaction.Intent,
+				interaction.PerformerMind));
 	}
 
 	/// <summary>

@@ -1603,7 +1603,7 @@ namespace Systems.Antagonists
 			playerTookOver = player;
 
 			//Transfer player chosen into body
-			PlayerSpawn.ServerTransferPlayerToNewBody(player.Connection, player.Script.mind, gameObject,
+			PlayerSpawn.ServerTransferPlayerToNewBody(player.Connection, player.Mind, gameObject,
 				Event.PlayerSpawned, null);
 
 			//Remove the player so they can join again once they die

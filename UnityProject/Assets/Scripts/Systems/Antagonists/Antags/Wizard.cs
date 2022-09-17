@@ -63,7 +63,7 @@ namespace Antagonists
 			foreach (WizardSpellData randomSpell in GetRandomWizardSpells())
 			{
 				Spell spell = randomSpell.AddToPlayer(player.Script);
-				player.Script.mind.AddSpell(spell);
+				player.Mind.AddSpell(spell);
 				playerMsg.Append($"<b>{randomSpell.Name}</b>, ");
 			}
 

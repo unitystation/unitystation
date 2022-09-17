@@ -49,7 +49,7 @@ public class PlayerInfo
 	public bool IsOOCMuted = false;
 
 	//This is only set when the player presses the ready button? But not if late joining, wtf?????
-	public CharacterSheet CharacterSettings { get; set; }
+	public CharacterSheet RequestedCharacterSettings { get; set; }
 
 	/// <summary>The player GameObject. Different GameObject if in lobby vs. in game.</summary>
 	public GameObject GameObject

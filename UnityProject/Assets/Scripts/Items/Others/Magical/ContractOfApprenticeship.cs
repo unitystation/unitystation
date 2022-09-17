@@ -81,7 +81,7 @@ namespace Items.Magical
 				if (entry is SpellBookSpell spellEntry)
 				{
 					Spell spell = spellEntry.Spell.AddToPlayer(player.Script);
-					player.Script.mind.AddSpell(spell);
+					player.Mind.AddSpell(spell);
 				}
 				else if (entry is SpellBookArtifact spellArtifact)
 				{

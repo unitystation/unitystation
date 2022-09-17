@@ -13,14 +13,14 @@ namespace Spells
 
 		protected override string FormatInvocationMessage(PlayerInfo caster, string modPrefix)
 		{
-			return string.Format(SpellData.InvocationMessage, caster.Name, caster.CharacterSettings.TheirPronoun(caster.Script));
+			return string.Format(SpellData.InvocationMessage, caster.Name, caster.Mind.CurrentCharacterSettings.TheirPronoun(caster.Script));
 		}
 
 		public override bool ValidateCast(PlayerInfo caster)
 		{
 			if (base.ValidateCast(caster) == false) return false;
 
-			if (caster.Script.mind.IsMiming == false)
+			if (caster.Mind.IsMiming == false)
 			{
 				Chat.AddExamineMsg(caster.GameObject, "You must dedicate yourself to silence first!");
 				return false;

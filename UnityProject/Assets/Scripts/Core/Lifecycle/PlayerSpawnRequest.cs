@@ -27,7 +27,7 @@ namespace Player
 		{
 			Player = player;
 			RequestedOccupation = requestedOccupation;
-			CharacterSettings = character ?? Player.CharacterSettings;
+			CharacterSettings = character ?? Player.RequestedCharacterSettings;
 		}
 
 		public override string ToString()

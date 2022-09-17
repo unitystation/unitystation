@@ -55,8 +55,8 @@ public class AimApply : BodyPartTargetedInteraction
 	/// <param name="targetPosition"> The local position the player is aiming at
 	///  Same as originatorPosition Assuming hitting self </param>
 	private AimApply(GameObject performer, GameObject handObject, ItemSlot handSlot, MouseButtonState buttonState,
-		Vector2 targetPosition, BodyPartType bodyPartType, Intent intent, Vector2 originatorPosition) :
-		base(performer, handObject, null, bodyPartType, intent)
+		Vector2 targetPosition, BodyPartType bodyPartType, Intent intent, Mind inMind, Vector2 originatorPosition) :
+		base(performer, handObject, null, bodyPartType, intent, inMind)
 	{
 		this.originatorPosition = originatorPosition;
 		this.targetPosition = targetPosition;
@@ -97,7 +97,11 @@ public class AimApply : BodyPartTargetedInteraction
 			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(),
 			buttonState,
 
-			selfAim ? PlayerManager.LocalPlayerObject.transform.localPosition.To2() : InternaltargetPosition, UIManager.DamageZone, UIManager.CurrentIntent, PlayerManager.LocalPlayerObject.transform.localPosition.To2());
+			selfAim ? PlayerManager.LocalPlayerObject.transform.localPosition.To2() : InternaltargetPosition,
+			UIManager.DamageZone,
+			UIManager.CurrentIntent,
+			PlayerManager.LocalPlayerScript.mind,
+			PlayerManager.LocalPlayerObject.transform.localPosition.To2());
 	}
 
 	/// <summary>
@@ -114,9 +118,9 @@ public class AimApply : BodyPartTargetedInteraction
 	/// <returns>a hand apply by the client, targeting the specified object with the item in the active hand</returns>
 	/// <param name="mouseButtonState">state of the mouse button</param>
 	public static AimApply ByClient(GameObject clientPlayer, Vector2 TargetPosition, GameObject handObject, ItemSlot handSlot, MouseButtonState mouseButtonState,
-		BodyPartType TargetBodyPart, Intent intent, Vector2 originatorPosition)
+		BodyPartType TargetBodyPart, Intent intent, Vector2 originatorPosition, Mind inMind)
 	{
-		return new AimApply(clientPlayer, handObject, handSlot,  mouseButtonState, TargetPosition, TargetBodyPart, intent, originatorPosition );
+		return new AimApply(clientPlayer, handObject, handSlot,  mouseButtonState, TargetPosition, TargetBodyPart, intent,inMind ,  originatorPosition );
 	}
 }
 

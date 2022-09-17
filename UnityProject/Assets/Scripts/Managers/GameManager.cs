@@ -516,9 +516,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		foreach (var readyPlayer in PlayerList.Instance.ReadyPlayers)
 		{
-			if (readyPlayer.CharacterSettings?.AntagPreferences == null) continue;
+			if (readyPlayer.RequestedCharacterSettings?.AntagPreferences == null) continue;
 
-			foreach (var antagPreference in readyPlayer.CharacterSettings.AntagPreferences)
+			foreach (var antagPreference in readyPlayer.RequestedCharacterSettings.AntagPreferences)
 			{
 				//Only record enabled antags
 				if (antagPreference.Value == false) continue;

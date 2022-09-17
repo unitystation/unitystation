@@ -138,7 +138,7 @@ namespace Messages.Server
 					if (recipient.GetComponent<PlayerScript>().OrNull()?.PlayerType == PlayerTypes.Ai)
 					{
 						validate = Validations.CanApply(new AiActivate(recipient, null,
-							provider, Intent.Help, AiActivate.ClickTypes.NormalClick), NetworkSide.Server);
+							provider, Intent.Help, recipient.GetComponent<PlayerScript>().mind ,AiActivate.ClickTypes.NormalClick), NetworkSide.Server);
 					}
 
 					if (!validate)

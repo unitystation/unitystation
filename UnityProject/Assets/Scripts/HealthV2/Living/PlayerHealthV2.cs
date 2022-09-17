@@ -125,7 +125,7 @@ namespace HealthV2
 				string themself = null;
 				if (player != null)
 				{
-					themself = player.CharacterSettings?.ThemselfPronoun(player.Script);
+					themself = playerScript.characterSettings?.ThemselfPronoun(player.Script);
 				}
 				if (themself == null)
 				{
@@ -155,7 +155,7 @@ namespace HealthV2
 			string their = null;
 			if (player != null)
 			{
-				their = player.CharacterSettings?.TheirPronoun(player.Script);
+				their = playerScript.characterSettings?.TheirPronoun(player.Script);
 			}
 
 			if (their == null)

@@ -457,7 +457,7 @@ namespace AdminCommands
 				return;
 			}
 
-			var item = Spawn.ServerPrefab(itemPrefabName, player.Script.mind.body.gameObject.AssumedWorldPosServer());
+			var item = Spawn.ServerPrefab(itemPrefabName, player.Mind.body.gameObject.AssumedWorldPosServer());
 			var slot = player.Script.DynamicItemStorage.GetBestHandOrSlotFor(item.GameObject);
 			if (item.GameObject.TryGetComponent<Stackable>(out var stackable) && stackable.MaxAmount <= count)
 			{

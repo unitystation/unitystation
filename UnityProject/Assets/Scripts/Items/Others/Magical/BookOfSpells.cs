@@ -84,7 +84,7 @@ namespace Items.Magical
 			SoundManager.PlayNetworkedAtPos(learningSound, player.Script.WorldPos, sourceObj: player.GameObject);
 			Chat.AddChatMsgToChatServer(player, spellEntry.Incantation, ChatChannel.Local, Loudness.SCREAMING);
 
-			Spell spellInstance = player.Script.mind.GetSpellInstance(spellEntry.Spell);
+			Spell spellInstance = player.Mind.GetSpellInstance(spellEntry.Spell);
 
 			if (spellInstance != null)
 			{
@@ -93,7 +93,7 @@ namespace Items.Magical
 			else
 			{
 				Spell spell = spellEntry.Spell.AddToPlayer(player.Script);
-				player.Script.mind.AddSpell(spell);
+				player.Mind.AddSpell(spell);
 			}
 		}
 
@@ -173,7 +173,7 @@ namespace Items.Magical
 
 		private bool IsWizard(PlayerInfo player)
 		{
-			return player.Script.mind.IsOfAntag<Antagonists.Wizard>();
+			return player.Mind.IsOfAntag<Antagonists.Wizard>();
 		}
 
 		public Spell GetReaderSpellInstance(SpellData spell)
