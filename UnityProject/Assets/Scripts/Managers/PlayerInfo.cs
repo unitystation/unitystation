@@ -91,7 +91,23 @@ public class PlayerInfo
 		{
 			if (string.IsNullOrEmpty(name))
 			{
-				return gameObject.name;
+				if (Mind != null)
+				{
+					return Mind.name;
+				}
+
+				if (RequestedCharacterSettings != null)
+				{
+					return RequestedCharacterSettings.Name;
+				}
+
+				if (gameObject != null)
+				{
+					return gameObject.name;
+				}
+
+				return "OH you shouldn't have this name!";
+
 			}
 			return name;
 		}

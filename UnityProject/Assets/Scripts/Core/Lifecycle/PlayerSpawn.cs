@@ -298,7 +298,7 @@ public static class PlayerSpawn
 
 		var ps = newPlayer.GetComponent<PlayerScript>();
 		var connectedPlayer = PlayerList.Instance.GetOnline(connection);
-		connectedPlayer.Name = ps.playerName;
+		connectedPlayer.Name = ps.mind.name;
 		connectedPlayer.Job = ps.mind.occupation.JobType;
 		UpdateConnectedPlayersMessage.Send();
 
