@@ -315,6 +315,11 @@ namespace Objects.Machines
 		//Maxes out at 4
 		public float GetCertainPartMultiplier(ItemTrait ItemTrait)
 		{
+			if (ItemTrait == null)
+			{
+				Logger.LogError($" null ItemTrait Tried to be passed into GetCertainPartMultiplier for {this.name} ");
+				return 1;
+			}
 			float TotalParts = 0;
 			float Alladded = 0;
 			foreach (var Objectpart in ObjectpartsInFrame)
@@ -329,6 +334,11 @@ namespace Objects.Machines
 				}
 			}
 
+			if (TotalParts == 0)
+			{
+				Logger.LogError($"Warning {ItemTrait.name} was not present on {this.name} somehow ");
+				return 1;
+			}
 			return Alladded / TotalParts;
 		}
 	}
