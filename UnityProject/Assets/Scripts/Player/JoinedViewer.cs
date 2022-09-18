@@ -97,17 +97,29 @@ namespace Player
 			Logger.LogTrace($"{authData.Username}'s {nameof(JoinedViewer)} called CmdServerSetupPlayer. ClientId: {authData.ClientId}.",
 					Category.Connections);
 
-			// Register player to player list (logging code exists in PlayerList so no need for extra logging here)
-			var player = PlayerList.Instance.AddOrUpdate(new PlayerInfo
+
+			var Existingplayer = PlayerList.Instance.GetLoggedOffClient(authData.ClientId, authData.AccountId);
+
+			if (Existingplayer == null)
 			{
-				Connection = connectionToClient,
-				GameObject = gameObject,
-				Username = authData.Username,
-				Job = JobType.NULL,
-				ClientId = authData.ClientId,
-				UserId = authData.AccountId,
-				ConnectionIP = connectionToClient.address
-			});
+				Existingplayer = new PlayerInfo
+				{
+					Connection = connectionToClient,
+					GameObject = gameObject,
+					Username = authData.Username,
+					Job = JobType.NULL,
+					ClientId = authData.ClientId,
+					UserId = authData.AccountId,
+					ConnectionIP = connectionToClient.address
+				};
+			}
+
+			Existingplayer.Connection = connectionToClient;
+			Existingplayer.ClientId = authData.ClientId;
+			Existingplayer.UserId = authData.AccountId;
+			Existingplayer.ConnectionIP = connectionToClient.address;
+			// Register player to player list (logging code exists in PlayerList so no need for extra logging here)
+			var player = PlayerList.Instance.AddOrUpdate(Existingplayer);
 
 			// Check if they're admin / banned etc
 			var isValidPlayer = PlayerList.Instance.TryLogIn(player);
