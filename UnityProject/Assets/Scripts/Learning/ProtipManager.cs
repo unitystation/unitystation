@@ -11,7 +11,7 @@ namespace Learning
 		public ExperienceLevel PlayerExperienceLevel;
 		public List<ProtipSO> RecordedProtips;
 
-		private readonly Queue<ProTipUIData> queuedTips = new Queue<ProTipUIData>();
+		private readonly Queue<ProtipSO> queuedTips = new Queue<ProtipSO>();
 
 		public enum ExperienceLevel
 		{
@@ -19,14 +19,6 @@ namespace Learning
 			NewToUnityStation = 1, //Unitystation changes only
 			SomewhatExperienced = 2, //Life critical Advice only
 			Robust = 3 //Nothing will get triggered on this level.
-		}
-
-		private struct ProTipUIData
-		{
-			public string Text;
-			public float Duration;
-			public Sprite Sprite;
-			public ProtipUI.SpriteAnimation Animation;
 		}
 
 		public bool IsShowingTip { get; set; }
@@ -70,26 +62,20 @@ namespace Learning
 		{
 			if(IsShowingTip || queuedTips.Count == 0) return;
 			var tip = queuedTips.Dequeue();
-			ShowTip(tip.Text, tip.Duration, tip.Sprite, tip.Animation);
+			ShowTip(tip);
 		}
 
-		public void QueueTip(string TipText, float duration = 25f, Sprite img = null, ProtipUI.SpriteAnimation showAnim = ProtipUI.SpriteAnimation.ROCKING)
+		public void QueueTip(ProtipSO tip)
 		{
-			ProTipUIData newEntry = new ProTipUIData
-			{
-				Text = TipText,
-				Duration = duration,
-				Sprite = img,
-				Animation = showAnim
-			};
-			queuedTips.Enqueue(newEntry);
+			queuedTips.Enqueue(tip);
 		}
 
-		private void ShowTip(string TipText, float duration = 25f, Sprite img = null, ProtipUI.SpriteAnimation showAnim = ProtipUI.SpriteAnimation.ROCKING)
+		private void ShowTip(ProtipSO tip)
 		{
-			if(duration <= 0) duration = 25f; //Incase whoever was setting the SO data forgot to set the duration.
+			var duration = tip.TipData.ShowDuration;
+			if(tip.TipData.ShowDuration <= 0) duration = 25f; //Incase whoever was setting the SO data forgot to set the duration.
 			UI.gameObject.SetActive(true);
-			UI.ShowTip(TipText, duration, img, showAnim);
+			UI.ShowTip(tip);
 			IsShowingTip = true;
 		}
 	}

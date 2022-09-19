@@ -9,9 +9,6 @@ namespace Learning
 	public class ProtipObject : MonoBehaviour
 	{
 		public ProtipSO TipSO;
-
-		[SerializeField, Tooltip("Incase there are more than one Protip on a single item/object")]
-		private int saveID;
 		[SerializeField, Tooltip("Does this tip object only trigger once then saved as so?")]
 		private bool triggerOnce = true;
 
@@ -26,8 +23,19 @@ namespace Learning
 
 		private void Awake()
 		{
-			var saved = PlayerPrefs.GetString($"{gameObject.GetComponent<PrefabTracker>().ForeverID}/{saveID.ToString()}", "false");
-			if(saved == "true" || TipSO == null) Destroy(this);
+			if (TipSO == null)
+			{
+				Logger.LogError("[ProtipObject] - Component missing tip data.");
+				Destroy(this);
+				return;
+			}
+			if(CheckSaveStatus()) Destroy(this);
+		}
+
+		private bool CheckSaveStatus()
+		{
+			var saved = PlayerPrefs.GetString($"{TipSO.TipTitle}", "false");
+			return saved != "false";
 		}
 
 		protected virtual bool TriggerConditions(GameObject triggeredBy)
@@ -46,10 +54,10 @@ namespace Learning
 		public void TriggerTip(GameObject triggeredBy = null)
 		{
 			if(TriggerConditions(triggeredBy) == false) return;
-			ProtipManager.Instance.QueueTip(TipSO.TipData.Tip, TipSO.TipData.ShowDuration, TipSO.TipData.TipIcon, TipSO.TipData.ShowAnimation);
+			ProtipManager.Instance.QueueTip(TipSO);
 			if (triggerOnce)
 			{
-				PlayerPrefs.SetString($"{gameObject.GetComponent<PrefabTracker>().ForeverID}/{saveID.ToString()}", "true");
+				PlayerPrefs.SetString($"{TipSO.TipTitle}", "true");
 				PlayerPrefs.Save();
 				return;
 			}
@@ -65,10 +73,10 @@ namespace Learning
 				Logger.LogError("Passed ProtipSO is null. Cannot trigger tip.");
 				return;
 			}
-			ProtipManager.Instance.QueueTip(protipSo.TipData.Tip, protipSo.TipData.ShowDuration, protipSo.TipData.TipIcon, protipSo.TipData.ShowAnimation);
-			if (triggerOnce)
+			ProtipManager.Instance.QueueTip(TipSO);
+			if (triggerOnce && ProtipManager.Instance.PlayerExperienceLevel > ProtipManager.ExperienceLevel.NewToSpaceStation)
 			{
-				PlayerPrefs.SetString($"{gameObject.GetComponent<PrefabTracker>().ForeverID}/{saveID.ToString()}", "true");
+				PlayerPrefs.SetString($"{protipSo.TipTitle}", "true");
 				PlayerPrefs.Save();
 				return;
 			}
