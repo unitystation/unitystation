@@ -15,33 +15,20 @@ namespace Systems.Atmospherics
 			var energyNeeded = 0f;
 			var oldHeatCap = gasMix.WholeHeatCapacity;
 
-			float temperatureScale;
+			int numberOfBarsToSpawn = (int)(gasMix.GetMoles(Gas.Hydrogen) / AtmosDefines.HYDROGEN_CRYSTALLISE_RATE);
 
-			if (gasMix.Temperature < AtmosDefines.HYRDOGEN_MIN_CRYSTALLISE_TEMPERATURE)
-			{
-				temperatureScale = 0;
-			}
-			else
-			{
-				temperatureScale = (AtmosDefines.HYRDOGEN_MAX_CRYSTALLISE_TEMPERATURE - gasMix.Temperature) / (AtmosDefines.HYRDOGEN_MAX_CRYSTALLISE_TEMPERATURE - AtmosDefines.HYRDOGEN_MIN_CRYSTALLISE_TEMPERATURE);
-			}
+			int stackSize = 50;
 
-			if (temperatureScale >= 0)
-			{
-				int numberOfBarsToSpawn = (int)(gasMix.GetMoles(Gas.Hydrogen) * temperatureScale / AtmosDefines.HYDROGEN_CRYSTALLISE_RATE);
+			Math.Clamp(numberOfBarsToSpawn, 0, stackSize);
 
-				int stackSize = 50;
-
-				Math.Clamp(numberOfBarsToSpawn, 0, stackSize);
-
-				if (numberOfBarsToSpawn >= 1) return;
+			if (numberOfBarsToSpawn < 1) return;
 				
-				gasMix.RemoveGas(Gas.Hydrogen, numberOfBarsToSpawn);
+			gasMix.RemoveGas(Gas.Hydrogen, numberOfBarsToSpawn);
 
-				SpawnSafeThread.SpawnPrefab(node.Position.ToWorldInt(node.PositionMatrix), AtmosManager.Instance.MetalHydrogen, amountIfStackable: numberOfBarsToSpawn);
+			SpawnSafeThread.SpawnPrefab(node.Position.ToWorldInt(node.PositionMatrix), AtmosManager.Instance.MetalHydrogen, amountIfStackable: numberOfBarsToSpawn);
 
-				energyNeeded += AtmosDefines.HYRDOGEN_CRYSTALLISE_ENERGY * numberOfBarsToSpawn;
-			}
+			energyNeeded += AtmosDefines.HYRDOGEN_CRYSTALLISE_ENERGY * numberOfBarsToSpawn;
+			
 
 			if (energyNeeded > 0)
 			{
