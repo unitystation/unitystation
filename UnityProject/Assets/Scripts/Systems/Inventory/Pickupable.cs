@@ -225,6 +225,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		if (interactor == null) return;
 
 		PickupAnim(interactor);
+		if(CustomNetworkManager.IsServer == false) OnMoveToPlayerInventory?.Invoke(interactor);
 	}
 
 	[ClientRpc]

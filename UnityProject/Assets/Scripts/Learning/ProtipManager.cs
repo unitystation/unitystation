@@ -72,8 +72,6 @@ namespace Learning
 
 		private void ShowTip(ProtipSO tip)
 		{
-			var duration = tip.TipData.ShowDuration;
-			if(tip.TipData.ShowDuration <= 0) duration = 25f; //Incase whoever was setting the SO data forgot to set the duration.
 			UI.gameObject.SetActive(true);
 			UI.ShowTip(tip);
 			IsShowingTip = true;

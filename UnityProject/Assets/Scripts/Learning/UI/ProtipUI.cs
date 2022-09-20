@@ -14,6 +14,7 @@ namespace Learning
 
 		private bool isShown = false;
 		private ProtipSO currentTip;
+		private const float DEFAULT_DURATION = 25f;
 
 		public enum SpriteAnimation
 		{
@@ -29,11 +30,12 @@ namespace Learning
 
 		public void ShowTip(ProtipSO tip)
 		{
+			var duration = tip.TipData.ShowDuration <= 0 ? tip.TipData.ShowDuration : DEFAULT_DURATION; //Incase whoever was setting the SO data forgot to set the duration.
 			StopAllCoroutines();
 			SetPositionInTransform();
 			tipText.text = tip.TipData.Tip;
 			if (tip.TipData.TipIcon != null) tipImage.sprite = tip.TipData.TipIcon;
-			StartCoroutine(TipShow(tip.TipData.ShowDuration));
+			StartCoroutine(TipShow(duration));
 			switch (tip.TipData.ShowAnimation)
 			{
 				case SpriteAnimation.ROCKING:
