@@ -21,7 +21,7 @@ namespace UI
 
 		public void SetEntry(ChangeLogEntry entryData)
 		{
-			text.text = $"[{CatagoryGrabber(entryData.category)}] {entryData.description}\n\rAuthor: {entryData.author_username}";
+			text.text = $"{CatagoryGrabber(entryData.category)} - {entryData.description}\n\rAuthor: {entryData.author_username}";
 		}
 
 		private string CatagoryGrabber(string catagory)
