@@ -12,11 +12,11 @@ namespace UI
 
 		public static class ChangelogIcons
 		{
-			public static string FIX => "";
-			public static string BALANCE => "";
-			public static string NEW => "";
-			public static string IMPROVE => "";
-			public static string UNKNOWN => "?";
+			public const static string FIX => "";
+			public const static string BALANCE => "";
+			public const static string NEW => "";
+			public const static string IMPROVE => "";
+			public const static string UNKNOWN => "?";
 		}
 
 		public void SetEntry(ChangeLogEntry entryData)
@@ -28,13 +28,13 @@ namespace UI
 		{
 			switch (catagory)
 			{
-				case "New":
+				case "NEW":
 					return ChangelogIcons.NEW;
-				case "Improvement":
+				case "IMPROVEMENT":
 					return ChangelogIcons.IMPROVE;
-				case "Balance":
+				case "BALANCE":
 					return ChangelogIcons.BALANCE;
-				case "Fix":
+				case "FIX":
 					return ChangelogIcons.FIX;
 				default:
 					return ChangelogIcons.UNKNOWN;
