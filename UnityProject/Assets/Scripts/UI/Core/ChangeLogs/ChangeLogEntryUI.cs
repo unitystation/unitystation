@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace UI
 {
 	public class ChangeLogEntryUI : MonoBehaviour
 	{
-		public Text text;
+		public TMP_Text text;
 
 		public void SetEntry(ChangeLogEntry entryData)
 		{
-			text.text = $"---------------------------------------------------\n\nDate: {entryData.date} \n\rAuthor: {entryData.author} " +
-			 $"\n\r\n\rCommit: {entryData.commit} \n\r\n\rMessage: {entryData.message}";
+			text.text = $"Date: {entryData.date_added} \n\rAuthor: {entryData.author_username} " +
+			            $"\n\r\n\rCommit: {entryData.pr_number} \n\r\n\rMessage: {entryData.description}";
 		}
 	}
 }
