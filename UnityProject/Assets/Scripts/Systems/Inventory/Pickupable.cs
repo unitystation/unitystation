@@ -170,6 +170,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		//Start the animation on the server and clients.
 		PickupAnim(interaction.Performer.gameObject);
 		RpcPickupAnimation(interaction.Performer.gameObject);
+		OnMoveToPlayerInventory?.Invoke(interaction.Performer);
 		yield return WaitFor.Seconds(pickupAnimSpeed);
 
 		//Make sure that the object is scaled back to it's original size.
@@ -224,7 +225,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		if (interactor == null) return;
 
 		PickupAnim(interactor);
-		OnMoveToPlayerInventory?.Invoke(interactor);
+		if(CustomNetworkManager.IsServer == false) OnMoveToPlayerInventory?.Invoke(interactor);
 	}
 
 	[ClientRpc]
