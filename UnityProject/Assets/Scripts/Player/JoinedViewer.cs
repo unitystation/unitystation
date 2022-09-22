@@ -213,7 +213,7 @@ namespace Player
 			var checkForViewer = loggedOffPlayer?.GameObject.OrNull()?.GetComponent<JoinedViewer>();
 			if (checkForViewer)
 			{
-				Destroy(loggedOffPlayer.GameObject);
+				NetworkServer.Destroy(loggedOffPlayer.GameObject);
 				loggedOffPlayer = null;
 			}
 
