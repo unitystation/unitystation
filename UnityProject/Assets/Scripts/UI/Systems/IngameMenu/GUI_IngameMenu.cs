@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using ServerInfo;
-using DatabaseAPI;
 using Learning;
+using Messages.Client.Lobby;
 
 
 namespace UI
@@ -87,8 +85,8 @@ namespace UI
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			Logger.Log($"Opening {menuWindow.name} menu", Category.UI);
 			menuWindow.SetActive(true);
-			if (UIManager.Display.disclaimer != null) UIManager.Display.disclaimer.SetActive(true);
-			ServerInfoLobbyMessageClient.Send();
+			InfoPanelMessageClient.Send();
+			if (UIManager.Instance.ServerInfoPanelWindow != null) UIManager.Instance.ServerInfoPanelWindow.SetActive(true);
 		}
 
 		/// <summary>

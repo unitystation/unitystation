@@ -1,12 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using Audio.Managers;
 using Audio.Containers;
 using Blob;
-using DatabaseAPI;
 using JetBrains.Annotations;
-using ServerInfo;
+using Messages.Client.Lobby;
 using UI.Systems.Ghost;
 using UI.Action;
 
@@ -218,7 +216,7 @@ namespace UI
 			preRoundWindow.gameObject.SetActive(true);
 			preRoundWindow.SetUIForCountdown();
 
-			ServerInfoLobbyMessageClient.Send();
+			InfoPanelMessageClient.Send();
 		}
 
 		public void SetScreenForJoining()

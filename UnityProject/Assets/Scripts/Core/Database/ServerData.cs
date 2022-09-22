@@ -52,6 +52,8 @@ namespace DatabaseAPI
 		{
 			//Handles config for RCON and Server Status API for dedicated servers
 			AttemptConfigLoad();
+			AttemptRulesLoad();
+			LoadMotd();
 			InitializeFirebase();
 
 			serverDataLoaded?.Invoke();
