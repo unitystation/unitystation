@@ -15,7 +15,7 @@ public static class SweetExtensions
 {
 	public static Pickupable PickupableOrNull(this GameObject go)
 	{
-		return go.OrNull().OrNull()?.GetComponent<Pickupable>();
+		return go.OrNull().GetComponent<Pickupable>();
 	}
 
 	public static bool TryGetPlayer(this GameObject gameObject, out PlayerInfo player)

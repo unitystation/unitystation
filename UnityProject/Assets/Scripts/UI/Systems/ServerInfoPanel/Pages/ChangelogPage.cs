@@ -20,7 +20,7 @@ namespace UI.Systems.ServerInfoPanel
 		private const string BASE_API_URL = "https://changelog.unitystation.org/all-changes";
 
 		private readonly BehaviourSubject<AllChangesResponse> changelogData = new(null);
-		private string currentApiUrl = BASE_API_URL;
+		private const int CHUNK_SIZE = 10;
 
 
 		public void RefreshPage()
@@ -38,7 +38,7 @@ namespace UI.Systems.ServerInfoPanel
 			if (changelogData.Value == null) yield break;
 
 			//Separate the entries into chunks of 10
-			foreach (var chunk in changelogData.Value.results.Chunk(10))
+			foreach (var chunk in changelogData.Value.results.Chunk(CHUNK_SIZE))
 			{
 				foreach (var build in chunk)
 				{
@@ -74,7 +74,6 @@ namespace UI.Systems.ServerInfoPanel
 		private void ChangeDataPage(string newPage)
 		{
 			if (string.IsNullOrEmpty(newPage)) return;
-			currentApiUrl = newPage;
 			FetchChanges(newPage).Then(
 				(newData) => { changelogData.Next(newData.Result); }
 			);
@@ -96,7 +95,7 @@ namespace UI.Systems.ServerInfoPanel
 			using var client = new HttpClient();
 			client.DefaultRequestHeaders.Accept.Add(
 				new MediaTypeWithQualityHeaderValue("application/json"));
-			using var response = client.GetAsync(url).Result;
+			using var response = await client.GetAsync(url);
 			if (response.IsSuccessStatusCode)
 			{
 				var json = await response.Content.ReadAsStringAsync();

@@ -13,6 +13,8 @@ namespace UI.Systems.ServerInfoPanel
 
 		[SerializeField] private Transform changesContainer;
 
+		private const int CHUNK_SIZE = 10;
+
 		public void SetBuild(Build build)
 		{
 			buildVersion.text = build.version_number;
@@ -24,7 +26,7 @@ namespace UI.Systems.ServerInfoPanel
 		private IEnumerator SpawnPrefabs(Build build)
 		{
 			// breaks the changes into chunks of 10
-			foreach (var chunk in build.changes.Chunk(10))
+			foreach (var chunk in build.changes.Chunk(CHUNK_SIZE))
 			{
 				foreach (var change in chunk)
 				{
