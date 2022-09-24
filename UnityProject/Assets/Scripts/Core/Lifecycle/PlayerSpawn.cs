@@ -429,6 +429,12 @@ public static class PlayerSpawn
 	private static PlayerScript ServerSpawnGhost(PlayerInfo playerInfo, Vector3Int spawnPosition,
 		CharacterSheet characterSettings)
 	{
+		if (playerInfo.Mind != null)
+		{
+			Logger.LogError($"Player info already has ghost associated {playerInfo.ToString()} with {playerInfo.Mind}" );
+			return playerInfo.Mind.CurrentPlayScript;
+		}
+
 		var matrixInfo = MatrixManager.AtPoint(spawnPosition, true);
 		var parentTransform = matrixInfo.Objects;
 

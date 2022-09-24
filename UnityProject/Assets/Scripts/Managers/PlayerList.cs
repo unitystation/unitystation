@@ -34,10 +34,10 @@ public partial class PlayerList : NetworkBehaviour
 	public List<PlayerInfo> InGamePlayers => loggedIn.FindAll(player => player.Script != null);
 
 	public List<PlayerInfo> NonAntagPlayers =>
-		loggedIn.FindAll(player => player?.Script.OrNull()?.mind  != null && !player.Mind.IsAntag);
+		loggedIn.FindAll(player => player?.Mind != null && !player.Mind.IsAntag);
 
 	public List<PlayerInfo> AntagPlayers =>
-		loggedIn.FindAll(player => player?.Script.OrNull()?.mind != null && player.Mind.IsAntag);
+		loggedIn.FindAll(player => player?.Mind != null && player.Mind.IsAntag);
 
 	public List<PlayerInfo> AllPlayers =>
 		loggedIn.FindAll(player => (player?.Script.OrNull()?.mind  != null || player?.ViewerScript != null));
@@ -195,7 +195,7 @@ public partial class PlayerList : NetworkBehaviour
 		}
 
 		Logger.LogTrace($"Player {player.Username}'s client ID is: {player.ClientId} User ID: {player.UserId}.", Category.Connections);
-		
+
 		loggedIn.Add(player);
 		Logger.Log($"Player with account {player.UserId} has joined the game. Player count: {loggedIn.Count}.", Category.Connections);
 		CheckRcon();
