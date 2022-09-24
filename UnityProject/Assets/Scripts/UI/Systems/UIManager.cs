@@ -9,7 +9,6 @@ using AdminTools;
 using AdminTools.VariableViewer;
 using Audio.Managers;
 using Initialisation;
-using ServerInfo;
 using UI;
 using UI.Core;
 using UI.Core.Windows;
@@ -18,9 +17,9 @@ using UI.Jobs;
 using UI.UI_Bottom;
 using UI.Windows;
 using Systems.CraftingV2.GUI;
-using UI.Core.RightClick;
 using UI.Systems.AdminTools.DevTools;
 using UI.Systems.EndRound;
+using UI.Systems.ServerInfoPanel;
 
 public class UIManager : MonoBehaviour, IInitialise
 {
@@ -79,7 +78,8 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	public GUI_DevTileChanger TileChanger;
 
-	public ServerInfoUILobby ServerInfoUILobby;
+	[field: SerializeField]
+	public ServerInfoPanelWindow ServerInfoPanelWindow { get; private set; }
 
 	public RoundEndScoreScreen ScoreScreen;
 

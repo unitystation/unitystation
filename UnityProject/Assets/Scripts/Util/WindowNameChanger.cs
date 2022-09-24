@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using DatabaseAPI;
-using ServerInfo;
 using UnityEngine;
 
 namespace Util
@@ -16,24 +15,24 @@ namespace Util
 
 		//Import the following.
 		[DllImport("user32.dll", EntryPoint = "SetWindowText")]
-		public static extern bool SetWindowText(System.IntPtr hwnd, System.String lpString);
+		private static extern bool SetWindowText(IntPtr hwnd, string lpString);
 		[DllImport("user32.dll", EntryPoint = "FindWindow")]
-		public static extern System.IntPtr FindWindow(System.String className, System.String windowName);
+		private static extern IntPtr FindWindow(string className, string windowName);
 
 
 		private void Awake()
 		{
 			if(EventManager.Instance == null) return;
-			EventManager.AddHandler(Event.PlayerRejoined, ChangeTile);
-			EventManager.AddHandler(Event.RoundStarted, ChangeTile);
+			EventManager.AddHandler(Event.PlayerRejoined, ChangeTitle);
+			EventManager.AddHandler(Event.RoundStarted, ChangeTitle);
 		}
 
-		private void ChangeTile()
+		private static void ChangeTitle()
 		{
 			//Get the window handle.
 			var windowPtr = FindWindow(null, Application.productName);
 			//Set the title text using the window handle.
-			var serverName = UIManager.Instance.ServerInfoUILobby.ServerName.text != "" ? UIManager.Instance.ServerInfoUILobby.ServerName.text : "Nameless Server";
+			var serverName = ServerData.ServerConfig.ServerName;
 			SetWindowText(windowPtr, $"{Application.productName} Build v{Application.version} - {serverName} ||" +
 			                         $" {GameManager.Instance.GetGameModeName()} on {SubSceneManager.ServerChosenMainStation}");
 		}

@@ -4,9 +4,8 @@ using Mirror;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using DatabaseAPI;
-using ServerInfo;
 using AdminCommands;
+using Messages.Client.Lobby;
 
 
 namespace UI
@@ -257,7 +256,7 @@ namespace UI
 
 		private void SetInfoScreenOn()
 		{
-			ServerInfoLobbyMessageClient.Send();
+			InfoPanelMessageClient.Send();
 		}
 
 		/// <summary>
