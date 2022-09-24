@@ -102,6 +102,11 @@ namespace Player
 
 			if (Existingplayer == null)
 			{
+				Existingplayer = PlayerList.Instance.GetLoggedOnClient(authData.ClientId, authData.AccountId);
+			}
+
+			if (Existingplayer == null)
+			{
 				Existingplayer = new PlayerInfo
 				{
 					Connection = connectionToClient,

@@ -238,6 +238,19 @@ public partial class PlayerList : NetworkBehaviour
 		return null;
 	}
 
+
+	[Server]
+	public PlayerInfo GetLoggedOnClient(string clientID, string userId)
+	{
+		var index = loggedIn.FindIndex(x => x.ClientId == clientID || x.UserId == userId);
+		if (index != -1)
+		{
+			return loggedIn[index];
+		}
+
+		return null;
+	}
+
 	[Server]
 	public bool Has(string characterName, string userId)
 	{
