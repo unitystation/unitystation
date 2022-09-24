@@ -100,9 +100,12 @@ namespace Player
 
 			var Existingplayer = PlayerList.Instance.GetLoggedOffClient(authData.ClientId, authData.AccountId);
 
-			if (Existingplayer == null)
+			if (BuildPreferences.isForRelease)
 			{
-				Existingplayer = PlayerList.Instance.GetLoggedOnClient(authData.ClientId, authData.AccountId);
+				if (Existingplayer == null)
+				{
+					Existingplayer = PlayerList.Instance.GetLoggedOnClient(authData.ClientId, authData.AccountId);
+				}
 			}
 
 			if (Existingplayer == null)
@@ -204,7 +207,7 @@ namespace Player
 
 			PlayerInfo loggedOffPlayer = null;
 
-			if (GameData.Instance.OfflineMode)
+			if (BuildPreferences.isForRelease == false)
 			{
 				// Check if they have a player to rejoin before creating a new ConnectedPlayer Doing it by a STUnverifiedClientId So multiple can connect with the same account for devs
 				loggedOffPlayer = PlayerList.Instance.RemovePlayerbyClientId(STUnverifiedClientId, STVerifiedUserid, STVerifiedConnPlayer);
