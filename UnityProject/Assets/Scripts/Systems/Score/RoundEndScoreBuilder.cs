@@ -87,9 +87,11 @@ namespace Systems.Score
 			var numberOfDoors = 0;
 			foreach (var door in MatrixManager.MainStationMatrix.Objects.GetComponentsInChildren<DoorMasterController>())
 			{
-				var module = door.GetComponentInChildren<ElectrifiedDoorModule>();
-				if (module == null) continue;
-				if (module.IsElectrified) numberOfDoors++;
+				foreach (var module in door.ModulesList)
+				{
+					if(module is ElectrifiedDoorModule c == false) continue;
+					if (c.IsElectrified) numberOfDoors++;
+				}
 			}
 
 			if (numberOfDoors == 0) return;
