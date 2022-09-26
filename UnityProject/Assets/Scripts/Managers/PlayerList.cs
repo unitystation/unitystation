@@ -194,6 +194,11 @@ public partial class PlayerList : NetworkBehaviour
 			return player;
 		}
 
+		if (loggedIn.Contains(player))
+		{
+			return player;
+		}
+
 		Logger.LogTrace($"Player {player.Username}'s client ID is: {player.ClientId} User ID: {player.UserId}.", Category.Connections);
 
 		loggedIn.Add(player);
