@@ -51,14 +51,22 @@ namespace Systems.Score
 				}
 			}
 			//Who's the crew member with the worst overall health?
+			FindLowestHealthCrew();
+		}
+
+		private static void FindLowestHealthCrew()
+		{
 			var lowestHealthCrewMemberNumber = 200f;
 			var lowestHealthCrewMemberName = "";
 			foreach (var alivePlayer in PlayerList.Instance.GetAlivePlayers())
 			{
+				if (alivePlayer.Script == null || alivePlayer.Script.playerHealth == null) continue;
+				if (alivePlayer.Script.playerHealth.OverallHealth > HURT_CREW_MINIMUM_SCORE) continue;
 				if (alivePlayer.Script.playerHealth.OverallHealth >= lowestHealthCrewMemberNumber) continue;
 				lowestHealthCrewMemberNumber = alivePlayer.Script.playerHealth.OverallHealth;
 				lowestHealthCrewMemberName = alivePlayer.Script.playerName;
 			}
+			if(string.IsNullOrEmpty(lowestHealthCrewMemberName)) return;
 			var lowestHealthWinner = $"{lowestHealthCrewMemberName} - {lowestHealthCrewMemberNumber}HP";
 			ScoreMachine.AddNewScoreEntry("worstBatteredCrewMemeber", "Crewmember with the lowest health", ScoreMachine.ScoreType.String, ScoreCategory.StationScore, ScoreAlignment.Bad);
 			ScoreMachine.AddToScoreString(lowestHealthWinner, "worstBatteredCrewMemeber");

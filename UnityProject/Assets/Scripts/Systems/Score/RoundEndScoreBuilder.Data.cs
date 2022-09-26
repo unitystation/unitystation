@@ -20,5 +20,6 @@ namespace Systems.Score
 		public static string COMMON_SCORE_EXPLOSION = "explosions";
 		public static string COMMON_SCORE_CLOWNABUSE = "clownBeaten";
 		public static int DEAD_CREW_SCORE = -250;
+		public static int HURT_CREW_MINIMUM_SCORE = 50;
 	}
 }
