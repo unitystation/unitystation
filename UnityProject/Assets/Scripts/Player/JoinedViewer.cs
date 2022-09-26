@@ -79,7 +79,8 @@ namespace Player
 				return;
 			}
 
-			SubSceneManager.Instance.LoadScenesFromServer(JsonConvert.DeserializeObject<List<SceneInfo>>(Data), OriginalScene, CMDFinishLoading);
+			SubSceneManager.Instance.LoadScenesFromServer(JsonConvert.DeserializeObject<List<SceneInfo>>(Data),
+				OriginalScene, CMDFinishLoading);
 		}
 
 		[Server]
@@ -90,21 +91,23 @@ namespace Player
 			// Sanity check in case Mirror does a surprising thing and allows commands from unauthenticated clients.
 			if (connectionToClient.isAuthenticated == false)
 			{
-				Logger.Log($"A client attempted to set up their server player object but they haven't authenticated yet! Address: {connectionToClient.address}.");
+				Logger.Log(
+					$"A client attempted to set up their server player object but they haven't authenticated yet! Address: {connectionToClient.address}.");
 				return;
 			}
 
-			Logger.LogTrace($"{authData.Username}'s {nameof(JoinedViewer)} called CmdServerSetupPlayer. ClientId: {authData.ClientId}.",
-					Category.Connections);
+			Logger.LogTrace(
+				$"{authData.Username}'s {nameof(JoinedViewer)} called CmdServerSetupPlayer. ClientId: {authData.ClientId}.",
+				Category.Connections);
 
 
 			var Existingplayer = PlayerList.Instance.GetLoggedOffClient(authData.ClientId, authData.AccountId);
-
-			if (BuildPreferences.isForRelease)
+			if (Existingplayer == null)
 			{
-				if (Existingplayer == null)
+				if (GameData.Instance.DevBuild == false)
 				{
 					Existingplayer = PlayerList.Instance.GetLoggedOnClient(authData.ClientId, authData.AccountId);
+					Existingplayer?.GameObject.OrNull()?.GetComponent<NetworkIdentity>().OrNull()?.connectionToClient?.Disconnect();
 				}
 			}
 
@@ -121,6 +124,9 @@ namespace Player
 					ConnectionIP = connectionToClient.address
 				};
 			}
+
+
+
 
 			Existingplayer.Connection = connectionToClient;
 			Existingplayer.ClientId = authData.ClientId;
@@ -158,6 +164,10 @@ namespace Player
 			STUnverifiedClientId = authData.ClientId;
 			STVerifiedUserid = authData.AccountId;
 			STVerifiedConnPlayer = player;
+
+
+
+
 			if (string.IsNullOrEmpty(currentScene) == false)
 			{
 				ServerRequestLoadedScenes(currentScene);
@@ -179,6 +189,7 @@ namespace Player
 				ClearCache();
 				return;
 			}
+
 			ClientFinishLoading();
 		}
 
@@ -197,7 +208,8 @@ namespace Player
 			{
 				if (GameManager.Instance.waitForStart)
 				{
-					TargetSyncCountdown(connectionToClient, GameManager.Instance.waitForStart, GameManager.Instance.CountdownEndTime);
+					TargetSyncCountdown(connectionToClient, GameManager.Instance.waitForStart,
+						GameManager.Instance.CountdownEndTime);
 				}
 				else
 				{
@@ -205,34 +217,14 @@ namespace Player
 				}
 			}
 
-			PlayerInfo loggedOffPlayer = null;
-
-			if (BuildPreferences.isForRelease == false)
-			{
-				// Check if they have a player to rejoin before creating a new ConnectedPlayer Doing it by a STUnverifiedClientId So multiple can connect with the same account for devs
-				loggedOffPlayer = PlayerList.Instance.RemovePlayerbyClientId(STUnverifiedClientId, STVerifiedUserid, STVerifiedConnPlayer);
-			}
-			else
-			{
-				loggedOffPlayer = PlayerList.Instance.RemovePlayerbyUserId(STVerifiedUserid, STVerifiedConnPlayer);
-			}
-
-
-			var checkForViewer = loggedOffPlayer?.GameObject.OrNull()?.GetComponent<JoinedViewer>();
-			if (checkForViewer)
-			{
-				NetworkServer.Destroy(loggedOffPlayer.GameObject);
-				loggedOffPlayer = null;
-			}
-
 			// If there's a logged off player, we will force them to rejoin their body
-			if (loggedOffPlayer == null)
+			if (STVerifiedConnPlayer.Mind == null) //TODO Handle when someone gets kicked out of their mind
 			{
 				TargetLocalPlayerSetupNewPlayer(connectionToClient, GameManager.Instance.CurrentRoundState);
 			}
 			else
 			{
-				StartCoroutine(WaitForLoggedOffObserver(loggedOffPlayer.GameObject));
+				StartCoroutine(WaitForLoggedOffObserver(STVerifiedConnPlayer.GameObject));
 			}
 
 			PlayerList.Instance.CheckAdminState(STVerifiedConnPlayer);
@@ -252,8 +244,8 @@ namespace Player
 			if (netIdentity == null)
 			{
 				Logger.LogError($"No {nameof(NetworkIdentity)} component on {loggedOffPlayer}! " +
-								"Cannot rejoin that player. Was original player object improperly created? " +
-								"Did we get runtime error while creating it?", Category.Connections);
+				                "Cannot rejoin that player. Was original player object improperly created? " +
+				                "Did we get runtime error while creating it?", Category.Connections);
 				// TODO: if this issue persists, should probably send the poor player a message about failing to rejoin.
 				yield break;
 			}
@@ -310,7 +302,8 @@ namespace Player
 			if (PlayerList.Instance.ClientJobBanCheck(job) == false)
 			{
 				Logger.LogWarning($"Client failed local job-ban check for {job}.", Category.Jobs);
-				UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>().ShowFailMessage(JobRequestError.JobBanned);
+				UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>()
+					.ShowFailMessage(JobRequestError.JobBanned);
 				return;
 			}
 
@@ -353,6 +346,7 @@ namespace Player
 			{
 				jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSheet);
 			}
+
 			CmdPlayerReady(isReady, jsonCharSettings);
 		}
 
@@ -366,6 +360,7 @@ namespace Player
 			{
 				charSettings = JsonConvert.DeserializeObject<CharacterSheet>(jsonCharSettings);
 			}
+
 			PlayerList.Instance.SetPlayerReady(player, isReady, charSettings);
 		}
 	}
