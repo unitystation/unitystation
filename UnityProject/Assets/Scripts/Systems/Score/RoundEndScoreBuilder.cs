@@ -89,8 +89,7 @@ namespace Systems.Score
 			{
 				foreach (var module in door.ModulesList)
 				{
-					if(module is ElectrifiedDoorModule c == false) continue;
-					if (c.IsElectrified) numberOfDoors++;
+					if (module is ElectrifiedDoorModule { IsElectrified: true }) numberOfDoors++;
 				}
 			}
 
