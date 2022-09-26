@@ -23,7 +23,7 @@ namespace Systems.Score
 		public static string COMMON_TAIL_SCORE_ENTRY = "tailsPulled";
 		public static int HUG_SCORE_VALUE = 2;
 		public static int TAIL_SCORE_VALUE = -2;
-		public static int DEAD_CREW_SCORE = -250;
-		public static int HURT_CREW_MINIMUM_SCORE = 50;
+		private static int DEAD_CREW_SCORE = -250;
+		private static int HURT_CREW_MINIMUM_SCORE = 50;
 	}
 }
