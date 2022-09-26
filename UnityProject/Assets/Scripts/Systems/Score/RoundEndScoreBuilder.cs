@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using Doors;
+using Doors.Modules;
 using Managers;
 using Shared.Managers;
 
@@ -58,6 +60,8 @@ namespace Systems.Score
 			}
 			//Who's the crew member with the worst overall health?
 			FindLowestHealthCrew();
+			//Are there any electrified doors on the station?
+			FindHarmfulDoors();
 		}
 
 		private static void FindLowestHealthCrew()
@@ -78,6 +82,22 @@ namespace Systems.Score
 			ScoreMachine.AddToScoreString(lowestHealthWinner, "worstBatteredCrewMemeber");
 		}
 
+		private static void FindHarmfulDoors()
+		{
+			var numberOfDoors = 0;
+			foreach (var door in MatrixManager.MainStationMatrix.Objects.GetComponentsInChildren<DoorMasterController>())
+			{
+				var module = door.GetComponentInChildren<ElectrifiedDoorModule>();
+				if (module == null) continue;
+				if (module.IsElectrified) numberOfDoors++;
+			}
+
+			if (numberOfDoors == 0) return;
+			ScoreMachine.AddNewScoreEntry(COMMON_DOOR_ELECTRIC_ENTRY, "Doors Electrified",
+				ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Weird);
+			ScoreMachine.AddToScoreInt(numberOfDoors, COMMON_DOOR_ELECTRIC_ENTRY);
+		}
+
 		public void CalculateScoresAndShow()
 		{
 			if(CustomNetworkManager.IsServer == false) return;
@@ -85,11 +105,6 @@ namespace Systems.Score
 
 			List<ScoreEntry> stationScoreEntries = new List<ScoreEntry>();
 			List<ScoreEntry> antagScoreEntries = new List<ScoreEntry>();
-
-			//Removes all int scores from the weird category with a score of 0
-			stationScoreEntries.RemoveAll(x => x.Category == ScoreCategory.StationScore
-			                                   && x.Alignment == ScoreAlignment.Weird
-			                                   && x is ScoreEntryInt { Score: 0 });
 
 			var finalStationScore = 0;
 			var finalAntagScore = 0;

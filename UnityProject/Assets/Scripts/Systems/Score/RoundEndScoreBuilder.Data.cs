@@ -21,6 +21,7 @@ namespace Systems.Score
 		public static string COMMON_SCORE_CLOWNABUSE = "clownBeaten";
 		public static string COMMON_HUG_SCORE_ENTRY = "hugsGiven";
 		public static string COMMON_TAIL_SCORE_ENTRY = "tailsPulled";
+		public static string COMMON_DOOR_ELECTRIC_ENTRY = "electricDoors";
 		public static int HUG_SCORE_VALUE = 2;
 		public static int TAIL_SCORE_VALUE = -2;
 		private static int DEAD_CREW_SCORE = -250;
