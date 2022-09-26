@@ -107,6 +107,7 @@ namespace Player
 				if (GameData.Instance.DevBuild == false)
 				{
 					Existingplayer = PlayerList.Instance.GetLoggedOnClient(authData.ClientId, authData.AccountId);
+					Existingplayer?.GameObject.OrNull()?.GetComponent<NetworkIdentity>().OrNull()?.connectionToClient?.Disconnect();
 				}
 			}
 
@@ -123,6 +124,9 @@ namespace Player
 					ConnectionIP = connectionToClient.address
 				};
 			}
+
+
+
 
 			Existingplayer.Connection = connectionToClient;
 			Existingplayer.ClientId = authData.ClientId;
@@ -160,6 +164,9 @@ namespace Player
 			STUnverifiedClientId = authData.ClientId;
 			STVerifiedUserid = authData.AccountId;
 			STVerifiedConnPlayer = player;
+
+
+
 
 			if (string.IsNullOrEmpty(currentScene) == false)
 			{
