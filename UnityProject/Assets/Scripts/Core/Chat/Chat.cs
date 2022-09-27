@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -12,6 +14,7 @@ using Core.Chat;
 using Messages.Server;
 using Items;
 using Managers;
+using Objects.Machines.ServerMachines.Communications;
 using Player.Language;
 using Shared.Util;
 using Tiles;
@@ -35,7 +38,7 @@ public partial class Chat : MonoBehaviour
 
 	private static Regex htmlRegex = new Regex(@"^(http|https)://.*$");
 
-	public static void  InvokeChatEvent(ChatEvent chatEvent)
+	public static void InvokeChatEvent(ChatEvent chatEvent)
 	{
 		var channels = chatEvent.channels;
 		StringBuilder discordMessageBuilder = new StringBuilder();
@@ -51,15 +54,23 @@ public partial class Chat : MonoBehaviour
 				continue;
 			}
 
-			// A temporary solution until proper telecomms is implemented
+			// if we have a channel that requires transmission, find an emitter and send it via a signal.
 			if (Channels.RadioChannels.HasFlag(channel))
 			{
-				if (InGameEvents.EventCommsBlackout.CommsDown) return;
-
-				if (InGameEvents.EventProcessorOverload.ProcessorOverload)
+				var radioMessageData = new CommsServer.RadioMessageData()
 				{
-					chatEvent.message = InGameEvents.EventProcessorOverload.ProcessMessage(chatEvent.message);
+					ChatEvent = chatEvent,
+				};
+				chatEvent.channels = channel;
+				if (chatEvent.originator.TryGetComponent<PlayerScript>(out var playerScript))
+				{
+					foreach (var slot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.ear).Where(slot => slot.IsEmpty == false))
+					{
+						if(slot.ItemObject.TryGetComponent<Headset>(out var headset) == false) continue;
+						headset.TrySendSignal(radioMessageData);
+					}
 				}
+				continue;
 			}
 
 			chatEvent.channels = channel;
@@ -73,7 +84,6 @@ public partial class Chat : MonoBehaviour
 		//Sends All Chat messages to a discord webhook
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAllChatURL, discordMessage, "");
 	}
-
 	/// <summary>
 	/// Send a Chat Msg from a player to the selected Chat Channels
 	/// Server only

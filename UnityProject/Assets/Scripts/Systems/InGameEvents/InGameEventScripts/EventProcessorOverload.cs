@@ -8,11 +8,6 @@ namespace InGameEvents
 {
 	public class EventProcessorOverload : EventScriptBase
 	{
-		/// <summary>
-		/// A temporary solution to providing processor overloads until telecomms is implemented.
-		/// </summary>
-		public static bool ProcessorOverload = false;
-
 		// Duplicates to change the weighting on random pick
 		private static readonly string garbledChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890123456789!@#$%^&*()!@#$%^&*!@#$%^&*()";
 
@@ -32,14 +27,12 @@ namespace InGameEvents
 
 		public override void OnEventStartTimed()
 		{
-			ProcessorOverload = true;
-
-			Invoke(nameof(RestoreComms), Random.Range(60, 180));
-		}
-
-		private void RestoreComms()
-		{
-			ProcessorOverload = false;
+			var numberOfServersToAffect = Random.Range(0, GameManager.Instance.CommsServers.Count);
+			GameManager.Instance.CommsServers.Shuffle();
+			for (int i = 0; i < numberOfServersToAffect; i++)
+			{
+				GameManager.Instance.CommsServers[i].OnEmp(Random.Range(75, GameManager.Instance.CommsServers[i].EmpResistence * 2));
+			}
 		}
 
 		public static string ProcessMessage(string message)
