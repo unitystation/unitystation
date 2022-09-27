@@ -64,10 +64,6 @@ namespace Objects.Machines.ServerMachines.Communications
 			{
 				isMalfunctioning = false;
 			}
-			else
-			{
-				isMalfunctioning = DMMath.Prob(FIFTYPERCENT);
-			}
 			SparkUtil.TrySpark(gameObject);
 		}
 
