@@ -15,7 +15,7 @@ namespace Objects.Machines.ServerMachines.Communications
 		private Integrity integrity;
 		private bool isMalfunctioning = false;
 
-		public int EmpResistence = 250;
+		public int EmpResistance = 250;
 
 		private void Awake()
 		{
@@ -64,7 +64,7 @@ namespace Objects.Machines.ServerMachines.Communications
 
 		public void OnEmp(int EmpStrength)
 		{
-			if (EmpStrength > EmpResistence) apcPoweredDevice.RemoveFromAPC();
+			if (EmpStrength > EmpResistance) apcPoweredDevice.RemoveFromAPC();
 			isMalfunctioning = true;
 		}
 

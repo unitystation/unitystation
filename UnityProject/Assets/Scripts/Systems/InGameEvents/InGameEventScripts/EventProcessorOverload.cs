@@ -31,7 +31,7 @@ namespace InGameEvents
 			GameManager.Instance.CommsServers.Shuffle();
 			foreach (var server in GameManager.Instance.CommsServers.PickRandom(numberOfServersToAffect))
 			{
-				server.OnEmp(Random.Range(75, server.EmpResistence * 2));
+				server.OnEmp(Random.Range(75, server.EmpResistance  * 2));
 			}
 		}
 
