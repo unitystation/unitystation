@@ -29,9 +29,9 @@ namespace InGameEvents
 		{
 			var numberOfServersToAffect = Random.Range(0, GameManager.Instance.CommsServers.Count);
 			GameManager.Instance.CommsServers.Shuffle();
-			for (int i = 0; i < numberOfServersToAffect; i++)
+			foreach (var server in GameManager.Instance.CommsServers.PickRandom(numberOfServersToAffect))
 			{
-				GameManager.Instance.CommsServers[i].OnEmp(Random.Range(75, GameManager.Instance.CommsServers[i].EmpResistence * 2));
+				server.OnEmp(Random.Range(75, server.EmpResistence * 2));
 			}
 		}
 
