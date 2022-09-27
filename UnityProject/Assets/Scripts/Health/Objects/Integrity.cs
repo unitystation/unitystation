@@ -9,6 +9,7 @@ using AddressableReferences;
 using AdminCommands;
 using DatabaseAPI;
 using Effects.Overlays;
+using InGameEvents;
 using Messages.Client.DevSpawner;
 using ScriptableObjects;
 using Systems.Atmospherics;
@@ -43,6 +44,8 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	/// </summary>
 	[NonSerialized]
 	public DamagedEvent OnApplyDamage = new DamagedEvent();
+
+	public event Action OnDamaged;
 
 	/// <summary>
 	/// event for hotspots
@@ -245,6 +248,8 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			}
 
 			CheckDestruction(explodeOnDestroy);
+
+			OnDamaged?.Invoke();
 
 			Logger.LogTraceFormat("{0} took {1} {2} damage from {3} attack (resistance {4}) (integrity now {5})", Category.Damage, name, damage, damageType, attackType, Armor.GetRating(attackType), integrity);
 		}

@@ -12,9 +12,24 @@ namespace Objects.Machines.ServerMachines.Communications
 	{
 		[SerializeField] private BlackboxMachine blackbox;
 		[SerializeField] private APCPoweredDevice apcPoweredDevice;
+		private Integrity integrity;
 		private bool isMalf = false;
 
 		public int EmpResistence = 250;
+
+		private void Awake()
+		{
+			if (integrity == null)
+			{
+				integrity = GetComponent<Integrity>();
+				integrity.OnDamaged += DirtyRepair;
+			}
+			if (apcPoweredDevice == null)
+			{
+				apcPoweredDevice = GetComponent<APCPoweredDevice>();
+				if (apcPoweredDevice.RelatedAPC == null) apcPoweredDevice.ConnectToClosestApc();
+			}
+		}
 
 		private void OnEnable()
 		{
@@ -38,6 +53,12 @@ namespace Objects.Machines.ServerMachines.Communications
 			//Not the best way to do this currently but we can worry about it later during the chat rework
 			ChatRelay.Instance.PropagateChatToClients(finalMessage);
 			if(blackbox != null) blackbox.StoreChatEvents(finalMessage);
+		}
+
+		private void DirtyRepair()
+		{
+			isMalf = false;
+			SparkUtil.TrySpark(gameObject);
 		}
 
 		public void OnEmp(int EmpStrength)
