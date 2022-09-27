@@ -8,6 +8,7 @@ using AddressableReferences;
 using Antagonists;
 using HealthV2;
 using Managers;
+using Systems.Score;
 using UI.Chat_UI;
 using Random = UnityEngine.Random;
 
@@ -68,6 +69,9 @@ namespace Objects.Command
 		//Nuke code is only populated on the server
 		private int nukeCode;
 		public int NukeCode => nukeCode;
+
+		private const string ON_NUKE_SCORE_ENTRY = "nukedStation";
+		private const int ON_NUKE_SCORE_VALUE = -550000;
 
 		private void Awake()
 		{
@@ -138,6 +142,9 @@ namespace Objects.Command
 				StartCoroutine(WaitForDeath());
 				GameManager.Instance.RespawnCurrentlyAllowed = false;
 				DetonateVideo();
+				ScoreMachine.AddNewScoreEntry(ON_NUKE_SCORE_ENTRY, "Station Nuked",
+					ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Bad);
+				ScoreMachine.AddToScoreInt(ON_NUKE_SCORE_VALUE, ON_NUKE_SCORE_ENTRY);
 			}
 			else
 			{
