@@ -17,8 +17,6 @@ namespace Objects.Machines.ServerMachines.Communications
 
 		public int EmpResistance = 250;
 
-		private const int FIFTYPERCENT = 50;
-
 		private void Awake()
 		{
 			if (integrity == null)
