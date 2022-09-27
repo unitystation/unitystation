@@ -232,6 +232,8 @@ namespace UI
 			teamSelectionWindow.SetActive(false);
 			preRoundWindow.gameObject.SetActive(true);
 			preRoundWindow.SetUIForJoining();
+
+			InfoPanelMessageClient.Send();
 		}
 
 		private void ToggleCurrentHud(bool toggle)
