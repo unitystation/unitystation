@@ -1,4 +1,3 @@
-using System;
 using Communications;
 using InGameEvents;
 using Managers;
@@ -15,7 +14,7 @@ namespace Objects.Machines.ServerMachines.Communications
 		private Integrity integrity;
 		private bool isMalfunctioning = false;
 
-		public int EmpResistance = 250;
+		public int EmpResistance { private set; get; } = 250;
 
 		private void Awake()
 		{

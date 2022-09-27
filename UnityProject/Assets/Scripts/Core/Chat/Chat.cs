@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -10,7 +8,6 @@ using DiscordWebhook;
 using DatabaseAPI;
 using Systems.Communications;
 using Systems.MobAIs;
-using Core.Chat;
 using Messages.Server;
 using Items;
 using Managers;
@@ -18,7 +15,6 @@ using Objects.Machines.ServerMachines.Communications;
 using Player.Language;
 using Shared.Util;
 using Tiles;
-using Util;
 
 /// <summary>
 /// The Chat API
@@ -57,14 +53,15 @@ public partial class Chat : MonoBehaviour
 			// if we have a channel that requires transmission, find an emitter and send it via a signal.
 			if (Channels.RadioChannels.HasFlag(channel))
 			{
-				var radioMessageData = new CommsServer.RadioMessageData()
+				var radioMessageData = new CommsServer.RadioMessageData
 				{
 					ChatEvent = chatEvent,
 				};
 				chatEvent.channels = channel;
 				if (chatEvent.originator.TryGetComponent<PlayerScript>(out var playerScript))
 				{
-					foreach (var slot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.ear).Where(slot => slot.IsEmpty == false))
+					foreach (var slot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.ear)
+						         .Where(slot => slot.IsEmpty == false))
 					{
 						if(slot.ItemObject.TryGetComponent<Headset>(out var headset) == false) continue;
 						headset.TrySendSignal(radioMessageData);

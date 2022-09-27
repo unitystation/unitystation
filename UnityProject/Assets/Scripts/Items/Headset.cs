@@ -1,9 +1,7 @@
 ﻿using System.Collections;
 using Communications;
 using Items;
-using Managers;
 using Mirror;
-using Objects.Machines.ServerMachines.Communications;
 using Systems.Explosions;
 using UnityEngine;
 
@@ -39,6 +37,9 @@ public class Headset : SignalEmitter, IInteractable<HandActivate>, IExaminable, 
 		return isEMPed == false;
 	}
 
+	/// <summary>
+	/// Nothing happens in SS13 when a fail happens so I guess leave it like that
+	/// </summary>
 	public override void SignalFailed() { }
 
 	public string Examine(Vector3 worldPos = default)

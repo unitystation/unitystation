@@ -11,6 +11,9 @@ namespace InGameEvents
 		// Duplicates to change the weighting on random pick
 		private static readonly string garbledChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890123456789!@#$%^&*()!@#$%^&*!@#$%^&*()";
 
+		private const int DOUBLE = 2;
+		private const int MINIMUM_EMP_STRENGTH = 2;
+
 		public override void OnEventStart()
 		{
 			if (AnnounceEvent)
@@ -31,7 +34,7 @@ namespace InGameEvents
 			GameManager.Instance.CommsServers.Shuffle();
 			foreach (var server in GameManager.Instance.CommsServers.PickRandom(numberOfServersToAffect))
 			{
-				server.OnEmp(Random.Range(75, server.EmpResistance  * 2));
+				server.OnEmp(Random.Range(MINIMUM_EMP_STRENGTH, server.EmpResistance * DOUBLE));
 			}
 		}
 
