@@ -17,12 +17,14 @@ namespace Objects.Machines.ServerMachines.Communications
 
 		public int EmpResistance = 250;
 
+		private const int FIFTYPERCENT = 50;
+
 		private void Awake()
 		{
 			if (integrity == null)
 			{
 				integrity = GetComponent<Integrity>();
-				integrity.OnDamaged += DirtyRepair;
+				integrity.OnApplyDamage.AddListener(OnDamageReceived);
 			}
 			if (apcPoweredDevice == null)
 			{
@@ -39,7 +41,7 @@ namespace Objects.Machines.ServerMachines.Communications
 		private void OnDisable()
 		{
 			GameManager.Instance.CommsServers.Remove(this);
-			integrity.OnDamaged -= DirtyRepair;
+			integrity.OnApplyDamage.RemoveListener(OnDamageReceived);
 		}
 
 		public override void ReceiveSignal(SignalStrength strength, SignalEmitter responsibleEmitter, ISignalMessage message = null)
@@ -56,9 +58,16 @@ namespace Objects.Machines.ServerMachines.Communications
 			if(blackbox != null) blackbox.StoreChatEvents(finalMessage);
 		}
 
-		private void DirtyRepair()
+		private void OnDamageReceived(DamageInfo damageInfo)
 		{
-			isMalfunctioning = false;
+			if (damageInfo.AttackType == AttackType.Melee)
+			{
+				isMalfunctioning = false;
+			}
+			else
+			{
+				isMalfunctioning = DMMath.Prob(FIFTYPERCENT);
+			}
 			SparkUtil.TrySpark(gameObject);
 		}
 
