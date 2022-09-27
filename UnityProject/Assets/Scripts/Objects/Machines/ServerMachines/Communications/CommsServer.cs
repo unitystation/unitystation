@@ -13,7 +13,7 @@ namespace Objects.Machines.ServerMachines.Communications
 		[SerializeField] private BlackboxMachine blackbox;
 		[SerializeField] private APCPoweredDevice apcPoweredDevice;
 		private Integrity integrity;
-		private bool isMalf = false;
+		private bool isMalfunctioning = false;
 
 		public int EmpResistence = 250;
 
@@ -46,7 +46,7 @@ namespace Objects.Machines.ServerMachines.Communications
 			if(apcPoweredDevice.State == PowerState.Off) return;
 			if(message is not RadioMessageData c) return;
 			var finalMessage = c.ChatEvent;
-			if (isMalf)
+			if (isMalfunctioning)
 			{
 				finalMessage.message = EventProcessorOverload.ProcessMessage(c.ChatEvent.message);
 			}
@@ -57,14 +57,14 @@ namespace Objects.Machines.ServerMachines.Communications
 
 		private void DirtyRepair()
 		{
-			isMalf = false;
+			isMalfunctioning = false;
 			SparkUtil.TrySpark(gameObject);
 		}
 
 		public void OnEmp(int EmpStrength)
 		{
 			if (EmpStrength > EmpResistence) apcPoweredDevice.RemoveFromAPC();
-			isMalf = true;
+			isMalfunctioning = true;
 		}
 
 		public struct RadioMessageData : ISignalMessage
