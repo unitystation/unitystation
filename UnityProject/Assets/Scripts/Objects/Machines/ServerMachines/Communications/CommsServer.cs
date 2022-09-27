@@ -39,6 +39,7 @@ namespace Objects.Machines.ServerMachines.Communications
 		private void OnDisable()
 		{
 			GameManager.Instance.CommsServers.Remove(this);
+			integrity.OnDamaged -= DirtyRepair;
 		}
 
 		public override void ReceiveSignal(SignalStrength strength, SignalEmitter responsibleEmitter, ISignalMessage message = null)
