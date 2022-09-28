@@ -33,7 +33,7 @@ namespace Managers
 			{
 				if (receiver.gameObject == null) continue;
 				//So servers don't accidentally send data back to themselves
-				if(emitter.gameObject == receiver.gameObject) continue;
+				if (emitter.gameObject == receiver.gameObject) continue;
 				if (receiver.SignalTypeToReceive != type) continue;
 
 				//If the signals are not on the same frequency or requires encryption

@@ -16,6 +16,7 @@ using Initialisation;
 using Audio.Containers;
 using Managers;
 using Messages.Server;
+using Objects.Machines.ServerMachines.Communications;
 using Tilemaps.Behaviours.Layers;
 using UnityEngine.Profiling;
 using Player;
@@ -160,7 +161,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	[NonSerialized]
 	public bool DisconnectExpected = false;
-	
+
+	public List<CommsServer> CommsServers = new List<CommsServer>();
+
 	void IInitialise.Initialise()
 	{
 		// Set up server defaults, needs to be loaded here to ensure gameConfigManager is load.
@@ -677,7 +680,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			Logger.LogError($"Occupation {spawnRequest.RequestedOccupation.JobType} is full. Cannot spawn player.");
 			return false;
 		}
-		
+
 		return PlayerSpawn.ServerSpawnPlayer(spawnRequest) != null;
 	}
 
