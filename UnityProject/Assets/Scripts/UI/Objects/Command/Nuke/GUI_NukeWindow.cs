@@ -69,21 +69,21 @@ namespace UI.Objects.Command
 				yield return WaitFor.EndOfFrame;
 			}
 
-			InfoTimerDisplay.SetValueServer(FormatTime(nuke.CurrentTimerSeconds));
-			nuke.OnTimerUpdate.AddListener(timerSeconds => { InfoTimerDisplay.SetValueServer(FormatTime(timerSeconds)); });
+			InfoTimerDisplay.MasterSetValue(FormatTime(nuke.CurrentTimerSeconds));
+			nuke.OnTimerUpdate.AddListener(timerSeconds => { InfoTimerDisplay.MasterSetValue(FormatTime(timerSeconds)); });
 
 			Logger.Log(nameof(WaitForProvider), Category.Machines);
 		}
 
 		private void Start()
 		{
-			if (IsServer)
+			if (IsMasterTab)
 			{
 				InitialInfoText = $"Enter {Nuke.NukeCode.ToString().Length}-digit code:";
-				InfoNukeDisplay.SetValueServer("Insert the disk!");
+				InfoNukeDisplay.MasterSetValue("Insert the disk!");
 				if (!Nuke.IsAncharable)
 				{
-					InfoAnchorColor.SetValueServer(colorGrey);
+					InfoAnchorColor.MasterSetValue(colorGrey);
 				}
 			}
 		}
@@ -102,7 +102,7 @@ namespace UI.Objects.Command
 				return;
 			}
 			Nuke.EjectDisk();
-			InfoNukeDisplay.SetValueServer("Insert the disk!");
+			InfoNukeDisplay.MasterSetValue("Insert the disk!");
 			Clear();
 		}
 
@@ -120,8 +120,8 @@ namespace UI.Objects.Command
 			bool? isSafety = Nuke.SafetyNuke();
 			if (isSafety != null)
 			{
-				InfoSafetyColor.SetValueServer(isSafety.Value ? colorGreen : colorRed);
-				if (isSafety.Value) { InfoTimerColor.SetValueServer(colorRed); }
+				InfoSafetyColor.MasterSetValue(isSafety.Value ? colorGreen : colorRed);
+				if (isSafety.Value) { InfoTimerColor.MasterSetValue(colorRed); }
 				this.TryStopCoroutine(ref corHandler);
 				this.StartCoroutine(UpdateDisplay("Safety is: " + (isSafety.Value ? "On" : "Off"), (isSafety.Value ? "Nuke is disarmed!" : "Nuke is armed!")), ref corHandler);
 			}
@@ -152,7 +152,7 @@ namespace UI.Objects.Command
 			bool? isAnchored = Nuke.AnchorNuke();
 			if (isAnchored != null)
 			{
-				InfoAnchorColor.SetValueServer(isAnchored.Value ? colorRed : colorGreen);
+				InfoAnchorColor.MasterSetValue(isAnchored.Value ? colorRed : colorGreen);
 				this.TryStopCoroutine(ref corHandler);
 				this.StartCoroutine(UpdateDisplay("Anchor is: " + (isAnchored.Value ? "Off" : "On"), (isAnchored.Value ? "Nuke position unlocked!" : "Nuke position locked!")), ref corHandler);
 			}
@@ -179,13 +179,13 @@ namespace UI.Objects.Command
 			{
 				this.TryStopCoroutine(ref corHandler);
 				Clear();
-				InfoTimerColor.SetValueServer(isTimer.Value ? colorGreen : colorRed);
+				InfoTimerColor.MasterSetValue(isTimer.Value ? colorGreen : colorRed);
 				this.TryStopCoroutine(ref corHandler);
 				this.StartCoroutine(UpdateDisplay("Timer is: " + (isTimer.Value ? "On" : "Off"), (isTimer.Value ? "Set countdown timer:" : "Nuclear detonation aborted!")), ref corHandler);
 				if (!isTimer.Value)
 				{
 					//Clear countdown timer upon disabling it
-					InfoTimerDisplay.SetValueServer("");
+					InfoTimerDisplay.MasterSetValue("");
 				}
 			}
 			else
@@ -215,12 +215,12 @@ namespace UI.Objects.Command
 					int length = Nuke.CurrentCode.Length;
 					//replace older digits with asterisks
 					string newDigit = Nuke.CurrentCode.Substring(length <= 0 ? 0 : length - 1);
-					CodeDisplay.SetValueServer(newDigit.PadLeft(length, '*'));
+					CodeDisplay.MasterSetValue(newDigit.PadLeft(length, '*'));
 					StartCoroutine(HideCode());
 				}
 				else
 				{
-					CodeDisplay.SetValueServer(Nuke.CurrentCode);
+					CodeDisplay.MasterSetValue(Nuke.CurrentCode);
 				}
 
 			}
@@ -229,7 +229,7 @@ namespace UI.Objects.Command
 		public void Clear()
 		{
 			Nuke.Clear();
-			CodeDisplay.SetValueServer("");
+			CodeDisplay.MasterSetValue("");
 		}
 
 		public void TryArm()
@@ -302,23 +302,23 @@ namespace UI.Objects.Command
 		private IEnumerator HideCode()
 		{
 			yield return WaitFor.Seconds(1);
-			CodeDisplay.SetValueServer("".PadLeft(((string)CodeDisplay.ValueObject).Length, '*'));
+			CodeDisplay.MasterSetValue("".PadLeft(((string)CodeDisplay.ValueObject).Length, '*'));
 		}
 
 		private IEnumerator UpdateDisplay(string strBlink, string strSet = "")
 		{
-			InfoNukeDisplay.SetValueServer(strBlink);
+			InfoNukeDisplay.MasterSetValue(strBlink);
 			yield return WaitFor.Seconds(0.5f);
-			InfoNukeDisplay.SetValueServer("");
+			InfoNukeDisplay.MasterSetValue("");
 			yield return WaitFor.Seconds(0.5f);
-			InfoNukeDisplay.SetValueServer(strBlink);
+			InfoNukeDisplay.MasterSetValue(strBlink);
 			yield return WaitFor.Seconds(0.5f);
-			InfoNukeDisplay.SetValueServer("");
+			InfoNukeDisplay.MasterSetValue("");
 			yield return WaitFor.Seconds(0.5f);
-			InfoNukeDisplay.SetValueServer(strBlink);
+			InfoNukeDisplay.MasterSetValue(strBlink);
 			yield return WaitFor.Seconds(0.5f);
 
-			InfoNukeDisplay.SetValueServer(strSet);
+			InfoNukeDisplay.MasterSetValue(strSet);
 		}
 	}
 }

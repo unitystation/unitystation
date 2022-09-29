@@ -35,5 +35,8 @@ namespace UI.Core.NetUI
 			get => transform.localPosition;
 			set => transform.localPosition = value;
 		}
+
+		public bool Poolble = true;
+
 	}
 }

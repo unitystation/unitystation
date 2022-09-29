@@ -56,12 +56,12 @@ namespace UI.Items
                 //Null is the Emergency Teleport add first then other beacons
                 beacons.Add(null);
                 beacons= beacons.Concat(TrackingBeacon.GetAllBeaconOfType(handTeleporter.TrackingBeaconType)).ToList();
-        		if (beacons.Count != beaconList.Entries.Length)
+        		if (beacons.Count != beaconList.Entries.Count)
         		{
         			beaconList.SetItems(beacons.Count);
         		}
 
-        		for (int i = 0; i < beaconList.Entries.Length; i++)
+        		for (int i = 0; i < beaconList.Entries.Count; i++)
         		{
         			DynamicEntry dynamicEntry = beaconList.Entries[i];
         			var entry = dynamicEntry.GetComponent<HandTeleporterEntry>();

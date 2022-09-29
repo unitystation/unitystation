@@ -83,18 +83,18 @@ namespace UI.Objects.Command
 			console.OnServerIDCardChanged.AddListener(ProcessIdChange);
 			shuttle = GameManager.Instance.PrimaryEscapeShuttle;
 
-			shuttleStatusLabel.SetValueServer(shuttle.Status.ToString());
+			shuttleStatusLabel.MasterSetValue(shuttle.Status.ToString());
 			statusImage.SetSprite((int)shuttle.Status);
 			shuttle.OnShuttleUpdate.AddListener(status =>
 			{
 				statusImage.SetSprite((int)shuttle.Status);
-				shuttleStatusLabel.SetValueServer(status.ToString());
+				shuttleStatusLabel.MasterSetValue(status.ToString());
 			});
 
-			shuttleTimerLabel.SetValueServer(FormatTime(shuttle.CurrentTimerSeconds));
+			shuttleTimerLabel.MasterSetValue(FormatTime(shuttle.CurrentTimerSeconds));
 			shuttle.OnTimerUpdate.AddListener(timerSeconds =>
 		   {
-			   shuttleTimerLabel.SetValueServer(FormatTime(timerSeconds));
+			   shuttleTimerLabel.MasterSetValue(FormatTime(timerSeconds));
 		   });
 
 			RefreshCallButtonText();
@@ -167,14 +167,14 @@ namespace UI.Objects.Command
 
 		private void RefreshCallButtonText()
 		{
-			shuttleCallButtonLabel.SetValueServer(shuttle.Status == EscapeShuttleStatus.OnRouteStation ? "Recall Emergency Shuttle" : "Call Emergency Shuttle");
+			shuttleCallButtonLabel.MasterSetValue(shuttle.Status == EscapeShuttleStatus.OnRouteStation ? "Recall Emergency Shuttle" : "Call Emergency Shuttle");
 		}
 
 		private IEnumerator ShowSubmitResult(string callResult)
 		{
-			shuttleCallResultLabel.SetValueServer(callResult);
+			shuttleCallResultLabel.MasterSetValue(callResult);
 			yield return WaitFor.Seconds(3);
-			shuttleCallResultLabel.SetValueServer(String.Empty);
+			shuttleCallResultLabel.MasterSetValue(String.Empty);
 		}
 
 		public void SetStatusDisplay(string text)
@@ -205,8 +205,8 @@ namespace UI.Objects.Command
 
 		public void UpdateAlertLevelLabels()
 		{
-			CurrentAlertLevelLabel.SetValueServer(GameManager.Instance.CentComm.CurrentAlertLevel.ToString().ToUpper());
-			NewAlertLevelLabel.SetValueServer(LocalAlertLevel.ToString().ToUpper());
+			CurrentAlertLevelLabel.MasterSetValue(GameManager.Instance.CentComm.CurrentAlertLevel.ToString().ToUpper());
+			NewAlertLevelLabel.MasterSetValue(LocalAlertLevel.ToString().ToUpper());
 		}
 
 		public void ChangeAlertLevel()
@@ -227,15 +227,15 @@ namespace UI.Objects.Command
 
 		private IEnumerator DisplayAlertErrorMessage(string text)
 		{
-			AlertErrorLabel.SetValueServer(text);
+			AlertErrorLabel.MasterSetValue(text);
 			for (int _i = 0; _i < 5; _i++)
 			{
 				yield return WaitFor.Seconds(1);
-				AlertErrorLabel.SetValueServer("");
+				AlertErrorLabel.MasterSetValue("");
 				yield return WaitFor.Seconds(1);
-				AlertErrorLabel.SetValueServer(text);
+				AlertErrorLabel.MasterSetValue(text);
 			}
-			AlertErrorLabel.SetValueServer("");
+			AlertErrorLabel.MasterSetValue("");
 			yield break;
 		}
 
@@ -266,17 +266,17 @@ namespace UI.Objects.Command
 			var idCard = console.IdCard;
 			if (idCard != null)
 			{
-				idLabel.SetValueServer($"{idCard.RegisteredName}, {idCard.GetJobTitle()}");
+				idLabel.MasterSetValue($"{idCard.RegisteredName}, {idCard.GetJobTitle()}");
 				return;
 			}
 
 			if (IsAIInteracting())
 			{
-				idLabel.SetValueServer("AI Control");
+				idLabel.MasterSetValue("AI Control");
 				return;
 			}
 
-			idLabel.SetValueServer("<No ID inserted>");
+			idLabel.MasterSetValue("<No ID inserted>");
 		}
 
 		public void LogIn()
@@ -293,7 +293,7 @@ namespace UI.Objects.Command
 
 			if (!console.IdCard.HasAccess(Clearance.Heads))
 			{
-				idLabel.SetValueServer(idLabel.Value + " (No access)");
+				idLabel.MasterSetValue(idLabel.Value + " (No access)");
 				return;
 			}
 

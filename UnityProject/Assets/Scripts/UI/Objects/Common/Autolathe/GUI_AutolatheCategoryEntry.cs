@@ -15,7 +15,7 @@ namespace UI.Objects
 		{
 			if (autolatheMasterTab == null)
 			{
-				MasterTab.GetComponent<GUI_Autolathe>().OnCategoryClicked.Invoke(ExoFabProducts);
+				containedInTab.GetComponent<GUI_Autolathe>().OnCategoryClicked.Invoke(ExoFabProducts);
 			}
 			else
 			{
@@ -35,7 +35,7 @@ namespace UI.Objects
 			{
 				if (( element as NetUIElement<string>) != null)
 				{
-					(element as NetUIElement<string>).SetValueServer(GetName(element));
+					(element as NetUIElement<string>).MasterSetValue(GetName(element));
 				}
 			}
 		}

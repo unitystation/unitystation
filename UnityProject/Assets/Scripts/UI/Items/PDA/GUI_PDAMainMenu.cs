@@ -68,12 +68,12 @@ namespace UI.Items.PDA
 
 		private void UpdateFlashlightText()
 		{
-			lightLabel.SetValueServer(controller.PDA.FlashlightOn ? "Flashlight (ON)" : "Flashlight (OFF)");
+			lightLabel.MasterSetValue(controller.PDA.FlashlightOn ? "Flashlight (ON)" : "Flashlight (OFF)");
 		}
 
 		private void SetIDStatus(string status)
 		{
-			idLabel.SetValueServer(status);
+			idLabel.MasterSetValue(status);
 		}
 	}
 }

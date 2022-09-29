@@ -26,8 +26,8 @@ namespace UI.Items
 
 		public void OnTabOpenedHandler(PlayerInfo connectedPlayer)
 		{
-			allowRemoteActionsSlider.SetValueServer(AiVessel.AllowRemoteAction ? (1 * 100).ToString() : "0");
-			allowRadioSlider.SetValueServer(AiVessel.AllowRadio ? (1 * 100).ToString() : "0");
+			allowRemoteActionsSlider.MasterSetValue(AiVessel.AllowRemoteAction ? (1 * 100).ToString() : "0");
+			allowRadioSlider.MasterSetValue(AiVessel.AllowRadio ? (1 * 100).ToString() : "0");
 
 			if (AiVessel.LinkedPlayer == null)
 			{

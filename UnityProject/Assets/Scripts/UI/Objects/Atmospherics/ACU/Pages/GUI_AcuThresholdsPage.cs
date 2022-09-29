@@ -65,16 +65,16 @@ namespace UI.Objects.Atmospherics.Acu
 
 		private void PopulateThresholds()
 		{
-			if (thresholdsContainer.Entries.Length != Acu.Thresholds.GasMoles.Count + 3)
+			if (thresholdsContainer.Entries.Count != Acu.Thresholds.GasMoles.Count + 3)
 			{
 				thresholdsContainer.SetItems(Acu.Thresholds.GasMoles.Count + 3);
 			}
-			
+
 			UpdateThresholdEntry(0, ThresholdType.Pressure, "Pressure", Acu.Thresholds.Pressure, default);
 			UpdateThresholdEntry(1, ThresholdType.Temperature, "Temperature", Acu.Thresholds.Temperature, default);
 			UpdateThresholdEntry(2, ThresholdType.Linebreak, default, default, default);
 
-			for (int i = 3; i < thresholdsContainer.Entries.Length; i++)
+			for (int i = 3; i < thresholdsContainer.Entries.Count; i++)
 			{
 				var gas = Acu.Thresholds.GasMoles.Keys.ElementAt(i - 3);
 				var values = Acu.Thresholds.GasMoles.Values.ElementAt(i - 3);

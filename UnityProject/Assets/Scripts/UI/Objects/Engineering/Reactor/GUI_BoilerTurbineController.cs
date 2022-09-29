@@ -49,26 +49,26 @@ namespace UI.Objects.Engineering
 			{
 				CapacityPercent = boilerTurbineController.ReactorBoiler.CurrentPressureInput /
 								  boilerTurbineController.ReactorBoiler.MaxPressureInput;
-				BoilerTemperature.SetValueServer(Math
+				BoilerTemperature.MasterSetValue(Math
 					.Round((boilerTurbineController.ReactorBoiler.ReactorPipe.pipeData.mixAndVolume.Temperature /
 							12000) * 100).ToString());
 
-				BoilerPressure.SetValueServer(Math
+				BoilerPressure.MasterSetValue(Math
 					.Round((boilerTurbineController.ReactorBoiler.CurrentPressureInput /
 							boilerTurbineController.ReactorBoiler.MaxPressureInput) * 100).ToString());
 
 
-				BoilerCapacity.SetValueServer(Math.Round((CapacityPercent) * 100).ToString());
+				BoilerCapacity.MasterSetValue(Math.Round((CapacityPercent) * 100).ToString());
 				GUIBoilerAnnunciators.Refresh();
 			}
 
 			if (boilerTurbineController.ReactorTurbine != null)
 			{
-				TurbineCurrent.SetValueServer(boilerTurbineController.ReactorTurbine.moduleSupplyingDevice.GetCurrente() +
+				TurbineCurrent.MasterSetValue(boilerTurbineController.ReactorTurbine.moduleSupplyingDevice.GetCurrente() +
 											  "A");
-				TurbineVoltage.SetValueServer(boilerTurbineController.ReactorTurbine.moduleSupplyingDevice.GetVoltage() +
+				TurbineVoltage.MasterSetValue(boilerTurbineController.ReactorTurbine.moduleSupplyingDevice.GetVoltage() +
 											  "V");
-				TurbinePowerGenerating.SetValueServer(boilerTurbineController.ReactorTurbine.moduleSupplyingDevice
+				TurbinePowerGenerating.MasterSetValue(boilerTurbineController.ReactorTurbine.moduleSupplyingDevice
 					.ProducingWatts + "W");
 				GUITurbineAnnunciators.Refresh();
 			}
@@ -96,18 +96,18 @@ namespace UI.Objects.Engineering
 
 			public void Capacity()
 			{
-				BoilerAtHighCapacity.SetValueServer(
+				BoilerAtHighCapacity.MasterSetValue(
 					(GUIBoilerTurbineController.boilerTurbineController.ReactorBoiler.CurrentPressureInput >
 					 (GUIBoilerTurbineController.boilerTurbineController.ReactorBoiler.MaxPressureInput * 0.8m))
 					.ToString());
 
-				BoilerAtLowCapacity.SetValueServer(
+				BoilerAtLowCapacity.MasterSetValue(
 					(GUIBoilerTurbineController.boilerTurbineController.ReactorBoiler.CurrentPressureInput >
 					 (GUIBoilerTurbineController.boilerTurbineController.ReactorBoiler.MaxPressureInput * 0.1m))
 					.ToString());
 				capacityDelta = Math.Abs((float)GUIBoilerTurbineController.boilerTurbineController.ReactorBoiler.CurrentPressureInput - Last_capacity);
 
-				HighBoilerCapacityDelta.SetValueServer((capacityDelta > 200).ToString());
+				HighBoilerCapacityDelta.MasterSetValue((capacityDelta > 200).ToString());
 				Last_capacity = (float)GUIBoilerTurbineController.boilerTurbineController.ReactorBoiler.CurrentPressureInput;
 			}
 		}
@@ -124,9 +124,9 @@ namespace UI.Objects.Engineering
 			public void Refresh()
 			{
 				var Voltage = GUIBoilerTurbineController.boilerTurbineController.ReactorTurbine.moduleSupplyingDevice.GetVoltage();
-				Highvoltage.SetValueServer((Voltage > 780000).ToString());
-				LowVoltage.SetValueServer((Voltage < 700000).ToString());
-				NoVoltage.SetValueServer((Voltage < 10).ToString());
+				Highvoltage.MasterSetValue((Voltage > 780000).ToString());
+				LowVoltage.MasterSetValue((Voltage < 700000).ToString());
+				NoVoltage.MasterSetValue((Voltage < 10).ToString());
 			}
 
 		}

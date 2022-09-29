@@ -63,7 +63,7 @@ namespace UI.Items
 		}
 		private void UpdateCurrentAcceessText()
 		{
-			CurrentAcceessText.SetValueServer(airlockElectronics.CurrentClearance.ToString());
+			CurrentAcceessText.MasterSetValue(airlockElectronics.CurrentClearance.ToString());
 		}
 
 		#region Buttons

@@ -26,7 +26,7 @@ namespace UI.Core.NetUI
 			}
 
 			var entryArray = Entries;
-			for (var i = 0; i < entryArray.Length; i++)
+			for (var i = 0; i < entryArray.Count; i++)
 			{
 				DynamicEntry entry = entryArray[i];
 				var item = entry as ItemEntry;
@@ -50,18 +50,18 @@ namespace UI.Core.NetUI
 			Logger.Log($"ItemList: Item add success! newEntry={newEntry}", Category.ItemSpawn);
 
 			//rescan elements  and notify
-			NetworkTabManager.Instance.Rescan(MasterTab.NetTabDescriptor);
+			NetworkTabManager.Instance.Rescan(containedInTab.NetTabDescriptor);
 			UpdatePeepers();
 
 			return true;
 		}
 
-		public bool RemoveItem(GameObject prefab)
+		public bool MasterRemoveItem(GameObject prefab)
 		{
-			return RemoveItem(prefab.name);
+			return MasterRemoveItem(prefab.name);
 		}
 
-		public bool RemoveItem(string prefabName)
+		public bool MasterRemoveItem(string prefabName)
 		{
 			foreach (var pair in EntryIndex)
 			{

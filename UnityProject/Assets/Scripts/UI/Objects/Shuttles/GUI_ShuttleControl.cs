@@ -65,12 +65,12 @@ namespace UI.Objects.Shuttles
 			radarList = this["EntryList"] as RadarList;
 			CoordReadout.SetCoords(shuttleConsole.registerTile.Matrix.MatrixMove.transform.position);
 			//Not doing this for clients
-			if (IsServer)
+			if (IsMasterTab)
 			{
 				shuttleConsole.GUItab = this;
 
 				radarList.Origin = matrixMove;
-				StartButton.SetValueServer("1");
+				StartButton.MasterSetValue("1");
 
 				//Init listeners
 				matrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener(OnStartMovementServer);
@@ -100,13 +100,13 @@ namespace UI.Objects.Shuttles
 			{
 				if (fuelGauge.Value != "0")
 				{
-					fuelGauge.SetValueServer((0).ToString());
+					fuelGauge.MasterSetValue((0).ToString());
 				}
 			}
 			else if(shuttleFuelSystem.Connector?.canister?.GasContainer != null)
 			{
 				var value = $"{(shuttleFuelSystem.FuelLevel * 100f)}";
-				fuelGauge.SetValueServer(value);
+				fuelGauge.MasterSetValue(value);
 			}
 
 			if (matrixMove.rcsModeActive)
@@ -131,28 +131,28 @@ namespace UI.Objects.Shuttles
 			{
 				AddRadarItems();
 				//Important: set values from server using SetValue and not Value
-				Rulers.SetValueServer(rulersColor);
-				RadarScanRay.SetValueServer(rayColor);
-				Crosshair.SetValueServer(crosshairColor);
+				Rulers.MasterSetValue(rulersColor);
+				RadarScanRay.MasterSetValue(rayColor);
+				Crosshair.MasterSetValue(crosshairColor);
 				SetSafetyProtocols(true);
 			}
 			else if (newState == ShuttleConsoleState.Emagged)
 			{
 				AddRadarItems(true);
 				//Repaint radar to evil colours
-				Rulers.SetValueServer(HSVUtil.ChangeColorHue(rulersColor, -80));
-				RadarScanRay.SetValueServer(HSVUtil.ChangeColorHue(rayColor, -80));
-				Crosshair.SetValueServer(HSVUtil.ChangeColorHue(crosshairColor, -80));
+				Rulers.MasterSetValue(HSVUtil.ChangeColorHue(rulersColor, -80));
+				RadarScanRay.MasterSetValue(HSVUtil.ChangeColorHue(rayColor, -80));
+				Crosshair.MasterSetValue(HSVUtil.ChangeColorHue(crosshairColor, -80));
 				SetSafetyProtocols(false);
 			}
 			UpdateManager.Add(UpdateMe, 1f);
-			OffOverlay.SetValueServer(Color.clear);
+			OffOverlay.MasterSetValue(Color.clear);
 		}
 
 		private void ClearScreen()
 		{
 			//Black screen overlay
-			OffOverlay.SetValueServer(Color.black);
+			OffOverlay.MasterSetValue(Color.black);
 			radarList.Clear();
 			ToggleEngine(false);
 			shuttleConsole.ChangeRcsPlayer(false, matrixMove.playerControllingRcs);
@@ -199,12 +199,12 @@ namespace UI.Objects.Shuttles
 		private void SetSafetyProtocols(bool state)
 		{
 			matrixMove.SafetyProtocolsOn = state;
-			SafetyText.SetValueServer(state ? "ON" : "OFF");
+			SafetyText.MasterSetValue(state ? "ON" : "OFF");
 		}
 
 		private void OnStopMovementServer()
 		{
-			StartButton.SetValueServer("0");
+			StartButton.MasterSetValue("0");
 			HideWaypoint();
 		}
 
@@ -213,7 +213,7 @@ namespace UI.Objects.Shuttles
 			// dont enable button when moving with RCS
 			if (!matrixMove.rcsModeActive)
 			{
-				StartButton.SetValueServer("1");
+				StartButton.MasterSetValue("1");
 			}
 		}
 

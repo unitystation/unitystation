@@ -23,7 +23,7 @@ namespace UI.Items.PDA
 
 		[SerializeField]
 		private NetText_label tcCounter = null;
-		
+
 		public void OnPageActivated()
 		{
 			mainController.SetBreadcrumb(ROOT_DIRECTORY);
@@ -38,7 +38,7 @@ namespace UI.Items.PDA
 
 		public void UpdateTCCounter()
 		{
-			tcCounter.SetValueServer($"TC:{mainController.PDA.UplinkTC}");
+			tcCounter.MasterSetValue($"TC:{mainController.PDA.UplinkTC}");
 		}
 
 		public void LockUplink()

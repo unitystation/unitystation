@@ -108,33 +108,33 @@ namespace UI.Objects.Wallmounts
 
 			string displayName = departmentList.Departments.ElementAt<Department>((int)masterTerminal.Department).DisplayName.ToUpper();
 
-			TitleLabel.SetValueServer("PUBLIC TERMINAL - " + displayName);
+			TitleLabel.MasterSetValue("PUBLIC TERMINAL - " + displayName);
 
 			if (masterTerminal.CurrentLogin == null)
 			{
-				NameLabel.SetValueServer("Not Signed In.");
+				NameLabel.MasterSetValue("Not Signed In.");
 			}
 			else
 			{
 				string playerName = masterTerminal.CurrentLogin.RegisteredName;
 
-				if (playerName == null) NameLabel.SetValueServer("Signed in as: NULL");
+				if (playerName == null) NameLabel.MasterSetValue("Signed in as: NULL");
 				else
-					NameLabel.SetValueServer("Signed in as: " + masterTerminal.CurrentLogin.RegisteredName);
+					NameLabel.MasterSetValue("Signed in as: " + masterTerminal.CurrentLogin.RegisteredName);
 
 				if (mainSwitcher.CurrentPage == LoginPage) mainSwitcher.SetActivePage(RequestPage);
 			}
-				
+
 
 			DateTime stationTimeHolder = GameManager.Instance.stationTime;
 
 			string timestring = stationTimeHolder.ToString("HH:mm");
 			string voltagestring = masterTerminal.CurrentVoltage + "V";
 
-			TimerLabel.SetValueServer(timestring);
-			VoltageLabel.SetValueServer(voltagestring);
+			TimerLabel.MasterSetValue(timestring);
+			VoltageLabel.MasterSetValue(voltagestring);
 		}
-		
+
 		public void LogOut()
 		{
 			masterTerminal.ClearID();
@@ -178,7 +178,7 @@ namespace UI.Objects.Wallmounts
 					item.TerminalMasterTab = this;
 					item.ReInit(messageData[i]);
 			}
-			
+
 		}
 
 		public void OpenArchivePage()
@@ -227,7 +227,7 @@ namespace UI.Objects.Wallmounts
 
 			bool isUrgent = Urgent;
 
-			masterTerminal.TransmitRequest(targetDep, message, isUrgent);			
+			masterTerminal.TransmitRequest(targetDep, message, isUrgent);
 		}
 
 	}

@@ -4,64 +4,45 @@ using HealthV2;
 using Objects.Medical;
 using UnityEngine;
 
+[System.Serializable]
+public class DNAMutationData
+{
+	public string BodyPartSearchString = "Torso"; //IDK Better system
+
+	public List<DNAPayload> Payload = new List<DNAPayload>();
+
+	[System.Serializable]
+	public class DNAPayload
+	{
+		public string CustomisationTarget;
+		public string CustomisationReplaceWith;
+
+		public MutationSO TargetMutationSO;
+
+		public PlayerHealthData SpeciesMutateTo;
+		public GameObject MutateToBodyPart;
+	}
+
+}
+
+
+
+
 public class DNAConsole : MonoBehaviour
 {
 	public DNAScanner DNAScanner;
 
-	public char SelectionChar = 'h';
-	public BodyPartSelectionType SelectionType;
 
-	public string CustomisationTarget;
-	public string CustomisationReplaceWith;
+	public List<DNAMutationData> Injecting = new List<DNAMutationData>();
 
-	public enum BodyPartSelectionType
-	{
-		MustInclude,
-		MustNotContain
-	}
-
-
-	public void ModifyCustomisation(BodyPart bodyPart, string InCustomisationTarget, string InCustomisationReplaceWith  )
-	{
-		if (bodyPart.SetCustomisationData.Contains(InCustomisationTarget))
-		{
-			Logger.LogError($"{bodyPart.name} has {InCustomisationTarget} in SetCustomisationData");
-			var newone = bodyPart.SetCustomisationData.Replace(InCustomisationTarget, InCustomisationReplaceWith);
-			Logger.LogError($"Changing from {bodyPart.SetCustomisationData} to {newone} ");
-			bodyPart.LobbyCustomisation.OnPlayerBodyDeserialise(bodyPart, newone, bodyPart.HealthMaster);
-		}
-
-	}
 
 
 	[RightClickMethod()]
 	[NaughtyAttributes.Button()]
 	public void Inject()
 	{
-		foreach (var BP in DNAScanner.occupant.BodyPartList)
-		{
-			switch (SelectionType)
-			{
-				case BodyPartSelectionType.MustNotContain:
-					if (BP.name.Contains(SelectionChar) == false)
-					{
-						ModifyCustomisation(BP, CustomisationTarget, CustomisationReplaceWith);
-					}
-					break;
-				case BodyPartSelectionType.MustInclude:
-					if (BP.name.Contains(SelectionChar))
-					{
-						ModifyCustomisation(BP, CustomisationTarget, CustomisationReplaceWith);
-					}
-					break;
-			}
-		}
+		DNAScanner.occupant.InjectDNA(Injecting);
 	}
-
-
-	//humm
-	//
-
 
 	/*
 	 ok, Species changing equals unlocks a puzzle,

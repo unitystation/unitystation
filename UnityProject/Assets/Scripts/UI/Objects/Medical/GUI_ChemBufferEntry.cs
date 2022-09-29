@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using Chemistry;
 using UI.Core.NetUI;
-using Chemistry;
+using UnityEngine;
 
-namespace UI.Objects.Chemistry
+namespace UI.Objects.Medical
 {
 	/// <summary>
 	/// DynamicEntry for ChemMaster NetTab buffer page.
@@ -30,8 +29,8 @@ namespace UI.Objects.Chemistry
 			reagent = newReagent;
 			reagentAmount = amount;
 			chemMasterTab = tab;
-			reagentName.SetValueServer(reagent.Name);
-			reagentAmountDisplay.SetValueServer($"{reagentAmount:F2}u");
+			reagentName.MasterSetValue(reagent.Name);
+			reagentAmountDisplay.MasterSetValue($"{reagentAmount:F2}u");
 		}
 		public void OpenCustomPrompt()
 		{

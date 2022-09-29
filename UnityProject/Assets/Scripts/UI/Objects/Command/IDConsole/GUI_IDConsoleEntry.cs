@@ -109,7 +109,7 @@ namespace UI.Objects.Command
 			{
 				if (toggle.isOn)
 				{
-					netToggle.SetValueServer("0");
+					netToggle.MasterSetValue("0");
 				}
 				return;
 			}
@@ -119,11 +119,11 @@ namespace UI.Objects.Command
 				var hasOccupation = TargetCard.Occupation == occupation;
 				if (hasOccupation && !toggle.isOn)
 				{
-					netToggle.SetValueServer("1");
+					netToggle.MasterSetValue("1");
 				}
 				else if (!hasOccupation && toggle.isOn)
 				{
-					netToggle.SetValueServer("0");
+					netToggle.MasterSetValue("0");
 				}
 			}
 			else
@@ -131,11 +131,11 @@ namespace UI.Objects.Command
 				var hasAccess = TargetCard.HasAccess(clearance);
 				if (hasAccess && !toggle.isOn)
 				{
-					netToggle.SetValueServer("1");
+					netToggle.MasterSetValue("1");
 				}
 				else if (!hasAccess && toggle.isOn)
 				{
-					netToggle.SetValueServer("0");
+					netToggle.MasterSetValue("0");
 				}
 			}
 		}

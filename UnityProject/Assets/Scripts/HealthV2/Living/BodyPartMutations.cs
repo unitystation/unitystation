@@ -14,6 +14,19 @@ public class BodyPartMutations : BodyPartFunctionality
 
 	public int SecondsForSpeciesMutation = 60;
 
+	public void MutateCustomisation(string InCustomisationTarget, string CustomisationReplaceWith)
+	{
+		if (bodyPart.SetCustomisationData.Contains(InCustomisationTarget))
+		{
+			//Logger.LogError($"{bodyPart.name} has {InCustomisationTarget} in SetCustomisationData");
+			var newone = bodyPart.SetCustomisationData.Replace(InCustomisationTarget, CustomisationReplaceWith);
+			//Logger.LogError($"Changing from {bodyPart.SetCustomisationData} to {newone} ");
+			bodyPart.LobbyCustomisation.OnPlayerBodyDeserialise(bodyPart, newone, bodyPart.HealthMaster);
+		}
+	}
+
+
+
 
 	[NaughtyAttributes.Button()]
 	public void AddFirstMutation()
@@ -24,6 +37,8 @@ public class BodyPartMutations : BodyPartFunctionality
 
 	public void AddMutation(MutationSO Mutation)
 	{
+		if (CapableMutations.Contains(Mutation) == false) return; //TODO Maybe add negative mutation instead
+
 		if (MutationVariants.ContainsKey(Mutation) == false)
 		{
 			MutationVariants[Mutation] = new NumberAndRoundID()
@@ -144,7 +159,7 @@ public class BodyPartMutations : BodyPartFunctionality
 
 		RelatedPart.TryRemoveFromBody( CausesBleed: false, Destroy: true, PreventGibb_Death: true );
 //dropping UI slots??
-//Relink fat / stomach
+//Relink fat / stomach??
 
 
 		if (Parent != null)
@@ -157,10 +172,16 @@ public class BodyPartMutations : BodyPartFunctionality
 		}
 
 
+		var ONMutation = SpawnedBodypart.gameObject.GetComponent<BodyPartMutations>();
 
-
-
-
+		if (ONMutation != null)
+		{
+			foreach (var Mutations in ActiveMutations)
+			{
+				ONMutation.AddMutation(Mutations.RelatedMutationSO);
+			}
+			ONMutation.MutateCustomisation(ONMutation.RelatedPart.SetCustomisationData, RelatedPart.SetCustomisationData);
+		}
 	}
 
 	public PlayerHealthData PlayerHealthData;

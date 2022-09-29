@@ -27,7 +27,7 @@ namespace UI.Objects.Atmospherics.Acu
 		public void Open(string value, Action<string> callback)
 		{
 			latestCaller = callback;
-			placeholderLabel.SetValueServer(value);
+			placeholderLabel.MasterSetValue(value);
 			modalSwitcher.SetActivePage(this);
 		}
 

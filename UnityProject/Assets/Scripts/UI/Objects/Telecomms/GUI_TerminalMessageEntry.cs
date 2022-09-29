@@ -47,15 +47,15 @@ namespace UI.Objects.Wallmounts
 
 			string displayName = departmentList.Departments.ElementAt<Department>(message.senderDepartment).DisplayName;
 
-			NameAndCategory.SetValueServer(message.Sender + ", " + displayName);
+			NameAndCategory.MasterSetValue(message.Sender + ", " + displayName);
 
 			if (messageData.isUrgent == false)
 			{
-				UrgencyText.SetValueServer("");
-				UrgencyImage.SetValueServer(new Color(255,255,255,0));
+				UrgencyText.MasterSetValue("");
+				UrgencyImage.MasterSetValue(new Color(255,255,255,0));
 			}
-	
-			MessageText.SetValueServer(messageData.message);
+
+			MessageText.MasterSetValue(messageData.message);
 		}
 	}
 }

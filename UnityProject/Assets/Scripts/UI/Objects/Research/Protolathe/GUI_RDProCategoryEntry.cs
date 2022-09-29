@@ -15,7 +15,7 @@ namespace UI.Objects
 		{
 			if (rdProMasterTab == null)
 			{
-				MasterTab.GetComponent<GUI_RDProductionMachine>().OnCategoryClicked.Invoke(CategoryProducts,CategoryName);
+				containedInTab.GetComponent<GUI_RDProductionMachine>().OnCategoryClicked.Invoke(CategoryProducts,CategoryName);
 			}
 			else
 			{
@@ -37,7 +37,7 @@ namespace UI.Objects
 			{
 				if (( element as NetUIElement<string>) != null)
 				{
-					(element as NetUIElement<string>).SetValueServer(GetName(element));
+					(element as NetUIElement<string>).MasterSetValue(GetName(element));
 				}
 			}
 		}

@@ -24,10 +24,10 @@ namespace UI.Objects.Security
 			crime = crimeToInit;
 			entryPage = entryPageToInit;
 
-			crimeText.SetValueServer(crime.Crime);
-			detailsText.SetValueServer(crime.Details);
-			authorText.SetValueServer(crime.Author);
-			timeText.SetValueServer(crime.Time);
+			crimeText.MasterSetValue(crime.Crime);
+			detailsText.MasterSetValue(crime.Details);
+			authorText.MasterSetValue(crime.Author);
+			timeText.MasterSetValue(crime.Time);
 		}
 
 		public void DeleteCrime()

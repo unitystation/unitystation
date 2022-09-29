@@ -99,13 +99,13 @@ namespace UI.Objects.Atmospherics.Acu
 					$"| Mode:       {modeStr}         |\n" +
 					$"| Range:      {rangeStr}         |\n" +
 					"|                                                 |\n" +
-					$"| {filteredGasLines[0]}<sub> </sub>     |\n" + 
+					$"| {filteredGasLines[0]}<sub> </sub>     |\n" +
 					$"| {filteredGasLines[1]}  |\n" +
 					$"| {filteredGasLines[2]}       |\n" +
 					$"| {filteredGasLines[3]}                                |\n" +
 					"---------------------------------------------------\n";
 
-			label.SetValueServer(str);
+			label.MasterSetValue(str);
 		}
 
 		private void SetSetting(System.Action callback)

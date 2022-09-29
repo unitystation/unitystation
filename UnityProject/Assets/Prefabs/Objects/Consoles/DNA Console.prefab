@@ -169,3 +169,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DNAScanner: {fileID: 0}
+  Injecting:
+  - BodyPartSearchString: Torso
+    Payload:
+    - CustomisationTarget: 
+      CustomisationReplaceWith: 
+      TargetMutationSO: {fileID: 0}
+      SpeciesMutateTo: {fileID: 0}
+      MutateToBodyPart: {fileID: 0}

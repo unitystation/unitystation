@@ -83,13 +83,14 @@ namespace Core.Editor
 			var quickLoadLabel = new GUIContent(
 					"Quick Load",
 					"At runtime, skips the lobby scene and boots you straight into the map.");
+
+
 			EditorGUILayout.Toggle(quickLoadLabel, QuickLoad.IsEnabled);
+
 			if (EditorGUI.EndChangeCheck())
 			{
 				QuickLoad.Toggle();
 			}
-
-			EditorGUILayout.Space();
 
 			target = (BuildTarget)EditorGUILayout.EnumPopup("Target Platform", target);
 			if (BuildPipeline.IsBuildTargetSupported(default, target) == false)

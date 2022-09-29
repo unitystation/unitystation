@@ -8,7 +8,6 @@ using DatabaseAPI;
 using ServerInfo;
 using AdminCommands;
 
-
 namespace UI
 {
 	public class GUI_PreRoundWindow : MonoBehaviour
@@ -159,6 +158,12 @@ namespace UI
 		private IEnumerator WaitForInitialisation()
 		{
 			yield return null;
+
+			if (GameManager.Instance.QuickJoinLoad)
+			{
+				SetReady(true);
+			}
+
 			StartNowButton();
 		}
 

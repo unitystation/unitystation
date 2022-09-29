@@ -8,7 +8,7 @@ namespace UI.Objects.Research
 		private GUI_BlastYieldDetector blastGUI;
 		public void Awake()
 		{
-			blastGUI = MasterTab.gameObject.GetComponent<GUI_BlastYieldDetector>();
+			blastGUI = containedInTab.gameObject.GetComponent<GUI_BlastYieldDetector>();
 		}
 
 		public void SetData()

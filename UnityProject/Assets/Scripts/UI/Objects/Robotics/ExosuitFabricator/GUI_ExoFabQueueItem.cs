@@ -7,7 +7,7 @@ namespace UI.Objects.Robotics
 {
 	public class GUI_ExoFabQueueItem : DynamicEntry
 	{
-		private GUI_ExosuitFabricator ExoFabMasterTab => MasterTab as GUI_ExosuitFabricator;
+		private GUI_ExosuitFabricator ExoFabMasterTab => containedInTab as GUI_ExosuitFabricator;
 
 		public MachineProduct Product { get; set; }
 
@@ -21,7 +21,7 @@ namespace UI.Objects.Robotics
 		{
 			if (ExoFabMasterTab == null)
 			{
-				MasterTab.GetComponent<GUI_ExosuitFabricator>().OnUpQueueClicked.Invoke(NumberInQueue);
+				containedInTab.GetComponent<GUI_ExosuitFabricator>().OnUpQueueClicked.Invoke(NumberInQueue);
 			}
 			else
 			{
@@ -33,7 +33,7 @@ namespace UI.Objects.Robotics
 		{
 			if (ExoFabMasterTab == null)
 			{
-				MasterTab.GetComponent<GUI_ExosuitFabricator>().OnDownQueueClicked.Invoke(NumberInQueue);
+				containedInTab.GetComponent<GUI_ExosuitFabricator>().OnDownQueueClicked.Invoke(NumberInQueue);
 			}
 			else
 			{
@@ -45,7 +45,7 @@ namespace UI.Objects.Robotics
 		{
 			if (ExoFabMasterTab == null)
 			{
-				MasterTab.GetComponent<GUI_ExosuitFabricator>().OnRemoveProductClicked.Invoke(NumberInQueue);
+				containedInTab.GetComponent<GUI_ExosuitFabricator>().OnRemoveProductClicked.Invoke(NumberInQueue);
 			}
 			else
 			{
@@ -69,22 +69,22 @@ namespace UI.Objects.Robotics
 				{
 					case "QueueNumber":
 						queueNumberElement = (GUI_ExoFabQueueLabel)element;
-						queueNumberElement.SetValueServer(NumberInQueue.ToString());
+						queueNumberElement.MasterSetValue(NumberInQueue.ToString());
 						break;
 
 					case "ProductName":
 						productTextColorElement = (GUI_ExoFabQueueLabel)element;
-						productTextColorElement.SetValueServer(Product.Name);
+						productTextColorElement.MasterSetValue(Product.Name);
 						break;
 
 					case "UpButton":
 						UpButton = (NetInteractiveButton)element;
-						UpButton.SetValueServer("true");
+						UpButton.MasterSetValue("true");
 						break;
 
 					case "DownButton":
 						DownButton = (NetInteractiveButton)element;
-						DownButton.SetValueServer("true");
+						DownButton.MasterSetValue("true");
 						break;
 				}
 			}

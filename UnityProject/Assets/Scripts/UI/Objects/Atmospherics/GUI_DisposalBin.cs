@@ -46,7 +46,7 @@ namespace UI.Objects.Disposals
 
 			bin = Provider.GetComponent<DisposalBin>();
 
-			if (IsServer)
+			if (IsMasterTab)
 			{
 				bin.BinStateUpdated += ServerOnBinStateUpdated;
 				ServerOnBinStateUpdated();
@@ -57,7 +57,7 @@ namespace UI.Objects.Disposals
 
 		private void ServerOnBinStateUpdated()
 		{
-			LabelBinStatus.SetValueServer(bin.BinState.ToString());
+			LabelBinStatus.MasterSetValue(bin.BinState.ToString());
 			ServerUpdatePressureSpinner();
 			ServerSetButtonsAndLEDsByState();
 		}
@@ -94,21 +94,21 @@ namespace UI.Objects.Disposals
 			while (bin.BinCharging)
 			{
 				ServerUpdatePressureSpinner();
-				LEDYellow.SetValueServer(YELLOW_ACTIVE);
+				LEDYellow.MasterSetValue(YELLOW_ACTIVE);
 				yield return WaitFor.Seconds(UPDATE_RATE / 2);
-				LEDYellow.SetValueServer(YELLOW_INACTIVE);
+				LEDYellow.MasterSetValue(YELLOW_INACTIVE);
 				yield return WaitFor.Seconds(UPDATE_RATE / 2);
 			}
 		}
 
 		private void ServerEnableButtonInteraction(NetInteractiveButton button)
 		{
-			button.SetValueServer("true");
+			button.MasterSetValue("true");
 		}
 
 		private void ServerDisableButtonInteraction(NetInteractiveButton button)
 		{
-			button.SetValueServer("false");
+			button.MasterSetValue("false");
 		}
 
 		#region State Updates
@@ -122,9 +122,9 @@ namespace UI.Objects.Disposals
 			ServerDisableButtonInteraction(ButtonBinPower);
 			ServerDisableButtonInteraction(ButtonFlushContents);
 			ServerEnableButtonInteraction(ButtonEjectContents);
-			LEDRed.SetValueServer(RED_INACTIVE);
-			LEDYellow.SetValueServer(YELLOW_INACTIVE);
-			LEDGreen.SetValueServer(GREEN_INACTIVE);
+			LEDRed.MasterSetValue(RED_INACTIVE);
+			LEDYellow.MasterSetValue(YELLOW_INACTIVE);
+			LEDGreen.MasterSetValue(GREEN_INACTIVE);
 		}
 
 		private void ServerSetStateOff()
@@ -136,9 +136,9 @@ namespace UI.Objects.Disposals
 			ServerEnableButtonInteraction(ButtonBinPower);
 			ServerDisableButtonInteraction(ButtonFlushContents);
 			ServerEnableButtonInteraction(ButtonEjectContents);
-			LEDRed.SetValueServer(RED_INACTIVE);
-			LEDYellow.SetValueServer(YELLOW_INACTIVE);
-			LEDGreen.SetValueServer(GREEN_INACTIVE);
+			LEDRed.MasterSetValue(RED_INACTIVE);
+			LEDYellow.MasterSetValue(YELLOW_INACTIVE);
+			LEDGreen.MasterSetValue(GREEN_INACTIVE);
 		}
 
 		private void ServerSetStateReady()
@@ -150,9 +150,9 @@ namespace UI.Objects.Disposals
 			ServerEnableButtonInteraction(ButtonBinPower);
 			ServerEnableButtonInteraction(ButtonFlushContents);
 			ServerEnableButtonInteraction(ButtonEjectContents);
-			LEDRed.SetValueServer(RED_INACTIVE);
-			LEDYellow.SetValueServer(YELLOW_INACTIVE);
-			LEDGreen.SetValueServer(GREEN_ACTIVE);
+			LEDRed.MasterSetValue(RED_INACTIVE);
+			LEDYellow.MasterSetValue(YELLOW_INACTIVE);
+			LEDGreen.MasterSetValue(GREEN_ACTIVE);
 		}
 
 		private void ServerSetStateFlushing()
@@ -164,9 +164,9 @@ namespace UI.Objects.Disposals
 			ServerDisableButtonInteraction(ButtonBinPower);
 			ServerDisableButtonInteraction(ButtonFlushContents);
 			ServerDisableButtonInteraction(ButtonEjectContents);
-			LEDRed.SetValueServer(RED_ACTIVE);
-			LEDYellow.SetValueServer(YELLOW_INACTIVE);
-			LEDGreen.SetValueServer(GREEN_INACTIVE);
+			LEDRed.MasterSetValue(RED_ACTIVE);
+			LEDYellow.MasterSetValue(YELLOW_INACTIVE);
+			LEDGreen.MasterSetValue(GREEN_INACTIVE);
 		}
 
 		private void ServerSetStateRecharging()
@@ -175,9 +175,9 @@ namespace UI.Objects.Disposals
 			ServerEnableButtonInteraction(ButtonBinPower);
 			ServerDisableButtonInteraction(ButtonFlushContents);
 			ServerEnableButtonInteraction(ButtonEjectContents);
-			LEDRed.SetValueServer(RED_INACTIVE);
-			LEDYellow.SetValueServer(YELLOW_ACTIVE);
-			LEDGreen.SetValueServer(GREEN_INACTIVE);
+			LEDRed.MasterSetValue(RED_INACTIVE);
+			LEDYellow.MasterSetValue(YELLOW_ACTIVE);
+			LEDGreen.MasterSetValue(GREEN_INACTIVE);
 		}
 
 		#endregion State Updates

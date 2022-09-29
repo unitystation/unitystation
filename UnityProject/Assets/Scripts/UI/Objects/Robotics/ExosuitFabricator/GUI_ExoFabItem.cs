@@ -24,7 +24,7 @@ namespace UI.Objects.Robotics
 		{
 			if (ExoFabMasterTab == null)
 			{
-				MasterTab.GetComponent<GUI_ExosuitFabricator>().OnProductAddClicked.Invoke(Product);
+				containedInTab.GetComponent<GUI_ExosuitFabricator>().OnProductAddClicked.Invoke(Product);
 			}
 			else
 			{
@@ -44,7 +44,7 @@ namespace UI.Objects.Robotics
 			{
 				if (element as NetUIElement<string> != null)
 				{
-					(element as NetUIElement<string>).SetValueServer(GetName(element));
+					(element as NetUIElement<string>).MasterSetValue(GetName(element));
 				}
 			}
 		}

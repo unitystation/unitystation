@@ -7,7 +7,7 @@ namespace UI.Objects
 {
 	public class GUI_RDProMaterialEntry : DynamicEntry
 	{
-		private GUI_RDProductionMachine RDProMasterTab => MasterTab as GUI_RDProductionMachine;
+		private GUI_RDProductionMachine RDProMasterTab => containedInTab as GUI_RDProductionMachine;
 
 		private ItemTrait materialType;
 		private int currentAmount;
@@ -41,11 +41,11 @@ namespace UI.Objects
 				switch (nameBeforeIndex)
 				{
 					case "MaterialName":
-						((NetUIElement<string>)element).SetValueServer(CraftingManager.MaterialSheetData[material].displayName + ":");
+						((NetUIElement<string>)element).MasterSetValue(CraftingManager.MaterialSheetData[material].displayName + ":");
 						break;
 
 					case "MaterialAmount":
-						((NetUIElement<string>)element).SetValueServer(currentAmount + " cm3");
+						((NetUIElement<string>)element).MasterSetValue(currentAmount + " cm3");
 						amountLabel = element as NetText_label;
 						break;
 

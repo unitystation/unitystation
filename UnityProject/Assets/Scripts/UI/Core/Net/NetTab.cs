@@ -104,7 +104,7 @@ public class NetTab : Tab
 	public NetTabDescriptor NetTabDescriptor => new NetTabDescriptor(Provider, Type);
 
 	/// Is current tab a server tab?
-	public bool IsServer => transform.parent.name == nameof(NetworkTabManager);
+	public bool IsMasterTab => transform.parent.name == nameof(NetworkTabManager);
 
 	private ISet<NetUIElementBase> Elements => new HashSet<NetUIElementBase>(GetComponentsInChildren<NetUIElementBase>(false));
 
@@ -121,7 +121,7 @@ public class NetTab : Tab
 
 	public virtual void OnEnable()
 	{
-		if (IsServer)
+		if (IsMasterTab)
 		{
 			InitElements(true);
 			InitServer();

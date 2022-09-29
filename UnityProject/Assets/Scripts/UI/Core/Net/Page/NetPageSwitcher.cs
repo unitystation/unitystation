@@ -66,7 +66,7 @@ namespace UI.Core.NetUI
 				}
 			}
 
-			if (MasterTab.IsServer && !StartInitialized)
+			if (containedInTab.IsMasterTab && !StartInitialized)
 			{
 				//Enabling all pages
 				//so that all elements will be visible during Start()
@@ -80,7 +80,7 @@ namespace UI.Core.NetUI
 
 		public override void AfterInit()
 		{
-			if (MasterTab.IsServer && DefaultPage && !CurrentPage)
+			if (containedInTab.IsMasterTab && DefaultPage && !CurrentPage)
 			{
 				SetActivePage(DefaultPage);
 			}
@@ -95,7 +95,7 @@ namespace UI.Core.NetUI
 				valuesToSend.Add(entry.ElementValue);
 			}
 
-			TabUpdateMessage.SendToPeepers(MasterTab.Provider, MasterTab.Type, TabAction.Update, valuesToSend.ToArray());
+			TabUpdateMessage.SendToPeepers(containedInTab.Provider, containedInTab.Type, TabAction.Update, valuesToSend.ToArray());
 		}
 
 		/// <summary>
@@ -104,7 +104,7 @@ namespace UI.Core.NetUI
 		/// </summary>
 		public void SetActivePage(NetPage page)
 		{
-			SetValueServer(Pages.IndexOf(page).ToString());
+			MasterSetValue(Pages.IndexOf(page).ToString());
 		}
 
 		/// <summary>
@@ -139,14 +139,14 @@ namespace UI.Core.NetUI
 
 			newPage.gameObject.SetActive(true);
 
-			if (MasterTab.IsServer)
+			if (containedInTab.IsMasterTab)
 			{
 				OnPageChange.Invoke(CurrentPage, newPage);
 			}
 
 			CurrentPage = newPage;
 
-			MasterTab.RescanElements();
+			containedInTab.RescanElements();
 		}
 
 		/// <summary>
@@ -160,7 +160,7 @@ namespace UI.Core.NetUI
 			int suggestedIndex = CurrentPageIndex + 1;
 			if (wrap)
 			{
-				SetValueServer(Pages.WrappedIndex(suggestedIndex).ToString());
+				MasterSetValue(Pages.WrappedIndex(suggestedIndex).ToString());
 			}
 			else
 			{
@@ -169,7 +169,7 @@ namespace UI.Core.NetUI
 					Logger.LogTraceFormat("'{0}' page switcher: no more >> pages to switch to (index={1})", Category.NetUI, gameObject.name, suggestedIndex);
 					return;
 				}
-				SetValueServer(suggestedIndex.ToString());
+				MasterSetValue(suggestedIndex.ToString());
 			}
 		}
 
@@ -183,7 +183,7 @@ namespace UI.Core.NetUI
 			int suggestedIndex = CurrentPageIndex - 1;
 			if (wrap)
 			{
-				SetValueServer(Pages.WrappedIndex(suggestedIndex).ToString());
+				MasterSetValue(Pages.WrappedIndex(suggestedIndex).ToString());
 			}
 			else
 			{
@@ -192,7 +192,7 @@ namespace UI.Core.NetUI
 					Logger.LogTraceFormat("'{0}' page switcher: no more << pages to switch to (index={1})", Category.NetUI, gameObject.name, suggestedIndex);
 					return;
 				}
-				SetValueServer(suggestedIndex.ToString());
+				MasterSetValue(suggestedIndex.ToString());
 			}
 		}
 	}

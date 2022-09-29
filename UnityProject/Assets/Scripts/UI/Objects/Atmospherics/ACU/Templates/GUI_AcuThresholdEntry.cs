@@ -37,7 +37,7 @@ namespace UI.Objects.Atmospherics.Acu
 
 			if (type == ThresholdType.Linebreak)
 			{
-				label.SetValueServer(string.Empty);
+				label.MasterSetValue(string.Empty);
 				return;
 			}
 
@@ -48,7 +48,7 @@ namespace UI.Objects.Atmospherics.Acu
 				// Allows a technician to set appropriate values for this discovered gas.
 				sb.Append($"{(float.IsNaN(value) ? "?" : value.ToString()), -7} | ");
 			}
-			label.SetValueServer(sb.Remove(sb.Length - 3, 3).ToString());
+			label.MasterSetValue(sb.Remove(sb.Length - 3, 3).ToString());
 		}
 
 		#region Buttons

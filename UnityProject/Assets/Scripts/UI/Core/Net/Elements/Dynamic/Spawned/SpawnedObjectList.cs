@@ -16,7 +16,7 @@ namespace UI.Core.NetUI
 			//fixme: duplicate of RadarList code:
 			var objectSet = new HashSet<GameObject>(objects);
 			var duplicates = new HashSet<GameObject>();
-			for (var i = 0; i < Entries.Length; i++)
+			for (var i = 0; i < Entries.Count; i++)
 			{
 				var item = Entries[i] as SpawnedObjectEntry;
 				if (!item)
@@ -53,7 +53,7 @@ namespace UI.Core.NetUI
 			}
 
 			//rescan elements and notify
-			NetworkTabManager.Instance.Rescan(MasterTab.NetTabDescriptor);
+			NetworkTabManager.Instance.Rescan(containedInTab.NetTabDescriptor);
 			//		RefreshTrackedPos();
 
 			return true;

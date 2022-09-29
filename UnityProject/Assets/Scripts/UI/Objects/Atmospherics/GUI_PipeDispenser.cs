@@ -82,8 +82,8 @@ namespace UI.Objects.Atmospherics
 
 		private void DisableLayerAndColorToggles()
 		{
-			layerToggles[1].SetValueServer("1"); // Engage the toggle of Layer 2.
-			colorToggles[0].SetValueServer("1"); // Engage the toggle of Color Grey.
+			layerToggles[1].MasterSetValue("1"); // Engage the toggle of Layer 2.
+			colorToggles[0].MasterSetValue("1"); // Engage the toggle of Color Grey.
 			DisableToggles(layerToggles);
 			DisableToggles(colorToggles);
 		}

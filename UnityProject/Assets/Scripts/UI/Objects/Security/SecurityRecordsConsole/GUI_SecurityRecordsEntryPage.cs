@@ -89,14 +89,14 @@ namespace UI.Objects.Security
 				return;
 			}
 
-			nameText.SetValueServer(record.EntryName);
-			idText.SetValueServer(record.ID);
-			sexText.SetValueServer(record.Sex);
-			ageText.SetValueServer(record.Age);
-			speciesText.SetValueServer(record.Species);
-			rankText.SetValueServer(record.Rank);
-			fingerprintText.SetValueServer(record.Fingerprints);
-			statusButtonText.SetValueServer(record.Status.ToString());
+			nameText.MasterSetValue(record.EntryName);
+			idText.MasterSetValue(record.ID);
+			sexText.MasterSetValue(record.Sex);
+			ageText.MasterSetValue(record.Age);
+			speciesText.MasterSetValue(record.Species);
+			rankText.MasterSetValue(record.Rank);
+			fingerprintText.MasterSetValue(record.Fingerprints);
+			statusButtonText.MasterSetValue(record.Status.ToString());
 
 			var characterSettings = record.characterSettings;
 
@@ -157,7 +157,7 @@ namespace UI.Objects.Security
 					record.Status = SecurityStatus.None;
 					break;
 			}
-			statusButtonText.SetValueServer(record.Status.ToString());
+			statusButtonText.MasterSetValue(record.Status.ToString());
 		}
 
 		/// <summary>
@@ -200,7 +200,7 @@ namespace UI.Objects.Security
 		/// <param name="value">String to set in field.</param>
 		public void ConfirmPopup(string value)
 		{
-			currentlyEditingField.SetValueServer(value);
+			currentlyEditingField.MasterSetValue(value);
 			string nameBeforeIndex = currentlyEditingField.name.Split('~')[0];
 			switch (nameBeforeIndex)
 			{

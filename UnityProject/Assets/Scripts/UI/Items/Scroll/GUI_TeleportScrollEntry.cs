@@ -17,7 +17,7 @@ namespace UI.Scroll
 		{
 			this.scrollGUI = scrollGUI;
 			this.destination = destination;
-			destinationLabel.SetValueServer(destination.ToString());
+			destinationLabel.MasterSetValue(destination.ToString());
 		}
 
 		public void Teleport()

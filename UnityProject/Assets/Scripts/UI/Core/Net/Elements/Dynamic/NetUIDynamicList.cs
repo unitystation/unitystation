@@ -18,7 +18,8 @@ namespace UI.Core.NetUI
 		private int entryCount = 0;
 		public string EntryPrefix => gameObject.name; //= String.Empty;
 
-		public DynamicEntry[] Entries => GetComponentsInChildren<DynamicEntry>(false);
+		public List<DynamicEntry>  Entries = new List<DynamicEntry>();
+
 
 		/// <summary>
 		/// Pool with disabled entries, ready to be reused
@@ -84,7 +85,7 @@ namespace UI.Core.NetUI
 		{
 			if (!EntryPrefab)
 			{
-				var elementType = $"{MasterTab.Type}Entry";
+				var elementType = $"{containedInTab.Type}Entry";
 				Logger.LogFormat("{0} dynamic list: EntryPrefab not assigned, trying to find it as '{1}'", Category.NetUI,
 					gameObject.name, elementType);
 				EntryPrefab = NetworkTabManager.Instance.NetEntries.GetFromName(elementType);
@@ -119,9 +120,9 @@ namespace UI.Core.NetUI
 		/// </summary>
 		private void RearrangeListItems()
 		{
-			if (MasterTab.IsServer)
+			if (containedInTab.IsMasterTab)
 			{
-				NetworkTabManager.Instance.Rescan(MasterTab.NetTabDescriptor);
+				NetworkTabManager.Instance.Rescan(containedInTab.NetTabDescriptor);
 				RefreshPositions();
 				UpdatePeepers();
 			}
@@ -148,10 +149,14 @@ namespace UI.Core.NetUI
 			foreach (var itemName in toBeRemoved)
 			{
 				var entryToRemove = entries[itemName];
+				entries.Remove(itemName);
 				DisabledEntryPool.Enqueue(entryToRemove);
+				Entries.Remove(entryToRemove);
 			}
 
 			RearrangeListItems();
+
+
 		}
 
 		protected DynamicEntry[] AddBulk(string[] proposedIndices)
@@ -178,6 +183,7 @@ namespace UI.Core.NetUI
 				}
 
 				dynamicEntries[i] = dynamicEntry;
+				Entries.Add(dynamicEntry);
 			}
 
 			RearrangeListItems();
@@ -217,8 +223,8 @@ namespace UI.Core.NetUI
 		{
 			//Adding new entries to the end by default
 			var entries = Entries;
-			Array.Sort(entries, (entry1, entry2) => string.Compare(entry1.name, entry2.name));
-			for (var i = 0; i < entries.Length; i++)
+			var orderByDescending = entries.OrderByDescending(x => x.name).ToList();
+			for (var i = 0; i < orderByDescending.Count; i++)
 			{
 				SetProperPosition(entries[i], i);
 			}
@@ -249,7 +255,7 @@ namespace UI.Core.NetUI
 				}
 			}
 
-			TabUpdateMessage.SendToPeepers(MasterTab.Provider, MasterTab.Type, TabAction.Update, valuesToSend.ToArray());
+			TabUpdateMessage.SendToPeepers(containedInTab.Provider, containedInTab.Type, TabAction.Update, valuesToSend.ToArray());
 		}
 
 		/// <summary>
@@ -297,6 +303,11 @@ namespace UI.Core.NetUI
 
 				//postfix and not prefix because of how NetKeyButton works
 				innerElement.name = innerElement.name + DELIMITER + index;
+				if (entry == innerElement)
+				{
+					Logger.LogError("Multiple net elements on one gameobject this is not supported");
+				}
+
 			}
 
 			return index;

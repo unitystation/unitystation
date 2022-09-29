@@ -147,7 +147,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	public bool LoadedDirectlyToStation => loadedDirectlyToStation;
 
 	public bool QuickLoad = false;
-
+	public bool QuickJoinLoad = false;
 	public InitialisationSystems Subsystem => InitialisationSystems.GameManager;
 
 	[SerializeField] private AudioClipsArray endOfRoundSounds = null;

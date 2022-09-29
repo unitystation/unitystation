@@ -55,7 +55,7 @@ namespace UI
 		{
 			yield return WaitFor.EndOfFrame;
 
-			if (IsServer)
+			if (IsMasterTab)
 			{
 				//Storytelling
 				tgtMode = true;
@@ -77,7 +77,7 @@ namespace UI
 
 		public void RefreshSubpageLabel(NetPage oldPage, NetPage newPage)
 		{
-			NestedPageName.SetValueServer(newPage.name);
+			NestedPageName.MasterSetValue(newPage.name);
 		}
 
 		private static string[] tgt = ("One day while Andy was toggling, " +
@@ -87,7 +87,7 @@ namespace UI
 		private bool tgtMode;
 		private IEnumerator ToggleStory(int word)
 		{
-			InfoDisplay.SetValueServer(tgt.Wrap(word));
+			InfoDisplay.MasterSetValue(tgt.Wrap(word));
 			yield return WaitFor.Seconds(2);
 			if (tgtMode)
 			{
@@ -100,9 +100,9 @@ namespace UI
 			PrefabEntryList.AddItem(prefabName);
 		}
 
-		public void RemoveItem(string prefabName)
+		public void MasterRemoveItem(string prefabName)
 		{
-			PrefabEntryList.RemoveItem(prefabName);
+			PrefabEntryList.MasterRemoveItem(prefabName);
 		}
 
 		public void SpawnItemByIndex(string index)
@@ -181,9 +181,9 @@ namespace UI
 			}
 		}
 
-		public void RemoveItemByIndex(string index)
+		public void MasterRemoveItemByIndex(string index)
 		{
-			RemoveItem(GetItemFromIndex(index)?.Prefab.name);
+			MasterRemoveItem(GetItemFromIndex(index)?.Prefab.name);
 		}
 
 		private ItemEntry GetItemFromIndex(string index)

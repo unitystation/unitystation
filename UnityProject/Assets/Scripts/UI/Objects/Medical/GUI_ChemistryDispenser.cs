@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using UnityEngine.Serialization;
-using UI.Core.NetUI;
 using Chemistry;
 using Systems.Electricity;
+using UI.Core.NetUI;
+using UnityEngine;
 
-namespace UI.Objects.Chemistry
+namespace UI.Objects.Medical
 {
 	public class GUI_ChemistryDispenser : NetTab
 	{
@@ -37,7 +36,7 @@ namespace UI.Objects.Chemistry
 
 		private void Start()
 		{
-			((NetUIElement<string>)this["20"]).SetValueServer("1");
+			((NetUIElement<string>)this["20"]).MasterSetValue("1");
 			if (Provider != null)
 			{
 				// Makes sure it connects with the dispenser properly
@@ -55,7 +54,7 @@ namespace UI.Objects.Chemistry
 
 			for (int i = 0; i < DispenseAmounts.Count; i++)
 			{
-				((NetUIElement<string>)this[DispenseAmounts[i]]).SetValueServer(DispenseAmounts[i] == Number.ToString() ? "1": "0");
+				((NetUIElement<string>)this[DispenseAmounts[i]]).MasterSetValue(DispenseAmounts[i] == Number.ToString() ? "1": "0");
 			}
 
 			UpdateAll();
@@ -158,15 +157,15 @@ namespace UI.Objects.Chemistry
 						$"{char.ToUpper(reagent.Key.Name[0])}{reagent.Key.Name.Substring(1)} - {reagent.Value} U \n";
 				}
 
-				TotalAndTemperature.SetValueServer($"{ChemistryDispenser.Container.ReagentMixTotal}U @ {(ChemistryDispenser.Container.Temperature)}°K");
+				TotalAndTemperature.MasterSetValue($"{ChemistryDispenser.Container.ReagentMixTotal}U @ {(ChemistryDispenser.Container.Temperature)}°K");
 			}
 			else
 			{
 				newListOfReagents = "No reagents";
-				TotalAndTemperature.SetValueServer("No container inserted");
+				TotalAndTemperature.MasterSetValue("No container inserted");
 			}
 
-			ListOfReagents.SetValueServer(newListOfReagents);
+			ListOfReagents.MasterSetValue(newListOfReagents);
 		}
 
 		public void OnDestroy()

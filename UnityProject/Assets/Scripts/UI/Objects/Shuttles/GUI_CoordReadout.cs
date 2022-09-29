@@ -44,8 +44,8 @@ public class GUI_CoordReadout : MonoBehaviour
 	{
 		valueX = x;
 		valueY = y;
-		xText.SetValueServer(valueX.ToString());
-		yText.SetValueServer(valueY.ToString());
+		xText.MasterSetValue(valueX.ToString());
+		yText.MasterSetValue(valueY.ToString());
 	}
 
 	/// <summary>

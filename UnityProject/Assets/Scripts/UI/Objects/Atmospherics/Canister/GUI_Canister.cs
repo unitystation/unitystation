@@ -85,7 +85,7 @@ namespace UI.Objects.Atmospherics
 
 		private void Awake()
 		{
-			muteSounds = IsServer;
+			muteSounds = IsMasterTab;
 			hiss = GetComponent<AudioSource>();
 		}
 
@@ -130,7 +130,7 @@ namespace UI.Objects.Atmospherics
 			ServerUpdateExternalTank(canister.HasContainerInserted);
 
 			//init wheel
-			ReleasePressureWheel.SetValueServer(Mathf.RoundToInt(gasContainer.ReleasePressure).ToString());
+			ReleasePressureWheel.MasterSetValue(Mathf.RoundToInt(gasContainer.ReleasePressure).ToString());
 			StartCoroutine(ServerRefreshInternalPressure());
 		}
 
@@ -176,7 +176,7 @@ namespace UI.Objects.Atmospherics
 
 			if (externalExists)
 			{
-				externalTankStatus.SetValueServer(insertedContainer.Item().InitialName);
+				externalTankStatus.MasterSetValue(insertedContainer.Item().InitialName);
 				externalTankImage.SetSprite((int) ExternalTank.TankInserted);
 				GasContainer externalTank = insertedContainer.GetComponent<GasContainer>();
 				ExternalPressureDial.ServerSpinTo(Mathf.RoundToInt(externalTank.ServerInternalPressure));
@@ -184,7 +184,7 @@ namespace UI.Objects.Atmospherics
 			}
 			else
 			{
-				externalTankStatus.SetValueServer("No Tank Inserted");
+				externalTankStatus.MasterSetValue("No Tank Inserted");
 				externalTankImage.SetSprite((int) ExternalTank.NoTank);
 				ExternalPressureDial.ServerSpinTo(0);
 			}
@@ -195,7 +195,7 @@ namespace UI.Objects.Atmospherics
 		/// </summary>
 		private void ServerUpdateConnectionStatus(bool isConnected)
 		{
-			ConnectionStatus.SetValueServer(isConnected ? "Connected" : "Not Connected");
+			ConnectionStatus.MasterSetValue(isConnected ? "Connected" : "Not Connected");
 		}
 
 		/// <summary>
@@ -357,7 +357,7 @@ namespace UI.Objects.Atmospherics
 			gasContainer.ReleasePressure = newValue;
 			int intValue = Mathf.RoundToInt(newValue);
 			ReleasePressureDial.ServerSpinTo(intValue);
-			ReleasePressureWheel.SetValueServer(intValue.ToString()) ;
+			ReleasePressureWheel.MasterSetValue(intValue.ToString()) ;
 		}
 
 		/// <summary>
@@ -455,26 +455,26 @@ namespace UI.Objects.Atmospherics
 		private IEnumerator DisplayFlashingText(string text, float speed = 0.5F)
 		{
 			string initialInfoText = externalTankStatus.Element.text;
-			externalTankStatus.SetValueServer(text);
+			externalTankStatus.MasterSetValue(text);
 			yield return WaitFor.Seconds(speed);
-			externalTankStatus.SetValueServer("");
+			externalTankStatus.MasterSetValue("");
 			yield return WaitFor.Seconds(speed / 2);
-			externalTankStatus.SetValueServer(text);
+			externalTankStatus.MasterSetValue(text);
 			yield return WaitFor.Seconds(speed);
-			externalTankStatus.SetValueServer("");
+			externalTankStatus.MasterSetValue("");
 			yield return WaitFor.Seconds(speed / 2);
-			externalTankStatus.SetValueServer(text);
+			externalTankStatus.MasterSetValue(text);
 			yield return WaitFor.Seconds(speed);
-			externalTankStatus.SetValueServer("");
+			externalTankStatus.MasterSetValue("");
 			yield return WaitFor.Seconds(speed / 2);
 
 			if (canister.InsertedContainer != null)
 			{
-				externalTankStatus.SetValueServer($"{canister.InsertedContainer.Item().InitialName}");
+				externalTankStatus.MasterSetValue($"{canister.InsertedContainer.Item().InitialName}");
 			}
 			else
 			{
-				externalTankStatus.SetValueServer("No Tank Inserted");
+				externalTankStatus.MasterSetValue("No Tank Inserted");
 			}
 
 		}

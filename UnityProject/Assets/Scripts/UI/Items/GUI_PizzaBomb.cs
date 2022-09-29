@@ -55,17 +55,17 @@ namespace UI.Items
 				UpdateSignalStatusStatus();
 				return;
 			}
-			status.SetValueServer(DisplayTime());
+			status.MasterSetValue(DisplayTime());
 		}
 
 		private void UpdateSignalStatusStatus()
 		{
 			if (pizza.IsArmed)
 			{
-				status.SetValueServer("Armed");
+				status.MasterSetValue("Armed");
 				return;
 			}
-			status.SetValueServer(DMMath.Prob(25f) ? "Ready to oga some bogas" : "Explosive Unarmed..");
+			status.MasterSetValue(DMMath.Prob(25f) ? "Ready to oga some bogas" : "Explosive Unarmed..");
 		}
 
 		private string DisplayTime()
@@ -78,13 +78,13 @@ namespace UI.Items
 			timerCount = pizza.TimeToDetonate;
 			if (pizza.BombIsCountingDown == false)
 			{
-				status.SetValueServer(DisplayTime());
+				status.MasterSetValue(DisplayTime());
 				yield break;
 			}
 			while (timerCount > 0)
 			{
 				timerCount -= 1;
-				status.SetValueServer(DisplayTime());
+				status.MasterSetValue(DisplayTime());
 				yield return WaitFor.Seconds(1f);
 			}
 		}

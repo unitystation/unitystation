@@ -40,7 +40,7 @@ namespace UI.Objects.Atmospherics.Acu
 			{
 				if (label != labels[requestedMode])
 				{
-					label.SetValueServer(label.Value
+					label.MasterSetValue(label.Value
 							.Replace("(*)", "( )")
 							.Replace(m, string.Empty)
 							.Replace(um, string.Empty));
@@ -49,7 +49,7 @@ namespace UI.Objects.Atmospherics.Acu
 
 				if (label.Value.Contains("( )"))
 				{
-					label.SetValueServer($"{m}{label.Value.Replace("( )", "(*)")}{um}");
+					label.MasterSetValue($"{m}{label.Value.Replace("( )", "(*)")}{um}");
 				}
 			}
 		}

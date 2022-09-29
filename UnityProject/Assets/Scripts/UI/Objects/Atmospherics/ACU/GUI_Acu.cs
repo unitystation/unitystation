@@ -98,7 +98,7 @@ namespace UI.Objects.Atmospherics.Acu
 
 			var acuName = Acu.name.StartsWith("ACU - ") ? Acu.name.Substring("ACU - ".Length) : Acu.name;
 			// "ACU - " as per NameValidator tool.
-			acuLabel.SetValueServer(acuName);
+			acuLabel.MasterSetValue(acuName);
 
 			foreach (var netPage in pageSwitcher.Pages)
 			{
@@ -159,18 +159,18 @@ namespace UI.Objects.Atmospherics.Acu
 
 		private void UpdateElements()
 		{
-			statusIndicator.SetValueServer(statusColors[Acu.OverallStatus]);
+			statusIndicator.MasterSetValue(statusColors[Acu.OverallStatus]);
 
 			// Update display's system tray elements
-			statusLabel.SetValueServer(Acu.IsPowered
+			statusLabel.MasterSetValue(Acu.IsPowered
 					? ColorStringByStatus(Acu.OverallStatus.ToString(), Acu.OverallStatus)
 					: string.Empty);
 			lockIconSprite.SetSprite(Acu.IsLocked ? 0 : 1);
-			lockIconColor.SetValueServer(Acu.IsLocked ? colorNominal : colorCaution);
-			powerIconColor.SetValueServer(Acu.IsPowered ? colorNominal : colorAlert);
+			lockIconColor.MasterSetValue(Acu.IsLocked ? colorNominal : colorCaution);
+			powerIconColor.MasterSetValue(Acu.IsPowered ? colorNominal : colorAlert);
 			Color sampleQualityColor = Acu.ConnectedDevices.Count > 0 ? colorCaution : colorAlert;
 			sampleQualityColor = Acu.ConnectedDevices.Count > 2 ? colorNominal : sampleQualityColor;
-			connectionIconColor.SetValueServer(sampleQualityColor);
+			connectionIconColor.MasterSetValue(sampleQualityColor);
 		}
 
 		private GUI_AcuPage ValidatePage(GUI_AcuPage requestedPage)

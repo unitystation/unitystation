@@ -29,7 +29,7 @@ namespace UI.Objects.Cargo
 				}
 			}
 
-			categoryText.SetValueServer(cargoCategory.CategoryName);
+			categoryText.MasterSetValue(cargoCategory.CategoryName);
 		}
 	}
 }

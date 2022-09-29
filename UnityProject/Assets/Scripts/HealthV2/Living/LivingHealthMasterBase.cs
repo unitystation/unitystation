@@ -308,7 +308,7 @@ namespace HealthV2
 			//Generate BloodType and DNA
 			healthStateController.SetDNA(new DNAandBloodType());
 
-			if(playerScript == null) return;
+			if (playerScript == null) return;
 			if (playerScript.mind?.occupation?.DisplayName == "Clown")
 			{
 				OnTakeDamageType += ClownAbuseScoreEvent;
@@ -368,7 +368,7 @@ namespace HealthV2
 
 		public void ExternalMetaboliseReactions()
 		{
-			var  node = RegisterTile.Matrix.MetaDataLayer.Get(transform.localPosition.RoundToInt());
+			var node = RegisterTile.Matrix.MetaDataLayer.Get(transform.localPosition.RoundToInt());
 
 			if (node != null && node.SmokeNode.IsActive)
 			{
@@ -392,7 +392,7 @@ namespace HealthV2
 				}
 			}
 
-			foreach (var  storage in SurfaceReagents)
+			foreach (var storage in SurfaceReagents)
 			{
 				if (storage.Value.Total == 0) continue;
 
@@ -438,7 +438,9 @@ namespace HealthV2
 			}
 		}
 
-		[FormerlySerializedAs("AllExternalMetabolismReactions")] [FormerlySerializedAs("ALLExternalMetabolismReactions")] public List<ExternalBodyHealthEffect>
+		[FormerlySerializedAs("AllExternalMetabolismReactions")]
+		[FormerlySerializedAs("ALLExternalMetabolismReactions")]
+		public List<ExternalBodyHealthEffect>
 			allExternalMetabolismReactions = new List<ExternalBodyHealthEffect>(); //TOOD Move somewhere static maybe
 
 		public List<MetabolismReaction> MetabolismReactions { get; } = new();
@@ -517,7 +519,7 @@ namespace HealthV2
 			CalculateOverallHealth();
 		}
 
-
+		#region Mutations
 
 		public int Stability = 0;
 		public int NegativeMutationMinimumTimeMinutes = 5;
@@ -549,11 +551,12 @@ namespace HealthV2
 
 		private IEnumerator ApplyNegativeMutation()
 		{
-			List<BodyPartMutations.MutationAndBodyPart> AvailableMutations =  new
-				 List<BodyPartMutations.MutationAndBodyPart>();
+			List<BodyPartMutations.MutationAndBodyPart> AvailableMutations = new
+				List<BodyPartMutations.MutationAndBodyPart>();
 			while (Stability < 0)
 			{
-				yield return WaitFor.Minutes(Random.Range(NegativeMutationMinimumTimeMinutes, NegativeMutationMaximumTimeMinutes));
+				yield return WaitFor.Minutes(Random.Range(NegativeMutationMinimumTimeMinutes,
+					NegativeMutationMaximumTimeMinutes));
 				AvailableMutations.Clear();
 
 				foreach (var BP in BodyPartList)
@@ -571,13 +574,67 @@ namespace HealthV2
 					yield break;
 				}
 
-				var MutationToApply =  AvailableMutations.PickRandom();
+				var MutationToApply = AvailableMutations.PickRandom();
 
 				MutationToApply.BodyPartMutations.AddMutation(MutationToApply.MutationSO);
 			}
 
 			routine = null;
 		}
+
+
+
+		public void InjectDNA(List<DNAMutationData> Payloads)
+		{
+			StartCoroutine(EnumeratorInjectDna(Payloads));
+		}
+
+
+		private IEnumerator EnumeratorInjectDna(List<DNAMutationData> Payloads)
+		{
+			foreach (var Payload in Payloads)
+			{
+				yield return ProcessDNAPayload(Payload);
+			}
+		}
+
+
+		public IEnumerator ProcessDNAPayload(DNAMutationData InDNAMutationData)
+		{
+			//TODO Skin and body type , is in character Settings  so is awkward
+			foreach (var Payload in InDNAMutationData.Payload)
+			{
+				yield return WaitFor.Seconds(1f);
+				foreach (var BP in BodyPartList)
+				{
+					if (BP.name.Contains(InDNAMutationData.BodyPartSearchString))
+					{
+						var Mutation = BP.GetComponent<BodyPartMutations>();
+						if (Mutation != null)
+						{
+							if (Mutation != null)
+							{
+								Mutation.MutateCustomisation(Payload.CustomisationTarget,
+									Payload.CustomisationReplaceWith);
+							}
+
+							if (Payload.TargetMutationSO != null)
+							{
+								Mutation.AddMutation(Payload.TargetMutationSO);
+							}
+
+							if (Payload.SpeciesMutateTo != null && Payload.MutateToBodyPart != null)
+							{
+								Mutation.ChangeToSpecies(Payload.SpeciesMutateTo,
+									Payload.MutateToBodyPart);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		#endregion
 
 		/// <summary>
 		/// Calculates and applies radiation damage
@@ -1048,7 +1105,7 @@ namespace HealthV2
 				}
 			}
 
-			ScoreMachine.AddToScoreInt((int)healAmt, RoundEndScoreBuilder.COMMON_SCORE_HEALING);
+			ScoreMachine.AddToScoreInt((int) healAmt, RoundEndScoreBuilder.COMMON_SCORE_HEALING);
 		}
 
 		/// <summary>
@@ -1075,8 +1132,8 @@ namespace HealthV2
 				{
 					if (reaction.HasIngredients(Chemicals))
 					{
-						var Amount =  reaction.GetReactionAmount(Chemicals);
-						foreach (var TouchCharacteristics in  reaction.InitialTouchCharacteristics)
+						var Amount = reaction.GetReactionAmount(Chemicals);
+						foreach (var TouchCharacteristics in reaction.InitialTouchCharacteristics)
 						{
 							ApplyDamageToBodyPart(this.gameObject, Amount * TouchCharacteristics.EffectPerOne,
 								TouchCharacteristics.AttackType,
@@ -1702,7 +1759,7 @@ namespace HealthV2
 		private void FastRegen()
 		{
 			playerScript.RegisterPlayer.ServerRemoveStun();
-			if(OverallHealth > fastRegenThreshold) return;
+			if (OverallHealth > fastRegenThreshold) return;
 
 			HealDamageOnAll(null, fastRegenHeal, DamageType.Brute);
 		}
@@ -1745,7 +1802,8 @@ namespace HealthV2
 		public RightClickableResult GenerateRightClickOptions()
 		{
 			if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) ||
-			    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold) == false)
+			    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions,
+				    KeyboardInputManager.KeyEventType.Hold) == false)
 			{
 				return null;
 			}
@@ -1761,10 +1819,11 @@ namespace HealthV2
 
 		private void ClownAbuseScoreEvent(DamageType damageType, GameObject abuser)
 		{
-			if(abuser == null) return;
-			if(damageType == DamageType.Clone || damageType == DamageType.Oxy || damageType == DamageType.Radiation) return;
-			if(abuser.TryGetComponent<PlayerScript>(out var script) == false) return;
-			if(script.gameObject == abuser) return; //Don't add to the score if the clown hits themselves.
+			if (abuser == null) return;
+			if (damageType == DamageType.Clone || damageType == DamageType.Oxy ||
+			    damageType == DamageType.Radiation) return;
+			if (abuser.TryGetComponent<PlayerScript>(out var script) == false) return;
+			if (script.gameObject == abuser) return; //Don't add to the score if the clown hits themselves.
 			ScoreMachine.AddToScoreInt(-5, RoundEndScoreBuilder.COMMON_SCORE_CLOWNABUSE);
 		}
 	}

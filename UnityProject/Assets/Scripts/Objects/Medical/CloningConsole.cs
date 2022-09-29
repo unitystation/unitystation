@@ -6,6 +6,7 @@ using UnityEngine;
 using UI.Objects.Medical;
 using Random = UnityEngine.Random;
 using Health.Sickness;
+using UI.Objects.Medical.Cloning;
 
 namespace Objects.Medical
 {

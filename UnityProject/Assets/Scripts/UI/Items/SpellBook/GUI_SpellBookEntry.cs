@@ -31,8 +31,8 @@ namespace UI.SpellBook
 			this.bookGUI = bookGUI;
 			this.entry = entry;
 
-			costLabel.SetValueServer($"Cost: {entry.Cost}");
-			descriptionLabel.SetValueServer(entry.Description);
+			costLabel.MasterSetValue($"Cost: {entry.Cost}");
+			descriptionLabel.MasterSetValue(entry.Description);
 
 			if (entry is SpellBookSpell spellEntry)
 			{
@@ -48,7 +48,7 @@ namespace UI.SpellBook
 			}
 
 			// Enable or disable button interactivity based on affordability.
-			button.SetValueServer(entry.Cost > bookGUI.Points ? "false" : "true");
+			button.MasterSetValue(entry.Cost > bookGUI.Points ? "false" : "true");
 		}
 
 		private void SetSpellValues(SpellBookSpell spellEntry)
@@ -56,36 +56,36 @@ namespace UI.SpellBook
 			Spell readerSpell = bookGUI.GetReaderSpellInstance(spellEntry.Spell);
 			if (readerSpell == null)
 			{
-				spellLabel.SetValueServer(spellEntry.Name);
-				cooldownLabel.SetValueServer($"Cooldown: {spellEntry.Spell.CooldownTime}");
-				buttonLabel.SetValueServer("Learn");
+				spellLabel.MasterSetValue(spellEntry.Name);
+				cooldownLabel.MasterSetValue($"Cooldown: {spellEntry.Spell.CooldownTime}");
+				buttonLabel.MasterSetValue("Learn");
 			}
 			else
 			{
-				spellLabel.SetValueServer($"{spellEntry.Name} {readerSpell.CurrentTier + 1}");
-				cooldownLabel.SetValueServer("Cooldown: " +
+				spellLabel.MasterSetValue($"{spellEntry.Name} {readerSpell.CurrentTier + 1}");
+				cooldownLabel.MasterSetValue("Cooldown: " +
 					(readerSpell.CooldownTime - (readerSpell.CooldownTime * spellEntry.Spell.CooldownModifier)).ToString("G2"));
-				buttonLabel.SetValueServer("Upgrade");
+				buttonLabel.MasterSetValue("Upgrade");
 			}
 
-			noteLabel.SetValueServer(
+			noteLabel.MasterSetValue(
 					$"{(spellEntry.RequiresWizardGarb ? "Requires wizard garb" : "Can be cast without wizard garb")} {spellEntry.Note}");
 		}
 
 		private void SetArtifactValues(SpellBookArtifact artifactEntry)
 		{
-			spellLabel.SetValueServer(artifactEntry.Name);
-			cooldownLabel.SetValueServer(default);
-			noteLabel.SetValueServer(artifactEntry.Note);
-			buttonLabel.SetValueServer("Summon");
+			spellLabel.MasterSetValue(artifactEntry.Name);
+			cooldownLabel.MasterSetValue(default);
+			noteLabel.MasterSetValue(artifactEntry.Note);
+			buttonLabel.MasterSetValue("Summon");
 		}
 
 		private void SetRitualValues(SpellBookRitual ritualEntry)
 		{
-			spellLabel.SetValueServer(ritualEntry.Name);
-			cooldownLabel.SetValueServer(default);
-			noteLabel.SetValueServer(ritualEntry.Note);
-			buttonLabel.SetValueServer("Cast");
+			spellLabel.MasterSetValue(ritualEntry.Name);
+			cooldownLabel.MasterSetValue(default);
+			noteLabel.MasterSetValue(ritualEntry.Note);
+			buttonLabel.MasterSetValue("Cast");
 		}
 
 		public void Activate()

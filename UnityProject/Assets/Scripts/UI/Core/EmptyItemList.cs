@@ -18,22 +18,22 @@ namespace UI.Core.NetUI
 			{
 				Add();
 			}
-			NetworkTabManager.Instance.Rescan(MasterTab.NetTabDescriptor);
+			NetworkTabManager.Instance.Rescan(containedInTab.NetTabDescriptor);
 			UpdatePeepers();
 		}
 
 		public void SetItems(int count)
 		{
-			while (count > Entries.Length)
+			while (count > Entries.Count)
 			{
 				Add();
 			}
 
-			while (count < Entries.Length)
+			while (count < Entries.Count)
 			{
 				Remove(Entries.Last().name);
 			}
-			NetworkTabManager.Instance.Rescan(MasterTab.NetTabDescriptor);
+			NetworkTabManager.Instance.Rescan(containedInTab.NetTabDescriptor);
 			UpdatePeepers();
 		}
 
@@ -42,10 +42,20 @@ namespace UI.Core.NetUI
 			var newEntry = Add();
 
 			// rescan elements and notify
-			NetworkTabManager.Instance.Rescan(MasterTab.NetTabDescriptor);
+			NetworkTabManager.Instance.Rescan(containedInTab.NetTabDescriptor);
 			UpdatePeepers();
 
 			return newEntry;
+		}
+
+
+		public void MasterRemoveItem(DynamicEntry EntryToRemove)
+		{
+			Remove(EntryToRemove.name);
+
+			// rescan elements and notify
+			NetworkTabManager.Instance.Rescan(containedInTab.NetTabDescriptor);
+			UpdatePeepers();
 		}
 	}
 }

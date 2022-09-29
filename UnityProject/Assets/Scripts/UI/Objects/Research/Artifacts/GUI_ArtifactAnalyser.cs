@@ -98,7 +98,7 @@ namespace UI.Objects.Research
 
 		private void UpdateRPDisplay()
 		{
-			rpLabel.SetValueServer("Stored RP: " + artifactAnalyser.storedRP);
+			rpLabel.MasterSetValue("Stored RP: " + artifactAnalyser.storedRP);
 		}
 
 		public void UpdateGUI()
@@ -141,9 +141,9 @@ namespace UI.Objects.Research
 
 			for(int i = 0; i < 3; i++)
 			{
-				completeLabel.SetValueServer("Analysis in Progress.");
+				completeLabel.MasterSetValue("Analysis in Progress.");
 				yield return new WaitForSeconds(1f);
-				completeLabel.SetValueServer("Analysis in Progress");
+				completeLabel.MasterSetValue("Analysis in Progress");
 				yield return new WaitForSeconds(1f);
 			}
 			artifactAnalyser.SetState(AnalyserState.Idle);
@@ -156,14 +156,14 @@ namespace UI.Objects.Research
 					rp = artifactSliver.RPReward;
 			}
 
-			completeLabel.SetValueServer("Analysis Complete! +" + rp + "RP!");
+			completeLabel.MasterSetValue("Analysis Complete! +" + rp + "RP!");
 			artifactAnalyser.storedRP += rp;
 			UpdateRPDisplay();
 
-			radLabel.SetValueServer("Radiation Level:\n" + artifactSliver.sliverData.radiationlevel + "rad");
-			bluespaceLabel.SetValueServer("Bluespace Signature:\n" + artifactSliver.sliverData.bluespacesig + "Gy");
-			clownLabel.SetValueServer("Bananium Signature:\n" + artifactSliver.sliverData.bananiumsig + "mClw");
-			massLabel.SetValueServer("Sample mass:\n" + artifactSliver.sliverData.mass + "g");
+			radLabel.MasterSetValue("Radiation Level:\n" + artifactSliver.sliverData.radiationlevel + "rad");
+			bluespaceLabel.MasterSetValue("Bluespace Signature:\n" + artifactSliver.sliverData.bluespacesig + "Gy");
+			clownLabel.MasterSetValue("Bananium Signature:\n" + artifactSliver.sliverData.bananiumsig + "mClw");
+			massLabel.MasterSetValue("Sample mass:\n" + artifactSliver.sliverData.mass + "g");
 		}
 
 		public void DeconstructArtifact()
@@ -181,14 +181,14 @@ namespace UI.Objects.Research
 		{
 			for (int i = 0; i < 3; i++)
 			{
-				completeLabel.SetValueServer("Deconstructing Sample.");
+				completeLabel.MasterSetValue("Deconstructing Sample.");
 				yield return new WaitForSeconds(1f);
-				completeLabel.SetValueServer("Deconstructing Sample");
+				completeLabel.MasterSetValue("Deconstructing Sample");
 				yield return new WaitForSeconds(1f);
 			}
 			artifactAnalyser.SetState(AnalyserState.Idle);
 
-			completeLabel.SetValueServer("Deconstruction Successful!");
+			completeLabel.MasterSetValue("Deconstruction Successful!");
 
 			artifactAnalyser.DestroySample();
 
@@ -217,11 +217,11 @@ namespace UI.Objects.Research
 
 		public void SwitchToNullPage()
 		{
-			radLabel.SetValueServer("Radiation Level:\nnull");
-			bluespaceLabel.SetValueServer("Bluespace Signature:\nnull");
-			clownLabel.SetValueServer("Bananium Signature:\nnull");
-			massLabel.SetValueServer("Sample mass:\nnull");
-			completeLabel.SetValueServer("No Analysis Performed.");
+			radLabel.MasterSetValue("Radiation Level:\nnull");
+			bluespaceLabel.MasterSetValue("Bluespace Signature:\nnull");
+			clownLabel.MasterSetValue("Bananium Signature:\nnull");
+			massLabel.MasterSetValue("Sample mass:\nnull");
+			completeLabel.MasterSetValue("No Analysis Performed.");
 
 			mainSwitcher.SetActivePage(0);
 

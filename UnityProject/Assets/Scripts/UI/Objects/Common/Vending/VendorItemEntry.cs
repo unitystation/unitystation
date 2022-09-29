@@ -45,18 +45,18 @@ namespace UI.Objects
 				itemNameStr = TextUtils.UppercaseFirst(itemGO.ExpensiveName());
 			}
 
-			itemName.SetValueServer(itemNameStr);
-			itemIcon.SetValueServer(itemGO.name);
-			itemCount.SetValueServer($"({vendorItem.Stock})");
-			itemBackground.SetValueServer(vendorItem.Stock > 0 ? regularColor : emptyStockColor);
+			itemName.MasterSetValue(itemNameStr);
+			itemIcon.MasterSetValue(itemGO.name);
+			itemCount.MasterSetValue($"({vendorItem.Stock})");
+			itemBackground.MasterSetValue(vendorItem.Stock > 0 ? regularColor : emptyStockColor);
 
 			if (vendorItem.Price == 0)
 			{
-				priceTag.SetValueServer("Free");
+				priceTag.MasterSetValue("Free");
 			}
 			else
 			{
-				priceTag.SetValueServer(vendorItem.Currency == CurrencyType.Credits
+				priceTag.MasterSetValue(vendorItem.Currency == CurrencyType.Credits
 						? $"{vendorItem.Price} cr"
 						: $"{vendorItem.Price} Points");
 			}

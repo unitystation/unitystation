@@ -37,7 +37,7 @@ namespace UI.Objects.Cargo
 
 		public void UpdateLaborPoints(int laborPoints)
 		{
-			laborPointsLabel.SetValueServer($"Unclaimed points: {laborPoints.ToString()}");
+			laborPointsLabel.MasterSetValue($"Unclaimed points: {laborPoints.ToString()}");
 		}
 
 		public void ClaimLaborPoints(PlayerInfo connectedPlayer)

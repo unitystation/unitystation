@@ -8,7 +8,7 @@ namespace UI.Objects
 {
 	public class GUI_AutolatheQueueItem : DynamicEntry
 	{
-		private GUI_Autolathe ExoFabMasterTab => MasterTab as GUI_Autolathe;
+		private GUI_Autolathe ExoFabMasterTab => containedInTab as GUI_Autolathe;
 
 		public MachineProduct Product { get; set; }
 
@@ -25,7 +25,7 @@ namespace UI.Objects
 		{
 			if (ExoFabMasterTab == null)
 			{
-				MasterTab.GetComponent<GUI_Autolathe>().OnUpQueueClicked.Invoke(NumberInQueue);
+				containedInTab.GetComponent<GUI_Autolathe>().OnUpQueueClicked.Invoke(NumberInQueue);
 			}
 			else
 			{
@@ -37,7 +37,7 @@ namespace UI.Objects
 		{
 			if (ExoFabMasterTab == null)
 			{
-				MasterTab.GetComponent<GUI_Autolathe>().OnDownQueueClicked.Invoke(NumberInQueue);
+				containedInTab.GetComponent<GUI_Autolathe>().OnDownQueueClicked.Invoke(NumberInQueue);
 			}
 			else
 			{
@@ -49,7 +49,7 @@ namespace UI.Objects
 		{
 			if (ExoFabMasterTab == null)
 			{
-				MasterTab.GetComponent<GUI_Autolathe>().OnRemoveProductClicked.Invoke(NumberInQueue);
+				containedInTab.GetComponent<GUI_Autolathe>().OnRemoveProductClicked.Invoke(NumberInQueue);
 			}
 			else
 			{
@@ -70,22 +70,22 @@ namespace UI.Objects
 				{
 					case "QueueNumber":
 						numberInQueueColorElement = element as GUI_ExoFabQueueLabel;
-						((NetUIElement<string>)element).SetValueServer(NumberInQueue.ToString());
+						((NetUIElement<string>)element).MasterSetValue(NumberInQueue.ToString());
 						break;
 
 					case "ProductName":
 						productTextColorElement = element as GUI_ExoFabQueueLabel;
-						((NetUIElement<string>)element).SetValueServer(Product.Name);
+						((NetUIElement<string>)element).MasterSetValue(Product.Name);
 						break;
 
 					case "UpButton":
 						upButton = element as NetInteractiveButton;
-						upButton.SetValueServer("true");
+						upButton.MasterSetValue("true");
 						break;
 
 					case "DownButton":
 						downButton = element as NetInteractiveButton;
-						downButton.SetValueServer("true");
+						downButton.MasterSetValue("true");
 						break;
 				}
 			}

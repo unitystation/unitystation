@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using Objects.Medical;
 using UI.Core.NetUI;
-using Objects.Medical;
 
-namespace UI.Objects.Medical
+namespace UI.Objects.Medical.Cloning
 {
 	public class GUI_CloningRecordItem : DynamicEntry
 	{
@@ -15,8 +13,8 @@ namespace UI.Objects.Medical
 
 		public void SetValues()
 		{
-			recordName.SetValueServer(cloningRecord.name);
-			recrodScanID.SetValueServer("Scan ID " + cloningRecord.scanID);
+			recordName.MasterSetValue(cloningRecord.name);
+			recrodScanID.MasterSetValue("Scan ID " + cloningRecord.scanID);
 		}
 
 		public void ViewRecord()

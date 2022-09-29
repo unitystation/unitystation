@@ -6,7 +6,7 @@ namespace UI.Objects.Robotics
 {
 	public class GUI_ExoFabMaterialEntry : DynamicEntry
 	{
-		private GUI_ExosuitFabricator ExoFabMasterTab => MasterTab as GUI_ExosuitFabricator;
+		private GUI_ExosuitFabricator ExoFabMasterTab => containedInTab as GUI_ExosuitFabricator;
 
 		private ItemTrait materialType;
 		private int currentAmount;
@@ -39,11 +39,11 @@ namespace UI.Objects.Robotics
 				switch (nameBeforeIndex)
 				{
 					case "MaterialName":
-						((NetUIElement<string>)element).SetValueServer(CraftingManager.MaterialSheetData[material].displayName + ":");
+						((NetUIElement<string>)element).MasterSetValue(CraftingManager.MaterialSheetData[material].displayName + ":");
 						break;
 
 					case "MaterialAmount":
-						((NetUIElement<string>)element).SetValueServer(currentAmount + " cm3");
+						((NetUIElement<string>)element).MasterSetValue(currentAmount + " cm3");
 						amountLabel = element as NetText_label;
 						break;
 
@@ -68,27 +68,27 @@ namespace UI.Objects.Robotics
 			int sheetsDispensable = currentAmount / 2000;
 			if (sheetsDispensable < 1)
 			{
-				buttonOne.SetValueServer("false");
-				buttonTen.SetValueServer("false");
-				buttonFifty.SetValueServer("false");
+				buttonOne.MasterSetValue("false");
+				buttonTen.MasterSetValue("false");
+				buttonFifty.MasterSetValue("false");
 			}
 			else if (sheetsDispensable >= 1 && sheetsDispensable < 10)
 			{
-				buttonOne.SetValueServer("true");
-				buttonTen.SetValueServer("false");
-				buttonFifty.SetValueServer("false");
+				buttonOne.MasterSetValue("true");
+				buttonTen.MasterSetValue("false");
+				buttonFifty.MasterSetValue("false");
 			}
 			else if (sheetsDispensable >= 10 && sheetsDispensable < 50)
 			{
-				buttonOne.SetValueServer("true");
-				buttonTen.SetValueServer("true");
-				buttonFifty.SetValueServer("false");
+				buttonOne.MasterSetValue("true");
+				buttonTen.MasterSetValue("true");
+				buttonFifty.MasterSetValue("false");
 			}
 			else
 			{
-				buttonOne.SetValueServer("true");
-				buttonTen.SetValueServer("true");
-				buttonFifty.SetValueServer("true");
+				buttonOne.MasterSetValue("true");
+				buttonTen.MasterSetValue("true");
+				buttonFifty.MasterSetValue("true");
 			}
 		}
 	}

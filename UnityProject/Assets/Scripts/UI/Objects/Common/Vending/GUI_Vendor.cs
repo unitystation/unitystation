@@ -34,7 +34,7 @@ namespace UI.Objects
 			vendor = Provider.GetComponent<Vendor>();
 			if (vendor)
 			{
-				hullColor.SetValueServer(vendor.HullColor);
+				hullColor.MasterSetValue(vendor.HullColor);
 				UpdateAllItemsView();
 
 				vendor.OnItemVended.AddListener(UpdateItemView);
