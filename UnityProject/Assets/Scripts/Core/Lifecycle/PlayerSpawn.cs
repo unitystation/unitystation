@@ -429,7 +429,7 @@ public static class PlayerSpawn
 	private static PlayerScript ServerSpawnGhost(PlayerInfo playerInfo, Vector3Int spawnPosition,
 		CharacterSheet characterSettings)
 	{
-		if (playerInfo.Mind != null)
+		if (playerInfo.Mind != null && PlayerInfo.Invalid != playerInfo)
 		{
 			Logger.LogError($"Player info already has ghost associated {playerInfo.ToString()} with {playerInfo.Mind}" );
 			return playerInfo.Mind.CurrentPlayScript;
