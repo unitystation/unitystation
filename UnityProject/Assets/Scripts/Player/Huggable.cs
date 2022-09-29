@@ -1,5 +1,6 @@
 using HealthV2;
 using Messages.Server.SoundMessages;
+using Systems.Score;
 using UnityEngine;
 
 
@@ -27,7 +28,7 @@ namespace Player
 
     	[SerializeField] private ItemTrait tailTrait;
 
-    	public bool WillInteract(HandApply interaction, NetworkSide side)
+        public bool WillInteract(HandApply interaction, NetworkSide side)
     	{
     		if (!DefaultWillInteract.Default(interaction, side)) return false;
     		if (interaction.Intent != Intent.Help) return false;
@@ -128,6 +129,7 @@ namespace Player
     				$"<color=#be2596>{performerName} pulls on {targetName}'s tail!</color>");
     			Chat.AddExamineMsgFromServer(interaction.TargetObject, $"<color=#be2596>{performerName} hugs you.</color>");
     			Judgement(performerLHB);
+                ScoreMachine.AddToScoreInt(RoundEndScoreBuilder.TAIL_SCORE_VALUE, RoundEndScoreBuilder.COMMON_TAIL_SCORE_ENTRY);
     			return true;
     		}
     		return false;
@@ -138,6 +140,7 @@ namespace Player
     		if(interaction.TargetBodyPart == BodyPartType.Groin && PullTail()) return;
     		Chat.AddActionMsgToChat(interaction.Performer, $"You hug {targetName}.", $"{performerName} hugs {targetName}.");
     		Chat.AddExamineMsgFromServer(interaction.TargetObject, $"{performerName} hugs you.");
+            ScoreMachine.AddToScoreInt(RoundEndScoreBuilder.HUG_SCORE_VALUE, RoundEndScoreBuilder.COMMON_HUG_SCORE_ENTRY);
     	}
     }
 }
