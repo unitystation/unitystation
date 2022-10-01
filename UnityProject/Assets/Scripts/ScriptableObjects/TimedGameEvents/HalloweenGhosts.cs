@@ -15,8 +15,7 @@ namespace ScriptableObjects.TimedGameEvents
 		[SerializeField] private List<GameObject> horrorsToSpawn;
 		[SerializeField] private SpawnPointCategory spawnPointCategory = SpawnPointCategory.MaintSpawns;
 		[SerializeField] private Vector2 randomSpawnCount = new Vector2(1, 5);
-		private const float WAIT_TIME_BEFORE_HAUNTS = 320f;
-		private const float WAIT_TIME_FOR_PLAYMODE_EDITOR = 6f;
+		private const float WAIT_TIME_BEFORE_HAUNTS = 165f;
 		private const float CHANCE_FOR_UNINTENDED_AREA = 5f;
 		private List<Transform> spawnPoints = new List<Transform>();
 
@@ -35,12 +34,6 @@ namespace ScriptableObjects.TimedGameEvents
 
 			while (isRunning)
 			{
-#if UNITY_EDITOR
-				yield return WaitFor.Seconds(WAIT_TIME_FOR_PLAYMODE_EDITOR);
-				SpawnGhosts();
-				ChanceToSetUnintendedSpawnArea();
-				if(Application.isEditor) continue;
-#endif
 				yield return WaitFor.Seconds(WAIT_TIME_BEFORE_HAUNTS);
 				if (PlayerList.Instance.ConnectionCount == 0) continue;
 				SpawnGhosts();
