@@ -17,7 +17,7 @@ namespace ScriptableObjects.TimedGameEvents
 		[SerializeField] private Vector2 randomSpawnCount = new Vector2(1, 5);
 		private const float WAIT_TIME_BEFORE_HAUNTS = 320f;
 		private const float CHANCE_FOR_UNINTENDED_AREA = 5f;
-		private List<Transform> spawnPoints;
+		private List<Transform> spawnPoints = new List<Transform>();
 
 		private bool isRunning = false;
 
@@ -43,7 +43,10 @@ namespace ScriptableObjects.TimedGameEvents
 
 		public override IEnumerator OnRoundEnd()
 		{
+			//ends the while loop in StartEvent()
 			isRunning = false;
+			//Because this is a scriptable object, data carries over. so make sure to clear it.
+			spawnPoints = null;
 			yield return null;
 		}
 
@@ -59,6 +62,10 @@ namespace ScriptableObjects.TimedGameEvents
 
 		private void SpawnGhosts()
 		{
+			if (spawnPoints == null && isRunning)
+			{
+				if(SetSpawns() == false) return;
+			}
 			for (int i = 0; i < Random.Range(randomSpawnCount.x, randomSpawnCount.y); i++)
 			{
 				Spawn.ServerPrefab(horrorsToSpawn.PickRandom(), spawnPoints.PickRandom().position);
