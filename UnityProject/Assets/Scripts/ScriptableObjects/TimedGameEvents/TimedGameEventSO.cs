@@ -31,7 +31,11 @@ namespace ScriptableObjects.TimedGameEvents
 			yield break;
 		}
 
-		public virtual void Clean() { }
+		public virtual void Clean()
+		{
+			//Implement your own custom logic to clean up your scriptable objects here.
+			//This will be called when the round ends but you can call it whenever needed.
+		}
 	}
 
 	public enum Month
