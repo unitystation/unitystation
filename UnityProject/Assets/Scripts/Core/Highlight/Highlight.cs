@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -8,6 +9,8 @@ public class Highlight : MonoBehaviour, IInitialise
 {
 	public static bool HighlightEnabled;
 	public static Highlight instance;
+
+	public GameObject TargetObject;
 
 	public SpriteRenderer prefabSpriteRenderer;
 	public SpriteRenderer spriteRenderer;
@@ -63,6 +66,31 @@ public class Highlight : MonoBehaviour, IInitialise
 		}
 	}
 
+
+	public static List<SpriteHandler> SubscribeSpriteHandlers = new List<SpriteHandler>();
+
+	public static void UpdateCurrentHighlight(Sprite Sprite)
+	{
+		if (HighlightEnabled)
+		{
+			if (instance != null)
+			{
+				HighlightThis(instance.TargetObject);
+			}
+		}
+		else
+		{
+			foreach (var SH in SubscribeSpriteHandlers)
+			{
+				if (SH == null) continue;
+				SH.OnSpriteChanged -= UpdateCurrentHighlight;
+			}
+			SubscribeSpriteHandlers.Clear();
+		}
+
+	}
+
+
 	public static void DeHighlight()
 	{
 		if (HighlightEnabled)
@@ -72,14 +100,22 @@ public class Highlight : MonoBehaviour, IInitialise
 				instance.spriteRenderer = Instantiate(instance.prefabSpriteRenderer);
 			}
 
+			foreach (var SH in SubscribeSpriteHandlers)
+			{
+				if (SH == null) continue;
+				SH.OnSpriteChanged -= UpdateCurrentHighlight;
+			}
+			SubscribeSpriteHandlers.Clear();
+
 			Texture2D mainTex = instance.spriteRenderer.sprite.texture;
 			Unity.Collections.NativeArray<Color32> data = mainTex.GetRawTextureData<Color32>();
 			for (int xy = 0; xy < data.Length; xy++)
 			{
 				data[xy] = new Color32(0, 0, 0, 0);
 			}
-
 			mainTex.Apply();
+			instance.TargetObject = null;
+
 		}
 	}
 
@@ -98,6 +134,14 @@ public class Highlight : MonoBehaviour, IInitialise
 			instance.spriteRenderer = Instantiate(instance.prefabSpriteRenderer);
 		}
 
+		Texture2D mainTex = instance.spriteRenderer.sprite.texture;
+		Unity.Collections.NativeArray<Color32> data = mainTex.GetRawTextureData<Color32>();
+		for (int xy = 0; xy < data.Length; xy++)
+		{
+			data[xy] = new Color32(0, 0, 0, 0);
+		}
+
+		instance.TargetObject = Highlightobject;
 		instance.spriteRenderer.gameObject.SetActive(true);
 		instance.spriteRenderer.enabled = true;
 		var SpriteRenderers = Highlightobject.GetComponentsInChildren<SpriteRenderer>();
@@ -108,8 +152,22 @@ public class Highlight : MonoBehaviour, IInitialise
 		instance.spriteRenderer.transform.localScale = Vector3.one;
 		instance.spriteRenderer.sortingLayerID = SpriteRenderers[0].sortingLayerID;
 
+		foreach (var SH in SubscribeSpriteHandlers)
+		{
+			if (SH == null) continue;
+			SH.OnSpriteChanged -= UpdateCurrentHighlight;
+		}
+
+		SubscribeSpriteHandlers = Highlightobject.GetComponentsInChildren<SpriteHandler>().ToList();
+		foreach (var SH in SubscribeSpriteHandlers)
+		{
+			if (SH == null) continue;
+			SH.OnSpriteChanged -= UpdateCurrentHighlight;
+			SH.OnSpriteChanged += UpdateCurrentHighlight;
+		}
+
 		SpriteRenderers = SpriteRenderers.Where(x => x.sprite != null && x != instance.spriteRenderer).ToArray();
-		Texture2D mainTex = instance.spriteRenderer.sprite.texture;
+
 		if (ignoreHandApply || CheckHandApply(Highlightobject))
 		{
 			if (ignoreHandApply)
@@ -154,6 +212,16 @@ public class Highlight : MonoBehaviour, IInitialise
 			yy = 3;
 			xx = xx + 1;
 		}
+	}
+
+	public void OnDestroy()
+	{
+		foreach (var SH in SubscribeSpriteHandlers)
+		{
+			if (SH == null) continue;
+			SH.OnSpriteChanged -= UpdateCurrentHighlight;
+		}
+		SubscribeSpriteHandlers.Clear();
 	}
 
 
