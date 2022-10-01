@@ -24,7 +24,11 @@ namespace Managers
 		{
 			EventManager.AddHandler(Event.RoundStarted, StartActiveEvents);
 			EventManager.AddHandler(Event.RoundEnded, EndActiveEvents);
-			Debug.Log("initalising event hooks");
+		}
+
+		private void OnDisable()
+		{
+			EndActiveEvents();
 		}
 
 		public override void Awake()
