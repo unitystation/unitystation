@@ -200,6 +200,7 @@ namespace Systems.Atmospherics
 
 				//Quicker to get all RegisterTiles and grab the cached PushPull component from it than to get it manually using Get<>
 				if (registerTile.ObjectPhysics.HasComponent == false) continue;
+				if (registerTile.ObjectPhysics.Component.Intangible) continue;
 				var pushable = registerTile.ObjectPhysics.Component;
 
 				float correctedForce = (windyNode.WindForce ) / (int) pushable.GetSize();
