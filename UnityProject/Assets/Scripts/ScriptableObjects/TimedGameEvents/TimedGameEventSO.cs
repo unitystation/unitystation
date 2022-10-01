@@ -16,11 +16,20 @@ namespace ScriptableObjects.TimedGameEvents
 		public string EventName;
 		[TextArea(10, 20)]
 		public string EventDesc;
-		
+
 		public Sprite EventIcon;
 
 		//Delete the object when the timed event is not happening
 		public bool deleteWhenNotTime = true;
+
+		public virtual IEnumerator EventStart()
+		{
+			yield break;
+		}
+		public virtual IEnumerator OnRoundEnd()
+		{
+			yield break;
+		}
 	}
 
 	public enum Month
