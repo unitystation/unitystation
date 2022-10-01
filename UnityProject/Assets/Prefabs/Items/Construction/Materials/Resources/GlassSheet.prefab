@@ -24,6 +24,44 @@ PrefabInstance:
       propertyPath: foreverID
       value: 66a5287d0bf216847a2f4fe34228a0cf
       objectReference: {fileID: 0}
+    - target: {fileID: 5200803135255930768, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: stackSprites.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5200803135255930768, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: stackSprites.Array.data[0].SpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 765921f2297194049b3f466f57bd6414,
+        type: 2}
+    - target: {fileID: 5200803135255930768, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: stackSprites.Array.data[1].SpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: ca179e5fd5789594bafd97c262903703,
+        type: 2}
+    - target: {fileID: 5200803135255930768, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: stackSprites.Array.data[2].SpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 3adf8013b76050746a5dac13d7bcd70e,
+        type: 2}
+    - target: {fileID: 5200803135255930768, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: stackSprites.Array.data[0].OverAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5200803135255930768, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: stackSprites.Array.data[1].OverAmount
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 5200803135255930768, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: stackSprites.Array.data[2].OverAmount
+      value: 34
+      objectReference: {fileID: 0}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: exportCost

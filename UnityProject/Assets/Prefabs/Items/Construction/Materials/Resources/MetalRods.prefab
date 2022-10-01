@@ -12,6 +12,66 @@ PrefabInstance:
       propertyPath: maxAmount
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: stackSprites.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: stackSprites.Array.data[0].SpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 49f578709c4c65c4eb705af98a116726,
+        type: 2}
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: stackSprites.Array.data[1].SpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: bb19676ff17c55141a29596978671f52,
+        type: 2}
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: stackSprites.Array.data[2].SpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 79614046afd28b747b6c269360adf6be,
+        type: 2}
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: stackSprites.Array.data[3].SpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: ab0937a821f439f46b0ecdd52face859,
+        type: 2}
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: stackSprites.Array.data[4].SpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: b6a697866fac9e343b2a82648560327f,
+        type: 2}
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: stackSprites.Array.data[0].OverAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: stackSprites.Array.data[1].OverAmount
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: stackSprites.Array.data[2].OverAmount
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: stackSprites.Array.data[3].OverAmount
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: stackSprites.Array.data[4].OverAmount
+      value: 45
+      objectReference: {fileID: 0}
     - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: m_RootOrder
