@@ -16,6 +16,7 @@ namespace ScriptableObjects.TimedGameEvents
 		[SerializeField] private SpawnPointCategory spawnPointCategory = SpawnPointCategory.MaintSpawns;
 		[SerializeField] private Vector2 randomSpawnCount = new Vector2(1, 5);
 		private const float WAIT_TIME_BEFORE_HAUNTS = 320f;
+		private const float WAIT_TIME_FOR_PLAYMODE_EDITOR = 6f;
 		private const float CHANCE_FOR_UNINTENDED_AREA = 5f;
 		private List<Transform> spawnPoints = new List<Transform>();
 
@@ -34,6 +35,12 @@ namespace ScriptableObjects.TimedGameEvents
 
 			while (isRunning)
 			{
+#if UNITY_EDITOR
+				yield return WaitFor.Seconds(WAIT_TIME_FOR_PLAYMODE_EDITOR);
+				SpawnGhosts();
+				ChanceToSetUnintendedSpawnArea();
+				if(Application.isEditor) continue;
+#endif
 				yield return WaitFor.Seconds(WAIT_TIME_BEFORE_HAUNTS);
 				if (PlayerList.Instance.ConnectionCount == 0) continue;
 				SpawnGhosts();
@@ -43,11 +50,16 @@ namespace ScriptableObjects.TimedGameEvents
 
 		public override IEnumerator OnRoundEnd()
 		{
+			Clean();
+			yield return null;
+		}
+
+		public override void Clean()
+		{
 			//ends the while loop in StartEvent()
 			isRunning = false;
 			//Because this is a scriptable object, data carries over. so make sure to clear it.
-			spawnPoints = null;
-			yield return null;
+			spawnPoints.Clear();
 		}
 
 		private void ChanceToSetUnintendedSpawnArea()
@@ -62,10 +74,6 @@ namespace ScriptableObjects.TimedGameEvents
 
 		private void SpawnGhosts()
 		{
-			if (spawnPoints == null && isRunning)
-			{
-				if(SetSpawns() == false) return;
-			}
 			for (int i = 0; i < Random.Range(randomSpawnCount.x, randomSpawnCount.y); i++)
 			{
 				Spawn.ServerPrefab(horrorsToSpawn.PickRandom(), spawnPoints.PickRandom().position);

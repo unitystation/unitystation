@@ -30,6 +30,8 @@ namespace ScriptableObjects.TimedGameEvents
 		{
 			yield break;
 		}
+
+		public virtual void Clean() { }
 	}
 
 	public enum Month
