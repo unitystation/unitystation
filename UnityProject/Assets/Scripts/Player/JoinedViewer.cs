@@ -102,7 +102,7 @@ namespace Player
 
 
 			var Existingplayer = PlayerList.Instance.GetLoggedOffClient(authData.ClientId, authData.AccountId);
-			if (Existingplayer == null)
+			if (Existingplayer == null || Existingplayer == PlayerInfo.Invalid  )
 			{
 				if (GameData.Instance.DevBuild == false)
 				{
@@ -111,7 +111,7 @@ namespace Player
 				}
 			}
 
-			if (Existingplayer == null)
+			if (Existingplayer == null ||  Existingplayer == PlayerInfo.Invalid)
 			{
 				Existingplayer = new PlayerInfo
 				{
