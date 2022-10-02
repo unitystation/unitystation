@@ -150,8 +150,9 @@ namespace Systems.Spawns
 
 			{ JobType.SYNDICATE, SpawnPointCategory.NuclearOperative },
 			{ JobType.WIZARD, SpawnPointCategory.WizardFederation },
-			{JobType.ANCIENT_ENGINEER, SpawnPointCategory.AncientEngineering},
-			{JobType.ASHWALKER, SpawnPointCategory.Ashwalker},
+			{ JobType.ANCIENT_ENGINEER, SpawnPointCategory.AncientEngineering },
+			{ JobType.ASHWALKER, SpawnPointCategory.Ashwalker },
+			{ JobType.THEWELDER, SpawnPointCategory.MaintSpawns },
 		};
 
 		private static readonly Dictionary<SpawnPointCategory, string> iconNames = new Dictionary<SpawnPointCategory, string>()

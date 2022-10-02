@@ -530,7 +530,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  mind: {fileID: 0}
   playerTypeSettings: {fileID: 11400000, guid: f1ddb9807767eb342a542c93328653f0, type: 2}
   playerName: ' '
   visibleName: ' '
@@ -1019,6 +1018,8 @@ MonoBehaviour:
   BodyPartSurfaceVolume: 5
   playerScript: {fileID: 0}
   CannotRecognizeNames: 0
+  meatProduce: {fileID: 0}
+  skinProduce: {fileID: 0}
   allExternalMetabolismReactions:
   - {fileID: 11400000, guid: 305eafe3e2fbc9e4283aee243b3edb51, type: 2}
   - {fileID: 11400000, guid: c0ceb2d6f23ad014bbab88285b3815e3, type: 2}
@@ -8207,7 +8208,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: -4549444404219585148, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

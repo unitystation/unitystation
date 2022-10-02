@@ -1,0 +1,126 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5613821294180096237
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: CanGetHungry
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: SelfArmor.Bomb
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: SelfArmor.Laser
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: SelfArmor.Magic
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: SelfArmor.Melee
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: SelfArmor.Bullet
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: SelfArmor.Energy
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: SelfArmor.StunImmunity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2574131780916113488, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: initialName
+      value: welder's left leg
+      objectReference: {fileID: 0}
+    - target: {fileID: 2648266232423228038, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_AssetId
+      value: ff584383289ae334999cc0cc1618e1a2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2689983249500970802, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_Name
+      value: WelderLeftLeg
+      objectReference: {fileID: 0}
+    - target: {fileID: 9074195140769878879, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: foreverID
+      value: ff584383289ae334999cc0cc1618e1a2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2e6f2ff9beb985749940d242877d84f0, type: 3}
