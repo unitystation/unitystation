@@ -39,6 +39,8 @@ public class OreGenerator : MonoBehaviour, IServerSpawn
 
 	public bool runOnStart = true;
 
+	private HashSet<Vector3> GeneratedLocations = new HashSet<Vector3>();
+
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		if(runOnStart == false) return;
@@ -47,6 +49,7 @@ public class OreGenerator : MonoBehaviour, IServerSpawn
 
 	public void RunOreGenerator()
 	{
+		GeneratedLocations.Clear();
 		metaTileMap = GetComponentInChildren<MetaTileMap>();
 		wallTilemap = metaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>();
 		tileChangeManager = GetComponent<TileChangeManager>();
@@ -92,13 +95,18 @@ public class OreGenerator : MonoBehaviour, IServerSpawn
 		for (int i = 0; i < numberOfTiles; i++)
 		{
 			var oreTile = miningTiles[RANDOM.Next(miningTiles.Count)];
-			var oreCategory = weightedList[RANDOM.Next(weightedList.Count)];
-			tileChangeManager.MetaTileMap.SetTile(oreTile, oreCategory.WallTile);
-			var intLocation = oreTile + Vector3Int.zero;
-			intLocation.z = -1;
-			tileChangeManager.MetaTileMap.AddOverlay(intLocation, oreCategory.OverlayTile as OverlayTile);
+			if (GeneratedLocations.Contains(oreTile) == false)
+			{
+				GeneratedLocations.Add(oreTile);
+				var oreCategory = weightedList[RANDOM.Next(weightedList.Count)];
+				tileChangeManager.MetaTileMap.SetTile(oreTile, oreCategory.WallTile);
 
-			NodeScatter(oreTile, oreCategory);
+				var intLocation = oreTile + Vector3Int.zero;
+				intLocation.z = -1;
+				tileChangeManager.MetaTileMap.AddOverlay(intLocation, oreCategory.OverlayTile as OverlayTile);
+
+				NodeScatter(oreTile, oreCategory);
+			}
 		}
 	}
 
@@ -113,8 +121,9 @@ public class OreGenerator : MonoBehaviour, IServerSpawn
 			var chosenLocation = locations[RANDOM.Next(locations.Count)];
 			var ranLocation = chosenLocation + DIRECTIONS[RANDOM.Next(DIRECTIONS.Count)];
 			var tile = metaTileMap.GetTile(ranLocation);
-			if (tile != null)
+			if (tile != null && ((BasicTile) tile).Mineable && GeneratedLocations.Contains(ranLocation) == false)
 			{
+				GeneratedLocations.Add(ranLocation);
 				tileChangeManager.MetaTileMap.SetTile(ranLocation, materialSpecified.WallTile);
 				locations.Add(ranLocation);
 				ranLocation.z = -1;
