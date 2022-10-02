@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e3145566f967d4e9706a88c0917052, type: 3}
+  m_Name: The Welder
+  m_EditorClassIdentifier: 
+  Base:
+    BrainPrefab: {fileID: 3442747058158572537, guid: 1e19c4562afbbd2479d14830399db738,
+      type: 3}
+    Head:
+      Elements:
+      - {fileID: 6058081005546021161, guid: ab1c64c599c383a48ab2ce317038228a, type: 3}
+    Torso:
+      Elements:
+      - {fileID: 161132144697556730, guid: ccea25cfd50d31741b9f327057c0970b, type: 3}
+    ArmRight:
+      Elements:
+      - {fileID: 3062598688211751711, guid: c07aa5a04d30b1645af1885990ec4e09, type: 3}
+    ArmLeft:
+      Elements:
+      - {fileID: 1137077542550564914, guid: 108b23bf3284b1f43ab5f046ac57fc35, type: 3}
+    LegRight:
+      Elements:
+      - {fileID: 4935326956797070902, guid: b566a6b6283423e4685b2895a79f8ac7, type: 3}
+    LegLeft:
+      Elements:
+      - {fileID: 7547172307754633183, guid: ff584383289ae334999cc0cc1618e1a2, type: 3}
+    CustomisationSettings:
+    - CustomisationGroup: {fileID: 11400000, guid: 8e20bf66bde1f0e40a127928313e7bef,
+        type: 2}
+      Blacklist: []
+    - CustomisationGroup: {fileID: 11400000, guid: 71b2c774e69e1f94f807766cbd2d3825,
+        type: 2}
+      Blacklist: []
+    - CustomisationGroup: {fileID: 11400000, guid: da3723be05832d14e986b1cf86a74f5b,
+        type: 2}
+      Blacklist: []
+    bodyTypeSettings:
+      AvailableBodyTypes:
+      - bodyType: 1
+        Name: Male
+      - bodyType: 2
+        Name: Female
+      - bodyType: 0
+        Name: NonBinary
+    SkinColours:
+    - {r: 0.77254903, g: 0.54901963, b: 0.52156866, a: 1}
+    - {r: 0.9254902, g: 0.7372549, b: 0.7058824, a: 1}
+    - {r: 0.81960785, g: 0.6392157, b: 0.6431373, a: 1}
+    - {r: 0.6313726, g: 0.4, b: 0.36862746, a: 1}
+    - {r: 0.3137255, g: 0.2, b: 0.20784314, a: 1}
+    - {r: 0.34901962, g: 0.18431373, b: 0.16470589, a: 1}
+    - {r: 0.4056604, g: 0.26643363, b: 0.17030083, a: 1}
+    - {r: 0.4716981, g: 0.34060907, b: 0.246974, a: 1}
+    - {r: 0.6132076, g: 0.4562901, b: 0.34420612, a: 1}
+    - {r: 0.8113208, g: 0.6885384, b: 0.60083663, a: 1}
+    - {r: 1, g: 0.82597804, b: 0.6273585, a: 1}
+    - {r: 1, g: 0.9593978, b: 0.8254717, a: 1}
+    BloodType: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
+    RootImplantProcedure: {fileID: 11400000, guid: 3de247ed9ca572941975e45430051197,
+      type: 2}
+    BodyPartsThatShareTheSkinTone: []
+    NumberOfMinutesBeforeStarving: 30
+    TotalToxinGenerationPerSecond: 0.1
+    InternalMetabolismPerSecond: 1
+    ExternalMetabolismPerSecond: 2
+    BodyNutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
+    BodyNaturalToxinReagent: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12,
+      type: 2}
+    ClueString: a long piece of hair
+    MeatProduce: {fileID: 5458011457579069031, guid: 34894a7b128fef84588648dd03311de5,
+      type: 3}
+    SkinProduce: {fileID: 6495706577167429729, guid: d8939ebf8b82f5e4cbb20bfbead306c1,
+      type: 3}
