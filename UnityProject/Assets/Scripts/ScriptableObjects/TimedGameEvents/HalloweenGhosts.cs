@@ -66,7 +66,8 @@ namespace ScriptableObjects.TimedGameEvents
 
 		private void SpawnGhosts()
 		{
-			for (int i = 0; i < Random.Range(randomSpawnCount.x, randomSpawnCount.y); i++)
+			var randomCount = (int)Random.Range(randomSpawnCount.x, randomSpawnCount.y);
+			for (int i = 0; i < randomCount; i++)
 			{
 				Spawn.ServerPrefab(horrorsToSpawn.PickRandom(), spawnPoints.PickRandom().position);
 			}
