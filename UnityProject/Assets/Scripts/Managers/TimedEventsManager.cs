@@ -56,6 +56,7 @@ namespace Managers
 			foreach (var timedEvent in activeEvents)
 			{
 				StartCoroutine(timedEvent.OnRoundEnd());
+				timedEvent.Clean();
 			}
 		}
 

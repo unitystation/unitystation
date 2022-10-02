@@ -19,17 +19,27 @@ namespace ScriptableObjects.TimedGameEvents
 		//Delete the object when the timed event is not happening
 		public bool deleteWhenNotTime = true;
 
+		/// <summary>
+		/// If your timed event requires setup or anything when the round starts, use this.
+		/// </summary>
 		public virtual IEnumerator EventStart()
 		{
 			yield break;
 		}
+		/// <summary>
+		/// If you want to do something after a round ends. (example: Add an entry to score machine)
+		/// </summary>
 		public virtual IEnumerator OnRoundEnd()
 		{
 			yield break;
 		}
 
+		/// <summary>
+		/// Custom function to clean data when the round ends.
+		/// </summary>
 		public virtual void Clean()
 		{
+			//Scriptable objects carry over data from the previous round.
 			//Implement your own custom logic to clean up your scriptable objects here.
 			//This will be called when the round ends but you can call it whenever needed.
 		}
