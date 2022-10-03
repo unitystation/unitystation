@@ -129,6 +129,9 @@ namespace Objects
 		public bool IsLocked => lockState == Lock.Locked;
 		public bool IsWelded => weldState == Weld.Welded;
 
+
+		[SerializeField] private bool CannotBeInteractedWithWhenClosed = false;
+
 		#region Lifecycle
 
 		private void Awake()
@@ -324,6 +327,7 @@ namespace Objects
 
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
+			if (CannotBeInteractedWithWhenClosed && lockState == Lock.Locked) return false;
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false;
 
