@@ -53,6 +53,7 @@ namespace Construction.Conveyors
 		{
 			if (Application.isPlaying) return;
 #if UNITY_EDITOR
+			EditorApplication.delayCall -= EditorRefreshSprites;
 			EditorApplication.delayCall += EditorRefreshSprites;
 #endif
 

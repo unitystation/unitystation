@@ -29,46 +29,46 @@ namespace Tiles
 
 #if UNITY_EDITOR
 
-		private void OnValidate()
-		{
-			if (Object != null)
-			{
-				if (objectCurrent == null)
-				{
-					// if sprite already exists (e.g. at startup), then load it, otherwise create a new one
-					EditorApplication.delayCall += () =>
-					{
-						if (IsWire && wireSprite != null)
-						{
-							PreviewSprite = wireSprite;
-						}
-						else
-						{
-							//PreviewSprite = PreviewSpriteBuilder.LoadSprite(Object);
-							//PreviewSpriteBuilder.Create(Object);
-						}
-					};
-				}
-				else if (Object != objectCurrent)
-				{
-					// from one object -> other (overwrite current sprite)
-					EditorApplication.delayCall += () => { PreviewSprite = PreviewSpriteBuilder.Create(Object); };
-				}
-			}
-			else if (objectCurrent != null)
-			{
-				// setting to None object (delete current sprite)
-				GameObject obj = objectCurrent;
-				EditorApplication.delayCall += () => { PreviewSpriteBuilder.DeleteSprite(obj); };
-			}
-
-			objectCurrent = Object;
-
-			if (objectCurrent != null && objectCurrent.GetComponentInChildren<RegisterItem>() != null)
-			{
-				IsItem = true;
-			}
-		}
+		// private void OnValidate()
+		// {
+		// 	if (Object != null)
+		// 	{
+		// 		if (objectCurrent == null)
+		// 		{
+		// 			// if sprite already exists (e.g. at startup), then load it, otherwise create a new one
+		// 			EditorApplication.delayCall += () =>
+		// 			{
+		// 				if (IsWire && wireSprite != null)
+		// 				{
+		// 					PreviewSprite = wireSprite;
+		// 				}
+		// 				else
+		// 				{
+		// 					//PreviewSprite = PreviewSpriteBuilder.LoadSprite(Object);
+		// 					//PreviewSpriteBuilder.Create(Object);
+		// 				}
+		// 			};
+		// 		}
+		// 		else if (Object != objectCurrent)
+		// 		{
+		// 			// from one object -> other (overwrite current sprite)
+		// 			EditorApplication.delayCall += () => { PreviewSprite = PreviewSpriteBuilder.Create(Object); };
+		// 		}
+		// 	}
+		// 	else if (objectCurrent != null)
+		// 	{
+		// 		// setting to None object (delete current sprite)
+		// 		GameObject obj = objectCurrent;
+		// 		EditorApplication.delayCall += () => { PreviewSpriteBuilder.DeleteSprite(obj); };
+		// 	}
+		//
+		// 	objectCurrent = Object;
+		//
+		// 	if (objectCurrent != null && objectCurrent.GetComponentInChildren<RegisterItem>() != null)
+		// 	{
+		// 		IsItem = true;
+		// 	}
+		// }
 #endif
 
 		public void SpawnObject(Vector3Int position, Tilemap tilemap, Matrix4x4 transformMatrix)

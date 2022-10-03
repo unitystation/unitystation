@@ -949,6 +949,7 @@ public class SpriteHandler : MonoBehaviour
 		if (this.gameObject.scene.path == null || this.gameObject.scene.path.Contains("Scenes") == false)
 		{
 #if UNITY_EDITOR
+			EditorApplication.delayCall -= ValidateLate;
 			EditorApplication.delayCall += ValidateLate;
 #endif
 
