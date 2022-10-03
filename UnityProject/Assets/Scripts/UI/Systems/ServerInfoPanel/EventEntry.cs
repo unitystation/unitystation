@@ -13,9 +13,9 @@ namespace UI.Systems.PreRound
 
 		public void SetEvent(TimedGameEventSO eventSo)
 		{
-			EventImage.sprite = eventSo.EventIcon;
 			EventName.text = eventSo.EventName;
 			EventDesc.text = eventSo.EventDesc;
+			EventImage.sprite = eventSo.EventIcon;
 		}
 	}
 }

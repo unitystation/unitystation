@@ -32,11 +32,12 @@ namespace UI.Systems.ServerInfoPanel
 
 		private void PopulatePage()
 		{
-			foreach (var @event in events)
+			foreach (var @event in events.NotNull())
 			{
 				var newEvent = Instantiate(eventPrefab, eventsContainer.transform, true);
-				var entry = newEvent.AddComponent<EventEntry>();
+				var entry = newEvent.GetComponent<EventEntry>();
 				entry.SetEvent(@event);
+				entry.SetActive(true);
 			}
 		}
 
