@@ -74,7 +74,7 @@ namespace Items
 			{
 				if (this.GetComponent<RuntimeSpawned>() != null)
 				{
-					Destroy(this.gameObject);
+					_ = Despawn.ServerSingle(gameObject);
 					return;
 				}
 

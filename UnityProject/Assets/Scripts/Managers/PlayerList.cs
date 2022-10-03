@@ -194,6 +194,11 @@ public partial class PlayerList : NetworkBehaviour
 			return player;
 		}
 
+		if (loggedOff.Contains(player))
+		{
+			loggedOff.Remove(player);
+		}
+
 		if (loggedIn.Contains(player))
 		{
 			return player;

@@ -145,5 +145,43 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 37d2662a2c345b04e8b6ed6af550563f,
         type: 2}
+    - target: {fileID: 8026742801534802552, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: stackSprites.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026742801534802552, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: stackSprites.Array.data[0].SpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 377ff9cb420d3f8488d4ab45a836c8cb,
+        type: 2}
+    - target: {fileID: 8026742801534802552, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: stackSprites.Array.data[1].SpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 59fb2cfffa799f84fadb2017670bf616,
+        type: 2}
+    - target: {fileID: 8026742801534802552, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: stackSprites.Array.data[2].SpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: f5cc3fb347693164ea0e9cd83e4f12df,
+        type: 2}
+    - target: {fileID: 8026742801534802552, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: stackSprites.Array.data[0].OverAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026742801534802552, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: stackSprites.Array.data[1].OverAmount
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026742801534802552, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: stackSprites.Array.data[2].OverAmount
+      value: 34
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a023982b9ee4fd40b87f69c23492dd6, type: 3}
