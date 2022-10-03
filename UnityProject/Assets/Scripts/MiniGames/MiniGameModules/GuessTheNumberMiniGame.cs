@@ -15,9 +15,14 @@ namespace MiniGames.MiniGameModules
 		private sequenceStage stage;
 		private string nameGiven = "";
 
-		private LanguageSO encodedLang;
+		[SerializeField] private LanguageSO encodedLang;
 
 		private const int SHORT_NAME_LENGTH = 16;
+		private const int MINIMUM_WORDS = 4;
+		private const float SHORT_WAIT_LENGTH = 1.5f;
+		private const float LONG_WAIT_LENGTH = 24f;
+		private const int MIN = 1000;
+		private const int MAX = 9999;
 
 
 		private enum sequenceStage
@@ -30,7 +35,7 @@ namespace MiniGames.MiniGameModules
 		public override void Setup(MiniGameResultTracker tracker, GameObject parent)
 		{
 			base.Setup(tracker, parent);
-			randomNumber = Random.Range(1000, 9999); //Number will only exist on the server because only the server calls Setup()
+			randomNumber = Random.Range(MIN, MAX); //Number will only exist on the server because only the server calls Setup()
 		}
 
 		public override void StartMiniGame()
@@ -51,10 +56,10 @@ namespace MiniGames.MiniGameModules
 		{
 			stage = sequenceStage.SPEAKING;
 			Chat.AddLocalMsgToChat($"An advance looking lock-pad lights up on the {MiniGameParent.ExpensiveName()} before a static and muffled robotic voice loudly starts making fake alarm noises.", MiniGameParent);
-			yield return WaitFor.Seconds(1.5f);
+			yield return WaitFor.Seconds(SHORT_WAIT_LENGTH);
 			Chat.AddLocalMsgToChat($"{MiniGameParent.ExpensiveName()} loudly states 'IDENTIFY YOURSELF'", MiniGameParent);
 			stage = sequenceStage.IDENTIFY;
-			yield return WaitFor.Seconds(20f);
+			yield return WaitFor.Seconds(LONG_WAIT_LENGTH);
 			if (stage != sequenceStage.IDENTIFY) yield break;
 			OnGameDone(false);
 		}
@@ -62,10 +67,10 @@ namespace MiniGames.MiniGameModules
 		private IEnumerator PasscodeSequence()
 		{
 			stage = sequenceStage.SPEAKING;
-			yield return WaitFor.Seconds(0.12f);
+			yield return WaitFor.Seconds(SHORT_WAIT_LENGTH);
 			Chat.AddLocalMsgToChat($"{MiniGameParent.ExpensiveName()} loudly states '{nameGiven} DOES NOT HAVE A REGISTERED FINGER-PRINT ID NOR VOICE. STATE THE FOUR DIGIT PASSCODE.'", MiniGameParent);
 			stage = sequenceStage.PASSCODE;
-			yield return WaitFor.Seconds(20f);
+			yield return WaitFor.Seconds(LONG_WAIT_LENGTH);
 			if (stage != sequenceStage.PASSCODE) yield break;
 			OnGameDone(false);
 		}
@@ -92,7 +97,7 @@ namespace MiniGames.MiniGameModules
 
 		private void PassCodeCheck(ChatEvent chatEvent)
 		{
-			if (chatEvent.message.Length > 4)
+			if (chatEvent.message.Length > MINIMUM_WORDS)
 			{
 				Chat.AddLocalMsgToChat($"{MiniGameParent.ExpensiveName()} loudly states 'THE PASSCODE IS FOUR DIGITS ONLY.'", MiniGameParent);
 				return;
