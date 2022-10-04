@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
 using Util;
@@ -34,8 +35,8 @@ namespace Learning
 
 		private bool CheckSaveStatus()
 		{
-			var saved = PlayerPrefs.GetString($"{TipSO.TipTitle}", "false");
-			return saved != "false";
+			var saved = ProtipManager.Instance.ProtipSaveStates.Any(x => x.ID == TipSO.TipTitle && x.Remembered);
+			return saved;
 		}
 
 		protected virtual bool TriggerConditions(GameObject triggeredBy)
@@ -76,8 +77,7 @@ namespace Learning
 			ProtipManager.Instance.QueueTip(TipSO);
 			if (triggerOnce && ProtipManager.Instance.PlayerExperienceLevel > ProtipManager.ExperienceLevel.NewToSpaceStation)
 			{
-				PlayerPrefs.SetString($"{protipSo.TipTitle}", "true");
-				PlayerPrefs.Save();
+				ProtipManager.Instance.SaveTipState(protipSo.TipTitle);
 				return;
 			}
 
