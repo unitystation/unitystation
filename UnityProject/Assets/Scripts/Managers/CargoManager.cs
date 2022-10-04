@@ -520,6 +520,17 @@ namespace Systems.Cargo
 			OnCartUpdate.Invoke();
 		}
 
+		public void SpendCredits(int amount)
+		{
+			if (!CustomNetworkManager.Instance._isServer)
+			{
+				return;
+			}
+
+			Credits -= amount;
+			OnCreditsUpdate.Invoke();
+		}
+
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
 		public static void ClearStatics()
 		{
