@@ -74,20 +74,4 @@ public class CreateTilesMenu : MonoBehaviour
 
 			TileBuilder.CreateAsset(tile, "TableTile");
 		}
-
-		[MenuItem("Assets/Create/Tiles/Object", false, 0)]
-		public static void CreateObject()
-		{
-			TileBuilder.CreateTile<ObjectTile>(LayerType.Objects, "ObjectTile");
-		}
-
-		[MenuItem("Assets/Create/Tiles/Wall Mount", false, 0)]
-		public static void CreateWallMount()
-		{
-			ObjectTile tile = TileBuilder.CreateTile<ObjectTile>(LayerType.Objects);
-			tile.Rotatable = true;
-			tile.Offset = true;
-
-			TileBuilder.CreateAsset(tile, "WallMountTile");
-		}
 	}
