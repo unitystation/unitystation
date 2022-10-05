@@ -54,12 +54,6 @@ using UnityEngine.Tilemaps;
 			{
 				if (tile is LayerTile)
 				{
-					ObjectTile objectTile = tile as ObjectTile;
-					if (objectTile && objectTile.Offset)
-					{
-						brush.cells[0].matrix = Matrix4x4.TRS(Vector3.up, Quaternion.identity, Vector3.one);
-					}
-
 					previewTiles = new[] {(LayerTile) tile};
 				}
 				else if (tile is MetaTile)
@@ -91,23 +85,6 @@ using UnityEngine.Tilemaps;
 
 		private void SetPreviewTile(MetaTileMap metaTilemap, Vector3Int position, LayerTile tile)
 		{
-			if (tile is ObjectTile)
-			{
-				if (previewTile == null || previewTile.ReferenceTile != tile)
-				{
-					if (previewTile == null)
-					{
-						previewTile = CreateInstance<PreviewTile>();
-					}
-
-					previewTile.ReferenceTile = tile;
-					previewTile.LayerType = LayerType.Walls;
-				}
-
-				tile = previewTile;
-				position.z++; // to draw the object over already existing stuff
-			}
-
 			metaTilemap.SetPreviewTile(position, tile, brush.cells[0].matrix);
 		}
 	}

@@ -58,6 +58,11 @@ PrefabInstance:
       propertyPath: initialName
       value: vault door
       objectReference: {fileID: 0}
+    - target: {fileID: 2208254417731680457, guid: 6af0a221ec6985a46956ac77fab1f771,
+        type: 3}
+      propertyPath: pryTime
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 2233065044779290990, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
       propertyPath: m_Layer
@@ -159,6 +164,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: c3fd932f54dbc104c8aae0fb5e3f9eeb,
         type: 3}
+    - target: {fileID: 5626014973276032656, guid: 6af0a221ec6985a46956ac77fab1f771,
+        type: 3}
+      propertyPath: weldTime
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 5690581577992094493, guid: 6af0a221ec6985a46956ac77fab1f771,
         type: 3}
       propertyPath: requiredClearance.Array.size
