@@ -35,7 +35,8 @@ namespace Learning
 
 		private bool CheckSaveStatus()
 		{
-			var saved = ProtipManager.Instance.ProtipSaveStates.Any(x => x.ID == TipSO.TipTitle && x.Remembered);
+			var saved = ProtipManager.Instance.ProtipSaveStates.Any(x =>
+				x.Key == TipSO.TipTitle && x.Value == true);
 			return saved;
 		}
 

@@ -12,8 +12,9 @@ namespace Learning
 		public ProtipListUI ListUI;
 		public ExperienceLevel PlayerExperienceLevel;
 		public List<ProtipSO> RecordedProtips;
+		public Dictionary<string, bool> ProtipSaveStates { private set; get; } = new Dictionary<string, bool>();
 
-		public List<ProTipSaveData> ProtipSaveStates { private set; get; } = new List<ProTipSaveData>();
+
 		private readonly Queue<ProtipSO> queuedTips = new Queue<ProtipSO>();
 		private string jsonPath;
 		private string jsonFileName = "/protips.json";
@@ -56,27 +57,23 @@ namespace Learning
 		public void SaveTipState(string ID, bool dontShowAgain = true)
 		{
 			UpdateRecordedTips();
-			var found = false;
-			foreach (var tip in ProtipSaveStates)
+			if (ProtipSaveStates.ContainsKey(ID))
 			{
-				if (tip.ID != ID) continue;
-				tip.Remembered = dontShowAgain;
-				found = true;
-				break;
+				ProtipSaveStates[ID] = dontShowAgain;
 			}
-			if(found == false)
+			else
 			{
-				var newTip = new ProTipSaveData { ID = ID, Remembered = dontShowAgain };
-				ProtipSaveStates.Add(newTip);
+				ProtipSaveStates.Add(ID, dontShowAgain);
 			}
-
 			SaveProtipSaveStates();
 		}
 
 		private void UpdateRecordedTips()
 		{
 			if (File.Exists(jsonPath) == false || File.ReadAllText(jsonPath).Length <= JSON_EMPTY_LIST) return;
-			var newList = JsonConvert.DeserializeObject<List<ProTipSaveData>>(File.ReadAllText(jsonPath));
+			var newList =
+				JsonConvert.DeserializeObject<Dictionary<string, bool>>(File.ReadAllText(jsonPath))
+				?? new Dictionary<string, bool>();
 			ProtipSaveStates = newList;
 		}
 
@@ -122,11 +119,5 @@ namespace Learning
 			UI.ShowTip(tip);
 			IsShowingTip = true;
 		}
-	}
-
-	public class ProTipSaveData
-	{
-		public string ID;
-		public bool Remembered;
 	}
 }
