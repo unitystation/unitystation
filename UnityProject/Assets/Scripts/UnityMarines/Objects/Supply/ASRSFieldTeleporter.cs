@@ -59,7 +59,7 @@ namespace Objects.TGMC
 				TransportUtility.TransportObjectAndPulled(objectPhysics, beaconCoords);
 			}
 
-			if (!doingAnimation)
+			if (doingAnimation == false)
 			{
 				ServerSync(true);
 

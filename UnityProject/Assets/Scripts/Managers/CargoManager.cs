@@ -522,13 +522,11 @@ namespace Systems.Cargo
 
 		public void SpendCredits(int amount)
 		{
-			if (!CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.Instance._isServer == true)
 			{
-				return;
+				Credits -= amount;
+				OnCreditsUpdate?.Invoke();
 			}
-
-			Credits -= amount;
-			OnCreditsUpdate.Invoke();
 		}
 
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]

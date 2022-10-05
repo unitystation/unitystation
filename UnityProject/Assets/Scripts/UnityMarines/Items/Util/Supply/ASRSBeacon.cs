@@ -76,9 +76,7 @@ namespace Objects.TGMC
 
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
-			if (DefaultWillInteract.Default(interaction, side) == false) return false;
-
-			return true;
+			return DefaultWillInteract.Default(interaction, side);
 		}
 
 		public void ServerPerformInteraction(HandActivate interaction)
