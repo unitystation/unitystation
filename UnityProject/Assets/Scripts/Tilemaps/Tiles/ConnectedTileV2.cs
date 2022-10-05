@@ -78,55 +78,58 @@ namespace Tiles
 
 			mask |= HasSameTile(position, Vector3Int.left, rotation, tilemap) ? ConnectionDirections.Left : 0;
 
-			if (mask.HasFlag(ConnectionDirections.Right) && mask.HasFlag(ConnectionDirections.Up))
+			if (connectToCardinalOnly == false)
 			{
-				var newMask = HasSameTile(position, Vector3Int.right + Vector3Int.up, rotation, tilemap) ? ConnectionDirections.UpRight : 0;
-
-				mask |= newMask;
-
-				if (HasSprite(mask) == false)
+				if (mask.HasFlag(ConnectionDirections.Right) && mask.HasFlag(ConnectionDirections.Up))
 				{
-					//remove the mask if theres no sprite for it
-					mask &= newMask;
+					var newMask = HasSameTile(position, Vector3Int.right + Vector3Int.up, rotation, tilemap) ? ConnectionDirections.UpRight : 0;
+
+					mask |= newMask;
+
+					if (HasSprite(mask) == false)
+					{
+						//remove the mask if theres no sprite for it
+						mask &= newMask;
+					}
 				}
-			}
 
-			if (mask.HasFlag(ConnectionDirections.Right) && mask.HasFlag(ConnectionDirections.Down))
-			{
-				var newMask = HasSameTile(position, Vector3Int.right + Vector3Int.down, rotation, tilemap) ? ConnectionDirections.DownRight : 0;
-
-				mask |= newMask;
-
-				if (HasSprite(mask) == false)
+				if (mask.HasFlag(ConnectionDirections.Right) && mask.HasFlag(ConnectionDirections.Down))
 				{
-					//remove the mask if theres no sprite for it
-					mask &= newMask;
+					var newMask = HasSameTile(position, Vector3Int.right + Vector3Int.down, rotation, tilemap) ? ConnectionDirections.DownRight : 0;
+
+					mask |= newMask;
+
+					if (HasSprite(mask) == false)
+					{
+						//remove the mask if theres no sprite for it
+						mask &= newMask;
+					}
 				}
-			}
 
-			if (mask.HasFlag(ConnectionDirections.Left) && mask.HasFlag(ConnectionDirections.Down))
-			{
-				var newMask = HasSameTile(position, Vector3Int.left + Vector3Int.down, rotation, tilemap) ? ConnectionDirections.DownLeft : 0;
-
-				mask |= newMask;
-
-				if (HasSprite(mask) == false)
+				if (mask.HasFlag(ConnectionDirections.Left) && mask.HasFlag(ConnectionDirections.Down))
 				{
-					//remove the mask if theres no sprite for it
-					mask &= newMask;
+					var newMask = HasSameTile(position, Vector3Int.left + Vector3Int.down, rotation, tilemap) ? ConnectionDirections.DownLeft : 0;
+
+					mask |= newMask;
+
+					if (HasSprite(mask) == false)
+					{
+						//remove the mask if theres no sprite for it
+						mask &= newMask;
+					}
 				}
-			}
 
-			if (mask.HasFlag(ConnectionDirections.Left) && mask.HasFlag(ConnectionDirections.Up))
-			{
-				var newMask = HasSameTile(position, Vector3Int.left + Vector3Int.up, rotation, tilemap) ? ConnectionDirections.UpLeft : 0;
-
-				mask |= newMask;
-
-				if (HasSprite(mask) == false)
+				if (mask.HasFlag(ConnectionDirections.Left) && mask.HasFlag(ConnectionDirections.Up))
 				{
-					//remove the mask if theres no sprite for it
-					mask &= newMask;
+					var newMask = HasSameTile(position, Vector3Int.left + Vector3Int.up, rotation, tilemap) ? ConnectionDirections.UpLeft : 0;
+
+					mask |= newMask;
+
+					if (HasSprite(mask) == false)
+					{
+						//remove the mask if theres no sprite for it
+						mask &= newMask;
+					}
 				}
 			}
 

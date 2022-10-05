@@ -36,6 +36,9 @@ namespace Tiles
 		public SpriteSheetAndData spriteSheet;
 		public string texturePath;
 
+		[SerializeField]
+		protected bool connectToCardinalOnly = false;
+
 		/// <summary>
 		/// Cached layer we live in, so we can determine our rotation
 		/// </summary>
@@ -97,21 +100,26 @@ namespace Tiles
 			int mask = (HasSameTile(position, Vector3Int.up, rotation, tilemap) ? 1 : 0) + (HasSameTile(position, Vector3Int.right, rotation, tilemap) ? 2 : 0) +
 					   (HasSameTile(position, Vector3Int.down, rotation, tilemap) ? 4 : 0) + (HasSameTile(position, Vector3Int.left, rotation, tilemap) ? 8 : 0);
 
-			if ((mask & 3) == 3)
+			if (connectToCardinalOnly == false)
 			{
-				mask += HasSameTile(position, Vector3Int.right + Vector3Int.up, rotation, tilemap) ? 16 : 0;
-			}
-			if ((mask & 6) == 6)
-			{
-				mask += HasSameTile(position, Vector3Int.right + Vector3Int.down, rotation, tilemap) ? 32 : 0;
-			}
-			if ((mask & 12) == 12)
-			{
-				mask += HasSameTile(position, Vector3Int.left + Vector3Int.down, rotation, tilemap) ? 64 : 0;
-			}
-			if ((mask & 9) == 9)
-			{
-				mask += HasSameTile(position, Vector3Int.left + Vector3Int.up, rotation, tilemap) ? 128 : 0;
+
+				if ((mask & 3) == 3)
+				{
+					mask += HasSameTile(position, Vector3Int.right + Vector3Int.up, rotation, tilemap) ? 16 : 0;
+				}
+				if ((mask & 6) == 6)
+				{
+					mask += HasSameTile(position, Vector3Int.right + Vector3Int.down, rotation, tilemap) ? 32 : 0;
+				}
+				if ((mask & 12) == 12)
+				{
+					mask += HasSameTile(position, Vector3Int.left + Vector3Int.down, rotation, tilemap) ? 64 : 0;
+				}
+				if ((mask & 9) == 9)
+				{
+					mask += HasSameTile(position, Vector3Int.left + Vector3Int.up, rotation, tilemap) ? 128 : 0;
+				}
+
 			}
 
 			int i = Array.IndexOf(map, mask);
