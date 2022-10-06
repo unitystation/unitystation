@@ -209,7 +209,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 		Dictionary<string, PrefabTracker> StoredIDs = new Dictionary<string, PrefabTracker>();
 
-		var networkObjectsGUIDs = AssetDatabase.FindAssets("t:prefab", new string[] { "Assets/Prefabs" });
+		var networkObjectsGUIDs = AssetDatabase.FindAssets("t:prefab", new string[] { "Assets/Prefabs", "Assets/_Unitymarines/Prefabs" }); //UM Edit: Added path to Unitymarines prefabs.
 		var objectsPaths = networkObjectsGUIDs.Select(AssetDatabase.GUIDToAssetPath);
 		foreach (var objectsPath in objectsPaths)
 		{

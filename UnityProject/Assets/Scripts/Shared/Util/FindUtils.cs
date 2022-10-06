@@ -59,7 +59,7 @@ namespace Shared.Util
 				new Dictionary<GameObject, HashSet<GameObject>>();
 #if UNITY_EDITOR
 			string[] possibleChildGuids =
-				AssetDatabase.FindAssets("t:prefab", new[] {"Assets/Prefabs"});
+				AssetDatabase.FindAssets("t:prefab", new[] {"Assets/Prefabs", "Assets/_Unitymarines/Prefabs" }); //UM Edit: Added path to Unitymarines prefabs.
 
 			foreach (string possibleChildGuid in possibleChildGuids)
 			{
