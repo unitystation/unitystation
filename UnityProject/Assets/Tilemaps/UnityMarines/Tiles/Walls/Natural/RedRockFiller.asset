@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c6d3f0204e1f482bbeb86bf9bede04b9, type: 3}
-  m_Name: RedRockFilled
+  m_Name: RedRockFiller
   m_EditorClassIdentifier: 
   displayName: 
   description: 
@@ -72,7 +72,7 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
   SoundOnDestroy: []
   connectCategory: 0
-  connectType: 1
+  connectType: 2
   spriteSheet:
     Texture: {fileID: 2800000, guid: ba5dc764f2d786b4a866f8b41fdbb43d, type: 3}
     Sprites:
@@ -82,19 +82,19 @@ MonoBehaviour:
   connectToCardinalOnly: 1
   connectionData:
   - Direction: 1
-    Sprite: {fileID: 21300000, guid: 7624d8ba76a7f204281f527496bf5d0d, type: 3}
+    Sprite: {fileID: 21300000, guid: 8e2bad47f54b8de409ccc7f0a6da103f, type: 3}
   - Direction: 17
-    Sprite: {fileID: 21300000, guid: 79d5d8cf910620e44a3d89c5046eaf40, type: 3}
+    Sprite: {fileID: 21300000, guid: 8e2bad47f54b8de409ccc7f0a6da103f, type: 3}
   - Direction: 65
-    Sprite: {fileID: 21300000, guid: 4fb60539a77346d449f8dcd955240969, type: 3}
+    Sprite: {fileID: 21300000, guid: 6e2671f5368d1cf4abb78098f5e2fd7f, type: 3}
   - Direction: 5
-    Sprite: {fileID: 21300000, guid: d33c15c314c2a5143bbfdd90bb07c460, type: 3}
+    Sprite: {fileID: 21300000, guid: c947cff4ab26e9046b230b8381721f53, type: 3}
   - Direction: 16
-    Sprite: {fileID: 21300000, guid: 0a379ddba07c2a14387e874dc9e9efe0, type: 3}
+    Sprite: {fileID: 21300000, guid: 8e2bad47f54b8de409ccc7f0a6da103f, type: 3}
   - Direction: 80
-    Sprite: {fileID: 21300000, guid: ed540fc6c0ab2b94098fb67b83c69da3, type: 3}
+    Sprite: {fileID: 21300000, guid: 8e2bad47f54b8de409ccc7f0a6da103f, type: 3}
   - Direction: 20
-    Sprite: {fileID: 21300000, guid: b9d87c41c9af44342af0a1082367a1cf, type: 3}
+    Sprite: {fileID: 21300000, guid: 8e2bad47f54b8de409ccc7f0a6da103f, type: 3}
   - Direction: 68
     Sprite: {fileID: 21300000, guid: c2c8630de5f643048b39b7094ce2b226, type: 3}
   - Direction: 69
@@ -102,15 +102,15 @@ MonoBehaviour:
   - Direction: 84
     Sprite: {fileID: 21300000, guid: 0cbce7fc5e206334992c5b32cdd31bc3, type: 3}
   - Direction: 21
-    Sprite: {fileID: 21300000, guid: b9d87c41c9af44342af0a1082367a1cf, type: 3}
+    Sprite: {fileID: 21300000, guid: 5b9fde541e5b8ae40aca3fb76bc841ed, type: 3}
   - Direction: 81
-    Sprite: {fileID: 21300000, guid: e087f641cb4aedb449d583bc72656c14, type: 3}
+    Sprite: {fileID: 21300000, guid: 8e2bad47f54b8de409ccc7f0a6da103f, type: 3}
   - Direction: 85
     Sprite: {fileID: 21300000, guid: 0cbce7fc5e206334992c5b32cdd31bc3, type: 3}
   - Direction: 64
-    Sprite: {fileID: 21300000, guid: aa3592c1271878e41a4195922b1def7f, type: 3}
+    Sprite: {fileID: 21300000, guid: e087f641cb4aedb449d583bc72656c14, type: 3}
   - Direction: 4
-    Sprite: {fileID: 21300000, guid: 797aaca027ffd634d9a6aa27373e25db, type: 3}
+    Sprite: {fileID: 21300000, guid: b9d87c41c9af44342af0a1082367a1cf, type: 3}
   - Direction: 0
     Sprite: {fileID: 21300000, guid: 0cbce7fc5e206334992c5b32cdd31bc3, type: 3}
   wholeSpriteTexture: {fileID: 0}
