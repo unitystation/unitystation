@@ -4,13 +4,14 @@ using UnityEngine.Tilemaps;
 
 namespace Tiles
 {
+	[Flags]
 	public enum ConnectCategory
 	{
-		Walls,
-		Windows,
-		Tables,
-		Floors,
-		None
+		None = 0,
+		Walls = 1 << 0,
+		Windows = 1 << 1,
+		Tables = 1 << 2,
+		Floors = 1 << 3,
 	}
 
 	public enum ConnectType
@@ -138,7 +139,31 @@ namespace Tiles
 			}
 		}
 
-		protected bool HasSameTile(Vector3Int position, Vector3Int direction, Quaternion rotation, ITilemap tilemap)
+		protected bool HasSameTile(Vector3Int position, Vector3Int direction, Quaternion rotation, ITilemap iTilemap)
+		{
+			//This is very hacky...
+			var thisTilemap = iTilemap.GetComponent<Tilemap>();
+			var parent = thisTilemap.transform.parent;
+
+			if (parent == null)
+			{
+				return InternalHasSameTile(position, direction, rotation, thisTilemap);
+			}
+
+			var tilemaps = parent.GetComponentsInChildren<Tilemap>();
+
+
+			foreach (var tilemap in tilemaps)
+			{
+				if(InternalHasSameTile(position, direction, rotation, tilemap) == false) continue;
+
+				return true;
+			}
+
+			return false;
+		}
+
+		private bool InternalHasSameTile(Vector3Int position, Vector3Int direction, Quaternion rotation, Tilemap tilemap)
 		{
 			TileBase tile = tilemap.GetTile(position + (rotation * direction).RoundToInt());
 
@@ -153,13 +178,13 @@ namespace Tiles
 					return true;
 				case ConnectType.ToSameCategory:
 					ConnectedTile t = tile as ConnectedTile;
-					return t != null && t.connectCategory == connectCategory;
+					return t != null && (t.connectCategory & connectCategory) != ConnectCategory.None;
 				case ConnectType.ToSelf:
 					return tile == this;
 				case ConnectType.ToCategoryAndSelf:
 					if (tile == this) return true;
 					ConnectedTile x = tile as ConnectedTile;
-					return x != null && x.connectCategory == connectCategory;
+					return x != null && (x.connectCategory & connectCategory) != ConnectCategory.None;
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
