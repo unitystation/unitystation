@@ -782,6 +782,7 @@ namespace TileManagement
 				{
 					if (tile.LayerType.IsUnderFloor()) //TODO Tile map upgrade
 					{
+						var found = false;
 						for (int i = 0; i < 50; i++)
 						{
 							position.z = 1 - i;
@@ -790,14 +791,18 @@ namespace TileManagement
 								layer.SetTile(position, tile,
 									matrixTransform.GetValueOrDefault(Matrix4x4.identity),
 									color.GetValueOrDefault(Color.white));
-								return position;
+
+								found = true;
+								break;
 							}
 						}
 
-						Logger.LogError(
-							"Tile has reached maximum Meta data system depth This could be from accidental placing of multiple tiles",
-							Category.Editor);
-						return position;
+						if (found == false)
+						{
+							Logger.LogError(
+								"Tile has reached maximum Meta data system depth This could be from accidental placing of multiple tiles",
+								Category.Editor);
+						}
 					}
 					else
 					{
@@ -805,8 +810,6 @@ namespace TileManagement
 							matrixTransform.GetValueOrDefault(Matrix4x4.identity),
 							color.GetValueOrDefault(Color.white));
 					}
-
-					return position;
 				}
 
 
@@ -816,20 +819,21 @@ namespace TileManagement
 				{
 					lock (MultilayerPresentTiles)
 					{
-						var TileLocations = GetTileLocationsNeedLockSurrounding(position, layer);
+						var tileLocations = GetTileLocationsNeedLockSurrounding(position, layer);
+						tileLocations ??= new List<TileLocation>();
 
-						int index = FindFirstEmpty(TileLocations);
+						int index = FindFirstEmpty(tileLocations);
 
 						position.z = 1 - index;
-						if (TileLocations[index] == null)
+						if (tileLocations[index] == null)
 						{
-							TileLocations[index] = GetPooledTile();
-							TileLocations[index].layer = layer;
-							TileLocations[index].metaTileMap = this;
-							TileLocations[index].position = position;
+							tileLocations[index] = GetPooledTile();
+							tileLocations[index].layer = layer;
+							tileLocations[index].metaTileMap = this;
+							tileLocations[index].position = position;
 						}
 
-						tileLocation = TileLocations[index];
+						tileLocation = tileLocations[index];
 					}
 				}
 				else
@@ -865,6 +869,14 @@ namespace TileManagement
 			}
 
 			return position;
+		}
+
+		public void ClearAtPos(Vector3Int position)
+		{
+			foreach (var layer in Layers)
+			{
+				layer.Value.Tilemap.SetTile(position, null);
+			}
 		}
 
 		private void LogMissingLayer(Vector3Int position, LayerType layerType)
@@ -1088,8 +1100,18 @@ namespace TileManagement
 		/// </summary>
 		/// <param name="cellPosition">cell position within the tilemap to get the tile of. NOT the same
 		/// as world position.</param>
-		/// <returns></returns>
 		public LayerTile GetTile(Vector3Int cellPosition, bool ignoreEffectsLayer = false,
+			bool useExactForMultilayer = false, bool excludeNonIntractable = false)
+		{
+			return GetTileLocation(cellPosition, ignoreEffectsLayer, useExactForMultilayer, excludeNonIntractable)?.layerTile;
+		}
+
+		/// <summary>
+		/// Gets the topmost tile location at the specified cell position
+		/// </summary>
+		/// <param name="cellPosition">cell position within the tilemap to get the tile of. NOT the same
+		/// as world position.</param>
+		public TileLocation GetTileLocation(Vector3Int cellPosition, bool ignoreEffectsLayer = false,
 			bool useExactForMultilayer = false, bool excludeNonIntractable = false)
 		{
 			TileLocation tileLocation = null;
@@ -1118,7 +1140,32 @@ namespace TileManagement
 				}
 			}
 
-			return tileLocation?.layerTile;
+			return tileLocation;
+		}
+
+		/// <summary>
+		/// Gets all the tile location at the specified cell position
+		/// </summary>
+		/// <param name="cellPosition">cell position within the tilemap to get the tile of. NOT the same
+		/// as world position.</param>
+		public List<TileLocation> GetTileLocations(Vector3Int cellPosition, bool ignoreEffectsLayer = false, bool useExactForMultilayer = false)
+		{
+			List<TileLocation> tileLocations = new List<TileLocation>();
+			foreach (var layer in LayersValues)
+			{
+				if (layer.LayerType == LayerType.Objects) continue;
+
+				if (ignoreEffectsLayer && layer.LayerType == LayerType.Effects) continue;
+
+				var tileLocation = GetCorrectTileLocationForLayer(cellPosition, layer, useExactForMultilayer);
+
+				if (tileLocation != null && tileLocation.layerTile != null)
+				{
+					tileLocations.Add(tileLocation);
+				}
+			}
+
+			return tileLocations;
 		}
 
 		/// <summary>
