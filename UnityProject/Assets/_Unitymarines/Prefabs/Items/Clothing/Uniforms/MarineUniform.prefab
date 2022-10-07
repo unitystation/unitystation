@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &531355211561718227
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1872124221923861750, guid: d97c70afedeed96488e927efe56308f8,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1872124221923861750, guid: d97c70afedeed96488e927efe56308f8,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8345f7c2cda4bdf478f6418c26ff8cbd,
+        type: 2}
+    - target: {fileID: 2532430426032350184, guid: d97c70afedeed96488e927efe56308f8,
+        type: 3}
+      propertyPath: initialName
+      value: marine uniform
+      objectReference: {fileID: 0}
+    - target: {fileID: 2532430426032350184, guid: d97c70afedeed96488e927efe56308f8,
+        type: 3}
+      propertyPath: initialDescription
+      value: A standard-issue, kevlar-weaved, hazmat-tested, EMF-augmented marine
+        uniform. You suspect it's not as robust-proof as advertised.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2620161643966853438, guid: d97c70afedeed96488e927efe56308f8,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 3d11f84fed75a234e93b9b4060069ba2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2722596098848935050, guid: d97c70afedeed96488e927efe56308f8,
+        type: 3}
+      propertyPath: m_Name
+      value: MarineUniform
+      objectReference: {fileID: 0}
+    - target: {fileID: 2727801049089126910, guid: d97c70afedeed96488e927efe56308f8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2727801049089126910, guid: d97c70afedeed96488e927efe56308f8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2727801049089126910, guid: d97c70afedeed96488e927efe56308f8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2727801049089126910, guid: d97c70afedeed96488e927efe56308f8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2727801049089126910, guid: d97c70afedeed96488e927efe56308f8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2727801049089126910, guid: d97c70afedeed96488e927efe56308f8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2727801049089126910, guid: d97c70afedeed96488e927efe56308f8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2727801049089126910, guid: d97c70afedeed96488e927efe56308f8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2727801049089126910, guid: d97c70afedeed96488e927efe56308f8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2727801049089126910, guid: d97c70afedeed96488e927efe56308f8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2727801049089126910, guid: d97c70afedeed96488e927efe56308f8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2826412453563498454, guid: d97c70afedeed96488e927efe56308f8,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 57b5e03fa388bbd4b9d6dc403f454092,
+        type: 3}
+    - target: {fileID: 2826412453563498454, guid: d97c70afedeed96488e927efe56308f8,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8110566822683866893, guid: d97c70afedeed96488e927efe56308f8,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d02d53f64541b924ebb9ed5a7b9b7e2e,
+        type: 2}
+    - target: {fileID: 9039326289670619367, guid: d97c70afedeed96488e927efe56308f8,
+        type: 3}
+      propertyPath: foreverID
+      value: F87TwvWV2zqS9F9kOu_a
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d97c70afedeed96488e927efe56308f8, type: 3}

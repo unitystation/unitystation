@@ -1,0 +1,215 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1169062866056209644
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2448721288265428625, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: foreverID
+      value: 1d2d1f8505a42674f89da4a49f5f7515
+      objectReference: {fileID: 0}
+    - target: {fileID: 3172572469780699515, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 851ae7e5756546d40b4bef8f0bd0b4b0,
+        type: 2}
+    - target: {fileID: 5004246132419234432, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: hideClothingFlags
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004246132419234432, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004246132419234432, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4204937556acb06418f1af3a00799c83,
+        type: 2}
+    - target: {fileID: 5057795893152723616, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bio
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5057795893152723616, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Rad
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5057795893152723616, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Acid
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5057795893152723616, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bomb
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5057795893152723616, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Fire
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5057795893152723616, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Laser
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5057795893152723616, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Melee
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5057795893152723616, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bullet
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5057795893152723616, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Energy
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8706891248535527240, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 1d2d1f8505a42674f89da4a49f5f7515
+      objectReference: {fileID: 0}
+    - target: {fileID: 8708432247693898504, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: Armor.Bio
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8708432247693898504, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: Armor.Rad
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8708432247693898504, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8708432247693898504, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8708432247693898504, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8708432247693898504, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8708432247693898504, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8708432247693898504, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: Armor.Bullet
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8708432247693898504, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: Armor.Energy
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737303155770188540, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: m_Name
+      value: M10PMarineHelmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 8742226631435788168, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8742226631435788168, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8742226631435788168, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8742226631435788168, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8742226631435788168, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8742226631435788168, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8742226631435788168, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8742226631435788168, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8742226631435788168, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8742226631435788168, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8742226631435788168, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8912860544494588320, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cb7f4757c5bba5740a9672a8cf497c49,
+        type: 3}
+    - target: {fileID: 8912860544494588320, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9199930833590881694, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: initialName
+      value: M10 pattern marine helmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 9199930833590881694, guid: 8634986df725cb2469672e243af70fcc,
+        type: 3}
+      propertyPath: initialDescription
+      value: A standard M10 Pattern Helmet. It reads on the label, 'The difference
+        between an open-casket and closed-casket funeral. Wear on head for best results.'.
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8634986df725cb2469672e243af70fcc, type: 3}

@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: feet_marine-knife
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 5304307903779160263, guid: e26042b508b79f8419d9597c1c2a79cf,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 8886427813321588515, guid: e26042b508b79f8419d9597c1c2a79cf,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -5661348454774247873, guid: e26042b508b79f8419d9597c1c2a79cf,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 8861692246929625954, guid: e26042b508b79f8419d9597c1c2a79cf,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 
