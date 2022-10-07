@@ -771,6 +771,8 @@ namespace TileManagement
 		{
 			return SetTile(position, TileManager.GetTile(TileType, tileName), matrixTransform, color, isPlaying);
 		}
+		
+		private const int MaxDepth = 50;
 
 		public Vector3Int SetTile(Vector3Int position, LayerTile tile, Matrix4x4? matrixTransform = null,
 			Color? color = null,
@@ -783,7 +785,7 @@ namespace TileManagement
 					if (tile.LayerType.IsUnderFloor()) //TODO Tile map upgrade
 					{
 						var found = false;
-						for (int i = 0; i < 50; i++)
+						for (int i = 0; i < MaxDepth; i++)
 						{
 							position.z = 1 - i;
 							if (layer.GetTile(position) == null)
@@ -800,7 +802,7 @@ namespace TileManagement
 						if (found == false)
 						{
 							Logger.LogError(
-								"Tile has reached maximum Meta data system depth This could be from accidental placing of multiple tiles",
+								$"Tile has reached maximum Meta data system depth {MaxDepth}, This could be from accidental placing of multiple tiles",
 								Category.Editor);
 						}
 					}
