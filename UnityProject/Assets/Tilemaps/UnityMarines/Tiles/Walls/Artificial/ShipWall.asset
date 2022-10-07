@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6d3f0204e1f482bbeb86bf9bede04b9, type: 3}
+  m_Name: ShipWall
+  m_EditorClassIdentifier: 
+  displayName: 
+  description: 
+  LayerType: 0
+  TileType: 1
+  RequiredTiles:
+  - {fileID: 11400000, guid: 5eb3d8eb67675d04893723c297b32142, type: 2}
+  floorTileSounds: {fileID: 0}
+  CanSoundOverride: 0
+  atmosPassable: 0
+  isSealed: 0
+  SpawnWithNoAir: 0
+  passable: 0
+  mineable: 0
+  miningTime: 5
+  miningHardness: 1
+  constructable: 0
+  RadiationPassability: 1
+  ThermalConductivity: 0.05
+  HeatCapacity: 10000
+  doesReflectBullet: 0
+  indestructible: 0
+  ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
+  passableException:
+    m_keys: 
+    m_values: 
+  maxHealth: 0
+  damageDeflection: 0
+  armor:
+    Melee: 90
+    Bullet: 90
+    Laser: 90
+    Energy: 90
+    Bomb: 90
+    Rad: 100
+    Fire: 100
+    Acid: 90
+    Magic: 0
+    Bio: 100
+    Anomaly: 0
+    DismembermentProtectionChance: 0
+    StunImmunity: 0
+  tileInteractions: []
+  tileStepInteractions: []
+  spawnOnDeconstruct: {fileID: 0}
+  spawnAmountOnDeconstruct: 1
+  lootOnDespawn: {fileID: 0}
+  toTileWhenDestroyed: {fileID: 0}
+  spawnOnDestroy: {fileID: 0}
+  damageOverlayList: {fileID: 0}
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  SoundOnDestroy: []
+  connectCategory: 0
+  connectType: 0
+  spriteSheet:
+    Texture: {fileID: 2800000, guid: b716e8dc094a3934f8273634823e1578, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: b716e8dc094a3934f8273634823e1578, type: 3}
+    EquippedData: {fileID: 0}
+  texturePath: 
+  connectToCardinalOnly: 1
+  connectionData:
+  - Direction: 1
+    Sprite: {fileID: 21300000, guid: 01f573f6500e3df43b319cbde6e94050, type: 3}
+  - Direction: 17
+    Sprite: {fileID: 21300000, guid: bf2ce8614e132484db0f142e57ed9444, type: 3}
+  - Direction: 65
+    Sprite: {fileID: 21300000, guid: bf234b243db03a5438f0267feede6e37, type: 3}
+  - Direction: 5
+    Sprite: {fileID: 21300000, guid: 94da3a94154ebf34587996cc99ad90b6, type: 3}
+  - Direction: 16
+    Sprite: {fileID: 21300000, guid: 2f2f948231cf30345ad4c0ec32f1f382, type: 3}
+  - Direction: 80
+    Sprite: {fileID: 21300000, guid: 05a677f8ef1ebb244a95b694760a51c7, type: 3}
+  - Direction: 20
+    Sprite: {fileID: 21300000, guid: ea02d9581fae82d43b6d7f51436f05ee, type: 3}
+  - Direction: 68
+    Sprite: {fileID: 21300000, guid: c78d56843450d9d43b0b156d52c68424, type: 3}
+  - Direction: 69
+    Sprite: {fileID: 21300000, guid: 8538f6b6f7d0dc74db8f6372d15b2417, type: 3}
+  - Direction: 84
+    Sprite: {fileID: 21300000, guid: 60b596d5f973c7642bd50d5c907cbbf5, type: 3}
+  - Direction: 21
+    Sprite: {fileID: 21300000, guid: 43adc5e194d3a1a458339af27274f776, type: 3}
+  - Direction: 81
+    Sprite: {fileID: 21300000, guid: ad1270be9e2a9b6478c6f1bed878c26b, type: 3}
+  - Direction: 85
+    Sprite: {fileID: 21300000, guid: cb7f9adff96f9de45b41c70cdedeb58b, type: 3}
+  - Direction: 64
+    Sprite: {fileID: 21300000, guid: a005f63845a8b9741bd56f1096f134c0, type: 3}
+  - Direction: 4
+    Sprite: {fileID: 21300000, guid: 19bb17338a73321409bd2c23b1ba4ca5, type: 3}
+  - Direction: 0
+    Sprite: {fileID: 21300000, guid: b716e8dc094a3934f8273634823e1578, type: 3}
+  wholeSpriteTexture: {fileID: 0}
