@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
+  m_Name: Grille
+  m_EditorClassIdentifier: 
+  displayName: grille
+  description: 
+  LayerType: 5
+  TileType: 6
+  RequiredTiles: []
+  floorTileSounds: {fileID: 0}
+  CanSoundOverride: 0
+  atmosPassable: 1
+  isSealed: 0
+  SpawnWithNoAir: 0
+  passable: 0
+  mineable: 0
+  miningTime: 5
+  constructable: 1
+  RadiationPassability: 1
+  ThermalConductivity: 0.05
+  HeatCapacity: 10000
+  doesReflectBullet: 0
+  indestructible: 0
+  ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
+  passableException:
+    m_keys: 
+    m_values: 
+  maxHealth: 50
+  damageDeflection: 0
+  armor:
+    Melee: 50
+    Bullet: 70
+    Laser: 70
+    Energy: 100
+    Bomb: 10
+    Rad: 100
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 100
+    DismembermentProtectionChance: 0
+  tileInteractions:
+  - {fileID: 11400000, guid: 433fa20f26ef08d4a844cf98c3a923f3, type: 2}
+  - {fileID: 11400000, guid: 671919d4c6eb90648b8f6ae882733946, type: 2}
+  - {fileID: 11400000, guid: 107560a7c6045ac478f5555e9487ba89, type: 2}
+  tileStepInteractions: []
+  spawnOnDeconstruct: {fileID: 0}
+  spawnAmountOnDeconstruct: 0
+  lootOnDespawn: {fileID: 0}
+  toTileWhenDestroyed: {fileID: 11400000, guid: c87a62cb7a026433f9d4e361d2740cbc,
+    type: 2}
+  spawnOnDestroy: {fileID: 11400000, guid: 23e18374069b6f64e9074e7fd4327b71, type: 2}
+  damageOverlayList: {fileID: 0}
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GrillHit.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  SoundOnDestroy:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GrillHit.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  sprite: {fileID: 21300000, guid: 10623b9787a8d384b8d9825b3337ea04, type: 3}
