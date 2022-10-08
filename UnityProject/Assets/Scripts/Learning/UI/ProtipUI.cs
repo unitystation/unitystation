@@ -102,8 +102,7 @@ namespace Learning
 
 		public void RememberTip()
 		{
-			PlayerPrefs.SetString($"{currentTip.TipTitle}", "true");
-			PlayerPrefs.Save();
+			ProtipManager.Instance.SaveTipState(currentTip.TipTitle);
 			StopCoroutine(nameof(ShowTip));
 			StartCoroutine(TipHide());
 		}
