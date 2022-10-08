@@ -9,6 +9,10 @@ namespace Objects.Construction
 	/// </summary>
 	public class GrilleObject : NetworkBehaviour, IExaminable, ICheckedInteractable<HandApply>
 	{
+		[Tooltip("Layer tile which this will create when screwed in place.")]
+		[SerializeField]
+		private LayerTile layerTile = default;
+
 		[Tooltip("Prefab to spawn when deconstructed.")]
 		[SerializeField]
 		private GameObject transformToPrefab = default;
@@ -115,6 +119,7 @@ namespace Objects.Construction
 		{
 			var interactableTiles = InteractableTiles.GetAt(interaction.TargetObject.TileWorldPosition(), true);
 			Vector3Int cellPos = interactableTiles.WorldToCell(interaction.TargetObject.TileWorldPosition());
+			interactableTiles.TileChangeManager.MetaTileMap.SetTile(cellPos, layerTile);
 			interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
 			_ = Despawn.ServerSingle(gameObject);
 		}
