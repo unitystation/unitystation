@@ -127,6 +127,11 @@ PrefabInstance:
       objectReference: {fileID: 2800000, guid: 20ad86636d8a7da439c21164d7db87f9, type: 3}
     - target: {fileID: 8410104111733346763, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
+      propertyPath: Armor.Fire
+      value: -50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8410104111733346763, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
       propertyPath: Resistances.Flammable
       value: 1
       objectReference: {fileID: 0}
