@@ -93,7 +93,7 @@ public class LevelBrush : GridBrush
 		}
 	}
 
-	private List<(Vector3Int, BrushCell)> storedCells = new List<(Vector3Int, BrushCell)>();
+	private readonly List<(Vector3Int, BrushCell)> storedCells = new List<(Vector3Int, BrushCell)>();
 
 	private Vector3Int minValue;
 

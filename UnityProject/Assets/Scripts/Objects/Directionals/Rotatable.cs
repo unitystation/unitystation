@@ -100,6 +100,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 	{
 		if (Application.isPlaying) return;
 #if UNITY_EDITOR
+		EditorApplication.delayCall -= ValidateLate;
 		EditorApplication.delayCall += ValidateLate;
 #endif
 
