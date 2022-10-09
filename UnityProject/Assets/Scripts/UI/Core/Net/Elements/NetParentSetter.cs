@@ -46,10 +46,9 @@ public class NetParentSetter : NetUIIntElement
 		TransformToSet.localPosition = Vector3.zero;
 
 		//TODO Order on lists
-
 	}
 
-	public void Awake()
+	public void Start()
 	{
 		if (TransformToSet == null)
 		{

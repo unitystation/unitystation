@@ -119,7 +119,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	public int RoundsPerMap { get; set; } = 10;
 
 	//Is dependent on number of results
-	public int RoundID;
+	public static int RoundID;
 
 	/// <summary>
 	/// The chance of traitor AIs get the "Prevent all organic lifeforms from escpaing" objective.
@@ -467,6 +467,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// </summary>
 	public void StartRound()
 	{
+		RoundID++;
 		waitForStart = false;
 
 		// Only do this stuff on the server
@@ -497,6 +498,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		// Game mode specific setup
 		GameMode.SetupRound();
+
 
 		// Standard round start setup
 		stationTime = new DateTime().AddHours(12);
@@ -577,7 +579,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		CurrentRoundState = RoundState.Ended;
 		EventManager.Broadcast(Event.RoundEnded, true);
 		counting = false;
-		RoundID++;
+
 
 		StartCoroutine(WaitForRoundRestart());
 		GameMode.EndRoundReport();

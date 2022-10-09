@@ -6,7 +6,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "_DoNotUse", menuName = "ScriptableObjects/Mutations/_DoNotUse")]
 public class MutationSO : ScriptableObject
 {
+	[Range(0, 100)] public int ResearchDifficult;
 	public int Stability = 0;
+
+	public bool CanRequireLocks = false;
+
 	public virtual Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
 	{
 		return new Mutation(BodyPart,_RelatedMutationSO);

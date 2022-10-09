@@ -1,11 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using HealthV2;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class BodyPartMutations : BodyPartFunctionality
 {
-	public static Dictionary<MutationSO, NumberAndRoundID> MutationVariants = new Dictionary<MutationSO, NumberAndRoundID>();
+	public static Dictionary<MutationSO, MutationRoundData> MutationVariants =
+		new Dictionary<MutationSO, MutationRoundData>();
 
 	public List<MutationSO> CapableMutations = new List<MutationSO>();
 	public List<Mutation> ActiveMutations = new List<Mutation>();
@@ -13,6 +17,23 @@ public class BodyPartMutations : BodyPartFunctionality
 	public int Stability = 0;
 
 	public int SecondsForSpeciesMutation = 60;
+
+
+	public static MutationRoundData GetMutationRoundData(MutationSO Mutation)
+	{
+		if (MutationVariants.ContainsKey(Mutation) == false)
+		{
+			MutationVariants[Mutation] = new MutationRoundData()
+			{
+				MutationSO = Mutation
+			};
+			MutationVariants[Mutation].RerollDifficulty();
+		}
+
+		MutationVariants[Mutation].CheckValidity();
+		return MutationVariants[Mutation];
+	}
+
 
 	public void MutateCustomisation(string InCustomisationTarget, string CustomisationReplaceWith)
 	{
@@ -26,12 +47,10 @@ public class BodyPartMutations : BodyPartFunctionality
 	}
 
 
-
-
 	[NaughtyAttributes.Button()]
 	public void AddFirstMutation()
 	{
-		var  Mutation = CapableMutations[0];
+		var Mutation = CapableMutations[0];
 		AddMutation(Mutation);
 	}
 
@@ -39,27 +58,10 @@ public class BodyPartMutations : BodyPartFunctionality
 	{
 		if (CapableMutations.Contains(Mutation) == false) return; //TODO Maybe add negative mutation instead
 
-		if (MutationVariants.ContainsKey(Mutation) == false)
-		{
-			MutationVariants[Mutation] = new NumberAndRoundID()
-			{
-				RoundID = GameManager.Instance.RoundID,
-				Stability = Mathf.RoundToInt((Mutation.Stability * Random.Range(0.5f, 1.5f)))
+		var Data = GetMutationRoundData(Mutation);
 
-			};
-		}
-		else
-		{
-			if (MutationVariants[Mutation].RoundID != GameManager.Instance.RoundID)
-			{
-				MutationVariants[Mutation].Stability = Mathf.RoundToInt((Mutation.Stability * Random.Range(0.5f, 1.5f)));
-				MutationVariants[Mutation].RoundID = GameManager.Instance.RoundID;
-			}
-		}
-
-
-		var ActiveMutation = Mutation.GetMutation(bodyPart,Mutation);
-		ActiveMutation.Stability = MutationVariants[Mutation].Stability;
+		var ActiveMutation = Mutation.GetMutation(bodyPart, Mutation);
+		ActiveMutation.Stability = Data.Stability;
 
 
 		ActiveMutations.Add(ActiveMutation);
@@ -96,7 +98,7 @@ public class BodyPartMutations : BodyPartFunctionality
 
 				if (AlreadyActive == false)
 				{
-					AvailableMutations.Add(new MutationAndBodyPart(){BodyPartMutations = this, MutationSO = Mutation});
+					AvailableMutations.Add(new MutationAndBodyPart() {BodyPartMutations = this, MutationSO = Mutation});
 				}
 			}
 		}
@@ -108,9 +110,7 @@ public class BodyPartMutations : BodyPartFunctionality
 	{
 		public MutationSO MutationSO;
 		public BodyPartMutations BodyPartMutations;
-
 	}
-
 
 
 	public void CalculateStability()
@@ -126,15 +126,17 @@ public class BodyPartMutations : BodyPartFunctionality
 
 	private IEnumerator ProcessChangeToSpecies(PlayerHealthData NewSpecies, GameObject BodyPart)
 	{
-		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 2f)  * (1 + UnityEngine.Random.Range(-0.25f, 0.25f)));
+		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 2f) * (1 + UnityEngine.Random.Range(-0.25f, 0.25f)));
 
-		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.gameObject, $" Your {RelatedPart.gameObject.ExpensiveName()} Feels strange");
+		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.gameObject,
+			$" Your {RelatedPart.gameObject.ExpensiveName()} Feels strange");
 
 		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 2f) * (1 + UnityEngine.Random.Range(-0.25f, 0.25f)));
 
 		var SpawnedBodypart = Spawn.ServerPrefab(BodyPart).GameObject.GetComponent<BodyPart>();
 
-		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.gameObject, $" Your {RelatedPart.gameObject.ExpensiveName()} Morphs into a {SpawnedBodypart.gameObject.ExpensiveName()}");
+		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.gameObject,
+			$" Your {RelatedPart.gameObject.ExpensiveName()} Morphs into a {SpawnedBodypart.gameObject.ExpensiveName()}");
 
 		foreach (var itemSlot in SpawnedBodypart.OrganStorage.GetItemSlots())
 		{
@@ -157,18 +159,20 @@ public class BodyPartMutations : BodyPartFunctionality
 		var Parent = RelatedPart.ContainedIn;
 
 
-		RelatedPart.TryRemoveFromBody( CausesBleed: false, Destroy: true, PreventGibb_Death: true );
+		RelatedPart.TryRemoveFromBody(CausesBleed: false, Destroy: true, PreventGibb_Death: true);
 //dropping UI slots??
 //Relink fat / stomach??
 
 
 		if (Parent != null)
 		{
-			Inventory.ServerAdd(SpawnedBodypart.gameObject, Parent.OrganStorage.GetBestSlotFor(SpawnedBodypart.gameObject));
+			Inventory.ServerAdd(SpawnedBodypart.gameObject,
+				Parent.OrganStorage.GetBestSlotFor(SpawnedBodypart.gameObject));
 		}
 		else
 		{
-			Inventory.ServerAdd(SpawnedBodypart.gameObject, ContainedIn.BodyPartStorage.GetBestSlotFor(SpawnedBodypart.gameObject));
+			Inventory.ServerAdd(SpawnedBodypart.gameObject,
+				ContainedIn.BodyPartStorage.GetBestSlotFor(SpawnedBodypart.gameObject));
 		}
 
 
@@ -180,7 +184,9 @@ public class BodyPartMutations : BodyPartFunctionality
 			{
 				ONMutation.AddMutation(Mutations.RelatedMutationSO);
 			}
-			ONMutation.MutateCustomisation(ONMutation.RelatedPart.SetCustomisationData, RelatedPart.SetCustomisationData);
+
+			ONMutation.MutateCustomisation(ONMutation.RelatedPart.SetCustomisationData,
+				RelatedPart.SetCustomisationData);
 		}
 	}
 
@@ -191,20 +197,151 @@ public class BodyPartMutations : BodyPartFunctionality
 	public void MutateBodyPart()
 	{
 		ChangeToSpecies(PlayerHealthData, TOMutateBodyPart);
-
 	}
 
 
 	public void ChangeToSpecies(PlayerHealthData PlayerHealthData, GameObject BodyPart)
 	{
-		StartCoroutine(ProcessChangeToSpecies(PlayerHealthData , BodyPart));
+		StartCoroutine(ProcessChangeToSpecies(PlayerHealthData, BodyPart));
 	}
 
-	public class NumberAndRoundID
+	public class MutationRoundData
 	{
 		public int Stability;
 		public int RoundID;
+		public MutationSO MutationSO;
+		public int ResearchDifficult;
+
+		public List<SliderParameters> Parameters = new List<SliderParameters>();
+		//
+
+		public void CheckValidity()
+		{
+			if (RoundID != GameManager.RoundID)
+			{
+				RerollDifficulty();
+			}
+		}
+
+		public void RerollDifficulty()
+		{
+			this.ResearchDifficult =
+				Mathf.RoundToInt((MutationSO.ResearchDifficult *
+				                  Random.Range(0.75f, 1.25f))); //TODO Change to percentage-based system?
+
+			this.ResearchDifficult = Mathf.Clamp(this.ResearchDifficult, 0, 100);
+
+			this.Stability =
+				Mathf.RoundToInt((MutationSO.Stability *
+				                  Random.Range(0.5f, 1.5f))); //TODO Change to percentage-based system?
+			this.RoundID = GameManager.RoundID;
+
+			var NumberOfSliders = Mathf.RoundToInt(((this.ResearchDifficult / 100f) * 9f)); //9f = Max number of sliders
+			Parameters.Clear();
+
+			for (int i = 0; i < NumberOfSliders; i++)
+			{
+				Parameters.Add(new SliderParameters() {TargetPosition = Random.Range(5, 95)});
+			}
+
+			if (MutationSO.CanRequireLocks)
+			{
+
+				for (int i = 0; i < NumberOfSliders; i++)
+				{
+					var Related = Parameters[i];
+					for (int j = 0; j < NumberOfSliders; j++)
+					{
+						if (i == j) continue;
+						var RNG = Random.Range(0, 100);
+						//75% chance of being connected
+						if (RNG < 75)
+						{
+							var RNG3 = Random.Range(0, 2);
+
+							if (RNG3 == 0)
+							{
+								Related.Parameters.Add(
+									new Tuple<float, int>(Random.Range(0f, 1f) * 1, j));
+							}
+							else
+							{
+								Related.Parameters.Add(
+									new Tuple<float, int>(Random.Range(0f, 1f) * -1, j));
+							}
+						}
+					}
+				}
+			}
+			else
+			{
+				var SliderPositions = new List<int>();
+				for (int i = 0; i < NumberOfSliders; i++)
+				{
+					SliderPositions.Add(Random.Range(5, 95));
+					Parameters[i].TargetLever = SliderPositions[i];
+				}
+
+
+
+				for (int i = 0; i < NumberOfSliders; i++)
+				{
+					var NumberOfEffectingSliders  = Random.Range(1, NumberOfSliders)-1;
+					var ToLoop = Parameters.ToList().Shuffle().ToList();
+
+					ToLoop.Remove(Parameters[i]);
+
+					List<Tuple<float, int>> Contributing = new List<Tuple<float, int>>();
+
+					for (int j = 0;  j < NumberOfEffectingSliders;  j++)
+					{
+						Contributing.Add(new Tuple<float, int>(Random.Range(-1f, 1f), Parameters.IndexOf(ToLoop[j])));
+					}
+
+					//the slider itself contributes to the overall
+					Contributing.Add(new Tuple<float, int>(1, i));
+
+					//so add up all Then take the difference is what you need
+
+					float Position = 0;
+
+					foreach (var Contribute in Contributing)
+					{
+						Position += Contribute.Item1 * SliderPositions[Contribute.Item2];
+					}
+
+					//  work out the difference between the actual required position
+					var Difference = Parameters[i].TargetPosition - Position;
+
+
+					var LastSliderPositionParameter = SliderPositions[Parameters.IndexOf(ToLoop[NumberOfEffectingSliders])];
+
+
+					// Difference = x * LastSliderPositionParameter == 1 = x * 0.5
+					// x = Difference / LastSliderPositionParameter == x = 1 / 0.5
+					var Multiplier = (float)Difference / (float)LastSliderPositionParameter;
+
+					//Set needed        \/
+					Contributing.Add(new Tuple<float, int>(Multiplier, Parameters.IndexOf(ToLoop[NumberOfEffectingSliders])));
+
+
+					foreach (var Contributer in Contributing)
+					{
+						Parameters[Contributer.Item2].Parameters.Add(new Tuple<float, int>(Contributer.Item1, i));
+					}
+				}
+			}
+		}
+
+		public class SliderParameters
+		{
+			public int TargetPosition;
+			public int TargetLever;
+			public List<Tuple<float, int>> Parameters = new List<Tuple<float, int>>();
+		}
 	}
+
+
 	/*
 	so, body wide system
 

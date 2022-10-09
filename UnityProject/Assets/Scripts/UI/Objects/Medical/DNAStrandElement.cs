@@ -15,7 +15,6 @@ namespace UI.Objects.Medical
 			Mutation = 2,
 			CustomisationMutation = 3,
 			SpeciesMutation = 4,
-			SetBodyPartTarget = 5,
 		}
 
 		public DNAMutationData.DNAPayload Payload;
@@ -50,12 +49,21 @@ namespace UI.Objects.Medical
 
 		public void OnDrop(List<RaycastResult> Targets)
 		{
-			Logger.LogError(Targets.Count.ToString());
-
 			if (Targets.Count <= 1)
 			{
-				//Destroy
-				NetButton.ExecuteClient();
+
+				if (Payload.TargetMutationSO == null)
+				{
+					//Destroy
+					NetButton.ExecuteClient();
+				}
+				else
+				{
+					NetParentSetter.SetParentViaID((int)Location.Mutation);
+				}
+
+
+
 
 
 				return;
@@ -67,6 +75,7 @@ namespace UI.Objects.Medical
 				{
 					if (NetParentSetter.IsValidParentViaNetParentSetterTarget(Found))
 					{
+						//maybe to do to add a switch statement to not allow it if it's a certain type?
 						NetParentSetter.SetParentViaNetParentSetterTarget(Found);
 						return;
 					}
@@ -83,7 +92,17 @@ namespace UI.Objects.Medical
 
 		public void MasterRemoveSelfFromList()
 		{
-			GUI_DNAConsole.DNAStrandList.MasterRemoveItem(this);
+			if (Payload.TargetMutationSO == null)
+			{
+				//Destroy
+				GUI_DNAConsole.DNAStrandList.MasterRemoveItem(this);
+			}
+			else
+			{
+				NetParentSetter.SetParentViaID((int)Location.Mutation);
+			}
+
+
 		}
 	}
 }

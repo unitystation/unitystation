@@ -10,6 +10,11 @@ namespace UI.Core.NetUI
 	[Serializable]
 	public class NetSlider : NetUIStringElement
 	{
+
+		public ElementMode SetInteractionMode = ElementMode.Normal;
+
+		public override ElementMode InteractionMode => SetInteractionMode;
+
 		public override string Value {
 			get => ((int)(Element.value * 100)).ToString();
 			set {

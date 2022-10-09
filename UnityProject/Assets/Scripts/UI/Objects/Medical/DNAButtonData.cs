@@ -12,5 +12,6 @@ public class DNAButtonData : MonoBehaviour
 	public void OnPress()
 	{
 		RelatedDNASpeciesElement.netClientSyncString.SetValue(BodyPartName);
+		RelatedDNASpeciesElement.CloseSection();
 	}
 }

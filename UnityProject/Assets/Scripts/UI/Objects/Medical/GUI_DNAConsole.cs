@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using UI.Core.Net.Elements.Dynamic.Spawned;
+using UI.Core.NetUI;
 using UnityEngine;
 
 namespace UI.Objects.Medical
@@ -19,8 +20,16 @@ namespace UI.Objects.Medical
 
 		public List<PlayerHealthData> DEBUG_Species = new List<PlayerHealthData>();
 
+		public List<MutationSO> DEBUG_Mutations = new List<MutationSO>();
+
+
 		public DNASpeciesList DNASpeciesList;
 
+		public DNAConsole DNAConsole;
+
+		public NetPageSwitcher NetPageSwitcher;
+
+		public NetCountdownTimer netCountdownTimer;
 
 		public void Close()
 		{
@@ -63,13 +72,51 @@ namespace UI.Objects.Medical
 			DNAStrandList.AddElement(payload, target.Value, DNAStrandElement.Location.BodyPartTarget);
 		}
 
-
-		public void Awake()
+		public void GenerateSpeciesTarget(GameObject BodyPart, PlayerHealthData SpeciesMutateTo)
 		{
+			var payload = new DNAMutationData.DNAPayload();
+			payload.SpeciesMutateTo = SpeciesMutateTo;
+			payload.MutateToBodyPart = BodyPart;
+
+			DNAStrandList.AddElement(payload, target.Value, DNAStrandElement.Location.SpeciesMutation);
+		}
+
+
+		public void Start()
+		{
+			DNAConsole = Provider.GetComponent<DNAConsole>();
+
 			foreach (var Species in DEBUG_Species)
 			{
-				DNASpeciesList.AddElement(Species);
+				DNASpeciesList.AddElement(Species , this);
 			}
+
+			foreach (var mutation in DNAConsole.UnlockedMutations)
+			{
+
+				var payload = new DNAMutationData.DNAPayload();
+				payload.TargetMutationSO = mutation;
+				DNAStrandList.AddElement(payload, "", DNAStrandElement.Location.Mutation);
+			}
+
+		}
+
+		public void AddMutation(MutationSO Mutation)
+		{
+			DNAConsole.UnlockedMutations.Add(Mutation);
+			var payload = new DNAMutationData.DNAPayload();
+			payload.TargetMutationSO = Mutation;
+			DNAStrandList.AddElement(payload, "", DNAStrandElement.Location.Mutation);
+		}
+
+		public void SwitchToMutationGame()
+		{
+			NetPageSwitcher.SetActivePage(1);
+		}
+
+		public void SwitchToVirusBuilder()
+		{
+			NetPageSwitcher.SetActivePage(0);
 		}
 	}
 }

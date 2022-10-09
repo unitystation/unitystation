@@ -14,7 +14,7 @@ public class NetParentSetterTarget : MonoBehaviour
 
     public enum IDTarget
     {
-	    DNASequence
-	    //TODO Just pass in the NetParentSetterTarget  location??? Maybe
+	    DNASequence,
+	    DNATarget
     }
 }

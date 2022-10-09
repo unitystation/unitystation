@@ -33,6 +33,10 @@ public class DNAConsole : MonoBehaviour
 	public DNAScanner DNAScanner;
 
 
+	public List<MutationSO> ALLMutations = new List<MutationSO>();
+
+	public List<MutationSO> UnlockedMutations = new List<MutationSO>();
+
 	public List<DNAMutationData> Injecting = new List<DNAMutationData>();
 
 

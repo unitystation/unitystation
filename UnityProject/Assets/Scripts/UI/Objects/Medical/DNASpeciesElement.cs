@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using HealthV2;
 using UI.Core.NetUI;
+using UI.Objects.Medical;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -24,12 +25,46 @@ public class DNASpeciesElement : DynamicEntry
 
 	public GameObject SubPrefab;
 
+	public GUI_DNAConsole GUI_DNAConsole;
+
+	public Transform WindowPanel;
+
+
 	public void GenerateOption(string BodyPartName)
 	{
-		//Look up
+		if (GUI_DNAConsole.IsMasterTab)
+		{
+			//Look up
+			Logger.LogError(BodyPartName);
 
-		Logger.LogError(BodyPartName);
+			foreach (var Part in StoredBodyParts)
+			{
+				if (Part.name == BodyPartName)
+				{
+					GUI_DNAConsole.GenerateSpeciesTarget(Part.gameObject, PlayerHealthData);
+					CloseSection();
+					return;
+				}
+			}
+		}
+	}
 
+
+
+	public void CloseSection()
+	{
+		WindowPanel.SetActive(false);
+	}
+	public void OpenSection()
+	{
+		if (WindowPanel.gameObject.activeSelf)
+		{
+			WindowPanel.SetActive(false);
+		}
+		else
+		{
+			WindowPanel.SetActive(true);
+		}
 
 	}
 
@@ -107,11 +142,11 @@ public class DNASpeciesElement : DynamicEntry
 		}
 	}
 
-	public void SetValues(PlayerHealthData InPlayerHealthData)
+	public void SetValues(PlayerHealthData InPlayerHealthData, GUI_DNAConsole  InGUI_DNAConsole)
 	{
 		PlayerHealthData = InPlayerHealthData;
 		netServerSyncString.SetValue(InPlayerHealthData.name);
-
+		GUI_DNAConsole = InGUI_DNAConsole;
 
 	}
 

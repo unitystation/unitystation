@@ -6,6 +6,9 @@ namespace UI.Core.NetUI
 {
 	public class NetSliderDial : NetSlider
 	{
+
+
+
 		public override string Value {
 			get => ((int)(TargetValue * 100)).ToString();
 			set => SetTargetValue(int.Parse(value) / 100f);
