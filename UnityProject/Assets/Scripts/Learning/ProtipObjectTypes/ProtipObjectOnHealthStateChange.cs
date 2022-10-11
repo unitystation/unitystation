@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using HealthV2;
+using Systems.Atmospherics;
 using UnityEngine;
 
 namespace Learning.ProtipObjectTypes
@@ -28,6 +30,14 @@ namespace Learning.ProtipObjectTypes
 		[SerializeField] private ProtipSO PressureHighEvent;
 		[SerializeField] private ProtipSO PressureLowEvent;
 
+		private bool PressureTipOnCooldown = false;
+		private bool TempTipOnCooldown = false;
+		private bool SufficationTipCooldown = false;
+		private bool ToxinTipCooldown = false;
+		private HungerState LastHungerState = HungerState.Normal;
+
+		private const float PROTIP_COOLDOWN_TO_AVOID_QUEUE_SPAM = 35f;
+
 		private void Awake()
 		{
 			healthState = GetComponent<HealthStateController>();
@@ -38,6 +48,7 @@ namespace Learning.ProtipObjectTypes
 
 		private void OnEnable()
 		{
+			if(CustomNetworkManager.IsHeadless) return;
 			healthState.BleedingEvent += TriggerBleedingTip;
 			healthState.HungerEvent += TriggerHungerTip;
 			healthState.FireStacksEvent += TriggerFireStacksTip;
@@ -50,6 +61,7 @@ namespace Learning.ProtipObjectTypes
 
 		private void OnDisable()
 		{
+			if(CustomNetworkManager.IsHeadless) return;
 			healthState.BleedingEvent -= TriggerBleedingTip;
 			healthState.HungerEvent -= TriggerHungerTip;
 			healthState.FireStacksEvent -= TriggerFireStacksTip;
@@ -82,19 +94,24 @@ namespace Learning.ProtipObjectTypes
 
 		private void TriggerPressureEvent(float state)
 		{
+			if(PressureTipOnCooldown) return;
 			switch (state)
 			{
-				case >= AtmosConstants.MINIMUM_OXYGEN_PRESSURE:
+				case <= AtmosConstants.HAZARD_LOW_PRESSURE:
 					TriggerTip(PressureLowEvent);
+					StartCoroutine(PressureCooldown());
 					break;
-				case <= AtmosConstants.WARNING_HIGH_PRESSURE:
+				case >= AtmosConstants.WARNING_HIGH_PRESSURE:
 					TriggerTip(PressureHighEvent);
+					StartCoroutine(PressureCooldown());
 					break;
 			}
 		}
 
 		private void TriggerHungerTip(HungerState state)
 		{
+			if(LastHungerState == state) return;
+			LastHungerState = state;
 			switch (state)
 			{
 				case HungerState.Full:
@@ -152,25 +169,62 @@ namespace Learning.ProtipObjectTypes
 
 		private void TriggerSuffocatingTip(bool state)
 		{
-			if(state) TriggerTip(SuffuicationEvent);
+			if (state == false || SufficationTipCooldown) return;
+			TriggerTip(SuffuicationEvent);
+			StartCoroutine(SufficationCooldown());
 		}
 
 		private void TriggerToxinsTip(bool state)
 		{
-			if(state) TriggerTip(ToxinEvent);
+			if(state == false || ToxinTipCooldown) return;
+			TriggerTip(ToxinEvent);
+			StartCoroutine(ToxinCooldown());
 		}
 
 		private void TriggerTemperatureTip(float state)
 		{
-			switch (state)
+			if(TempTipOnCooldown) return;
+			switch (state - Reactions.KOffsetC)
 			{
-				case >= AtmosConstants.COLD_HEAT:
+				case <= AtmosConstants.CELSIUS_BARELY_COLD_HEAT:
 					TriggerTip(TemperatureColdEvent);
+					StartCoroutine(TempCooldown());
 					break;
-				case <= AtmosConstants.HOT_HEAT:
+				case >= AtmosConstants.CELSIUS_HOT_HEAT:
 					TriggerTip(TemperatureHotEvent);
+					StartCoroutine(TempCooldown());
+					break;
+				default:
 					break;
 			}
+		}
+
+		private IEnumerator TempCooldown()
+		{
+			TempTipOnCooldown = true;
+			yield return WaitFor.Seconds(PROTIP_COOLDOWN_TO_AVOID_QUEUE_SPAM);
+			TempTipOnCooldown = false;
+		}
+
+		private IEnumerator PressureCooldown()
+		{
+			PressureTipOnCooldown = true;
+			yield return WaitFor.Seconds(PROTIP_COOLDOWN_TO_AVOID_QUEUE_SPAM);
+			PressureTipOnCooldown = false;
+		}
+
+		private IEnumerator SufficationCooldown()
+		{
+			SufficationTipCooldown = true;
+			yield return WaitFor.Seconds(PROTIP_COOLDOWN_TO_AVOID_QUEUE_SPAM);
+			SufficationTipCooldown = false;
+		}
+
+		private IEnumerator ToxinCooldown()
+		{
+			ToxinTipCooldown = true;
+			yield return WaitFor.Seconds(PROTIP_COOLDOWN_TO_AVOID_QUEUE_SPAM);
+			ToxinTipCooldown = false;
 		}
 	}
 }
