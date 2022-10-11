@@ -22,10 +22,24 @@ namespace MiniGames
 			Tracker.OnStartGame.AddListener(StartMiniGame);
 		}
 
-		//Add your game setup/reset/ui show/etc here
+		/// <summary>
+		/// Add your game setup/reset/ui show/etc here. (Don't forget about OnGameDone() because it's not abstract and
+		/// C# can't implament default behaviors for abstract voids.)
+		/// </summary>
+		/// <returns></returns>
 		public abstract void StartMiniGame();
 
-		//Add your logic here when a player has won or lost a game or has left the game
-		protected abstract void OnGameDone(bool t);
+		/// <summary>
+		/// Add your logic here when a player has won or lost a game or has left the game.
+		/// </summary>
+		protected virtual void OnGameDone(bool t)
+		{
+			if (Tracker == null)
+			{
+				Logger.LogError($"[Minigames] - Tracker missing on {gameObject}!");
+				return;
+			}
+			Tracker.OnGameEnd(t);
+		}
 	}
 }

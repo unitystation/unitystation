@@ -49,7 +49,7 @@ namespace MiniGames.MiniGameModules
 		{
 			Chat.AddLocalMsgToChat("The lock-pad lights powers down.", MiniGameParent);
 			miniGameActive = false;
-			Tracker.OnGameEnd(t);
+			base.OnGameDone(t);
 		}
 
 		private IEnumerator IdentifySequence()
