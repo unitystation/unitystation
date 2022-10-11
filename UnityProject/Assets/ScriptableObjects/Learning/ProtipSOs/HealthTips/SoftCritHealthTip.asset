@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc4baa140f472c84284eccd1fdbb429d, type: 3}
+  m_Name: SoftCritHealthTip
+  m_EditorClassIdentifier: 
+  TipTitle: Soft Crit!
+  TipData:
+    Tip: You're in a soft critical condition state, you'll be unable to perform any
+      actions and fall unconcious unless you get out of harm's way quickly!
+    TipIcon: {fileID: 21300000, guid: af17f91b4376d6a41a793c056c02dadc, type: 3}
+    ShowAnimation: 0
+    MinimumExperienceLevelToTrigger: 2
+    ShowDuration: 5

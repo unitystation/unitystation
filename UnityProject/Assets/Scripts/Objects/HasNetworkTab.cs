@@ -3,6 +3,7 @@ using UI.Core.Net;
 using UnityEngine;
 using Core.Editor.Attributes;
 using Messages.Server;
+using Mirror;
 using Systems.Interaction;
 
 
@@ -14,7 +15,7 @@ namespace Objects
 	/// please ensure this component is placed below them, otherwise the tab open/close will
 	/// be the interaction that always takes precedence.
 	/// </summary>
-	public class HasNetworkTab : MonoBehaviour, ICheckedInteractable<HandApply>, IServerDespawn, ICheckedInteractable<AiActivate>
+	public class HasNetworkTab : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerDespawn, ICheckedInteractable<AiActivate>
 	{
 		[NonSerialized]
 		private GameObject playerInteracted;
@@ -26,12 +27,20 @@ namespace Objects
 		[SerializeField, PrefabModeOnly]
 		private bool aiInteractable = true;
 
+		public event Action<GameObject> OnShowUI;
+
 		/// <summary>
 		/// This method simply tells the script what player last interacted, giving an reference to their gameobject
 		/// </summary>
 		public GameObject LastInteractedPlayer()
 		{
 			return playerInteracted;
+		}
+
+		[TargetRpc]
+		private void InvokeEventOnClient(GameObject player)
+		{
+			OnShowUI?.Invoke(player);
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -58,6 +67,7 @@ namespace Objects
 
 			playerInteracted = interaction.Performer;
 			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
+			InvokeEventOnClient(interaction.Performer);
 		}
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)
@@ -72,6 +82,7 @@ namespace Objects
 
 			playerInteracted = interaction.Performer;
 			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
+			InvokeEventOnClient(interaction.Performer);
 		}
 
 		public void OnDespawnServer(DespawnInfo info)
@@ -105,6 +116,7 @@ namespace Objects
 
 			playerInteracted = interaction.Performer;
 			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
+			InvokeEventOnClient(interaction.Performer);
 		}
 
 		#endregion

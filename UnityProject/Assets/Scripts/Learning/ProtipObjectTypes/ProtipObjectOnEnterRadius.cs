@@ -32,7 +32,7 @@ namespace Learning.ProtipObjectTypes
 				if (gameObject == target.gameObject) continue;
 				if (Vector3.Distance(tile.WorldPosition, target.gameObject.RegisterTile().WorldPosition) > SEARCH_LIMIT) continue;
 				if (MatrixManager.Linecast(gameObject.AssumedWorldPosServer(), LayerTypeSelection.Walls,
-					    MaskToCheck, target.gameObject.RegisterTile().WorldPosition).ItHit == false) continue;
+					    MaskToCheck, target.gameObject.RegisterTile().WorldPosition).ItHit) continue;
 				TriggerTip(TipSO, target.gameObject);
 			}
 		}

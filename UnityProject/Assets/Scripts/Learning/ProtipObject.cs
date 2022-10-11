@@ -40,6 +40,13 @@ namespace Learning
 			return saved;
 		}
 
+		private bool CheckSaveStatus(ProtipSO protipSo)
+		{
+			var saved = ProtipManager.Instance.ProtipSaveStates.Any(x =>
+				x.Key == protipSo.TipTitle && x.Value == true);
+			return saved;
+		}
+
 		protected virtual bool TriggerConditions(GameObject triggeredBy)
 		{
 			//To avoid issues with NREs, Protips should only trigger if a PlayerScript exists.
@@ -69,7 +76,7 @@ namespace Learning
 
 		public void TriggerTip(ProtipSO protipSo, GameObject triggeredBy = null)
 		{
-			if(TriggerConditions(triggeredBy) == false) return;
+			if(TriggerConditions(triggeredBy) == false && CheckSaveStatus(protipSo)) return;
 			if(protipSo == null)
 			{
 				Logger.LogError("Passed ProtipSO is null. Cannot trigger tip.");

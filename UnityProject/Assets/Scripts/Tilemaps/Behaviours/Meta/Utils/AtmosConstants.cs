@@ -25,4 +25,11 @@ public static class AtmosConstants
 	public const float ONE_ATMOSPHERE = 101.325f;
 
 	public const float MINIMUM_HEAT_CAPACITY = 0.0003f;
+	public const float BARELY_COLD_HEAT = 260;
+	public const float ABIT_COLD_HEAT = 210;
+	public const float COLD_HEAT = 160;
+	public const float FREEZING_HEAT = 110;
+	public const float MELTING_HEAT = 460;
+	public const float HOT_HEAT = 410;
+	public const float ABIT_HOT_HEAT = 360;
 }
