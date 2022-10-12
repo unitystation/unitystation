@@ -5,7 +5,11 @@ using UnityEngine;
 using Mirror;
 using AddressableReferences;
 using Items;
+using MiniGames;
+using NaughtyAttributes;
 using Objects.Atmospherics;
+using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 namespace Objects
 {
@@ -116,14 +120,17 @@ namespace Objects
 		private string closetName;
 
 		[SyncVar(hook = nameof(SyncDoorState))]
-		private Door doorState = Door.Closed;
-		private Lock lockState;
-		private Weld weldState = Weld.NotWelded;
+		protected Door doorState = Door.Closed;
+		protected Lock lockState;
+		protected Weld weldState = Weld.NotWelded;
 
 		private Matrix Matrix => registerObject.Matrix;
 		public bool IsOpen => doorState == Door.Opened;
 		public bool IsLocked => lockState == Lock.Locked;
 		public bool IsWelded => weldState == Weld.Welded;
+
+
+		[SerializeField] private bool CannotBeInteractedWithWhenClosed = false;
 
 		#region Lifecycle
 
@@ -320,6 +327,7 @@ namespace Objects
 
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
+			if (CannotBeInteractedWithWhenClosed && lockState == Lock.Locked) return false;
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false;
 
@@ -330,6 +338,11 @@ namespace Objects
 		}
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)
+		{
+			InteractionChecks(interaction);
+		}
+
+		protected virtual void InteractionChecks(PositionalHandApply interaction)
 		{
 			if (interaction.IsAltClick)
 			{
@@ -543,5 +556,6 @@ namespace Objects
 		}
 
 		#endregion
+
 	}
 }
