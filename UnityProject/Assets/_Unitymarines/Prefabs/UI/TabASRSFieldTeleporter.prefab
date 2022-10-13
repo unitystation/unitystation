@@ -742,7 +742,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e798a74be3b69c1a9aab4faa8fc5cdd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EntryPrefab: {fileID: 8252912647532467127, guid: 4e8581bd6c901b744a1d904c9632ee87,
+  EntryPrefab: {fileID: 8252912647532467127, guid: 00996972a3440db45832e53d892de7e9,
     type: 3}
 --- !u!1 &2156284639372117712
 GameObject:
@@ -1206,7 +1206,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1212d55796e4b7703aa9228d173ffb91, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b3947c9330dc8b347815e699dbc6e361, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1623,7 +1623,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 3993187254087642820}
         m_TargetAssemblyTypeName: NetTab, Assets
         m_MethodName: CloseTab
         m_Mode: 1
