@@ -1,3 +1,5 @@
+using Systems.Atmospherics;
+
 public static class AtmosConstants
 {
 	public const float MinPressureDifference = 0.0001f;
@@ -33,10 +35,10 @@ public static class AtmosConstants
 	public const float HOT_HEAT = 410;
 	public const float ABIT_HOT_HEAT = 360;
 
-	public const float CELSIUS_BARELY_COLD_HEAT = 12f;
-	public const float CELSIUS_FREEZING_HEAT = 0f;
-	public const float CELSIUS_NORMAL_HEAT = 20;
-	public const float CELSIUS_WARM_HEAT = 28f;
-	public const float CELSIUS_HOT_HEAT = 38f;
-	public const float CELSIUS_MELTING_HEAT = 60f;
+	public const float CELSIUS_BARELY_COLD_HEAT = BARELY_COLD_HEAT - Reactions.KOffsetC;
+	public const float CELSIUS_FREEZING_HEAT = FREEZING_HEAT - Reactions.KOffsetC;
+	public const float CELSIUS_NORMAL_HEAT = 20f;
+	public const float CELSIUS_WARM_HEAT = ABIT_HOT_HEAT - Reactions.KOffsetC;
+	public const float CELSIUS_HOT_HEAT = HOT_HEAT - Reactions.KOffsetC;
+	public const float CELSIUS_MELTING_HEAT = MELTING_HEAT - Reactions.KOffsetC;
 }
