@@ -38,7 +38,7 @@ namespace Objects
 		}
 
 		[TargetRpc]
-		private void InvokeEventOnClient(GameObject player, NetworkConnection connection)
+		private void InvokeEventOnClient(NetworkConnection target, GameObject player)
 		{
 			OnShowUI?.Invoke(player);
 		}
@@ -67,7 +67,7 @@ namespace Objects
 
 			playerInteracted = interaction.Performer;
 			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
-			InvokeEventOnClient(interaction.Performer, interaction.PerformerPlayerScript.connectionToServer);
+			InvokeEventOnClient(interaction.PerformerPlayerScript.connectionToServer, interaction.Performer);
 		}
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)
@@ -82,7 +82,7 @@ namespace Objects
 
 			playerInteracted = interaction.Performer;
 			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
-			InvokeEventOnClient(interaction.Performer, interaction.PerformerPlayerScript.connectionToServer);
+			InvokeEventOnClient(interaction.PerformerPlayerScript.connectionToServer, interaction.Performer);
 		}
 
 		public void OnDespawnServer(DespawnInfo info)
@@ -116,7 +116,7 @@ namespace Objects
 
 			playerInteracted = interaction.Performer;
 			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
-			InvokeEventOnClient(interaction.Performer, interaction.PerformerPlayerScript.connectionToServer);
+			InvokeEventOnClient(interaction.PerformerPlayerScript.connectionToServer, interaction.Performer);
 		}
 
 		#endregion
