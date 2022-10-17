@@ -73,6 +73,8 @@ public class NetParentSetter : NetUIIntElement
 				OrderedTargetParents.Add(target);
 			}
 		}
+
+		SetParentViaID(CurrentLocation);
 	}
 
 

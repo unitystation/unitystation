@@ -22,6 +22,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: These beautiful flowers have a crisp smokey scent, like a summer bonfire.
       objectReference: {fileID: 0}
+    - target: {fileID: 7572396479036412059, guid: 229e14ba0ecb45343b86ee03be72954b,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572396479036412059, guid: 229e14ba0ecb45343b86ee03be72954b,
+        type: 3}
+      propertyPath: initialTraits.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 488a5f163c3628d45b4514f29fe3b2dd,
+        type: 2}
     - target: {fileID: 7957615720505901645, guid: 229e14ba0ecb45343b86ee03be72954b,
         type: 3}
       propertyPath: m_AssetId

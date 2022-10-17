@@ -99,6 +99,23 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Nutritious!
       objectReference: {fileID: 0}
+    - target: {fileID: 1626810508824064814, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1626810508824064814, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: initialTraits.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: f1dac97a7a157d745a1a4517bde59461,
+        type: 2}
+    - target: {fileID: 1626810508824064814, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: initialTraits.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 961cf84088818c74998a76a42dc4aa07,
+        type: 2}
     - target: {fileID: 1726319562280146330, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: hasSimpleRelatedRecipe

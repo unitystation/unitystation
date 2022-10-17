@@ -28,6 +28,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A beautiful blue flower.
       objectReference: {fileID: 0}
+    - target: {fileID: 5207078106024879138, guid: 28cdae7ec5501a447b6d5c181d3083ac,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5207078106024879138, guid: 28cdae7ec5501a447b6d5c181d3083ac,
+        type: 3}
+      propertyPath: initialTraits.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 488a5f163c3628d45b4514f29fe3b2dd,
+        type: 2}
     - target: {fileID: 5503168784216324124, guid: 28cdae7ec5501a447b6d5c181d3083ac,
         type: 3}
       propertyPath: m_Sprite

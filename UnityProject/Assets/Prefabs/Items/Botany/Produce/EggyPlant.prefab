@@ -17,6 +17,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: There MUST be a chicken inside.
       objectReference: {fileID: 0}
+    - target: {fileID: 2995035487439332361, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2995035487439332361, guid: 9da2f8923c588ec42ab9693f707da84f,
+        type: 3}
+      propertyPath: initialTraits.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 70a9b3b2a00e89243b5af0483203873a,
+        type: 2}
     - target: {fileID: 3282261839041951799, guid: 9da2f8923c588ec42ab9693f707da84f,
         type: 3}
       propertyPath: m_Sprite

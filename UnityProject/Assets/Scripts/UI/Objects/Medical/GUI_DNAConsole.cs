@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using UI.Core.Net.Elements.Dynamic.Spawned;
 using UI.Core.NetUI;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace UI.Objects.Medical
 {
@@ -30,6 +32,13 @@ namespace UI.Objects.Medical
 		public NetPageSwitcher NetPageSwitcher;
 
 		public NetCountdownTimer netCountdownTimer;
+
+		public EmptyItemList MutationChoice;
+
+		public MutationUnlockMiniGame MutationUnlockMiniGame;
+
+		public Dictionary<MutationSO, MutationChooseElement> LoadedMutationSO =
+			new Dictionary<MutationSO, MutationChooseElement>();
 
 		public void Close()
 		{
@@ -65,6 +74,41 @@ namespace UI.Objects.Medical
 			DNAStrandList.AddElement(payload, "", DNAStrandElement.Location.CustomisationMutation);
 		}
 
+		public void GenerateEgg()
+		{
+
+			var  Egg =  Spawn.ServerPrefab(DNAConsole.EggPrefab, DNAConsole.DNAScanner.gameObject.AssumedWorldPosServer()).GameObject;
+			var available = DNAConsole.ALLMutations.Except(DNAConsole.UnlockedMutations).ToList();
+
+			if (available.Count == 0)
+			{
+				Logger.LogError("no mutations available for egg");
+			}
+
+			var RNGamount = Random.Range(1, 4);
+
+			var chosen = new List<MutationSO>();
+			available = available.Shuffle().ToList();
+			for (int i = 0; i < RNGamount; i++)
+			{
+				if (available.Count != 0)
+				{
+					var choice = available[0];
+					available.RemoveAt(0);
+					chosen.Add(choice);
+				}
+			}
+
+			Egg.GetComponent<GeneticEggLogic>().CarryingMutations = chosen;
+
+		}
+
+		public void GenerateMutationTarget(MutationSO Mutation)
+		{
+			var payload = new DNAMutationData.DNAPayload();
+			payload.TargetMutationSO = Mutation;
+			DNAStrandList.AddElement(payload, "", DNAStrandElement.Location.Mutation);
+		}
 
 		public void GenerateElementTarget()
 		{
@@ -78,36 +122,52 @@ namespace UI.Objects.Medical
 			payload.SpeciesMutateTo = SpeciesMutateTo;
 			payload.MutateToBodyPart = BodyPart;
 
-			DNAStrandList.AddElement(payload, target.Value, DNAStrandElement.Location.SpeciesMutation);
+			DNAStrandList.AddElement(payload, "", DNAStrandElement.Location.SpeciesMutation);
 		}
 
 
 		public void Start()
 		{
 			DNAConsole = Provider.GetComponent<DNAConsole>();
-
-			foreach (var Species in DEBUG_Species)
+			DNAConsole.ActiveGUI_DNAConsole = this;
+			foreach (var Species in DNAConsole.UnlockedSpecies)
 			{
 				DNASpeciesList.AddElement(Species , this);
 			}
 
 			foreach (var mutation in DNAConsole.UnlockedMutations)
 			{
-
-				var payload = new DNAMutationData.DNAPayload();
-				payload.TargetMutationSO = mutation;
-				DNAStrandList.AddElement(payload, "", DNAStrandElement.Location.Mutation);
+				AddMutation(mutation);
 			}
 
 		}
 
 		public void AddMutation(MutationSO Mutation)
 		{
-			DNAConsole.UnlockedMutations.Add(Mutation);
-			var payload = new DNAMutationData.DNAPayload();
-			payload.TargetMutationSO = Mutation;
-			DNAStrandList.AddElement(payload, "", DNAStrandElement.Location.Mutation);
+			var MutationElement =  MutationChoice.AddItem() as MutationChooseElement;
+			MutationElement.SetValues(Mutation, this);
+			LoadedMutationSO[Mutation] = MutationElement;
+
 		}
+
+
+		public void UpdateMutations()
+		{
+			foreach (var mutation in DNAConsole.UnlockedMutations)
+			{
+				if (LoadedMutationSO.ContainsKey(mutation) == false)
+				{
+					AddMutation(mutation);
+				}
+			}
+		}
+
+		public void AddSpecies(PlayerHealthData species)
+		{
+			DNAConsole.UnlockedSpecies.Add(species);
+			DNASpeciesList.AddElement(species , this);
+		}
+
 
 		public void SwitchToMutationGame()
 		{
@@ -117,6 +177,11 @@ namespace UI.Objects.Medical
 		public void SwitchToVirusBuilder()
 		{
 			NetPageSwitcher.SetActivePage(0);
+		}
+
+		public void SwitchToSpeciesUnlocker()
+		{
+			NetPageSwitcher.SetActivePage(2);
 		}
 	}
 }

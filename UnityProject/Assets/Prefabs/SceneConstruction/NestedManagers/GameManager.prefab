@@ -55,6 +55,7 @@ MonoBehaviour:
   solarSystemRadius: 600
   CentComm: {fileID: 5244294626086762232}
   QuickLoad: 0
+  QuickJoinLoad: 0
   endOfRoundSounds: {fileID: 11400000, guid: 3505a71866d7e9e43a6cdc336306b41f, type: 2}
   LowPopCheckTimeAfterRoundStart: 300
   RebootOnAverageFPSOrLower: 35
@@ -94,5 +95,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boolScore: 10
   negativeModifer: 5
-  positiveModifer: 10
   captainOccupation: {fileID: 11400000, guid: 91271c894925b4e89a46031cb7a50fe6, type: 2}

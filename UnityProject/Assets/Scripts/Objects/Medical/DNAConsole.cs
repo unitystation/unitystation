@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using HealthV2;
 using Objects.Medical;
+using UI.Objects.Medical;
 using UnityEngine;
 
 [System.Serializable]
@@ -32,6 +33,9 @@ public class DNAConsole : MonoBehaviour
 {
 	public DNAScanner DNAScanner;
 
+	public List<PlayerHealthData> ALLSpecies = new List<PlayerHealthData>();
+
+	public List<PlayerHealthData> UnlockedSpecies = new List<PlayerHealthData>();
 
 	public List<MutationSO> ALLMutations = new List<MutationSO>();
 
@@ -40,12 +44,46 @@ public class DNAConsole : MonoBehaviour
 	public List<DNAMutationData> Injecting = new List<DNAMutationData>();
 
 
+	public GameObject EggPrefab;
+
+
+	public GUI_DNAConsole ActiveGUI_DNAConsole; //UpdateMutations
+
+
+
+	public int CurrentDNACharge;
+
+	public int RequiredDNASamples = 3;
+
 
 	[RightClickMethod()]
 	[NaughtyAttributes.Button()]
 	public void Inject()
 	{
 		DNAScanner.occupant.InjectDNA(Injecting);
+	}
+
+
+	public void AddMutationOfficial(MutationSO MutationSO)
+	{
+		UnlockedMutations.Add(MutationSO);
+		if (ActiveGUI_DNAConsole != null)
+		{
+			ActiveGUI_DNAConsole.UpdateMutations();
+		}
+
+	}
+
+	public void AddAmber()
+	{
+		CurrentDNACharge++;
+
+		if (ActiveGUI_DNAConsole != null)
+		{
+			ActiveGUI_DNAConsole.MutationUnlockMiniGame.UpdateIndicator();
+		}
+
+
 	}
 
 	/*

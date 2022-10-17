@@ -32,7 +32,7 @@ public class DNASpeciesElement : DynamicEntry
 
 	public void GenerateOption(string BodyPartName)
 	{
-		if (GUI_DNAConsole.IsMasterTab)
+		if (GUI_DNAConsole != null && GUI_DNAConsole.IsMasterTab)
 		{
 			//Look up
 			Logger.LogError(BodyPartName);
@@ -147,7 +147,7 @@ public class DNASpeciesElement : DynamicEntry
 		PlayerHealthData = InPlayerHealthData;
 		netServerSyncString.SetValue(InPlayerHealthData.name);
 		GUI_DNAConsole = InGUI_DNAConsole;
-
+		TargetSpecies(InPlayerHealthData.name);
 	}
 
 	public void RecursivePopulate(BodyPart BodyPart)

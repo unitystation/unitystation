@@ -61,6 +61,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: They're cherries that are blue.
       objectReference: {fileID: 0}
+    - target: {fileID: 4712185004488139146, guid: 23da5cf6be2781344b9040c388022fa5,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4712185004488139146, guid: 23da5cf6be2781344b9040c388022fa5,
+        type: 3}
+      propertyPath: initialTraits.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 961cf84088818c74998a76a42dc4aa07,
+        type: 2}
     - target: {fileID: 5006142838457040308, guid: 23da5cf6be2781344b9040c388022fa5,
         type: 3}
       propertyPath: m_Sprite

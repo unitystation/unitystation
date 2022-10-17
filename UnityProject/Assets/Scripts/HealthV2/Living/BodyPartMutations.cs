@@ -11,6 +11,9 @@ public class BodyPartMutations : BodyPartFunctionality
 	public static Dictionary<MutationSO, MutationRoundData> MutationVariants =
 		new Dictionary<MutationSO, MutationRoundData>();
 
+	public static Dictionary<PlayerHealthData, MutationRoundData> RaceDataVariants =
+		new Dictionary<PlayerHealthData, MutationRoundData>();
+
 	public List<MutationSO> CapableMutations = new List<MutationSO>();
 	public List<Mutation> ActiveMutations = new List<Mutation>();
 
@@ -32,6 +35,21 @@ public class BodyPartMutations : BodyPartFunctionality
 
 		MutationVariants[Mutation].CheckValidity();
 		return MutationVariants[Mutation];
+	}
+
+	public static MutationRoundData GetSpeciesRoundData(PlayerHealthData species)
+	{
+		if (RaceDataVariants.ContainsKey(species) == false)
+		{
+			RaceDataVariants[species] = new MutationRoundData()
+			{
+				PlayerHealthData = species
+			};
+			RaceDataVariants[species].RerollDifficulty();
+		}
+
+		RaceDataVariants[species].CheckValidity();
+		return RaceDataVariants[species];
 	}
 
 
@@ -207,13 +225,21 @@ public class BodyPartMutations : BodyPartFunctionality
 
 	public class MutationRoundData
 	{
+		public string SudokuPuzzle;
 		public int Stability;
 		public int RoundID;
 		public MutationSO MutationSO;
+		public PlayerHealthData PlayerHealthData;
 		public int ResearchDifficult;
 
-		public List<SliderParameters> Parameters = new List<SliderParameters>();
+		public SliderMiniGameData SliderMiniGame;
+
 		//
+
+		public class SliderMiniGameData
+		{
+			public List<SliderParameters> Parameters = new List<SliderParameters>();
+		}
 
 		public void CheckValidity()
 		{
@@ -223,33 +249,23 @@ public class BodyPartMutations : BodyPartFunctionality
 			}
 		}
 
-		public void RerollDifficulty()
+
+		public static void PopulateSliderMiniGame(SliderMiniGameData NewSliderMiniGameData, int Difficulty,
+			bool CanRequireLocks)
 		{
-			this.ResearchDifficult =
-				Mathf.RoundToInt((MutationSO.ResearchDifficult *
-				                  Random.Range(0.75f, 1.25f))); //TODO Change to percentage-based system?
-
-			this.ResearchDifficult = Mathf.Clamp(this.ResearchDifficult, 0, 100);
-
-			this.Stability =
-				Mathf.RoundToInt((MutationSO.Stability *
-				                  Random.Range(0.5f, 1.5f))); //TODO Change to percentage-based system?
-			this.RoundID = GameManager.RoundID;
-
-			var NumberOfSliders = Mathf.RoundToInt(((this.ResearchDifficult / 100f) * 9f)); //9f = Max number of sliders
-			Parameters.Clear();
-
+			var NumberOfSliders =
+				Mathf.RoundToInt(((Difficulty / 100f) * 9f)); //9f = Max number of sliders
+			NewSliderMiniGameData.Parameters.Clear();
 			for (int i = 0; i < NumberOfSliders; i++)
 			{
-				Parameters.Add(new SliderParameters() {TargetPosition = Random.Range(5, 95)});
+				NewSliderMiniGameData.Parameters.Add(new SliderParameters() {TargetPosition = Random.Range(5, 95)});
 			}
 
-			if (MutationSO.CanRequireLocks)
+			if (CanRequireLocks)
 			{
-
 				for (int i = 0; i < NumberOfSliders; i++)
 				{
-					var Related = Parameters[i];
+					var Related = NewSliderMiniGameData.Parameters[i];
 					for (int j = 0; j < NumberOfSliders; j++)
 					{
 						if (i == j) continue;
@@ -279,23 +295,24 @@ public class BodyPartMutations : BodyPartFunctionality
 				for (int i = 0; i < NumberOfSliders; i++)
 				{
 					SliderPositions.Add(Random.Range(5, 95));
-					Parameters[i].TargetLever = SliderPositions[i];
+					NewSliderMiniGameData.Parameters[i].TargetLever = SliderPositions[i];
 				}
-
 
 
 				for (int i = 0; i < NumberOfSliders; i++)
 				{
-					var NumberOfEffectingSliders  = Random.Range(1, NumberOfSliders)-1;
-					var ToLoop = Parameters.ToList().Shuffle().ToList();
+					var NumberOfEffectingSliders = Random.Range(1, NumberOfSliders) - 1;
+					var ToLoop = NewSliderMiniGameData.Parameters.ToList().Shuffle().ToList();
 
-					ToLoop.Remove(Parameters[i]);
+					ToLoop.Remove(NewSliderMiniGameData.Parameters[i]);
 
 					List<Tuple<float, int>> Contributing = new List<Tuple<float, int>>();
 
-					for (int j = 0;  j < NumberOfEffectingSliders;  j++)
+					for (int j = 0; j < NumberOfEffectingSliders; j++)
 					{
-						Contributing.Add(new Tuple<float, int>(Random.Range(-1f, 1f), Parameters.IndexOf(ToLoop[j])));
+						Contributing.Add(
+							new Tuple<float, int>(Random.Range(-1f, 1f),
+								NewSliderMiniGameData.Parameters.IndexOf(ToLoop[j])));
 					}
 
 					//the slider itself contributes to the overall
@@ -311,26 +328,55 @@ public class BodyPartMutations : BodyPartFunctionality
 					}
 
 					//  work out the difference between the actual required position
-					var Difference = Parameters[i].TargetPosition - Position;
+					var Difference = NewSliderMiniGameData.Parameters[i].TargetPosition - Position;
 
 
-					var LastSliderPositionParameter = SliderPositions[Parameters.IndexOf(ToLoop[NumberOfEffectingSliders])];
+					var LastSliderPositionParameter =
+						SliderPositions[NewSliderMiniGameData.Parameters.IndexOf(ToLoop[NumberOfEffectingSliders])];
 
 
 					// Difference = x * LastSliderPositionParameter == 1 = x * 0.5
 					// x = Difference / LastSliderPositionParameter == x = 1 / 0.5
-					var Multiplier = (float)Difference / (float)LastSliderPositionParameter;
+					var Multiplier = (float) Difference / (float) LastSliderPositionParameter;
 
 					//Set needed        \/
-					Contributing.Add(new Tuple<float, int>(Multiplier, Parameters.IndexOf(ToLoop[NumberOfEffectingSliders])));
+					Contributing.Add(new Tuple<float, int>(Multiplier,
+						NewSliderMiniGameData.Parameters.IndexOf(ToLoop[NumberOfEffectingSliders])));
 
 
 					foreach (var Contributer in Contributing)
 					{
-						Parameters[Contributer.Item2].Parameters.Add(new Tuple<float, int>(Contributer.Item1, i));
+						NewSliderMiniGameData.Parameters[Contributer.Item2].Parameters
+							.Add(new Tuple<float, int>(Contributer.Item1, i));
 					}
 				}
 			}
+		}
+
+		public void RerollDifficulty()
+		{
+			if (MutationSO != null)
+			{
+				SliderMiniGame = new SliderMiniGameData();
+				this.ResearchDifficult =
+					Mathf.RoundToInt((MutationSO.ResearchDifficult *
+					                  Random.Range(0.75f, 1.25f))); //TODO Change to percentage-based system?
+
+				this.ResearchDifficult = Mathf.Clamp(this.ResearchDifficult, 0, 100);
+
+				this.Stability =
+					Mathf.RoundToInt((MutationSO.Stability *
+					                  Random.Range(0.5f, 1.5f))); //TODO Change to percentage-based system?
+
+				PopulateSliderMiniGame(SliderMiniGame, ResearchDifficult, MutationSO.CanRequireLocks);
+			}
+			else
+			{
+				var SGen = new SudokuGenerator();
+				SudokuPuzzle = SGen.generate("easy");
+			}
+
+			this.RoundID = GameManager.RoundID;
 		}
 
 		public class SliderParameters
