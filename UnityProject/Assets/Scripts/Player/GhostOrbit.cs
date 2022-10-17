@@ -11,7 +11,14 @@ namespace Player
 		public static GhostOrbit Instance;
 
 		[SyncVar(hook = nameof(SyncOrbitObject))]
-		private GameObject target;
+		private NetworkIdentity IDtarget;
+
+		private GameObject target
+		{
+			get => IDtarget.OrNull()?.gameObject;
+			set => SyncOrbitObject(IDtarget, value.NetWorkIdentity());
+		}
+
 
 		[SerializeField] private GhostMove GhostMove;
 		[SerializeField] private RotateAroundTransform rotateTransform;
@@ -38,9 +45,9 @@ namespace Player
 			StopOrbiting();
 		}
 
-		private void SyncOrbitObject(GameObject oldObject, GameObject newObject)
+		private void SyncOrbitObject(NetworkIdentity oldObject, NetworkIdentity newObject)
 		{
-			target = newObject;
+			IDtarget = newObject;
 
 			if (target == null)
 			{

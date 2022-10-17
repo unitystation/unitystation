@@ -159,6 +159,8 @@ namespace HealthV2
 		[SerializeField, BoxGroup("PainFeedback")]
 		private float painScreamDamage = 20f;
 
+		public float PainScreamDamage => painScreamDamage;
+
 		[SerializeField, BoxGroup("PainFeedback")]
 		private float painScreamCooldown = 15f;
 
@@ -283,6 +285,11 @@ namespace HealthV2
 			{BodyPartType.Chest, new ReagentMix()},
 			//Maybe add feet for blood on boots?
 		};
+
+		[SerializeField] private GameObject meatProduce;
+		[SerializeField] private GameObject skinProduce;
+		public GameObject MeatProduce => meatProduce;
+		public GameObject SkinProduce => skinProduce;
 
 
 		public virtual void Awake()
@@ -954,6 +961,22 @@ namespace HealthV2
 			if (HealthIsLow()) OnLowHealth?.Invoke();
 		}
 
+
+
+		public BodyPart GetFirstBodyPartInArea(BodyPartType bodyPartAim)
+		{
+			foreach (var bodyPart in SurfaceBodyParts)
+			{
+				if (bodyPart.BodyPartType == bodyPartAim)
+				{
+					return bodyPart;
+				}
+			}
+
+			return null;
+		}
+
+
 		private bool HealthIsLow()
 		{
 			return HealthPercentage() < 35;
@@ -1400,14 +1423,9 @@ namespace HealthV2
 		{
 			if (IsDead) return;
 
-			foreach (var Race in RaceSOSingleton.Instance.Races)
-			{
-				if (Race.name == playerScript.characterSettings.Species)
-				{
-					if (sickness.ImmuneRaces.Contains(Race)) return;
-					break;
-				}
-			}
+			var Race = playerScript.characterSettings.GetRaceSo();
+
+			if (sickness.ImmuneRaces.Contains(Race)) return;
 
 			if ((mobSickness.HasSickness(sickness) == false) && (immunedSickness.Contains(sickness) == false))
 				mobSickness.Add(sickness, Time.time);
@@ -1739,7 +1757,8 @@ namespace HealthV2
 		{
 			if (EmoteActionManager.Instance == null || screamEmote == null ||
 			    canScream == false || ConsciousState == ConsciousState.UNCONSCIOUS || IsDead) return;
-			if (dmgTaken >= painScreamDamage) EmoteActionManager.DoEmote(screamEmote, playerScript.gameObject);
+			if (dmgTaken < painScreamDamage) return;
+			EmoteActionManager.DoEmote(screamEmote, playerScript.gameObject);
 			StartCoroutine(ScreamCooldown());
 		}
 
@@ -1785,6 +1804,9 @@ namespace HealthV2
 			CirculatorySystem.InitialiseMetabolism(RaceBodyparts);
 			CirculatorySystem.InitialiseDefaults(RaceBodyparts);
 			CirculatorySystem.BodyPartListChange();
+
+			meatProduce = RaceBodyparts.Base.MeatProduce;
+			skinProduce = RaceBodyparts.Base.SkinProduce;
 		}
 
 		public void InstantiateAndSetUp(ObjectList ListToSpawn)

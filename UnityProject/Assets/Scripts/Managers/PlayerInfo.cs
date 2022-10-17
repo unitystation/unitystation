@@ -33,6 +33,8 @@ public class PlayerInfo
 	/// <summary>The player script for the player while in the lobby.</summary>
 	public JoinedViewer ViewerScript { get; private set; }
 
+	public Mind Mind { get; private set; }
+
 	public string ClientId { get; set; }
 	public string UserId { get; set; }
 	public NetworkConnectionToClient Connection { get; set; }
@@ -47,7 +49,7 @@ public class PlayerInfo
 	public bool IsOOCMuted = false;
 
 	//This is only set when the player presses the ready button? But not if late joining, wtf?????
-	public CharacterSheet CharacterSettings { get; set; }
+	public CharacterSheet RequestedCharacterSettings { get; set; }
 
 	/// <summary>The player GameObject. Different GameObject if in lobby vs. in game.</summary>
 	public GameObject GameObject
@@ -89,7 +91,23 @@ public class PlayerInfo
 		{
 			if (string.IsNullOrEmpty(name))
 			{
-				return gameObject.name;
+				if (Mind != null)
+				{
+					return Mind.name;
+				}
+
+				if (RequestedCharacterSettings != null)
+				{
+					return RequestedCharacterSettings.Name;
+				}
+
+				if (gameObject != null)
+				{
+					return gameObject.name;
+				}
+
+				return "OH you shouldn't have this name!";
+
 			}
 			return name;
 		}
@@ -140,6 +158,11 @@ public class PlayerInfo
 
 		string uniqueName = GetUniqueName(playerName, UserId);
 		name = uniqueName;
+	}
+
+	public void SetMind(Mind InMind)
+	{
+		Mind = InMind;
 	}
 
 	/// <summary>

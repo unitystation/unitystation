@@ -88,7 +88,7 @@ namespace HealthV2
 
 			if (checkPlayerScript.HasComponent && checkPlayerScript.Component.mind != null)
 			{
-				spawned.GameObject.GetComponent<PlayerScript>().mind = checkPlayerScript.Component.mind;
+				spawned.GameObject.GetComponent<PlayerScript>().SetMind(checkPlayerScript.Component.mind);
 
 				var connection = checkPlayerScript.Component.connectionToClient;
 				PlayerSpawn.ServerTransferPlayerToNewBody(connection, checkPlayerScript.Component.mind,

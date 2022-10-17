@@ -27,6 +27,12 @@ public abstract class Interaction
 	/// <summary>Intent of the player for this interaction.</summary>
 	public Intent Intent { get; protected set; }
 
+	//The common components on the performer. replacement for PlayerScript And to get component
+	public CommonComponents PerformerComponents  { get; protected set; }
+
+	//The character that is Performing this operation
+	public Mind PerformerMind  { get; protected set; }
+
 	/// <param name="performer">The gameobject of the player performing the interaction</param>
 	/// <param name="usedObject">Object that is being used by the player to perform the interaction.
 	///  For example...
@@ -34,14 +40,16 @@ public abstract class Interaction
 	/// For combine - object that was dragged to another slot.
 	/// For activate - the object being activated
 	/// For mouse drop - the object being dragged and dropped.</param>
-	public Interaction(GameObject performer, GameObject usedObject, Intent intent)
+	public Interaction(GameObject performer, GameObject usedObject, Intent intent, Mind InPerformerMind)
 	{
 		Performer = performer;
 		UsedObject = usedObject;
 		Intent = intent;
+		PerformerMind = InPerformerMind;
 
 		if (performer != null)
 		{
+			PerformerComponents = performer.GetComponent<CommonComponents>();
 			PerformerPlayerScript = performer.GetComponent<PlayerScript>();
 		}
 	}

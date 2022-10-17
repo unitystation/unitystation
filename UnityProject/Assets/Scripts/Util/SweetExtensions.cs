@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Security.Cryptography;
 using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using System.Text;
+using System.Threading.Tasks;
 using Items;
 using Messages.Server;
 
@@ -15,18 +15,18 @@ public static class SweetExtensions
 {
 	public static Pickupable PickupableOrNull(this GameObject go)
 	{
-		return go.OrNull()?.GetComponent<Pickupable>();
+		return go.OrNull().GetComponent<Pickupable>();
 	}
 
 	public static bool TryGetPlayer(this GameObject gameObject, out PlayerInfo player)
 	{
-		player = PlayerList.Instance?.Get(gameObject);
+		player = PlayerList.Instance.OrNull()?.Get(gameObject);
 		return player != null;
 	}
 
 	public static PlayerInfo Player(this GameObject go)
 	{
-		var connectedPlayer = PlayerList.Instance?.Get(go);
+		var connectedPlayer = PlayerList.Instance.OrNull()?.Get(go);
 		return connectedPlayer == PlayerInfo.Invalid ? null : connectedPlayer;
 	}
 	public static ItemAttributesV2 Item(this GameObject go)
@@ -93,27 +93,53 @@ public static class SweetExtensions
 		return list?.Count > 0 ? list.PickRandom() : default(T);
 	}
 
-	public static uint NetId(this GameObject go)
+	public static GameObject NetIdToGameObject(this uint NetID)
+	{
+		if ( NetID != global::NetId.Invalid && NetID != global::NetId.Empty && CustomNetworkManager.Spawned.TryGetValue(NetID, out var Object  ))
+		{
+			return Object.gameObject;
+		}
+		else
+		{
+			return null;
+		}
+
+	}
+
+	public static NetworkIdentity NetWorkIdentity(this GameObject go)
 	{
 		if (go)
 		{
 			go.TryGetComponent<Matrix>(out var matrix);
 			if (matrix)
 			{
-				return matrix.NetworkedMatrix.MatrixSync.netId;
+				return matrix.NetworkedMatrix.MatrixSync.netIdentity;
 			}
 			else
 			{
 				matrix = go.GetComponentInChildren<Matrix>();
 				if (matrix != null)
 				{
-					return matrix.NetworkedMatrix.MatrixSync.netId;
+					return matrix.NetworkedMatrix.MatrixSync.netIdentity;
 				}
 				else
 				{
-					return go.GetComponent<NetworkIdentity>().netId;
+					return go.GetComponent<NetworkIdentity>();
 				}
 			}
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	public static uint NetId(this GameObject go)
+	{
+		var net = NetWorkIdentity(go);
+		if (go)
+		{
+			return net.netId;
 		}
 		else
 		{
@@ -155,7 +181,7 @@ public static class SweetExtensions
 	/// Creates garbage! Use very sparsely!
 	public static RegisterTile RegisterTile(this GameObject go)
 	{
-		return go.GetComponent<RegisterTile>();
+		return go.OrNull()?.GetComponent<RegisterTile>();
 	}
 
 	/// Wraps provided index value if it's more than array length or is negative
@@ -512,7 +538,7 @@ public static class SweetExtensions
 		}
 
 		return Mathf.Approximately(a.b, b.b) &&
-			   Mathf.Approximately(a.r, b.r) &&
+		       Mathf.Approximately(a.r, b.r) &&
 		       Mathf.Approximately(a.g, b.g);
 	}
 	public static string Truncate(this string value, int maxLength)
@@ -559,6 +585,39 @@ public static class SweetExtensions
 	public static string GetStack(this Exception source)
 	{
 		return $"{source.Message}\n{source.StackTrace}";
+	}
+
+	/// <summary>
+	/// Invokes the given action with the task result when it finishes.
+	/// The action is invoked from the same thread as where the task was initialised.
+	/// </summary>
+	public static Task Then(this Task task, Action<Task> callback)
+	{
+		return task.ContinueWith(callback, TaskScheduler.FromCurrentSynchronizationContext());
+	}
+
+	///<inheritdoc cref="Then(Task, Action{Task})"/>
+	public static Task Then<T>(this Task<T> task, Action<Task<T>> callback)
+	{
+		return task.ContinueWith(callback, TaskScheduler.FromCurrentSynchronizationContext());
+	}
+
+	/// <summary>
+	/// Logs any exceptions a task might throw, handling any <c>AggregateException</c>s.
+	/// </summary>
+	public static void LogFaultedTask(this Task task, Category category = Category.Unknown)
+	{
+		if (task.IsFaulted == false) return;
+
+		var e = task.Exception?.GetBaseException();
+		// GetBaseException() does not seem to work for HttpRequestExceptions
+		for (int i = 0; i < 10; i++)
+		{
+			if (e?.InnerException == null) break;
+			e = e.InnerException;
+		}
+
+		Logger.LogError(e?.ToString(), category);
 	}
 
 	/// <summary>

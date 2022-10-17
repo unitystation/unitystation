@@ -16,6 +16,7 @@ using Initialisation;
 using Audio.Containers;
 using Managers;
 using Messages.Server;
+using Objects.Machines.ServerMachines.Communications;
 using Tilemaps.Behaviours.Layers;
 using UnityEngine.Profiling;
 using Player;
@@ -163,6 +164,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	[NonSerialized]
 	public bool DisconnectExpected = false;
+
+	public List<CommsServer> CommsServers = new List<CommsServer>();
 
 	void IInitialise.Initialise()
 	{
@@ -521,9 +524,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		foreach (var readyPlayer in PlayerList.Instance.ReadyPlayers)
 		{
-			if (readyPlayer.CharacterSettings?.AntagPreferences == null) continue;
+			if (readyPlayer.RequestedCharacterSettings?.AntagPreferences == null) continue;
 
-			foreach (var antagPreference in readyPlayer.CharacterSettings.AntagPreferences)
+			foreach (var antagPreference in readyPlayer.RequestedCharacterSettings.AntagPreferences)
 			{
 				//Only record enabled antags
 				if (antagPreference.Value == false) continue;

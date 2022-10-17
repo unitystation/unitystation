@@ -198,4 +198,10 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 			enterTileBase.OnPlayerStep(playerScript);
 		}
 	}
+
+
+	public void OnDestroy()
+	{
+		Logger.LogError($" Ghost was destroyed {this.name} with {this.GetComponent<Mind>().CurrentCharacterSettings.Name}");
+	}
 }

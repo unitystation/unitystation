@@ -473,9 +473,6 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 
 				InternalSynchronisingContainedInventorys.Remove(bodyPartUISlots);
 			}
-
-			bodyPartUISlots.RelatedStorage.ServerInventoryItemSlotSet -= InventoryChange;
-
 			foreach (var item in bodyPartUISlots.RelatedStorage.GetItemSlots())
 			{
 				item.OnSlotContentsChangeServer.RemoveListener(PassthroughContentsChangeServer);
@@ -586,8 +583,6 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 
 
 		bodyPartUISlots.RelatedStorage.SetRegisterPlayer(registerPlayer);
-
-		bodyPartUISlots.RelatedStorage.ServerInventoryItemSlotSet += InventoryChange;
 		foreach (var item in bodyPartUISlots.RelatedStorage.GetItemSlots())
 		{
 			item.OnSlotContentsChangeServer.AddListener(PassthroughContentsChangeServer);
@@ -1122,34 +1117,6 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 	}
 
 	#endregion
-
-
-	private void InventoryChange(Pickupable RemovedObject, Pickupable AddedObject)
-	{
-		if (AddedObject != null)
-		{
-			var ItemStorage = AddedObject.GetComponent<InteractableStorage>()?.ItemStorage;
-			if (ItemStorage != null)
-			{
-				foreach (var Observer in Observers)
-				{
-					ItemStorage.ServerAddObserverPlayer(Observer);
-				}
-			}
-		}
-
-		if (RemovedObject != null)
-		{
-			var ItemStorage = RemovedObject.GetComponent<InteractableStorage>()?.ItemStorage;
-			if (ItemStorage != null)
-			{
-				foreach (var Observer in Observers)
-				{
-					ItemStorage.ServerRemoveObserverPlayer(Observer);
-				}
-			}
-		}
-	}
 
 	/// <summary>
 	/// Ensure players can see inventory changes/Interact with storage

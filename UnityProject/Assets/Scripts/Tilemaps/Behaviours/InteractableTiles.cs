@@ -259,11 +259,11 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 				if(tile.LayerType != layerType) continue;
 
 				// If the the tile is something that's supposed to be underneath floors...
-				if (FindLayerInteraction(interaction, localPosition, layerType)) return true;
+				if (FindLayerInteraction(interaction, localPosition, layerType, interaction.PerformerMind)) return true;
 				break;
 			}
 
-			var tileApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent,
+			var tileApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent, interaction.PerformerMind,
 				(Vector2Int) localPosition, this, basicTile, interaction.HandSlot, interaction.TargetPosition);
 
 			return TryInteractWithTile(tileApply);
@@ -272,7 +272,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		return false;
 	}
 
-	private bool FindLayerInteraction(PositionalHandApply interaction, Vector3Int localPosition, LayerType layer)
+	private bool FindLayerInteraction(PositionalHandApply interaction, Vector3Int localPosition, LayerType layer, Mind inMind)
 	{
 		// Then we loop through each under floor layer in the matrix until we
 		// can find an interaction.
@@ -298,7 +298,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 			// at the target.
 			else
 			{
-				var underFloorApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent,
+				var underFloorApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent, interaction.PerformerMind,
 					(Vector2Int)localPosition, this, underFloorTile, interaction.HandSlot, interaction.TargetPosition);
 
 				if (TryInteractWithTile(underFloorApply))
@@ -397,7 +397,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 
 	//for internal IF2 usages only, does server side logic for processing tileapply
 	public void ServerProcessInteraction(GameObject performer, Vector2 TargetPosition,  GameObject processorObj,
-			ItemSlot usedSlot, GameObject usedObject, Intent intent, TileApply.ApplyType applyType)
+			ItemSlot usedSlot, GameObject usedObject, Intent intent, Mind inMind, TileApply.ApplyType applyType)
 	{
 		//find the indicated tile interaction
 		var worldPosTarget = (Vector2)TargetPosition.To3().ToWorld(performer.RegisterTile().Matrix);
@@ -414,24 +414,24 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 			switch (basicTile.LayerType)
 			{
 				case LayerType.Underfloor:
-					TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, applyType, localPosition,
+					TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, inMind, applyType, localPosition,
 						LayerType.Underfloor);
 					break;
 				case LayerType.Electrical:
-					TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, applyType, localPosition,
+					TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, inMind, applyType, localPosition,
 						LayerType.Electrical);
 					break;
 				case LayerType.Pipe:
-					TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, applyType, localPosition,
+					TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, inMind, applyType, localPosition,
 						LayerType.Pipe);
 					break;
 				case LayerType.Disposals:
-					TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, applyType, localPosition,
+					TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, inMind, applyType, localPosition,
 						LayerType.Disposals);
 					break;
 				default:
 				{
-					var tileApply = new TileApply(performer, usedObject, intent, (Vector2Int) localPosition,
+					var tileApply = new TileApply(performer, usedObject, intent, inMind, (Vector2Int) localPosition,
 						this, basicTile, usedSlot, TargetPosition, applyType);
 
 					PerformTileInteract(tileApply);
@@ -442,12 +442,12 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 	}
 
 	private void TryLayerInteraction(GameObject performer, Vector2 TargetPosition, ItemSlot usedSlot, GameObject usedObject,
-		Intent intent, TileApply.ApplyType applyType, Vector3Int localPosition, LayerType layer)
+		Intent intent, Mind inMind, TileApply.ApplyType applyType, Vector3Int localPosition, LayerType layer)
 	{
 		foreach (var underFloorTile in matrix.MetaTileMap.GetAllTilesByType<BasicTile>(localPosition, layer))
 		{
 			var underFloorApply = new TileApply(
-				performer, usedObject, intent, (Vector2Int)localPosition,
+				performer, usedObject, intent, inMind, (Vector2Int)localPosition,
 				this, underFloorTile, usedSlot, TargetPosition, applyType);
 
 			foreach (var tileInteraction in underFloorTile.TileInteractions)
@@ -499,8 +499,8 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 
 		if(tile is BasicTile basicTile)
 		{
-			var tileApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent, (Vector2Int)WorldToCell(interaction.ShadowWorldLocation), this, basicTile, null, interaction.ShadowWorldLocation.To3().ToLocal(interaction.Performer.RegisterTile().Matrix), TileApply.ApplyType.MouseDrop);
-			var tileMouseDrop = new TileMouseDrop(interaction.Performer, interaction.UsedObject, interaction.Intent, (Vector2Int)WorldToCell(interaction.ShadowWorldLocation), this, basicTile, interaction.ShadowWorldLocation.To3().ToLocal(interaction.Performer.RegisterTile().Matrix));
+			var tileApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent, interaction.PerformerMind, (Vector2Int)WorldToCell(interaction.ShadowWorldLocation), this, basicTile, null, interaction.ShadowWorldLocation.To3().ToLocal(interaction.Performer.RegisterTile().Matrix), TileApply.ApplyType.MouseDrop);
+			var tileMouseDrop = new TileMouseDrop(interaction.Performer, interaction.UsedObject, interaction.Intent,  interaction.PerformerMind, (Vector2Int)WorldToCell(interaction.ShadowWorldLocation), this, basicTile, interaction.ShadowWorldLocation.To3().ToLocal(interaction.Performer.RegisterTile().Matrix));
 			foreach (var tileInteraction in basicTile.TileInteractions)
 			{
 				if (tileInteraction == null) continue;

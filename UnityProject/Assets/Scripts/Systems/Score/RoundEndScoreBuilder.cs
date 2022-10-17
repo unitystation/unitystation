@@ -1,10 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
+using Doors;
+using Doors.Modules;
 using Managers;
 using Shared.Managers;
 
 namespace Systems.Score
 {
+	/// <summary>
+	/// Here is where all common entries are initialised once and where we check for extra stuff when the round ends.
+	/// </summary>
 	public partial class RoundEndScoreBuilder : SingletonManager<RoundEndScoreBuilder>
 	{
 		public override void Start()
@@ -21,7 +26,9 @@ namespace Systems.Score
 			ScoreMachine.AddNewScoreEntry(COMMON_SCORE_FOODMADE, "Meals Prepared", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Good);
 			ScoreMachine.AddNewScoreEntry(COMMON_SCORE_HOSTILENPCDEAD, "Hostile NPCs dead", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Good);
 			ScoreMachine.AddNewScoreEntry(COMMON_SCORE_HEALING, "Healing Done", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Good);
+			ScoreMachine.AddNewScoreEntry(COMMON_HUG_SCORE_ENTRY, "Hugs Given", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Good);
 			ScoreMachine.AddNewScoreEntry(COMMON_SCORE_FOODEATEN, "Food Eaten", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Weird);
+			ScoreMachine.AddNewScoreEntry(COMMON_TAIL_SCORE_ENTRY, "Tails Pulled", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Weird);
 			ScoreMachine.AddNewScoreEntry(COMMON_SCORE_EXPLOSION, "Number of explosions this round", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Weird);
 			ScoreMachine.AddNewScoreEntry(COMMON_SCORE_CLOWNABUSE, "Clown Abused", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Bad);
 		}
@@ -41,21 +48,55 @@ namespace Systems.Score
 				ScoreMachine.AddToScoreBool(MatrixManager.MainStationMatrix.Matrix.PresentPlayers.Any(crew =>
 					crew.PlayerScript.mind.occupation == captainOccupation), "captainWithHisShip");
 			}
-			//How many dead crew are there?
-			ScoreMachine.AddNewScoreEntry("deadCrew", "Dead Crew", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Bad);
-			ScoreMachine.AddToScoreInt(-PlayerList.Instance.AllPlayers.Count(playerbody => playerbody.Script.playerHealth.IsDead) * negativeModifer, "deadCrew");
+			//How many dead crew are there if there are more than two crewmembers?
+			if (PlayerList.Instance.AllPlayers.Count > 2)
+			{
+				ScoreMachine.AddNewScoreEntry("deadCrew", "Dead Crew", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Bad);
+				//We can get away with using expensive LINQ methods here at round end.
+				foreach (var player in PlayerList.Instance.AllPlayers.Where(player => player.Mind != null && player.Script != null))
+				{
+					ScoreMachine.AddToScoreInt(DEAD_CREW_SCORE * negativeModifer, "deadCrew");
+				}
+			}
 			//Who's the crew member with the worst overall health?
+			FindLowestHealthCrew();
+			//Are there any electrified doors on the station?
+			FindHarmfulDoors();
+		}
+
+		private static void FindLowestHealthCrew()
+		{
 			var lowestHealthCrewMemberNumber = 200f;
 			var lowestHealthCrewMemberName = "";
 			foreach (var alivePlayer in PlayerList.Instance.GetAlivePlayers())
 			{
+				if (alivePlayer.Script == null || alivePlayer.Script.playerHealth == null) continue;
+				if (alivePlayer.Script.playerHealth.OverallHealth > HURT_CREW_MINIMUM_SCORE) continue;
 				if (alivePlayer.Script.playerHealth.OverallHealth >= lowestHealthCrewMemberNumber) continue;
 				lowestHealthCrewMemberNumber = alivePlayer.Script.playerHealth.OverallHealth;
 				lowestHealthCrewMemberName = alivePlayer.Script.playerName;
 			}
+			if(string.IsNullOrEmpty(lowestHealthCrewMemberName)) return;
 			var lowestHealthWinner = $"{lowestHealthCrewMemberName} - {lowestHealthCrewMemberNumber}HP";
 			ScoreMachine.AddNewScoreEntry("worstBatteredCrewMemeber", "Crewmember with the lowest health", ScoreMachine.ScoreType.String, ScoreCategory.StationScore, ScoreAlignment.Bad);
 			ScoreMachine.AddToScoreString(lowestHealthWinner, "worstBatteredCrewMemeber");
+		}
+
+		private static void FindHarmfulDoors()
+		{
+			var numberOfDoors = 0;
+			foreach (var door in MatrixManager.MainStationMatrix.Objects.GetComponentsInChildren<DoorMasterController>())
+			{
+				foreach (var module in door.ModulesList)
+				{
+					if (module is ElectrifiedDoorModule { IsElectrified: true }) numberOfDoors++;
+				}
+			}
+
+			if (numberOfDoors == 0) return;
+			ScoreMachine.AddNewScoreEntry(COMMON_DOOR_ELECTRIC_ENTRY, "Doors Electrified",
+				ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Weird);
+			ScoreMachine.AddToScoreInt(numberOfDoors, COMMON_DOOR_ELECTRIC_ENTRY);
 		}
 
 		public void CalculateScoresAndShow()

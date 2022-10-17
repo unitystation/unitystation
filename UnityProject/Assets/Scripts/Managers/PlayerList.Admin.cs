@@ -27,6 +27,9 @@ public partial class PlayerList
 	private FileSystemWatcher mentorListWatcher;
 	private FileSystemWatcher WhiteListWatcher;
 	private HashSet<string> serverAdmins = new HashSet<string>();
+
+	public  HashSet<string> ServerAdmins => serverAdmins;
+
 	private HashSet<string> mentorUsers = new HashSet<string>();
 	private Dictionary<string, string> loggedInAdmins = new Dictionary<string, string>();
 	private Dictionary<string, string> loggedInMentors = new Dictionary<string, string>();
@@ -1006,8 +1009,8 @@ public partial class PlayerList
 		{
 			if (!player.Script.IsGhost)
 			{
-				PlayerSpawn.ServerGhost(player.Script.mind);
-				player.Script.mind.ghostLocked = true;
+				PlayerSpawn.ServerGhost(player.Mind);
+				player.Mind.ghostLocked = true;
 			}
 		}
 

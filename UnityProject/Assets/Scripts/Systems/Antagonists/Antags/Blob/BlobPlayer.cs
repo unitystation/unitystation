@@ -197,8 +197,7 @@ namespace Blob
 				return;
 			}
 
-			playerScript.mind.ghost = playerScript;
-			playerScript.mind.body = playerScript;
+			playerScript.mind.SetBody(playerScript);
 
 			overmindName = $"Overmind {Random.Range(1, 1001)}";
 

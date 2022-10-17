@@ -38,7 +38,7 @@ namespace InGameEvents
 		{
 			GiveGunToPlayer(player);
 
-			if (Random.Range(0, 100) < antagChance && player.Script.mind.IsAntag == false)
+			if (Random.Range(0, 100) < antagChance && player.Mind.IsAntag == false)
 			{
 				SetAsAntagSurvivor(player);
 			}

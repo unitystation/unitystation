@@ -27,9 +27,19 @@ namespace Systems.Ai
 		[SerializeField]
 		private GameObject corePrefab = null;
 
+
+
 		[SyncVar(hook = nameof(SyncCore))]
 		//Ai core or card
-		private GameObject vesselObject;
+		private NetworkIdentity IDvesselObject;
+
+		private GameObject vesselObject
+		{
+			get => IDvesselObject.OrNull()?.gameObject;
+			set => SyncCore(IDvesselObject, value.NetWorkIdentity());
+		}
+
+
 		public GameObject VesselObject => vesselObject;
 
 		[SerializeField]
@@ -237,7 +247,7 @@ namespace Systems.Ai
 
 			Init();
 
-			SyncCore(vesselObject, vesselObject);
+			SyncCore(IDvesselObject, IDvesselObject);
 			SyncPowerState(hasPower, hasPower);
 			CmdSetVisibilityToOtherAis();
 		}
@@ -264,25 +274,25 @@ namespace Systems.Ai
 		/// This is only sync'd to the client which owns this object, due to setting on script
 		/// </summary>
 		[Client]
-		private void SyncCore(GameObject oldCore, GameObject newCore)
+		private void SyncCore(NetworkIdentity oldCore, NetworkIdentity newCore)
 		{
-			vesselObject = newCore;
-			if(newCore == null) return;
+			IDvesselObject = newCore;
+			if(vesselObject == null) return;
 
 			//Something weird with headless and local host triggering the sync even though its set to owner
 			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayerObject != gameObject) return;
 
 			Init();
 			aiUi.OrNull()?.SetUp(this);
-			coreCamera = newCore.GetComponent<SecurityCamera>();
+			coreCamera = vesselObject.GetComponent<SecurityCamera>();
 
 			//Reset location to core
 			CmdTeleportToCore();
 
-			isCarded = newCore.GetComponent<AiVessel>().IsInteliCard;
+			isCarded = vesselObject.GetComponent<AiVessel>().IsInteliCard;
 			if (isCarded == false)
 			{
-				ClientSetCameraLocation(newCore.transform);
+				ClientSetCameraLocation(vesselObject.transform);
 			}
 
 			//Ask server to force sync laws

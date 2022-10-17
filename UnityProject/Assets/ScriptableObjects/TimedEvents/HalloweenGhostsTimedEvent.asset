@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1234369d36f84bad8821b9a09e2ebcc5, type: 3}
+  m_Name: HalloweenGhostsTimedEvent
+  m_EditorClassIdentifier: 
+  Month: 10
+  DayOfMonthStart: 1
+  DayOfMonthEnd: 31
+  EventName: Halloween Ghosts
+  EventDesc: Don't wander around the station alone and don't ask where those fruit
+    baskets come from.
+  EventIcon: {fileID: 21300000, guid: 6021920a2a2096643909ec1593b7eeda, type: 3}
+  deleteWhenNotTime: 1
+  horrorsToSpawn:
+  - {fileID: 8283214133302398796, guid: 2b870ee0f0fe9594ba2c5df6911a53db, type: 3}
+  - {fileID: 368992209208273108, guid: adea9286cc4c6ba4ca33b962b5957481, type: 3}
+  - {fileID: 7777214355353534802, guid: 624abedc171278b4fa17a57208a7cfb6, type: 3}
+  - {fileID: 1347014707083616376, guid: 7c27d7d1b4a799443be8607b18849230, type: 3}
+  - {fileID: 3898940149716342643, guid: 7e30e8dfd3c201c40a8e44bed03e6570, type: 3}
+  - {fileID: 8283214133302398796, guid: 2b870ee0f0fe9594ba2c5df6911a53db, type: 3}
+  - {fileID: 8283214133302398796, guid: 2b870ee0f0fe9594ba2c5df6911a53db, type: 3}
+  - {fileID: 3891794331420956168, guid: 83772d2b0ee9c83478fa7d51322a20c2, type: 3}
+  - {fileID: 4955296975579916585, guid: 003bcc08bfd787c4c8e4d54d3e1aaed4, type: 3}
+  spawnPointCategory: 37
+  randomSpawnCount: {x: 1, y: 5}

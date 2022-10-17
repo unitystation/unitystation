@@ -26,5 +26,13 @@ namespace UI
 				{ChatChannel.Blob, ""}, //fa-bullseye
 				{ChatChannel.Alien, ""} //fa-sitemap
 			};
+
+		public static readonly Dictionary<string, string> ChangelogIcons = new()
+		{
+			{"FIX", ""}, //fa-wrench
+			{"IMPROVEMENT", ""}, //fa-hand-point-up
+			{"NEW", ""}, //fa-circle-plus
+			{"BALANCE","" } //fa-scale-balanced
+		};
 	}
 }

@@ -147,25 +147,6 @@ public class UprightSprites : MonoBehaviour, IMatrixRotation
 			}
 		}
 	}
-	//changes the rendered sprite in editor so its always upright
-#if UNITY_EDITOR
-	private void OnValidate()
-	{
-		if (spriteRenderers == null)
-			return;
-
-		if (Application.isEditor && !Application.isPlaying)
-		{
-			foreach (var spriteRenderer in spriteRenderers)
-			{
-				if (spriteRenderer == null) continue;
-				//reeeeee
-				//spriteRenderer.transform.rotation = Quaternion.identity;
-			}
-		}
-	}
-#endif
-
 }
 
 

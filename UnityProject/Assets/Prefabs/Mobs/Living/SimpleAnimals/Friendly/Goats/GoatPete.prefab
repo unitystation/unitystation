@@ -135,3 +135,38 @@ MonoBehaviour:
   onMilkedEmpty:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8035488229934791807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5092666089846311182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab91260447fa445e936d59ba0abdc464, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TipSO: {fileID: 11400000, guid: eb646ca04872733468148685a9a74fc0, type: 2}
+  saveID: 0
+  triggerOnce: 1
+  showEvenAfterDeath: 0
+  tipCooldown: 200
+  SearchRadius: 12
+  SearchCooldown: 6
+  MaskToCheck:
+    serializedVersion: 2
+    m_Bits: 256
+  tile: {fileID: 5133361542784664600}
+--- !u!114 &5133361542784664600 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2556078590467621575, guid: 8df46e8f4633f9e43ab5993c9075028e,
+    type: 3}
+  m_PrefabInstance: {fileID: 7225003947232659167}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5092666089846311182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

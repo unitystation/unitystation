@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Machines
 {
@@ -16,10 +17,12 @@ namespace Machines
 			public GameObject basicItem; //Basic item prefab used for when deconstructing mapped machines.
 
 			public int amountOfThisPart = 1; // Amount of that part
+
+			public int tier = -1;
 		}
 
 		public GameObject machine;// Machine which will be spawned
-		
+
 		//PM: Below is commented out because I've decided to make all the machines use appropriate machine board .prefabs instead of the blank board.
 		/*
 		public string NameOfCircuitBoard;

@@ -4,7 +4,7 @@ namespace Systems.Spells
 	{
 		protected override string FormatInvocationMessage(PlayerInfo caster, string modPrefix)
 		{
-			return string.Format(SpellData.InvocationMessage, caster.Name, caster.CharacterSettings.ThemPronoun(caster.Script));
+			return string.Format(SpellData.InvocationMessage, caster.Name, caster.Mind.CurrentCharacterSettings.ThemPronoun(caster.Script));
 		}
 		public override bool ValidateCast(PlayerInfo caster)
 		{
@@ -13,7 +13,7 @@ namespace Systems.Spells
 				return false;
 			}
 
-			if (!caster.Script.mind.IsMiming)
+			if (!caster.Mind.IsMiming)
 			{
 				Chat.AddExamineMsg(caster.GameObject, "You must dedicate yourself to silence first!");
 				return false;

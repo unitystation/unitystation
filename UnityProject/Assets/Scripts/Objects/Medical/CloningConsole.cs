@@ -82,6 +82,17 @@ namespace Objects.Medical
 			}
 		}
 
+
+		[RightClickMethod()]
+		[NaughtyAttributes.Button()]
+		public void CloneFirstRecord()
+		{
+
+			ServerTryClone(cloningRecords[0]);
+
+		}
+
+		[RightClickMethod()]
 		[NaughtyAttributes.Button()]
 
 		public void Scan()
@@ -169,7 +180,7 @@ namespace Objects.Medical
 
 		public void UpdateDisplay()
 		{
-			consoleGUI.UpdateDisplay();
+			consoleGUI.OrNull()?.UpdateDisplay();
 		}
 
 		public void RegisterConsoleGUI(GUI_Cloning guiCloning)

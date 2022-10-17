@@ -8,6 +8,7 @@ using Mirror;
 using System.Text.RegularExpressions;
 using IgnoranceTransport;
 using Managers;
+using UI.Systems.ServerInfoPanel.Models;
 
 namespace DatabaseAPI
 {
@@ -20,17 +21,17 @@ namespace DatabaseAPI
 	public partial class ServerData
 	{
 		private ServerConfig config;
+		private ServerMotdData motdData;
+		private string rulesData;
 		/// <summary>
 		/// The server config that holds the values
 		/// for your RCON and Unitystation HUB API connections
 		/// </summary>
-		public static ServerConfig ServerConfig
-		{
-			get
-			{
-				return Instance.config;
-			}
-		}
+		public static ServerConfig ServerConfig => Instance.config;
+
+		public static ServerMotdData MotdData => Instance.motdData;
+		public static string RulesData => Instance.rulesData;
+
 		private BuildInfo buildInfo;
 
 		private string hubCookie;
@@ -59,6 +60,24 @@ namespace DatabaseAPI
 			{
 				Logger.Log("No config found for Rcon and Server Hub connections", Category.DatabaseAPI);
 			}
+		}
+
+		private void LoadMotd()
+		{
+			var path = Path.Combine(Application.streamingAssetsPath, "config", "serverDesc.txt");
+			var content = File.Exists(path) ? File.ReadAllText(path) : null;
+			motdData = new ServerMotdData
+			{
+				ServerName = config.ServerName,
+				ServerDescription = content,
+				DiscordLink = config.DiscordLinkID
+			};
+		}
+
+		private void AttemptRulesLoad()
+		{
+			var path = Path.Combine(Application.streamingAssetsPath, "config", "serverRules.txt");
+			rulesData = File.Exists(path) ? File.ReadAllText(path) : null;
 		}
 
 		void MonitorServerStatus()
@@ -96,9 +115,22 @@ namespace DatabaseAPI
 				{
 					string s = req.GetResponseHeader("set-cookie");
 					hubCookie = s.Split(';') [0];
-					req = UnityWebRequest.Get("http://ipinfo.io/ip");
-					yield return req.SendWebRequest();
-					publicIP = Regex.Replace(req.downloadHandler.text, @"\t|\n|\r", "");
+					if (string.IsNullOrEmpty(config.PublicAddress) == false)
+					{
+						publicIP = config.PublicAddress;
+					}
+					else if (string.IsNullOrEmpty(config.BindAddress) == false)
+					{
+						publicIP = config.BindAddress;
+					}
+					else
+					{
+						req = UnityWebRequest.Get("http://ipinfo.io/ip");
+						yield return req.SendWebRequest();
+						// Regex: /\t|\n|\r/ = Matches Tab, Newline, or Carriage Return.
+						// Effectively, this line removes those three characters from the response body, assigning it to the publicIp variable.
+						publicIP = Regex.Replace(req.downloadHandler.text, @"\t|\n|\r", "");
+					}
 				}
 				else if (response.errorCode == 901)
 				{
@@ -217,6 +249,8 @@ namespace DatabaseAPI
 		public string RconPass;
 		public int RconPort;
 		public int ServerPort;
+		public string BindAddress;
+		public string PublicAddress;
 		//CertKey needed in the future for SSL Rcon
 		public string certKey;
 		public string HubUser;

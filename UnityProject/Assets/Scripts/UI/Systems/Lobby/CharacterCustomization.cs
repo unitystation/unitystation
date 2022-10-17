@@ -377,14 +377,7 @@ namespace UI.CharacterCreator
 				PlayerManager.CurrentCharacterSheet = currentCharacter;
 			}
 
-			PlayerHealthData SetRace = null;
-			foreach (var Race in RaceSOSingleton.Instance.Races)
-			{
-				if (Race.name == currentCharacter.Species)
-				{
-					SetRace = Race;
-				}
-			}
+			PlayerHealthData SetRace = currentCharacter.GetRaceSo();
 
 			if (SetRace == null)
 			{
@@ -1448,14 +1441,7 @@ namespace UI.CharacterCreator
 		private void RefreshRace()
 		{
 			raceText.text = currentCharacter.Species.ToString();
-
-			foreach (var Race in RaceSOSingleton.Instance.Races)
-			{
-				if (Race.name == currentCharacter.Species)
-				{
-					ThisSetRace = Race;
-				}
-			}
+			ThisSetRace = currentCharacter.GetRaceSo();
 		}
 
 		#endregion

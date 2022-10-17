@@ -19,9 +19,16 @@ using ScriptableObjects.Systems.Spells;
 /// </summary>
 public class Mind : MonoBehaviour
 {
+	public GameObject PossessingObject { get; private set; }
+	public IPlayerPossessable PlayerPossessable { get; private set; }
+
+
 	public Occupation occupation;
-	public PlayerScript ghost;
-	public PlayerScript body;
+
+
+
+	public PlayerScript ghost { private set; get; }
+	public PlayerScript body { private set; get; }
 	private SpawnedAntag antag;
 	public bool IsAntag => antag != null;
 	public bool IsGhosting;
@@ -32,6 +39,7 @@ public class Mind : MonoBehaviour
 	public ChatModifier inventorySpeechModifiers = ChatModifier.None;
 	// Current way to check if it's not actually a ghost but a spectator, should set this not have it be the below.
 
+	public CharacterSheet CurrentCharacterSettings;
 
 	public PlayerScript CurrentPlayScript => IsGhosting ? ghost : body;
 
@@ -86,7 +94,7 @@ public class Mind : MonoBehaviour
 	{
 		Spells.Clear();
 		ClearOldBody();
-		playerScript.mind = this;
+		playerScript.SetMind(this);
 		body = playerScript;
 		if(antag != null) SetAntag(antag);
 
@@ -117,7 +125,7 @@ public class Mind : MonoBehaviour
 		if (body)
 		{
 			ClearActionsMessage.SendTo(body.gameObject);
-			body.mind = null;
+			//body.mind = null;
 		}
 	}
 
@@ -129,6 +137,12 @@ public class Mind : MonoBehaviour
 		antag = newAntag;
 		ShowObjectives();
 		body.OrNull()?.GetComponent<PlayerOnlySyncValues>().OrNull()?.ServerSetAntag(true);
+	}
+
+	public void SetPossessingObject(GameObject obj)
+	{
+		PossessingObject = obj;
+		PlayerPossessable = obj.GetComponent<IPlayerPossessable>();
 	}
 
 	public void AddObjectiveToAntag(Objective objectiveToAdd)
@@ -164,13 +178,23 @@ public class Mind : MonoBehaviour
 	public void SetGhost(PlayerScript newGhost)
 	{
 		ghost = newGhost;
+		newGhost.SetMind(this);
 	}
+
+	public void SetBody(PlayerScript newBody)
+	{
+		body = newBody;
+		newBody.SetMind(this);
+	}
+
+
+
 
 	public void Ghosting(GameObject newGhost)
 	{
 		IsGhosting = true;
 		var PS = newGhost.GetComponent<PlayerScript>();
-		PS.mind = this;
+		PS.SetMind(this);
 		ghost = PS;
 	}
 

@@ -73,23 +73,6 @@ public static class PaletteGenerator
 						File.Delete(filePath);
 					}
 
-					// Build the tile
-					var tile = TileBuilder.CreateTile<ObjectTile>(LayerType.Objects);
-					var cast = AssetDatabase.LoadAssetAtPath(file.Substring(file.IndexOf("Assets", StringComparison.Ordinal) + 0), typeof(GameObject)) as GameObject;
-					tile.Rotatable = false;
-					tile.Offset = false;
-					tile.Object = cast;
-					tile.PreviewSprite = PreviewSpriteBuilder.GetSpriteWithoutSaving(cast);
-
-					TileBuilder.CreateAsset(tile, name, assetPath);
-
-					var pos = new Vector3Int(x, y, 0);
-
-					tilemap.SetEditorPreviewTile(pos, tile);
-					tilemap.SetTile(pos, tile);
-
-					EditorUtility.SetDirty(tile);
-
 					x++;
 				}
 

@@ -159,7 +159,7 @@ namespace Systems.GhostRoles
 			}
 			else
 			{
-				player.Script.mind.occupation = RoleData.TargetOccupation;
+				player.Mind.occupation = RoleData.TargetOccupation;
 				player.Script.playerNetworkActions.ServerRespawnPlayer();
 			}
 		}

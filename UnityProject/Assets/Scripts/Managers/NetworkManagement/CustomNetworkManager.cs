@@ -45,6 +45,9 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	/// </summary>
 	[NonSerialized] public UnityEvent OnClientDisconnected = new UnityEvent();
 
+	public static Dictionary<uint, NetworkIdentity> Spawned => IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+
+
 	public override void Awake()
 	{
 		if (IndexLookupSpawnablePrefabs.Count == 0)
@@ -164,13 +167,23 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			var telepathy = GetComponent<TelepathyTransport>();
 			if (telepathy != null)
 			{
-				telepathy.port = (ushort) config.ServerPort;
+				telepathy.port = (ushort)config.ServerPort;
 			}
 
 			var ignorance = GetComponent<Ignorance>();
 			if (ignorance != null)
 			{
-				ignorance.port = (ushort) config.ServerPort;
+				ignorance.port = (ushort)config.ServerPort;
+
+			}
+		}
+		if (string.IsNullOrEmpty(config.BindAddress) == false)
+		{
+			var ignorance = GetComponent<Ignorance>();
+			if (ignorance != null)
+			{
+				ignorance.serverBindsAll = false;
+				ignorance.serverBindAddress = config.BindAddress;
 			}
 		}
 	}
@@ -196,7 +209,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 		Dictionary<string, PrefabTracker> StoredIDs = new Dictionary<string, PrefabTracker>();
 
-		var networkObjectsGUIDs = AssetDatabase.FindAssets("t:prefab", new string[] {"Assets/Prefabs"});
+		var networkObjectsGUIDs = AssetDatabase.FindAssets("t:prefab", new string[] { "Assets/Prefabs" });
 		var objectsPaths = networkObjectsGUIDs.Select(AssetDatabase.GUIDToAssetPath);
 		foreach (var objectsPath in objectsPaths)
 		{
@@ -230,13 +243,13 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 					var Preexisting = StoredIDs[OriginalOldID];
 
 					if (Preexisting.ForeverID != OriginalOldID &&
-					    prefabTracker.ForeverID != OriginalOldID)
+						prefabTracker.ForeverID != OriginalOldID)
 					{
 						Logger.LogError("OH GOD What is the original I can't tell!! " +
-						                "Manually edit the ForeverID For the newly created prefab to not be the same as " +
-						                "the prefab variant parent for " +
-						                Preexisting.gameObject +
-						                " and " + prefabTracker.gameObject);
+										"Manually edit the ForeverID For the newly created prefab to not be the same as " +
+										"the prefab variant parent for " +
+										Preexisting.gameObject +
+										" and " + prefabTracker.gameObject);
 
 						prefabTracker.ForeverID = OriginalOldID;
 						Preexisting.ForeverID = OriginalOldID;

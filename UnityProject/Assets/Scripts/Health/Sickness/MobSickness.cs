@@ -74,8 +74,13 @@ namespace Health.Sickness
 			{
 				foreach (var sickness in sicknessAfflictions)
 				{
+					if(sickness.IsHealed) return;
+					if (sickness.Sickness.CheckForCureInHealth(MobHealth))
+					{
+						sickness.Heal();
+						return;
+					}
 					sickness.Sickness.SicknessBehavior(mobHealth);
-					if (sickness.Sickness.CheckForCureInHealth(MobHealth)) sickness.Heal();
 				}
 			}
 		}

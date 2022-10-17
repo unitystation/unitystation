@@ -109,6 +109,7 @@ public static class Cooldowns
 	/// <returns></returns>
 	public static bool IsOn(PlayerScript player, CooldownID cooldownId)
 	{
+		if (player.OrNull()?.Cooldowns == null) return false;
 		return player.Cooldowns.IsOn(cooldownId);
 	}
 

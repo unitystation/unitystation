@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
 using Util;
@@ -9,9 +10,6 @@ namespace Learning
 	public class ProtipObject : MonoBehaviour
 	{
 		public ProtipSO TipSO;
-
-		[SerializeField, Tooltip("Incase there are more than one Protip on a single item/object")]
-		private int saveID;
 		[SerializeField, Tooltip("Does this tip object only trigger once then saved as so?")]
 		private bool triggerOnce = true;
 
@@ -26,14 +24,26 @@ namespace Learning
 
 		private void Awake()
 		{
-			var saved = PlayerPrefs.GetString($"{gameObject.GetComponent<PrefabTracker>().ForeverID}/{saveID.ToString()}");
-			if(saved == "true" || TipSO == null) Destroy(this);
+			if (TipSO == null)
+			{
+				Logger.LogError("[ProtipObject] - Component missing tip data.");
+				Destroy(this);
+				return;
+			}
+			if(CheckSaveStatus()) Destroy(this);
+		}
+
+		private bool CheckSaveStatus()
+		{
+			var saved = ProtipManager.Instance.ProtipSaveStates.Any(x =>
+				x.Key == TipSO.TipTitle && x.Value == true);
+			return saved;
 		}
 
 		protected virtual bool TriggerConditions(GameObject triggeredBy)
 		{
 			//To avoid issues with NREs, Protips should only trigger if a PlayerScript exists.
-			if (PlayerManager.LocalPlayerScript == null) return false; 
+			if (PlayerManager.LocalPlayerScript == null) return false;
 			//triggeredBy check should only be null when you want a global protip incase of something like an event
 			if (triggeredBy != null && triggeredBy != PlayerManager.LocalPlayerScript.gameObject) return false;
 			if (isOnCooldown) return false;
@@ -46,10 +56,10 @@ namespace Learning
 		public void TriggerTip(GameObject triggeredBy = null)
 		{
 			if(TriggerConditions(triggeredBy) == false) return;
-			ProtipManager.Instance.ShowTip(TipSO.TipData.Tip, TipSO.TipData.ShowDuration, TipSO.TipData.TipIcon, TipSO.TipData.ShowAnimation);
+			ProtipManager.Instance.QueueTip(TipSO);
 			if (triggerOnce)
 			{
-				PlayerPrefs.SetString($"{gameObject.GetComponent<PrefabTracker>().ForeverID}/{saveID.ToString()}", "true");
+				PlayerPrefs.SetString($"{TipSO.TipTitle}", "true");
 				PlayerPrefs.Save();
 				return;
 			}
@@ -60,16 +70,15 @@ namespace Learning
 		public void TriggerTip(ProtipSO protipSo, GameObject triggeredBy = null)
 		{
 			if(TriggerConditions(triggeredBy) == false) return;
-			if(protipSo == null) 
+			if(protipSo == null)
 			{
 				Logger.LogError("Passed ProtipSO is null. Cannot trigger tip.");
 				return;
 			}
-			ProtipManager.Instance.ShowTip(protipSo.TipData.Tip, protipSo.TipData.ShowDuration, protipSo.TipData.TipIcon, protipSo.TipData.ShowAnimation);
-			if (triggerOnce)
+			ProtipManager.Instance.QueueTip(TipSO);
+			if (triggerOnce && ProtipManager.Instance.PlayerExperienceLevel > ProtipManager.ExperienceLevel.NewToSpaceStation)
 			{
-				PlayerPrefs.SetString($"{gameObject.GetComponent<PrefabTracker>().ForeverID}/{saveID.ToString()}", "true");
-				PlayerPrefs.Save();
+				ProtipManager.Instance.SaveTipState(protipSo.TipTitle);
 				return;
 			}
 

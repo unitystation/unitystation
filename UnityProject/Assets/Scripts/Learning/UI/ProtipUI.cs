@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -14,6 +13,8 @@ namespace Learning
 		[SerializeField] private bool isOnRightSide = false;
 
 		private bool isShown = false;
+		private ProtipSO currentTip;
+		private const float DEFAULT_DURATION = 25f;
 
 		public enum SpriteAnimation
 		{
@@ -27,14 +28,15 @@ namespace Learning
 			transform.localScale = Vector3.zero;
 		}
 
-		public void ShowTip(string tip, float showDuration = 25f, Sprite img = null, SpriteAnimation animation = SpriteAnimation.ROCKING)
+		public void ShowTip(ProtipSO tip)
 		{
+			var duration = tip.TipData.ShowDuration <= 0 ? tip.TipData.ShowDuration : DEFAULT_DURATION; //Incase whoever was setting the SO data forgot to set the duration.
 			StopAllCoroutines();
 			SetPositionInTransform();
-			tipText.text = tip;
-			if (img != null) tipImage.sprite = img;
-			StartCoroutine(TipShowCooldown(showDuration));
-			switch (animation)
+			tipText.text = tip.TipData.Tip;
+			if (tip.TipData.TipIcon != null) tipImage.sprite = tip.TipData.TipIcon;
+			StartCoroutine(TipShow(duration));
+			switch (tip.TipData.ShowAnimation)
 			{
 				case SpriteAnimation.ROCKING:
 					StartCoroutine(DoImageRockAnimations());
@@ -45,6 +47,7 @@ namespace Learning
 				default:
 					break;
 			}
+			currentTip = tip;
 		}
 
 		private void SetPositionInTransform()
@@ -52,14 +55,20 @@ namespace Learning
 			tipImage.transform.SetSiblingIndex(isOnRightSide ? 0 : 1);
 		}
 
-		private IEnumerator TipShowCooldown(float duration)
+		private IEnumerator TipShow(float duration)
 		{
 			LeanTween.scale(gameObject, Vector3.one, 1f).setEase(LeanTweenType.easeOutBounce);
 			isShown = true;
 			yield return WaitFor.Seconds(duration);
+			StartCoroutine(TipHide());
+		}
+
+		private IEnumerator TipHide()
+		{
 			isShown = false;
 			LeanTween.scale(gameObject, Vector3.zero, 0.7f).setEase(LeanTweenType.easeInBounce);
 			yield return WaitFor.Seconds(1.5f);
+			ProtipManager.Instance.IsShowingTip = false;
 			gameObject.SetActive(false);
 		}
 
@@ -89,6 +98,13 @@ namespace Learning
 				yield return WaitFor.Seconds(rockTime);
 				halfRockDone = !halfRockDone;
 			}
+		}
+
+		public void RememberTip()
+		{
+			ProtipManager.Instance.SaveTipState(currentTip.TipTitle);
+			StopCoroutine(nameof(ShowTip));
+			StartCoroutine(TipHide());
 		}
 	}
 }

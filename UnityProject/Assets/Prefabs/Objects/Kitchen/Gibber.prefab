@@ -11,9 +11,7 @@ GameObject:
   - component: {fileID: 4734668451131728}
   - component: {fileID: 61352393546771900}
   - component: {fileID: 114337780428805880}
-  - component: {fileID: 114180727939927124}
   - component: {fileID: 114320204715381500}
-  - component: {fileID: 2013712145609182859}
   - component: {fileID: 114681733432307198}
   - component: {fileID: 114847357675988776}
   - component: {fileID: 114226404326177330}
@@ -21,6 +19,9 @@ GameObject:
   - component: {fileID: 5968661892588253510}
   - component: {fileID: 4238427807304049795}
   - component: {fileID: 5213617630224009248}
+  - component: {fileID: 3105317194308617568}
+  - component: {fileID: 5063677512132550823}
+  - component: {fileID: 6408875560594918142}
   m_Layer: 11
   m_Name: Gibber
   m_TagString: Untagged
@@ -84,36 +85,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
---- !u!114 &114180727939927124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1058895993067106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InitialVendorContent: []
-  HullColor: {r: 1, g: 1, b: 1, a: 1}
-  EjectObjects: 0
-  EjectDirection: 0
-  VendingSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/MachineVend.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  restockMessage: Items restocked.
-  noAccessMessage: Access denied!
-  isEmagged: 0
-  VendorContent: []
-  ActualCurrentPowerState: 2
-  DoesntRequirePower: 0
 --- !u!114 &114320204715381500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,26 +102,12 @@ MonoBehaviour:
   matrixDebugLogging: 0
   objectType: 1
   prefabTracker: {fileID: 0}
-  CurrentsortingGroup: {fileID: 0}
+  CurrentsortingGroup: {fileID: 6408875560594918142}
   AtmosPassable: 1
   ReachableThrough: 1
   initialPassable: 0
   initialCrawlPassable: 0
   passableExclusionsToThis: []
---- !u!114 &2013712145609182859
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1058895993067106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetTabType: 0
-  aiInteractable: 1
 --- !u!114 &114681733432307198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,7 +158,9 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    Anomaly: 0
     DismembermentProtectionChance: 0
+    StunImmunity: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -214,7 +173,6 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  Meleeable: {fileID: 0}
 --- !u!114 &114226404326177330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,20 +259,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  SnapToGridOnStart: 0
+  DEBUG: 0
+  SnapToGridOnStart: 1
   LocalTargetPosition: {x: 0, y: 0, z: 0}
-  TileMoveSpeed: 1
-  isNotPushable: 0
-  newtonianMovement: {x: 0, y: 0}
+  ChangesDirectionPush: 0
+  Intangible: 0
+  CanBeWindPushed: 1
+  IsPlayer: 0
+  InitialLocationSynchronised: 0
+  tileMoveSpeed: 1
+  isNotPushable: 1
+  HasOwnGravity: 0
   airTime: 0
   slideTime: 0
+  SetIgnoreSticky: 0
   thrownBy: {fileID: 0}
   aim: 0
   spinMagnitude: 0
+  ForcedPushedFrame: 0
+  TryPushedFrame: 0
+  PushedFrame: 0
+  FramePushDecision: 1
   stickyMovement: 0
+  OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
   onStationMovementsRound: 0
-  attributes: {fileID: 0}
   registerTile: {fileID: 0}
   ContextGameObjects:
   - {fileID: 0}
@@ -324,15 +293,62 @@ MonoBehaviour:
   CorrectingCourse: 0
   Pushing: []
   Hits: []
-  Speed: 1
-  AIR: 3
-  SLIDE: 4
   Animating: 0
-  IsFlyingSliding: 0
+  isFlyingSliding: 0
   IsMoving: 0
-  IsWalking: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
+  BuckledToObject: {fileID: 0}
+--- !u!114 &3105317194308617568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1058895993067106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2445ad210b53487c825be2d84fbbf55a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  storage: {fileID: 5063677512132550823}
+  physics: {fileID: 5213617630224009248}
+  machineIntegrity: {fileID: 114847357675988776}
+  timeToGib: 16
+  produceMultiplier: 4
+  powerUseWhenActive: 1000
+  damagePerFrame: 20
+  defaultProduce: {fileID: 8959477194135024070, guid: 55924b0ca337c6d4fbed9f36a57d2c73,
+    type: 3}
+  lights: {fileID: 1423956099690816269}
+  lightsoff: {fileID: 11400000, guid: 3ba66c1c2edeefc4c9923c4797c950f6, type: 2}
+  lightson: {fileID: 11400000, guid: 5bd7bee259df77646b90cecefda5c9f5, type: 2}
+--- !u!114 &5063677512132550823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1058895993067106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b69764f5a0c65e247b0ecdf6e2d40c8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialContents: {fileID: 0}
+  spawnContentsAtRoundstart: 0
+  registerTile: {fileID: 114320204715381500}
+--- !u!210 &6408875560594918142
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1058895993067106}
+  m_Enabled: 1
+  m_SortingLayerID: -1463207863
+  m_SortingLayer: 13
+  m_SortingOrder: -10000
 --- !u!1 &1367537609961248
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,7 +359,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4750760761582042}
   - component: {fileID: 212763161924426436}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -427,7 +443,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4806074112643788}
   - component: {fileID: 212160123046372972}
-  m_Layer: 0
+  - component: {fileID: 1423956099690816269}
+  m_Layer: 11
   m_Name: kitchen_19
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -501,3 +518,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1423956099690816269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688959847507878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: 3ba66c1c2edeefc4c9923c4797c950f6, type: 2}
+  randomInitialSprite: 0
+  doReverseAnimation: 0
+  pushTextureOnStartUp: 1
+  initialVariantIndex: 0
+  palette: []

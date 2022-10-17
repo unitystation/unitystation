@@ -33,21 +33,6 @@ public class ObjectLayer : Layer
 			return ClientObjects;
 		}
 	}
-
-	public override void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix, Color color)
-	{
-		ObjectTile objectTile = tile as ObjectTile;
-
-		if (objectTile)
-		{
-			//hack to expand bounds when placing items in editor
-			base.InternalSetTile(position, tile);
-			base.InternalSetTile(position, null);
-
-			objectTile.SpawnObject(position, tilemap, transformMatrix);
-		}
-	}
-
 	public bool HasObject(Vector3Int position, bool isServer)
 	{
 		return GetTileList(isServer).HasObjects(position);

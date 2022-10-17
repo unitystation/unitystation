@@ -9,7 +9,7 @@ using UnityEngine;
 public class PositionalHandApply : HandApply
 {
 	private static readonly PositionalHandApply Invalid
-			= new PositionalHandApply(null, null, null, Vector2.zero, null, Intent.Help, BodyPartType.None, false);
+			= new PositionalHandApply(null, null, null, Vector2.zero, null, Intent.Help, null , BodyPartType.None, false);
 
 	/// <summary>Target position, the Local position that the performer is pointing at</summary>
 	public Vector2 TargetPosition { get; protected set; }
@@ -18,7 +18,7 @@ public class PositionalHandApply : HandApply
 	public Vector2 TargetVector => WorldPositionTarget.To3() - Performer.RegisterTile().WorldPosition;
 
 	/// <summary>Target world position calculated from matrix local position.</summary>
-	public Vector2 WorldPositionTarget => (Vector2) TargetPosition.To3().ToWorld(Performer.RegisterTile().Matrix);
+	public Vector2 WorldPositionTarget => (Vector2) TargetPosition.To3().ToWorld(Performer.OrNull()?.RegisterTile().OrNull()?.Matrix);
 
 	/// <param name="performer">The gameobject of the player performing the drop interaction</param>
 	/// <param name="handObject">Object in the player's active hand. Null if player's hand is empty.</param>
@@ -26,8 +26,8 @@ public class PositionalHandApply : HandApply
 	/// <param name="targetObject">Object that the player clicked on</param>
 	/// <param name="handSlot">active hand slot that is being used.</param>
 	private PositionalHandApply(GameObject performer, GameObject handObject, GameObject targetObject, Vector2 targetPosition,
-		ItemSlot handSlot, Intent intent, BodyPartType targetBodyPart, bool isAltClick) :
-		base(performer, handObject, targetObject, targetBodyPart, handSlot, intent, isAltClick)
+		ItemSlot handSlot, Intent intent, Mind inMind, BodyPartType targetBodyPart, bool isAltClick) :
+		base(performer, handObject, targetObject, targetBodyPart, handSlot, intent, inMind, isAltClick)
 	{
 		TargetPosition = targetPosition;
 	}
@@ -52,6 +52,7 @@ public class PositionalHandApply : HandApply
 				targePosition,
 				PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(),
 				UIManager.CurrentIntent,
+				PlayerManager.LocalPlayerScript.mind,
 				UIManager.DamageZone,
 				KeyboardInputManager.IsAltActionKeyPressed());
 	}
@@ -70,8 +71,8 @@ public class PositionalHandApply : HandApply
 	/// the message processing logic. Should match SentByPlayer.Script.playerNetworkActions.activeHand.</param>
 	/// <returns>a hand apply by the client, targeting the specified object with the item in the active hand</returns>
 	public static PositionalHandApply ByClient(GameObject clientPlayer, GameObject handObject, GameObject targetObject,
-			Vector2 TargetPosition, ItemSlot handSlot, Intent intent, BodyPartType targetBodyPart, bool isAltClick)
+			Vector2 TargetPosition, ItemSlot handSlot, Intent intent, Mind inMind, BodyPartType targetBodyPart, bool isAltClick)
 	{
-		return new PositionalHandApply(clientPlayer, handObject, targetObject, TargetPosition, handSlot, intent, targetBodyPart, isAltClick);
+		return new PositionalHandApply(clientPlayer, handObject, targetObject, TargetPosition, handSlot, intent, inMind, targetBodyPart, isAltClick);
 	}
 }

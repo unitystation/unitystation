@@ -43,9 +43,9 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	public ItemAttributesV2 ItemAttributesV2;
 
-	public event Action OnMoveToPlayerInventory;
+	public event Action<GameObject> OnMoveToPlayerInventory;
 
-	
+
 	#region Lifecycle
 
 	private void Awake()
@@ -170,6 +170,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		//Start the animation on the server and clients.
 		PickupAnim(interaction.Performer.gameObject);
 		RpcPickupAnimation(interaction.Performer.gameObject);
+		OnMoveToPlayerInventory?.Invoke(interaction.Performer);
 		yield return WaitFor.Seconds(pickupAnimSpeed);
 
 		//Make sure that the object is scaled back to it's original size.
@@ -213,7 +214,6 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	private void PickupAnim(GameObject interactor)
 	{
-		OnMoveToPlayerInventory?.Invoke();
 		LeanTween.move(gameObject, interactor.transform, pickupAnimSpeed);
 		LeanTween.scale(gameObject, new Vector3(0, 0), pickupAnimSpeed);
 	}
@@ -225,6 +225,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		if (interactor == null) return;
 
 		PickupAnim(interactor);
+		if(CustomNetworkManager.IsServer == false) OnMoveToPlayerInventory?.Invoke(interactor);
 	}
 
 	[ClientRpc]

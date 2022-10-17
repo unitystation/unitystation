@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Items;
 using Messages.Client.DevSpawner;
 using UI.Systems.AdminTools.DevTools.Search;
@@ -184,14 +185,22 @@ public class DevSpawnerListItemController : MonoBehaviour
 
 		if (CustomNetworkManager.IsServer)
 		{
-			Spawn.ServerPrefab(prefab, position);
+			var game = Spawn.ServerPrefab(prefab, position).GameObject;
+
+			if (game.TryGetComponent<Stackable>(out var Stackable) && GUI_DevSpawner.Instance.StackAmount != -1)
+			{
+				Stackable.ServerSetAmount(GUI_DevSpawner.Instance.StackAmount);
+			}
+
+
+
 			var player = PlayerManager.LocalPlayerObject.Player();
 			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
 					$"{player.Username} spawned a {prefab.name} at {position}", player.UserId);
 		}
 		else
 		{
-			DevSpawnMessage.Send(prefab, (Vector3) position);
+			DevSpawnMessage.Send(prefab, (Vector3) position, GUI_DevSpawner.Instance.StackAmount);
 		}
 	}
 }

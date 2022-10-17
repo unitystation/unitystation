@@ -34,13 +34,13 @@ public partial class PlayerList : NetworkBehaviour
 	public List<PlayerInfo> InGamePlayers => loggedIn.FindAll(player => player.Script != null);
 
 	public List<PlayerInfo> NonAntagPlayers =>
-		loggedIn.FindAll(player => player.Script.OrNull()?.mind  != null && !player.Script.mind.IsAntag);
+		loggedIn.FindAll(player => player?.Mind != null && !player.Mind.IsAntag);
 
 	public List<PlayerInfo> AntagPlayers =>
-		loggedIn.FindAll(player => player.Script.OrNull()?.mind != null && player.Script.mind.IsAntag);
+		loggedIn.FindAll(player => player?.Mind != null && player.Mind.IsAntag);
 
 	public List<PlayerInfo> AllPlayers =>
-		loggedIn.FindAll(player => (player.Script.OrNull()?.mind  != null || player.ViewerScript != null));
+		loggedIn.FindAll(player => (player?.Script.OrNull()?.mind  != null || player?.ViewerScript != null));
 
 	/// <summary>
 	/// Players in the pre-round lobby who have clicked the ready button and have up to date CharacterSettings
@@ -194,25 +194,17 @@ public partial class PlayerList : NetworkBehaviour
 			return player;
 		}
 
-		Logger.LogTrace($"Player {player.Username}'s client ID is: {player.ClientId} User ID: {player.UserId}.", Category.Connections);
-
-		var loggedOffClient = GetLoggedOffClient(player.ClientId, player.UserId);
-		if (loggedOffClient != null)
+		if (loggedOff.Contains(player))
 		{
-			Logger.LogTrace(
-					$"Player with account {player.UserId} already has a player object ({loggedOffClient.Name}). " +
-					$"Will update existing player instead of adding this new connected player.", Category.Connections);
-
-			if (loggedOffClient.GameObject == null)
-			{
-				Logger.LogWarning(
-						$"The existing ConnectedPlayer contains a null GameObject reference. Removing the entry.", Category.Connections);
-				loggedOff.Remove(loggedOffClient);
-				return player;
-			}
-
-			// Switching over to the old player's character is handled by JoinedViewer so don't need any extra logic.
+			loggedOff.Remove(player);
 		}
+
+		if (loggedIn.Contains(player))
+		{
+			return player;
+		}
+
+		Logger.LogTrace($"Player {player.Username}'s client ID is: {player.ClientId} User ID: {player.UserId}.", Category.Connections);
 
 		loggedIn.Add(player);
 		Logger.Log($"Player with account {player.UserId} has joined the game. Player count: {loggedIn.Count}.", Category.Connections);
@@ -251,6 +243,19 @@ public partial class PlayerList : NetworkBehaviour
 		if (index != -1)
 		{
 			return loggedOff[index];
+		}
+
+		return null;
+	}
+
+
+	[Server]
+	public PlayerInfo GetLoggedOnClient(string clientID, string userId)
+	{
+		var index = loggedIn.FindIndex(x => x.ClientId == clientID || x.UserId == userId);
+		if (index != -1)
+		{
+			return loggedIn[index];
 		}
 
 		return null;
@@ -619,7 +624,7 @@ public partial class PlayerList : NetworkBehaviour
 			// Update connection with locked in job prefs
 			if (charSettings != null)
 			{
-				player.CharacterSettings = charSettings;
+				player.RequestedCharacterSettings = charSettings;
 			}
 			else
 			{
@@ -686,16 +691,16 @@ public partial class PlayerList : NetworkBehaviour
 
 	public static bool HasAntagEnabled(PlayerInfo connectedPlayer, Antagonist antag)
 	{
-		if (connectedPlayer.CharacterSettings == null)
+		if (connectedPlayer.RequestedCharacterSettings == null)
 		{
 			if (connectedPlayer.Script.characterSettings == null) return false;
 
-			connectedPlayer.CharacterSettings = connectedPlayer.Script.characterSettings;
+			connectedPlayer.RequestedCharacterSettings = connectedPlayer.Script.characterSettings;
 		}
 
 		return !antag.ShowInPreferences ||
-		       (connectedPlayer.CharacterSettings.AntagPreferences.ContainsKey(antag.AntagName)
-		        && connectedPlayer.CharacterSettings.AntagPreferences[antag.AntagName]);
+		       (connectedPlayer.RequestedCharacterSettings.AntagPreferences.ContainsKey(antag.AntagName)
+		        && connectedPlayer.RequestedCharacterSettings.AntagPreferences[antag.AntagName]);
 	}
 }
 

@@ -13,6 +13,7 @@ namespace UI.Systems.EndRound
 	{
 		[SerializeField] private TMP_Text scoreSummary;
 		[SerializeField] private TMP_Text scoreResult;
+		[SerializeField] private TMP_Text ratingResult;
 
 
 		public void ShowScore(List<ScoreEntry> entries, int finalScore)
@@ -73,14 +74,27 @@ namespace UI.Systems.EndRound
 			ServerShowUIToClients.NetMessage msg = new ServerShowUIToClients.NetMessage();
 			msg.ScoreResult = scoreResult.text;
 			msg.ScoreSummary = scoreSummary.text;
+			ratingResult.text = RatePerformance(finalScore);
 			ServerShowUIToClients.SendToAll(msg);
 		}
 
-		public void SyncScore(string finalResult, string finalScore)
+		public void SyncScore(string finalResult, string finalScore, string finalRating)
 		{
 			scoreSummary.text = finalResult;
 			scoreResult.text = finalScore;
+			ratingResult.text = finalRating;
 			this.SetActive(true);
+		}
+
+		private string RatePerformance(int finalScore)
+		{
+			if (finalScore <= -1500) return "Expunge from records";
+			if (finalScore <= -1000) return "Singularity Fodder";
+			if (finalScore <= -500) return "Clown Station";
+			if (finalScore <= 0) return "Disaster";
+			if (finalScore.IsBetween(0, 500)) return "Decent Shift";
+			if (finalScore.IsBetween(500, 1000)) return "Net Profit";
+			return finalScore.IsBetween(1000, 1500) ? "Robust Station" : "N/A";
 		}
 	}
 
@@ -90,11 +104,12 @@ namespace UI.Systems.EndRound
 		{
 			public string ScoreSummary;
 			public string ScoreResult;
+			public string ScoreRating;
 		}
 
 		public override void Process(NetMessage msg)
 		{
-			UIManager.Instance.ScoreScreen.SyncScore(msg.ScoreSummary, msg.ScoreResult);
+			UIManager.Instance.ScoreScreen.SyncScore(msg.ScoreSummary, msg.ScoreResult, msg.ScoreRating);
 		}
 	}
 }

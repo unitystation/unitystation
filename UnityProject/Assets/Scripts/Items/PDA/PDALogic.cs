@@ -161,7 +161,7 @@ namespace Items.PDA
 		private void RegisterTo(PlayerInfo player)
 		{
 			RegisteredPlayerName = player.Script.playerName;
-			gameObject.name = $"{player.Script.playerName}'s PDA ({player.Script.mind.occupation.DisplayName})";
+			gameObject.name = $"{player.Script.playerName}'s PDA ({player.Mind.occupation.DisplayName})";
 			gameObject.Item().ServerSetArticleName(gameObject.name);
 		}
 

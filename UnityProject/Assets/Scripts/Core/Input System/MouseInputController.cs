@@ -462,7 +462,7 @@ public class MouseInputController : MonoBehaviour
 		}
 
 		//can't do anything if we have no item in hand
-		var handObj = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot()?.Item;
+		var handObj = PlayerManager.LocalPlayerScript.OrNull()?.DynamicItemStorage.OrNull()?.GetActiveHandSlot()?.Item;
 		if (handObj == null)
 		{
 			triggeredAimApply = null;

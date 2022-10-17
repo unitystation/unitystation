@@ -264,6 +264,11 @@ public class CharacterSheet
 		}
 	}
 
+	public PlayerHealthData GetRaceSo()
+	{
+		return RaceSOSingleton.Instance.Races.FirstOrDefault(x => x.name == Species);
+	}
+
 	#region StaticCustomizationFunctions
 
 	public static CharacterSheet GenerateRandomCharacter()
