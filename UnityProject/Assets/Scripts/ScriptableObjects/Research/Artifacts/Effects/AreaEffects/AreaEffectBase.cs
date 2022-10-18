@@ -39,7 +39,7 @@ namespace Systems.Research
 			}
 		}
 
-		protected virtual void TryEffectParts(PlayerScript toEffect)
+		protected virtual bool TryEffectParts(PlayerScript toEffect)
 		{
 			foreach (BodyPart part in toEffect.playerHealth.SurfaceBodyParts)
 			{
@@ -57,12 +57,13 @@ namespace Systems.Research
 				if (DMMath.Prob(50 - (totalAnomalyArmour /2)))
 				{
 					OnEffect(toEffect, part);
-					return;
+					return true;
 				}
 			}
+			return false;
 		}
 
-		protected virtual void TryEffectPlayer(PlayerScript toEffect)
+		protected virtual bool TryEffectPlayer(PlayerScript toEffect)
 		{
 			float totalAnomalyArmour = 0;
 			int partCount = 0;
@@ -88,7 +89,10 @@ namespace Systems.Research
 			if (DMMath.Prob(50 - (totalAnomalyArmour / 2)))
 			{
 				OnEffect(toEffect);
+				return true;
 			}
+
+			return false;
 		}
 
 		public virtual void OnEffect(PlayerScript player, BodyPart part = null)

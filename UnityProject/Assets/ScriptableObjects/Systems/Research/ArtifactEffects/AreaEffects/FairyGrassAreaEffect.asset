@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d64007678e2015b4b933077c0d0bba73, type: 3}
+  m_Name: FairyGrassAreaEffect
+  m_EditorClassIdentifier: 
+  GuessIndex: 16
+  overrideDormancy: 0
+  effectShapeType: 0
+  coolDown: 10
+  AuraRadius: 5
+  AllowBodySplitting: 0
+  objectsToSpawn:
+  - {fileID: 1562085630854840, guid: b42f29fdf022d7348adc26aab7e28b6d, type: 3}
+  tilesToSpawn:
+  - {fileID: 11400000, guid: 7a38e3056e12d754fa7e2537b8b399b1, type: 2}
+  objectChance: 2

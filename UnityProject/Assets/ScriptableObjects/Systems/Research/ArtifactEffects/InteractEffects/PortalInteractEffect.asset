@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0738ed7d624ee07499c761af791e7988, type: 3}
+  m_Name: PortalInteractEffect
+  m_EditorClassIdentifier: 
+  GuessIndex: 2
+  overrideDormancy: 0
+  acceptedItems:
+  - {fileID: 11400000, guid: ab59f71b2d708274ea51105b4c9ac177, type: 2}
+  acceptedItemMessages: []
+  emptyHandMessages: []
+  wrongItemMessages:
+  - The artifact appears dissapointed
+  despawnItemOnFeed: 1
+  consumedItemAmount: 1
+  delayOnSuccess: 5
+  portalPrefab: {fileID: 8203273891012608454, guid: 4cdadf799edf62e4e84d230dbb0dab3e,
+    type: 3}
+  maxTeleportDistance: 20
+  portalDuration: 30

@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f79c237d2ddf29f4dbaab876bbc96fb9, type: 3}
-  m_Name: StunEffectLarge
+  m_Name: ForcefieldAreaEffectB
   m_EditorClassIdentifier: 
-  GuessIndex: 1
-  effectShapeType: 1
-  coolDown: 15
-  AuraRadius: 15
+  GuessIndex: 13
+  effectShapeType: 3
+  coolDown: 50
+  AuraRadius: 2
   AllowBodySplitting: 0
-  StunDuration: 6
-  DropItems: 1
-  ArmourBlockable: 1
-  StopMovement: 1
+  obstructionPrefab: {fileID: 6455666744590586742, guid: 60abff55cf0ed704dbca354a14ffe757,
+    type: 3}
+  lifespan: 5

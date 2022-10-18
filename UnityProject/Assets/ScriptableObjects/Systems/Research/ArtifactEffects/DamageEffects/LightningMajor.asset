@@ -9,15 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f79c237d2ddf29f4dbaab876bbc96fb9, type: 3}
-  m_Name: StunEffectSmall
+  m_Script: {fileID: 11500000, guid: db6922aa7babc9b45989c419e22d9549, type: 3}
+  m_Name: LightningMajor
   m_EditorClassIdentifier: 
-  GuessIndex: 1
-  effectShapeType: 1
-  coolDown: 5
-  AuraRadius: 10
-  AllowBodySplitting: 0
-  StunDuration: 3
-  DropItems: 0
-  ArmourBlockable: 0
-  StopMovement: 1
+  GuessIndex: 3
+  isExplosive: 0
+  AreaEffectToTrigger: {fileID: 11400000, guid: 861f4cf73bd30624ab917832ddaa6a9b,
+    type: 2}

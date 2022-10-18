@@ -172,6 +172,8 @@ namespace Objects.Research
 				DamageEffect = ArtifactDataSO.DamageEffect[(int)chosenClass].DamageArtifactEffectList.PickRandom();
 			}
 
+			if (AreaEffect.overrideDormancy == true || DamageEffect.overrideDormancy == true || InteractEffect.overrideDormancy == true) isDormant = false;
+
 			artifactData.AreaEffectValue = AreaEffect.GuessIndex;
 			artifactData.InteractEffectValue = InteractEffect.GuessIndex;
 			artifactData.DamageEffectValue = DamageEffect.GuessIndex;
