@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d64007678e2015b4b933077c0d0bba73, type: 3}
+  m_Name: XenomorphTerraformAreaEffect
+  m_EditorClassIdentifier: 
+  GuessIndex: 15
+  <OverrideDormancy>k__BackingField: 1
+  effectShapeType: 3
+  coolDown: 5
+  AuraRadius: 5
+  AllowBodySplitting: 0
+  objectsToSpawn:
+  - {fileID: 5322418909914265045, guid: 9473c17e4e7f2f24d99f2d788030cd9f, type: 3}
+  - {fileID: 5322418909914265045, guid: 9473c17e4e7f2f24d99f2d788030cd9f, type: 3}
+  - {fileID: 5322418909914265045, guid: 9473c17e4e7f2f24d99f2d788030cd9f, type: 3}
+  - {fileID: 5322418909914265045, guid: 9473c17e4e7f2f24d99f2d788030cd9f, type: 3}
+  - {fileID: 8112290308338647059, guid: 4cfde8da62248f040935ab54584d6620, type: 3}
+  tilesToSpawn:
+  - {fileID: 11400000, guid: 6cf98c49e8db1c6499dfb5d832fefc13, type: 2}
+  - {fileID: 11400000, guid: 2b55386c030f24193bc289cd227a621e, type: 2}
+  objectChance: 5

@@ -9,11 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db6922aa7babc9b45989c419e22d9549, type: 3}
-  m_Name: Stun
+  m_Script: {fileID: 11500000, guid: 95a17330083b2ef41a238c55ed14ee9c, type: 3}
+  m_Name: StunMinor
   m_EditorClassIdentifier: 
-  GuessIndex: 2
+  GuessIndex: 1
   overrideDormancy: 0
-  isExplosive: 0
-  AreaEffectToTrigger: {fileID: 11400000, guid: 21a47c88cd215f24aa2433a3fbdb3d4a,
-    type: 2}
+  effectShapeType: 1
+  coolDown: 5
+  AuraRadius: 10
+  AllowBodySplitting: 0
+  StunDuration: 1
+  DropItems: 0
+  ArmourBlockable: 0
+  StopMovement: 1

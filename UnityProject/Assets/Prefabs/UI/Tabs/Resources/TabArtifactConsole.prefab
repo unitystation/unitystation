@@ -100,7 +100,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disableDrag: 0
-  resetPositionOnDisable: 0
 --- !u!114 &114385320989314586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2288,6 +2287,18 @@ MonoBehaviour:
     - m_Text: Oxygen Gas Formation
       m_Image: {fileID: 0}
     - m_Text: Oxygen Syphon
+      m_Image: {fileID: 0}
+    - m_Text: Artifact Sickness
+      m_Image: {fileID: 0}
+    - m_Text: Forcefield
+      m_Image: {fileID: 0}
+    - m_Text: Organic Terraform
+      m_Image: {fileID: 0}
+    - m_Text: Xenomorph Infection
+      m_Image: {fileID: 0}
+    - m_Text: Magical Terraform
+      m_Image: {fileID: 0}
+    - m_Text: Lavaland Terraform
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -9067,6 +9078,10 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: Localised Stun
       m_Image: {fileID: 0}
+    - m_Text: Lightning
+      m_Image: {fileID: 0}
+    - m_Text: Forcefield
+      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -9950,6 +9965,8 @@ MonoBehaviour:
     - m_Text: Metal to Gold
       m_Image: {fileID: 0}
     - m_Text: Metal to Plasma
+      m_Image: {fileID: 0}
+    - m_Text: Portal Materialisation
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:

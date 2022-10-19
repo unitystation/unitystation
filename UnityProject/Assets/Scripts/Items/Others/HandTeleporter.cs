@@ -115,10 +115,11 @@ namespace Items.Others
 			var entrance = Spawn.ServerPrefab(portalPrefab, worldPosEntrance);
 			if(entrance.Successful == false) return;
 
+			entrancePortal = entrance.GameObject.GetComponent<Portal>();
+
 			var exit = Spawn.ServerPrefab(portalPrefab, worldPosExit);
 			if(exit.Successful == false) return;
 
-			entrancePortal = entrance.GameObject.GetComponent<Portal>();
 			exitPortal = exit.GameObject.GetComponent<Portal>();
 
 			entrancePortal.SetNewPortal(exitPortal, emergency ? 30 : 300);
