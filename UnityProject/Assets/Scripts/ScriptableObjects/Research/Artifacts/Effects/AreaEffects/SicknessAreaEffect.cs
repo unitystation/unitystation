@@ -11,19 +11,19 @@ namespace Systems.Research
 	public class  SicknessAreaEffect : AreaEffectBase
 	{
 		[Tooltip("The sickness to infect nearby players with, uses index from SicknessManager")]
-		[SerializeField] private int sicknessindex;
+		[SerializeField] private GameObject sicknessToInfect;
 
 		public override void OnEffect(PlayerScript player, BodyPart part = null)
 		{
-			Sickness sicknessToInfect = SicknessManager.Instance.Sicknesses[sicknessindex];
+			if(sicknessToInfect.TryGetComponent<Sickness>(out var sickness) == false) return;
 
-			if (player.playerHealth.mobSickness.HasSickness(sicknessToInfect)) return;
+			if (player.playerHealth.mobSickness.HasSickness(sickness)) return;
 
-			SpawnResult spawnResult = Spawn.ServerPrefab(sicknessToInfect.gameObject);
+			SpawnResult spawnResult = Spawn.ServerPrefab(sicknessToInfect);
 
 			if (spawnResult.Successful == false || spawnResult.GameObject.TryGetComponent<Sickness>(out var newSick) == false) return;
 
-			SpawnResult sicknessResult = Spawn.ServerPrefab(sicknessToInfect.gameObject, Vector3.zero, player.gameObject.transform);
+			SpawnResult sicknessResult = Spawn.ServerPrefab(sicknessToInfect, Vector3.zero, player.gameObject.transform);
 
 			sicknessResult.GameObject.GetComponent<Sickness>().SetCure(newSick.CureForSickness);
 

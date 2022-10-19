@@ -29,18 +29,14 @@ namespace Systems.Research
 			LayerTile tileToPlace = tilesToSpawn.PickRandom();
 			LayerType typeToReplace = tileToPlace.LayerType;
 
-			bool successful = false;
-
 			if(typeToReplace == LayerType.Floors) typeToReplace = LayerType.Base; //Floors just need a base tile not a floor
 
-			if (matrixInfo.MetaTileMap.HasTile(localPos, typeToReplace))
-			{
-				successful = true;
-				matrixInfo.MetaTileMap.SetTile(localPos, tileToPlace);
-			}
-
+			if (matrixInfo.MetaTileMap.HasTile(localPos, typeToReplace) == false) return;
+			
+			matrixInfo.MetaTileMap.SetTile(localPos, tileToPlace);
+			
 			int rand = Random.Range(0, 100);
-			if(successful && rand <= objectChance && matrixInfo.MetaTileMap.IsAtmosPassableAt(localPos,true))
+			if(rand <= objectChance && matrixInfo.MetaTileMap.IsAtmosPassableAt(localPos,true))
 			{
 				GameObject objToSpawn = objectsToSpawn.PickRandom();
 				Spawn.ServerPrefab(objToSpawn, SpawnDestination.At(globalPos));

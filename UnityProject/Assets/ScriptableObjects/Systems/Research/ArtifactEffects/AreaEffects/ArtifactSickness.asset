@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: ArtifactSickness
   m_EditorClassIdentifier: 
   GuessIndex: 12
+  <OverrideDormancy>k__BackingField: 0
   effectShapeType: 3
   coolDown: 20
   AuraRadius: 10
   AllowBodySplitting: 0
-  sicknessindex: 7
+  sicknessToInfect: {fileID: 5548865049419815918, guid: 14788ac5033bd30469647a49050f3a27,
+    type: 3}

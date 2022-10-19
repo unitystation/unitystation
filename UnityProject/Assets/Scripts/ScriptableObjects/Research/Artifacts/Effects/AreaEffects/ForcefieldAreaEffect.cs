@@ -30,9 +30,7 @@ namespace Systems.Research
 				obstructions.Add(obstruction);
 			}
 
-			centeredAround.TryGetComponent<Artifact>(out var parentArtifact);
-
-			if (parentArtifact == null) return;
+			if(centeredAround.TryGetComponent<Artifact>(out var parentArtifact) == false) return;
 
 			parentArtifact.StartCoroutine(this.DespawnObstructions(obstructions));
 			
