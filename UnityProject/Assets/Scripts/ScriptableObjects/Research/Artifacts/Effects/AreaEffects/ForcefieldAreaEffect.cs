@@ -12,8 +12,10 @@ namespace Systems.Research
 		[SerializeField]
 		private GameObject obstructionPrefab = default;
 		[Tooltip("How long these obstructions last before disappearing.")]
-		[SerializeField, Range(1, 600)]
+		[SerializeField, Range(1, MAX_LIFESPAN)]
 		private int lifespan = 50;
+
+		private const int MAX_LIFESPAN = 600;
 
 		public override void DoEffectAura(GameObject centeredAround)
 		{

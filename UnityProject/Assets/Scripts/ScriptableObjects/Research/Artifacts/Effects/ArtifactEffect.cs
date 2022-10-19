@@ -19,7 +19,7 @@ namespace Systems.Research
 		[Tooltip("The index of the console option that relates to this")]
 		public int GuessIndex = 0;
 
-		[Tooltip("If true, artifacts with this effect will start awake regardless of setting on prefab")]
-		public bool overrideDormancy = false;
+		[field: SerializeField, Tooltip("If true, artifacts with this effect will start awake regardless of setting on prefab")]
+		public bool overrideDormancy { get; private set; } = false;
 	}
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Objects.Research;
 using Systems.Explosions;
@@ -14,6 +12,8 @@ namespace Systems.Research
 
 		[SerializeField] private int maxTeleportDistance = 20;
 		[SerializeField] private int portalDuration = 30;
+
+		private const int SPARK_COUNT = 3;
 
 		private Portal entrancePortal;
 
@@ -64,13 +64,13 @@ namespace Systems.Research
 			if (exitPortal != null) exitPortal.PortalDeath();
 
 			//Spark three times entrance
-			for (int i = 0; i < 2; i++)
+			for (int i = 0; i < SPARK_COUNT; i++)
 			{
 				SparkUtil.TrySpark(worldPosEntrance, expose: false);
 			}
 
 			//Spark three times exit
-			for (int i = 0; i < 2; i++)
+			for (int i = 0; i < SPARK_COUNT; i++)
 			{
 				SparkUtil.TrySpark(worldPosExit, expose: false);
 			}

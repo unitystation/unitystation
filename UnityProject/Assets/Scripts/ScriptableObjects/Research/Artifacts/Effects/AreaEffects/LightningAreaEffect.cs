@@ -50,25 +50,26 @@ namespace Systems.Research
 
 			for (int i = 0; i < shots; i++)
 			{
-				var target = GetTarget(objectsToShoot, doTeslaFirst: false);
+				var target = GetTarget(objectsToShoot);
 
 				if (target == null)
 				{
 					//If no target objects shoot random tile instead
 					var tPosition = EffectShape.CreateEffectShape(effectShapeType, position, AuraRadius).PickRandom();
-					Zap(centeredAround, null, Random.Range(1, 3), tPosition);
+					Zap(centeredAround, null, Random.Range(1, shots), tPosition);
 				}
 				else
-				{ 
-					if(target.TryGetComponent<PlayerScript>(out var player))
-					{ 
-						if(base.TryEffectPlayer(player))
-						{
-							Zap(centeredAround, target, Random.Range(1, 3));
-						}
-						
+				{
+					target.TryGetComponent<PlayerScript>(out var player);
+
+					if (player != null && base.TryEffectPlayer(player))
+					{
+						Zap(centeredAround, target, Random.Range(1, shots));
 					}
-					else Zap(centeredAround, target, Random.Range(1, 3));
+					else if (player == null)
+					{
+						Zap(centeredAround, target, Random.Range(1, shots));
+					}
 				}
 			
 				objectsToShoot.Remove(target);
@@ -94,7 +95,7 @@ namespace Systems.Research
 			ElectricalArc.ServerCreateNetworkedArcs(arcSettings).OnArcPulse += OnPulse;
 		}
 
-		private GameObject GetTarget(List<GameObject> objectsToShoot, bool random = true, bool doTeslaFirst = true)
+		private GameObject GetTarget(List<GameObject> objectsToShoot)
 		{
 			if (objectsToShoot.Count == 0) return null;
 
@@ -102,23 +103,11 @@ namespace Systems.Research
 
 			if (teslaCoils.Any())
 			{
-				var groundingRods = teslaCoils.Where(o => o.TryGetComponent<TeslaCoil>(out var teslaCoil) && teslaCoil != null &&
-														  teslaCoil.CurrentState == TeslaCoil.TeslaCoilState.Grounding).ToList();
+				var groundingRods = teslaCoils.Where(o => o.TryGetComponent<TeslaCoil>(out var coil) && coil.CurrentState == TeslaCoil.TeslaCoilState.Grounding).ToList();
 
-				if (doTeslaFirst == false)
-				{
-					return groundingRods.Any() ? groundingRods.PickRandom() : objectsToShoot.PickRandom();
-				}
-
-				if (random)
-				{
-					return groundingRods.Any() ? groundingRods.PickRandom() : teslaCoils.PickRandom();
-				}
-
-				return groundingRods.Any() ? groundingRods[0] : teslaCoils[0];
+				return groundingRods.Any() ? groundingRods.PickRandom() : objectsToShoot.PickRandom();			
 			}
-
-			return random ? objectsToShoot.PickRandom() : objectsToShoot[0];
+			return objectsToShoot.PickRandom();
 		}
 
 		private void OnPulse(ElectricalArc arc)
