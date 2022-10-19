@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -12,6 +13,7 @@ using Messages.Server;
 using Items;
 using Managers;
 using Objects.Machines.ServerMachines.Communications;
+using Objects.Wallmounts.PublicTerminals.Modules;
 using Player.Language;
 using Shared.Util;
 using Tiles;
@@ -33,6 +35,8 @@ public partial class Chat : MonoBehaviour
 	public bool OOCMute = false;
 
 	private static Regex htmlRegex = new Regex(@"^(http|https)://.*$");
+
+	private static Collider2D[] nonAllocPhysicsSphereResult = new Collider2D[150];
 
 	public static void InvokeChatEvent(ChatEvent chatEvent)
 	{
@@ -60,11 +64,25 @@ public partial class Chat : MonoBehaviour
 				chatEvent.channels = channel;
 				if (chatEvent.originator.TryGetComponent<PlayerScript>(out var playerScript))
 				{
+					//There are some cases where the player might not have a dynamic item storage (like the AI)
+					if (playerScript.DynamicItemStorage == null)
+					{
+						Physics2D.OverlapCircleNonAlloc(playerScript.mind.body.AssumedWorldPos.To2(), 20, nonAllocPhysicsSphereResult);
+						foreach (var item in nonAllocPhysicsSphereResult)
+						{
+							var module = item.gameObject.GetComponentInChildren<IChatInfluencer>();
+							if(module == null) continue;
+							if(module.WillInfluenceChat() == false) continue;
+							module.InfluenceChat(chatEvent);
+							break;
+						}
+						continue;
+					}
 					foreach (var slot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.ear)
 						         .Where(slot => slot.IsEmpty == false))
 					{
 						if(slot.ItemObject.TryGetComponent<Headset>(out var headset) == false) continue;
-						headset.TrySendSignal(radioMessageData);
+						headset.TrySendSignal(null, radioMessageData);
 					}
 				}
 				continue;

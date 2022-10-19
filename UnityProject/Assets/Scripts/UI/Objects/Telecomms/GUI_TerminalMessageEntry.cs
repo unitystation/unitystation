@@ -2,6 +2,7 @@
 using UI.Core.NetUI;
 using Objects.Wallmounts;
 using System.Linq;
+using Objects.Wallmounts.PublicTerminals;
 
 namespace UI.Objects.Wallmounts
 {
@@ -54,7 +55,7 @@ namespace UI.Objects.Wallmounts
 				UrgencyText.SetValueServer("");
 				UrgencyImage.SetValueServer(new Color(255,255,255,0));
 			}
-	
+
 			MessageText.SetValueServer(messageData.message);
 		}
 	}

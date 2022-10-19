@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Objects.Wallmounts;
 using System.Linq;
 using Mirror;
+using Objects.Wallmounts.PublicTerminals;
 
 namespace UI.Objects.Wallmounts
 {
@@ -119,12 +120,17 @@ namespace UI.Objects.Wallmounts
 				string playerName = masterTerminal.CurrentLogin.RegisteredName;
 
 				if (playerName == null) NameLabel.SetValueServer("Signed in as: NULL");
+				else if(masterTerminal.isAI)
+				{
+					NameLabel.SetValueServer("Signed in as: AI");
+				}
 				else
+				{
 					NameLabel.SetValueServer("Signed in as: " + masterTerminal.CurrentLogin.RegisteredName);
-
+				}
 				if (mainSwitcher.CurrentPage == LoginPage) mainSwitcher.SetActivePage(RequestPage);
 			}
-				
+
 
 			DateTime stationTimeHolder = GameManager.Instance.stationTime;
 
@@ -134,7 +140,7 @@ namespace UI.Objects.Wallmounts
 			TimerLabel.SetValueServer(timestring);
 			VoltageLabel.SetValueServer(voltagestring);
 		}
-		
+
 		public void LogOut()
 		{
 			masterTerminal.ClearID();
@@ -178,7 +184,7 @@ namespace UI.Objects.Wallmounts
 					item.TerminalMasterTab = this;
 					item.ReInit(messageData[i]);
 			}
-			
+
 		}
 
 		public void OpenArchivePage()
@@ -227,7 +233,7 @@ namespace UI.Objects.Wallmounts
 
 			bool isUrgent = Urgent;
 
-			masterTerminal.TransmitRequest(targetDep, message, isUrgent);			
+			masterTerminal.TransmitRequest(targetDep, message, isUrgent);
 		}
 
 	}

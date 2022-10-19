@@ -20,7 +20,7 @@ namespace Items.Devices
 
 		protected override bool SendSignalLogic()
 		{
-			if(signalData == null) return false;
+			if(emmitableSignalData.Count == 0) return false;
 			return true;
 		}
 
