@@ -14,7 +14,8 @@ namespace Systems.Research
 		[SerializeField] private List<GameObject> objectsToSpawn = new List<GameObject>();
 		[SerializeField] private List<LayerTile> tilesToSpawn = new List<LayerTile>();
 
-		[SerializeField, Range(0, 100)] private int objectChance = 10;
+		[SerializeField, Range(0, MAX_CHANCE)] private int objectChance = 10;
+		private const int MAX_CHANCE = 100;
 
 		public override void DoEffectAura(GameObject centeredAround)
 		{
