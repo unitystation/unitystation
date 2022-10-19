@@ -58,6 +58,7 @@ namespace Communications
 				Logger.LogError("[Singals] - No emmitable signal data detected!");
 				return;
 			}
+			//if no signalData is given, always use the first signal SO in the list as it's considered the main signal.
 			if (signalData == null)
 			{
 				signalData = emmitableSignalData[0];

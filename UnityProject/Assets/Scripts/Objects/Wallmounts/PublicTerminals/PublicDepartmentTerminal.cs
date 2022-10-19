@@ -5,7 +5,6 @@ using UI.Objects.Wallmounts;
 using Mirror;
 using System.Collections;
 using Systems.Clearance;
-using Systems.Interaction;
 
 namespace Objects.Wallmounts.PublicTerminals
 {

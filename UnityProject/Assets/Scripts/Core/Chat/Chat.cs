@@ -37,6 +37,7 @@ public partial class Chat : MonoBehaviour
 	private static Regex htmlRegex = new Regex(@"^(http|https)://.*$");
 
 	private static Collider2D[] nonAllocPhysicsSphereResult = new Collider2D[150];
+	private static float searchRadiusForSphereResult = 20f;
 
 	public static void InvokeChatEvent(ChatEvent chatEvent)
 	{
@@ -67,7 +68,7 @@ public partial class Chat : MonoBehaviour
 					//There are some cases where the player might not have a dynamic item storage (like the AI)
 					if (playerScript.DynamicItemStorage == null)
 					{
-						Physics2D.OverlapCircleNonAlloc(playerScript.mind.body.AssumedWorldPos.To2(), 20, nonAllocPhysicsSphereResult);
+						Physics2D.OverlapCircleNonAlloc(playerScript.mind.body.AssumedWorldPos.To2(), searchRadiusForSphereResult, nonAllocPhysicsSphereResult);
 						foreach (var item in nonAllocPhysicsSphereResult)
 						{
 							var module = item.gameObject.GetComponentInChildren<IChatInfluencer>();
@@ -78,10 +79,13 @@ public partial class Chat : MonoBehaviour
 						}
 						continue;
 					}
+					//for normal players, just grab the headset that's on their dynamic item storage.
 					foreach (var slot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.ear)
 						         .Where(slot => slot.IsEmpty == false))
 					{
 						if(slot.ItemObject.TryGetComponent<Headset>(out var headset) == false) continue;
+						//The headset is responsible for sending this chatEvent to an in-game server that
+						//relays this chatEvent to other players
 						headset.TrySendSignal(null, radioMessageData);
 					}
 				}

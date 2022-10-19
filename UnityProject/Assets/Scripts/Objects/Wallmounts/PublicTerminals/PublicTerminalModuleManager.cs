@@ -1,5 +1,3 @@
-using System;
-using Mirror;
 using UnityEngine;
 
 namespace Objects.Wallmounts.PublicTerminals
