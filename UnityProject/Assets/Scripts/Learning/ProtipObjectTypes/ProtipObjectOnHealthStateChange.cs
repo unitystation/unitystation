@@ -184,13 +184,13 @@ namespace Learning.ProtipObjectTypes
 		private void TriggerTemperatureTip(float state)
 		{
 			if(TempTipOnCooldown) return;
-			switch (state - Reactions.KOffsetC)
+			switch (state)
 			{
-				case <= AtmosConstants.CELSIUS_BARELY_COLD_HEAT:
+				case <= AtmosConstants.BARELY_COLD_HEAT:
 					TriggerTip(TemperatureColdEvent);
 					StartCoroutine(TempCooldown());
 					break;
-				case >= AtmosConstants.CELSIUS_HOT_HEAT:
+				case >= AtmosConstants.HOT_HEAT:
 					TriggerTip(TemperatureHotEvent);
 					StartCoroutine(TempCooldown());
 					break;

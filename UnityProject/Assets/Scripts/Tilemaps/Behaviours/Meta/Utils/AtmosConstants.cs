@@ -27,18 +27,11 @@ public static class AtmosConstants
 	public const float ONE_ATMOSPHERE = 101.325f;
 
 	public const float MINIMUM_HEAT_CAPACITY = 0.0003f;
-	public const float BARELY_COLD_HEAT = 260;
-	public const float ABIT_COLD_HEAT = 210;
-	public const float COLD_HEAT = 160;
-	public const float FREEZING_HEAT = 110;
-	public const float MELTING_HEAT = 460;
-	public const float HOT_HEAT = 410;
-	public const float ABIT_HOT_HEAT = 360;
-
-	public const float CELSIUS_BARELY_COLD_HEAT = BARELY_COLD_HEAT - Reactions.KOffsetC;
-	public const float CELSIUS_FREEZING_HEAT = FREEZING_HEAT - Reactions.KOffsetC;
-	public const float CELSIUS_NORMAL_HEAT = 20f;
-	public const float CELSIUS_WARM_HEAT = ABIT_HOT_HEAT - Reactions.KOffsetC;
-	public const float CELSIUS_HOT_HEAT = HOT_HEAT - Reactions.KOffsetC;
-	public const float CELSIUS_MELTING_HEAT = MELTING_HEAT - Reactions.KOffsetC;
+	public const float BARELY_COLD_HEAT = -13.15f + Reactions.KOffsetC;
+	public const float ABIT_COLD_HEAT = -63.15f + Reactions.KOffsetC;
+	public const float COLD_HEAT = -113.15f + Reactions.KOffsetC;
+	public const float FREEZING_HEAT = -163.15f + Reactions.KOffsetC;
+	public const float MELTING_HEAT = 186.85f + Reactions.KOffsetC;
+	public const float HOT_HEAT = 136.85f + Reactions.KOffsetC;
+	public const float ABIT_HOT_HEAT = 86.85f + Reactions.KOffsetC;
 }
