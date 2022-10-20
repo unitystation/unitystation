@@ -68,7 +68,7 @@ public partial class Chat : MonoBehaviour
 					//There are some cases where the player might not have a dynamic item storage (like the AI)
 					if (playerScript.DynamicItemStorage == null)
 					{
-						Physics2D.OverlapCircleNonAlloc(playerScript.mind.body.AssumedWorldPos.To2(), searchRadiusForSphereResult, nonAllocPhysicsSphereResult);
+						Physics2D.OverlapCircleNonAlloc(playerScript.PlayerChatLocation.AssumedWorldPosServer(), searchRadiusForSphereResult, nonAllocPhysicsSphereResult);
 						foreach (var item in nonAllocPhysicsSphereResult)
 						{
 							var module = item.gameObject.GetComponentInChildren<IChatInfluencer>();
