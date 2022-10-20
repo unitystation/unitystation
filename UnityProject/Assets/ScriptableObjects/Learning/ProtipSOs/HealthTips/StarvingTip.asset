@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc4baa140f472c84284eccd1fdbb429d, type: 3}
-  m_Name: PickingUpAPaper
+  m_Name: StarvingTip
   m_EditorClassIdentifier: 
-  TipTitle: You cant just make words magically appear on a paper
+  TipTitle: Stomach growling like a monster
   TipData:
-    Tip: In order to write on a paper; you need a pen to be in your other hand.
-    TipIcon: {fileID: 21300000, guid: 221d473300b1ef54da59f55e53b9a00d, type: 3}
-    ShowAnimation: 1
+    Tip: You're starving! Until you grab a meal from the chef's kitchen you are slowed
+      and have slower/no natural healing for minor injuries!
+    TipIcon: {fileID: 21300000, guid: 9fc196e08fd921246b03d0077ead4334, type: 3}
+    ShowAnimation: 2
     MinimumExperienceLevelToTrigger: 0
-    ShowDuration: 4
+    ShowDuration: 6

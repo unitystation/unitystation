@@ -462,6 +462,7 @@ GameObject:
   - component: {fileID: 7265610720913237329}
   - component: {fileID: 3901833431230868314}
   - component: {fileID: 3844190322150875557}
+  - component: {fileID: 3489173522199466798}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -872,6 +873,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneId: 0
   serverOnly: 0
+  ignoresHasSpawnedCheck: 0
   visible: 0
   m_AssetId: c4494414d24d2f2468e74daa79468631
   hasSpawned: 0
@@ -1451,6 +1453,46 @@ MonoBehaviour:
   syncInterval: 0.1
   defaultLanguages: {fileID: 0}
   omniTongue: 0
+--- !u!114 &3489173522199466798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac47bea17421462d9123cc255b61a475, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TipSO: {fileID: 0}
+  triggerOnce: 1
+  showEvenAfterDeath: 1
+  tipCooldown: 200
+  BleedingVeryLowEvent: {fileID: 11400000, guid: 9840743232461594d952b82560fe1eeb,
+    type: 2}
+  BleedingLowEvent: {fileID: 11400000, guid: 674dd66c6a6ff5f40a52d8b8b9e742bf, type: 2}
+  BleedingHighEvent: {fileID: 11400000, guid: 15b39b0191818c04cb098b5ff0848cb8, type: 2}
+  BleedingDanagerEvent: {fileID: 11400000, guid: 1160df88f3c00344fac0d74d818b3907,
+    type: 2}
+  HungerEvent: {fileID: 11400000, guid: 2849afa5708d7b445b7eccab05c2826c, type: 2}
+  StarvingEvent: {fileID: 11400000, guid: f83cd98cc385fbc4ca7371e70e9f9604, type: 2}
+  FatsoEvent: {fileID: 11400000, guid: fbc620038f7c4204cbed8c766fabd086, type: 2}
+  CritHealthEvent: {fileID: 11400000, guid: 97a30d051863be242a2d5435c1879dfb, type: 2}
+  SoftHealthEvent: {fileID: 11400000, guid: f5f80aa9222c534469ed4b48eb14968e, type: 2}
+  DeathlHealthEvent: {fileID: 11400000, guid: bbaf9123b7a31974ca6fc120eb465d86, type: 2}
+  FireStacksEvent: {fileID: 11400000, guid: 343cbe9dec8d8fc41898fceda8c13083, type: 2}
+  SuffuicationEvent: {fileID: 11400000, guid: 963f6a6de169c484bad0d08fbdf230ce, type: 2}
+  ToxinEvent: {fileID: 11400000, guid: 3b38af0357f6fa44399a8b14f539a581, type: 2}
+  TemperatureColdEvent: {fileID: 11400000, guid: 95ef98c8f385f7b4382a1d283224cfee,
+    type: 2}
+  TemperatureHotEvent: {fileID: 11400000, guid: 76b1fee33a8e5334aafd5f6c95d3aedd,
+    type: 2}
+  UnconsciousEvent: {fileID: 11400000, guid: c56aa3f2b478ff94e9b78957d75fd3e7, type: 2}
+  BarelyConsciousEvent: {fileID: 11400000, guid: 95ca26ead48bff34b9ca3f710b04d1a9,
+    type: 2}
+  PressureHighEvent: {fileID: 11400000, guid: 4b51b193b167eec4ea3108add75e852a, type: 2}
+  PressureLowEvent: {fileID: 11400000, guid: 03a097741db78a648a4cb07a947ddeff, type: 2}
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0

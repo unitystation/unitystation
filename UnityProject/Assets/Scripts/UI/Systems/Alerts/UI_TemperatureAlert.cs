@@ -12,13 +12,13 @@
 
 	public void SetTemperatureSprite(float temperature)
 	{
-		if(temperature < 260)
+		if(temperature < AtmosConstants.BARELY_COLD_HEAT)
 		{
-			if(temperature > 210)
+			if(temperature > AtmosConstants.ABIT_COLD_HEAT)
 			{
 				SetSprite(2);	// a bit cold
 			}
-			else if(temperature > 160)
+			else if(temperature > AtmosConstants.COLD_HEAT)
 			{
 				SetSprite(1);	// cold
 			}
@@ -29,11 +29,11 @@
 		}
 		else
 		{
-			if(temperature > 460)
+			if(temperature > AtmosConstants.MELTING_HEAT)
 			{
 				SetSprite(5);	// superhot
 			}
-			else if(temperature > 410)
+			else if(temperature > AtmosConstants.HOT_HEAT)
 			{
 				SetSprite(4);	// hot
 			}

@@ -40,8 +40,20 @@ namespace Learning
 			return saved;
 		}
 
-		protected virtual bool TriggerConditions(GameObject triggeredBy)
+		private bool CheckSaveStatus(ProtipSO protipSo)
 		{
+			var saved = ProtipManager.Instance.ProtipSaveStates.Any(x =>
+				x.Key == protipSo.TipTitle && x.Value == true);
+			return saved;
+		}
+
+		protected virtual bool TriggerConditions(GameObject triggeredBy, ProtipSO protipSo)
+		{
+			if (ProtipManager.Instance == null)
+			{
+				Logger.LogError("[Protips] - UNABLE TO FIND PROTIP MANAGER!!!");
+				return false;
+			}
 			//To avoid issues with NREs, Protips should only trigger if a PlayerScript exists.
 			if (PlayerManager.LocalPlayerScript == null) return false;
 			//triggeredBy check should only be null when you want a global protip incase of something like an event
@@ -49,13 +61,13 @@ namespace Learning
 			if (isOnCooldown) return false;
 			if (hasBeenTriggeredBefore) return false;
 			if (showEvenAfterDeath == false && PlayerManager.LocalPlayerScript.IsDeadOrGhost) return false;
-			if (ProtipManager.Instance.PlayerExperienceLevel > TipSO.TipData.MinimumExperienceLevelToTrigger) return false;
+			if (ProtipManager.Instance.PlayerExperienceLevel > protipSo.TipData.MinimumExperienceLevelToTrigger) return false;
 			return true;
 		}
 
 		public void TriggerTip(GameObject triggeredBy = null)
 		{
-			if(TriggerConditions(triggeredBy) == false) return;
+			if(TriggerConditions(triggeredBy, TipSO) == false) return;
 			ProtipManager.Instance.QueueTip(TipSO);
 			if (triggerOnce)
 			{
@@ -69,13 +81,13 @@ namespace Learning
 
 		public void TriggerTip(ProtipSO protipSo, GameObject triggeredBy = null)
 		{
-			if(TriggerConditions(triggeredBy) == false) return;
+			if(TriggerConditions(triggeredBy, protipSo) == false && CheckSaveStatus(protipSo)) return;
 			if(protipSo == null)
 			{
 				Logger.LogError("Passed ProtipSO is null. Cannot trigger tip.");
 				return;
 			}
-			ProtipManager.Instance.QueueTip(TipSO);
+			ProtipManager.Instance.QueueTip(protipSo);
 			if (triggerOnce && ProtipManager.Instance.PlayerExperienceLevel > ProtipManager.ExperienceLevel.NewToSpaceStation)
 			{
 				ProtipManager.Instance.SaveTipState(protipSo.TipTitle);

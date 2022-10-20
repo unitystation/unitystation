@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc4baa140f472c84284eccd1fdbb429d, type: 3}
-  m_Name: PickingUpAPaper
+  m_Name: DropNRollTip
   m_EditorClassIdentifier: 
-  TipTitle: You cant just make words magically appear on a paper
+  TipTitle: FIRE!! FIREEEE!!!
   TipData:
-    Tip: In order to write on a paper; you need a pen to be in your other hand.
-    TipIcon: {fileID: 21300000, guid: 221d473300b1ef54da59f55e53b9a00d, type: 3}
+    Tip: You're currently on fire! Drop n roll by clicking on the "resist" button.
+      (Fist Icon in your hud).
+    TipIcon: {fileID: 21300000, guid: 671a89b4837e93d46b4b921e9aef89d1, type: 3}
     ShowAnimation: 1
-    MinimumExperienceLevelToTrigger: 0
-    ShowDuration: 4
+    MinimumExperienceLevelToTrigger: 1
+    ShowDuration: 9
