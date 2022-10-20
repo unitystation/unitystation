@@ -340,6 +340,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		{
 			foreach (var bodyPart in PlayerScript.playerHealth.SurfaceBodyParts)
 			{
+				if(bodyPart.SelfArmor.StunImmunity) continue;
 				if(bodyPart.BodyPartType is not (BodyPartType.Chest or BodyPartType.Custom)) continue;
 				foreach (Armor armor in bodyPart.ClothingArmors)
 				{
