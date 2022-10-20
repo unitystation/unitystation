@@ -18,7 +18,6 @@ namespace Systems.Spells
 	[DisallowMultipleComponent]
 	public class Spell : NetworkBehaviour, IActionGUI
 	{
-		[SerializeField] private Antagonist wizardData;
 		private SpellData spellData = null;
 		public SpellData SpellData {
 			get => spellData;
@@ -250,9 +249,6 @@ namespace Systems.Spells
 
 		private bool CheckWizardGarb(Equipment casterEquipment)
 		{
-			// none-wizards shouldn't need a check for robes.
-			if (casterEquipment.ItemStorage.registerPlayer.PlayerScript.mind.GetAntag().Antagonist !=
-			    wizardData) return true;
 			foreach (var outerwear in casterEquipment.ItemStorage.GetNamedItemSlots(NamedSlot.outerwear))
 			{
 				if (outerwear.IsEmpty || outerwear.ItemAttributes.HasTrait(CommonTraits.Instance.WizardGarb) == false)
