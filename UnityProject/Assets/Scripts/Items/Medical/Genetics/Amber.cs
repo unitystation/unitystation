@@ -27,14 +27,16 @@ public class Amber : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 		var DNAConsole = interaction.TargetObject.GetComponent<DNAConsole>();
 		if (DNAConsole != null)
 		{
-			DNAConsole.AddAmber();
-			if (Stacking != null)
+			if (DNAConsole.AddAmber())
 			{
-				Stacking.ServerConsume(1);
-			}
-			else
-			{
-				_ = Despawn.ServerSingle(gameObject);
+				if (Stacking != null)
+				{
+					Stacking.ServerConsume(1);
+				}
+				else
+				{
+					_ = Despawn.ServerSingle(gameObject);
+				}
 			}
 		}
 	}

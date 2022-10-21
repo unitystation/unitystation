@@ -8,6 +8,8 @@ public class NetParentSetter : NetUIIntElement
 	public NetParentSetterTarget.IDTarget IDTarget;
 	public Transform TransformToSet;
 
+	public bool Initialised = false;
+
 	public override int Value {
 		get => CurrentLocation;
 		set
@@ -25,6 +27,7 @@ public class NetParentSetter : NetUIIntElement
 
 	private void SetParentInternal(int ListLocation)
 	{
+		Initialise();
 		if (gameObject.activeSelf == false) return;
 		if (ListLocation >= OrderedTargetParents.Count)
 		{
@@ -50,6 +53,21 @@ public class NetParentSetter : NetUIIntElement
 
 	public void Start()
 	{
+		Initialise();
+		SetParentViaID(CurrentLocation);
+		StartCoroutine(Refresh());
+	}
+
+	private IEnumerator Refresh()
+	{
+		yield return null;
+		SetParentViaID(CurrentLocation);
+	}
+
+	public void Initialise()
+	{
+		if (Initialised) return;
+		Initialised = true;
 		if (TransformToSet == null)
 		{
 			TransformToSet = this.transform;
@@ -74,15 +92,15 @@ public class NetParentSetter : NetUIIntElement
 			}
 		}
 
-		SetParentViaID(CurrentLocation);
 	}
 
 
 	public void SetParentViaID(int ID)
 	{
+		Initialise();
 		if (DictionaryParents.ContainsKey(ID))
 		{
-			SetValueClient(ID);
+			SetValue(ID);
 		}
 		else
 		{
@@ -109,7 +127,7 @@ public class NetParentSetter : NetUIIntElement
 	{
 		if (OrderedTargetParents.Contains(NetParentSetterTarget))
 		{
-			SetValueClient(NetParentSetterTarget.intID);
+			SetValue(NetParentSetterTarget.intID);
 		}
 		else
 		{

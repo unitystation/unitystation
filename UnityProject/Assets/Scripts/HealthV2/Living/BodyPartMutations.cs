@@ -89,11 +89,21 @@ public class BodyPartMutations : BodyPartFunctionality
 		bodyPart.HealthMaster.OrNull()?.BodyPartsChangeMutation();
 	}
 
-	public void RemoveMutation()
+	public void RemoveMutation(MutationSO Mutation)
 	{
-		Mutation Mutation = ActiveMutations[0];
-		ActiveMutations.Remove(Mutation);
-		Mutation.Remove();
+		Mutation Target = null;
+		foreach (var ActiveMutation in ActiveMutations)
+		{
+			if (ActiveMutation.RelatedMutationSO == Mutation)
+			{
+				Target = ActiveMutation;
+				break;
+			}
+		}
+		if (Target == null) return;
+
+		ActiveMutations.Remove(Target);
+		Target.Remove();
 		CalculateStability();
 		bodyPart.HealthMaster.OrNull()?.BodyPartsChangeMutation();
 	}

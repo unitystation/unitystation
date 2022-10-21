@@ -26,6 +26,8 @@ namespace UI.Objects.Medical
 		public GUI_DNAConsole GUI_DNAConsole;
 		public NetButton NetButton;
 
+		public NetText_label label;
+
 		//Whatever functions you want
 
 		public void SetValues(DNAMutationData.DNAPayload InPayload, string Intarget, DNAStrandElement.Location InSetLocation)
@@ -34,7 +36,33 @@ namespace UI.Objects.Medical
 			target = Intarget;
 			SetLocation = InSetLocation;
 			NetParentSetter.SetParentViaID((int) InSetLocation);
-			//TODO NET STUFF!!!!!!!!
+
+			//label
+
+			if (Payload.TargetMutationSO != null)
+			{
+				label.SetValue("Mutation " + Payload.TargetMutationSO.name);
+			}
+
+			if (Payload.RemoveTargetMutationSO != null)
+			{
+				label.SetValue("Remove Mutation " + Payload.RemoveTargetMutationSO.name);
+			}
+
+			if (Payload.MutateToBodyPart != null)
+			{
+				label.SetValue("To Bodypart " + Payload.MutateToBodyPart.name);
+			}
+
+			if (string.IsNullOrEmpty(target) == false)
+			{
+				label.SetValue("Body part Name target " + target);
+			}
+
+			if (string.IsNullOrEmpty(Payload.CustomisationReplaceWith) == false || string.IsNullOrEmpty(Payload.CustomisationTarget) == false)
+			{
+				label.SetValue($"target {Payload.CustomisationTarget} Replace with {Payload.CustomisationReplaceWith}");
+			}
 
 		}
 
@@ -92,17 +120,8 @@ namespace UI.Objects.Medical
 
 		public void MasterRemoveSelfFromList()
 		{
-			if (Payload.TargetMutationSO == null)
-			{
-				//Destroy
-				GUI_DNAConsole.DNAStrandList.MasterRemoveItem(this);
-			}
-			else
-			{
-				NetParentSetter.SetParentViaID((int)Location.Mutation);
-			}
-
-
+			//Destroy
+			GUI_DNAConsole.DNAStrandList.MasterRemoveItem(this);
 		}
 	}
 }

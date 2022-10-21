@@ -619,10 +619,15 @@ namespace HealthV2
 						var Mutation = BP.GetComponent<BodyPartMutations>();
 						if (Mutation != null)
 						{
-							if (Mutation != null)
+							if (string.IsNullOrEmpty(Payload.CustomisationTarget) ==false ||  string.IsNullOrEmpty(Payload.CustomisationReplaceWith) ==false)
 							{
 								Mutation.MutateCustomisation(Payload.CustomisationTarget,
 									Payload.CustomisationReplaceWith);
+							}
+
+							if (Payload.RemoveTargetMutationSO != null)
+							{
+								Mutation.RemoveMutation(Payload.RemoveTargetMutationSO);
 							}
 
 							if (Payload.TargetMutationSO != null)

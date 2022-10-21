@@ -187,6 +187,12 @@ MonoBehaviour:
     - CustomisationTarget: 
       CustomisationReplaceWith: 
       TargetMutationSO: {fileID: 0}
+      RemoveTargetMutationSO: {fileID: 0}
       SpeciesMutateTo: {fileID: 0}
       MutateToBodyPart: {fileID: 0}
   EggPrefab: {fileID: 37564113797041233, guid: 70dc15450c0778140af8c27e79052aaf, type: 3}
+  InjectorPrefab: {fileID: 9076744276633164413, guid: 19764608bd06b2c4881f15b968f0eade,
+    type: 3}
+  ActiveGUI_DNAConsole: {fileID: 0}
+  CurrentDNACharge: 0
+  RequiredDNASamples: 3

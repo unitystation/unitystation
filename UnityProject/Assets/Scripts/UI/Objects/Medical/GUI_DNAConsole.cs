@@ -40,6 +40,14 @@ namespace UI.Objects.Medical
 		public Dictionary<MutationSO, MutationChooseElement> LoadedMutationSO =
 			new Dictionary<MutationSO, MutationChooseElement>();
 
+		public bool RemovingMutation = false;
+
+		public void SetRemovingMutation(bool newValue)
+		{
+			RemovingMutation = newValue;
+		}
+
+
 		public void Close()
 		{
 			ControlTabs.CloseTab(Type, Provider);
@@ -60,8 +68,10 @@ namespace UI.Objects.Medical
 				DNAMutationData.Payload.Add(payload);
 			}
 
-			Logger.LogError(JsonConvert.SerializeObject(DNAMutationData));
+			var  Injector =  Spawn.ServerPrefab(DNAConsole.InjectorPrefab, DNAConsole.gameObject.AssumedWorldPosServer()).GameObject;
 
+			var InjectorData = Injector.GetComponent<MutationInjector>();
+			InjectorData.DNAPayload.Add(DNAMutationData);
 		}
 
 		public void GenerateElementCustomisation()
@@ -106,7 +116,16 @@ namespace UI.Objects.Medical
 		public void GenerateMutationTarget(MutationSO Mutation)
 		{
 			var payload = new DNAMutationData.DNAPayload();
-			payload.TargetMutationSO = Mutation;
+			if (RemovingMutation)
+			{
+				payload.RemoveTargetMutationSO = Mutation;
+			}
+			else
+			{
+				payload.TargetMutationSO = Mutation;
+			}
+
+
 			DNAStrandList.AddElement(payload, "", DNAStrandElement.Location.Mutation);
 		}
 
@@ -129,7 +148,12 @@ namespace UI.Objects.Medical
 		public void Start()
 		{
 			DNAConsole = Provider.GetComponent<DNAConsole>();
-			DNAConsole.ActiveGUI_DNAConsole = this;
+			if (IsMasterTab)
+			{
+				DNAConsole.ActiveGUI_DNAConsole = this;
+			}
+
+
 			foreach (var Species in DNAConsole.UnlockedSpecies)
 			{
 				DNASpeciesList.AddElement(Species , this);

@@ -20,6 +20,8 @@ public class DNAMutationData
 
 		public MutationSO TargetMutationSO;
 
+		public MutationSO RemoveTargetMutationSO;
+
 		public PlayerHealthData SpeciesMutateTo;
 		public GameObject MutateToBodyPart;
 	}
@@ -45,6 +47,8 @@ public class DNAConsole : MonoBehaviour
 
 
 	public GameObject EggPrefab;
+
+	public GameObject InjectorPrefab;
 
 
 	public GUI_DNAConsole ActiveGUI_DNAConsole; //UpdateMutations
@@ -74,15 +78,21 @@ public class DNAConsole : MonoBehaviour
 
 	}
 
-	public void AddAmber()
+	public bool AddAmber()
 	{
+		if (CurrentDNACharge >= RequiredDNASamples)
+		{
+			return false;
+		}
+
 		CurrentDNACharge++;
 
 		if (ActiveGUI_DNAConsole != null)
 		{
-			ActiveGUI_DNAConsole.MutationUnlockMiniGame.UpdateIndicator();
+			ActiveGUI_DNAConsole.MutationUnlockMiniGame.UpdateIndicator(); //TODO Doesn't work?!?!?!
 		}
 
+		return true;
 
 	}
 
