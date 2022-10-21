@@ -14,7 +14,7 @@ namespace ScriptableObjects.TimedGameEvents
 		[SerializeField] private List<GameObject> horrorsToSpawn;
 		[SerializeField] private SpawnPointCategory spawnPointCategory = SpawnPointCategory.MaintSpawns;
 		[SerializeField] private Vector2Int randomSpawnCount = new Vector2Int(1, 5);
-		private const float WAIT_TIME_BEFORE_HAUNTS = 165f;
+		private const float WAIT_TIME_BEFORE_HAUNTS = 365f;
 		private const float CHANCE_FOR_UNINTENDED_AREA = 5f;
 		private List<Transform> spawnPoints = new List<Transform>();
 

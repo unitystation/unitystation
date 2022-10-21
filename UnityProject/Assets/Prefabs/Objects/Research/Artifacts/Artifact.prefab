@@ -191,8 +191,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
+      propertyPath: Armor.Melee
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: Armor.Bullet
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: Armor.Anomaly
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
       propertyPath: initialIntegrity
-      value: 300
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}

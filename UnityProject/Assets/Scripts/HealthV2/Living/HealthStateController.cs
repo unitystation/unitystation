@@ -77,6 +77,17 @@ namespace HealthV2
 		private BleedingState bleedingState;
 		public BleedingState BleedingState => bleedingState;
 
+		public event Action<HungerState> HungerEvent;
+		public event Action<BleedingState> BleedingEvent;
+		public event Action<ConsciousState> ConsciousEvent;
+		public event Action<bool> SuffuicationEvent;
+		public event Action<bool> ToxinEvent;
+		public event Action<float> OverallHealthEvent;
+		public event Action<float> FireStacksEvent;
+		public event Action<float> PressureEvent;
+		public event Action<float> TemperatureEvent;
+
+
 
 		private bool DollDataChanged = false;
 
@@ -110,18 +121,21 @@ namespace HealthV2
 		public void SetHunger(HungerState newHungerState)
 		{
 			hungerState = newHungerState;
+			InvokeClientHungerEvent(hungerState);
 		}
 
 		[Server]
 		public void SetBleedingState(BleedingState newBleedingState)
 		{
 			bleedingState = newBleedingState;
+			InvokeClientBleedEvent(newBleedingState);
 		}
 
 		[Server]
 		public void SetOverallHealth(float newHealth)
 		{
 			overallHealthSync = newHealth;
+			InvokeClientOverallHealthEvent(newHealth);
 		}
 
 		[Server]
@@ -141,6 +155,7 @@ namespace HealthV2
 		public void SetConsciousState(ConsciousState newConsciousState)
 		{
 			consciousState = newConsciousState;
+			InvokeClientConsciousStateEvent(newConsciousState);
 		}
 
 		[Server]
@@ -153,6 +168,7 @@ namespace HealthV2
 		public void SetFireStacks(float newValue)
 		{
 			fireStacks = Math.Max(0, newValue);
+			InvokeClientFireStackEvent(newValue);
 		}
 
 		[Server]
@@ -165,24 +181,28 @@ namespace HealthV2
 		public void SetSuffocating(bool newSuffocating)
 		{
 			isSuffocating = newSuffocating;
+			InvokeClientSufficationEvent(newSuffocating);
 		}
 
 		[Server]
 		public void SetToxins(bool newState)
 		{
 			hasToxins = newState;
+			InvokeClientToxinsEvent(newState);
 		}
 
 		[Server]
 		public void SetTemperature(float newTemperature)
 		{
 			temperature = newTemperature;
+			InvokeClientTemperatureEvent(newTemperature);
 		}
 
 		[Server]
 		public void SetPressure(float newPressure)
 		{
 			pressure = newPressure;
+			IvokeClientPressureEvent(newPressure);
 		}
 
 		[Server]
@@ -220,7 +240,7 @@ namespace HealthV2
 		private void SyncFireStacks(float oldStacks, float newStacks)
 		{
 			fireStacks = newStacks;
-			livingHealthMasterBase.OnClientFireStacksChange.Invoke(newStacks);
+			livingHealthMasterBase.OnClientFireStacksChange?.Invoke(newStacks);
 		}
 
 		[Client]
@@ -234,6 +254,61 @@ namespace HealthV2
 				UIManager.PlayerHealthUI.bodyPartListeners[i].SetDamageColor(CurrentHealthDollStorage.DollStates[i].damageColor.UncompresseToColour());
 				UIManager.PlayerHealthUI.bodyPartListeners[i].SetBodyPartColor(CurrentHealthDollStorage.DollStates[i].bodyPartColor.UncompresseToColour());
 			}
+		}
+
+		[TargetRpc]
+		private void InvokeClientHungerEvent(HungerState state)
+		{
+			HungerEvent?.Invoke(state);
+		}
+
+		[TargetRpc]
+		private void InvokeClientBleedEvent(BleedingState state)
+		{
+			BleedingEvent?.Invoke(state);
+		}
+
+		[TargetRpc]
+		private void InvokeClientFireStackEvent(float state)
+		{
+			FireStacksEvent?.Invoke(state);
+		}
+
+		[TargetRpc]
+		private void InvokeClientOverallHealthEvent(float state)
+		{
+			OverallHealthEvent?.Invoke(state);
+		}
+
+		[TargetRpc]
+		private void InvokeClientConsciousStateEvent(ConsciousState state)
+		{
+			ConsciousEvent?.Invoke(state);
+		}
+
+
+		[TargetRpc]
+		private void InvokeClientSufficationEvent(bool state)
+		{
+			SuffuicationEvent?.Invoke(state);
+		}
+
+		[TargetRpc]
+		private void InvokeClientToxinsEvent(bool state)
+		{
+			ToxinEvent?.Invoke(state);
+		}
+
+		[TargetRpc]
+		private void InvokeClientTemperatureEvent(float state)
+		{
+			TemperatureEvent?.Invoke(state);
+		}
+
+		[TargetRpc]
+		private void IvokeClientPressureEvent(float state)
+		{
+			PressureEvent?.Invoke(state);
 		}
 
 		#endregion

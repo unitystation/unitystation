@@ -18,5 +18,8 @@ namespace Systems.Research
 		//More than one effect can have the same index
 		[Tooltip("The index of the console option that relates to this")]
 		public int GuessIndex = 0;
+
+		[field: SerializeField, Tooltip("If true, artifacts with this effect will start awake regardless of setting on prefab")]
+		public bool OverrideDormancy { get; private set; } = false;
 	}
 }
