@@ -277,7 +277,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Water: {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
   SpaceCleaner: {fileID: 11400000, guid: 11dd09fc0e79f0391a03cea4eac8b16d, type: 2}
-  reagentsPerUse: 5
+  reagentsPerUse: 1
   useTime: 1.5
 --- !u!114 &1580949991522562425
 MonoBehaviour:
@@ -294,7 +294,6 @@ MonoBehaviour:
   maxCapacity: 25
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   AdditionalReactions: []
-  canPourOut: 1
   initialReagentMix:
     temperature: 0
     reagents:
@@ -303,6 +302,7 @@ MonoBehaviour:
     reagentKeys: []
   destroyOnEmpty: 0
   ContentsSet: 0
+  menuOptions: -1
   UseStandardExamine: 0
   ExamineAmount: 0
   ExamineContent: 0
