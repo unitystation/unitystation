@@ -199,8 +199,6 @@ namespace Systems.Electricity
 				voltage += supply.Value.SourceVoltage;
 			}
 
-			//Logger.Log (Voltage.ToString () + " < yeah Those voltage " + Current.ToString() + " < yeah Those Current " + (Voltage/Current).ToString() + " < yeah Those Resistance" + ElectricItem.GameObject().name.ToString() + " < at", Category.Electrical);
-
 			lock (UpstreamAndDownstreamCurrentValues)
 			{
 				UpstreamAndDownstreamCurrentValues.Clear(); //Voltages easy to work out just add up all the voltages from different sources
