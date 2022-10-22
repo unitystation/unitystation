@@ -18,7 +18,7 @@ namespace Objects.Wallmounts.PublicTerminals.Modules
 		public bool WillInfluenceChat()
 		{
 			// Don't do anything if this module isn't enabled
-			if (isActive == false) return false;
+			if (IsActive == false) return false;
 			if (poweredDevice == null || integrity == null)
 			{
 				Logger.LogError("[PublicTerminals/Modules] - Missing components detected on a terminal.");

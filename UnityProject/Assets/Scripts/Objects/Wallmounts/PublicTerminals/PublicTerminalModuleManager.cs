@@ -12,18 +12,18 @@ namespace Objects.Wallmounts.PublicTerminals
 		{
 			foreach (var item in enabledModules)
 			{
-				item.Key.isActive = item.Value;
+				item.Key.IsActive = item.Value;
 			}
 		}
 
 		public void EnableModule(PublicTerminalModule module)
 		{
-			module.isActive = true;
+			module.IsActive = true;
 		}
 
 		public void DisableModule(PublicTerminalModule module)
 		{
-			module.isActive = false;
+			module.IsActive = false;
 		}
 	}
 }
