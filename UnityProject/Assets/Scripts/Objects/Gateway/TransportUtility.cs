@@ -11,6 +11,8 @@ namespace Gateway
 	/// </summary>
 	public class TransportUtility : NetworkBehaviour //Would be a regular static class, but Weaver complains if it doesn't inherit NetworkBehaviour
 	{
+		private static readonly Vector3 maintRoomsLocation = new Vector3(3005,-2916,0);
+
 		/// <summary>
 		/// <para>Transports a <paramref name="objectPhysics"/> to <paramref name="transportTo"/> without lerping.</para>
 		/// <para>Objects pulled by <paramref name="objectPhysics"/> are not transported. To transport pulled objects as well, use <seealso cref="TransportObjectAndPulled(UniversalObjectPhysics, Vector3)"/>.</para>
@@ -23,6 +25,11 @@ namespace Gateway
 		public static void TransportObject(UniversalObjectPhysics objectPhysics, Vector3 transportTo, bool doTileStep = true)
 		{
 			if (objectPhysics == null) return; //Don't even bother...
+
+			if (SubSceneManager.Instance.isMaintRooms && Random.Range(0, 1000) <= 1) //If maintrooms are loaded, all teleports will have a 0.1% chance of resulting in teleporting to the maintrooms
+			{
+				transportTo = maintRoomsLocation;
+			}
 
 			objectPhysics.DisappearFromWorld();
 			objectPhysics.AppearAtWorldPositionServer(transportTo, doStepInteractions: doTileStep);

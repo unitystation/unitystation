@@ -21,6 +21,14 @@ public partial class SubSceneManager : NetworkBehaviour
 	public MainStationListSO MainStationList => mainStationList;
 
 	public bool AwaySiteLoaded { get; private set; }
+	public bool isMaintRooms
+	{
+		get
+		{
+			return serverChosenAwaySite == "Backrooms";
+		}
+	}
+
 	public bool MainStationLoaded { get; private set; }
 
 	public bool SyndicateLoaded { get; private set; }
