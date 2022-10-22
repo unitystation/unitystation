@@ -23,6 +23,8 @@ public class MutationMiniGameElement : DynamicEntry
 
 	public bool locked = false;
 
+	public Dictionary<MutationMiniGameElement, float> AccumulatedForces = new Dictionary<MutationMiniGameElement, float>();
+
 	//net Service Synchronise string
 	//Some hooks into the sliders to update values on client and server
 	public void SetValues(BodyPartMutations.MutationRoundData.SliderParameters InSliderParameters , MutationUnlockMiniGame InMutationUnlockMiniGame)
@@ -38,8 +40,6 @@ public class MutationMiniGameElement : DynamicEntry
 	{
 		netServerSyncString.OnChange.AddListener(Setup);
 		Indicator.GetComponent<Slider>().onValueChanged.AddListener(ValueChangeSlider);
-
-		//PreviouslyValueLever = Indicator
 	}
 
 	public void ValueChangeSlider(float UnusedValue)
@@ -85,22 +85,18 @@ public class MutationMiniGameElement : DynamicEntry
 	}
 
 
-
-	public Dictionary<MutationMiniGameElement, float> AccumulatedForces =
-		new Dictionary<MutationMiniGameElement, float>();
-
-	public void MainSliderChangeMaster(float Value )
+	public void MainSliderChangeMaster(float value )
 	{
 
-		Logger.LogWarning(" Target >  " +SliderParameters.TargetLever + "  Actual value >  " + Value.ToString());
-		AccumulatedForces[this] = Value;
+		//Logger.LogWarning(" Target >  " +SliderParameters.TargetLever + "  Actual value >  " + Value.ToString()); //Useful for debugging
+		AccumulatedForces[this] = value;
 
 
 		RecalculateLine();
 		foreach (var Slide in SliderParameters.Parameters)
 		{
 			var OtherElement = MutationUnlockMiniGame.MutationMiniGameList.Entries[Slide.Item2] as MutationMiniGameElement;
-			OtherElement.AccumulatedForces[this] = Value * Slide.Item1;
+			OtherElement.AccumulatedForces[this] = value * Slide.Item1;
 			OtherElement.RecalculateLine();
 		}
 	}

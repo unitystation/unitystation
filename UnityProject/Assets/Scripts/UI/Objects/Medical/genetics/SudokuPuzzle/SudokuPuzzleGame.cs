@@ -7,10 +7,6 @@ using UnityEngine;
 
 public class SudokuPuzzleGame : MonoBehaviour
 {
-
-	//TODO At countdown timer for check validity
-	//TODO Add unlock, Set up with Species stuff
-
 	public NetText_label Status;
 
 	public NetCountdownTimer NetCountdownTimer;

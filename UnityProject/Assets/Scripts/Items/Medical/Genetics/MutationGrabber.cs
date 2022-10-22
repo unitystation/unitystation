@@ -6,7 +6,7 @@ using UnityEngine;
 public class MutationGrabber : MonoBehaviour, IExaminable , ICheckedInteractable<PositionalHandApply>
 {
 
-	public List<MutationSO> CarryingMutations;
+	public List<MutationSO> CarryingMutations = new List<MutationSO>();
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
@@ -22,8 +22,7 @@ public class MutationGrabber : MonoBehaviour, IExaminable , ICheckedInteractable
 
 		if (DinosaurLivingMutationCarrier != null)
 		{
-			if (DinosaurLivingMutationCarrier.StageSynchronise ==
-			    (DinosaurLivingMutationCarrier.GrowingStages.Count - 1))
+			if (DinosaurLivingMutationCarrier.StageSynchronise == (DinosaurLivingMutationCarrier.GrowingStages.Count - 1))
 			{
 				foreach (var Mutation in DinosaurLivingMutationCarrier.CarryingMutations)
 				{

@@ -17,16 +17,10 @@ public class GeneticEggLogic : MonoBehaviour
     void Start()
     {
 	    ChosenHatchTime = Mathf.RoundToInt( StandardHatchTime * Random.Range(0.5f, 1.5f));
-	    StartCoroutine(countdown());
+	    StartCoroutine(Countdown());
 
     }
-
-    //Chasmosaurus?
-
-
-
-
-	//Triceratops = Friendly
+    //Triceratops = Friendly
 	//Dimetrodon angelensis = Friendly
 	//troodon  = Friendly
 
@@ -43,8 +37,7 @@ public class GeneticEggLogic : MonoBehaviour
     // 100 = Stegosaurus,Triceratops, saichania >
     // 0 = raptor, Dimetrodon angelensis, troodon >
 
-
-    private IEnumerator countdown()
+    private IEnumerator Countdown()
     {
 	    yield return WaitFor.Seconds(ChosenHatchTime * 0.90f);
 	    Chat.AddActionMsgToChat(this.gameObject, $"The {this.gameObject.ExpensiveName()} Wobbles", $"The {this.gameObject.ExpensiveName()} Wobbles");
@@ -59,9 +52,7 @@ public class GeneticEggLogic : MonoBehaviour
 
 	    }
 
-	    //TODO Separate prefabs for hostile and non-hostile dinosaurs
 	    GameObject Dinosaur = null;
-
 
 	    if (difficulty > 200)
 	    {

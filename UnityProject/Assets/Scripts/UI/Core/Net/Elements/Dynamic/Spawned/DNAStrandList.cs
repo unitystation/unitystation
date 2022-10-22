@@ -20,8 +20,6 @@ namespace UI.Core.Net.Elements.Dynamic.Spawned
 			return NewElement;
 		}
 
-		//public void RemoveItem(DNAStrandElement DNAStrandElement)
-
 		public List<DNAStrandElement> GetElements()
 		{
 

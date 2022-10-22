@@ -26,30 +26,11 @@ public class DinosaurLivingMutationCarrier : NetworkBehaviour
 		public float FoodRefreshTime = 60;
 	}
 
-	//TODO DNAConsole.UnlockedMutations.Add UI Update
-
-
-	//cargo amber ore
-	//	UI for processing amber or/doing mini puzzle, print egg
-
-	//	egg logic, TODO Spawning in different levels of dinosaur
-	//bunch of different prefabs for dangerous dinosaurs
 
 	//bunch of sprites for different dinosaurs
 
-	//dinosaur gets spawned depending on difficulty of each mutation (E.G T Rex if it's got loads of epic mutations) only correlates 75% of time, just a troll
-	//Feeding mechanics
-	//growth stages
 
 
-	//that's what needs to be done
-
-	//Chasmosaurus?
-
-	// 300
-	// 200 = Tarbosaurus, Brtachiosaurus,  >
-	// 100 = Stegosaurus,Triceratops, school >
-	// 0 = raptor, Dimetrodon angelensis, troodon >
 
 	public void Start()
 	{

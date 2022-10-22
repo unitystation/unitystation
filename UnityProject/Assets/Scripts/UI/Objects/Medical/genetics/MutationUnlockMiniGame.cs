@@ -76,7 +76,6 @@ public class MutationUnlockMiniGame : MonoBehaviour
 
 		if (Satisfies)
 		{
-			Logger.LogError("AAAAAAAAAA TODO EGGGGG");
 			if (GUI_DNAConsole.DNAConsole.CurrentDNACharge >= GUI_DNAConsole.DNAConsole.RequiredDNASamples)
 			{
 				return;

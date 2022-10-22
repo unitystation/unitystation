@@ -34,9 +34,6 @@ public class DNASpeciesElement : DynamicEntry
 	{
 		if (GUI_DNAConsole != null && GUI_DNAConsole.IsMasterTab)
 		{
-			//Look up
-			Logger.LogError(BodyPartName);
-
 			foreach (var Part in StoredBodyParts)
 			{
 				if (Part.name == BodyPartName)

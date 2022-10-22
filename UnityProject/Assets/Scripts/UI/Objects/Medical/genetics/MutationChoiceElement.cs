@@ -22,8 +22,5 @@ public class MutationChoiceElement : DynamicEntry
 	public void OnSelect()
 	{
 		MutationUnlockMiniGame.GenerateForMutation(MutationSO);
-
-
-
 	}
 }

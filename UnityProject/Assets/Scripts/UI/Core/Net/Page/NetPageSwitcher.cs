@@ -66,7 +66,7 @@ namespace UI.Core.NetUI
 				}
 			}
 
-			if (containedInTab.IsMasterTab && !StartInitialized)
+			if (containedInTab.IsMasterTab && StartInitialized == false)
 			{
 				//Enabling all pages
 				//so that all elements will be visible during Start()
@@ -80,7 +80,7 @@ namespace UI.Core.NetUI
 
 		public override void AfterInit()
 		{
-			if (containedInTab.IsMasterTab && DefaultPage && !CurrentPage)
+			if (containedInTab.IsMasterTab && DefaultPage && CurrentPage == false)
 			{
 				SetActivePage(DefaultPage);
 			}

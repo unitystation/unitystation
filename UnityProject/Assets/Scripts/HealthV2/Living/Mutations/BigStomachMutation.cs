@@ -22,13 +22,13 @@ public class BigStomachMutation : MutationSO
 		public override void SetUp()
 		{
 			var Stomach = BodyPart.GetComponent<Stomach>();
-			Stomach.StomachContents.SetMaxCapacity(99); //idk Custom thing, if it's preset custom
+			Stomach.StomachContents.SetMaxCapacity(99); //TODO better implementation //idk Custom thing, if it's preset custom
 		}
 
 		public override void Remove()
 		{
 			var Stomach = BodyPart.GetComponent<Stomach>();
-			Stomach.StomachContents.SetMaxCapacity(2);
+			Stomach.StomachContents.SetMaxCapacity(2); //TODO better implementation
 		}
 
 	}
