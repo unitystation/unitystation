@@ -16,7 +16,7 @@ namespace Objects.Wallmounts.PublicTerminals
 
 		public override void ReceiveSignal(SignalStrength strength, SignalEmitter responsibleEmitter, ISignalMessage message = null)
 		{
-			PublicDepartmentTerminal emitter = responsibleEmitter.gameObject.GetComponent<PublicDepartmentTerminal>();
+			if (responsibleEmitter.gameObject.TryGetComponent<PublicDepartmentTerminal>(out var emitter) == false) return;
 
 			if (emitter.sendMessageData.targetDepartment != (int)OwnEmitter.Department) return; //If this is not the target terminal, can't send to self
 
