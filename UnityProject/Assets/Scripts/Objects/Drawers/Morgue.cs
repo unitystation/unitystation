@@ -18,11 +18,11 @@ namespace Objects.Drawers
 		private enum MorgueState
 		{
 			/// <summary> Yellow morgue lights. </summary>
-			ShutWithItems = 3,
+			ShutWithItems = 2,
 			/// <summary> Green morgue lights. </summary>
-			ShutWithBraindead = 4,
+			ShutWithBraindead = 3,
 			/// <summary> Red morgue lights. </summary>
-			ShutWithPlayer = 2
+			ShutWithPlayer = 4
 		}
 
 		[SerializeField] private AddressableAudioSource emaggedSound;
@@ -40,10 +40,12 @@ namespace Objects.Drawers
 		// Delay between alarm sounds, in seconds.
 		private const int ALARM_PERIOD = 5;
 
-		private bool consciousnessPresent = false;
+		private bool consciousnessPresent => players.Any(player => player.mind != null && player.mind.IsOnline() && player.mind.CurrentPlayScript == player );
 		private bool buzzerEnabled = ALARM_SYSTEM_ENABLED;
 		private bool alarmBroken = false;
 		private bool alarmRunning = false;
+
+		private List<PlayerScript> players = new List<PlayerScript>();
 
 		#region Interactions
 
@@ -127,9 +129,9 @@ namespace Objects.Drawers
 
 		private void UpdateCloseState()
 		{
-			var players = container.GetStoredObjects().Select(obj => obj.GetComponent<PlayerScript>()).Where(script => script != null);
+			players = container.GetStoredObjects().Select(obj => obj.GetComponent<PlayerScript>()).Where(script => script != null).ToList();
 			// Player mind can be null if player was respawned as the old body mind is nulled
-			consciousnessPresent = players.Any(player => player.mind != null && player.mind.IsOnline());
+
 
 			if (consciousnessPresent && !alarmBroken)
 			{
