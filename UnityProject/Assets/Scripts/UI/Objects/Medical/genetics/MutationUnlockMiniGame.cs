@@ -40,11 +40,9 @@ public class MutationUnlockMiniGame : MonoBehaviour
 
 	public void Start()
 	{
-		if (GUI_DNAConsole.IsMasterTab)
-		{
-			UpdateIndicator();
-			GenerateNewPuzzle();
-		}
+		if (!GUI_DNAConsole.IsMasterTab) return;
+		UpdateIndicator();
+		GenerateNewPuzzle();
 	}
 
 

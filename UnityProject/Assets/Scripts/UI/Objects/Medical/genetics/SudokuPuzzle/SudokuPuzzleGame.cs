@@ -24,15 +24,12 @@ public class SudokuPuzzleGame : MonoBehaviour
 		new Dictionary<PlayerHealthData, SpeciesChoiceElement>();
 	public void Start()
 	{
-		if (GUI_DNAConsole.IsMasterTab)
+		if (!GUI_DNAConsole.IsMasterTab) return;
+		foreach (var Species in GUI_DNAConsole.DNAConsole.ALLSpecies)
 		{
-			foreach (var Species in GUI_DNAConsole.DNAConsole.ALLSpecies)
-			{
-				var Element =  SpeciesSelectionList.AddItem() as SpeciesChoiceElement;
-				Element.SetValues(Species, this);
-				MutationToElement[Species] = Element;
-			}
-
+			var Element =  SpeciesSelectionList.AddItem() as SpeciesChoiceElement;
+			Element.SetValues(Species, this);
+			MutationToElement[Species] = Element;
 		}
 	}
 
