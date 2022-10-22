@@ -35,8 +35,8 @@ namespace UI.Objects.Telecomms
 			}
 
 			emittingDevice = Provider.GetComponent<SignalEmitter>();
-			frequencySlider.minValue = emittingDevice.SignalData.MinMaxFrequancy.x;
-			frequencySlider.maxValue = emittingDevice.SignalData.MinMaxFrequancy.y;
+			frequencySlider.minValue = emittingDevice.EmmitableSignalData[0].MinMaxFrequancy.x;
+			frequencySlider.maxValue = emittingDevice.EmmitableSignalData[0].MinMaxFrequancy.y;
 			UpdateFrequencyFromProvider();
 			if(emittingDevice.RequiresPower == false) radioPowerToggle.SetActive(false);
 			radioPowerToggle.isOn = emittingDevice.IsPowered;
@@ -70,8 +70,8 @@ namespace UI.Objects.Telecomms
 				freuquencyLabel.text = $"{emittingDevice.Frequency.ToString()}KHz";
 				return;
 			}
-			if (result.IsBetween(emittingDevice.SignalData.MinMaxFrequancy.x,
-				emittingDevice.SignalData.MinMaxFrequancy.y))
+			if (result.IsBetween(emittingDevice.EmmitableSignalData[0].MinMaxFrequancy.x,
+				emittingDevice.EmmitableSignalData[0].MinMaxFrequancy.y))
 			{
 				emittingDevice.Frequency = result;
 				freuquencyLabel.text = $"{emittingDevice.Frequency.ToString()}KHz";

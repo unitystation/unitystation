@@ -64,7 +64,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 8474871639881228510}
+      objectReference: {fileID: 0}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_Sprite
@@ -197,8 +197,7 @@ MonoBehaviour:
   Frequency: 122
   Emitter: {fileID: 0}
   DelayTime: 3
-  EncryptionData: {fileID: -2842204651015810191, guid: 656a30670ebaf0e4a8b953d06ec3b66b,
-    type: 2}
+  PassCode: 0
   ListenToEncryptedData: 0
   hearableRange: 3
   layerToCheck:
@@ -223,7 +222,7 @@ MonoBehaviour:
   Frequency: 122
   Emitter: {fileID: 0}
   DelayTime: 3
-  EncryptionData: {fileID: 0}
+  PassCode: 0
   ListenToEncryptedData: 0
   radio: {fileID: 166801742205184598}
 --- !u!114 &1587260748569161296
@@ -265,12 +264,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  signalData: {fileID: 11400000, guid: 656a30670ebaf0e4a8b953d06ec3b66b, type: 2}
-  encryptionData: {fileID: -2842204651015810191, guid: 656a30670ebaf0e4a8b953d06ec3b66b,
-    type: 2}
+  emmitableSignalData:
+  - {fileID: 11400000, guid: 656a30670ebaf0e4a8b953d06ec3b66b, type: 2}
+  passCode: 0
   frequency: 122
   requiresPower: 1
   isPowered: 1
+  canExamineFrequency: 0
 --- !u!114 &7282473451808205216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,15 +284,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 48
---- !u!114 &8474871639881228510 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114341119007412586, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 8361762283722863028}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8361325896675593486}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  requiresAltClick: 0
