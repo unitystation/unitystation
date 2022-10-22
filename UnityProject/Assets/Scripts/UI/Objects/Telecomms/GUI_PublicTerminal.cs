@@ -120,7 +120,7 @@ namespace UI.Objects.Wallmounts
 				string playerName = masterTerminal.CurrentLogin.RegisteredName;
 
 				if (playerName == null) NameLabel.SetValueServer("Signed in as: NULL");
-				else if(masterTerminal.isAI)
+				else if(masterTerminal.IsAI)
 				{
 					NameLabel.SetValueServer("Signed in as: AI");
 				}

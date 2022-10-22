@@ -63,32 +63,16 @@ public partial class Chat : MonoBehaviour
 					ChatEvent = chatEvent,
 				};
 				chatEvent.channels = channel;
-				if (chatEvent.originator.TryGetComponent<PlayerScript>(out var playerScript))
+
+				if (chatEvent.originator.TryGetComponent<PlayerScript>(out var playerScript) == false) continue;
+				//There are some cases where the player might not have a dynamic item storage (like the AI)
+				if (playerScript.DynamicItemStorage == null)
 				{
-					//There are some cases where the player might not have a dynamic item storage (like the AI)
-					if (playerScript.DynamicItemStorage == null)
-					{
-						Physics2D.OverlapCircleNonAlloc(playerScript.PlayerChatLocation.AssumedWorldPosServer(), searchRadiusForSphereResult, nonAllocPhysicsSphereResult);
-						foreach (var item in nonAllocPhysicsSphereResult)
-						{
-							var module = item.gameObject.GetComponentInChildren<IChatInfluencer>();
-							if(module == null) continue;
-							if(module.WillInfluenceChat() == false) continue;
-							module.InfluenceChat(chatEvent);
-							break;
-						}
-						continue;
-					}
-					//for normal players, just grab the headset that's on their dynamic item storage.
-					foreach (var slot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.ear)
-						         .Where(slot => slot.IsEmpty == false))
-					{
-						if(slot.ItemObject.TryGetComponent<Headset>(out var headset) == false) continue;
-						//The headset is responsible for sending this chatEvent to an in-game server that
-						//relays this chatEvent to other players
-						headset.TrySendSignal(null, radioMessageData);
-					}
+					NoDynamicInventoryChatInfulencerSearch(playerScript, chatEvent);
+					continue;
 				}
+				//for normal players, just grab the headset that's on their dynamic item storage.
+				DynamicInventoryRadioSignal(playerScript, radioMessageData);
 				continue;
 			}
 
@@ -103,6 +87,32 @@ public partial class Chat : MonoBehaviour
 		//Sends All Chat messages to a discord webhook
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAllChatURL, discordMessage, "");
 	}
+
+	private static void NoDynamicInventoryChatInfulencerSearch(PlayerScript playerScript, ChatEvent chatEvent)
+	{
+		Physics2D.OverlapCircleNonAlloc(playerScript.PlayerChatLocation.AssumedWorldPosServer(), searchRadiusForSphereResult, nonAllocPhysicsSphereResult);
+		foreach (var item in nonAllocPhysicsSphereResult)
+		{
+			var module = item.gameObject.GetComponentInChildren<IChatInfluencer>();
+			if(module == null) continue;
+			if(module.WillInfluenceChat() == false) continue;
+			module.InfluenceChat(chatEvent);
+			break;
+		}
+	}
+
+	private static void DynamicInventoryRadioSignal(PlayerScript playerScript,CommsServer.RadioMessageData radioMessageData)
+	{
+		foreach (var slot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.ear)
+			         .Where(slot => slot.IsEmpty == false))
+		{
+			if(slot.ItemObject.TryGetComponent<Headset>(out var headset) == false) continue;
+			//The headset is responsible for sending this chatEvent to an in-game server that
+			//relays this chatEvent to other players
+			headset.TrySendSignal(null, radioMessageData);
+		}
+	}
+
 	/// <summary>
 	/// Send a Chat Msg from a player to the selected Chat Channels
 	/// Server only

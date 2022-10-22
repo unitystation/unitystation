@@ -5,6 +5,7 @@ using UI.Objects.Wallmounts;
 using Mirror;
 using System.Collections;
 using Systems.Clearance;
+using UnityEngine.Serialization;
 
 namespace Objects.Wallmounts.PublicTerminals
 {
@@ -76,13 +77,14 @@ namespace Objects.Wallmounts.PublicTerminals
 		public float CurrentVoltage => currentVoltage;
 		public IDCard CurrentLogin => currentLogin;
 
-		public bool isAI = false;
+		[field: SerializeField, FormerlySerializedAs("isAI")]
+		public bool IsAI { get; set; } = false;
 
 		#region Signals
 
 		protected override bool SendSignalLogic()
 		{
-			if (isAI && isPowered) return true;
+			if (IsAI && isPowered) return true;
 			return CurrentLogin != null && isPowered;
 		}
 
