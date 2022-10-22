@@ -64,7 +64,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 8568103989096618375}
+      objectReference: {fileID: 0}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_Sprite
@@ -253,38 +253,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
---- !u!114 &8568103989096618375 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114341119007412586, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 8610387204673259757}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8610225452865205335}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8610225452865205335 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
     type: 3}
   m_PrefabInstance: {fileID: 8610387204673259757}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3550542116650327313
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8610225452865205335}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetTabType: 48
-  aiInteractable: 1
 --- !u!114 &3379819454531010068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,8 +273,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  signalData: {fileID: 11400000, guid: ac9bcd63f2f8a944ebd2001ce5c0a3b1, type: 2}
-  encryptionData: {fileID: 0}
+  emmitableSignalData:
+  - {fileID: 11400000, guid: ac9bcd63f2f8a944ebd2001ce5c0a3b1, type: 2}
+  passCode: 0
   frequency: 122
   requiresPower: 0
   isPowered: 1
+  canExamineFrequency: 0
+--- !u!114 &3550542116650327313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8610225452865205335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 48
+  aiInteractable: 1

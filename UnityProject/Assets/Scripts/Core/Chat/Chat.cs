@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -12,6 +13,7 @@ using Messages.Server;
 using Items;
 using Managers;
 using Objects.Machines.ServerMachines.Communications;
+using Objects.Wallmounts.PublicTerminals.Modules;
 using Player.Language;
 using Shared.Util;
 using Tiles;
@@ -33,6 +35,9 @@ public partial class Chat : MonoBehaviour
 	public bool OOCMute = false;
 
 	private static Regex htmlRegex = new Regex(@"^(http|https)://.*$");
+
+	private static Collider2D[] nonAllocPhysicsSphereResult = new Collider2D[150];
+	private static float searchRadiusForSphereResult = 20f;
 
 	public static void InvokeChatEvent(ChatEvent chatEvent)
 	{
@@ -58,15 +63,16 @@ public partial class Chat : MonoBehaviour
 					ChatEvent = chatEvent,
 				};
 				chatEvent.channels = channel;
-				if (chatEvent.originator.TryGetComponent<PlayerScript>(out var playerScript))
+
+				if (chatEvent.originator.TryGetComponent<PlayerScript>(out var playerScript) == false) continue;
+				//There are some cases where the player might not have a dynamic item storage (like the AI)
+				if (playerScript.DynamicItemStorage == null)
 				{
-					foreach (var slot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.ear)
-						         .Where(slot => slot.IsEmpty == false))
-					{
-						if(slot.ItemObject.TryGetComponent<Headset>(out var headset) == false) continue;
-						headset.TrySendSignal(radioMessageData);
-					}
+					NoDynamicInventoryChatInfulencerSearch(playerScript, chatEvent);
+					continue;
 				}
+				//for normal players, just grab the headset that's on their dynamic item storage.
+				DynamicInventoryRadioSignal(playerScript, radioMessageData);
 				continue;
 			}
 
@@ -81,6 +87,32 @@ public partial class Chat : MonoBehaviour
 		//Sends All Chat messages to a discord webhook
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAllChatURL, discordMessage, "");
 	}
+
+	private static void NoDynamicInventoryChatInfulencerSearch(PlayerScript playerScript, ChatEvent chatEvent)
+	{
+		Physics2D.OverlapCircleNonAlloc(playerScript.PlayerChatLocation.AssumedWorldPosServer(), searchRadiusForSphereResult, nonAllocPhysicsSphereResult);
+		foreach (var item in nonAllocPhysicsSphereResult)
+		{
+			var module = item.gameObject.GetComponentInChildren<IChatInfluencer>();
+			if(module == null) continue;
+			if(module.WillInfluenceChat() == false) continue;
+			module.InfluenceChat(chatEvent);
+			break;
+		}
+	}
+
+	private static void DynamicInventoryRadioSignal(PlayerScript playerScript,CommsServer.RadioMessageData radioMessageData)
+	{
+		foreach (var slot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.ear)
+			         .Where(slot => slot.IsEmpty == false))
+		{
+			if(slot.ItemObject.TryGetComponent<Headset>(out var headset) == false) continue;
+			//The headset is responsible for sending this chatEvent to an in-game server that
+			//relays this chatEvent to other players
+			headset.TrySendSignal(null, radioMessageData);
+		}
+	}
+
 	/// <summary>
 	/// Send a Chat Msg from a player to the selected Chat Channels
 	/// Server only

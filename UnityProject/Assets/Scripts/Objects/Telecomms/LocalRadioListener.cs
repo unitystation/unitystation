@@ -19,7 +19,7 @@ namespace Objects.Telecomms
 				Message = chatMessage,
 				Code = code
 			};
-			TrySendSignal(msg);
+			TrySendSignal(null, msg);
 		}
 
 		protected override bool SendSignalLogic()
