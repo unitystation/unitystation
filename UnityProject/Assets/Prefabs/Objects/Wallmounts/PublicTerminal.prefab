@@ -76,8 +76,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffbdac607c3a4a6582d240615ce6f78b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isActive: 1
-  Terminal: {fileID: -7809048919140890254}
+  <IsActive>k__BackingField: 1
+  <Terminal>k__BackingField: {fileID: -7809048919140890254}
   poweredDevice: {fileID: 4097420122586931440}
   integrity: {fileID: 8242344805409112385}
   radioSO: {fileID: 11400000, guid: 248cafaf10637f2439d052ae7b819a6e, type: 2}
@@ -102,7 +102,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 93c12dca6be8a194d9c892778366fd45,
+      objectReference: {fileID: 21300006, guid: 93c12dca6be8a194d9c892778366fd45,
         type: 3}
     - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -271,7 +271,7 @@ MonoBehaviour:
   AccessRestricted: 0
   terminalRequiredClearance: 0
   terminalGUI: {fileID: 0}
-  isAI: 0
+  <IsAI>k__BackingField: 0
 --- !u!114 &-2382481136260267869
 MonoBehaviour:
   m_ObjectHideFlags: 0
