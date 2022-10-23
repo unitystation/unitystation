@@ -184,7 +184,7 @@ namespace Systems.Electricity
 
 			return 1 / ResistanceXAll;
 		}
-		public static Dictionary<IntrinsicElectronicData, float> UpstreamAndDownstreamCurrentValues = new Dictionary<IntrinsicElectronicData, float>();
+		private static readonly Dictionary<IntrinsicElectronicData, float> UpstreamAndDownstreamCurrentValues = new Dictionary<IntrinsicElectronicData, float>();
 
 		public static void WorkOutActualNumbers(IntrinsicElectronicData electricItem)
 		{

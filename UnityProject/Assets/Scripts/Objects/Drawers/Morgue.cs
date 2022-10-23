@@ -40,7 +40,7 @@ namespace Objects.Drawers
 		// Delay between alarm sounds, in seconds.
 		private const int ALARM_PERIOD = 5;
 
-		private bool consciousnessPresent => players.Any(player => player.mind != null && player.mind.IsOnline() && player.mind.CurrentPlayScript == player );
+		private bool ConsciousnessPresent => players.Any(player => player.mind != null && player.mind.IsOnline() && player.mind.CurrentPlayScript == player );
 		private bool buzzerEnabled = ALARM_SYSTEM_ENABLED;
 		private bool alarmBroken = false;
 		private bool alarmRunning = false;
@@ -133,7 +133,7 @@ namespace Objects.Drawers
 			// Player mind can be null if player was respawned as the old body mind is nulled
 
 
-			if (consciousnessPresent && !alarmBroken)
+			if (ConsciousnessPresent && !alarmBroken)
 			{
 				SetDrawerState((DrawerState)MorgueState.ShutWithPlayer);
 				StartCoroutine(PlayAlarm());
@@ -157,7 +157,7 @@ namespace Objects.Drawers
 			if (!ALARM_SYSTEM_ENABLED || alarmRunning) yield break;
 
 			alarmRunning = true;
-			while (consciousnessPresent && buzzerEnabled && !alarmBroken)
+			while (ConsciousnessPresent && buzzerEnabled && !alarmBroken)
 			{
 				SoundManager.PlayNetworkedAtPos(consciousnessAlarmSound, DrawerWorldPosition, sourceObj: gameObject);
 				yield return WaitFor.Seconds(ALARM_PERIOD);
