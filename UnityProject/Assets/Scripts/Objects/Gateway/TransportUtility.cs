@@ -26,13 +26,14 @@ namespace Gateway
 		{
 			if (objectPhysics == null) return; //Don't even bother...
 
+			var dest = transportTo;
 			if (SubSceneManager.Instance.IsMaintRooms && Random.Range(0, 1000) <= 1) //If maintrooms are loaded, all teleports will have a 0.1% chance of resulting in teleporting to the maintrooms
 			{
-				transportTo = maintRoomsLocation;
+				dest = maintRoomsLocation;
 			}
 
 			objectPhysics.DisappearFromWorld();
-			objectPhysics.AppearAtWorldPositionServer(transportTo, doStepInteractions: doTileStep);
+			objectPhysics.AppearAtWorldPositionServer(dest, doStepInteractions: doTileStep);
 		}
 
 		/// <summary>

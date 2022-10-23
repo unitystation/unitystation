@@ -5,7 +5,10 @@ namespace Systems.Scenes
 {
 	public class MaintGeneratorManager : MonoBehaviour
 	{
-		public static List<MaintGenerator> maintGenerators = new List<MaintGenerator>();
+
+		private static List<MaintGenerator> maintGenerators => MaintGenerators;
+
+		public static List<MaintGenerator> MaintGenerators = new List<MaintGenerator>();
 
 		private void Awake()
 		{

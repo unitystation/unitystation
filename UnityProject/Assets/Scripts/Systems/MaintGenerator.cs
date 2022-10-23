@@ -28,6 +28,7 @@ namespace Systems.Scenes
 
 		private const int MAX_DIMENSIONS = 50;
 		private const int MAX_PERCENT = 100; //Damn codacy and it's obsession with constants.
+		private const int WALL_GAP = 2;
 
 		[SerializeField, Range(1, MAX_DIMENSIONS)] private int width = 20;
 		[SerializeField, Range(1, MAX_DIMENSIONS)] private int height = 20;
@@ -60,12 +61,12 @@ namespace Systems.Scenes
 			Gizmos.color = Color.red;
 			var size = new Vector2Int(width, height).To3();
 
-			Gizmos.DrawWireCube(transform.position + size/2 + new Vector3(-0.5f, -0.5f, 0), size);
+			Gizmos.DrawWireCube(transform.position + size/WALL_GAP + new Vector3(-0.5f, -0.5f, 0), size);
 
 			Gizmos.color = Color.cyan;
 			foreach(ExclusionZone zone in exclusionZones)
 			{
-				Gizmos.DrawWireCube(transform.position + zone.Offset.To3() + zone.Size.To3()/2 + new Vector3(-0.5f,-0.5f,0), zone.Size.To3());
+				Gizmos.DrawWireCube(transform.position + zone.Offset.To3() + zone.Size.To3()/WALL_GAP + new Vector3(-0.5f,-0.5f,0), zone.Size.To3());
 			}		
 		}
 
@@ -87,7 +88,7 @@ namespace Systems.Scenes
 
 			await CarveRooms();
 
-			MaintGeneratorManager.maintGenerators.Add(this);
+			MaintGeneratorManager.MaintGenerators.Add(this);
 
 		}
 
@@ -105,7 +106,7 @@ namespace Systems.Scenes
 
 			foreach (Direction direction in directions) //Carves walls
 			{
-				Vector2Int newCell = new Vector2Int(x, y) + (DirectionVector[direction] * 2);
+				Vector2Int newCell = new Vector2Int(x, y) + (DirectionVector[direction] * WALL_GAP);
 
 				if (IsOutOfBounds(newCell.x, newCell.y)) continue;
 
@@ -118,7 +119,7 @@ namespace Systems.Scenes
 
 			foreach (Direction direction in directions) //Gets new bordercells
 			{
-				Vector2Int newCell = new Vector2Int(x, y) + (DirectionVector[direction] * 2);
+				Vector2Int newCell = new Vector2Int(x, y) + (DirectionVector[direction] * WALL_GAP);
 
 				if (IsOutOfBounds(newCell.x, newCell.y)) continue;
 
@@ -151,7 +152,7 @@ namespace Systems.Scenes
 					{
 						var pos = zone.Offset + new Vector2Int(x, y);
 
-						mazeArray[pos.x, pos.y] = 2; //Not a wall but no objects can be spawn here either.
+						mazeArray[pos.x, pos.y] = WALL_GAP; //Not a wall but no objects can be spawn here either.
 					}
 				}
 			}
@@ -275,13 +276,16 @@ namespace Systems.Scenes
 	[Serializable]
 	public class MaintObject
 	{
+		private const int MAX_PERCENT = 100;
+		private const int MAX_NEIGHBOURS = 4;
+
 		[field: SerializeField, Tooltip("The object to be spawned during maint generation.")]
 		public GameObject ObjectToSpawn { get; private set; }
 
-		[field: SerializeField, Range(0, 100), Tooltip("The chance that this object will spawn.")]
+		[field: SerializeField, Range(0, MAX_PERCENT), Tooltip("The chance that this object will spawn.")]
 		public int ObjectChance { get; private set; }
 
-		[field: SerializeField, Range(0, 4), Tooltip("The required walls next to an object in order for it to spawn.")]
+		[field: SerializeField, Range(0, MAX_NEIGHBOURS), Tooltip("The required walls next to an object in order for it to spawn.")]
 		public int RequiredWalls { get; private set; }
 
 		[field: SerializeField, Tooltip("Used by doors and grills, requires walls to be on opposite sides of the object to be a valid spawn.")]
