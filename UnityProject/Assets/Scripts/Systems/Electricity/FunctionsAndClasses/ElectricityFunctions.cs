@@ -184,6 +184,7 @@ namespace Systems.Electricity
 
 			return 1 / ResistanceXAll;
 		}
+		private static readonly Dictionary<IntrinsicElectronicData, float> UpstreamAndDownstreamCurrentValues = new Dictionary<IntrinsicElectronicData, float>();
 
 		public static void WorkOutActualNumbers(IntrinsicElectronicData electricItem)
 		{
@@ -198,25 +199,44 @@ namespace Systems.Electricity
 				voltage += supply.Value.SourceVoltage;
 			}
 
-			foreach (var currentIDItem in electricItem.Data.SupplyDependent)
+			lock (UpstreamAndDownstreamCurrentValues)
 			{
-				var toAddCurrent = 0f;
-
-				foreach (var currentItem in currentIDItem.Value.CurrentComingFrom)
+				UpstreamAndDownstreamCurrentValues.Clear(); //Voltages easy to work out just add up all the voltages from different sources
+				foreach (var CurrentIDItem in electricItem.Data.SupplyDependent)
 				{
-					toAddCurrent += (float) currentItem.Value.Current();
+					foreach (var Upstream in CurrentIDItem.Value.CurrentComingFrom)
+					{
+						if (UpstreamAndDownstreamCurrentValues.ContainsKey(Upstream.Key))
+						{
+							UpstreamAndDownstreamCurrentValues[Upstream.Key] += (float) Upstream.Value.Current();
+						}
+						else
+						{
+							UpstreamAndDownstreamCurrentValues[Upstream.Key] = (float) Upstream.Value.Current();
+						}
+					}
+
+					foreach (var Downstream in CurrentIDItem.Value.CurrentGoingTo)
+					{
+						if (UpstreamAndDownstreamCurrentValues.ContainsKey(Downstream.Key))
+						{
+							UpstreamAndDownstreamCurrentValues[Downstream.Key] += (float) -Downstream.Value.Current();
+						}
+						else
+						{
+							UpstreamAndDownstreamCurrentValues[Downstream.Key] = (float) -Downstream.Value.Current();
+						}
+					}
 				}
 
-				foreach (var currentItem in currentIDItem.Value.CurrentGoingTo)
+				foreach (var CurrentItem in UpstreamAndDownstreamCurrentValues)
 				{
-					toAddCurrent += (float) -currentItem.Value.Current();
+					if (CurrentItem.Value > 0)
+					{
+						current += CurrentItem.Value;
+					}
 				}
-
-				if(toAddCurrent <= 0) continue;
-				current += toAddCurrent;
 			}
-
-			//Logger.Log (Voltage.ToString () + " < yeah Those voltage " + Current.ToString() + " < yeah Those Current " + (Voltage/Current).ToString() + " < yeah Those Resistance" + ElectricItem.GameObject().name.ToString() + " < at", Category.Electrical);
 
 			electricItem.Data.CurrentInWire = current;
 			electricItem.Data.ActualVoltage = voltage;
