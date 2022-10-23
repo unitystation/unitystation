@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Chemistry.Components;
 using Health.Sickness;
@@ -10,7 +11,32 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 {
 	public ReagentContainer LocalContainer;
 
+	public SpriteHandler SpriteHandler;
+
+
 	public List<SicknessAffliction> SicknessesInSyringe = new List<SicknessAffliction>();
+
+	public bool singleUse = false;
+
+	private bool used = false;
+
+	public bool ChangesSprite = true;
+
+	public int SpiteFullIndex = 0;
+	public int SpiteEmptyIndex = 1;
+
+	public void Awake()
+	{
+		if (LocalContainer != null)
+		{
+			LocalContainer = this.GetComponent<ReagentContainer>();
+		}
+
+		if (SpriteHandler != null)
+		{
+			SpriteHandler = this.GetComponentInChildren<SpriteHandler>();
+		}
+	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
@@ -25,22 +51,37 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 	/// </summary>
 	public void ServerPerformInteraction(HandApply interaction)
 	{
+		if (singleUse)
+		{
+			if (used)
+			{
+				return;
+			}
+			used = true;
+		}
+
+
+
 		var LHB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 		if (LHB != null)
 		{
 			if (LocalContainer.ReagentMixTotal > 0)
 			{
-				LHB.CirculatorySystem.BloodPool.Add(LocalContainer.TakeReagents(15f));
-				Chat.AddActionMsgToChat(interaction.Performer, $"You Inject The syringe into {LHB.gameObject.ExpensiveName()}",
-					$"{interaction.Performer.ExpensiveName()} injects a syringe into {LHB.gameObject.ExpensiveName()}");
+				LHB.CirculatorySystem.BloodPool.Add(LocalContainer.TakeReagents(LocalContainer.ReagentMixTotal));
+				Chat.AddActionMsgToChat(interaction.Performer, $"You Inject The {this.name} into {LHB.gameObject.ExpensiveName()}",
+					$"{interaction.Performer.ExpensiveName()} injects a {this.name} into {LHB.gameObject.ExpensiveName()}");
 				if(SicknessesInSyringe.Count > 0) LHB.AddSickness(SicknessesInSyringe.PickRandom().Sickness);
+				if (ChangesSprite) SpriteHandler.ChangeSprite(SpiteEmptyIndex);
+
 			}
 			else
 			{
-				LocalContainer.Add(LHB.CirculatorySystem.BloodPool.Take(15f));
+				LocalContainer.Add(LHB.CirculatorySystem.BloodPool.Take(LocalContainer.ReagentMixTotal));
 				Chat.AddActionMsgToChat(interaction.Performer, $"You pull the blood from {LHB.gameObject.ExpensiveName()}",
 					$"{interaction.Performer.ExpensiveName()} pulls the blood from {LHB.gameObject.ExpensiveName()}");
 				if(LHB.mobSickness.sicknessAfflictions.Count > 0) SicknessesInSyringe.AddRange(LHB.mobSickness.sicknessAfflictions);
+				SpriteHandler.ChangeSprite(SpiteFullIndex);
+				if (ChangesSprite) SpriteHandler.ChangeSprite(SpiteEmptyIndex);
 			}
 		}
 	}

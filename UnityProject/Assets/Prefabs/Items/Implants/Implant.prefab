@@ -160,7 +160,7 @@ MonoBehaviour:
   ReagentMetabolism: 0.2
   NaturalToxinReagent: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12,
     type: 2}
-  ToxinGeneration: 0.001
+  ToxinGeneration: 0.0001
   HungerState: 1
   SelfArmor:
     Melee: 0
@@ -173,6 +173,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    Anomaly: 0
     DismembermentProtectionChance: 0
     StunImmunity: 0
   SubOrganBodyPartArmour:
@@ -186,6 +187,7 @@ MonoBehaviour:
     Acid: 100
     Magic: 100
     Bio: 0
+    Anomaly: 0
     DismembermentProtectionChance: 0
     StunImmunity: 0
   SubOrganDamageIncreasePoint: 80
