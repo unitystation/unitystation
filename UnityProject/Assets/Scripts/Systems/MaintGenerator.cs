@@ -29,6 +29,7 @@ namespace Systems.Scenes
 		private const int MAX_DIMENSIONS = 50;
 		private const int MAX_PERCENT = 100; //Damn codacy and it's obsession with constants.
 		private const int WALL_GAP = 2;
+		private readonly Vector3 GIZMO_OFFSET = new Vector3(-0.5f, -0.5f, 0);
 
 		[SerializeField, Range(1, MAX_DIMENSIONS)] private int width = 20;
 		[SerializeField, Range(1, MAX_DIMENSIONS)] private int height = 20;
@@ -61,12 +62,12 @@ namespace Systems.Scenes
 			Gizmos.color = Color.red;
 			var size = new Vector2Int(width, height).To3();
 
-			Gizmos.DrawWireCube(transform.position + size/WALL_GAP + new Vector3(-0.5f, -0.5f, 0), size);
+			Gizmos.DrawWireCube(transform.position + size/WALL_GAP + GIZMO_OFFSET, size);
 
 			Gizmos.color = Color.cyan;
 			foreach(ExclusionZone zone in exclusionZones)
 			{
-				Gizmos.DrawWireCube(transform.position + zone.Offset.To3() + zone.Size.To3()/WALL_GAP + new Vector3(-0.5f,-0.5f,0), zone.Size.To3());
+				Gizmos.DrawWireCube(transform.position + zone.Offset.To3() + zone.Size.To3()/WALL_GAP + GIZMO_OFFSET, zone.Size.To3());
 			}		
 		}
 

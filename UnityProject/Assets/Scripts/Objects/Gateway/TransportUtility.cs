@@ -12,6 +12,7 @@ namespace Gateway
 	public class TransportUtility : NetworkBehaviour //Would be a regular static class, but Weaver complains if it doesn't inherit NetworkBehaviour
 	{
 		private static readonly Vector3 maintRoomsLocation = new Vector3(3005,-2916,0);
+		private const int MAINTROOM_CHANCE = 1000; //Once in 1000 chance
 
 		/// <summary>
 		/// <para>Transports a <paramref name="objectPhysics"/> to <paramref name="transportTo"/> without lerping.</para>
@@ -27,7 +28,7 @@ namespace Gateway
 			if (objectPhysics == null) return; //Don't even bother...
 
 			var dest = transportTo;
-			if (SubSceneManager.Instance.IsMaintRooms && Random.Range(0, 1000) <= 1) //If maintrooms are loaded, all teleports will have a 0.1% chance of resulting in teleporting to the maintrooms
+			if (SubSceneManager.Instance.IsMaintRooms && Random.Range(0, MAINTROOM_CHANCE) <= 1) //If maintrooms are loaded, all teleports will have a 0.1% chance of resulting in teleporting to the maintrooms
 			{
 				dest = maintRoomsLocation;
 			}
