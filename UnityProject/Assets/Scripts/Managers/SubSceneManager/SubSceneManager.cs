@@ -21,7 +21,7 @@ public partial class SubSceneManager : NetworkBehaviour
 	public MainStationListSO MainStationList => mainStationList;
 
 	public bool AwaySiteLoaded { get; private set; }
-	public bool isMaintRooms
+	public bool IsMaintRooms
 	{
 		get
 		{

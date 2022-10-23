@@ -18,7 +18,7 @@ namespace Systems.Scenes
 			West = 4,
 		}
 
-		private Dictionary<Direction, Vector2Int> DirectionVector = new Dictionary<Direction, Vector2Int>
+		private readonly Dictionary<Direction, Vector2Int> DirectionVector = new Dictionary<Direction, Vector2Int>
 		{
 			{ Direction.North, new Vector2Int(0,1) },
 			{ Direction.South, new Vector2Int(0,-1) },
@@ -26,12 +26,14 @@ namespace Systems.Scenes
 			{ Direction.West, new Vector2Int(-1,0) }
 		};
 
+		private const int MAX_DIMENSIONS = 50;
+		private const int MAX_PERCENT = 100; //Damn codacy and it's obsession with constants.
 
-		[SerializeField, Range(1, 50)] private int width = 20;
-		[SerializeField, Range(1, 50)] private int height = 20;
+		[SerializeField, Range(1, MAX_DIMENSIONS)] private int width = 20;
+		[SerializeField, Range(1, MAX_DIMENSIONS)] private int height = 20;
 		[SerializeField] private LayerTile wallTile;
 
-		[SerializeField, Range(0,100)] private int objectChance = 50;
+		[SerializeField, Range(0,MAX_PERCENT)] private int objectChance = 50;
 
 		[SerializeField] private Matrix matrix;
 
@@ -197,38 +199,42 @@ namespace Systems.Scenes
 				{
 					if (mazeArray[i, j] != 0) continue;
 
-					int h = UnityEngine.Random.Range(0, 100);
+					int h = UnityEngine.Random.Range(0, MAX_PERCENT);
 					if (h > objectChance) continue;
 
-					int neighbourCount = CountNeighbours(i, j);
-
-					foreach (MaintObject obj in possibleSpawns)
-					{
-						if (obj.RequiredWalls != neighbourCount) continue;
-						if (obj.RequireOpposingWalls && CheckOpposites(i, j) == false) continue;
-
-						h = UnityEngine.Random.Range(0, 100);
-						if (h > obj.ObjectChance) continue;
-
-						var pos = new Vector3Int(i, j, 0) + transform.position;
-						Spawn.ServerPrefab(obj.ObjectToSpawn, SpawnDestination.At(pos));
-
-						if(obj.SpawnLockerCrate)
-						{
-							GameObject container = Spawn.ServerPrefab(containers.PickRandom(), SpawnDestination.At(pos)).GameObject;
-							if (container.TryGetComponent<ClosetControl>(out var closet) == false) break;
-
-							closet.CollectObjects();
-						}
-
-						if(obj.TileToSpawn != null)
-						{
-							matrix.MatrixInfo.MetaTileMap.SetTile(pos.ToLocalInt(matrix), obj.TileToSpawn);
-						}
-
-						break; 
-					}
+					TrySpawnObject(i,j);		
 				}
+			}
+		}
+
+		private void TrySpawnObject(int i, int j)
+		{
+			int neighbourCount = CountNeighbours(i, j);
+
+			foreach (MaintObject obj in possibleSpawns)
+			{
+				if (obj.RequiredWalls != neighbourCount) continue;
+				int h = UnityEngine.Random.Range(0, MAX_PERCENT);
+
+				if (h > obj.ObjectChance || (obj.RequireOpposingWalls && CheckOpposites(i, j) == false)) continue;
+
+				var pos = new Vector3Int(i, j, 0) + transform.position;
+				Spawn.ServerPrefab(obj.ObjectToSpawn, SpawnDestination.At(pos));
+
+				if (obj.SpawnLockerCrate)
+				{
+					GameObject container = Spawn.ServerPrefab(containers.PickRandom(), SpawnDestination.At(pos)).GameObject;
+					if (container.TryGetComponent<ClosetControl>(out var closet) == false) break;
+
+					closet.CollectObjects();
+				}
+
+				if (obj.TileToSpawn != null)
+				{
+					matrix.MatrixInfo.MetaTileMap.SetTile(pos.ToLocalInt(matrix), obj.TileToSpawn);
+				}
+
+				break;
 			}
 		}
 
@@ -236,17 +242,13 @@ namespace Systems.Scenes
 		{
 			Vector2Int newCellA = new Vector2Int(x, y) + DirectionVector[Direction.East];
 			Vector2Int newCellB = new Vector2Int(x, y) + DirectionVector[Direction.West];
-			if (IsOutOfBounds(newCellB.x, newCellB.y) == false && IsOutOfBounds(newCellA.x, newCellA.y) == false)
-			{
-				if (mazeArray[newCellA.x, newCellA.y] == 1 && mazeArray[newCellB.x, newCellB.y] == 1) return true;
-			}
+			if (IsOutOfBounds(newCellB.x, newCellB.y) == false && IsOutOfBounds(newCellA.x, newCellA.y) == false
+				&& (mazeArray[newCellA.x, newCellA.y] == 1 && mazeArray[newCellB.x, newCellB.y] == 1)) return true;
 
 			newCellA = new Vector2Int(x, y) + DirectionVector[Direction.North];
 			newCellB = new Vector2Int(x, y) + DirectionVector[Direction.South];
-			if (IsOutOfBounds(newCellB.x, newCellB.y) == false && IsOutOfBounds(newCellA.x, newCellA.y) == false)
-			{
-				if (mazeArray[newCellA.x, newCellA.y] == 1 && mazeArray[newCellB.x, newCellB.y] == 1) return true;
-			}
+			if (IsOutOfBounds(newCellB.x, newCellB.y) == false && IsOutOfBounds(newCellA.x, newCellA.y) == false
+			&& (mazeArray[newCellA.x, newCellA.y] == 1 && mazeArray[newCellB.x, newCellB.y] == 1)) return true;
 
 			return false;
 		}

@@ -26,7 +26,7 @@ namespace Gateway
 		{
 			if (objectPhysics == null) return; //Don't even bother...
 
-			if (SubSceneManager.Instance.isMaintRooms && Random.Range(0, 1000) <= 1) //If maintrooms are loaded, all teleports will have a 0.1% chance of resulting in teleporting to the maintrooms
+			if (SubSceneManager.Instance.IsMaintRooms && Random.Range(0, 1000) <= 1) //If maintrooms are loaded, all teleports will have a 0.1% chance of resulting in teleporting to the maintrooms
 			{
 				transportTo = maintRoomsLocation;
 			}
