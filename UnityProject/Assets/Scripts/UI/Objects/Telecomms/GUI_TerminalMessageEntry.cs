@@ -2,6 +2,7 @@
 using UI.Core.NetUI;
 using Objects.Wallmounts;
 using System.Linq;
+using Objects.Wallmounts.PublicTerminals;
 
 namespace UI.Objects.Wallmounts
 {

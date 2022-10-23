@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Objects.Wallmounts;
 using System.Linq;
 using Mirror;
+using Objects.Wallmounts.PublicTerminals;
 
 namespace UI.Objects.Wallmounts
 {
@@ -119,9 +120,14 @@ namespace UI.Objects.Wallmounts
 				string playerName = masterTerminal.CurrentLogin.RegisteredName;
 
 				if (playerName == null) NameLabel.MasterSetValue("Signed in as: NULL");
+				else if(masterTerminal.IsAI)
+				{
+					NameLabel.MasterSetValue("Signed in as: AI");
+				}
 				else
+				{
 					NameLabel.MasterSetValue("Signed in as: " + masterTerminal.CurrentLogin.RegisteredName);
-
+				}
 				if (mainSwitcher.CurrentPage == LoginPage) mainSwitcher.SetActivePage(RequestPage);
 			}
 

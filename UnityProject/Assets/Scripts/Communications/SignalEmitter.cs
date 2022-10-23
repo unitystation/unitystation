@@ -13,7 +13,7 @@ namespace Communications
 	{
 		[SerializeField]
 		[Required("A signalSO is required for this to work.")]
-		protected SignalDataSO signalData;
+		protected List<SignalDataSO> emmitableSignalData;
 		[SerializeField]
 		protected int passCode;
 		[SerializeField]
@@ -45,14 +45,24 @@ namespace Communications
 			set => passCode = value;
 		}
 
-		public SignalDataSO SignalData => signalData;
+		public List<SignalDataSO> EmmitableSignalData => emmitableSignalData;
 		public bool RequiresPower => requiresPower;
 
 		/// <summary>
 		/// Tells the SignalManager to send a signal to a receiver
 		/// </summary>
-		public void TrySendSignal(ISignalMessage message = null)
+		public void TrySendSignal(SignalDataSO signalData = null, ISignalMessage message = null)
 		{
+			if (emmitableSignalData == null || emmitableSignalData.Count == 0)
+			{
+				Logger.LogError("[Singals] - No emmitable signal data detected!");
+				return;
+			}
+			//if no signalData is given, always use the first signal SO in the list as it's considered the main signal.
+			if (signalData == null)
+			{
+				signalData = emmitableSignalData[0];
+			}
 			if (requiresPower == true && isPowered == false)
 			{
 				SignalFailed();
