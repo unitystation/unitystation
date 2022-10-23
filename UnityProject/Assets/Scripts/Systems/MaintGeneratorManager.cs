@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Gateway;
 
 namespace Systems.Scenes
 {
@@ -9,6 +10,8 @@ namespace Systems.Scenes
 
 		private void Awake()
 		{
+			TransportUtility.MaintRoomLocations.Clear();
+
 			if (CustomNetworkManager.IsServer == false) return;
 			MaintGenerators.Clear();
 

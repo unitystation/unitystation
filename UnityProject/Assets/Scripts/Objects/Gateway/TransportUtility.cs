@@ -11,7 +11,7 @@ namespace Gateway
 	/// </summary>
 	public class TransportUtility : NetworkBehaviour //Would be a regular static class, but Weaver complains if it doesn't inherit NetworkBehaviour
 	{
-		private static readonly Vector3 maintRoomsLocation = new Vector3(3005,-2916,0);
+		public static List<GameObject> MaintRoomLocations { get; set; } = new List<GameObject>();
 		private const int MAINTROOM_CHANCE = 1000; //Once in 1000 chance
 
 		/// <summary>
@@ -30,7 +30,7 @@ namespace Gateway
 			var dest = transportTo;
 			if (SubSceneManager.Instance.IsMaintRooms && Random.Range(0, MAINTROOM_CHANCE) <= 1) //If maintrooms are loaded, all teleports will have a 0.1% chance of resulting in teleporting to the maintrooms
 			{
-				dest = maintRoomsLocation;
+				dest = MaintRoomLocations.PickRandom().RegisterTile().WorldPositionServer;
 			}
 
 			objectPhysics.DisappearFromWorld();
