@@ -30,7 +30,10 @@ namespace Learning
 
 		public void ShowTip(ProtipSO tip)
 		{
-			var duration = tip.TipData.ShowDuration <= 0 ? tip.TipData.ShowDuration : DEFAULT_DURATION; //Incase whoever was setting the SO data forgot to set the duration.
+			// In-case whoever was setting the SO data forgot to set the duration.
+			var duration = tip.TipData.ShowDuration <= 0 ? tip.TipData.ShowDuration : DEFAULT_DURATION;
+			// reset the rotation before starting a new animation.
+			tipImage.transform.rotation = Quaternion.Euler(0,0,0);
 			StopAllCoroutines();
 			SetPositionInTransform();
 			tipText.text = tip.TipData.Tip;
