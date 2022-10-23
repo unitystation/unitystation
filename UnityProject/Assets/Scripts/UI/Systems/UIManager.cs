@@ -217,7 +217,11 @@ public class UIManager : MonoBehaviour, IInitialise
 		set
 		{
 			if (ProtipManager.Instance == null ||
-			    ProtipManager.Instance.PlayerExperienceLevel >= ProtipManager.ExperienceLevel.NewToUnityStation) return;
+			    ProtipManager.Instance.PlayerExperienceLevel == ProtipManager.ExperienceLevel.Robust) return;
+			if (ProtipManager.Instance.PlayerExperienceLevel == ProtipManager.ExperienceLevel.SomewhatExperienced)
+			{
+				if(KeyboardInputManager.IsShiftPressed() == false) return;
+			}
 			Instance.toolTip.text = value;
 		}
 	}
