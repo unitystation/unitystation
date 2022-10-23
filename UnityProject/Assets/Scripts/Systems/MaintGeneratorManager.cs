@@ -5,37 +5,24 @@ namespace Systems.Scenes
 {
 	public class MaintGeneratorManager : MonoBehaviour
 	{
-
-		private static List<MaintGenerator> maintGenerators = new List<MaintGenerator>();
-
-		public static List<MaintGenerator> MaintGenerators
-		{
-			get
-			{
-				return maintGenerators;
-			}
-			set
-			{
-				maintGenerators = value;
-			}
-		}
+		public static List<MaintGenerator> MaintGenerators { get; set; } = new List<MaintGenerator>();
 
 		private void Awake()
 		{
 			if (CustomNetworkManager.IsServer == false) return;
-			maintGenerators.Clear();
+			MaintGenerators.Clear();
 
 			EventManager.AddHandler(Event.ScenesLoadedServer, GenerateMaints);
 		}
 
 		private void GenerateMaints()
 		{
-			foreach (MaintGenerator maintGenerator in maintGenerators)
+			foreach (MaintGenerator maintGenerator in MaintGenerators)
 			{
 				maintGenerator.CreateTiles();
 				maintGenerator.PlaceObjects();
 			}
-			maintGenerators.Clear();
+			MaintGenerators.Clear();
 			Logger.Log("Finished generating maints!", Category.Round);
 		}
 	}
