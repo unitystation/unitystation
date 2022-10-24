@@ -114,11 +114,11 @@ namespace Systems.Explosions
 				integrity.ApplyDamage(DamageDealt, AttackType.Bomb, DamageType.Brute);
 			}
 
-			foreach (var player in matrix.Get<UniversalObjectPhysics>(v3int, ObjectType.Player, true))
+			foreach (var player in matrix.Get<LivingHealthMasterBase>(v3int, ObjectType.Player, true))
 			{
 
 				// do damage
-				player.GetComponent<PlayerHealthV2>().ApplyDamageAll(null, DamageDealt, AttackType.Bomb, DamageType.Brute);
+				player.GetComponent<LivingHealthMasterBase>().ApplyDamageAll(null, DamageDealt, AttackType.Bomb, DamageType.Brute);
 
 			}
 			return EnergyExpended;
