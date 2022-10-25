@@ -13,6 +13,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d7475e26d280e54429da3a94befa01cc,
         type: 2}
+    - target: {fileID: 1323011140707396627, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1323011140707396627, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: d7475e26d280e54429da3a94befa01cc,
+        type: 2}
+    - target: {fileID: 1323011140707396627, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: b3c423c9b37639349a934efb67fb2828,
+        type: 2}
     - target: {fileID: 2279069132046900217, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
       propertyPath: foreverID
@@ -190,7 +207,7 @@ PrefabInstance:
     - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
       propertyPath: maxCapacity
-      value: 13
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
@@ -205,12 +222,12 @@ PrefabInstance:
     - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
@@ -226,6 +243,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c,
+        type: 2}
+    - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
       value: 10
       objectReference: {fileID: 0}
@@ -233,6 +256,21 @@ PrefabInstance:
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6933970566707424022, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: singleUse
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6933970566707424022, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: ChangesSprite
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1265e6ed7f0c58249b9a29aacc18a166, type: 3}

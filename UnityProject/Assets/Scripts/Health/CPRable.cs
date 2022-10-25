@@ -71,7 +71,7 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 				{
 					if (organ is Lungs lung)
 					{
-						lung.TryBreathing(node, 1);
+						lung.TryBreathing(node, 6, true);
 						hasLung = true;
 					}
 				}

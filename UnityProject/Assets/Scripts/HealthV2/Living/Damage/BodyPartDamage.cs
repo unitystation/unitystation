@@ -198,6 +198,14 @@ namespace HealthV2
 			float toDamage = Damages[damageType] + damage;
 
 			if (toDamage < 0) toDamage = 0;
+			if (damageType != (int) DamageType.Radiation)
+			{
+				if (toDamage > (maxHealth * 3))
+				{
+					toDamage = maxHealth * 3;
+				}
+			}
+
 
 			Damages[damageType] = toDamage;
 			health = maxHealth - TotalDamage;

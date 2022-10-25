@@ -52,7 +52,7 @@ namespace Items.Medical
 
 	private bool CanDefibrillate(LivingHealthMasterBase livingHealthMaster, GameObject performer)
 	{
-		if (livingHealthMaster.brain == null || livingHealthMaster.brain.RelatedPart.Health < -100)
+		if (livingHealthMaster.brain == null || (livingHealthMaster.brain.RelatedPart.MaxHealth - livingHealthMaster.brain.RelatedPart.TotalDamageWithoutOxyCloneRadStam) < -100)
 		{
 			Chat.AddExamineMsgFromServer(performer, "It appears they're missing their brain or Their brain is too damaged");
 			return false;

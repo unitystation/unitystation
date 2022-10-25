@@ -155,7 +155,11 @@ namespace HealthV2
 		public void SetConsciousState(ConsciousState newConsciousState)
 		{
 			consciousState = newConsciousState;
-			InvokeClientConsciousStateEvent(newConsciousState);
+			if (connectionToClient != null)
+			{
+				InvokeClientConsciousStateEvent(newConsciousState);
+			}
+
 		}
 
 		[Server]

@@ -193,7 +193,7 @@ namespace HealthV2
 			NutrimentCalculation(HeartEfficiency);
 			BloodSaturationCalculations(HeartEfficiency);
 			MetaboliseReactions();
-			ToxinGeneration(); //Could be better
+			ToxinGeneration(HeartEfficiency); //Could be better
 		}
 
 		public void BloodSaturationCalculations(float HeartEfficiency)
@@ -318,11 +318,17 @@ namespace HealthV2
 		}
 
 
-		public void ToxinGeneration()
+		public void ToxinGeneration(float HeartEfficiency)
 		{
+			float Multiplier = 1;
+			if (HeartEfficiency == 0)
+			{
+				Multiplier = 0.0025f;
+			}
+
 			foreach (var KVP in Toxicity)
 			{
-				BloodPool.Add(KVP.Key, KVP.Value.TotalNeeded);
+				BloodPool.Add(KVP.Key, KVP.Value.TotalNeeded * Multiplier);
 			}
 		}
 

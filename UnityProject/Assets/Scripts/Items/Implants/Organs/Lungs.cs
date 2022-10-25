@@ -105,18 +105,22 @@ namespace HealthV2
 		/// </summary>
 		/// <param name="node">The gas node at this lung's position</param>
 		/// <returns>True if gas was exchanged</returns>
-		public bool TryBreathing(IGasMixContainer node, float efficiency)
+		public bool TryBreathing(IGasMixContainer node, float efficiency, bool OverrideCooldown =false)
 		{
 			//Base effeciency is a little strong on the lungs
 			//efficiency = (1 + efficiency) / 2;
 
 			//Breathing is not timebased, but tick based, it will be slow when the blood has all the oxygen it needs
 			//and will speed up if more oxygen is needed
-			currentBreatheCooldown--;
-			if (currentBreatheCooldown > 0)
+			if (OverrideCooldown == false)
 			{
-				return false;
+				currentBreatheCooldown--;
+				if (currentBreatheCooldown > 0)
+				{
+					return false;
+				}
 			}
+
 			if (RelatedPart.HealthMaster.CirculatorySystem.BloodPool[RelatedPart.bloodType] == 0)
 			{
 				return false; //No point breathing if we dont have blood.
@@ -141,11 +145,6 @@ namespace HealthV2
 					internalGasMix = false;
 					container = node;
 				}
-			}
-
-			if (efficiency > 1)
-			{
-				efficiency = 1;
 			}
 
 			ReagentMix availableBlood =
