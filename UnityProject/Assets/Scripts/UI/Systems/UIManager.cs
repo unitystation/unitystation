@@ -9,6 +9,7 @@ using AdminTools;
 using AdminTools.VariableViewer;
 using Audio.Managers;
 using Initialisation;
+using Learning;
 using UI;
 using UI.Core;
 using UI.Core.Windows;
@@ -213,7 +214,16 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	public static string SetToolTip
 	{
-		set { Instance.toolTip.text = value; }
+		set
+		{
+			if (ProtipManager.Instance == null ||
+			    ProtipManager.Instance.PlayerExperienceLevel == ProtipManager.ExperienceLevel.Robust) return;
+			if (ProtipManager.Instance.PlayerExperienceLevel == ProtipManager.ExperienceLevel.SomewhatExperienced)
+			{
+				if(KeyboardInputManager.IsShiftPressed() == false) return;
+			}
+			Instance.toolTip.text = value;
+		}
 	}
 
 	public static string SetVersionDisplay
