@@ -134,8 +134,8 @@ namespace UI.Objects.Botany
 		/// <param name="seedType">Name of selected seed type</param>
 		public void SelectSeedType(string seedType)
 		{
-			title.SetValueServer(System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(seedType.ToLower()));
-			icon.SetValueServer(seedType);
+			title.MasterSetValue(System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(seedType.ToLower()));
+			icon.MasterSetValue(seedType);
 			backButton.enabled = true;
 			selectedSeedType = seedType;
 			UpdateList();
@@ -146,8 +146,8 @@ namespace UI.Objects.Botany
 		/// </summary>
 		public void Back()
 		{
-			title.SetValueServer("Select Seed Packet");
-			icon.SetValueServer(null);
+			title.MasterSetValue("Select Seed Packet");
+			icon.MasterSetValue(null);
 			backButton.enabled = false;
 			selectedSeedType = null;
 			UpdateList();

@@ -98,7 +98,7 @@ namespace UI.Items.PDA
 		/// <param name="directory"></param>
 		public void SetBreadcrumb(string directory)
 		{
-			breadcrumb.SetValueServer(directory);
+			breadcrumb.MasterSetValue(directory);
 		}
 
 		public void PlayRingtone()

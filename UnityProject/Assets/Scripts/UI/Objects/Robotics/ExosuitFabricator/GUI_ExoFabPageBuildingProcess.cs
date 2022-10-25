@@ -21,7 +21,7 @@ namespace UI.Objects.Robotics
 
 		public void SetProductLabelProductName(string productName)
 		{
-			buildingLabel.SetValueServer("Building " + productName);
+			buildingLabel.MasterSetValue("Building " + productName);
 		}
 
 		public void StartAnimateLabel()
@@ -44,7 +44,7 @@ namespace UI.Objects.Robotics
 			{
 				foreach (string text in pleaseWaitText)
 				{
-					pleaseWaitLabel.SetValueServer(text);
+					pleaseWaitLabel.MasterSetValue(text);
 					yield return WaitFor.Seconds(0.5f);
 				}
 			}

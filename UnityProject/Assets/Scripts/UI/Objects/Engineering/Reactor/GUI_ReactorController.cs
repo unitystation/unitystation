@@ -56,13 +56,13 @@ namespace UI.Objects.Engineering
 			{
 				float temp = ReactorControlConsole.ReactorChambers.Temperature;
 				float tempSliderPercent = Mathf.Clamp(Mathf.Round((temp / 1200) * 100), 0, 1200);
-				ReactorCoreTemperature.SetValueServer(tempSliderPercent.ToString());
+				ReactorCoreTemperature.MasterSetValue(tempSliderPercent.ToString());
 
-				CorePressure.SetValueServer(Math
+				CorePressure.MasterSetValue(Math
 					.Round((ReactorControlConsole.ReactorChambers.CurrentPressure /
 							ReactorControlConsole.ReactorChambers.MaxPressure) * 100).ToString());
 
-				CoreWaterLevel.SetValueServer((Math.Round((ReactorControlConsole.ReactorChambers.ReactorPipe.pipeData
+				CoreWaterLevel.MasterSetValue((Math.Round((ReactorControlConsole.ReactorChambers.ReactorPipe.pipeData
 					.mixAndVolume.Total.x
 					 / 240) * 100)).ToString());
 
@@ -75,16 +75,16 @@ namespace UI.Objects.Engineering
 					var ValuePercentageChange = Mathf.Clamp((float)(50 + (PercentageChange * 5)), 0, 100);
 					var ValuePercentageChange0_1 = Mathf.Clamp((float)(50 + (PercentageChange * 50)), 0, 100);
 					var ValuePercentageChange0_01 = Mathf.Clamp((float)(50 + (PercentageChange * 500)), 0, 100);
-					CoreKValue.SetValueServer(Math.Round(ValuePercentageChange).ToString());
-					CoreKValue0_1.SetValueServer(Math.Round(ValuePercentageChange0_1).ToString());
-					CoreKValue0_01.SetValueServer(Math.Round(ValuePercentageChange0_01).ToString());
+					CoreKValue.MasterSetValue(Math.Round(ValuePercentageChange).ToString());
+					CoreKValue0_1.MasterSetValue(Math.Round(ValuePercentageChange0_1).ToString());
+					CoreKValue0_01.MasterSetValue(Math.Round(ValuePercentageChange0_01).ToString());
 				}
 
 
 				PreviousRADlevel = ReactorControlConsole.ReactorChambers.PresentNeutrons;
-				RodDepth.SetValueServer((ReactorControlConsole.ReactorChambers.ControlRodDepthPercentage * 100).ToString() + "%");
+				RodDepth.MasterSetValue((ReactorControlConsole.ReactorChambers.ControlRodDepthPercentage * 100).ToString() + "%");
 				float Value = SetLogScale((float)PreviousRADlevel);
-				CoreFluxLevel.SetValueServer((Math.Round(Value).ToString()));
+				CoreFluxLevel.MasterSetValue((Math.Round(Value).ToString()));
 				GUIReactorLayout.Refresh();
 				GUIReactorAnnunciator.Refresh();
 			}
@@ -147,11 +147,11 @@ namespace UI.Objects.Engineering
 							.GetUIColour();
 
 
-						RodChamber[i].SetValueServer(TheType);
+						RodChamber[i].MasterSetValue(TheType);
 					}
 					else
 					{
-						RodChamber[i].SetValueServer(Color.gray);
+						RodChamber[i].MasterSetValue(Color.gray);
 					}
 				}
 			}

@@ -80,7 +80,7 @@ namespace UI.SpellBook
 
 		private void UpdatePoints()
 		{
-			pointsCounter.SetValueServer($"Points: {Points}");
+			pointsCounter.MasterSetValue($"Points: {Points}");
 		}
 
 		private void GenerateCategories()

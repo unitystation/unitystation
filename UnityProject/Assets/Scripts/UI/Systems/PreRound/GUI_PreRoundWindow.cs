@@ -7,7 +7,6 @@ using UnityEngine.UI;
 using AdminCommands;
 using Messages.Client.Lobby;
 
-
 namespace UI
 {
 	public class GUI_PreRoundWindow : MonoBehaviour
@@ -158,6 +157,12 @@ namespace UI
 		private IEnumerator WaitForInitialisation()
 		{
 			yield return null;
+
+			if (GameManager.Instance.QuickJoinLoad)
+			{
+				SetReady(true);
+			}
+
 			StartNowButton();
 		}
 

@@ -27,10 +27,10 @@ namespace UI.Objects.Botany
 		{
 			seedPackets = item;
 			seedExtractorWindow = correspondingWindow;
-			itemName.SetValueServer(seedPackets.First().name);
-			itemIcon.SetValueServer(seedPackets.First().name);
-			itemCount.SetValueServer($"({seedPackets.Count})");
-			itemBackground.SetValueServer(regularColor);
+			itemName.MasterSetValue(seedPackets.First().name);
+			itemIcon.MasterSetValue(seedPackets.First().name);
+			itemCount.MasterSetValue($"({seedPackets.Count})");
+			itemBackground.MasterSetValue(regularColor);
 		}
 
 		public void Show()

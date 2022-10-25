@@ -27,8 +27,8 @@ namespace UI.Objects.Atmospherics
 			Mixer.ToTakeFromInputOne = Number;
 			Mixer.ToTakeFromInputTwo = 1 - Number;
 
-			ToTakeFromInputOne.SetValueServer(Mathf.RoundToInt(Number * 100f).ToString() + "%");
-			ToTakeFromInputTwo.SetValueServer(Mathf.RoundToInt(Mixer.ToTakeFromInputTwo * 100f).ToString() + "%");
+			ToTakeFromInputOne.MasterSetValue(Mathf.RoundToInt(Number * 100f).ToString() + "%");
+			ToTakeFromInputTwo.MasterSetValue(Mathf.RoundToInt(Mixer.ToTakeFromInputTwo * 100f).ToString() + "%");
 		}
 
 		private void Start()
@@ -39,12 +39,12 @@ namespace UI.Objects.Atmospherics
 			}
 			numberSpinner.ServerSpinTo(Mixer.MaxPressure);
 			numberSpinner.DisplaySpinTo(Mixer.MaxPressure);
-			NetWheel.SetValueServer(Mixer.MaxPressure.ToString());
+			NetWheel.MasterSetValue(Mixer.MaxPressure.ToString());
 			numberSpinner.OnValueChange.AddListener(SetMaxPressure);
-			PToggle.SetValueServer(BoolToString(Mixer.IsOn));
+			PToggle.MasterSetValue(BoolToString(Mixer.IsOn));
 
-			ToTakeFromInputOne.SetValueServer(Mathf.RoundToInt(Mixer.ToTakeFromInputOne * 100f).ToString() + "%");
-			ToTakeFromInputTwo.SetValueServer(Mathf.RoundToInt(Mixer.ToTakeFromInputTwo * 100f).ToString() + "%");
+			ToTakeFromInputOne.MasterSetValue(Mathf.RoundToInt(Mixer.ToTakeFromInputOne * 100f).ToString() + "%");
+			ToTakeFromInputTwo.MasterSetValue(Mathf.RoundToInt(Mixer.ToTakeFromInputTwo * 100f).ToString() + "%");
 		}
 
 		public string BoolToString(bool _bool)

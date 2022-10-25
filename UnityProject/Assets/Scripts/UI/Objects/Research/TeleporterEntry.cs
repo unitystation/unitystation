@@ -24,9 +24,9 @@ public class TeleporterEntry : DynamicEntry
 		this.teleporterConsole = teleporterConsole;
 		this.trackingBeacon = trackingBeacon;
 
-		beaconNameLabel.SetValueServer(trackingBeacon.ItemAttributesV2.ArticleName);
+		beaconNameLabel.MasterSetValue(trackingBeacon.ItemAttributesV2.ArticleName);
 
-		beaconSetButtonLabel.SetValueServer(teleporterConsole.TeleporterControl.LinkedBeacon == trackingBeacon ?
+		beaconSetButtonLabel.MasterSetValue(teleporterConsole.TeleporterControl.LinkedBeacon == trackingBeacon ?
 			"Currently Set" : "Set");
 	}
 }

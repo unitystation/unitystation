@@ -12,7 +12,7 @@ namespace UI.Items
 
 		private void Awake()
 		{
-			if (IsServer)
+			if (IsMasterTab)
 			{
 				OnTabOpened.AddListener(newPeeper => { });
 			}

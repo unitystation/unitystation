@@ -22,7 +22,7 @@ namespace UI.Objects.Cargo
 		public void SetValues(CargoCategory newCategory)
 		{
 			category = newCategory;
-			CategoryName.SetValueServer(category.CategoryName);
+			CategoryName.MasterSetValue(category.CategoryName);
 		}
 	}
 }

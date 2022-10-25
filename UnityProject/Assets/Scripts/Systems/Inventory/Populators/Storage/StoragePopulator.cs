@@ -49,6 +49,19 @@ namespace Systems.Storage
 				 " to slot index that it will populate). **Deprecated**")]
 		public List<GameObject> DeprecatedContents = new List<GameObject>();
 
+
+		public List<GameObject> GetFirstLayerDeprecatedAndNew()
+		{
+			var Returning = new List<GameObject>();
+			Returning.AddRange(DeprecatedContents);
+			foreach (var SlotContent in SlotContents)
+			{
+				Returning.Add(SlotContent.Prefab);
+			}
+
+			return Returning;
+		}
+
 		public void PopulateItemStorage(ItemStorage ItemStorage, PopulationContext context)
 		{
 			foreach (var gameObject in DeprecatedContents)

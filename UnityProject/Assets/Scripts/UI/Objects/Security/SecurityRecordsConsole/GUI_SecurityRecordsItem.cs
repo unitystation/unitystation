@@ -35,12 +35,12 @@ namespace UI.Objects.Security
 			}
 			securityRecord = record;
 			securityRecordsTab = recordsTab;
-			recordNameText.SetValueServer(record.EntryName);
-			recordIdText.SetValueServer(record.ID);
-			recordRankText.SetValueServer(record.Rank);
-			recordFingerprintsText.SetValueServer(record.Fingerprints);
-			recordStatusText.SetValueServer(record.Status.ToString());
-			recordBgColor.SetValueServer(GetStatusColor(record.Status));
+			recordNameText.MasterSetValue(record.EntryName);
+			recordIdText.MasterSetValue(record.ID);
+			recordRankText.MasterSetValue(record.Rank);
+			recordFingerprintsText.MasterSetValue(record.Fingerprints);
+			recordStatusText.MasterSetValue(record.Status.ToString());
+			recordBgColor.MasterSetValue(GetStatusColor(record.Status));
 		}
 
 		private Color GetStatusColor(SecurityStatus status)

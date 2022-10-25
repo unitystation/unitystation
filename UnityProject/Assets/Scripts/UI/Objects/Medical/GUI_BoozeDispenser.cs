@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using UI.Core.NetUI;
+using System.Text;
 using Chemistry;
 using Systems.Electricity;
+using UI.Core.NetUI;
+using UnityEngine;
 
-namespace UI.Objects.Booze
+namespace UI.Objects.Medical
 {
 	public class GUI_BoozeDispenser : NetTab
 	{
@@ -43,7 +43,7 @@ namespace UI.Objects.Booze
 
 		private void Start()
 		{
-			((NetUIElement<string>)this["20"]).SetValueServer("1");
+			((NetUIElement<string>)this["20"]).MasterSetValue("1");
 			if (Provider != null)
 			{
 				//Makes sure it connects with the dispenser properly
@@ -63,7 +63,7 @@ namespace UI.Objects.Booze
 			{
 				// Checks what button has been pressed and sets the correct position appropriate
 				((NetUIElement<string>)this[DispenseAmounts[i]])
-						.SetValueServer(DispenseAmounts[i] == Number.ToString() ? "1" : "0");
+						.MasterSetValue(DispenseAmounts[i] == Number.ToString() ? "1" : "0");
 			}
 
 			UpdateAll();
@@ -133,17 +133,17 @@ namespace UI.Objects.Booze
 					newListOfReagents.AppendLine($"{char.ToUpper(reagent.Key.Name[0])}{reagent.Key.Name.Substring(1)}");
 					newQuantityList.AppendLine($"{Math.Round(reagent.Value,1)}u");
 				}
-				Total.SetValueServer($"{BoozeDispenser.Container.ReagentMixTotal}/{BoozeDispenser.Container.MaxCapacity} Units");
+				Total.MasterSetValue($"{BoozeDispenser.Container.ReagentMixTotal}/{BoozeDispenser.Container.MaxCapacity} Units");
 				Reagents = newListOfReagents.ToString();
 				Quantitys = newQuantityList.ToString();
 			}
 			else
 			{
-				Total.SetValueServer("No container inserted");
+				Total.MasterSetValue("No container inserted");
 			}
 
-			ListOfReagents.SetValueServer(Reagents);
-			QuantityList.SetValueServer(Quantitys);
+			ListOfReagents.MasterSetValue(Reagents);
+			QuantityList.MasterSetValue(Quantitys);
 		}
 
 		public void OnDestroy()

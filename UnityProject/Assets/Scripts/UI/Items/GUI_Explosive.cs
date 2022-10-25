@@ -57,7 +57,7 @@ namespace UI.Items
 					background.sprite = SBGraphic;
 					break;
 			}
-			if(CustomNetworkManager.IsServer) signalIcon.SetValueServer(explosiveDevice.DetonateImmediatelyOnSignal ? "0" : "1");
+			if(CustomNetworkManager.IsServer) signalIcon.MasterSetValue(explosiveDevice.DetonateImmediatelyOnSignal ? "0" : "1");
 		}
 
 		private IEnumerator WaitForProvider()
@@ -108,7 +108,7 @@ namespace UI.Items
 				}
 			}
 			explosiveDevice.ToggleMode(!explosiveDevice.DetonateImmediatelyOnSignal);
-			signalIcon.SetValueServer(explosiveDevice.DetonateImmediatelyOnSignal ? "0" : "1");
+			signalIcon.MasterSetValue(explosiveDevice.DetonateImmediatelyOnSignal ? "0" : "1");
 			UpdateStatusText();
 			foreach (var peeper in Peepers)
 			{
@@ -152,10 +152,10 @@ namespace UI.Items
 		{
 			if (explosiveDevice.DetonateImmediatelyOnSignal)
 			{
-				status.SetValueServer("awaiting signal..");
+				status.MasterSetValue("awaiting signal..");
 				return;
 			}
-			status.SetValueServer(explosiveDevice.IsArmed ? "Armed" : "Unarmed");
+			status.MasterSetValue(explosiveDevice.IsArmed ? "Armed" : "Unarmed");
 		}
 
 		public IEnumerator UpdateTimer()
@@ -163,13 +163,13 @@ namespace UI.Items
 			if (explosiveDevice.CountDownActive == false)
 			{
 				timerCount = explosiveDevice.TimeToDetonate;
-				timer.SetValueServer(DisplayTime());
+				timer.MasterSetValue(DisplayTime());
 				yield break;
 			}
 			while (timerCount > 0)
 			{
 				timerCount -= 1;
-				timer.SetValueServer(DisplayTime());
+				timer.MasterSetValue(DisplayTime());
 				yield return WaitFor.Seconds(1f);
 			}
 		}

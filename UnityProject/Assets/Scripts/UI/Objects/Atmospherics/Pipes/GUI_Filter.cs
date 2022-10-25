@@ -23,11 +23,11 @@ namespace UI.Objects.Atmospherics
 			{
 				if (INFilter.Key == gasName) //Checks what button has been pressed  And sets the correct position appropriate
 				{
-					((NetUIElement<string>)this[INFilter.Key]).SetValueServer("1");
+					((NetUIElement<string>)this[INFilter.Key]).MasterSetValue("1");
 				}
 				else
 				{
-					((NetUIElement<string>)this[INFilter.Key]).SetValueServer("0");
+					((NetUIElement<string>)this[INFilter.Key]).MasterSetValue("0");
 				}
 			}
 
@@ -42,9 +42,9 @@ namespace UI.Objects.Atmospherics
 			}
 			numberSpinner.ServerSpinTo(Filter.MaxPressure);
 			numberSpinner.DisplaySpinTo(Filter.MaxPressure);
-			NetWheel.SetValueServer(Filter.MaxPressure.ToString());
+			NetWheel.MasterSetValue(Filter.MaxPressure.ToString());
 			numberSpinner.OnValueChange.AddListener(SetMaxPressure);
-			PToggle.SetValueServer(BoolToString(Filter.IsOn));
+			PToggle.MasterSetValue(BoolToString(Filter.IsOn));
 			SetFilteredGasValue(Filter.GasIndex);
 		}
 
@@ -54,7 +54,7 @@ namespace UI.Objects.Atmospherics
 			{
 				if (INFilter.Value == GasIndex) //Checks what button has been pressed  And sets the correct position appropriate
 				{
-					((NetUIElement<string>)this[INFilter.Key]).SetValueServer("1");
+					((NetUIElement<string>)this[INFilter.Key]).MasterSetValue("1");
 				}
 			}
 		}

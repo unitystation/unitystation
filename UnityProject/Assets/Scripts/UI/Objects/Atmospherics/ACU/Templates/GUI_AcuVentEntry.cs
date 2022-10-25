@@ -77,7 +77,7 @@ namespace UI.Objects.Atmospherics.Acu
 					$"| {internalTargetLine} |\n" +
 					"---------------------------------------------------\n";
 
-			label.SetValueServer(str);
+			label.MasterSetValue(str);
 		}
 
 		private void DoAction(System.Action callback)

@@ -74,15 +74,15 @@ namespace UI.Objects.Security
 			var IdCard = console.IdCard;
 			if (IdCard)
 			{
-				labelToSet.SetValueServer($"{IdCard.RegisteredName}, {IdCard.GetJobTitle()}");
+				labelToSet.MasterSetValue($"{IdCard.RegisteredName}, {IdCard.GetJobTitle()}");
 			}
 			else if (IsAIInteracting())
 			{
-				labelToSet.SetValueServer("AI Control");
+				labelToSet.MasterSetValue("AI Control");
 			}
 			else
 			{
-				labelToSet.SetValueServer("********");
+				labelToSet.MasterSetValue("********");
 			}
 		}
 

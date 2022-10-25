@@ -52,23 +52,23 @@ namespace UI.Bureaucracy
 		{
 			if (Photocopier.TrayOpen)
 			{
-				StatusLabel.SetValueServer("TRAY OPEN");
+				StatusLabel.MasterSetValue("TRAY OPEN");
 			}
 			else if (Photocopier.ScannerOpen)
 			{
-				StatusLabel.SetValueServer("SCANNER OPEN");
+				StatusLabel.MasterSetValue("SCANNER OPEN");
 			}
 			else if (Photocopier.TrayCount == 0)
 			{
-				StatusLabel.SetValueServer("TRAY EMPTY");
+				StatusLabel.MasterSetValue("TRAY EMPTY");
 			}
 			else if (Photocopier.ScannedTextNull)
 			{
-				StatusLabel.SetValueServer("DOCUMENT NOT SCANNED");
+				StatusLabel.MasterSetValue("DOCUMENT NOT SCANNED");
 			}
 			else
 			{
-				StatusLabel.SetValueServer("COPIER READY");
+				StatusLabel.MasterSetValue("COPIER READY");
 			}
 		}
 
@@ -76,15 +76,15 @@ namespace UI.Bureaucracy
 		{
 			if (Photocopier.ScannerOpen)
 			{
-				ScannerLabel.SetValueServer("ERR: SCANNER OPEN");
+				ScannerLabel.MasterSetValue("ERR: SCANNER OPEN");
 			}
 			else if (!Photocopier.ScannedTextNull)
 			{
-				ScannerLabel.SetValueServer("DOCUMENT SCANNED");
+				ScannerLabel.MasterSetValue("DOCUMENT SCANNED");
 			}
 			else if (Photocopier.ScannedTextNull)
 			{
-				ScannerLabel.SetValueServer("DOCUMENT NOT SCANNED");
+				ScannerLabel.MasterSetValue("DOCUMENT NOT SCANNED");
 			}
 		}
 
@@ -92,11 +92,11 @@ namespace UI.Bureaucracy
 		{
 			if (Photocopier.TrayOpen)
 			{
-				TrayLabel.SetValueServer("ERR: TRAY OPEN");
+				TrayLabel.MasterSetValue("ERR: TRAY OPEN");
 			}
 			else
 			{
-				TrayLabel.SetValueServer($"PAGES IN TRAY: {Photocopier.TrayCount}/{Photocopier.TrayCapacity}");
+				TrayLabel.MasterSetValue($"PAGES IN TRAY: {Photocopier.TrayCount}/{Photocopier.TrayCapacity}");
 			}
 		}
 
@@ -122,7 +122,7 @@ namespace UI.Bureaucracy
 		{
 			if (Photocopier.InkCartadge == null)
 			{
-				StatusLabel.SetValueServer("NO INK");
+				StatusLabel.MasterSetValue("NO INK");
 				return;
 			}
 			if (Photocopier.CanPrint())

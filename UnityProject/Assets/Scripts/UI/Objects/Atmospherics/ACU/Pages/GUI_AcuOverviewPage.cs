@@ -31,18 +31,18 @@ namespace UI.Objects.Atmospherics.Acu
 
 		public override void OnPeriodicUpdate()
 		{
-			modeLabel.SetValueServer($"Mode: {Acu.DesiredMode}");
+			modeLabel.MasterSetValue($"Mode: {Acu.DesiredMode}");
 			UpdateLabels();
 
 			var gasesToDisplay = new List<GasValues>(Acu.AtmosphericAverage.GetGases());
 			gasesToDisplay.Sort((gasA, gasB) => gasB.Moles.CompareTo(gasA.Moles));
 
-			if (metricsContainer.Entries.Length != gasesToDisplay.Count)
+			if (metricsContainer.Entries.Count != gasesToDisplay.Count)
 			{
 				metricsContainer.SetItems(gasesToDisplay.Count);
 			}
 
-			for (int i = 0; i < metricsContainer.Entries.Length; i++)
+			for (int i = 0; i < metricsContainer.Entries.Count; i++)
 			{
 				GasSO gas = gasesToDisplay[i].GasSO;
 				float ratio = Acu.AtmosphericAverage.GetGasRatio(gas);
@@ -64,11 +64,11 @@ namespace UI.Objects.Atmospherics.Acu
 				compositionText = Acu.CompositionStatus.ToString();
 			}
 
-			pressureLabel.SetValueServer(
+			pressureLabel.MasterSetValue(
 					$"Pressure:    {GUI_Acu.ColorStringByStatus(pressureText, Acu.PressureStatus)}");
-			temperatureLabel.SetValueServer(
+			temperatureLabel.MasterSetValue(
 					$"Temperature: {GUI_Acu.ColorStringByStatus(temperatureText, Acu.TemperatureStatus)}");
-			compositionLabel.SetValueServer(
+			compositionLabel.MasterSetValue(
 					$"Composition: {GUI_Acu.ColorStringByStatus(compositionText, Acu.CompositionStatus)}");
 		}
 

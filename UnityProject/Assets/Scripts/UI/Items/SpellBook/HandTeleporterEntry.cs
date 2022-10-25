@@ -28,9 +28,9 @@ namespace UI.SpellBook
 			this.handTeleporter = handTeleporter;
 			this.trackingBeacon = trackingBeacon;
 
-			beaconNameLabel.SetValueServer(trackingBeacon.OrNull()?.ItemAttributesV2.ArticleName ?? "Emergency Teleport");
+			beaconNameLabel.MasterSetValue(trackingBeacon.OrNull()?.ItemAttributesV2.ArticleName ?? "Emergency Teleport");
 
-			beaconSetButtonLabel.SetValueServer(handTeleporter.HandTeleporter.linkedBeacon == trackingBeacon ?
+			beaconSetButtonLabel.MasterSetValue(handTeleporter.HandTeleporter.linkedBeacon == trackingBeacon ?
 				"Currently Set" : "Set");
 		}
 	}

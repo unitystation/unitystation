@@ -342,6 +342,12 @@ namespace Chemistry.Components
 			return result;
 		}
 
+		public void SetMaxCapacity(int Size)
+		{
+			MaxCapacity = Size;
+		}
+
+
 		/// <summary>
 		/// Server side only. Extracts reagents to be used outside ReagentContainer
 		/// </summary>

@@ -19,18 +19,18 @@ namespace UI.Core.NetUI
 		/// <summary>
 		/// Unique tab that contains this element
 		/// </summary>
-		public NetTab MasterTab {
+		public NetTab containedInTab {
 			get {
-				if (!masterTab)
+				if (!ContainedInTab)
 				{
-					masterTab = GetComponentsInParent<NetTab>(true)[0];
+					ContainedInTab = GetComponentsInParent<NetTab>(true)[0];
 				}
 
-				return masterTab;
+				return ContainedInTab;
 			}
 		}
 
-		private NetTab masterTab;
+		private NetTab ContainedInTab;
 		private static readonly JsonSerializer JsonSerializer = new JsonSerializer
 		{
 			ReferenceLoopHandling = ReferenceLoopHandling.Ignore
@@ -76,10 +76,29 @@ namespace UI.Core.NetUI
 		/// <summary>
 		/// Server-only method for updating element (i.e. changing label text) from server GUI code
 		/// </summary>
-		public virtual void SetValueServer(T value)
+		public virtual void MasterSetValue(T value)
 		{
 			Value = value;
 			UpdatePeepers();
+		}
+
+
+		public virtual void SetValueClient(T value)
+		{
+			Value = value;
+			ExecuteClient();
+		}
+
+		public virtual void SetValue(T value)
+		{
+			if (containedInTab.IsMasterTab)
+			{
+				MasterSetValue(value);
+			}
+			else
+			{
+				SetValueClient(value);
+			}
 		}
 
 		/// <summary>
@@ -91,7 +110,7 @@ namespace UI.Core.NetUI
 			//Don't send if triggered by external change
 			if (externalChange == false)
 			{
-				TabInteractMessage.Send(MasterTab.Provider, MasterTab.Type, name, BinaryValue);
+				TabInteractMessage.Send(containedInTab.Provider, containedInTab.Type, name, BinaryValue);
 			}
 		}
 
@@ -106,7 +125,7 @@ namespace UI.Core.NetUI
 			}
 			else
 			{
-				MasterTab.ValidatePeepers();
+				containedInTab.ValidatePeepers();
 			}
 		}
 
@@ -116,7 +135,7 @@ namespace UI.Core.NetUI
 		/// </summary>
 		protected virtual void UpdatePeepersLogic()
 		{
-			var masterTab = MasterTab;
+			var masterTab = containedInTab;
 			TabUpdateMessage.SendToPeepers(masterTab.Provider, masterTab.Type, TabAction.Update, new[] { ElementValue });
 		}
 

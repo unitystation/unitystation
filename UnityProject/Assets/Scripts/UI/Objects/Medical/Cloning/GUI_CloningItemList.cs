@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using Objects.Medical;
 using UI.Core.NetUI;
-using Objects.Medical;
 
-namespace UI.Objects.Medical
+namespace UI.Objects.Medical.Cloning
 {
 	public class GUI_CloningItemList : NetUIDynamicList
 	{
@@ -19,7 +16,7 @@ namespace UI.Objects.Medical
 		public bool AddItem()
 		{
 			var entryArray = Entries;
-			for (var i = 0; i < entryArray.Length; i++)
+			for (var i = 0; i < entryArray.Count; i++)
 			{
 				DynamicEntry entry = entryArray[i];
 				var item = entry as GUI_CloningRecordItem;
@@ -33,7 +30,7 @@ namespace UI.Objects.Medical
 			}
 
 			//rescan elements  and notify
-			NetworkTabManager.Instance.Rescan(MasterTab.NetTabDescriptor);
+			NetworkTabManager.Instance.Rescan(containedInTab.NetTabDescriptor);
 			UpdatePeepers();
 
 			return true;

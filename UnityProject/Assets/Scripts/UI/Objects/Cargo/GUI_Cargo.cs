@@ -49,17 +49,17 @@ namespace UI.Objects.Cargo
 			var cargopage = pageToOpen.GetComponent<GUI_CargoPage>();
 			cargopage.OpenTab();
 			cargopage.UpdateTab();
-			DirectoryText.SetValueServer(cargopage.DirectoryName);
+			DirectoryText.MasterSetValue(cargopage.DirectoryName);
 		}
 
 		private void UpdateCreditsText()
 		{
 			if(CargoManager.Instance.CargoOffline)
 			{
-				СreditsText.SetValueServer("OFFLINE");
+				СreditsText.MasterSetValue("OFFLINE");
 				return;
 			}
-			СreditsText.SetValueServer($"Budget: {CargoManager.Instance.Credits}");
+			СreditsText.MasterSetValue($"Budget: {CargoManager.Instance.Credits}");
 			if (cargoConsole != null) { cargoConsole.PlayBudgetUpdateSound(); }
 		}
 

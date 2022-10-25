@@ -17,7 +17,7 @@ namespace UI.Objects.Atmospherics
 
 		private void Awake()
 		{
-			muteSounds = GetComponentInParent<GUI_Canister>().IsServer;
+			muteSounds = GetComponentInParent<GUI_Canister>().IsMasterTab;
 		}
 
 		public void OnToggled(bool isOpen)

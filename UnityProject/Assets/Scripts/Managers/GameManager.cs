@@ -119,6 +119,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	public DateTime stationTime;
 	public int RoundsPerMap { get; set; } = 10;
 
+	//Is dependent on number of results
+	public static int RoundID;
+
 	/// <summary>
 	/// The chance of traitor AIs get the "Prevent all organic lifeforms from escpaing" objective.
 	/// </summary>
@@ -145,7 +148,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	public bool LoadedDirectlyToStation => loadedDirectlyToStation;
 
 	public bool QuickLoad = false;
-
+	public bool QuickJoinLoad = false;
 	public InitialisationSystems Subsystem => InitialisationSystems.GameManager;
 
 	[SerializeField] private AudioClipsArray endOfRoundSounds = null;
@@ -467,6 +470,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// </summary>
 	public void StartRound()
 	{
+		RoundID++;
 		waitForStart = false;
 
 		// Only do this stuff on the server
@@ -497,6 +501,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		// Game mode specific setup
 		GameMode.SetupRound();
+
 
 		// Standard round start setup
 		stationTime = new DateTime().AddHours(12);
@@ -577,6 +582,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		CurrentRoundState = RoundState.Ended;
 		EventManager.Broadcast(Event.RoundEnded, true);
 		counting = false;
+
 
 		StartCoroutine(WaitForRoundRestart());
 		GameMode.EndRoundReport();

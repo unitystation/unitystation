@@ -10,11 +10,20 @@ namespace UI.Core.NetUI
 	[Serializable]
 	public class NetButton : NetUIStringElement
 	{
+
+		private Button Button;
+
 		public UnityEvent ServerMethod;
 
 		public override void ExecuteServer(PlayerInfo subject)
 		{
 			ServerMethod.Invoke();
+		}
+
+		public void Awake()
+		{
+			Button = this.GetComponent<Button>();
+			Button.onClick.AddListener(ExecuteClient);
 		}
 	}
 }

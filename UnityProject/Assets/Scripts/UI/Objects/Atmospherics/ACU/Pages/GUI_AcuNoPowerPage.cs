@@ -18,12 +18,12 @@ namespace UI.Objects.Atmospherics.Acu
 		{
 			// Hide the display's labels for the hardware buttons when there's no power.
 			previousMenuColor = menuLabels.Value;
-			menuLabels.SetValueServer(Color.clear);
+			menuLabels.MasterSetValue(Color.clear);
 		}
 
 		public override void OnPageDeactivated()
 		{
-			menuLabels.SetValueServer(previousMenuColor);
+			menuLabels.MasterSetValue(previousMenuColor);
 		}
 	}
 }

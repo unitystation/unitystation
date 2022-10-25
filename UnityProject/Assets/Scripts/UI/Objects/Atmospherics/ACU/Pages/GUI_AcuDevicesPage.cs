@@ -70,7 +70,7 @@ namespace UI.Objects.Atmospherics.Acu
 				ClearLists();
 				pageSwitcher.SetActivePage(requestedPage);
 			}
-			
+
 			UpdateLists();
 		}
 
@@ -79,11 +79,11 @@ namespace UI.Objects.Atmospherics.Acu
 			switch (requestedPage)
 			{
 				case 0:
-					tabLabel.SetValueServer(ventsTabStr);
+					tabLabel.MasterSetValue(ventsTabStr);
 					PopulateVents();
 					break;
 				case 1:
-					tabLabel.SetValueServer(scrubbersTabStr);
+					tabLabel.MasterSetValue(scrubbersTabStr);
 					PopulateScrubbers();
 					break;
 			}
@@ -99,12 +99,12 @@ namespace UI.Objects.Atmospherics.Acu
 		private void PopulateVents()
 		{
 			List<AirVent> vents = Acu.ConnectedDevices.OfType<AirVent>().ToList();
-			if (vents.Count != ventsList.Entries.Length)
+			if (vents.Count != ventsList.Entries.Count)
 			{
 				ventsList.SetItems(vents.Count);
 			}
 
-			for (int i = 0; i < ventsList.Entries.Length; i++)
+			for (int i = 0; i < ventsList.Entries.Count; i++)
 			{
 				DynamicEntry dynamicEntry = ventsList.Entries[i];
 				var entry = dynamicEntry.GetComponent<GUI_AcuVentEntry>();
@@ -115,12 +115,12 @@ namespace UI.Objects.Atmospherics.Acu
 		private void PopulateScrubbers()
 		{
 			List<Scrubber> scrubbers = Acu.ConnectedDevices.OfType<Scrubber>().ToList();
-			if (scrubbers.Count != scrubbersList.Entries.Length)
+			if (scrubbers.Count != scrubbersList.Entries.Count)
 			{
 				scrubbersList.SetItems(scrubbers.Count);
 			}
 
-			for (int i = 0; i < scrubbersList.Entries.Length; i++)
+			for (int i = 0; i < scrubbersList.Entries.Count; i++)
 			{
 				DynamicEntry dynamicEntry = scrubbersList.Entries[i];
 				var entry = dynamicEntry.GetComponent<GUI_AcuScrubberEntry>();

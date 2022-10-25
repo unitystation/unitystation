@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using UI.Core.NetUI;
 using UnityEngine;
-using UI.Core.NetUI;
 
-namespace UI.Objects.Chemistry
+namespace UI.Objects.Medical
 {
 	/// <summary>
 	/// DynamicEntry for ChemMaster NetTab product page.

@@ -63,9 +63,9 @@ namespace UI.Items
 
 		public void SetAsUsed()
 		{
-			labelWizardName.SetValueServer(contract.BoundTo.Script.playerName);
-			labelApprenticeName.SetValueServer(contract.Apprentice.Script.playerName);
-			labelSchoolName.SetValueServer(contract.SelectedSchool.Name);
+			labelWizardName.MasterSetValue(contract.BoundTo.Script.playerName);
+			labelApprenticeName.MasterSetValue(contract.Apprentice.Script.playerName);
+			labelSchoolName.MasterSetValue(contract.SelectedSchool.Name);
 
 			ActivatePage(pageApprentice);
 		}
@@ -122,7 +122,7 @@ namespace UI.Items
 			{
 				i++;
 				yield return WaitFor.Seconds(2);
-				labelWaitingMessage.SetValueServer(waitingMessages.PickRandom());
+				labelWaitingMessage.MasterSetValue(waitingMessages.PickRandom());
 			}
 		}
 	}

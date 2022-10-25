@@ -29,6 +29,9 @@ namespace HealthV2
 		[HorizontalLine] [Tooltip("Things (eg other organs) held within this")]
 		public ItemStorage OrganStorage = null;
 
+
+		public CommonComponents CommonComponents;
+
 		//Organs on the same body part
 		[NonSerialized] public List<BodyPartFunctionality> OrganList = new List<BodyPartFunctionality>();
 
@@ -149,6 +152,7 @@ namespace HealthV2
 
 		void Awake()
 		{
+			CommonComponents = GetComponent<CommonComponents>();
 			ItemAttributes = GetComponent<ItemAttributesV2>();
 			OrganStorage = GetComponent<ItemStorage>();
 			OrganStorage.ServerInventoryItemSlotSet += BodyPartTransfer;
@@ -340,19 +344,23 @@ namespace HealthV2
 		/// <summary>
 		/// Server only - Tries to remove a body part
 		/// </summary>
-		public void TryRemoveFromBody(bool beingGibbed = false)
+		public void TryRemoveFromBody(bool beingGibbed = false, bool CausesBleed = true, bool Destroy = false, bool PreventGibb_Death = false)
 		{
 			bool alreadyBleeding = false;
 			SetRemovedColor();
-			foreach (var bodyPart in HealthMaster.BodyPartList)
+			if (CausesBleed)
 			{
-				if (bodyPart.BodyPartType == BodyPartType.Chest && alreadyBleeding == false)
+				foreach (var bodyPart in HealthMaster.BodyPartList)
 				{
-					bodyPart.IsBleeding = true;
-					alreadyBleeding = true;
-					HealthMaster.ChangeBleedStacks(limbLossBleedingValue);
+					if (bodyPart.BodyPartType == BodyPartType.Chest && alreadyBleeding == false)
+					{
+						bodyPart.IsBleeding = true;
+						alreadyBleeding = true;
+						HealthMaster.ChangeBleedStacks(limbLossBleedingValue);
+					}
 				}
 			}
+
 
 			DropItemsOnDismemberment(this);
 
@@ -366,27 +374,31 @@ namespace HealthV2
 				StopExternalBleeding();
 			}
 
-			//this kills the crab
-			if (DeathOnRemoval)
+			if (PreventGibb_Death == false)
 			{
-				HealthMaster.Death();
+				//this kills the crab
+				if (DeathOnRemoval)
+				{
+					HealthMaster.Death();
+				}
+
+				if (gibsEntireBodyOnRemoval && beingGibbed == false)
+				{
+					HealthMaster.OnGib();
+				}
 			}
 
-			if (gibsEntireBodyOnRemoval && beingGibbed == false)
-			{
-				HealthMaster.OnGib();
-			}
 
 			if (ContainedIn != null)
 			{
 				if (beingGibbed)
 				{
-					ContainedIn.OrganStorage.ServerTryRemove(gameObject,
+					ContainedIn.OrganStorage.ServerTryRemove(gameObject, Destroy,
 						DroppedAtWorldPositionOrThrowVector: ConverterExtensions.GetRandomRotatedVector2(-0.5f, 0.5f), Throw: true);
 				}
 				else
 				{
-					ContainedIn.OrganStorage.ServerTryRemove(gameObject);
+					ContainedIn.OrganStorage.ServerTryRemove(gameObject, Destroy);
 				}
 
 			}
@@ -394,12 +406,12 @@ namespace HealthV2
 			{
 				if (beingGibbed)
 				{
-					HealthMaster.OrNull()?.BodyPartStorage.OrNull()?.ServerTryRemove(gameObject,
+					HealthMaster.OrNull()?.BodyPartStorage.OrNull()?.ServerTryRemove(gameObject,Destroy,
 						DroppedAtWorldPositionOrThrowVector: ConverterExtensions.GetRandomRotatedVector2(-0.5f,0.5f), Throw: true);
 				}
 				else
 				{
-					HealthMaster.OrNull()?.BodyPartStorage.OrNull()?.ServerTryRemove(gameObject);
+					HealthMaster.OrNull()?.BodyPartStorage.OrNull()?.ServerTryRemove(gameObject, Destroy);
 				}
 			}
 		}

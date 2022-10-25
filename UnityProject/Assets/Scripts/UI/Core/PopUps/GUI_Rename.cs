@@ -23,7 +23,7 @@ namespace UI
 
 		private void Awake()
 		{
-			if (IsServer == false) return;
+			if (IsMasterTab == false) return;
 
 			OnTabOpened.AddListener(newPeeper =>
 			{
@@ -31,7 +31,7 @@ namespace UI
 
 				if (renameable.CustomName.Length > 0)
 				{
-					networkedInputField.SetValueServer(renameable.CustomName);
+					networkedInputField.MasterSetValue(renameable.CustomName);
 				}
 			});
 		}

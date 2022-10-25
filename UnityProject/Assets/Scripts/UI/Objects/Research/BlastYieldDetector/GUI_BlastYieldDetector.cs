@@ -89,15 +89,15 @@ namespace UI.Objects.Research
 		{
 			if (connected)
 			{
-				pointsMax.SetValueServer(blastYieldDetector.maxPointsValue.ToString());
-				yieldMin.SetValueServer(blastYieldDetector.researchServer.yieldTargetRangeMinimum.ToString());
-				yieldMax.SetValueServer(blastYieldDetector.researchServer.yieldTargetRangeMaximum.ToString());
+				pointsMax.MasterSetValue(blastYieldDetector.maxPointsValue.ToString());
+				yieldMin.MasterSetValue(blastYieldDetector.researchServer.yieldTargetRangeMinimum.ToString());
+				yieldMax.MasterSetValue(blastYieldDetector.researchServer.yieldTargetRangeMaximum.ToString());
 			}
 			else
 			{
-				pointsMax.SetValueServer("No Server!");
-				yieldMin.SetValueServer("No Server!");
-				yieldMax.SetValueServer("No Server!");
+				pointsMax.MasterSetValue("No Server!");
+				yieldMin.MasterSetValue("No Server!");
+				yieldMax.MasterSetValue("No Server!");
 			}
 
 
@@ -168,8 +168,8 @@ namespace UI.Objects.Research
 			float points = blastYieldDetector.blastData.Values[dataShown];
 			Vector2 dataShownPos = GetNodePosition(yield, points);
 
-			blastYieldLabel.SetValueServer(yield.ToString());
-			pointsLabel.SetValueServer(points.ToString());
+			blastYieldLabel.MasterSetValue(yield.ToString());
+			pointsLabel.MasterSetValue(points.ToString());
 
 			Vector3 yieldNewY = yieldNodeHighlight.anchoredPosition;
 			yieldNewY.y = dataShownPos.y + rectOffset;

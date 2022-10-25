@@ -20,7 +20,7 @@ namespace UI.Objects.Cargo
 		public void SetValues(CargoOrderSO newOrder)
 		{
 			Order = newOrder;
-			cartNameLabel.SetValueServer($"{Order.OrderName}\n{Order.CreditCost} credits");
+			cartNameLabel.MasterSetValue($"{Order.OrderName}\n{Order.CreditCost} credits");
 		}
 	}
 }

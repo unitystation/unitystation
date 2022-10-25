@@ -32,7 +32,7 @@ namespace UI.Core.NetUI
 
 		public void SetSprite(int spriteIndex)
 		{
-			SetValueServer(spriteIndex.ToString());
+			MasterSetValue(spriteIndex.ToString());
 		}
 
 		private void SetSprite(string sprite)

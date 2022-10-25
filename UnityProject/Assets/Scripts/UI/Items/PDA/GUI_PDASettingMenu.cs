@@ -37,7 +37,7 @@ namespace UI.Items.PDA
 				controller.PDA.PlayRingtone();
 			}
 
-			input.SetValueServer("");
+			input.MasterSetValue("");
 		}
 
 		public void EjectCartridge()

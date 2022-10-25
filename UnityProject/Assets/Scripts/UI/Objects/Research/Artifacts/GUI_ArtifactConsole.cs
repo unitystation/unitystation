@@ -97,13 +97,13 @@ namespace UI.Objects.Research
 		{
 			inputData = console.InputData;
 
-			if (console.ConnectedArtifact != null) NameLabel.SetValueServer(console.ConnectedArtifact.ID);
-			else NameLabel.SetValueServer("NULL");
+			if (console.ConnectedArtifact != null) NameLabel.MasterSetValue(console.ConnectedArtifact.ID);
+			else NameLabel.MasterSetValue("NULL");
 
 			if(LogLabel.Value == "No disk in console!" && console.dataDisk != null)
 			{
-				LogLabel.SetValueServer("Disk inserted!");
-				OutputLabel.SetValueServer("");
+				LogLabel.MasterSetValue("Disk inserted!");
+				OutputLabel.MasterSetValue("");
 			}
 
 			radInput.text = inputData.radiationlevel.ToString();
@@ -118,7 +118,7 @@ namespace UI.Objects.Research
 
 			if (console.HasDisk) ImageObject.SetSprite(0);
 			else ImageObject.SetSprite(1);
-			
+
 		}
 
 		public void WriteData()
@@ -129,22 +129,22 @@ namespace UI.Objects.Research
 
 			if (console.dataDisk == null)
 			{
-				LogLabel.SetValueServer("No disk in console!");
-				OutputLabel.SetValueServer("Data write unsuccessful.");
+				LogLabel.MasterSetValue("No disk in console!");
+				OutputLabel.MasterSetValue("Data write unsuccessful.");
 				return;
 			}
 			if (console.ConnectedArtifact == null)
 			{
-				LogLabel.SetValueServer("No artifact connected to console!!");
-				OutputLabel.SetValueServer("Data write unsuccessful.");
+				LogLabel.MasterSetValue("No artifact connected to console!!");
+				OutputLabel.MasterSetValue("Data write unsuccessful.");
 				return;
 			}
-			 
-			LogLabel.SetValueServer($"Disk sucessfully found in console" +
+
+			LogLabel.MasterSetValue($"Disk sucessfully found in console" +
 				$"\n\nData for artifact {console.ConnectedArtifact.ID} already exists on disk... " +
 				$"overriding\n\nWriting data for artifact {console.ConnectedArtifact.ID}");
 
-			OutputLabel.SetValueServer("Data write successful.");
+			OutputLabel.MasterSetValue("Data write successful.");
 
 			foreach (ArtifactDataFile data in console.dataDisk.DataOnStorage)
 			{
@@ -167,14 +167,14 @@ namespace UI.Objects.Research
 			if (console.dataDisk != null)
 			{
 				console.DropDisk();
-				LogLabel.SetValueServer($"Disk ejected from console.");
+				LogLabel.MasterSetValue($"Disk ejected from console.");
 			}
 			else
 			{
-				LogLabel.SetValueServer($"No disk in console to eject.");
+				LogLabel.MasterSetValue($"No disk in console to eject.");
 			}
 
-			OutputLabel.SetValueServer("Please insert disk.");
+			OutputLabel.MasterSetValue("Please insert disk.");
 			UpdateGUI();
 		}
 

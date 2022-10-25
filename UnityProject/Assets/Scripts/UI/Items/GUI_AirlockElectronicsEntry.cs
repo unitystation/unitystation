@@ -15,7 +15,7 @@ namespace UI.Items
 		{
 			clearance = clearanceToSet;
 			gUI = guiToSet;
-			AccessName.SetValueServer(clearance.ToString());
+			AccessName.MasterSetValue(clearance.ToString());
 		}
 		public void ChangeAccess()
 		{

@@ -133,6 +133,10 @@ namespace Util
 		[MenuItem("Tools/GenerateSpriteSO")]
 		public static void Generate()
 		{
+
+			var SGen = new SudokuGenerator();
+
+			Logger.LogError(SGen.generate("hard"));
 			return;
 			AssetDatabase.StartAssetEditing();
 			AssetDatabase.ForceReserializeAssets();

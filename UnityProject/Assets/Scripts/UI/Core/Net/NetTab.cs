@@ -73,7 +73,7 @@ public enum NetTabType
 	BlastYieldDetector = 55,
 	ArtifactAnalyzer = 56,
 	ArtifactConsole = 57,
-
+	DNAConsole = 58,
 	// add new entres to the bottom
 	// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name
 	// i.e TabJukeBox
@@ -104,7 +104,7 @@ public class NetTab : Tab
 	public NetTabDescriptor NetTabDescriptor => new NetTabDescriptor(Provider, Type);
 
 	/// Is current tab a server tab?
-	public bool IsServer => transform.parent.name == nameof(NetworkTabManager);
+	public bool IsMasterTab => transform.parent.name == nameof(NetworkTabManager);
 
 	private ISet<NetUIElementBase> Elements => new HashSet<NetUIElementBase>(GetComponentsInChildren<NetUIElementBase>(false));
 
@@ -121,7 +121,7 @@ public class NetTab : Tab
 
 	public virtual void OnEnable()
 	{
-		if (IsServer)
+		if (IsMasterTab)
 		{
 			InitElements(true);
 			InitServer();

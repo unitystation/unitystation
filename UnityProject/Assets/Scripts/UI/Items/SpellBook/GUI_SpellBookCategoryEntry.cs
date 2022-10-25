@@ -19,8 +19,8 @@ namespace UI.SpellBook
 			this.spellBook = spellBook;
 			this.category = category;
 
-			nameLabel.SetValueServer(category.Name);
-			descriptionLabel.SetValueServer(category.Description);
+			nameLabel.MasterSetValue(category.Name);
+			descriptionLabel.MasterSetValue(category.Description);
 		}
 
 		public void SelectCategory()

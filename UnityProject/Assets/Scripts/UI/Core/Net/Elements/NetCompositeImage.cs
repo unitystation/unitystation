@@ -27,7 +27,7 @@ namespace UI.Core.NetUI
 					ObjectNetId = result;
 
 					//Don't need to resolve shit and render images on server
-					if (MasterTab.IsServer)
+					if (containedInTab.IsMasterTab)
 					{
 						externalChange = false;
 						return;

@@ -24,25 +24,25 @@ namespace UI.Objects.Cargo
 			DisplayCurrentCart();
 			if (cargoGUI.cargoConsole.CorrectID || cargoGUI.IsAIInteracting())
 			{
-				confirmButtonText.SetValueServer(CanAffordCart() ? "CONFIRM CART" : "NOT ENOUGH CREDITS");
+				confirmButtonText.MasterSetValue(CanAffordCart() ? "CONFIRM CART" : "NOT ENOUGH CREDITS");
 
 				CheckTotalPrice();
 				if (CargoManager.Instance.CurrentCart.Count == 0)
 				{
-					confirmButtonText.SetValueServer("CART IS EMPTY");
-					totalPriceText.SetValueServer("");
+					confirmButtonText.MasterSetValue("CART IS EMPTY");
+					totalPriceText.MasterSetValue("");
 				}
 			}
 			else
 			{
-				confirmButtonText.SetValueServer("InvalidID");
+				confirmButtonText.MasterSetValue("InvalidID");
 			}
 
 		}
 
 		private void CheckTotalPrice()
 		{
-			totalPriceText.SetValueServer($"TOTAL: {CargoManager.Instance.TotalCartPrice()} CREDITS");
+			totalPriceText.MasterSetValue($"TOTAL: {CargoManager.Instance.TotalCartPrice()} CREDITS");
 		}
 
 		public void ConfirmCart()
@@ -74,7 +74,7 @@ namespace UI.Objects.Cargo
 
 			if (cargoGUI.cargoConsole.CorrectID || cargoGUI.IsAIInteracting())
 			{
-				confirmButtonText.SetValueServer("InvalidID");
+				confirmButtonText.MasterSetValue("InvalidID");
 			}
 
 			CheckTotalPrice();

@@ -114,7 +114,7 @@ namespace UI.Objects.Command
 
 		private void ServerUpdateLoginCardName()
 		{
-			loginCardName.SetValueServer(console.AccessCard != null ?
+			loginCardName.MasterSetValue(console.AccessCard != null ?
 				$"{console.AccessCard.RegisteredName}, {console.AccessCard.GetJobTitle()}" : "********");
 		}
 
@@ -132,7 +132,7 @@ namespace UI.Objects.Command
 
 			if (!valToSet.Equals(accessCardName.Value))
 			{
-				accessCardName.SetValueServer(valToSet);
+				accessCardName.MasterSetValue(valToSet);
 			}
 
 
@@ -147,7 +147,7 @@ namespace UI.Objects.Command
 
 			if (!valToSet.Equals(targetCardName.Value))
 			{
-				targetCardName.SetValueServer(valToSet);
+				targetCardName.MasterSetValue(valToSet);
 			}
 		}
 

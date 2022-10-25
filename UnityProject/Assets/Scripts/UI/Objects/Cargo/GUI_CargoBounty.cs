@@ -13,8 +13,8 @@ namespace UI.Objects.Cargo
 
 		public void SetValues(CargoBounty cargoBounty)
 		{
-			bountyTitle.SetValueServer($"{cargoBounty.Reward} credits - {cargoBounty.Title}");
-			InvisblebountyDescription.SetValueServer(cargoBounty.TooltipDescription);
+			bountyTitle.MasterSetValue($"{cargoBounty.Reward} credits - {cargoBounty.Title}");
+			InvisblebountyDescription.MasterSetValue(cargoBounty.TooltipDescription);
 		}
 	}
 }

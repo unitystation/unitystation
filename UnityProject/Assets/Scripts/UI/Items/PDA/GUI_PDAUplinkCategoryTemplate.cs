@@ -19,9 +19,9 @@ namespace UI.Items.PDA
 
 		public void ReInit(UplinkCategory assignedCategory)
 		{
-			categoryPage = MasterTab.GetComponent<GUI_PDA>().uplinkPage.categoryPage;
+			categoryPage = containedInTab.GetComponent<GUI_PDA>().uplinkPage.categoryPage;
 			category = assignedCategory;
-			categoryName.SetValueServer(category.CategoryName);
+			categoryName.MasterSetValue(category.CategoryName);
 		}
 	}
 }

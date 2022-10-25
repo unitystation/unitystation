@@ -23,7 +23,7 @@ namespace UI.Objects.Botany
 		{
 			seedItem = seedPacket;
 			seedExtractorWindow = correspondingWindow;
-			seedStats.SetValueServer(
+			seedStats.MasterSetValue(
 					$"{seedPacket.plantData.Potency.ToString().PadLeft(3)} " +
 					$"{seedPacket.plantData.Yield.ToString().PadLeft(3)} " +
 					$"{seedPacket.plantData.GrowthSpeed.ToString().PadLeft(3)} " +
@@ -31,7 +31,7 @@ namespace UI.Objects.Botany
 					$"{seedPacket.plantData.Lifespan.ToString().PadLeft(3)} " +
 					$"{seedPacket.plantData.WeedResistance.ToString().PadLeft(3)} " +
 					$"{seedPacket.plantData.WeedGrowthRate.ToString().PadLeft(3)}");
-			itemBackground.SetValueServer(regularColor);
+			itemBackground.MasterSetValue(regularColor);
 		}
 
 		public void Dispense()

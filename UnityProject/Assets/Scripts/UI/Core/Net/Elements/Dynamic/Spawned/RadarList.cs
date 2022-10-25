@@ -21,7 +21,7 @@ namespace UI.Objects.Shuttles
 
 			// Refreshing positions of every item
 			var entryArray = Entries;
-			for (var i = 0; i < entryArray.Length; i++)
+			for (var i = 0; i < entryArray.Count; i++)
 			{
 				var item = entryArray[i] as RadarEntry;
 				if (!item) continue;
@@ -73,7 +73,7 @@ namespace UI.Objects.Shuttles
 
 		public bool AddStaticItem(MapIconType type, Vector2 staticPosition, int radius = -1)
 		{
-			for (var i = 0; i < Entries.Length; i++)
+			for (var i = 0; i < Entries.Count; i++)
 			{
 				var item = Entries[i] as RadarEntry;
 				if (!item)
@@ -101,7 +101,7 @@ namespace UI.Objects.Shuttles
 			newEntry.StaticPosition = staticPosition;
 
 			//rescan elements and notify
-			NetworkTabManager.Instance.Rescan(MasterTab.NetTabDescriptor);
+			NetworkTabManager.Instance.Rescan(containedInTab.NetTabDescriptor);
 
 			return true;
 		}
@@ -110,7 +110,7 @@ namespace UI.Objects.Shuttles
 		{
 			var objectSet = new HashSet<GameObject>(objects);
 			var duplicates = new HashSet<GameObject>();
-			for (var i = 0; i < Entries.Length; i++)
+			for (var i = 0; i < Entries.Count; i++)
 			{
 				var item = Entries[i] as RadarEntry;
 				if (!item)
@@ -148,7 +148,7 @@ namespace UI.Objects.Shuttles
 			//		Logger.Log( $"RadarList: Item add success! added {objects.Count} items" );
 
 			//rescan elements and notify
-			NetworkTabManager.Instance.Rescan(MasterTab.NetTabDescriptor);
+			NetworkTabManager.Instance.Rescan(containedInTab.NetTabDescriptor);
 			RefreshTrackedPos();
 
 			return true;
@@ -170,7 +170,7 @@ namespace UI.Objects.Shuttles
 			bool notFound = true;
 
 			var entries = Entries;
-			for (var i = 0; i < entries.Length; i++)
+			for (var i = 0; i < entries.Count; i++)
 			{
 				var entry = entries[i] as RadarEntry;
 				if (!entry || entry.TrackedObject != trackedObject) continue;
@@ -184,12 +184,12 @@ namespace UI.Objects.Shuttles
 					var element = entryElements[j];
 					valuesToSend.Add(element.ElementValue);
 				}
-				TabUpdateMessage.SendToPeepers(MasterTab.Provider, MasterTab.Type, TabAction.Update, valuesToSend.ToArray());
+				TabUpdateMessage.SendToPeepers(containedInTab.Provider, containedInTab.Type, TabAction.Update, valuesToSend.ToArray());
 			}
 			//if not found (being hidden etc), send just the list entry count so it would disappear for peepers, too
 			if (notFound)
 			{
-				TabUpdateMessage.SendToPeepers(MasterTab.Provider, MasterTab.Type, TabAction.Update, new[] { ElementValue });
+				TabUpdateMessage.SendToPeepers(containedInTab.Provider, containedInTab.Type, TabAction.Update, new[] { ElementValue });
 			}
 		}
 

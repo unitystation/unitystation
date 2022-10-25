@@ -20,10 +20,10 @@ namespace UI.Items.PDA
 
 		public void ReInit(UplinkItem assignedItem)
 		{
-			itemPage = MasterTab.GetComponent<GUI_PDA>().uplinkPage.itemPage;
+			itemPage = containedInTab.GetComponent<GUI_PDA>().uplinkPage.itemPage;
 			item = assignedItem;
-			itemName.SetValueServer(item.Name);;
-			itemCost.SetValueServer(item.Cost.ToString());
+			itemName.MasterSetValue(item.Name);;
+			itemCost.MasterSetValue(item.Cost.ToString());
 		}
 	}
 }

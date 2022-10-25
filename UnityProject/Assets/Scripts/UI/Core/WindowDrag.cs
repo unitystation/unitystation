@@ -81,6 +81,11 @@ public class WindowDrag : MonoBehaviour
 		ClampWindowPosition(offsetX + CommonInput.mousePosition.x, offsetY + CommonInput.mousePosition.y);
 	}
 
+	public virtual void DragEnd()
+	{
+
+	}
+
 	/// <summary>
 	/// Moves and Clamps the window.
 	/// </summary>

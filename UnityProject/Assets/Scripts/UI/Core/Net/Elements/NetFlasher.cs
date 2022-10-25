@@ -77,7 +77,7 @@ namespace UI.Core.NetUI
 		/// <summary>
 		/// Server-only method for updating element (i.e. changing label text) from server GUI code
 		/// </summary>
-		public override void SetValueServer(string value)
+		public override void MasterSetValue(string value)
 		{
 			if (Value != value)
 			{

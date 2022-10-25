@@ -46,12 +46,12 @@ public class GUI_TeleporterConsole : NetTab
 		if(teleporterControl == null) return;
 
 		var beacons = TrackingBeacon.GetAllBeaconOfType(teleporterControl.TrackingBeaconType);
-		if (beacons.Count != beaconList.Entries.Length)
+		if (beacons.Count != beaconList.Entries.Count)
 		{
 			beaconList.SetItems(beacons.Count);
 		}
 
-		for (int i = 0; i < beaconList.Entries.Length; i++)
+		for (int i = 0; i < beaconList.Entries.Count; i++)
 		{
 			DynamicEntry dynamicEntry = beaconList.Entries[i];
 			var entry = dynamicEntry.GetComponent<TeleporterEntry>();

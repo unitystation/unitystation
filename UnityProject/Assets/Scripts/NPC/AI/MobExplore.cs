@@ -48,10 +48,14 @@ namespace Systems.MobAIs
 		[SerializeField]
 		private bool hasFoodPrefereces = false;
 
+		public bool HasFoodPrefereces => hasFoodPrefereces;
+
 		[Tooltip("Objects in this list are considered food by this creature (even non edible stuff!)")]
 		[SerializeField]
 		[ShowIf(nameof(hasFoodPrefereces))]
 		private List<ItemTrait> foodPreferences = null;
+
+		public List<ItemTrait> FoodPreferences => foodPreferences;
 
 		// Timer that indicates if the action perform time is reached and the action can be performed.
 		private float actionPerformTimer = 0.0f;

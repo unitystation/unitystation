@@ -22,8 +22,8 @@ namespace UI.Objects.Cargo
 		{
 			materialList = matListDisplay;
 			materialType = material;
-			labelAmount.SetValueServer($"{amount} cm3");
-			labelName.SetValueServer(material.name);
+			labelAmount.MasterSetValue($"{amount} cm3");
+			labelName.MasterSetValue(material.name);
 		}
 	}
 }

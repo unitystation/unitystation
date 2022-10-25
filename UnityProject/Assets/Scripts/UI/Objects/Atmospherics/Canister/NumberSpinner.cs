@@ -83,7 +83,7 @@ namespace UI.Core.NetUI
 			// we will jump directly to the first value we get
 			init = false;
 			// check if we are the server version (will not play sounds if that's the case)
-			muteSounds = GetComponentInParent<NetTab>().IsServer;
+			muteSounds = GetComponentInParent<NetTab>().IsMasterTab;
 		}
 
 		private void OnEnable()
@@ -116,7 +116,7 @@ namespace UI.Core.NetUI
 					Category.Atmos, newValue, MaxValue);
 			}
 			//set the new value, to be propagated to clients.
-			SetValueServer(newValue.ToString());
+			MasterSetValue(newValue.ToString());
 		}
 
 		public void DisplaySpinAdjust(int offset)
