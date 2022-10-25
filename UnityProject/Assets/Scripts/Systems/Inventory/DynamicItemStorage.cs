@@ -988,6 +988,11 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 		}
 	}
 
+	public void SetUpFromPopulator(PlayerSlotStoragePopulator providedPopulator)
+	{
+		providedPopulator.PopulateDynamicItemStorage(this, registerPlayer.PlayerScript);
+	}
+
 	#region Check Conditionals
 
 	public Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics> CheckConditionalRemove(
