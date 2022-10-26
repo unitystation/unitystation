@@ -2,12 +2,14 @@ using System;
 using System.Linq;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Serialization;
 
 namespace Learning.ProtipObjectTypes
 {
 	public class ProtipObjectOnPickupTrait : ProtipObject
 	{
-		public SerializableDictionary<ItemTrait, ProtipSO> protipsForTraits = new SerializableDictionary<ItemTrait, ProtipSO>();
+		[FormerlySerializedAs("ProtipsForTraits"), SerializeField]
+		private SerializableDictionary<ItemTrait, ProtipSO> protipsForTraits = new SerializableDictionary<ItemTrait, ProtipSO>();
 
 		private void OnEnable()
 		{
