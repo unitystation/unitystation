@@ -39,14 +39,14 @@ namespace Core.Characters
 				if (behavior.TryGetComponent<CharacterAttributeBehavior>(out var staticBehavior) && staticBehavior.Spawn)
 				{
 					// If we don't want to spawn this object and run it's code directly
-					staticBehavior.Run(script);
+					staticBehavior.Run(script.gameObject);
 					continue;
 				}
 				// if we want to spawn this object while having it's component persistent on a gameObject in the game world
 				var behaviorObject = Spawn.ServerPrefab(behavior);
 				if(behaviorObject.Successful == false) continue;
 				if(behaviorObject.GameObject.TryGetComponent<CharacterAttributeBehavior>(out var behaviorScript) == false) continue;
-				behaviorScript.Run(script);
+				behaviorScript.Run(script.gameObject);
 			}
 		}
 	}

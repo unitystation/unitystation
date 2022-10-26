@@ -7,9 +7,9 @@ namespace Core.Characters.AttributeBehaviors
 	{
 		[SerializeField] private PlayerSlotStoragePopulator populator;
 
-		public override void Run(PlayerScript script)
+		public override void Run(GameObject characterBody)
 		{
-			script.GetComponent<DynamicItemStorage>()?.SetUpFromPopulator(populator);
+			characterBody.GetComponent<DynamicItemStorage>()?.SetUpFromPopulator(populator);
 		}
 	}
 }

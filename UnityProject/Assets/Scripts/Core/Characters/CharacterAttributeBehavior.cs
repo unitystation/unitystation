@@ -10,7 +10,7 @@ namespace Core.Characters
 		/// <summary>
 		/// What does this attribute do as soon as it's added to the player?
 		/// </summary>
-		public abstract void Run(PlayerScript script);
+		public abstract void Run(GameObject characterBody);
 
 		public virtual void Cleanup()
 		{
