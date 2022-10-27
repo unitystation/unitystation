@@ -10,6 +10,7 @@ using Systems;
 using Messages.Server;
 using Messages.Client;
 using Messages.Client.NewPlayer;
+using ScriptableObjects.Characters;
 using UI;
 
 namespace Player
@@ -308,6 +309,13 @@ namespace Player
 			}
 
 			ClientRequestJobMessage.Send(job, jsonCharSettings, DatabaseAPI.ServerData.UserID);
+		}
+
+		public void RequestJob(CharacterAttribute attribute)
+		{
+			var jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSheet);
+
+			//ClientRequestJobMessage.Send(attribute, jsonCharSettings, DatabaseAPI.ServerData.UserID);
 		}
 
 		public void Spectate()

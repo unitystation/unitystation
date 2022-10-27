@@ -4,6 +4,7 @@ namespace Core.Characters
 {
 	public abstract class CharacterAttributeBehavior : MonoBehaviour
 	{
+		[Tooltip("Spawn this prefab as soon as it's associated attribute gets added to a character?")]
 		public bool Spawn = false;
 		private bool destroyWhenDone = false;
 
