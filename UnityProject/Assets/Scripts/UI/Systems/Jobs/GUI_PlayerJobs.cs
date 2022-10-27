@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Messages.Server;
 using ScriptableObjects.Characters;
@@ -84,7 +85,7 @@ namespace UI
 			waitForSpawnTimer = waitForSpawnTimerMax;
 		}
 
-		private void BtnOk(CharacterAttribute attribute)
+		private void BtnOk(KeyValuePair<int, CharacterAttribute> attribute)
 		{
 			if (waitForSpawnTimer > 0)
 			{
@@ -95,7 +96,7 @@ namespace UI
 			footer.SetActive(false);
 			waitMessage.SetActive(true);
 
-			PlayerManager.LocalViewerScript.RequestJob(attribute);
+			PlayerManager.LocalViewerScript.RequestJob(attribute.Key);
 			waitForSpawnTimer = waitForSpawnTimerMax;
 		}
 
@@ -204,15 +205,15 @@ namespace UI
 			screen_Jobs.SetActive(true);
 		}
 
-		private void ExpirementalSetupJobButton(CharacterAttribute jobAttribute)
+		private void ExpirementalSetupJobButton(KeyValuePair<int, CharacterAttribute> jobAttribute)
 		{
 			GameObject occupationGO = Instantiate(buttonPrefab, screen_Jobs.transform);
 
 			var image = occupationGO.GetComponent<Image>();
 			var text = occupationGO.GetComponentInChildren<TextMeshProUGUI>();
-			image.color = jobAttribute.AttributeColorPallet.Count != 0 ?
-				jobAttribute.AttributeColorPallet[0] : Color.white;
-			text.text = jobAttribute.DisplayName;
+			image.color = jobAttribute.Value.AttributeColorPallet.Count != 0 ?
+				jobAttribute.Value.AttributeColorPallet[0] : Color.white;
+			text.text = jobAttribute.Value.DisplayName;
 			occupationGO.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 			occupationGO.GetComponent<Button>().onClick.AddListener(() => { BtnOk(jobAttribute); });
 		}

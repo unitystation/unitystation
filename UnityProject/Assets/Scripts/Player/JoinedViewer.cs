@@ -311,11 +311,10 @@ namespace Player
 			ClientRequestJobMessage.Send(job, jsonCharSettings, DatabaseAPI.ServerData.UserID);
 		}
 
-		public void RequestJob(CharacterAttribute attribute)
+		public void RequestJob(int attribute)
 		{
 			var jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSheet);
-
-			//ClientRequestJobMessage.Send(attribute, jsonCharSettings, DatabaseAPI.ServerData.UserID);
+			ClientRequestSpawnWithAttribute.Send(attribute, jsonCharSettings, DatabaseAPI.ServerData.UserID);
 		}
 
 		public void Spectate()

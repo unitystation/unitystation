@@ -21,6 +21,7 @@ using Tilemaps.Behaviours.Layers;
 using UnityEngine.Profiling;
 using Player;
 using Objects.Research;
+using ScriptableObjects.Characters;
 
 public partial class GameManager : MonoBehaviour, IInitialise
 {
@@ -166,6 +167,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	public bool DisconnectExpected = false;
 
 	public List<CommsServer> CommsServers = new List<CommsServer>();
+
+	[SerializeField] private RoundJoinAttributes roundJoinAttributes;
+	public RoundJoinAttributes RoundJoinAttributes => roundJoinAttributes;
 
 	void IInitialise.Initialise()
 	{

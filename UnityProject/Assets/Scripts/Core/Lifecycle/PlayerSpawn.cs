@@ -650,7 +650,7 @@ public static class PlayerSpawn
 		}
 	}
 
-	public static void SpawnPlayerV2(CharacterSheet characterSettings, List<CharacterAttribute> attributesList, JoinedViewer joinedViewer
+	public static bool SpawnPlayerV2(CharacterSheet characterSettings, List<CharacterAttribute> attributesList, JoinedViewer joinedViewer
 		, GameObject playerPrefab = null, Mind existingMind = null, NetworkConnectionToClient conn = null)
 	{
 		conn ??= joinedViewer.connectionToClient;
@@ -658,8 +658,9 @@ public static class PlayerSpawn
 		if (newPlayer.TryGetComponent<CharacterAttributes>(out var attributes) == false)
 		{
 			Logger.LogError($"[Spawn/Player] - CHARACTER ATTRIBUTES SCRIPT COULD NOT BE FOUND!!");
-			return;
+			return false;
 		}
 		attributes.AddAttributes(attributesList);
+		return true;
 	}
 }
