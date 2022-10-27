@@ -265,10 +265,7 @@ public static class PlayerSpawn
 		bool showBanner = true)
 	{
 		//determine where to spawn them
-		if (spawnPos == null)
-		{
-			spawnPos = GetSpawnPointForOccupation(occupation);
-		}
+		spawnPos ??= GetSpawnPointForOccupation(occupation);
 
 
 		if (existingMind == null)
@@ -279,18 +276,19 @@ public static class PlayerSpawn
 
 			existingMind = ghosty.GetComponent<Mind>();
 			existingMind.occupation = occupation;
-
 		}
 
 
 		//create the player object
-		var newPlayer = ServerCreatePlayer(spawnPos.GetValueOrDefault(), occupation.SpecialPlayerPrefab);
+		var newPlayer = ServerCreatePlayer(spawnPos.GetValueOrDefault(),
+			occupation == null ? CustomNetworkManager.Instance.humanPlayerPrefab : occupation.SpecialPlayerPrefab);
 		var newPlayerScript = newPlayer.GetComponent<PlayerScript>();
 
 		//get the old body if they have one.
 		var oldBody = existingMind.OrNull()?.GetCurrentMob();
 
-		var toUseCharacterSettings = occupation.UseCharacterSettings ? characterSettings : null;
+		var toUseCharacterSettings = characterSettings;
+		if(occupation != null) toUseCharacterSettings = occupation.UseCharacterSettings ? characterSettings : null;
 
 
 		//transfer control to the player object
@@ -306,7 +304,14 @@ public static class PlayerSpawn
 		var ps = newPlayer.GetComponent<PlayerScript>();
 		var connectedPlayer = PlayerList.Instance.GetOnline(connection);
 		connectedPlayer.Name = ps.mind.name;
-		connectedPlayer.Job = ps.mind.occupation.JobType;
+		if (occupation != null)
+		{
+			connectedPlayer.Job = ps.mind.occupation.JobType;
+		}
+		else
+		{
+			connectedPlayer.Job = JobType.ASSISTANT;
+		}
 		UpdateConnectedPlayersMessage.Send();
 
 		//fire all hooks

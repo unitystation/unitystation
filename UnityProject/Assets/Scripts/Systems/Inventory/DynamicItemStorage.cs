@@ -981,6 +981,11 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 
 	public void SetUpOccupation(Occupation occupation)
 	{
+		if (occupation == null)
+		{
+			Logger.LogWarning($"[DynamicInventory] - Attempted to use a null occupation!");
+			return;
+		}
 		var NSP = occupation.InventoryPopulator as PlayerSlotStoragePopulator;
 		if (NSP != null)
 		{

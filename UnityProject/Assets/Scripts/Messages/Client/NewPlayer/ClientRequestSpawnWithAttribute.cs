@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Messages.Server;
 using Mirror;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -21,7 +22,10 @@ namespace Messages.Client.NewPlayer
 			List<CharacterAttribute> newList = new List<CharacterAttribute>();
 			newList.Add(GameManager.Instance.RoundJoinAttributes.AttributesToUse[msg.JoinAttributeID]);
 			//TODO: load extra attributes from character settings
-			PlayerSpawn.SpawnPlayerV2(character, newList, SentByPlayer.ViewerScript);
+			if (PlayerSpawn.SpawnPlayerV2(character, newList, SentByPlayer.ViewerScript) == false)
+			{
+				SendClientLogMessage.SendErrorToClient(SentByPlayer, "Server couldn't spawn you.");
+			}
 		}
 
 		public static NetMessage Send(int joinAttributeID, string jsonCharSettings, string playerID)
