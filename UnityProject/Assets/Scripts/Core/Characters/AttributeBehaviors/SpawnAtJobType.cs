@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Core.Characters.AttributeBehaviors
 {
-	public abstract class SpawnAtJobType : CharacterAttributeBehavior
+	public class SpawnAtJobType : CharacterAttributeBehavior
 	{
 		[SerializeField] private JobType jobType = JobType.ASSISTANT;
 		private static readonly DateTime ARRIVALS_SPAWN_TIME = new DateTime().AddHours(12).AddMinutes(2);
@@ -13,6 +13,7 @@ namespace Core.Characters.AttributeBehaviors
 		public override void Run(GameObject characterBody)
 		{
 			Transform spawnTransform;
+			var physics = characterBody.GetComponent<UniversalObjectPhysics>();
 			//Spawn normal location for special jobs or if less than 2 minutes passed
 			if (GameManager.Instance.stationTime < ARRIVALS_SPAWN_TIME)
 			{
@@ -35,6 +36,10 @@ namespace Core.Characters.AttributeBehaviors
 					Category.EntitySpawn, jobType);
 				return;
 			}
+			var matrixInfo = MatrixManager.AtPoint(spawnTransform.localPosition.CutToInt(), true);
+			physics.ForceSetLocalPosition(spawnTransform.localPosition.CutToInt(),
+				Vector2.zero, false, matrixInfo.Id, true, 0);
 		}
+
 	}
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Core.Characters;
 using HealthV2;
 using UnityEngine;
 using Mirror;
@@ -12,6 +13,7 @@ using Newtonsoft.Json;
 using Objects.Research;
 using UI.CharacterCreator;
 using Player;
+using ScriptableObjects.Characters;
 
 /// <summary>
 /// This interface will be called after the client has rejoined and has all scenes loaded!
@@ -210,6 +212,11 @@ public static class PlayerSpawn
 	private static Vector3Int GetSpawnPointForOccupation(Occupation occupation)
 	{
 		Transform spawnTransform;
+		if (occupation == null)
+		{
+			spawnTransform = SpawnPoint.GetRandomPointForJob(JobType.ASSISTANT);
+			return spawnTransform != null ? spawnTransform.position.CutToInt() : Vector3Int.zero;
+		}
 		//Spawn normal location for special jobs or if less than 2 minutes passed
 		if (GameManager.Instance.stationTime < ARRIVALS_SPAWN_TIME)
 		{
@@ -641,5 +648,18 @@ public static class PlayerSpawn
 		{
 			transfer.OnPlayerTransfer(mind);
 		}
+	}
+
+	public static void SpawnPlayerV2(CharacterSheet characterSettings, List<CharacterAttribute> attributesList, JoinedViewer joinedViewer
+		, GameObject playerPrefab = null, Mind existingMind = null, NetworkConnectionToClient conn = null)
+	{
+		conn ??= joinedViewer.connectionToClient;
+		var newPlayer = ServerSpawnInternal(conn, null, characterSettings, existingMind, new Vector3Int(0,0,0));
+		if (newPlayer.TryGetComponent<CharacterAttributes>(out var attributes) == false)
+		{
+			Logger.LogError($"[Spawn/Player] - CHARACTER ATTRIBUTES SCRIPT COULD NOT BE FOUND!!");
+			return;
+		}
+		attributes.AddAttributes(attributesList);
 	}
 }
