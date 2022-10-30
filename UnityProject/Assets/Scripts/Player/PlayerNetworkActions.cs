@@ -978,13 +978,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			//Admin turns into ghost
 			PlayerSpawn.ServerGhost(playerScript.mind);
 		}
-		else if (playerScript.IsGhost)
-		{
-			if (playerScript.mind.IsSpectator) return;
-
-			//Back to player
-			GhostEnterBody();
-		}
+		//TODO We implement re-entering body Once mind Rework work is done , Was removed because Brooke Client when pressed
 	}
 
 	#endregion
