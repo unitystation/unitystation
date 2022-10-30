@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Core.Characters.AttributeBehaviors
 {
+	/// <summary>
+	/// Character attribute behavior that spawns a character at a job type destination.
+	/// </summary>
 	public class SpawnAtJobType : CharacterAttributeBehavior
 	{
 		[SerializeField] private JobType jobType = JobType.ASSISTANT;
@@ -14,7 +17,7 @@ namespace Core.Characters.AttributeBehaviors
 		{
 			Transform spawnTransform;
 			var physics = characterBody.GetComponent<UniversalObjectPhysics>();
-			//Spawn normal location for special jobs or if less than 2 minutes passed
+			// Spawn normal location for special jobs or if less than 2 minutes passed
 			if (GameManager.Instance.stationTime < ARRIVALS_SPAWN_TIME)
 			{
 				spawnTransform = SpawnPoint.GetRandomPointForJob(jobType);
@@ -22,7 +25,7 @@ namespace Core.Characters.AttributeBehaviors
 			else
 			{
 				spawnTransform = SpawnPoint.GetRandomPointForLateSpawn();
-				//Fallback to assistant spawn location if none found for late join
+				// Fallback to assistant spawn location if none found for late join
 				if (spawnTransform == null && jobType != JobType.NULL)
 				{
 					spawnTransform = SpawnPoint.GetRandomPointForJob(JobType.ASSISTANT);
@@ -37,8 +40,11 @@ namespace Core.Characters.AttributeBehaviors
 				return;
 			}
 
+			// so we don't conver this twice
 			var position = spawnTransform.localPosition.CutToInt();
+			// getting matrix based of global position in the game world
 			var matrixInfo = MatrixManager.AtPoint(position, true);
+			// Setting the player at the correct position and matrix.
 			physics.ForceSetLocalPosition(position.ToLocal(matrixInfo.Matrix),
 				Vector2.zero, false, matrixInfo.Id, true, 0);
 		}

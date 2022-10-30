@@ -983,6 +983,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 	{
 		if (occupation == null)
 		{
+			//TODO: Disable this warning after attributes has completely replaced occupations.
 			Logger.LogWarning($"[DynamicInventory] - Attempted to use a null occupation!");
 			return;
 		}
