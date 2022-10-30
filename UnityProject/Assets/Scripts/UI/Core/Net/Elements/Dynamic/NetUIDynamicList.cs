@@ -93,9 +93,9 @@ namespace UI.Core.NetUI
 		}
 		public virtual void Clear()
 		{
-			foreach (var Entry in Entries)
+			foreach (var entry in Entries)
 			{
-				DestroyImmediate(Entry.gameObject);
+				DestroyImmediate(entry.gameObject);
 			}
 			Entries.Clear();
 			entryCount = 0;
