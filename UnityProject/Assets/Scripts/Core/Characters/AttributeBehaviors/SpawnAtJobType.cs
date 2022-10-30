@@ -36,8 +36,10 @@ namespace Core.Characters.AttributeBehaviors
 					Category.EntitySpawn, jobType);
 				return;
 			}
-			var matrixInfo = MatrixManager.AtPoint(spawnTransform.localPosition.CutToInt(), true);
-			physics.ForceSetLocalPosition(spawnTransform.localPosition.CutToInt(),
+
+			var position = spawnTransform.localPosition.CutToInt();
+			var matrixInfo = MatrixManager.AtPoint(position, true);
+			physics.ForceSetLocalPosition(position.ToLocal(matrixInfo.Matrix),
 				Vector2.zero, false, matrixInfo.Id, true, 0);
 		}
 
