@@ -157,7 +157,7 @@ namespace Objects.Botany
 				//Water Checks
 				if (reagentContainer[water] > 0)
 				{
-					reagentContainer.Subtract(new ReagentMix(water, .1f));
+					reagentContainer.Subtract(new ReagentMix(water, .01f));
 				}
 				else if (!plantData.PlantTrays.Contains(PlantTrays.Fungal_Vitality))
 				{
@@ -168,7 +168,7 @@ namespace Objects.Botany
 				//Growth and harvest checks
 				if (!ReadyToHarvest)
 				{
-					plantData.NextGrowthStageProgress += (int)Math.Ceiling((plantData.GrowthSpeed / 5f) / plantData.GrowthSpritesSOs.Count) ;
+					plantData.NextGrowthStageProgress += (int)Math.Ceiling((plantData.GrowthSpeed / 160f) * plantData.GrowthSpritesSOs.Count) ;
 
 					if (plantData.NextGrowthStageProgress > 100)
 					{
@@ -179,7 +179,7 @@ namespace Objects.Botany
 							{
 								if (reagentContainer[nutriment] > 0)
 								{
-									reagentContainer.Subtract(new ReagentMix(nutriment, 1));
+									reagentContainer.Subtract(new ReagentMix(nutriment, 0.5f));
 								}
 							}
 
