@@ -168,7 +168,7 @@ namespace Objects.Botany
 				//Growth and harvest checks
 				if (!ReadyToHarvest)
 				{
-					plantData.NextGrowthStageProgress += (int)Math.Ceiling((plantData.GrowthSpeed / 5f) * plantData.GrowthSpritesSOs.Count) ;
+					plantData.NextGrowthStageProgress += (int)Math.Ceiling((plantData.GrowthSpeed / 5f) / plantData.GrowthSpritesSOs.Count) ;
 
 					if (plantData.NextGrowthStageProgress > 100)
 					{
