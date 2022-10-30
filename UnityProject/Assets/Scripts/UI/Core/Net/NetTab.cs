@@ -115,7 +115,7 @@ public class NetTab : Tab
 
 	public bool IsUnobserved => Peepers.Count == 0;
 
-	public ElementValue[] ElementValues => CachedElements.Values.Select(element => element.ElementValue).ToArray(); //likely expensive
+	public ElementValue[] ElementValues => CachedElements.Values.Where(x => x != null).Select(element => element.ElementValue).ToArray(); //likely expensive
 
 	public NetUIElementBase this[string elementId] => CachedElements.ContainsKey(elementId) ? CachedElements[elementId] : null;
 

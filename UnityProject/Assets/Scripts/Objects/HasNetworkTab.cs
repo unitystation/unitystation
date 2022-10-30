@@ -67,7 +67,7 @@ namespace Objects
 
 			playerInteracted = interaction.Performer;
 			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
-			InvokeEventOnClient(interaction.PerformerPlayerScript.connectionToServer, interaction.Performer);
+			InvokeEventOnClient(interaction.PerformerPlayerScript.connectionToClient, interaction.Performer);
 		}
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)

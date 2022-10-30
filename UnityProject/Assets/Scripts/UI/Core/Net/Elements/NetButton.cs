@@ -23,7 +23,11 @@ namespace UI.Core.NetUI
 		public void Awake()
 		{
 			Button = this.GetComponent<Button>();
+			Button.onClick = new Button.ButtonClickedEvent();
 			Button.onClick.AddListener(ExecuteClient);
 		}
+
+
+
 	}
 }
