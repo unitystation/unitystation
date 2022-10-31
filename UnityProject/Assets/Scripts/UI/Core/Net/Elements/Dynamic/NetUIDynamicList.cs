@@ -156,7 +156,7 @@ namespace UI.Core.NetUI
 			for (var i = 0; i < proposedIndices.Length; i++)
 			{
 				var proposedIndex = proposedIndices[i];
-				var dynamicEntry = PoolSpawnEntry();
+				var dynamicEntry = SpawnEntry();
 				var resultIndex = InitDynamicEntry(dynamicEntry, proposedIndex);
 
 				if (resultIndex != string.Empty)
@@ -179,7 +179,7 @@ namespace UI.Core.NetUI
 			return dynamicEntries;
 		}
 
-		private DynamicEntry PoolSpawnEntry()
+		private DynamicEntry SpawnEntry()
 		{
 			DynamicEntry dynamicEntry = null;
 
