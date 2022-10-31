@@ -20,12 +20,6 @@ namespace UI.Core.NetUI
 
 		public List<DynamicEntry>  Entries = new List<DynamicEntry>();
 
-
-		/// <summary>
-		/// Pool with disabled entries, ready to be reused
-		/// </summary>
-		protected readonly UniqueEntryQueue<DynamicEntry> DisabledEntryPool = new UniqueEntryQueue<DynamicEntry>();
-
 		public GameObject EntryPrefab;
 
 		public override string[] Value {
@@ -44,7 +38,6 @@ namespace UI.Core.NetUI
 					var existing = EntryIndex.Keys;
 					var toRemove = existing.Except(value).ToArray();
 					var toAdd = value.Except(existing).ToArray();
-
 					Remove(toRemove);
 					AddBulk(toAdd);
 				}
@@ -73,14 +66,6 @@ namespace UI.Core.NetUI
 			}
 		}
 
-		private void Start()
-		{
-			DisabledEntryPool.EnqueueAll(GetComponentsInChildren<DynamicEntry>(true)
-				.Where(entry => !entry.gameObject.activeSelf).ToList());
-			Logger.LogTraceFormat("{0} dynamic list: initialized DisabledEntryPool with {1} items", Category.NetUI,
-				gameObject.name, DisabledEntryPool.Count);
-		}
-
 		public override void Init()
 		{
 			if (!EntryPrefab)
@@ -106,11 +91,14 @@ namespace UI.Core.NetUI
 		{
 			return string.Join(",", Value);
 		}
-
 		public virtual void Clear()
 		{
-			DisabledEntryPool.EnqueueAll(Entries.ToList());
-
+			foreach (var entry in Entries)
+			{
+				DestroyImmediate(entry.gameObject);
+			}
+			Entries.Clear();
+			entryCount = 0;
 			RearrangeListItems();
 		}
 
@@ -150,8 +138,9 @@ namespace UI.Core.NetUI
 			{
 				var entryToRemove = entries[itemName];
 				entries.Remove(itemName);
-				DisabledEntryPool.Enqueue(entryToRemove);
 				Entries.Remove(entryToRemove);
+				DestroyImmediate(entryToRemove.gameObject);
+
 			}
 
 			RearrangeListItems();
@@ -167,7 +156,7 @@ namespace UI.Core.NetUI
 			for (var i = 0; i < proposedIndices.Length; i++)
 			{
 				var proposedIndex = proposedIndices[i];
-				var dynamicEntry = PoolSpawnEntry();
+				var dynamicEntry = SpawnEntry();
 				var resultIndex = InitDynamicEntry(dynamicEntry, proposedIndex);
 
 				if (resultIndex != string.Empty)
@@ -190,19 +179,12 @@ namespace UI.Core.NetUI
 			return dynamicEntries;
 		}
 
-		private DynamicEntry PoolSpawnEntry()
+		private DynamicEntry SpawnEntry()
 		{
-			var nonPool = !DisabledEntryPool.TryDequeue(out var dynamicEntry);
-			if (nonPool)
-			{
-				var entryObject = Instantiate(EntryPrefab, transform, false);
-				dynamicEntry = entryObject.GetComponent<DynamicEntry>();
-			}
-			else
-			{
-				//Reusing
-				dynamicEntry.transform.SetParent(transform, false);
-			}
+			DynamicEntry dynamicEntry = null;
+
+			var entryObject = Instantiate(EntryPrefab, transform, false);
+			dynamicEntry = entryObject.GetComponent<DynamicEntry>();
 
 			return dynamicEntry;
 		}
@@ -255,7 +237,7 @@ namespace UI.Core.NetUI
 				}
 			}
 
-			TabUpdateMessage.SendToPeepers(containedInTab.Provider, containedInTab.Type, TabAction.Update, valuesToSend.ToArray());
+			TabUpdateMessage.SendToPeepers(containedInTab.Provider, containedInTab.Type, TabAction.Update, new []{ElementValue} );
 		}
 
 		/// <summary>
@@ -269,7 +251,7 @@ namespace UI.Core.NetUI
 			}
 
 			var index = desiredName;
-			if (desiredName == string.Empty)
+			if (string.IsNullOrEmpty(desiredName))
 			{
 				index = EntryPrefix == string.Empty ? entryCount++.ToString() : EntryPrefix + ":" + entryCount++;
 			}

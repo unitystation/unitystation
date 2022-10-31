@@ -14,12 +14,8 @@ namespace UI.Core.NetUI
 	{
 		public void AddItems(int count)
 		{
-			for (int i = 0; i < count; i++)
-			{
-				Add();
-			}
+			AddBulk(new string[count]);
 			NetworkTabManager.Instance.Rescan(containedInTab.NetTabDescriptor);
-			UpdatePeepers();
 		}
 
 		public void SetItems(int count)
