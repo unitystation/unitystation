@@ -1,7 +1,11 @@
 ﻿namespace Systems.Clearance
 {
+	/// <summary>
+	/// TODO: ORGANISE THESE FROM LOWEST TO HIGHEST NUMBER BASED ON CLEARANCE LEVEL.
+	/// </summary>
 	public enum Clearance
 	{
+		BasicPublicAccess = 0,
 		// Security equipment, security records, gulag item storage, secbots
 		Security = 1,
 		// Brig cells+timers, permabrig, gulag+gulag shuttle, prisoner management console

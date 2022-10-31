@@ -359,6 +359,16 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		SyncJobTitle(jobTitle, newJobTitle);
 	}
 
+	public Clearance GetHighestClearance()
+	{
+		var highestClearance = Clearance.MaintTunnels;
+		foreach (var variabClearance in GetClearance)
+		{
+			if (variabClearance > highestClearance) highestClearance = variabClearance;
+		}
+		return highestClearance;
+	}
+
 	public string Examine(Vector3 pos)
 	{
 		return $"The account linked to the ID belongs to '{registeredName}' and reports a balance of {currencies[(int)CurrencyType.Credits]} credits. " +

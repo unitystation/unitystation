@@ -7,6 +7,7 @@
 	[Obsolete]
 	public enum Access
 	{
+		basic_public_Access = 0,
 		ai_upload = 1,
 
 		//all_personal_lockers = 2,
