@@ -71,6 +71,8 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	#endregion
 
+	private ItemSlot RecordedItemSlot;
+
 	public virtual void OnInventoryMoveServer(InventoryMove info)
 	{
 		/*
@@ -85,32 +87,44 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 		//update appearance depending on the slot that was changed
 		if (info.FromPlayer != null &&
-		    HasClothingItem(info.FromPlayer, info.FromSlot))
+		    HasClothingItem(info.FromPlayer,RecordedItemSlot))
 		{
 			//clear previous slot appearance
 			PlayerAppearanceMessage.SendToAll(info.FromPlayer.gameObject,
-				(int)info.FromSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), null);
+				(int)RecordedItemSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), null);
 
 			//ask target playerscript to update shown name.
 			info.FromPlayer.GetComponent<PlayerScript>().RefreshVisibleName();
 		}
 
+		//Handle setting slot
+		if (info.MovedObject == this)
+		{
+			RecordedItemSlot = info.ToSlot;
+		}
+
+
 		if (info.ToPlayer != null &&
-		    HasClothingItem(info.ToPlayer, info.ToSlot))
+		    HasClothingItem(info.ToPlayer, RecordedItemSlot))
 		{
 			//change appearance based on new item
 			PlayerAppearanceMessage.SendToAll(info.ToPlayer.gameObject,
-				(int)info.ToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), info.MovedObject.gameObject);
+				(int)RecordedItemSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), this.gameObject);
 
 			//ask target playerscript to update shown name.
 			info.ToPlayer.GetComponent<PlayerScript>().RefreshVisibleName();
 		}
+
+
+
 	}
 
 	private bool HasClothingItem(RegisterPlayer onPlayer, ItemSlot infoToSlot)
 	{
 		var equipment = onPlayer.GetComponent<Equipment>();
 		if (equipment == null) return false;
+		if (infoToSlot == null) return false;
+
 		if (infoToSlot.SlotIdentifier.SlotIdentifierType != SlotIdentifierType.Named) return false;
 
 		return equipment.GetClothingItem(infoToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none)) != null;

@@ -67,16 +67,16 @@ namespace HealthV2
 			MetaDataNode node = MatrixManager.GetMetaDataAt(position);
 
 			var totalModified = 1f;
-			foreach (var modifier in bodyPart.AppliedModifiers)
+			foreach (var modifier in RelatedPart.AppliedModifiers)
 			{
 				var toMultiply = 1f;
-				if (modifier == bodyPart.DamageModifier)
+				if (modifier == RelatedPart.DamageModifier)
 				{
 					toMultiply = Mathf.Max(0f,
-						Mathf.Max(bodyPart.MaxHealth - bodyPart.TotalDamageWithoutOxyCloneRadStam, 0) /
-						bodyPart.MaxHealth);
+						Mathf.Max(RelatedPart.MaxHealth - RelatedPart.TotalDamageWithoutOxyCloneRadStam, 0) /
+						RelatedPart.MaxHealth);
 				}
-				else if (modifier == bodyPart.HungerModifier)
+				else if (modifier == RelatedPart.HungerModifier)
 				{
 					continue;
 				}
@@ -292,12 +292,12 @@ namespace HealthV2
 			// May want to change this code to reflect that in the future so people don't hyperventilate when they are on nitrous oxide
 
 
-			if (bodyPart.currentBloodSaturation >= RelatedPart.bloodType.BLOOD_REAGENT_SATURATION_OKAY)
+			if (RelatedPart.currentBloodSaturation >= RelatedPart.bloodType.BLOOD_REAGENT_SATURATION_OKAY)
 			{
 				currentBreatheCooldown = breatheCooldown; //Slow breathing, we're all good
 				RelatedPart.HealthMaster.HealthStateController.SetSuffocating(false);
 			}
-			else if (bodyPart.currentBloodSaturation <= RelatedPart.bloodType.BLOOD_REAGENT_SATURATION_BAD)
+			else if (RelatedPart.currentBloodSaturation <= RelatedPart.bloodType.BLOOD_REAGENT_SATURATION_BAD)
 			{
 				RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
 				if (DMMath.Prob(20))

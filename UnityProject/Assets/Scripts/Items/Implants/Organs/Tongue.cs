@@ -13,7 +13,7 @@ namespace HealthV2
 
 		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
-			bodyPart = GetComponent<BodyPart>();
+			RelatedPart = GetComponent<BodyPart>();
 			mobLanguages = livingHealth.GetComponent<MobLanguages>();
 
 			if(CustomNetworkManager.IsServer == false) return;

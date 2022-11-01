@@ -181,7 +181,7 @@ namespace Objects.Research
 		//Move camera to item position/ root container
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
-			if(isInteliCard == false || LinkedPlayer == null) return;
+			if(isInteliCard == false || LinkedPlayer == null || info.MovedObject.gameObject != gameObject) return;
 
 			//Leaving inventory and to no slot, therefore going to floor
 			if (info.ToRootPlayer == null && info.ToSlot == null)

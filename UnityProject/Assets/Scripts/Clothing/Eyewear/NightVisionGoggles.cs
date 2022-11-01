@@ -3,16 +3,36 @@ using Mirror;
 using Player;
 using UI.Action;
 
-public class NightVisionGoggles : NetworkBehaviour, IItemInOutMovedPlayerButClientTracked,
+public class NightVisionGoggles : NetworkBehaviour, IItemInOutMovedPlayer,
 	ICheckedInteractable<HandActivate>
 {
+
+	private NightVisionData VisionData = new NightVisionData(b:true);
+
 	[SerializeField, Tooltip("How far the player will be able to see in the dark while he has the goggles on.")]
-	private Vector3 nightVisionVisibility;
+	private Vector3 nightVisionVisibility { get; set; }
 
-	[SerializeField, Tooltip("How fast will the player gain visibility?")]
-	private float visibilityAnimationSpeed = 1.50f;
+	[System.Serializable]
+	public struct NightVisionData
+	{
+		public bool isOn  { get; set; }
 
-	private bool isOn;
+
+		[SerializeField, Tooltip("How far the player will be able to see in the dark while he has the goggles on.")]
+		public Vector3 nightVisionVisibility { get; set; }
+
+		[SerializeField, Tooltip("How fast will the player gain visibility?")]
+		public float visibilityAnimationSpeed { get; set; }
+
+		public NightVisionData(bool b)
+		{
+			isOn = false;
+			nightVisionVisibility = new Vector3(10.5f, 10.5f, 21);
+			visibilityAnimationSpeed = 1.5f;
+		}
+	}
+
+
 	private ItemActionButton actionButton;
 	private Pickupable pickupable;
 
@@ -38,31 +58,31 @@ public class NightVisionGoggles : NetworkBehaviour, IItemInOutMovedPlayerButClie
 
 	#region InventoryMove
 
-	public Mind CurrentlyOn { get; set; }
+	public RegisterPlayer CurrentlyOn { get; set; }
 	bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
-	public bool IsValidSetup(Mind player)
+	public bool IsValidSetup(RegisterPlayer player)
 	{
-		if (player != null && player.CurrentPlayScript.RegisterPlayer == pickupable.ItemSlot.Player && pickupable.ItemSlot is {NamedSlot: NamedSlot.eyes}) // Checks if it's not null and checks if NamedSlot == NamedSlot.eyes
+		if (player == null) return false;
+		if (player != null && player.PlayerScript.RegisterPlayer == pickupable.ItemSlot.Player && pickupable.ItemSlot is {NamedSlot: NamedSlot.eyes}) // Checks if it's not null and checks if NamedSlot == NamedSlot.eyes
 		{
-			//Only turn on goggle for client if they are on
-			return isOn;
+			return true;
 		}
 
 		return false;
 	}
 
 
-	void IItemInOutMovedPlayer.ChangingPlayer(Mind HideForPlayer, Mind ShowForPlayer)
+	void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)
 	{
 		if (HideForPlayer != null)
 		{
-			ServerToggleClient(HideForPlayer, false);
+			ServerToggleClient(HideForPlayer, new NightVisionData(b:true));
 		}
 
 		if (ShowForPlayer != null)
 		{
-			ServerToggleClient(ShowForPlayer, true);
+			ServerToggleClient(ShowForPlayer, VisionData);
 		}
 	}
 
@@ -77,8 +97,8 @@ public class NightVisionGoggles : NetworkBehaviour, IItemInOutMovedPlayerButClie
 
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
-		isOn = !isOn;
-		Chat.AddExamineMsgToClient($"You turned {(isOn ? "on" : "off")} the {gameObject.ExpensiveName()}.");
+		VisionData.isOn = !VisionData.isOn;
+		Chat.AddExamineMsgToClient($"You turned {(VisionData.isOn ? "on" : "off")} the {gameObject.ExpensiveName()}.");
 	}
 
 	#endregion
@@ -86,7 +106,7 @@ public class NightVisionGoggles : NetworkBehaviour, IItemInOutMovedPlayerButClie
 	[Server]
 	private void ToggleGoggles()
 	{
-		SetGoggleState(!isOn);
+		SetGoggleState(!VisionData.isOn);
 	}
 
 	/// <summary>
@@ -96,21 +116,22 @@ public class NightVisionGoggles : NetworkBehaviour, IItemInOutMovedPlayerButClie
 	[Server]
 	private void SetGoggleState(bool newState)
 	{
-		if (CurrentlyOn == null || CurrentlyOn.CurrentPlayScript.connectionToClient == null) return;
 
-		isOn = newState;
+		VisionData.isOn = newState;
+		if (CurrentlyOn == null || CurrentlyOn.PlayerScript.connectionToClient == null) return;
+
 		if (IsValidSetup(CurrentlyOn))
 		{
-			ServerToggleClient(CurrentlyOn,newState);
-			Chat.AddExamineMsgFromServer(CurrentlyOn.CurrentPlayScript.gameObject,
-				$"You turned {(isOn ? "on" : "off")} the {gameObject.ExpensiveName()}.");
+			ServerToggleClient(CurrentlyOn,VisionData);
+
+			Chat.AddExamineMsgFromServer(CurrentlyOn.PlayerScript.gameObject,
+				$"You turned {(VisionData.isOn ? "on" : "off")} the {gameObject.ExpensiveName()}.");
 		}
 	}
 
 	[Server]
-	private void ServerToggleClient(Mind forPlayer, bool newState)
+	private void ServerToggleClient(RegisterPlayer forPlayer, NightVisionData newState)
 	{
-		forPlayer.CurrentPlayScript.PlayerOnlySyncValues.ServerSetNightVision(newState, nightVisionVisibility,
-			visibilityAnimationSpeed);
+		forPlayer.PlayerScript.PlayerOnlySyncValues.SyncNightVision(new NightVisionData(b:true), newState);
 	}
 }

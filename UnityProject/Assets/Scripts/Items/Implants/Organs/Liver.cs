@@ -51,7 +51,7 @@ namespace HealthV2
 
 		public override void SetUpSystems()
 		{
-			circ = bodyPart.HealthMaster.GetComponent<CirculatorySystemBase>();
+			circ = RelatedPart.HealthMaster.GetComponent<CirculatorySystemBase>();
 
 			tempArray = new List<Tuple<Reagent, float>>();
 		}

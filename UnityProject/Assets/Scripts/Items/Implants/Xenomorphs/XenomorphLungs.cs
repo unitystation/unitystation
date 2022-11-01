@@ -14,9 +14,9 @@ namespace HealthV2
 		{
 			var baseBool = base.BreatheIn(breathGasMix, blood, efficiency);
 
-			if (bodyPart.currentBloodSaturation < RelatedPart.bloodType.BLOOD_REAGENT_SATURATION_OKAY)
+			if (RelatedPart.currentBloodSaturation < ((BodyPartFunctionality) this).RelatedPart.bloodType.BLOOD_REAGENT_SATURATION_OKAY)
 			{
-				blood.Add(RelatedPart.bloodType.CirculatedReagent, circulatedReagentAmount);
+				blood.Add(((BodyPartFunctionality) this).RelatedPart.bloodType.CirculatedReagent, circulatedReagentAmount);
 			}
 
 			return baseBool;

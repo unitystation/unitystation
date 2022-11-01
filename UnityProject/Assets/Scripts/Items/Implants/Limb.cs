@@ -11,9 +11,9 @@ namespace HealthV2
 
 		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
-			bodyPart = GetComponent<BodyPart>();
-			playerHealth = bodyPart.HealthMaster as PlayerHealthV2;
-			bodyPart.ModifierChange += ModifierChanged;
+			RelatedPart = GetComponent<BodyPart>();
+			playerHealth = RelatedPart.HealthMaster as PlayerHealthV2;
+			RelatedPart.ModifierChange += ModifierChanged;
 		}
 
 		public void ModifierChanged()
