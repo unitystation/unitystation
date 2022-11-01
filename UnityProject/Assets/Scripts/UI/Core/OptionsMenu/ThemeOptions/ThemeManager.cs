@@ -79,7 +79,7 @@ namespace Unitystation.Options
 
 	        if (PlayerPrefs.HasKey(PlayerPrefKeys.EnableClassicHoverTooltip) == false)
 	        {
-		        ClassicHoverTooltipToggle(false);
+		        ClassicHoverTooltipToggle(true);
 	        }
 
 	        ChatHighlight = PlayerPrefs.GetInt(PlayerPrefKeys.HighlightChat) == 1;
