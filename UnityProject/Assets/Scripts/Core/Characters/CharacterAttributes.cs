@@ -27,10 +27,7 @@ namespace Core.Characters
 		[Server]
 		private void SetupNewAttribute(CharacterAttribute attribute)
 		{
-			if (attribute.CanHaveTwoOfThis == false)
-			{
-				if(attributes.Contains(attribute)) return;
-			}
+			if (attribute.CanHaveTwoOfThis == false && attributes.Contains(attribute)) return;
 			attributes.Add(attribute);
 			if(attribute.OnAddBehaviors.Count == 0) return;
 			foreach (var behavior in attribute.OnAddBehaviors)
