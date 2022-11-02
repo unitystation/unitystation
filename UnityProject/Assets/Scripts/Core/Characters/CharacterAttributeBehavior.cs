@@ -4,8 +4,10 @@ namespace Core.Characters
 {
 	public abstract class CharacterAttributeBehavior : MonoBehaviour
 	{
-		[Tooltip("Spawn this prefab as soon as it's associated attribute gets added to a character?")]
-		public bool Spawn = false;
+		[SerializeField, Tooltip("Spawn this prefab as soon as it's associated attribute gets added to a character?")]
+		private bool spawn = false;
+
+		public bool Spawn => spawn;
 		private bool destroyWhenDone = false;
 
 		/// <summary>
