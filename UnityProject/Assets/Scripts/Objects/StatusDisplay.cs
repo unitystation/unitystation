@@ -267,8 +267,7 @@ namespace Objects.Wallmounts
 						return;
 					}
 
-					AccessRestrictions.clearanceRestriction =
-						interaction.HandObject.GetComponent<IDCard>().GetHighestClearance();
+					AccessRestrictions.clearanceRestriction = Clearance.Security;
 					Chat.AddExamineMsg(interaction.Performer, CLEARANCE_SETUP_SUCC);
 				}
 				else if (stateSync == MountedMonitorState.Image)
