@@ -17,6 +17,12 @@ namespace Systems.Clearance
 		         "definitions, while \"All\" means the requester must have all of them.")]
 		private CheckType type = CheckType.Any;
 
+
+		public bool HasClearance(Clearance clearance)
+		{
+			return requiredClearance.Contains(clearance);
+		}
+
 		/// <summary>
 		/// Checks if the list of access a requester has coincides with the required access this game object has defined.
 		/// </summary>

@@ -10,7 +10,9 @@ using ScriptableObjects;
 using Systems.Interaction;
 using Managers;
 using Doors;
+using Doors.Modules;
 using Shared.Systems.ObjectConnection;
+using Systems.Clearance;
 
 
 namespace Objects.Wallmounts
@@ -73,7 +75,7 @@ namespace Objects.Wallmounts
 		private bool multiMaster = true;
 		public bool MultiMaster => multiMaster;
 
-		private AccessRestrictions accessRestrictions;
+		[SerializeField] private AccessRestrictions accessRestrictions;
 
 		public AccessRestrictions AccessRestrictions
 		{
@@ -87,6 +89,13 @@ namespace Objects.Wallmounts
 				return accessRestrictions;
 			}
 		}
+
+		private const string CLEARANCE_LINK_FAIL_STRING = "This unit does not contain the required access to link such device.";
+		private const string CLEARANCE_SETUP_NO_COMPONENT = "You wave the ID infront of the status display.. but nothing happens.";
+		private const string CLEARANCE_OVERWRITE = "You wave the ID infront of the status display.. " +
+		                                           "But it rejects it as clearance has already been setup for it!";
+		private const string CLEARANCE_SETUP_SUCC = "You wave the ID infront of the status display " +
+		                                                    "and it accepts your card's clearance.";
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
@@ -243,6 +252,24 @@ namespace Objects.Wallmounts
 					ToolUtils.ServerPlayToolSound(interaction);
 					stateSync = MountedMonitorState.NonScrewedPanel;
 				}
+
+				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Id))
+				{
+					if (AccessRestrictions == null)
+					{
+						Chat.AddExamineMsg(interaction.Performer, CLEARANCE_SETUP_NO_COMPONENT);
+						return;
+					}
+
+					if (AccessRestrictions.CheckAccess(interaction.HandObject) == false)
+					{
+						Chat.AddExamineMsg(interaction.Performer, CLEARANCE_OVERWRITE);
+						return;
+					}
+
+					AccessRestrictions.clearanceRestriction = Clearance.Security;
+					Chat.AddExamineMsg(interaction.Performer, CLEARANCE_SETUP_SUCC);
+				}
 				else if (stateSync == MountedMonitorState.Image)
 				{
 					ChangeChannelMessage(interaction);
@@ -348,6 +375,9 @@ namespace Objects.Wallmounts
 
 		public void LinkDoor(DoorController doorController)
 		{
+			Logger.LogWarning("[Deprecated] - old doors have exploits and bugs related to them. " +
+			                  "Please avoid using old doors whenever possible.");
+			//TODO: Nuke this as it has an exploits that's not really worth anyone's time. Move all doors to V2.
 			doorControllers.Add(doorController);
 			OnTextBroadcastReceived(StatusDisplayChannel.DoorTimer);
 			if (stateSync == MountedMonitorState.Image)
@@ -358,11 +388,25 @@ namespace Objects.Wallmounts
 
 		public void NewLinkDoor(DoorMasterController doorController)
 		{
-			NewdoorControllers.Add(doorController);
-			OnTextBroadcastReceived(StatusDisplayChannel.DoorTimer);
-			if (stateSync == MountedMonitorState.Image)
+			var accessMod = doorController.ModulesList.Find(x => x is AccessModule);
+			if (accessMod != null && AccessRestrictions != null && accessMod is AccessModule c)
 			{
-				stateSync = MountedMonitorState.StatusText;
+				if (c.ClearanceCheckable == null)
+				{
+					Logger.Log("No clearance found checkable component found.");
+					return;
+				}
+				if (c.ClearanceCheckable.HasClearance(accessRestrictions.clearanceRestriction) == false)
+				{
+					Chat.AddActionMsgToChat(gameObject, CLEARANCE_LINK_FAIL_STRING, CLEARANCE_LINK_FAIL_STRING);
+					return;
+				}
+				NewdoorControllers.Add(doorController);
+				OnTextBroadcastReceived(StatusDisplayChannel.DoorTimer);
+				if (stateSync == MountedMonitorState.Image)
+				{
+					stateSync = MountedMonitorState.StatusText;
+				}
 			}
 		}
 
@@ -451,6 +495,12 @@ namespace Objects.Wallmounts
 			foreach (var door in NewdoorControllers)
 			{
 				//To do make The actual console itself ingame Hackble
+				foreach (var module in door.ModulesList)
+				{
+					if(module is not AccessModule c) continue;
+					if(c.ClearanceCheckable == null || AccessRestrictions == null) continue;
+					if(c.ClearanceCheckable.HasClearance(accessRestrictions.clearanceRestriction) == false) return;
+				}
 				door.TryOpen(null, true);
 			}
 		}
