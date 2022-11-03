@@ -218,7 +218,7 @@ public static class PlayerSpawn
 			return spawnTransform != null ? spawnTransform.position.CutToInt() : Vector3Int.zero;
 		}
 		//Spawn normal location for special jobs or if less than 2 minutes passed
-		if (GameManager.Instance.stationTime < ARRIVALS_SPAWN_TIME)
+		if (GameManager.Instance.stationTime < ARRIVALS_SPAWN_TIME || occupation.LateSpawnIsArrivals == false)
 		{
 			spawnTransform = SpawnPoint.GetRandomPointForJob(occupation.JobType);
 		}
