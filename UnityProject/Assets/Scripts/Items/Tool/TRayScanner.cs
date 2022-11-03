@@ -7,10 +7,9 @@ using UnityEngine.Tilemaps;
 
 namespace Items.Tool
 {
-	public class TRayScanner : NetworkBehaviour, ICheckedInteractable<HandActivate>, ISuicide, IExaminable,
-		IItemInOutMovedPlayerButClientTracked
+	public class TRayScanner : NetworkBehaviour, ICheckedInteractable<HandActivate>, ISuicide, IExaminable, IItemInOutMovedPlayer
 	{
-		[SyncVar(hook = nameof(SyncMode))] private Mode currentMode = Mode.Off;
+		private Mode currentMode = Mode.Off;
 
 		private SpriteHandler spriteHandler;
 
@@ -57,14 +56,16 @@ namespace Items.Tool
 			}
 
 			currentMode = (Mode)currentModeInt;
+			CurrentlyOn.PlayerScript.PlayerOnlySyncValues.TRaySyncMode(Mode.Off, currentMode);
 		}
 
-		public Mind CurrentlyOn { get; set; }
+		public RegisterPlayer CurrentlyOn { get; set; }
 		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
-		public bool IsValidSetup(Mind player)
+		public bool IsValidSetup(RegisterPlayer player)
 		{
-			if (player != null && pickupable.ItemSlot?.Player == player.CurrentPlayScript.RegisterPlayer)
+			if (player == null) return false;
+			if (player != null && pickupable.ItemSlot?.Player == player)
 			{
 				//Only turn on goggle for client if they are on
 				return currentMode != Mode.Off;
@@ -74,104 +75,21 @@ namespace Items.Tool
 		}
 
 
-		void IItemInOutMovedPlayer.ChangingPlayer(Mind HideForPlayer, Mind ShowForPlayer)
+		void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)
 		{
 			if (HideForPlayer != null)
 			{
-				DoRpc(HideForPlayer.CurrentPlayScript.RegisterPlayer, false);
+				HideForPlayer.PlayerScript.PlayerOnlySyncValues.TRaySyncMode(Mode.Off, Mode.Off);
 			}
 
 			if (ShowForPlayer != null)
 			{
-				DoRpc(HideForPlayer.CurrentPlayScript.RegisterPlayer, true);
+				HideForPlayer.PlayerScript.PlayerOnlySyncValues.TRaySyncMode(Mode.Off, currentMode);
 			}
 		}
 
-		private void DoRpc(RegisterPlayer player, bool newState)
-		{
-			if(player.connectionToClient == null) return;
 
-			if(CustomNetworkManager.IsServer && CustomNetworkManager.IsHeadless == false)
-			{
-				//Target RPC not working on local host?
-				if (newState)
-				{
-					DoState(currentMode);
-					return;
-				}
-
-				DoState(Mode.Off);
-				return;
-			}
-
-			RpcChangeState(player.connectionToClient, newState);
-		}
-
-		[TargetRpc]
-		private void RpcChangeState(NetworkConnection conn, bool newState)
-		{
-			if (newState)
-			{
-				DoState(currentMode);
-				return;
-			}
-
-			DoState(Mode.Off);
-		}
-
-		private void SyncMode(Mode oldMode, Mode newMode)
-		{
-			currentMode = newMode;
-			if(PlayerManager.LocalPlayerScript == null) return;
-
-			if(pickupable.ItemSlot == null || pickupable.ItemSlot.Player == null ||
-			   pickupable.ItemSlot.Player != PlayerManager.LocalPlayerScript.RegisterPlayer) return;
-
-			DoState(currentMode);
-		}
-
-		private void DoState(Mode newMode)
-		{
-			var matrixInfos = MatrixManager.Instance.ActiveMatricesList;
-
-			foreach (var matrixInfo in matrixInfos)
-			{
-				var electricalRenderer = matrixInfo.Matrix.ElectricalLayer.GetComponent<TilemapRenderer>();
-				var pipeRenderer = matrixInfo.Matrix.PipeLayer.GetComponent<TilemapRenderer>();
-				var disposalsRenderer = matrixInfo.Matrix.DisposalsLayer.GetComponent<TilemapRenderer>();
-
-				//Turn them all off
-				ChangeState(electricalRenderer, false, 2);
-				ChangeState(pipeRenderer, false, 1);
-				ChangeState(disposalsRenderer, false);
-
-				switch (newMode)
-				{
-					case Mode.Off:
-						continue;
-					case Mode.Wires:
-						ChangeState(electricalRenderer, true);
-						continue;
-					case Mode.Pipes:
-						ChangeState(pipeRenderer, true);
-						continue;
-					case Mode.Disposals:
-						ChangeState(disposalsRenderer, true);
-						continue;
-					default:
-						Logger.LogError($"Found no case for {newMode}");
-						continue;
-				}
-			}
-		}
-
-		private void ChangeState(TilemapRenderer tileRenderer, bool state, int oldLayerOrder = 0)
-		{
-			tileRenderer.sortingLayerName = state ? "Walls" : "UnderFloor";
-			tileRenderer.sortingOrder = state ? 100 : oldLayerOrder;
-		}
-
-		private enum Mode
+		public enum Mode
 		{
 			Off,
 			Wires,

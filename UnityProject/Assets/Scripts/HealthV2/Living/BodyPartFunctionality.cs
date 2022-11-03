@@ -8,7 +8,7 @@ namespace HealthV2
 {
 	public class BodyPartFunctionality : MonoBehaviour, IEmpAble
 	{
-		protected BodyPart bodyPart;
+
 		[NonSerialized]
 		public BodyPart RelatedPart;
 
@@ -41,7 +41,7 @@ namespace HealthV2
 
 		private void Awake()
 		{
-			bodyPart = GetComponent<BodyPart>();
+			RelatedPart = GetComponent<BodyPart>();
 		}
 
 	}

@@ -5,6 +5,8 @@ public class MixingBowl : NetworkBehaviour, IServerInventoryMove
 	public ItemSlot currentSlot;
 	public void OnInventoryMoveServer(InventoryMove info)
 	{
+		if (this.gameObject != info.MovedObject.gameObject) return;
+
 		if (info.FromPlayer != null && info.FromPlayer != info.ToPlayer)
 		{
 			playerHolding = null;

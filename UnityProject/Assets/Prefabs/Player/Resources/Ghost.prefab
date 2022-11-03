@@ -20,7 +20,6 @@ GameObject:
   - component: {fileID: 8224268276445300722}
   - component: {fileID: 4509690511415981971}
   - component: {fileID: 6663514336625432320}
-  - component: {fileID: 3816408273032552164}
   - component: {fileID: 1852173234745760124}
   - component: {fileID: 1532227210967981965}
   - component: {fileID: 93686595326039348}
@@ -105,7 +104,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  mind: {fileID: 0}
   playerTypeSettings: {fileID: 11400000, guid: f3010aaf40d515547b1fbd815268ca20, type: 2}
   playerName: ' '
   visibleName: ' '
@@ -264,20 +262,6 @@ MonoBehaviour:
   draggerMustBeAdjacent: 1
   allowDragWhileSoftCrit: 1
   allowedToMouseDrag: 1
---- !u!114 &3816408273032552164
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4390267312333422610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f2289be7f53edd4a99fd0e94ec456bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 1
-  syncInterval: 0.1
 --- !u!114 &1852173234745760124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,8 +371,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   occupation: {fileID: 0}
-  ghost: {fileID: 0}
-  body: {fileID: 0}
   IsGhosting: 0
   DenyCloning: 0
   bodyMobID: 0

@@ -70,6 +70,8 @@ namespace Items
 
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
+			if (this.gameObject != info.MovedObject.gameObject) return;
+
 			if (info.InventoryMoveType == InventoryMoveType.Remove)
 			{
 				isWielded = false;

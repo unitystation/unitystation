@@ -1243,7 +1243,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 
 	public void OnPlayerRejoin(Mind mind)
 	{
-		//Trigger IOnPlayerRejoin for all items in top level player inventory
+		//Trigger IOnPlayerRejoin for all items in player inventory
 		foreach (var itemSlot in GetItemSlotTree())
 		{
 			if(itemSlot.IsEmpty) continue;
@@ -1254,11 +1254,23 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 				playerRejoin.OnPlayerRejoin(mind);
 			}
 		}
+
+		//Gets all the Storage game objects that make up the dynamic item storage
+		var InventoryObjects = GetContainedInventorys();
+
+		foreach (var InventoryObject in InventoryObjects )
+		{
+			var playerRejoins = InventoryObject.GameObject.GetComponents<IOnPlayerRejoin>();
+			foreach (var playerRejoin in playerRejoins)
+			{
+				playerRejoin.OnPlayerRejoin(mind);
+			}
+		}
 	}
 
 	public void OnPlayerTransfer(Mind mind)
 	{
-		//Trigger IOnPlayerTransfer for all items in top level player inventory
+		//Trigger IOnPlayerTransfer for all items in player inventory
 		foreach (var itemSlot in GetItemSlotTree())
 		{
 			if(itemSlot.IsEmpty) continue;
@@ -1267,6 +1279,18 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 			foreach (var playerTransfer in playerTransfers)
 			{
 				playerTransfer.OnPlayerTransfer(mind);
+			}
+		}
+
+		//Gets all the Storage game objects that make up the dynamic item storage
+		var InventoryObjects = GetContainedInventorys();
+
+		foreach (var InventoryObject in InventoryObjects )
+		{
+			var playerRejoins = InventoryObject.GameObject.GetComponents<IOnPlayerTransfer>();
+			foreach (var playerRejoin in playerRejoins)
+			{
+				playerRejoin.OnPlayerTransfer(mind);
 			}
 		}
 	}
@@ -1282,6 +1306,18 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 			foreach (var playerLeaveBody in playerLeaveBodies)
 			{
 				playerLeaveBody.OnPlayerLeaveBody(mind);
+			}
+		}
+
+		//Gets all the Storage game objects that make up the dynamic item storage
+		var InventoryObjects = GetContainedInventorys();
+
+		foreach (var InventoryObject in InventoryObjects )
+		{
+			var playerRejoins = InventoryObject.GameObject.GetComponents<IOnPlayerLeaveBody>();
+			foreach (var playerRejoin in playerRejoins)
+			{
+				playerRejoin.OnPlayerLeaveBody(mind);
 			}
 		}
 	}

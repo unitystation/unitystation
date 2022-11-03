@@ -121,6 +121,7 @@ namespace HealthV2
 		public void SetHunger(HungerState newHungerState)
 		{
 			hungerState = newHungerState;
+			if (connectionToClient == null) return;
 			InvokeClientHungerEvent(hungerState);
 		}
 
@@ -128,6 +129,7 @@ namespace HealthV2
 		public void SetBleedingState(BleedingState newBleedingState)
 		{
 			bleedingState = newBleedingState;
+			if (connectionToClient == null) return;
 			InvokeClientBleedEvent(newBleedingState);
 		}
 
@@ -135,6 +137,7 @@ namespace HealthV2
 		public void SetOverallHealth(float newHealth)
 		{
 			overallHealthSync = newHealth;
+			if (connectionToClient == null) return;
 			InvokeClientOverallHealthEvent(newHealth);
 		}
 
@@ -172,6 +175,7 @@ namespace HealthV2
 		public void SetFireStacks(float newValue)
 		{
 			fireStacks = Math.Max(0, newValue);
+			if (connectionToClient == null) return;
 			InvokeClientFireStackEvent(newValue);
 		}
 
@@ -185,6 +189,7 @@ namespace HealthV2
 		public void SetSuffocating(bool newSuffocating)
 		{
 			isSuffocating = newSuffocating;
+			if (connectionToClient == null) return;
 			InvokeClientSufficationEvent(newSuffocating);
 		}
 
@@ -192,6 +197,7 @@ namespace HealthV2
 		public void SetToxins(bool newState)
 		{
 			hasToxins = newState;
+			if (connectionToClient == null) return;
 			InvokeClientToxinsEvent(newState);
 		}
 
@@ -199,6 +205,7 @@ namespace HealthV2
 		public void SetTemperature(float newTemperature)
 		{
 			temperature = newTemperature;
+			if (connectionToClient == null) return;
 			InvokeClientTemperatureEvent(newTemperature);
 		}
 
@@ -206,6 +213,7 @@ namespace HealthV2
 		public void SetPressure(float newPressure)
 		{
 			pressure = newPressure;
+			if (connectionToClient == null) return;
 			IvokeClientPressureEvent(newPressure);
 		}
 

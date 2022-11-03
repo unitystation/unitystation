@@ -13,7 +13,7 @@ namespace HealthV2.Limbs
 
 		public float RunningSpeedModifier { get; }
 		public float WalkingSpeedModifier { get; }
-		public float CrawlingSpeedModifier => crawlingSpeed * armEfficiency * bodyPart.TotalModified;
+		public float CrawlingSpeedModifier => crawlingSpeed * armEfficiency * RelatedPart.TotalModified;
 
 		[SerializeField] [Tooltip("The crawling speed used for when the limb is attached as an arm.\n")]
 		private float crawlingSpeed = 0.3f;

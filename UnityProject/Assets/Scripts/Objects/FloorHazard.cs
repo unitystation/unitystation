@@ -98,6 +98,7 @@ namespace Objects
 
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
+			if (this.gameObject != info.MovedObject.gameObject) return;
 			OnLocalPositionChangedServer(info.FromPlayer != null ? info.FromPlayer.LocalPosition : TransformState.HiddenPos,
 				objectPhysics.registerTile.LocalPosition);
 		}

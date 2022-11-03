@@ -305,6 +305,7 @@ namespace HealthV2
 			mobSickness = GetComponent<MobSickness>();
 			playerScript = GetComponent<PlayerScript>();
 			BodyPartStorage.ServerInventoryItemSlotSet += BodyPartTransfer;
+			BodyPartStorage.SetRegisterPlayer(GetComponent<RegisterPlayer>());
 
 			//Needs to be in awake so the mobId is set before mind transfer (OnSpawnServer happens after that so cannot be used)
 			mobID = PlayerManager.Instance.GetMobID();
@@ -616,6 +617,7 @@ namespace HealthV2
 				{
 					if (BP.name.Contains(InDNAMutationData.BodyPartSearchString))
 					{
+						yield return WaitFor.Seconds(1f);
 						var Mutation = BP.GetComponent<BodyPartMutations>();
 						if (Mutation != null)
 						{
@@ -1813,6 +1815,12 @@ namespace HealthV2
 			meatProduce = RaceBodyparts.Base.MeatProduce;
 			skinProduce = RaceBodyparts.Base.SkinProduce;
 		}
+		//hummmm
+		//How to handle Items being in item storage That being moved in and out of players item storage?
+		//hummmmmmmmmmmmmmmmmmmmmmmmmmmmm
+		//inherits ILeave body Enter body  // yes
+		//Recursively sets stuff yeah good
+
 
 		public void InstantiateAndSetUp(ObjectList ListToSpawn)
 		{

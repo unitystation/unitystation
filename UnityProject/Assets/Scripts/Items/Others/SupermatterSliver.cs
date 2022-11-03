@@ -45,6 +45,8 @@ namespace Items
 		//Turn player into ash if he picked it up
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
+			if (this.gameObject != info.MovedObject.gameObject) return;
+
 			if (info.InventoryMoveType != InventoryMoveType.Add) return;
 
 			if (info.ToSlot != null && info.ToSlot?.NamedSlot != null)

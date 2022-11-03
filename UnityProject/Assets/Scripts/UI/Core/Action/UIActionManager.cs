@@ -97,7 +97,7 @@ namespace UI.Action
 		/// <summary>
 		/// Set the action button visibility, locally (clientside)
 		/// </summary>
-		public static void ToggleServer(Mind RelatedMind, IActionGUI iActionGUI, bool show)
+		public static void ToggleServer(Mind RelatedMind, IActionGUI iActionGUI, bool show) //TODO Change to not mind
 		{
 			Instance.InstantToggleServer(RelatedMind, iActionGUI, show);
 		}

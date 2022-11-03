@@ -49,6 +49,17 @@ public interface IOnPlayerLeaveBody
 	public void OnPlayerLeaveBody(Mind mind);
 }
 
+
+public interface IClientPlayerLeaveBody
+{
+	public void ClientOnPlayerLeaveBody();
+}
+
+
+public interface IClientPlayerTransferProcess
+{
+	public void ClientOnPlayerTransferProcess();
+}
 /// <summary>
 /// Main API for dealing with spawning players and related things.
 /// For spawning of non-player things, see Spawn.
@@ -598,6 +609,7 @@ public static class PlayerSpawn
 			{
 				leaveInterface.OnPlayerLeaveBody(mind);
 			}
+
 		}
 
 		var netIdentity = newBody.GetComponent<NetworkIdentity>();
@@ -635,7 +647,7 @@ public static class PlayerSpawn
 		{
 			FollowCameraMessage.Send(newBody, playerObjectBehavior.ContainedInContainer.gameObject);
 		}
-
+		PossessAndUnpossess.Send(newBody,newBody, oldBody);
 		var transfers = newBody.GetComponents<IOnPlayerTransfer>();
 		foreach (var transfer in transfers)
 		{

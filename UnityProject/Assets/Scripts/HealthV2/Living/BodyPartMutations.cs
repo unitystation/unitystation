@@ -19,7 +19,7 @@ public class BodyPartMutations : BodyPartFunctionality
 
 	public int Stability = 0;
 
-	public int SecondsForSpeciesMutation = 60;
+	public int SecondsForSpeciesMutation = 150;
 
 
 	public static MutationRoundData GetMutationRoundData(MutationSO Mutation)
@@ -55,12 +55,12 @@ public class BodyPartMutations : BodyPartFunctionality
 
 	public void MutateCustomisation(string InCustomisationTarget, string CustomisationReplaceWith)
 	{
-		if (bodyPart.SetCustomisationData.Contains(InCustomisationTarget))
+		if (RelatedPart.SetCustomisationData.Contains(InCustomisationTarget))
 		{
 			//Logger.LogError($"{bodyPart.name} has {InCustomisationTarget} in SetCustomisationData");
-			var newone = bodyPart.SetCustomisationData.Replace(InCustomisationTarget, CustomisationReplaceWith);
+			var newone = RelatedPart.SetCustomisationData.Replace(InCustomisationTarget, CustomisationReplaceWith);
 			//Logger.LogError($"Changing from {bodyPart.SetCustomisationData} to {newone} ");
-			bodyPart.LobbyCustomisation.OnPlayerBodyDeserialise(bodyPart, newone, bodyPart.HealthMaster);
+			RelatedPart.LobbyCustomisation.OnPlayerBodyDeserialise(RelatedPart, newone, RelatedPart.HealthMaster);
 		}
 	}
 
@@ -78,7 +78,7 @@ public class BodyPartMutations : BodyPartFunctionality
 
 		var Data = GetMutationRoundData(Mutation);
 
-		var ActiveMutation = Mutation.GetMutation(bodyPart, Mutation);
+		var ActiveMutation = Mutation.GetMutation(RelatedPart, Mutation);
 		ActiveMutation.Stability = Data.Stability;
 
 
@@ -86,7 +86,7 @@ public class BodyPartMutations : BodyPartFunctionality
 		ActiveMutation.SetUp();
 		CalculateStability();
 
-		bodyPart.HealthMaster.OrNull()?.BodyPartsChangeMutation();
+		RelatedPart.HealthMaster.OrNull()?.BodyPartsChangeMutation();
 	}
 
 	public void RemoveMutation(MutationSO Mutation)
@@ -105,7 +105,7 @@ public class BodyPartMutations : BodyPartFunctionality
 		ActiveMutations.Remove(Target);
 		Target.Remove();
 		CalculateStability();
-		bodyPart.HealthMaster.OrNull()?.BodyPartsChangeMutation();
+		RelatedPart.HealthMaster.OrNull()?.BodyPartsChangeMutation();
 	}
 
 	public List<MutationAndBodyPart> GetAvailableNegativeMutations(List<MutationAndBodyPart> AvailableMutations)
@@ -152,14 +152,16 @@ public class BodyPartMutations : BodyPartFunctionality
 		Stability = InStability;
 	}
 
+	//TODO System for adding and removing body parts
+
 	private IEnumerator ProcessChangeToSpecies(PlayerHealthData NewSpecies, GameObject BodyPart)
 	{
-		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 2f) * (1 + UnityEngine.Random.Range(-0.25f, 0.25f)));
+		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 2f) * (1 + UnityEngine.Random.Range(-0.75f, 0.90f)));
 
 		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.gameObject,
 			$" Your {RelatedPart.gameObject.ExpensiveName()} Feels strange");
 
-		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 2f) * (1 + UnityEngine.Random.Range(-0.25f, 0.25f)));
+		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 2f) * (1 + UnityEngine.Random.Range(-0.75f, 0.90f)));
 
 		var SpawnedBodypart = Spawn.ServerPrefab(BodyPart).GameObject.GetComponent<BodyPart>();
 
@@ -213,7 +215,7 @@ public class BodyPartMutations : BodyPartFunctionality
 				ONMutation.AddMutation(Mutations.RelatedMutationSO);
 			}
 
-			ONMutation.MutateCustomisation(ONMutation.RelatedPart.SetCustomisationData,
+			ONMutation.MutateCustomisation(((BodyPartFunctionality) ONMutation).RelatedPart.SetCustomisationData,
 				RelatedPart.SetCustomisationData);
 		}
 	}

@@ -54,6 +54,7 @@ public class InvisibleBox : Pickupable
 	public override void OnInventoryMoveServer(InventoryMove info)
 	{
 		base.OnInventoryMoveServer(info);
+		if (this.gameObject != info.MovedObject.gameObject) return;
 		if (info.RemoveType == InventoryRemoveType.Drop || info.RemoveType == InventoryRemoveType.Throw)
 		{
 			if (boxSpriteColor)
