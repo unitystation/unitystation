@@ -9,7 +9,7 @@ using UnityEngine.Tilemaps;
 
 namespace Player
 {
-	//how TO ues
+	//how TO use
 	//so, First of all you need 2 fields
 	//the default state e.g when you ghost what it should be set to
 	//and the active synchronised state
