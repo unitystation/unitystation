@@ -447,13 +447,15 @@ namespace Items.Tool
 
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
+			if (this.gameObject != info.MovedObject.gameObject) return;
+
 			if (info.ToSlot == null || info.ToSlot.ItemStorage == null) return;
 
 			if (info.ToSlot.ItemStorage.ItemStorageCapacity != crayonBoxCapacity) return;
 
 			if (isCan)
 			{
-				Chat.AddExamineMsgFromServer(info.FromPlayer.OrNull()?.gameObject, "Spray cans are not crayons!");
+				Chat.AddExamineMsgFromServer(info.FromPlayer.OrNull()?.gameObject, "Spray cans are not crayons!"); //TODO We need better system for this, for example have this part of slot definition code
 				return;
 			}
 

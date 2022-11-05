@@ -25,9 +25,9 @@ namespace HealthV2.Limbs
 		private float legEfficiency = 1f;
 		public float LegEfficiency => legEfficiency;
 
-		public float RunningSpeedModifier => runningSpeed * legEfficiency * bodyPart.TotalModified;
+		public float RunningSpeedModifier => runningSpeed * legEfficiency * RelatedPart.TotalModified;
 
-		public float WalkingSpeedModifier => walkingSpeed * legEfficiency * bodyPart.TotalModified;
+		public float WalkingSpeedModifier => walkingSpeed * legEfficiency * RelatedPart.TotalModified;
 		public float CrawlingSpeedModifier { get; }
 
 		public override void AddedToBody(LivingHealthMasterBase livingHealth)

@@ -131,15 +131,15 @@ namespace HealthV2
 
 			//To exclude stuff like hunger and oxygen damage
 			var TotalModified = 1f;
-			foreach (var modifier in bodyPart.AppliedModifiers)
+			foreach (var modifier in RelatedPart.AppliedModifiers)
 			{
 				var toMultiply = 1f;
-				if (modifier == bodyPart.DamageModifier)
+				if (modifier == RelatedPart.DamageModifier)
 				{
 					toMultiply = Mathf.Max(0f,
-						Mathf.Max(bodyPart.MaxHealth - bodyPart.TotalDamageWithoutOxyCloneRadStam, 0) / bodyPart.MaxHealth);
+						Mathf.Max(RelatedPart.MaxHealth - RelatedPart.TotalDamageWithoutOxyCloneRadStam, 0) / RelatedPart.MaxHealth);
 				}
-				else if (modifier == bodyPart.HungerModifier)
+				else if (modifier == RelatedPart.HungerModifier)
 				{
 					continue;
 				}

@@ -11,6 +11,7 @@ namespace Doors.Modules
 	public class AccessModule : DoorModuleBase
 	{
 		private ClearanceCheckable clearanceCheckable;
+		public ClearanceCheckable ClearanceCheckable => clearanceCheckable;
 		private bool emergancyAccess = false;
 
 		[SerializeField]

@@ -636,14 +636,15 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		ObserveInteractableStorageMessage.Send(cancelled.ObserverPlayer.gameObject, this, false);
 	}
 
-	public Mind CurrentlyOn { get; set; }
+	public RegisterPlayer CurrentlyOn { get; set; }
 	bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
-	public bool IsValidSetup(Mind player)
+	public bool IsValidSetup(RegisterPlayer player)
 	{
+		if (player == null) return false;
 		if (canClickPickup)
 		{
-			foreach (var itemSlot in player.CurrentPlayScript.DynamicItemStorage.GetHandSlots())
+			foreach (var itemSlot in player.PlayerScript.DynamicItemStorage.GetHandSlots())
 			{
 				if (itemSlot.ItemObject == gameObject)
 				{
@@ -655,21 +656,21 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		return false;
 	}
 
-	void IItemInOutMovedPlayer.ChangingPlayer(Mind hideForPlayer, Mind showForPlayer)
+	void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer hideForPlayer, RegisterPlayer showForPlayer)
 	{
 		if (canClickPickup)
 		{
 			if (hideForPlayer != null)
 			{
-				UIActionManager.ToggleServer(hideForPlayer, this, false);
+				UIActionManager.ToggleServer(hideForPlayer.PlayerScript.mind, this, false);
 				itemStorage.ServerRemoveAllObserversExceptOwner();
-				ObserveInteractableStorageMessage.Send(hideForPlayer.CurrentPlayScript.gameObject, this, false);
+				ObserveInteractableStorageMessage.Send(hideForPlayer.PlayerScript.gameObject, this, false);
 			}
 
 			if (showForPlayer != null)
 			{
-				itemStorage.ServerAddObserverPlayer(showForPlayer.CurrentPlayScript.gameObject);
-				UIActionManager.ToggleServer(showForPlayer, this, true);
+				itemStorage.ServerAddObserverPlayer(showForPlayer.PlayerScript.gameObject);
+				UIActionManager.ToggleServer(showForPlayer.PlayerScript.mind, this, true);
 			}
 		}
 	}

@@ -42,6 +42,8 @@ namespace Clothing
 
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
+			if (this.gameObject != info.MovedObject.gameObject) return;
+
 			if (IsPuttingOn(info))
 			{
 				mind = info.ToPlayer.OrNull()?.PlayerScript.OrNull()?.mind;

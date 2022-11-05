@@ -212,17 +212,15 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	private float pingUpdate;
 
+	[SerializeField] private TooltipHoverManager tooltipHoverManager;
+	public TooltipHoverManager TooltipHoverManager => tooltipHoverManager;
+
 	public static string SetToolTip
 	{
 		set
 		{
-			if (ProtipManager.Instance == null ||
-			    ProtipManager.Instance.PlayerExperienceLevel == ProtipManager.ExperienceLevel.Robust) return;
-			if (ProtipManager.Instance.PlayerExperienceLevel == ProtipManager.ExperienceLevel.SomewhatExperienced)
-			{
-				if(KeyboardInputManager.IsShiftPressed() == false) return;
-			}
-			Instance.toolTip.text = value;
+			if(Instance.tooltipHoverManager == null) return;
+			Instance.tooltipHoverManager.UpdateActiveTooltip(value);
 		}
 	}
 

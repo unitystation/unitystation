@@ -121,6 +121,8 @@ namespace Clothing
 
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
+			if (this.gameObject != info.MovedObject.gameObject) return;
+
 			RegisterPlayer registerPlayer;
 
 			if (info.ToSlot != null && info.ToSlot?.NamedSlot != null)

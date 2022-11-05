@@ -176,4 +176,6 @@
 	/// </summary>
 	public static readonly string ChatBackgroundMinimumAlpha = "ChatBackgroundMinimumAlpha";
 
+	public static readonly string EnableClassicHoverTooltip = "EnableClassicHoverTooltip";
+
 }

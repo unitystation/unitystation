@@ -100,7 +100,8 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 
 	public void OnInventoryMoveServer(InventoryMove info)
 	{
-		if (initialized || !autoInitOnPickup || info.ToPlayer == null)
+
+		if (info.MovedObject.gameObject != gameObject || initialized || !autoInitOnPickup || info.ToPlayer == null)
 			return;
 
 		//auto init if being added to a player's inventory

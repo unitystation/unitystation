@@ -27,6 +27,7 @@ public class DamageOnPickUp : MonoBehaviour, IServerInventoryMove
 
 	public void OnInventoryMoveServer(InventoryMove info)
 	{
+		if (this.gameObject != info.MovedObject.gameObject) return;
 		if (info.InventoryMoveType != InventoryMoveType.Add) return;
 
 		if (info.ToSlot != null && info.ToSlot?.NamedSlot != null)

@@ -26,29 +26,31 @@ public class WearableSpeechMod : MonoBehaviour, IItemInOutMovedPlayer
 	}
 
 
-	public Mind CurrentlyOn { get; set; }
+	public RegisterPlayer CurrentlyOn { get; set; }
 	bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
-	public bool IsValidSetup(Mind player)
+	public bool IsValidSetup(RegisterPlayer player)
 	{
 		if (player == null) return false;
 		if (pickupable.ItemSlot == null) return false;
-		if (pickupable.ItemSlot?.Player != player.CurrentPlayScript.RegisterPlayer) return false;
+		if (pickupable.ItemSlot?.Player != player.PlayerScript.RegisterPlayer) return false;
 		if (pickupable.ItemSlot?.NamedSlot != slot) return false;
 
 		return true;
 	}
 
-	void IItemInOutMovedPlayer.ChangingPlayer(Mind hideForPlayer, Mind showForPlayer)
+	void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer hideForPlayer, RegisterPlayer showForPlayer)
 	{
 		if (hideForPlayer != null)
 		{
-			hideForPlayer.inventorySpeechModifiers &= ~modifier;
+			//TODO AAAAAAA Change not to mind
+			hideForPlayer.PlayerScript.mind.inventorySpeechModifiers &= ~modifier;
 		}
 
 		if (showForPlayer != null)
 		{
-			showForPlayer.inventorySpeechModifiers |= modifier;
+			//TODO AAAAAAA Change not to mind
+			hideForPlayer.PlayerScript.mind.inventorySpeechModifiers |= modifier;
 		}
 	}
 }

@@ -464,6 +464,7 @@ GameObject:
   - component: {fileID: 3844190322150875557}
   - component: {fileID: 3489173522199466798}
   - component: {fileID: 7360167411429626721}
+  - component: {fileID: 6445802770983522070}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -1521,6 +1522,20 @@ MonoBehaviour:
     m_values:
     - {fileID: 11400000, guid: 47d1b75ce7e65b84aaea85e7ff3924de, type: 2}
     - {fileID: 11400000, guid: 6a684b02b4d9ffd46b4cb32d6ff4397b, type: 2}
+--- !u!114 &6445802770983522070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dce365038caa4ced995ef927dbe0ed20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0

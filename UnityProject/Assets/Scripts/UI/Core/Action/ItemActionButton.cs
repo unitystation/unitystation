@@ -66,11 +66,12 @@ namespace UI.Action
 			}
 		}
 
-		public Mind CurrentlyOn { get; set; }
+		public RegisterPlayer CurrentlyOn { get; set; }
 		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
-		public bool IsValidSetup(Mind player)
+		public bool IsValidSetup(RegisterPlayer player)
 		{
+			if (player == null) return false;
 			bool showAlert;
 			if (pickupable.ItemSlot.NamedSlot == null)
 			{
@@ -84,16 +85,16 @@ namespace UI.Action
 			return showAlert;
 		}
 
-		void IItemInOutMovedPlayer.ChangingPlayer(Mind hideForPlayer, Mind showForPlayer)
+		void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer hideForPlayer, RegisterPlayer showForPlayer)
 		{
 			if (hideForPlayer != null)
 			{
-				UIActionManager.ToggleServer(hideForPlayer, this, false);
+				UIActionManager.ToggleServer(hideForPlayer.PlayerScript.mind, this, false);
 			}
 
 			if (showForPlayer != null)
 			{
-				UIActionManager.ToggleServer(showForPlayer, this, true);
+				UIActionManager.ToggleServer(showForPlayer.PlayerScript.mind, this, true);
 				UIActionManager.SetServerSpriteSO(this, spriteHandler.GetCurrentSpriteSO(), spriteHandler.Palette);
 			}
 		}

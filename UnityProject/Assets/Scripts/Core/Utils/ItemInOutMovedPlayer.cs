@@ -1,33 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
-public interface IItemInOutMovedPlayer : IServerInventoryMove, IOnPlayerLeaveBody, IOnPlayerTransfer
+public interface IItemInOutMovedPlayer : IServerInventoryMove
 {
-	public Mind CurrentlyOn { get; set; }
+	//TODO Stuff that should trigger on a body that doesn't have a mind, For example clothing that sets you on fire, That should work even if you don't have a mind E.G you got cloned
+	//Call it something like IItemBodyTransfer
+	public RegisterPlayer CurrentlyOn { get; set; }
 	bool PreviousSetValid { get; set; }
 
 
 	void IServerInventoryMove.OnInventoryMoveServer(InventoryMove info)
 	{
-		Mind ToPlayer = null;
-		Mind FromPlayer = null;
+		RegisterPlayer ToPlayer = null;
+		RegisterPlayer FromPlayer = null;
 
-		if (info.ToPlayer != null)
+		if (info.ToRootPlayer != null)
 		{
 			if (CurrentlyOn != null)
 			{
 				//removing and adding
 				FromPlayer = CurrentlyOn;
-				ToPlayer = info.ToRootPlayer.PlayerScript.mind;
-				CurrentlyOn = info.ToRootPlayer.PlayerScript.mind;
+				ToPlayer = info.ToRootPlayer;
+				CurrentlyOn = info.ToRootPlayer;
 			}
 
 			if (CurrentlyOn == null)
 			{
 				//adding
-				ToPlayer = info.ToRootPlayer.PlayerScript.mind;
-				CurrentlyOn = info.ToRootPlayer.PlayerScript.mind;
+				ToPlayer = info.ToRootPlayer;
+				CurrentlyOn = info.ToRootPlayer;
 			}
 		}
 		else if (CurrentlyOn != null)
@@ -40,34 +43,12 @@ public interface IItemInOutMovedPlayer : IServerInventoryMove, IOnPlayerLeaveBod
 		InventoryInOutMovedPlayer(FromPlayer, ToPlayer);
 	}
 
+	public bool IsValidSetup(RegisterPlayer player);
 
-	void IOnPlayerLeaveBody.OnPlayerLeaveBody(Mind mind)
+	virtual void InventoryInOutMovedPlayer(RegisterPlayer fromPlayer, RegisterPlayer toPlayer)
 	{
-		InventoryInOutMovedPlayer(mind, null);
-		CurrentlyOn = null;
-	}
-
-	void IOnPlayerTransfer.OnPlayerTransfer(Mind mind)
-	{
-		if (CurrentlyOn != mind)
-		{
-			InventoryInOutMovedPlayer(CurrentlyOn, mind);
-		}
-		else
-		{
-			CurrentlyOn = null;
-			InventoryInOutMovedPlayer(null, mind);
-		}
-
-		CurrentlyOn = mind;
-	}
-
-	public bool IsValidSetup(Mind player);
-
-	virtual void InventoryInOutMovedPlayer(Mind fromPlayer, Mind toPlayer)
-	{
-		Mind ShowForPlayer = null;
-		Mind HideForPlayer = null;
+		RegisterPlayer ShowForPlayer = null;
+		RegisterPlayer HideForPlayer = null;
 
 		if (fromPlayer != null)
 		{
@@ -78,21 +59,19 @@ public interface IItemInOutMovedPlayer : IServerInventoryMove, IOnPlayerLeaveBod
 			}
 		}
 
-		if (toPlayer != null )
-		{
-			bool Valid = IsValidSetup(toPlayer);
 
-			if (PreviousSetValid != Valid || (fromPlayer != null && toPlayer != fromPlayer) )
+		bool Valid = IsValidSetup(toPlayer);
+
+		if (PreviousSetValid != Valid || (fromPlayer != null && toPlayer != fromPlayer))
+		{
+			PreviousSetValid = Valid;
+			if (PreviousSetValid)
 			{
-				PreviousSetValid = Valid;
-				if (PreviousSetValid)
-				{
-					ShowForPlayer = toPlayer;
-				}
-				else if (PreviousSetValid == false && toPlayer == fromPlayer)
-				{
-					HideForPlayer = fromPlayer;
-				}
+				ShowForPlayer = toPlayer;
+			}
+			else if (PreviousSetValid == false && toPlayer == fromPlayer)
+			{
+				HideForPlayer = fromPlayer;
 			}
 		}
 
@@ -101,7 +80,5 @@ public interface IItemInOutMovedPlayer : IServerInventoryMove, IOnPlayerLeaveBod
 	}
 
 
-	void ChangingPlayer(Mind HideForPlayer, Mind ShowForPlayer);
-
-
+	void ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer);
 }
