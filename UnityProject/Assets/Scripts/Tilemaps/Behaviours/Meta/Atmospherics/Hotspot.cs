@@ -33,12 +33,11 @@ namespace Systems.Atmospherics
 		public void OnCreation()
 		{
 			//Add fire overlay
-			node.PositionMatrix.MetaTileMap.AddOverlay(
-				node.LocalPosition, TileType.Effects, "Fire");
+			node.PositionMatrix.MetaTileMap.AddOverlay(node.LocalPosition, TileType.Effects, "Fire");
 
 			//Spawn firelight prefab
 			if (firelight != null) return;
-			var fireLightSpawn = Spawn.ServerPrefab(node.ReactionManager.FireLightPrefab,node.LocalPosition.ToWorld(node.PositionMatrix));
+			var fireLightSpawn = Spawn.ServerPrefab(node.ReactionManager.FireLightPrefab, node.WorldPosition);
 
 			if(fireLightSpawn.Successful == false) return;
 			firelight = fireLightSpawn.GameObject.GetComponent<NetworkLight>();
