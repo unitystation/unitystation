@@ -10,7 +10,7 @@ public class SmokeNode : SpreadNode
 	public override bool CheckIsEdge()
 	{
 		bool hasEmptyNeighbour = false;
-		var worldPos = OnMetaDataNode.Position.ToWorld(OnMetaDataNode.PositionMatrix);
+		var worldPos = OnMetaDataNode.LocalPosition.ToWorld(OnMetaDataNode.PositionMatrix);
 
 		foreach (var dir in dirs) //Might be lag
 		{
@@ -40,7 +40,7 @@ public class SmokeNode : SpreadNode
 
 	public override void TrySpread()
 	{
-		var worldPos = OnMetaDataNode.Position.ToWorld(OnMetaDataNode.PositionMatrix);
+		var worldPos = OnMetaDataNode.LocalPosition.ToWorld(OnMetaDataNode.PositionMatrix);
 
 		foreach (var dir in dirs) //Might be lag
 		{
@@ -75,7 +75,7 @@ public class SmokeNode : SpreadNode
 			Colour = Color.white;
 		}
 
-		OnMetaDataNode.PositionMatrix.MetaTileMap.AddOverlay(OnMetaDataNode.Position, SmokeAndFoamManager.Instance.OverlayTileSmoke, Matrix4x4.identity, Colour);
+		OnMetaDataNode.PositionMatrix.MetaTileMap.AddOverlay(OnMetaDataNode.LocalPosition, SmokeAndFoamManager.Instance.OverlayTileSmoke, Matrix4x4.identity, Colour);
 
 	}
 
@@ -89,7 +89,7 @@ public class SmokeNode : SpreadNode
 		PresentTimeCount += 1;
 		if (PresentTimeCount > MaxTimePresent)
 		{
-			OnMetaDataNode.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(OnMetaDataNode.Position, LayerType.Effects,OverlayType.Smoke);
+			OnMetaDataNode.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(OnMetaDataNode.LocalPosition, LayerType.Effects,OverlayType.Smoke);
 			SourceReservoir.RemoveTile(this);
 		}
 	}

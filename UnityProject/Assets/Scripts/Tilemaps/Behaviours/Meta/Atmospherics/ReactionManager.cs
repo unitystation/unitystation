@@ -142,13 +142,13 @@ namespace Systems.Atmospherics
 			for (int i = hotspotsToAdd.Count - 1; i >= 0; i--)
 			{
 				var addedHotspot = hotspotsToAdd[i];
-				if (!hotspots.ContainsKey(addedHotspot.node.Position) &&
+				if (!hotspots.ContainsKey(addedHotspot.node.LocalPosition) &&
 				    // only process the addition if it hasn't already been done, which
 				    // could happen if multiple things try to add a hotspot to the same tile
 				    addedHotspot.node.Hotspot == null)
 				{
 					addedHotspot.node.Hotspot = addedHotspot;
-					hotspots.TryAdd(addedHotspot.node.Position, addedHotspot.node);
+					hotspots.TryAdd(addedHotspot.node.LocalPosition, addedHotspot.node);
 					addedHotspot.OnCreation();
 				}
 			}
@@ -182,7 +182,7 @@ namespace Systems.Atmospherics
 			//hotspot spread to adjacent tiles and damage
 			foreach (MetaDataNode node in hotspots.Values)
 			{
-				ExposeHotspot(node.Position);
+				ExposeHotspot(node.LocalPosition);
 			}
 
 			reactionTick++;
@@ -193,7 +193,7 @@ namespace Systems.Atmospherics
 		{
 			windyNode.WindData[(int) PushType.Wind] = (Vector2) windyNode.WindDirection * (windyNode.WindForce);
 
-			var registerTiles = matrix.GetRegisterTile(windyNode.Position, true);
+			var registerTiles = matrix.GetRegisterTile(windyNode.LocalPosition, true);
 			for (int i = 0; i < registerTiles.Count; i++)
 			{
 				var registerTile = registerTiles[i];
@@ -234,7 +234,7 @@ namespace Systems.Atmospherics
 			activeWindEffectSpots.Add(windyNode);
 
 			windEffectNodes.Add(new WindEffectData(windyNode.PositionMatrix.NetworkedMatrix.MatrixSync.netId,
-				windyNode.Position, windyNode.WindDirection));
+				windyNode.LocalPosition, windyNode.WindDirection));
 		}
 
 		public void DoTick()
@@ -278,7 +278,7 @@ namespace Systems.Atmospherics
 		public void RemoveHotspot(MetaDataNode node)
 		{
 			//removal will be processed later in update
-			hotspotsToRemove.Add(node.Position);
+			hotspotsToRemove.Add(node.LocalPosition);
 		}
 
 		public void ExtinguishHotspot(Vector3Int localPosition)

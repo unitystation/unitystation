@@ -34,11 +34,11 @@ namespace Systems.Atmospherics
 		{
 			//Add fire overlay
 			node.PositionMatrix.MetaTileMap.AddOverlay(
-				node.Position, TileType.Effects, "Fire");
+				node.LocalPosition, TileType.Effects, "Fire");
 
 			//Spawn firelight prefab
 			if (firelight != null) return;
-			var fireLightSpawn = Spawn.ServerPrefab(node.ReactionManager.FireLightPrefab,node.Position.ToWorld(node.PositionMatrix));
+			var fireLightSpawn = Spawn.ServerPrefab(node.ReactionManager.FireLightPrefab,node.LocalPosition.ToWorld(node.PositionMatrix));
 
 			if(fireLightSpawn.Successful == false) return;
 			firelight = fireLightSpawn.GameObject.GetComponent<NetworkLight>();
@@ -48,27 +48,27 @@ namespace Systems.Atmospherics
 		{
 			//Remove fire overlays
 			node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(
-				node.Position, LayerType.Effects, OverlayType.Fire);
+				node.LocalPosition, LayerType.Effects, OverlayType.Fire);
 
 			if (hasSparkle)
 			{
 				node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(
-					node.Position, LayerType.Effects, OverlayType.FireSparkles);
+					node.LocalPosition, LayerType.Effects, OverlayType.FireSparkles);
 			}
 
 			if (hasOvercharge)
 			{
 				node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(
-					node.Position, LayerType.Effects, OverlayType.FireOverCharged);
+					node.LocalPosition, LayerType.Effects, OverlayType.FireOverCharged);
 			}
 
 			if (hasFusion)
 			{
 				node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(
-					node.Position, LayerType.Effects, OverlayType.FireFusion);
+					node.LocalPosition, LayerType.Effects, OverlayType.FireFusion);
 
 				node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(
-					node.Position, LayerType.Effects, OverlayType.FireRainbow);
+					node.LocalPosition, LayerType.Effects, OverlayType.FireRainbow);
 			}
 
 			//Despawn firelight
@@ -122,7 +122,7 @@ namespace Systems.Atmospherics
 				var sparkleAmt = DMMath.GaussLerp(temperature, 200000, 500000);
 				var newColour = new Color(1f, 1f, 1f, sparkleAmt);
 
-				var currentColour = node.PositionMatrix.MetaTileMap.GetColourOfFirstTile(node.Position,
+				var currentColour = node.PositionMatrix.MetaTileMap.GetColourOfFirstTile(node.LocalPosition,
 					OverlayType.FireSparkles, LayerType.Effects);
 
 				//Only add/remove if we need to
@@ -132,14 +132,14 @@ namespace Systems.Atmospherics
 					{
 						//Remove old so it can be replaced by one with different alpha value
 						node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(
-							node.Position, LayerType.Effects, OverlayType.FireSparkles);
+							node.LocalPosition, LayerType.Effects, OverlayType.FireSparkles);
 					}
 
 					hasSparkle = true;
 
 					//Add new
 					node.PositionMatrix.MetaTileMap.AddOverlay(
-						node.Position, TileType.Effects, "FireSparkles", color: newColour);
+						node.LocalPosition, TileType.Effects, "FireSparkles", color: newColour);
 				}
 			}
 			else if (hasSparkle)
@@ -148,7 +148,7 @@ namespace Systems.Atmospherics
 
 				//Remove as its not needed anymore
 				node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(
-					node.Position, LayerType.Effects, OverlayType.FireSparkles);
+					node.LocalPosition, LayerType.Effects, OverlayType.FireSparkles);
 			}
 
 			//Lightning because very anime.
@@ -160,7 +160,7 @@ namespace Systems.Atmospherics
 
 					//Add new
 					node.PositionMatrix.MetaTileMap.AddOverlay(
-						node.Position, TileType.Effects, "FireOverCharged");
+						node.LocalPosition, TileType.Effects, "FireOverCharged");
 				}
 			}
 			else if (hasOvercharge)
@@ -169,7 +169,7 @@ namespace Systems.Atmospherics
 
 				//Remove overcharge as its not needed anymore
 				node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(
-					node.Position, LayerType.Effects, OverlayType.FireOverCharged);
+					node.LocalPosition, LayerType.Effects, OverlayType.FireOverCharged);
 			}
 
 			//This is where noblium happens. Some fusion-y effects.
@@ -179,7 +179,7 @@ namespace Systems.Atmospherics
 					? DMMath.GaussLerp(temperature, 4500000, 12000000) : 1;
 				var newColour = new Color(1f, 1f, 1f, fusionAmt);
 
-				var currentColour = node.PositionMatrix.MetaTileMap.GetColourOfFirstTile(node.Position,
+				var currentColour = node.PositionMatrix.MetaTileMap.GetColourOfFirstTile(node.LocalPosition,
 					OverlayType.FireSparkles, LayerType.Effects);
 
 				//Only add/remove if we need to
@@ -189,21 +189,21 @@ namespace Systems.Atmospherics
 					{
 						//Remove old so it can be replaced by one with different alpha value
 						node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(
-							node.Position, LayerType.Effects, OverlayType.FireFusion);
+							node.LocalPosition, LayerType.Effects, OverlayType.FireFusion);
 
 						node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(
-							node.Position, LayerType.Effects, OverlayType.FireRainbow);
+							node.LocalPosition, LayerType.Effects, OverlayType.FireRainbow);
 					}
 
 					hasFusion = true;
 
 					//Add new
 					node.PositionMatrix.MetaTileMap.AddOverlay(
-						node.Position, TileType.Effects, "FireFusion", color: newColour);
+						node.LocalPosition, TileType.Effects, "FireFusion", color: newColour);
 
 					//Add new
 					node.PositionMatrix.MetaTileMap.AddOverlay(
-						node.Position, TileType.Effects, "FireRainbow", color: newColour);
+						node.LocalPosition, TileType.Effects, "FireRainbow", color: newColour);
 
 					heatR = DMMath.Lerp(heatR, 255, fusionAmt);
 					heatG = DMMath.Lerp(heatG, 255, fusionAmt);
@@ -217,10 +217,10 @@ namespace Systems.Atmospherics
 
 				//Remove fusion and rainbow as they are not needed anymore
 				node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(
-					node.Position, LayerType.Effects, OverlayType.FireFusion);
+					node.LocalPosition, LayerType.Effects, OverlayType.FireFusion);
 
 				node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(
-					node.Position, LayerType.Effects, OverlayType.FireRainbow);
+					node.LocalPosition, LayerType.Effects, OverlayType.FireRainbow);
 			}
 
 			if(firelight == null) return;
