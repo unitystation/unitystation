@@ -53,7 +53,7 @@ public class FoamNode : SpreadNode
 	public override bool CheckIsEdge()
 	{
 		bool hasEmptyNeighbour = false;
-		var worldPos = OnMetaDataNode.LocalPosition.ToWorld(OnMetaDataNode.PositionMatrix);
+		var worldPos = OnMetaDataNode.WorldPosition.To3();
 
 		foreach (var dir in dirs) //Might be lag
 		{

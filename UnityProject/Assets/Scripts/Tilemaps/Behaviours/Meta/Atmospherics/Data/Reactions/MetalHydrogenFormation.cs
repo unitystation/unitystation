@@ -22,13 +22,13 @@ namespace Systems.Atmospherics
 			Math.Clamp(numberOfBarsToSpawn, 0, stackSize);
 
 			if (numberOfBarsToSpawn < 1) return;
-				
+
 			gasMix.RemoveGas(Gas.Hydrogen, numberOfBarsToSpawn);
 
-			SpawnSafeThread.SpawnPrefab(node.LocalPosition.ToWorldInt(node.PositionMatrix), AtmosManager.Instance.MetalHydrogen, amountIfStackable: numberOfBarsToSpawn);
+			SpawnSafeThread.SpawnPrefab(node.WorldPosition, AtmosManager.Instance.MetalHydrogen, amountIfStackable: numberOfBarsToSpawn);
 
 			energyNeeded += AtmosDefines.HYRDOGEN_CRYSTALLISE_ENERGY * numberOfBarsToSpawn;
-			
+
 
 			if (energyNeeded > 0)
 			{

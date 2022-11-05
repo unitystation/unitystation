@@ -34,10 +34,10 @@ public static class SpawnSafeThread
 		}
 	}
 
-	public static void SpawnPrefab(Vector3 tilePos, GameObject prefabObject, Transform parentTransform = null,
+	public static void SpawnPrefab(Vector3 tileWorldPos, GameObject prefabObject, Transform parentTransform = null,
 		int amount = 1, int amountIfStackable = 0)
 	{
-		prefabsToSpawn.Enqueue(new SpawnSafeThreadData(tilePos, prefabObject, parentTransform, amount,
+		prefabsToSpawn.Enqueue(new SpawnSafeThreadData(tileWorldPos, prefabObject, parentTransform, amount,
 			amountIfStackable));
 	}
 }
