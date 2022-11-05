@@ -981,11 +981,22 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 
 	public void SetUpOccupation(Occupation occupation)
 	{
+		if (occupation == null)
+		{
+			//TODO: Disable this warning after attributes has completely replaced occupations.
+			Logger.LogWarning($"[DynamicInventory] - Attempted to use a null occupation!");
+			return;
+		}
 		var NSP = occupation.InventoryPopulator as PlayerSlotStoragePopulator;
 		if (NSP != null)
 		{
 			NSP.PopulateDynamicItemStorage(this, registerPlayer.PlayerScript, occupation.UseStandardPopulator);
 		}
+	}
+
+	public void SetUpFromPopulator(PlayerSlotStoragePopulator providedPopulator)
+	{
+		providedPopulator.PopulateDynamicItemStorage(this, registerPlayer.PlayerScript);
 	}
 
 	#region Check Conditionals
