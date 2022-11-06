@@ -4,13 +4,12 @@ using Player;
 using UI.Action;
 
 public class NightVisionGoggles : NetworkBehaviour, IItemInOutMovedPlayer,
-	ICheckedInteractable<HandActivate>
+	ICheckedInteractable<HandActivate>, IClientSynchronisedEffect
 {
 
-	private NightVisionData VisionData = new NightVisionData(b:true);
+	[SerializeField, Tooltip("How fast will the player gain visibility?")]
+	private float visibilityAnimationSpeed = 1.50f;
 
-	[SerializeField, Tooltip("How far the player will be able to see in the dark while he has the goggles on.")]
-	private Vector3 nightVisionVisibility { get; set; }
 
 	[System.Serializable]
 	public struct NightVisionData
@@ -42,6 +41,11 @@ public class NightVisionGoggles : NetworkBehaviour, IItemInOutMovedPlayer,
 	{
 		actionButton = GetComponent<ItemActionButton>();
 		pickupable =  GetComponent<Pickupable>();
+
+		var loc = VisionData;
+		loc.visibilityAnimationSpeed = visibilityAnimationSpeed;
+		VisionData = loc;
+
 	}
 
 	private void OnEnable()
@@ -75,14 +79,13 @@ public class NightVisionGoggles : NetworkBehaviour, IItemInOutMovedPlayer,
 
 	void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)
 	{
-		if (HideForPlayer != null)
-		{
-			ServerToggleClient(HideForPlayer, new NightVisionData(b:true));
-		}
-
 		if (ShowForPlayer != null)
 		{
-			ServerToggleClient(ShowForPlayer, VisionData);
+			OnBodyID = ShowForPlayer.netId;
+		}
+		else
+		{
+			OnBodyID = NetId.Empty;
 		}
 	}
 
@@ -97,7 +100,9 @@ public class NightVisionGoggles : NetworkBehaviour, IItemInOutMovedPlayer,
 
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
-		VisionData.isOn = !VisionData.isOn;
+		var Data = VisionData;
+		Data.isOn = !VisionData.isOn;
+		VisionData = Data;
 		Chat.AddExamineMsgToClient($"You turned {(VisionData.isOn ? "on" : "off")} the {gameObject.ExpensiveName()}.");
 	}
 
@@ -117,7 +122,10 @@ public class NightVisionGoggles : NetworkBehaviour, IItemInOutMovedPlayer,
 	private void SetGoggleState(bool newState)
 	{
 
-		VisionData.isOn = newState;
+		var Data = VisionData;
+		Data.isOn = newState;
+		VisionData = Data;
+
 		if (CurrentlyOn == null || CurrentlyOn.PlayerScript.connectionToClient == null) return;
 
 		if (IsValidSetup(CurrentlyOn))
@@ -132,6 +140,47 @@ public class NightVisionGoggles : NetworkBehaviour, IItemInOutMovedPlayer,
 	[Server]
 	private void ServerToggleClient(RegisterPlayer forPlayer, NightVisionData newState)
 	{
-		forPlayer.PlayerScript.PlayerOnlySyncValues.SyncNightVision(new NightVisionData(b:true), newState);
+		VisionData = newState;
+	}
+
+	private IClientSynchronisedEffect Preimplemented => (IClientSynchronisedEffect) this;
+
+	[SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
+
+	public uint OnPlayerID => OnBodyID;
+
+	[SyncVar(hook = nameof(SyncNightVision))]
+	private NightVisionData VisionData = new NightVisionData(b:true);
+	private NightVisionData DefaultVisionData = new NightVisionData(b:true)
+	{
+		isOn = false
+	};
+
+
+	public void SyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn)
+	{
+		OnBodyID = CurrentlyOn;
+		Preimplemented.ImplementationSyncOnPlayer(PreviouslyOn, CurrentlyOn);
+	}
+
+	public void ApplyDefaultOrCurrentValues(bool Default)
+	{
+		ApplyEffects(Default ? DefaultVisionData : VisionData);
+	}
+
+	public void SyncNightVision(NightVisionGoggles.NightVisionData oldState, NightVisionGoggles.NightVisionData newState)
+	{
+		VisionData = newState;
+
+		if (Preimplemented.IsOnLocalPlayer)
+		{
+			ApplyEffects(VisionData);
+		}
+	}
+
+	public void ApplyEffects(NightVisionData State)
+	{
+		Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().AdjustPlayerVisibility(State.nightVisionVisibility, State.isOn ? State.visibilityAnimationSpeed : 0.1f);
+		Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().ToggleNightVisionEffectState(State.isOn);
 	}
 }
