@@ -12,23 +12,22 @@ namespace Systems.Atmospherics
 
 		public void React(GasMix gasMix, MetaDataNode node)
 		{
-			var energyNeeded = 0f;
-			var oldHeatCap = gasMix.WholeHeatCapacity;
-
 			int numberOfBarsToSpawn = (int)(gasMix.GetMoles(Gas.Hydrogen) / AtmosDefines.HYDROGEN_CRYSTALLISE_RATE);
 
-			int stackSize = 50;
+			const int stackSize = 50;
 
 			Math.Clamp(numberOfBarsToSpawn, 0, stackSize);
 
 			if (numberOfBarsToSpawn < 1) return;
-				
+
+			var oldHeatCap = gasMix.WholeHeatCapacity;
+
 			gasMix.RemoveGas(Gas.Hydrogen, numberOfBarsToSpawn);
 
-			SpawnSafeThread.SpawnPrefab(node.Position.ToWorldInt(node.PositionMatrix), AtmosManager.Instance.MetalHydrogen, amountIfStackable: numberOfBarsToSpawn);
+			SpawnSafeThread.SpawnPrefab(node.WorldPosition, AtmosManager.Instance.MetalHydrogen, amountIfStackable: numberOfBarsToSpawn);
 
-			energyNeeded += AtmosDefines.HYRDOGEN_CRYSTALLISE_ENERGY * numberOfBarsToSpawn;
-			
+			var energyNeeded = AtmosDefines.HYRDOGEN_CRYSTALLISE_ENERGY * numberOfBarsToSpawn;
+
 
 			if (energyNeeded > 0)
 			{
@@ -40,6 +39,5 @@ namespace Systems.Atmospherics
 				}
 			}
 		}
-
 	}
 }

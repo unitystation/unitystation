@@ -46,7 +46,7 @@ namespace Systems.Atmospherics
 				if (rnd.Next(0,10) == 0 && burnedFuel > AtmosDefines.TRITIUM_MINIMUM_RADIATION_ENERGY)
 				{
 
-					RadiationManager.Instance.RequestPulse(node.Position.ToWorld(node.PositionMatrix ).RoundToInt(),
+					RadiationManager.Instance.RequestPulse(node.WorldPosition,
 						energyReleased / AtmosDefines.TRITIUM_BURN_RADIOACTIVITY_FACTOR,
 						rnd.Next(Int32.MinValue, Int32.MaxValue));
 				}
@@ -65,7 +65,7 @@ namespace Systems.Atmospherics
 			if (gasMix.Temperature > AtmosDefines.FIRE_MINIMUM_TEMPERATURE_TO_EXIST)
 			{
 				//Dont do expose as we are off the main thread
-				node.ReactionManager.ExposeHotspot(node.Position, doExposure: false);
+				node.ReactionManager.ExposeHotspot(node.LocalPosition, doExposure: false);
 			}
 		}
 	}

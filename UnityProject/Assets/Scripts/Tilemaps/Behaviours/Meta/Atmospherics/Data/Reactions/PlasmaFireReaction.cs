@@ -87,7 +87,7 @@ namespace Systems.Atmospherics
 			if (gasMix.Temperature > AtmosDefines.FIRE_MINIMUM_TEMPERATURE_TO_EXIST)
 			{
 				//Dont do expose as we are off the main thread
-				node.ReactionManager.ExposeHotspot(node.Position, doExposure: false);
+				node.ReactionManager.ExposeHotspot(node.LocalPosition, doExposure: false);
 			}
 		}
 	}

@@ -135,8 +135,8 @@ public class MetaDataSystem : SubsystemBehaviour
 
 		SetupNeighbors(node);
 
-		if (MatrixManager.AtPoint(node.Position.ToWorld(node.PositionMatrix).RoundToInt(),
-			    CustomNetworkManager.IsServer) == node.PositionMatrix.MatrixInfo)
+		if (MatrixManager.AtPoint(node.WorldPosition, CustomNetworkManager.IsServer)
+		    == node.PositionMatrix.MatrixInfo)
 		{
 			MetaUtils.AddToNeighbors(node);
 		}
@@ -383,12 +383,12 @@ public class MetaDataSystem : SubsystemBehaviour
 		// Look in every direction for neighboring tiles.
 		foreach (Vector3Int dir in MetaUtils.Directions)
 		{
-			Vector3Int neighbor = dir + node.Position;
+			Vector3Int neighbor = dir + node.LocalPosition;
 
 			if (metaTileMap.IsSpaceAt(neighbor, true))
 			{
 				// if current node is a room, but the neighboring is a space tile, this node needs to be checked regularly for changes by other matrices
-				if (node.IsRoom && !externalNodes.ContainsKey(node) && metaTileMap.IsSpaceAt(node.Position, true) == false)
+				if (node.IsRoom && !externalNodes.ContainsKey(node) && metaTileMap.IsSpaceAt(node.LocalPosition, true) == false)
 				{
 					externalNodes[node] = node;
 				}
@@ -432,7 +432,7 @@ public class MetaDataSystem : SubsystemBehaviour
 							}
 
 							// if current node is a room, but the neighboring is a space tile, this node needs to be checked regularly for changes by other matrices
-							if (oppositeNode.IsRoom && !oppositeNode.MetaDataSystem.externalNodes.ContainsKey(node) && oppositeNode.MetaDataSystem.metaTileMap.IsSpaceAt(oppositeNode.Position, true) == false)
+							if (oppositeNode.IsRoom && !oppositeNode.MetaDataSystem.externalNodes.ContainsKey(node) && oppositeNode.MetaDataSystem.metaTileMap.IsSpaceAt(oppositeNode.LocalPosition, true) == false)
 							{
 								oppositeNode.MetaDataSystem.externalNodes[oppositeNode] = oppositeNode;
 							}
@@ -472,7 +472,7 @@ public class MetaDataSystem : SubsystemBehaviour
 		{
 			foreach (MetaDataNode node in externalNodes.Keys)
 			{
-				subsystemManager.UpdateAt(node.Position);
+				subsystemManager.UpdateAt(node.LocalPosition);
 			}
 		}
 	}

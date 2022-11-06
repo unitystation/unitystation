@@ -177,7 +177,7 @@ namespace Systems.Atmospherics
 				minimumTilePressure: 10000,
 				maximumTilePressure: 100000,
 
-				minimumTileMoles: 0.1f,
+				minimumTileMoles: AtmosDefines.HYDROGEN_CRYSTALLISE_MIN_MOLES,
 				maximumTileMoles: 10000000,
 				addToBaseReactions: true
 			);

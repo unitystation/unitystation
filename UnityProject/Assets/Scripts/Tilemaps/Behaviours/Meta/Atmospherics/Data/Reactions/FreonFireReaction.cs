@@ -55,7 +55,7 @@ namespace Systems.Atmospherics
 
 					if (gasMix.Temperature < 160 && gasMix.Temperature > 120 && rnd.Next(0, 2) == 0)
 					{
-						SpawnSafeThread.SpawnPrefab(node.Position, AtmosManager.Instance.HotIce);
+						SpawnSafeThread.SpawnPrefab(node.WorldPosition, AtmosManager.Instance.HotIce);
 					}
 
 					energyReleased += AtmosDefines.FIRE_FREON_ENERGY_RELEASED * freonBurnRate;

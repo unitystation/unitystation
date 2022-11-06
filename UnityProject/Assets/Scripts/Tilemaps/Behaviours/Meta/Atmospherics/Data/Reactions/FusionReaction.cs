@@ -85,7 +85,7 @@ namespace Systems.Atmospherics
 
 			if (reactionEnergy != 0)
 			{
-				RadiationManager.Instance.RequestPulse(node.Position.ToWorld(node.PositionMatrix).RoundToInt(), Mathf.Max((AtmosDefines.FUSION_RAD_COEFFICIENT/instability)+ AtmosDefines.FUSION_RAD_MAX, 0), rnd.Next(Int32.MinValue, Int32.MaxValue));
+				RadiationManager.Instance.RequestPulse(node.WorldPosition, Mathf.Max((AtmosDefines.FUSION_RAD_COEFFICIENT/instability)+ AtmosDefines.FUSION_RAD_MAX, 0), rnd.Next(Int32.MinValue, Int32.MaxValue));
 
 				var newHeatCap = gasMix.WholeHeatCapacity;
 				if (newHeatCap > 0.0003f && (gasMix.Temperature <= AtmosDefines.FUSION_MAXIMUM_TEMPERATURE || reactionEnergy <= 0))

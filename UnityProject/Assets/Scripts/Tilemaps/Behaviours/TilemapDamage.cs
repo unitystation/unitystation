@@ -117,18 +117,18 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 				SoundManager.PlayNetworkedAtPos(basicTile.SoundOnDestroy.RandomElement(), worldPosition);
 			}
 			data.RemoveTileDamage(Layer.LayerType);
-			tileChangeManager.MetaTileMap.RemoveTileWithlayer(data.Position, Layer.LayerType);
-			tileChangeManager.MetaTileMap.RemoveOverlaysOfType(data.Position, LayerType.Effects, OverlayType.Damage);
+			tileChangeManager.MetaTileMap.RemoveTileWithlayer(data.LocalPosition, Layer.LayerType);
+			tileChangeManager.MetaTileMap.RemoveOverlaysOfType(data.LocalPosition, LayerType.Effects, OverlayType.Damage);
 
 			if (Layer.LayerType == LayerType.Floors || Layer.LayerType == LayerType.Base)
 			{
-				tileChangeManager.MetaTileMap.RemoveOverlaysOfType(data.Position, LayerType.Floors, OverlayType.Cleanable);
+				tileChangeManager.MetaTileMap.RemoveOverlaysOfType(data.LocalPosition, LayerType.Floors, OverlayType.Cleanable);
 			}
 
 			if (Layer.LayerType == LayerType.Walls)
 			{
-				tileChangeManager.MetaTileMap.RemoveOverlaysOfType(data.Position, LayerType.Walls, OverlayType.Cleanable);
-				tileChangeManager.MetaTileMap.RemoveOverlaysOfType(data.Position, LayerType.Effects, OverlayType.Mining);
+				tileChangeManager.MetaTileMap.RemoveOverlaysOfType(data.LocalPosition, LayerType.Walls, OverlayType.Cleanable);
+				tileChangeManager.MetaTileMap.RemoveOverlaysOfType(data.LocalPosition, LayerType.Effects, OverlayType.Mining);
 			}
 
 			//Add new tile if needed
@@ -154,7 +154,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 					{
 						//Atm we just set remaining damage to 0, instead of absorbing it for the new tile
 						excessEnergy = 0;
-						tileChangeManager.MetaTileMap.SetTile(data.Position, tile);
+						tileChangeManager.MetaTileMap.SetTile(data.LocalPosition, tile);
 						break;
 					}
 
@@ -183,7 +183,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 				{
 					if (overlayData.damagePercentage <= totalDamageTaken / basicTile.MaxHealth)
 					{
-						tileChangeManager.MetaTileMap.AddOverlay(data.Position, overlayData.overlayTile);
+						tileChangeManager.MetaTileMap.AddOverlay(data.LocalPosition, overlayData.overlayTile);
 						break;
 					}
 				}

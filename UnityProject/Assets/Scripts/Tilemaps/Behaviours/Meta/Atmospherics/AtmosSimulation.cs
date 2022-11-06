@@ -220,8 +220,8 @@ namespace Systems.Atmospherics
 						windForce = absoluteDifference;
 					}
 
-					int neighborOffsetX = (neighbor.Position.x - node.Position.x);
-					int neighborOffsetY = (neighbor.Position.y - node.Position.y);
+					int neighborOffsetX = (neighbor.LocalPosition.x - node.LocalPosition.x);
+					int neighborOffsetY = (neighbor.LocalPosition.y - node.LocalPosition.y);
 
 					if (pressureDifference > 0)
 					{
@@ -476,13 +476,13 @@ namespace Systems.Atmospherics
 
 					if (gas.CustomColour)
 					{
-						node.PositionMatrix.MetaTileMap.AddOverlay(node.Position, gas.OverlayTile,
+						node.PositionMatrix.MetaTileMap.AddOverlay(node.LocalPosition, gas.OverlayTile,
 							color: gas.Colour, allowMultiple: gas.OverlayTile.OverlayType == OverlayType.Gas);
 
 						continue;
 					}
 
-					node.PositionMatrix.MetaTileMap.AddOverlay(node.Position, gas.OverlayTile);
+					node.PositionMatrix.MetaTileMap.AddOverlay(node.LocalPosition, gas.OverlayTile);
 				}
 				else
 				{
@@ -492,14 +492,14 @@ namespace Systems.Atmospherics
 
 					if (gas.CustomColour)
 					{
-						node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(node.Position, LayerType.Effects,
+						node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(node.LocalPosition, LayerType.Effects,
 							gas.OverlayTile.OverlayType,
 							matchColour: gas.Colour);
 
 						continue;
 					}
 
-					node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(node.Position, LayerType.Effects, gas.OverlayTile.OverlayType);
+					node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(node.LocalPosition, LayerType.Effects, gas.OverlayTile.OverlayType);
 				}
 			}
 		}
@@ -508,7 +508,7 @@ namespace Systems.Atmospherics
 		{
 			foreach (var gas in node.GasOverlayData)
 			{
-				node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(node.Position, LayerType.Effects, gas.OverlayTile.OverlayType);
+				node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(node.LocalPosition, LayerType.Effects, gas.OverlayTile.OverlayType);
 			}
 
 			node.GasOverlayData.Clear();
