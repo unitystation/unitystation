@@ -51,7 +51,7 @@ public class ClientSynchronisedEffectsManager : SingletonManager<ClientSynchroni
 
 	public void LeavingBody(uint BodyID)
 	{
-		if (Data.ContainsKey(BodyID) == false)
+		if (Data.ContainsKey(BodyID))
 		{
 			foreach (var BodyValues in Data[BodyID])
 			{
@@ -62,7 +62,7 @@ public class ClientSynchronisedEffectsManager : SingletonManager<ClientSynchroni
 
 	public void EnterBody(uint BodyID)
 	{
-		if (Data.ContainsKey(BodyID) == false)
+		if (Data.ContainsKey(BodyID))
 		{
 			foreach (var BodyValues in Data[BodyID])
 			{

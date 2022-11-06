@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 using Systems.Explosions;
 using NaughtyAttributes;
 
 namespace HealthV2
 {
-	public class BodyPartFunctionality : MonoBehaviour, IEmpAble
+	public class BodyPartFunctionality : NetworkBehaviour, IEmpAble
 	{
 
 		[NonSerialized]

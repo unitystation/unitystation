@@ -44,11 +44,7 @@ namespace Player
 
 		#region Defaults
 		private NightVisionGoggles.NightVisionData DefaultnightVisionState = new NightVisionGoggles.NightVisionData(b:true);
-		private bool DefaultBlind = false;
-		private uint DefaultBadEyesight = 0;
-		public ColourBlindMode DefaultColourblindness = ColourBlindMode.None;
 		private TRayScanner.Mode TRayDefaultcurrentMode = TRayScanner.Mode.Off;
-		private bool DefaultHasEyecorrection = false;
 		public MultiInterestBool XRay = new MultiInterestBool(); //This example if you have scenario where multiple things are interested in editing an ability
 
 		#endregion
@@ -61,14 +57,6 @@ namespace Player
 		[SyncVar(hook = nameof(SyncNightVision))]
 		private NightVisionGoggles.NightVisionData nightVisionState = new NightVisionGoggles.NightVisionData(b:true);
 
-		[SyncVar(hook = nameof(SyncBlindness))]
-		public bool isBlind = false; //TODO change to multi-interest bool, Is good enough for now, For multiple eyes
-
-		[SyncVar(hook = nameof(SyncBadEyesight))]
-		public uint BadEyesight = 0;
-
-		[SyncVar(hook = nameof(SyncColourBlindMode))]
-		public ColourBlindMode CurrentColourblindness = ColourBlindMode.None;
 
 		[SyncVar(hook = nameof(SyncXrayState))]
 		public bool SyncXRay = false;
@@ -80,8 +68,6 @@ namespace Player
 		private bool isAntag;
 		public bool IsAntag => isAntag;
 
-		[SyncVar(hook = nameof(SyncEyecorrection))]
-		public bool HasEyecorrection = false;
 
 
 		#endregion
@@ -124,10 +110,6 @@ namespace Player
 			TRaySyncMode(TRayScanner.Mode.Wires, Leaving ? TRayDefaultcurrentMode : TRayCurrentMode);
 			var nn = new NightVisionGoggles.NightVisionData(b: true) { isOn = true};
 			SyncNightVision(nn, Leaving ? DefaultnightVisionState : nightVisionState);
-			SyncBlindness(true, Leaving ? DefaultBlind : isBlind );
-			SyncBadEyesight(1, Leaving ? DefaultBadEyesight : BadEyesight);
-			SyncColourBlindMode(ColourBlindMode.Deuntan, Leaving ? DefaultColourblindness : CurrentColourblindness);
-			SyncEyecorrection(true,Leaving ? DefaultHasEyecorrection : HasEyecorrection );
 			OverrideLocalPlayer = false;
 		}
 
@@ -189,41 +171,6 @@ namespace Player
 			isAntag = newState;
 		}
 
-		public void SyncBlindness(bool NotSetValueServer, bool newState)
-		{
-			//0.65 = 15 By default
-			if ((NotSetValueServer == false && isServer))
-			{
-				isBlind = newState;
-			}
-
-			if (ClientForThisBody)
-			{
-				if (newState)
-				{
-					lightingSystem.fovDistance = 0.65f;
-				}
-				else
-				{
-					lightingSystem.fovDistance = 15;
-				}
-			}
-		}
-
-		public void SyncBadEyesight(uint NotSetValueServer, uint newState)
-		{
-			if ((NotSetValueServer == 0 && isServer))
-			{
-				BadEyesight = newState;
-			}
-
-			if (ClientForThisBody)
-			{
-				SetBlurryVisionState(HasEyecorrection, newState);
-
-			}
-		}
-
 
 		private void SyncXrayState(bool NotSetValueServer, bool newState)
 		{
@@ -243,35 +190,6 @@ namespace Player
 				{
 					lightingSystem.renderSettings.fovOcclusionSpread = 0;
 				}
-			}
-		}
-
-		public void SyncColourBlindMode(ColourBlindMode NotSetValueServer, ColourBlindMode newState)
-		{
-
-			if ((NotSetValueServer == ColourBlindMode.None && isServer))
-			{
-				CurrentColourblindness = newState;
-			}
-
-			if (ClientForThisBody)
-			{
-				cameraEffectControlScript.colourblindEmulationEffect.SetColourMode(newState);
-			}
-		}
-
-
-		public void SyncEyecorrection(bool NotSetValueServer, bool newState)
-		{
-			// fov Occlusion spread = 3 0 if off
-			if ((NotSetValueServer == false && isServer))
-			{
-				HasEyecorrection = newState;
-			}
-
-			if (ClientForThisBody)
-			{
-				SetBlurryVisionState(newState, BadEyesight);
 			}
 		}
 
@@ -327,20 +245,5 @@ namespace Player
 
 		#endregion
 
-
-		private void SetBlurryVisionState(bool InHasEyeCorrection, uint BlurryStrength)
-		{
-			if (ClientForThisBody)
-			{
-				if (InHasEyeCorrection)
-				{
-					cameraEffectControlScript.blurryVisionEffect.SetBlurStrength((int)BlurryStrength);
-				}
-				else
-				{
-					cameraEffectControlScript.blurryVisionEffect.SetBlurStrength(0);
-				}
-			}
-		}
 	}
 }

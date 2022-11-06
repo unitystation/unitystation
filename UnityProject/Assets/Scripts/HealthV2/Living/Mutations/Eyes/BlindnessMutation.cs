@@ -24,12 +24,12 @@ public class BlindnessMutation  : MutationSO
 		public override void SetUp()
 		{
 			RelatedEye = BodyPart.GetComponent<Eye>();
-			RelatedEye.VisionBlinded = true;
+			RelatedEye.isBlind = true;
 		}
 
 		public override void Remove()
 		{
-			RelatedEye.VisionBlinded = false;
+			RelatedEye.isBlind = false;
 		}
 
 	}

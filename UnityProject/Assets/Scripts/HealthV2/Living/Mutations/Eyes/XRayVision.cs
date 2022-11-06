@@ -24,12 +24,12 @@ public class XRayVision  : MutationSO
 		public override void SetUp()
 		{
 			RelatedEye = BodyPart.GetComponent<Eye>();
-			RelatedEye.HasXray.RecordPosition(this, true);
+			RelatedEye.HasXray = true;
 		}
 
 		public override void Remove()
 		{
-			RelatedEye.HasXray.RecordPosition(this, false);
+			RelatedEye.HasXray = false;
 		}
 
 	}

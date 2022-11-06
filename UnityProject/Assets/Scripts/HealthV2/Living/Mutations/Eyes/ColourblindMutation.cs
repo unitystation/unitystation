@@ -28,15 +28,13 @@ public class ColourblindMutation : MutationSO
 		public override void SetUp()
 		{
 			RelatedEye = BodyPart.GetComponent<Eye>();
-			RelatedEye.ColourBlindMode = RelatedEye.ColourBlindMode | Mode;
-			RelatedEye.UpdateColourblindValues();
+			RelatedEye.CurrentColourblindness = RelatedEye.CurrentColourblindness | Mode;
+
 		}
 
 		public override void Remove()
 		{
-			RelatedEye.ColourBlindMode = RelatedEye.ColourBlindMode & ~Mode;
-			RelatedEye.UpdateColourblindValues();
+			RelatedEye.CurrentColourblindness = RelatedEye.CurrentColourblindness & ~Mode;
 		}
-
 	}
 }

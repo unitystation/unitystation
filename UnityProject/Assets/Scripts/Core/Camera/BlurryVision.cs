@@ -8,8 +8,18 @@ public class BlurryVision : MonoBehaviour
 
 	[SerializeField] private int _BlurryStrength = 20;
 
+	private bool HasEyeCorrection = false;
+
+	public void SetHasEyeCorrection(bool InState)
+	{
+		HasEyeCorrection = InState;
+		this.enabled = true;
+	}
+
 	public void SetBlurStrength(int InStrength)
 	{
+
+
 		if (InStrength <= 0)
 		{
 			_BlurryStrength = 1;
@@ -24,6 +34,11 @@ public class BlurryVision : MonoBehaviour
 			}
 
 			_BlurryStrength = InStrength;
+		}
+
+		if (HasEyeCorrection == true)
+		{
+			this.enabled = false;
 		}
 	}
 

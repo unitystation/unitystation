@@ -39,7 +39,7 @@ namespace Messages.Server
 				{
 					Component.ClientOnPlayerTransferProcess();
 				}
-				ClientSynchronisedEffectsManager.Instance.EnterBody(msg.UnPossessingObject);
+				ClientSynchronisedEffectsManager.Instance.EnterBody(msg.PossessingObject);
 			}
 
 

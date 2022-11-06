@@ -8,28 +8,38 @@ public interface IClientSynchronisedEffect : IClientPlayerLeaveBody, IClientPlay
 
 	public bool IsOnLocalPlayer => OnPlayerID == PlayerManager.LocalPlayerScript.netId;
 
-	public void ClientOnPlayerLeaveBody()
+	void IClientPlayerLeaveBody.ClientOnPlayerLeaveBody()
 	{
 		ApplyDefaultOrCurrentValues(true);
 	}
 
-	public void ClientOnPlayerTransferProcess()
+	void IClientPlayerTransferProcess.ClientOnPlayerTransferProcess()
 	{
 		ApplyDefaultOrCurrentValues(false);
 	}
 
 	public void ApplyDefaultOrCurrentValues(bool Default);
 
-	public void SyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn)
+	public void SyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn);
+
+	public void ImplementationSyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn)
 	{
 		if (NetId.Empty != PreviouslyOn && NetId.Invalid != PreviouslyOn)
 		{
 			ClientSynchronisedEffectsManager.Instance.ClientUnRegisterOnBody(CurrentlyOn, this);
+			if (PlayerManager.LocalPlayerScript.netId == PreviouslyOn)
+			{
+				ApplyDefaultOrCurrentValues(true);
+			}
 		}
 
 		if (NetId.Empty != CurrentlyOn && NetId.Invalid != CurrentlyOn)
 		{
 			ClientSynchronisedEffectsManager.Instance.ClientRegisterOnBody(CurrentlyOn, this);
+			if (PlayerManager.LocalPlayerScript.netId == CurrentlyOn)
+			{
+				ApplyDefaultOrCurrentValues(false);
+			}
 		}
 
 	}

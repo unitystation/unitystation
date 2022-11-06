@@ -26,6 +26,13 @@ namespace CameraEffects
 		private const float TIMER_INTERVAL = 1f;
 		private float drunkCameraTime = 0;
 
+		public LightingSystem LightingSystem;
+		public void Awake()
+		{
+			LightingSystem = this.GetComponent<LightingSystem>();
+		}
+
+
 		private void OnEnable()
 		{
 			EventManager.AddHandler(Event.GhostSpawned, OnGhostSpawn);
