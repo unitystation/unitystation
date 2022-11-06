@@ -13,6 +13,9 @@ namespace CameraEffects
 		public GlitchEffect glitchEffect;
 		public NightVisionCamera nightVisionCamera;
 
+		public BlurryVision blurryVisionEffect;
+		public ColourblindEmulation colourblindEmulationEffect;
+
 		[SerializeField]
 		private GameObject minimalVisibilitySprite;
 
@@ -109,6 +112,8 @@ namespace CameraEffects
 			glitchEffect.enabled = false;
 			nightVisionCamera.enabled = false;
 			greyscaleCamera.enabled = false;
+			colourblindEmulationEffect.SetColourMode(ColourBlindMode.None);
+			blurryVisionEffect.SetBlurStrength(0);
 		}
 	}
 }

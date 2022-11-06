@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Messages.Server
 {
-	public class PossessAndUnpossess : ServerMessage<PossessAndUnpossess.NetMessage>
+	public class PossessAndUnpossessMessage : ServerMessage<PossessAndUnpossessMessage.NetMessage>
 	{
 		public struct NetMessage : NetworkMessage
 		{
@@ -28,6 +28,8 @@ namespace Messages.Server
 				{
 					Component.ClientOnPlayerLeaveBody();
 				}
+				ClientSynchronisedEffectsManager.Instance.LeavingBody(msg.UnPossessingObject);
+
 			}
 
 			if (NetworkObjects[1] != null)
@@ -37,6 +39,7 @@ namespace Messages.Server
 				{
 					Component.ClientOnPlayerTransferProcess();
 				}
+				ClientSynchronisedEffectsManager.Instance.EnterBody(msg.UnPossessingObject);
 			}
 
 

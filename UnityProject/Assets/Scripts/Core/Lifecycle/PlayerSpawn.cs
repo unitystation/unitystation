@@ -647,7 +647,7 @@ public static class PlayerSpawn
 		{
 			FollowCameraMessage.Send(newBody, playerObjectBehavior.ContainedInContainer.gameObject);
 		}
-		PossessAndUnpossess.Send(newBody,newBody, oldBody);
+		PossessAndUnpossessMessage.Send(newBody,newBody, oldBody);
 		var transfers = newBody.GetComponents<IOnPlayerTransfer>();
 		foreach (var transfer in transfers)
 		{

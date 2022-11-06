@@ -556,6 +556,8 @@ GameObject:
   - component: {fileID: 5935000786866830145}
   - component: {fileID: 4441493179746393366}
   - component: {fileID: 7171882492086519817}
+  - component: {fileID: 7964655504328845500}
+  - component: {fileID: 8481840996761083126}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -768,6 +770,8 @@ MonoBehaviour:
   greyscaleCamera: {fileID: 7171882492086519817}
   glitchEffect: {fileID: 1578675351978633491}
   nightVisionCamera: {fileID: 1620099701739618863}
+  blurryVisionEffect: {fileID: 0}
+  colourblindEmulationEffect: {fileID: 0}
   minimalVisibilitySprite: {fileID: 1917856994}
   maxDrunkTime: 120
   maxFlashTime: 25
@@ -825,6 +829,34 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: aad05d4fe726a4ae4bddf6f152db8fe6, type: 2}
   amount: 0
   tint: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &7964655504328845500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365047106309440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7b73f854890209498f5b76b8c766865, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: {fileID: 2100000, guid: 7fa8fb6e8d18c1b4881342a9d4f6b7a7, type: 2}
+  _BlurryStrength: 20
+--- !u!114 &8481840996761083126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365047106309440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85d63a13c98f9894caccf10763d28c84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: {fileID: 2100000, guid: 99ecfeede2d287d4eb583cf0f6914645, type: 2}
+  CurrentColourMode: 1
 --- !u!1 &1456048741972242
 GameObject:
   m_ObjectHideFlags: 0

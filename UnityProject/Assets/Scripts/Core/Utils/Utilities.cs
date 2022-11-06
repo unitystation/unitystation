@@ -22,11 +22,11 @@ namespace Core.Utils
 
 		[SerializeField] private bool InitialState;
 
-		public Dictionary<Component, bool> InterestedParties = new Dictionary<Component ,bool>();
+		public Dictionary<object, bool> InterestedParties = new Dictionary<object ,bool>();
 
 		public BoolEvent OnBoolChange;
 
-		public void RecordPosition(Component Instance, bool Position)
+		public void RecordPosition(object Instance, bool Position)
 		{
 			if (Position)
 			{
