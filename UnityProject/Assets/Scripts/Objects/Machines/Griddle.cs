@@ -187,11 +187,18 @@ namespace Objects.Kitchen
 		{
 			if (newState)
 			{
+				if (string.IsNullOrEmpty(runLoopGUID) == false)
+				{
+					SoundManager.Stop(runLoopGUID);
+					runLoopGUID = "";
+				}
+
 				StartCoroutine(DelayGriddleRunningSfx());
 			}
 			else
 			{
 				SoundManager.Stop(runLoopGUID);
+				runLoopGUID = "";
 			}
 		}
 
