@@ -97,7 +97,7 @@ namespace Unitystation.Options
         public void ClassicHoverTooltipToggle(bool toggle)
         {
 	        var result = enableClassicHoverTooltip.isOn ? 1 : 0;
-	        UIManager.Instance.TooltipHoverManager.SetActiveTransform(enableClassicHoverTooltip.isOn);
+	        UIManager.Instance.PanelTooltipManager.SetActiveTransform(enableClassicHoverTooltip.isOn);
 	        PlayerPrefs.SetInt(PlayerPrefKeys.EnableClassicHoverTooltip, result);
 	        PlayerPrefs.Save();
         }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
-	public class TooltipHoverManager : MonoBehaviour
+	public class PanelTooltipManager : MonoBehaviour
 	{
 		private Transform activeTooltip;
 		[SerializeField] private TMP_Text defaultTooltip;
