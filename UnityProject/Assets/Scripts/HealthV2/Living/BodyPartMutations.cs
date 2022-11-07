@@ -377,8 +377,11 @@ public class BodyPartMutations : BodyPartFunctionality
 
 		public void RerollDifficulty()
 		{
+
+			this.RoundID = GameManager.RoundID;
 			if (MutationSO != null)
 			{
+
 				SliderMiniGame = new SliderMiniGameData();
 				this.ResearchDifficult =
 					Mathf.RoundToInt((MutationSO.ResearchDifficult *
@@ -390,7 +393,8 @@ public class BodyPartMutations : BodyPartFunctionality
 					Mathf.RoundToInt((MutationSO.Stability *
 					                  Random.Range(0.5f, 1.5f))); //TODO Change to percentage-based system?
 
-				PopulateSliderMiniGame(SliderMiniGame, ResearchDifficult, MutationSO.CanRequireLocks);
+				return;
+				PopulateSliderMiniGame(SliderMiniGame, ResearchDifficult, MutationSO.CanRequireLocks); //TODO Work out why this is causes a Freeze
 			}
 			else
 			{
@@ -398,7 +402,7 @@ public class BodyPartMutations : BodyPartFunctionality
 				SudokuPuzzle = SGen.generate("easy");
 			}
 
-			this.RoundID = GameManager.RoundID;
+
 		}
 
 		public class SliderParameters
