@@ -393,8 +393,7 @@ public class BodyPartMutations : BodyPartFunctionality
 					Mathf.RoundToInt((MutationSO.Stability *
 					                  Random.Range(0.5f, 1.5f))); //TODO Change to percentage-based system?
 
-				return;
-				PopulateSliderMiniGame(SliderMiniGame, ResearchDifficult, MutationSO.CanRequireLocks); //TODO Work out why this is causes a Freeze
+				PopulateSliderMiniGame(SliderMiniGame, ResearchDifficult, MutationSO.CanRequireLocks);
 			}
 			else
 			{
