@@ -239,11 +239,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92a26da98f532de4d9524a6148599435, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   isEMPVunerable: 0
   EMPResistance: 2
   Pickupable: {fileID: 0}
-  HasXray:
-    InitialState: 0
-    OnBoolChange:
-      m_PersistentCalls:
-        m_Calls: []
+  BaseBlurryVision: 0
+  OnBodyID: 0
+  isBlind: 0
+  DefaultisBlind: 0
+  BadEyesight: 0
+  CurrentColourblindness: 0
+  DefaultColourblindness: 0
+  HasXray: 0
+  DefaultHasXray: 0

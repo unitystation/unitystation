@@ -54,6 +54,7 @@ public class Eye : BodyPartFunctionality, IItemInOutMovedPlayer, IClientSynchron
 	{
 		Pickupable = this.GetComponent<Pickupable>();
 		RelatedPart.ModifierChange += UpdateBlurryEye;
+		UpdateBlurryEye();
 	}
 
 

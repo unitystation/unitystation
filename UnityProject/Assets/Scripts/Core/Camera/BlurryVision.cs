@@ -13,7 +13,7 @@ public class BlurryVision : MonoBehaviour
 	public void SetHasEyeCorrection(bool InState)
 	{
 		HasEyeCorrection = InState;
-		this.enabled = true;
+		this.enabled = !HasEyeCorrection;
 	}
 
 	public void SetBlurStrength(int InStrength)
