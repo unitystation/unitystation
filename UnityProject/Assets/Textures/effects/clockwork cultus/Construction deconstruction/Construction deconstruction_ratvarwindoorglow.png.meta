@@ -207,7 +207,7 @@ TextureImporter:
       213: 21300134
     second: ratvarwindoorglow_67
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -267,6 +267,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -282,6 +283,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1761,8 +1774,8 @@ TextureImporter:
       ratvarwindoorglow_52: 21300104
       ratvarwindoorglow_55: 21300110
       ratvarwindoorglow_28: 21300056
-      ratvarwindoorglow_50: 21300100
       ratvarwindoorglow_11: 21300022
+      ratvarwindoorglow_39: 21300078
       ratvarwindoorglow_33: 21300066
       ratvarwindoorglow_41: 21300082
       ratvarwindoorglow_18: 21300036
@@ -1772,7 +1785,7 @@ TextureImporter:
       ratvarwindoorglow_34: 21300068
       ratvarwindoorglow_5: 21300010
       ratvarwindoorglow_53: 21300106
-      ratvarwindoorglow_39: 21300078
+      ratvarwindoorglow_50: 21300100
       ratvarwindoorglow_22: 21300044
       ratvarwindoorglow_23: 21300046
       ratvarwindoorglow_45: 21300090

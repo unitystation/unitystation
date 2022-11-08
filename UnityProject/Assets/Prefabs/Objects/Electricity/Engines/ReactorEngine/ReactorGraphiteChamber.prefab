@@ -183,7 +183,6 @@ MonoBehaviour:
   maxCapacity: 100
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   AdditionalReactions: []
-  canPourOut: 1
   initialReagentMix:
     temperature: 293.15
     reagents:
@@ -194,6 +193,7 @@ MonoBehaviour:
     reagentKeys: []
   destroyOnEmpty: 0
   ContentsSet: 0
+  menuOptions: -1
   UseStandardExamine: 1
   ExamineAmount: 0
   ExamineContent: 0
@@ -264,18 +264,22 @@ MonoBehaviour:
     Connections:
       Directions:
       - Bool: 1
+        MappedNeeded: 0
         pipeType: 1
         PortType: 3
         flagLogic: 0
       - Bool: 1
+        MappedNeeded: 0
         pipeType: 1
         PortType: 3
         flagLogic: 0
       - Bool: 1
+        MappedNeeded: 0
         pipeType: 1
         PortType: 3
         flagLogic: 0
       - Bool: 1
+        MappedNeeded: 0
         pipeType: 1
         PortType: 3
         flagLogic: 0
@@ -293,7 +297,6 @@ MonoBehaviour:
           GasesArray: []
         Pressure: 0
         Volume: 50
-        Temperature: 0
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
   spawnedFromItem: 1

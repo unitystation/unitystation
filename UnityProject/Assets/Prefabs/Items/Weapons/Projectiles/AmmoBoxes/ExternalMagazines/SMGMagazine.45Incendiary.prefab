@@ -93,7 +93,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 547695014460451413}
+      objectReference: {fileID: 0}
     - target: {fileID: 7693090758407741829, guid: 251c85198dd9873499087ca7a48dd1f7,
         type: 3}
       propertyPath: m_Sprite
@@ -107,15 +107,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 251c85198dd9873499087ca7a48dd1f7, type: 3}
---- !u!114 &547695014460451413 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7613057632381075209, guid: 251c85198dd9873499087ca7a48dd1f7,
-    type: 3}
-  m_PrefabInstance: {fileID: 7944013438262220124}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

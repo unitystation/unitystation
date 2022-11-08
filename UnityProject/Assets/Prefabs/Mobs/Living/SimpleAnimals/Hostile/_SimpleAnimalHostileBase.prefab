@@ -99,6 +99,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 243a3c078e195af4dadbc9f673627997, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
   mobName: =
   registerObject: {fileID: 0}
   deathSounds: []
@@ -107,6 +110,7 @@ MonoBehaviour:
   randomSoundProbability: 0
   searchTickRate: 0.5
   currentStatus: 0
+  ScoreForKilling: 5
 --- !u!114 &9122004212597972209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,7 +123,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 857bf8f3709511b4fb9178b76caed382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UniversalObjectPhysics: {fileID: 0}
   AllowDead: 0
   AllowUnconscious: 0
   Priority: 0

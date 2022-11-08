@@ -749,6 +749,7 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+  CannotBeInteractedWithWhenClosed: 0
 --- !u!114 &-3721001473523075953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -808,11 +809,11 @@ MonoBehaviour:
         Moles: 33.256973
     Pressure: 101.32501
     Volume: 1
-    Temperature: 293.15
   MaximumMoles: 1013.25
   ReleasePressure: 101.325
   Volume: 1
   Temperature: 293.15
+  CargoSealApproved: 0
 --- !u!114 &6872015153723498109
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -126,7 +126,7 @@ TextureImporter:
       213: 21300080
     second: tele1-old_40
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -186,6 +186,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -201,6 +202,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1086,7 +1099,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      tele1-old_36: 21300072
+      tele1-old_30: 21300060
       tele1-old_4: 21300008
       tele1-old_6: 21300012
       tele1-old_35: 21300070
@@ -1095,7 +1108,6 @@ TextureImporter:
       tele1-old_27: 21300054
       tele1-old_14: 21300028
       tele1-old_0: 21300000
-      tele1-old_30: 21300060
       tele1-old_21: 21300042
       tele1-old_20: 21300040
       tele1-old_26: 21300052
@@ -1124,8 +1136,9 @@ TextureImporter:
       tele1-old_25: 21300050
       tele1-old_9: 21300018
       tele1-old_15: 21300030
-      tele1-old_24: 21300048
       tele1-old_34: 21300068
+      tele1-old_36: 21300072
+      tele1-old_24: 21300048
       tele1-old_29: 21300058
   spritePackingTag: 
   pSDRemoveMatte: 0

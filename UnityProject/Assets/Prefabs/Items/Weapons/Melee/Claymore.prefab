@@ -27,7 +27,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 7044709586596992935}
+      objectReference: {fileID: 0}
     - target: {fileID: 5813171673551889485, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
       propertyPath: Armor.Acid
@@ -278,15 +278,3 @@ MonoBehaviour:
   hidesSlots: 0
   hideClothingFlags: 0
   disallowConsume: 0
---- !u!114 &7044709586596992935 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5810370872256092265, guid: 93af1c166793efb498012ddc7370f8ec,
-    type: 3}
-  m_PrefabInstance: {fileID: 3558199455230382030}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6941869242834729591}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

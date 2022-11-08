@@ -185,7 +185,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 6961596275498819311}
+      objectReference: {fileID: 0}
     - target: {fileID: 8521467601672753390, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
       propertyPath: m_AssetId
@@ -311,18 +311,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6961596275498819311 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8521883043285352586, guid: 3e5919f639f566c4590d07d54ef256dd,
-    type: 3}
-  m_PrefabInstance: {fileID: 1648108108435218021}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6992156924195287871}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6992156924195287871 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8635195139948178778, guid: 3e5919f639f566c4590d07d54ef256dd,
@@ -347,13 +335,14 @@ MonoBehaviour:
   Frequency: 122
   Emitter: {fileID: 0}
   DelayTime: 3
-  EncryptionData: {fileID: 0}
+  PassCode: 0
   ListenToEncryptedData: 0
   explosiveType: 0
   detonateImmediatelyOnSignal: 0
   timeToDetonate: 10
   minimumTimeToDetonate: 10
   explosiveStrength: 150
+  explosiveRadius: 150
   activeSpriteSO: {fileID: 0}
   beepSound:
     SetLoadSetting: 0

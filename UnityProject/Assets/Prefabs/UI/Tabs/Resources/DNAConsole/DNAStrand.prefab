@@ -195,6 +195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IDTarget: 0
   TransformToSet: {fileID: 4173086652652354192}
+  Initialised: 0
   CurrentLocation: 0
   DEBUG_ID: 0
 --- !u!1 &2616957140965542288
@@ -444,6 +445,7 @@ MonoBehaviour:
     CustomisationTarget: 
     CustomisationReplaceWith: 
     TargetMutationSO: {fileID: 0}
+    RemoveTargetMutationSO: {fileID: 0}
     SpeciesMutateTo: {fileID: 0}
     MutateToBodyPart: {fileID: 0}
   target: 

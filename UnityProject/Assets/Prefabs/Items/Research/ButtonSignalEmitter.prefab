@@ -64,7 +64,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 3690399637724710981}
+      objectReference: {fileID: 0}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_Sprite
@@ -146,20 +146,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  signalData: {fileID: 11400000, guid: 6980af798d7f70544a57c269b32d5334, type: 2}
-  encryptionData: {fileID: 0}
+  emmitableSignalData: []
+  passCode: 0
   frequency: 122
   requiresPower: 0
   isPowered: 1
---- !u!114 &3690399637724710981 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114341119007412586, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 3648151331491256623}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3648832323169248661}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  canExamineFrequency: 0

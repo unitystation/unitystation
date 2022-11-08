@@ -62,10 +62,6 @@ Preset:
     value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: StoredGasMix.Temperature
-    value: 293.15
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
     propertyPath: MaximumMoles
     value: 1013.25
     objectReference: {fileID: 0}
@@ -80,5 +76,9 @@ Preset:
   - target: {fileID: 0}
     propertyPath: Temperature
     value: 293.15
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: CargoSealApproved
+    value: 0
     objectReference: {fileID: 0}
   m_ExcludedProperties: []

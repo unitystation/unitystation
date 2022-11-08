@@ -20,6 +20,7 @@ MonoBehaviour:
     buildTime: 25
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Reactor Turbine
     prefab: {fileID: 4097072626232324428, guid: 8c393ccc08d534149b66f4fe18918959,
       type: 3}
@@ -27,6 +28,7 @@ MonoBehaviour:
     buildTime: 10
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Ai Core Frame
     prefab: {fileID: 9212783838044624069, guid: 2f2e6aac51ae2974b9d8b337462d6611,
       type: 3}
@@ -34,3 +36,4 @@ MonoBehaviour:
     buildTime: 10
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0

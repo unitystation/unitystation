@@ -20,6 +20,7 @@ MonoBehaviour:
     buildTime: 2
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: HoS Statue
     prefab: {fileID: 7016939777019546409, guid: d73ddf14873d35f4e89898f78c1fd0bb,
       type: 3}
@@ -27,6 +28,7 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: HoP Statue
     prefab: {fileID: 7016939777019546409, guid: 82697307f09c733488bcd8e43a02759c,
       type: 3}
@@ -34,6 +36,7 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: CE Statue
     prefab: {fileID: 7016939777019546409, guid: 26a2eb06d3764614c9aac23a89e13a7c,
       type: 3}
@@ -41,6 +44,7 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: RD Statue
     prefab: {fileID: 7016939777019546409, guid: 6dfa19fe05354624ea30219aedb16ba8,
       type: 3}
@@ -48,6 +52,7 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: CMO Statue
     prefab: {fileID: 7016939777019546409, guid: b32612aa997403e42bb3f1e6e35e577b,
       type: 3}
@@ -55,6 +60,7 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Gold Airlock Assembly
     prefab: {fileID: 3646239580404599947, guid: 40fe2c395e1394b42930afa73dad23a2,
       type: 3}
@@ -62,3 +68,4 @@ MonoBehaviour:
     buildTime: 5
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0

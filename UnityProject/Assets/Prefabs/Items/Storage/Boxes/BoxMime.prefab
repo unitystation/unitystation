@@ -199,18 +199,6 @@ SpriteRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 4991786853530350121}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8521883043285352586 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3676534646001562275, guid: e46ba34aab52d654787ef10d896b0874,
-    type: 3}
-  m_PrefabInstance: {fileID: 4991786853530350121}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8635195139948178778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8635195139948178778 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3643415983708594035, guid: e46ba34aab52d654787ef10d896b0874,
@@ -265,4 +253,4 @@ MonoBehaviour:
   pickupAnimSpeed: 0.2
   ItemAttributesV2: {fileID: 0}
   boxSpriteColor: {fileID: 7428690068708387878}
-  netTransform: {fileID: 8521883043285352586}
+  ObjectPhysics: {fileID: 0}

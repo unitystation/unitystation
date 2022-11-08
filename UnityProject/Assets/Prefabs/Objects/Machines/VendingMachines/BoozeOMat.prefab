@@ -17,7 +17,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 3703115102036861195}
+      objectReference: {fileID: 0}
     - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: Color.b
@@ -879,15 +879,3 @@ PrefabInstance:
     - {fileID: 1251273808921218093, guid: 2f2954acc32d9d3468c620e34a625966, type: 3}
     - {fileID: 4299547928631692446, guid: 2f2954acc32d9d3468c620e34a625966, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2f2954acc32d9d3468c620e34a625966, type: 3}
---- !u!114 &3703115102036861195 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6242771694550898968, guid: 2f2954acc32d9d3468c620e34a625966,
-    type: 3}
-  m_PrefabInstance: {fileID: 7333791311198910483}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

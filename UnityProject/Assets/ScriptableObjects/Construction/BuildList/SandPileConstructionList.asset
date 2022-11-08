@@ -20,6 +20,7 @@ MonoBehaviour:
     buildTime: 0
     spawnAmount: 1
     onePerTile: 0
+    facePlayerDirectionOnConstruction: 0
   - name: Sandstone
     prefab: {fileID: 2351081241306927526, guid: 3d84de77e83e1134ea51dd84d20bc84b,
       type: 3}
@@ -27,3 +28,4 @@ MonoBehaviour:
     buildTime: 0
     spawnAmount: 1
     onePerTile: 0
+    facePlayerDirectionOnConstruction: 0

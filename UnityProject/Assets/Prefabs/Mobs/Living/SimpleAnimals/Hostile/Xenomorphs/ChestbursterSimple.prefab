@@ -216,6 +216,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2287edb10a0f4d21a75b58f179a7e673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
   mobName: chestburster
   registerObject: {fileID: 0}
   minTimeBetweenRandomActions: 10

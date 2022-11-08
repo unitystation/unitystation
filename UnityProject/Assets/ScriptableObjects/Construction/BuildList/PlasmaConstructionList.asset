@@ -20,15 +20,18 @@ MonoBehaviour:
     buildTime: 2
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Scientist Statue
     prefab: {fileID: 956989940311841497, guid: 502fa3c7c8dfc574caf0a03cd404df5b, type: 3}
     cost: 5
     buildTime: 1
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Plasma Airlock Assembly
     prefab: {fileID: 7956809769790157, guid: 75806ce4b3660464ca697ffd82820f16, type: 3}
     cost: 4
     buildTime: 5
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0

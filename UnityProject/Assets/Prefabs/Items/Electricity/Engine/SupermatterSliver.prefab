@@ -64,7 +64,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 102810814070669430}
+      objectReference: {fileID: 0}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_Sprite
@@ -174,15 +174,3 @@ MonoBehaviour:
   supermatterScalpel: {fileID: 11400000, guid: 635f2dad6ee0ce749a89253fd4a13f8f, type: 2}
   supermatterTongs: {fileID: 11400000, guid: 2c4443ad77d74b54a9a305c240a8a850, type: 2}
   vaporizeWhenPickedUp: 1
---- !u!114 &102810814070669430 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114341119007412586, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 70783536388903196}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 70068185008237990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

@@ -552,7 +552,7 @@ TextureImporter:
       213: 21300364
     second: ai-database_182
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -612,6 +612,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -635,6 +636,18 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
@@ -4585,9 +4598,9 @@ TextureImporter:
       ai-database_63: 21300126
       ai-database_155: 21300310
       ai-database_72: 21300144
-      ai-database_57: 21300114
       ai-database_83: 21300166
       ai-database_48: 21300096
+      ai-database_57: 21300114
       ai-database_93: 21300186
       ai-database_38: 21300076
       ai-database_142: 21300284

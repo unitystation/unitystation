@@ -51,7 +51,7 @@ TextureImporter:
       213: 21300030
     second: eye5_15
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -111,6 +111,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -126,6 +127,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -486,8 +499,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      eye5_3: 21300006
       eye5_10: 21300020
+      eye5_13: 21300026
       eye5_15: 21300030
       eye5_11: 21300022
       eye5_2: 21300004
@@ -501,7 +514,7 @@ TextureImporter:
       eye5_14: 21300028
       eye5_12: 21300024
       eye5_1: 21300002
-      eye5_13: 21300026
+      eye5_3: 21300006
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

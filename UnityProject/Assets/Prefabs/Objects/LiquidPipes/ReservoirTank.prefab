@@ -241,18 +241,22 @@ MonoBehaviour:
     Connections:
       Directions:
       - Bool: 1
+        MappedNeeded: 0
         pipeType: 1
         PortType: 3
         flagLogic: 0
       - Bool: 1
+        MappedNeeded: 0
         pipeType: 1
         PortType: 3
         flagLogic: 0
       - Bool: 1
+        MappedNeeded: 0
         pipeType: 1
         PortType: 3
         flagLogic: 0
       - Bool: 1
+        MappedNeeded: 0
         pipeType: 1
         PortType: 3
         flagLogic: 0
@@ -270,7 +274,6 @@ MonoBehaviour:
           GasesArray: []
         Pressure: 0
         Volume: 300
-        Temperature: 0
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
   spawnedFromItem: 0

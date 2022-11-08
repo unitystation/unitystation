@@ -183,7 +183,7 @@ TextureImporter:
       213: 21300118
     second: ai-not_malf_59
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -243,6 +243,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -258,6 +259,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1542,7 +1555,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ai-not_malf_14: 21300028
+      ai-not_malf_48: 21300096
       ai-not_malf_25: 21300050
       ai-not_malf_28: 21300056
       ai-not_malf_17: 21300034
@@ -1596,8 +1609,8 @@ TextureImporter:
       ai-not_malf_27: 21300054
       ai-not_malf_4: 21300008
       ai-not_malf_9: 21300018
-      ai-not_malf_48: 21300096
       ai-not_malf_18: 21300036
+      ai-not_malf_14: 21300028
       ai-not_malf_12: 21300024
       ai-not_malf_58: 21300116
       ai-not_malf_34: 21300068

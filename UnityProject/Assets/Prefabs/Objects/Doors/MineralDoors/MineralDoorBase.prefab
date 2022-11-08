@@ -166,18 +166,6 @@ PrefabInstance:
     - {fileID: 929166672355850642, guid: a7af28adb717b4c44b8b2002b27670bd, type: 3}
     - {fileID: 3920465809857098496, guid: a7af28adb717b4c44b8b2002b27670bd, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a7af28adb717b4c44b8b2002b27670bd, type: 3}
---- !u!114 &6619846279543070993 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6673231170480590552, guid: a7af28adb717b4c44b8b2002b27670bd,
-    type: 3}
-  m_PrefabInstance: {fileID: 523120671028703177}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8321180160226194963}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!210 &6752860069303042723 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 6554009657133641066, guid: a7af28adb717b4c44b8b2002b27670bd,
@@ -259,7 +247,6 @@ MonoBehaviour:
   openingDirection: 1
   BlockAutoClose: 0
   conType: 0
-  requireLink: 0
 --- !u!114 &5000544461018017584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,7 +263,6 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
-  customNetTransform: {fileID: 6619846279543070993}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 6752860069303042723}
   OneDirectionRestricted: 0

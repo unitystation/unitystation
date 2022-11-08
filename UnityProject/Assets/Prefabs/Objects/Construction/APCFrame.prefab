@@ -180,7 +180,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 3114275197671711096}
+      objectReference: {fileID: 0}
     - target: {fileID: 7207864184339415129, guid: aa11b93feb043fe4e84e2f313cc41f6b,
         type: 3}
       propertyPath: variantIndex
@@ -288,15 +288,3 @@ MonoBehaviour:
   powerCellTrait: {fileID: 11400000, guid: 6dfa39f936b18f24b833015a255aa6f2, type: 2}
   APCObject: {fileID: 1238849902553559639, guid: cd57203a8d3f54f478446e9b0ced6cf9,
     type: 3}
---- !u!114 &3114275197671711096 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1077245195182423425, guid: aa11b93feb043fe4e84e2f313cc41f6b,
-    type: 3}
-  m_PrefabInstance: {fileID: 2723274827263646969}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 260239628808517242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

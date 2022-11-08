@@ -94,6 +94,11 @@ PrefabInstance:
       propertyPath: visibleName
       value: electrode
       objectReference: {fileID: 0}
+    - target: {fileID: 3552370236935891446, guid: b343aea0e51a4c44694589195b8eae77,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 706335ffb89baf6489ccf920550be6f2
+      objectReference: {fileID: 0}
     - target: {fileID: 4204988295596267492, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
       propertyPath: damageData
@@ -134,6 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stunTime: 10
+  passThroughStunImmunity: 1
   willDisarm: 1
   doMsg: 0
 --- !u!114 &3333492289853661819

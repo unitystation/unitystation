@@ -58,6 +58,7 @@ MonoBehaviour:
   maskData: {fileID: 11400000, guid: b3e8cb63acff04f4d9bad4da9027eb40, type: 2}
   overrideVelocity: 0
   projectileVelocity: 10
+  playerThatCanBeHit: 17
 --- !u!114 &1766684164047083533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,6 +84,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2379d2d504b14845bee1cee3c724e068, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   decal: {fileID: 0}
   animationTime: 0
 --- !u!114 &-6130738676024284386

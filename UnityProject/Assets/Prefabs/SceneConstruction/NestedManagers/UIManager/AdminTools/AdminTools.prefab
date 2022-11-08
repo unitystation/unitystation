@@ -26310,7 +26310,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disableDrag: 0
-  resetPositionOnDisable: 0
 --- !u!114 &4609798627864353431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34084,7 +34083,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d9f51d0745043e1b11b3b84a071628a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedPlayer: {fileID: 0}
+  selectedPlayerId: 
   recommendedGameObjects:
   - {fileID: 2176312772723587003, guid: 5922881ffc5c59842906e74798fa92bd, type: 3}
   - {fileID: 3891794331420956168, guid: 83772d2b0ee9c83478fa7d51322a20c2, type: 3}

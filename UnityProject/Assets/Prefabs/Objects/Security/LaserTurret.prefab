@@ -343,7 +343,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   restriction: 68
-  clearanceRestriction: 0
 --- !u!114 &1598609385433514140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,12 +382,10 @@ MonoBehaviour:
   ballisticTurret: 0
   turretType: 0
   CheckWeaponAuthorisation: 0
-  weaponAuthorisation: 4400000026000000
   weaponAuthorisationClearance: 0100000012000000
   CheckSecurityRecords: 1
   CheckForArrest: 1
   CheckUnauthorisedPersonnel: 0
-  authorisedAccess: 4400000026000000
   authorisedClearance: 0100000012000000
   CheckUnidentifiedLifeSigns: 1
 --- !u!114 &2506153195070795302
@@ -427,6 +424,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   NetTabType: 43
   aiInteractable: 1
 --- !u!114 &7993706743923889274

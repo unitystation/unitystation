@@ -350,6 +350,20 @@ MonoBehaviour:
   spriteHandler: {fileID: 1571885001693191996}
   LifeSpan: 120
   DecayStage: 0
+--- !u!114 &2470738887091473948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4654023963797447867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d441a849270a4a818e3af39cdef5ea69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
+  PercentageChance: 100
 --- !u!114 &7436046127837037394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,6 +395,7 @@ MonoBehaviour:
   syncInterval: 0.1
   LightEmission: {fileID: 0}
   objectLightEmission: {fileID: 1721959618401343147}
+  CommonComponents: {fileID: 0}
   Intensity: 0.7
   Colour: {r: 0.94509804, g: 0.9372549, b: 0.63529414, a: 1}
   EnumSprite: 0
@@ -391,17 +406,3 @@ MonoBehaviour:
     Colour: {r: 0, g: 0, b: 0, a: 0}
     EnumSprite: 0
     Size: 12
---- !u!114 &2470738887091473948
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4654023963797447867}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d441a849270a4a818e3af39cdef5ea69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SpeedMultiplier: 1
-  PercentageChance: 100

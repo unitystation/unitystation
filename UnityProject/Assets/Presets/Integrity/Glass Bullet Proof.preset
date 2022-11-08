@@ -106,7 +106,15 @@ Preset:
     value: 100
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: Armor.Anomaly
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: Armor.DismembermentProtectionChance
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: Armor.StunImmunity
     value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
@@ -152,9 +160,5 @@ Preset:
   - target: {fileID: 0}
     propertyPath: doDamageMessage
     value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: Meleeable
-    value: 
     objectReference: {fileID: 0}
   m_ExcludedProperties: []

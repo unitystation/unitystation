@@ -20,6 +20,7 @@ MonoBehaviour:
     buildTime: 2
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Captain Statue
     prefab: {fileID: 4112501916242032197, guid: 8f82edb9563c8d049a32cc719373b968,
       type: 3}
@@ -27,6 +28,7 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: AI Hologram Statue
     prefab: {fileID: 4112501916242032197, guid: f1d07b498e910c843a51e980abf2f4ad,
       type: 3}
@@ -34,6 +36,7 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: AI Core Statue
     prefab: {fileID: 4112501916242032197, guid: 3ae072a4c6caca94cae75f843bbb6fae,
       type: 3}
@@ -41,6 +44,7 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Diamond Airlock Assembly
     prefab: {fileID: 2811884589614058998, guid: a82c832843219c9409f504284d6853cb,
       type: 3}
@@ -48,3 +52,4 @@ MonoBehaviour:
     buildTime: 5
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0

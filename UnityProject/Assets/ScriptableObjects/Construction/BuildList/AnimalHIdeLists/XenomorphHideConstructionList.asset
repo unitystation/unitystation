@@ -20,6 +20,7 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 1
     onePerTile: 0
+    facePlayerDirectionOnConstruction: 0
   - name: Xenomorph Suit
     prefab: {fileID: 8692312474163079720, guid: abf7bb14e7246ab4ab436a21d5e20ce6,
       type: 3}
@@ -27,3 +28,4 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 1
     onePerTile: 0
+    facePlayerDirectionOnConstruction: 0

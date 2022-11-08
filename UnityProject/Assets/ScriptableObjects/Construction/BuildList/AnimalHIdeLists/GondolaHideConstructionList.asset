@@ -20,6 +20,7 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 1
     onePerTile: 0
+    facePlayerDirectionOnConstruction: 0
   - name: Gondola Suit
     prefab: {fileID: 3011710637427380133, guid: 35a07bc0cd215c24888e3ed416359c43,
       type: 3}
@@ -27,3 +28,4 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 1
     onePerTile: 0
+    facePlayerDirectionOnConstruction: 0

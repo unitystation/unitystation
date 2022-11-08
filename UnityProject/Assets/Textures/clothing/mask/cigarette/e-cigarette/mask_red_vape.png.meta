@@ -99,7 +99,7 @@ TextureImporter:
       213: 21300062
     second: red_vape_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -159,6 +159,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -174,6 +175,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -871,7 +884,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       red_vape_27: 21300054
-      red_vape_22: 21300044
+      red_vape_25: 21300050
       red_vape_9: 21300018
       red_vape_31: 21300062
       red_vape_7: 21300014
@@ -897,11 +910,11 @@ TextureImporter:
       red_vape_26: 21300052
       red_vape_16: 21300032
       red_vape_0: 21300000
-      red_vape_25: 21300050
       red_vape_28: 21300056
-      red_vape_18: 21300036
-      red_vape_23: 21300046
+      red_vape_22: 21300044
       red_vape_20: 21300040
+      red_vape_23: 21300046
+      red_vape_18: 21300036
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

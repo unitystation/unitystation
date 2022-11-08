@@ -1991,7 +1991,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disableDrag: 0
-  resetPositionOnDisable: 0
 --- !u!114 &4073044153286586666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3396,7 +3395,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disableDrag: 0
-  resetPositionOnDisable: 0
 --- !u!114 &8830654887883277283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3493,6 +3491,7 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
 --- !u!1 &7365842271658246817
 GameObject:
   m_ObjectHideFlags: 0

@@ -84,7 +84,7 @@ TextureImporter:
       213: 21300052
     second: d_analyzer_process_26
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -144,6 +144,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -159,6 +160,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -750,10 +763,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      d_analyzer_process_5: 21300010
+      d_analyzer_process_13: 21300026
       d_analyzer_process_4: 21300008
       d_analyzer_process_6: 21300012
-      d_analyzer_process_13: 21300026
+      d_analyzer_process_24: 21300048
       d_analyzer_process_8: 21300016
       d_analyzer_process_12: 21300024
       d_analyzer_process_2: 21300004
@@ -776,7 +789,7 @@ TextureImporter:
       d_analyzer_process_16: 21300032
       d_analyzer_process_10: 21300020
       d_analyzer_process_21: 21300042
-      d_analyzer_process_24: 21300048
+      d_analyzer_process_5: 21300010
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -948,9 +948,14 @@ MonoBehaviour:
   BodyPartSurfaceVolume: 5
   playerScript: {fileID: 0}
   CannotRecognizeNames: 0
+  meatProduce: {fileID: 0}
+  skinProduce: {fileID: 0}
   allExternalMetabolismReactions: []
   CHem: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12, type: 2}
   NutrimentConsumed: 0
+  Stability: 0
+  NegativeMutationMinimumTimeMinutes: 5
+  NegativeMutationMaximumTimeMinutes: 15
   ClientSprites: []
   percentAllergies: 30
   commonAllergies: {fileID: 0}
@@ -1189,6 +1194,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 1
   syncInterval: 0
+  XRay:
+    InitialState: 0
+    OnBoolChange:
+      m_PersistentCalls:
+        m_Calls: []
+  SyncXRay: 0
+  OverrideLocalPlayer: 0
 --- !u!114 &91908198791635565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1271,20 +1283,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TipSO: {fileID: 11400000, guid: eb646ca04872733468148685a9a74fc0, type: 2}
-  saveID: 0
   triggerOnce: 0
   showEvenAfterDeath: 1
   tipCooldown: 35
-  ObjectsToCheck:
-  - GameObjectToCheck: {fileID: 6972878001720233250, guid: a2f7e3ea5d1b72341939c4aeb0895b36,
-      type: 3}
-    AssoicatedSo: {fileID: 11400000, guid: 49dea0a964248a141bbedf6798ad8265, type: 2}
-  - GameObjectToCheck: {fileID: 5092666089846311182, guid: e56e2d22b6f68cf48b3ababcdccd8a4d,
-      type: 3}
-    AssoicatedSo: {fileID: 11400000, guid: eb646ca04872733468148685a9a74fc0, type: 2}
-  - GameObjectToCheck: {fileID: 2515425442973781969, guid: 8df46e8f4633f9e43ab5993c9075028e,
-      type: 3}
-    AssoicatedSo: {fileID: 11400000, guid: eb646ca04872733468148685a9a74fc0, type: 2}
   SearchRadius: 8
   SearchCooldown: 6
   MaskToCheck:

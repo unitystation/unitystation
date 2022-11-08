@@ -872,6 +872,7 @@ MonoBehaviour:
   syncInterval: 0.1
   LightEmission: {fileID: 0}
   objectLightEmission: {fileID: 5359090116188643623}
+  CommonComponents: {fileID: 0}
   Intensity: 0.5
   Colour: {r: 0.99215686, g: 0.96862745, b: 0.88235295, a: 0.5019608}
   EnumSprite: 0
@@ -998,6 +999,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 26
+  requiresAltClick: 0
 --- !u!4 &239048463826641235 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298,

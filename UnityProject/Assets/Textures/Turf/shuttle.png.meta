@@ -507,7 +507,7 @@ TextureImporter:
       213: 21300334
     second: shuttle_167
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -567,6 +567,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -606,6 +607,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -4195,11 +4208,11 @@ TextureImporter:
       shuttle_98: 21300196
       shuttle_122: 21300244
       shuttle_64: 21300128
-      shuttle_84: 21300168
-      shuttle_19: 21300038
       shuttle_10: 21300020
-      shuttle_49: 21300098
+      shuttle_19: 21300038
       shuttle_60: 21300120
+      shuttle_49: 21300098
+      shuttle_84: 21300168
       shuttle_89: 21300178
       shuttle_94: 21300188
       shuttle_4: 21300008

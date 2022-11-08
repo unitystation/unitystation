@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8c130860233322c458badee8145ebb82,
         type: 2}
+    - target: {fileID: 3331400375068263998, guid: f8f5682e74c42bb45851c71a4b53b20b,
+        type: 3}
+      propertyPath: m_AssetId
+      value: b4492e96cb32b8941a4cf47edcf7c3cc
+      objectReference: {fileID: 0}
     - target: {fileID: 4030776248151696319, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
       propertyPath: m_AssetId
@@ -133,5 +138,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stunTime: 0.5
+  passThroughStunImmunity: 1
   willDisarm: 0
   doMsg: 1

@@ -288,6 +288,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab0b22d0dd164c31bcc4746cd3300663, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
   mobName: xenomorph hunter
   registerObject: {fileID: 0}
   deathSounds:
@@ -338,6 +341,7 @@ MonoBehaviour:
   randomSoundProbability: 20
   searchTickRate: 0.5
   currentStatus: 0
+  ScoreForKilling: 5
   disableAscension: 1
   queenCap: 1
   queenPrefab: {fileID: 2058504753171968459, guid: 850a00ce2fc547b499ef46733c95c580,

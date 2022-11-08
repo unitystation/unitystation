@@ -20,6 +20,7 @@ MonoBehaviour:
     buildTime: 2
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
   - name: Table frame
     prefab: {fileID: 3324775161014056536, guid: 9b139d47618b5ff418198a443805c1d5,
       type: 3}
@@ -27,3 +28,4 @@ MonoBehaviour:
     buildTime: 2
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0

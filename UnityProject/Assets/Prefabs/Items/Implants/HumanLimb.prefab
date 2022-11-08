@@ -158,8 +158,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac414987522b024e895aac3e21193d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkingSpeed: 1.5
-  runningSpeed: 3
-  crawlingSpeed: 0.3
-  armEfficiency: 1
-  legEfficiency: 1
+  isEMPVunerable: 0
+  EMPResistance: 2

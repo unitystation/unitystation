@@ -487,6 +487,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 1
   syncInterval: 0.1
+  XRay:
+    InitialState: 0
+    OnBoolChange:
+      m_PersistentCalls:
+        m_Calls: []
+  SyncXRay: 0
+  OverrideLocalPlayer: 0
 --- !u!114 &376142281930293820
 MonoBehaviour:
   m_ObjectHideFlags: 0

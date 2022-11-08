@@ -66,7 +66,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 8011809051361095837}
+      objectReference: {fileID: 0}
     - target: {fileID: 6820383887292256557, guid: c8af057edecfa6c4f877ae1b042d6ead,
         type: 3}
       propertyPath: m_AssetId
@@ -171,15 +171,3 @@ MonoBehaviour:
   IgnoreServerUpdatesIfLocalPlayer: 0
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
---- !u!114 &8011809051361095837 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6820496967561167177, guid: c8af057edecfa6c4f877ae1b042d6ead,
-    type: 3}
-  m_PrefabInstance: {fileID: 3569362433136914900}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7978696986387520845}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

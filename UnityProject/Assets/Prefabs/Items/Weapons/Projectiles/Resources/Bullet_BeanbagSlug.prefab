@@ -78,6 +78,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 0db28ea7632de0b4593a32bba473e844
       objectReference: {fileID: 0}
+    - target: {fileID: 3552370236935891446, guid: b343aea0e51a4c44694589195b8eae77,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 0db28ea7632de0b4593a32bba473e844
+      objectReference: {fileID: 0}
     - target: {fileID: 4204988295596267492, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
       propertyPath: damageData
@@ -111,5 +116,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stunTime: 3
+  passThroughStunImmunity: 1
   willDisarm: 0
   doMsg: 0

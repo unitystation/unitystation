@@ -28,6 +28,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _ColorMask: 15
+    - _CullMode: 0
     - _Stencil: 0
     - _StencilComp: 8
     - _StencilOp: 0
@@ -150,11 +151,11 @@ MonoBehaviour:
     m_Name: 1f609
     m_HashCode: 57188264
   - m_ElementType: 2
-    m_Unicode: 128536
+    m_Unicode: 0
     m_GlyphIndex: 12
     m_Scale: 1
-    m_Name: 1f618
-    m_HashCode: 57188168
+    m_Name: .notdef
+    m_HashCode: -600915428
   - m_ElementType: 2
     m_Unicode: 129315
     m_GlyphIndex: 13

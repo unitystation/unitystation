@@ -243,7 +243,7 @@ TextureImporter:
       213: 21300158
     second: crew_79
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -303,6 +303,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -326,6 +327,18 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
@@ -2051,10 +2064,10 @@ TextureImporter:
       crew_75: 21300150
       crew_50: 21300100
       crew_4: 21300008
-      crew_59: 21300118
+      crew_29: 21300058
       crew_27: 21300054
       crew_0: 21300000
-      crew_29: 21300058
+      crew_59: 21300118
       crew_12: 21300024
       crew_70: 21300140
       crew_34: 21300068

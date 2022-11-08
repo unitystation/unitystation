@@ -211,7 +211,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e12f147c494feb4bb0f1d25f7968cf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OccupantPlayerScript: {fileID: 0}
+  occupiedSpriteHandler: {fileID: 0}
+  doResistUncuffed: 0
   resistTime: 60
   forceLayingDown: 0
   allowImpassable: 0
@@ -245,3 +246,4 @@ MonoBehaviour:
   shadow: {fileID: 0}
   draggerMustBeAdjacent: 1
   allowDragWhileSoftCrit: 1
+  allowedToMouseDrag: 1

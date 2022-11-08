@@ -253,7 +253,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 4896307685547251555}
+      objectReference: {fileID: 0}
     - target: {fileID: 5621181726967715178, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
       propertyPath: m_AssetId
@@ -400,15 +400,3 @@ MonoBehaviour:
   runsOutOverTime: 1
   runsOutOverSeconds: 356
   actionButton: {fileID: 2755709628018005534}
---- !u!114 &4896307685547251555 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5621592014544258318, guid: 6f371050bff8b32438f91c7c680900bb,
-    type: 3}
-  m_PrefabInstance: {fileID: 1004520157929427565}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4784655301099371187}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

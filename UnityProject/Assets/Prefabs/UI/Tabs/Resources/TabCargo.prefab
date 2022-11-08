@@ -246,7 +246,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disableDrag: 0
-  resetPositionOnDisable: 0
 --- !u!114 &114385320989314586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1209,7 +1208,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DirectoryName: /.../
   cargoGUI: {fileID: 5799221400677952107}
-  errorText: {fileID: 1977844361548214529}
 --- !u!1 &565771500631554775
 GameObject:
   m_ObjectHideFlags: 0
@@ -2095,6 +2093,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e798a74be3b69c1a9aab4faa8fc5cdd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Entries: []
   EntryPrefab: {fileID: 3799708768014915418, guid: 26e5d575110bedf468bcaddad0b5237b,
     type: 3}
 --- !u!1 &1692299775069418513
@@ -2535,6 +2534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e798a74be3b69c1a9aab4faa8fc5cdd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Entries: []
   EntryPrefab: {fileID: 3799708768014915418, guid: d5c115fcf1e69415cb2a4c33c0a50dcc,
     type: 3}
 --- !u!1 &2739014291688989595
@@ -4897,6 +4897,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e798a74be3b69c1a9aab4faa8fc5cdd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Entries: []
   EntryPrefab: {fileID: 3799708768014915418, guid: c67f9783b43ef8b5f8f9703eab15d8a8,
     type: 3}
 --- !u!1 &5622132086704632200
@@ -7505,5 +7506,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e798a74be3b69c1a9aab4faa8fc5cdd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Entries: []
   EntryPrefab: {fileID: 3799708768014915418, guid: 5767dd03f5ff5d34483e97b5df2d2fc4,
     type: 3}

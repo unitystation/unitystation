@@ -16,7 +16,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 4701119655093568946}
+      objectReference: {fileID: 0}
     - target: {fileID: 2917169708539712446, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
       propertyPath: CurrentsortingGroup
@@ -159,6 +159,7 @@ MonoBehaviour:
   shadow: {fileID: 0}
   draggerMustBeAdjacent: 1
   allowDragWhileSoftCrit: 1
+  allowedToMouseDrag: 1
 --- !u!114 &1200700073424461999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,7 +278,9 @@ MonoBehaviour:
       Acid: 0
       Magic: 0
       Bio: 0
+      Anomaly: 0
       DismembermentProtectionChance: 0
+      StunImmunity: 0
   - armoringBodyPartType: 3
     armor:
       Melee: 0
@@ -290,7 +293,9 @@ MonoBehaviour:
       Acid: 0
       Magic: 0
       Bio: 0
+      Anomaly: 0
       DismembermentProtectionChance: 0
+      StunImmunity: 0
   - armoringBodyPartType: 2
     armor:
       Melee: 0
@@ -303,7 +308,9 @@ MonoBehaviour:
       Acid: 0
       Magic: 0
       Bio: 0
+      Anomaly: 0
       DismembermentProtectionChance: 0
+      StunImmunity: 0
   - armoringBodyPartType: 5
     armor:
       Melee: 0
@@ -316,7 +323,9 @@ MonoBehaviour:
       Acid: 0
       Magic: 0
       Bio: 0
+      Anomaly: 0
       DismembermentProtectionChance: 0
+      StunImmunity: 0
   - armoringBodyPartType: 4
     armor:
       Melee: 0
@@ -329,7 +338,9 @@ MonoBehaviour:
       Acid: 0
       Magic: 0
       Bio: 0
+      Anomaly: 0
       DismembermentProtectionChance: 0
+      StunImmunity: 0
   - armoringBodyPartType: 6
     armor:
       Melee: 0
@@ -342,16 +353,6 @@ MonoBehaviour:
       Acid: 0
       Magic: 0
       Bio: 0
+      Anomaly: 0
       DismembermentProtectionChance: 0
---- !u!114 &4701119655093568946 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2916681237181358066, guid: 6b5f74a79e023479cb5b30a2879621da,
-    type: 3}
-  m_PrefabInstance: {fileID: 7586200644617787968}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4658995992363608162}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+      StunImmunity: 0

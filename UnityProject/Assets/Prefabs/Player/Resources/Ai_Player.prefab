@@ -554,6 +554,7 @@ MonoBehaviour:
   RcsMatrixMove: {fileID: 0}
   actionData: {fileID: 11400000, guid: 288088e3bb7768d41a2fe1b2c170fbce, type: 2}
   playerChatLocation: {fileID: 7971638957329120905}
+  canVentCrawl: 0
   ClueHandsImprintInverseChance: 55
   ClueUniformImprintInverseChance: 65
   ClueSpeciesImprintInverseChance: 85
@@ -705,6 +706,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 1
   syncInterval: 0.1
+  XRay:
+    InitialState: 0
+    OnBoolChange:
+      m_PersistentCalls:
+        m_Calls: []
+  SyncXRay: 0
+  OverrideLocalPlayer: 0
 --- !u!114 &8800301795637238306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -745,6 +753,7 @@ MonoBehaviour:
   InitialLocationSynchronised: 0
   tileMoveSpeed: 8
   isNotPushable: 0
+  HasOwnGravity: 0
   airTime: 0
   slideTime: 0
   SetIgnoreSticky: 0
@@ -780,6 +789,8 @@ MonoBehaviour:
   RunSpeed: 0
   WalkSpeed: 0
   CrawlSpeed: 0
+  needsWalking: {fileID: 0}
+  needsRunning: {fileID: 0}
   actionData: {fileID: 0}
   IsBumping: 0
   IsPressedCashed: 0

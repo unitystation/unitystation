@@ -51,7 +51,9 @@ MonoBehaviour:
     Acid: 90
     Magic: 0
     Bio: 100
+    Anomaly: 0
     DismembermentProtectionChance: 0
+    StunImmunity: 0
   tileInteractions:
   - {fileID: 11400000, guid: e7dbaec31525647378209f60c5769d78, type: 2}
   - {fileID: 11400000, guid: a98a88e95993e4baa9b8a1ac0581371f, type: 2}
@@ -73,3 +75,6 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
   SoundOnDestroy: []
   sprite: {fileID: 21300000, guid: 44e56b599ea826c4092688924b1598b1, type: 3}
+  CanBeHighlightedThroughScanners: 0
+  AssoicatedSpawnedObjects: []
+  HighlightObject: {fileID: 0}

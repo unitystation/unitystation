@@ -426,6 +426,7 @@ MonoBehaviour:
   FakeEvent: 0
   AnnounceEvent: 1
   highlanderAntag: {fileID: 11400000, guid: 0f19f9b747ac2ee499c57e02517aed37, type: 2}
+  eventTime: 900
 --- !u!1 &2330691836870820202
 GameObject:
   m_ObjectHideFlags: 0
@@ -1742,6 +1743,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerEventInterval: 1200
   chanceItIsFake: 20
+  scoreForSpawningEvents: 25
   RandomEventsAllowed: 1
   minPlayersForRandomEventsToHappen: 5
   EnumListCache: []

@@ -20,6 +20,7 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 1
     onePerTile: 0
+    facePlayerDirectionOnConstruction: 0
   - name: Monkey Suit
     prefab: {fileID: 3921521694364753778, guid: 90c2bcb8434d2c442a4c22a235bd6ff1,
       type: 3}
@@ -27,3 +28,4 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 1
     onePerTile: 0
+    facePlayerDirectionOnConstruction: 0

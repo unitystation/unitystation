@@ -275,7 +275,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disableDrag: 0
-  resetPositionOnDisable: 0
 --- !u!114 &114256104719178052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3585,6 +3584,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69ae30dbb918628419255f94eac235e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SetInteractionMode: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls: []
@@ -5709,6 +5709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69ae30dbb918628419255f94eac235e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SetInteractionMode: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls: []
@@ -6223,6 +6224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69ae30dbb918628419255f94eac235e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SetInteractionMode: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls: []

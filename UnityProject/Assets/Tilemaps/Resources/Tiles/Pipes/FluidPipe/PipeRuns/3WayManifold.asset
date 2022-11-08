@@ -50,6 +50,7 @@ MonoBehaviour:
     Acid: 90
     Magic: 0
     Bio: 100
+    Anomaly: 0
     DismembermentProtectionChance: 0
     StunImmunity: 0
   tileInteractions:
@@ -77,18 +78,22 @@ MonoBehaviour:
   Connections:
     Directions:
     - Bool: 1
+      MappedNeeded: 0
       pipeType: 1
       PortType: 0
       flagLogic: 0
     - Bool: 1
+      MappedNeeded: 0
       pipeType: 1
       PortType: 0
       flagLogic: 0
     - Bool: 0
+      MappedNeeded: 0
       pipeType: 1
       PortType: 0
       flagLogic: 0
     - Bool: 1
+      MappedNeeded: 0
       pipeType: 1
       PortType: 0
       flagLogic: 0

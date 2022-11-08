@@ -147,7 +147,7 @@ TextureImporter:
       213: -5696605928697110640
     second: carpet_red_47
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -207,6 +207,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -222,6 +223,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1273,14 +1286,14 @@ TextureImporter:
       carpet_red_39: 6674155442410004453
       carpet_red_21: 9212796165368790142
       carpet_red_34: 2810607079200700756
-      carpet_red_4: -5081663127683570783
-      carpet_red_0: -4742479196107739503
       carpet_red_8: -7169033327348034227
-      carpet_red_18: -144688637908100276
-      carpet_red_36: 5452677975484570166
+      carpet_red_0: -4742479196107739503
+      carpet_red_4: -5081663127683570783
       carpet_red_12: -8499736427892182587
-      carpet_red_15: -534819510837015259
       carpet_red_14: -1950034208952403712
+      carpet_red_36: 5452677975484570166
+      carpet_red_18: -144688637908100276
+      carpet_red_15: -534819510837015259
       carpet_red_20: -3717544732962793518
       carpet_red_9: -452756532610750435
       carpet_red_26: -5216367637901556718

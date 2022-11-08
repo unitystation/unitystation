@@ -27,7 +27,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 5221563751139155682}
+      objectReference: {fileID: 0}
     - target: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_Name
@@ -147,18 +147,6 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 8095853447068111044, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
---- !u!114 &5221563751139155682 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4617654077899113137, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
-    type: 3}
-  m_PrefabInstance: {fileID: 604480131879869523}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5324125373314380594}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5324125373314380594 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
@@ -177,6 +165,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a623491ff7b9fe46aaa75051206d496, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEMPVunerable: 0
+  EMPResistance: 2
   maxRunSpeedDebuff: -2
   maxWalkingDebuff: -1.5
   maxCrawlDebuff: -0.2

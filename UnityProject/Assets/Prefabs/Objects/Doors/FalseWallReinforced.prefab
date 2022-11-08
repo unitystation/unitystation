@@ -87,7 +87,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 3758772354583797885}
+      objectReference: {fileID: 0}
     - target: {fileID: 2524372829327985435, guid: e3fb07aeead92a74091216ef8df2c338,
         type: 3}
       propertyPath: CurrentsortingGroup
@@ -122,15 +122,3 @@ SortingGroup:
     type: 3}
   m_PrefabInstance: {fileID: 728478698268850665}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3758772354583797885 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4482704571181193620, guid: e3fb07aeead92a74091216ef8df2c338,
-    type: 3}
-  m_PrefabInstance: {fileID: 728478698268850665}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

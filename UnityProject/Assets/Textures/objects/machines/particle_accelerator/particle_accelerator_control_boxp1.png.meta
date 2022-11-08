@@ -123,7 +123,7 @@ TextureImporter:
       213: 21300078
     second: control_boxp1_39
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -183,6 +183,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -198,6 +199,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1097,9 +1110,9 @@ TextureImporter:
       control_boxp1_34: 21300068
       control_boxp1_32: 21300064
       control_boxp1_31: 21300062
-      control_boxp1_30: 21300060
       control_boxp1_38: 21300076
       control_boxp1_12: 21300024
+      control_boxp1_30: 21300060
       control_boxp1_4: 21300008
       control_boxp1_1: 21300002
   spritePackingTag: 

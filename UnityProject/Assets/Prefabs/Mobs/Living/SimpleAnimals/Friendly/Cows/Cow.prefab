@@ -231,6 +231,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fd6abf1297942a7b852b4d797b61b06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
   mobName: cow
   registerObject: {fileID: 0}
   minTimeBetweenRandomActions: 10

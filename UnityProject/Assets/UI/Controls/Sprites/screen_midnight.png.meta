@@ -132,7 +132,7 @@ TextureImporter:
       213: 21300084
     second: screen_midnight_42
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -192,6 +192,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -231,6 +232,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -1074,8 +1087,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      screen_midnight_21: 21300042
       screen_midnight_30: 21300060
+      screen_midnight_37: 21300074
       screen_midnight_0: 21300000
       screen_midnight_38: 21300076
       screen_midnight_27: 21300054
@@ -1112,7 +1125,7 @@ TextureImporter:
       screen_midnight_18: 21300036
       screen_midnight_33: 21300066
       screen_midnight_10: 21300020
-      screen_midnight_37: 21300074
+      screen_midnight_21: 21300042
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
