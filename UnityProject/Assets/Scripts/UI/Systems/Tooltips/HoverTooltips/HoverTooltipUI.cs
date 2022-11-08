@@ -11,8 +11,10 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		[SerializeField] private TMP_Text descText;
 		[SerializeField] private Image iconTarget;
 
-		private const float offsety = 230f;
-		private const float offsetx = 230f;
+		private GameObject targetObject;
+
+		private const float offsety = 90f;
+		private const float offsetx = 105f;
 
 
 		private void Start()
@@ -22,6 +24,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 
 		private void UpdatePosition()
 		{
+			if (targetObject == null) return;
 			var newPosition = new Vector3(Input.mousePosition.x + offsetx, Input.mousePosition.y + offsety,
 				Input.mousePosition.z);
 			transform.position = newPosition;
@@ -29,6 +32,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 
 		public void SetupTooltip(GameObject hoverObject)
 		{
+			targetObject = hoverObject;
 			nameText.text = string.Empty;
 			descText.text = string.Empty;
 			iconTarget.sprite = null;
