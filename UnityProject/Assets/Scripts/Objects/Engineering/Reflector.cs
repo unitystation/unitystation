@@ -55,7 +55,7 @@ namespace Objects.Engineering
 
 		private void OnValidate()
 		{
-			if (Application.isPlaying) return;
+			if (Application.isPlaying || this == null) return;
 #if UNITY_EDITOR
 			EditorApplication.delayCall -= ValidateLate;
 			EditorApplication.delayCall += ValidateLate;
@@ -65,7 +65,7 @@ namespace Objects.Engineering
 
 		public void ValidateLate()
 		{
-			if (Application.isPlaying) return;
+			if (Application.isPlaying || this == null) return;
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			currentState = startingState;
 			spriteHandler.ChangeSprite((int) startingState);
