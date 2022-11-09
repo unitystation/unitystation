@@ -19,9 +19,12 @@ namespace Objects
 		private Integrity integrity;
 
 		///<summary>
-		/// Events created to change the sprite of the roller bed
+		/// Event that get invoked when a player Buckles into an object that has this component
 		///</summary>
 		public event Action OnBuckleEvent;
+		///<summary>
+		/// Event that get invoked when a player Unbuckles into an object that has this component
+		///</summary>
 		public event Action OnUnbuckleEvent;
 
 		/// <summary>
@@ -140,8 +143,8 @@ namespace Objects
 			}
 
 			objectPhysics.BuckleObjectToThis(playerScript.playerMove);
-			OnBuckleEvent?.Invoke();
 			occupiedSpriteHandler.OrNull()?.ChangeSprite(0);
+			OnBuckleEvent?.Invoke();
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -216,8 +219,8 @@ namespace Objects
 		{
 			playerScript.PlayerSync.Unbuckle();
 			objectPhysics.Unbuckle();
-			OnUnbuckleEvent?.Invoke();
 			occupiedSpriteHandler.OrNull()?.PushClear();
+			OnUnbuckleEvent?.Invoke();
 		}
 
 		private bool CanUnBuckleSelf(PlayerScript playerScript)
