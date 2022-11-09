@@ -154,6 +154,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   NetTabType: 58
   aiInteractable: 1
 --- !u!114 &9095700859097822557
@@ -180,6 +182,12 @@ MonoBehaviour:
   UnlockedSpecies: []
   ALLMutations:
   - {fileID: 11400000, guid: f2f641ffff3a7374181d13e6ff37471d, type: 2}
+  - {fileID: 11400000, guid: ef79ed16b9f3d3b459b32b93cb22c737, type: 2}
+  - {fileID: 11400000, guid: cdbf53f4096a89542adea8843235bb64, type: 2}
+  - {fileID: 11400000, guid: 2fe2f2b145d2da5408cd9d28a2869034, type: 2}
+  - {fileID: 11400000, guid: bebd14daeb8ebe44b8601b5f60ba7c16, type: 2}
+  - {fileID: 11400000, guid: b158a7f0e9aa7c443a367c94d0e2115d, type: 2}
+  - {fileID: 11400000, guid: 6ac2a14e0d89cf54fae60c68c2701355, type: 2}
   UnlockedMutations: []
   Injecting:
   - BodyPartSearchString: Torso

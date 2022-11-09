@@ -7,9 +7,9 @@ using UnityEngine.Tilemaps;
 
 namespace Items.Tool
 {
-	public class TRayScanner : NetworkBehaviour, ICheckedInteractable<HandActivate>, ISuicide, IExaminable, IItemInOutMovedPlayer
+	public class TRayScanner : NetworkBehaviour, ICheckedInteractable<HandActivate>, ISuicide, IExaminable, IItemInOutMovedPlayer, IClientSynchronisedEffect
 	{
-		private Mode currentMode = Mode.Off;
+
 
 		private SpriteHandler spriteHandler;
 
@@ -56,7 +56,6 @@ namespace Items.Tool
 			}
 
 			currentMode = (Mode)currentModeInt;
-			CurrentlyOn.PlayerScript.PlayerOnlySyncValues.TRaySyncMode(Mode.Off, currentMode);
 		}
 
 		public RegisterPlayer CurrentlyOn { get; set; }
@@ -68,7 +67,7 @@ namespace Items.Tool
 			if (player != null && pickupable.ItemSlot?.Player == player)
 			{
 				//Only turn on goggle for client if they are on
-				return currentMode != Mode.Off;
+				return true;
 			}
 
 			return false;
@@ -77,14 +76,13 @@ namespace Items.Tool
 
 		void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)
 		{
-			if (HideForPlayer != null)
-			{
-				HideForPlayer.PlayerScript.PlayerOnlySyncValues.TRaySyncMode(Mode.Off, Mode.Off);
-			}
-
 			if (ShowForPlayer != null)
 			{
-				HideForPlayer.PlayerScript.PlayerOnlySyncValues.TRaySyncMode(Mode.Off, currentMode);
+				OnBodyID = ShowForPlayer.netId;
+			}
+			else
+			{
+				OnBodyID = NetId.Empty;
 			}
 		}
 
@@ -129,5 +127,78 @@ namespace Items.Tool
 		}
 
 		#endregion
+
+		private IClientSynchronisedEffect Preimplemented => (IClientSynchronisedEffect) this;
+
+		[SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
+
+		public uint OnPlayerID => OnBodyID;
+
+		[SyncVar(hook = nameof(TRaySyncMode))]
+		private Mode currentMode = Mode.Off;
+		private Mode DefaultCurrentMode = Mode.Off;
+
+		public void SyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn)
+		{
+			OnBodyID = CurrentlyOn;
+			Preimplemented.ImplementationSyncOnPlayer(PreviouslyOn, CurrentlyOn);
+		}
+
+		public void ApplyDefaultOrCurrentValues(bool Default)
+		{
+			ApplyTrayEffect(Default ? DefaultCurrentMode : currentMode);
+		}
+
+		public void TRaySyncMode(Mode oldMode, Mode newMode)
+		{
+			currentMode = newMode;
+			if (Preimplemented.IsOnLocalPlayer)
+			{
+				ApplyTrayEffect(currentMode);
+			}
+		}
+
+
+		public void ApplyTrayEffect(Mode newMode)
+		{
+			var matrixInfos = MatrixManager.Instance.ActiveMatricesList;
+
+			foreach (var matrixInfo in matrixInfos)
+			{
+				var electricalRenderer = matrixInfo.Matrix.ElectricalLayer.GetComponent<TilemapRenderer>();
+				var pipeRenderer = matrixInfo.Matrix.PipeLayer.GetComponent<TilemapRenderer>();
+				var disposalsRenderer = matrixInfo.Matrix.DisposalsLayer.GetComponent<TilemapRenderer>();
+
+				//Turn them all off
+				ChangeState(electricalRenderer, false, 2);
+				ChangeState(pipeRenderer, false, 1);
+				ChangeState(disposalsRenderer, false);
+
+				switch (newMode)
+				{
+					case TRayScanner.Mode.Off:
+						continue;
+					case TRayScanner.Mode.Wires:
+						ChangeState(electricalRenderer, true);
+						continue;
+					case TRayScanner.Mode.Pipes:
+						ChangeState(pipeRenderer, true);
+						continue;
+					case TRayScanner.Mode.Disposals:
+						ChangeState(disposalsRenderer, true);
+						continue;
+					default:
+						Logger.LogError($"Found no case for {newMode}");
+						continue;
+				}
+			}
+		}
+
+		private void ChangeState(TilemapRenderer tileRenderer, bool state, int oldLayerOrder = 0)
+		{
+			tileRenderer.sortingLayerName = state ? "Walls" : "UnderFloor";
+			tileRenderer.sortingOrder = state ? 100 : oldLayerOrder;
+		}
+
 	}
 }
