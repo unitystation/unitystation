@@ -275,7 +275,14 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 				var Moves = Slot.Item.GetComponents<IServerInventoryMove>();
 				foreach (var Move in Moves)
 				{
-					Move.OnInventoryMoveServer(info);
+					try
+					{
+						Move.OnInventoryMoveServer(info);
+					}
+					catch (Exception e)
+					{
+						Logger.LogError(e.ToString());
+					}
 				}
 			}
 		}

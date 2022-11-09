@@ -136,6 +136,47 @@ PrefabInstance:
       propertyPath: initialDescription
       value: I see you!
       objectReference: {fileID: 0}
+    - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: CapableMutations.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: CapableMutations.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ef79ed16b9f3d3b459b32b93cb22c737,
+        type: 2}
+    - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: CapableMutations.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: cdbf53f4096a89542adea8843235bb64,
+        type: 2}
+    - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: CapableMutations.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2fe2f2b145d2da5408cd9d28a2869034,
+        type: 2}
+    - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: CapableMutations.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: bebd14daeb8ebe44b8601b5f60ba7c16,
+        type: 2}
+    - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: CapableMutations.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: b158a7f0e9aa7c443a367c94d0e2115d,
+        type: 2}
+    - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: CapableMutations.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6ac2a14e0d89cf54fae60c68c2701355,
+        type: 2}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: BodyPartType
@@ -221,3 +262,35 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
+--- !u!1 &7224950701661798677 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+    type: 3}
+  m_PrefabInstance: {fileID: 2721496653381365364}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4334967121910701380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7224950701661798677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92a26da98f532de4d9524a6148599435, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  isEMPVunerable: 0
+  EMPResistance: 2
+  Pickupable: {fileID: 0}
+  BaseBlurryVision: 0
+  OnBodyID: 0
+  isBlind: 0
+  DefaultisBlind: 0
+  BadEyesight: 0
+  CurrentColourblindness: 0
+  DefaultColourblindness: 0
+  HasXray: 0
+  DefaultHasXray: 0
