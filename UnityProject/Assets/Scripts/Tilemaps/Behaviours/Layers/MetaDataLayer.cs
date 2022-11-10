@@ -368,7 +368,7 @@ public class MetaDataLayer : MonoBehaviour
 		tile.IsSlippery = false;
 		tile.ForceUpdateClient();
 
-		var floorDecals = matrix.Get<FloorDecal>(tile.LocalPosition, isServer: true);
+		var floorDecals = matrix.Get<FloorDecal>(tile.Position, isServer: true);
 		foreach (var decal in floorDecals)
 		{
 			if (decal.isBlood)
@@ -384,7 +384,7 @@ public class MetaDataLayer : MonoBehaviour
 		yield return WaitFor.Seconds(Random.Range(10,21));
 		tile.IsSlippery = false;
 		tile.ForceUpdateClient();
-		var floorDecals = matrix.Get<FloorDecal>(tile.LocalPosition, isServer: true);
+		var floorDecals = matrix.Get<FloorDecal>(tile.Position, isServer: true);
 		foreach (var decal in floorDecals)
 		{
 			if (decal.CanDryUp)

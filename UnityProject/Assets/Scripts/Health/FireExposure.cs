@@ -100,10 +100,10 @@ public class FireExposure
 		if (!hotspotNode.HasHotspot)
 		{
 			Logger.LogErrorFormat("MetaDataNode at local position {0} has no hotspot, so no fire exposure" +
-			                      " will occur. This is likely a coding error.", Category.Atmos, hotspotNode.LocalPosition);
+			                      " will occur. This is likely a coding error.", Category.Atmos, hotspotNode.Position);
 			return;
 		}
-		Update(hotspotNode.GasMix.Temperature, hotspotNode.LocalPosition, atLocalPosition, atWorldPosition, hotspotWorldPosition);
+		Update(hotspotNode.GasMix.Temperature, hotspotNode.Position, atLocalPosition, atWorldPosition, hotspotWorldPosition);
 	}
 
 	/// <summary>
@@ -120,9 +120,9 @@ public class FireExposure
 		if (!hotspotNode.HasHotspot)
 		{
 			Logger.LogErrorFormat("MetaDataNode at local position {0} has no hotspot, so no fire exposure" +
-			                      " will occur. This is likely a coding error.", Category.Atmos, hotspotNode.LocalPosition);
+			                      " will occur. This is likely a coding error.", Category.Atmos, hotspotNode.Position);
 			return null;
 		}
-		return new FireExposure(hotspotNode.GasMix.Temperature, hotspotNode.LocalPosition, atLocalPosition, atWorldPosition, hotspotWorldPosition);
+		return new FireExposure(hotspotNode.GasMix.Temperature, hotspotNode.Position, atLocalPosition, atWorldPosition, hotspotWorldPosition);
 	}
 }

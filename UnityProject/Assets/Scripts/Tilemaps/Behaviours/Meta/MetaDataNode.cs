@@ -71,12 +71,7 @@ public class MetaDataNode : IGasMixContainer
 	/// <summary>
 	/// Local position of this tile in its parent matrix.
 	/// </summary>
-	public readonly Vector3Int LocalPosition;
-
-	/// <summary>
-	/// World position of this tile in its parent matrix.
-	/// </summary>
-	public Vector3Int WorldPosition => LocalPosition.ToWorldInt(PositionMatrix);
+	public readonly Vector3Int Position;
 
 	/// <summary>
 	/// If this node is in a closed room, it's assigned to it by the room's number
@@ -247,12 +242,12 @@ public class MetaDataNode : IGasMixContainer
 	/// <summary>
 	/// Create a new MetaDataNode on the specified local position (within the parent matrix)
 	/// </summary>
-	/// <param name="localPosition">local position (within the matrix) the node exists on</param>
-	public MetaDataNode(Vector3Int localPosition, ReactionManager reactionManager, Matrix matrix, MetaDataSystem InMetaDataSystem )
+	/// <param name="position">local position (within the matrix) the node exists on</param>
+	public MetaDataNode(Vector3Int position, ReactionManager reactionManager, Matrix matrix, MetaDataSystem InMetaDataSystem )
 	{
 		MetaDataSystem = InMetaDataSystem;
 		PositionMatrix = matrix;
-		LocalPosition = localPosition;
+		Position = position;
 
 		neighborList = new List<MetaDataNode>(4);
 		for (var i = 0; i < neighborList.Capacity; i++)
@@ -391,7 +386,7 @@ public class MetaDataNode : IGasMixContainer
 
 	public override string ToString()
 	{
-		return LocalPosition.ToString();
+		return Position.ToString();
 	}
 
 	private void SyncNeighbors()
@@ -410,7 +405,7 @@ public class MetaDataNode : IGasMixContainer
 
 	public void ForceUpdateClient()
 	{
-		PositionMatrix.MetaDataLayer.AddNetworkChange(LocalPosition, this);
+		PositionMatrix.MetaDataLayer.AddNetworkChange(Position, this);
 	}
 
 	public bool IsOccupiedBlocked(MetaDataNode neighbourNode)
@@ -418,7 +413,7 @@ public class MetaDataNode : IGasMixContainer
 		if (OccupiedType == NodeOccupiedType.None) return false;
 		if (OccupiedType == NodeOccupiedType.Full) return true;
 
-		var direction =  neighbourNode.LocalPosition - LocalPosition;
+		var direction =  neighbourNode.Position - Position;
 		var orientationEnum = Orientation.FromAsEnum(direction.To2());
 
 		var occupied = NodeOccupiedUtil.DirectionEnumToOccupied(orientationEnum);

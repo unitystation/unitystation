@@ -184,7 +184,7 @@ public class MetaDataView : BasicView
 			{
 				if (neighbor != null)
 				{
-					Vector3 p2 = LocalToWorld(neighbor.ReactionManager, neighbor.LocalPosition);
+					Vector3 p2 = LocalToWorld(neighbor.ReactionManager, neighbor.Position);
 
 					p2 = WorldToLocal(source, p2);
 

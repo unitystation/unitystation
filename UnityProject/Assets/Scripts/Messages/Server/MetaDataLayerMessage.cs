@@ -69,7 +69,7 @@ public class MetaDataLayerMessage : ServerMessage<MetaDataLayerMessage.NetMessag
 		{
 			Changes.Add(new DelayedData()
 			{
-				Position = metaData.LocalPosition,
+				Position = metaData.Position,
 				IsSlippy = metaData.IsSlippery
 			});
 		}
