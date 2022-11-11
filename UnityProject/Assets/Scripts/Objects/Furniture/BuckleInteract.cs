@@ -2,7 +2,6 @@
 using System.Linq;
 using HealthV2;
 using UnityEngine;
-
 namespace Objects
 {
 	/// <summary>
