@@ -10,9 +10,6 @@ namespace Core.Editor
 		private const string MenuName = "Tools/Quick Load";
 		private const string SettingName = "QuickLoad";
 
-		private const string nameQuickJobSelect = "QuickJobSelect";
-		private const string MenunameQuickJobSelect = "Tools/Quick Job Select";
-
 		/// <summary>
 		/// If checked, prevents nonessential scenes from loading, in addition to removing the roundstart countdown.
 		/// </summary>
@@ -22,11 +19,6 @@ namespace Core.Editor
 			set => EditorPrefs.SetBool(SettingName, value);
 		}
 
-		public static bool QuickJobSelect
-		{
-			get => EditorPrefs.GetBool(nameQuickJobSelect, true);
-			set => EditorPrefs.SetBool(nameQuickJobSelect, value);
-		}
 
 		[MenuItem(MenuName, priority = 1)]
 		public static void Toggle()
@@ -36,13 +28,6 @@ namespace Core.Editor
 		}
 
 
-		[MenuItem(MenunameQuickJobSelect, priority = 2)]
-		public static void QuickJobSelectToggle()
-		{
-			QuickJobSelect = !QuickJobSelect;
-			UpdateGameManagerQuickJobSelect(QuickJobSelect);
-		}
-
 
 		[MenuItem(MenuName, true, 1)]
 		private static bool ToggleValidate()
@@ -50,15 +35,6 @@ namespace Core.Editor
 			Menu.SetChecked(MenuName, IsEnabled);
 			return true;
 		}
-
-
-		[MenuItem(MenunameQuickJobSelect, true, 2)]
-		private static bool Validate()
-		{
-			Menu.SetChecked(MenunameQuickJobSelect, QuickJobSelect);
-			return true;
-		}
-
 		private static void UpdateGameManager(bool isQuickLoad)
 		{
 			var gameManager = AssetDatabase.LoadAssetAtPath<GameManager>

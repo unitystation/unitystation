@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -44,6 +45,8 @@ public class MouseDraggable : MonoBehaviour
 	[SerializeField]
 	private PlayerTypes allowedToMouseDrag = PlayerTypes.Normal;
 
+	private bool BeingDragged = false;
+
 	void Start()
 	{
 		mouseDrops = GetComponents<IBaseInteractable<MouseDrop>>();
@@ -70,6 +73,7 @@ public class MouseDraggable : MonoBehaviour
 		//create the shadow
 		shadowObject = Instantiate(shadowPrefab);
 		shadowObject.GetComponent<SpriteRenderer>().sprite = shadow;
+		BeingDragged = true;
 		//shadowObject.transform.localScale -= new Vector3(0.5f,0.5f, 0);
 	}
 
@@ -77,25 +81,30 @@ public class MouseDraggable : MonoBehaviour
 	{
 		if(CustomNetworkManager.IsHeadless) return;
 
-		if (shadowObject == null)
+		if (BeingDragged == false)
 		{
 			return;
 		}
-
-		shadowObject.transform.position = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
 
 		if (CommonInput.GetMouseButtonUp(0))
 		{
 			OnDragEnd();
 		}
+
+		if (shadowObject != null)
+		{
+			shadowObject.transform.position = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+		}
 	}
 
 	private void OnDragEnd()
 	{
+		UIManager.IsMouseInteractionDisabled = false;
+		BeingDragged = false;
 		// Get the world position of the shadow object before destroying it.
 		var shadowLoc = shadowObject.transform.position;
 
-		UIManager.IsMouseInteractionDisabled = false;
+
 		Destroy(shadowObject);
 		shadowObject = null;
 		if (lightingSystem.enabled && !lightingSystem.IsScreenPointVisible(CommonInput.mousePosition))
@@ -131,5 +140,21 @@ public class MouseDraggable : MonoBehaviour
 	{
 		return Validations.CanApply(dragger, gameObject, NetworkSide.Client, allowDragWhileSoftCrit,
 			draggerMustBeAdjacent ? ReachRange.Standard : ReachRange.Unlimited, apt: allowedToMouseDrag);
+	}
+
+	public void OnDestroy()
+	{
+		if (BeingDragged)
+		{
+			OnDragEnd();
+		}
+	}
+
+	public void OnDisable()
+	{
+		if (BeingDragged)
+		{
+			OnDragEnd();
+		}
 	}
 }
