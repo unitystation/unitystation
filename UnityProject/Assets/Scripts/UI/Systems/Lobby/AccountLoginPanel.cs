@@ -26,6 +26,9 @@ namespace Lobby
 		[SerializeField]
 		private Button exitButtonControl = default;
 
+		[SerializeField]
+		private Button OffLineButtonControl = default;
+
 		public bool IsAutoLoginEnabled => autoLoginControl.isOn;
 
 		private void Awake()
@@ -41,6 +44,8 @@ namespace Lobby
 			createButtonControl.onClick.AddListener(OnCreateBtn);
 			loginButtonControl.onClick.AddListener(OnLoginBtn);
 			exitButtonControl.onClick.AddListener(OnExitBtn);
+
+			OffLineButtonControl.onClick.AddListener(OnOffLineMode);
 		}
 
 		private void Start()
@@ -136,6 +141,15 @@ namespace Lobby
 		private void SetError(string message) => errorControl.text = message;
 
 		private void ClearError() => errorControl.text = string.Empty;
+
+
+
+		private void OnOffLineMode()
+		{
+			GameData.Instance.SetForceOfflineMode(true);
+			LobbyManager.UI.ShowMainPanel();
+		}
+
 
 		private void OnLoginBtn()
 		{
