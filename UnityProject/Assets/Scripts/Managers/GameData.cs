@@ -89,6 +89,11 @@ public class GameData : MonoBehaviour
 	}
 
 
+	public void SetForceOfflineMode(bool Value)
+	{
+		forceOfflineMode = Value;
+	}
+
 	private async Task Init()
 	{
 #if UNITY_EDITOR

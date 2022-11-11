@@ -258,7 +258,7 @@ namespace Core.Networking
 				ClientVersion = GameData.BuildNumber,
 				ClientId = GetPhysicalAddress(),
 				AccountId = ServerData.UserID,
-				Username = ServerData.Auth.CurrentUser.DisplayName,
+				Username = ServerData.Auth?.CurrentUser?.DisplayName,
 				Token = ServerData.IdToken,
 			};
 
