@@ -13,6 +13,9 @@ namespace CameraEffects
 		public GlitchEffect glitchEffect;
 		public NightVisionCamera nightVisionCamera;
 
+		public BlurryVision blurryVisionEffect;
+		public ColourblindEmulation colourblindEmulationEffect;
+
 		[SerializeField]
 		private GameObject minimalVisibilitySprite;
 
@@ -22,6 +25,13 @@ namespace CameraEffects
 
 		private const float TIMER_INTERVAL = 1f;
 		private float drunkCameraTime = 0;
+
+		public LightingSystem LightingSystem;
+		public void Awake()
+		{
+			LightingSystem = this.GetComponent<LightingSystem>();
+		}
+
 
 		private void OnEnable()
 		{
@@ -109,6 +119,8 @@ namespace CameraEffects
 			glitchEffect.enabled = false;
 			nightVisionCamera.enabled = false;
 			greyscaleCamera.enabled = false;
+			colourblindEmulationEffect.SetColourMode(ColourBlindMode.None);
+			blurryVisionEffect.SetBlurStrength(0);
 		}
 	}
 }

@@ -15,8 +15,9 @@
 		Pass
 		{
 			CGPROGRAM
-			#pragma vertex vertex_shader
-			#pragma fragment pixel_shader
+					#pragma vertex vert
+			#pragma fragment frag
+			#pragma multi_compile DUMMY PIXELSNAP_ON
 			#pragma target 2.0
 			#include "UnityCG.cginc"
 
@@ -28,20 +29,38 @@
 			uniform float _Speed;
 			uniform float _DoubleVision;
 
-			float4 vertex_shader(float4 vertex:POSITION) :SV_POSITION
-			{
-				return UnityObjectToClipPos(vertex);
-			}
+		struct appdata_t
+            {
+                float4 vertex   : POSITION;
+                float4 color    : COLOR;
+                float2 texcoord : TEXCOORD0;
+            };
+ 
+            struct v2f
+            {
+                float4 vertex   : SV_POSITION;
+                fixed4 color    : COLOR;
+                half2 texcoord  : TEXCOORD0;
+            };
 
-			float4 pixel_shader(float4 vertex:SV_POSITION) : COLOR
-			{
-				vector <float, 2> uv = vertex.xy / _ScreenParams.xy;
-			
-				// Flip sampling of the Texture if DirectX
-				#if UNITY_UV_STARTS_AT_TOP
-						uv.y = 1 - uv.y;
-				#endif
+			v2f vert(appdata_t IN)
+            {
+                v2f OUT;
+                OUT.vertex = UnityObjectToClipPos(IN.vertex);
+                OUT.texcoord = IN.texcoord;
+                OUT.color = IN.color;
+                #ifdef PIXELSNAP_ON
+                OUT.vertex = UnityPixelSnap (OUT.vertex);
+                #endif
 
+                return OUT;
+            }
+        
+
+			fixed4 frag(v2f IN) : COLOR
+            {
+				
+            	float2 uv = IN.texcoord;
 				uv.x += cos(uv.y * _Waves + _Time.g) * _CosAmount;
 				uv.y += sin(uv.x * _Waves + _Time.g) * _SinAmount;
 

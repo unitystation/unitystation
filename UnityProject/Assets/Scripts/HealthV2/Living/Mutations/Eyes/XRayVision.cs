@@ -24,12 +24,12 @@ public class XRayVision  : MutationSO
 		public override void SetUp()
 		{
 			RelatedEye = BodyPart.GetComponent<Eye>();
-			//Stomach.StomachContents.SetMaxCapacity(99); //idk Custom thing, if it's preset custom
+			RelatedEye.HasXray = true;
 		}
 
 		public override void Remove()
 		{
-			//Stomach.StomachContents.SetMaxCapacity(2);
+			RelatedEye.HasXray = false;
 		}
 
 	}
