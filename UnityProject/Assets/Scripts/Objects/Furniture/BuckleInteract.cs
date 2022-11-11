@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using HealthV2;
-using Player.Movement;
 using UnityEngine;
 
 namespace Objects
