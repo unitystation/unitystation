@@ -89,9 +89,9 @@ public class GameData : MonoBehaviour
 	}
 
 
-	public void SetForceOfflineMode(bool Value)
+	public void SetForceOfflineMode(bool value)
 	{
-		forceOfflineMode = Value;
+		forceOfflineMode = value;
 	}
 
 	private async Task Init()
