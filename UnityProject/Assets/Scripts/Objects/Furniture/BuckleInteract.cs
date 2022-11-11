@@ -1,8 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using HealthV2;
-using Player.Movement;
 using UnityEngine;
-
 namespace Objects
 {
 	/// <summary>
@@ -16,6 +15,15 @@ namespace Objects
 		[SerializeField]
 		private SpriteHandler occupiedSpriteHandler;
 		private Integrity integrity;
+
+		///<summary>
+		/// Event that get invoked when a player Buckles into an object that has this component
+		///</summary>
+		public event Action OnBuckleEvent;
+		///<summary>
+		/// Event that get invoked when a player Unbuckles into an object that has this component
+		///</summary>
+		public event Action OnUnbuckleEvent;
 
 		/// <summary>
 		/// Do the resist even if uncuffed, e.g alien nest
@@ -61,11 +69,11 @@ namespace Objects
 				var playerPushPull = playerScript.objectPhysics;
 				if (side == NetworkSide.Server)
 				{
-					canPush = playerPushPull.CanPush( dir);
+					canPush = playerPushPull.CanPush(dir);
 				}
 				else
 				{
-					canPush = playerPushPull.CanPush( dir);
+					canPush = playerPushPull.CanPush(dir);
 				}
 
 				if (canPush == false) return false;
@@ -76,7 +84,7 @@ namespace Objects
 		public bool WillInteract(MouseDrop interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side,
-				    Validations.CheckState(x => x.CanBuckleOthers)) == false) return false;
+					Validations.CheckState(x => x.CanBuckleOthers)) == false) return false;
 
 			if (Validations.HasComponent<MovementSynchronisation>(interaction.DroppedObject) == false) return false;
 
@@ -134,6 +142,7 @@ namespace Objects
 
 			objectPhysics.BuckleObjectToThis(playerScript.playerMove);
 			occupiedSpriteHandler.OrNull()?.ChangeSprite(0);
+			OnBuckleEvent?.Invoke();
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -209,6 +218,7 @@ namespace Objects
 			playerScript.PlayerSync.Unbuckle();
 			objectPhysics.Unbuckle();
 			occupiedSpriteHandler.OrNull()?.PushClear();
+			OnUnbuckleEvent?.Invoke();
 		}
 
 		private bool CanUnBuckleSelf(PlayerScript playerScript)
