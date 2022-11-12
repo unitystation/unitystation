@@ -96,6 +96,41 @@ namespace Tests.Asset
 			Assert.IsEmpty(listResults, report.ToString());
 		}
 
+		private void CheckMissingOrNullReferenceFieldsSpriteSOs()
+		{
+			var report = new TestReport();
+			var FieldInfo =  typeof(SpriteDataSO.Frame).GetField("sprite");
+			List<string> Missing = new List<string>();
+			foreach (var so in Utils.FindAssetsByType<SpriteDataSO>(""))
+			{
+				for (int i = 0; i < so.Variance.Count; i++)
+				{
+					for (int j = 0; j < so.Variance[i].Frames.Count; j++)
+					{
+						var Status =  SerializedObjectFieldsMap.GetReferenceStatus(FieldInfo, so.Variance[i].Frames[j]);
+						switch (Status)
+						{
+								case ReferenceStatus.Null:
+									Missing.Add( $"{so.name} Index {i} Subindex {j} is None/Null");
+									break;
+								case ReferenceStatus.Missing:
+									Missing.Add($"{so.name} Index {i} Subindex {j} has a missing reference.");
+									break;
+								default:
+									break;
+						}
+					}
+				}
+			}
+
+
+			report.FailIf(Missing.Any());
+			foreach (var Missed in Missing)
+			{
+				report.AppendLine(Missed);
+			}
+			report.AssertPassed();
+		}
 
 		private void CheckMissingOrNullReferenceFieldsScriptableObjects(string path, ReferenceStatus status)
 		{
@@ -134,6 +169,12 @@ namespace Tests.Asset
 			CheckMissingScriptableObjects("ScriptableObjects");
 			CheckMissingOrNullReferenceFieldsScriptableObjects("ScriptableObjects",
 				ReferenceStatus.Missing);
+		}
+
+		[Test]
+		public void TestScriptableObjectsSprites()
+		{
+			CheckMissingOrNullReferenceFieldsSpriteSOs();
 		}
 
 		/// <summary>

@@ -50,8 +50,11 @@ public class Eye : BodyPartFunctionality, IItemInOutMovedPlayer, IClientSynchron
 		}
 	}
 
-	public void Awake()
+
+
+	public override void Awake()
 	{
+		base.Awake();
 		Pickupable = this.GetComponent<Pickupable>();
 		RelatedPart.ModifierChange += UpdateBlurryEye;
 		UpdateBlurryEye();
