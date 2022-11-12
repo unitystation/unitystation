@@ -29,10 +29,10 @@ namespace Systems.Atmospherics
 		public float Temperature
 		{
 			get { return temperature; }
-			set { temperature = Math.Clamp(value, 0, Single.MaxValue); }
+			set { temperature = Math.Clamp(value, 0.001f, Single.MaxValue); }
 		}
 
-		
+
 		private HashSet<GasSO> cache = new HashSet<GasSO>();
 		private HashSet<GasSO> pipeCache = new HashSet<GasSO>();
 
