@@ -75,7 +75,7 @@ namespace Tests
 		/// If the reference is considered Unity's null, then attempt to get the instance ID from the value.
 		/// If that ID is not 0, then it means the reference is missing. Otherwise the reference is Null/None.
 		/// </summary>
-		private static ReferenceStatus GetReferenceStatus(FieldInfo field, Object instance)
+		public static ReferenceStatus GetReferenceStatus(FieldInfo field, object instance)
 		{
 			var value = field.GetValue(instance) as Object;
 
@@ -84,5 +84,6 @@ namespace Tests
 			// At this point, value is Unity's null but the object may still actually exist.
 			return Utils.GetInstanceID(value) != 0 ? ReferenceStatus.Missing : ReferenceStatus.Null;
 		}
+
 	}
 }

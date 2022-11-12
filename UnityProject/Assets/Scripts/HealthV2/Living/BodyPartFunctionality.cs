@@ -40,7 +40,7 @@ namespace HealthV2
 			RelatedPart.TakeDamage(this.gameObject,(int)(5f * strength / (EMPResistance + 1)), AttackType.Internal, DamageType.Burn, false, false, 0, (int)(100/EMPResistance + 1), TraumaticDamageTypes.BURN);
 		}
 
-		private void Awake()
+		public virtual void Awake()
 		{
 			RelatedPart = GetComponent<BodyPart>();
 		}

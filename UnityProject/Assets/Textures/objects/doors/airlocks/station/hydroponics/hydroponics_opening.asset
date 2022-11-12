@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: hydroponics_opening
   m_EditorClassIdentifier: 
   Variance:
-  - Frames: []
+  - Frames:
+    - sprite: {fileID: 21300000, guid: 3f34ad64db1de3947b2d8e070993afec, type: 3}
+      secondDelay: 0
   - Frames:
     - sprite: {fileID: 0}
       secondDelay: 0.1
