@@ -51,6 +51,7 @@ namespace Messages.Server
 
 			if (connection == null)
 			{
+				connection = PlayerList.Instance.GetRelatedNetworkConnection(recipient);
 				return;
 			}
 

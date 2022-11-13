@@ -734,7 +734,7 @@ namespace Systems.Antagonists
 
 			RemoveGhostRole();
 
-			RemoveActions(playerScript.mind);
+			RemoveActions(playerScript.PlayerInfo);
 
 			ChangeAlienMode(AlienMode.Dead);
 
@@ -1101,7 +1101,7 @@ namespace Systems.Antagonists
 			return ActionData.Contains(data);
 		}
 
-		private void AddNewActions(Mind mind)
+		private void AddNewActions(PlayerInfo Account)
 		{
 			if(alienType == null) return;
 
@@ -1114,7 +1114,7 @@ namespace Systems.Antagonists
 
 			foreach (var action in alienType.ActionData)
 			{
-				UIActionManager.ToggleMultiServer(mind, this, action, true);
+				UIActionManager.ToggleMultiServer(Account.Mind, this, action, true);
 			}
 		}
 
@@ -1130,11 +1130,11 @@ namespace Systems.Antagonists
 			}
 		}
 
-		private void RemoveActions(Mind mind)
+		private void RemoveActions(PlayerInfo Account)
 		{
 			foreach (var action in ActionData)
 			{
-				UIActionManager.ToggleMultiServer(mind,this, action, false);
+				UIActionManager.ToggleMultiServer(Account.Mind,this, action, false);
 			}
 		}
 
@@ -1617,11 +1617,11 @@ namespace Systems.Antagonists
 			playerTookOver = null;
 		}
 
-		public void OnPlayerTransfer(Mind mind)
+		public void OnPlayerTransfer(PlayerInfo Account)
 		{
 			//This will call after an admin respawn to set up a new player
 			SetNewPlayer();
-			AddNewActions(mind);
+			AddNewActions(Account);
 			playerScript.playerName = $"{alienType.Name} {nameNumber}";
 
 			//Block role remove if this transfered player was the one how got the ghost role
@@ -1638,9 +1638,9 @@ namespace Systems.Antagonists
 			playerScript.playerName = $"{alienType.Name} {nameNumber}";
 		}
 
-		public void OnPlayerLeaveBody(Mind mind)
+		public void OnPlayerLeaveBody(PlayerInfo Account)
 		{
-			RemoveActions(mind);
+			RemoveActions(Account);
 		}
 
 		//Called after larva spawned, in case it was a disconnected player

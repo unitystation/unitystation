@@ -120,6 +120,27 @@ public class Mind : MonoBehaviour
 		StopGhosting();
 	}
 
+	public bool IsRelatedToObject(GameObject Object)
+	{
+		if (this.gameObject == Object)
+		{
+			return true;
+		}
+
+		if (this.PossessingObject == Object)
+		{
+			return true;
+		}
+
+		if (PlayerPossessable != null && PlayerPossessable.IsRelatedToObject(Object))
+		{
+			return true;
+		}
+
+		return false;
+
+	}
+
 	private void ClearOldBody()
 	{
 		if (body)

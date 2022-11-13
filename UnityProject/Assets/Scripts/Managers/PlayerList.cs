@@ -180,6 +180,13 @@ public partial class PlayerList : NetworkBehaviour
 		CheckRcon();
 	}
 
+	[Server]
+	public void UpdatePlayer(PlayerInfo connectedPlayer, GameObject newGameObject)
+	{
+		connectedPlayer.GameObject = newGameObject;
+		CheckRcon();
+	}
+
 	/// <summary>
 	/// Adds this connected player to the list, or updates an existing entry if there's already one for
 	/// this player's networkconnection. Returns the ConnectedPlayer that was added or updated.
@@ -228,6 +235,21 @@ public partial class PlayerList : NetworkBehaviour
 		loggedIn.Remove(player);
 		UpdateConnectedPlayersMessage.Send();
 		CheckRcon();
+	}
+
+	[Server]
+	public NetworkConnection GetRelatedNetworkConnection(GameObject Object)
+	{
+		if (Object == null) return null;
+		foreach (var Info in loggedIn)
+		{
+			if (Info.ViewerScript.gameObject == Object || Info.Mind.IsRelatedToObject(Object))
+			{
+				return Info.Connection;
+			}
+		}
+
+		return null;
 	}
 
 	[Server]
@@ -604,6 +626,7 @@ public partial class PlayerList : NetworkBehaviour
 			}
 		}
 	}
+
 
 	private void OnDestroy()
 	{

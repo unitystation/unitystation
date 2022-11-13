@@ -11,13 +11,13 @@ namespace Player
 		ElectrifiedDoorModule.Rejoined(connectionToClient);
 	}
 
-	public void OnPlayerTransfer(Mind mind)
+	public void OnPlayerTransfer(PlayerInfo Account)
 	{
 		//Resend electrified door stuff as they've transferred into this body from a different one
 		ElectrifiedDoorModule.Rejoined(connectionToClient);
 	}
 
-	public void OnPlayerLeaveBody(Mind mind)
+	public void OnPlayerLeaveBody(PlayerInfo Account)
 	{
 		//Player left this body so remove all electrified door stuff
 		ElectrifiedDoorModule.LeftBody(connectionToClient);

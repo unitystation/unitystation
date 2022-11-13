@@ -68,24 +68,24 @@ namespace UI.Action
 			}
 		}
 
-		public void OnPlayerLeaveBody(Mind mind)
+		public void OnPlayerLeaveBody(PlayerInfo Account)
 		{
 			foreach (var _IActionGUI in ControllingActions)
 			{
-				UIActionManager.ToggleServer(mind, _IActionGUI, false);
+				UIActionManager.ToggleServer(Account.Mind, _IActionGUI, false);
 			}
 
 			previousMind = null;
 		}
 
-		public void OnPlayerTransfer(Mind mind)
+		public void OnPlayerTransfer(PlayerInfo Account)
 		{
 			foreach (var _IActionGUI in ControllingActions)
 			{
-				UIActionManager.ToggleServer(mind, _IActionGUI, true);
+				UIActionManager.ToggleServer(Account.Mind, _IActionGUI, true);
 			}
 
-			previousMind = mind;
+			previousMind = Account.Mind;
 		}
 	}
 }
