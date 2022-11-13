@@ -22,10 +22,7 @@ public class Mind : MonoBehaviour
 	public GameObject PossessingObject { get; private set; }
 	public IPlayerPossessable PlayerPossessable { get; private set; }
 
-
 	public Occupation occupation;
-
-
 
 	public PlayerScript ghost { private set; get; }
 	public PlayerScript body { private set; get; }

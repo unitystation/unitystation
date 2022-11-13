@@ -23,7 +23,6 @@ public class ObjectList
 [System.Serializable]
 public class RaceHealthData
 {
-	public GameObject BrainPrefab;
 
 	public ObjectList Head;
 	public ObjectList Torso;

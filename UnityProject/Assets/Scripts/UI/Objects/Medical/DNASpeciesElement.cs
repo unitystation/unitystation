@@ -153,6 +153,7 @@ public class DNASpeciesElement : DynamicEntry
 
 		foreach (var bodyPart in BodyParts)
 		{
+			if (bodyPart == null) continue;
 			var Part_body = bodyPart.GetComponent<BodyPart>();
 			StoredBodyParts.Add(Part_body);
 			RecursivePopulate(Part_body);

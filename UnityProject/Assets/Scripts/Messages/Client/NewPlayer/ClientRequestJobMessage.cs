@@ -49,7 +49,7 @@ namespace Messages.Client.NewPlayer
 				return false;
 			}
 
-			if (SentByPlayer.ViewerScript == null)
+			if (SentByPlayer.ViewerScript == null) //Maybe change?
 			{
 				NotifyError(JobRequestError.InvalidScript, $"{nameof(SentByPlayer.ViewerScript)} is null");
 				return false;
