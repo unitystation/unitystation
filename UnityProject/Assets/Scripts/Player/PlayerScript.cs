@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Detective;
 using Systems.Ai;
@@ -14,9 +16,10 @@ using Player.Language;
 using ScriptableObjects;
 using Systems.StatusesAndEffects;
 using Tiles;
+using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Serialization;
 
-public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActionGUI
+public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActionGUI, IHoverTooltip
 {
 	/// maximum distance the player needs to be to an object to interact with it
 	public const float interactionDistance = 1.5f;
@@ -567,12 +570,14 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	{
 		if (gameObject.IsAtHiddenPos()) return;
 		UIManager.SetToolTip = visibleName;
+		UIManager.SetHoverToolTip = gameObject;
 
 	}
 
 	public void OnMouseExit()
 	{
 		UIManager.SetToolTip = "";
+		UIManager.SetHoverToolTip = null;
 	}
 
 	private System.Random RNG = new System.Random();
@@ -703,6 +708,43 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	{
 		canVentCrawl = !canVentCrawl;
 	}
+
+
+	#region TOOLTIPDATA
+
+	public string HoverTip()
+	{
+		StringBuilder finalText = new StringBuilder();
+		if (characterSettings == null) return finalText.ToString();
+		finalText.Append($"A {characterSettings.Species}.");
+		finalText.Append($" {characterSettings.PlayerPronoun}.");
+		return finalText.ToString();
+	}
+
+	public string CustomTitle()
+	{
+		return visibleName;
+	}
+
+	public Sprite CustomIcon()
+	{
+		foreach (var bodyPart in playerSprites.SurfaceSprite)
+		{
+			if(bodyPart.name != "head" || bodyPart.name != "Head") continue;
+			return bodyPart.spriteRenderer.sprite;
+		}
+
+		return null;
+	}
+
+	public List<Sprite> IconIndicators()
+	{
+		//TODO: add indicators for players.
+		return null;
+	}
+
+	#endregion
+
 }
 
 [Flags]

@@ -13,22 +13,32 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		[SerializeField] private Image iconTarget;
 
 		private GameObject targetObject;
+		private bool detailsModeEnabled = false;
 
-		private const float offsety = -105f;
-		private const float offsetx = -125f;
+		private const float MOUSE_OFFSET_Y = -105f;
+		private const float MOUSE_OFFSET_X = -125f;
+		private const float ANIM_TIME = 0.2f;
 
 
 		private void Start()
 		{
 			UpdateManager.Add(CallbackType.FIXED_UPDATE, UpdatePosition);
+			UpdateManager.Add(CallbackType.UPDATE, CheckForInput);
 			ResetTool();
 		}
 
 		private void UpdatePosition()
 		{
-			var newPosition = new Vector3(Input.mousePosition.x + offsetx, Input.mousePosition.y + offsety,
+			var newPosition = new Vector3(Input.mousePosition.x + MOUSE_OFFSET_X, Input.mousePosition.y + MOUSE_OFFSET_Y,
 				Input.mousePosition.z);
 			transform.position = newPosition;
+		}
+
+		private void CheckForInput()
+		{
+			var lastState = detailsModeEnabled;
+			detailsModeEnabled = Input.GetKeyDown(KeyCode.LeftShift);
+			if (lastState != detailsModeEnabled && detailsModeEnabled && targetObject != null) SetupTooltip(targetObject);
 		}
 
 		public void SetupTooltip(GameObject hoverObject)
@@ -38,11 +48,11 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			if (hoverObject == null) return;
 			UpdateMainInfo(hoverObject);
 			CaptureIconFromSpriteHandler(hoverObject);
-			UpdateDetailedView(hoverObject);
+			if(detailsModeEnabled) UpdateDetailedView(hoverObject);
 			// Don't show if the description/name is empty.
 			if (String.IsNullOrEmpty(nameText.text) || String.IsNullOrEmpty(descText.text)) return;
 
-			content.LeanAlpha(1f, 0.2f);
+			content.LeanAlpha(1f, ANIM_TIME);
 		}
 
 		private void CaptureIconFromSpriteHandler(GameObject target)
@@ -84,7 +94,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			nameText.text = string.Empty;
 			descText.text = string.Empty;
 			iconTarget.sprite = null;
-			content.LeanAlpha(0f, 0.2f);
+			content.LeanAlpha(0f, ANIM_TIME);
 		}
 	}
 }
