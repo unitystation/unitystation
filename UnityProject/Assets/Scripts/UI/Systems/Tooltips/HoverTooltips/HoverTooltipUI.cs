@@ -55,7 +55,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			}
 
 			// Don't show if the description/name is empty.
-			if(String.IsNullOrEmpty(nameText.text) || String.IsNullOrEmpty(descText.text)) return;
+			if (String.IsNullOrEmpty(nameText.text) || String.IsNullOrEmpty(descText.text)) return;
 
 			content.LeanAlpha(1f, 0.2f);
 		}
