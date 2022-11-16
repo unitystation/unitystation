@@ -7,6 +7,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 {
 	public class HoverTooltipUI : MonoBehaviour
 	{
+		[SerializeField] private Transform content;
 		[SerializeField] private TMP_Text nameText;
 		[SerializeField] private TMP_Text descText;
 		[SerializeField] private Image iconTarget;
@@ -33,9 +34,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		public void SetupTooltip(GameObject hoverObject)
 		{
 			targetObject = hoverObject;
-			nameText.text = string.Empty;
-			descText.text = string.Empty;
-			iconTarget.sprite = null;
+			ResetTool();
 			if (hoverObject == null) return;
 			if (hoverObject.TryGetComponent<Attributes>(out var attribute))
 			{
@@ -54,6 +53,15 @@ namespace UI.Systems.Tooltips.HoverTooltips
 				if (String.IsNullOrEmpty(data.HoverTip())) continue;
 				descText.text += $"\n \n{data.HoverTip()}";
 			}
+			content.SetActive(true);
+		}
+
+		private void ResetTool()
+		{
+			nameText.text = string.Empty;
+			descText.text = string.Empty;
+			iconTarget.sprite = null;
+			content.SetActive(false);
 		}
 	}
 }
