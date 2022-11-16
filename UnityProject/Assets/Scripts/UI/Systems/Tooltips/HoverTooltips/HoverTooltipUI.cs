@@ -7,21 +7,21 @@ namespace UI.Systems.Tooltips.HoverTooltips
 {
 	public class HoverTooltipUI : MonoBehaviour
 	{
-		[SerializeField] private Transform content;
+		[SerializeField] private CanvasGroup content;
 		[SerializeField] private TMP_Text nameText;
 		[SerializeField] private TMP_Text descText;
 		[SerializeField] private Image iconTarget;
 
 		private GameObject targetObject;
 
-		private const float offsety = 90f;
-		private const float offsetx = 105f;
+		private const float offsety = -105f;
+		private const float offsetx = -125f;
 
 
 		private void Start()
 		{
 			UpdateManager.Add(CallbackType.FIXED_UPDATE, UpdatePosition);
-			content.SetActive(false);
+			ResetTool();
 		}
 
 		private void UpdatePosition()
@@ -53,7 +53,8 @@ namespace UI.Systems.Tooltips.HoverTooltips
 				if (String.IsNullOrEmpty(data.HoverTip())) continue;
 				descText.text += $"\n \n{data.HoverTip()}";
 			}
-			content.SetActive(true);
+
+			content.LeanAlpha(1f, 0.2f);
 		}
 
 		private void ResetTool()
@@ -61,7 +62,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			nameText.text = string.Empty;
 			descText.text = string.Empty;
 			iconTarget.sprite = null;
-			content.SetActive(false);
+			content.LeanAlpha(0f, 0.2f);
 		}
 	}
 }

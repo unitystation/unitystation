@@ -61,9 +61,9 @@ MonoBehaviour:
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
-  m_ChildControlHeight: 1
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 1
+  m_ChildScaleHeight: 1
   m_ReverseArrangement: 0
 --- !u!1 &1205079912587433732
 GameObject:
@@ -323,7 +323,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 394.766, y: 0}
+  m_SizeDelta: {x: 394.766, y: 40.22}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2942939378645327241
 CanvasRenderer:
@@ -458,7 +458,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 45.37, y: 0}
+  m_SizeDelta: {x: 45.37, y: 40.22}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &678569719243511612
 CanvasRenderer:
@@ -511,6 +511,7 @@ GameObject:
   - component: {fileID: 2890652336896252390}
   - component: {fileID: 4455597326799397342}
   - component: {fileID: 2622015182816920438}
+  - component: {fileID: 3749523656916463282}
   m_Layer: 5
   m_Name: background
   m_TagString: Untagged
@@ -619,6 +620,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!225 &3749523656916463282
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5994793447056206152}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &6682335463067227985
 GameObject:
   m_ObjectHideFlags: 0
@@ -669,7 +682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 910ac19e3d4f44b48a1359c597c4a194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  content: {fileID: 8804562893836488431}
+  content: {fileID: 3749523656916463282}
   nameText: {fileID: 1582449825955878055}
   descText: {fileID: 4899701060086198357}
   iconTarget: {fileID: 1088170015478288013}
