@@ -36,28 +36,47 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			targetObject = hoverObject;
 			ResetTool();
 			if (hoverObject == null) return;
-			if (hoverObject.TryGetComponent<Attributes>(out var attribute))
-			{
-				nameText.text = attribute.ArticleName;
-				descText.text = attribute.ArticleDescription;
-			}
-			var imageObj = hoverObject.GetComponentInChildren<SpriteHandler>();
+			UpdateMainInfo(hoverObject);
+			CaptureIconFromSpriteHandler(hoverObject);
+			UpdateDetailedView(hoverObject);
+			// Don't show if the description/name is empty.
+			if (String.IsNullOrEmpty(nameText.text) || String.IsNullOrEmpty(descText.text)) return;
+
+			content.LeanAlpha(1f, 0.2f);
+		}
+
+		private void CaptureIconFromSpriteHandler(GameObject target)
+		{
+			var imageObj = targetObject.GetComponentInChildren<SpriteHandler>();
 			if (imageObj != null)
 			{
 				iconTarget.sprite = imageObj.CurrentSprite;
 			}
-			var tips = hoverObject.GetComponents<IHoverTooltip>();
+		}
+
+		private void UpdateIconSprite(IHoverTooltip target)
+		{
+			if (target.CustomIcon() == null) return;
+			iconTarget.sprite = target.CustomIcon();
+		}
+
+		private void UpdateMainInfo(GameObject target)
+		{
+			if (target.TryGetComponent<Attributes>(out var attribute) == false) return;
+			nameText.text = attribute.ArticleName;
+			descText.text = attribute.ArticleDescription;
+		}
+
+		private void UpdateDetailedView(GameObject target)
+		{
+			var tips = target.GetComponents<IHoverTooltip>();
 			foreach (var data in tips)
 			{
 				if (String.IsNullOrEmpty(data.CustomTitle()) == false) nameText.text = data.CustomTitle();
 				if (String.IsNullOrEmpty(data.HoverTip())) continue;
 				descText.text += $"\n \n{data.HoverTip()}";
+				UpdateIconSprite(data);
 			}
-
-			// Don't show if the description/name is empty.
-			if (String.IsNullOrEmpty(nameText.text) || String.IsNullOrEmpty(descText.text)) return;
-
-			content.LeanAlpha(1f, 0.2f);
 		}
 
 		private void ResetTool()
