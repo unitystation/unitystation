@@ -21,11 +21,11 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		private void Start()
 		{
 			UpdateManager.Add(CallbackType.FIXED_UPDATE, UpdatePosition);
+			content.SetActive(false);
 		}
 
 		private void UpdatePosition()
 		{
-			if (targetObject == null) return;
 			var newPosition = new Vector3(Input.mousePosition.x + offsetx, Input.mousePosition.y + offsety,
 				Input.mousePosition.z);
 			transform.position = newPosition;
