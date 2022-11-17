@@ -195,19 +195,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 	}
 
-	private Vector2 AAAAAAnewtonianMovement { get; set; }
-
-	private Vector2 newtonianMovement
-	{
-		get
-		{
-			return AAAAAAnewtonianMovement;
-		}
-		set
-		{
-			AAAAAAnewtonianMovement = value;
-		}
-	} //* attributes.Size -> weight
+	[PlayModeOnly] private Vector2 newtonianMovement; //* attributes.Size -> weight
 
 
 	public Vector2 NewtonianMovement
