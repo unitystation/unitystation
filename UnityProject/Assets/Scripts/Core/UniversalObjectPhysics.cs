@@ -195,7 +195,19 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 	}
 
-	[PlayModeOnly] private Vector2 newtonianMovement; //* attributes.Size -> weight
+	private Vector2 AAAAAAnewtonianMovement { get; set; }
+
+	private Vector2 newtonianMovement
+	{
+		get
+		{
+			return AAAAAAnewtonianMovement;
+		}
+		set
+		{
+			AAAAAAnewtonianMovement = value;
+		}
+	} //* attributes.Size -> weight
 
 
 	public Vector2 NewtonianMovement
@@ -687,6 +699,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	[ClientRpc]
 	public void RPCForceSetPosition(Vector3 resetToLocal, Vector2 momentum, bool smooth, int matrixID, float rotation, int resetID)
 	{
+		if (isServer) return;
 		ForceSetLocalPosition(resetToLocal, momentum, smooth, matrixID, false, rotation, resetID: resetID);
 	}
 
@@ -1560,7 +1573,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 							{
 								//Remove cast to int when moving health values to float
 								var damage = (IAV2.ServerThrowDamage);
-								
+
 								if (hit.TryGetComponent<Integrity>(out var integrity))
 								{
 									integrity.ApplyDamage(damage, AttackType.Melee, IAV2.ServerDamageType);

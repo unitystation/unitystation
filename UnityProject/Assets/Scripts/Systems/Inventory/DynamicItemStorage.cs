@@ -69,6 +69,9 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 	private readonly List<InternalData> removed = new List<InternalData>();
 
 
+	//You should not need to reference the occupation, Best to use mind Instead
+	public Occupation InitialisedWithOccupation { get; private set; } = null;
+
 	public class InternalData
 	{
 		public uint ID;
@@ -987,6 +990,9 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 			Logger.LogWarning($"[DynamicInventory] - Attempted to use a null occupation!");
 			return;
 		}
+
+		InitialisedWithOccupation = occupation; //Can't really think of anywhere better to put this
+		//
 		var NSP = occupation.InventoryPopulator as PlayerSlotStoragePopulator;
 		if (NSP != null)
 		{

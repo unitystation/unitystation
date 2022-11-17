@@ -37,19 +37,19 @@ namespace Objects
 				return;
 			}
 
-			this.RestartCoroutine(RunNameSetSequence(player, newName), ref nameSettingRoutine);
+			this.RestartCoroutine(RunNameSetSequence(player.Mind, newName), ref nameSettingRoutine);
 		}
 
-		private IEnumerator RunNameSetSequence(PlayerInfo player, string newName)
+		private IEnumerator RunNameSetSequence(Mind player, string newName)
 		{
 			SoundManager.PlayNetworkedAtPos(PrintSound, gameObject.RegisterTile().WorldPositionServer, sourceObj: gameObject);
 			yield return WaitFor.Seconds(PRINTING_TIME);
 
-			player.Script.SetPermanentName(newName);
+			player.SetPermanentName(newName);
 			SpawnPaper(player);
 		}
 
-		private void SpawnPaper(PlayerInfo forPlayer)
+		private void SpawnPaper(Mind forPlayer)
 		{
 			GameObject paper = Spawn.ServerPrefab(paperPrefab, gameObject.RegisterTile().WorldPositionServer).GameObject;
 			paper.GetComponent<Paper>().SetServerString(Wizard.GetIdentityPaperText(forPlayer));

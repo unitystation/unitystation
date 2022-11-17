@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using Messages.Server;
+using Mirror;
 using Shared.Util;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -24,16 +25,16 @@ namespace UI.Action
 		}
 
 
-		public Dictionary<Mind, List<IActionGUI>> ActivePlayerActions = new Dictionary<Mind, List<IActionGUI>>();
-		public Dictionary<IActionGUI, Mind> IActionGUIToMind = new Dictionary<IActionGUI, Mind>();
+		public Dictionary<GameObject, List<IActionGUI>> ActivePlayerActions = new Dictionary<GameObject, List<IActionGUI>>();
+		public Dictionary<IActionGUI, GameObject> IActionGUIToMind = new Dictionary<IActionGUI, GameObject>();
 
 		public Dictionary<IActionGUI, string> IActionGUIToID = new Dictionary<IActionGUI, string>();
 		public Dictionary<IActionGUI, string> ClientIActionGUIToID = new Dictionary<IActionGUI, string>();
 
 
-		public Dictionary<Mind, Dictionary<IActionGUIMulti, List<ActionData>>> MultiActivePlayerActions = new Dictionary<Mind, Dictionary<IActionGUIMulti, List<ActionData>>>();
+		public Dictionary<GameObject, Dictionary<IActionGUIMulti, List<ActionData>>> MultiActivePlayerActions = new Dictionary<GameObject, Dictionary<IActionGUIMulti, List<ActionData>>>();
 
-		public Dictionary<IActionGUIMulti, Mind> MultiIActionGUIToMind = new Dictionary<IActionGUIMulti, Mind>();
+		public Dictionary<IActionGUIMulti, GameObject> MultiIActionGUIToMind = new Dictionary<IActionGUIMulti, GameObject>();
 
 		public Dictionary<IActionGUIMulti, Dictionary<ActionData, string>> MultiIActionGUIToID = new Dictionary<IActionGUIMulti, Dictionary<ActionData, string>>();
 
@@ -66,29 +67,29 @@ namespace UI.Action
 		public bool HasActiveAction => ActiveAction != null;
 
 
-		public void UpdatePlayer(Mind mind)
+		public void UpdatePlayer(GameObject Body, NetworkConnection requestedBy)
 		{
-			if (ActivePlayerActions.ContainsKey(mind))
+			if (ActivePlayerActions.ContainsKey(Body))
 			{
-				foreach (var IactionGUI in ActivePlayerActions[mind])
+				foreach (var IactionGUI in ActivePlayerActions[Body])
 				{
-					Show("", IactionGUI, mind);
+					Show("", IactionGUI, Body);
 				}
 			}
 
 
-			if (MultiActivePlayerActions.ContainsKey(mind))
+			if (MultiActivePlayerActions.ContainsKey(Body))
 			{
-				foreach (var MultiIactionGUI in MultiActivePlayerActions[mind])
+				foreach (var MultiIactionGUI in MultiActivePlayerActions[Body])
 				{
 					foreach (var AD in MultiIactionGUI.Value)
 					{
-						ShowMulti("",mind, MultiIactionGUI.Key, AD);
+						ShowMulti("",Body, MultiIactionGUI.Key, AD);
 					}
 				}
 			}
 
-			SpriteHandlerManager.Instance.UpdateSpecialNewPlayer(mind.CurrentPlayScript.connectionToClient);
+			SpriteHandlerManager.Instance.UpdateSpecialNewPlayer(requestedBy);
 		}
 
 
@@ -97,41 +98,41 @@ namespace UI.Action
 		/// <summary>
 		/// Set the action button visibility, locally (clientside)
 		/// </summary>
-		public static void ToggleServer(Mind RelatedMind, IActionGUI iActionGUI, bool show) //TODO Change to not mind
+		public static void ToggleServer(GameObject body, IActionGUI iActionGUI, bool show) //TODO Change to not mind
 		{
-			Instance.InstantToggleServer(RelatedMind, iActionGUI, show);
+			Instance.InstantToggleServer(body, iActionGUI, show);
 		}
 
-		private void InstantToggleServer(Mind RelatedMind, IActionGUI iActionGUI, bool show)
+		private void InstantToggleServer(GameObject Body, IActionGUI iActionGUI, bool show)
 		{
 			if (CustomNetworkManager.IsServer == false) return;
-			if (ActivePlayerActions.ContainsKey(RelatedMind) == false)
+			if (ActivePlayerActions.ContainsKey(Body) == false)
 			{
-				ActivePlayerActions[RelatedMind] = new List<IActionGUI>();
+				ActivePlayerActions[Body] = new List<IActionGUI>();
 			}
 
 
 			if (show)
 			{
-				if (ActivePlayerActions[RelatedMind].Contains(iActionGUI))
+				if (ActivePlayerActions[Body].Contains(iActionGUI))
 				{
 					Logger.LogError("iActionGUI Already present on mind");
 					return;
 				}
 
-				var IDString = (RelatedMind.GetHashCode().ToString() + iActionGUI.GetHashCode().ToString());
+				var IDString = (Body.GetHashCode().ToString() + iActionGUI.GetHashCode().ToString());
 
 				SpriteHandlerManager.RegisterSpecialHandler(IDString+"F"); //Front icon
 				SpriteHandlerManager.RegisterSpecialHandler(IDString+"B"); //back icon
 				IActionGUIToID[iActionGUI] = IDString;
-				IActionGUIToMind[iActionGUI] = RelatedMind;
-				ActivePlayerActions[RelatedMind].Add(iActionGUI);
+				IActionGUIToMind[iActionGUI] = Body;
+				ActivePlayerActions[Body].Add(iActionGUI);
 
-				Show(IDString, iActionGUI, RelatedMind);
+				Show(IDString, iActionGUI, Body);
 			}
 			else
 			{
-				if (ActivePlayerActions[RelatedMind].Contains(iActionGUI) == false)
+				if (ActivePlayerActions[Body].Contains(iActionGUI) == false)
 				{
 					Logger.LogError($"iActionGUI {iActionGUI?.ActionData.OrNull()?.Name}, not present on mind");
 					return;
@@ -144,9 +145,9 @@ namespace UI.Action
 
 
 				IActionGUIToID.Remove(iActionGUI);
-				ActivePlayerActions[RelatedMind].Remove(iActionGUI);
+				ActivePlayerActions[Body].Remove(iActionGUI);
 				IActionGUIToMind.Remove(iActionGUI);
-				Hide(iActionGUI, RelatedMind);
+				Hide(iActionGUI, Body);
 			}
 		}
 
@@ -216,7 +217,7 @@ namespace UI.Action
 			}
 
 			//Send message
-			SetActionUIMessage.SetSpriteSO(Instance.IActionGUIToID[iActionGUI], Instance.IActionGUIToMind[iActionGUI].body.gameObject, iActionGUI, sprite,
+			SetActionUIMessage.SetSpriteSO(Instance.IActionGUIToID[iActionGUI], Instance.IActionGUIToMind[iActionGUI], iActionGUI, sprite,
 				palette);
 		}
 
@@ -241,7 +242,7 @@ namespace UI.Action
 				return;
 			}
 
-			SetActionUIMessage.SetSprite(Instance.IActionGUIToID[iActionGUI], Instance.IActionGUIToMind[iActionGUI].body.gameObject, iActionGUI, Location);
+			SetActionUIMessage.SetSprite(Instance.IActionGUIToID[iActionGUI], Instance.IActionGUIToMind[iActionGUI], iActionGUI, Location);
 		}
 
 
@@ -266,7 +267,7 @@ namespace UI.Action
 				return;
 			}
 
-			SetActionUIMessage.SetBackgroundSprite(Instance.IActionGUIToID[iActionGUI], Instance.IActionGUIToMind[iActionGUI].body.gameObject, iActionGUI,
+			SetActionUIMessage.SetBackgroundSprite(Instance.IActionGUIToID[iActionGUI], Instance.IActionGUIToMind[iActionGUI], iActionGUI,
 				Location);
 		}
 
@@ -294,17 +295,16 @@ namespace UI.Action
 			SetActionUIMessage.SetAction(Instance.IActionGUIToID[iActionGUI], recipient, iActionGUI, cooldown);
 		}
 
-		private static void Show(string ID ,IActionGUI iActionGUI, Mind RelatedMind)
+		private static void Show(string ID ,IActionGUI iActionGUI, GameObject body)
 		{
 
-			if (CustomNetworkManager.IsServer && RelatedMind != null)
+			if (CustomNetworkManager.IsServer && body != null)
 			{
 				//Send message
-				if( RelatedMind.CurrentPlayScript == null) return;
-				SetActionUIMessage.SetAction(Instance.IActionGUIToID[iActionGUI], RelatedMind.CurrentPlayScript.gameObject, iActionGUI, true);
+				SetActionUIMessage.SetAction(Instance.IActionGUIToID[iActionGUI], body, iActionGUI, true);
 			}
 
-			if (RelatedMind == null)
+			if (body == null)
 			{
 				foreach (var actionButton in Instance.DicIActionGUI)
 				{
@@ -343,15 +343,15 @@ namespace UI.Action
 			}
 		}
 
-		private static void Hide( IActionGUI iAction, Mind RelatedMind)
+		private static void Hide( IActionGUI iAction, GameObject Body)
 		{
-			if (CustomNetworkManager.IsServer && RelatedMind != null)
+			if (CustomNetworkManager.IsServer && Body != null)
 			{
 				//Send message
-				SetActionUIMessage.SetAction("", RelatedMind.CurrentPlayScript.gameObject, iAction, false);
+				SetActionUIMessage.SetAction("", Body, iAction, false);
 			}
 
-			if (RelatedMind == null)
+			if (Body == null)
 			{
 				//Client stuff
 				if (Instance.DicIActionGUI.ContainsKey(iAction))
@@ -510,38 +510,38 @@ namespace UI.Action
 		/// <summary>
 		/// Set the action button visibility and syncs to client
 		/// </summary>
-		public static void ToggleMultiServer(Mind relatedMind, IActionGUIMulti iActionGUIMulti, ActionData actionData,
+		public static void ToggleMultiServer(GameObject body, IActionGUIMulti iActionGUIMulti, ActionData actionData,
 			bool show)
 		{
-			if(relatedMind == null) return;
+			if(body == null) return;
 
-			Instance.InstantMultiToggleServer(relatedMind, iActionGUIMulti, actionData, show);
+			Instance.InstantMultiToggleServer(body, iActionGUIMulti, actionData, show);
 		}
 
-		private void InstantMultiToggleServer(Mind relatedMind, IActionGUIMulti iActionGUIMulti, ActionData actionData,
+		private void InstantMultiToggleServer(GameObject body, IActionGUIMulti iActionGUIMulti, ActionData actionData,
 			bool show)
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 
-			if (MultiActivePlayerActions.ContainsKey(relatedMind) == false)
+			if (MultiActivePlayerActions.ContainsKey(body) == false)
 			{
-				MultiActivePlayerActions[relatedMind] = new Dictionary<IActionGUIMulti, List<ActionData>>();
+				MultiActivePlayerActions[body] = new Dictionary<IActionGUIMulti, List<ActionData>>();
 			}
 
-			if (MultiActivePlayerActions[relatedMind].ContainsKey(iActionGUIMulti) == false)
+			if (MultiActivePlayerActions[body].ContainsKey(iActionGUIMulti) == false)
 			{
-				MultiActivePlayerActions[relatedMind][iActionGUIMulti] = new List<ActionData>();
+				MultiActivePlayerActions[body][iActionGUIMulti] = new List<ActionData>();
 			}
 
 			if (show)
 			{
-				if (MultiActivePlayerActions[relatedMind][iActionGUIMulti].Contains(actionData))
+				if (MultiActivePlayerActions[body][iActionGUIMulti].Contains(actionData))
 				{
 					Logger.LogError($"ActionData: {actionData.OrNull()?.Name}, already present on mind");
 					return;
 				}
 
-				var idString = $"{relatedMind.GetHashCode()}{iActionGUIMulti.GetHashCode()}{actionData.GetHashCode()}";
+				var idString = $"{body.GetHashCode()}{iActionGUIMulti.GetHashCode()}{actionData.GetHashCode()}";
 
 				SpriteHandlerManager.RegisterSpecialHandler(idString+"F"); //Front icon
 				SpriteHandlerManager.RegisterSpecialHandler(idString+"B"); //back icon
@@ -553,19 +553,19 @@ namespace UI.Action
 
 				MultiIActionGUIToID[iActionGUIMulti][actionData] = idString;
 
-				MultiIActionGUIToMind[iActionGUIMulti] = relatedMind;
-				MultiActivePlayerActions[relatedMind][iActionGUIMulti].Add(actionData);
-				ShowMulti(idString, relatedMind, iActionGUIMulti, actionData);
+				MultiIActionGUIToMind[iActionGUIMulti] = body;
+				MultiActivePlayerActions[body][iActionGUIMulti].Add(actionData);
+				ShowMulti(idString, body, iActionGUIMulti, actionData);
 			}
 			else
 			{
-				if (MultiActivePlayerActions[relatedMind].ContainsKey(iActionGUIMulti) == false)
+				if (MultiActivePlayerActions[body].ContainsKey(iActionGUIMulti) == false)
 				{
 					Logger.LogError("iActionGUIMulti Not present on mind");
 					return;
 				}
 
-				if (MultiActivePlayerActions[relatedMind][iActionGUIMulti].Contains(actionData) == false)
+				if (MultiActivePlayerActions[body][iActionGUIMulti].Contains(actionData) == false)
 				{
 					Logger.LogError("actionData Not present on mind");
 					return;
@@ -576,9 +576,9 @@ namespace UI.Action
 				SpriteHandlerManager.UnRegisterSpecialHandler(idString+"B"); //back icon
 				MultiIActionGUIToID[iActionGUIMulti].Remove(actionData);
 
-				MultiActivePlayerActions[relatedMind][iActionGUIMulti].Remove(actionData);
+				MultiActivePlayerActions[body][iActionGUIMulti].Remove(actionData);
 				MultiIActionGUIToMind.Remove(iActionGUIMulti);
-				HideMulti(relatedMind, iActionGUIMulti, actionData);
+				HideMulti(body, iActionGUIMulti, actionData);
 			}
 		}
 
@@ -631,7 +631,7 @@ namespace UI.Action
 				return;
 			}
 
-			SetActionUIMessage.SetMultiSpriteSO(Instance.MultiIActionGUIToID[iActionGUIMulti][actionData],Instance.MultiIActionGUIToMind[iActionGUIMulti].body.gameObject,
+			SetActionUIMessage.SetMultiSpriteSO(Instance.MultiIActionGUIToID[iActionGUIMulti][actionData],Instance.MultiIActionGUIToMind[iActionGUIMulti],
 				iActionGUIMulti, actionData, sprite, palette);
 		}
 
@@ -662,7 +662,7 @@ namespace UI.Action
 				return;
 			}
 
-			SetActionUIMessage.SetMultiSprite(Instance.MultiIActionGUIToID[iActionGUIMulti][actionData], Instance.MultiIActionGUIToMind[iActionGUIMulti].body.gameObject,
+			SetActionUIMessage.SetMultiSprite(Instance.MultiIActionGUIToID[iActionGUIMulti][actionData], Instance.MultiIActionGUIToMind[iActionGUIMulti],
 				iActionGUIMulti, actionData, Location);
 		}
 
@@ -696,7 +696,7 @@ namespace UI.Action
 				return;
 			}
 
-			SetActionUIMessage.SetMultiBackgroundSprite(Instance.MultiIActionGUIToID[iActionGUIMulti][actionData], Instance.MultiIActionGUIToMind[iActionGUIMulti].body.gameObject,
+			SetActionUIMessage.SetMultiBackgroundSprite(Instance.MultiIActionGUIToID[iActionGUIMulti][actionData], Instance.MultiIActionGUIToMind[iActionGUIMulti],
 				iActionGUIMulti, actionData, Location);
 		}
 
@@ -731,16 +731,16 @@ namespace UI.Action
 			SetActionUIMessage.SetMultiAction(Instance.MultiIActionGUIToID[iActionGUIMulti][actionData],recipient, iActionGUIMulti, actionData, cooldown);
 		}
 
-		private static void ShowMulti(string ID, Mind RelatedMind, IActionGUIMulti iActionGUIMulti, ActionData actionData)
+		private static void ShowMulti(string ID, GameObject Body, IActionGUIMulti iActionGUIMulti, ActionData actionData)
 		{
-			if (CustomNetworkManager.IsServer && RelatedMind != null)
+			if (CustomNetworkManager.IsServer && Body != null)
 			{
 				//Send message
-				SetActionUIMessage.SetMultiAction(Instance.MultiIActionGUIToID[iActionGUIMulti][actionData],RelatedMind.CurrentPlayScript.gameObject, iActionGUIMulti, actionData,
+				SetActionUIMessage.SetMultiAction(Instance.MultiIActionGUIToID[iActionGUIMulti][actionData],Body, iActionGUIMulti, actionData,
 					true);
 			}
 
-			if (RelatedMind == null)
+			if (Body == null)
 			{
 				HideMulti(null, iActionGUIMulti, actionData);
 
@@ -776,16 +776,16 @@ namespace UI.Action
 			}
 		}
 
-		private static void HideMulti( Mind RelatedMind, IActionGUIMulti iActionGUIMulti, ActionData actionData)
+		private static void HideMulti( GameObject Body, IActionGUIMulti iActionGUIMulti, ActionData actionData)
 		{
-			if (CustomNetworkManager.IsServer && RelatedMind != null)
+			if (CustomNetworkManager.IsServer && Body != null)
 			{
 				//Send message
-				SetActionUIMessage.SetMultiAction("", RelatedMind.CurrentPlayScript.gameObject, iActionGUIMulti, actionData,
+				SetActionUIMessage.SetMultiAction("", Body, iActionGUIMulti, actionData,
 					false);
 			}
 
-			if (RelatedMind == null)
+			if (Body == null)
 			{
 				if (Instance.DicIActionGUI.ContainsKey(iActionGUIMulti))
 				{

@@ -37,7 +37,7 @@ namespace Antagonists
 		/// <summary>
 		/// Make sure there's at least one item which hasn't been targeted
 		/// </summary>
-		protected override bool IsPossibleInternal(PlayerScript candidate)
+		protected override bool IsPossibleInternal(Mind candidate)
 		{
 			if (uniqueTargets == false)
 			{

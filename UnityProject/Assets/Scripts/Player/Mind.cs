@@ -17,8 +17,12 @@ using ScriptableObjects.Systems.Spells;
 /// IC character information (job role, antag info, real name, etc). A body and their ghost link to the same mind
 /// SERVER SIDE VALID ONLY, is not sync'd
 /// </summary>
-public class Mind : MonoBehaviour
+public class Mind : NetworkBehaviour
 {
+	[SyncVar(hook = nameof(SyncActiveOn))]
+	private uint IDActivelyControlling;
+
+
 	public GameObject PossessingObject { get; private set; }
 	public IPlayerPossessable PlayerPossessable { get; private set; }
 
@@ -36,11 +40,14 @@ public class Mind : MonoBehaviour
 	public ChatModifier inventorySpeechModifiers = ChatModifier.None;
 	// Current way to check if it's not actually a ghost but a spectator, should set this not have it be the below.
 
+	public PlayerInfo ControlledBy;
+
+
 	public CharacterSheet CurrentCharacterSettings;
 
 	public PlayerScript CurrentPlayScript => IsGhosting ? ghost : body;
 
-	public bool IsSpectator => occupation == null || body == null;
+	public bool IsSpectator => PossessingObject == null;
 
 	public bool ghostLocked;
 
@@ -58,9 +65,12 @@ public class Mind : MonoBehaviour
 		set => SetProperty("vowOfSilence", value);
 	}
 
+	private GhostMove Move;
+
 	// use Create to create a mind.
 	public void Awake()
 	{
+		Move = GetComponent<GhostMove>();
 		// add spell to the UI bar as soon as they're added to the spell list
 		spells.CollectionChanged += (sender, e) =>
 		{
@@ -73,7 +83,7 @@ public class Mind : MonoBehaviour
 			{
 				foreach (Spell x in e.NewItems)
 				{
-					UIActionManager.ToggleServer(this,x, true);
+					UIActionManager.ToggleServer(this.gameObject,x, true);
 				}
 			}
 
@@ -81,7 +91,7 @@ public class Mind : MonoBehaviour
 			{
 				foreach (Spell y in e.OldItems)
 				{
-					UIActionManager.ToggleServer(this, y, false);
+					UIActionManager.ToggleServer(this.gameObject, y, false);
 				}
 			}
 		};
@@ -89,6 +99,8 @@ public class Mind : MonoBehaviour
 
 	public void SetNewBody(PlayerScript playerScript)
 	{
+		//what!!!
+
 		Spells.Clear();
 		ClearOldBody();
 		playerScript.SetMind(this);
@@ -104,8 +116,8 @@ public class Mind : MonoBehaviour
 		{
 			foreach (var spellData in occupation.Spells)
 			{
-				var spellScript = spellData.AddToPlayer(playerScript);
-				Spells.Add(spellScript);
+				//var spellScript = spellData.AddToPlayer(playerScript);
+				//Spells.Add(spellScript);
 			}
 
 			foreach (var pair in occupation.CustomProperties)
@@ -138,6 +150,8 @@ public class Mind : MonoBehaviour
 
 	}
 
+
+
 	private void ClearOldBody()
 	{
 		if (body)
@@ -146,6 +160,17 @@ public class Mind : MonoBehaviour
 			//body.mind = null;
 		}
 	}
+
+	/// <summary>
+	/// Sets the IC name for this player and refreshes the visible name. Name will be kept if respawned.
+	/// </summary>
+	/// <param name="newName">The new name to give to the player.</param>
+	public void SetPermanentName(string newName)
+	{
+		CurrentCharacterSettings.Name = newName;
+		this.name = newName;
+	}
+
 
 	/// <summary>
 	/// Make this mind a specific spawned antag
@@ -159,8 +184,37 @@ public class Mind : MonoBehaviour
 
 	public void SetPossessingObject(GameObject obj)
 	{
+		var InPossessing = obj.OrNull()?.GetComponent<IPlayerPossessable>();
+		List<NetworkIdentity> Gaining = new List<NetworkIdentity>();
+		if (InPossessing != null)
+		{
+			InPossessing.GetRelatedBodies(Gaining);
+		}
+		else if (obj != null)
+		{
+			Gaining.Add(obj.NetWorkIdentity());
+		}
+
+
+		List<NetworkIdentity> Losing = new List<NetworkIdentity>();
+		if (PlayerPossessable != null)
+		{
+			PlayerPossessable.GetRelatedBodies(Losing);
+		}
+		else if (PossessingObject != null)
+		{
+			Gaining.Add(PossessingObject.NetWorkIdentity());
+		}
+
+		HandleOwnershipChangeMulti(Losing, Gaining);
+
 		PossessingObject = obj;
 		PlayerPossessable = obj.GetComponent<IPlayerPossessable>();
+		PlayerPossessable?.BeingPossessedBy(this, null);
+
+		SyncActiveOn(IDActivelyControlling, GetDeepestBody().netId);
+
+
 	}
 
 	public void AddObjectiveToAntag(Objective objectiveToAdd)
@@ -199,27 +253,166 @@ public class Mind : MonoBehaviour
 		newGhost.SetMind(this);
 	}
 
-	public void SetBody(PlayerScript newBody)
+
+	public void Ghost()
 	{
-		body = newBody;
-		newBody.SetMind(this);
-	}
-
-
-
-
-	public void Ghosting(GameObject newGhost)
-	{
+		var Body = GetDeepestBody();
+		Move.ForcePositionClient(Body.transform.position);
 		IsGhosting = true;
-		var PS = newGhost.GetComponent<PlayerScript>();
-		PS.SetMind(this);
-		ghost = PS;
+		SyncActiveOn(IDActivelyControlling, GetDeepestBody().netId);
+
 	}
 
 	public void StopGhosting()
 	{
 		IsGhosting = false;
+		if (GetDeepestBody().netId == this.netId)
+		{
+			IsGhosting = true; //Basically is not able to possess anything
+		}
+
+		SyncActiveOn(IDActivelyControlling, GetDeepestBody().netId);
 	}
+
+	public void SyncActiveOn(uint oldID, uint newID)
+	{
+		IDActivelyControlling = newID;
+
+		if (CustomNetworkManager.IsServer)
+		{
+			var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+			if (spawned.ContainsKey(newID))
+			{
+				if (ControlledBy != null) //TODO Remove
+				{
+					ControlledBy.GameObject = spawned[newID].gameObject;
+				}
+
+				IPlayerPossessable oldPossessable = null;
+				if (spawned.ContainsKey(oldID))
+				{
+					oldPossessable = spawned[oldID].GetComponent<IPlayerPossessable>();
+				}
+
+				var  Possessable = spawned[newID].GetComponent<IPlayerPossessable>();
+				if (Possessable != null)
+				{
+					Possessable.InternalOnEnterPlayerControl(oldPossessable?.GameObject,this);
+				}
+				else
+				{
+					//TODO For objects
+				}
+
+			}
+
+		}
+
+		//here
+
+	}
+
+	public void AccountLeavingMind(PlayerInfo Account)
+	{
+		Account.SetMind(null);
+		//Remove account from being observer of ghost and stuff
+		var RelatedBodies = GetRelatedBodies();
+		foreach (var Body in RelatedBodies)
+		{
+			PlayerSpawn.TransferOwnershipToConnection(Account, Body ,null );
+		}
+	}
+
+	public void AccountEnteringMind(PlayerInfo Account)
+	{
+		Account.SetMind(this);
+
+		var RelatedBodies = GetRelatedBodies();
+		foreach (var Body in RelatedBodies)
+		{
+			PlayerSpawn.TransferOwnershipToConnection(Account, null, Body );
+		}
+		SyncActiveOn(IDActivelyControlling, IDActivelyControlling);
+	}
+
+	public void ReLog()
+	{
+		if (ControlledBy?.Connection == null)
+		{
+			Logger.LogError("oh god!, Somehow there's no connection to client when ReLog Code has Been called");
+			return;
+		}
+
+		var RelatedBodies = GetRelatedBodies();
+		foreach (var Body in RelatedBodies)
+		{
+			PlayerSpawn.TransferOwnershipToConnection(ControlledBy, null, Body );
+		}
+	}
+
+	public void HandleOwnershipChangeMulti(List<NetworkIdentity>  Losing, List<NetworkIdentity>  Gaining)
+	{
+		if (ControlledBy != null)
+		{
+			foreach (var Lost in Losing)
+			{
+				PlayerSpawn.TransferOwnershipToConnection(ControlledBy, Lost, null);
+			}
+
+			foreach (var Gained  in Gaining)
+			{
+				PlayerSpawn.TransferOwnershipToConnection(ControlledBy, null, Gained);
+			}
+		}
+	}
+
+
+
+	//Gets all Bodies that are related to this mind,  Mind-> Brain-> Body
+	public List<NetworkIdentity> GetRelatedBodies()
+	{
+		var ReturnList = new List<NetworkIdentity>();
+		ReturnList.Add(this.netIdentity);
+
+		if (PlayerPossessable != null)
+		{
+			PlayerPossessable.GetRelatedBodies(ReturnList);
+		}
+		else
+		{
+			if (PossessingObject != null)
+			{
+				ReturnList.Add(PossessingObject.NetWorkIdentity());
+			}
+		}
+
+		return ReturnList;
+	}
+
+
+	public NetworkIdentity GetDeepestBody()
+	{
+		if (IsGhosting)
+		{
+			return this.netIdentity;
+		}
+
+
+		if (PlayerPossessable != null)
+		{
+			return PlayerPossessable.GetDeepestBody();
+		}
+		else
+		{
+			if (PossessingObject != null)
+			{
+				return PossessingObject.NetWorkIdentity();
+			}
+		}
+
+		return this.netIdentity;
+	}
+
 
 	/// <summary>
 	/// Get the cloneable status of the player's mind, relative to the passed mob ID.

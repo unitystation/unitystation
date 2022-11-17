@@ -124,7 +124,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		if (isServer)
 		{
-			UIActionManager.ToggleServer(playerScript.mind, this, newBuckledTo != null);
+			UIActionManager.ToggleServer(gameObject, this, newBuckledTo != null);
 		}
 	}
 
@@ -844,10 +844,13 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public void ReceivePlayerMoveAction(PlayerAction moveActions)
 	{
 		if (UIManager.IsInputFocus) return;
-		if (CommonInput.GetKeyDown(KeyCode.F7) && gameObject == PlayerManager.LocalPlayerObject)
-		{
-			PlayerSpawn.ServerSpawnDummy(gameObject.transform);
-		}
+		// if (CommonInput.GetKeyDown(KeyCode.F7) && gameObject == PlayerManager.LocalPlayerObject)
+		// {
+		// 	CharacterSheet randomSettings = CharacterSheet.GenerateRandomCharacter();
+		//
+		// 	var AlienMind = PlayerSpawn.NewSpawnCharacterV2(XenomorphLarvaeOccupation, randomSettings);
+		// 	PlayerSpawn.ServerSpawnDummy(gameObject.transform);
+		// }
 
 
 		if (moveActions.moveActions.Length == 0) return;

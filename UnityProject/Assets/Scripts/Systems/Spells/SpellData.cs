@@ -116,7 +116,7 @@ namespace ScriptableObjects.Systems.Spells
 			}
 		}
 
-		public Spell AddToPlayer(PlayerScript player)
+		public Spell AddToPlayer(Mind player)
 		{
 			var spellObject = Instantiate(SpellImplementation, player.gameObject.transform);
 			var spellComponent = spellObject.GetComponent<Spell>();

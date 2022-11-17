@@ -120,11 +120,16 @@ public class PlayerInfo
 
 	public JobType Job
 	{
-		get => job;
-		set
+		get
 		{
-			job = value;
-			TrySendUpdate();
+			if (Mind.OrNull()?.occupation.OrNull()?.JobType == null)
+			{
+				return JobType.NULL;
+			}
+			else
+			{
+				return Mind.occupation.JobType;
+			}
 		}
 	}
 
@@ -163,6 +168,10 @@ public class PlayerInfo
 	public void SetMind(Mind InMind)
 	{
 		Mind = InMind;
+		Name = InMind.CurrentCharacterSettings.Name;
+		InMind.ControlledBy = this;
+
+		//TODO Do transfer crap!!!
 	}
 
 	/// <summary>

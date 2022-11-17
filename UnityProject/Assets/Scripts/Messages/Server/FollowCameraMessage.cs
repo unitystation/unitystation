@@ -31,11 +31,10 @@ namespace Messages.Server
 			}
 			var objectToFollow = NetworkObject;
 
-			if (!PlayerManager.LocalPlayerScript.IsGhost)
-			{
-				Transform newTarget = objectToFollow ? objectToFollow.transform : PlayerManager.LocalPlayerObject.transform;
-				Camera2DFollow.followControl.target = newTarget;
-			}
+
+			Transform newTarget = objectToFollow ? objectToFollow.transform : PlayerManager.LocalPlayerObject.transform;
+			Camera2DFollow.followControl.target = newTarget;
+
 		}
 
 		public static NetMessage Send(GameObject recipient, GameObject objectToFollow)

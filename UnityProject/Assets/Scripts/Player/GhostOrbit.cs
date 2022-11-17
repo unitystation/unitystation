@@ -8,6 +8,7 @@ namespace Player
 {
 	public class GhostOrbit : NetworkBehaviour
 	{
+
 		public static GhostOrbit Instance;
 
 		[SyncVar(hook = nameof(SyncOrbitObject))]
@@ -29,10 +30,13 @@ namespace Player
 		private readonly int doubleClickTime = 500;
 		private bool hasClicked = false;
 
+		private Mind Mind;
 		private void Start()
 		{
 			if (GhostMove == null) GhostMove = GetComponent<GhostMove>();
 			if (rotateTransform == null) rotateTransform = GetComponent<RotateAroundTransform>();
+			Mind =  GetComponent<Mind>();
+
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			Instance = this;
 		}
@@ -60,7 +64,7 @@ namespace Player
 
 		private void UpdateMe()
 		{
-			if(isLocalPlayer == false) return;
+			if(isLocalPlayer == false || Mind.IsGhosting == false) return;
 
 			if (Input.GetMouseButtonDown(0))
 			{

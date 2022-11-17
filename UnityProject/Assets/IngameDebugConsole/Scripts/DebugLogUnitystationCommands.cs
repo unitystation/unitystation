@@ -70,7 +70,7 @@ namespace IngameDebugConsole
 			}
 
 			var mind = PlayerManager.LocalPlayerScript.mind;
-			var playerBody = PlayerSpawn.ServerClonePlayer(mind, mind.body.gameObject.transform.position.CutToInt()).GetComponent<LivingHealthMasterBase>();
+			var playerBody = PlayerSpawn.RespawnPlayer(mind, mind.occupation, mind.CurrentCharacterSettings).GetComponent<LivingHealthMasterBase>();
 			playerBody.ApplyDamageAll(null, 2, AttackType.Internal, DamageType.Clone, false);
 		}
 
@@ -314,7 +314,7 @@ namespace IngameDebugConsole
 #endif
 		[ConsoleMethod("spawn-dummy", "Spawn dummy player (Server)")]
 		private static void SpawnDummyPlayer() {
-			PlayerSpawn.ServerSpawnDummy();
+			//PlayerSpawn.ServerSpawnDummy();
 		}
 
 #if UNITY_EDITOR
@@ -325,7 +325,7 @@ namespace IngameDebugConsole
 		{
 			for (int i = 0; i < 20; i++)
 			{
-				PlayerSpawn.ServerSpawnDummy();
+				//PlayerSpawn.ServerSpawnDummy();
 			}
 		}
 
@@ -338,7 +338,7 @@ namespace IngameDebugConsole
 		{
 			for (int i = 0; i < 100; i++)
 			{
-				PlayerSpawn.ServerSpawnDummy();
+				//PlayerSpawn.ServerSpawnDummy();
 			}
 		}
 
@@ -385,7 +385,7 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer)
 			{
-				PlayerSpawn.ServerRespawnPlayer(PlayerManager.LocalPlayerScript.mind);
+				PlayerSpawn.RespawnPlayer(PlayerManager.LocalPlayerScript.mind,PlayerManager.LocalPlayerScript.mind.occupation, PlayerManager.LocalPlayerScript.mind.CurrentCharacterSettings);
 			}
 		}
 

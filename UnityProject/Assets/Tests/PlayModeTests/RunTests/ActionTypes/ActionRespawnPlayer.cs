@@ -28,10 +28,11 @@ public partial class TestAction
 
 			var playerInfo = PlayerList.Instance.Get(PlayerManager.LocalPlayerObject);
 			var spawnRequest = new PlayerSpawnRequest(playerInfo, Occupation, characterSettings);
-			
-			PlayerSpawn.ServerSpawnPlayer(spawnRequest, PlayerManager.LocalViewerScript, Occupation, characterSettings,
-				spawnPos: PositionToSpawn.RoundToInt(), existingMind: PlayerManager.LocalPlayerScript.mind,
-				conn: playerInfo.Connection);
+
+
+			var Mind = PlayerSpawn.NewSpawnPlayerV2(spawnRequest.Player, spawnRequest.RequestedOccupation, spawnRequest.CharacterSettings);
+
+			Mind.body.playerMove.AppearAtWorldPositionServer(PositionToSpawn);
 
 			return true;
 		}

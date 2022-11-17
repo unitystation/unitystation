@@ -54,9 +54,9 @@ namespace Antagonists
 		/// <summary>
 		/// Check if this objective is possible for a player, defaults to true if not overriden
 		/// </summary>
-		public bool IsPossible(PlayerScript candidate)
+		public bool IsPossible(Mind candidate)
 		{
-			if (aiCanHave == false && candidate.PlayerType == PlayerTypes.Ai)
+			if (aiCanHave == false && candidate.occupation.JobType == JobType.AI)
 			{
 				return false;
 			}
@@ -64,7 +64,7 @@ namespace Antagonists
 			return IsPossibleInternal(candidate);
 		}
 
-		protected virtual bool IsPossibleInternal(PlayerScript candidate)
+		protected virtual bool IsPossibleInternal(Mind candidate)
 		{
 			return true;
 		}

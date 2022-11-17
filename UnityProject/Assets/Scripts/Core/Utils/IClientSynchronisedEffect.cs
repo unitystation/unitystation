@@ -27,7 +27,7 @@ public interface IClientSynchronisedEffect : IClientPlayerLeaveBody, IClientPlay
 		if (NetId.Empty != PreviouslyOn && NetId.Invalid != PreviouslyOn)
 		{
 			ClientSynchronisedEffectsManager.Instance.ClientUnRegisterOnBody(CurrentlyOn, this);
-			if (PlayerManager.LocalPlayerScript.netId == PreviouslyOn)
+			if (PlayerManager.LocalPlayerScript.OrNull()?.netId == PreviouslyOn)
 			{
 				ApplyDefaultOrCurrentValues(true);
 			}
@@ -36,7 +36,7 @@ public interface IClientSynchronisedEffect : IClientPlayerLeaveBody, IClientPlay
 		if (NetId.Empty != CurrentlyOn && NetId.Invalid != CurrentlyOn)
 		{
 			ClientSynchronisedEffectsManager.Instance.ClientRegisterOnBody(CurrentlyOn, this);
-			if (PlayerManager.LocalPlayerScript.netId == CurrentlyOn)
+			if (PlayerManager.LocalPlayerScript.OrNull()?.netId == CurrentlyOn)
 			{
 				ApplyDefaultOrCurrentValues(false);
 			}

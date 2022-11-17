@@ -662,7 +662,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		{
 			if (hideForPlayer != null)
 			{
-				UIActionManager.ToggleServer(hideForPlayer.PlayerScript.mind, this, false);
+				UIActionManager.ToggleServer(hideForPlayer.gameObject, this, false);
 				itemStorage.ServerRemoveAllObserversExceptOwner();
 				ObserveInteractableStorageMessage.Send(hideForPlayer.PlayerScript.gameObject, this, false);
 			}
@@ -670,7 +670,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			if (showForPlayer != null)
 			{
 				itemStorage.ServerAddObserverPlayer(showForPlayer.PlayerScript.gameObject);
-				UIActionManager.ToggleServer(showForPlayer.PlayerScript.mind, this, true);
+				UIActionManager.ToggleServer(hideForPlayer.gameObject, this, true);
 			}
 		}
 	}

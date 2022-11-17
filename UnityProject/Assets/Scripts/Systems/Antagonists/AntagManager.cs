@@ -33,7 +33,7 @@ namespace Antagonists
 		/// <summary>
 		/// Keeps track of which players have already been targeted for objectives
 		/// </summary>
-		[NonSerialized] public List<PlayerScript> TargetedPlayers = new List<PlayerScript>();
+		[NonSerialized] public List<Mind> TargetedPlayers = new List<Mind>();
 
 		/// <summary>
 		/// Keeps track of which items have already been targeted for objectives
@@ -93,26 +93,13 @@ namespace Antagonists
 		public void ServerSpawnAntag(Antagonist chosenAntag, PlayerSpawnRequest spawnRequest)
 		{
 			//spawn the antag using their custom spawn logic
-			PlayerInfo spawnedPlayer = chosenAntag.ServerSpawn(spawnRequest).Player();
+			Mind SpawnMind = chosenAntag.ServerSpawn(spawnRequest);
 
-			ServerFinishAntag(chosenAntag, spawnedPlayer);
+			ServerFinishAntag(chosenAntag, SpawnMind);
 		}
 
 		public IEnumerator ServerRespawnAsAntag(PlayerInfo connectedPlayer, Antagonist antagonist)
 		{
-			var antagOccupation = antagonist.AntagOccupation;
-
-			if (antagOccupation != null)
-			{
-				connectedPlayer.Script.mind.occupation = antagonist.AntagOccupation;
-			}
-
-			//Can be null if respawning spectator ghost as they dont have an occupation and their antag occupation is null too
-			if (connectedPlayer.Script.mind.occupation == null)
-			{
-				yield break;
-			}
-
 			if (antagonist.AntagJobType == JobType.SYNDICATE)
 			{
 				yield return StartCoroutine(SubSceneManager.Instance.LoadSyndicate());
@@ -125,29 +112,29 @@ namespace Antagonists
 				yield return WaitFor.EndOfFrame;
 			}
 
-			PlayerSpawn.ServerRespawnPlayer(connectedPlayer.Script.mind);
-			ServerFinishAntag(antagonist, connectedPlayer);
+			var AntagonistsMind  = PlayerSpawn.NewSpawnPlayerV2(connectedPlayer,antagonist.AntagOccupation, connectedPlayer.Mind.CurrentCharacterSettings);
+			ServerFinishAntag(antagonist, AntagonistsMind);
 		}
 
-		private SpawnedAntag SetAntagDetails(Antagonist chosenAntag, PlayerInfo connectedPlayer)
+		private SpawnedAntag SetAntagDetails(Antagonist chosenAntag, Mind Mind )
 		{
 			// Generate objectives for this antag
-			List<Objective> objectives = antagData.GenerateObjectives(connectedPlayer.Script, chosenAntag);
+			List<Objective> objectives = antagData.GenerateObjectives(Mind, chosenAntag);
 			// Set the antag
-			var spawnedAntag = SpawnedAntag.Create(chosenAntag, connectedPlayer.Script.mind, objectives);
-			connectedPlayer.Script.mind.SetAntag(spawnedAntag);
+			var spawnedAntag = SpawnedAntag.Create(chosenAntag, Mind, objectives);
+			Mind.SetAntag(spawnedAntag);
 			return spawnedAntag;
 		}
 
-		public void ServerFinishAntag(Antagonist chosenAntag, PlayerInfo connectedPlayer)
+		public void ServerFinishAntag(Antagonist chosenAntag, Mind SpawnMind )
 		{
-			var spawnedAntag = SetAntagDetails(chosenAntag, connectedPlayer);
+			var spawnedAntag = SetAntagDetails(chosenAntag, SpawnMind);
 			activeAntags.Add(spawnedAntag);
-			ShowAntagBanner(connectedPlayer, chosenAntag);
-			chosenAntag.AfterSpawn(connectedPlayer);
+			ShowAntagBanner(SpawnMind, chosenAntag);
+			chosenAntag.AfterSpawn(SpawnMind);
 
 			Logger.Log(
-				$"Created new antag. Made {connectedPlayer.Name} a {chosenAntag.AntagName} with objectives:\n{spawnedAntag.GetObjectivesForLog()}",
+				$"Created new antag. Made {SpawnMind.name} a {chosenAntag.AntagName} with objectives:\n{spawnedAntag.GetObjectivesForLog()}",
 				Category.Antags);
 		}
 
@@ -156,9 +143,9 @@ namespace Antagonists
 		/// </summary>
 		/// <param name="player">The player that should receive an uplink in the first PDA found on them.</param>
 		/// <param name="tcCount">The amount of telecrystals the uplink should be given.</param>
-		public static void TryInstallPDAUplink(PlayerInfo player, int tcCount, bool isNukeOps)
+		public static void TryInstallPDAUplink(Mind player, int tcCount, bool isNukeOps)
 		{
-			foreach (ItemSlot slot in player.Script.DynamicItemStorage.GetItemSlotTree())
+			foreach (ItemSlot slot in player.body.DynamicItemStorage.GetItemSlotTree())
 			{
 				if (slot.IsEmpty) continue;
 				if (slot.Item.TryGetComponent<Items.PDA.PDALogic>(out var pda))
@@ -173,10 +160,10 @@ namespace Antagonists
 		/// </summary>
 		/// <param name="player">Who</param>
 		/// <param name="antag">What antag data</param>
-		private static void ShowAntagBanner(PlayerInfo player, Antagonist antag)
+		private static void ShowAntagBanner(Mind SpawnMind, Antagonist antag)
 		{
 			SpawnBannerMessage.Send(
-				player.GameObject,
+				SpawnMind.gameObject,
 				antag.AntagName,
 				antag.SpawnSound.AssetAddress,
 				antag.TextColor,

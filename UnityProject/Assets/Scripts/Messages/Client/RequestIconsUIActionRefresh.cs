@@ -12,7 +12,9 @@ public class RequestIconsUIActionRefresh : ClientMessage<RequestIconsUIActionRef
 	public override void Process(NetMessage msg)
 	{
 		if (SentByPlayer?.Script.OrNull()?.mind == null) return;
-		UIActionManager.Instance.UpdatePlayer(SentByPlayer.Script.mind);
+
+
+		UIActionManager.Instance.UpdatePlayer(SentByPlayer.GameObject, SentByPlayer.Connection);
 	}
 
 	public static NetMessage Send()

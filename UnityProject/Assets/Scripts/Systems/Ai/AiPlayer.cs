@@ -180,7 +180,7 @@ namespace Systems.Ai
 			//Set new vessel
 			ServerSetNewVessel(newVesselObject);
 
-			playerScript.SetPermanentName(playerScript.characterSettings.AiName);
+			playerScript.mind.SetPermanentName(playerScript.characterSettings.AiName);
 			newVesselObject.GetComponent<AiVessel>().SetLinkedPlayer(this);
 
 			isCarded = false;
@@ -1254,7 +1254,7 @@ namespace Systems.Ai
 			}
 
 			//Transfer player to ghost
-			PlayerSpawn.ServerGhost(playerScript.mind);
+			playerScript.mind.Ghost();
 
 			//Despawn this player object
 			_ = Despawn.ServerSingle(gameObject);

@@ -388,7 +388,7 @@ namespace GameModes
 			// Spawn all players and antags
 			foreach (var spawnReq in playerSpawnRequests)
 			{
-				PlayerSpawn.ServerSpawnPlayer(spawnReq);
+				PlayerSpawn.NewSpawnPlayerV2(spawnReq.Player, spawnReq.RequestedOccupation, spawnReq.CharacterSettings);
 			}
 			foreach (var spawnReq in antagSpawnRequests)
 			{

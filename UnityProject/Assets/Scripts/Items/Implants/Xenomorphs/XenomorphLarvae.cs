@@ -15,8 +15,8 @@ namespace HealthV2
 	public class XenomorphLarvae : BodyPartFunctionality
 	{
 		[SerializeField]
-		[Tooltip("This GameObject will be spawned from the Larvae when its time")]
-		private GameObject SpawnedLarvae;
+		[Tooltip("This Character will be spawned from the Larvae when its time")]
+		private Occupation XenomorphLarvaeOccupation;
 
 		/// <summary>
 		/// Time in seconds
@@ -73,12 +73,16 @@ namespace HealthV2
 				DamageType.Brute,
 				BodyPartType.Chest);
 
-			var spawned = Spawn.ServerPrefab(SpawnedLarvae, RelatedPart.HealthMaster.gameObject.AssumedWorldPosServer());
-
-			if (spawned.Successful == false)
+			var AlienMind = PlayerSpawn.NewSpawnCharacterV2(XenomorphLarvaeOccupation, new CharacterSheet()
 			{
-				return;
-			}
+				Name = "Larvae"
+			});
+
+			AlienMind.PossessingObject.GetComponent<UniversalObjectPhysics>()
+				.AppearAtWorldPositionServer(RelatedPart.HealthMaster.gameObject.AssumedWorldPosServer());
+
+
+
 
 			if (checkPlayerScript.HasComponent)
 			{
@@ -88,14 +92,10 @@ namespace HealthV2
 
 			if (checkPlayerScript.HasComponent && checkPlayerScript.Component.mind != null)
 			{
-				spawned.GameObject.GetComponent<PlayerScript>().SetMind(checkPlayerScript.Component.mind);
-
-				var connection = checkPlayerScript.Component.connectionToClient;
-				PlayerSpawn.ServerTransferPlayerToNewBody(connection, checkPlayerScript.Component.mind,
-					spawned.GameObject, Event.PlayerSpawned, null);
+				PlayerSpawn.TransferAccountToSpawnedMind(checkPlayerScript.Component.mind.ControlledBy, AlienMind);
 			}
 
-			var alienPlayer = spawned.GameObject.GetComponent<AlienPlayer>();
+			var alienPlayer = AlienMind.PossessingObject.GetComponent<AlienPlayer>();
 
 			alienPlayer.SetNewPlayer();
 			alienPlayer.DoConnectCheck();

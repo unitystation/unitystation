@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using Core.Utils;
 using Detective;
 using Systems.Ai;
 using UnityEngine;
@@ -9,6 +10,7 @@ using Player;
 using Player.Movement;
 using UI.Action;
 using Items;
+using Messages.Server;
 using Objects.Construction;
 using Player.Language;
 using ScriptableObjects;
@@ -16,16 +18,30 @@ using Systems.StatusesAndEffects;
 using Tiles;
 using UnityEngine.Serialization;
 
-public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActionGUI
+public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActionGUI, IPlayerPossessable
 {
+	public GameObject GameObject => gameObject;
+	public IPlayerPossessable Possessing { get; set; }
+	public GameObject PossessingObject { get; set; }
+	public Mind PossessingMind { get; set; }
+	public IPlayerPossessable PossessedBy { get; set; }
+	public MindNIPossessingEvent OnPossessedBy { get; set; }
+
+	public void OnEnterPlayerControl()
+	{
+		TriggerEventMessage.SendTo(GameObject, Event.PlayerSpawned); //TODO ODODOD!!
+		Init();
+	}
+
 	/// maximum distance the player needs to be to an object to interact with it
 	public const float interactionDistance = 1.5f;
 
-	public Mind mind  { private set; get; }
+	public Mind mind { private set; get; }
 	public PlayerInfo PlayerInfo;
 
 	[FormerlySerializedAs("playerStateSettings")] [SerializeField]
 	private PlayerTypeSettings playerTypeSettings = null;
+
 	public PlayerTypeSettings PlayerTypeSettings => playerTypeSettings;
 	public PlayerTypes PlayerType => playerTypeSettings.PlayerType;
 
@@ -124,13 +140,13 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	//The object the player will receive chat and send chat from.
 	//E.g. usually same object as this script but for Ai it will be their core object
 	//Serverside only
-	[SerializeField]
-	private GameObject playerChatLocation = null;
+	[SerializeField] private GameObject playerChatLocation = null;
 	public GameObject PlayerChatLocation => playerChatLocation;
 
 	[SerializeField]
 	//TODO move this to somewhere else?
 	private bool canVentCrawl = false;
+
 	public bool CanVentCrawl => canVentCrawl;
 
 	#region Lifecycle
@@ -159,14 +175,12 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public override void OnStartClient()
 	{
-		Init();
-		SyncPlayerName(playerName, playerName);
+		SyncPlayerName(name, name);
 	}
 
 	// isLocalPlayer is always called after OnStartClient
 	public override void OnStartLocalPlayer()
 	{
-		Init();
 		waitTimeForRTTUpdate = 0f;
 
 		if (IsNormal)
@@ -176,12 +190,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		}
 
 		isUpdateRTT = true;
-	}
-
-	// You know the drill
-	public override void OnStartServer()
-	{
-		Init();
 	}
 
 	private void OnEnable()
@@ -208,65 +216,53 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public void Init()
 	{
-		if (isLocalPlayer)
+		EnableLighting(true);
+		UIManager.ResetAllUI();
+		GetComponent<MouseInputController>().enabled = true;
+
+		if (UIManager.Instance.statsTab.window.activeInHierarchy == false)
 		{
-			EnableLighting(true);
-			UIManager.ResetAllUI();
-			GetComponent<MouseInputController>().enabled = true;
-
-			if (UIManager.Instance.statsTab.window.activeInHierarchy == false)
-			{
-				UIManager.Instance.statsTab.window.SetActive(true);
-			}
-
-			IPlayerControllable input = GetComponent<IPlayerControllable>();
-
-			if (TryGetComponent<AiMouseInputController>(out var aiMouseInputController))
-			{
-				input = aiMouseInputController;
-			}
-
-			PlayerManager.SetPlayerForControl(gameObject, input);
-
-			if (PlayerType == PlayerTypes.Ghost)
-			{
-				if (PlayerList.Instance.IsClientAdmin)
-				{
-					UIManager.LinkUISlots(ItemStorageLinkOrigin.adminGhost);
-				}
-
-				// stop the crit notification and change overlay to ghost mode
-				SoundManager.Stop("Critstate");
-				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
-				// show ghosts
-				var mask = Camera2DFollow.followControl.cam.cullingMask;
-				mask |= 1 << LayerMask.NameToLayer("Ghosts");
-				Camera2DFollow.followControl.cam.cullingMask = mask;
-			}
-			//Normal players
-			else if (IsPlayerSemiGhost == false)
-			{
-				UIManager.LinkUISlots(ItemStorageLinkOrigin.localPlayer);
-				// Hide ghosts
-				var mask = Camera2DFollow.followControl.cam.cullingMask;
-				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
-				Camera2DFollow.followControl.cam.cullingMask = mask;
-			}
-			//Players like blob or Ai
-			else
-			{
-				// stop the crit notification and change overlay to ghost mode
-				SoundManager.Stop("Critstate");
-				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
-				// hide ghosts
-				var mask = Camera2DFollow.followControl.cam.cullingMask;
-				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
-				Camera2DFollow.followControl.cam.cullingMask = mask;
-			}
-
-			EventManager.Broadcast(Event.UpdateChatChannels);
-			UpdateStatusTabUI();
+			UIManager.Instance.statsTab.window.SetActive(true);
 		}
+
+		if (PlayerType == PlayerTypes.Ghost)
+		{
+			if (PlayerList.Instance.IsClientAdmin)
+			{
+				UIManager.LinkUISlots(ItemStorageLinkOrigin.adminGhost);
+			}
+
+			// stop the crit notification and change overlay to ghost mode
+			SoundManager.Stop("Critstate");
+			UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
+			// show ghosts
+			var mask = Camera2DFollow.followControl.cam.cullingMask;
+			mask |= 1 << LayerMask.NameToLayer("Ghosts");
+			Camera2DFollow.followControl.cam.cullingMask = mask;
+		}
+		//Normal players
+		else if (IsPlayerSemiGhost == false)
+		{
+			UIManager.LinkUISlots(ItemStorageLinkOrigin.localPlayer);
+			// Hide ghosts
+			var mask = Camera2DFollow.followControl.cam.cullingMask;
+			mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
+			Camera2DFollow.followControl.cam.cullingMask = mask;
+		}
+		//Players like blob or Ai
+		else
+		{
+			// stop the crit notification and change overlay to ghost mode
+			SoundManager.Stop("Critstate");
+			UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
+			// hide ghosts
+			var mask = Camera2DFollow.followControl.cam.cullingMask;
+			mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
+			Camera2DFollow.followControl.cam.cullingMask = mask;
+		}
+
+		EventManager.Broadcast(Event.UpdateChatChannels);
+		UpdateStatusTabUI();
 	}
 
 	#endregion
@@ -427,7 +423,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public void ReturnGhostToBody()
 	{
-		if(mind == null) return;
+		if (mind == null) return;
 
 		var ghost = mind.ghost;
 		if (mind.IsGhosting == false || ghost == null) return;
@@ -473,16 +469,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			interactDist, context: context);
 	}
 
-	/// <summary>
-	/// Sets the IC name for this player and refreshes the visible name. Name will be kept if respawned.
-	/// </summary>
-	/// <param name="newName">The new name to give to the player.</param>
-	public void SetPermanentName(string newName)
-	{
-		characterSettings.Name = newName;
-		playerName = newName;
-		RefreshVisibleName();
-	}
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
 	{
@@ -498,7 +484,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			                  ChatChannel.Engineering | ChatChannel.Medical | ChatChannel.Science |
 			                  ChatChannel.Security | ChatChannel.Service | ChatChannel.Supply |
 			                  ChatChannel.Syndicate | ChatChannel.Alien | ChatChannel.Blob;
-
 		}
 
 		//Ai channels limited when not allowed to use radio
@@ -586,7 +571,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		if (Interaction == null) return;
 		if (IsNormal == false) return;
 		if (ComponentManager.TryGetUniversalObjectPhysics(interactable.gameObject, out var uop) == false) return;
-		if(uop.attributes.HasComponent == false) return;
+		if (uop.attributes.HasComponent == false) return;
 
 		var details = uop.attributes.Component.AppliedDetails;
 		if (details == null) return;
@@ -694,7 +679,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public void ActivateAntagAction(bool state)
 	{
-		UIActionManager.ToggleServer(mind , this, state);
+		UIActionManager.ToggleServer(gameObject, this, state);
 	}
 
 	//Used for Admins to VV function to toggle vent crawl as for some reason in build VV variable isnt working

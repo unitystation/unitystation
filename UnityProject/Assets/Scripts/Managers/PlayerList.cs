@@ -240,13 +240,27 @@ public partial class PlayerList : NetworkBehaviour
 	[Server]
 	public NetworkConnection GetRelatedNetworkConnection(GameObject Object)
 	{
-		if (Object == null) return null;
-		foreach (var Info in loggedIn)
+		try
 		{
-			if (Info.ViewerScript.gameObject == Object || Info.Mind.IsRelatedToObject(Object))
+			if (Object == null) return null;
+			foreach (var Info in loggedIn)
 			{
-				return Info.Connection;
+				if (Info.ViewerScript.OrNull()?.gameObject == Object)
+				{
+					return Info.Connection;
+				}
+
+				if (Info.Mind != null && Info.Mind.IsRelatedToObject(Object))
+				{
+					return Info.Connection;
+				}
 			}
+
+		}
+		catch (Exception e)
+		{
+			Logger.LogError(e.ToString());
+			throw;
 		}
 
 		return null;

@@ -108,8 +108,11 @@ public class MouseInputController : MonoBehaviour
 
 	void LateUpdate()
 	{
-		CheckMouseInput();
-		CheckCursorTexture();
+		if (PlayerManager.LocalPlayerObject == this.gameObject)
+		{
+			CheckMouseInput();
+			CheckCursorTexture();
+		}
 	}
 
 	public virtual void CheckMouseInput()

@@ -94,7 +94,7 @@ namespace Systems.Spells
 			if (SpellData.ChargeType == SpellChargeType.FixedCharges && --ChargesLeft <= 0)
 			{
 				//remove it from spell list
-				UIActionManager.ToggleServer(sentByPlayer.Script.mind, this, false);
+				UIActionManager.ToggleServer(sentByPlayer.Mind.gameObject, this, false);
 			}
 			else
 			{

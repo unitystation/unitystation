@@ -35,16 +35,16 @@ namespace Antagonists
 				"- If the fugitive is threatening the station production, neutralize immediately." +
 				"</size>";
 
-		public override void AfterSpawn(PlayerInfo player)
+		public override void AfterSpawn(Mind player)
 		{
-			UpdateChatMessage.Send(player.GameObject, ChatChannel.Local, ChatModifier.Whisper,
+			UpdateChatMessage.Send(player.gameObject, ChatChannel.Local, ChatModifier.Whisper,
 				"I can't believe we managed to break out of a Nanotrasen superjail! Sadly though," +
 				" our work is not done. The emergency teleport at the station logs everyone who uses it," +
 				" and where they went. It won't be long until Centcom tracks where we've gone off to." +
 				" I need to move in the shadows and keep out of sight," +
 				" I'm not going back.");
 
-			_ = StationWarning(player.Script.playerName);
+			_ = StationWarning(player.CurrentCharacterSettings.Name);
 		}
 
 		private async Task StationWarning(string fugitiveName)

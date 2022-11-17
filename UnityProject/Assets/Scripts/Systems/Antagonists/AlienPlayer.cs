@@ -421,24 +421,22 @@ namespace Systems.Antagonists
 			Chat.AddActionMsgToChat(gameObject, "You begin to evolve!",
 				$"{playerScript.playerName} begins to twist and contort!");
 
-			var spawnResult = Spawn.ServerPrefab(newAlienData.AlienPrefab, playerScript.objectPhysics.OfficialPosition);
-			if (spawnResult.Successful == false)
-			{
-				Logger.LogError($"Failed to spawn alien type: {newAlien.ToString()}!");
-				return;
-			}
+			 var AlienMind = PlayerSpawn.NewSpawnCharacterV2(newAlienData.AlienOccupation, new CharacterSheet()
+			 {
+				 Name = "Aileen"
+			 });
+
+			 AlienMind.body.playerMove.AppearAtWorldPositionServer(playerScript.objectPhysics.OfficialPosition);
 
 			Chat.AddExamineMsgFromServer(gameObject, $"You evolve into a {alienType.Name}!");
 
-			var newAlienPlayer = spawnResult.GameObject.GetComponent<AlienPlayer>();
+			var newAlienPlayer = AlienMind.body.GetComponent<AlienPlayer>();
 
 			newAlienPlayer.SetUpFromPrefab(alienType, changeName, nameNumber);
 
 			if (playerScript.mind != null)
 			{
-				var connection = connectionToClient;
-				PlayerSpawn.ServerTransferPlayerToNewBody(connection, playerScript.mind,
-					newAlienPlayer.gameObject, Event.PlayerSpawned, null);
+				PlayerSpawn.TransferAccountToSpawnedMind(playerScript.mind.ControlledBy, AlienMind);
 			}
 
 			newAlienPlayer.DoConnectCheck();
@@ -754,8 +752,7 @@ namespace Systems.Antagonists
 			if(playerScript.mind == null) return;
 
 			//Force player into ghost
-			PlayerSpawn.ServerGhost(playerScript.mind);
-
+			playerScript.mind.Ghost();
 		}
 
 		private void OnQueenDeath()
@@ -1114,7 +1111,7 @@ namespace Systems.Antagonists
 
 			foreach (var action in alienType.ActionData)
 			{
-				UIActionManager.ToggleMultiServer(Account.Mind, this, action, true);
+				UIActionManager.ToggleMultiServer(gameObject, this, action, true);
 			}
 		}
 
@@ -1134,7 +1131,7 @@ namespace Systems.Antagonists
 		{
 			foreach (var action in ActionData)
 			{
-				UIActionManager.ToggleMultiServer(Account.Mind,this, action, false);
+				UIActionManager.ToggleMultiServer(gameObject,this, action, false);
 			}
 		}
 
@@ -1565,7 +1562,7 @@ namespace Systems.Antagonists
 				if (playerScript.mind.GetCurrentMob().OrNull()?.GetComponent<PlayerScript>().IsGhost == false)
 				{
 					//Force player current into ghost
-					PlayerSpawn.ServerGhost(playerScript.mind);
+					playerScript.mind.Ghost();
 				}
 			}
 
@@ -1603,8 +1600,7 @@ namespace Systems.Antagonists
 			playerTookOver = player;
 
 			//Transfer player chosen into body
-			PlayerSpawn.ServerTransferPlayerToNewBody(player.Connection, player.Mind, gameObject,
-				Event.PlayerSpawned, null);
+			//PlayerSpawn.TransferAccountToSpawnedMind(player, ); //TODO Need reference to mind!!!!!!!!!!!
 
 			//Remove the player so they can join again once they die
 			GhostRoleManager.Instance.ServerRemoveWaitingPlayer(createdRoleKey, player);

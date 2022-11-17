@@ -396,10 +396,16 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		GameObject disconnectedViewer = Instantiate(CustomNetworkManager.Instance.disconnectedViewerPrefab);
 		NetworkServer.ReplacePlayerForConnection(conn, disconnectedViewer, System.Guid.NewGuid());
 
+		foreach (var OwnedObject in conn.clientOwnedObjects.ToArray())
+		{
+			OwnedObject.RemoveClientAuthority();
+		}
+
 		//now we can call mirror's normal disconnect logic, which will destroy all the player's owned objects
 		//which will preserve their actual body because they no longer own it
 		base.OnServerDisconnect(conn);
 		SubSceneManager.Instance.RemoveSceneObserver(conn);
+		_ = Despawn.ServerSingle(disconnectedViewer);
 	}
 
 	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)

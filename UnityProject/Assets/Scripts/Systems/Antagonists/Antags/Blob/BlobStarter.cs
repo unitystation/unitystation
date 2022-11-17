@@ -293,8 +293,8 @@ namespace Blob
 
 			gameObject.GetComponent<IGib>()?.OnGib();
 
-			PlayerSpawn.ServerTransferPlayerToNewBody(connection, playerScript.mind, spawnResult.GameObject,
-				Event.BlobSpawned, null);
+			//PlayerSpawn.ServerTransferPlayerToNewBody(connection, playerScript.mind, spawnResult.GameObject,
+			//	Event.BlobSpawned, null); TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 			//Start the blob control script
 			spawnResult.GameObject.GetComponent<BlobPlayer>().BlobStart();

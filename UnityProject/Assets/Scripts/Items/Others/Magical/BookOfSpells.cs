@@ -92,7 +92,7 @@ namespace Items.Magical
 			}
 			else
 			{
-				Spell spell = spellEntry.Spell.AddToPlayer(player.Script);
+				Spell spell = spellEntry.Spell.AddToPlayer(player.Script.mind);
 				player.Mind.AddSpell(spell);
 			}
 		}

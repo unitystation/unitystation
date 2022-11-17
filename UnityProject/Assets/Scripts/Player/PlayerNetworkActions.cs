@@ -661,6 +661,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void ServerRespawnPlayer(string occupation = null)
 	{
+		Occupation NewOccupation = playerScript.mind.occupation;
 		if (occupation != null)
 		{
 			foreach (var job in OccupationList.Instance.Occupations)
@@ -670,23 +671,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 					continue;
 				}
 
-				playerScript.mind.occupation = job;
+				NewOccupation = job;
 				break;
 			}
 		}
 
-		//Can be null if respawning spectator ghost as they dont have an occupation
-		if (playerScript.mind.occupation == null)
-		{
-			return;
-		}
-
-		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
+		PlayerSpawn.RespawnPlayer(playerScript.mind, NewOccupation, playerScript.mind.CurrentCharacterSettings);
 	}
 
 	[Server]
 	public void ServerRespawnPlayerSpecial(string occupation = null, Vector3Int? spawnPos = null)
 	{
+		Occupation NewOccupation = playerScript.mind.occupation;
 		if (occupation != null)
 		{
 			foreach (var job in SOAdminJobsList.Instance.SpecialJobs)
@@ -696,12 +692,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 					continue;
 				}
 
-				playerScript.mind.occupation = job;
+				NewOccupation = job;
 				break;
 			}
 		}
 
-		PlayerSpawn.ServerRespawnPlayer(playerScript.mind, spawnPos);
+		PlayerSpawn.RespawnPlayerAt(playerScript.mind, NewOccupation, playerScript.mind.CurrentCharacterSettings, spawnPos);
+
 	}
 
 	[Server]
@@ -751,7 +748,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		//Only force to ghost if the mind belongs in to that body
 		if (skipCheck)
 		{
-			PlayerSpawn.ServerGhost(playerScript.mind);
+			playerScript.mind.Ghost();
 			return;
 		}
 
@@ -759,7 +756,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (GetComponent<LivingHealthMasterBase>().IsDead && !playerScript.IsGhost && playerScript.mind != null &&
 			playerScript.mind.bodyMobID == currentMobID)
 		{
-			PlayerSpawn.ServerGhost(playerScript.mind);
+			playerScript.mind.Ghost();
 		}
 	}
 
@@ -776,30 +773,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void GhostEnterBody()
 	{
-		PlayerScript body = playerScript.mind.body;
-
-		if(body == null) return;
-
 		if (playerScript.mind.IsSpectator) return;
 
 		if (playerScript.mind.ghostLocked) return;
 
 		if (playerScript.IsGhost == false)
 		{
-			Logger.LogWarningFormat("Either player {0} is not dead or not currently a ghost, ignoring EnterBody",
-				Category.Ghosts, body);
-			return;
-		}
-
-		//body might be in a container, reentering should still be allowed in that case
-		if (body.objectPhysics != null && body.objectPhysics.ContainedInContainer == null && body.WorldPos == TransformState.HiddenPos)
-		{
-			Logger.LogFormat("There's nothing left of {0}'s body, not entering it", Category.Ghosts, body);
+			Logger.LogWarningFormat($"Either player {playerScript.mind.name} is not dead or not currently a ghost, ignoring EnterBody",
+				Category.Ghosts);
 			return;
 		}
 
 		playerScript.mind.StopGhosting();
-		PlayerSpawn.ServerGhostReenterBody(connectionToClient, gameObject, playerScript.mind);
 	}
 
 	/// <summary>
@@ -976,9 +961,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (playerScript.IsGhost == false)
 		{
 			//Admin turns into ghost
-			PlayerSpawn.ServerGhost(playerScript.mind);
+			playerScript.mind.Ghost();
 		}
-		//TODO We implement re-entering body Once mind Rework work is done , Was removed because Brooke Client when pressed
+		else
+		{
+			//Admin goes back into body
+			playerScript.mind.StopGhosting();
+		}
 	}
 
 	#endregion

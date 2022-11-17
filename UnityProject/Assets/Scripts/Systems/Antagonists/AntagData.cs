@@ -62,14 +62,14 @@ namespace Antagonists
 		/// <param name="player">The player receiving these objectives</param>
 		/// <param name="antag">The antag type</param>
 		/// <param name="amount">How many objectives to generate, not including escape objectives</param>
-		public List<Objective> GenerateObjectives(PlayerScript player, Antagonist antag)
+		public List<Objective> GenerateObjectives(Mind Mind, Antagonist antag)
 		{
 			int amount = antag.NumberOfObjectives;
 			// Get all antag core and shared objectives which are possible for this player
-			List<Objective> objPool = antag.CoreObjectives.Where(obj => obj.IsPossible(player)).ToList();
+			List<Objective> objPool = antag.CoreObjectives.Where(obj => obj.IsPossible(Mind)).ToList();
 			if (antag.CanUseSharedObjectives)
 			{
-				objPool = objPool.Concat(SharedObjectives).Where(obj => obj.IsPossible(player)).ToList();
+				objPool = objPool.Concat(SharedObjectives).Where(obj => obj.IsPossible(Mind)).ToList();
 			}
 
 			if (objPool.Count == 0)
@@ -84,13 +84,13 @@ namespace Antagonists
 			{
 				// Select objective and perform setup e.g. assign owner and targets
 				newObjective = PickRandomObjective(ref objPool);
-				newObjective.DoSetup(player.mind);
+				newObjective.DoSetup(Mind);
 				generatedObjs.Add(newObjective);
 
 				// Trim any objectives which aren't possible
 				// Should be done everytime an objective is assigned and setup,
 				// otherwise all targets could be taken already!
-				objPool = objPool.Where(obj => obj.IsPossible(player)).ToList();
+				objPool = objPool.Where(obj => obj.IsPossible(Mind)).ToList();
 
 				if (objPool.Count == 0)
 				{
@@ -103,22 +103,22 @@ namespace Antagonists
 			{
 				// Add one escape type objective if needed
 				// Be careful not to remove all escape objectives from AntagData
-				var allowedEscapes = EscapeObjectives.Where(obj => obj.IsPossible(player)).ToList();
+				var allowedEscapes = EscapeObjectives.Where(obj => obj.IsPossible(Mind)).ToList();
 				//TODO since checkUnique is false we dont need to remove the chosen object from EscapeObjectives
 				//TODO but we would if we ever want to allow for unique escape objectives
 				newObjective = PickRandomObjective(ref allowedEscapes, false);
-				newObjective.DoSetup(player.mind);
+				newObjective.DoSetup(Mind);
 				generatedObjs.Add(newObjective);
 			}
 
 			if (antag.ChanceForGimmickObjective != 0 && DMMath.Prob(antag.ChanceForGimmickObjective))
 			{
 				// Add one gimmick objective
-				var allowedGimmicks = GimmickObjectives.Where(obj => obj.IsPossible(player)).ToList();
+				var allowedGimmicks = GimmickObjectives.Where(obj => obj.IsPossible(Mind)).ToList();
 				//TODO since checkUnique is false we dont need to remove the chosen object from EscapeObjectives
 				//TODO but we would if we ever want to allow for unique gimmick objectives
 				newObjective = PickRandomObjective(ref allowedGimmicks, false);
-				newObjective.DoSetup(player.mind);
+				newObjective.DoSetup(Mind);
 				generatedObjs.Add(newObjective);
 			}
 

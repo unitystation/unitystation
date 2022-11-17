@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace UI.Action
 {
-	public class ActionControlInventory : MonoBehaviour, IServerInventoryMove, IOnPlayerLeaveBody, IOnPlayerTransfer
+	public class ActionControlInventory : MonoBehaviour, IServerInventoryMove
 	{
 		public ActionController ActionControllerType = ActionController.Inventory;
 
 		public List<IActionGUI> ControllingActions = new List<IActionGUI>();
 
-		private Mind previousMind;
+		private GameObject previousOn;
 
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
@@ -25,34 +25,34 @@ namespace UI.Action
 					}
 				}
 
-				if (showAlert == false && previousMind != null)
+				if (showAlert == false && previousOn != null)
 				{
 					foreach (var _IActionGUI in ControllingActions)
 					{
-						UIActionManager.ToggleServer(previousMind, _IActionGUI, false);
+						UIActionManager.ToggleServer(info.FromPlayer.gameObject, _IActionGUI, false);
 					}
 
-					previousMind = null;
+					previousOn = null;
 				}
 
-				if (showAlert == true && previousMind == null)
+				if (showAlert == true && previousOn == null)
 				{
-					previousMind = info.ToPlayer.PlayerScript.mind;
+					previousOn = info.ToPlayer.gameObject;
 
 					foreach (var _IActionGUI in ControllingActions)
 					{
-						UIActionManager.ToggleServer(previousMind, _IActionGUI, true);
+						UIActionManager.ToggleServer(info.ToPlayer.gameObject, _IActionGUI, true);
 					}
 				}
 			}
-			else if (previousMind != null)
+			else if (previousOn != null)
 			{
 				foreach (var _IActionGUI in ControllingActions)
 				{
-					UIActionManager.ToggleServer(previousMind, _IActionGUI, false);
+					UIActionManager.ToggleServer(info.FromPlayer.gameObject, _IActionGUI, false);
 				}
 
-				previousMind = null;
+				previousOn = null;
 			}
 		}
 
@@ -66,26 +66,6 @@ namespace UI.Action
 					ControllingActions.Add(ActionGUI);
 				}
 			}
-		}
-
-		public void OnPlayerLeaveBody(PlayerInfo Account)
-		{
-			foreach (var _IActionGUI in ControllingActions)
-			{
-				UIActionManager.ToggleServer(Account.Mind, _IActionGUI, false);
-			}
-
-			previousMind = null;
-		}
-
-		public void OnPlayerTransfer(PlayerInfo Account)
-		{
-			foreach (var _IActionGUI in ControllingActions)
-			{
-				UIActionManager.ToggleServer(Account.Mind, _IActionGUI, true);
-			}
-
-			previousMind = Account.Mind;
 		}
 	}
 }

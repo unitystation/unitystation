@@ -89,12 +89,12 @@ namespace UI.Action
 		{
 			if (hideForPlayer != null)
 			{
-				UIActionManager.ToggleServer(hideForPlayer.PlayerScript.mind, this, false);
+				UIActionManager.ToggleServer(hideForPlayer.gameObject, this, false);
 			}
 
 			if (showForPlayer != null)
 			{
-				UIActionManager.ToggleServer(showForPlayer.PlayerScript.mind, this, true);
+				UIActionManager.ToggleServer(showForPlayer.gameObject, this, true);
 				UIActionManager.SetServerSpriteSO(this, spriteHandler.GetCurrentSpriteSO(), spriteHandler.Palette);
 			}
 		}
