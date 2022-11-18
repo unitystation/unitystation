@@ -148,9 +148,9 @@ namespace UI.Systems.Tooltips.HoverTooltips
 
 		private void ResetInteractionsList()
 		{
-			foreach (GameObject child in interactionList)
+			foreach (Transform child in interactionList)
 			{
-				Destroy(child);
+				Destroy(child.gameObject);
 			}
 		}
 	}
