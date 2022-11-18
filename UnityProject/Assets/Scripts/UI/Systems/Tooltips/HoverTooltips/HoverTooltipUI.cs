@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Learning;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -49,6 +50,9 @@ namespace UI.Systems.Tooltips.HoverTooltips
 
 		public void SetupTooltip(GameObject hoverObject)
 		{
+			// Don't show if player experience is set to something high unless they are using detailed mode.
+			if(ProtipManager.Instance.PlayerExperienceLevel >= ProtipManager.ExperienceLevel.SomewhatExperienced
+			   && detailsModeEnabled == false) return;
 			targetObject = hoverObject;
 			// Clean up everything for the upcoming data.
 			ResetTool();
