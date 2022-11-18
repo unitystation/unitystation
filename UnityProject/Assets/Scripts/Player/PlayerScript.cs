@@ -745,7 +745,15 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public List<TextColor> InteractionsStrings()
 	{
-		return null;
+		TextColor inspectText = new TextColor
+		{
+			Text = "Shift + Left Click: Inspect",
+			Color = Color.white
+		};
+
+		List<TextColor> interactions = new List<TextColor>();
+		interactions.Add(inspectText);
+		return interactions;
 	}
 
 	#endregion
