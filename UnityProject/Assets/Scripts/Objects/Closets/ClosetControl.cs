@@ -606,7 +606,7 @@ namespace Objects
 			if (PlayerManager.LocalPlayerScript.DynamicItemStorage == null) return false;
 			foreach (var slot in PlayerManager.LocalPlayerScript.DynamicItemStorage.GetHandSlots())
 			{
-				if(slot.IsEmpty) continue;
+				if (slot.IsEmpty) continue;
 				if (slot.ItemAttributes.GetTraits().Contains(CommonTraits.Instance.Welder)) return true;
 			}
 
