@@ -1865,7 +1865,22 @@ namespace HealthV2
 
 		public string HoverTip()
 		{
-			return null;
+			StringBuilder finalText = new StringBuilder();
+			if (IsSoftCrit || IsCrit || IsDead)
+			{
+				var state = IsDead ? "They appear to be dead!" : "They appear to be in a critical condition!";
+				finalText.AppendLine(state);
+			}
+			if (FireStacks > 0)
+			{
+				finalText.AppendLine("They are on fire!");
+			}
+
+			if (BleedStacks > 0)
+			{
+				finalText.AppendLine("They are bleeding!");
+			}
+			return finalText.ToString();
 		}
 
 		public string CustomTitle()

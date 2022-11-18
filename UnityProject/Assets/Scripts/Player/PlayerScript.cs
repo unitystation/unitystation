@@ -717,7 +717,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		StringBuilder finalText = new StringBuilder();
 		if (characterSettings == null) return finalText.ToString();
 		finalText.Append($"A {characterSettings.Species}.");
-		finalText.Append($" {characterSettings.PlayerPronoun}.");
+		finalText.Append($" {characterSettings.TheirPronoun(this)}.");
 		return finalText.ToString();
 	}
 
@@ -731,7 +731,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		foreach (var bodyPart in playerSprites.SurfaceSprite)
 		{
 			if(bodyPart.name != "head" || bodyPart.name != "Head") continue;
-			return bodyPart.baseSpriteHandler.CurrentSprite;
+			return bodyPart.spriteRenderer.sprite;
 		}
 
 		return null;
