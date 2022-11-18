@@ -124,6 +124,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		private void UpdateInteractionsView(List<TextColor> newInteractions)
 		{
 			if (newInteractions == null) return;
+			// Make sure to clean this again in-case the list gets updated.
 			ResetInteractionsList();
 			foreach (var interaction in newInteractions)
 			{
@@ -147,7 +148,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 
 		private void ResetInteractionsList()
 		{
-			foreach (Transform child in interactionList)
+			foreach (GameObject child in interactionList)
 			{
 				Destroy(child);
 			}
