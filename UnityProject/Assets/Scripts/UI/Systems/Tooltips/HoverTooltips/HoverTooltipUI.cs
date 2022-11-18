@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +10,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 	{
 		[SerializeField] private CanvasGroup content;
 		[SerializeField] private Transform interactionList;
-		[SerializeField] private Transform interactionPrefab;
+		[SerializeField] private TMP_Text interactionPrefab;
 		[SerializeField] private TMP_Text nameText;
 		[SerializeField] private TMP_Text descText;
 		[SerializeField] private Image iconTarget;
@@ -89,6 +90,17 @@ namespace UI.Systems.Tooltips.HoverTooltips
 				if (String.IsNullOrEmpty(data.HoverTip())) continue;
 				descText.text += $"\n \n{data.HoverTip()}";
 				UpdateIconSprite(data);
+				UpdateInteractionsView(data.InteractionsStrings());
+			}
+		}
+
+		private void UpdateInteractionsView(List<TextColor> newInteractions)
+		{
+			if (newInteractions == null) return;
+			foreach (var interaction in newInteractions)
+			{
+				var textObj = Instantiate(interactionPrefab, interactionList);
+				textObj.text = $"<color={interaction.Color.ToString()}>{interaction.Text}</color>";
 			}
 		}
 
