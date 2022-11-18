@@ -7,6 +7,7 @@ using Mirror;
 using Systems.Electricity;
 using UI.Core.Net;
 using UnityEngine;
+using Chemistry;
 
 namespace Systems.Research.Objects
 {
@@ -45,7 +46,7 @@ namespace Systems.Research.Objects
 		/// <summary>
 		/// Data structure for blast data, sorted so that scrolling through the graph makes sense
 		/// </summary>
-		public SortedList<float,float> blastData;
+		public SortedList<float,float> blastYieldData;
 
 		protected RegisterObject registerObject;
 
@@ -55,6 +56,8 @@ namespace Systems.Research.Objects
 
 		public static event BlastEvent blastEvent;
 		public static event ServerConnEvent serverConnEvent;
+
+		[SerializeField] private Reagent Toxin;
 
 		[PrefabModeOnly]
 		private SpriteHandler spriteHandler;
@@ -91,7 +94,7 @@ namespace Systems.Research.Objects
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 
 			ExplosiveBase.ExplosionEvent.AddListener(DetectBlast);
-			blastData = new SortedList<float, float>();
+			blastYieldData = new SortedList<float, float>();
 			GetYieldTargets();
 			AffirmState();
 		}
@@ -133,7 +136,7 @@ namespace Systems.Research.Objects
 		/// </summary>
 		/// <param name="pos">Position of given explosion to check.</param>
 		/// <param name="explosiveStrength">Blast yield of the given explosion.</param>
-		private void DetectBlast(Vector3Int pos, float explosiveStrength)
+		private void DetectBlast(Vector3Int pos, BlastData blastData)
 		{
 			Vector2 thisMachine = registerObject.WorldPosition.To2Int();
 
@@ -150,14 +153,24 @@ namespace Systems.Research.Objects
 
 			float angle = Vector2.Angle(coneCenterVector, coneToQuery);
 
-			int points = calculateResearchPoints(explosiveStrength);
+			int points = calculateResearchPoints(blastData.BlastYield);
 
 			if (angle <= 45)
 			{
-				blastData.Add(explosiveStrength, points);
+				blastYieldData.Add(blastData.BlastYield, points);
 				AwardResearchPoints(this, points);
 			}
 
+			if (blastData.reagentMix != null)
+			{
+				var ToxCont = 0f;
+				if(blastData.reagentMix.reagentKeys.Contains(Toxin))
+				{
+					ToxCont = blastData.reagentMix[Toxin];
+				}
+
+				Debug.Log($"Explosion detected: Yield {blastData.BlastYield}. Smoke Content: {blastData.SmokeAmount}u. Foam Content: {blastData.FoamAmount}u. Toxin Content: {ToxCont}.");
+			}
 			UpdateGui();
 		}
 
@@ -223,7 +236,7 @@ namespace Systems.Research.Objects
 				stateSync = BlastYieldDetectorState.Broken;
 			}
 
-			blastData.Clear();
+			blastYieldData.Clear();
 			easyPointYieldTarget = 0;
 			maxPointYieldTarget = 0;
 			serverConnEvent(false);

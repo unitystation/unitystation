@@ -6,84 +6,89 @@ using Chemistry.Components;
 using Mirror;
 using Objects;
 using UnityEngine;
+using Items.Weapons;
+using ScriptableObjects;
+using System.Linq;
 
 public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<HandActivate>, IServerDespawn, ITrapComponent,
 	ICheckedInteractable<InventoryApply>
 {
-	public ItemStorage ContainersStorage;
+	private ItemStorage containerStorage;
+	private SpriteHandler spriteHandler;
+	private Pickupable pickupable;
+	private UniversalObjectPhysics objectPhysics;
+
+	private const int UNLOCKED_SPRITE = 0;
+	private const int LOCKED_SPRITE = 1;
+	private const int ARMED_SPRITE = 2;
 
 	public ReagentContainer ReagentContainer1 =>
-		ContainersStorage.GetIndexedItemSlot(0)?.Item.OrNull()?.GetComponent<ReagentContainer>();
+		containerStorage.GetIndexedItemSlot(0)?.Item.OrNull()?.GetComponent<ReagentContainer>();
 
 	public ReagentContainer ReagentContainer2 =>
-		ContainersStorage.GetIndexedItemSlot(1)?.Item.OrNull()?.GetComponent<ReagentContainer>();
+		containerStorage.GetIndexedItemSlot(1)?.Item.OrNull()?.GetComponent<ReagentContainer>();
 
 
-	public ReagentContainer MixedReagentContainer;
+	private ReagentContainer mixedReagentContainer;
 
-	[SyncVar] public bool IsFullContainers = false;
+	[field: SyncVar] public bool ScrewedClosed { get; private set; } = false;
 
-	[SyncVar] public bool ScrewedClosed = false;
+	[Header("Chemical properties:"), Space(10)]
 
+	[SerializeField] private Reaction smokeReaction;
+	[SerializeField] private Reaction foamReaction;
 
-	public int DEBUG_Amount = 50;
+	public bool IsFullContainers
+	{
+		get
+		{
+			return ReagentContainer1 != null && ReagentContainer2 != null;
+		}
+	}
+
+	[Header("Explosive properties:"), Space(10)]
+
+	[SerializeField, Tooltip("If the fuse is precise or has a degree of error equal to fuselength / 4")]
+	private bool unstableFuse = false;
+
+	[SerializeField, Tooltip("Fuse timer in seconds")]
+	private float fuseLength = 3;
+
+	[SerializeField] private AddressableAudioSource armbomb = null;
+
+	private bool hasExploded = false;
+
+	private bool timerRunning = false;
+
+	private const int DEBUG_FOAM_AMOUNT = 50;
 
 	[RightClickMethod()]
 	public void DoSmartFoam()
 	{
-		SmokeAndFoamManager.StartFoamAt(transform.position, new ReagentMix(), DEBUG_Amount, true, true);
+		SmokeAndFoamManager.StartFoamAt(objectPhysics.OfficialPosition, new ReagentMix(), DEBUG_FOAM_AMOUNT, true, true);
 	}
 
 	[RightClickMethod()]
 	public void DoFoam()
 	{
-		SmokeAndFoamManager.StartFoamAt(transform.position, new ReagentMix(), DEBUG_Amount, true, false);
+		SmokeAndFoamManager.StartFoamAt(objectPhysics.OfficialPosition, new ReagentMix(), DEBUG_FOAM_AMOUNT, true, false);
 	}
-
-
-	[TooltipAttribute("If the fuse is precise or has a degree of error equal to fuselength / 4")]
-	public bool unstableFuse = false;
-
-	[TooltipAttribute("fuse timer in seconds")]
-	public float fuseLength = 3;
-
-	[SerializeField] private AddressableAudioSource armbomb = null;
-
-	[Tooltip("SpriteHandler used for blinking animation")]
-	public SpriteHandler spriteHandler;
-
-	[Tooltip("Used for inventory animation")]
-	public Pickupable pickupable;
-
-	// Zero and one sprites reserved for left and right hands
-	private const int LOCKED_SPRITE = 2;
-	private const int ARMED_SPRITE = 3;
-
-	//whether this object has exploded
-	private bool hasExploded;
-
-	// is timer finished or was interupted?
-	private bool timerRunning = false;
-
-	//this object's registerObject
-	private RegisterItem registerItem;
-	private UniversalObjectPhysics objectPhysics;
 
 	private void Start()
 	{
-		registerItem = GetComponent<RegisterItem>();
 		objectPhysics = GetComponent<UniversalObjectPhysics>();
-		MixedReagentContainer = GetComponent<ReagentContainer>();
-		ContainersStorage = GetComponent<ItemStorage>();
+		mixedReagentContainer = GetComponent<ReagentContainer>();
+		containerStorage = GetComponent<ItemStorage>();
 		pickupable = GetComponent<Pickupable>();
-		// Set grenade to locked state by default
-		UpdateSprite(LOCKED_SPRITE);
+
+		// Set grenade to unlocked state by default
+		UpdateSprite(UNLOCKED_SPRITE);
 	}
 
 	public void OnDespawnServer(DespawnInfo info)
 	{
-		// Set grenade to locked state by default
-		UpdateSprite(LOCKED_SPRITE);
+		// Set grenade to unlocked state by default
+		UpdateSprite(UNLOCKED_SPRITE);
 		// Reset grenade timer
 		timerRunning = false;
 		UpdateTimer(timerRunning);
@@ -181,8 +186,29 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 
 		if (isServer)
 		{
-			ReagentContainer1.TransferTo(ReagentContainer1.ReagentMixTotal, MixedReagentContainer);
-			ReagentContainer2.TransferTo(ReagentContainer2.ReagentMixTotal, MixedReagentContainer);
+			var worldPos = objectPhysics.registerTile.WorldPosition;
+
+			BlastData blastData = new BlastData();
+		
+			ReagentContainer1.TransferTo(ReagentContainer1.ReagentMixTotal, mixedReagentContainer, false); //We use false to ensure the reagents do not react before we can obtain our blast data
+			ReagentContainer2.TransferTo(ReagentContainer2.ReagentMixTotal, mixedReagentContainer, false);
+
+			if(smokeReaction.IsReactionValid(mixedReagentContainer.CurrentReagentMix))
+			{
+				blastData.SmokeAmount = smokeReaction.GetReactionAmount(mixedReagentContainer.CurrentReagentMix);
+			}
+
+			if (foamReaction.IsReactionValid(mixedReagentContainer.CurrentReagentMix))
+			{
+				blastData.FoamAmount = foamReaction.GetReactionAmount(mixedReagentContainer.CurrentReagentMix);
+			}
+
+			blastData.reagentMix = mixedReagentContainer.CurrentReagentMix;
+
+			ExplosiveBase.ExplosionEvent.Invoke(worldPos, blastData); 
+
+			mixedReagentContainer.OnReagentMixChanged?.Invoke(); //We disabled this during the transfer to obtain blast data, we must now call the reagent updates manually.
+			mixedReagentContainer.ReagentsChanged();
 
 			// Explosion here
 			// Despawn grenade
@@ -240,6 +266,18 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 		if ((ScrewedClosed || IsFullContainers) && interaction.UsedObject != null)
 		{
 			ScrewedClosed = !ScrewedClosed;
+
+			if (ScrewedClosed)
+			{
+				spriteHandler.ChangeSprite(LOCKED_SPRITE);
+				spriteHandler.ChangeSpriteVariant(0);
+			}
+			else
+			{
+				spriteHandler.ChangeSprite(UNLOCKED_SPRITE);
+				spriteHandler.ChangeSpriteVariant(2);
+			}
+
 			var StateText = ScrewedClosed ? "Closed" : "Open";
 			Chat.AddActionMsgToChat(interaction, $" you screw the {gameObject.ExpensiveName()} {StateText}",
 				$" {interaction.Performer.ExpensiveName()} screws the {gameObject.ExpensiveName()} {StateText}");
@@ -248,31 +286,33 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 		{
 			if (interaction.UsedObject != null)
 			{
-				if (ContainersStorage.GetIndexedItemSlot(0).Item == null)
+				if (containerStorage.GetIndexedItemSlot(0).Item == null)
 				{
-					Inventory.ServerTransfer(interaction.FromSlot, ContainersStorage.GetIndexedItemSlot(0));
+					Inventory.ServerTransfer(interaction.FromSlot, containerStorage.GetIndexedItemSlot(0));
+					spriteHandler.ChangeSpriteVariant(1);
 					return;
 				}
 
-				if (ContainersStorage.GetIndexedItemSlot(1).Item == null)
+				if (containerStorage.GetIndexedItemSlot(1).Item == null)
 				{
-					Inventory.ServerTransfer(interaction.FromSlot, ContainersStorage.GetIndexedItemSlot(1));
-					IsFullContainers = true;
+					Inventory.ServerTransfer(interaction.FromSlot, containerStorage.GetIndexedItemSlot(1));
+					spriteHandler.ChangeSpriteVariant(2);
 					return;
 				}
 			}
 			else
 			{
-				if (ContainersStorage.GetIndexedItemSlot(1).Item != null)
+				if (containerStorage.GetIndexedItemSlot(1).Item != null)
 				{
-					Inventory.ServerTransfer(ContainersStorage.GetIndexedItemSlot(1), interaction.FromSlot);
-					IsFullContainers = false;
+					Inventory.ServerTransfer(containerStorage.GetIndexedItemSlot(1), interaction.FromSlot);
+					spriteHandler.ChangeSpriteVariant(1);
 					return;
 				}
 
-				if (ContainersStorage.GetIndexedItemSlot(0).Item != null)
+				if (containerStorage.GetIndexedItemSlot(0).Item != null)
 				{
-					Inventory.ServerTransfer(ContainersStorage.GetIndexedItemSlot(0), interaction.FromSlot);
+					Inventory.ServerTransfer(containerStorage.GetIndexedItemSlot(0), interaction.FromSlot);
+					spriteHandler.ChangeSpriteVariant(0);
 					return;
 				}
 			}
@@ -283,6 +323,7 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 	private void PullPin()
 	{
 		if (ScrewedClosed == false) return;
+		spriteHandler.ChangeSprite(ARMED_SPRITE);
 		StartCoroutine(TimeExplode(gameObject));
 	}
 

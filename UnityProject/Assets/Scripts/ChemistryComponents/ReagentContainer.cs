@@ -252,7 +252,7 @@ namespace Chemistry.Components
 		/// Add reagent mix to container. May cause reaction inside container.
 		/// Use MoveReagentsTo to transfer reagents from one container to another
 		/// </summary>
-		public TransferResult Add(ReagentMix addition)
+		public TransferResult Add(ReagentMix addition, bool updateReactions = true)
 		{
 			// check whitelist reagents
 			if (ReagentWhitelistOn)
@@ -299,7 +299,8 @@ namespace Chemistry.Components
 
 			// add addition to reagent mix
 			CurrentReagentMix.Add(addition);
-			ReagentsChanged();
+
+			if(updateReactions == true) ReagentsChanged();
 
 			// get mix total after all reactions,
 			var afterReactionTotal = CurrentReagentMix.Total;
@@ -312,8 +313,11 @@ namespace Chemistry.Components
 				message = $"Content starts overflowing out of {FancyContainerName}!";
 			}
 
-			OnReagentMixChanged?.Invoke();
-			ReagentsChanged();
+			if (updateReactions == true)
+			{
+				OnReagentMixChanged?.Invoke();
+				ReagentsChanged();
+			}
 			return new TransferResult { Success = true, TransferAmount = transferAmount, Message = message };
 		}
 

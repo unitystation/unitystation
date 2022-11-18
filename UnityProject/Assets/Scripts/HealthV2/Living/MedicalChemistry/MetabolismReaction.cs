@@ -27,12 +27,7 @@ public class MetabolismReaction : Reaction
 
 	public override bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
 	{
-		if (HasIngredients(reagentMix) == false)
-		{
-			return false;
-		}
-
-		if (CanReactionHappen(reagentMix) == false)
+		if (IsReactionValid(reagentMix) == false)
 		{
 			return false;
 		}
@@ -44,6 +39,7 @@ public class MetabolismReaction : Reaction
 		}
 
 		circulatorySystem.MetabolismReactions.Add(this);
+
 		return false;
 	}
 

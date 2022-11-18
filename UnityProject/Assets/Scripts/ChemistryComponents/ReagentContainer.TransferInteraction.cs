@@ -344,9 +344,11 @@ namespace Chemistry.Components
 		/// <summary>
 		/// Moves reagents to another container
 		/// </summary>
+		/// <param name="updateReactions">If false, reagent updates (primarily reactions) will not occur during the transfer. Only use if you intend to invoke the reactant update manually. </param>
 		public TransferResult TransferTo(
 			float amount,
-			ReagentContainer target
+			ReagentContainer target,
+			bool updateReactions = true
 		)
 		{
 			TransferResult transferResult;
@@ -366,7 +368,8 @@ namespace Chemistry.Components
 			if (target != null)
 			{
 				var transffered = CurrentReagentMix.Take(amount);
-				OnReagentMixChanged?.Invoke();
+
+				if(updateReactions == true) OnReagentMixChanged?.Invoke();
 
 				transferResult = target.Add(transffered);
 				if (!transferResult.Success)

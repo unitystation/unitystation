@@ -72,15 +72,15 @@ namespace UI.Objects.Research
 		{
 			if (blastYieldDetector != null)
 			{
-				if (blastYieldDetector.blastData.Count == 0)
+				if (blastYieldDetector.blastYieldData.Count == 0)
 					return;
-				graphContainer.SetItems(blastYieldDetector.blastData.Count);
+				graphContainer.SetItems(blastYieldDetector.blastYieldData.Count);
 
-				for(int i = 0;i<blastYieldDetector.blastData.Count;i++)
+				for(int i = 0;i<blastYieldDetector.blastYieldData.Count;i++)
 				{
 					if(i < clientGUIGraphTransform.childCount)
 						clientGUIGraphTransform.GetChild(i).GetComponent<RectTransform>().anchoredPosition
-						= GetNodePosition(blastYieldDetector.blastData.Keys[i],blastYieldDetector.blastData.Values[i]);
+						= GetNodePosition(blastYieldDetector.blastYieldData.Keys[i],blastYieldDetector.blastYieldData.Values[i]);
 				}
 			}
 		}
@@ -125,10 +125,10 @@ namespace UI.Objects.Research
 		private int dataShown = 0;
 		public void DataLeft()
 		{
-			if (blastYieldDetector.blastData.Count == 0) return;
+			if (blastYieldDetector.blastYieldData.Count == 0) return;
 			if (dataShown - 1 < 0)
 			{
-				dataShown = blastYieldDetector.blastData.Count-1;
+				dataShown = blastYieldDetector.blastYieldData.Count-1;
 			}
 			else
 			{
@@ -140,8 +140,8 @@ namespace UI.Objects.Research
 
 		public void DataRight()
 		{
-			if (blastYieldDetector.blastData.Count == 0) return;
-			if (dataShown + 1 > blastYieldDetector.blastData.Count-1)
+			if (blastYieldDetector.blastYieldData.Count == 0) return;
+			if (dataShown + 1 > blastYieldDetector.blastYieldData.Count-1)
 			{
 				dataShown = 0;
 			}
@@ -164,8 +164,8 @@ namespace UI.Objects.Research
 		/// </summary>
 		public void UpdateDataDisplay()
 		{
-			float yield = blastYieldDetector.blastData.Keys[dataShown];
-			float points = blastYieldDetector.blastData.Values[dataShown];
+			float yield = blastYieldDetector.blastYieldData.Keys[dataShown];
+			float points = blastYieldDetector.blastYieldData.Values[dataShown];
 			Vector2 dataShownPos = GetNodePosition(yield, points);
 
 			blastYieldLabel.MasterSetValue(yield.ToString());
