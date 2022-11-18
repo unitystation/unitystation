@@ -124,7 +124,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		private void UpdateInteractionsView(List<TextColor> newInteractions)
 		{
 			if (newInteractions == null) return;
-			Debug.Log(newInteractions.Count);
+			ResetInteractionsList();
 			foreach (var interaction in newInteractions)
 			{
 				var textObj = Instantiate(interactionPrefab, interactionList, false);
@@ -147,11 +147,9 @@ namespace UI.Systems.Tooltips.HoverTooltips
 
 		private void ResetInteractionsList()
 		{
-			if (interactionList.childCount == 0) return;
-			Debug.Log(interactionList.childCount);
-			for (int i = interactionList.childCount; i < interactionList.childCount; i--)
+			foreach (Transform child in interactionList)
 			{
-				Destroy(interactionList.GetChild(i));
+				Destroy(child);
 			}
 		}
 	}
