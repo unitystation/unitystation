@@ -78,7 +78,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		/// </summary>
 		private void CaptureIconFromSpriteHandler(GameObject target)
 		{
-			var imageObj = targetObject.GetComponentInChildren<SpriteHandler>();
+			var imageObj = target.GetComponentInChildren<SpriteHandler>();
 			if (imageObj != null)
 			{
 				iconTarget.sprite = imageObj.CurrentSprite;
