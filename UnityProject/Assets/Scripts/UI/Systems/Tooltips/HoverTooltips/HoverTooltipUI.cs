@@ -111,7 +111,10 @@ namespace UI.Systems.Tooltips.HoverTooltips
 				if (String.IsNullOrEmpty(data.CustomTitle()) == false) nameText.text = data.CustomTitle();
 				if (String.IsNullOrEmpty(data.HoverTip()) == false)
 				{
-					descText.text += $"\n \n{data.HoverTip()}";
+					// if description is empty, don't create extra lines.
+					// if description has text, separate new data away from the previous ones.
+					descText.text = string.IsNullOrWhiteSpace(descText.text) ?
+						descText.text += $"{data.HoverTip()}" : descText.text += $"\n \n{data.HoverTip()}";
 				}
 				UpdateIconSprite(data);
 				// Only show interactions if there is a description or title in the tooltip.
