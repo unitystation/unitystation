@@ -8,6 +8,8 @@ namespace UI.Systems.Tooltips.HoverTooltips
 	public class HoverTooltipUI : MonoBehaviour
 	{
 		[SerializeField] private CanvasGroup content;
+		[SerializeField] private Transform interactionList;
+		[SerializeField] private Transform interactionPrefab;
 		[SerializeField] private TMP_Text nameText;
 		[SerializeField] private TMP_Text descText;
 		[SerializeField] private Image iconTarget;
@@ -18,6 +20,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		private const float MOUSE_OFFSET_Y = -105f;
 		private const float MOUSE_OFFSET_X = -125f;
 		private const float ANIM_TIME = 0.2f;
+		private const float ICON_SIZE_HEIGHT_DEFAULT = 45f;
 
 
 		private void Start()
@@ -94,7 +97,17 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			nameText.text = string.Empty;
 			descText.text = string.Empty;
 			iconTarget.sprite = null;
+			ResetInteractionsList();
 			content.LeanAlpha(0f, ANIM_TIME);
+		}
+
+		private void ResetInteractionsList()
+		{
+			if (interactionList.childCount == 0) return;
+			for (int i = interactionList.childCount; i > interactionList.childCount; i--)
+			{
+				Destroy(interactionList.GetChild(i));
+			}
 		}
 	}
 }

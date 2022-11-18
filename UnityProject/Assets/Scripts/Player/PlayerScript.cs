@@ -731,7 +731,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		foreach (var bodyPart in playerSprites.SurfaceSprite)
 		{
 			if(bodyPart.name != "head" || bodyPart.name != "Head") continue;
-			return bodyPart.spriteRenderer.sprite;
+			return bodyPart.baseSpriteHandler.CurrentSprite;
 		}
 
 		return null;
@@ -740,6 +740,11 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	public List<Sprite> IconIndicators()
 	{
 		//TODO: add indicators for players.
+		return null;
+	}
+
+	public List<TextColor> InteractionsStrings()
+	{
 		return null;
 	}
 

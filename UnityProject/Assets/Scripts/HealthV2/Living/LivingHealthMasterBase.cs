@@ -1865,8 +1865,7 @@ namespace HealthV2
 
 		public string HoverTip()
 		{
-			if (IsDead == false && IsCrit == false) return null;
-			return "<color=green>Left-Click (Help Intent): Perform CPR.</color>";
+			return null;
 		}
 
 		public string CustomTitle()
@@ -1883,6 +1882,19 @@ namespace HealthV2
 		{
 			//TODO: add icon indicators for being lit on fire and being dead.
 			return null;
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			if (IsDead == false && IsCrit == false) return null;
+			TextColor CPRText = new TextColor
+			{
+				Text = "Left-Click (Help Intent): Perform CPR.",
+				Color = IntentColors.Help
+			};
+			List<TextColor> interactions = new List<TextColor>();
+			interactions.Add(CPRText);
+			return interactions;
 		}
 	}
 

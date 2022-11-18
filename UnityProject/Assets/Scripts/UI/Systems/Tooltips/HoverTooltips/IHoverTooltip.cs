@@ -26,5 +26,21 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		/// (Such as being lit on fire or being dead)
 		/// </summary>
 		public List<Sprite> IconIndicators();
+
+		public List<TextColor> InteractionsStrings();
+	}
+
+	public struct TextColor
+	{
+		public string Text;
+		public Color Color;
+	}
+
+	public static class IntentColors
+	{
+		public static Color Help { get; } = Color.green;
+		public static Color Harm { get; } = Color.red;
+		public static Color Disarm { get; } = Color.blue;
+		public static Color Grab { get; } = Color.yellow;
 	}
 }

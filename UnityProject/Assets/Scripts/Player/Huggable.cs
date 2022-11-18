@@ -147,7 +147,7 @@ namespace Player
 
         public string HoverTip()
         {
-	        return "<color=green>Left-Click (Help Intent): Hug!</color>";
+	        return null;
         }
 
         public string CustomTitle()
@@ -163,6 +163,18 @@ namespace Player
         public List<Sprite> IconIndicators()
         {
 	        return null;
+        }
+
+        public List<TextColor> InteractionsStrings()
+        {
+	        TextColor HugText = new TextColor
+	        {
+		        Text = "Left-Click (Help Intent): Hug!",
+		        Color = IntentColors.Help
+	        };
+	        List<TextColor> interactions = new List<TextColor>();
+	        interactions.Add(HugText);
+	        return interactions;
         }
     }
 }
