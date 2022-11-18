@@ -717,7 +717,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		StringBuilder finalText = new StringBuilder();
 		if (characterSettings == null) return finalText.ToString();
 		finalText.Append($"A {characterSettings.Species}.");
-		finalText.Append($" {characterSettings.TheirPronoun(this)}.");
+		finalText.Append($" {characterSettings.TheyPronoun(this)}/{characterSettings.TheirPronoun(this)}.");
 		return finalText.ToString();
 	}
 
@@ -730,7 +730,9 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	{
 		foreach (var bodyPart in playerSprites.SurfaceSprite)
 		{
-			if(bodyPart.name != "head" || bodyPart.name != "Head") continue;
+			// (Max): This isn't going to work because for some reason the sprites never get their body type assigned.
+			// Could be an editor only issue?
+			if(bodyPart.BodyPartType != BodyPartType.Head || bodyPart.name.ToLower().Contains("head") == false) continue;
 			return bodyPart.spriteRenderer.sprite;
 		}
 

@@ -743,10 +743,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 8
-    m_Right: 8
-    m_Top: 8
-    m_Bottom: 8
+    m_Left: 12
+    m_Right: 12
+    m_Top: 12
+    m_Bottom: 12
   m_ChildAlignment: 4
   m_Spacing: 10
   m_ChildForceExpandWidth: 1
@@ -839,6 +839,8 @@ MonoBehaviour:
   nameText: {fileID: 1582449825955878055}
   descText: {fileID: 4899701060086198357}
   iconTarget: {fileID: 1088170015478288013}
+  errorIconSprite: {fileID: -3138123007396962320, guid: a08e177daac794cf680f161215685ce4,
+    type: 3}
 --- !u!1 &7492054567765858360
 GameObject:
   m_ObjectHideFlags: 0

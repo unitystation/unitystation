@@ -14,6 +14,8 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		[SerializeField] private TMP_Text nameText;
 		[SerializeField] private TMP_Text descText;
 		[SerializeField] private Image iconTarget;
+		[SerializeField] private Sprite errorIconSprite;
+
 
 		private GameObject targetObject;
 		private bool detailsModeEnabled = false;
@@ -62,6 +64,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			// (Max): It looks better and more intentional when there's no empty fields.
 			// Also reduces hovertip presence on the screen when its not needed.
 			if (IsDescOrTitleEmpty()) return;
+			if (iconTarget.sprite == null) iconTarget.sprite = errorIconSprite;
 			content.LeanAlpha(1f, ANIM_TIME);
 		}
 
@@ -124,15 +127,16 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		private void UpdateInteractionsView(List<TextColor> newInteractions)
 		{
 			if (newInteractions == null) return;
-			// Make sure to clean this again in-case the list gets updated.
-			ResetInteractionsList();
 			foreach (var interaction in newInteractions)
 			{
 				var textObj = Instantiate(interactionPrefab, interactionList, false);
 				var color = ColorUtility.ToHtmlStringRGB(interaction.Color);
 				textObj.text = $"<color=#{color}>{interaction.Text}</color>";
+				Debug.Log(interaction.Text);
 				textObj.SetActive(true);
 				// (Max): I have no fucking clue why i have to set this twice in order for it to work.
+				textObj.transform.SetParent(interactionList);
+				textObj.transform.SetParent(interactionList);
 				textObj.transform.SetParent(interactionList);
 			}
 		}
@@ -141,7 +145,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		{
 			nameText.text = string.Empty;
 			descText.text = string.Empty;
-			iconTarget.sprite = null;
+			iconTarget.sprite = errorIconSprite;
 			ResetInteractionsList();
 			content.LeanAlpha(0f, ANIM_TIME);
 		}
