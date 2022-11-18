@@ -8,6 +8,7 @@ using Items;
 using MiniGames;
 using NaughtyAttributes;
 using Objects.Atmospherics;
+using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
@@ -16,7 +17,8 @@ namespace Objects
 	/// <summary>
 	/// Allows closet to be opened / closed / locked
 	/// </summary>
-	public class ClosetControl : NetworkBehaviour, IServerSpawn, ICheckedInteractable<PositionalHandApply>, IRightClickable, IExaminable, IEscapable
+	public class ClosetControl : NetworkBehaviour, IServerSpawn, ICheckedInteractable<PositionalHandApply>,
+		IRightClickable, IExaminable, IEscapable, IHoverTooltip
 	{
 		// These sprite enums coincide with the sprite SOs set in SpriteHandler.
 		public enum Door
@@ -557,5 +559,58 @@ namespace Objects
 
 		#endregion
 
+		public string HoverTip()
+		{
+			return null;
+		}
+
+		public string CustomTitle()
+		{
+			return null;
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			return null;
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			List<TextColor> interactions = new List<TextColor>();
+			TextColor text = new TextColor
+			{
+				Text = "Left-Click: Open/Close.",
+				Color = IntentColors.Help
+			};
+			interactions.Add(text);
+			if (LocalPlayerHasWelder())
+			{
+				TextColor welderText = new TextColor
+				{
+					Text = "Left-Click with Welder: Weld Door.",
+					Color = IntentColors.Help
+				};
+				interactions.Add(welderText);
+			}
+			return interactions;
+		}
+
+		private bool LocalPlayerHasWelder()
+		{
+			if (PlayerManager.LocalPlayerScript == null) return false;
+			if (PlayerManager.LocalPlayerScript.DynamicItemStorage == null) return false;
+			foreach (var slot in PlayerManager.LocalPlayerScript.DynamicItemStorage.GetHandSlots())
+			{
+				if(slot.IsEmpty) continue;
+				if (slot.ItemAttributes.GetTraits().Contains(CommonTraits.Instance.Welder)) return true;
+			}
+
+			return false;
+		}
 	}
 }
