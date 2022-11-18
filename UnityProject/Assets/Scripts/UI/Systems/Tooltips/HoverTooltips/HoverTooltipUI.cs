@@ -129,7 +129,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			{
 				var textObj = Instantiate(interactionPrefab, interactionList, false);
 				var color = ColorUtility.ToHtmlStringRGB(interaction.Color);
-				textObj.text = $"<color={color}>{interaction.Text}</color>";
+				textObj.text = $"<color=#{color}>{interaction.Text}</color>";
 				textObj.SetActive(true);
 				// (Max): I have no fucking clue why i have to set this twice in order for it to work.
 				textObj.transform.SetParent(interactionList);
@@ -149,7 +149,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		{
 			if (interactionList.childCount == 0) return;
 			Debug.Log(interactionList.childCount);
-			for (int i = interactionList.childCount; i > interactionList.childCount; i--)
+			for (int i = interactionList.childCount; i < interactionList.childCount; i--)
 			{
 				Destroy(interactionList.GetChild(i));
 			}
