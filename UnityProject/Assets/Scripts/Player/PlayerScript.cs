@@ -728,14 +728,12 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public Sprite CustomIcon()
 	{
-		foreach (var bodyPart in playerSprites.SurfaceSprite)
-		{
-			// (Max): This isn't going to work because for some reason the sprites never get their body type assigned.
-			// Could be an editor only issue?
-			if(bodyPart.BodyPartType != BodyPartType.Head || bodyPart.name.ToLower().Contains("head") == false) continue;
-			return bodyPart.spriteRenderer.sprite;
-		}
-
+		// (Max): I tried making the custom icon use the player's face but there is no way to properly grab their face sprites
+		// Because the character customisation stuff does not have an methods to grab this data easily and when you do eventually grab it
+		// by looping through all sprites in PlayerSprties; you just get an empty sprite. Also all bodyPart sprites don't have their bodyPartType enum
+		// set for some odd reason so you can't just do an enum check and have to use regex for name detection (gameObject.name).
+		// Do you see why I keep begging you, Bod, to look at this? Because character sprites are a mess to work with
+		// and trying to create anything with it is near impossible and you're the only one who actually knows how to work with this.
 		return null;
 	}
 
