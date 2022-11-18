@@ -77,11 +77,6 @@ namespace Unitystation.Options
 		        PlayerPrefs.SetInt(PlayerPrefKeys.MentionSoundIndex, 0);
 	        }
 
-	        if (PlayerPrefs.HasKey(PlayerPrefKeys.EnableClassicHoverTooltip) == false)
-	        {
-		        ClassicHoverTooltipToggle(true);
-	        }
-
 	        ChatHighlight = PlayerPrefs.GetInt(PlayerPrefKeys.HighlightChat) == 1;
 	        MentionSound = PlayerPrefs.GetInt(PlayerPrefKeys.MentionSound) == 1;
 
@@ -92,14 +87,6 @@ namespace Unitystation.Options
 
 	        MentionSoundIndex = PlayerPrefs.GetInt(PlayerPrefKeys.MentionSoundIndex);
 	        CurrentMentionSound = MentionSounds[MentionSoundIndex];
-        }
-
-        public void ClassicHoverTooltipToggle(bool toggle)
-        {
-	        var result = enableClassicHoverTooltip.isOn ? 1 : 0;
-	        UIManager.Instance.PanelTooltipManager.SetActiveTransform(enableClassicHoverTooltip.isOn);
-	        PlayerPrefs.SetInt(PlayerPrefKeys.EnableClassicHoverTooltip, result);
-	        PlayerPrefs.Save();
         }
 
         public void ChatHighlightToggle(bool toggle)
