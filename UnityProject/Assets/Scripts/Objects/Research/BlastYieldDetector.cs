@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Core.Editor.Attributes;
 using Items.Weapons;
 using Mirror;
 using Systems.Electricity;
 using UI.Core.Net;
 using UnityEngine;
 using Chemistry;
+using Chemistry.Components;
 
 namespace Systems.Research.Objects
 {
@@ -16,7 +16,7 @@ namespace Systems.Research.Objects
 		/// <summary>
 		/// Distance the machine will detect blasts from.
 		/// </summary>
-		public float range;
+		[SerializeField] private float range;
 
 		/// <summary>
 		/// Direction the machine will detect blasts from.
@@ -24,43 +24,24 @@ namespace Systems.Research.Objects
 		private Rotatable coneDirection;
 
 		/// <summary>
-		/// Randomized blast yield target for awarding maximum points, initialized from research server
+		/// A list of all the blasts detected, used to plot recent blast yields.
 		/// </summary>
-		private int maxPointYieldTarget;
-
-		/// <summary>
-		/// Randomized blast yield target for awarding easier points, initialized from research server
-		/// </summary>
-		private int easyPointYieldTarget;
-
-		/// <summary>
-		/// Points awardable for reaching the more difficult blast yield target
-		/// </summary>
-		public int maxPointsValue;
-
-		/// <summary>
-		/// Points awardable for reaching the easier blast yield target
-		/// </summary>
-		public int easyPointsValue;
-
-		/// <summary>
-		/// Data structure for blast data, sorted so that scrolling through the graph makes sense
-		/// </summary>
-		public SortedList<float,float> blastYieldData;
+		public List<float> blastYieldData { get; private set; }
 
 		protected RegisterObject registerObject;
 
-		public delegate void BlastEvent();
+		public delegate void BlastEvent(BlastData data);
 
-		public delegate void ServerConnEvent(bool connected);
+		public delegate void UpdateGUIEvent();
 
 		public static event BlastEvent blastEvent;
-		public static event ServerConnEvent serverConnEvent;
+		public static event UpdateGUIEvent updateGUIEvent;
 
-		[SerializeField] private Reagent Toxin;
-
-		[PrefabModeOnly]
+		[SerializeField]
 		private SpriteHandler spriteHandler;
+
+		[SerializeField]
+		private List<Reaction> explosiveReactions = new List<Reaction>();
 
 		public enum BlastYieldDetectorState
 		{
@@ -78,15 +59,6 @@ namespace Systems.Research.Objects
 			spriteHandler.ChangeSprite((int)newState);
 		}
 
-		private void UpdateGui()
-		{
-			// Change event runs UpdateNodes in GUI_BlastYieldDetector
-			if (blastEvent != null)
-			{
-				blastEvent();
-			}
-		}
-
 		private void Awake()
 		{
 			registerObject = GetComponent<RegisterObject>();
@@ -94,9 +66,110 @@ namespace Systems.Research.Objects
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 
 			ExplosiveBase.ExplosionEvent.AddListener(DetectBlast);
-			blastYieldData = new SortedList<float, float>();
-			GetYieldTargets();
+			blastYieldData = new List<float>();
 			AffirmState();
+		}
+
+		/// <summary>
+		/// Checks if an explosion happens within the detection cone. If the explosion takes
+		/// place within the cone, it attempts to complete bounties with the provided blastData
+		/// </summary>
+		/// <param name="pos">Position of given explosion to check.</param>
+		/// <param name="blastData">The blast data from the explosion, contains yield and reagent mix if applicable.</param>
+		private void DetectBlast(Vector3Int pos, BlastData blastData)
+		{
+			Vector2 thisMachine = registerObject.WorldPosition.To2Int();
+
+			float distance = Vector2.Distance(pos.To2Int(), thisMachine);
+			//Distance is checked first to potentially avoid calculations.
+			if (distance > range) return;
+
+			//Math to check for if our explosion falls within a certain angle away from the center of the cone
+			Vector2 coneToQuery = pos.To2Int() - thisMachine;
+			coneToQuery.Normalize();
+
+			Vector2 coneCenterVector = coneDirection.CurrentDirection.ToLocalVector2Int();
+			coneCenterVector.Normalize();
+
+			float angle = Vector2.Angle(coneCenterVector, coneToQuery);
+
+			if (angle <= 45)
+			{
+				float yield = 0f;
+
+				//This really isnt a nice way of doing it, but the way the chemistry assemblies are set up means I cannot just get the potency without cyclic references.
+				//It's annoying but there is only a handful of explosive reactions anyways so its just better than nothing.
+				//Ideally in the future someone reorganises the Chemistry assemblies but this works for now.
+				foreach (Reaction reaction in explosiveReactions)
+				{
+					if (reaction.IsReactionValid(blastData.reagentMix))
+					{
+						yield += (float)(-463 + 205 * Mathf.Log(reaction.GetReactionAmount(blastData.reagentMix) + 75 * System.MathF.PI)); //Formula taken from strength calculation in ChemExplosion.cs
+
+					}
+				}
+
+				blastData.BlastYield = yield;
+
+				blastYieldData.Add(blastData.BlastYield);
+
+				if (blastData.reagentMix == null) blastData.reagentMix = new ReagentMix();
+				
+				TryCompleteBounties(blastData);
+
+				blastEvent?.Invoke(blastData);
+			}
+		}
+
+		private void TryCompleteBounties(BlastData blastData)
+		{
+			List<ExplosiveBounty> bountyList = new List<ExplosiveBounty>();
+			researchServer?.ExplosiveBounties.CopyTo(bountyList); //To prevent list being modified during iteration
+
+
+			foreach (ExplosiveBounty bounty in bountyList)
+			{
+				bool bountySatisfied = true;
+
+				if(bounty.RequiredYield.requiredAmount != 0 && Math.Abs(bounty.RequiredYield.requiredAmount - blastData.BlastYield) / bounty.RequiredYield.requiredAmount >= 0.05f)
+				{
+					continue;
+				}
+				else
+				{
+					if (bounty.RequiredYield.requiredAmount == 0 && blastData.BlastYield != 0) continue;
+				}
+
+				var mix = blastData.reagentMix;
+
+				foreach (ReagentBountyEntry reagent in bounty.RequiredReagents)
+				{
+					mix.reagents.m_dict.TryGetValue(reagent.requiredReagent, out float reagentAmount);
+					if (reagentAmount != reagent.requiredAmount)
+					{
+						bountySatisfied = false;
+						break;
+					}
+				}
+
+				if (bountySatisfied == false) continue;
+
+				foreach (ReactionBountyEntry reaction in bounty.RequiredReactions)
+				{
+					if (reaction.requiredReaction.IsReactionValid(mix))
+					{
+						if (reaction.requiredReaction.GetReactionAmount(mix) != reaction.requiredAmount)
+						{
+							bountySatisfied = false;
+							break;
+						}
+					}
+				}
+
+				if (bountySatisfied == false) continue;
+
+				researchServer?.CompleteBounty(bounty);
+			}
 		}
 
 		private void AffirmState()
@@ -118,101 +191,6 @@ namespace Systems.Research.Objects
 			}
 		}
 
-		/// <summary>
-		/// Obtains Yield targets from Research.
-		/// </summary>
-		private void GetYieldTargets()
-		{
-			if (researchServer == null) return;
-			researchServer.SetBlastYieldTargets();
-			maxPointYieldTarget = researchServer.hardBlastYieldDetectorTarget;
-			easyPointYieldTarget = researchServer.easyBlastYieldDetectorTarget;
-			Chat.AddLocalMsgToChat("Yield targets acquired",gameObject);
-		}
-
-		/// <summary>
-		/// Checks if an explosion happens within the detection cone. If the explosion takes
-		/// place within the cone, the point value is checked and compared to previous alloted points.
-		/// </summary>
-		/// <param name="pos">Position of given explosion to check.</param>
-		/// <param name="explosiveStrength">Blast yield of the given explosion.</param>
-		private void DetectBlast(Vector3Int pos, BlastData blastData)
-		{
-			Vector2 thisMachine = registerObject.WorldPosition.To2Int();
-
-			float distance = Vector2.Distance(pos.To2Int(), thisMachine);
-			//Distance is checked first to potentially avoid calculations.
-			if (distance > range) return;
-
-			//Math to check for if our explosion falls within a certain angle away from the center of the cone
-			Vector2 coneToQuery = pos.To2Int() - thisMachine;
-			coneToQuery.Normalize();
-
-			Vector2 coneCenterVector = coneDirection.CurrentDirection.ToLocalVector2Int();
-			coneCenterVector.Normalize();
-
-			float angle = Vector2.Angle(coneCenterVector, coneToQuery);
-
-			int points = calculateResearchPoints(blastData.BlastYield);
-
-			if (angle <= 45)
-			{
-				blastYieldData.Add(blastData.BlastYield, points);
-				AwardResearchPoints(this, points);
-			}
-
-			if (blastData.reagentMix != null)
-			{
-				var ToxCont = 0f;
-				if(blastData.reagentMix.reagentKeys.Contains(Toxin))
-				{
-					ToxCont = blastData.reagentMix[Toxin];
-				}
-
-				Debug.Log($"Explosion detected: Yield {blastData.BlastYield}. Smoke Content: {blastData.SmokeAmount}u. Foam Content: {blastData.FoamAmount}u. Toxin Content: {ToxCont}.");
-			}
-			UpdateGui();
-		}
-
-		/// <summary>
-		/// Awards points by difference (this is handled by the ResearchServer).
-		/// Total possible points are capped by the formula in calculateResearchPoints().
-		/// </summary>
-		/// <param name="source"></param>
-		/// <param name="points"></param>
-		public override int AwardResearchPoints(ResearchPointMachine source,int points)
-		{
-			int awarded = base.AwardResearchPoints(source, points);
-			if (awarded> 0)
-			{
-				Chat.AddLocalMsgToChat($"Research points awarded: {awarded.ToString()}. New Total for Ordnance is {points.ToString()}", gameObject);
-			}
-			else
-			{
-				Chat.AddLocalMsgToChat("Explosion strength not close enough to yield " +
-				                       "target to award additional research.",gameObject);
-			}
-
-			return awarded;
-		}
-
-		/// <summary>
-		/// Determines the research point value of an explosion based on the following formula.
-		/// [ max(e^(-(x - a1)^2/1250000)×140, e^(-(x - a2)^2/5000000)×70) ]
-		/// a1 and a2 are the per round randomised values set between 1000 and 19000, modelled after minimum and maximum
-		/// values for ExplosionBase ExplosionStrengths, that are targets to reach for blast yield.
-		/// </summary>
-		/// <param name="explosiveStrength"></param>
-		/// <returns></returns>
-		private int calculateResearchPoints(float explosiveStrength)
-		{
-			float term1 = (float)Math.Exp(-Math.Pow(explosiveStrength - maxPointYieldTarget, 2) / 1250000) *
-			              maxPointsValue;
-			float term2 = (float)Math.Exp(-Math.Pow(explosiveStrength - easyPointYieldTarget, 2) / 5000000) *
-			              easyPointsValue;
-			return (int)Mathf.Max(term1, term2);
-		}
-
 		#region Multitool Interaction Overrides
 
 		public override void SubscribeToServerEvent(ResearchServer server)
@@ -221,8 +199,7 @@ namespace Systems.Research.Objects
 			ExplosiveBase.ExplosionEvent.AddListener(DetectBlast);
 			Chat.AddLocalMsgToChat("Server connection found: Monitoring.",gameObject);
 			stateSync = BlastYieldDetectorState.Connected;
-			GetYieldTargets();
-			serverConnEvent(true);
+			updateGUIEvent?.Invoke();
 		}
 
 		public override void UnSubscribeFromServerEvent()
@@ -237,9 +214,7 @@ namespace Systems.Research.Objects
 			}
 
 			blastYieldData.Clear();
-			easyPointYieldTarget = 0;
-			maxPointYieldTarget = 0;
-			serverConnEvent(false);
+			updateGUIEvent?.Invoke();
 		}
 
 		#endregion Multitool Interaction Overrides
@@ -253,6 +228,7 @@ namespace Systems.Research.Objects
 				Chat.AddExamineMsgFromServer(playerObject, $"{gameObject.ExpensiveName()} is unpowered");
 				return false;
 			}
+			updateGUIEvent?.Invoke();
 			return true;
 		}
 

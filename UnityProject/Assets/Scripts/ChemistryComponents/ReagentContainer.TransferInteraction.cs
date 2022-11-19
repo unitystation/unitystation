@@ -371,7 +371,7 @@ namespace Chemistry.Components
 
 				if(updateReactions == true) OnReagentMixChanged?.Invoke();
 
-				transferResult = target.Add(transffered);
+				transferResult = target.Add(transffered, updateReactions);
 				if (!transferResult.Success)
 				{
 					//don't consume contents if transfer failed

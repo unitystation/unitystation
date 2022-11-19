@@ -159,8 +159,6 @@ namespace Items.Weapons
 	public struct BlastData
 	{
 		public float BlastYield;
-		public float SmokeAmount;
-		public float FoamAmount;
 		public ReagentMix reagentMix;
 	}
 }

@@ -38,12 +38,12 @@ namespace Chemistry
 
 		public bool IsReactionValid(ReagentMix reagentMix)
 		{
-			var reactionAmount = GetReactionAmount(reagentMix);
-
 			if (HasIngredients(reagentMix) == false)
 			{
 				return false;
 			}
+
+			var reactionAmount = GetReactionAmount(reagentMix);
 
 			if (useExactAmounts)
 			{

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using AddressableReferences;
 using Chemistry;
 using Chemistry.Components;
@@ -7,16 +6,15 @@ using Mirror;
 using Objects;
 using UnityEngine;
 using Items.Weapons;
-using ScriptableObjects;
-using System.Linq;
 
 public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<HandActivate>, IServerDespawn, ITrapComponent,
 	ICheckedInteractable<InventoryApply>
 {
 	private ItemStorage containerStorage;
-	private SpriteHandler spriteHandler;
 	private Pickupable pickupable;
 	private UniversalObjectPhysics objectPhysics;
+
+	[SerializeField] private SpriteHandler spriteHandler;
 
 	private const int UNLOCKED_SPRITE = 0;
 	private const int LOCKED_SPRITE = 1;
@@ -30,13 +28,9 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 
 
 	private ReagentContainer mixedReagentContainer;
+	[SerializeField] private Chemistry.Effect explosionEffect;
 
 	[field: SyncVar] public bool ScrewedClosed { get; private set; } = false;
-
-	[Header("Chemical properties:"), Space(10)]
-
-	[SerializeField] private Reaction smokeReaction;
-	[SerializeField] private Reaction foamReaction;
 
 	public bool IsFullContainers
 	{
@@ -139,7 +133,7 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 		{
 			timerRunning = true;
 			UpdateTimer(timerRunning);
-			PlayPinSFX(originator.AssumedWorldPosServer());
+			_ = SoundManager.PlayNetworkedAtPosAsync(armbomb, originator.AssumedWorldPosServer());
 
 			if (unstableFuse)
 			{
@@ -151,7 +145,10 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 
 			// Is timer still running?
 			if (timerRunning)
-				MixReagents();
+			{
+				timerRunning = false;
+				MixReagents();		
+			}
 		}
 	}
 
@@ -177,13 +174,6 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 
 	public void MixReagents()
 	{
-		if (hasExploded)
-		{
-			return;
-		}
-
-		hasExploded = true;
-
 		if (isServer)
 		{
 			var worldPos = objectPhysics.registerTile.WorldPosition;
@@ -193,32 +183,21 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 			ReagentContainer1.TransferTo(ReagentContainer1.ReagentMixTotal, mixedReagentContainer, false); //We use false to ensure the reagents do not react before we can obtain our blast data
 			ReagentContainer2.TransferTo(ReagentContainer2.ReagentMixTotal, mixedReagentContainer, false);
 
-			if(smokeReaction.IsReactionValid(mixedReagentContainer.CurrentReagentMix))
-			{
-				blastData.SmokeAmount = smokeReaction.GetReactionAmount(mixedReagentContainer.CurrentReagentMix);
-			}
+			blastData.reagentMix = mixedReagentContainer.CurrentReagentMix.Clone();
 
-			if (foamReaction.IsReactionValid(mixedReagentContainer.CurrentReagentMix))
-			{
-				blastData.FoamAmount = foamReaction.GetReactionAmount(mixedReagentContainer.CurrentReagentMix);
-			}
+			ExplosiveBase.ExplosionEvent.Invoke(worldPos, blastData);
 
-			blastData.reagentMix = mixedReagentContainer.CurrentReagentMix;
-
-			ExplosiveBase.ExplosionEvent.Invoke(worldPos, blastData); 
-
+			ReagentContainer1.ReagentsChanged(true);
+			ReagentContainer1.OnReagentMixChanged?.Invoke();
+			ReagentContainer2.ReagentsChanged(true);
+			ReagentContainer2.OnReagentMixChanged?.Invoke();
+			mixedReagentContainer.ReagentsChanged(true);
 			mixedReagentContainer.OnReagentMixChanged?.Invoke(); //We disabled this during the transfer to obtain blast data, we must now call the reagent updates manually.
-			mixedReagentContainer.ReagentsChanged();
 
-			// Explosion here
-			// Despawn grenade
-			_ = Despawn.ServerSingle(gameObject);
+			spriteHandler.ChangeSprite(LOCKED_SPRITE);
+			spriteHandler.ChangeSpriteVariant(0);
+			mixedReagentContainer.Spill(objectPhysics.OfficialPosition.CutToInt(), mixedReagentContainer.MaxCapacity);
 		}
-	}
-
-	private void PlayPinSFX(Vector3 position)
-	{
-		_ = SoundManager.PlayNetworkedAtPosAsync(armbomb, position);
 	}
 
 	private void UpdateTimer(bool timerRunning)
@@ -329,7 +308,6 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 
 	public void TriggerTrap()
 	{
-		if (ScrewedClosed == false) return;
 		PullPin();
 	}
 }

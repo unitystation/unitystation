@@ -15,19 +15,8 @@ public class SmokeNode : SpreadNode
 		foreach (var dir in dirs) //Might be lag
 		{
 			var newWorldPos = worldPos + dir;
-			var matrix = MatrixManager.AtPoint(worldPos + dir, CustomNetworkManager.IsServer);
 
-			MetaDataNode node = null;
-			if (MatrixManager.Instance.spaceMatrix.MatrixInfo != matrix)
-			{
-				var newLocal = newWorldPos.ToLocal(matrix);
-				node =  matrix.MetaDataLayer.Get(newLocal.RoundToInt());
-			}
-			else
-			{
-				var newLocal = newWorldPos.ToLocal(OnMetaDataNode.PositionMatrix);
-				node = OnMetaDataNode.PositionMatrix.MetaDataLayer.Get(newLocal.RoundToInt());
-			}
+			MetaDataNode node = GetNodeFromPosition(newWorldPos);
 
 			if (node.SmokeNode.IsActive == false || node.SmokeNode.SourceReservoir != SourceReservoir)
 			{
@@ -40,30 +29,38 @@ public class SmokeNode : SpreadNode
 
 	public override void TrySpread()
 	{
-		var worldPos = OnMetaDataNode.WorldPosition.To3();
+		var worldPos = OnMetaDataNode.WorldPosition;
 
 		foreach (var dir in dirs) //Might be lag
 		{
 			var newWorldPos = worldPos + dir;
-			var matrix = MatrixManager.AtPoint(worldPos + dir, CustomNetworkManager.IsServer);
 
-			MetaDataNode node = null;
-			if (MatrixManager.Instance.spaceMatrix.MatrixInfo != matrix)
-			{
-				var newLocal = newWorldPos.ToLocal(matrix);
-				node =  matrix.MetaDataLayer.Get(newLocal.RoundToInt());
-			}
-			else
-			{
-				var newLocal = newWorldPos.ToLocal(OnMetaDataNode.PositionMatrix);
-				node = OnMetaDataNode.PositionMatrix.MetaDataLayer.Get(newLocal.RoundToInt());
-			}
+			MetaDataNode node = GetNodeFromPosition(newWorldPos);
 
 			if (node.SmokeNode.IsActive == false && node.IsOccupied == false)
 			{
 				SourceReservoir.SpreadToNode(this ,node.SmokeNode);
 			}
 		}
+	}
+
+	private MetaDataNode GetNodeFromPosition(Vector3 pos)
+	{
+		var matrix = MatrixManager.AtPoint(pos, CustomNetworkManager.IsServer);
+
+		MetaDataNode node = null;
+		if (MatrixManager.Instance.spaceMatrix.MatrixInfo != matrix)
+		{
+			var newLocal = pos.ToLocal(matrix);
+			node = matrix.MetaDataLayer.Get(newLocal.RoundToInt());
+		}
+		else
+		{
+			var newLocal = pos.ToLocal(OnMetaDataNode.PositionMatrix);
+			node = OnMetaDataNode.PositionMatrix.MetaDataLayer.Get(newLocal.RoundToInt());
+		}
+
+		return node;
 	}
 
 	public override void DistributeToTile(SourceReservoir sourceReservoir)

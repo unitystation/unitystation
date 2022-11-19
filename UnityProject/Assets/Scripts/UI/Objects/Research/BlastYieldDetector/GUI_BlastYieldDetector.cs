@@ -2,6 +2,10 @@
 using UI.Core.NetUI;
 using UnityEngine;
 using Systems.Research.Objects;
+using Systems.Research;
+using System.Collections.Generic;
+using Chemistry;
+using Items.Weapons;
 
 namespace UI.Objects.Research
 {
@@ -20,29 +24,42 @@ namespace UI.Objects.Research
 			}
 		}
 
+		private const int YAXIS_MAX = 1000; //Up to 1000 Blast yield
+		private const int XAXIS_MAX = 10; //Up to last 10 datapoints
+
 		private BlastYieldDetector _blastYieldDetector;
 
 		private GUI_BlastYieldDetector clientGUI;
 		private Transform clientGUIGraphTransform;
 
+		private List<ExplosiveBounty> bountyList;
+
 		#region Serializefields
-		[SerializeField]
-		private NetText_label pointsMax;
 
 		[SerializeField]
-		private NetText_label yieldMin;
+		private NetText_label smokeLabel;
+		[SerializeField]
+		private Reaction smokeReaction;
 
 		[SerializeField]
-		private NetText_label yieldMax;
+		private NetText_label foamLabel;
+		[SerializeField]
+		private Reaction foamReaction;
 
 		[SerializeField]
-		public EmptyItemList graphContainer;
+		private NetText_label yieldLabel;
 
 		[SerializeField]
-		private NetText_label blastYieldLabel;
+		private NetText_label reagentLabel;
 
 		[SerializeField]
 		private NetText_label pointsLabel;
+
+		[SerializeField]
+		public EmptyItemList bountyContainer;
+
+		[SerializeField]
+		public EmptyItemList graphContainer;
 
 		/// <summary>
 		/// Offset to position highlight line UI properly
@@ -61,129 +78,126 @@ namespace UI.Objects.Research
 		{
 			clientGUI = UIManager.Instance.transform.GetChild(0).GetComponentInChildren<GUI_BlastYieldDetector>();
 			clientGUIGraphTransform = clientGUI.graphContainer.transform;
-			BlastYieldDetector.blastEvent += UpdateNodes;
-			BlastYieldDetector.serverConnEvent += UpdateServerConnData;
-			UpdateNodes();
-			UpdateServerConnData(blastYieldDetector.researchServer != null);
+			BlastYieldDetector.blastEvent += onRecieveBlast;
+			BlastYieldDetector.updateGUIEvent += UpdateGUI;
+			UpdateDataDisplay();
+			UpdateGUI();
 		}
 		#endregion
 
-		public void UpdateNodes()
+		private void onRecieveBlast(BlastData data)
 		{
-			if (blastYieldDetector != null)
-			{
-				if (blastYieldDetector.blastYieldData.Count == 0)
-					return;
-				graphContainer.SetItems(blastYieldDetector.blastYieldData.Count);
+			yieldLabel.MasterSetValue(data.BlastYield.ToString());
+			reagentLabel.MasterSetValue(data.reagentMix.Total.ToString());
 
-				for(int i = 0;i<blastYieldDetector.blastYieldData.Count;i++)
-				{
-					if(i < clientGUIGraphTransform.childCount)
-						clientGUIGraphTransform.GetChild(i).GetComponent<RectTransform>().anchoredPosition
-						= GetNodePosition(blastYieldDetector.blastYieldData.Keys[i],blastYieldDetector.blastYieldData.Values[i]);
-				}
+			var mix = data.reagentMix;
+			if (smokeReaction.IsReactionValid(mix)) smokeLabel.MasterSetValue(smokeReaction.GetReactionAmount(mix).ToString());
+			else smokeLabel.MasterSetValue("0");
+
+			if (foamReaction.IsReactionValid(mix)) foamLabel.MasterSetValue(foamReaction.GetReactionAmount(mix).ToString());
+			else foamLabel.MasterSetValue("0");
+
+			UpdateDataDisplay();
+			UpdateGUI();
+		}
+
+		public void UpdateGUI()
+		{
+			if (blastYieldDetector == null) return;
+
+			if(blastYieldDetector.researchServer == null)
+			{
+				bountyContainer.Clear();
+				bountyList.Clear();
+			}
+
+			bountyList = blastYieldDetector.researchServer?.ExplosiveBounties; //Clears current bounty list and updates to match current bounty list on research server.
+			UpdateBountyContainerToList(bountyList);
+		
+		}
+
+		private void UpdateBountyContainerToList(List<ExplosiveBounty> bounties)
+		{
+			bountyContainer.Clear();
+			if (bounties == null) return;
+
+			bountyContainer.SetItems(bounties.Count);
+
+			for (int i = 0; i < bounties.Count; i++)
+			{
+				var entryScript = bountyContainer.Entries[i].GetComponent<ExplosiveBountyUIEntry>();
+				entryScript.Initialise(bounties[i], i);
 			}
 		}
 
-		public void UpdateServerConnData(bool connected)
+		public void OnDestroy()
 		{
-			if (connected)
-			{
-				pointsMax.MasterSetValue(blastYieldDetector.maxPointsValue.ToString());
-				yieldMin.MasterSetValue(blastYieldDetector.researchServer.yieldTargetRangeMinimum.ToString());
-				yieldMax.MasterSetValue(blastYieldDetector.researchServer.yieldTargetRangeMaximum.ToString());
-			}
-			else
-			{
-				pointsMax.MasterSetValue("No Server!");
-				yieldMin.MasterSetValue("No Server!");
-				yieldMax.MasterSetValue("No Server!");
-			}
-
-
+			BlastYieldDetector.blastEvent -= onRecieveBlast;
+			BlastYieldDetector.updateGUIEvent -= UpdateGUI;
 		}
 
-		public Vector2 GetNodePosition(float yield, float points)
-		{
-			//blast yield axis position
-			float difference = blastYieldDetector.researchServer.yieldTargetRangeMaximum -
-			                   blastYieldDetector.researchServer.yieldTargetRangeMinimum;
-			float yieldClamp = Math.Min(yield,blastYieldDetector.researchServer.yieldTargetRangeMaximum);
+		#region Plotting
 
-			float dotPosX =
-				yieldClamp * graphContainer.GetComponent<RectTransform>().rect.width / difference;
+		public Vector2 GetNodePosition(float yield, float index)
+		{
+			float yieldClamp = Math.Min(yield, YAXIS_MAX);
+
+			float dotPosX = yieldClamp * graphContainer.GetComponent<RectTransform>().rect.width / YAXIS_MAX;
 
 			//points axis position
-			float dotPosY = points * graphContainer.GetComponent<RectTransform>().rect.height
-			                / blastYieldDetector.maxPointsValue;
+			float dotPosY = index * graphContainer.GetComponent<RectTransform>().rect.height
+							/ XAXIS_MAX;
 
 			//position 2d, third axis isn't important
 			Vector2 dotPosition = new Vector2(dotPosX, dotPosY);
 			return dotPosition;
 		}
 
-		private int dataShown = 0;
-		public void DataLeft()
-		{
-			if (blastYieldDetector.blastYieldData.Count == 0) return;
-			if (dataShown - 1 < 0)
-			{
-				dataShown = blastYieldDetector.blastYieldData.Count-1;
-			}
-			else
-			{
-				dataShown--;
-			}
-
-			UpdateDataDisplay();
-		}
-
-		public void DataRight()
-		{
-			if (blastYieldDetector.blastYieldData.Count == 0) return;
-			if (dataShown + 1 > blastYieldDetector.blastYieldData.Count-1)
-			{
-				dataShown = 0;
-			}
-			else
-			{
-				dataShown++;
-			}
-
-			UpdateDataDisplay();
-		}
-
 		public void SetCurrentShownData(int pos)
 		{
-			dataShown = pos;
 			UpdateDataDisplay();
 		}
 
 		/// <summary>
 		/// Moves highlight lines to current node, and updates labels
 		/// </summary>
-		public void UpdateDataDisplay()
+		private void UpdateDataDisplay()
 		{
-			float yield = blastYieldDetector.blastYieldData.Keys[dataShown];
-			float points = blastYieldDetector.blastYieldData.Values[dataShown];
-			Vector2 dataShownPos = GetNodePosition(yield, points);
+			if (blastYieldDetector == null || blastYieldDetector.blastYieldData == null)
+			{
+				graphContainer.Clear();
+				return;
+			}
 
-			blastYieldLabel.MasterSetValue(yield.ToString());
-			pointsLabel.MasterSetValue(points.ToString());
+			List<float> yields = blastYieldDetector.blastYieldData;
+			if (yields.Count > XAXIS_MAX)
+			{
+				yields = yields.GetRange(blastYieldDetector.blastYieldData.Count - 1 - XAXIS_MAX, XAXIS_MAX); //Obtains last ten datapoints
+			}
 
-			Vector3 yieldNewY = yieldNodeHighlight.anchoredPosition;
-			yieldNewY.y = dataShownPos.y + rectOffset;
-			clientGUI.yieldNodeHighlight.anchoredPosition = yieldNewY;
+			graphContainer.SetItems(yields.Count);
 
-			Vector3 pointNewX = pointNodeHighlight.anchoredPosition;
-			pointNewX.x = dataShownPos.x + rectOffset;
-			clientGUI.pointNodeHighlight.anchoredPosition = pointNewX;
+			for (int i = 0; i < yields.Count; i++)
+			{
+				Vector2 dataShownPos = GetNodePosition(yields[i], i);
+
+				if (i < clientGUIGraphTransform.childCount)
+				{
+					clientGUIGraphTransform.GetChild(i).GetComponent<RectTransform>().anchoredPosition = dataShownPos;
+				}
+
+				if (i != yields.Count - 1) continue;
+
+				Vector3 yieldNewY = yieldNodeHighlight.anchoredPosition;
+				yieldNewY.y = dataShownPos.y + rectOffset;
+				clientGUI.yieldNodeHighlight.anchoredPosition = yieldNewY;
+
+				Vector3 pointNewX = pointNodeHighlight.anchoredPosition;
+				pointNewX.x = dataShownPos.x + rectOffset;
+				clientGUI.pointNodeHighlight.anchoredPosition = pointNewX;
+			}
 		}
 
-		public void OnDestroy()
-		{
-			BlastYieldDetector.blastEvent -= UpdateNodes;
-			BlastYieldDetector.serverConnEvent -= UpdateServerConnData;
-		}
+		#endregion
 	}
 }
