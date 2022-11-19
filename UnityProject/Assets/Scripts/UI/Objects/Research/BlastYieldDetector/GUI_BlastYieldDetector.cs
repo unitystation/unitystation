@@ -94,10 +94,11 @@ namespace UI.Objects.Research
 			if (foamReaction.IsReactionValid(mix)) foamLabel.MasterSetValue(foamReaction.GetReactionAmount(mix).ToString());
 			else foamLabel.MasterSetValue("0");
 
-			yieldLabel.MasterSetValue(data.BlastYield.ToString());
 			reagentLabel.MasterSetValue(data.reagentMix.Total.ToString());
+			yieldLabel.MasterSetValue(blastYieldDetector.blastYieldData[blastYieldDetector.blastYieldData.Count - 1].ToString());
 
 			UpdateDataDisplay();
+
 			UpdateGUI();
 		}
 
