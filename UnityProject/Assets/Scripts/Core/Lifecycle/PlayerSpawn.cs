@@ -420,6 +420,8 @@ public static class PlayerSpawn
 				transfer.OnPlayerTransfer(Account);
 			}
 			To.AccountEnteringMind(Account);
+
+
 		}
 	}
 

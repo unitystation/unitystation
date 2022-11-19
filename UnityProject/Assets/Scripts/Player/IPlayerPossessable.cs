@@ -21,59 +21,68 @@ public interface IPlayerPossessable
 
 	public MindNIPossessingEvent OnPossessedBy   { get; set; }
 
-	public void InternalOnEnterPlayerControl(GameObject PreviouslyControlling, Mind mind)
+	public void InternalOnEnterPlayerControl(GameObject PreviouslyControlling, Mind mind, bool IsServer)
 	{
-		//can observe their new inventory
-		var dynamicItemStorage = GameObject.GetComponent<DynamicItemStorage>();
-		if (dynamicItemStorage != null)
+		if (IsServer)
 		{
-			dynamicItemStorage.ServerAddObserverPlayer(GameObject);
-			PlayerPopulateInventoryUIMessage.Send(dynamicItemStorage,
-				GameObject); //TODO should we be using the players body as game object???
+			//can observe their new inventory
+			var dynamicItemStorage = GameObject.GetComponent<DynamicItemStorage>();
+			if (dynamicItemStorage != null)
+			{
+				dynamicItemStorage.ServerAddObserverPlayer(GameObject);
+				PlayerPopulateInventoryUIMessage.Send(dynamicItemStorage,
+					GameObject); //TODO should we be using the players body as game object???
+			}
+			// If the player is inside a container, send a ClosetHandlerMessage.
+			// The ClosetHandlerMessage will attach the container to the transfered player.
+			var playerObjectBehavior = GameObject.GetComponent<UniversalObjectPhysics>();
+			if (playerObjectBehavior)
+			{
+				FollowCameraMessage.Send(GameObject, playerObjectBehavior.gameObject); //TODO Handle within container
+			}
+			PossessAndUnpossessMessage.Send(GameObject, GameObject, PreviouslyControlling);
+
+
+			var PS = GameObject.GetComponent<PlayerScript>();
+			if (PS)
+			{
+				PS.SetMind(mind); //TODO unset
+			}
+
+
+			var health = GameObject.GetComponent<LivingHealthMasterBase>();
+			if (health != null)
+			{
+				mind.bodyMobID = health.mobID;
+			}
+
+
+
+			var transfers = GameObject.GetComponents<IOnPlayerTransfer>();
+
+			foreach (var transfer in transfers)
+			{
+				transfer.OnPlayerTransfer(mind.ControlledBy);
+			}
 		}
 
-		// If the player is inside a container, send a ClosetHandlerMessage.
-		// The ClosetHandlerMessage will attach the container to the transfered player.
-		var playerObjectBehavior = GameObject.GetComponent<UniversalObjectPhysics>();
-		if (playerObjectBehavior)
+		if (GameObject.GetComponent<NetworkIdentity>().hasAuthority)
 		{
-			FollowCameraMessage.Send(GameObject, playerObjectBehavior.gameObject); //TODO Handle within container
+
+			IPlayerControllable input = GameObject.GetComponent<IPlayerControllable>();
+
+			if (GameObject.TryGetComponent<AiMouseInputController>(out var aiMouseInputController))
+			{
+				input = aiMouseInputController;
+			}
+
+			PlayerManager.SetPlayerForControl(GameObject, input);
 		}
 
-		IPlayerControllable input = GameObject.GetComponent<IPlayerControllable>();
-
-		if (GameObject.TryGetComponent<AiMouseInputController>(out var aiMouseInputController))
-		{
-			input = aiMouseInputController;
-		}
-
-		PlayerManager.SetPlayerForControl(GameObject, input);
-
-		PossessAndUnpossessMessage.Send(GameObject, GameObject, PreviouslyControlling);
-		var transfers = GameObject.GetComponents<IOnPlayerTransfer>();
-
-
-		var PS = GameObject.GetComponent<PlayerScript>();
-		if (PS)
-		{
-			PS.SetMind(mind); //TODO unset
-		}
-
-		var health = GameObject.GetComponent<LivingHealthMasterBase>();
-		if (health != null)
-		{
-			mind.bodyMobID = health.mobID;
-		}
-
-		foreach (var transfer in transfers)
-		{
-			transfer.OnPlayerTransfer(mind.ControlledBy);
-		}
-
-		OnEnterPlayerControl();
+		OnEnterPlayerControl( PreviouslyControlling,  mind,  IsServer);
 	}
 
-	public void OnEnterPlayerControl();
+	public void OnEnterPlayerControl(GameObject PreviouslyControlling, Mind mind, bool IsServer);
 
 	public bool IsRelatedToObject(GameObject Object)
 	{

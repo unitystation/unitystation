@@ -526,6 +526,10 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 
 			ServerContents[sstorageCharacteristicse.namedSlot].Remove(slot);
 
+			if (bbodyPartUISlots.GameObject == null)
+			{
+				continue; //Being destroyed?
+			}
 			if (ServerObjectToSlots.ContainsKey(bbodyPartUISlots.GameObject))
 			{
 				ServerObjectToSlots[bbodyPartUISlots.GameObject].Remove(slot);

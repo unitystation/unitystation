@@ -6,6 +6,7 @@ using Mirror;
 using Antagonists;
 using Systems.Spells;
 using HealthV2;
+using Initialisation;
 using Items.PDA;
 using Messages.Server;
 using Player;
@@ -278,35 +279,33 @@ public class Mind : NetworkBehaviour
 	{
 		IDActivelyControlling = newID;
 
-		if (CustomNetworkManager.IsServer)
+		var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+		if (spawned.ContainsKey(newID))
 		{
-			var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
-			if (spawned.ContainsKey(newID))
+			if (ControlledBy != null) //TODO Remove
 			{
-				if (ControlledBy != null) //TODO Remove
-				{
-					ControlledBy.GameObject = spawned[newID].gameObject;
-				}
+				ControlledBy.GameObject = spawned[newID].gameObject;
+			}
 
-				IPlayerPossessable oldPossessable = null;
-				if (spawned.ContainsKey(oldID))
-				{
-					oldPossessable = spawned[oldID].GetComponent<IPlayerPossessable>();
-				}
+			IPlayerPossessable oldPossessable = null;
+			if (spawned.ContainsKey(oldID))
+			{
+				oldPossessable = spawned[oldID].GetComponent<IPlayerPossessable>();
+			}
 
-				var  Possessable = spawned[newID].GetComponent<IPlayerPossessable>();
-				if (Possessable != null)
-				{
-					Possessable.InternalOnEnterPlayerControl(oldPossessable?.GameObject,this);
-				}
-				else
-				{
-					//TODO For objects
-				}
-
+			var  Possessable = spawned[newID].GetComponent<IPlayerPossessable>();
+			if (Possessable != null)
+			{
+				Possessable.InternalOnEnterPlayerControl(oldPossessable?.GameObject,this, CustomNetworkManager.IsServer);
+			}
+			else
+			{
+				//TODO For objects
 			}
 
 		}
+
+
 
 		//here
 
@@ -332,7 +331,10 @@ public class Mind : NetworkBehaviour
 		{
 			PlayerSpawn.TransferOwnershipToConnection(Account, null, Body );
 		}
-		SyncActiveOn(IDActivelyControlling, IDActivelyControlling);
+
+		LoadManager.RegisterActionDelayed(() => { SyncActiveOn(IDActivelyControlling, IDActivelyControlling);}, 2); //This is to fix a dumb issue with Server player,
+		//Server player owner not being set until the next frame from net message
+
 	}
 
 	public void ReLog()

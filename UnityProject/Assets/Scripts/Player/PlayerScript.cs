@@ -27,9 +27,14 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	public IPlayerPossessable PossessedBy { get; set; }
 	public MindNIPossessingEvent OnPossessedBy { get; set; }
 
-	public void OnEnterPlayerControl()
+	public void OnEnterPlayerControl(GameObject PreviouslyControlling, Mind mind, bool IsServer)
 	{
-		TriggerEventMessage.SendTo(GameObject, Event.PlayerSpawned); //TODO ODODOD!!
+		if (IsServer)
+		{
+			TriggerEventMessage.SendTo(GameObject, Event.PlayerSpawned); //TODO ODODOD!!
+		}
+
+
 		Init();
 	}
 
@@ -216,53 +221,56 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public void Init()
 	{
-		EnableLighting(true);
-		UIManager.ResetAllUI();
-		GetComponent<MouseInputController>().enabled = true;
-
-		if (UIManager.Instance.statsTab.window.activeInHierarchy == false)
+		if (hasAuthority)
 		{
-			UIManager.Instance.statsTab.window.SetActive(true);
-		}
+			EnableLighting(true);
+			UIManager.ResetAllUI();
+			GetComponent<MouseInputController>().enabled = true;
 
-		if (PlayerType == PlayerTypes.Ghost)
-		{
-			if (PlayerList.Instance.IsClientAdmin)
+			if (UIManager.Instance.statsTab.window.activeInHierarchy == false)
 			{
-				UIManager.LinkUISlots(ItemStorageLinkOrigin.adminGhost);
+				UIManager.Instance.statsTab.window.SetActive(true);
 			}
 
-			// stop the crit notification and change overlay to ghost mode
-			SoundManager.Stop("Critstate");
-			UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
-			// show ghosts
-			var mask = Camera2DFollow.followControl.cam.cullingMask;
-			mask |= 1 << LayerMask.NameToLayer("Ghosts");
-			Camera2DFollow.followControl.cam.cullingMask = mask;
-		}
-		//Normal players
-		else if (IsPlayerSemiGhost == false)
-		{
-			UIManager.LinkUISlots(ItemStorageLinkOrigin.localPlayer);
-			// Hide ghosts
-			var mask = Camera2DFollow.followControl.cam.cullingMask;
-			mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
-			Camera2DFollow.followControl.cam.cullingMask = mask;
-		}
-		//Players like blob or Ai
-		else
-		{
-			// stop the crit notification and change overlay to ghost mode
-			SoundManager.Stop("Critstate");
-			UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
-			// hide ghosts
-			var mask = Camera2DFollow.followControl.cam.cullingMask;
-			mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
-			Camera2DFollow.followControl.cam.cullingMask = mask;
-		}
+			if (PlayerType == PlayerTypes.Ghost)
+			{
+				if (PlayerList.Instance.IsClientAdmin)
+				{
+					UIManager.LinkUISlots(ItemStorageLinkOrigin.adminGhost);
+				}
 
-		EventManager.Broadcast(Event.UpdateChatChannels);
-		UpdateStatusTabUI();
+				// stop the crit notification and change overlay to ghost mode
+				SoundManager.Stop("Critstate");
+				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
+				// show ghosts
+				var mask = Camera2DFollow.followControl.cam.cullingMask;
+				mask |= 1 << LayerMask.NameToLayer("Ghosts");
+				Camera2DFollow.followControl.cam.cullingMask = mask;
+			}
+			//Normal players
+			else if (IsPlayerSemiGhost == false)
+			{
+				UIManager.LinkUISlots(ItemStorageLinkOrigin.localPlayer);
+				// Hide ghosts
+				var mask = Camera2DFollow.followControl.cam.cullingMask;
+				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
+				Camera2DFollow.followControl.cam.cullingMask = mask;
+			}
+			//Players like blob or Ai
+			else
+			{
+				// stop the crit notification and change overlay to ghost mode
+				SoundManager.Stop("Critstate");
+				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
+				// hide ghosts
+				var mask = Camera2DFollow.followControl.cam.cullingMask;
+				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
+				Camera2DFollow.followControl.cam.cullingMask = mask;
+			}
+
+			EventManager.Broadcast(Event.UpdateChatChannels);
+			UpdateStatusTabUI();
+		}
 	}
 
 	#endregion
