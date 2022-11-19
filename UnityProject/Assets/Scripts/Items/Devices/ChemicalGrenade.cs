@@ -28,7 +28,6 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 
 
 	private ReagentContainer mixedReagentContainer;
-	[SerializeField] private Chemistry.Effect explosionEffect;
 
 	[field: SyncVar] public bool ScrewedClosed { get; private set; } = false;
 
@@ -196,7 +195,7 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 
 			spriteHandler.ChangeSprite(LOCKED_SPRITE);
 			spriteHandler.ChangeSpriteVariant(0);
-			mixedReagentContainer.Spill(objectPhysics.OfficialPosition.CutToInt(), mixedReagentContainer.MaxCapacity);
+			mixedReagentContainer.Spill(objectPhysics.OfficialPosition.CutToInt(), 1000);
 		}
 	}
 

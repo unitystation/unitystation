@@ -18,14 +18,9 @@ MonoBehaviour:
     MinAmount: 0
     MaxAmount: 0
   RequiredReactions:
-  - RandomiseRequirement: 0
+  - RandomiseRequirement: 1
     requiredAmount: 20
-    MinAmount: 0
-    MaxAmount: 0
-    requiredReaction: {fileID: 11400000, guid: 8dd5e332e5f14ed888b13ce2b4d313ba, type: 2}
-  RequiredReagents:
-  - RandomiseRequirement: 0
-    requiredAmount: 30
-    MinAmount: 10
-    MaxAmount: 20
-    requiredReagent: {fileID: 11400000, guid: bb1b374d9154ed45ca903a8ace087e8d, type: 2}
+    MinAmount: 15
+    MaxAmount: 50
+    requiredReaction: {fileID: 11400000, guid: 70c81e0e507d6216c81efa58bcea30cf, type: 2}
+  RequiredReagents: []

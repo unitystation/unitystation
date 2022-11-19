@@ -104,7 +104,7 @@ namespace Systems.Research.Objects
 				{
 					if (reaction.IsReactionValid(blastData.reagentMix))
 					{
-						yield += (float)(-463 + 205 * Mathf.Log(reaction.GetReactionAmount(blastData.reagentMix) + 75 * System.MathF.PI)); //Formula taken from strength calculation in ChemExplosion.cs
+						yield += (float)(-463 + 205 * Mathf.Log(reaction.GetReactionAmount(blastData.reagentMix) + 75 * MathF.PI)); //Formula taken from strength calculation in ChemExplosion.cs
 
 					}
 				}

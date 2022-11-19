@@ -87,15 +87,15 @@ namespace UI.Objects.Research
 
 		private void onRecieveBlast(BlastData data)
 		{
-			yieldLabel.MasterSetValue(data.BlastYield.ToString());
-			reagentLabel.MasterSetValue(data.reagentMix.Total.ToString());
-
 			var mix = data.reagentMix;
 			if (smokeReaction.IsReactionValid(mix)) smokeLabel.MasterSetValue(smokeReaction.GetReactionAmount(mix).ToString());
 			else smokeLabel.MasterSetValue("0");
 
 			if (foamReaction.IsReactionValid(mix)) foamLabel.MasterSetValue(foamReaction.GetReactionAmount(mix).ToString());
 			else foamLabel.MasterSetValue("0");
+
+			yieldLabel.MasterSetValue(data.BlastYield.ToString());
+			reagentLabel.MasterSetValue(data.reagentMix.Total.ToString());
 
 			UpdateDataDisplay();
 			UpdateGUI();
@@ -109,6 +109,10 @@ namespace UI.Objects.Research
 			{
 				bountyContainer.Clear();
 				bountyList.Clear();
+			}
+			else
+			{
+				pointsLabel.MasterSetValue(blastYieldDetector.researchServer.RP.ToString());
 			}
 
 			bountyList = blastYieldDetector.researchServer?.ExplosiveBounties; //Clears current bounty list and updates to match current bounty list on research server.
@@ -142,11 +146,10 @@ namespace UI.Objects.Research
 		{
 			float yieldClamp = Math.Min(yield, YAXIS_MAX);
 
-			float dotPosX = yieldClamp * graphContainer.GetComponent<RectTransform>().rect.width / YAXIS_MAX;
+			float dotPosY = yieldClamp * graphContainer.GetComponent<RectTransform>().rect.height / YAXIS_MAX;
 
 			//points axis position
-			float dotPosY = index * graphContainer.GetComponent<RectTransform>().rect.height
-							/ XAXIS_MAX;
+			float dotPosX = index * graphContainer.GetComponent<RectTransform>().rect.width / XAXIS_MAX;
 
 			//position 2d, third axis isn't important
 			Vector2 dotPosition = new Vector2(dotPosX, dotPosY);

@@ -12,6 +12,14 @@ namespace Systems.Research.Objects
 {
 	public class ResearchServer : NetworkBehaviour, IMultitoolMasterable, IServerSpawn, IServerDespawn
 	{
+		public int RP {
+			get
+			{
+				if (techweb == null) return 0;
+				else return techweb.researchPoints;
+			}
+		}
+
 		[Header("Base functionality"), Space(10)]
 
 		[SerializeField] private int researchPointsTrickle = 25;
@@ -246,7 +254,7 @@ namespace Systems.Research.Objects
 		/// <summary>
 		/// The RP awarded for completing an explosive bounty.
 		/// </summary>
-		public int BountyCompleteAward { get; set; } = 15;
+		private const int BOUNTY_AWARD = 15;
 
 		/// <summary>
 		/// Marks an explosive bounty as complete and awards RP for its completion.
@@ -254,8 +262,8 @@ namespace Systems.Research.Objects
 		/// <param name="bountyToComplete">The bounty to be marked as completed</param>
 		public void CompleteBounty(ExplosiveBounty bountyToComplete)
 		{
-			AddResearchPoints(15);
-			Debug.Log($"Explosive bounty completed, 15 poiunts gained. Current RP: {techweb?.researchPoints}");
+			AddResearchPoints(BOUNTY_AWARD);
+			Chat.AddLocalMsgToChat($"Bounty completed, {BOUNTY_AWARD} points gained. Current RP: {techweb?.researchPoints}", gameObject);
 			ExplosiveBounties.Remove(bountyToComplete);
 		}
 
@@ -264,7 +272,7 @@ namespace Systems.Research.Objects
 		/// </summary>
 		public void AddRandomExplosiveBounty()
 		{
-			var newBounty = explosiveBountyList.PossibleBounties.PickRandom();
+			var newBounty = Instantiate(explosiveBountyList.PossibleBounties.PickRandom()); //Instantiates the SO, this is so when we edit the values of one bounty for RNG, it doesnt share amongst all bounties of same type.
 
 			newBounty = RandomiseBountyTarget(newBounty);
 
