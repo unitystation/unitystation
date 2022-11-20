@@ -95,6 +95,7 @@ namespace Systems.Research.Objects
 
 			if (angle <= 45)
 			{
+				if (blastData.ReagentMix == null) blastData.ReagentMix = new ReagentMix();
 				float yield = 0f;
 
 				//This really isnt a nice way of doing it, but the way the chemistry assemblies are set up means I cannot just get the potency without cyclic references.
@@ -108,11 +109,9 @@ namespace Systems.Research.Objects
 					}
 				}
 
-				blastData.BlastYield = yield;
+				blastData.BlastYield += yield;
 
 				BlastYieldData.Add(blastData.BlastYield);
-
-				if (blastData.ReagentMix == null) blastData.ReagentMix = new ReagentMix();
 				
 				TryCompleteBounties(blastData);
 
