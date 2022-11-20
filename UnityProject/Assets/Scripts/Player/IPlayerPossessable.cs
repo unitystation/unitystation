@@ -68,7 +68,7 @@ public interface IPlayerPossessable
 
 		if (GameObject.GetComponent<NetworkIdentity>().hasAuthority)
 		{
-
+			UIManager.Display.RejoinedEvent();
 			IPlayerControllable input = GameObject.GetComponent<IPlayerControllable>();
 
 			if (GameObject.TryGetComponent<AiMouseInputController>(out var aiMouseInputController))
@@ -77,6 +77,10 @@ public interface IPlayerPossessable
 			}
 
 			PlayerManager.SetPlayerForControl(GameObject, input);
+			var dynamicItemStorage = GameObject.GetComponent<DynamicItemStorage>();
+			dynamicItemStorage.UpdateSlots(	dynamicItemStorage.GetSetData, 	dynamicItemStorage.GetSetData);
+
+
 		}
 
 		OnEnterPlayerControl( PreviouslyControlling,  mind,  IsServer);

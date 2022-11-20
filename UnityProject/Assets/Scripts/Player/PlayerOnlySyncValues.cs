@@ -52,7 +52,7 @@ namespace Player
 
 		#region OtherVariables
 
-		public bool ClientForThisBody => OverrideLocalPlayer || isLocalPlayer;
+		public bool ClientForThisBody => OverrideLocalPlayer || hasAuthority;
 
 		public bool OverrideLocalPlayer = false;
 

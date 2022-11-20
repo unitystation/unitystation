@@ -42,7 +42,7 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 				MoveSpeed * Time.deltaTime);
 		}
 
-		if (isLocalPlayer == false) return;
+		if (hasAuthority == false) return;
 		if (UIManager.IsInputFocus || PlayerManager.LocalPlayerScript.OrNull()?.IsGhost == false) return;
 		if (Input.GetKeyDown(KeyCode.LeftShift) == false) return;
 		isFaster = !isFaster;
@@ -67,7 +67,7 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 	public void RPCUpdatePosition(Vector3 newPosition, int matrixID, OrientationEnum direction, bool @override,
 		bool Smooth)
 	{
-		if (isLocalPlayer && @override == false || isServer) return;
+		if (hasAuthority && @override == false || isServer) return;
 		if (matrixID != registerTile.Matrix.Id)
 		{
 			var position = transform.position;

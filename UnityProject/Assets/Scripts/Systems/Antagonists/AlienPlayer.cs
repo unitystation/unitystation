@@ -226,7 +226,7 @@ namespace Systems.Antagonists
 
 		public override void OnStartLocalPlayer()
 		{
-			if(isLocalPlayer == false) return;
+			if(hasAuthority == false) return;
 
 
 

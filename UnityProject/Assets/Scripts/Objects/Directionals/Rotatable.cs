@@ -87,7 +87,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 #if UNITY_EDITOR
 				Application.isPlaying &&
 #endif
-				isServer == false && isLocalPlayer)
+				isServer == false && hasAuthority)
 			{
 				CmdChangeDirection(dir);
 			}
@@ -118,7 +118,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 	private void SyncServerDirection(OrientationEnum oldDir, OrientationEnum dir)
 	{
-		if (IgnoreServerUpdatesIfLocalPlayer && isLocalPlayer)
+		if (IgnoreServerUpdatesIfLocalPlayer && hasAuthority)
 		{
 			return;
 		}

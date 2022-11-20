@@ -82,6 +82,7 @@ namespace UI
 		private void DetermineUI()
 		{
 			// TODO: make better system for handling lots of different UIs
+			if (PlayerManager.LocalPlayerScript == null) return;
 			if (PlayerManager.LocalPlayerScript.PlayerType == PlayerTypes.Blob)
 			{
 				SetUi(hudBottomBlob);

@@ -279,6 +279,18 @@ public class Mind : NetworkBehaviour
 	{
 		IDActivelyControlling = newID;
 
+		LoadManager.RegisterActionDelayed(() =>
+		{
+			HandleActiveOnChange(oldID, newID);
+		}, 2); //This is to handle The game object being spawned in and data being provided before Owner message
+         //s sent owner, This means the game object it's told it's in charge of is not actually in charge of Until later on in that frame is Dumb,
+         //Plus this handles server player funnies with the same thing Just stretched over another frame so that's why it's 2
+
+
+	}
+
+	public void HandleActiveOnChange(uint oldID, uint newID)
+	{
 		var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 		if (spawned.ContainsKey(newID))
 		{
@@ -305,10 +317,7 @@ public class Mind : NetworkBehaviour
 
 		}
 
-
-
 		//here
-
 	}
 
 	public void AccountLeavingMind(PlayerInfo Account)
@@ -332,9 +341,7 @@ public class Mind : NetworkBehaviour
 			PlayerSpawn.TransferOwnershipToConnection(Account, null, Body );
 		}
 
-		LoadManager.RegisterActionDelayed(() => { SyncActiveOn(IDActivelyControlling, IDActivelyControlling);}, 2); //This is to fix a dumb issue with Server player,
-		//Server player owner not being set until the next frame from net message
-
+		SyncActiveOn(IDActivelyControlling, IDActivelyControlling);
 	}
 
 	public void ReLog()

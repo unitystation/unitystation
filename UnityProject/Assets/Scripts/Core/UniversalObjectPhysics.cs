@@ -409,7 +409,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		synchLocalTargetPosition = newLocalTarget;
 		if (isServer) return;
 		if (LocalTargetPosition == newLocalTarget.Vector3) return;
-		if (isLocalPlayer || PulledBy.HasComponent) return;
+		if (hasAuthority || PulledBy.HasComponent) return;
 
 		var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 		if (newLocalTarget.ByClient != NetId.Empty && newLocalTarget.ByClient != NetId.Invalid
@@ -568,7 +568,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	public void SynchroniseUpdatePulling(PullData oldPullData, PullData newPulling)
 	{
 		ThisPullData = newPulling;
-		if (newPulling.WasCausedByClient && isLocalPlayer) return;
+		if (newPulling.WasCausedByClient && hasAuthority) return;
 		PullSet(newPulling.NewPulling, false, true);
 	}
 
@@ -997,10 +997,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (Pulling.HasComponent)
 		{
 			var inDirection = cachedPosition - Pulling.Component.transform.position;
-			if (inDirection.magnitude > 2f && (isServer || isLocalPlayer))
+			if (inDirection.magnitude > 2f && (isServer || hasAuthority))
 			{
 				PullSet(null, false); //TODO maybe remove
-				if (isLocalPlayer && isServer == false) CmdStopPulling();
+				if (hasAuthority && isServer == false) CmdStopPulling();
 			}
 			else
 			{
@@ -1011,10 +1011,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (ObjectIsBucklingChecked.HasComponent && ObjectIsBucklingChecked.Component.Pulling.HasComponent)
 		{
 			var inDirection = cachedPosition - ObjectIsBucklingChecked.Component.Pulling.Component.transform.position;
-			if (inDirection.magnitude > 2f && (isServer || isLocalPlayer))
+			if (inDirection.magnitude > 2f && (isServer || hasAuthority))
 			{
 				ObjectIsBucklingChecked.Component.PullSet(null, false); //TODO maybe remove
-				if (ObjectIsBucklingChecked.Component.isLocalPlayer && isServer == false) ObjectIsBucklingChecked.Component.CmdStopPulling();
+				if (ObjectIsBucklingChecked.Component.hasAuthority && isServer == false) ObjectIsBucklingChecked.Component.CmdStopPulling();
 			}
 			else
 			{

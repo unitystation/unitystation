@@ -73,7 +73,7 @@ namespace Player.Language
 			UnderstoodLanguages = newGroup.UnderstoodLanguages.ToHashSet();
 			SpokenLanguages = newGroup.SpokenLanguages.ToHashSet();
 			BlockedLanguages = newGroup.BlockedLanguages.ToHashSet();
-			
+
 			if(CustomNetworkManager.IsServer == false) return;
 
 			ResetCurrentLanguage();
@@ -232,7 +232,7 @@ namespace Player.Language
 		void OnLanguageListChange(SyncList<NetworkLanguage>.Operation op, int index, NetworkLanguage oldItem,
 			NetworkLanguage newItem)
 		{
-			if(isLocalPlayer == false) return;
+			if(hasAuthority == false) return;
 
 			switch (op)
 			{
@@ -284,7 +284,7 @@ namespace Player.Language
 
 		private void SyncCurrentLanguage(ushort oldLanguage, ushort newLanguage)
 		{
-			if(isLocalPlayer == false) return;
+			if(hasAuthority == false) return;
 
 			currentLanguageId = newLanguage;
 

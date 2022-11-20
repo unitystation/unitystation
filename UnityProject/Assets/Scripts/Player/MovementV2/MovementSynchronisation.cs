@@ -326,7 +326,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			ServerCheckQueueingAndMove();
 		}
 
-		if (isLocalPlayer == false) return;
+		if (hasAuthority == false) return;
 		bool inputDetected = KeyboardInputManager.IsMovementPressed(KeyboardInputManager.KeyEventType.Hold);
 		if (inputDetected != IsPressedCashed)
 		{
@@ -586,7 +586,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public void ClientCheckLocationFlight()
 	{
-		if (isLocalPlayer == false) return;
+		if (hasAuthority == false) return;
 		if (IsFloating())
 		{
 			if (NetworkTime.time - LastUpdatedFlyingPosition > 2)
@@ -605,7 +605,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public void ServerCheckQueueingAndMove()
 	{
-		if (isLocalPlayer) return;
+		if (hasAuthority) return;
 
 		if (CanInPutMove()) //TODO potential issue with messages building up
 		{
@@ -943,7 +943,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		if (isServer)
 		{
-			if (isLocalPlayer && this.playerScript.OrNull()?.Equipment.OrNull()?.ItemStorage != null)
+			if (hasAuthority && this.playerScript.OrNull()?.Equipment.OrNull()?.ItemStorage != null)
 			{
 				Step = !Step;
 				if (Step)
@@ -1102,7 +1102,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		if (slideTime > 0) return false;
 		if (allowInput == false) return false;
 		if (BuckledToObject) return false;
-		if (isLocalPlayer && UIManager.IsInputFocus) return false;
+		if (hasAuthority && UIManager.IsInputFocus) return false;
 		if (IsCuffed && PulledBy.HasComponent) return false;
 		if (ContainedInContainer != null) return false;
 
@@ -1176,7 +1176,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		slippedOn = null;
 		if (slipProtection) return false;
 		if (CurrentMovementType != MovementType.Running) return false;
-		if (isServer == false && isLocalPlayer && UIManager.Instance.intentControl.Running == false) return false;
+		if (isServer == false && hasAuthority && UIManager.Instance.intentControl.Running == false) return false;
 
 
 		var toMatrix = SetMatrixCache.GetforDirection(moveAction.GlobalMoveDirection.ToVector().To3Int()).Matrix;
@@ -1342,7 +1342,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			enterTileBase.OnPlayerStep(playerScript);
 		}
 
-		if (isLocalPlayer == false) return;
+		if (hasAuthority == false) return;
 
 		//Client side check for invalid tabs still open
 		//(Don't need to do this server side as the interactions are validated)

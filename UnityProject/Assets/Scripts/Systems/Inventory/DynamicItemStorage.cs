@@ -65,6 +65,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 
 	[SyncVar(hook = nameof(UpdateSlots))] private string SerialisedNetIDs = "";
 
+
 	private readonly List<InternalData> added = new List<InternalData>();
 	private readonly List<InternalData> removed = new List<InternalData>();
 
@@ -566,10 +567,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 
 
 		SerialisedNetIDs = JsonConvert.SerializeObject(UIBodyPartsToSerialise);
-		// if (isLocalPlayer)
-		// {
-		// UpdateSlots(SerialisedNetIDs, SerialisedNetIDs);
-		// }
+
 		OnContentsChangeServer.Invoke();
 	}
 
@@ -645,7 +643,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 
 
 		SerialisedNetIDs = JsonConvert.SerializeObject(UIBodyPartsToSerialise);
-		// if (isLocalPlayer)
+		// if (hasAuthority)
 		// {
 		// UpdateSlots(SerialisedNetIDs, SerialisedNetIDs);
 		// }
@@ -683,7 +681,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 		ClientSlotCharacteristic[Slot] = storageCharacteristicse;
 		ClientTotal.Add(Slot);
 
-		if (PlayerManager.LocalPlayerObject == this.gameObject && storageCharacteristicse.NotPresentOnUI == false)
+		if (hasAuthority && storageCharacteristicse.NotPresentOnUI == false)
 		{
 			UIManager.Instance.UI_SlotManager.SetActive(true);
 			UIManager.Instance.UI_SlotManager.UpdateUI();
@@ -722,7 +720,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 			.Remove(slot);
 		if (ClientSlotCharacteristic.ContainsKey(slot)) ClientSlotCharacteristic.Remove(slot);
 		ClientTotal.Remove(slot);
-		if (PlayerManager.LocalPlayerObject == this.gameObject)
+		if (hasAuthority)
 		{
 			UIManager.Instance.UI_SlotManager.UpdateUI();
 		}

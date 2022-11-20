@@ -64,7 +64,7 @@ namespace Player
 
 		private void UpdateMe()
 		{
-			if(isLocalPlayer == false || Mind.IsGhosting == false) return;
+			if(hasAuthority == false || Mind.IsGhosting == false) return;
 
 			if (Input.GetMouseButtonDown(0))
 			{
