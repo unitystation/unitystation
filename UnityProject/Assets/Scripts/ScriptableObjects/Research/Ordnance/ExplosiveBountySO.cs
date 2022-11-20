@@ -6,6 +6,6 @@ namespace Systems.Research
 	[CreateAssetMenu(fileName = "ExplosiveBountyList", menuName = "ScriptableObjects/Systems/Research/ExplosiveBountyList")]
 	public class ExplosiveBountySO : ScriptableObject
 	{
-		public List<ExplosiveBounty> PossibleBounties;
+		[field: SerializeField] public List<ExplosiveBounty> PossibleBounties { get; private set;}
 	}
 }

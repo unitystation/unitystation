@@ -12,15 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6dc02f66152ab54e8e055142c543182, type: 3}
   m_Name: BigBertha
   m_EditorClassIdentifier: 
-  RequiredYield:
-    RandomiseRequirement: 1
-    requiredAmount: 0
-    MinAmount: 250
-    MaxAmount: 750
-  RequiredReactions:
-  - RandomiseRequirement: 0
-    requiredAmount: 50
-    MinAmount: 0
-    MaxAmount: 0
-    requiredReaction: {fileID: 11400000, guid: 58f58c64fb33e25d5a99b7caa2f16406, type: 2}
-  RequiredReagents: []
+  <RequiredYield>k__BackingField:
+    <RandomiseRequirement>k__BackingField: 1
+    <RequiredAmount>k__BackingField: 0
+    <MinAmount>k__BackingField: 250
+    <MaxAmount>k__BackingField: 750
+  <RequiredReactions>k__BackingField:
+  - <RandomiseRequirement>k__BackingField: 0
+    <RequiredAmount>k__BackingField: 50
+    <MinAmount>k__BackingField: 0
+    <MaxAmount>k__BackingField: 0
+    <RequiredReaction>k__BackingField: {fileID: 11400000, guid: 58f58c64fb33e25d5a99b7caa2f16406,
+      type: 2}
+  <RequiredReagents>k__BackingField: []

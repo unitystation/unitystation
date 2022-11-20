@@ -161,19 +161,19 @@ namespace Systems.Research.Objects
 
 		private bool MeetsYieldTarget(ExplosiveBounty bounty, float yield)
 		{
-			if (bounty.RequiredYield.requiredAmount <= 1) return yield <= ALLOWED_ERROR_PERCENT; //This is here to prevent / 0 errors and any errors that may arrive from very small divisions.
+			if (bounty.RequiredYield.RequiredAmount <= 1) return yield <= ALLOWED_ERROR_PERCENT; //This is here to prevent / 0 errors and any errors that may arrive from very small divisions.
 
-			float yieldDiff = Math.Abs(bounty.RequiredYield.requiredAmount - yield);
+			float yieldDiff = Math.Abs(bounty.RequiredYield.RequiredAmount - yield);
 
-			return yieldDiff / bounty.RequiredYield.requiredAmount <= ALLOWED_ERROR_PERCENT;
+			return yieldDiff / bounty.RequiredYield.RequiredAmount <= ALLOWED_ERROR_PERCENT;
 		}
 
 		private bool MeetsReagentTargets(ExplosiveBounty bounty, ReagentMix mix)
 		{
 			foreach (ReagentBountyEntry reagent in bounty.RequiredReagents)
 			{
-				mix.reagents.m_dict.TryGetValue(reagent.requiredReagent, out float reagentAmount);
-				if (reagentAmount != reagent.requiredAmount)
+				mix.reagents.m_dict.TryGetValue(reagent.RequiredReagent, out float reagentAmount);
+				if (reagentAmount != reagent.RequiredAmount)
 				{
 					return false;
 				}
@@ -186,7 +186,7 @@ namespace Systems.Research.Objects
 		{
 			foreach (ReactionBountyEntry reaction in bounty.RequiredReactions)
 			{
-				if (reaction.requiredReaction.IsReactionValid(mix) == false || reaction.requiredReaction.GetReactionAmount(mix) != reaction.requiredAmount)
+				if (reaction.RequiredReaction.IsReactionValid(mix) == false || reaction.RequiredReaction.GetReactionAmount(mix) != reaction.RequiredAmount)
 				{
 					return false;
 				}

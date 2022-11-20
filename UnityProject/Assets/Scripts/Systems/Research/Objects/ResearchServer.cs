@@ -12,13 +12,7 @@ namespace Systems.Research.Objects
 {
 	public class ResearchServer : NetworkBehaviour, IMultitoolMasterable, IServerSpawn, IServerDespawn
 	{
-		public int RP {
-			get
-			{
-				if (techweb == null) return 0;
-				else return techweb.researchPoints;
-			}
-		}
+		public int RP => techweb?.researchPoints ?? 0;			
 
 		[Header("Base functionality"), Space(10)]
 
@@ -229,14 +223,14 @@ namespace Systems.Research.Objects
 		{
 			if(bounty.RequiredYield.RandomiseRequirement == true)
 			{
-				bounty.RequiredYield.requiredAmount = (int)Random.Range(bounty.RequiredYield.MinAmount, bounty.RequiredYield.MaxAmount);
+				bounty.RequiredYield.RequiredAmount = (int)Random.Range(bounty.RequiredYield.MinAmount, bounty.RequiredYield.MaxAmount);
 			}
 
 			foreach(ReagentBountyEntry reagentEntry in bounty.RequiredReagents)
 			{
 				if (reagentEntry.RandomiseRequirement == true)
 				{
-					reagentEntry.requiredAmount = (int)Random.Range(reagentEntry.MinAmount, reagentEntry.MaxAmount);
+					reagentEntry.RequiredAmount = (int)Random.Range(reagentEntry.MinAmount, reagentEntry.MaxAmount);
 				}
 			}
 
@@ -244,7 +238,7 @@ namespace Systems.Research.Objects
 			{
 				if (reactionEntry.RandomiseRequirement == true)
 				{
-					reactionEntry.requiredAmount = (int)Random.Range(reactionEntry.MinAmount, reactionEntry.MaxAmount);
+					reactionEntry.RequiredAmount = (int)Random.Range(reactionEntry.MinAmount, reactionEntry.MaxAmount);
 				}
 			}
 

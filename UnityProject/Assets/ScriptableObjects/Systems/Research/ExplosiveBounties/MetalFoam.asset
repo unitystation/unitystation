@@ -12,15 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6dc02f66152ab54e8e055142c543182, type: 3}
   m_Name: MetalFoam
   m_EditorClassIdentifier: 
-  RequiredYield:
-    RandomiseRequirement: 0
-    requiredAmount: 0
-    MinAmount: 0
-    MaxAmount: 0
-  RequiredReactions:
-  - RandomiseRequirement: 1
-    requiredAmount: 20
-    MinAmount: 15
-    MaxAmount: 50
-    requiredReaction: {fileID: 11400000, guid: 70c81e0e507d6216c81efa58bcea30cf, type: 2}
-  RequiredReagents: []
+  <RequiredYield>k__BackingField:
+    <RandomiseRequirement>k__BackingField: 0
+    <RequiredAmount>k__BackingField: 0
+    <MinAmount>k__BackingField: 0
+    <MaxAmount>k__BackingField: 0
+  <RequiredReactions>k__BackingField:
+  - <RandomiseRequirement>k__BackingField: 1
+    <RequiredAmount>k__BackingField: 0
+    <MinAmount>k__BackingField: 15
+    <MaxAmount>k__BackingField: 50
+    <RequiredReaction>k__BackingField: {fileID: 11400000, guid: 70c81e0e507d6216c81efa58bcea30cf,
+      type: 2}
+  <RequiredReagents>k__BackingField: []

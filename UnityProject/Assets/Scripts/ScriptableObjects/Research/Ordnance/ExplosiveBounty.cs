@@ -22,7 +22,7 @@ namespace Systems.Research
 		public bool RandomiseRequirement { get; private set; }
 
 		[field: SerializeField, AllowNesting, HideIf(nameof(RandomiseRequirement))]
-		public int requiredAmount { get; set; }
+		public int RequiredAmount { get; set; }
 
 		[field: SerializeField, AllowNesting, ShowIf(nameof(RandomiseRequirement))]
 		public int MinAmount { get; private set; }
@@ -34,12 +34,12 @@ namespace Systems.Research
 	[System.Serializable]
 	public class ReactionBountyEntry : BountyProperty
 	{
-		[field: SerializeField] public Reaction requiredReaction { get; private set; }
+		[field: SerializeField] public Reaction RequiredReaction { get; private set; }
 	}
 
 	[System.Serializable]
 	public class ReagentBountyEntry : BountyProperty
 	{
-		[field: SerializeField] public Reagent requiredReagent { get; private set; }
+		[field: SerializeField] public Reagent RequiredReagent { get; private set; }
 	}
 }
