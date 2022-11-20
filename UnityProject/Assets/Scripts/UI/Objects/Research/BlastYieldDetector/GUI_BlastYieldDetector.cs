@@ -1,5 +1,6 @@
 ﻿using UI.Core.NetUI;
 using UnityEngine;
+using System;
 using Systems.Research.Objects;
 using Systems.Research;
 using System.Collections.Generic;
@@ -23,6 +24,15 @@ namespace UI.Objects.Research
 				return _blastYieldDetector;
 			}
 		}
+
+
+		private const int YAXIS_MAX = 1000; //Up to 1000 Blast yield
+		private const int XAXIS_MAX = 10; //Up to last 10 datapoints
+
+		/// <summary>
+		/// Offset to position highlight line UI properly
+		/// </summary>
+		public float rectOffset;
 
 		private BlastYieldDetector _blastYieldDetector;
 
@@ -53,11 +63,18 @@ namespace UI.Objects.Research
 		private EmptyItemList bountyContainer;
 
 		[SerializeField]
-		private GUI_BYDGraph blastYieldGraph;
+		public EmptyItemList graphContainer;
+
+		[SerializeField]
+		private NetAnchoredPosition horizontalNodeHighlight;
+
+		[SerializeField]
+		private NetAnchoredPosition verticalNodeHighlight;
 
 		#endregion
 
 		#region Initialization
+
 		private void Start()
 		{
 			BlastYieldDetector.blastEvent += OnRecieveBlast;
@@ -65,7 +82,7 @@ namespace UI.Objects.Research
 
 			UpdateGui();
 
-			blastYieldGraph.UpdateDataDisplay(blastYieldDetector);
+			UpdateDataDisplay();
 		}
 		#endregion
 
@@ -81,7 +98,7 @@ namespace UI.Objects.Research
 			reagentLabel.MasterSetValue(data.ReagentMix.Total.ToString());
 			yieldLabel.MasterSetValue(blastYieldDetector.BlastYieldData[blastYieldDetector.BlastYieldData.Count - 1].ToString());
 
-			blastYieldGraph.UpdateDataDisplay(blastYieldDetector);
+			UpdateDataDisplay();
 
 			UpdateGui();
 		}
@@ -120,7 +137,7 @@ namespace UI.Objects.Research
 		}
 		public void SetCurrentShownData(int pos)
 		{
-			blastYieldGraph.UpdateDataDisplay(blastYieldDetector);
+			UpdateDataDisplay();
 		}
 
 		public void OnDestroy()
@@ -129,6 +146,59 @@ namespace UI.Objects.Research
 			BlastYieldDetector.updateGUIEvent -= UpdateGui;
 		}
 
-		
-	}
+		#region Plotting
+
+		public Vector2 GetNodePosition(float yield, float index)
+		{
+			float yieldClamp = Math.Min(yield, YAXIS_MAX);
+
+			float dotPosY = yieldClamp * graphContainer.GetComponent<RectTransform>().rect.height / YAXIS_MAX;
+
+			//points axis position
+			float dotPosX = index * graphContainer.GetComponent<RectTransform>().rect.width / XAXIS_MAX;
+
+			//position 2d, third axis isn't important
+			Vector2 dotPosition = new Vector2(dotPosX, dotPosY);
+			return dotPosition;
+		}
+
+		private void UpdateDataDisplay()
+		{
+			if (blastYieldDetector == null || blastYieldDetector.BlastYieldData == null)
+			{
+				graphContainer.Clear();
+				return;
+			}
+
+			List<float> yields = blastYieldDetector.BlastYieldData.ToList();
+			if (yields.Count > XAXIS_MAX)
+			{
+				yields = yields.GetRange(blastYieldDetector.BlastYieldData.Count - 1 - XAXIS_MAX, XAXIS_MAX); //Obtains last ten datapoints
+			}
+
+			graphContainer.SetItems(yields.Count);
+
+			for (int i = 0; i < yields.Count; i++)
+			{
+				Vector2 dataShownPos = GetNodePosition(yields[i], i);
+
+				if (i < graphContainer.transform.childCount)
+				{
+					graphContainer.transform.GetChild(i).GetComponent<NetAnchoredPosition>().SetPosition(dataShownPos);
+				}
+
+				if (i != yields.Count - 1) continue;
+
+				Vector3 yieldNewY = horizontalNodeHighlight.Element.anchoredPosition;
+				yieldNewY.y = dataShownPos.y + rectOffset;
+				horizontalNodeHighlight.SetPosition(yieldNewY);
+
+				Vector3 indexNewX = verticalNodeHighlight.Element.anchoredPosition;
+				indexNewX.x = dataShownPos.x + rectOffset;
+				verticalNodeHighlight.SetPosition(indexNewX);
+			}
+		}
+	
+		#endregion
+}
 }
