@@ -28,11 +28,12 @@ namespace UI.Core.NetUI
 		}
 
 		private void SetPosition(string anchoredPosition)
-		{
+		{		
+			anchoredPosition = anchoredPosition.TrimStart('(').TrimEnd(')');		
 			string[] pos = anchoredPosition.Split(',');
 
-			if (int.TryParse(pos[0].RemovePunctuation(), out int x) == false) return;
-			if (int.TryParse(pos[1].RemovePunctuation(), out int y) == false) return;
+			if (float.TryParse(pos[0], out float x) == false) return;
+			if (float.TryParse(pos[1], out float y) == false) return;
 
 			if (Element.anchoredPosition == new Vector2(x, y)) return;
 
