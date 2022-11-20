@@ -7,7 +7,6 @@ using Systems.Electricity;
 using UI.Core.Net;
 using UnityEngine;
 using Chemistry;
-using Chemistry.Components;
 
 namespace Systems.Research.Objects
 {
@@ -26,7 +25,7 @@ namespace Systems.Research.Objects
 		/// <summary>
 		/// A list of all the blasts detected, used to plot recent blast yields.
 		/// </summary>
-		public SyncList<float> BlastYieldData { get; private set; }
+		public SyncList<float> BlastYieldData { get; private set; } = new SyncList<float>();
 
 		protected RegisterObject registerObject;
 

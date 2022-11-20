@@ -1002,6 +1002,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3936449218198726907}
+  - component: {fileID: 126635736207957030}
   m_Layer: 5
   m_Name: Graph
   m_TagString: Untagged
@@ -1036,6 +1037,24 @@ RectTransform:
   m_AnchoredPosition: {x: 440, y: 92}
   m_SizeDelta: {x: 750, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &126635736207957030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2580437467181963276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b65d649a0def6e54c8220bb34f9d0e10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  graphContainer: {fileID: 7851693377755364046}
+  rectOffset: -2.5
+  yieldNodeHighlight: {fileID: 1233017365499005763}
+  pointNodeHighlight: {fileID: 2822632775550177366}
 --- !u!1 &2856393445123909326
 GameObject:
   m_ObjectHideFlags: 0
@@ -1881,10 +1900,7 @@ MonoBehaviour:
   reagentLabel: {fileID: 5604972085442050676}
   pointsLabel: {fileID: 5514106633101737278}
   bountyContainer: {fileID: 7225115005940654770}
-  graphContainer: {fileID: 7851693377755364046}
-  rectOffset: 0
-  yieldNodeHighlight: {fileID: 1233017365499005763}
-  pointNodeHighlight: {fileID: 2822632775550177366}
+  blastYieldGraph: {fileID: 126635736207957030}
 --- !u!114 &9187998644019842651
 MonoBehaviour:
   m_ObjectHideFlags: 0
