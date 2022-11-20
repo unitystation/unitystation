@@ -29,6 +29,15 @@ namespace Chemistry
 
 		public virtual bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
 		{
+			if (IsReactionValid(reagentMix) == false) return false;
+
+			ApplyReaction(sender, reagentMix);
+
+			return true;
+		}
+
+		public bool IsReactionValid(ReagentMix reagentMix)
+		{
 			if (HasIngredients(reagentMix) == false)
 			{
 				return false;
@@ -38,7 +47,7 @@ namespace Chemistry
 
 			if (useExactAmounts)
 			{
-				reactionAmount = (float) Math.Floor(reactionAmount);
+				reactionAmount = (float)Math.Floor(reactionAmount);
 				if (reactionAmount == 0)
 				{
 					return false;
@@ -49,6 +58,13 @@ namespace Chemistry
 			{
 				return false;
 			}
+
+			return true;
+		}
+
+		public void ApplyReaction(MonoBehaviour sender, ReagentMix reagentMix)
+		{
+			var reactionAmount = GetReactionAmount(reagentMix);
 
 			foreach (var ingredient in ingredients.m_dict)
 			{
@@ -66,8 +82,6 @@ namespace Chemistry
 				if (effect != null)
 					effect.Apply(sender, reactionAmount);
 			}
-
-			return true;
 		}
 
 		public float GetReactionAmount(ReagentMix reagentMix)

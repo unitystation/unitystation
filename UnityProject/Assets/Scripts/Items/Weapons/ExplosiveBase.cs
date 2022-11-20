@@ -9,6 +9,7 @@ using Systems.Explosions;
 using Scripts.Core.Transform;
 using UI.Items;
 using UnityEngine.Events;
+using Chemistry;
 using Random = UnityEngine.Random;
 
 namespace Items.Weapons
@@ -80,7 +81,8 @@ namespace Items.Weapons
 			Detonate();
 		}
 
-		public static UnityEvent<Vector3Int, float> ExplosionEvent = new UnityEvent<Vector3Int, float>();
+		public static UnityEvent<Vector3Int, BlastData> ExplosionEvent { get; set; } = new UnityEvent<Vector3Int, BlastData>();
+
 		protected virtual void Detonate()
 		{
 			if(gameObject == null) return;
@@ -90,7 +92,11 @@ namespace Items.Weapons
 			// Despawn the explosive
 			RemoveSelfFromManager();
 			_ = Despawn.ServerSingle(gameObject);
-			ExplosionEvent.Invoke(worldPos, explosiveStrength);
+
+			BlastData blastData = new BlastData();
+			blastData.BlastYield = explosiveStrength;
+
+			ExplosionEvent.Invoke(worldPos, blastData);
 			Explosion.StartExplosion(worldPos, explosiveStrength, null, explosiveRadius);
 		}
 
@@ -149,5 +155,11 @@ namespace Items.Weapons
 		C4,
 		X4,
 		SyndicateBomb,
+	}
+
+	public struct BlastData
+	{
+		public float BlastYield { get; set; }
+		public ReagentMix ReagentMix { get; set; }
 	}
 }

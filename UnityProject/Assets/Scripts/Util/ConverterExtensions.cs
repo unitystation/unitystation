@@ -72,7 +72,7 @@ public static class ConverterExtensions
 
 	public static Vector3Int ToWorldInt(this Vector3Int worldPos, Matrix matrix)
 	{
-		return MatrixManager.WorldToLocal(worldPos, MatrixManager.Get(matrix)).RoundToInt();
+		return MatrixManager.LocalToWorldInt(worldPos, MatrixManager.Get(matrix));
 	}
 
 	public static bool IsDiagonal(this PlayerMoveDirection direction) =>

@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Items.Weapons;
 
 namespace Systems.Explosions
 {
@@ -39,7 +38,13 @@ namespace Systems.Explosions
 
 		public void Explode()
 		{
-			Explosion.StartExplosion(GetComponentInChildren<Transform>().position.RoundToInt(), strength, ExplosionTypes.NodeTypes[explosionType], radius, shaking);
+			BlastData data = new BlastData();
+			data.BlastYield = strength;
+
+			var pos = GetComponentInChildren<Transform>().position.RoundToInt();
+
+			ExplosiveBase.ExplosionEvent.Invoke(pos, data);
+			Explosion.StartExplosion(pos, strength, ExplosionTypes.NodeTypes[explosionType], radius, shaking);
 		}
 	}
 }
