@@ -342,7 +342,9 @@ public static class PlayerSpawn
 			Account.Mind.GetComponent<GhostSprites>().SetGhostSprite(false);
 		}
 
+
 		TransferAccountOccupyingMind(Account, Account.Mind, NewMind);
+
 
 		if (isAdmin)
 		{
@@ -355,7 +357,7 @@ public static class PlayerSpawn
 
 	static void TransferAccountOccupyingMind(PlayerInfo Account, Mind From, Mind To)
 	{
-		if (From)
+		if (From != null && From != To)
 		{
 			var oldPlayerNetworkActions = From.GetComponent<PlayerNetworkActions>();
 			if (oldPlayerNetworkActions)

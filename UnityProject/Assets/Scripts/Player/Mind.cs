@@ -294,11 +294,12 @@ public class Mind : NetworkBehaviour
 		var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 		if (spawned.ContainsKey(newID))
 		{
+
 			if (ControlledBy != null) //TODO Remove
 			{
 				ControlledBy.GameObject = spawned[newID].gameObject;
 			}
-
+			body = spawned[newID].GetComponent<PlayerScript>();
 			IPlayerPossessable oldPossessable = null;
 			if (spawned.ContainsKey(oldID))
 			{
@@ -351,6 +352,8 @@ public class Mind : NetworkBehaviour
 			Logger.LogError("oh god!, Somehow there's no connection to client when ReLog Code has Been called");
 			return;
 		}
+		PlayerSpawn.TransferAccountToSpawnedMind(ControlledBy, this);
+
 
 		var RelatedBodies = GetRelatedBodies();
 		foreach (var Body in RelatedBodies)
