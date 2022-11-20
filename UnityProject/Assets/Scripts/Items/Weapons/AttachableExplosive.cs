@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 using Communications;
+using UI.Systems.Tooltips.HoverTooltips;
 
 namespace Items.Weapons
 {
@@ -13,10 +14,11 @@ namespace Items.Weapons
 	/// </summary>
 	public class AttachableExplosive : ExplosiveBase,
 		ICheckedInteractable<PositionalHandApply>, IRightClickable, ICheckedInteractable<HandApply>,
-		 IInteractable<HandActivate>
+		 IInteractable<HandActivate>, IHoverTooltip
 	{
 		[SyncVar] private bool isOnObject = false;
 		private GameObject attachedToObject;
+		private IHoverTooltip hoverTooltipImplementation;
 
 		private void OnDisable()
 		{
@@ -78,17 +80,20 @@ namespace Items.Weapons
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false || pickupable.ItemSlot == null) return false;
 
-			// Why do we prevent mounting if it is armed?
+			// (???): Why do we prevent mounting if it is armed?
+			// (Max): Because accessing the UI and other elements of this explosive gets disabled when an explosive is armed.
+			// If players try to do anything after it's armed they're going to break something because that's not intended behavior.
 			if (isArmed)
 			{
 				Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} is already armed!", side);
 				return false;
 			}
 
-			// Why?
+			// (???): Why?
+			// (Max): Have you tried looking at the video I posted below in the comments?
+			// These conditions are there to avoid players shooting themselves in the foot.
 			if (interaction.Intent != Intent.Harm)
 			{
-
 				Chat.AddExamineMsg(interaction.Performer, $"You must be on harm intent to attach the {gameObject.ExpensiveName()}.", side);
 				return false;
 			}
@@ -171,6 +176,40 @@ namespace Items.Weapons
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
 			explosiveGUI.ServerPerformInteraction(interaction);
+		}
+
+		public string HoverTip()
+		{
+			return isArmed == false ? null : "It appears to be armed!";
+		}
+
+		public string CustomTitle()
+		{
+			return null;
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			return null;
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			if (isArmed) return null;
+			TextColor armText = new TextColor
+			{
+				Text = "Place the bomb on an object to arm it while in harm intent.",
+				Color = Color.red
+			};
+
+			List<TextColor> interactions = new List<TextColor>();
+			interactions.Add(armText);
+			return interactions;
 		}
 	}
 }

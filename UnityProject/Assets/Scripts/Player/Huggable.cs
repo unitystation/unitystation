@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using HealthV2;
 using Messages.Server.SoundMessages;
 using Systems.Score;
+using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
 
 
@@ -9,7 +11,7 @@ namespace Player
 	/// <summary>
     /// Allows an object to be hugged by a player.
     /// </summary>
-    public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>, ICooldown
+    public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>, ICooldown, IHoverTooltip
     {
     	private HandApply interaction;
     	private string performerName;
@@ -142,5 +144,37 @@ namespace Player
     		Chat.AddExamineMsgFromServer(interaction.TargetObject, $"{performerName} hugs you.");
             ScoreMachine.AddToScoreInt(RoundEndScoreBuilder.HUG_SCORE_VALUE, RoundEndScoreBuilder.COMMON_HUG_SCORE_ENTRY);
     	}
+
+        public string HoverTip()
+        {
+	        return null;
+        }
+
+        public string CustomTitle()
+        {
+	        return null;
+        }
+
+        public Sprite CustomIcon()
+        {
+	        return null;
+        }
+
+        public List<Sprite> IconIndicators()
+        {
+	        return null;
+        }
+
+        public List<TextColor> InteractionsStrings()
+        {
+	        TextColor HugText = new TextColor
+	        {
+		        Text = "Left-Click (Help Intent): Hug!",
+		        Color = IntentColors.Help
+	        };
+	        List<TextColor> interactions = new List<TextColor>();
+	        interactions.Add(HugText);
+	        return interactions;
+        }
     }
 }
