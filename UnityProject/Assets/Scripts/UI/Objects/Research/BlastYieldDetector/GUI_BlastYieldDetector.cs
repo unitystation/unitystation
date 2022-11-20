@@ -4,6 +4,7 @@ using UnityEngine;
 using Systems.Research.Objects;
 using Systems.Research;
 using System.Collections.Generic;
+using System.Linq;
 using Chemistry;
 using Items.Weapons;
 
@@ -116,7 +117,7 @@ namespace UI.Objects.Research
 				pointsLabel.MasterSetValue(blastYieldDetector.researchServer.RP.ToString());
 			}
 
-			bountyList = blastYieldDetector.researchServer?.ExplosiveBounties; //Clears current bounty list and updates to match current bounty list on research server.
+			bountyList = blastYieldDetector.researchServer?.ExplosiveBounties.ToList(); //Clears current bounty list and updates to match current bounty list on research server.
 			UpdateBountyContainerToList(bountyList);
 		
 		}
@@ -173,7 +174,7 @@ namespace UI.Objects.Research
 				return;
 			}
 
-			List<float> yields = blastYieldDetector.BlastYieldData;
+			List<float> yields = blastYieldDetector.BlastYieldData.ToList();
 			if (yields.Count > XAXIS_MAX)
 			{
 				yields = yields.GetRange(blastYieldDetector.BlastYieldData.Count - 1 - XAXIS_MAX, XAXIS_MAX); //Obtains last ten datapoints

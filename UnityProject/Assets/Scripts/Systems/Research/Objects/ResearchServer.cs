@@ -38,7 +38,7 @@ namespace Systems.Research.Objects
 		[SerializeField] private ExplosiveBountySO explosiveBountyList = null;
 		[SerializeField] private int bountiesOnStart = 10; //How many bounties will be generated on round start.
 
-		public List<ExplosiveBounty> ExplosiveBounties { get; private set; } = new List<ExplosiveBounty>();
+		public SyncList<ExplosiveBounty> ExplosiveBounties { get; private set; } = new SyncList<ExplosiveBounty>();
 
 		private void Start()
 		{

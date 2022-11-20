@@ -26,7 +26,7 @@ namespace Systems.Research.Objects
 		/// <summary>
 		/// A list of all the blasts detected, used to plot recent blast yields.
 		/// </summary>
-		public List<float> BlastYieldData { get; private set; }
+		public SyncList<float> BlastYieldData { get; private set; }
 
 		protected RegisterObject registerObject;
 
@@ -66,7 +66,7 @@ namespace Systems.Research.Objects
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 
 			ExplosiveBase.ExplosionEvent.AddListener(DetectBlast);
-			BlastYieldData = new List<float>();
+			BlastYieldData = new SyncList<float>();
 			AffirmState();
 		}
 
@@ -78,6 +78,8 @@ namespace Systems.Research.Objects
 		/// <param name="blastData">The blast data from the explosion, contains yield and reagent mix if applicable.</param>
 		private void DetectBlast(Vector3Int pos, BlastData blastData)
 		{
+			if (CustomNetworkManager.IsServer == false) return;
+
 			Vector2 thisMachine = registerObject.WorldPosition.To2Int();
 
 			float distance = Vector2.Distance(pos.To2Int(), thisMachine);
