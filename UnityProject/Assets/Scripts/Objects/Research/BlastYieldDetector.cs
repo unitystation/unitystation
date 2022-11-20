@@ -26,7 +26,7 @@ namespace Systems.Research.Objects
 		/// <summary>
 		/// A list of all the blasts detected, used to plot recent blast yields.
 		/// </summary>
-		public List<float> blastYieldData { get; private set; }
+		public List<float> BlastYieldData { get; private set; }
 
 		protected RegisterObject registerObject;
 
@@ -66,7 +66,7 @@ namespace Systems.Research.Objects
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 
 			ExplosiveBase.ExplosionEvent.AddListener(DetectBlast);
-			blastYieldData = new List<float>();
+			BlastYieldData = new List<float>();
 			AffirmState();
 		}
 
@@ -102,73 +102,21 @@ namespace Systems.Research.Objects
 				//Ideally in the future someone reorganises the Chemistry assemblies but this works for now.
 				foreach (Reaction reaction in explosiveReactions)
 				{
-					if (reaction.IsReactionValid(blastData.reagentMix))
+					if (reaction.IsReactionValid(blastData.ReagentMix))
 					{
-						yield += (float)(-463 + 205 * Mathf.Log(reaction.GetReactionAmount(blastData.reagentMix) + 75 * MathF.PI)); //Formula taken from strength calculation in ChemExplosion.cs
-
+						yield += (float)(-463 + 205 * Mathf.Log(reaction.GetReactionAmount(blastData.ReagentMix) + 75 * MathF.PI)); //Formula taken from strength calculation in ChemExplosion.cs, This will flag codacy cause magic numbers, but idk what these numbers mean or what they relate to so I dont wanna create random constants.
 					}
 				}
 
 				blastData.BlastYield = yield;
 
-				blastYieldData.Add(blastData.BlastYield);
+				BlastYieldData.Add(blastData.BlastYield);
 
-				if (blastData.reagentMix == null) blastData.reagentMix = new ReagentMix();
+				if (blastData.ReagentMix == null) blastData.ReagentMix = new ReagentMix();
 				
 				TryCompleteBounties(blastData);
 
 				blastEvent?.Invoke(blastData);
-			}
-		}
-
-		private void TryCompleteBounties(BlastData blastData)
-		{
-			List<ExplosiveBounty> bountyList = new List<ExplosiveBounty>();
-			researchServer?.ExplosiveBounties.CopyTo(bountyList); //To prevent list being modified during iteration
-
-
-			foreach (ExplosiveBounty bounty in bountyList)
-			{
-				bool bountySatisfied = true;
-
-				if(bounty.RequiredYield.requiredAmount != 0 && Math.Abs(bounty.RequiredYield.requiredAmount - blastData.BlastYield) / bounty.RequiredYield.requiredAmount >= 0.05f)
-				{
-					continue;
-				}
-				else
-				{
-					if (bounty.RequiredYield.requiredAmount == 0 && blastData.BlastYield != 0) continue;
-				}
-
-				var mix = blastData.reagentMix;
-
-				foreach (ReagentBountyEntry reagent in bounty.RequiredReagents)
-				{
-					mix.reagents.m_dict.TryGetValue(reagent.requiredReagent, out float reagentAmount);
-					if (reagentAmount != reagent.requiredAmount)
-					{
-						bountySatisfied = false;
-						break;
-					}
-				}
-
-				if (bountySatisfied == false) continue;
-
-				foreach (ReactionBountyEntry reaction in bounty.RequiredReactions)
-				{
-					if (reaction.requiredReaction.IsReactionValid(mix))
-					{
-						if (reaction.requiredReaction.GetReactionAmount(mix) != reaction.requiredAmount)
-						{
-							bountySatisfied = false;
-							break;
-						}
-					}
-				}
-
-				if (bountySatisfied == false) continue;
-
-				researchServer?.CompleteBounty(bounty);
 			}
 		}
 
@@ -190,6 +138,63 @@ namespace Systems.Research.Objects
 				}
 			}
 		}
+
+		#region BountyValidation
+
+		private const float ALLOWED_ERROR_PERCENT = 0.05f; //The allowed error in blast yield to still achieve target.
+
+		private void TryCompleteBounties(BlastData blastData)
+		{
+			List<ExplosiveBounty> bountyList = new List<ExplosiveBounty>();
+			researchServer?.ExplosiveBounties.CopyTo(bountyList); //To prevent list being modified during iteration
+
+
+			foreach (ExplosiveBounty bounty in bountyList)
+			{
+				var mix = blastData.ReagentMix;
+
+				if (MeetsYieldTarget(bounty, blastData.BlastYield) == false || MeetsReagentTargets(bounty, mix) == false || MeetsReactionTargets(bounty, mix) == false) continue;
+
+				researchServer?.CompleteBounty(bounty);
+			}
+		}
+
+		private bool MeetsYieldTarget(ExplosiveBounty bounty, float yield)
+		{
+			if (bounty.RequiredYield.requiredAmount <= 1) return yield <= ALLOWED_ERROR_PERCENT; //This is here to prevent / 0 errors and any errors that may arrive from very small divisions.
+
+			float yieldDiff = Math.Abs(bounty.RequiredYield.requiredAmount - yield);
+
+			return yieldDiff / bounty.RequiredYield.requiredAmount <= ALLOWED_ERROR_PERCENT;
+		}
+
+		private bool MeetsReagentTargets(ExplosiveBounty bounty, ReagentMix mix)
+		{
+			foreach (ReagentBountyEntry reagent in bounty.RequiredReagents)
+			{
+				mix.reagents.m_dict.TryGetValue(reagent.requiredReagent, out float reagentAmount);
+				if (reagentAmount != reagent.requiredAmount)
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		private bool MeetsReactionTargets(ExplosiveBounty bounty, ReagentMix mix)
+		{
+			foreach (ReactionBountyEntry reaction in bounty.RequiredReactions)
+			{
+				if (reaction.requiredReaction.IsReactionValid(mix) == false || reaction.requiredReaction.GetReactionAmount(mix) != reaction.requiredAmount)
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+
+		#endregion
 
 		#region Multitool Interaction Overrides
 
@@ -213,7 +218,7 @@ namespace Systems.Research.Objects
 				stateSync = BlastYieldDetectorState.Broken;
 			}
 
-			blastYieldData.Clear();
+			BlastYieldData.Clear();
 			updateGUIEvent?.Invoke();
 		}
 

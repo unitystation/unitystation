@@ -81,7 +81,8 @@ namespace Items.Weapons
 			Detonate();
 		}
 
-		public static UnityEvent<Vector3Int, BlastData> ExplosionEvent = new UnityEvent<Vector3Int, BlastData>();
+		public static UnityEvent<Vector3Int, BlastData> ExplosionEvent { get; set; } = new UnityEvent<Vector3Int, BlastData>();
+
 		protected virtual void Detonate()
 		{
 			if(gameObject == null) return;
@@ -158,7 +159,7 @@ namespace Items.Weapons
 
 	public struct BlastData
 	{
-		public float BlastYield;
-		public ReagentMix reagentMix;
+		public float BlastYield { get; set; }
+		public ReagentMix ReagentMix { get; set; }
 	}
 }

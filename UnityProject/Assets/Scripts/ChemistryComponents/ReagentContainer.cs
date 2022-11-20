@@ -449,7 +449,7 @@ namespace Chemistry.Components
 		/// </summary>
 		public void Spill(Vector3Int worldPos, float amount)
 		{
-			if (amount > ReagentMixTotal) SpillAll(worldPos, false);
+			if (amount > ReagentMixTotal) SpillAll(worldPos);
 			else
 			{
 				var spilledReagents = TakeReagents(amount);

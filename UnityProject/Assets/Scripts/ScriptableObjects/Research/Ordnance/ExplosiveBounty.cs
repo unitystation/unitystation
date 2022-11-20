@@ -8,37 +8,38 @@ namespace Systems.Research
 	[CreateAssetMenu(fileName = "ExplosiveBounty", menuName = "ScriptableObjects/Systems/Research/ExplosiveBounty")]
 	public class ExplosiveBounty : ScriptableObject
 	{
-		public BountyProperty RequiredYield = new BountyProperty();
+		[field: SerializeField] public BountyProperty RequiredYield { get; private set; } = new BountyProperty();
 
-		public List<ReactionBountyEntry> RequiredReactions = new List<ReactionBountyEntry>();
+		[field: SerializeField] public List<ReactionBountyEntry> RequiredReactions { get; private set; } = new List<ReactionBountyEntry>();
 
-		public List<ReagentBountyEntry> RequiredReagents = new List<ReagentBountyEntry>();
+		[field: SerializeField] public List<ReagentBountyEntry> RequiredReagents { get; private set; } = new List<ReagentBountyEntry>();
 	}
 
 	[System.Serializable]
 	public class BountyProperty
 	{
-		[Tooltip("If true, required amount will be randomised between the supplied range")]
-		public bool RandomiseRequirement;
+		[field: SerializeField, Tooltip("If true, required amount will be randomised between the supplied range")]
+		public bool RandomiseRequirement { get; private set; }
 
-		[AllowNesting, HideIf(nameof(RandomiseRequirement))]
-		public int requiredAmount;
+		[field: SerializeField, AllowNesting, HideIf(nameof(RandomiseRequirement))]
+		public int requiredAmount { get; set; }
 
-		[AllowNesting, ShowIf(nameof(RandomiseRequirement))]
-		public int MinAmount;
-		[AllowNesting, ShowIf(nameof(RandomiseRequirement))]
-		public int MaxAmount;
+		[field: SerializeField, AllowNesting, ShowIf(nameof(RandomiseRequirement))]
+		public int MinAmount { get; private set; }
+
+		[field: SerializeField, AllowNesting, ShowIf(nameof(RandomiseRequirement))]
+		public int MaxAmount { get; private set; }
 	}
 
 	[System.Serializable]
 	public class ReactionBountyEntry : BountyProperty
 	{
-		public Reaction requiredReaction;
+		[field: SerializeField] public Reaction requiredReaction { get; private set; }
 	}
 
 	[System.Serializable]
 	public class ReagentBountyEntry : BountyProperty
 	{
-		public Reagent requiredReagent;
+		[field: SerializeField] public Reagent requiredReagent { get; private set; }
 	}
 }

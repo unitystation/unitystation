@@ -56,7 +56,7 @@ namespace UI.Objects.Research
 		private NetText_label pointsLabel;
 
 		[SerializeField]
-		public EmptyItemList bountyContainer;
+		private EmptyItemList bountyContainer;
 
 		[SerializeField]
 		public EmptyItemList graphContainer;
@@ -78,31 +78,31 @@ namespace UI.Objects.Research
 		{
 			clientGUI = UIManager.Instance.transform.GetChild(0).GetComponentInChildren<GUI_BlastYieldDetector>();
 			clientGUIGraphTransform = clientGUI.graphContainer.transform;
-			BlastYieldDetector.blastEvent += onRecieveBlast;
-			BlastYieldDetector.updateGUIEvent += UpdateGUI;
+			BlastYieldDetector.blastEvent += OnRecieveBlast;
+			BlastYieldDetector.updateGUIEvent += UpdateGui;
 			UpdateDataDisplay();
-			UpdateGUI();
+			UpdateGui();
 		}
 		#endregion
 
-		private void onRecieveBlast(BlastData data)
+		private void OnRecieveBlast(BlastData data)
 		{
-			var mix = data.reagentMix;
+			var mix = data.ReagentMix;
 			if (smokeReaction.IsReactionValid(mix)) smokeLabel.MasterSetValue(smokeReaction.GetReactionAmount(mix).ToString());
 			else smokeLabel.MasterSetValue("0");
 
 			if (foamReaction.IsReactionValid(mix)) foamLabel.MasterSetValue(foamReaction.GetReactionAmount(mix).ToString());
 			else foamLabel.MasterSetValue("0");
 
-			reagentLabel.MasterSetValue(data.reagentMix.Total.ToString());
-			yieldLabel.MasterSetValue(blastYieldDetector.blastYieldData[blastYieldDetector.blastYieldData.Count - 1].ToString());
+			reagentLabel.MasterSetValue(data.ReagentMix.Total.ToString());
+			yieldLabel.MasterSetValue(blastYieldDetector.BlastYieldData[blastYieldDetector.BlastYieldData.Count - 1].ToString());
 
 			UpdateDataDisplay();
 
-			UpdateGUI();
+			UpdateGui();
 		}
 
-		public void UpdateGUI()
+		public void UpdateGui()
 		{
 			if (blastYieldDetector == null) return;
 
@@ -137,8 +137,8 @@ namespace UI.Objects.Research
 
 		public void OnDestroy()
 		{
-			BlastYieldDetector.blastEvent -= onRecieveBlast;
-			BlastYieldDetector.updateGUIEvent -= UpdateGUI;
+			BlastYieldDetector.blastEvent -= OnRecieveBlast;
+			BlastYieldDetector.updateGUIEvent -= UpdateGui;
 		}
 
 		#region Plotting
@@ -167,16 +167,16 @@ namespace UI.Objects.Research
 		/// </summary>
 		private void UpdateDataDisplay()
 		{
-			if (blastYieldDetector == null || blastYieldDetector.blastYieldData == null)
+			if (blastYieldDetector == null || blastYieldDetector.BlastYieldData == null)
 			{
 				graphContainer.Clear();
 				return;
 			}
 
-			List<float> yields = blastYieldDetector.blastYieldData;
+			List<float> yields = blastYieldDetector.BlastYieldData;
 			if (yields.Count > XAXIS_MAX)
 			{
-				yields = yields.GetRange(blastYieldDetector.blastYieldData.Count - 1 - XAXIS_MAX, XAXIS_MAX); //Obtains last ten datapoints
+				yields = yields.GetRange(blastYieldDetector.BlastYieldData.Count - 1 - XAXIS_MAX, XAXIS_MAX); //Obtains last ten datapoints
 			}
 
 			graphContainer.SetItems(yields.Count);
