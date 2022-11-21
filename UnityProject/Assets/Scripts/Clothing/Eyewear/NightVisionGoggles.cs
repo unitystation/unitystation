@@ -11,7 +11,7 @@ namespace Clothing
 	public class NightVisionGoggles : NetworkBehaviour, IItemInOutMovedPlayer,
 		ICheckedInteractable<HandActivate>, IClientSynchronisedEffect, IHoverTooltip
 	{
-		private static readonly float defaultvisibilityAnimationSpeed = 0.85f;
+		private static readonly float defaultvisibilityAnimationSpeed = 1.25f;
 		private static readonly float revertvisibilityAnimationSpeed = 0.2f;
 		private static readonly Vector3 expandedNightVisionVisibility = new Vector3(25, 25, 42);
 
