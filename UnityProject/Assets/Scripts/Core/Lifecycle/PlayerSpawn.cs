@@ -199,7 +199,7 @@ public static class PlayerSpawn
 
 			var Body = SpawnPlayerBody(BodyPrefab);
 
-			mind.occupation = requestedOccupation; //Probably shouldn't be here?
+			mind.ApplyOccupation(requestedOccupation); //Probably shouldn't be here?
 
 			//Setup body with custom stuff
 			ApplyNewSpawnRoleToBody(Body, requestedOccupation, character, SpawnType);

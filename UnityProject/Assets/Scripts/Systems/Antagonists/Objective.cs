@@ -56,7 +56,7 @@ namespace Antagonists
 		/// </summary>
 		public bool IsPossible(Mind candidate)
 		{
-			if (aiCanHave == false && candidate.occupation.JobType == JobType.AI)
+			if (aiCanHave == false && candidate.occupation != null && candidate.occupation.JobType == JobType.AI)
 			{
 				return false;
 			}

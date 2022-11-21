@@ -44,10 +44,7 @@ namespace Player
 		[SyncVar(hook = nameof(SyncHiddenHands))]
 		private HiddenHandValue hiddenHandSelection;
 
-		//Antag
-		[SyncVar(hook = nameof(SyncAntagState))]
-		private bool isAntag;
-		public bool IsAntag => isAntag;
+
 		#endregion
 
 		#region OtherVariables
@@ -66,12 +63,7 @@ namespace Player
 			hiddenHandSelection = newState;
         }
 
-		[Server]
-		public void ServerSetAntag(bool newState)
-		{
-			isAntag = newState;
-			GetComponent<PlayerScript>().ActivateAntagAction(newState);
-		}
+
 
 		#endregion
 
@@ -84,11 +76,6 @@ namespace Player
 			HandsController.Instance.HideHands(hiddenHandSelection);
         }
 
-		[Client]
-		private void SyncAntagState(bool oldState, bool newState)
-		{
-			isAntag = newState;
-		}
 		#endregion
 
 	}

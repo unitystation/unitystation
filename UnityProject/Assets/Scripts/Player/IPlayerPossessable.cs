@@ -78,9 +78,10 @@ public interface IPlayerPossessable
 
 			PlayerManager.SetPlayerForControl(GameObject, input);
 			var dynamicItemStorage = GameObject.GetComponent<DynamicItemStorage>();
-			dynamicItemStorage.UpdateSlots(	dynamicItemStorage.GetSetData, 	dynamicItemStorage.GetSetData);
-
-
+			if (dynamicItemStorage != null)
+			{
+				dynamicItemStorage.UpdateSlots(	dynamicItemStorage.GetSetData, 	dynamicItemStorage.GetSetData);
+			}
 		}
 
 		OnEnterPlayerControl( PreviouslyControlling,  mind,  IsServer);

@@ -167,11 +167,18 @@ public class PlayerInfo
 
 	public void SetMind(Mind InMind)
 	{
-		Mind = InMind;
-		Name = InMind.CurrentCharacterSettings.Name;
-		InMind.ControlledBy = this;
+		if (Mind != null)
+		{
+			Mind.ControlledBy = null;
+		}
 
-		//TODO Do transfer crap!!!
+
+		Mind = InMind;
+		if (InMind != null)
+		{
+			Name = InMind.CurrentCharacterSettings.Name;
+			InMind.ControlledBy = this;
+		}
 	}
 
 	/// <summary>

@@ -22,7 +22,7 @@ namespace Antagonists
 
 		public override void AfterSpawn(Mind NewMind)
 		{
-			if (NewMind.body.TryGetComponent<AiPlayer>(out var aiPlayer))
+			if (NewMind.GetCurrentMob().TryGetComponent<AiPlayer>(out var aiPlayer))
 			{
 				aiPlayer.IsMalf = true;
 				AIObjectives();

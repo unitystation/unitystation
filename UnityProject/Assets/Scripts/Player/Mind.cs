@@ -20,9 +20,11 @@ using ScriptableObjects.Systems.Spells;
 /// </summary>
 public class Mind : NetworkBehaviour
 {
-	[SyncVar(hook = nameof(SyncActiveOn))]
-	private uint IDActivelyControlling;
+	[SyncVar(hook = nameof(SyncActiveOn))] private uint IDActivelyControlling;
 
+	//Antag
+	[SyncVar]
+	public bool NetworkedisAntag;
 
 	public GameObject PossessingObject { get; private set; }
 	public IPlayerPossessable PlayerPossessable { get; private set; }
@@ -30,14 +32,15 @@ public class Mind : NetworkBehaviour
 	public Occupation occupation;
 
 	public PlayerScript ghost { private set; get; }
-	public PlayerScript body { private set; get; }
+	public PlayerScript body => GetDeepestBody().GetComponent<PlayerScript>();
 	private SpawnedAntag antag;
-	public bool IsAntag => antag != null;
+	public bool IsAntag => CustomNetworkManager.IsServer ? antag != null : NetworkedisAntag;
 	public bool IsGhosting;
 	public bool DenyCloning;
 	public int bodyMobID;
-	public FloorSounds StepSound;  //Why is this on the mind!!!, Should be on the body
+	public FloorSounds StepSound; //Why is this on the mind!!!, Should be on the body
 	public FloorSounds SecondaryStepSound;
+
 	public ChatModifier inventorySpeechModifiers = ChatModifier.None;
 	// Current way to check if it's not actually a ghost but a spectator, should set this not have it be the below.
 
@@ -84,7 +87,7 @@ public class Mind : NetworkBehaviour
 			{
 				foreach (Spell x in e.NewItems)
 				{
-					UIActionManager.ToggleServer(this.gameObject,x, true);
+					UIActionManager.ToggleServer(this.gameObject, x, true);
 				}
 			}
 
@@ -98,34 +101,50 @@ public class Mind : NetworkBehaviour
 		};
 	}
 
+
+	public void ApplyOccupation(Occupation requestedOccupation)
+	{
+		this.occupation = requestedOccupation;
+		foreach (var spellData in occupation.Spells)
+		{
+			var spellScript = spellData.AddToPlayer(this);
+			Spells.Add(spellScript);
+		}
+
+		foreach (var pair in occupation.CustomProperties)
+		{
+			SetProperty(pair.Key, pair.Value);
+		}
+	}
+
+
 	public void SetNewBody(PlayerScript playerScript)
 	{
 		//what!!!
 
 		Spells.Clear();
 		ClearOldBody();
-		playerScript.SetMind(this);
-		body = playerScript;
-		if(antag != null) SetAntag(antag);
+
+		if (antag != null) SetAntag(antag);
 
 		if (playerScript.TryGetComponent<LivingHealthMasterBase>(out var health))
 		{
 			bodyMobID = health.mobID;
 		}
-
-		if (occupation != null)
-		{
-			foreach (var spellData in occupation.Spells)
-			{
-				//var spellScript = spellData.AddToPlayer(playerScript);
-				//Spells.Add(spellScript);
-			}
-
-			foreach (var pair in occupation.CustomProperties)
-			{
-				SetProperty(pair.Key, pair.Value);
-			}
-		}
+		//
+		// if (occupation != null)
+		// {
+		// 	foreach (var spellData in occupation.Spells)
+		// 	{
+		// 		var spellScript = spellData.AddToPlayer(playerScript);
+		// 		Spells.Add(spellScript);
+		// 	}
+		//
+		// 	foreach (var pair in occupation.CustomProperties)
+		// 	{
+		// 		SetProperty(pair.Key, pair.Value);
+		// 	}
+		// }
 
 		StopGhosting();
 	}
@@ -148,9 +167,7 @@ public class Mind : NetworkBehaviour
 		}
 
 		return false;
-
 	}
-
 
 
 	private void ClearOldBody()
@@ -179,8 +196,9 @@ public class Mind : NetworkBehaviour
 	public void SetAntag(SpawnedAntag newAntag)
 	{
 		antag = newAntag;
+		NetworkedisAntag = newAntag != null;
 		ShowObjectives();
-		body.OrNull()?.GetComponent<PlayerOnlySyncValues>().OrNull()?.ServerSetAntag(true);
+		GetDeepestBody().GetComponent<PlayerScript>().ActivateAntagAction(NetworkedisAntag);
 	}
 
 	public void SetPossessingObject(GameObject obj)
@@ -214,8 +232,6 @@ public class Mind : NetworkBehaviour
 		PlayerPossessable?.BeingPossessedBy(this, null);
 
 		SyncActiveOn(IDActivelyControlling, GetDeepestBody().netId);
-
-
 	}
 
 	public void AddObjectiveToAntag(Objective objectiveToAdd)
@@ -233,19 +249,13 @@ public class Mind : NetworkBehaviour
 	public void RemoveAntag()
 	{
 		antag = null;
-		body.OrNull()?.GetComponent<PlayerOnlySyncValues>().OrNull()?.ServerSetAntag(true);
+		NetworkedisAntag = antag != null;
+		GetDeepestBody().GetComponent<PlayerScript>().ActivateAntagAction(NetworkedisAntag);
 	}
 
 	public GameObject GetCurrentMob()
 	{
-		if (IsGhosting)
-		{
-			return ghost.gameObject;
-		}
-		else
-		{
-			return body.gameObject;
-		}
+		return GetDeepestBody().gameObject;
 	}
 
 	public void SetGhost(PlayerScript newGhost)
@@ -261,7 +271,6 @@ public class Mind : NetworkBehaviour
 		Move.ForcePositionClient(Body.transform.position);
 		IsGhosting = true;
 		SyncActiveOn(IDActivelyControlling, GetDeepestBody().netId);
-
 	}
 
 	public void StopGhosting()
@@ -279,14 +288,10 @@ public class Mind : NetworkBehaviour
 	{
 		IDActivelyControlling = newID;
 
-		LoadManager.RegisterActionDelayed(() =>
-		{
-			HandleActiveOnChange(oldID, newID);
-		}, 2); //This is to handle The game object being spawned in and data being provided before Owner message
-         //s sent owner, This means the game object it's told it's in charge of is not actually in charge of Until later on in that frame is Dumb,
-         //Plus this handles server player funnies with the same thing Just stretched over another frame so that's why it's 2
-
-
+		LoadManager.RegisterActionDelayed(() => { HandleActiveOnChange(oldID, newID); },
+			2); //This is to handle The game object being spawned in and data being provided before Owner message
+		//s sent owner, This means the game object it's told it's in charge of is not actually in charge of Until later on in that frame is Dumb,
+		//Plus this handles server player funnies with the same thing Just stretched over another frame so that's why it's 2
 	}
 
 	public void HandleActiveOnChange(uint oldID, uint newID)
@@ -294,28 +299,27 @@ public class Mind : NetworkBehaviour
 		var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 		if (spawned.ContainsKey(newID))
 		{
-
 			if (ControlledBy != null) //TODO Remove
 			{
 				ControlledBy.GameObject = spawned[newID].gameObject;
 			}
-			body = spawned[newID].GetComponent<PlayerScript>();
+
 			IPlayerPossessable oldPossessable = null;
 			if (spawned.ContainsKey(oldID))
 			{
 				oldPossessable = spawned[oldID].GetComponent<IPlayerPossessable>();
 			}
 
-			var  Possessable = spawned[newID].GetComponent<IPlayerPossessable>();
+			var Possessable = spawned[newID].GetComponent<IPlayerPossessable>();
 			if (Possessable != null)
 			{
-				Possessable.InternalOnEnterPlayerControl(oldPossessable?.GameObject,this, CustomNetworkManager.IsServer);
+				Possessable.InternalOnEnterPlayerControl(oldPossessable?.GameObject, this,
+					CustomNetworkManager.IsServer);
 			}
 			else
 			{
 				//TODO For objects
 			}
-
 		}
 
 		//here
@@ -328,7 +332,7 @@ public class Mind : NetworkBehaviour
 		var RelatedBodies = GetRelatedBodies();
 		foreach (var Body in RelatedBodies)
 		{
-			PlayerSpawn.TransferOwnershipToConnection(Account, Body ,null );
+			PlayerSpawn.TransferOwnershipToConnection(Account, Body, null);
 		}
 	}
 
@@ -339,7 +343,7 @@ public class Mind : NetworkBehaviour
 		var RelatedBodies = GetRelatedBodies();
 		foreach (var Body in RelatedBodies)
 		{
-			PlayerSpawn.TransferOwnershipToConnection(Account, null, Body );
+			PlayerSpawn.TransferOwnershipToConnection(Account, null, Body);
 		}
 
 		SyncActiveOn(IDActivelyControlling, IDActivelyControlling);
@@ -352,17 +356,18 @@ public class Mind : NetworkBehaviour
 			Logger.LogError("oh god!, Somehow there's no connection to client when ReLog Code has Been called");
 			return;
 		}
+
 		PlayerSpawn.TransferAccountToSpawnedMind(ControlledBy, this);
 
 
 		var RelatedBodies = GetRelatedBodies();
 		foreach (var Body in RelatedBodies)
 		{
-			PlayerSpawn.TransferOwnershipToConnection(ControlledBy, null, Body );
+			PlayerSpawn.TransferOwnershipToConnection(ControlledBy, null, Body);
 		}
 	}
 
-	public void HandleOwnershipChangeMulti(List<NetworkIdentity>  Losing, List<NetworkIdentity>  Gaining)
+	public void HandleOwnershipChangeMulti(List<NetworkIdentity> Losing, List<NetworkIdentity> Gaining)
 	{
 		if (ControlledBy != null)
 		{
@@ -371,13 +376,12 @@ public class Mind : NetworkBehaviour
 				PlayerSpawn.TransferOwnershipToConnection(ControlledBy, Lost, null);
 			}
 
-			foreach (var Gained  in Gaining)
+			foreach (var Gained in Gaining)
 			{
 				PlayerSpawn.TransferOwnershipToConnection(ControlledBy, null, Gained);
 			}
 		}
 	}
-
 
 
 	//Gets all Bodies that are related to this mind,  Mind-> Brain-> Body
@@ -432,13 +436,16 @@ public class Mind : NetworkBehaviour
 	public CloneableStatus GetCloneableStatus(int recordMobID)
 	{
 		if (bodyMobID != recordMobID)
-		{  // an old record might still exist even after several body swaps
+		{
+			// an old record might still exist even after several body swaps
 			return CloneableStatus.OldRecord;
 		}
+
 		if (DenyCloning)
 		{
 			return CloneableStatus.DenyingCloning;
 		}
+
 		var currentMob = GetCurrentMob();
 		if (IsGhosting == false)
 		{
@@ -448,6 +455,7 @@ public class Mind : NetworkBehaviour
 				return CloneableStatus.StillAlive;
 			}
 		}
+
 		if (IsOnline() == false)
 		{
 			return CloneableStatus.Offline;
@@ -475,19 +483,19 @@ public class Mind : NetworkBehaviour
 
 		if (playerMob.TryGetComponent<PlayerScript>(out var body) == false) return;
 		if (antag.Antagonist.AntagJobType == JobType.TRAITOR || antag.Antagonist.AntagJobType == JobType.SYNDICATE)
-        {
-	        if (body.OrNull()?.DynamicItemStorage == null) return;
-        	var playerInventory = body.DynamicItemStorage.GetItemSlots();
-        	foreach (var item in playerInventory)
-        	{
-        		if (item.IsEmpty) continue;
-        		if (item.ItemObject.TryGetComponent<PDALogic>(out var PDA) == false) continue;
-        		if(PDA.IsUplinkCapable == false) continue;
+		{
+			if (body.OrNull()?.DynamicItemStorage == null) return;
+			var playerInventory = body.DynamicItemStorage.GetItemSlots();
+			foreach (var item in playerInventory)
+			{
+				if (item.IsEmpty) continue;
+				if (item.ItemObject.TryGetComponent<PDALogic>(out var PDA) == false) continue;
+				if (PDA.IsUplinkCapable == false) continue;
 
-        		//Send Uplink code
-                Chat.AddExamineMsgFromServer(playerMob, $"PDA uplink code retrieved: {PDA.UplinkUnlockCode}");
-	        }
-        }
+				//Send Uplink code
+				Chat.AddExamineMsgFromServer(playerMob, $"PDA uplink code retrieved: {PDA.UplinkUnlockCode}");
+			}
+		}
 	}
 
 	/// <summary>
@@ -515,6 +523,7 @@ public class Mind : NetworkBehaviour
 		{
 			return;
 		}
+
 		spells.Add(spell);
 	}
 

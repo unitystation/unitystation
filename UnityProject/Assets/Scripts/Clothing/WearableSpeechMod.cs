@@ -44,13 +44,13 @@ public class WearableSpeechMod : MonoBehaviour, IItemInOutMovedPlayer
 		if (hideForPlayer != null)
 		{
 			//TODO AAAAAAA Change not to mind
-			hideForPlayer.PlayerScript.mind.inventorySpeechModifiers &= ~modifier;
+			//hideForPlayer.PlayerScript.mind.inventorySpeechModifiers &= ~modifier;
 		}
 
 		if (showForPlayer != null)
 		{
 			//TODO AAAAAAA Change not to mind
-			hideForPlayer.PlayerScript.mind.inventorySpeechModifiers |= modifier;
+			//hideForPlayer.PlayerScript.mind.inventorySpeechModifiers |= modifier;
 		}
 	}
 }

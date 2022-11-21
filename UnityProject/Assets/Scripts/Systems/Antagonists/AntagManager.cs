@@ -112,7 +112,13 @@ namespace Antagonists
 				yield return WaitFor.EndOfFrame;
 			}
 
-			var AntagonistsMind  = PlayerSpawn.NewSpawnPlayerV2(connectedPlayer,antagonist.AntagOccupation, connectedPlayer.Mind.CurrentCharacterSettings);
+			Occupation Occupation = connectedPlayer.Mind.occupation;
+			if (antagonist.AntagOccupation != null) // means it as a modifier such as a traitor Traitor CMO, traitor assistant for example
+			{
+				Occupation = antagonist.AntagOccupation;
+			}
+
+			var AntagonistsMind  = PlayerSpawn.NewSpawnPlayerV2(connectedPlayer,Occupation, connectedPlayer.Mind.CurrentCharacterSettings);
 			ServerFinishAntag(antagonist, AntagonistsMind);
 		}
 

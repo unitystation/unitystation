@@ -11,10 +11,15 @@ public class RequestIconsUIActionRefresh : ClientMessage<RequestIconsUIActionRef
 
 	public override void Process(NetMessage msg)
 	{
-		if (SentByPlayer?.Script.OrNull()?.mind == null) return;
+		if (SentByPlayer.Mind == null) return;
+
+		var Bodies = SentByPlayer.Mind.GetRelatedBodies();
+		foreach (var Body in Bodies)
+		{
+			UIActionManager.Instance.UpdatePlayer(Body.gameObject, SentByPlayer.Connection);
+		}
 
 
-		UIActionManager.Instance.UpdatePlayer(SentByPlayer.GameObject, SentByPlayer.Connection);
 	}
 
 	public static NetMessage Send()
