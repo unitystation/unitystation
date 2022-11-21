@@ -9,10 +9,9 @@ namespace Clothing
 	public class NightVisionGoggles : NetworkBehaviour, IItemInOutMovedPlayer,
 		ICheckedInteractable<HandActivate>, IClientSynchronisedEffect
 	{
-		[SerializeField] [Tooltip("How fast will the player gain visibility?")]
-		private float visibilityAnimationSpeed = 1.50f;
-
+		private static readonly float defaultvisibilityAnimationSpeed = 0.85f;
 		private static readonly Vector3 expandedNightVisionVisibility = new(25, 25, 42);
+		private static readonly Vector3 normalNightVisionVisibility = new(3.5f, 3.5f, 8);
 
 		private IClientSynchronisedEffect Preimplemented => this;
 
@@ -20,37 +19,11 @@ namespace Clothing
 
 		public uint OnPlayerID => OnBodyID;
 
-		[SyncVar(hook = nameof(SyncNightVision))]
-		private NightVisionData VisionData = new(true);
-
-		private readonly NightVisionData DefaultVisionData = new(true)
-		{
-			isOn = false
-		};
+		[SyncVar(hook = nameof(SyncNightVision))] [SerializeField]
+		private bool isOn = false;
 
 		public RegisterPlayer CurrentlyOn { get; set; }
 		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
-
-		[Serializable]
-		public struct NightVisionData
-		{
-			public bool isOn { get; set; }
-
-			[SerializeField]
-			[Tooltip("How far the player will be able to see in the dark while he has the goggles on.")]
-			public Vector3 nightVisionVisibility { get; set; }
-
-			[SerializeField]
-			[Tooltip("How fast will the player gain visibility?")]
-			public float visibilityAnimationSpeed { get; set; }
-
-			public NightVisionData(bool b)
-			{
-				isOn = false;
-				nightVisionVisibility = expandedNightVisionVisibility;
-				visibilityAnimationSpeed = 1.5f;
-			}
-		}
 
 		private ItemActionButton actionButton;
 		private Pickupable pickupable;
@@ -61,14 +34,11 @@ namespace Clothing
 		{
 			actionButton = GetComponent<ItemActionButton>();
 			pickupable = GetComponent<Pickupable>();
-
-			var loc = VisionData;
-			loc.visibilityAnimationSpeed = visibilityAnimationSpeed;
-			VisionData = loc;
 		}
 
 		private void OnEnable()
 		{
+			// Subscribes to UI action buttons.
 			actionButton.ServerActionClicked += ToggleGoggles;
 		}
 
@@ -94,10 +64,7 @@ namespace Clothing
 
 		void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)
 		{
-			if (ShowForPlayer != null)
-				OnBodyID = ShowForPlayer.netId;
-			else
-				OnBodyID = NetId.Empty;
+			OnBodyID = ShowForPlayer != null ? ShowForPlayer.netId : NetId.Empty;
 		}
 
 		#endregion
@@ -111,11 +78,7 @@ namespace Clothing
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			var Data = VisionData;
-			Data.isOn = !VisionData.isOn;
-			VisionData = Data;
-			Chat.AddExamineMsgToClient(
-				$"You turned {(VisionData.isOn ? "on" : "off")} the {gameObject.ExpensiveName()}.");
+			SetGoggleState(!isOn);
 		}
 
 		#endregion
@@ -123,35 +86,25 @@ namespace Clothing
 		[Server]
 		private void ToggleGoggles()
 		{
-			SetGoggleState(!VisionData.isOn);
+			SetGoggleState(!isOn);
 		}
 
 		/// <summary>
-		///     Turning goggles on or off
+		/// Turning goggles on or off
 		/// </summary>
 		/// <param name="newState"></param>
 		[Server]
 		private void SetGoggleState(bool newState)
 		{
-			var Data = VisionData;
-			Data.isOn = newState;
-			VisionData = Data;
-
+			isOn = newState;
+			// Checks to see if this item is on a player that's online.
 			if (CurrentlyOn == null || CurrentlyOn.PlayerScript.connectionToClient == null) return;
-
 			if (IsValidSetup(CurrentlyOn))
 			{
-				ServerToggleClient(CurrentlyOn, VisionData);
-
-				Chat.AddExamineMsgFromServer(CurrentlyOn.PlayerScript.gameObject,
-					$"You turned {(VisionData.isOn ? "on" : "off")} the {gameObject.ExpensiveName()}.");
+				// Gives feedback to the player's actions.
+				Chat.AddExamineMsg(CurrentlyOn.PlayerScript.gameObject,
+					$"You turned {(isOn ? "on" : "off")} the {gameObject.ExpensiveName()}.");
 			}
-		}
-
-		[Server]
-		private void ServerToggleClient(RegisterPlayer forPlayer, NightVisionData newState)
-		{
-			VisionData = newState;
 		}
 
 		public void SyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn)
@@ -160,25 +113,42 @@ namespace Clothing
 			Preimplemented.ImplementationSyncOnPlayer(PreviouslyOn, CurrentlyOn);
 		}
 
-		public void ApplyDefaultOrCurrentValues(bool Default)
+		public void ApplyDefaultOrCurrentValues(bool def)
 		{
-			ApplyEffects(Default ? DefaultVisionData : VisionData);
+			// (Max): I have no idea what "def" or "Default" means because the person who wrote this code
+			// didn't bother to document their shit or give this value a proper name that's easy to understand,
+			// I'm not obligated to do that job for them especially after they left this script in such a horrible state.
+			ApplyEffects(def);
 		}
 
-		public void SyncNightVision(NightVisionData oldState, NightVisionData newState)
+		/// <summary>
+		/// will always update the effects on the client whenever isOn has changed.
+		/// </summary>
+		public void SyncNightVision(bool oldState, bool newState)
 		{
-			VisionData = newState;
-
-			if (Preimplemented.IsOnLocalPlayer) ApplyEffects(VisionData);
+			isOn = newState;
+			// Makes sure that the goggles are on the player before applying the effect.
+			// If it's not on the player, ensure that the effect is disabled to avoid bugs when removing the goggles.
+			ApplyEffects(Preimplemented.IsOnLocalPlayer && newState);
 		}
 
-		private void ApplyEffects(NightVisionData State)
+		private void ApplyEffects(bool state)
 		{
+			// If for whatever reason unity is unable to catch the correct main camera that has the CameraEffectControlScript
+			// Don't do anything.
 			if (Camera.main == null ||
 			    Camera.main.TryGetComponent<CameraEffectControlScript>(out var effects) == false) return;
-			effects.AdjustPlayerVisibility(State.nightVisionVisibility,
-				State.isOn ? State.visibilityAnimationSpeed : 0.1f);
-			effects.ToggleNightVisionEffectState(State.isOn);
+			// Visibility is updated based on the on/off state of the goggles.
+			// True means its on and will show an expanded view in the dark by changing the player's light view.
+			// False will revert it to default.
+			// (Max): Note that there is no "easy way" to grab the default values from the player prefab without writing ugly code
+			// without starting to mention edge case scenarios where there are multiple cameras and minds in effect
+			// So for now we're just using numbers that are used on all player prefabs we already use currently.
+			// We can worry about making those values dynamic later when a prefab actually needs to use a different default value.
+			effects.AdjustPlayerVisibility(
+				state ? expandedNightVisionVisibility : normalNightVisionVisibility,
+				state ? defaultvisibilityAnimationSpeed : 0.1f);
+			effects.ToggleNightVisionEffectState(state);
 		}
 	}
 }
