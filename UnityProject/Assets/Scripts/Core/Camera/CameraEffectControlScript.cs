@@ -31,7 +31,12 @@ namespace CameraEffects
 		public void Awake()
 		{
 			LightingSystem = this.GetComponent<LightingSystem>();
-			MinimalVisibilityScale = minimalVisibilitySprite.transform.localScale;
+			if (minimalVisibilitySprite != null)
+			{
+				MinimalVisibilityScale = minimalVisibilitySprite.transform.localScale;
+				return;
+			}
+			Logger.LogWarning("[CameraEffectControlScript] - visibilitySprite is null! please set it from the inspector.");
 		}
 
 
