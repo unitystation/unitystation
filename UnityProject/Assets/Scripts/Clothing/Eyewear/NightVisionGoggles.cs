@@ -178,7 +178,7 @@ namespace Clothing
 
 		public List<Sprite> IconIndicators()
 		{
-			throw new NotImplementedException();
+			return null;
 		}
 
 		public List<TextColor> InteractionsStrings()
