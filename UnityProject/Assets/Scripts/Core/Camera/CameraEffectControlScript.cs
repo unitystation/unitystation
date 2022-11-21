@@ -28,6 +28,7 @@ namespace CameraEffects
 		private float drunkCameraTime = 0;
 
 		public LightingSystem LightingSystem;
+		
 		public void Awake()
 		{
 			LightingSystem = this.GetComponent<LightingSystem>();
