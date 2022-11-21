@@ -57,11 +57,16 @@ namespace Clothing
 		{
 			if (player == null) return false;
 			// Checks if it's not null and checks if NamedSlot == NamedSlot.eyes
-			if (player != null && player.PlayerScript.RegisterPlayer == pickupable.ItemSlot.Player &&
-			    pickupable.ItemSlot is { NamedSlot: NamedSlot.eyes })
-				return true;
+			return player.PlayerScript.RegisterPlayer == pickupable.ItemSlot.Player && IsInCorrectNamedSlot();
+		}
 
-			return false;
+		/// <summary>
+		/// Checks if the item is in the correct ItemSlot which is the eyes.
+		/// Automatically returns false if null because of the "is" keyword and null propagation.
+		/// </summary>
+		private bool IsInCorrectNamedSlot()
+		{
+			return pickupable.ItemSlot is { NamedSlot: NamedSlot.eyes };
 		}
 
 		void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)
@@ -140,6 +145,8 @@ namespace Clothing
 			// Don't do anything.
 			if (Camera.main == null ||
 			    Camera.main.TryGetComponent<CameraEffectControlScript>(out var effects) == false) return;
+			// If the item is not in the correct slot, ensure the effect is disabled.
+			if (IsInCorrectNamedSlot() == false) state = false;
 			// Visibility is updated based on the on/off state of the goggles.
 			// True means its on and will show an expanded view in the dark by changing the player's light view.
 			// False will revert it to default.
