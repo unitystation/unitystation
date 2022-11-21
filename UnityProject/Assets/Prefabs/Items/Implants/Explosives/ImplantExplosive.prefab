@@ -231,9 +231,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08a5324d1ed58d54eb78577c22157392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEMPVunerable: 0
+  syncMode: 0
+  syncInterval: 0.1
+  isEMPVunerable: 1
   EMPResistance: 2
-  TriggerOnDeath: 0
+  <TriggerOnDeath>k__BackingField: 0
+  <OverrideDeathCountDown>k__BackingField: -1
 --- !u!114 &2959315849646831725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,6 +390,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OrganStorage: {fileID: 2959315849646831725}
+  CommonComponents: {fileID: 0}
   playerSprites: {fileID: 0}
   IsBleeding: 0
   limbLossBleedingValue: 0

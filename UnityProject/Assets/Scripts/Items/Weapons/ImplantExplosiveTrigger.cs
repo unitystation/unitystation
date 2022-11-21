@@ -1,14 +1,14 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using HealthV2;
+using UnityEngine;
 
 namespace Items.Weapons
 {
 	public class ImplantExplosiveTrigger : BodyPartFunctionality
 	{
-		public bool TriggerOnDeath = false;
+		[field: SerializeField] public bool TriggerOnDeath { get; private set; } = false;
+
+		[field: SerializeField] public int OverrideDeathCountDown { get; private set; } = -1;
+
 		bool hasDetonated = false;
 
 		private ImplantExplosive explosive;
@@ -26,9 +26,21 @@ namespace Items.Weapons
 
 			if(RelatedPart.HealthMaster.IsDead && TriggerOnDeath && hasDetonated == false) //Makes sure bombs dont double detonate
 			{
-				hasDetonated = true;
-				StartCoroutine(explosive.Countdown());
+				Detonate();
 			}
+		}
+
+		private void Detonate()
+		{
+			hasDetonated = true;
+			if (OverrideDeathCountDown >= 0) explosive.TimeToDetonate = OverrideDeathCountDown;
+
+			StartCoroutine(explosive.Countdown());
+		}
+
+		public override void EmpResult(int strength)
+		{
+			Detonate();
 		}
 	}
 }
