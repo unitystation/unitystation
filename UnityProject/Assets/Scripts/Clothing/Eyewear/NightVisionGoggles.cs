@@ -12,6 +12,7 @@ namespace Clothing
 		ICheckedInteractable<HandActivate>, IClientSynchronisedEffect, IHoverTooltip
 	{
 		private static readonly float defaultvisibilityAnimationSpeed = 0.85f;
+		private static readonly float revertvisibilityAnimationSpeed = 0.2f;
 		private static readonly Vector3 expandedNightVisionVisibility = new(25, 25, 42);
 		private static readonly Vector3 normalNightVisionVisibility = new(3.5f, 3.5f, 8);
 
@@ -141,12 +142,13 @@ namespace Clothing
 
 		private void ApplyEffects(bool state)
 		{
+			var finalState = state;
 			// If for whatever reason unity is unable to catch the correct main camera that has the CameraEffectControlScript
 			// Don't do anything.
 			if (Camera.main == null ||
 			    Camera.main.TryGetComponent<CameraEffectControlScript>(out var effects) == false) return;
 			// If the item is not in the correct slot, ensure the effect is disabled.
-			if (IsInCorrectNamedSlot() == false) state = false;
+			if (IsInCorrectNamedSlot() == false) finalState = false;
 			// Visibility is updated based on the on/off state of the goggles.
 			// True means its on and will show an expanded view in the dark by changing the player's light view.
 			// False will revert it to default.
@@ -155,9 +157,9 @@ namespace Clothing
 			// So for now we're just using numbers that are used on all player prefabs we already use currently.
 			// We can worry about making those values dynamic later when a prefab actually needs to use a different default value.
 			effects.AdjustPlayerVisibility(
-				state ? expandedNightVisionVisibility : normalNightVisionVisibility,
-				state ? defaultvisibilityAnimationSpeed : 0.1f);
-			effects.ToggleNightVisionEffectState(state);
+				finalState ? expandedNightVisionVisibility : normalNightVisionVisibility,
+				finalState ? defaultvisibilityAnimationSpeed : revertvisibilityAnimationSpeed);
+			effects.ToggleNightVisionEffectState(finalState);
 		}
 
 		#region Tooltip
