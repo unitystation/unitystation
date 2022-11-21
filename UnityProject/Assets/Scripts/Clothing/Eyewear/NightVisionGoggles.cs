@@ -13,7 +13,7 @@ namespace Clothing
 	{
 		private static readonly float defaultvisibilityAnimationSpeed = 0.85f;
 		private static readonly float revertvisibilityAnimationSpeed = 0.2f;
-		private static readonly Vector3 expandedNightVisionVisibility = new(25, 25, 42);
+		private static readonly Vector3 expandedNightVisionVisibility = new Vector3(25, 25, 42);
 
 		private IClientSynchronisedEffect Preimplemented => this;
 
@@ -178,7 +178,7 @@ namespace Clothing
 
 		public List<Sprite> IconIndicators()
 		{
-			return null;
+			return new List<Sprite>();
 		}
 
 		public List<TextColor> InteractionsStrings()
