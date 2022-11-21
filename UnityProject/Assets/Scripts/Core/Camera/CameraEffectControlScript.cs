@@ -18,6 +18,7 @@ namespace CameraEffects
 
 		[SerializeField]
 		private GameObject minimalVisibilitySprite;
+		public Vector3 MinimalVisibilityScale { private set; get; } = new(3.5f, 3.5f, 8);
 
 
 		[SerializeField] private int maxDrunkTime = 120000;
@@ -30,6 +31,7 @@ namespace CameraEffects
 		public void Awake()
 		{
 			LightingSystem = this.GetComponent<LightingSystem>();
+			MinimalVisibilityScale = minimalVisibilitySprite.transform.localScale;
 		}
 
 

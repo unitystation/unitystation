@@ -14,7 +14,6 @@ namespace Clothing
 		private static readonly float defaultvisibilityAnimationSpeed = 0.85f;
 		private static readonly float revertvisibilityAnimationSpeed = 0.2f;
 		private static readonly Vector3 expandedNightVisionVisibility = new(25, 25, 42);
-		private static readonly Vector3 normalNightVisionVisibility = new(3.5f, 3.5f, 8);
 
 		private IClientSynchronisedEffect Preimplemented => this;
 
@@ -152,12 +151,8 @@ namespace Clothing
 			// Visibility is updated based on the on/off state of the goggles.
 			// True means its on and will show an expanded view in the dark by changing the player's light view.
 			// False will revert it to default.
-			// (Max): Note that there is no "easy way" to grab the default values from the player prefab without writing ugly code
-			// without starting to mention edge case scenarios where there are multiple cameras and minds in effect
-			// So for now we're just using numbers that are used on all player prefabs we already use currently.
-			// We can worry about making those values dynamic later when a prefab actually needs to use a different default value.
 			effects.AdjustPlayerVisibility(
-				finalState ? expandedNightVisionVisibility : normalNightVisionVisibility,
+				finalState ? expandedNightVisionVisibility : effects.MinimalVisibilityScale,
 				finalState ? defaultvisibilityAnimationSpeed : revertvisibilityAnimationSpeed);
 			effects.ToggleNightVisionEffectState(finalState);
 		}
