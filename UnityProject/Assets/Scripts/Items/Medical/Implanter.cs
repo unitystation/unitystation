@@ -1,8 +1,8 @@
 using UnityEngine;
 using HealthV2;
-using Items;
+using Mirror;
 
-public class Implanter : MonoBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<InventoryApply>, ICheckedInteractable<HandActivate>
+public class Implanter : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<InventoryApply>, ICheckedInteractable<HandActivate>
 {
 	[SerializeField,Tooltip("The implant that this implanter starts with, leave as null if implanter is inted to be empty.")]
 	private GameObject implantObject = null;
@@ -19,7 +19,7 @@ public class Implanter : MonoBehaviour, ICheckedInteractable<HandApply>, IChecke
 
 	private ItemSlot implantSlot;
 
-	private bool primed = false;
+	[SyncVar] private bool primed = false;
 
 
 	private void Awake()
