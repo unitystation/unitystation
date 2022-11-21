@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using CameraEffects;
 using Mirror;
 using UI.Action;
+using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
 
 namespace Clothing
 {
 	public class NightVisionGoggles : NetworkBehaviour, IItemInOutMovedPlayer,
-		ICheckedInteractable<HandActivate>, IClientSynchronisedEffect
+		ICheckedInteractable<HandActivate>, IClientSynchronisedEffect, IHoverTooltip
 	{
 		private static readonly float defaultvisibilityAnimationSpeed = 0.85f;
 		private static readonly Vector3 expandedNightVisionVisibility = new(25, 25, 42);
@@ -150,5 +152,45 @@ namespace Clothing
 				state ? defaultvisibilityAnimationSpeed : 0.1f);
 			effects.ToggleNightVisionEffectState(state);
 		}
+
+		#region Tooltip
+
+		public string HoverTip()
+		{
+			return null;
+		}
+
+		public string CustomTitle()
+		{
+			if (gameObject.TryGetComponent<Attributes>(out var attributes) == false) return null;
+			var state = isOn ? "On" : "Off";
+			return $"{attributes.ArticleName} [{state}]";
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			throw new NotImplementedException();
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			TextColor inspectText = new TextColor
+			{
+				Text = "Left Click or Z: Turn On/Off.",
+				Color = Color.green
+			};
+
+			List<TextColor> interactions = new List<TextColor>();
+			interactions.Add(inspectText);
+			return interactions;
+		}
+
+		#endregion
+
 	}
 }
