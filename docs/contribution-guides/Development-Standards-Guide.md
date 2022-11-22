@@ -324,7 +324,7 @@ Logger.LogWarning("[Object/OnEnable] - Integer values appear to be too high, uni
 ```
 
 
-## 1. Utilise Events and Minimise Dependencies
+## 1. Writing modular code with minimal dependencies
 
 * Video games are event driven, you should use the `UpdateManager` as sparingly as possible and when it actually makes sense to constantly update a state of an object every frame.
 * Make use of `Action<>` and `UnityEvent<>` whenever you want to tell an object to do something based on a change or function being called on something else.
