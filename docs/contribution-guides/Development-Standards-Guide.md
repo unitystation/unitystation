@@ -412,6 +412,8 @@ class PlayerInventory : Inventory
 }
 ```
 
+_Note: Events can leak! Always remember to unsubscribe your events on `OnDisable()`._
+
 * Minimise Polymorphism, Embrace Interfaces.
 
 [Interface](https://www.w3schools.com/cs/cs_interface.php) in C# is a blueprint of a class. It is like abstract class because all the methods which are declared inside the interface are abstract methods. It cannot have method body and cannot be instantiated. It is used to achieve multiple inheritance which can't be achieved by class.
