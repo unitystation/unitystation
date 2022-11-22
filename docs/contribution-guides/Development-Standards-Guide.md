@@ -331,7 +331,7 @@ Logger.LogWarning("[Object/OnEnable] - Integer values appear to be too high, uni
 
 _For more info about UnityEvents check: [The Offical Unity Docs](https://docs.unity3d.com/ScriptReference/Events.UnityEvent.html)_
 
-* Events can be used to reduce the likelyhood of bugs and [NREs](https://learn.microsoft.com/en-us/dotnet/api/system.nullreferenceexception?view=net-7.0) occuring and makes our code much more maintainable and easy to expand upon due to how they're designed.
+Events can be used to reduce the likelyhood of bugs and [NREs](https://learn.microsoft.com/en-us/dotnet/api/system.nullreferenceexception?view=net-7.0) occuring and makes our code much more maintainable and easy to expand upon due to how they're designed.
 
 With events, components don't have to constantly reference each other and only require a subscription to relevent functions that get invoked when things happen in the game.
 
