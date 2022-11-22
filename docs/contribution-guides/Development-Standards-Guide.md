@@ -244,7 +244,7 @@ to just leave it as a public field without a property. As always, make sure to d
         
 # Writing efficent and maintainble code
 
-Unitystation is a gigantic and ambitious project that holds a lot of content and systems that can get tangled together, to avoid this; we highly recommend that you write your code in a modular way that's easy for developers to maintain and and expand upon.
+Unitystation is a gigantic and ambitious project that holds a lot of content and systems that can get tangled together, to avoid things tangling each other; we highly recommend that you write your code in a modular way that's easy for developers to maintain and and expand upon.
 
 Unity has a great talk on how to do just that in this video: [How to adopt a modular code workflow for your team | Unite 2022](https://youtu.be/nk3gHIZZ5Rg)
 
