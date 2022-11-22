@@ -493,6 +493,7 @@ foreach(var item in LargeList)
     {
         //Causes the IEnumerator to be paused until the next frame.
         yield return WaitFor.EndOfFrame();
+        currentIndex = 0;
     }
     item.DoPossibilyHeavyTask();
     currentIndex += 1;
