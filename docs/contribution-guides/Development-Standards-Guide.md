@@ -392,7 +392,7 @@ class DeathUI : Monobehavior
     {
         if(gameObject.TryGetComponent<Health>(out var playerHealth) == false) 
         {
-            //Always leave warnings and errors whenever possible instead of silently not reporting unintended behaviors.
+            // Always leave warnings and errors whenever possible instead of silently not reporting unintended behaviors.
             Logger.LogWarning("[DeathUI/OnEnable] - No health found on this gameObject! DeathUI hasn't subscribed to any events when it got enabled!");
             return;
         }
@@ -418,7 +418,7 @@ _Note: Events can leak! Always remember to unsubscribe your events on `OnDisable
 
 [Interface](https://www.w3schools.com/cs/cs_interface.php) in C# is a blueprint of a class. It is like abstract class because all the methods which are declared inside the interface are abstract methods. It cannot have method body and cannot be instantiated. It is used to achieve multiple inheritance which can't be achieved by class.
 
-Interfaces also allow us to easily communicate features between objects and managers while keeping design/implamentation errors contained in predictable states while allowing us to easily expand, maintain and iterate upon them.
+Interfaces allow us to easily communicate features between objects and managers by keeping design/implamentation contained in predictable states and architecture while allowing us to easily expand, maintain and iterate upon them.
 
 _CodeMonkey has a great video on how to utilise interfaces for a modular workflow: [Modular Character System in Unity](https://youtu.be/mJRc9kLxFSk)_
 
@@ -429,7 +429,7 @@ So, use Polymorphism for data driven scenarios while keep systems and functional
 
 * Reduce duplicate code.
 
-If you've seen something being done more than twice in the project, write a common class or class extension that allows us to reduce the likelyhood of having to maintain duplicate code that all do the same thing.
+If you've seen something that has been done more than twice in the project, write a common class or class extension that allows us to reduce the likelyhood of having to maintain duplicate code that all do the same thing in multiple areas.
 
 ```cs
 // bad code.
@@ -462,8 +462,11 @@ public static class TransformExtensions
 ## 2. Performance gotchas!
 
 * Unity still uses Mono, which means we do not get the performance benefits of .NET 6 and 7. As a result, minimise the use of things like [LINQ](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/) unless you know what you're doing.
+
 * As a general rule of thumb, avoid doing any performance intensive tasks or calculations on the game server. Your code may only take up 0.5% of CPU time but when 100 systems do this, it becomes inefficent and a glaring issue that someone has to deal with in the future.
+
 * Avoid using the `UpdateManager` whenever possible and bind yourself to an event driven archticture/design for your code. Not only is it good for code quality; But it's also good for performance when your code is designed in a way that expects functions to be called every once and a while rather than every tick/frame.
+
 * `GetComponent<>`, `GetComponentInChildren()` and `TryGetComponent<>()` are largely inefficent and can be incredibly slow. Use `CommonComponents` whenever possible or cache references to components.
 ```cs
 //How to cache references.
@@ -474,6 +477,7 @@ void Awake()
     if(itemSprite == null) itemSprite = GetComponentInChildren<SpriteHandler>();
 }
 ```
+
 * [Unity Coroutines](https://docs.unity3d.com/Manual/Coroutines.html) are great for moving tasks that require things to happen over time from the `Update()` loop into an asynchronous workflow that allows you to spread, pause and kill tasks freely over multiple frames. However, do be aware that it's a double edged sword as `IEnumerator` does allocate memory whenever `StartCoroutine` invokes a coroutine and you can only invoke them from inside Monobehaviors. Use them wisely.
 
 _TLDR: Coroutines trades CPU performance for memory_
@@ -500,9 +504,13 @@ foreach(var item in LargeList)
 }
 ```
 * If you're creating a custom data type, use `struct` instead of objects (aka `class`). Structs allocate less memory and are a better choice when your data does not require to be changed overtime or require bundled functions that self manage that data.
+
 * Turn off raycast masks in UI whenever you're not using them! Not only does it prevent bugs where mouse inputs may appeared blocked for no reason; but they also tell Unity to not waste time updating UI elements when there are no mouse interactions made for that element.
+
 * Prioritize using `Vector3.Distance()` rather than raycasts whenever you do not require checking for physical properties in the game world, as functions like `Physics2D.SphereOverlap()` and `MatrixManager.Linecast()` are generally slow and allocate a lot of memory.
+
 * Always use `Stringbuilder` for String concatenation operations as it's much faster than manually editing the string variable directly.
+
 * `TryCatch` has a [very small performance hit](https://stackoverflow.com/questions/1308432/do-try-catch-blocks-hurt-performance-when-exceptions-are-not-thrown) on the game. But it's generally recommended that you avoid using `TryCatch` all together especially on any function that runs on the `UpdateManager` and even more-so if it's on the game server; but if you do need it and have a [good reason](https://learn.microsoft.com/en-us/dotnet/standard/exceptions/best-practices-for-exceptions) for its use case, always remember to **never** leave your catch methods empty and log your expectations.
 ```cs
 //bad TryCatch code.
