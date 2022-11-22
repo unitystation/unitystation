@@ -248,7 +248,7 @@ Unitystation is a giantic and ambitous project that holds a lot of content and s
 
 Unity has a great talk on how to do just that in this video: [How to adopt a modular code workflow for your team | Unite 2022](https://youtu.be/nk3gHIZZ5Rg)
 
-Below are good practices and explainations on what to do, so you can avoid having your code refactored/rewritten 5 months later and make the lives of other contributors much easier.
+Below are good practices and explainations on what to do, so you can avoid having your code refactored/reworked 5 months later and make the lives of other contributors much easier.
 
 ## 0. In-code documentation
 
