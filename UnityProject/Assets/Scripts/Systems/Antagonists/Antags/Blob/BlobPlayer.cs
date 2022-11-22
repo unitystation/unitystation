@@ -185,7 +185,7 @@ namespace Blob
 		/// <summary>
 		/// The start function of the script called from BlobStarter when player turns into blob, sets up core.
 		/// </summary>
-		public void BlobStart()
+		public void BlobStart(Mind mind)
 		{
 			playerSync = GetComponent<MovementSynchronisation>();
 			registerPlayer = GetComponent<RegisterPlayer>();
@@ -197,11 +197,11 @@ namespace Blob
 				return;
 			}
 
-			playerScript.mind.SetPossessingObject(playerScript.gameObject);
+			mind.SetPossessingObject(playerScript.gameObject);
 
 			overmindName = $"Overmind {Random.Range(1, 1001)}";
 
-			playerScript.mind.SetPermanentName(overmindName);
+			mind.SetPermanentName(overmindName);
 
 			var result = Spawn.ServerPrefab(blobCorePrefab, registerPlayer.WorldPositionServer, gameObject.transform.parent);
 

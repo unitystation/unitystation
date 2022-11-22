@@ -222,7 +222,7 @@ public class Mind : NetworkBehaviour
 		}
 		else if (PossessingObject != null)
 		{
-			Gaining.Add(PossessingObject.NetWorkIdentity());
+			Losing.Add(PossessingObject.NetWorkIdentity());
 		}
 
 		HandleOwnershipChangeMulti(Losing, Gaining);
