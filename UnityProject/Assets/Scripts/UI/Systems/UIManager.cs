@@ -85,6 +85,8 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	public RoundEndScoreScreen ScoreScreen;
 
+	public ExpLevelUI FirstTimePlayerExpierenceScreen;
+
 	public static bool PreventChatInput
 	{
 		get { return uiManager.preventChatInput; }
