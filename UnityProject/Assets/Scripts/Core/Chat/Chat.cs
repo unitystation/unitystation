@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using Tilemaps.Behaviours.Meta;
 using AdminTools;
+using Communications;
 using DiscordWebhook;
 using DatabaseAPI;
 using Systems.Communications;
@@ -55,30 +56,36 @@ public partial class Chat : MonoBehaviour
 				continue;
 			}
 
+			chatEvent.channels = channel;
+			ChatRelay.Instance.PropagateChatToClients(chatEvent);
+			discordMessageBuilder.Append($"[{channel}] ");
+
 			// if we have a channel that requires transmission, find an emitter and send it via a signal.
 			if (Channels.RadioChannels.HasFlag(channel))
 			{
+				chatEvent.channels = channel;
+
 				var radioMessageData = new CommsServer.RadioMessageData
 				{
 					ChatEvent = chatEvent,
 				};
-				chatEvent.channels = channel;
 
-				if (chatEvent.originator.TryGetComponent<PlayerScript>(out var playerScript) == false) continue;
-				//There are some cases where the player might not have a dynamic item storage (like the AI)
-				if (playerScript.DynamicItemStorage == null)
+				//If player then check for radios and stuff
+				if (chatEvent.originator.TryGetComponent<PlayerScript>(out var playerScript))
 				{
-					NoDynamicInventoryChatInfulencerSearch(playerScript, chatEvent);
-					continue;
-				}
-				//for normal players, just grab the headset that's on their dynamic item storage.
-				DynamicInventoryRadioSignal(playerScript, radioMessageData);
-				continue;
-			}
+					//There are some cases where the player might not have a dynamic item storage (like the AI)
+					if (playerScript.DynamicItemStorage == null)
+					{
+						NoDynamicInventoryChatInfluencerSearch(playerScript, chatEvent);
+						continue;
+					}
 
-			chatEvent.channels = channel;
-			ChatRelay.Instance.PropagateChatToClients(chatEvent);
-			discordMessageBuilder.Append($"[{channel}] ");
+					//for normal players, just grab the headset that's on their dynamic item storage.
+					DynamicInventoryRadioSignal(playerScript, radioMessageData);
+				}
+
+				//Otherwise we'll just let the chat through
+			}
 		}
 
 		discordMessageBuilder.Append($"{(chatEvent.language != null ? $"[{chatEvent.language.LanguageName}]" : "")}\n```css\n{chatEvent.speaker}: {chatEvent.message}\n```\n");
@@ -88,7 +95,7 @@ public partial class Chat : MonoBehaviour
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAllChatURL, discordMessage, "");
 	}
 
-	private static void NoDynamicInventoryChatInfulencerSearch(PlayerScript playerScript, ChatEvent chatEvent)
+	private static void NoDynamicInventoryChatInfluencerSearch(PlayerScript playerScript, ChatEvent chatEvent)
 	{
 		Physics2D.OverlapCircleNonAlloc(playerScript.PlayerChatLocation.AssumedWorldPosServer(), searchRadiusForSphereResult, nonAllocPhysicsSphereResult);
 		foreach (var item in nonAllocPhysicsSphereResult)
