@@ -62,6 +62,7 @@ namespace AdminTools
 		//Server Settings
 		public int playerLimit;
 		public int maxFrameRate;
+		public string serverPassword;
 	}
 
 	[Serializable]

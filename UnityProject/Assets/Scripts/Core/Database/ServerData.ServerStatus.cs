@@ -285,6 +285,7 @@ namespace DatabaseAPI
 		//Such as Lobby music
 		public List<string> LobbyAddressableCatalogues;
 
+		//The password to join the server if set
 		public string ConnectionPassword;
 	}
 

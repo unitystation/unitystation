@@ -67,7 +67,6 @@ namespace Core.Networking
 
 		private readonly Dictionary<string, (DateTime, DateTime)> connectionCooldowns = new();
 		private readonly Dictionary<string, DateTime> connectionPasswordRequestTime = new();
-		private readonly HashSet<string> blockedConnection = new();
 
 		private const float MinCooldown = 1f;
 

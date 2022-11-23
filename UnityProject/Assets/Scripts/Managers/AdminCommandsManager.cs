@@ -15,6 +15,7 @@ using AddressableReferences;
 using AdminTools;
 using Messages.Server.SoundMessages;
 using Audio.Containers;
+using DatabaseAPI;
 using Doors;
 using Doors.Modules;
 using Objects;
@@ -126,6 +127,16 @@ namespace AdminCommands
 			LogAdminAction($"{player.Username}: Set MaxServerFrameRate to {newLimit} from {currentLimit}");
 
 			Application.targetFrameRate = newLimit;
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdChangeServerPassword(string newPassword, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var player) == false) return;
+
+			LogAdminAction($"{player.Username}: Set the Server Password to {newPassword} from {ServerData.ServerConfig.ConnectionPassword}");
+
+			ServerData.ServerConfig.ConnectionPassword = newPassword;
 		}
 
 		#endregion
