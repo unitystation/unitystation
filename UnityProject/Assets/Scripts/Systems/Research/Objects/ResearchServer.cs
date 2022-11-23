@@ -75,6 +75,8 @@ namespace Systems.Research.Objects
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
+			ExplosiveBounties.Clear();
+
 			for(int i = 0; i < bountiesOnStart; i++)
 			{
 				AddRandomExplosiveBounty();
@@ -84,7 +86,6 @@ namespace Systems.Research.Objects
 			UpdateAvailableDesigns();
 
 			TechWebUpdateEvent?.Invoke(1, AvailableDesigns);
-
 		}
 
 		//TODO

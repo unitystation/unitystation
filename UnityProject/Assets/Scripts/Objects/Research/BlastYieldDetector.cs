@@ -58,14 +58,18 @@ namespace Systems.Research.Objects
 			spriteHandler.ChangeSprite((int)newState);
 		}
 
-		private void Awake()
+		private void Start()
 		{
 			registerObject = GetComponent<RegisterObject>();
 			coneDirection = GetComponent<Rotatable>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 
-			ExplosiveBase.ExplosionEvent.AddListener(DetectBlast);
-			BlastYieldData = new SyncList<float>();
+			if (CustomNetworkManager.IsServer)
+			{
+				ExplosiveBase.ExplosionEvent.AddListener(DetectBlast);
+				BlastYieldData.Clear();
+			}
+
 			AffirmState();
 		}
 

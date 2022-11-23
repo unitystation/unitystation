@@ -79,8 +79,11 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialDescription
-      value: A small metal casing able to be filled with reagent containers to be
+      value: 'A small metal casing able to be filled with reagent containers to be
         mixed once triggered.
+
+        Fill the casing with two beakers and then
+        use a screwdriver to secure the casing.'
       objectReference: {fileID: 0}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -175,8 +178,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   spriteHandler: {fileID: 7310933843577879494}
-  smokeReaction: {fileID: 11400000, guid: 04399c3748996e8ba924932f727d284a, type: 2}
-  foamReaction: {fileID: 11400000, guid: 8dd5e332e5f14ed888b13ce2b4d313ba, type: 2}
   unstableFuse: 0
   fuseLength: 5
   armbomb:

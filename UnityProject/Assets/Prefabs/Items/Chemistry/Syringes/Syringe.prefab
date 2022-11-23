@@ -285,9 +285,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LocalContainer: {fileID: 145581183726909013}
-  SpriteHandler: {fileID: 0}
+  SpriteHandler: {fileID: 5073623463249184122}
   SicknessesInSyringe: []
   singleUse: 0
   ChangesSprite: 1
   SpiteFullIndex: 0
   SpiteEmptyIndex: 1
+--- !u!114 &5073623463249184122 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4128362409855863911, guid: f866b44bcdd7d734885f7c49999d85c9,
+    type: 3}
+  m_PrefabInstance: {fileID: 9161379464675248413}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
