@@ -146,6 +146,7 @@ public class RegisterObject : RegisterTile
 
 	public void OnHoverStart()
 	{
+		UIManager.SetHoverToolTip = gameObject;
 		if (GetComponent<Attributes>())
 		{
 			return;
@@ -165,6 +166,7 @@ public class RegisterObject : RegisterTile
 	public void OnHoverEnd()
 	{
 		UIManager.SetToolTip = "";
+		UIManager.SetHoverToolTip = null;
 	}
 
 	#endregion

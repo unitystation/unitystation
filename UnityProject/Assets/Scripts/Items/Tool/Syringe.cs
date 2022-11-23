@@ -27,12 +27,12 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	public void Awake()
 	{
-		if (LocalContainer != null)
+		if (LocalContainer == null)
 		{
 			LocalContainer = this.GetComponent<ReagentContainer>();
 		}
 
-		if (SpriteHandler != null)
+		if (SpriteHandler == null)
 		{
 			SpriteHandler = this.GetComponentInChildren<SpriteHandler>();
 		}

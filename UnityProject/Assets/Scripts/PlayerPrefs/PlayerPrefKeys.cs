@@ -175,7 +175,4 @@
 	/// 1 = Fully present at all times
 	/// </summary>
 	public static readonly string ChatBackgroundMinimumAlpha = "ChatBackgroundMinimumAlpha";
-
-	public static readonly string EnableClassicHoverTooltip = "EnableClassicHoverTooltip";
-
 }

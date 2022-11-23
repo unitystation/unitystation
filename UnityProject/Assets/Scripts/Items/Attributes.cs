@@ -203,6 +203,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 
 		UIManager.SetToolTip =
 			displayName.First().ToString().ToUpper() + displayName.Substring(1);
+		UIManager.SetHoverToolTip = gameObject;
 	}
 
 	public void OnHoverEnd()
@@ -210,6 +211,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 		Highlight.DeHighlight();
 
 		UIManager.SetToolTip = string.Empty;
+		UIManager.SetHoverToolTip = null;
 	}
 
 	// Sends examine event to all monobehaviors on gameobject - keep for now - TODO: integrate w shift examine

@@ -199,7 +199,7 @@ namespace Chemistry.Components
 
 		private HashSet<Reaction> possibleReactions = new HashSet<Reaction>();
 		//Warning main thread only for now
-		public void ReagentsChanged()
+		public void ReagentsChanged(bool applyChange = true)
 		{
 			if (ReactionSet != null)
 			{
@@ -222,7 +222,7 @@ namespace Chemistry.Components
 					}
 				}
 
-				ReactionSet.Apply(this, CurrentReagentMix, possibleReactions);
+				if(applyChange == true) ReactionSet.Apply(this, CurrentReagentMix, possibleReactions);
 				//ReactionSet.Apply(this, CurrentReagentMix,AdditionalReactions);
 			}
 		}
@@ -252,7 +252,7 @@ namespace Chemistry.Components
 		/// Add reagent mix to container. May cause reaction inside container.
 		/// Use MoveReagentsTo to transfer reagents from one container to another
 		/// </summary>
-		public TransferResult Add(ReagentMix addition)
+		public TransferResult Add(ReagentMix addition, bool updateReactions = true)
 		{
 			// check whitelist reagents
 			if (ReagentWhitelistOn)
@@ -299,7 +299,8 @@ namespace Chemistry.Components
 
 			// add addition to reagent mix
 			CurrentReagentMix.Add(addition);
-			ReagentsChanged();
+
+			ReagentsChanged(updateReactions);
 
 			// get mix total after all reactions,
 			var afterReactionTotal = CurrentReagentMix.Total;
@@ -312,8 +313,10 @@ namespace Chemistry.Components
 				message = $"Content starts overflowing out of {FancyContainerName}!";
 			}
 
-			OnReagentMixChanged?.Invoke();
-			ReagentsChanged();
+			ReagentsChanged(updateReactions);
+
+			if (updateReactions == true) OnReagentMixChanged?.Invoke();
+				
 			return new TransferResult { Success = true, TransferAmount = transferAmount, Message = message };
 		}
 
@@ -446,8 +449,12 @@ namespace Chemistry.Components
 		/// </summary>
 		public void Spill(Vector3Int worldPos, float amount)
 		{
-			var spilledReagents = TakeReagents(amount);
-			MatrixManager.ReagentReact(spilledReagents, worldPos);
+			if (amount > ReagentMixTotal) SpillAll(worldPos);
+			else
+			{
+				var spilledReagents = TakeReagents(amount);
+				MatrixManager.ReagentReact(spilledReagents, worldPos);
+			}
 		}
 
 		private void SpillAll(Vector3Int worldPos, bool thrown = false)

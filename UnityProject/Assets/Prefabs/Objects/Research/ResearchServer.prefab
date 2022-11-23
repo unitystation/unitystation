@@ -158,14 +158,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  researchPointsTrickl: 25
+  researchPointsTrickle: 25
   TrickleTime: 60
   AvailableDesigns: []
+  explosiveBountyList: {fileID: 11400000, guid: fe0ad0f017efea543816cacfac4670f9,
+    type: 2}
+  bountiesOnStart: 10
+  ExplosiveBounties: []
   conType: 11
-  easyBlastYieldDetectorTarget: 0
-  hardBlastYieldDetectorTarget: 0
-  yieldTargetRangeMinimum: 1000
-  yieldTargetRangeMaximum: 19000
 --- !u!114 &9065833264468658804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,13 +182,21 @@ MonoBehaviour:
     type: 2}
   itemStorageCapacity: {fileID: 11400000, guid: 411b6b7a74c524a91b9a38a0c692761b,
     type: 2}
-  itemStoragePopulator: {fileID: 0}
+  itemStoragePopulator: {fileID: 11400000, guid: 0a613ea8f3cc89b4c88ddb62d0483c59,
+    type: 2}
   forceSpawnContents: 1
   dropItemsOnDespawn: 1
-  UesAddlistPopulater: 1
+  UesAddlistPopulater: 0
   Populater:
-    SlotContents: []
-    DeprecatedContents:
-    - {fileID: 577098253553543881, guid: 3a892d56aceb2d24d8c917409cce08c5, type: 3}
+    SlotContents:
+    - IndexSlot: 0
+      IfOccupiedFindEmptyIndexSlot: 0
+      UesIndex: 1
+      NamedSlot: 2048
+      Prefab: {fileID: 577098253553543881, guid: 3a892d56aceb2d24d8c917409cce08c5,
+        type: 3}
+      ReplacementStrategy: 0
+      namedSlotPopulatorEntrys: []
+    DeprecatedContents: []
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}

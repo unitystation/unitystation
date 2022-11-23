@@ -21,6 +21,7 @@ using Systems.CraftingV2.GUI;
 using UI.Systems.AdminTools.DevTools;
 using UI.Systems.EndRound;
 using UI.Systems.ServerInfoPanel;
+using UI.Systems.Tooltips.HoverTooltips;
 
 public class UIManager : MonoBehaviour, IInitialise
 {
@@ -212,15 +213,27 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	private float pingUpdate;
 
-	[SerializeField] private TooltipHoverManager tooltipHoverManager;
-	public TooltipHoverManager TooltipHoverManager => tooltipHoverManager;
+	[SerializeField] private PanelTooltipManager panelTooltipManager;
+	public PanelTooltipManager PanelTooltipManager => panelTooltipManager;
+
+	[SerializeField] private HoverTooltipUI hoverTooltipUI;
+	public HoverTooltipUI HoverTooltipUI => hoverTooltipUI;
 
 	public static string SetToolTip
 	{
 		set
 		{
-			if(Instance.tooltipHoverManager == null) return;
-			Instance.tooltipHoverManager.UpdateActiveTooltip(value);
+			if(Instance.PanelTooltipManager == null) return;
+			Instance.PanelTooltipManager.UpdateActiveTooltip(value);
+		}
+	}
+
+	public static GameObject SetHoverToolTip
+	{
+		set
+		{
+			if(Instance.HoverTooltipUI == null) return;
+			Instance.hoverTooltipUI.SetupTooltip(value);
 		}
 	}
 

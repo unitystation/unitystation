@@ -18,6 +18,7 @@ using Player;
 using Newtonsoft.Json;
 using ScriptableObjects.RP;
 using Systems.Score;
+using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
@@ -31,7 +32,7 @@ namespace HealthV2
 	[RequireComponent(typeof(HealthStateController))]
 	[RequireComponent(typeof(MobSickness))]
 	public abstract class LivingHealthMasterBase : NetworkBehaviour, IFireExposable, IExaminable, IFullyHealable, IGib,
-		IAreaReactionBase, IRightClickable, IServerSpawn
+		IAreaReactionBase, IRightClickable, IServerSpawn, IHoverTooltip
 	{
 		/// <summary>
 		/// Server side, each mob has a different one and never it never changes
@@ -1860,6 +1861,55 @@ namespace HealthV2
 			if (abuser.TryGetComponent<PlayerScript>(out var script) == false) return;
 			if (script.gameObject == abuser) return; //Don't add to the score if the clown hits themselves.
 			ScoreMachine.AddToScoreInt(-5, RoundEndScoreBuilder.COMMON_SCORE_CLOWNABUSE);
+		}
+
+		public string HoverTip()
+		{
+			StringBuilder finalText = new StringBuilder();
+			if (IsSoftCrit || IsCrit || IsDead)
+			{
+				var state = IsDead ? "They appear to be dead!" : "They appear to be in a critical condition!";
+				finalText.AppendLine(state);
+			}
+			if (FireStacks > 0)
+			{
+				finalText.AppendLine("They are on fire!");
+			}
+
+			if (BleedStacks > 0)
+			{
+				finalText.AppendLine("They are bleeding!");
+			}
+			return finalText.ToString();
+		}
+
+		public string CustomTitle()
+		{
+			return IsDead == false ? null : $"{gameObject.ExpensiveName()} [dead]";
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			//TODO: add icon indicators for being lit on fire and being dead.
+			return null;
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			if (IsDead == false && IsCrit == false) return null;
+			TextColor CPRText = new TextColor
+			{
+				Text = "Left-Click (Help Intent): Perform CPR.",
+				Color = IntentColors.Help
+			};
+			List<TextColor> interactions = new List<TextColor>();
+			interactions.Add(CPRText);
+			return interactions;
 		}
 	}
 

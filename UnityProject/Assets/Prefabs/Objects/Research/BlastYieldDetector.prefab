@@ -93,7 +93,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300004, guid: 58289b86082a9b645b7743be4044b5d5,
+      objectReference: {fileID: 21300000, guid: 58289b86082a9b645b7743be4044b5d5,
         type: 3}
     - target: {fileID: 2288693558633438983, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
@@ -184,6 +184,16 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 338e1ca6026072d418f891940ed7f245
       objectReference: {fileID: 0}
+    - target: {fileID: 8648832905409176608, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: initialName
+      value: blast yield detector
+      objectReference: {fileID: 0}
+    - target: {fileID: 8648832905409176608, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: initialDescription
+      value: Detects explosions and their composition in the direction it is facing.
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84ac8abc1d963be42906a209a1b97350, type: 3}
 --- !u!1 &4129947782088424588 stripped
@@ -209,8 +219,18 @@ MonoBehaviour:
   researchServer: {fileID: 0}
   PoweredState: 0
   range: 150
-  maxPointsValue: 140
-  easyPointsValue: 70
+  spriteHandler: {fileID: 8863213257465878102}
+  explosiveReactions:
+  - {fileID: 11400000, guid: e27b2d9bd0fa6684fa4bd5ab5e3d42df, type: 2}
+  - {fileID: 11400000, guid: e1752975795dadf65b9dc2178aaaf08e, type: 2}
+  - {fileID: 11400000, guid: dd31350f0e9e4936b9d07191592f8338, type: 2}
+  - {fileID: 11400000, guid: 43016f25052955ad19426ab26c217fe1, type: 2}
+  - {fileID: 11400000, guid: 81e8762615d01baaeaabee4cc7ac6b42, type: 2}
+  - {fileID: 11400000, guid: 1a6bf54c03912d41da0dbe47b5104c3c, type: 2}
+  - {fileID: 11400000, guid: dbb670cffccbf9acea4a14732900493d, type: 2}
+  - {fileID: 11400000, guid: ab791cd576036845ab0b46c0000788d4, type: 2}
+  - {fileID: 11400000, guid: 97e536c9a00e233babfa237b9aa8fdb6, type: 2}
+  - {fileID: 11400000, guid: 752f41378e25989e4a2371164b55e9d3, type: 2}
 --- !u!114 &3033139694172101358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,3 +268,15 @@ MonoBehaviour:
   IgnoreServerUpdatesIfLocalPlayer: 0
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
+--- !u!114 &8863213257465878102 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6842057026420969930, guid: 84ac8abc1d963be42906a209a1b97350,
+    type: 3}
+  m_PrefabInstance: {fileID: 2734718389971896220}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

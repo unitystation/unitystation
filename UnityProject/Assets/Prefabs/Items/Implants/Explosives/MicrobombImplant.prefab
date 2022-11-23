@@ -9,8 +9,28 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -1335230176832777347, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
         type: 3}
+      propertyPath: EMPResistance
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -1335230176832777347, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
       propertyPath: TriggerOnDeath
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1335230176832777347, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: isEMPVunerable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1335230176832777347, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: <TriggerOnDeath>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1335230176832777347, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: <OverrideDeathCountDown>k__BackingField
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2925014835611581738, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
         type: 3}

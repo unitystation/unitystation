@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Core.Utils;
 using Detective;
@@ -16,9 +18,11 @@ using Player.Language;
 using ScriptableObjects;
 using Systems.StatusesAndEffects;
 using Tiles;
+using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Serialization;
 
-public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActionGUI, IPlayerPossessable
+
+public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActionGUI, IPlayerPossessable, IHoverTooltip
 {
 	public GameObject GameObject => gameObject;
 	public IPlayerPossessable Possessing { get; set; }
@@ -560,11 +564,14 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	{
 		if (gameObject.IsAtHiddenPos()) return;
 		UIManager.SetToolTip = visibleName;
+		UIManager.SetHoverToolTip = gameObject;
+
 	}
 
 	public void OnMouseExit()
 	{
 		UIManager.SetToolTip = "";
+		UIManager.SetHoverToolTip = null;
 	}
 
 	private System.Random RNG = new System.Random();
@@ -695,6 +702,56 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	{
 		canVentCrawl = !canVentCrawl;
 	}
+
+
+	#region TOOLTIPDATA
+
+	public string HoverTip()
+	{
+		StringBuilder finalText = new StringBuilder();
+		if (characterSettings == null) return finalText.ToString();
+		finalText.Append($"A {characterSettings.Species}.");
+		finalText.Append($" {characterSettings.TheyPronoun(this)}/{characterSettings.TheirPronoun(this)}.");
+		return finalText.ToString();
+	}
+
+	public string CustomTitle()
+	{
+		return visibleName;
+	}
+
+	public Sprite CustomIcon()
+	{
+		// (Max): I tried making the custom icon use the player's face but there is no way to properly grab their face sprites
+		// Because the character customisation stuff does not have an methods to grab this data easily and when you do eventually grab it
+		// by looping through all sprites in PlayerSprties; you just get an empty sprite. Also all bodyPart sprites don't have their bodyPartType enum
+		// set for some odd reason so you can't just do an enum check and have to use regex for name detection (gameObject.name).
+		// Do you see why I keep begging you, Bod, to look at this? Because character sprites are a mess to work with
+		// and trying to create anything with it is near impossible and you're the only one who actually knows how to work with this.
+		return null;
+	}
+
+	public List<Sprite> IconIndicators()
+	{
+		//TODO: add indicators for players.
+		return null;
+	}
+
+	public List<TextColor> InteractionsStrings()
+	{
+		TextColor inspectText = new TextColor
+		{
+			Text = "Shift + Left Click: Inspect",
+			Color = Color.white
+		};
+
+		List<TextColor> interactions = new List<TextColor>();
+		interactions.Add(inspectText);
+		return interactions;
+	}
+
+	#endregion
+
 }
 
 [Flags]

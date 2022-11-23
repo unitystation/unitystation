@@ -10,8 +10,12 @@ using Random = UnityEngine.Random;
 
 namespace Systems.Research.Objects
 {
-	public class ResearchServer : NetworkBehaviour, IMultitoolMasterable
+	public class ResearchServer : NetworkBehaviour, IMultitoolMasterable, IServerSpawn, IServerDespawn
 	{
+		public int RP => techweb?.researchPoints ?? 0;			
+
+		[Header("Base functionality"), Space(10)]
+
 		[SerializeField] private int researchPointsTrickle = 25;
 		[SerializeField] private int TrickleTime = 60; //seconds
 
@@ -29,16 +33,23 @@ namespace Systems.Research.Objects
 		/// </summary>
 		public Dictionary<string, int> PointTotalSourceList = new Dictionary<string, int>();
 
+		[Header("Ordnance"), Space(10)]
+
+		[SerializeField] private ExplosiveBountySO explosiveBountyList = null;
+		[SerializeField] private int bountiesOnStart = 10; //How many bounties will be generated on round start.
+
+		public SyncList<ExplosiveBounty> ExplosiveBounties { get; private set; } = new SyncList<ExplosiveBounty>();
+
 		private void Start()
 		{
 			diskStorage = GetComponent<ItemStorage>();
-			if (diskStorage == null || diskStorage.GetTopOccupiedIndexedSlot() == null)
+			if (diskStorage == null || diskStorage.GetIndexedItemSlot(0).Item == null)
 			{
 				Logger.LogError("Research server spawned without a disk to hold data!");
 				return;
 			}
 
-			if (diskStorage.GetTopOccupiedIndexedSlot().ItemObject.TryGetComponent<HardDriveBase>(out var disk))
+			if (diskStorage.GetIndexedItemSlot(0).Item.TryGetComponent<HardDriveBase>(out var disk))
 			{
 				var newTechwebFile = new TechwebFiles();
 				newTechwebFile.Techweb = techweb;
@@ -50,8 +61,6 @@ namespace Systems.Research.Objects
 				return;
 			}
 
-			StartCoroutine(TrickleResources());
-			UpdateAvailableDesigns();
 		}
 
 		private void OnDisable()
@@ -66,6 +75,16 @@ namespace Systems.Research.Objects
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
+			ExplosiveBounties.Clear();
+
+			for(int i = 0; i < bountiesOnStart; i++)
+			{
+				AddRandomExplosiveBounty();
+			}
+
+			StartCoroutine(TrickleResources());
+			UpdateAvailableDesigns();
+
 			TechWebUpdateEvent?.Invoke(1, AvailableDesigns);
 		}
 
@@ -199,39 +218,62 @@ namespace Systems.Research.Objects
 		#region Blast Yield Detector
 
 		/// <summary>
-		/// Target ExplosionStrength required to award easy point amount
+		/// Randomises values on a bounty if it is set to be randomised
 		/// </summary>
-		public int easyBlastYieldDetectorTarget = 0;
-		/// <summary>
-		/// Target ExplosionStrength required to award hard point amount, max amount
-		/// </summary>
-		public int hardBlastYieldDetectorTarget = 0;
-
-		/// <summary>
-		/// ExplosionBase ExplosionStrength threshold to be considered a significant enough
-		/// explosion to warrant measuring
-		/// </summary>
-		public int yieldTargetRangeMinimum;
-
-		/// <summary>
-		/// ExplosionBase ExplosionStrength limit close to the highest base static explosion of
-		/// obtainable ExplosionBase items, currently the syndicate macrobomb
-		/// </summary>
-		public int yieldTargetRangeMaximum;
-
-
-		/// <summary>
-		/// Sets yield targets to randomised values set between 1000 and 19000, modelled after values for
-		/// ExplosionBase ExplosionStrengths
-		/// </summary>
-		public void SetBlastYieldTargets()
+		private ExplosiveBounty RandomiseBountyTarget(ExplosiveBounty bounty)
 		{
-			if (hardBlastYieldDetectorTarget == 0 || easyBlastYieldDetectorTarget == 0)
+			if(bounty.RequiredYield.RandomiseRequirement == true)
 			{
-				hardBlastYieldDetectorTarget = Random.Range(yieldTargetRangeMinimum, yieldTargetRangeMaximum);
-				easyBlastYieldDetectorTarget = Random.Range(yieldTargetRangeMinimum, yieldTargetRangeMaximum);
+				bounty.RequiredYield.RequiredAmount = (int)Random.Range(bounty.RequiredYield.MinAmount, bounty.RequiredYield.MaxAmount);
 			}
+
+			foreach(ReagentBountyEntry reagentEntry in bounty.RequiredReagents)
+			{
+				if (reagentEntry.RandomiseRequirement == true)
+				{
+					reagentEntry.RequiredAmount = (int)Random.Range(reagentEntry.MinAmount, reagentEntry.MaxAmount);
+				}
+			}
+
+			foreach(ReactionBountyEntry reactionEntry in bounty.RequiredReactions)
+			{
+				if (reactionEntry.RandomiseRequirement == true)
+				{
+					reactionEntry.RequiredAmount = (int)Random.Range(reactionEntry.MinAmount, reactionEntry.MaxAmount);
+				}
+			}
+
+			return bounty;		
 		}
+
+		/// <summary>
+		/// The RP awarded for completing an explosive bounty.
+		/// </summary>
+		private const int BOUNTY_AWARD = 15;
+
+		/// <summary>
+		/// Marks an explosive bounty as complete and awards RP for its completion.
+		/// </summary>
+		/// <param name="bountyToComplete">The bounty to be marked as completed</param>
+		public void CompleteBounty(ExplosiveBounty bountyToComplete)
+		{
+			AddResearchPoints(BOUNTY_AWARD);
+			Chat.AddLocalMsgToChat($"Bounty completed, {BOUNTY_AWARD} points gained. Current RP: {techweb?.researchPoints}", gameObject);
+			ExplosiveBounties.Remove(bountyToComplete);
+		}
+
+		/// <summary>
+		/// Adds a random bounty to this servers bounties
+		/// </summary>
+		public void AddRandomExplosiveBounty()
+		{
+			var newBounty = Instantiate(explosiveBountyList.PossibleBounties.PickRandom()); //Instantiates the SO, this is so when we edit the values of one bounty for RNG, it doesnt share amongst all bounties of same type.
+
+			newBounty = RandomiseBountyTarget(newBounty);
+
+			ExplosiveBounties.Add(newBounty);
+		}
+
 		#endregion
 	}
 }
