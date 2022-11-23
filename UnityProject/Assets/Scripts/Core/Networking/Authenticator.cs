@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using UnityEngine;
 using Mirror;
 using DatabaseAPI;
+using GameConfig;
 using Lobby;
 
 namespace Core.Networking
@@ -36,6 +38,7 @@ namespace Core.Networking
 			public string AccountId;
 			public string Username;
 			public string Token;
+			public string Password;
 		}
 
 		public struct AuthResponseMessage : NetworkMessage
@@ -54,6 +57,8 @@ namespace Core.Networking
 			InvalidAccountDetails,
 			AccountValidationError,
 			AccountValidationFailed,
+			RequestPassword,
+			IncorrectPassword
 		}
 
 		#endregion
@@ -61,7 +66,15 @@ namespace Core.Networking
 		#region Server
 
 		private readonly Dictionary<string, (DateTime, DateTime)> connectionCooldowns = new();
-		private readonly float minCooldown = 1f;
+		private readonly Dictionary<string, DateTime> connectionPasswordRequestTime = new();
+		private readonly HashSet<string> blockedConnection = new();
+
+		private const float MinCooldown = 1f;
+
+		//30 seconds to give correct password or disconnected
+		private const float PasswordRequestTime = 30f;
+
+		private const string PasswordField = "NA";
 
 		public override void OnStartServer()
 		{
@@ -108,7 +121,8 @@ namespace Core.Networking
 			}
 
 			if (ValidatePlayerClient(conn, msg.ClientVersion) == false) return;
-			if (await ValidatePlayerAccount(conn, msg.AccountId, msg.Token) == false) return;
+			if (ValidatePassword(conn, msg) == false) return;
+			if (await ValidatePlayerAccount(conn, msg) == false) return;
 
 			// Accept the successful authentication
 			conn.authenticationData = new AuthData
@@ -139,12 +153,12 @@ namespace Core.Networking
 			var logSecondsElapsed = (DateTime.Now - connectionCooldowns[conn.address].Item2).TotalSeconds;
 			connectionCooldowns[conn.address] = (DateTime.Now, DateTime.MinValue);
 
-			if (connSecondsElapsed < minCooldown)
+			if (connSecondsElapsed < MinCooldown)
 			{
 				// Cooldown on logging so we don't spam our logs.
-				if (logSecondsElapsed > minCooldown)
+				if (logSecondsElapsed > MinCooldown)
 				{
-					Logger.Log($"Connection spam alert. Address {conn.address} is trying to spam connections.",
+					Logger.LogError($"Connection spam alert. Address {conn.address} is trying to spam connections.",
 							Category.Connections);
 				}
 
@@ -152,6 +166,41 @@ namespace Core.Networking
 			}
 
 			return false;
+		}
+
+		private void Update()
+		{
+			PasswordTimeCheck();
+		}
+
+		private void PasswordTimeCheck()
+		{
+			if(connectionPasswordRequestTime.Count == 0) return;
+
+			//Have to do ToList thx dictionaries
+			foreach (var connectionTimer in connectionPasswordRequestTime.ToList())
+			{
+				var connSecondsElapsed = (DateTime.Now - connectionTimer.Value).TotalSeconds;
+
+				if (connSecondsElapsed < PasswordRequestTime) continue;
+
+				Logger.LogError(
+					$"A user ran out of time while sending a password. IP: '{connectionTimer.Key}'.",
+					Category.Connections);
+
+				//Try to find the connection if they are still connected
+				var connectionFound =
+					NetworkServer.connections.FirstOrDefault(
+						x => x.Value.address == connectionTimer.Key);
+
+				if (connectionFound.Equals(default(KeyValuePair<int,NetworkConnectionToClient>)) == false)
+				{
+					//If still connected then disconnect
+					DisconnectClient(connectionFound.Value, ResponseCode.IncorrectPassword, "Invalid Password!");
+				}
+
+				connectionPasswordRequestTime.Remove(connectionTimer.Key);
+			}
 		}
 
 		private bool ValidatePlayerClient(NetworkConnection conn, int clientVersion)
@@ -169,15 +218,18 @@ namespace Core.Networking
 			return true;
 		}
 
-		private async Task<bool> ValidatePlayerAccount(NetworkConnection conn, string accountId, string accountToken)
+		private async Task<bool> ValidatePlayerAccount(NetworkConnection conn, AuthRequestMessage msg)
 		{
 			// Allow local offline testing
 			if (GameData.Instance.OfflineMode) return true;
 
+			var accountId = msg.AccountId;
+			var accountToken = msg.Token;
+
 			// Must have account ID and token
 			if (string.IsNullOrEmpty(accountId) || string.IsNullOrEmpty(accountToken))
 			{
-				Logger.Log(
+				Logger.LogError(
 						"A user tried to connect with an invalid account ID and/or token."
 						+ $" Account ID: '{accountId}'. IP: '{conn.address}'.",
 						Category.Connections);
@@ -204,8 +256,8 @@ namespace Core.Networking
 
 			if (response.errorCode == 1)
 			{
-				Logger.Log("A user tried to authenticate with a bad token. Possible spoof attempt."
-						+ $" Account ID: '{accountId}'. IP: '{conn.address}'.",
+				Logger.LogError("A user tried to authenticate with a bad token. Possible spoof attempt."
+				                + $" Account ID: '{accountId}'. IP: '{conn.address}'.",
 						Category.Connections);
 				DisconnectClient(conn, ResponseCode.AccountValidationFailed,
 						"Account token validation failed. Try restarting the game and relogging into your account.");
@@ -216,8 +268,52 @@ namespace Core.Networking
 			return true;
 		}
 
+		private bool ValidatePassword(NetworkConnection conn, AuthRequestMessage msg)
+		{
+			var accountId = msg.AccountId;
+
+			//Check for password if needed to join
+			if (string.IsNullOrEmpty(ServerData.ServerConfig.ConnectionPassword)) return true;
+
+			//Client has sent password deny if wrong
+			if (msg.Password != PasswordField)
+			{
+				//If password correct let through
+				if (msg.Password == ServerData.ServerConfig.ConnectionPassword)
+				{
+					//Remove from password timer
+					connectionPasswordRequestTime.Remove(conn.address);
+					return true;
+				}
+
+				Logger.LogError(
+					"A user tried to connect with an invalid password."
+					+ $" Account ID: '{accountId}'. IP: '{conn.address}'.",
+					Category.Connections);
+
+				DisconnectClient(conn, ResponseCode.IncorrectPassword, "Invalid Password!");
+
+				return false;
+			}
+
+			//Request client to send password
+			Logger.Log($"Requesting password from user. Account ID: '{accountId}'. IP: '{conn.address}.",
+				Category.Connections);
+
+			conn.Send(new AuthResponseMessage
+			{
+				Code = ResponseCode.RequestPassword,
+				Message = "Password needed to connect!",
+			});
+
+			connectionPasswordRequestTime.Add(conn.address, DateTime.Now);
+
+			return false;
+		}
+
 		private void DisconnectClient(NetworkConnection connection, ResponseCode reason, string message = "")
 				=> StartCoroutine(_DisconnectClient(connection, reason, message));
+
 		private IEnumerator _DisconnectClient(NetworkConnection conn, ResponseCode reason, string message = "")
 		{
 			var msg = new AuthResponseMessage
@@ -260,6 +356,7 @@ namespace Core.Networking
 				AccountId = ServerData.UserID,
 				Username = ServerData.Auth?.CurrentUser?.DisplayName,
 				Token = ServerData.IdToken,
+				Password = PasswordField
 			};
 
 			NetworkClient.Send(msg);
@@ -278,6 +375,12 @@ namespace Core.Networking
 				return;
 			}
 
+			if (msg.Code == ResponseCode.RequestPassword)
+			{
+				LobbyManager.Instance.LobbyPasswordGUI.SetActive(true);
+				return;
+			}
+
 			Logger.Log($"Disconnected from server. Reason: {msg.Code}.");
 
 			// LobbyManager.UI null check, perhaps it will be possible to join a server while not in the lobby scene.
@@ -287,6 +390,17 @@ namespace Core.Networking
 				{
 					IsError = true,
 					Heading = "Wrong Version",
+					Text = msg.Message,
+					LeftButtonLabel = "Back",
+					LeftButtonCallback = LobbyManager.UI.ShowJoinPanel,
+				});
+			}
+			else if (msg.Code == ResponseCode.IncorrectPassword && LobbyManager.UI != null)
+			{
+				LobbyManager.UI.ShowInfoPanel(new InfoPanelArgs
+				{
+					IsError = true,
+					Heading = "Incorrect Password",
 					Text = msg.Message,
 					LeftButtonLabel = "Back",
 					LeftButtonCallback = LobbyManager.UI.ShowJoinPanel,
@@ -313,6 +427,21 @@ namespace Core.Networking
 			}
 
 			return "";
+		}
+
+		public void ClientSendPassword(string password)
+		{
+			AuthRequestMessage msg = new()
+			{
+				ClientVersion = GameData.BuildNumber,
+				ClientId = GetPhysicalAddress(),
+				AccountId = ServerData.UserID,
+				Username = ServerData.Auth?.CurrentUser?.DisplayName,
+				Token = ServerData.IdToken,
+				Password = password
+			};
+
+			NetworkClient.Send(msg);
 		}
 
 		#endregion

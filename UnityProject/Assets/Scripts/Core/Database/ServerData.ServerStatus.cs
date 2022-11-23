@@ -40,7 +40,6 @@ namespace DatabaseAPI
 		private const string hubUpdate = hubRoot + "/statusupdate?data=";
 		private float updateWait = 0f;
 		private string publicIP;
-		private TelepathyTransport telepathyTransport;
 		private Ignorance ignoranceTransport;
 		//private BoosterTransport boosterTransport = null;
 
@@ -51,7 +50,6 @@ namespace DatabaseAPI
 
 			if (File.Exists(path))
 			{
-				telepathyTransport = FindObjectOfType<TelepathyTransport>();
 				ignoranceTransport = FindObjectOfType<Ignorance>();
 				config = JsonUtility.FromJson<ServerConfig>(File.ReadAllText(path));
 				Instance.StartCoroutine(Instance.SendServerStatus());
@@ -190,20 +188,10 @@ namespace DatabaseAPI
 		{
 			int port = (config.ServerPort != 0) ? config.ServerPort : 7777;
 
-			if (telepathyTransport != null)
-			{
-				return Convert.ToInt32(telepathyTransport.port);
-			}
-
 			if (ignoranceTransport != null)
 			{
 				return Convert.ToInt32(ignoranceTransport.port);
 			}
-
-			// if (boosterTransport!= null)
-			// {
-			// 	return Convert.ToInt32(boosterTransport.boosterPort);
-			// }
 
 			return port;
 		}
@@ -296,6 +284,8 @@ namespace DatabaseAPI
 		//Built in catalogue content
 		//Such as Lobby music
 		public List<string> LobbyAddressableCatalogues;
+
+		public string ConnectionPassword;
 	}
 
 	//Used to identify the build and fork of this client/server
