@@ -114,18 +114,19 @@ namespace Clothing
 			}
 		}
 
+		/// <summary>
+		/// Syncs the player body that this item is on.
+		/// </summary>
 		public void SyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn)
 		{
 			OnBodyID = CurrentlyOn;
 			Preimplemented.ImplementationSyncOnPlayer(PreviouslyOn, CurrentlyOn);
 		}
 
-		public void ApplyDefaultOrCurrentValues(bool def)
+		public void ApplyDefaultOrCurrentValues(bool Default)
 		{
-			// (Max): I have no idea what "def" or "Default" means because the person who wrote this code
-			// didn't bother to document their shit or give this value a proper name that's easy to understand,
-			// I'm not obligated to do that job for them especially after they left this script in such a horrible state.
-			ApplyEffects(def);
+			// Inverse of default for correct state
+			ApplyEffects(!Default);
 		}
 
 		/// <summary>
