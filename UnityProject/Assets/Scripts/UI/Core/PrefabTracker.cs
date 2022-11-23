@@ -28,6 +28,7 @@ namespace Util
 		}
 
 		[SerializeField] private string foreverID;
+		[field:SerializeField] public string AlternativePrefabName { get; set; }
 
 		public void ReassignID() //Assuming it's a prefab Variant
 		{

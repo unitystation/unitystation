@@ -166,6 +166,11 @@ PrefabInstance:
       propertyPath: foreverID
       value: da85b7a590e7c8444af73629fcb5dd22
       objectReference: {fileID: 0}
+    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: <AlternativePrefabName>k__BackingField
+      value: gun
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &8150840225578731674 stripped
@@ -215,6 +220,22 @@ MonoBehaviour:
   casingPrefabOverride: {fileID: 0}
   allowMagazineRemoval: 1
   ammoType: 0
+  loadMagSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  unloadMagSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   pinPrefab: {fileID: 6004521592186936485, guid: 0c0328cbf94ffe648a0903cfc375ab91,
     type: 3}
   suppressorPrefab: {fileID: 0}

@@ -45,7 +45,7 @@ public class SpawnerSearch
 			documents.Add(DevSpawnerDocument.ForPrefab(prefab));
 		}
 
-		return new SpawnerSearch(documents.OrderBy(doc => doc.SearchableName).ToArray());
+		return new SpawnerSearch(documents.OrderBy(doc => doc.SearchableName[0]).ToArray());
 	}
 
 	/// <summary>
@@ -56,8 +56,13 @@ public class SpawnerSearch
 	public IEnumerable<DevSpawnerDocument> Search(string rawSearch)
 	{
 		string standardizedSearch = Standardize(rawSearch);
+		// Linq expression that handles grabbing multiple names from a prefab.
+		// it grabs all prefabs in documents then loops through all prefabs and grabs all searchable names.
+		// if the searchable name contains a substring that the user is searching it will return it.
+		var docs = (from doc in documents from prefabNames in doc.SearchableName
+			where prefabNames.Contains(standardizedSearch) select doc).ToList();
 
-		return documents.Where(doc => doc.SearchableName.Contains(standardizedSearch));
+		return docs;
 	}
 
 	/// <summary>
