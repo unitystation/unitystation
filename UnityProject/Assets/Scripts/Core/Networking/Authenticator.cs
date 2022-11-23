@@ -368,17 +368,17 @@ namespace Core.Networking
 
 		public void OnAuthResponse(AuthResponseMessage msg)
 		{
+			if (msg.Code == ResponseCode.RequestPassword)
+			{
+				LobbyManager.Instance.LobbyPasswordGUI.SetActive(true);
+				return;
+			}
+
 			LobbyManager.Instance.OrNull()?.LobbyPasswordGUI.SetActive(false);
 
 			if (msg.Code == ResponseCode.Success)
 			{
 				ClientAccept();
-				return;
-			}
-
-			if (msg.Code == ResponseCode.RequestPassword)
-			{
-				LobbyManager.Instance.LobbyPasswordGUI.SetActive(true);
 				return;
 			}
 
