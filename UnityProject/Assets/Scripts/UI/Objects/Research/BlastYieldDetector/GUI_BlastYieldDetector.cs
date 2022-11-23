@@ -12,14 +12,11 @@ namespace UI.Objects.Research
 {
 	public class GUI_BlastYieldDetector : NetTab
 	{
-		public BlastYieldDetector blastYieldDetector
+		private BlastYieldDetector blastYieldDetector
 		{
 			get
 			{
-				if (!_blastYieldDetector)
-				{
-					_blastYieldDetector = Provider.GetComponentInChildren<BlastYieldDetector>();
-				}
+				if (_blastYieldDetector == null) _blastYieldDetector = Provider.GetComponent<BlastYieldDetector>();
 
 				return _blastYieldDetector;
 			}
@@ -35,8 +32,6 @@ namespace UI.Objects.Research
 		public float rectOffset;
 
 		private BlastYieldDetector _blastYieldDetector;
-
-		private List<ExplosiveBounty> bountyList;
 
 		#region Serializefields
 
@@ -84,6 +79,7 @@ namespace UI.Objects.Research
 
 			UpdateDataDisplay();
 		}
+
 		#endregion
 
 		private void OnRecieveBlast(BlastData data)
@@ -105,26 +101,17 @@ namespace UI.Objects.Research
 
 		public void UpdateGui()
 		{
-			if (blastYieldDetector == null) return;
-
-			if(blastYieldDetector.researchServer == null)
-			{
-				bountyContainer.Clear();
-				bountyList.Clear();
-			}
-			else
-			{
-				pointsLabel.MasterSetValue(blastYieldDetector.researchServer.RP.ToString());
-			}
-
-			bountyList = blastYieldDetector.researchServer?.ExplosiveBounties.ToList(); //Clears current bounty list and updates to match current bounty list on research server.
-			UpdateBountyContainerToList(bountyList);
-		
+			if(blastYieldDetector.researchServer != null) pointsLabel.MasterSetValue(blastYieldDetector.researchServer.RP.ToString());
+			
+			UpdateBountyContainerToList();	
 		}
 
-		private void UpdateBountyContainerToList(List<ExplosiveBounty> bounties)
+		private void UpdateBountyContainerToList()
 		{
 			bountyContainer.Clear();
+
+			List<ExplosiveBounty> bounties = blastYieldDetector.researchServer?.ExplosiveBounties.ToList();
+
 			if (bounties == null) return;
 
 			bountyContainer.SetItems(bounties.Count);

@@ -21,8 +21,6 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 	private const int ARMED_SPRITE = 2;
 
 	private const int EMPTY_VARIANT = 0;
-	private const int ONE_SLOT_VARIANT = 1;
-	private const int TWO_SLOT_VARIANT = 2;
 
 	public ReagentContainer ReagentContainer1 =>
 		containerStorage.GetIndexedItemSlot(0)?.Item.OrNull()?.GetComponent<ReagentContainer>();
@@ -155,12 +153,6 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 		}
 	}
 
-	private void UpdateSprite(int sprite)
-	{
-		// Update sprite in game
-		spriteHandler?.ChangeSprite(sprite);
-	}
-
 	/// <summary>
 	/// This coroutines make sure that sprite in hands is animated
 	/// TODO: replace this with more general aproach for animated icons
@@ -227,7 +219,7 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 	{
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
 		if (interaction.TargetSlot.Item.OrNull()?.gameObject != gameObject) return false;
-		if ((ScrewedClosed || IsFullContainers) && interaction.UsedObject != null)
+		if (IsFullContainers && interaction.UsedObject != null)
 		{
 			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) == false) return false;
 			return true;
@@ -247,59 +239,67 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 
 	public virtual void ServerPerformInteraction(InventoryApply interaction)
 	{
-		if ((ScrewedClosed || IsFullContainers) && interaction.UsedObject != null)
+		if (IsFullContainers && interaction.UsedObject != null)
 		{
 			ScrewedClosed = !ScrewedClosed;
 
-			if (ScrewedClosed)
-			{
-				spriteHandler.ChangeSprite(LOCKED_SPRITE);
-				spriteHandler.ChangeSpriteVariant(EMPTY_VARIANT);
-			}
-			else
-			{
-				spriteHandler.ChangeSprite(UNLOCKED_SPRITE);
-				spriteHandler.ChangeSpriteVariant(TWO_SLOT_VARIANT);
-			}
+			if (ScrewedClosed) UpdateSprite(LOCKED_SPRITE);
+			else UpdateSprite(UNLOCKED_SPRITE);
+
 
 			var StateText = ScrewedClosed ? "Closed" : "Open";
 			Chat.AddActionMsgToChat(interaction, $" you screw the {gameObject.ExpensiveName()} {StateText}",
 				$" {interaction.Performer.ExpensiveName()} screws the {gameObject.ExpensiveName()} {StateText}");
+
+			return;
 		}
-		else if (ScrewedClosed == false)
+
+		if (ScrewedClosed == true) return;
+
+		if (interaction.UsedObject != null)
 		{
-			if (interaction.UsedObject != null)
-			{
-				if (containerStorage.GetIndexedItemSlot(0).Item == null)
-				{
-					Inventory.ServerTransfer(interaction.FromSlot, containerStorage.GetIndexedItemSlot(0));
-					spriteHandler.ChangeSpriteVariant(ONE_SLOT_VARIANT);
-					return;
-				}
+			ItemSlot targetSlot = null;
 
-				if (containerStorage.GetIndexedItemSlot(1).Item == null)
-				{
-					Inventory.ServerTransfer(interaction.FromSlot, containerStorage.GetIndexedItemSlot(1));
-					spriteHandler.ChangeSpriteVariant(TWO_SLOT_VARIANT);
-					return;
-				}
-			}
-			else
-			{
-				if (containerStorage.GetIndexedItemSlot(1).Item != null)
-				{
-					Inventory.ServerTransfer(containerStorage.GetIndexedItemSlot(1), interaction.FromSlot);
-					spriteHandler.ChangeSpriteVariant(ONE_SLOT_VARIANT);
-					return;
-				}
+			if (containerStorage.GetIndexedItemSlot(0).Item == null) targetSlot = containerStorage.GetIndexedItemSlot(0);
+			else if (containerStorage.GetIndexedItemSlot(1).Item == null) targetSlot = containerStorage.GetIndexedItemSlot(1);
 
-				if (containerStorage.GetIndexedItemSlot(0).Item != null)
-				{
-					Inventory.ServerTransfer(containerStorage.GetIndexedItemSlot(0), interaction.FromSlot);
-					spriteHandler.ChangeSpriteVariant(EMPTY_VARIANT);
-					return;
-				}
-			}
+			if(targetSlot != null) Inventory.ServerTransfer(interaction.FromSlot, targetSlot);
+		}
+		else
+		{
+			ItemSlot fromSlot = null;
+
+			if (containerStorage.GetIndexedItemSlot(1).Item != null) fromSlot = containerStorage.GetIndexedItemSlot(1);
+			else if (containerStorage.GetIndexedItemSlot(0).Item != null) fromSlot = containerStorage.GetIndexedItemSlot(0);
+
+			if (fromSlot != null) Inventory.ServerTransfer(fromSlot, interaction.FromSlot);
+		}
+
+		UpdateSprite(UNLOCKED_SPRITE);
+	}
+
+	private void UpdateSprite(int index)
+	{
+		spriteHandler?.ChangeSprite(index);
+
+		switch (index)
+		{
+			case ARMED_SPRITE:
+				spriteHandler?.ChangeSpriteVariant(EMPTY_VARIANT);
+				break;
+
+			case LOCKED_SPRITE:
+				spriteHandler?.ChangeSpriteVariant(EMPTY_VARIANT);
+				break;
+
+			case UNLOCKED_SPRITE:
+				var containers = 0;
+				if (containerStorage.GetIndexedItemSlot(0).Item != null) containers++;
+				if (containerStorage.GetIndexedItemSlot(1).Item != null) containers++;
+
+				spriteHandler?.ChangeSpriteVariant(containers);
+
+				break;
 		}
 	}
 
@@ -307,7 +307,7 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 	private void PullPin()
 	{
 		if (ScrewedClosed == false) return;
-		spriteHandler.ChangeSprite(ARMED_SPRITE);
+		UpdateSprite(ARMED_SPRITE);
 		StartCoroutine(TimeExplode(gameObject));
 	}
 

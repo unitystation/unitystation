@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using Managers;
+using Systems.Electricity;
 using UnityEngine;
+using Communications;
+using Objects.Machines.ServerMachines.Communications;
+using ScriptableObjects.Communications;
+using Systems.Communications;
+using InGameEvents;
 
 namespace Objects.Telecomms
 {
-	public class AutomatedAnnouncer : MonoBehaviour
+	public class AutomatedAnnouncer : SignalEmitter, IChatInfluencer
 	{
 		private const string machineName = "Announcing Machine";
 
@@ -20,6 +26,21 @@ namespace Objects.Telecomms
 		{ JobType.CMO, ChatChannel.Medical },
 		{ JobType.HOS, ChatChannel.Security }
 	};
+
+		private UniversalObjectPhysics objectPhysics;
+		private APCPoweredDevice poweredDevice;
+		private Integrity integrity;
+
+		[SerializeField] private SignalDataSO radioSO;
+
+		private const float MINIMUM_DAMAGE_BEFORE_OBFUSCATION = 8f;
+
+		private void Start()
+		{
+			objectPhysics = GetComponent<UniversalObjectPhysics>();
+			poweredDevice = GetComponent<APCPoweredDevice>();
+			integrity = GetComponent<Integrity>();
+		}
 
 		private void OnEnable()
 		{
@@ -46,6 +67,15 @@ namespace Objects.Telecomms
 
 			AnnounceNewCrewmember(args.player);
 		}
+
+		protected override bool SendSignalLogic()
+		{
+			if (GameManager.Instance.CommsServers.Count == 0) return false;
+			return true;
+		}
+
+		public override void SignalFailed() { }
+
 
 		private void AnnounceNewCrewmember(GameObject player)
 		{
@@ -103,8 +133,43 @@ namespace Objects.Telecomms
 
 		private void BroadcastCommMsg(ChatChannel chatChannels, string message, Loudness importance)
 		{
-			Chat.AddCommMsgByMachineToChat(gameObject, message, chatChannels, importance,
-				ChatModifier.ColdlyState, machineName, LanguageManager.Common);
+			ChatEvent chatEvent = new ChatEvent();
+			chatEvent.message = message;
+			chatEvent.channels = chatChannels;
+			chatEvent.VoiceLevel = importance;
+			chatEvent.position = objectPhysics.OfficialPosition;
+			chatEvent.originator = gameObject;
+			InfluenceChat(chatEvent);
+		}
+
+		public bool WillInfluenceChat()
+		{
+			if (poweredDevice == null || integrity == null)
+			{
+				Logger.LogError("[Telecomms/AutomatedAnnouncer] - Missing components detected on a terminal.");
+				return false;
+			}
+			// Don't send anything if this terminal has no power
+			return poweredDevice.State != PowerState.Off;
+		}
+
+
+		public ChatEvent InfluenceChat(ChatEvent chatToManipulate)
+		{
+			CommsServer.RadioMessageData msg = new CommsServer.RadioMessageData();
+			// If the integrity of this terminal is so low, start scrambling text.
+			if (integrity.integrity > MINIMUM_DAMAGE_BEFORE_OBFUSCATION)
+			{
+				msg.ChatEvent = chatToManipulate;
+				TrySendSignal(radioSO, msg);
+				return chatToManipulate;
+			}
+
+			var scrambledText = chatToManipulate;
+			scrambledText.message = EventProcessorOverload.ProcessMessage(scrambledText.message);
+			msg.ChatEvent = scrambledText;
+			TrySendSignal(radioSO, msg);
+			return scrambledText;
 		}
 	}
 }
