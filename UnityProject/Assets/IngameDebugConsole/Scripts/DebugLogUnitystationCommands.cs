@@ -314,7 +314,7 @@ namespace IngameDebugConsole
 #endif
 		[ConsoleMethod("spawn-dummy", "Spawn dummy player (Server)")]
 		private static void SpawnDummyPlayer() {
-			//PlayerSpawn.ServerSpawnDummy();
+			PlayerSpawn.NewSpawnCharacterV2(OccupationList.Instance.Occupations.PickRandom(),  CharacterSheet.GenerateRandomCharacter());
 		}
 
 #if UNITY_EDITOR
@@ -325,7 +325,7 @@ namespace IngameDebugConsole
 		{
 			for (int i = 0; i < 20; i++)
 			{
-				//PlayerSpawn.ServerSpawnDummy();
+				PlayerSpawn.NewSpawnCharacterV2(OccupationList.Instance.Occupations.PickRandom(),  CharacterSheet.GenerateRandomCharacter());
 			}
 		}
 
@@ -338,7 +338,7 @@ namespace IngameDebugConsole
 		{
 			for (int i = 0; i < 100; i++)
 			{
-				//PlayerSpawn.ServerSpawnDummy();
+				PlayerSpawn.NewSpawnCharacterV2(OccupationList.Instance.Occupations.PickRandom(),  CharacterSheet.GenerateRandomCharacter());
 			}
 		}
 
