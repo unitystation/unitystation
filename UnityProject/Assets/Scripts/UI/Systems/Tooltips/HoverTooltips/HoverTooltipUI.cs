@@ -23,8 +23,8 @@ namespace UI.Systems.Tooltips.HoverTooltips
 
 		private const float MOUSE_OFFSET_Y = -105f;
 		private const float MOUSE_OFFSET_X = -125f;
-		private const float ANIM_TIME = 0.2f;
-		private const float ICON_SIZE_HEIGHT_DEFAULT = 45f;
+		private const float ANIM_TIME_SHOW = 0.25f;
+		private const float ANIM_TIME_HIDE = 0.15f;
 
 
 		private void Start()
@@ -50,12 +50,12 @@ namespace UI.Systems.Tooltips.HoverTooltips
 
 		public void SetupTooltip(GameObject hoverObject)
 		{
-			// Don't show if player experience is set to something high unless they are using detailed mode.
-			if(ProtipManager.Instance.PlayerExperienceLevel >= ProtipManager.ExperienceLevel.SomewhatExperienced
-			   && detailsModeEnabled == false) return;
 			targetObject = hoverObject;
 			// Clean up everything for the upcoming data.
 			ResetTool();
+			// Don't show if player experience is set to something high unless they are using detailed mode.
+			if(ProtipManager.Instance.PlayerExperienceLevel >= ProtipManager.ExperienceLevel.SomewhatExperienced
+			   && detailsModeEnabled == false) return;
 			// Don't do anything if there's no object to start with.
 			if (hoverObject == null) return;
 
@@ -69,7 +69,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			// Also reduces hovertip presence on the screen when its not needed.
 			if (IsDescOrTitleEmpty()) return;
 			if (iconTarget.sprite == null) iconTarget.sprite = errorIconSprite;
-			content.LeanAlpha(1f, ANIM_TIME);
+			content.LeanAlpha(1f, ANIM_TIME_SHOW);
 		}
 
 		/// <summary>
@@ -154,7 +154,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			descText.text = string.Empty;
 			iconTarget.sprite = errorIconSprite;
 			ResetInteractionsList();
-			content.LeanAlpha(0f, ANIM_TIME);
+			content.LeanAlpha(0f, ANIM_TIME_HIDE);
 		}
 
 		private void ResetInteractionsList()
