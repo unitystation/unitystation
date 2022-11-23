@@ -42551,7 +42551,7 @@ GameObject:
   - component: {fileID: 7622111086453670328}
   - component: {fileID: 7020921500881593011}
   - component: {fileID: 5154818333995933758}
-  - component: {fileID: 332238513920808369}
+  - component: {fileID: 9158371060633692214}
   m_Layer: 5
   m_Name: ServerPasswordInputField
   m_TagString: Untagged
@@ -42618,7 +42618,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &332238513920808369
+--- !u!114 &9158371060633692214
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42627,7 +42627,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6937923802695046880}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
+  m_Script: {fileID: 11500000, guid: a1a0c19827bbca24696e6a9d93d9a1bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -42666,17 +42666,17 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 2
+  m_ContentType: 0
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 4
+  m_KeyboardType: 0
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 2
+  m_CharacterValidation: 0
   m_RegexValue: 
   m_GlobalPointSize: 14
-  m_CharacterLimit: 5
+  m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
@@ -42728,6 +42728,7 @@ MonoBehaviour:
   m_isRichTextEditingAllowed: 0
   m_LineLimit: 0
   m_InputValidator: {fileID: 0}
+  ExitButton: 27
 --- !u!1 &6941788409633753347
 GameObject:
   m_ObjectHideFlags: 0
@@ -49276,7 +49277,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerLimitInputField: {fileID: 6603046137472790881}
   serverMaxFrameRate: {fileID: 8798453815977951028}
-  serverPassword: {fileID: 332238513920808369}
+  serverPassword: {fileID: 9158371060633692214}
 --- !u!1 &8198864913053555733
 GameObject:
   m_ObjectHideFlags: 0

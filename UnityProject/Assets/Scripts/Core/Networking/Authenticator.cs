@@ -286,7 +286,7 @@ namespace Core.Networking
 				}
 
 				Logger.LogError(
-					"A user tried to connect with an invalid password."
+					$"A user tried to connect with an invalid password: {msg.Password}."
 					+ $" Account ID: '{accountId}'. IP: '{conn.address}'.",
 					Category.Connections);
 
@@ -368,6 +368,8 @@ namespace Core.Networking
 
 		public void OnAuthResponse(AuthResponseMessage msg)
 		{
+			LobbyManager.Instance.OrNull()?.LobbyPasswordGUI.SetActive(false);
+
 			if (msg.Code == ResponseCode.Success)
 			{
 				ClientAccept();

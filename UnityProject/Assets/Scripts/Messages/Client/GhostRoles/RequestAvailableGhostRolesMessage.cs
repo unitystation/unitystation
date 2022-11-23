@@ -24,12 +24,13 @@ namespace Messages.Client.GhostRoles
 		/// <summary>
 		/// Sends a message to the server, requesting an update on all available ghost roles on the server.
 		/// </summary>
-		public static NetMessage SendMessage()
+		public static void SendMessage()
 		{
+			if (NetworkClient.active == false) return;
+
 			var msg = new NetMessage();
 
 			Send(msg);
-			return msg;
 		}
 	}
 }

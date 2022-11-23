@@ -20,7 +20,6 @@ namespace Lobby
 			}
 
 			authenticator.ClientSendPassword(passwordInputField.text);
-			gameObject.SetActive(false);
 		}
 	}
 }
