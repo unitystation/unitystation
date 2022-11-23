@@ -23,12 +23,13 @@ namespace UI.Systems.AdminTools.DevTools.Search
 		private DevSpawnerDocument(GameObject prefab)
 		{
 			Prefab = prefab;
-			SearchableName.Add(SpawnerSearch.Standardize(prefab.name));
+			var possibleNames = new List<string>();
+			possibleNames.Add(SpawnerSearch.Standardize(prefab.name));
 			if (prefab.TryGetComponent<PrefabTracker>(out var tracker))
 			{
-				if(string.IsNullOrWhiteSpace(tracker.AlternativePrefabName) == false) 
-				SearchableName.Add(tracker.AlternativePrefabName);
+				if(string.IsNullOrWhiteSpace(tracker.AlternativePrefabName) == false) possibleNames.Add(tracker.AlternativePrefabName);
 			}
+			SearchableName = possibleNames;
 		}
 
 		/// <summary>
