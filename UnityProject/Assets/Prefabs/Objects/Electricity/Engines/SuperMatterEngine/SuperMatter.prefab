@@ -585,7 +585,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  emmitableSignalData: []
+  emmitableSignalData:
+  - {fileID: 11400000, guid: 248cafaf10637f2439d052ae7b819a6e, type: 2}
   passCode: 0
   frequency: 122
   requiresPower: 0

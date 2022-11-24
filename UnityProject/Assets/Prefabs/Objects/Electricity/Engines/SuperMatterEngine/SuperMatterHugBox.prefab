@@ -34,6 +34,17 @@ PrefabInstance:
       propertyPath: isHugBox
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5623857294117545528, guid: a2f7e3ea5d1b72341939c4aeb0895b36,
+        type: 3}
+      propertyPath: emmitableSignalData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5623857294117545528, guid: a2f7e3ea5d1b72341939c4aeb0895b36,
+        type: 3}
+      propertyPath: emmitableSignalData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 248cafaf10637f2439d052ae7b819a6e,
+        type: 2}
     - target: {fileID: 6320040923771401067, guid: a2f7e3ea5d1b72341939c4aeb0895b36,
         type: 3}
       propertyPath: foreverID
