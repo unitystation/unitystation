@@ -143,7 +143,6 @@ public static class PlayerSpawn
 
 	public static Mind NewSpawnCharacterV2(Occupation requestedOccupation,CharacterSheet character)
 	{
-		//Can handle spectating
 		//Validate?
 		var mind = SpawnMind(character);
 		SpawnAndApplyRole(mind, requestedOccupation, character, SpawnType.NewSpawn);
@@ -184,11 +183,6 @@ public static class PlayerSpawn
 	{
 		if (requestedOccupation != null)
 		{
-			if (SpawnType == SpawnType.NewSpawn)
-			{
-				//TODO Set up mind with is traitor and stuff
-			}
-
 			GameObject BodyPrefab = CustomNetworkManager.Instance.humanPlayerPrefab;
 
 			if (requestedOccupation.SpecialPlayerPrefab != null)
@@ -204,11 +198,6 @@ public static class PlayerSpawn
 			ApplyNewSpawnRoleToBody(Body, requestedOccupation, character, SpawnType);
 			mind.SetPossessingObject(Body);
 			mind.StopGhosting();
-			// LoadManager.RegisterActionDelayed(() =>
-			// {
-			//
-			// }, 1);
-
 
 			//get the old body if they have one.
 			// var oldBody = existingMind.OrNull()?.GetCurrentMob();
@@ -216,13 +205,9 @@ public static class PlayerSpawn
 			//transfer control to the player object
 			//ServerTransferPlayer(connection, newPlayer, oldBody, Event.PlayerSpawned, toUseCharacterSettings, existingMind);
 
-
-
 			return Body;
 		}
-
 		return null;
-
 	}
 
 	static GameObject SpawnPlayerBody(GameObject BodyPrefab)
