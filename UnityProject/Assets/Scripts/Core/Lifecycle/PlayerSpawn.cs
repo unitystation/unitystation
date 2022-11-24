@@ -144,7 +144,6 @@ public static class PlayerSpawn
 	public static Mind NewSpawnCharacterV2(Occupation requestedOccupation,CharacterSheet character)
 	{
 		//Can handle spectating
-		//TODO events!!!!
 		//Validate?
 		var mind = SpawnMind(character);
 		SpawnAndApplyRole(mind, requestedOccupation, character, SpawnType.NewSpawn);

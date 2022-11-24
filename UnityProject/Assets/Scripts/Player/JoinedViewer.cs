@@ -320,17 +320,7 @@ namespace Player
 		public void Spectate()
 		{
 			var jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSheet);
-			CmdSpectate(jsonCharSettings);
-		}
-
-		/// <summary>
-		/// Command to spectate a round instead of spawning as a player
-		/// </summary>
-		[Command]
-		public void CmdSpectate(string jsonCharSettings)
-		{
-			var characterSettings = JsonConvert.DeserializeObject<CharacterSheet>(jsonCharSettings);
-			PlayerSpawn.NewSpawnPlayerV2(this.STVerifiedConnPlayer, null , characterSettings);
+			ClientRequestJobMessage.Send(JobType.NULL, jsonCharSettings, DatabaseAPI.ServerData.UserID);
 		}
 
 		/// <summary>
