@@ -268,7 +268,7 @@ public class Mind : NetworkBehaviour
 	public void Ghost()
 	{
 		var Body = GetDeepestBody();
-		Move.ForcePositionClient(Body.transform.position);
+		Move.ForcePositionClient(Body.transform.position, Smooth : false);
 		IsGhosting = true;
 		SyncActiveOn(IDActivelyControlling, GetDeepestBody().netId);
 	}
