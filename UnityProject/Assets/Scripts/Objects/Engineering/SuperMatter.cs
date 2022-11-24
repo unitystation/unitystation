@@ -10,16 +10,19 @@ using AddressableReferences;
 using Core.Lighting;
 using HealthV2;
 using Light2D;
-using Managers;
-using Messages.Server;
 using Mirror;
 using ScriptableObjects.Atmospherics;
-using ScriptableObjects.Gun;
 using Systems.Score;
 using UnityEngine;
 using Weapons.Projectiles;
 using Weapons.Projectiles.Behaviours;
 using Random = UnityEngine.Random;
+using Communications;
+using Objects.Machines.ServerMachines.Communications;
+using ScriptableObjects.Communications;
+using Systems.Communications;
+using InGameEvents;
+
 
 namespace Objects.Engineering
 {
@@ -27,7 +30,7 @@ namespace Objects.Engineering
 	/// Supermatter script, controls supermatter effects
 	/// Script originated from Tg DM code, which has been modified for UnityStation
 	/// </summary>
-	public class SuperMatter : NetworkBehaviour, IOnHitDetect, IExaminable, IBumpableObject, ICheckedInteractable<HandApply>
+	public class SuperMatter : SignalEmitter, IOnHitDetect, IExaminable, IBumpableObject, ICheckedInteractable<HandApply>, IChatInfluencer
 	{
 		#region lightSpriteDefines
 
@@ -269,6 +272,7 @@ namespace Objects.Engineering
 		private bool isDelam;
 
 		[SerializeField] private int explosionStrength = 55000;
+		[SerializeField] private SignalDataSO radioSO;
 
 		#region LifeCycle
 
@@ -1065,14 +1069,46 @@ namespace Objects.Engineering
 
 		private void AddMessageToChat(string message, bool sendToCommon = false)
 		{
-			Chat.AddCommMsgByMachineToChat(gameObject, message, ChatChannel.Engineering,
-				Loudness.SCREAMING,  broadcasterName: "Supermatter Warning System: ", language: LanguageManager.Common);
+			ChatEvent chatEvent = new ChatEvent();
+			chatEvent.message = message;
+			chatEvent.speaker = "Supermatter Warning System: ";
+			chatEvent.VoiceLevel = Loudness.SCREAMING;
+			chatEvent.position = registerTile.WorldPositionServer;
+			chatEvent.originator = gameObject;
+
+			chatEvent.channels = ChatChannel.Engineering;
+			
+			InfluenceChat(chatEvent);
 
 			if (sendToCommon)
 			{
-				Chat.AddCommMsgByMachineToChat(gameObject, message, ChatChannel.Common,
-					Loudness.SCREAMING, broadcasterName: "Supermatter Warning System: ", language: LanguageManager.Common);
+				chatEvent.channels = ChatChannel.Common;
+				InfluenceChat(chatEvent);
 			}
+		}
+
+		protected override bool SendSignalLogic()
+		{
+			return true;
+		}
+
+		public override void SignalFailed() { }
+
+		public bool WillInfluenceChat()
+		{
+			return true;
+		}
+
+		public ChatEvent InfluenceChat(ChatEvent chatToManipulate)
+		{
+			CommsServer.RadioMessageData msg = new CommsServer.RadioMessageData();
+
+			var scrambledText = chatToManipulate;
+			scrambledText.message = EventProcessorOverload.ProcessMessage(scrambledText.message);
+			msg.ChatEvent = scrambledText;
+
+			TrySendSignal(radioSO, msg);
+			return scrambledText;
 		}
 
 		private void SendMessageToAllPlayers(string message)

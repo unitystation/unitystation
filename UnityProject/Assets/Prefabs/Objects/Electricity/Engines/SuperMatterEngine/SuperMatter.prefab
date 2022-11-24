@@ -562,7 +562,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TipSO: {fileID: 11400000, guid: 49dea0a964248a141bbedf6798ad8265, type: 2}
-  saveID: 50
   triggerOnce: 0
   showEvenAfterDeath: 1
   tipCooldown: 200
@@ -586,6 +585,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  emmitableSignalData: []
+  passCode: 0
+  frequency: 122
+  requiresPower: 0
+  isPowered: 1
+  canExamineFrequency: 0
   lightSprite: {fileID: 1120710169395197036}
   lightPulser: {fileID: 1891069723332755222}
   mainSprite: {fileID: 2491708056323762168}
@@ -671,6 +676,7 @@ MonoBehaviour:
   canTakeIntegrityDamage: 1
   isHugBox: 0
   explosionStrength: 55000
+  radioSO: {fileID: 11400000, guid: 248cafaf10637f2439d052ae7b819a6e, type: 2}
 --- !u!114 &6965517500649778319
 MonoBehaviour:
   m_ObjectHideFlags: 0
