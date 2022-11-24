@@ -120,6 +120,11 @@ PrefabInstance:
       propertyPath: foreverID
       value: 5668f8777ce1a794980fbd35aa58f56b
       objectReference: {fileID: 0}
+    - target: {fileID: 9007641923583695906, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+        type: 3}
+      propertyPath: <AlternativePrefabName>k__BackingField
+      value: nvg
+      objectReference: {fileID: 0}
     - target: {fileID: 9062951044728521674, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
       propertyPath: clothData
@@ -181,8 +186,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  nightVisionVisibility: {x: 10.5, y: 10.5, z: 21}
   visibilityAnimationSpeed: 0.75
+  OnBodyID: 0
 --- !u!114 &8851959254138389390 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8141721191079898056, guid: 28c72054b1f484ed4a6253c4feee3eb4,

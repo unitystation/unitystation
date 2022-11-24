@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
+using UnityEngine;
+using Util;
 
 namespace UI.Systems.AdminTools.DevTools.Search
 {
@@ -15,12 +18,15 @@ namespace UI.Systems.AdminTools.DevTools.Search
 		/// <summary>
 		/// Name cleaned up for searchability (like lowercase).
 		/// </summary>
-		public readonly string SearchableName;
+		public readonly List<string> SearchableName;
 
 		private DevSpawnerDocument(GameObject prefab)
 		{
 			Prefab = prefab;
-			SearchableName = SpawnerSearch.Standardize(prefab.name);
+			SearchableName = new List<string>();
+			SearchableName.Add(SpawnerSearch.Standardize(prefab.name));
+			if (prefab.TryGetComponent<PrefabTracker>(out var tracker) == false) return;
+			if (string.IsNullOrWhiteSpace(tracker.AlternativePrefabName) == false) SearchableName.Add(tracker.AlternativePrefabName);
 		}
 
 		/// <summary>

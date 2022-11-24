@@ -438,6 +438,11 @@ PrefabInstance:
       propertyPath: foreverID
       value: 143d3926d4a5fa84f95f987c152b33a2
       objectReference: {fileID: 0}
+    - target: {fileID: 3001407139512993015, guid: da85b7a590e7c8444af73629fcb5dd22,
+        type: 3}
+      propertyPath: <AlternativePrefabName>k__BackingField
+      value: gun energy
+      objectReference: {fileID: 0}
     - target: {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
       propertyPath: ammoType
@@ -618,6 +623,14 @@ MonoBehaviour:
   loadMagSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Weapons/KineticReload.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  unloadMagSound:
+    SetLoadSetting: 0
+    AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
