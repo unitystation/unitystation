@@ -97,9 +97,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	private PlayerCrafting playerCrafting;
 
 	public PlayerCrafting PlayerCrafting => playerCrafting;
-
-	public PlayerOnlySyncValues PlayerOnlySyncValues { get; private set; }
-
+	
 	public HasCooldowns Cooldowns { get; set; }
 
 	public MobLanguages MobLanguages { get; private set; }
@@ -177,7 +175,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		DynamicItemStorage = GetComponent<DynamicItemStorage>();
 		Equipment = GetComponent<Equipment>();
 		Cooldowns = GetComponent<HasCooldowns>();
-		PlayerOnlySyncValues = GetComponent<PlayerOnlySyncValues>();
 		playerCrafting = GetComponent<PlayerCrafting>();
 		PlayerSync = GetComponent<MovementSynchronisation>();
 		statusEffectManager = GetComponent<StatusEffectManager>();

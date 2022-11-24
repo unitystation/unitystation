@@ -36,47 +36,8 @@ namespace Player
 	/// <summary>
 	/// Class which contains sync vars which are only sent to the client controlling this player
 	/// </summary>
-	public class PlayerOnlySyncValues : NetworkBehaviour
+	public class PlayerOnlySyncValues : NetworkBehaviour //Deprecated and doesn't work anymore due to ownership changes
 	{
-		#region SyncVars
-
-		//HiddenHands
-		[SyncVar(hook = nameof(SyncHiddenHands))]
-		private HiddenHandValue hiddenHandSelection;
-
-
-		#endregion
-
-		#region OtherVariables
-
-		public bool ClientForThisBody => OverrideLocalPlayer || hasAuthority;
-
-		public bool OverrideLocalPlayer = false;
-
-		#endregion
-
-		#region Server
-
-		[Server]
-		public void ServerSetHiddenHands(HiddenHandValue newState)
-        {
-			hiddenHandSelection = newState;
-        }
-
-
-
-		#endregion
-
-		#region Client
-
-		[Client]
-		private void SyncHiddenHands(HiddenHandValue oldState, HiddenHandValue newState)
-        {
-			hiddenHandSelection = newState;
-			HandsController.Instance.HideHands(hiddenHandSelection);
-        }
-
-		#endregion
 
 	}
 }
