@@ -1077,14 +1077,10 @@ namespace Objects.Engineering
 			chatEvent.originator = gameObject;
 
 			chatEvent.channels = ChatChannel.Engineering;
-			
-			InfluenceChat(chatEvent);
+			if (sendToCommon) chatEvent.channels |= ChatChannel.Common;
 
-			if (sendToCommon)
-			{
-				chatEvent.channels = ChatChannel.Common;
-				InfluenceChat(chatEvent);
-			}
+			InfluenceChat(chatEvent);
+			
 		}
 
 		protected override bool SendSignalLogic()
