@@ -19,6 +19,7 @@
 				uniform sampler2D _MainTex;
 				uniform float4 _Luminance;
 				uniform float _LensRadius;
+				uniform float brightness = 1.25f;
 
 				// frag shader
 				float4 frag(v2f_img i) : COLOR
@@ -31,11 +32,11 @@
 
 					//add lens circle effect
 					//(could be optimised by using texture)
-					float dist = distance(i.uv, float2(0.5, 0.5));
-					col *= smoothstep(_LensRadius,  _LensRadius - 0.34, dist);
+					float dist = distance(i.uv, float2(0.85, 0.85));
+					col *= smoothstep(_LensRadius,  _LensRadius - 0.17, dist);
 
 					//add rb to the brightest pixels
-					col.r = max(col.r - 0.75, 0) * 4;
+					col.r = max(col.r - 0.75, 0) * brightness;
 
 					// return col pixel
 					return col;

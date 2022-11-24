@@ -18,6 +18,7 @@ namespace CameraEffects
 
 		[SerializeField]
 		private GameObject minimalVisibilitySprite;
+		public Vector3 MinimalVisibilityScale { private set; get; } = new(3.5f, 3.5f, 8);
 
 
 		[SerializeField] private int maxDrunkTime = 120000;
@@ -27,9 +28,16 @@ namespace CameraEffects
 		private float drunkCameraTime = 0;
 
 		public LightingSystem LightingSystem;
+		
 		public void Awake()
 		{
 			LightingSystem = this.GetComponent<LightingSystem>();
+			if (minimalVisibilitySprite != null)
+			{
+				MinimalVisibilityScale = minimalVisibilitySprite.transform.localScale;
+				return;
+			}
+			Logger.LogWarning("[CameraEffectControlScript] - visibilitySprite is null! please set it from the inspector.");
 		}
 
 

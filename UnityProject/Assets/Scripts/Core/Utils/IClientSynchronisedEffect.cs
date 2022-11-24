@@ -18,6 +18,10 @@ public interface IClientSynchronisedEffect : IClientPlayerLeaveBody, IClientPlay
 		ApplyDefaultOrCurrentValues(false);
 	}
 
+	/// <summary>
+	/// Applies the correct synced values on a player based on a event. (I.e: player ghost leaving it's body)
+	/// </summary>
+	/// <param name="Default"></param>
 	public void ApplyDefaultOrCurrentValues(bool Default);
 
 	public void SyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn);

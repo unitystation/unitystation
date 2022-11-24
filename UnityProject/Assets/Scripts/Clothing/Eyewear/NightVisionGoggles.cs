@@ -1,186 +1,201 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using CameraEffects;
 using Mirror;
-using Player;
 using UI.Action;
+using UI.Systems.Tooltips.HoverTooltips;
+using UnityEngine;
 
-public class NightVisionGoggles : NetworkBehaviour, IItemInOutMovedPlayer,
-	ICheckedInteractable<HandActivate>, IClientSynchronisedEffect
+namespace Clothing
 {
-
-	[SerializeField, Tooltip("How fast will the player gain visibility?")]
-	private float visibilityAnimationSpeed = 1.50f;
-
-
-	[System.Serializable]
-	public struct NightVisionData
+	public class NightVisionGoggles : NetworkBehaviour, IItemInOutMovedPlayer,
+		ICheckedInteractable<HandActivate>, IClientSynchronisedEffect, IHoverTooltip
 	{
-		public bool isOn  { get; set; }
+		private static readonly float defaultvisibilityAnimationSpeed = 1.25f;
+		private static readonly float revertvisibilityAnimationSpeed = 0.2f;
+		private static readonly Vector3 expandedNightVisionVisibility = new Vector3(25, 25, 42);
 
+		private IClientSynchronisedEffect Preimplemented => this;
 
-		[SerializeField, Tooltip("How far the player will be able to see in the dark while he has the goggles on.")]
-		public Vector3 nightVisionVisibility { get; set; }
+		[SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
 
-		[SerializeField, Tooltip("How fast will the player gain visibility?")]
-		public float visibilityAnimationSpeed { get; set; }
+		public uint OnPlayerID => OnBodyID;
 
-		public NightVisionData(bool b)
+		[SyncVar(hook = nameof(SyncNightVision))] [SerializeField]
+		private bool isOn = false;
+
+		public RegisterPlayer CurrentlyOn { get; set; }
+		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
+
+		private ItemActionButton actionButton;
+		private Pickupable pickupable;
+
+		#region LifeCycle
+
+		private void Awake()
 		{
-			isOn = false;
-			nightVisionVisibility = new Vector3(10.5f, 10.5f, 21);
-			visibilityAnimationSpeed = 1.5f;
-		}
-	}
-
-
-	private ItemActionButton actionButton;
-	private Pickupable pickupable;
-
-	#region LifeCycle
-
-	private void Awake()
-	{
-		actionButton = GetComponent<ItemActionButton>();
-		pickupable =  GetComponent<Pickupable>();
-
-		var loc = VisionData;
-		loc.visibilityAnimationSpeed = visibilityAnimationSpeed;
-		VisionData = loc;
-
-	}
-
-	private void OnEnable()
-	{
-		actionButton.ServerActionClicked += ToggleGoggles;
-	}
-
-	private void OnDisable()
-	{
-		actionButton.ServerActionClicked -= ToggleGoggles;
-	}
-
-	#endregion
-
-	#region InventoryMove
-
-	public RegisterPlayer CurrentlyOn { get; set; }
-	bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
-
-	public bool IsValidSetup(RegisterPlayer player)
-	{
-		if (player == null) return false;
-		if (player != null && player.PlayerScript.RegisterPlayer == pickupable.ItemSlot.Player && pickupable.ItemSlot is {NamedSlot: NamedSlot.eyes}) // Checks if it's not null and checks if NamedSlot == NamedSlot.eyes
-		{
-			return true;
+			actionButton = GetComponent<ItemActionButton>();
+			pickupable = GetComponent<Pickupable>();
 		}
 
-		return false;
-	}
-
-
-	void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)
-	{
-		if (ShowForPlayer != null)
+		private void OnEnable()
 		{
-			OnBodyID = ShowForPlayer.netId;
+			// Subscribes to UI action buttons.
+			actionButton.ServerActionClicked += ToggleGoggles;
 		}
-		else
+
+		private void OnDisable()
 		{
-			OnBodyID = NetId.Empty;
+			actionButton.ServerActionClicked -= ToggleGoggles;
 		}
-	}
 
-	#endregion
+		#endregion
 
-	#region HandInteract
+		#region InventoryMove
 
-	public bool WillInteract(HandActivate interaction, NetworkSide side)
-	{
-		return DefaultWillInteract.Default(interaction, side);
-	}
-
-	public void ServerPerformInteraction(HandActivate interaction)
-	{
-		var Data = VisionData;
-		Data.isOn = !VisionData.isOn;
-		VisionData = Data;
-		Chat.AddExamineMsgToClient($"You turned {(VisionData.isOn ? "on" : "off")} the {gameObject.ExpensiveName()}.");
-	}
-
-	#endregion
-
-	[Server]
-	private void ToggleGoggles()
-	{
-		SetGoggleState(!VisionData.isOn);
-	}
-
-	/// <summary>
-	/// Turning goggles on or off
-	/// </summary>
-	/// <param name="newState"></param>
-	[Server]
-	private void SetGoggleState(bool newState)
-	{
-
-		var Data = VisionData;
-		Data.isOn = newState;
-		VisionData = Data;
-
-		if (CurrentlyOn == null || CurrentlyOn.PlayerScript.connectionToClient == null) return;
-
-		if (IsValidSetup(CurrentlyOn))
+		public bool IsValidSetup(RegisterPlayer player)
 		{
-			ServerToggleClient(CurrentlyOn,VisionData);
-
-			Chat.AddExamineMsgFromServer(CurrentlyOn.PlayerScript.gameObject,
-				$"You turned {(VisionData.isOn ? "on" : "off")} the {gameObject.ExpensiveName()}.");
+			if (player == null) return false;
+			// Checks if it's not null and checks if NamedSlot == NamedSlot.eyes
+			return player.PlayerScript.RegisterPlayer == pickupable.ItemSlot.Player && IsInCorrectNamedSlot();
 		}
-	}
 
-	[Server]
-	private void ServerToggleClient(RegisterPlayer forPlayer, NightVisionData newState)
-	{
-		VisionData = newState;
-	}
-
-	private IClientSynchronisedEffect Preimplemented => (IClientSynchronisedEffect) this;
-
-	[SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
-
-	public uint OnPlayerID => OnBodyID;
-
-	[SyncVar(hook = nameof(SyncNightVision))]
-	private NightVisionData VisionData = new NightVisionData(b:true);
-	private NightVisionData DefaultVisionData = new NightVisionData(b:true)
-	{
-		isOn = false
-	};
-
-
-	public void SyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn)
-	{
-		OnBodyID = CurrentlyOn;
-		Preimplemented.ImplementationSyncOnPlayer(PreviouslyOn, CurrentlyOn);
-	}
-
-	public void ApplyDefaultOrCurrentValues(bool Default)
-	{
-		ApplyEffects(Default ? DefaultVisionData : VisionData);
-	}
-
-	public void SyncNightVision(NightVisionGoggles.NightVisionData oldState, NightVisionGoggles.NightVisionData newState)
-	{
-		VisionData = newState;
-
-		if (Preimplemented.IsOnLocalPlayer)
+		/// <summary>
+		/// Checks if the item is in the correct ItemSlot which is the eyes.
+		/// Automatically returns false if null because of the "is" keyword and null propagation.
+		/// </summary>
+		private bool IsInCorrectNamedSlot()
 		{
-			ApplyEffects(VisionData);
+			return pickupable.ItemSlot is { NamedSlot: NamedSlot.eyes };
 		}
-	}
 
-	public void ApplyEffects(NightVisionData State)
-	{
-		Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().AdjustPlayerVisibility(State.nightVisionVisibility, State.isOn ? State.visibilityAnimationSpeed : 0.1f);
-		Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().ToggleNightVisionEffectState(State.isOn);
+		void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)
+		{
+			OnBodyID = ShowForPlayer != null ? ShowForPlayer.netId : NetId.Empty;
+		}
+
+		#endregion
+
+		#region HandInteract
+
+		public bool WillInteract(HandActivate interaction, NetworkSide side)
+		{
+			return DefaultWillInteract.Default(interaction, side);
+		}
+
+		public void ServerPerformInteraction(HandActivate interaction)
+		{
+			SetGoggleState(!isOn);
+		}
+
+		#endregion
+
+		[Server]
+		private void ToggleGoggles()
+		{
+			SetGoggleState(!isOn);
+		}
+
+		/// <summary>
+		/// Turning goggles on or off
+		/// </summary>
+		/// <param name="newState"></param>
+		[Server]
+		private void SetGoggleState(bool newState)
+		{
+			isOn = newState;
+			// Checks to see if this item is on a player that's online.
+			if (CurrentlyOn == null || CurrentlyOn.PlayerScript.connectionToClient == null) return;
+			if (IsValidSetup(CurrentlyOn))
+			{
+				// Gives feedback to the player's actions.
+				Chat.AddExamineMsg(CurrentlyOn.PlayerScript.gameObject,
+					$"You turned {(isOn ? "on" : "off")} the {gameObject.ExpensiveName()}.");
+			}
+		}
+
+		/// <summary>
+		/// Syncs the player body that this item is on.
+		/// </summary>
+		public void SyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn)
+		{
+			OnBodyID = CurrentlyOn;
+			Preimplemented.ImplementationSyncOnPlayer(PreviouslyOn, CurrentlyOn);
+		}
+
+		public void ApplyDefaultOrCurrentValues(bool Default)
+		{
+			// Inverse of default for correct state
+			ApplyEffects(!Default);
+		}
+
+		/// <summary>
+		/// will always update the effects on the client whenever isOn has changed.
+		/// </summary>
+		public void SyncNightVision(bool oldState, bool newState)
+		{
+			isOn = newState;
+			// Makes sure that the goggles are on the player before applying the effect.
+			// If it's not on the player, ensure that the effect is disabled to avoid bugs when removing the goggles.
+			ApplyEffects(Preimplemented.IsOnLocalPlayer && newState);
+		}
+
+		private void ApplyEffects(bool state)
+		{
+			var finalState = state;
+			// If for whatever reason unity is unable to catch the correct main camera that has the CameraEffectControlScript
+			// Don't do anything.
+			if (Camera.main == null ||
+			    Camera.main.TryGetComponent<CameraEffectControlScript>(out var effects) == false) return;
+			// If the item is not in the correct slot, ensure the effect is disabled.
+			if (IsInCorrectNamedSlot() == false) finalState = false;
+			// Visibility is updated based on the on/off state of the goggles.
+			// True means its on and will show an expanded view in the dark by changing the player's light view.
+			// False will revert it to default.
+			effects.AdjustPlayerVisibility(
+				finalState ? expandedNightVisionVisibility : effects.MinimalVisibilityScale,
+				finalState ? defaultvisibilityAnimationSpeed : revertvisibilityAnimationSpeed);
+			effects.ToggleNightVisionEffectState(finalState);
+		}
+
+		#region Tooltip
+
+		public string HoverTip()
+		{
+			return null;
+		}
+
+		public string CustomTitle()
+		{
+			if (gameObject.TryGetComponent<Attributes>(out var attributes) == false) return null;
+			var state = isOn ? "On" : "Off";
+			return $"{attributes.ArticleName} [{state}]";
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			return new List<Sprite>();
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			TextColor inspectText = new TextColor
+			{
+				Text = "Left Click or Z: Turn On/Off.",
+				Color = Color.green
+			};
+
+			List<TextColor> interactions = new List<TextColor>();
+			interactions.Add(inspectText);
+			return interactions;
+		}
+
+		#endregion
+
 	}
 }
