@@ -20,7 +20,7 @@ public class FoamNode : SpreadNode
 		PresentTimeCount += 1;
 		if (PresentTimeCount > MaxTimePresentFoam)
 		{
-			if (FoamSourceReservoir.WallFoam)
+			if (FoamSourceReservoir.WallFoam) //Harden foam
 			{
 				if (FoamSourceReservoir.SmartFoam)
 				{
@@ -43,8 +43,8 @@ public class FoamNode : SpreadNode
 						SmokeAndFoamManager.Instance.BaseFoam);
 				}
 			}
-
 			OnMetaDataNode.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(OnMetaDataNode.LocalPosition, LayerType.Floors,OverlayType.Foam);
+
 			SourceReservoir.RemoveTile(this);
 		}
 	}
@@ -123,9 +123,6 @@ public class FoamNode : SpreadNode
 	{
 		base.DistributeToTile(sourceReservoir);
 
-		OnMetaDataNode.IsSlippery = true;
-		OnMetaDataNode.ForceUpdateClient();
-
 		var colour = Present.MixColor;
 		if (Present.MixColor == Color.clear)
 		{
@@ -133,6 +130,8 @@ public class FoamNode : SpreadNode
 		}
 
 		OnMetaDataNode.PositionMatrix.MetaTileMap.AddOverlay(OnMetaDataNode.LocalPosition, SmokeAndFoamManager.Instance.OverlayTileFoam, Matrix4x4.identity, colour);
+		OnMetaDataNode.IsSlippery = true;
+		OnMetaDataNode.ForceUpdateClient();
 	}
 }
 public class FoamSourceReservoir : SourceReservoir

@@ -254,7 +254,7 @@ MonoBehaviour:
   initialDescription: It scans DNA structures.
   willHighlight: 1
   exportCost: 0
-  exportType: 0
+  CanBeSoldInCargo: 1
   exportName: 
   exportMessage: 
   initialSize: 3
@@ -293,6 +293,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    Anomaly: 0
     DismembermentProtectionChance: 0
     StunImmunity: 0
   Resistances:
@@ -307,7 +308,6 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  Meleeable: {fileID: 0}
 --- !u!114 &114529692711081598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -460,6 +460,7 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+  CannotBeInteractedWithWhenClosed: 0
 --- !u!114 &9128197607768152992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -498,11 +499,11 @@ MonoBehaviour:
         Moles: 33.256973
     Pressure: 101.32501
     Volume: 1
-    Temperature: 293.15
   MaximumMoles: 1013.25
   ReleasePressure: 101.325
   Volume: 1
   Temperature: 293.15
+  CargoSealApproved: 0
 --- !u!114 &6558962961384461941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,10 +523,12 @@ MonoBehaviour:
   LocalTargetPosition: {x: 0, y: 0, z: 0}
   ChangesDirectionPush: 0
   Intangible: 0
-  CanBeWindPushed: 1
+  CanBeWindPushed: 0
+  IsPlayer: 0
   InitialLocationSynchronised: 0
   tileMoveSpeed: 1
   isNotPushable: 1
+  HasOwnGravity: 0
   airTime: 0
   slideTime: 0
   SetIgnoreSticky: 0
@@ -550,7 +553,7 @@ MonoBehaviour:
   Pushing: []
   Hits: []
   Animating: 0
-  IsFlyingSliding: 0
+  isFlyingSliding: 0
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
