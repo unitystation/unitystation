@@ -186,20 +186,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		SyncPlayerName(name, name);
 	}
 
-	// hasAuthority is always called after OnStartClient
-	public override void OnStartLocalPlayer()
-	{
-		waitTimeForRTTUpdate = 0f;
-
-		if (IsNormal)
-		{
-			UIManager.Internals.SetupListeners();
-			UIManager.Instance.panelHudBottomController.SetupListeners();
-		}
-
-		isUpdateRTT = true;
-	}
-
 	private void OnEnable()
 	{
 		EventManager.AddHandler(Event.GhostSpawned, OnPlayerBecomeGhost);
@@ -273,6 +259,16 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			UpdateStatusTabUI();
 			UIManager.Instance.UI_SlotManager.SetActive(true);
 			UIManager.Instance.UI_SlotManager.UpdateUI();
+
+			waitTimeForRTTUpdate = 0f;
+
+			if (IsNormal)
+			{
+				UIManager.Internals.SetupListeners();
+				UIManager.Instance.panelHudBottomController.SetupListeners();
+			}
+
+			isUpdateRTT = true;
 		}
 	}
 

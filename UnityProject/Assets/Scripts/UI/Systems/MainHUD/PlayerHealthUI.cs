@@ -279,9 +279,7 @@ public class PlayerHealthUI : MonoBehaviour
 		}
 		bool hasAuthority(BodyPart BbodyPart)
 		{
-			var Player = BbodyPart.HealthMaster as PlayerHealthV2;
-			if (Player == null) return false;
-			return PlayerManager.LocalPlayerScript == Player.playerScript;
+			return BbodyPart.HealthMaster.hasAuthority;
 		}
 	}
 }
