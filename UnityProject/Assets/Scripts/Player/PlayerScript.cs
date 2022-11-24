@@ -54,6 +54,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	public PlayerTypeSettings PlayerTypeSettings => playerTypeSettings;
 	public PlayerTypes PlayerType => playerTypeSettings.PlayerType;
 
+	public ChatModifier inventorySpeechModifiers = ChatModifier.None;
+
 	/// <summary>
 	/// Current character settings for this player.
 	/// </summary>

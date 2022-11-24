@@ -41,7 +41,7 @@ public class Mind : NetworkBehaviour
 	public FloorSounds StepSound; //Why is this on the mind!!!, Should be on the body
 	public FloorSounds SecondaryStepSound;
 
-	public ChatModifier inventorySpeechModifiers = ChatModifier.None;
+
 	// Current way to check if it's not actually a ghost but a spectator, should set this not have it be the below.
 
 	public PlayerInfo ControlledBy;
