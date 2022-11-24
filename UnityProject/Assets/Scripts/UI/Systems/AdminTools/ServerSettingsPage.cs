@@ -1,4 +1,5 @@
 ﻿using AdminCommands;
+using DatabaseAPI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -13,11 +14,15 @@ namespace AdminTools
 		[SerializeField]
 		private TMP_InputField serverMaxFrameRate = null;
 
+		[SerializeField]
+		private TMP_InputField serverPassword = null;
+
 		public override void OnPageRefresh(AdminPageRefreshData adminPageData)
     	{
     		base.OnPageRefresh(adminPageData);
             playerLimitInputField.text = adminPageData.playerLimit.ToString();
             serverMaxFrameRate.text = adminPageData.maxFrameRate.ToString();
+            serverPassword.text = adminPageData.serverPassword;
         }
 
 		public void OnChangePlayerLimit()
@@ -44,6 +49,11 @@ namespace AdminTools
 
 				AdminCommandsManager.Instance.CmdChangeFrameRate(value);
 			}
+		}
+
+		public void OnChangePassword()
+		{
+			AdminCommandsManager.Instance.CmdChangeServerPassword(serverPassword.text);
 		}
 	}
 }

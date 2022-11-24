@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AdminTools;
+using DatabaseAPI;
 using InGameEvents;
 using Mirror;
 using UnityEngine;
@@ -60,6 +61,7 @@ namespace Messages.Server.AdminTools
 			//Server Setting
 			pageData.playerLimit = GameManager.Instance.PlayerLimit;
 			pageData.maxFrameRate = Application.targetFrameRate;
+			pageData.serverPassword = ServerData.ServerConfig.ConnectionPassword;
 
 			var data = JsonUtility.ToJson(pageData);
 

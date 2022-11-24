@@ -24,8 +24,12 @@ namespace Lobby
 	{
 		[SerializeField]
 		private CharacterCustomization characterCustomization;
+
 		[SerializeField]
 		private GUI_LobbyDialogue lobbyDialogue;
+
+		[field: SerializeField]
+		public GUI_ServerPassword LobbyPasswordGUI { get; private set; } = null;
 
 		public static GUI_LobbyDialogue UI => Instance.OrNull()?.lobbyDialogue;
 

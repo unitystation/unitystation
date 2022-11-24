@@ -27,12 +27,12 @@ namespace Messages.Client.Lobby
 			);
 		}
 
-		public static NetMessage Send()
+		public static void Send()
 		{
+			if (NetworkClient.active == false) return;
+
 			var msg = new NetMessage();
 			Send(msg);
-			return msg;
 		}
-
 	}
 }
