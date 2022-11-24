@@ -1103,12 +1103,9 @@ namespace Objects.Engineering
 		{
 			CommsServer.RadioMessageData msg = new CommsServer.RadioMessageData();
 
-			var scrambledText = chatToManipulate;
-			scrambledText.message = EventProcessorOverload.ProcessMessage(scrambledText.message);
-			msg.ChatEvent = scrambledText;
-
+			msg.ChatEvent = chatToManipulate;
 			TrySendSignal(radioSO, msg);
-			return scrambledText;
+			return chatToManipulate;
 		}
 
 		private void SendMessageToAllPlayers(string message)
