@@ -36,10 +36,11 @@ public interface IPlayerPossessable
 			// If the player is inside a container, send a ClosetHandlerMessage.
 			// The ClosetHandlerMessage will attach the container to the transfered player.
 			var playerObjectBehavior = GameObject.GetComponent<UniversalObjectPhysics>();
-			if (playerObjectBehavior)
+			if (playerObjectBehavior != null )
 			{
-				FollowCameraMessage.Send(GameObject, playerObjectBehavior.gameObject); //TODO Handle within container
+				FollowCameraMessage.Send(GameObject, playerObjectBehavior.GetRootObject);
 			}
+
 			PossessAndUnpossessMessage.Send(GameObject, GameObject, PreviouslyControlling);
 
 

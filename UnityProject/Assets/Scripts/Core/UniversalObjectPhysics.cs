@@ -85,24 +85,27 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 	}
 
-	public Vector3 OfficialPosition
+	public Vector3 OfficialPosition => GetRootObject.transform.position;
+
+	public GameObject GetRootObject
 	{
 		get
 		{
-			if (ContainedInContainer != null)
+			if (ContainedInObjectContainer != null)
 			{
-				return ContainedInContainer.registerTile.ObjectPhysics.Component.OfficialPosition;
+				return ContainedInObjectContainer.registerTile.ObjectPhysics.Component.GetRootObject;
 			}
 			else if (pickupable.HasComponent && pickupable.Component.ItemSlot != null)
 			{
-				return pickupable.Component.ItemSlot.ItemStorage.gameObject.AssumedWorldPosServer();
+				return pickupable.Component.ItemSlot.ItemStorage.gameObject.GetRootGameObject();
 			}
 			else
 			{
-				return transform.position;
+				return gameObject;
 			}
 		}
 	}
+
 
 	private Vector3Int oldLocalTilePosition;
 
@@ -152,7 +155,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	private ObjectContainer CachedContainedInContainer;
 
-	public ObjectContainer ContainedInContainer
+
+
+	public ObjectContainer ContainedInObjectContainer
 	{
 		get
 		{
@@ -1075,7 +1080,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	public void PullSet(UniversalObjectPhysics toPull, bool byClient, bool synced = false)
 	{
-		if (toPull != null && ContainedInContainer != null) return; //Can't pull stuff inside of objects)
+		if (toPull != null && ContainedInObjectContainer != null) return; //Can't pull stuff inside of objects)
 
 		if (isServer && synced == false)
 			SynchroniseUpdatePulling(ThisPullData, new PullData() {NewPulling = toPull, WasCausedByClient = byClient});
@@ -1901,7 +1906,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	[Command]
 	public void CmdPullObject(GameObject pullableObject)
 	{
-		if (ContainedInContainer != null) return;//Can't pull stuff inside of objects
+		if (ContainedInObjectContainer != null) return;//Can't pull stuff inside of objects
 		if (pullableObject == null || pullableObject == this.gameObject) return;
 		var pullable = pullableObject.GetComponent<UniversalObjectPhysics>();
 		if (pullable == null || pullable.isNotPushable)

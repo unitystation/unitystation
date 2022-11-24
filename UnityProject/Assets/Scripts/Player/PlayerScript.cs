@@ -97,7 +97,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	private PlayerCrafting playerCrafting;
 
 	public PlayerCrafting PlayerCrafting => playerCrafting;
-	
+
 	public HasCooldowns Cooldowns { get; set; }
 
 	public MobLanguages MobLanguages { get; private set; }

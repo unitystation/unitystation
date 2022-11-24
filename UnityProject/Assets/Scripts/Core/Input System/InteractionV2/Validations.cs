@@ -217,8 +217,8 @@ public static class Validations
 			else
 			{
 				//server checks if player is trying to click the container they are in.
-				var parentObj = playerObjBehavior.ContainedInContainer != null
-					? playerObjBehavior.ContainedInContainer.gameObject
+				var parentObj = playerObjBehavior.ContainedInObjectContainer != null
+					? playerObjBehavior.ContainedInObjectContainer.gameObject
 					: null;
 				return parentObj == target;
 			}

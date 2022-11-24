@@ -46,7 +46,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	[field: SyncVar(hook = nameof(SyncCuffed))]
 	public bool IsCuffed { get; private set; }
 
-	public bool IsTrapped => IsCuffed || ContainedInContainer != null;
+	public bool IsTrapped => IsCuffed || ContainedInObjectContainer != null;
 
 	[PrefabModeOnly] public bool CanMoveThroughObstructions = false;
 
@@ -132,9 +132,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	[Server]
 	public void ServerTryEscapeContainer()
 	{
-		if (ContainedInContainer != null)
+		if (ContainedInObjectContainer != null)
 		{
-			GameObject parentContainer = ContainedInContainer.gameObject;
+			GameObject parentContainer = ContainedInObjectContainer.gameObject;
 
 			foreach (var escapable in parentContainer.GetComponents<IEscapable>())
 			{
@@ -915,7 +915,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		}
 
 		//Check to see if in container
-		if (ContainedInContainer != null)
+		if (ContainedInObjectContainer != null)
 		{
 			if(Cooldowns.TryStartClient(playerScript, moveCooldown) == false) return;
 
@@ -927,11 +927,11 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public void CMDTryEscapeContainer(MoveAction moveAction)
 	{
 		if (allowInput == false) return;
-		if (ContainedInContainer == null) return;
+		if (ContainedInObjectContainer == null) return;
 
 		if(Cooldowns.TryStartServer(playerScript, moveCooldown) == false) return;
 
-		foreach (var Escape in ContainedInContainer.IEscapables)
+		foreach (var Escape in ContainedInObjectContainer.IEscapables)
 		{
 			Escape.EntityTryEscape(gameObject, null, moveAction);
 		}
@@ -1103,7 +1103,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		if (BuckledToObject) return false;
 		if (hasAuthority && UIManager.IsInputFocus) return false;
 		if (IsCuffed && PulledBy.HasComponent) return false;
-		if (ContainedInContainer != null) return false;
+		if (ContainedInObjectContainer != null) return false;
 
 		return true;
 	}

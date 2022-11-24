@@ -80,10 +80,10 @@ namespace Items
 
 				if (RegisterTile.TryGetComponent<UniversalObjectPhysics>(out var ObjectBehaviour))
 				{
-					if (ObjectBehaviour.ContainedInContainer != null)
+					if (ObjectBehaviour.ContainedInObjectContainer != null)
 					{
 						//TODO Do item storage
-						if (ObjectBehaviour.ContainedInContainer.TryGetComponent<ObjectContainer>(out var ObjectContainer))
+						if (ObjectBehaviour.ContainedInObjectContainer.TryGetComponent<ObjectContainer>(out var ObjectContainer))
 						{
 							ObjectContainer.RetrieveObject(this.gameObject);
 						}

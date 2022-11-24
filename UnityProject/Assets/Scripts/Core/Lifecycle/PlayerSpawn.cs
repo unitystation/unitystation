@@ -409,9 +409,9 @@ public static class PlayerSpawn
 			// If the player is inside a container, send a ClosetHandlerMessage.
 			// The ClosetHandlerMessage will attach the container to the transfered player.
 			var playerObjectBehavior = To.GetComponent<UniversalObjectPhysics>();
-			if (playerObjectBehavior && playerObjectBehavior.ContainedInContainer)
+			if (playerObjectBehavior && playerObjectBehavior.ContainedInObjectContainer)
 			{
-				FollowCameraMessage.Send(To.gameObject, playerObjectBehavior.ContainedInContainer.gameObject);
+				FollowCameraMessage.Send(To.gameObject, playerObjectBehavior.ContainedInObjectContainer.gameObject);
 			}
 
 			PossessAndUnpossessMessage.Send(To.gameObject, To.gameObject, From.OrNull()?.gameObject);

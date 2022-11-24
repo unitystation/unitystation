@@ -1307,7 +1307,7 @@ namespace HealthV2
 
 			//If we are in a container then don't produce miasma
 			//TODO: make this only happen with coffins, body bags and other body containers (morgue, etc)
-			if (objectBehaviour.ContainedInContainer != null) return;
+			if (objectBehaviour.ContainedInObjectContainer != null) return;
 
 			//TODO: check for formaldehyde in body, prevent if more than 15u
 

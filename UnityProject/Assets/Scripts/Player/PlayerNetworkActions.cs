@@ -153,7 +153,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 
 		// Check if trapped.
-		if (playerScript.playerMove.BuckledToObject != null || playerScript.playerMove.ContainedInContainer != null)
+		if (playerScript.playerMove.BuckledToObject != null || playerScript.playerMove.ContainedInObjectContainer != null)
 		{
 			playerScript.PlayerSync.ServerTryEscapeContainer();
 		}

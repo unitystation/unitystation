@@ -302,9 +302,9 @@ public static class Spawn
 				}
 
 				if (info.SpawnDestination.SharePosition != null &&
-				    info.SpawnDestination.SharePosition.ContainedInContainer != null)
+				    info.SpawnDestination.SharePosition.ContainedInObjectContainer != null)
 				{
-					info.SpawnDestination.SharePosition.ContainedInContainer.StoreObjects(result.GameObjects);
+					info.SpawnDestination.SharePosition.ContainedInObjectContainer.StoreObjects(result.GameObjects);
 				}
 			}
 			else

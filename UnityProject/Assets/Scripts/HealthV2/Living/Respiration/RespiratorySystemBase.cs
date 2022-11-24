@@ -81,8 +81,8 @@ namespace HealthV2
 			}
 
 			GasMix ambientGasMix;
-			if (objectBehaviour.ContainedInContainer != null &&
-					objectBehaviour.ContainedInContainer.TryGetComponent<GasContainer>(out var gasContainer))
+			if (objectBehaviour.ContainedInObjectContainer != null &&
+					objectBehaviour.ContainedInObjectContainer.TryGetComponent<GasContainer>(out var gasContainer))
 			{
 				ambientGasMix = gasContainer.GasMix;
 			}

@@ -89,11 +89,11 @@ namespace AdminTools
 			// check container:
 			if(targetObjBehaviour != null)
 			{
-				if (targetObjBehaviour.ContainedInContainer != null)
+				if (targetObjBehaviour.ContainedInObjectContainer != null)
 				{
-					if (targetObjBehaviour.ContainedInContainer.transform != target)
+					if (targetObjBehaviour.ContainedInObjectContainer.transform != target)
 					{
-						target = targetObjBehaviour.ContainedInContainer.transform;
+						target = targetObjBehaviour.ContainedInObjectContainer.transform;
 					}
 				}
 				else

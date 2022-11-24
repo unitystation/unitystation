@@ -1405,7 +1405,7 @@ namespace Systems.Antagonists
 				return false;
 			}
 
-			if (playerScript.PlayerSync.ContainedInContainer != null)
+			if (playerScript.PlayerSync.ContainedInObjectContainer != null)
 			{
 				Chat.AddExamineMsgFromServer(gameObject, $"Cannot {action} in here!");
 				return false;
