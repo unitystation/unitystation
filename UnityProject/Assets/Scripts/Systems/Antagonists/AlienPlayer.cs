@@ -16,6 +16,7 @@ using ScriptableObjects;
 using Systems.GhostRoles;
 using Tiles;
 using UI.Action;
+using UI.Core.Action;
 using UnityEngine;
 using Weapons.Projectiles;
 
@@ -423,14 +424,14 @@ namespace Systems.Antagonists
 
 			 var AlienMind = PlayerSpawn.NewSpawnCharacterV2(newAlienData.AlienOccupation, new CharacterSheet()
 			 {
-				 Name = "Aileen"
+				 Name = "Alien"
 			 });
 
-			 AlienMind.body.playerMove.AppearAtWorldPositionServer(playerScript.objectPhysics.OfficialPosition);
+			 AlienMind.Body.playerMove.AppearAtWorldPositionServer(playerScript.objectPhysics.OfficialPosition);
 
 			Chat.AddExamineMsgFromServer(gameObject, $"You evolve into a {alienType.Name}!");
 
-			var newAlienPlayer = AlienMind.body.GetComponent<AlienPlayer>();
+			var newAlienPlayer = AlienMind.Body.GetComponent<AlienPlayer>();
 
 			newAlienPlayer.SetUpFromPrefab(alienType, changeName, nameNumber);
 
@@ -1600,7 +1601,7 @@ namespace Systems.Antagonists
 			playerTookOver = player;
 
 			//Transfer player chosen into body
-			//PlayerSpawn.TransferAccountToSpawnedMind(player, ); //TODO Need reference to mind!!!!!!!!!!!
+			PlayerSpawn.TransferAccountToSpawnedMind(player, playerScript.mind);
 
 			//Remove the player so they can join again once they die
 			GhostRoleManager.Instance.ServerRemoveWaitingPlayer(createdRoleKey, player);

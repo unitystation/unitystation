@@ -18,6 +18,7 @@ using Player.Language;
 using ScriptableObjects;
 using Systems.StatusesAndEffects;
 using Tiles;
+using UI.Core.Action;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Serialization;
 
@@ -35,7 +36,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	{
 		if (IsServer)
 		{
-			TriggerEventMessage.SendTo(GameObject, Event.PlayerSpawned); //TODO ODODOD!!
+			TriggerEventMessage.SendTo(GameObject, Event.PlayerSpawned);
 		}
 
 

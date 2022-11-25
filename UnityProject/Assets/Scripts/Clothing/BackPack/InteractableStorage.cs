@@ -8,6 +8,7 @@ using Messages.Server;
 using Objects;
 using Objects.Other;
 using UI.Action;
+using UI.Core.Action;
 using UnityEngine;
 
 /// <summary>
@@ -670,7 +671,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			if (showForPlayer != null)
 			{
 				itemStorage.ServerAddObserverPlayer(showForPlayer.PlayerScript.gameObject);
-				UIActionManager.ToggleServer(hideForPlayer.gameObject, this, true);
+				UIActionManager.ToggleServer(showForPlayer.gameObject, this, true);
 			}
 		}
 	}

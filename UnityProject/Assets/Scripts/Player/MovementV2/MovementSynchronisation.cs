@@ -15,6 +15,7 @@ using ScriptableObjects.Audio;
 using Tiles;
 using UI;
 using UI.Action;
+using UI.Core.Action;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
@@ -848,7 +849,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		{
 
 			var DummyMind = PlayerSpawn.NewSpawnCharacterV2(OccupationList.Instance.Occupations.PickRandom(),  CharacterSheet.GenerateRandomCharacter());
-			DummyMind.body.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(this.transform.position);
+			DummyMind.Body.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(this.transform.position);
 		}
 
 

@@ -12,7 +12,7 @@ namespace Antagonists
 
 		protected override bool CheckCompletion()
 		{
-			DynamicItemStorage dynamicItemStorage = Owner.body.GetComponent<DynamicItemStorage>();
+			DynamicItemStorage dynamicItemStorage = Owner.Body.GetComponent<DynamicItemStorage>();
 
 			//for whatever reason this is null, give the guy the greentext
 			if (dynamicItemStorage == null) return true;

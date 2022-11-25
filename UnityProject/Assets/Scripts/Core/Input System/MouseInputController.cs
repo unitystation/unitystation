@@ -12,6 +12,7 @@ using Tilemaps.Behaviours.Layers;
 using UI;
 using UI.Action;
 using Tiles;
+using UI.Core.Action;
 
 /// <summary>
 /// Main entry point for handling all input events
@@ -106,13 +107,11 @@ public class MouseInputController : MonoBehaviour
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
 	}
 
-	void LateUpdate()
+	private void LateUpdate()
 	{
-		if (PlayerManager.LocalPlayerObject == this.gameObject)
-		{
-			CheckMouseInput();
-			CheckCursorTexture();
-		}
+		if (PlayerManager.LocalPlayerObject != this.gameObject) return;
+		CheckMouseInput();
+		CheckCursorTexture();
 	}
 
 	public virtual void CheckMouseInput()

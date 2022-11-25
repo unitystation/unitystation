@@ -46,9 +46,9 @@ namespace InGameEvents
 		protected void GiveGunToPlayer(Mind player)
 		{
 			GameObject gun = Spawn.ServerPrefab(gunList.GetRandom(),
-						player.body.WorldPos, player.body.transform.parent, player.body.transform.rotation).GameObject;
+						player.Body.WorldPos, player.Body.transform.parent, player.Body.transform.rotation).GameObject;
 
-			ItemSlot slot = player.body.DynamicItemStorage.GetBestHandOrSlotFor(gun);
+			ItemSlot slot = player.Body.DynamicItemStorage.GetBestHandOrSlotFor(gun);
 			if (slot != null && slot.IsEmpty)
 			{
 				Inventory.ServerAdd(gun, slot);

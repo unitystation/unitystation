@@ -108,13 +108,13 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		initialized = true;
 
 		//these checks protect against NRE when spawning a player who has no mind, like dummy
-		var DIS = info.ToPlayer.GetComponent<DynamicItemStorage>();
-		if (DIS == null)
+		var inventory = info.ToPlayer.GetComponent<DynamicItemStorage>();
+		if (inventory == null)
 			return;
 
 
 
-		var occupation = DIS.InitialisedWithOccupation;
+		var occupation = inventory.InitialisedWithOccupation;
 		if (occupation == null)
 			return;
 
@@ -129,16 +129,16 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 
 		if (jobType == JobType.CAPTAIN)
 		{
-			Initialize(IDCardType.captain, jobType, clearanceToGive, DIS.gameObject.name);
+			Initialize(IDCardType.captain, jobType, clearanceToGive, inventory.gameObject.name);
 		}
 		else if (jobType == JobType.HOP || jobType == JobType.HOS || jobType == JobType.CMO || jobType == JobType.RD ||
 		         jobType == JobType.CHIEF_ENGINEER)
 		{
-			Initialize(IDCardType.command, jobType, clearanceToGive, DIS.gameObject.name);
+			Initialize(IDCardType.command, jobType, clearanceToGive, inventory.gameObject.name);
 		}
 		else
 		{
-			Initialize(IDCardType.standard, jobType, clearanceToGive, DIS.gameObject.name);
+			Initialize(IDCardType.standard, jobType, clearanceToGive, inventory.gameObject.name);
 		}
 	}
 

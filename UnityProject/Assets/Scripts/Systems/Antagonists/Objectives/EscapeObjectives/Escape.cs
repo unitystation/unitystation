@@ -36,7 +36,7 @@ namespace Antagonists
 		protected override bool CheckCompletion()
 		{
 
-			DynamicItemStorage dynamicItemStorage = Owner.body.GetComponent<DynamicItemStorage>();
+			DynamicItemStorage dynamicItemStorage = Owner.Body.GetComponent<DynamicItemStorage>();
 
 			//for whatever reason this is null, give the guy the greentext
 			if (dynamicItemStorage == null) return true;
@@ -49,9 +49,9 @@ namespace Antagonists
 				return false;
 			}
 
-			return !Owner.body.playerHealth.IsDead &&
+			return !Owner.Body.playerHealth.IsDead &&
 				ValidShuttles.Any( shuttle => shuttle.MatrixInfo != null
-					&& (CheckOnShip(Owner.body.RegisterPlayer, shuttle.MatrixInfo.Matrix)) && shuttle.HasWorkingThrusters);
+					&& (CheckOnShip(Owner.Body.RegisterPlayer, shuttle.MatrixInfo.Matrix)) && shuttle.HasWorkingThrusters);
 		}
 	}
 }

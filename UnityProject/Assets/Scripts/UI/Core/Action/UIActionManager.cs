@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,11 +5,11 @@ using JetBrains.Annotations;
 using Messages.Server;
 using Mirror;
 using Shared.Util;
+using UI.Action;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Util;
 
-namespace UI.Action
+namespace UI.Core.Action
 {
 	/// <summary>
 	/// Used to set the action From the client
@@ -25,11 +24,11 @@ namespace UI.Action
 		}
 
 
-		public Dictionary<GameObject, List<IActionGUI>> ActivePlayerActions = new Dictionary<GameObject, List<IActionGUI>>();
-		public Dictionary<IActionGUI, GameObject> IActionGUIToMind = new Dictionary<IActionGUI, GameObject>();
+		private Dictionary<GameObject, List<IActionGUI>> ActivePlayerActions = new Dictionary<GameObject, List<IActionGUI>>();
+		private Dictionary<IActionGUI, GameObject> IActionGUIToMind = new Dictionary<IActionGUI, GameObject>();
 
-		public Dictionary<IActionGUI, string> IActionGUIToID = new Dictionary<IActionGUI, string>();
-		public Dictionary<IActionGUI, string> ClientIActionGUIToID = new Dictionary<IActionGUI, string>();
+		private Dictionary<IActionGUI, string> IActionGUIToID = new Dictionary<IActionGUI, string>();
+		private Dictionary<IActionGUI, string> ClientIActionGUIToID = new Dictionary<IActionGUI, string>();
 
 
 		public Dictionary<GameObject, Dictionary<IActionGUIMulti, List<ActionData>>> MultiActivePlayerActions = new Dictionary<GameObject, Dictionary<IActionGUIMulti, List<ActionData>>>();

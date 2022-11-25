@@ -118,24 +118,24 @@ public class PlayerInfo
 		}
 	}
 
-	public JobType Job
-	{
-		get
-		{
-			if (Mind.OrNull()?.occupation.OrNull()?.JobType == null)
-			{
-				return JobType.NULL;
-			}
-			else
-			{
-				return Mind.occupation.JobType;
-			}
-		}
-	}
+	public JobType Job => Mind.OrNull()?.occupation.OrNull()?.JobType == null ? JobType.NULL : Mind.occupation.JobType;
 
 	private string name;
 	private JobType job;
-	private GameObject gameObject;
+
+	private GameObject gameObject
+	{
+		get
+		{
+			return _gameObject;
+		}
+		set
+		{
+			_gameObject = value
+		}
+	}
+
+	private GameObject _gameObject;
 
 	private void TryChangeName(string playerName)
 	{

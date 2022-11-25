@@ -92,7 +92,6 @@ namespace Items
 		private void HideHand(HiddenHandValue hiddenHandSelection, PlayerScript playerScript)
 		{
 			//TODO Think a better implementation since this hides for All hands
-			//playerScript.PlayerOnlySyncValues.ServerSetHiddenHands(hiddenHandSelection);
 		}
 
 		private ItemSlot DetermineHiddenHand(HandActivate interaction)

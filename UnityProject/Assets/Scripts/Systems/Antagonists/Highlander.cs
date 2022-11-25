@@ -9,7 +9,7 @@ namespace Systems.Antagonists
 
 		public override void AfterSpawn(Mind player)
 		{
-			player.body.playerHealth.EnableFastRegen();
+			player.Body.playerHealth.EnableFastRegen();
 			player.CurrentCharacterSettings.Speech = Speech.Scotsman;
 		}
 	}

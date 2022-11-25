@@ -122,9 +122,9 @@ namespace AdminTools
 		{
 			if(recentClick == false) return;
 			var player = PlayerList.Instance.GetPlayerByID(PlayerData.uid);
-			if (player == null || player.Script == null || player.Mind.body == null) return;
+			if (player == null || player.Script == null || player.Mind.Body == null) return;
 			if(PlayerManager.LocalPlayerScript.IsDeadOrGhost == false) AGhost.Ghost();
-			GhostOrbit.Instance.CmdServerOrbit(player.Mind.body.gameObject);
+			GhostOrbit.Instance.CmdServerOrbit(player.Mind.Body.gameObject);
 		}
 
 		private IEnumerator ClickCooldown()

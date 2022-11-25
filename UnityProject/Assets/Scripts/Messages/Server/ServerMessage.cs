@@ -52,10 +52,7 @@ namespace Messages.Server
 			if (connection == null)
 			{
 				connection = PlayerList.Instance.GetRelatedNetworkConnection(recipient);
-				if (connection == null)
-				{
-					return;
-				}
+				if (connection == null) return;
 			}
 
 			//only send to players that are currently controlled by a client

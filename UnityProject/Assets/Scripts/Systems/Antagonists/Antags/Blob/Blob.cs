@@ -16,7 +16,7 @@ namespace Antagonists
 		public override void AfterSpawn(Mind NewMind)
 		{
 			//Add blob player to game object
-			NewMind.body.gameObject.AddComponent<BlobStarter>();
+			NewMind.Body.gameObject.AddComponent<BlobStarter>();
 		}
 	}
 }

@@ -13,6 +13,7 @@ using Player;
 using ScriptableObjects.Audio;
 using UI.Action;
 using ScriptableObjects.Systems.Spells;
+using UI.Core.Action;
 
 /// <summary>
 /// IC character information (job role, antag info, real name, etc). A body and their ghost link to the same mind
@@ -24,7 +25,7 @@ public class Mind : NetworkBehaviour
 
 	//Antag
 	[SyncVar]
-	public bool NetworkedisAntag;
+	private bool NetworkedisAntag;
 
 	public GameObject PossessingObject { get; private set; }
 	public IPlayerPossessable PlayerPossessable { get; private set; }
@@ -32,7 +33,7 @@ public class Mind : NetworkBehaviour
 	public Occupation occupation;
 
 	public PlayerScript ghost { private set; get; }
-	public PlayerScript body => GetDeepestBody().GetComponent<PlayerScript>();
+	public PlayerScript Body => GetDeepestBody().GetComponent<PlayerScript>();
 	private SpawnedAntag antag;
 	public bool IsAntag => CustomNetworkManager.IsServer ? antag != null : NetworkedisAntag;
 	public bool IsGhosting;
@@ -49,7 +50,7 @@ public class Mind : NetworkBehaviour
 
 	public CharacterSheet CurrentCharacterSettings;
 
-	public PlayerScript CurrentPlayScript => IsGhosting ? ghost : body;
+	public PlayerScript CurrentPlayScript => IsGhosting ? ghost : Body;
 
 	public bool IsSpectator => PossessingObject == null;
 
@@ -172,9 +173,9 @@ public class Mind : NetworkBehaviour
 
 	private void ClearOldBody()
 	{
-		if (body)
+		if (Body)
 		{
-			ClearActionsMessage.SendTo(body.gameObject);
+			ClearActionsMessage.SendTo(Body.gameObject);
 			//body.mind = null;
 		}
 	}

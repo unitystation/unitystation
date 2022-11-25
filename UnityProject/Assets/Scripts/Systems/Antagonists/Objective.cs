@@ -109,20 +109,20 @@ namespace Antagonists
 		/// </summary>
 		protected bool CheckStorageFor(string name, int count)
 		{
-			if (Owner.body.DynamicItemStorage == null)
+			if (Owner.Body.DynamicItemStorage == null)
 			{
-				Logger.LogError($"Unable to find dynamic storage for {Owner.body} / {Owner.body.PlayerInfo.Username}");
+				Logger.LogError($"Unable to find dynamic storage for {Owner.Body} / {Owner.Body.PlayerInfo.Username}");
 				//If they have no storage then fail, as they can't have the item
 				return false;
 			}
 
-			return CheckStorage(Owner.body.DynamicItemStorage, default, name) >= count;
+			return CheckStorage(Owner.Body.DynamicItemStorage, default, name) >= count;
 		}
 
 		/// <inheritdoc cref="CheckStorageFor(string, int)"/>
 		protected bool CheckStorageFor(Type component, int count)
 		{
-			return CheckStorage(Owner.body.DynamicItemStorage, component, default) >= count;
+			return CheckStorage(Owner.Body.DynamicItemStorage, component, default) >= count;
 		}
 
 		private int CheckStorage(DynamicItemStorage itemStorage, Type component, string name)

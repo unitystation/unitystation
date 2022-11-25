@@ -398,7 +398,7 @@ namespace AdminCommands
 			//get player stuff.
 			PlayerScript playerScript = player.Script;
 			Mind playerMind = playerScript.mind;
-			var playerBody = playerMind.body;
+			var playerBody = playerMind.Body;
 			string message;
 
 			//Does this player have a body that can be healed?
@@ -457,7 +457,7 @@ namespace AdminCommands
 				return;
 			}
 
-			var item = Spawn.ServerPrefab(itemPrefabName, player.Mind.body.gameObject.AssumedWorldPosServer());
+			var item = Spawn.ServerPrefab(itemPrefabName, player.Mind.Body.gameObject.AssumedWorldPosServer());
 			var slot = player.Script.DynamicItemStorage.GetBestHandOrSlotFor(item.GameObject);
 			if (item.GameObject.TryGetComponent<Stackable>(out var stackable) && stackable.MaxAmount <= count)
 			{

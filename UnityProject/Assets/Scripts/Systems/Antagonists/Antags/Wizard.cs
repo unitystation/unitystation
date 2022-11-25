@@ -74,7 +74,7 @@ namespace Antagonists
 
 		private void SetPapers(Mind player)
 		{
-			IEnumerable<ItemSlot> idSlots = player.body.DynamicItemStorage.GetNamedItemSlots(NamedSlot.id);
+			IEnumerable<ItemSlot> idSlots = player.Body.DynamicItemStorage.GetNamedItemSlots(NamedSlot.id);
 			foreach (var idSlot in idSlots)
 			{
 				if (idSlot.IsOccupied && idSlot.ItemObject.TryGetComponent<Paper>(out var papersPlease))
@@ -85,7 +85,7 @@ namespace Antagonists
 
 
 
-			IEnumerable<ItemSlot> storage02s = player.body.DynamicItemStorage.GetPocketsSlots();
+			IEnumerable<ItemSlot> storage02s = player.Body.DynamicItemStorage.GetPocketsSlots();
 			foreach (var storage02 in storage02s)
 			{
 				if (storage02.IsOccupied && storage02.ItemObject.TryGetComponent<Paper>(out var helpPaper))

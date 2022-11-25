@@ -263,7 +263,7 @@ public class PlayerHealthUI : MonoBehaviour
 						damageColor = destroyedBodyPartColor;
 						break;
 				}
-				if (hasAuthority(bodyPart))
+				if (HasAuthority(bodyPart))
 				{
 					bodyPartListeners[i].SetDamageColor(damageColor);
 					bodyPartListeners[i].SetBodyPartColor(bodyPartColor);
@@ -277,9 +277,9 @@ public class PlayerHealthUI : MonoBehaviour
 				}
 			}
 		}
-		bool hasAuthority(BodyPart BbodyPart)
+		bool HasAuthority(BodyPart bbodyPart)
 		{
-			return BbodyPart.HealthMaster.hasAuthority;
+			return bbodyPart.HealthMaster.hasAuthority;
 		}
 	}
 }

@@ -32,7 +32,7 @@ public partial class TestAction
 
 			var Mind = PlayerSpawn.NewSpawnPlayerV2(spawnRequest.Player, spawnRequest.RequestedOccupation, spawnRequest.CharacterSettings);
 
-			Mind.body.playerMove.AppearAtWorldPositionServer(PositionToSpawn);
+			Mind.Body.playerMove.AppearAtWorldPositionServer(PositionToSpawn);
 
 			return true;
 		}

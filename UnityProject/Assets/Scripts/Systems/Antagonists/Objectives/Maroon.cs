@@ -37,7 +37,7 @@ namespace Antagonists
 		{
 			// Get all ingame players except the one who owns this objective and players who have already been targeted and the ones who cant be targeted
 			List<PlayerInfo> playerPool = PlayerList.Instance.InGamePlayers.Where( p =>
-				(p.Script != Owner.body) && !AntagManager.Instance.TargetedPlayers.Contains(p.Mind) && p.Script.mind.occupation != null && p.Script.mind.occupation.IsTargeteable
+				(p.Script != Owner.Body) && !AntagManager.Instance.TargetedPlayers.Contains(p.Mind) && p.Script.mind.occupation != null && p.Script.mind.occupation.IsTargeteable
 
 			).ToList();
 
@@ -84,7 +84,7 @@ namespace Antagonists
 
 			//If target is on functional escape shuttle, we failed
 			return ValidShuttles.Any( shuttle => shuttle
-				&& shuttle.MatrixInfo.Matrix.PresentPlayers.Contains(Owner.body.RegisterPlayer) && shuttle.HasWorkingThrusters) == false;
+				&& shuttle.MatrixInfo.Matrix.PresentPlayers.Contains(Owner.Body.RegisterPlayer) && shuttle.HasWorkingThrusters) == false;
 		}
 	}
 }

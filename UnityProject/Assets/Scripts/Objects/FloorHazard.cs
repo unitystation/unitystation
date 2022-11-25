@@ -35,7 +35,6 @@ namespace Objects
 		{
 			if(objectPhysics.registerTile.LocalPosition == TransformState.HiddenPos) return;
 			var health = playerScript.playerHealth;
-			if (health == null) return;
 
 			HurtFeet(health); //Moving this to it's own function to keep things clean.
 			//Text and Audio feedback.

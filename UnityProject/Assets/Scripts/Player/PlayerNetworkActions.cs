@@ -544,12 +544,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private void UpdateInventorySlots()
 	{
 		if (this == null || itemStorage == null || playerScript == null
-			|| playerScript.mind == null || playerScript.mind.body == null)
+			|| playerScript.mind == null || playerScript.mind.Body == null)
 		{
 			return;
 		}
 
-		var body = playerScript.mind.body.gameObject;
+		var body = playerScript.mind.Body.gameObject;
 
 		//player gets inventory slot updates again
 		foreach (var slot in itemStorage.GetItemSlotTree())
