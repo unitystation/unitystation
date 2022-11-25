@@ -6,6 +6,8 @@ These are not strict rules, and reviewers don't expect developers to be able to 
 
 As a supplement to this, you can check out some best practices for Unity development here: [50 Tips and Best Practices for Unity](https://www.gamasutra.com/blogs/HermanTulleken/20160812/279100/50_Tips_and_Best_Practices_for_Unity_2016_Edition.php)
 
+And we highly recommend that you watch this video as it covers a lot of common mistakes that developers do: [20 Advanced Coding Tips For Big Unity Projects](https://youtu.be/dLCLqEkbGEQ)
+
 ## Code Style
 
 1. All classes, public methods and public fields should have XML `///` comments. Parameter and return value documentations should be descriptive. Class documentation should describe the purpose of the class. Also comment any code where it might not be obvious to someone else why it's doing something. You can read more about how to write XML comments [here](https://docs.microsoft.com/en-us/dotnet/csharp/codedoc).
@@ -18,13 +20,27 @@ For example, here's a well-documented method:
         /// <param name="originator">GameObject of the player initiating the interaction</param>
         /// <param name="hand">hand being used by the originator</param>
         /// <returns>true if further interactions should be prevented for the current update</returns>
-        public bool Interact(GameObject originator, string hand) {
+        public bool Interact(GameObject originator, string hand)
 
 2. Usually, use a separate .cs file for each public class or struct. It is sometimes preferable to have more than one in the same file, but if uncertain err on the side of using a separate file.
 
-3. Use PascalCase for all file names. 
+3. Use **P**ascal**C**ase for all file names, functions and public variables. 
 
 3. Use namespace declarations matching the script's folder path on all new or modified script files.
+
+        :::csharp
+        namespace SampleNamespace
+        {
+            class SampleClass
+            {
+                public void SampleMethod()
+                {
+                     System.Console.WriteLine(
+                        "SampleMethod inside SampleNamespace");
+                }
+            }
+        }
+
 
 3. All variables and non-public fields except for constants / constant-like ones should use camelCase (with no prefix letter).
         
@@ -226,3 +242,307 @@ to just leave it as a public field without a property. As always, make sure to d
 6. Most string or numeric literals should be constants.
 7. Don't define constants that have the same value in multiple places. There should only ever be one place you need to change if you ever need to change a constant's value.
         
+# Writing efficent and maintainble code
+
+Unitystation is a gigantic and ambitious project that holds a lot of content and systems that can get tangled together, to avoid things tangling each other; we highly recommend that you write your code in a modular way that's easy for developers to maintain and and expand upon.
+
+Unity has a great talk on how to do just that in this video: [How to adopt a modular code workflow for your team | Unite 2022](https://youtu.be/nk3gHIZZ5Rg)
+
+Below are good practices and explainations on what to do, so you can avoid having your code refactored/reworked 5 months later and make the lives of other contributors much easier.
+
+## 0. In-code documentation and clarity
+
+* You can avoid confusing others (and even yourself) by naming your functions and variables in a clear and descriptive way.
+
+```cs
+//bad code
+private void DoThing(bool b)
+{
+    state = b;
+}
+```
+
+```cs
+//good code
+private void UpdateState(bool newState)
+{
+    state = newState;
+}
+```
+
+* Avoid using extremely shortened names whenever possible.
+
+```cs
+//bad name.
+var DIS = GetComponent<DynamicInventorySystem>();
+```
+
+```cs
+//good name.
+var inventory = GetComponent<DynamicInventorySystem>();
+```
+
+* Explain things like long LINQ expressions, uncommon C# syntax and RegEx.
+
+LINQ and Regex are extremely useful but they can slow down everyone sometimes whenever they have to work on/with it. Having comments in code that explains what it does can save a developer minutes (if not hours) of their life to be productive elsewhere.
+
+Reminder, just because your code might seem obvious to you; doesn't mean that it's obvious to everyone else.
+
+```cs
+// Linq expression that handles grabbing multiple names from a prefab.
+// it grabs all prefabs in documents then loops through all prefabs and grabs all searchable names.
+// if the searchable name contains a substring that the user is searching it will return it.
+var docs = (from doc in documents from prefabNames in doc.SearchableName
+	where prefabNames.Contains(standardizedSearch) select doc).ToList();
+}
+```
+
+* Make use of the [Unitystation developer docs](https://unitystation.github.io/unitystation/Documentation-Guide/) and document features and systems there.
+
+It's widely agreed everywhere that excessive commenting inside of code can make it look ugly. As a result, we move all or in-depth explanations of how things work to the developer docs.
+
+Whenever you finish working on a new feature or system, always try your best to write/update a page that explains what your changes does in detail.
+
+
+* Make proprer use of `Logger`
+
+It's easy to debug problems when the game tells us that there is one. As a result, we use `Logger`; a logging system that allows us to store records of how the game has been behaving/misbehaving while it's running.
+
+Logger should only be used to report unintended behaviors, errors and backend system messages. Never spam logger and remove any debugging messages you have left once you're done using it to print testing values/results in the console.
+
+To make our lives easier as well, add the class/gameObject name and function in the log message so it's easier to tell ourselves what went wrong from a surface.
+
+_Note: Avoid using unity's `Debug` class for logging as it doesn't store logs where we need them to be._
+```cs
+//bad use of logger.
+
+Logger.Log("something happened");
+```
+```cs
+//good use of logger.
+
+Logger.Log("[Manager/OnRoundEnd/Cleanup] - Manager cleaned references succesfully.", Category.DebugConsole);
+Logger.LogError($"[Item/ServerPerformInteraction] - Tried applying item on {gameObject.name} but it was missing X!", Category.Interactions);
+Logger.LogWarning("[Object/OnEnable] - Integer values appear to be too high, unintended behavior may occur.", Category.Atmospherics);
+```
+
+
+## 1. Writing modular code with minimal dependencies
+
+* Video games are event driven, you should use the `UpdateManager` as sparingly as possible and when it actually makes sense to constantly update a state of an object every frame.
+* Make use of `Action<>` and `UnityEvent<>` whenever you want to tell an object to do something based on a change or function being called on something else.
+
+_For more info about UnityEvents check: [The Offical Unity Docs](https://docs.unity3d.com/ScriptReference/Events.UnityEvent.html)_
+
+Events can be used to reduce the likelyhood of bugs and [NREs](https://learn.microsoft.com/en-us/dotnet/api/system.nullreferenceexception?view=net-7.0) occuring and makes our code much more maintainable and easy to expand upon due to how they're designed.
+
+With events, components don't have to constantly reference each other and only require a subscription to relevent functions that get invoked when things happen in the game.
+
+```cs
+//example of bad code
+
+class Health : Monobehavior
+{
+    public bool StateChanged;
+    public int currentHealth = 5;
+
+    void stateChange(int damageTaken){
+        currentHealth -= damageTaken;
+        if(currentHealth >= 0) return;
+        StateChanged = true;
+        Inventory.DropAll(); //How do we know that we have an inventory at all?
+    }
+}
+
+class DeathUI : Monobehavior
+{
+    public Health health; //<- possibily null
+
+    void Awake(){
+        UpdateManager.Add(FIXED_UPDATE, myFunc);
+    }
+
+    void myFunc(){
+        if(health.StateChanged == false) return;
+        DoThing();
+    }
+}
+
+class PlayerInventory : Inventory{
+    public void DropAll();
+}
+```
+
+```cs
+//example of good code
+
+class Health : Monobehavior
+{
+    public int CurrentHealth {private set; get;} = 5;
+    public Action OnDeath = new Action();
+
+    public void TakeDamage(int damageTaken)
+    {
+        currentHealth -= damageTaken;
+        if(currentHealth >= 0) return;
+        OnDeath?.Invoke();
+    }
+}
+
+class DeathUI : Monobehavior
+{
+    void OnEnable()
+    {
+        if(gameObject.TryGetComponent<Health>(out var playerHealth) == false) 
+        {
+            // Always leave warnings and errors whenever possible instead of silently not reporting unintended behaviors.
+            Logger.LogWarning("[DeathUI/OnEnable] - No health found on this gameObject! DeathUI hasn't subscribed to any events when it got enabled!");
+            return;
+        }
+        // Subscribes to the OnDeath event which will trigger when this object's health reaches 0 or below.
+        playerHealth.OnDeath += myFunc;
+    }
+
+    void myFunc()
+    {
+        DoThing();
+    }
+}
+
+class PlayerInventory : Inventory
+{
+    //same thing as in DeathUI, just subscribe to the OnDeath event.
+}
+```
+
+_Note: Events can leak! Always remember to unsubscribe your events on `OnDisable()`._
+
+* Minimise inheritance, Embrace Interfaces.
+
+[Interface](https://www.w3schools.com/cs/cs_interface.php) in C# is a blueprint of a class. It is like abstract class because all the methods which are declared inside the interface are abstract methods. It cannot be instantiated, but it can hold optional default implamentations. It is used to achieve multiple inheritance which can't be achieved by class.
+
+Interfaces allows to share behaviour with classes in a horizontal manner, contrary to inheritance where the sharing is vertical (from parent to children). In horizontal, there is no need for a parental relationship between the classes. 
+
+_CodeMonkey has a great video on how to utilise interfaces for a modular workflow: [Modular Character System in Unity](https://youtu.be/mJRc9kLxFSk)_
+
+That being said, Inheritance is not something to be afraid of. Inheritance makes sense to be used while in the right context, which is mostly going to be in ScriptableObjects and scanerios where you want to work with common data that will be shared around. 
+
+So, use inheritance for data driven scenarios while keep systems and functionality bound to C# Interfaces.
+
+
+* Reduce duplicate code.
+
+If you've seen something that has been done more than twice in the project, write a common class or class extension that allows us to reduce the likelyhood of having to maintain duplicate code that all do the same thing in multiple areas.
+
+```cs
+// bad code.
+
+class ClassA : MonoBehavior
+{
+    public void DoX_InTransform();
+}
+
+class ClassB : MonoBehavior
+{
+    private void DoX_InTransform();
+}
+
+class ClassC : MonoBehavior
+{
+    public void DoX_InTransform();
+}
+```
+
+```cs
+// good code.
+public static class TransformExtensions
+{
+    //can be called anywhere when they access Transform.
+    public static void DoX(this Transform t, float value)
+    {
+        //Common task here.
+    }
+}
+```
+
+## 2. Performance gotchas!
+
+* Unity still uses Mono, which means we do not get the performance benefits of .NET 6 and 7. As a result, minimise the use of things like [LINQ](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/) unless you know what you're doing.
+
+* As a general rule of thumb, avoid doing any performance intensive tasks or calculations on the game server. Your code may only take up 0.5% of CPU time but when 100 systems do this, it becomes inefficent and a glaring issue that someone has to deal with in the future.
+
+* Avoid using the `UpdateManager` whenever possible and bind yourself to an event driven archticture/design for your code. Not only is it good for code quality; But it's also good for performance when your code is designed in a way that expects functions to be called every once and a while rather than every tick/frame.
+
+* `GetComponent<>`, `GetComponentInChildren()` and `TryGetComponent<>()` are largely inefficent and can be incredibly slow. Use `CommonComponents` whenever possible or cache references to components.
+```cs
+//How to cache references.
+[SerializeField] private SpriteHandler itemSprite;
+
+void Awake()
+{
+    if(itemSprite == null) itemSprite = GetComponentInChildren<SpriteHandler>();
+}
+```
+
+* [Unity Coroutines](https://docs.unity3d.com/Manual/Coroutines.html) are great for moving tasks that require things to happen over time from the `Update()` loop into an asynchronous workflow that allows you to spread, pause and kill tasks freely over multiple frames. However, do be aware that it's a double edged sword as `IEnumerator` does allocate memory whenever `StartCoroutine` invokes a coroutine and you can only invoke them from inside Monobehaviors. Use them wisely.
+
+_TLDR: Coroutines trades CPU performance for memory_
+
+_"It’s best practice to condense a series of operations down to the fewest number of individual coroutines possible. Nested coroutines are useful for code clarity and maintenance, but they impose a higher memory overhead because the coroutine tracks objects." - Unity Docs._
+
+* Use Time-Splitting whenever your iterators/loops are attempting to go through a large amount of objects/tasks.
+```cs
+//How to time split.
+
+var currentIndex = 0;
+var maximumIndexesPerFrame = 20;
+
+foreach(var item in LargeList)
+{
+    if(currentIndex >= maximumIndexesPerFrame)
+    {
+        //Causes the IEnumerator to be paused until the next frame.
+        yield return WaitFor.EndOfFrame();
+        currentIndex = 0;
+    }
+    item.DoPossibilyHeavyTask();
+    currentIndex += 1;
+}
+```
+* If you're creating a custom data type, use `struct` instead of objects (aka `class`). Structs allocate less memory and are a better choice when your data does not require to be changed overtime or require bundled functions that self manage that data.
+
+* Turn off raycast masks in UI whenever you're not using them! Not only does it prevent bugs where mouse inputs may appeared blocked for no reason; but they also tell Unity to not waste time updating UI elements when there are no mouse interactions made for that element.
+
+* Prioritize using `Vector3.Distance()` rather than raycasts whenever you do not require checking for physical properties in the game world, as functions like `Physics2D.SphereOverlap()` and `MatrixManager.Linecast()` are generally slow and allocate a lot of memory.
+
+* Always use `Stringbuilder` for String concatenation operations as it's much faster than manually editing the string variable directly.
+
+* `TryCatch` has a [very small performance hit](https://stackoverflow.com/questions/1308432/do-try-catch-blocks-hurt-performance-when-exceptions-are-not-thrown) on the game. But it's generally recommended that you avoid using `TryCatch` all together especially on any function that runs on the `UpdateManager` and even more-so if it's on the game server; but if you do need it and have a [good reason](https://learn.microsoft.com/en-us/dotnet/standard/exceptions/best-practices-for-exceptions) for its use case, always remember to **never** leave your catch methods empty and log your expectations.
+```cs
+//bad TryCatch code.
+try
+{
+    gameObject.pickupable.GetBestHandOrSlotFor(this);
+}
+catch
+{
+
+}
+```
+```cs
+//good TryCatch code.
+try
+{
+    // Maximise the usecase of trycatch and report extra errors that may or may not happen.
+    if(gameObject.pickupable == null)
+    {
+        throw new ArgumentNullException(paramName: nameof(s), message: "this gameObject has no pickupable components!");
+    }
+    gameObject.pickupable.GetBestHandOrSlotFor(this);
+}
+catch (Exception e)
+{
+    // Never leave your catch block empty, always report that something has went wrong here.
+    Logger.LogError($"[ClassName/Function] - An error occured when trying to get the best slot for this item. \n {e}");
+}
+```
