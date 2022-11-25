@@ -122,20 +122,7 @@ public class PlayerInfo
 
 	private string name;
 	private JobType job;
-
-	private GameObject gameObject
-	{
-		get
-		{
-			return _gameObject;
-		}
-		set
-		{
-			_gameObject = value
-		}
-	}
-
-	private GameObject _gameObject;
+	private GameObject gameObject;
 
 	private void TryChangeName(string playerName)
 	{
