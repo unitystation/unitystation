@@ -21,68 +21,79 @@ public interface IPlayerPossessable
 
 	public MindNIPossessingEvent OnPossessedBy   { get; set; }
 
+	public void ServeInternalOnEnterPlayerControl(GameObject PreviouslyControlling, Mind mind, bool IsServer)
+	{
+		//can observe their new inventory
+		var dynamicItemStorage = GameObject.GetComponent<DynamicItemStorage>();
+		if (dynamicItemStorage != null)
+		{
+			dynamicItemStorage.ServerAddObserverPlayer(GameObject);
+			PlayerPopulateInventoryUIMessage.Send(dynamicItemStorage,
+				GameObject); //TODO should we be using the players body as game object???
+		}
+		// If the player is inside a container, send a ClosetHandlerMessage.
+		// The ClosetHandlerMessage will attach the container to the transfered player.
+		var playerObjectBehavior = GameObject.GetComponent<UniversalObjectPhysics>();
+		if (playerObjectBehavior != null )
+		{
+			FollowCameraMessage.Send(GameObject, playerObjectBehavior.GetRootObject);
+		}
+
+		PossessAndUnpossessMessage.Send(GameObject, GameObject, PreviouslyControlling);
+
+
+		var PS = GameObject.GetComponent<PlayerScript>();
+		if (PS)
+		{
+			PS.SetMind(mind); //TODO unset
+		}
+
+
+		var health = GameObject.GetComponent<LivingHealthMasterBase>();
+		if (health != null)
+		{
+			mind.bodyMobID = health.mobID;
+		}
+
+
+
+		var transfers = GameObject.GetComponents<IOnPlayerTransfer>();
+
+		foreach (var transfer in transfers)
+		{
+			transfer.OnPlayerTransfer(mind.ControlledBy);
+		}
+	}
+
+
+	public void ClientInternalOnEnterPlayerControl(GameObject PreviouslyControlling, Mind mind, bool IsServer)
+	{
+		UIManager.Display.RejoinedEvent();
+		IPlayerControllable input = GameObject.GetComponent<IPlayerControllable>();
+
+		if (GameObject.TryGetComponent<AiMouseInputController>(out var aiMouseInputController))
+		{
+			input = aiMouseInputController;
+		}
+
+		PlayerManager.SetPlayerForControl(GameObject, input);
+		var dynamicItemStorage = GameObject.GetComponent<DynamicItemStorage>();
+		if (dynamicItemStorage != null)
+		{
+			dynamicItemStorage.UpdateSlots(	dynamicItemStorage.GetSetData, 	dynamicItemStorage.GetSetData);
+		}
+	}
+
 	public void InternalOnEnterPlayerControl(GameObject PreviouslyControlling, Mind mind, bool IsServer)
 	{
 		if (IsServer)
 		{
-			//can observe their new inventory
-			var dynamicItemStorage = GameObject.GetComponent<DynamicItemStorage>();
-			if (dynamicItemStorage != null)
-			{
-				dynamicItemStorage.ServerAddObserverPlayer(GameObject);
-				PlayerPopulateInventoryUIMessage.Send(dynamicItemStorage,
-					GameObject); //TODO should we be using the players body as game object???
-			}
-			// If the player is inside a container, send a ClosetHandlerMessage.
-			// The ClosetHandlerMessage will attach the container to the transfered player.
-			var playerObjectBehavior = GameObject.GetComponent<UniversalObjectPhysics>();
-			if (playerObjectBehavior != null )
-			{
-				FollowCameraMessage.Send(GameObject, playerObjectBehavior.GetRootObject);
-			}
-
-			PossessAndUnpossessMessage.Send(GameObject, GameObject, PreviouslyControlling);
-
-
-			var PS = GameObject.GetComponent<PlayerScript>();
-			if (PS)
-			{
-				PS.SetMind(mind); //TODO unset
-			}
-
-
-			var health = GameObject.GetComponent<LivingHealthMasterBase>();
-			if (health != null)
-			{
-				mind.bodyMobID = health.mobID;
-			}
-
-
-
-			var transfers = GameObject.GetComponents<IOnPlayerTransfer>();
-
-			foreach (var transfer in transfers)
-			{
-				transfer.OnPlayerTransfer(mind.ControlledBy);
-			}
+			ServeInternalOnEnterPlayerControl(PreviouslyControlling, mind, IsServer);
 		}
 
 		if (GameObject.GetComponent<NetworkIdentity>().hasAuthority)
 		{
-			UIManager.Display.RejoinedEvent();
-			IPlayerControllable input = GameObject.GetComponent<IPlayerControllable>();
-
-			if (GameObject.TryGetComponent<AiMouseInputController>(out var aiMouseInputController))
-			{
-				input = aiMouseInputController;
-			}
-
-			PlayerManager.SetPlayerForControl(GameObject, input);
-			var dynamicItemStorage = GameObject.GetComponent<DynamicItemStorage>();
-			if (dynamicItemStorage != null)
-			{
-				dynamicItemStorage.UpdateSlots(	dynamicItemStorage.GetSetData, 	dynamicItemStorage.GetSetData);
-			}
+			ClientInternalOnEnterPlayerControl(PreviouslyControlling, mind, IsServer);
 		}
 
 		OnEnterPlayerControl( PreviouslyControlling,  mind,  IsServer);
