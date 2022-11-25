@@ -425,7 +425,7 @@ Interfaces allows to share behaviour with classes in a horizontal manner, contra
 
 _CodeMonkey has a great video on how to utilise interfaces for a modular workflow: [Modular Character System in Unity](https://youtu.be/mJRc9kLxFSk)_
 
-That being said, Concepts such as [Polymorphism](https://www.w3schools.com/cs/cs_polymorphism.php) is not something to be afraid of. Inheritance makes sense to be used while in the right context, which is mostly going to be in ScriptableObjects and scanerios where you want to work with common data that will be shared around. 
+That being said, Inheritance is not something to be afraid of. Inheritance makes sense to be used while in the right context, which is mostly going to be in ScriptableObjects and scanerios where you want to work with common data that will be shared around. 
 
 So, use inheritance for data driven scenarios while keep systems and functionality bound to C# Interfaces.
 
