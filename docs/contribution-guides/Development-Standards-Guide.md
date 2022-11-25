@@ -250,13 +250,13 @@ Unity has a great talk on how to do just that in this video: [How to adopt a mod
 
 Below are good practices and explainations on what to do, so you can avoid having your code refactored/reworked 5 months later and make the lives of other contributors much easier.
 
-## 0. In-code documentation
+## 0. In-code documentation and clarity
 
 * You can avoid confusing others (and even yourself) by naming your functions and variables in a clear and descriptive way.
 
 ```cs
 //bad code
-void doThing(bool b)
+private void DoThing(bool b)
 {
     state = b;
 }
@@ -264,41 +264,44 @@ void doThing(bool b)
 
 ```cs
 //good code
-private void ThisFunctionWillDoA_B_And_C(bool newState)
+private void UpdateState(bool newState)
 {
     state = newState;
 }
 ```
 
-* Explain what your function does step by step whenever possible. Your code might seem obvious to you, but for other people; that may not be the case.
+* Avoid using extremely shortened names whenever possible.
 
 ```cs
-//Example from NightVisionGoggle.cs
+//bad name.
+var DIS = GetComponent<DynamicInventorySystem>();
+```
 
-/// <summary>
-/// Checks if the item is in the correct ItemSlot which is the eyes.
-/// Automatically returns false if null because of the "is" keyword and null propagation.
-/// </summary>
-private bool IsInCorrectNamedSlot()
-{
-	return pickupable.ItemSlot is { NamedSlot: NamedSlot.eyes };
-}
+```cs
+//good name.
+var inventory = GetComponent<DynamicInventorySystem>();
+```
 
-private void ApplyEffects(bool state)
-{
-	var finalState = state;
-	// If for whatever reason unity is unable to catch the correct main camera that has the CameraEffectControlScript
-	// Don't do anything.
-	if (Camera.main == null ||
-		Camera.main.TryGetComponent<CameraEffectControlScript>(out var effects) == false) return;
-	// If the item is not in the correct slot, ensure the effect is disabled.
-	if (IsInCorrectNamedSlot() == false) finalState = false;
-	// Visibility is updated based on the on/off state of the goggles.
-	// True means its on and will show an expanded view in the dark by changing the player's light view.
-	// False will revert it to default.
-	effects.AdjustPlayerVisibility(finalState);
+* Explain things like long LINQ expressions, uncommon C# syntax and RegEx.
+
+LINQ and Regex are extremely useful but they can slow down everyone sometimes whenever they have to work on/with it. Having comments in code that explains what it does can save a developer minutes (if not hours) of their life to be productive elsewhere.
+
+Reminder, just because your code might seem obvious to you; doesn't mean that it's obvious to everyone else.
+
+```cs
+// Linq expression that handles grabbing multiple names from a prefab.
+// it grabs all prefabs in documents then loops through all prefabs and grabs all searchable names.
+// if the searchable name contains a substring that the user is searching it will return it.
+var docs = (from doc in documents from prefabNames in doc.SearchableName
+	where prefabNames.Contains(standardizedSearch) select doc).ToList();
 }
 ```
+
+* Make use of the [Unitystation developer docs](https://unitystation.github.io/unitystation/Documentation-Guide/) and document features and systems there.
+
+It's widely agreed everywhere that excessive commenting inside of code can make it look ugly. As a result, we move all or in-depth explanations of how things work to the developer docs.
+
+Whenever you finish working on a new feature or system, always try your best to write/update a page that explains what your changes does in detail.
 
 
 * Make proprer use of `Logger`
@@ -318,9 +321,9 @@ Logger.Log("something happened");
 ```cs
 //good use of logger.
 
-Logger.Log("[Manager/OnRoundEnd/Cleanup] - Manager cleaned references succesfully.");
-Logger.LogError($"[Item/ServerPerformInteraction] - Tried applying item on {gameObject.name} but it was missing X!");
-Logger.LogWarning("[Object/OnEnable] - Integer values appear to be too high, unintended behavior may occur.");
+Logger.Log("[Manager/OnRoundEnd/Cleanup] - Manager cleaned references succesfully.", Category.DebugConsole);
+Logger.LogError($"[Item/ServerPerformInteraction] - Tried applying item on {gameObject.name} but it was missing X!", Category.Interactions);
+Logger.LogWarning("[Object/OnEnable] - Integer values appear to be too high, unintended behavior may occur.", Category.Atmospherics);
 ```
 
 
@@ -414,17 +417,17 @@ class PlayerInventory : Inventory
 
 _Note: Events can leak! Always remember to unsubscribe your events on `OnDisable()`._
 
-* Minimise Polymorphism, Embrace Interfaces.
+* Minimise inheritance, Embrace Interfaces.
 
-[Interface](https://www.w3schools.com/cs/cs_interface.php) in C# is a blueprint of a class. It is like abstract class because all the methods which are declared inside the interface are abstract methods. It cannot have method body and cannot be instantiated. It is used to achieve multiple inheritance which can't be achieved by class.
+[Interface](https://www.w3schools.com/cs/cs_interface.php) in C# is a blueprint of a class. It is like abstract class because all the methods which are declared inside the interface are abstract methods. It cannot be instantiated, but it can hold optional default implamentations. It is used to achieve multiple inheritance which can't be achieved by class.
 
-Interfaces allow us to easily communicate features between objects and managers by keeping design/implamentation contained in predictable states and architecture while allowing us to easily expand, maintain and iterate upon them.
+Interfaces allows to share behaviour with classes in a horizontal manner, contrary to inheritance where the sharing is vertical (from parent to children). In horizontal, there is no need for a parental relationship between the classes. 
 
 _CodeMonkey has a great video on how to utilise interfaces for a modular workflow: [Modular Character System in Unity](https://youtu.be/mJRc9kLxFSk)_
 
-That being said, [Polymorphism](https://www.w3schools.com/cs/cs_polymorphism.php) is not something to be afraid of. Polymorphism makes sense to be used while in the right context, which is mostly going to be in ScriptableObjects and scanerios where you want to work with common data that will be shared around. 
+That being said, Concepts such as [Polymorphism](https://www.w3schools.com/cs/cs_polymorphism.php) is not something to be afraid of. Inheritance makes sense to be used while in the right context, which is mostly going to be in ScriptableObjects and scanerios where you want to work with common data that will be shared around. 
 
-So, use Polymorphism for data driven scenarios while keep systems and functionality bound to C# Interfaces.
+So, use inheritance for data driven scenarios while keep systems and functionality bound to C# Interfaces.
 
 
 * Reduce duplicate code.
@@ -434,16 +437,19 @@ If you've seen something that has been done more than twice in the project, writ
 ```cs
 // bad code.
 
-classA : MonoBehavior{
-    void DoX_InTransform();
+class ClassA : MonoBehavior
+{
+    public void DoX_InTransform();
 }
 
-classB : MonoBehavior{
-    void DoX_InTransform();
+class ClassB : MonoBehavior
+{
+    private void DoX_InTransform();
 }
 
-classC : MonoBehavior{
-    void DoX_InTransform();
+class ClassC : MonoBehavior
+{
+    public void DoX_InTransform();
 }
 ```
 
