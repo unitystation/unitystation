@@ -14,7 +14,11 @@ namespace Systems.Cargo
 
 		[SerializeField]
 		private Vector2 centcomDest = new Vector2(4, 150);
+		[SerializeField]
+		private OrientationEnum centcommTravelDirection = OrientationEnum.Up_By0;
 		public Vector2 StationDest = new Vector2(4, 85);
+		[SerializeField]
+		private OrientationEnum stationTravelDirection = OrientationEnum.Down_By180;
 		[SerializeField]
 		private int dockOffset = 23;
 		[SerializeField]
@@ -74,7 +78,7 @@ namespace Systems.Cargo
 		/// </summary>
 		public void MoveToStation()
 		{
-			mm.ChangeFlyingDirection(Orientation.Down);
+			mm.ChangeFlyingDirection(Orientation.FromEnum(stationTravelDirection));
 			MoveTo(StationDest);
 		}
 
@@ -84,7 +88,7 @@ namespace Systems.Cargo
 		/// </summary>
 		public void MoveToCentcom()
 		{
-			mm.ChangeFlyingDirection(Orientation.Up);
+			mm.ChangeFlyingDirection(Orientation.FromEnum(centcommTravelDirection));
 			MoveTo(centcomDest);
 		}
 
@@ -104,11 +108,11 @@ namespace Systems.Cargo
 				moving = false;
 				mm.SetPosition(destination);
 				mm.StopMovement();
-				mm.SteerTo(Orientation.Up);
+				mm.SteerTo(Orientation.FromEnum(centcommTravelDirection));
 
 				if (CargoManager.Instance.ShuttleStatus == ShuttleStatus.OnRouteStation)
 				{
-					mm.ChangeFlyingDirection(Orientation.Down);
+					mm.ChangeFlyingDirection(Orientation.FromEnum(stationTravelDirection));
 					StartCoroutine(ReverseIntoStation());
 				}
 			}
@@ -124,8 +128,8 @@ namespace Systems.Cargo
 		{
 			if (ChangeDirectionAtOffset)
 			{
-				mm.SteerTo(Orientation.Down);
-				mm.ChangeFlyingDirection(Orientation.Up);
+				mm.SteerTo(Orientation.FromEnum(stationTravelDirection));
+				mm.ChangeFlyingDirection(Orientation.FromEnum(centcommTravelDirection));
 			}
 
 			if (dockOffset != 0)

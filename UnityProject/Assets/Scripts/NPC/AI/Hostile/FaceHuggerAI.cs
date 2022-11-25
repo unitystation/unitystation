@@ -12,6 +12,7 @@ namespace Systems.MobAIs
 		[SerializeField]
 		[Tooltip("If true, this hugger won't be counted for the cap Queens use for lying eggs.")]
 		private bool ignoreInQueenCount = false;
+		private bool processedRemovalFromQueenCount = false; //Lifecycle updates can still occur on dead creatures due to healing and the like. We only want to remove the hugger from the queen count once.
 		//private MobMeleeAction mobMeleeAction;
 		private FaceHugAction faceHugAction;
 
@@ -29,6 +30,7 @@ namespace Systems.MobAIs
 			if (ignoreInQueenCount == false)
 			{
 				XenoQueenAI.AddFacehuggerToCount();
+				processedRemovalFromQueenCount = false;
 			}
 			ResetBehaviours();
 		}
@@ -66,12 +68,13 @@ namespace Systems.MobAIs
 		/// </summary>
 		protected override void HandleDeathOrUnconscious()
 		{
-			base.HandleDeathOrUnconscious();
-
-			if (ignoreInQueenCount == false)
+			if (ignoreInQueenCount == false && processedRemovalFromQueenCount == false)
 			{
 				XenoQueenAI.RemoveFacehuggerFromCount();
+				processedRemovalFromQueenCount = true;
 			}
+
+			base.HandleDeathOrUnconscious();
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
