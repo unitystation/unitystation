@@ -1,9 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using CameraEffects;
 using Messages.Server;
 using Mirror;
 using Systems.Antagonists;
@@ -16,7 +11,7 @@ namespace HealthV2
 	{
 		[SerializeField]
 		[Tooltip("This Character will be spawned from the Larvae when its time")]
-		private Occupation XenomorphLarvaeOccupation;
+		private Occupation xenomorphLarvaeOccupation;
 
 		/// <summary>
 		/// Time in seconds
@@ -73,12 +68,12 @@ namespace HealthV2
 				DamageType.Brute,
 				BodyPartType.Chest);
 
-			var AlienMind = PlayerSpawn.NewSpawnCharacterV2(XenomorphLarvaeOccupation, new CharacterSheet()
+			var alienMind = PlayerSpawn.NewSpawnCharacterV2(xenomorphLarvaeOccupation, new CharacterSheet()
 			{
 				Name = "Larvae"
 			});
 
-			AlienMind.PossessingObject.GetComponent<UniversalObjectPhysics>()
+			alienMind.PossessingObject.GetComponent<UniversalObjectPhysics>()
 				.AppearAtWorldPositionServer(RelatedPart.HealthMaster.gameObject.AssumedWorldPosServer());
 
 
@@ -92,10 +87,10 @@ namespace HealthV2
 
 			if (checkPlayerScript.HasComponent && checkPlayerScript.Component.mind.ControlledBy != null)
 			{
-				PlayerSpawn.TransferAccountToSpawnedMind(checkPlayerScript.Component.mind.ControlledBy, AlienMind);
+				PlayerSpawn.TransferAccountToSpawnedMind(checkPlayerScript.Component.mind.ControlledBy, alienMind);
 			}
 
-			var alienPlayer = AlienMind.PossessingObject.GetComponent<AlienPlayer>();
+			var alienPlayer = alienMind.PossessingObject.GetComponent<AlienPlayer>();
 
 			alienPlayer.SetNewPlayer();
 			alienPlayer.DoConnectCheck();

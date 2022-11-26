@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Core.Utils;
 using HealthV2;
@@ -24,7 +23,7 @@ public interface IPlayerPossessable
 
 	public Action OnActionEnterPlayerControl { get; set; }
 
-	public void ServeInternalOnEnterPlayerControl(GameObject PreviouslyControlling, Mind mind, bool IsServer)
+	public void ServeInternalOnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer)
 	{
 		//can observe their new inventory
 		var dynamicItemStorage = GameObject.GetComponent<DynamicItemStorage>();
@@ -42,13 +41,13 @@ public interface IPlayerPossessable
 			FollowCameraMessage.Send(GameObject, playerObjectBehavior.GetRootObject);
 		}
 
-		PossessAndUnpossessMessage.Send(GameObject, GameObject, PreviouslyControlling);
+		PossessAndUnpossessMessage.Send(GameObject, GameObject, previouslyControlling);
 
 
-		var PS = GameObject.GetComponent<PlayerScript>();
-		if (PS)
+		var playerScript = GameObject.GetComponent<PlayerScript>();
+		if (playerScript)
 		{
-			PS.SetMind(mind); //TODO unset
+			playerScript.SetMind(mind); //TODO unset
 		}
 
 
@@ -70,10 +69,10 @@ public interface IPlayerPossessable
 	}
 
 
-	public void ClientInternalOnEnterPlayerControl(GameObject PreviouslyControlling, Mind mind, bool IsServer)
+	public void ClientInternalOnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer)
 	{
 		UIManager.Display.RejoinedEvent();
-		IPlayerControllable input = GameObject.GetComponent<IPlayerControllable>();
+		var input = GameObject.GetComponent<IPlayerControllable>();
 
 		if (GameObject.TryGetComponent<AiMouseInputController>(out var aiMouseInputController))
 		{
@@ -88,31 +87,31 @@ public interface IPlayerPossessable
 		}
 	}
 
-	public void InternalOnEnterPlayerControl(GameObject PreviouslyControlling, Mind mind, bool IsServer)
+	public void InternalOnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer)
 	{
-		if (IsServer)
+		if (isServer)
 		{
-			ServeInternalOnEnterPlayerControl(PreviouslyControlling, mind, IsServer);
+			ServeInternalOnEnterPlayerControl(previouslyControlling, mind, true);
 		}
 
 		if (GameObject.GetComponent<NetworkIdentity>().hasAuthority)
 		{
-			ClientInternalOnEnterPlayerControl(PreviouslyControlling, mind, IsServer);
+			ClientInternalOnEnterPlayerControl(previouslyControlling, mind, isServer);
 		}
 
-		OnEnterPlayerControl( PreviouslyControlling,  mind,  IsServer);
+		OnEnterPlayerControl( previouslyControlling,  mind,  isServer);
 	}
 
-	public void OnEnterPlayerControl(GameObject PreviouslyControlling, Mind mind, bool IsServer);
+	public void OnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer);
 
-	public bool IsRelatedToObject(GameObject Object)
+	public bool IsRelatedToObject(GameObject _object)
 	{
-		if (PossessingObject == Object)
+		if (PossessingObject == _object)
 		{
 			return true;
 		}
 
-		if (Possessing != null && Possessing.IsRelatedToObject(Object))
+		if (Possessing != null && Possessing.IsRelatedToObject(_object))
 		{
 			return true;
 		}
@@ -120,63 +119,63 @@ public interface IPlayerPossessable
 		return false;
 	}
 
-	public void BeingPossessedBy(Mind Mind, IPlayerPossessable PlayerPossessable)
+	public void BeingPossessedBy(Mind mind, IPlayerPossessable playerPossessable)
 	{
-		PossessingMind = Mind;
-		PossessedBy = PlayerPossessable;
+		PossessingMind = mind;
+		PossessedBy = playerPossessable;
 		if (Possessing != null)
 		{
-			Possessing.BeingPossessedBy(Mind, this);
+			Possessing.BeingPossessedBy(mind, this);
 		}
-		OnPossessedBy?.Invoke(Mind,PlayerPossessable);
+		OnPossessedBy?.Invoke(mind,playerPossessable);
 	}
 
 	public void SetPossessingObject(GameObject obj)
 	{
-		var InPossessing = obj.OrNull()?.GetComponent<IPlayerPossessable>();
-		List<NetworkIdentity> Gaining = new List<NetworkIdentity>();
-		if (InPossessing != null)
+		var inPossessing = obj.OrNull()?.GetComponent<IPlayerPossessable>();
+		var gaining = new List<NetworkIdentity>();
+		if (inPossessing != null)
 		{
-			InPossessing.GetRelatedBodies(Gaining);
+			inPossessing.GetRelatedBodies(gaining);
 		}
 		else if (obj != null)
 		{
-			Gaining.Add(obj.NetWorkIdentity());
+			gaining.Add(obj.NetWorkIdentity());
 		}
 
 
-		List<NetworkIdentity> Losing = new List<NetworkIdentity>();
+		var losing = new List<NetworkIdentity>();
 		if (Possessing != null)
 		{
-			Possessing.GetRelatedBodies(Losing);
+			Possessing.GetRelatedBodies(losing);
 		}
 		else if (PossessingObject != null)
 		{
-			Gaining.Add(PossessingObject.NetWorkIdentity());
+			gaining.Add(PossessingObject.NetWorkIdentity());
 		}
 
-		PossessingMind.OrNull()?.HandleOwnershipChangeMulti(Losing, Gaining);
+		PossessingMind.OrNull()?.HandleOwnershipChangeMulti(losing, gaining);
 		PossessingObject = obj;
 		Possessing = obj.GetComponent<IPlayerPossessable>();
 		Possessing?.BeingPossessedBy(PossessingMind, this);
 	}
 
-	public List<NetworkIdentity> GetRelatedBodies(List<NetworkIdentity> ReturnList)
+	public List<NetworkIdentity> GetRelatedBodies(List<NetworkIdentity> returnList)
 	{
-		ReturnList.Add(GameObject.NetWorkIdentity());
+		returnList.Add(GameObject.NetWorkIdentity());
 		if (Possessing != null)
 		{
-			Possessing.GetRelatedBodies(ReturnList);
+			Possessing.GetRelatedBodies(returnList);
 		}
 		else
 		{
 			if (PossessingObject != null)
 			{
-				ReturnList.Add(PossessingObject.NetWorkIdentity());
+				returnList.Add(PossessingObject.NetWorkIdentity());
 			}
 		}
 
-		return ReturnList;
+		return returnList;
 	}
 
 	public NetworkIdentity GetDeepestBody()
@@ -186,12 +185,10 @@ public interface IPlayerPossessable
 		{
 			return Possessing.GetDeepestBody();
 		}
-		else
+
+		if (PossessingObject != null)
 		{
-			if (PossessingObject != null)
-			{
-				return PossessingObject.NetWorkIdentity();
-			}
+			return PossessingObject.NetWorkIdentity();
 		}
 
 		return GameObject.NetWorkIdentity();

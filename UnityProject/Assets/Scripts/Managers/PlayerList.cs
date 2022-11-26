@@ -110,8 +110,8 @@ public partial class PlayerList : NetworkBehaviour
 	[Server]
 	public void TrackKill(GameObject perpetrator, GameObject victim)
 	{
-		var perPlayer = perpetrator?.Player()?.Script;
-		var victimPlayer = victim?.Player()?.Script;
+		var perPlayer = perpetrator.OrNull()?.Player()?.Script;
+		var victimPlayer = victim.OrNull()?.Player()?.Script;
 
 		if (perPlayer == null || victimPlayer == null)
 		{
@@ -225,7 +225,7 @@ public partial class PlayerList : NetworkBehaviour
 		if (!loggedIn.Contains(player))
 		{
 			Logger.Log($"Player with name {player.Name} was not found in online player list. " +
-					$"Verifying player lists for integrity...", Category.Connections);
+			           "Verifying player lists for integrity...", Category.Connections);
 			ValidatePlayerListRecords();
 			return;
 		}
@@ -238,21 +238,21 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public NetworkConnection GetRelatedNetworkConnection(GameObject Object)
+	public NetworkConnection GetRelatedNetworkConnection(GameObject _object)
 	{
 		try
 		{
-			if (Object == null) return null;
-			foreach (var Info in loggedIn)
+			if (_object == null) return null;
+			foreach (var info in loggedIn)
 			{
-				if (Info.ViewerScript.OrNull()?.gameObject == Object)
+				if (info.ViewerScript.OrNull()?.gameObject == _object)
 				{
-					return Info.Connection;
+					return info.Connection;
 				}
 
-				if (Info.Mind != null && Info.Mind.IsRelatedToObject(Object))
+				if (info.Mind != null && info.Mind.IsRelatedToObject(_object))
 				{
-					return Info.Connection;
+					return info.Connection;
 				}
 			}
 
@@ -452,20 +452,20 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public void Remove(PlayerInfo ConnectedPlayer)
+	public void Remove(PlayerInfo connectedPlayer)
 	{
 
-		if (loggedOff.Contains(ConnectedPlayer))
+		if (loggedOff.Contains(connectedPlayer))
 		{
-			loggedOff.Remove(ConnectedPlayer);
+			loggedOff.Remove(connectedPlayer);
 		}
 
-		if (loggedIn.Contains(ConnectedPlayer))
+		if (loggedIn.Contains(connectedPlayer))
 		{
-			loggedIn.Remove(ConnectedPlayer);
+			loggedIn.Remove(connectedPlayer);
 		}
 
-		ConnectedPlayer.Connection.Disconnect();
+		connectedPlayer.Connection.Disconnect();
 
 
 	}
@@ -484,7 +484,7 @@ public partial class PlayerList : NetworkBehaviour
 		if (player.Equals(PlayerInfo.Invalid))
 		{
 			Logger.Log($"Unknown player disconnected: verifying playerlists for integrity - connected player was invalid. " +
-					$"IP: {connection.address}. Name: {connection.identity.name}.", Category.Connections);
+			           $"IP: {connection.address}. Name: {connection.identity.name}.", Category.Connections);
 			ValidatePlayerListRecords();
 			return;
 		}

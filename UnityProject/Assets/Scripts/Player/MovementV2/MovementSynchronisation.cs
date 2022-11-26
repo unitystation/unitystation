@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Core.Editor.Attributes;
-using HealthV2;
 using Items;
 using Managers;
 using Messages.Client.Interaction;
@@ -14,11 +12,9 @@ using Player.Movement;
 using ScriptableObjects.Audio;
 using Tiles;
 using UI;
-using UI.Action;
 using UI.Core.Action;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Tilemaps;
 
 public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, IActionGUI, ICooldown,
 	IBumpableObject, ICheckedInteractable<ContextMenuApply>
@@ -27,7 +23,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public List<MoveData> MoveQueue = new List<MoveData>();
 
-	private float MoveMaxDelayQueue = 4f; //Only matters when low FPS mode
+	private const float MOVE_MAX_DELAY_QUEUE = 4f; //Only matters when low FPS mode
 
 	public float DefaultTime { get; } = 0.5f;
 
@@ -69,13 +65,13 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	private PassableExclusionTrait needsRunning = null;
 
 	[SyncVar(hook = nameof(SyncMovementType))]
-	private MovementType _currentMovementType;
+	private MovementType currentMovementType;
 
 	public MovementType CurrentMovementType
 	{
 		set
 		{
-			_currentMovementType = value;
+			currentMovementType = value;
 
 			if (isServer)
 			{
@@ -84,7 +80,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 			UpdatePassables();
 		}
-		get => _currentMovementType;
+		get => currentMovementType;
 	}
 
 	public ActionData actionData;
@@ -939,7 +935,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	}
 
 
-	public void AfterSuccessfulTryMove(MoveData NewMoveData)
+	public void AfterSuccessfulTryMove(MoveData newMoveData)
 	{
 		if (isServer)
 		{
@@ -954,11 +950,11 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		}
 
 		var addedLocalPosition =
-			(transform.position + NewMoveData.GlobalMoveDirection.ToVector().To3())
-			.ToLocal(MatrixManager.Get(NewMoveData.MatrixID));
+			(transform.position + newMoveData.GlobalMoveDirection.ToVector().To3())
+			.ToLocal(MatrixManager.Get(newMoveData.MatrixID));
 
-		NewMoveData.LocalMoveDirection = VectorToPlayerMoveDirection(
-			(addedLocalPosition - transform.position.ToLocal(MatrixManager.Get(NewMoveData.MatrixID))).RoundTo2Int());
+		newMoveData.LocalMoveDirection = VectorToPlayerMoveDirection(
+			(addedLocalPosition - transform.position.ToLocal(MatrixManager.Get(newMoveData.MatrixID))).RoundTo2Int());
 		//Because shuttle could be rotated   enough to make Global  Direction invalid As compared to server
 
 		if (Pushing.Count > 0)
@@ -969,15 +965,15 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				netIDs.Add(push.GetComponent<NetworkIdentity>().netId);
 			}
 
-			NewMoveData.PushedIDs = JsonConvert.SerializeObject(netIDs);
+			newMoveData.PushedIDs = JsonConvert.SerializeObject(netIDs);
 		}
 		else
 		{
-			NewMoveData.PushedIDs = "";
+			newMoveData.PushedIDs = "";
 		}
 
 		//Logger.LogError(" Requested move > wth  Bump " + NewMoveData.Bump);
-		CMDRequestMove(NewMoveData);
+		CMDRequestMove(newMoveData);
 	}
 
 	public bool TryMove(ref MoveData newMoveData, GameObject byClient, bool serverProcessing, out bool causesSlip)
@@ -1294,7 +1290,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		if (CanInPutMove(true))
 		{
 			var Age = NetworkTime.time - inMoveData.Timestamp;
-			if (Age > MoveMaxDelayQueue)
+			if (Age > MOVE_MAX_DELAY_QUEUE)
 			{
 				// Logger.LogError(
 					// $" Move message rejected because it is too old, Consider tweaking if ping is too high or Is being exploited Age {Age}");

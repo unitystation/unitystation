@@ -1,20 +1,11 @@
 using System;
-using System.Collections.Generic;
-using Core.Characters;
-using HealthV2;
-using Initialisation;
 using UnityEngine;
 using Mirror;
-using Systems;
 using Systems.Spawns;
 using Managers;
 using Messages.Server;
 using Messages.Server.LocalGuiMessages;
-using Newtonsoft.Json;
-using Objects.Research;
-using UI.CharacterCreator;
 using Player;
-using ScriptableObjects.Characters;
 
 /// <summary>
 /// This interface will be called after the client has rejoined and has all scenes loaded!
@@ -36,8 +27,8 @@ public interface IOnPlayerTransfer
 	/// <summary>
 	/// Called on server when the player transfers into a new body (interface called on the new player object)
 	/// </summary>
-	/// <param name="mind">The mind of the player being transferred</param>
-	public void OnPlayerTransfer(PlayerInfo Account);
+	/// <param name="account">The mind of the player being transferred</param>
+	public void OnPlayerTransfer(PlayerInfo account);
 }
 
 /// <summary>
@@ -48,8 +39,8 @@ public interface IOnPlayerLeaveBody
 	/// <summary>
 	/// Called on server when the player leaves a body (interface called on the old player object)
 	/// </summary>
-	/// <param name="mind">The mind of the player leaving the body</param>
-	public void OnPlayerLeaveBody(PlayerInfo Account);
+	/// <param name="account">The mind of the player leaving the body</param>
+	public void OnPlayerLeaveBody(PlayerInfo account);
 }
 
 
@@ -141,7 +132,7 @@ public static class PlayerSpawn
 
 
 
-	public static Mind NewSpawnCharacterV2(Occupation requestedOccupation,CharacterSheet character)
+	public static Mind NewSpawnCharacterV2(Occupation requestedOccupation, CharacterSheet character)
 	{
 		//Validate?
 		var mind = SpawnMind(character);
@@ -247,7 +238,7 @@ public static class PlayerSpawn
 	{
 		//Character attributes
 
-		var uop = body.GetComponent<UniversalObjectPhysics>();
+		var physics = body.GetComponent<UniversalObjectPhysics>();
 
 		//Character attributes
 
@@ -268,7 +259,7 @@ public static class PlayerSpawn
 
 		body.GetComponent<DynamicItemStorage>()?.SetUpOccupation(requestedOccupation);
 		//determine where to spawn them
-		uop.AppearAtWorldPositionServer(GetSpawnPointForOccupation(requestedOccupation));
+		physics.AppearAtWorldPositionServer(GetSpawnPointForOccupation(requestedOccupation));
 
 		switch (spawnType)
 		{
@@ -316,7 +307,11 @@ public static class PlayerSpawn
 		return mind;
 	}
 
-	//Transfers an account/connected player to a mind and sets up the ghost and stuff, And triggers the player into body stuff
+	/// <summary>
+	/// Transfers an account/connected player to a mind and sets up the ghost and stuff, And triggers the player into body stuff
+	/// </summary>
+	/// <param name="account"></param>
+	/// <param name="newMind"></param>
 	public static void TransferAccountToSpawnedMind(PlayerInfo account, Mind newMind)
 	{
 		var isAdmin = account.IsAdmin;
@@ -340,7 +335,7 @@ public static class PlayerSpawn
 		newMind.GetComponent<GhostSprites>().SetGhostSprite(isAdmin);
 	}
 
-	static void TransferAccountOccupyingMind(PlayerInfo account, Mind from, Mind to)
+	private static void TransferAccountOccupyingMind(PlayerInfo account, Mind from, Mind to)
 	{
 		if (from != null && from != to)
 		{
@@ -412,7 +407,12 @@ public static class PlayerSpawn
 		}
 	}
 
-	//Is used for internal stuff mainly, Used for a signing authority from and to  objects For an a player
+	/// <summary>
+	/// Is used for internal stuff mainly, Used for a signing authority from and to  objects For an a player
+	/// </summary>
+	/// <param name="account"></param>
+	/// <param name="from"></param>
+	/// <param name="to"></param>
 	public static void TransferOwnershipFromToConnection(PlayerInfo account, NetworkIdentity from, NetworkIdentity to)
 	{
 		if (from)

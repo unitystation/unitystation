@@ -152,7 +152,7 @@ public class PlayerInfo
 		name = uniqueName;
 	}
 
-	public void SetMind(Mind InMind)
+	public void SetMind(Mind inMind)
 	{
 		if (Mind != null)
 		{
@@ -160,11 +160,11 @@ public class PlayerInfo
 		}
 
 
-		Mind = InMind;
-		if (InMind != null)
+		Mind = inMind;
+		if (inMind != null)
 		{
-			Name = InMind.CurrentCharacterSettings.Name;
-			InMind.ControlledBy = this;
+			Name = inMind.CurrentCharacterSettings.Name;
+			inMind.ControlledBy = this;
 		}
 	}
 
@@ -172,9 +172,10 @@ public class PlayerInfo
 	/// Generating a unique name (Player -> Player2 -> Player3 ...)
 	/// </summary>
 	/// <param name="name"></param>
+	/// <param name="userId"></param>
 	/// <param name="sameNames"></param>
 	/// <returns></returns>
-	private static string GetUniqueName(string name, string _UserId ,int sameNames = 0)
+	private static string GetUniqueName(string name, string userId, int sameNames = 0)
 	{
 		while (true)
 		{
@@ -185,7 +186,7 @@ public class PlayerInfo
 				Logger.LogTrace($"TRYING: {proposedName}", Category.Connections);
 			}
 
-			if (!PlayerList.Instance.Has(proposedName, _UserId))
+			if (!PlayerList.Instance.Has(proposedName, userId))
 			{
 				return proposedName;
 			}
