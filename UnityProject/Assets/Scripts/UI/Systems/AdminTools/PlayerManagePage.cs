@@ -77,7 +77,7 @@ namespace AdminTools
 				foreach (var connectedPlayer in PlayerList.Instance.AllPlayers)
 				{
 					if(connectedPlayer.UserId != PlayerEntry.PlayerData.uid) continue;
-					spawnOcc = connectedPlayer.Script.mind.occupation;
+					spawnOcc = connectedPlayer.Script.Mind.occupation;
 				}
 				if (spawnOcc == null)
 				{
@@ -165,7 +165,7 @@ namespace AdminTools
 		{
 			if (PlayerManager.LocalPlayerScript.IsGhost == false)
 			{
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAGhost();
+				PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdAGhost();
 			}
 
 			RequestAdminTeleport.Send(

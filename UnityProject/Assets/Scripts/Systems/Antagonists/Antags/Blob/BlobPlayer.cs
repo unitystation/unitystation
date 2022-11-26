@@ -1234,7 +1234,7 @@ namespace Blob
 			}
 
 			//Make blob into ghost
-			playerScript.mind.Ghost();
+			playerScript.Mind.Ghost();
 
 			if (endRoundWhenKilled)
 			{
@@ -1270,7 +1270,7 @@ namespace Blob
 
 			rapidExpand = true;
 
-			foreach (var objective in playerScript.mind.GetAntag().Objectives)
+			foreach (var objective in playerScript.Mind.GetAntag().Objectives)
 			{
 				objective.SetAsComplete();
 			}

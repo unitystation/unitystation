@@ -26,14 +26,14 @@ namespace ScriptableObjects.Audio
 		{
 			if (playerSync.playerScript.RegisterPlayer.IsLayingDown == false)
 			{
-				if(playerSync.playerScript.mind == null) return;
+				if(playerSync.playerScript.Mind == null) return;
 
 				var stepType = GetFootStepType(playerSync);
 
 				FootstepAtPosition(
 					worldPos,
 					stepType,
-					playerSync.playerScript.mind.StepSound,
+					playerSync.playerScript.Mind.StepSound,
 					playerSync.gameObject,
 					playerSync.playerScript.RegisterPlayer.Matrix.MatrixInfo);
 			}

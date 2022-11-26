@@ -39,7 +39,7 @@ namespace UI.Items
 
 			if (CustomNetworkManager.IsServer)
 			{
-				if(thisPlayerScript == null || thisPlayerScript.mind == null) return;
+				if(thisPlayerScript == null || thisPlayerScript.Mind == null) return;
 				UIActionManager.ToggleServer( gameObject ,this, GameObjectReference != null);
 			}
 		}
@@ -112,7 +112,7 @@ namespace UI.Items
 
 		public void CallActionClient()
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryUncuff();
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdTryUncuff();
 		}
 	}
 }

@@ -42,10 +42,10 @@ namespace Items.Magical
 		private IEnumerator Unpetrify(PlayerScript script)
 		{
 			yield return WaitFor.Seconds(petrifyTime);
-			if (script == null || script.mind == null) yield break;
+			if (script == null || script.Mind == null) yield break;
 
 			script.playerMove.allowInput = true;
-			script.mind.IsMiming = false;
+			script.Mind.IsMiming = false;
 
 			Chat.AddExamineMsgFromServer(script.gameObject, "You feel yourself again.");
 		}

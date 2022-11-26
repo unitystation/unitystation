@@ -40,7 +40,7 @@ public partial class PlayerList : NetworkBehaviour
 		loggedIn.FindAll(player => player?.Mind != null && player.Mind.IsAntag);
 
 	public List<PlayerInfo> AllPlayers =>
-		loggedIn.FindAll(player => (player?.Script.OrNull()?.mind  != null || player?.ViewerScript != null));
+		loggedIn.FindAll(player => (player?.Script.OrNull()?.Mind  != null || player?.ViewerScript != null));
 
 	/// <summary>
 	/// Players in the pre-round lobby who have clicked the ready button and have up to date CharacterSettings
@@ -716,8 +716,8 @@ public partial class PlayerList : NetworkBehaviour
 	public bool IsAntag(GameObject playerObj)
 	{
 		var conn = Get(playerObj);
-		if (conn == null || conn.Script == null || conn.Script.mind == null) return false;
-		return conn.Script.mind.IsAntag;
+		if (conn == null || conn.Script == null || conn.Script.Mind == null) return false;
+		return conn.Script.Mind.IsAntag;
 	}
 
 	public static bool HasAntagEnabled(AntagPrefsDict antagPrefs, Antagonist antag)

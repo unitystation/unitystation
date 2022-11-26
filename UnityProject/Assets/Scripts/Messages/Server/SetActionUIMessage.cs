@@ -81,7 +81,7 @@ namespace Messages.Server
 					// no need to instantiate a spell if server asks to hide one anyway
 					if (msg.ProposedAction == UpdateType.StateChange && msg.showAlert == false) return;
 
-					action = spellData.AddToPlayer(PlayerManager.LocalPlayerScript.mind);
+					action = spellData.AddToPlayer(PlayerManager.LocalPlayerScript.Mind);
 				}
 			}
 			else

@@ -397,7 +397,7 @@ namespace AdminCommands
 
 			//get player stuff.
 			PlayerScript playerScript = player.Script;
-			Mind playerMind = playerScript.mind;
+			Mind playerMind = playerScript.Mind;
 			var playerBody = playerMind.Body;
 			string message;
 
@@ -838,9 +838,9 @@ namespace AdminCommands
 			var adminScript = admin.Script;
 			if(adminScript == null) return;
 
-			if (adminScript.objectPhysics != null)
+			if (adminScript.ObjectPhysics != null)
 			{
-				adminScript.objectPhysics.AppearAtWorldPositionServer(uop.OfficialPosition, false, false);
+				adminScript.ObjectPhysics.AppearAtWorldPositionServer(uop.OfficialPosition, false, false);
 			}
 			else if(adminScript.TryGetComponent<GhostMove>(out var ghostMove))
 			{

@@ -30,7 +30,7 @@ namespace Weapons
 		protected JobType GetJobClient()
 		{
 			//TODO Client doesnt sync job, after mind rework see if job is now sync'd
-			return PlayerManager.LocalPlayerScript.mind.occupation.JobType;
+			return PlayerManager.LocalPlayerScript.Mind.occupation.JobType;
 		}
 
 		protected void ClumsyShotServer(AimApply interaction, bool isSuicide)

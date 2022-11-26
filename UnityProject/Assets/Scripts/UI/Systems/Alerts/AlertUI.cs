@@ -34,7 +34,7 @@ namespace UI
 		// called when the buckled button is clicked
 		public void OnClickCuffed()
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryUncuff();
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdTryUncuff();
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 
@@ -43,7 +43,7 @@ namespace UI
 		/// </summary>
 		public void OnClickSwitchPickupMode()
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSwitchPickupMode();
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdSwitchPickupMode();
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 

@@ -461,8 +461,8 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 
 	private bool SwapTwoItemsInInventory(ItemSlot CurrentSlot)
     	{
-    		if (PlayerManager.LocalPlayerScript.playerNetworkActions == null) return false;
-            PlayerManager.LocalPlayerScript.playerNetworkActions.CmdServerReplaceItemInInventory(CurrentSlot.ItemObject,
+    		if (PlayerManager.LocalPlayerScript.PlayerNetworkActions == null) return false;
+            PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdServerReplaceItemInInventory(CurrentSlot.ItemObject,
     			itemSlot.ItemStorageNetID, itemSlot.NamedSlot.Value);
             return true;
     	}

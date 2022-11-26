@@ -46,7 +46,7 @@ public class HandActivate : Interaction
 			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot()?.ItemObject,
 			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(),
 			UIManager.CurrentIntent,
-			PlayerManager.LocalPlayerScript.mind,
+			PlayerManager.LocalPlayerScript.Mind,
 			KeyboardInputManager.IsAltActionKeyPressed());
 	}
 

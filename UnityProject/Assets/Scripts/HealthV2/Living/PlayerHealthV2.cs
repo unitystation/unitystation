@@ -78,7 +78,7 @@ namespace HealthV2
 			playerNetworkActions.ServerSpawnPlayerGhost(true);
 			Inventory.ServerDropAll(dynamicItemStorage);
 			base.OnGib();
-			PlayerMove.playerScript.objectPhysics.DisappearFromWorld();
+			PlayerMove.playerScript.ObjectPhysics.DisappearFromWorld();
 		}
 
 		bool RegisterPlayer.IControlPlayerState.AllowChange(bool rest)
@@ -285,7 +285,7 @@ namespace HealthV2
 		{
 			var convulsing = Instantiate(convulsionEffect);
 			convulsing.InitialStacks = stacks;
-			playerScript.statusEffectManager.AddStatus(convulsing);
+			playerScript.StatusEffectManager.AddStatus(convulsing);
 		}
 
 		protected override void PainfulElectrocution(Electrocution electrocution, float shockPower)

@@ -196,7 +196,7 @@ public static class Validations
 	{
 		if (playerScript == null) return false;
 
-		var playerObjBehavior = playerScript.objectPhysics;
+		var playerObjBehavior = playerScript.ObjectPhysics;
 
 
 		if (CanInteract(playerScript, side, allowSoftCrit, apt: apt) == false)
@@ -352,7 +352,7 @@ public static class Validations
 	/// <param name="targetVector">the delta vector representing how distant the interaction is occurring</param>
 	/// <param name="interactDist">the horizontal or vertical distance required for out-of-reach</param>
 	/// <returns>true if the x and y distance of interaction are less than interactDist</returns>
-	public static bool IsInReachDistanceByDelta(Vector3 targetVector, float interactDist = PlayerScript.interactionDistance)
+	public static bool IsInReachDistanceByDelta(Vector3 targetVector, float interactDist = PlayerScript.INTERACTION_DISTANCE)
 	{
 		return Mathf.Max( Mathf.Abs(targetVector.x), Mathf.Abs(targetVector.y) ) < interactDist;
 	}
@@ -363,7 +363,7 @@ public static class Validations
 	/// <param name="targetVector">the delta vector representing how distant the interaction is occurring</param>
 	/// <param name="interactDist">the horizontal or vertical distance required for out-of-reach</param>
 	/// <returns>true if the x and y distance of interaction are less than interactDist</returns>
-	public static bool IsInReachDistanceByPositions(Vector3 fromWorldPos, Vector3 toWorldPos, float interactDist = PlayerScript.interactionDistance)
+	public static bool IsInReachDistanceByPositions(Vector3 fromWorldPos, Vector3 toWorldPos, float interactDist = PlayerScript.INTERACTION_DISTANCE)
 	{
 		var targetVector = fromWorldPos - toWorldPos;
 		return IsInReachDistanceByDelta(targetVector, interactDist: interactDist);
@@ -382,7 +382,7 @@ public static class Validations
 		Vector3 fromWorldPos,
 		Vector3 toWorldPos,
 		bool isServer,
-		float interactDist = PlayerScript.interactionDistance,
+		float interactDist = PlayerScript.INTERACTION_DISTANCE,
 		GameObject context = null
 	)
 	{
@@ -425,7 +425,7 @@ public static class Validations
 	/// <param name="interactDist"></param>
 	/// <param name="context">If not null, will ignore collisions caused by this gameobject</param>
 	/// <returns></returns>
-	public static bool IsReachableByRegisterTiles(RegisterTile from, RegisterTile to, bool isServer, float interactDist = PlayerScript.interactionDistance, GameObject context = null)
+	public static bool IsReachableByRegisterTiles(RegisterTile from, RegisterTile to, bool isServer, float interactDist = PlayerScript.INTERACTION_DISTANCE, GameObject context = null)
 	{
 		if ( isServer )
 		{

@@ -189,7 +189,6 @@ namespace Systems.Antagonists
 
 		private void Awake()
 		{
-
 			playerScript = GetComponent<PlayerScript>();
 			playerScript.OnActionEnterPlayerControl += PlayerEnterBody;
 			livingHealthMasterBase = GetComponent<LivingHealthMasterBase>();
@@ -422,15 +421,15 @@ namespace Systems.Antagonists
 			Chat.AddActionMsgToChat(gameObject, "You begin to evolve!",
 				$"{playerScript.playerName} begins to twist and contort!");
 
-			 var AlienBody = PlayerSpawn.RespawnPlayerAt(playerScript.mind, newAlienData.AlienOccupation, new CharacterSheet()
+			 var alienBody = PlayerSpawn.RespawnPlayerAt(playerScript.Mind, newAlienData.AlienOccupation, new CharacterSheet()
 			 {
 				 Name = "Alien"
-			 }, playerScript.objectPhysics.OfficialPosition);
+			 }, playerScript.ObjectPhysics.OfficialPosition);
 
 
 			Chat.AddExamineMsgFromServer(gameObject, $"You evolve into a {alienType.Name}!");
 
-			var newAlienPlayer = AlienBody.GetComponent<AlienPlayer>();
+			var newAlienPlayer = alienBody.GetComponent<AlienPlayer>();
 
 			newAlienPlayer.SetUpFromPrefab(alienType, newAlienData,changeName, nameNumber);
 
@@ -455,7 +454,7 @@ namespace Systems.Antagonists
 
 			ChangeAlienMode(AlienMode.Normal);
 
-			playerScript.weaponNetworkActions.SetNewDamageValues(alienType.AttackSpeed,
+			playerScript.WeaponNetworkActions.SetNewDamageValues(alienType.AttackSpeed,
 				alienType.AttackDamage, alienType.DamageType, alienType.ChanceToHit);
 
 			SetName(changeName, old);
@@ -744,10 +743,10 @@ namespace Systems.Antagonists
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, OnUpdate);
 
 			//Set to null so can't reenter
-			if(playerScript.mind == null) return;
+			if(playerScript.Mind == null) return;
 
 			//Force player into ghost
-			playerScript.mind.Ghost();
+			playerScript.Mind.Ghost();
 		}
 
 		private void OnQueenDeath()
@@ -1552,12 +1551,12 @@ namespace Systems.Antagonists
 			}
 
 			//Remove current player
-			if (playerScript.mind != null)
+			if (playerScript.Mind != null)
 			{
-				if (playerScript.mind.GetCurrentMob().OrNull()?.GetComponent<PlayerScript>().IsGhost == false)
+				if (playerScript.Mind.GetCurrentMob().OrNull()?.GetComponent<PlayerScript>().IsGhost == false)
 				{
 					//Force player current into ghost
-					playerScript.mind.Ghost();
+					playerScript.Mind.Ghost();
 				}
 			}
 
@@ -1595,7 +1594,7 @@ namespace Systems.Antagonists
 			playerTookOver = player;
 
 			//Transfer player chosen into body
-			PlayerSpawn.TransferAccountToSpawnedMind(player, playerScript.mind);
+			PlayerSpawn.TransferAccountToSpawnedMind(player, playerScript.Mind);
 
 			//Remove the player so they can join again once they die
 			GhostRoleManager.Instance.ServerRemoveWaitingPlayer(createdRoleKey, player);

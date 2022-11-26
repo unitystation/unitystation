@@ -79,7 +79,7 @@ namespace UI.Core
 		{
 			if(PlayerManager.LocalPlayerObject == null) return;
 
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdFilledDynamicInput(lastOpener, input.text);
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdFilledDynamicInput(lastOpener, input.text);
 
 			input.text = string.Empty;
 			gameObject.SetActive(false);

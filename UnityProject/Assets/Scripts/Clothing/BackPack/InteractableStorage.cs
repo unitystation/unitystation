@@ -502,7 +502,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 						if (MatrixManager.IsPassableAtAllMatricesOneTile(interaction.WorldPositionTarget.RoundToInt(),
 							    CustomNetworkManager.Instance._isServer) == false) return;
 
-						PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropAllItems(itemStorage
+						PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdDropAllItems(itemStorage
 							.GetIndexedItemSlot(0)
 							.ItemStorageNetID, interaction.WorldPositionTarget);
 
@@ -536,7 +536,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 			if (PlayerManager.LocalPlayerScript == null) return false;
 
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropAllItems(itemStorage.GetIndexedItemSlot(0)
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdDropAllItems(itemStorage.GetIndexedItemSlot(0)
 				.ItemStorageNetID, TransformState.HiddenPos);
 
 			if (CustomNetworkManager.Instance._isServer == false)
@@ -549,7 +549,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 		if (interaction.Intent != Intent.Disarm)
 		{
-			interaction.PerformerPlayerScript.playerNetworkActions.CmdTriggerStorageTrap(gameObject);
+			interaction.PerformerPlayerScript.PlayerNetworkActions.CmdTriggerStorageTrap(gameObject);
 			if (PreventUIShowingAfterTrapTrigger)
 			{
 				preventUIShowingAfterTrapTrigger = false;
@@ -624,7 +624,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 				// stop observing when it becomes unobservable for whatever reason
 				var relationship = ObserveStorageRelationship.Observe(this,
 					interaction.Performer.GetComponent<RegisterPlayer>(),
-					PlayerScript.interactionDistance, ServerOnObservationEnded);
+					PlayerScript.INTERACTION_DISTANCE, ServerOnObservationEnded);
 				SpatialRelationship.ServerActivate(relationship);
 			}
 		}
@@ -678,6 +678,6 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 	public void CallActionClient()
 	{
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSwitchPickupMode();
+		PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdSwitchPickupMode();
 	}
 }

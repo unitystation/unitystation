@@ -45,7 +45,7 @@ namespace Items
 			if (interaction.TargetBodyPart != BodyPartType.Head) return;
 
 			// Only the Chaplain can use the holy book.
-			if (interaction.PerformerPlayerScript.mind.occupation.JobType != JobType.CHAPLAIN)
+			if (interaction.PerformerPlayerScript.Mind.occupation.JobType != JobType.CHAPLAIN)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, "A force restrains you. Non-Clergymen can't use this!");
 				return;

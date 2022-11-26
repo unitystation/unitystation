@@ -281,7 +281,7 @@ namespace Blob
 				return;
 			}
 
-			if (playerScript.mind == null)
+			if (playerScript.Mind == null)
 			{
 				//If this is true, block blob spawning
 				_ = Despawn.ServerSingle(spawnResult.GameObject);
@@ -293,10 +293,10 @@ namespace Blob
 
 			gameObject.GetComponent<IGib>()?.OnGib();
 
-			playerScript.mind.SetPossessingObject(spawnResult.GameObject);
+			playerScript.Mind.SetPossessingObject(spawnResult.GameObject);
 
 			//Start the blob control script
-			spawnResult.GameObject.GetComponent<BlobPlayer>().BlobStart(playerScript.mind);
+			spawnResult.GameObject.GetComponent<BlobPlayer>().BlobStart(playerScript.Mind);
 
 
 			Chat.AddActionMsgToChat(spawnResult.GameObject, $"<color=#FF151F>You explode from your {bodyPart}, a new being has been born.</color>",

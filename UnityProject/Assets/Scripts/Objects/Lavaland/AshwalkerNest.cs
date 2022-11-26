@@ -150,8 +150,8 @@ namespace Objects
 		{
 			SoundManager.PlayNetworkedAtPos(consumeSound, registerTile.WorldPositionServer, sourceObj: gameObject);
 
-			if (healthMasterBase.playerScript.OrNull()?.mind?.occupation.OrNull()?.JobType == JobType.ASHWALKER
-			    && healthMasterBase.playerScript.OrNull()?.mind?.IsGhosting == false)
+			if (healthMasterBase.playerScript.OrNull()?.Mind?.occupation.OrNull()?.JobType == JobType.ASHWALKER
+			    && healthMasterBase.playerScript.OrNull()?.Mind?.IsGhosting == false)
 			{
 				Chat.AddActionMsgToChat(healthMasterBase.gameObject,
 					$"Your body has been returned to the nest. You are being remade anew, and will awaken shortly. Your memories will remain intact in your new body, as your soul is being salvaged",
@@ -253,7 +253,7 @@ namespace Objects
 			characterSettings.Name = StringManager.GetRandomLizardName(characterSettings.GetGender());
 
 			//Respawn the player
-			player.Script.playerNetworkActions.ServerRespawnPlayerSpecial("Ashwalker", registerTile.WorldPositionServer);
+			player.Script.PlayerNetworkActions.ServerRespawnPlayerSpecial("Ashwalker", registerTile.WorldPositionServer);
 
 			//Wipe crafting recipes and add Ashwalker ones
 			var crafting = player.Script.PlayerCrafting;

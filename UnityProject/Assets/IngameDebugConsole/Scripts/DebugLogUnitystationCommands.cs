@@ -69,7 +69,7 @@ namespace IngameDebugConsole
 				return;
 			}
 
-			var mind = PlayerManager.LocalPlayerScript.mind;
+			var mind = PlayerManager.LocalPlayerScript.Mind;
 			var playerBody = PlayerSpawn.RespawnPlayer(mind, mind.occupation, mind.CurrentCharacterSettings).GetComponent<LivingHealthMasterBase>();
 			playerBody.ApplyDamageAll(null, 2, AttackType.Internal, DamageType.Clone, false);
 		}
@@ -83,14 +83,14 @@ namespace IngameDebugConsole
 				Logger.LogError("Player has not spawned yet to be able to check for their objectives!");
 				return;
 			}
-			if (PlayerManager.LocalPlayerScript.mind.IsAntag == false)
+			if (PlayerManager.LocalPlayerScript.Mind.IsAntag == false)
 			{
 				Logger.LogError("Player is not an antagonist!");
 				return;
 			}
 
 			Logger.Log("Current player objectives :");
-			foreach (var objective in PlayerManager.LocalPlayerScript.mind.GetAntag().Objectives)
+			foreach (var objective in PlayerManager.LocalPlayerScript.Mind.GetAntag().Objectives)
 			{
 				Logger.Log($"{objective.ObjectiveName} -> {objective.IsComplete()}");
 			}
@@ -385,7 +385,7 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer)
 			{
-				PlayerSpawn.RespawnPlayer(PlayerManager.LocalPlayerScript.mind,PlayerManager.LocalPlayerScript.mind.occupation, PlayerManager.LocalPlayerScript.mind.CurrentCharacterSettings);
+				PlayerSpawn.RespawnPlayer(PlayerManager.LocalPlayerScript.Mind,PlayerManager.LocalPlayerScript.Mind.occupation, PlayerManager.LocalPlayerScript.Mind.CurrentCharacterSettings);
 			}
 		}
 

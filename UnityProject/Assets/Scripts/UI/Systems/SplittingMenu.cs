@@ -59,7 +59,7 @@ namespace UI
 					}
 				}
 
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSplitStack
+				PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdSplitStack
 					(
 					stackSlot.ItemStorage.gameObject.NetId(),
 					stackSlot.NamedSlot.GetValueOrDefault(NamedSlot.none),

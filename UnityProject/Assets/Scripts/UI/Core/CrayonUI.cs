@@ -135,7 +135,7 @@ namespace UI.Core
 			categoryIndex = newCategoryIndex;
 			index = newIndex;
 
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetCrayon(openingObject, (uint)categoryIndex, (uint)index, (uint)colourDropDown.value, (OrientationEnum)directionDropDown.value);
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdSetCrayon(openingObject, (uint)categoryIndex, (uint)index, (uint)colourDropDown.value, (OrientationEnum)directionDropDown.value);
 			gameObject.SetActive(false);
 		}
 
@@ -163,7 +163,7 @@ namespace UI.Core
 				child.GetComponent<Image>().color = GetCurrentColour();
 			}
 
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetCrayon(openingObject, (uint)categoryIndex, (uint)index, (uint)colourDropDown.value, (OrientationEnum)directionDropDown.value);
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdSetCrayon(openingObject, (uint)categoryIndex, (uint)index, (uint)colourDropDown.value, (OrientationEnum)directionDropDown.value);
 		}
 
 		private Color GetCurrentColour()
@@ -232,7 +232,7 @@ namespace UI.Core
 				child.rotation = currentDirection;
 			}
 
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetCrayon(openingObject, (uint)categoryIndex, (uint)index, (uint)colourDropDown.value, (OrientationEnum)directionDropDown.value);
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdSetCrayon(openingObject, (uint)categoryIndex, (uint)index, (uint)colourDropDown.value, (OrientationEnum)directionDropDown.value);
 		}
 
 		private Quaternion GetDirection()

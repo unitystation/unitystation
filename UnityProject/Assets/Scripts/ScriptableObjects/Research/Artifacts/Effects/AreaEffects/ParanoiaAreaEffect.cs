@@ -29,7 +29,7 @@ namespace Systems.Research
 
 			if(DMMath.Prob(HarmIntentChance))
 			{
-				player.playerNetworkActions.CmdSetCurrentIntent(Intent.Harm);
+				player.PlayerNetworkActions.CmdSetCurrentIntent(Intent.Harm);
 			}
 			if (DMMath.Prob(NameForgetChance))
 			{

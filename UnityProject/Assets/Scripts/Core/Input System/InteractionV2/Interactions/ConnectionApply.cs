@@ -96,7 +96,7 @@ public class ConnectionApply : TargetedInteraction
 			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(),
 
 			UIManager.CurrentIntent,
-			PlayerManager.LocalPlayerScript.mind
+			PlayerManager.LocalPlayerScript.Mind
 		);
 	}
 

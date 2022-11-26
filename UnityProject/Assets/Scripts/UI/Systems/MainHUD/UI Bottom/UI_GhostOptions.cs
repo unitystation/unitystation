@@ -63,7 +63,7 @@ namespace UI.Systems.Ghost
 
 		public void ReenterCorpse()
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostCheck();
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdGhostCheck();
 		}
 
 		public void Teleport()
@@ -80,13 +80,13 @@ namespace UI.Systems.Ghost
 
 		public void Respawn()
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRespawnPlayer();
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRespawnPlayer();
 			Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().EnsureAllEffectsAreDisabled();
 		}
 
 		public void ToggleAllowCloning()
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleAllowCloning();
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdToggleAllowCloning();
 		}
 
 		public void ToggleGhostHearRange()

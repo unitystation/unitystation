@@ -43,7 +43,7 @@ namespace Items.Others
 
 		private void SpawnReinforcement(PlayerInfo player)
 		{
-			player.Script.playerNetworkActions.ServerRespawnPlayerAntag(player, "Nuclear Operative");
+			player.Script.PlayerNetworkActions.ServerRespawnPlayerAntag(player, "Nuclear Operative");
 			Chat.AddExamineMsgFromServer(userPlayer, $"The {gameObject.ExpensiveName()} lets out a chime, reinforcement found!");
 			WasUsed = true;
 			StartCoroutine(TeleportOnSpawn(player));

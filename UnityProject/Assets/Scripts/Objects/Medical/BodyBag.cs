@@ -33,7 +33,7 @@ namespace Objects.Medical
 			}
 
 			var ps = interaction.PerformerPlayerScript;
-			var pna = ps.playerNetworkActions;
+			var pna = ps.PlayerNetworkActions;
 
 			if (!pna
 				|| interaction.Performer != interaction.TargetObject

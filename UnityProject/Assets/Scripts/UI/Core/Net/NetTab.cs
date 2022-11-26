@@ -285,7 +285,7 @@ public class NetTab : Tab
 				if (peeper.Script.PlayerType == PlayerTypes.Ai)
 				{
 					if (Validations.CanApply(new AiActivate(peeper.GameObject, null,
-						Provider, Intent.Help,peeper.Script.mind , AiActivate.ClickTypes.NormalClick), NetworkSide.Server))
+						Provider, Intent.Help,peeper.Script.Mind , AiActivate.ClickTypes.NormalClick), NetworkSide.Server))
 					{
 						continue;
 					}

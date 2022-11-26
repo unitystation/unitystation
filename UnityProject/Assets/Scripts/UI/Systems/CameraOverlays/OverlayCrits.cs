@@ -76,9 +76,9 @@ using System.Collections;
 
 		void AdjustShroud(float state)
 		{
-			if (PlayerManager.LocalPlayerScript.OrNull()?.mind != null)
+			if (PlayerManager.LocalPlayerScript.OrNull()?.Mind != null)
 			{
-				if (PlayerManager.LocalPlayerScript.mind.IsGhosting)
+				if (PlayerManager.LocalPlayerScript.Mind.IsGhosting)
 				{
 					state = 1;
 				}

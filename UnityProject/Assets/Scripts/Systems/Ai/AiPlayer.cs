@@ -182,7 +182,6 @@ namespace Systems.Ai
 			//Set new vessel
 			ServerSetNewVessel(newVesselObject);
 
-
 			newVesselObject.GetComponent<AiVessel>().SetLinkedPlayer(this);
 
 			isCarded = false;
@@ -246,7 +245,7 @@ namespace Systems.Ai
 		public void PlayerEnterBody()
 		{
 			if (hasAuthority == false) return;
-			playerScript.mind.SetPermanentName(playerScript.characterSettings.AiName);
+			playerScript.Mind.SetPermanentName(playerScript.characterSettings.AiName);
 			Init();
 
 			SyncCore(IDvesselObject, IDvesselObject);
@@ -1256,7 +1255,7 @@ namespace Systems.Ai
 			}
 
 			//Transfer player to ghost
-			playerScript.mind.Ghost();
+			playerScript.Mind.Ghost();
 
 			//Despawn this player object
 			_ = Despawn.ServerSingle(gameObject);

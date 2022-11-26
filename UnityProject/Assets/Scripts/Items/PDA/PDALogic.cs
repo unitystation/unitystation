@@ -154,7 +154,7 @@ namespace Items.PDA
 
 			if (debugUplink)
 			{
-				InstallUplink(info.ToRootPlayer.PlayerScript.mind, 80, true);
+				InstallUplink(info.ToRootPlayer.PlayerScript.Mind, 80, true);
 			}
 		}
 

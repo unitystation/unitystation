@@ -71,7 +71,7 @@ namespace Items.Magical
 
 		private void SpawnApprentice(PlayerInfo player)
 		{
-			player.Script.playerNetworkActions.ServerRespawnPlayerAntag(player, "Wizard Apprentice");
+			player.Script.PlayerNetworkActions.ServerRespawnPlayerAntag(player, "Wizard Apprentice");
 
 			Apprentice = player;
 			OnApprenticeSpawned?.Invoke();

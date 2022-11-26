@@ -85,9 +85,9 @@ namespace HealthV2
 				SetSprite(6);
 			}
 
-			if (checkPlayerScript.HasComponent && checkPlayerScript.Component.mind.ControlledBy != null)
+			if (checkPlayerScript.HasComponent && checkPlayerScript.Component.Mind.ControlledBy != null)
 			{
-				PlayerSpawn.TransferAccountToSpawnedMind(checkPlayerScript.Component.mind.ControlledBy, alienMind);
+				PlayerSpawn.TransferAccountToSpawnedMind(checkPlayerScript.Component.Mind.ControlledBy, alienMind);
 			}
 
 			var alienPlayer = alienMind.PossessingObject.GetComponent<AlienPlayer>();

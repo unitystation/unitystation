@@ -40,7 +40,7 @@ namespace Objects.Drawers
 		// Delay between alarm sounds, in seconds.
 		private const int ALARM_PERIOD = 5;
 
-		private bool ConsciousnessPresent => players.Any(player => player.mind != null && player.mind.IsOnline() && player.mind.CurrentPlayScript == player );
+		private bool ConsciousnessPresent => players.Any(player => player.Mind != null && player.Mind.IsOnline() && player.Mind.CurrentPlayScript == player );
 		private bool buzzerEnabled = ALARM_SYSTEM_ENABLED;
 		private bool alarmBroken = false;
 		private bool alarmRunning = false;

@@ -40,9 +40,9 @@ public static class PlayerUtils
 			var ps = player.Script;
 			if (ps.IsDeadOrGhost) continue;
 
-			if (ps.mind != null &&
-			    ps.mind.occupation != null &&
-			    ps.mind.occupation.JobType == JobType.CLOWN)
+			if (ps.Mind != null &&
+			    ps.Mind.occupation != null &&
+			    ps.Mind.occupation.JobType == JobType.CLOWN)
 			{
 				// love clown
 				ps.playerMove.Uncuff();

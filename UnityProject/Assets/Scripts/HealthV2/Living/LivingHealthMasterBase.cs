@@ -318,7 +318,7 @@ namespace HealthV2
 			healthStateController.SetDNA(new DNAandBloodType());
 
 			if (playerScript == null) return;
-			if (playerScript.mind?.occupation?.DisplayName == "Clown")
+			if (playerScript.Mind?.occupation?.DisplayName == "Clown")
 			{
 				OnTakeDamageType += ClownAbuseScoreEvent;
 			}

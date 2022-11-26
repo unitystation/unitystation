@@ -77,7 +77,7 @@ namespace Doors
 			for (var i = 0; i < objects.Count; i++)
 			{
 				var index = i; // Copy for action function
-				Action setPaint = () => PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetPaintJob(index);
+				Action setPaint = () => PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdSetPaintJob(index);
 				var res = RightClickManager.CreateObjectMenu(objects[i], null, setPaint);
 				result.Add(res);
 			}

@@ -546,7 +546,7 @@ namespace UI
 					if (playerScript != null && playerScript.PlayerType == PlayerTypes.Ai)
 					{
 						if (Validations.CanApply(new AiActivate(playerScript.gameObject, null,
-							tab.Provider, Intent.Help,playerScript.mind ,  AiActivate.ClickTypes.NormalClick), NetworkSide.Client))
+							tab.Provider, Intent.Help,playerScript.Mind ,  AiActivate.ClickTypes.NormalClick), NetworkSide.Client))
 						{
 							continue;
 						}

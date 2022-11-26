@@ -44,7 +44,7 @@ namespace Spells
 				return false;
 			}
 
-			if (!caster.Script.mind.IsMiming)
+			if (!caster.Script.Mind.IsMiming)
 			{
 				Chat.AddExamineMsg(caster.GameObject, "You must dedicate yourself to silence first!");
 				return false;

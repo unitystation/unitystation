@@ -34,8 +34,8 @@ namespace Messages.Server
 				var matrix = matrixSync.NetworkedMatrix.matrix;
 
 				var distance =
-					(localPlayer.objectPhysics != null ?
-						localPlayer.objectPhysics.OfficialPosition : localPlayer.transform.position)
+					(localPlayer.ObjectPhysics != null ?
+						localPlayer.ObjectPhysics.OfficialPosition : localPlayer.transform.position)
 					- toWindAt.LocalPosition.ToWorld(matrix);
 
 				//Be in 20 tile radius?

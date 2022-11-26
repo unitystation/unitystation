@@ -108,7 +108,7 @@ namespace Objects.Medical
 				var mob = scanner.occupant;
 				var mobID = scanner.occupant.mobID;
 				var playerScript = mob.GetComponent<PlayerScript>();
-				if (playerScript.OrNull()?.mind?.bodyMobID != mobID)
+				if (playerScript.OrNull()?.Mind?.bodyMobID != mobID)
 				{
 					scanner.statusString = "Bad mind/body interface.";
 					return;
@@ -217,7 +217,7 @@ namespace Objects.Medical
 		public void UpdateRecord(LivingHealthMasterBase livingHealth, PlayerScript playerScript)
 		{
 			mobID = livingHealth.mobID;
-			mind = playerScript.mind;
+			mind = playerScript.Mind;
 			name = playerScript.playerName;
 			characterSettings = playerScript.characterSettings;
 			oxyDmg = livingHealth.GetOxyDamage;
