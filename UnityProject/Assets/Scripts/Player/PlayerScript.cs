@@ -32,6 +32,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	public IPlayerPossessable PossessedBy { get; set; }
 	public MindNIPossessingEvent OnPossessedBy { get; set; }
 
+	public Action OnActionEnterPlayerControl { get; set; }
+
 	public void OnEnterPlayerControl(GameObject PreviouslyControlling, Mind mind, bool IsServer)
 	{
 		if (IsServer)

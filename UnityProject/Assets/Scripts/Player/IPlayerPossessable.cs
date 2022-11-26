@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Core.Utils;
@@ -20,6 +21,8 @@ public interface IPlayerPossessable
 	public IPlayerPossessable PossessedBy { get; set; }
 
 	public MindNIPossessingEvent OnPossessedBy   { get; set; }
+
+	public Action OnActionEnterPlayerControl { get; set; }
 
 	public void ServeInternalOnEnterPlayerControl(GameObject PreviouslyControlling, Mind mind, bool IsServer)
 	{
@@ -63,6 +66,7 @@ public interface IPlayerPossessable
 		{
 			transfer.OnPlayerTransfer(mind.ControlledBy);
 		}
+		OnActionEnterPlayerControl?.Invoke();
 	}
 
 

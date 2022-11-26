@@ -33,15 +33,19 @@ namespace Player.Language
 		//Only valid on owner player
 		private SyncList<NetworkLanguage> addedLanguages = new SyncList<NetworkLanguage>();
 
+		public PlayerScript PlayerScript;
+
 		private void Start()
 		{
+			PlayerScript = this.GetComponent<PlayerScript>();
+			PlayerScript.OnActionEnterPlayerControl += OnPlayerEnterBody;
 			if(defaultLanguages == null) return;
 
 			//Copy the default lists to this script lists so we can add to it during runtime without adding to the SO
 			SetupFromGroup(defaultLanguages);
 		}
 
-		public override void OnStartLocalPlayer()
+		public void OnPlayerEnterBody()
 		{
 			if(isServer) return;
 

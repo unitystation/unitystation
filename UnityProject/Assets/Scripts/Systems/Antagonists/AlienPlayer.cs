@@ -189,7 +189,9 @@ namespace Systems.Antagonists
 
 		private void Awake()
 		{
+
 			playerScript = GetComponent<PlayerScript>();
+			playerScript.OnActionEnterPlayerControl += PlayerEnterBody;
 			livingHealthMasterBase = GetComponent<LivingHealthMasterBase>();
 			rotatable = GetComponent<Rotatable>();
 			cooldowns = GetComponent<HasCooldowns>();
@@ -225,11 +227,9 @@ namespace Systems.Antagonists
 			EventManager.RemoveHandler(Event.RoundStarted, ClearStatics);
 		}
 
-		public override void OnStartLocalPlayer()
+		public void PlayerEnterBody()
 		{
 			if(hasAuthority == false) return;
-
-
 
 			UIManager.Instance.panelHudBottomController.AlienUI.SetActive(true);
 			UIManager.Instance.panelHudBottomController.AlienUI.SetUp(this);
@@ -271,7 +271,7 @@ namespace Systems.Antagonists
 				nameNumber = alienCount;
 			}
 
-			SetUpFromPrefab(null, true);
+			SetUpFromPrefab(null, alienType , true);
 
 			if (CurrentAlienType is AlienTypes.Larva1 or AlienTypes.Larva2 or AlienTypes.Larva3)
 			{
@@ -422,33 +422,27 @@ namespace Systems.Antagonists
 			Chat.AddActionMsgToChat(gameObject, "You begin to evolve!",
 				$"{playerScript.playerName} begins to twist and contort!");
 
-			 var AlienMind = PlayerSpawn.NewSpawnCharacterV2(newAlienData.AlienOccupation, new CharacterSheet()
+			 var AlienBody = PlayerSpawn.RespawnPlayerAt(playerScript.mind, newAlienData.AlienOccupation, new CharacterSheet()
 			 {
 				 Name = "Alien"
-			 });
+			 }, playerScript.objectPhysics.OfficialPosition);
 
-			 AlienMind.Body.playerMove.AppearAtWorldPositionServer(playerScript.objectPhysics.OfficialPosition);
 
 			Chat.AddExamineMsgFromServer(gameObject, $"You evolve into a {alienType.Name}!");
 
-			var newAlienPlayer = AlienMind.Body.GetComponent<AlienPlayer>();
+			var newAlienPlayer = AlienBody.GetComponent<AlienPlayer>();
 
-			newAlienPlayer.SetUpFromPrefab(alienType, changeName, nameNumber);
-
-			if (playerScript.mind != null)
-			{
-				PlayerSpawn.TransferAccountToSpawnedMind(playerScript.mind.ControlledBy, AlienMind);
-			}
+			newAlienPlayer.SetUpFromPrefab(alienType, newAlienData,changeName, nameNumber);
 
 			newAlienPlayer.DoConnectCheck();
 
 			_ = Despawn.ServerSingle(gameObject);
 		}
 
-		private void SetUpFromPrefab(AlienTypeDataSO old, bool changeName = false, int oldNameNumber = -1)
+		private void SetUpFromPrefab(AlienTypeDataSO old, AlienTypeDataSO newone, bool changeName = false, int oldNameNumber = -1)
 		{
 			firstTimeSetup = true;
-
+			alienType = newone;
 			if (changeName == false)
 			{
 				nameNumber = oldNameNumber;

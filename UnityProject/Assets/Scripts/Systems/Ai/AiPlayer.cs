@@ -156,6 +156,8 @@ namespace Systems.Ai
 		private void Awake()
 		{
 			playerScript = GetComponent<PlayerScript>();
+			playerScript.OnActionEnterPlayerControl += PlayerEnterBody;
+
 			cooldowns = GetComponent<HasCooldowns>();
 			lineRenderer = GetComponentInChildren<LineRenderer>();
 		}
@@ -180,7 +182,7 @@ namespace Systems.Ai
 			//Set new vessel
 			ServerSetNewVessel(newVesselObject);
 
-			playerScript.mind.SetPermanentName(playerScript.characterSettings.AiName);
+
 			newVesselObject.GetComponent<AiVessel>().SetLinkedPlayer(this);
 
 			isCarded = false;
@@ -241,10 +243,10 @@ namespace Systems.Ai
 			}
 		}
 
-		public override void OnStartLocalPlayer()
+		public void PlayerEnterBody()
 		{
-			base.OnStartLocalPlayer();
-
+			if (hasAuthority == false) return;
+			playerScript.mind.SetPermanentName(playerScript.characterSettings.AiName);
 			Init();
 
 			SyncCore(IDvesselObject, IDvesselObject);

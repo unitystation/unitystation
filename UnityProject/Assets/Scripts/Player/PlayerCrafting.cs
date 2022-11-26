@@ -44,6 +44,7 @@ namespace Player
 		private void Awake()
 		{
 			playerScript = GetComponent<PlayerScript>();
+			PlayerScript.OnActionEnterPlayerControl += PlayerEnterBody;
 			InitKnownRecipesByCategories();
 		}
 
@@ -52,8 +53,9 @@ namespace Player
 			InitDefaultRecipes();
 		}
 
-		public override void OnStartLocalPlayer()
+		public void PlayerEnterBody()
 		{
+			if (hasAuthority == false) return;
 			RequestInitRecipes.Send(new RequestInitRecipes.NetMessage());
 		}
 
