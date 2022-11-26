@@ -178,7 +178,7 @@ public static class PlayerSpawn
 
 
 
-	static GameObject SpawnAndApplyRole(Mind mind, Occupation requestedOccupation,
+	private static GameObject SpawnAndApplyRole(Mind mind, Occupation requestedOccupation,
 		CharacterSheet character, SpawnType spawnType)
 	{
 		if (requestedOccupation != null)
@@ -210,7 +210,7 @@ public static class PlayerSpawn
 		return null;
 	}
 
-	static GameObject SpawnPlayerBody(GameObject bodyPrefab)
+	private static GameObject SpawnPlayerBody(GameObject bodyPrefab)
 	{
 		//create the player object
 
@@ -243,7 +243,7 @@ public static class PlayerSpawn
 		return player;
 	}
 
-	static void ApplyNewSpawnRoleToBody( GameObject body, Occupation requestedOccupation, CharacterSheet character, SpawnType spawnType)
+	private static void ApplyNewSpawnRoleToBody( GameObject body, Occupation requestedOccupation, CharacterSheet character, SpawnType spawnType)
 	{
 		//Character attributes
 
@@ -260,7 +260,7 @@ public static class PlayerSpawn
 		var playerSprites = body.GetComponent<PlayerSprites>();
 		if (playerSprites)
 		{
-			// This causes body parts to be made for the race, will cause death if body parts are needed and
+			// This causes body parts to be made for the species, will cause death if body parts are needed and
 			// CharacterSettings is null
 			var toUseCharacterSettings = requestedOccupation.UseCharacterSettings ? character : null;
 			playerSprites.OnCharacterSettingsChange(toUseCharacterSettings);
@@ -272,8 +272,8 @@ public static class PlayerSpawn
 
 		switch (spawnType)
 		{
-			case SpawnType.NewSpawn: //TODO Add more stuff on here
-				if (requestedOccupation != null) // && showBanner)?
+			case SpawnType.NewSpawn:
+				if (requestedOccupation != null)
 				{
 					SpawnBannerMessage.Send(
 						body,
@@ -316,6 +316,7 @@ public static class PlayerSpawn
 		return mind;
 	}
 
+	//Transfers an account/connected player to a mind and sets up the ghost and stuff, And triggers the player into body stuff
 	public static void TransferAccountToSpawnedMind(PlayerInfo account, Mind newMind)
 	{
 		var isAdmin = account.IsAdmin;
@@ -411,7 +412,8 @@ public static class PlayerSpawn
 		}
 	}
 
-	public static void TransferOwnershipToConnection(PlayerInfo account, NetworkIdentity from, NetworkIdentity to)
+	//Is used for internal stuff mainly, Used for a signing authority from and to  objects For an a player
+	public static void TransferOwnershipFromToConnection(PlayerInfo account, NetworkIdentity from, NetworkIdentity to)
 	{
 		if (from)
 		{

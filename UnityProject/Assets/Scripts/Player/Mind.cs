@@ -333,7 +333,7 @@ public class Mind : NetworkBehaviour
 		var RelatedBodies = GetRelatedBodies();
 		foreach (var Body in RelatedBodies)
 		{
-			PlayerSpawn.TransferOwnershipToConnection(Account, Body, null);
+			PlayerSpawn.TransferOwnershipFromToConnection(Account, Body, null);
 		}
 	}
 
@@ -344,7 +344,7 @@ public class Mind : NetworkBehaviour
 		var RelatedBodies = GetRelatedBodies();
 		foreach (var Body in RelatedBodies)
 		{
-			PlayerSpawn.TransferOwnershipToConnection(Account, null, Body);
+			PlayerSpawn.TransferOwnershipFromToConnection(Account, null, Body);
 		}
 
 		SyncActiveOn(IDActivelyControlling, IDActivelyControlling);
@@ -364,7 +364,7 @@ public class Mind : NetworkBehaviour
 		var RelatedBodies = GetRelatedBodies();
 		foreach (var Body in RelatedBodies)
 		{
-			PlayerSpawn.TransferOwnershipToConnection(ControlledBy, null, Body);
+			PlayerSpawn.TransferOwnershipFromToConnection(ControlledBy, null, Body);
 		}
 	}
 
@@ -374,12 +374,12 @@ public class Mind : NetworkBehaviour
 		{
 			foreach (var Lost in Losing)
 			{
-				PlayerSpawn.TransferOwnershipToConnection(ControlledBy, Lost, null);
+				PlayerSpawn.TransferOwnershipFromToConnection(ControlledBy, Lost, null);
 			}
 
 			foreach (var Gained in Gaining)
 			{
-				PlayerSpawn.TransferOwnershipToConnection(ControlledBy, null, Gained);
+				PlayerSpawn.TransferOwnershipFromToConnection(ControlledBy, null, Gained);
 			}
 		}
 	}
