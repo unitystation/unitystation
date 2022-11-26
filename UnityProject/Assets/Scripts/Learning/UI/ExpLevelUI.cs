@@ -7,14 +7,14 @@ namespace Learning
 	{
 		[SerializeField] private TMP_Text levelDesc;
 
-		[TextArea(5, 30)]
-		public string NewToSS;
-		[TextArea(5, 30)]
-		public string NewToUS;
-		[TextArea(5, 30)]
-		public string ExpPlayer;
-		[TextArea(5, 30)]
-		public string RobustPlayer;
+		[SerializeField, TextArea(5, 30)]
+		private string NewToSS;
+		[SerializeField, TextArea(5, 30)]
+		private string NewToUS;
+		[SerializeField, TextArea(5, 30)]
+		private string ExpPlayer;
+		[SerializeField, TextArea(5, 30)]
+		private string RobustPlayer;
 
 		public void SetExpLevel(int level)
 		{
