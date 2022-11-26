@@ -15,10 +15,7 @@ namespace Tests.Asset
 
 			foreach (var Spell in AllSpells)
 			{
-				if (SpellList.Instance.Spells.Contains(Spell) == false)
-				{
-					report.Fail().AppendLine($"Spell {Spell} is missing From the SpellList Spells SO , Please add in ");
-				}
+				report.FailIfNot(SpellList.Instance.Spells.Contains(Spell)).AppendLine($"Spell {Spell} is missing From the SpellList Spells SO , Please add in ");
 			}
 
 			report.AssertPassed();
