@@ -49,6 +49,12 @@ namespace Unitystation.Options
 		[SerializeField]
 		private Slider chatContentAlphaFadeMinimum;
 
+		[SerializeField]
+		private Slider hoverTooltipDelaySlider;
+
+		[SerializeField]
+		private Text hoverTooltipDelaySliderValueText;
+
 		void OnEnable()
 		{
 			Refresh();
@@ -83,7 +89,8 @@ namespace Unitystation.Options
 
 			chatAlphaFadeMinimum.value = UI.Chat_UI.ChatUI.Instance.GetPreferenceChatBackground();
 			chatContentAlphaFadeMinimum.value =  UI.Chat_UI.ChatUI.Instance.GetPreferenceChatContent();
-
+			hoverTooltipDelaySlider.value = UIManager.Instance.HoverTooltipUI.GetSavedTooltipDelay();
+			hoverTooltipDelaySliderValueText.text = UIManager.Instance.HoverTooltipUI.GetSavedTooltipDelay().ToString();
 		}
 
 		void ConstructChatBubbleOptions()
@@ -175,6 +182,14 @@ namespace Unitystation.Options
 		public void OnChatContentMinimumAlphaColorChange()
 		{
 			UI.Chat_UI.ChatUI.Instance.SetPreferenceChatContent(chatContentAlphaFadeMinimum.value);
+		}
+
+		public void OnHoverTooltipDelayValueChange()
+		{
+			UIManager.Instance.HoverTooltipUI.HoverDelay = hoverTooltipDelaySlider.value;
+			PlayerPrefs.SetFloat(PlayerPrefKeys.HoverTooltipDelayKey, hoverTooltipDelaySlider.value);
+			PlayerPrefs.Save();
+			Refresh();
 		}
 	}
 }

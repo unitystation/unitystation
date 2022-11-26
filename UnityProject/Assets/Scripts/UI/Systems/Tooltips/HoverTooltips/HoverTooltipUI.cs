@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Learning;
 using TMPro;
@@ -17,15 +18,30 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		[SerializeField] private Image iconTarget;
 		[SerializeField] private Sprite errorIconSprite;
 
+		public float HoverDelay { get; set; } = 0.25f;
+
 
 		private GameObject targetObject;
 		private bool detailsModeEnabled = false;
 
 		private const float MOUSE_OFFSET_Y = -105f;
 		private const float MOUSE_OFFSET_X = -125f;
-		private const float ANIM_TIME_SHOW = 0.25f;
-		private const float ANIM_TIME_HIDE = 0.15f;
+		private const float ANIM_SPEED = 4.5f;
+		private const float FULLY_VISIBLE_ALPHA = 0.99f;
+		private const float DEFAULT_HOVER_DELAY = 0.25f;
 
+		private bool animating = false;
+		private bool showing = false;
+
+		private void Awake()
+		{
+			HoverDelay = GetSavedTooltipDelay();
+		}
+
+		public float GetSavedTooltipDelay()
+		{
+			return PlayerPrefs.GetFloat(PlayerPrefKeys.HoverTooltipDelayKey, DEFAULT_HOVER_DELAY);
+		}
 
 		private void Start()
 		{
@@ -45,10 +61,10 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		{
 			var lastState = detailsModeEnabled;
 			detailsModeEnabled = Input.GetKeyDown(KeyCode.LeftShift);
-			if (lastState != detailsModeEnabled && detailsModeEnabled && targetObject != null) SetupTooltip(targetObject);
+			if (lastState != detailsModeEnabled && detailsModeEnabled && targetObject != null) SetupTooltip(targetObject, true);
 		}
 
-		public void SetupTooltip(GameObject hoverObject)
+		public void SetupTooltip(GameObject hoverObject, bool noWait = false)
 		{
 			targetObject = hoverObject;
 			// Clean up everything for the upcoming data.
@@ -58,18 +74,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			   && detailsModeEnabled == false) return;
 			// Don't do anything if there's no object to start with.
 			if (hoverObject == null) return;
-
-			//Setup the title and description.
-			UpdateMainInfo(hoverObject);
-			CaptureIconFromSpriteHandler(hoverObject);
-			if(detailsModeEnabled) UpdateDetailedView(hoverObject);
-
-			// Don't show if the description/name is empty.
-			// (Max): It looks better and more intentional when there's no empty fields.
-			// Also reduces hovertip presence on the screen when its not needed.
-			if (IsDescOrTitleEmpty()) return;
-			if (iconTarget.sprite == null) iconTarget.sprite = errorIconSprite;
-			content.LeanAlpha(1f, ANIM_TIME_SHOW);
+			StartCoroutine(QueueTip(hoverObject, noWait));
 		}
 
 		/// <summary>
@@ -154,7 +159,8 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			descText.text = string.Empty;
 			iconTarget.sprite = errorIconSprite;
 			ResetInteractionsList();
-			content.LeanAlpha(0f, ANIM_TIME_HIDE);
+			showing = false;
+			StartCoroutine(AnimateBackground());
 		}
 
 		private void ResetInteractionsList()
@@ -163,6 +169,44 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			{
 				Destroy(child.gameObject);
 			}
+		}
+
+		private void Setup(GameObject target)
+		{
+			UpdateMainInfo(target);
+			CaptureIconFromSpriteHandler(target);
+			if(detailsModeEnabled) UpdateDetailedView(target);
+
+			// Don't show if the description/name is empty.
+			// (Max): It looks better and more intentional when there's no empty fields.
+			// Also reduces hovertip presence on the screen when its not needed.
+			if (IsDescOrTitleEmpty()) return;
+			if (iconTarget.sprite == null) iconTarget.sprite = errorIconSprite;
+			showing = true;
+			StartCoroutine(AnimateBackground());
+		}
+
+		private IEnumerator AnimateBackground()
+		{
+			if (animating) yield break;
+			if (string.IsNullOrEmpty(descText.text)) showing = false;
+
+			animating = true;
+
+			while((showing && content.alpha < FULLY_VISIBLE_ALPHA) || (showing == false && content.alpha > 0.0001f))
+			{
+				yield return WaitFor.EndOfFrame;
+				content.alpha = Mathf.Lerp(content.alpha, showing ? FULLY_VISIBLE_ALPHA : 0f, ANIM_SPEED * Time.deltaTime);
+				content.alpha = Mathf.Clamp(content.alpha, 0f, FULLY_VISIBLE_ALPHA);
+			}
+			animating = false;
+		}
+
+		private IEnumerator QueueTip(GameObject queuedObject, bool noWait = false)
+		{
+			if(noWait == false) yield return WaitFor.Seconds(HoverDelay);
+			if(targetObject == null || queuedObject != targetObject) yield break;
+			Setup(queuedObject);
 		}
 	}
 }
