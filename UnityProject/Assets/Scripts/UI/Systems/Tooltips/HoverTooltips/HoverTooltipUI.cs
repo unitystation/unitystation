@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Learning;
 using TMPro;
@@ -23,8 +24,11 @@ namespace UI.Systems.Tooltips.HoverTooltips
 
 		private const float MOUSE_OFFSET_Y = -105f;
 		private const float MOUSE_OFFSET_X = -125f;
-		private const float ANIM_TIME_SHOW = 0.25f;
-		private const float ANIM_TIME_HIDE = 0.15f;
+		private const float CHAT_FADE_SPEED = 2f;
+		private const float FULLY_VISIBLE_ALPHA = 0.99f;
+
+		private bool animating = false;
+		private bool showing = false;
 
 
 		private void Start()
@@ -69,7 +73,8 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			// Also reduces hovertip presence on the screen when its not needed.
 			if (IsDescOrTitleEmpty()) return;
 			if (iconTarget.sprite == null) iconTarget.sprite = errorIconSprite;
-			content.LeanAlpha(1f, ANIM_TIME_SHOW);
+			showing = true;
+			StartCoroutine(AnimateBackground());
 		}
 
 		/// <summary>
@@ -154,7 +159,8 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			descText.text = string.Empty;
 			iconTarget.sprite = errorIconSprite;
 			ResetInteractionsList();
-			content.LeanAlpha(0f, ANIM_TIME_HIDE);
+			showing = false;
+			StartCoroutine(AnimateBackground());
 		}
 
 		private void ResetInteractionsList()
@@ -163,6 +169,29 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			{
 				Destroy(child.gameObject);
 			}
+		}
+
+		private IEnumerator AnimateBackground()
+		{
+			if (animating) yield break;
+
+			animating = true;
+
+			while((showing && content.alpha < FULLY_VISIBLE_ALPHA) || (showing == false && content.alpha > 0.0001f))
+			{
+				yield return WaitFor.EndOfFrame;
+				if (showing)
+				{
+					content.alpha = Mathf.Lerp(content.alpha, FULLY_VISIBLE_ALPHA, CHAT_FADE_SPEED * Time.deltaTime);
+				}
+				else
+				{
+					content.alpha = Mathf.Lerp(content.alpha, 0f, CHAT_FADE_SPEED * Time.deltaTime);
+				}
+
+				content.alpha = Mathf.Clamp(content.alpha, 0f, FULLY_VISIBLE_ALPHA);
+			}
+			animating = false;
 		}
 	}
 }
