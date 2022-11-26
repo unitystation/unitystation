@@ -37,7 +37,7 @@ namespace Learning
 			var experience = PlayerPrefs.GetInt("Learning/ExperienceLevel", -1);
 			if(experience == -1)
 			{
-				//TODO : TRIGGER FIRST TIME TIP SELECTION.
+				UIManager.Instance.FirstTimePlayerExperienceScreen.SetActive(true);
 				return;
 			}
 			PlayerExperienceLevel = (ExperienceLevel) experience;
