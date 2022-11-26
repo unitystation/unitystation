@@ -51,9 +51,9 @@ namespace Objects
 		/// </summary>
 		public UniversalObjectPhysics TopContainer {
 			get {
-				if (ObjectPhysics.ContainedInContainer != null)
+				if (ObjectPhysics.ContainedInObjectContainer != null)
 				{
-					return ObjectPhysics.ContainedInContainer.TopContainer;
+					return ObjectPhysics.ContainedInObjectContainer.TopContainer;
 				}
 
 				if (ObjectPhysics.IsVisible == false)

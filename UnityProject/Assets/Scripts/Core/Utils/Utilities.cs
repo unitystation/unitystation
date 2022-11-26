@@ -7,6 +7,9 @@ using UnityEngine.Events;
 namespace Core.Utils
 {
 
+	public class MindNIPossessingEvent : UnityEvent<Mind, IPlayerPossessable> { }
+
+
 	[System.Serializable]
 	public class MultiInterestBool
 	{

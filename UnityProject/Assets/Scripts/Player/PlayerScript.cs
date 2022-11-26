@@ -1,36 +1,58 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
+using Core.Utils;
 using Detective;
 using Systems.Ai;
 using UnityEngine;
 using Mirror;
 using HealthV2;
 using Player;
-using Player.Movement;
-using UI.Action;
 using Items;
-using Objects.Construction;
+using Messages.Server;
 using Player.Language;
 using ScriptableObjects;
 using Systems.StatusesAndEffects;
-using Tiles;
+using UI.Core.Action;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Serialization;
 
-public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActionGUI, IHoverTooltip
-{
-	/// maximum distance the player needs to be to an object to interact with it
-	public const float interactionDistance = 1.5f;
 
-	public Mind mind  { private set; get; }
+public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActionGUI, IPlayerPossessable, IHoverTooltip
+{
+	public GameObject GameObject => gameObject;
+	public IPlayerPossessable Possessing { get; set; }
+	public GameObject PossessingObject { get; set; }
+	public Mind PossessingMind { get; set; }
+	public IPlayerPossessable PossessedBy { get; set; }
+	public MindNIPossessingEvent OnPossessedBy { get; set; }
+
+	public Action OnActionEnterPlayerControl { get; set; }
+
+	public void OnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer)
+	{
+		if (isServer)
+		{
+			TriggerEventMessage.SendTo(GameObject, Event.PlayerSpawned);
+		}
+
+
+		Init();
+	}
+
+	/// maximum distance the player needs to be to an object to interact with it
+	public const float INTERACTION_DISTANCE = 1.5f;
+
+	public Mind Mind { private set; get; }
 	public PlayerInfo PlayerInfo;
 
 	[FormerlySerializedAs("playerStateSettings")] [SerializeField]
 	private PlayerTypeSettings playerTypeSettings = null;
+
 	public PlayerTypeSettings PlayerTypeSettings => playerTypeSettings;
 	public PlayerTypes PlayerType => playerTypeSettings.PlayerType;
+
+	public ChatModifier inventorySpeechModifiers = ChatModifier.None;
 
 	/// <summary>
 	/// Current character settings for this player.
@@ -43,26 +65,26 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	[HideInInspector, SyncVar(hook = nameof(SyncVisibleName))]
 	public string visibleName = " ";
 
-	public PlayerNetworkActions playerNetworkActions { get; set; }
+	public PlayerNetworkActions PlayerNetworkActions { get; private set; }
 
-	public WeaponNetworkActions weaponNetworkActions { get; set; }
+	public WeaponNetworkActions WeaponNetworkActions { get; private set; }
 
-	public OrientationEnum CurrentDirection => playerDirectional.CurrentDirection;
-
-	/// <summary>
-	/// Will be null if player is a ghost.
-	/// </summary>
-	public PlayerHealthV2 playerHealth { get; set; }
-
-	public MovementSynchronisation playerMove { get; set; }
-	public PlayerSprites playerSprites { get; set; }
+	public OrientationEnum CurrentDirection => PlayerDirectional.CurrentDirection;
 
 	/// <summary>
 	/// Will be null if player is a ghost.
 	/// </summary>
-	public UniversalObjectPhysics objectPhysics { get; set; }
+	public PlayerHealthV2 playerHealth { get; private set; }
 
-	public Rotatable playerDirectional { get; set; }
+	public MovementSynchronisation playerMove { get; private set; }
+	public PlayerSprites playerSprites { get; private set; }
+
+	/// <summary>
+	/// Will be null if player is a ghost.
+	/// </summary>
+	public UniversalObjectPhysics ObjectPhysics { get; private set; }
+
+	public Rotatable PlayerDirectional { get; private set; }
 
 	public MovementSynchronisation PlayerSync;
 
@@ -74,23 +96,21 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public PlayerCrafting PlayerCrafting => playerCrafting;
 
-	public PlayerOnlySyncValues PlayerOnlySyncValues { get; private set; }
-
-	public HasCooldowns Cooldowns { get; set; }
+	public HasCooldowns Cooldowns { get; private set; }
 
 	public MobLanguages MobLanguages { get; private set; }
 
-	public MouseInputController mouseInputController { get; set; }
+	public MouseInputController MouseInputController { get; set; }
 
-	public ChatIcon chatIcon { get; private set; }
+	public ChatIcon ChatIcon { get; private set; }
 
-	public StatusEffectManager statusEffectManager { get; private set; }
+	public StatusEffectManager StatusEffectManager { get; private set; }
 
 	/// <summary>
 	/// Serverside world position.
 	/// Outputs correct world position even if you're hidden (e.g. in a locker)
 	/// </summary>
-	public Vector3Int AssumedWorldPos => objectPhysics.registerTile.WorldPosition;
+	public Vector3Int AssumedWorldPos => ObjectPhysics.registerTile.WorldPosition;
 
 	[SyncVar] public Vector3Int SyncedWorldPos = new Vector3Int(0, 0, 0);
 
@@ -127,13 +147,13 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	//The object the player will receive chat and send chat from.
 	//E.g. usually same object as this script but for Ai it will be their core object
 	//Serverside only
-	[SerializeField]
-	private GameObject playerChatLocation = null;
+	[SerializeField] private GameObject playerChatLocation = null;
 	public GameObject PlayerChatLocation => playerChatLocation;
 
 	[SerializeField]
 	//TODO move this to somewhere else?
 	private bool canVentCrawl = false;
+
 	public bool CanVentCrawl => canVentCrawl;
 
 	#region Lifecycle
@@ -141,55 +161,31 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	private void Awake()
 	{
 		playerSprites = GetComponent<PlayerSprites>();
-		playerNetworkActions = GetComponent<PlayerNetworkActions>();
+		PlayerNetworkActions = GetComponent<PlayerNetworkActions>();
 		RegisterPlayer = GetComponent<RegisterPlayer>();
 		playerHealth = GetComponent<PlayerHealthV2>();
-		objectPhysics = GetComponent<UniversalObjectPhysics>();
-		weaponNetworkActions = GetComponent<WeaponNetworkActions>();
-		mouseInputController = GetComponent<MouseInputController>();
-		chatIcon = GetComponentInChildren<ChatIcon>(true);
+		ObjectPhysics = GetComponent<UniversalObjectPhysics>();
+		WeaponNetworkActions = GetComponent<WeaponNetworkActions>();
+		MouseInputController = GetComponent<MouseInputController>();
+		ChatIcon = GetComponentInChildren<ChatIcon>(true);
 		playerMove = GetComponent<MovementSynchronisation>();
-		playerDirectional = GetComponent<Rotatable>();
+		PlayerDirectional = GetComponent<Rotatable>();
 		DynamicItemStorage = GetComponent<DynamicItemStorage>();
 		Equipment = GetComponent<Equipment>();
 		Cooldowns = GetComponent<HasCooldowns>();
-		PlayerOnlySyncValues = GetComponent<PlayerOnlySyncValues>();
 		playerCrafting = GetComponent<PlayerCrafting>();
 		PlayerSync = GetComponent<MovementSynchronisation>();
-		statusEffectManager = GetComponent<StatusEffectManager>();
+		StatusEffectManager = GetComponent<StatusEffectManager>();
 		MobLanguages = GetComponent<MobLanguages>();
 	}
 
 	public override void OnStartClient()
 	{
-		Init();
-		SyncPlayerName(playerName, playerName);
-	}
-
-	// isLocalPlayer is always called after OnStartClient
-	public override void OnStartLocalPlayer()
-	{
-		Init();
-		waitTimeForRTTUpdate = 0f;
-
-		if (IsNormal)
-		{
-			UIManager.Internals.SetupListeners();
-			UIManager.Instance.panelHudBottomController.SetupListeners();
-		}
-
-		isUpdateRTT = true;
-	}
-
-	// You know the drill
-	public override void OnStartServer()
-	{
-		Init();
+		SyncPlayerName(name, name);
 	}
 
 	private void OnEnable()
 	{
-		EventManager.AddHandler(Event.PlayerRejoined, Init);
 		EventManager.AddHandler(Event.GhostSpawned, OnPlayerBecomeGhost);
 		EventManager.AddHandler(Event.PlayerRejoined, OnPlayerReturnedToBody);
 
@@ -200,7 +196,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	private void OnDisable()
 	{
-		EventManager.RemoveHandler(Event.PlayerRejoined, Init);
 		EventManager.RemoveHandler(Event.GhostSpawned, OnPlayerBecomeGhost);
 		EventManager.RemoveHandler(Event.PlayerRejoined, OnPlayerReturnedToBody);
 
@@ -211,7 +206,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public void Init()
 	{
-		if (isLocalPlayer)
+		if (hasAuthority)
 		{
 			EnableLighting(true);
 			UIManager.ResetAllUI();
@@ -221,15 +216,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			{
 				UIManager.Instance.statsTab.window.SetActive(true);
 			}
-
-			IPlayerControllable input = GetComponent<IPlayerControllable>();
-
-			if (TryGetComponent<AiMouseInputController>(out var aiMouseInputController))
-			{
-				input = aiMouseInputController;
-			}
-
-			PlayerManager.SetPlayerForControl(gameObject, input);
 
 			if (PlayerType == PlayerTypes.Ghost)
 			{
@@ -269,6 +255,18 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 			EventManager.Broadcast(Event.UpdateChatChannels);
 			UpdateStatusTabUI();
+			UIManager.Instance.UI_SlotManager.SetActive(true);
+			UIManager.Instance.UI_SlotManager.UpdateUI();
+
+			waitTimeForRTTUpdate = 0f;
+
+			if (IsNormal)
+			{
+				UIManager.Internals.SetupListeners();
+				UIManager.Instance.panelHudBottomController.SetupListeners();
+			}
+
+			isUpdateRTT = true;
 		}
 	}
 
@@ -355,9 +353,9 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	}
 
 
-	public void SetMind(Mind InMind)
+	public void SetMind(Mind inMind)
 	{
-		mind = InMind;
+		Mind = inMind;
 	}
 
 	/// <summary>
@@ -430,17 +428,17 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public void ReturnGhostToBody()
 	{
-		if(mind == null) return;
+		if (Mind == null) return;
 
-		var ghost = mind.ghost;
-		if (mind.IsGhosting == false || ghost == null) return;
+		var ghost = Mind.ghost;
+		if (Mind.IsGhosting == false || ghost == null) return;
 
-		ghost.playerNetworkActions.GhostEnterBody();
+		ghost.PlayerNetworkActions.GhostEnterBody();
 	}
 
 	public object Chat { get; internal set; }
 
-	public bool IsGameObjectReachable(GameObject go, bool isServer, float interactDist = interactionDistance,
+	public bool IsGameObjectReachable(GameObject go, bool isServer, float interactDist = INTERACTION_DISTANCE,
 		GameObject context = null)
 	{
 		var rt = go.RegisterTile();
@@ -457,7 +455,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// The smart way:
 	///  <inheritdoc cref="IsPositionReachable(Vector3, bool, float, GameObject)"/>
 	public bool IsRegisterTileReachable(RegisterTile otherObject, bool isServer,
-		float interactDist = interactionDistance, GameObject context = null)
+		float interactDist = INTERACTION_DISTANCE, GameObject context = null)
 	{
 		return Validations.IsReachableByRegisterTiles(RegisterPlayer, otherObject, isServer, interactDist,
 			context: context);
@@ -468,7 +466,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// <param name="isServer">True if being executed on server, false otherwise</param>
 	/// <param name="interactDist">Maximum distance of interaction between the player and other objects</param>
 	/// <param name="context">If not null, will ignore collisions caused by this gameobject</param>
-	public bool IsPositionReachable(Vector3 otherPosition, bool isServer, float interactDist = interactionDistance,
+	public bool IsPositionReachable(Vector3 otherPosition, bool isServer, float interactDist = INTERACTION_DISTANCE,
 		GameObject context = null)
 	{
 		return Validations.IsReachableByPositions(
@@ -476,16 +474,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			interactDist, context: context);
 	}
 
-	/// <summary>
-	/// Sets the IC name for this player and refreshes the visible name. Name will be kept if respawned.
-	/// </summary>
-	/// <param name="newName">The new name to give to the player.</param>
-	public void SetPermanentName(string newName)
-	{
-		characterSettings.Name = newName;
-		playerName = newName;
-		RefreshVisibleName();
-	}
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
 	{
@@ -501,7 +489,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			                  ChatChannel.Engineering | ChatChannel.Medical | ChatChannel.Science |
 			                  ChatChannel.Security | ChatChannel.Service | ChatChannel.Supply |
 			                  ChatChannel.Syndicate | ChatChannel.Alien | ChatChannel.Blob;
-
 		}
 
 		//Ai channels limited when not allowed to use radio
@@ -587,12 +574,12 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	public int ClueSpeciesImprintInverseChance = 85;
 
 
-	public void OnInteract(TargetedInteraction Interaction, Component interactable)
+	public void OnInteract(TargetedInteraction interaction, Component interactable)
 	{
-		if (Interaction == null) return;
+		if (interaction == null) return;
 		if (IsNormal == false) return;
 		if (ComponentManager.TryGetUniversalObjectPhysics(interactable.gameObject, out var uop) == false) return;
-		if(uop.attributes.HasComponent == false) return;
+		if (uop.attributes.HasComponent == false) return;
 
 		var details = uop.attributes.Component.AppliedDetails;
 		if (details == null) return;
@@ -683,11 +670,11 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			stringBuilder.AppendLine($"Is Alive: {playerHealth.IsDead == false} Health: {playerHealth.OverallHealth}");
 		}
 
-		if (mind != null && mind.IsAntag)
+		if (Mind != null && Mind.IsAntag)
 		{
 			stringBuilder.Insert(0, "<color=yellow>");
-			stringBuilder.AppendLine($"Antag: {mind.GetAntag().Antagonist.AntagJobType}");
-			stringBuilder.AppendLine($"Objectives : {mind.GetAntag().GetObjectiveSummary()}</color>");
+			stringBuilder.AppendLine($"Antag: {Mind.GetAntag().Antagonist.AntagJobType}");
+			stringBuilder.AppendLine($"Objectives : {Mind.GetAntag().GetObjectiveSummary()}</color>");
 		}
 
 		return stringBuilder.ToString();
@@ -695,12 +682,12 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public void CallActionClient()
 	{
-		playerNetworkActions.CmdAskforAntagObjectives();
+		PlayerNetworkActions.CmdAskforAntagObjectives();
 	}
 
 	public void ActivateAntagAction(bool state)
 	{
-		UIActionManager.ToggleServer(mind , this, state);
+		UIActionManager.ToggleServer(gameObject, this, state);
 	}
 
 	//Used for Admins to VV function to toggle vent crawl as for some reason in build VV variable isnt working

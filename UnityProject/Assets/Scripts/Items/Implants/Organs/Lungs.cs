@@ -134,7 +134,7 @@ namespace HealthV2
 			if (container == null)
 			{
 				// Could be in a container that has an internal gas mix, else use the tile's gas mix.
-				var parentContainer = RelatedPart.HealthMaster.ObjectBehaviour.ContainedInContainer;
+				var parentContainer = RelatedPart.HealthMaster.ObjectBehaviour.ContainedInObjectContainer;
 				if (parentContainer != null && parentContainer.TryGetComponent<GasContainer>(out var gasContainer))
 				{
 					container = gasContainer;

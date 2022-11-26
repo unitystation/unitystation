@@ -16,14 +16,14 @@ namespace Objects
 				if (playerSync.IsMoving || playerSync.IsBuckled) return false;
 				// Do a sanity check to make sure someone isn't dropping the shadow from like 9000 tiles away.
 				float mag = (targetObjectPos - playerSync.registerTile.WorldPosition ).magnitude;
-				return mag <= PlayerScript.interactionDistance;
+				return mag <= PlayerScript.INTERACTION_DISTANCE;
 			}
 			// Do the same check but for mouse draggable objects this time.
 			if (interaction.UsedObject.TryGetComponent<UniversalObjectPhysics>(out var UniversalObjectPhysics))
 			{
 				if (UniversalObjectPhysics.IsNotPushable) return false;
 				float mag = (targetObjectPos - (UniversalObjectPhysics.transform.position)).magnitude;
-				return mag <= PlayerScript.interactionDistance;
+				return mag <= PlayerScript.INTERACTION_DISTANCE;
 			}
 			return false;
 		}

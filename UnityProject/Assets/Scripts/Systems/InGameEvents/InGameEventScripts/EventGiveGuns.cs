@@ -34,21 +34,21 @@ namespace InGameEvents
 			{
 				if (player.Script.IsDeadOrGhost || player.Script.IsNormal == false) continue;
 
-				HandlePlayer(player);
+				HandlePlayer(player.Mind);
 			}
 		}
 
-		protected virtual void HandlePlayer(PlayerInfo player)
+		protected virtual void HandlePlayer(Mind player)
 		{
 			GiveGunToPlayer(player);
 		}
 
-		protected void GiveGunToPlayer(PlayerInfo player)
+		protected void GiveGunToPlayer(Mind player)
 		{
 			GameObject gun = Spawn.ServerPrefab(gunList.GetRandom(),
-						player.Script.WorldPos, player.Script.transform.parent, player.Script.transform.rotation).GameObject;
+						player.Body.WorldPos, player.Body.transform.parent, player.Body.transform.rotation).GameObject;
 
-			ItemSlot slot = player.Script.DynamicItemStorage.GetBestHandOrSlotFor(gun);
+			ItemSlot slot = player.Body.DynamicItemStorage.GetBestHandOrSlotFor(gun);
 			if (slot != null && slot.IsEmpty)
 			{
 				Inventory.ServerAdd(gun, slot);

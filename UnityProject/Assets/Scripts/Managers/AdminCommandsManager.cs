@@ -408,8 +408,8 @@ namespace AdminCommands
 
 			//get player stuff.
 			PlayerScript playerScript = player.Script;
-			Mind playerMind = playerScript.mind;
-			var playerBody = playerMind.body;
+			Mind playerMind = playerScript.Mind;
+			var playerBody = playerMind.Body;
 			string message;
 
 			//Does this player have a body that can be healed?
@@ -468,7 +468,7 @@ namespace AdminCommands
 				return;
 			}
 
-			var item = Spawn.ServerPrefab(itemPrefabName, player.Mind.body.gameObject.AssumedWorldPosServer());
+			var item = Spawn.ServerPrefab(itemPrefabName, player.Mind.Body.gameObject.AssumedWorldPosServer());
 			var slot = player.Script.DynamicItemStorage.GetBestHandOrSlotFor(item.GameObject);
 			if (item.GameObject.TryGetComponent<Stackable>(out var stackable) && stackable.MaxAmount <= count)
 			{
@@ -849,9 +849,9 @@ namespace AdminCommands
 			var adminScript = admin.Script;
 			if(adminScript == null) return;
 
-			if (adminScript.objectPhysics != null)
+			if (adminScript.ObjectPhysics != null)
 			{
-				adminScript.objectPhysics.AppearAtWorldPositionServer(uop.OfficialPosition, false, false);
+				adminScript.ObjectPhysics.AppearAtWorldPositionServer(uop.OfficialPosition, false, false);
 			}
 			else if(adminScript.TryGetComponent<GhostMove>(out var ghostMove))
 			{

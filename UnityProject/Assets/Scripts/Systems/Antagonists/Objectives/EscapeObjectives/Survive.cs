@@ -21,12 +21,12 @@ namespace Antagonists
 		protected override bool CheckCompletion()
 		{
 			//If we are null then we are somewhat dead
-			if (Owner?.body.OrNull()?.playerHealth == null)
+			if (Owner?.Body.OrNull()?.playerHealth == null)
 			{
 				return false;
 			}
 			
-			return !Owner.body.playerHealth.IsDead;
+			return !Owner.Body.playerHealth.IsDead;
 		}
 	}
 }

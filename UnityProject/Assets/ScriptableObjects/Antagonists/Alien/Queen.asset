@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Queen
   AlienType: 128
-  AlienPrefab: {fileID: 3051469897714981895, guid: ecea10b4f1f8c1d41b5064bea9b885a9,
-    type: 3}
+  AlienOccupation: {fileID: 11400000, guid: 5f9ed3ad747155b4a91819d674f33c49, type: 2}
   GhostRoleData: {fileID: 11400000, guid: bcc11465965efb145a6bc4cc3acb0fbf, type: 2}
   Description: The mother of the hive. Lays the eggs which allows the hive to grow.
   RunningLegSpeed: 2
@@ -41,6 +40,7 @@ MonoBehaviour:
     Acid: 100
     Magic: 0
     Bio: 0
+    Anomaly: 0
     DismembermentProtectionChance: 0
     StunImmunity: 0
   MaxGrowth: 100

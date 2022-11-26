@@ -141,9 +141,9 @@ namespace Systems.Spells.Wizard
 		{
 			UniversalObjectPhysics objBehaviour = childItem.GetComponent<UniversalObjectPhysics>();
 			int i = 0;
-			while (i < 10 && objBehaviour != null && objBehaviour.ContainedInContainer != null)
+			while (i < 10 && objBehaviour != null && objBehaviour.ContainedInObjectContainer != null)
 			{
-				if (objBehaviour.ContainedInContainer.TryGetComponent<UniversalObjectPhysics>(out var newBehaviour))
+				if (objBehaviour.ContainedInObjectContainer.TryGetComponent<UniversalObjectPhysics>(out var newBehaviour))
 				{
 					objBehaviour = newBehaviour;
 				}

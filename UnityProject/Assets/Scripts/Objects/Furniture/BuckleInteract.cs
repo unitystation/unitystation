@@ -66,7 +66,7 @@ namespace Objects
 				sameSquare = false;
 
 				bool canPush = false;
-				var playerPushPull = playerScript.objectPhysics;
+				var playerPushPull = playerScript.ObjectPhysics;
 				if (side == NetworkSide.Server)
 				{
 					canPush = playerPushPull.CanPush(dir);
@@ -123,7 +123,7 @@ namespace Objects
 
 			if (sameSquare == false)
 			{
-				playerScript.objectPhysics.AppearAtWorldPositionServer(transform.position);
+				playerScript.ObjectPhysics.AppearAtWorldPositionServer(transform.position);
 			}
 
 			BucklePlayer(playerScript);

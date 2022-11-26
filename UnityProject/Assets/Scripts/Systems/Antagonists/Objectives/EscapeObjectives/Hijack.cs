@@ -14,17 +14,17 @@ namespace Antagonists
 		/// The shuttles that will be checked for this objective
 		/// </summary>
 		private List<EscapeShuttle> ValidShuttles = new List<EscapeShuttle>();
-		
+
 		/// <summary>
 		/// Number of players needed in game for the objective to be possible
 		/// </summary>
 		[SerializeField]
 		private int numberOfPlayersRequired = 20;
-		
+
 		/// <summary>
 		/// If the objective allowed to be given to the antag
 		/// </summary>
-		protected override bool IsPossibleInternal(PlayerScript candidate)
+		protected override bool IsPossibleInternal(Mind candidate)
 		{
 			if ((GameManager.Instance.CurrentRoundState == RoundState.PreRound ?
 				    PlayerList.Instance.ReadyPlayers.Count : PlayerList.Instance.InGamePlayers.Count)
@@ -51,14 +51,14 @@ namespace Antagonists
 		protected override bool CheckCompletion()
 		{
 			//Must be alive
-			if (Owner.body.IsDeadOrGhost)
+			if (Owner.Body.IsDeadOrGhost)
 			{
 				return false;
 			}
 
 			//Shuttle must be functional and player be on it
 			if (!ValidShuttles.Any( shuttle => shuttle.MatrixInfo != null
-				&& Owner.body.RegisterPlayer.Matrix.Id == shuttle.MatrixInfo.Id && shuttle.HasWorkingThrusters))
+				&& Owner.Body.RegisterPlayer.Matrix.Id == shuttle.MatrixInfo.Id && shuttle.HasWorkingThrusters))
 			{
 				return false;
 			}
@@ -67,12 +67,12 @@ namespace Antagonists
 			foreach (var player in PlayerList.Instance.InGamePlayers)
 			{
 				//Dont check dead, ghosts or self
-				if(player.Script.IsDeadOrGhost || player.Script == Owner.body) continue;
+				if(player.Script.IsDeadOrGhost || player.Script == Owner.Body) continue;
 
 				//TODO add check to ignore alive ghost critters, eg drones
 
 				//The other players must not be on same shuttle to pass checks
-				if (player.Script.RegisterPlayer.Matrix.Id == Owner.body.RegisterPlayer.Matrix.Id)
+				if (player.Script.RegisterPlayer.Matrix.Id == Owner.Body.RegisterPlayer.Matrix.Id)
 				{
 					return false;
 				}

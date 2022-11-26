@@ -54,7 +54,7 @@ namespace Messages.Client
 
 		private static void setKey(PlayerInfo player, GameObject headsetGO, GameObject keyGO)
 		{
-			var pna = player.Script.playerNetworkActions;
+			var pna = player.Script.PlayerNetworkActions;
 			if ( pna.HasItem(keyGO) )
 			{
 				Headset headset = headsetGO.GetComponent<Headset>();

@@ -27,13 +27,13 @@ namespace Antagonists
 
 		public int StartingSpellCount => startingSpellCount;
 
-		public override void AfterSpawn(PlayerInfo player)
+		public override void AfterSpawn(Mind player)
 		{
 			GiveRandomSpells(player);
 
 			if (assignRandomNameOnSpawn)
 			{
-				player.Script.SetPermanentName(GetRandomWizardName());
+				player.SetPermanentName(GetRandomWizardName());
 			}
 
 			SetPapers(player);
@@ -44,17 +44,17 @@ namespace Antagonists
 			return $"{wizardFirstNames.GetRandom()} {wizardLastNames.GetRandom()}";
 		}
 
-		public static string GetIdentityPaperText(PlayerInfo player)
+		public static string GetIdentityPaperText(Mind player)
 		{
 			return $"<size=36>CERTIFICATE OF IDENTITY</size>\n\n\n" +
 			       $"This slip is to certify that the bearer,\n" +
-			       $"<u><b>{player.Script.playerName}</b></u>\n" +
+			       $"<u><b>{player.CurrentCharacterSettings.Name}</b></u>\n" +
 			       "is a member of the Wizard Federation.\n\n\n\n\n\n\n\n\n\n\n\n" +
 			       "Signed: <u><i>Tarkhol Mintizheth</i></u>, Wizard Fedaration Chief Recruiter\n\n" +
 			       "<size=16>This certificate remains property of the Wizard Federation</size>";
 		}
 
-		private void GiveRandomSpells(PlayerInfo player)
+		private void GiveRandomSpells(Mind player)
 		{
 			if (StartingSpellCount < 1) return;
 
@@ -62,19 +62,19 @@ namespace Antagonists
 
 			foreach (WizardSpellData randomSpell in GetRandomWizardSpells())
 			{
-				Spell spell = randomSpell.AddToPlayer(player.Script);
-				player.Mind.AddSpell(spell);
+				Spell spell = randomSpell.AddToPlayer(player);
+				player.AddSpell(spell);
 				playerMsg.Append($"<b>{randomSpell.Name}</b>, ");
 			}
 
 			playerMsg.RemoveLast(", ").Append(".");
 
-			Chat.AddExamineMsgFromServer(player.GameObject, playerMsg.ToString());
+			Chat.AddExamineMsgFromServer(player.gameObject, playerMsg.ToString());
 		}
 
-		private void SetPapers(PlayerInfo player)
+		private void SetPapers(Mind player)
 		{
-			IEnumerable<ItemSlot> idSlots = player.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.id);
+			IEnumerable<ItemSlot> idSlots = player.Body.DynamicItemStorage.GetNamedItemSlots(NamedSlot.id);
 			foreach (var idSlot in idSlots)
 			{
 				if (idSlot.IsOccupied && idSlot.ItemObject.TryGetComponent<Paper>(out var papersPlease))
@@ -85,7 +85,7 @@ namespace Antagonists
 
 
 
-			IEnumerable<ItemSlot> storage02s = player.Script.DynamicItemStorage.GetPocketsSlots();
+			IEnumerable<ItemSlot> storage02s = player.Body.DynamicItemStorage.GetPocketsSlots();
 			foreach (var storage02 in storage02s)
 			{
 				if (storage02.IsOccupied && storage02.ItemObject.TryGetComponent<Paper>(out var helpPaper))

@@ -65,9 +65,13 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 
 	[SyncVar(hook = nameof(UpdateSlots))] private string SerialisedNetIDs = "";
 
+
 	private readonly List<InternalData> added = new List<InternalData>();
 	private readonly List<InternalData> removed = new List<InternalData>();
 
+
+	//You should not need to reference the occupation, Best to use mind Instead
+	public Occupation InitialisedWithOccupation { get; private set; } = null;
 
 	public class InternalData
 	{
@@ -523,6 +527,10 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 
 			ServerContents[sstorageCharacteristicse.namedSlot].Remove(slot);
 
+			if (bbodyPartUISlots.GameObject == null)
+			{
+				continue; //Being destroyed?
+			}
 			if (ServerObjectToSlots.ContainsKey(bbodyPartUISlots.GameObject))
 			{
 				ServerObjectToSlots[bbodyPartUISlots.GameObject].Remove(slot);
@@ -559,10 +567,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 
 
 		SerialisedNetIDs = JsonConvert.SerializeObject(UIBodyPartsToSerialise);
-		// if (isLocalPlayer)
-		// {
-		// UpdateSlots(SerialisedNetIDs, SerialisedNetIDs);
-		// }
+
 		OnContentsChangeServer.Invoke();
 	}
 
@@ -638,7 +643,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 
 
 		SerialisedNetIDs = JsonConvert.SerializeObject(UIBodyPartsToSerialise);
-		// if (isLocalPlayer)
+		// if (hasAuthority)
 		// {
 		// UpdateSlots(SerialisedNetIDs, SerialisedNetIDs);
 		// }
@@ -676,7 +681,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 		ClientSlotCharacteristic[Slot] = storageCharacteristicse;
 		ClientTotal.Add(Slot);
 
-		if (PlayerManager.LocalPlayerObject == this.gameObject && storageCharacteristicse.NotPresentOnUI == false)
+		if (hasAuthority && storageCharacteristicse.NotPresentOnUI == false)
 		{
 			UIManager.Instance.UI_SlotManager.SetActive(true);
 			UIManager.Instance.UI_SlotManager.UpdateUI();
@@ -715,7 +720,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 			.Remove(slot);
 		if (ClientSlotCharacteristic.ContainsKey(slot)) ClientSlotCharacteristic.Remove(slot);
 		ClientTotal.Remove(slot);
-		if (PlayerManager.LocalPlayerObject == this.gameObject)
+		if (hasAuthority)
 		{
 			UIManager.Instance.UI_SlotManager.UpdateUI();
 		}
@@ -987,6 +992,9 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 			Logger.LogWarning($"[DynamicInventory] - Attempted to use a null occupation!");
 			return;
 		}
+
+		InitialisedWithOccupation = occupation; //Can't really think of anywhere better to put this
+		//
 		var NSP = occupation.InventoryPopulator as PlayerSlotStoragePopulator;
 		if (NSP != null)
 		{
@@ -1279,7 +1287,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 		}
 	}
 
-	public void OnPlayerTransfer(Mind mind)
+	public void OnPlayerTransfer(PlayerInfo Account)
 	{
 		//Trigger IOnPlayerTransfer for all items in player inventory
 		foreach (var itemSlot in GetItemSlotTree())
@@ -1289,7 +1297,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 			var playerTransfers = itemSlot.ItemObject.GetComponents<IOnPlayerTransfer>();
 			foreach (var playerTransfer in playerTransfers)
 			{
-				playerTransfer.OnPlayerTransfer(mind);
+				playerTransfer.OnPlayerTransfer(Account);
 			}
 		}
 
@@ -1301,12 +1309,12 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 			var playerRejoins = InventoryObject.GameObject.GetComponents<IOnPlayerTransfer>();
 			foreach (var playerRejoin in playerRejoins)
 			{
-				playerRejoin.OnPlayerTransfer(mind);
+				playerRejoin.OnPlayerTransfer(Account);
 			}
 		}
 	}
 
-	public void OnPlayerLeaveBody(Mind mind)
+	public void OnPlayerLeaveBody(PlayerInfo Account)
 	{
 		//Trigger IOnPlayerLeaveBody for all items in top level player inventory
 		foreach (var itemSlot in GetItemSlotTree())
@@ -1316,7 +1324,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 			var playerLeaveBodies = itemSlot.ItemObject.GetComponents<IOnPlayerLeaveBody>();
 			foreach (var playerLeaveBody in playerLeaveBodies)
 			{
-				playerLeaveBody.OnPlayerLeaveBody(mind);
+				playerLeaveBody.OnPlayerLeaveBody(Account);
 			}
 		}
 
@@ -1328,7 +1336,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 			var playerRejoins = InventoryObject.GameObject.GetComponents<IOnPlayerLeaveBody>();
 			foreach (var playerRejoin in playerRejoins)
 			{
-				playerRejoin.OnPlayerLeaveBody(mind);
+				playerRejoin.OnPlayerLeaveBody(Account);
 			}
 		}
 	}

@@ -86,7 +86,7 @@ namespace UI
 				customName = customName.Substring(0, MAX_NAME_LENGTH);
 			}
 
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestRename(Provider.gameObject, customName);
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestRename(Provider.gameObject, customName);
 			UIManager.IsInputFocus = false;
 		}
 

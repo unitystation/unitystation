@@ -374,7 +374,7 @@ public static class Inventory
 		var removeType = toPerform.RemoveType;
 		var holder = fromSlot.GetRootStorageOrPlayer();
 		var universalObjectPhysics = holder?.GetComponent<UniversalObjectPhysics>();
-		var parentContainer = universalObjectPhysics == null ? null : universalObjectPhysics.ContainedInContainer;
+		var parentContainer = universalObjectPhysics == null ? null : universalObjectPhysics.ContainedInObjectContainer;
 		if (parentContainer != null && removeType == InventoryRemoveType.Throw)
 		{
 			Logger.LogTraceFormat("throwing from slot {0} while in container {1}. Will drop instead.", Category.Inventory,
@@ -403,7 +403,7 @@ public static class Inventory
 					Logger.LogWarningFormat("Dropping from slot {0} while in container {1}, but container type was not recognized. " +
 					                      "Currently only ObjectContainer is supported. Please add code to handle this case.", Category.Inventory,
 						fromSlot,
-						universalObjectPhysics.ContainedInContainer.name);
+						universalObjectPhysics.ContainedInObjectContainer.name);
 					return false;
 				}
 				//vanish it and set its parent container

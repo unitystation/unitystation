@@ -48,13 +48,13 @@ namespace Messages.Client.Admin
 			switch (respawnType)
 			{
 				case RespawnType.Normal:
-					deadPlayer.Script.playerNetworkActions.ServerRespawnPlayer(occupation);
+					deadPlayer.Script.PlayerNetworkActions.ServerRespawnPlayer(occupation);
 					break;
 				case RespawnType.Special:
-					deadPlayer.Script.playerNetworkActions.ServerRespawnPlayerSpecial(occupation);
+					deadPlayer.Script.PlayerNetworkActions.ServerRespawnPlayerSpecial(occupation);
 					break;
 				case RespawnType.Antag:
-					deadPlayer.Script.playerNetworkActions.ServerRespawnPlayerAntag(deadPlayer, occupation);
+					deadPlayer.Script.PlayerNetworkActions.ServerRespawnPlayerAntag(deadPlayer, occupation);
 					break;
 			}
 		}

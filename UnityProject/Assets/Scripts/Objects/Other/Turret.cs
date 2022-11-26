@@ -301,7 +301,7 @@ namespace Objects.Other
 					//Check if player is allowed, but only if not an Ai turret as those will shoot all targets
 					if(turretType != TurretType.Ai && ValidatePlayer(script)) continue;
 
-					worldPos = script.objectPhysics.OfficialPosition;
+					worldPos = script.ObjectPhysics.OfficialPosition;
 				}
 				//Test for mob, syndicate and AI will always target mobs, otherwise only on unidentified
 				else if ((turretType != TurretType.Normal || CheckUnidentifiedLifeSigns) && mob.TryGetComponent<MobAI>(out var mobAi))

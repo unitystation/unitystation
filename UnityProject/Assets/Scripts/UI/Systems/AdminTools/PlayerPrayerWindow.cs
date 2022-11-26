@@ -69,7 +69,7 @@ namespace AdminTools
 		{
 			if (PlayerManager.LocalPlayerScript.IsGhost == false)
 			{
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAGhost();
+				PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdAGhost();
 			}
 
 			RequestAdminTeleport.Send(

@@ -34,19 +34,19 @@ namespace InGameEvents
 			survivorAntag.RemoveObjective(objective); // remove lest we reuse survivor antag for other events
 		}
 
-		protected override void HandlePlayer(PlayerInfo player)
+		protected override void HandlePlayer(Mind player)
 		{
 			GiveGunToPlayer(player);
 
-			if (Random.Range(0, 100) < antagChance && player.Mind.IsAntag == false)
+			if (Random.Range(0, 100) < antagChance && player.IsAntag == false)
 			{
 				SetAsAntagSurvivor(player);
 			}
 		}
 
-		private void SetAsAntagSurvivor(PlayerInfo player)
+		private void SetAsAntagSurvivor(Mind player)
 		{
-			Chat.AddExamineMsgFromServer(player, $"<color=red><size={ChatTemplates.VeryLargeText}>You are the survivalist!</size></color>");
+			Chat.AddExamineMsgFromServer(player.gameObject, $"<color=red><size={ChatTemplates.VeryLargeText}>You are the survivalist!</size></color>");
 			AntagManager.Instance.ServerFinishAntag(survivorAntag, player);
 		}
 	}

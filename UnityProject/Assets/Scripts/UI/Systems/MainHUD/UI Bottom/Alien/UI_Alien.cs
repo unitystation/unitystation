@@ -18,7 +18,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 
 		[SerializeField]
 		private SpriteHandler healthSpriteRender = null;
-		
+
 		[SerializeField]
 		private SpriteHandler queenFinder = null;
 
@@ -102,7 +102,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 		private void OnUpdate()
 		{
 			if(alienPlayer == null) return;
-			if(alienPlayer.isLocalPlayer == false) return;
+			if(alienPlayer.hasAuthority == false) return;
 
 			HealthCheck();
 

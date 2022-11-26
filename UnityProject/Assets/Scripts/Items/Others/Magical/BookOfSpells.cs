@@ -92,7 +92,7 @@ namespace Items.Magical
 			}
 			else
 			{
-				Spell spell = spellEntry.Spell.AddToPlayer(player.Script);
+				Spell spell = spellEntry.Spell.AddToPlayer(player.Script.Mind);
 				player.Mind.AddSpell(spell);
 			}
 		}
@@ -178,7 +178,7 @@ namespace Items.Magical
 
 		public Spell GetReaderSpellInstance(SpellData spell)
 		{
-			return GetLastReader().Script.mind.GetSpellInstance(spell);
+			return GetLastReader().Script.Mind.GetSpellInstance(spell);
 		}
 
 		public int GetReaderSpellLevel(SpellData spell)
@@ -196,7 +196,7 @@ namespace Items.Magical
 		{
 			foreach (SpellBookSpell entry in spell.ConflictsWith)
 			{
-				if (GetLastReader().Script.mind.Spells.Any(s => s.SpellData == entry.Spell)) return true;
+				if (GetLastReader().Script.Mind.Spells.Any(s => s.SpellData == entry.Spell)) return true;
 			}
 
 			return false;

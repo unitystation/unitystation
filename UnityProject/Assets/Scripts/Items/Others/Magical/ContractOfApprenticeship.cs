@@ -71,7 +71,7 @@ namespace Items.Magical
 
 		private void SpawnApprentice(PlayerInfo player)
 		{
-			player.Script.playerNetworkActions.ServerRespawnPlayerAntag(player, "Wizard Apprentice");
+			player.Script.PlayerNetworkActions.ServerRespawnPlayerAntag(player, "Wizard Apprentice");
 
 			Apprentice = player;
 			OnApprenticeSpawned?.Invoke();
@@ -80,7 +80,7 @@ namespace Items.Magical
 			{
 				if (entry is SpellBookSpell spellEntry)
 				{
-					Spell spell = spellEntry.Spell.AddToPlayer(player.Script);
+					Spell spell = spellEntry.Spell.AddToPlayer(player.Mind);
 					player.Mind.AddSpell(spell);
 				}
 				else if (entry is SpellBookArtifact spellArtifact)

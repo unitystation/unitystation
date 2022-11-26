@@ -51,13 +51,13 @@ namespace Messages.Server
 			try
 			{
 				var Physics = obj.GetComponent<UniversalObjectPhysics>();
-				if (Physics.ContainedInContainer == null)
+				if (Physics.ContainedInObjectContainer == null)
 				{
 					topContainer = Physics.gameObject;
 				}
 				else
 				{
-					topContainer = Physics.ContainedInContainer.TopContainer.gameObject;
+					topContainer = Physics.ContainedInObjectContainer.TopContainer.gameObject;
 				}
 
 			}

@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Mature Larva
   AlienType: 4
-  AlienPrefab: {fileID: 4306711572961958049, guid: bafedbd0cd17e6d4095a22e3e8ca0315,
-    type: 3}
+  AlienOccupation: {fileID: 11400000, guid: aafe8bd761e215b4d8af3394211f6db2, type: 2}
   GhostRoleData: {fileID: 11400000, guid: 8b90f9100b145be41b3ab898efe7db14, type: 2}
   Description: 
   RunningLegSpeed: 4
@@ -41,6 +40,7 @@ MonoBehaviour:
     Acid: 100
     Magic: 0
     Bio: 0
+    Anomaly: 0
     DismembermentProtectionChance: 0
     StunImmunity: 0
   MaxGrowth: 100

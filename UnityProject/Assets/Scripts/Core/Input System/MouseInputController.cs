@@ -12,6 +12,7 @@ using Tilemaps.Behaviours.Layers;
 using UI;
 using UI.Action;
 using Tiles;
+using UI.Core.Action;
 
 /// <summary>
 /// Main entry point for handling all input events
@@ -106,8 +107,9 @@ public class MouseInputController : MonoBehaviour
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
 	}
 
-	void LateUpdate()
+	private void LateUpdate()
 	{
+		if (PlayerManager.LocalPlayerObject != this.gameObject) return;
 		CheckMouseInput();
 		CheckCursorTexture();
 	}
@@ -335,7 +337,7 @@ public class MouseInputController : MonoBehaviour
 		if (PlayerManager.LocalPlayerScript.IsNormal == false ||
 		    PlayerManager.LocalPlayerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 			return;
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSlideItem(Vector3Int.RoundToInt(MouseWorldPosition));
+		PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdSlideItem(Vector3Int.RoundToInt(MouseWorldPosition));
 	}
 
 	private bool CheckClick()
@@ -378,7 +380,7 @@ public class MouseInputController : MonoBehaviour
 			}
 
 			// If we're dragging something, try to move it.
-			if (PlayerManager.LocalPlayerScript.objectPhysics.Pulling.HasComponent)
+			if (PlayerManager.LocalPlayerScript.ObjectPhysics.Pulling.HasComponent)
 			{
 				TrySlide();
 				return false;
@@ -554,7 +556,7 @@ public class MouseInputController : MonoBehaviour
 			clickedObject = networkedMatrix.MatrixSync.gameObject;
 		}
 
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPoint(clickedObject, MouseWorldPosition);
+		PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdPoint(clickedObject, MouseWorldPosition);
 	}
 
 	/// <summary>
@@ -631,7 +633,7 @@ public class MouseInputController : MonoBehaviour
 			{
 				var localTarget = MouseWorldPosition.ToLocal(playerMove.registerTile.Matrix);
 				var vector = MouseWorldPosition - PlayerManager.LocalPlayerScript.transform.position;
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdThrow(localTarget, (int) UIManager.DamageZone,
+				PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdThrow(localTarget, (int) UIManager.DamageZone,
 					vector);
 
 				//Disabling throw button

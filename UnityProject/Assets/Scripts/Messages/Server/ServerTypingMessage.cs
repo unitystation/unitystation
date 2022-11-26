@@ -30,7 +30,7 @@ namespace Messages.Server
 			if (!player)
 				return;
 
-			var icon = player.chatIcon;
+			var icon = player.ChatIcon;
 			if (!icon)
 				return;
 

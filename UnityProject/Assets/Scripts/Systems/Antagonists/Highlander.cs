@@ -7,10 +7,10 @@ namespace Systems.Antagonists
 	public class Highlander : Antagonist
 	{
 
-		public override void AfterSpawn(PlayerInfo player)
+		public override void AfterSpawn(Mind player)
 		{
-			player.Script.playerHealth.EnableFastRegen();
-			player.Script.characterSettings.Speech = Speech.Scotsman;
+			player.Body.playerHealth.EnableFastRegen();
+			player.CurrentCharacterSettings.Speech = Speech.Scotsman;
 		}
 	}
 }

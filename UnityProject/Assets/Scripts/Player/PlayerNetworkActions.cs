@@ -153,7 +153,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 
 		// Check if trapped.
-		if (playerScript.playerMove.BuckledToObject != null || playerScript.playerMove.ContainedInContainer != null)
+		if (playerScript.playerMove.BuckledToObject != null || playerScript.playerMove.ContainedInObjectContainer != null)
 		{
 			playerScript.PlayerSync.ServerTryEscapeContainer();
 		}
@@ -207,9 +207,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			playerScript.playerHealth.ChangeFireStacks(-0.5f);
 
 			// Find the next in the roll sequence. Also unlock the facing direction temporarily since laying down locks it.
-			playerScript.playerDirectional.LockDirectionTo(false, playerScript.playerDirectional.CurrentDirection);
-			playerScript.playerDirectional.RotateBy(2);
-			playerScript.playerDirectional.LockDirectionTo(true, playerScript.playerDirectional.CurrentDirection);
+			playerScript.PlayerDirectional.LockDirectionTo(false, playerScript.PlayerDirectional.CurrentDirection);
+			playerScript.PlayerDirectional.RotateBy(2);
+			playerScript.PlayerDirectional.LockDirectionTo(true, playerScript.PlayerDirectional.CurrentDirection);
 
 			yield return WaitFor.Seconds(0.2f);
 		}
@@ -235,12 +235,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdSlideItem(Vector3Int destination)
 	{
-		if (playerScript.objectPhysics.Pulling.HasComponent == false) return;
+		if (playerScript.ObjectPhysics.Pulling.HasComponent == false) return;
 		if (playerScript.IsGhost) return;
 		if (playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS) return;
 		if (playerScript.IsPositionReachable(destination, true) == false) return;
 
-		var pushPull = playerScript.objectPhysics.Pulling.Component;
+		var pushPull = playerScript.ObjectPhysics.Pulling.Component;
 		Vector3Int origin = pushPull.registerTile.WorldPositionServer;
 		Vector2Int dir = (Vector2Int)(destination - origin);
 		pushPull.TryTilePush(dir, null, overridePull: true);
@@ -544,12 +544,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private void UpdateInventorySlots()
 	{
 		if (this == null || itemStorage == null || playerScript == null
-			|| playerScript.mind == null || playerScript.mind.body == null)
+			|| playerScript.Mind == null || playerScript.Mind.Body == null)
 		{
 			return;
 		}
 
-		var body = playerScript.mind.body.gameObject;
+		var body = playerScript.Mind.Body.gameObject;
 
 		//player gets inventory slot updates again
 		foreach (var slot in itemStorage.GetItemSlotTree())
@@ -604,7 +604,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				break;
 		}
 
-		playerScript.objectPhysics.StopPulling(false);
+		playerScript.ObjectPhysics.StopPulling(false);
 	}
 
 	[Server]
@@ -617,7 +617,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if ((chatModifier & ChatModifier.Emote) == ChatModifier.Emote) return;
 
 		//Don't do anything with chat icon if player is invisible or not spawned in
-		if(playerScript.objectPhysics != null && playerScript.objectPhysics.IsVisible == false) return;
+		if(playerScript.ObjectPhysics != null && playerScript.ObjectPhysics.IsVisible == false) return;
 		if(playerScript.playerHealth != null &&
 		   (playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit)) return;
 
@@ -661,6 +661,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void ServerRespawnPlayer(string occupation = null)
 	{
+		Occupation NewOccupation = playerScript.Mind.occupation;
 		if (occupation != null)
 		{
 			foreach (var job in OccupationList.Instance.Occupations)
@@ -670,23 +671,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 					continue;
 				}
 
-				playerScript.mind.occupation = job;
+				NewOccupation = job;
 				break;
 			}
 		}
 
-		//Can be null if respawning spectator ghost as they dont have an occupation
-		if (playerScript.mind.occupation == null)
-		{
-			return;
-		}
-
-		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
+		PlayerSpawn.RespawnPlayer(playerScript.Mind, NewOccupation, playerScript.Mind.CurrentCharacterSettings);
 	}
 
 	[Server]
 	public void ServerRespawnPlayerSpecial(string occupation = null, Vector3Int? spawnPos = null)
 	{
+		Occupation NewOccupation = playerScript.Mind.occupation;
 		if (occupation != null)
 		{
 			foreach (var job in SOAdminJobsList.Instance.SpecialJobs)
@@ -696,12 +692,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 					continue;
 				}
 
-				playerScript.mind.occupation = job;
+				NewOccupation = job;
 				break;
 			}
 		}
 
-		PlayerSpawn.ServerRespawnPlayer(playerScript.mind, spawnPos);
+		PlayerSpawn.RespawnPlayerAt(playerScript.Mind, NewOccupation, playerScript.Mind.CurrentCharacterSettings, spawnPos);
+
 	}
 
 	[Server]
@@ -724,9 +721,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdToggleAllowCloning()
 	{
-		playerScript.mind.DenyCloning = !playerScript.mind.DenyCloning;
+		playerScript.Mind.DenyCloning = !playerScript.Mind.DenyCloning;
 
-		if (playerScript.mind.DenyCloning)
+		if (playerScript.Mind.DenyCloning)
 		{
 			Chat.AddExamineMsgFromServer(gameObject, "<color=red>You will no longer be cloned</color>");
 		}
@@ -751,15 +748,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		//Only force to ghost if the mind belongs in to that body
 		if (skipCheck)
 		{
-			PlayerSpawn.ServerGhost(playerScript.mind);
+			playerScript.Mind.Ghost();
 			return;
 		}
 
 		var currentMobID = GetComponent<LivingHealthMasterBase>().mobID;
-		if (GetComponent<LivingHealthMasterBase>().IsDead && !playerScript.IsGhost && playerScript.mind != null &&
-			playerScript.mind.bodyMobID == currentMobID)
+		if (GetComponent<LivingHealthMasterBase>().IsDead && !playerScript.IsGhost && playerScript.Mind != null &&
+			playerScript.Mind.bodyMobID == currentMobID)
 		{
-			PlayerSpawn.ServerGhost(playerScript.mind);
+			playerScript.Mind.Ghost();
 		}
 	}
 
@@ -776,30 +773,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void GhostEnterBody()
 	{
-		PlayerScript body = playerScript.mind.body;
+		if (playerScript.Mind.IsSpectator) return;
 
-		if(body == null) return;
-
-		if (playerScript.mind.IsSpectator) return;
-
-		if (playerScript.mind.ghostLocked) return;
+		if (playerScript.Mind.ghostLocked) return;
 
 		if (playerScript.IsGhost == false)
 		{
-			Logger.LogWarningFormat("Either player {0} is not dead or not currently a ghost, ignoring EnterBody",
-				Category.Ghosts, body);
+			Logger.LogWarningFormat($"Either player {playerScript.Mind.name} is not dead or not currently a ghost, ignoring EnterBody",
+				Category.Ghosts);
 			return;
 		}
 
-		//body might be in a container, reentering should still be allowed in that case
-		if (body.objectPhysics != null && body.objectPhysics.ContainedInContainer == null && body.WorldPos == TransformState.HiddenPos)
-		{
-			Logger.LogFormat("There's nothing left of {0}'s body, not entering it", Category.Ghosts, body);
-			return;
-		}
-
-		playerScript.mind.StopGhosting();
-		PlayerSpawn.ServerGhostReenterBody(connectionToClient, gameObject, playerScript.mind);
+		playerScript.Mind.StopGhosting();
 	}
 
 	/// <summary>
@@ -976,9 +961,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (playerScript.IsGhost == false)
 		{
 			//Admin turns into ghost
-			PlayerSpawn.ServerGhost(playerScript.mind);
+			playerScript.Mind.Ghost();
 		}
-		//TODO We implement re-entering body Once mind Rework work is done , Was removed because Brooke Client when pressed
+		else
+		{
+			//Admin goes back into body
+			playerScript.Mind.StopGhosting();
+		}
 	}
 
 	#endregion
@@ -988,7 +977,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRequestSpell(int spellIndex, Vector3 clickPosition)
 	{
-		foreach (var spell in playerScript.mind.Spells)
+		foreach (var spell in playerScript.Mind.Spells)
 		{
 			if (spell.SpellData.Index == spellIndex)
 			{
@@ -1009,7 +998,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdAskforAntagObjectives()
 	{
-		playerScript.mind.ShowObjectives();
+		playerScript.Mind.ShowObjectives();
 	}
 
 	[TargetRpc]

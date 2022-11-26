@@ -76,7 +76,7 @@ namespace UI
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			if (PlayerManager.LocalPlayerScript != null)
 			{
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRegisterVote(vote);
+				PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRegisterVote(vote);
 			}
 
 			buttonPresses++;
@@ -88,7 +88,7 @@ namespace UI
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			if (PlayerManager.LocalPlayerScript != null)
 			{
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdVetoRestartVote();
+				PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdVetoRestartVote();
 			}
 			buttonPresses++;
 		}

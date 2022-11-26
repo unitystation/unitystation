@@ -76,7 +76,7 @@ public class InventoryApply : TargetedInteraction
 			targetObjectSlot,
 			fromSlot,
 			UIManager.CurrentIntent,
-			PlayerManager.LocalPlayerScript.mind,
+			PlayerManager.LocalPlayerScript.Mind,
 			KeyboardInputManager.IsAltActionKeyPressed());
 	}
 

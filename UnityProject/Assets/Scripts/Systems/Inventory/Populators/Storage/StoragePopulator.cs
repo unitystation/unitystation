@@ -66,6 +66,7 @@ namespace Systems.Storage
 		{
 			foreach (var gameObject in DeprecatedContents)
 			{
+				if (gameObject == null) continue;
 				var ItemSlot = ItemStorage.GetNextFreeIndexedSlot();
 				var spawn = Spawn.ServerPrefab(gameObject, PrePickRandom: true);
 				Inventory.ServerAdd(spawn.GameObject, ItemSlot, IgnoreRestraints: true);

@@ -90,6 +90,7 @@ public partial class SubSceneManager : NetworkBehaviour
 		if (isServer)
 		{
 			NetworkServer.SpawnObjects();
+			RequestObserverRefresh.Send(sceneName);
 		}
 		else
 		{

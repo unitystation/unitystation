@@ -7,6 +7,7 @@ using Items;
 using JetBrains.Annotations;
 using Messages.Server.SoundMessages;
 using Mirror;
+using NUnit.Framework;
 using Objects;
 using Objects.Construction;
 using Tiles;
@@ -85,24 +86,27 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 	}
 
-	public Vector3 OfficialPosition
+	public Vector3 OfficialPosition => GetRootObject.transform.position;
+
+	public GameObject GetRootObject
 	{
 		get
 		{
-			if (ContainedInContainer != null)
+			if (ContainedInObjectContainer != null)
 			{
-				return ContainedInContainer.registerTile.ObjectPhysics.Component.OfficialPosition;
+				return ContainedInObjectContainer.registerTile.ObjectPhysics.Component.GetRootObject;
 			}
 			else if (pickupable.HasComponent && pickupable.Component.ItemSlot != null)
 			{
-				return pickupable.Component.ItemSlot.ItemStorage.gameObject.AssumedWorldPosServer();
+				return pickupable.Component.ItemSlot.ItemStorage.gameObject.GetRootGameObject();
 			}
 			else
 			{
-				return transform.position;
+				return gameObject;
 			}
 		}
 	}
+
 
 	private Vector3Int oldLocalTilePosition;
 
@@ -152,7 +156,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	private ObjectContainer CachedContainedInContainer;
 
-	public ObjectContainer ContainedInContainer
+
+
+	public ObjectContainer ContainedInObjectContainer
 	{
 		get
 		{
@@ -409,7 +415,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		synchLocalTargetPosition = newLocalTarget;
 		if (isServer) return;
 		if (LocalTargetPosition == newLocalTarget.Vector3) return;
-		if (isLocalPlayer || PulledBy.HasComponent) return;
+		if (hasAuthority || PulledBy.HasComponent) return;
 
 		var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 		if (newLocalTarget.ByClient != NetId.Empty && newLocalTarget.ByClient != NetId.Invalid
@@ -568,7 +574,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	public void SynchroniseUpdatePulling(PullData oldPullData, PullData newPulling)
 	{
 		ThisPullData = newPulling;
-		if (newPulling.WasCausedByClient && isLocalPlayer) return;
+		if (newPulling.WasCausedByClient && hasAuthority) return;
 		PullSet(newPulling.NewPulling, false, true);
 	}
 
@@ -687,6 +693,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	[ClientRpc]
 	public void RPCForceSetPosition(Vector3 resetToLocal, Vector2 momentum, bool smooth, int matrixID, float rotation, int resetID)
 	{
+		if (isServer) return;
 		ForceSetLocalPosition(resetToLocal, momentum, smooth, matrixID, false, rotation, resetID: resetID);
 	}
 
@@ -996,10 +1003,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (Pulling.HasComponent)
 		{
 			var inDirection = cachedPosition - Pulling.Component.transform.position;
-			if (inDirection.magnitude > 2f && (isServer || isLocalPlayer))
+			if (inDirection.magnitude > 2f && (isServer || hasAuthority))
 			{
 				PullSet(null, false); //TODO maybe remove
-				if (isLocalPlayer && isServer == false) CmdStopPulling();
+				if (hasAuthority && isServer == false) CmdStopPulling();
 			}
 			else
 			{
@@ -1010,10 +1017,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (ObjectIsBucklingChecked.HasComponent && ObjectIsBucklingChecked.Component.Pulling.HasComponent)
 		{
 			var inDirection = cachedPosition - ObjectIsBucklingChecked.Component.Pulling.Component.transform.position;
-			if (inDirection.magnitude > 2f && (isServer || isLocalPlayer))
+			if (inDirection.magnitude > 2f && (isServer || hasAuthority))
 			{
 				ObjectIsBucklingChecked.Component.PullSet(null, false); //TODO maybe remove
-				if (ObjectIsBucklingChecked.Component.isLocalPlayer && isServer == false) ObjectIsBucklingChecked.Component.CmdStopPulling();
+				if (ObjectIsBucklingChecked.Component.hasAuthority && isServer == false) ObjectIsBucklingChecked.Component.CmdStopPulling();
 			}
 			else
 			{
@@ -1074,7 +1081,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	public void PullSet(UniversalObjectPhysics toPull, bool byClient, bool synced = false)
 	{
-		if (toPull != null && ContainedInContainer != null) return; //Can't pull stuff inside of objects)
+		if (toPull != null && ContainedInObjectContainer != null) return; //Can't pull stuff inside of objects)
 
 		if (isServer && synced == false)
 			SynchroniseUpdatePulling(ThisPullData, new PullData() {NewPulling = toPull, WasCausedByClient = byClient});
@@ -1101,11 +1108,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			Pulling.DirectSetComponent(toPull);
 			toPull.PulledBy.DirectSetComponent(this);
 			ContextGameObjects[1] = toPull.gameObject;
-			if (isLocalPlayer) UIManager.Action.UpdatePullingUI(true);
+			if (hasAuthority) UIManager.Action.UpdatePullingUI(true);
 		}
 		else
 		{
-			if (isLocalPlayer) UIManager.Action.UpdatePullingUI(false);
+			if (hasAuthority) UIManager.Action.UpdatePullingUI(false);
 			if (Pulling.HasComponent)
 			{
 				Pulling.Component.PulledBy.SetToNull();
@@ -1560,7 +1567,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 							{
 								//Remove cast to int when moving health values to float
 								var damage = (IAV2.ServerThrowDamage);
-								
+
 								if (hit.TryGetComponent<Integrity>(out var integrity))
 								{
 									integrity.ApplyDamage(damage, AttackType.Melee, IAV2.ServerDamageType);
@@ -1657,10 +1664,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (Pulling.HasComponent)
 		{
 			var inDirection = cachedPosition - Pulling.Component.transform.position;
-			if (inDirection.magnitude > 2f && (isServer || isLocalPlayer))
+			if (inDirection.magnitude > 2f && (isServer || hasAuthority))
 			{
 				PullSet(null, false); //TODO maybe remove
-				if (isLocalPlayer && isServer == false) CmdStopPulling();
+				if (hasAuthority && isServer == false) CmdStopPulling();
 			}
 			else
 			{
@@ -1671,10 +1678,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (ObjectIsBucklingChecked.HasComponent && ObjectIsBucklingChecked.Component.Pulling.HasComponent)
 		{
 			var inDirection = cachedPosition - ObjectIsBucklingChecked.Component.Pulling.Component.transform.position;
-			if (inDirection.magnitude > 2f && (isServer || isLocalPlayer))
+			if (inDirection.magnitude > 2f && (isServer || hasAuthority))
 			{
 				ObjectIsBucklingChecked.Component.PullSet(null, false); //TODO maybe remove
-				if (ObjectIsBucklingChecked.Component.isLocalPlayer && isServer == false) ObjectIsBucklingChecked.Component.CmdStopPulling();
+				if (ObjectIsBucklingChecked.Component.hasAuthority && isServer == false) ObjectIsBucklingChecked.Component.CmdStopPulling();
 			}
 			else
 			{
@@ -1900,7 +1907,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	[Command]
 	public void CmdPullObject(GameObject pullableObject)
 	{
-		if (ContainedInContainer != null) return;//Can't pull stuff inside of objects
+		if (ContainedInObjectContainer != null) return;//Can't pull stuff inside of objects
 		if (pullableObject == null || pullableObject == this.gameObject) return;
 		var pullable = pullableObject.GetComponent<UniversalObjectPhysics>();
 		if (pullable == null || pullable.isNotPushable)

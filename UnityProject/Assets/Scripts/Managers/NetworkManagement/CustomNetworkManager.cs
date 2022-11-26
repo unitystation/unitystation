@@ -69,26 +69,26 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		}
 	}
 
-	private int CurrentLocation = 0;
+	private int currentLocation = 0;
 
 	public void UpdateMe()
 	{
-		if (allSpawnablePrefabs.Count > CurrentLocation)
+		if (allSpawnablePrefabs.Count > currentLocation)
 		{
 			for (int i = 0; i < 50; i++)
 			{
-				if (allSpawnablePrefabs.Count > CurrentLocation + i)
+				if (allSpawnablePrefabs.Count > currentLocation + i)
 				{
-					if (allSpawnablePrefabs[CurrentLocation + i] == null) continue;
-					if (allSpawnablePrefabs[CurrentLocation + i].TryGetComponent<PrefabTracker>(out var PrefabTracker))
+					if (allSpawnablePrefabs[currentLocation + i] == null) continue;
+					if (allSpawnablePrefabs[currentLocation + i].TryGetComponent<PrefabTracker>(out var PrefabTracker))
 					{
 						ForeverIDLookupSpawnablePrefabs[PrefabTracker.ForeverID] =
-							allSpawnablePrefabs[CurrentLocation + i];
+							allSpawnablePrefabs[currentLocation + i];
 					}
 				}
 			}
 
-			CurrentLocation = CurrentLocation + 50;
+			currentLocation = currentLocation + 50;
 		}
 	}
 
@@ -112,7 +112,6 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	void IInitialise.Initialise()
 	{
-		CheckTransport();
 		ApplyConfig();
 
 		var prevEditorScene = SubSceneManager.GetEditorPrevScene();
@@ -120,32 +119,6 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		{
 			StartHost();
 		}
-	}
-
-	void CheckTransport()
-	{
-		// var booster = GetComponent<BoosterTransport>();
-		// if (booster != null)
-		// {
-		// 	if (transport == booster)
-		// 	{
-		// 		var beamPath = Path.Combine(Application.streamingAssetsPath, "booster.bytes");
-		// 		if (File.Exists(beamPath))
-		// 		{
-		// 			booster.beamData = File.ReadAllBytes(beamPath);
-		// 			Logger.Log("Beam data found, loading booster transport..");
-		// 		}
-		// 		else
-		// 		{
-		// 			var telepathy = GetComponent<TelepathyTransport>();
-		// 			if (telepathy != null)
-		// 			{
-		// 				Logger.Log("No beam data found. Falling back to Telepathy");
-		// 				transport = telepathy;
-		// 			}
-		// 		}
-		// 	}
-		// }
 	}
 
 	void ApplyConfig()
@@ -207,7 +180,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		spawnPrefabs.Clear();
 		allSpawnablePrefabs.Clear();
 
-		Dictionary<string, PrefabTracker> StoredIDs = new Dictionary<string, PrefabTracker>();
+		var storedIDs = new Dictionary<string, PrefabTracker>();
 
 		var networkObjectsGUIDs = AssetDatabase.FindAssets("t:prefab", new string[] { "Assets/Prefabs" });
 		var objectsPaths = networkObjectsGUIDs.Select(AssetDatabase.GUIDToAssetPath);
@@ -225,45 +198,45 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 			if (asset.TryGetComponent<PrefabTracker>(out var prefabTracker))
 			{
-				if (StoredIDs.ContainsKey(prefabTracker.ForeverID))
+				if (storedIDs.ContainsKey(prefabTracker.ForeverID))
 				{
-					var OriginalOldID = prefabTracker.ForeverID;
+					var originalOldID = prefabTracker.ForeverID;
 
-					var OriginDictionary =
-						PrefabUtility.GetCorrespondingObjectFromSource(StoredIDs[prefabTracker.ForeverID].gameObject);
-					if (OriginDictionary == prefabTracker.gameObject)
+					var originDictionary =
+						PrefabUtility.GetCorrespondingObjectFromSource(storedIDs[prefabTracker.ForeverID].gameObject);
+					if (originDictionary == prefabTracker.gameObject)
 					{
-						StoredIDs[prefabTracker.ForeverID].ReassignID();
+						storedIDs[prefabTracker.ForeverID].ReassignID();
 					}
 					else
 					{
 						prefabTracker.ReassignID();
 					}
 
-					var Preexisting = StoredIDs[OriginalOldID];
+					var preexisting = storedIDs[originalOldID];
 
-					if (Preexisting.ForeverID != OriginalOldID &&
-						prefabTracker.ForeverID != OriginalOldID)
+					if (preexisting.ForeverID != originalOldID &&
+					    prefabTracker.ForeverID != originalOldID)
 					{
 						Logger.LogError("OH GOD What is the original I can't tell!! " +
-										"Manually edit the ForeverID For the newly created prefab to not be the same as " +
-										"the prefab variant parent for " +
-										Preexisting.gameObject +
-										" and " + prefabTracker.gameObject);
+						                "Manually edit the ForeverID For the newly created prefab to not be the same as " +
+						                "the prefab variant parent for " +
+						                preexisting.gameObject +
+						                " and " + prefabTracker.gameObject);
 
-						prefabTracker.ForeverID = OriginalOldID;
-						Preexisting.ForeverID = OriginalOldID;
+						prefabTracker.ForeverID = originalOldID;
+						preexisting.ForeverID = originalOldID;
 						continue;
 					}
 
 
-					StoredIDs[Preexisting.ForeverID] = Preexisting;
-					StoredIDs[prefabTracker.ForeverID] = prefabTracker;
-					PrefabUtility.SavePrefabAsset(Preexisting.gameObject);
+					storedIDs[preexisting.ForeverID] = preexisting;
+					storedIDs[prefabTracker.ForeverID] = prefabTracker;
+					PrefabUtility.SavePrefabAsset(preexisting.gameObject);
 					PrefabUtility.SavePrefabAsset(prefabTracker.gameObject);
 				}
 
-				StoredIDs[prefabTracker.ForeverID] = prefabTracker;
+				storedIDs[prefabTracker.ForeverID] = prefabTracker;
 			}
 		}
 
@@ -396,10 +369,16 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		GameObject disconnectedViewer = Instantiate(CustomNetworkManager.Instance.disconnectedViewerPrefab);
 		NetworkServer.ReplacePlayerForConnection(conn, disconnectedViewer, System.Guid.NewGuid());
 
+		foreach (var ownedObject in conn.clientOwnedObjects.ToArray())
+		{
+			ownedObject.RemoveClientAuthority();
+		}
+
 		//now we can call mirror's normal disconnect logic, which will destroy all the player's owned objects
 		//which will preserve their actual body because they no longer own it
 		base.OnServerDisconnect(conn);
 		SubSceneManager.Instance.RemoveSceneObserver(conn);
+		_ = Despawn.ServerSingle(disconnectedViewer);
 	}
 
 	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)
@@ -436,8 +415,8 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		// (when pressing Stop in the Editor, Unity keeps threads alive
 		//  until we press Start again. so if Transports use threads, we
 		//  really want them to end now and not after next start)
-		var transport = GetComponent<Transport>();
-		transport.Shutdown();
+		var transportComponent = GetComponent<Transport>();
+		transportComponent.Shutdown();
 	}
 
 	//Editor item transform dance experiments
@@ -466,9 +445,9 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		}
 	}
 
-	private static void NudgeTransform(UniversalObjectPhysics ObjectPhysics, Vector3 where)
+	private static void NudgeTransform(UniversalObjectPhysics objectPhysics, Vector3 where)
 	{
-		ObjectPhysics.AppearAtWorldPositionServer(ObjectPhysics.OfficialPosition + where);
+		objectPhysics.AppearAtWorldPositionServer(objectPhysics.OfficialPosition + where);
 	}
 #endif
 }

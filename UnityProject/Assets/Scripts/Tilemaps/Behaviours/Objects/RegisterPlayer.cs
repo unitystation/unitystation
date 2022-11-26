@@ -268,7 +268,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		if (IsLayingDown == false) return;
 
 		// Can't help a player up if they're rolling
-		if (playerScript.playerNetworkActions.IsRolling) return;
+		if (playerScript.PlayerNetworkActions.IsRolling) return;
 
 		// Check if lying down because of stun. If stunned, there is a chance helping can fail.
 		if (IsSlippingServer && Random.Range(0, 100) > HELP_CHANCE) return;
@@ -318,7 +318,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
 		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Slip, WorldPositionServer, audioSourceParameters, sourceObj: gameObject);
 		// Let go of pulled items.
-		playerScript.objectPhysics.StopPulling(false);
+		playerScript.ObjectPhysics.StopPulling(false);
 	}
 
 	private void ServerSlip()

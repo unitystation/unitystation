@@ -263,7 +263,7 @@ public class PlayerHealthUI : MonoBehaviour
 						damageColor = destroyedBodyPartColor;
 						break;
 				}
-				if (IsLocalPlayer(bodyPart))
+				if (HasAuthority(bodyPart))
 				{
 					bodyPartListeners[i].SetDamageColor(damageColor);
 					bodyPartListeners[i].SetBodyPartColor(bodyPartColor);
@@ -277,11 +277,9 @@ public class PlayerHealthUI : MonoBehaviour
 				}
 			}
 		}
-		bool IsLocalPlayer(BodyPart BbodyPart)
+		bool HasAuthority(BodyPart bbodyPart)
 		{
-			var Player = BbodyPart.HealthMaster as PlayerHealthV2;
-			if (Player == null) return false;
-			return PlayerManager.LocalPlayerScript == Player.playerScript;
+			return bbodyPart.HealthMaster.hasAuthority;
 		}
 	}
 }

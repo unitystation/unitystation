@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using HealthV2;
 using UnityEngine;
 using UI.Action;
+using UI.Core.Action;
 
 namespace UI.Items
 {
@@ -38,8 +39,8 @@ namespace UI.Items
 
 			if (CustomNetworkManager.IsServer)
 			{
-				if(thisPlayerScript == null || thisPlayerScript.mind == null) return;
-				UIActionManager.ToggleServer( thisPlayerScript.mind ,this, GameObjectReference != null);
+				if(thisPlayerScript == null || thisPlayerScript.Mind == null) return;
+				UIActionManager.ToggleServer( gameObject ,this, GameObjectReference != null);
 			}
 		}
 
@@ -111,7 +112,7 @@ namespace UI.Items
 
 		public void CallActionClient()
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryUncuff();
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdTryUncuff();
 		}
 	}
 }

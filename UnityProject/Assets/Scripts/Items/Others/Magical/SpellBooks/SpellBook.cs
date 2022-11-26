@@ -61,7 +61,7 @@ namespace Items.Magical
 			Chat.AddChatMsgToChatServer(player, spell.InvocationMessage, ChatChannel.Local, Loudness.SCREAMING);
 			Chat.AddExamineMsgFromServer(player.GameObject, $"You feel like you've experienced enough to cast <b>{spell.Name}</b>!");
 
-			var learnedSpell = spell.AddToPlayer(player.Script);
+			var learnedSpell = spell.AddToPlayer(player.Mind);
 			player.Mind.AddSpell(learnedSpell);
 		}
 

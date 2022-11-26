@@ -234,8 +234,8 @@ public class StandardProgressAction : IProgressAction
 			eventRegistry.Register(playerScript.RegisterPlayer.OnLocalPositionChangedServer, OnLocalPositionChanged);
 		}
 		//interrupt if player turns away and turning is not allowed
-		eventRegistry.Register(playerScript.playerDirectional.OnRotationChange, OnDirectionChanged);
-		initialDirection = playerScript.playerDirectional.CurrentDirection;
+		eventRegistry.Register(playerScript.PlayerDirectional.OnRotationChange, OnDirectionChanged);
+		initialDirection = playerScript.PlayerDirectional.CurrentDirection;
 		//interrupt if tile is on different matrix and either matrix moves / rotates
 		if (crossMatrix)
 		{
@@ -315,9 +315,9 @@ public class StandardProgressAction : IProgressAction
 		return playerScript.playerHealth.ConsciousState == initialConsciousState &&
 		       playerScript.playerMove.IsCuffed == false &&
 		       playerScript.RegisterPlayer.IsSlippingServer == false &&
-			   playerScript.playerNetworkActions.IsRolling == false &&
+			   playerScript.PlayerNetworkActions.IsRolling == false &&
 		       (progressActionConfig.AllowTurning ||
-		        playerScript.playerDirectional.CurrentDirection != initialDirection) &&
+		        playerScript.PlayerDirectional.CurrentDirection != initialDirection) &&
 		       playerScript.PlayerSync.IsMoving == false &&
 		       //make sure we're still in range
 		       Validations.IsInReachDistanceByPositions(playerScript.RegisterPlayer.WorldPositionServer,

@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Core.Editor.Attributes;
-using HealthV2;
 using Items;
 using Managers;
 using Messages.Client.Interaction;
@@ -14,10 +12,9 @@ using Player.Movement;
 using ScriptableObjects.Audio;
 using Tiles;
 using UI;
-using UI.Action;
+using UI.Core.Action;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Tilemaps;
 
 public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, IActionGUI, ICooldown,
 	IBumpableObject, ICheckedInteractable<ContextMenuApply>
@@ -26,7 +23,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public List<MoveData> MoveQueue = new List<MoveData>();
 
-	private float MoveMaxDelayQueue = 4f; //Only matters when low FPS mode
+	private const float MOVE_MAX_DELAY_QUEUE = 4f; //Only matters when low FPS mode
 
 	public float DefaultTime { get; } = 0.5f;
 
@@ -46,7 +43,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	[field: SyncVar(hook = nameof(SyncCuffed))]
 	public bool IsCuffed { get; private set; }
 
-	public bool IsTrapped => IsCuffed || ContainedInContainer != null;
+	public bool IsTrapped => IsCuffed || ContainedInObjectContainer != null;
 
 	[PrefabModeOnly] public bool CanMoveThroughObstructions = false;
 
@@ -68,13 +65,13 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	private PassableExclusionTrait needsRunning = null;
 
 	[SyncVar(hook = nameof(SyncMovementType))]
-	private MovementType _currentMovementType;
+	private MovementType currentMovementType;
 
 	public MovementType CurrentMovementType
 	{
 		set
 		{
-			_currentMovementType = value;
+			currentMovementType = value;
 
 			if (isServer)
 			{
@@ -83,7 +80,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 			UpdatePassables();
 		}
-		get => _currentMovementType;
+		get => currentMovementType;
 	}
 
 	public ActionData actionData;
@@ -124,7 +121,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		if (isServer)
 		{
-			UIActionManager.ToggleServer(playerScript.mind, this, newBuckledTo != null);
+			UIActionManager.ToggleServer(gameObject, this, newBuckledTo != null);
 		}
 	}
 
@@ -132,9 +129,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	[Server]
 	public void ServerTryEscapeContainer()
 	{
-		if (ContainedInContainer != null)
+		if (ContainedInObjectContainer != null)
 		{
-			GameObject parentContainer = ContainedInContainer.gameObject;
+			GameObject parentContainer = ContainedInObjectContainer.gameObject;
 
 			foreach (var escapable in parentContainer.GetComponents<IEscapable>())
 			{
@@ -326,7 +323,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			ServerCheckQueueingAndMove();
 		}
 
-		if (isLocalPlayer == false) return;
+		if (hasAuthority == false) return;
 		bool inputDetected = KeyboardInputManager.IsMovementPressed(KeyboardInputManager.KeyEventType.Hold);
 		if (inputDetected != IsPressedCashed)
 		{
@@ -586,7 +583,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public void ClientCheckLocationFlight()
 	{
-		if (isLocalPlayer == false) return;
+		if (hasAuthority == false) return;
 		if (IsFloating())
 		{
 			if (NetworkTime.time - LastUpdatedFlyingPosition > 2)
@@ -605,7 +602,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public void ServerCheckQueueingAndMove()
 	{
-		if (isLocalPlayer) return;
+		if (hasAuthority) return;
 
 		if (CanInPutMove()) //TODO potential issue with messages building up
 		{
@@ -846,7 +843,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		if (UIManager.IsInputFocus) return;
 		if (CommonInput.GetKeyDown(KeyCode.F7) && gameObject == PlayerManager.LocalPlayerObject)
 		{
-			PlayerSpawn.ServerSpawnDummy(gameObject.transform);
+
+			var DummyMind = PlayerSpawn.NewSpawnCharacterV2(OccupationList.Instance.Occupations.PickRandom(),  CharacterSheet.GenerateRandomCharacter());
+			DummyMind.Body.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(this.transform.position);
 		}
 
 
@@ -908,12 +907,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		//Can't do normal move, so check to see if dead
 		if (playerScript.OrNull()?.playerHealth.OrNull()?.IsDead == true)
 		{
-			playerScript.playerNetworkActions.CmdSpawnPlayerGhost();
+			playerScript.PlayerNetworkActions.CmdSpawnPlayerGhost();
 			return;
 		}
 
 		//Check to see if in container
-		if (ContainedInContainer != null)
+		if (ContainedInObjectContainer != null)
 		{
 			if(Cooldowns.TryStartClient(playerScript, moveCooldown) == false) return;
 
@@ -925,22 +924,22 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public void CMDTryEscapeContainer(MoveAction moveAction)
 	{
 		if (allowInput == false) return;
-		if (ContainedInContainer == null) return;
+		if (ContainedInObjectContainer == null) return;
 
 		if(Cooldowns.TryStartServer(playerScript, moveCooldown) == false) return;
 
-		foreach (var Escape in ContainedInContainer.IEscapables)
+		foreach (var Escape in ContainedInObjectContainer.IEscapables)
 		{
 			Escape.EntityTryEscape(gameObject, null, moveAction);
 		}
 	}
 
 
-	public void AfterSuccessfulTryMove(MoveData NewMoveData)
+	public void AfterSuccessfulTryMove(MoveData newMoveData)
 	{
 		if (isServer)
 		{
-			if (isLocalPlayer && this.playerScript.OrNull()?.Equipment.OrNull()?.ItemStorage != null)
+			if (hasAuthority && this.playerScript.OrNull()?.Equipment.OrNull()?.ItemStorage != null)
 			{
 				Step = !Step;
 				if (Step)
@@ -951,11 +950,11 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		}
 
 		var addedLocalPosition =
-			(transform.position + NewMoveData.GlobalMoveDirection.ToVector().To3())
-			.ToLocal(MatrixManager.Get(NewMoveData.MatrixID));
+			(transform.position + newMoveData.GlobalMoveDirection.ToVector().To3())
+			.ToLocal(MatrixManager.Get(newMoveData.MatrixID));
 
-		NewMoveData.LocalMoveDirection = VectorToPlayerMoveDirection(
-			(addedLocalPosition - transform.position.ToLocal(MatrixManager.Get(NewMoveData.MatrixID))).RoundTo2Int());
+		newMoveData.LocalMoveDirection = VectorToPlayerMoveDirection(
+			(addedLocalPosition - transform.position.ToLocal(MatrixManager.Get(newMoveData.MatrixID))).RoundTo2Int());
 		//Because shuttle could be rotated   enough to make Global  Direction invalid As compared to server
 
 		if (Pushing.Count > 0)
@@ -966,15 +965,15 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				netIDs.Add(push.GetComponent<NetworkIdentity>().netId);
 			}
 
-			NewMoveData.PushedIDs = JsonConvert.SerializeObject(netIDs);
+			newMoveData.PushedIDs = JsonConvert.SerializeObject(netIDs);
 		}
 		else
 		{
-			NewMoveData.PushedIDs = "";
+			newMoveData.PushedIDs = "";
 		}
 
 		//Logger.LogError(" Requested move > wth  Bump " + NewMoveData.Bump);
-		CMDRequestMove(NewMoveData);
+		CMDRequestMove(newMoveData);
 	}
 
 	public bool TryMove(ref MoveData newMoveData, GameObject byClient, bool serverProcessing, out bool causesSlip)
@@ -1099,9 +1098,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		if (slideTime > 0) return false;
 		if (allowInput == false) return false;
 		if (BuckledToObject) return false;
-		if (isLocalPlayer && UIManager.IsInputFocus) return false;
+		if (hasAuthority && UIManager.IsInputFocus) return false;
 		if (IsCuffed && PulledBy.HasComponent) return false;
-		if (ContainedInContainer != null) return false;
+		if (ContainedInObjectContainer != null) return false;
 
 		return true;
 	}
@@ -1173,7 +1172,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		slippedOn = null;
 		if (slipProtection) return false;
 		if (CurrentMovementType != MovementType.Running) return false;
-		if (isServer == false && isLocalPlayer && UIManager.Instance.intentControl.Running == false) return false;
+		if (isServer == false && hasAuthority && UIManager.Instance.intentControl.Running == false) return false;
 
 
 		var toMatrix = SetMatrixCache.GetforDirection(moveAction.GlobalMoveDirection.ToVector().To3Int()).Matrix;
@@ -1291,7 +1290,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		if (CanInPutMove(true))
 		{
 			var Age = NetworkTime.time - inMoveData.Timestamp;
-			if (Age > MoveMaxDelayQueue)
+			if (Age > MOVE_MAX_DELAY_QUEUE)
 			{
 				// Logger.LogError(
 					// $" Move message rejected because it is too old, Consider tweaking if ping is too high or Is being exploited Age {Age}");
@@ -1339,7 +1338,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			enterTileBase.OnPlayerStep(playerScript);
 		}
 
-		if (isLocalPlayer == false) return;
+		if (hasAuthority == false) return;
 
 		//Client side check for invalid tabs still open
 		//(Don't need to do this server side as the interactions are validated)

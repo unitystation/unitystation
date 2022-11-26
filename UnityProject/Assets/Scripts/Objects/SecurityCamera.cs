@@ -203,7 +203,7 @@ namespace Objects
 		{
 			if(player.PlayerInfo?.Connection == null) return;
 
-			player.playerNetworkActions.TargetRpcOpenInput(gameObject, "Camera Channel", securityCameraChannel);
+			player.PlayerNetworkActions.TargetRpcOpenInput(gameObject, "Camera Channel", securityCameraChannel);
 		}
 
 		private void SetNewChannel(string oldState, string newState)

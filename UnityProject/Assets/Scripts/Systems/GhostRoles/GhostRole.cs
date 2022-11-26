@@ -155,12 +155,12 @@ namespace Systems.GhostRoles
 			playersSpawned++;
 			if (RoleData.IsAntagonist)
 			{
-				player.Script.playerNetworkActions.ServerRespawnPlayerAntag(player, RoleData.TargetAntagonist.AntagName);
+				player.Script.PlayerNetworkActions.ServerRespawnPlayerAntag(player, RoleData.TargetAntagonist.AntagName);
 			}
 			else
 			{
 				player.Mind.occupation = RoleData.TargetOccupation;
-				player.Script.playerNetworkActions.ServerRespawnPlayer();
+				player.Script.PlayerNetworkActions.ServerRespawnPlayer();
 			}
 		}
 

@@ -54,9 +54,9 @@ namespace Antagonists
 		/// <summary>
 		/// Check if this objective is possible for a player, defaults to true if not overriden
 		/// </summary>
-		public bool IsPossible(PlayerScript candidate)
+		public bool IsPossible(Mind candidate)
 		{
-			if (aiCanHave == false && candidate.PlayerType == PlayerTypes.Ai)
+			if (aiCanHave == false && candidate.occupation != null && candidate.occupation.JobType == JobType.AI)
 			{
 				return false;
 			}
@@ -64,7 +64,7 @@ namespace Antagonists
 			return IsPossibleInternal(candidate);
 		}
 
-		protected virtual bool IsPossibleInternal(PlayerScript candidate)
+		protected virtual bool IsPossibleInternal(Mind candidate)
 		{
 			return true;
 		}
@@ -109,20 +109,20 @@ namespace Antagonists
 		/// </summary>
 		protected bool CheckStorageFor(string name, int count)
 		{
-			if (Owner.body.DynamicItemStorage == null)
+			if (Owner.Body.DynamicItemStorage == null)
 			{
-				Logger.LogError($"Unable to find dynamic storage for {Owner.body} / {Owner.body.PlayerInfo.Username}");
+				Logger.LogError($"Unable to find dynamic storage for {Owner.Body} / {Owner.Body.PlayerInfo.Username}");
 				//If they have no storage then fail, as they can't have the item
 				return false;
 			}
 
-			return CheckStorage(Owner.body.DynamicItemStorage, default, name) >= count;
+			return CheckStorage(Owner.Body.DynamicItemStorage, default, name) >= count;
 		}
 
 		/// <inheritdoc cref="CheckStorageFor(string, int)"/>
 		protected bool CheckStorageFor(Type component, int count)
 		{
-			return CheckStorage(Owner.body.DynamicItemStorage, component, default) >= count;
+			return CheckStorage(Owner.Body.DynamicItemStorage, component, default) >= count;
 		}
 
 		private int CheckStorage(DynamicItemStorage itemStorage, Type component, string name)

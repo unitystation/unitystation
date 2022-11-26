@@ -41,7 +41,7 @@ public class InvisibleBox : Pickupable
 
 	public override void ServerPerformInteraction(HandApply interaction)
 	{
-		if (interaction.PerformerPlayerScript.mind.IsMiming)
+		if (interaction.PerformerPlayerScript.Mind.IsMiming)
 		{
 			if (boxSpriteColor)
 			{

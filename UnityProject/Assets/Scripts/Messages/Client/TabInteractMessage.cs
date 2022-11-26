@@ -49,7 +49,7 @@ namespace Messages.Client
 			if (playerScript.PlayerType == PlayerTypes.Ai)
 			{
 				validate = Validations.CanApply(new AiActivate(player.GameObject, null,
-					tabProvider, Intent.Help,playerScript.mind , AiActivate.ClickTypes.NormalClick), NetworkSide.Server);
+					tabProvider, Intent.Help,playerScript.Mind , AiActivate.ClickTypes.NormalClick), NetworkSide.Server);
 			}
 			else
 			{

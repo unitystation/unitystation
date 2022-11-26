@@ -52,7 +52,7 @@ public class PositionalHandApply : HandApply
 				targePosition,
 				PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(),
 				UIManager.CurrentIntent,
-				PlayerManager.LocalPlayerScript.mind,
+				PlayerManager.LocalPlayerScript.Mind,
 				UIManager.DamageZone,
 				KeyboardInputManager.IsAltActionKeyPressed());
 	}

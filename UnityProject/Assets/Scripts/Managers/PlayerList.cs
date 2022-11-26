@@ -40,7 +40,7 @@ public partial class PlayerList : NetworkBehaviour
 		loggedIn.FindAll(player => player?.Mind != null && player.Mind.IsAntag);
 
 	public List<PlayerInfo> AllPlayers =>
-		loggedIn.FindAll(player => (player?.Script.OrNull()?.mind  != null || player?.ViewerScript != null));
+		loggedIn.FindAll(player => (player?.Script.OrNull()?.Mind  != null || player?.ViewerScript != null));
 
 	/// <summary>
 	/// Players in the pre-round lobby who have clicked the ready button and have up to date CharacterSettings
@@ -110,8 +110,8 @@ public partial class PlayerList : NetworkBehaviour
 	[Server]
 	public void TrackKill(GameObject perpetrator, GameObject victim)
 	{
-		var perPlayer = perpetrator?.Player()?.Script;
-		var victimPlayer = victim?.Player()?.Script;
+		var perPlayer = perpetrator.OrNull()?.Player()?.Script;
+		var victimPlayer = victim.OrNull()?.Player()?.Script;
 
 		if (perPlayer == null || victimPlayer == null)
 		{
@@ -180,6 +180,13 @@ public partial class PlayerList : NetworkBehaviour
 		CheckRcon();
 	}
 
+	[Server]
+	public void UpdatePlayer(PlayerInfo connectedPlayer, GameObject newGameObject)
+	{
+		connectedPlayer.GameObject = newGameObject;
+		CheckRcon();
+	}
+
 	/// <summary>
 	/// Adds this connected player to the list, or updates an existing entry if there's already one for
 	/// this player's networkconnection. Returns the ConnectedPlayer that was added or updated.
@@ -218,7 +225,7 @@ public partial class PlayerList : NetworkBehaviour
 		if (!loggedIn.Contains(player))
 		{
 			Logger.Log($"Player with name {player.Name} was not found in online player list. " +
-					$"Verifying player lists for integrity...", Category.Connections);
+			           "Verifying player lists for integrity...", Category.Connections);
 			ValidatePlayerListRecords();
 			return;
 		}
@@ -228,6 +235,35 @@ public partial class PlayerList : NetworkBehaviour
 		loggedIn.Remove(player);
 		UpdateConnectedPlayersMessage.Send();
 		CheckRcon();
+	}
+
+	[Server]
+	public NetworkConnection GetRelatedNetworkConnection(GameObject _object)
+	{
+		try
+		{
+			if (_object == null) return null;
+			foreach (var info in loggedIn)
+			{
+				if (info.ViewerScript.OrNull()?.gameObject == _object)
+				{
+					return info.Connection;
+				}
+
+				if (info.Mind != null && info.Mind.IsRelatedToObject(_object))
+				{
+					return info.Connection;
+				}
+			}
+
+		}
+		catch (Exception e)
+		{
+			Logger.LogError(e.ToString());
+			throw;
+		}
+
+		return null;
 	}
 
 	[Server]
@@ -416,20 +452,20 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public void Remove(PlayerInfo ConnectedPlayer)
+	public void Remove(PlayerInfo connectedPlayer)
 	{
 
-		if (loggedOff.Contains(ConnectedPlayer))
+		if (loggedOff.Contains(connectedPlayer))
 		{
-			loggedOff.Remove(ConnectedPlayer);
+			loggedOff.Remove(connectedPlayer);
 		}
 
-		if (loggedIn.Contains(ConnectedPlayer))
+		if (loggedIn.Contains(connectedPlayer))
 		{
-			loggedIn.Remove(ConnectedPlayer);
+			loggedIn.Remove(connectedPlayer);
 		}
 
-		ConnectedPlayer.Connection.Disconnect();
+		connectedPlayer.Connection.Disconnect();
 
 
 	}
@@ -448,7 +484,7 @@ public partial class PlayerList : NetworkBehaviour
 		if (player.Equals(PlayerInfo.Invalid))
 		{
 			Logger.Log($"Unknown player disconnected: verifying playerlists for integrity - connected player was invalid. " +
-					$"IP: {connection.address}. Name: {connection.identity.name}.", Category.Connections);
+			           $"IP: {connection.address}. Name: {connection.identity.name}.", Category.Connections);
 			ValidatePlayerListRecords();
 			return;
 		}
@@ -605,6 +641,7 @@ public partial class PlayerList : NetworkBehaviour
 		}
 	}
 
+
 	private void OnDestroy()
 	{
 		if (adminListWatcher != null)
@@ -679,8 +716,8 @@ public partial class PlayerList : NetworkBehaviour
 	public bool IsAntag(GameObject playerObj)
 	{
 		var conn = Get(playerObj);
-		if (conn == null || conn.Script == null || conn.Script.mind == null) return false;
-		return conn.Script.mind.IsAntag;
+		if (conn == null || conn.Script == null || conn.Script.Mind == null) return false;
+		return conn.Script.Mind.IsAntag;
 	}
 
 	public static bool HasAntagEnabled(AntagPrefsDict antagPrefs, Antagonist antag)

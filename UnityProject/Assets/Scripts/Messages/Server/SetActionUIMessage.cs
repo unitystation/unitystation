@@ -5,6 +5,7 @@ using UnityEngine;
 using Systems.Spells;
 using ScriptableObjects.Systems.Spells;
 using UI.Action;
+using UI.Core.Action;
 
 namespace Messages.Server
 {
@@ -80,7 +81,7 @@ namespace Messages.Server
 					// no need to instantiate a spell if server asks to hide one anyway
 					if (msg.ProposedAction == UpdateType.StateChange && msg.showAlert == false) return;
 
-					action = spellData.AddToPlayer(PlayerManager.LocalPlayerScript);
+					action = spellData.AddToPlayer(PlayerManager.LocalPlayerScript.Mind);
 				}
 			}
 			else

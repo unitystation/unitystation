@@ -58,12 +58,12 @@ public class MouseDrop : TargetedInteraction
 				targetObject,
 				pu.ItemSlot,
 				UIManager.CurrentIntent,
-				PlayerManager.LocalPlayerScript.mind);
+				PlayerManager.LocalPlayerScript.Mind);
 		}
 		else
 		{
 			return new MouseDrop(PlayerManager.LocalPlayerObject, droppedObject, targetObject, null, UIManager.CurrentIntent,
-				PlayerManager.LocalPlayerScript.mind);
+				PlayerManager.LocalPlayerScript.Mind);
 		}
 	}
 

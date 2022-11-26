@@ -403,7 +403,7 @@ namespace Objects
 					//Check for player
 					if (objectToMove.ObjectType == ObjectType.Player && objectToMove.TryGetComponent<PlayerHealthV2>(out var health) && health != null)
 					{
-						if (health.RegisterPlayer.PlayerScript.mind?.occupation == OccupationList.Instance.Get(JobType.CLOWN))
+						if (health.RegisterPlayer.PlayerScript.Mind?.occupation == OccupationList.Instance.Get(JobType.CLOWN))
 						{
 							health.OnGib();
 							ChangePoints(DMMath.Prob(50) ? -1000 : 1000);

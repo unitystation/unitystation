@@ -56,7 +56,7 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1);
 		SoundManager.PlayNetworkedAtPos(Spray2, startPos, audioSourceParameters, sourceObj: interaction.Performer);
 
-		interaction.PerformerPlayerScript.objectPhysics.NewtonianPush((-interaction.TargetVector).NormalizeToInt(), speed: 1f);
+		interaction.PerformerPlayerScript.ObjectPhysics.NewtonianPush((-interaction.TargetVector).NormalizeToInt(), speed: 1f);
 	}
 
 	private IEnumerator Fire(List<Vector3Int> positionList)

@@ -119,7 +119,6 @@ namespace Player
 					Connection = connectionToClient,
 					GameObject = gameObject,
 					Username = authData.Username,
-					Job = JobType.NULL,
 					ClientId = authData.ClientId,
 					UserId = authData.AccountId,
 					ConnectionIP = connectionToClient.address
@@ -225,7 +224,7 @@ namespace Player
 			}
 			else
 			{
-				StartCoroutine(WaitForLoggedOffObserver(STVerifiedConnPlayer.GameObject));
+				StartCoroutine(WaitForLoggedOffObserver(STVerifiedConnPlayer.Mind));
 			}
 
 			PlayerList.Instance.CheckAdminState(STVerifiedConnPlayer);
@@ -236,7 +235,7 @@ namespace Player
 		/// <summary>
 		/// Waits for the client to be an observer of the player before continuing
 		/// </summary>
-		private IEnumerator WaitForLoggedOffObserver(GameObject loggedOffPlayer)
+		private IEnumerator WaitForLoggedOffObserver(Mind loggedOffPlayer)
 		{
 			TargetLocalPlayerRejoinUI(connectionToClient);
 			// TODO: When we have scene network culling we will need to allow observers
@@ -262,7 +261,8 @@ namespace Player
 			}
 
 			TargetLocalPlayerRejoinUI(connectionToClient);
-			PlayerSpawn.ServerRejoinPlayer(this, loggedOffPlayer);
+
+			STVerifiedConnPlayer.Mind.OrNull()?.ReLog();
 		}
 
 		[TargetRpc]
@@ -320,17 +320,7 @@ namespace Player
 		public void Spectate()
 		{
 			var jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSheet);
-			CmdSpectate(jsonCharSettings);
-		}
-
-		/// <summary>
-		/// Command to spectate a round instead of spawning as a player
-		/// </summary>
-		[Command]
-		public void CmdSpectate(string jsonCharSettings)
-		{
-			var characterSettings = JsonConvert.DeserializeObject<CharacterSheet>(jsonCharSettings);
-			PlayerSpawn.ServerNewPlayerSpectate(this, characterSettings);
+			ClientRequestJobMessage.Send(JobType.NULL, jsonCharSettings, DatabaseAPI.ServerData.UserID);
 		}
 
 		/// <summary>

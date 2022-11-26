@@ -617,7 +617,6 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		if (observerPlayer == null) return;
 		if (this == null)
 		{
-			Logger.LogError(" Try to remove observer when storage was destroyed  ", Category.Inventory);
 			return;
 		}
 

@@ -106,7 +106,7 @@ namespace Alien
 			yield return WaitFor.Seconds(OPENING_ANIM_TIME);
 			UpdatePhase(EggState.Burst);
 
-			Spawn.ServerPrefab(facehugger, gameObject.RegisterTile().WorldPositionServer);
+			Spawn.ServerPrefab(facehugger, gameObject.AssumedWorldPosServer());
 		}
 
 		private void UpdateExamineMessage()

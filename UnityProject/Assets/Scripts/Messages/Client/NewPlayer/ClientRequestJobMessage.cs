@@ -49,12 +49,6 @@ namespace Messages.Client.NewPlayer
 				return false;
 			}
 
-			if (SentByPlayer.ViewerScript == null)
-			{
-				NotifyError(JobRequestError.InvalidScript, $"{nameof(SentByPlayer.ViewerScript)} is null");
-				return false;
-			}
-
 			if (SentByPlayer.UserId == null)
 			{
 				NotifyError(JobRequestError.InvalidUserID, $"{nameof(SentByPlayer.UserId)} is null");
@@ -84,12 +78,15 @@ namespace Messages.Client.NewPlayer
 				return false;
 			}
 
-			int slotsTaken = GameManager.Instance.ServerGetOccupationsCount(msg.JobType);
-			int slotsMax = GameManager.Instance.GetOccupationMaxCount(msg.JobType);
-			if (slotsTaken >= slotsMax)
+			if (msg.JobType != JobType.NULL)
 			{
-				NotifyRequestRejected(JobRequestError.PositionsFilled, $"no empty positions for {msg.JobType}");
-				return false;
+				int slotsTaken = GameManager.Instance.ServerGetOccupationsCount(msg.JobType);
+				int slotsMax = GameManager.Instance.GetOccupationMaxCount(msg.JobType);
+				if (slotsTaken >= slotsMax)
+				{
+					NotifyRequestRejected(JobRequestError.PositionsFilled, $"no empty positions for {msg.JobType}");
+					return false;
+				}
 			}
 
 			return true;
@@ -97,13 +94,22 @@ namespace Messages.Client.NewPlayer
 
 		private void AcceptRequest(NetMessage msg)
 		{
-			var character = JsonConvert.DeserializeObject<CharacterSheet>(msg.JsonCharSettings);
-			var spawnRequest = new PlayerSpawnRequest(SentByPlayer, GameManager.Instance.GetRandomFreeOccupation(msg.JobType), character);
-
-			if (GameManager.Instance.TrySpawnPlayer(spawnRequest) == false)
+			if (msg.JobType == JobType.NULL)
 			{
-				SendClientLogMessage.SendErrorToClient(SentByPlayer, "Server couldn't spawn you.");
+				var character = JsonConvert.DeserializeObject<CharacterSheet>(msg.JsonCharSettings);
+				PlayerSpawn.NewSpawnPlayerV2(SentByPlayer, null , character);
 			}
+			else
+			{
+				var character = JsonConvert.DeserializeObject<CharacterSheet>(msg.JsonCharSettings);
+				var spawnRequest = new PlayerSpawnRequest(SentByPlayer, GameManager.Instance.GetRandomFreeOccupation(msg.JobType), character);
+
+				if (GameManager.Instance.TrySpawnPlayer(spawnRequest) == false)
+				{
+					SendClientLogMessage.SendErrorToClient(SentByPlayer, "Server couldn't spawn you.");
+				}
+			}
+
 		}
 
 		private void NotifyError(JobRequestError error, string message)

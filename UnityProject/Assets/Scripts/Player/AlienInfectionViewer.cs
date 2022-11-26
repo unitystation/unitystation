@@ -11,13 +11,13 @@ namespace Player
 			XenomorphLarvae.Rejoined(connectionToClient);
 		}
 
-		public void OnPlayerTransfer(Mind mind)
+		public void OnPlayerTransfer(PlayerInfo account)
 		{
 			//Resend infected player stuff as they've transferred into this body from a different one
 			XenomorphLarvae.Rejoined(connectionToClient);
 		}
 
-		public void OnPlayerLeaveBody(Mind mind)
+		public void OnPlayerLeaveBody(PlayerInfo account)
 		{
 			//Player left this body so remove all infected stuff
 			XenomorphLarvae.LeftBody(connectionToClient);

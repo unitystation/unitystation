@@ -1,9 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using CameraEffects;
 using Messages.Server;
 using Mirror;
 using Systems.Antagonists;
@@ -15,8 +10,8 @@ namespace HealthV2
 	public class XenomorphLarvae : BodyPartFunctionality
 	{
 		[SerializeField]
-		[Tooltip("This GameObject will be spawned from the Larvae when its time")]
-		private GameObject SpawnedLarvae;
+		[Tooltip("This Character will be spawned from the Larvae when its time")]
+		private Occupation xenomorphLarvaeOccupation;
 
 		/// <summary>
 		/// Time in seconds
@@ -73,12 +68,16 @@ namespace HealthV2
 				DamageType.Brute,
 				BodyPartType.Chest);
 
-			var spawned = Spawn.ServerPrefab(SpawnedLarvae, RelatedPart.HealthMaster.gameObject.AssumedWorldPosServer());
-
-			if (spawned.Successful == false)
+			var alienMind = PlayerSpawn.NewSpawnCharacterV2(xenomorphLarvaeOccupation, new CharacterSheet()
 			{
-				return;
-			}
+				Name = "Larvae"
+			});
+
+			alienMind.PossessingObject.GetComponent<UniversalObjectPhysics>()
+				.AppearAtWorldPositionServer(RelatedPart.HealthMaster.gameObject.AssumedWorldPosServer());
+
+
+
 
 			if (checkPlayerScript.HasComponent)
 			{
@@ -86,16 +85,12 @@ namespace HealthV2
 				SetSprite(6);
 			}
 
-			if (checkPlayerScript.HasComponent && checkPlayerScript.Component.mind != null)
+			if (checkPlayerScript.HasComponent && checkPlayerScript.Component.Mind.ControlledBy != null)
 			{
-				spawned.GameObject.GetComponent<PlayerScript>().SetMind(checkPlayerScript.Component.mind);
-
-				var connection = checkPlayerScript.Component.connectionToClient;
-				PlayerSpawn.ServerTransferPlayerToNewBody(connection, checkPlayerScript.Component.mind,
-					spawned.GameObject, Event.PlayerSpawned, null);
+				PlayerSpawn.TransferAccountToSpawnedMind(checkPlayerScript.Component.Mind.ControlledBy, alienMind);
 			}
 
-			var alienPlayer = spawned.GameObject.GetComponent<AlienPlayer>();
+			var alienPlayer = alienMind.PossessingObject.GetComponent<AlienPlayer>();
 
 			alienPlayer.SetNewPlayer();
 			alienPlayer.DoConnectCheck();

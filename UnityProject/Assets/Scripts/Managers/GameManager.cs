@@ -671,12 +671,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	[Server]
 	public bool TrySpawnPlayer(PlayerSpawnRequest spawnRequest)
 	{
-		if (spawnRequest?.Player?.ViewerScript == null)
-		{
-			Logger.LogError("Invalid spawn request, player is null.");
-			return false;
-		}
-
 		//regardless of their chosen occupation, they might spawn as an antag instead.
 		//If they do, bypass the normal spawn logic.
 		if (Instance.GameMode.TrySpawnAntag(spawnRequest)) return false;
@@ -691,7 +685,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			return false;
 		}
 
-		return PlayerSpawn.ServerSpawnPlayer(spawnRequest) != null;
+		return PlayerSpawn.NewSpawnPlayerV2(spawnRequest.Player, spawnRequest.RequestedOccupation, spawnRequest.CharacterSettings ) != null;
 	}
 
 	/// <summary>

@@ -95,7 +95,7 @@ namespace Antagonists
 		/// </summary>
 		public string GetObjectiveStatus()
 		{
-			StringBuilder objSB = new StringBuilder($"<b>{Owner.body.playerName}</b>, {Owner.occupation.DisplayName}\n", 200);
+			StringBuilder objSB = new StringBuilder($"<b>{Owner.Body.playerName}</b>, {Owner.occupation.DisplayName}\n", 200);
 			var objectiveList = Objectives.ToList();
 			for (int i = 0; i < objectiveList.Count; i++)
 			{
@@ -107,7 +107,7 @@ namespace Antagonists
 
 		public string GetObjectiveStatusNonRich()
 		{
-			var message = $"{Owner.body.playerName}, {Owner.occupation.DisplayName}\n";
+			var message = $"{Owner.Body.playerName}, {Owner.occupation.DisplayName}\n";
 			var objectiveList = Objectives.ToList();
 			for (int i = 0; i < objectiveList.Count; i++)
 			{

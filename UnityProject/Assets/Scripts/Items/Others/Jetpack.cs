@@ -85,8 +85,8 @@ namespace Items.Others
 
 		public static void PushPlayerInFacedDirection(PlayerScript playerScript, GasContainer gasContainer, float gasRelease = 10)
 		{
-			if (playerScript.objectPhysics.CanPush(playerScript.CurrentDirection.ToLocalVector2Int()) == false) return;
-			playerScript.objectPhysics.NewtonianPush(playerScript.CurrentDirection.ToLocalVector2Int(),1f);
+			if (playerScript.ObjectPhysics.CanPush(playerScript.CurrentDirection.ToLocalVector2Int()) == false) return;
+			playerScript.ObjectPhysics.NewtonianPush(playerScript.CurrentDirection.ToLocalVector2Int(),1f);
 			var domGas = gasContainer.GasMix.GetBiggestGasSOInMix();
 			if (domGas != null) gasContainer.GasMix.RemoveGas(domGas, gasRelease);
 		}

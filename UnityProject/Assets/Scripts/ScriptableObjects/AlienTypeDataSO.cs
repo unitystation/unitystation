@@ -14,7 +14,7 @@ namespace ScriptableObjects
 
 		public AlienPlayer.AlienTypes AlienType;
 
-		public GameObject AlienPrefab;
+		public Occupation AlienOccupation;
 
 		public GhostRoleData GhostRoleData;
 

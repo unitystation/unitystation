@@ -18,7 +18,7 @@ namespace Antagonists
 		/// </summary>
 		protected override bool CheckCompletion()
 		{
-			return Owner.body.IsDeadOrGhost;
+			return Owner.Body.IsDeadOrGhost;
 		}
 	}
 }

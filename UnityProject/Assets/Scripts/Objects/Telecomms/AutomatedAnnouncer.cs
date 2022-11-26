@@ -65,7 +65,7 @@ namespace Objects.Telecomms
 				return;
 			}
 
-			AnnounceNewCrewmember(args.player);
+			AnnounceNewCrewmember(args.Player);
 		}
 
 		protected override bool SendSignalLogic()
@@ -80,7 +80,7 @@ namespace Objects.Telecomms
 		private void AnnounceNewCrewmember(GameObject player)
 		{
 			PlayerScript playerScript = player.GetComponent<PlayerScript>();
-			Occupation playerOccupation = playerScript.mind.occupation;
+			Occupation playerOccupation = playerScript.Mind.occupation;
 			string playerName = player.ExpensiveName();
 			Loudness annoucementImportance = GetAnnouncementImportance(playerOccupation);
 

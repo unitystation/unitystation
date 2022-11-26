@@ -19,8 +19,8 @@ namespace Items.Atmospherics
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			if (interaction.PerformerPlayerScript.objectPhysics.ContainedInContainer != null &&
-			    interaction.PerformerPlayerScript.objectPhysics.ContainedInContainer.TryGetComponent<GasContainer>(
+			if (interaction.PerformerPlayerScript.ObjectPhysics.ContainedInObjectContainer != null &&
+			    interaction.PerformerPlayerScript.ObjectPhysics.ContainedInObjectContainer.TryGetComponent<GasContainer>(
 				    out var container))
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(container.GasMix));

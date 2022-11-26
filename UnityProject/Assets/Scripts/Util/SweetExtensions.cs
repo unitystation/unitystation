@@ -150,13 +150,19 @@ public static class SweetExtensions
 	/// Creates garbage! Use very sparsely!
 	public static Vector3 AssumedWorldPosServer(this GameObject go)
 	{
+		return GetRootGameObject(go).transform.position;
+	}
+
+	/// Creates garbage! Use very sparsely!
+	public static GameObject GetRootGameObject(this GameObject go)
+	{
 		if (ComponentManager.TryGetUniversalObjectPhysics(go, out  var UOP))
 		{
-			return UOP.OfficialPosition;
+			return UOP.GetRootObject;
 		}
 		else
 		{
-			return go.transform.position;
+			return go;
 		}
 	}
 

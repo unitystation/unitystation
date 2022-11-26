@@ -155,7 +155,7 @@ namespace Clothing
 			var playerScript = PlayerManager.LocalPlayerScript;
 			if ((CustomNetworkManager.Instance._isServer && GameData.IsHeadlessServer)
 			    || playerScript == null
-			    || playerScript.playerNetworkActions == null
+			    || playerScript.PlayerNetworkActions == null
 			    || playerScript.playerHealth == null)
 			{
 				return;
@@ -213,7 +213,7 @@ namespace Clothing
 			bool success = (playerScript.RegisterPlayer.IsLayingDown == false && DMMath.Prob(80)
 			                || FaceHugAction.HasAntihuggerItem(playerScript.Equipment)) == false;
 
-			interaction.PerformerPlayerScript.weaponNetworkActions.RpcMeleeAttackLerp(interaction.TargetVector, gameObject);
+			interaction.PerformerPlayerScript.WeaponNetworkActions.RpcMeleeAttackLerp(interaction.TargetVector, gameObject);
 
 			Chat.AddActionMsgToChat(interaction.Performer, success == false ?
 					$"You fail to attach the {gameObject.ExpensiveName()} to {playerScript.visibleName}"

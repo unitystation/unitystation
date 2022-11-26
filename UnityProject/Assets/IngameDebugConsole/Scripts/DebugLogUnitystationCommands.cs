@@ -69,8 +69,8 @@ namespace IngameDebugConsole
 				return;
 			}
 
-			var mind = PlayerManager.LocalPlayerScript.mind;
-			var playerBody = PlayerSpawn.ServerClonePlayer(mind, mind.body.gameObject.transform.position.CutToInt()).GetComponent<LivingHealthMasterBase>();
+			var mind = PlayerManager.LocalPlayerScript.Mind;
+			var playerBody = PlayerSpawn.RespawnPlayer(mind, mind.occupation, mind.CurrentCharacterSettings).GetComponent<LivingHealthMasterBase>();
 			playerBody.ApplyDamageAll(null, 2, AttackType.Internal, DamageType.Clone, false);
 		}
 
@@ -83,14 +83,14 @@ namespace IngameDebugConsole
 				Logger.LogError("Player has not spawned yet to be able to check for their objectives!");
 				return;
 			}
-			if (PlayerManager.LocalPlayerScript.mind.IsAntag == false)
+			if (PlayerManager.LocalPlayerScript.Mind.IsAntag == false)
 			{
 				Logger.LogError("Player is not an antagonist!");
 				return;
 			}
 
 			Logger.Log("Current player objectives :");
-			foreach (var objective in PlayerManager.LocalPlayerScript.mind.GetAntag().Objectives)
+			foreach (var objective in PlayerManager.LocalPlayerScript.Mind.GetAntag().Objectives)
 			{
 				Logger.Log($"{objective.ObjectiveName} -> {objective.IsComplete()}");
 			}
@@ -314,7 +314,7 @@ namespace IngameDebugConsole
 #endif
 		[ConsoleMethod("spawn-dummy", "Spawn dummy player (Server)")]
 		private static void SpawnDummyPlayer() {
-			PlayerSpawn.ServerSpawnDummy();
+			PlayerSpawn.NewSpawnCharacterV2(OccupationList.Instance.Occupations.PickRandom(),  CharacterSheet.GenerateRandomCharacter());
 		}
 
 #if UNITY_EDITOR
@@ -325,7 +325,7 @@ namespace IngameDebugConsole
 		{
 			for (int i = 0; i < 20; i++)
 			{
-				PlayerSpawn.ServerSpawnDummy();
+				PlayerSpawn.NewSpawnCharacterV2(OccupationList.Instance.Occupations.PickRandom(),  CharacterSheet.GenerateRandomCharacter());
 			}
 		}
 
@@ -338,7 +338,7 @@ namespace IngameDebugConsole
 		{
 			for (int i = 0; i < 100; i++)
 			{
-				PlayerSpawn.ServerSpawnDummy();
+				PlayerSpawn.NewSpawnCharacterV2(OccupationList.Instance.Occupations.PickRandom(),  CharacterSheet.GenerateRandomCharacter());
 			}
 		}
 
@@ -385,7 +385,7 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer)
 			{
-				PlayerSpawn.ServerRespawnPlayer(PlayerManager.LocalPlayerScript.mind);
+				PlayerSpawn.RespawnPlayer(PlayerManager.LocalPlayerScript.Mind,PlayerManager.LocalPlayerScript.Mind.occupation, PlayerManager.LocalPlayerScript.Mind.CurrentCharacterSettings);
 			}
 		}
 

@@ -1009,8 +1009,8 @@ public partial class PlayerList
 		{
 			if (!player.Script.IsGhost)
 			{
-				PlayerSpawn.ServerGhost(player.Mind);
 				player.Mind.ghostLocked = true;
+				player.Mind.Ghost();
 			}
 		}
 

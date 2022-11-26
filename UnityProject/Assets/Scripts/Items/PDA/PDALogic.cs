@@ -149,28 +149,31 @@ namespace Items.PDA
 			if (RegisteredPlayerName != default) return; // PDA already registered to someone
 			if (info.ToRootPlayer == null) return; // PDA was not added to player
 
-			PlayerInfo pickedUpBy = info.ToRootPlayer.gameObject.Player();
+			var pickedUpBy = info.ToRootPlayer.gameObject;
 			RegisterTo(pickedUpBy);
 
 			if (debugUplink)
 			{
-				InstallUplink(pickedUpBy, 80, true);
+				InstallUplink(info.ToRootPlayer.PlayerScript.Mind, 80, true);
 			}
 		}
 
-		private void RegisterTo(PlayerInfo player)
+		private void RegisterTo(GameObject player)
 		{
-			RegisteredPlayerName = player.Script.playerName;
-			if (player.Mind.occupation == null)
+			RegisteredPlayerName = player.name;
+
+			var DIS = player.GetComponent<DynamicItemStorage>();
+			if (DIS.InitialisedWithOccupation == null)
 			{
-				gameObject.name = $"{player.Script.playerName}'s PDA";
+				gameObject.name = $"{player.name}'s PDA";
 				gameObject.Item().ServerSetArticleName(gameObject.name);
 			}
 			else
 			{
-				gameObject.name = $"{player.Script.playerName}'s PDA ({player.Mind.occupation.DisplayName})";
+				gameObject.name = $"{player.name}'s PDA ({DIS.InitialisedWithOccupation.DisplayName})";
 				gameObject.Item().ServerSetArticleName(gameObject.name);
 			}
+
 		}
 
 		private void RegisterTo(string playerName)
@@ -391,14 +394,14 @@ namespace Items.PDA
 		/// <param name="informPlayer">The player that will be informed the code to the PDA uplink</param>
 		/// <param name="tcCount">The amount of telecrystals to add to the uplink.</param>
 		/// <param name="isNukie">Determines if the uplink can purchase nukeop exclusive items</param>
-		public void InstallUplink(PlayerInfo informPlayer, int tcCount, bool isNukie)
+		public void InstallUplink(Mind player, int tcCount, bool isNukie)
 		{
 			UplinkTC = tcCount; // Add; if uplink installed again (e.g. via admin tools (player request more TC)).
 			UplinkUnlockCode = GenerateUplinkUnlockCode();
 			IsUplinkCapable = true;
 			isNukeOps = isNukie;
 
-			StartCoroutine(DelayInformUplinkCode(informPlayer));
+			StartCoroutine(DelayInformUplinkCode(player));
 		}
 
 		private string GenerateUplinkUnlockCode()
@@ -411,14 +414,14 @@ namespace Items.PDA
 			return code + nums;
 		}
 
-		private IEnumerator DelayInformUplinkCode(PlayerInfo forPlayer)
+		private IEnumerator DelayInformUplinkCode(Mind player)
 		{
 			// We delay the uplink code inform to reduce information overload (player was likely just given objectives)
 			yield return WaitFor.Seconds(informUplinkCodeDelay);
-			InformUplinkCode(forPlayer);
+			InformUplinkCode(player);
 		}
 
-		private void InformUplinkCode(PlayerInfo player)
+		private void InformUplinkCode(Mind player)
 		{
 			var uplinkMessage =
 					$"{(debugUplink ? "<b>UPLINK DEBUGGING ENABLED: </b>" : "")}" +
@@ -426,7 +429,7 @@ namespace Items.PDA
 					$"Simply enter the code <b>{UplinkUnlockCode}</b> into the ringtone select to unlock its hidden features.<i>";
 
 			PlaySoundPrivate(Ringtone);
-			Chat.AddExamineMsgFromServer(player, uplinkMessage);
+			Chat.AddExamineMsgFromServer(player.gameObject, uplinkMessage);
 		}
 
 		#endregion Uplink-Init

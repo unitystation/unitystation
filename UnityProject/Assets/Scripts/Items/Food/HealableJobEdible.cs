@@ -46,7 +46,7 @@ namespace Items.Food
 		/// </summary>
 		private bool CheckForJob(PlayerScript JobHolder)
 		{
-			return healableJobs.Contains(JobHolder.mind.occupation.JobType);
+			return healableJobs.Contains(JobHolder.Mind.occupation.JobType);
 		}
 	}
 }

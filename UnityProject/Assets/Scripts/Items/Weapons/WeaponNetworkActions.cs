@@ -104,7 +104,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 
 		float damage = handDamage;
 		DamageType currentDamageType = damageType;
-		GameObject weapon = playerScript.playerNetworkActions.GetActiveHandItem();
+		GameObject weapon = playerScript.PlayerNetworkActions.GetActiveHandItem();
 		ItemAttributesV2 weaponAttributes = weapon == null ? null : weapon.GetComponent<ItemAttributesV2>();
 		var miss = playerScript.PlayerTypeSettings.EmptyMeleeAttackData.PickRandom();
 

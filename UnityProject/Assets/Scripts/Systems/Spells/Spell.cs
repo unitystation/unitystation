@@ -8,6 +8,7 @@ using UnityEngine;
 using Mirror;
 using ScriptableObjects.Systems.Spells;
 using UI.Action;
+using UI.Core.Action;
 
 namespace Systems.Spells
 {
@@ -48,7 +49,7 @@ namespace Systems.Spells
 		public virtual void CallActionClient()
 		{
 			UIAction action = UIActionManager.Instance.DicIActionGUI[this][0];
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestSpell(SpellData.Index, action.LastClickPosition);
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestSpell(SpellData.Index, action.LastClickPosition);
 		}
 
 		public void CallActionServer(PlayerInfo SentByPlayer, Vector3 clickPosition)
@@ -94,7 +95,7 @@ namespace Systems.Spells
 			if (SpellData.ChargeType == SpellChargeType.FixedCharges && --ChargesLeft <= 0)
 			{
 				//remove it from spell list
-				UIActionManager.ToggleServer(sentByPlayer.Script.mind, this, false);
+				UIActionManager.ToggleServer(sentByPlayer.Mind.gameObject, this, false);
 			}
 			else
 			{
@@ -214,7 +215,7 @@ namespace Systems.Spells
 				return false;
 			}
 
-			if (!caster.Script.mind.Spells.Contains(this))
+			if (!caster.Script.Mind.Spells.Contains(this))
 			{
 				Logger.LogWarningFormat("Illegal spell access: {0} tried to call spell they don't possess ({1})",
 					Category.Exploits, caster, this);

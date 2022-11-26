@@ -8,19 +8,20 @@ namespace Player
 {
 	public class GhostOrbit : NetworkBehaviour
 	{
+
 		public static GhostOrbit Instance;
 
 		[SyncVar(hook = nameof(SyncOrbitObject))]
-		private NetworkIdentity IDtarget;
+		private NetworkIdentity idtarget;
 
-		private GameObject target
+		private GameObject Target
 		{
-			get => IDtarget.OrNull()?.gameObject;
-			set => SyncOrbitObject(IDtarget, value.NetWorkIdentity());
+			get => idtarget.OrNull()?.gameObject;
+			set => SyncOrbitObject(idtarget, value.NetWorkIdentity());
 		}
 
 
-		[SerializeField] private GhostMove GhostMove;
+		[SerializeField] private GhostMove ghostMove;
 		[SerializeField] private RotateAroundTransform rotateTransform;
 
 		/// <summary>
@@ -29,10 +30,13 @@ namespace Player
 		private readonly int doubleClickTime = 500;
 		private bool hasClicked = false;
 
+		private Mind mind;
 		private void Start()
 		{
-			if (GhostMove == null) GhostMove = GetComponent<GhostMove>();
+			if (ghostMove == null) ghostMove = GetComponent<GhostMove>();
 			if (rotateTransform == null) rotateTransform = GetComponent<RotateAroundTransform>();
+			mind =  GetComponent<Mind>();
+
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			Instance = this;
 		}
@@ -47,20 +51,20 @@ namespace Player
 
 		private void SyncOrbitObject(NetworkIdentity oldObject, NetworkIdentity newObject)
 		{
-			IDtarget = newObject;
+			idtarget = newObject;
 
-			if (target == null)
+			if (Target == null)
 			{
 				ResetRotate();
 				return;
 			}
 
-			rotateTransform.TransformToRotateAround = target.transform;
+			rotateTransform.TransformToRotateAround = Target.transform;
 		}
 
 		private void UpdateMe()
 		{
-			if(isLocalPlayer == false) return;
+			if(hasAuthority == false || mind.IsGhosting == false) return;
 
 			if (Input.GetMouseButtonDown(0))
 			{
@@ -101,11 +105,11 @@ namespace Player
 		private void Orbit(GameObject thingToOrbit)
 		{
 			if(thingToOrbit == null) return;
-			target = thingToOrbit;
+			Target = thingToOrbit;
 
-			var WorldMove = target.AssumedWorldPosServer();
-			var Matrix = MatrixManager.AtPoint(WorldMove, isServer);
-			GhostMove.ForcePositionClient( WorldMove.ToLocal(Matrix), Matrix.Id, OrientationEnum.Down_By180);
+			var worldMove = Target.AssumedWorldPosServer();
+			var matrix = MatrixManager.AtPoint(worldMove, isServer);
+			ghostMove.ForcePositionClient( worldMove.ToLocal(matrix), matrix.Id, OrientationEnum.Down_By180);
 
 			UpdateManager.Add(FollowTarget, 0.1f);
 			Chat.AddExamineMsg(gameObject, $"You start orbiting {thingToOrbit.ExpensiveName()}");
@@ -114,10 +118,10 @@ namespace Player
 		[Server]
 		private void StopOrbiting()
 		{
-			if(target == null) return;
+			if(Target == null) return;
 
-			Chat.AddExamineMsg(gameObject, $"You stop orbiting {target.ExpensiveName()}");
-			target = null;
+			Chat.AddExamineMsg(gameObject, $"You stop orbiting {Target.ExpensiveName()}");
+			Target = null;
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, FollowTarget);
 			ResetRotate();
 		}
@@ -134,7 +138,7 @@ namespace Player
 		[Command]
 		public void CmdStopOrbiting()
 		{
-			if(target == null) return;
+			if(Target == null) return;
 			StopOrbiting();
 		}
 
@@ -151,16 +155,16 @@ namespace Player
 		//TODO: Might be worth changing this to be called from the target CNT OnTileReached instead?
 		private void FollowTarget()
 		{
-			if (target == null) return;
+			if (Target == null) return;
 
 
-			var WorldMove = target.AssumedWorldPosServer();
-			var Matrix = MatrixManager.AtPoint(WorldMove, isServer);
-			GhostMove.ForcePositionClient( WorldMove.ToLocal(Matrix), Matrix.Id, OrientationEnum.Down_By180);
+			var worldMove = Target.AssumedWorldPosServer();
+			var matrix = MatrixManager.AtPoint(worldMove, isServer);
+			ghostMove.ForcePositionClient( worldMove.ToLocal(matrix), matrix.Id, OrientationEnum.Down_By180);
 
 
 
-			if (target.AssumedWorldPosServer() == TransformState.HiddenPos)
+			if (Target.AssumedWorldPosServer() == TransformState.HiddenPos)
 			{
 				//In closet so cancel orbit for clients
 				StopOrbiting();

@@ -327,7 +327,7 @@ public class CablePlacementVisualisation : MonoBehaviour
 			var mousePosition = MouseUtils.MouseToWorldPos().RoundToInt();
 
 			// if distance is greater than interaction distance
-			if (Vector2.Distance(transform.position, (Vector3)mousePosition) > PlayerScript.interactionDistance)
+			if (Vector2.Distance(transform.position, (Vector3)mousePosition) > PlayerScript.INTERACTION_DISTANCE)
 			{
 				DisableVisualisation();
 				return;

@@ -23,7 +23,7 @@ namespace Items
 		public void OnInputReceived(string input)
 		{
 			StartCoroutine(WaitToAllowInput());
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestItemLabel(gameObject, input);
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestItemLabel(gameObject, input);
 		}
 
 		IEnumerator WaitToAllowInput()

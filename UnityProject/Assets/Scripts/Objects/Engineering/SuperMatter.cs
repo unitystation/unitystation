@@ -1144,7 +1144,7 @@ namespace Objects.Engineering
 			if (bumpedBy.TryGetComponent<PlayerHealthV2>(out var playerHealth))
 			{
 				//Players, you big idiot
-				var job = bumpedBy.GetComponent<PlayerScript>().mind?.occupation;
+				var job = bumpedBy.GetComponent<PlayerScript>().Mind?.occupation;
 
 				Chat.AddActionMsgToChat(bumpedBy,
 					$"You slam into the {gameObject.ExpensiveName()} as your ears are filled with unearthly ringing. Your last thought is 'Oh, fuck.'",

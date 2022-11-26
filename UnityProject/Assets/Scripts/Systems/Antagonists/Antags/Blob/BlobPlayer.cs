@@ -185,7 +185,7 @@ namespace Blob
 		/// <summary>
 		/// The start function of the script called from BlobStarter when player turns into blob, sets up core.
 		/// </summary>
-		public void BlobStart()
+		public void BlobStart(Mind mind)
 		{
 			playerSync = GetComponent<MovementSynchronisation>();
 			registerPlayer = GetComponent<RegisterPlayer>();
@@ -197,11 +197,11 @@ namespace Blob
 				return;
 			}
 
-			playerScript.mind.SetBody(playerScript);
+			mind.SetPossessingObject(playerScript.gameObject);
 
 			overmindName = $"Overmind {Random.Range(1, 1001)}";
 
-			playerScript.SetPermanentName(overmindName);
+			mind.SetPermanentName(overmindName);
 
 			var result = Spawn.ServerPrefab(blobCorePrefab, registerPlayer.WorldPositionServer, gameObject.transform.parent);
 
@@ -1234,7 +1234,7 @@ namespace Blob
 			}
 
 			//Make blob into ghost
-			PlayerSpawn.ServerGhost(playerScript.mind);
+			playerScript.Mind.Ghost();
 
 			if (endRoundWhenKilled)
 			{
@@ -1270,7 +1270,7 @@ namespace Blob
 
 			rapidExpand = true;
 
-			foreach (var objective in playerScript.mind.GetAntag().Objectives)
+			foreach (var objective in playerScript.Mind.GetAntag().Objectives)
 			{
 				objective.SetAsComplete();
 			}

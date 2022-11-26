@@ -27,7 +27,7 @@ namespace UI
 		{
 			if(PlayerManager.LocalPlayerScript.PlayerTypeSettings.CanResist == false) return;
 
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdResist();
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdResist();
 
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			Logger.Log("Resist Button", Category.UserInput);
@@ -56,7 +56,7 @@ namespace UI
 				Throw();
 			}
 
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItem(currentSlot.ItemStorage.gameObject.NetId(),
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdDropItem(currentSlot.ItemStorage.gameObject.NetId(),
 				currentSlot.NamedSlot.GetValueOrDefault(NamedSlot.none));
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			Logger.Log("Drop Button", Category.UserInput);

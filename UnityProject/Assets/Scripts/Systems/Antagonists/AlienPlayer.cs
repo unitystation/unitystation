@@ -16,6 +16,7 @@ using ScriptableObjects;
 using Systems.GhostRoles;
 using Tiles;
 using UI.Action;
+using UI.Core.Action;
 using UnityEngine;
 using Weapons.Projectiles;
 
@@ -189,6 +190,7 @@ namespace Systems.Antagonists
 		private void Awake()
 		{
 			playerScript = GetComponent<PlayerScript>();
+			playerScript.OnActionEnterPlayerControl += PlayerEnterBody;
 			livingHealthMasterBase = GetComponent<LivingHealthMasterBase>();
 			rotatable = GetComponent<Rotatable>();
 			cooldowns = GetComponent<HasCooldowns>();
@@ -224,11 +226,9 @@ namespace Systems.Antagonists
 			EventManager.RemoveHandler(Event.RoundStarted, ClearStatics);
 		}
 
-		public override void OnStartLocalPlayer()
+		public void PlayerEnterBody()
 		{
-			if(isLocalPlayer == false) return;
-
-
+			if(hasAuthority == false) return;
 
 			UIManager.Instance.panelHudBottomController.AlienUI.SetActive(true);
 			UIManager.Instance.panelHudBottomController.AlienUI.SetUp(this);
@@ -270,7 +270,7 @@ namespace Systems.Antagonists
 				nameNumber = alienCount;
 			}
 
-			SetUpFromPrefab(null, true);
+			SetUpFromPrefab(null, alienType , true);
 
 			if (CurrentAlienType is AlienTypes.Larva1 or AlienTypes.Larva2 or AlienTypes.Larva3)
 			{
@@ -421,35 +421,27 @@ namespace Systems.Antagonists
 			Chat.AddActionMsgToChat(gameObject, "You begin to evolve!",
 				$"{playerScript.playerName} begins to twist and contort!");
 
-			var spawnResult = Spawn.ServerPrefab(newAlienData.AlienPrefab, playerScript.objectPhysics.OfficialPosition);
-			if (spawnResult.Successful == false)
-			{
-				Logger.LogError($"Failed to spawn alien type: {newAlien.ToString()}!");
-				return;
-			}
+			 var alienBody = PlayerSpawn.RespawnPlayerAt(playerScript.Mind, newAlienData.AlienOccupation, new CharacterSheet()
+			 {
+				 Name = "Alien"
+			 }, playerScript.ObjectPhysics.OfficialPosition);
+
 
 			Chat.AddExamineMsgFromServer(gameObject, $"You evolve into a {alienType.Name}!");
 
-			var newAlienPlayer = spawnResult.GameObject.GetComponent<AlienPlayer>();
+			var newAlienPlayer = alienBody.GetComponent<AlienPlayer>();
 
-			newAlienPlayer.SetUpFromPrefab(alienType, changeName, nameNumber);
-
-			if (playerScript.mind != null)
-			{
-				var connection = connectionToClient;
-				PlayerSpawn.ServerTransferPlayerToNewBody(connection, playerScript.mind,
-					newAlienPlayer.gameObject, Event.PlayerSpawned, null);
-			}
+			newAlienPlayer.SetUpFromPrefab(alienType, newAlienData,changeName, nameNumber);
 
 			newAlienPlayer.DoConnectCheck();
 
 			_ = Despawn.ServerSingle(gameObject);
 		}
 
-		private void SetUpFromPrefab(AlienTypeDataSO old, bool changeName = false, int oldNameNumber = -1)
+		private void SetUpFromPrefab(AlienTypeDataSO old, AlienTypeDataSO newone, bool changeName = false, int oldNameNumber = -1)
 		{
 			firstTimeSetup = true;
-
+			alienType = newone;
 			if (changeName == false)
 			{
 				nameNumber = oldNameNumber;
@@ -462,7 +454,7 @@ namespace Systems.Antagonists
 
 			ChangeAlienMode(AlienMode.Normal);
 
-			playerScript.weaponNetworkActions.SetNewDamageValues(alienType.AttackSpeed,
+			playerScript.WeaponNetworkActions.SetNewDamageValues(alienType.AttackSpeed,
 				alienType.AttackDamage, alienType.DamageType, alienType.ChanceToHit);
 
 			SetName(changeName, old);
@@ -734,7 +726,7 @@ namespace Systems.Antagonists
 
 			RemoveGhostRole();
 
-			RemoveActions(playerScript.mind);
+			RemoveActions(playerScript.PlayerInfo);
 
 			ChangeAlienMode(AlienMode.Dead);
 
@@ -751,11 +743,10 @@ namespace Systems.Antagonists
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, OnUpdate);
 
 			//Set to null so can't reenter
-			if(playerScript.mind == null) return;
+			if(playerScript.Mind == null) return;
 
 			//Force player into ghost
-			PlayerSpawn.ServerGhost(playerScript.mind);
-
+			playerScript.Mind.Ghost();
 		}
 
 		private void OnQueenDeath()
@@ -1101,7 +1092,7 @@ namespace Systems.Antagonists
 			return ActionData.Contains(data);
 		}
 
-		private void AddNewActions(Mind mind)
+		private void AddNewActions(PlayerInfo Account)
 		{
 			if(alienType == null) return;
 
@@ -1114,7 +1105,7 @@ namespace Systems.Antagonists
 
 			foreach (var action in alienType.ActionData)
 			{
-				UIActionManager.ToggleMultiServer(mind, this, action, true);
+				UIActionManager.ToggleMultiServer(gameObject, this, action, true);
 			}
 		}
 
@@ -1130,11 +1121,11 @@ namespace Systems.Antagonists
 			}
 		}
 
-		private void RemoveActions(Mind mind)
+		private void RemoveActions(PlayerInfo Account)
 		{
 			foreach (var action in ActionData)
 			{
-				UIActionManager.ToggleMultiServer(mind,this, action, false);
+				UIActionManager.ToggleMultiServer(gameObject,this, action, false);
 			}
 		}
 
@@ -1408,7 +1399,7 @@ namespace Systems.Antagonists
 				return false;
 			}
 
-			if (playerScript.PlayerSync.ContainedInContainer != null)
+			if (playerScript.PlayerSync.ContainedInObjectContainer != null)
 			{
 				Chat.AddExamineMsgFromServer(gameObject, $"Cannot {action} in here!");
 				return false;
@@ -1560,12 +1551,12 @@ namespace Systems.Antagonists
 			}
 
 			//Remove current player
-			if (playerScript.mind != null)
+			if (playerScript.Mind != null)
 			{
-				if (playerScript.mind.GetCurrentMob().OrNull()?.GetComponent<PlayerScript>().IsGhost == false)
+				if (playerScript.Mind.GetCurrentMob().OrNull()?.GetComponent<PlayerScript>().IsGhost == false)
 				{
 					//Force player current into ghost
-					PlayerSpawn.ServerGhost(playerScript.mind);
+					playerScript.Mind.Ghost();
 				}
 			}
 
@@ -1603,8 +1594,7 @@ namespace Systems.Antagonists
 			playerTookOver = player;
 
 			//Transfer player chosen into body
-			PlayerSpawn.ServerTransferPlayerToNewBody(player.Connection, player.Mind, gameObject,
-				Event.PlayerSpawned, null);
+			PlayerSpawn.TransferAccountToSpawnedMind(player, playerScript.Mind);
 
 			//Remove the player so they can join again once they die
 			GhostRoleManager.Instance.ServerRemoveWaitingPlayer(createdRoleKey, player);
@@ -1617,11 +1607,11 @@ namespace Systems.Antagonists
 			playerTookOver = null;
 		}
 
-		public void OnPlayerTransfer(Mind mind)
+		public void OnPlayerTransfer(PlayerInfo Account)
 		{
 			//This will call after an admin respawn to set up a new player
 			SetNewPlayer();
-			AddNewActions(mind);
+			AddNewActions(Account);
 			playerScript.playerName = $"{alienType.Name} {nameNumber}";
 
 			//Block role remove if this transfered player was the one how got the ghost role
@@ -1638,9 +1628,9 @@ namespace Systems.Antagonists
 			playerScript.playerName = $"{alienType.Name} {nameNumber}";
 		}
 
-		public void OnPlayerLeaveBody(Mind mind)
+		public void OnPlayerLeaveBody(PlayerInfo Account)
 		{
-			RemoveActions(mind);
+			RemoveActions(Account);
 		}
 
 		//Called after larva spawned, in case it was a disconnected player

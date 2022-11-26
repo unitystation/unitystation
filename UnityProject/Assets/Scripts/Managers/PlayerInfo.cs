@@ -118,15 +118,7 @@ public class PlayerInfo
 		}
 	}
 
-	public JobType Job
-	{
-		get => job;
-		set
-		{
-			job = value;
-			TrySendUpdate();
-		}
-	}
+	public JobType Job => Mind.OrNull()?.occupation.OrNull()?.JobType == null ? JobType.NULL : Mind.occupation.JobType;
 
 	private string name;
 	private JobType job;
@@ -160,18 +152,30 @@ public class PlayerInfo
 		name = uniqueName;
 	}
 
-	public void SetMind(Mind InMind)
+	public void SetMind(Mind inMind)
 	{
-		Mind = InMind;
+		if (Mind != null)
+		{
+			Mind.ControlledBy = null;
+		}
+
+
+		Mind = inMind;
+		if (inMind != null)
+		{
+			Name = inMind.CurrentCharacterSettings.Name;
+			inMind.ControlledBy = this;
+		}
 	}
 
 	/// <summary>
 	/// Generating a unique name (Player -> Player2 -> Player3 ...)
 	/// </summary>
 	/// <param name="name"></param>
+	/// <param name="userId"></param>
 	/// <param name="sameNames"></param>
 	/// <returns></returns>
-	private static string GetUniqueName(string name, string _UserId ,int sameNames = 0)
+	private static string GetUniqueName(string name, string userId, int sameNames = 0)
 	{
 		while (true)
 		{
@@ -182,7 +186,7 @@ public class PlayerInfo
 				Logger.LogTrace($"TRYING: {proposedName}", Category.Connections);
 			}
 
-			if (!PlayerList.Instance.Has(proposedName, _UserId))
+			if (!PlayerList.Instance.Has(proposedName, userId))
 			{
 				return proposedName;
 			}

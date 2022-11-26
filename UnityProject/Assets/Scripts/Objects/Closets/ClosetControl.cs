@@ -265,9 +265,9 @@ namespace Objects
 
 			GameObject sourceobjbehavior = gameObject;
 			RegisterObject sourceregisterobject = registerObject;
-			if (objectPhysics.ContainedInContainer != null)
+			if (objectPhysics.ContainedInObjectContainer != null)
 			{
-				sourceobjbehavior = objectPhysics.ContainedInContainer.gameObject;
+				sourceobjbehavior = objectPhysics.ContainedInObjectContainer.gameObject;
 				sourceregisterobject = sourceobjbehavior.GetComponent<RegisterObject>();
 			}
 
