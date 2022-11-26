@@ -28,10 +28,20 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		private const float MOUSE_OFFSET_X = -125f;
 		private const float ANIM_SPEED = 4.5f;
 		private const float FULLY_VISIBLE_ALPHA = 0.99f;
+		private const float DEFAULT_HOVER_DELAY = 0.25f;
 
 		private bool animating = false;
 		private bool showing = false;
 
+		private void Awake()
+		{
+			HoverDelay = GetSavedTooltipDelay();
+		}
+
+		public float GetSavedTooltipDelay()
+		{
+			return PlayerPrefs.GetFloat(PlayerPrefKeys.HoverTooltipDelayKey, DEFAULT_HOVER_DELAY);
+		}
 
 		private void Start()
 		{
