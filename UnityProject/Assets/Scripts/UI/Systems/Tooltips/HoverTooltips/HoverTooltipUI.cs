@@ -172,6 +172,8 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			// Also reduces hovertip presence on the screen when its not needed.
 			if (IsDescOrTitleEmpty()) return;
 			if (iconTarget.sprite == null) iconTarget.sprite = errorIconSprite;
+			showing = true;
+			StartCoroutine(AnimateBackground());
 		}
 
 		private IEnumerator AnimateBackground()
@@ -195,8 +197,6 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			if(noWait == false) yield return WaitFor.Seconds(HoverDelay);
 			if(targetObject == null || queuedObject != targetObject) yield break;
 			Setup(queuedObject);
-			showing = true;
-			StartCoroutine(AnimateBackground());
 		}
 	}
 }
