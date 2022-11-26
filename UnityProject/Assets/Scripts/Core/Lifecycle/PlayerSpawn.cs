@@ -72,7 +72,7 @@ public static class PlayerSpawn
 {
 	public class SpawnEventArgs : EventArgs
 	{
-		public GameObject player;
+		public GameObject Player;
 	}
 
 	public delegate void SpawnHandler(object sender, SpawnEventArgs args);
@@ -81,7 +81,7 @@ public static class PlayerSpawn
 
 
 	//Time to start spawning players at arrivals
-	private static readonly DateTime ARRIVALS_SPAWN_TIME = new DateTime().AddHours(12).AddMinutes(2);
+	private static readonly DateTime ArrivalsSpawnTime = new DateTime().AddHours(12).AddMinutes(2);
 
 	private static Vector3Int GetSpawnPointForOccupation(Occupation occupation)
 	{
@@ -93,7 +93,7 @@ public static class PlayerSpawn
 		}
 
 		//Spawn normal location for special jobs or if less than 2 minutes passed
-		if (GameManager.Instance.stationTime < ARRIVALS_SPAWN_TIME || occupation.LateSpawnIsArrivals == false)
+		if (GameManager.Instance.stationTime < ArrivalsSpawnTime || occupation.LateSpawnIsArrivals == false)
 		{
 			spawnTransform = SpawnPoint.GetRandomPointForJob(occupation.JobType);
 		}
@@ -118,7 +118,7 @@ public static class PlayerSpawn
 		return spawnTransform.transform.position.CutToInt();
 	}
 
-	public static Mind NewSpawnPlayerV2(PlayerInfo Account, Occupation requestedOccupation, CharacterSheet character)
+	public static Mind NewSpawnPlayerV2(PlayerInfo account, Occupation requestedOccupation, CharacterSheet character)
 	{
 		try
 		{
@@ -127,9 +127,9 @@ public static class PlayerSpawn
 				character = CharacterSheet.GenerateRandomCharacter();
 			}
 
-			var Mind = NewSpawnCharacterV2(requestedOccupation, character);
-			TransferAccountToSpawnedMind(Account, Mind);
-			return Mind;
+			var mind = NewSpawnCharacterV2(requestedOccupation, character);
+			TransferAccountToSpawnedMind(account, mind);
+			return mind;
 		}
 		catch (Exception e)
 		{
@@ -157,15 +157,15 @@ public static class PlayerSpawn
 	}
 
 
-	public static GameObject RespawnPlayerAt(Mind mind, Occupation requestedOccupation, CharacterSheet character, Vector3? WorldPOS)
+	public static GameObject RespawnPlayerAt(Mind mind, Occupation requestedOccupation, CharacterSheet character, Vector3? worldPos)
 	{
-		var Body = SpawnAndApplyRole(mind, requestedOccupation, character, SpawnType.ReSpawn).GetComponent<UniversalObjectPhysics>();
-		if (WorldPOS != null)
+		var body = SpawnAndApplyRole(mind, requestedOccupation, character, SpawnType.ReSpawn).GetComponent<UniversalObjectPhysics>();
+		if (worldPos != null)
 		{
-			Body.AppearAtWorldPositionServer(WorldPOS.Value);
+			body.AppearAtWorldPositionServer(worldPos.Value);
 		}
 
-		return Body.gameObject;
+		return body.gameObject;
 	}
 
 
@@ -179,24 +179,24 @@ public static class PlayerSpawn
 
 
 	static GameObject SpawnAndApplyRole(Mind mind, Occupation requestedOccupation,
-		CharacterSheet character, SpawnType SpawnType)
+		CharacterSheet character, SpawnType spawnType)
 	{
 		if (requestedOccupation != null)
 		{
-			GameObject BodyPrefab = CustomNetworkManager.Instance.humanPlayerPrefab;
+			GameObject bodyPrefab = CustomNetworkManager.Instance.humanPlayerPrefab;
 
 			if (requestedOccupation.SpecialPlayerPrefab != null)
 			{
-				BodyPrefab = requestedOccupation.SpecialPlayerPrefab;
+				bodyPrefab = requestedOccupation.SpecialPlayerPrefab;
 			}
 
-			var Body = SpawnPlayerBody(BodyPrefab);
+			var body = SpawnPlayerBody(bodyPrefab);
 
 			mind.ApplyOccupation(requestedOccupation); //Probably shouldn't be here?
 
 			//Setup body with custom stuff
-			ApplyNewSpawnRoleToBody(Body, requestedOccupation, character, SpawnType);
-			mind.SetPossessingObject(Body);
+			ApplyNewSpawnRoleToBody(body, requestedOccupation, character, spawnType);
+			mind.SetPossessingObject(body);
 			mind.StopGhosting();
 
 			//get the old body if they have one.
@@ -205,21 +205,21 @@ public static class PlayerSpawn
 			//transfer control to the player object
 			//ServerTransferPlayer(connection, newPlayer, oldBody, Event.PlayerSpawned, toUseCharacterSettings, existingMind);
 
-			return Body;
+			return body;
 		}
 		return null;
 	}
 
-	static GameObject SpawnPlayerBody(GameObject BodyPrefab)
+	static GameObject SpawnPlayerBody(GameObject bodyPrefab)
 	{
 		//create the player object
 
 		//player is only spawned on server, we don't sync it to other players yet
 		var spawnPosition = Vector3Int.zero;
 
-		if (BodyPrefab == null)
+		if (bodyPrefab == null)
 		{
-			BodyPrefab = CustomNetworkManager.Instance.humanPlayerPrefab;
+			bodyPrefab = CustomNetworkManager.Instance.humanPlayerPrefab;
 		}
 
 
@@ -228,12 +228,12 @@ public static class PlayerSpawn
 
 		//using parentTransform.rotation rather than Quaternion.identity because objects should always
 		//be upright w.r.t.  localRotation, NOT world rotation
-		var player = UnityEngine.Object.Instantiate(BodyPrefab, Vector3.zero,
+		var player = UnityEngine.Object.Instantiate(bodyPrefab, Vector3.zero,
 			parentTransform.rotation,
 			parentTransform);
 
 		//fire all hooks
-		var info = SpawnInfo.Ghost(null, BodyPrefab,
+		var info = SpawnInfo.Ghost(null, bodyPrefab,
 			SpawnDestination.At(Vector3.zero, parentTransform));
 
 		NetworkServer.Spawn(player);
@@ -243,21 +243,21 @@ public static class PlayerSpawn
 		return player;
 	}
 
-	static void ApplyNewSpawnRoleToBody( GameObject Body, Occupation requestedOccupation, CharacterSheet character, SpawnType SpawnType)
+	static void ApplyNewSpawnRoleToBody( GameObject body, Occupation requestedOccupation, CharacterSheet character, SpawnType spawnType)
 	{
 		//Character attributes
 
-		var UOP = Body.GetComponent<UniversalObjectPhysics>();
+		var uop = body.GetComponent<UniversalObjectPhysics>();
 
 		//Character attributes
 
 
 		//Character attributes
-		var Name = requestedOccupation.JobType != JobType.AI ? character.Name : character.AiName;
-		Body.name = Name;
+		var name = requestedOccupation.JobType != JobType.AI ? character.Name : character.AiName;
+		body.name = name;
 
 		//Character attributes
-		var playerSprites = Body.GetComponent<PlayerSprites>();
+		var playerSprites = body.GetComponent<PlayerSprites>();
 		if (playerSprites)
 		{
 			// This causes body parts to be made for the race, will cause death if body parts are needed and
@@ -266,17 +266,17 @@ public static class PlayerSpawn
 			playerSprites.OnCharacterSettingsChange(toUseCharacterSettings);
 		}
 
-		Body.GetComponent<DynamicItemStorage>()?.SetUpOccupation(requestedOccupation);
+		body.GetComponent<DynamicItemStorage>()?.SetUpOccupation(requestedOccupation);
 		//determine where to spawn them
-		UOP.AppearAtWorldPositionServer(GetSpawnPointForOccupation(requestedOccupation));
+		uop.AppearAtWorldPositionServer(GetSpawnPointForOccupation(requestedOccupation));
 
-		switch (SpawnType)
+		switch (spawnType)
 		{
 			case SpawnType.NewSpawn: //TODO Add more stuff on here
 				if (requestedOccupation != null) // && showBanner)?
 				{
 					SpawnBannerMessage.Send(
-						Body,
+						body,
 						requestedOccupation.DisplayName,
 						requestedOccupation.SpawnSound.AssetAddress,
 						requestedOccupation.TextColor,
@@ -287,7 +287,7 @@ public static class PlayerSpawn
 		}
 	}
 
-	static Mind SpawnMind(CharacterSheet character)
+	private static Mind SpawnMind(CharacterSheet character)
 	{
 		var matrixInfo = MatrixManager.AtPoint(Vector3.zero, true);
 		var parentTransform = matrixInfo.Objects;
@@ -306,131 +306,131 @@ public static class PlayerSpawn
 		Spawn._ServerFireClientServerSpawnHooks(SpawnResult.Single(info, ghost));
 
 		ghost.name = character.Name;
-		var Mind = ghost.GetComponent<Mind>();
+		var mind = ghost.GetComponent<Mind>();
 		var ghosty = ghost.GetComponent<PlayerScript>();
 
-		Mind.Ghost();
-		Mind.SetGhost(ghosty);
-		Mind.CurrentCharacterSettings = character;
+		mind.Ghost();
+		mind.SetGhost(ghosty);
+		mind.CurrentCharacterSettings = character;
 
-		return Mind;
+		return mind;
 	}
 
-	public static void TransferAccountToSpawnedMind(PlayerInfo Account, Mind NewMind)
+	public static void TransferAccountToSpawnedMind(PlayerInfo account, Mind newMind)
 	{
-		var isAdmin = Account.IsAdmin;
-		if (Account.Mind != null && isAdmin) //Has old mind
+		var isAdmin = account.IsAdmin;
+		if (account.Mind != null && isAdmin) //Has old mind
 		{
-			var adminItemStorage = AdminManager.Instance.GetItemSlotStorage(Account);
-			adminItemStorage.ServerRemoveObserverPlayer(Account.Mind.gameObject);
-			Account.Mind.GetComponent<GhostSprites>().SetGhostSprite(false);
+			var adminItemStorage = AdminManager.Instance.GetItemSlotStorage(account);
+			adminItemStorage.ServerRemoveObserverPlayer(account.Mind.gameObject);
+			account.Mind.GetComponent<GhostSprites>().SetGhostSprite(false);
 		}
 
 
-		TransferAccountOccupyingMind(Account, Account.Mind, NewMind);
+		TransferAccountOccupyingMind(account, account.Mind, newMind);
 
 
 		if (isAdmin)
 		{
-			var adminItemStorage = AdminManager.Instance.GetItemSlotStorage(Account);
-			adminItemStorage.ServerAddObserverPlayer(NewMind.gameObject);
+			var adminItemStorage = AdminManager.Instance.GetItemSlotStorage(account);
+			adminItemStorage.ServerAddObserverPlayer(newMind.gameObject);
 		}
 
-		NewMind.GetComponent<GhostSprites>().SetGhostSprite(isAdmin);
+		newMind.GetComponent<GhostSprites>().SetGhostSprite(isAdmin);
 	}
 
-	static void TransferAccountOccupyingMind(PlayerInfo Account, Mind From, Mind To)
+	static void TransferAccountOccupyingMind(PlayerInfo account, Mind from, Mind to)
 	{
-		if (From != null && From != To)
+		if (from != null && from != to)
 		{
-			var oldPlayerNetworkActions = From.GetComponent<PlayerNetworkActions>();
+			var oldPlayerNetworkActions = from.GetComponent<PlayerNetworkActions>();
 			if (oldPlayerNetworkActions)
 			{
 				oldPlayerNetworkActions.RpcBeforeBodyTransfer();
 			}
 
 			//no longer can observe their inventory
-			From.GetComponent<DynamicItemStorage>()?.ServerRemoveObserverPlayer(From.gameObject);
+			from.GetComponent<DynamicItemStorage>()?.ServerRemoveObserverPlayer(from.gameObject);
 
-			var leaveInterfaces = From.GetComponents<IOnPlayerLeaveBody>();
+			var leaveInterfaces = from.GetComponents<IOnPlayerLeaveBody>();
 			foreach (var leaveInterface in leaveInterfaces)
 			{
-				leaveInterface.OnPlayerLeaveBody(Account);
+				leaveInterface.OnPlayerLeaveBody(account);
 			}
 
-			From.AccountLeavingMind(Account);
+			from.AccountLeavingMind(account);
 
-			if (Account.Connection != null)
+			if (account.Connection != null)
 			{
-				NetworkServer.RemovePlayerForConnection(Account.Connection, To.gameObject);
+				NetworkServer.RemovePlayerForConnection(account.Connection, to.gameObject);
 				//
 			}
 		}
 
-		if (To)
+		if (to)
 		{
-			var netIdentity = To.GetComponent<NetworkIdentity>();
+			var netIdentity = to.GetComponent<NetworkIdentity>();
 			if (netIdentity.connectionToClient != null)
 			{
 				CustomNetworkManager.Instance.OnServerDisconnect(netIdentity.connectionToClient);
 			}
 
-			if (Account.Connection != null)
+			if (account.Connection != null)
 			{
-				NetworkServer.ReplacePlayerForConnection(Account.Connection, To.gameObject);
+				NetworkServer.ReplacePlayerForConnection(account.Connection, to.gameObject);
 				//TriggerEventMessage.SendTo(To, Event.); //TODO Call this manually bitch
 			}
 
 			//can observe their new inventory
-			var dynamicItemStorage = To.GetComponent<DynamicItemStorage>();
+			var dynamicItemStorage = to.GetComponent<DynamicItemStorage>();
 			if (dynamicItemStorage != null)
 			{
-				dynamicItemStorage.ServerAddObserverPlayer(To.gameObject);
+				dynamicItemStorage.ServerAddObserverPlayer(to.gameObject);
 				PlayerPopulateInventoryUIMessage.Send(dynamicItemStorage,
-					To.gameObject); //TODO should we be using the players body as game object???
+					to.gameObject); //TODO should we be using the players body as game object???
 			}
 
 			// If the player is inside a container, send a ClosetHandlerMessage.
 			// The ClosetHandlerMessage will attach the container to the transfered player.
-			var playerObjectBehavior = To.GetComponent<UniversalObjectPhysics>();
+			var playerObjectBehavior = to.GetComponent<UniversalObjectPhysics>();
 			if (playerObjectBehavior && playerObjectBehavior.ContainedInObjectContainer)
 			{
-				FollowCameraMessage.Send(To.gameObject, playerObjectBehavior.ContainedInObjectContainer.gameObject);
+				FollowCameraMessage.Send(to.gameObject, playerObjectBehavior.ContainedInObjectContainer.gameObject);
 			}
 
-			PossessAndUnpossessMessage.Send(To.gameObject, To.gameObject, From.OrNull()?.gameObject);
-			var transfers = To.GetComponents<IOnPlayerTransfer>();
+			PossessAndUnpossessMessage.Send(to.gameObject, to.gameObject, from.OrNull()?.gameObject);
+			var transfers = to.GetComponents<IOnPlayerTransfer>();
 
 			foreach (var transfer in transfers)
 			{
-				transfer.OnPlayerTransfer(Account);
+				transfer.OnPlayerTransfer(account);
 			}
-			To.AccountEnteringMind(Account);
+			to.AccountEnteringMind(account);
 
 
 		}
 	}
 
-	public static void TransferOwnershipToConnection(PlayerInfo Account, NetworkIdentity From, NetworkIdentity To)
+	public static void TransferOwnershipToConnection(PlayerInfo account, NetworkIdentity from, NetworkIdentity to)
 	{
-		if (From)
+		if (from)
 		{
-			if (Account.Connection != null && From.connectionToClient == Account.Connection)
+			if (account.Connection != null && from.connectionToClient == account.Connection)
 			{
-				From.RemoveClientAuthority();
+				from.RemoveClientAuthority();
 			}
 		}
 
-		if (To)
+		if (to)
 		{
-			if (Account.Connection != null)
+			if (account.Connection != null)
 			{
-				if (Account.Connection.observing.Contains(To) == false)
+				if (account.Connection.observing.Contains(to) == false)
 				{
-					Account.Connection.observing.Add(To); //TODO because sometimes it cannot be a Observing for some reason , And that causes the ownership message to fail
+					account.Connection.observing.Add(to); //TODO because sometimes it cannot be a Observing for some reason , And that causes the ownership message to fail
 				}
 
-				To.AssignClientAuthority(Account.Connection);
+				to.AssignClientAuthority(account.Connection);
 			}
 		}
 

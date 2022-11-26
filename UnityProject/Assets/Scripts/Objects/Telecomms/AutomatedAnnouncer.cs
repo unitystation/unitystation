@@ -65,7 +65,7 @@ namespace Objects.Telecomms
 				return;
 			}
 
-			AnnounceNewCrewmember(args.player);
+			AnnounceNewCrewmember(args.Player);
 		}
 
 		protected override bool SendSignalLogic()
