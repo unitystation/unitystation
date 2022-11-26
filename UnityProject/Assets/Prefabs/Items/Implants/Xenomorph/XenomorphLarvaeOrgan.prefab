@@ -11,7 +11,7 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 2e59913f8f7e7974887675836f264e60,
+      objectReference: {fileID: 11400000, guid: abbebeb79b26bd64899e77aa3fb240cb,
         type: 2}
     - target: {fileID: 1817806423449182988, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -87,7 +87,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 97aba7b25ea1f3b47bca043240cac2fb,
+      objectReference: {fileID: 21300000, guid: 092bf8c30a3393a4196ae83270155f77,
         type: 3}
     - target: {fileID: 4859781159729634365, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -156,6 +156,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa625f9b5b4acbe42a53729aeb60f38e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   isEMPVunerable: 0
   EMPResistance: 2
   SpawnedLarvae: {fileID: 1133514949248654, guid: d1bc864a55af6cb4cad058680cba977a,
