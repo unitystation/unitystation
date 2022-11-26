@@ -68,6 +68,7 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 			if (LocalContainer.ReagentMixTotal > 0)
 			{
 				LHB.CirculatorySystem.BloodPool.Add(LocalContainer.TakeReagents(LocalContainer.ReagentMixTotal));
+				LocalContainer.ReagentsChanged();
 				Chat.AddActionMsgToChat(interaction.Performer, $"You Inject The {this.name} into {LHB.gameObject.ExpensiveName()}",
 					$"{interaction.Performer.ExpensiveName()} injects a {this.name} into {LHB.gameObject.ExpensiveName()}");
 				if(SicknessesInSyringe.Count > 0) LHB.AddSickness(SicknessesInSyringe.PickRandom().Sickness);
@@ -76,12 +77,12 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 			}
 			else
 			{
-				LocalContainer.Add(LHB.CirculatorySystem.BloodPool.Take(LocalContainer.ReagentMixTotal));
+				LocalContainer.Add(LHB.CirculatorySystem.BloodPool.Take(LocalContainer.MaxCapacity));
+				LocalContainer.ReagentsChanged();
+				if (ChangesSprite) SpriteHandler.ChangeSprite(SpiteFullIndex);
 				Chat.AddActionMsgToChat(interaction.Performer, $"You pull the blood from {LHB.gameObject.ExpensiveName()}",
 					$"{interaction.Performer.ExpensiveName()} pulls the blood from {LHB.gameObject.ExpensiveName()}");
 				if(LHB.mobSickness.sicknessAfflictions.Count > 0) SicknessesInSyringe.AddRange(LHB.mobSickness.sicknessAfflictions);
-				SpriteHandler.ChangeSprite(SpiteFullIndex);
-				if (ChangesSprite) SpriteHandler.ChangeSprite(SpiteEmptyIndex);
 			}
 		}
 	}
