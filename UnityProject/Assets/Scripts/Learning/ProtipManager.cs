@@ -37,7 +37,7 @@ namespace Learning
 			var experience = PlayerPrefs.GetInt("Learning/ExperienceLevel", -1);
 			if(experience == -1)
 			{
-				UIManager.Instance.FirstTimePlayerExpierenceScreen.SetActive(true);
+				UIManager.Instance.FirstTimePlayerExperienceScreen.SetActive(true);
 				return;
 			}
 			PlayerExperienceLevel = (ExperienceLevel) experience;
