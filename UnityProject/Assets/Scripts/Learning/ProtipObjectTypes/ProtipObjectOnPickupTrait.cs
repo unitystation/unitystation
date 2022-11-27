@@ -11,8 +11,11 @@ namespace Learning.ProtipObjectTypes
 		[FormerlySerializedAs("ProtipsForTraits"), SerializeField]
 		private SerializableDictionary<ItemTrait, ProtipSO> protipsForTraits = new SerializableDictionary<ItemTrait, ProtipSO>();
 
-		private void OnEnable()
+		private IEnumerator OnEnable()
 		{
+			//(Max): For some reason, the spawning times will become inconsistent between frames.
+			//To play it say, we intentionally await 2 full seconds until everything has run its course.
+			yield return WaitFor.Seconds(2f);
 			StartCoroutine(SetupEvents());
 		}
 
