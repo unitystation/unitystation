@@ -80,7 +80,7 @@ namespace UI
 			DetermineUI();
 		}
 
-		private void DetermineUI()
+		public void DetermineUI()
 		{
 			// TODO: make better system for handling lots of different UIs
 			if (PlayerManager.LocalPlayerScript == null) return;

@@ -231,15 +231,18 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 				var mask = Camera2DFollow.followControl.cam.cullingMask;
 				mask |= 1 << LayerMask.NameToLayer("Ghosts");
 				Camera2DFollow.followControl.cam.cullingMask = mask;
+				UIManager.Display.RejoinedEvent();
 			}
 			//Normal players
 			else if (IsPlayerSemiGhost == false)
 			{
+
 				UIManager.LinkUISlots(ItemStorageLinkOrigin.localPlayer);
 				// Hide ghosts
 				var mask = Camera2DFollow.followControl.cam.cullingMask;
 				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
 				Camera2DFollow.followControl.cam.cullingMask = mask;
+				UIManager.Display.RejoinedEvent();
 			}
 			//Players like blob or Ai
 			else
@@ -251,6 +254,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 				var mask = Camera2DFollow.followControl.cam.cullingMask;
 				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
 				Camera2DFollow.followControl.cam.cullingMask = mask;
+				UIManager.Display.RejoinedEvent();
 			}
 
 			EventManager.Broadcast(Event.UpdateChatChannels);

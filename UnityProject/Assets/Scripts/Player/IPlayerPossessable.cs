@@ -19,7 +19,7 @@ public interface IPlayerPossessable
 
 	public IPlayerPossessable PossessedBy { get; set; }
 
-	public MindNIPossessingEvent OnPossessedBy   { get; set; }
+	public MindNIPossessingEvent OnPossessedBy  { get; set; }
 
 	public Action OnActionEnterPlayerControl { get; set; }
 
@@ -42,14 +42,6 @@ public interface IPlayerPossessable
 		}
 
 		PossessAndUnpossessMessage.Send(GameObject, GameObject, previouslyControlling);
-
-
-		var playerScript = GameObject.GetComponent<PlayerScript>();
-		if (playerScript)
-		{
-			playerScript.SetMind(mind); //TODO unset
-		}
-
 
 		var health = GameObject.GetComponent<LivingHealthMasterBase>();
 		if (health != null)
@@ -89,6 +81,15 @@ public interface IPlayerPossessable
 
 	public void InternalOnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer)
 	{
+
+
+		var playerScript = GameObject.GetComponent<PlayerScript>();
+		if (playerScript)
+		{
+			playerScript.SetMind(mind);
+		}
+
+
 		if (isServer)
 		{
 			ServeInternalOnEnterPlayerControl(previouslyControlling, mind, true);
