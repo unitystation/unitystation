@@ -26,10 +26,21 @@ namespace Learning
 			if (TipSO == null)
 			{
 				Logger.LogError("[ProtipObject] - Component missing tip data.");
-				Destroy(this);
+				RemoveThisComponent();
 				return;
 			}
-			if(CheckSaveStatus()) Destroy(this);
+
+			if (CheckSaveStatus()) RemoveThisComponent();
+		}
+
+		/// <summary>
+		/// Ensures that we don't remove any components from the player gameObject.
+		/// </summary>
+		private void RemoveThisComponent()
+		{
+			if (PlayerManager.LocalPlayerScript == null) return;
+			if (PlayerManager.LocalPlayerScript.gameObject == this.gameObject) return;
+			Destroy(this);
 		}
 
 		private bool CheckSaveStatus()
@@ -71,7 +82,7 @@ namespace Learning
 			{
 				PlayerPrefs.SetString($"{TipSO.TipTitle}", "true");
 				PlayerPrefs.Save();
-				Destroy(this);
+				RemoveThisComponent();
 				return;
 			}
 
@@ -87,10 +98,10 @@ namespace Learning
 				return;
 			}
 			ProtipManager.Instance.QueueTip(protipSo);
-			if (triggerOnce && ProtipManager.Instance.PlayerExperienceLevel > ProtipManager.ExperienceLevel.NewToSpaceStation)
+			if (triggerOnce)
 			{
 				ProtipManager.Instance.SaveTipState(protipSo.TipTitle);
-				Destroy(this);
+				RemoveThisComponent();
 				return;
 			}
 
