@@ -128,15 +128,20 @@ namespace Systems.Electricity
 			registerTile = GetComponent<RegisterTile>();
 			if (isSelfPowered)
 			{
-				if (AdvancedControlToScript)
-				{
-					recordedVoltage = expectedRunningVoltage;
-					Powered?.PowerNetworkUpdate(expectedRunningVoltage);
-				}
-				else
-				{
-					Powered?.StateUpdate(PowerState.On);
-				}
+				SelfPoweredUpdate();
+			}
+		}
+
+		private void SelfPoweredUpdate()
+		{
+			if (AdvancedControlToScript)
+			{
+				recordedVoltage = expectedRunningVoltage;
+				Powered?.PowerNetworkUpdate(expectedRunningVoltage);
+			}
+			else
+			{
+				Powered?.StateUpdate(PowerState.On);
 			}
 		}
 
@@ -278,18 +283,6 @@ namespace Systems.Electricity
 			}
 		}
 
-		private void UpdateState()
-		{
-			if (isSelfPowered)
-			{
-				state = PowerState.On;
-			}
-			if (isSelfPowered)
-			{
-				recordedVoltage = expectedRunningVoltage;
-			}
-		}
-
 		private void UpdateSynchronisedState(PowerState oldState, PowerState newState)
 		{
 			EnsureInit();
@@ -399,6 +392,13 @@ namespace Systems.Electricity
 			bestTarget.AddDevice(this);
 
 			return true;
+		}
+
+		public void ChangeToSelfPowered()
+		{
+			isSelfPowered = true;
+			SelfPoweredUpdate();
+			UpdateSynchronisedState(state, DMMath.Prob(5) ? PowerState.OverVoltage : PowerState.On);
 		}
 	}
 
