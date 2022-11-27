@@ -25,8 +25,6 @@ namespace Unitystation.Options
         [SerializeField]
         private List<AddressableAudioSource> mentionSounds = new List<AddressableAudioSource>();
 
-        [SerializeField] private Toggle enableClassicHoverTooltip;
-
         public List<AddressableAudioSource> MentionSounds => mentionSounds;
 
         //Add the root folder paths for each config type here:
