@@ -33,7 +33,7 @@ namespace Learning
 		public override void Awake()
 		{
 			base.Awake();
-			jsonPath = Application.streamingAssetsPath + jsonFileName;
+			jsonPath = Application.persistentDataPath + jsonFileName;
 			var experience = PlayerPrefs.GetInt("Learning/ExperienceLevel", -1);
 			if(experience == -1)
 			{
