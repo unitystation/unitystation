@@ -45,7 +45,7 @@ namespace Learning.ProtipObjectTypes
 			yield return WaitFor.EndOfFrame;
 			if (PlayerManager.LocalPlayerScript == null)
 			{
-				Logger.LogError("[Protips] - Something went wrong accessing the player's local player script.. Are you sure everything is setup correctly?");
+				Logger.LogError("[Protips] - Something went wrong accessing the player's local player script.. Are you sure everything is setup correctly?", Category.Character);
 				yield break;
 			}
 			PlayerManager.LocalPlayerScript.DynamicItemStorage.OnContentsChangeClient.AddListener(OnInventoryChange);
