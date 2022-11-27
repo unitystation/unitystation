@@ -7,6 +7,7 @@ using Systems.Atmospherics;
 using Random = UnityEngine.Random;
 using DatabaseAPI;
 using HealthV2;
+using Learning;
 using Messages.Client;
 using Messages.Server;
 using Messages.Server.HealthMessages;
@@ -72,6 +73,18 @@ namespace IngameDebugConsole
 			var mind = PlayerManager.LocalPlayerScript.Mind;
 			var playerBody = PlayerSpawn.RespawnPlayer(mind, mind.occupation, mind.CurrentCharacterSettings).GetComponent<LivingHealthMasterBase>();
 			playerBody.ApplyDamageAll(null, 2, AttackType.Internal, DamageType.Clone, false);
+		}
+
+		[ConsoleMethod("clearProtips", "Clears all saved states of protips.")]
+		public static void ClearAllProtips()
+		{
+			ProtipManager.Instance.ClearSaveState();
+		}
+
+		[ConsoleMethod("ShowFirstTimeExpScreen", "Shows the player experience screen.")]
+		public static void ShowFirstTimeExpScreen()
+		{
+			UIManager.Instance.FirstTimePlayerExperienceScreen.SetActive(true);
 		}
 
 		[ConsoleMethod("checkObjectivesStatus", "check the current status of your objectives")]
