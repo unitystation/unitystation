@@ -40,6 +40,7 @@ namespace Objects.Lighting
 		private LightSprite lightSprite;
 		[SerializeField] private EmergencyLightAnimator emergencyLightAnimator = default;
 		[SerializeField] private Integrity integrity = default;
+		public Integrity Integrity => integrity;
 		[SerializeField] private Rotatable directional;
 
 		[SerializeField] private BoxCollider2D boxColl = null;

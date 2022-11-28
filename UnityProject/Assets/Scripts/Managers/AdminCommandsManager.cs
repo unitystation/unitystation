@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -11,16 +12,14 @@ using Messages.Server;
 using Messages.Server.AdminTools;
 using Strings;
 using HealthV2;
-using AddressableReferences;
 using AdminTools;
-using Messages.Server.SoundMessages;
-using Audio.Containers;
 using DatabaseAPI;
 using Doors;
 using Doors.Modules;
 using Objects;
 using Objects.Atmospherics;
 using Objects.Disposals;
+using Objects.Lighting;
 using Objects.Wallmounts;
 using ScriptableObjects;
 using Systems.Atmospherics;
@@ -31,7 +30,6 @@ using TileManagement;
 using Tiles;
 using UI.Systems.AdminTools;
 using UI.Systems.AdminTools.DevTools;
-using Util;
 
 namespace AdminCommands
 {
@@ -1184,6 +1182,95 @@ namespace AdminCommands
 		private void ColourTile(MatrixInfo matrixInfo, Vector3Int localPos, LayerType layerType, Color? colour)
 		{
 			matrixInfo.MetaTileMap.SetColour(localPos, layerType, colour);
+		}
+
+		#endregion
+
+		#region DebugCommands
+
+		private static IEnumerator KillLights()
+		{
+			if (MatrixManager.MainStationMatrix?.Objects == null) yield break;
+
+			var currentIndex = 0;
+			var maximumIndexes = 20;
+			foreach (var stationObject in MatrixManager.MainStationMatrix.Objects.GetComponentsInChildren<LightSource>())
+			{
+				if (currentIndex >= maximumIndexes)
+				{
+					currentIndex = 0;
+					yield return WaitFor.EndOfFrame;
+				}
+				stationObject.Integrity.ForceDestroy();
+				currentIndex++;
+			}
+		}
+
+		private static IEnumerator SelfPowerEverything()
+		{
+			if (MatrixManager.MainStationMatrix?.Objects == null) yield break;
+
+			var currentIndex = 0;
+			var maximumIndexes = 20;
+			foreach (var stationObject in MatrixManager.MainStationMatrix.Objects.GetComponentsInChildren<APCPoweredDevice>())
+			{
+				if (currentIndex >= maximumIndexes)
+				{
+					currentIndex = 0;
+					yield return WaitFor.EndOfFrame;
+				}
+				stationObject.ChangeToSelfPowered();
+				currentIndex++;
+			}
+		}
+
+		private static IEnumerator TurnOnAllEmergancyLights()
+		{
+			if (MatrixManager.MainStationMatrix?.Objects == null) yield break;
+
+			var currentIndex = 0;
+			var maximumIndexes = 20;
+			foreach (var stationObject in MatrixManager.MainStationMatrix.Objects.GetComponentsInChildren<LightSource>())
+			{
+				if (currentIndex >= maximumIndexes)
+				{
+					currentIndex = 0;
+					yield return WaitFor.EndOfFrame;
+				}
+				stationObject.ServerChangeLightState(LightMountState.Emergency);
+				currentIndex++;
+			}
+		}
+
+
+		[Command(requiresAuthority = false)]
+		public void DestroyAllLights(NetworkConnectionToClient conn = null)
+		{
+			if (IsAdmin(conn, out var player) == false) return;
+			StartCoroutine(KillLights());
+			Chat.AddSystemMsgToChat(
+				"<color=blue>Lights are being destroyed to save energy and spice up the crew-members' working experience.</color>",
+				MatrixManager.MainStationMatrix);
+		}
+
+		[Command(requiresAuthority = false)]
+		public void SelfSuficeAllMachines(NetworkConnectionToClient conn = null)
+		{
+			if (IsAdmin(conn, out var player) == false) return;
+			StartCoroutine(SelfPowerEverything());
+			Chat.AddSystemMsgToChat(
+				"<color=blue>An admin is updating all machines on the station to not require APCs.</color>",
+				MatrixManager.MainStationMatrix);
+		}
+
+		[Command(requiresAuthority = false)]
+		public void TurnOnEmergencyLightsStationWide(NetworkConnectionToClient conn = null)
+		{
+			if (IsAdmin(conn, out var player) == false) return;
+			StartCoroutine(TurnOnAllEmergancyLights());
+			Chat.AddSystemMsgToChat(
+				"<color=red>Emergency Lights active.</color>",
+				MatrixManager.MainStationMatrix);
 		}
 
 		#endregion
