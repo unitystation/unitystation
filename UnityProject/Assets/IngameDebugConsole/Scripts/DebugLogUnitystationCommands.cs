@@ -712,5 +712,11 @@ namespace IngameDebugConsole
 		{
 			AdminCommandsManager.Instance.SelfSuficeAllMachines();
 		}
+
+		[ConsoleMethod("emergency-lights", "Turns on the emergency lights for all light fixtures on the staiton.")]
+		public static void ActivateEmergencyLights()
+		{
+			AdminCommandsManager.Instance.TurnOnEmergencyLightsStationWide();
+		}
 	}
 }

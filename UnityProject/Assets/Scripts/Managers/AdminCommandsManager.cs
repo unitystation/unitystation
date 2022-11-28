@@ -1223,6 +1223,21 @@ namespace AdminCommands
 			}
 		}
 
+		private static IEnumerator TurnOnAllEmergancyLights()
+		{
+			if (MatrixManager.MainStationMatrix?.Objects == null) yield break;
+
+			var currentIndex = 0;
+			var maximumIndexes = 20;
+			foreach (var stationObject in MatrixManager.MainStationMatrix.Objects.GetComponentsInChildren<LightSource>())
+			{
+				if (currentIndex >= maximumIndexes) yield return WaitFor.EndOfFrame;
+				stationObject.ServerChangeLightState(LightMountState.Emergency);
+				currentIndex++;
+			}
+		}
+
+
 		[Command(requiresAuthority = false)]
 		public void DestroyAllLights()
 		{
@@ -1240,6 +1255,16 @@ namespace AdminCommands
 			PlayerManager.LocalPlayerScript.StartCoroutine(SelfPowerEverything());
 			Chat.AddSystemMsgToChat(
 				"<color=blue>An admin is updating all machines on the station to not require APCs.</color>",
+				MatrixManager.MainStationMatrix);
+		}
+
+		[Command(requiresAuthority = false)]
+		public void TurnOnEmergencyLightsStationWide()
+		{
+			if(IsAdmin() == false) return;
+			PlayerManager.LocalPlayerScript.StartCoroutine(TurnOnAllEmergancyLights());
+			Chat.AddSystemMsgToChat(
+				"<color=red>Emergency Lights active.</color>",
 				MatrixManager.MainStationMatrix);
 		}
 
