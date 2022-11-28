@@ -75,7 +75,7 @@ namespace IngameDebugConsole
 			playerBody.ApplyDamageAll(null, 2, AttackType.Internal, DamageType.Clone, false);
 		}
 
-		[ConsoleMethod("clearProtips", "Clears all saved states of protips.")]
+		[ConsoleMethod("clear-protips", "Clears all saved states of protips.")]
 		public static void ClearAllProtips()
 		{
 			ProtipManager.Instance.ClearSaveState();
@@ -87,7 +87,7 @@ namespace IngameDebugConsole
 			UIManager.Instance.FirstTimePlayerExperienceScreen.SetActive(true);
 		}
 
-		[ConsoleMethod("checkObjectivesStatus", "check the current status of your objectives")]
+		[ConsoleMethod("check-objectives-status", "check the current status of your objectives")]
 		public static void CheckObjectivesStatus()
 		{
 			bool playerSpawned = PlayerManager.LocalPlayerObject != null;
