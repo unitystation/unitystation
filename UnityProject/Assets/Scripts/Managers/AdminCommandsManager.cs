@@ -1247,7 +1247,7 @@ namespace AdminCommands
 		public void DestroyAllLights(NetworkConnectionToClient conn = null)
 		{
 			if (IsAdmin(conn, out var player) == false) return;
-			player.Script.StartCoroutine(KillLights());
+			StartCoroutine(KillLights());
 			Chat.AddSystemMsgToChat(
 				"<color=blue>Lights are being destroyed to save energy and spice up the crew-members' working experience.</color>",
 				MatrixManager.MainStationMatrix);
@@ -1257,7 +1257,7 @@ namespace AdminCommands
 		public void SelfSuficeAllMachines(NetworkConnectionToClient conn = null)
 		{
 			if (IsAdmin(conn, out var player) == false) return;
-			player.Script.StartCoroutine(SelfPowerEverything());
+			StartCoroutine(SelfPowerEverything());
 			Chat.AddSystemMsgToChat(
 				"<color=blue>An admin is updating all machines on the station to not require APCs.</color>",
 				MatrixManager.MainStationMatrix);
@@ -1267,7 +1267,7 @@ namespace AdminCommands
 		public void TurnOnEmergencyLightsStationWide(NetworkConnectionToClient conn = null)
 		{
 			if (IsAdmin(conn, out var player) == false) return;
-			player.Script.StartCoroutine(TurnOnAllEmergancyLights());
+			StartCoroutine(TurnOnAllEmergancyLights());
 			Chat.AddSystemMsgToChat(
 				"<color=red>Emergency Lights active.</color>",
 				MatrixManager.MainStationMatrix);

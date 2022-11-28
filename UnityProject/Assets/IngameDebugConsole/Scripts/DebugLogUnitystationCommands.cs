@@ -713,21 +713,21 @@ namespace IngameDebugConsole
 		public static void DestroyAllLights()
 		{
 			if(IsAdmin() == false) return;
-			AdminCommandsManager.Instance.DestroyAllLights(PlayerManager.LocalPlayerScript.connectionToServer);
+			AdminCommandsManager.Instance.DestroyAllLights(PlayerManager.LocalPlayerScript.connectionToClient);
 		}
 
 		[ConsoleMethod("free-power", "gives free power to everything.")]
 		public static void SelfSuficeAllMachines()
 		{
 			if(IsAdmin() == false) return;
-			AdminCommandsManager.Instance.SelfSuficeAllMachines(PlayerManager.LocalPlayerScript.connectionToServer);
+			AdminCommandsManager.Instance.SelfSuficeAllMachines(PlayerManager.LocalPlayerScript.connectionToClient);
 		}
 
 		[ConsoleMethod("emergency-lights", "Turns on the emergency lights for all light fixtures on the staiton.")]
 		public static void ActivateEmergencyLights()
 		{
 			if(IsAdmin() == false) return;
-			AdminCommandsManager.Instance.TurnOnEmergencyLightsStationWide(PlayerManager.LocalPlayerScript.connectionToServer);
+			AdminCommandsManager.Instance.TurnOnEmergencyLightsStationWide(PlayerManager.LocalPlayerScript.connectionToClient);
 		}
 	}
 }
