@@ -11,6 +11,7 @@ using HealthV2;
 using Messages.Client;
 using Messages.Server;
 using Messages.Server.HealthMessages;
+using Mirror;
 using Objects.Engineering;
 using Objects.Lighting;
 using ScriptableObjects;
@@ -25,6 +26,13 @@ namespace IngameDebugConsole
 	/// </summary>
 	public class DebugLogUnitystationCommands : MonoBehaviour
 	{
+		private static bool IsAdmin()
+		{
+			if (CustomNetworkManager.IsHeadless) return false;
+			if (AdminCommandsManager.IsAdmin(PlayerManager.LocalPlayerScript.PlayerInfo.Connection, out _) != false) return true;
+			Logger.Log("This function can only be executed by admins.", Category.DebugConsole);
+			return false;
+		}
 
 #if UNITY_EDITOR
 		[MenuItem("Tool/ConveyorBeltTool")]
@@ -43,7 +51,7 @@ namespace IngameDebugConsole
 				return;
 			}
 			//TODO : Add a check to see which gamemode the player is on currently once sandbox is in instead of locking this behind for admins only.
-			if(AdminCommandsManager.IsAdmin() == false) return;
+			if(IsAdmin() == false) return;
 			UIManager.BuildMenu.ShowConveyorBeltMenu();
 		}
 #if UNITY_EDITOR
@@ -51,14 +59,14 @@ namespace IngameDebugConsole
 #endif
 		public static void ShowScoreUI()
 		{
-			if (AdminCommandsManager.IsAdmin() == false) return;
+			if (IsAdmin() == false) return;
 			RoundEndScoreBuilder.Instance.CalculateScoresAndShow();
 		}
 
 		[ConsoleMethod("CloneSelf", "Allows user to test cloning quickly.")]
 		public static void CloneSelf()
 		{
-			if (AdminCommandsManager.IsAdmin() == false) return;
+			if (IsAdmin() == false) return;
 			var mind = PlayerManager.LocalPlayerScript.Mind;
 			var playerBody = PlayerSpawn.RespawnPlayer(mind, mind.occupation, mind.CurrentCharacterSettings).GetComponent<LivingHealthMasterBase>();
 			playerBody.ApplyDamageAll(null, 2, AttackType.Internal, DamageType.Clone, false);
@@ -704,19 +712,22 @@ namespace IngameDebugConsole
 		[ConsoleMethod("destroy-all-lights", "destroys all lights on the main station.")]
 		public static void DestroyAllLights()
 		{
-			AdminCommandsManager.Instance.DestroyAllLights();
+			if(IsAdmin() == false) return;
+			AdminCommandsManager.Instance.DestroyAllLights(PlayerManager.LocalPlayerScript.connectionToServer);
 		}
 
 		[ConsoleMethod("free-power", "gives free power to everything.")]
 		public static void SelfSuficeAllMachines()
 		{
-			AdminCommandsManager.Instance.SelfSuficeAllMachines();
+			if(IsAdmin() == false) return;
+			AdminCommandsManager.Instance.SelfSuficeAllMachines(PlayerManager.LocalPlayerScript.connectionToServer);
 		}
 
 		[ConsoleMethod("emergency-lights", "Turns on the emergency lights for all light fixtures on the staiton.")]
 		public static void ActivateEmergencyLights()
 		{
-			AdminCommandsManager.Instance.TurnOnEmergencyLightsStationWide();
+			if(IsAdmin() == false) return;
+			AdminCommandsManager.Instance.TurnOnEmergencyLightsStationWide(PlayerManager.LocalPlayerScript.connectionToServer);
 		}
 	}
 }

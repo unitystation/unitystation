@@ -92,13 +92,6 @@ namespace AdminCommands
 			return true;
 		}
 
-		public static bool IsAdmin()
-		{
-			if (IsAdmin(PlayerManager.LocalPlayerScript.PlayerInfo.Connection, out _) != false) return true;
-			Logger.Log("This function can only be executed by admins.", Category.DebugConsole);
-			return false;
-		}
-
 		#region Server Settings
 
 		[Command(requiresAuthority = false)]
@@ -1203,7 +1196,11 @@ namespace AdminCommands
 			var maximumIndexes = 20;
 			foreach (var stationObject in MatrixManager.MainStationMatrix.Objects.GetComponentsInChildren<LightSource>())
 			{
-				if (currentIndex >= maximumIndexes) yield return WaitFor.EndOfFrame;
+				if (currentIndex >= maximumIndexes)
+				{
+					currentIndex = 0;
+					yield return WaitFor.EndOfFrame;
+				}
 				stationObject.Integrity.ForceDestroy();
 				currentIndex++;
 			}
@@ -1217,7 +1214,11 @@ namespace AdminCommands
 			var maximumIndexes = 20;
 			foreach (var stationObject in MatrixManager.MainStationMatrix.Objects.GetComponentsInChildren<APCPoweredDevice>())
 			{
-				if (currentIndex >= maximumIndexes) yield return WaitFor.EndOfFrame;
+				if (currentIndex >= maximumIndexes)
+				{
+					currentIndex = 0;
+					yield return WaitFor.EndOfFrame;
+				}
 				stationObject.ChangeToSelfPowered();
 				currentIndex++;
 			}
@@ -1231,7 +1232,11 @@ namespace AdminCommands
 			var maximumIndexes = 20;
 			foreach (var stationObject in MatrixManager.MainStationMatrix.Objects.GetComponentsInChildren<LightSource>())
 			{
-				if (currentIndex >= maximumIndexes) yield return WaitFor.EndOfFrame;
+				if (currentIndex >= maximumIndexes)
+				{
+					currentIndex = 0;
+					yield return WaitFor.EndOfFrame;
+				}
 				stationObject.ServerChangeLightState(LightMountState.Emergency);
 				currentIndex++;
 			}
@@ -1239,9 +1244,9 @@ namespace AdminCommands
 
 
 		[Command(requiresAuthority = false)]
-		public void DestroyAllLights()
+		public void DestroyAllLights(NetworkConnection player)
 		{
-			if(IsAdmin() == false) return;
+			if (IsAdmin(player, out var _) == false) return;
 			PlayerManager.LocalPlayerScript.StartCoroutine(KillLights());
 			Chat.AddSystemMsgToChat(
 				"<color=blue>Lights are being destroyed to save energy and spice up the crew-members' working experience.</color>",
@@ -1249,9 +1254,9 @@ namespace AdminCommands
 		}
 
 		[Command(requiresAuthority = false)]
-		public void SelfSuficeAllMachines()
+		public void SelfSuficeAllMachines(NetworkConnection player)
 		{
-			if(IsAdmin() == false) return;
+			if (IsAdmin(player, out var _) == false) return;
 			PlayerManager.LocalPlayerScript.StartCoroutine(SelfPowerEverything());
 			Chat.AddSystemMsgToChat(
 				"<color=blue>An admin is updating all machines on the station to not require APCs.</color>",
@@ -1259,9 +1264,9 @@ namespace AdminCommands
 		}
 
 		[Command(requiresAuthority = false)]
-		public void TurnOnEmergencyLightsStationWide()
+		public void TurnOnEmergencyLightsStationWide(NetworkConnection player)
 		{
-			if(IsAdmin() == false) return;
+			if (IsAdmin(player, out var _) == false) return;
 			PlayerManager.LocalPlayerScript.StartCoroutine(TurnOnAllEmergancyLights());
 			Chat.AddSystemMsgToChat(
 				"<color=red>Emergency Lights active.</color>",
