@@ -1244,9 +1244,9 @@ namespace AdminCommands
 
 
 		[Command(requiresAuthority = false)]
-		public void DestroyAllLights(NetworkConnection player)
+		public void DestroyAllLights(NetworkConnectionToClient conn = null)
 		{
-			if (IsAdmin(player, out var _) == false) return;
+			if (IsAdmin(conn, out var _) == false) return;
 			PlayerManager.LocalPlayerScript.StartCoroutine(KillLights());
 			Chat.AddSystemMsgToChat(
 				"<color=blue>Lights are being destroyed to save energy and spice up the crew-members' working experience.</color>",
@@ -1254,9 +1254,9 @@ namespace AdminCommands
 		}
 
 		[Command(requiresAuthority = false)]
-		public void SelfSuficeAllMachines(NetworkConnection player)
+		public void SelfSuficeAllMachines(NetworkConnectionToClient conn = null)
 		{
-			if (IsAdmin(player, out var _) == false) return;
+			if (IsAdmin(conn, out var _) == false) return;
 			PlayerManager.LocalPlayerScript.StartCoroutine(SelfPowerEverything());
 			Chat.AddSystemMsgToChat(
 				"<color=blue>An admin is updating all machines on the station to not require APCs.</color>",
@@ -1264,9 +1264,9 @@ namespace AdminCommands
 		}
 
 		[Command(requiresAuthority = false)]
-		public void TurnOnEmergencyLightsStationWide(NetworkConnection player)
+		public void TurnOnEmergencyLightsStationWide(NetworkConnectionToClient conn = null)
 		{
-			if (IsAdmin(player, out var _) == false) return;
+			if (IsAdmin(conn, out var _) == false) return;
 			PlayerManager.LocalPlayerScript.StartCoroutine(TurnOnAllEmergancyLights());
 			Chat.AddSystemMsgToChat(
 				"<color=red>Emergency Lights active.</color>",
