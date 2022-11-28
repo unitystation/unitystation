@@ -47,8 +47,7 @@ Shader "PostProcess/Blur"
 
 	fixed4 frag (vertexOutput IN) : SV_Target
 	{
-		fixed3 color = tex2D(_MainTex, IN.texcoord);
-		return fixed4(color, 1.0);
+		return tex2D(_MainTex, IN.texcoord);
 	}
 
 	//
@@ -112,15 +111,15 @@ Shader "PostProcess/Blur"
 
 	fixed4 frag5Blur (output_5tap IN) : SV_Target
 	{
-		fixed3 mainSample = tex2D(_MainTex, IN.texcoord).xyz;
+		fixed4 mainSample = tex2D(_MainTex, IN.texcoord);
 
-		fixed3 blurredSum = mainSample * 0.2; 
-		blurredSum += tex2D(_MainTex, IN.blurTexcoord[0].xy).xyz * 0.2;
-		blurredSum += tex2D(_MainTex, IN.blurTexcoord[0].zw).xyz * 0.2;
-		blurredSum += tex2D(_MainTex, IN.blurTexcoord[1].xy).xyz * 0.2;
-		blurredSum += tex2D(_MainTex, IN.blurTexcoord[1].zw).xyz * 0.2;
+		fixed4 blurredSum = mainSample * 0.2; 
+		blurredSum += tex2D(_MainTex, IN.blurTexcoord[0].xy) * 0.2;
+		blurredSum += tex2D(_MainTex, IN.blurTexcoord[0].zw) * 0.2;
+		blurredSum += tex2D(_MainTex, IN.blurTexcoord[1].xy) * 0.2;
+		blurredSum += tex2D(_MainTex, IN.blurTexcoord[1].zw) * 0.2;
 
-		return blurredSum.rgbb;
+		return blurredSum;
 	}
 
 	ENDCG

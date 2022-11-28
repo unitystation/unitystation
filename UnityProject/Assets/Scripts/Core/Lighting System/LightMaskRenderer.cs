@@ -30,7 +30,7 @@ public class LightMaskRenderer : MonoBehaviour
 
 		return _maskProcessor;
 	}
-	
+
 	public PixelPerfectRT Render(
 		Camera iCameraToMatch,
 		PixelPerfectRTParameter iPPRTParameter,
@@ -55,10 +55,10 @@ public class LightMaskRenderer : MonoBehaviour
 		mPreviousFilteredPosition = _renderPosition;
 
 		mMaskCamera.enabled = false;
-		mMaskCamera.backgroundColor = Color.black;
+		mMaskCamera.backgroundColor = Color.clear;
 		mMaskCamera.transform.position = _renderPosition;
 		mMaskCamera.orthographicSize = iPPRTParameter.orthographicSize;
-		mMaskCamera.cullingMask = iRenderSettings.lightSourceLayers; 
+		mMaskCamera.cullingMask = iRenderSettings.lightSourceLayers;
 
 		if (mPPRenderTexture == null)
 		{

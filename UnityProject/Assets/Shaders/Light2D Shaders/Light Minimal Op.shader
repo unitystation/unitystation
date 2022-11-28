@@ -16,7 +16,9 @@ SubShader {
 
 	LOD 100
 	//Blend OneMinusDstColor One
-	BlendOp Max
+	BlendOp Add, Max
+	Blend OneMinusDstColor One, OneMinusDstAlpha One
+	
 	Cull Off
 	ZWrite Off
 	Lighting Off

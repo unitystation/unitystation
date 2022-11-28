@@ -61,28 +61,35 @@
 				fixed4 occLightSample = tex2D(_ObstacleLightMask, i.lightUv);
 
 				float _obstacleMask = occlusionSample.r;
-				fixed4 mixedLight = lightSample * (1-_obstacleMask) +((occLightSample-0.2)*0.5) * _obstacleMask;
+				fixed4 mixedLight = lightSample;
 				fixed4 screen = tex2D(_MainTex, i.uv);
 
-				//expand colour range
-				fixed4 doubleBalanceLight = mixedLight*2;
+				mixedLight = mixedLight *1.5;
+
+				float length = sqrt( (mixedLight.r*2) + (mixedLight.g*2) + (mixedLight.b*2));
+				//make it 1 Magnitude because brightness is determined by alpha
+				fixed3 normaliseColour = (mixedLight / (length/2.25)) ; //* 5.75;
+			
 				
-		
+				fixed3 BalanceLight = clamp(normaliseColour * clamp( occLightSample.a +  mixedLight.a + 0.55, 0,1), 0, 1);
+				
+				BalanceLight = BalanceLight + (( occLightSample * 0.75 ) * (_obstacleMask));
 				//generate bloom 
-				fixed4 balancedMixLight = (lightSample - 0.75)*0.5;
-				balancedMixLight.r = clamp(balancedMixLight.r,0, 10);
-				balancedMixLight.g = clamp(balancedMixLight.g,0, 10);
-				balancedMixLight.b = clamp(balancedMixLight.b,0, 10);
-				
+				fixed3 balancedMixLight =  clamp(BalanceLight*(mixedLight.a - 0.66), 0, 10)*1;
+				//+balancedMixLight
+
+				fixed4 NewBalanceLight = fixed4(BalanceLight,0);
 				// Blend light with scene.
-				fixed4 screenLit =  fixed4( ((screen.rgb*doubleBalanceLight)+balancedMixLight) , screen.a);
+				fixed4 screenLit =  fixed4( ((screen.rgb*NewBalanceLight+balancedMixLight)) , screen.a);
 				
 				// Mix Background.
 				fixed4 background = tex2D(_BackgroundTex, i.uv);
 				float backgroundMask = clamp(occlusionSample.g-(screen.a * 2), 0, 1);
 				fixed4 screenLitBackground = background * backgroundMask + screenLit;
 
+				//return (lightSample.a,lightSample.a,lightSample.a,lightSample.a);
 				return screenLitBackground;
+				//return fixed4(normaliseColour, 1);
 			}
 			
 			ENDCG
