@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AdminCommands;
 using UnityEngine;
 using UnityEditor;
 using Systems.Atmospherics;
@@ -42,7 +43,7 @@ namespace IngameDebugConsole
 				return;
 			}
 			//TODO : Add a check to see which gamemode the player is on currently once sandbox is in instead of locking this behind for admins only.
-			if(IsAdmin() == false) return;
+			if(AdminCommandsManager.IsAdmin() == false) return;
 			UIManager.BuildMenu.ShowConveyorBeltMenu();
 		}
 #if UNITY_EDITOR
@@ -50,14 +51,14 @@ namespace IngameDebugConsole
 #endif
 		public static void ShowScoreUI()
 		{
-			if(IsAdmin() == false) return;
+			if (AdminCommandsManager.IsAdmin() == false) return;
 			RoundEndScoreBuilder.Instance.CalculateScoresAndShow();
 		}
 
 		[ConsoleMethod("CloneSelf", "Allows user to test cloning quickly.")]
 		public static void CloneSelf()
 		{
-			if(IsAdmin() == false) return;
+			if (AdminCommandsManager.IsAdmin() == false) return;
 			var mind = PlayerManager.LocalPlayerScript.Mind;
 			var playerBody = PlayerSpawn.RespawnPlayer(mind, mind.occupation, mind.CurrentCharacterSettings).GetComponent<LivingHealthMasterBase>();
 			playerBody.ApplyDamageAll(null, 2, AttackType.Internal, DamageType.Clone, false);
@@ -700,59 +701,16 @@ namespace IngameDebugConsole
 			PlayerList.Instance.ProcessAdminEnableRequest(ServerData.UserID, userIDToPromote);
 		}
 
-		private static IEnumerator KillLights()
-		{
-			if (MatrixManager.MainStationMatrix?.Objects == null) yield break;
-
-			var currentIndex = 0;
-			var maximumIndexes = 20;
-			foreach (var stationObject in MatrixManager.MainStationMatrix.Objects.GetComponentsInChildren<LightSource>())
-			{
-				if (currentIndex >= maximumIndexes) yield return WaitFor.EndOfFrame;
-				stationObject.Integrity.ForceDestroy();
-				currentIndex++;
-			}
-		}
-
-		private static IEnumerator SelfPowerEverything()
-		{
-			if (MatrixManager.MainStationMatrix?.Objects == null) yield break;
-
-			var currentIndex = 0;
-			var maximumIndexes = 20;
-			foreach (var stationObject in MatrixManager.MainStationMatrix.Objects.GetComponentsInChildren<APCPoweredDevice>())
-			{
-				if (currentIndex >= maximumIndexes) yield return WaitFor.EndOfFrame;
-				stationObject.ChangeToSelfPowered();
-				currentIndex++;
-			}
-		}
-
-		public static bool IsAdmin()
-		{
-			if (AdminCommands.AdminCommandsManager.IsAdmin(PlayerManager.LocalPlayerScript.PlayerInfo.Connection, out _) != false) return true;
-			Logger.Log("This function can only be executed by admins.", Category.DebugConsole);
-			return false;
-		}
-
 		[ConsoleMethod("destroy-all-lights", "destroys all lights on the main station.")]
 		public static void DestroyAllLights()
 		{
-			if(IsAdmin() == false) return;
-			PlayerManager.LocalPlayerScript.StartCoroutine(KillLights());
-			Chat.AddSystemMsgToChat(
-				"<color=blue>Lights are being destroyed to save energy and spice up the crew-members' working experience.</color>",
-				MatrixManager.MainStationMatrix);
+			AdminCommandsManager.Instance.DestroyAllLights();
 		}
 
 		[ConsoleMethod("free-power", "gives free power to everything.")]
 		public static void SelfSuficeAllMachines()
 		{
-			if(IsAdmin() == false) return;
-			PlayerManager.LocalPlayerScript.StartCoroutine(SelfPowerEverything());
-			Chat.AddSystemMsgToChat(
-				"<color=blue>An admin is updating all machines on the station to not require APCs.</color>",
-				MatrixManager.MainStationMatrix);
+			AdminCommandsManager.Instance.SelfSuficeAllMachines();
 		}
 	}
 }
