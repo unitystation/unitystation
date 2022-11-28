@@ -81,7 +81,7 @@ namespace IngameDebugConsole
 			ProtipManager.Instance.ClearSaveState();
 		}
 
-		[ConsoleMethod("ShowFirstTimeExpScreen", "Shows the player experience screen.")]
+		[ConsoleMethod("show-first-time-exp-screen", "Shows the player experience screen.")]
 		public static void ShowFirstTimeExpScreen()
 		{
 			UIManager.Instance.FirstTimePlayerExperienceScreen.SetActive(true);
