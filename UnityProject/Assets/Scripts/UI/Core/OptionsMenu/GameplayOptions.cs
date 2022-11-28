@@ -1,4 +1,3 @@
-using System;
 using Learning;
 using TMPro;
 using UnityEngine;
