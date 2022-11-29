@@ -1,0 +1,47 @@
+name: Feature request
+description: Suggest an idea for the game
+title: ''
+labels: 'Type: Feature'
+body:
+- type: checkboxes
+  attributes:
+    label: There is no other issue with the same feature request.
+    description: Please take some time and try to find another issue with the same feature request you encountered.
+    options:
+    - label: I have searched the existing issues
+      required: true
+
+- type: textarea
+  attributes:
+    label: Why is this feature needed/good for the game?
+    description: A clear and concise description of why this feature is needed. You can describe the problem it solves, or the benefit it brings.
+    placeholder: I'm always frustrated when I can't hug the clown without it exploding.
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: Describe your feature in detail.
+    description: What should it do? How should it work? What should it look like? What other systems should it interact with?
+    placeholder: I want a safe hug button that once clicked, will make the player hug the nearest clown without exploding.
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: User stories
+    description: Write a list of user stories for this feature. A user story is a sentence that describes a feature from the perspective of the user. For example "As a player, I want to be able to hug the clown without it exploding."
+    placeholder: |
+    "As a player, I want to be able to hug the clown without it exploding."
+    "As a clown player, I want to be able to hug the HOS without me exploding."
+    "As a developer, I want a clear hugging interface that can be used by other features."
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: Describe alternatives you've considered.
+    description: What other solutions have you considered? What other features are similar to this one? What would be the downsides of this feature?
+    placeholder: I considered making the clown hug me back, but that would be too much work.
+  validations:
+    required: false
