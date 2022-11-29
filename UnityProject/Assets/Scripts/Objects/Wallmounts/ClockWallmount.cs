@@ -23,12 +23,14 @@ namespace Objects.Wallmounts
 
 		private void Awake()
 		{
+			if(CustomNetworkManager.IsServer == false) return;
 			InGameTimeManager.Instance.OnUpdateTime += SetCorrectTime;
 			UpdateManager.Add(PlaySound, TICK_TIME);
 		}
 
 		private void OnDisable()
 		{
+			if(CustomNetworkManager.IsServer == false) return;
 			InGameTimeManager.Instance.OnUpdateTime -= SetCorrectTime;
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PlaySound);
 		}
