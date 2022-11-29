@@ -19,7 +19,7 @@ namespace Objects.Wallmounts
 		[SerializeField] private AddressableAudioSource tickSound;
 
 		private bool messedWith = false;
-		private const int TICK_TIME = 1;
+		private const float TICK_TIME = 1.75f;
 
 
 		private void Start()
@@ -35,7 +35,7 @@ namespace Objects.Wallmounts
 
 		private void PlaySound()
 		{
-			SoundManager.PlayNetworkedAtPos(tickSound, gameObject.AssumedWorldPosServer(), new AudioSourceParameters(Random.Range(0.75f, 0.50f)));
+			SoundManager.PlayNetworkedAtPos(tickSound, gameObject.AssumedWorldPosServer());
 		}
 
 		public string Examine(Vector3 worldPos = default(Vector3))
