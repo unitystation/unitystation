@@ -33,6 +33,8 @@ namespace Managers
 		{
 			if (CustomNetworkManager.Instance == null || CustomNetworkManager.IsServer == false) return;
 			UniversalSpaceTime = DateTime.Now.AddYears(GAME_YEAR);
+			UniversalSpaceTime = DateTime.Now.AddDays(Random.Range(1,5));
+			UniversalSpaceTime = DateTime.Now.AddMonths(Random.Range(1,5));
 		}
 
 		private void UpdateClients()

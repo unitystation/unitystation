@@ -1,18 +1,31 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Managers;
+using Mirror;
+using Systems.Explosions;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Objects.Wallmounts
 {
-	public class ClockWallmount : MonoBehaviour, IExaminable, IHoverTooltip
+	public class ClockWallmount : NetworkBehaviour, IExaminable, IHoverTooltip, IEmpAble, ICheckedInteractable<HandApply>
 	{
+		[SyncVar] private DateTime UST;
+
+		private bool messedWith = false;
+
+
+		private void Start()
+		{
+			SetCorrectTime();
+		}
 
 		public string Examine(Vector3 worldPos = default(Vector3))
 		{
 			var report = new StringBuilder();
-			report.AppendLine($"UST currently is: {InGameTimeManager.Instance.UniversalSpaceTime}");
+			report.AppendLine($"UST currently is: {UST}");
 			report.AppendLine($"UTC currently is: {InGameTimeManager.Instance.UtcTime}");
 			return report.ToString();
 		}
@@ -47,6 +60,41 @@ namespace Objects.Wallmounts
 			};
 			interactions.Add(text);
 			return interactions;
+		}
+
+		private void MessWithMagnetTime()
+		{
+			UST = UST.AddHours(Random.Range(1, 5));
+		}
+
+		private void SetCorrectTime()
+		{
+			if (CustomNetworkManager.IsServer) UST = InGameTimeManager.Instance.UniversalSpaceTime;
+		}
+
+		public void OnEmp(int EmpStrength)
+		{
+			MessWithMagnetTime();
+		}
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			return DefaultWillInteract.Default(interaction, side);
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			messedWith = !messedWith;
+			var msg = messedWith ? "messed with the time" : "corrected the time";
+			if (messedWith)
+			{
+				MessWithMagnetTime();
+			}
+			else
+			{
+				SetCorrectTime();
+			}
+			Chat.AddExamineMsg(interaction.Performer, $"You {msg}.");
 		}
 	}
 }
