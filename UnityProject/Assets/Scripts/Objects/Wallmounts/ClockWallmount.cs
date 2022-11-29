@@ -19,7 +19,7 @@ namespace Objects.Wallmounts
 
 		public string HoverTip()
 		{
-			return null;
+			return "There's a small analog screen below the arms that displays the date in more detail.";
 		}
 
 		public string CustomTitle()
