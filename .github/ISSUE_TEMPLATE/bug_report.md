@@ -8,6 +8,7 @@ assignees: ''
 ---
 
 <!-- Make sure to ask on discord or search existing issues first to avoid duplicates. -->
+<!-- We reserve the right to shut down any issues that may be considered low quality or unhelpful. -->
 
 ### Environment
 - Game Version: [Staging/Stable] - [Version Number/Bulid Date]
