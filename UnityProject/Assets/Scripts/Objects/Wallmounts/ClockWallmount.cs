@@ -21,7 +21,7 @@ namespace Objects.Wallmounts
 		private bool messedWith = false;
 		private const float TICK_TIME = 1.75f;
 
-		private void Awake()
+		private void Start()
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 			InGameTimeManager.Instance.OnUpdateTime += SetCorrectTime;

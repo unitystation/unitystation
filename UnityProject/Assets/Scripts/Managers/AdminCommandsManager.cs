@@ -1273,12 +1273,6 @@ namespace AdminCommands
 				MatrixManager.MainStationMatrix);
 		}
 
-		[ClientRpc]
-		public void UpdateInGameTime(DateTime time)
-		{
-			InGameTimeManager.Instance.UniversalSpaceTime = time;
-		}
-
 		#endregion
 	}
 }

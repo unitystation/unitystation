@@ -18,30 +18,21 @@ namespace Managers
 		{
 			base.Awake();
 			EventManager.AddHandler(Event.RoundStarted, ServerSetupUniversalSpaceTime);
-			EventManager.RemoveHandler(Event.PlayerRejoined, UpdateClients);
-			EventManager.RemoveHandler(Event.PlayerSpawned, UpdateClients);
 			UtcTime = DateTime.UtcNow.AddYears(GAME_YEAR);
 		}
 
 		private void OnDisable()
 		{
 			EventManager.RemoveHandler(Event.RoundStarted, ServerSetupUniversalSpaceTime);
-			EventManager.RemoveHandler(Event.PlayerRejoined, UpdateClients);
-			EventManager.RemoveHandler(Event.PlayerSpawned, UpdateClients);
 		}
 
 		private void ServerSetupUniversalSpaceTime()
 		{
 			if (CustomNetworkManager.Instance == null || CustomNetworkManager.IsServer == false) return;
 			UniversalSpaceTime = DateTime.Now.AddYears(GAME_YEAR);
-			UniversalSpaceTime = DateTime.Now.AddDays(Random.Range(1,5));
-			UniversalSpaceTime = DateTime.Now.AddMonths(Random.Range(1,5));
+			UniversalSpaceTime = DateTime.Now.AddDays(Random.Range(1, 5));
+			UniversalSpaceTime = DateTime.Now.AddMonths(Random.Range(1, 5));
 			OnUpdateTime?.Invoke();
-		}
-
-		private void UpdateClients()
-		{
-			AdminCommandsManager.Instance.UpdateInGameTime(UniversalSpaceTime);
 		}
 	}
 }
