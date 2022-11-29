@@ -71,11 +71,14 @@ Shader "Stencil/Unlit background masked emission" {
 
 		float intencity = i.color.r;
 		float additionalEmission = i.color.g;
-		fixed4 final = (textureSample * (intencity * 2)) + additionalEmission;
+		fixed4 final = (textureSample * intencity);
 
-		float maskChennel = maskSample.g + maskSample.r;
-		final.a = textureSample.a * clamp(maskChennel * 3 - 0.33333f, 0, 10);
+		float maskChennel =  maskSample.r;
 
+		//0.70 to Because 1 = blown out
+		//additionalEmission+1 , Because it goes between 0 and 1, and it should be default on its 0
+		final.a = textureSample.a * (additionalEmission+1) * 0.70 * maskChennel ;
+		
 		return final;
 	}
 		ENDCG

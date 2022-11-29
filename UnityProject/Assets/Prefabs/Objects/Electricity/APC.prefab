@@ -122,9 +122,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 967620e59e52cc14c89c22c4176bac09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mIntensity: 0.223
+  mIntensity: 0.5
   mAdditionalEmission: 0
-  mScale: 1.7
+  mScale: 1.1
 --- !u!1001 &3691865198508416630
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -452,6 +452,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   NetTabType: 6
   aiInteractable: 1
 --- !u!114 &8342472905829387893
@@ -468,7 +470,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  runningInterfaces: []
+  runningInterfaces:
+  - {fileID: 0}
+  - {fileID: 0}
   powerMachinery: 1
   powerLights: 1
   powerEnvironment: 1

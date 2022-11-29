@@ -122,9 +122,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 967620e59e52cc14c89c22c4176bac09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mIntensity: 0.5
+  mIntensity: 0.4
   mAdditionalEmission: 0
-  mScale: 1
+  mScale: 0.9
 --- !u!1 &8844773903192739836
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,9 +246,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 967620e59e52cc14c89c22c4176bac09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mIntensity: 0.5
+  mIntensity: 0.4
   mAdditionalEmission: 0
-  mScale: 1
+  mScale: 0.9
 --- !u!1001 &3074947235549192634
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -610,7 +610,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mIntensity: 0.5
   mAdditionalEmission: 0
-  mScale: 1
+  mScale: 0.76
 --- !u!114 &9108003409961094876 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,

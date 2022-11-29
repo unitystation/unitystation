@@ -16,7 +16,7 @@ namespace Objects.Wallmounts
 			base.Awake();
 		}
 
-		protected override void SetAlpha(int alpha)
+		protected override void SetAlpha(float alpha)
 		{
 			text.color = new Color(text.color.r, text.color.g, text.color.b, alpha);
 		}
