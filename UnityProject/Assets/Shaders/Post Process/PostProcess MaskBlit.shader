@@ -75,9 +75,8 @@
 				
 				BalanceLight = BalanceLight + (( occLightSample * 0.75 ) * (_obstacleMask));
 				//generate bloom 
-				fixed3 balancedMixLight =  clamp(BalanceLight*(mixedLight.a - 0.66), 0, 10)*1;
-				//+balancedMixLight
-
+				fixed3 balancedMixLight =  clamp(normaliseColour*(mixedLight.a - 0.66), 0, 10)*1;
+				
 				fixed4 NewBalanceLight = fixed4(BalanceLight,0);
 				// Blend light with scene.
 				fixed4 screenLit =  fixed4( ((screen.rgb*NewBalanceLight+balancedMixLight)) , screen.a);
