@@ -15,7 +15,7 @@ assignees: ''
 
 ### Detailed description of bug
 
-<!-- What is broken? What should be happening instead? Include as much informations as possible. Images, gifs, or youtube videos are welcome! -->
+<!-- What is broken? Include as much informations as possible. Images, gifs, or youtube videos are welcome! -->
 
 ### What was supposed to happen.
 
