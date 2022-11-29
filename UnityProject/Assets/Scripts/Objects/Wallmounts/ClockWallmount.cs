@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using AddressableReferences;
 using Managers;
+using Messages.Server.SoundMessages;
 using Mirror;
 using Systems.Explosions;
 using UI.Systems.Tooltips.HoverTooltips;
@@ -14,12 +16,26 @@ namespace Objects.Wallmounts
 	{
 		[SyncVar] private DateTime UST;
 
+		[SerializeField] private AddressableAudioSource tickSound;
+
 		private bool messedWith = false;
+		private const int TICK_TIME = 1;
 
 
 		private void Start()
 		{
 			SetCorrectTime();
+			UpdateManager.Add(PlaySound, TICK_TIME);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PlaySound);
+		}
+
+		private void PlaySound()
+		{
+			SoundManager.PlayNetworkedAtPos(tickSound, gameObject.AssumedWorldPosServer(), new AudioSourceParameters(Random.Range(0.75f, 0.50f)));
 		}
 
 		public string Examine(Vector3 worldPos = default(Vector3))
