@@ -57,7 +57,7 @@ namespace IngameDebugConsole
 				report.AppendLine("-------");
 				report.AppendLine(e.ToString());
 				Logger.LogError(report.ToString());
-				// To avoid disruption, allow is admin to continue normally; the server will handle anti-cheat in it's own functions.
+				// To avoid disruption, allow IsAdmin() to continue normally; the server will handle anti-cheat in it's own functions.
 				return true;
 			}
 		}
