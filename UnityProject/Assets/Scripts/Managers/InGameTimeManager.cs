@@ -10,6 +10,7 @@ namespace Managers
 	{
 		public DateTime UniversalSpaceTime { get; set;}
 		public DateTime UtcTime { get; private set; }
+		public Action OnUpdateTime;
 		private const int GAME_YEAR = 2562;
 
 
@@ -35,6 +36,7 @@ namespace Managers
 			UniversalSpaceTime = DateTime.Now.AddYears(GAME_YEAR);
 			UniversalSpaceTime = DateTime.Now.AddDays(Random.Range(1,5));
 			UniversalSpaceTime = DateTime.Now.AddMonths(Random.Range(1,5));
+			OnUpdateTime?.Invoke();
 		}
 
 		private void UpdateClients()

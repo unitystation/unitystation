@@ -21,15 +21,15 @@ namespace Objects.Wallmounts
 		private bool messedWith = false;
 		private const float TICK_TIME = 1.75f;
 
-
-		private void Start()
+		private void Awake()
 		{
-			SetCorrectTime();
+			InGameTimeManager.Instance.OnUpdateTime += SetCorrectTime;
 			UpdateManager.Add(PlaySound, TICK_TIME);
 		}
 
 		private void OnDisable()
 		{
+			InGameTimeManager.Instance.OnUpdateTime -= SetCorrectTime;
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PlaySound);
 		}
 
@@ -83,9 +83,10 @@ namespace Objects.Wallmounts
 			UST = UST.AddHours(Random.Range(1, 5));
 		}
 
+		[Server]
 		private void SetCorrectTime()
 		{
-			if (CustomNetworkManager.IsServer) UST = InGameTimeManager.Instance.UniversalSpaceTime;
+			UST = InGameTimeManager.Instance.UniversalSpaceTime;
 		}
 
 		public void OnEmp(int EmpStrength)
