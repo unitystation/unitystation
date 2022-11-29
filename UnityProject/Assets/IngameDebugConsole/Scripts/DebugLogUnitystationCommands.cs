@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using AdminCommands;
 using UnityEngine;
 using UnityEditor;
@@ -29,10 +30,36 @@ namespace IngameDebugConsole
 	{
 		private static bool IsAdmin()
 		{
-			if (CustomNetworkManager.IsHeadless) return false;
-			if (AdminCommandsManager.IsAdmin(PlayerManager.LocalPlayerScript.PlayerInfo.Connection, out _) != false) return true;
-			Logger.Log("This function can only be executed by admins.", Category.DebugConsole);
-			return false;
+			try
+			{
+				if (CustomNetworkManager.IsHeadless)
+				{
+					Logger.Log("Will not execute this function on a headless server.");
+					return false;
+				}
+				if (AdminCommandsManager.IsAdmin(PlayerManager.LocalPlayerScript.PlayerInfo.Connection, out _) != false) return true;
+				Logger.Log("This function can only be executed by admins.", Category.DebugConsole);
+				return false;
+			}
+			catch (Exception e)
+			{
+				var report = new StringBuilder();
+				report.AppendLine("Attempted to check for local player if they're an admin but something went wrong..");
+				report.AppendLine("-----------");
+				report.AppendLine($"AdminCommandsManager not null: {AdminCommandsManager.Instance != null}");
+				report.AppendLine($"Player Manager not null: {PlayerManager.Instance != null}");
+				if (PlayerManager.Instance != null)
+				{
+					report.AppendLine($"Player Script not null: {PlayerManager.LocalPlayerScript != null}");
+					report.AppendLine($"Player Info not null: {PlayerManager.LocalPlayerScript.PlayerInfo != null}");
+					report.AppendLine($"Player connection not null: {PlayerManager.LocalPlayerScript.PlayerInfo?.Connection != null}");
+				}
+				report.AppendLine("-------");
+				report.AppendLine(e.ToString());
+				Logger.LogError(report.ToString());
+				// To avoid disruption, allow is admin to continue normally; the server will handle anti-cheat in it's own functions.
+				return true;
+			}
 		}
 
 #if UNITY_EDITOR
