@@ -118,7 +118,7 @@ namespace UI
 		public void SetupListeners()
 		{
 			UpdateState();
-			PlayerManager.LocalPlayerScript.DynamicItemStorage.OnContentsChangeClient.AddListener(InventoryChange);
+			PlayerManager.LocalPlayerObject.GetComponent<DynamicItemStorage>().OnContentsChangeClient.AddListener(InventoryChange);
 		}
 
 		public void InventoryChange()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core.Utils;
 using UnityEngine;
 
 namespace CameraEffects
@@ -28,10 +29,21 @@ namespace CameraEffects
 		private float drunkCameraTime = 0;
 
 		public LightingSystem LightingSystem;
-		
+
+
+		private MultiInterestBool blindness = new MultiInterestBool(true,
+			MultiInterestBool.RegisterBehaviour.RegisterFalse,
+			MultiInterestBool.BoolBehaviour.ReturnOnFalse);
+
+
+		public MultiInterestBool Blindness => blindness;
+
+
 		public void Awake()
 		{
 			LightingSystem = this.GetComponent<LightingSystem>();
+			blindness.OnBoolChange.AddListener(BlindnessValue);
+			
 			if (minimalVisibilitySprite != null)
 			{
 				MinimalVisibilityScale = minimalVisibilitySprite.transform.localScale;
@@ -70,6 +82,18 @@ namespace CameraEffects
 				ToggleDrunkEffectState(true);
 				drunkCamera.ModerateDrunk();
 				UpdateManager.Add(DoEffectTimeCheck, TIMER_INTERVAL);
+			}
+		}
+
+		public void BlindnessValue(bool IsBlind)
+		{
+			if (IsBlind)
+			{
+				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().LightingSystem.fovDistance = 0.65f;
+			}
+			else
+			{
+				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().LightingSystem.fovDistance = 15;
 			}
 		}
 

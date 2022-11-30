@@ -160,10 +160,23 @@ public static class PlayerSpawn
 	}
 
 
+	public static GameObject ClonePlayerAt(Mind mind, Occupation requestedOccupation, CharacterSheet character, Vector3? worldPos)
+	{
+		var body = SpawnAndApplyRole(mind, requestedOccupation, character, SpawnType.Clone).GetComponent<UniversalObjectPhysics>();
+		if (worldPos != null)
+		{
+			body.AppearAtWorldPositionServer(worldPos.Value);
+		}
+
+		return body.gameObject;
+	}
+
+
 	public enum SpawnType
 	{
 		NewSpawn,
-		ReSpawn
+		ReSpawn,
+		Clone
 	}
 
 
@@ -257,13 +270,27 @@ public static class PlayerSpawn
 			playerSprites.OnCharacterSettingsChange(toUseCharacterSettings);
 		}
 
-		body.GetComponent<DynamicItemStorage>()?.SetUpOccupation(requestedOccupation);
+
 		//determine where to spawn them
 		physics.AppearAtWorldPositionServer(GetSpawnPointForOccupation(requestedOccupation));
 
 		switch (spawnType)
 		{
 			case SpawnType.NewSpawn:
+				body.GetComponent<DynamicItemStorage>()?.SetUpOccupation(requestedOccupation);
+				if (requestedOccupation != null)
+				{
+					SpawnBannerMessage.Send(
+						body,
+						requestedOccupation.DisplayName,
+						requestedOccupation.SpawnSound.AssetAddress,
+						requestedOccupation.TextColor,
+						requestedOccupation.BackgroundColor,
+						requestedOccupation.PlaySound);
+				}
+				break;
+			case SpawnType.ReSpawn:
+				body.GetComponent<DynamicItemStorage>()?.SetUpOccupation(requestedOccupation);
 				if (requestedOccupation != null)
 				{
 					SpawnBannerMessage.Send(
@@ -333,6 +360,12 @@ public static class PlayerSpawn
 		}
 
 		newMind.GetComponent<GhostSprites>().SetGhostSprite(isAdmin);
+		if (account.ViewerScript != null)
+		{
+			_ = Despawn.ServerSingle(account.ViewerScript.gameObject);
+		}
+
+
 	}
 
 	private static void TransferAccountOccupyingMind(PlayerInfo account, Mind from, Mind to)
@@ -359,7 +392,6 @@ public static class PlayerSpawn
 			if (account.Connection != null)
 			{
 				NetworkServer.RemovePlayerForConnection(account.Connection, to.gameObject);
-				//
 			}
 		}
 
@@ -374,7 +406,7 @@ public static class PlayerSpawn
 			if (account.Connection != null)
 			{
 				NetworkServer.ReplacePlayerForConnection(account.Connection, to.gameObject);
-				//TriggerEventMessage.SendTo(To, Event.); //TODO Call this manually bitch
+				//TriggerEventMessage.SendTo(To, Event.); //TODO Call this manually
 			}
 
 			//can observe their new inventory
@@ -402,8 +434,6 @@ public static class PlayerSpawn
 				transfer.OnPlayerTransfer(account);
 			}
 			to.AccountEnteringMind(account);
-
-
 		}
 	}
 
