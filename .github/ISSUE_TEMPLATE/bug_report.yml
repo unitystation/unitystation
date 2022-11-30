@@ -18,7 +18,7 @@ body:
     description: The version of Unitystation you are playing.
     placeholder: 22xxxxxx
   validations:
-    required: true
+    required: false
 
 -type: dropdown
   attributes:
