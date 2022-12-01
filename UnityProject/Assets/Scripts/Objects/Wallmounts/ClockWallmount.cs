@@ -53,20 +53,11 @@ namespace Objects.Wallmounts
 			return "There's a small analog screen below the arms that displays the date in more detail.";
 		}
 
-		public string CustomTitle()
-		{
-			return null;
-		}
+		public string CustomTitle() => null;
 
-		public Sprite CustomIcon()
-		{
-			return null;
-		}
+		public Sprite CustomIcon() => null;
 
-		public List<Sprite> IconIndicators()
-		{
-			return null;
-		}
+		public List<Sprite> IconIndicators() => null;
 
 		public List<TextColor> InteractionsStrings()
 		{
@@ -80,6 +71,7 @@ namespace Objects.Wallmounts
 			return interactions;
 		}
 
+		[Server]
 		private void MessWithMagnetTime()
 		{
 			UST = UST.AddHours(Random.Range(1, 5));
