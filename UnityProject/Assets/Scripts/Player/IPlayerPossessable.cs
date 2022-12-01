@@ -63,7 +63,7 @@ public interface IPlayerPossessable
 
 	public void ClientInternalOnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer)
 	{
-		UIManager.Display.RejoinedEvent();
+
 		var input = GameObject.GetComponent<IPlayerControllable>();
 
 		if (GameObject.TryGetComponent<AiMouseInputController>(out var aiMouseInputController))

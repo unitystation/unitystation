@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core.Utils;
 using UnityEngine;
 
 namespace CameraEffects
@@ -28,10 +29,18 @@ namespace CameraEffects
 		private float drunkCameraTime = 0;
 
 		public LightingSystem LightingSystem;
-		
+
+
+
+
+		public float BlindFOVDistance = 0.65f;
+		public float FullVisionFOVDistance = 15;
+
+
 		public void Awake()
 		{
 			LightingSystem = this.GetComponent<LightingSystem>();
+
 			if (minimalVisibilitySprite != null)
 			{
 				MinimalVisibilityScale = minimalVisibilitySprite.transform.localScale;
@@ -70,6 +79,19 @@ namespace CameraEffects
 				ToggleDrunkEffectState(true);
 				drunkCamera.ModerateDrunk();
 				UpdateManager.Add(DoEffectTimeCheck, TIMER_INTERVAL);
+			}
+		}
+
+		//setts the FOV to emulate blindness on the player
+		public void BlindnessValue(bool isBlind)
+		{
+			if (isBlind)
+			{
+				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().LightingSystem.fovDistance = BlindFOVDistance;
+			}
+			else
+			{
+				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().LightingSystem.fovDistance = FullVisionFOVDistance;
 			}
 		}
 

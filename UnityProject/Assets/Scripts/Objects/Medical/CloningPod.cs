@@ -65,7 +65,7 @@ namespace Objects.Medical
 			}
 			if (record.mind.IsOnline())
 			{
-				var playerBody = PlayerSpawn.RespawnPlayerAt(record.mind,  record.mind.occupation, record.characterSettings, transform.position.CutToInt()).GetComponent<LivingHealthMasterBase>();
+				var playerBody = PlayerSpawn.ClonePlayerAt(record.mind,  record.mind.occupation,  record.mind.CurrentCharacterSettings, transform.position.CutToInt()).GetComponent<LivingHealthMasterBase>();
 				playerBody.ApplyDamageAll(this.gameObject, LimbCloningDamage, AttackType.Internal, DamageType.Clone, false);
 			}
 

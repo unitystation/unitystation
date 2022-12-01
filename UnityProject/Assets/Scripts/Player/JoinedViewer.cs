@@ -217,19 +217,21 @@ namespace Player
 				}
 			}
 
+
+
+			PlayerList.Instance.CheckAdminState(STVerifiedConnPlayer);
+			PlayerList.Instance.CheckMentorState(STVerifiedConnPlayer, STVerifiedUserid);
+
 			// If there's a logged off player, we will force them to rejoin their body
 			if (STVerifiedConnPlayer.Mind == null) //TODO Handle when someone gets kicked out of their mind
 			{
 				TargetLocalPlayerSetupNewPlayer(connectionToClient, GameManager.Instance.CurrentRoundState);
+				ClearCache();
 			}
 			else
 			{
 				StartCoroutine(WaitForLoggedOffObserver(STVerifiedConnPlayer.Mind));
 			}
-
-			PlayerList.Instance.CheckAdminState(STVerifiedConnPlayer);
-			PlayerList.Instance.CheckMentorState(STVerifiedConnPlayer, STVerifiedUserid);
-			ClearCache();
 		}
 
 		/// <summary>
@@ -263,6 +265,7 @@ namespace Player
 			TargetLocalPlayerRejoinUI(connectionToClient);
 
 			STVerifiedConnPlayer.Mind.OrNull()?.ReLog();
+			ClearCache();
 		}
 
 		[TargetRpc]

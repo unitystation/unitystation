@@ -31,12 +31,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public void OnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer)
 	{
-		if (isServer)
-		{
-			TriggerEventMessage.SendTo(GameObject, Event.PlayerSpawned);
-		}
-
-
 		Init();
 	}
 
@@ -259,16 +253,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 			EventManager.Broadcast(Event.UpdateChatChannels);
 			UpdateStatusTabUI();
-			UIManager.Instance.UI_SlotManager.SetActive(true);
-			UIManager.Instance.UI_SlotManager.UpdateUI();
 
 			waitTimeForRTTUpdate = 0f;
-
-			if (IsNormal)
-			{
-				UIManager.Internals.SetupListeners();
-				UIManager.Instance.panelHudBottomController.SetupListeners();
-			}
 
 			isUpdateRTT = true;
 		}
