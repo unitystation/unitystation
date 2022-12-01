@@ -47,7 +47,7 @@ namespace Player.Language
 
 		public void OnPlayerEnterBody()
 		{
-			if(isServer) return;
+			if(CustomNetworkManager.IsServer) return;
 
 			addedLanguages.Callback += OnLanguageListChange;
 
