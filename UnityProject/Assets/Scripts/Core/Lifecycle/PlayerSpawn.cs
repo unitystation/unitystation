@@ -160,6 +160,7 @@ public static class PlayerSpawn
 	}
 
 
+	//sets the SpawnType to Clone ( Character and with no Clothing  ) and Sets the position of the spawned body to the specified Position, Doesn't apply damage
 	public static GameObject ClonePlayerAt(Mind mind, Occupation requestedOccupation, CharacterSheet character, Vector3? worldPos)
 	{
 		var body = SpawnAndApplyRole(mind, requestedOccupation, character, SpawnType.Clone).GetComponent<UniversalObjectPhysics>();
@@ -277,7 +278,7 @@ public static class PlayerSpawn
 		switch (spawnType)
 		{
 			case SpawnType.NewSpawn:
-				body.GetComponent<DynamicItemStorage>()?.SetUpOccupation(requestedOccupation);
+				body.GetComponent<DynamicItemStorage>().OrNull()?.SetUpOccupation(requestedOccupation);
 				if (requestedOccupation != null)
 				{
 					SpawnBannerMessage.Send(
@@ -290,7 +291,7 @@ public static class PlayerSpawn
 				}
 				break;
 			case SpawnType.ReSpawn:
-				body.GetComponent<DynamicItemStorage>()?.SetUpOccupation(requestedOccupation);
+				body.GetComponent<DynamicItemStorage>().OrNull()?.SetUpOccupation(requestedOccupation);
 				if (requestedOccupation != null)
 				{
 					SpawnBannerMessage.Send(
