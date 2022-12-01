@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using AdminCommands;
 using UnityEngine;
 using UnityEditor;
@@ -29,10 +30,7 @@ namespace IngameDebugConsole
 	{
 		private static bool IsAdmin()
 		{
-			if (CustomNetworkManager.IsHeadless) return false;
-			if (AdminCommandsManager.IsAdmin(PlayerManager.LocalPlayerScript.PlayerInfo.Connection, out _) != false) return true;
-			Logger.Log("This function can only be executed by admins.", Category.DebugConsole);
-			return false;
+			return PlayerList.Instance.IsClientAdmin;
 		}
 
 #if UNITY_EDITOR
