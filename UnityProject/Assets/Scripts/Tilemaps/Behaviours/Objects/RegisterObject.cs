@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Mirror;
 using Core.Editor.Attributes;
+using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 
 
 /// <summary>
@@ -12,7 +14,7 @@ using Core.Editor.Attributes;
 /// make object passable / impassable.
 /// </summary>
 [ExecuteInEditMode]
-public class RegisterObject : RegisterTile
+public class RegisterObject : RegisterTile, IPointerEnterHandler, IPointerExitHandler
 {
 	[PrefabModeOnly]
 	public bool AtmosPassable = true;
@@ -144,7 +146,7 @@ public class RegisterObject : RegisterTile
 
 	#region UI Mouse Actions
 
-	public void OnHoverStart()
+	public void OnPointerEnter(PointerEventData eventData)
 	{
 		UIManager.SetHoverToolTip = gameObject;
 		if (GetComponent<Attributes>())
@@ -163,7 +165,7 @@ public class RegisterObject : RegisterTile
 		UIManager.SetToolTip = r.Replace(name, " ");
 	}
 
-	public void OnHoverEnd()
+	public void OnPointerExit(PointerEventData eventData)
 	{
 		UIManager.SetToolTip = "";
 		UIManager.SetHoverToolTip = null;
