@@ -1,7 +1,7 @@
 name: Bug report
 description: Report a bug to developers
-title: ''
-labels: 'Type: Bug'
+title: "[BUG] "
+labels: ['Type: Bug']
 body:
 
 - type: checkboxes
@@ -20,8 +20,8 @@ body:
   validations:
     required: false
 
--type: dropdown
- attributes:
+- type: dropdown
+  attributes:
     label: I was
     description: Were you the client or the host when the issue occured?
     options:
