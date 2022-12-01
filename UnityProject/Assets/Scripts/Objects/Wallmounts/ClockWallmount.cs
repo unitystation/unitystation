@@ -19,7 +19,7 @@ namespace Objects.Wallmounts
 		[SerializeField] private AddressableAudioSource tickSound;
 
 		private bool messedWith = false;
-		private const float TICK_TIME = 1.75f;
+		private const float TICK_TIME = 1.85f;
 
 		private void Start()
 		{

@@ -146,7 +146,7 @@ public class RegisterObject : RegisterTile, IPointerEnterHandler, IPointerExitHa
 
 	#region UI Mouse Actions
 
-	private void OnHoverStart()
+	public void OnPointerEnter(PointerEventData eventData)
 	{
 		UIManager.SetHoverToolTip = gameObject;
 		if (GetComponent<Attributes>())
@@ -165,21 +165,10 @@ public class RegisterObject : RegisterTile, IPointerEnterHandler, IPointerExitHa
 		UIManager.SetToolTip = r.Replace(name, " ");
 	}
 
-	private void OnHoverEnd()
+	public void OnPointerExit(PointerEventData eventData)
 	{
 		UIManager.SetToolTip = "";
 		UIManager.SetHoverToolTip = null;
-	}
-
-
-	public void OnPointerEnter(PointerEventData eventData)
-	{
-		OnHoverStart();
-	}
-
-	public void OnPointerExit(PointerEventData eventData)
-	{
-		OnHoverEnd();
 	}
 
 	#endregion
