@@ -1,0 +1,48 @@
+name: Mapping issue report
+description: Report a mapping problem you found while playing.
+title: ''
+labels: 'Group: Mapping'
+body:
+
+- type: checkboxes
+  attributes:
+    label: There is no other issue reporting the same problem.
+    description: Please take some time and try to find another issue reporting the same problem you encountered.
+    options:
+    - label: I have searched the existing issues
+      required: true
+
+-type: dropdown
+  attributes:
+    label: Map name
+    description: What map did you encounter the problem on?
+    options:
+    - BoxStation
+    - PogStation
+    - FallStation
+    - MiniStation
+    - TestStation
+    - SquareStation
+    - UnrealStation
+    - OutpostStation
+    - Lavaland
+    - Asteroid
+    - Other
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: Description of the problem
+    description: Describe in words what the problem is.
+    placeholder: There is a wall in the middle of the hallway.
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: Pictures/videos
+    description: Provide pictures or videos of the problem.
+    placeholder: ""
+  validations:
+    required: true

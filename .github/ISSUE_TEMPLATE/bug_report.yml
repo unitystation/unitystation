@@ -1,0 +1,79 @@
+name: Bug report
+description: Report a bug to developers
+title: ''
+labels: 'Type: Bug'
+body:
+
+- type: checkboxes
+  attributes:
+    label: There is no other issue reporting the same problem.
+    description: Please take some time and try to find another issue reporting the same problem you encountered.
+    options:
+    - label: I have searched the existing issues
+      required: true
+
+- type: input
+  attributes:
+    label: Game Version
+    description: The version of Unitystation you are playing.
+    placeholder: 22xxxxxx
+  validations:
+    required: false
+
+-type: dropdown
+  attributes:
+    label: I was
+    description: Were you the client or the host when the issue occured?
+    options:
+    - Client
+    - Server
+  validations:
+    required: true
+
+- type: dropdown
+  attributes:
+    label: OS
+    description: The operating system you are using.
+    options:
+    - Windows 8, 10, 11
+    - Linux
+    - Mac
+    - Other
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: What happened?
+    description: A clear and concise description of what the bug is.
+    placeholder: I spawned in as HOS. I tried hugging a clown and it exploded.
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: What should have happened instead?
+    description: A clear and concise description of what you expected to happen.
+    placeholder: I expected the clown to hug me back.
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: Steps to reproduce the issue
+    description: How can we reproduce the issue you encountered?
+    placeholder: |
+      1. Go to '...'
+      2. Click on '....'
+      3. Scroll down to '....'
+      4. See error
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: Additional context
+    description: Add any other context about the problem here. You can include screenshots, logs, or any other relevant information.
+    placeholder: Whatever extra information goes here.
+  validations:
+    required: false
