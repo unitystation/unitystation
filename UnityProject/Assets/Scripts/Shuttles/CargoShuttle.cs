@@ -12,11 +12,13 @@ namespace Systems.Cargo
 	{
 		public static CargoShuttle Instance;
 
-		[SerializeField]
-		private Vector2 centcomDest = new Vector2(4, 150);
+		[field: SerializeField]
+		public Vector2 centcomDest { get; private set; } = new Vector2(4, 150);
 		[SerializeField]
 		private OrientationEnum centcommTravelDirection = OrientationEnum.Up_By0;
-		public Vector2 StationDest = new Vector2(4, 85);
+
+		[field: SerializeField]
+		public Vector2 StationDest { get; private set; } = new Vector2(4, 85);
 		[SerializeField]
 		private OrientationEnum stationTravelDirection = OrientationEnum.Down_By180;
 		[SerializeField]

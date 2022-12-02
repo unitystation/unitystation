@@ -20,7 +20,7 @@ using Objects.Machines.ServerMachines.Communications;
 using Tilemaps.Behaviours.Layers;
 using UnityEngine.Profiling;
 using Player;
-using Objects.Research;
+using Systems.Cargo;
 using ScriptableObjects.Characters;
 
 public partial class GameManager : MonoBehaviour, IInitialise
@@ -135,8 +135,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	private bool isProcessingSpaceBody = false;
 	public float minDistanceBetweenSpaceBodies;
 
-	private List<Vector3> EscapeShuttlePath = new List<Vector3>();
-	private bool EscapeShuttlePathGenerated = false;
+	private List<Vector3> ShuttlePaths = new List<Vector3>();
+	private bool ShuttlePathsGenerated = false;
 
 	[Header("Define the default size of all SolarSystems here:")]
 	public float solarSystemRadius = 600f;
@@ -270,7 +270,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			minDistanceBetweenSpaceBodies = 200f;
 		}
 
-		GenerateShuttlePath();
+		GenerateShuttlePaths();
 
 		bool validPos = false;
 		while (!validPos)
@@ -286,7 +286,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 
 			//Checks whether position is near (100 distance) any of the shuttle path vectors
-			foreach (var vectors in EscapeShuttlePath)
+			foreach (var vectors in ShuttlePaths)
 			{
 				if (Vector3.Distance(proposedPosition, vectors) < 100)
 				{
@@ -318,30 +318,47 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		isProcessingSpaceBody = false;
 	}
 
-	private void GenerateShuttlePath()
+	private void GenerateShuttlePaths()
 	{
-		if (EscapeShuttlePathGenerated) return;
+		if (ShuttlePathsGenerated) return;
+
 		if (GameManager.Instance.PrimaryEscapeShuttle == null)
 		{
 			Logger.LogWarning("Cannot generate primary escape shuttle path. Shuttle not found.");
 			return;
 		}
+		if (CargoShuttle.Instance == null)
+		{
+			Logger.LogWarning("Cannot generate cargo escape shuttle path. Shuttle not found.");
+			return;
+		}
 
-		//Fills list of Vectors all along shuttle path
-		var beginning = GameManager.Instance.PrimaryEscapeShuttle.stationTeleportLocation;
-		var target = GameManager.Instance.PrimaryEscapeShuttle.stationDockingLocation;
+		var beginning = CargoShuttle.Instance.StationDest;
+		var target = CargoShuttle.Instance.centcomDest;
 
 
 		var distance = (int)Vector2.Distance(beginning, target);
 
-		EscapeShuttlePath.Add(beginning); //Adds original vector
+		ShuttlePaths.Add(beginning); //Creates a list of Vectors along the cargo shuttles path.
 		for (int i = 0; i < (distance / 50); i++)
 		{
 			beginning = Vector2.MoveTowards(beginning, target, 50); //Vector 50 distance apart from prev vector
-			EscapeShuttlePath.Add(beginning);
+			ShuttlePaths.Add(beginning);
 		}
 
-		EscapeShuttlePathGenerated = true;
+		beginning = GameManager.Instance.PrimaryEscapeShuttle.stationTeleportLocation; //Repeats for escape shuttle
+		target = GameManager.Instance.PrimaryEscapeShuttle.stationDockingLocation;
+
+		distance = (int)Vector2.Distance(beginning, target);
+
+		ShuttlePaths.Add(beginning); 
+		for (int i = 0; i < (distance / 50); i++)
+		{
+			beginning = Vector2.MoveTowards(beginning, target, 50); 
+			ShuttlePaths.Add(beginning);
+		}
+
+		ShuttlePathsGenerated = true;
 	}
 
 	public Vector3 RandomPositionInSolarSystem()
