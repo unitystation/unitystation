@@ -28,7 +28,7 @@ public interface IOnPlayerTransfer
 	/// Called on server when the player transfers into a new body (interface called on the new player object)
 	/// </summary>
 	/// <param name="account">The mind of the player being transferred</param>
-	public void OnPlayerTransfer(PlayerInfo account);
+	public void OnServerPlayerTransfer(PlayerInfo account);
 }
 
 /// <summary>
@@ -432,7 +432,7 @@ public static class PlayerSpawn
 
 			foreach (var transfer in transfers)
 			{
-				transfer.OnPlayerTransfer(account);
+				transfer.OnServerPlayerTransfer(account);
 			}
 			to.AccountEnteringMind(account);
 		}

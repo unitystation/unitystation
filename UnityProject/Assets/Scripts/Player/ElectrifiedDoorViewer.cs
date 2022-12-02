@@ -11,7 +11,7 @@ namespace Player
 			ElectrifiedDoorModule.Rejoined(connectionToClient);
 		}
 
-		public void OnPlayerTransfer(PlayerInfo account)
+		public void OnServerPlayerTransfer(PlayerInfo account)
 		{
 			//Resend electrified door stuff as they've transferred into this body from a different one
 			ElectrifiedDoorModule.Rejoined(connectionToClient);

@@ -239,9 +239,9 @@ namespace TileManagement
 			stopwatch.Reset();
 			stopwatch.Start();
 			TileLocation tileLocation = null;
-			while (stopwatch.ElapsedMilliseconds < TargetMSpreFrame)
+			lock (QueuedChanges)
 			{
-				lock (QueuedChanges)
+				while (stopwatch.ElapsedMilliseconds < TargetMSpreFrame)
 				{
 					if (QueuedChanges.Count == 0)
 						break;
@@ -771,7 +771,7 @@ namespace TileManagement
 		{
 			return SetTile(position, TileManager.GetTile(TileType, tileName), matrixTransform, color, isPlaying);
 		}
-		
+
 		private const int MaxDepth = 50;
 
 		public Vector3Int SetTile(Vector3Int position, LayerTile tile, Matrix4x4? matrixTransform = null,
