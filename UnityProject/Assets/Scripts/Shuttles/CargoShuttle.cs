@@ -13,7 +13,7 @@ namespace Systems.Cargo
 		public static CargoShuttle Instance;
 
 		[field: SerializeField]
-		public Vector2 centcomDest { get; private set; } = new Vector2(4, 150);
+		public Vector2 CentcomDest { get; private set; } = new Vector2(4, 150);
 		[SerializeField]
 		private OrientationEnum centcommTravelDirection = OrientationEnum.Up_By0;
 
@@ -91,7 +91,7 @@ namespace Systems.Cargo
 		public void MoveToCentcom()
 		{
 			mm.ChangeFlyingDirection(Orientation.FromEnum(centcommTravelDirection));
-			MoveTo(centcomDest);
+			MoveTo(CentcomDest);
 		}
 
 		private void MoveTo(Vector3 pos)

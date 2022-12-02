@@ -334,7 +334,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 
 		var beginning = CargoShuttle.Instance.StationDest;
-		var target = CargoShuttle.Instance.centcomDest;
+		var target = CargoShuttle.Instance.CentcomDest;
 
 
 		var distance = (int)Vector2.Distance(beginning, target);
