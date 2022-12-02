@@ -236,8 +236,6 @@ namespace Player.Language
 		void OnLanguageListChange(SyncList<NetworkLanguage>.Operation op, int index, NetworkLanguage oldItem,
 			NetworkLanguage newItem)
 		{
-			if(hasAuthority == false) return;
-
 			switch (op)
 			{
 				case SyncList<NetworkLanguage>.Operation.OP_ADD:

@@ -1607,7 +1607,7 @@ namespace Systems.Antagonists
 			playerTookOver = null;
 		}
 
-		public void OnPlayerTransfer(PlayerInfo Account)
+		public void OnServerPlayerTransfer(PlayerInfo Account)
 		{
 			//This will call after an admin respawn to set up a new player
 			SetNewPlayer();

@@ -11,7 +11,7 @@ namespace Player
 			XenomorphLarvae.Rejoined(connectionToClient);
 		}
 
-		public void OnPlayerTransfer(PlayerInfo account)
+		public void OnServerPlayerTransfer(PlayerInfo account)
 		{
 			//Resend infected player stuff as they've transferred into this body from a different one
 			XenomorphLarvae.Rejoined(connectionToClient);
