@@ -65,6 +65,13 @@ namespace Objects.Research
 		public InteractEffectBase InteractEffect;
 		public DamageEffectBase DamageEffect;
 
+		private bool forceWallAreaEffect => AreaEffect is ForcefieldAreaEffect;
+
+		[SerializeField]
+		private DamageEffectBase forceWallDamageEffectSO = null;
+		private bool forceWallDamageEffect = false;
+	
+
 
 		[SyncVar] public string ID = "T376";
 
@@ -159,17 +166,20 @@ namespace Objects.Research
 			if (AreaEffect == null)
 			{
 				chosenClass = PickClass();
-				AreaEffect = ArtifactDataSO.AreaEffects[(int)chosenClass].AreaArtifactEffectList.PickRandom();
+				AreaEffect = Instantiate(ArtifactDataSO.AreaEffects[(int)chosenClass].AreaArtifactEffectList.PickRandom());
 			}
 			if (InteractEffect == null)
 			{
 				chosenClass = PickClass();
-				InteractEffect = ArtifactDataSO.InteractEffects[(int)chosenClass].InteractArtifactEffectList.PickRandom();
+				InteractEffect = Instantiate(ArtifactDataSO.InteractEffects[(int)chosenClass].InteractArtifactEffectList.PickRandom());
 			}
 			if (DamageEffect == null)
 			{
 				chosenClass = PickClass();
-				DamageEffect = ArtifactDataSO.DamageEffect[(int)chosenClass].DamageArtifactEffectList.PickRandom();
+				var DamageEffectSO = ArtifactDataSO.DamageEffect[(int)chosenClass].DamageArtifactEffectList.PickRandom();
+				DamageEffect = Instantiate(DamageEffectSO);
+
+				forceWallDamageEffect = DamageEffectSO == forceWallDamageEffectSO;
 			}
 
 			if (AreaEffect.OverrideDormancy == true || DamageEffect.OverrideDormancy == true || InteractEffect.OverrideDormancy == true) isDormant = false;
@@ -212,6 +222,13 @@ namespace Objects.Research
 			// remove it from global artifacts registry
 			if (ServerSpawnedArtifacts.Contains(this))
 				ServerSpawnedArtifacts.Remove(this);
+
+			if (forceWallAreaEffect) ((ForcefieldAreaEffect)AreaEffect).TerminateObstructions(); //Ensures no forcewalls are left around when artifact is destroyed.
+			if (forceWallDamageEffect)
+			{
+				var forcefieldEffect = ((AreaEffectOnDamage)DamageEffect).GetAreaEffect();
+				((ForcefieldAreaEffect)forcefieldEffect).TerminateObstructions();
+			}
 		}
 
 		private void OnDisable()

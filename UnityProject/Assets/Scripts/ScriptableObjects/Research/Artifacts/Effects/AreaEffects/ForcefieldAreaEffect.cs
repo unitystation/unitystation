@@ -17,6 +17,9 @@ namespace Systems.Research
 
 		private const int MAX_LIFESPAN = 600;
 
+		private List<GameObject> allObstructions = new List<GameObject>();
+
+
 		public override void DoEffectAura(GameObject centeredAround)
 		{
 			var objCenter = centeredAround.AssumedWorldPosServer().RoundToInt();
@@ -28,6 +31,7 @@ namespace Systems.Research
 			{
 				GameObject obstruction = Spawn.ServerPrefab(obstructionPrefab, position).GameObject;
 				obstructions.Add(obstruction);
+				allObstructions.Add(obstruction);
 			}
 
 			if(centeredAround.TryGetComponent<Artifact>(out var parentArtifact) == false) return;
@@ -38,14 +42,30 @@ namespace Systems.Research
 
 		public IEnumerator DespawnObstructions(List<GameObject> obstructions)
 		{
-			yield return WaitFor.Seconds(lifespan);
-
+			yield return new WaitForSeconds(lifespan);
+			
 			foreach (GameObject obstruction in obstructions)
 			{
 				if (obstruction == null) continue;
+				allObstructions.Remove(obstruction);
 
 				_ = Despawn.ServerSingle(obstruction);
 			}
+		}
+
+		public void TerminateObstructions()
+		{
+			List<GameObject> obstructionsToRemove = new List<GameObject>(allObstructions);
+
+			foreach (GameObject obstruction in obstructionsToRemove)
+			{
+				if (obstruction == null) continue;
+				allObstructions.Remove(obstruction);
+
+				_ = Despawn.ServerSingle(obstruction);
+			}
+
+			allObstructions.Clear();
 		}
 	}
 }

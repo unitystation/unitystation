@@ -12,5 +12,10 @@ namespace Systems.Research
 		{
 			AreaEffectToTrigger.DoEffectAura(objectPhysics.gameObject);
 		}
+
+		public AreaEffectBase GetAreaEffect()
+		{
+			return AreaEffectToTrigger;
+		}
 	}
 }

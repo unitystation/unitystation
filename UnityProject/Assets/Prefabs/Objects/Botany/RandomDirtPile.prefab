@@ -120,6 +120,17 @@ PrefabInstance:
       propertyPath: isSoilPile
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1612245312422546373, guid: 1efec61511b50c844868cb49d1a711a1,
+        type: 3}
+      propertyPath: potentialWildPlants.Array.size
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 1612245312422546373, guid: 1efec61511b50c844868cb49d1a711a1,
+        type: 3}
+      propertyPath: potentialWildPlants.Array.data[15]
+      value: 
+      objectReference: {fileID: 5458733951495184055, guid: a90c31aa0c2b68c459f4442f603a996a,
+        type: 3}
     - target: {fileID: 1998759520953530410, guid: 1efec61511b50c844868cb49d1a711a1,
         type: 3}
       propertyPath: m_Layer
@@ -182,6 +193,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: c3fd932f54dbc104c8aae0fb5e3f9eeb,
         type: 3}
+    - target: {fileID: 7589944355985898772, guid: 1efec61511b50c844868cb49d1a711a1,
+        type: 3}
+      propertyPath: CanBeWindPushed
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7881375107564956764, guid: 1efec61511b50c844868cb49d1a711a1,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -196,3 +212,46 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: -5825847811397951141, guid: 1efec61511b50c844868cb49d1a711a1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1efec61511b50c844868cb49d1a711a1, type: 3}
+--- !u!1 &5724453209742909888 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1609685257496530, guid: 1efec61511b50c844868cb49d1a711a1,
+    type: 3}
+  m_PrefabInstance: {fileID: 5725464760538564114}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1703666859173213406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5724453209742909888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f4629d03e356d64eb509d18a7450082, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foreverID: dirt_pile
+  <AlternativePrefabName>k__BackingField: dirt
+--- !u!114 &4984328143401400646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5724453209742909888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b3f20d3b30cb24fb70b1f35524c360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!210 &5456106820330806982
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5724453209742909888}
+  m_Enabled: 1
+  m_SortingLayerID: 142874271
+  m_SortingLayer: 12
+  m_SortingOrder: 0
