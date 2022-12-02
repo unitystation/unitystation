@@ -262,7 +262,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  runningInterfaces: []
+  runningInterfaces:
+  - {fileID: 0}
   SliverPrefab: {fileID: 3486841869076151784, guid: 4413ca75b39ef9842a1aef995a788b01,
     type: 3}
   spriteHandler: {fileID: 8622725775991219861}
@@ -274,6 +275,8 @@ MonoBehaviour:
   AreaEffect: {fileID: 0}
   InteractEffect: {fileID: 0}
   DamageEffect: {fileID: 0}
+  forceWallDamageEffectSO: {fileID: 11400000, guid: e5a7d66d40109ea41b3d3cb5f7baa048,
+    type: 2}
   ID: T376
   conType: 12
 --- !u!114 &6751607752946846962
