@@ -14,7 +14,7 @@ using Tiles;
 /// <summary>
 /// Component which should go on a Matrix and which generates ore tiles in any mineable tiles of that matrix.
 /// </summary>
-public class OreGenerator : MonoBehaviour, IServerSpawn
+public class OreGenerator : MonoBehaviour
 {
 	private static readonly List<Vector3Int> DIRECTIONS = new List<Vector3Int>() {
 		Vector3Int.up,
@@ -41,10 +41,10 @@ public class OreGenerator : MonoBehaviour, IServerSpawn
 
 	private HashSet<Vector3> GeneratedLocations = new HashSet<Vector3>();
 
-	public void OnSpawnServer(SpawnInfo info)
+	private void Awake()
 	{
 		if(runOnStart == false) return;
-		RunOreGenerator();
+		EventManager.AddHandler(Event.ScenesLoadedServer, RunOreGenerator);
 	}
 
 	public void RunOreGenerator()
@@ -64,7 +64,6 @@ public class OreGenerator : MonoBehaviour, IServerSpawn
 				return;
 			}
 		}
-
 		List<OreProbability> weightedList = new List<OreProbability>();
 		foreach (var ores in config.OreProbabilities) {
 			for (int i = 0; i < ores.SpawnChance; i++)
@@ -72,11 +71,10 @@ public class OreGenerator : MonoBehaviour, IServerSpawn
 				weightedList.Add(ores);
 			}
 		}
-
 		//TODO move BoundsInt bounds = wallTilemap.cellBounds to metaTileMap
 		BoundsInt bounds = wallTilemap.cellBounds;
 		List<Vector3Int> miningTiles = new List<Vector3Int>();
-
+		Debug.Log(wallTilemap.cellBounds.ToString());
 		for (int n = bounds.xMin; n < bounds.xMax; n++)
 		{
 			for (int p = bounds.yMin; p < bounds.yMax; p++)
@@ -92,6 +90,8 @@ public class OreGenerator : MonoBehaviour, IServerSpawn
 		}
 
 		int numberOfTiles = (int)((miningTiles.Count / 100f) * config.Density);
+		Debug.Log(numberOfTiles);
+
 		for (int i = 0; i < numberOfTiles; i++)
 		{
 			var oreTile = miningTiles[RANDOM.Next(miningTiles.Count)];
@@ -100,11 +100,9 @@ public class OreGenerator : MonoBehaviour, IServerSpawn
 				GeneratedLocations.Add(oreTile);
 				var oreCategory = weightedList[RANDOM.Next(weightedList.Count)];
 				tileChangeManager.MetaTileMap.SetTile(oreTile, oreCategory.WallTile);
-
 				var intLocation = oreTile + Vector3Int.zero;
 				intLocation.z = -1;
 				tileChangeManager.MetaTileMap.AddOverlay(intLocation, oreCategory.OverlayTile as OverlayTile);
-
 				NodeScatter(oreTile, oreCategory);
 			}
 		}
