@@ -55,7 +55,7 @@ public interface IPlayerPossessable
 
 		foreach (var transfer in transfers)
 		{
-			transfer.OnPlayerTransfer(mind.ControlledBy);
+			transfer.OnServerPlayerTransfer(mind.ControlledBy);
 		}
 		OnActionEnterPlayerControl?.Invoke();
 	}
@@ -77,6 +77,7 @@ public interface IPlayerPossessable
 		{
 			dynamicItemStorage.UpdateSlots(	dynamicItemStorage.GetSetData, 	dynamicItemStorage.GetSetData);
 		}
+		OnActionEnterPlayerControl?.Invoke();
 	}
 
 	public void InternalOnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer)
