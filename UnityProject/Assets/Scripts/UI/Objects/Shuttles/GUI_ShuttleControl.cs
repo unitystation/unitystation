@@ -80,7 +80,7 @@ namespace UI.Objects.Shuttles
 				{
 					Waypoint = new GameObject($"{matrixMove.gameObject.name}Waypoint");
 				}
-				HideWaypoint(false);
+				HideWaypoint();
 
 				rulersColor = Rulers.Value;
 				rayColor = RadarScanRay.Value;
@@ -267,7 +267,7 @@ namespace UI.Objects.Shuttles
 
 		private void HideWaypoint(bool updateImmediately = true)
 		{
-			Waypoint.transform.position = TransformState.HiddenPos;
+			Waypoint.transform.position = new Vector3(0, 999999, 0);
 			if (updateImmediately)
 			{
 				radarList.UpdateExclusive(Waypoint);
