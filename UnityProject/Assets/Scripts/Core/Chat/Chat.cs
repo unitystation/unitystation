@@ -162,7 +162,7 @@ public partial class Chat : MonoBehaviour
 		{
 			message = isOOC ? message : processedMessage.message,
 			modifiers = (player == null) ? ChatModifier.None : processedMessage.chatModifiers,
-			speaker = (player == null) ? sentByPlayer.Username : player.playerName,
+			speaker = (player == null) ? sentByPlayer.Username : sentByPlayer.Mind.name,
 			position = (player == null) ? TransformState.HiddenPos : player.PlayerChatLocation.AssumedWorldPosServer(),
 			channels = channels,
 			originator = sentByPlayer.GameObject,
