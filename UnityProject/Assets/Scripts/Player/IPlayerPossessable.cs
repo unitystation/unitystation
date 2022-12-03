@@ -5,6 +5,7 @@ using HealthV2;
 using Messages.Server;
 using Mirror;
 using Systems.Ai;
+using UI.Core.Action;
 using UnityEngine;
 
 public interface IPlayerPossessable
@@ -77,6 +78,8 @@ public interface IPlayerPossessable
 		{
 			dynamicItemStorage.UpdateSlots(	dynamicItemStorage.GetSetData, 	dynamicItemStorage.GetSetData);
 		}
+
+		RequestIconsUIActionRefresh.Send();
 		OnActionEnterPlayerControl?.Invoke();
 	}
 

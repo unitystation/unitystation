@@ -97,7 +97,7 @@ namespace UI.Core.Action
 		/// <summary>
 		/// Set the action button visibility, locally (clientside)
 		/// </summary>
-		public static void ToggleServer(GameObject body, IActionGUI iActionGUI, bool show) //TODO Change to not mind
+		public static void ToggleServer(GameObject body, IActionGUI iActionGUI, bool show)
 		{
 			Instance.InstantToggleServer(body, iActionGUI, show);
 		}
@@ -394,42 +394,6 @@ namespace UI.Core.Action
 			DicIActionGUI = new Dictionary<IAction, List<UIAction>>();
 		}
 
-		public void OnPlayerDie()
-		{
-			CheckEvent(Event.PlayerDied);
-		}
-
-		public void OnPlayerSpawn()
-		{
-			CheckEvent(Event.PlayerSpawned);
-		}
-
-		public void LoggedOut()
-		{
-			CheckEvent(Event.ServerLoggedOut);
-		}
-
-		public void RoundStarted()
-		{
-			CheckEvent(Event.RoundStarted);
-		}
-
-		public void GhostSpawned()
-		{
-			CheckEvent(Event.GhostSpawned);
-		}
-
-		public void PlayerRejoined()
-		{
-			CheckEvent(Event.PlayerRejoined);
-		}
-
-		private void CheckEvent(Event @event)
-		{
-			ClearAllActionsClient();
-			RequestIconsUIActionRefresh.Send();
-		}
-
 		public static void ClearAllActionsServer(Scene oldScene, Scene newScene)
 		{
 			Instance.IActionGUIToMind.Clear();
@@ -468,25 +432,12 @@ namespace UI.Core.Action
 			SceneManager.activeSceneChanged -= ClearAllActionsServer;
 
 			EventManager.AddHandler(Event.RoundEnded, OnRoundEnd);
-			EventManager.AddHandler(Event.PlayerDied, OnPlayerDie);
-			EventManager.AddHandler(Event.PlayerSpawned, OnPlayerSpawn);
 
-			EventManager.AddHandler(Event.ServerLoggedOut, LoggedOut);
-			EventManager.AddHandler(Event.RoundStarted, RoundStarted);
-			EventManager.AddHandler(Event.GhostSpawned, GhostSpawned);
-			EventManager.AddHandler(Event.PlayerRejoined, PlayerRejoined);
 		}
 
 		private void OnDisable()
 		{
 			EventManager.RemoveHandler(Event.RoundEnded, OnRoundEnd);
-			EventManager.RemoveHandler(Event.PlayerDied, OnPlayerDie);
-			EventManager.RemoveHandler(Event.PlayerSpawned, OnPlayerSpawn);
-
-			EventManager.RemoveHandler(Event.ServerLoggedOut, LoggedOut);
-			EventManager.RemoveHandler(Event.RoundStarted, RoundStarted);
-			EventManager.RemoveHandler(Event.GhostSpawned, GhostSpawned);
-			EventManager.RemoveHandler(Event.PlayerRejoined, PlayerRejoined);
 		}
 
 		#endregion Events

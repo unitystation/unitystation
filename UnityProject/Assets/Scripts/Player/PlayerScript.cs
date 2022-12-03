@@ -31,7 +31,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public void OnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer)
 	{
-		Init();
+		Init(mind);
 	}
 
 	/// maximum distance the player needs to be to an object to interact with it
@@ -198,10 +198,17 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	}
 
 
-	public void Init()
+	public void Init(Mind mind)
 	{
 		if (hasAuthority)
 		{
+			if (mind.CurrentCharacterSettings != null)
+			{
+				characterSettings = mind.CurrentCharacterSettings;
+				playerName = mind.CurrentCharacterSettings.Name;//TODO Change this sometime move to mind / Somewhere else
+			}
+
+
 			EnableLighting(true);
 			UIManager.ResetAllUI();
 			GetComponent<MouseInputController>().enabled = true;
