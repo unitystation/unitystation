@@ -13,7 +13,7 @@ namespace Systems.Atmospherics
 		/// <summary>
 		/// Node this hotspot lives on.
 		/// </summary>
-		public MetaDataNode node;
+		public readonly MetaDataNode node;
 
 		//The fire light on this hotspot's tile
 		private NetworkLight firelight;
@@ -258,12 +258,9 @@ namespace Systems.Atmospherics
 		{
 			temp /= 100;
 
-			if (temp <= 66)
-			{
-				return Mathf.Max(0, Mathf.Min(255, 99.4708025861f * Mathf.Log(temp) - 161.1195681661f));
-			}
-
-			return Mathf.Max(0, Mathf.Min(255, 288.1221685293f * Mathf.Pow((temp - 60) , -0.075148492f)));
+			return Mathf.Max(0, temp <= 66 ?
+				Mathf.Min(255, 99.4708025861f * Mathf.Log(temp) - 161.1195681661f) :
+				Mathf.Min(255, 288.1221685293f * Mathf.Pow((temp - 60) , -0.075148492f)));
 		}
 
 		private static float Temp2ColourBlue(float temp)
