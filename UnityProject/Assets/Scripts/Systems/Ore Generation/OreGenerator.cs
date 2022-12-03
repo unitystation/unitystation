@@ -37,15 +37,7 @@ public class OreGenerator : MonoBehaviour
 	private MetaTileMap metaTileMap;
 	private TileChangeManager tileChangeManager;
 
-	public bool runOnStart = true;
-
 	private HashSet<Vector3> GeneratedLocations = new HashSet<Vector3>();
-
-	private void Awake()
-	{
-		if(runOnStart == false) return;
-		EventManager.AddHandler(Event.ScenesLoadedServer, RunOreGenerator);
-	}
 
 	public void RunOreGenerator()
 	{
@@ -74,7 +66,7 @@ public class OreGenerator : MonoBehaviour
 		//TODO move BoundsInt bounds = wallTilemap.cellBounds to metaTileMap
 		BoundsInt bounds = wallTilemap.cellBounds;
 		List<Vector3Int> miningTiles = new List<Vector3Int>();
-		Debug.Log(wallTilemap.cellBounds.ToString());
+
 		for (int n = bounds.xMin; n < bounds.xMax; n++)
 		{
 			for (int p = bounds.yMin; p < bounds.yMax; p++)
@@ -90,7 +82,6 @@ public class OreGenerator : MonoBehaviour
 		}
 
 		int numberOfTiles = (int)((miningTiles.Count / 100f) * config.Density);
-		Debug.Log(numberOfTiles);
 
 		for (int i = 0; i < numberOfTiles; i++)
 		{

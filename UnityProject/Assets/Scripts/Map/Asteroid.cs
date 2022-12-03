@@ -8,6 +8,7 @@ namespace Map
 	public class Asteroid : MonoBehaviour
 	{
 		private MatrixMove mm;
+		private OreGenerator oreGenerator;
 
 		// TODO Find a use for these variables or delete them.
 		/*
@@ -18,10 +19,9 @@ namespace Map
 
 		void OnEnable()
 		{
-			if (mm == null)
-			{
-				mm = GetComponent<MatrixMove>();
-			}
+			if (mm == null) mm = GetComponent<MatrixMove>();
+
+			if(oreGenerator == null) oreGenerator = GetComponent<OreGenerator>();
 		}
 
 		private void Start()
@@ -70,6 +70,7 @@ namespace Map
 			}
 			SpawnNearStation();
 			RandomRotation();
+			oreGenerator.RunOreGenerator();
 		}
 
 	}
