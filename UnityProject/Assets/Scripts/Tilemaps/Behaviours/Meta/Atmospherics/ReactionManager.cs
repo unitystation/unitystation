@@ -42,10 +42,9 @@ namespace Systems.Atmospherics
 		private List<WindEffectData> windEffectNodes = new List<WindEffectData>(30);
 
 		private const float WindParticleBlockTime = 3f;
-		private const float MINIMUM_WIND_FORCE = 2.75f;
 
 
-		private enum WindStrength
+		public enum WindStrength
 		{
 			SOUND_ONLY = 3, //TODO : Add wind noise.
 			WEAK = 6, //Tile changes
@@ -57,7 +56,7 @@ namespace Systems.Atmospherics
 		/// reused when applying exposures to lots of tiles to avoid creating GC from
 		/// lambdas.
 		/// </summary>
-		private readonly ApplyExposure applyExposure = new ApplyExposure();
+		private ApplyExposure applyExposure = new ApplyExposure();
 
 		private void Awake()
 		{
@@ -84,14 +83,14 @@ namespace Systems.Atmospherics
 		{
 			if(CustomNetworkManager.IsServer == false) return;
 
-			UpdateManager.Add(CallbackType.LATE_UPDATE, UpdateMe);
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
 		private void OnDisable()
 		{
 			if(CustomNetworkManager.IsServer == false) return;
 
-			UpdateManager.Remove(CallbackType.LATE_UPDATE, UpdateMe);
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
 		public struct WindEffectData
@@ -192,15 +191,36 @@ namespace Systems.Atmospherics
 
 		private void ProcessWindNodes(MetaDataNode windyNode)
 		{
-			if (windyNode.WindForce < MINIMUM_WIND_FORCE) return;
 			windyNode.WindData[(int) PushType.Wind] = (Vector2) windyNode.WindDirection * (windyNode.WindForce);
 
-			Span<RegisterTile> registerTiles = matrix.GetRegisterTile(windyNode.LocalPosition, true).ToArray();
+			var registerTiles = matrix.GetRegisterTile(windyNode.LocalPosition, true);
+			for (int i = 0; i < registerTiles.Count; i++)
+			{
+				var registerTile = registerTiles[i];
 
-			CheckForPushables(registerTiles, windyNode);
+				//Quicker to get all RegisterTiles and grab the cached PushPull component from it than to get it manually using Get<>
+				if (registerTile.ObjectPhysics.HasComponent == false) continue;
+				if (registerTile.ObjectPhysics.Component.Intangible) continue;
+				var pushable = registerTile.ObjectPhysics.Component;
+
+				float correctedForce = (windyNode.WindForce ) / (int) pushable.GetSize();
+
+				correctedForce = Mathf.Clamp(correctedForce, 0, 30);
+
+				if (pushable.CanBeWindPushed)
+				{
+					pushable.NewtonianPush(registerTile.transform.rotation * (Vector2)windyNode.WindDirection, Random.Range((float)(correctedForce * 0.8), correctedForce),  spinFactor: Random.Range(1, 150));
+				}
+
+
+				if (pushable.stickyMovement && windyNode.WindForce > (int)WindStrength.STRONG && pushable.CanBeWindPushed )
+				{
+					pushable.TryTilePush((transform.rotation * (Vector2)windyNode.WindDirection).RoundTo2Int(), null);
+				}
+			}
 
 			windyNode.WindForce = (windyNode.WindForce * ((RollingAverageN - 1) / RollingAverageN));
-			if (windyNode.WindForce < MINIMUM_WIND_FORCE)
+			if (windyNode.WindForce < 0.25f)
 			{
 				winds.Remove(windyNode);
 				windyNode.WindForce = 0;
@@ -215,35 +235,6 @@ namespace Systems.Atmospherics
 
 			windEffectNodes.Add(new WindEffectData(windyNode.PositionMatrix.NetworkedMatrix.MatrixSync.netId,
 				windyNode.LocalPosition, windyNode.WindDirection));
-		}
-
-		private void CheckForPushables(Span<RegisterTile> registerTiles, MetaDataNode windyNode)
-		{
-			if (windyNode.WindForce < (int)WindStrength.WEAK) return;
-			for (int i = 0; i < registerTiles.Length; i++)
-			{
-				var registerTile = registerTiles[i];
-
-				//Quicker to get all RegisterTiles and grab the cached PushPull component from it than to get it manually using Get<>
-				if (registerTile.ObjectPhysics.HasComponent == false) continue;
-				if (registerTile.ObjectPhysics.Component.Intangible) continue;
-				if (registerTile.ObjectPhysics.Component.CanBeWindPushed == false) continue;
-				var pushable = registerTile.ObjectPhysics.Component;
-
-				float correctedForce = (windyNode.WindForce ) / (int) pushable.GetSize();
-				correctedForce = Mathf.Clamp(correctedForce, 0, 30);
-
-				if (pushable.CanBeWindPushed)
-				{
-					pushable.NewtonianPush(registerTile.transform.rotation * (Vector2)windyNode.WindDirection,
-						Random.Range((float)(correctedForce * 0.8), correctedForce),  spinFactor: Random.Range(1, 150));
-				}
-
-				if (pushable.stickyMovement)
-				{
-					pushable.TryTilePush((transform.rotation * (Vector2)windyNode.WindDirection).RoundTo2Int(), null);
-				}
-			}
 		}
 
 		public void DoTick()
