@@ -59,6 +59,7 @@ namespace Objects.Botany
 
 		public void Start()
 		{
+			if (isSoilPile) return;
 			waterNotifier.PushClear();
 			weedNotifier.PushClear();
 			nutrimentNotifier.PushClear();
@@ -102,8 +103,9 @@ namespace Objects.Botany
 
 		private void EnsureInit()
 		{
-			if (registerTile != null) return;
-			registerTile = GetComponent<RegisterTile>();
+			if (registerTile == null) registerTile = GetComponent<RegisterTile>();
+
+			if (isSoilPile) return;
 
 			waterNotifier.PushClear();
 			weedNotifier.PushClear();

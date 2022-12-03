@@ -41,6 +41,8 @@ namespace UI.Objects.Shuttles
 			{
 				Position = TransformState.HiddenPos;
 			}
+
+			UpdatePeepers();
 		}
 
 		/// <summary>
