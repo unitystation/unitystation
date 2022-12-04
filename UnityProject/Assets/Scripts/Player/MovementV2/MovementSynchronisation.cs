@@ -1315,7 +1315,15 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		}
 	}
 
-	public override void LocalTileReached(Vector3Int localPos)
+	public override void ClientTileReached(Vector3Int localPos)
+	{
+		if (hasAuthority == false) return;
+
+		//Client side check for invalid tabs still open
+		//(Don't need to do this server side as the interactions are validated)
+		ControlTabs.CheckTabClose();
+	}
+	public override void LocalServerTileReached(Vector3Int localPos)
 	{
 		if(doStepInteractions == false) return;
 

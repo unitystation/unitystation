@@ -1788,12 +1788,23 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		oldLocalTilePosition = rounded;
 
-		if (isServer == false) return;
-
-		LocalTileReached(rounded);
+		if (isServer == false)
+		{
+			ClientTileReached(rounded);
+		}
+		else
+		{
+			LocalServerTileReached(rounded);
+		}
 	}
 
-	public virtual void LocalTileReached(Vector3Int localPos)
+
+	public virtual void ClientTileReached(Vector3Int localPos)
+	{
+
+	}
+
+	public virtual void LocalServerTileReached(Vector3Int localPos)
 	{
 		if(doStepInteractions == false) return;
 
