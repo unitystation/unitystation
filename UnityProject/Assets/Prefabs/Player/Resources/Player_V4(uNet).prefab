@@ -770,7 +770,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: b4d72dee411a3410db2df144025d628c, type: 3}
   NameSprite: 000000000100000002000000
   DefaultSettings:
-    Intensity: 0
     Colour: {r: 0, g: 0, b: 0, a: 0}
     EnumSprite: 0
     Size: 12
@@ -1166,7 +1165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ee217de27dd4545be3c51829125825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 1
+  syncMode: 0
   syncInterval: 0
   livingHealthMasterBase: {fileID: 0}
 --- !u!114 &108550902244119649

@@ -100,6 +100,13 @@ namespace HealthV2
 			CurrentHealthDollStorage.DollStates = new List<HealthDollStorage.HealthDollState>();
 			livingHealthMasterBase = GetComponent<LivingHealthMasterBase>();
 			overallHealthSync = livingHealthMasterBase.MaxHealth;
+
+			var Player = gameObject.GetComponent<PlayerScript>();
+			if (Player != null)
+			{
+				Player.OnActionEnterPlayerControl += UpdateSyncVar;
+			}
+
 		}
 
 		#endregion
@@ -115,6 +122,12 @@ namespace HealthV2
 
 		#region ServerSetValue
 
+
+		private void UpdateSyncVar()
+		{
+			SyncFireStacks(fireStacks, fireStacks);
+			SyncHealthDoll(healthDollData, healthDollData);
+		}
 		//Holds all methods which the server will use to change a health value, will then sync change to client
 
 		[Server]
@@ -260,6 +273,7 @@ namespace HealthV2
 		{
 			healthDollData = newDollData;
 			if (isServer) return;
+			if (hasAuthority == false) return;
 			CurrentHealthDollStorage = JsonConvert.DeserializeObject<HealthDollStorage>(healthDollData);
 			for (int i = 0; i < CurrentHealthDollStorage.DollStates.Count; i++)
 			{
