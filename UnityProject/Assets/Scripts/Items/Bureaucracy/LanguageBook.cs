@@ -33,6 +33,10 @@ namespace Items.Bureaucracy
 		private void Awake()
 		{
 			objectPhysics = GetComponent<UniversalObjectPhysics>();
+			this.GetComponent<SimpleBook>().OnBookRead += (PlayerInfo playerInfo) =>
+			{
+				SelfTeach(playerInfo.Script);
+			};
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
