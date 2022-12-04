@@ -6,6 +6,7 @@ using Managers;
 using Messages.Server;
 using Messages.Server.LocalGuiMessages;
 using Player;
+using Systems;
 
 /// <summary>
 /// This interface will be called after the client has rejoined and has all scenes loaded!
@@ -279,29 +280,28 @@ public static class PlayerSpawn
 		{
 			case SpawnType.NewSpawn:
 				body.GetComponent<DynamicItemStorage>().OrNull()?.SetUpOccupation(requestedOccupation);
-				if (requestedOccupation != null)
-				{
-					SpawnBannerMessage.Send(
+				CrewManifestManager.Instance.AddMember(body.GetComponent<PlayerScript>(), requestedOccupation.JobType);
+				SpawnBannerMessage.Send(
 						body,
 						requestedOccupation.DisplayName,
 						requestedOccupation.SpawnSound.AssetAddress,
 						requestedOccupation.TextColor,
 						requestedOccupation.BackgroundColor,
 						requestedOccupation.PlaySound);
-				}
+
 				break;
 			case SpawnType.ReSpawn:
 				body.GetComponent<DynamicItemStorage>().OrNull()?.SetUpOccupation(requestedOccupation);
-				if (requestedOccupation != null)
-				{
-					SpawnBannerMessage.Send(
+				SpawnBannerMessage.Send(
 						body,
 						requestedOccupation.DisplayName,
 						requestedOccupation.SpawnSound.AssetAddress,
 						requestedOccupation.TextColor,
 						requestedOccupation.BackgroundColor,
 						requestedOccupation.PlaySound);
-				}
+
+				break;
+			case SpawnType.Clone:
 				break;
 		}
 	}
