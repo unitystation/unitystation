@@ -63,7 +63,7 @@ public class LightEmissionPlayer : NetworkBehaviour
 			PresentLights.Add(Light);
 			foreach (PlayerLightData Lighte in PresentLights) //The light that is worked out to be in charges chosen by the one that's has the highest intensity
 			{
-				if (Lighte.Intensity > CurrentLight.Intensity)
+				if (Lighte.Colour.a > CurrentLight.Colour.a)
 				{
 					CurrentLight = Lighte;
 				}
@@ -82,7 +82,7 @@ public class LightEmissionPlayer : NetworkBehaviour
 			}
 			foreach (PlayerLightData Lighte in PresentLights)
 			{
-				if (Lighte.Intensity > CurrentLight.Intensity)
+				if (Lighte.Colour.a > CurrentLight.Colour.a)
 				{
 					CurrentLight = Lighte;
 				}
@@ -104,7 +104,7 @@ public class LightEmissionPlayer : NetworkBehaviour
 		}
 		lightSprite.Color = CurrentLight.Colour;
 		lightSprite.Sprite = DictionarySprites[CurrentLight.EnumSprite];
-		lightSprite.Color.a = CurrentLight.Intensity;
+		lightSprite.Color.a = CurrentLight.Colour.a;
 		mLightRendererObject.transform.localScale = new Vector3(CurrentLight.Size, CurrentLight.Size, CurrentLight.Size);
 		if (isServer)
 		{
@@ -121,12 +121,14 @@ public class LightEmissionPlayer : NetworkBehaviour
 		}
 		DefaultSettings = new PlayerLightData()
 		{
-			Intensity = DefaultIntensity,
+
 			Colour = DefaultColour,
 			//Sprite = DefaultSprite,
 			EnumSprite = DefaultEnumSprite,
 			Size = DefaultSize,
 		};
+		DefaultSettings.Colour.a = DefaultIntensity;
+
 		CurrentLight = DefaultSettings;
 		if (mLightRendererObject == null)
 		{
