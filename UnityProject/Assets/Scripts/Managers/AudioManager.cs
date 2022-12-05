@@ -25,6 +25,23 @@ namespace Audio.Containers
         public AudioMixerGroup AmbientMixer;
         public AudioMixerGroup TTSMixer;
 
+        private float GameplayVolumeLevel = 1;
+
+        public float gameplayVolumeLevel
+        {
+	        set
+	        {
+		        if (value > 1) //No earap please
+		        {
+			        GameplayVolumeLevel = 1;
+		        }
+		        else
+		        {
+			        GameplayVolumeLevel = value;
+		        }
+	        }
+        }
+
         public override void Start()
         {
 	        base.Start();

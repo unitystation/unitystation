@@ -30,7 +30,7 @@ public interface IClientSynchronisedEffect : IClientPlayerLeaveBody, IClientPlay
 	{
 		if (NetId.Empty != PreviouslyOn && NetId.Invalid != PreviouslyOn)
 		{
-			ClientSynchronisedEffectsManager.Instance.ClientUnRegisterOnBody(CurrentlyOn, this);
+			ClientSynchronisedEffectsManager.Instance.ClientUnRegisterOnBody(PreviouslyOn, this);
 			if (PlayerManager.LocalPlayerScript.OrNull()?.netId == PreviouslyOn)
 			{
 				ApplyDefaultOrCurrentValues(true);

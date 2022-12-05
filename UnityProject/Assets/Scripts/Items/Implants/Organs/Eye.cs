@@ -50,8 +50,6 @@ public class Eye : BodyPartFunctionality, IItemInOutMovedPlayer, IClientSynchron
 		}
 	}
 
-
-
 	public override void Awake()
 	{
 		base.Awake();
@@ -74,14 +72,14 @@ public class Eye : BodyPartFunctionality, IItemInOutMovedPlayer, IClientSynchron
 	}
 
 	[NaughtyAttributes.Button()]
-	public void MakeBlind()
+	public void GiveSite()
 	{
 		SyncBlindness(false, true);
 	}
 
 
 	[NaughtyAttributes.Button()]
-	public void GivesSite()
+	public void MakeBlind()
 	{
 		SyncBlindness(false, false);
 	}
@@ -96,8 +94,8 @@ public class Eye : BodyPartFunctionality, IItemInOutMovedPlayer, IClientSynchron
 	public uint OnPlayerID => OnBodyID;
 
 	[SyncVar(hook = nameof(SyncBlindness))]
-	public bool isBlind = false; //TODO change to multi-interest bool, Is good enough for now, For multiple eyes
-	public bool DefaultisBlind = false;
+	public bool PreventsBlindness = true; //TODO change to multi-interest bool, Is good enough for now, For multiple eyes
+	public bool DefaultPreventsBlindness_ = false;
 
 	[SyncVar(hook = nameof(SyncBadEyesight))]
 	public int BadEyesight = 0;
@@ -121,7 +119,7 @@ public class Eye : BodyPartFunctionality, IItemInOutMovedPlayer, IClientSynchron
 
 	public void ApplyDefaultOrCurrentValues(bool Default)
 	{
-		ApplyChangesBlindness(Default ? DefaultisBlind : isBlind);
+		ApplyChangesBlindness(Default ? DefaultPreventsBlindness_ : PreventsBlindness);
 		ApplyChangesBlurryVision(Default ? DefaultBadEyesight : BadEyesight);
 		ApplyChangesColourBlindMode(Default ? DefaultColourblindness : CurrentColourblindness);
 		ApplyChangesXrayState(Default ? DefaultHasXray : HasXray);
@@ -130,22 +128,23 @@ public class Eye : BodyPartFunctionality, IItemInOutMovedPlayer, IClientSynchron
 
 	public void SyncBlindness(bool oldValue, bool newState)
 	{
-		isBlind = newState;
+		PreventsBlindness = newState;
 		if (Preimplemented.IsOnLocalPlayer)
 		{
-			ApplyChangesBlindness(isBlind);
+			ApplyChangesBlindness(PreventsBlindness);
 		}
 	}
 
 	public void ApplyChangesBlindness(bool SetValue)
 	{
+
 		if (SetValue)
 		{
-			Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().LightingSystem.fovDistance = 0.65f;
+			Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().Blindness.RecordPosition(this, !SetValue);
 		}
 		else
 		{
-			Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().LightingSystem.fovDistance = 15;
+			Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().Blindness.RemovePosition(this);
 		}
 	}
 
