@@ -26,14 +26,14 @@ namespace Core.Utils
 
 		public enum RegisterBehaviour
 		{
-			RemoveFalse,
-			RegisterFalse
+			RemoveFalse, //Your entry of false will be just removed from the dictionary and won't contribute to
+			RegisterFalse //Your entry will be registered as false in the dictionary and contribute to options
 		}
 
 		public enum BoolBehaviour
 		{
-			ReturnOnFalse,
-			ReturnOnTrue
+			ReturnOnFalse, //if any value is false Overrides all
+			ReturnOnTrue //If any value is true overrides all
 		}
 
 		public bool initialState => InitialState;
