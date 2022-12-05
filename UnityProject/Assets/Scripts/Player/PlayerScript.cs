@@ -25,7 +25,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	public GameObject PossessingObject { get; set; }
 	public Mind PossessingMind { get; set; }
 	public IPlayerPossessable PossessedBy { get; set; }
-	public MindNIPossessingEvent OnPossessedBy { get; set; }
+	public MindNIPossessingEvent OnPossessedBy { get; set; } = new MindNIPossessingEvent();
 
 	public Action OnActionEnterPlayerControl { get; set; }
 

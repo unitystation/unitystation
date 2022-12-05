@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
 using AddressableReferences;
@@ -35,6 +36,8 @@ namespace Items.Bureaucracy
 		protected bool hasBeenRead = false;
 
 		protected bool AllowOnlyOneReader => allowOnlyOneReader;
+
+		public Action<PlayerInfo> OnBookRead;
 
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
@@ -142,6 +145,7 @@ namespace Items.Bureaucracy
 			Chat.AddActionMsgToChat(player.GameObject,
 					$"You finish reading {gameObject.ExpensiveName()}!",
 					$"{player.Script.visibleName} finishes reading {gameObject.ExpensiveName()}!");
+			OnBookRead?.Invoke(player);
 		}
 	}
 }

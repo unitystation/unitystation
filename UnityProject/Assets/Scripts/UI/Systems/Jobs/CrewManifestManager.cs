@@ -101,7 +101,7 @@ namespace Systems
 
 			record.EntryName = script.playerName;
 			record.Age = script.characterSettings.Age.ToString();
-			record.Rank = script.Mind.occupation.JobType.JobString();
+			record.Rank = jobType.JobString();
 			record.Occupation = OccupationList.Instance.Get(jobType);
 			record.Sex = script.characterSettings.BodyType.ToString();
 			record.Species = script.characterSettings.Species.ToString();

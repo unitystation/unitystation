@@ -207,17 +207,22 @@ PrefabInstance:
     - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
       propertyPath: maxCapacity
-      value: 20
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
       propertyPath: transferAmount
-      value: 13
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
       propertyPath: UseStandardExamine
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: initialReagentMix.temperature
+      value: 293.15
       objectReference: {fileID: 0}
     - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
@@ -250,17 +255,17 @@ PrefabInstance:
     - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 3
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
-      value: 7
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6933970566707424022, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
