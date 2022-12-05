@@ -360,7 +360,7 @@ namespace HealthV2
 		/// <summary>
 		/// Updates the reported severity of injuries for examine based off of current health
 		/// </summary>
-		public void UpdateSeverity()
+		private void UpdateSeverity()
 		{
 
 			var oldSeverity = Severity;
