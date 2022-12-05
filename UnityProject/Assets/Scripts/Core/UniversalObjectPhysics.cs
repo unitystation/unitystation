@@ -4,14 +4,11 @@ using AdminCommands;
 using Core.Editor.Attributes;
 using HealthV2;
 using Items;
-using JetBrains.Annotations;
 using Messages.Server.SoundMessages;
 using Mirror;
-using NUnit.Framework;
 using Objects;
 using Objects.Construction;
 using Tiles;
-using UI.Action;
 using UnityEngine;
 using UnityEngine.Events;
 using Util;
@@ -66,9 +63,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	[PrefabModeOnly] public bool Intangible = false;
 
 	public bool CanBeWindPushed = true;
-
-
-
 
 	[PrefabModeOnly] public bool IsPlayer = false;
 
@@ -1191,7 +1185,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 	}
 
-	public void AppliedFriction(float frictionCoefficient)
+	private void AppliedFriction(float frictionCoefficient)
 	{
 		var speedLossDueToFriction = frictionCoefficient * Time.deltaTime;
 
@@ -1966,6 +1960,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (isServer == false) CmdStopPulling();
 		PullSet(null, byClient);
 	}
+
 
 	//--Handles--
 	//pushing
