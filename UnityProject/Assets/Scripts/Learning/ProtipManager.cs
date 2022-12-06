@@ -120,6 +120,5 @@ namespace Learning
 			UI.ShowTip(tip);
 			IsShowingTip = true;
 		}
-		
 	}
 }
