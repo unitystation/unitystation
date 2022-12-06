@@ -42,15 +42,15 @@ namespace Systems.Atmospherics
 		private List<WindEffectData> windEffectNodes = new List<WindEffectData>(30);
 
 		private const float WindParticleBlockTime = 3f;
-		private const float MINIMUM_WIND_FORCE = 2.75f;
+		private const float MINIMUM_WIND_FORCE = 1.25f;
 
 
 		private enum WindStrength
 		{
-			SOUND_ONLY = 3, //TODO : Add wind noise.
-			WEAK = 6, //Tile changes
-			STRONG = 9, //Garbage room/pipes wind
-			SPACE_VACUUM = 12 //Broken window or open airlock to the vast vacuum of space.
+			SOUND_ONLY = 1, //TODO : Add wind noise.
+			WEAK = 2, //Tile changes
+			STRONG = 4, //Garbage room/pipes wind
+			SPACE_VACUUM = 6 //Broken window or open airlock to the vast vacuum of space.
 		}
 
 		/// <summary>
@@ -219,7 +219,7 @@ namespace Systems.Atmospherics
 
 		private void CheckForPushables(Span<RegisterTile> registerTiles, MetaDataNode windyNode)
 		{
-			if (windyNode.WindForce < (int)WindStrength.WEAK) return;
+			if (windyNode.WindForce < (int)WindStrength.WEAK || registerTiles.Length <= 1) return;
 			for (int i = 0; i < registerTiles.Length; i++)
 			{
 				var registerTile = registerTiles[i];
