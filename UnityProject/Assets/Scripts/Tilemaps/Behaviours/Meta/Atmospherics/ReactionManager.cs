@@ -84,14 +84,14 @@ namespace Systems.Atmospherics
 		{
 			if(CustomNetworkManager.IsServer == false) return;
 
-			UpdateManager.Add(CallbackType.LATE_UPDATE, UpdateMe);
+			UpdateManager.Add(CallbackType.FIXED_UPDATE, UpdateMe);
 		}
 
 		private void OnDisable()
 		{
 			if(CustomNetworkManager.IsServer == false) return;
 
-			UpdateManager.Remove(CallbackType.LATE_UPDATE, UpdateMe);
+			UpdateManager.Remove(CallbackType.FIXED_UPDATE, UpdateMe);
 		}
 
 		public struct WindEffectData
