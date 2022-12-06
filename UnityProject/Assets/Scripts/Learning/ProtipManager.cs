@@ -110,7 +110,7 @@ namespace Learning
 
 		public void QueueTip(ProtipSO tip)
 		{
-			if(tip == null) return;
+			if(tip == null || queuedTips.Contains(tip)) return;
 			queuedTips.Enqueue(tip);
 		}
 
