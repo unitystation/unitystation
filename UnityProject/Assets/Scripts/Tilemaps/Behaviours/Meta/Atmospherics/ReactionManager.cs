@@ -197,7 +197,7 @@ namespace Systems.Atmospherics
 
 			Span<RegisterTile> registerTiles = matrix.GetRegisterTile(windyNode.LocalPosition, true).ToArray();
 
-			CheckForPushables(registerTiles, windyNode);
+			PushPushables(registerTiles, windyNode);
 
 			windyNode.WindForce = (windyNode.WindForce * ((RollingAverageN - 1) / RollingAverageN));
 			if (windyNode.WindForce < MINIMUM_WIND_FORCE)
@@ -217,7 +217,7 @@ namespace Systems.Atmospherics
 				windyNode.LocalPosition, windyNode.WindDirection));
 		}
 
-		private void CheckForPushables(Span<RegisterTile> registerTiles, MetaDataNode windyNode)
+		private void PushPushables(Span<RegisterTile> registerTiles, MetaDataNode windyNode)
 		{
 			if (windyNode.WindForce < (int)WindStrength.WEAK || registerTiles.Length <= 1) return;
 			for (int i = 0; i < registerTiles.Length; i++)
