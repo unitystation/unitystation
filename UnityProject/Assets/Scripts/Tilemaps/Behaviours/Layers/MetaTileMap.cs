@@ -21,9 +21,7 @@ namespace TileManagement
 		public int TargetMSpreFrame = 5;
 
 		private Stopwatch stopwatch = new Stopwatch();
-
-		private int CurrentFrame = 0;
-
+		
 		private readonly Dictionary<Layer, Dictionary<Vector3Int, TileLocation>> PresentTiles =
 			new Dictionary<Layer, Dictionary<Vector3Int, TileLocation>>();
 
