@@ -22,6 +22,7 @@ namespace TileManagement
 
 		private Stopwatch stopwatch = new Stopwatch();
 
+		private int CurrentFrame = 0;
 
 		private readonly Dictionary<Layer, Dictionary<Vector3Int, TileLocation>> PresentTiles =
 			new Dictionary<Layer, Dictionary<Vector3Int, TileLocation>>();
@@ -230,6 +231,7 @@ namespace TileManagement
 
 		public void UpdateMe()
 		{
+			CurrentFrame = Time.frameCount;
 			var transform1 = ObjectLayer.transform;
 			localToWorldMatrix = transform1.localToWorldMatrix;
 			worldToLocalMatrix = transform1.worldToLocalMatrix;
@@ -246,7 +248,9 @@ namespace TileManagement
 					if (QueuedChanges.Count == 0)
 						break;
 					tileLocation = QueuedChanges.Dequeue();
+					if (tileLocation.ProcessedOnFrame == CurrentFrame) continue;
 					MainThreadTileChange(tileLocation);
+					tileLocation.ProcessedOnFrame = CurrentFrame;
 				}
 			}
 
@@ -262,11 +266,6 @@ namespace TileManagement
 		{
 			lock (QueuedChanges)
 			{
-				if (QueuedChanges.Contains(tileLocation))
-				{
-					return;
-				}
-
 				//cant modify the unity tilemap in a non main thread
 				QueuedChanges.Enqueue(tileLocation);
 			}
