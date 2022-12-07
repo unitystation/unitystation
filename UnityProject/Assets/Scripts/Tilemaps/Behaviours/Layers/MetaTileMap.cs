@@ -267,6 +267,7 @@ namespace TileManagement
 			lock (QueuedChanges)
 			{
 				if (tileLocation.InQueue) return;
+				tileLocation.InQueue = true;
 				//cant modify the unity tilemap in a non main thread
 				QueuedChanges.Enqueue(tileLocation);
 			}
