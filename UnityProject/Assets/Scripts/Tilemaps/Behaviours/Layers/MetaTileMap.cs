@@ -231,7 +231,6 @@ namespace TileManagement
 
 		public void UpdateMe()
 		{
-			CurrentFrame = Time.frameCount;
 			var transform1 = ObjectLayer.transform;
 			localToWorldMatrix = transform1.localToWorldMatrix;
 			worldToLocalMatrix = transform1.worldToLocalMatrix;
@@ -248,9 +247,9 @@ namespace TileManagement
 					if (QueuedChanges.Count == 0)
 						break;
 					tileLocation = QueuedChanges.Dequeue();
-					if (tileLocation.ProcessedOnFrame == CurrentFrame) continue;
+
 					MainThreadTileChange(tileLocation);
-					tileLocation.ProcessedOnFrame = CurrentFrame;
+					tileLocation.InQueue = false;
 				}
 			}
 
@@ -264,8 +263,10 @@ namespace TileManagement
 
 		private void ApplyTileChange(TileLocation tileLocation)
 		{
+
 			lock (QueuedChanges)
 			{
+				if (tileLocation.InQueue) return;
 				//cant modify the unity tilemap in a non main thread
 				QueuedChanges.Enqueue(tileLocation);
 			}
