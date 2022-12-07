@@ -110,6 +110,7 @@ namespace Systems.Atmospherics
 
 		private void UpdateMe()
 		{
+			if (matrix != null && matrix.PresentPlayers.Count == 0) return;
 			Profiler.BeginSample("Wind Effect Time Check");
 
 			windEffectsToRemove.Clear();
