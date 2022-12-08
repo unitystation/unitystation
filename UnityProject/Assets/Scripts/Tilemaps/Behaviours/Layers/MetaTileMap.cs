@@ -21,8 +21,7 @@ namespace TileManagement
 		public int TargetMSpreFrame = 5;
 
 		private Stopwatch stopwatch = new Stopwatch();
-
-
+		
 		private readonly Dictionary<Layer, Dictionary<Vector3Int, TileLocation>> PresentTiles =
 			new Dictionary<Layer, Dictionary<Vector3Int, TileLocation>>();
 
@@ -246,7 +245,9 @@ namespace TileManagement
 					if (QueuedChanges.Count == 0)
 						break;
 					tileLocation = QueuedChanges.Dequeue();
+
 					MainThreadTileChange(tileLocation);
+					tileLocation.InQueue = false;
 				}
 			}
 
@@ -260,13 +261,11 @@ namespace TileManagement
 
 		private void ApplyTileChange(TileLocation tileLocation)
 		{
+
 			lock (QueuedChanges)
 			{
-				if (QueuedChanges.Contains(tileLocation))
-				{
-					return;
-				}
-
+				if (tileLocation.InQueue) return;
+				tileLocation.InQueue = true;
 				//cant modify the unity tilemap in a non main thread
 				QueuedChanges.Enqueue(tileLocation);
 			}
