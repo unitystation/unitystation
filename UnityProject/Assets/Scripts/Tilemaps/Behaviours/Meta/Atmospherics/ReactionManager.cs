@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Messages.Server;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Profiling;
 using Random = UnityEngine.Random;
@@ -13,8 +14,8 @@ namespace Systems.Atmospherics
 	/// </summary>
 	public class ReactionManager : MonoBehaviour
 	{
-		private float RollingAverageN = 50;
-		private float PushMultiplier = 4;
+		[SerializeField] private float RollingAverageN = 50;
+		[SerializeField] private float PushMultiplier = 4;
 
 		private GameObject fireLight = null;
 		public GameObject FireLightPrefab => fireLight;
@@ -32,8 +33,8 @@ namespace Systems.Atmospherics
 		private List<Vector3Int> hotspotsToRemove;
 		private TilemapDamage[] tilemapDamages;
 
-		private float timePassed;
-		private int reactionTick;
+		[SerializeField, ReadOnly] private float timePassed;
+		[SerializeField, ReadOnly] private int reactionTick;
 
 		private HashSet<MetaDataNode> activeWindEffectSpots = new HashSet<MetaDataNode>(30);
 
@@ -42,7 +43,8 @@ namespace Systems.Atmospherics
 		private List<WindEffectData> windEffectNodes = new List<WindEffectData>(30);
 
 		private const float WindParticleBlockTime = 3f;
-		private const float MINIMUM_WIND_FORCE = 0.50f;
+		private const float MINIMUM_WIND_FORCE = 0.35f;
+		private const float MINIMUM_PLAYER_PUSH_FORCE = 6.25f;
 
 		/// <summary>
 		/// reused when applying exposures to lots of tiles to avoid creating GC from
@@ -75,14 +77,14 @@ namespace Systems.Atmospherics
 		{
 			if(CustomNetworkManager.IsServer == false) return;
 
-			UpdateManager.Add(CallbackType.FIXED_UPDATE, UpdateMe);
+			UpdateManager.Add(UpdateMe, 0.05f);
 		}
 
 		private void OnDisable()
 		{
 			if(CustomNetworkManager.IsServer == false) return;
 
-			UpdateManager.Remove(CallbackType.FIXED_UPDATE, UpdateMe);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 		}
 
 		public struct WindEffectData
@@ -184,7 +186,6 @@ namespace Systems.Atmospherics
 
 		private void ProcessWindNodes(MetaDataNode windyNode)
 		{
-			if (windyNode.WindForce < MINIMUM_WIND_FORCE) return;
 			windyNode.WindData[(int) PushType.Wind] = (Vector2) windyNode.WindDirection * (windyNode.WindForce);
 
 			Span<RegisterTile> registerTiles = matrix.GetRegisterTile(windyNode.LocalPosition, true).ToArray();
@@ -211,7 +212,7 @@ namespace Systems.Atmospherics
 
 		private void PushPushables(Span<RegisterTile> registerTiles, MetaDataNode windyNode)
 		{
-			if (registerTiles.Length <= 1) return;
+			if (windyNode.WindForce < MINIMUM_WIND_FORCE || registerTiles.IsEmpty) return;
 			for (int i = 0; i < registerTiles.Length; i++)
 			{
 				var registerTile = registerTiles[i];
@@ -225,16 +226,15 @@ namespace Systems.Atmospherics
 				float correctedForce = (windyNode.WindForce ) / (int) pushable.GetSize();
 				correctedForce = Mathf.Clamp(correctedForce, 0, 30);
 
-				if (pushable.CanBeWindPushed)
-				{
-					pushable.NewtonianPush(registerTile.transform.rotation * (Vector2)windyNode.WindDirection,
-						Random.Range((float)(correctedForce * 0.8), correctedForce),  spinFactor: Random.Range(1, 150));
-				}
-
 				if (pushable.stickyMovement)
 				{
 					pushable.TryTilePush((transform.rotation * (Vector2)windyNode.WindDirection).RoundTo2Int(), null);
 				}
+
+				if (pushable.CanBeWindPushed == false) return;
+				if (pushable.IsPlayer && windyNode.WindForce < MINIMUM_PLAYER_PUSH_FORCE) return;
+				pushable.NewtonianPush(registerTile.transform.rotation * (Vector2)windyNode.WindDirection,
+					Random.Range((float)(correctedForce * 0.8), correctedForce),  spinFactor: Random.Range(1, 150));
 			}
 		}
 
