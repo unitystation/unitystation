@@ -31,6 +31,12 @@ namespace CameraEffects
 		public LightingSystem LightingSystem;
 
 
+		private MultiInterestBool blindness = new MultiInterestBool(false,
+			MultiInterestBool.RegisterBehaviour.RegisterFalse,
+			MultiInterestBool.BoolBehaviour.ReturnOnFalse);
+
+
+		public MultiInterestBool Blindness => blindness;
 
 
 		public float BlindFOVDistance = 0.65f;
@@ -40,6 +46,7 @@ namespace CameraEffects
 		public void Awake()
 		{
 			LightingSystem = this.GetComponent<LightingSystem>();
+			blindness.OnBoolChange.AddListener(BlindnessValue);
 
 			if (minimalVisibilitySprite != null)
 			{

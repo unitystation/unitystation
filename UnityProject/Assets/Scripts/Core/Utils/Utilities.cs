@@ -20,6 +20,21 @@ namespace Core.Utils
 
 		private bool state;
 
+		private RegisterBehaviour Behaviour = RegisterBehaviour.RemoveFalse;
+
+		private BoolBehaviour SetBoolBehaviour = BoolBehaviour.ReturnOnTrue;
+
+		public enum RegisterBehaviour
+		{
+			RemoveFalse, //Your entry of false will be just removed from the dictionary and won't contribute to
+			RegisterFalse //Your entry will be registered as false in the dictionary and contribute to options
+		}
+
+		public enum BoolBehaviour
+		{
+			ReturnOnFalse, //if any value is false Overrides all
+			ReturnOnTrue //If any value is true overrides all
+		}
 
 		public bool initialState => InitialState;
 
@@ -27,13 +42,22 @@ namespace Core.Utils
 
 		public Dictionary<object, bool> InterestedParties = new Dictionary<object ,bool>();
 
-		public BoolEvent OnBoolChange;
+		public BoolEvent OnBoolChange = new BoolEvent();
+
+		public void RemovePosition(object Instance)
+		{
+			if (InterestedParties.ContainsKey(Instance))
+			{
+				InterestedParties.Remove(Instance);
+			}
+			RecalculateBoolCash();
+		}
 
 		public void RecordPosition(object Instance, bool Position)
 		{
-			if (Position)
+			if (Position || Behaviour == RegisterBehaviour.RegisterFalse)
 			{
-				InterestedParties[Instance] = true;
+				InterestedParties[Instance] = Position;
 			}
 			else
 			{
@@ -48,24 +72,56 @@ namespace Core.Utils
 
 		private void RecalculateBoolCash()
 		{
+			bool? Tracked = null;
+
 			foreach (var Position in InterestedParties)
 			{
 				if (Position.Value)
 				{
-					if (state == false)
+					Tracked = Position.Value;
+					if (SetBoolBehaviour == BoolBehaviour.ReturnOnTrue)
 					{
-						state = true;
-						OnBoolChange.Invoke(state);
-					}
+						if (state == false)
+						{
+							state = true;
+							OnBoolChange.Invoke(state);
+						}
 
-					return;
+						return;
+					}
+				}
+				else
+				{
+					Tracked = Position.Value;
+					if (SetBoolBehaviour == BoolBehaviour.ReturnOnFalse)
+					{
+						if (state == true)
+						{
+							state = false;
+							OnBoolChange?.Invoke(state);
+						}
+
+						return;
+					}
 				}
 			}
 
-			if (state)
+			if (Tracked != null)
 			{
-				state = false;
-				OnBoolChange.Invoke(state);
+				if (Tracked.Value != state)
+				{
+					state = Tracked.Value;
+					OnBoolChange?.Invoke(state);
+				}
+				return;
+			}
+
+
+
+			if (state != InitialState)
+			{
+				state = InitialState;
+				OnBoolChange?.Invoke(state);
 			}
 
 		}
@@ -74,6 +130,16 @@ namespace Core.Utils
 		{
 			return value.State;
 		}
+
+		public MultiInterestBool(bool InInitialState = false,
+			RegisterBehaviour inRegisterBehaviour = RegisterBehaviour.RemoveFalse,
+			BoolBehaviour InSetBoolBehaviour = BoolBehaviour.ReturnOnTrue)
+		{
+			InitialState = InInitialState;
+			Behaviour = inRegisterBehaviour;
+			SetBoolBehaviour = InSetBoolBehaviour;
+		}
+
 	}
 }
 
