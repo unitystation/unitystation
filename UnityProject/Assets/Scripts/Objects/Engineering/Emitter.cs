@@ -19,7 +19,7 @@ namespace Objects.Engineering
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
 		private AccessRestrictions accessRestrictions;
-		private ClearanceCheckable clearanceCheckable;
+		private ClearanceRestricted clearanceRestricted;
 		private ElectricalNodeControl electricalNodeControl;
 
 		[SerializeField]
@@ -58,7 +58,7 @@ namespace Objects.Engineering
 			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			registerTile = GetComponent<RegisterTile>();
 			accessRestrictions = GetComponent<AccessRestrictions>();
-			clearanceCheckable = GetComponent<ClearanceCheckable>();
+			clearanceRestricted = GetComponent<ClearanceRestricted>();
 			electricalNodeControl = GetComponent<ElectricalNodeControl>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 		}
@@ -180,7 +180,7 @@ namespace Objects.Engineering
 				return; //we found access, skip clearance check
 			}
 
-			if (clearanceCheckable.HasClearance(interaction.Performer))
+			if (clearanceRestricted.HasClearance(interaction.Performer))
 			{
 				ToggleEmitter();
 			}

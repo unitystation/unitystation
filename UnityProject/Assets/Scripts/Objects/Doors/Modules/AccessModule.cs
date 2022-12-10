@@ -1,17 +1,16 @@
 using Systems.Clearance;
- using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using Systems.Electricity;
-using Initialisation;
 using Random = UnityEngine.Random;
 
 namespace Doors.Modules
 {
-	[RequireComponent(typeof(ClearanceCheckable))]
+	[RequireComponent(typeof(ClearanceRestricted))]
 	public class AccessModule : DoorModuleBase
 	{
-		private ClearanceCheckable clearanceCheckable;
-		public ClearanceCheckable ClearanceCheckable => clearanceCheckable;
+		private ClearanceRestricted clearanceRestricted;
+		public ClearanceRestricted ClearanceRestricted => clearanceRestricted;
 		private bool emergancyAccess = false;
 
 		[SerializeField]
@@ -21,7 +20,7 @@ namespace Doors.Modules
 		protected override void Awake()
 		{
 			base.Awake();
-			clearanceCheckable = GetComponent<ClearanceCheckable>();
+			clearanceRestricted = GetComponent<ClearanceRestricted>();
 		}
 
 
@@ -70,7 +69,7 @@ namespace Doors.Modules
 
 		private bool ProcessCheckAccess(GameObject player)
 		{
-			if (clearanceCheckable.HasClearance(player))
+			if (clearanceRestricted.HasClearance(player))
 			{
 				return true;
 			}
@@ -91,7 +90,7 @@ namespace Doors.Modules
 
 		public bool ProcessCheckAccess(IEnumerable<Clearance> clearance)
 		{
-			if (clearanceCheckable.HasClearance(clearance))
+			if (clearanceRestricted.HasClearance(clearance))
 			{
 				return true;
 			}

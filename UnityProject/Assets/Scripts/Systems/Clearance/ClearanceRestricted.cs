@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Systems.Clearance
 {
-	public class ClearanceCheckable: MonoBehaviour
+	public class ClearanceRestricted: MonoBehaviour
 	{
 		[SerializeField]
 		[ReorderableList]
@@ -75,17 +75,17 @@ namespace Systems.Clearance
 			// Try get object in ID slot
 			foreach (var slot in playerStorage.GetNamedItemSlots(NamedSlot.id))
 			{
-				if (slot.ItemObject != null && slot.ItemObject.TryGetComponent<IClearanceProvider>(out var idObject))
+				if (slot.ItemObject != null && slot.ItemObject.TryGetComponent<IClearanceSource>(out var idObject))
 				{
-					return HasClearance(idObject.GetClearance);
+					return HasClearance(idObject.GetCurrentClearance);
 				}
 			}
 
 			// Nothing worked, let's go with active hand
 			var activeHandObject = playerStorage.GetActiveHandSlot().ItemObject;
-			if (activeHandObject != null && activeHandObject.TryGetComponent<IClearanceProvider>(out var handObject))
+			if (activeHandObject != null && activeHandObject.TryGetComponent<IClearanceSource>(out var handObject))
 			{
-				return HasClearance(handObject.GetClearance);
+				return HasClearance(handObject.GetCurrentClearance);
 			}
 
 			return false;

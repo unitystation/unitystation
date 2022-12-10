@@ -20,7 +20,7 @@ namespace Items.PDA
 		ICheckedInteractable<HandApply>,
 		ICheckedInteractable<InventoryApply>,
 		IServerInventoryMove,
-		IClearanceProvider
+		IClearanceSource
 	{
 		// TODO: consider moving uplink code into its own class (perhaps compatible with pen, headset uplinks)
 
@@ -83,6 +83,7 @@ namespace Items.PDA
 
 		/// <summary> The IDCard that is currently inserted into the PDA </summary>
 		private IDCard IDCard;
+		private IClearanceSource idClearance;
 
 		/// <summary> The name of the currently registered player (since the last PDA reset) </summary>
 		public string RegisteredPlayerName { get; private set; }
@@ -347,6 +348,7 @@ namespace Items.PDA
 
 				Inventory.ServerTransfer(fromSlot, IDSlot);
 				IDCard = card;
+				idClearance = card.GetComponent<IClearanceSource>();
 			}
 
 			else if (item.TryGetComponent(out PDACartridge cartridge))
@@ -477,9 +479,11 @@ namespace Items.PDA
 		private void OnIDSlotChanged()
 		{
 			IDCard = null;
+			idClearance = null;
 			if (IDSlot.IsOccupied && isServer)
 			{
 				IDCard = IDSlot.Item.GetComponent<IDCard>();
+				idClearance = IDSlot.Item.GetComponent<IClearanceSource>();
 
 				if (RegisteredPlayerName == default)
 				{
@@ -535,19 +539,17 @@ namespace Items.PDA
 			{
 				return IDCard;
 			}
-			else
+
+			if (IDSlot.Item && IDSlot.Item.TryGetComponent<IDCard>(out var insertedID))
 			{
-				if (IDSlot.Item && IDSlot.Item.TryGetComponent<IDCard>(out var insertedID))
-				{
-					return insertedID;
-				}
+				return insertedID;
 			}
 			return null;
 		}
 
-		// All the methods above will be obsolete as soon as we migrate
-		public IEnumerable<Clearance> GetClearance => GetIDCard().OrNull()?.GetComponent<IClearanceProvider>()?.GetClearance;
-
 		#endregion IDAccess
+
+		public IEnumerable<Clearance> IssuedClearance => idClearance?.IssuedClearance;
+		public IEnumerable<Clearance> LowPopIssuedClearance => idClearance.LowPopIssuedClearance;
 	}
 }

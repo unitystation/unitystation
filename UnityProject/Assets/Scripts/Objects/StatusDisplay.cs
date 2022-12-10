@@ -391,12 +391,12 @@ namespace Objects.Wallmounts
 			var accessMod = doorController.ModulesList.Find(x => x is AccessModule);
 			if (accessMod != null && AccessRestrictions != null && accessMod is AccessModule c)
 			{
-				if (c.ClearanceCheckable == null)
+				if (c.ClearanceRestricted == null)
 				{
 					Logger.Log("No clearance found checkable component found.");
 					return;
 				}
-				if (c.ClearanceCheckable.HasClearance(accessRestrictions.clearanceRestriction) == false)
+				if (c.ClearanceRestricted.HasClearance(accessRestrictions.clearanceRestriction) == false)
 				{
 					Chat.AddActionMsgToChat(gameObject, CLEARANCE_LINK_FAIL_STRING, CLEARANCE_LINK_FAIL_STRING);
 					return;
@@ -498,8 +498,8 @@ namespace Objects.Wallmounts
 				foreach (var module in door.ModulesList)
 				{
 					if(module is not AccessModule c) continue;
-					if(c.ClearanceCheckable == null || AccessRestrictions == null) continue;
-					if(c.ClearanceCheckable.HasClearance(accessRestrictions.clearanceRestriction) == false) return;
+					if(c.ClearanceRestricted == null || AccessRestrictions == null) continue;
+					if(c.ClearanceRestricted.HasClearance(accessRestrictions.clearanceRestriction) == false) return;
 				}
 				door.TryOpen(null, true);
 			}

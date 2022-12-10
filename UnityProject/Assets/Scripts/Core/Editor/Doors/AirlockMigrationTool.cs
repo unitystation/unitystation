@@ -132,7 +132,7 @@ namespace Core.Editor.Doors
 
 		private GameObject ReplaceGoClearance(GameObject instance)
 		{
-			var clearanceCheckable = instance.GetComponentInChildren<ClearanceCheckable>();
+			var clearanceCheckable = instance.GetComponentInChildren<ClearanceRestricted>();
 			var accessRestrictions = instance.GetComponentInChildren<AccessRestrictions>();
 			if (clearanceCheckable && accessRestrictions)
 			{
@@ -155,7 +155,7 @@ namespace Core.Editor.Doors
 			foreach (var door in doors)
 			{
 				AddToLog($"processing {door.name}...");
-				var clearanceCheckable = door.GetComponentInChildren<ClearanceCheckable>();
+				var clearanceCheckable = door.GetComponentInChildren<ClearanceRestricted>();
 				var accessRestrictions = door.GetComponentInChildren<AccessRestrictions>();
 				if (clearanceCheckable && accessRestrictions)
 				{

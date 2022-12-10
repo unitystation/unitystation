@@ -22,14 +22,14 @@ namespace Weapons
 			}
 		}
 
-		private ClearanceCheckable clearanceCheckable;
+		private ClearanceRestricted clearanceRestricted;
 
 		[SerializeField]
 		private string deniedMessage;
 
 		private void Awake()
 		{
-			clearanceCheckable = GetComponent<ClearanceCheckable>();
+			clearanceRestricted = GetComponent<ClearanceRestricted>();
 		}
 
 		public override void ServerBehaviour(AimApply interaction, bool isSuicide)
@@ -56,7 +56,7 @@ namespace Weapons
 				return; //we found access skip clearance check
 			}
 
-			if (clearanceCheckable.HasClearance(interaction.Performer))
+			if (clearanceRestricted.HasClearance(interaction.Performer))
 			{
 				CallShotServer(interaction, isSuicide);
 				return;
@@ -85,7 +85,7 @@ namespace Weapons
 				return; //we found access skip clearance check
 			}
 
-			if (clearanceCheckable.HasClearance(interaction.Performer))
+			if (clearanceRestricted.HasClearance(interaction.Performer))
 			{
 				CallShotClient(interaction, isSuicide);
 

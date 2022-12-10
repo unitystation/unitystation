@@ -29,7 +29,7 @@ namespace Objects.Drawers
 		}
 
 		private AccessRestrictions accessRestrictions;
-		private ClearanceCheckable clearanceCheckable;
+		private ClearanceRestricted clearanceRestricted;
 
 		private const float BURNING_DURATION = 5f;
 
@@ -39,7 +39,7 @@ namespace Objects.Drawers
 		{
 			base.Awake();
 			accessRestrictions = GetComponent<AccessRestrictions>();
-			clearanceCheckable = GetComponent<ClearanceCheckable>();
+			clearanceRestricted = GetComponent<ClearanceRestricted>();
 		}
 
 		// This region (Interaction-RightClick) shouldn't exist once TODO in class summary is done.
@@ -59,9 +59,9 @@ namespace Objects.Drawers
 			{
 				if (accessRestrictions.CheckAccess(PlayerManager.LocalPlayerObject) == false) return result;
 			}
-			else if (clearanceCheckable)
+			else if (clearanceRestricted)
 			{
-				if (clearanceCheckable.HasClearance(PlayerManager.LocalPlayerObject) == false) return result;
+				if (clearanceRestricted.HasClearance(PlayerManager.LocalPlayerObject) == false) return result;
 			}
 
 			var cremateInteraction = ContextMenuApply.ByLocalPlayer(gameObject, null);
