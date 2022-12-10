@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Items;
-using Managers;
 using UnityEngine;
 using Mirror;
 using Systems.Clearance;
@@ -12,9 +10,8 @@ using WebSocketSharp;
 /// <summary>
 ///     ID card properties
 /// </summary>
-public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInteractable<HandActivate>, IExaminable, IClearanceProvider
+public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInteractable<HandActivate>, IExaminable
 {
-
 	[Tooltip("Sprite to use when the card is a normal card")]
 	[SerializeField]
 	private Sprite standardSprite = null;
@@ -42,6 +39,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	[SerializeField]
 	private bool autoInitOnPickup = false;
 	private bool initialized;
+	private BasicClearanceSource clearanceSource;
 
 	public JobType JobType => jobType;
 	public Occupation Occupation => OccupationList.Instance.Get(JobType);
@@ -61,33 +59,22 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 
 	public int[] currencies = new int[(int)CurrencyType.Total];
 
-	//The actual list of access allowed set via the server and synced to all clients
-	private readonly SyncListClearance clearanceSyncList = new SyncListClearance();
-
 	//To switch the card sprites when the type changes
 	private SpriteRenderer spriteRenderer;
 	private Pickupable pickupable;
 
 	private ItemAttributesV2 itemAttributes;
 
-	public IEnumerable<Clearance> GetClearance => clearanceSyncList;
-
 	private void Awake()
 	{
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		pickupable = GetComponent<Pickupable>();
 		itemAttributes = GetComponent<ItemAttributesV2>();
+		clearanceSource = GetComponent<BasicClearanceSource>();
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		//This will add the access from ManuallyAddedAccess list
-		if (manuallyAddedClearance.Count > 0)
-		{
-			ServerAddAccess(manuallyAddedClearance);
-			SyncIDCardType(idCardType, manuallyAssignCardType);
-		}
-
 		initialized = false;
 	}
 
@@ -120,43 +107,50 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 
 		jobType = occupation.JobType;
 
-		var clearanceToGive = GameManager.Instance.CentComm.IsLowPop
-			? occupation.IssuedLowPopClearance
-			: occupation.IssuedClearance;
+		var issuedClearance = occupation.IssuedClearance;
+		var lowPopClearance = occupation.IssuedLowPopClearance;
 
-		if (clearanceToGive == occupation.IssuedLowPopClearance && clearanceToGive.Count == 0)
-			clearanceToGive = occupation.IssuedClearance; //(Max) : Incase we forgot to set it up in the SO aka you're lazy like me
+		if (lowPopClearance.Any() == false)
+		{
+			lowPopClearance = issuedClearance;
+			Logger.LogError($"Occupation {occupation} has no issued clearance for low pop! Using normal clearance instead.", Category.Jobs);
+		}
 
-		if (jobType == JobType.CAPTAIN)
+		switch (jobType)
 		{
-			Initialize(IDCardType.captain, jobType, clearanceToGive, inventory.gameObject.name);
-		}
-		else if (jobType == JobType.HOP || jobType == JobType.HOS || jobType == JobType.CMO || jobType == JobType.RD ||
-		         jobType == JobType.CHIEF_ENGINEER)
-		{
-			Initialize(IDCardType.command, jobType, clearanceToGive, inventory.gameObject.name);
-		}
-		else
-		{
-			Initialize(IDCardType.standard, jobType, clearanceToGive, inventory.gameObject.name);
+			case JobType.CAPTAIN:
+				Initialize(IDCardType.captain, jobType, issuedClearance, lowPopClearance, inventory.gameObject.name);
+				break;
+			case JobType.HOP or JobType.HOS or JobType.CMO or JobType.RD or JobType.CHIEF_ENGINEER:
+				Initialize(IDCardType.command, jobType, issuedClearance, lowPopClearance, inventory.gameObject.name);
+				break;
+			default:
+				Initialize(IDCardType.standard, jobType, issuedClearance, lowPopClearance, inventory.gameObject.name);
+				break;
 		}
 	}
 
-
 	/// <summary>
-	/// Configures the ID card with the specified settings
+	/// Initialize the ID card with the specified parameters. Normally called after picking up an auto-init ID card.
 	/// </summary>
-	/// <param name="idCardType">type of card</param>
-	/// <param name="jobType">job on the card</param>
-	/// <param name="allowedAccess">what the card can access</param>
-	/// <param name="name">name listed on card</param>
-	private void Initialize(IDCardType idCardType, JobType newJobType, List<Clearance> allowedAccess, string name)
+	/// <param name="newIDCardType"></param>
+	/// <param name="newJobType"></param>
+	/// <param name="issuedClearance"></param>
+	/// <param name="issuedLowPopClearance"></param>
+	/// <param name="characterName"></param>
+	private void Initialize(IDCardType newIDCardType, JobType newJobType, IEnumerable<Clearance> issuedClearance, IEnumerable<Clearance> issuedLowPopClearance, string characterName)
 	{
-		//Set all the synced properties for the card
-		SyncName(registeredName, name);
+		SyncName(registeredName, characterName);
 		SyncJobType(jobType, newJobType);
-		SyncIDCardType(idCardType, idCardType);
-		ServerAddAccess(allowedAccess);
+		SyncIDCardType(newIDCardType, newIDCardType);
+		if (clearanceSource == null)
+		{
+			Logger.LogError($"IDCard {gameObject.name} has no IClearanceSource component, cannot set clearance!", Category.Objects);
+			return;
+		}
+
+		clearanceSource.ServerSetClearance(issuedClearance);
+		clearanceSource.ServerSetLowPopClearance(issuedLowPopClearance);
 	}
 
 	public void SyncName(string oldName, string newName)
@@ -216,31 +210,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		pickupable.RefreshUISlotImage();
 	}
 
-	//TODO Move over to use ClearanceCheckable to do this check
-	/// <summary>
-	/// Checks if this id card has the indicated clearance.
-	/// </summary>
-	/// <param name="access"></param>
-	/// <returns></returns>
-	public bool HasAccess(Clearance access)
-	{
-		return clearanceSyncList.Contains(access);
-	}
 
-	//TODO Move over to use ClearanceCheckable to do this che
-	/// <summary>
-	/// Checks if this id card has the indicated access from a list of clearances.
-	/// </summary>
-	/// <param name="access"></param>
-	/// <returns></returns>
-	public bool HasAccess(List<Clearance> access)
-	{
-		foreach (var accessToCheck in access)
-		{
-			if (clearanceSyncList.Contains(accessToCheck)) return true;
-		}
-		return false;
-	}
 
 	public string GetJobTitle()
 	{
@@ -251,60 +221,6 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		}
 
 		return jobTitle;
-	}
-
-	/// <summary>
-	/// Removes the indicated clearance from this IDCard
-	/// </summary>
-	[Server]
-	public void ServerRemoveAccess(Clearance access)
-	{
-		if (!HasAccess(access)) return;
-		clearanceSyncList.Remove(access);
-		netIdentity.isDirty = true;
-	}
-
-	/// <summary>
-	/// Adds the indicated clearance to this IDCard
-	/// </summary>
-	[Server]
-	public void ServerAddAccess(Clearance access)
-	{
-		if (HasAccess(access)) return;
-		clearanceSyncList.Add(access);
-		netIdentity.isDirty = true;
-	}
-
-	[Server]
-	public void ReplaceAccessWithLowPopVersion()
-	{
-		ServerAddAccess(Occupation.IssuedLowPopClearance);
-	}
-
-	/// <summary>
-	/// Adds the indicated clearance to this id card
-	/// </summary>
-	/// <param name="accessToBeAdded"></param>
-	[Server]
-	public void ServerAddAccess(IEnumerable<Clearance> accessToBeAdded)
-	{
-		foreach (var access in accessToBeAdded)
-		{
-			ServerAddAccess(access);
-		}
-	}
-
-	/// <summary>
-	/// Removes the indicated clearance from this id card
-	/// </summary>
-	/// <param name="accessToBeAdded"></param>
-	[Server]
-	public void ServerRemoveAccess(IEnumerable<Clearance> accessToBeRemoved)
-	{
-		foreach (var access in accessToBeRemoved)
-		{
-			ServerRemoveAccess(access);
-		}
 	}
 
 	/// <summary>
@@ -324,13 +240,13 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 
 		if (clear)
 		{
-			clearanceSyncList.Clear();
-			netIdentity.isDirty = true;
+			clearanceSource.ServerClearClearance();
 		}
 
 		if (grantDefaultAccess)
 		{
-			ServerAddAccess(occupation.IssuedClearance);
+			clearanceSource.ServerSetClearance(occupation.IssuedClearance);
+			clearanceSource.ServerSetLowPopClearance(occupation.IssuedLowPopClearance.Any() ? occupation.IssuedLowPopClearance : occupation.IssuedClearance);
 		}
 
 		SyncJobType(jobType, occupation.JobType);
