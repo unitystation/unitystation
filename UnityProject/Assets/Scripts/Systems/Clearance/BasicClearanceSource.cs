@@ -43,7 +43,18 @@ namespace Systems.Clearance
 		}
 
 		/// <summary>
-		/// Interface to update access definitions on this issued clearance object.
+		/// Update clearance list on this source by adding a single one.
+		/// </summary>
+		/// <param name="newClearance"></param>
+		[Server]
+		public void ServerAddClearance(Clearance newClearance)
+		{
+			syncedClearance.Add(newClearance);
+			netIdentity.isDirty = true;
+		}
+
+		/// <summary>
+		/// Update clearance list on this source by setting its value to a new one.
 		/// </summary>
 		/// <param name="newClearance">Complete list of wanted clearance</param>
 		[Server]
@@ -54,13 +65,23 @@ namespace Systems.Clearance
 			//values directly?
 			foreach (var c in newClearance)
 			{
-				syncedClearance.Add(c);
-				netIdentity.isDirty = true;
+				ServerAddClearance(c);
 			}
 		}
 
 		/// <summary>
-		/// Interface to update access definitions on this issued clearance object for low pop.
+		/// Update low pop clearance list on this source by adding a single one.
+		/// </summary>
+		/// <param name="newClearance"></param>
+		[Server]
+		public void ServerAddLowPopClearance(Clearance newClearance)
+		{
+			syncedLowpopClearance.Add(newClearance);
+			netIdentity.isDirty = true;
+		}
+
+		/// <summary>
+		/// Update low pop clearance list on this source by setting its value to a new one.
 		/// </summary>
 		/// <param name="newClearance">Complete list of wanted clearance</param>
 		[Server]
@@ -71,10 +92,24 @@ namespace Systems.Clearance
 			//values directly?
 			foreach (var c in newClearance)
 			{
-				syncedLowpopClearance.Add(c);
-				netIdentity.isDirty = true;
+				ServerAddLowPopClearance(c);
 			}
 		}
+
+		[Server]
+		public void ServerRemoveClearance(Clearance forRemoval)
+		{
+			syncedClearance.Remove(forRemoval);
+			netIdentity.isDirty = true;
+		}
+
+		[Server]
+		public void ServerRemoveLowPopClearance(Clearance forRemoval)
+		{
+			syncedLowpopClearance.Remove(forRemoval);
+			netIdentity.isDirty = true;
+		}
+
 		/// <summary>
 		/// Clears the current clearance list.
 		/// </summary>
