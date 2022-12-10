@@ -107,5 +107,50 @@ namespace HealthV2
 
 		}
 
+		public void SyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn)
+		{
+			OnBodyID = CurrentlyOn;
+			Preimplemented.ImplementationSyncOnPlayer(PreviouslyOn, CurrentlyOn);
+		}
+
+		void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)
+		{
+			if (ShowForPlayer != null)
+			{
+				OnBodyID = ShowForPlayer.netId;
+			}
+			else
+			{
+				OnBodyID = NetId.Empty;
+			}
+		}
+
+		public bool IsValidSetup(RegisterPlayer player)
+		{
+			if (player == null) return false;
+			//Valid if with an organ storage?
+
+			//Am I also in the organ storage? E.G Part of the body
+			if (RelatedPart.HealthMaster == null) return false;
+
+			return true;
+		}
+
+		public void ApplyDefaultOrCurrentValues(bool Default)
+		{
+			ApplyChangesBlindness(Default ? false : true);
+		}
+
+		public void ApplyChangesBlindness(bool SetValue)
+		{
+			if (SetValue)
+			{
+				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().Blindness.RecordPosition(this, true);
+			}
+			else
+			{
+				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().Blindness.RemovePosition(this);
+			}
+		}
 	}
 }

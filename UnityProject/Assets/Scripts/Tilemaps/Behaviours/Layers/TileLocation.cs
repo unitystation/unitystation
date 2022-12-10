@@ -16,6 +16,8 @@ namespace TileManagement
 		//TODO Tile map upgrade , Converts into Vector4Int For under floor tiles
 		public Vector3Int position = Vector3Int.zero;
 
+		public bool InQueue = false;
+
 		public void Clean()
 		{
 			metaTileMap = null;

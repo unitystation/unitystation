@@ -28,6 +28,7 @@ namespace Audio.Containers
 
         public AudioMixerGroup GameplayMixer; //Affected by deafness and air pressure and all that stuff
 
+
         private float GameplayVolumeLevel = 1;
 
         public float gameplayVolumeLevel
@@ -42,6 +43,7 @@ namespace Audio.Containers
 		        {
 			        GameplayVolumeLevel = 0.0001f; //Mathf.Log10(0) = Invalid number
 		        }
+
 		        else
 		        {
 			        GameplayVolumeLevel = value;
