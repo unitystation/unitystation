@@ -137,7 +137,6 @@ public class Eye : BodyPartFunctionality, IItemInOutMovedPlayer, IClientSynchron
 
 	public void ApplyChangesBlindness(bool SetValue)
 	{
-
 		if (SetValue)
 		{
 			Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().Blindness.RecordPosition(this, !SetValue);
