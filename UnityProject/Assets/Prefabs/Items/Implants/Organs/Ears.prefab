@@ -105,6 +105,17 @@ PrefabInstance:
       value: There are three parts to the ear. Inner, middle and outer. Only one
         of these parts should be normally visible.
       objectReference: {fileID: 0}
+    - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: CapableMutations.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: CapableMutations.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b4c6743f4c23074cb7c96b6c4e64aa5,
+        type: 2}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: BodyPartType
