@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Objects.Research;
 using Systems.Explosions;
+using Systems.Teleport;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -81,19 +82,13 @@ namespace Items.Others
 
 			if (emergency)
 			{
-				//Get random x from -10 to 10
-				var xCoord = Random.Range(0, 11) * (DMMath.Prob(50) ? -1 : 1);
-
-				//Get random y from -10 to 10 but not 0 if x is 0 so to not spawn two portals on player
-				var yCoord = Random.Range((xCoord == 0 ? 1 : 0), 11) * (DMMath.Prob(50) ? -1 : 1);
-
-				worldPosExit = worldPosEntrance + new Vector3(xCoord, yCoord);
+				worldPosExit = worldPosEntrance + TeleportUtils.RandomTeleportLocation();
 			}
 			else
 			{
 				worldPosExit = linkedBeacon.ObjectBehaviour.OfficialPosition;
 			}
-			
+
 			worldPosExit = worldPosExit.RoundToInt();
 
 			//TODO maybe coroutine this for better effect??
