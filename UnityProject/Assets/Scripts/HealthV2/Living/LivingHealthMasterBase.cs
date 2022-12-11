@@ -909,6 +909,7 @@ namespace HealthV2
 			}
 
 			IndicatePain(damage);
+			OnTakeDamageType?.Invoke(damageType, damagedBy);
 		}
 
 		/// <summary>
