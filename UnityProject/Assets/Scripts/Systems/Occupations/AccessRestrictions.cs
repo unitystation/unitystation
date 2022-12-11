@@ -24,16 +24,6 @@ public class AccessRestrictions : MonoBehaviour
 		return CheckAccess(player, MigrationData.Translation[restriction]);
 	}
 
-	public bool CheckAccessCard(GameObject idCardObj)
-	{
-		if (clearanceRestriction != 0)
-		{
-			return CheckAccessCard(idCardObj, clearanceRestriction);
-		}
-
-		return CheckAccessCard(idCardObj, MigrationData.Translation[restriction]);
-	}
-
 	public static bool CheckAccess(GameObject player, Clearance restriction)
 	{
 		// If there isn't any restriction, grant access right away
@@ -64,7 +54,7 @@ public class AccessRestrictions : MonoBehaviour
 		var idCard = GetIDCard(idCardObj);
 		if (idCard)
 		{
-			return idCard.HasAccess(restriction);
+			// return idCard.HasAccess(restriction);
 		}
 		return false;
 	}

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using NaughtyAttributes;
 using ScriptableObjects.Atmospherics;
@@ -8,6 +7,7 @@ using Systems.Atmospherics;
 using Systems.Electricity;
 using Objects.Wallmounts;
 using Shared.Systems.ObjectConnection;
+using Systems.Clearance;
 using UI.Objects.Atmospherics.Acu;
 
 
@@ -47,7 +47,7 @@ namespace Objects.Atmospherics
 	/// </list></remarks>
 	/// </summary>
 	[RequireComponent(typeof(WallmountBehavior))]
-	[RequireComponent(typeof(AccessRestrictions))]
+	[RequireComponent(typeof(ClearanceRestricted))]
 	public class AirController : MonoBehaviour, IServerSpawn, IAPCPowerable, IMultitoolMasterable, ICheckedInteractable<HandApply>, IExaminable
 	{
 		[InfoBox("Several presets exist for server rooms, cold rooms, etc. Add as desired.")]
@@ -62,11 +62,11 @@ namespace Objects.Atmospherics
 
 		[SerializeField]
 		[Tooltip("Whether the ACU should be an air quality sampling source. " +
-				"Disable if the ACU is not in the room it controls. Important to disable for Atmospherics reservoir ACUs.")]
+		         "Disable if the ACU is not in the room it controls. Important to disable for Atmospherics reservoir ACUs.")]
 		private bool acuSamplesAir = true;
 
 		private MetaDataNode facingMetaNode;
-		private AccessRestrictions accessRestrictions;
+		private ClearanceRestricted restricted;
 		private SpriteHandler spriteHandler;
 
 		/// <summary>Invoked when the air controller's state changes.</summary>
@@ -98,7 +98,7 @@ namespace Objects.Atmospherics
 
 		private void Awake()
 		{
-			accessRestrictions = GetComponent<AccessRestrictions>();
+			restricted = GetComponent<ClearanceRestricted>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 
 			Thresholds = initialAcuThresholds.Clone();
@@ -190,8 +190,8 @@ namespace Objects.Atmospherics
 				}
 
 				GasLevelStatus[gas] = gasDetected
-						? GetMetricStatus(Thresholds.GasMoles[gas], AtmosphericAverage.GetGasMoles(gas))
-						: AcuStatus.Nominal;
+					? GetMetricStatus(Thresholds.GasMoles[gas], AtmosphericAverage.GetGasMoles(gas))
+					: AcuStatus.Nominal;
 				CompositionStatus = GasLevelStatus[gas] > CompositionStatus? GasLevelStatus[gas] : CompositionStatus;
 			}
 
@@ -263,13 +263,13 @@ namespace Objects.Atmospherics
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (accessRestrictions.CheckAccessCard(interaction.HandObject))
+			if (restricted.HasClearance(interaction.HandObject))
 			{
 				IsLocked = !IsLocked;
 
 				Chat.AddActionMsgToChat(interaction.Performer,
-						$"You {(IsLocked ? "lock" : "unlock")} the air controller unit.",
-						$"{interaction.PerformerPlayerScript.visibleName} {(IsLocked ? "locks" : "unlocks")} the air controller unit.");
+					$"You {(IsLocked ? "lock" : "unlock")} the air controller unit.",
+					$"{interaction.PerformerPlayerScript.visibleName} {(IsLocked ? "locks" : "unlocks")} the air controller unit.");
 
 				OnStateChanged?.Invoke();
 			}
@@ -278,18 +278,20 @@ namespace Objects.Atmospherics
 		public string Examine(Vector3 worldPos = default)
 		{
 			var situation =
-					OverallStatus == AcuStatus.Nominal ? "a nominal atmosphere"
-					: OverallStatus == AcuStatus.Caution ? "to take caution"
-					: OverallStatus == AcuStatus.Alert ? "a hazardous environment" : "nothing";
+				OverallStatus switch
+				{
+					AcuStatus.Nominal => "a nominal atmosphere",
+					AcuStatus.Caution => "to take caution",
+					AcuStatus.Alert => "a hazardous environment",
+					_ => "nothing"
+				};
 
 			if (IsPowered)
 			{
 				return $"The display is indicating {situation}, and the controls are {(IsLocked ? "locked" : "unlocked")}.";
 			}
-			else
-			{
-				return $"The unit appears to be unpowered, and the controls are {(IsLocked ? "locked" : "unlocked")}.";
-			}
+
+			return $"The unit appears to be unpowered, and the controls are {(IsLocked ? "locked" : "unlocked")}.";
 		}
 
 		#endregion

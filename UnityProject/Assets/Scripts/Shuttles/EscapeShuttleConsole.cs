@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using AdminCommands;
@@ -23,19 +22,16 @@ namespace Objects
 		private float chanceToFailHack = 25f;
 
 		private bool beenEmagged;
-
 		private RegisterTile registerTile;
-
-		[SerializeField]
-		private List<Clearance> validAccess = new List<Clearance>();
-
-		private HashSet<IDCard> registeredIDs = new HashSet<IDCard>();
+		private HashSet<IDCard> registeredIDs = new();
+		private ClearanceRestricted restricted;
 
 		private int requiredSwipesEarlyLaunch => GameManager.Instance.CentComm.CurrentAlertLevel is CentComm.AlertLevel.Red or CentComm.AlertLevel.Delta ? 2 : 4;
 
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
+			restricted = GetComponent<ClearanceRestricted>();
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -49,12 +45,12 @@ namespace Objects
 		{
 			if (interaction.HandObject.TryGetComponent<IDCard>(out var card))
 			{
-				if (card.HasAccess(validAccess))
+				if (restricted.HasClearance(card.ClearanceSource))
 				{
 					RegisterEarlyShuttleLaunch(card, interaction.PerformerPlayerScript);
 					ServerLogEarlyVoteEvent(interaction);
+					return;
 				}
-				return;
 			}
 			TryEmagConsole(interaction);
 		}

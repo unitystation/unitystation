@@ -170,16 +170,6 @@ namespace Objects.Engineering
 
 		private void TryToggleLock(HandApply interaction)
 		{
-			/* --ACCESS REWORK--
-			 *  TODO Remove the AccessRestriction check when we finish migrating!
-			 *
-			 */
-			if (accessRestrictions.CheckAccessCard(interaction.HandObject))
-			{
-				ToggleEmitter();
-				return; //we found access, skip clearance check
-			}
-
 			if (clearanceRestricted.HasClearance(interaction.Performer))
 			{
 				ToggleEmitter();

@@ -24,7 +24,6 @@ namespace Objects.Other
 {
 	[RequireComponent(typeof(ItemStorage))]
 	[RequireComponent(typeof(APCPoweredDevice))]
-	[RequireComponent(typeof(AccessRestrictions))]
 	public class Turret : NetworkBehaviour, ICheckedInteractable<HandApply>, IMultitoolSlaveable, IExaminable, IServerSpawn, ICanOpenNetTab
 	{
 		[SerializeField]
@@ -94,8 +93,8 @@ namespace Objects.Other
 		//No/Yes - neutralizes people who have a weapon out but are not Heads or Security staff.
 		[Tooltip("Neutralize people who have a weapon out but are not Heads or Security staff")]
 		public bool CheckWeaponAuthorisation;
-		[SerializeField]
-		private List<Clearance> weaponAuthorisationClearance = new List<Clearance>();
+
+		[SerializeField] private ClearanceRestricted weaponAuthorisationClearance;
 
 		//Check Security Records:
 		//Yes/No - searches Security Records for criminals.
@@ -112,8 +111,7 @@ namespace Objects.Other
 		[Tooltip("Neutralize All Non-Security and Non-Command Personnel")]
 		public bool CheckUnauthorisedPersonnel;
 
-		[SerializeField]
-		private List<Clearance> authorisedClearance = new List<Clearance>();
+		[SerializeField] private ClearanceRestricted authorisedClearance;
 
 		//Neutralize All Unidentified Life Signs:
 		//Yes/No - neutralizes aliens.
@@ -153,7 +151,7 @@ namespace Objects.Other
 
 		private ItemStorage itemStorage;
 		private APCPoweredDevice apcPoweredDevice;
-		private AccessRestrictions accessRestrictions;
+		private ClearanceRestricted restricted;
 
 		//Used to debug player searching linecast
 		private LineRenderer lineRenderer;
@@ -174,7 +172,7 @@ namespace Objects.Other
 			itemStorage = GetComponent<ItemStorage>();
 			apcPoweredDevice = GetComponent<APCPoweredDevice>();
 			integrity = GetComponent<Integrity>();
-			accessRestrictions = GetComponent<AccessRestrictions>();
+			restricted = GetComponent<ClearanceRestricted>();
 			lineRenderer = GetComponentInChildren<LineRenderer>();
 		}
 
@@ -346,15 +344,7 @@ namespace Objects.Other
 			//Neutralize All Unauthorised Personnel
 			if (CheckUnauthorisedPersonnel)
 			{
-				var allowed = false;
-				foreach (var clearance in authorisedClearance)
-				{
-					if (AccessRestrictions.CheckAccess(script.gameObject, clearance) == false) continue;
-
-					//Only need to check for one valid access
-					allowed = true;
-					break;
-				}
+				var allowed = authorisedClearance.HasClearance(script.gameObject);
 
 				//Check for failure
 				if (allowed == false) return false;
@@ -410,15 +400,7 @@ namespace Objects.Other
 					if (Validations.HasItemTrait(handItem.GameObjectReference, CommonTraits.Instance.Gun))
 					{
 						//Only allow authorised people to have guns
-						var allowed = false;
-						foreach (var clearance in weaponAuthorisationClearance)
-						{
-							if (AccessRestrictions.CheckAccess(script.gameObject, clearance) == false) continue;
-
-							//Only need to check for one valid access
-							allowed = true;
-							break;
-						}
+						bool allowed = weaponAuthorisationClearance.HasClearance(script.gameObject);
 
 						//Check for failure
 						if (allowed == false) return false;
@@ -629,7 +611,7 @@ namespace Objects.Other
 			//If Id try unlock
 			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Id))
 			{
-				if (accessRestrictions.CheckAccessCard(interaction.HandObject) == false)
+				if (restricted.HasClearance(interaction.HandObject) == false)
 				{
 					Chat.AddExamineMsgFromServer(interaction.Performer, $"You need higher authorisation to unlock this {gameObject.ExpensiveName()}");
 					return;

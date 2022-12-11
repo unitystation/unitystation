@@ -83,7 +83,6 @@ namespace Items.PDA
 
 		/// <summary> The IDCard that is currently inserted into the PDA </summary>
 		private IDCard IDCard;
-		private IClearanceSource idClearance;
 
 		/// <summary> The name of the currently registered player (since the last PDA reset) </summary>
 		public string RegisteredPlayerName { get; private set; }
@@ -348,7 +347,6 @@ namespace Items.PDA
 
 				Inventory.ServerTransfer(fromSlot, IDSlot);
 				IDCard = card;
-				idClearance = card.GetComponent<IClearanceSource>();
 			}
 
 			else if (item.TryGetComponent(out PDACartridge cartridge))
@@ -479,11 +477,9 @@ namespace Items.PDA
 		private void OnIDSlotChanged()
 		{
 			IDCard = null;
-			idClearance = null;
 			if (IDSlot.IsOccupied && isServer)
 			{
 				IDCard = IDSlot.Item.GetComponent<IDCard>();
-				idClearance = IDSlot.Item.GetComponent<IClearanceSource>();
 
 				if (RegisteredPlayerName == default)
 				{
@@ -549,7 +545,7 @@ namespace Items.PDA
 
 		#endregion IDAccess
 
-		public IEnumerable<Clearance> IssuedClearance => idClearance?.IssuedClearance;
-		public IEnumerable<Clearance> LowPopIssuedClearance => idClearance.LowPopIssuedClearance;
+		public IEnumerable<Clearance> IssuedClearance => IDCard.OrNull()?.ClearanceSource.IssuedClearance;
+		public IEnumerable<Clearance> LowPopIssuedClearance => IDCard.OrNull()?.ClearanceSource.LowPopIssuedClearance;
 	}
 }

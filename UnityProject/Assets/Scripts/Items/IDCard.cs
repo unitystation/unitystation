@@ -39,7 +39,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	[SerializeField]
 	private bool autoInitOnPickup = false;
 	private bool initialized;
-	private BasicClearanceSource clearanceSource;
+	public BasicClearanceSource ClearanceSource { get; private set; }
 
 	public JobType JobType => jobType;
 	public Occupation Occupation => OccupationList.Instance.Get(JobType);
@@ -57,6 +57,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	[SyncVar(hook = nameof(SyncName))]
 	private string registeredName;
 
+	// FIXME: move currencies to their own component. Labor points and credits don't really have much in common and should be handled on their own components.
 	public int[] currencies = new int[(int)CurrencyType.Total];
 
 	//To switch the card sprites when the type changes
@@ -70,7 +71,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		pickupable = GetComponent<Pickupable>();
 		itemAttributes = GetComponent<ItemAttributesV2>();
-		clearanceSource = GetComponent<BasicClearanceSource>();
+		ClearanceSource = GetComponent<BasicClearanceSource>();
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
@@ -143,14 +144,14 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		SyncName(registeredName, characterName);
 		SyncJobType(jobType, newJobType);
 		SyncIDCardType(newIDCardType, newIDCardType);
-		if (clearanceSource == null)
+		if (ClearanceSource == null)
 		{
 			Logger.LogError($"IDCard {gameObject.name} has no IClearanceSource component, cannot set clearance!", Category.Objects);
 			return;
 		}
 
-		clearanceSource.ServerSetClearance(issuedClearance);
-		clearanceSource.ServerSetLowPopClearance(issuedLowPopClearance);
+		ClearanceSource.ServerSetClearance(issuedClearance);
+		ClearanceSource.ServerSetLowPopClearance(issuedLowPopClearance);
 	}
 
 	public void SyncName(string oldName, string newName)
@@ -240,13 +241,13 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 
 		if (clear)
 		{
-			clearanceSource.ServerClearClearance();
+			ClearanceSource.ServerClearClearance();
 		}
 
 		if (grantDefaultAccess)
 		{
-			clearanceSource.ServerSetClearance(occupation.IssuedClearance);
-			clearanceSource.ServerSetLowPopClearance(occupation.IssuedLowPopClearance.Any() ? occupation.IssuedLowPopClearance : occupation.IssuedClearance);
+			ClearanceSource.ServerSetClearance(occupation.IssuedClearance);
+			ClearanceSource.ServerSetLowPopClearance(occupation.IssuedLowPopClearance.Any() ? occupation.IssuedLowPopClearance : occupation.IssuedClearance);
 		}
 
 		SyncJobType(jobType, occupation.JobType);

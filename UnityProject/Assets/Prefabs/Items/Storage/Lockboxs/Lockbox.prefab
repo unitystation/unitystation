@@ -143,6 +143,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  allowedAccess: 0
+  allowedClearance: 0
   lockedSprite: {fileID: 11400000, guid: d8a8b2de2c933914f966a5ada9edc0b6, type: 2}
   unlockedSprite: {fileID: 11400000, guid: 35cf61bbea96e244a8a90c37dd6573cf, type: 2}
+--- !u!114 &-8989916301036329522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178426376374657866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09b7e5ca3d7645bf909222e46af44b5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  requiredClearance: 
+  type: 0

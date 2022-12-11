@@ -614,6 +614,20 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6414903393843979902}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3254083426401796328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3650686735825012231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09b7e5ca3d7645bf909222e46af44b5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  requiredClearance: 130000002500000031000000320000001d00000047000000
+  type: 0
 --- !u!114 &5864802992622181888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -628,4 +642,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeToHack: 20
   chanceToFailHack: 25
-  validAccess: 13000000250000003100000032000000300000001d00000047000000

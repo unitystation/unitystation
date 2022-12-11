@@ -31,13 +31,13 @@ namespace UI.Objects.Wallmounts
 		{
 			if (IsArchive == false)
 			{
-				TerminalMasterTab.masterTerminal.receivedMessageData.Remove(messageData); //Move from messages to archive
-				TerminalMasterTab.masterTerminal.archivedMessageData.Add(messageData);
+				TerminalMasterTab.masterTerminal.ReceivedMessageData.Remove(messageData); //Move from messages to archive
+				TerminalMasterTab.masterTerminal.ArchivedMessageData.Add(messageData);
 				TerminalMasterTab.messages.Remove(this.gameObject.name);
 			}
 			else
 			{
-				TerminalMasterTab.masterTerminal.archivedMessageData.Remove(messageData); //Remove from Archive
+				TerminalMasterTab.masterTerminal.ArchivedMessageData.Remove(messageData); //Remove from Archive
 				TerminalMasterTab.archivedMessages.Remove(this.gameObject.name);
 			}
 		}
