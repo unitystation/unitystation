@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Audio.Containers;
 using Mirror;
 using UnityEngine;
 
@@ -44,7 +45,6 @@ namespace HealthV2
 		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
 			livingHealth.brain = null;
-
 		}
 
 		public void SyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn)
@@ -57,11 +57,12 @@ namespace HealthV2
 		{
 			if (ShowForPlayer != null)
 			{
-				OnBodyID = ShowForPlayer.netId;
+				SyncOnPlayer(OnBodyID, ShowForPlayer.netId);
+
 			}
 			else
 			{
-				OnBodyID = NetId.Empty;
+				SyncOnPlayer(OnBodyID, NetId.Empty);
 			}
 		}
 
@@ -79,6 +80,20 @@ namespace HealthV2
 		public void ApplyDefaultOrCurrentValues(bool Default)
 		{
 			ApplyChangesBlindness(Default ? false : true);
+			ApplyDeafness(Default ? 0 : 1);
+		}
+
+		public void ApplyDeafness(float Value)
+		{
+			if (Value == 1)
+			{
+				AudioManager.Instance.MultiInterestFloat.RecordPosition(this, 0);
+			}
+			else
+			{
+				AudioManager.Instance.MultiInterestFloat.RemovePosition(this);
+			}
+
 		}
 
 		public void ApplyChangesBlindness(bool SetValue)
@@ -92,7 +107,5 @@ namespace HealthV2
 				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().Blindness.RemovePosition(this);
 			}
 		}
-
-
 	}
 }

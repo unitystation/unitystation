@@ -1474,7 +1474,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 				var hit = MatrixManager.Linecast(position,
 					LayerTypeSelection.Walls | LayerTypeSelection.Grills | LayerTypeSelection.Windows,
-					defaultInteractionLayerMask, newPosition, true);
+					defaultInteractionLayerMask, newPosition);
 				if (hit.ItHit)
 				{
 					OnImpact.Invoke(this, newtonianMovement);

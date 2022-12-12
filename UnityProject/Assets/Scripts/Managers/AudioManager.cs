@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Audio;
 using AddressableReferences;
+using Core.Utils;
 using Shared.Managers;
 
 namespace Audio.Containers
@@ -25,6 +26,9 @@ namespace Audio.Containers
         public AudioMixerGroup AmbientMixer;
         public AudioMixerGroup TTSMixer;
 
+        public AudioMixerGroup GameplayMixer; //Affected by deafness and air pressure and all that stuff
+
+
         private float GameplayVolumeLevel = 1;
 
         public float gameplayVolumeLevel
@@ -35,17 +39,31 @@ namespace Audio.Containers
 		        {
 			        GameplayVolumeLevel = 1;
 		        }
+		        else if ( value == 0)
+		        {
+			        GameplayVolumeLevel = 0.0001f; //Mathf.Log10(0) = Invalid number
+		        }
+
 		        else
 		        {
 			        GameplayVolumeLevel = value;
 		        }
+
+		        GameplayMixer.audioMixer.SetFloat("GameplayAudio_Volume", Mathf.Log10(GameplayVolumeLevel) * 20);
 	        }
+        }
+
+        public MultiInterestFloat MultiInterestFloat = new MultiInterestFloat( 1,MultiInterestFloat.RegisterBehaviour.Register0, MultiInterestFloat.FloatBehaviour.ReturnOn1 );
+
+        private void OnSetGameplayVolume(float vall)
+        {
+	        gameplayVolumeLevel = vall;
         }
 
         public override void Start()
         {
 	        base.Start();
-
+	        MultiInterestFloat.OnFloatChange.AddListener(OnSetGameplayVolume);
             MasterVolume(
                 PlayerPrefs.HasKey(PlayerPrefKeys.MasterVolumeKey)
                     ? PlayerPrefs.GetFloat(PlayerPrefKeys.MasterVolumeKey)

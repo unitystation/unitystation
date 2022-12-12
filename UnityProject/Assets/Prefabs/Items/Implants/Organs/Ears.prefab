@@ -105,6 +105,17 @@ PrefabInstance:
       value: There are three parts to the ear. Inner, middle and outer. Only one
         of these parts should be normally visible.
       objectReference: {fileID: 0}
+    - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: CapableMutations.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: CapableMutations.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b4c6743f4c23074cb7c96b6c4e64aa5,
+        type: 2}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: BodyPartType
@@ -183,3 +194,31 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
+--- !u!1 &671021013365695943 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5246533749281852070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5366602198633162614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671021013365695943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ba005c34beeee744978d64bcf71c480, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  isEMPVunerable: 0
+  EMPResistance: 2
+  DefaultHearing: 1
+  PressureMultiplier: 1
+  MutationMultiplier: 1
+  TotalMultiplier: 1
+  Pickupable: {fileID: 0}
+  OnBodyID: 0
