@@ -89,8 +89,6 @@ public class Ears : BodyPartFunctionality, IItemInOutMovedPlayer, IClientSynchro
 
 	public void CheckPressure()
 	{
-		Logger.LogError(AudioManager.Instance.MultiInterestFloat.State.ToString());
-
 		if (RelatedPart.HealthMaster == null)
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckPressure);
