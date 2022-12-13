@@ -35,6 +35,12 @@ namespace UI.CharacterCreator
 		{
 			Body_Part.SetCustomisationData = InData;
 			ColorUtility.TryParseHtmlString(InData, out BodyPartColour);
+			SetupBody(Body_Part, BodyPartColour);
+		}
+
+		public void SetupBody(BodyPart Body_Part, Color InData)
+		{
+			BodyPartColour = InData;
 			BodyPartColour.a = 1; //Force body part color to never be transparent.
 			Body_Part.RelatedPresentSprites[0].baseSpriteHandler.SetColor(BodyPartColour);
 			if (AppliesToItemsSprite)
@@ -44,7 +50,12 @@ namespace UI.CharacterCreator
 
 		}
 
-		public override void RandomizeValues()
+		public override void RandomizeInBody(BodyPart Body_Part, LivingHealthMasterBase livingHealth)
+		{
+			SetupBody(Body_Part, new Color(Random.Range(0.1f, 1f), Random.Range(0.1f, 1f), Random.Range(0.1f, 1f), 1f));
+		}
+
+		public override void RandomizeCharacterCreatorValues()
 		{
 			ColorChange(new Color(Random.Range(0.1f, 1f), Random.Range(0.1f, 1f), Random.Range(0.1f, 1f), 1f));
 		}

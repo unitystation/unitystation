@@ -86,7 +86,15 @@ namespace UI.CharacterCreator
 			Dropdown.onValueChanged.AddListener(ItemChange);
 		}
 
-		public override void RandomizeValues()
+
+
+		public override void RandomizeInBody(BodyPart Body_Part, LivingHealthMasterBase livingHealth)
+		{
+			SetupBody(Body_Part, Random.Range(0, OptionalSprites.Count - 1),
+				new Color(Random.Range(0.1f, 1f), Random.Range(0.1f, 1f), Random.Range(0.1f, 1f), 1f));
+		}
+
+		public override void RandomizeCharacterCreatorValues()
 		{
 			Dropdown.value = Random.Range(0, Dropdown.options.Count - 1);
 			ColorChange(new Color(Random.Range(0.1f, 1f), Random.Range(0.1f, 1f), Random.Range(0.1f, 1f), 1f));
@@ -104,6 +112,12 @@ namespace UI.CharacterCreator
 			Body_Part.SetCustomisationData = InData;
 			var ColourAnd_Selected = JsonConvert.DeserializeObject<ColourAndSelected>(InData);
 			ColorUtility.TryParseHtmlString(ColourAnd_Selected.color, out BodyPartColour);
+			SetupBody(Body_Part, ColourAnd_Selected.Chosen,BodyPartColour );
+		}
+
+		public void SetupBody(BodyPart Body_Part, int Selected, Color inColor)
+		{
+			BodyPartColour = inColor;
 			BodyPartColour.a = 1;
 			Body_Part.RelatedPresentSprites[0].baseSpriteHandler.SetColor(BodyPartColour);
 			if (ColourAppliesToItemsSprite)
@@ -112,19 +126,19 @@ namespace UI.CharacterCreator
 			}
 
 			OptionalSprites = OptionalSprites.OrderBy(pcd => pcd.DisplayName == "" ? pcd.name : pcd.DisplayName).ToList();
-			if (ColourAnd_Selected.Chosen != 0)
+			if (Selected != 0)
 			{
-				if (ColourAnd_Selected.Chosen >= OptionalSprites.Count + 1)
+				if (Selected >= OptionalSprites.Count + 1)
 				{
 					Body_Part.RelatedPresentSprites[0].baseSpriteHandler.Empty();
 					return;
 				}
 
 				Body_Part.RelatedPresentSprites[0].baseSpriteHandler
-					.SetSpriteSO(OptionalSprites[ColourAnd_Selected.Chosen - 1]);
+					.SetSpriteSO(OptionalSprites[Selected - 1]);
 				if (AppliesToItemsSprite)
 				{
-					Body_Part.BodyPartItemSprite.SetSpriteSO(OptionalSprites[ColourAnd_Selected.Chosen - 1]);
+					Body_Part.BodyPartItemSprite.SetSpriteSO(OptionalSprites[Selected - 1]);
 				}
 			}
 			else

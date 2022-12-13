@@ -122,7 +122,12 @@ namespace UI.CharacterCreator
 			}
 		}
 
-		public override void RandomizeValues()
+		public override void RandomizeInBody(BodyPart Body_Part, LivingHealthMasterBase livingHealth)
+		{
+			//Doesn't do anything
+		}
+
+		public override void RandomizeCharacterCreatorValues()
 		{
 			Dropdown.value = Random.Range(0, Dropdown.options.Count - 1);
 			Refresh();

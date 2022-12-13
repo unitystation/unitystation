@@ -36,9 +36,12 @@ namespace UI.CharacterCreator
 		public virtual void OnPlayerBodyDeserialise(BodyPart Body_Part, string InData, LivingHealthMasterBase livingHealth) { }
 
 		/// <summary>
-		/// Responsible for randomizing character customization. Works inside the character creator UI only.
+		/// Responsible for randomizing character customization Works within the body only
 		/// </summary>
-		public virtual void RandomizeValues() { }
+		public virtual void RandomizeInBody(BodyPart Body_Part, LivingHealthMasterBase livingHealth) { }
+
+		//Randomizes the appearance of this character customisation in the character creator. Works inside the character creator UI only.
+		public virtual void RandomizeCharacterCreatorValues() { }
 
 		public virtual void SetUp(CharacterCustomization incharacterCustomization, BodyPart Body_Part, string path)
 		{

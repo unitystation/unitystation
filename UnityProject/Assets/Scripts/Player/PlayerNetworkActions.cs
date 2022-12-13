@@ -685,21 +685,17 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		Occupation NewOccupation = playerScript.Mind.occupation;
 		if (occupation != null)
 		{
-			foreach (var job in SOAdminJobsList.Instance.SpecialJobs)
+			var InNewOccupation = SOAdminJobsList.Instance.GetByName(occupation);
+			if (InNewOccupation != null)
 			{
-				if (job.name != occupation)
-				{
-					continue;
-				}
-
-				NewOccupation = job;
-				break;
+				NewOccupation = InNewOccupation;
 			}
 		}
 
 		PlayerSpawn.RespawnPlayerAt(playerScript.Mind, NewOccupation, playerScript.Mind.CurrentCharacterSettings, spawnPos);
-
 	}
+
+
 
 	[Server]
 	public void ServerRespawnPlayerAntag(PlayerInfo playerToRespawn, string antagonist)
