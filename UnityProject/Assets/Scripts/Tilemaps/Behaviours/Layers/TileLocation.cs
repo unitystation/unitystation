@@ -17,9 +17,11 @@ namespace TileManagement
 		public Vector3Int position = Vector3Int.zero;
 
 		public bool InQueue = false;
+		public bool NewTile = false;
 
 		public void Clean()
 		{
+			NewTile = false;
 			metaTileMap = null;
 			layer = null;
 			position = Vector3Int.zero;
