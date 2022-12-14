@@ -99,7 +99,7 @@ namespace Learning.ProtipObjectTypes
 
 		private void TriggerConsciousEvent(ConsciousState state)
 		{
-			if(unconciousTipCooldown || deathTipCooldown || IsPlayerGhostInBody()) return;
+			if (unconciousTipCooldown || deathTipCooldown || IsPlayerGhostInBody()) return;
 			switch (state)
 			{
 				case ConsciousState.BARELY_CONSCIOUS:

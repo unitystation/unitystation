@@ -38,7 +38,7 @@ namespace Learning.ProtipObjectTypes
 			foreach (var trait in handslot.ItemAttributes.GetTraits())
 			{
 				if(protipsForTraits.ContainsKey(trait) == false) continue;
-				TriggerTip(protipsForTraits[trait]);
+				TriggerTip(protipsForTraits[trait], null, highlightableObjectNames);
 			}
 		}
 

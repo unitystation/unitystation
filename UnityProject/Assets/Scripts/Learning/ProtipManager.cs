@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Managers;
 using Newtonsoft.Json;
 using Shared.Managers;
 using UnityEngine;
@@ -15,7 +17,7 @@ namespace Learning
 		public Dictionary<string, bool> ProtipSaveStates { private set; get; } = new Dictionary<string, bool>();
 
 
-		private readonly Queue<ProtipSO> queuedTips = new Queue<ProtipSO>();
+		private readonly Queue<QueueTipData> queuedTips = new Queue<QueueTipData>();
 		private string jsonPath;
 		private readonly string jsonFileName = "/protips.json";
 		private const int JSON_EMPTY_LIST = 5;
@@ -79,7 +81,7 @@ namespace Learning
 
 		private void SaveProtipSaveStates()
 		{
-			var newData = JsonConvert.SerializeObject(ProtipSaveStates);
+			var newData = JsonConvert.SerializeObject(ProtipSaveStates, Formatting.Indented);
 			File.WriteAllText(jsonPath, newData);
 		}
 
@@ -105,20 +107,38 @@ namespace Learning
 		{
 			if(IsShowingTip || queuedTips.Count == 0) return;
 			var tip = queuedTips.Dequeue();
-			ShowTip(tip);
+			ShowTip(tip.Tip, tip.highlightNames);
 		}
 
-		public void QueueTip(ProtipSO tip)
+		public void QueueTip(ProtipSO tip, List<string> highlightNames)
 		{
-			if(tip == null || queuedTips.Contains(tip)) return;
-			queuedTips.Enqueue(tip);
+			if(tip == null || queuedTips.Any(x => x.Tip == tip)) return;
+			QueueTipData data = new QueueTipData
+			{
+				Tip = tip,
+				highlightNames = highlightNames
+			};
+			queuedTips.Enqueue(data);
 		}
 
-		private void ShowTip(ProtipSO tip)
+		private void ShowTip(ProtipSO tip, List<string> searchNames)
 		{
 			UI.gameObject.SetActive(true);
 			UI.ShowTip(tip);
+			if (searchNames != null)
+			{
+				foreach (var nameOfObj in searchNames)
+				{
+					GlobalHighlighterManager.Highlight(nameOfObj);
+				}
+			}
 			IsShowingTip = true;
+		}
+
+		private struct QueueTipData
+		{
+			public ProtipSO Tip;
+			public List<string> highlightNames;
 		}
 	}
 }
