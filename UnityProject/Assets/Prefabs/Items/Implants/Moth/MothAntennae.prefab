@@ -163,3 +163,31 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2cdfee5611d505240ab3835c94a38fa8, type: 3}
+--- !u!1 &5847522936213140177 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3428693725631813996, guid: 2cdfee5611d505240ab3835c94a38fa8,
+    type: 3}
+  m_PrefabInstance: {fileID: 9129845267154856893}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7070673514935781146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5847522936213140177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ba005c34beeee744978d64bcf71c480, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  isEMPVunerable: 0
+  EMPResistance: 2
+  DefaultHearing: 1
+  PressureMultiplier: 1
+  MutationMultiplier: 1
+  TotalMultiplier: 1
+  Pickupable: {fileID: 0}
+  OnBodyID: 0
