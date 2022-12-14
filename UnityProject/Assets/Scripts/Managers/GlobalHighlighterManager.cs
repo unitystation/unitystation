@@ -25,7 +25,7 @@ namespace Managers
 			foreach (var possibleTarget in FindObjectsOfType<GameObject>())
 			{
 				index++;
-				if (maximumSearchIndexesPerFrame > index)
+				if (index > maximumSearchIndexesPerFrame)
 				{
 					index = 0;
 					yield return WaitFor.EndOfFrame;
