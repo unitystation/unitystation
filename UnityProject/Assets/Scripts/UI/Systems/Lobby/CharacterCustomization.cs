@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using DatabaseAPI;
@@ -8,10 +7,8 @@ using HealthV2;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Networking;
 using NaughtyAttributes;
 using System.Globalization;
-using JetBrains.Annotations;
 
 namespace UI.CharacterCreator
 {
@@ -892,7 +889,7 @@ namespace UI.CharacterCreator
 			}
 		}
 
-		private void SubSetBodyPart([NotNull] BodyPart bodyPart, [NotNull] string path)
+		private void SubSetBodyPart(BodyPart bodyPart, string path)
 		{
 			path = path + "/" + bodyPart.name;
 			if (OpenBodyCustomisation.ContainsKey(bodyPart.name))
