@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using HealthV2;
+using Items.Implants.Organs;
 using UnityEngine;
 
 public class UI_SlotManager : MonoBehaviour

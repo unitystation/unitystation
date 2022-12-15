@@ -12,6 +12,7 @@ using Chemistry;
 using Core.Chat;
 using Health.Sickness;
 using HealthV2.Living.CirculatorySystem;
+using Items.Implants.Organs;
 using JetBrains.Annotations;
 using NaughtyAttributes;
 using Player;

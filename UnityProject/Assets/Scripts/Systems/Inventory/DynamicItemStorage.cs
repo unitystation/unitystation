@@ -5,6 +5,7 @@ using System.Linq;
 using Clothing;
 using HealthV2;
 using Initialisation;
+using Items.Implants.Organs;
 using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;

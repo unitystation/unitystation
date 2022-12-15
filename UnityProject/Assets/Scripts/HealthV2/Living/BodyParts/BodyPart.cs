@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Items;
+using Items.Implants.Organs;
 using Mirror;
 using UnityEngine;
 using NaughtyAttributes;

@@ -1,4 +1,5 @@
 using HealthV2;
+using Items.Implants.Organs;
 using UnityEngine;
 
 /// <summary>

@@ -5,7 +5,7 @@ using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace HealthV2
+namespace Items.Implants.Organs
 {
 	public class BodyPartUISlots : MonoBehaviour, IDynamicItemSlotS
 	{

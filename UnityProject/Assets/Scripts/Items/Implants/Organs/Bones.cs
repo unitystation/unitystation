@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using HealthV2;
 using UnityEngine;
 
-namespace HealthV2
+namespace Items.Implants.Organs
 {
 	public class Bones : BodyPartFunctionality
 	{

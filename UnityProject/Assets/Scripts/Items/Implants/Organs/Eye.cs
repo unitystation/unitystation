@@ -1,210 +1,208 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Core.Utils;
 using HealthV2;
 using Mirror;
-using Player;
 using UnityEngine;
 
-public class Eye : BodyPartFunctionality, IItemInOutMovedPlayer, IClientSynchronisedEffect
+namespace Items.Implants.Organs
 {
-	//TODO
-	//Probably should make it so the shader has Multi-interest bool /  Think of a system to We never have this issue with Things overlap with what they control
-	//X-ray, colourblindness, Blindness have issues currentlyZ
-
-	public Pickupable Pickupable;
-
-	public int BaseBlurryVision = 0;
-
-	public RegisterPlayer CurrentlyOn { get; set; }
-	bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
-
-	public bool IsValidSetup(RegisterPlayer player)
+	public class Eye : BodyPartFunctionality, IItemInOutMovedPlayer, IClientSynchronisedEffect
 	{
-		if (player == null) return false;
-		//Valid if with an organ storage?
-		//yeah
-		if (Pickupable.ItemSlot == null) return false;
+		//TODO
+		//Probably should make it so the shader has Multi-interest bool /  Think of a system to We never have this issue with Things overlap with what they control
+		//X-ray, colourblindness, Blindness have issues currentlyZ
 
-		if (player.PlayerScript.playerHealth.BodyPartStorage !=
-		    Pickupable.ItemSlot.ItemStorage.GetRootStorage()) return false;
+		public Pickupable Pickupable;
 
-		//Am I also in the organ storage? E.G Part of the body
-		if (RelatedPart.HealthMaster == null) return false;
+		public int BaseBlurryVision = 0;
 
+		public RegisterPlayer CurrentlyOn { get; set; }
+		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
-		//Logger.LogError("IsValidSetup");
-		return true;
-	}
-
-	void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)
-	{
-		if (ShowForPlayer != null)
+		public bool IsValidSetup(RegisterPlayer player)
 		{
-			OnBodyID = ShowForPlayer.netId;
-		}
-		else
-		{
-			OnBodyID = NetId.Empty;
-		}
-	}
+			if (player == null) return false;
+			//Valid if with an organ storage?
+			//yeah
+			if (Pickupable.ItemSlot == null) return false;
 
-	public override void Awake()
-	{
-		base.Awake();
-		Pickupable = this.GetComponent<Pickupable>();
-		RelatedPart.ModifierChange += UpdateBlurryEye;
-		UpdateBlurryEye();
-	}
+			if (player.PlayerScript.playerHealth.BodyPartStorage !=
+			    Pickupable.ItemSlot.ItemStorage.GetRootStorage()) return false;
+
+			//Am I also in the organ storage? E.G Part of the body
+			if (RelatedPart.HealthMaster == null) return false;
 
 
-	public void UpdateBlurryEye()
-	{
-		int Calculated = 0;
-		if (RelatedPart.TotalModified < 0.95f)
-		{
-			Calculated = Mathf.RoundToInt(30 * (1 - (RelatedPart.TotalModified / 0.95f)));
+			//Logger.LogError("IsValidSetup");
+			return true;
 		}
 
-		Calculated = Calculated + BaseBlurryVision;
-		SyncBadEyesight(0, Calculated);
-	}
-
-	[NaughtyAttributes.Button()]
-	public void GiveSite()
-	{
-		SyncBlindness(false, true);
-	}
-
-
-	[NaughtyAttributes.Button()]
-	public void MakeBlind()
-	{
-		SyncBlindness(false, false);
-	}
-
-
-	#region Synchronise
-
-	private IClientSynchronisedEffect Preimplemented => (IClientSynchronisedEffect) this;
-
-	[SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
-
-	public uint OnPlayerID => OnBodyID;
-
-	[SyncVar(hook = nameof(SyncBlindness))]
-	public bool PreventsBlindness = true; //TODO change to multi-interest bool, Is good enough for now, For multiple eyes
-	public bool DefaultPreventsBlindness_ = false;
-
-	[SyncVar(hook = nameof(SyncBadEyesight))]
-	public int BadEyesight = 0;
-	private int DefaultBadEyesight = 0;
-
-	[SyncVar(hook = nameof(SyncColourBlindMode))]
-	public ColourBlindMode CurrentColourblindness = ColourBlindMode.None;
-	public ColourBlindMode DefaultColourblindness = ColourBlindMode.None;
-
-	[SyncVar(hook = nameof(SyncXrayState))]
-	public bool HasXray = false;
-	public bool DefaultHasXray = false;
-
-
-
-	public void SyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn)
-	{
-		OnBodyID = CurrentlyOn;
-		Preimplemented.ImplementationSyncOnPlayer(PreviouslyOn, CurrentlyOn);
-	}
-
-	public void ApplyDefaultOrCurrentValues(bool Default)
-	{
-		ApplyChangesBlindness(Default ? DefaultPreventsBlindness_ : PreventsBlindness);
-		ApplyChangesBlurryVision(Default ? DefaultBadEyesight : BadEyesight);
-		ApplyChangesColourBlindMode(Default ? DefaultColourblindness : CurrentColourblindness);
-		ApplyChangesXrayState(Default ? DefaultHasXray : HasXray);
-	}
-
-
-	public void SyncBlindness(bool oldValue, bool newState)
-	{
-		PreventsBlindness = newState;
-		if (Preimplemented.IsOnLocalPlayer)
+		void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)
 		{
-			ApplyChangesBlindness(PreventsBlindness);
+			if (ShowForPlayer != null)
+			{
+				OnBodyID = ShowForPlayer.netId;
+			}
+			else
+			{
+				OnBodyID = NetId.Empty;
+			}
 		}
-	}
 
-	public void ApplyChangesBlindness(bool SetValue)
-	{
-
-		if (SetValue)
+		public override void Awake()
 		{
-			Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().Blindness.RecordPosition(this, !SetValue);
+			base.Awake();
+			Pickupable = this.GetComponent<Pickupable>();
+			RelatedPart.ModifierChange += UpdateBlurryEye;
+			UpdateBlurryEye();
 		}
-		else
+
+
+		public void UpdateBlurryEye()
 		{
-			Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().Blindness.RemovePosition(this);
+			int Calculated = 0;
+			if (RelatedPart.TotalModified < 0.95f)
+			{
+				Calculated = Mathf.RoundToInt(30 * (1 - (RelatedPart.TotalModified / 0.95f)));
+			}
+
+			Calculated = Calculated + BaseBlurryVision;
+			SyncBadEyesight(0, Calculated);
 		}
-	}
 
-
-	public void SyncBadEyesight(int oldValue, int newState)
-	{
-		BadEyesight = newState;
-		if (Preimplemented.IsOnLocalPlayer)
+		[NaughtyAttributes.Button()]
+		public void GiveSite()
 		{
-			ApplyChangesBlurryVision((int) BadEyesight);
+			SyncBlindness(false, true);
 		}
-	}
-
-	public void ApplyChangesBlurryVision(int BlurryStrength)
-	{
-		Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().blurryVisionEffect
-			.SetBlurStrength((int) BlurryStrength);
-	}
 
 
-	public void SyncColourBlindMode(ColourBlindMode NotSetValueServer, ColourBlindMode newState)
-	{
-		CurrentColourblindness = newState;
-		if (Preimplemented.IsOnLocalPlayer)
+		[NaughtyAttributes.Button()]
+		public void MakeBlind()
 		{
-			ApplyChangesColourBlindMode(CurrentColourblindness);
+			SyncBlindness(false, false);
 		}
-	}
-
-	public void ApplyChangesColourBlindMode(ColourBlindMode newState)
-	{
-		Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().colourblindEmulationEffect
-			.SetColourMode(newState);
-	}
 
 
+		#region Synchronise
+
+		private IClientSynchronisedEffect Preimplemented => (IClientSynchronisedEffect) this;
+
+		[SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
+
+		public uint OnPlayerID => OnBodyID;
+
+		[SyncVar(hook = nameof(SyncBlindness))]
+		public bool PreventsBlindness = true; //TODO change to multi-interest bool, Is good enough for now, For multiple eyes
+		public bool DefaultPreventsBlindness_ = false;
+
+		[SyncVar(hook = nameof(SyncBadEyesight))]
+		public int BadEyesight = 0;
+		private int DefaultBadEyesight = 0;
+
+		[SyncVar(hook = nameof(SyncColourBlindMode))]
+		public ColourBlindMode CurrentColourblindness = ColourBlindMode.None;
+		public ColourBlindMode DefaultColourblindness = ColourBlindMode.None;
+
+		[SyncVar(hook = nameof(SyncXrayState))]
+		public bool HasXray = false;
+		public bool DefaultHasXray = false;
 
 
-	private void SyncXrayState(bool old, bool newState)
-	{
-		HasXray = newState;
-		if (Preimplemented.IsOnLocalPlayer)
+
+		public void SyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn)
 		{
-			ApplyChangesXrayState(HasXray);
+			OnBodyID = CurrentlyOn;
+			Preimplemented.ImplementationSyncOnPlayer(PreviouslyOn, CurrentlyOn);
 		}
-	}
 
-	public void ApplyChangesXrayState(bool newState)
-	{
-		if (newState)
+		public void ApplyDefaultOrCurrentValues(bool Default)
 		{
-			Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().LightingSystem.renderSettings
-				.fovOcclusionSpread = 3;
+			ApplyChangesBlindness(Default ? DefaultPreventsBlindness_ : PreventsBlindness);
+			ApplyChangesBlurryVision(Default ? DefaultBadEyesight : BadEyesight);
+			ApplyChangesColourBlindMode(Default ? DefaultColourblindness : CurrentColourblindness);
+			ApplyChangesXrayState(Default ? DefaultHasXray : HasXray);
 		}
-		else
-		{
-			Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().LightingSystem.renderSettings
-				.fovOcclusionSpread = 0;
-		}
-	}
 
-	#endregion
+
+		public void SyncBlindness(bool oldValue, bool newState)
+		{
+			PreventsBlindness = newState;
+			if (Preimplemented.IsOnLocalPlayer)
+			{
+				ApplyChangesBlindness(PreventsBlindness);
+			}
+		}
+
+		public void ApplyChangesBlindness(bool SetValue)
+		{
+
+			if (SetValue)
+			{
+				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().Blindness.RecordPosition(this, !SetValue);
+			}
+			else
+			{
+				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().Blindness.RemovePosition(this);
+			}
+		}
+
+
+		public void SyncBadEyesight(int oldValue, int newState)
+		{
+			BadEyesight = newState;
+			if (Preimplemented.IsOnLocalPlayer)
+			{
+				ApplyChangesBlurryVision((int) BadEyesight);
+			}
+		}
+
+		public void ApplyChangesBlurryVision(int BlurryStrength)
+		{
+			Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().blurryVisionEffect
+				.SetBlurStrength((int) BlurryStrength);
+		}
+
+
+		public void SyncColourBlindMode(ColourBlindMode NotSetValueServer, ColourBlindMode newState)
+		{
+			CurrentColourblindness = newState;
+			if (Preimplemented.IsOnLocalPlayer)
+			{
+				ApplyChangesColourBlindMode(CurrentColourblindness);
+			}
+		}
+
+		public void ApplyChangesColourBlindMode(ColourBlindMode newState)
+		{
+			Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().colourblindEmulationEffect
+				.SetColourMode(newState);
+		}
+
+
+
+
+		private void SyncXrayState(bool old, bool newState)
+		{
+			HasXray = newState;
+			if (Preimplemented.IsOnLocalPlayer)
+			{
+				ApplyChangesXrayState(HasXray);
+			}
+		}
+
+		public void ApplyChangesXrayState(bool newState)
+		{
+			if (newState)
+			{
+				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().LightingSystem.renderSettings
+					.fovOcclusionSpread = 3;
+			}
+			else
+			{
+				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().LightingSystem.renderSettings
+					.fovOcclusionSpread = 0;
+			}
+		}
+
+		#endregion
+	}
 }

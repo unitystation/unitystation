@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Audio.Containers;
+﻿using Audio.Containers;
+using HealthV2;
 using Mirror;
 using UnityEngine;
 
-namespace HealthV2
+namespace Items.Implants.Organs
 {
 	public class Brain : BodyPartFunctionality, IItemInOutMovedPlayer, IClientSynchronisedEffect
 	{
