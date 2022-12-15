@@ -438,29 +438,21 @@ namespace UI.CharacterCreator
 			BasedBodyPart(Race.Base.LegRight);
 		}
 
-		public void BasedBodyPart(ObjectList GameObjectBody)
+		private void BasedBodyPart(ObjectList GameObjectBody)
 		{
 			if (GameObjectBody == null) return;
 
 			if (GameObjectBody.Elements.Count == 0) return;
 
-			foreach (var Organ in GameObjectBody.Elements)
+			foreach (var organ in GameObjectBody.Elements)
 			{
-				var bodyPart = Organ.GetComponent<BodyPart>();
+				if (organ.TryGetComponent<BodyPart>(out var bodyPart) == false)
+				{
+					Logger.LogError("[CharacterCustomization/BasedBodyPart] - Unable to grab bodyPart component on object!!");
+					continue;
+				}
 				SetUpBodyPart(bodyPart);
 			}
-
-
-			// var DownOrgans = GameObjectBody.GetComponent<RootBodyPartContainer>();
-			// if (DownOrgans != null)
-			// {
-			// if (DownOrgans.OptionalOrgans.Count > 0)
-			// {
-			// var Option = Instantiate(AdditionalOrgan, ScrollListBody.transform);
-			// Option.SetUp(this, DownOrgans, "");
-			// OpenBodyCustomisation[GameObjectBody.name] = Option;
-			// }
-			// }
 		}
 
 		public void SetUpBodyPart(BodyPart bodyPart, bool instantiateCustomisations = true)
@@ -504,7 +496,7 @@ namespace UI.CharacterCreator
 
 				//Setup sprite//
 				//OpenBodySprites
-				if (bodyPart != null && bodyPart.OrganStorage?.Populater?.DeprecatedContents != null)
+				if (bodyPart.OrNull()?.OrganStorage.OrNull()?.Populater?.DeprecatedContents != null)
 				{
 					foreach (var organ in bodyPart.OrganStorage.Populater.DeprecatedContents)
 					{
@@ -876,7 +868,7 @@ namespace UI.CharacterCreator
 			SetDropDownBody(ThisSetRace.Base.LegRight);
 		}
 
-		public void SetDropDownBody(ObjectList GameObjectBody)
+		private void SetDropDownBody(ObjectList GameObjectBody)
 		{
 			if (GameObjectBody == null) return;
 			if (GameObjectBody.Elements.Count == 0) return;
@@ -884,7 +876,11 @@ namespace UI.CharacterCreator
 
 			foreach (var Organ in GameObjectBody.Elements)
 			{
-				var bodyPart = Organ.GetComponent<BodyPart>();
+				if (Organ.TryGetComponent<BodyPart>(out var bodyPart) == false)
+				{
+					Logger.LogError("[CharacterCustomization/SetDropdownBody] - Organ had no body part component, cannot do subsets.");
+					continue;
+				}
 				SubSetBodyPart(bodyPart, "");
 			}
 		}
@@ -910,7 +906,7 @@ namespace UI.CharacterCreator
 				}
 			}
 
-			if (bodyPart != null && bodyPart.OrganStorage?.Populater?.DeprecatedContents != null)
+			if (bodyPart.OrNull()?.OrganStorage.OrNull()?.Populater?.DeprecatedContents != null)
 			{
 				foreach (var organ in bodyPart.OrganStorage.Populater.DeprecatedContents)
 				{
@@ -1131,7 +1127,7 @@ namespace UI.CharacterCreator
 			}
 
 
-			if (bodyPart != null && bodyPart.OrganStorage?.Populater?.DeprecatedContents != null)
+			if (bodyPart.OrNull()?.OrganStorage.OrNull()?.Populater?.DeprecatedContents != null)
 			{
 				foreach (var organ in bodyPart.OrganStorage.Populater.DeprecatedContents)
 				{
