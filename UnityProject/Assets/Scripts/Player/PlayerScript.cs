@@ -200,6 +200,12 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public void Init(Mind mind)
 	{
+		if (isServer)
+		{
+			SyncPlayerName(mind.name, mind.name);
+		}
+
+
 		if (hasAuthority)
 		{
 			if (mind.CurrentCharacterSettings != null)

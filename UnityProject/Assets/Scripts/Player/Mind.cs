@@ -186,7 +186,12 @@ public class Mind : NetworkBehaviour
 	/// <param name="newName">The new name to give to the player.</param>
 	public void SetPermanentName(string newName)
 	{
-		CurrentCharacterSettings.Name = newName;
+		if (CurrentCharacterSettings != null)
+		{
+			CurrentCharacterSettings.Name = newName;
+		}
+
+
 		this.name = newName;
 	}
 

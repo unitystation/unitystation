@@ -271,7 +271,7 @@ public class CharacterSheet
 
 	#region StaticCustomizationFunctions
 
-	public static CharacterSheet GenerateRandomCharacter()
+	public static CharacterSheet GenerateRandomCharacter( )
 	{
 		CharacterSheet character = new CharacterSheet();
 
@@ -298,7 +298,7 @@ public class CharacterSheet
 		return new Color(Random.Range(0.1f, 1f), Random.Range(0.1f, 1f), Random.Range(0.1f, 1f));
 	}
 
-	private static string GetRandomSkinTone(string speciesName = "Human")
+	public static string GetRandomSkinTone(string speciesName = "Human")
 	{
 		if (RaceSOSingleton.TryGetRaceByName(speciesName, out PlayerHealthData race))
 		{

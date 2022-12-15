@@ -677,7 +677,7 @@ namespace UI.CharacterCreator
 			//Randomizes hair, tails, etc
 			foreach (var custom in OpenBodyCustomisation.Values)
 			{
-				custom.RandomizeValues();
+				custom.RandomizeCharacterCreatorValues();
 			}
 
 			//Randomizes clothes

@@ -545,6 +545,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   playerTypeSettings: {fileID: 11400000, guid: 6dc4c671f3201dd4eb28d0718eb4d193, type: 2}
+  inventorySpeechModifiers: 0
   playerName: ' '
   visibleName: ' '
   PlayerSync: {fileID: 0}
@@ -554,6 +555,7 @@ MonoBehaviour:
   RcsMatrixMove: {fileID: 0}
   actionData: {fileID: 11400000, guid: 288088e3bb7768d41a2fe1b2c170fbce, type: 2}
   playerChatLocation: {fileID: 7971638957329120905}
+  canVentCrawl: 0
   ClueHandsImprintInverseChance: 55
   ClueUniformImprintInverseChance: 65
   ClueSpeciesImprintInverseChance: 85
@@ -668,7 +670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe8512b2a14a5ae4c88b51c6eec61a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 1
+  syncMode: 0
   syncInterval: 0
   corePrefab: {fileID: 1705799857596220470, guid: 965a30360b6f44c4895003abe8ff4197,
     type: 3}
@@ -745,6 +747,7 @@ MonoBehaviour:
   InitialLocationSynchronised: 0
   tileMoveSpeed: 8
   isNotPushable: 0
+  HasOwnGravity: 0
   airTime: 0
   slideTime: 0
   SetIgnoreSticky: 0
@@ -780,6 +783,8 @@ MonoBehaviour:
   RunSpeed: 0
   WalkSpeed: 0
   CrawlSpeed: 0
+  needsWalking: {fileID: 0}
+  needsRunning: {fileID: 0}
   actionData: {fileID: 0}
   IsBumping: 0
   IsPressedCashed: 0
@@ -827,7 +832,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd4fccae344a4981a0739eaa263d1b9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 1
+  syncMode: 0
   syncInterval: 0.1
   defaultLanguages: {fileID: 11400000, guid: 4f050c912d9245c4b870afc86c1e2028, type: 2}
   omniTongue: 0
+  PlayerScript: {fileID: 0}

@@ -238,25 +238,30 @@ namespace Objects
 				return;
 			}
 
-			var characterSettings = player.Script.characterSettings;
 
-			if (characterSettings == null)
-			{
-				characterSettings = new CharacterSheet();
-			}
+			var characterSettings = CharacterSheet.GenerateRandomCharacter();
 
-			//TODO this replaces their old race, character settings needs a refactor to have them per body
 			characterSettings.Species = ashwalkerRaceData.name;
 			characterSettings.SerialisedExternalCustom?.Clear();
+
+			characterSettings.SkinTone = CharacterSheet.GetRandomSkinTone(ashwalkerRaceData.name);
 
 			//Give random lizard name
 			characterSettings.Name = StringManager.GetRandomLizardName(characterSettings.GetGender());
 
 			//Respawn the player
-			player.Script.PlayerNetworkActions.ServerRespawnPlayerSpecial("Ashwalker", registerTile.WorldPositionServer);
+
+			var Ashwalker = PlayerSpawn.NewSpawnCharacterV2(
+				SOAdminJobsList.Instance.GetByName("Ashwalker")
+				,characterSettings);
+
+			PlayerSpawn.TransferAccountToSpawnedMind(player,Ashwalker);
+
+			Ashwalker.Body.playerMove.AppearAtWorldPositionServer(registerTile.WorldPosition);
+
 
 			//Wipe crafting recipes and add Ashwalker ones
-			var crafting = player.Script.PlayerCrafting;
+			var crafting = player.Mind.CurrentPlayScript.PlayerCrafting;
 			crafting.ForgetAllRecipes();
 			foreach (var recipe in ashwalkerCraftingRecipesList.CraftingRecipes)
 			{
@@ -283,7 +288,7 @@ namespace Objects
 			Chat.AddExamineMsg(player.GameObject, "You have been pulled back from beyond the grave, with a new body and renewed purpose. Glory to the Necropolis!");
 
 			//Ashwalkers cant speak or understand common
-			player.Script.MobLanguages.RemoveLanguage(LanguageManager.Common, true);
+			player.Mind.CurrentPlayScript.MobLanguages.RemoveLanguage(LanguageManager.Common, true);
 		}
 
 		private void OnDestruction(DestructionInfo info)

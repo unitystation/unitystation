@@ -21,5 +21,22 @@ namespace ScriptableObjects
 		[ReorderableList]
 		private List<Antagonist> antags = new List<Antagonist>();
 		public List<Antagonist> Antags => antags;
+
+		public Occupation GetByName(string occupation )
+		{
+			if (string.IsNullOrEmpty(occupation)) return null;
+			foreach (var job in SOAdminJobsList.Instance.SpecialJobs)
+			{
+				if (job.name != occupation)
+				{
+					continue;
+				}
+
+				return job;
+			}
+
+			return null;
+		}
+
 	}
 }

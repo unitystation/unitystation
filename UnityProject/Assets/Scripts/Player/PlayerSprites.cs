@@ -160,19 +160,23 @@ namespace Player
 		}
 
 
-		public void SubSetBodyPart(BodyPart Body_Part, string path)
+		public void SubSetBodyPart(BodyPart Body_Part, string path, bool Randomised = false)
 		{
 			path = path + "/" + Body_Part.name;
 
 			CustomisationStorage customisationStorage = null;
-			foreach (var Custom in ThisCharacter.SerialisedBodyPartCustom)
+			if (ThisCharacter.SerialisedBodyPartCustom != null)
 			{
-				if (path == Custom.path)
+				foreach (var Custom in ThisCharacter.SerialisedBodyPartCustom)
 				{
-					customisationStorage = Custom;
-					break;
+					if (path == Custom.path)
+					{
+						customisationStorage = Custom;
+						break;
+					}
 				}
 			}
+
 
 			if (customisationStorage != null)
 			{
@@ -190,7 +194,6 @@ namespace Player
 					if (Body_Part.LobbyCustomisation != null)
 					{
 						Body_Part.LobbyCustomisation.OnPlayerBodyDeserialise(Body_Part, data, livingHealthMasterBase);
-
 					}
 					else
 					{
@@ -198,11 +201,18 @@ namespace Player
 					}
 				}
 			}
+			else if (Randomised)
+			{
+				if (Body_Part.LobbyCustomisation != null)
+				{
+					Body_Part.LobbyCustomisation.RandomizeInBody(Body_Part, livingHealthMasterBase);
+				}
+			}
 
 
 			for (int i = 0; i < Body_Part.ContainBodyParts.Count; i++)
 			{
-				SubSetBodyPart(Body_Part.ContainBodyParts[i], path);
+				SubSetBodyPart(Body_Part.ContainBodyParts[i], path, Randomised);
 			}
 
 		}
@@ -212,19 +222,15 @@ namespace Player
 
 			CustomisationStorage customisationStorage = null;
 
-			if (ThisCharacter.SerialisedBodyPartCustom == null)
+			if (ThisCharacter.SerialisedBodyPartCustom != null)
 			{
-				//TODO : (Max) - Fix SerialisedBodyPartCustom being null on Dummy players
-				Logger.LogWarning($"{gameObject} has spawned with null bodyPart customizations. This error should only appear for Dummy players only.");
-				return;
-			}
-
-			foreach (var Custom in ThisCharacter.SerialisedBodyPartCustom)
-			{
-				if (livingHealthMasterBase.name == Custom.path)
+				foreach (var Custom in ThisCharacter.SerialisedBodyPartCustom)
 				{
-					customisationStorage = Custom;
-					break;
+					if (livingHealthMasterBase.name == Custom.path)
+					{
+						customisationStorage = Custom;
+						break;
+					}
 				}
 			}
 
@@ -233,10 +239,12 @@ namespace Player
 				BodyPartDropDownOrgans.PlayerBodyDeserialise(null, customisationStorage.Data, livingHealthMasterBase);
 			}
 
+			var Randomised = ThisCharacter.SerialisedBodyPartCustom == null || ThisCharacter.SerialisedBodyPartCustom.Count == 0;
+
 			foreach (var bodyPart in livingHealthMasterBase.BodyPartStorage.GetIndexedSlots())
 			{
 				if (bodyPart.Item == null) continue;
-				SubSetBodyPart(bodyPart.Item.GetComponent<BodyPart>(), "");
+				SubSetBodyPart(bodyPart.Item.GetComponent<BodyPart>(), "", Randomised);
 			}
 
 			PlayerHealthData SetRace = ThisCharacter.GetRaceSo();

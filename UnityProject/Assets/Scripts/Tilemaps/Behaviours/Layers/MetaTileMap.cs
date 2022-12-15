@@ -21,7 +21,7 @@ namespace TileManagement
 		public int TargetMSpreFrame = 5;
 
 		private Stopwatch stopwatch = new Stopwatch();
-		
+
 		private readonly Dictionary<Layer, Dictionary<Vector3Int, TileLocation>> PresentTiles =
 			new Dictionary<Layer, Dictionary<Vector3Int, TileLocation>>();
 
@@ -376,6 +376,17 @@ namespace TileManagement
 					matrix.TileChangeManager.AddToChangeList(tileLocation.position,
 						tileLocation.layerTile.LayerType, tileLocation.layer, tileLocation, false, false);
 				}
+
+				if (tileLocation.NewTile)
+				{
+					MatrixManager.Instance.spaceMatrix.TilemapsDamage[0].
+						SwitchObjectsMatrixAt(tileLocation.position
+							.ToWorld(tileLocation.metaTileMap.matrix)
+							.ToLocal(MatrixManager.Instance.spaceMatrix).RoundToInt());
+					tileLocation.NewTile = false;
+				}
+
+
 
 
 				UpdateTileMessage.Send(matrix.NetworkedMatrix.MatrixSync.netId, tileLocation.position,
@@ -832,6 +843,7 @@ namespace TileManagement
 							tileLocations[index].layer = layer;
 							tileLocations[index].metaTileMap = this;
 							tileLocations[index].position = position;
+							tileLocations[index].NewTile = true;
 						}
 
 						tileLocation = tileLocations[index];
@@ -850,6 +862,7 @@ namespace TileManagement
 						tileLocation.layer = layer;
 						tileLocation.metaTileMap = this;
 						tileLocation.position = position;
+						tileLocation.NewTile = true;
 						lock (PresentTiles)
 						{
 							PresentTiles[layer][position] = tileLocation;

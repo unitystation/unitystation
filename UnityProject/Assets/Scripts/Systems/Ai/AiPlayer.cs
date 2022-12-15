@@ -270,6 +270,7 @@ namespace Systems.Ai
 			}
 		}
 
+
 		/// <summary>
 		/// Sync is used to set up client and to reset stuff for rejoining client
 		/// This is only sync'd to the client which owns this object, due to setting on script
@@ -281,7 +282,7 @@ namespace Systems.Ai
 			if(vesselObject == null) return;
 
 			//Something weird with headless and local host triggering the sync even though its set to owner
-			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayerObject != gameObject) return;
+			if (CustomNetworkManager.IsHeadless || hasAuthority == false) return;
 
 			Init();
 			aiUi.OrNull()?.SetUp(this);
