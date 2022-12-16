@@ -48,7 +48,7 @@ public class Mind : NetworkBehaviour
 	public PlayerInfo ControlledBy;
 
 
-	public CharacterSheet CurrentCharacterSettings;
+	[SyncVar] public CharacterSheet CurrentCharacterSettings;
 
 	public PlayerScript CurrentPlayScript => IsGhosting ? ghost : Body;
 
@@ -118,38 +118,6 @@ public class Mind : NetworkBehaviour
 		}
 	}
 
-
-	public void SetNewBody(PlayerScript playerScript)
-	{
-		//what!!!
-
-		Spells.Clear();
-		ClearOldBody();
-
-		if (antag != null) SetAntag(antag);
-
-		if (playerScript.TryGetComponent<LivingHealthMasterBase>(out var health))
-		{
-			bodyMobID = health.mobID;
-		}
-		//
-		// if (occupation != null)
-		// {
-		// 	foreach (var spellData in occupation.Spells)
-		// 	{
-		// 		var spellScript = spellData.AddToPlayer(playerScript);
-		// 		Spells.Add(spellScript);
-		// 	}
-		//
-		// 	foreach (var pair in occupation.CustomProperties)
-		// 	{
-		// 		SetProperty(pair.Key, pair.Value);
-		// 	}
-		// }
-
-		StopGhosting();
-	}
-
 	public bool IsRelatedToObject(GameObject Object)
 	{
 		if (this.gameObject == Object)
@@ -170,16 +138,6 @@ public class Mind : NetworkBehaviour
 		return false;
 	}
 
-
-	private void ClearOldBody()
-	{
-		if (Body)
-		{
-			ClearActionsMessage.SendTo(Body.gameObject);
-			//body.mind = null;
-		}
-	}
-
 	/// <summary>
 	/// Sets the IC name for this player and refreshes the visible name. Name will be kept if respawned.
 	/// </summary>
@@ -190,7 +148,6 @@ public class Mind : NetworkBehaviour
 		{
 			CurrentCharacterSettings.Name = newName;
 		}
-
 
 		this.name = newName;
 	}
@@ -204,7 +161,7 @@ public class Mind : NetworkBehaviour
 		antag = newAntag;
 		NetworkedisAntag = newAntag != null;
 		ShowObjectives();
-		GetDeepestBody().GetComponent<PlayerScript>().ActivateAntagAction(NetworkedisAntag);
+		GetDeepestBody().GetComponent<PlayerScript>()?.ActivateAntagAction(NetworkedisAntag);
 	}
 
 	public void SetPossessingObject(GameObject obj)
@@ -300,56 +257,54 @@ public class Mind : NetworkBehaviour
 		//Plus this handles server player funnies with the same thing Just stretched over another frame so that's why it's 2
 	}
 
-	public void HandleActiveOnChange(uint oldID, uint newID)
+	private void HandleActiveOnChange(uint oldID, uint newID)
 	{
 		var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
-		if (spawned.ContainsKey(newID))
+		if (spawned.ContainsKey(newID) == false) return;
+		if (ControlledBy != null) //TODO Remove
 		{
-			if (ControlledBy != null) //TODO Remove
-			{
-				ControlledBy.GameObject = spawned[newID].gameObject;
-			}
+			ControlledBy.GameObject = spawned[newID].gameObject;
+		}
 
-			IPlayerPossessable oldPossessable = null;
-			if (spawned.ContainsKey(oldID))
-			{
-				oldPossessable = spawned[oldID].GetComponent<IPlayerPossessable>();
-			}
+		IPlayerPossessable oldPossessable = null;
+		if (spawned.ContainsKey(oldID))
+		{
+			oldPossessable = spawned[oldID].GetComponent<IPlayerPossessable>();
+		}
 
-			var Possessable = spawned[newID].GetComponent<IPlayerPossessable>();
-			if (Possessable != null)
-			{
-				Possessable.InternalOnEnterPlayerControl(oldPossessable?.GameObject, this,
-					CustomNetworkManager.IsServer);
-			}
-			else
-			{
-				//TODO For objects
-			}
+		var Possessable = spawned[newID].GetComponent<IPlayerPossessable>();
+		if (Possessable != null)
+		{
+			Possessable.InternalOnEnterPlayerControl(oldPossessable?.GameObject, this,
+				CustomNetworkManager.IsServer);
+		}
+		else
+		{
+			//TODO For objects
 		}
 
 		//here
 	}
 
-	public void AccountLeavingMind(PlayerInfo Account)
+	public void AccountLeavingMind(PlayerInfo account)
 	{
-		Account.SetMind(null);
-		//Remove account from being observer of ghost and stuff
-		var RelatedBodies = GetRelatedBodies();
-		foreach (var Body in RelatedBodies)
+		account.SetMind(null);
+		// Remove account from being observer of ghost and stuff
+		var relatedBodies = GetRelatedBodies();
+		foreach (var body in relatedBodies)
 		{
-			PlayerSpawn.TransferOwnershipFromToConnection(Account, Body, null);
+			PlayerSpawn.TransferOwnershipFromToConnection(account, body, null);
 		}
 	}
 
-	public void AccountEnteringMind(PlayerInfo Account)
+	public void AccountEnteringMind(PlayerInfo account)
 	{
-		Account.SetMind(this);
+		account.SetMind(this);
 
-		var RelatedBodies = GetRelatedBodies();
-		foreach (var Body in RelatedBodies)
+		var relatedBodies = GetRelatedBodies();
+		foreach (var body in relatedBodies)
 		{
-			PlayerSpawn.TransferOwnershipFromToConnection(Account, null, Body);
+			PlayerSpawn.TransferOwnershipFromToConnection(account, null, body);
 		}
 
 		SyncActiveOn(IDActivelyControlling, IDActivelyControlling);
@@ -375,17 +330,15 @@ public class Mind : NetworkBehaviour
 
 	public void HandleOwnershipChangeMulti(List<NetworkIdentity> Losing, List<NetworkIdentity> Gaining)
 	{
-		if (ControlledBy != null)
+		if (ControlledBy == null) return;
+		foreach (var Lost in Losing)
 		{
-			foreach (var Lost in Losing)
-			{
-				PlayerSpawn.TransferOwnershipFromToConnection(ControlledBy, Lost, null);
-			}
+			PlayerSpawn.TransferOwnershipFromToConnection(ControlledBy, Lost, null);
+		}
 
-			foreach (var Gained in Gaining)
-			{
-				PlayerSpawn.TransferOwnershipFromToConnection(ControlledBy, null, Gained);
-			}
+		foreach (var Gained in Gaining)
+		{
+			PlayerSpawn.TransferOwnershipFromToConnection(ControlledBy, null, Gained);
 		}
 	}
 
@@ -393,22 +346,22 @@ public class Mind : NetworkBehaviour
 	//Gets all Bodies that are related to this mind,  Mind-> Brain-> Body
 	public List<NetworkIdentity> GetRelatedBodies()
 	{
-		var ReturnList = new List<NetworkIdentity>();
-		ReturnList.Add(this.netIdentity);
+		var returnList = new List<NetworkIdentity>();
+		returnList.Add(this.netIdentity);
 
 		if (PlayerPossessable != null)
 		{
-			PlayerPossessable.GetRelatedBodies(ReturnList);
+			PlayerPossessable.GetRelatedBodies(returnList);
 		}
 		else
 		{
 			if (PossessingObject != null)
 			{
-				ReturnList.Add(PossessingObject.NetWorkIdentity());
+				returnList.Add(PossessingObject.NetWorkIdentity());
 			}
 		}
 
-		return ReturnList;
+		return returnList;
 	}
 
 
