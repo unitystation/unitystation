@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Audio.Containers;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace HealthV2
 {
@@ -23,7 +24,7 @@ namespace HealthV2
 		public uint OnPlayerID => OnBodyID;
 
 
-		[SerializeField] private bool hasInbuiltSite = false;
+		[FormerlySerializedAs("hasInbuiltSite")] [SerializeField] private bool hasInbuiltSight = false;
 		[SerializeField] private bool hasInbuiltHearing = false;
 
 		//stuff in here?
@@ -105,7 +106,7 @@ namespace HealthV2
 		{
 			if (SetValue)
 			{
-				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().Blindness.RecordPosition(this, !hasInbuiltSite);
+				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().Blindness.RecordPosition(this, !hasInbuiltSight);
 			}
 			else
 			{
