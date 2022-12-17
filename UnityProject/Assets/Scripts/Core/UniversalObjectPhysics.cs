@@ -280,6 +280,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	[PlayModeOnly] public ForceEvent OnThrowEnd = new ForceEvent();
 
+	[PlayModeOnly] public Action OnVisibilityChange;
+
 	#endregion
 
 
@@ -543,6 +545,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	private void SynchroniseVisibility(bool oldVisibility, bool newVisibility)
 	{
 		isVisible = newVisibility;
+		OnVisibilityChange?.Invoke();
 		if (isVisible)
 		{
 			var sprites = GetComponentsInChildren<SpriteRenderer>();
