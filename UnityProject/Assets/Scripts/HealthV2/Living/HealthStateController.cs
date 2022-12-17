@@ -274,7 +274,16 @@ namespace HealthV2
 			healthDollData = newDollData;
 			if (isServer) return;
 			if (hasAuthority == false) return;
-			CurrentHealthDollStorage = JsonConvert.DeserializeObject<HealthDollStorage>(healthDollData);
+			try
+			{
+				CurrentHealthDollStorage = JsonConvert.DeserializeObject<HealthDollStorage>(healthDollData);
+			}
+			catch (Exception e)
+			{
+				Logger.LogError(e.ToString()); //some weird ass serialisation error
+				return;
+			}
+
 			for (int i = 0; i < CurrentHealthDollStorage.DollStates.Count; i++)
 			{
 				UIManager.PlayerHealthUI.bodyPartListeners[i].SetDamageColor(CurrentHealthDollStorage.DollStates[i].damageColor.UncompresseToColour());

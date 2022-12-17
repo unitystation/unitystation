@@ -70,6 +70,8 @@ namespace Items.Implants.Organs
 			}
 		}
 
+
+
 		public void ApplyDefaultOrCurrentValues(bool Default)
 		{
 			ApplyDeafness(Default, Default ? DefaultHearing : TotalMultiplier);
@@ -88,7 +90,6 @@ namespace Items.Implants.Organs
 
 		private void CheckPressure()
 		{
-
 			if (RelatedPart.HealthMaster == null)
 			{
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckPressure);

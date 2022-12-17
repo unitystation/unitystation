@@ -2,6 +2,7 @@
 using HealthV2;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Items.Implants.Organs
 {
@@ -16,9 +17,14 @@ namespace Items.Implants.Organs
 
 		[SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
 
+
 		public Pickupable Pickupable;
 
 		public uint OnPlayerID => OnBodyID;
+
+
+		[FormerlySerializedAs("hasInbuiltSite")] [SerializeField] private bool hasInbuiltSight = false;
+		[SerializeField] private bool hasInbuiltHearing = false;
 
 		//stuff in here?
 		//nah
@@ -86,7 +92,7 @@ namespace Items.Implants.Organs
 		{
 			if (Value == 1)
 			{
-				AudioManager.Instance.MultiInterestFloat.RecordPosition(this, 0);
+				AudioManager.Instance.MultiInterestFloat.RecordPosition(this, (!hasInbuiltHearing) ? 0f : 1f);
 			}
 			else
 			{
@@ -99,7 +105,7 @@ namespace Items.Implants.Organs
 		{
 			if (SetValue)
 			{
-				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().Blindness.RecordPosition(this, true);
+				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().Blindness.RecordPosition(this, !hasInbuiltSight);
 			}
 			else
 			{

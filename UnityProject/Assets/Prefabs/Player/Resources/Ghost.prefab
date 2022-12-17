@@ -105,6 +105,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   playerTypeSettings: {fileID: 11400000, guid: f3010aaf40d515547b1fbd815268ca20, type: 2}
+  inventorySpeechModifiers: 0
   playerName: ' '
   visibleName: ' '
   PlayerSync: {fileID: 0}
@@ -112,7 +113,6 @@ MonoBehaviour:
   RTT: 0
   RcsMode: 0
   RcsMatrixMove: {fileID: 0}
-  actionData: {fileID: 0}
   playerChatLocation: {fileID: 4390267312333422610}
   canVentCrawl: 0
   ClueHandsImprintInverseChance: 55
@@ -276,7 +276,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  GhostMove: {fileID: 0}
+  ghostMove: {fileID: 0}
   rotateTransform: {fileID: 3704879063443130025}
 --- !u!114 &1532227210967981965
 MonoBehaviour:
@@ -358,6 +358,7 @@ MonoBehaviour:
   syncInterval: 0.1
   defaultLanguages: {fileID: 0}
   omniTongue: 1
+  PlayerScript: {fileID: 0}
 --- !u!114 &5763817749914786213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,8 +379,8 @@ MonoBehaviour:
   bodyMobID: 0
   StepSound: {fileID: 0}
   SecondaryStepSound: {fileID: 0}
-  inventorySpeechModifiers: 0
   ghostLocked: 0
+  actionData: {fileID: 11400000, guid: 288088e3bb7768d41a2fe1b2c170fbce, type: 2}
 --- !u!1 &7113893953078827476
 GameObject:
   m_ObjectHideFlags: 0
