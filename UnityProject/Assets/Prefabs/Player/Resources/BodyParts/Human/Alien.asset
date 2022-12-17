@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: Alien
   m_EditorClassIdentifier: 
   Base:
-    BrainPrefab: {fileID: 3442747058158572537, guid: 1e19c4562afbbd2479d14830399db738,
-      type: 3}
     Head:
       Elements:
       - {fileID: 5090303986049672628, guid: 7ef2e5135a5194647a916f53cd8636a6, type: 3}
@@ -52,3 +50,4 @@ MonoBehaviour:
       type: 3}
     SkinProduce: {fileID: 7186820348635746022, guid: 8cd3dcf86127057478c50a027e9ac1ea,
       type: 3}
+    CanShowUpInTheCharacterCreatorScreen: 0

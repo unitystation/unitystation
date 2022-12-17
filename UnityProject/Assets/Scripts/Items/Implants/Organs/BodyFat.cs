@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+using HealthV2;
 using Player.Movement;
 using UnityEngine;
 
-namespace HealthV2
+namespace Items.Implants.Organs
 {
 	public class BodyFat : BodyPartFunctionality, IMovementEffect
 	{

@@ -66,6 +66,7 @@ public class RaceHealthData
 
 	public GameObject MeatProduce;
 	public GameObject SkinProduce;
+	public bool CanShowUpInTheCharacterCreatorScreen = true;
 }
 
 

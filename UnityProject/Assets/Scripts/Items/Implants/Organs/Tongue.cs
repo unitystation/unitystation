@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using HealthV2;
 using Player.Language;
 using UnityEngine;
 
-namespace HealthV2
+namespace Items.Implants.Organs
 {
 	public class Tongue : BodyPartFunctionality
 	{

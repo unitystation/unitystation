@@ -5,6 +5,7 @@ using UnityEngine;
 using Chemistry;
 using Chemistry.Components;
 using HealthV2.Living.CirculatorySystem;
+using Items.Implants.Organs;
 using NaughtyAttributes;
 
 namespace HealthV2

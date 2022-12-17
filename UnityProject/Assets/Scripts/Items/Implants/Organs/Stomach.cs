@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Chemistry;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using Chemistry.Components;
+using HealthV2;
 
-namespace HealthV2
+namespace Items.Implants.Organs
 {
 	public class Stomach : BodyPartFunctionality
 	{
