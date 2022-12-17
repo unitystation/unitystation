@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Chemistry;
+using HealthV2;
 using UnityEngine;
-using Chemistry;
 
-namespace HealthV2
+namespace Items.Implants.Organs
 {
 	public class Heart : BodyPartFunctionality
 	{

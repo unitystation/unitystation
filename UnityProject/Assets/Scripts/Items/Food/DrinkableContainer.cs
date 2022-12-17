@@ -9,6 +9,7 @@ using UnityEngine;
 using AddressableReferences;
 using Messages.Server.SoundMessages;
 using HealthV2;
+using Items.Implants.Organs;
 using Random = UnityEngine.Random;
 using WebSocketSharp;
 

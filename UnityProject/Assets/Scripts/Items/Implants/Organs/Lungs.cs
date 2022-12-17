@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Systems.Atmospherics;
 using Chemistry;
+using HealthV2;
 using Objects.Atmospherics;
 using ScriptableObjects.Atmospherics;
+using Systems.Atmospherics;
 using UnityEngine;
 
-namespace HealthV2
+namespace Items.Implants.Organs
 {
 	public class Lungs : BodyPartFunctionality
 	{

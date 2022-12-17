@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Text;
-using CameraEffects;
 using Chemistry;
 using Chemistry.Components;
+using HealthV2;
 using ScriptableObjects;
 using UnityEngine;
-using UnityEngine.Serialization;
-using HealthV2;
 
-namespace HealthV2
+namespace Items.Implants.Organs
 {
 	public class Liver : BodyPartFunctionality
 	{

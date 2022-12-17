@@ -1,4 +1,5 @@
 ﻿using Chemistry;
+using Items.Implants.Organs;
 using ScriptableObjects.Atmospherics;
 using Systems.Atmospherics;
 using UnityEngine;

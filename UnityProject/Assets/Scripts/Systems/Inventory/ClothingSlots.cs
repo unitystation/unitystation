@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using HealthV2;
+using Items.Implants.Organs;
 using UnityEngine;
 
 namespace Clothing
