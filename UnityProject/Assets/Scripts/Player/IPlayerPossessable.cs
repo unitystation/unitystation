@@ -26,6 +26,7 @@ public interface IPlayerPossessable
 
 	public void ServeInternalOnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer)
 	{
+
 		//can observe their new inventory
 		var dynamicItemStorage = GameObject.GetComponent<DynamicItemStorage>();
 		if (dynamicItemStorage != null)
@@ -79,6 +80,7 @@ public interface IPlayerPossessable
 			dynamicItemStorage.UpdateSlots(	dynamicItemStorage.GetSetData, 	dynamicItemStorage.GetSetData);
 		}
 
+		UIActionManager.ClearAllActionsClient();
 		RequestIconsUIActionRefresh.Send();
 		OnActionEnterPlayerControl?.Invoke();
 	}

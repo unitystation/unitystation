@@ -991,11 +991,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		crayonScript.SetTileFromClient(category, index, colourIndex, direction);
 	}
 
-	[Command]
-	public void CmdAskforAntagObjectives()
-	{
-		playerScript.Mind.ShowObjectives();
-	}
 
 	[TargetRpc]
 	public void TargetRpcOpenInput(GameObject objectForInput, string title, string currentText)
