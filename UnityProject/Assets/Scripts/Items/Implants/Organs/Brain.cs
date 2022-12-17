@@ -17,9 +17,14 @@ namespace HealthV2
 
 		[SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
 
+
 		public Pickupable Pickupable;
 
 		public uint OnPlayerID => OnBodyID;
+
+
+		[SerializeField] private bool hasInbuiltSite = false;
+		[SerializeField] private bool hasInbuiltHearing = false;
 
 		//stuff in here?
 		//nah
@@ -87,7 +92,7 @@ namespace HealthV2
 		{
 			if (Value == 1)
 			{
-				AudioManager.Instance.MultiInterestFloat.RecordPosition(this, 0);
+				AudioManager.Instance.MultiInterestFloat.RecordPosition(this, (!hasInbuiltHearing) ? 0f : 1f);
 			}
 			else
 			{
@@ -100,7 +105,7 @@ namespace HealthV2
 		{
 			if (SetValue)
 			{
-				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().Blindness.RecordPosition(this, true);
+				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().Blindness.RecordPosition(this, !hasInbuiltSite);
 			}
 			else
 			{

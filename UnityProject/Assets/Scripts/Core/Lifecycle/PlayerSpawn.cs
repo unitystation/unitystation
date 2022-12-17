@@ -399,12 +399,12 @@ public static class PlayerSpawn
 		if (to)
 		{
 			var netIdentity = to.GetComponent<NetworkIdentity>();
-			if (netIdentity.connectionToClient != null)
+			if (netIdentity.connectionToClient != null && to.connectionToClient != account.Connection)
 			{
 				CustomNetworkManager.Instance.OnServerDisconnect(netIdentity.connectionToClient);
 			}
 
-			if (account.Connection != null)
+			if (account.Connection != null && to.connectionToClient != account.Connection)
 			{
 				NetworkServer.ReplacePlayerForConnection(account.Connection, to.gameObject);
 				//TriggerEventMessage.SendTo(To, Event.); //TODO Call this manually

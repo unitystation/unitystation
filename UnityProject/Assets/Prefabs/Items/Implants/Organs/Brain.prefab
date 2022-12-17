@@ -249,8 +249,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840609453e4bf334cbd14cd7999c6fb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   isEMPVunerable: 0
   EMPResistance: 2
+  OnBodyID: 0
+  Pickupable: {fileID: 0}
+  hasInbuiltSite: 0
+  hasInbuiltHearing: 0
 --- !u!114 &8557864071590038898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,6 +269,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2cd4df264ca2434792937c1337b5b65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   isEMPVunerable: 0
   EMPResistance: 2
   severityAndSymptoms:
