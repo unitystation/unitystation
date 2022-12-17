@@ -262,6 +262,13 @@ public static class PlayerSpawn
 		var name = requestedOccupation.JobType != JobType.AI ? character.Name : character.AiName;
 		body.name = name;
 
+
+		var PlayerScript = body.GetComponent<PlayerScript>();
+		if (PlayerScript)
+		{
+			PlayerScript.characterSettings = character;
+		}
+
 		//Character attributes
 		var playerSprites = body.GetComponent<PlayerSprites>();
 		if (playerSprites)
