@@ -15,7 +15,9 @@ Shader "Custom/WarpShader"
 			"RenderType" = "Transparent"
 			"Queue" = "Transparent"
 		}
-		GrabPass { }
+		//Recalculates grabTexture for each singulo. More expensive to render however allows multiple singulos to effect that same area. 
+		//Won't be a issue unless we have admins spamming like 20+ singularities. It's a tradeoff between having singulos render correctly and performance.
+		GrabPass { } 
 		Pass
 		{
 			Name "UNITY_PASS_FORWARDBASE"
