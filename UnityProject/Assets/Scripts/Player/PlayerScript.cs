@@ -51,7 +51,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	/// <summary>
 	/// Current character settings for this player.
 	/// </summary>
-	public CharacterSheet characterSettings = new CharacterSheet();
+	[SyncVar] public CharacterSheet characterSettings = new CharacterSheet();
 
 	[HideInInspector, SyncVar(hook = nameof(SyncPlayerName))]
 	public string playerName = " ";
