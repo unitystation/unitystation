@@ -24,6 +24,11 @@ namespace Objects
 
 		private readonly float updateFrequency = 0.5f;
 
+		private Orientation currentFacing = Orientation.Up;
+		private const float directionThreshold = 93.5f;
+		//With this value, the singularity will move in a straight line for 10tiles 50% of the time.
+		//I thought that was a good compromise between moving in straight lines and still changing direction at random.
+
 		public SingularityStages CurrentStage
 		{
 			get
@@ -497,9 +502,9 @@ namespace Objects
 		{
 			int radius = GetRadius(CurrentStage);
 
-			//Get random coordinate adjacent to current
-			var adjacentCoord = adjacentCoords.GetRandom();
-			var coord = adjacentCoord + registerTile.WorldPositionServer;
+			if (Random.Range(0, 100) >= directionThreshold) currentFacing.Rotate(Random.Range(1,3)); //Random new angle excluding current angle.
+
+			var coord = currentFacing.LocalVectorInt.To3Int() + registerTile.WorldPositionServer;
 
 			bool noObstructions = true;
 

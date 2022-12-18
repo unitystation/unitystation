@@ -15,7 +15,7 @@ Shader "Custom/WarpShader"
 			"RenderType" = "Transparent"
 			"Queue" = "Transparent"
 		}
-		GrabPass { "_BackgroundTexture" }
+		GrabPass { }
 		Pass
 		{
 			Name "UNITY_PASS_FORWARDBASE"
@@ -39,7 +39,7 @@ Shader "Custom/WarpShader"
 
 			float vec(float x) { return float(x); }
 
-			uniform sampler2D _BackgroundTexture;
+			sampler2D _GrabTexture;
 
 			struct VertexInput
 			{
@@ -86,7 +86,7 @@ Shader "Custom/WarpShader"
 				i.projPos.xy = i.projPos.xy - uv.xy;
 				i.projPos.xy += spiral;
 
-				fixed4 output = tex2Dproj(_BackgroundTexture, UNITY_PROJ_COORD(i.projPos) );
+				fixed4 output = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(i.projPos) );
 		
 				return output;
 			}
