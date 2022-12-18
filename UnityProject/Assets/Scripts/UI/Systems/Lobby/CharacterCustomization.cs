@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using DatabaseAPI;
@@ -8,7 +7,6 @@ using HealthV2;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Networking;
 using NaughtyAttributes;
 using System.Globalization;
 
@@ -38,7 +36,7 @@ namespace UI.CharacterCreator
 
 		public int SelectedBodyType = 0;
 
-		public BodyTypeName ThisBodyType => AvailableBodyTypes[SelectedBodyType];
+		private BodyTypeName ThisBodyType => AvailableBodyTypes[SelectedBodyType];
 
 		public SpriteHandlerNorder BodyPartSprite;
 
@@ -113,14 +111,32 @@ namespace UI.CharacterCreator
 
 		private TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
 
+		private List<PlayerHealthData> allSpecies;
+
 		#region Lifecycle
 
-		void Awake()
+		private void Awake()
 		{
+			GrabAllSpecies();
 			GetSavedCharacters();
 		}
 
-		void OnEnable()
+		private void GrabAllSpecies()
+		{
+			if (RaceSOSingleton.Instance == null || RaceSOSingleton.Instance.Races.Count == 0)
+			{
+				Logger.LogError("UNABLE TO GRAB ALL SPECIES!! CHARACTER CREATION SCREEN IS SURELY GOING TO BE BROKEN!!!");
+				return;
+			}
+			allSpecies = RaceSOSingleton.Instance.Races;
+			var queueRemoval = allSpecies.Where(alien => alien.Base.CanShowUpInTheCharacterCreatorScreen == false).ToList();
+			foreach (var blacklistedItem in queueRemoval)
+			{
+				allSpecies.Remove(blacklistedItem);
+			}
+		}
+
+		private void OnEnable()
 		{
 			GetOriginalLocalPositionForCharacterPreview();
 			GetSavedCharacters();
@@ -381,36 +397,31 @@ namespace UI.CharacterCreator
 
 			if (SetRace == null)
 			{
-				SetRace = RaceSOSingleton.Instance.Races.First();
+				SetRace = allSpecies.First();
 			}
 
 			InitiateFresh(SetRace);
 			currentCharacter.SkinTone = inCharacterSettings.SkinTone;
 		}
 
-		public void InitiateFresh(PlayerHealthData SetRace)
+		private void InitiateFresh(PlayerHealthData setRace)
 		{
 			Cleanup();
 			//SelectedSpecies
 			SelectedSpecies = 0;
-			foreach (var Species in RaceSOSingleton.Instance.Races)
+			foreach (var species in allSpecies.TakeWhile(species => species != setRace))
 			{
-				if (Species == SetRace)
-				{
-					break;
-				}
-
 				SelectedSpecies++;
 			}
 
-			AvailableBodyTypes = SetRace.Base.bodyTypeSettings.AvailableBodyTypes;
-			ThisSetRace = SetRace;
+			AvailableBodyTypes = setRace.Base.bodyTypeSettings.AvailableBodyTypes;
+			ThisSetRace = setRace;
 
-			availableSkinColors = SetRace.Base.SkinColours;
+			availableSkinColors = setRace.Base.SkinColours;
 
 			PlayerManager.CurrentCharacterSheet = currentCharacter;
-			SetUpSpeciesBody(SetRace);
-			PopulateAllDropdowns(SetRace);
+			SetUpSpeciesBody(setRace);
+			PopulateAllDropdowns(setRace);
 			RefreshAll();
 			DoInitChecks();
 		}
@@ -427,33 +438,30 @@ namespace UI.CharacterCreator
 			BasedBodyPart(Race.Base.LegRight);
 		}
 
-		public void BasedBodyPart(ObjectList GameObjectBody)
+		private void BasedBodyPart(ObjectList GameObjectBody)
 		{
 			if (GameObjectBody == null) return;
 
 			if (GameObjectBody.Elements.Count == 0) return;
 
-			foreach (var Organ in GameObjectBody.Elements)
+			foreach (var organ in GameObjectBody.Elements)
 			{
-				var bodyPart = Organ.GetComponent<BodyPart>();
+				if (organ.TryGetComponent<BodyPart>(out var bodyPart) == false)
+				{
+					Logger.LogError("[CharacterCustomization/BasedBodyPart] - Unable to grab bodyPart component on object!!");
+					continue;
+				}
 				SetUpBodyPart(bodyPart);
 			}
-
-
-			// var DownOrgans = GameObjectBody.GetComponent<RootBodyPartContainer>();
-			// if (DownOrgans != null)
-			// {
-			// if (DownOrgans.OptionalOrgans.Count > 0)
-			// {
-			// var Option = Instantiate(AdditionalOrgan, ScrollListBody.transform);
-			// Option.SetUp(this, DownOrgans, "");
-			// OpenBodyCustomisation[GameObjectBody.name] = Option;
-			// }
-			// }
 		}
 
-		public void SetUpBodyPart(BodyPart bodyPart, bool InstantiateCustomisations = true)
+		public void SetUpBodyPart(BodyPart bodyPart, bool instantiateCustomisations = true)
 		{
+			if (bodyPart == null)
+			{
+				Logger.LogWarning("[CharacterCustomization/SetupBodyPart] - Given bodyPart was null, skipping...");
+				return;
+			}
 			//bodyPart.LimbSpriteData;
 
 			//OpenBodyCustomisation[bodyPart.name] = new List<GameObject>();
@@ -461,7 +469,7 @@ namespace UI.CharacterCreator
 
 			// This spawns the eyes.
 			SetupBodyPartsSprites(bodyPart);
-			if (InstantiateCustomisations)
+			if (instantiateCustomisations)
 			{
 				if (bodyPart.LobbyCustomisation != null)
 				{
@@ -472,27 +480,32 @@ namespace UI.CharacterCreator
 
 				if (bodyPart.OptionalOrgans.Count > 0)
 				{
-					var Option = Instantiate(AdditionalOrgan, ScrollListBody.transform);
-					Option.SetUp(this, bodyPart, "");
-					OpenBodyCustomisation[bodyPart.name] = (Option);
+					var option = Instantiate(AdditionalOrgan, ScrollListBody.transform);
+					option.SetUp(this, bodyPart, "");
+					OpenBodyCustomisation[bodyPart.name] = (option);
 				}
 
 
 				if (bodyPart.OptionalReplacementOrgan.Count > 0)
 				{
-					var Option = Instantiate(ReplacementOrgan, ScrollListBody.transform);
-					Option.SetUp(this, bodyPart, "");
-					OpenBodyCustomisation[bodyPart.name] = (Option);
+					var option = Instantiate(ReplacementOrgan, ScrollListBody.transform);
+					option.SetUp(this, bodyPart, "");
+					OpenBodyCustomisation[bodyPart.name] = (option);
 				}
 
 
 				//Setup sprite//
 				//OpenBodySprites
-				if (bodyPart?.OrganStorage?.Populater?.DeprecatedContents != null)
+				if (bodyPart.OrNull()?.OrganStorage.OrNull()?.Populater?.DeprecatedContents != null)
 				{
-					foreach (var Organ in bodyPart.OrganStorage.Populater.DeprecatedContents)
+					foreach (var organ in bodyPart.OrganStorage.Populater.DeprecatedContents)
 					{
-						var subBodyPart = Organ.GetComponent<BodyPart>();
+						if (organ == null)
+						{
+							Logger.LogError($"[CharacterCustomization/SetUpBodyPart/Setup Sprites] - " + "Organ was detected as null!");
+							continue;
+						}
+						if (organ.TryGetComponent<BodyPart>(out var subBodyPart) == false) return;
 						ParentDictionary[bodyPart].Add(subBodyPart);
 						SetUpBodyPart(subBodyPart);
 					}
@@ -500,38 +513,48 @@ namespace UI.CharacterCreator
 			}
 		}
 
-		public void SetupBodyPartsSprites(BodyPart bodyPart)
+		private void SetupBodyPartsSprites(BodyPart bodyPart)
 		{
-			OpenBodySprites[bodyPart] = new List<SpriteHandlerNorder>();
-			var Sprites = bodyPart.GetBodyTypeSprites(ThisBodyType.bodyType); //Get the correct one
-
-
-			if (Sprites != null)
+			if (ThisBodyType == null || bodyPart == null)
 			{
-				if (Sprites?.Item1?.Orders == null || Sprites.Item1.Orders.Count == 0)
-				{
-					Logger.LogError("Rendering order not specified on " + bodyPart.name, Category.Character);
-				}
+				Logger.LogError("[CharacterCustomization/SetupBodyPartSprites] - Unable to find a body! Are you sure you got one setup?");
+				return;
+			}
+			Tuple<SpriteOrder, List<SpriteDataSO>> Sprites = null;
 
+			try
+			{
+				Sprites = bodyPart.GetBodyTypeSprites(ThisBodyType.bodyType); //Get the correct one
+			}
+			catch (Exception e)
+			{
+				Logger.LogError(e.ToString());
+			}
+			OpenBodySprites[bodyPart] = new List<SpriteHandlerNorder>();
 
-				int i = 0;
-				foreach (var SpriteData in Sprites.Item2)
-				{
-					var newSprite = Instantiate(BodyPartSprite, SpriteContainer.transform);
-					newSprite.gameObject.transform.localPosition = Vector3.zero;
-					newSprite.SetSpriteOrder(new SpriteOrder(Sprites.Item1), true);
-					newSprite.SpriteOrder.Add(i);
-					newSprite.SpriteHandler.SetSpriteSO(SpriteData);
-					OpenBodySprites[bodyPart].Add(newSprite);
-					i++;
-				}
+			if (Sprites == null) return;
+			if (Sprites?.Item1?.Orders == null || Sprites.Item1.Orders.Count == 0)
+			{
+				Logger.LogError("Rendering order not specified on " + bodyPart.name, Category.Character);
+			}
 
-				//Checks if the body part is not an internal organ (I.e: head, arm, etc.)
-				//If it's not an internal organ, add it to the sprite manager to display the character.
-				if (bodyPart.IsSurface)
-				{
-					SurfaceSprite.AddRange(OpenBodySprites[bodyPart]);
-				}
+			int i = 0;
+			foreach (var SpriteData in Sprites.Item2)
+			{
+				var newSprite = Instantiate(BodyPartSprite, SpriteContainer.transform);
+				newSprite.gameObject.transform.localPosition = Vector3.zero;
+				newSprite.SetSpriteOrder(new SpriteOrder(Sprites.Item1), true);
+				newSprite.SpriteOrder.Add(i);
+				newSprite.SpriteHandler.SetSpriteSO(SpriteData);
+				OpenBodySprites[bodyPart].Add(newSprite);
+				i++;
+			}
+
+			//Checks if the body part is not an internal organ (I.e: head, arm, etc.)
+			//If it's not an internal organ, add it to the sprite manager to display the character.
+			if (bodyPart.IsSurface)
+			{
+				SurfaceSprite.AddRange(OpenBodySprites[bodyPart]);
 			}
 		}
 
@@ -845,7 +868,7 @@ namespace UI.CharacterCreator
 			SetDropDownBody(ThisSetRace.Base.LegRight);
 		}
 
-		public void SetDropDownBody(ObjectList GameObjectBody)
+		private void SetDropDownBody(ObjectList GameObjectBody)
 		{
 			if (GameObjectBody == null) return;
 			if (GameObjectBody.Elements.Count == 0) return;
@@ -853,12 +876,16 @@ namespace UI.CharacterCreator
 
 			foreach (var Organ in GameObjectBody.Elements)
 			{
-				var bodyPart = Organ.GetComponent<BodyPart>();
+				if (Organ.TryGetComponent<BodyPart>(out var bodyPart) == false)
+				{
+					Logger.LogError("[CharacterCustomization/SetDropdownBody] - Organ had no body part component, cannot do subsets.");
+					continue;
+				}
 				SubSetBodyPart(bodyPart, "");
 			}
 		}
 
-		public void SubSetBodyPart(BodyPart bodyPart, string path)
+		private void SubSetBodyPart(BodyPart bodyPart, string path)
 		{
 			path = path + "/" + bodyPart.name;
 			if (OpenBodyCustomisation.ContainsKey(bodyPart.name))
@@ -879,11 +906,16 @@ namespace UI.CharacterCreator
 				}
 			}
 
-			if (bodyPart?.OrganStorage?.Populater?.DeprecatedContents != null)
+			if (bodyPart.OrNull()?.OrganStorage.OrNull()?.Populater?.DeprecatedContents != null)
 			{
-				foreach (var Organ in bodyPart.OrganStorage.Populater.DeprecatedContents)
+				foreach (var organ in bodyPart.OrganStorage.Populater.DeprecatedContents)
 				{
-					var subBodyPart = Organ.GetComponent<BodyPart>();
+					if (organ == null)
+					{
+						Logger.LogError($"[CharacterCustomization/SetUpBodyPart/Setup Sprites] - " + "Organ was detected as null!");
+						continue;
+					}
+					if (organ.TryGetComponent<BodyPart>(out var subBodyPart) == false) continue;
 					SubSetBodyPart(subBodyPart, path);
 				}
 			}
@@ -1052,33 +1084,34 @@ namespace UI.CharacterCreator
 			}
 		}
 
-		public void SaveBodyPart(ObjectList GameObjectBody)
+		private void SaveBodyPart(ObjectList GameObjectBody)
 		{
 			if (GameObjectBody == null) return;
 			if (GameObjectBody.Elements.Count == 0) return;
 
 
-			foreach (var Organ in GameObjectBody.Elements)
+			foreach (var organ in GameObjectBody.Elements)
 			{
-				var bodyPart = Organ.GetComponent<BodyPart>();
+				if (organ.TryGetComponent<BodyPart>(out var bodyPart) == false)
+				{
+					Logger.LogError("[CharacterCustomization/SaveBodyPart] - Attempted to save an organ but did not have a body part script!");
+					continue;
+				}
 				SubSaveBodyPart(bodyPart, "");
 			}
 		}
 
-		public void SaveCustomisations(CustomisationStorage CustomisationStorage,
+		private static void SaveCustomisations(CustomisationStorage customisationStorage,
 			BodyPartCustomisationBase CustomisationObject)
 		{
-			var Customisations = CustomisationObject.GetComponent<BodyPartCustomisationBase>();
-
-			CustomisationStorage.Data = Customisations.Serialise();
-			CustomisationStorage.Data = CustomisationStorage.Data.Replace("\"", "@£");
-
-
+			if (CustomisationObject.TryGetComponent<BodyPartCustomisationBase>(out var Customisations) == false) return;
+			customisationStorage.Data = Customisations.Serialise();
+			customisationStorage.Data = customisationStorage.Data.Replace("\"", "@£");
 			//CustomisationStorage
 			//SavingDataStorage
 		}
 
-		public void SubSaveBodyPart(BodyPart bodyPart, string path)
+		private void SubSaveBodyPart(BodyPart bodyPart, string path)
 		{
 			path = path + "/" + bodyPart.name;
 			foreach (var Customisation in OpenBodyCustomisation)
@@ -1094,11 +1127,16 @@ namespace UI.CharacterCreator
 			}
 
 
-			if (bodyPart?.OrganStorage?.Populater?.DeprecatedContents != null)
+			if (bodyPart.OrNull()?.OrganStorage.OrNull()?.Populater?.DeprecatedContents != null)
 			{
-				foreach (var Organ in bodyPart.OrganStorage.Populater.DeprecatedContents)
+				foreach (var organ in bodyPart.OrganStorage.Populater.DeprecatedContents)
 				{
-					var subBodyPart = Organ.GetComponent<BodyPart>();
+					if (organ == null)
+					{
+						Logger.LogError("[CharacterCustomization/SaveBodyPart] - Attempted to save an organ but did not have a body part script!");
+						continue;
+					}
+					if(organ.TryGetComponent<BodyPart>(out var subBodyPart) == false) continue;
 					SubSaveBodyPart(subBodyPart, path);
 				}
 			}
@@ -1410,7 +1448,7 @@ namespace UI.CharacterCreator
 			currentCharacter.SkinTone = "#" + ColorUtility.ToHtmlStringRGB(CurrentSurfaceColour);
 		}
 
-		public void RefreshAllSkinSharedSkinColoredBodyParts()
+		private void RefreshAllSkinSharedSkinColoredBodyParts()
 		{
 			foreach (var Customisation in GetComponentsInChildren<BodyPartCustomisationBase>())
 			{
@@ -1425,15 +1463,15 @@ namespace UI.CharacterCreator
 		public void OnRaceChange()
 		{
 			SelectedSpecies++;
-			if (SelectedSpecies >= RaceSOSingleton.Instance.Races.Count)
+			if (SelectedSpecies >= allSpecies.Count)
 			{
 				SelectedSpecies = 0;
 			}
 
-			currentCharacter.Species = RaceSOSingleton.Instance.Races[SelectedSpecies].name;
+			currentCharacter.Species = allSpecies[SelectedSpecies].name;
 
 			Cleanup();
-			var SetRace = RaceSOSingleton.Instance.Races[SelectedSpecies];
+			var SetRace = allSpecies[SelectedSpecies];
 			InitiateFresh(SetRace);
 			RefreshRace();
 		}

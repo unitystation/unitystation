@@ -18,7 +18,7 @@ using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Serialization;
 
 
-public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActionGUI, IPlayerPossessable, IHoverTooltip
+public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlayerPossessable, IHoverTooltip
 {
 	public GameObject GameObject => gameObject;
 	public IPlayerPossessable Possessing { get; set; }
@@ -134,9 +134,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// Whether a player is connected in the game object this script is on, valid serverside only
 	/// </summary>
 	public bool HasSoul => connectionToClient != null;
-
-	[SerializeField] private ActionData actionData = null;
-	public ActionData ActionData => actionData;
 
 	//The object the player will receive chat and send chat from.
 	//E.g. usually same object as this script but for Ai it will be their core object
@@ -681,16 +678,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		}
 
 		return stringBuilder.ToString();
-	}
-
-	public void CallActionClient()
-	{
-		PlayerNetworkActions.CmdAskforAntagObjectives();
-	}
-
-	public void ActivateAntagAction(bool state)
-	{
-		UIActionManager.ToggleServer(gameObject, this, state);
 	}
 
 	//Used for Admins to VV function to toggle vent crawl as for some reason in build VV variable isnt working

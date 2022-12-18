@@ -179,7 +179,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: cb358061b400fb14c9193bea90bfacdb,
+      objectReference: {fileID: 21300002, guid: cb358061b400fb14c9193bea90bfacdb,
         type: 3}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -400,13 +400,13 @@ MonoBehaviour:
   syncInterval: 0.1
   LightEmission: {fileID: 0}
   objectLightEmission: {fileID: 1698161113391077472}
+  CommonComponents: {fileID: 0}
   Intensity: 0.7
-  Colour: {r: 0.94509804, g: 0.9372549, b: 0.63529414, a: 1}
+  Colour: {r: 0.94509804, g: 0.9372549, b: 0.63529414, a: 0.65882355}
   EnumSprite: 0
   Size: 3
   IsOn: 1
   PlayerLightData:
-    Intensity: 0
     Colour: {r: 0, g: 0, b: 0, a: 0}
     EnumSprite: 0
     Size: 12

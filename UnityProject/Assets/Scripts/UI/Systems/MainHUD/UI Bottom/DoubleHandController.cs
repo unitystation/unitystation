@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using HealthV2;
 using Items;
+using Items.Implants.Organs;
 using UnityEngine;
 
 public class DoubleHandController : MonoBehaviour

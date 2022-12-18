@@ -76,6 +76,7 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 		CommonComponents = this.GetComponent<CommonComponents>();
 		CommonComponents.RegisterTile.OnAppearClient.AddListener(StateHiddenChange);
 		CommonComponents.RegisterTile.OnDisappearClient.AddListener(StateHiddenChange);
+		CommonComponents.UniversalObjectPhysics.OnVisibilityChange += StateHiddenChange;
 
 		if (objectLightEmission == null)
 		{
@@ -159,6 +160,7 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 
 	private void SyncState(bool oldState, bool newState)
 	{
+		IsOn = newState;
 		if (CommonComponents.UniversalObjectPhysics.IsVisible == false)
 		{
 			objectLightEmission.SetActive(newState);

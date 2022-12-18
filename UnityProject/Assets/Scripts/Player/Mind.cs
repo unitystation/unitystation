@@ -19,7 +19,7 @@ using UI.Core.Action;
 /// IC character information (job role, antag info, real name, etc). A body and their ghost link to the same mind
 /// SERVER SIDE VALID ONLY, is not sync'd
 /// </summary>
-public class Mind : NetworkBehaviour
+public class Mind : NetworkBehaviour, IActionGUI
 {
 	[SyncVar(hook = nameof(SyncActiveOn))] private uint IDActivelyControlling;
 
@@ -63,6 +63,8 @@ public class Mind : NetworkBehaviour
 	/// General purpose properties storage for misc stuff like job-specific flags
 	/// </summary>
 	private Dictionary<string, object> properties = new Dictionary<string, object>();
+
+
 
 	public bool IsMiming
 	{
@@ -118,6 +120,7 @@ public class Mind : NetworkBehaviour
 		}
 	}
 
+
 	public bool IsRelatedToObject(GameObject Object)
 	{
 		if (this.gameObject == Object)
@@ -161,8 +164,15 @@ public class Mind : NetworkBehaviour
 		antag = newAntag;
 		NetworkedisAntag = newAntag != null;
 		ShowObjectives();
-		GetDeepestBody().GetComponent<PlayerScript>()?.ActivateAntagAction(NetworkedisAntag);
+		ActivateAntagAction(NetworkedisAntag);
 	}
+
+	public void ActivateAntagAction(bool state)
+	{
+		UIActionManager.ToggleServer(gameObject, this, state);
+	}
+
+
 
 	public void SetPossessingObject(GameObject obj)
 	{
@@ -213,7 +223,7 @@ public class Mind : NetworkBehaviour
 	{
 		antag = null;
 		NetworkedisAntag = antag != null;
-		GetDeepestBody().GetComponent<PlayerScript>().ActivateAntagAction(NetworkedisAntag);
+		ActivateAntagAction(NetworkedisAntag);
 	}
 
 	public GameObject GetCurrentMob()
@@ -320,12 +330,13 @@ public class Mind : NetworkBehaviour
 
 		PlayerSpawn.TransferAccountToSpawnedMind(ControlledBy, this);
 
-
 		var RelatedBodies = GetRelatedBodies();
 		foreach (var Body in RelatedBodies)
 		{
 			PlayerSpawn.TransferOwnershipFromToConnection(ControlledBy, null, Body);
 		}
+
+
 	}
 
 	public void HandleOwnershipChangeMulti(List<NetworkIdentity> Losing, List<NetworkIdentity> Gaining)
@@ -429,6 +440,21 @@ public class Mind : NetworkBehaviour
 		return PlayerList.Instance.Has(connection);
 	}
 
+	[SerializeField]
+	private ActionData actionData = null; //Antagonist show objectives button
+	public ActionData ActionData => actionData;
+
+	public void CallActionClient()
+	{
+		CmdAskforAntagObjectives();
+	}
+
+	[Command]
+	public void CmdAskforAntagObjectives()
+	{
+		ShowObjectives();
+	}
+
 	/// <summary>
 	/// Show the the player their current objectives if they have any
 	/// </summary>
@@ -453,6 +479,8 @@ public class Mind : NetworkBehaviour
 
 				//Send Uplink code
 				Chat.AddExamineMsgFromServer(playerMob, $"PDA uplink code retrieved: {PDA.UplinkUnlockCode}");
+				//TODO Store same place as objectives it's Dumb being here,
+				//Means you can View the code of Any PDA If you're an antagonist
 			}
 		}
 	}

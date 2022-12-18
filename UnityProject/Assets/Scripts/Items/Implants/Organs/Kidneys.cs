@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Chemistry;
-using UnityEngine;
+using HealthV2;
 
-namespace HealthV2
+namespace Items.Implants.Organs
 {
 	public class Kidneys : BodyPartFunctionality
 	{

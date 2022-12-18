@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using HealthV2;
+using Items.Implants.Organs;
 using Managers;
 using UI;
 

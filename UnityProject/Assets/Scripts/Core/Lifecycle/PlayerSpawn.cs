@@ -262,6 +262,13 @@ public static class PlayerSpawn
 		var name = requestedOccupation.JobType != JobType.AI ? character.Name : character.AiName;
 		body.name = name;
 
+
+		var PlayerScript = body.GetComponent<PlayerScript>();
+		if (PlayerScript)
+		{
+			PlayerScript.characterSettings = character;
+		}
+
 		//Character attributes
 		var playerSprites = body.GetComponent<PlayerSprites>();
 		if (playerSprites)
@@ -399,12 +406,12 @@ public static class PlayerSpawn
 		if (to)
 		{
 			var netIdentity = to.GetComponent<NetworkIdentity>();
-			if (netIdentity.connectionToClient != null)
+			if (netIdentity.connectionToClient != null && to.connectionToClient != account.Connection)
 			{
 				CustomNetworkManager.Instance.OnServerDisconnect(netIdentity.connectionToClient);
 			}
 
-			if (account.Connection != null)
+			if (account.Connection != null && to.connectionToClient != account.Connection)
 			{
 				NetworkServer.ReplacePlayerForConnection(account.Connection, to.gameObject);
 				//TriggerEventMessage.SendTo(To, Event.); //TODO Call this manually

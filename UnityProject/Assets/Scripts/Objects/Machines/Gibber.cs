@@ -78,7 +78,13 @@ namespace Objects.Machines
 				yield return CheckContentAndHarm();
 			}
 
+			foreach (var slot in storage.GetStoredObjects().Reverse())
+			{
+				_ = Despawn.ServerSingle(slot);
+			}
+
 			storage.RetrieveObjects();
+
 			foreach (var products in gibbed)
 			{
 				_ = Spawn.ServerPrefab(products.Key, gameObject.TileWorldPosition().To3(), gameObject.RegisterTile().Matrix.transform,
@@ -112,6 +118,7 @@ namespace Objects.Machines
 				{
 					oldMob.Death();
 					AddItemsThatWillBeSpawned(defaultProduce);
+
 					continue;
 				}
 				if (slot.TryGetComponent<Integrity>(out var integrity) == false) continue;

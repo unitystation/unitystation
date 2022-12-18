@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using HealthV2;
+using Items.Implants.Organs;
 
 namespace Player
 {
