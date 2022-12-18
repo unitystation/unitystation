@@ -24,6 +24,12 @@ namespace Objects
 
 		private readonly float updateFrequency = 0.5f;
 
+		private Orientation currentFacing = Orientation.Up;
+		private const float directionThreshold = 93.5f;
+		//Chance in % that the singulo will stay its current course each move action.
+		//With this value, the singularity will move in a straight line for 10tiles 50% of the time.
+		//I thought that was a good compromise between moving in straight lines and still changing direction at random.
+
 		public SingularityStages CurrentStage
 		{
 			get
@@ -144,9 +150,10 @@ namespace Objects
 			if (CustomNetworkManager.IsServer == false) return;
 
 			CurrentStage = startingStage;
+			currentFacing = currentFacing.Rotate(Random.Range(1, 4)); //Random direction on start
 		}
 
-		private void OnEnable()
+		private void OnEnable() 
 		{
 			UpdateManager.Add(SingularityUpdate, updateFrequency);
 		}
@@ -497,9 +504,7 @@ namespace Objects
 		{
 			int radius = GetRadius(CurrentStage);
 
-			//Get random coordinate adjacent to current
-			var adjacentCoord = adjacentCoords.GetRandom();
-			var coord = adjacentCoord + registerTile.WorldPositionServer;
+			var coord = currentFacing.LocalVectorInt.To3Int() + registerTile.WorldPositionServer;
 
 			bool noObstructions = true;
 
@@ -522,7 +527,7 @@ namespace Objects
 				if (CurrentStage != SingularityStages.Stage5 && CurrentStage != SingularityStages.Stage4)
 				{
 					//Hit in front, to give a bump effect so smaller singularity doesnt get stuck in walls
-					HitLineInFront(radius, adjacentCoord);
+					HitLineInFront(radius, currentFacing.LocalVectorInt.To3Int());
 					return;
 				}
 
@@ -534,6 +539,7 @@ namespace Objects
 				return;
 			}
 
+			if (Random.Range(0, 101) >= directionThreshold) currentFacing = currentFacing.Rotate(Random.Range(1, 4)); //Random new angle excluding current angle.
 			//Move
 			ObjectPhysics.AppearAtWorldPositionServer(coord, true);
 		}
