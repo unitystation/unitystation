@@ -68,12 +68,12 @@ namespace Objects.Engineering
 			if (CurrentPressureInput > 0)
 			{
 				//Logger.Log("CurrentPressureInput " + CurrentPressureInput);
-				if (CurrentPressureInput > MaxPressureInput)
-				{
-					CurrentPressureInput = MaxPressureInput;
-					//Logger.LogError(" ReactorBoiler !!!booommmm!!", Category.Editor);
-					//Explosions.Explosion.StartExplosion(registerObject.LocalPosition, 800, registerObject.Matrix);
-				}
+				// if (CurrentPressureInput > MaxPressureInput)
+				// {
+				// 	CurrentPressureInput = MaxPressureInput;
+				// 	//Logger.LogError(" ReactorBoiler !!!booommmm!!", Category.Editor);
+				// 	//Explosions.Explosion.StartExplosion(registerObject.LocalPosition, 800, registerObject.Matrix);
+				// }
 
 
 				ReactorPipe.pipeData.mixAndVolume.InternalEnergy = ExpectedInternalEnergy;
