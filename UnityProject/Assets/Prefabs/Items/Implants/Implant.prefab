@@ -116,9 +116,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d72619b419eb784d89be0849c02177b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   isEMPVunerable: 0
   EMPResistance: 2
-  CapableMutations: []
+  CapableMutations:
+  - {fileID: 11400000, guid: 11fc1b84d220b6742a4912446b0e7e2b, type: 2}
+  - {fileID: 11400000, guid: 85b46608a403da74892b9bb16d3b712c, type: 2}
+  - {fileID: 11400000, guid: ebd5df789d07f8141ab3534b7fa87618, type: 2}
   Stability: 0
   SecondsForSpeciesMutation: 150
   PlayerHealthData: {fileID: 0}
@@ -176,8 +181,8 @@ MonoBehaviour:
   bloodThroughput: 1.7857143
   currentBloodSaturation: 0
   Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
-  HealingNutrimentMultiplier: 2
   ReagentMetabolism: 0.2
+  HealingNutrimentMultiplier: 2
   NaturalToxinReagent: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12,
     type: 2}
   ToxinGeneration: 0.0001
@@ -215,6 +220,14 @@ MonoBehaviour:
   DamageEfficiencyMultiplier: 1
   maxHealth: 100
   Severity: 50
+  damageWeaknesses:
+    Brute: 1
+    Burn: 1
+    Tox: 1
+    Oxy: 1
+    Clone: 1
+    Stamina: 1
+    Radiation: 1
   BodyPartReadableName: '[Default Part Name]'
   BoneFracturedLvlThreeDesc: This {readableName} is suffering Hairline Fracture.
   BoneFracturedLvlTwoDesc: This {readableName} is suffering Compound Fracture. It

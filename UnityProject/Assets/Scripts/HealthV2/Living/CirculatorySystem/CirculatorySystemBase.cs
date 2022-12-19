@@ -204,6 +204,11 @@ namespace HealthV2
 			{
 				foreach (var KVP in bloodAndValues.Value)
 				{
+					//StartingBlood vs BloodPool
+					//For blood pressure
+
+					//hummm, for Make up
+
 					//Heal if blood saturation consumption is fine, otherwise do damage
 					float bloodSaturation = 0;
 					float bloodCap = bloodAndValues.Key.GetGasCapacity(BloodPool, KVP.Key);
@@ -260,7 +265,7 @@ namespace HealthV2
 					foreach (var bodyPart in KVP.Value.RelatedBodyParts)
 					{
 						bodyPart.currentBloodSaturation = bloodSaturation;
-						bodyPart.AffectDamage(damage, (int) DamageType.Oxy);
+						bodyPart.TakeDamage(null, damage,  AttackType.Internal, DamageType.Oxy, DamageSubOrgans : false);
 					}
 				}
 			}

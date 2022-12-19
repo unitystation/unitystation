@@ -5,14 +5,14 @@ using Items.Implants.Organs;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "XRayVision", menuName = "ScriptableObjects/Mutations/XRayVision")]
-public class XRayVision  : MutationSO
+public class XRayVision : MutationSO
 {
 	public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
 	{
 		return new InXRayVision(BodyPart,_RelatedMutationSO);
 	}
 
-	public class InXRayVision: Mutation
+	private class InXRayVision: Mutation
 	{
 
 		public Eye RelatedEye;
