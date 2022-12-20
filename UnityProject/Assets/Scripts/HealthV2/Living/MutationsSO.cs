@@ -13,8 +13,15 @@ public class MutationSO : ScriptableObject
 	         "this balances out the game preventing you from having to many overpowered mutations, because you need to have a few mutations that are disadvantages")]
 	public int Stability = 0;
 
+
+	[Tooltip(" Description of the Mutation ")]
+	public string Description;
+
 	[Tooltip("for the Slider mini game puzzle old implementation, makes it so the slide puzzle is not necessarily solvable without using Locks")]
 	public bool CanRequireLocks = false;
+
+
+
 
 	public virtual Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
 	{
