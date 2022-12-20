@@ -32,6 +32,7 @@ namespace Objects.Science
 		public string messageOnTravelToThis;
 
 		private RegisterTile registerTile;
+		[SerializeField] private float maintRoomChanceModifier = 1f; //Squarestation quantum pads are less likely to teleport to maintrooms due to their nessasity.
 
 		private Matrix Matrix => registerTile.Matrix;
 
@@ -176,7 +177,7 @@ namespace Objects.Science
 			{
 				Chat.AddExamineMsgFromServer(player.gameObject, message);
 				SoundManager.PlayNetworkedForPlayer(player.gameObject, CommonSounds.Instance.StealthOff); //very weird, sometimes does the sound other times not.
-				TransportUtility.TransportObjectAndPulled(player, travelCoord);
+				TransportUtility.TransportObjectAndPulled(player, travelCoord, true, maintRoomChanceModifier);
 				somethingTeleported = true;
 
 				if (IsLavaLandBase1Connector && firstEnteredTriggered == false)
