@@ -131,6 +131,13 @@ namespace HealthV2
 			AddModifier(HungerModifier);
 		}
 
+
+		public void SetIsBloodReagentConsumed(bool State)
+		{
+			isBloodReagentConsumed = State;
+			HealthMaster.OrNull()?.CirculatorySystem.OrNull()?.BodyPartListChange();
+		}
+
 		/// <summary>
 		/// Heals damage caused by sources other than lack of blood reagent
 		/// </summary>

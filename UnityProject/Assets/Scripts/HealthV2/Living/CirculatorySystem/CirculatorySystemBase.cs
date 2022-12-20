@@ -103,6 +103,7 @@ namespace HealthV2
 					continue;
 				}
 
+				if (bodyPart.IsBloodReagentConsumed)
 				{
 					if (SaturationToConsume.ContainsKey(bodyPart.bloodType) == false)
 					{
@@ -204,10 +205,29 @@ namespace HealthV2
 			{
 				foreach (var KVP in bloodAndValues.Value)
 				{
-					//StartingBlood vs BloodPool
-					//For blood pressure
+					var PurityMultiplier = 1f;
 
-					//hummm, for Make up
+					var BloodPressure = 1f;
+
+					var PercentageBloodPressure = BloodPool.Total  / StartingBlood;
+					if (PercentageBloodPressure < 0.75f)
+					{
+						BloodPressure = PercentageBloodPressure / 0.75f;
+					}
+
+					if (PercentageBloodPressure > 1.25f)
+					{
+						healthMaster.ChangeBleedStacks(1); //TODO Change to per body part instead
+
+					}
+
+
+					var Percentage =  BloodPool.GetPercent(KVP.Key);
+
+					if (Percentage < 0.33f)
+					{
+						PurityMultiplier = Percentage / 0.33f;
+					}
 
 					//Heal if blood saturation consumption is fine, otherwise do damage
 					float bloodSaturation = 0;
@@ -218,6 +238,12 @@ namespace HealthV2
 					}
 
 					bloodSaturation = bloodSaturation * HeartEfficiency * bloodAndValues.Key.CalculatePercentageBloodPresent(BloodPool);
+
+
+					bloodSaturation *= PurityMultiplier;
+					bloodSaturation *= BloodPressure;
+
+
 
 
 					var Available = BloodPool[KVP.Key] * KVP.Value.Percentage * HeartEfficiency; // This is just all -  Stuff nothing to do with saturation!

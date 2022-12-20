@@ -41,7 +41,7 @@ namespace HealthV2
 		private HealthBloodMessage BloodHealth => bloodHealth;
 
 		[SyncVar]
-		private float bleedStacks;
+		private float bleedStacks; //TODO Change to per body part instead
 		public float BleedStacks => bleedStacks;
 
 		[SyncVar(hook = nameof(SyncFireStacks))]
