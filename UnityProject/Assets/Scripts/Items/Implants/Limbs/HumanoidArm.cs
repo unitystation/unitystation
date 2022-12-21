@@ -30,5 +30,11 @@ namespace HealthV2.Limbs
 			crawlingSpeed = newCrawlingSpeed;
 			ModifierChanged();
 		}
+
+		public void SetNewEfficiency(float newArmEfficiency)
+		{
+			armEfficiency = newArmEfficiency;
+			ModifierChanged();
+		}
 	}
 }

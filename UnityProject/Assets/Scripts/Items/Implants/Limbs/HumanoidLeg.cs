@@ -49,5 +49,11 @@ namespace HealthV2.Limbs
 			walkingSpeed = newWalkingSpeed;
 			ModifierChanged();
 		}
+
+		public void SetNewEfficiency(float newLegEfficiency)
+		{
+			legEfficiency = newLegEfficiency;
+			ModifierChanged();
+		}
 	}
 }
