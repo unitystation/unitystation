@@ -65,7 +65,7 @@ namespace Player
 
 			foreach (var Scene in SubSceneManager.Instance.loadedScenesList)
 			{
-				if (AlreadyLoaded == Scene.SceneName) continue;
+				if (AlreadyLoaded == Scene.SceneName.ToString()) continue;
 				SceneS.Add(Scene);
 			}
 

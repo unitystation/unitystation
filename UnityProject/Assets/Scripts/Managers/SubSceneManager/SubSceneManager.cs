@@ -3,6 +3,7 @@ using System.Collections;
 using Messages.Client;
 using Mirror;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 
 public partial class SubSceneManager : NetworkBehaviour
@@ -21,13 +22,10 @@ public partial class SubSceneManager : NetworkBehaviour
 	public MainStationListSO MainStationList => mainStationList;
 
 	public bool AwaySiteLoaded { get; private set; }
-	public bool IsMaintRooms
-	{
-		get
-		{
-			return serverChosenAwaySite == "Backrooms";
-		}
-	}
+
+	public AssetReference MaintRoomsRef;
+
+	public bool IsMaintRooms => serverChosenAwaySite == MaintRoomsRef;
 
 	public bool MainStationLoaded { get; private set; }
 
@@ -75,12 +73,11 @@ public partial class SubSceneManager : NetworkBehaviour
 	/// </summary>
 	/// <param name="sceneName"></param>
 	/// <returns></returns>
-	IEnumerator LoadSubScene(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true)
+	IEnumerator LoadSubScene(AssetReference sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true)
 	{
-		AsyncOperation AO = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-		if (AO == null) yield break; // Null if scene not found.
+		var AO = Addressables.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
-		while (AO.isDone == false)
+		while (AO.IsDone == false)
 		{
 			if (loadTimer != null) loadTimer.IncrementLoadBar();
 			yield return WaitFor.EndOfFrame;
@@ -90,7 +87,7 @@ public partial class SubSceneManager : NetworkBehaviour
 		if (isServer)
 		{
 			NetworkServer.SpawnObjects();
-			RequestObserverRefresh.Send(sceneName);
+			RequestObserverRefresh.Send(sceneName.ToString());
 		}
 		else
 		{
@@ -98,8 +95,33 @@ public partial class SubSceneManager : NetworkBehaviour
 			{
 				NetworkClient.PrepareToSpawnSceneObjects();
 				yield return WaitFor.Seconds(0.2f);
-				RequestObserverRefresh.Send(sceneName);
+				RequestObserverRefresh.Send(sceneName.ToString());
 			}
+		}
+	}
+
+	IEnumerator LoadSubSceneFromString(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true)
+	{
+		var AO = Addressables.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+
+		while (AO.IsDone == false)
+		{
+			loadTimer?.IncrementLoadBar();
+			yield return WaitFor.EndOfFrame;
+		}
+
+		loadTimer?.IncrementLoadBar();
+		if (isServer)
+		{
+			NetworkServer.SpawnObjects();
+			RequestObserverRefresh.Send(sceneName.ToString());
+		}
+		else
+		{
+			if (HandlSynchronising == false) yield break;
+			NetworkClient.PrepareToSpawnSceneObjects();
+			yield return WaitFor.Seconds(0.2f);
+			RequestObserverRefresh.Send(sceneName.ToString());
 		}
 	}
 

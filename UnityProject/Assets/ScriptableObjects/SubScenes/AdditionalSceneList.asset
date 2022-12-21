@@ -13,20 +13,73 @@ MonoBehaviour:
   m_Name: AdditionalSceneList
   m_EditorClassIdentifier: 
   AdditionalScenes:
-  - LavaLand
-  - AncientStation
+  - m_AssetGUID: af1528034e8c01e4689f3d3339b3e27c
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 33ae55578dfdf7545b2b64b39eb28a70
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
   defaultCentComScenes:
-  - CentCom
+  - m_AssetGUID: c22d0e5435b686741b5c364bcac58b3a
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
   CentComScenes:
-  - CentComSceneName: Fallstation Centcom
-    DependentScene: FallStation
+  - CentComSceneName:
+      m_AssetGUID: f86c6964085906817905f8a7df612571
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    DependentScene:
+      m_AssetGUID: 1ad4c4b2173f90f08953b9d79cc079ea
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   defaultSyndicateScenes:
-  - SyndicateOutpost
+  - m_AssetGUID: 167b02a5c0d1009e884929c62f442739
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
   SyndicateScenes:
-  - SyndicateSceneName: Fallstation Syndicate
-    DependentScene: FallStation
-  - SyndicateSceneName: SyndicatePog
-    DependentScene: PogStation
+  - SyndicateSceneName:
+      m_AssetGUID: 167b02a5c0d1009e884929c62f442739
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    DependentScene:
+      m_AssetGUID: 1ad4c4b2173f90f08953b9d79cc079ea
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SyndicateSceneName:
+      m_AssetGUID: d4122f727afb2d443ab2e9eed7ca6c6c
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    DependentScene:
+      m_AssetGUID: 55ee576d5b067ad44823fc3b4edc6c42
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SyndicateSceneName:
+      m_AssetGUID: b09d855b22bda6b47a05e524ac913015
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    DependentScene:
+      m_AssetGUID: 7f3d3cafeec51f449b11bc9938f9f118
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   WizardScenes:
-  - WizardAsteroid
-  - WizardShip
+  - m_AssetGUID: cb92114c3683f014ca7a2626267ac7b7
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: ef995e433ea61354a95dc33d64ec1f8d
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  WizardScenesCustom: []

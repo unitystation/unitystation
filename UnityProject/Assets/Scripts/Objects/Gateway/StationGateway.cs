@@ -95,31 +95,7 @@ namespace Objects
 			Position = registerTile.WorldPosition;
 			SubSceneManager.RegisterStationGateway(this);
 			ServerChangeState(false);
-			bool loadNormally = true;
-			if (Application.isEditor)
-			{
-#if UNITY_EDITOR
-				if (EditorPrefs.HasKey("prevEditorScene"))
-				{
-					if (!string.IsNullOrEmpty(EditorPrefs.GetString("prevEditorScene")))
-					{
-						if (SubSceneManager.Instance.awayWorldList.AwayWorlds.Contains(
-							EditorPrefs.GetString("prevEditorScene")))
-						{
-							loadNormally = false;
-							// This will ensure that the gateway is ready in 30 seconds
-							// if you are working on an awaysite in the editor
-							WaitTimeBeforeActivation = 30f;
-						}
-					}
-				}
-#endif
-			}
-
-			if (loadNormally)
-			{
-				WaitTimeBeforeActivation = Random.Range(RandomCountBegining, RandomCountEnd);
-			}
+			WaitTimeBeforeActivation = Random.Range(RandomCountBegining, RandomCountEnd);
 
 			Invoke(nameof(ConnectToWorld), WaitTimeBeforeActivation);
 		}
