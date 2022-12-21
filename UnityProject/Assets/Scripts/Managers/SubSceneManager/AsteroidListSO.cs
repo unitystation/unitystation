@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 [CreateAssetMenu(fileName = "AsteroidListSO", menuName = "ScriptableObjects/AsteroidList", order = 1)]
 public class AsteroidListSO : ScriptableObject
@@ -11,5 +12,5 @@ public class AsteroidListSO : ScriptableObject
 	         "spawned at runtime. Remember to also add your scene to " +
 	         "the build settings list",EInfoBoxType.Normal)]
 	[Scene]
-	public List<string> Asteroids = new List<string>();
+	public List<AssetReference> Asteroids = new List<AssetReference>();
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Systems;
@@ -182,8 +183,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	{
 		// Set up server defaults, needs to be loaded here to ensure gameConfigManager is load.
 		LoadConfig();
-		RespawnCurrentlyAllowed = RespawnAllowed;
-		NextGameMode = InitialGameMode;
 	}
 
 	private void Awake()

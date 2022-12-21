@@ -110,7 +110,7 @@ public class RoundManagerPage : AdminPage
 		{
 			optionData.Add(new Dropdown.OptionData
 			{
-				text = mapName
+				text = mapName.ToString()
 			});
 		}
 
@@ -141,7 +141,7 @@ public class RoundManagerPage : AdminPage
 		{
 			optionData.Add(new Dropdown.OptionData
 			{
-				text = awaySiteName
+				text = awaySiteName.ToString()
 			});
 		}
 

@@ -7,21 +7,24 @@ using UnityEditor;
 using UnityEngine.SceneManagement;
 using WebSocketSharp;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 //The scene list on the server
 public partial class SubSceneManager
 {
 	public bool InitialLoadingComplete { get; private set;  } = false;
-	private string serverChosenAwaySite = "loading";
-	private string serverChosenMainStation = "loading";
+	private AssetReference serverChosenAwaySite;
+	private AssetReference serverChosenMainStation;
 
-	public static string ServerChosenMainStation => Instance.serverChosenMainStation;
+	public static AssetReference ServerChosenMainStation => Instance.serverChosenMainStation;
 
 	public static string AdminForcedMainStation = "Random";
 	public static string AdminForcedAwaySite = "Random";
 	public static bool AdminAllowLavaland;
 
 	public static Dictionary<string, HashSet<int>> ConnectionLoadedRecord = new Dictionary<string , HashSet<int>>();
+	public AssetReference SpaceSceneRef;
+
 	public IEnumerator RoundStartServerLoadSequence()
 	{
 		InitialLoadingComplete = false;
@@ -66,10 +69,10 @@ public partial class SubSceneManager
 	IEnumerator ServerLoadSpaceScene(SubsceneLoadTimer loadTimer)
 	{
 		loadTimer.IncrementLoadBar($"Loading the void of time and space");
-		yield return StartCoroutine(LoadSubScene("SpaceScene", loadTimer));
+		yield return StartCoroutine(LoadSubScene(SpaceSceneRef, loadTimer));
 		loadedScenesList.Add(new SceneInfo
 		{
-			SceneName = "SpaceScene",
+			SceneName = SpaceSceneRef.ToString(),
 			SceneType = SceneType.Space
 		});
 		SubSceneManagerNetworked.netIdentity.isDirty = true;
@@ -80,18 +83,14 @@ public partial class SubSceneManager
 	{
 		MainStationLoaded = true;
 		//Auto scene load stuff in editor:
-		var prevEditorScene = GetEditorPrevScene();
-		if (AdminForcedMainStation == "Random" && prevEditorScene.Contains("Lobby") == false && (prevEditorScene != ""))
+		switch (AdminForcedMainStation)
 		{
-			serverChosenMainStation = prevEditorScene;
-		}
-		else if (AdminForcedMainStation == "Random")
-		{
-			serverChosenMainStation = mainStationList.GetRandomMainStation();
-		}
-		else
-		{
-			serverChosenMainStation = AdminForcedMainStation;
+			case "Random":
+				serverChosenMainStation = mainStationList.MainStations.PickRandom();
+				break;
+			default:
+				//serverChosenMainStation = AdminForcedMainStation;
+				break;
 		}
 
 		//Reset map selector
@@ -102,7 +101,7 @@ public partial class SubSceneManager
 		yield return StartCoroutine(LoadSubScene(serverChosenMainStation, loadTimer));
 		loadedScenesList.Add(new SceneInfo
 		{
-			SceneName = serverChosenMainStation,
+			SceneName = serverChosenMainStation.ToString(),
 			SceneType = SceneType.MainStation
 		});
 		SubSceneManagerNetworked.netIdentity.isDirty = true;
@@ -119,7 +118,7 @@ public partial class SubSceneManager
 
 			loadedScenesList.Add(new SceneInfo
 			{
-				SceneName = asteroid,
+				SceneName = asteroid.ToString(),
 				SceneType = SceneType.Asteroid
 			});
 			SubSceneManagerNetworked.netIdentity.isDirty = true;
@@ -145,7 +144,7 @@ public partial class SubSceneManager
 
 			loadedScenesList.Add(new SceneInfo
 			{
-				SceneName = centComData.CentComSceneName,
+				SceneName = centComData.CentComSceneName.ToString(),
 				SceneType = SceneType.AdditionalScenes
 			});
 			SubSceneManagerNetworked.netIdentity.isDirty = true;
@@ -154,14 +153,14 @@ public partial class SubSceneManager
 
 		var pickedMap = additionalSceneList.defaultCentComScenes.PickRandom();
 
-		if (string.IsNullOrEmpty(pickedMap)) yield break;
+		if (pickedMap == null || pickedMap.IsValid() == false) yield break;
 
 		//If no special CentCom load default.
 		yield return StartCoroutine(LoadSubScene(pickedMap, loadTimer));
 
 		loadedScenesList.Add(new SceneInfo
 		{
-			SceneName = pickedMap,
+			SceneName = pickedMap.ToString(),
 			SceneType = SceneType.AdditionalScenes
 		});
 		SubSceneManagerNetworked.netIdentity.isDirty = true;
@@ -180,17 +179,17 @@ public partial class SubSceneManager
 		{
 			//LAVALAND
 			//only spawn if game config allows
-			if (additionalScene == "LavaLand" && !GameConfig.GameConfigManager.GameConfig.SpawnLavaLand && !AdminAllowLavaland)
+			if (additionalScene.ToString() == "LavaLand" && !GameConfig.GameConfigManager.GameConfig.SpawnLavaLand && !AdminAllowLavaland)
 			{
 				continue;
 			}
 
-			if (additionalScene == "LavaLand" && !GameConfig.GameConfigManager.GameConfig.SpawnLavaLand)
+			if (additionalScene.ToString() == "LavaLand" && !GameConfig.GameConfigManager.GameConfig.SpawnLavaLand)
 			{
 				//reset back to false for the next round if false before.
 				AdminAllowLavaland = false;
 			}
-			else if (additionalScene == "LavaLand")
+			else if (additionalScene.ToString() == "LavaLand")
 			{
 				AdminAllowLavaland = true;
 			}
@@ -199,7 +198,7 @@ public partial class SubSceneManager
 
 			loadedScenesList.Add(new SceneInfo
 			{
-				SceneName = additionalScene,
+				SceneName = additionalScene.ToString(),
 				SceneType = SceneType.AdditionalScenes
 			});
 			SubSceneManagerNetworked.netIdentity.isDirty = true;
@@ -213,31 +212,17 @@ public partial class SubSceneManager
 		{
 			yield return null;
 		}
-		var prevEditorScene = GetEditorPrevScene();
 		//Load the away site
-		if (awayWorldList.AwayWorlds.Contains(prevEditorScene) && AdminForcedAwaySite == "Random")
-		{
-			serverChosenAwaySite = prevEditorScene;
-		}
-		else if(AdminForcedAwaySite == "Random")
-		{
-			serverChosenAwaySite = awayWorldList.GetRandomAwaySite();
-		}
-		else
-		{
-			serverChosenAwaySite = AdminForcedAwaySite;
-		}
-
-		AdminForcedAwaySite = "Random";
+		serverChosenAwaySite = awayWorldList.AwayWorlds.PickRandom();
 
 		loadTimer.IncrementLoadBar("Loading Away Site");
-		if (serverChosenAwaySite.IsNullOrEmpty() == false)
+		if (serverChosenAwaySite == null)
 		{
 			yield return StartCoroutine(LoadSubScene(serverChosenAwaySite, loadTimer));
 			AwaySiteLoaded = true;
 			loadedScenesList.Add(new SceneInfo
 			{
-				SceneName = serverChosenAwaySite,
+				SceneName = serverChosenAwaySite?.ToString(),
 				SceneType = SceneType.HiddenScene
 			});
 			SubSceneManagerNetworked.netIdentity.isDirty = true;
@@ -250,7 +235,7 @@ public partial class SubSceneManager
 	{
 		if (SyndicateLoaded) yield break;
 		var pickedMap = additionalSceneList.defaultSyndicateScenes.PickRandom();
-
+		/*
 		foreach (var syndicateData in additionalSceneList.SyndicateScenes)
 		{
 			if (syndicateData.DependentScene == null || syndicateData.SyndicateSceneName == null)
@@ -258,21 +243,20 @@ public partial class SubSceneManager
 			if (syndicateData.DependentScene != serverChosenMainStation)
 				continue;
 
-			pickedMap = syndicateData.SyndicateSceneName;
+			pickedMap = syndicateData;
 			break;
 		}
-
-
+		*/
 		yield return StartCoroutine(LoadSubScene(pickedMap));
 
 		loadedScenesList.Add(new SceneInfo
 		{
-			SceneName = pickedMap,
+			SceneName = pickedMap.ToString(),
 			SceneType = SceneType.HiddenScene
 		});
 		SubSceneManagerNetworked.netIdentity.isDirty = true;
 
-		SyndicateScene = SceneManager.GetSceneByName(pickedMap);
+		SyndicateScene = SceneManager.GetSceneByName(pickedMap.ToString());
 		SyndicateLoaded = true;
 
 		yield return TryWaitClients(pickedMap);
@@ -282,13 +266,13 @@ public partial class SubSceneManager
 	{
 		if (WizardLoaded) yield break;
 
-		string pickedScene = additionalSceneList.WizardScenes.PickRandom();
+		var pickedScene = additionalSceneList.WizardScenes.PickRandom();
 
 		yield return StartCoroutine(LoadSubScene(pickedScene));
 
 		loadedScenesList.Add(new SceneInfo
 		{
-			SceneName = pickedScene,
+			SceneName = pickedScene.ToString(),
 			SceneType = SceneType.HiddenScene
 		});
 		SubSceneManagerNetworked.netIdentity.isDirty = true;
@@ -311,15 +295,6 @@ public partial class SubSceneManager
 
 
 	#endregion
-
-	public static string GetEditorPrevScene()
-	{
-		var prevEditorScene = string.Empty;
-#if UNITY_EDITOR
-		prevEditorScene = EditorPrefs.GetString("prevEditorScene", prevEditorScene);
-#endif
-		return prevEditorScene;
-	}
 
 	/// <summary>
 	/// Add a new scene to a specific connections observable list
