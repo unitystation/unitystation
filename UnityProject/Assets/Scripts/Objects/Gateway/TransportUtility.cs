@@ -12,7 +12,7 @@ namespace Gateway
 	public class TransportUtility : NetworkBehaviour //Would be a regular static class, but Weaver complains if it doesn't inherit NetworkBehaviour
 	{
 		public static List<GameObject> MaintRoomLocations { get; set; } = new List<GameObject>();
-		private const int MAINTROOM_CHANCE = 1000; //Once in 1000 chance
+		private const int MAINTROOM_CHANCE = 20; //One in 20 chance
 
 		/// <summary>
 		/// <para>Transports a <paramref name="objectPhysics"/> to <paramref name="transportTo"/> without lerping.</para>
@@ -23,12 +23,13 @@ namespace Gateway
 		/// <param name="transportTo">Destination to transport <paramref name="objectPhysics"/> to.</param>
 		/// <param name="doTileStep">Whether step interactions should trigger on teleport</param>
 		[Server]
-		public static void TransportObject(UniversalObjectPhysics objectPhysics, Vector3 transportTo, bool doTileStep = true)
+		public static void TransportObject(UniversalObjectPhysics objectPhysics, Vector3 transportTo, bool doTileStep = true, float maintRoomChanceModifier = 1f)
 		{
 			if (objectPhysics == null) return; //Don't even bother...
 
 			var dest = transportTo;
-			if (SubSceneManager.Instance.IsMaintRooms && Random.Range(0, MAINTROOM_CHANCE) <= 1) //If maintrooms are loaded, all teleports will have a 0.1% chance of resulting in teleporting to the maintrooms
+			
+			if (SubSceneManager.Instance.IsMaintRooms && Random.Range(0, MAINTROOM_CHANCE/maintRoomChanceModifier) <= 1) //If maintrooms are loaded, all teleports will have a 0.1% chance of resulting in teleporting to the maintrooms
 			{
 				dest = MaintRoomLocations.PickRandom().RegisterTile().WorldPositionServer;
 			}
@@ -47,7 +48,7 @@ namespace Gateway
 		/// <param name="doTileStep">Whether step interactions should trigger on teleport</param>
 		[Server]
 		public static void TransportObjectAndPulled(UniversalObjectPhysics objectPhysics, Vector3 transportTo,
-			bool doTileStep = true)
+			bool doTileStep = true, float maintRoomChanceModifier = 1f)
 		{
 			if (objectPhysics == null) return; //Don't even bother...
 
@@ -76,7 +77,7 @@ namespace Gateway
 				currentObj.PullSet(null, false); //TODO Test without
 
 				//Transport current
-				TransportObject(currentObj, transportTo, doTileStep);
+				TransportObject(currentObj, transportTo, doTileStep, maintRoomChanceModifier);
 
 				if (previous != null && currentObj.gameObject != null)
 				{
