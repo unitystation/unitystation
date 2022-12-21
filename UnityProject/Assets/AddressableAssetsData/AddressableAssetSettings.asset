@@ -21,7 +21,7 @@ MonoBehaviour:
   m_BundleLocalCatalog: 0
   m_CatalogRequestsTimeout: 0
   m_DisableCatalogUpdateOnStart: 0
-  m_IgnoreUnsupportedFilesInBuild: 1
+  m_IgnoreUnsupportedFilesInBuild: 0
   m_UniqueBundleIds: 0
   m_NonRecursiveBuilding: 1
   m_CCDEnabled: 0
@@ -31,14 +31,14 @@ MonoBehaviour:
   m_DisableVisibleSubAssetRepresentations: 0
   m_ShaderBundleNaming: 0
   m_ShaderBundleCustomNaming: 
-  m_MonoScriptBundleNaming: 2
+  m_MonoScriptBundleNaming: 0
   m_MonoScriptBundleCustomNaming: 
   m_RemoteCatalogBuildPath:
-    m_Id: c4a3a619b885ad743b8946c4cb19bfea
+    m_Id: cf3c3588f4d24ee44bc3dea569e0a068
   m_RemoteCatalogLoadPath:
-    m_Id: 236a08534a7d0ff4293e9a610d4fb2bd
+    m_Id: cb5f6ec16980d824f969cf8ddfca4d68
   m_ContentStateBuildPath: 
-  m_BuildAddressablesWithPlayerBuild: 1
+  m_BuildAddressablesWithPlayerBuild: 2
   m_overridePlayerVersion: 
   m_GroupAssets:
   - {fileID: 11400000, guid: 70db810af91d1864786e392c4dbcb185, type: 2}
@@ -57,9 +57,9 @@ MonoBehaviour:
       - m_Id: 48da33492a33a9e429e0a5f414e4c13e
         m_Value: '[UnityEditor.EditorUserBuildSettings.activeBuildTarget]'
       - m_Id: c4a3a619b885ad743b8946c4cb19bfea
-        m_Value: '[UnityEngine.AddressableAssets.Addressables.BuildPath]/Bundles/[BuildTarget]'
+        m_Value: AddressablePackingProjects/Scenes/ServerData
       - m_Id: 236a08534a7d0ff4293e9a610d4fb2bd
-        m_Value: '{UnityEngine.AddressableAssets.Addressables.RuntimePath}/Bundles/[BuildTarget]'
+        m_Value: '{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]'
       - m_Id: cf3c3588f4d24ee44bc3dea569e0a068
         m_Value: AddressablePackingProjects/Scenes/ServerData
       - m_Id: cb5f6ec16980d824f969cf8ddfca4d68
@@ -86,16 +86,6 @@ MonoBehaviour:
     - default
     - Map
     - Movie
-    - Shaders
-    - Decals
-    - Effects
-    - Objects
-    - Items
-    - Textures
-    - Materials
-    - Tilemap
-    - Mobs
-    - ScriptableObjects
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: d6395e7f7454734468bbc9542f8acbf8, type: 2}

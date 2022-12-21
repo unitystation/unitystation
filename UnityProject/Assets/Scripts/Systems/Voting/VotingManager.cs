@@ -51,7 +51,7 @@ public class VotingManager : NetworkBehaviour
 	/// </summary>
 	private Coroutine cooldown;
 
-	private List<MainStationInfo> MapList = new List<MainStationInfo>();
+	private List<AssetReference> MapList = new List<AssetReference>();
 	private List<string> GameModeList = new List<string>();
 	private List<string> yesNoList = new List<string>();
 
@@ -78,7 +78,7 @@ public class VotingManager : NetworkBehaviour
 
 	private void Start()
 	{
-		MapList = SubSceneManager.Instance.MainStationList;
+		MapList = SubSceneManager.Instance.MainStationList.MainStations;
 		GameModeList = GameManager.Instance.GetAvailableGameModeNames();
 		yesNoList.Add("Yes");
 		yesNoList.Add("No");
@@ -158,9 +158,9 @@ public class VotingManager : NetworkBehaviour
 				RpcOpenVoteWindow("Voting for next Game Mode initiated by", instigator.name, CountAmountString(), (time - prevSecond).ToString(), GameModeList);
 				break;
 			case VoteType.NextMap:
-				foreach (var mapvotes in SubSceneManager.Instance.MainStationList)
+				foreach (var scene in MapList)
 				{
-					possibleVotes.Add(mapvotes.Name);
+					possibleVotes.Add(scene.ToString());
 				}
 				RpcOpenVoteWindow("Voting for next map initiated by", instigator.name, CountAmountString(), (time - prevSecond).ToString(), possibleVotes);
 				break;
@@ -278,11 +278,7 @@ public class VotingManager : NetworkBehaviour
 					break;
 				case VoteType.NextMap:
 					Chat.AddGameWideSystemMsgToChat($"<color=blue>Vote passed! Next map will be {winner}</color>");
-					foreach (var station in SubSceneManager.Instance.MainStationList.Where(station => winner == station.Name))
-					{
-						SubSceneManager.AdminForcedMainStation = station.Key;
-						break;
-					}
+					SubSceneManager.AdminForcedMainStation = winner;
 					break;
 			}
 

@@ -53,16 +53,19 @@ public partial class SubSceneManager
 			}
 
 			SubsceneLoadTimer.IncrementLoadBar($"Loading {sceneInfo.SceneName}");
-			yield return StartCoroutine(LoadSubScene(sceneInfo.SceneKey, SubsceneLoadTimer, HandlSynchronising, sceneInfo.SceneType));
+			yield return StartCoroutine(LoadSubSceneFromString(sceneInfo.SceneName, SubsceneLoadTimer, HandlSynchronising));
 			MainStationLoaded = true;
 
 		}
 		else
 		{
-			SubsceneLoadTimer?.IncrementLoadBar(sceneInfo.SceneType != SceneType.HiddenScene ?
-				$"Loading {sceneInfo.SceneName}" : "");
+			if (SubsceneLoadTimer != null)
+			{
+				SubsceneLoadTimer.IncrementLoadBar(sceneInfo.SceneType != SceneType.HiddenScene ?
+					$"Loading {sceneInfo.SceneName}" : "");
+			}
 
-			yield return StartCoroutine(LoadSubScene(sceneInfo.SceneKey, HandlSynchronising :HandlSynchronising, type:sceneInfo.SceneType));
+			yield return StartCoroutine(LoadSubSceneFromString(sceneInfo.SceneName, HandlSynchronising  :HandlSynchronising ));
 		}
 
 		if (OverrideclientIsLoadingSubscene == false)
@@ -77,6 +80,8 @@ public partial class SubSceneManager
 		KillClientLoadingCoroutine = false;
 		StartCoroutine(LoadClientScenesFromServer(Scenes,OriginalScene, OnFinish));
 	}
+
+	private Action ClientSideFinishAction;
 
 	IEnumerator LoadClientScenesFromServer(List<SceneInfo> Scenes, string OriginalScene, Action OnFinish)
 	{
