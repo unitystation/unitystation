@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Messages.Client;
 using Mirror;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 
 // Client
@@ -49,7 +50,7 @@ public partial class SubSceneManager
 			}
 
 			SubsceneLoadTimer.IncrementLoadBar($"Loading {sceneInfo.SceneName}");
-			yield return StartCoroutine(LoadSubScene(sceneInfo.SceneName, SubsceneLoadTimer, HandlSynchronising));
+			yield return StartCoroutine(LoadSubSceneFromString(sceneInfo.SceneName, SubsceneLoadTimer, HandlSynchronising));
 			MainStationLoaded = true;
 
 		}
@@ -61,7 +62,7 @@ public partial class SubSceneManager
 					$"Loading {sceneInfo.SceneName}" : "");
 			}
 
-			yield return StartCoroutine(LoadSubScene(sceneInfo.SceneName, HandlSynchronising  :HandlSynchronising ));
+			yield return StartCoroutine(LoadSubSceneFromString(sceneInfo.SceneName, HandlSynchronising  :HandlSynchronising ));
 		}
 
 		if (OverrideclientIsLoadingSubscene == false)
@@ -91,7 +92,7 @@ public partial class SubSceneManager
 			yield return LoadClientSubScene(Scene, false, SubsceneLoadTimer, true );
 			if (KillClientLoadingCoroutine)
 			{
-				yield return SceneManager.UnloadSceneAsync(Scene.SceneName);
+				yield return SceneManager.UnloadSceneAsync(Scene.SceneName.ToString());
 				KillClientLoadingCoroutine = false;
 				clientIsLoadingSubscene = false;
 				yield break;
@@ -111,7 +112,7 @@ public partial class SubSceneManager
 				clientIsLoadingSubscene = false;
 				yield break;
 			}
-			RequestObserverRefresh.Send(Scene.SceneName);
+			RequestObserverRefresh.Send(Scene.SceneName.ToString());
 		}
 
 		clientIsLoadingSubscene = false;

@@ -158,7 +158,7 @@ namespace DatabaseAPI
 			}
 			else
 			{
-				status.CurrentMap = SubSceneManager.ServerChosenMainStation;
+				status.CurrentMap = SubSceneManager.ServerChosenMainStation.ToString();
 			}
 
 			status.GameMode = GameManager.Instance.GetGameModeName();
