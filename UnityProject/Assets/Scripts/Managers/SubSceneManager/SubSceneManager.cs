@@ -94,16 +94,14 @@ public partial class SubSceneManager : MonoBehaviour
 		if (isServer)
 		{
 			NetworkServer.SpawnObjects();
-			RequestObserverRefresh.Send(sceneName.ToString());
+			RequestObserverRefresh.Send(AO.Result.Scene.ToString());
 		}
 		else
 		{
-			if (HandlSynchronising)
-			{
-				NetworkClient.PrepareToSpawnSceneObjects();
-				yield return WaitFor.Seconds(0.2f);
-				RequestObserverRefresh.Send(sceneName.ToString());
-			}
+			if (HandlSynchronising == false) yield break;
+			NetworkClient.PrepareToSpawnSceneObjects();
+			yield return WaitFor.Seconds(0.2f);
+			RequestObserverRefresh.Send(AO.Result.Scene.ToString());
 		}
 	}
 
