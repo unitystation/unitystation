@@ -233,13 +233,13 @@ namespace HealthV2
 				if (EnvironmentalPressure < Min)
 				{
 					//so, Half Pressure of the minimum threshold that's when the maximum damage will kick in
-					TakeDamage(null,   Mathf.Clamp((Min - EnvironmentalPressure)/(Min/2f), 0f,1f), AttackType.Internal, DamageType.Brute);
+					TakeDamage(null,   0.25f*Mathf.Clamp((Min - EnvironmentalPressure)/(Min/2f), 0f,1f), AttackType.Internal, DamageType.Brute);
 
 				}
 				else if (EnvironmentalPressure > Max)
 				{
 					//so, Double of the maximum Pressure that's when the maximum damage Will start kicking
-					TakeDamage(null, Mathf.Clamp((EnvironmentalPressure-Max)/Max, 0f,1f), AttackType.Internal, DamageType.Brute);
+					TakeDamage(null, 0.25f*Mathf.Clamp((EnvironmentalPressure-Max)/Max, 0f,1f), AttackType.Internal, DamageType.Brute);
 				}
 
 			}
@@ -262,13 +262,13 @@ namespace HealthV2
 				if (EnvironmentalTemperature < Min)
 				{
 					//so, Half Temperature of the minimum threshold that's when the maximum damage will kick in
-					TakeDamage(null,   Mathf.Clamp((Min - EnvironmentalTemperature)/(Min/2f), 0f,1f), AttackType.Internal, DamageType.Burn);
+					TakeDamage(null,   0.25f*Mathf.Clamp((Min - EnvironmentalTemperature)/(Min/2f), 0f,1f), AttackType.Internal, DamageType.Burn);
 
 				}
 				else if (EnvironmentalTemperature > Max)
 				{
 					//so, Double of the maximum temperature that's when the maximum damage Will start kicking
-					TakeDamage(null, Mathf.Clamp((EnvironmentalTemperature-Max)/Max, 0f,1f), AttackType.Internal, DamageType.Burn);
+					TakeDamage(null, 0.25f*Mathf.Clamp((EnvironmentalTemperature-Max)/Max, 0f,1f), AttackType.Internal, DamageType.Burn);
 				}
 			}
 		}
