@@ -213,6 +213,67 @@ namespace HealthV2
 			UpdateSeverity();
 		}
 
+		public void ExposePressureTemperature(float EnvironmentalPressure, float EnvironmentalTemperature)
+		{
+			if (SelfArmor.PressureOutsideSafeRange(EnvironmentalPressure))
+			{
+
+				float Min = SelfArmor.PressureProtectionInKpa.x;
+				float Max = SelfArmor.PressureProtectionInKpa.y;
+
+				foreach (var Armour in ClothingArmors)
+				{
+					if (Armour.InvalidValuesInPressure() == false)
+					{
+						Min = Mathf.Min(Min, Armour.PressureProtectionInKpa.x);
+						Max = Mathf.Max(Max, Armour.PressureProtectionInKpa.y);
+					}
+				}
+
+				if (EnvironmentalPressure < Min)
+				{
+					//so, Half Pressure of the minimum threshold that's when the maximum damage will kick in
+					TakeDamage(null,   Mathf.Clamp((Min - EnvironmentalPressure)/(Min/2f), 0f,1f), AttackType.Internal, DamageType.Brute);
+
+				}
+				else if (EnvironmentalPressure > Max)
+				{
+					//so, Double of the maximum Pressure that's when the maximum damage Will start kicking
+					TakeDamage(null, Mathf.Clamp((EnvironmentalPressure-Max)/Max, 0f,1f), AttackType.Internal, DamageType.Brute);
+				}
+
+			}
+
+
+			if (SelfArmor.TemperatureOutsideSafeRange(EnvironmentalTemperature))
+			{
+				float Min = SelfArmor.TemperatureProtectionInK.x;
+				float Max = SelfArmor.TemperatureProtectionInK.y;
+
+				foreach (var Armour in ClothingArmors)
+				{
+					if (Armour.InvalidValuesInTemperature() == false)
+					{
+						Min = Mathf.Min(Min, Armour.TemperatureProtectionInK.x);
+						Max = Mathf.Max(Max, Armour.TemperatureProtectionInK.y);
+					}
+				}
+
+				if (EnvironmentalTemperature < Min)
+				{
+					//so, Half Temperature of the minimum threshold that's when the maximum damage will kick in
+					TakeDamage(null,   Mathf.Clamp((Min - EnvironmentalTemperature)/(Min/2f), 0f,1f), AttackType.Internal, DamageType.Burn);
+
+				}
+				else if (EnvironmentalTemperature > Max)
+				{
+					//so, Double of the maximum temperature that's when the maximum damage Will start kicking
+					TakeDamage(null, Mathf.Clamp((EnvironmentalTemperature-Max)/Max, 0f,1f), AttackType.Internal, DamageType.Burn);
+				}
+			}
+		}
+
+
 		/// <summary>
 		/// Applies damage to this body part. Damage will be divided among it and sub organs depending on their
 		/// armor values.

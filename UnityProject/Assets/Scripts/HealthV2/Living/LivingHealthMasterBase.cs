@@ -288,6 +288,16 @@ namespace HealthV2
 			//Maybe add feet for blood on boots?
 		};
 
+		public BodyPartType[] UsedZones = new BodyPartType[]
+		{
+			BodyPartType.Head,
+			BodyPartType.Chest,
+			BodyPartType.LeftArm,
+			BodyPartType.RightArm,
+			BodyPartType.LeftLeg,
+			BodyPartType.RightLeg
+		};
+
 		[SerializeField] private GameObject meatProduce;
 		[SerializeField] private GameObject skinProduce;
 		public GameObject MeatProduce => meatProduce;
@@ -1762,6 +1772,17 @@ namespace HealthV2
 
 			InternalNetIDs = NewInternalNetIDs;
 		}
+
+
+		public void ExposePressureTemperature(float EnvironmentalPressure, float EnvironmentalTemperature)
+		{
+			foreach (var bodyPart in SurfaceBodyParts)
+			{
+				bodyPart.ExposePressureTemperature(EnvironmentalPressure, EnvironmentalTemperature);
+			}
+		}
+
+
 
 		public void IndicatePain(float dmgTaken)
 		{

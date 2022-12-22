@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &842782012685662099
 Transform:
   m_ObjectHideFlags: 0
@@ -413,13 +413,13 @@ MonoBehaviour:
   syncInterval: 0.1
   LightEmission: {fileID: 0}
   objectLightEmission: {fileID: 4425414661908067713}
+  CommonComponents: {fileID: 0}
   Intensity: 1
   Colour: {r: 1, g: 1, b: 1, a: 1}
   EnumSprite: 0
   Size: 6
   IsOn: 0
   PlayerLightData:
-    Intensity: 0
     Colour: {r: 0, g: 0, b: 0, a: 0}
     EnumSprite: 0
     Size: 12
