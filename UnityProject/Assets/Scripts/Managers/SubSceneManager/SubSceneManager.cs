@@ -8,6 +8,8 @@ using Messages.Client;
 using Mirror;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
 public partial class SubSceneManager : MonoBehaviour
@@ -87,13 +89,26 @@ public partial class SubSceneManager : MonoBehaviour
 			Logger.LogError("[SubSceneManager] - Attempted to pass null asset reference while loading.. Skipping.");
 			yield break;
 		}
-		var AO = Addressables.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+
+		AsyncOperationHandle<SceneInstance> AO = new AsyncOperationHandle<SceneInstance>();
+
+		try
+		{
+			AO = Addressables.LoadSceneAsync(sceneName, LoadSceneMode.Additive, false);
+		}
+		catch (Exception e)
+		{
+			Logger.LogError($"[SubSceneManager] - Something went wrong while trying to load a scene... \n {e}");
+			yield break;
+		}
 
 		while (AO.IsDone == false)
 		{
 			loadTimer?.IncrementLoadBar();
 			yield return WaitFor.EndOfFrame;
 		}
+
+		yield return AO.Result.ActivateAsync();
 
 		loadTimer?.IncrementLoadBar();
 		if (isServer)
