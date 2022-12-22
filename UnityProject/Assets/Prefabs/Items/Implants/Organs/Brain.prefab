@@ -192,6 +192,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5e9ac88966a35d34a9fd90c34e1ddaa0,
         type: 2}
+    - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: CapableMutations.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: CapableMutations.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6f4827e9e317a844298816ebf349090e,
+        type: 2}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: DeathOnRemoval
@@ -255,8 +266,9 @@ MonoBehaviour:
   EMPResistance: 2
   OnBodyID: 0
   Pickupable: {fileID: 0}
-  hasInbuiltSite: 0
+  hasInbuiltSight: 0
   hasInbuiltHearing: 0
+  CannotSpeak: 0
 --- !u!114 &8557864071590038898
 MonoBehaviour:
   m_ObjectHideFlags: 0

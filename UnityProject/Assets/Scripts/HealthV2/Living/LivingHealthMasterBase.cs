@@ -10,6 +10,7 @@ using Mirror;
 using Systems.Atmospherics;
 using Chemistry;
 using Core.Chat;
+using Core.Utils;
 using Health.Sickness;
 using HealthV2.Living.CirculatorySystem;
 using Items.Implants.Organs;
@@ -293,6 +294,13 @@ namespace HealthV2
 		public GameObject MeatProduce => meatProduce;
 		public GameObject SkinProduce => skinProduce;
 
+
+		[NonSerialized]
+		public MultiInterestBool IsMute = new MultiInterestBool(true,
+			MultiInterestBool.RegisterBehaviour.RegisterFalse,
+			MultiInterestBool.BoolBehaviour.ReturnOnFalse);
+
+		//Default is mute yes
 
 		public virtual void Awake()
 		{

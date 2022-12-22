@@ -12,6 +12,10 @@ namespace Items.Implants.Organs
 		[SerializeField]
 		private List<LanguageSO> languages = new List<LanguageSO>();
 
+		private bool cannotSpeak = false;
+
+		public bool CannotSpeak => cannotSpeak;
+
 		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			RelatedPart = GetComponent<BodyPart>();
@@ -23,12 +27,14 @@ namespace Items.Implants.Organs
 			{
 				mobLanguages.LearnLanguage(language, true);
 			}
+			livingHealth.IsMute.RecordPosition(this, cannotSpeak);
+
 		}
 
 		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
 			if(CustomNetworkManager.IsServer == false) return;
-
+			livingHealth.IsMute.RemovePosition(this);
 			foreach (var language in languages)
 			{
 				//Don't remove the language if it is in the default list
@@ -38,6 +44,15 @@ namespace Items.Implants.Organs
 
 				//Can no longer speak, but can still understand
 				mobLanguages.RemoveLanguage(language);
+			}
+		}
+
+		public void SetCannotSpeak(bool inValue)
+		{
+			cannotSpeak = inValue;
+			if (RelatedPart.HealthMaster != null)
+			{
+				RelatedPart.HealthMaster.IsMute.RecordPosition(this, cannotSpeak);
 			}
 		}
 	}

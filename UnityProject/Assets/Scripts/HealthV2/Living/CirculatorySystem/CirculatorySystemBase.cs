@@ -222,7 +222,7 @@ namespace HealthV2
 					}
 
 
-					var Percentage =  BloodPool.GetPercent(KVP.Key);
+					var Percentage =  BloodPool.GetPercent(bloodAndValues.Key);
 
 					if (Percentage < 0.33f)
 					{

@@ -64,6 +64,22 @@ public class Mind : NetworkBehaviour, IActionGUI
 	/// </summary>
 	private Dictionary<string, object> properties = new Dictionary<string, object>();
 
+	public bool IsMute
+	{
+		get
+		{
+			if (IsMiming) return true;
+			var Health = GetDeepestBody().GetComponent<LivingHealthMasterBase>();
+			//TODO Problem here what about if you're in an Mech, you should be able to speak but Mech Doesn't have voice?
+
+			if (Health != null)
+			{
+				return Health.IsMute;
+			}
+
+			return IsMiming;
+		}
+	}
 
 
 	public bool IsMiming
