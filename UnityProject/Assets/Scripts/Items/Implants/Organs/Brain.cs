@@ -29,6 +29,8 @@ namespace Items.Implants.Organs
 
 		[SerializeField] private bool CannotSpeak  = false;
 
+
+		[SerializeField] private bool hasInbuiltSpeech = false;
 		//stuff in here?
 		//nah
 
@@ -48,11 +50,18 @@ namespace Items.Implants.Organs
 		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			livingHealth.Setbrain(this);
-			if (CannotSpeak)
+			if (CannotSpeak || hasInbuiltSpeech)
 			{
-				livingHealth.IsMute.RecordPosition(this, CannotSpeak);
-			}
+				if (hasInbuiltSpeech)
+				{
+					livingHealth.IsMute.RecordPosition(this, false);
+				}
+				else
+				{
+					livingHealth.IsMute.RecordPosition(this, CannotSpeak);
+				}
 
+			}
 		}
 
 		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
@@ -129,15 +138,24 @@ namespace Items.Implants.Organs
 			CannotSpeak = inValue;
 			if (RelatedPart.HealthMaster != null)
 			{
-				if (CannotSpeak)
+				if (hasInbuiltSpeech)
 				{
-					RelatedPart.HealthMaster.IsMute.RecordPosition(this, CannotSpeak);
+					RelatedPart.HealthMaster.IsMute.RecordPosition(this, false);
 				}
 				else
 				{
-					RelatedPart.HealthMaster.IsMute.RemovePosition(this);
-					//Brain can't make you speak but it can stop you from speaking
+					if (CannotSpeak)
+					{
+						RelatedPart.HealthMaster.IsMute.RecordPosition(this, CannotSpeak);
+					}
+					else
+					{
+						RelatedPart.HealthMaster.IsMute.RemovePosition(this);
+						//Brain can't make you speak but it can stop you from speaking
+					}
 				}
+
+
 			}
 		}
 	}
