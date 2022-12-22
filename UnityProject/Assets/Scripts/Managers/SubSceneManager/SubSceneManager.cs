@@ -80,17 +80,22 @@ public partial class SubSceneManager : MonoBehaviour
 	/// </summary>
 	/// <param name="sceneName"></param>
 	/// <returns></returns>
-	IEnumerator LoadSubScene(AssetReference sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true)
+	private IEnumerator LoadSubScene(AssetReference sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true)
 	{
+		if (sceneName == null)
+		{
+			Logger.LogError("[SubSceneManager] - Attempted to pass null asset reference while loading.. Skipping.");
+			yield break;
+		}
 		var AO = Addressables.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
 		while (AO.IsDone == false)
 		{
-			if (loadTimer != null) loadTimer.IncrementLoadBar();
+			loadTimer?.IncrementLoadBar();
 			yield return WaitFor.EndOfFrame;
 		}
 
-		if (loadTimer != null) loadTimer.IncrementLoadBar();
+		loadTimer?.IncrementLoadBar();
 		if (isServer)
 		{
 			NetworkServer.SpawnObjects();
