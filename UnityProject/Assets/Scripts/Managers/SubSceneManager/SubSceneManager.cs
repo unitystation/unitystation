@@ -7,6 +7,8 @@ using Messages.Client;
 using Mirror;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
 public partial class SubSceneManager : MonoBehaviour
@@ -86,23 +88,33 @@ public partial class SubSceneManager : MonoBehaviour
 			Logger.LogError("[SubSceneManager] - Attempted to pass null asset reference while loading.. Skipping.");
 			yield break;
 		}
-		var AO = Addressables.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+		AsyncOperationHandle<SceneInstance> AO = new AsyncOperationHandle<SceneInstance>();
+		ConnectionLoadedRecord[sceneName] = new HashSet<int>();
+		if (AO == null) yield break; // Null if scene not found.
 		if (CustomNetworkManager.IsServer == false)
 		{
 			if(clientLoadedSubScenes.Any(x=> x.SceneName == sceneName)) yield break;
 		}
 
-		ConnectionLoadedRecord[sceneName] = new HashSet<int>();
-		if (AO == null) yield break; // Null if scene not found.
-
+		try
+		{
+			AO = Addressables.LoadSceneAsync(sceneName, LoadSceneMode.Additive, false);
+		}
+		catch (Exception e)
+		{
+			Logger.LogError($"[SubSceneManager] - Something went wrong while trying to load a scene... \n {e}");
+			yield break;
+		}
 
 		while (AO.IsDone == false)
 		{
 			loadTimer?.IncrementLoadBar();
 			yield return WaitFor.EndOfFrame;
 		}
-		
-		if (loadTimer != null) loadTimer.IncrementLoadBar();
+
+		yield return AO.Result.ActivateAsync();
+
+		loadTimer?.IncrementLoadBar();
 		if (CustomNetworkManager.IsServer)
 		{
 			NetworkServer.SpawnObjects();
