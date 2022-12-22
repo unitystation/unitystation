@@ -87,7 +87,13 @@ namespace UI.Objects.Medical
 		public void GenerateEgg()
 		{
 
-			var  Egg =  Spawn.ServerPrefab(DNAConsole.EggPrefab, DNAConsole.DNAScanner.gameObject.AssumedWorldPosServer()).GameObject;
+			var PositionToSpawn = this.DNAConsole.gameObject;
+			if (DNAConsole.DNAScanner != null)
+			{
+				PositionToSpawn = DNAConsole.DNAScanner.gameObject;
+			}
+
+			var  Egg =  Spawn.ServerPrefab(DNAConsole.EggPrefab, PositionToSpawn.AssumedWorldPosServer()).GameObject;
 			var available = DNAConsole.ALLMutations.Except(DNAConsole.UnlockedMutations).ToList();
 
 			if (available.Count == 0)
