@@ -1,39 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
-using HealthV2;
-using Items.Implants.Organs;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Polycythemia", menuName = "ScriptableObjects/Mutations/Polycythemia")]
-public class Polycythemia : MutationSO
+namespace HealthV2.Living.Mutations.Bones
 {
-	public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
+	[CreateAssetMenu(fileName = "Polycythemia", menuName = "ScriptableObjects/Mutations/Polycythemia")]
+	public class Polycythemia : MutationSO
 	{
-		return new InPolycythemia(BodyPart,_RelatedMutationSO);
-	}
-
-	private class InPolycythemia: Mutation
-	{
-
-		public Bones Bone;
-
-		public InPolycythemia(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
+		public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
 		{
-
+			return new InPolycythemia(BodyPart,_RelatedMutationSO);
 		}
 
-		public override void SetUp()
+		private class InPolycythemia: Mutation
 		{
-			Bone = BodyPart.GetComponent<Bones>();
-			Bone.GenerationOvershoot += 1f;
-			Bone.BloodGeneratedByOneNutriment += 50;
-		}
 
-		public override void Remove()
-		{
-			Bone.GenerationOvershoot -= 1f;
-			Bone.BloodGeneratedByOneNutriment -= 50;
-		}
+			public Items.Implants.Organs.Bones Bone;
 
+			public InPolycythemia(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
+			{
+
+			}
+
+			public override void SetUp()
+			{
+				Bone = BodyPart.GetComponent<Items.Implants.Organs.Bones>();
+				Bone.GenerationOvershoot += 1f;
+				Bone.BloodGeneratedByOneNutriment += 50;
+			}
+
+			public override void Remove()
+			{
+				Bone.GenerationOvershoot -= 1f;
+				Bone.BloodGeneratedByOneNutriment -= 50;
+			}
+
+		}
 	}
 }

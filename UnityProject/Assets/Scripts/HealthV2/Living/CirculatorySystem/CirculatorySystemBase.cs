@@ -205,28 +205,28 @@ namespace HealthV2
 			{
 				foreach (var KVP in bloodAndValues.Value)
 				{
-					var PurityMultiplier = 1f;
+					var purityMultiplier = 1f;
 
-					var BloodPressure = 1f;
+					var bloodPressure = 1f;
 
-					var PercentageBloodPressure = BloodPool.Total  / StartingBlood;
-					if (PercentageBloodPressure < 0.75f)
+					var percentageBloodPressure = BloodPool.Total  / StartingBlood;
+					if (percentageBloodPressure < 0.75f)
 					{
-						BloodPressure = PercentageBloodPressure / 0.75f;
+						bloodPressure = percentageBloodPressure / 0.75f;
 					}
 
-					if (PercentageBloodPressure > 1.25f)
+					if (percentageBloodPressure > 1.25f)
 					{
 						healthMaster.ChangeBleedStacks(1); //TODO Change to per body part instead
 
 					}
 
 
-					var Percentage =  BloodPool.GetPercent(bloodAndValues.Key);
+					var percentage =  BloodPool.GetPercent(bloodAndValues.Key);
 
-					if (Percentage < 0.33f)
+					if (percentage < 0.33f)
 					{
-						PurityMultiplier = Percentage / 0.33f;
+						purityMultiplier = percentage / 0.33f;
 					}
 
 					//Heal if blood saturation consumption is fine, otherwise do damage
@@ -240,8 +240,8 @@ namespace HealthV2
 					bloodSaturation = bloodSaturation * HeartEfficiency * bloodAndValues.Key.CalculatePercentageBloodPresent(BloodPool);
 
 
-					bloodSaturation *= PurityMultiplier;
-					bloodSaturation *= BloodPressure;
+					bloodSaturation *= purityMultiplier;
+					bloodSaturation *= bloodPressure;
 
 
 

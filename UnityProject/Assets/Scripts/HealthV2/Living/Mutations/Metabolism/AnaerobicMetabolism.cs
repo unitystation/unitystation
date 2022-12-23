@@ -1,34 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
-using HealthV2;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "AnaerobicMetabolism", menuName = "ScriptableObjects/Mutations/AnaerobicMetabolism")]
-public class AnaerobicMetabolism : MutationSO
+namespace HealthV2.Living.Mutations.Metabolism
 {
-	public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
+	[CreateAssetMenu(fileName = "AnaerobicMetabolism", menuName = "ScriptableObjects/Mutations/AnaerobicMetabolism")]
+	public class AnaerobicMetabolism : MutationSO
 	{
-		return new InAnaerobicMetabolism(BodyPart,_RelatedMutationSO);
-	}
-
-	private class InAnaerobicMetabolism : Mutation
-	{
-
-
-		public InAnaerobicMetabolism(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
+		public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
 		{
-
+			return new InAnaerobicMetabolism(BodyPart,_RelatedMutationSO);
 		}
 
-		public override void SetUp()
+		private class InAnaerobicMetabolism : Mutation
 		{
-			BodyPart.SetIsBloodReagentConsumed(false);
-		}
 
-		public override void Remove()
-		{
-			BodyPart.SetIsBloodReagentConsumed(true);
-		}
 
+			public InAnaerobicMetabolism(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
+			{
+
+			}
+
+			public override void SetUp()
+			{
+				BodyPart.SetIsBloodReagentConsumed(false);
+			}
+
+			public override void Remove()
+			{
+				BodyPart.SetIsBloodReagentConsumed(true);
+			}
+
+		}
 	}
 }

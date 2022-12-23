@@ -1,36 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
-using HealthV2;
 using Items.Implants.Organs;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "BigStomachMutation", menuName = "ScriptableObjects/Mutations/BigStomachMutation")]
-public class BigStomachMutation : MutationSO
+namespace HealthV2.Living.Mutations
 {
-
-	public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
+	[CreateAssetMenu(fileName = "BigStomachMutation", menuName = "ScriptableObjects/Mutations/BigStomachMutation")]
+	public class BigStomachMutation : MutationSO
 	{
-		return new InBigStomachMutation(BodyPart,_RelatedMutationSO);
-	}
 
-	public class InBigStomachMutation : Mutation
-	{
-		public InBigStomachMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
+		public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
 		{
-
+			return new InBigStomachMutation(BodyPart,_RelatedMutationSO);
 		}
 
-		public override void SetUp()
+		public class InBigStomachMutation : Mutation
 		{
-			var Stomach = BodyPart.GetComponent<Stomach>();
-			Stomach.StomachContents.SetMaxCapacity(99); //TODO better implementation //idk Custom thing, if it's preset custom
-		}
+			public InBigStomachMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
+			{
 
-		public override void Remove()
-		{
-			var Stomach = BodyPart.GetComponent<Stomach>();
-			Stomach.StomachContents.SetMaxCapacity(2); //TODO better implementation
-		}
+			}
 
+			public override void SetUp()
+			{
+				var Stomach = BodyPart.GetComponent<Stomach>();
+				Stomach.StomachContents.SetMaxCapacity(99); //TODO better implementation //idk Custom thing, if it's preset custom
+			}
+
+			public override void Remove()
+			{
+				var Stomach = BodyPart.GetComponent<Stomach>();
+				Stomach.StomachContents.SetMaxCapacity(2); //TODO better implementation
+			}
+
+		}
 	}
 }

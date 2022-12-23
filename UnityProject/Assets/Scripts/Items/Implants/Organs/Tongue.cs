@@ -12,9 +12,7 @@ namespace Items.Implants.Organs
 		[SerializeField]
 		private List<LanguageSO> languages = new List<LanguageSO>();
 
-		private bool cannotSpeak = false;
-
-		public bool CannotSpeak => cannotSpeak;
+		public bool CannotSpeak {get; private set; }
 
 		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
@@ -27,7 +25,7 @@ namespace Items.Implants.Organs
 			{
 				mobLanguages.LearnLanguage(language, true);
 			}
-			livingHealth.IsMute.RecordPosition(this, cannotSpeak);
+			livingHealth.IsMute.RecordPosition(this, CannotSpeak);
 
 		}
 
@@ -49,10 +47,10 @@ namespace Items.Implants.Organs
 
 		public void SetCannotSpeak(bool inValue)
 		{
-			cannotSpeak = inValue;
+			CannotSpeak = inValue;
 			if (RelatedPart.HealthMaster != null)
 			{
-				RelatedPart.HealthMaster.IsMute.RecordPosition(this, cannotSpeak);
+				RelatedPart.HealthMaster.IsMute.RecordPosition(this, CannotSpeak);
 			}
 		}
 	}

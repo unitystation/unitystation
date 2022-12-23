@@ -1,39 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
-using HealthV2;
-using Items.Implants.Organs;
 using UnityEngine;
 
-
-[CreateAssetMenu(fileName = "BigBoned", menuName = "ScriptableObjects/Mutations/BigBoned")]
-
-public class BigBoned : MutationSO
+namespace HealthV2.Living.Mutations.Bones
 {
-	public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
+	[CreateAssetMenu(fileName = "BigBoned", menuName = "ScriptableObjects/Mutations/BigBoned")]
+
+	public class BigBoned : MutationSO
 	{
-		return new InBigBoned(BodyPart,_RelatedMutationSO);
-	}
-
-	private class InBigBoned: Mutation
-	{
-
-		public Bones Bone;
-
-		public InBigBoned(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
+		public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
 		{
-
+			return new InBigBoned(BodyPart,_RelatedMutationSO);
 		}
 
-		public override void SetUp()
+		private class InBigBoned: Mutation
 		{
-			Bone = BodyPart.GetComponent<Bones>();
-			Bone.BloodGeneratedByOneNutriment += 30;
-		}
 
-		public override void Remove()
-		{
-			Bone.BloodGeneratedByOneNutriment -= 30;
-		}
+			public Items.Implants.Organs.Bones Bone;
 
+			public InBigBoned(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
+			{
+
+			}
+
+			public override void SetUp()
+			{
+				Bone = BodyPart.GetComponent<Items.Implants.Organs.Bones>();
+				Bone.BloodGeneratedByOneNutriment += 30;
+			}
+
+			public override void Remove()
+			{
+				Bone.BloodGeneratedByOneNutriment -= 30;
+			}
+
+		}
 	}
 }

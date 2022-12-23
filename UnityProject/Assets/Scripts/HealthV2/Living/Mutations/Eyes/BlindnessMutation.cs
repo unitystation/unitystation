@@ -1,37 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
-using HealthV2;
 using Items.Implants.Organs;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Blindness", menuName = "ScriptableObjects/Mutations/Blindness")]
-public class BlindnessMutation  : MutationSO
+namespace HealthV2.Living.Mutations.Eyes
 {
-	public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
+	[CreateAssetMenu(fileName = "Blindness", menuName = "ScriptableObjects/Mutations/Blindness")]
+	public class BlindnessMutation  : MutationSO
 	{
-		return new InBlindnessMutation(BodyPart,_RelatedMutationSO);
-	}
-
-	public class InBlindnessMutation: Mutation
-	{
-
-		public Eye RelatedEye;
-
-		public InBlindnessMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
+		public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
 		{
-
+			return new InBlindnessMutation(BodyPart,_RelatedMutationSO);
 		}
 
-		public override void SetUp()
+		public class InBlindnessMutation: Mutation
 		{
-			RelatedEye = BodyPart.GetComponent<Eye>();
-			RelatedEye.PreventsBlindness = true;
-		}
 
-		public override void Remove()
-		{
-			RelatedEye.PreventsBlindness = false;
-		}
+			public Eye RelatedEye;
 
+			public InBlindnessMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
+			{
+
+			}
+
+			public override void SetUp()
+			{
+				RelatedEye = BodyPart.GetComponent<Eye>();
+				RelatedEye.PreventsBlindness = true;
+			}
+
+			public override void Remove()
+			{
+				RelatedEye.PreventsBlindness = false;
+			}
+
+		}
 	}
 }

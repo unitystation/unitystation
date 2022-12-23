@@ -1,57 +1,56 @@
-using System.Collections;
-using System.Collections.Generic;
-using HealthV2;
 using Items.Implants.Organs;
 using UnityEngine;
 
-
-[CreateAssetMenu(fileName = "Mute", menuName = "ScriptableObjects/Mutations/Mute")]
-public class Mute : MutationSO
+namespace HealthV2.Living.Mutations.Speech
 {
-	public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
+	[CreateAssetMenu(fileName = "Mute", menuName = "ScriptableObjects/Mutations/Mute")]
+	public class Mute : MutationSO
 	{
-		return new InMute(BodyPart,_RelatedMutationSO);
-	}
-
-	private class InMute: Mutation
-	{
-
-		public Tongue RelatedTongue;
-		public Brain RelatedBrain;
-		public InMute(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
+		public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
 		{
-
+			return new InMute(BodyPart,_RelatedMutationSO);
 		}
 
-		public override void SetUp()
+		private class InMute: Mutation
 		{
 
-			RelatedTongue = BodyPart.GetComponent<Tongue>();
-			RelatedBrain = BodyPart.GetComponent<Brain>();
-
-			if (RelatedTongue != null)
+			public Tongue RelatedTongue;
+			public Brain RelatedBrain;
+			public InMute(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
 			{
-				RelatedTongue.SetCannotSpeak( true);
+
 			}
 
-			if (RelatedBrain != null)
+			public override void SetUp()
 			{
-				RelatedBrain.SetCannotSpeak(true);
+
+				RelatedTongue = BodyPart.GetComponent<Tongue>();
+				RelatedBrain = BodyPart.GetComponent<Brain>();
+
+				if (RelatedTongue != null)
+				{
+					RelatedTongue.SetCannotSpeak( true);
+				}
+
+				if (RelatedBrain != null)
+				{
+					RelatedBrain.SetCannotSpeak(true);
+				}
 			}
+
+			public override void Remove()
+			{
+				if (RelatedTongue != null)
+				{
+					RelatedTongue.SetCannotSpeak( false);
+				}
+
+				if (RelatedBrain != null)
+				{
+					RelatedBrain.SetCannotSpeak(false);
+				}
+			}
+
 		}
-
-		public override void Remove()
-		{
-			if (RelatedTongue != null)
-			{
-				RelatedTongue.SetCannotSpeak( false);
-			}
-
-			if (RelatedBrain != null)
-			{
-				RelatedBrain.SetCannotSpeak(false);
-			}
-		}
-
 	}
 }

@@ -87,13 +87,13 @@ namespace UI.Objects.Medical
 		public void GenerateEgg()
 		{
 
-			var PositionToSpawn = this.DNAConsole.gameObject;
+			var positionToSpawn = this.DNAConsole.gameObject;
 			if (DNAConsole.DNAScanner != null)
 			{
-				PositionToSpawn = DNAConsole.DNAScanner.gameObject;
+				positionToSpawn = DNAConsole.DNAScanner.gameObject;
 			}
 
-			var  Egg =  Spawn.ServerPrefab(DNAConsole.EggPrefab, PositionToSpawn.AssumedWorldPosServer()).GameObject;
+			var  egg =  Spawn.ServerPrefab(DNAConsole.EggPrefab, positionToSpawn.AssumedWorldPosServer()).GameObject;
 			var available = DNAConsole.ALLMutations.Except(DNAConsole.UnlockedMutations).ToList();
 
 			if (available.Count == 0)
@@ -115,7 +115,7 @@ namespace UI.Objects.Medical
 				}
 			}
 
-			Egg.GetComponent<GeneticEggLogic>().CarryingMutations = chosen;
+			egg.GetComponent<GeneticEggLogic>().CarryingMutations = chosen;
 
 		}
 

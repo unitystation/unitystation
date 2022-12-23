@@ -1,58 +1,57 @@
-using System.Collections;
-using System.Collections.Generic;
-using HealthV2;
 using HealthV2.Limbs;
-using Items.Implants.Organs;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "StrongMuscles", menuName = "ScriptableObjects/Mutations/StrongMuscles")]
-public class StrongMuscles : MutationSO
+namespace HealthV2.Living.Mutations.LegsAndArms
 {
-	public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
+	[CreateAssetMenu(fileName = "StrongMuscles", menuName = "ScriptableObjects/Mutations/StrongMuscles")]
+	public class StrongMuscles : MutationSO
 	{
-		return new InStrongMuscles(BodyPart,_RelatedMutationSO);
-	}
-
-	private class InStrongMuscles: Mutation
-	{
-
-		public HumanoidLeg Leg;
-		public HumanoidArm HumanoidArm;
-
-		public InStrongMuscles(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
+		public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
 		{
-
+			return new InStrongMuscles(BodyPart,_RelatedMutationSO);
 		}
 
-		public override void SetUp()
+		private class InStrongMuscles: Mutation
 		{
-			Leg = BodyPart.GetComponent<HumanoidLeg>();
-			HumanoidArm = BodyPart.GetComponent<HumanoidArm>();
 
-			if (Leg != null)
+			public HumanoidLeg Leg;
+			public HumanoidArm HumanoidArm;
+
+			public InStrongMuscles(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
 			{
-				Leg.SetNewEfficiency(Leg.LegEfficiency + 1);
+
 			}
 
-			if (HumanoidArm != null)
+			public override void SetUp()
 			{
-				HumanoidArm.SetNewEfficiency(HumanoidArm.ArmEfficiency + 1);
+				Leg = BodyPart.GetComponent<HumanoidLeg>();
+				HumanoidArm = BodyPart.GetComponent<HumanoidArm>();
+
+				if (Leg != null)
+				{
+					Leg.SetNewEfficiency(Leg.LegEfficiency + 1);
+				}
+
+				if (HumanoidArm != null)
+				{
+					HumanoidArm.SetNewEfficiency(HumanoidArm.ArmEfficiency + 1);
+				}
+
+			}
+
+			public override void Remove()
+			{
+				if (Leg != null)
+				{
+					Leg.SetNewEfficiency(Leg.LegEfficiency - 1);
+				}
+
+				if (HumanoidArm != null)
+				{
+					HumanoidArm.SetNewEfficiency(HumanoidArm.ArmEfficiency - 1);
+				}
 			}
 
 		}
-
-		public override void Remove()
-		{
-			if (Leg != null)
-			{
-				Leg.SetNewEfficiency(Leg.LegEfficiency - 1);
-			}
-
-			if (HumanoidArm != null)
-			{
-				HumanoidArm.SetNewEfficiency(HumanoidArm.ArmEfficiency - 1);
-			}
-		}
-
 	}
 }

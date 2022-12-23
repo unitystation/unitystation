@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 using System.Linq;
+using Health.Objects;
 using Random = System.Random;
 
 namespace HealthV2

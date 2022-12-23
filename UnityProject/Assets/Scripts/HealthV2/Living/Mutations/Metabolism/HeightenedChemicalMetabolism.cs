@@ -1,36 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
-using HealthV2;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "HeightenedChemicalMetabolism", menuName = "ScriptableObjects/Mutations/HeightenedChemicalMetabolism")]
-public class HeightenedChemicalMetabolism : MutationSO
+namespace HealthV2.Living.Mutations.Metabolism
 {
-	public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
+	[CreateAssetMenu(fileName = "HeightenedChemicalMetabolism", menuName = "ScriptableObjects/Mutations/HeightenedChemicalMetabolism")]
+	public class HeightenedChemicalMetabolism : MutationSO
 	{
-		return new InHeightenedChemicalMetabolism(BodyPart,_RelatedMutationSO);
-	}
-
-	private class InHeightenedChemicalMetabolism: Mutation
-	{
-
-		public BodyPart Related;
-
-		public InHeightenedChemicalMetabolism(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
+		public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
 		{
-
+			return new InHeightenedChemicalMetabolism(BodyPart,_RelatedMutationSO);
 		}
 
-		public override void SetUp()
+		private class InHeightenedChemicalMetabolism: Mutation
 		{
-			Related = BodyPart;
-			Related.ReagentMetabolism += 3;
-		}
 
-		public override void Remove()
-		{
-			Related.ReagentMetabolism -= 3;
-		}
+			public BodyPart Related;
 
+			public InHeightenedChemicalMetabolism(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
+			{
+
+			}
+
+			public override void SetUp()
+			{
+				Related = BodyPart;
+				Related.ReagentMetabolism += 3;
+			}
+
+			public override void Remove()
+			{
+				Related.ReagentMetabolism -= 3;
+			}
+
+		}
 	}
 }

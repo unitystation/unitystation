@@ -1,37 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
-using HealthV2;
-using Items.Implants.Organs;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Anemia", menuName = "ScriptableObjects/Mutations/Anemia")]
-public class Anemia : MutationSO
+namespace HealthV2.Living.Mutations.Bones
 {
-	public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
+	[CreateAssetMenu(fileName = "Anemia", menuName = "ScriptableObjects/Mutations/Anemia")]
+	public class Anemia : MutationSO
 	{
-		return new InAnemia(BodyPart,_RelatedMutationSO);
-	}
-
-	private class InAnemia: Mutation
-	{
-
-		public Bones Bone;
-
-		public InAnemia(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
+		public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
 		{
-
+			return new InAnemia(BodyPart,_RelatedMutationSO);
 		}
 
-		public override void SetUp()
+		private class InAnemia: Mutation
 		{
-			Bone = BodyPart.GetComponent<Bones>();
-			Bone.BloodGeneratedByOneNutriment -= 28;
-		}
 
-		public override void Remove()
-		{
-			Bone.BloodGeneratedByOneNutriment += 28;
-		}
+			public Items.Implants.Organs.Bones Bone;
 
+			public InAnemia(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
+			{
+
+			}
+
+			public override void SetUp()
+			{
+				Bone = BodyPart.GetComponent<Items.Implants.Organs.Bones>();
+				Bone.BloodGeneratedByOneNutriment -= 28;
+			}
+
+			public override void Remove()
+			{
+				Bone.BloodGeneratedByOneNutriment += 28;
+			}
+
+		}
 	}
 }
