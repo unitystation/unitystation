@@ -2,14 +2,19 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using Mirror;
 using Core.Editor.Attributes;
+using Core.Highlight;
 using Detective;
+using Items;
+using Managers;
 using Messages.Client.Interaction;
 using NaughtyAttributes;
 
 [RequireComponent(typeof(Integrity))]
-public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServerSpawn
+public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServerSpawn, IHighlightable
 {
 
 	[Tooltip("Display name of this item when spawned.")]
@@ -130,6 +135,8 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	/// </summary>
 	public AppliedDetails AppliedDetails = new AppliedDetails();
 
+	private const float MINIMUM_HIGHLIGHT_DISTANCE = 6f;
+
 	public override void OnStartClient()
 	{
 		SyncArticleName(articleName, articleName);
@@ -185,7 +192,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 		//failsafe - don't highlight hidden / despawned stuff
 		if (gameObject.IsAtHiddenPos()) return;
 
-		if(willHighlight)
+		if (willHighlight)
 		{
 			Highlight.HighlightThis(gameObject);
 		}
@@ -273,5 +280,24 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	public void ServerSetArticleDescription(string desc)
 	{
 		SyncArticleDescription(articleDescription, desc);
+	}
+
+	public List<string> SearchableString()
+	{
+		var names = new List<string>();
+		names.Add(initialName);
+		names.Add(articleName);
+		if (this is ItemAttributesV2 c)
+		{
+			names.AddRange(c.GetTraits().Select(trait => trait.name));
+		}
+		return names;
+	}
+
+	public void HighlightObject()
+	{
+		if (PlayerManager.LocalPlayerObject == null || gameObject.IsAtHiddenPos()) return;
+		if (Vector2.Distance(gameObject.AssumedWorldPosServer(), PlayerManager.LocalPlayerObject.AssumedWorldPosServer()) > MINIMUM_HIGHLIGHT_DISTANCE) return;
+		Instantiate(GlobalHighlighterManager.HighlightObject, this.transform, false);
 	}
 }

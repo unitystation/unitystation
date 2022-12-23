@@ -64,7 +64,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 8692860622524097638}
+      objectReference: {fileID: 0}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_Sprite
@@ -248,18 +248,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
---- !u!114 &8692860622524097638 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114341119007412586, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 8733893691203122444}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8734328976324889014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8734328976324889014 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
@@ -298,6 +286,24 @@ MonoBehaviour:
   NetTabType: 13
   originalName: 
   customName: 
+--- !u!114 &4897634797340284583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8734328976324889014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1be952724c3641bf965e9f9f6ba63ec5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TipSO: {fileID: 11400000, guid: a151f299d3c16a24c87bc1883f18cdd6, type: 2}
+  triggerOnce: 1
+  showEvenAfterDeath: 0
+  tipCooldown: 200
+  highlightableObjectNames:
+  - pen
 --- !u!114 &6377258629491125575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,20 +334,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetTabType: 4
   paper: {fileID: 585395312865148023}
---- !u!114 &4897634797340284583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8734328976324889014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1be952724c3641bf965e9f9f6ba63ec5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TipSO: {fileID: 11400000, guid: a151f299d3c16a24c87bc1883f18cdd6, type: 2}
-  saveID: 0
-  triggerOnce: 1
-  showEvenAfterDeath: 0
-  tipCooldown: 200

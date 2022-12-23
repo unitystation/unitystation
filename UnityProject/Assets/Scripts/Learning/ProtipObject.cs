@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using Managers;
 using NaughtyAttributes;
 using UnityEngine;
 using Util;
@@ -20,6 +22,8 @@ namespace Learning
 		private float tipCooldown = 200f;
 
 		private bool isOnCooldown = false;
+
+		[SerializeField] protected List<string> highlightableObjectNames;
 
 		private void Awake()
 		{
@@ -76,12 +80,11 @@ namespace Learning
 
 		protected void TriggerTip(GameObject triggeredBy = null)
 		{
-			if(TriggerConditions(triggeredBy, TipSO) == false) return;
-			ProtipManager.Instance.QueueTip(TipSO);
+			if (TriggerConditions(triggeredBy, TipSO) == false) return;
+			ProtipManager.Instance.QueueTip(TipSO, highlightableObjectNames);
 			if (triggerOnce)
 			{
-				PlayerPrefs.SetString($"{TipSO.TipTitle}", "true");
-				PlayerPrefs.Save();
+				ProtipManager.Instance.SaveTipState(TipSO.TipTitle);
 				RemoveThisComponent();
 				return;
 			}
@@ -89,15 +92,15 @@ namespace Learning
 			StartCoroutine(Cooldown());
 		}
 
-		protected void TriggerTip(ProtipSO protipSo, GameObject triggeredBy = null)
+		protected void TriggerTip(ProtipSO protipSo, GameObject triggeredBy = null, List<string> highlightNames = null)
 		{
-			if(TriggerConditions(triggeredBy, protipSo) == false && CheckSaveStatus(protipSo)) return;
-			if(protipSo == null)
+			if (TriggerConditions(triggeredBy, protipSo) == false && CheckSaveStatus(protipSo)) return;
+			if (protipSo == null)
 			{
 				Logger.LogError("Passed ProtipSO is null. Cannot trigger tip.");
 				return;
 			}
-			ProtipManager.Instance.QueueTip(protipSo);
+			ProtipManager.Instance.QueueTip(protipSo, highlightableObjectNames);
 			if (triggerOnce)
 			{
 				ProtipManager.Instance.SaveTipState(protipSo.TipTitle);
