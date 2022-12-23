@@ -5,6 +5,8 @@ namespace HealthV2.Living.Mutations.Bones
 	[CreateAssetMenu(fileName = "Anemia", menuName = "ScriptableObjects/Mutations/Anemia")]
 	public class Anemia : MutationSO
 	{
+		public float BloodRegenerationRemove = 28f;
+
 		public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
 		{
 			return new InAnemia(BodyPart,_RelatedMutationSO);
@@ -12,6 +14,8 @@ namespace HealthV2.Living.Mutations.Bones
 
 		private class InAnemia: Mutation
 		{
+
+			public Anemia Anemia => RelatedMutationSO as Anemia;
 
 			public Items.Implants.Organs.Bones Bone;
 
@@ -23,12 +27,12 @@ namespace HealthV2.Living.Mutations.Bones
 			public override void SetUp()
 			{
 				Bone = BodyPart.GetComponent<Items.Implants.Organs.Bones>();
-				Bone.BloodGeneratedByOneNutriment -= 28;
+				Bone.BloodGeneratedByOneNutriment -= Anemia.BloodRegenerationRemove;
 			}
 
 			public override void Remove()
 			{
-				Bone.BloodGeneratedByOneNutriment += 28;
+				Bone.BloodGeneratedByOneNutriment += Anemia.BloodRegenerationRemove;
 			}
 
 		}

@@ -6,6 +6,9 @@ namespace HealthV2.Living.Mutations.LegsAndArms
 	[CreateAssetMenu(fileName = "WeakMuscles", menuName = "ScriptableObjects/Mutations/WeakMuscles")]
 	public class WeakMuscles : MutationSO
 	{
+
+		public float RemovedEfficiency = 0.75f;
+
 		public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
 		{
 			return new InWeakMuscles(BodyPart,_RelatedMutationSO);
@@ -13,6 +16,8 @@ namespace HealthV2.Living.Mutations.LegsAndArms
 
 		private class InWeakMuscles: Mutation
 		{
+
+			public WeakMuscles WeakMuscles => RelatedMutationSO as WeakMuscles;
 
 			public HumanoidLeg Leg;
 			public HumanoidArm HumanoidArm;
@@ -29,12 +34,12 @@ namespace HealthV2.Living.Mutations.LegsAndArms
 
 				if (Leg != null)
 				{
-					Leg.SetNewEfficiency(Leg.LegEfficiency - 0.75f);
+					Leg.SetNewEfficiency(Leg.LegEfficiency - WeakMuscles.RemovedEfficiency);
 				}
 
 				if (HumanoidArm != null)
 				{
-					HumanoidArm.SetNewEfficiency(HumanoidArm.ArmEfficiency - 0.75f);
+					HumanoidArm.SetNewEfficiency(HumanoidArm.ArmEfficiency -  WeakMuscles.RemovedEfficiency);
 				}
 
 			}
@@ -43,12 +48,12 @@ namespace HealthV2.Living.Mutations.LegsAndArms
 			{
 				if (Leg != null)
 				{
-					Leg.SetNewEfficiency(Leg.LegEfficiency + 0.75f);
+					Leg.SetNewEfficiency(Leg.LegEfficiency + WeakMuscles.RemovedEfficiency);
 				}
 
 				if (HumanoidArm != null)
 				{
-					HumanoidArm.SetNewEfficiency(HumanoidArm.ArmEfficiency  + 0.75f);
+					HumanoidArm.SetNewEfficiency(HumanoidArm.ArmEfficiency +WeakMuscles.RemovedEfficiency);
 				}
 			}
 
