@@ -1,37 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
-using HealthV2;
-using Items.Implants.Organs;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Deafness", menuName = "ScriptableObjects/Mutations/Deafness")]
-public class Deafness  : MutationSO
+namespace HealthV2.Living.Mutations.Ears
 {
-	public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
+	[CreateAssetMenu(fileName = "Deafness", menuName = "ScriptableObjects/Mutations/Deafness")]
+	public class Deafness  : MutationSO
 	{
-		return new InDeafnessMutation(BodyPart,_RelatedMutationSO);
-	}
-
-	private class InDeafnessMutation: Mutation
-	{
-
-		public Ears RelatedEars;
-
-		public InDeafnessMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
+		public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
 		{
-
+			return new InDeafnessMutation(BodyPart,_RelatedMutationSO);
 		}
 
-		public override void SetUp()
+		private class InDeafnessMutation: Mutation
 		{
-			RelatedEars = BodyPart.GetComponent<Ears>();
-			RelatedEars.MutationMultiplier = 0;
-		}
 
-		public override void Remove()
-		{
-			RelatedEars.MutationMultiplier = 1;
-		}
+			public Items.Implants.Organs.Ears RelatedEars;
 
+			public InDeafnessMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
+			{
+
+			}
+
+			public override void SetUp()
+			{
+				RelatedEars = BodyPart.GetComponent<Items.Implants.Organs.Ears>();
+				RelatedEars.MutationMultiplier = 0;
+			}
+
+			public override void Remove()
+			{
+				RelatedEars.MutationMultiplier = 1;
+			}
+
+		}
 	}
 }

@@ -212,9 +212,10 @@ public partial class Chat : MonoBehaviour
 		{
 			if (player.playerHealth != null)
 			{
-				if (player.IsDeadOrGhost == false && player.Mind.IsMiming && !processedMessage.chatModifiers.HasFlag(ChatModifier.Emote))
+				if (player.IsDeadOrGhost == false && player.Mind.IsMute && !processedMessage.chatModifiers.HasFlag(ChatModifier.Emote))
 				{
-					AddWarningMsgFromServer(sentByPlayer.GameObject, "You can't talk because you made a vow of silence.");
+					AddWarningMsgFromServer(sentByPlayer.GameObject, "You can't talk"); // because you made a vow of silence.
+					//TODO Explain why you can't talk
 					return;
 				}
 

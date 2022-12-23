@@ -1,37 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
-using HealthV2;
 using Items.Implants.Organs;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "XRayVision", menuName = "ScriptableObjects/Mutations/XRayVision")]
-public class XRayVision  : MutationSO
+namespace HealthV2.Living.Mutations.Eyes
 {
-	public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
+	[CreateAssetMenu(fileName = "XRayVision", menuName = "ScriptableObjects/Mutations/XRayVision")]
+	public class XRayVision : MutationSO
 	{
-		return new InXRayVision(BodyPart,_RelatedMutationSO);
-	}
-
-	public class InXRayVision: Mutation
-	{
-
-		public Eye RelatedEye;
-
-		public InXRayVision(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
+		public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
 		{
-
+			return new InXRayVision(BodyPart,_RelatedMutationSO);
 		}
 
-		public override void SetUp()
+		private class InXRayVision: Mutation
 		{
-			RelatedEye = BodyPart.GetComponent<Eye>();
-			RelatedEye.HasXray = true;
-		}
 
-		public override void Remove()
-		{
-			RelatedEye.HasXray = false;
-		}
+			public Eye RelatedEye;
 
+			public InXRayVision(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
+			{
+
+			}
+
+			public override void SetUp()
+			{
+				RelatedEye = BodyPart.GetComponent<Eye>();
+				RelatedEye.HasXray = true;
+			}
+
+			public override void Remove()
+			{
+				RelatedEye.HasXray = false;
+			}
+
+		}
 	}
 }

@@ -1,42 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
-using HealthV2;
 using Items.Implants.Organs;
 using UnityEngine;
 
-
-[CreateAssetMenu(fileName = "BlurryVisionMutation", menuName = "ScriptableObjects/Mutations/BlurryVisionMutation")]
-public class BlurryVisionMutation  : MutationSO
+namespace HealthV2.Living.Mutations.Eyes
 {
-
-	public int BlurrinessStrength = 30;
-	public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
-	{
-		return new InBlurryVisionMutation(BodyPart,_RelatedMutationSO, BlurrinessStrength);
-	}
-
-	private class InBlurryVisionMutation : Mutation
+	[CreateAssetMenu(fileName = "BlurryVisionMutation", menuName = "ScriptableObjects/Mutations/BlurryVisionMutation")]
+	public class BlurryVisionMutation  : MutationSO
 	{
 
-		public Eye RelatedEye;
-		public int Strength;
-
-		public InBlurryVisionMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO,  int inMode) : base(BodyPart,_RelatedMutationSO)
+		public int BlurrinessStrength = 30;
+		public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
 		{
-			Strength = inMode;
+			return new InBlurryVisionMutation(BodyPart,_RelatedMutationSO, BlurrinessStrength);
 		}
 
-		public override void SetUp()
+		private class InBlurryVisionMutation : Mutation
 		{
-			RelatedEye = BodyPart.GetComponent<Eye>();
-			RelatedEye.BaseBlurryVision = Strength;
-			RelatedEye.UpdateBlurryEye();
-		}
 
-		public override void Remove()
-		{
-			RelatedEye.BaseBlurryVision = 0;
-			RelatedEye.UpdateBlurryEye();
+			public Eye RelatedEye;
+			public int Strength;
+
+			public InBlurryVisionMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO,  int inMode) : base(BodyPart,_RelatedMutationSO)
+			{
+				Strength = inMode;
+			}
+
+			public override void SetUp()
+			{
+				RelatedEye = BodyPart.GetComponent<Eye>();
+				RelatedEye.BaseBlurryVision = Strength;
+				RelatedEye.UpdateBlurryEye();
+			}
+
+			public override void Remove()
+			{
+				RelatedEye.BaseBlurryVision = 0;
+				RelatedEye.UpdateBlurryEye();
+			}
 		}
 	}
 }

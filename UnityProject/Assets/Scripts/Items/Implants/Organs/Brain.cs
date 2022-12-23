@@ -26,6 +26,11 @@ namespace Items.Implants.Organs
 		[FormerlySerializedAs("hasInbuiltSite")] [SerializeField] private bool hasInbuiltSight = false;
 		[SerializeField] private bool hasInbuiltHearing = false;
 
+
+		[SerializeField] private bool CannotSpeak  = false;
+
+
+		[SerializeField] private bool hasInbuiltSpeech = false;
 		//stuff in here?
 		//nah
 
@@ -45,11 +50,22 @@ namespace Items.Implants.Organs
 		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			livingHealth.Setbrain(this);
+			if (CannotSpeak == false && hasInbuiltSpeech == false) return;
+
+			if (hasInbuiltSpeech)
+			{
+				livingHealth.IsMute.RecordPosition(this, false);
+			}
+			else
+			{
+				livingHealth.IsMute.RecordPosition(this, CannotSpeak);
+			}
 		}
 
 		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
 			livingHealth.brain = null;
+			livingHealth.IsMute.RemovePosition(this);
 		}
 
 		public void SyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn)
@@ -101,6 +117,8 @@ namespace Items.Implants.Organs
 
 		}
 
+
+
 		public void ApplyChangesBlindness(bool SetValue)
 		{
 			if (SetValue)
@@ -110,6 +128,28 @@ namespace Items.Implants.Organs
 			else
 			{
 				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().Blindness.RemovePosition(this);
+			}
+		}
+
+		public void SetCannotSpeak(bool inValue)
+		{
+			CannotSpeak = inValue;
+			if (RelatedPart.HealthMaster == null) return;
+			if (hasInbuiltSpeech)
+			{
+				RelatedPart.HealthMaster.IsMute.RecordPosition(this, false);
+			}
+			else
+			{
+				if (CannotSpeak)
+				{
+					RelatedPart.HealthMaster.IsMute.RecordPosition(this, CannotSpeak);
+				}
+				else
+				{
+					RelatedPart.HealthMaster.IsMute.RemovePosition(this);
+					//Brain can't make you speak but it can stop you from speaking
+				}
 			}
 		}
 	}

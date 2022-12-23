@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 using System.Linq;
+using Health.Objects;
 using Random = System.Random;
 
 namespace HealthV2
@@ -120,6 +121,8 @@ namespace HealthV2
 			0
 		};
 
+		public DamageWeaknesses damageWeaknesses { get; } = new DamageWeaknesses(); 
+
 		/// <summary>
 		/// The total damage this body part has taken that is not from lack of blood reagent
 		/// and not including cellular (clone) damage
@@ -186,7 +189,7 @@ namespace HealthV2
 		/// </summary>
 		/// <param name="damage">Damage amount</param>
 		/// <param name="damageType">The type of damage</param>
-		public void AffectDamage(float damage, int damageType)
+		private void AffectDamage(float damage, int damageType)
 		{
 			if (damage == 0) return;
 
@@ -232,6 +235,11 @@ namespace HealthV2
 				ClothingArmors,
 				armorPenetration
 			);
+			if (damageToLimb > 0)
+			{
+				damageToLimb = damageWeaknesses.CalculateAppliedDamage(damageToLimb, damageType);
+			}
+
 			AffectDamage(damageToLimb, (int) damageType);
 
 			// May be changed to individual damage
@@ -288,13 +296,13 @@ namespace HealthV2
 			{
 				foreach (var organ in containBodyParts)
 				{
-					organ.AffectDamage(subDamage / containBodyParts.Count, (int) damageType);
+					organ.TakeDamage(null, subDamage / containBodyParts.Count , attackType , damageType);
 				}
 			}
 			else
 			{
 				var organBodyPart = containBodyParts.PickRandom(); //It's not like you can aim for Someone's liver can you
-				organBodyPart.AffectDamage(subDamage, (int) damageType);
+				organBodyPart.TakeDamage(null, subDamage, attackType , damageType);
 			}
 		}
 
@@ -304,7 +312,7 @@ namespace HealthV2
 		public void HealDamage(GameObject healingItem, float healAmt,
 			DamageType damageTypeToHeal)
 		{
-			AffectDamage(-healAmt, (int) damageTypeToHeal);
+			TakeDamage(healingItem, -healAmt, AttackType.Internal, damageTypeToHeal, DamageSubOrgans  : false);
 		}
 
 		/// <summary>
@@ -313,7 +321,7 @@ namespace HealthV2
 		public void HealDamage(GameObject healingItem, float healAmt,
 			int damageTypeToHeal)
 		{
-			AffectDamage(-healAmt, damageTypeToHeal);
+			HealDamage(healingItem, healAmt, (DamageType) damageTypeToHeal);
 		}
 
 
@@ -353,8 +361,8 @@ namespace HealthV2
 				ProcessingRadiation = 2;
 			}
 
-			AffectDamage(-ProcessingRadiation, (int) DamageType.Radiation);
-			AffectDamage(ProcessingRadiation * 0.1f, (int) DamageType.Tox);
+			HealDamage(null,ProcessingRadiation, DamageType.Radiation);
+			TakeDamage(null, ProcessingRadiation * 0.1f,AttackType.Internal , DamageType.Tox, DamageSubOrgans : false); //This Should bypass all armour
 		}
 
 		/// <summary>

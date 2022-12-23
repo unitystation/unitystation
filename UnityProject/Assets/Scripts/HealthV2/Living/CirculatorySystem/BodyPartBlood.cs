@@ -89,14 +89,20 @@ namespace HealthV2
 		[NonSerialized] //Automatically generated runtime
 		public float PassiveConsumptionNutriment = 0.00012f;
 
+
+
+		[Tooltip("How many metabolic reactions can happen inside of this body part Per tick per 1u of blood flow ")]
+		public float ReagentMetabolism = 0.2f;
+
+
 		/// <summary>
 		/// The amount of of nutriment to consume in order to perform work, eg heal damage or replenish blood supply
 		/// </summary>
 		[Tooltip("How much more nutriment does it consume each Second")]
 		public float HealingNutrimentMultiplier = 2f;
+		// /\ Regeneration = hyper nutriment consumption healing = all body parts?
 
-		[Tooltip("How many metabolic reactions can happen inside of this body part Per tick per 1u of blood flow ")]
-		public float ReagentMetabolism = 0.2f;
+
 
 		public HashSet<MetabolismReaction> MetabolismReactions = new HashSet<MetabolismReaction>();
 
@@ -123,6 +129,13 @@ namespace HealthV2
 			}
 
 			AddModifier(HungerModifier);
+		}
+
+
+		public void SetIsBloodReagentConsumed(bool State)
+		{
+			isBloodReagentConsumed = State;
+			HealthMaster.OrNull()?.CirculatorySystem.OrNull()?.BodyPartListChange();
 		}
 
 		/// <summary>
