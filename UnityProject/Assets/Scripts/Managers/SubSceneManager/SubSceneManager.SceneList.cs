@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Mirror;
 using UnityEditor;
 using UnityEngine.SceneManagement;
@@ -20,6 +21,8 @@ public partial class SubSceneManager
 	public static bool AdminAllowLavaland;
 
 	public AssetReference SpaceSceneRef;
+
+	private Dictionary<AssetReference, string> sceneNames = new Dictionary<AssetReference, string>();
 
 	IEnumerator RoundStartServerLoadSequence()
 	{
@@ -56,6 +59,10 @@ public partial class SubSceneManager
 		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
 		EventManager.Broadcast( Event.ScenesLoadedServer, false);
 		Logger.Log($"Server has loaded {serverChosenAwaySite} away site", Category.Round);
+		foreach (var s in sceneNames.Values)
+		{
+			Debug.Log(s);
+		}
 	}
 
 	//Load the space scene on the server
@@ -65,7 +72,7 @@ public partial class SubSceneManager
 		yield return StartCoroutine(LoadSubScene(SpaceSceneRef, loadTimer));
 		loadedScenesList.Add(new SceneInfo
 		{
-			SceneName = SpaceSceneRef.ToString(),
+			SceneName = sceneNames[SpaceSceneRef],
 			SceneType = SceneType.Space
 		});
 		netIdentity.isDirty = true;
@@ -94,7 +101,7 @@ public partial class SubSceneManager
 		yield return StartCoroutine(LoadSubScene(serverChosenMainStation, loadTimer));
 		loadedScenesList.Add(new SceneInfo
 		{
-			SceneName = serverChosenMainStation.ToString(),
+			SceneName = sceneNames[serverChosenMainStation],
 			SceneType = SceneType.MainStation
 		});
 		netIdentity.isDirty = true;
@@ -111,7 +118,7 @@ public partial class SubSceneManager
 
 			loadedScenesList.Add(new SceneInfo
 			{
-				SceneName = asteroid.ToString(),
+				SceneName = sceneNames[asteroid],
 				SceneType = SceneType.Asteroid
 			});
 			netIdentity.isDirty = true;
@@ -137,7 +144,7 @@ public partial class SubSceneManager
 
 			loadedScenesList.Add(new SceneInfo
 			{
-				SceneName = centComData.CentComSceneName.ToString(),
+				SceneName = sceneNames[centComData.CentComSceneName],
 				SceneType = SceneType.AdditionalScenes
 			});
 			netIdentity.isDirty = true;
@@ -153,7 +160,7 @@ public partial class SubSceneManager
 
 		loadedScenesList.Add(new SceneInfo
 		{
-			SceneName = pickedMap.ToString(),
+			SceneName = sceneNames[pickedMap],
 			SceneType = SceneType.AdditionalScenes
 		});
 		netIdentity.isDirty = true;
@@ -191,7 +198,7 @@ public partial class SubSceneManager
 
 			loadedScenesList.Add(new SceneInfo
 			{
-				SceneName = additionalScene.ToString(),
+				SceneName = sceneNames[additionalScene],
 				SceneType = SceneType.AdditionalScenes
 			});
 			netIdentity.isDirty = true;
@@ -201,25 +208,22 @@ public partial class SubSceneManager
 	//Load the away site on the server
 	IEnumerator ServerLoadAwaySite(SubsceneLoadTimer loadTimer)
 	{
-		if (GameManager.Instance.QuickLoad)
-		{
-			yield return null;
-		}
+		if (GameManager.Instance.QuickLoad) yield break;
+		yield return WaitFor.EndOfFrame;
+
 		//Load the away site
 		serverChosenAwaySite = awayWorldList.AwayWorlds.PickRandom();
 
 		loadTimer.IncrementLoadBar("Loading Away Site");
-		if (serverChosenAwaySite == null)
+		if (serverChosenAwaySite == null) yield break;
+		yield return StartCoroutine(LoadSubScene(serverChosenAwaySite, loadTimer));
+		AwaySiteLoaded = true;
+		loadedScenesList.Add(new SceneInfo
 		{
-			yield return StartCoroutine(LoadSubScene(serverChosenAwaySite, loadTimer));
-			AwaySiteLoaded = true;
-			loadedScenesList.Add(new SceneInfo
-			{
-				SceneName = serverChosenAwaySite?.ToString(),
-				SceneType = SceneType.HiddenScene
-			});
-			netIdentity.isDirty = true;
-		}
+			SceneName = sceneNames[serverChosenAwaySite],
+			SceneType = SceneType.HiddenScene
+		});
+		netIdentity.isDirty = true;
 	}
 
 	#region GameMode Unique Scenes
@@ -244,7 +248,7 @@ public partial class SubSceneManager
 
 		loadedScenesList.Add(new SceneInfo
 		{
-			SceneName = pickedMap.ToString(),
+			SceneName = sceneNames[pickedMap],
 			SceneType = SceneType.HiddenScene
 		});
 		netIdentity.isDirty = true;
@@ -263,7 +267,7 @@ public partial class SubSceneManager
 
 		loadedScenesList.Add(new SceneInfo
 		{
-			SceneName = pickedScene.ToString(),
+			SceneName = sceneNames[pickedScene],
 			SceneType = SceneType.HiddenScene
 		});
 		netIdentity.isDirty = true;
