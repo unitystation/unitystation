@@ -121,7 +121,7 @@ namespace HealthV2
 			0
 		};
 
-		public DamageWeaknesses damageWeaknesses;
+		public DamageWeaknesses damageWeaknesses { get; } = new DamageWeaknesses(); 
 
 		/// <summary>
 		/// The total damage this body part has taken that is not from lack of blood reagent
