@@ -114,15 +114,17 @@ public partial class SubSceneManager : MonoBehaviour
 		if (isServer)
 		{
 			NetworkServer.SpawnObjects();
-			RequestObserverRefresh.Send(AO.Result.Scene.ToString());
+			RequestObserverRefresh.Send(AO.Result.Scene.name);
 		}
 		else
 		{
 			if (HandlSynchronising == false) yield break;
 			NetworkClient.PrepareToSpawnSceneObjects();
 			yield return WaitFor.Seconds(0.2f);
-			RequestObserverRefresh.Send(AO.Result.Scene.ToString());
+			RequestObserverRefresh.Send(AO.Result.Scene.name);
 		}
+
+		sceneNames.Add(sceneName, AO.Result.Scene.name);
 	}
 
 	IEnumerator LoadSubSceneFromString(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true)
@@ -158,14 +160,14 @@ public partial class SubSceneManager : MonoBehaviour
 		if (isServer)
 		{
 			NetworkServer.SpawnObjects();
-			RequestObserverRefresh.Send(sceneName.ToString());
+			RequestObserverRefresh.Send(sceneName);
 		}
 		else
 		{
 			if (HandlSynchronising == false) yield break;
 			NetworkClient.PrepareToSpawnSceneObjects();
 			yield return WaitFor.Seconds(0.2f);
-			RequestObserverRefresh.Send(sceneName.ToString());
+			RequestObserverRefresh.Send(sceneName);
 		}
 	}
 
