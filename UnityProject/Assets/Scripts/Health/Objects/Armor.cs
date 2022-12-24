@@ -170,14 +170,14 @@ public class Armor
 	}
 
 
-	public bool TemperatureOutsideSafeRange(float Temperature)
+	public bool TemperatureOutsideSafeRange(float temperature)
 	{
 		if (InvalidValuesInTemperature())
 		{
 			return true;
 		}
 
-		if (Temperature < TemperatureProtectionInK.x || Temperature > TemperatureProtectionInK.y)
+		if (temperature < TemperatureProtectionInK.x || temperature > TemperatureProtectionInK.y)
 		{
 			return true;
 		}
@@ -185,7 +185,7 @@ public class Armor
 		return false;
 	}
 
-	public bool PressureOutsideSafeRange(float Pressure)
+	public bool PressureOutsideSafeRange(float pressure)
 	{
 		if (InvalidValuesInPressure())
 		{
@@ -193,7 +193,7 @@ public class Armor
 		}
 
 
-		if (Pressure < PressureProtectionInKpa.x || Pressure > PressureProtectionInKpa.y)
+		if (pressure < PressureProtectionInKpa.x || pressure > PressureProtectionInKpa.y)
 		{
 			return true;
 		}

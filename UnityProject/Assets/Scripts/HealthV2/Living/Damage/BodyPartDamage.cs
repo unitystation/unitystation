@@ -213,62 +213,62 @@ namespace HealthV2
 			UpdateSeverity();
 		}
 
-		public void ExposePressureTemperature(float EnvironmentalPressure, float EnvironmentalTemperature)
+		public void ExposePressureTemperature(float environmentalPressure, float environmentalTemperature)
 		{
-			if (SelfArmor.PressureOutsideSafeRange(EnvironmentalPressure))
+			if (SelfArmor.PressureOutsideSafeRange(environmentalPressure))
 			{
 
-				float Min = SelfArmor.PressureProtectionInKpa.x;
-				float Max = SelfArmor.PressureProtectionInKpa.y;
+				float min = SelfArmor.PressureProtectionInKpa.x;
+				float max = SelfArmor.PressureProtectionInKpa.y;
 
-				foreach (var Armour in ClothingArmors)
+				foreach (var armour in ClothingArmors)
 				{
-					if (Armour.InvalidValuesInPressure() == false)
+					if (armour.InvalidValuesInPressure() == false)
 					{
-						Min = Mathf.Min(Min, Armour.PressureProtectionInKpa.x);
-						Max = Mathf.Max(Max, Armour.PressureProtectionInKpa.y);
+						min = Mathf.Min(min, armour.PressureProtectionInKpa.x);
+						max = Mathf.Max(max, armour.PressureProtectionInKpa.y);
 					}
 				}
 
-				if (EnvironmentalPressure < Min)
+				if (environmentalPressure < min)
 				{
 					//so, Half Pressure of the minimum threshold that's when the maximum damage will kick in
-					TakeDamage(null,   0.25f*Mathf.Clamp((Min - EnvironmentalPressure)/(Min/2f), 0f,1f), AttackType.Internal, DamageType.Brute);
+					TakeDamage(null,   0.25f*Mathf.Clamp((min - environmentalPressure)/(min/2f), 0f,1f), AttackType.Internal, DamageType.Brute);
 
 				}
-				else if (EnvironmentalPressure > Max)
+				else if (environmentalPressure > max)
 				{
 					//so, Double of the maximum Pressure that's when the maximum damage Will start kicking
-					TakeDamage(null, 0.25f*Mathf.Clamp((EnvironmentalPressure-Max)/Max, 0f,1f), AttackType.Internal, DamageType.Brute);
+					TakeDamage(null, 0.25f*Mathf.Clamp((environmentalPressure-max)/max, 0f,1f), AttackType.Internal, DamageType.Brute);
 				}
 
 			}
 
 
-			if (SelfArmor.TemperatureOutsideSafeRange(EnvironmentalTemperature))
+			if (SelfArmor.TemperatureOutsideSafeRange(environmentalTemperature))
 			{
-				float Min = SelfArmor.TemperatureProtectionInK.x;
-				float Max = SelfArmor.TemperatureProtectionInK.y;
+				float min = SelfArmor.TemperatureProtectionInK.x;
+				float max = SelfArmor.TemperatureProtectionInK.y;
 
-				foreach (var Armour in ClothingArmors)
+				foreach (var armour in ClothingArmors)
 				{
-					if (Armour.InvalidValuesInTemperature() == false)
+					if (armour.InvalidValuesInTemperature() == false)
 					{
-						Min = Mathf.Min(Min, Armour.TemperatureProtectionInK.x);
-						Max = Mathf.Max(Max, Armour.TemperatureProtectionInK.y);
+						min = Mathf.Min(min, armour.TemperatureProtectionInK.x);
+						max = Mathf.Max(max, armour.TemperatureProtectionInK.y);
 					}
 				}
 
-				if (EnvironmentalTemperature < Min)
+				if (environmentalTemperature < min)
 				{
 					//so, Half Temperature of the minimum threshold that's when the maximum damage will kick in
-					TakeDamage(null,   0.25f*Mathf.Clamp((Min - EnvironmentalTemperature)/(Min/2f), 0f,1f), AttackType.Internal, DamageType.Burn);
+					TakeDamage(null,   0.25f*Mathf.Clamp((min - environmentalTemperature)/(min/2f), 0f,1f), AttackType.Internal, DamageType.Burn);
 
 				}
-				else if (EnvironmentalTemperature > Max)
+				else if (environmentalTemperature > max)
 				{
 					//so, Double of the maximum temperature that's when the maximum damage Will start kicking
-					TakeDamage(null, 0.25f*Mathf.Clamp((EnvironmentalTemperature-Max)/Max, 0f,1f), AttackType.Internal, DamageType.Burn);
+					TakeDamage(null, 0.25f*Mathf.Clamp((environmentalTemperature-max)/max, 0f,1f), AttackType.Internal, DamageType.Burn);
 				}
 			}
 		}
