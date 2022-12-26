@@ -1778,7 +1778,8 @@ namespace HealthV2
 		{
 			foreach (var bodyPart in SurfaceBodyParts)
 			{
-				bodyPart.ExposePressureTemperature(EnvironmentalPressure, EnvironmentalTemperature);
+				bodyPart.ExposeTemperature(EnvironmentalTemperature);
+				bodyPart.ExposePressure(EnvironmentalPressure);
 			}
 		}
 
