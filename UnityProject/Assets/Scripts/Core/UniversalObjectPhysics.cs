@@ -5,6 +5,7 @@ using Core.Editor.Attributes;
 using HealthV2;
 using Items;
 using JetBrains.Annotations;
+using Messages.Server;
 using Messages.Server.SoundMessages;
 using Mirror;
 using NUnit.Framework;
@@ -1894,10 +1895,22 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	public void TryTogglePull()
 	{
 		var initiator = PlayerManager.LocalPlayerScript.GetComponent<UniversalObjectPhysics>();
+		float interactDist = PlayerScript.INTERACTION_DISTANCE;
+		if (PlayerManager.LocalPlayerScript.playerHealth.brain != null && PlayerManager.LocalPlayerScript.playerHealth.brain.HasTelekinesis) //Has telekinesis
+		{
+			interactDist = Validations.TELEKINESIS_INTERACTION_DISTANCE;
+		}
+
 		//client pre-validation
 		if (Validations.IsReachableByRegisterTiles(initiator.registerTile, this.registerTile, false,
-			    context: gameObject) && initiator != this)
+			    context: gameObject, interactDist: interactDist) && initiator != this)
 		{
+			if ((initiator.gameObject.AssumedWorldPosServer() - this.gameObject.AssumedWorldPosServer()).magnitude >
+			    PlayerScript.INTERACTION_DISTANCE) //If telekinesis was used play effect
+			{
+				PlayEffect.SendToAll(this.gameObject, "TelekinesisEffect");
+			}
+
 			//client request: start/stop pulling
 			if (PulledBy.Component == initiator)
 			{
@@ -1941,20 +1954,25 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 
 		PlayerInfo clientWhoAsked = PlayerList.Instance.Get(gameObject);
+
+		var reachRange = ReachRange.Standard;
+
+
+		if (clientWhoAsked.Script.playerHealth.brain != null && clientWhoAsked.Script.playerHealth.brain.HasTelekinesis) //Has telekinesis
+		{
+			reachRange = ReachRange.Telekinesis;
+		}
+
 		if (Validations.CanApply(clientWhoAsked.Script, gameObject, NetworkSide.Server
-			    , apt: Validations.CheckState(x => x.CanPull)) == false)
+			    , apt: Validations.CheckState(x => x.CanPull), reachRange : reachRange) == false)
 		{
 			return;
 		}
 
-		if (Validations.IsReachableByRegisterTiles(pullable.registerTile, this.registerTile, true,
-			    context: pullableObject))
-		{
-			PullSet(pullable, true);
-			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.ThudSwoosh, pullable.transform.position,
-				sourceObj: pullableObject);
-			//TODO Update the UI
-		}
+		PullSet(pullable, true);
+		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.ThudSwoosh, pullable.transform.position, sourceObj: pullableObject);
+		//TODO Update the UI
+
 	}
 
 	/// Client requests to stop pulling any objects
@@ -1993,7 +2011,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	}
 
 	#region Buckling
-	//TODO pulling
 
 	// netid of the game object we are buckled to, NetId.Empty if not buckled
 	[SyncVar(hook = nameof(SyncBuckledToObject))]

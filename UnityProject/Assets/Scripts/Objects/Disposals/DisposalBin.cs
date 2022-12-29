@@ -193,8 +193,9 @@ namespace Objects.Disposals
 		// Click on disposal bin
 		public override bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
-			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.HandObject == null) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
 
 			if (base.WillInteract(interaction, side)) return true;
 			// Bin accepts all items for disposal.
