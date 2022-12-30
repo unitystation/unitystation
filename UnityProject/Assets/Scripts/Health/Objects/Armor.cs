@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 
 /// <summary>
@@ -29,6 +30,14 @@ public class Armor
 	[Range(0,100)] public int DismembermentProtectionChance;
 
 	public bool StunImmunity = false;
+
+
+	[MinMaxSlider(0.00f, 50000.0f)]
+	public Vector2 TemperatureProtectionInK = new Vector2( 268.15f, 313.15f);
+
+	[MinMaxSlider(0.00f, 50000.0f)]
+	public Vector2 PressureProtectionInKpa = new Vector2(30f, 300f);
+
 
 	/// <summary>
 	/// Calculates how much damage would be done based on armor resistance and armor penetration.
@@ -137,6 +146,59 @@ public class Armor
 		}
 
 		return 0;
+	}
+
+
+	public bool InvalidValuesInTemperature() //Due to crappy unity serialisation
+	{
+		if ( TemperatureProtectionInK.y == 0)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	public bool InvalidValuesInPressure() //Due to crappy unity serialisation
+	{
+		if (PressureProtectionInKpa.y == 0)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+
+	public bool TemperatureOutsideSafeRange(float temperature)
+	{
+		if (InvalidValuesInTemperature())
+		{
+			return true;
+		}
+
+		if (temperature < TemperatureProtectionInK.x || temperature > TemperatureProtectionInK.y)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	public bool PressureOutsideSafeRange(float pressure)
+	{
+		if (InvalidValuesInPressure())
+		{
+			return true;
+		}
+
+
+		if (pressure < PressureProtectionInKpa.x || pressure > PressureProtectionInKpa.y)
+		{
+			return true;
+		}
+
+		return false;
 	}
 }
 

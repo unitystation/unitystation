@@ -262,6 +262,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.PressureProtectionInKpa.y
+      value: 1010
+      objectReference: {fileID: 0}
+    - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.PressureProtectionInKpa.y
+      value: 1010
+      objectReference: {fileID: 0}
+    - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.PressureProtectionInKpa.y
+      value: 1010
+      objectReference: {fileID: 0}
+    - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.TemperatureProtectionInK.y
+      value: 3000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.TemperatureProtectionInK.y
+      value: 3000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.TemperatureProtectionInK.y
+      value: 3000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
       propertyPath: armoredBodyParts.Array.data[0].armor.DismembermentProtectionChance
       value: 55
       objectReference: {fileID: 0}
@@ -451,13 +481,13 @@ MonoBehaviour:
   syncInterval: 0.1
   LightEmission: {fileID: 0}
   objectLightEmission: {fileID: 5751436736299566491}
+  CommonComponents: {fileID: 0}
   Intensity: 1
   Colour: {r: 1, g: 1, b: 1, a: 1}
   EnumSprite: 0
   Size: 6
   IsOn: 0
   PlayerLightData:
-    Intensity: 0
     Colour: {r: 0, g: 0, b: 0, a: 0}
     EnumSprite: 0
     Size: 12

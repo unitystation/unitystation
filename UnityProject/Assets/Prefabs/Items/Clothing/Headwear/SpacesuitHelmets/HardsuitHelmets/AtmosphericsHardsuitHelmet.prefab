@@ -72,6 +72,36 @@ PrefabInstance:
       propertyPath: armoredBodyParts.Array.data[2].armor.Rad
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.PressureProtectionInKpa.y
+      value: 30000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.PressureProtectionInKpa.y
+      value: 30000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.PressureProtectionInKpa.y
+      value: 30000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.TemperatureProtectionInK.y
+      value: 30000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.TemperatureProtectionInK.y
+      value: 30000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916692071237160092, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.TemperatureProtectionInK.y
+      value: 30000
+      objectReference: {fileID: 0}
     - target: {fileID: 7026562142245124243, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
       propertyPath: Colour.a

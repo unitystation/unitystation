@@ -8,7 +8,7 @@ namespace HealthV2
 {
 	[RequireComponent(typeof(LivingHealthMasterBase))]
 	[RequireComponent(typeof(CirculatorySystemBase))]
-	public class RespiratorySystemBase : MonoBehaviour
+	public class RespiratorySystemBase : MonoBehaviour //Not really a Respiratory More like atmospheric system idk TODO give better name
 	{
 		private LivingHealthMasterBase healthMaster;
 		private PlayerScript playerScript;
@@ -20,14 +20,6 @@ namespace HealthV2
 		private bool canBreathAnywhere = false;
 
 		public bool CanBreatheAnywhere => canBreathAnywhere;
-
-		[Tooltip("If this is turned on, the organism takes low pressure damage.")]
-		[SerializeField]
-		private bool takeLowPressureDamage = true;
-
-		[Tooltip("If this is turned on, the organism takes high pressure damage.")]
-		[SerializeField]
-		private bool takeHighPressureDamage = true;
 
 		[Tooltip("How often the respiration system should update.")] [SerializeField]
 		private float tickRate = 1f;
@@ -72,13 +64,6 @@ namespace HealthV2
 		private void MonitorSystem()
 		{
 			if (healthMaster.IsDead) return;
-
-			if (IsEVACompatible())
-			{
-				healthStateController.SetPressure(AtmosConstants.ONE_ATMOSPHERE);
-				healthStateController.SetTemperature(293.15f);
-				return;
-			}
 
 			GasMix ambientGasMix;
 			if (objectBehaviour.ContainedInObjectContainer != null &&
@@ -185,23 +170,10 @@ namespace HealthV2
 
 		private void CheckPressureDamage()
 		{
-			if (takeLowPressureDamage && Pressure < AtmosConstants.MINIMUM_OXYGEN_PRESSURE)
-			{
-				ApplyDamage(AtmosConstants.LOW_PRESSURE_DAMAGE, DamageType.Brute);
-				return;
-			}
-
-			if (takeHighPressureDamage && Pressure > AtmosConstants.HAZARD_HIGH_PRESSURE)
-			{
-				float damage = Mathf.Min(
-					((Pressure / AtmosConstants.HAZARD_HIGH_PRESSURE) - 1) * AtmosConstants.PRESSURE_DAMAGE_COEFFICIENT,
-					AtmosConstants.MAX_HIGH_PRESSURE_DAMAGE);
-
-				ApplyDamage(damage, DamageType.Brute);
-			}
+			healthMaster.ExposePressureTemperature(Pressure, Temperature);
 		}
 
-		public bool IsEVACompatible()
+		public bool IsEVACompatible() //Only used for splash protection now
 		{
 			if (playerScript == null)
 			{
