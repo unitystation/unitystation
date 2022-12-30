@@ -567,7 +567,7 @@ namespace Chemistry
 				return new ReagentMix();
 			}
 
-			if (float.IsNaN(amount) || float.IsInfinity(amount))
+			if (float.IsNormal(amount) == false)
 			{
 				Logger.LogError($"Trying to Take {amount}", Category.Chemistry);
 				return new ReagentMix();;
