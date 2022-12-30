@@ -955,7 +955,10 @@ public class SpriteHandler : MonoBehaviour
 
 		var PrefabStage = PrefabStageUtility.GetCurrentPrefabStage(); //Only run Run this code for stuff that's being actively edited
 		if (PrefabStage == null) return;
-
+		var PrefabName = PrefabStage.assetPath.Substring(PrefabStage.assetPath.LastIndexOf("/") + 1);
+		var SubName = PrefabName.Substring(0, PrefabName.LastIndexOf("."));
+		if (transform.parent == null) return;
+		if (SubName != transform.parent.name) return;
 
 		if (PresentSpriteSet == null || this == null || this.gameObject == null)
 		{
