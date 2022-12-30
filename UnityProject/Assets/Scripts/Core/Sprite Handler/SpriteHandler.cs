@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+
 using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using Unity.EditorCoroutines.Editor;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 #endif
 using UnityEngine.UI;
 
@@ -14,7 +16,7 @@ using UnityEngine.UI;
 ///	<summary>
 ///	for Handling sprite animations
 ///	</summary>
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class SpriteHandler : MonoBehaviour
 {
 	[SerializeField] public bool NetworkThis = true;
@@ -616,6 +618,11 @@ public class SpriteHandler : MonoBehaviour
 
 	private void OnDestroy()
 	{
+		if (Application.isPlaying == false)
+		{
+			return;
+		}
+
 		if (SpriteHandlerManager.Instance)
 		{
 			SpriteHandlerManager.Instance.QueueChanges.Remove(this);
@@ -769,6 +776,11 @@ public class SpriteHandler : MonoBehaviour
 
 	private void OnDisable()
 	{
+		if (Application.isPlaying == false)
+		{
+			return;
+		}
+
 		TryToggleAnimationState(false);
 		OnSpriteChanged?.Invoke(null);
 	}
@@ -940,6 +952,9 @@ public class SpriteHandler : MonoBehaviour
 	private void OnValidate()
 	{
 		if (Application.isPlaying) return;
+
+		var PrefabStage = PrefabStageUtility.GetCurrentPrefabStage(); //Only run Run this code for stuff that's being actively edited
+		if (PrefabStage == null) return;
 
 
 		if (PresentSpriteSet == null || this == null || this.gameObject == null)
