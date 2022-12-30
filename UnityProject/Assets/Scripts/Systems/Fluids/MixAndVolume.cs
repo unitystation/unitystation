@@ -31,6 +31,8 @@ namespace Systems.Pipes
 				var InWholeHeatCapacity = WholeHeatCapacity;
 				if (CodeUtilities.IsEqual(InWholeHeatCapacity, 0))
 				{
+					mix.Temperature = 0;
+					gasMix.SetTemperature(0);
 					return;
 				}
 
