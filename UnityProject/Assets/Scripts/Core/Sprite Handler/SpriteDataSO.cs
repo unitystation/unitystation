@@ -18,9 +18,9 @@ public class SpriteDataSO : ScriptableObject
 	public string DisplayName;
 
 	[Serializable]
-	public class Variant
+	public struct Variant
 	{
-		public List<Frame> Frames = new List<Frame>();
+		public List<Frame> Frames;
 	}
 
 

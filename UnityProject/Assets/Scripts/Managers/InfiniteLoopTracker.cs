@@ -3,7 +3,9 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using Initialisation;
+using Mirror;
 using Mirror.RemoteCalls;
+using Newtonsoft.Json;
 using Shared.Managers;
 using Debug = UnityEngine.Debug;
 
@@ -23,6 +25,7 @@ namespace Managers
         //checkpoints for game messages
         public static bool gameMessageProcessing;
         public static string lastGameMessage;
+        public static NetworkMessage NetNetworkMessage;
 
         public override void Start()
         {
@@ -140,7 +143,15 @@ namespace Managers
 	        //game message checkpoints
 	        if (gameMessageProcessing)
 	        {
-		        stringBuilder.AppendLine($" - GameMessage - class: {lastGameMessage}");
+		        try
+		        {
+			        stringBuilder.AppendLine($" - GameMessage - class: {lastGameMessage} data : {JsonConvert.SerializeObject(NetNetworkMessage, new JsonSerializerSettings() {ReferenceLoopHandling = ReferenceLoopHandling.Ignore})}");
+
+		        }
+		        catch (Exception e)
+		        {
+			        stringBuilder.AppendLine($" - GameMessage - class: {lastGameMessage} data : Error {e}");
+		        }
 	        }
 
 	        Log(stringBuilder.ToString());

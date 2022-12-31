@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 using ScriptableObjects.Atmospherics;
 using Systems.Pipes;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 
 namespace Systems.Atmospherics
@@ -18,21 +20,47 @@ namespace Systems.Atmospherics
 
 		public List<GasValues> GasesArray => GasData.GasesArray;
 
+		[SerializeField, FormerlySerializedAs("Pressure")]
+		private float pressure;
+
 		/// <summary>In kPa.</summary>
-		public float Pressure;
+		public float Pressure
+		{
+			get => pressure;
+			set
+			{
+				if (float.IsNormal(value) == false && value != 0)
+				{
+					Logger.LogError($"AAAAAAAAAAAAA REEEEEEEEE pressure Invalid number!!!! {value}");
+					return;
+				}
+
+				pressure = Math.Clamp(value, 0, Single.MaxValue);
+			}
+		}
 
 		/// <summary>In cubic metres.</summary>
 		public float Volume;
 
+		[SerializeField, FormerlySerializedAs("Temperature")]
 		private float temperature;
 		/// <summary>In Kelvin.</summary>
 		public float Temperature
 		{
 			get { return temperature; }
-			set { temperature = Math.Clamp(value, 0, Single.MaxValue); }
+			set
+			{
+				if (float.IsNormal(value) == false && value != 0)
+				{
+					Logger.LogError($"AAAAAAAAAAAAA REEEEEEEEE Temperature Invalid number!!!! {value}");
+					return;
+				}
+
+				temperature = Math.Clamp(value, 0, Single.MaxValue);
+			}
 		}
 
-		
+
 		private HashSet<GasSO> cache = new HashSet<GasSO>();
 		private HashSet<GasSO> pipeCache = new HashSet<GasSO>();
 
@@ -58,8 +86,8 @@ namespace Systems.Atmospherics
 			}
 		}
 
-		public float
-			WholeHeatCapacity //this is the heat capacity for the entire gas mixture, in Joules/Kelvin. gets very big with lots of gas.
+		public float WholeHeatCapacity
+			//this is the heat capacity for the entire gas mixture, in Joules/Kelvin. gets very big with lots of gas.
 		{
 			get
 			{
@@ -84,6 +112,12 @@ namespace Systems.Atmospherics
 
 			set
 			{
+				if (float.IsNormal(value) == false && value != 0)
+				{
+					Logger.LogError($"AAAAAAAAAAAAA REEEEEEEEE InternalEnergy Invalid number!!!! {value}");
+					return;
+				}
+
 				if (WholeHeatCapacity == 0)
 				{
 					Temperature = 0;
@@ -511,7 +545,7 @@ namespace Systems.Atmospherics
 
 		public void Clear()
 		{
-			Temperature = AtmosDefines.SPACE_TEMPERATURE;
+			Temperature = 0;
 
 			GasData.Clear();
 			Pressure = 0;

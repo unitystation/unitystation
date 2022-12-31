@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -16,6 +17,10 @@ public static class Logger
 	/// Default Log level
 	public static readonly LogLevel LogLevel = LogLevel.Info;
 	private static Dictionary<Category, LogLevel> LogOverrides = new Dictionary<Category, LogLevel>();
+
+	public static Thread MainGameThread;
+
+
 
 	public static void RefreshPreferences()
 	{
@@ -121,6 +126,7 @@ public static class Logger
 
 	private static void TryLog(string message, LogLevel messageLevel, Category category = Category.Unknown, params object[] args)
 	{
+
 		if (category == Category.Unknown)
 		{
 			SendLog(message, messageLevel, args);
@@ -146,6 +152,12 @@ public static class Logger
 
 	private static void SendLog(string msg, LogLevel messageLevel, params object[] args)
 	{
+		if (Thread.CurrentThread != MainGameThread && MainGameThread != null)
+		{
+			ThreadLogger.AddLog(msg);
+		}
+
+
 		if (args.Length > 0)
 		{
 			switch (messageLevel)
@@ -279,7 +291,7 @@ public enum Category
 		TileMaps,
 		/// <summary>
 		/// Logs relating to the spatial relationships of Register Tiles
-		/// </summary>		
+		/// </summary>
 		SpatialRelationship,
 
 	//In-Game Systems

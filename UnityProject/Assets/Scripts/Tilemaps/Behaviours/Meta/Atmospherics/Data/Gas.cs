@@ -5,6 +5,7 @@ using Chemistry;
 using ScriptableObjects.Atmospherics;
 using TileManagement;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Systems.Atmospherics
 {
@@ -80,8 +81,27 @@ namespace Systems.Atmospherics
 	{
 		public GasSO GasSO;
 
+		[SerializeField, FormerlySerializedAs("Moles")]
+		private float moles;
+
 		//Moles of this gas type
-		public float Moles;
+		public float Moles
+		{
+			get => moles;
+
+			set
+			{
+
+				if (float.IsNormal(value) == false && value != 0)
+				{
+					Logger.LogError($"AAAAAAAAAAAAA REEEEEEEEE Moles Invalid number!!!! {value}");
+					return;
+				}
+
+				moles = value;
+
+			}
+		}
 
 		public void Pool()
 		{

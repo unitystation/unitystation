@@ -21,9 +21,18 @@ namespace Systems.Pipes
 			get => mix.InternalEnergy + gasMix.InternalEnergy;
 			set
 			{
+
+				if (float.IsNormal(value) == false && value != 0)
+				{
+					Logger.LogError($"AAAAAAAAAAAAA REEEEEEEEE MixAndVolume InternalEnergy Invalid number!!!! {value}");
+					return;
+				}
+
 				var InWholeHeatCapacity = WholeHeatCapacity;
 				if (CodeUtilities.IsEqual(InWholeHeatCapacity, 0))
 				{
+					mix.Temperature = 0;
+					gasMix.SetTemperature(0);
 					return;
 				}
 
@@ -50,6 +59,12 @@ namespace Systems.Pipes
 			}
 			set
 			{
+				if (float.IsNormal(value) == false && value != 0)
+				{
+					Logger.LogError($"AAAAAAAAAAAAA REEEEEEEEE MixAndVolume Temperature Invalid number!!!! {value}");
+					return;
+				}
+
 				var internalEnergy = (value * WholeHeatCapacity);
 				mix.InternalEnergy = internalEnergy;
 				gasMix.InternalEnergy = internalEnergy;
@@ -159,6 +174,13 @@ namespace Systems.Pipes
 
 		public void Divide(float divideAmount, bool changeVolume = true)
 		{
+
+			if (float.IsNormal(divideAmount) == false)
+			{
+				Logger.LogError($"AAAAAAAAAAAAA REEEEEEEEE MixAndVolume divideAmount Invalid number!!!! {divideAmount}");
+				return;
+			}
+
 			if (CodeUtilities.IsEqual(divideAmount, 0))
 			{
 				Logger.LogError("Tried to divide pipe contents, but the amount to divide by was 0!", Category.Pipes);
@@ -188,6 +210,13 @@ namespace Systems.Pipes
 
 		public void Multiply(float multiplyAmount, bool changeVolume = true)
 		{
+
+			if (float.IsNormal(multiplyAmount) == false)
+			{
+				Logger.LogError($"AAAAAAAAAAAAA REEEEEEEEE MixAndVolume multiplyAmount Invalid number!!!! {multiplyAmount}");
+				return;
+			}
+
 			var gasVolume = gasMix.Volume;
 			if (changeVolume)
 			{

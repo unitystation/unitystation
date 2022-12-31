@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 using NaughtyAttributes;
 using Shared.Managers;
 using UnityEngine;
@@ -47,6 +48,14 @@ namespace Initialisation
 		//Have hard references for defined systems,
 		//Otherwise
 		//call Manager with function and what to Load before
+
+
+		public virtual void Start()
+		{
+			base.Start();
+			Logger.MainGameThread = Thread.CurrentThread; //Initialises logger
+		}
+
 
 		public static void RegisterAction(Action InAction)
 		{

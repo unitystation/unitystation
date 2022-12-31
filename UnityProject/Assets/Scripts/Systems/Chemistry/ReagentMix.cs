@@ -127,11 +127,13 @@ namespace Chemistry
 			get => temperature;
 			set
 			{
-				temperature = value;
-				if (float.IsNaN(Temperature))
+				if (float.IsNormal(value) == false && value != 0)
 				{
-					Logger.LogError("Temperature is NAN", Category.Chemistry);
+					Logger.LogError($"AAAAAAAAAAAAA REEEEEEEEE Reagent mix temperature Invalid number!!!! {value}");
+					return;
 				}
+
+				temperature = value;
 			}
 		}
 
@@ -166,6 +168,12 @@ namespace Chemistry
 
 			set
 			{
+				if (float.IsNormal(value) == false && value != 0)
+				{
+					Logger.LogError($"AAAAAAAAAAAAA REEEEEEEEE Reagent mix InternalEnergy Invalid number!!!! {value}");
+					return;
+				}
+
 				if (WholeHeatCapacity == 0)
 				{
 					Temperature = 0;
@@ -173,10 +181,6 @@ namespace Chemistry
 				else
 				{
 					Temperature =(value / WholeHeatCapacity);
-					if (float.IsNaN(Temperature))
-					{
-						Logger.LogError($"Temperature is NAN", Category.Chemistry);
-					}
 				}
 
 			}
@@ -270,7 +274,7 @@ namespace Chemistry
 		{
 			if (Total == 0 || b.Total == 0)
 			{
-				if (float.IsNaN(b.Temperature) == false)
+				if (float.IsNormal(b.Temperature) || b.Temperature == 0)
 				{
 					Temperature = b.Temperature;
 				}
@@ -297,7 +301,7 @@ namespace Chemistry
 				return;
 			}
 
-			if (float.IsNaN(amount) || float.IsInfinity(amount))
+			if (float.IsNormal(amount) == false)
 			{
 				Logger.LogError($"Trying to add {amount} amount of {reagent}", Category.Chemistry);
 				return;
@@ -328,7 +332,7 @@ namespace Chemistry
 				return 0;
 			}
 
-			if (float.IsNaN(amount) || float.IsInfinity(amount))
+			if (float.IsNormal(amount ) == false)
 			{
 				Logger.LogError($"Trying to remove {amount} amount of {reagent}", Category.Chemistry);
 				return 0;
@@ -423,7 +427,7 @@ namespace Chemistry
 				return;
 			}
 
-			if (float.IsNaN(multiplier) || float.IsInfinity(multiplier))
+			if (float.IsNormal(multiplier) == false && multiplier != 0)
 			{
 				Logger.LogError($"Trying to Multiply by {multiplier}", Category.Chemistry);
 				return;
@@ -471,7 +475,7 @@ namespace Chemistry
 				return;
 			}
 
-			if (float.IsNaN(Divider) || float.IsInfinity(Divider))
+			if (float.IsNormal(Divider) == false)
 			{
 				Logger.LogError($"Trying to Divide by {Divider}", Category.Chemistry);
 				return;
@@ -503,7 +507,7 @@ namespace Chemistry
 				return;
 			}
 
-			if (float.IsNaN(amount) || float.IsInfinity(amount))
+			if (float.IsNormal(amount) == false)
 			{
 				Logger.LogError($"Trying to Transfer by {amount}", Category.Chemistry);
 				return;
@@ -563,7 +567,7 @@ namespace Chemistry
 				return new ReagentMix();
 			}
 
-			if (float.IsNaN(amount) || float.IsInfinity(amount))
+			if (float.IsNormal(amount) == false)
 			{
 				Logger.LogError($"Trying to Take {amount}", Category.Chemistry);
 				return new ReagentMix();;

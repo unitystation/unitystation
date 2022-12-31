@@ -17,6 +17,7 @@ namespace Messages
 		{
 			InfiniteLoopTracker.gameMessageProcessing = true;
 			InfiniteLoopTracker.lastGameMessage = ToString();
+			InfiniteLoopTracker.NetNetworkMessage = b;
 			Process(sentBy, b);
 			InfiniteLoopTracker.gameMessageProcessing = false;
 		}
