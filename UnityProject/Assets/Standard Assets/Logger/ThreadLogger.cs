@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,7 +25,7 @@ public class ThreadLogger : MonoBehaviour
 	{
 		lock (otherThreadLogs)
 		{
-			otherThreadLogs.Add(msg + " on the thread " + category.ToString());
+			otherThreadLogs.Add(msg + " on the thread " + category.ToString()  + "\n" + Environment.StackTrace);
 		}
 	}
 }
