@@ -78,7 +78,6 @@ namespace Items.Implants.Organs
 		public void SyncTelekinesis(bool Oldvalue, bool NewValue)
 		{
 			hasTelekinesis = NewValue;
-
 		}
 
 		public void SyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn)

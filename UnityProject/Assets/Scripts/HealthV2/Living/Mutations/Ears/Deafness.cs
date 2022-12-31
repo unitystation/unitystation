@@ -24,11 +24,13 @@ namespace HealthV2.Living.Mutations.Ears
 			{
 				RelatedEars = BodyPart.GetComponent<Items.Implants.Organs.Ears>();
 				RelatedEars.MutationMultiplier = 0;
+				RelatedEars.UpDateTotalValue();
 			}
 
 			public override void Remove()
 			{
 				RelatedEars.MutationMultiplier = 1;
+				RelatedEars.UpDateTotalValue();
 			}
 
 		}
