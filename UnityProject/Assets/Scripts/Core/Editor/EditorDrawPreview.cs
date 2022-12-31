@@ -112,8 +112,8 @@ public class EditorDrawPreview
 
 		if (texture.isReadable == false)
 		{
-			Logger.LogWarning($"Sprite \"{sprite.name}\" is not read/write enabled. Please enable " +
-				"Read/Write in the texture's import settings.", Category.Editor);
+			Logger.LogError($"Sprite \"{sprite.name}\" is not read/write enabled. Please enable " +
+		                  "Read/Write in the texture's import settings.", Category.Editor);
 			return;
 		}
 
@@ -125,6 +125,8 @@ public class EditorDrawPreview
 		var height = spriteRect.height / texture.height;
 		var textureRect = new Rect(x, y, width, height);
 		var iconRect = GetIconRect(sprite, selectionRect);
+
+
 
 		GUI.DrawTexture(selectionRect, BlankTexture, ScaleMode.StretchToFill, false);
 		GUI.DrawTextureWithTexCoords(iconRect, texture, textureRect);
