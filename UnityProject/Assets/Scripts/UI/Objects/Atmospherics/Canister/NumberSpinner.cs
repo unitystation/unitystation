@@ -138,7 +138,7 @@ namespace UI.Core.NetUI
 					Category.Atmos, newValue, MaxValue);
 			}
 
-			newValue = Mathf.Clamp(newValue, MaxValue, 0);
+			newValue = Mathf.Clamp(newValue, 0, MaxValue);
 
 			targetValue = newValue;
 			if (muteSounds == false && tickCooldown <= 0)
