@@ -20,7 +20,7 @@ namespace Items.PDA
 		ICheckedInteractable<HandApply>,
 		ICheckedInteractable<InventoryApply>,
 		IServerInventoryMove,
-		IClearanceProvider
+		IClearanceSource
 	{
 		// TODO: consider moving uplink code into its own class (perhaps compatible with pen, headset uplinks)
 
@@ -535,19 +535,17 @@ namespace Items.PDA
 			{
 				return IDCard;
 			}
-			else
+
+			if (IDSlot.Item && IDSlot.Item.TryGetComponent<IDCard>(out var insertedID))
 			{
-				if (IDSlot.Item && IDSlot.Item.TryGetComponent<IDCard>(out var insertedID))
-				{
-					return insertedID;
-				}
+				return insertedID;
 			}
 			return null;
 		}
 
-		// All the methods above will be obsolete as soon as we migrate
-		public IEnumerable<Clearance> GetClearance => GetIDCard().OrNull()?.GetComponent<IClearanceProvider>()?.GetClearance;
-
 		#endregion IDAccess
+
+		public IEnumerable<Clearance> IssuedClearance => IDCard.OrNull()?.ClearanceSource.IssuedClearance;
+		public IEnumerable<Clearance> LowPopIssuedClearance => IDCard.OrNull()?.ClearanceSource.LowPopIssuedClearance;
 	}
 }

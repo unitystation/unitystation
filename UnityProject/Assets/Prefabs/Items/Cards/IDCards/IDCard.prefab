@@ -216,7 +216,23 @@ MonoBehaviour:
   standardSprite: {fileID: 21300000, guid: f23c8d48c642ba64ab25750c1c8b3b9d, type: 3}
   captainSprite: {fileID: 21300000, guid: 567726fd081a97c46a2c93edc3a99825, type: 3}
   commandSprite: {fileID: 21300000, guid: bd80135c3a272264ebd5515cd8050ba1, type: 3}
-  manuallyAddedAccess: 
+  manuallyAddedClearance: 
   manuallyAssignCardType: 1
   autoInitOnPickup: 0
   currencies: 0000000000000000
+--- !u!114 &4591707869992692349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6945987494597785492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67bbc4b4456943909d3d3b07f450aa0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clearance: 
+  lowPopClearance: 

@@ -18,13 +18,13 @@ namespace Objects.Wallmounts.PublicTerminals
 		{
 			if (responsibleEmitter.gameObject.TryGetComponent<PublicDepartmentTerminal>(out var emitter) == false) return;
 
-			if (emitter.sendMessageData.targetDepartment != (int)OwnEmitter.Department) return; //If this is not the target terminal, can't send to self
+			if (emitter.SendMessageData.targetDepartment != (int)OwnEmitter.Department) return; //If this is not the target terminal, can't send to self
 
 			SoundManager.PlayNetworkedAtPosAsync(NotificationSound, GetComponent<RegisterTile>().WorldPositionServer, sourceObj: this.gameObject);
 
 			Chat.AddLocalMsgToChat("Public Terminal - Request Received", gameObject); //Gives a notification to nearby players if a message comes through
 
-			OwnEmitter.receivedMessageData.Add(emitter.sendMessageData);
+			OwnEmitter.ReceivedMessageData.Add(emitter.SendMessageData);
 
 		}
 	}

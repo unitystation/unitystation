@@ -97,7 +97,7 @@ namespace UI.Objects.Wallmounts
 
 			masterTerminal = Provider.GetComponent<PublicDepartmentTerminal>();
 
-			masterTerminal.terminalGUI = this;
+			masterTerminal.TerminalGUI = this;
 
 			UpdateGUI();
 
@@ -170,7 +170,7 @@ namespace UI.Objects.Wallmounts
 				mainSwitcher.SetActivePage(MessagePage);
 			}
 
-			SyncList<MessageData> messageData = masterTerminal.receivedMessageData;
+			SyncList<MessageData> messageData = masterTerminal.ReceivedMessageData;
 
 			messages.Clear();
 
@@ -194,7 +194,7 @@ namespace UI.Objects.Wallmounts
 				mainSwitcher.SetActivePage(ArchivePage);
 			}
 
-			SyncList<MessageData> messageData = masterTerminal.archivedMessageData;
+			SyncList<MessageData> messageData = masterTerminal.ArchivedMessageData;
 
 			archivedMessages.Clear();
 

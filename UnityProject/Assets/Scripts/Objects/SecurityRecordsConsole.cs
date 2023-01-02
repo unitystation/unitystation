@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Systems.Clearance;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,6 +11,7 @@ namespace Objects.Security
 
 		public IDCard IdCard => itemSlot.Item != null ? itemSlot.Item.GetComponent<IDCard>() : null;
 		public SecurityRecordsUpdateEvent OnConsoleUpdate = new SecurityRecordsUpdateEvent();
+		public ClearanceRestricted Restricted { get; private set; }
 
 		private void Awake()
 		{
@@ -19,6 +19,7 @@ namespace Objects.Security
 			itemStorage = GetComponent<ItemStorage>();
 			itemSlot = itemStorage.GetIndexedItemSlot(0);
 			itemSlot.OnSlotContentsChangeServer.AddListener(OnServerSlotContentsChange);
+			Restricted = GetComponent<ClearanceRestricted>();
 		}
 
 		private void OnServerSlotContentsChange()
