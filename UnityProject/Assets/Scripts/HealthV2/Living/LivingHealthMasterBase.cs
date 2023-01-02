@@ -695,7 +695,7 @@ namespace HealthV2
 				//gradually deplete fire stacks
 				healthStateController.SetFireStacks(fireStacks - 0.1f);
 				//instantly stop burning if there's no oxygen at this location
-				MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPositionClient);
+				MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPositionClient); //TODO Account for containers
 				if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
 				{
 					healthStateController.SetFireStacks(0);
