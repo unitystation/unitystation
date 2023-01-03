@@ -73,6 +73,7 @@ public partial class SubSceneManager
 		loadedScenesList.Add(new SceneInfo
 		{
 			SceneName = sceneNames[SpaceSceneRef],
+			SceneKey = SpaceSceneRef.AssetGUID,
 			SceneType = SceneType.Space
 		});
 		netIdentity.isDirty = true;
@@ -102,6 +103,7 @@ public partial class SubSceneManager
 		loadedScenesList.Add(new SceneInfo
 		{
 			SceneName = sceneNames[serverChosenMainStation],
+			SceneKey = serverChosenMainStation.AssetGUID,
 			SceneType = SceneType.MainStation
 		});
 		netIdentity.isDirty = true;
@@ -119,6 +121,7 @@ public partial class SubSceneManager
 			loadedScenesList.Add(new SceneInfo
 			{
 				SceneName = sceneNames[asteroid],
+				SceneKey = asteroid.AssetGUID,
 				SceneType = SceneType.Asteroid
 			});
 			netIdentity.isDirty = true;
@@ -145,6 +148,7 @@ public partial class SubSceneManager
 			loadedScenesList.Add(new SceneInfo
 			{
 				SceneName = sceneNames[centComData.CentComSceneName],
+				SceneKey = centComData.CentComSceneName.AssetGUID,
 				SceneType = SceneType.AdditionalScenes
 			});
 			netIdentity.isDirty = true;
@@ -161,6 +165,7 @@ public partial class SubSceneManager
 		loadedScenesList.Add(new SceneInfo
 		{
 			SceneName = sceneNames[pickedMap],
+			SceneKey = pickedMap.AssetGUID,
 			SceneType = SceneType.AdditionalScenes
 		});
 		netIdentity.isDirty = true;
@@ -199,6 +204,7 @@ public partial class SubSceneManager
 			loadedScenesList.Add(new SceneInfo
 			{
 				SceneName = sceneNames[additionalScene],
+				SceneKey = additionalScene.AssetGUID,
 				SceneType = SceneType.AdditionalScenes
 			});
 			netIdentity.isDirty = true;
@@ -249,6 +255,7 @@ public partial class SubSceneManager
 		loadedScenesList.Add(new SceneInfo
 		{
 			SceneName = sceneNames[pickedMap],
+			SceneKey = pickedMap.AssetGUID,
 			SceneType = SceneType.HiddenScene
 		});
 		netIdentity.isDirty = true;
@@ -268,6 +275,7 @@ public partial class SubSceneManager
 		loadedScenesList.Add(new SceneInfo
 		{
 			SceneName = sceneNames[pickedScene],
+			SceneKey = pickedScene.AssetGUID,
 			SceneType = SceneType.HiddenScene
 		});
 		netIdentity.isDirty = true;
