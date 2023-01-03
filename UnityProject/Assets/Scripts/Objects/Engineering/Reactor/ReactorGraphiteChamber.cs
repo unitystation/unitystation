@@ -299,6 +299,13 @@ namespace Objects.Engineering
 			}
 
 			var ExtraEnergyGained = (float) EnergyReleased;
+			if (float.IsNormal(ExtraEnergyGained) == false)
+			{
+				Logger.LogError(
+					$"PowerOutput Graphite chamber invalid number from EnergyReleased With Float of {ExtraEnergyGained} With decimal of {EnergyReleased}");
+				ExtraEnergyGained = 0;
+			}
+
 			if (ReactorPipe.pipeData.mixAndVolume.WholeHeatCapacity != 0)
 			{
 				ReactorPipe.pipeData.mixAndVolume.InternalEnergy =
