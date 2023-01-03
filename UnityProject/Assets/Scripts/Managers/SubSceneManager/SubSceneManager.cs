@@ -170,6 +170,7 @@ public enum SceneType
 public struct SceneInfo : IEquatable<SceneInfo>
 {
 	public string SceneName;
+	public string SceneKey;
 	public SceneType SceneType;
 
 	public bool Equals(SceneInfo other)
