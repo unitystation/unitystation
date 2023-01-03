@@ -116,6 +116,7 @@ public partial class SubSceneManager
 			SceneType = SceneType.MainStation
 		});
 		netIdentity.isDirty = true;
+		Chat.AddGameWideSystemMsgToChat($"Server loaded station: {sceneNames[serverChosenMainStation]}");
 	}
 
 	//Load all the asteroids on the server
@@ -236,6 +237,7 @@ public partial class SubSceneManager
 		loadedScenesList.Add(new SceneInfo
 		{
 			SceneName = sceneNames[serverChosenAwaySite],
+			SceneKey = serverChosenAwaySite.AssetGUID,
 			SceneType = SceneType.HiddenScene
 		});
 		netIdentity.isDirty = true;
@@ -247,18 +249,6 @@ public partial class SubSceneManager
 	{
 		if (SyndicateLoaded) yield break;
 		var pickedMap = additionalSceneList.defaultSyndicateScenes.PickRandom();
-		/*
-		foreach (var syndicateData in additionalSceneList.SyndicateScenes)
-		{
-			if (syndicateData.DependentScene == null || syndicateData.SyndicateSceneName == null)
-				continue;
-			if (syndicateData.DependentScene != serverChosenMainStation)
-				continue;
-
-			pickedMap = syndicateData;
-			break;
-		}
-		*/
 		yield return StartCoroutine(LoadSubScene(pickedMap));
 
 		loadedScenesList.Add(new SceneInfo
