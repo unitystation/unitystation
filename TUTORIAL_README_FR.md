@@ -13,7 +13,7 @@ Tutoriel Solo - Les bases
 ├── [Description du projet](#description-du-projet)  
 ├── [Credit , participant, organisation](#credit--participant-organisation)  
 ├── [Public cible](#public-cible)  
-├── [But du projet](#but-du-projet)
+├── [But du projet](#but-du-projet)  
 │....└── [Détails techniques](#détails-techniques)  
 │....├── [Tutoriel-bot](#tutoriel-bot)  
 │....└── [Mode admin](#mode-admin)  
@@ -22,7 +22,7 @@ Tutoriel Solo - Les bases
 │........└── [Projet rendu](#projet-rendu)  
 ├── [Mise à jour](#mise-à-jour)  
 ├── [Usage](#usage)  
-└── [Contribution / dev](#contribution--dev)  
+└── [Contribution / dev](#dev)  
 ....└── [ToDo](#todo)
 
 -------------
@@ -90,7 +90,8 @@ Pour l'accompagner et le guider, sera présent le Tutorial-bot.
 
 C'est un NPC qui a pour fonction de suivre le joueur et de réciter un dialogue dans le tchat du jeu lorsque le joueur est à un endroit spécifique.
 
-##### Tutoriel-bot ![alt text](https://raw.githubusercontent.com/Unitystation-fork/UnityStation-Tutorial/main/Assets/Textures/Bot/Attention-Front/attention-front-1.gif)
+##### Tutoriel-bot 
+![alt text](https://raw.githubusercontent.com/Unitystation-fork/UnityStation-Tutorial/main/Assets/Textures/Bot/Attention-Front/attention-front-1.gif)
 
 La charte graphique est ainsi définie:
 
@@ -175,7 +176,9 @@ Pour quitter le tutoriel, dirigez-vous vers la navette au sud de la station. Sur
 vous pouvez nous faire vos retour, positif et negatif (aussi construit que possible svp) en ouvrant une issue
 
 
-### how to contribue - DEV
+### DEV
+
+how to contribue - 
 
 [DEV.MD](https://github.com/Unitystation-fork/UnityStation-Tutorial/blob/main/Dev.md)
 
