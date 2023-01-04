@@ -8,25 +8,22 @@
 
 [TOC]
 
-```Markdown
-Tutoriel Solo - Les bases
-├── Languages utilisés
-├── Description du projet
-├── Credit , participant, organisation
-├── Public cible
-├── But du projet
-│	└── Détails techniques
-│		├── Tutoriel-bot 
-│		└── Mode admin
-├── Installation
-│ 	├── Actuellement
-│       └── Projet rendu
-├── Mise à jour
-├── Usage
-└── Contribution / dev
-    └── ToDo
-
-```
+Tutoriel Solo - Les bases  
+├── [Languages utilisés](#languages-utilisés)  
+├── [Description du projet](#description-du-projet)  
+├── [Credit , participant, organisation](#credit--participant-organisation)  
+├── [Public cible](#public-cible)  
+├── [But du projet](#but-du-projet)
+│....└── [Détails techniques](#détails-techniques)  
+│....├── [Tutoriel-bot](#tutoriel-bot)  
+│....└── [Mode admin](#mode-admin)  
+├── [Installation](#installation)  
+│....├── [Actuellement](#actuellement)  
+│........└── [Projet rendu](#projet-rendu)  
+├── [Mise à jour](#mise-à-jour)  
+├── [Usage](#usage)  
+└── [Contribution / dev](#contribution--dev)  
+....└── [ToDo](#todo)
 
 -------------
 
