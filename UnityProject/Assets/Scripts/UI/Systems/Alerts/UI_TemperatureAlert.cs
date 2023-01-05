@@ -10,37 +10,29 @@
 		spriteHandler = GetComponent<SpriteHandler>();
 	}
 
-	public void SetTemperatureSprite(float temperature)
+	public void SetTemperatureSprite(TemperatureAlert temperature)
 	{
-		if(temperature < AtmosConstants.BARELY_COLD_HEAT)
+		switch (temperature)
 		{
-			if(temperature > AtmosConstants.ABIT_COLD_HEAT)
-			{
-				SetSprite(2);	// a bit cold
-			}
-			else if(temperature > AtmosConstants.COLD_HEAT)
-			{
-				SetSprite(1);	// cold
-			}
-			else
-			{
-				SetSprite(0);	// really cold
-			}
-		}
-		else
-		{
-			if(temperature > AtmosConstants.MELTING_HEAT)
-			{
-				SetSprite(5);	// superhot
-			}
-			else if(temperature > AtmosConstants.HOT_HEAT)
-			{
-				SetSprite(4);	// hot
-			}
-			else
-			{
-				SetSprite(3);	// a bit hot
-			}
+			case TemperatureAlert.TooCold:
+				this.gameObject.SetActive(true);
+				SetSprite(0);	//Really cold
+				break;
+			case TemperatureAlert.Cold:
+				this.gameObject.SetActive(true);
+				SetSprite(1);	//Cold
+				break;
+			case TemperatureAlert.None:
+				this.gameObject.SetActive(false);
+				break;
+			case TemperatureAlert.Hot:
+				this.gameObject.SetActive(true);
+				SetSprite(4);	//Hot
+				break;
+			case TemperatureAlert.TooHot:
+				this.gameObject.SetActive(true);
+				SetSprite(5);	 //Too hot
+				break;
 		}
 	}
 
@@ -53,4 +45,13 @@
 		activeImageIndex = index;
 		spriteHandler.ChangeSprite(index, false);
 	}
+}
+
+public enum TemperatureAlert
+{
+	TooCold,
+	Cold,
+	None,
+	Hot,
+	TooHot
 }

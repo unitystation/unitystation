@@ -119,16 +119,18 @@ namespace Learning.ProtipObjectTypes
 			}
 		}
 
-		private void TriggerPressureEvent(float state)
+		private void TriggerPressureEvent(PressureAlert state)
 		{
 			if(pressureTipOnCooldown || IsPlayerGhostInBody()) return;
 			switch (state)
 			{
-				case <= AtmosConstants.HAZARD_LOW_PRESSURE:
+				case PressureAlert.PressureTooLow:
+				case PressureAlert.PressureLow:
 					TriggerTip(pressureLowEvent);
 					StartCoroutine(PressureCooldown());
 					break;
-				case >= AtmosConstants.WARNING_HIGH_PRESSURE:
+				case PressureAlert.PressureHigher:
+				case PressureAlert.PressureTooHigher:
 					TriggerTip(pressureHighEvent);
 					StartCoroutine(PressureCooldown());
 					break;
@@ -210,16 +212,18 @@ namespace Learning.ProtipObjectTypes
 			StartCoroutine(ToxinCooldown());
 		}
 
-		private void TriggerTemperatureTip(float state)
+		private void TriggerTemperatureTip(TemperatureAlert state)
 		{
 			if(tempTipOnCooldown || IsPlayerGhostInBody()) return;
 			switch (state)
 			{
-				case <= AtmosConstants.BARELY_COLD_HEAT:
+				case TemperatureAlert.Cold:
+				case TemperatureAlert.TooCold:
 					TriggerTip(temperatureColdEvent);
 					StartCoroutine(TempCooldown());
 					break;
-				case >= AtmosConstants.HOT_HEAT:
+				case TemperatureAlert.Hot:
+				case TemperatureAlert.TooHot:
 					TriggerTip(temperatureHotEvent);
 					StartCoroutine(TempCooldown());
 					break;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using NaughtyAttributes;
+using Objects.Atmospherics;
 using ScriptableObjects.Atmospherics;
 using Systems.Pipes;
 using UnityEngine;
@@ -505,6 +506,25 @@ namespace Systems.Atmospherics
 				lastBigNumber = gas.Moles; //Rememeber the last big number checked to skip smaller numbers in the next entry
 			}
 			return bigGas; //The returned GasSO will be the gas with the biggest mole count in GasData.GasesArray
+		}
+
+
+		public static GasMix GetEnvironmentalGasMixForObject(UniversalObjectPhysics gameObject)
+		{
+			GasMix ambientGasMix;
+			if (gameObject.ContainedInObjectContainer != null && //Make generic function
+			    gameObject.ContainedInObjectContainer.TryGetComponent<GasContainer>(out var gasContainer))
+			{
+				ambientGasMix = gasContainer.GasMix;
+			}
+			else
+			{
+				var matrix = gameObject.registerTile.Matrix;
+				Vector3Int localPosition = MatrixManager.WorldToLocalInt(gameObject.OfficialPosition, matrix);
+				ambientGasMix = matrix.MetaDataLayer.Get(localPosition).GasMix;
+			}
+
+			return ambientGasMix;
 		}
 
 		/// <summary>

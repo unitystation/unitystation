@@ -56,13 +56,12 @@ namespace HealthV2
 		private bool hasToxins;
 		public bool HasToxins => hasToxins;
 
-		[SyncVar]
-		private float temperature = 295.15f;
-		public float Temperature => temperature;
+		[SyncVar] private TemperatureAlert temperature = TemperatureAlert.None;
+		public TemperatureAlert Temperature => temperature;
 
 		[SyncVar]
-		private float pressure = 101;
-		public float Pressure => pressure;
+		private PressureAlert pressure = PressureAlert.None;
+		public PressureAlert Pressure => pressure;
 
 		private HealthDollStorage CurrentHealthDollStorage = new HealthDollStorage();
 
@@ -84,8 +83,8 @@ namespace HealthV2
 		public event Action<bool> ToxinEvent;
 		public event Action<float> OverallHealthEvent;
 		public event Action<float> FireStacksEvent;
-		public event Action<float> PressureEvent;
-		public event Action<float> TemperatureEvent;
+		public event Action<PressureAlert> PressureEvent;
+		public event Action<TemperatureAlert> TemperatureEvent;
 
 
 
@@ -215,7 +214,7 @@ namespace HealthV2
 		}
 
 		[Server]
-		public void SetTemperature(float newTemperature)
+		public void SetTemperature(TemperatureAlert newTemperature)
 		{
 			temperature = newTemperature;
 			if (connectionToClient == null) return;
@@ -223,7 +222,7 @@ namespace HealthV2
 		}
 
 		[Server]
-		public void SetPressure(float newPressure)
+		public void SetPressure(PressureAlert newPressure)
 		{
 			pressure = newPressure;
 			if (connectionToClient == null) return;
@@ -335,13 +334,13 @@ namespace HealthV2
 		}
 
 		[TargetRpc]
-		private void InvokeClientTemperatureEvent(float state)
+		private void InvokeClientTemperatureEvent(TemperatureAlert state)
 		{
 			TemperatureEvent?.Invoke(state);
 		}
 
 		[TargetRpc]
-		private void IvokeClientPressureEvent(float state)
+		private void IvokeClientPressureEvent(PressureAlert state)
 		{
 			PressureEvent?.Invoke(state);
 		}
