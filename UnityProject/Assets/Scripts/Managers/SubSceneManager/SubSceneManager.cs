@@ -129,7 +129,7 @@ public partial class SubSceneManager : MonoBehaviour
 			yield break;
 		}
 
-		AsyncOperationHandle<SceneInstance> AO = new AsyncOperationHandle<SceneInstance>();
+		var AO = new AsyncOperationHandle<SceneInstance>();
 
 		try
 		{
@@ -178,14 +178,13 @@ public partial class SubSceneManager : MonoBehaviour
 			Logger.LogError("[SubSceneManager] - Attempted to pass null asset reference while loading.. Skipping.");
 			yield break;
 		}
-		AsyncOperationHandle<SceneInstance> AO = new AsyncOperationHandle<SceneInstance>();
 		ConnectionLoadedRecord[sceneName] = new HashSet<int>();
-		if (AO == null) yield break; // Null if scene not found.
+
+		var AO = new AsyncOperationHandle<SceneInstance>();
 		if (CustomNetworkManager.IsServer == false)
 		{
 			if(clientLoadedSubScenes.Any(x=> x.SceneName == sceneName)) yield break;
 		}
-
 		try
 		{
 			AO = Addressables.LoadSceneAsync(sceneName, LoadSceneMode.Additive, false);

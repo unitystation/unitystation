@@ -106,13 +106,7 @@ public class RoundManagerPage : AdminPage
 			text = "Random"
 		});
 
-		foreach (var mapName in SubSceneManager.Instance.MainStationList)
-		{
-			optionData.Add(new Dropdown.OptionData
-			{
-				text = mapName.ToString()
-			});
-		}
+		optionData.AddRange(SubSceneManager.Instance.MainStationList.Select(mapName => new Dropdown.OptionData { text = mapName.Key }));
 
 		nextMapDropDown.options = optionData;
 
