@@ -89,7 +89,7 @@ public partial class SubSceneManager
 
 		loadTimer.IncrementLoadBar($"Loading {serverChosenMainStation}");
 		//load main station
-		yield return StartCoroutine(LoadSubScene(serverChosenMainStation, loadTimer));
+		yield return StartCoroutine(LoadSubScene(serverChosenMainStation, loadTimer, true, SceneType.MainStation));
 		netIdentity.isDirty = true;
 		Chat.AddGameWideSystemMsgToChat($"Server loaded station: {serverChosenMainStation}");
 		MainStationLoaded = true;
@@ -102,7 +102,7 @@ public partial class SubSceneManager
 
 		foreach (var asteroid in asteroidList.Asteroids)
 		{
-			yield return StartCoroutine(LoadSubScene(asteroid, loadTimer));
+			yield return StartCoroutine(LoadSubScene(asteroid, loadTimer, true, SceneType.Asteroid));
 			netIdentity.isDirty = true;
 		}
 	}
@@ -116,12 +116,12 @@ public partial class SubSceneManager
 		loadTimer.IncrementLoadBar("Loading CentCom");
 
 		//CENTCOM
-		yield return StartCoroutine(LoadSubScene(additionalSceneList.CentComScenes.PickRandom().CentComSceneName, loadTimer));
+		yield return StartCoroutine(LoadSubScene(additionalSceneList.CentComScenes.PickRandom().CentComSceneName, loadTimer, true, SceneType.AdditionalScenes));
 		netIdentity.isDirty = true;
 		var pickedMap = additionalSceneList.defaultCentComScenes.PickRandom();
 		if (pickedMap == null || pickedMap.IsValid() == false) yield break;
 		//If no special CentCom load default.
-		yield return StartCoroutine(LoadSubScene(pickedMap, loadTimer));
+		yield return StartCoroutine(LoadSubScene(pickedMap, loadTimer, true, SceneType.AdditionalScenes));
 		netIdentity.isDirty = true;
 	}
 
@@ -153,7 +153,7 @@ public partial class SubSceneManager
 				AdminAllowLavaland = true;
 			}
 
-			yield return StartCoroutine(LoadSubScene(additionalScene, loadTimer));
+			yield return StartCoroutine(LoadSubScene(additionalScene, loadTimer, true, SceneType.AdditionalScenes));
 			netIdentity.isDirty = true;
 		}
 	}
@@ -168,7 +168,7 @@ public partial class SubSceneManager
 		loadTimer.IncrementLoadBar("Loading Away Site");
 		if (serverChosenAwaySite == null) yield break;
 		//TODO: Bring back admin forced specific away sites.
-		yield return StartCoroutine(LoadSubScene(awayWorldList.AwayWorlds.PickRandom(), loadTimer));
+		yield return StartCoroutine(LoadSubScene(awayWorldList.AwayWorlds.PickRandom(), loadTimer, true, SceneType.AwaySite));
 		AwaySiteLoaded = true;
 		netIdentity.isDirty = true;
 	}
@@ -179,7 +179,7 @@ public partial class SubSceneManager
 	{
 		if (SyndicateLoaded) yield break;
 		var pickedMap = additionalSceneList.defaultSyndicateScenes.PickRandom();
-		yield return StartCoroutine(LoadSubScene(pickedMap));
+		yield return StartCoroutine(LoadSubScene(pickedMap, null, true, SceneType.AdditionalScenes));
 		netIdentity.isDirty = true;
 		SyndicateScene = SceneManager.GetSceneByName(pickedMap.ToString());
 		SyndicateLoaded = true;
@@ -193,7 +193,7 @@ public partial class SubSceneManager
 
 		var pickedScene = additionalSceneList.WizardScenes.PickRandom();
 
-		yield return StartCoroutine(LoadSubScene(pickedScene));
+		yield return StartCoroutine(LoadSubScene(pickedScene, null, true, SceneType.AdditionalScenes));
 		netIdentity.isDirty = true;
 
 		WizardLoaded = true;

@@ -121,7 +121,7 @@ public partial class SubSceneManager : MonoBehaviour
 	/// </summary>
 	/// <param name="sceneName"></param>
 	/// <returns></returns>
-	private IEnumerator LoadSubScene(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true)
+	private IEnumerator LoadSubScene(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true, SceneType type = SceneType.MainStation)
 	{
 		if (sceneName == null)
 		{
@@ -167,11 +167,11 @@ public partial class SubSceneManager : MonoBehaviour
 		{
 			SceneName = sceneName,
 			SceneKey = SpaceSceneRef.AssetGUID,
-			SceneType = SceneType.Space
+			SceneType = type
 		});
 	}
 
-	private IEnumerator LoadSubScene(AssetReference sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true)
+	private IEnumerator LoadSubScene(AssetReference sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true, SceneType type = SceneType.Space)
 	{
 		if (sceneName == null)
 		{
@@ -247,7 +247,7 @@ public partial class SubSceneManager : MonoBehaviour
 		{
 			SceneName = AO.Result.Scene.name,
 			SceneKey = SpaceSceneRef.AssetGUID,
-			SceneType = SceneType.Space
+			SceneType = type
 		});
 	}
 
