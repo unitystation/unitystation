@@ -106,7 +106,7 @@ public class RoundManagerPage : AdminPage
 			text = "Random"
 		});
 
-		foreach (var mapName in SubSceneManager.Instance.MainStationList.MainStations)
+		foreach (var mapName in SubSceneManager.Instance.MainStationList)
 		{
 			optionData.Add(new Dropdown.OptionData
 			{
@@ -118,11 +118,9 @@ public class RoundManagerPage : AdminPage
 
 		for (var i = 0; i < optionData.Count; i++)
 		{
-			if (optionData[i].text == adminPageData.nextMap)
-			{
-				nextMapDropDown.value = i;
-				return;
-			}
+			if (optionData[i].text != adminPageData.nextMap) continue;
+			nextMapDropDown.value = i;
+			return;
 		}
 	}
 

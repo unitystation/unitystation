@@ -51,7 +51,7 @@ public class VotingManager : NetworkBehaviour
 	/// </summary>
 	private Coroutine cooldown;
 
-	private List<AssetReference> MapList = new List<AssetReference>();
+	private List<MainStationInfo> MapList = new List<MainStationInfo>();
 	private List<string> GameModeList = new List<string>();
 	private List<string> yesNoList = new List<string>();
 
@@ -78,7 +78,7 @@ public class VotingManager : NetworkBehaviour
 
 	private void Start()
 	{
-		MapList = SubSceneManager.Instance.MainStationList.MainStations;
+		MapList = SubSceneManager.Instance.MainStationList;
 		GameModeList = GameManager.Instance.GetAvailableGameModeNames();
 		yesNoList.Add("Yes");
 		yesNoList.Add("No");
@@ -158,9 +158,9 @@ public class VotingManager : NetworkBehaviour
 				RpcOpenVoteWindow("Voting for next Game Mode initiated by", instigator.name, CountAmountString(), (time - prevSecond).ToString(), GameModeList);
 				break;
 			case VoteType.NextMap:
-				foreach (var scene in MapList)
+				foreach (var mapvotes in SubSceneManager.Instance.MainStationList)
 				{
-					possibleVotes.Add(scene.ToString());
+					possibleVotes.Add(mapvotes.Name);
 				}
 				RpcOpenVoteWindow("Voting for next map initiated by", instigator.name, CountAmountString(), (time - prevSecond).ToString(), possibleVotes);
 				break;
