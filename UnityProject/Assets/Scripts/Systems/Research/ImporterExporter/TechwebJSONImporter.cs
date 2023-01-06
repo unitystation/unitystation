@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Systems.Research.Data;
@@ -12,9 +13,9 @@ namespace Systems.Research.ImporterExporter
 		{
 			Techweb techweb = new Techweb();
 			List<TechWebNode> Nodes = new List<TechWebNode>();
-			var path = $"{Application.persistentDataPath}{filePath}";
-			if(System.IO.File.Exists(path) == false) return null;
-			string json = (Resources.Load(path) as TextAsset).ToString();
+			var path = $"{filePath}";
+			if(File.Exists(path) == false) return null;
+			string json = File.ReadAllText(path);
 			if(json == null || json.Length < 3) return null;
 			var JsonTechweb = JsonConvert.DeserializeObject<List<Dictionary<String, System.Object>>>(json);
 			for (var i = 0; i < JsonTechweb.Count; i++)
@@ -81,10 +82,14 @@ namespace Systems.Research.ImporterExporter
 					EmptyPotentialUnlocks.Add("");
 					TechnologyPass.PotentialUnlocks = EmptyPotentialUnlocks;
 				}
+
 				newNode.technology = TechnologyPass;
 				TechnologyPass.Techweb = techweb;
 				Nodes.Add(newNode);
+
+				if (newNode.technology.StartingNode == true) techweb.ResearchTechology(newNode.technology, false);
 			}
+			techweb.nodes = Nodes;
 
 			return techweb;
 		}

@@ -1,11 +1,9 @@
 using UnityEngine;
 using UI.Core.NetUI;
-using UnityEngine.UI;
 using System.Collections;
 using Systems.Research.Objects;
 using Systems.Research.Data;
 using Systems.Research;
-using System.Collections.Generic;
 
 namespace UI.Objects.Research
 {
@@ -72,21 +70,39 @@ namespace UI.Objects.Research
 
 		public void UpdateGUI()
 		{
-			UpdateResearchTechList(techWeb.ResearchedTech);
-			UpdateResearchTechList(techWeb.FutureTech);
+			UpdateResearchTechList();
+			UpdateFutureTechList();
 			UpdateAvailiableTechList();
 			PointLabel.MasterSetValue($"Available Points: {techWeb.researchPoints} (+1 / minute)");
 		}
 
-		private void UpdateResearchTechList(List<Technology> list)
+		private void UpdateResearchTechList()
 		{
-			int researchedTechCount = list.Count;
+			int researchedTechCount = techWeb.ResearchedTech.Count;
 
 			ResearchedTechList.SetItems(researchedTechCount);
 			for(int i = 0; i < researchedTechCount; i++)
 			{
-				Technology technology = list[i];
+				Technology technology = techWeb.ResearchedTech[i];
 				ResearchedTechList.Entries[i].GetComponent<ResearchedTechEntry>().Initialise(technology.DisplayName,technology.Description);
+			}
+		}
+
+		private void UpdateFutureTechList()
+		{
+			int futureTechCount = techWeb.FutureTech.Count;
+
+			FutureTechList.SetItems(futureTechCount);
+			for (int i = 0; i < futureTechCount; i++)
+			{
+				Technology technology = techWeb.FutureTech[i];
+				string description = technology.Description + "\n\nRequirements:";
+				foreach(string prereq in technology.RequiredTechnologies)
+				{
+					description += $"\n-{prereq}";
+				}
+
+				FutureTechList.Entries[i].GetComponent<ResearchedTechEntry>().Initialise(technology.DisplayName, description);
 			}
 		}
 
@@ -94,11 +110,11 @@ namespace UI.Objects.Research
 		{
 			int availableTechCount = techWeb.AvailableTech.Count;
 
-			ResearchedTechList.SetItems(availableTechCount);
+			AvailableTechList.SetItems(availableTechCount);
 			for (int i = 0; i < availableTechCount; i++)
 			{
 				Technology technology = techWeb.AvailableTech[i];
-				ResearchedTechList.Entries[i].GetComponent<AvailableTechEntry>().Initialise(technology, techWeb);
+				AvailableTechList.Entries[i].GetComponent<AvailableTechEntry>().Initialise(technology, techWeb);
 			}
 		}
 

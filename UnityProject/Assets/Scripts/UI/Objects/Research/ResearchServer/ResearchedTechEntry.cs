@@ -1,9 +1,5 @@
 using UI.Core.NetUI;
 using UnityEngine;
-using Systems.Research;
-using System.Collections.Generic;
-using Chemistry;
-using System.Text;
 
 namespace UI.Objects.Research
 {

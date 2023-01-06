@@ -2,6 +2,7 @@
 using Systems.Research.Data;
 using Systems.Research.ImporterExporter;
 using UnityEngine;
+using System;
 
 namespace Systems.Research
 {
@@ -15,6 +16,8 @@ namespace Systems.Research
 		public List<Technology> AvailableTech { get; private set; } = new List<Technology>();
 		public List<Technology> FutureTech { get; private set; } = new List<Technology>();
 
+		public List<string> AvailableDesigns { get; private set; } = new List<string>();
+
 		public List<string> researchedSliverIDs = new List<string>();
 		private HashSet<string> researchedTechIDs = new HashSet<string>();
 
@@ -22,10 +25,12 @@ namespace Systems.Research
 		public delegate void UIUpdate();
 		public UIUpdate UIupdate;
 
+		[NonSerialized] public Action<int, List<string>> TechWebDesignUpdateEvent;
+
 		public void Merge(Techweb techWebToMerge, bool mergeResearchPoints = false)
 		{
 			nodes.AddRange(techWebToMerge.nodes);
-			ResearchedTech.AddRange(techWebToMerge.ResearchedTech);	
+			ResearchedTech.AddRange(techWebToMerge.ResearchedTech);
 			GenerateResearchedIDList();
 			UpdateTechnologyLists();
 			if (mergeResearchPoints) researchPoints += techWebToMerge.researchPoints;
@@ -43,7 +48,7 @@ namespace Systems.Research
 			return nodes;
 		}
 
-		public bool ResearchTechology(Technology technologyToResearch)
+		public bool ResearchTechology(Technology technologyToResearch, bool updateUI = true)
 		{
 			if(researchPoints < technologyToResearch.ResearchCosts) return false;
 
@@ -52,7 +57,12 @@ namespace Systems.Research
 			researchPoints -= technologyToResearch.ResearchCosts;
 
 			UpdateTechnologyLists();
-			UIupdate?.Invoke();
+			UpdateAvailableDesigns();
+			foreach(Technology tech in ResearchedTech)
+			{
+				Debug.Log(tech.DisplayName);
+			}
+			if(updateUI) UIupdate?.Invoke();
 
 			return true;
 		}
@@ -68,12 +78,10 @@ namespace Systems.Research
 
 		private void UpdateTechnologyLists()
 		{
-			List<Technology> possibleTechs = GetTech();
-
 			AvailableTech.Clear();
 			FutureTech.Clear();		
 
-			foreach(Technology technology in possibleTechs)
+			foreach(Technology technology in GetTech())
 			{
 				if (researchedTechIDs.Contains(technology.ID)) continue;
 
@@ -98,6 +106,27 @@ namespace Systems.Research
 				technologies.Add(techWebNode.technology);
 			}
 			return technologies;
+		}
+
+		public List<string> UpdateAvailableDesigns()
+		{
+			List<string> availableDesigns = AvailableDesigns;
+
+			foreach (Technology tech in ResearchedTech)
+			{
+				foreach (string str in tech.DesignIDs)
+				{
+					if (!availableDesigns.Contains(str))
+					{
+						availableDesigns.Add(str);
+					}
+				}
+			}
+
+			AvailableDesigns = availableDesigns;
+			TechWebDesignUpdateEvent?.Invoke(1, AvailableDesigns);
+
+			return availableDesigns;
 		}
 
 		public void AddResearchPoints(int points)

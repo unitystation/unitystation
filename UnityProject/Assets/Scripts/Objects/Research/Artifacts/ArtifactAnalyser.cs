@@ -78,6 +78,7 @@ namespace Systems.Research.Objects
 		{
 			StateChange?.Invoke();
 		}
+
 	}
 
 	public enum AnalyserState

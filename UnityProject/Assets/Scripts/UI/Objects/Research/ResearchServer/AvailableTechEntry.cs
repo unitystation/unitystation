@@ -1,3 +1,4 @@
+using UI.Core.Net.Elements;
 using UI.Core.NetUI;
 using UnityEngine;
 using Systems.Research.Data;
@@ -11,10 +12,12 @@ namespace UI.Objects.Research
 		[SerializeField] private NetText_label techName;
 		[SerializeField] private NetText_label techPrice;
 		[SerializeField] private EmptyItemList spriteList;
+		
 
 		private Technology technologyToUnlock;
 		private Techweb techWeb;
 		private CustomNetworkManager networkManager;
+
 
 		public void Initialise(Technology technology, Techweb techWeb)
 		{
@@ -28,23 +31,24 @@ namespace UI.Objects.Research
 			SetSprites();
 		}
 
-		//Will show the sprites of all things this technology will unlock, current commented out because networking is a mother fucker
 		private void SetSprites()
 		{
-			/*int unlockCount = technologyToUnlock.DesignIDs.Count;
+			int unlockCount = technologyToUnlock.DesignIDs.Count;
 			spriteList.SetItems(unlockCount);
+		
 			for(int i = 0; i < unlockCount; i++)
 			{
-				string DesignID = technologyToUnlock.DesignIDs[i];
-				if (Designs.Globals.InternalIDSearch.ContainsKey(DesignID)) continue;
+				string DesignID = technologyToUnlock.DesignIDs[i]; //Gets the designs this research will unlock
+				if (Designs.Globals.InternalIDSearch.ContainsKey(DesignID) == false) continue;
 
 				Design designClass = Designs.Globals.InternalIDSearch[DesignID];
-				Sprite sprite = networkManager.ForeverIDLookupSpawnablePrefabs[designClass.ItemID].GetComponentInChildren<SpriteHandler>().CurrentSprite;
-
-				spriteList.Entries[unlockCount].sprite = sprite //this line does not work, but its what is want to be dont
-			}*/
-
-
+		
+				//Gets the sprite of the gameObject that design is for
+				SpriteDataSO sprite = networkManager.ForeverIDLookupSpawnablePrefabs[designClass.ItemID].GetComponentInChildren<SpriteHandler>().PresentSpritesSet;
+		
+				//Uses the sprite from above and sets the sprite of the list entry to that sprite
+				spriteList.Entries[i].GetComponentInChildren<NetSpriteHandler>().SetValue(SpriteCatalogue.Instance.Catalogue.IndexOf(sprite));
+			}
 		}
 
 		public void TryResearchTech()

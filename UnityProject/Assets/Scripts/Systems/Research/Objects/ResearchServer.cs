@@ -23,9 +23,6 @@ namespace Systems.Research.Objects
 		private ItemStorage diskStorage;
 		[SerializeField] private GameObject techWebDisk;
 
-		public List<string> AvailableDesigns = new List<string>();
-
-		[NonSerialized] public Action<int,List<string>> TechWebUpdateEvent;
 		//Keep a cached reference to the techweb so we dont spam the server with signal requests
 		//Only send signals to the Research Server when issuing commands and changing values, not reading the data everytime we access it.
 		public Techweb Techweb { get; private set; } = new Techweb();
@@ -42,7 +39,7 @@ namespace Systems.Research.Objects
 
 		public SyncList<ExplosiveBounty> ExplosiveBounties { get; private set; } = new SyncList<ExplosiveBounty>();
 
-		private void Start()
+		private void InitialiseDisk()
 		{
 			diskStorage = GetComponent<ItemStorage>();
 			if (diskStorage == null || (diskStorage.GetIndexedItemSlot(0).Item == null && techWebDisk == null))
@@ -50,19 +47,16 @@ namespace Systems.Research.Objects
 				Logger.LogError("Research server spawned without a disk to hold data!");
 				return;
 			}
-			if(techWebDisk != null) diskStorage.ServerTryAdd(techWebDisk);
-			
-			if (diskStorage.GetIndexedItemSlot(0).Item.TryGetComponent<HardDriveBase>(out var disk))
-			{
-				string path = Path.Combine(Application.persistentDataPath, "GameData", "Research", "TechwebData.json");
+			if(techWebDisk != null) diskStorage.ServerTrySpawnAndAdd(techWebDisk);
 
-				Techweb = new Techweb();
+			if (diskStorage.GetIndexedItemSlot(0).ItemObject.TryGetComponent<HardDriveBase>(out var disk) == true)
+			{
+				string path = Path.Combine(Application.streamingAssetsPath, "TechWeb", "TechwebData.json");
 				Techweb.LoadTechweb(path);
 
 				var newTechwebFile = new TechwebFiles();
 				newTechwebFile.Techweb = Techweb;
-				disk.AddDataToStorage(newTechwebFile);
-				
+				disk.AddDataToStorage(newTechwebFile);		
 			}
 			else
 			{
@@ -79,54 +73,36 @@ namespace Systems.Research.Objects
 
 		public void OnDespawnServer(DespawnInfo info)
 		{
-			TechWebUpdateEvent?.Invoke(0, null);
+			Techweb.TechWebDesignUpdateEvent?.Invoke(0, null);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
+			InitialiseDisk();
+
 			ExplosiveBounties.Clear();
 
 			for(int i = 0; i < bountiesOnStart; i++)
-			{
+			{ 
 				AddRandomExplosiveBounty();
 			}
 
 			StartCoroutine(TrickleResources());
-			UpdateAvailableDesigns();
 
-			TechWebUpdateEvent?.Invoke(1, AvailableDesigns);
+			Techweb.TechWebDesignUpdateEvent?.Invoke(1, Techweb.AvailableDesigns);
 		}
 
 		//TODO
 		//Once Techweb is fully implemented:
 		//TechWebUpdateEvent should be invoked with (1, UpdateAvailiableDesigns()) whenever a new node is researched
 
-		public List<string> UpdateAvailableDesigns()
-		{
-			List<string> availableDesigns = AvailableDesigns;
-
-			foreach (Technology tech in Techweb.ResearchedTech)
-			{
-				foreach(string str in tech.DesignIDs)
-				{
-					if (!availableDesigns.Contains(str))
-					{
-						availableDesigns.Add(str);
-					}
-				}
-			}
-
-			AvailableDesigns = availableDesigns;
-
-			return AvailableDesigns;
-		}
 		private IEnumerator TrickleResources()
 		{
 			while (this != null || Techweb != null)
 			{
 				yield return WaitFor.Seconds(TrickleTime);
 				Techweb.AddResearchPoints(researchPointsTrickle);
-				Techweb.UIupdate.Invoke();
+				Techweb.UIupdate?.Invoke();
 			}
 		}
 
@@ -136,7 +112,7 @@ namespace Systems.Research.Objects
 			{
 				Inventory.ServerDrop(disk.gameObject.PickupableOrNull().ItemSlot);
 				Techweb = null;
-				TechWebUpdateEvent?.Invoke(0, null);
+				Techweb.TechWebDesignUpdateEvent?.Invoke(0, null);
 			}
 		}
 
@@ -148,7 +124,7 @@ namespace Systems.Research.Objects
 				//the techweb disk will only have one file so its fine if we just get the first ever one.
 				//if for whatever reason it has more; it's going to be a bug thats not possible.
 				if (hardDisk.DataOnStorage[0] is TechwebFiles c) Techweb = c.Techweb;
-				TechWebUpdateEvent?.Invoke(1, AvailableDesigns);
+				Techweb.TechWebDesignUpdateEvent?.Invoke(1, Techweb.AvailableDesigns);
 			}
 		}
 

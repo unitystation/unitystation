@@ -19,8 +19,9 @@ namespace ScriptableObjects.Research
 		{
 
 			string jsonData = JsonConvert.SerializeObject(technologies);
-			string path = $"{Application.persistentDataPath}/GameData/Research/";
-			string fileName = "TechwebData.json";
+			string path = Path.Combine(Application.streamingAssetsPath, "TechWeb");
+
+
 			Debug.Log(jsonData);
 
 			if (Directory.Exists($"{path}") == false)
@@ -28,13 +29,16 @@ namespace ScriptableObjects.Research
 				Debug.Log($"{path} not found, making one..");
 				Directory.CreateDirectory(path);
 			}
-			if (File.Exists($"{path}{fileName}"))
+
+			path = Path.Combine(path, "TechwebData.json");
+
+			if (File.Exists($"{path}"))
 			{
-				File.Delete(path + fileName);
-				File.WriteAllText(path + fileName, jsonData);
+				File.Delete(path);
+				File.WriteAllText(path, jsonData);
 				return;
 			}
-			File.WriteAllText(path + fileName, jsonData);
+			File.WriteAllText(path, jsonData);
 		}
 	}
 
