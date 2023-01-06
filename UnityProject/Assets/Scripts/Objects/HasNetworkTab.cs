@@ -45,7 +45,7 @@ namespace Objects
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side))
+			if (DefaultWillInteract.Default(interaction, side, AllowTelekinesis : false) == false)
 				return false;
 			playerInteracted = interaction.Performer;
 			//interaction only works if hand is empty

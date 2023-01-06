@@ -11,19 +11,38 @@ public static class DefaultWillInteract
 	/// <param name="side">side of the network this is being checked on</param>
 	/// <param name="apt">The allowed PlayerTypes of this interaction defaults to PlayerTypes.Normal</param>
 	/// <typeparam name="T">type of interaction</typeparam>
-	public static bool Default<T>(T interaction, NetworkSide side, PlayerTypes apt = PlayerTypes.Normal) where T : Interaction
+	public static bool Default<T>(T interaction, NetworkSide side, PlayerTypes apt = PlayerTypes.Normal, bool AllowTelekinesis = true) where T : Interaction
 	{
 		if (typeof(T) == typeof(PositionalHandApply))
 		{
 			var positionalHandApply = interaction as PositionalHandApply;
+
+			var reachRange = ReachRange.Standard;
+			if (AllowTelekinesis && positionalHandApply.PerformerPlayerScript.playerHealth.brain != null && positionalHandApply.PerformerPlayerScript.playerHealth.brain.HasTelekinesis ) //Has telekinesis
+			{
+				if (positionalHandApply.HandObject == null)
+				{
+					reachRange = ReachRange.Telekinesis;
+				}
+			}
+
 			return Validations.CanApply(positionalHandApply.PerformerPlayerScript, positionalHandApply.TargetObject,
-				side, targetPosition: positionalHandApply.TargetPosition, apt: apt);
+				side, targetPosition: positionalHandApply.TargetPosition, apt: apt, reachRange : reachRange );
 		}
 		if (typeof(T) == typeof(HandApply))
 		{
 			var handApply = interaction as HandApply;
+			var reachRange = ReachRange.Standard;
+			if (AllowTelekinesis && handApply.PerformerPlayerScript.playerHealth.brain != null && handApply.PerformerPlayerScript.playerHealth.brain.HasTelekinesis) //Has telekinesis
+			{
+				if (handApply.HandObject == null)
+				{
+					reachRange = ReachRange.Telekinesis;
+				}
+			}
+
 			return Validations.CanApply(handApply.PerformerPlayerScript, handApply.TargetObject, side,
-				apt: apt);
+				apt: apt, reachRange : reachRange );
 		}
 		if (typeof(T) == typeof(AimApply))
 		{
@@ -31,7 +50,10 @@ public static class DefaultWillInteract
 		}
 		if (typeof(T) == typeof(MouseDrop))
 		{
-			return Validations.CanInteract(interaction.PerformerPlayerScript, side, apt: apt);
+			var MouseDrop = interaction as MouseDrop;
+
+			return Validations.CanApply(interaction.PerformerPlayerScript, MouseDrop.DroppedObject, side, apt: apt) &&
+			       Validations.IsReachableByPositions(MouseDrop.DroppedObject.AssumedWorldPosServer(), MouseDrop.TargetObject.AssumedWorldPosServer(), side == NetworkSide.Server);
 		}
 		if (typeof(T) == typeof(HandActivate))
 		{

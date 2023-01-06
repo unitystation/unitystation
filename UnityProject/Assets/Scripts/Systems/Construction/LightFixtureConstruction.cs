@@ -107,6 +107,8 @@ namespace Objects.Construction
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
+			if (DefaultWillInteract.Default(interaction, side, AllowTelekinesis: false) == false) return false;
+
 			switch (constructionState)
 			{
 				case State.initial:

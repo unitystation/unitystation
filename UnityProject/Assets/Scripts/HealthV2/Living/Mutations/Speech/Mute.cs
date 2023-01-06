@@ -15,7 +15,7 @@ namespace HealthV2.Living.Mutations.Speech
 		{
 
 			public Tongue RelatedTongue;
-			public Brain RelatedBrain;
+			public Items.Implants.Organs.Brain RelatedBrain;
 			public InMute(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
 			{
 
@@ -25,7 +25,7 @@ namespace HealthV2.Living.Mutations.Speech
 			{
 
 				RelatedTongue = BodyPart.GetComponent<Tongue>();
-				RelatedBrain = BodyPart.GetComponent<Brain>();
+				RelatedBrain = BodyPart.GetComponent<Items.Implants.Organs.Brain>();
 
 				if (RelatedTongue != null)
 				{

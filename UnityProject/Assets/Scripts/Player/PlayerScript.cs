@@ -579,6 +579,14 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		if (interaction == null) return;
 		if (IsNormal == false) return;
 		if (ComponentManager.TryGetUniversalObjectPhysics(interactable.gameObject, out var uop) == false) return;
+
+		if ((this.gameObject.AssumedWorldPosServer() - uop.OfficialPosition ).magnitude >
+		    PlayerScript.INTERACTION_DISTANCE) //If telekinesis was used play effect I assume TODO test , also return maybe because you can't Put fingerprint on something far away
+		{
+			PlayEffect.SendToAll(interactable.gameObject, "TelekinesisEffect");
+		}
+
+
 		if (uop.attributes.HasComponent == false) return;
 
 		var details = uop.attributes.Component.AppliedDetails;

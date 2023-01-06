@@ -84,7 +84,7 @@ namespace Objects
 		public bool WillInteract(MouseDrop interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side,
-					Validations.CheckState(x => x.CanBuckleOthers)) == false) return false;
+					Validations.CheckState(x => x.CanBuckleOthers), AllowTelekinesis: false) == false) return false;
 
 			if (Validations.HasComponent<MovementSynchronisation>(interaction.DroppedObject) == false) return false;
 

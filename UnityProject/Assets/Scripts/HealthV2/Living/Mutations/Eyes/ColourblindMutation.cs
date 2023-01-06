@@ -28,13 +28,13 @@ namespace HealthV2.Living.Mutations.Eyes
 			public override void SetUp()
 			{
 				RelatedEye = BodyPart.GetComponent<Eye>();
-				RelatedEye.CurrentColourblindness = RelatedEye.CurrentColourblindness | Mode;
+				RelatedEye.SyncColourBlindMode(RelatedEye.CurrentColourblindness, RelatedEye.CurrentColourblindness | Mode);
 
 			}
 
 			public override void Remove()
 			{
-				RelatedEye.CurrentColourblindness = RelatedEye.CurrentColourblindness & ~Mode;
+				RelatedEye.SyncColourBlindMode(RelatedEye.CurrentColourblindness, RelatedEye.CurrentColourblindness & ~Mode);
 			}
 		}
 	}
