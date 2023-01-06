@@ -129,7 +129,7 @@ public partial class SubSceneManager : MonoBehaviour
 			yield break;
 		}
 
-		AsyncOperationHandle<SceneInstance> AO = new AsyncOperationHandle<SceneInstance>();
+		var AO = new AsyncOperationHandle<SceneInstance>();
 
 		try
 		{
@@ -179,7 +179,7 @@ public partial class SubSceneManager : MonoBehaviour
 			yield break;
 		}
 
-		AsyncOperationHandle<SceneInstance> AO = new AsyncOperationHandle<SceneInstance>();
+		var AO = new AsyncOperationHandle<SceneInstance>();
 
 		try
 		{

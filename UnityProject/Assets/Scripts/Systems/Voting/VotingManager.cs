@@ -278,7 +278,11 @@ public class VotingManager : NetworkBehaviour
 					break;
 				case VoteType.NextMap:
 					Chat.AddGameWideSystemMsgToChat($"<color=blue>Vote passed! Next map will be {winner}</color>");
-					SubSceneManager.AdminForcedMainStation = winner;
+					foreach (var station in SubSceneManager.Instance.MainStationList.Where(station => winner == station.Name))
+					{
+						SubSceneManager.AdminForcedMainStation = station.Key;
+						break;
+					}
 					break;
 			}
 
