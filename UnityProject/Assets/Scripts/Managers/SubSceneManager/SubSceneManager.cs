@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using Managers.SubSceneManager;
 using Messages.Client;
 using Mirror;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -18,17 +20,18 @@ public partial class SubSceneManager : MonoBehaviour
 	public static SubSceneManager Instance;
 
 	public AwayWorldListSO awayWorldList;
-	[SerializeField] private MainStationListSO mainStationList = null;
+	private MapsConfig mainStationListJson;
+	private List<MainStationInfo> allmainstationmaps = new List<MainStationInfo>();
 	[SerializeField] private AsteroidListSO asteroidList = null;
 	[SerializeField] private AdditionalSceneListSO additionalSceneList = null;
 
 	public ScenesSyncList loadedScenesList => SubSceneManagerNetworked.loadedScenesList;
 
-	public MainStationListSO MainStationList => mainStationList;
+	public List<MainStationInfo> MainStationList => allmainstationmaps;
 
 	public bool AwaySiteLoaded { get; private set; }
 
-	public AssetReference MaintRoomsRef;
+	public string MaintRoomsRef;
 
 	public bool IsMaintRooms => serverChosenAwaySite == MaintRoomsRef;
 
@@ -49,6 +52,43 @@ public partial class SubSceneManager : MonoBehaviour
 		else
 		{
 			Destroy(gameObject);
+		}
+		SetupMainstationData();
+	}
+
+	private void SetupMainstationData()
+	{
+		var mapData = File.ReadAllText($"{Application.streamingAssetsPath}/maps.json");
+		mainStationListJson = JsonConvert.DeserializeObject<MapsConfig>(mapData);
+		foreach (var map in mainStationListJson.lowPopMaps)
+		{
+			var info = new MainStationInfo
+			{
+				Name = map[0],
+				Key = map[1]
+			};
+			Logger.Log($"{info.Name} -> {info.Key}");
+			allmainstationmaps.Add(info);
+		}
+		foreach (var map in mainStationListJson.medPopMaps)
+		{
+			var info = new MainStationInfo
+			{
+				Name = map[0],
+				Key = map[1]
+			};
+			Logger.Log($"{info.Name} -> {info.Key}");
+			allmainstationmaps.Add(info);
+		}
+		foreach (var map in mainStationListJson.highPopMaps)
+		{
+			var info = new MainStationInfo
+			{
+				Name = map[0],
+				Key = map[1]
+			};
+			Logger.Log($"{info.Name} -> {info.Key}");
+			allmainstationmaps.Add(info);
 		}
 	}
 
@@ -81,6 +121,56 @@ public partial class SubSceneManager : MonoBehaviour
 	/// </summary>
 	/// <param name="sceneName"></param>
 	/// <returns></returns>
+	private IEnumerator LoadSubScene(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true)
+	{
+		if (sceneName == null)
+		{
+			Logger.LogError("[SubSceneManager] - Attempted to pass null asset reference while loading.. Skipping.");
+			yield break;
+		}
+
+		AsyncOperationHandle<SceneInstance> AO = new AsyncOperationHandle<SceneInstance>();
+
+		try
+		{
+			AO = Addressables.LoadSceneAsync(sceneName, LoadSceneMode.Additive, false);
+		}
+		catch (Exception e)
+		{
+			Logger.LogError($"[SubSceneManager] - Something went wrong while trying to load a scene... \n {e}");
+			yield break;
+		}
+
+		while (AO.IsDone == false)
+		{
+			loadTimer?.IncrementLoadBar();
+			yield return WaitFor.EndOfFrame;
+		}
+
+		yield return AO.Result.ActivateAsync();
+
+		loadTimer?.IncrementLoadBar();
+		if (isServer)
+		{
+			NetworkServer.SpawnObjects();
+			RequestObserverRefresh.Send(AO.Result.Scene.name);
+		}
+		else
+		{
+			if (HandlSynchronising == false) yield break;
+			NetworkClient.PrepareToSpawnSceneObjects();
+			yield return WaitFor.Seconds(0.2f);
+			RequestObserverRefresh.Send(AO.Result.Scene.name);
+		}
+
+		loadedScenesList.Add(new SceneInfo
+		{
+			SceneName = sceneName,
+			SceneKey = SpaceSceneRef.AssetGUID,
+			SceneType = SceneType.Space
+		});
+	}
+
 	private IEnumerator LoadSubScene(AssetReference sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true)
 	{
 		if (sceneName == null)
@@ -128,32 +218,12 @@ public partial class SubSceneManager : MonoBehaviour
 			RequestObserverRefresh.Send(AO.Result.Scene.name);
 		}
 
-		sceneNames.Add(sceneName, AO.Result.Scene.name);
-	}
-
-	IEnumerator LoadSubSceneFromString(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true)
-	{
-		var AO = Addressables.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-
-		while (AO.IsDone == false)
+		loadedScenesList.Add(new SceneInfo
 		{
-			loadTimer?.IncrementLoadBar();
-			yield return WaitFor.EndOfFrame;
-		}
-
-		loadTimer?.IncrementLoadBar();
-		if (isServer)
-		{
-			NetworkServer.SpawnObjects();
-			RequestObserverRefresh.Send(sceneName);
-		}
-		else
-		{
-			if (HandlSynchronising == false) yield break;
-			NetworkClient.PrepareToSpawnSceneObjects();
-			yield return WaitFor.Seconds(0.2f);
-			RequestObserverRefresh.Send(sceneName);
-		}
+			SceneName = AO.Result.Scene.name,
+			SceneKey = SpaceSceneRef.AssetGUID,
+			SceneType = SceneType.Space
+		});
 	}
 
 	public static void ProcessObserverRefreshReq(PlayerInfo connectedPlayer, Scene sceneContext)
@@ -238,4 +308,19 @@ public class SubsceneLoadTimer
 		CurrentLoadTime += 1f;
 		UIManager.Display.preRoundWindow.UpdateLoadingBar(textToDisplay, CurrentLoadTime / MaxLoadTime);
 	}
+}
+
+public struct MapsConfig
+{
+	public List<List<string>> lowPopMaps { get; set; }
+	public List<List<string>> medPopMaps { get; set; }
+	public List<List<string>> highPopMaps { get; set; }
+	public int medPopMinLimit { get; set; }
+	public int highPopMinLimit { get; set; }
+}
+
+public struct MainStationInfo
+{
+	public string Name;
+	public string Key;
 }

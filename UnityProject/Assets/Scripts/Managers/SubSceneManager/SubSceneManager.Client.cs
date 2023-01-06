@@ -52,7 +52,7 @@ public partial class SubSceneManager
 			}
 
 			SubsceneLoadTimer.IncrementLoadBar($"Loading {sceneInfo.SceneName}");
-			yield return StartCoroutine(LoadSubSceneFromString(sceneInfo.SceneKey, SubsceneLoadTimer, HandlSynchronising));
+			yield return StartCoroutine(LoadSubScene(sceneInfo.SceneKey, SubsceneLoadTimer, HandlSynchronising));
 			MainStationLoaded = true;
 
 		}
@@ -64,7 +64,7 @@ public partial class SubSceneManager
 					$"Loading {sceneInfo.SceneName}" : "");
 			}
 
-			yield return StartCoroutine(LoadSubSceneFromString(sceneInfo.SceneKey, HandlSynchronising  :HandlSynchronising ));
+			yield return StartCoroutine(LoadSubScene(sceneInfo.SceneKey, HandlSynchronising  :HandlSynchronising ));
 		}
 
 		if (OverrideclientIsLoadingSubscene == false)
