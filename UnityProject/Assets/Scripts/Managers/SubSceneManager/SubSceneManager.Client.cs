@@ -20,6 +20,7 @@ public partial class SubSceneManager
 	private readonly float tickRate = 1f;
 
 	public Dictionary<string, bool> ClientObserver = new Dictionary<string, bool>();
+	private Action ClientSideFinishAction;
 
 	void MonitorServerSceneListOnClient()
 	{
@@ -52,7 +53,7 @@ public partial class SubSceneManager
 			}
 
 			SubsceneLoadTimer.IncrementLoadBar($"Loading {sceneInfo.SceneName}");
-			yield return StartCoroutine(LoadSubScene(sceneInfo.SceneKey, SubsceneLoadTimer, HandlSynchronising));
+			yield return StartCoroutine(LoadSubScene(sceneInfo.SceneKey, SubsceneLoadTimer, HandlSynchronising, sceneInfo.SceneType));
 			MainStationLoaded = true;
 
 		}
@@ -64,7 +65,7 @@ public partial class SubSceneManager
 					$"Loading {sceneInfo.SceneName}" : "");
 			}
 
-			yield return StartCoroutine(LoadSubScene(sceneInfo.SceneKey, HandlSynchronising  :HandlSynchronising ));
+			yield return StartCoroutine(LoadSubScene(sceneInfo.SceneKey, HandlSynchronising :HandlSynchronising, type:sceneInfo.SceneType));
 		}
 
 		if (OverrideclientIsLoadingSubscene == false)
@@ -79,8 +80,6 @@ public partial class SubSceneManager
 		KillClientLoadingCoroutine = false;
 		StartCoroutine(LoadClientScenesFromServer(Scenes,OriginalScene, OnFinish));
 	}
-
-	private Action ClientSideFinishAction;
 
 	IEnumerator LoadClientScenesFromServer(List<SceneInfo> Scenes, string OriginalScene, Action OnFinish)
 	{
