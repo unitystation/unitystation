@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Systems.Clearance;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,11 +10,14 @@ public class IdConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 	private ItemSlot TargetSlot;
 	public IDCard AccessCard => AccessSlot.Item != null ? AccessSlot.Item.GetComponent<IDCard>() : null;
 	public IDCard TargetCard => TargetSlot.Item != null ? TargetSlot.Item.GetComponent<IDCard>() : null;
+	public ClearanceRestricted Restricted { get; private set; }
+
 	public bool LoggedIn;
 
 	private void Awake()
 	{
 		itemStorage = GetComponent<ItemStorage>();
+		Restricted = GetComponent<ClearanceRestricted>();
 		AccessSlot = itemStorage.GetIndexedItemSlot(0);
 		TargetSlot = itemStorage.GetIndexedItemSlot(1);
 		AccessSlot.OnSlotContentsChangeServer.AddListener(OnServerSlotContentsChange);

@@ -1,10 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using AddressableReferences;
 using HealthV2;
-using Items;
 using Systems.Clearance;
 
 namespace Objects.Drawers
@@ -28,8 +26,7 @@ namespace Objects.Drawers
 			ShutAndActive = 3,
 		}
 
-		private AccessRestrictions accessRestrictions;
-		private ClearanceCheckable clearanceCheckable;
+		private ClearanceRestricted clearanceRestricted;
 
 		private const float BURNING_DURATION = 5f;
 
@@ -38,8 +35,7 @@ namespace Objects.Drawers
 		protected override void Awake()
 		{
 			base.Awake();
-			accessRestrictions = GetComponent<AccessRestrictions>();
-			clearanceCheckable = GetComponent<ClearanceCheckable>();
+			clearanceRestricted = GetComponent<ClearanceRestricted>();
 		}
 
 		// This region (Interaction-RightClick) shouldn't exist once TODO in class summary is done.
@@ -50,19 +46,7 @@ namespace Objects.Drawers
 			RightClickableResult result = RightClickableResult.Create();
 			if (drawerState == DrawerState.Open) return result;
 
-			/* --ACCESS REWORK--
-			 *  TODO Remove the AccessRestriction check when we finish migrating!
-			 *
-			 */
-
-			if (accessRestrictions)
-			{
-				if (accessRestrictions.CheckAccess(PlayerManager.LocalPlayerObject) == false) return result;
-			}
-			else if (clearanceCheckable)
-			{
-				if (clearanceCheckable.HasClearance(PlayerManager.LocalPlayerObject) == false) return result;
-			}
+			if (clearanceRestricted.HasClearance(PlayerManager.LocalPlayerObject) == false) return result;
 
 			var cremateInteraction = ContextMenuApply.ByLocalPlayer(gameObject, null);
 			if (!WillInteract(cremateInteraction, NetworkSide.Client)) return result;

@@ -1,18 +1,16 @@
 using Systems.Clearance;
- using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using Systems.Electricity;
-using Initialisation;
 using Random = UnityEngine.Random;
 
 namespace Doors.Modules
 {
-	[RequireComponent(typeof(ClearanceCheckable))]
+	[RequireComponent(typeof(ClearanceRestricted))]
 	public class AccessModule : DoorModuleBase
 	{
-		private ClearanceCheckable clearanceCheckable;
-		public ClearanceCheckable ClearanceCheckable => clearanceCheckable;
-		private bool emergancyAccess = false;
+		public ClearanceRestricted ClearanceRestricted { get; private set; }
+		private bool emergencyAccess = false;
 
 		[SerializeField]
 		[Tooltip("When the door is at low voltage, this is the chance that the access check gives a false positive.")]
@@ -21,7 +19,7 @@ namespace Doors.Modules
 		protected override void Awake()
 		{
 			base.Awake();
-			clearanceCheckable = GetComponent<ClearanceCheckable>();
+			ClearanceRestricted = GetComponent<ClearanceRestricted>();
 		}
 
 
@@ -64,13 +62,13 @@ namespace Doors.Modules
 
 		private bool CheckAccess(GameObject player)
 		{
-			return emergancyAccess || ProcessCheckAccess(player);
+			return emergencyAccess || ProcessCheckAccess(player);
 		}
 
 
 		private bool ProcessCheckAccess(GameObject player)
 		{
-			if (clearanceCheckable.HasClearance(player))
+			if (ClearanceRestricted.HasClearance(player))
 			{
 				return true;
 			}
@@ -81,28 +79,6 @@ namespace Doors.Modules
 			{
 				if (Random.value < lowVoltageOpenChance)
 				{
-					return true;
-				}
-			}
-
-			DenyAccess();
-			return false;
-		}
-
-		public bool ProcessCheckAccess(IEnumerable<Clearance> clearance)
-		{
-			if (clearanceCheckable.HasClearance(clearance))
-			{
-				return true;
-			}
-
-			//If the door is in low voltage, there's a very low chance the access check fails and opens anyway.
-			//Meant to represent the kind of weird flux state bits are when in low voltage systems.
-			if (master.Apc.State == PowerState.LowVoltage)
-			{
-				if (Random.value < lowVoltageOpenChance)
-				{
-					Chat.AddExamineMsg(gameObject, "The airlock's control panel flickers a dim light for a moment...");
 					return true;
 				}
 			}
@@ -120,7 +96,7 @@ namespace Doors.Modules
 		public void ToggleAuthorizationBypassState()
 		{
 			//TODO : Add emergency access lights to airlocks
-			emergancyAccess = !emergancyAccess;
+			emergencyAccess = !emergencyAccess;
 		}
 	}
 }

@@ -1,44 +1,28 @@
-using System;
 using Systems.Clearance;
 using UnityEngine;
 
 namespace Weapons
 {
-	[RequireComponent(typeof(AccessRestrictions))]
+	[RequireComponent(typeof(ClearanceRestricted))]
 	class IDLockedPin : PinBase
 	{
 
 		[SerializeField]
 		private bool clusmyMisfire;
 
-		private AccessRestrictions accessRestrictions;
-		public AccessRestrictions AccessRestrictions {
-			get {
-				if (accessRestrictions == false)
-				{
-					accessRestrictions = GetComponent<AccessRestrictions>();
-				}
-				return accessRestrictions;
-			}
-		}
-
-		private ClearanceCheckable clearanceCheckable;
+		private ClearanceRestricted clearanceRestricted;
 
 		[SerializeField]
 		private string deniedMessage;
 
 		private void Awake()
 		{
-			clearanceCheckable = GetComponent<ClearanceCheckable>();
+			clearanceRestricted = GetComponent<ClearanceRestricted>();
 		}
 
 		public override void ServerBehaviour(AimApply interaction, bool isSuicide)
 		{
-			/* --ACCESS REWORK--
-			 *  TODO Remove the AccessRestriction check when we finish migrating!
-			 *
-			 */
-			if (AccessRestrictions.CheckAccess(interaction.Performer))
+			if (clearanceRestricted.HasClearance(interaction.Performer))
 			{
 				//TODO Commented out as client doesnt sync job, after mind rework see if job is now sync'd
 				// JobType job = GetJobServer(interaction.Performer);
@@ -53,12 +37,6 @@ namespace Weapons
 				// }
 
 				CallShotServer(interaction, isSuicide);
-				return; //we found access skip clearance check
-			}
-
-			if (clearanceCheckable.HasClearance(interaction.Performer))
-			{
-				CallShotServer(interaction, isSuicide);
 				return;
 			}
 
@@ -67,11 +45,7 @@ namespace Weapons
 
 		public override void ClientBehaviour(AimApply interaction, bool isSuicide)
 		{
-			/* --ACCESS REWORK--
-			 *  TODO Remove the AccessRestriction check when we finish migrating!
-			 *
-			 */
-			if (AccessRestrictions.CheckAccess(interaction.Performer))
+			if (clearanceRestricted.HasClearance(interaction.Performer))
 			{
 				//TODO Commented out as client doesnt sync job, after mind rework see if job is now sync'd
 				// JobType job = GetJobClient();
@@ -81,12 +55,6 @@ namespace Weapons
 				// 	CallShotClient(interaction, isSuicide);
 				// }
 
-				CallShotClient(interaction, isSuicide);
-				return; //we found access skip clearance check
-			}
-
-			if (clearanceCheckable.HasClearance(interaction.Performer))
-			{
 				CallShotClient(interaction, isSuicide);
 
 			}

@@ -28,7 +28,7 @@ public class SpriteHandler : MonoBehaviour
 
 	private SpriteDataSO.Frame PresentFrame = null;
 
-	[Tooltip("If checked, a random sprite SO will be selected during initialization from the catalogue of sprite SOs.")]
+	[Tooltip("If checked, a random sprite SO will be selected during initialization from the catalogue of sprite SOs, if it's empty then it will pick a random variant.")]
 	[SerializeField] private bool randomInitialSprite = false;
 
 	private SpriteRenderer spriteRenderer;
@@ -605,6 +605,10 @@ public class SpriteHandler : MonoBehaviour
 			if (randomInitialSprite && CatalogueCount > 0)
 			{
 				ChangeSprite(UnityEngine.Random.Range(0, CatalogueCount), NetworkThis);
+			}
+			else if (randomInitialSprite && PresentSpriteSet != null && PresentSpriteSet.Variance.Count > 0)
+			{
+				ChangeSpriteVariant(UnityEngine.Random.Range(0, PresentSpriteSet.Variance.Count), NetworkThis);
 			}
 			else if (PresentSpriteSet != null)
 			{

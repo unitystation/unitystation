@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Doors;
 using Doors.Modules;
@@ -12,14 +11,14 @@ namespace Items.Devices
 	/// <summary>
 	/// An item that controls department doors remotely.
 	/// </summary>
-	public class AccessRemote : NetworkBehaviour, ICheckedInteractable<HandActivate>, ICheckedInteractable<HandApply>
+	public class AccessRemote : NetworkBehaviour, ICheckedInteractable<HandActivate>, ICheckedInteractable<HandApply>, IClearanceSource
 	{
 		private AccessRemoteState currentState;
 
 		private SpriteHandler spriteHandler;
 
 		[SerializeField]
-		private List<Clearance> clearances = new List<Clearance>();
+		private List<Clearance> clearances = new();
 
 		[SerializeField]
 		private SpriteDataSO departmentSprite;
@@ -83,17 +82,21 @@ namespace Items.Devices
 			return Validations.HasComponent<DoorMasterController>(interaction.TargetObject) && Validations.CanApply(interaction.PerformerPlayerScript, interaction.TargetObject, side, false, ReachRange.Unlimited);
 		}
 
+		//FIXME: this shouldn't make its own check and use doors like this. Refactor doors to allow interacting with them with devices instead
+		// and let the door handle the interaction.
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			DoorMasterController doorController = interaction.TargetObject.GetComponent<DoorMasterController>();
 			if(doorController == null) return;
 
-			AccessModule accessModule = interaction.TargetObject.GetComponentInChildren<AccessModule>();
+			var accessModule = interaction.TargetObject.GetComponentInChildren<AccessModule>();
 			if(accessModule == null) return;
+
+			var restricted = interaction.TargetObject.GetComponentInChildren<ClearanceRestricted>();
 
 			Chat.AddExamineMsg(interaction.Performer, $"You use access remote on: {doorController.gameObject.ExpensiveName()}");
 
-			if (accessModule != null && accessModule.ProcessCheckAccess(clearances) == false)
+			if (restricted != null && restricted.HasClearance(this) == false)
 			{
 				Chat.AddExamineMsg(interaction.Performer, "This remote does not contain the required access.");
 				return;
@@ -105,7 +108,7 @@ namespace Items.Devices
 					TryOpenDoor(doorController, interaction.Performer);
 					break;
 				case AccessRemoteState.Emergency:
-					if (accessModule == null)
+					if (restricted == null)
 					{
 						Chat.AddExamineMsg(interaction.Performer, $"{doorController.gameObject.ExpensiveName()} has no access module!");
 						return;
@@ -136,11 +139,8 @@ namespace Items.Devices
 			}
 			controller.TryClose();
 		}
+
+		public IEnumerable<Clearance> IssuedClearance => clearances;
+		public IEnumerable<Clearance> LowPopIssuedClearance => clearances;
 	}
 }
-
-/// NOTE FROM MAX ///
-/// This should use the signal manager one day ///
-/// But it seems like I need to rework signals to use interfaces ///
-/// Because changing the base class of componenets doesn't sound fun ///
-/// Why can't C# let you have more than one class inherited at the same time?? ///

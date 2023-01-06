@@ -104,7 +104,11 @@ namespace HealthV2
 		[CanBeNull]
 		public CirculatorySystemBase CirculatorySystem { get; private set; }
 
-		public Brain brain;
+		public Brain brain { get; private set; }
+
+
+		[SyncVar(hook = nameof(SyncBain))]
+		private uint BrainID;
 
 		/// <summary>
 		/// The creature's Respiratory System
@@ -343,6 +347,39 @@ namespace HealthV2
 			}
 		}
 
+		public void SetBrain(Brain newBrain)
+		{
+			brain = newBrain;
+			if (newBrain == null)
+			{
+
+			}
+			else
+			{
+				BrainID = newBrain.gameObject.NetId();
+			}
+
+		}
+
+		private void SyncBain(uint oldId, uint newID)
+		{
+			BrainID = newID;
+			if (newID is NetId.Empty or NetId.Invalid)
+			{
+				brain = null;
+				return;
+			}
+
+			var spawnedList = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+
+
+			if (spawnedList.ContainsKey(newID))
+			{
+				brain = spawnedList[newID].GetComponent<Brain>();
+			}
+
+		}
+
 		//TODO: confusing, make it not depend from the inventory storage Action
 		/// <summary>
 		/// Server and client trigger this on both addition and removal of a bodypart
@@ -391,6 +428,8 @@ namespace HealthV2
 				}
 			}
 		}
+
+
 
 		private List<BodyPart> TMPUseList = new List<BodyPart>();
 
@@ -489,11 +528,6 @@ namespace HealthV2
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 			StopCoroutine(ScreamCooldown());
-		}
-
-		public void Setbrain(Brain _brain)
-		{
-			brain = _brain;
 		}
 
 		[Server]

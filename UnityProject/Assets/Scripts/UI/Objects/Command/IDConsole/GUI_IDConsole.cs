@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -136,16 +135,9 @@ namespace UI.Objects.Command
 			}
 
 
-			if (console.TargetCard != null)
-			{
-				valToSet = $"{console.TargetCard.RegisteredName}, {console.TargetCard.GetJobTitle()}";
-			}
-			else
-			{
-				valToSet = "-";
-			}
+			valToSet = console.TargetCard != null ? $"{console.TargetCard.RegisteredName}, {console.TargetCard.GetJobTitle()}" : "-";
 
-			if (!valToSet.Equals(targetCardName.Value))
+			if (valToSet.Equals(targetCardName.Value) == false)
 			{
 				targetCardName.MasterSetValue(valToSet);
 			}
@@ -157,12 +149,10 @@ namespace UI.Objects.Command
 			{
 				console.TargetCard.ServerSetRegisteredName(newName);
 				ServerRefreshCardNames();
-			}
-			else
-			{
-				Chat.AddExamineMsgToClient($"Name cannot exceed 32 characters!");
 				return;
 			}
+
+			Chat.AddExamineMsgToClient($"Name cannot exceed 32 characters!");
 		}
 
 		public void ServerChangeJobTitle(string newJobTitle)
@@ -186,14 +176,39 @@ namespace UI.Objects.Command
 		/// <param name="grant">if true, grants access, otherwise removes it</param>
 		public void ServerModifyAccess(Clearance accessToModify, bool grant)
 		{
-			var alreadyHasAccess = console.TargetCard.HasAccess(accessToModify);
-			if (!grant && alreadyHasAccess)
+			var idClearance = console.TargetCard.ClearanceSource;
+			if (idClearance == null)
 			{
-				console.TargetCard.ServerRemoveAccess(accessToModify);
+				Logger.LogError($"ID card {gameObject.name} has no BasicClearanceSource component!", Category.Objects);
+				return;
 			}
-			else if (grant && !alreadyHasAccess)
+
+			var alreadyHasClearance = ((IClearanceSource)idClearance).GetCurrentClearance.Contains(accessToModify);
+
+			switch (grant)
 			{
-				console.TargetCard.ServerAddAccess(accessToModify);
+				case false when alreadyHasClearance:
+				{
+					if (GameManager.Instance.CentComm.IsLowPop)
+					{
+						idClearance.ServerRemoveLowPopClearance(accessToModify);
+						return;
+					}
+
+					idClearance.ServerRemoveClearance(accessToModify);
+					break;
+				}
+				case true when alreadyHasClearance == false:
+				{
+					if (GameManager.Instance.CentComm.IsLowPop)
+					{
+						idClearance.ServerAddLowPopClearance(accessToModify);
+						return;
+					}
+
+					idClearance.ServerAddClearance(accessToModify);
+					break;
+				}
 			}
 		}
 
@@ -230,8 +245,8 @@ namespace UI.Objects.Command
 
 		public void ServerLogin()
 		{
-			if (console.AccessCard != null &&
-				console.AccessCard.HasAccess(Clearance.ChangeIds) || IsAIInteracting() == true)
+			var idClearance = console.AccessCard.GetComponent<IClearanceSource>();
+			if (idClearance != null && console.Restricted.HasClearance(idClearance) || IsAIInteracting())
 			{
 				console.LoggedIn = true;
 				pageSwitcher.SetActivePage(usercardPage);

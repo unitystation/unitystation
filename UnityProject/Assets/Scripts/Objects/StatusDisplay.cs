@@ -10,7 +10,6 @@ using ScriptableObjects;
 using Systems.Interaction;
 using Managers;
 using Doors;
-using Doors.Modules;
 using Shared.Systems.ObjectConnection;
 using Systems.Clearance;
 
@@ -388,25 +387,11 @@ namespace Objects.Wallmounts
 
 		public void NewLinkDoor(DoorMasterController doorController)
 		{
-			var accessMod = doorController.ModulesList.Find(x => x is AccessModule);
-			if (accessMod != null && AccessRestrictions != null && accessMod is AccessModule c)
+			NewdoorControllers.Add(doorController);
+			OnTextBroadcastReceived(StatusDisplayChannel.DoorTimer);
+			if (stateSync == MountedMonitorState.Image)
 			{
-				if (c.ClearanceCheckable == null)
-				{
-					Logger.Log("No clearance found checkable component found.");
-					return;
-				}
-				if (c.ClearanceCheckable.HasClearance(accessRestrictions.clearanceRestriction) == false)
-				{
-					Chat.AddActionMsgToChat(gameObject, CLEARANCE_LINK_FAIL_STRING, CLEARANCE_LINK_FAIL_STRING);
-					return;
-				}
-				NewdoorControllers.Add(doorController);
-				OnTextBroadcastReceived(StatusDisplayChannel.DoorTimer);
-				if (stateSync == MountedMonitorState.Image)
-				{
-					stateSync = MountedMonitorState.StatusText;
-				}
+				stateSync = MountedMonitorState.StatusText;
 			}
 		}
 
@@ -467,6 +452,7 @@ namespace Objects.Wallmounts
 			ResetTimer();
 		}
 
+		// FIXME: replace the way Status display interacts with doors when I make door able to be interacted with devices.
 		private void CloseDoors()
 		{
 			foreach (var door in doorControllers)
@@ -484,6 +470,7 @@ namespace Objects.Wallmounts
 			}
 		}
 
+		// FIXME: replace the way Status display interacts with doors when I make door able to be interacted with devices.
 		private void OpenDoors()
 		{
 			foreach (var door in doorControllers)
@@ -494,13 +481,6 @@ namespace Objects.Wallmounts
 
 			foreach (var door in NewdoorControllers)
 			{
-				//To do make The actual console itself ingame Hackble
-				foreach (var module in door.ModulesList)
-				{
-					if(module is not AccessModule c) continue;
-					if(c.ClearanceCheckable == null || AccessRestrictions == null) continue;
-					if(c.ClearanceCheckable.HasClearance(accessRestrictions.clearanceRestriction) == false) return;
-				}
 				door.TryOpen(null, true);
 			}
 		}

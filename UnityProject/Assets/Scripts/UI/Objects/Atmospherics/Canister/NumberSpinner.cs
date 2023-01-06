@@ -134,9 +134,11 @@ namespace UI.Core.NetUI
 
 			if (newValue > MaxValue || newValue < 0)
 			{
-				Logger.LogErrorFormat("New value {0} is out of range, should be between 0 and {1} inclusive",
+				Logger.LogWarningFormat("New value {0} is out of range, should be between 0 and {1} inclusive",
 					Category.Atmos, newValue, MaxValue);
 			}
+
+			newValue = Mathf.Clamp(newValue, 0, MaxValue);
 
 			targetValue = newValue;
 			if (muteSounds == false && tickCooldown <= 0)

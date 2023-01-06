@@ -9,6 +9,8 @@ namespace Items.Implants.Organs
 	public class Brain : BodyPartFunctionality, IItemInOutMovedPlayer, IClientSynchronisedEffect
 	{
 
+
+
 		public RegisterPlayer CurrentlyOn { get; set; }
 		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
@@ -34,6 +36,11 @@ namespace Items.Implants.Organs
 		//stuff in here?
 		//nah
 
+
+		[SyncVar(hook = nameof(SyncTelekinesis))] private bool hasTelekinesis = false;
+		public bool HasTelekinesis => hasTelekinesis;
+
+
 		public override void Awake()
 		{
 			base.Awake();
@@ -43,13 +50,13 @@ namespace Items.Implants.Organs
 		public override void SetUpSystems()
 		{
 			base.SetUpSystems();
-			RelatedPart.HealthMaster.Setbrain(this);
+			RelatedPart.HealthMaster.SetBrain(this);
 		}
 		//Ensure removal of brain
 
 		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
-			livingHealth.Setbrain(this);
+			livingHealth.SetBrain(this);
 			if (CannotSpeak == false && hasInbuiltSpeech == false) return;
 
 			if (hasInbuiltSpeech)
@@ -64,8 +71,13 @@ namespace Items.Implants.Organs
 
 		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
-			livingHealth.brain = null;
+			livingHealth.SetBrain(null);
 			livingHealth.IsMute.RemovePosition(this);
+		}
+
+		public void SyncTelekinesis(bool Oldvalue, bool NewValue)
+		{
+			hasTelekinesis = NewValue;
 		}
 
 		public void SyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn)

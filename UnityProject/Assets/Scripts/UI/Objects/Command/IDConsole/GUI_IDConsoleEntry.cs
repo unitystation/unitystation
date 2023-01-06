@@ -1,4 +1,4 @@
-using System;
+using System.Linq;
 using Systems.Clearance;
 using UnityEngine;
 using UnityEngine.UI;
@@ -128,12 +128,14 @@ namespace UI.Objects.Command
 			}
 			else
 			{
-				var hasAccess = TargetCard.HasAccess(clearance);
-				if (hasAccess && !toggle.isOn)
+				var source = (IClearanceSource)TargetCard.ClearanceSource;
+				var containsClearance = source.GetCurrentClearance.Contains(clearance);
+
+				if (containsClearance && !toggle.isOn)
 				{
 					netToggle.MasterSetValue("1");
 				}
-				else if (!hasAccess && toggle.isOn)
+				else if (containsClearance == false && toggle.isOn)
 				{
 					netToggle.MasterSetValue("0");
 				}

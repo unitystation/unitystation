@@ -10,7 +10,8 @@ namespace Core.Characters.AttributeBehaviors
 	/// </summary>
 	public class GiveAccessToID : CharacterAttributeBehavior
 	{
-		[SerializeField] private List<Clearance> clearance = new List<Clearance>();
+		[SerializeField] private List<Clearance> clearance = new();
+		[SerializeField] private List<Clearance> lowPopClearance = new();
 		[SerializeField] private bool useCharacterSettingsName = true;
 
 		public override void Run(GameObject characterBody)
@@ -23,12 +24,14 @@ namespace Core.Characters.AttributeBehaviors
 				return;
 			}
 
-			var IDs = inventory.GetNamedItemSlots(NamedSlot.id);
-			foreach (var slot in IDs)
+			var ids = inventory.GetNamedItemSlots(NamedSlot.id);
+			foreach (var slot in ids)
 			{
 				if(slot.IsEmpty) continue;
 				if(slot.ItemObject.TryGetComponent<IDCard>(out var idCard) == false) continue;
-				idCard.ServerAddAccess(clearance);
+
+				idCard.ClearanceSource.ServerSetClearance(clearance);
+				idCard.ClearanceSource.ServerSetLowPopClearance(lowPopClearance);
 				if(useCharacterSettingsName)
 					idCard.ServerSetRegisteredName(gameObject.GetComponent<PlayerScript>().characterSettings.Name);
 			}

@@ -64,7 +64,7 @@ namespace Objects.Other
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (canPickUpGifts == false) return false;
-			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			if (DefaultWillInteract.Default(interaction, side, AllowTelekinesis: false) == false) return false;
 			if (interaction.HandSlot.IsOccupied) return false;
 
 			if (hasClicked)
@@ -77,7 +77,7 @@ namespace Objects.Other
 				return false;
 			}
 
-			if (side == NetworkSide.Client && interaction.IsHighlight == false)
+			if (isServer == false && interaction.IsHighlight == false) //So it doesn't trigger the hasClicked = true; On hosted build
 			{
 				hasClicked = true;
 			}

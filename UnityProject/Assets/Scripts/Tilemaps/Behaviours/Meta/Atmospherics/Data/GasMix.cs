@@ -396,7 +396,12 @@ namespace Systems.Atmospherics
 				totalVolume += PipeFunctions.PipeOrNet(gasMix).GetGasMix().Volume;
 			}
 
-			var newTemperature = totalInternalEnergy / totalWholeHeatCapacity;
+			var newTemperature = 0f;
+			if (totalWholeHeatCapacity != 0)
+			{
+				newTemperature = totalInternalEnergy / totalWholeHeatCapacity;
+			}
+
 
 			var List = AtmosUtils.CopyGasArray(this.GasData);
 

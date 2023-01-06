@@ -1,9 +1,11 @@
-﻿using Communications;
+﻿using System;
+using Communications;
 using Systems.Electricity;
 using UnityEngine;
 using UI.Objects.Wallmounts;
 using Mirror;
 using System.Collections;
+using System.Linq;
 using Systems.Clearance;
 using UnityEngine.Serialization;
 
@@ -29,7 +31,6 @@ namespace Objects.Wallmounts.PublicTerminals
 
 	public class PublicDepartmentTerminal : SignalEmitter, IAPCPowerable, ICheckedInteractable<HandApply>
 	{
-		bool CanTransmit = true; //For serverside cooldown on broadcasting messages, to prevent players from spamming messages
 
 		public enum DepartmentToInt
 		{
@@ -48,13 +49,9 @@ namespace Objects.Wallmounts.PublicTerminals
 		public DepartmentList departmentList;
 
 		//For displaying what the console's department is for
-		public DepartmentToInt Department;
-
-		public bool AccessRestricted;
-
-		//Access required to send messages at this terminal, requires terminal to be access restricted to work.
-		public Clearance terminalRequiredClearance;
-
+		[field: SerializeField]
+		public DepartmentToInt Department {get; private set;}
+		
 		// for the UI
 		private float currentVoltage;
 
@@ -62,23 +59,24 @@ namespace Objects.Wallmounts.PublicTerminals
 		//the currently logged in user, we actually do need to sync this as the requests are being sent from the client so all of them need this.
 		private IDCard currentLogin;
 
-		[HideInInspector]
-		public GUI_PublicTerminal terminalGUI;
+		public GUI_PublicTerminal TerminalGUI { get; set; }
 
-		[HideInInspector]
-		public MessageData sendMessageData = new MessageData();
-
-		[HideInInspector]
-		public readonly SyncList<MessageData> receivedMessageData = new SyncList<MessageData>();
-
-		[HideInInspector]
-		public readonly SyncList<MessageData> archivedMessageData = new SyncList<MessageData>();
+		public MessageData SendMessageData { get; private set; }
+		public SyncList<MessageData> ReceivedMessageData { get; } = new();
+		public SyncList<MessageData> ArchivedMessageData { get; } = new();
 
 		public float CurrentVoltage => currentVoltage;
 		public IDCard CurrentLogin => currentLogin;
 
 		[field: SerializeField, FormerlySerializedAs("isAI")]
 		public bool IsAI { get; set; } = false;
+		private bool canTransmit = true; //For serverside cooldown on broadcasting messages, to prevent players from spamming messages
+		private ClearanceRestricted restricted;
+
+		private void Awake()
+		{
+			restricted = GetComponent<ClearanceRestricted>();
+		}
 
 		#region Signals
 
@@ -91,7 +89,7 @@ namespace Objects.Wallmounts.PublicTerminals
 		public override void SignalFailed()
 		{
 			if (isPowered == false) return;
-			if (CurrentLogin == null || CurrentLogin.HasAccess(terminalRequiredClearance) == false)
+			if (CurrentLogin == null || restricted.HasClearance(currentLogin.ClearanceSource) == false)
 			{
 				Chat.AddLocalMsgToChat("A huge red X appears on the terminal's screen as it says 'access denied'", gameObject);
 				return;
@@ -102,7 +100,7 @@ namespace Objects.Wallmounts.PublicTerminals
 		[Command(requiresAuthority = false)]
 		void CmdSetSentData(MessageData newData, NetworkConnectionToClient sender = null)
 		{
-			if (CanTransmit == false) return;
+			if (canTransmit == false) return;
 
 			PlayerInfo player = PlayerList.Instance.Get(sender);
 
@@ -111,7 +109,7 @@ namespace Objects.Wallmounts.PublicTerminals
 			//This trims the strings to be a max of 200 characters, shouldn't be able to happen normally but as Gilles once said "Player Inputs are Evil"
 			newData.message = newData.message.Length <= 200 ? newData.message : newData.message.Substring(0, 200);
 
-			sendMessageData = newData;
+			SendMessageData = newData;
 
 			TrySendSignal();
 
@@ -141,9 +139,9 @@ namespace Objects.Wallmounts.PublicTerminals
 
 		private IEnumerator TransmitterCooldown()
 		{
-			CanTransmit = false;
+			canTransmit = false;
 			yield return WaitFor.Seconds(1f);
-			CanTransmit = true;
+			canTransmit = true;
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -157,26 +155,25 @@ namespace Objects.Wallmounts.PublicTerminals
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (interaction.HandSlot.Item.TryGetComponent<IDCard>(out var id))
+			if (interaction.HandSlot.Item.TryGetComponent<IDCard>(out var id) == false) return;
+
+			currentLogin = id;
+
+			var interact = "The console accepts your ID!";
+			if (CheckID() == false)
 			{
-				currentLogin = id;
-
-				var interact = "The console accepts your ID!";
-				if (CheckID() == false)
-				{
-					interact = "It seems to reject your ID!";
-					currentLogin = null;
-				}
-
-				if (terminalGUI != null)
-				{
-					terminalGUI.UpdateGUI();
-					terminalGUI.OpenRequestPage();
-				}
-
-				Chat.AddActionMsgToChat(interaction.Performer, $"You swipe your ID through the supply console's ID slot. " + interact,
-				$"{interaction.Performer.ExpensiveName()} swiped their ID through the supply console's ID slot");
+				interact = "It seems to reject your ID!";
+				currentLogin = null;
 			}
+
+			if (TerminalGUI != null)
+			{
+				TerminalGUI.UpdateGUI();
+				TerminalGUI.OpenRequestPage();
+			}
+
+			Chat.AddActionMsgToChat(interaction.Performer, $"You swipe your ID through the supply console's ID slot. " + interact,
+				$"{interaction.Performer.ExpensiveName()} swiped their ID through the supply console's ID slot");
 		}
 
 		public void ClearID()
@@ -184,22 +181,19 @@ namespace Objects.Wallmounts.PublicTerminals
 			currentLogin = null;
 		}
 
-		public bool CheckID()
+		private bool CheckID()
 		{
+			if (restricted.RequiredClearance.Any() == false) return true;
 			if (CurrentLogin == null) return false;
-
-			if (AccessRestricted == false) return true;
-
-			if (CurrentLogin.HasAccess(terminalRequiredClearance)) return true;
-
-			return false;
+			var idClearance = CurrentLogin.ClearanceSource;
+			return restricted.HasClearance(idClearance);
 		}
 
-		public void TransmitRequest(int targetDepartment, string message, bool IsUrgent)
+		public void TransmitRequest(int targetDepartment, string message, bool isUrgent)
 		{
-			MessageData testSendMessageData = new MessageData(message, IsUrgent, CurrentLogin.RegisteredName, targetDepartment, (int)Department);
+			MessageData testSendMessageData = new MessageData(message, isUrgent, CurrentLogin.RegisteredName, targetDepartment, (int)Department);
 
-			sendMessageData = testSendMessageData;
+			SendMessageData = testSendMessageData;
 
 			if (CustomNetworkManager.Instance._isServer)
 				TrySendSignal();

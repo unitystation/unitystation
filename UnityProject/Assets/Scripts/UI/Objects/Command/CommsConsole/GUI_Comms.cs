@@ -291,13 +291,16 @@ namespace UI.Objects.Command
 				return;
 			}
 
-			if (!console.IdCard.HasAccess(Clearance.Heads))
+
+			if (console.Restricted.HasClearance(console.IdCard.ClearanceSource) == false)
 			{
 				idLabel.MasterSetValue(idLabel.Value + " (No access)");
 				return;
+
 			}
 
-			bool isCaptain = console.IdCard.HasAccess(Clearance.Captain);
+			var clearanceList = ((IClearanceSource)console.IdCard.ClearanceSource).GetCurrentClearance;
+			var isCaptain = clearanceList.Contains(Clearance.Captain);
 			captainOnlySwitcher.SetActivePage(isCaptain ? captainAccessPage : noCaptainAccessPage);
 
 			OpenMenu();

@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Mirror;
 using NaughtyAttributes;
 using UnityEngine;
 
 namespace Systems.Clearance
 {
-	public class BasicClearanceProvider: NetworkBehaviour, IClearanceProvider
+	/// <summary>
+	/// Component to make an object a basic clearance source, like an ID card for example.
+	/// Simply add this component to the object and set the different clearance levels for normal population and low population.
+	/// </summary>
+	public class BasicClearanceSource: NetworkBehaviour, IClearanceSource
 	{
 		[SerializeField]
 		[ReorderableList]
@@ -24,8 +27,8 @@ namespace Systems.Clearance
 		private readonly SyncList<Clearance> syncedClearance = new SyncListClearance();
 		private readonly SyncList<Clearance> syncedLowpopClearance = new SyncListClearance();
 
-		//TODO add a way to check for lowpop and return that instead
-		public IEnumerable<Clearance> GetClearance => clearance;
+		public IEnumerable<Clearance> IssuedClearance => clearance;
+		public IEnumerable<Clearance> LowPopIssuedClearance => lowPopClearance;
 
 		private void Start()
 		{
@@ -35,20 +38,23 @@ namespace Systems.Clearance
 
 		public override void OnStartServer()
 		{
-			base.OnStartServer();
-			if (clearance.Any())
-			{
-				ServerSetClearance(clearance);
-			}
-
-			if (lowPopClearance.Any())
-			{
-				ServerSetLowPopClearance(lowPopClearance);
-			}
+			ServerSetClearance(clearance);
+			ServerSetLowPopClearance(lowPopClearance);
 		}
 
 		/// <summary>
-		/// Interface to update access definitions on this issued clearance object.
+		/// Update clearance list on this source by adding a single one.
+		/// </summary>
+		/// <param name="newClearance"></param>
+		[Server]
+		public void ServerAddClearance(Clearance newClearance)
+		{
+			syncedClearance.Add(newClearance);
+			netIdentity.isDirty = true;
+		}
+
+		/// <summary>
+		/// Update clearance list on this source by setting its value to a new one.
 		/// </summary>
 		/// <param name="newClearance">Complete list of wanted clearance</param>
 		[Server]
@@ -59,13 +65,23 @@ namespace Systems.Clearance
 			//values directly?
 			foreach (var c in newClearance)
 			{
-				syncedClearance.Add(c);
-				netIdentity.isDirty = true;
+				ServerAddClearance(c);
 			}
 		}
 
 		/// <summary>
-		/// Interface to update access definitions on this issued clearance object for low pop.
+		/// Update low pop clearance list on this source by adding a single one.
+		/// </summary>
+		/// <param name="newClearance"></param>
+		[Server]
+		public void ServerAddLowPopClearance(Clearance newClearance)
+		{
+			syncedLowpopClearance.Add(newClearance);
+			netIdentity.isDirty = true;
+		}
+
+		/// <summary>
+		/// Update low pop clearance list on this source by setting its value to a new one.
 		/// </summary>
 		/// <param name="newClearance">Complete list of wanted clearance</param>
 		[Server]
@@ -76,11 +92,27 @@ namespace Systems.Clearance
 			//values directly?
 			foreach (var c in newClearance)
 			{
-				syncedLowpopClearance.Add(c);
-				netIdentity.isDirty = true;
+				ServerAddLowPopClearance(c);
 			}
 		}
 
+		[Server]
+		public void ServerRemoveClearance(Clearance forRemoval)
+		{
+			syncedClearance.Remove(forRemoval);
+			netIdentity.isDirty = true;
+		}
+
+		[Server]
+		public void ServerRemoveLowPopClearance(Clearance forRemoval)
+		{
+			syncedLowpopClearance.Remove(forRemoval);
+			netIdentity.isDirty = true;
+		}
+
+		/// <summary>
+		/// Clears the current clearance list.
+		/// </summary>
 		[Server]
 		public void ServerClearClearance()
 		{
@@ -88,6 +120,9 @@ namespace Systems.Clearance
 			netIdentity.isDirty = true;
 		}
 
+		/// <summary>
+		/// Clears the current low pop clearance list.
+		/// </summary>
 		[Server]
 		public void ServerClearLowPopClearance()
 		{

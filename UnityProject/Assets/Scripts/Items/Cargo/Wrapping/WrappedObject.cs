@@ -29,7 +29,7 @@ namespace Items.Cargo.Wrapping
 				return;
 			}
 
-			MakeContentVisible();//Does what it says on the tin
+			MakeContentVisible(unwrapped);//Does what it says on the tin
 
 			//Remove the container which was being wrapped from storage
 			RetrieveObject(unwrapped,gameObject.AssumedWorldPosServer());

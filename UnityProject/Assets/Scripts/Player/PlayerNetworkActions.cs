@@ -381,7 +381,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// Server handling of the request to throw an item from a client
 	/// </summary>
 	[Command]
-	public void CmdThrow(Vector3 targetLocalPosition, int aim, Vector3 clientWorldOfDifference)
+	public void CmdThrow(Vector3 targetLocalPosition, int aim, Vector3 clientWorldOfDifference) //TODO Should probably check distance to pull the object
 	{
 		//only allowed to throw from hands
 		if (Validations.CanInteract(playerScript, NetworkSide.Server,
@@ -397,6 +397,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		else if (playerMove.Pulling.HasComponent)
 		{
+
 			if ((playerMove.Pulling.Component as MovementSynchronisation) == null)
 			{
 				if (playerMove.Pulling.Component.attributes.Component.OrNull()?.Size != null && playerMove.Pulling.Component.attributes.Component.Size >= Size.Large)
@@ -404,12 +405,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 					return;
 				}
 			}
-
+			targetVector = targetLocalPosition.ToWorld(playerMove.registerTile.Matrix) - playerMove.Pulling.Component.gameObject.AssumedWorldPosServer();
 			var distance = targetVector.magnitude;
 
 			if (distance > 6)
 			{
 				distance = 6;
+			}
+
+			if ((playerMove.transform.position - playerMove.Pulling.Component.gameObject.AssumedWorldPosServer()).magnitude >
+			    PlayerScript.INTERACTION_DISTANCE) //If telekinesis was used play effect
+			{
+				PlayEffect.SendToAll(playerMove.Pulling.Component.gameObject, "TelekinesisEffect");
 			}
 
 			var pulling = playerMove.Pulling.Component;
