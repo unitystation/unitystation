@@ -125,7 +125,7 @@ public partial class SubSceneManager : NetworkBehaviour
 			yield break;
 		}
 
-		AsyncOperationHandle<SceneInstance> AO = new AsyncOperationHandle<SceneInstance>();
+		var AO = new AsyncOperationHandle<SceneInstance>();
 
 		try
 		{
@@ -175,7 +175,7 @@ public partial class SubSceneManager : NetworkBehaviour
 			yield break;
 		}
 
-		AsyncOperationHandle<SceneInstance> AO = new AsyncOperationHandle<SceneInstance>();
+		var AO = new AsyncOperationHandle<SceneInstance>();
 
 		try
 		{
