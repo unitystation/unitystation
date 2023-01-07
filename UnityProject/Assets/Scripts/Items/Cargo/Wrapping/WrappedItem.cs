@@ -13,6 +13,8 @@ namespace Items.Cargo.Wrapping
 		private Pickupable pickupable;
 		private ItemAttributesV2 itemAttributesV2;
 
+
+
 		protected override void OnEnable()
 		{
 			base.OnEnable();
@@ -25,7 +27,7 @@ namespace Items.Cargo.Wrapping
 			PlayUnwrappingSound();
 			var unwrapped = GetOrGenerateContent();
 			if (unwrapped == null) return;
-			MakeContentVisible();
+			MakeContentVisible(unwrapped);
 			RetrieveObject(unwrapped,gameObject.AssumedWorldPosServer());
 
 			if (pickupable.ItemSlot == null)

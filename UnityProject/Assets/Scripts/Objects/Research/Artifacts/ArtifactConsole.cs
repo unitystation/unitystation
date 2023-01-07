@@ -31,7 +31,7 @@ namespace Objects.Research
 		}
 
 		[Command(requiresAuthority = false)]
-		internal void CmdSetInputData(ArtifactData InputDataClient, NetworkConnectionToClient sender = null)
+		internal void CmdSetInputData(ArtifactData InputDataClient, NetworkConnectionToClient sender = null) //TODO This is insecure due to hacked client can say anything in ArtifactData
 		{
 			if (sender == null) return;
 			if (Validations.CanApply(PlayerList.Instance.Get(sender).Script, this.gameObject, NetworkSide.Server, false, ReachRange.Standard) == false) return;

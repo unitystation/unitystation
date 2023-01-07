@@ -20,5 +20,9 @@ public enum ReachRange
 	/// <summary>
 	/// Don't check range at all.
 	/// </summary>
-	Unlimited
+	Unlimited,
+	/// <summary>
+	/// FOV Distance
+	/// </summary>
+	Telekinesis
 }

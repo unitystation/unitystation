@@ -11,7 +11,7 @@ using Shared.Systems.ObjectConnection;
 
 namespace Objects.Engineering
 {
-	public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, IMultitoolMasterable, IServerDespawn
+	public class ReactorGraphiteChamber : MonoBehaviour, ICheckedInteractable<HandApply>, IMultitoolMasterable, IServerDespawn
 	{
 		public float EditorPresentNeutrons;
 		public float EditorEnergyReleased;
@@ -299,7 +299,7 @@ namespace Objects.Engineering
 			}
 
 			var ExtraEnergyGained = (float) EnergyReleased;
-			if (float.IsNormal(ExtraEnergyGained) == false)
+			if (float.IsNormal(ExtraEnergyGained) == false && ExtraEnergyGained != 0)
 			{
 				Logger.LogError(
 					$"PowerOutput Graphite chamber invalid number from EnergyReleased With Float of {ExtraEnergyGained} With decimal of {EnergyReleased}");
@@ -432,6 +432,13 @@ namespace Objects.Engineering
 
 			return false;
 		}
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side, AllowTelekinesis: false) == false) return false;
+			return true;
+		}
+
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{

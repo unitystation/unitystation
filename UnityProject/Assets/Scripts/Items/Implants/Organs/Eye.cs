@@ -180,7 +180,7 @@ namespace Items.Implants.Organs
 
 
 
-		private void SyncXrayState(bool old, bool newState)
+		public void SyncXrayState(bool old, bool newState)
 		{
 			HasXray = newState;
 			if (Preimplemented.IsOnLocalPlayer)
