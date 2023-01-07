@@ -20,7 +20,7 @@ namespace Items.Storage.VirtualStorage
 
 		public void UpdateTechwebSize()
 		{
-			Size = Techweb.researchedTech.Count;
+			Size = Techweb.ResearchedTech.Count;
 		}
 	}
 }

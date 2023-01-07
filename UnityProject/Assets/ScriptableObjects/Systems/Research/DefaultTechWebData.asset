@@ -13,40 +13,133 @@ MonoBehaviour:
   m_Name: DefaultTechWebData
   m_EditorClassIdentifier: 
   technologies:
-  - ID: FishLegs
-    DisplayName: Fish Legs
-    Description: ITS A FUCKING FISH WITH LEGS??!?!?!?111
+  - ID: advcyber
+    DisplayName: Advanced Cybernetics
+    Description: Cybernetic organs for more advanced surgeries.
     StartingNode: 0
     RequiredTechnologies:
-    - Fish
-    - Legs
-    DesignIDs: []
-    ResearchCosts: 1000
-    ExportPrice: 125
+    - base
+    DesignIDs:
+    - cyberheart
+    - cyberlung
+    ResearchCosts: 15
+    ExportPrice: 0
     PotentialUnlocks: []
-    prefabID: fishLegs
+    prefabID: advcyber
     techType: 0
-  - ID: Fish
-    DisplayName: Fish
-    Description: Fish
-    StartingNode: 1
-    RequiredTechnologies: []
-    DesignIDs: []
-    ResearchCosts: 250
-    ExportPrice: 25
-    PotentialUnlocks:
-    - FishLegs
-    prefabID: Fish
-    techType: 0
-  - ID: Legs
-    DisplayName: Legs
-    Description: I stole this from the clown :)
+  - ID: base
+    DisplayName: Basic Research Technology
+    Description: NT default research technologies.
     StartingNode: 1
     RequiredTechnologies: []
     DesignIDs: []
     ResearchCosts: 0
-    ExportPrice: 25
+    ExportPrice: 0
     PotentialUnlocks:
-    - FishLegs
-    prefabID: Fish
+    - advcyber
+    - bluespace
+    - advstock
+    prefabID: base
+    techType: 0
+  - ID: advstock
+    DisplayName: Advanced Machine Parts
+    Description: Better parts for your machines.
+    StartingNode: 0
+    RequiredTechnologies:
+    - base
+    DesignIDs:
+    - adv_capacitor
+    - adv_scanning
+    - nano_mani
+    - high_micro_laser
+    - adv_matter_bin
+    ResearchCosts: 15
+    ExportPrice: 0
+    PotentialUnlocks: []
+    prefabID: advstock
+    techType: 0
+  - ID: bluespace
+    DisplayName: Bluespace Technology
+    Description: Allows for research into bluespace technology
+    StartingNode: 0
+    RequiredTechnologies:
+    - base
+    DesignIDs: []
+    ResearchCosts: 30
+    ExportPrice: 0
+    PotentialUnlocks:
+    - bluespacestorage
+    prefabID: bluespace
+    techType: 0
+  - ID: bluespacestorage
+    DisplayName: Bluespace Storage
+    Description: Unique methods of storing matter using bluespace.
+    StartingNode: 0
+    RequiredTechnologies:
+    - bluespace
+    DesignIDs:
+    - bluespace_matter_bin
+    - bluespacebeaker
+    ResearchCosts: 30
+    ExportPrice: 0
+    PotentialUnlocks:
+    - holding
+    prefabID: bluespacestorage
+    techType: 0
+  - ID: holding
+    DisplayName: Bluespace Holding
+    Description: New methods of storage allowing container contents to be stored
+      in large quantity in alternate dimensions.
+    StartingNode: 0
+    RequiredTechnologies:
+    - bluespacestorage
+    DesignIDs:
+    - satchelholding
+    - trashbagholding
+    ResearchCosts: 50
+    ExportPrice: 0
+    PotentialUnlocks: []
+    prefabID: bluespaceholding
+    techType: 0
+  - ID: janitor
+    DisplayName: Janitorial Science
+    Description: New ways to keep the station clean.
+    StartingNode: 0
+    RequiredTechnologies:
+    - advstock
+    DesignIDs:
+    - advmop
+    ResearchCosts: 15
+    ExportPrice: 0
+    PotentialUnlocks: []
+    prefabID: janitor
+    techType: 0
+  - ID: advpow
+    DisplayName: Advanced Power Storage
+    Description: Larger power cells for more demanding tasks.
+    StartingNode: 0
+    RequiredTechnologies:
+    - advstock
+    DesignIDs:
+    - high_cell
+    - super_cell
+    - hyper_cell
+    ResearchCosts: 15
+    ExportPrice: 0
+    PotentialUnlocks: []
+    prefabID: power
+    techType: 0
+  - ID: bluepower
+    DisplayName: Bluespace Power
+    Description: Power cells fueled by bluepsace able to hold far higher charges.
+    StartingNode: 0
+    RequiredTechnologies:
+    - advpow
+    - bluespace
+    DesignIDs:
+    - bluespace_cell
+    ResearchCosts: 30
+    ExportPrice: 0
+    PotentialUnlocks: []
+    prefabID: powerblue
     techType: 0

@@ -144,6 +144,22 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8771208538898261867}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2275805243632234819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8008296850104345303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  NetTabType: 50
+  aiInteractable: 1
 --- !u!114 &2537597061325202176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,13 +174,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  researchPointsTrickle: 25
+  researchPointsTrickle: 1
   TrickleTime: 60
+  techWebDisk: {fileID: 577098253553543881, guid: 3a892d56aceb2d24d8c917409cce08c5,
+    type: 3}
   AvailableDesigns: []
   explosiveBountyList: {fileID: 11400000, guid: fe0ad0f017efea543816cacfac4670f9,
     type: 2}
   bountiesOnStart: 10
-  ExplosiveBounties: []
   conType: 11
 --- !u!114 &9065833264468658804
 MonoBehaviour:
