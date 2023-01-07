@@ -12,6 +12,16 @@ PrefabInstance:
       propertyPath: restriction
       value: 70
       objectReference: {fileID: 0}
+    - target: {fileID: -3888762570051217455, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: requiredClearance.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3888762570051217455, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: requiredClearance.Array.data[0]
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 678899883157967407, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: m_RootOrder

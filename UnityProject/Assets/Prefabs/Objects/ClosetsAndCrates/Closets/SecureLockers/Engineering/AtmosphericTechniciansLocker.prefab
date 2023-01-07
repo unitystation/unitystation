@@ -12,6 +12,16 @@ PrefabInstance:
       propertyPath: restriction
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: -3888762570051217455, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: requiredClearance.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3888762570051217455, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: requiredClearance.Array.data[0]
+      value: 23
+      objectReference: {fileID: 0}
     - target: {fileID: 381971050139752040, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: doorOpened

@@ -5,12 +5,9 @@ using UnityEngine;
 using Mirror;
 using AddressableReferences;
 using Items;
-using MiniGames;
-using NaughtyAttributes;
 using Objects.Atmospherics;
+using Systems.Clearance;
 using UI.Systems.Tooltips.HoverTooltips;
-using UnityEngine.Events;
-using Random = UnityEngine.Random;
 
 namespace Objects
 {
@@ -115,7 +112,7 @@ namespace Objects
 		private ObjectContainer objectContainer;
 		private GasContainer gasContainer;
 		private UniversalObjectPhysics objectPhysics;
-		private AccessRestrictions accessRestrictions;
+		private ClearanceRestricted clearanceRestricted;
 
 		private static readonly float weldTime = 5.0f;
 
@@ -142,7 +139,7 @@ namespace Objects
 			attributes = GetComponent<ObjectAttributes>();
 			objectContainer = GetComponent<ObjectContainer>();
 			gasContainer = GetComponent<GasContainer>();
-			accessRestrictions = GetComponent<AccessRestrictions>();
+			clearanceRestricted = GetComponent<ClearanceRestricted>();
 			objectPhysics = this.GetComponent<UniversalObjectPhysics>();
 			lockState = isLockable ? Lock.Locked : Lock.NoLock;
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
@@ -431,7 +428,7 @@ namespace Objects
 			if (interaction.IsAltClick)
 			{
 				var idSource = interaction.PerformerPlayerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.id)
-						.FirstOrDefault(slot => slot.IsOccupied);
+					.FirstOrDefault(slot => slot.IsOccupied);
 				if (idSource != null)
 				{
 					effector = idSource.ItemObject.ExpensiveName();
@@ -447,24 +444,25 @@ namespace Objects
 				Chat.AddExamineMsg(interaction.Performer, $"You wave your {effector} over the panel but the lock appears to be broken!");
 				return;
 			}
-			else if (isLockable == false)
+
+			if (isLockable == false)
 			{
 				Chat.AddExamineMsg(
-						interaction.Performer,
-						$"You can't figure out where to wave your {effector}... Perhaps this closet isn't lockable?");
+					interaction.Performer,
+					$"You can't figure out where to wave your {effector}... Perhaps this closet isn't lockable?");
 				return;
 			}
 
 			if (IsOpen)
 			{
 				Chat.AddExamineMsg(
-						interaction.Performer,
-						$"You wave your {effector} over the panel but soon realise the {closetName} is still open! D'oh!");
+					interaction.Performer,
+					$"You wave your {effector} over the panel but soon realise the {closetName} is still open! D'oh!");
 				return;
 			}
 
 			// First checks performer's ID in ID slot, else fall back to hand item.
-			if (accessRestrictions.CheckAccess(interaction.Performer))
+			if (clearanceRestricted.HasClearance(interaction.Performer))
 			{
 				SetLock(IsLocked ? Lock.Unlocked : Lock.Locked);
 				Chat.AddExamineMsg(interaction.Performer, $"You {(IsLocked ? "lock" : "unlock")} the {closetName}.");
@@ -484,12 +482,12 @@ namespace Objects
 			}
 
 			ToolUtils.ServerUseToolWithActionMessages(
-					interaction, weldTime,
-					$"You start {(IsWelded ? "unwelding" : "welding")} the {closetName}...",
-					$"{interaction.Performer.ExpensiveName()} starts {(IsWelded ? "unwelding" : "welding")} the {closetName}...",
-					$"You {(IsWelded ? "unweld" : "weld")} the {closetName}.",
-					$"{interaction.Performer.ExpensiveName()} {(IsWelded ? "unwelds" : "welds")} the {closetName}.",
-					() => SetWeld(IsWelded ? Weld.NotWelded : Weld.Welded));
+				interaction, weldTime,
+				$"You start {(IsWelded ? "unwelding" : "welding")} the {closetName}...",
+				$"{interaction.Performer.ExpensiveName()} starts {(IsWelded ? "unwelding" : "welding")} the {closetName}...",
+				$"You {(IsWelded ? "unweld" : "weld")} the {closetName}.",
+				$"{interaction.Performer.ExpensiveName()} {(IsWelded ? "unwelds" : "welds")} the {closetName}.",
+				() => SetWeld(IsWelded ? Weld.NotWelded : Weld.Welded));
 		}
 
 		private void TryEmag(PositionalHandApply interaction, Emag emag)
@@ -503,8 +501,8 @@ namespace Objects
 			if (lockState == Lock.Broken)
 			{
 				Chat.AddExamineMsgFromServer(
-						interaction.Performer,
-						"You wave the emag over the panel, but it looks to be already destroyed...");
+					interaction.Performer,
+					"You wave the emag over the panel, but it looks to be already destroyed...");
 				return;
 			}
 
@@ -514,7 +512,7 @@ namespace Objects
 			BreakLock();
 			Chat.AddActionMsgToChat(interaction,
 				"The access panel errors. A slight amount of smoke pours from behind the panel...",
-						"You can smell caustic smoke from somewhere...");
+				"You can smell caustic smoke from somewhere...");
 		}
 
 		private void TryStoreItem(PositionalHandApply interaction)

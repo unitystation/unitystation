@@ -82,5 +82,15 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 4d2d20453d200b04e9e461991b4f2de4
       objectReference: {fileID: 0}
+    - target: {fileID: 7549482859790969541, guid: 86649e4eafe8e014b925a49dbc892d4f,
+        type: 3}
+      propertyPath: requiredClearance.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7549482859790969541, guid: 86649e4eafe8e014b925a49dbc892d4f,
+        type: 3}
+      propertyPath: requiredClearance.Array.data[0]
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 86649e4eafe8e014b925a49dbc892d4f, type: 3}
