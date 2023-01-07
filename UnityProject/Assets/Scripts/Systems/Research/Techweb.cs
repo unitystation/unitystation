@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Systems.Research.Data;
 using Systems.Research.ImporterExporter;
-using UnityEngine;
 using System;
 
 namespace Systems.Research
@@ -58,10 +57,7 @@ namespace Systems.Research
 
 			UpdateTechnologyLists();
 			UpdateAvailableDesigns();
-			foreach(Technology tech in ResearchedTech)
-			{
-				Debug.Log(tech.DisplayName);
-			}
+
 			if(updateUI) UIupdate?.Invoke();
 
 			return true;
@@ -116,7 +112,7 @@ namespace Systems.Research
 			{
 				foreach (string str in tech.DesignIDs)
 				{
-					if (!availableDesigns.Contains(str))
+					if (availableDesigns.Contains(str) == false)
 					{
 						availableDesigns.Add(str);
 					}

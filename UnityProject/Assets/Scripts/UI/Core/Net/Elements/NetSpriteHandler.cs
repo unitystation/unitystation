@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 namespace UI.Core.Net.Elements
 {
-	/// Sends client's touch coordinates (within element) over network
 	[RequireComponent(typeof(SpriteHandler))]
 	[Serializable]
 	public class NetSpriteHandler : NetUIIntElement

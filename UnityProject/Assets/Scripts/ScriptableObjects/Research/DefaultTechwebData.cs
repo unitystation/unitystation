@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Systems.Research;
 using NaughtyAttributes;
 using System.IO;
 using Newtonsoft.Json;
@@ -18,7 +16,7 @@ namespace ScriptableObjects.Research
 		public void GenerateDefaultData()
 		{
 
-			string jsonData = JsonConvert.SerializeObject(technologies);
+			string jsonData = JsonConvert.SerializeObject(technologies, Formatting.Indented);
 			string path = Path.Combine(Application.streamingAssetsPath, "TechWeb");
 
 

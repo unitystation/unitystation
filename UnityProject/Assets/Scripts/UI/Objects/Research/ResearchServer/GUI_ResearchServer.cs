@@ -21,8 +21,12 @@ namespace UI.Objects.Research
 		[SerializeField]
 		private NetText_label PointLabel;
 
-		private Techweb techWeb;
+		private Techweb techWeb => server.Techweb;
+		private ResearchServer server;
+
 		private bool isUpdating = false;
+
+		private const float CLIENT_UPDATE_DELAY = 0.2f;
 
 		public void Awake()
 		{
@@ -41,10 +45,10 @@ namespace UI.Objects.Research
 				yield return WaitFor.EndOfFrame;
 			}
 
-			techWeb = Provider.GetComponent<ResearchServer>().Techweb;
+			server = Provider.GetComponent<ResearchServer>();
 			techWeb.UIupdate += UpdateGUI;
 
-			if (!CustomNetworkManager.Instance._isServer) yield break;
+			if (CustomNetworkManager.Instance._isServer == false) yield break;
 
 			UpdateGUI();
 
@@ -54,7 +58,7 @@ namespace UI.Objects.Research
 
 		public void UpdateGUIForPeepers(PlayerInfo notUsed)
 		{
-			if (!isUpdating)
+			if (isUpdating == false)
 			{
 				isUpdating = true;
 				StartCoroutine(WaitForClient());
@@ -63,7 +67,7 @@ namespace UI.Objects.Research
 
 		private IEnumerator WaitForClient()
 		{
-			yield return new WaitForSeconds(0.2f);
+			yield return new WaitForSeconds(CLIENT_UPDATE_DELAY);
 			UpdateGUI();
 			isUpdating = false;
 		}
@@ -73,7 +77,7 @@ namespace UI.Objects.Research
 			UpdateResearchTechList();
 			UpdateFutureTechList();
 			UpdateAvailiableTechList();
-			PointLabel.MasterSetValue($"Available Points: {techWeb.researchPoints} (+1 / minute)");
+			PointLabel.MasterSetValue($"Available Points: {techWeb.researchPoints} (+{server.ResearchPointsTrickle} / minute)");
 		}
 
 		private void UpdateResearchTechList()
@@ -84,7 +88,9 @@ namespace UI.Objects.Research
 			for(int i = 0; i < researchedTechCount; i++)
 			{
 				Technology technology = techWeb.ResearchedTech[i];
-				ResearchedTechList.Entries[i].GetComponent<ResearchedTechEntry>().Initialise(technology.DisplayName,technology.Description);
+
+				if(ResearchedTechList.Entries[i].TryGetComponent<ResearchedTechEntry>(out var entry)) entry.Initialise(technology.DisplayName,technology.Description);
+				else Logger.LogError("GUI_ResearchServer.cs: Could not find ResearchTechEntry component on ResearchedTech Entry");
 			}
 		}
 
@@ -102,7 +108,8 @@ namespace UI.Objects.Research
 					description += $"\n-{prereq}";
 				}
 
-				FutureTechList.Entries[i].GetComponent<ResearchedTechEntry>().Initialise(technology.DisplayName, description);
+				if (FutureTechList.Entries[i].TryGetComponent<ResearchedTechEntry>(out var entry)) entry.Initialise(technology.DisplayName, description);
+				else Logger.LogError("GUI_ResearchServer.cs: Could not find ResearchTechEntry component on FutureTech Entry");
 			}
 		}
 
@@ -114,7 +121,9 @@ namespace UI.Objects.Research
 			for (int i = 0; i < availableTechCount; i++)
 			{
 				Technology technology = techWeb.AvailableTech[i];
-				AvailableTechList.Entries[i].GetComponent<AvailableTechEntry>().Initialise(technology, techWeb);
+
+				if(AvailableTechList.Entries[i].TryGetComponent<AvailableTechEntry>(out var entry)) entry.Initialise(technology, techWeb);
+				else Logger.LogError("GUI_ResearchServer.cs: Could not find AvailableTechEntry component on AvailableTech Entry");
 			}
 		}
 

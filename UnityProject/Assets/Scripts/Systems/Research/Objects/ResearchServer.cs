@@ -13,12 +13,9 @@ namespace Systems.Research.Objects
 {
 	public class ResearchServer : NetworkBehaviour, IMultitoolMasterable, IServerSpawn, IServerDespawn
 	{
-		public int RP => Techweb?.researchPoints ?? 0;			
+		public int RP => Techweb?.researchPoints ?? 0;
 
-		[Header("Base functionality"), Space(10)]
-
-		[SerializeField] private int researchPointsTrickle = 25;
-		[SerializeField] private int TrickleTime = 60; //seconds
+		[field: SerializeField, Header("Base functionality"), Space(10)] public int ResearchPointsTrickle { get; private set; } = 1;
 
 		private ItemStorage diskStorage;
 		[SerializeField] private GameObject techWebDisk;
@@ -92,16 +89,12 @@ namespace Systems.Research.Objects
 			Techweb.TechWebDesignUpdateEvent?.Invoke(1, Techweb.AvailableDesigns);
 		}
 
-		//TODO
-		//Once Techweb is fully implemented:
-		//TechWebUpdateEvent should be invoked with (1, UpdateAvailiableDesigns()) whenever a new node is researched
-
 		private IEnumerator TrickleResources()
 		{
 			while (this != null || Techweb != null)
 			{
-				yield return WaitFor.Seconds(TrickleTime);
-				Techweb.AddResearchPoints(researchPointsTrickle);
+				yield return WaitFor.Minutes(1);
+				Techweb.AddResearchPoints(ResearchPointsTrickle);
 				Techweb.UIupdate?.Invoke();
 			}
 		}

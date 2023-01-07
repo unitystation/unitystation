@@ -1,1 +1,137 @@
-[{"ID":"advcyber","DisplayName":"Advanced Cybernetics","Description":"Cybernetic organs for more advanced surgeries.","StartingNode":false,"RequiredTechnologies":["base"],"DesignIDs":["cyberheart","cyberlung"],"ResearchCosts":15,"ExportPrice":0,"PotentialUnlocks":[],"prefabID":"advcyber","techType":0,"Techweb":null},{"ID":"base","DisplayName":"Basic Research Technology","Description":"NT default research technologies.","StartingNode":true,"RequiredTechnologies":[],"DesignIDs":[],"ResearchCosts":0,"ExportPrice":0,"PotentialUnlocks":["advcyber","bluespace","advstock"],"prefabID":"base","techType":0,"Techweb":null},{"ID":"advstock","DisplayName":"Advanced Machine Parts","Description":"Better parts for your machines.","StartingNode":false,"RequiredTechnologies":["base"],"DesignIDs":["adv_capacitor","adv_scanning","nano_mani","high_micro_laser","adv_matter_bin"],"ResearchCosts":15,"ExportPrice":0,"PotentialUnlocks":[],"prefabID":"advstock","techType":0,"Techweb":null},{"ID":"bluespace","DisplayName":"Bluespace Technology","Description":"Allows for research into bluespace technology","StartingNode":false,"RequiredTechnologies":["base"],"DesignIDs":[],"ResearchCosts":30,"ExportPrice":0,"PotentialUnlocks":["bluespacestorage"],"prefabID":"bluespace","techType":0,"Techweb":null},{"ID":"bluespacestorage","DisplayName":"Bluespace Storage","Description":"Unique methods of storing matter using bluespace.","StartingNode":false,"RequiredTechnologies":["bluespace"],"DesignIDs":["bluespace_matter_bin","bluespacebeaker"],"ResearchCosts":30,"ExportPrice":0,"PotentialUnlocks":["holding"],"prefabID":"bluespacestorage","techType":0,"Techweb":null},{"ID":"holding","DisplayName":"Bluespace Holding","Description":"New methods of storage allowing container contents to be sotred in large quantity in alternate dimensions","StartingNode":false,"RequiredTechnologies":["bluespacestorage"],"DesignIDs":["satchelholding","trashbagholding"],"ResearchCosts":50,"ExportPrice":0,"PotentialUnlocks":[],"prefabID":"bluespaceholding","techType":0,"Techweb":null},{"ID":"janitor","DisplayName":"Janitorial Science","Description":"New ways to keep the station clean.","StartingNode":false,"RequiredTechnologies":["advstock"],"DesignIDs":["advmop"],"ResearchCosts":15,"ExportPrice":0,"PotentialUnlocks":[],"prefabID":"janitor","techType":0,"Techweb":null}]
+[
+  {
+    "ID": "advcyber",
+    "DisplayName": "Advanced Cybernetics",
+    "Description": "Cybernetic organs for more advanced surgeries.",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "base"
+    ],
+    "DesignIDs": [
+      "cyberheart",
+      "cyberlung"
+    ],
+    "ResearchCosts": 15,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "advcyber",
+    "techType": 0,
+    "Techweb": null
+  },
+  {
+    "ID": "base",
+    "DisplayName": "Basic Research Technology",
+    "Description": "NT default research technologies.",
+    "StartingNode": true,
+    "RequiredTechnologies": [],
+    "DesignIDs": [],
+    "ResearchCosts": 0,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [
+      "advcyber",
+      "bluespace",
+      "advstock"
+    ],
+    "prefabID": "base",
+    "techType": 0,
+    "Techweb": null
+  },
+  {
+    "ID": "advstock",
+    "DisplayName": "Advanced Machine Parts",
+    "Description": "Better parts for your machines.",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "base"
+    ],
+    "DesignIDs": [
+      "adv_capacitor",
+      "adv_scanning",
+      "nano_mani",
+      "high_micro_laser",
+      "adv_matter_bin"
+    ],
+    "ResearchCosts": 15,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "advstock",
+    "techType": 0,
+    "Techweb": null
+  },
+  {
+    "ID": "bluespace",
+    "DisplayName": "Bluespace Technology",
+    "Description": "Allows for research into bluespace technology",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "base"
+    ],
+    "DesignIDs": [],
+    "ResearchCosts": 30,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [
+      "bluespacestorage"
+    ],
+    "prefabID": "bluespace",
+    "techType": 0,
+    "Techweb": null
+  },
+  {
+    "ID": "bluespacestorage",
+    "DisplayName": "Bluespace Storage",
+    "Description": "Unique methods of storing matter using bluespace.",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "bluespace"
+    ],
+    "DesignIDs": [
+      "bluespace_matter_bin",
+      "bluespacebeaker"
+    ],
+    "ResearchCosts": 30,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [
+      "holding"
+    ],
+    "prefabID": "bluespacestorage",
+    "techType": 0,
+    "Techweb": null
+  },
+  {
+    "ID": "holding",
+    "DisplayName": "Bluespace Holding",
+    "Description": "New methods of storage allowing container contents to be stored in large quantity in alternate dimensions.",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "bluespacestorage"
+    ],
+    "DesignIDs": [
+      "satchelholding",
+      "trashbagholding"
+    ],
+    "ResearchCosts": 50,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "bluespaceholding",
+    "techType": 0,
+    "Techweb": null
+  },
+  {
+    "ID": "janitor",
+    "DisplayName": "Janitorial Science",
+    "Description": "New ways to keep the station clean.",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "advstock"
+    ],
+    "DesignIDs": [
+      "advmop"
+    ],
+    "ResearchCosts": 15,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "janitor",
+    "techType": 0,
+    "Techweb": null
+  }
+]
