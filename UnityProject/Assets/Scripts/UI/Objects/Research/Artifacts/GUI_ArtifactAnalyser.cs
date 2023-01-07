@@ -192,7 +192,7 @@ namespace UI.Objects.Research
 		{
 			if(artifactAnalyser.researchServer == null) return;
 
-			artifactAnalyser.AwardResearchPoints(artifactAnalyser, artifactAnalyser.storedRP);
+			artifactAnalyser.AddResearchPoints(artifactAnalyser, artifactAnalyser.storedRP);
 			artifactAnalyser.storedRP = 0;
 			UpdateRPDisplay();
 		}

@@ -133,5 +133,44 @@
     "prefabID": "janitor",
     "techType": 0,
     "Techweb": null
+  },
+  {
+    "ID": "advpow",
+    "DisplayName": "Advanced Power Storage",
+    "Description": "Larger power cells for more demanding tasks.",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "advstock"
+    ],
+    "DesignIDs": [
+      "high_cell",
+      "super_cell",
+      "hyper_cell"
+    ],
+    "ResearchCosts": 15,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "power",
+    "techType": 0,
+    "Techweb": null
+  },
+  {
+    "ID": "bluepower",
+    "DisplayName": "Bluespace Power",
+    "Description": "Power cells fueled by bluepsace able to hold far higher charges.",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "advpow",
+      "bluespace"
+    ],
+    "DesignIDs": [
+      "bluespace_cell"
+    ],
+    "ResearchCosts": 30,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "powerblue",
+    "techType": 0,
+    "Techweb": null
   }
 ]
