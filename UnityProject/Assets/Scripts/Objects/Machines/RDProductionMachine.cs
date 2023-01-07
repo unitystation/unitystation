@@ -166,7 +166,7 @@ namespace Systems.Research.Objects
 
 			if(researchServer != null)
 			{
-				researchServer.TechWebUpdateEvent += TechWebUpdate;
+				researchServer.Techweb.TechWebDesignUpdateEvent += TechWebUpdate;
 			}
 		}
 
@@ -353,8 +353,8 @@ namespace Systems.Research.Objects
 		{
 			UnSubscribeFromServerEvent();
 
-			server.TechWebUpdateEvent += TechWebUpdate;
-			AddDesigns(server.UpdateAvailableDesigns());
+			server.Techweb.TechWebDesignUpdateEvent += TechWebUpdate;
+			AddDesigns(server.Techweb.UpdateAvailableDesigns());
 			researchServer = server;
 
 		}
@@ -364,7 +364,7 @@ namespace Systems.Research.Objects
 			OnRemoveTechweb();
 
 			if (researchServer == null) return;
-			researchServer.TechWebUpdateEvent -= TechWebUpdate;
+			researchServer.Techweb.TechWebDesignUpdateEvent -= TechWebUpdate;
 			researchServer = null;
 		}
 

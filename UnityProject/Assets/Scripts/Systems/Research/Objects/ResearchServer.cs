@@ -7,26 +7,22 @@ using UnityEngine;
 using Systems.Research.Data;
 using Shared.Systems.ObjectConnection;
 using Random = UnityEngine.Random;
+using System.IO;
 
 namespace Systems.Research.Objects
 {
 	public class ResearchServer : NetworkBehaviour, IMultitoolMasterable, IServerSpawn, IServerDespawn
 	{
-		public int RP => techweb?.researchPoints ?? 0;			
+		public int RP => Techweb?.researchPoints ?? 0;
 
-		[Header("Base functionality"), Space(10)]
-
-		[SerializeField] private int researchPointsTrickle = 25;
-		[SerializeField] private int TrickleTime = 60; //seconds
+		[field: SerializeField, Header("Base functionality"), Space(10)] public int ResearchPointsTrickle { get; private set; } = 1;
 
 		private ItemStorage diskStorage;
+		[SerializeField] private GameObject techWebDisk;
 
-		public List<string> AvailableDesigns = new List<string>();
-
-		[NonSerialized] public Action<int,List<string>> TechWebUpdateEvent;
 		//Keep a cached reference to the techweb so we dont spam the server with signal requests
 		//Only send signals to the Research Server when issuing commands and changing values, not reading the data everytime we access it.
-		private Techweb techweb = new Techweb();
+		public Techweb Techweb { get; private set; } = new Techweb();
 
 		/// <summary>
 		/// Used to hold reference to how many points have been awarded, by source.
@@ -40,20 +36,24 @@ namespace Systems.Research.Objects
 
 		public SyncList<ExplosiveBounty> ExplosiveBounties { get; private set; } = new SyncList<ExplosiveBounty>();
 
-		private void Start()
+		private void InitialiseDisk()
 		{
 			diskStorage = GetComponent<ItemStorage>();
-			if (diskStorage == null || diskStorage.GetIndexedItemSlot(0).Item == null)
+			if (diskStorage == null || (diskStorage.GetIndexedItemSlot(0).Item == null && techWebDisk == null))
 			{
 				Logger.LogError("Research server spawned without a disk to hold data!");
 				return;
 			}
+			if(techWebDisk != null) diskStorage.ServerTrySpawnAndAdd(techWebDisk);
 
-			if (diskStorage.GetIndexedItemSlot(0).Item.TryGetComponent<HardDriveBase>(out var disk))
+			if (diskStorage.GetIndexedItemSlot(0).ItemObject.TryGetComponent<HardDriveBase>(out var disk) == true)
 			{
+				string path = Path.Combine(Application.streamingAssetsPath, "TechWeb", "TechwebData.json");
+				Techweb.LoadTechweb(path);
+
 				var newTechwebFile = new TechwebFiles();
-				newTechwebFile.Techweb = techweb;
-				disk.AddDataToStorage(newTechwebFile);
+				newTechwebFile.Techweb = Techweb;
+				disk.AddDataToStorage(newTechwebFile);		
 			}
 			else
 			{
@@ -70,53 +70,32 @@ namespace Systems.Research.Objects
 
 		public void OnDespawnServer(DespawnInfo info)
 		{
-			TechWebUpdateEvent?.Invoke(0, null);
+			Techweb.TechWebDesignUpdateEvent?.Invoke(0, null);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
+			InitialiseDisk();
+
 			ExplosiveBounties.Clear();
 
 			for(int i = 0; i < bountiesOnStart; i++)
-			{
+			{ 
 				AddRandomExplosiveBounty();
 			}
 
 			StartCoroutine(TrickleResources());
-			UpdateAvailableDesigns();
 
-			TechWebUpdateEvent?.Invoke(1, AvailableDesigns);
+			Techweb.TechWebDesignUpdateEvent?.Invoke(1, Techweb.AvailableDesigns);
 		}
 
-		//TODO
-		//Once Techweb is fully implemented:
-		//TechWebUpdateEvent should be invoked with (1, UpdateAvailiableDesigns()) whenever a new node is researched
-
-		public List<string> UpdateAvailableDesigns()
-		{
-			List<string> availableDesigns = AvailableDesigns;
-
-			foreach (Technology tech in techweb.researchedTech)
-			{
-				foreach(string str in tech.DesignIDs)
-				{
-					if (!availableDesigns.Contains(str))
-					{
-						availableDesigns.Add(str);
-					}
-				}
-			}
-
-			AvailableDesigns = availableDesigns;
-
-			return AvailableDesigns;
-		}
 		private IEnumerator TrickleResources()
 		{
-			while (this != null || techweb != null)
+			while (this != null || Techweb != null)
 			{
-				yield return WaitFor.Seconds(TrickleTime);
-				techweb.AddResearchPoints(researchPointsTrickle);
+				yield return WaitFor.Minutes(1);
+				Techweb.AddResearchPoints(ResearchPointsTrickle);
+				Techweb.UIupdate?.Invoke();
 			}
 		}
 
@@ -125,8 +104,8 @@ namespace Systems.Research.Objects
 			if (diskStorage.GetTopOccupiedIndexedSlot().ItemObject.TryGetComponent<HardDriveBase>(out var disk))
 			{
 				Inventory.ServerDrop(disk.gameObject.PickupableOrNull().ItemSlot);
-				techweb = null;
-				TechWebUpdateEvent?.Invoke(0, null);
+				Techweb = null;
+				Techweb.TechWebDesignUpdateEvent?.Invoke(0, null);
 			}
 		}
 
@@ -137,8 +116,8 @@ namespace Systems.Research.Objects
 			{
 				//the techweb disk will only have one file so its fine if we just get the first ever one.
 				//if for whatever reason it has more; it's going to be a bug thats not possible.
-				if (hardDisk.DataOnStorage[0] is TechwebFiles c) techweb = c.Techweb;
-				TechWebUpdateEvent?.Invoke(1, AvailableDesigns);
+				if (hardDisk.DataOnStorage[0] is TechwebFiles c) Techweb = c.Techweb;
+				Techweb.TechWebDesignUpdateEvent?.Invoke(1, Techweb.AvailableDesigns);
 			}
 		}
 
@@ -155,14 +134,14 @@ namespace Systems.Research.Objects
 			if (!PointTotalSourceList.ContainsKey(sourceTypeName))
 			{
 				PointTotalSourceList.Add(sourceTypeName, points);
-				techweb.AddResearchPoints(points);
+				Techweb.AddResearchPoints(points);
 				Debug.Log($"Awarding {points.ToString()} pure points from {source}.");
 				return points;
 			}
 			if (points > PointTotalSourceList[sourceTypeName])
 			{
 				int difference = points - PointTotalSourceList[sourceTypeName];
-				techweb.AddResearchPoints(difference);
+				Techweb.AddResearchPoints(difference);
 				PointTotalSourceList[sourceTypeName] = points;
 				Debug.Log($"Awarding {difference.ToString()} points difference from {source}.");
 				return difference;
@@ -176,7 +155,7 @@ namespace Systems.Research.Objects
 		/// <param name="points">The amount to be added.</param>
 		public void AddResearchPoints(int points)
 		{
-			techweb.AddResearchPoints(points);
+			Techweb.AddResearchPoints(points);
 		}
 
 		/// <summary>
@@ -188,18 +167,18 @@ namespace Systems.Research.Objects
 		public int AddResearchPoints(ResearchPointMachine source, int points)
 		{
 			string sourcename = source.GetType().Name;
-			techweb.AddResearchPoints(points);
+			Techweb.AddResearchPoints(points);
 			PointTotalSourceList[sourcename] += points;
 			return points;
 		}
 
 		public bool AddArtifactIDtoTechWeb(string ID)
 		{
-			if (techweb == null) return false;
+			if (Techweb == null) return false;
 
-			if (techweb.researchedSliverIDs.Contains(ID)) return false;
+			if (Techweb.researchedSliverIDs.Contains(ID)) return false;
 
-			techweb.researchedSliverIDs.Add(ID);
+			Techweb.researchedSliverIDs.Add(ID);
 
 			return true;
 		}
@@ -258,7 +237,7 @@ namespace Systems.Research.Objects
 		public void CompleteBounty(ExplosiveBounty bountyToComplete)
 		{
 			AddResearchPoints(BOUNTY_AWARD);
-			Chat.AddLocalMsgToChat($"Bounty completed, {BOUNTY_AWARD} points gained. Current RP: {techweb?.researchPoints}", gameObject);
+			Chat.AddLocalMsgToChat($"Bounty completed, {BOUNTY_AWARD} points gained. Current RP: {Techweb?.researchPoints}", gameObject);
 			ExplosiveBounties.Remove(bountyToComplete);
 		}
 

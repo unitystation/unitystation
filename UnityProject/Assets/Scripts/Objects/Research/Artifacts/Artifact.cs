@@ -320,7 +320,7 @@ namespace Objects.Research
 				{
 					GameObject sliver = Spawn.ServerPrefab(SliverPrefab, gameObject.AssumedWorldPosServer()).GameObject;
 					if (sliver.TryGetComponent<ArtifactSliver>(out var sliverComponent)) sliverComponent.SetUpValues(artifactData, ID + $":{(char)('a' + samplesTaken)}");
-
+					samplesTaken++;
 					DoDamageEffect();
 				});
 		}

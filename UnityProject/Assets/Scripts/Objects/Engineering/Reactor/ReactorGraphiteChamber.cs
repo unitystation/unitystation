@@ -299,7 +299,7 @@ namespace Objects.Engineering
 			}
 
 			var ExtraEnergyGained = (float) EnergyReleased;
-			if (float.IsNormal(ExtraEnergyGained) == false)
+			if (float.IsNormal(ExtraEnergyGained) == false && ExtraEnergyGained != 0)
 			{
 				Logger.LogError(
 					$"PowerOutput Graphite chamber invalid number from EnergyReleased With Float of {ExtraEnergyGained} With decimal of {EnergyReleased}");

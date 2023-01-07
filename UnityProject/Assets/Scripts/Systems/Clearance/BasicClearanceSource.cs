@@ -27,14 +27,8 @@ namespace Systems.Clearance
 		private readonly SyncList<Clearance> syncedClearance = new SyncListClearance();
 		private readonly SyncList<Clearance> syncedLowpopClearance = new SyncListClearance();
 
-		public IEnumerable<Clearance> IssuedClearance => clearance;
-		public IEnumerable<Clearance> LowPopIssuedClearance => lowPopClearance;
-
-		private void Start()
-		{
-			syncedClearance.Callback += OnClearanceListUpdated;
-			syncedLowpopClearance.Callback += OnLowPopClearanceListUpdated;
-		}
+		public IEnumerable<Clearance> IssuedClearance => syncedClearance;
+		public IEnumerable<Clearance> LowPopIssuedClearance => syncedLowpopClearance;
 
 		public override void OnStartServer()
 		{
@@ -78,6 +72,10 @@ namespace Systems.Clearance
 		{
 			syncedLowpopClearance.Add(newClearance);
 			netIdentity.isDirty = true;
+			if (lowPopClearance.Contains(newClearance) == false)
+			{
+				lowPopClearance.Add(newClearance);
+			}
 		}
 
 		/// <summary>
@@ -128,60 +126,6 @@ namespace Systems.Clearance
 		{
 			syncedLowpopClearance.Clear();
 			netIdentity.isDirty = true;
-		}
-
-		// ReSharper disable Unity.PerformanceAnalysis
-		private void OnClearanceListUpdated(SyncList<Clearance>.Operation op, int index, Clearance oldAccess,
-			Clearance newAccess )
-		{
-			netIdentity.isDirty = true;
-			switch (op)
-			{
-				case SyncList<Clearance>.Operation.OP_ADD:
-					syncedClearance.Add(newAccess);
-					break;
-				case SyncList<Clearance>.Operation.OP_CLEAR:
-					syncedClearance.Clear();
-					break;
-				case SyncList<Clearance>.Operation.OP_INSERT:
-					syncedClearance.Insert(index, newAccess);
-					break;
-				case SyncList<Clearance>.Operation.OP_REMOVEAT:
-					syncedClearance.RemoveAt(index);
-					break;
-				case SyncList<Clearance>.Operation.OP_SET:
-					break;
-				default:
-					Logger.LogError($"Tried to update access sync list with unexpected operation: {op}");
-					break;
-			}
-		}
-
-		// ReSharper disable Unity.PerformanceAnalysis
-		private void OnLowPopClearanceListUpdated(SyncList<Clearance>.Operation op, int index, Clearance oldAccess,
-			Clearance newAccess )
-		{
-			netIdentity.isDirty = true;
-			switch (op)
-			{
-				case SyncList<Clearance>.Operation.OP_ADD:
-					syncedLowpopClearance.Add(newAccess);
-					break;
-				case SyncList<Clearance>.Operation.OP_CLEAR:
-					syncedLowpopClearance.Clear();
-					break;
-				case SyncList<Clearance>.Operation.OP_INSERT:
-					syncedLowpopClearance.Insert(index, newAccess);
-					break;
-				case SyncList<Clearance>.Operation.OP_REMOVEAT:
-					syncedLowpopClearance.RemoveAt(index);
-					break;
-				case SyncList<Clearance>.Operation.OP_SET:
-					break;
-				default:
-					Logger.LogError($"Tried to update access sync list with unexpected operation: {op}");
-					break;
-			}
 		}
 	}
 }

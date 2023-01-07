@@ -58,7 +58,7 @@ namespace UI.Objects.Research
 				yield return WaitFor.EndOfFrame;
 			}
 
-			artifactAnalyser = Provider.GetComponentInChildren<ArtifactAnalyser>();
+			artifactAnalyser = Provider.GetComponent<ArtifactAnalyser>();
 
 			UpdateGUI();
 
@@ -86,14 +86,8 @@ namespace UI.Objects.Research
 
 		private void UpdateServerConnectionImage()
 		{
-			if (artifactAnalyser.researchServer == null)
-			{
-				connection.SetSprite(0);
-			}
-			else
-			{
-				connection.SetSprite(1);
-			}
+			if (artifactAnalyser.researchServer == null) connection.SetSprite(0);
+			else connection.SetSprite(1);	
 		}
 
 		private void UpdateRPDisplay()
@@ -198,7 +192,7 @@ namespace UI.Objects.Research
 		{
 			if(artifactAnalyser.researchServer == null) return;
 
-			artifactAnalyser.AddResearchPoints(artifactAnalyser.storedRP);
+			artifactAnalyser.AddResearchPoints(artifactAnalyser, artifactAnalyser.storedRP);
 			artifactAnalyser.storedRP = 0;
 			UpdateRPDisplay();
 		}

@@ -91,14 +91,9 @@ namespace Systems.Research.Objects
 
 		public virtual void StateUpdate(PowerState state)
 		{
-			if (state == PowerState.Off)
-			{
-				//Machine loses connection to server on power loss
-				UnSubscribeFromServerEvent();
-			}
-
 			PoweredState = state;
 		}
+
 		#endregion
 
 		#region IExaminable

@@ -598,7 +598,7 @@ namespace Doors
 			if (allowInput == false) return false;
 			if (interaction.TargetObject != gameObject) return false;
 			if (DefaultWillInteract.Default(interaction, side,
-				    Validations.CheckState(x => x.CanInteractWithDoors), AllowTelekinesis: false) == false) return false;
+				    Validations.CheckState(x => x.CanInteractWithDoors)) == false) return false;
 
 			//jaws of life
 			if (interaction.HandObject != null &&

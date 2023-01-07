@@ -3,7 +3,8 @@
         "Internal_ID": "bag_holding",
         "Description": "A backpack that opens into a localized pocket of bluespace.",
         "Category": [
-            "Bluespace Designs"
+            "Bluespace Designs",
+            "Research Designs"
         ],
         "Materials": {
             "Gold": 3000,
@@ -19,6 +20,50 @@
         ],
         "name": "Bag of Holding",
         "Item_ID": "/obj/item/weapon/storage/backpack/holding"
+    },
+    {
+        "Internal_ID": "trash_bag_holding",
+        "Description": "A trash bag that opens into a localized pocket of bluespace.",
+        "Category": [
+            "Bluespace Designs",
+            "Research Designs"
+        ],
+        "Materials": {
+            "Gold": 3000,
+            "Diamond": 1000,
+            "Uranium": 250,
+            "BlueSpace": 1000
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Science"
+        ],
+        "name": "Trash Bag of Holding",
+        "Item_ID": "trashbagholding"
+    },
+    {
+        "Internal_ID": "satchel_holding",
+        "Description": "A mining satchel that opens into a localized pocket of bluespace.",
+        "Category": [
+            "Bluespace Designs",
+            "Research Designs"
+        ],
+        "Materials": {
+            "Gold": 3000,
+            "Diamond": 500,
+            "Uranium": 750,
+            "BlueSpace": 2000
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Science"
+        ],
+        "name": "Mining Satchel of Holding",
+        "Item_ID": "satchelholding"
     },
     {
         "Internal_ID": "telesci_gps",
