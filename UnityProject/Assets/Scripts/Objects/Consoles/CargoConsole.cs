@@ -8,6 +8,7 @@ using Mirror;
 using UnityEngine;
 using UI.Objects.Cargo;
 using Systems.Cargo;
+using Systems.Clearance;
 
 namespace Objects.Cargo
 {
@@ -18,13 +19,17 @@ namespace Objects.Cargo
 
 		public GUI_Cargo cargoGUI;
 
-		[SerializeField]
-		private List<JobType> allowedTypes = null;
+		private ClearanceRestricted clearanceRestricted;
 
 		[SerializeField] private AddressableAudioSource creditArrivalSound;
 		private bool soundIsOnCooldown = false;
 
 		[SerializeField] private string offlineMessage = "The console flashes red as an error message appears and says that access is denied.";
+
+		private void Awake()
+		{
+			clearanceRestricted = GetComponent<ClearanceRestricted>();
+		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
@@ -52,7 +57,7 @@ namespace Objects.Cargo
 			if (interaction.HandSlot.Item.TryGetComponent<IDCard>(out var id))
 			{
 
-				CheckID(id.JobType, interaction.Performer);
+				CheckID(interaction);
 				return;
 			}
 			Emag mag = interaction.HandSlot.Item.GetComponent<Emag>();
@@ -66,15 +71,14 @@ namespace Objects.Cargo
 		}
 
 		[Server]
-		private void CheckID(JobType usedID, GameObject playeref)
+		private void CheckID(HandApply interaction)
 		{
 			if (cargoGUI == null) return;
 
-			foreach (var aJob in allowedTypes.Where(aJob => usedID == aJob))
+			if (interaction.HandObject != null && clearanceRestricted.HasClearance(interaction.HandObject))
 			{
 				CorrectID = true;
 				cargoGUI.pageCart.UpdateTab();
-				break;
 			}
 
 			var denyString = "the console denies your ID";
@@ -82,8 +86,8 @@ namespace Objects.Cargo
 			{
 				denyString = "the console accepts your ID";
 			}
-			Chat.AddActionMsgToChat(playeref, $"You swipe your ID through the supply console's ID slot, {denyString}",
-				$"{playeref.ExpensiveName()} swiped their ID through the supply console's ID slot");
+			Chat.AddActionMsgToChat(interaction.Performer, $"You swipe your ID through the supply console's ID slot, {denyString}",
+				$"{interaction.Performer.ExpensiveName()} swiped their ID through the supply console's ID slot");
 
 		}
 
