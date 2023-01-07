@@ -169,12 +169,20 @@ public class Armor
 		return false;
 	}
 
+	public float GetMiddleTemperature()
+	{
+		return (TemperatureProtectionInK.x + TemperatureProtectionInK.y) / 2f;
+	}
+	public float GetMiddlePressure()
+	{
+		return (PressureProtectionInKpa.x + PressureProtectionInKpa.y) / 2f;
+	}
 
 	public bool TemperatureOutsideSafeRange(float temperature)
 	{
 		if (InvalidValuesInTemperature())
 		{
-			return true;
+			return false;
 		}
 
 		if (temperature < TemperatureProtectionInK.x || temperature > TemperatureProtectionInK.y)
@@ -185,11 +193,12 @@ public class Armor
 		return false;
 	}
 
+
 	public bool PressureOutsideSafeRange(float pressure)
 	{
 		if (InvalidValuesInPressure())
 		{
-			return true;
+			return false;
 		}
 
 
@@ -200,6 +209,66 @@ public class Armor
 
 		return false;
 	}
+
+	public bool PressureNearingLimits(float pressure, out bool highPressure)
+	{
+		highPressure = false;
+		if (InvalidValuesInPressure())
+		{
+			return false;
+		}
+
+		var mid = GetMiddlePressure();
+
+		var AlertMin =  mid + (0.75f * (PressureProtectionInKpa.x - mid));
+		var AlertMax =  mid + (0.75f * ( PressureProtectionInKpa.y - mid));
+
+
+
+		if (pressure < (AlertMin))
+		{
+			highPressure = false;
+			return true;
+		}
+		else if (pressure > AlertMax)
+		{
+			highPressure = true;
+			return true;
+		}
+
+		return false;
+	}
+
+	public bool TemperatureNearingLimits(float temperature, out bool highTemperature)
+	{
+		highTemperature = false;
+		if (InvalidValuesInPressure())
+		{
+			return false;
+		}
+
+
+		var mid = GetMiddleTemperature();
+
+		var AlertMin =  mid + (0.75f * (TemperatureProtectionInK.x - mid));
+		var AlertMax =  mid + (0.75f * ( TemperatureProtectionInK.y - mid));
+
+
+		if (temperature < (AlertMin))
+		{
+			highTemperature = false;
+			return true;
+		}
+		else if (temperature > AlertMax)
+		{
+			highTemperature = true;
+			return true;
+		}
+
+
+		return false;
+	}
+
 }
 
 /// <summary>

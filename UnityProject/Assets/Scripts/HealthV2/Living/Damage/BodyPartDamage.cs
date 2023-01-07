@@ -121,7 +121,7 @@ namespace HealthV2
 			0
 		};
 
-		public DamageWeaknesses damageWeaknesses { get; } = new DamageWeaknesses(); 
+		public DamageWeaknesses damageWeaknesses { get; } = new DamageWeaknesses();
 
 		/// <summary>
 		/// The total damage this body part has taken that is not from lack of blood reagent
@@ -217,8 +217,9 @@ namespace HealthV2
 		}
 
 
-		public void ExposeTemperature(float environmentalTemperature)
+		public TemperatureAlert ExposeTemperature(float environmentalTemperature)
 		{
+			bool alertTypeHigherTemperature = false;
 			if (SelfArmor.TemperatureOutsideSafeRange(environmentalTemperature))
 			{
 				float min = SelfArmor.TemperatureProtectionInK.x;
@@ -236,19 +237,53 @@ namespace HealthV2
 				if (environmentalTemperature < min)
 				{
 					//so, Half Temperature of the minimum threshold that's when the maximum damage will kick in
-					TakeDamage(null,   0.25f*Mathf.Clamp((min - environmentalTemperature)/(min/2f), 0f,1f), AttackType.Internal, DamageType.Burn);
-
+					TakeDamage(null,   0.25f*Mathf.Clamp((min-environmentalTemperature)/(min/2f), 0f,1f), AttackType.Internal, DamageType.Burn);
+					return TemperatureAlert.TooCold;
 				}
 				else if (environmentalTemperature > max)
 				{
+
+					var mid = SelfArmor.GetMiddleTemperature();
+					var hotRange =  (max - mid ); //To get how much hot protection it has
+
 					//so, Double of the maximum temperature that's when the maximum damage Will start kicking
-					TakeDamage(null, 0.25f*Mathf.Clamp((environmentalTemperature-max)/max, 0f,1f), AttackType.Internal, DamageType.Burn);
+					TakeDamage(null, 0.25f*Mathf.Clamp((environmentalTemperature-max)/hotRange, 0f,1f), AttackType.Internal, DamageType.Burn);
+					return TemperatureAlert.TooHot;
 				}
 			}
+
+			if (SelfArmor.TemperatureNearingLimits(environmentalTemperature, out alertTypeHigherTemperature))
+			{
+				bool NotNearingLimit = true;
+				foreach (var armour in ClothingArmors)
+				{
+					if (armour.InvalidValuesInTemperature() == false)
+					{
+						NotNearingLimit = armour.TemperatureNearingLimits(environmentalTemperature, out alertTypeHigherTemperature);
+						if (NotNearingLimit == false)
+						{
+							return TemperatureAlert.None;
+						}
+					}
+				}
+
+
+				if (alertTypeHigherTemperature)
+				{
+					return TemperatureAlert.Hot;
+				}
+				else
+				{
+					return TemperatureAlert.Cold;
+				}
+			}
+			return TemperatureAlert.None;
 		}
 
-		public void ExposePressure(float environmentalPressure)
+		public PressureAlert ExposePressure(float environmentalPressure)
 		{
+			bool alertTypeHigherPressure = false;
+
 			if (SelfArmor.PressureOutsideSafeRange(environmentalPressure))
 			{
 
@@ -268,15 +303,47 @@ namespace HealthV2
 				{
 					//so, Half Pressure of the minimum threshold that's when the maximum damage will kick in
 					TakeDamage(null,   0.25f*Mathf.Clamp((min - environmentalPressure)/(min/2f), 0f,1f), AttackType.Internal, DamageType.Brute);
+					return PressureAlert.PressureTooLow;
 
 				}
 				else if (environmentalPressure > max)
 				{
+					//Alert UI here
+
+					var mid = SelfArmor.GetMiddlePressure();
+					var PressureRange =  (max - mid ); //To get how much PressureRange protection it has
+
 					//so, Double of the maximum Pressure that's when the maximum damage Will start kicking
-					TakeDamage(null, 0.25f*Mathf.Clamp((environmentalPressure-max)/max, 0f,1f), AttackType.Internal, DamageType.Brute);
+					TakeDamage(null, 0.25f*Mathf.Clamp((environmentalPressure-max)/PressureRange, 0f,1f), AttackType.Internal, DamageType.Brute);
+					return PressureAlert.PressureTooHigher;
+				}
+			}
+
+			if (SelfArmor.PressureNearingLimits(environmentalPressure, out alertTypeHigherPressure))
+			{
+				bool NotNearingLimit = true;
+				foreach (var armour in ClothingArmors)
+				{
+					if (armour.InvalidValuesInPressure() == false)
+					{
+						NotNearingLimit = armour.PressureNearingLimits(environmentalPressure, out alertTypeHigherPressure);
+						if (NotNearingLimit == false)
+						{
+							return PressureAlert.None;
+						}
+					}
 				}
 
+				if (alertTypeHigherPressure)
+				{
+					return PressureAlert.PressureHigher;
+				}
+				else
+				{
+					return PressureAlert.PressureLow;
+				}
 			}
+			return PressureAlert.None;
 		}
 
 

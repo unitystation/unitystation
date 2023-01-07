@@ -569,6 +569,9 @@ namespace HealthV2
 			CalculateRadiationDamage();
 			BleedStacksDamage();
 
+			EnvironmentDamage();
+
+
 			if (IsDead)
 			{
 				DeathPeriodicUpdate();
@@ -729,7 +732,7 @@ namespace HealthV2
 				//gradually deplete fire stacks
 				healthStateController.SetFireStacks(fireStacks - 0.1f);
 				//instantly stop burning if there's no oxygen at this location
-				MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPositionClient);
+				MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPositionClient); //TODO Account for containers
 				if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
 				{
 					healthStateController.SetFireStacks(0);
@@ -751,6 +754,13 @@ namespace HealthV2
 				CirculatorySystem.Bleed(1f * (float) Math.Ceiling(BleedStacks));
 				healthStateController.SetBleedStacks(BleedStacks - 0.1f);
 			}
+		}
+
+		public void EnvironmentDamage()
+		{
+			var ambientGasMix = GasMix.GetEnvironmentalGasMixForObject(this.objectBehaviour);
+
+			ExposePressureTemperature(ambientGasMix.Pressure, ambientGasMix.Temperature);
 		}
 
 		/// <summary>
@@ -1818,11 +1828,61 @@ namespace HealthV2
 
 		public void ExposePressureTemperature(float EnvironmentalPressure, float EnvironmentalTemperature)
 		{
+
+			PressureAlert ExtremistPressure = PressureAlert.None;
+			TemperatureAlert ExtremistTemperature = TemperatureAlert.None;
 			foreach (var bodyPart in SurfaceBodyParts)
 			{
-				bodyPart.ExposeTemperature(EnvironmentalTemperature);
-				bodyPart.ExposePressure(EnvironmentalPressure);
+				var newTemperatureAlert = bodyPart.ExposeTemperature(EnvironmentalTemperature);
+				var newPressureAlert = bodyPart.ExposePressure(EnvironmentalPressure);
+				if (newPressureAlert != PressureAlert.None)
+				{
+					if (ExtremistPressure is not PressureAlert.PressureTooHigher or PressureAlert.PressureTooLow)
+					{
+						switch (ExtremistPressure)
+						{
+							case PressureAlert.PressureHigher or PressureAlert.PressureLow:
+							{
+								if (newPressureAlert is PressureAlert.PressureTooHigher or PressureAlert.PressureTooLow)
+								{
+									ExtremistPressure = newPressureAlert;
+								}
+
+								break;
+							}
+							case PressureAlert.None:
+								ExtremistPressure = newPressureAlert;
+								break;
+						}
+					}
+				}
+
+
+				if (newTemperatureAlert != TemperatureAlert.None)
+				{
+					if (ExtremistTemperature is not TemperatureAlert.TooHot or TemperatureAlert.TooCold)
+					{
+						switch (ExtremistTemperature)
+						{
+							case TemperatureAlert.Hot or TemperatureAlert.Cold:
+							{
+								if (newTemperatureAlert is TemperatureAlert.TooHot or TemperatureAlert.TooCold)
+								{
+									ExtremistTemperature = newTemperatureAlert;
+								}
+
+								break;
+							}
+							case TemperatureAlert.None:
+								ExtremistTemperature = newTemperatureAlert;
+								break;
+						}
+					}
+				}
 			}
+
+			healthStateController.SetTemperature(ExtremistTemperature);
+			healthStateController.SetPressure(ExtremistPressure);
 		}
 
 

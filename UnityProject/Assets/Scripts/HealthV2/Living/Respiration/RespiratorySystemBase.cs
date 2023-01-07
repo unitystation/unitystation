@@ -25,9 +25,6 @@ namespace HealthV2
 		private float tickRate = 1f;
 
 		public bool IsSuffocating => healthStateController.IsSuffocating;
-		public float Temperature => healthStateController.Temperature;
-		public float Pressure => healthStateController.Pressure;
-
 
 		private void Awake()
 		{
@@ -65,22 +62,6 @@ namespace HealthV2
 		{
 			if (healthMaster.IsDead) return;
 
-			GasMix ambientGasMix;
-			if (objectBehaviour.ContainedInObjectContainer != null &&
-					objectBehaviour.ContainedInObjectContainer.TryGetComponent<GasContainer>(out var gasContainer))
-			{
-				ambientGasMix = gasContainer.GasMix;
-			}
-			else
-			{
-				var matrix = healthMaster.RegisterTile.Matrix;
-				Vector3Int localPosition = MatrixManager.WorldToLocalInt(objectBehaviour.registerTile.WorldPosition, matrix);
-				ambientGasMix = matrix.MetaDataLayer.Get(localPosition).GasMix;
-			}
-
-			healthStateController.SetTemperature(ambientGasMix.Temperature);
-			healthStateController.SetPressure(ambientGasMix.Pressure);
-			CheckPressureDamage();
 		}
 
 		/// <summary>
@@ -166,11 +147,6 @@ namespace HealthV2
 			}
 
 			return null;
-		}
-
-		private void CheckPressureDamage()
-		{
-			healthMaster.ExposePressureTemperature(Pressure, Temperature);
 		}
 
 		public bool IsEVACompatible() //Only used for splash protection now

@@ -10,29 +10,29 @@
 		spriteHandler = GetComponent<SpriteHandler>();
 	}
 
-	public void SetPressureSprite(float pressure)
+	public void SetPressureSprite(PressureAlert pressure)
 	{
-		if (pressure < 50)
+		switch (pressure)
 		{
-			if (pressure > 20)
-			{
-				SetSprite(1);	//low pressure
-			}
-			else
-			{
+			case PressureAlert.PressureTooLow:
+				this.gameObject.SetActive(true);
 				SetSprite(0);	//really low pressure
-			}
-		}
-		else
-		{
-			if (pressure > 550)
-			{
-				SetSprite(3);	//really high pressure
-			}
-			else
-			{
+				break;
+			case PressureAlert.PressureLow:
+				this.gameObject.SetActive(true);
+				SetSprite(1);	//low pressurec
+				break;
+			case PressureAlert.None:
+				this.gameObject.SetActive(false);
+				break;
+			case PressureAlert.PressureHigher:
+				this.gameObject.SetActive(true);
 				SetSprite(2);	//high pressure
-			}
+				break;
+			case PressureAlert.PressureTooHigher:
+				this.gameObject.SetActive(true);
+				SetSprite(3);	 //really high pressure
+				break;
 		}
 	}
 
@@ -46,4 +46,13 @@
 		activeImageIndex = index;
 		spriteHandler.ChangeSprite(index, false);
 	}
+}
+
+public enum PressureAlert
+{
+	None,
+	PressureTooLow,
+	PressureLow,
+	PressureHigher,
+	PressureTooHigher
 }
