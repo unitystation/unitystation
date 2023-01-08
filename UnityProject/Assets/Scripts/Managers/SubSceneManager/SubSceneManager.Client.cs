@@ -59,11 +59,8 @@ public partial class SubSceneManager
 		}
 		else
 		{
-			if (SubsceneLoadTimer != null)
-			{
-				SubsceneLoadTimer.IncrementLoadBar(sceneInfo.SceneType != SceneType.HiddenScene ?
-					$"Loading {sceneInfo.SceneName}" : "");
-			}
+			SubsceneLoadTimer?.IncrementLoadBar(sceneInfo.SceneType != SceneType.HiddenScene ?
+				$"Loading {sceneInfo.SceneName}" : "");
 
 			yield return StartCoroutine(LoadSubScene(sceneInfo.SceneKey, HandlSynchronising :HandlSynchronising, type:sceneInfo.SceneType));
 		}
