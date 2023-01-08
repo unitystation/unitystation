@@ -81,7 +81,7 @@ namespace Managers
 		private void ChoosePlayers(IEnumerable<Occupation> occupations, Priority priority,
 			IReadOnlyCollection<PlayerInfo> playerPool)
 		{
-			var Shuffledoccupations = occupations.ToList().Shuffle();
+			var shuffledoccupations = occupations.ToList().Shuffle();
 
 			foreach (var occupation in Shuffledoccupations)
 			{
