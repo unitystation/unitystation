@@ -90,6 +90,9 @@ namespace Player
     			performerLHB.ApplyDamageAll(interaction.TargetObject, 1, AttackType.Fire, DamageType.Burn);
     			targetLHB.ApplyDamageAll(interaction.Performer, 1, AttackType.Fire, DamageType.Burn);
 
+                performerLHB.ChangeFireStacks(1);
+                targetLHB.ChangeFireStacks(1);
+
     			Chat.AddCombatMsgToChat(
     					interaction.Performer, $"You hug {targetName} with fire!", $"{performerName} hugs {targetName} with fire!");
     			Chat.AddExamineMsgFromServer(interaction.TargetObject, $"{performerName} hugs you with fire!");
