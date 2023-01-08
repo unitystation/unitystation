@@ -23,9 +23,6 @@ public class AddressablesDevBuildSetup : IPreprocessBuild
 
 	public void OnPreprocessBuild(BuildTarget target, string path)
 	{
-		//AddressableAssetSettings.CleanPlayerContent(AddressableAssetSettingsDefaultObject.Settings.ActivePlayerDataBuilder);
-		//AddressableAssetSettings.BuildPlayerContent();
-
 		var Gamedata = AssetDatabase.LoadAssetAtPath<GameObject>(
 			"Assets/Prefabs/SceneConstruction/NestedManagers/GameData.prefab");
 		if (Gamedata.GetComponent<GameData>().DevBuild == false)
