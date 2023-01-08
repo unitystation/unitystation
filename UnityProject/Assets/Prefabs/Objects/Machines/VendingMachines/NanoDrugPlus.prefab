@@ -18,6 +18,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: dbda26f49f2efde4e8df3fb6c85c4d3b,
         type: 2}
+    - target: {fileID: 2782323624331396706, guid: 7ca27018ad6a1a04ab813ab2fbcc0236,
+        type: 3}
+      propertyPath: requiredClearance.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2782323624331396706, guid: 7ca27018ad6a1a04ab813ab2fbcc0236,
+        type: 3}
+      propertyPath: requiredClearance.Array.data[0]
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6070954757451020975, guid: 7ca27018ad6a1a04ab813ab2fbcc0236,
         type: 3}
       propertyPath: foreverID

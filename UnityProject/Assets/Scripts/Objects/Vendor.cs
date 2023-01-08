@@ -51,7 +51,6 @@ namespace Objects
 		[HideInInspector]
 		public List<VendorItem> VendorContent = new List<VendorItem>();
 
-		private AccessRestrictions accessRestrictions;
 		private ClearanceRestricted clearanceRestricted;
 
 		public VendorUpdateEvent OnRestockUsed = new VendorUpdateEvent();
@@ -69,7 +68,6 @@ namespace Objects
 				gameObject.AddComponent<HasNetworkTab>();
 			}
 
-			accessRestrictions = GetComponent<AccessRestrictions>();
 			clearanceRestricted = GetComponent<ClearanceRestricted>();
 		}
 
@@ -168,16 +166,9 @@ namespace Objects
 				}
 			}
 
-			/* --ACCESS REWORK--
-			 *  TODO Remove the AccessRestriction check when we finish migrating!
-			 *
-			 */
-			// check player access
-			if ((accessRestrictions || clearanceRestricted) && isEmagged == false)
+			if (clearanceRestricted && isEmagged == false)
 			{
-				var hasAccess = accessRestrictions
-					? accessRestrictions.CheckAccess(player.GameObject)
-					: clearanceRestricted.HasClearance(player.GameObject);
+				var hasAccess = clearanceRestricted.HasClearance(player.GameObject);
 
 				if (hasAccess == false && player.Script.PlayerType != PlayerTypes.Ai)
 				{
