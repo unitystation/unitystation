@@ -81,7 +81,7 @@ namespace Systems.Spells
 						break;
 				}
 
-				if (sentByPlayer == null || sentByPlayer.RequestedCharacterSettings == null) return;
+				if (sentByPlayer == null || sentByPlayer.Mind == null) return;
 
 				Chat.AddActionMsgToChat(sentByPlayer.GameObject, FormatInvocationMessageSelf(sentByPlayer),
 					FormatInvocationMessage(sentByPlayer, modPrefix));
