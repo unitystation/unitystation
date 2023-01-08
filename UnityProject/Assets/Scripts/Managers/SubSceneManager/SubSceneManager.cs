@@ -58,37 +58,28 @@ public partial class SubSceneManager : MonoBehaviour
 
 	private void SetupMainstationData()
 	{
+		void CreateInfo(string sceneName, string sceneKey)
+		{
+			var info = new MainStationInfo
+			{
+				Name = sceneName,
+				Key = sceneKey
+			};
+			allmainstationmaps.Add(info);
+		}
 		var mapData = File.ReadAllText($"{Application.streamingAssetsPath}/maps.json");
 		mainStationListJson = JsonConvert.DeserializeObject<MapsConfig>(mapData);
 		foreach (var map in mainStationListJson.lowPopMaps)
 		{
-			var info = new MainStationInfo
-			{
-				Name = map[0],
-				Key = map[1]
-			};
-			Logger.Log($"{info.Name} -> {info.Key}");
-			allmainstationmaps.Add(info);
+			CreateInfo(map[0], map[1]);
 		}
 		foreach (var map in mainStationListJson.medPopMaps)
 		{
-			var info = new MainStationInfo
-			{
-				Name = map[0],
-				Key = map[1]
-			};
-			Logger.Log($"{info.Name} -> {info.Key}");
-			allmainstationmaps.Add(info);
+			CreateInfo(map[0], map[1]);
 		}
 		foreach (var map in mainStationListJson.highPopMaps)
 		{
-			var info = new MainStationInfo
-			{
-				Name = map[0],
-				Key = map[1]
-			};
-			Logger.Log($"{info.Name} -> {info.Key}");
-			allmainstationmaps.Add(info);
+			CreateInfo(map[0], map[1]);
 		}
 	}
 
