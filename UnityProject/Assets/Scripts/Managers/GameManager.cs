@@ -183,6 +183,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	{
 		// Set up server defaults, needs to be loaded here to ensure gameConfigManager is load.
 		LoadConfig();
+		RespawnCurrentlyAllowed = RespawnAllowed;
+		NextGameMode = InitialGameMode;
 	}
 
 	private void Awake()
