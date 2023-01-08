@@ -112,6 +112,29 @@ public partial class SubSceneManager : NetworkBehaviour
 		MonitorServerSceneListOnClient();
 	}
 
+	private IEnumerator HandleObjectsSync(bool handleSynchronising, AsyncOperationHandle<SceneInstance> AO)
+	{
+		if (isServer)
+		{
+			NetworkServer.SpawnObjects();
+			RequestObserverRefresh.Send(AO.Result.Scene.name);
+		}
+		else
+		{
+			if (handleSynchronising == false) yield break;
+			try
+			{
+				NetworkClient.PrepareToSpawnSceneObjects();
+			}
+			catch (Exception e)
+			{
+				Logger.LogError($"[SubSceneManager/LoadSubScene/PrepareToSpawnSceneObjects] - SCENE NOT SYNCED PROPERLY!! \n {e}");
+			}
+			yield return WaitFor.Seconds(0.2f);
+			RequestObserverRefresh.Send(AO.Result.Scene.name);
+		}
+	}
+
 	/// <summary>
 	/// General subscene loader
 	/// </summary>
@@ -146,23 +169,14 @@ public partial class SubSceneManager : NetworkBehaviour
 		yield return AO.Result.ActivateAsync();
 
 		loadTimer?.IncrementLoadBar();
-		if (isServer)
-		{
-			NetworkServer.SpawnObjects();
-			RequestObserverRefresh.Send(AO.Result.Scene.name);
-		}
-		else
-		{
-			if (HandlSynchronising == false) yield break;
-			NetworkClient.PrepareToSpawnSceneObjects();
-			yield return WaitFor.Seconds(0.2f);
-			RequestObserverRefresh.Send(AO.Result.Scene.name);
-		}
+		yield return StartCoroutine(HandleObjectsSync(HandlSynchronising, AO));
 
+		if (CustomNetworkManager.IsServer == false) yield break;
+		//Only update this on the server, otherwise clients will break.
 		loadedScenesList.Add(new SceneInfo
 		{
-			SceneName = sceneName,
-			SceneKey = SpaceSceneRef.AssetGUID,
+			SceneName = AO.Result.Scene.name,
+			SceneKey = sceneName,
 			SceneType = type
 		});
 	}
@@ -196,23 +210,13 @@ public partial class SubSceneManager : NetworkBehaviour
 		yield return AO.Result.ActivateAsync();
 
 		loadTimer?.IncrementLoadBar();
-		if (isServer)
-		{
-			NetworkServer.SpawnObjects();
-			RequestObserverRefresh.Send(AO.Result.Scene.name);
-		}
-		else
-		{
-			if (HandlSynchronising == false) yield break;
-			NetworkClient.PrepareToSpawnSceneObjects();
-			yield return WaitFor.Seconds(0.2f);
-			RequestObserverRefresh.Send(AO.Result.Scene.name);
-		}
+		yield return StartCoroutine(HandleObjectsSync(HandlSynchronising, AO));
 
+		if (CustomNetworkManager.IsServer == false) yield break;
 		loadedScenesList.Add(new SceneInfo
 		{
 			SceneName = AO.Result.Scene.name,
-			SceneKey = SpaceSceneRef.AssetGUID,
+			SceneKey = sceneName.AssetGUID,
 			SceneType = type
 		});
 	}
