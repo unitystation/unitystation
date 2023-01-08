@@ -83,7 +83,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// <summary>
 	/// True if the server allows respawning at round start by default.
 	/// </summary>
-	public bool RespawnAllowed { get; set; }
+	public bool RespawnAllowed { get; set; } = true;
 
 	/// <summary>
 	/// True if the server allows gibbing people when they receive enough post-mortem damage.
@@ -183,6 +183,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	{
 		// Set up server defaults, needs to be loaded here to ensure gameConfigManager is load.
 		LoadConfig();
+		RespawnCurrentlyAllowed = RespawnAllowed;
+		NextGameMode = InitialGameMode;
 	}
 
 	private void Awake()
