@@ -2,27 +2,21 @@ using UnityEngine;
 using UI.Core.NetUI;
 using System.Collections;
 using Systems.Research.Objects;
-using Systems.Research.Data;
 using Systems.Research;
+using Systems.Research.Data;
 
 namespace UI.Objects.Research
 {
 	public class GUI_ResearchServer : NetTab
 	{
-		[SerializeField]
-		private EmptyItemList ResearchedTechList;
+		[SerializeField] private GUI_TechwebPage techWebPage;
+		[SerializeField] private GUI_FocusPage focusPage;
+		[SerializeField] private NetPageSwitcher pageSwitcher;
 
-		[SerializeField]
-		private EmptyItemList AvailableTechList;
+		public NetPage CurrentPage => pageSwitcher.CurrentPage;
 
-		[SerializeField]
-		private EmptyItemList FutureTechList;
-
-		[SerializeField]
-		private NetText_label PointLabel;
-
-		private Techweb techWeb => server.Techweb;
-		private ResearchServer server;
+		public Techweb TechWeb => Server.Techweb;
+		public ResearchServer Server { get; private set; }
 
 		private bool isUpdating = false;
 
@@ -35,7 +29,7 @@ namespace UI.Objects.Research
 		
 		public void OnDestroy()
 		{
-			techWeb.UIupdate -= UpdateGUI;
+			TechWeb.UIupdate -= techWebPage.UpdateGUI;
 		}
 
 		private IEnumerator WaitForProvider()
@@ -45,8 +39,8 @@ namespace UI.Objects.Research
 				yield return WaitFor.EndOfFrame;
 			}
 
-			server = Provider.GetComponent<ResearchServer>();
-			techWeb.UIupdate += UpdateGUI;
+			Server = Provider.GetComponent<ResearchServer>();
+			TechWeb.UIupdate += techWebPage.UpdateGUI;
 
 			if (CustomNetworkManager.Instance._isServer == false) yield break;
 
@@ -68,63 +62,30 @@ namespace UI.Objects.Research
 		private IEnumerator WaitForClient()
 		{
 			yield return new WaitForSeconds(CLIENT_UPDATE_DELAY);
+
 			UpdateGUI();
+
 			isUpdating = false;
 		}
 
-		public void UpdateGUI()
+		private void UpdateGUI()
 		{
-			UpdateResearchTechList();
-			UpdateFutureTechList();
-			UpdateAvailiableTechList();
-			PointLabel.MasterSetValue($"Available Points: {techWeb.researchPoints} (+{server.ResearchPointsTrickle} / minute)");
+			if (CurrentPage == techWebPage) techWebPage.UpdateGUI();
+			if (CurrentPage == focusPage) focusPage.UpdateGUI();
 		}
 
-		private void UpdateResearchTechList()
+		public void OpenFocusPage()
 		{
-			int researchedTechCount = techWeb.ResearchedTech.Count;
+			if (TechWeb.ResearchFocus != TechType.None) return;
 
-			ResearchedTechList.SetItems(researchedTechCount);
-			for(int i = 0; i < researchedTechCount; i++)
-			{
-				Technology technology = techWeb.ResearchedTech[i];
-
-				if(ResearchedTechList.Entries[i].TryGetComponent<ResearchedTechEntry>(out var entry)) entry.Initialise(technology.DisplayName,technology.Description);
-				else Logger.LogError("GUI_ResearchServer.cs: Could not find ResearchTechEntry component on ResearchedTech Entry");
-			}
+			pageSwitcher.SetActivePage(focusPage);
+			UpdateGUI();
 		}
 
-		private void UpdateFutureTechList()
+		public void OpenTechWebPage()
 		{
-			int futureTechCount = techWeb.FutureTech.Count;
-
-			FutureTechList.SetItems(futureTechCount);
-			for (int i = 0; i < futureTechCount; i++)
-			{
-				Technology technology = techWeb.FutureTech[i];
-				string description = technology.Description + "\n\nRequirements:";
-				foreach(string prereq in technology.RequiredTechnologies)
-				{
-					description += $"\n-{prereq}";
-				}
-
-				if (FutureTechList.Entries[i].TryGetComponent<ResearchedTechEntry>(out var entry)) entry.Initialise(technology.DisplayName, description);
-				else Logger.LogError("GUI_ResearchServer.cs: Could not find ResearchTechEntry component on FutureTech Entry");
-			}
-		}
-
-		private void UpdateAvailiableTechList()
-		{
-			int availableTechCount = techWeb.AvailableTech.Count;
-
-			AvailableTechList.SetItems(availableTechCount);
-			for (int i = 0; i < availableTechCount; i++)
-			{
-				Technology technology = techWeb.AvailableTech[i];
-
-				if(AvailableTechList.Entries[i].TryGetComponent<AvailableTechEntry>(out var entry)) entry.Initialise(technology, techWeb);
-				else Logger.LogError("GUI_ResearchServer.cs: Could not find AvailableTechEntry component on AvailableTech Entry");
-			}
+			pageSwitcher.SetActivePage(techWebPage);
+			UpdateGUI();
 		}
 
 	}

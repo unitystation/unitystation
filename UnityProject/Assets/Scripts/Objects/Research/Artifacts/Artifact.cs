@@ -53,7 +53,8 @@ namespace Objects.Research
 		public bool isDormant = true;
 		public ItemTrait DormantTrigger;
 
-		int samplesTaken = 0;
+		private int samplesTaken = 0;
+		private int maxSamples = 5;
 
 		private Coroutine animationCoroutine = null;
 
@@ -108,6 +109,7 @@ namespace Objects.Research
 		{
 			//Sets appearance
 			artifactData.Type = (ArtifactType)Random.Range(0, 3);
+			maxSamples = Random.Range(3, 6);
 
 			//Select random sprite
 			ServerSelectRandomSprite();
@@ -311,6 +313,12 @@ namespace Objects.Research
 		}
 		private void TakeSample(HandApply interaction)
 		{
+			if(samplesTaken >= maxSamples)
+			{
+				Chat.AddWarningMsgFromServer(interaction.Performer.gameObject, "No more samples can be taken from artifact without destablisation!");
+				return;
+			}
+
 			ToolUtils.ServerUseToolWithActionMessages(interaction, 5f,
 				$"You begin extracting a sample from {gameObject.ExpensiveName()}...",
 				$"{interaction.Performer.ExpensiveName()} begins extracting a sample from {gameObject.ExpensiveName()}...",

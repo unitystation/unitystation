@@ -100,7 +100,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disableDrag: 0
-  resetPositionOnDisable: 0
 --- !u!114 &114385320989314586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -789,7 +788,7 @@ GameObject:
   - component: {fileID: 6208005535356801556}
   - component: {fileID: 102884157009045889}
   - component: {fileID: 1432219655656521002}
-  - component: {fileID: 3069546198050396914}
+  - component: {fileID: 2287926465101290152}
   m_Layer: 5
   m_Name: TransferButton
   m_TagString: Untagged
@@ -915,7 +914,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3069546198050396914}
+      - m_Target: {fileID: 2287926465101290152}
         m_TargetAssemblyTypeName: UI.Core.NetUI.NetUIElement`1[[System.String, mscorlib
         m_MethodName: ExecuteClient
         m_Mode: 1
@@ -927,7 +926,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &3069546198050396914
+--- !u!114 &2287926465101290152
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -936,14 +935,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2631473825883710478}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80af66fa15a485449be1acba90908fb9, type: 3}
+  m_Script: {fileID: 11500000, guid: f41ce54e3adddc243a63e91303c43614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4691017277696481001}
-        m_TargetAssemblyTypeName: UI.Objects.Research.GUI_ArtifactAnalyser, Assets
+        m_TargetAssemblyTypeName: UI.Objects.Research.GUI_ArtifactAnalyser, Artifacts
         m_MethodName: UploadToServer
         m_Mode: 1
         m_Arguments:

@@ -72,6 +72,15 @@ namespace Systems.Research.ImporterExporter
 					TechnologyPass.StartingNode = false;
 				}
 
+				if (JsonTechweb[i].ContainsKey("techType"))
+				{
+					TechnologyPass.techType = (TechType)int.Parse(JsonTechweb[i]["techType"].ToString());
+				}
+				else
+				{
+					TechnologyPass.techType = TechType.None;
+				}
+
 				if (JsonTechweb[i].ContainsKey("PotentialUnlocks"))
 				{
 					TechnologyPass.PotentialUnlocks = JsonConvert.DeserializeObject<List<string>>(JsonTechweb[i]["PotentialUnlocks"].ToString());

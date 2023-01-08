@@ -2,12 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UI.Core.NetUI;
 using System;
-using Systems.Research.Objects;
 using Items.Science;
 using Objects.Research;
-using ScriptableObjects.Systems.Research;
-using Items.Storage.VirtualStorage;
-using Mirror;
 using UnityEngine.UI;
 
 
@@ -110,9 +106,9 @@ namespace UI.Objects.Research
 			bluespaceInput.text = inputData.bluespacesig.ToString();
 			bananiumInput.text = inputData.bananiumsig.ToString();
 
-			areaEffectDropdown.value = inputData.AreaEffectValue;
-			damageEffectDropdown.value = inputData.DamageEffectValue;
-			interactEffectDropdown.value = inputData.InteractEffectValue;
+			areaEffectDropdown.SetValueWithoutNotify(inputData.AreaEffectValue);
+			damageEffectDropdown.SetValueWithoutNotify(inputData.DamageEffectValue);
+			interactEffectDropdown.SetValueWithoutNotify(inputData.InteractEffectValue);
 
 			appearanceDropdown.value = (int)inputData.Type;
 
