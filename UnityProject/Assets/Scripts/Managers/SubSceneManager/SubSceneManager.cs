@@ -146,9 +146,9 @@ public partial class SubSceneManager : MonoBehaviour
 	/// <returns></returns>
 	private IEnumerator LoadSubScene(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true, SceneType type = SceneType.MainStation)
 	{
-		if (sceneName == null)
+		if (string.IsNullOrEmpty(sceneName))
 		{
-			Logger.LogError("[SubSceneManager] - Attempted to pass null asset reference while loading.. Skipping.");
+			Logger.LogError("[SubSceneManager] - Attempted to pass null or empty asset reference while loading.. Skipping.");
 			yield break;
 		}
 
