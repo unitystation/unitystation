@@ -204,7 +204,14 @@ namespace Lobby
 			{
 				ShowAlphaPanel();
 			}
-			else if (LobbyManager.Instance.WasDisconnected && GameManager.Instance.DisconnectExpected == false)
+
+			if (LobbyManager.Instance == null || GameManager.Instance == null)
+			{
+				ShowMainPanel();
+				return;
+			}
+			
+			if (LobbyManager.Instance.WasDisconnected && GameManager.Instance.DisconnectExpected == false)
 			{
 				ShowInfoPanel(new InfoPanelArgs
 				{
