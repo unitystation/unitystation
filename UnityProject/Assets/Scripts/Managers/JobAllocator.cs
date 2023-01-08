@@ -81,7 +81,9 @@ namespace Managers
 		private void ChoosePlayers(IEnumerable<Occupation> occupations, Priority priority,
 			IReadOnlyCollection<PlayerInfo> playerPool)
 		{
-			foreach (var occupation in occupations)
+			var shuffledoccupations = occupations.ToList().Shuffle();
+
+			foreach (var occupation in shuffledoccupations)
 			{
 				occupationCount.TryGetValue(occupation, out int filledSlots);
 				int slotsLeft = occupation.Limit - filledSlots;
