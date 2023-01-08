@@ -26,7 +26,7 @@ MonoBehaviour:
     ExportPrice: 0
     PotentialUnlocks: []
     prefabID: advcyber
-    techType: 0
+    techType: 1
   - ID: base
     DisplayName: Basic Research Technology
     Description: NT default research technologies.
@@ -57,7 +57,7 @@ MonoBehaviour:
     ExportPrice: 0
     PotentialUnlocks: []
     prefabID: advstock
-    techType: 0
+    techType: 2
   - ID: bluespace
     DisplayName: Bluespace Technology
     Description: Allows for research into bluespace technology
@@ -85,7 +85,7 @@ MonoBehaviour:
     PotentialUnlocks:
     - holding
     prefabID: bluespacestorage
-    techType: 0
+    techType: 2
   - ID: holding
     DisplayName: Bluespace Holding
     Description: New methods of storage allowing container contents to be stored
@@ -100,7 +100,7 @@ MonoBehaviour:
     ExportPrice: 0
     PotentialUnlocks: []
     prefabID: bluespaceholding
-    techType: 0
+    techType: 3
   - ID: janitor
     DisplayName: Janitorial Science
     Description: New ways to keep the station clean.
@@ -113,7 +113,7 @@ MonoBehaviour:
     ExportPrice: 0
     PotentialUnlocks: []
     prefabID: janitor
-    techType: 0
+    techType: 3
   - ID: advpow
     DisplayName: Advanced Power Storage
     Description: Larger power cells for more demanding tasks.
@@ -128,7 +128,7 @@ MonoBehaviour:
     ExportPrice: 0
     PotentialUnlocks: []
     prefabID: power
-    techType: 0
+    techType: 2
   - ID: bluepower
     DisplayName: Bluespace Power
     Description: Power cells fueled by bluepsace able to hold far higher charges.
@@ -142,4 +142,4 @@ MonoBehaviour:
     ExportPrice: 0
     PotentialUnlocks: []
     prefabID: powerblue
-    techType: 0
+    techType: 2

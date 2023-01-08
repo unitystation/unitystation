@@ -56,11 +56,10 @@ namespace Systems.Research.Data
 
 	public enum TechType
 	{
-		Research = 0,
-		Circuit = 1,
-		Material = 2,
-		Hardware = 3,
-		Bio = 4,
+		None = 0,
+		Robotics = 1,
+		Machinery = 2,
+		Tools = 3,
 	}
 
 	public class TechWebNode

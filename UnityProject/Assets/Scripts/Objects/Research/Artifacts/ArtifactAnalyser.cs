@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using System;
 using Items.Science;
+using Mirror;
 
 namespace Systems.Research.Objects
 {
 	public class ArtifactAnalyser : ResearchPointMachine, ICheckedInteractable<HandApply>
 	{
-		public int storedRP;
+		[SyncVar] public int storedRP;
+
 		public ItemStorage itemStorage { get; set; }
 
 		public ArtifactSliver ArtifactSliver { get; set; }

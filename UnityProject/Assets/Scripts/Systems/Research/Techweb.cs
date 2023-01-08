@@ -20,6 +20,9 @@ namespace Systems.Research
 		public List<string> researchedSliverIDs = new List<string>();
 		private HashSet<string> researchedTechIDs = new HashSet<string>();
 
+		public TechType ResearchFocus { get; private set; } = TechType.None;
+		private const float FOCUS_DISCOUNT = 0.25f; //25% discount on focused technologies
+
 		//UI
 		public delegate void UIUpdate();
 		public UIUpdate UIupdate;
@@ -45,6 +48,18 @@ namespace Systems.Research
 		public List<TechWebNode> GetNodes()
 		{
 			return nodes;
+		}
+
+		public void SetResearchFocus(TechType focus)
+		{
+			ResearchFocus = focus;
+
+			foreach(TechWebNode node in nodes)
+			{
+				if (node.technology.techType == ResearchFocus) node.technology.ResearchCosts = (int)(node.technology.ResearchCosts * (1 - FOCUS_DISCOUNT)); //Discounts technology by discount amount
+			}
+
+			UpdateTechnologyLists();
 		}
 
 		public bool ResearchTechology(Technology technologyToResearch, bool updateUI = true)

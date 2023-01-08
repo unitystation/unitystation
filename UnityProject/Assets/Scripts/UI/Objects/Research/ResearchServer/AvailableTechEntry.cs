@@ -25,7 +25,7 @@ namespace UI.Objects.Research
 			technologyToUnlock = technology;
 			this.techWeb = techWeb;
 
-			techName.MasterSetValue(technology.DisplayName);
+			techName.MasterSetValue(GUI_TechwebPage.AppendNameAndTechType(technology));
 			techDescription.MasterSetValue(technology.Description);
 			techPrice.MasterSetValue(technology.ResearchCosts.ToString());
 			SetSprites();

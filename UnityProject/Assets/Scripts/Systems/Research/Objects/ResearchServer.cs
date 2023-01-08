@@ -36,6 +36,8 @@ namespace Systems.Research.Objects
 
 		public SyncList<ExplosiveBounty> ExplosiveBounties { get; private set; } = new SyncList<ExplosiveBounty>();
 
+		public TechType UIselectedFocus = TechType.None; //The current Focus selected in menu, not nesscarily confirmed.
+
 		private void InitialiseDisk()
 		{
 			diskStorage = GetComponent<ItemStorage>();
@@ -251,6 +253,24 @@ namespace Systems.Research.Objects
 			newBounty = RandomiseBountyTarget(newBounty);
 
 			ExplosiveBounties.Add(newBounty);
+		}
+
+		#endregion
+
+		#region FocusNetwork
+
+		[Command(requiresAuthority = false)]
+		internal void CmdSetFocus(TechType focusClient, NetworkConnectionToClient sender = null) //TODO This is insecure due to hacked client can say anything in ArtifactData
+		{
+			if (sender == null) return;
+			if (Validations.CanApply(PlayerList.Instance.Get(sender).Script, this.gameObject, NetworkSide.Server, false, ReachRange.Standard) == false) return;
+			UIselectedFocus = focusClient;
+		}
+
+		[Server]
+		internal void SetFocusServer(TechType focus)
+		{
+			UIselectedFocus = focus;
 		}
 
 		#endregion
