@@ -83,7 +83,7 @@ namespace Managers
 		{
 			var shuffledoccupations = occupations.ToList().Shuffle();
 
-			foreach (var occupation in Shuffledoccupations)
+			foreach (var occupation in shuffledoccupations)
 			{
 				occupationCount.TryGetValue(occupation, out int filledSlots);
 				int slotsLeft = occupation.Limit - filledSlots;
