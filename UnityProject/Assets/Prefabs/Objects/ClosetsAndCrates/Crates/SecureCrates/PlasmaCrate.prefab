@@ -17,6 +17,16 @@ PrefabInstance:
       propertyPath: foreverID
       value: 01adbe4ed95aba04298d331662f28dcd
       objectReference: {fileID: 0}
+    - target: {fileID: 3444414882150781575, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
+        type: 3}
+      propertyPath: requiredClearance.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3444414882150781575, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
+        type: 3}
+      propertyPath: requiredClearance.Array.data[0]
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3933894558199293636, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
         type: 3}
       propertyPath: doorOpened

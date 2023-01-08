@@ -38,6 +38,16 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A vending machine for costumes.
       objectReference: {fileID: 0}
+    - target: {fileID: 4299547928631692446, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: requiredClearance.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4299547928631692446, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: requiredClearance.Array.data[0]
+      value: 41
+      objectReference: {fileID: 0}
     - target: {fileID: 4347831001461171392, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: PresentSpriteSet
