@@ -106,6 +106,15 @@ namespace Systems.Pipes
 			return mix;
 		}
 
+		/// <summary>
+		/// Only use this if you know what you're doing
+		/// </summary>
+		/// <returns></returns>
+		public void SetReagentMix(ReagentMix newReagentMix)
+		{
+			mix = newReagentMix;
+		}
+
 		public void Add(MixAndVolume mixAndVolume, bool changeVolume = true)
 		{
 			float internalEnergy = mixAndVolume.InternalEnergy + this.InternalEnergy;

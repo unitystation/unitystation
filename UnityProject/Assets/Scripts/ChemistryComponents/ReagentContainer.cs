@@ -103,6 +103,8 @@ namespace Chemistry.Components
 		/// </summary>
 		[NonSerialized] public UnityEvent OnReagentMixChanged = new UnityEvent();
 
+		private IProvideReagentMix customMixProvider;
+
 
 		private ReagentMix currentReagentMix;
 		/// <summary>
@@ -113,6 +115,11 @@ namespace Chemistry.Components
 		{
 			get
 			{
+				if (customMixProvider != null)
+				{
+					return customMixProvider.GetReagentMix();
+				}
+
 				if (currentReagentMix == null)
 				{
 					if (initialReagentMix == null)
@@ -204,7 +211,7 @@ namespace Chemistry.Components
 			if (ReactionSet != null)
 			{
 				possibleReactions.Clear();
-				foreach (var Reagents in currentReagentMix.reagents.m_dict)
+				foreach (var Reagents in CurrentReagentMix.reagents.m_dict)
 				{
 					var Reactions = Reagents.Key.RelatedReactions;
 					int ReactionsCount = Reactions.Length;
@@ -245,6 +252,11 @@ namespace Chemistry.Components
 
 			ContentsSet = false;
 			OnReagentMixChanged?.Invoke();
+		}
+
+		public void SetIProvideReagentMix(IProvideReagentMix InCustomMixProvider)
+		{
+			customMixProvider = InCustomMixProvider;
 		}
 
 		/// <summary>
@@ -316,7 +328,7 @@ namespace Chemistry.Components
 			ReagentsChanged(updateReactions);
 
 			if (updateReactions == true) OnReagentMixChanged?.Invoke();
-				
+
 			return new TransferResult { Success = true, TransferAmount = transferAmount, Message = message };
 		}
 
