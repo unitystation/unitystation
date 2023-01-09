@@ -84,7 +84,7 @@ namespace UI.Core.RightClick
 			Setup(actions.Count);
 			Selected.OrNull()?.ResetState();
 
-			for (var i = 0; i < actions.Count; i++)
+			for (var i = 0; i < Items.Count; i++)
 			{
 				Items[i].ChangeItem(actions[i]);
 			}

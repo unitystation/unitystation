@@ -3,6 +3,7 @@ using System.Text;
 using UnityEngine;
 using Systems.Atmospherics;
 using Objects.Atmospherics;
+using Systems.Pipes;
 
 
 namespace Items.Atmospherics
@@ -20,8 +21,9 @@ namespace Items.Atmospherics
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
 			if (interaction.PerformerPlayerScript.ObjectPhysics.ContainedInObjectContainer != null &&
-			    interaction.PerformerPlayerScript.ObjectPhysics.ContainedInObjectContainer.TryGetComponent<GasContainer>(
-				    out var container))
+			    interaction.PerformerPlayerScript.ObjectPhysics.ContainedInObjectContainer
+				    .TryGetComponent<GasContainer>(
+					    out var container))
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(container.GasMix));
 				return;
@@ -60,7 +62,7 @@ namespace Items.Atmospherics
 				if (interaction.TargetObject.TryGetComponent(out MonoPipe monoPipe))
 				{
 					Chat.AddExamineMsgFromServer(interaction.Performer,
-						GetGasMixInfo(monoPipe.pipeData.mixAndVolume.GetGasMix()));
+						GetMixAndVolumeInfo(PipeFunctions.PipeOrNet(monoPipe.pipeData)));
 					return;
 				}
 			}
@@ -72,8 +74,9 @@ namespace Items.Atmospherics
 
 			if (metaDataNode.PipeData.Count > 0)
 			{
-				var gasMix = metaDataNode.PipeData[0].pipeData.GetMixAndVolume.GetGasMix();
-				Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(gasMix));
+
+				var Mix = PipeFunctions.PipeOrNet(metaDataNode.PipeData[0].pipeData);
+				Chat.AddExamineMsgFromServer(interaction.Performer, GetMixAndVolumeInfo(Mix));
 			}
 		}
 
@@ -97,6 +100,52 @@ namespace Items.Atmospherics
 			if (interaction.TargetObject.TryGetComponent<GasContainer>(out var container) == false) return;
 
 			Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(container.GasMix));
+		}
+
+
+		private static string GetMixAndVolumeInfo(MixAndVolume mixAndVolume)
+		{
+			var Density = mixAndVolume.Density();
+			StringBuilder sb = new StringBuilder(
+				$"Liquid density : {Density.x:0.###},  {mixAndVolume.GetReagentMix().Total:0.###} U , Gas pressure : {Density.y:0.###} kPa,  {mixAndVolume.GetGasMix().Moles:0.##} moles\n" +
+				$"Temperature: {mixAndVolume.Temperature:0.##} K ({mixAndVolume.Temperature - Reactions.KOffsetC:0.##} °C)\n");
+			// You want Fahrenheit? HAHAHAHA
+
+			var gasMix = mixAndVolume.GetGasMix();
+
+			lock (gasMix) //no Double lock
+			{
+				foreach (var gas in gasMix.GasesArray) //doesn't appear to modify list while iterating
+				{
+					var ratio = gasMix.GasRatio(gas.GasSO);
+
+					if (ratio.Approx(0) == false)
+					{
+						sb.AppendLine($"{gas.GasSO.Name}: {ratio:P}");
+					}
+				}
+			}
+
+			var reagentMix = mixAndVolume.GetReagentMix();
+			if (reagentMix.reagents.Count > 0)
+			{
+				sb.AppendLine($"================");
+				lock (reagentMix.reagents)
+				{
+					foreach (var liquid in reagentMix.reagents)
+					{
+						var ratio = reagentMix.GetPercent(liquid.Key);
+
+						if (ratio.Approx(0) == false)
+						{
+							sb.AppendLine($"{liquid.Key.Name}: {ratio:P}");
+						}
+					}
+				}
+			}
+
+
+			return $"</i>{sb}<i>";
 		}
 
 		private static string GetGasMixInfo(GasMix gasMix)

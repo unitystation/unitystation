@@ -83,7 +83,7 @@ namespace Messages.Server.SoundMessages
 			var netId = NetId.Empty;
 			if (sourceObj != null)
 			{
-				var netB = sourceObj.GetComponent<NetworkBehaviour>();
+				var netB = sourceObj.GetRootGameObject().GetComponent<NetworkBehaviour>();
 				if (netB != null)
 				{
 					netId = netB.netId;
@@ -119,7 +119,7 @@ namespace Messages.Server.SoundMessages
 			var netId = NetId.Empty;
 			if (sourceObj != null)
 			{
-				var netB = sourceObj.GetComponent<NetworkBehaviour>();
+				var netB = sourceObj.GetRootGameObject().GetComponent<NetworkBehaviour>();
 				if (netB != null)
 				{
 					netId = netB.netId;
