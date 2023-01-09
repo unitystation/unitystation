@@ -34,7 +34,7 @@ namespace Systems.Research.Objects
 		[SerializeField] private ExplosiveBountySO explosiveBountyList = null;
 		[SerializeField] private int bountiesOnStart = 10; //How many bounties will be generated on round start.
 
-		public SyncList<ExplosiveBounty> ExplosiveBounties { get; private set; } = new SyncList<ExplosiveBounty>();
+		public readonly SyncList<ExplosiveBounty> ExplosiveBounties = new SyncList<ExplosiveBounty>();
 
 		[NonSerialized, SyncVar(hook = nameof(SyncFocus))] public TechType UIselectedFocus = TechType.None; //The current Focus selected in menu, not nesscarily confirmed.
 

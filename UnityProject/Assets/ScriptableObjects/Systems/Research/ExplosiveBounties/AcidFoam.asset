@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a6dc02f66152ab54e8e055142c543182, type: 3}
-  m_Name: BloodSmoke
+  m_Name: AcidFoam
   m_EditorClassIdentifier: 
   <RequiredYield>k__BackingField:
     <RandomiseRequirement>k__BackingField: 0
@@ -22,12 +22,12 @@ MonoBehaviour:
     <RequiredAmount>k__BackingField: 15
     <MinAmount>k__BackingField: 15
     <MaxAmount>k__BackingField: 25
-    <RequiredReaction>k__BackingField: {fileID: 11400000, guid: 58f58c64fb33e25d5a99b7caa2f16406,
+    <RequiredReaction>k__BackingField: {fileID: 11400000, guid: 8dd5e332e5f14ed888b13ce2b4d313ba,
       type: 2}
   <RequiredReagents>k__BackingField:
   - <RandomiseRequirement>k__BackingField: 1
     <RequiredAmount>k__BackingField: 0
     <MinAmount>k__BackingField: 5
     <MaxAmount>k__BackingField: 25
-    <RequiredReagent>k__BackingField: {fileID: 11400000, guid: eea05337a284c407e926bf3110b00916,
+    <RequiredReagent>k__BackingField: {fileID: 11400000, guid: 43a6ef917538f898ca86fa22a81babd4,
       type: 2}

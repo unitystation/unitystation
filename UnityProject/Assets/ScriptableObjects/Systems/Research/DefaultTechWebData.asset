@@ -61,7 +61,7 @@ MonoBehaviour:
     RequiredTechnologies: []
     DesignIDs:
     - advmop
-    ResearchCosts: 15
+    ResearchCosts: 10
     ExportPrice: 0
     PotentialUnlocks: []
     prefabID: janitor
@@ -143,7 +143,7 @@ MonoBehaviour:
     - beaker
     - largebeaker
     - xlbeaker
-    ResearchCosts: 10
+    ResearchCosts: 15
     ExportPrice: 0
     PotentialUnlocks: []
     prefabID: advmatter
@@ -157,7 +157,7 @@ MonoBehaviour:
     DesignIDs:
     - metabeaker
     - super_matter_bin
-    ResearchCosts: 15
+    ResearchCosts: 30
     ExportPrice: 0
     PotentialUnlocks: []
     prefabID: metamatter
@@ -186,6 +186,7 @@ MonoBehaviour:
     RequiredTechnologies:
     - bluespacestorage
     DesignIDs:
+    - bag_holding
     - satchel_holding
     - trash_bag_holding
     ResearchCosts: 50
@@ -202,7 +203,7 @@ MonoBehaviour:
     - gas_mask
     - oxy_tank
     - magboots
-    ResearchCosts: 10
+    ResearchCosts: 5
     ExportPrice: 0
     PotentialUnlocks: []
     prefabID: survival
