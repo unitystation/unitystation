@@ -6,6 +6,7 @@ public class BagOfHolding : MonoBehaviour, IServerInventoryMove
 
 	public void OnInventoryMoveServer(InventoryMove move)
 	{
+		if (move.ToSlot == null) return;
 		move.ToSlot.ItemStorage.TryGetComponent<BagOfHolding>(out var bagOfHolding);
 
 		if (bagOfHolding == null) return;
