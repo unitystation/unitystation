@@ -110,7 +110,7 @@ namespace Systems.Research.Objects
 				{
 					if (reaction.IsReactionValid(blastData.ReagentMix))
 					{
-						yield += (float)(-463 + 205 * Mathf.Log(reaction.GetReactionAmount(blastData.ReagentMix) + 75 * MathF.PI)); //Formula taken from strength calculation in ChemExplosion.cs, This will flag codacy cause magic numbers, but idk what these numbers mean or what they relate to so I dont wanna create random constants.
+						yield += 32 * Mathf.Pow(reaction.GetReactionAmount(blastData.ReagentMix), 0.6f); //Taken from ChemExplosion.cs
 					}
 				}
 

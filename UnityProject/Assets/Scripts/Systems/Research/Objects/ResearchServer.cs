@@ -36,7 +36,7 @@ namespace Systems.Research.Objects
 
 		public SyncList<ExplosiveBounty> ExplosiveBounties { get; private set; } = new SyncList<ExplosiveBounty>();
 
-		public TechType UIselectedFocus = TechType.None; //The current Focus selected in menu, not nesscarily confirmed.
+		[NonSerialized, SyncVar(hook = nameof(SyncFocus))] public TechType UIselectedFocus = TechType.None; //The current Focus selected in menu, not nesscarily confirmed.
 
 		private void InitialiseDisk()
 		{
@@ -271,6 +271,12 @@ namespace Systems.Research.Objects
 		internal void SetFocusServer(TechType focus)
 		{
 			UIselectedFocus = focus;
+		}
+
+		private void SyncFocus(TechType oldFocus, TechType newFocus)
+		{
+			UIselectedFocus = newFocus;
+			Techweb.UIupdate?.Invoke();
 		}
 
 		#endregion

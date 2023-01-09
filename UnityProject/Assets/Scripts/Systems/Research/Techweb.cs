@@ -40,6 +40,7 @@ namespace Systems.Research
 
 		public void LoadTechweb(string filePath)
 		{
+			researchPoints = 0;
 			var importer = new TechwebJSONImporter();
 			var techweb = importer.Import(filePath);
 			Merge(techweb);
@@ -140,14 +141,16 @@ namespace Systems.Research
 			return availableDesigns;
 		}
 
-		public void AddResearchPoints(int points)
+		[RightClickMethod]
+		public void AddResearchPoints(int points = 5)
 		{
 			researchPoints += points;
 		}
 
-		public void SubtractResearchPoints(int points)
+		[RightClickMethod]
+		public void SubtractResearchPoints(int points = 5)
 		{
-			researchPoints -= points;
+			researchPoints = Math.Max(researchPoints - points, 0);
 		}
 	}
 }
