@@ -113,6 +113,84 @@
         "Item_ID": "bluebeaker"
     },
     {
+        "Internal_ID": "beaker",
+        "Description": "A beaker. It can hold up to 50 units.",
+        "Category": [
+            "Medical Designs"
+        ],
+        "Materials": {
+            "Glass": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Beaker",
+        "Item_ID": "beaker"
+    },
+    {
+        "Internal_ID": "largebeaker",
+        "Description": "A large beaker. Can hold up to 100 units.",
+        "Category": [
+            "Medical Designs"
+        ],
+        "Materials": {
+            "Glass": 150
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Large Beaker",
+        "Item_ID": "largebeaker"
+    },
+    {
+        "Internal_ID": "xlbeaker",
+        "Description": "An extra-large beaker. Can hold up to 120 units.",
+        "Category": [
+            "Medical Designs"
+        ],
+        "Materials": {
+            "Glass": 250
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "XL Beaker",
+        "Item_ID": "xlbeaker"
+    },
+    {
+        "Internal_ID": "metabeaker",
+        "Description": "A large beaker. Can hold up to 180 units.",
+        "Category": [
+            "Medical Designs"
+        ],
+        "Materials": {
+            "Glass": 250,
+            "Plasma": 250,
+            "Gold": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Meta-Material Beaker",
+        "Item_ID": "metabeaker"
+    },
+    {
         "Internal_ID": "splitbeaker",
         "Description": "A cryostasis beaker that allows for chemical storage without reactions. Can hold up to 50 units.",
         "Category": [

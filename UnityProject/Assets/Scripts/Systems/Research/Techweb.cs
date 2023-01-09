@@ -141,14 +141,12 @@ namespace Systems.Research
 			return availableDesigns;
 		}
 
-		[RightClickMethod]
-		public void AddResearchPoints(int points = 5)
+		public void AddResearchPoints(int points)
 		{
 			researchPoints += points;
 		}
 
-		[RightClickMethod]
-		public void SubtractResearchPoints(int points = 5)
+		public void SubtractResearchPoints(int points)
 		{
 			researchPoints = Math.Max(researchPoints - points, 0);
 		}

@@ -140,6 +140,45 @@
         "Item_ID": "/obj/item/clothing/mask/gas/welding"
     },
     {
+        "Internal_ID": "gas_mask",
+        "Description": "AA face-covering mask that can be connected to an air supply. While wearing this, nobody can see your face, and it filters toxins like plasma out of the air.",
+        "Category": [
+            "Equipment"
+        ],
+        "Materials": {
+            "Metal": 500,
+            "Glass": 500
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Science",
+            "Engineering"
+        ],
+        "name": "Gas Mask",
+        "Item_ID": "996d62bfe3bf26c4e95c2a77cadabbd2"
+    },
+    {
+        "Internal_ID": "oxy_tank",
+        "Description": "Used for emergencies. Contains very little oxygen, so try to conserve it until you actually need it.",
+        "Category": [
+            "Equipment"
+        ],
+        "Materials": {
+            "Metal": 1000
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Science",
+            "Engineering"
+        ],
+        "name": "Oxy Tank",
+        "Item_ID": "9ad3756f014fe4f4c9aa35bf9b523a1a"
+    },
+    {
         "Internal_ID": "portaseeder",
         "Description": "For the enterprising botanist on the go. Less efficient than the stationary model, it creates one seed per plant.",
         "Category": [
@@ -298,7 +337,7 @@
             "Engineering"
         ],
         "name": "Magnetic Boots",
-        "Item_ID": "/obj/item/clothing/shoes/magboots"
+        "Item_ID": "020aa37cdb1748149b33f0786b431160"
     },
     {
         "Internal_ID": "scigoggles",

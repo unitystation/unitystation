@@ -59,7 +59,8 @@ namespace Systems.Research.Data
 		None = 0,
 		Robotics = 1,
 		Machinery = 2,
-		Tools = 3,
+		Equipment = 3,
+		Chemistry = 4,
 	}
 
 	public class TechWebNode
