@@ -157,8 +157,37 @@ namespace Systems.Research.Objects
 		/// <param name="points">The amount to be added.</param>
 		public void AddResearchPoints(int points)
 		{
-			Techweb.AddResearchPoints(points);
+			Techweb?.AddResearchPoints(points);
 		}
+
+		#region RightClickMethods
+
+		[RightClickMethod()]
+		public void AddFiveRP()
+		{
+			AddResearchPoints(5);
+		}
+
+		[RightClickMethod()]
+		public void AddTenRP()
+		{
+			AddResearchPoints(10);
+		}
+
+		[RightClickMethod()]
+		public void RemoveFiveRP()
+		{
+			Techweb?.SubtractResearchPoints(5);
+		}
+
+		[RightClickMethod()]
+		public void RemoveTenRP()
+		{
+			Techweb?.SubtractResearchPoints(10);
+		}
+
+		#endregion
+
 
 		/// <summary>
 		/// Adds Research Points to the techWeb total, tracked according to source.

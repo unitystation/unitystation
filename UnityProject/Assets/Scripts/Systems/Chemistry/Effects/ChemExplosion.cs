@@ -32,7 +32,7 @@ namespace Chemistry.Effects
 				insideBody = true;
 			}
 
-			float strength = 32*Mathf.Pow(amount, 0.6f) * potency; 
+			float strength = ChemistryUtils.CalculateYieldFromReaction(amount, potency);
 
 
 			if (insideBody && strength > 0)

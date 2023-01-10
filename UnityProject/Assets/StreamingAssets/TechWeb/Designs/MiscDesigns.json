@@ -120,7 +120,7 @@
         "Item_ID": "/obj/item/clothing/glasses/hud/diagnostic/night"
     },
     {
-        "Internal_ID": "weldingmask",
+        "Internal_ID": "welding_mask",
         "Description": "A gas mask with built in welding goggles and face shield. Looks like a skull, clearly designed by a nerd.",
         "Category": [
             "Equipment"
@@ -179,7 +179,7 @@
         "Item_ID": "9ad3756f014fe4f4c9aa35bf9b523a1a"
     },
     {
-        "Internal_ID": "portaseeder",
+        "Internal_ID": "porta_seeder",
         "Description": "For the enterprising botanist on the go. Less efficient than the stationary model, it creates one seed per plant.",
         "Category": [
             "Equipment"
@@ -276,7 +276,7 @@
         "Item_ID": "/obj/item/clothing/glasses/meson/engine/tray"
     },
     {
-        "Internal_ID": "nvgmesons",
+        "Internal_ID": "nvg_mesons",
         "Description": "Prototype meson scanners fitted with an extra sensor which amplifies the visible light spectrum and overlays it to the UHD display.",
         "Category": [
             "Equipment"
@@ -320,7 +320,7 @@
         "Item_ID": "/obj/item/clothing/glasses/night"
     },
     {
-        "Internal_ID": "magboots",
+        "Internal_ID": "mag_boots",
         "Description": "Magnetic boots, often used during extravehicular activity to ensure the user remains safely attached to the vehicle.",
         "Category": [
             "Equipment"
@@ -340,7 +340,7 @@
         "Item_ID": "020aa37cdb1748149b33f0786b431160"
     },
     {
-        "Internal_ID": "scigoggles",
+        "Internal_ID": "sci_goggles",
         "Description": "Goggles fitted with a portable analyzer capable of determining the research worth of an item or components of a machine.",
         "Category": [
             "Equipment"
@@ -359,7 +359,7 @@
         "Item_ID": "scigog"
     },
     {
-        "Internal_ID": "handdrill",
+        "Internal_ID": "hand_drill",
         "Description": "A small electric hand drill with an interchangeable screwdriver and bolt bit",
         "Category": [
             "Equipment"
@@ -379,7 +379,7 @@
         "Item_ID": "/obj/item/weapon/screwdriver/power"
     },
     {
-        "Internal_ID": "jawsoflife",
+        "Internal_ID": "jaws_of_life",
         "Description": "A small, compact Jaws of Life with an interchangeable pry jaws and cutting jaws",
         "Category": [
             "Equipment"
@@ -531,7 +531,7 @@
         "Item_ID": "/obj/item/device/multitool/abductor"
     },
     {
-        "Internal_ID": "diskplantgene",
+        "Internal_ID": "disk_plant_gene",
         "Description": "A disk for storing plant genetic data.",
         "Category": [
             "Electronics"
@@ -570,7 +570,7 @@
         "Item_ID": "/obj/item/weapon/locator"
     },
     {
-        "Internal_ID": "advmop",
+        "Internal_ID": "adv_mop",
         "Description": "An upgraded mop with a large internal capacity for holding water or other cleaning chemicals.",
         "Category": [
             "Equipment"
@@ -588,27 +588,6 @@
         ],
         "name": "Advanced Mop",
         "Item_ID": "advmop"
-    },
-    {
-        "Internal_ID": "blutrash",
-        "Description": "An advanced trash bag with bluespace properties; capable of holding a plethora of garbage.",
-        "Category": [
-            "Equipment"
-        ],
-        "Materials": {
-            "Gold": 1500,
-            "Uranium": 250,
-            "Plasma": 1500
-        },
-        "Machinery_type": [
-            "ProtoLathe"
-        ],
-        "Compatible_machinery": [
-            "Service",
-            "Science"
-        ],
-        "name": "Trashbag of Holding",
-        "Item_ID": "/obj/item/weapon/storage/bag/trash/bluespace"
     },
     {
         "Internal_ID": "buffer",
@@ -649,7 +628,7 @@
         "Item_ID": "/obj/item/weapon/holosign_creator"
     },
     {
-        "Internal_ID": "holosignsec",
+        "Internal_ID": "holosign_sec",
         "Description": "A holographic projector that creates holographic security barriers.",
         "Category": [
             "Equipment"
@@ -670,7 +649,7 @@
         "Item_ID": "/obj/item/weapon/holosign_creator/security"
     },
     {
-        "Internal_ID": "holosignengi",
+        "Internal_ID": "holosign_engi",
         "Description": "A holographic projector that creates holographic engineering barriers.",
         "Category": [
             "Equipment"
@@ -691,7 +670,7 @@
         "Item_ID": "/obj/item/weapon/holosign_creator/engineering"
     },
     {
-        "Internal_ID": "exwelder",
+        "Internal_ID": "ex_welder",
         "Description": "An experimental welder capable of self-fuel generation.",
         "Category": [
             "Equipment"

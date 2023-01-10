@@ -108,10 +108,7 @@ namespace Systems.Research.Objects
 				//Ideally in the future someone reorganises the Chemistry assemblies but this works for now.
 				foreach (Reaction reaction in explosiveReactions)
 				{
-					if (reaction.IsReactionValid(blastData.ReagentMix))
-					{
-						yield += 32 * Mathf.Pow(reaction.GetReactionAmount(blastData.ReagentMix), 0.6f); //Taken from ChemExplosion.cs
-					}
+					if (reaction.IsReactionValid(blastData.ReagentMix)) yield += ChemistryUtils.CalculateYieldFromReaction(reaction.GetReactionAmount(blastData.ReagentMix), 1);			
 				}
 
 				blastData.BlastYield += yield;
