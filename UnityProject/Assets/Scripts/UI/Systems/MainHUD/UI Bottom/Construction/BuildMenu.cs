@@ -1,6 +1,7 @@
 using Construction;
 using UnityEngine;
 using Construction.Conveyors;
+using TMPro;
 
 namespace UI.UI_Bottom
 {
@@ -22,6 +23,10 @@ namespace UI.UI_Bottom
 
 		// current object whose menu is being shown
 		private BuildingMaterial currentBuildingMaterial;
+
+		[Tooltip("The number of the specified item to make ")]
+		[SerializeField] public TMP_InputField NumberInputField = null;
+
 
 		//TODO: Implement, model kinda after dev spawner.
 

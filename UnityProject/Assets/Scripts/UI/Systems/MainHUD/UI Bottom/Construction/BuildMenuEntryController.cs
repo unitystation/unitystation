@@ -94,7 +94,17 @@ namespace UI.UI_Bottom
 				return;
 			}
 
-			RequestBuildMessage.Send(entry, buildingMaterial);
+			int NumberWanted = 1;
+
+
+			if (int.TryParse(UIManager.BuildMenu.NumberInputField.text, out NumberWanted) == false)
+			{
+				NumberWanted = 1;
+				UIManager.BuildMenu.NumberInputField.text = NumberWanted.ToString();
+			}
+
+
+			RequestBuildMessage.Send(entry, buildingMaterial, NumberWanted);
 			UIManager.BuildMenu.CloseBuildMenu();
 		}
 	}
