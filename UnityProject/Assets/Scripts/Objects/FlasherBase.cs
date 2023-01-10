@@ -72,21 +72,23 @@ namespace Objects
 			if (target.TryGetComponent<RegisterPlayer>(out var player) == false) return;
 			if (target.gameObject.TryGetComponent<PlayerFlashEffects>(out var flashEffector) == false) return;
 			if (target.gameObject.TryGetComponent<DynamicItemStorage>(out var playerStorage) == false) return;
+
+			bool hasProtection = false;
+
 			foreach (var slots in playerStorage.ServerContents)
 			{
-				if(slots.Key != NamedSlot.eyes) continue;
+				if(slots.Key != NamedSlot.eyes && slots.Key != NamedSlot.mask) continue;
 				foreach (var onSlots in slots.Value)
 				{
-					if (onSlots.IsEmpty) //Nothing protecting the eye, flash immediately
+					if(onSlots.IsEmpty) continue;
+					if(onSlots.ItemAttributes.HasTrait(sunglassesTrait))
 					{
-						TellClientThatTheyHaveBeenFlashed(flashEffector, player);
-						continue;
+						hasProtection = true;
+						break;
 					}
-					if(onSlots.ItemAttributes.HasTrait(sunglassesTrait)) continue; //If the player is wearing protective glasses, check next.
-					TellClientThatTheyHaveBeenFlashed(flashEffector, player);
-					break;
 				}
 			}
+			if(hasProtection == false) TellClientThatTheyHaveBeenFlashed(flashEffector, player);
 		}
 
 		[Server]

@@ -310,20 +310,20 @@
     "Techweb": null
   },
   {
-    "ID": "survival",
-    "DisplayName": "Survival Gear",
-    "Description": "Basic gear for surviving in emergency situations",
+    "ID": "industry",
+    "DisplayName": "Industrial Tools",
+    "Description": "Industrial standard tools for engineers.",
     "StartingNode": false,
     "RequiredTechnologies": [],
     "DesignIDs": [
-      "gas_mask",
-      "oxy_tank",
+      "welding_mask",
+      "jaws_of_life",
       "mag_boots"
     ],
-    "ResearchCosts": 5,
+    "ResearchCosts": 15,
     "ExportPrice": 0,
     "PotentialUnlocks": [],
-    "prefabID": "survival",
+    "prefabID": "industry",
     "techType": 3,
     "Techweb": null
   },
@@ -333,7 +333,7 @@
     "Description": "Specialised suits and equipment for handling artifacts.",
     "StartingNode": false,
     "RequiredTechnologies": [
-      "survival"
+      "industry"
     ],
     "DesignIDs": [
       "ap_helm",
@@ -357,7 +357,7 @@
     "Description": "The necessities for mining in space.",
     "StartingNode": false,
     "RequiredTechnologies": [
-      "survival"
+      "industry"
     ],
     "DesignIDs": [
       "mining_helm",

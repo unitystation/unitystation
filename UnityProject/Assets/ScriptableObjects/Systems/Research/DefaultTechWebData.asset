@@ -41,6 +41,62 @@ MonoBehaviour:
     PotentialUnlocks: []
     prefabID: advcyber
     techType: 1
+  - ID: breathimplant
+    DisplayName: Breathing Tube Implant
+    Description: Implanted in the patients head, this implant will allow for breathing
+      of internals regardless of mask wear.
+    StartingNode: 0
+    RequiredTechnologies:
+    - advcyber
+    DesignIDs:
+    - ci_breather
+    ResearchCosts: 20
+    ExportPrice: 0
+    PotentialUnlocks: []
+    prefabID: breath
+    techType: 1
+  - ID: reviver
+    DisplayName: Reviver Implant
+    Description: Performs an emergency heal after falling into crit. Has a ten minute
+      cooldown between charges
+    StartingNode: 0
+    RequiredTechnologies:
+    - advcyber
+    DesignIDs:
+    - ci_reviver
+    ResearchCosts: 25
+    ExportPrice: 0
+    PotentialUnlocks: []
+    prefabID: reviver
+    techType: 1
+  - ID: weld
+    DisplayName: Welding Shield Implant
+    Description: A small device to implanted in the eye. Protects the wearer from
+      bright flashes of light.
+    StartingNode: 0
+    RequiredTechnologies:
+    - advcyber
+    DesignIDs:
+    - ci_weldshield
+    ResearchCosts: 20
+    ExportPrice: 0
+    PotentialUnlocks: []
+    prefabID: weld
+    techType: 1
+  - ID: filtering
+    DisplayName: Cybernetic Filtering
+    Description: Cybernetic livers are more efficient at filtering toxins from the
+      body, completely protecting the host from certain toxins.
+    StartingNode: 0
+    RequiredTechnologies:
+    - advcyber
+    DesignIDs:
+    - cyber_liver
+    ResearchCosts: 20
+    ExportPrice: 0
+    PotentialUnlocks: []
+    prefabID: liver
+    techType: 1
   - ID: bluespace
     DisplayName: Bluespace Technology
     Description: Allows for research into bluespace technology
@@ -194,26 +250,26 @@ MonoBehaviour:
     PotentialUnlocks: []
     prefabID: bluespaceholding
     techType: 3
-  - ID: survival
-    DisplayName: Survival Gear
-    Description: Basic gear for surviving in emergency situations
+  - ID: industry
+    DisplayName: Industrial Tools
+    Description: Industrial standard tools for engineers.
     StartingNode: 0
     RequiredTechnologies: []
     DesignIDs:
-    - gas_mask
-    - oxy_tank
+    - welding_mask
+    - jaws_of_life
     - mag_boots
-    ResearchCosts: 5
+    ResearchCosts: 15
     ExportPrice: 0
     PotentialUnlocks: []
-    prefabID: survival
+    prefabID: industry
     techType: 3
   - ID: anomaly
     DisplayName: Anomaly Science
     Description: Specialised suits and equipment for handling artifacts.
     StartingNode: 0
     RequiredTechnologies:
-    - survival
+    - industry
     DesignIDs:
     - ap_helm
     - ap_suit
@@ -232,7 +288,7 @@ MonoBehaviour:
     Description: The necessities for mining in space.
     StartingNode: 0
     RequiredTechnologies:
-    - survival
+    - industry
     DesignIDs:
     - mining_helm
     - mining_suit
