@@ -135,10 +135,8 @@ namespace Objects
 		public void BucklePlayer(PlayerScript playerScript)
 		{
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Click01, gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
-			if (forceLayingDown)
-			{
-				playerScript.RegisterPlayer.ServerLayDown();
-			}
+
+			if (forceLayingDown && playerScript.RegisterPlayer.IsLayingDown == false) playerScript.RegisterPlayer.ServerSetIsStanding(false);		
 
 			objectPhysics.BuckleObjectToThis(playerScript.playerMove);
 			occupiedSpriteHandler.OrNull()?.ChangeSprite(0);

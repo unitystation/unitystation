@@ -25,7 +25,7 @@ namespace UI.Objects.Research
 		[SerializeField]
 		private NetText_label accessLabel;
 
-		private const int FOCUS_COST = 15;
+		private const int FOCUS_COST = 10;
 
 		private bool isFocusSet = false;
 
