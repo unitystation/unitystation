@@ -2,14 +2,20 @@
 using Mirror;
 using CameraEffects;
 using Messages.Server;
+using Items.Implants.Organs;
+using System.Collections.Generic;
 
 namespace Player
 {
 	public class PlayerFlashEffects : NetworkBehaviour
 	{
+		public List<WeldingShieldImplant> WeldingShieldImplants = new List<WeldingShieldImplant>();
+
 		[Server]
 		public void ServerSendMessageToClient(GameObject client, float newValue)
 		{
+			if (WeldingShieldImplants.Count > 0) return;
+
 			PlayerDrunkServerMessage.Send(client, newValue);
 			PlayerFlashEffectsMessage.Send(client, newValue);
 		}

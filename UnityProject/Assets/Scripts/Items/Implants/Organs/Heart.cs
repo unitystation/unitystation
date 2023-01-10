@@ -24,14 +24,9 @@ namespace Items.Implants.Organs
 
 		public override void EmpResult(int strength)
 		{
-			if (DMMath.Prob(0.5f))
-			{
-				DoHeartAttack();
-			}
-			else
-			{
-				base.EmpResult(strength);
-			}
+			if (DMMath.Prob(50)) DoHeartAttack();
+
+			base.EmpResult(strength);		
 		}
 
 		public override void ImplantPeriodicUpdate()
@@ -116,7 +111,7 @@ namespace Items.Implants.Organs
 					"<color=red>Your body spasms as a jolt of pain surges all over your body then into your heart!</color>",
 					$"<color=red>{RelatedPart.HealthMaster.playerScript.visibleName} spasms before holding " +
 					$"{RelatedPart.HealthMaster.playerScript.characterSettings.TheirPronoun(RelatedPart.HealthMaster.playerScript)} chest in shock before falling to the ground!</color>");
-				RelatedPart.HealthMaster.Death();
+				DoHeartAttack();
 			}
 		}
 
@@ -156,6 +151,7 @@ namespace Items.Implants.Organs
 		public void DoHeartAttack()
 		{
 			HeartAttack = true;
+			RelatedPart.HealthMaster.Death();
 		}
 	}
 }

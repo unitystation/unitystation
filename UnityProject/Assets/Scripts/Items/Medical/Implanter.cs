@@ -71,7 +71,7 @@ public class Implanter : NetworkBehaviour, ICheckedInteractable<HandApply>, IChe
 					$"{interaction.Performer.ExpensiveName()} injects {interaction.TargetObject.ExpensiveName()}'s {bodyPart.gameObject.ExpensiveName()} with the implanter.",
 					() =>
 					{
-						if (Inventory.ServerTransfer(implantSlot, toSlot, ReplacementStrategy.DropOther))
+						if (Inventory.ServerTransfer(implantSlot, toSlot, ReplacementStrategy.DespawnOther))
 						{
 							SetPrimed(false);
 						}
@@ -128,10 +128,11 @@ public class Implanter : NetworkBehaviour, ICheckedInteractable<HandApply>, IChe
 			if (itemStorage.GetIndexedItemSlot(0).IsEmpty)
 			{
 				Chat.AddExamineMsg(interaction.Performer, "Cannot prime without implant");
+				SetPrimed(false);
 			}
 			else
 			{
-				SetPrimed(true);
+				SetPrimed(!primed);
 			}
 		}
 	}

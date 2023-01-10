@@ -2,7 +2,8 @@
 using Chemistry;
 using Systems.Atmospherics;
 using Objects.Atmospherics;
-using ScriptableObjects.Atmospherics;
+using System.Collections.Generic;
+using Items.Implants.Organs;
 
 namespace HealthV2
 {
@@ -25,6 +26,8 @@ namespace HealthV2
 		private float tickRate = 1f;
 
 		public bool IsSuffocating => healthStateController.IsSuffocating;
+
+		public List<BreathingTubeImplant> CurrentBreathingTubes { get; private set; } = new List<BreathingTubeImplant>();
 
 		private void Awake()
 		{
@@ -119,16 +122,30 @@ namespace HealthV2
 		{
 			if (playerScript == null || playerScript.Equipment == null) return null;
 
+			foreach(BreathingTubeImplant implant in CurrentBreathingTubes) //If emped, player will breath no air
+			{
+				if(implant.isEMPed)
+				{
+					GasContainer gasContainer = new GasContainer();
+					gasContainer.GasMix = new GasMix();
+					return gasContainer;
+				}
+			}
+
 			// Check if internals exist
 			var hasMask = false;
 
-			foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.mask))
+			if (CurrentBreathingTubes.Count > 0) hasMask = true;
+			else
 			{
-				if (itemSlot.Item == null) continue;
-				if (itemSlot.ItemAttributes.CanConnectToTank)
+				foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.mask))
 				{
-					hasMask = true;
-					break;
+					if (itemSlot.Item == null) continue;
+					if (itemSlot.ItemAttributes.CanConnectToTank)
+					{
+						hasMask = true;
+						break;
+					}
 				}
 			}
 
