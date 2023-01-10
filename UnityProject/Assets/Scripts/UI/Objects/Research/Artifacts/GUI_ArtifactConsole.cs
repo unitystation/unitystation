@@ -110,7 +110,7 @@ namespace UI.Objects.Research
 			damageEffectDropdown.SetValueWithoutNotify(inputData.DamageEffectValue);
 			interactEffectDropdown.SetValueWithoutNotify(inputData.InteractEffectValue);
 
-			appearanceDropdown.value = (int)inputData.Type;
+			appearanceDropdown.SetValueWithoutNotify((int)inputData.Type);
 
 			if (console.HasDisk) ImageObject.SetSprite(0);
 			else ImageObject.SetSprite(1);

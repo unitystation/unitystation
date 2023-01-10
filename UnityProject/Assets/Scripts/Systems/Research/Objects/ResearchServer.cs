@@ -34,9 +34,9 @@ namespace Systems.Research.Objects
 		[SerializeField] private ExplosiveBountySO explosiveBountyList = null;
 		[SerializeField] private int bountiesOnStart = 10; //How many bounties will be generated on round start.
 
-		public SyncList<ExplosiveBounty> ExplosiveBounties { get; private set; } = new SyncList<ExplosiveBounty>();
+		public readonly SyncList<ExplosiveBounty> ExplosiveBounties = new SyncList<ExplosiveBounty>();
 
-		public TechType UIselectedFocus = TechType.None; //The current Focus selected in menu, not nesscarily confirmed.
+		[NonSerialized, SyncVar(hook = nameof(SyncFocus))] public TechType UIselectedFocus = TechType.None; //The current Focus selected in menu, not nesscarily confirmed.
 
 		private void InitialiseDisk()
 		{
@@ -157,8 +157,37 @@ namespace Systems.Research.Objects
 		/// <param name="points">The amount to be added.</param>
 		public void AddResearchPoints(int points)
 		{
-			Techweb.AddResearchPoints(points);
+			Techweb?.AddResearchPoints(points);
 		}
+
+		#region RightClickMethods
+
+		[RightClickMethod()]
+		public void AddFiveRP()
+		{
+			AddResearchPoints(5);
+		}
+
+		[RightClickMethod()]
+		public void AddTenRP()
+		{
+			AddResearchPoints(10);
+		}
+
+		[RightClickMethod()]
+		public void RemoveFiveRP()
+		{
+			Techweb?.SubtractResearchPoints(5);
+		}
+
+		[RightClickMethod()]
+		public void RemoveTenRP()
+		{
+			Techweb?.SubtractResearchPoints(10);
+		}
+
+		#endregion
+
 
 		/// <summary>
 		/// Adds Research Points to the techWeb total, tracked according to source.
@@ -271,6 +300,12 @@ namespace Systems.Research.Objects
 		internal void SetFocusServer(TechType focus)
 		{
 			UIselectedFocus = focus;
+		}
+
+		private void SyncFocus(TechType oldFocus, TechType newFocus)
+		{
+			UIselectedFocus = newFocus;
+			Techweb.UIupdate?.Invoke();
 		}
 
 		#endregion

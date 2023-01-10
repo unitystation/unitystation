@@ -169,11 +169,8 @@ namespace UI.Objects.Research
 			{
 				Vector2 dataShownPos = GetNodePosition(yields[i], i);
 
-				if (i < graphContainer.transform.childCount)
-				{
-					graphContainer.transform.GetChild(i).GetComponent<NetAnchoredPosition>().SetPosition(dataShownPos);
-				}
-
+				if(graphContainer.transform.GetChild(i).gameObject.TryGetComponent<NetAnchoredPosition>(out var node)) node.SetPosition(dataShownPos);
+				
 				if (i != yields.Count - 1) continue;
 
 				Vector3 yieldNewY = horizontalNodeHighlight.Element.anchoredPosition;

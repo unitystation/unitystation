@@ -96,8 +96,12 @@ namespace UI.Objects.Research
 					prefix = "Mch";
 					break;
 
-				case TechType.Tools:
-					prefix = "Tls";
+				case TechType.Equipment:
+					prefix = "Eqp";
+					break;
+
+				case TechType.Chemistry:
+					prefix = "Chm";
 					break;
 
 				case TechType.None:

@@ -40,6 +40,7 @@ namespace Systems.Research
 
 		public void LoadTechweb(string filePath)
 		{
+			researchPoints = 0;
 			var importer = new TechwebJSONImporter();
 			var techweb = importer.Import(filePath);
 			Merge(techweb);
@@ -147,7 +148,7 @@ namespace Systems.Research
 
 		public void SubtractResearchPoints(int points)
 		{
-			researchPoints -= points;
+			researchPoints = Math.Max(researchPoints - points, 0);
 		}
 	}
 }

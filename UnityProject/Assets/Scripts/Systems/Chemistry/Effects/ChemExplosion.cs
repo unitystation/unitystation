@@ -1,8 +1,4 @@
 using UnityEngine;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Mirror;
 using Systems.Explosions;
 using HealthV2;
 
@@ -36,11 +32,7 @@ namespace Chemistry.Effects
 				insideBody = true;
 			}
 
-
-
-			// Based on radius calculation in Explosions\Explosion.cs, where an amount of 30u will have an
-			// explosion radius of 1. Strength is determined using a logarthmic formula to cause diminishing returns.
-			float strength = (float)(-463+205*Mathf.Log(amount)+75*Math.PI)*potency;
+			float strength = ChemistryUtils.CalculateYieldFromReaction(amount, potency);
 
 
 			if (insideBody && strength > 0)

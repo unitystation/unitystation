@@ -29,7 +29,7 @@ namespace UI.Objects.Research
 		
 		public void OnDestroy()
 		{
-			TechWeb.UIupdate -= techWebPage.UpdateGUI;
+			TechWeb.UIupdate -= UpdateGUI;
 		}
 
 		private IEnumerator WaitForProvider()
@@ -40,7 +40,7 @@ namespace UI.Objects.Research
 			}
 
 			Server = Provider.GetComponent<ResearchServer>();
-			TechWeb.UIupdate += techWebPage.UpdateGUI;
+			TechWeb.UIupdate += UpdateGUI;
 
 			if (CustomNetworkManager.Instance._isServer == false) yield break;
 

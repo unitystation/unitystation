@@ -22,7 +22,7 @@
         "Item_ID": "/obj/item/device/mmi"
     },
     {
-        "Internal_ID": "cyberheart",
+        "Internal_ID": "cyber_heart",
         "Description": "A mechanical heart.",
         "Category": [
             "Misc",
@@ -45,7 +45,7 @@
         "Item_ID": "oZ$qFf9Q2zVR!nCaGFkE"
     },
     {
-        "Internal_ID": "cyberlung",
+        "Internal_ID": "cyber_lung",
         "Description": "A pair of lungs covered in blinking lights.",
         "Category": [
             "Misc",
@@ -91,7 +91,7 @@
         "Item_ID": "/obj/item/device/mmi/posibrain"
     },
     {
-        "Internal_ID": "bluespacebeaker",
+        "Internal_ID": "bluespace_beaker",
         "Description": "A bluespace beaker, powered by experimental bluespace technology and Element Cuban combined with the Compound Pete. Can hold up to 300 units.",
         "Category": [
             "Medical Designs"
@@ -111,6 +111,84 @@
         ],
         "name": "Bluespace Beaker",
         "Item_ID": "bluebeaker"
+    },
+    {
+        "Internal_ID": "beaker",
+        "Description": "A beaker. It can hold up to 50 units.",
+        "Category": [
+            "Medical Designs"
+        ],
+        "Materials": {
+            "Glass": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Beaker",
+        "Item_ID": "beaker"
+    },
+    {
+        "Internal_ID": "large_beaker",
+        "Description": "A large beaker. Can hold up to 100 units.",
+        "Category": [
+            "Medical Designs"
+        ],
+        "Materials": {
+            "Glass": 150
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Large Beaker",
+        "Item_ID": "largebeaker"
+    },
+    {
+        "Internal_ID": "xl_beaker",
+        "Description": "An extra-large beaker. Can hold up to 120 units.",
+        "Category": [
+            "Medical Designs"
+        ],
+        "Materials": {
+            "Glass": 250
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "XL Beaker",
+        "Item_ID": "xlbeaker"
+    },
+    {
+        "Internal_ID": "meta_beaker",
+        "Description": "A large beaker. Can hold up to 180 units.",
+        "Category": [
+            "Medical Designs"
+        ],
+        "Materials": {
+            "Glass": 250,
+            "Plasma": 250,
+            "Gold": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Meta-Material Beaker",
+        "Item_ID": "metabeaker"
     },
     {
         "Internal_ID": "splitbeaker",

@@ -1,0 +1,228 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2481163985943512178
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4083699647597369291, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: m_Name
+      value: BagOfHolding
+      objectReference: {fileID: 0}
+    - target: {fileID: 4083699647597369291, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Abstract
+      objectReference: {fileID: 0}
+    - target: {fileID: 4089186073145092799, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4089186073145092799, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4089186073145092799, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4089186073145092799, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4089186073145092799, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4089186073145092799, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4089186073145092799, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4089186073145092799, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4089186073145092799, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4089186073145092799, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4089186073145092799, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4123048385342335615, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 265109f11fbc186489ba44f6aa9a22fd
+      objectReference: {fileID: 0}
+    - target: {fileID: 4205731678033339543, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3822f99350ff25a489ec590380ef77b5,
+        type: 3}
+    - target: {fileID: 4486057492469528745, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: exportCost
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4486057492469528745, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: initialName
+      value: Bag of Holding
+      objectReference: {fileID: 0}
+    - target: {fileID: 4486057492469528745, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: initialDescription
+      value: 'A backpack that opens into a localized pocket of bluespace.
+
+        It
+        should be noted that using any form of teleportation while wearing one will
+        cause you to be teleported randomly and unsafely instead.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4486057492469528745, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 4486057492469528745, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923878523984042918, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: foreverID
+      value: bagofholding
+      objectReference: {fileID: 0}
+    - target: {fileID: 6976372393121252430, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6976372393121252430, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 220f636f7773ef74ea01700215f318ad,
+        type: 2}
+    - target: {fileID: 7920186904468745292, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a07d029a673b58447b7c55a47d3fb693,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2d25908ce8ab84cda986faf02dd3c84c, type: 3}
+--- !u!1 &1928361214078489529 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4083699647597369291, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+    type: 3}
+  m_PrefabInstance: {fileID: 2481163985943512178}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2601978922041572752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928361214078489529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 498378a6a03686e4fa4b6e365b6e0d42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StorageItemName: 8
+--- !u!114 &5292509171990191586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928361214078489529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72c43885acb654c59b452e7069cb64f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  denyStorageOfStorageItems: 0
+  canClickPickup: 0
+  canQuickEmpty: 0
+  TopLevelAlt: 0
+  actionData: {fileID: 0}
+--- !u!114 &5864114557364286205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928361214078489529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9132fc6aec6d49429e03d55086e0a85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SingularityPrefab: {fileID: 4686069471335676681, guid: e4bc61a6fcb60ad42a9ae65e7678d70c,
+    type: 3}
+--- !u!114 &7351678338761958606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928361214078489529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9ffa270baac4723983d4ed66622180e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shadow: {fileID: 0}
+  draggerMustBeAdjacent: 1
+  allowDragWhileSoftCrit: 1
+  allowedToMouseDrag: 1
+--- !u!114 &8333586519074616349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928361214078489529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 4b2277047099ea441b106c102032876a,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 13124803b6014704199b00db12778493,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}

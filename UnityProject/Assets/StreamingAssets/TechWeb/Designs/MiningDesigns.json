@@ -13,7 +13,8 @@
             "ProtoLathe"
         ],
         "Compatible_machinery": [
-            "Cargo"
+            "Cargo",
+            "Science"
         ],
         "name": "Mining Drill",
         "Item_ID": "4d508ff5a5539124bb4e3e4c33ff3dda"
@@ -33,13 +34,14 @@
             "ProtoLathe"
         ],
         "Compatible_machinery": [
-            "Cargo"
+            "Cargo",
+            "Science"
         ],
         "name": "Diamond-Tipped Mining Drill",
         "Item_ID": "249e10edcbf912247bd1c3d83556b212"
     },
     {
-        "Internal_ID": "plasmacutter",
+        "Internal_ID": "plasma_cutter",
         "Description": "You could use it to cut limbs off of xenos! Or, you know, mine stuff.",
         "Category": [
             "Mining Designs"
@@ -53,13 +55,14 @@
             "ProtoLathe"
         ],
         "Compatible_machinery": [
-            "Cargo"
+            "Cargo",
+            "Science"
         ],
         "name": "Plasma Cutter",
         "Item_ID": "a12add7b219842843b678dec171704cb"
     },
     {
-        "Internal_ID": "plasmacutter_adv",
+        "Internal_ID": "plasma_cutter_adv",
         "Description": "It's an advanced plasma cutter, oh my god.",
         "Category": [
             "Mining Designs"
@@ -74,7 +77,8 @@
             "ProtoLathe"
         ],
         "Compatible_machinery": [
-            "Cargo"
+            "Cargo",
+            "Science"
         ],
         "name": "Advanced Plasma Cutter",
         "Item_ID": "68c7b6dad32feca469be42d0964a1446"
@@ -95,7 +99,8 @@
             "ProtoLathe"
         ],
         "Compatible_machinery": [
-            "Cargo"
+            "Cargo",
+            "Science"
         ],
         "name": "Sonic Jackhammer",
         "Item_ID": "fa482ab3865ec5d4483cc2d9c5d214fd"
@@ -120,5 +125,48 @@
         ],
         "name": "Upgraded Resonator",
         "Item_ID": "/obj/item/weapon/resonator/upgraded"
+    },
+    {
+        "Internal_ID": "mining_helm",
+        "Description": "A special helmet designed for work in a hazardous, low pressure environment. Has reinforced plating for wildlife encounters and dual floodlights.",
+        "Category": [
+            "Mining Designs",
+            "Equipment"
+        ],
+        "Materials": {
+            "Metal": 500,
+            "Glass": 100,
+            "Silver": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Cargo",
+            "Science"
+        ],
+        "name": "Mining Hardsuit Helmet",
+        "Item_ID": "6a7d48b05db6fa041a583d2cb35631f1"
+    },
+    {
+        "Internal_ID": "mining_suit",
+        "Description": "A special suit that protects against hazardous, low pressure environments. Has reinforced plating for wildlife encounters.",
+        "Category": [
+            "Mining Designs",
+            "Equipment"
+        ],
+        "Materials": {
+            "Metal": 1000,
+            "Silver": 350
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Cargo",
+            "Science"
+        ],
+        "name": "Mining Hardsuit",
+        "Item_ID": "e367030969dac4f45a752faead5356d1"
     }
 ]

@@ -108,10 +108,7 @@ namespace Systems.Research.Objects
 				//Ideally in the future someone reorganises the Chemistry assemblies but this works for now.
 				foreach (Reaction reaction in explosiveReactions)
 				{
-					if (reaction.IsReactionValid(blastData.ReagentMix))
-					{
-						yield += (float)(-463 + 205 * Mathf.Log(reaction.GetReactionAmount(blastData.ReagentMix) + 75 * MathF.PI)); //Formula taken from strength calculation in ChemExplosion.cs, This will flag codacy cause magic numbers, but idk what these numbers mean or what they relate to so I dont wanna create random constants.
-					}
+					if (reaction.IsReactionValid(blastData.ReagentMix)) yield += ChemistryUtils.CalculateYieldFromReaction(reaction.GetReactionAmount(blastData.ReagentMix), 1);			
 				}
 
 				blastData.BlastYield += yield;
