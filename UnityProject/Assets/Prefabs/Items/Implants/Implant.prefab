@@ -202,6 +202,8 @@ MonoBehaviour:
     Anomaly: 0
     DismembermentProtectionChance: 0
     StunImmunity: 0
+    TemperatureProtectionInK: {x: 268.15, y: 313.15}
+    PressureProtectionInKpa: {x: 30, y: 300}
   SubOrganBodyPartArmour:
     Melee: 100
     Bullet: 90
@@ -216,19 +218,13 @@ MonoBehaviour:
     Anomaly: 0
     DismembermentProtectionChance: 0
     StunImmunity: 0
+    TemperatureProtectionInK: {x: 268.15, y: 313.15}
+    PressureProtectionInKpa: {x: 30, y: 300}
   SubOrganDamageIncreasePoint: 80
   DamageContributesToOverallHealth: 1
   DamageEfficiencyMultiplier: 1
   maxHealth: 100
   Severity: 50
-  damageWeaknesses:
-    Brute: 1
-    Burn: 1
-    Tox: 1
-    Oxy: 1
-    Clone: 1
-    Stamina: 1
-    Radiation: 1
   BodyPartReadableName: '[Default Part Name]'
   BoneFracturedLvlThreeDesc: This {readableName} is suffering Hairline Fracture.
   BoneFracturedLvlTwoDesc: This {readableName} is suffering Compound Fracture. It

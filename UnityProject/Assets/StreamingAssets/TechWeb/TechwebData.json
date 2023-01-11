@@ -37,6 +37,78 @@
     "Techweb": null
   },
   {
+    "ID": "breathimplant",
+    "DisplayName": "Breathing Tube Implant",
+    "Description": "Implanted in the patients head, this implant will allow for breathing of internals regardless of mask wear.",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "advcyber"
+    ],
+    "DesignIDs": [
+      "ci_breather"
+    ],
+    "ResearchCosts": 20,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "breath",
+    "techType": 1,
+    "Techweb": null
+  },
+  {
+    "ID": "reviver",
+    "DisplayName": "Reviver Implant",
+    "Description": "Performs an emergency heal after falling into crit. Has a ten minute cooldown between charges",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "advcyber"
+    ],
+    "DesignIDs": [
+      "ci_reviver"
+    ],
+    "ResearchCosts": 25,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "reviver",
+    "techType": 1,
+    "Techweb": null
+  },
+  {
+    "ID": "weld",
+    "DisplayName": "Welding Shield Implant",
+    "Description": "A small device to implanted in the eye. Protects the wearer from bright flashes of light.",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "advcyber"
+    ],
+    "DesignIDs": [
+      "ci_weldshield"
+    ],
+    "ResearchCosts": 20,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "weld",
+    "techType": 1,
+    "Techweb": null
+  },
+  {
+    "ID": "filtering",
+    "DisplayName": "Cybernetic Filtering",
+    "Description": "Cybernetic livers are more efficient at filtering toxins from the body, completely protecting the host from certain toxins.",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "advcyber"
+    ],
+    "DesignIDs": [
+      "cyber_liver"
+    ],
+    "ResearchCosts": 20,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "liver",
+    "techType": 1,
+    "Techweb": null
+  },
+  {
     "ID": "bluespace",
     "DisplayName": "Bluespace Technology",
     "Description": "Allows for research into bluespace technology",
@@ -238,20 +310,20 @@
     "Techweb": null
   },
   {
-    "ID": "survival",
-    "DisplayName": "Survival Gear",
-    "Description": "Basic gear for surviving in emergency situations",
+    "ID": "industry",
+    "DisplayName": "Industrial Tools",
+    "Description": "Industrial standard tools for engineers.",
     "StartingNode": false,
     "RequiredTechnologies": [],
     "DesignIDs": [
-      "gas_mask",
-      "oxy_tank",
+      "welding_mask",
+      "jaws_of_life",
       "mag_boots"
     ],
-    "ResearchCosts": 5,
+    "ResearchCosts": 15,
     "ExportPrice": 0,
     "PotentialUnlocks": [],
-    "prefabID": "survival",
+    "prefabID": "industry",
     "techType": 3,
     "Techweb": null
   },
@@ -261,7 +333,7 @@
     "Description": "Specialised suits and equipment for handling artifacts.",
     "StartingNode": false,
     "RequiredTechnologies": [
-      "survival"
+      "industry"
     ],
     "DesignIDs": [
       "ap_helm",
@@ -285,7 +357,7 @@
     "Description": "The necessities for mining in space.",
     "StartingNode": false,
     "RequiredTechnologies": [
-      "survival"
+      "industry"
     ],
     "DesignIDs": [
       "mining_helm",

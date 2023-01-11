@@ -2,13 +2,15 @@
 using Chemistry;
 using Systems.Atmospherics;
 using Objects.Atmospherics;
-using ScriptableObjects.Atmospherics;
+using System.Collections.Generic;
+using Items.Implants.Organs;
+using Mirror;
 
 namespace HealthV2
 {
 	[RequireComponent(typeof(LivingHealthMasterBase))]
 	[RequireComponent(typeof(CirculatorySystemBase))]
-	public class RespiratorySystemBase : MonoBehaviour //Not really a Respiratory More like atmospheric system idk TODO give better name
+	public class RespiratorySystemBase : NetworkBehaviour //Not really a Respiratory More like atmospheric system idk TODO give better name
 	{
 		private LivingHealthMasterBase healthMaster;
 		private PlayerScript playerScript;
@@ -25,6 +27,8 @@ namespace HealthV2
 		private float tickRate = 1f;
 
 		public bool IsSuffocating => healthStateController.IsSuffocating;
+
+		public readonly SyncList<BreathingTubeImplant> CurrentBreathingTubes = new SyncList<BreathingTubeImplant>();
 
 		private void Awake()
 		{
@@ -119,16 +123,30 @@ namespace HealthV2
 		{
 			if (playerScript == null || playerScript.Equipment == null) return null;
 
+			foreach(BreathingTubeImplant implant in CurrentBreathingTubes) //If emped, player will breath no air
+			{
+				if(implant.isEMPed)
+				{
+					GasContainer gasContainer = new GasContainer();
+					gasContainer.GasMix = new GasMix();
+					return gasContainer;
+				}
+			}
+
 			// Check if internals exist
 			var hasMask = false;
 
-			foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.mask))
+			if (CurrentBreathingTubes.Count > 0) hasMask = true;
+			else
 			{
-				if (itemSlot.Item == null) continue;
-				if (itemSlot.ItemAttributes.CanConnectToTank)
+				foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.mask))
 				{
-					hasMask = true;
-					break;
+					if (itemSlot.Item == null) continue;
+					if (itemSlot.ItemAttributes.CanConnectToTank)
+					{
+						hasMask = true;
+						break;
+					}
 				}
 			}
 
@@ -176,6 +194,18 @@ namespace HealthV2
 		{
 			//TODO: Figure out what kind of damage low pressure should be doing.
 			healthMaster.ApplyDamageAll(null, amount, AttackType.Internal, damageType);
+		}
+
+		public void AddImplant(BreathingTubeImplant implant)
+		{
+			CurrentBreathingTubes.Add(implant);
+			netIdentity.isDirty = true;
+		}
+
+		public void RemoveImplant(BreathingTubeImplant implant)
+		{
+			CurrentBreathingTubes.Remove(implant);
+			netIdentity.isDirty = true;
 		}
 	}
 }

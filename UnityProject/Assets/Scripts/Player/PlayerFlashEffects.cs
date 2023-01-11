@@ -7,11 +7,17 @@ namespace Player
 {
 	public class PlayerFlashEffects : NetworkBehaviour
 	{
+		[SyncVar,HideInInspector] public int WeldingShieldImplants = 0;
+
 		[Server]
-		public void ServerSendMessageToClient(GameObject client, float newValue)
+		public bool ServerSendMessageToClient(GameObject client, float newValue)
 		{
+			if (WeldingShieldImplants > 0) return false;
+
 			PlayerDrunkServerMessage.Send(client, newValue);
 			PlayerFlashEffectsMessage.Send(client, newValue);
+
+			return true;
 		}
 	}
 

@@ -191,6 +191,8 @@ namespace UI
 
 		private void UpdateState()
 		{
+			if (PlayerManager.LocalPlayerScript.playerHealth.RespiratorySystem.CurrentBreathingTubes.Count > 0) isWearingMask = true;
+
 			// Player is wearing neither a tank nor a mask
 			if (!isWearingMask && gasContainer == null)
 			{

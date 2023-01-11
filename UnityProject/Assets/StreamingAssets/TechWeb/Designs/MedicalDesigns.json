@@ -68,6 +68,29 @@
         "Item_ID": "Rwg@6xa51aeimGt4WvV6"
     },
     {
+        "Internal_ID": "cyber_liver",
+        "Description": "A large mechanical liver emulating a filter.",
+        "Category": [
+            "Misc",
+            "Medical Designs"
+        ],
+        "Materials": {
+            "Metal": 500,
+            "Glass": 1000,
+            "Gold": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe",
+            "MechFabricator"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Cybernetic Liver",
+        "Item_ID": "cyberliver"
+    },
+    {
         "Internal_ID": "mmi_posi",
         "Description": "The latest in Artificial Intelligences.",
         "Category": [
@@ -291,7 +314,7 @@
         "Item_ID": "/obj/item/weapon/defibrillator"
     },
     {
-        "Internal_ID": "ci-breather",
+        "Internal_ID": "ci_breather",
         "Description": "This simple implant adds an internals connector to your back, allowing you to use internals without a mask and protecting you from being choked.",
         "Category": [
             "Misc",
@@ -306,10 +329,33 @@
             "MechFabricator"
         ],
         "Compatible_machinery": [
-            "Medical"
+            "Medical",
+            "Science"
         ],
         "name": "Breathing Tube Implant",
-        "Item_ID": "/obj/item/organ/cyberimp/mouth/breathing_tube"
+        "Item_ID": "breathing_tube"
+    },
+    {
+        "Internal_ID": "ci_weldshield",
+        "Description": "This simple implant grants the wearing immunity to bright flashes.",
+        "Category": [
+            "Misc",
+            "Medical Designs"
+        ],
+        "Materials": {
+            "Metal": 600,
+            "Glass": 250
+        },
+        "Machinery_type": [
+            "ProtoLathe",
+            "MechFabricator"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Welding Shield Implant",
+        "Item_ID": "weldingshield"
     },
     {
         "Internal_ID": "ci-nutriment",
@@ -328,7 +374,8 @@
             "MechFabricator"
         ],
         "Compatible_machinery": [
-            "Medical"
+            "Medical",
+            "Science"
         ],
         "name": "Nutriment Pump Implant",
         "Item_ID": "/obj/item/organ/cyberimp/chest/nutriment"
@@ -351,13 +398,14 @@
             "MechFabricator"
         ],
         "Compatible_machinery": [
-            "Medical"
+            "Medical",
+            "Science"
         ],
         "name": "Nutriment Pump Implant PLUS",
         "Item_ID": "/obj/item/organ/cyberimp/chest/nutriment/plus"
     },
     {
-        "Internal_ID": "ci-reviver",
+        "Internal_ID": "ci_reviver",
         "Description": "This implant will attempt to revive you if you lose consciousness. For the faint of heart!",
         "Category": [
             "Misc",
@@ -374,10 +422,11 @@
             "MechFabricator"
         ],
         "Compatible_machinery": [
-            "Medical"
+            "Medical",
+            "Science"
         ],
         "name": "Reviver Implant",
-        "Item_ID": "/obj/item/organ/cyberimp/chest/reviver"
+        "Item_ID": "reviver"
     },
     {
         "Internal_ID": "ci-thrusters",
@@ -397,7 +446,8 @@
             "MechFabricator"
         ],
         "Compatible_machinery": [
-            "Medical"
+            "Medical",
+            "Science"
         ],
         "name": "Thrusters Set Implant",
         "Item_ID": "/obj/item/organ/cyberimp/chest/thrusters"
