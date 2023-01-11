@@ -9,12 +9,12 @@ namespace Items.Implants.Organs
 
 		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
-			RelatedPart.HealthMaster.RespiratorySystem.CurrentBreathingTubes.Add(this);
+			RelatedPart.HealthMaster.RespiratorySystem.AddImplant(this);
 		}
 
 		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
-			RelatedPart.HealthMaster.RespiratorySystem.CurrentBreathingTubes.Remove(this);
+			RelatedPart.HealthMaster.RespiratorySystem.RemoveImplant(this);
 		}
 
 		public override void EmpResult(int strength)

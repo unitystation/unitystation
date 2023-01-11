@@ -195,5 +195,17 @@ namespace HealthV2
 			//TODO: Figure out what kind of damage low pressure should be doing.
 			healthMaster.ApplyDamageAll(null, amount, AttackType.Internal, damageType);
 		}
+
+		public void AddImplant(BreathingTubeImplant implant)
+		{
+			CurrentBreathingTubes.Add(implant);
+			netIdentity.isDirty = true;
+		}
+
+		public void RemoveImplant(BreathingTubeImplant implant)
+		{
+			CurrentBreathingTubes.Remove(implant);
+			netIdentity.isDirty = true;
+		}
 	}
 }
