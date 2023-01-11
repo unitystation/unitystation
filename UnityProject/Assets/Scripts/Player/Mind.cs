@@ -486,14 +486,14 @@ public class Mind : NetworkBehaviour, IActionGUI
 		if (antag.Antagonist.AntagJobType == JobType.TRAITOR || antag.Antagonist.AntagJobType == JobType.SYNDICATE)
 		{
 			string codeWordsString = "Code Words:";
-			for (int i = 0; i < CodeWords.WORD_COUNT; i++)
+			for (int i = 0; i < CodeWordManager.WORD_COUNT; i++)
 			{
-				codeWordsString += $"\n-{CodeWords.Words[i]}";
+				codeWordsString += $"\n-{CodeWordManager.Instance.Words[i]}";
 			}
-			codeWordsString += "\nResponses:";
-			for (int i = 0; i < CodeWords.WORD_COUNT; i++)
+			codeWordsString += "\n\nResponses:";
+			for (int i = 0; i < CodeWordManager.WORD_COUNT; i++)
 			{
-				codeWordsString += $"\n-{CodeWords.Responses[i]}";
+				codeWordsString += $"\n-{CodeWordManager.Instance.Responses[i]}";
 			}
 
 			Chat.AddExamineMsgFromServer(playerMob, codeWordsString);
