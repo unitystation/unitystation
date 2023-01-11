@@ -94,7 +94,15 @@ namespace UI.UI_Bottom
 				return;
 			}
 
-			RequestBuildMessage.Send(entry, buildingMaterial);
+
+			if (int.TryParse(UIManager.BuildMenu.NumberInputField.text, out var numberWanted) == false)
+			{
+				numberWanted = 1;
+				UIManager.BuildMenu.NumberInputField.text = numberWanted.ToString();
+			}
+
+
+			RequestBuildMessage.Send(entry, buildingMaterial, numberWanted);
 			UIManager.BuildMenu.CloseBuildMenu();
 		}
 	}
