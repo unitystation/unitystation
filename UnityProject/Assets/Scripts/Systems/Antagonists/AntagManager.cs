@@ -71,6 +71,7 @@ namespace Antagonists
 		private void OnSceneChange(Scene oldScene, Scene newScene)
 		{
 			SyndiNukeCode = Nuke.CodeGenerator();
+			CodeWords.ChooseCodeWords();
 		}
 
 		private void OnRoundEnd()
