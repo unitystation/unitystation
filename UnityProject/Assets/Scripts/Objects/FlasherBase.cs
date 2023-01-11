@@ -94,8 +94,7 @@ namespace Objects
 		[Server]
 		private void TellClientThatTheyHaveBeenFlashed(PlayerFlashEffects effects, RegisterPlayer player)
 		{
-			effects.ServerSendMessageToClient(player.gameObject, flashTime);
-			if(stunsPlayers) player.ServerStun(flashTime + stunExtraTime);
+			if(effects.ServerSendMessageToClient(player.gameObject, flashTime) && stunsPlayers) player.ServerStun(flashTime + stunExtraTime);
 		}
 
 		[Server]

@@ -8,13 +8,13 @@ namespace Items.Implants.Organs
 		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			if(RelatedPart.HealthMaster.playerScript.gameObject.TryGetComponent<PlayerFlashEffects>(out var flash) == false) return;
-			flash.WeldingShieldImplants.Add(this);
+			flash.WeldingShieldImplants++;
 		}
 
 		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
 			if (RelatedPart.HealthMaster.playerScript.gameObject.TryGetComponent<PlayerFlashEffects>(out var flash) == false) return;
-			flash.WeldingShieldImplants.Remove(this);
+			flash.WeldingShieldImplants--;
 		}
 	}
 }

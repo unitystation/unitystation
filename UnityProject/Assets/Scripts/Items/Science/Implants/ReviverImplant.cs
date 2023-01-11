@@ -18,15 +18,9 @@ namespace Items.Implants.Organs
 		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			lastTrigger = Time.time - delaySeconds; //Ready to revive
-			RelatedPart.HealthMaster.OnTakeDamageType += Revive;
 		}
 
-		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
-		{
-			RelatedPart.HealthMaster.OnTakeDamageType -= Revive;
-		}
-
-		public void Revive(DamageType damageType, GameObject source)
+		public override void ImplantPeriodicUpdate()
 		{
 			if ((RelatedPart.HealthMaster.IsCrit == false && RelatedPart.HealthMaster.IsSoftCrit == false) || (Time.time - lastTrigger) <= 600) return;
 			lastTrigger = Time.time;
