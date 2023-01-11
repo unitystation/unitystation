@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Chemistry;
+using Chemistry.Components;
 using Systems.Atmospherics;
 using Objects.Atmospherics;
 using Items.Atmospherics;
@@ -10,7 +11,7 @@ using Tiles.Pipes;
 namespace Systems.Pipes
 {
 	[Serializable]
-	public class PipeData
+	public class PipeData : IReagentMixProvider
 	{
 		public PipeLayer PipeLayer = PipeLayer.Second;
 		public Connections Connections;
@@ -193,6 +194,11 @@ namespace Systems.Pipes
 
 
 			//MatrixManager.ReagentReact(mixAndVolume.Mix, MatrixPos); //TODO AAAAAAAA Get the correct location
+		}
+
+		public ReagentMix GetReagentMix()
+		{
+			return PipeFunctions.PipeOrNet(this).GetReagentMix();
 		}
 
 		public void SpillContent(Tuple<ReagentMix, GasMix> ToSpill)

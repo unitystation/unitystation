@@ -65,9 +65,8 @@ namespace Systems.Pipes
 					return;
 				}
 
-				var internalEnergy = (value * WholeHeatCapacity);
-				mix.InternalEnergy = internalEnergy;
-				gasMix.InternalEnergy = internalEnergy;
+				mix.Temperature = value;
+				gasMix.Temperature = value;
 			}
 		}
 
@@ -105,6 +104,15 @@ namespace Systems.Pipes
 		public ReagentMix GetReagentMix()
 		{
 			return mix;
+		}
+
+		/// <summary>
+		/// Only use this if you know what you're doing
+		/// </summary>
+		/// <returns></returns>
+		public void SetReagentMix(ReagentMix newReagentMix)
+		{
+			mix = newReagentMix;
 		}
 
 		public void Add(MixAndVolume mixAndVolume, bool changeVolume = true)
@@ -167,7 +175,7 @@ namespace Systems.Pipes
 
 
 			gasMix = GasMix.FromTemperature(newOne, gasMix.Temperature, gasVolume);
-
+			Temperature = Temperature; //Reinitialise is temperature to equal out oddities
 			return new Tuple<ReagentMix, GasMix>(returnMix,
 				GasMix.FromTemperature(removeNewOne, gasMix.Temperature, removeGasVolume));
 		}
@@ -206,6 +214,7 @@ namespace Systems.Pipes
 			}
 
 			gasMix = GasMix.FromTemperature(newOne, gasMix.Temperature, gasVolume);
+			Temperature = Temperature; //Reinitialise is temperature to equal out oddities
 		}
 
 		public void Multiply(float multiplyAmount, bool changeVolume = true)
@@ -236,6 +245,7 @@ namespace Systems.Pipes
 			}
 
 			gasMix = GasMix.FromTemperature(newOne, gasMix.Temperature, gasVolume);
+			Temperature = Temperature; //Reinitialise is temperature to equal out oddities
 		}
 
 		public MixAndVolume Clone()
@@ -268,14 +278,14 @@ namespace Systems.Pipes
 					toRemoveGas = gasMix.GasData.GetGasMoles(gas);
 				}
 
-				var transferredEnergy = toRemoveGas * gas.MolarHeatCapacity * gasMix.Temperature;
+				var transferredEnergy = toRemoveGas * gas.MolarHeatCapacity * Temperature;
 
 				gasMix.RemoveGas(gas, toRemoveGas);
 
-				var cachedInternalEnergy = toTransfer.InternalEnergy + transferredEnergy; //- TransferredEnergy;
+				var cachedInternalEnergy = this.InternalEnergy + transferredEnergy;
 
 				toTransfer.gasMix.AddGas(gas, toRemoveGas);
-				toTransfer.gasMix.InternalEnergy = cachedInternalEnergy;
+				this.InternalEnergy = cachedInternalEnergy;
 			}
 
 			if (reagent != null)
@@ -293,14 +303,18 @@ namespace Systems.Pipes
 
 
 				var transferredEnergy = toRemoveGas * reagent.heatDensity * mix.Temperature;
-				var cachedInternalEnergy = mix.InternalEnergy;
-				mix.Subtract(reagent, toRemoveGas);
-				mix.InternalEnergy = cachedInternalEnergy - transferredEnergy;
 
-				cachedInternalEnergy = toTransfer.mix.InternalEnergy;
+				var cachedInternalEnergy = InternalEnergy;
+				mix.Subtract(reagent, toRemoveGas);
+				InternalEnergy = cachedInternalEnergy - transferredEnergy;
+
+
+
+				cachedInternalEnergy = toTransfer.InternalEnergy;
+
 				toTransfer.mix.Add(reagent, toRemoveGas);
 				cachedInternalEnergy += transferredEnergy;
-				toTransfer.mix.InternalEnergy = cachedInternalEnergy;
+				toTransfer.InternalEnergy = cachedInternalEnergy;
 			}
 		}
 
@@ -315,11 +329,17 @@ namespace Systems.Pipes
 			{
 				GasMix.TransferGas(toTransfer.gasMix, gasMix, amount.y);
 			}
+
+			Temperature = Temperature; //Reinitialise is temperature to equal out oddities
+
 		}
 
 		public GasMix EqualiseWithExternal(GasMix inGasMix)
 		{
-			return gasMix.MergeGasMix(inGasMix);
+			var mix = gasMix.MergeGasMix(inGasMix);
+			Temperature = Temperature; //Reinitialise is temperature to equal out oddities
+			return mix;
+
 		}
 
 		public void EqualiseWith(PipeData another, bool equaliseGas, bool equaliseLiquid)
@@ -354,6 +374,8 @@ namespace Systems.Pipes
 						anotherAmount - PipeFunctions.PipeOrNet(another).mix.Total);
 				}
 			}
+			Temperature = Temperature; //Reinitialise is temperature to equal out oddities
+			PipeFunctions.PipeOrNet(another).Temperature = PipeFunctions.PipeOrNet(another).Temperature; //Reinitialise is temperature to equal out oddities
 		}
 
 		public void EqualiseWithMultiple(List<PipeData> others, bool equaliseGas, bool equaliseLiquid)
@@ -396,6 +418,8 @@ namespace Systems.Pipes
 						targetDensity * PipeFunctions.PipeOrNet(pipe).Volume);
 				}
 			}
+
+			Temperature = Temperature; //Reinitialise is temperature to equal out oddities
 		}
 
 		public void EqualiseWithOutputs(List<PipeData> others)
@@ -441,6 +465,7 @@ namespace Systems.Pipes
 		public void SetVolume(float newVolume)
 		{
 			gasMix.Volume = newVolume;
+			Temperature = Temperature; //Reinitialise is temperature to equal out oddities
 		}
 
 		public override string ToString()

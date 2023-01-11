@@ -29,10 +29,7 @@ namespace Objects.Atmospherics
 
 			if (combinedHeatCapacity <= 0) return;
 
-			var thisOldTemperature = thisMixAndVolume.Temperature;
-			var otherOldTemperature = otherMixAndVolume.Temperature;
-
-			var combinedEnergy = (otherOldTemperature * otherHeatCapacity) + (thisOldTemperature * thisHeatCapacity);
+			var combinedEnergy = (otherMixAndVolume.InternalEnergy) + (thisMixAndVolume.InternalEnergy);
 			var newTemperature = combinedEnergy / combinedHeatCapacity;
 
 			thisMixAndVolume.Temperature = newTemperature;
