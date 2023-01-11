@@ -40,24 +40,7 @@ namespace Objects
 				if(gameObject == target.gameObject) continue;
 				if (MatrixManager.Linecast(gameObject.AssumedWorldPosServer(), LayerTypeSelection.Walls,
 					    layerMask, target.gameObject.AssumedWorldPosServer()).ItHit) continue;
-				if(target.gameObject.TryGetComponent<RegisterPlayer>(out var player) == false) continue; //If it's not a player, check next
-				if(target.gameObject.TryGetComponent<PlayerFlashEffects>(out var flashEffector) == false) continue; //If the player doesn't have the ability to be flashed for whatever reason, check next
-				if(target.gameObject.TryGetComponent<DynamicItemStorage>(out var playerStorage) == false) continue; //If the player has no storage for whatever reason... would this be a bug?
-				foreach (var slots in playerStorage.ServerContents)
-				{
-					if(slots.Key != NamedSlot.eyes) continue;
-					foreach (var onSlots in slots.Value)
-					{
-						if (onSlots.IsEmpty) //Nothing protecting the eye, flash immediately
-						{
-							TellClientThatTheyHaveBeenFlashed(flashEffector, player);
-							continue;
-						}
-						if(onSlots.ItemAttributes.HasTrait(sunglassesTrait)) continue; //If the player is wearing protective glasses, check next.
-						TellClientThatTheyHaveBeenFlashed(flashEffector, player);
-						break;
-					}
-				}
+				PerformFlash(target.gameObject);
 			}
 			StartCoroutine(Cooldown());
 			Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} flashes everyone in its radius.", gameObject);
@@ -69,6 +52,12 @@ namespace Objects
 			if (onCooldown) return;
 			if (flashSound != null) _ = SoundManager.PlayNetworkedAtPosAsync(flashSound, gameObject.AssumedWorldPosServer());
 			StartCoroutine(Cooldown());
+			PerformFlash(target);
+		}
+
+		[Server]
+		private void PerformFlash(GameObject target)
+		{
 			if (target.TryGetComponent<RegisterPlayer>(out var player) == false) return;
 			if (target.gameObject.TryGetComponent<PlayerFlashEffects>(out var flashEffector) == false) return;
 			if (target.gameObject.TryGetComponent<DynamicItemStorage>(out var playerStorage) == false) return;
@@ -77,18 +66,18 @@ namespace Objects
 
 			foreach (var slots in playerStorage.ServerContents)
 			{
-				if(slots.Key != NamedSlot.eyes && slots.Key != NamedSlot.mask) continue;
-				foreach (var onSlots in slots.Value)
+				if (slots.Key != NamedSlot.eyes && slots.Key != NamedSlot.mask) continue;
+				foreach (ItemSlot onSlots in slots.Value)
 				{
-					if(onSlots.IsEmpty) continue;
-					if(onSlots.ItemAttributes.HasTrait(sunglassesTrait))
+					if (onSlots.IsEmpty) continue;
+					if (onSlots.ItemAttributes.HasTrait(sunglassesTrait))
 					{
 						hasProtection = true;
 						break;
 					}
 				}
 			}
-			if(hasProtection == false) TellClientThatTheyHaveBeenFlashed(flashEffector, player);
+			if (hasProtection == false) TellClientThatTheyHaveBeenFlashed(flashEffector, player);
 		}
 
 		[Server]

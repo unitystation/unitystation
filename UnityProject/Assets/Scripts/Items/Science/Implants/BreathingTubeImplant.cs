@@ -1,10 +1,11 @@
 using HealthV2;
+using Mirror;
 
 namespace Items.Implants.Organs
 {
 	public class BreathingTubeImplant : BodyPartFunctionality
 	{
-		public bool isEMPed { get; private set; } = false;
+		[field: SyncVar] public bool isEMPed { get; private set; } = false;
 
 		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{

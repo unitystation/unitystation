@@ -4,12 +4,13 @@ using Systems.Atmospherics;
 using Objects.Atmospherics;
 using System.Collections.Generic;
 using Items.Implants.Organs;
+using Mirror;
 
 namespace HealthV2
 {
 	[RequireComponent(typeof(LivingHealthMasterBase))]
 	[RequireComponent(typeof(CirculatorySystemBase))]
-	public class RespiratorySystemBase : MonoBehaviour //Not really a Respiratory More like atmospheric system idk TODO give better name
+	public class RespiratorySystemBase : NetworkBehaviour //Not really a Respiratory More like atmospheric system idk TODO give better name
 	{
 		private LivingHealthMasterBase healthMaster;
 		private PlayerScript playerScript;
@@ -27,7 +28,7 @@ namespace HealthV2
 
 		public bool IsSuffocating => healthStateController.IsSuffocating;
 
-		public List<BreathingTubeImplant> CurrentBreathingTubes { get; private set; } = new List<BreathingTubeImplant>();
+		public readonly SyncList<BreathingTubeImplant> CurrentBreathingTubes = new SyncList<BreathingTubeImplant>();
 
 		private void Awake()
 		{
