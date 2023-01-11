@@ -136,8 +136,9 @@ namespace Messages.Client
 		/// <param name="entry">entry to build</param>
 		/// <param name="hasMenu">has construction menu component of the object being used to
 		/// construct.</param>
+		/// <param name="number"></param>
 		/// <returns></returns>
-		public static NetMessage Send(BuildList.Entry entry, BuildingMaterial hasMenu, int Number)
+		public static NetMessage Send(BuildList.Entry entry, BuildingMaterial hasMenu, int number)
 		{
 			int entryIndex = hasMenu.BuildList.Entries.ToList().IndexOf(entry);
 			if (entryIndex == -1) return new NetMessage(); // entryIndex was previously a byte, which made this check impossible.
@@ -145,7 +146,7 @@ namespace Messages.Client
 			NetMessage msg = new NetMessage
 			{
 				EntryIndex =  entryIndex,
-				Number =Number
+				Number =number
 			};
 
 			Send(msg);

@@ -94,17 +94,15 @@ namespace UI.UI_Bottom
 				return;
 			}
 
-			int NumberWanted = 1;
 
-
-			if (int.TryParse(UIManager.BuildMenu.NumberInputField.text, out NumberWanted) == false)
+			if (int.TryParse(UIManager.BuildMenu.NumberInputField.text, out var numberWanted) == false)
 			{
-				NumberWanted = 1;
-				UIManager.BuildMenu.NumberInputField.text = NumberWanted.ToString();
+				numberWanted = 1;
+				UIManager.BuildMenu.NumberInputField.text = numberWanted.ToString();
 			}
 
 
-			RequestBuildMessage.Send(entry, buildingMaterial, NumberWanted);
+			RequestBuildMessage.Send(entry, buildingMaterial, numberWanted);
 			UIManager.BuildMenu.CloseBuildMenu();
 		}
 	}
