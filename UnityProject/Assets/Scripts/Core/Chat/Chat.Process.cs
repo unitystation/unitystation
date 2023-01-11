@@ -28,8 +28,6 @@ public partial class Chat
 	private static Coroutine composeMessageHandle;
 	private static StringBuilder stringBuilder = new StringBuilder();
 	
-	[SerializeField] private List<Occupation> codeWordOccupations = new List<Occupation>(); //Which occupations should have code words highlighted? (Nukies, Traitor and Sleeper Agents)
-
 	private struct DestroyChatMessage
 	{
 		public string Message;
@@ -413,9 +411,10 @@ public partial class Chat
 	private static string HighLightCodeWords(string input)
 	{
 		if (ThemeManager.ChatHighlight == false || PlayerManager.LocalPlayerScript == null) return input;
+		if (PlayerManager.LocalPlayerScript.PossessingMind == null) return input;
+		if (PlayerManager.LocalPlayerScript.PossessingMind.IsAntag == false) return input;
 
 		SpawnedAntag antag = PlayerManager.LocalPlayerScript.PossessingMind.GetAntag();
-		if (antag == null) return input;
 
 		if(antag.Antagonist.AntagJobType != JobType.TRAITOR && antag.Antagonist.AntagJobType != JobType.SYNDICATE) return input;
 		
