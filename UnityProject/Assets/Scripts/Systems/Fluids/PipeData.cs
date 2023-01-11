@@ -11,7 +11,7 @@ using Tiles.Pipes;
 namespace Systems.Pipes
 {
 	[Serializable]
-	public class PipeData : IProvideReagentMix
+	public class PipeData : IReagentMixProvider
 	{
 		public PipeLayer PipeLayer = PipeLayer.Second;
 		public Connections Connections;

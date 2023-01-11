@@ -103,7 +103,7 @@ namespace Chemistry.Components
 		/// </summary>
 		[NonSerialized] public UnityEvent OnReagentMixChanged = new UnityEvent();
 
-		private IProvideReagentMix customMixProvider;
+		private IReagentMixProvider _customMixProviderProvider;
 
 
 		private ReagentMix currentReagentMix;
@@ -115,9 +115,9 @@ namespace Chemistry.Components
 		{
 			get
 			{
-				if (customMixProvider != null)
+				if (_customMixProviderProvider != null)
 				{
-					return customMixProvider.GetReagentMix();
+					return _customMixProviderProvider.GetReagentMix();
 				}
 
 				if (currentReagentMix == null)
@@ -211,20 +211,20 @@ namespace Chemistry.Components
 			if (ReactionSet != null)
 			{
 				possibleReactions.Clear();
-				foreach (var Reagents in CurrentReagentMix.reagents.m_dict)
+				foreach (var reagents in CurrentReagentMix.reagents.m_dict)
 				{
-					var Reactions = Reagents.Key.RelatedReactions;
-					int ReactionsCount = Reactions.Length;
-					for (int i = 0; i < ReactionsCount; i++)
+					var reactions = reagents.Key.RelatedReactions;
+					int reactionsCount = reactions.Length;
+					for (int i = 0; i < reactionsCount; i++)
 					{
-						var Reaction = Reactions[i];
-						if (ReactionSet.ContainedReactionss.Contains(Reaction))
+						var reaction = reactions[i];
+						if (ReactionSet.ContainedReactionss.Contains(reaction))
 						{
-							possibleReactions.Add(Reaction);
+							possibleReactions.Add(reaction);
 						}
-						else if (AdditionalReactions.Count > 0 && ContainedAdditionalReactions.Contains(Reaction))
+						else if (AdditionalReactions.Count > 0 && ContainedAdditionalReactions.Contains(reaction))
 						{
-							possibleReactions.Add(Reaction);
+							possibleReactions.Add(reaction);
 						}
 					}
 				}
@@ -254,9 +254,9 @@ namespace Chemistry.Components
 			OnReagentMixChanged?.Invoke();
 		}
 
-		public void SetIProvideReagentMix(IProvideReagentMix InCustomMixProvider)
+		public void SetIProvideReagentMix(IReagentMixProvider inCustomMixProviderProvider)
 		{
-			customMixProvider = InCustomMixProvider;
+			_customMixProviderProvider = inCustomMixProviderProvider;
 		}
 
 		/// <summary>

@@ -61,9 +61,9 @@ public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>, IServer
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
 
-		var MetaDataNode = MatrixManager.GetMetaDataAt(gameObject.AssumedWorldPosServer().RoundToInt());
+		var metaDataNode = MatrixManager.GetMetaDataAt(gameObject.AssumedWorldPosServer().RoundToInt());
 		Chat.AddExamineMsgFromServer(interaction.Performer,
-			" The Geiger counter reads " + MetaDataNode.RadiationNode.RadiationLevel);
+			" The Geiger counter reads " + metaDataNode.RadiationNode.RadiationLevel);
 	}
 
 

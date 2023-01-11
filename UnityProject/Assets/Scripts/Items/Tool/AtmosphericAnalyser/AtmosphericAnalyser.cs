@@ -75,8 +75,8 @@ namespace Items.Atmospherics
 			if (metaDataNode.PipeData.Count > 0)
 			{
 
-				var Mix = PipeFunctions.PipeOrNet(metaDataNode.PipeData[0].pipeData);
-				Chat.AddExamineMsgFromServer(interaction.Performer, GetMixAndVolumeInfo(Mix));
+				var mix = PipeFunctions.PipeOrNet(metaDataNode.PipeData[0].pipeData);
+				Chat.AddExamineMsgFromServer(interaction.Performer, GetMixAndVolumeInfo(mix));
 			}
 		}
 
@@ -105,9 +105,9 @@ namespace Items.Atmospherics
 
 		private static string GetMixAndVolumeInfo(MixAndVolume mixAndVolume)
 		{
-			var Density = mixAndVolume.Density();
+			var density = mixAndVolume.Density();
 			StringBuilder sb = new StringBuilder(
-				$"Liquid density : {Density.x:0.###},  {mixAndVolume.GetReagentMix().Total:0.###} U , Gas pressure : {Density.y:0.###} kPa,  {mixAndVolume.GetGasMix().Moles:0.##} moles\n" +
+				$"Liquid density : {density.x:0.###},  {mixAndVolume.GetReagentMix().Total:0.###} U , Gas pressure : {density.y:0.###} kPa,  {mixAndVolume.GetGasMix().Moles:0.##} moles\n" +
 				$"Temperature: {mixAndVolume.Temperature:0.##} K ({mixAndVolume.Temperature - Reactions.KOffsetC:0.##} °C)\n");
 			// You want Fahrenheit? HAHAHAHA
 

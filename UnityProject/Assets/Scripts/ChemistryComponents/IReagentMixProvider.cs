@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Chemistry.Components
 {
-	public interface IProvideReagentMix
+	public interface IReagentMixProvider
 	{
 		public ReagentMix GetReagentMix();
 	}
