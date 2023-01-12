@@ -7,7 +7,7 @@ namespace HealthV2.Living.Mutations.Bones
 	public class BigBoned : MutationSO
 	{
 
-		public float AddedBloodGeneratedByOneNutriment = 30;
+		public float AddedBloodGeneratedByOneHunger = 30;
 
 		public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
 		{
@@ -28,12 +28,12 @@ namespace HealthV2.Living.Mutations.Bones
 			public override void SetUp()
 			{
 				Bone = BodyPart.GetComponent<Items.Implants.Organs.Bones>();
-				Bone.BloodGeneratedByOneNutriment += BigBoned.AddedBloodGeneratedByOneNutriment;
+				Bone.BloodGeneratedByOneHunger += BigBoned.AddedBloodGeneratedByOneHunger;
 			}
 
 			public override void Remove()
 			{
-				Bone.BloodGeneratedByOneNutriment -= BigBoned.AddedBloodGeneratedByOneNutriment;
+				Bone.BloodGeneratedByOneHunger -= BigBoned.AddedBloodGeneratedByOneHunger;
 			}
 
 		}

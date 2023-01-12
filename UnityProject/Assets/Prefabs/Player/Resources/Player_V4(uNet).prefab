@@ -443,6 +443,7 @@ GameObject:
   - component: {fileID: 1354417930896543338}
   - component: {fileID: 2708192528502292653}
   - component: {fileID: 4232843736106124361}
+  - component: {fileID: 673354623609822083}
   - component: {fileID: -5098788322438649402}
   - component: {fileID: 1742783117560001162}
   - component: {fileID: 1175812212782356347}
@@ -542,7 +543,6 @@ MonoBehaviour:
   RTT: 0
   RcsMode: 0
   RcsMatrixMove: {fileID: 0}
-  actionData: {fileID: 11400000, guid: 288088e3bb7768d41a2fe1b2c170fbce, type: 2}
   playerChatLocation: {fileID: 1133514949248654}
   canVentCrawl: 0
   ClueHandsImprintInverseChance: 55
@@ -1007,7 +1007,6 @@ MonoBehaviour:
   syncInterval: 0.1
   BodyType: 0
   RTT: 0
-  brain: {fileID: 0}
   BodyPartList: []
   SurfaceBodyParts: []
   BodyPartStorage: {fileID: 0}
@@ -1021,6 +1020,7 @@ MonoBehaviour:
   BodyPartSurfaceVolume: 5
   playerScript: {fileID: 0}
   CannotRecognizeNames: 0
+  UsedZones: 000000000100000003000000020000000500000004000000
   meatProduce: {fileID: 0}
   skinProduce: {fileID: 0}
   allExternalMetabolismReactions:
@@ -1098,10 +1098,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fad55d26381ef594c8bff2db4222570c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   canBreathAnywhere: 0
-  takeLowPressureDamage: 1
-  takeHighPressureDamage: 1
   tickRate: 1
+--- !u!114 &673354623609822083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28c31b780e04c764e9c38c7eee5a7de8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxRunSpeedDebuff: -2
+  maxWalkingDebuff: -1.5
+  maxCrawlDebuff: -0.2
 --- !u!114 &-5098788322438649402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1363,6 +1378,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  WeldingShieldImplants: 0
 --- !u!114 &7265610720913237329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1476,6 +1492,7 @@ MonoBehaviour:
   triggerOnce: 1
   showEvenAfterDeath: 1
   tipCooldown: 200
+  highlightableObjectNames: []
   bleedingVeryLowEvent: {fileID: 11400000, guid: 9840743232461594d952b82560fe1eeb,
     type: 2}
   bleedingLowEvent: {fileID: 11400000, guid: 674dd66c6a6ff5f40a52d8b8b9e742bf, type: 2}
@@ -1516,6 +1533,7 @@ MonoBehaviour:
   triggerOnce: 1
   showEvenAfterDeath: 0
   tipCooldown: 200
+  highlightableObjectNames: []
   protipsForTraits:
     m_keys:
     - {fileID: 11400000, guid: ba923436cf6803a4f99a5ed73f885d61, type: 2}

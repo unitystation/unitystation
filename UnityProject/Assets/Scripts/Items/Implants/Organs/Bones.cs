@@ -5,7 +5,8 @@ namespace Items.Implants.Organs
 {
 	public class Bones : BodyPartFunctionality
 	{
-		[SerializeField] public float BloodGeneratedByOneNutriment = 30;
+		[SerializeField] private float hungerUsedNormal;
+		[SerializeField] public float BloodGeneratedByOneHunger = 30;
 		[SerializeField] private BloodType GeneratesThis;
 
 		public float GenerationOvershoot = 1;
@@ -23,14 +24,8 @@ namespace Items.Implants.Organs
 		{
 			if ((RelatedPart.HealthMaster.CirculatorySystem.StartingBlood * GenerationOvershoot) > RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Total)  //Assuming this is blood cap max)
 			{
-				float toConsume = RelatedPart.PassiveConsumptionNutriment * RelatedPart.HealingNutrimentMultiplier;
-				if (toConsume > RelatedPart.HealthMaster.CirculatorySystem.BloodPool[RelatedPart.Nutriment])
-				{
-					toConsume = RelatedPart.HealthMaster.CirculatorySystem.BloodPool[RelatedPart.Nutriment];
-				}
-
-				RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Remove(RelatedPart.Nutriment, toConsume);
-				RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Add(GeneratesThis, BloodGeneratedByOneNutriment * toConsume);
+				RelatedPart.HungerConsumption = hungerUsedNormal * RelatedPart.HealingNutrimentMultiplier;
+				RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Add(GeneratesThis, BloodGeneratedByOneHunger * RelatedPart.HungerConsumption);
 			}
 		}
 	}

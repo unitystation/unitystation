@@ -1,8 +1,6 @@
-﻿using System;
-using UnityEngine;
-using System.Threading.Tasks;
+﻿using UnityEngine;
 using HealthV2;
-using Items;
+using Items.Implants.Organs;
 
 namespace Items.Food
 {
@@ -32,7 +30,7 @@ namespace Items.Food
 			var feeder = feederGO.GetComponent<PlayerScript>();
 
 			// Show eater message
-			var eaterHungerState = eater.playerHealth.HungerState;
+			var eaterHungerState = eater.playerHealth.DigestiveSystem.HungerState;
 			ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");
 
 			// Check if eater can eat anything
@@ -57,17 +55,25 @@ namespace Items.Food
 			// TODO: missing sound?
 			//SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
 
-			var stomachs = eater.playerHealth.GetStomachs();
-			if (stomachs.Count == 0)
+			var Stomachs = eater.playerHealth.GetStomachs();
+			if (Stomachs.Count == 0)
 			{
 				//No stomachs?!
 				return;
 			}
-			FoodContents.Divide(stomachs.Count);
-			foreach (var stomach in stomachs)
+
+
+			bool success = false;
+			foreach (var Stomach in Stomachs)
 			{
-				stomach.StomachContents.Add(FoodContents.CurrentReagentMix.Clone());
+				if (Stomach.AddObjectToStomach(this) == true)
+				{
+					success = true;
+					break;
+				}
 			}
+
+			if (success == false) return;
 
 			Pregnancy(eater.playerHealth);
 			var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
@@ -83,7 +89,10 @@ namespace Items.Food
 
 			if (player.GetStomachs().Count == 0) return;
 
-			player.GetStomachs()[0].RelatedPart.OrganStorage.ServerTryAdd(embryo);
+			Stomach stomachToImplant = player.GetStomachs()[0] as Stomach;
+			if (stomachToImplant == null) return;
+
+			stomachToImplant.RelatedPart.OrganStorage.ServerTryAdd(embryo);
 		}
 	}
 }

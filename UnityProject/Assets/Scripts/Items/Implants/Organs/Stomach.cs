@@ -1,89 +1,108 @@
-﻿using System.Collections.Generic;
-using Chemistry.Components;
+﻿using Chemistry.Components;
+using System;
+using Chemistry;
 using HealthV2;
+using Items.Food;
+using UnityEngine;
+using System.Collections.Generic;
 
 namespace Items.Implants.Organs
 {
-	public class Stomach : BodyPartFunctionality
+	public class Stomach : BodyPartFunctionality, IStomachProcess
 	{
-		public ReagentContainer StomachContents;
+		//General Stomach Class does not contain functions for fat as only organic stomachs will produce it. See FatProducingStomach.cs
 
-		public float DigesterAmountPerSecond = 1;
+		protected ItemStorage stomachContents;
+		protected ReagentContainer reagentContainer;
 
-		public List<BodyFat> BodyFats = new List<BodyFat>();
+		[SerializeField] protected List<Reagent> nutrientReagents; //What reagents this stomach treats as food. Nutrient is base, but stomachs like Moths might consume different reagents for food.
 
-		public BodyFat BodyFatToInstantiate;
+		[SerializeField] protected int DigesterAmountPerSecond = 1; //On average takes 18 seconds to deplete one nutrient.
 
-		public bool InitialFatSpawned = false;
-
-		public override void ImplantPeriodicUpdate()
+		public void Start()
 		{
-			base.ImplantPeriodicUpdate();
+			stomachContents = GetComponent<ItemStorage>();
+			reagentContainer = GetComponent<ReagentContainer>();
+		}
 
-			//BloodContainer
-			if (StomachContents.ReagentMixTotal > 0)
+		public bool AddObjectToStomach(Consumable edible)
+		{
+			return Inventory.ServerAdd(edible.gameObject, stomachContents.GetNextFreeIndexedSlot(), ReplacementStrategy.Cancel);
+		}
+
+		public float TryAddReagentsToStomach(ReagentMix reagentMix)
+		{
+			float consumedAmount = Math.Max(reagentMix.Total, reagentContainer.SpareCapacity);
+			
+			reagentContainer.Add(reagentMix.Take(consumedAmount));
+
+			return consumedAmount;
+		}
+
+		public virtual float ProcessContent() 
+		{
+			foreach(ItemSlot slot in stomachContents.GetItemSlots()) //Gets reagent from food in stomach, and then despawns food once digested.
 			{
-				float ToDigest = DigesterAmountPerSecond * RelatedPart.TotalModified;
-				if (StomachContents.ReagentMixTotal < ToDigest)
+				if (slot.IsEmpty == true) continue;
+
+				ReagentMix chemicalsFromFood = new ReagentMix();
+				if (slot.ItemObject.TryGetComponent<Edible>(out var edible) == false)
 				{
-					ToDigest = StomachContents.ReagentMixTotal;
+					if (slot.ItemObject.TryGetComponent<NotHandEdible>(out var notHandEdible) == false) continue;
+					chemicalsFromFood.Add(notHandEdible.TakeReagentsFromFood(DigesterAmountPerSecond));
 				}
-				var Digesting = StomachContents.TakeReagents(ToDigest);
+				else chemicalsFromFood.Add(edible.TakeReagentsFromFood(DigesterAmountPerSecond));
 
-				RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Add(Digesting);
-			}
-
-			if (StomachContents.SpareCapacity < 15f) //Magic number
-			{
-				RelatedPart.HungerState = HungerState.Full;
-			}
-			else
-			{
-				RelatedPart.HungerState = HungerState.Normal;
-			}
-
-			bool AllFat = true;
-			foreach (var Fat in BodyFats)
-			{
-
-				if (Fat.IsFull == false)
+				if(chemicalsFromFood.Total == 0)
 				{
-					AllFat = false;
-					break;
+					Inventory.ServerDespawn(slot);
+					continue;
 				}
+
+				reagentContainer.Add(chemicalsFromFood);
+				break;
 			}
 
-			if (AllFat)
+			return Digest(); //Gets nutrient from reagent store, and adds the remaining nutrients to Blood Supply.
+		}
+
+		public virtual float Digest()
+		{
+			float newNutrient = 0;
+
+			foreach (Reagent nutrientReagent in nutrientReagents)
 			{
-				var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject).GameObject.GetComponent<BodyFat>();
-				Added.SetAbsorbedAmount(0);
-				Added.RelatedStomach = this;
-				BodyFats.Add(Added);
-				RelatedPart.OrganStorage.ServerTryAdd(Added.gameObject);
+				float amount = reagentContainer.AmountOfReagent(nutrientReagent);
+				if (amount > 0)
+				{
+					newNutrient += amount;
+					reagentContainer.CurrentReagentMix.reagents.Remove(nutrientReagent);
+				}
 			}
+			RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Add(reagentContainer.CurrentReagentMix.Take(DigesterAmountPerSecond)); //Adds non nutrient chemicals to blood pool.
+
+			return newNutrient;
+		}
+
+		public virtual float GetStomachMaxHunger()
+		{
+			return reagentContainer.MaxCapacity;
 		}
 
 		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
-			AddFat();
-		}
-
-		public void AddFat()
-		{
-			if (InitialFatSpawned == false)
-			{
-				InitialFatSpawned = true;
-				var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject).GameObject.GetComponent<BodyFat>();
-				BodyFats.Add(Added);
-				Added.RelatedStomach = this;
-				RelatedPart.ContainedIn.OrganStorage.ServerTryAdd(Added.gameObject);
-			}
+			RelatedPart.HealthMaster.DigestiveSystem.AddStomach(this);
 		}
 
 		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
 			base.RemovedFromBody(livingHealth);
-			BodyFats.Clear();
+			RelatedPart.HealthMaster.DigestiveSystem.RemoveStomach(this);
+		}
+
+		public void ChangeStomachCapacity(int reagentMaxCapacity)
+		{
+			reagentContainer.SetMaxCapacity(reagentMaxCapacity);
 		}
 	}
 }

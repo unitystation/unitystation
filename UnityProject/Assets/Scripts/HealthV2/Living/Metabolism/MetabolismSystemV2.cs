@@ -34,10 +34,10 @@ public struct MetabolismEffect
 
 public enum HungerState
 {
-	Full,
-	Normal,
-	Hungry,
-	Malnourished,
-	Starving
+	Full = 0,
+	Normal = 1,
+	Hungry = 2,
+	Malnourished = 3,
+	Starving = 4
 
 }

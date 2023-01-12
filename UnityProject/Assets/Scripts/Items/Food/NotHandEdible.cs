@@ -59,6 +59,8 @@ namespace Items
 		public override void TryConsume(GameObject feederGO, GameObject eaterGO)
 		{
 			var eater = eaterGO.GetComponent<PlayerScript>();
+			if (eater.playerHealth.DigestiveSystem == null) return;
+
 			if (eater == null)
 			{
 				// todo: implement non-player eating
@@ -75,7 +77,7 @@ namespace Items
 			var feeder = feederGO.GetComponent<PlayerScript>();
 
 			// Show eater message
-			var eaterHungerState = eater.playerHealth.HungerState;
+			var eaterHungerState = eater.playerHealth.DigestiveSystem.HungerState;
 			ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");
 
 			// Check if eater can eat anything
@@ -101,18 +103,22 @@ namespace Items
 			//TODO: Reimplement metabolism.
 			SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
 
-			var stomachs = eater.playerHealth.GetStomachs();
-			if (stomachs.Count == 0)
+			var Stomachs = eater.playerHealth.GetStomachs();
+			if (Stomachs.Count == 0)
 			{
 				//No stomachs?!
 				return;
 			}
 
-			FoodContents.Divide(stomachs.Count);
 
-			foreach (var stomach in stomachs)
+			bool success = false;
+			foreach (var Stomach in Stomachs)
 			{
-				stomach.StomachContents.Add(FoodContents.CurrentReagentMix.Clone());
+				if (Stomach.AddObjectToStomach(this) == true)
+				{
+					success = true;
+					break;
+				}
 			}
 
 			var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
@@ -138,6 +144,18 @@ namespace Items
 					pickupable.UniversalObjectPhysics.AppearAtWorldPositionServer(feeder.WorldPos);
 				}
 			}
+		}
+
+		public ReagentMix TakeReagentsFromFood(int amount)
+		{
+			return FoodContents.TakeReagents(amount);
+		}
+
+		public bool AddReagentsToFood(ReagentMix reagentsToAdd) //For injecting food with chemicals in future
+		{
+			TransferResult result = FoodContents.Add(reagentsToAdd);
+
+			return result.Success;
 		}
 	}
 }

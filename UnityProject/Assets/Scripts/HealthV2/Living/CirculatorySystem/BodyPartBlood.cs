@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using Chemistry;
-using Chemistry.Components;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -20,7 +17,7 @@ namespace HealthV2
 		[HorizontalLine] [Tooltip("Is this connected to the blood stream at all?")] [SerializeField]
 		private bool isBloodCirculated = true;
 
-		public bool CanGetHungry = true;
+		public float HungerConsumption = 1f; //Will this body part increase the hunger requirement of the body? If so by how much.
 
 		public bool HasNaturalToxicity = true;
 
@@ -77,19 +74,6 @@ namespace HealthV2
 
 		public float CurrentBloodSaturation => currentBloodSaturation;
 
-		/// <summary>
-		/// The nutriment reagent that this part consumes in order to perform tasks
-		/// </summary>
-		[Tooltip("What does this live off?")] [SerializeField]
-		public Reagent Nutriment;
-
-		/// <summary>
-		/// The amount of of nutriment to consumed each tick as part of passive metabolism
-		/// </summary>
-		[NonSerialized] //Automatically generated runtime
-		public float PassiveConsumptionNutriment = 0.00012f;
-
-
 
 		[Tooltip("How many metabolic reactions can happen inside of this body part Per tick per 1u of blood flow ")]
 		public float ReagentMetabolism = 0.2f;
@@ -114,9 +98,6 @@ namespace HealthV2
 
 		[Tooltip("How much natural toxicity does this body part generate Per tick per 1u of blood flow ")]
 		public float ToxinGeneration = 0.0002f;
-
-
-		public HungerState HungerState = HungerState.Normal;
 
 		/// <summary>
 		/// Initializes the body part as part of the circulatory system

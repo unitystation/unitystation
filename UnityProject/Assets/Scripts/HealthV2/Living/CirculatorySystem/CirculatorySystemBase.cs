@@ -145,16 +145,6 @@ namespace HealthV2
 					Toxicity[bodyPart.NaturalToxinReagent].RelatedBodyParts.Add(bodyPart);
 					Toxicity[bodyPart.NaturalToxinReagent].TotalNeeded += bodyPart.ToxinGeneration * bodyPart.BloodThroughput;
 				}
-
-				if (bodyPart.CanGetHungry)
-				{
-					if (NutrimentToConsume.ContainsKey(bodyPart.Nutriment) == false)
-					{
-						NutrimentToConsume[bodyPart.Nutriment] = new ReagentWithBodyParts();
-					}
-					NutrimentToConsume[bodyPart.Nutriment].RelatedBodyParts.Add(bodyPart);
-					NutrimentToConsume[bodyPart.Nutriment].TotalNeeded += bodyPart.PassiveConsumptionNutriment * bodyPart.BloodThroughput;
-				}
 			}
 
 
@@ -192,7 +182,6 @@ namespace HealthV2
 
 		public void Heartbeat(float HeartEfficiency)
 		{
-			NutrimentCalculation(HeartEfficiency);
 			BloodSaturationCalculations(HeartEfficiency);
 			MetaboliseReactions();
 			ToxinGeneration(HeartEfficiency); //Could be better
@@ -297,59 +286,6 @@ namespace HealthV2
 			}
 		}
 
-
-
-		public void NutrimentCalculation(float HeartEfficiency)
-		{
-			foreach (var KVP in NutrimentToConsume)
-			{
-				float Needed = KVP.Value.TotalNeeded;
-				foreach (var bodyPart in KVP.Value.RelatedBodyParts)
-				{
-					if (bodyPart.TotalDamageWithoutOxy > 0)
-					{
-						Needed -= bodyPart.PassiveConsumptionNutriment * bodyPart.BloodThroughput;
-						Needed += bodyPart.PassiveConsumptionNutriment * bodyPart.BloodThroughput * bodyPart.HealingNutrimentMultiplier;
-					}
-				}
-
-
-				var AvailablePercentage = BloodPool[KVP.Key] / Needed;
-				var Effective = Mathf.Min(HeartEfficiency, AvailablePercentage);
-
-				var Amount = Needed * Effective;
-				BloodPool.Remove(KVP.Key, Amount);
-				foreach (var bodyPart in KVP.Value.RelatedBodyParts)
-				{
-					if (Effective > 0.1f)
-					{
-						if (bodyPart.HungerModifier.Multiplier != 1)
-						{
-							bodyPart.HungerModifier.Multiplier = 1f;
-						}
-
-						bodyPart.HungerState = HungerState.Normal;
-
-						if (bodyPart.TotalDamageWithoutOxy > 0)
-						{
-							var Total = bodyPart.PassiveConsumptionNutriment * bodyPart.BloodThroughput * bodyPart.HealingNutrimentMultiplier * Effective;
-							bodyPart.NutrimentHeal(Total);
-						}
-					}
-					else
-					{
-						if (bodyPart.HungerModifier.Multiplier != 0.5f)
-						{
-							bodyPart.HungerModifier.Multiplier = 0.5f;
-						}
-
-						bodyPart.HungerState = HungerState.Starving; //TODO Can optimise by setting the main hunger thing
-					}
-				}
-			}
-		}
-
-
 		public void ToxinGeneration(float HeartEfficiency)
 		{
 			float Multiplier = 1;
@@ -385,52 +321,6 @@ namespace HealthV2
 				if (ProcessingAmount == 0) continue;
 
 				Reaction.React(PrecalculatedMetabolismReactions[Reaction], BloodPool, ProcessingAmount);
-			}
-		}
-
-		//The cause of world hunger
-		public void InitialiseHunger(float numberOfMinutesBeforeHunger)
-		{
-			var TotalBloodThroughput = 0f;
-
-			foreach (var bodyPart in healthMaster.BodyPartList)
-			{
-				if (bodyPart.IsBloodCirculated == false) continue;
-				if (bodyPart.CanGetHungry == false) continue;
-				TotalBloodThroughput += bodyPart.BloodThroughput;
-			}
-
-			var ConsumptionPerFlowSecond = (1f / 60f) / TotalBloodThroughput;
-
-			foreach (var bodyPart in healthMaster.BodyPartList)
-			{
-				if (bodyPart.IsBloodCirculated == false) continue;
-				if (bodyPart.CanGetHungry == false) continue;
-				bodyPart.PassiveConsumptionNutriment = ConsumptionPerFlowSecond;
-			}
-			//numberOfMinutesBeforeHunger
-			var Stomachs = healthMaster.GetStomachs();;
-
-			var MinutesAvailable = 0f;
-
-			foreach (var Stomach in Stomachs)
-			{
-				foreach (var bodyFat in Stomach.BodyFats)
-				{
-					MinutesAvailable += bodyFat.AbsorbedAmount;
-				}
-			}
-
-			var  Bymultiply = numberOfMinutesBeforeHunger / MinutesAvailable;
-
-			Bymultiply *= (1 + UnityEngine.Random.Range(-0.25f, 0.25f));
-
-			foreach (var Stomach in Stomachs)
-			{
-				foreach (var bodyFat in Stomach.BodyFats)
-				{
-					bodyFat.AbsorbedAmount *= Bymultiply;
-				}
 			}
 		}
 
@@ -502,11 +392,6 @@ namespace HealthV2
 		{
 			foreach (var bodyPart in healthMaster.BodyPartList)
 			{
-				if (bodyPart.Nutriment == null)
-				{
-					bodyPart.Nutriment = HealthData.Base.BodyNutriment;
-				}
-
 				if (bodyPart.NaturalToxinReagent == null)
 				{
 					bodyPart.NaturalToxinReagent = HealthData.Base.BodyNaturalToxinReagent;

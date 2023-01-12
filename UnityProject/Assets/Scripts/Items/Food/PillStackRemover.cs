@@ -15,13 +15,28 @@ namespace Items
 		public override void TryConsume(GameObject feeder, GameObject eater)
 		{
 			var health = eater.GetComponent<LivingHealthMasterBase>();
+
 			var Stomachs = health.GetStomachs();
+			if (Stomachs.Count == 0)
+			{
+				//No stomachs?!
+				return;
+			}
+			bool success = false;
 			foreach (var Stomach in Stomachs)
 			{
-				Stomach.StomachContents.Add(new ReagentMix(RADRemover,Amount/Stomachs.Count));
+				if (Stomach.AddObjectToStomach(this))
+				{
+					success = true;
+					break;
+				}
 			}
-			//health.RadiationStacks *= StackPercentageRemove / 100f;
-			_ = Despawn.ServerSingle(gameObject);
+	
+			if (success == true)
+			{
+				//health.RadiationStacks *= StackPercentageRemove / 100f;
+				_ = Despawn.ServerSingle(gameObject);
+			}
 		}
 	}
 }

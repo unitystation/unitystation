@@ -91,15 +91,11 @@ public class DrinkableContainer : Consumable
 		// Start drinking reagent mix
 		var drinkAmount = container.TransferAmount;
 
-		List<Stomach> stomachs = eater.playerHealth.GetStomachs();
-		foreach (Stomach currentStomach in stomachs)
-		{
-			ReagentContainer stomachContainer = currentStomach.StomachContents;
+		List<IStomachProcess> stomachs = eater.playerHealth.GetStomachs();
 
-			//fill current stomach as much as we can until empty
-			float transferred = Mathf.Min(drinkAmount,
-				stomachContainer.MaxCapacity - stomachContainer.CurrentReagentMix.Total);
-			container.TransferTo(transferred, stomachContainer);
+		foreach (IStomachProcess currentStomach in stomachs)
+		{
+			float transferred = currentStomach.TryAddReagentsToStomach(container.TakeReagents(drinkAmount));
 
 			//update how much is left
 			drinkAmount -= transferred;

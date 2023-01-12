@@ -27,12 +27,12 @@ namespace HealthV2.Living.Mutations.Bones
 			public override void SetUp()
 			{
 				Bone = BodyPart.GetComponent<Items.Implants.Organs.Bones>();
-				Bone.BloodGeneratedByOneNutriment -= Anemia.BloodRegenerationRemove;
+				Bone.BloodGeneratedByOneHunger -= Anemia.BloodRegenerationRemove;
 			}
 
 			public override void Remove()
 			{
-				Bone.BloodGeneratedByOneNutriment += Anemia.BloodRegenerationRemove;
+				Bone.BloodGeneratedByOneHunger += Anemia.BloodRegenerationRemove;
 			}
 
 		}

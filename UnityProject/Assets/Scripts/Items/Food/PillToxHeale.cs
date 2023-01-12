@@ -18,11 +18,27 @@ namespace Items
 		{
 			var Health = eater.GetComponent<LivingHealthMasterBase>();
 			var Stomachs = Health.GetStomachs();
+
+			if (Stomachs.Count == 0)
+			{
+				//No stomachs?!
+				return;
+			}
+			bool success = false;
 			foreach (var Stomach in Stomachs)
 			{
-				Stomach.StomachContents.Add(new ReagentMix(Antitoxin,HealingAmount/Stomachs.Count));
+				if (Stomach.TryAddReagentsToStomach(new ReagentMix(Antitoxin, HealingAmount)) > 0)
+				{
+					success = true;
+					break;
+				}
 			}
-			_ = Despawn.ServerSingle(gameObject);
+
+			if (success == true)
+			{
+				//health.RadiationStacks *= StackPercentageRemove / 100f;
+				_ = Despawn.ServerSingle(gameObject);
+			}
 		}
 	}
 }

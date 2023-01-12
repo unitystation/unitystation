@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Threading.Tasks;
 using Items;
 using Mirror;
 using UnityEngine;
 using Systems.Clothing;
 using HealthV2;
-using Systems.Antagonists;
 using Systems.MobAIs;
+using Items.Implants.Organs;
 
 namespace Clothing
 {
@@ -107,7 +106,10 @@ namespace Clothing
 
 			if (player.GetStomachs().Count == 0) return;
 
-			player.GetStomachs()[0].RelatedPart.OrganStorage.ServerTryAdd(embryo);
+			Stomach stomachToImplant = player.GetStomachs()[0] as Stomach;
+			if(stomachToImplant == null) return;
+
+			stomachToImplant.RelatedPart.OrganStorage.ServerTryAdd(embryo);
 		}
 
 		private IEnumerator Release()

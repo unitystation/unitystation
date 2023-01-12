@@ -82,6 +82,11 @@ PrefabInstance:
       propertyPath: foreverID
       value: 69104df12837d1e48bb456dce5301bfa
       objectReference: {fileID: 0}
+    - target: {fileID: 2392288886832539726, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_AssetId
@@ -274,7 +279,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7132720453719274872}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1458293514004664868
+--- !u!114 &7673327661231706934
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -283,14 +288,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 2556953724642564633}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6db4404109ee5304895b5058a7eff177, type: 3}
+  m_Script: {fileID: 11500000, guid: c8062700515a2cd4fb294003089beede, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   isEMPVunerable: 0
   EMPResistance: 2
-  StomachContents: {fileID: 7073899732039749527}
+  nutrientReagents:
+  - {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
   DigesterAmountPerSecond: 1
-  BodyFats: []
-  BodyFatToInstantiate: {fileID: 5722168868389364961, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+  MaxFat: 5
+  fatPrefab: {fileID: 5324125373314380594, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
     type: 3}
-  InitialFatSpawned: 0

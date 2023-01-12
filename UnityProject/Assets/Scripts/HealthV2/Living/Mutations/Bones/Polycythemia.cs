@@ -6,7 +6,7 @@ namespace HealthV2.Living.Mutations.Bones
 	public class Polycythemia : MutationSO
 	{
 		public float GenerationOvershoot = 1;
-		public float AddedBloodGeneratedByOneNutriment = 50;
+		public float AddedBloodGeneratedByOneHunger = 50;
 
 		public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
 		{
@@ -28,13 +28,13 @@ namespace HealthV2.Living.Mutations.Bones
 			{
 				Bone = BodyPart.GetComponent<Items.Implants.Organs.Bones>();
 				Bone.GenerationOvershoot += Polycythemia.GenerationOvershoot;
-				Bone.BloodGeneratedByOneNutriment += Polycythemia.AddedBloodGeneratedByOneNutriment;
+				Bone.BloodGeneratedByOneHunger += Polycythemia.AddedBloodGeneratedByOneHunger;
 			}
 
 			public override void Remove()
 			{
 				Bone.GenerationOvershoot -= Polycythemia.GenerationOvershoot;
-				Bone.BloodGeneratedByOneNutriment -= Polycythemia.AddedBloodGeneratedByOneNutriment;
+				Bone.BloodGeneratedByOneHunger -= Polycythemia.AddedBloodGeneratedByOneHunger;
 			}
 
 		}

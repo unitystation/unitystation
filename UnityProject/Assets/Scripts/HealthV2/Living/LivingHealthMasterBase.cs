@@ -117,6 +117,12 @@ namespace HealthV2
 		public RespiratorySystemBase RespiratorySystem { get; private set; }
 
 		/// <summary>
+		/// The creature's Digestive System
+		/// </summary>
+		[CanBeNull]
+		public DigestiveSystemBase DigestiveSystem { get; private set; }
+
+		/// <summary>
 		/// The creature's Metabolism System, currently unimplemented
 		/// </summary>
 		[CanBeNull]
@@ -204,35 +210,6 @@ namespace HealthV2
 
 
 		public float BodyPartSurfaceVolume = 5;
-
-		/// <summary>
-		/// The current hunger state of the creature, currently always returns normal
-		/// </summary>
-		public HungerState HungerState => CalculateHungerState();
-
-		public HungerState CalculateHungerState()
-		{
-			var State = HungerState.Full;
-			foreach (var bodyPart in BodyPartList)
-			{
-				if (bodyPart.HungerState == HungerState.Full)
-				{
-					State = HungerState.Full;
-					break;
-				}
-
-				if ((int) bodyPart.HungerState > (int) State) //TODO Add the other states
-				{
-					State = bodyPart.HungerState;
-					if (State == HungerState.Starving)
-					{
-						break;
-					}
-				}
-			}
-
-			return State;
-		}
 
 		public BleedingState BleedingState => CalculateBleedingState();
 
@@ -324,6 +301,7 @@ namespace HealthV2
 			RegisterTile = GetComponent<RegisterTile>();
 			RespiratorySystem = GetComponent<RespiratorySystemBase>();
 			CirculatorySystem = GetComponent<CirculatorySystemBase>();
+			DigestiveSystem = GetComponent<DigestiveSystemBase>();
 			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			healthStateController = GetComponent<HealthStateController>();
 			mobSickness = GetComponent<MobSickness>();
@@ -563,6 +541,7 @@ namespace HealthV2
 			}
 
 			CirculatorySystem.BloodUpdate();
+			DigestiveSystem.PeriodicUpdate();
 			ExternalMetaboliseReactions();
 
 			FireStacksDamage();
@@ -882,7 +861,7 @@ namespace HealthV2
 
 			//Sync health
 			healthStateController.SetOverallHealth(currentHealth);
-			healthStateController.SetHunger(HungerState);
+			if(DigestiveSystem != null) healthStateController.SetHunger(DigestiveSystem.HungerState);
 			healthStateController.SetBleedingState(BleedingState);
 
 			if (currentHealth < -100)
@@ -1083,22 +1062,9 @@ namespace HealthV2
 		/// Gets a list of all the stomachs in the creature
 		/// </summary>
 		/// <returns>List of Stomachs</returns>
-		public List<Stomach> GetStomachs()
+		public List<IStomachProcess> GetStomachs()
 		{
-			var Stomachs = new List<Stomach>();
-			foreach (var Implant in BodyPartList)
-			{
-				foreach (var organ in Implant.OrganList)
-				{
-					var stomach = organ as Stomach;
-					if (stomach != null)
-					{
-						Stomachs.Add(stomach);
-					}
-				}
-			}
-
-			return Stomachs;
+			return DigestiveSystem?.GetStomachs();
 		}
 
 		/// <summary>
@@ -1933,7 +1899,6 @@ namespace HealthV2
 		public void InitialiseFromRaceData(PlayerHealthData RaceBodyparts)
 		{
 			CirculatorySystem.SetBloodType(RaceBodyparts.Base.BloodType);
-			CirculatorySystem.InitialiseHunger(RaceBodyparts.Base.NumberOfMinutesBeforeStarving);
 			CirculatorySystem.InitialiseToxGeneration(RaceBodyparts.Base.TotalToxinGenerationPerSecond);
 			CirculatorySystem.InitialiseMetabolism(RaceBodyparts);
 			CirculatorySystem.InitialiseDefaults(RaceBodyparts);

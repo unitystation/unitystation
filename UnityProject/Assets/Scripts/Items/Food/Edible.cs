@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using AddressableReferences;
-using Chemistry;
+﻿using AddressableReferences;
 using Chemistry.Components;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using Messages.Server.SoundMessages;
 using Systems.Score;
+using Chemistry;
+
 
 namespace Items.Food
 {
@@ -71,6 +67,8 @@ namespace Items.Food
 		public override void TryConsume(GameObject feederGO, GameObject eaterGO)
 		{
 			var eater = eaterGO.GetComponent<PlayerScript>();
+			if (eater.playerHealth.DigestiveSystem == null) return;
+
 			if (eater == null)
 			{
 				// todo: implement non-player eating
@@ -95,7 +93,7 @@ namespace Items.Food
 			}
 
 			// Show eater message
-			var eaterHungerState = eater.playerHealth.HungerState;
+			var eaterHungerState = eater.playerHealth.DigestiveSystem.HungerState;
 			ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");
 
 			// Check if eater can eat anything
@@ -131,14 +129,18 @@ namespace Items.Food
 				return;
 			}
 
-			float SpareSpace = 0;
 
+			bool success = false;
 			foreach (var Stomach in Stomachs)
 			{
-				SpareSpace += Stomach.StomachContents.SpareCapacity;
+				if (Stomach.AddObjectToStomach(this) == true)
+				{
+					success = true;
+					break;
+				}
 			}
 
-			if (SpareSpace < 0.5f)
+			if (success == false)
 			{
 				if (eater == feeder)
 				{
@@ -155,22 +157,6 @@ namespace Items.Food
 
 				return;
 			}
-
-			if (SpareSpace < FoodContents.CurrentReagentMix.Total)
-			{
-				Chat.AddActionMsgToChat(feeder.gameObject, "You unwillingly eat the food",
-					"{performer} Unwillingly force themselves to eat the food");
-			}
-
-			ReagentMix incomingFood = FoodContents.CurrentReagentMix.Clone();
-
-
-			incomingFood.Divide(Stomachs.Count);
-			foreach (var Stomach in Stomachs)
-			{
-				Stomach.StomachContents.Add(incomingFood.Clone());
-			}
-
 
 			var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
 			//If food has a stack component, decrease amount by one instead of deleting the entire stack.
@@ -195,6 +181,18 @@ namespace Items.Food
 				}
 			}
 			ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_FOODEATEN);
+		}
+
+		public ReagentMix TakeReagentsFromFood(int amount)
+		{
+			return FoodContents.TakeReagents(amount);
+		}
+
+		public bool AddReagentsToFood(ReagentMix reagentsToAdd) //For injecting food with chemicals in future
+		{
+			TransferResult result = FoodContents.Add(reagentsToAdd);
+
+			return result.Success;
 		}
 	}
 }

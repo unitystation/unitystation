@@ -25,16 +25,16 @@ namespace Items.Food
 
 			if (feedNutrients)
 			{
-				var stomachs = eater.playerHealth.GetStomachs();
-				if (stomachs.Count == 0)
+				var Stomachs = eater.playerHealth.GetStomachs();
+				if (Stomachs.Count == 0)
 				{
 					//No stomachs?!
 					return;
 				}
-				FoodContents.Divide(stomachs.Count);
-				foreach (var stomach in stomachs)
+
+				foreach (var Stomach in Stomachs)
 				{
-					stomach.StomachContents.Add(FoodContents.CurrentReagentMix.Clone());
+					if(Stomach.AddObjectToStomach(this)) break;			
 				}
 			}
 

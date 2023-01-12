@@ -20,7 +20,6 @@ namespace Items.Implants.Organs
 			{
 				WhiteListReagents.Add(RelatedPart.requiredReagent);
 				WhiteListReagents.Add(RelatedPart.wasteReagent);
-				WhiteListReagents.Add(RelatedPart.Nutriment);
 			}
 		}
 
