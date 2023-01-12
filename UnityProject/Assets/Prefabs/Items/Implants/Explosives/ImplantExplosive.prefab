@@ -420,7 +420,7 @@ MonoBehaviour:
   SurgeryProcedureBase:
   - {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329, type: 2}
   isBloodCirculated: 0
-  CanGetHungry: 0
+  HungerConsumption: 0
   HasNaturalToxicity: 0
   isBloodReagentConsumed: 0
   requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
@@ -428,13 +428,11 @@ MonoBehaviour:
   bloodReagentConsumedPercentageb: 0
   bloodThroughput: 0
   currentBloodSaturation: 0
-  Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
-  HealingNutrimentMultiplier: 0
   ReagentMetabolism: 0
+  HealingNutrimentMultiplier: 0
   NaturalToxinReagent: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12,
     type: 2}
   ToxinGeneration: 0
-  HungerState: 1
   SelfArmor:
     Melee: 0
     Bullet: 0
@@ -449,6 +447,8 @@ MonoBehaviour:
     Anomaly: 0
     DismembermentProtectionChance: 0
     StunImmunity: 0
+    TemperatureProtectionInK: {x: 268.15, y: 313.15}
+    PressureProtectionInKpa: {x: 30, y: 300}
   SubOrganBodyPartArmour:
     Melee: 100
     Bullet: 90
@@ -463,6 +463,8 @@ MonoBehaviour:
     Anomaly: 0
     DismembermentProtectionChance: 0
     StunImmunity: 0
+    TemperatureProtectionInK: {x: 268.15, y: 313.15}
+    PressureProtectionInKpa: {x: 30, y: 300}
   SubOrganDamageIncreasePoint: 80
   DamageContributesToOverallHealth: 0
   DamageEfficiencyMultiplier: 1

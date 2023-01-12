@@ -109,7 +109,7 @@ namespace Clothing
 			Stomach stomachToImplant = player.GetStomachs()[0] as Stomach;
 			if(stomachToImplant == null) return;
 
-			stomachToImplant.RelatedPart.OrganStorage.ServerTryAdd(embryo);
+			Inventory.ServerAdd(embryo.GetComponent<Pickupable>(), stomachToImplant.RelatedPart.OrganStorage.GetNextFreeIndexedSlot());
 		}
 
 		private IEnumerator Release()

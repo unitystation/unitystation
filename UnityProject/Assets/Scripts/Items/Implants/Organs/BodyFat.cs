@@ -22,12 +22,14 @@ namespace Items.Implants.Organs
 		{
 			if (livingHealth.DigestiveSystem == null) return;
 			if(livingHealth.DigestiveSystem.BodyFat.Contains(this)) livingHealth.DigestiveSystem.BodyFat.Remove(this);
+			livingHealth.DigestiveSystem.CalculateMaxHunger();
 		}
 
 		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			if (livingHealth.DigestiveSystem == null) return;
 			if (livingHealth.DigestiveSystem.BodyFat.Contains(this) == false) livingHealth.DigestiveSystem.BodyFat.Add(this);
+			livingHealth.DigestiveSystem.CalculateMaxHunger();
 		}
 
 		public float ConsumeNutrient(float amount)

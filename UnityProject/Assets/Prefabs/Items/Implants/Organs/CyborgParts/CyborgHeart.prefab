@@ -174,6 +174,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: HungerConsumption
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: isBloodCirculated
       value: 0
       objectReference: {fileID: 0}
@@ -246,6 +251,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d907426271c5e5544a1c7131da7c493c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   isEMPVunerable: 1
   EMPResistance: 1
   HeartAttack: 0

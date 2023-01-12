@@ -6,7 +6,6 @@ namespace Items.Food
 {
 	[RequireComponent(typeof(RegisterItem))]
 	[RequireComponent(typeof(ItemAttributesV2))]
-	[RequireComponent(typeof(Edible))]
 	public class XenomorphFood : Edible
 	{
 		[SerializeField]
@@ -92,7 +91,7 @@ namespace Items.Food
 			Stomach stomachToImplant = player.GetStomachs()[0] as Stomach;
 			if (stomachToImplant == null) return;
 
-			stomachToImplant.RelatedPart.OrganStorage.ServerTryAdd(embryo);
+			Inventory.ServerAdd(embryo.GetComponent<Pickupable>(), stomachToImplant.RelatedPart.OrganStorage.GetNextFreeIndexedSlot());
 		}
 	}
 }

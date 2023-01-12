@@ -27,7 +27,8 @@
     ],
     "DesignIDs": [
       "cyber_heart",
-      "cyber_lung"
+      "cyber_lung",
+      "cyber_liver"
     ],
     "ResearchCosts": 15,
     "ExportPrice": 0,
@@ -92,19 +93,20 @@
   },
   {
     "ID": "filtering",
-    "DisplayName": "Cybernetic Filtering",
-    "Description": "Cybernetic livers are more efficient at filtering toxins from the body, completely protecting the host from certain toxins.",
+    "DisplayName": "Nutriment Pumps",
+    "Description": "Never go hungry again! These chest implants will keep you well fed.",
     "StartingNode": false,
     "RequiredTechnologies": [
       "advcyber"
     ],
     "DesignIDs": [
-      "cyber_liver"
+      "ci_nutriment",
+      "ci_nutrimentplus"
     ],
     "ResearchCosts": 20,
     "ExportPrice": 0,
     "PotentialUnlocks": [],
-    "prefabID": "liver",
+    "prefabID": "nutrient",
     "techType": 1,
     "Techweb": null
   },

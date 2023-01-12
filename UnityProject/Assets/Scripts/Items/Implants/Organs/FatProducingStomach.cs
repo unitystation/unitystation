@@ -1,8 +1,8 @@
 using Chemistry;
 using Items.Food;
-using HealthV2;
 using System.Collections.Generic;
 using UnityEngine;
+using HealthV2;
 
 namespace Items.Implants.Organs
 {
@@ -10,6 +10,7 @@ namespace Items.Implants.Organs
 	{
 		[SerializeField] private int MaxFat = 5;
 		[SerializeField] private GameObject fatPrefab;
+		[SerializeField] private float StartingFatCount = 100;
 
 		public override float ProcessContent()
 		{
@@ -60,21 +61,29 @@ namespace Items.Implants.Organs
 				newNutrient = fat.AddNutrient(newNutrient);
 				if (newNutrient == 0) break;
 			}
-			if(newNutrient > 0 && bodyFat.Count < 5) //Unable to get rid of all nutrient to fat stores;
-			{
-				SpawnResult newFat = Spawn.ServerPrefab(fatPrefab, SpawnDestination.At(GetComponent<UniversalObjectPhysics>().OfficialPosition));
-				if (newFat.Successful == false || newFat.GameObject.TryGetComponent<BodyFat>(out var fat) == false) return newNutrient;
 
-				newNutrient = fat.AddNutrient(newNutrient);
-				RelatedPart.ContainedIn.OrganStorage.ServerTryAdd(newFat.GameObject);
-			}
-
-			return newNutrient;
+			return SpawnFat(newNutrient);
 		}
 
-		public override float GetStomachMaxHunger()
+		public float SpawnFat(float nutrient)
 		{
-			return 0f;
+			List<BodyFat> bodyFat = RelatedPart.HealthMaster.DigestiveSystem.BodyFat;
+
+			while (nutrient > 0 && bodyFat.Count < 5) //Unable to get rid of all nutrient to fat stores;
+			{
+				GameObject newFat = Spawn.ServerPrefab(fatPrefab, SpawnDestination.At(GetComponent<UniversalObjectPhysics>().OfficialPosition)).GameObject;
+				Inventory.ServerAdd(newFat.GetComponent<Pickupable>(), RelatedPart.OrganStorage.GetNextFreeIndexedSlot());
+
+				if (newFat.TryGetComponent<BodyFat>(out var fat) == false) return nutrient;
+				nutrient = fat.AddNutrient(nutrient);
+			}
+
+			return nutrient;
+		}
+
+		public override void InitialiseHunger(DigestiveSystemBase digestiveSystem) //On round start we give the player all 5 fat they can have.
+		{
+			SpawnFat(StartingFatCount);
 		}
 	}
 }

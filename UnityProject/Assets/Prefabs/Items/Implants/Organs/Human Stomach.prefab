@@ -279,6 +279,31 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7132720453719274872}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2897573663319701833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2556953724642564633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 54cbb4402f813441cb503dcd1d440082,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 411b6b7a74c524a91b9a38a0c692761b,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
 --- !u!114 &7673327661231706934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,9 +320,24 @@ MonoBehaviour:
   syncInterval: 0.1
   isEMPVunerable: 0
   EMPResistance: 2
+  stomachContents: {fileID: 2897573663319701833}
+  reagentContainer: {fileID: 4886297188270677302}
   nutrientReagents:
   - {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
   DigesterAmountPerSecond: 1
   MaxFat: 5
   fatPrefab: {fileID: 5324125373314380594, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
     type: 3}
+  StartingFatCount: 100
+--- !u!114 &4886297188270677302 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2392288886832539726, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+    type: 3}
+  m_PrefabInstance: {fileID: 7132720453719274872}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2556953724642564633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fed226d36f0fdcd40a51a7bfbf8fb6d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

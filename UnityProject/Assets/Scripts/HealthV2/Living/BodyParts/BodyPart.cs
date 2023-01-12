@@ -281,6 +281,7 @@ namespace HealthV2
 				{
 					addedOrgan.BodyPartAddHealthMaster(HealthMaster);
 				}
+				OrganStorage.ServerTryAdd(newImplant.gameObject);
 			}
 			else if (prevImplant && prevImplant.TryGetComponent<BodyPart>(out var removedOrgan))
 			{
@@ -291,6 +292,7 @@ namespace HealthV2
 				{
 					removedOrgan.BodyPartRemoveHealthMaster();
 				}
+				OrganStorage.ServerTryRemove(prevImplant.gameObject);
 			}
 		}
 
@@ -366,9 +368,11 @@ namespace HealthV2
 			DropItemsOnDismemberment(this);
 
 
-			var bodyPartUISlot = GetComponent<BodyPartUISlots>();
-			var dynamicItemStorage = HealthMaster.GetComponent<DynamicItemStorage>();
-			dynamicItemStorage.Remove(bodyPartUISlot);
+			if (TryGetComponent<BodyPartUISlots>(out var bodyPartUISlot) == true)
+			{
+				var dynamicItemStorage = HealthMaster.GetComponent<DynamicItemStorage>();
+				dynamicItemStorage.Remove(bodyPartUISlot);
+			}
 			//Fixes an error where externally bleeding body parts would continue to try bleeding even after their removal.
 			if (IsBleedingExternally)
 			{

@@ -12,18 +12,13 @@ namespace Items.Implants.Organs
 	{
 		//General Stomach Class does not contain functions for fat as only organic stomachs will produce it. See FatProducingStomach.cs
 
-		protected ItemStorage stomachContents;
-		protected ReagentContainer reagentContainer;
+		[SerializeField] protected ItemStorage stomachContents;
+			
+		[SerializeField] protected ReagentContainer reagentContainer;
 
 		[SerializeField] protected List<Reagent> nutrientReagents; //What reagents this stomach treats as food. Nutrient is base, but stomachs like Moths might consume different reagents for food.
 
 		[SerializeField] protected int DigesterAmountPerSecond = 1; //On average takes 18 seconds to deplete one nutrient.
-
-		public void Start()
-		{
-			stomachContents = GetComponent<ItemStorage>();
-			reagentContainer = GetComponent<ReagentContainer>();
-		}
 
 		public bool AddObjectToStomach(Consumable edible)
 		{
@@ -84,19 +79,23 @@ namespace Items.Implants.Organs
 			return newNutrient;
 		}
 
-		public virtual float GetStomachMaxHunger()
+		public float GetStomachMaxHunger()
 		{
 			return reagentContainer.MaxCapacity;
 		}
 
 		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
-			RelatedPart.HealthMaster.DigestiveSystem.AddStomach(this);
+			livingHealth.DigestiveSystem.AddStomach(this);
+		}
+
+		public virtual void InitialiseHunger(DigestiveSystemBase digestiveSystem) //On round start we give the player a full stomach if said stomach cant produce fat
+		{
+			RelatedPart.HealthMaster.DigestiveSystem.ClampHunger(HungerState.Full);
 		}
 
 		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
-			base.RemovedFromBody(livingHealth);
 			RelatedPart.HealthMaster.DigestiveSystem.RemoveStomach(this);
 		}
 

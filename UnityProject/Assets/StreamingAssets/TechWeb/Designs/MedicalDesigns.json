@@ -358,7 +358,7 @@
         "Item_ID": "weldingshield"
     },
     {
-        "Internal_ID": "ci-nutriment",
+        "Internal_ID": "ci_nutriment",
         "Description": "This implant with synthesize and pump into your bloodstream a small amount of nutriment when you are starving.",
         "Category": [
             "Misc",
@@ -378,10 +378,10 @@
             "Science"
         ],
         "name": "Nutriment Pump Implant",
-        "Item_ID": "/obj/item/organ/cyberimp/chest/nutriment"
+        "Item_ID": "nutrientpump"
     },
     {
-        "Internal_ID": "ci-nutrimentplus",
+        "Internal_ID": "ci_nutrimentplus",
         "Description": "This implant with synthesize and pump into your bloodstream a small amount of nutriment when you are hungry.",
         "Category": [
             "Misc",
@@ -402,7 +402,7 @@
             "Science"
         ],
         "name": "Nutriment Pump Implant PLUS",
-        "Item_ID": "/obj/item/organ/cyberimp/chest/nutriment/plus"
+        "Item_ID": "nutrientpumpplus"
     },
     {
         "Internal_ID": "ci_reviver",

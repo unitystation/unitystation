@@ -137,6 +137,7 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents:
     - {fileID: 8095853447068111044, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
+    - {fileID: -4791504671035111961, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
 --- !u!1 &2515321529866027611 stripped
 GameObject:
@@ -163,3 +164,25 @@ MonoBehaviour:
   xenomorphLarvaeOccupation: {fileID: 11400000, guid: aafe8bd761e215b4d8af3394211f6db2,
     type: 2}
   incubationTime: 180
+--- !u!114 &6743514940294372847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2515321529866027611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7c26f467e8e3034aa80b29130890432, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leavings: {fileID: 0}
+  sound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/EatFood.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  larvae: {fileID: 0}

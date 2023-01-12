@@ -258,6 +258,8 @@ namespace HealthV2
 
 		[SyncVar] public bool CannotRecognizeNames = false;
 
+		private bool disgestiveInitialised = false;
+
 
 		public Dictionary<BodyPartType, ReagentMix> SurfaceReagents = new Dictionary<BodyPartType, ReagentMix>()
 		{
@@ -540,8 +542,9 @@ namespace HealthV2
 				BodyPartList[i].ImplantPeriodicUpdate();
 			}
 
+			DigestiveSystem?.PeriodicUpdate();
+
 			CirculatorySystem.BloodUpdate();
-			DigestiveSystem.PeriodicUpdate();
 			ExternalMetaboliseReactions();
 
 			FireStacksDamage();
@@ -1903,6 +1906,7 @@ namespace HealthV2
 			CirculatorySystem.InitialiseMetabolism(RaceBodyparts);
 			CirculatorySystem.InitialiseDefaults(RaceBodyparts);
 			CirculatorySystem.BodyPartListChange();
+			DigestiveSystem?.Initialised(this);
 
 			meatProduce = RaceBodyparts.Base.MeatProduce;
 			skinProduce = RaceBodyparts.Base.SkinProduce;
