@@ -17,6 +17,7 @@ using Strings;
 using Tilemaps.Behaviours.Meta;
 using Unitystation.Options;
 using WebSocketSharp;
+using Antagonists;
 using Random = UnityEngine.Random;
 
 public partial class Chat
@@ -26,7 +27,7 @@ public partial class Chat
 
 	private static Coroutine composeMessageHandle;
 	private static StringBuilder stringBuilder = new StringBuilder();
-
+	
 	private struct DestroyChatMessage
 	{
 		public string Message;
@@ -282,6 +283,8 @@ public partial class Chat
 			return AddMsgColor(channels, $"[dead] <b>{speaker}</b> {_ghostVerbs.PickRandom()}: {message}");
 		}
 
+		//HighLightCodeWordsForTraitors
+		message = HighLightCodeWords(message);
 		string verb = "says,";
 
 		if ((modifiers & ChatModifier.Mute) == ChatModifier.Mute)
@@ -403,6 +406,36 @@ public partial class Chat
 		}
 
 		return boldedName;
+	}
+
+	private static string HighLightCodeWords(string input)
+	{
+		if (ThemeManager.ChatHighlight == false || PlayerManager.LocalPlayerScript == null) return input;
+		if (PlayerManager.LocalPlayerScript.PossessingMind == null) return input;
+		if (PlayerManager.LocalPlayerScript.PossessingMind.IsAntag == false) return input;
+
+		SpawnedAntag antag = PlayerManager.LocalPlayerScript.PossessingMind.GetAntag();
+
+		if(antag.Antagonist.AntagJobType != JobType.TRAITOR && antag.Antagonist.AntagJobType != JobType.SYNDICATE) return input;
+		
+		string[] coloredText = input.Split(' '); //Split at each Word
+
+		for (int j = 0; j < coloredText.Length; j++)
+		{
+			for (int i = 0; i < CodeWordManager.WORD_COUNT; i++)
+			{
+				if (Regex.IsMatch(coloredText[j], $@"(?:^|\W){CodeWordManager.Instance.Words[i]}(?:$|\W)", RegexOptions.IgnoreCase))
+				{
+					coloredText[j] = $"<b><color=red>{coloredText[j]}</color></b>";
+				}
+				if (Regex.IsMatch(coloredText[j], $@"(?:^|\W){CodeWordManager.Instance.Responses[i]}(?:$|\W)", RegexOptions.IgnoreCase))
+				{
+					coloredText[j] = $"<b><color=blue>{coloredText[j]}</color></b>";
+				}
+			}
+		}
+
+		return string.Join(" ", coloredText);
 	}
 
 	private static string HighlightName(string input, string name, bool playSound = true)

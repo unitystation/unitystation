@@ -485,6 +485,19 @@ public class Mind : NetworkBehaviour, IActionGUI
 		if (playerMob.TryGetComponent<PlayerScript>(out var body) == false) return;
 		if (antag.Antagonist.AntagJobType == JobType.TRAITOR || antag.Antagonist.AntagJobType == JobType.SYNDICATE)
 		{
+			string codeWordsString = "Code Words:";
+			for (int i = 0; i < CodeWordManager.WORD_COUNT; i++)
+			{
+				codeWordsString += $"\n-{CodeWordManager.Instance.Words[i]}";
+			}
+			codeWordsString += "\n\nResponses:";
+			for (int i = 0; i < CodeWordManager.WORD_COUNT; i++)
+			{
+				codeWordsString += $"\n-{CodeWordManager.Instance.Responses[i]}";
+			}
+
+			Chat.AddExamineMsgFromServer(playerMob, codeWordsString);
+
 			if (body.OrNull()?.DynamicItemStorage == null) return;
 			var playerInventory = body.DynamicItemStorage.GetItemSlots();
 			foreach (var item in playerInventory)
