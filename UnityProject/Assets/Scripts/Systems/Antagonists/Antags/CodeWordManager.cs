@@ -1,4 +1,5 @@
 using System.IO;
+using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
@@ -45,12 +46,26 @@ namespace Antagonists
 				return;
 			}
 
+			
 			string[] allWords = File.ReadAllLines(filePath);
 
-			for(int i = 0; i < WORD_COUNT; i++)
+			HashSet<int> chosenIndexes = new HashSet<int>();
+
+			for(int i = 0; i < WORD_COUNT*2; i++)
 			{
-				Words.Add(allWords[Random.Range(0, allWords.Length)]);
-				Responses.Add(allWords[Random.Range(0, allWords.Length)]);
+				int newIndex = Random.Range(0, allWords.Length);
+				while(chosenIndexes.Contains(newIndex))
+				{
+					newIndex = Random.Range(0, allWords.Length);
+				}
+				chosenIndexes.Add(newIndex);
+			}
+			List<int> chosenList = new List<int>(chosenIndexes);
+
+			for (int i = 0; i < WORD_COUNT; i++)
+			{
+				Words.Add(allWords[chosenList[i]]);
+				Responses.Add(allWords[chosenList[WORD_COUNT + i]]);
 			}
 
 			netIdentity.isDirty = true;
