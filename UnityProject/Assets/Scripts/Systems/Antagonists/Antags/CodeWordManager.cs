@@ -2,6 +2,7 @@ using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System.Linq;
 
 namespace Antagonists
 {
@@ -48,24 +49,12 @@ namespace Antagonists
 
 			
 			string[] allWords = File.ReadAllLines(filePath);
-
-			HashSet<int> chosenIndexes = new HashSet<int>();
-
-			for(int i = 0; i < WORD_COUNT*2; i++)
-			{
-				int newIndex = Random.Range(0, allWords.Length);
-				while(chosenIndexes.Contains(newIndex))
-				{
-					newIndex = Random.Range(0, allWords.Length);
-				}
-				chosenIndexes.Add(newIndex);
-			}
-			List<int> chosenList = new List<int>(chosenIndexes);
+			allWords = allWords.Shuffle().ToArray();
 
 			for (int i = 0; i < WORD_COUNT; i++)
 			{
-				Words.Add(allWords[chosenList[i]]);
-				Responses.Add(allWords[chosenList[WORD_COUNT + i]]);
+				Words.Add(allWords[i]);
+				Responses.Add(allWords[WORD_COUNT + i]);
 			}
 
 			netIdentity.isDirty = true;
