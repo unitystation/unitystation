@@ -206,6 +206,7 @@ namespace Objects.Kitchen
 		[ClientRpc]
 		private void RpcHaltProcessorAnim()
 		{
+			if (CustomNetworkManager.IsHeadless || CustomNetworkManager.IsServer) return;
 			AnimateProcessor(0, 0.0f, 0.0f, 0.0f);
 		}
 

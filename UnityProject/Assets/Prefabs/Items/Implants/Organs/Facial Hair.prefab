@@ -95,6 +95,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Now that's what I call shaving!
       objectReference: {fileID: 0}
+    - target: {fileID: 2394943766557667463, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2394943766557667463, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5e9ac88966a35d34a9fd90c34e1ddaa0,
+        type: 2}
     - target: {fileID: 2675388328288480441, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
         type: 3}
       propertyPath: m_Sprite

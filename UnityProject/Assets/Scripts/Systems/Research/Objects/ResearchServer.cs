@@ -36,7 +36,7 @@ namespace Systems.Research.Objects
 
 		public readonly SyncList<ExplosiveBounty> ExplosiveBounties = new SyncList<ExplosiveBounty>();
 
-		[NonSerialized, SyncVar(hook = nameof(SyncFocus))] public TechType UIselectedFocus = TechType.None; //The current Focus selected in menu, not nesscarily confirmed.
+		[NonSerialized, SyncVar(hook = nameof(SyncFocus))] public int UIselectedFocus = 0; //The current Focus selected in menu, not nesscarily confirmed.
 
 		private void InitialiseDisk()
 		{
@@ -293,16 +293,17 @@ namespace Systems.Research.Objects
 		{
 			if (sender == null) return;
 			if (Validations.CanApply(PlayerList.Instance.Get(sender).Script, this.gameObject, NetworkSide.Server, false, ReachRange.Standard) == false) return;
-			UIselectedFocus = focusClient;
+			UIselectedFocus = (int)focusClient;
 		}
 
 		[Server]
 		internal void SetFocusServer(TechType focus)
 		{
-			UIselectedFocus = focus;
+			UIselectedFocus = (int)focus;
+			Techweb.UIupdate?.Invoke();
 		}
 
-		private void SyncFocus(TechType oldFocus, TechType newFocus)
+		private void SyncFocus(int oldFocus, int newFocus)
 		{
 			UIselectedFocus = newFocus;
 			Techweb.UIupdate?.Invoke();

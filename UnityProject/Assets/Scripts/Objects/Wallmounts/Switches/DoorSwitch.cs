@@ -4,7 +4,7 @@ using System.Linq;
 using AdminCommands;
 using UnityEngine;
 using Mirror;
-using NaughtyAttributes;
+using Systems.Clearance;
 using Systems.Interaction;
 using Doors;
 using CustomInspectors;
@@ -24,19 +24,13 @@ namespace Objects.Wallmounts
 		public Sprite offSprite;
 		public Sprite redSprite;
 
-		[Header("Access Restrictions for ID")] [Tooltip("Is this door restricted?")]
-		public bool restricted;
-
-		[Tooltip("Access level to limit door if above is set.")] [ShowIf(nameof(restricted))]
-		public Access access;
-
 		[SerializeField] [Tooltip("List of doors that this switch can control")]
 		private List<DoorController> doorControllers = new List<DoorController>();
 
 		private List<DoorMasterController> NewdoorControllers = new List<DoorMasterController>();
 
 		private bool buttonCoolDown = false;
-		private AccessRestrictions accessRestrictions;
+		private ClearanceRestricted clearanceRestricted;
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
@@ -52,11 +46,7 @@ namespace Objects.Wallmounts
 			//This is needed because you can no longer apply shutterSwitch prefabs (it will move all of the child sprite positions)
 			gameObject.layer = LayerMask.NameToLayer("WallMounts");
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-			accessRestrictions = gameObject.AddComponent<AccessRestrictions>();
-			if (restricted)
-			{
-				accessRestrictions.restriction = access;
-			}
+			clearanceRestricted = GetComponent<ClearanceRestricted>();
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -72,15 +62,12 @@ namespace Objects.Wallmounts
 			buttonCoolDown = true;
 			StartCoroutine(CoolDown());
 
-			if (accessRestrictions != null && restricted)
+			if (clearanceRestricted.HasClearance(interaction.Performer) == false)
 			{
-				if (!accessRestrictions.CheckAccess(interaction.Performer))
-				{
-					RpcPlayButtonAnim(false);
-					return;
-				}
+				RpcPlayButtonAnim(false);
+				return;
 			}
-
+		
 			RunDoorController();
 		}
 

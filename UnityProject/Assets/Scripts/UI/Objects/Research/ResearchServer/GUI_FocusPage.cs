@@ -45,7 +45,7 @@ namespace UI.Objects.Research
 			isFocusSet = true;
 
 			serverGUI.TechWeb.SubtractResearchPoints(FOCUS_COST);
-			serverGUI.TechWeb.SetResearchFocus(serverGUI.Server.UIselectedFocus);
+			serverGUI.TechWeb.SetResearchFocus((TechType)serverGUI.Server.UIselectedFocus);
 			serverGUI.OpenTechWebPage();
 		}
 
@@ -54,8 +54,6 @@ namespace UI.Objects.Research
 			selectedFocus = (TechType)(focusDropDown.value + 1);
 			if (CustomNetworkManager.Instance._isServer == false) serverGUI.Server.CmdSetFocus(selectedFocus);
 			else serverGUI.Server.SetFocusServer(selectedFocus);
-			
-			UpdateGUI();
 		}
 
 		public bool ValidateClearance(GameObject check)
