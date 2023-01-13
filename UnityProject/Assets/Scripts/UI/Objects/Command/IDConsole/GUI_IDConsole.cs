@@ -245,7 +245,7 @@ namespace UI.Objects.Command
 
 		public void ServerLogin()
 		{
-			var idClearance = console.AccessCard.GetComponent<IClearanceSource>();
+			var idClearance = console.AccessCard.OrNull()?.GetComponent<IClearanceSource>();
 			if (idClearance != null && console.Restricted.HasClearance(idClearance) || IsAIInteracting())
 			{
 				console.LoggedIn = true;
