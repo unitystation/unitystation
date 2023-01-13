@@ -58,6 +58,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Might have been useful for flight if they were still attached.
       objectReference: {fileID: 0}
+    - target: {fileID: 2988332360848176654, guid: 2cdfee5611d505240ab3835c94a38fa8,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2988332360848176654, guid: 2cdfee5611d505240ab3835c94a38fa8,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 892f0c642e2049640b08d738517bb0f5,
+        type: 2}
     - target: {fileID: 3314965293999793368, guid: 2cdfee5611d505240ab3835c94a38fa8,
         type: 3}
       propertyPath: m_AssetId

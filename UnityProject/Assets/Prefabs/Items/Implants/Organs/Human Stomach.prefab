@@ -189,6 +189,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Onaka ga suite imasu.
       objectReference: {fileID: 0}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 892f0c642e2049640b08d738517bb0f5,
+        type: 2}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: BodyPartType
@@ -286,6 +297,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db4404109ee5304895b5058a7eff177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   isEMPVunerable: 0
   EMPResistance: 2
   StomachContents: {fileID: 7073899732039749527}
