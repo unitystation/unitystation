@@ -67,6 +67,7 @@ public class DefinedSlotCapacity : SlotCapacity
 			return false;
 		}
 
+		//Item MUST have required traits or it will return false
 		if (Required != null && Required.Count > 0)
 		{
 			Logger.LogTraceFormat("Requirements are {0}", Category.Inventory,
@@ -87,6 +88,27 @@ public class DefinedSlotCapacity : SlotCapacity
 			}
 		}
 
+		//If an item has a whitelisted trait, return true, else move onto black list
+		if (Whitelist != null && Whitelist.Count > 0)
+		{
+			Logger.LogTraceFormat("Whitelist is {0}", Category.Inventory,
+				String.Join(", ", Whitelist.Select(it => it == null ? "null" : it.name)));
+			if (itemAttrs == null)
+			{
+				Logger.LogTrace("Item has no ItemAttributes, thus has no whitelisted traits", Category.Inventory);
+				return false;
+			}
+			foreach (var whitelistTrait in Whitelist)
+			{
+				if (itemAttrs.HasTrait(whitelistTrait))
+				{
+					Logger.LogTraceFormat("Item has whitelisted trait {0}", Category.Inventory, whitelistTrait.name);
+					return true;
+				}
+			}
+		}
+
+		//If the item has any blacklisted trait return false
 		if (Blacklist != null && Blacklist.Count > 0)
 		{
 			Logger.LogTraceFormat("Blacklist is {0}", Category.Inventory,
@@ -108,31 +130,6 @@ public class DefinedSlotCapacity : SlotCapacity
 			}
 		}
 
-		if (Whitelist == null || Whitelist.Count == 0)
-		{
-			Logger.LogTrace("No whitelist defined, item is allowed.", Category.Inventory);
-			return true;
-		}
-		else
-		{
-			Logger.LogTraceFormat("Whitelist is {0}", Category.Inventory,
-				String.Join(", ", Whitelist.Select(it => it == null ? "null" : it.name)));
-			if (itemAttrs == null)
-			{
-				Logger.LogTrace("Item has no ItemAttributes, thus has no whitelisted traits", Category.Inventory);
-				return false;
-			}
-			foreach (var whitelistTrait in Whitelist)
-			{
-				if (itemAttrs.HasTrait(whitelistTrait))
-				{
-					Logger.LogTraceFormat("Item has whitelisted trait {0}", Category.Inventory, whitelistTrait.name);
-					return true;
-				}
-			}
-
-			Logger.LogTrace("Item has no whitelisted traits", Category.Inventory);
-			return false;
-		}
+		return true; //If has required traits, no whitelists or blacklists, the return true
 	}
 }
