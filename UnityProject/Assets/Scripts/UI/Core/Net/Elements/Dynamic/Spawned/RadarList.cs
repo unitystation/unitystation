@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UI.Core.NetUI;
 using Messages.Server;
@@ -11,17 +12,26 @@ namespace UI.Objects.Shuttles
 		public int Range = 160;
 		public MatrixMove Origin;
 
-		private List<RadarEntry> OutOfRangeEntries = new List<RadarEntry>();
-		private List<RadarEntry> ToRestore = new List<RadarEntry>();
 		[SerializeField] private GUI_ShuttleControl shuttleControl;
+
+		private List<TrackData> ObjectsToTrack = new List<TrackData>();
+
+
+		private struct TrackData
+		{
+			public int Radius;
+			public MapIconType MapIconType;
+			public GameObject TrackedObject;
+		}
+
 
 		public void RefreshTrackedPos(bool update = true)
 		{
 			Vector2 originPos = Origin.ServerState.Position;
 
 			// Refreshing positions of every item
-			var entryArray = Entries;
-			for (var i = 0; i < entryArray.Count; i++)
+			var entryArray = Entries.ToArray();
+			for (var i = 0; i < entryArray.Length; i++)
 			{
 				var item = entryArray[i] as RadarEntry;
 				if (!item) continue;
@@ -30,32 +40,38 @@ namespace UI.Objects.Shuttles
 				// If item is out of range, stop showing it and place into "out of range" list
 				if (item.Position == TransformState.HiddenPos || ProjectionMagnitude(item.Position) > Range)
 				{
-					OutOfRangeEntries.Add(item);
-
-					// fixme: Old manual (de)activation conflicts with reuse pool, entries still fill up on server
-					item.gameObject.SetActive(false);
+					MasterRemoveItem(item);
 				}
 			}
 			// Check if any item in "out of range" list should be shown again
-			for (var i = 0; i < OutOfRangeEntries.Count; i++)
+			foreach (var ObjectToTrack in ObjectsToTrack)
 			{
-				RadarEntry item = OutOfRangeEntries[i];
-				item.RefreshTrackedPos(originPos);
-				if (item.Position != TransformState.HiddenPos && ProjectionMagnitude(item.Position) <= Range)
+				bool TrackAlready = false;
+
+				foreach (var Entrie in Entries)
 				{
-					ToRestore.Add(item);
-					item.gameObject.SetActive(true);
+					RadarEntry item = Entrie as RadarEntry;
+					if (item.TrackedObject == ObjectToTrack.TrackedObject)
+					{
+						TrackAlready = true;
+						break;
+					}
+				}
+
+				if (TrackAlready) continue;
+
+				if (ObjectToTrack.TrackedObject.transform.position != TransformState.HiddenPos && ProjectionMagnitude(ObjectToTrack.TrackedObject.transform.position) <= Range)
+				{
+					var OneNew = AddItem();
+					RadarEntry item = OneNew as RadarEntry;
+
+					item.TrackedObject = ObjectToTrack.TrackedObject;
+					item.Type = ObjectToTrack.MapIconType;
+					item.Radius = ObjectToTrack.Radius;
+
 					shuttleControl.PlayRadarDetectionSound();
 				}
 			}
-
-			for (var i = 0; i < ToRestore.Count; i++)
-			{
-				var item = ToRestore[i];
-				OutOfRangeEntries.Remove(item);
-			}
-
-			ToRestore.Clear();
 
 			if (update)
 			{
@@ -71,81 +87,33 @@ namespace UI.Objects.Shuttles
 			return projX >= projY ? projX : projY;
 		}
 
-		public bool AddStaticItem(MapIconType type, Vector2 staticPosition, int radius = -1)
+		public bool AddItems(MapIconType type, List<GameObject> objects, int radius = -1)
 		{
-			for (var i = 0; i < Entries.Count; i++)
-			{
-				var item = Entries[i] as RadarEntry;
-				if (!item)
-				{
-					continue;
-				}
+			var objectsLoop = objects.ToArray();
 
-				if (staticPosition == (Vector2)item.StaticPosition)
+			foreach (var trackData in ObjectsToTrack)
+			{
+				foreach (var Trackobject in objectsLoop)
 				{
-					return false;
+					if (trackData.TrackedObject == Trackobject)
+					{
+						objects.Remove(Trackobject);
+					}
 				}
 			}
 
-			//add new entry
-			RadarEntry newEntry = Add() as RadarEntry;
-			if (!newEntry)
+			foreach (var gameObject in objectsLoop)
 			{
-				Logger.LogWarning($"Added {newEntry} is not an RadarEntry!", Category.NetUI);
-				return false;
+				var Track_Data = new TrackData()
+				{
+					MapIconType = type,
+					TrackedObject = gameObject,
+					Radius = radius
+				};
+				ObjectsToTrack.Add(Track_Data);
 			}
 
-			//set its elements
-			newEntry.Radius = radius;
-			newEntry.Type = type;
-			newEntry.StaticPosition = staticPosition;
 
-			//rescan elements and notify
-			NetworkTabManager.Instance.Rescan(containedInTab.NetTabDescriptor);
-
-			return true;
-		}
-
-		public bool AddItems(MapIconType type, List<GameObject> objects)
-		{
-			var objectSet = new HashSet<GameObject>(objects);
-			var duplicates = new HashSet<GameObject>();
-			for (var i = 0; i < Entries.Count; i++)
-			{
-				var item = Entries[i] as RadarEntry;
-				if (!item)
-				{
-					continue;
-				}
-
-				if (objectSet.Contains(item.TrackedObject))
-				{
-					duplicates.Add(item.TrackedObject);
-				}
-			}
-
-			for (var i = 0; i < objects.Count; i++)
-			{
-				var obj = objects[i];
-				//skipping already found objects
-				if (duplicates.Contains(obj))
-				{
-					continue;
-				}
-
-				//add new entry
-				RadarEntry newEntry = Add() as RadarEntry;
-				if (!newEntry)
-				{
-					Logger.LogWarning($"Added {newEntry} is not an RadarEntry!", Category.NetUI);
-					return false;
-				}
-
-				//set its elements
-				newEntry.Type = type;
-				newEntry.TrackedObject = obj;
-			}
-			//		Logger.Log( $"RadarList: Item add success! added {objects.Count} items" );
 
 			//rescan elements and notify
 			NetworkTabManager.Instance.Rescan(containedInTab.NetTabDescriptor);
@@ -154,12 +122,6 @@ namespace UI.Objects.Shuttles
 			return true;
 		}
 
-		public override void Clear()
-		{
-			OutOfRangeEntries.Clear();
-			ToRestore.Clear();
-			base.Clear();
-		}
 
 		/// Send updates about just one tracked object (intended for waypoint pin)
 		/// <param name="trackedObject"></param>

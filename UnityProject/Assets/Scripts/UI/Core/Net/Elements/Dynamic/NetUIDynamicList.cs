@@ -127,6 +127,26 @@ namespace UI.Core.NetUI
 			Remove(new[] { toBeRemoved });
 		}
 
+		public void MasterRemoveItem(DynamicEntry EntryToRemove)
+		{
+			Remove(EntryToRemove.name);
+
+			// rescan elements and notify
+			NetworkTabManager.Instance.Rescan(containedInTab.NetTabDescriptor);
+			UpdatePeepers();
+		}
+
+		public DynamicEntry AddItem()
+		{
+			var newEntry = Add();
+
+			// rescan elements and notify
+			NetworkTabManager.Instance.Rescan(containedInTab.NetTabDescriptor);
+			UpdatePeepers();
+
+			return newEntry;
+		}
+
 		/// <summary>
 		/// Remove entries by their name-index
 		/// </summary>
