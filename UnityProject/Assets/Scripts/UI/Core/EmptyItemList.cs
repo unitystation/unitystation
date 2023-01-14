@@ -33,25 +33,6 @@ namespace UI.Core.NetUI
 			UpdatePeepers();
 		}
 
-		public DynamicEntry AddItem()
-		{
-			var newEntry = Add();
 
-			// rescan elements and notify
-			NetworkTabManager.Instance.Rescan(containedInTab.NetTabDescriptor);
-			UpdatePeepers();
-
-			return newEntry;
-		}
-
-
-		public void MasterRemoveItem(DynamicEntry EntryToRemove)
-		{
-			Remove(EntryToRemove.name);
-
-			// rescan elements and notify
-			NetworkTabManager.Instance.Rescan(containedInTab.NetTabDescriptor);
-			UpdatePeepers();
-		}
 	}
 }
