@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c909446621c41cd975e26eab73860a6, type: 3}
   m_Name: BeltSlotCapacity
   m_EditorClassIdentifier: 
-  MaxItemSize: 5
-  Whitelist:
+  maxSize: 5
+  Whitelist: []
+  Required:
   - {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260, type: 2}
-  - {fileID: 11400000, guid: 499c5f7e8067145d3b31ba4b21a2fa74, type: 2}
-  Required: []
   Blacklist: []

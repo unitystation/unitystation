@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c909446621c41cd975e26eab73860a6, type: 3}
   m_Name: FeetSlotCapacity
   m_EditorClassIdentifier: 
-  MaxItemSize: 5
-  Whitelist:
+  maxSize: 5
+  Whitelist: []
+  Required:
   - {fileID: 11400000, guid: 9dd6c830eadb94ceb8578c8ac94dde66, type: 2}
-  Required: []
   Blacklist: []

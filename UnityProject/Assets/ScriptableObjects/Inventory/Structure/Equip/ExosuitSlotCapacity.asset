@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c909446621c41cd975e26eab73860a6, type: 3}
   m_Name: ExosuitSlotCapacity
   m_EditorClassIdentifier: 
-  MaxItemSize: 5
-  Whitelist:
+  maxSize: 5
+  Whitelist: []
+  Required:
   - {fileID: 11400000, guid: 05e6127af6cf24f08b94fb9922263c26, type: 2}
-  Required: []
   Blacklist: []
