@@ -58,6 +58,9 @@ public partial class SubSceneManager
 
 		SubSceneManagerNetworked.netIdentity.isDirty = true;
 
+		//(Max): this wait with magic unexplained number is stopping the game from wetting the bed after loading scenes.
+		//Why does waiting 0.1 seconds prevent the game breaking and not starting the round start timer and systems initialising properly? I have no clue.
+		//Add to this counter here for every hour spent trying to understand why this breaks: 2
 		yield return WaitFor.Seconds(0.1f);
 		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
 		EventManager.Broadcast( Event.ScenesLoadedServer);
