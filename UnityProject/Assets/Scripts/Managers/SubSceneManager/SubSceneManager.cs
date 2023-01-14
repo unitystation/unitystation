@@ -143,7 +143,7 @@ public partial class SubSceneManager : NetworkBehaviour
 
 		try
 		{
-			AO = Addressables.LoadSceneAsync(sceneName, LoadSceneMode.Additive, false);
+			AO = Addressables.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 		}
 		catch (Exception e)
 		{
@@ -156,8 +156,6 @@ public partial class SubSceneManager : NetworkBehaviour
 			loadTimer?.IncrementLoadBar();
 			yield return WaitFor.EndOfFrame;
 		}
-
-		yield return AO.Result.ActivateAsync();
 
 		loadTimer?.IncrementLoadBar();
 		yield return StartCoroutine(HandleObjectsSync(HandlSynchronising, AO));
