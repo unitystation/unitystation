@@ -288,21 +288,6 @@ namespace Systems.Research.Objects
 
 		#region FocusNetwork
 
-		[Command(requiresAuthority = false)]
-		internal void CmdSetFocus(TechType focusClient, NetworkConnectionToClient sender = null) //TODO This is insecure due to hacked client can say anything in ArtifactData
-		{
-			if (sender == null) return;
-			if (Validations.CanApply(PlayerList.Instance.Get(sender).Script, this.gameObject, NetworkSide.Server, false, ReachRange.Standard) == false) return;
-			UIselectedFocus = (int)focusClient;
-		}
-
-		[Server]
-		internal void SetFocusServer(TechType focus)
-		{
-			UIselectedFocus = (int)focus;
-			Techweb.UIupdate?.Invoke();
-		}
-
 		private void SyncFocus(int oldFocus, int newFocus)
 		{
 			UIselectedFocus = newFocus;

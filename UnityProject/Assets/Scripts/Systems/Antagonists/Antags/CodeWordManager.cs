@@ -1,5 +1,4 @@
 using System.IO;
-using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System.Linq;
@@ -34,6 +33,7 @@ namespace Antagonists
 			EventManager.RemoveHandler(Event.RoundStarted, ChooseCodeWords);
 		}
 
+		[Server]
 		public void ChooseCodeWords()
 		{
 			Words.Clear();
@@ -56,7 +56,7 @@ namespace Antagonists
 				Words.Add(allWords[i]);
 				Responses.Add(allWords[WORD_COUNT + i]);
 			}
-
+			
 			netIdentity.isDirty = true;
 		}
 	}
