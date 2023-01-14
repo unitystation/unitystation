@@ -286,29 +286,24 @@ namespace Systems.Research.Objects
 
 		#endregion
 
-		#region FocusNetwork
-
 		[Command(requiresAuthority = false)]
-		internal void CmdSetFocus(TechType focusClient, NetworkConnectionToClient sender = null) //TODO This is insecure due to hacked client can say anything in ArtifactData
+		internal void CmdSetFocus(int FocusClient, NetworkConnectionToClient sender = null)
 		{
 			if (sender == null) return;
 			if (Validations.CanApply(PlayerList.Instance.Get(sender).Script, this.gameObject, NetworkSide.Server, false, ReachRange.Standard) == false) return;
-			UIselectedFocus = (int)focusClient;
+			UIselectedFocus = FocusClient;
 		}
 
 		[Server]
-		internal void SetFocusServer(TechType focus)
+		internal void SetFocusServer(int FocusServer)
 		{
-			UIselectedFocus = (int)focus;
-			Techweb.UIupdate?.Invoke();
+			UIselectedFocus = FocusServer;
 		}
 
-		private void SyncFocus(int oldFocus, int newFocus)
+		private void SyncFocus(int oldData, int newData)
 		{
-			UIselectedFocus = newFocus;
+			UIselectedFocus = newData;
 			Techweb.UIupdate?.Invoke();
 		}
-
-		#endregion
 	}
 }

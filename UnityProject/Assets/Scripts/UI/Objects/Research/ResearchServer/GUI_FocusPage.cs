@@ -17,8 +17,6 @@ namespace UI.Objects.Research
 		[SerializeField]
 		private Dropdown focusDropDown;
 
-		private TechType selectedFocus = TechType.None;
-
 		[SerializeField]
 		private NetText_label confirmLabel;
 
@@ -33,7 +31,7 @@ namespace UI.Objects.Research
 		{
 			if (serverGUI.CurrentPage != this) return;
 
-			focusDropDown.SetValueWithoutNotify((int)serverGUI.Server.UIselectedFocus - 1);
+			focusDropDown.SetValueWithoutNotify(serverGUI.Server.UIselectedFocus - 1);
 			accessLabel.MasterSetValue("");
 			confirmLabel.MasterSetValue($"Confirm Focus ({FOCUS_COST}RP)");
 		}
@@ -51,9 +49,8 @@ namespace UI.Objects.Research
 
 		public void UpdateData()
 		{
-			selectedFocus = (TechType)(focusDropDown.value + 1);
-			if (CustomNetworkManager.Instance._isServer == false) serverGUI.Server.CmdSetFocus(selectedFocus);
-			else serverGUI.Server.SetFocusServer(selectedFocus);
+			if (CustomNetworkManager.IsServer == false && CustomNetworkManager.IsHeadless == false) serverGUI.Server.CmdSetFocus(focusDropDown.value + 1);
+			else serverGUI.Server.SetFocusServer(focusDropDown.value + 1);
 		}
 
 		public bool ValidateClearance(GameObject check)
