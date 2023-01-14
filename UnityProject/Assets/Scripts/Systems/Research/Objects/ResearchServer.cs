@@ -286,14 +286,24 @@ namespace Systems.Research.Objects
 
 		#endregion
 
-		#region FocusNetwork
-
-		private void SyncFocus(int oldFocus, int newFocus)
+		[Command(requiresAuthority = false)]
+		internal void CmdSetFocus(int FocusClient, NetworkConnectionToClient sender = null)
 		{
-			UIselectedFocus = newFocus;
-			Techweb.UIupdate?.Invoke();
+			if (sender == null) return;
+			if (Validations.CanApply(PlayerList.Instance.Get(sender).Script, this.gameObject, NetworkSide.Server, false, ReachRange.Standard) == false) return;
+			UIselectedFocus = FocusClient;
 		}
 
-		#endregion
+		[Server]
+		internal void SetFocusServer(int FocusServer)
+		{
+			UIselectedFocus = FocusServer;
+		}
+
+		private void SyncFocus(int oldData, int newData)
+		{
+			UIselectedFocus = newData;
+			Techweb.UIupdate?.Invoke();
+		}
 	}
 }

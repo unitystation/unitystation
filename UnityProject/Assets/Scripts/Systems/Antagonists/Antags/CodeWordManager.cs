@@ -36,6 +36,8 @@ namespace Antagonists
 		[Server]
 		public void ChooseCodeWords()
 		{
+			if (CustomNetworkManager.IsHeadless == false && CustomNetworkManager.IsServer == false) return;
+
 			Words.Clear();
 			Responses.Clear();
 

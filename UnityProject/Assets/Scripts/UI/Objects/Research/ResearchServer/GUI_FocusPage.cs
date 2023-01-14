@@ -49,7 +49,8 @@ namespace UI.Objects.Research
 
 		public void UpdateData()
 		{
-			serverGUI.Server.UIselectedFocus = focusDropDown.value + 1;
+			if (CustomNetworkManager.IsServer == false && CustomNetworkManager.IsHeadless == false) serverGUI.Server.CmdSetFocus(focusDropDown.value + 1);
+			else serverGUI.Server.SetFocusServer(focusDropDown.value + 1);
 		}
 
 		public bool ValidateClearance(GameObject check)
