@@ -48,30 +48,20 @@ namespace Messages.Server
 		public static NetMessage SendToAll(GameObject obj, Vector2 targetVector)
 		{
 			GameObject topContainer = null;
+			NetMessage msg = new NetMessage();
 			try
 			{
-				var Physics = obj.GetComponent<UniversalObjectPhysics>();
-				if (Physics.ContainedInObjectContainer == null)
-				{
-					topContainer = Physics.gameObject;
-				}
-				else
-				{
-					topContainer = Physics.ContainedInObjectContainer.TopContainer.gameObject;
-				}
-
+				var Parent = obj.GetRootGameObject();
+				msg = new NetMessage {
+					ParticleObject = obj.NetId(),
+					ParentObject = Parent == null ? NetId.Invalid : Parent.NetId(),
+					TargetVector = targetVector,
+				};
 			}
 			catch (Exception ignored)
 			{
 				Logger.LogError($"PlayParticleMessage threw an exception {ignored} which has been ignored.", Category.Particles);
 			}
-
-
-			NetMessage msg = new NetMessage {
-				ParticleObject = obj.NetId(),
-				ParentObject = topContainer == null ? NetId.Invalid : topContainer.NetId(),
-				TargetVector = targetVector,
-			};
 
 			SendToAll(msg);
 			return msg;
