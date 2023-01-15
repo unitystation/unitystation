@@ -1,0 +1,98 @@
+name: "[FR] Feedback ticket"
+description: Merci de votre retour construit et bienveillant !
+title: "[FEEDBACK][FR] <Date> <player>"
+labels: Feedback
+assignees: Fr-Dae
+body:
+  - type: dropdown
+    attributes: 
+      label: Système d'exploitation
+      description: Indiquez votre système d'exploitation
+      options:
+        - Windows 7
+        - Windows 10
+        - Linux
+    validations:
+      required: true         
+  - type: dropdown
+    attributes:
+      label: Version du tutoriel
+      description: Indiquez la version du tutoriel avec laquelle vous jouez
+      options: 
+        - 1.1.1
+        - 1.0.5
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: Nouveau sur Unitystation ?
+      description: Êtes-vous un nouveau joueur d'UnityStation ?
+      options:
+        - label: Je suis nouveau sur UnityStation
+    validations:
+       required: true
+  - type: checkboxes
+    attributes:
+      label: Nouveau sur SS13 ?
+      description: Avez-vous déjà joué à Space Station 13 ?
+      options:
+        - label: Je suis nouveau sur SS13      
+    validations:
+       required: true
+  - type: textarea
+    attributes:
+      label: A propos du tutoriel
+      description: Feedback concernant le tutoriel du jeu uniquement
+      value: |
+        Ce que j'ai apprécié: 
+          -
+          -
+          -
+        Ce que je n'ai PAS apprécié: 
+          -
+          -
+          -
+        Ce que je n'ai pas compris: 
+          -
+          -
+          -
+      render: markdown
+    validations: 
+      required: true
+  - type: textarea
+    attributes:
+      label: A propos du reste du jeu Unitystation
+      description: |
+        Exemples de points à aborder: 
+          - Moteur du jeu
+          - Durée du tutoriel
+          - Complexité
+          - Musique
+          - Ambiance et effet sonore
+          - Interface et menu
+          - Prise en main et Intuitivité 
+          - Libre arbitre
+          - User friendly
+      value: |
+        Ce que j'ai apprécié: 
+          -
+          -
+          -
+        Ce que je n'ai PAS apprécié: 
+          -
+          -
+          -
+        Ce que je n'ai pas compris: 
+          -
+          -
+          -
+      render: markdown
+    validations: 
+      required: false
+  - type: textarea
+    attributes:
+      label: Autres commentaires
+      description: Quelque chose à ajouter ?
+    validations:
+      required: false
+
