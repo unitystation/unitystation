@@ -1,0 +1,98 @@
+name: "[EN] Feedback ticket"
+description: Thank you for your constructive and kind feedback!
+title: "[FEEDBACK][EN] <Date> <player>"
+labels: Feedback
+assignees: Fr-Dae
+body:
+  - type: dropdown
+    attributes: 
+      label: Operating system
+      description: Indicate your operating system
+      options:
+        - Windows 7
+        - Windows 10
+        - Linux
+    validations:
+      required: true         
+  - type: dropdown
+    attributes:
+      label: Tutorial version
+      description: Indicate which version of the tutorial you are playing with
+      options: 
+        - 1.1.1
+        - 1.0.5
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: New to Unitystation?
+      description: Are you a new UnityStation player?
+      options:
+        - label: I'm new on UnityStation
+    validations:
+       required: true
+  - type: checkboxes
+    attributes:
+      label: New on SS13?
+      description: Have you ever played Sapce station 13?
+      options:
+        - label: I'm new on SS13      
+    validations:
+       required: true
+  - type: textarea
+    attributes:
+      label: About the tutorial
+      description: Feedback on the game tutorial only
+      value: |
+        What I appreciated:  
+          -
+          -
+          -
+        What I did NOT appreciate: 
+          -
+          -
+          -
+        What I did not understand: 
+          -
+          -
+          -
+      render: markdown
+    validations: 
+      required: true
+  - type: textarea
+    attributes:
+      label: About the rest of the Unitystation game
+      description: |
+        Examples of issues to be addressed: 
+          - Game engine
+          - Duration of the tutorial
+          - Complexity
+          - music
+          - Ambience and sound effects
+          - Interface and menu
+          - Handling and intuitiveness 
+          - Free will
+          - User friendly
+      value: |
+        What I appreciated:  
+          -
+          -
+          -
+        What I did NOT appreciate: 
+          -
+          -
+          -
+        What I did not understand: 
+          -
+          -
+          -
+      render: markdown
+    validations: 
+      required: false
+  - type: textarea
+    attributes:
+      label: Additional comments
+      description: Anything to add?
+    validations:
+      required: false
+
