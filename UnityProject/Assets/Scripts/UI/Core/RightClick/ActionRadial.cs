@@ -84,8 +84,13 @@ namespace UI.Core.RightClick
 			Setup(actions.Count);
 			Selected.OrNull()?.ResetState();
 
-			for (var i = 0; i < Items.Count; i++)
+			for (var i = 0; i < actions.Count; i++)
 			{
+				if (i >= Items.Count)
+				{
+					Logger.LogError("Too many subentries on Right click menu");
+					continue;
+				}
 				Items[i].ChangeItem(actions[i]);
 			}
 			this.SetActive(true);

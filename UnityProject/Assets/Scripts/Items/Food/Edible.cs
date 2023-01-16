@@ -98,23 +98,19 @@ namespace Items.Food
 			var eaterHungerState = eater.playerHealth.HungerState;
 			ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");
 
-			// Check if eater can eat anything
-			if (eaterHungerState != HungerState.Full)
+			if (feeder != eater) //If you're feeding it to someone else.
 			{
-				if (feeder != eater) //If you're feeding it to someone else.
+				//Wait 3 seconds before you can feed
+				StandardProgressAction.Create(ProgressConfig, () =>
 				{
-					//Wait 3 seconds before you can feed
-					StandardProgressAction.Create(ProgressConfig, () =>
-					{
-						ConsumableTextUtils.SendGenericForceFeedMessage(feeder, eater, eaterHungerState, Name, "eat");
-						Eat(eater, feeder);
-					}).ServerStartProgress(eater.RegisterPlayer, 3f, feeder.gameObject);
-					return;
-				}
-				else
-				{
+					ConsumableTextUtils.SendGenericForceFeedMessage(feeder, eater, eaterHungerState, Name, "eat");
 					Eat(eater, feeder);
-				}
+				}).ServerStartProgress(eater.RegisterPlayer, 3f, feeder.gameObject);
+				return;
+			}
+			else
+			{
+				Eat(eater, feeder);
 			}
 		}
 
@@ -191,9 +187,11 @@ namespace Items.Food
 				if (added == false)
 				{
 					//If stackable has leavings and they couldn't go in the same slot, they should be dropped
-					pickupable.UniversalObjectPhysics.DropAtAndInheritMomentum(feeder.GetComponent<UniversalObjectPhysics>());
+					pickupable.UniversalObjectPhysics.DropAtAndInheritMomentum(
+						feeder.GetComponent<UniversalObjectPhysics>());
 				}
 			}
+
 			ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_FOODEATEN);
 		}
 	}
