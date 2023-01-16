@@ -59,9 +59,17 @@ public static class Validations
 	/// <returns></returns>
 	public static bool HasItemTrait(GameObject toCheck, ItemTrait expectedTrait)
 	{
-		if (toCheck == null) return false;
+		if (toCheck == null)
+		{
+			Logger.LogError("Attempted to check a null gameObject for item attributes.");
+			return false;
+		}
 		var attrs = toCheck.GetComponent<ItemAttributesV2>();
-		if (attrs == null) return false;
+		if (attrs == null)
+		{
+			Logger.LogError("Attempted to check a null item attribute.");
+			return false;
+		}
 		return attrs.HasTrait(expectedTrait);
 	}
 
