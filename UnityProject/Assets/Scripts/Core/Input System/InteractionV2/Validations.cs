@@ -21,8 +21,6 @@ using Tiles;
 /// </summary>
 public static class Validations
 {
-	public const float TELEKINESIS_INTERACTION_DISTANCE = 15f;
-
 	private static readonly List<LayerType> BlockedLayers = new List<LayerType>
 		{LayerType.Walls, LayerType.Windows, LayerType.Grills};
 
@@ -59,11 +57,15 @@ public static class Validations
 	/// <returns></returns>
 	public static bool HasItemTrait(GameObject toCheck, ItemTrait expectedTrait)
 	{
-		if (toCheck == null) return false;
+		if (toCheck == null)
+		{
+			Logger.LogError("Attempted to check a null gameObject for item attributes.");
+			return false;
+		}
 		var attrs = toCheck.GetComponent<ItemAttributesV2>();
 		if (attrs == null)
 		{
-			Logger.LogError("Attempted to check a null item attribute.", Category.Interaction);
+			Logger.LogError("Attempted to check a null item attribute.");
 			return false;
 		}
 		return attrs.HasTrait(expectedTrait);
@@ -268,18 +270,6 @@ public static class Validations
 				{
 					result = ServerCanReachExtended(playerScript, uop);
 				}
-			}
-		}
-		else if (reachRange == ReachRange.Telekinesis)
-		{
-			if ((playerScript.gameObject.AssumedWorldPosServer() - target.AssumedWorldPosServer()).magnitude >
-			    TELEKINESIS_INTERACTION_DISTANCE)
-			{
-				result = false;
-			}
-			else
-			{
-				result = true;
 			}
 		}
 
