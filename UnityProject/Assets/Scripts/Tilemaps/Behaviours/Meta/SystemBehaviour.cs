@@ -1,4 +1,5 @@
-﻿using TileManagement;
+﻿using Managers;
+using TileManagement;
 using UnityEngine;
 
 
@@ -19,6 +20,7 @@ public abstract class SubsystemBehaviour : MonoBehaviour
 			metaTileMap = GetComponentInChildren<MetaTileMap>();
 			subsystemManager = GetComponent<SubsystemManager>();
 			subsystemManager.Register(this);
+			SubsystemBehaviourQueueInit.Queue(this);
 		}
 
 		public abstract void Initialize();
