@@ -1,27 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using Shared.Managers;
 
 namespace Managers
 {
 	public class SubsystemBehaviourQueueInit : SingletonManager<SubsystemBehaviourQueueInit>
 	{
-		private List<SubsystemBehaviour> behaviours = new List<SubsystemBehaviour>();
-
-		public static bool InitializedAll = false;
-
-		public override void Awake()
-		{
-			base.Awake();
-			EventManager.AddHandler(Event.RoundEnded, ClearSubsystems);
-		}
-
-		private static void ClearSubsystems()
-		{
-			Instance.behaviours.Clear();
-		}
+		private readonly List<SubsystemBehaviour> behaviours = new List<SubsystemBehaviour>();
 
 		public static void Queue(SubsystemBehaviour behaviour)
 		{
@@ -33,27 +18,12 @@ namespace Managers
 			var watch = new Stopwatch();
 			watch.Start();
 			Chat.AddGameWideSystemMsgToChat($"<color=blue>Initialising {Instance.behaviours.Count} subsystems..</color>");
-			Instance.behaviours = Instance.behaviours.OrderByDescending(s => s.Priority).ToList();
-			try
+			foreach (var behaviour in Instance.behaviours)
 			{
-				foreach (var behaviour in Instance.behaviours)
-				{
-					behaviour.Initialize();
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.LogError($"[SubsystemBehaviourQueueInit] - INIT FAIL! {e}");
-				watch.Stop();
-				Chat.AddGameWideSystemMsgToChat($"<color=red>Encountered an error! " +
-				                                $"Subsystems failed after {watch.Elapsed.Seconds} seconds. " +
-				                                $"Game will not function properly.</color>");
-				InitializedAll = true;
-				return;
+				behaviour.Initialize();
 			}
 			watch.Stop();
 			Chat.AddGameWideSystemMsgToChat($"<color=green>Subsystems loaded! Only took {watch.Elapsed.Seconds} seconds.</color>");
-			InitializedAll = true;
 		}
 	}
 }
