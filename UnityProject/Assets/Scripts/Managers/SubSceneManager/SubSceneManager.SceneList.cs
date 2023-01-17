@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Managers;
 using Mirror;
 using UnityEngine.SceneManagement;
 using UnityEngine;
@@ -62,6 +64,12 @@ public partial class SubSceneManager
 		//Why does waiting 0.1 seconds prevent the game breaking and not starting the round start timer and systems initialising properly? I have no clue.
 		//Add to this counter here for every hour spent trying to understand why this breaks: 2
 		yield return WaitFor.Seconds(0.1f);
+		loadTimer.IncrementLoadBar("Loading Subsystems..");
+		SubsystemBehaviourQueueInit.InitAllSystems();
+		while (SubsystemBehaviourQueueInit.InitializedAll == false)
+		{
+			yield return WaitFor.Seconds(1f);
+		}
 		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
 		EventManager.Broadcast( Event.ScenesLoadedServer);
 		Logger.Log($"Server has loaded {serverChosenAwaySite} away site", Category.Round);
