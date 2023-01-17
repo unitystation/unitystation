@@ -61,13 +61,13 @@ public static class Validations
 	{
 		if (toCheck == null)
 		{
-			Logger.LogError("Attempted to check a null gameObject for item attributes.");
+			Logger.LogError("Attempted to check a null gameObject for item attributes.", Category.Interaction);
 			return false;
 		}
 		var attrs = toCheck.GetComponent<ItemAttributesV2>();
 		if (attrs == null)
 		{
-			Logger.LogError("Attempted to check a null item attribute.");
+			Logger.LogError("Attempted to check a null item attribute.", Category.Interaction);
 			return false;
 		}
 		return attrs.HasTrait(expectedTrait);
