@@ -227,7 +227,13 @@ namespace Items
 		/// <param name="itemTrait"></param>
 		public bool HasTrait(ItemTrait toCheck)
 		{
-			return traits.Contains(toCheck);
+			if (traits.Contains(toCheck)) return true;
+			// Failsafe for bundles giving SOs different instance numbers.
+			foreach (ItemTrait possibleMatch in traits)
+			{
+				if (possibleMatch.name == toCheck.name) return true;
+			}
+			return false;
 		}
 
 		/// <summary>
