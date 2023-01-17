@@ -148,7 +148,7 @@ public class MetaDataSystem : SubsystemBehaviour
 		}
 	}
 
-	private IEnumerator LocateRooms()
+	public IEnumerator LocateRooms()
 	{
 		var bounds = metaTileMap.GetLocalBounds();
 
