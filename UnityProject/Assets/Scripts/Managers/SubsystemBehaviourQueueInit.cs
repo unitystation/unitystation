@@ -12,6 +12,17 @@ namespace Managers
 
 		public static bool InitializedAll = false;
 
+		public override void Awake()
+		{
+			base.Awake();
+			EventManager.AddHandler(Event.RoundEnded, ClearSubsystems);
+		}
+
+		private static void ClearSubsystems()
+		{
+			Instance.behaviours.Clear();
+		}
+
 		public static void Queue(SubsystemBehaviour behaviour)
 		{
 			Instance.behaviours.Add(behaviour);

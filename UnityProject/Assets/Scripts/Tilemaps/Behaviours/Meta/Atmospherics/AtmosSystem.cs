@@ -21,9 +21,17 @@ namespace Systems.Atmospherics
 
 		private Dictionary<Vector3Int, RoomGasSetter> toSetOccupied = new Dictionary<Vector3Int, RoomGasSetter>();
 
+		[SerializeField] private bool earlyInitAwayFromMatrixReady = false;
+		[SerializeField] private MetaDataSystem metaDataSystem;
+
 		public override void Initialize()
 		{
-			//FillRoomGas not called from here as the room setting up is now a coroutine
+			// FillRoomGas not called from here as the room setting up is now a coroutine
+			// (Max): This is the type of spaghetti code that happens when you don't split up your code's responsibilities, kids.
+			if (earlyInitAwayFromMatrixReady && metaDataSystem != null)
+			{
+				metaDataSystem.StartCoroutine(metaDataSystem.LocateRooms());
+			}
 		}
 
 		[Server]

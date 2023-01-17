@@ -12,7 +12,7 @@ public abstract class SubsystemBehaviour : MonoBehaviour
 
 		public virtual SystemType SubsystemType => SystemType.None;
 
-		public virtual int Priority => 0;
+		[field: SerializeField] public virtual int Priority { get; private set; } = 0;
 
 		public virtual void Awake()
 		{
