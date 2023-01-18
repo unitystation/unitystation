@@ -24,6 +24,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	// controls whether this can currently be picked up.
 	[SyncVar]
+	[SerializeField, Tooltip("Should this be able to be picked up?")]
 	private bool canPickup = true;
 
 	/// <summary>

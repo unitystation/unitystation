@@ -33,6 +33,16 @@ PrefabInstance:
       propertyPath: foreverID
       value: 37832ac0101fb324aa588e3b400229fe
       objectReference: {fileID: 0}
+    - target: {fileID: 4553068655538650608, guid: 23a0b694284152342b2ec0817fade0d6,
+        type: 3}
+      propertyPath: isNotPushable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553068655538650608, guid: 23a0b694284152342b2ec0817fade0d6,
+        type: 3}
+      propertyPath: CanBeWindPushed
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8279022589428523628, guid: 23a0b694284152342b2ec0817fade0d6,
         type: 3}
       propertyPath: initialSize
@@ -122,6 +132,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 37832ac0101fb324aa588e3b400229fe
+      objectReference: {fileID: 0}
+    - target: {fileID: 8475049615174345328, guid: 23a0b694284152342b2ec0817fade0d6,
+        type: 3}
+      propertyPath: canPickup
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8475049615174345328, guid: 23a0b694284152342b2ec0817fade0d6,
         type: 3}
