@@ -23,6 +23,9 @@ public class PlayerManager : MonoBehaviour
 	public static GameObject LocalPlayerObject { get; set; }
 	/// <summary>The player script for the player while in the game.</summary>
 	public static PlayerScript LocalPlayerScript { get; private set; }
+
+	public static Mind LocalMindScript { get; private set; }
+
 	/// <summary>The player script for the player while in the lobby.</summary>
 	public static JoinedViewer LocalViewerScript { get; private set; }
 
@@ -97,9 +100,18 @@ public class PlayerManager : MonoBehaviour
 		}
 
 
+		var Amove = GetMovementActions();
+
 		if (MovementControllable != null)
 		{
-			MovementControllable.ReceivePlayerMoveAction(GetMovementActions());
+			MovementControllable.ReceivePlayerMoveAction(Amove);
+		}
+		else
+		{
+			if (Amove.Direction().magnitude > 0)
+			{
+				LocalMindScript.CmdSpawnPlayerGhost();
+			}
 		}
 
 
@@ -133,6 +145,11 @@ public class PlayerManager : MonoBehaviour
 		HasSpawned = true;
 
 		SetMovementControllable(movementControllable);
+	}
+
+	public static void SetMind(Mind inMind)
+	{
+		LocalMindScript = inMind;
 	}
 
 	/// <summary>

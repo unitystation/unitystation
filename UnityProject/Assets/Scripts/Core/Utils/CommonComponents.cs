@@ -10,6 +10,8 @@ public class CommonComponents : MonoBehaviour
 
 	public RegisterTile RegisterTile => SafeGetComponent<RegisterTile>();
 
+	public PlayerScript PlayerScript => SafeGetComponent<PlayerScript>();
+
 	public Dictionary<Type, Component> dictionary = new Dictionary<Type, Component>();
 
 	public T SafeGetComponent<T>() where T : Component

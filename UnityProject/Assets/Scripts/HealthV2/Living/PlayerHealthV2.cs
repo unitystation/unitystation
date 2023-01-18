@@ -75,7 +75,7 @@ namespace HealthV2
 		public override void OnGib()
 		{
 			//Drop everything
-			playerNetworkActions.ServerSpawnPlayerGhost(true);
+			playerScript.Mind.OrNull()?.Ghost();
 			Inventory.ServerDropAll(dynamicItemStorage);
 			base.OnGib();
 			PlayerMove.playerScript.ObjectPhysics.DisappearFromWorld();

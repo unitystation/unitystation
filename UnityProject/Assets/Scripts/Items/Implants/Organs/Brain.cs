@@ -1,4 +1,6 @@
-﻿using Audio.Containers;
+﻿using System;
+using Audio.Containers;
+using Core.Utils;
 using HealthV2;
 using Mirror;
 using UnityEngine;
@@ -6,24 +8,19 @@ using UnityEngine.Serialization;
 
 namespace Items.Implants.Organs
 {
-	public class Brain : BodyPartFunctionality, IItemInOutMovedPlayer, IClientSynchronisedEffect
+	public class Brain : BodyPartFunctionality, IItemInOutMovedPlayer, IClientSynchronisedEffect, IPlayerPossessable
 	{
 
-
-
-		public RegisterPlayer CurrentlyOn { get; set; }
-		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
-
-
+		public IPlayerPossessable Itself => this as IPlayerPossessable;
 		private IClientSynchronisedEffect Preimplemented => (IClientSynchronisedEffect) this;
 
 		[SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
-
+		[SyncVar(hook = nameof(SyncPossessingID))] private uint possessingID;
 
 		public Pickupable Pickupable;
 
 		public uint OnPlayerID => OnBodyID;
-
+		public uint PossessingID => possessingID;
 
 		[FormerlySerializedAs("hasInbuiltSite")] [SerializeField] private bool hasInbuiltSight = false;
 		[SerializeField] private bool hasInbuiltHearing = false;
@@ -56,7 +53,13 @@ namespace Items.Implants.Organs
 
 		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
+
 			livingHealth.SetBrain(this);
+			Itself.SetPossessingObject(livingHealth.gameObject);
+
+
+
+
 			if (CannotSpeak == false && hasInbuiltSpeech == false) return;
 
 			if (hasInbuiltSpeech)
@@ -67,17 +70,26 @@ namespace Items.Implants.Organs
 			{
 				livingHealth.IsMute.RecordPosition(this, CannotSpeak);
 			}
+
+
 		}
 
 		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
 			livingHealth.SetBrain(null);
 			livingHealth.IsMute.RemovePosition(this);
+			Itself.SetPossessingObject(null);
 		}
 
 		public void SyncTelekinesis(bool Oldvalue, bool NewValue)
 		{
 			hasTelekinesis = NewValue;
+		}
+
+		public void SyncPossessingID(uint PreviouslyPossessing, uint CurrentlyPossessing)
+		{
+			possessingID = CurrentlyPossessing;
+			Itself.ImplementationSyncPossessingID(PreviouslyPossessing, CurrentlyPossessing);
 		}
 
 		public void SyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn)
@@ -164,5 +176,33 @@ namespace Items.Implants.Organs
 				}
 			}
 		}
+
+		#region Mind_stuff
+
+		public GameObject GameObject => gameObject;
+
+		public IPlayerPossessable Possessing { get; set; }
+
+		public GameObject PossessingObject { get; set; }
+
+		public Mind PossessingMind { get; set; }
+
+		public IPlayerPossessable PossessedBy { get; set; }
+
+		public MindNIPossessingEvent OnPossessedBy  { get; set; }
+
+		public Action OnActionEnterPlayerControl { get; set; }
+
+		public RegisterPlayer CurrentlyOn { get; set; }
+		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
+
+		public void OnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer, IPlayerPossessable parent)
+		{
+
+		}
+
+
+
+		#endregion
 	}
 }

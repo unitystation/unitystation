@@ -60,7 +60,7 @@ public class PlayerAlertView : ChatEntryView
 		if (PlayerManager.LocalPlayerScript.IsGhost == false)
 		{
 			teleportButton.interactable = false;
-			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdAGhost();
+			PlayerManager.LocalMindScript.CmdAGhost();
 			cancelSource = new CancellationTokenSource();
 			StartCoroutine(GhostWait(target.gameObject, cancelSource.Token));
 		}

@@ -81,7 +81,7 @@ namespace Items.Medical
 			_ = SoundManager.PlayNetworkedAtPosAsync(soundZap, objectPos);
 			if (livingHealthMaster.IsDead == false)
 			{
-				livingHealthMaster.playerScript.ReturnGhostToBody();
+				livingHealthMaster.playerScript.Mind.OrNull()?.StopGhosting();
 				_ = SoundManager.PlayNetworkedAtPosAsync(soundSuccsuess, objectPos);
 				StartCoroutine(Cooldown());
 				return;

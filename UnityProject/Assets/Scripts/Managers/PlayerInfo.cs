@@ -29,7 +29,10 @@ public class PlayerInfo
 	public string Username { get; set; }
 
 	/// <summary>The player script for the player while in the game.</summary>
-	public PlayerScript Script { get; private set; }
+	public PlayerScript Script
+	{
+		get => GameObject.GetComponent<PlayerScript>();
+	}
 	/// <summary>The player script for the player while in the lobby.</summary>
 	public JoinedViewer ViewerScript { get; private set; }
 
@@ -52,9 +55,20 @@ public class PlayerInfo
 	public CharacterSheet RequestedCharacterSettings { get; set; }
 
 	/// <summary>The player GameObject. Different GameObject if in lobby vs. in game.</summary>
-	public GameObject GameObject
+	public GameObject GameObject //TODO Better system
 	{
-		get => gameObject;
+		get
+		{
+			if (Mind == null)
+			{
+				return gameObject;
+			}
+			else
+			{
+				return Mind.GetDeepestBody().gameObject;
+			}
+
+		}
 		set
 		{
 			gameObject = value;
@@ -67,7 +81,6 @@ public class PlayerInfo
 			{
 				// If player is in lobby, their controlled GameObject is JoinedViewer (which has JoinedViewer component).
 				// Else they're in the game and so have a GameObject that has PlayerScript attached.
-				Script = value.GetComponent<PlayerScript>();
 				if (Script)
 				{
 					Script.PlayerInfo = this;
@@ -76,7 +89,6 @@ public class PlayerInfo
 			}
 			else
 			{
-				Script = null;
 				ViewerScript = null;
 			}
 		}

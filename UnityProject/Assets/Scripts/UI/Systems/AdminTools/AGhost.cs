@@ -13,6 +13,7 @@ public class AGhost : MonoBehaviour
 	{
 		if (PlayerManager.LocalPlayerScript == null) return;
 
+		PlayerManager.LocalMindScript.CmdAGhost();
 		PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdAGhost();
 	}
 }

@@ -380,6 +380,7 @@ public static class PlayerSpawn
 	{
 		if (from != null && from != to)
 		{
+			//TODO Client notification of mind There Count is Tied to
 			var oldPlayerNetworkActions = from.GetComponent<PlayerNetworkActions>();
 			if (oldPlayerNetworkActions)
 			{
@@ -443,6 +444,7 @@ public static class PlayerSpawn
 			}
 			to.AccountEnteringMind(account);
 		}
+		UpdateMind.SendTo(account.Connection, to);
 	}
 
 	/// <summary>

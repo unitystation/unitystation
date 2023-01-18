@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using AdminCommands;
 using UnityEngine;
 using Mirror;
 using Antagonists;
@@ -220,7 +221,24 @@ public class Mind : NetworkBehaviour, IActionGUI
 		PlayerPossessable = obj.GetComponent<IPlayerPossessable>();
 		PlayerPossessable?.BeingPossessedBy(this, null);
 
-		SyncActiveOn(IDActivelyControlling, GetDeepestBody().netId);
+		SyncActiveOn(IDActivelyControlling, obj.NetId());
+
+		if (ControlledBy != null)
+		{
+			if (PlayerPossessable != null)
+			{
+				ControlledBy.GameObject = PlayerPossessable.GetDeepestBody().gameObject; //TODO Better system
+			}
+			else
+			{
+				ControlledBy.GameObject = PossessingObject; //TODO Better system
+			}
+
+		}
+
+
+
+
 	}
 
 	public void AddObjectiveToAntag(Objective objectiveToAdd)
@@ -254,12 +272,57 @@ public class Mind : NetworkBehaviour, IActionGUI
 	}
 
 
+	[Command]
+	public void CmdAGhost()
+	{
+		if (AdminCommandsManager.IsAdmin(connectionToClient, out _))
+		{
+			if (IsGhosting)
+			{
+				StopGhosting();
+			}
+			else
+			{
+				Ghost();
+			}
+		}
+	}
+
 	public void Ghost()
 	{
 		var Body = GetDeepestBody();
 		Move.ForcePositionClient(Body.transform.position, Smooth : false);
 		IsGhosting = true;
 		SyncActiveOn(IDActivelyControlling, GetDeepestBody().netId);
+	}
+
+	/// <summary>
+	/// Spawn the ghost for this player and tell the client to switch input / camera to it
+	/// </summary>
+	[Command]
+	public void CmdSpawnPlayerGhost()
+	{
+		ServerSpawnPlayerGhost();
+	}
+
+	[Server]
+	public void ServerSpawnPlayerGhost(bool skipCheck = false)
+	{
+		//Only force to ghost if the mind belongs in to that body
+		if (skipCheck)
+		{
+			Ghost();
+			return;
+		}
+
+		var Deepest = GetDeepestBody();
+
+		var DeepestPlayer = Deepest.GetComponent<PlayerScript>();
+
+		if (Deepest.GetComponent<LivingHealthMasterBase>().IsDead && DeepestPlayer.IsGhost == false)
+		{
+			Ghost();
+		}
 	}
 
 	public void StopGhosting()
@@ -276,6 +339,10 @@ public class Mind : NetworkBehaviour, IActionGUI
 	public void SyncActiveOn(uint oldID, uint newID)
 	{
 		IDActivelyControlling = newID;
+
+		var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+
+		Logger.LogError(spawned[newID].name);
 
 		LoadManager.RegisterActionDelayed(() => { HandleActiveOnChange(oldID, newID); },
 			2); //This is to handle The game object being spawned in and data being provided before Owner message
@@ -302,14 +369,12 @@ public class Mind : NetworkBehaviour, IActionGUI
 		if (Possessable != null)
 		{
 			Possessable.InternalOnEnterPlayerControl(oldPossessable?.GameObject, this,
-				CustomNetworkManager.IsServer);
+				CustomNetworkManager.IsServer, null);
 		}
 		else
 		{
 			//TODO For objects
 		}
-
-		//here
 	}
 
 	public void AccountLeavingMind(PlayerInfo account)
@@ -352,7 +417,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 			PlayerSpawn.TransferOwnershipFromToConnection(ControlledBy, null, Body);
 		}
 
-
+		UpdateMind.SendTo(ControlledBy?.Connection, this);
 	}
 
 	public void HandleOwnershipChangeMulti(List<NetworkIdentity> Losing, List<NetworkIdentity> Gaining)

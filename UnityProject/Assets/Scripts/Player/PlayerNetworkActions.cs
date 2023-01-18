@@ -736,32 +736,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
-	/// <summary>
-	/// Spawn the ghost for this player and tell the client to switch input / camera to it
-	/// </summary>
-	[Command]
-	public void CmdSpawnPlayerGhost()
-	{
-		ServerSpawnPlayerGhost();
-	}
 
-	[Server]
-	public void ServerSpawnPlayerGhost(bool skipCheck = false)
-	{
-		//Only force to ghost if the mind belongs in to that body
-		if (skipCheck)
-		{
-			playerScript.Mind.Ghost();
-			return;
-		}
-
-		var currentMobID = GetComponent<LivingHealthMasterBase>().mobID;
-		if (GetComponent<LivingHealthMasterBase>().IsDead && !playerScript.IsGhost && playerScript.Mind != null &&
-			playerScript.Mind.bodyMobID == currentMobID)
-		{
-			playerScript.Mind.Ghost();
-		}
-	}
 
 	/// <summary>
 	/// Asks the server to let the client rejoin into a logged off character.
