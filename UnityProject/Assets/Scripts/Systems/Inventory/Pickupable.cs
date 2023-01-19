@@ -36,6 +36,30 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	/// </summary>
 	public ItemSlot ItemSlot => itemSlot;
 	private ItemSlot itemSlot;
+
+	[SyncVar] private uint clientSynchronisedStorageIn;
+
+	public GameObject ClientStoredInItemStorage
+	{
+		get
+		{
+			var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+			if (clientSynchronisedStorageIn is NetId.Empty or NetId.Invalid)
+			{
+				return null;
+			}
+
+			if (spawned.ContainsKey(clientSynchronisedStorageIn))
+			{
+				return spawned[clientSynchronisedStorageIn].gameObject;
+			}
+			else
+			{
+				return null;
+			}
+		}
+	}
+
 	/// <summary>
 	/// If this item is in a slot linked to a UI slot, returns that UI slot.
 	/// </summary>
@@ -301,6 +325,17 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	public void _SetItemSlot(ItemSlot toSlot)
 	{
 		this.itemSlot = toSlot;
+		if (isServer)
+		{
+			if (toSlot != null && toSlot.ItemStorage != null)
+			{
+				clientSynchronisedStorageIn = toSlot.ItemStorage.gameObject.NetId();
+			}
+			else
+			{
+				clientSynchronisedStorageIn = NetId.Empty;
+			}
+		}
 	}
 
 	/// <summary>

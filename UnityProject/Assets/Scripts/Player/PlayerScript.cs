@@ -38,7 +38,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		{
 			mind.SetPossessingObject(playerHealth.brain.gameObject);
 			return;
-			return;
 		}
 		else
 		{
@@ -222,11 +221,11 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		{
 			if (mind.CurrentCharacterSettings != null)
 			{
-				SyncPlayerName(mind.name, mind.CurrentCharacterSettings.Name + " _" + PlayerType);
+				SyncPlayerName(mind.name, mind.CurrentCharacterSettings.Name);
 			}
 			else
 			{
-				SyncPlayerName(mind.name, mind.name + " _" + PlayerType);
+				SyncPlayerName(mind.name, mind.name);
 			}
 		}
 

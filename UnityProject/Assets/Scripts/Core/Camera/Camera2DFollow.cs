@@ -104,14 +104,8 @@ public class Camera2DFollow : MonoBehaviour
 
 	private void UpdateMe()
 	{
-		if(PlayerManager.LocalPlayerScript == false) return;
-
 		if (target != null && !isShaking)
 		{
-			if ( (int)target.position.z == -100 )
-			{ //not following target on invalid coordinates
-				return;
-			}
 
 			recoilOffset = Vector3.zero;
 			//if  we are recoiling, adjust target position
@@ -139,7 +133,7 @@ public class Camera2DFollow : MonoBehaviour
 
 			}
 
-			Vector3 aheadTargetPos = target.position  + Vector3.forward * offsetZ;
+			Vector3 aheadTargetPos = target.gameObject.AssumedWorldPosServer() + Vector3.forward * offsetZ;
 
 			aheadTargetPos.y += yOffSet;
 
@@ -156,7 +150,7 @@ public class Camera2DFollow : MonoBehaviour
 
 			// ReSharper disable once HONK1002
 			transform.position = newPos + (Vector3)recoilOffset;
-			listenerObj.transform.position = target.position;
+			listenerObj.transform.position = target.gameObject.AssumedWorldPosServer();
 			starsBackground.position = -newPos * starScroll;
 
 			if (stencilMask != null && stencilMask.transform.parent != target) {

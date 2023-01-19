@@ -738,32 +738,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 
 
-	/// <summary>
-	/// Asks the server to let the client rejoin into a logged off character.
-	/// </summary>
-	///
-	[Command]
-	public void CmdGhostCheck() // specific check for if you want value returned
-	{
-		GhostEnterBody();
-	}
 
-	[Server]
-	public void GhostEnterBody()
-	{
-		if (playerScript.Mind.IsSpectator) return;
 
-		if (playerScript.Mind.ghostLocked) return;
-
-		if (playerScript.IsGhost == false)
-		{
-			Logger.LogWarningFormat($"Either player {playerScript.Mind.name} is not dead or not currently a ghost, ignoring EnterBody",
-				Category.Ghosts);
-			return;
-		}
-
-		playerScript.Mind.StopGhosting();
-	}
 
 	/// <summary>
 	/// Disables input before a body transfer.

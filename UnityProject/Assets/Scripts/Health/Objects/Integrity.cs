@@ -415,11 +415,13 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			.AddAdminElement("Hotspot", AdminMakeHotspot);
 	}
 
+	[NaughtyAttributes.Button()]
 	private void AdminSmash()
 	{
 		AdminCommandsManager.Instance.CmdAdminSmash(gameObject);
 	}
 
+	[NaughtyAttributes.Button()]
 	private void AdminDelete()
 	{
 		DevDestroyMessage.Send(gameObject);

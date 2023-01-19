@@ -57,8 +57,7 @@ public interface IPlayerPossessable
 		}
 		else
 		{
-			InternalOnEnterPlayerControl(spawned[PreviouslyPossessing].gameObject, PossessingMind,
-				CustomNetworkManager.IsServer, PossessedBy);
+			InternalOnEnterPlayerControl(spawned[PreviouslyPossessing].gameObject, PossessingMind, CustomNetworkManager.IsServer, PossessedBy);
 		}
 	}
 
@@ -71,14 +70,6 @@ public interface IPlayerPossessable
 			dynamicItemStorage.ServerAddObserverPlayer(GameObject);
 			PlayerPopulateInventoryUIMessage.Send(dynamicItemStorage,
 				GameObject); //TODO should we be using the players body as game object???
-		}
-
-		// If the player is inside a container, send a ClosetHandlerMessage.
-		// The ClosetHandlerMessage will attach the container to the transfered player.
-		var playerObjectBehavior = GameObject.GetComponent<UniversalObjectPhysics>();
-		if (playerObjectBehavior != null)
-		{
-			FollowCameraMessage.Send(GameObject, playerObjectBehavior.GetRootObject);
 		}
 
 		PossessAndUnpossessMessage.Send(GameObject, GameObject, previouslyControlling);
@@ -127,6 +118,7 @@ public interface IPlayerPossessable
 	public void InternalOnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer,
 		IPlayerPossessable parent)
 	{
+		if (mind == null) return;
 		var playerScript = GameObject.GetComponent<PlayerScript>();
 		if (playerScript)
 		{

@@ -319,10 +319,45 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 		var DeepestPlayer = Deepest.GetComponent<PlayerScript>();
 
-		if (Deepest.GetComponent<LivingHealthMasterBase>().IsDead && DeepestPlayer.IsGhost == false)
+		var LivingHealth = Deepest.GetComponent<LivingHealthMasterBase>();
+
+		if (LivingHealth != null)
+		{
+			if (Deepest.GetComponent<LivingHealthMasterBase>().IsDead && DeepestPlayer.IsGhost == false)
+			{
+				Ghost();
+			}
+		}
+		else
 		{
 			Ghost();
 		}
+
+
+	}
+
+	/// <summary>
+	/// Asks the server to let the client rejoin into a logged off character.
+	/// </summary>
+	///
+	[Command]
+	public void CmdGhostCheck() // specific check for if you want value returned
+	{
+		GhostEnterBody();
+	}
+
+	//TODO
+	//fix UI Inventory slots not synchronising What's in them
+	//Right clicking when just a Brain Causing errors
+
+	[Server]
+	public void GhostEnterBody()
+	{
+		if (IsSpectator) return;
+
+		if (ghostLocked) return;
+
+		StopGhosting();
 	}
 
 	public void StopGhosting()
@@ -339,11 +374,6 @@ public class Mind : NetworkBehaviour, IActionGUI
 	public void SyncActiveOn(uint oldID, uint newID)
 	{
 		IDActivelyControlling = newID;
-
-		var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
-
-		Logger.LogError(spawned[newID].name);
-
 		LoadManager.RegisterActionDelayed(() => { HandleActiveOnChange(oldID, newID); },
 			2); //This is to handle The game object being spawned in and data being provided before Owner message
 		//s sent owner, This means the game object it's told it's in charge of is not actually in charge of Until later on in that frame is Dumb,
