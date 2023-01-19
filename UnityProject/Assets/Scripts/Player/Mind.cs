@@ -347,7 +347,6 @@ public class Mind : NetworkBehaviour, IActionGUI
 	}
 
 	//TODO
-	//fix UI Inventory slots not synchronising What's in them
 	//Right clicking when just a Brain Causing errors
 
 	[Server]
