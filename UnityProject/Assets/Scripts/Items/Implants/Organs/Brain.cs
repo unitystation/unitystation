@@ -189,14 +189,9 @@ namespace Items.Implants.Organs
 		public Action OnActionEnterPlayerControl { get; set; }
 
 		public RegisterPlayer CurrentlyOn { get; set; }
-		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
+		private bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
-		public void OnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer, IPlayerPossessable parent)
-		{
-
-		}
-
-
+		public void OnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer, IPlayerPossessable parent) { }
 
 		#endregion
 	}
