@@ -18,14 +18,7 @@ public class UpdateMind : ServerMessage<UpdateMind.NetMessage>
 			PlayerManager.SetMind(null);
 		}
 
-		if (NetworkObject.TryGetComponent<Mind>(out var Mind))
-		{
-			PlayerManager.SetMind(Mind);
-		}
-		else
-		{
-			PlayerManager.SetMind(null);
-		}
+		PlayerManager.SetMind(NetworkObject.GetComponent<Mind>());
 	}
 
 
@@ -34,15 +27,7 @@ public class UpdateMind : ServerMessage<UpdateMind.NetMessage>
 	{
 		uint netID = 0;
 
-		if (mind == null)
-		{
-			netID = NetId.Empty;
-		}
-		else
-		{
-			netID = mind.netId;
-		}
-
+		netID = mind == null ? NetId.Empty : mind.netId;
 
 		var msg = new NetMessage
 		{

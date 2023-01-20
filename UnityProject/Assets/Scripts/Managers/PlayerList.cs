@@ -344,14 +344,9 @@ public partial class PlayerList : NetworkBehaviour
 	{
 		return GetInternalAll(player =>
 		{
-			if (player.GameObject == byGameObject)
-			{
-				return true;
-			}
-			else
-			{
-				return player.Mind.IsRelatedToObject(byGameObject);
-			}
+			if (player.GameObject == byGameObject) return true;
+
+			return player.Mind.IsRelatedToObject(byGameObject);
 		});
 	}
 

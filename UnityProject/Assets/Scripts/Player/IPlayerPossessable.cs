@@ -46,18 +46,18 @@ public interface IPlayerPossessable
 
 	public Action OnActionEnterPlayerControl { get; set; }
 
-	public void SyncPossessingID(uint PreviouslyPossessing, uint CurrentlyPossessing);
+	public void SyncPossessingID(uint previouslyPossessing, uint currentlyPossessing);
 
-	public void ImplementationSyncPossessingID(uint PreviouslyPossessing, uint CurrentlyPossessing)
+	public void PreImplementedSyncPossessingID(uint previouslyPossessing, uint currentlyPossessing)
 	{
 		var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
-		if (spawned.ContainsKey(PreviouslyPossessing) == false)
+		if (spawned.ContainsKey(previouslyPossessing) == false)
 		{
 			InternalOnEnterPlayerControl(null, PossessingMind, CustomNetworkManager.IsServer, PossessedBy);
 		}
 		else
 		{
-			InternalOnEnterPlayerControl(spawned[PreviouslyPossessing].gameObject, PossessingMind, CustomNetworkManager.IsServer, PossessedBy);
+			InternalOnEnterPlayerControl(spawned[previouslyPossessing].gameObject, PossessingMind, CustomNetworkManager.IsServer, PossessedBy);
 		}
 	}
 
@@ -137,10 +137,10 @@ public interface IPlayerPossessable
 		}
 
 		OnEnterPlayerControl(previouslyControlling, mind, isServer, parent);
-		var Possessing = GetPossessing();
-		if (Possessing != null)
+		var possessing = GetPossessing();
+		if (possessing != null)
 		{
-			Possessing.InternalOnEnterPlayerControl(previouslyControlling, mind, isServer, this);
+			possessing.InternalOnEnterPlayerControl(previouslyControlling, mind, isServer, this);
 		}
 	}
 
@@ -154,8 +154,9 @@ public interface IPlayerPossessable
 			return true;
 		}
 
-		var Possessing = GetPossessing();
-		if (Possessing != null && Possessing.IsRelatedToObject(_object))
+
+		var possessing = GetPossessing();
+		if (possessing != null && possessing.IsRelatedToObject(_object))
 		{
 			return true;
 		}
@@ -167,10 +168,10 @@ public interface IPlayerPossessable
 	{
 		PossessingMind = mind;
 		PossessedBy = playerPossessable;
-		var Possessing = GetPossessing();
-		if (Possessing != null)
+		var possessing = GetPossessing();
+		if (possessing != null)
 		{
-			Possessing.BeingPossessedBy(mind, this);
+			possessing.BeingPossessedBy(mind, this);
 		}
 
 		OnPossessedBy?.Invoke(mind, playerPossessable);
@@ -191,40 +192,40 @@ public interface IPlayerPossessable
 
 
 		var losing = new List<NetworkIdentity>();
-		var Possessing = GetPossessing();
-		var PossessingObject = GetPossessingObject();
-		if (Possessing != null)
+		var possessing = GetPossessing();
+		var possessingObject = GetPossessingObject();
+		if (possessing != null)
 		{
-			Possessing.GetRelatedBodies(losing);
+			possessing.GetRelatedBodies(losing);
 		}
-		else if (PossessingObject != null)
+		else if (possessingObject != null)
 		{
-			gaining.Add(PossessingObject.NetWorkIdentity());
+			gaining.Add(possessingObject.NetWorkIdentity());
 		}
 
 		PossessingMind.OrNull()?.HandleOwnershipChangeMulti(losing, gaining);
 		SyncPossessingID(PossessingID, obj ? obj.GetComponent<NetworkIdentity>().netId : NetId.Empty);
 		if (obj != null)
 		{
-			Possessing = obj.GetComponent<IPlayerPossessable>();
-			Possessing?.BeingPossessedBy(PossessingMind, this);
+			possessing = obj.GetComponent<IPlayerPossessable>();
+			possessing?.BeingPossessedBy(PossessingMind, this);
 		}
 	}
 
 	public List<NetworkIdentity> GetRelatedBodies(List<NetworkIdentity> returnList)
 	{
 		returnList.Add(GameObject.NetWorkIdentity());
-		var Possessing = GetPossessing();
-		var PossessingObject = GetPossessingObject();
-		if (Possessing != null)
+		var possessing = GetPossessing();
+		var possessingObject = GetPossessingObject();
+		if (possessing != null)
 		{
-			Possessing.GetRelatedBodies(returnList);
+			possessing.GetRelatedBodies(returnList);
 		}
 		else
 		{
-			if (PossessingObject != null)
+			if (possessingObject != null)
 			{
-				returnList.Add(PossessingObject.NetWorkIdentity());
+				returnList.Add(possessingObject.NetWorkIdentity());
 			}
 		}
 
@@ -233,17 +234,17 @@ public interface IPlayerPossessable
 
 	public NetworkIdentity GetDeepestBody()
 	{
-		var Possessing = GetPossessing();
-		var PossessingObject = GetPossessingObject();
+		var possessing = GetPossessing();
+		var possessingObject = GetPossessingObject();
 
-		if (Possessing != null)
+		if (possessing != null)
 		{
-			return Possessing.GetDeepestBody();
+			return possessing.GetDeepestBody();
 		}
 
-		if (PossessingObject != null)
+		if (possessingObject != null)
 		{
-			return PossessingObject.NetWorkIdentity();
+			return possessingObject.NetWorkIdentity();
 		}
 
 		return GameObject.NetWorkIdentity();

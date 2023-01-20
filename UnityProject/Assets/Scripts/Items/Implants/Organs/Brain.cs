@@ -57,9 +57,6 @@ namespace Items.Implants.Organs
 			livingHealth.SetBrain(this);
 			Itself.SetPossessingObject(livingHealth.gameObject);
 
-
-
-
 			if (CannotSpeak == false && hasInbuiltSpeech == false) return;
 
 			if (hasInbuiltSpeech)
@@ -70,8 +67,6 @@ namespace Items.Implants.Organs
 			{
 				livingHealth.IsMute.RecordPosition(this, CannotSpeak);
 			}
-
-
 		}
 
 		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
@@ -86,10 +81,10 @@ namespace Items.Implants.Organs
 			hasTelekinesis = NewValue;
 		}
 
-		public void SyncPossessingID(uint PreviouslyPossessing, uint CurrentlyPossessing)
+		public void SyncPossessingID(uint previouslyPossessing, uint currentlyPossessing)
 		{
-			possessingID = CurrentlyPossessing;
-			Itself.ImplementationSyncPossessingID(PreviouslyPossessing, CurrentlyPossessing);
+			possessingID = currentlyPossessing;
+			Itself.PreImplementedSyncPossessingID(previouslyPossessing, currentlyPossessing);
 		}
 
 		public void SyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn)

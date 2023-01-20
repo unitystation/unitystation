@@ -11,22 +11,18 @@ public class ComponentManager : SingletonManager<ComponentManager>
 
 
 
-	public static bool TryGetCommonComponent(GameObject gameObject, out CommonComponents CommonComponents)
+	public static bool TryGetCommonComponent(GameObject gameObject, out CommonComponents commonComponents)
 	{
-		if (ObjectToCommonComponent.TryGetValue(gameObject, out CommonComponents))
+		if (ObjectToCommonComponent.TryGetValue(gameObject, out commonComponents))
 		{
 			return true;
 		}
 
-		if (gameObject.TryGetComponent<CommonComponents>(out CommonComponents))
-		{
-
-		}
-		else
+		if (gameObject.TryGetComponent<CommonComponents>(out commonComponents) == false)
 		{
 			return false;
 		}
-		ObjectToCommonComponent[gameObject] = CommonComponents;
+		ObjectToCommonComponent[gameObject] = commonComponents;
 		return true;
 	}
 
@@ -73,13 +69,13 @@ public class ComponentManager : SingletonManager<ComponentManager>
 		EventManager.RemoveHandler(Event.RoundEnded, OnRoundEnded);
 	}
 
-	void OnRoundRestart(Scene oldScene, Scene newScene)
+	private void OnRoundRestart(Scene oldScene, Scene newScene)
 	{
 		ObjectToPhysics.Clear();
 		ObjectToCommonComponent.Clear();
 	}
 
-	void OnRoundEnded()
+	private void OnRoundEnded()
 	{
 		ObjectToPhysics.Clear();
 		ObjectToCommonComponent.Clear();

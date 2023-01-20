@@ -327,14 +327,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		this.itemSlot = toSlot;
 		if (isServer)
 		{
-			if (toSlot != null && toSlot.ItemStorage != null)
-			{
-				clientSynchronisedStorageIn = toSlot.ItemStorage.gameObject.NetId();
-			}
-			else
-			{
-				clientSynchronisedStorageIn = NetId.Empty;
-			}
+			clientSynchronisedStorageIn = toSlot?.ItemStorage.OrNull()?.gameObject.NetId() ?? NetId.Empty;
 		}
 	}
 

@@ -88,23 +88,20 @@ public class PlayerManager : MonoBehaviour
 	private void UpdateMe()
 	{
 
-
+		var move = GetMovementAction();
 		if (ShuttleConsole != null)
 		{
-			var move = GetMovementActions();
 			if (move.moveActions.Length > 0)
 			{
-				ShuttleConsole.CmdMove(Orientation.From(GetMovementActions().ToPlayerMoveDirection().ToVector()));
+				ShuttleConsole.CmdMove(Orientation.From(GetMovementAction().ToPlayerMoveDirection().ToVector()));
 				return;
 			}
 		}
 
 
-		var Amove = GetMovementActions();
-
 		if (MovementControllable != null)
 		{
-			MovementControllable.ReceivePlayerMoveAction(Amove);
+			MovementControllable.ReceivePlayerMoveAction(move);
 		}
 		else
 		{
@@ -167,7 +164,7 @@ public class PlayerManager : MonoBehaviour
 	/// Moving while dead spawns the player's ghost.
 	/// </summary>
 	/// <returns> A PlayerAction containing up to two (non-opposite) movement directions.</returns>
-	public PlayerAction GetMovementActions()
+	public PlayerAction GetMovementAction()
 	{
 		// Stores the directions the player will move in.
 		List<int> actionKeys = new List<int>();

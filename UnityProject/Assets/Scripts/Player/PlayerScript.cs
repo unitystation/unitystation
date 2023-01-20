@@ -47,10 +47,10 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 
 	}
 
-	public void SyncPossessingID(uint PreviouslyPossessing, uint CurrentlyPossessing)
+	public void SyncPossessingID(uint previouslyPossessing, uint currentlyPossessing)
 	{
-		possessingID = CurrentlyPossessing;
-		Itself.ImplementationSyncPossessingID(PreviouslyPossessing, CurrentlyPossessing);
+		possessingID = currentlyPossessing;
+		Itself.PreImplementedSyncPossessingID(previouslyPossessing, currentlyPossessing);
 	}
 
 
