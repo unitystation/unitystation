@@ -105,7 +105,7 @@ public class PlayerManager : MonoBehaviour
 		}
 		else
 		{
-			if (Amove.Direction().magnitude > 0)
+			if (move.Direction().magnitude > 0)
 			{
 				LocalMindScript.CmdSpawnPlayerGhost();
 			}
