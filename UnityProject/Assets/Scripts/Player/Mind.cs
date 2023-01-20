@@ -315,15 +315,15 @@ public class Mind : NetworkBehaviour, IActionGUI
 			return;
 		}
 
-		var Deepest = GetDeepestBody();
+		var deepest = GetDeepestBody();
 
-		var DeepestPlayer = Deepest.GetComponent<PlayerScript>();
+		var deepestPlayer = deepest.GetComponent<PlayerScript>();
 
-		var LivingHealth = Deepest.GetComponent<LivingHealthMasterBase>();
+		var livingHealth = deepest.GetComponent<LivingHealthMasterBase>();
 
-		if (LivingHealth != null)
+		if (livingHealth != null)
 		{
-			if (Deepest.GetComponent<LivingHealthMasterBase>().IsDead && DeepestPlayer.IsGhost == false)
+			if (deepest.GetComponent<LivingHealthMasterBase>().IsDead && deepestPlayer.IsGhost == false)
 			{
 				Ghost();
 			}
