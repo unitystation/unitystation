@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using HealthV2;
+using Items.Implants.Organs;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -247,6 +248,7 @@ public class BodyPartMutations : BodyPartFunctionality
 
 	public void ChangeToSpecies(PlayerHealthData PlayerHealthData, GameObject BodyPart)
 	{
+		if (this.TryGetComponent<Brain>(out var Brain)) return; //Make it a little bit harder to remove from a round
 		StartCoroutine(ProcessChangeToSpecies(PlayerHealthData, BodyPart));
 	}
 
