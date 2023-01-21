@@ -37,6 +37,7 @@ namespace Items.Implants.Organs
 		[SyncVar(hook = nameof(SyncTelekinesis))] private bool hasTelekinesis = false;
 		public bool HasTelekinesis => hasTelekinesis;
 
+		public ChatModifier BodyChatModifier = ChatModifier.None;
 
 		public override void Awake()
 		{
@@ -67,6 +68,8 @@ namespace Items.Implants.Organs
 			{
 				livingHealth.IsMute.RecordPosition(this, CannotSpeak);
 			}
+
+			UpdateChatModifier(true);
 		}
 
 		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
@@ -74,6 +77,7 @@ namespace Items.Implants.Organs
 			livingHealth.SetBrain(null);
 			livingHealth.IsMute.RemovePosition(this);
 			Itself.SetPossessingObject(null);
+			UpdateChatModifier(false);
 		}
 
 		public void SyncTelekinesis(bool Oldvalue, bool NewValue)
@@ -169,6 +173,19 @@ namespace Items.Implants.Organs
 					RelatedPart.HealthMaster.IsMute.RemovePosition(this);
 					//Brain can't make you speak but it can stop you from speaking
 				}
+			}
+		}
+
+		public void UpdateChatModifier(bool add)
+		{
+			if (RelatedPart.HealthMaster == null)  return;
+			if (add)
+			{
+				RelatedPart.HealthMaster.BodyChatModifier |= BodyChatModifier;
+			}
+			else
+			{
+				RelatedPart.HealthMaster.BodyChatModifier &= ~BodyChatModifier;
 			}
 		}
 
