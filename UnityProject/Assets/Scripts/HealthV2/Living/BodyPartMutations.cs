@@ -239,6 +239,11 @@ public class BodyPartMutations : BodyPartFunctionality
 		ChangeToSpecies(PlayerHealthData, TOMutateBodyPart);
 	}
 
+	public void OnDestroy()
+	{
+		ActiveMutations.Clear();
+	}
+
 
 	public void ChangeToSpecies(PlayerHealthData PlayerHealthData, GameObject BodyPart)
 	{
@@ -411,6 +416,7 @@ public class BodyPartMutations : BodyPartFunctionality
 			public List<Tuple<float, int>> Parameters = new List<Tuple<float, int>>();
 		}
 	}
+
 
 
 	/*

@@ -27,7 +27,7 @@ public partial class Chat
 
 	private static Coroutine composeMessageHandle;
 	private static StringBuilder stringBuilder = new StringBuilder();
-	
+
 	private struct DestroyChatMessage
 	{
 		public string Message;
@@ -194,6 +194,12 @@ public partial class Chat
 
 		// Assign inventory speech mods
 		chatModifiers |= sentByPlayer.Script.inventorySpeechModifiers;
+
+		if (sentByPlayer.Script.playerHealth != null)
+		{
+			chatModifiers |= sentByPlayer.Script.playerHealth.BodyChatModifier;
+		}
+
 
 		/////// Process Speech mutations
 		message = SpeechModManager.Instance.ApplyMod(chatModifiers, message);
@@ -417,7 +423,7 @@ public partial class Chat
 		SpawnedAntag antag = PlayerManager.LocalPlayerScript.PossessingMind.GetAntag();
 
 		if(antag.Antagonist.AntagJobType != JobType.TRAITOR && antag.Antagonist.AntagJobType != JobType.SYNDICATE) return input;
-		
+
 		string[] coloredText = input.Split(' '); //Split at each Word
 
 		for (int j = 0; j < coloredText.Length; j++)

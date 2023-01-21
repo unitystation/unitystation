@@ -203,6 +203,8 @@ namespace HealthV2
 		public RootBodyPartController rootBodyPartController;
 
 
+		public ChatModifier BodyChatModifier = ChatModifier.None;
+
 		public float BodyPartSurfaceVolume = 5;
 
 		/// <summary>
