@@ -342,7 +342,12 @@ public partial class PlayerList : NetworkBehaviour
 	[Server]
 	public PlayerInfo Get(GameObject byGameObject)
 	{
-		return GetInternalAll(player => player.GameObject == byGameObject);
+		return GetInternalAll(player =>
+		{
+			if (player.GameObject == byGameObject) return true;
+
+			return player.Mind.IsRelatedToObject(byGameObject);
+		});
 	}
 
 	[Server]

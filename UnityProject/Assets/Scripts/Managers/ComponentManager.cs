@@ -7,7 +7,24 @@ using Shared.Managers;
 public class ComponentManager : SingletonManager<ComponentManager>
 {
 	public static Dictionary<GameObject, UniversalObjectPhysics> ObjectToPhysics = new Dictionary<GameObject, UniversalObjectPhysics>();
-	//TODO in future maybe reference a Component that is on every prefab that handles all Components on it
+	public static Dictionary<GameObject, CommonComponents> ObjectToCommonComponent = new Dictionary<GameObject, CommonComponents>();
+
+
+
+	public static bool TryGetCommonComponent(GameObject gameObject, out CommonComponents commonComponents)
+	{
+		if (ObjectToCommonComponent.TryGetValue(gameObject, out commonComponents))
+		{
+			return true;
+		}
+
+		if (gameObject.TryGetComponent<CommonComponents>(out commonComponents) == false)
+		{
+			return false;
+		}
+		ObjectToCommonComponent[gameObject] = commonComponents;
+		return true;
+	}
 
 	public static bool TryGetUniversalObjectPhysics(GameObject gameObject, out UniversalObjectPhysics UOP)
 	{
@@ -43,15 +60,24 @@ public class ComponentManager : SingletonManager<ComponentManager>
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnRoundRestart;
+		EventManager.AddHandler(Event.RoundEnded, OnRoundEnded);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnRoundRestart;
+		EventManager.RemoveHandler(Event.RoundEnded, OnRoundEnded);
 	}
 
-	void OnRoundRestart(Scene oldScene, Scene newScene)
+	private void OnRoundRestart(Scene oldScene, Scene newScene)
 	{
 		ObjectToPhysics.Clear();
+		ObjectToCommonComponent.Clear();
+	}
+
+	private void OnRoundEnded()
+	{
+		ObjectToPhysics.Clear();
+		ObjectToCommonComponent.Clear();
 	}
 }

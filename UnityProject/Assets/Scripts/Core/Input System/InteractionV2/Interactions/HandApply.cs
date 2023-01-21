@@ -40,7 +40,7 @@ public class HandApply : BodyPartTargetedInteraction
 	/// <param name="targetObject">object targeted by the interaction</param>
 	public static HandApply ByLocalPlayer(GameObject targetObject)
 	{
-		if (PlayerManager.LocalPlayerScript.IsGhost)
+		if (PlayerManager.LocalMindScript.IsGhosting)
 		{
 			//hand apply never works when local player
 			return HandApply.Invalid;
@@ -52,7 +52,7 @@ public class HandApply : BodyPartTargetedInteraction
 			UIManager.DamageZone,
 			PlayerManager.LocalPlayerScript.OrNull()?.DynamicItemStorage.OrNull()?.GetActiveHandSlot(),
 			UIManager.CurrentIntent,
-			PlayerManager.LocalPlayerScript.Mind ,
+			PlayerManager.LocalMindScript ,
 			KeyboardInputManager.IsAltActionKeyPressed());
 	}
 

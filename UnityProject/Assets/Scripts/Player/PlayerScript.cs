@@ -21,18 +21,38 @@ using UnityEngine.Serialization;
 public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlayerPossessable, IHoverTooltip
 {
 	public GameObject GameObject => gameObject;
-	public IPlayerPossessable Possessing { get; set; }
-	public GameObject PossessingObject { get; set; }
+	public uint PossessingID => possessingID;
 	public Mind PossessingMind { get; set; }
 	public IPlayerPossessable PossessedBy { get; set; }
 	public MindNIPossessingEvent OnPossessedBy { get; set; } = new MindNIPossessingEvent();
 
+	[SyncVar(hook = nameof(SyncPossessingID))] private uint possessingID;
 	public Action OnActionEnterPlayerControl { get; set; }
 
-	public void OnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer)
+	public IPlayerPossessable Itself => this as IPlayerPossessable;
+
+	public void OnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer, IPlayerPossessable parent)
 	{
-		Init(mind);
+		if (mind == null) return;
+		if (parent == null &&  playerTypeSettings.PlayerType != PlayerTypes.Ghost)//Can't be possessed directly
+		{
+			mind.SetPossessingObject(playerHealth.brain.gameObject);
+			return;
+		}
+		else
+		{
+			//Assuming it is the brain
+			Init(mind);
+		}
+
 	}
+
+	public void SyncPossessingID(uint previouslyPossessing, uint currentlyPossessing)
+	{
+		possessingID = currentlyPossessing;
+		Itself.PreImplementedSyncPossessingID(previouslyPossessing, currentlyPossessing);
+	}
+
 
 	/// maximum distance the player needs to be to an object to interact with it
 	public const float INTERACTION_DISTANCE = 1.5f;
@@ -199,7 +219,14 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	{
 		if (isServer)
 		{
-			SyncPlayerName(mind.name, mind.name);
+			if (mind.CurrentCharacterSettings != null)
+			{
+				SyncPlayerName(mind.name, mind.CurrentCharacterSettings.Name);
+			}
+			else
+			{
+				SyncPlayerName(mind.name, mind.name);
+			}
 		}
 
 
@@ -208,7 +235,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 			if (mind.CurrentCharacterSettings != null)
 			{
 				characterSettings = mind.CurrentCharacterSettings;
-				playerName = mind.CurrentCharacterSettings.Name;//TODO Change this sometime move to mind / Somewhere else
 			}
 
 
@@ -425,16 +451,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 
 	// If the player acts like a ghost but is still playing ingame, used for blobs and in the future maybe AI.
 	public bool IsPlayerSemiGhost => PlayerType == PlayerTypes.Blob || PlayerType == PlayerTypes.Ai;
-
-	public void ReturnGhostToBody()
-	{
-		if (Mind == null) return;
-
-		var ghost = Mind.ghost;
-		if (Mind.IsGhosting == false || ghost == null) return;
-
-		ghost.PlayerNetworkActions.GhostEnterBody();
-	}
 
 	public object Chat { get; internal set; }
 

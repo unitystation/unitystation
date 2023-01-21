@@ -85,7 +85,7 @@ public class PlayerHealthUI : MonoBehaviour
 			return;
 		}
 
-		if (PlayerManager.LocalPlayerScript.IsNormal == false)
+		if (PlayerManager.LocalPlayerScript == null || PlayerManager.LocalPlayerScript.IsNormal == false)
 		{
 			if (humanUI)
 			{

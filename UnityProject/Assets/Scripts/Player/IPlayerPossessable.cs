@@ -10,23 +10,59 @@ using UnityEngine;
 
 public interface IPlayerPossessable
 {
-
 	public GameObject GameObject { get; }
-	public IPlayerPossessable Possessing { get; set; }
 
-	public GameObject PossessingObject { get; set; }
+	private GameObject GetPossessingObject()
+	{
+		if (PossessingID is NetId.Empty or NetId.Invalid)
+		{
+			return null;
+		}
+		else
+		{
+			var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+			return spawned[PossessingID].gameObject;
+		}
+	}
+
+	public IPlayerPossessable GetPossessing()
+	{
+		var ob = GetPossessingObject();
+		if (ob != null)
+		{
+			return ob.GetComponent<IPlayerPossessable>();
+		}
+
+		return null;
+	}
+
+	public uint PossessingID { get; }
 
 	public Mind PossessingMind { get; set; }
 
 	public IPlayerPossessable PossessedBy { get; set; }
 
-	public MindNIPossessingEvent OnPossessedBy  { get; set; }
+	public MindNIPossessingEvent OnPossessedBy { get; set; }
 
 	public Action OnActionEnterPlayerControl { get; set; }
 
+	public void SyncPossessingID(uint previouslyPossessing, uint currentlyPossessing);
+
+	public void PreImplementedSyncPossessingID(uint previouslyPossessing, uint currentlyPossessing)
+	{
+		var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+		if (spawned.ContainsKey(previouslyPossessing) == false)
+		{
+			InternalOnEnterPlayerControl(null, PossessingMind, CustomNetworkManager.IsServer, PossessedBy);
+		}
+		else
+		{
+			InternalOnEnterPlayerControl(spawned[previouslyPossessing].gameObject, PossessingMind, CustomNetworkManager.IsServer, PossessedBy);
+		}
+	}
+
 	public void ServeInternalOnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer)
 	{
-
 		//can observe their new inventory
 		var dynamicItemStorage = GameObject.GetComponent<DynamicItemStorage>();
 		if (dynamicItemStorage != null)
@@ -35,37 +71,31 @@ public interface IPlayerPossessable
 			PlayerPopulateInventoryUIMessage.Send(dynamicItemStorage,
 				GameObject); //TODO should we be using the players body as game object???
 		}
-		// If the player is inside a container, send a ClosetHandlerMessage.
-		// The ClosetHandlerMessage will attach the container to the transfered player.
-		var playerObjectBehavior = GameObject.GetComponent<UniversalObjectPhysics>();
-		if (playerObjectBehavior != null )
-		{
-			FollowCameraMessage.Send(GameObject, playerObjectBehavior.GetRootObject);
-		}
 
 		PossessAndUnpossessMessage.Send(GameObject, GameObject, previouslyControlling);
 
 		var health = GameObject.GetComponent<LivingHealthMasterBase>();
-		if (health != null)
+		if (health != null && mind != null)
 		{
 			mind.bodyMobID = health.mobID;
 		}
 
-
-
-		var transfers = GameObject.GetComponents<IOnPlayerTransfer>();
-
-		foreach (var transfer in transfers)
+		if (mind != null)
 		{
-			transfer.OnServerPlayerTransfer(mind.ControlledBy);
+			var transfers = GameObject.GetComponents<IOnPlayerTransfer>();
+
+			foreach (var transfer in transfers)
+			{
+				transfer.OnServerPlayerTransfer(mind.ControlledBy);
+			}
 		}
+
 		OnActionEnterPlayerControl?.Invoke();
 	}
 
 
 	public void ClientInternalOnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer)
 	{
-
 		var input = GameObject.GetComponent<IPlayerControllable>();
 
 		if (GameObject.TryGetComponent<AiMouseInputController>(out var aiMouseInputController))
@@ -77,7 +107,7 @@ public interface IPlayerPossessable
 		var dynamicItemStorage = GameObject.GetComponent<DynamicItemStorage>();
 		if (dynamicItemStorage != null)
 		{
-			dynamicItemStorage.UpdateSlots(	dynamicItemStorage.GetSetData, 	dynamicItemStorage.GetSetData);
+			dynamicItemStorage.UpdateSlots(dynamicItemStorage.GetSetData, dynamicItemStorage.GetSetData);
 		}
 
 		UIActionManager.ClearAllActionsClient();
@@ -85,10 +115,10 @@ public interface IPlayerPossessable
 		OnActionEnterPlayerControl?.Invoke();
 	}
 
-	public void InternalOnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer)
+	public void InternalOnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer,
+		IPlayerPossessable parent)
 	{
-
-
+		if (mind == null) return;
 		var playerScript = GameObject.GetComponent<PlayerScript>();
 		if (playerScript)
 		{
@@ -106,19 +136,27 @@ public interface IPlayerPossessable
 			ClientInternalOnEnterPlayerControl(previouslyControlling, mind, isServer);
 		}
 
-		OnEnterPlayerControl( previouslyControlling,  mind,  isServer);
+		OnEnterPlayerControl(previouslyControlling, mind, isServer, parent);
+		var possessing = GetPossessing();
+		if (possessing != null)
+		{
+			possessing.InternalOnEnterPlayerControl(previouslyControlling, mind, isServer, this);
+		}
 	}
 
-	public void OnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer);
+	public void OnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer,
+		IPlayerPossessable parent);
 
 	public bool IsRelatedToObject(GameObject _object)
 	{
-		if (PossessingObject == _object)
+		if (GetPossessingObject() == _object)
 		{
 			return true;
 		}
 
-		if (Possessing != null && Possessing.IsRelatedToObject(_object))
+
+		var possessing = GetPossessing();
+		if (possessing != null && possessing.IsRelatedToObject(_object))
 		{
 			return true;
 		}
@@ -130,11 +168,13 @@ public interface IPlayerPossessable
 	{
 		PossessingMind = mind;
 		PossessedBy = playerPossessable;
-		if (Possessing != null)
+		var possessing = GetPossessing();
+		if (possessing != null)
 		{
-			Possessing.BeingPossessedBy(mind, this);
+			possessing.BeingPossessedBy(mind, this);
 		}
-		OnPossessedBy?.Invoke(mind,playerPossessable);
+
+		OnPossessedBy?.Invoke(mind, playerPossessable);
 	}
 
 	public void SetPossessingObject(GameObject obj)
@@ -152,33 +192,40 @@ public interface IPlayerPossessable
 
 
 		var losing = new List<NetworkIdentity>();
-		if (Possessing != null)
+		var possessing = GetPossessing();
+		var possessingObject = GetPossessingObject();
+		if (possessing != null)
 		{
-			Possessing.GetRelatedBodies(losing);
+			possessing.GetRelatedBodies(losing);
 		}
-		else if (PossessingObject != null)
+		else if (possessingObject != null)
 		{
-			gaining.Add(PossessingObject.NetWorkIdentity());
+			gaining.Add(possessingObject.NetWorkIdentity());
 		}
 
 		PossessingMind.OrNull()?.HandleOwnershipChangeMulti(losing, gaining);
-		PossessingObject = obj;
-		Possessing = obj.GetComponent<IPlayerPossessable>();
-		Possessing?.BeingPossessedBy(PossessingMind, this);
+		SyncPossessingID(PossessingID, obj ? obj.GetComponent<NetworkIdentity>().netId : NetId.Empty);
+		if (obj != null)
+		{
+			possessing = obj.GetComponent<IPlayerPossessable>();
+			possessing?.BeingPossessedBy(PossessingMind, this);
+		}
 	}
 
 	public List<NetworkIdentity> GetRelatedBodies(List<NetworkIdentity> returnList)
 	{
 		returnList.Add(GameObject.NetWorkIdentity());
-		if (Possessing != null)
+		var possessing = GetPossessing();
+		var possessingObject = GetPossessingObject();
+		if (possessing != null)
 		{
-			Possessing.GetRelatedBodies(returnList);
+			possessing.GetRelatedBodies(returnList);
 		}
 		else
 		{
-			if (PossessingObject != null)
+			if (possessingObject != null)
 			{
-				returnList.Add(PossessingObject.NetWorkIdentity());
+				returnList.Add(possessingObject.NetWorkIdentity());
 			}
 		}
 
@@ -187,18 +234,19 @@ public interface IPlayerPossessable
 
 	public NetworkIdentity GetDeepestBody()
 	{
+		var possessing = GetPossessing();
+		var possessingObject = GetPossessingObject();
 
-		if (Possessing != null)
+		if (possessing != null)
 		{
-			return Possessing.GetDeepestBody();
+			return possessing.GetDeepestBody();
 		}
 
-		if (PossessingObject != null)
+		if (possessingObject != null)
 		{
-			return PossessingObject.NetWorkIdentity();
+			return possessingObject.NetWorkIdentity();
 		}
 
 		return GameObject.NetWorkIdentity();
 	}
-
 }

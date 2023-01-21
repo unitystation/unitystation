@@ -907,7 +907,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		//Can't do normal move, so check to see if dead
 		if (playerScript.OrNull()?.playerHealth.OrNull()?.IsDead == true)
 		{
-			playerScript.PlayerNetworkActions.CmdSpawnPlayerGhost();
+			playerScript.Mind.OrNull()?.CmdSpawnPlayerGhost();
 			return;
 		}
 

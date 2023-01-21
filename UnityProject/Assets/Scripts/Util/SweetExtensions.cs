@@ -166,6 +166,19 @@ public static class SweetExtensions
 		}
 	}
 
+	/// Creates garbage! Use very sparsely!
+	public static CommonComponents GetCommonComponents(this GameObject go)
+	{
+		if (ComponentManager.TryGetCommonComponent(go, out  var commonComponent))
+		{
+			return commonComponent;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
 	/// <summary>
 	/// Returns true for adjacent coordinates
 	/// </summary>

@@ -63,7 +63,7 @@ namespace UI.Systems.Ghost
 
 		public void ReenterCorpse()
 		{
-			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdGhostCheck();
+			PlayerManager.LocalMindScript.CmdGhostCheck();
 		}
 
 		public void Teleport()

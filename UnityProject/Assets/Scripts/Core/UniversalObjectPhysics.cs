@@ -97,9 +97,16 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			{
 				return ContainedInObjectContainer.registerTile.ObjectPhysics.Component.GetRootObject;
 			}
-			else if (pickupable.HasComponent && pickupable.Component.ItemSlot != null)
+			else if ((isServer == false && pickupable.HasComponent && pickupable.Component.ClientStoredInItemStorage != null) || (isServer == true && pickupable.HasComponent && pickupable.Component.ItemSlot != null)   )
 			{
-				return pickupable.Component.ItemSlot.ItemStorage.gameObject.GetRootGameObject();
+				if (isServer)
+				{
+					return pickupable.Component.ItemSlot.ItemStorage.gameObject.GetRootGameObject();
+				}
+				else
+				{
+					return pickupable.Component.ClientStoredInItemStorage.GetRootGameObject();
+				}
 			}
 			else
 			{
@@ -1846,7 +1853,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 
 		//check if our local player can reach this
-		var initiator = PlayerManager.LocalPlayerScript.GetComponent<UniversalObjectPhysics>();
+		var initiator = PlayerManager.LocalMindScript.GetDeepestBody().GetComponent<UniversalObjectPhysics>();
 		if (initiator == null) return options;
 
 		//if it's pulled by us

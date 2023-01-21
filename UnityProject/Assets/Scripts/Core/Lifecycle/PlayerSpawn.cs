@@ -443,6 +443,7 @@ public static class PlayerSpawn
 			}
 			to.AccountEnteringMind(account);
 		}
+		UpdateMind.SendTo(account.Connection, to);
 	}
 
 	/// <summary>

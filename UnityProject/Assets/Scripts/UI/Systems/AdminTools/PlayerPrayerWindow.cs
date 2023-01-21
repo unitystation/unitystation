@@ -67,11 +67,7 @@ namespace AdminTools
 
 		public void SendTeleportAdminToPlayerAghost()
 		{
-			if (PlayerManager.LocalPlayerScript.IsGhost == false)
-			{
-				PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdAGhost();
-			}
-
+			PlayerManager.LocalMindScript.CmdAGhost();
 			RequestAdminTeleport.Send(
 				null,
 				selectedPlayer.uid,
