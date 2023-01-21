@@ -34,7 +34,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	public void OnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer, IPlayerPossessable parent)
 	{
 		if (mind == null) return;
-		if (parent == null &&  playerTypeSettings.PlayerType != PlayerTypes.Ghost)//Can't be possessed directly
+		if (IsNormal && parent == null &&  playerTypeSettings.PlayerType != PlayerTypes.Ghost)//Can't be possessed directly
 		{
 			mind.SetPossessingObject(playerHealth.brain.gameObject);
 			return;

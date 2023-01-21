@@ -221,8 +221,12 @@ namespace HealthV2
 
 					}
 
+					var percentage = 0f;
+					if (BloodPool.reagents.ContainsKey(bloodAndValues.Key))
+					{
+						percentage = BloodPool.GetPercent(bloodAndValues.Key);
+					}
 
-					var percentage =  BloodPool.GetPercent(bloodAndValues.Key);
 
 					if (percentage < 0.33f)
 					{
