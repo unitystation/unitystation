@@ -7,7 +7,7 @@ namespace HealthV2.Living.Mutations.Surface
 	[CreateAssetMenu(fileName = "FireEffect", menuName = "ScriptableObjects/Mutations/FireEffect")]
 	public class FireEffect : MutationSO
 	{
-		[Tooltip("so, - Would decrease Fire protection max is Double Damage + increases how much Fire protection max is 100% Protection ")]
+		[Tooltip("Fire protection in percentage. Negative numbers increase incoming damage.")]
 		[Range(-100,100)] public float AddFireProtection = 0;
 
 
