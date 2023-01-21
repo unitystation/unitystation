@@ -1,5 +1,7 @@
 ﻿using System;
 using Audio.Containers;
+using CameraEffects;
+using Chemistry;
 using Core.Utils;
 using HealthV2;
 using Mirror;
@@ -19,6 +21,9 @@ namespace Items.Implants.Organs
 
 		public Pickupable Pickupable;
 
+		private Reagent DrunkReagent;
+		[SerializeField] private float drunkMultiplier = 4;
+
 		public uint OnPlayerID => OnBodyID;
 		public uint PossessingID => possessingID;
 
@@ -35,6 +40,9 @@ namespace Items.Implants.Organs
 
 
 		[SyncVar(hook = nameof(SyncTelekinesis))] private bool hasTelekinesis = false;
+
+		[SyncVar(hook = nameof(SyncDrunkenness))] private float DrunkAmount = 0;
+
 		public bool HasTelekinesis => hasTelekinesis;
 
 
@@ -81,6 +89,21 @@ namespace Items.Implants.Organs
 			hasTelekinesis = NewValue;
 		}
 
+		public void SyncDrunkenness(float Oldvalue, float NewValue)
+		{
+			DrunkAmount = NewValue;
+			if (Preimplemented.IsOnLocalPlayer)
+			{
+				ApplyChangesrunkenness(DrunkAmount);
+			}
+
+		}
+
+		public void ApplyChangesrunkenness(float newState)
+		{
+			Camera.main.GetComponent<CameraEffectControlScript>().AddDrunkTime(newState);
+		}
+
 		public void SyncPossessingID(uint previouslyPossessing, uint currentlyPossessing)
 		{
 			possessingID = currentlyPossessing;
@@ -103,6 +126,22 @@ namespace Items.Implants.Organs
 			else
 			{
 				SyncOnPlayer(OnBodyID, NetId.Empty);
+			}
+		}
+
+		public override void ImplantPeriodicUpdate()
+		{
+
+			if (RelatedPart.HealthMaster.CirculatorySystem.BloodPool.reagents.Contains(DrunkReagent))
+			{
+				float doop = RelatedPart.HealthMaster.CirculatorySystem.BloodPool[DrunkReagent];
+				if (doop > 0)
+				{
+
+
+					doop *= drunkMultiplier;
+
+				}
 			}
 		}
 

@@ -39,7 +39,7 @@ namespace Items.Implants.Organs
 		/// </summary>
 		[SerializeField] private float processAmount = 2f;
 
-		[SerializeField] private float drunkMultiplier = 4;
+
 
 		private CirculatorySystemBase circ;
 		private StringBuilder debug;
@@ -146,20 +146,6 @@ namespace Items.Implants.Organs
 
 			tempArray.Clear();
 
-			if (processingContainer.CurrentReagentMix.reagents.Contains(ethanolReagent))
-			{
-				float doop = processingContainer.CurrentReagentMix[ethanolReagent];
-				if (doop > 0)
-				{
-					var playerEatDrinkEffects = RelatedPart.HealthMaster.GetComponent<PlayerDrunkEffects>();
-
-					if(playerEatDrinkEffects == null) return;
-
-					doop *= drunkMultiplier;
-					//Logger.Log($"Adding {doop} drunk time\n", Category.Health);
-					playerEatDrinkEffects.ServerSendMessageToClient(RelatedPart.HealthMaster.gameObject, doop);
-				}
-			}
 		}
 
 		private void ReturnReagentsToBlood()
