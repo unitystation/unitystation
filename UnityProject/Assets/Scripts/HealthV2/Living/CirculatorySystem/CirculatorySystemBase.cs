@@ -356,7 +356,7 @@ namespace HealthV2
 
 		public void ToxinGeneration(float HeartEfficiency)
 		{
-			float Multiplier = 1;
+			float Multiplier = 1 * HeartEfficiency;
 			if (HeartEfficiency == 0)
 			{
 				Multiplier = 0.0025f;
