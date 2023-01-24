@@ -61,6 +61,7 @@ MonoBehaviour:
   color: {r: 0, g: 0, b: 0, a: 0}
   PossibleSprites:
   - {fileID: 21300000, guid: a6f07a86b2391dc4c9df37f6d794eb0c, type: 3}
+  DontTouchSpriteRenderer: 0
 --- !u!114 &3880655971207283369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,7 +146,7 @@ MonoBehaviour:
       m_values: []
     reagentKeys: []
   destroyOnEmpty: 0
-  ContentsSet: 0
+  ContentsSet: 1
   menuOptions: 0
   UseStandardExamine: 1
   ExamineAmount: 2

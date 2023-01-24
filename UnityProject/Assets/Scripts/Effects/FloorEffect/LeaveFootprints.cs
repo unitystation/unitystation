@@ -25,12 +25,13 @@ namespace Objects.Other
 		// Update is called once per frame
 		void Update()
 		{
+			//Logger.LogError(reagentContainer.CurrentReagentMix.ToString() + " with name " + this.name);
 		}
 		public void GiveFootprints(MakesFootPrints print = null, int index = 0)
 		{
-			if(reagentContainer.ReagentMixTotal > 1f)
+			if(reagentContainer.CurrentReagentMix.Total > 1f)
 			{
-				reagentContainer.TransferTo(reagentContainer.ReagentMixTotal * 0.10f, print.spillContents);
+				reagentContainer.TransferTo(reagentContainer.CurrentReagentMix.Total * 0.10f, print.spillContents);
 			}
 		}
 
