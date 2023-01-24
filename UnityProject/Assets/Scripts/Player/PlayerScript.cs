@@ -626,12 +626,15 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 			if (wearingGloves == false)
 			{
 				var slot = DynamicItemStorage.GetActiveHandSlot();
-				details.AddDetail(new Detail
+				if (slot != null)
 				{
-					CausedByInstanceID = slot.ItemStorage.gameObject.GetInstanceID(),
-					Description = $" A fingerprint ",
-					DetailType = DetailType.Fingerprints
-				});
+					details.AddDetail(new Detail
+					{
+						CausedByInstanceID = slot.ItemStorage.gameObject.GetInstanceID(),
+						Description = $" A fingerprint ",
+						DetailType = DetailType.Fingerprints
+					});
+				}
 			}
 		}
 
@@ -708,6 +711,11 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	public void ToggleVentCrawl()
 	{
 		canVentCrawl = !canVentCrawl;
+	}
+
+	public void OnDestroy()
+	{
+		Itself.PreImplementedOnDestroy();
 	}
 
 

@@ -24,6 +24,8 @@ public class Mind : NetworkBehaviour, IActionGUI
 {
 	[SyncVar(hook = nameof(SyncActiveOn))] private uint IDActivelyControlling;
 
+	//TODO ondatesiss
+
 	//Antag
 	[SyncVar]
 	private bool NetworkedisAntag;
@@ -209,6 +211,8 @@ public class Mind : NetworkBehaviour, IActionGUI
 		if (PlayerPossessable != null)
 		{
 			PlayerPossessable.GetRelatedBodies(Losing);
+			PlayerPossessable.PossessingMind = null;
+			PlayerPossessable.PossessedBy = null;
 		}
 		else if (PossessingObject != null)
 		{

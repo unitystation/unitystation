@@ -50,6 +50,12 @@ namespace Items.Implants.Organs
 			base.SetUpSystems();
 			RelatedPart.HealthMaster.SetBrain(this);
 		}
+
+		public void OnDestroy()
+		{
+			Itself.PreImplementedOnDestroy();
+		}
+
 		//Ensure removal of brain
 
 		public override void AddedToBody(LivingHealthMasterBase livingHealth)

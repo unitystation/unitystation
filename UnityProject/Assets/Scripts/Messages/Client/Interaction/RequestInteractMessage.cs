@@ -325,7 +325,7 @@ namespace Messages.Client.Interaction
 			else if (InteractionType == typeof(ContextMenuApply))
 			{
 				LoadMultipleObjects(new uint[] { TargetObject, ProcessorObject });
-				var clientStorage = SentByPlayer.Script.DynamicItemStorage;
+				var clientStorage = SentByPlayer.Mind.GetDeepestBody().GetComponent<DynamicItemStorage>();
 				var usedObj = clientStorage.GetActiveHandSlot().ItemObject;
 				var targetObj = NetworkObjects[0];
 				var processorObj = NetworkObjects[1];
