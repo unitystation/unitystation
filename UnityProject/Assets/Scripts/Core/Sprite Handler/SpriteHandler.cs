@@ -165,6 +165,8 @@ public class SpriteHandler : MonoBehaviour
 		return networkIdentity;
 	}
 
+	private bool InitialAwake = true;
+
 	/// <summary>
 	/// Changes the object's active <see cref="SpriteDataSO"></see>.
 	/// </summary>
@@ -616,6 +618,10 @@ public class SpriteHandler : MonoBehaviour
 				{
 					PushTexture(false);
 				}
+				else
+				{
+					PushClear();
+				}
 			}
 		}
 	}
@@ -774,7 +780,12 @@ public class SpriteHandler : MonoBehaviour
 	{
 		if (Application.isPlaying)
 		{
-			PushTexture(false); // TODO: animations don't resume when sprite object is disabled and re-enabled, this is a workaround
+			if (InitialAwake == false && HasSpriteInImageComponent())
+			{
+				PushTexture(false); // TODO: animations don't resume when sprite object is disabled and re-enabled, this is a workaround
+			}
+
+			InitialAwake = false;
 		}
 	}
 

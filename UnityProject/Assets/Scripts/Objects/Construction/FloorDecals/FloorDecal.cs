@@ -40,6 +40,9 @@ namespace Objects.Construction
 
 		private SpriteRenderer spriteRenderer;
 
+		public bool DontTouchSpriteRenderer = false;
+
+
 		private void Awake()
 		{
 			EnsureInit();
@@ -71,7 +74,7 @@ namespace Objects.Construction
 		{
 			EnsureInit();
 			chosenSprite = _chosenSprite;
-			if (PossibleSprites != null && PossibleSprites.Length > 0)
+			if (PossibleSprites != null && PossibleSprites.Length > 0 && DontTouchSpriteRenderer == false)
 			{
 				spriteRenderer.sprite = PossibleSprites[chosenSprite];
 			}
@@ -79,7 +82,7 @@ namespace Objects.Construction
 
 		public void OnColorChanged(Color oldColor, Color newColor)
 		{
-			if (spriteRenderer)
+			if (spriteRenderer&& DontTouchSpriteRenderer== false)
 			{
 				spriteRenderer.color = newColor;
 			}
@@ -87,7 +90,7 @@ namespace Objects.Construction
 
 		/*
 		 * what is my vec2(-1 0)
-		 * 
+		 *
 		 *
 		 *
 		 *

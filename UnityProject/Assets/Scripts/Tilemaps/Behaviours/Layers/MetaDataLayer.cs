@@ -190,7 +190,7 @@ public class MetaDataLayer : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Release reagents at provided coordinates, making them react with world + decide what it should look like 
+	/// Release reagents at provided coordinates, making them react with world + decide what it should look like
 	/// </summary>
 	///
 	/*
@@ -201,7 +201,7 @@ public class MetaDataLayer : MonoBehaviour
 		inst onself,
 		gets comp<> of how it looks
 		*/
-	public void ReagentReact(ReagentMix reagents, Vector3Int worldPosInt, Vector3Int localPosInt, bool isFootPrint = false,Orientation direction = new Orientation())
+	public void ReagentReact(ReagentMix reagents, Vector3Int worldPosInt, Vector3Int localPosInt, bool spawnPrefabEffect = true, OrientationEnum direction = OrientationEnum.Up_By0)
 	{
 		var mobs = MatrixManager.GetAt<LivingHealthMasterBase>(worldPosInt, true);
 		reagents.Divide(mobs.Count() + 1);
@@ -233,20 +233,13 @@ public class MetaDataLayer : MonoBehaviour
 			//If the reagent tile already has a pool/puddle/splat
 			if (chem.ExamineAmount == ReagentContainer.ExamineAmountMode.UNKNOWN_AMOUNT)
 			{
-				reagents.Add(chem.CurrentReagentMix);
+				chem.Add(reagents);; //TODO Duplication glitch
 			}
 			//TODO: could allow you to add this to other container types like beakers but would need some balance and perhaps knocking over the beaker
 		}
 
 		if(reagents.Total > 0)
 		{
-			//Foot prints should use overlays
-			if(isFootPrint == false)
-			{
-				//Force clean the tile
-				Clean(worldPosInt, localPosInt, false);
-			}
-
 			lock (reagents.reagents)
 			{
 				foreach (var reagent in reagents.reagents.m_dict)
@@ -288,24 +281,18 @@ public class MetaDataLayer : MonoBehaviour
 				}
 			}
 
-			if (didSplat == false)
+			if (spawnPrefabEffect)
 			{
-				if (paintBlood)
+				if (didSplat == false)
 				{
-					PaintBlood(worldPosInt, reagents);
-				}
-				else if (isFootPrint)
-				{
-					Color reagentColor = new Color(reagents.MixColor.r, reagents.MixColor.g, reagents.MixColor.b);
-					if (reagents.Total < 1f)
+					if (paintBlood)
 					{
-						//reagentColor.a = reagents.Total;
+						PaintBlood(worldPosInt, reagents);
 					}
-					EffectsFactory.FootPrint(worldPosInt, reagentColor, reagents, direction);
-				}
-				else
-				{
-					Paintsplat(worldPosInt, localPosInt, reagents);
+					else
+					{
+						Paintsplat(worldPosInt, localPosInt, reagents);
+					}
 				}
 			}
 		}
