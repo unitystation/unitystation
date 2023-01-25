@@ -27,13 +27,13 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	public MindNIPossessingEvent OnPossessedBy { get; set; } = new MindNIPossessingEvent();
 
 	[SyncVar(hook = nameof(SyncPossessingID))] private uint possessingID;
-	public Action OnActionEnterPlayer { get; set; }
+	public Action OnActionControlPlayer { get; set; }
 
-	public Action OnActionEnterControl { get; set; }
+	public Action OnActionPossess { get; set; }
 
 	public IPlayerPossessable Itself => this as IPlayerPossessable;
 
-	public void OnEnterPossess(Mind mind, IPlayerPossessable parent)
+	public void OnPossessPlayer(Mind mind, IPlayerPossessable parent)
 	{
 		if (mind == null) return;
 		if (IsNormal && parent == null &&  playerTypeSettings.PlayerType != PlayerTypes.Ghost)//Can't be possessed directly
@@ -49,7 +49,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 
 	}
 
-	public void OnEnterPlayer(GameObject previouslyControlling, Mind mind, bool isServer, IPlayerPossessable parent)
+	public void OnControlPlayer(GameObject previouslyControlling, Mind mind, bool isServer, IPlayerPossessable parent)
 	{
 		if (mind == null) return;
 		Init(mind);

@@ -156,7 +156,7 @@ namespace Systems.Ai
 		private void Awake()
 		{
 			playerScript = GetComponent<PlayerScript>();
-			playerScript.OnActionEnterPlayer += PlayerEnterBody;
+			playerScript.OnActionControlPlayer += PlayerEnterBody;
 
 			cooldowns = GetComponent<HasCooldowns>();
 			lineRenderer = GetComponentInChildren<LineRenderer>();

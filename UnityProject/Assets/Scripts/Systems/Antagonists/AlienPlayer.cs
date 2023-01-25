@@ -22,7 +22,7 @@ using Weapons.Projectiles;
 
 namespace Systems.Antagonists
 {
-	public class AlienPlayer : NetworkBehaviour, IServerActionGUIMulti, ICooldown, IServerLifecycle, IOnPlayerTransfer,
+	public class AlienPlayer : NetworkBehaviour, IServerActionGUIMulti, ICooldown, IServerLifecycle, IOnPlayerPossess,
 		IOnPlayerRejoin, IOnPlayerLeaveBody
 	{
 		[Header("Sprite Stuff")]
@@ -190,7 +190,7 @@ namespace Systems.Antagonists
 		private void Awake()
 		{
 			playerScript = GetComponent<PlayerScript>();
-			playerScript.OnActionEnterPlayer += PlayerEnterBody;
+			playerScript.OnActionControlPlayer += PlayerEnterBody;
 			livingHealthMasterBase = GetComponent<LivingHealthMasterBase>();
 			rotatable = GetComponent<Rotatable>();
 			cooldowns = GetComponent<HasCooldowns>();
@@ -1607,11 +1607,11 @@ namespace Systems.Antagonists
 			playerTookOver = null;
 		}
 
-		public void OnServerPlayerTransfer(PlayerInfo Account)
+		public void OnServerPlayerPossess(Mind mind)
 		{
 			//This will call after an admin respawn to set up a new player
 			SetNewPlayer();
-			AddNewActions(Account);
+			AddNewActions(mind.ControlledBy);
 			playerScript.playerName = $"{alienType.Name} {nameNumber}";
 
 			//Block role remove if this transfered player was the one how got the ghost role

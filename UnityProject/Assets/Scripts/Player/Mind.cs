@@ -417,7 +417,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 		if (spawned.ContainsKey(newID))
 		{
 			var Possessable = spawned[newID].GetComponent<IPlayerPossessable>();
-			Possessable?.InternalOnGainControlOf(this, null);
+			Possessable?.InternalOnPossessPlayer(this, null);
 		}
 	}
 
@@ -435,12 +435,13 @@ public class Mind : NetworkBehaviour, IActionGUI
 		if (spawned.ContainsKey(oldID))
 		{
 			oldPossessable = spawned[oldID].GetComponent<IPlayerPossessable>();
+			oldPossessable.InternalOnLoseControl();
 		}
 
 		var Possessable = spawned[newID].GetComponent<IPlayerPossessable>();
 		if (Possessable != null)
 		{
-			Possessable.InternalOnEnter(oldPossessable?.GameObject, this,
+			Possessable.InternalOnControlPlayer(oldPossessable?.GameObject, this,
 				CustomNetworkManager.IsServer, null);
 		}
 		else
@@ -491,6 +492,11 @@ public class Mind : NetworkBehaviour, IActionGUI
 		}
 
 		UpdateMind.SendTo(ControlledBy?.Connection, this);
+
+		if (PlayerPossessable != null)
+		{
+			PlayerPossessable.PlayerRejoin();
+		}
 	}
 
 	public void HandleOwnershipChangeMulti(List<NetworkIdentity> Losing, List<NetworkIdentity> Gaining)
