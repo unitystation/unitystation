@@ -209,13 +209,15 @@ namespace Items.Implants.Organs
 
 		public MindNIPossessingEvent OnPossessedBy  { get; set; }
 
-		public Action OnActionEnterPlayerControl { get; set; }
+		public Action OnActionEnterPlayer { get; set; }
+
+		public Action OnActionEnterControl { get; set; }
 
 		public RegisterPlayer CurrentlyOn { get; set; }
 		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
-		public void OnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer, IPlayerPossessable parent) { }
-
+		public void OnEnterPlayer(GameObject previouslyControlling, Mind mind, bool isServer, IPlayerPossessable parent) { }
+		public void OnEnterPossess(Mind mind, IPlayerPossessable parent) {}
 		#endregion
 	}
 }

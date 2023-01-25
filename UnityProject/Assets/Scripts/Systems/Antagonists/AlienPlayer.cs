@@ -190,7 +190,7 @@ namespace Systems.Antagonists
 		private void Awake()
 		{
 			playerScript = GetComponent<PlayerScript>();
-			playerScript.OnActionEnterPlayerControl += PlayerEnterBody;
+			playerScript.OnActionEnterPlayer += PlayerEnterBody;
 			livingHealthMasterBase = GetComponent<LivingHealthMasterBase>();
 			rotatable = GetComponent<Rotatable>();
 			cooldowns = GetComponent<HasCooldowns>();

@@ -103,7 +103,7 @@ namespace HealthV2
 			var Player = gameObject.GetComponent<PlayerScript>();
 			if (Player != null)
 			{
-				Player.OnActionEnterPlayerControl += UpdateSyncVar;
+				Player.OnActionEnterPlayer += UpdateSyncVar;
 			}
 
 		}

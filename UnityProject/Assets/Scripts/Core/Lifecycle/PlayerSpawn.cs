@@ -23,7 +23,7 @@ public interface IOnPlayerRejoin
 /// <summary>
 /// This interface will be called when a player is transferred into a new body (but not on rejoin, use above instead)
 /// </summary>
-public interface IOnPlayerTransfer
+public interface IOnPlayerTransfer //TODO Separate possessing / entering differentiation
 {
 	/// <summary>
 	/// Called on server when the player transfers into a new body (interface called on the new player object)
@@ -203,6 +203,7 @@ public static class PlayerSpawn
 			//Setup body with custom stuff
 			ApplyNewSpawnRoleToBody(body, requestedOccupation, character, spawnType);
 			mind.SetPossessingObject(body);
+			mind.SetControllingObject(body);
 			mind.StopGhosting();
 
 			//get the old body if they have one.

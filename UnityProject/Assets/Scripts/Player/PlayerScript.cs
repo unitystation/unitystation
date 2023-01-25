@@ -27,24 +27,32 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	public MindNIPossessingEvent OnPossessedBy { get; set; } = new MindNIPossessingEvent();
 
 	[SyncVar(hook = nameof(SyncPossessingID))] private uint possessingID;
-	public Action OnActionEnterPlayerControl { get; set; }
+	public Action OnActionEnterPlayer { get; set; }
+
+	public Action OnActionEnterControl { get; set; }
 
 	public IPlayerPossessable Itself => this as IPlayerPossessable;
 
-	public void OnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer, IPlayerPossessable parent)
+	public void OnEnterPossess(Mind mind, IPlayerPossessable parent)
 	{
 		if (mind == null) return;
 		if (IsNormal && parent == null &&  playerTypeSettings.PlayerType != PlayerTypes.Ghost)//Can't be possessed directly
 		{
-			mind.SetPossessingObject(playerHealth.brain.gameObject);
+			mind.SetPossessingObject(playerHealth.OrNull()?.brain.OrNull()?.gameObject);
+			mind.SetControllingObject(playerHealth.OrNull()?.brain.OrNull()?.gameObject);
 			return;
 		}
 		else
 		{
-			//Assuming it is the brain
-			Init(mind);
+			InitPossess(mind);
 		}
 
+	}
+
+	public void OnEnterPlayer(GameObject previouslyControlling, Mind mind, bool isServer, IPlayerPossessable parent)
+	{
+		if (mind == null) return;
+		Init(mind);
 	}
 
 	public void SyncPossessingID(uint previouslyPossessing, uint currentlyPossessing)
@@ -215,6 +223,14 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	}
 
 
+	public void InitPossess(Mind mind)
+	{
+		if (mind.CurrentCharacterSettings != null)
+		{
+			characterSettings = mind.CurrentCharacterSettings;
+		}
+	}
+
 	public void Init(Mind mind)
 	{
 		if (isServer)
@@ -227,17 +243,12 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 			{
 				SyncPlayerName(mind.name, mind.name);
 			}
+
 		}
 
 
 		if (hasAuthority)
 		{
-			if (mind.CurrentCharacterSettings != null)
-			{
-				characterSettings = mind.CurrentCharacterSettings;
-			}
-
-
 			EnableLighting(true);
 			UIManager.ResetAllUI();
 			GetComponent<MouseInputController>().enabled = true;

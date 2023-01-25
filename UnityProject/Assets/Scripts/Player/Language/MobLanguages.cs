@@ -38,7 +38,7 @@ namespace Player.Language
 		private void Start()
 		{
 			PlayerScript = this.GetComponent<PlayerScript>();
-			PlayerScript.OnActionEnterPlayerControl += OnPlayerEnterBody;
+			PlayerScript.OnActionEnterPlayer += OnPlayerEnterBody;
 			if(defaultLanguages == null) return;
 
 			//Copy the default lists to this script lists so we can add to it during runtime without adding to the SO
