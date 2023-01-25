@@ -411,7 +411,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 		if (spawned.ContainsKey(oldID))
 		{
 			var oldPossessable = spawned[oldID].GetComponent<IPlayerPossessable>();
-			oldPossessable?.InternalOnLoseControl();
+			oldPossessable?.InternalOnLosePossess();
 		}
 
 		if (spawned.ContainsKey(newID))
@@ -435,17 +435,22 @@ public class Mind : NetworkBehaviour, IActionGUI
 		if (spawned.ContainsKey(oldID))
 		{
 			oldPossessable = spawned[oldID].GetComponent<IPlayerPossessable>();
-			oldPossessable.InternalOnLoseControl();
+			oldPossessable?.InternalOnPlayerLeave(this);
 		}
 
 		var Possessable = spawned[newID].GetComponent<IPlayerPossessable>();
 		if (Possessable != null)
 		{
-			Possessable.InternalOnControlPlayer(oldPossessable?.GameObject, this,
+			Possessable.InternalOnControlPlayer( this,
 				CustomNetworkManager.IsServer, null);
 		}
 		else
 		{
+			if (isServer && spawned[newID].gameObject == gameObject) //Has ghosted
+			{
+				PossessAndUnpossessMessage.Send(this.gameObject, gameObject,null);
+			}
+
 			//TODO For objects
 		}
 	}

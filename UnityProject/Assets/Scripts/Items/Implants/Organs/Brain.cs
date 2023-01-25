@@ -216,7 +216,7 @@ namespace Items.Implants.Organs
 		public RegisterPlayer CurrentlyOn { get; set; }
 		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
-		public void OnControlPlayer(GameObject previouslyControlling, Mind mind, bool isServer, IPlayerPossessable parent) { }
+		public void OnControlPlayer( Mind mind, bool isServer, IPlayerPossessable parent) { }
 		public void OnPossessPlayer(Mind mind, IPlayerPossessable parent) {}
 		#endregion
 	}

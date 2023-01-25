@@ -49,7 +49,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 
 	}
 
-	public void OnControlPlayer(GameObject previouslyControlling, Mind mind, bool isServer, IPlayerPossessable parent)
+	public void OnControlPlayer(Mind mind, bool isServer, IPlayerPossessable parent)
 	{
 		if (mind == null) return;
 		Init(mind);

@@ -60,28 +60,18 @@ public interface IPlayerPossessable
 
 	public void PreImplementedSyncPossessingID(uint previouslyPossessing, uint currentlyPossessing)
 	{
-		var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
-
 		var possessing = GetPossessing();
 		if (possessing != null)
 		{
 			if (PossessingMind != null && PossessingMind.IsGhosting == false && CustomNetworkManager.IsServer == false)
 			{
-				if (spawned.ContainsKey(previouslyPossessing)) //TODO Test client
-				{
-					possessing.InternalOnControlPlayer(spawned[previouslyPossessing].gameObject, PossessingMind,
-						CustomNetworkManager.IsServer, this);
-				}
-				else
-				{
-					possessing.InternalOnControlPlayer(null, PossessingMind, CustomNetworkManager.IsServer, this);
-				}
+				possessing.InternalOnControlPlayer( PossessingMind, CustomNetworkManager.IsServer, this);
 			}
 		}
 	}
 
 
-	public void ServeInternalOnControlPlayer(GameObject previouslyControlling, Mind mind, bool isServer)
+	public void ServeInternalOnControlPlayer( Mind mind, bool isServer)
 	{
 		if (mind.ControlledBy != null)
 		{
@@ -97,7 +87,7 @@ public interface IPlayerPossessable
 				GameObject); //TODO should we be using the players body as game object???
 		}
 
-		PossessAndUnpossessMessage.Send(GameObject, GameObject, previouslyControlling);
+		PossessAndUnpossessMessage.Send(GameObject, GameObject, null);
 
 		if (mind != null)
 		{
@@ -113,7 +103,7 @@ public interface IPlayerPossessable
 	}
 
 
-	public void ClientInternalOnControlPlayer(GameObject previouslyControlling, Mind mind, bool isServer)
+	public void ClientInternalOnControlPlayer( Mind mind, bool isServer)
 	{
 		var input = GameObject.GetComponent<IPlayerControllable>();
 
@@ -134,14 +124,15 @@ public interface IPlayerPossessable
 		OnActionControlPlayer?.Invoke();
 	}
 
-	public void InternalOnLoseControl()
+	public void InternalOnLosePossess()
 	{
 		var MindBackup = PossessingMind;
 		PossessingMind = null;
+
 		var Possessed = GetPossessing();
 		if (Possessed != null)
 		{
-			Possessed.InternalOnLoseControl();
+			Possessed.InternalOnLosePossess();
 		}
 
 		if (MindBackup != null)
@@ -198,41 +189,41 @@ public interface IPlayerPossessable
 	}
 
 
-	public void InternalOnControlPlayer(GameObject previouslyControlling, Mind mind, bool isServer,
+	public void InternalOnControlPlayer( Mind mind, bool isServer,
 		IPlayerPossessable parent)
 	{
 		if (mind == null) return;
 
 		if (isServer)
 		{
-			ServeInternalOnControlPlayer(previouslyControlling, mind, true);
+			ServeInternalOnControlPlayer( mind, true);
 		}
 
 		if (GameObject.GetComponent<NetworkIdentity>().hasAuthority)
 		{
-			ClientInternalOnControlPlayer(previouslyControlling, mind, isServer);
+			ClientInternalOnControlPlayer( mind, isServer);
 		}
 
-		OnControlPlayer(previouslyControlling, mind, isServer, parent);
+		OnControlPlayer(mind, isServer, parent);
 		var possessing = GetPossessing();
 		if (possessing != null)
 		{
-			possessing.InternalOnControlPlayer(previouslyControlling, mind, isServer, this);
+			possessing.InternalOnControlPlayer( mind, isServer, this);
 		}
 	}
 
-	public void InternalOnPlayerLeave()
+	public void InternalOnPlayerLeave(Mind mind)
 	{
 		var leaveInterfaces = GameObject.GetComponents<IOnPlayerLeaveBody>();
 		foreach (var leaveInterface in leaveInterfaces)
 		{
-			leaveInterface.OnPlayerLeaveBody(PossessingMind.OrNull()?.ControlledBy);
+			leaveInterface.OnPlayerLeaveBody(mind.ControlledBy);
 		}
-
+		PossessAndUnpossessMessage.Send(mind.gameObject, null,GameObject);
 		var possessing = GetPossessing();
 		if (possessing != null)
 		{
-			possessing.InternalOnPlayerLeave();
+			possessing.InternalOnPlayerLeave(mind);
 		}
 
 	}
@@ -255,7 +246,7 @@ public interface IPlayerPossessable
 
 	public void OnPossessPlayer(Mind mind, IPlayerPossessable parent);
 
-	public void OnControlPlayer(GameObject previouslyControlling, Mind mind, bool isServer, IPlayerPossessable parent);
+	public void OnControlPlayer(Mind mind, bool isServer, IPlayerPossessable parent);
 
 	public bool IsRelatedToObject(GameObject _object)
 	{
@@ -307,7 +298,7 @@ public interface IPlayerPossessable
 		if (possessing != null)
 		{
 			possessing.GetRelatedBodies(losing);
-			possessing.InternalOnLoseControl();
+			possessing.InternalOnLosePossess();
 			possessing.PossessedBy = null;
 		}
 		else if (possessingObject != null)
@@ -325,7 +316,7 @@ public interface IPlayerPossessable
 
 			if (PossessingMind != null && PossessingMind.IsGhosting == false)
 			{
-				possessing?.InternalOnControlPlayer(possessingObject, PossessingMind, CustomNetworkManager.IsServer,
+				possessing?.InternalOnControlPlayer(PossessingMind, CustomNetworkManager.IsServer,
 					this);
 			}
 		}
