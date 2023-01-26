@@ -77,6 +77,7 @@ namespace Learning
 				JsonConvert.DeserializeObject<Dictionary<string, bool>>(File.ReadAllText(jsonPath))
 				?? new Dictionary<string, bool>();
 			ProtipSaveStates = newList;
+			Logger.Log(ProtipSaveStates.Count.ToString());
 		}
 
 		private void SaveProtipSaveStates()
@@ -105,14 +106,15 @@ namespace Learning
 
 		private void CheckQueue()
 		{
-			if(IsShowingTip || queuedTips.Count == 0) return;
+			if (IsShowingTip || queuedTips.Count == 0) return;
 			var tip = queuedTips.Dequeue();
 			ShowTip(tip.Tip, tip.highlightNames);
 		}
 
 		public void QueueTip(ProtipSO tip, List<string> highlightNames)
 		{
-			if(tip == null || queuedTips.Any(x => x.Tip == tip)) return;
+			if (tip == null || queuedTips.Any(x => x.Tip == tip)) return;
+			if (ProtipSaveStates.ContainsKey(tip.TipTitle)) return;
 			QueueTipData data = new QueueTipData
 			{
 				Tip = tip,
