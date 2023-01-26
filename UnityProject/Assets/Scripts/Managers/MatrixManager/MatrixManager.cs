@@ -70,6 +70,8 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	private bool ClientWaitingRoutine = false;
 
+	private const float MATRIX_READY_WAIT_TIME = 1.25f;
+
 	public override void Start()
 	{
 		base.Start();
@@ -101,10 +103,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	void OnSceneChange(Scene oldScene, Scene newScene)
 	{
 		ResetMatrixManager();
-		if (newScene.name.Equals("Lobby") == false)
-		{
-			IsInitialized = false;
-		}
+		IsInitialized = false;
 	}
 
 	public void PostRoundStartCleanup()
@@ -237,18 +236,18 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	[Server]
 	private IEnumerator WaitForAllMatrices()
 	{
+		if (IsInitialized) yield break;
 		while (AreAllMatrixReady() == false)
 		{
-			yield return null;
+			yield return WaitFor.Seconds(MATRIX_READY_WAIT_TIME);
 		}
-
-		IsInitialized = true;
 
 		foreach (var matrixInfo in ActiveMatricesList)
 		{
 			ServerMatrixInitialization(matrixInfo.Matrix);
+			yield return WaitFor.EndOfFrame;
 		}
-
+		IsInitialized = true;
 		EventManager.Broadcast(Event.MatrixManagerInit);
 	}
 

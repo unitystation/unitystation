@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Mirror;
+using Tilemaps.Behaviours.Meta;
 
 public class SubsystemManager : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class SubsystemManager : MonoBehaviour
 		systems = systems.OrderByDescending(s => s.Priority).ToList();
 		foreach (var system in systems)
 		{
+			if (system.Initialized) continue;
 			system.Initialize();
 		}
 		initialized = true;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Shared.Managers;
+using Tilemaps.Behaviours.Meta;
 
 namespace Managers
 {
@@ -51,8 +52,8 @@ namespace Managers
 				InitializedAll = true;
 				return;
 			}
-			watch.Stop();
 			Chat.AddGameWideSystemMsgToChat($"<color=green>Subsystems loaded! Only took {watch.Elapsed.Seconds} seconds.</color>");
+			watch.Stop();
 			InitializedAll = true;
 		}
 	}
