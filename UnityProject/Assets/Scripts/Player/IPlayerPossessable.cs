@@ -140,7 +140,7 @@ public interface IPlayerPossessable
 			var leaveInterfaces = GameObject.GetComponents<IOnPlayerLosePossess>();
 			foreach (var leaveInterface in leaveInterfaces)
 			{
-				leaveInterface.OnPlayerLosePossess(MindBackup);
+				leaveInterface.OnPlayerLosePossession(MindBackup);
 			}
 		}
 	}

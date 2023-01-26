@@ -69,7 +69,7 @@ public interface IOnPlayerLosePossess
 	/// Called on server when the player leaves a body (interface called on the old player object)
 	/// </summary>
 	/// <param name="account">The mind of the player leaving the body</param>
-	public void OnPlayerLosePossess(Mind Mind);
+	public void OnPlayerLosePossession(Mind Mind);
 }
 
 
