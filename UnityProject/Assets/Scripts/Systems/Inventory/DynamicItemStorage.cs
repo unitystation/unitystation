@@ -12,7 +12,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Systems.Storage;
 
-public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTransfer, IOnPlayerLeaveBody
+public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlPlayer, IOnPlayerLeaveBody
 {
 	public PlayerNetworkActions playerNetworkActions;
 	public RegisterPlayer registerPlayer;
@@ -1295,7 +1295,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 		{
 			if(itemSlot.IsEmpty) continue;
 
-			var playerTransfers = itemSlot.ItemObject.GetComponents<IOnPlayerTransfer>();
+			var playerTransfers = itemSlot.ItemObject.GetComponents<IOnControlPlayer>();
 			foreach (var playerTransfer in playerTransfers)
 			{
 				playerTransfer.OnServerPlayerTransfer(Account);
@@ -1307,7 +1307,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 
 		foreach (var InventoryObject in InventoryObjects )
 		{
-			var playerRejoins = InventoryObject.GameObject.GetComponents<IOnPlayerTransfer>();
+			var playerRejoins = InventoryObject.GameObject.GetComponents<IOnControlPlayer>();
 			foreach (var playerRejoin in playerRejoins)
 			{
 				playerRejoin.OnServerPlayerTransfer(Account);

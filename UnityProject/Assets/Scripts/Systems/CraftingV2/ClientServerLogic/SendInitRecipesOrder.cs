@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Messages.Server;
 using Mirror;
+using Player;
+using UnityEngine;
 
 namespace Systems.CraftingV2.ClientServerLogic
 {
@@ -8,11 +10,14 @@ namespace Systems.CraftingV2.ClientServerLogic
 	{
 		public struct NetMessage : NetworkMessage
 		{
+			public uint Body;
 			public List<int> ServerSideKnownRecipeIds;
 		}
 
 		public override void Process(NetMessage netMessage)
 		{
+
+			LoadNetworkObject(netMessage.Body);
 			List<CraftingRecipe> serverSideKnownRecipes = new List<CraftingRecipe>();
 			foreach (int serverSideKnownRecipeId in netMessage.ServerSideKnownRecipeIds)
 			{
@@ -21,10 +26,10 @@ namespace Systems.CraftingV2.ClientServerLogic
 				);
 			}
 
-			PlayerManager.LocalPlayerScript.PlayerCrafting.InitRecipes(serverSideKnownRecipes);
+			NetworkObject.GetComponent<PlayerCrafting>().InitRecipes(serverSideKnownRecipes);
 		}
 
-		public static void SendTo(PlayerInfo recipient, List<List<CraftingRecipe>> serverSideKnownRecipes)
+		public static void SendTo(PlayerInfo recipient, List<List<CraftingRecipe>> serverSideKnownRecipes, GameObject Body)
 		{
 			List<int> serverSideKnownRecipeIds = new List<int>();
 			foreach (List<CraftingRecipe> recipesInCategory in serverSideKnownRecipes)
@@ -60,7 +65,7 @@ namespace Systems.CraftingV2.ClientServerLogic
 				}
 			}
 
-			SendTo(recipient, new NetMessage {ServerSideKnownRecipeIds = serverSideKnownRecipeIds});
+			SendTo(recipient, new NetMessage {ServerSideKnownRecipeIds = serverSideKnownRecipeIds, Body =  Body.NetId()});
 		}
 	}
 }

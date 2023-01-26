@@ -3,7 +3,7 @@ using Mirror;
 
 namespace Player
 {
-	public class ElectrifiedDoorViewer : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTransfer, IOnPlayerLeaveBody
+	public class ElectrifiedDoorViewer : NetworkBehaviour, IOnPlayerRejoin, IOnControlPlayer, IOnPlayerLeaveBody
 	{
 		public void OnPlayerRejoin(Mind mind)
 		{

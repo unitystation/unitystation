@@ -293,8 +293,8 @@ namespace Blob
 
 
 
+			playerScript.Mind.SetControllingObject(spawnResult.GameObject);
 			playerScript.Mind.SetPossessingObject(spawnResult.GameObject);
-
 			//Start the blob control script
 			spawnResult.GameObject.GetComponent<BlobPlayer>().BlobStart(playerScript.Mind);
 

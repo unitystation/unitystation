@@ -44,7 +44,7 @@ namespace Player
 		private void Awake()
 		{
 			playerScript = GetComponent<PlayerScript>();
-			PlayerScript.OnActionEnterPlayerControl += PlayerEnterBody;
+			PlayerScript.OnActionControlPlayer += PlayerEnterBody;
 			InitKnownRecipesByCategories();
 		}
 
