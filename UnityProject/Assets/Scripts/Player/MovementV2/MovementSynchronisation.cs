@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Objects;
 using Player.Movement;
 using ScriptableObjects.Audio;
+using Systems.Teleport;
 using Tiles;
 using UI;
 using UI.Core.Action;
@@ -1154,7 +1155,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		return false;
 	}
 
-	public bool DoesSlip(MoveData moveAction, out ItemAttributesV2 slippedOn)
+	private bool DoesSlip(MoveData moveAction, out ItemAttributesV2 slippedOn)
 	{
 		bool slipProtection = true;
 		if (playerScript.DynamicItemStorage != null)
@@ -1187,6 +1188,13 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		var crossedItems = toMatrix.Get<ItemAttributesV2>(localTo, isServer);
 		foreach (var crossedItem in crossedItems)
 		{
+			if (crossedItem.HasTrait(CommonTraits.Instance.BluespaceActivity))
+			{
+				// (Max): There's better ways to do this but due to how movement code is designed
+				// you can't extend functionality that easily without bloating the code more than it already is.
+				// TODO: Rework movement to be open for extension and closed for modifications.
+				TeleportUtils.ServerTeleportRandom(playerScript.gameObject);
+			}
 			if (crossedItem.HasTrait(CommonTraits.Instance.Slippery))
 			{
 				slippedOn = crossedItem;
