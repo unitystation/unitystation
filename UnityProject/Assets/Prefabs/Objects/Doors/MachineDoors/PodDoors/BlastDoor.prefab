@@ -123,6 +123,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9d8766d104edc3c4e9f5db5452efef81,
         type: 2}
+    - target: {fileID: 44702923082529482, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: pushTextureOnStartUp
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 720260447592516819, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
       propertyPath: restriction
