@@ -158,17 +158,15 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		}
 		else
 		{
-			if (AreAllMatrixReady())
+			if (AreAllMatrixReady() == false) yield break;
+			if (IsInitialized)
 			{
-				if (IsInitialized)
-				{
-					ClientMatrixInitialization(matrix);
-				}
-				else
-				{
-					IsInitialized = true;
-					ClientAllMatrixReady();
-				}
+				ClientMatrixInitialization(matrix);
+			}
+			else
+			{
+				IsInitialized = true;
+				ClientAllMatrixReady();
 			}
 			else
 			{
