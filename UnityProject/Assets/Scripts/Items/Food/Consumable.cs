@@ -15,6 +15,8 @@ using Player;
 /// </summary>
 public abstract class Consumable : MonoBehaviour, ICheckedInteractable<HandApply>
 {
+	[SerializeField] private float consumeTime = 0.1f;
+
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		if (interaction.HandObject == null && interaction.Performer.GetComponent<ConsumeFromFloor>() != null)
@@ -46,7 +48,10 @@ public abstract class Consumable : MonoBehaviour, ICheckedInteractable<HandApply
 		}
 
 		PlayerScript eater = targetPlayer;
-		TryConsume(feeder.gameObject, eater.gameObject);
+		var bar = StandardProgressAction.Create(
+			new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false),
+			() => TryConsume(feeder.gameObject, eater.gameObject));
+		bar.ServerStartProgress(interaction.Performer.RegisterTile(), consumeTime, interaction.Performer);
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
