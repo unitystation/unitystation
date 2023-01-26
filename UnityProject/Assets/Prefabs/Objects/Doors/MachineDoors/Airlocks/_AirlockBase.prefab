@@ -1016,6 +1016,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 44702923082529482, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
+      propertyPath: pushTextureOnStartUp
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 44702923082529482, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -1229,6 +1234,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   NetTabType: 42
   aiInteractable: 1
 --- !u!114 &2243806384905767094
@@ -1346,4 +1353,3 @@ MonoBehaviour:
   syncInterval: 0.1
   paintOptions: {fileID: 11400000, guid: 66526f6aeacae7142ad335ada420e378, type: 2}
   animatorV2: {fileID: 2243806384905767094}
-  index: -1

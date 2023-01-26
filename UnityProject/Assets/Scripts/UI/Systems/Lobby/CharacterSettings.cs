@@ -28,8 +28,8 @@ public class CharacterSheet
 	public int Age = 22;
 	public Speech Speech = Speech.None;
 	public string SkinTone = "#ffe0d1";
-	public List<CustomisationStorage> SerialisedBodyPartCustom;
-	public List<ExternalCustomisation> SerialisedExternalCustom;
+	public List<CustomisationStorage> SerialisedBodyPartCustom = new List<CustomisationStorage>();
+	public List<ExternalCustomisation> SerialisedExternalCustom = new List<ExternalCustomisation>();
 
 	public string Species = "Human";
 	public JobPrefsDict JobPreferences = new JobPrefsDict();

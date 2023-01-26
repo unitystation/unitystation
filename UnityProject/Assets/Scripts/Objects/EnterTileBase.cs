@@ -31,6 +31,7 @@ namespace Objects
 
 		protected virtual void OnEnable()
 		{
+			objectPhysics = GetComponent<UniversalObjectPhysics>();
 			objectPhysics.OnLocalTileReached.AddListener(OnLocalPositionChangedServer);
 		}
 

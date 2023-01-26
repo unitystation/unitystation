@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5743653973661802587}
   - component: {fileID: 5430220527865361548}
   - component: {fileID: 8158038422271111735}
+  - component: {fileID: 7779223352382430561}
   m_Layer: 0
   m_Name: ChemSplat
   m_TagString: Untagged
@@ -56,9 +57,11 @@ MonoBehaviour:
   Cleanable: 1
   CanDryUp: 0
   isBlood: 0
+  isFootprint: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   PossibleSprites:
   - {fileID: 21300000, guid: a6f07a86b2391dc4c9df37f6d794eb0c, type: 3}
+  DontTouchSpriteRenderer: 0
 --- !u!114 &3880655971207283369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,7 +146,7 @@ MonoBehaviour:
       m_values: []
     reagentKeys: []
   destroyOnEmpty: 0
-  ContentsSet: 0
+  ContentsSet: 1
   menuOptions: 0
   UseStandardExamine: 1
   ExamineAmount: 2
@@ -172,12 +175,15 @@ MonoBehaviour:
   LocalTargetPosition: {x: 0, y: 0, z: 0}
   ChangesDirectionPush: 0
   Intangible: 0
+  CanBeWindPushed: 1
+  IsPlayer: 0
   InitialLocationSynchronised: 0
   tileMoveSpeed: 1
   isNotPushable: 1
-  newtonianMovement: {x: 0, y: 0}
+  HasOwnGravity: 0
   airTime: 0
   slideTime: 0
+  SetIgnoreSticky: 0
   thrownBy: {fileID: 0}
   aim: 0
   spinMagnitude: 0
@@ -186,9 +192,9 @@ MonoBehaviour:
   PushedFrame: 0
   FramePushDecision: 1
   stickyMovement: 0
+  OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
   onStationMovementsRound: 0
-  attributes: {fileID: 0}
   registerTile: {fileID: 0}
   ContextGameObjects:
   - {fileID: 0}
@@ -199,10 +205,36 @@ MonoBehaviour:
   Pushing: []
   Hits: []
   Animating: 0
-  IsFlyingSliding: 0
+  isFlyingSliding: 0
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
+  BuckledToObject: {fileID: 0}
+--- !u!114 &7779223352382430561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3880655971207283372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 837060fa3ebf3e040916b39a97c42ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackType: 0
+  damageType: 0
+  traumaType: 0
+  damageToGive: 0
+  armorPentration: 0
+  traumaChance: 0
+  onStepSounds: []
+  hurtsOneFootOnly: 0
+  ignoresFootwear: 0
+  canCauseTrauma: 0
+  protectiveItemTraits: []
+  limbsToHurt: 
+  reagentContainer: {fileID: 5430220527865361548}
 --- !u!1 &3880655971395685414
 GameObject:
   m_ObjectHideFlags: 0
