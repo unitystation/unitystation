@@ -77,7 +77,6 @@ namespace Learning
 				JsonConvert.DeserializeObject<Dictionary<string, bool>>(File.ReadAllText(jsonPath))
 				?? new Dictionary<string, bool>();
 			ProtipSaveStates = newList;
-			Logger.Log(ProtipSaveStates.Count.ToString());
 		}
 
 		private void SaveProtipSaveStates()
