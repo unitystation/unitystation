@@ -5,6 +5,7 @@ using System.Linq;
 using Systems.Atmospherics;
 using Chemistry;
 using Chemistry.Components;
+using Core.Factories;
 using HealthV2;
 using Items;
 using Messages.Server;
@@ -193,14 +194,6 @@ public class MetaDataLayer : MonoBehaviour
 	/// Release reagents at provided coordinates, making them react with world + decide what it should look like
 	/// </summary>
 	///
-	/*
-	 * check if decal at pos,
-	 * if decal at pos, get comp <floordecal>
-		inst sprite prefab
-		(make sure sprite handler, networked)
-		inst onself,
-		gets comp<> of how it looks
-		*/
 	public void ReagentReact(ReagentMix reagents, Vector3Int worldPosInt, Vector3Int localPosInt, bool spawnPrefabEffect = true, OrientationEnum direction = OrientationEnum.Up_By0)
 	{
 		var mobs = MatrixManager.GetAt<LivingHealthMasterBase>(worldPosInt, true);

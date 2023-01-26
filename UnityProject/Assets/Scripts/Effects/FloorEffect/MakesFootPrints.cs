@@ -1,125 +1,116 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using Chemistry;
-using Objects.Construction;
-using UnityEngine;
 using Chemistry.Components;
-using Core.Directionals;
+using UnityEngine;
 
-//[RequireComponent(typeof(DirectionalSpriteV2))]
-public class MakesFootPrints : MonoBehaviour, IServerInventoryMove
+namespace Effects.FloorEffect
 {
-	public ReagentContainer spillContents;
-	private PlayerScript me;
-	private Vector3Int oldPosition;
-
-	[SerializeField] private GameObject FootprintTile;
-
-	#region Lifecycle
-
-	public void Awake()
+	public class MakesFootPrints : MonoBehaviour, IServerInventoryMove
 	{
-		//spillContents = gameObject.GetComponent<ReagentContainer>();
-		oldPosition = gameObject.AssumedWorldPosServer().RoundToInt();
-		me = GetComponentInParent<PlayerScript>();
-		Debug.Log(me);
-	}
+		public ReagentContainer spillContents;
+		private PlayerScript me;
+		private Vector3Int oldPosition;
 
-	public void OnDestroy()
-	{
-		if (me != null)
+		[SerializeField] private GameObject FootprintTile;
+
+		#region Lifecycle
+
+		public void Awake()
 		{
-			me.playerMove.OnLocalTileReached.RemoveListener(LocalTileReached);
-		}
-		me = null;
-	}
-
-	#endregion Lifecycle
-
-	public void OnInventoryMoveServer(InventoryMove info)
-	{
-		if (me != null)
-		{
-			me.playerMove.OnLocalTileReached.RemoveListener(LocalTileReached);
+			//spillContents = gameObject.GetComponent<ReagentContainer>();
+			oldPosition = gameObject.AssumedWorldPosServer().RoundToInt();
+			me = GetComponentInParent<PlayerScript>();
+			Debug.Log(me);
 		}
 
-
-		if (info.ToRootPlayer.OrNull()?.PlayerScript != null)
+		public void OnDestroy()
 		{
-			me = info.ToRootPlayer.PlayerScript;
-			me.playerMove.OnLocalTileReached.AddListener(LocalTileReached);
-		}
-
-
-	}
-
-	// Update is called once per frame
-	public void LocalTileReached(Vector3Int old,Vector3Int newPosition )
-	{
-		if (spillContents.ReagentMixTotal > 0f)
-		{
-			bool useAll = false;
-				if ( spillContents.ReagentMixTotal < 0.1f)
-				{
-					useAll = true;
-				}
-
-			Vector3Int currentPosition = gameObject.AssumedWorldPosServer().RoundToInt(); //AssumedWorldPosServer Really doing the heavy lifting here amazing
-			if (MatrixManager.IsSpaceAt(oldPosition, true) == false)
+			if (me != null)
 			{
-				var decals = MatrixManager.GetAt<FloorPrintEffect>(oldPosition, isServer: true);
-				if (decals.Any())
-				{
-					var floorPrintEffect = decals.First();
+				me.playerMove.OnLocalTileReached.RemoveListener(LocalTileReached);
+			}
+			me = null;
+		}
 
+		#endregion Lifecycle
 
-					var Change = currentPosition.ToLocal(me.RegisterPlayer.Matrix) - oldPosition.ToLocal(me.RegisterPlayer.Matrix);
-					floorPrintEffect.RegisterLeave(	Orientation.FromAsEnum(Change));
-				}
+		public void OnInventoryMoveServer(InventoryMove info)
+		{
+			if (me != null)
+			{
+				me.playerMove.OnLocalTileReached.RemoveListener(LocalTileReached);
 			}
 
 
-
-			if (currentPosition != oldPosition &&
-			    MatrixManager.IsSpaceAt(gameObject.AssumedWorldPosServer().RoundToInt(), true)== false)
+			if (info.ToRootPlayer.OrNull()?.PlayerScript != null)
 			{
+				me = info.ToRootPlayer.PlayerScript;
+				me.playerMove.OnLocalTileReached.AddListener(LocalTileReached);
+			}
 
-				var reagents = spillContents.TakeReagents(
-					useAll ? spillContents.ReagentMixTotal : spillContents.ReagentMixTotal * 0.25f); //Use all use everything in the container if not only 10%
 
-				var decals = MatrixManager.GetAt<FloorPrintEffect>(currentPosition, isServer: true);
-				if (decals.Any())
+		}
+
+
+		public void LocalTileReached(Vector3Int old,Vector3Int newPosition )
+		{
+			if (spillContents.ReagentMixTotal > 0f)
+			{
+				bool useAll = spillContents.ReagentMixTotal < 0.1f;
+
+				Vector3Int currentPosition = gameObject.AssumedWorldPosServer().RoundToInt(); //AssumedWorldPosServer Really doing the heavy lifting here amazing
+				if (MatrixManager.IsSpaceAt(oldPosition, true) == false)
 				{
-					MatrixManager.ReagentReact(reagents,
-						gameObject.AssumedWorldPosServer().RoundToInt(), null, false, me.CurrentDirection);
+					var decals = MatrixManager.GetAt<FloorPrintEffect>(oldPosition, isServer: true);
+					if (decals.Any())
+					{
+						var floorPrintEffect = decals.First();
 
-					var floorPrintEffect = decals.First();
-					var Change = currentPosition.ToLocal(me.RegisterPlayer.Matrix) - oldPosition.ToLocal(me.RegisterPlayer.Matrix);
-					floorPrintEffect.RegisterEnter(	Orientation.FromAsEnum(Change));
+						var change = currentPosition.ToLocal(me.RegisterPlayer.Matrix) - oldPosition.ToLocal(me.RegisterPlayer.Matrix);
+						floorPrintEffect.RegisterLeave(	Orientation.FromAsEnum(change));
+					}
 				}
-				else
+
+
+				if (currentPosition != oldPosition &&
+				    MatrixManager.IsSpaceAt(gameObject.AssumedWorldPosServer().RoundToInt(), true)== false)
 				{
-					var footPrint = FootPrint(gameObject.AssumedWorldPosServer().RoundToInt(), reagents);
 
-					MatrixManager.ReagentReact(reagents,
-						gameObject.AssumedWorldPosServer().RoundToInt(), null, false, me.CurrentDirection);
+					var reagents = spillContents.TakeReagents(
+						useAll ? spillContents.ReagentMixTotal : spillContents.ReagentMixTotal * 0.25f); //Use all use everything in the container if not only 10%
 
-					var Change = currentPosition.ToLocal(me.RegisterPlayer.Matrix) - oldPosition.ToLocal(me.RegisterPlayer.Matrix);
-					footPrint.RegisterEnter(Orientation.FromAsEnum(Change));
+					var decals = MatrixManager.GetAt<FloorPrintEffect>(currentPosition, isServer: true);
+					if (decals.Any())
+					{
+						MatrixManager.ReagentReact(reagents,
+							gameObject.AssumedWorldPosServer().RoundToInt(), null, false, me.CurrentDirection);
+
+						var floorPrintEffect = decals.First();
+						var Change = currentPosition.ToLocal(me.RegisterPlayer.Matrix) - oldPosition.ToLocal(me.RegisterPlayer.Matrix);
+						floorPrintEffect.RegisterEnter(	Orientation.FromAsEnum(Change));
+					}
+					else
+					{
+						var footPrint = FootPrint(gameObject.AssumedWorldPosServer().RoundToInt(), reagents);
+
+						MatrixManager.ReagentReact(reagents,
+							gameObject.AssumedWorldPosServer().RoundToInt(), null, false, me.CurrentDirection);
+
+						var change = currentPosition.ToLocal(me.RegisterPlayer.Matrix) - oldPosition.ToLocal(me.RegisterPlayer.Matrix);
+						footPrint.RegisterEnter(Orientation.FromAsEnum(change));
+					}
+
+					oldPosition = currentPosition;
 				}
-
-				oldPosition = currentPosition;
 			}
 		}
-	}
 
-	public FloorPrintEffect FootPrint(Vector3Int worldPos, ReagentMix reagents)
-	{
-		//No existing decal tile, lets make one
-		var footTileInst = Spawn.ServerPrefab(FootprintTile, worldPos, MatrixManager.AtPoint(worldPos, true).Objects,
-			Quaternion.identity).GameObject; ;
-		return footTileInst.GetComponent<FloorPrintEffect>();
+		public FloorPrintEffect FootPrint(Vector3Int worldPos, ReagentMix reagents)
+		{
+			//No existing decal tile, lets make one
+			var footTileInst = Spawn.ServerPrefab(FootprintTile, worldPos, MatrixManager.AtPoint(worldPos, true).Objects,
+				Quaternion.identity).GameObject; ;
+			return footTileInst.GetComponent<FloorPrintEffect>();
+		}
 	}
 }

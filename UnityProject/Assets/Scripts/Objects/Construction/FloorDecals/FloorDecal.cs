@@ -22,7 +22,7 @@ namespace Objects.Construction
 
 		public bool isBlood = false;
 
-		public bool isFootprint = false;
+		public bool IsFootprint = false;
 
 		[SyncVar(hook = "OnColorChanged")]
 		[HideInInspector]
@@ -87,14 +87,6 @@ namespace Objects.Construction
 				spriteRenderer.color = newColor;
 			}
 		}
-
-		/*
-		 * what is my vec2(-1 0)
-		 *
-		 *
-		 *
-		 *
-		 * */
 
 		/// <summary>
 		///attempts to clean this decal, cleaning it if it is cleanable

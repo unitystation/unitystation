@@ -165,7 +165,7 @@ public class SpriteHandler : MonoBehaviour
 		return networkIdentity;
 	}
 
-	private bool InitialAwake = true;
+	private bool _initialAwake = true;
 
 	/// <summary>
 	/// Changes the object's active <see cref="SpriteDataSO"></see>.
@@ -780,12 +780,12 @@ public class SpriteHandler : MonoBehaviour
 	{
 		if (Application.isPlaying)
 		{
-			if (InitialAwake == false && HasSpriteInImageComponent())
+			if (_initialAwake == false && HasSpriteInImageComponent())
 			{
 				PushTexture(false); // TODO: animations don't resume when sprite object is disabled and re-enabled, this is a workaround
 			}
 
-			InitialAwake = false;
+			_initialAwake = false;
 		}
 	}
 
