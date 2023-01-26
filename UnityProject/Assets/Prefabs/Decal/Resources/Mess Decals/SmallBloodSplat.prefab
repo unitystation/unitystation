@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 1341085971131883873}
   - component: {fileID: 7099214461044277066}
   - component: {fileID: 8838087964586130285}
+  - component: {fileID: 2459722541499398688}
   m_Layer: 0
   m_Name: SmallBloodSplat
   m_TagString: Untagged
@@ -56,6 +57,7 @@ MonoBehaviour:
   Cleanable: 1
   CanDryUp: 1
   isBlood: 1
+  IsFootprint: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   PossibleSprites:
   - {fileID: 21300000, guid: 06d909e1bcf487445a1e5586bd5e87b1, type: 3}
@@ -63,6 +65,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: fb5a143a9e432f442926f9d15492eb9a, type: 3}
   - {fileID: 21300000, guid: 08fc392180f43ce42b88834d98329607, type: 3}
   - {fileID: 21300000, guid: 759a987176ded5a4b887625b514efc1e, type: 3}
+  DontTouchSpriteRenderer: 0
 --- !u!114 &114595774069620348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,7 +143,6 @@ MonoBehaviour:
   maxCapacity: 10
   reactionSet: {fileID: 0}
   AdditionalReactions: []
-  canPourOut: 0
   initialReagentMix:
     temperature: 273.15
     reagents:
@@ -155,7 +157,7 @@ MonoBehaviour:
   ExamineContent: 0
   traitWhitelist: []
   reagentWhitelist: []
-  transferMode: 0
+  transferMode: 4
   possibleTransferAmounts: []
   transferAmount: 20
 --- !u!114 &8838087964586130285
@@ -176,17 +178,27 @@ MonoBehaviour:
   SnapToGridOnStart: 0
   LocalTargetPosition: {x: 0, y: 0, z: 0}
   ChangesDirectionPush: 0
+  Intangible: 0
+  CanBeWindPushed: 1
+  IsPlayer: 0
+  InitialLocationSynchronised: 0
+  tileMoveSpeed: 1
   isNotPushable: 0
-  newtonianMovement: {x: 0, y: 0}
+  HasOwnGravity: 0
   airTime: 0
   slideTime: 0
+  SetIgnoreSticky: 0
   thrownBy: {fileID: 0}
   aim: 0
   spinMagnitude: 0
+  ForcedPushedFrame: 0
+  TryPushedFrame: 0
+  PushedFrame: 0
+  FramePushDecision: 1
   stickyMovement: 0
+  OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
   onStationMovementsRound: 0
-  attributes: {fileID: 0}
   registerTile: {fileID: 0}
   ContextGameObjects:
   - {fileID: 0}
@@ -196,15 +208,37 @@ MonoBehaviour:
   CorrectingCourse: 0
   Pushing: []
   Hits: []
-  Speed: 1
-  AIR: 3
-  SLIDE: 4
   Animating: 0
-  IsFlyingSliding: 0
+  isFlyingSliding: 0
   IsMoving: 0
-  IsWalking: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
+  BuckledToObject: {fileID: 0}
+--- !u!114 &2459722541499398688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1069497300762596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 837060fa3ebf3e040916b39a97c42ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackType: 0
+  damageType: 0
+  traumaType: 0
+  damageToGive: 5
+  armorPentration: 0
+  traumaChance: 0
+  onStepSounds: []
+  hurtsOneFootOnly: 0
+  ignoresFootwear: 0
+  canCauseTrauma: 0
+  protectiveItemTraits: []
+  limbsToHurt: 
+  reagentContainer: {fileID: 7099214461044277066}
 --- !u!1 &1230737790073880
 GameObject:
   m_ObjectHideFlags: 0
