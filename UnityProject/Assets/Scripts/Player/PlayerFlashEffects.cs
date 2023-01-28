@@ -14,7 +14,6 @@ namespace Player
 		{
 			if (WeldingShieldImplants > 0) return false;
 
-			PlayerDrunkServerMessage.Send(client, newValue);
 			PlayerFlashEffectsMessage.Send(client, newValue);
 
 			return true;

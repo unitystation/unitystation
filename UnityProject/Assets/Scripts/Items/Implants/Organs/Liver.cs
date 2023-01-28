@@ -151,7 +151,8 @@ namespace Items.Implants.Organs
 		private void ReturnReagentsToBlood()
 		{
 			//debug.AppendLine("==== STAGE 3 || RETURN FROM LIVER ====");
-
+			processingContainer.ReagentsChanged(true); //
+                                              //so liver reaction can happen without it being removed instantly e.g. ethanol
 			lock (processingContainer.CurrentReagentMix.reagents)
 			{
 				foreach (Reagent reagent in processingContainer.CurrentReagentMix.reagents.Keys)
@@ -167,8 +168,7 @@ namespace Items.Implants.Organs
 			{
 				//debug.AppendLine($"{reagent.Item2}cc of {reagent.Item1}\n");
 				processingContainer.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
-				circ.BloodPool.Add(reagent.Item1,
-					processingContainer.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2));
+				circ.BloodPool.Add(reagent.Item1, reagent.Item2);
 			}
 
 			tempArray.Clear();

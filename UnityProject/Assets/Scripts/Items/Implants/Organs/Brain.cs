@@ -21,8 +21,8 @@ namespace Items.Implants.Organs
 
 		public Pickupable Pickupable;
 
-		private Reagent DrunkReagent;
-		[SerializeField] private float drunkMultiplier = 4;
+		[SerializeField] private Reagent DrunkReagent;
+		[SerializeField] private float MaxDrunkAtPercentage = 0.015f;
 
 		public uint OnPlayerID => OnBodyID;
 		public uint PossessingID => possessingID;
@@ -104,14 +104,14 @@ namespace Items.Implants.Organs
 			DrunkAmount = NewValue;
 			if (Preimplemented.IsOnLocalPlayer)
 			{
-				ApplyChangesrunkenness(DrunkAmount);
+				ApplyChangesDrunkenness(DrunkAmount);
 			}
 
 		}
 
-		public void ApplyChangesrunkenness(float newState)
+		public void ApplyChangesDrunkenness(float newState)
 		{
-			Camera.main.GetComponent<CameraEffectControlScript>().AddDrunkTime(newState);
+			Camera.main.GetComponent<CameraEffectControlScript>().drunkCamera.SetDrunkStrength(newState);
 		}
 
 		public void SyncPossessingID(uint previouslyPossessing, uint currentlyPossessing)
@@ -141,16 +141,24 @@ namespace Items.Implants.Organs
 
 		public override void ImplantPeriodicUpdate()
 		{
-
 			if (RelatedPart.HealthMaster.CirculatorySystem.BloodPool.reagents.Contains(DrunkReagent))
 			{
-				float doop = RelatedPart.HealthMaster.CirculatorySystem.BloodPool[DrunkReagent];
-				if (doop > 0)
+				float DrunkPercentage  = RelatedPart.HealthMaster.CirculatorySystem.BloodPool.GetPercent(DrunkReagent);
+				if (DrunkPercentage > 0)
 				{
+					if (DrunkPercentage > MaxDrunkAtPercentage)
+					{
+						DrunkPercentage = MaxDrunkAtPercentage;
+					}
 
-
-					doop *= drunkMultiplier;
-
+					DrunkAmount = DrunkPercentage / MaxDrunkAtPercentage;
+				}
+				else
+				{
+					if (DrunkAmount != 0)
+					{
+						DrunkAmount = 0;
+					}
 				}
 			}
 		}
@@ -170,6 +178,7 @@ namespace Items.Implants.Organs
 		{
 			ApplyChangesBlindness(Default ? false : true);
 			ApplyDeafness(Default ? 0 : 1);
+			ApplyChangesDrunkenness(Default ? 0 : DrunkAmount);
 		}
 
 		public void ApplyDeafness(float Value)

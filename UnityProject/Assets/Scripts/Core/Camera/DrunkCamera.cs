@@ -21,6 +21,17 @@ namespace CameraEffects
 		[Range(0f, 0.02f)]
 		public float DoubleVision = 0.01f;
 
+		public void Hungover()
+		{
+			LightScale = 2.8f;
+			VertWave = 0.005f;
+			HozWave = 0.01f;
+			Waves = 0.0f;
+			Speed = 0.0f;
+			DoubleVision = 0.0f;
+		}
+
+
 		public void Tipsy()
 		{
 			LightScale = 4.5f;
@@ -66,14 +77,16 @@ namespace CameraEffects
 			Speed = 0.6f;
 			DoubleVision = 0.015f;
 		}
-		public void Hungover()
+
+
+		public void SetDrunkStrength(float Strength)
 		{
-			LightScale = 2.8f;
-			VertWave = 0.005f;
-			HozWave = 0.01f;
-			Waves = 0.0f;
-			Speed = 0.0f;
-			DoubleVision = 0.0f;
+			VertWave = Mathf.Lerp(0, 0.06f, Strength);
+			HozWave = Mathf.Lerp(0,  0.07f, Strength);
+			Waves = Mathf.Lerp(0,  0.5f, Strength);
+			Speed = Mathf.Lerp(0,  0.6f, Strength);
+			DoubleVision = Mathf.Lerp(0,  0.015f, Strength);
+			this.enabled = true;
 		}
 
 		void OnRenderImage(RenderTexture source, RenderTexture destination)
