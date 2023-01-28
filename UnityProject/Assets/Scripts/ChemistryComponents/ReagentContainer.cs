@@ -16,7 +16,7 @@ namespace Chemistry.Components
 	/// Client can only interact with container by Interactions (Examine, HandApply, etc).
 	/// </summary>
 	public partial class ReagentContainer : MonoBehaviour, IServerSpawn, IRightClickable, ICheckedInteractable<ContextMenuApply>,
-		IEnumerable<KeyValuePair<Reagent, float>>
+		IEnumerable<KeyValuePair<Reagent, float>>, IServerDespawn
 	{
 		[Flags]
 		private enum ShowMenuOptions
@@ -250,8 +250,12 @@ namespace Chemistry.Components
 				currentReagentMix = initialReagentMix.Clone();
 			}
 
-			ContentsSet = false;
 			OnReagentMixChanged?.Invoke();
+		}
+
+		public void OnDespawnServer(DespawnInfo info)
+		{
+			ContentsSet = false;
 		}
 
 		public void SetIProvideReagentMix(IReagentMixProvider inCustomMixProviderProvider)

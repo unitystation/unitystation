@@ -1,5 +1,6 @@
 ﻿using Messages.Client;
 using Mirror;
+using Player;
 
 namespace Systems.CraftingV2.ClientServerLogic
 {
@@ -22,7 +23,7 @@ namespace Systems.CraftingV2.ClientServerLogic
 
 			SendInitRecipesOrder.SendTo(
 				SentByPlayer,
-				SentByPlayer.Script.PlayerCrafting.KnownRecipesByCategory
+				SentByPlayer.Script.PlayerCrafting.KnownRecipesByCategory, SentByPlayer.Script.PlayerCrafting.gameObject
 			);
 		}
 	}

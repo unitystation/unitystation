@@ -12,7 +12,7 @@ If you get lost at any point in this guide, don't be afraid to ask in our [Disco
 
 You will need these to start your journey:
 
-- [Unity Hub](https://unity3d.com/get-unity/download) Manages your Unity installations. It will install the proper Unity version for you, so you don't really need to worry about that. (but if you want to know, it is **2021.3.12f1 LTS** at the time of writing this guide 17.04.2022).
+- [Unity Hub](https://unity3d.com/get-unity/download) Manages your Unity installations. It will install the proper Unity version for you, so you don't really need to worry about that. (but if you want to know, it is **2021.3.16f1 LTS** at the time of writing this guide 17.04.2022).
 - A [GitHub account](https://github.com/).
 
 - You'll also need to [download Git](https://git-scm.com/), this is different from GitHub and will allow unity to download its dependencies. 

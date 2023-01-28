@@ -21,6 +21,17 @@ public interface IPlayerPossessable
 		else
 		{
 			var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+			if (spawned.ContainsKey(PossessingID) == false)
+			{
+				if (CustomNetworkManager.IsServer)
+				{
+					Logger.LogError(
+						$"Destroyed Possessing  While PossessingID Still references it fixing, Please work out how it got a Destroyed ID {PossessingMind.OrNull()?.name}");
+					SyncPossessingID(PossessingID, NetId.Empty);
+				}
+				return null;
+			}
+
 			return spawned[PossessingID].gameObject;
 		}
 	}
@@ -44,25 +55,32 @@ public interface IPlayerPossessable
 
 	public MindNIPossessingEvent OnPossessedBy { get; set; }
 
-	public Action OnActionEnterPlayerControl { get; set; }
+	public Action OnActionControlPlayer { get; set; }
+
+	public Action OnActionPossess { get; set; }
 
 	public void SyncPossessingID(uint previouslyPossessing, uint currentlyPossessing);
 
 	public void PreImplementedSyncPossessingID(uint previouslyPossessing, uint currentlyPossessing)
 	{
-		var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
-		if (spawned.ContainsKey(previouslyPossessing) == false)
+		var possessing = GetPossessing();
+		if (possessing != null)
 		{
-			InternalOnEnterPlayerControl(null, PossessingMind, CustomNetworkManager.IsServer, PossessedBy);
-		}
-		else
-		{
-			InternalOnEnterPlayerControl(spawned[previouslyPossessing].gameObject, PossessingMind, CustomNetworkManager.IsServer, PossessedBy);
+			if (PossessingMind != null && PossessingMind.IsGhosting == false && CustomNetworkManager.IsServer == false)
+			{
+				possessing.InternalOnControlPlayer( PossessingMind, CustomNetworkManager.IsServer, this);
+			}
 		}
 	}
 
-	public void ServeInternalOnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer)
+
+	public void ServeInternalOnControlPlayer( Mind mind, bool isServer)
 	{
+		if (mind.ControlledBy != null)
+		{
+			mind.ControlledBy.GameObject = GameObject; //TODO Remove
+		}
+
 		//can observe their new inventory
 		var dynamicItemStorage = GameObject.GetComponent<DynamicItemStorage>();
 		if (dynamicItemStorage != null)
@@ -72,17 +90,11 @@ public interface IPlayerPossessable
 				GameObject); //TODO should we be using the players body as game object???
 		}
 
-		PossessAndUnpossessMessage.Send(GameObject, GameObject, previouslyControlling);
-
-		var health = GameObject.GetComponent<LivingHealthMasterBase>();
-		if (health != null && mind != null)
-		{
-			mind.bodyMobID = health.mobID;
-		}
+		PossessAndUnpossessMessage.Send(GameObject, GameObject, null);
 
 		if (mind != null)
 		{
-			var transfers = GameObject.GetComponents<IOnPlayerTransfer>();
+			var transfers = GameObject.GetComponents<IOnControlPlayer>();
 
 			foreach (var transfer in transfers)
 			{
@@ -90,11 +102,11 @@ public interface IPlayerPossessable
 			}
 		}
 
-		OnActionEnterPlayerControl?.Invoke();
+		OnActionControlPlayer?.Invoke();
 	}
 
 
-	public void ClientInternalOnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer)
+	public void ClientInternalOnControlPlayer( Mind mind, bool isServer)
 	{
 		var input = GameObject.GetComponent<IPlayerControllable>();
 
@@ -112,40 +124,132 @@ public interface IPlayerPossessable
 
 		UIActionManager.ClearAllActionsClient();
 		RequestIconsUIActionRefresh.Send();
-		OnActionEnterPlayerControl?.Invoke();
+		OnActionControlPlayer?.Invoke();
 	}
 
-	public void InternalOnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer,
-		IPlayerPossessable parent)
+	public void InternalOnLosePossess()
 	{
-		if (mind == null) return;
+		var MindBackup = PossessingMind;
+		PossessingMind = null;
+
+		var Possessed = GetPossessing();
+		if (Possessed != null)
+		{
+			Possessed.InternalOnLosePossess();
+		}
+
+		if (MindBackup != null)
+		{
+			var leaveInterfaces = GameObject.GetComponents<IOnPlayerLosePossess>();
+			foreach (var leaveInterface in leaveInterfaces)
+			{
+				leaveInterface.OnPlayerLosePossession(MindBackup);
+			}
+		}
+	}
+
+	public void InternalOnPossessPlayer(Mind mind, IPlayerPossessable parent)
+	{
 		var playerScript = GameObject.GetComponent<PlayerScript>();
 		if (playerScript)
 		{
 			playerScript.SetMind(mind);
 		}
 
+		if (CustomNetworkManager.IsServer)
+		{
+			ServerInternalOnPossess(mind, parent);
+		}
+
+		OnPossessPlayer(mind, parent);
+
+		var possessing = GetPossessing();
+		if (possessing != null)
+		{
+			possessing.InternalOnPossessPlayer(mind, this);
+		}
+	}
+
+	public void ServerInternalOnPossess(Mind mind, IPlayerPossessable parent)
+	{
+		var health = GameObject.GetComponent<LivingHealthMasterBase>();
+		if (health != null && mind != null)
+		{
+			mind.bodyMobID = health.mobID;
+		}
+
+		if (mind != null)
+		{
+			var transfers = GameObject.GetComponents<IOnPlayerPossess>();
+
+			foreach (var transfer in transfers)
+			{
+				transfer.OnServerPlayerPossess(mind);
+			}
+		}
+
+		OnActionPossess?.Invoke();
+	}
+
+
+	public void InternalOnControlPlayer( Mind mind, bool isServer,
+		IPlayerPossessable parent)
+	{
+		if (mind == null) return;
 
 		if (isServer)
 		{
-			ServeInternalOnEnterPlayerControl(previouslyControlling, mind, true);
+			ServeInternalOnControlPlayer( mind, true);
 		}
 
 		if (GameObject.GetComponent<NetworkIdentity>().hasAuthority)
 		{
-			ClientInternalOnEnterPlayerControl(previouslyControlling, mind, isServer);
+			ClientInternalOnControlPlayer( mind, isServer);
 		}
 
-		OnEnterPlayerControl(previouslyControlling, mind, isServer, parent);
+		OnControlPlayer(mind, isServer, parent);
 		var possessing = GetPossessing();
 		if (possessing != null)
 		{
-			possessing.InternalOnEnterPlayerControl(previouslyControlling, mind, isServer, this);
+			possessing.InternalOnControlPlayer( mind, isServer, this);
 		}
 	}
 
-	public void OnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer,
-		IPlayerPossessable parent);
+	public void InternalOnPlayerLeave(Mind mind)
+	{
+		var leaveInterfaces = GameObject.GetComponents<IOnPlayerLeaveBody>();
+		foreach (var leaveInterface in leaveInterfaces)
+		{
+			leaveInterface.OnPlayerLeaveBody(mind.ControlledBy);
+		}
+		PossessAndUnpossessMessage.Send(mind.gameObject, null,GameObject);
+		var possessing = GetPossessing();
+		if (possessing != null)
+		{
+			possessing.InternalOnPlayerLeave(mind);
+		}
+
+	}
+
+	public void PlayerRejoin()
+	{
+		var leaveInterfaces = GameObject.GetComponents<IOnPlayerRejoin>();
+		foreach (var leaveInterface in leaveInterfaces)
+		{
+			leaveInterface.OnPlayerRejoin(PossessingMind);
+		}
+
+		var possessing = GetPossessing();
+		if (possessing != null)
+		{
+			possessing.PlayerRejoin();
+		}
+	}
+
+
+	public void OnPossessPlayer(Mind mind, IPlayerPossessable parent);
+
+	public void OnControlPlayer(Mind mind, bool isServer, IPlayerPossessable parent);
 
 	public bool IsRelatedToObject(GameObject _object)
 	{
@@ -197,6 +301,8 @@ public interface IPlayerPossessable
 		if (possessing != null)
 		{
 			possessing.GetRelatedBodies(losing);
+			possessing.InternalOnLosePossess();
+			possessing.PossessedBy = null;
 		}
 		else if (possessingObject != null)
 		{
@@ -205,10 +311,17 @@ public interface IPlayerPossessable
 
 		PossessingMind.OrNull()?.HandleOwnershipChangeMulti(losing, gaining);
 		SyncPossessingID(PossessingID, obj ? obj.GetComponent<NetworkIdentity>().netId : NetId.Empty);
+
 		if (obj != null)
 		{
 			possessing = obj.GetComponent<IPlayerPossessable>();
-			possessing?.BeingPossessedBy(PossessingMind, this);
+			possessing?.InternalOnPossessPlayer(PossessingMind, this);
+
+			if (PossessingMind != null && PossessingMind.IsGhosting == false)
+			{
+				possessing?.InternalOnControlPlayer(PossessingMind, CustomNetworkManager.IsServer,
+					this);
+			}
 		}
 	}
 
@@ -248,5 +361,19 @@ public interface IPlayerPossessable
 		}
 
 		return GameObject.NetWorkIdentity();
+	}
+
+	public void OnDestroy();
+
+	public void PreImplementedOnDestroy()
+	{
+		if (PossessedBy != null)
+		{
+			PossessedBy.SetPossessingObject(null);
+		}
+
+		if (PossessingMind != null)
+		{
+		}
 	}
 }

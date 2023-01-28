@@ -45,6 +45,7 @@ namespace Items.Implants.Organs
 
 		public bool HasTelekinesis => hasTelekinesis;
 
+		public ChatModifier BodyChatModifier = ChatModifier.None;
 
 		public override void Awake()
 		{
@@ -57,6 +58,12 @@ namespace Items.Implants.Organs
 			base.SetUpSystems();
 			RelatedPart.HealthMaster.SetBrain(this);
 		}
+
+		public void OnDestroy()
+		{
+			Itself.PreImplementedOnDestroy();
+		}
+
 		//Ensure removal of brain
 
 		public override void AddedToBody(LivingHealthMasterBase livingHealth)
@@ -75,6 +82,8 @@ namespace Items.Implants.Organs
 			{
 				livingHealth.IsMute.RecordPosition(this, CannotSpeak);
 			}
+
+			UpdateChatModifier(true);
 		}
 
 		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
@@ -82,6 +91,7 @@ namespace Items.Implants.Organs
 			livingHealth.SetBrain(null);
 			livingHealth.IsMute.RemovePosition(this);
 			Itself.SetPossessingObject(null);
+			UpdateChatModifier(false);
 		}
 
 		public void SyncTelekinesis(bool Oldvalue, bool NewValue)
@@ -211,6 +221,19 @@ namespace Items.Implants.Organs
 			}
 		}
 
+		public void UpdateChatModifier(bool add)
+		{
+			if (RelatedPart.HealthMaster == null)  return;
+			if (add)
+			{
+				RelatedPart.HealthMaster.BodyChatModifier |= BodyChatModifier;
+			}
+			else
+			{
+				RelatedPart.HealthMaster.BodyChatModifier &= ~BodyChatModifier;
+			}
+		}
+
 		#region Mind_stuff
 
 		public GameObject GameObject => gameObject;
@@ -225,13 +248,15 @@ namespace Items.Implants.Organs
 
 		public MindNIPossessingEvent OnPossessedBy  { get; set; }
 
-		public Action OnActionEnterPlayerControl { get; set; }
+		public Action OnActionControlPlayer { get; set; }
+
+		public Action OnActionPossess { get; set; }
 
 		public RegisterPlayer CurrentlyOn { get; set; }
 		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
-		public void OnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer, IPlayerPossessable parent) { }
-
+		public void OnControlPlayer( Mind mind, bool isServer, IPlayerPossessable parent) { }
+		public void OnPossessPlayer(Mind mind, IPlayerPossessable parent) {}
 		#endregion
 	}
 }

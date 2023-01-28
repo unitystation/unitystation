@@ -33,6 +33,13 @@ namespace Systems.Clearance
 			{
 				return true;
 			}
+
+			if (requiredClearance.Contains(Clearance.BasicPublicAccess))
+			{
+				Logger.LogError($"{this.name} has null Clearance potentially letting anyone access");
+				return true;
+			}
+
 			// If the player has null access, access is denied
 			if (clearanceSource.GetCurrentClearance == null)
 			{

@@ -291,17 +291,17 @@ namespace Blob
 
 			var connection = GetComponent<NetworkIdentity>().connectionToClient;
 
-			gameObject.GetComponent<IGib>()?.OnGib();
 
+
+			playerScript.Mind.SetControllingObject(spawnResult.GameObject);
 			playerScript.Mind.SetPossessingObject(spawnResult.GameObject);
-
 			//Start the blob control script
 			spawnResult.GameObject.GetComponent<BlobPlayer>().BlobStart(playerScript.Mind);
 
 
 			Chat.AddActionMsgToChat(spawnResult.GameObject, $"<color=#FF151F>You explode from your {bodyPart}, a new being has been born.</color>",
 				$"<color=#FF151F>{gameObject.ExpensiveName()} explodes into a pile of mush.</color>");
-
+			gameObject.GetComponent<IGib>()?.OnGib();
 			Destroy(this);
 		}
 

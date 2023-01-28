@@ -96,6 +96,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 73c107c8fcee0824aabe068db00ebca8,
         type: 2}
+    - target: {fileID: 4524393934061931853, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
+        type: 3}
+      propertyPath: transferMode
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5908745450454926434, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
         type: 3}
       propertyPath: PossibleSprites.Array.data[0]
@@ -122,3 +127,46 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dde8d9bf0726b3140971ecd9d5ddcb87, type: 3}
+--- !u!1 &577345115248442667 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1069497300762596, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
+    type: 3}
+  m_PrefabInstance: {fileID: 576716807340262095}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3368254069382033395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 577345115248442667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 837060fa3ebf3e040916b39a97c42ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackType: 0
+  damageType: 0
+  traumaType: 0
+  damageToGive: 0
+  armorPentration: 0
+  traumaChance: 0
+  onStepSounds: []
+  hurtsOneFootOnly: 0
+  ignoresFootwear: 0
+  canCauseTrauma: 0
+  protectiveItemTraits: []
+  limbsToHurt: 
+  reagentContainer: {fileID: 3947696094908125058}
+--- !u!114 &3947696094908125058 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4524393934061931853, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
+    type: 3}
+  m_PrefabInstance: {fileID: 576716807340262095}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 577345115248442667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

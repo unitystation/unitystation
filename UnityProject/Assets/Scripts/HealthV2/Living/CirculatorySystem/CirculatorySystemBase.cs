@@ -221,8 +221,12 @@ namespace HealthV2
 
 					}
 
+					var percentage = 0f;
+					if (BloodPool.reagents.ContainsKey(bloodAndValues.Key))
+					{
+						percentage = BloodPool.GetPercent(bloodAndValues.Key);
+					}
 
-					var percentage =  BloodPool.GetPercent(bloodAndValues.Key);
 
 					if (percentage < 0.33f)
 					{
@@ -352,7 +356,7 @@ namespace HealthV2
 
 		public void ToxinGeneration(float HeartEfficiency)
 		{
-			float Multiplier = 1;
+			float Multiplier = HeartEfficiency;
 			if (HeartEfficiency == 0)
 			{
 				Multiplier = 0.0025f;
