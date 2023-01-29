@@ -371,9 +371,9 @@ public interface IPlayerPossessable
 		{
 			PossessedBy.SetPossessingObject(null);
 		}
-
-		if (PossessingMind != null)
+		else if (PossessingMind != null)
 		{
+			PossessingMind.SetPossessingObject(null);
 		}
 	}
 }
