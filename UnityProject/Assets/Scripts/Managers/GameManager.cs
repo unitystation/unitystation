@@ -163,8 +163,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	public int RebootOnAverageFPSOrLower = 35;
 
-	[NonSerialized]
-	public bool DisconnectExpected = false;
+	[NonSerialized] public bool DisconnectExpected = false;
 
 	public List<CommsServer> CommsServers = new List<CommsServer>();
 
@@ -218,7 +217,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		ShuttleGibbingAllowed = GameConfigManager.GameConfig.ShuttleGibbingAllowed;
 		CharacterNameLimit = GameConfigManager.GameConfig.CharacterNameLimit;
 		AdminOnlyHtml = GameConfigManager.GameConfig.AdminOnlyHtml;
-		MalfAIRecieveTheirIntendedObjectiveChance = GameConfigManager.GameConfig.MalfAIRecieveTheirIntendedObjectiveChance;
+		MalfAIRecieveTheirIntendedObjectiveChance =
+			GameConfigManager.GameConfig.MalfAIRecieveTheirIntendedObjectiveChance;
 		ServerShutsDownOnRoundEnd = GameConfigManager.GameConfig.ServerShutsDownOnRoundEnd;
 		PlayerLimit = GameConfigManager.GameConfig.PlayerLimit;
 		LowPopLimit = GameConfigManager.GameConfig.LowPopLimit;
@@ -327,6 +327,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			Logger.LogWarning("Cannot generate primary escape shuttle path. Shuttle not found.");
 			return;
 		}
+
 		if (CargoShuttle.Instance == null)
 		{
 			Logger.LogWarning("Cannot generate cargo escape shuttle path. Shuttle not found.");
@@ -337,7 +338,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		var target = CargoShuttle.Instance.CentcomDest;
 
 
-		var distance = (int)Vector2.Distance(beginning, target);
+		var distance = (int) Vector2.Distance(beginning, target);
 
 		ShuttlePaths.Add(beginning); //Creates a list of Vectors along the cargo shuttles path.
 		for (int i = 0; i < (distance / 50); i++)
@@ -349,12 +350,12 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		beginning = GameManager.Instance.PrimaryEscapeShuttle.stationTeleportLocation; //Repeats for escape shuttle
 		target = GameManager.Instance.PrimaryEscapeShuttle.stationDockingLocation;
 
-		distance = (int)Vector2.Distance(beginning, target);
+		distance = (int) Vector2.Distance(beginning, target);
 
-		ShuttlePaths.Add(beginning); 
+		ShuttlePaths.Add(beginning);
 		for (int i = 0; i < (distance / 50); i++)
 		{
-			beginning = Vector2.MoveTowards(beginning, target, 50); 
+			beginning = Vector2.MoveTowards(beginning, target, 50);
 			ShuttlePaths.Add(beginning);
 		}
 
@@ -503,7 +504,16 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			CrewManifestManager.Instance.ServerClearList();
 		}
 
-		LogPlayersAntagPref();
+		try
+		{
+			LogPlayersAntagPref();
+		}
+		catch (Exception e)
+		{
+			Logger.LogError("Failed to log Players antagonist preferences" + e.ToString());
+			throw;
+		}
+
 
 		if (string.IsNullOrEmpty(NextGameMode) || NextGameMode == "Random")
 		{
@@ -520,8 +530,16 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL,
 			$"{GameMode.Name} chosen", "[GameMode]");
 
-		// Game mode specific setup
-		GameMode.SetupRound();
+		try
+		{
+			// Game mode specific setup
+			GameMode.SetupRound();
+		}
+		catch (Exception e)
+		{
+			Logger.LogError("Failed to GameMode.SetupRound(); " + e.ToString());
+			throw;
+		}
 
 
 		// Standard round start setup
@@ -697,12 +715,13 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		if (slotsTaken >= slotsMax)
 		{
 			SendClientLogMessage.SendErrorToClient(spawnRequest.Player,
-					$"Occupation {spawnRequest.RequestedOccupation.JobType} is full. Cannot spawn you.");
+				$"Occupation {spawnRequest.RequestedOccupation.JobType} is full. Cannot spawn you.");
 			Logger.LogError($"Occupation {spawnRequest.RequestedOccupation.JobType} is full. Cannot spawn player.");
 			return false;
 		}
 
-		return PlayerSpawn.NewSpawnPlayerV2(spawnRequest.Player, spawnRequest.RequestedOccupation, spawnRequest.CharacterSettings ) != null;
+		return PlayerSpawn.NewSpawnPlayerV2(spawnRequest.Player, spawnRequest.RequestedOccupation,
+			spawnRequest.CharacterSettings) != null;
 	}
 
 	/// <summary>
