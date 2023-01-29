@@ -63,6 +63,7 @@ namespace Objects.Other
 				foreach (var feetSlot in playerStorage.GetNamedItemSlots(NamedSlot.feet))
 				{
 
+					if (feetSlot.ItemObject == null) continue;
 					if (feetSlot.ItemObject.gameObject.TryGetComponent<MakesFootPrints>(out var _))
 					{
 						return true;
