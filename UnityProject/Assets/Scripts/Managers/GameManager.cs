@@ -604,15 +604,15 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	{
 		if (CustomNetworkManager.Instance._isServer == false) return;
 
-		if (CurrentRoundState != RoundState.Started)
+		if (CurrentRoundState != RoundState.Started && CurrentRoundState != RoundState.PreRound) //PreRound If the round didn't even start at all and because of an error
 		{
 			if (CurrentRoundState == RoundState.Ended)
 			{
-				Logger.Log("Cannot end round, round has already ended!", Category.Round);
+				Logger.LogError("Cannot end round, round has already ended!", Category.Round);
 			}
 			else
 			{
-				Logger.Log("Cannot end round, round has not started yet!", Category.Round);
+				Logger.LogError("Cannot end round, round has not started yet!", Category.Round);
 			}
 
 			return;
@@ -859,15 +859,29 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	private float GetMemeoryUsagePrecentage()
 	{
-		return (Profiler.GetTotalAllocatedMemoryLong() / 1048576) / SystemInfo.systemMemorySize * 100;
+		return ((Profiler.GetTotalAllocatedMemoryLong() / 1048576) / SystemInfo.systemMemorySize) * 100;
 	}
 
 	IEnumerator ServerRoundRestart()
 	{
-		string[] args = Environment.GetCommandLineArgs();
-		if ((ServerShutsDownOnRoundEnd == false || args.Contains("-NoReboot"))
-		    && (ServerAverageFPS >= RebootOnAverageFPSOrLower || GetMemeoryUsagePrecentage() <= 75f) ||
-		    args.Contains("-AlwaysReboot") == false)
+		bool reboot = true;
+		try
+		{
+			string[] args = Environment.GetCommandLineArgs();
+			if ((ServerShutsDownOnRoundEnd == false || args.Contains("-NoReboot"))
+			    && (ServerAverageFPS >= RebootOnAverageFPSOrLower || GetMemeoryUsagePrecentage() <= 75f) ||
+			    args.Contains("-AlwaysReboot") == false)
+			{
+				reboot = false;
+			}
+		}
+		catch (Exception e)
+		{
+			Logger.LogError(" Failed to determine if the Server should restart , Restarting " + e.ToString());
+			reboot = true;
+		}
+
+		if (reboot == false)
 		{
 			Logger.Log("Server restarting round now.", Category.Round);
 			Chat.AddGameWideSystemMsgToChat("<b>The round is now restarting...</b>");
@@ -882,11 +896,13 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			StopAllCoroutines();
 			yield break;
 		}
-
-		Logger.LogError("Server is rebooting now. If you don't have a way to automatically restart the " +
-		                "Unitystation process such as systemctl the server won't be able to restart!", Category.Round);
-		Chat.AddGameWideSystemMsgToChat("<size=72><b>The server is now restarting!</b></size>");
-		yield return WaitFor.Seconds(2f);
-		Application.Quit();
+		else
+		{
+			Logger.LogError("Server is rebooting now. If you don't have a way to automatically restart the " +
+			                "Unitystation process such as systemctl the server won't be able to restart!", Category.Round);
+			Chat.AddGameWideSystemMsgToChat("<size=72><b>The server is now restarting!</b></size>");
+			yield return WaitFor.Seconds(4f);
+			Application.Quit();
+		}
 	}
 }
