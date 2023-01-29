@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Objects.Construction;
 using UnityEngine;
 
 namespace Items
@@ -15,6 +16,8 @@ namespace Items
 		[Tooltip("How many times can the soap be used until it is deleted?")]
 		[SerializeField]
 		private int uses = 100;
+
+		private bool forEverLastingSoap = false;
 
 		private int maxUses;
 
@@ -39,20 +42,10 @@ namespace Items
             Vector3Int positionInt = Vector3Int.RoundToInt(position);
 
             // Check if there is an object in the way of scrubbing the tile
-			var atPosition = MatrixManager.GetAt<RegisterObject>(positionInt, side == NetworkSide.Server) as List<RegisterObject>;
-            if(atPosition != null) return false;
+			var atPosition = MatrixManager.GetAt<FloorDecal>(positionInt, side == NetworkSide.Server) as List<FloorDecal>;
+            if(atPosition.Count == 0) return false;
 
-
-            // Check that the layer scrubbed is a floor, e.g. not a table
-            var metaTileMap = MatrixManager.AtPoint(positionInt, side == NetworkSide.Server).MetaTileMap;
-            var tile = metaTileMap.GetTile(metaTileMap.WorldToCell(positionInt), true);
-
-            if (tile != null && tile.LayerType == LayerType.Tables)
-            {
-                return false;
-            }
-
-			return true;
+            return true;
 		}
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)
@@ -90,6 +83,7 @@ namespace Items
 
 		public void UseUpSoap()
 		{
+			if (forEverLastingSoap) return;
 			uses -= 1;
 			if (uses == 0)
 			{
@@ -105,7 +99,7 @@ namespace Items
 			{
 				return "There's just a tiny bit left of what it used to be, you're not sure it'll last much longer.";
 			}
-			else if (percentageLeft > 0.15f && percentageLeft <= 0.30f)
+			else if (percentageLeft > 0.15f && percentageLeft <= 0.30f)The
 			{
 				return "It's dissolved quite a bit, but there's still some life to it.";
 			}
