@@ -99,7 +99,7 @@ namespace Items
 			{
 				return "There's just a tiny bit left of what it used to be, you're not sure it'll last much longer.";
 			}
-			else if (percentageLeft > 0.15f && percentageLeft <= 0.30f)The
+			else if (percentageLeft > 0.15f && percentageLeft <= 0.30f)
 			{
 				return "It's dissolved quite a bit, but there's still some life to it.";
 			}
