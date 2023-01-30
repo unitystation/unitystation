@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using AddressableReferences;
 using Chemistry;
 using Chemistry.Components;
@@ -11,6 +12,7 @@ using Random = UnityEngine.Random;
 using Messages.Server.SoundMessages;
 using Mirror;
 using Systems.Score;
+using UI.Systems.Tooltips.HoverTooltips;
 
 namespace Items.Food
 {
@@ -20,7 +22,7 @@ namespace Items.Food
 	[RequireComponent(typeof(RegisterItem))]
 	[RequireComponent(typeof(ItemAttributesV2))]
 	[RequireComponent(typeof(ReagentContainer))]
-	public class Edible : Consumable, ICheckedInteractable<HandActivate>
+	public class Edible : Consumable, ICheckedInteractable<HandActivate>, IHoverTooltip
 	{
 		public GameObject leavings;
 		[SerializeField, SyncVar] private int currentBites;
@@ -205,6 +207,28 @@ namespace Items.Food
 				}
 			}
 			_ = Inventory.ServerDespawn(gameObject);
+		}
+
+		public string HoverTip()
+		{
+			var biteStatus = "";
+			if (currentBites == maxBites) biteStatus = "it is untouched.";
+			if (currentBites < maxBites) biteStatus = "someone took a bite out of it.";
+			if (currentBites <= maxBites / 2) biteStatus = "half eaten.";
+			return $"It appears that {biteStatus}";
+		}
+
+		public string CustomTitle() { return null; }
+		public Sprite CustomIcon() { return null; }
+		public List<Sprite> IconIndicators() { return null; }
+
+		public List<TextColor> InteractionsStrings()
+		{
+			var list = new List<TextColor>();
+			list.Add(new TextColor { Color = Color.green, Text = "Click on target to feed." });
+			list.Add(new TextColor { Color = Color.green,
+				Text = $"Press {KeybindManager.Instance.userKeybinds[KeyAction.HandActivate].PrimaryCombo} to feed yourself." });
+			return list;
 		}
 	}
 }
