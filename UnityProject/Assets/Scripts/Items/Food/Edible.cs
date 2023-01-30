@@ -214,7 +214,7 @@ namespace Items.Food
 			var biteStatus = "";
 			if (currentBites == maxBites) biteStatus = "it is untouched.";
 			if (currentBites < maxBites) biteStatus = "someone took a bite out of it.";
-			if (currentBites <= maxBites / 2) biteStatus = "half eaten.";
+			if (currentBites <= maxBites / 2) biteStatus = "it is half eaten.";
 			return $"It appears that {biteStatus}";
 		}
 
