@@ -32,7 +32,7 @@ namespace Objects.Science
 		public string messageOnTravelToThis;
 
 		private RegisterTile registerTile;
-		[SerializeField] private float maintRoomChanceModifier = 1f; //Squarestation quantum pads are less likely to teleport to maintrooms due to their nessasity.
+		[SerializeField] private float maintRoomChanceModifier = 0.01f; //Squarestation quantum pads are less likely to teleport to maintrooms due to their nessasity.
 
 		private Matrix Matrix => registerTile.Matrix;
 
