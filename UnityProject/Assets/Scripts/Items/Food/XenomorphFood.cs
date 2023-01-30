@@ -52,7 +52,7 @@ namespace Items.Food
 			}
 		}
 
-		public override void Eat(PlayerScript eater, PlayerScript feeder)
+		protected override void Eat(PlayerScript eater, PlayerScript feeder)
 		{
 			// TODO: missing sound?
 			//SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);

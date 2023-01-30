@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using Messages.Server.SoundMessages;
+using Mirror;
 using Systems.Score;
 
 namespace Items.Food
@@ -22,6 +23,9 @@ namespace Items.Food
 	public class Edible : Consumable, ICheckedInteractable<HandActivate>
 	{
 		public GameObject leavings;
+		[SerializeField, SyncVar] private int currentBites;
+		[SerializeField] private int maxBites = 1;
+		[SerializeField] private bool setCurrentBitesToMaxBitesOnAwake = true;
 
 		[SerializeField] private AddressableAudioSource sound = null;
 
@@ -52,6 +56,8 @@ namespace Items.Food
 			{
 				Logger.LogErrorFormat("{0} prefab is missing ItemAttributes", Category.Objects, name);
 			}
+
+			if (setCurrentBitesToMaxBitesOnAwake) currentBites = maxBites;
 		}
 
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
@@ -114,7 +120,7 @@ namespace Items.Food
 			}
 		}
 
-		public virtual void Eat(PlayerScript eater, PlayerScript feeder)
+		protected virtual void Eat(PlayerScript eater, PlayerScript feeder)
 		{
 			//TODO: Reimplement metabolism.
 			AudioSourceParameters eatSoundParameters = new AudioSourceParameters(pitch: RandomPitch);
@@ -176,9 +182,16 @@ namespace Items.Food
 			}
 			else
 			{
-				_ = Inventory.ServerDespawn(gameObject);
+				Bite(feeder, feederSlot);
 			}
 
+			ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_FOODEATEN);
+		}
+
+		private void Bite(PlayerScript feeder, ItemSlot feederSlot)
+		{
+			currentBites--;
+			if (currentBites > 0) return;
 			if (leavings != null)
 			{
 				var leavingsInstance = Spawn.ServerPrefab(leavings).GameObject;
@@ -191,8 +204,7 @@ namespace Items.Food
 						feeder.GetComponent<UniversalObjectPhysics>());
 				}
 			}
-
-			ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_FOODEATEN);
+			_ = Inventory.ServerDespawn(gameObject);
 		}
 	}
 }
