@@ -108,6 +108,7 @@ namespace Player
 				if (GameData.Instance.DevBuild == false)
 				{
 					Existingplayer = PlayerList.Instance.GetLoggedOnClient(authData.ClientId, authData.AccountId);
+					Logger.LogError($"Disconnecting player {Existingplayer?.Name} via Disconnect previous Using account/mac Address ");
 					Existingplayer?.GameObject.OrNull()?.GetComponent<NetworkIdentity>().OrNull()?.connectionToClient?.Disconnect();
 				}
 			}
@@ -179,12 +180,14 @@ namespace Player
 		{
 			if (IsValidPlayerAndWaitingOnLoad == false)
 			{
+				Logger.LogError($"Disconnecting {this.STVerifiedUserid} by Trying to call CMDFinishLoading When server wasn't expecting player to be loading  ", Category.Connections);
 				connectionToClient.Disconnect();
 				return;
 			}
 
 			if (STVerifiedConnPlayer.Connection != connectionToClient)
 			{
+				Logger.LogError($"Disconnecting {this.STVerifiedConnPlayer.Name} by Authenticated user connection matching The game objects connection ", Category.Connections);
 				connectionToClient.Disconnect();
 				ClearCache();
 				return;

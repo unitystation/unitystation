@@ -362,43 +362,79 @@ namespace GameModes
 			int antagsToSpawn = CalculateAntagCount(PlayerList.Instance.ReadyPlayers.Count);
 			var jobAllocator = new JobAllocator();
 			var playerPool = PlayerList.Instance.ReadyPlayers;
-			if (AllocateJobsToAntags)
+			try
 			{
-				// Allocate jobs to all players first then choose antags
-				playerSpawnRequests = jobAllocator.DetermineJobs(playerPool);
-				var antagCandidates = playerSpawnRequests.Where(p =>
-					!NonAntagJobTypes.Contains(p.RequestedOccupation.JobType) &&
-					HasPossibleAntagEnabled(ref p.CharacterSettings.AntagPreferences) && HasPossibleAntagNotBanned(p.Player.UserId));
-				antagSpawnRequests = antagCandidates.PickRandom(antagsToSpawn).ToList();
-				// Player and antag spawn requests are kept separate to stop players being spawned twice
-				playerSpawnRequests.RemoveAll(antagSpawnRequests.Contains);
+				if (AllocateJobsToAntags)
+				{
+					// Allocate jobs to all players first then choose antags
+					playerSpawnRequests = jobAllocator.DetermineJobs(playerPool);
+					var antagCandidates = playerSpawnRequests.Where(p =>
+						!NonAntagJobTypes.Contains(p.RequestedOccupation.JobType) &&
+						HasPossibleAntagEnabled(ref p.CharacterSettings.AntagPreferences) && HasPossibleAntagNotBanned(p.Player.UserId));
+					antagSpawnRequests = antagCandidates.PickRandom(antagsToSpawn).ToList();
+					// Player and antag spawn requests are kept separate to stop players being spawned twice
+					playerSpawnRequests.RemoveAll(antagSpawnRequests.Contains);
+				}
+				else
+				{
+					// Choose antags first then allocate jobs to all other players
+					var antagCandidates = playerPool.Where(p =>
+						HasPossibleAntagEnabled(ref p.RequestedCharacterSettings.AntagPreferences) && HasPossibleAntagNotBanned(p.UserId));
+					var chosenAntags = antagCandidates.PickRandom(antagsToSpawn).ToList();
+					// Player and antag spawn requests are kept separate to stop players being spawned twice
+					playerPool.RemoveAll(chosenAntags.Contains);
+					playerSpawnRequests = jobAllocator.DetermineJobs(playerPool);
+					antagSpawnRequests = chosenAntags.Select(player => new PlayerSpawnRequest(player, null)).ToList();
+				}
+
 			}
-			else
+			catch (Exception e)
 			{
-				// Choose antags first then allocate jobs to all other players
-				var antagCandidates = playerPool.Where(p =>
-					HasPossibleAntagEnabled(ref p.RequestedCharacterSettings.AntagPreferences) && HasPossibleAntagNotBanned(p.UserId));
-				var chosenAntags = antagCandidates.PickRandom(antagsToSpawn).ToList();
-				// Player and antag spawn requests are kept separate to stop players being spawned twice
-				playerPool.RemoveAll(chosenAntags.Contains);
-				playerSpawnRequests = jobAllocator.DetermineJobs(playerPool);
-				antagSpawnRequests = chosenAntags.Select(player => new PlayerSpawnRequest(player, null)).ToList();
+				Logger.LogError("Failed on Antag Job Allocation" + e.ToString());
+				throw;
 			}
 
 			// Spawn all players and antags
 			foreach (var spawnReq in playerSpawnRequests)
 			{
-				PlayerSpawn.NewSpawnPlayerV2(spawnReq.Player, spawnReq.RequestedOccupation, spawnReq.CharacterSettings);
+				try
+				{
+					PlayerSpawn.NewSpawnPlayerV2(spawnReq.Player, spawnReq.RequestedOccupation,
+						spawnReq.CharacterSettings);
+				}
+				catch (Exception e)
+				{
+					Logger.LogError($" Failed to spawn player {spawnReq?.Player?.Name} " + e.ToString());
+					throw;
+				}
 			}
+
+
+
 			foreach (var spawnReq in antagSpawnRequests)
 			{
-				SpawnAntag(spawnReq);
+				try
+				{
+					SpawnAntag(spawnReq);
+				}
+				catch (Exception e)
+				{
+					Logger.LogError($" Failed to SpawnAntag {spawnReq?.Player?.Name} Antag {spawnReq?.RequestedOccupation.OrNull()?.name}  " + e.ToString());
+					throw;
+				}
 			}
 
-			var msg =
-				$"{PlayerList.Instance.ReadyPlayers.Count} players ready, {antagsToSpawn} antags to spawn. {playerSpawnRequests.Count} players spawned (excludes antags), {antagSpawnRequests.Count} antags spawned";
+			try
+			{
+				var msg = $"{PlayerList.Instance.ReadyPlayers.Count} players ready, {antagsToSpawn} antags to spawn. {playerSpawnRequests.Count} players spawned (excludes antags), {antagSpawnRequests.Count} antags spawned";
+				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "[GameMode]");
+			}
+			catch (Exception e)
+			{
+				Logger.LogError($" Failed to DiscordWebhookMessage Started round message " + e.ToString());
+				throw;
+			}
 
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "[GameMode]");
 			GameManager.Instance.CurrentRoundState = RoundState.Started;
 			EventManager.Broadcast(Event.RoundStarted, true);
 		}

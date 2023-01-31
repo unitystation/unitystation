@@ -972,6 +972,7 @@ public partial class PlayerList
 
 		yield return WaitFor.Seconds(1f);
 
+		Logger.LogError($"Disconnecting client {connPlayer.Username} : Via admin KickOrBanPlayer {message}", Category.Admin);
 		connPlayer.Connection.Disconnect();
 
 		while (!loggedOff.Contains(connPlayer))

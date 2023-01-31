@@ -124,17 +124,28 @@ namespace Antagonists
 
 		private SpawnedAntag SetAntagDetails(Antagonist chosenAntag, Mind Mind )
 		{
-			// Generate objectives for this antag
-			List<Objective> objectives = antagData.GenerateObjectives(Mind, chosenAntag);
-			// Set the antag
-			var spawnedAntag = SpawnedAntag.Create(chosenAntag, Mind, objectives);
-			Mind.SetAntag(spawnedAntag);
-			return spawnedAntag;
+			try
+			{
+				// Generate objectives for this antag
+				List<Objective> objectives = antagData.GenerateObjectives(Mind, chosenAntag);
+				// Set the antag
+				var spawnedAntag = SpawnedAntag.Create(chosenAntag, Mind, objectives);
+				Mind.SetAntag(spawnedAntag);
+				return spawnedAntag;
+			}
+			catch (Exception e)
+			{
+				Logger.LogError( $"failed to create antagonist {chosenAntag.OrNull()?.AntagName} "  + e.ToString());
+				return null;
+			}
+
 		}
 
 		public void ServerFinishAntag(Antagonist chosenAntag, Mind SpawnMind )
 		{
 			var spawnedAntag = SetAntagDetails(chosenAntag, SpawnMind);
+			if (spawnedAntag == null) return;
+
 			activeAntags.Add(spawnedAntag);
 			ShowAntagBanner(SpawnMind, chosenAntag);
 			chosenAntag.AfterSpawn(SpawnMind);
