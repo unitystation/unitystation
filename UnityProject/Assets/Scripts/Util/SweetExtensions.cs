@@ -93,6 +93,12 @@ public static class SweetExtensions
 		return list?.Count > 0 ? list.PickRandom() : default(T);
 	}
 
+	public static Dictionary<uint, NetworkIdentity> GetSpawned()
+	{
+		return CustomNetworkManager.Spawned;
+	}
+
+
 	public static GameObject NetIdToGameObject(this uint NetID)
 	{
 		if ( NetID != global::NetId.Invalid && NetID != global::NetId.Empty && CustomNetworkManager.Spawned.TryGetValue(NetID, out var Object  ))

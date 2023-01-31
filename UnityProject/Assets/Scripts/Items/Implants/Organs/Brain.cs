@@ -16,11 +16,14 @@ namespace Items.Implants.Organs
 
 		[SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
 		[SyncVar(hook = nameof(SyncPossessingID))] private uint possessingID;
+		[SyncVar(hook = nameof(SyncControlledByMindID))] public uint possessedByMindID;
 
 		public Pickupable Pickupable;
 
 		public uint OnPlayerID => OnBodyID;
 		public uint PossessingID => possessingID;
+
+		public uint PossessedByMindID => possessedByMindID;
 
 		[FormerlySerializedAs("hasInbuiltSite")] [SerializeField] private bool hasInbuiltSight = false;
 		[SerializeField] private bool hasInbuiltHearing = false;
@@ -43,6 +46,11 @@ namespace Items.Implants.Organs
 		{
 			base.Awake();
 			RelatedPart = GetComponent<BodyPart>();
+		}
+
+		public void Start()
+		{
+			SyncOnPlayer(this.netId, this.netId);
 		}
 
 		public override void SetUpSystems()
@@ -103,17 +111,14 @@ namespace Items.Implants.Organs
 			Preimplemented.ImplementationSyncOnPlayer(PreviouslyOn, CurrentlyOn);
 		}
 
+		public void SyncControlledByMindID(uint OldControlledByMind, uint nowControlledByMind)
+		{
+			possessedByMindID = nowControlledByMind;
+			Itself.PreImplementedSyncControlledByMindID(OldControlledByMind, nowControlledByMind);
+		}
+
 		void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)
 		{
-			if (ShowForPlayer != null)
-			{
-				SyncOnPlayer(OnBodyID, ShowForPlayer.netId);
-
-			}
-			else
-			{
-				SyncOnPlayer(OnBodyID, NetId.Empty);
-			}
 		}
 
 		public bool IsValidSetup(RegisterPlayer player)
@@ -216,7 +221,7 @@ namespace Items.Implants.Organs
 		public RegisterPlayer CurrentlyOn { get; set; }
 		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
-		public void OnControlPlayer( Mind mind, bool isServer, IPlayerPossessable parent) { }
+		public void OnControlPlayer( Mind mind) { }
 		public void OnPossessPlayer(Mind mind, IPlayerPossessable parent) {}
 		#endregion
 	}

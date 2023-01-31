@@ -27,11 +27,14 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	public MindNIPossessingEvent OnPossessedBy { get; set; } = new MindNIPossessingEvent();
 
 	[SyncVar(hook = nameof(SyncPossessingID))] private uint possessingID;
+	[SyncVar(hook = nameof(SyncControlledByMindID))] public uint possessedByMindID;
 	public Action OnActionControlPlayer { get; set; }
 
 	public Action OnActionPossess { get; set; }
 
 	public IPlayerPossessable Itself => this as IPlayerPossessable;
+
+	public uint PossessedByMindID => possessedByMindID;
 
 	public void OnPossessPlayer(Mind mind, IPlayerPossessable parent)
 	{
@@ -39,7 +42,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		if (IsNormal && parent == null &&  playerTypeSettings.PlayerType != PlayerTypes.Ghost)//Can't be possessed directly
 		{
 			mind.SetPossessingObject(playerHealth.OrNull()?.brain.OrNull()?.gameObject);
-			mind.SetControllingObject(playerHealth.OrNull()?.brain.OrNull()?.gameObject);
+			mind.StopGhosting();
 			return;
 		}
 		else
@@ -49,7 +52,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 
 	}
 
-	public void OnControlPlayer(Mind mind, bool isServer, IPlayerPossessable parent)
+	public void OnControlPlayer(Mind mind)
 	{
 		if (mind == null) return;
 		Init(mind);
@@ -61,6 +64,11 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		Itself.PreImplementedSyncPossessingID(previouslyPossessing, currentlyPossessing);
 	}
 
+	public void SyncControlledByMindID(uint OldControlledByMind, uint nowControlledByMind)
+	{
+		possessedByMindID = nowControlledByMind;
+		Itself.PreImplementedSyncControlledByMindID(OldControlledByMind, nowControlledByMind);
+	}
 
 	/// maximum distance the player needs to be to an object to interact with it
 	public const float INTERACTION_DISTANCE = 1.5f;

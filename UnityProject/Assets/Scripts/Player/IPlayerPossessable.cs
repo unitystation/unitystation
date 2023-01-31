@@ -49,6 +49,8 @@ public interface IPlayerPossessable
 
 	public uint PossessingID { get; }
 
+	public uint PossessedByMindID { get; }
+
 	public Mind PossessingMind { get; set; }
 
 	public IPlayerPossessable PossessedBy { get; set; }
@@ -61,6 +63,7 @@ public interface IPlayerPossessable
 
 	public void SyncPossessingID(uint previouslyPossessing, uint currentlyPossessing);
 
+
 	public void PreImplementedSyncPossessingID(uint previouslyPossessing, uint currentlyPossessing)
 	{
 		var possessing = GetPossessing();
@@ -68,11 +71,28 @@ public interface IPlayerPossessable
 		{
 			if (PossessingMind != null && PossessingMind.IsGhosting == false && CustomNetworkManager.IsServer == false)
 			{
-				possessing.InternalOnControlPlayer( PossessingMind, CustomNetworkManager.IsServer, this);
+				possessing.InternalOnControlPlayer( PossessingMind, CustomNetworkManager.IsServer);
 			}
 		}
 	}
 
+	public void SyncControlledByMindID(uint OldControlledByMind, uint nowControlledByMind);
+
+	public void PreImplementedSyncControlledByMindID(uint OldControlledByMind, uint nowControlledByMind)
+	{
+		if (nowControlledByMind is NetId.Empty or NetId.Invalid && OldControlledByMind is NetId.Empty or NetId.Invalid ) return; //Do nothing
+
+		if (OldControlledByMind is NetId.Empty or NetId.Invalid == false)
+		{
+			InternalOnPlayerLeave(OldControlledByMind.NetIdToGameObject().GetComponent<Mind>());
+		}
+
+		if (nowControlledByMind is NetId.Empty or NetId.Invalid == false)
+		{
+			var game = nowControlledByMind.NetIdToGameObject();
+			InternalOnControlPlayer(game.GetComponent<Mind>(), CustomNetworkManager.IsServer);
+		}
+	}
 
 	public void ServeInternalOnControlPlayer( Mind mind, bool isServer)
 	{
@@ -106,7 +126,7 @@ public interface IPlayerPossessable
 	}
 
 
-	public void ClientInternalOnControlPlayer( Mind mind, bool isServer)
+	public void ClientInternalOnControlPlayer(Mind mind, bool isServer)
 	{
 		var input = GameObject.GetComponent<IPlayerControllable>();
 
@@ -160,6 +180,8 @@ public interface IPlayerPossessable
 		{
 			ServerInternalOnPossess(mind, parent);
 		}
+		PossessingMind = mind;
+		PossessedBy = parent;
 
 		OnPossessPlayer(mind, parent);
 
@@ -168,6 +190,7 @@ public interface IPlayerPossessable
 		{
 			possessing.InternalOnPossessPlayer(mind, this);
 		}
+		OnPossessedBy?.Invoke(mind, parent);
 	}
 
 	public void ServerInternalOnPossess(Mind mind, IPlayerPossessable parent)
@@ -192,8 +215,7 @@ public interface IPlayerPossessable
 	}
 
 
-	public void InternalOnControlPlayer( Mind mind, bool isServer,
-		IPlayerPossessable parent)
+	private void InternalOnControlPlayer( Mind mind, bool isServer)
 	{
 		if (mind == null) return;
 
@@ -207,26 +229,20 @@ public interface IPlayerPossessable
 			ClientInternalOnControlPlayer( mind, isServer);
 		}
 
-		OnControlPlayer(mind, isServer, parent);
-		var possessing = GetPossessing();
-		if (possessing != null)
-		{
-			possessing.InternalOnControlPlayer( mind, isServer, this);
-		}
+		OnControlPlayer(mind);
 	}
 
-	public void InternalOnPlayerLeave(Mind mind)
+	private void InternalOnPlayerLeave(Mind mind)
 	{
 		var leaveInterfaces = GameObject.GetComponents<IOnPlayerLeaveBody>();
 		foreach (var leaveInterface in leaveInterfaces)
 		{
 			leaveInterface.OnPlayerLeaveBody(mind.ControlledBy);
 		}
-		PossessAndUnpossessMessage.Send(mind.gameObject, null,GameObject);
-		var possessing = GetPossessing();
-		if (possessing != null)
+
+		if (CustomNetworkManager.IsServer)
 		{
-			possessing.InternalOnPlayerLeave(mind);
+			PossessAndUnpossessMessage.Send(mind.gameObject, null,GameObject);
 		}
 
 	}
@@ -249,7 +265,7 @@ public interface IPlayerPossessable
 
 	public void OnPossessPlayer(Mind mind, IPlayerPossessable parent);
 
-	public void OnControlPlayer(Mind mind, bool isServer, IPlayerPossessable parent);
+	public void OnControlPlayer(Mind mind);
 
 	public bool IsRelatedToObject(GameObject _object)
 	{
@@ -268,22 +284,10 @@ public interface IPlayerPossessable
 		return false;
 	}
 
-	public void BeingPossessedBy(Mind mind, IPlayerPossessable playerPossessable)
-	{
-		PossessingMind = mind;
-		PossessedBy = playerPossessable;
-		var possessing = GetPossessing();
-		if (possessing != null)
-		{
-			possessing.BeingPossessedBy(mind, this);
-		}
-
-		OnPossessedBy?.Invoke(mind, playerPossessable);
-	}
-
 	public void SetPossessingObject(GameObject obj)
 	{
 		var inPossessing = obj.OrNull()?.GetComponent<IPlayerPossessable>();
+
 		var gaining = new List<NetworkIdentity>();
 		if (inPossessing != null)
 		{
@@ -293,9 +297,8 @@ public interface IPlayerPossessable
 		{
 			gaining.Add(obj.NetWorkIdentity());
 		}
-
-
 		var losing = new List<NetworkIdentity>();
+
 		var possessing = GetPossessing();
 		var possessingObject = GetPossessingObject();
 		if (possessing != null)
@@ -309,18 +312,36 @@ public interface IPlayerPossessable
 			gaining.Add(possessingObject.NetWorkIdentity());
 		}
 
+		foreach (var loss in losing)
+		{
+			var playerPossessable = loss.GetComponent<IPlayerPossessable>();
+			if (playerPossessable != null)
+			{
+				playerPossessable.SyncControlledByMindID(playerPossessable.PossessedByMindID, NetId.Empty);
+			}
+		}
+
 		PossessingMind.OrNull()?.HandleOwnershipChangeMulti(losing, gaining);
 		SyncPossessingID(PossessingID, obj ? obj.GetComponent<NetworkIdentity>().netId : NetId.Empty);
 
 		if (obj != null)
 		{
-			possessing = obj.GetComponent<IPlayerPossessable>();
-			possessing?.InternalOnPossessPlayer(PossessingMind, this);
+			inPossessing?.InternalOnPossessPlayer(PossessingMind, this);
 
 			if (PossessingMind != null && PossessingMind.IsGhosting == false)
 			{
-				possessing?.InternalOnControlPlayer(PossessingMind, CustomNetworkManager.IsServer,
-					this);
+				if (inPossessing != null)
+				{
+					var bodies = inPossessing.GetRelatedBodies(new List<NetworkIdentity>());
+					foreach (var body in bodies)
+					{
+						var PlayerPossessable = body.GetComponent<IPlayerPossessable>();
+						if (PlayerPossessable != null)
+						{
+							PlayerPossessable.SyncControlledByMindID(PlayerPossessable.PossessedByMindID, PossessingMind.netId);
+						}
+					}
+				}
 			}
 		}
 	}
