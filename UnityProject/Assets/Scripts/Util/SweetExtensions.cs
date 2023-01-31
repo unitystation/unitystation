@@ -80,7 +80,8 @@ public static class SweetExtensions
 		}
 
 		var player = go.Player();
-		if (player != null && !String.IsNullOrWhiteSpace(player.Script.visibleName))
+
+		if (player != null && player.Script != null && String.IsNullOrWhiteSpace(player.Script.visibleName) == false)
 		{
 			return player.Script.visibleName;
 		}

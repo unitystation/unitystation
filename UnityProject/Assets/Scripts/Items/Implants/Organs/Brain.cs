@@ -16,14 +16,11 @@ namespace Items.Implants.Organs
 
 		[SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
 		[SyncVar(hook = nameof(SyncPossessingID))] private uint possessingID;
-		[SyncVar(hook = nameof(SyncControlledByMindID))] public uint possessedByMindID;
 
 		public Pickupable Pickupable;
 
 		public uint OnPlayerID => OnBodyID;
 		public uint PossessingID => possessingID;
-
-		public uint PossessedByMindID => possessedByMindID;
 
 		[FormerlySerializedAs("hasInbuiltSite")] [SerializeField] private bool hasInbuiltSight = false;
 		[SerializeField] private bool hasInbuiltHearing = false;
@@ -111,11 +108,6 @@ namespace Items.Implants.Organs
 			Preimplemented.ImplementationSyncOnPlayer(PreviouslyOn, CurrentlyOn);
 		}
 
-		public void SyncControlledByMindID(uint OldControlledByMind, uint nowControlledByMind)
-		{
-			possessedByMindID = nowControlledByMind;
-			Itself.PreImplementedSyncControlledByMindID(OldControlledByMind, nowControlledByMind);
-		}
 
 		void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)
 		{

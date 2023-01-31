@@ -280,15 +280,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 		if (PlayerPossessable != null)
 		{
-			var bodies = PlayerPossessable?.GetRelatedBodies(new List<NetworkIdentity>());
-			foreach (var body in bodies)
-			{
-				var PlayerPossessable = body.GetComponent<IPlayerPossessable>();
-				if (PlayerPossessable != null)
-				{
-					PlayerPossessable.SyncControlledByMindID(PlayerPossessable.PossessedByMindID, NetId.Empty);
-				}
-			}
+			PlayerPossessable.InternalOnPlayerLeave(this);
 		}
 
 		SyncActiveOn(IDActivelyControlling, obj.NetId());
@@ -483,15 +475,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 		if (possessable != null)
 		{
-			var bodies = possessable.GetRelatedBodies(new List<NetworkIdentity>());
-			foreach (var body in bodies)
-			{
-				var playerPossessable = body.GetComponent<IPlayerPossessable>();
-				if (playerPossessable != null)
-				{
-					playerPossessable.SyncControlledByMindID(playerPossessable.PossessedByMindID, netId);
-				}
-			}
+			possessable.InternalOnControlPlayer(this, isServer);
 		}
 		else
 		{
@@ -519,10 +503,17 @@ public class Mind : NetworkBehaviour, IActionGUI
 	{
 		account.SetMind(this);
 
-		var relatedBodies = GetRelatedBodies();
-		foreach (var body in relatedBodies)
+		var RelatedBodies = GetRelatedBodies();
+		foreach (var Body in RelatedBodies)
 		{
-			PlayerSpawn.TransferOwnershipFromToConnection(account, null, body);
+			PlayerSpawn.TransferOwnershipFromToConnection(ControlledBy, null, Body);
+		}
+
+		UpdateMind.SendTo(ControlledBy?.Connection, this);
+
+		if (PlayerPossessable != null)
+		{
+			PlayerPossessable.PlayerRejoin();
 		}
 
 		SyncPossessing(IDPossessing, IDPossessing);
@@ -539,20 +530,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 		PlayerSpawn.TransferAccountToSpawnedMind(ControlledBy, this);
 
-		var RelatedBodies = GetRelatedBodies();
-		foreach (var Body in RelatedBodies)
-		{
-			PlayerSpawn.TransferOwnershipFromToConnection(ControlledBy, null, Body);
-		}
 
-		UpdateMind.SendTo(ControlledBy?.Connection, this);
-
-		if (PlayerPossessable != null)
-		{
-			PlayerPossessable.PlayerRejoin();
-		}
-
-		SyncPossessing(IDPossessing, IDPossessing);
 	}
 
 	public void HandleOwnershipChangeMulti(List<NetworkIdentity> Losing, List<NetworkIdentity> Gaining)

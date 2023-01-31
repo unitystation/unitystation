@@ -46,7 +46,7 @@ public class ContextMenuApply : TargetedInteraction
 				targetObject,
 				requestedOption,
 				UIManager.CurrentIntent,
-				PlayerManager.LocalPlayerScript.Mind);
+				PlayerManager.LocalMindScript);
 	}
 
 	/// <summary>

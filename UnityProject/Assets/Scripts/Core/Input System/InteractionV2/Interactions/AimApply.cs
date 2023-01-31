@@ -100,7 +100,7 @@ public class AimApply : BodyPartTargetedInteraction
 			selfAim ? PlayerManager.LocalPlayerObject.transform.localPosition.To2() : InternaltargetPosition,
 			UIManager.DamageZone,
 			UIManager.CurrentIntent,
-			PlayerManager.LocalPlayerScript.Mind,
+			PlayerManager.LocalMindScript,
 			PlayerManager.LocalPlayerObject.transform.localPosition.To2());
 	}
 
