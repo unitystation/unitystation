@@ -91,9 +91,12 @@ public class HandsController : MonoBehaviour
 
 		StorageToHands[StorageCharacteristics] = HandController;
 		HandController.AddHand(bodyPartUISlots, StorageCharacteristics);
-		if (PlayerManager.LocalPlayerScript.PlayerNetworkActions.activeHand == null)
+		if (PlayerManager.LocalPlayerScript.OrNull()?.PlayerNetworkActions != null)
 		{
-			HandController.PickActiveHand();
+			if (PlayerManager.LocalPlayerScript.PlayerNetworkActions.activeHand == null)
+			{
+				HandController.PickActiveHand();
+			}
 		}
 	}
 
@@ -104,14 +107,18 @@ public class HandsController : MonoBehaviour
 			Destroy(HandStorage.gameObject);
 
 		}
+
 		StorageToHands.Clear();
 		AvailableLeftHand.Clear();
 		AvailableRightHand.Clear();
 		DoubleHandControllers.Clear();
 		activeDoubleHandController = null;
-		PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdSetActiveHand(0, NamedSlot.none);
-		PlayerManager.LocalPlayerScript.PlayerNetworkActions.activeHand = null;
-		PlayerManager.LocalPlayerScript.PlayerNetworkActions.CurrentActiveHand = NamedSlot.none;
+		if (PlayerManager.LocalPlayerScript.OrNull()?.PlayerNetworkActions != null)
+		{
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdSetActiveHand(0, NamedSlot.none);
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.activeHand = null;
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CurrentActiveHand = NamedSlot.none;
+		}
 	}
 
 	public void RemoveHand(
@@ -150,9 +157,12 @@ public class HandsController : MonoBehaviour
 				}
 				else
 				{
-					PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdSetActiveHand(0, NamedSlot.none);
-					PlayerManager.LocalPlayerScript.PlayerNetworkActions.activeHand = null;
-					PlayerManager.LocalPlayerScript.PlayerNetworkActions.CurrentActiveHand = NamedSlot.none;
+					if (PlayerManager.LocalPlayerScript.OrNull()?.PlayerNetworkActions != null)
+					{
+						PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdSetActiveHand(0, NamedSlot.none);
+						PlayerManager.LocalPlayerScript.PlayerNetworkActions.activeHand = null;
+						PlayerManager.LocalPlayerScript.PlayerNetworkActions.CurrentActiveHand = NamedSlot.none;
+					}
 				}
 			}
 
@@ -194,16 +204,22 @@ public class HandsController : MonoBehaviour
 
 	public void SetActiveHand(DoubleHandController doubleHandController, NamedSlot SetActiv)
 	{
+
 		activeDoubleHandController.OrNull()?.Deactivate(ActiveHand);
 		activeDoubleHandController = doubleHandController;
 		ActiveHand = SetActiv;
 		if (activeDoubleHandController.GetHand(SetActiv).RelatedBodyPartUISlots.GameObject == null) return;
 
-		PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdSetActiveHand(
-			activeDoubleHandController.GetHand(SetActiv).RelatedBodyPartUISlots.GameObject.NetId(), SetActiv);
-		PlayerManager.LocalPlayerScript.PlayerNetworkActions.activeHand =
-			activeDoubleHandController.GetHand(SetActiv).RelatedBodyPartUISlots.GameObject;
-		PlayerManager.LocalPlayerScript.PlayerNetworkActions.CurrentActiveHand = SetActiv;
+		if (PlayerManager.LocalPlayerScript.OrNull()?.PlayerNetworkActions != null)
+		{
+			PlayerManager.LocalPlayerScript.OrNull()?.PlayerNetworkActions.OrNull()?.CmdSetActiveHand(
+				activeDoubleHandController.GetHand(SetActiv).RelatedBodyPartUISlots.GameObject.NetId(), SetActiv);
+
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.activeHand = activeDoubleHandController.GetHand(SetActiv).RelatedBodyPartUISlots.GameObject;
+
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CurrentActiveHand = SetActiv;
+		}
+
 	}
 
 	/// <summary>

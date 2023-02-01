@@ -6,7 +6,7 @@ public interface IClientSynchronisedEffect : IClientPlayerLeaveBody, IClientPlay
 {
 	public uint OnPlayerID { get; }
 
-	public bool IsOnLocalPlayer => OnPlayerID == (PlayerManager.LocalPlayerScript == null ? NetId.Invalid : PlayerManager.LocalPlayerScript.netId);
+	public bool IsOnLocalPlayer => PlayerManager.LocalMindScript != null && PlayerManager.LocalMindScript.IsRelatedToObject(OnPlayerID.NetIdToGameObject());
 
 	void IClientPlayerLeaveBody.ClientOnPlayerLeaveBody()
 	{

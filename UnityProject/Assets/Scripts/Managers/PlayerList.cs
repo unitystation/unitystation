@@ -40,7 +40,7 @@ public partial class PlayerList : NetworkBehaviour
 		loggedIn.FindAll(player => player?.Mind != null && player.Mind.IsAntag);
 
 	public List<PlayerInfo> AllPlayers =>
-		loggedIn.FindAll(player => (player?.Script.OrNull()?.Mind  != null || player?.ViewerScript != null));
+		loggedIn.FindAll(player => (player?.Mind  != null || player?.ViewerScript != null));
 
 	/// <summary>
 	/// Players in the pre-round lobby who have clicked the ready button and have up to date CharacterSettings

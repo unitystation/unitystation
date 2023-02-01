@@ -232,7 +232,6 @@ public static class PlayerSpawn
 			//Setup body with custom stuff
 			ApplyNewSpawnRoleToBody(body, requestedOccupation, character, spawnType);
 			mind.SetPossessingObject(body);
-			mind.SetControllingObject(body);
 			mind.StopGhosting();
 
 			//get the old body if they have one.

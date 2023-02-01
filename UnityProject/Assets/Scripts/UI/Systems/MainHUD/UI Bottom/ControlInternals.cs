@@ -123,7 +123,7 @@ namespace UI
 
 		public void InventoryChange()
 		{
-			if (PlayerManager.LocalPlayerScript.IsNormal == false) return;
+			if (PlayerManager.LocalPlayerScript == null || PlayerManager.LocalPlayerScript.IsNormal == false) return;
 
 			if (Mask == null)
 			{

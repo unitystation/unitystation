@@ -45,6 +45,11 @@ namespace Items.Implants.Organs
 			RelatedPart = GetComponent<BodyPart>();
 		}
 
+		public void Start()
+		{
+			SyncOnPlayer(this.netId, this.netId);
+		}
+
 		public override void SetUpSystems()
 		{
 			base.SetUpSystems();
@@ -103,17 +108,9 @@ namespace Items.Implants.Organs
 			Preimplemented.ImplementationSyncOnPlayer(PreviouslyOn, CurrentlyOn);
 		}
 
+
 		void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)
 		{
-			if (ShowForPlayer != null)
-			{
-				SyncOnPlayer(OnBodyID, ShowForPlayer.netId);
-
-			}
-			else
-			{
-				SyncOnPlayer(OnBodyID, NetId.Empty);
-			}
 		}
 
 		public bool IsValidSetup(RegisterPlayer player)
@@ -216,7 +213,7 @@ namespace Items.Implants.Organs
 		public RegisterPlayer CurrentlyOn { get; set; }
 		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
-		public void OnControlPlayer( Mind mind, bool isServer, IPlayerPossessable parent) { }
+		public void OnControlPlayer( Mind mind) { }
 		public void OnPossessPlayer(Mind mind, IPlayerPossessable parent) {}
 		#endregion
 	}

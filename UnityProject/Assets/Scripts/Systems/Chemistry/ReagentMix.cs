@@ -331,6 +331,8 @@ namespace Chemistry
 
 		public float Remove(Reagent reagent, float amount)
 		{
+			if (amount == 0) return 0;
+
 			if (amount < 0f)
 			{
 				Debug.LogError($"Trying to remove Negative {amount} amount of {reagent}");

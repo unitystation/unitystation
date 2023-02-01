@@ -897,35 +897,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		handLabeler.GetComponent<HandLabeler>().SetLabel(label);
 	}
 
-
-	#region Admin-only
-
-	[Command]
-	public void CmdAGhost()
-	{
-		if (AdminCommandsManager.IsAdmin(connectionToClient, out _))
-		{
-			ServerAGhost();
-		}
-	}
-
-	[Server]
-	public void ServerAGhost()
-	{
-		if (playerScript.IsGhost == false)
-		{
-			//Admin turns into ghost
-			playerScript.Mind.Ghost();
-		}
-		else
-		{
-			//Admin goes back into body
-			playerScript.Mind.StopGhosting();
-		}
-	}
-
-	#endregion
-
 	// If we end up needing more information to send to server,
 	// probably best to create a new interaction type and use IF2.
 	[Command]

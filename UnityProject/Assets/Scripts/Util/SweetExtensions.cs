@@ -80,7 +80,8 @@ public static class SweetExtensions
 		}
 
 		var player = go.Player();
-		if (player != null && !String.IsNullOrWhiteSpace(player.Script.visibleName))
+
+		if (player != null && player.Script != null && String.IsNullOrWhiteSpace(player.Script.visibleName) == false)
 		{
 			return player.Script.visibleName;
 		}
@@ -92,6 +93,12 @@ public static class SweetExtensions
 	{
 		return list?.Count > 0 ? list.PickRandom() : default(T);
 	}
+
+	public static Dictionary<uint, NetworkIdentity> GetSpawned()
+	{
+		return CustomNetworkManager.Spawned;
+	}
+
 
 	public static GameObject NetIdToGameObject(this uint NetID)
 	{
