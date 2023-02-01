@@ -301,12 +301,11 @@ public partial class SubSceneManager
 		int Clients = NetworkServer.connections.Values.Count();
 
 		float Seconds = 0;
-		while (SpecialSceneRecord[SceneName] < Clients && Seconds < 10)
+		while (SpecialSceneRecord[SceneName] < Clients && Seconds < 10) //So hacked clients can't Mess up the round
 		{
 			yield return WaitFor.Seconds(0.25f);
 			Seconds += 0.25f;
 		}
-
 	}
 
 
