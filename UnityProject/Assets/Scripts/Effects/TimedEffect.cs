@@ -10,9 +10,12 @@ namespace Effects
 		[Min(0)]
 		private float time = 1f;
 
+		private bool networked;
+
 		private void OnEnable()
 		{
-			if(TryGetComponent<NetworkIdentity>(out _) && CustomNetworkManager.IsServer == false) return;
+			networked = TryGetComponent<NetworkIdentity>(out _);
+			if(networked && CustomNetworkManager.IsServer == false) return;
 
 			StartCoroutine(EffectTimer());
 		}
@@ -27,7 +30,14 @@ namespace Effects
 				yield return WaitFor.EndOfFrame;
 			}
 
-			_ = Despawn.ServerSingle(gameObject);
+			if (networked)
+			{
+				_ = Despawn.ServerSingle(gameObject);
+			}
+			else
+			{
+				_ = Despawn.ClientSingle(gameObject);
+			}
 		}
 	}
 }
