@@ -356,6 +356,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	/// server actions when client disconnects
 	public override void OnServerDisconnect(NetworkConnectionToClient conn)
 	{
+		Logger.LogError($"Disconnecting {conn.address}");
 		//register them as removed from our own player list
 		PlayerList.Instance.RemoveByConnection(conn);
 
