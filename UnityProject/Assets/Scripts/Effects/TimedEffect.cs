@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Mirror;
 using UnityEngine;
 
 namespace Effects
@@ -11,6 +12,8 @@ namespace Effects
 
 		private void OnEnable()
 		{
+			if(TryGetComponent<NetworkIdentity>(out _) && CustomNetworkManager.IsServer == false) return;
+
 			StartCoroutine(EffectTimer());
 		}
 
@@ -23,8 +26,6 @@ namespace Effects
 				totalTime += Time.deltaTime;
 				yield return WaitFor.EndOfFrame;
 			}
-
-			if(CustomNetworkManager.IsServer == false) yield break;
 
 			_ = Despawn.ServerSingle(gameObject);
 		}
