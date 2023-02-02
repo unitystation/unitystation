@@ -170,5 +170,6 @@ MonoBehaviour:
   syncInterval: 0.1
   isEMPVunerable: 0
   EMPResistance: 2
-  WhiteListReagents: []
-  ProcessingPercentage: 0.2
+  BlacklistReagents:
+  - {fileID: 11400000, guid: 68548df5bd53cc24b8d2bbfa735a274d, type: 2}
+  ProcessingPercentage: 0.03

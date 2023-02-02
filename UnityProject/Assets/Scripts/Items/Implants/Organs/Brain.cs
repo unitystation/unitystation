@@ -22,7 +22,7 @@ namespace Items.Implants.Organs
 		public Pickupable Pickupable;
 
 		[SerializeField] private Reagent DrunkReagent;
-		[SerializeField] private float MaxDrunkAtPercentage = 0.015f;
+		[SerializeField] public float MaxDrunkAtPercentage = 0.06f;
 
 		public uint OnPlayerID => OnBodyID;
 		public uint PossessingID => possessingID;

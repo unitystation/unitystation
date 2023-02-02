@@ -656,15 +656,25 @@ public static class Inventory
 
 		foreach (var namedSlotPopulatorEntry in namedSlotPopulatorEntrys)
 		{
+			if (namedSlotPopulatorEntry == null || namedSlotPopulatorEntry.Prefab == null) continue;
 			ItemSlot ItemSlot;
-			if (namedSlotPopulatorEntry.UesIndex)
+			if (namedSlotPopulatorEntry.DoNotGetFirstEmptySlot == false)
 			{
-				ItemSlot = itemStorage.GetIndexedItemSlot(namedSlotPopulatorEntry.IndexSlot);
+				ItemSlot =  itemStorage.GetNextEmptySlot();
 			}
 			else
 			{
-				ItemSlot = itemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.NamedSlot);
+				if (namedSlotPopulatorEntry.UesIndex)
+				{
+					ItemSlot = itemStorage.GetIndexedItemSlot(namedSlotPopulatorEntry.IndexSlot);
+				}
+				else
+				{
+					ItemSlot = itemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.NamedSlot);
+				}
 			}
+
+
 			if (ItemSlot == null) continue;
 
 			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true);
@@ -697,16 +707,23 @@ public static class Inventory
 
 		foreach (var namedSlotPopulatorEntry in namedSlotPopulatorEntrys)
 		{
+			if (namedSlotPopulatorEntry == null || namedSlotPopulatorEntry.Prefab == null) continue;
 			ItemSlot ItemSlot;
-			if (namedSlotPopulatorEntry.UseIndex)
+			if (namedSlotPopulatorEntry.DoNotGetFirstEmptySlot == false)
 			{
-				ItemSlot = itemStorage.GetIndexedItemSlot(namedSlotPopulatorEntry.IndexSlot);
+				ItemSlot =  itemStorage.GetNextEmptySlot();
 			}
 			else
 			{
-				ItemSlot = itemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.NamedSlot);
+				if (namedSlotPopulatorEntry.UesIndex)
+				{
+					ItemSlot = itemStorage.GetIndexedItemSlot(namedSlotPopulatorEntry.IndexSlot);
+				}
+				else
+				{
+					ItemSlot = itemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.NamedSlot);
+				}
 			}
-			if (ItemSlot == null) continue;
 
 			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true);
 			ServerAdd(spawn.GameObject, ItemSlot,namedSlotPopulatorEntry.ReplacementStrategy, true);

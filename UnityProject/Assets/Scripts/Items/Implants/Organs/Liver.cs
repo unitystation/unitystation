@@ -117,14 +117,14 @@ namespace Items.Implants.Organs
 			//debug.AppendLine("==== STAGE 2 || REMOVAL FROM LIVER ====");
 
 			float tickClearAmount = RelatedPart.TotalModified *  processAmount;
-
+			processingContainer.ReagentsChanged(true);
 			//calculate what's going to be removed, seeing as most processing will happen in the reactionset
 			lock (processingContainer.CurrentReagentMix.reagents)
 			{
 				foreach (Reagent reagent in processingContainer.CurrentReagentMix.reagents.Keys)
 				{
 					//TODO: remove check for toxins when they are more integrated with reactions, with a metabolism rate, and liver damage
-					if (Toxins.Contains(reagent) || reagent == ethanolReagent)
+					if (Toxins.Contains(reagent))
 					{
 						float amount = Mathf.Min(tickClearAmount, processingContainer.CurrentReagentMix[reagent]);
 
@@ -151,8 +151,7 @@ namespace Items.Implants.Organs
 		private void ReturnReagentsToBlood()
 		{
 			//debug.AppendLine("==== STAGE 3 || RETURN FROM LIVER ====");
-			processingContainer.ReagentsChanged(true); //
-                                              //so liver reaction can happen without it being removed instantly e.g. ethanol
+
 			lock (processingContainer.CurrentReagentMix.reagents)
 			{
 				foreach (Reagent reagent in processingContainer.CurrentReagentMix.reagents.Keys)
