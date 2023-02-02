@@ -677,7 +677,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	/// Picks best matching matrix at provided coords and releases reagents to that tile.
 	/// <inheritdoc cref="MetaDataLayer.ReagentReact"/>
 	/// </summary>
-	public static void ReagentReact(ReagentMix reagents, Vector3Int worldPos, MatrixInfo matrixInfo = null)
+	public static void ReagentReact(ReagentMix reagents, Vector3Int worldPos, MatrixInfo matrixInfo = null,bool spawnPrefabEffect = true, OrientationEnum direction = OrientationEnum.Up_By0)
 	{
 		if (CustomNetworkManager.IsServer == false)
 		{
@@ -690,7 +690,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		}
 
 		Vector3Int localPos = WorldToLocalInt(worldPos, matrixInfo);
-		matrixInfo.MetaDataLayer.ReagentReact(reagents, worldPos, localPos);
+		matrixInfo.MetaDataLayer.ReagentReact(reagents, worldPos, localPos, spawnPrefabEffect, direction);
 	}
 
 	/// <summary>

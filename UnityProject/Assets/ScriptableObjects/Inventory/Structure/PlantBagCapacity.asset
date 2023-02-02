@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c909446621c41cd975e26eab73860a6, type: 3}
   m_Name: PlantBagCapacity
   m_EditorClassIdentifier: 
-  MaxItemSize: 4
+  maxSize: 4
   Whitelist:
   - {fileID: 11400000, guid: 640a4524e899c424bbc28f75f929f4c6, type: 2}
-  Required: []
+  Required:
+  - {fileID: 11400000, guid: 640a4524e899c424bbc28f75f929f4c6, type: 2}
   Blacklist: []

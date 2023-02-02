@@ -5,6 +5,7 @@ using System.Linq;
 using Systems.Atmospherics;
 using Chemistry;
 using Chemistry.Components;
+using Core.Factories;
 using HealthV2;
 using Items;
 using Messages.Server;
@@ -190,9 +191,10 @@ public class MetaDataLayer : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Release reagents at provided coordinates, making them react with world
+	/// Release reagents at provided coordinates, making them react with world + decide what it should look like
 	/// </summary>
-	public void ReagentReact(ReagentMix reagents, Vector3Int worldPosInt, Vector3Int localPosInt)
+	///
+	public void ReagentReact(ReagentMix reagents, Vector3Int worldPosInt, Vector3Int localPosInt, bool spawnPrefabEffect = true, OrientationEnum direction = OrientationEnum.Up_By0)
 	{
 		var mobs = MatrixManager.GetAt<LivingHealthMasterBase>(worldPosInt, true);
 		reagents.Divide(mobs.Count() + 1);
@@ -221,19 +223,16 @@ public class MetaDataLayer : MonoBehaviour
 		//Loop though all reagent containers and add the passed in reagents
 		foreach (ReagentContainer chem in reagentContainer)
 		{
-			//If the reagent tile is a pool/puddle/splat
+			//If the reagent tile already has a pool/puddle/splat
 			if (chem.ExamineAmount == ReagentContainer.ExamineAmountMode.UNKNOWN_AMOUNT)
 			{
-				reagents.Add(chem.CurrentReagentMix);
+				chem.Add(reagents);; //TODO Duplication glitch
 			}
 			//TODO: could allow you to add this to other container types like beakers but would need some balance and perhaps knocking over the beaker
 		}
 
 		if(reagents.Total > 0)
 		{
-			//Force clean the tile
-			Clean(worldPosInt, localPosInt, false);
-
 			lock (reagents.reagents)
 			{
 				foreach (var reagent in reagents.reagents.m_dict)
@@ -275,15 +274,18 @@ public class MetaDataLayer : MonoBehaviour
 				}
 			}
 
-			if (didSplat == false)
+			if (spawnPrefabEffect)
 			{
-				if (paintBlood)
+				if (didSplat == false)
 				{
-					PaintBlood(worldPosInt, reagents);
-				}
-				else
-				{
-					Paintsplat(worldPosInt, localPosInt, reagents);
+					if (paintBlood)
+					{
+						PaintBlood(worldPosInt, reagents);
+					}
+					else
+					{
+						Paintsplat(worldPosInt, localPosInt, reagents);
+					}
 				}
 			}
 		}
@@ -301,8 +303,9 @@ public class MetaDataLayer : MonoBehaviour
 		{
 			case "powder":
 			{
-				EffectsFactory.PowderSplat(worldPosInt, reagents.MixColor, reagents);
-				break;
+
+					EffectsFactory.PowderSplat(worldPosInt, reagents.MixColor, reagents);
+					break;
 			}
 			case "liquid":
 			{

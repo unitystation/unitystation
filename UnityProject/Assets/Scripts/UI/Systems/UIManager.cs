@@ -438,12 +438,6 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	public static void ResetAllUI()
 	{
-		UI_ItemSlot[] slots = Instance.GetComponentsInChildren<UI_ItemSlot>(true);
-		foreach (UI_ItemSlot slot in slots)
-		{
-			slot.Reset();
-		}
-
 		StorageHandler.CloseStorageUI();
 		Camera2DFollow.followControl.ZeroStars();
 		IsOxygen = false;

@@ -736,59 +736,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
-	/// <summary>
-	/// Spawn the ghost for this player and tell the client to switch input / camera to it
-	/// </summary>
-	[Command]
-	public void CmdSpawnPlayerGhost()
-	{
-		ServerSpawnPlayerGhost();
-	}
 
-	[Server]
-	public void ServerSpawnPlayerGhost(bool skipCheck = false)
-	{
-		//Only force to ghost if the mind belongs in to that body
-		if (skipCheck)
-		{
-			playerScript.Mind.Ghost();
-			return;
-		}
 
-		var currentMobID = GetComponent<LivingHealthMasterBase>().mobID;
-		if (GetComponent<LivingHealthMasterBase>().IsDead && !playerScript.IsGhost && playerScript.Mind != null &&
-			playerScript.Mind.bodyMobID == currentMobID)
-		{
-			playerScript.Mind.Ghost();
-		}
-	}
 
-	/// <summary>
-	/// Asks the server to let the client rejoin into a logged off character.
-	/// </summary>
-	///
-	[Command]
-	public void CmdGhostCheck() // specific check for if you want value returned
-	{
-		GhostEnterBody();
-	}
 
-	[Server]
-	public void GhostEnterBody()
-	{
-		if (playerScript.Mind.IsSpectator) return;
-
-		if (playerScript.Mind.ghostLocked) return;
-
-		if (playerScript.IsGhost == false)
-		{
-			Logger.LogWarningFormat($"Either player {playerScript.Mind.name} is not dead or not currently a ghost, ignoring EnterBody",
-				Category.Ghosts);
-			return;
-		}
-
-		playerScript.Mind.StopGhosting();
-	}
 
 	/// <summary>
 	/// Disables input before a body transfer.
@@ -945,35 +896,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			"You set the " + handLabeler.Item().InitialName.ToLower() + "s text to '" + label + "'.");
 		handLabeler.GetComponent<HandLabeler>().SetLabel(label);
 	}
-
-
-	#region Admin-only
-
-	[Command]
-	public void CmdAGhost()
-	{
-		if (AdminCommandsManager.IsAdmin(connectionToClient, out _))
-		{
-			ServerAGhost();
-		}
-	}
-
-	[Server]
-	public void ServerAGhost()
-	{
-		if (playerScript.IsGhost == false)
-		{
-			//Admin turns into ghost
-			playerScript.Mind.Ghost();
-		}
-		else
-		{
-			//Admin goes back into body
-			playerScript.Mind.StopGhosting();
-		}
-	}
-
-	#endregion
 
 	// If we end up needing more information to send to server,
 	// probably best to create a new interaction type and use IF2.

@@ -33,7 +33,7 @@ public static class DefaultWillInteract
 		{
 			var handApply = interaction as HandApply;
 			var reachRange = ReachRange.Standard;
-			if (AllowTelekinesis && handApply.PerformerPlayerScript.playerHealth.brain != null && handApply.PerformerPlayerScript.playerHealth.brain.HasTelekinesis) //Has telekinesis
+			if (AllowTelekinesis && handApply.PerformerPlayerScript?.playerHealth.OrNull()?.brain != null && handApply.PerformerPlayerScript.playerHealth.brain.HasTelekinesis) //Has telekinesis
 			{
 				if (handApply.HandObject == null)
 				{

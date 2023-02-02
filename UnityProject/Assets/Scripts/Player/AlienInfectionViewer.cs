@@ -3,7 +3,7 @@ using Mirror;
 
 namespace Player
 {
-	public class AlienInfectionViewer : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTransfer, IOnPlayerLeaveBody
+	public class AlienInfectionViewer : NetworkBehaviour, IOnPlayerRejoin, IOnControlPlayer, IOnPlayerLeaveBody
 	{
 		public void OnPlayerRejoin(Mind mind)
 		{

@@ -21,9 +21,9 @@ public interface IOnPlayerRejoin
 }
 
 /// <summary>
-/// This interface will be called when a player is transferred into a new body (but not on rejoin, use above instead)
+/// This interface will be called when a player Takes control of a body  e.g Ghost re-entering body
 /// </summary>
-public interface IOnPlayerTransfer
+public interface IOnControlPlayer
 {
 	/// <summary>
 	/// Called on server when the player transfers into a new body (interface called on the new player object)
@@ -32,8 +32,24 @@ public interface IOnPlayerTransfer
 	public void OnServerPlayerTransfer(PlayerInfo account);
 }
 
+
 /// <summary>
-/// This interface will be called when a player is transferred out of their body
+/// This interface will be called when a player is transferred into a new body (but not on rejoin, use above instead)
+/// </summary>
+public interface IOnPlayerPossess
+{
+	/// <summary>
+	/// Called on server when the player transfers into a new body (interface called on the new player object)
+	/// </summary>
+	/// <param name="mind">The mind of the player being transferred</param>
+	public void OnServerPlayerPossess(Mind mind);
+}
+
+
+
+
+/// <summary>
+/// This interface will be called when a player Ghosts, Or any other time they start controlling a different object
 /// </summary>
 public interface IOnPlayerLeaveBody
 {
@@ -43,6 +59,19 @@ public interface IOnPlayerLeaveBody
 	/// <param name="account">The mind of the player leaving the body</param>
 	public void OnPlayerLeaveBody(PlayerInfo account);
 }
+
+/// <summary>
+/// This interface will be called when a player is transferred out of their body
+/// </summary>
+public interface IOnPlayerLosePossess
+{
+	/// <summary>
+	/// Called on server when the player leaves a body (interface called on the old player object)
+	/// </summary>
+	/// <param name="account">The mind of the player leaving the body</param>
+	public void OnPlayerLosePossession(Mind Mind);
+}
+
 
 
 public interface IClientPlayerLeaveBody
@@ -435,7 +464,7 @@ public static class PlayerSpawn
 			}
 
 			PossessAndUnpossessMessage.Send(to.gameObject, to.gameObject, from.OrNull()?.gameObject);
-			var transfers = to.GetComponents<IOnPlayerTransfer>();
+			var transfers = to.GetComponents<IOnControlPlayer>();
 
 			foreach (var transfer in transfers)
 			{
@@ -443,6 +472,7 @@ public static class PlayerSpawn
 			}
 			to.AccountEnteringMind(account);
 		}
+		UpdateMind.SendTo(account.Connection, to);
 	}
 
 	/// <summary>

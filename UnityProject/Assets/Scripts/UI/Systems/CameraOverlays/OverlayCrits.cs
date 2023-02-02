@@ -78,7 +78,7 @@ using System.Collections;
 		{
 			if (PlayerManager.LocalPlayerScript.OrNull()?.Mind != null)
 			{
-				if (PlayerManager.LocalPlayerScript.Mind.IsGhosting)
+				if (PlayerManager.LocalMindScript.IsGhosting)
 				{
 					state = 1;
 				}

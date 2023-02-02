@@ -144,7 +144,6 @@ namespace UI.Systems.Tooltips.HoverTooltips
 				var textObj = Instantiate(interactionPrefab, interactionList, false);
 				var color = ColorUtility.ToHtmlStringRGB(interaction.Color);
 				textObj.text = $"<color=#{color}>{interaction.Text}</color>";
-				Debug.Log(interaction.Text);
 				textObj.SetActive(true);
 				// (Max): I have no fucking clue why i have to set this twice in order for it to work.
 				textObj.transform.SetParent(interactionList);

@@ -5,7 +5,7 @@ namespace Items.Food
 {
 	public class WishSoup : Edible
 	{
-		public override void Eat(PlayerScript eater, PlayerScript feeder)
+		protected override void Eat(PlayerScript eater, PlayerScript feeder)
 		{
 			float wishChance = Random.value;
 			if (wishChance <= 0.25)

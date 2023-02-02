@@ -55,7 +55,7 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 	//Managed by UpdateManager
 	void UpdateMe()
 	{
-		if (PlayerManager.LocalPlayerObject == null || PlayerManager.LocalPlayerScript.IsNormal == false) return;
+		if (PlayerManager.LocalPlayerScript == null || PlayerManager.LocalPlayerScript.IsNormal == false) return;
 
 		CheckHealth();
 		timeWait += Time.deltaTime;

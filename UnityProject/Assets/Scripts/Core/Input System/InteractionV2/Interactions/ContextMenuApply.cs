@@ -38,7 +38,7 @@ public class ContextMenuApply : TargetedInteraction
 	/// <returns>a ContextMenuApply, for activating the specified context menu option of the target object</returns>
 	public static ContextMenuApply ByLocalPlayer(GameObject targetObject, string requestedOption)
 	{
-		if (PlayerManager.LocalPlayerScript.IsNormal == false) return Invalid;
+		if (PlayerManager.LocalPlayerScript == null || PlayerManager.LocalPlayerScript.IsNormal == false) return Invalid;
 
 		return new ContextMenuApply(
 				PlayerManager.LocalPlayerObject,
@@ -46,7 +46,7 @@ public class ContextMenuApply : TargetedInteraction
 				targetObject,
 				requestedOption,
 				UIManager.CurrentIntent,
-				PlayerManager.LocalPlayerScript.Mind);
+				PlayerManager.LocalMindScript);
 	}
 
 	/// <summary>

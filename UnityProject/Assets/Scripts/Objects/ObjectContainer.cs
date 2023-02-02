@@ -140,12 +140,6 @@ namespace Objects
 
 				if (obj.TryGetComponent<PlayerScript>(out var playerScript))
 				{
-					// Start tracking container
-					if (playerScript.IsGhost == false)
-					{
-						FollowCameraMessage.Send(obj, gameObject);
-					}
-
 					CheckPlayerCrawlState(objectPhysics);
 				}
 			}
@@ -216,12 +210,6 @@ namespace Objects
 			{
 				uop.DropAtAndInheritMomentum(ObjectPhysics);
 				uop.StoreTo(null);
-				if (obj.TryGetComponent<PlayerScript>(out var playerScript))
-				{
-					// Stop tracking closet
-					FollowCameraMessage.Send(obj, obj);
-					//CheckPlayerCrawlState(objBehaviour.GetComponent<UniversalObjectPhysics>());
-				}
 			}
 		}
 
@@ -249,15 +237,6 @@ namespace Objects
 
 				storedObjects[kvp.Key] = kvp.Value;
 				kvp.Key.GetComponent<UniversalObjectPhysics>().StoreTo( this );
-
-				if (kvp.Key.TryGetComponent<PlayerScript>(out var playerScript))
-				{
-					// update player camera target
-					if (playerScript.IsGhost == false)
-					{
-						FollowCameraMessage.Send(kvp.Key, gameObject);
-					}
-				}
 			}
 		}
 

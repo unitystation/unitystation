@@ -12,7 +12,6 @@ namespace Gateway
 	public class TransportUtility : NetworkBehaviour //Would be a regular static class, but Weaver complains if it doesn't inherit NetworkBehaviour
 	{
 		public static List<GameObject> MaintRoomLocations { get; set; } = new List<GameObject>();
-		private const int MAINTROOM_CHANCE = 20; //One in 20 chance
 
 		/// <summary>
 		/// <para>Transports a <paramref name="objectPhysics"/> to <paramref name="transportTo"/> without lerping.</para>
@@ -23,13 +22,14 @@ namespace Gateway
 		/// <param name="transportTo">Destination to transport <paramref name="objectPhysics"/> to.</param>
 		/// <param name="doTileStep">Whether step interactions should trigger on teleport</param>
 		[Server]
-		public static void TransportObject(UniversalObjectPhysics objectPhysics, Vector3 transportTo, bool doTileStep = true, float maintRoomChanceModifier = 1f)
+		public static void TransportObject(UniversalObjectPhysics objectPhysics, Vector3 transportTo, bool doTileStep = true, float maintRoomChanceModifier = 0.5f)
 		{
 			if (objectPhysics == null) return; //Don't even bother...
 
 			var dest = transportTo;
-			
-			if (SubSceneManager.Instance.IsMaintRooms && Random.Range(0, MAINTROOM_CHANCE/maintRoomChanceModifier) <= 1) //If maintrooms are loaded, all teleports will have a 0.1% chance of resulting in teleporting to the maintrooms
+
+			var RandomChance = Random.Range(0, 100000) / 1000f; //100000 / 1000 = 100
+			if (SubSceneManager.Instance.IsMaintRooms && RandomChance <= maintRoomChanceModifier)
 			{
 				dest = MaintRoomLocations.PickRandom().RegisterTile().WorldPositionServer;
 			}
@@ -48,7 +48,7 @@ namespace Gateway
 		/// <param name="doTileStep">Whether step interactions should trigger on teleport</param>
 		[Server]
 		public static void TransportObjectAndPulled(UniversalObjectPhysics objectPhysics, Vector3 transportTo,
-			bool doTileStep = true, float maintRoomChanceModifier = 1f)
+			bool doTileStep = true, float maintRoomChanceModifier = 0.5f)
 		{
 			if (objectPhysics == null) return; //Don't even bother...
 

@@ -34,6 +34,8 @@ namespace Initialisation
 			public Action Action;
 		}
 
+		public bool LoadingInitialSystems => GamesStartInitialiseSystems.Count > 0;
+
 		//ServerData Awake moved to Start
 		//OptionsMenu Awake moved to Start
 		//ThemeManager Awake moved to Start

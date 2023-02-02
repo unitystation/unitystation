@@ -26,7 +26,7 @@ namespace Items.Implants.Organs
 		{
 			if (DMMath.Prob(50)) DoHeartAttack();
 
-			base.EmpResult(strength);		
+			base.EmpResult(strength);
 		}
 
 		public override void ImplantPeriodicUpdate()
@@ -118,7 +118,7 @@ namespace Items.Implants.Organs
 
 		public float CalculateHeartbeat()
 		{
-			if (HeartAttack)
+			if (HeartAttack || RelatedPart.HealthMaster.brain == null) //Needs a brain for heart to work
 			{
 				return 0;
 			}

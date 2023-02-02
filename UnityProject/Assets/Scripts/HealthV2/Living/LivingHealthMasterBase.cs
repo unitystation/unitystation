@@ -203,6 +203,8 @@ namespace HealthV2
 		public RootBodyPartController rootBodyPartController;
 
 
+		public ChatModifier BodyChatModifier = ChatModifier.None;
+
 		public float BodyPartSurfaceVolume = 5;
 
 		/// <summary>
@@ -1160,7 +1162,7 @@ namespace HealthV2
 			RestartHeart();
 			playerScript.playerMove.allowInput = true; //Let them interact with the world again.
 			playerScript.RegisterPlayer.ServerStandUp();
-			playerScript.ReturnGhostToBody();
+			playerScript.Mind.OrNull()?.StopGhosting();
 		}
 
 		public void RestartHeart()

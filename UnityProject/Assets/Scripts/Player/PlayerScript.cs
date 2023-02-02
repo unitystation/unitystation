@@ -21,23 +21,51 @@ using UnityEngine.Serialization;
 public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlayerPossessable, IHoverTooltip
 {
 	public GameObject GameObject => gameObject;
-	public IPlayerPossessable Possessing { get; set; }
-	public GameObject PossessingObject { get; set; }
+	public uint PossessingID => possessingID;
 	public Mind PossessingMind { get; set; }
 	public IPlayerPossessable PossessedBy { get; set; }
 	public MindNIPossessingEvent OnPossessedBy { get; set; } = new MindNIPossessingEvent();
 
-	public Action OnActionEnterPlayerControl { get; set; }
+	[SyncVar(hook = nameof(SyncPossessingID))] private uint possessingID;
+	public Action OnActionControlPlayer { get; set; }
 
-	public void OnEnterPlayerControl(GameObject previouslyControlling, Mind mind, bool isServer)
+	public Action OnActionPossess { get; set; }
+
+	public IPlayerPossessable Itself => this as IPlayerPossessable;
+
+
+	public void OnPossessPlayer(Mind mind, IPlayerPossessable parent)
 	{
+		if (mind == null) return;
+		if (IsNormal && parent == null &&  playerTypeSettings.PlayerType != PlayerTypes.Ghost)//Can't be possessed directly
+		{
+			mind.SetPossessingObject(playerHealth.OrNull()?.brain.OrNull()?.gameObject);
+			mind.StopGhosting();
+			return;
+		}
+		else
+		{
+			InitPossess(mind);
+		}
+
+	}
+
+	public void OnControlPlayer(Mind mind)
+	{
+		if (mind == null) return;
 		Init(mind);
+	}
+
+	public void SyncPossessingID(uint previouslyPossessing, uint currentlyPossessing)
+	{
+		possessingID = currentlyPossessing;
+		Itself.PreImplementedSyncPossessingID(previouslyPossessing, currentlyPossessing);
 	}
 
 	/// maximum distance the player needs to be to an object to interact with it
 	public const float INTERACTION_DISTANCE = 1.5f;
 
-	public Mind Mind { private set; get; }
+	public Mind Mind => PossessingMind;
 	public PlayerInfo PlayerInfo;
 
 	[FormerlySerializedAs("playerStateSettings")] [SerializeField]
@@ -195,23 +223,32 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	}
 
 
+	public void InitPossess(Mind mind)
+	{
+		if (mind.CurrentCharacterSettings != null)
+		{
+			characterSettings = mind.CurrentCharacterSettings;
+		}
+	}
+
 	public void Init(Mind mind)
 	{
 		if (isServer)
 		{
-			SyncPlayerName(mind.name, mind.name);
+			if (mind.CurrentCharacterSettings != null)
+			{
+				SyncPlayerName(mind.name, mind.CurrentCharacterSettings.Name);
+			}
+			else
+			{
+				SyncPlayerName(mind.name, mind.name);
+			}
+
 		}
 
 
 		if (hasAuthority)
 		{
-			if (mind.CurrentCharacterSettings != null)
-			{
-				characterSettings = mind.CurrentCharacterSettings;
-				playerName = mind.CurrentCharacterSettings.Name;//TODO Change this sometime move to mind / Somewhere else
-			}
-
-
 			EnableLighting(true);
 			UIManager.ResetAllUI();
 			GetComponent<MouseInputController>().enabled = true;
@@ -352,12 +389,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		playerChatLocation = newLocation;
 	}
 
-
-	public void SetMind(Mind inMind)
-	{
-		Mind = inMind;
-	}
-
 	/// <summary>
 	/// This function enable fov and lighting
 	/// </summary>
@@ -425,16 +456,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 
 	// If the player acts like a ghost but is still playing ingame, used for blobs and in the future maybe AI.
 	public bool IsPlayerSemiGhost => PlayerType == PlayerTypes.Blob || PlayerType == PlayerTypes.Ai;
-
-	public void ReturnGhostToBody()
-	{
-		if (Mind == null) return;
-
-		var ghost = Mind.ghost;
-		if (Mind.IsGhosting == false || ghost == null) return;
-
-		ghost.PlayerNetworkActions.GhostEnterBody();
-	}
 
 	public object Chat { get; internal set; }
 
@@ -610,12 +631,15 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 			if (wearingGloves == false)
 			{
 				var slot = DynamicItemStorage.GetActiveHandSlot();
-				details.AddDetail(new Detail
+				if (slot != null)
 				{
-					CausedByInstanceID = slot.ItemStorage.gameObject.GetInstanceID(),
-					Description = $" A fingerprint ",
-					DetailType = DetailType.Fingerprints
-				});
+					details.AddDetail(new Detail
+					{
+						CausedByInstanceID = slot.ItemStorage.gameObject.GetInstanceID(),
+						Description = $" A fingerprint ",
+						DetailType = DetailType.Fingerprints
+					});
+				}
 			}
 		}
 
@@ -692,6 +716,11 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	public void ToggleVentCrawl()
 	{
 		canVentCrawl = !canVentCrawl;
+	}
+
+	public void OnDestroy()
+	{
+		Itself.PreImplementedOnDestroy();
 	}
 
 

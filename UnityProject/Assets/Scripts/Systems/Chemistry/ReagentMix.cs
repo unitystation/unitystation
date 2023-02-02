@@ -295,6 +295,11 @@ namespace Chemistry
 
 		public void Add(Reagent reagent, float amount)
 		{
+			if (amount == 0f)
+			{
+				return;
+			}
+
 			if (amount < 0f)
 			{
 				Logger.LogError($"Trying to add negative {amount} amount of {reagent}", Category.Chemistry);
@@ -326,6 +331,8 @@ namespace Chemistry
 
 		public float Remove(Reagent reagent, float amount)
 		{
+			if (amount == 0) return 0;
+
 			if (amount < 0f)
 			{
 				Debug.LogError($"Trying to remove Negative {amount} amount of {reagent}");

@@ -20,9 +20,27 @@ public class PlayerManager : MonoBehaviour
 	public static Equipment Equipment { get; private set; }
 
 	/// <summary>The player GameObject. Null if not in game.</summary>
-	public static GameObject LocalPlayerObject { get; set; }
+	public static GameObject LocalPlayerObject {
+		get
+		{
+			if (LocalMindScript != null)
+			{
+				return LocalMindScript.GetDeepestBody().gameObject;
+			}
+			else if (LocalViewerScript != null)
+			{
+				return LocalViewerScript.gameObject;
+			}
+
+			return null;
+		}
+	}
+
 	/// <summary>The player script for the player while in the game.</summary>
-	public static PlayerScript LocalPlayerScript { get; private set; }
+	public static PlayerScript LocalPlayerScript => LocalPlayerObject.OrNull()?.GetComponent<PlayerScript>(); //TODO Maybe a bit lagg
+
+	public static Mind LocalMindScript { get; private set; }
+
 	/// <summary>The player script for the player while in the lobby.</summary>
 	public static JoinedViewer LocalViewerScript { get; private set; }
 
@@ -85,13 +103,12 @@ public class PlayerManager : MonoBehaviour
 	private void UpdateMe()
 	{
 
-
+		var move = GetMovementAction();
 		if (ShuttleConsole != null)
 		{
-			var move = GetMovementActions();
 			if (move.moveActions.Length > 0)
 			{
-				ShuttleConsole.CmdMove(Orientation.From(GetMovementActions().ToPlayerMoveDirection().ToVector()));
+				ShuttleConsole.CmdMove(Orientation.From(GetMovementAction().ToPlayerMoveDirection().ToVector()));
 				return;
 			}
 		}
@@ -99,7 +116,14 @@ public class PlayerManager : MonoBehaviour
 
 		if (MovementControllable != null)
 		{
-			MovementControllable.ReceivePlayerMoveAction(GetMovementActions());
+			MovementControllable.ReceivePlayerMoveAction(move);
+		}
+		else
+		{
+			if (move.Direction().magnitude > 0 && LocalMindScript != null)
+			{
+				LocalMindScript.CmdSpawnPlayerGhost();
+			}
 		}
 
 
@@ -124,8 +148,6 @@ public class PlayerManager : MonoBehaviour
 
 	public static void SetPlayerForControl(GameObject playerObjToControl, IPlayerControllable movementControllable)
 	{
-		LocalPlayerObject = playerObjToControl;
-		LocalPlayerScript = playerObjToControl.GetComponent<PlayerScript>();
 		Equipment = playerObjToControl.GetComponent<Equipment>();
 
 		Camera2DFollow.followControl.target = playerObjToControl.transform;
@@ -133,6 +155,11 @@ public class PlayerManager : MonoBehaviour
 		HasSpawned = true;
 
 		SetMovementControllable(movementControllable);
+	}
+
+	public static void SetMind(Mind inMind)
+	{
+		LocalMindScript = inMind;
 	}
 
 	/// <summary>
@@ -150,7 +177,7 @@ public class PlayerManager : MonoBehaviour
 	/// Moving while dead spawns the player's ghost.
 	/// </summary>
 	/// <returns> A PlayerAction containing up to two (non-opposite) movement directions.</returns>
-	public PlayerAction GetMovementActions()
+	public PlayerAction GetMovementAction()
 	{
 		// Stores the directions the player will move in.
 		List<int> actionKeys = new List<int>();

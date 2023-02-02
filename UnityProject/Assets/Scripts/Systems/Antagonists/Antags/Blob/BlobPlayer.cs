@@ -198,6 +198,7 @@ namespace Blob
 			}
 
 			mind.SetPossessingObject(playerScript.gameObject);
+			mind.StopGhosting();
 
 			overmindName = $"Overmind {Random.Range(1, 1001)}";
 
