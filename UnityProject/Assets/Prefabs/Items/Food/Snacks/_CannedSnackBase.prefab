@@ -108,7 +108,7 @@ PrefabInstance:
     - target: {fileID: 1367782950990450119, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: m_Name
-      value: CannedSnackBase
+      value: _CannedSnackBase
       objectReference: {fileID: 0}
     - target: {fileID: 1400446589329289331, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
@@ -140,6 +140,11 @@ PrefabInstance:
         type: 3}
       propertyPath: foreverID
       value: e291198bb131d49469d0b57ae983bd32
+      objectReference: {fileID: 0}
+    - target: {fileID: 7146114630749491127, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: maxBites
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7146114630749491127, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}

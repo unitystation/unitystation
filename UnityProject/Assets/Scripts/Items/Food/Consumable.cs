@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using AddressableReferences;
 using HealthV2;
 using Items;
+using Mirror;
 using UnityEngine;
 using NaughtyAttributes;
 using Player;
@@ -13,7 +14,7 @@ using Player;
 /// Item that can be drinked or eaten by player
 /// Also supports force feeding other player
 /// </summary>
-public abstract class Consumable : MonoBehaviour, ICheckedInteractable<HandApply>
+public abstract class Consumable : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	[SerializeField] private float consumeTime = 0.1f;
 
@@ -35,10 +36,7 @@ public abstract class Consumable : MonoBehaviour, ICheckedInteractable<HandApply
 			}
 		}
 		var targetPlayer = interaction.TargetObject.GetComponent<PlayerScript>();
-		if (targetPlayer == null)
-		{
-			return;
-		}
+		if (targetPlayer == null) return;
 
 		PlayerScript feeder = interaction.PerformerPlayerScript;
 		var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
