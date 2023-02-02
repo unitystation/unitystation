@@ -40,7 +40,7 @@ public partial class PlayerList : NetworkBehaviour
 		loggedIn.FindAll(player => player?.Mind != null && player.Mind.IsAntag);
 
 	public List<PlayerInfo> AllPlayers =>
-		loggedIn.FindAll(player => (player?.Script.OrNull()?.Mind  != null || player?.ViewerScript != null));
+		loggedIn.FindAll(player => (player?.Mind  != null || player?.ViewerScript != null));
 
 	/// <summary>
 	/// Players in the pre-round lobby who have clicked the ready button and have up to date CharacterSettings
@@ -486,6 +486,7 @@ public partial class PlayerList : NetworkBehaviour
 			loggedIn.Remove(connectedPlayer);
 		}
 
+		Logger.LogError($"Disconnecting player {connectedPlayer.Name} via Remove From playlist");
 		connectedPlayer.Connection.Disconnect();
 
 
@@ -603,7 +604,7 @@ public partial class PlayerList : NetworkBehaviour
 
 			if (player.UserId == userId && newPlayer != player)
 			{
-				Logger.LogTraceFormat("Found player with userId {0} clientId: {1}", Category.Connections, player.UserId, player.ClientId);
+				Logger.LogError($"Disconnecting {player.Name} by RemovePlayerbyUserId ", Category.Connections);
 				player.Connection.Disconnect(); //new client while online or dc timer not triggering yet
 				loggedIn.Remove(player);
 				return player;
@@ -639,7 +640,7 @@ public partial class PlayerList : NetworkBehaviour
 
 			if ((player.ClientId == clientId || player.UserId == userId) && newPlayer != player)
 			{
-				Logger.LogTraceFormat("Found player with userId {0} clientId: {1}", Category.Connections, player.UserId, player.ClientId);
+				Logger.LogError($"Disconnecting {player.Name} by RemovePlayerbyClientId ", Category.Connections);
 				player.Connection.Disconnect(); //new client while online or dc timer not triggering yet
 				loggedIn.Remove(player);
 				return player;

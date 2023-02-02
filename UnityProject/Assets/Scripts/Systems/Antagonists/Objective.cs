@@ -75,7 +75,15 @@ namespace Antagonists
 		public void DoSetup(Mind owner)
 		{
 			Owner = owner;
-			Setup();
+			try
+			{
+				Setup();
+			}
+			catch (Exception e)
+			{
+				Logger.LogError($"Failed to set up objectives for {this.name}" +e.ToString());
+			}
+
 		}
 
 		/// <summary>

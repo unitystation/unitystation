@@ -20,9 +20,24 @@ public class PlayerManager : MonoBehaviour
 	public static Equipment Equipment { get; private set; }
 
 	/// <summary>The player GameObject. Null if not in game.</summary>
-	public static GameObject LocalPlayerObject { get; set; }
+	public static GameObject LocalPlayerObject {
+		get
+		{
+			if (LocalMindScript != null)
+			{
+				return LocalMindScript.GetDeepestBody().gameObject;
+			}
+			else if (LocalViewerScript != null)
+			{
+				return LocalViewerScript.gameObject;
+			}
+
+			return null;
+		}
+	}
+
 	/// <summary>The player script for the player while in the game.</summary>
-	public static PlayerScript LocalPlayerScript { get; private set; }
+	public static PlayerScript LocalPlayerScript => LocalPlayerObject.OrNull()?.GetComponent<PlayerScript>(); //TODO Maybe a bit lagg
 
 	public static Mind LocalMindScript { get; private set; }
 
@@ -133,8 +148,6 @@ public class PlayerManager : MonoBehaviour
 
 	public static void SetPlayerForControl(GameObject playerObjToControl, IPlayerControllable movementControllable)
 	{
-		LocalPlayerObject = playerObjToControl;
-		LocalPlayerScript = playerObjToControl.GetComponent<PlayerScript>();
 		Equipment = playerObjToControl.GetComponent<Equipment>();
 
 		Camera2DFollow.followControl.target = playerObjToControl.transform;

@@ -183,7 +183,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e06ddb12acf47158b8cccf9289fd75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  consumeTime: 0.1
   leavings: {fileID: 0}
+  currentBites: 0
+  maxBites: 3
+  setCurrentBitesToMaxBitesOnAwake: 1
   sound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/EatFood.prefab

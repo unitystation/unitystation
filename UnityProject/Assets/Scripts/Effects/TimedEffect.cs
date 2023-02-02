@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Mirror;
 using UnityEngine;
 
 namespace Effects
@@ -9,8 +10,13 @@ namespace Effects
 		[Min(0)]
 		private float time = 1f;
 
+		private bool networked;
+
 		private void OnEnable()
 		{
+			networked = TryGetComponent<NetworkIdentity>(out _);
+			if(networked && CustomNetworkManager.IsServer == false) return;
+
 			StartCoroutine(EffectTimer());
 		}
 
@@ -24,9 +30,14 @@ namespace Effects
 				yield return WaitFor.EndOfFrame;
 			}
 
-			if(CustomNetworkManager.IsServer == false) yield break;
-
-			_ = Despawn.ServerSingle(gameObject);
+			if (networked)
+			{
+				_ = Despawn.ServerSingle(gameObject);
+			}
+			else
+			{
+				_ = Despawn.ClientSingle(gameObject);
+			}
 		}
 	}
 }
