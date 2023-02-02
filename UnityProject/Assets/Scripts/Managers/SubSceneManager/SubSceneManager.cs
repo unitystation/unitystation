@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Messages.Client;
 using Mirror;
 using UnityEngine;
@@ -77,7 +78,7 @@ public partial class SubSceneManager : NetworkBehaviour
 	/// <returns></returns>
 	IEnumerator LoadSubScene(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true)
 	{
-		SpecialSceneRecord[sceneName] = 0;
+		ConnectionLoadedRecord[sceneName] = new HashSet<int>();
 		AsyncOperation AO = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 		if (AO == null) yield break; // Null if scene not found.
 
@@ -108,11 +109,13 @@ public partial class SubSceneManager : NetworkBehaviour
 	{
 		if (connectedPlayer.Connection != null)
 		{
-			if (SpecialSceneRecord.ContainsKey(sceneContext.name) == false)
+			if (ConnectionLoadedRecord.ContainsKey(sceneContext.name) == false)
 			{
-				SpecialSceneRecord[sceneContext.name] = 0;
+				ConnectionLoadedRecord[sceneContext.name] = new HashSet<int>();
 			}
-			SpecialSceneRecord[sceneContext.name] += 1;
+
+			ConnectionLoadedRecord[sceneContext.name].Add(connectedPlayer.Connection.connectionId);
+
 			Instance.AddObserverToAllObjects(connectedPlayer.Connection, sceneContext);
 		}
 	}

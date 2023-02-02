@@ -20,12 +20,10 @@ public partial class SubSceneManager
 	public static string AdminForcedAwaySite = "Random";
 	public static bool AdminAllowLavaland;
 
-	public static Dictionary<string, int> SpecialSceneRecord = new Dictionary<string, int>();
-
+	public static Dictionary<string, HashSet<int>> ConnectionLoadedRecord = new Dictionary<string , HashSet<int>>();
 	IEnumerator RoundStartServerLoadSequence()
 	{
-		SpecialSceneRecord.Clear(); //New round
-
+		ConnectionLoadedRecord.Clear();//New round
 		var loadTimer = new SubsceneLoadTimer();
 		//calculate load time:
 		loadTimer.MaxLoadTime = 20f + (asteroidList.Asteroids.Count * 10f);
@@ -301,7 +299,7 @@ public partial class SubSceneManager
 		int Clients = NetworkServer.connections.Values.Count();
 
 		float Seconds = 0;
-		while (SpecialSceneRecord[SceneName] < Clients && Seconds < 10) //So hacked clients can't Mess up the round
+		while (ConnectionLoadedRecord[SceneName].Count < Clients && Seconds < 10) //So hacked clients can't Mess up the round
 		{
 			yield return WaitFor.Seconds(0.25f);
 			Seconds += 0.25f;
