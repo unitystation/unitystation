@@ -129,12 +129,6 @@ public interface IPlayerPossessable
 
 	public void InternalOnPossessPlayer(Mind mind, IPlayerPossessable parent)
 	{
-		var playerScript = GameObject.GetComponent<PlayerScript>();
-		if (playerScript)
-		{
-			playerScript.SetMind(mind);
-		}
-
 		if (CustomNetworkManager.IsServer)
 		{
 			ServerInternalOnPossess(mind, parent);
@@ -205,6 +199,7 @@ public interface IPlayerPossessable
 
 	public void InternalOnControlPlayer( Mind mind, bool isServer)
 	{
+		PossessingMind = mind;
 		if (mind == null) return;
 
 		if (isServer)

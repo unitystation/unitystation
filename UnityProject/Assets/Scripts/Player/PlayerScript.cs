@@ -65,7 +65,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	/// maximum distance the player needs to be to an object to interact with it
 	public const float INTERACTION_DISTANCE = 1.5f;
 
-	public Mind Mind { private set; get; }
+	public Mind Mind => PossessingMind;
 	public PlayerInfo PlayerInfo;
 
 	[FormerlySerializedAs("playerStateSettings")] [SerializeField]
@@ -387,12 +387,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	public void SetPlayerChatLocation(GameObject newLocation)
 	{
 		playerChatLocation = newLocation;
-	}
-
-
-	public void SetMind(Mind inMind)
-	{
-		Mind = inMind;
 	}
 
 	/// <summary>

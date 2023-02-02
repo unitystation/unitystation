@@ -13,6 +13,11 @@ public class ComponentManager : SingletonManager<ComponentManager>
 
 	public static bool TryGetCommonComponent(GameObject gameObject, out CommonComponents commonComponents)
 	{
+		if (gameObject == null)
+		{
+			commonComponents = null;
+			return false;
+		}
 		if (ObjectToCommonComponent.TryGetValue(gameObject, out commonComponents))
 		{
 			return true;
