@@ -34,21 +34,6 @@ public class Mind : NetworkBehaviour, IActionGUI
 	//Antag
 	[SyncVar] private bool NetworkedisAntag;
 
-	public GameObject ControllingObject
-	{
-		get
-		{
-			var Spawned = SweetExtensions.GetSpawned();
-			if (Spawned.TryGetValue(IDActivelyControlling, out var Returning))
-			{
-				return Returning.gameObject;
-			}
-
-			return null;
-		}
-	}
-
-
 	public GameObject PossessingObject
 	{
 		get
@@ -425,7 +410,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 		InternalSetControllingObject(PossessingObject.gameObject);
 	}
 
-	public void SyncActiveOn(uint oldID, uint newID)
+	private void SyncActiveOn(uint oldID, uint newID)
 	{
 		IDActivelyControlling = newID;
 

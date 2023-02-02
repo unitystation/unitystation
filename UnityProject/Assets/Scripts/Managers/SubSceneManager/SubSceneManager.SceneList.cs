@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Mirror;
 using UnityEditor;
 using UnityEngine.SceneManagement;
@@ -18,8 +20,10 @@ public partial class SubSceneManager
 	public static string AdminForcedAwaySite = "Random";
 	public static bool AdminAllowLavaland;
 
+	public static Dictionary<string, HashSet<int>> ConnectionLoadedRecord = new Dictionary<string , HashSet<int>>();
 	IEnumerator RoundStartServerLoadSequence()
 	{
+		ConnectionLoadedRecord.Clear();//New round
 		var loadTimer = new SubsceneLoadTimer();
 		//calculate load time:
 		loadTimer.MaxLoadTime = 20f + (asteroidList.Asteroids.Count * 10f);
@@ -254,6 +258,8 @@ public partial class SubSceneManager
 			pickedMap = syndicateData.SyndicateSceneName;
 			break;
 		}
+
+
 		yield return StartCoroutine(LoadSubScene(pickedMap));
 
 		loadedScenesList.Add(new SceneInfo
@@ -265,6 +271,8 @@ public partial class SubSceneManager
 
 		SyndicateScene = SceneManager.GetSceneByName(pickedMap);
 		SyndicateLoaded = true;
+
+		yield return TryWaitClients(pickedMap);
 	}
 
 	public IEnumerator LoadWizard()
@@ -283,7 +291,21 @@ public partial class SubSceneManager
 		netIdentity.isDirty = true;
 
 		WizardLoaded = true;
+		yield return TryWaitClients(pickedScene);
 	}
+
+	public IEnumerator TryWaitClients(string SceneName)
+	{
+		int Clients = NetworkServer.connections.Values.Count();
+
+		float Seconds = 0;
+		while (ConnectionLoadedRecord[SceneName].Count < Clients && Seconds < 10) //So hacked clients can't Mess up the round
+		{
+			yield return WaitFor.Seconds(0.25f);
+			Seconds += 0.25f;
+		}
+	}
+
 
 	#endregion
 
