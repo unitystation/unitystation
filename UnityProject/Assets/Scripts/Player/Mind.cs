@@ -325,7 +325,6 @@ public class Mind : NetworkBehaviour, IActionGUI
 	public void SetGhost(PlayerScript newGhost)
 	{
 		ghost = newGhost;
-		newGhost.SetMind(this);
 	}
 
 
