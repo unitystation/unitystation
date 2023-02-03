@@ -672,6 +672,11 @@ public static class Inventory
 				{
 					ItemSlot = itemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.NamedSlot);
 				}
+
+				if (ItemSlot.Item != null && namedSlotPopulatorEntry.IfOccupiedFindEmptySlot)
+				{
+					ItemSlot = itemStorage.GetNextFreeIndexedSlot();
+				}
 			}
 
 
@@ -722,6 +727,11 @@ public static class Inventory
 				else
 				{
 					ItemSlot = itemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.NamedSlot);
+				}
+
+				if (ItemSlot.Item != null && namedSlotPopulatorEntry.IfOccupiedFindEmptySlot)
+				{
+					ItemSlot = itemStorage.GetNextFreeIndexedSlot();
 				}
 			}
 

@@ -119,20 +119,29 @@ namespace Systems.Storage
 			{
 				if (namedSlotPopulatorEntry == null || namedSlotPopulatorEntry.Prefab == null) continue;
 				ItemSlot ItemSlot;
-				if (namedSlotPopulatorEntry.UesIndex)
+
+				if (namedSlotPopulatorEntry.DoNotGetFirstEmptySlot == false)
 				{
-					ItemSlot = ItemStorage.GetIndexedItemSlot(namedSlotPopulatorEntry.IndexSlot);
+					ItemSlot =  ItemStorage.GetNextEmptySlot();
+				}
+				else
+				{
+					if (namedSlotPopulatorEntry.UesIndex)
+					{
+						ItemSlot = ItemStorage.GetIndexedItemSlot(namedSlotPopulatorEntry.IndexSlot);
+					}
+					else
+					{
+						ItemSlot = ItemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.NamedSlot);
+					}
+
 					if (ItemSlot.Item != null && namedSlotPopulatorEntry.IfOccupiedFindEmptySlot)
 					{
 						ItemSlot = ItemStorage.GetNextFreeIndexedSlot();
 					}
 				}
-				else
-				{
-					ItemSlot = ItemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.NamedSlot);
-				}
-				if (ItemSlot == null) continue;
 
+				if (ItemSlot == null) continue;
 				var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true);
 				Inventory.ServerAdd(spawn.GameObject, ItemSlot, namedSlotPopulatorEntry.ReplacementStrategy, true);
 			}
@@ -156,11 +165,12 @@ namespace Systems.Storage
 	{
 		public bool DoNotGetFirstEmptySlot = false;
 
-		[Tooltip("Indexed only works for sub Inventory")]
+		[Tooltip("  The Index lot that the prefab will be spawned into " )]
 		public int IndexSlot = 0;
 
 		public bool IfOccupiedFindEmptySlot = true;
 
+		[Tooltip(" Place object in Specified indexed slot or Use named slot Identifer ")]
 		public bool UesIndex = false;
 
 		[Tooltip("Named slot being populated. A NamedSlot should not appear" +

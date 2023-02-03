@@ -515,7 +515,7 @@ namespace UI.CharacterCreator
 				{
 					foreach (var organ in bodyPart.OrganStorage.Populater.SlotContents)
 					{
-						if (organ == null || organ.Prefab) continue;
+						if (organ == null || organ.Prefab == null) continue;
 
 						if (organ.Prefab.TryGetComponent<BodyPart>(out var subBodyPart) == false) return;
 
