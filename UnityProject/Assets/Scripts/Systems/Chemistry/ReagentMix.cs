@@ -339,7 +339,7 @@ namespace Chemistry
 				return 0;
 			}
 
-			if (amount == 0f)
+			if (Mathf.Approximately(amount, 0))
 			{
 				return 0;
 			}
