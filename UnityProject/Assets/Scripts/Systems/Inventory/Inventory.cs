@@ -664,7 +664,7 @@ public static class Inventory
 			}
 			else
 			{
-				if (namedSlotPopulatorEntry.UesIndex)
+				if (namedSlotPopulatorEntry.UseIndex)
 				{
 					ItemSlot = itemStorage.GetIndexedItemSlot(namedSlotPopulatorEntry.IndexSlot);
 				}
@@ -720,7 +720,7 @@ public static class Inventory
 			}
 			else
 			{
-				if (namedSlotPopulatorEntry.UesIndex)
+				if (namedSlotPopulatorEntry.UseIndex)
 				{
 					ItemSlot = itemStorage.GetIndexedItemSlot(namedSlotPopulatorEntry.IndexSlot);
 				}

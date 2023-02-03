@@ -126,7 +126,7 @@ namespace Systems.Storage
 				}
 				else
 				{
-					if (namedSlotPopulatorEntry.UesIndex)
+					if (namedSlotPopulatorEntry.UseIndex)
 					{
 						ItemSlot = ItemStorage.GetIndexedItemSlot(namedSlotPopulatorEntry.IndexSlot);
 					}
@@ -170,8 +170,8 @@ namespace Systems.Storage
 
 		public bool IfOccupiedFindEmptySlot = true;
 
-		[Tooltip(" Place object in Specified indexed slot or Use named slot Identifer ")]
-		public bool UesIndex = false;
+		[FormerlySerializedAs("UesIndex")] [Tooltip(" Place object in Specified indexed slot or Use named slot Identifer ")]
+		public bool UseIndex = false;
 
 		[Tooltip("Named slot being populated. A NamedSlot should not appear" +
 		                                         " more than once in these entries.")]
