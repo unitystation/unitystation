@@ -101,6 +101,27 @@ PrefabInstance:
       propertyPath: transferMode
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 4524393934061931853, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4524393934061931853, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4524393934061931853, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3f8ba0db83a8157ae8fbb3c4115580e7,
+        type: 2}
+    - target: {fileID: 4524393934061931853, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 5908745450454926434, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
         type: 3}
       propertyPath: PossibleSprites.Array.data[0]
