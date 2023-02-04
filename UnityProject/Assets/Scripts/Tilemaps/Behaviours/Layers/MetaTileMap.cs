@@ -313,8 +313,8 @@ namespace TileManagement
 			//TODO note Boundaries only recap later when tiles are added outside of it, so therefore it can only increase in size
 			// remember update transforms and position and colour when removing On tile map I'm assuming It doesn't clear it?
 			// Maybe it sets it to the correct ones when you set a tile idk
-			var Position = tileLocation.position;
-			var Layer = tileLocation.layer;
+			var position = tileLocation.position;
+			var layer = tileLocation.layer;
 
 
 			if (CustomNetworkManager.IsServer)
@@ -345,7 +345,7 @@ namespace TileManagement
 
 			tileLocation.Clean();
 
-			Layer.SubsystemManager.UpdateAt(Position);
+			layer.SubsystemManager.UpdateAt(position);
 		}
 
 		private void MainThreadSetTile(TileLocation tileLocation)
