@@ -42,6 +42,8 @@ namespace Systems.Cargo
 
 		private MatrixMove mm;
 
+		[SerializeField] private float shuttleSpeed = 25f;
+
 		private void Awake()
 		{
 			if (Instance == null)
@@ -98,7 +100,7 @@ namespace Systems.Cargo
 		{
 			moving = true;
 			destination = pos;
-			mm.SetSpeed(25);
+			mm.SetSpeed(shuttleSpeed);
 			mm.AutopilotTo(destination);
 		}
 
@@ -118,12 +120,11 @@ namespace Systems.Cargo
 					StartCoroutine(ReverseIntoStation());
 				}
 			}
-			if (CargoManager.Instance.CurrentFlyTime <= 0f &&
-				CargoManager.Instance.ShuttleStatus == ShuttleStatus.OnRouteCentcom)
-			{
-				UnloadCargo();
-				CargoManager.Instance.OnShuttleArrival();
-			}
+
+			if (CargoManager.Instance.CurrentFlyTime <= 0f == false ||
+			    CargoManager.Instance.ShuttleStatus != ShuttleStatus.OnRouteCentcom) return;
+			UnloadCargo();
+			CargoManager.Instance.OnShuttleArrival();
 		}
 
 		IEnumerator ReverseIntoStation()
@@ -186,18 +187,18 @@ namespace Systems.Cargo
 				if (item == null) continue;
 
 				//need VisibleState check because despawned objects still stick around on their matrix transform
-				if (item.TryGetComponent<UniversalObjectPhysics>(out var behaviour) && behaviour.IsVisible)
+				if (item.TryGetComponent<UniversalObjectPhysics>(out var behaviour) == false || behaviour.IsVisible == false) continue;
+				if (item.TryGetComponent<Attributes>(out var attributes) == false) continue;
+				switch (attributes.CanBeSoldInCargo)
 				{
-					if (item.TryGetComponent<Attributes>(out var attributes))
-					{
-						// Items that cannot be sold in cargo will be ignored unless they have a trait that is assoicated with a bounty
-						if (attributes.CanBeSoldInCargo == false && hasBountyTrait(attributes) == false) continue;
-
-						// Don't sell secured objects e.g. conveyors.
-						if (attributes.CanBeSoldInCargo && behaviour.IsNotPushable) continue;
-					}
-
-					CargoManager.Instance.ProcessCargo(item, alreadySold);
+					// Items that cannot be sold in cargo will be ignored unless they have a trait that is assoicated with a bounty
+					case false when hasBountyTrait(attributes) == false:
+					// Don't sell secured objects e.g. conveyors.
+					case true when behaviour.IsNotPushable:
+						continue;
+					default:
+						CargoManager.Instance.ProcessCargo(item, alreadySold);
+						break;
 				}
 			}
 		}
