@@ -135,8 +135,14 @@ public class MetaDataSystem : SubsystemBehaviour
 
 		SetupNeighbors(node);
 
-		if (MatrixManager.AtPoint(node.WorldPosition, CustomNetworkManager.IsServer)
-		    == node.PositionMatrix.MatrixInfo)
+		var AtPoint = MatrixManager.AtPoint(node.WorldPosition, CustomNetworkManager.IsServer);
+
+		if (AtPoint == MatrixManager.Instance.spaceMatrix.MatrixInfo)
+		{
+			externalNodes[node] = node;
+		}
+
+		if (AtPoint == node.PositionMatrix.MatrixInfo || AtPoint == MatrixManager.Instance.spaceMatrix.MatrixInfo)
 		{
 			MetaUtils.AddToNeighbors(node);
 		}
