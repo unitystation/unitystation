@@ -435,7 +435,6 @@ GameObject:
   - component: {fileID: 7831221530082840597}
   - component: {fileID: -5817005449759474551}
   - component: {fileID: -4232167787565634782}
-  - component: {fileID: -7196392364410790442}
   - component: {fileID: -5061689181288922864}
   - component: {fileID: 7092917086790084979}
   - component: {fileID: 1354417930896543338}
@@ -533,6 +532,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   playerTypeSettings: {fileID: 11400000, guid: edeb9e0b09d15b8448058f24ec2bacfe, type: 2}
+  inventorySpeechModifiers: 0
   playerName: ' '
   visibleName: ' '
   PlayerSync: {fileID: 0}
@@ -540,7 +540,6 @@ MonoBehaviour:
   RTT: 0
   RcsMode: 0
   RcsMatrixMove: {fileID: 0}
-  actionData: {fileID: 11400000, guid: 288088e3bb7768d41a2fe1b2c170fbce, type: 2}
   playerChatLocation: {fileID: 1133514949248654}
   canVentCrawl: 1
   ClueHandsImprintInverseChance: 55
@@ -722,7 +721,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: b4d72dee411a3410db2df144025d628c, type: 3}
   NameSprite: 000000000100000002000000
   DefaultSettings:
-    Intensity: 0
     Colour: {r: 0, g: 0, b: 0, a: 0}
     EnumSprite: 0
     Size: 12
@@ -876,20 +874,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-7196392364410790442
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 554f98ea43f440f4ea59c03fe31048d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &-5061689181288922864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -934,7 +918,6 @@ MonoBehaviour:
   syncInterval: 0.1
   BodyType: 0
   RTT: 0
-  brain: {fileID: 0}
   BodyPartList: []
   SurfaceBodyParts: []
   BodyPartStorage: {fileID: 0}
@@ -945,12 +928,19 @@ MonoBehaviour:
   fastRegenHeal: 12
   fastRegenThreshold: 85
   rootBodyPartController: {fileID: 0}
+  BodyChatModifier: 0
   BodyPartSurfaceVolume: 5
   playerScript: {fileID: 0}
   CannotRecognizeNames: 0
+  UsedZones: 000000000100000003000000020000000500000004000000
+  meatProduce: {fileID: 0}
+  skinProduce: {fileID: 0}
   allExternalMetabolismReactions: []
   CHem: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12, type: 2}
   NutrimentConsumed: 0
+  Stability: 0
+  NegativeMutationMinimumTimeMinutes: 5
+  NegativeMutationMaximumTimeMinutes: 15
   ClientSprites: []
   percentAllergies: 30
   commonAllergies: {fileID: 0}
@@ -1009,9 +999,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fad55d26381ef594c8bff2db4222570c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   canBreathAnywhere: 0
-  takeLowPressureDamage: 0
-  takeHighPressureDamage: 1
   tickRate: 1
 --- !u!114 &-5098788322438649402
 MonoBehaviour:
@@ -1244,6 +1234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foreverID: ZkF10G_?cnxzRpsYtRAm
+  <AlternativePrefabName>k__BackingField: 
 --- !u!114 &1594872346571213938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1258,6 +1249,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  WeldingShieldImplants: 0
 --- !u!114 &7153920685726011974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1271,20 +1263,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TipSO: {fileID: 11400000, guid: eb646ca04872733468148685a9a74fc0, type: 2}
-  saveID: 0
   triggerOnce: 0
   showEvenAfterDeath: 1
   tipCooldown: 35
-  ObjectsToCheck:
-  - GameObjectToCheck: {fileID: 6972878001720233250, guid: a2f7e3ea5d1b72341939c4aeb0895b36,
-      type: 3}
-    AssoicatedSo: {fileID: 11400000, guid: 49dea0a964248a141bbedf6798ad8265, type: 2}
-  - GameObjectToCheck: {fileID: 5092666089846311182, guid: e56e2d22b6f68cf48b3ababcdccd8a4d,
-      type: 3}
-    AssoicatedSo: {fileID: 11400000, guid: eb646ca04872733468148685a9a74fc0, type: 2}
-  - GameObjectToCheck: {fileID: 2515425442973781969, guid: 8df46e8f4633f9e43ab5993c9075028e,
-      type: 3}
-    AssoicatedSo: {fileID: 11400000, guid: eb646ca04872733468148685a9a74fc0, type: 2}
+  highlightableObjectNames: []
   SearchRadius: 8
   SearchCooldown: 6
   MaskToCheck:
@@ -1486,6 +1468,7 @@ MonoBehaviour:
   syncInterval: 0.1
   defaultLanguages: {fileID: 11400000, guid: 3bcae86c58aaeee46ac55ef5aa74ef38, type: 2}
   omniTongue: 0
+  PlayerScript: {fileID: 0}
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
