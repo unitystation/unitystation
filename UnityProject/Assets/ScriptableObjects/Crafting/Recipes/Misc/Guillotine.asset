@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: Guillotine
+  m_EditorClassIdentifier: 
+  category: 4
+  craftingTime: 10
+  recipeName: Guillotine
+  recipeIconOverride: {fileID: 21300016, guid: 8ab0204a612354f49b4b33029c9320dc, type: 3}
+  recipeDescription: Used to cut off the heads of people
+  requiredIngredients:
+  - requiredAmount: 4
+    requiredItem: {fileID: 7925887490475824938, guid: 840ab0630c3688b4e9aeb37e8be1d007,
+      type: 3}
+  - requiredAmount: 35
+    requiredItem: {fileID: 5770283965274354279, guid: b83b68cfa4a201748aeeece963a989c3,
+      type: 3}
+  - requiredAmount: 10
+    requiredItem: {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 6685082810916583650, guid: 84d17485093438f4990e06fcb52fb851,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits:
+  - {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
+  result:
+  - {fileID: 4620523892165061956, guid: d4cec98a211f43042b30eaa8d06b2f35, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 442
