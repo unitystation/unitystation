@@ -15,11 +15,17 @@ namespace Objects.ExecutionDevices
 			device ??= GetComponent<IExecutionDevice>();
 		}
 
+		private void OnDestroy()
+		{
+			device = null;
+			Victim = null;
+		}
+
 		public void Execute(GameObject executioner = null)
 		{
 			if (Victim == null)
 			{
-				if(executioner != null) Chat.AddExamineMsg(executioner, "There's nothing to execute!");
+				if (executioner != null) Chat.AddExamineMsg(executioner, "There's nothing to execute!");
 				return;
 			}
 			StartCoroutine(device.ExecuteTarget());
