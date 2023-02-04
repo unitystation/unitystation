@@ -422,6 +422,7 @@ public partial class Chat
 
 		SpawnedAntag antag = PlayerManager.LocalMindScript.GetAntag();
 
+		if (antag == null) return input;
 		if(antag.Antagonist.AntagJobType != JobType.TRAITOR && antag.Antagonist.AntagJobType != JobType.SYNDICATE) return input;
 
 		string[] coloredText = input.Split(' '); //Split at each Word
