@@ -96,6 +96,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: exportCost
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: initialName
       value: kidneys
       objectReference: {fileID: 0}
@@ -170,5 +175,6 @@ MonoBehaviour:
   syncInterval: 0.1
   isEMPVunerable: 0
   EMPResistance: 2
-  WhiteListReagents: []
-  ProcessingPercentage: 0.2
+  BlacklistReagents:
+  - {fileID: 11400000, guid: 68548df5bd53cc24b8d2bbfa735a274d, type: 2}
+  ProcessingPercentage: 0.03

@@ -41,7 +41,7 @@ namespace Systems.Storage
 	{
 		[SerializeField]
 		[Tooltip("Prefabs to spawn in each storage slot")]
-		private List<SlotPopulatorEntry> SlotContents = new List<SlotPopulatorEntry>();
+		public List<SlotPopulatorEntry> SlotContents = new List<SlotPopulatorEntry>();
 
 		[FormerlySerializedAs("Contents")]
 		[SerializeField]

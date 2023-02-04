@@ -6,42 +6,26 @@ namespace Items.Implants.Organs
 {
 	public class Kidneys : BodyPartFunctionality
 	{
-		public List<Reagent> WhiteListReagents = new List<Reagent>();
+		public List<Reagent> BlacklistReagents = new List<Reagent>();
 		//add Special nutrients in body
 
-		public Dictionary<Reagent, float> ContainedBADReagents = new Dictionary<Reagent, float>();
 
-		public float ProcessingPercentage = 0.2f;
 
-		public override void SetUpSystems()
-		{
-			base.SetUpSystems();
-			if(WhiteListReagents.Count == 0)
-			{
-				WhiteListReagents.Add(RelatedPart.requiredReagent);
-				WhiteListReagents.Add(RelatedPart.wasteReagent);
-				WhiteListReagents.Add(RelatedPart.Nutriment);
-			}
-		}
+		public float ProcessingPercentage = 0.05f;
 
 		public override void ImplantPeriodicUpdate()
 		{
 			base.ImplantPeriodicUpdate();
-			ContainedBADReagents.Clear();
 
-			foreach (var Reagent in RelatedPart.HealthMaster.CirculatorySystem.BloodPool.reagents.m_dict)
+			var poolToClean = RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Take(
+				ProcessingPercentage*RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Total);
+
+			foreach (var Reagent in BlacklistReagents)
 			{
-				if (WhiteListReagents.Contains(Reagent.Key) == false && Reagent.Key is BloodType == false)
-				{
-					ContainedBADReagents.Add(Reagent.Key, Reagent.Value * ProcessingPercentage * RelatedPart.TotalModified);
-
-				}
+				poolToClean.Remove(Reagent, 1000);
 			}
 
-			foreach (var Reagents in ContainedBADReagents)
-			{
-				RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Remove(Reagents.Key, Reagents.Value);
-			}
+			RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Add(poolToClean);
 			//Debug.Log("Kidney: " + BloodContainer[requiredReagent]/bloodType.GetGasCapacity(BloodContainer.CurrentReagentMix));
 		}
 	}

@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Systems.Storage
 {
@@ -115,21 +117,31 @@ namespace Systems.Storage
 
 			foreach (var namedSlotPopulatorEntry in namedSlotPopulatorEntrys)
 			{
+				if (namedSlotPopulatorEntry == null || namedSlotPopulatorEntry.Prefab == null) continue;
 				ItemSlot ItemSlot;
-				if (namedSlotPopulatorEntry.UseIndex)
+
+				if (namedSlotPopulatorEntry.DoNotGetFirstEmptySlot == false)
 				{
-					ItemSlot = ItemStorage.GetIndexedItemSlot(namedSlotPopulatorEntry.IndexSlot);
-					if (ItemSlot.Item != null && namedSlotPopulatorEntry.IfOccupiedFindEmptyIndexSlot)
+					ItemSlot =  ItemStorage.GetNextEmptySlot();
+				}
+				else
+				{
+					if (namedSlotPopulatorEntry.UseIndex)
+					{
+						ItemSlot = ItemStorage.GetIndexedItemSlot(namedSlotPopulatorEntry.IndexSlot);
+					}
+					else
+					{
+						ItemSlot = ItemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.NamedSlot);
+					}
+
+					if (ItemSlot.Item != null && namedSlotPopulatorEntry.IfOccupiedFindEmptySlot)
 					{
 						ItemSlot = ItemStorage.GetNextFreeIndexedSlot();
 					}
 				}
-				else
-				{
-					ItemSlot = ItemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.NamedSlot);
-				}
-				if (ItemSlot == null) continue;
 
+				if (ItemSlot == null) continue;
 				var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true);
 				Inventory.ServerAdd(spawn.GameObject, ItemSlot, namedSlotPopulatorEntry.ReplacementStrategy, true);
 			}
@@ -140,24 +152,8 @@ namespace Systems.Storage
 	/// Used for populating a specified index lot or inventory slot, then can specify what should be populated in the inventory of what was populated in the inventory Slot that was specified
 	/// </summary>
 	[Serializable]
-	public class SlotPopulatorEntry
+	public class SlotPopulatorEntry : SlotPopulatorEntryRecursive
 	{
-		[Tooltip("Indexed only works for sub Inventory")]
-		public int IndexSlot = 0;
-
-		public bool IfOccupiedFindEmptyIndexSlot = true;
-
-		public bool UesIndex = false;
-
-		[Tooltip("Named slot being populated. A NamedSlot should not appear" +
-				 " more than once in these entries.")]
-		public NamedSlot NamedSlot = NamedSlot.none;
-
-		[Tooltip("Prefab to spawn in this slot. Takes precedence over slot populator.")]
-		public GameObject Prefab;
-
-		public ReplacementStrategy ReplacementStrategy = ReplacementStrategy.DropOther;
-
 		public List<SlotPopulatorEntryRecursive> namedSlotPopulatorEntrys = new List<SlotPopulatorEntryRecursive>();
 	}
 
@@ -167,15 +163,18 @@ namespace Systems.Storage
 	[Serializable]
 	public class SlotPopulatorEntryRecursive
 	{
-		[Tooltip("Indexed only works for sub Inventory")]
+		public bool DoNotGetFirstEmptySlot = false;
+
+		[Tooltip("  The Index lot that the prefab will be spawned into " )]
 		public int IndexSlot = 0;
 
-		public bool IfOccupiedFindEmptyIndexSlot = true;
+		public bool IfOccupiedFindEmptySlot = true;
 
+		[FormerlySerializedAs("UesIndex")] [Tooltip(" Place object in Specified indexed slot or Use named slot Identifer ")]
 		public bool UseIndex = false;
 
 		[Tooltip("Named slot being populated. A NamedSlot should not appear" +
-		         " more than once in these entries.")]
+		                                         " more than once in these entries.")]
 		public NamedSlot NamedSlot = NamedSlot.none;
 
 		[Tooltip("Prefab to spawn in this slot. Takes precedence over slot populator.")]

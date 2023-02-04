@@ -339,6 +339,11 @@ namespace Chemistry
 				return 0;
 			}
 
+			if (Mathf.Approximately(amount, 0))
+			{
+				return 0;
+			}
+
 			if (float.IsNormal(amount ) == false)
 			{
 				Logger.LogError($"Trying to remove {amount} amount of {reagent}", Category.Chemistry);

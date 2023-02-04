@@ -482,6 +482,20 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		return ItemSlot.GetIndexed(this, slotIndex);
 	}
 
+	public ItemSlot GetNextEmptySlot()
+	{
+		var slots = GetItemSlots();
+		foreach (var slot in slots)
+		{
+			if (slot.Item == null)
+			{
+				return slot;
+			}
+		}
+
+		return null;
+	}
+
 	/// <summary>
 	/// Server-side only. Destroys all items in inventory.
 	/// </summary>

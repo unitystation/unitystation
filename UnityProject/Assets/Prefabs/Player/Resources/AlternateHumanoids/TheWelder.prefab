@@ -91,5 +91,12 @@ PrefabInstance:
       propertyPath: foreverID
       value: 5d4f616253d0fb440bb462cd2e449d73
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 7738600164250170309, guid: c4494414d24d2f2468e74daa79468631,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+        type: 3}
+    m_RemovedComponents:
+    - {fileID: -7196392364410790442, guid: c4494414d24d2f2468e74daa79468631, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c4494414d24d2f2468e74daa79468631, type: 3}

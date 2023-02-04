@@ -510,6 +510,25 @@ namespace UI.CharacterCreator
 						SetUpBodyPart(subBodyPart);
 					}
 				}
+
+				if (bodyPart.OrNull()?.OrganStorage.OrNull()?.Populater?.SlotContents != null)
+				{
+					foreach (var organ in bodyPart.OrganStorage.Populater.SlotContents)
+					{
+						if (organ == null || organ.Prefab == null) continue;
+
+						if (organ.Prefab.TryGetComponent<BodyPart>(out var subBodyPart) == false) return;
+
+						if (organ.namedSlotPopulatorEntrys.Count > 0)
+						{
+							Logger.LogError($"[CharacterCustomization/SetUpBodyPart/Setup Sprites] - " + ".namedSlotPopulatorEntrys Is not supported in character customisation yet!!!");
+						}
+
+
+						ParentDictionary[bodyPart].Add(subBodyPart);
+						SetUpBodyPart(subBodyPart);
+					}
+				}
 			}
 		}
 

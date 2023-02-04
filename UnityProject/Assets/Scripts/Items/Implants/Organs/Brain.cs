@@ -1,5 +1,7 @@
 ﻿using System;
 using Audio.Containers;
+using CameraEffects;
+using Chemistry;
 using Core.Utils;
 using HealthV2;
 using Mirror;
@@ -19,6 +21,9 @@ namespace Items.Implants.Organs
 
 		public Pickupable Pickupable;
 
+		[SerializeField] private Reagent DrunkReagent;
+		[SerializeField] public float MaxDrunkAtPercentage = 0.06f;
+
 		public uint OnPlayerID => OnBodyID;
 		public uint PossessingID => possessingID;
 
@@ -35,6 +40,9 @@ namespace Items.Implants.Organs
 
 
 		[SyncVar(hook = nameof(SyncTelekinesis))] private bool hasTelekinesis = false;
+
+		[SyncVar(hook = nameof(SyncDrunkenness))] private float DrunkAmount = 0;
+
 		public bool HasTelekinesis => hasTelekinesis;
 
 		public ChatModifier BodyChatModifier = ChatModifier.None;
@@ -96,6 +104,21 @@ namespace Items.Implants.Organs
 			hasTelekinesis = NewValue;
 		}
 
+		public void SyncDrunkenness(float Oldvalue, float NewValue)
+		{
+			DrunkAmount = NewValue;
+			if (Preimplemented.IsOnLocalPlayer)
+			{
+				ApplyChangesDrunkenness(DrunkAmount);
+			}
+
+		}
+
+		public void ApplyChangesDrunkenness(float newState)
+		{
+			Camera.main.GetComponent<CameraEffectControlScript>().drunkCamera.SetDrunkStrength(newState);
+		}
+
 		public void SyncPossessingID(uint previouslyPossessing, uint currentlyPossessing)
 		{
 			possessingID = currentlyPossessing;
@@ -113,6 +136,30 @@ namespace Items.Implants.Organs
 		{
 		}
 
+		public override void ImplantPeriodicUpdate()
+		{
+			if (RelatedPart.HealthMaster.CirculatorySystem.BloodPool.reagents.Contains(DrunkReagent))
+			{
+				float DrunkPercentage  = RelatedPart.HealthMaster.CirculatorySystem.BloodPool.GetPercent(DrunkReagent);
+				if (DrunkPercentage > 0)
+				{
+					if (DrunkPercentage > MaxDrunkAtPercentage)
+					{
+						DrunkPercentage = MaxDrunkAtPercentage;
+					}
+
+					DrunkAmount = DrunkPercentage / MaxDrunkAtPercentage;
+				}
+				else
+				{
+					if (DrunkAmount != 0)
+					{
+						DrunkAmount = 0;
+					}
+				}
+			}
+		}
+
 		public bool IsValidSetup(RegisterPlayer player)
 		{
 			if (player == null) return false;
@@ -128,6 +175,7 @@ namespace Items.Implants.Organs
 		{
 			ApplyChangesBlindness(Default ? false : true);
 			ApplyDeafness(Default ? 0 : 1);
+			ApplyChangesDrunkenness(Default ? 0 : DrunkAmount);
 		}
 
 		public void ApplyDeafness(float Value)

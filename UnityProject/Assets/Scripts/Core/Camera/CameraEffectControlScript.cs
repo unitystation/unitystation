@@ -75,19 +75,6 @@ namespace CameraEffects
 			ToggleGlitchEffectState(false);
 		}
 
-		public void AddDrunkTime(float time)
-		{
-			drunkCameraTime += time;
-
-			drunkCameraTime = Mathf.Min(drunkCameraTime, maxDrunkTime);
-
-			if (drunkCamera.enabled == false)
-			{
-				ToggleDrunkEffectState(true);
-				drunkCamera.ModerateDrunk();
-				UpdateManager.Add(DoEffectTimeCheck, TIMER_INTERVAL);
-			}
-		}
 
 		//setts the FOV to emulate blindness on the player
 		public void BlindnessValue(bool isBlind)
@@ -110,11 +97,6 @@ namespace CameraEffects
 		{
 			//TODO : Add flash effects here later
 			yield break;
-		}
-
-		public void ToggleDrunkEffectState(bool state)
-		{
-			drunkCamera.enabled = state;
 		}
 
 		public void ToggleGlitchEffectState(bool state)
