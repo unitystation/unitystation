@@ -21,6 +21,9 @@ namespace Systems.FilthGenerator
 		[SerializeField, Range(0f,100f)]
 		private float FilthDensityPercentage;
 
+		[SerializeField] private List<GameObject> filthDecalsAndObjects = new List<GameObject>();
+		[SerializeField] private bool generateFilthReagent = true;
+
 
 		public override void Initialize()
 		{
@@ -41,6 +44,7 @@ namespace Systems.FilthGenerator
 
 		public void RunFilthGenerator()
 		{
+			if (generateFilthReagent == false && filthDecalsAndObjects.Count == 0) return;
 			metaTileMap = GetComponentInChildren<MetaTileMap>();
 			floorTilemap = metaTileMap.Layers[LayerType.Floors].GetComponent<Tilemap>();
 			tileChangeManager = GetComponent<TileChangeManager>();
@@ -67,8 +71,33 @@ namespace Systems.FilthGenerator
 			for (int i = 0; i < numberOfTiles; i++)
 			{
 				var chosenLocation = EmptyTiled[RANDOM.Next(EmptyTiled.Count)];
+				DetermineFilthToSpawn(chosenLocation);
+			}
+		}
+
+		private void DetermineFilthToSpawn(Vector3Int chosenLocation)
+		{
+			// Make this a local void to avoid code duplication.
+			void ReagentSpawn()
+			{
 				MatrixManager.ReagentReact(new ReagentMix( ChemistryReagentsSO.Instance.AllChemistryReagents.PickRandom(), 20) ,
 					chosenLocation.ToWorld(tileChangeManager.MetaTileMap.matrix).RoundToInt(),tileChangeManager.MetaTileMap.matrix.MatrixInfo);
+			}
+
+			// Skip right to reagent spawns in-case the list is empty to avoid NREs.
+			if (filthDecalsAndObjects.Count == 0)
+			{
+				ReagentSpawn();
+				return;
+			}
+
+			if (generateFilthReagent && DMMath.Prob(50))
+			{
+				ReagentSpawn();
+			}
+			else
+			{
+				Spawn.ServerPrefab(filthDecalsAndObjects.PickRandom(), chosenLocation);
 			}
 		}
 	}
