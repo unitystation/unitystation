@@ -8,6 +8,7 @@ using Systems.Clearance;
 using Systems.Interaction;
 using Doors;
 using CustomInspectors;
+using Items;
 using Shared.Systems.ObjectConnection;
 
 namespace Objects.Wallmounts
@@ -62,12 +63,32 @@ namespace Objects.Wallmounts
 			buttonCoolDown = true;
 			StartCoroutine(CoolDown());
 
+
+			var Storage = interaction.Performer.OrNull()?.GetComponent<DynamicItemStorage>();
+
+			if (Storage != null)
+			{
+				var emag = Emag.GetEmagInDynamicItemStorage(Storage);
+				if (emag != null)
+				{
+					if (emag.UseCharge(interaction))
+					{
+						RunDoorController();
+						RpcPlayButtonAnim(false);
+						return;
+					}
+				}
+			}
+
+
+
+
 			if (clearanceRestricted.HasClearance(interaction.Performer) == false)
 			{
 				RpcPlayButtonAnim(false);
 				return;
 			}
-		
+
 			RunDoorController();
 		}
 

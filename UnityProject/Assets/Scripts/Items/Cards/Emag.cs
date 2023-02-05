@@ -13,16 +13,13 @@ namespace Items
 	{
 		private SpriteHandler spriteHandler;
 
-		[Tooltip("Number of charges emags start with")]
-		[SerializeField]
+		[Tooltip("Number of charges emags start with")] [SerializeField]
 		public int startCharges = 3;
 
-		[Tooltip("Number of seconds it takes to regenerate 1 charge")]
-		[SerializeField]
+		[Tooltip("Number of seconds it takes to regenerate 1 charge")] [SerializeField]
 		public float rechargeTimeInSeconds = 10f;
 
-		[SyncVar(hook = nameof(SyncCharges))]
-		private int charges;
+		[SyncVar(hook = nameof(SyncCharges))] private int charges;
 
 		/// <summary>
 		/// Number of charges left on emag
@@ -32,6 +29,7 @@ namespace Items
 		public AddressableAudioSource OutOfChargesSFXA;
 
 		#region SyncVarFuncs
+
 		void Awake()
 		{
 			charges = startCharges;
@@ -56,6 +54,7 @@ namespace Items
 		{
 			SyncCharges(startCharges, startCharges);
 		}
+
 		#endregion
 
 		private void SyncCharges(int oldCharges, int newCharges)
@@ -73,7 +72,7 @@ namespace Items
 		///</summary>
 		private int ScaleChargesToSpriteIndex()
 		{
-			int output = Mathf.CeilToInt(((float)Charges / (float)startCharges) * 3f) - 1;
+			int output = Mathf.CeilToInt(((float) Charges / (float) startCharges) * 3f) - 1;
 			return output;
 		}
 
@@ -121,8 +120,10 @@ namespace Items
 					SoundManager.PlayNetworkedForPlayer(recipient: Performer, OutOfChargesSFXA, sourceObj: gameObject);
 					spriteHandler.Empty();
 				}
+
 				return true;
 			}
+
 			return false;
 		}
 
@@ -133,6 +134,7 @@ namespace Items
 				AddCharges(1);
 				spriteHandler.ChangeSprite(ScaleChargesToSpriteIndex());
 			}
+
 			if (Charges >= startCharges)
 			{
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, RegenerateCharge);
@@ -142,6 +144,30 @@ namespace Items
 		public void AddCharges(int incharges)
 		{
 			SyncCharges(Charges, Charges + incharges);
+		}
+
+
+		public static Emag GetEmagInDynamicItemStorage(DynamicItemStorage dynamicItemStorage)
+		{
+			if (dynamicItemStorage == null) return null;
+			Emag emagInHand = dynamicItemStorage.OrNull()?.GetActiveHandSlot()?.Item.OrNull()?.gameObject.OrNull()
+				?.GetComponent<Emag>()?.OrNull();
+
+			if (emagInHand != null)
+			{
+				return emagInHand;
+			}
+
+			foreach (var item in dynamicItemStorage.GetNamedItemSlots(NamedSlot.id))
+			{
+				Emag emagInIdSlot = item?.Item.OrNull()?.gameObject.GetComponent<Emag>()?.OrNull();
+				if (emagInIdSlot != null)
+				{
+					return emagInIdSlot;
+				}
+			}
+
+			return null;
 		}
 	}
 }
