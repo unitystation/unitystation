@@ -11,6 +11,8 @@ namespace Effects.FloorEffect
 		private PlayerScript me;
 		private Vector3Int oldPosition;
 
+		private Pickupable pickupable;
+
 		[SerializeField] private GameObject FootprintTile;
 
 		#region Lifecycle
@@ -20,7 +22,7 @@ namespace Effects.FloorEffect
 			//spillContents = gameObject.GetComponent<ReagentContainer>();
 			oldPosition = gameObject.AssumedWorldPosServer().RoundToInt();
 			me = GetComponentInParent<PlayerScript>();
-			Debug.Log(me);
+			pickupable = GetComponent<Pickupable>();
 		}
 
 		public void OnDestroy()
@@ -44,13 +46,31 @@ namespace Effects.FloorEffect
 
 			if (info.ToRootPlayer.OrNull()?.PlayerScript != null)
 			{
-				me = info.ToRootPlayer.PlayerScript;
-				me.playerMove.OnLocalTileReached.AddListener(LocalTileReached);
+				if  (IsValidSetup(info.ToRootPlayer))
+				{
+					me = info.ToRootPlayer.PlayerScript;
+					me.playerMove.OnLocalTileReached.AddListener(LocalTileReached);
+				}
 			}
 
 
 		}
 
+		public bool IsValidSetup(RegisterPlayer player)
+		{
+			if (player == null) return false;
+			// Checks if it's not null and checks if NamedSlot == NamedSlot.eyes
+			return player.PlayerScript.RegisterPlayer == pickupable.ItemSlot.Player && IsInCorrectNamedSlot();
+		}
+
+		/// <summary>
+		/// Checks if the item is in the correct ItemSlot which is the eyes.
+		/// Automatically returns false if null because of the "is" keyword and null propagation.
+		/// </summary>
+		private bool IsInCorrectNamedSlot()
+		{
+			return pickupable.ItemSlot is { NamedSlot: NamedSlot.feet };
+		}
 
 		public void LocalTileReached(Vector3Int old,Vector3Int newPosition )
 		{
