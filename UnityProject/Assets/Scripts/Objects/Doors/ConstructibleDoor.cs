@@ -89,7 +89,7 @@ namespace Doors
 			}
 			else
 			{
-				return boltsModule.BoltsDown!;
+				return !boltsModule.BoltsDown;
 			}
 		}
 
