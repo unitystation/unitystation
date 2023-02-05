@@ -938,6 +938,25 @@ namespace UI.CharacterCreator
 					SubSetBodyPart(subBodyPart, path);
 				}
 			}
+
+			if (bodyPart.OrNull()?.OrganStorage.OrNull()?.Populater?.SlotContents != null)
+			{
+
+				foreach (var organ in bodyPart.OrganStorage.Populater.SlotContents)
+				{
+					if (organ == null || organ.Prefab == null) continue;
+
+					if (organ.Prefab.TryGetComponent<BodyPart>(out var subBodyPart) == false) return;
+
+					if (subBodyPart == null)
+					{
+						Logger.LogError($"[CharacterCustomization/SetUpBodyPart/Setup Sprites] - " + "Organ was detected as null!");
+						continue;
+					}
+
+					SubSetBodyPart(subBodyPart, path);
+				}
+			}
 		}
 
 		#endregion
@@ -1156,6 +1175,24 @@ namespace UI.CharacterCreator
 						continue;
 					}
 					if(organ.TryGetComponent<BodyPart>(out var subBodyPart) == false) continue;
+					SubSaveBodyPart(subBodyPart, path);
+				}
+			}
+
+			if (bodyPart.OrNull()?.OrganStorage.OrNull()?.Populater?.SlotContents != null)
+			{
+				foreach (var organ in bodyPart.OrganStorage.Populater.SlotContents)
+				{
+					if (organ == null || organ.Prefab == null) continue;
+
+					if (organ.Prefab.TryGetComponent<BodyPart>(out var subBodyPart) == false) return;
+
+					if (subBodyPart == null)
+					{
+						Logger.LogError($"[CharacterCustomization/SaveBodyPart] - " + "Attempted to save an organ but did not have a body part script!");
+						continue;
+					}
+
 					SubSaveBodyPart(subBodyPart, path);
 				}
 			}
