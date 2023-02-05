@@ -9,6 +9,7 @@ using Mirror;
 using HealthV2;
 using Player;
 using Items;
+using Messages.Client.GhostRoles;
 using Messages.Server;
 using Player.Language;
 using ScriptableObjects;
@@ -243,7 +244,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 			{
 				SyncPlayerName(mind.name, mind.name);
 			}
-
 		}
 
 
@@ -273,6 +273,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 				mask |= 1 << LayerMask.NameToLayer("Ghosts");
 				Camera2DFollow.followControl.cam.cullingMask = mask;
 				UIManager.Display.RejoinedEvent();
+				RequestAvailableGhostRolesMessage.SendMessage();
 			}
 			//Normal players
 			else if (IsPlayerSemiGhost == false)
