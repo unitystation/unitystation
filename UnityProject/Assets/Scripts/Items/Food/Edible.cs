@@ -167,6 +167,10 @@ namespace Items.Food
 			}
 
 			ReagentMix incomingFood = FoodContents.CurrentReagentMix.Clone();
+			if (stackable == null) //Since it just consumes one
+			{
+				incomingFood.Divide(maxBites); 
+			}
 
 
 			incomingFood.Divide(Stomachs.Count);
