@@ -13,29 +13,21 @@ namespace Doors.Modules
 		}
 
 
-		public virtual ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		//Interactions when the doors open
+		public virtual void OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
-			return ModuleSignal.Continue;
+			return;
 		}
 
-		public virtual ModuleSignal ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		//Interactions when the door is closed
+		public virtual void ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
-			return ModuleSignal.Continue;
+			return;
 		}
 
-		public virtual ModuleSignal BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
+		public virtual void BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
 		{
-			return ModuleSignal.Continue;
-		}
-
-		/// <summary>
-		/// Whether or not the door can opened or closed. This should only return false if the door is physically prevented
-		/// from changing states, such as when welded shut or when the bolts are down.
-		/// </summary>
-		/// <returns>is the door free to change its state?</returns>
-		public virtual bool CanDoorStateChange()
-		{
-			return true;
+			return;
 		}
 	}
 }

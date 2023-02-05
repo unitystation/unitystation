@@ -130,13 +130,18 @@ namespace Items
 		{
 			if (Charges < startCharges)
 			{
-				SyncCharges(Charges, Charges + 1);
+				AddCharges(1);
 				spriteHandler.ChangeSprite(ScaleChargesToSpriteIndex());
 			}
 			if (Charges >= startCharges)
 			{
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, RegenerateCharge);
 			}
+		}
+
+		public void AddCharges(int incharges)
+		{
+			SyncCharges(Charges, Charges + incharges);
 		}
 	}
 }

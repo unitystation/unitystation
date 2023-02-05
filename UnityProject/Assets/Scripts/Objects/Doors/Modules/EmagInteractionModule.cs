@@ -16,17 +16,17 @@ namespace Doors.Modules
 			BoltsModule = GetComponent<BoltsModule>();
 		}
 
-		public override ModuleSignal ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		public override void ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
 			var ItemStorage = interaction.Performer.GetComponent<DynamicItemStorage>();
-			return EmagChecks(ItemStorage, interaction, States);
+			EmagChecks(ItemStorage, interaction, States);
 		}
 
-		public override ModuleSignal BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
+		public override void BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
 		{
-			if (byPlayer == null) return ModuleSignal.Continue; //null may appear if door wires are pulsed by EMP
+			if (byPlayer == null) return; //null may appear if door wires are pulsed by EMP
 			var ItemStorage = byPlayer.GetComponent<DynamicItemStorage>();
-			return EmagChecks(ItemStorage, null, States);
+			EmagChecks(ItemStorage, null, States);
 		}
 
 		/// <summary>
@@ -36,7 +36,7 @@ namespace Doors.Modules
 		/// <param name="interaction">If we're calling this from ClosedInteraction() to provide a HandApply</param>
 		/// <param name="States">Door process states</param>
 		/// <returns>Either hacked or ModuleSignal.Continue</returns>
-		private ModuleSignal EmagChecks(DynamicItemStorage itemStorage, HandApply interaction,
+		private void EmagChecks(DynamicItemStorage itemStorage, HandApply interaction,
 			HashSet<DoorProcessingStates> States)
 		{
 			if (itemStorage != null)
@@ -46,11 +46,19 @@ namespace Doors.Modules
 				{
 					if (interaction != null)
 					{
-						if (emagInHand.UseCharge(interaction)) return EmagSuccessLogic(States);
+						if (emagInHand.UseCharge(interaction))
+						{
+							EmagSuccessLogic(States);
+							return;
+						}
 					}
 
 					if (emagInHand.UseCharge(gameObject, itemStorage.registerPlayer.PlayerScript.gameObject))
-						return EmagSuccessLogic(States);
+					{
+						EmagSuccessLogic(States);
+						return;
+					}
+
 				}
 
 				foreach (var item in itemStorage.GetNamedItemSlots(NamedSlot.id))
@@ -59,26 +67,33 @@ namespace Doors.Modules
 					if (emagInIdSlot == null) continue;
 					if (interaction != null)
 					{
-						if (emagInIdSlot.UseCharge(interaction)) return EmagSuccessLogic(States);
+						if (emagInIdSlot.UseCharge(interaction))
+						{
+							EmagSuccessLogic(States);
+							return;
+						}
 					}
 
 					if (emagInIdSlot.UseCharge(gameObject, itemStorage.registerPlayer.PlayerScript.gameObject))
-						return EmagSuccessLogic(States);
+					{
+						EmagSuccessLogic(States);
+						return;
+					}
 				}
 			}
 
-			return ModuleSignal.Continue;
+			return;
 		}
 
 		/// <summary>
 		/// What happens after a door gets emagged.
 		/// </summary>
 		/// <returns>ModuleSignal.Continue</returns>
-		private ModuleSignal EmagSuccessLogic(HashSet<DoorProcessingStates> States)
+		private void EmagSuccessLogic(HashSet<DoorProcessingStates> States)
 		{
 			States.Add(DoorProcessingStates.SoftwareHacked);
 			StartCoroutine(ToggleBolts());
-			return ModuleSignal.Continue;
+			return;
 		}
 
 		private IEnumerator ToggleBolts()
