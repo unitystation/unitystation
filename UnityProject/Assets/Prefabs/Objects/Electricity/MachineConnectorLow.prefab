@@ -204,12 +204,15 @@ MonoBehaviour:
   LocalTargetPosition: {x: 0, y: 0, z: 0}
   ChangesDirectionPush: 0
   Intangible: 0
+  CanBeWindPushed: 1
+  IsPlayer: 0
   InitialLocationSynchronised: 0
   tileMoveSpeed: 1
   isNotPushable: 1
-  newtonianMovement: {x: 0, y: 0}
+  HasOwnGravity: 0
   airTime: 0
   slideTime: 0
+  SetIgnoreSticky: 0
   thrownBy: {fileID: 0}
   aim: 0
   spinMagnitude: 0
@@ -221,7 +224,6 @@ MonoBehaviour:
   OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
   onStationMovementsRound: 0
-  attributes: {fileID: 0}
   registerTile: {fileID: 0}
   ContextGameObjects:
   - {fileID: 0}
@@ -232,10 +234,11 @@ MonoBehaviour:
   Pushing: []
   Hits: []
   Animating: 0
-  IsFlyingSliding: 0
+  isFlyingSliding: 0
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
+  BuckledToObject: {fileID: 0}
 --- !u!1 &1816013858564998
 GameObject:
   m_ObjectHideFlags: 0
@@ -342,7 +345,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: eabd3920d32be7344b53880c089ae6f9, type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
-  pushTextureOnStartUp: 0
+  pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
 --- !u!1 &2571747786711962131
