@@ -104,7 +104,7 @@ namespace Objects
 		private void ServerLogEarlyVoteEvent(HandApply prep)
 		{
 			var time = DateTime.Now.ToString(CultureInfo.InvariantCulture);
-			UIManager.Instance.playerAlerts.ServerAddNewEntry(time, PlayerAlertTypes.Emag, prep.PerformerPlayerScript.PlayerInfo,
+			UIManager.LogPlayerAction(time, PlayerAlertTypes.Emag, prep.PerformerPlayerScript.PlayerInfo,
 				$"{time} : {prep.PerformerPlayerScript.playerName} voted for the shuttle to leave early.");
 		}
 
