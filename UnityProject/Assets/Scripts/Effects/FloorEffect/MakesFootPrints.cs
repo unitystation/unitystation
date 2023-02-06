@@ -59,7 +59,7 @@ namespace Effects.FloorEffect
 		public bool IsValidSetup(RegisterPlayer player)
 		{
 			if (player == null) return false;
-			// Checks if it's not null and checks if NamedSlot == NamedSlot.eyes
+			// Checks if it's not null and checks if NamedSlot == NamedSlot The correct oone
 			return player.PlayerScript.RegisterPlayer == pickupable.ItemSlot.Player && IsInCorrectNamedSlot();
 		}
 

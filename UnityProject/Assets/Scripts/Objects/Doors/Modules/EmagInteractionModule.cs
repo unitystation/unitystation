@@ -18,8 +18,13 @@ namespace Doors.Modules
 
 		public override void ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
-			var ItemStorage = interaction.Performer.GetComponent<DynamicItemStorage>();
-			EmagChecks(ItemStorage, interaction, States);
+			if (interaction != null)
+			{
+				var ItemStorage = interaction.Performer.GetComponent<DynamicItemStorage>();
+				EmagChecks(ItemStorage, interaction, States);
+			}
+
+
 		}
 
 		public override void BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
