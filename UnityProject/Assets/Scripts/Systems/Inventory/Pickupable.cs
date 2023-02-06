@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Items;
 using UI;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 /// <summary>
@@ -67,7 +68,11 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	public ItemAttributesV2 ItemAttributesV2;
 
-	public event Action<GameObject> OnMoveToPlayerInventory;
+	/// <summary>
+	/// Client Side Events. Expects an interactor.
+	/// </summary>
+	public UnityEvent<GameObject> OnMoveToPlayerInventory;
+
 
 
 	#region Lifecycle
