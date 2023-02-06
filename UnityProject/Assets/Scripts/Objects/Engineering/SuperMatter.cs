@@ -1183,7 +1183,7 @@ namespace Objects.Engineering
 			if (thrownObject.TryGetComponent<LastTouch>(out var touch) == false || touch.LastTouchedBy == null) return;
 			var time = DateTime.Now.ToString(CultureInfo.InvariantCulture);
 			UIManager.Instance.playerAlerts.ServerAddNewEntry(time, PlayerAlertTypes.RDM, touch.LastTouchedBy,
-				$"{time} : A {thrownObject.ExpensiveName()} was thrown at a super-matter and was last touched by {touch.LastTouchedBy.Script.playerName}.");
+				$"{time} : A {thrownObject.ExpensiveName()} was thrown at a super-matter and was last touched by {touch.LastTouchedBy.Script.playerName} ({touch.LastTouchedBy.Username}).");
 		}
 
 		#endregion

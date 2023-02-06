@@ -96,6 +96,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		{
 			Inventory.ServerDespawn(itemSlot);
 		}
+		OnMoveToPlayerInventory?.RemoveAllListeners();
 	}
 
 	#endregion

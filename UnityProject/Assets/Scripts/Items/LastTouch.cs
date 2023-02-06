@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Items
 {
@@ -13,10 +14,17 @@ namespace Items
 			pickupable.OnMoveToPlayerInventory.AddListener(SetLastTouch);
 		}
 
+		private void OnDestroy()
+		{
+			pickupable.OnMoveToPlayerInventory.RemoveListener(SetLastTouch);
+			pickupable = null;
+			LastTouchedBy = null;
+		}
+
 		private void SetLastTouch(GameObject player)
 		{
-			if (pickupable.ItemSlot.Player == null) return;
-			LastTouchedBy = pickupable.ItemSlot.Player.PlayerScript.PlayerInfo;
+			if (player.TryGetComponent<PlayerScript>(out var info) == false) return;
+			LastTouchedBy = info.PlayerInfo;
 		}
 	}
 }
