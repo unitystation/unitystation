@@ -8,21 +8,27 @@ namespace Doors.Modules
 	{
 		private bool isWelded = false;
 
+		public bool IsWelded => isWelded;
+
 		[SerializeField] [Tooltip("Base time this door takes to be welded")]
 		private float weldTime = 5f;//TODO use time multipliers from welder tools
 
-		public override ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		public override void OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
-			return ModuleSignal.Continue;
+			if (isWelded)
+			{
+				States.Add(DoorProcessingStates.PhysicallyPrevented);
+			}
+
 		}
 
-		public override ModuleSignal ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		public override void ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
-			if (interaction == null) return ModuleSignal.Continue;
+			if (interaction == null) return;
 			if (Validations.HasUsedActiveWelder(interaction))
 			{
 				TryWeld(interaction);
-				return ModuleSignal.Break;
+				States.Add(DoorProcessingStates.PhysicallyPrevented);
 			}
 
 			if (isWelded)
@@ -32,20 +38,20 @@ namespace Doors.Modules
 					ChatChannel.Examine,
 					ChatModifier.None,
 					"The door is welded shut.");
+
+				States.Add(DoorProcessingStates.PhysicallyPrevented);
 			}
-
-			return ModuleSignal.Continue;
 		}
 
-		public override ModuleSignal BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
+		public override void BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
 		{
-			return ModuleSignal.Continue;
+			if (isWelded)
+			{
+				States.Add(DoorProcessingStates.PhysicallyPrevented);
+			}
 		}
 
-		public override bool CanDoorStateChange()
-		{
-			return !isWelded;
-		}
+
 
 		private void TryWeld(HandApply interaction)
 		{

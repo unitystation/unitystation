@@ -29,16 +29,16 @@ namespace Doors.Modules
 			doorName = transform.parent.gameObject.ExpensiveName();
 		}
 
-		public override ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		public override void OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
-			if (interaction == null) return ModuleSignal.Continue;
+			if (interaction == null) return;
 			//If the door is powered, only allow things that are made to pry doors. If it isn't powered, we let crowbars work.
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) || Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
 			{
 				if ((crowbarRequiresNoPower && master.HasPower) && (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) == false) )
 				{
-					return ModuleSignal.Continue;
+					return;
 				}
 
 				ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
@@ -47,19 +47,16 @@ namespace Doors.Modules
 					$"",
 					$"",
 					() => TryPry(interaction));
-
-				return ModuleSignal.Break;
+				States.Add(DoorProcessingStates.PhysicallyPrevented);
 			}
 
-
-			return ModuleSignal.Continue;
 
 			//allows the jaws of life to pry close doors
 		}
 
-		public override ModuleSignal ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		public override void ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
-			if (interaction == null) return ModuleSignal.Continue;
+			if (interaction == null) return;
 
 			//TODO card coded not larva, maybe when moved to body parts larva has their doesnt have this ability on theirs
 			if (interaction.HandObject == null
@@ -67,7 +64,7 @@ namespace Doors.Modules
 			    (interaction.PerformerPlayerScript.TryGetComponent<AlienPlayer>(out var alienPlayer) == false || alienPlayer.IsLarva == false))
 			{
 				PryDoor(interaction, false);
-				return ModuleSignal.Break;
+				States.Add(DoorProcessingStates.PhysicallyPrevented);
 			}
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) ||
@@ -75,14 +72,12 @@ namespace Doors.Modules
 			{
 				if ((crowbarRequiresNoPower && master.HasPower) && (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) == false))
 				{
-					return ModuleSignal.Continue;
+					return;
 				}
 
 				PryDoor(interaction);
-				return ModuleSignal.Break;
+				States.Add(DoorProcessingStates.PhysicallyPrevented);
 			}
-
-			return ModuleSignal.Continue;
 		}
 
 		private void PryDoor(HandApply interaction, bool useTool = true)
@@ -121,9 +116,9 @@ namespace Doors.Modules
 			).ServerStartProgress(master.RegisterTile, pryTime, interaction.Performer);
 		}
 
-		public override ModuleSignal BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
+		public override void BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
 		{
-			return ModuleSignal.Continue;
+			return;
 		}
 
 		private void TryPry(HandApply interaction)

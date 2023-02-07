@@ -76,7 +76,7 @@ namespace Doors
 			}
 			else
 			{
-				return weldModule.CanDoorStateChange() == false; //Door has to be welded to allow Deconstruction
+				return weldModule.IsWelded; //Door has to be welded to allow Deconstruction
 			}
 
 		}
@@ -89,7 +89,7 @@ namespace Doors
 			}
 			else
 			{
-				return boltsModule.CanDoorStateChange();
+				return !boltsModule.BoltsDown;
 			}
 		}
 

@@ -25,36 +25,32 @@ namespace Doors.Modules
 			master.HackingProcessBase.RegisterPort(PlayPressureWarning, master.GetType());
 		}
 
-		public override ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
-		{
-			return ModuleSignal.Continue;
-		}
-
-		private ModuleSignal TryPressureWarning( HashSet<DoorProcessingStates> States)
+		private void TryPressureWarning( HashSet<DoorProcessingStates> States)
 		{
 			//If the door isn't powered, we skip this check. We don't have the power to scan pressure.
 			if (!master.HasPower)
 			{
-				return ModuleSignal.Continue;
+				return;
 			}
 
 			if (warningActive)
 			{
-				return ModuleSignal.Continue;
+				return;
 			}
 
 			if (States.Contains(DoorProcessingStates.SoftwareHacked))
 			{
-				return ModuleSignal.Continue;
+				return;
 			}
 
 			if (!IsPressureDangerous())
 			{
-				return ModuleSignal.Continue;
+				return;
 			}
 
 			master.HackingProcessBase.ImpulsePort(PlayPressureWarning);
-			return ModuleSignal.ContinueWithoutDoorStateChange;
+			States.Add(DoorProcessingStates.SoftwarePrevented);
+			return;
 		}
 
 		public void PlayPressureWarning()
@@ -64,15 +60,15 @@ namespace Doors.Modules
 			StartCoroutine(ResetWarning());
 		}
 
-		public override ModuleSignal ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		public override void ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
-
-			return TryPressureWarning (States);
+			TryPressureWarning (States);
 		}
 
-		public override ModuleSignal BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
+		public override void BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
 		{
-			return TryPressureWarning( States);
+
+			TryPressureWarning( States);
 		}
 
 		/// <summary>
