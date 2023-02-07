@@ -21,6 +21,14 @@ namespace Doors.Modules
 			if (interaction != null)
 			{
 				var ItemStorage = interaction.Performer.GetComponent<DynamicItemStorage>();
+				var Item = ItemStorage.OrNull()?.GetActiveHandSlot()?.Item;
+
+				if (Item != null)
+				{
+					var hasEmag = Item.OrNull()?.gameObject.OrNull()
+						?.GetComponent<Emag>()?.OrNull();
+					if (hasEmag == null) return;
+				}
 				EmagChecks(ItemStorage, interaction, States);
 			}
 
