@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using DatabaseAPI;
 using Messages.Client.Admin;
 using Messages.Server.AdminTools;
 using Mirror;
+using Shared.Managers;
 using UnityEngine;
 
 namespace AdminTools
 {
-	public class PlayerAlerts : MonoBehaviour
+	public class PlayerAlerts : SingletonManager<PlayerAlerts>
 	{
 		[SerializeField] private GameObject playerAlertsWindow = null;
 		[SerializeField] private PlayerAlertsScroll playerAlertsScroll = null;
@@ -18,6 +18,7 @@ namespace AdminTools
 		private readonly List<PlayerAlertData> serverPlayerAlerts = new List<PlayerAlertData>();
 
 		private readonly List<PlayerAlertData> clientPlayerAlerts = new List<PlayerAlertData>();
+
 
 		public void LoadAllEntries(List<PlayerAlertData> alertEntries)
 		{
@@ -210,6 +211,22 @@ namespace AdminTools
 			{
 				playerAlertsWindow.SetActive(false);
 			}
+		}
+
+		public static void LogPlayerAction(string incidentTime, PlayerAlertTypes alertType, PlayerInfo perp, string message)
+		{
+			if (Instance == null)
+			{
+				Logger.LogError("[PlayerAlerts] - Instance is null!");
+				return;
+			}
+			if (perp == null)
+			{
+				Logger.LogError("[PlayerAlerts/LogPlayerAction] - PlayerInfo cannot be null!");
+				return;
+			}
+
+			Instance.ServerAddNewEntry(incidentTime, alertType, perp, message);
 		}
 	}
 

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Items;
 using UI;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 /// <summary>
@@ -67,7 +68,13 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	public ItemAttributesV2 ItemAttributesV2;
 
-	public event Action<GameObject> OnMoveToPlayerInventory;
+	/// <summary>
+	/// Client Side Events. Expects an interactor.
+	/// </summary>
+	public UnityEvent<GameObject> OnMoveToPlayerInventory;
+
+	[SerializeField] private LastTouch lastTouch;
+
 
 
 	#region Lifecycle
@@ -76,6 +83,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	{
 		ItemAttributesV2 =  GetComponent<ItemAttributesV2>();
 		universalObjectPhysics = GetComponent<UniversalObjectPhysics>();
+		if (lastTouch == null) lastTouch = GetComponent<LastTouch>();
 	}
 
 	// make sure to call this in subclasses
@@ -91,6 +99,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		{
 			Inventory.ServerDespawn(itemSlot);
 		}
+		OnMoveToPlayerInventory?.RemoveAllListeners();
 	}
 
 	#endregion
@@ -210,6 +219,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		PickupAnim(interaction.Performer.gameObject);
 		RpcPickupAnimation(interaction.Performer.gameObject);
 		OnMoveToPlayerInventory?.Invoke(interaction.Performer);
+		if (lastTouch != null) lastTouch.LastTouchedBy = interaction.PerformerPlayerScript.PlayerInfo;
 		yield return WaitFor.Seconds(pickupAnimSpeed);
 
 		//Make sure that the object is scaled back to it's original size.

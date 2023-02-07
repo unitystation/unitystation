@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,7 @@ public class GUI_Notification : MonoBehaviour
 
 	[SerializeField] private Text label = null;
 	[SerializeField] private Image background = null;
+	[SerializeField] private AddressableAudioSource nofticationSound;
 
 	private void OnEnable()
 	{
@@ -31,6 +33,11 @@ public class GUI_Notification : MonoBehaviour
 		if (notifications[key] < 0)
 		{
 			notifications[key] = 0;
+		}
+
+		if (nofticationSound != null)
+		{
+			SoundManager.Play(nofticationSound);
 		}
 		UpdateText();
 	}
