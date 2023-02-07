@@ -626,15 +626,4 @@ public class UIManager : MonoBehaviour, IInitialise
 
 		ChatUI.Instance.OpenChatWindow();
 	}
-
-	public static void LogPlayerAction(string incidentTime, PlayerAlertTypes alertType, PlayerInfo perp, string message)
-	{
-		if (perp == null)
-		{
-			Logger.LogError("[UIManager/LogPlayerAction] - PlayerInfo cannot be null!");
-			return;
-		}
-
-		Instance.playerAlerts.ServerAddNewEntry(incidentTime, alertType, perp, message);
-	}
 }

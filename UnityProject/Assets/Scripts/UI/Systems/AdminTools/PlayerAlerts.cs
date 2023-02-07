@@ -10,6 +10,7 @@ namespace AdminTools
 {
 	public class PlayerAlerts : MonoBehaviour
 	{
+		public static PlayerAlerts Instance;
 		[SerializeField] private GameObject playerAlertsWindow = null;
 		[SerializeField] private PlayerAlertsScroll playerAlertsScroll = null;
 		[SerializeField] private GUI_Notification notifications = null;
@@ -18,6 +19,16 @@ namespace AdminTools
 		private readonly List<PlayerAlertData> serverPlayerAlerts = new List<PlayerAlertData>();
 
 		private readonly List<PlayerAlertData> clientPlayerAlerts = new List<PlayerAlertData>();
+
+		private void Awake()
+		{
+			Instance = this;
+		}
+
+		private void OnDestroy()
+		{
+			Instance = null;
+		}
 
 		public void LoadAllEntries(List<PlayerAlertData> alertEntries)
 		{
@@ -210,6 +221,22 @@ namespace AdminTools
 			{
 				playerAlertsWindow.SetActive(false);
 			}
+		}
+
+		public static void LogPlayerAction(string incidentTime, PlayerAlertTypes alertType, PlayerInfo perp, string message)
+		{
+			if (Instance == null)
+			{
+				Logger.LogError("[PlayerAlerts] - Instance is null!");
+				return;
+			}
+			if (perp == null)
+			{
+				Logger.LogError("[UIManager/LogPlayerAction] - PlayerInfo cannot be null!");
+				return;
+			}
+
+			Instance.ServerAddNewEntry(incidentTime, alertType, perp, message);
 		}
 	}
 
