@@ -18,19 +18,17 @@ namespace Doors.Modules
 
 		public override void ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
-			if (interaction != null)
-			{
-				var ItemStorage = interaction.Performer.GetComponent<DynamicItemStorage>();
-				var Item = ItemStorage.OrNull()?.GetActiveHandSlot()?.Item;
+			if (interaction == null) return;
+			var ItemStorage = interaction.Performer.GetComponent<DynamicItemStorage>();
+			var Item = ItemStorage.OrNull()?.GetActiveHandSlot()?.Item;
 
-				if (Item != null)
-				{
-					var hasEmag = Item.OrNull()?.gameObject.OrNull()
-						?.GetComponent<Emag>()?.OrNull();
-					if (hasEmag == null) return;
-				}
-				EmagChecks(ItemStorage, interaction, States);
+			if (Item != null)
+			{
+				var hasEmag = Item.OrNull()?.gameObject.OrNull()
+					?.GetComponent<Emag>()?.OrNull();
+				if (hasEmag == null) return;
 			}
+			EmagChecks(ItemStorage, interaction, States);
 
 
 		}
