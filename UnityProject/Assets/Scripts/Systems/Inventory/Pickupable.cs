@@ -73,6 +73,8 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	/// </summary>
 	public UnityEvent<GameObject> OnMoveToPlayerInventory;
 
+	[SerializeField] private LastTouch lastTouch;
+
 
 
 	#region Lifecycle
@@ -81,6 +83,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	{
 		ItemAttributesV2 =  GetComponent<ItemAttributesV2>();
 		universalObjectPhysics = GetComponent<UniversalObjectPhysics>();
+		if (lastTouch == null) lastTouch = GetComponent<LastTouch>();
 	}
 
 	// make sure to call this in subclasses
@@ -216,6 +219,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		PickupAnim(interaction.Performer.gameObject);
 		RpcPickupAnimation(interaction.Performer.gameObject);
 		OnMoveToPlayerInventory?.Invoke(interaction.Performer);
+		if (lastTouch != null) lastTouch.LastTouchedBy = interaction.PerformerPlayerScript.PlayerInfo;
 		yield return WaitFor.Seconds(pickupAnimSpeed);
 
 		//Make sure that the object is scaled back to it's original size.
