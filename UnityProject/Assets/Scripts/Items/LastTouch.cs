@@ -11,11 +11,5 @@ namespace Items
 		{
 			LastTouchedBy = null;
 		}
-
-		private void SetLastTouch(GameObject player)
-		{
-			if (player.TryGetComponent<PlayerScript>(out var info) == false) return;
-			LastTouchedBy = info.PlayerInfo;
-		}
 	}
 }
