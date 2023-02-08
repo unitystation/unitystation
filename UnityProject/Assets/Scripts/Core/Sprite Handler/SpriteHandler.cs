@@ -343,6 +343,10 @@ public class SpriteHandler : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Forces the sprite handler to clear out the current sprites being displayed.
+	/// </summary>
+	/// <param name="networked">Network this action to all clients.</param>
 	public void PushClear(bool networked = true)
 	{
 		if (HasSpriteInImageComponent() == false) return;
