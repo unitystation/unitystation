@@ -9,8 +9,8 @@ namespace Objects.Other
 {
 	public class JanitorCart : ReagentContainer, ICheckedInteractable<HandApply>
 	{
-		[SerializeField] private AddressableAudioSource dippingSound;
-		[SerializeField] private SpriteHandler waterSprite;
+		[SerializeField] private SpriteHandler waterSpriteHandler;
+		[SerializeField] private SpriteDataSO waterSpriteSO;
 		[SerializeField] private ItemTrait mopTrait;
 		[SerializeField] private ItemTrait trashbagTrait;
 
@@ -29,6 +29,7 @@ namespace Objects.Other
 
 		public new void ServerPerformInteraction(HandApply interaction)
 		{
+			CheckSpriteStatus();
 			if (interaction.HandObject == null)
 			{
 				if (GrabTool(interaction, mopTrait))      return;
@@ -95,27 +96,29 @@ namespace Objects.Other
 
 		private void MopInteraction(HandApply interaction)
 		{
-			if (interaction.IsAltClick || interaction.Intent == Intent.Disarm)
+			if (interaction.Intent == Intent.Disarm)
 			{
 				if (jaintorToolsHolding.GetNextEmptySlot() == null) return;
-				if (jaintorToolsHolding.ServerTransferGameObjectToItemSlot(interaction.HandObject, jaintorToolsHolding.GetNextEmptySlot()) == false) return;
+				if (jaintorToolsHolding.ServerTryTransferFrom(interaction.HandObject) == false)
+				{
+					Logger.LogError("WHY THE FUCK DOES THIS NOT WORK?");
+					return;
+				}
 				Chat.AddLocalMsgToChat($"{interaction.PerformerPlayerScript.visibleName} adds a {interaction.HandObject.ExpensiveName()} to the {gameObject.ExpensiveName()}", interaction.Performer);
 				return;
 			}
 			base.ServerPerformInteraction(interaction);
-			if (dippingSound != null) _ = SoundManager.PlayNetworkedAtPosAsync(dippingSound, gameObject.AssumedWorldPosServer());
-			CheckSpriteStatus();
 		}
 
 		private void CheckSpriteStatus()
 		{
-			if (ReagentMixTotal.Approx(0))
+			if (IsEmpty)
 			{
-				waterSprite.PushClear();
+				waterSpriteHandler.PushClear();
 			}
 			else
 			{
-				waterSprite.ChangeSprite(0);
+				waterSpriteHandler.SetSpriteSO(waterSpriteSO);
 			}
 		}
 	}
