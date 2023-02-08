@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using AddressableReferences;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -354,7 +353,12 @@ namespace Chemistry.Components
 			bool updateReactions = true
 		)
 		{
-			if (transferSound.IsNullOrEmpty() == false) _ = SoundManager.PlayNetworkedAtPosAsync(transferSound.PickRandom(), gameObject.AssumedWorldPosServer());
+			if (transferSound != null)
+			{
+				_ = SoundManager.PlayNetworkedAtPosAsync(transferSound.PickRandom(),
+					gameObject.AssumedWorldPosServer());
+			}
+
 			TransferResult transferResult;
 
 			// save total ammount before mixing
