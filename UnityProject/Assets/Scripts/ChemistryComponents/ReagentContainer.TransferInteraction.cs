@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using AddressableReferences;
+using Castle.Core.Internal;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -51,7 +52,7 @@ namespace Chemistry.Components
 		[FormerlySerializedAs("InitialTransferAmount")]
 		[SerializeField] private float transferAmount = 20;
 
-		[SerializeField] private AddressableAudioSource transferSound;
+		[SerializeField] private List<AddressableAudioSource> transferSound;
 
 		public bool TraitWhitelistOn => traitWhitelist.Count > 0;
 
@@ -354,7 +355,7 @@ namespace Chemistry.Components
 			bool updateReactions = true
 		)
 		{
-			if (transferSound != null) _ = SoundManager.PlayNetworkedAtPosAsync(transferSound, gameObject.AssumedWorldPosServer());
+			if (transferSound.IsNullOrEmpty() == false) _ = SoundManager.PlayNetworkedAtPosAsync(transferSound.PickRandom(), gameObject.AssumedWorldPosServer());
 			TransferResult transferResult;
 
 			// save total ammount before mixing
