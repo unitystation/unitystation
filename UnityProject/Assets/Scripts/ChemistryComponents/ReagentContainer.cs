@@ -164,13 +164,7 @@ namespace Chemistry.Components
 		/// <summary>
 		/// Server side only. Total reagent mix amount in units
 		/// </summary>
-		public float ReagentMixTotal
-		{
-			get
-			{
-				return CurrentReagentMix.Total;
-			}
-		}
+		public float ReagentMixTotal => CurrentReagentMix.Total;
 
 		private void Awake()
 		{
