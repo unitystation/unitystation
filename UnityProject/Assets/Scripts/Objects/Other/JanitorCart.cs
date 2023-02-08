@@ -1,13 +1,13 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
-using AddressableReferences;
+using Castle.Core.Internal;
 using Chemistry.Components;
-using Items;
+using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
 
 namespace Objects.Other
 {
-	public class JanitorCart : ReagentContainer, ICheckedInteractable<HandApply>
+	public class JanitorCart : ReagentContainer, ICheckedInteractable<HandApply>, IHoverTooltip
 	{
 		[SerializeField] private SpriteHandler waterSpriteHandler;
 		[SerializeField] private SpriteDataSO waterSpriteSO;
@@ -15,10 +15,16 @@ namespace Objects.Other
 		[SerializeField] private ItemTrait trashbagTrait;
 
 		private ItemStorage jaintorToolsHolding;
+		private IHoverTooltip hoverTooltipImplementation;
 
 		private void Awake()
 		{
 			jaintorToolsHolding = GetComponent<ItemStorage>();
+		}
+
+		private void Start()
+		{
+			//Do this on start because it really pisses off the game when scenes are loading.
 			CheckSpriteStatus();
 		}
 
@@ -59,7 +65,7 @@ namespace Objects.Other
 				if(slot.IsEmpty) continue;
 				if(slot.ItemAttributes.GetTraits().Contains(thingToGrab) == false) continue;
 				if (Inventory.ServerTransfer(slot, interaction.HandSlot) == false) continue;
-				Chat.AddLocalMsgToChat($"{interaction.PerformerPlayerScript.visibleName} grabs the " +
+				Chat.AddLocalMsgToChat($"{interaction.PerformerPlayerScript.visibleName} grabs " +
 				                       $"something from the {gameObject.ExpensiveName()}", interaction.Performer);
 				return true;
 			}
@@ -101,7 +107,7 @@ namespace Objects.Other
 				if (jaintorToolsHolding.GetNextEmptySlot() == null) return;
 				if (jaintorToolsHolding.ServerTryTransferFrom(interaction.HandObject) == false)
 				{
-					Logger.LogError("WHY THE FUCK DOES THIS NOT WORK?");
+					Chat.AddExamineMsg(interaction.Performer, "You can't add this to the cart");
 					return;
 				}
 				Chat.AddLocalMsgToChat($"{interaction.PerformerPlayerScript.visibleName} adds a {interaction.HandObject.ExpensiveName()} to the {gameObject.ExpensiveName()}", interaction.Performer);
@@ -120,6 +126,59 @@ namespace Objects.Other
 			{
 				waterSpriteHandler.SetSpriteSO(waterSpriteSO);
 			}
+		}
+
+		private List<TextColor> CheckHandTips()
+		{
+			var slots = PlayerManager.Equipment.ItemStorage.GetHandSlots();
+			if (slots.IsNullOrEmpty()) return null;
+			var interactionList = new List<TextColor>();
+			foreach (var hand in slots)
+			{
+				if (hand.IsEmpty) continue;
+				if (hand.ItemAttributes.HasTrait(mopTrait))
+				{
+					interactionList.Add(new TextColor(){Color = Color.green, Text = "Click with a mop to fill it with water."});
+				}
+
+				if (hand.ItemAttributes.HasTrait(CommonTraits.Instance.Trash))
+				{
+					interactionList.Add(new TextColor(){Color = Color.green, Text = "Click with trash in hand to throw trash in garbage bag if available in cart."});
+				}
+
+				if (hand.ItemAttributes.HasTrait(CommonTraits.Instance.Bucket))
+				{
+					interactionList.Add(new TextColor(){Color = Color.green, Text = "Click with bucket to fill cart with liquid."});
+				}
+			}
+
+			return interactionList;
+		}
+
+		public string HoverTip()
+		{
+			var status = "";
+			if (ReagentMixTotal >= MaxCapacity) status = "is full.";
+			if (ReagentMixTotal <= MaxCapacity) status = "is almost full.";
+			if (ReagentMixTotal <= MaxCapacity / 2) status = "is half full.";
+			if (IsEmpty) status = "is empty.";
+			return $"It appears that it {status}";
+		}
+
+		public string CustomTitle() { return null; }
+
+		public Sprite CustomIcon() { return null; }
+
+		public List<Sprite> IconIndicators() { return null; }
+
+		public List<TextColor> InteractionsStrings()
+		{
+			var interactions = new List<TextColor>();
+			interactions.Add(new TextColor(){Color = Color.cyan, Text = "Click with an empty hand to add or remove mops with disarm intent."});
+			interactions.Add(new TextColor(){Color = Color.green, Text = "Click with an empty hand to add or remove garbage bags."});
+			var handInteractions = CheckHandTips();
+			if (handInteractions.IsNullOrEmpty() == false) interactions.AddRange(handInteractions);
+			return interactions;
 		}
 	}
 }
