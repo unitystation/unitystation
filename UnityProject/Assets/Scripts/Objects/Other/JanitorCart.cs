@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Castle.Core.Internal;
 using Chemistry.Components;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
@@ -131,7 +130,7 @@ namespace Objects.Other
 		private List<TextColor> CheckHandTips()
 		{
 			var slots = PlayerManager.Equipment.ItemStorage.GetHandSlots();
-			if (slots.IsNullOrEmpty()) return null;
+			if (slots is null) return null;
 			var interactionList = new List<TextColor>();
 			foreach (var hand in slots)
 			{
@@ -177,7 +176,8 @@ namespace Objects.Other
 			interactions.Add(new TextColor(){Color = Color.cyan, Text = "Click with an empty hand to add or remove mops with disarm intent."});
 			interactions.Add(new TextColor(){Color = Color.green, Text = "Click with an empty hand to add or remove garbage bags."});
 			var handInteractions = CheckHandTips();
-			if (handInteractions.IsNullOrEmpty() == false) interactions.AddRange(handInteractions);
+			// "is {}" is a null check. Same as saying "is not null" but I'm not sure if unity can handle that syntax sugar.
+			if (handInteractions is {}) interactions.AddRange(handInteractions);
 			return interactions;
 		}
 	}
