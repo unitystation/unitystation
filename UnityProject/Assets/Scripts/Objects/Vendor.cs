@@ -204,6 +204,21 @@ namespace Objects
 						}
 					}
 				}
+
+				var  Hand = playerStorage.OrNull()?.GetActiveHandSlot();
+				if (Hand.ItemObject)
+				{
+					var idCard = AccessRestrictions.GetIDCard(Hand.ItemObject);
+					if (idCard.currencies[(int) itemToSpawn.Currency] >= itemToSpawn.Price)
+					{
+						idCard.currencies[(int) itemToSpawn.Currency] -= itemToSpawn.Price;
+					}
+					else
+					{
+						Chat.AddWarningMsgFromServer(player.GameObject, tooExpensiveMessage);
+						return false;
+					}
+				}
 			}
 
 			return isSelectionValid;
