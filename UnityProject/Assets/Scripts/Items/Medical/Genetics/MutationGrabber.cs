@@ -38,39 +38,39 @@ public class MutationGrabber : MonoBehaviour, IExaminable , ICheckedInteractable
 		foreach (var bodypart in health.BodyPartList)
 		{
 
-			string Toadd = "";
-			string ToCapable = "";
-			var Mutation = bodypart.GetComponent<BodyPartMutations>();
-			if (Mutation != null)
+			string toadd = "";
+			string toCapable = "";
+			var mutations = bodypart.GetComponent<BodyPartMutations>();
+			if (mutations != null)
 			{
-				if (Mutation.ActiveMutations.Count > 0)
+				if (mutations.ActiveMutations.Count > 0)
 				{
-					foreach (var mutation in Mutation.ActiveMutations)
+					foreach (var mutation in mutations.ActiveMutations)
 					{
-						Toadd += mutation.RelatedMutationSO.name + " " + mutation.Stability + ", ";
+						toadd += mutation.RelatedMutationSO.name + " " + mutation.Stability + ", ";
 					}
 				}
 
 				if (interaction.IsAltClick)
 				{
-					if (Mutation.CapableMutations.Count > 0)
+					if (mutations.CapableMutations.Count > 0)
 					{
-						foreach (var mutation in Mutation.CapableMutations)
+						foreach (var mutation in mutations.CapableMutations)
 						{
-							ToCapable += mutation.name + " " + mutation.Stability + ", ";
+							toCapable += mutation.name + " " + mutation.Stability + ", ";
 						}
 					}
 				}
 			}
 
-			if (string.IsNullOrEmpty(Toadd) == false)
+			if (string.IsNullOrEmpty(toadd) == false)
 			{
-				scanMessage.AppendLine($"Body part : {bodypart.name} has " + Toadd + " Mutations ");
+				scanMessage.AppendLine($"Body part : {bodypart.name} has " + toadd + " Mutations ");
 			}
 
-			if (string.IsNullOrEmpty(ToCapable) == false)
+			if (string.IsNullOrEmpty(toCapable) == false)
 			{
-				scanMessage.AppendLine($"Body part : {bodypart.name} Is capable of  " + ToCapable + " Mutations ");
+				scanMessage.AppendLine($"Body part : {bodypart.name} Is capable of  " + toCapable + " Mutations ");
 			}
 		}
 
@@ -80,13 +80,13 @@ public class MutationGrabber : MonoBehaviour, IExaminable , ICheckedInteractable
 
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
-		var  DinosaurLivingMutationCarrier = interaction.TargetObject.GetComponent<DinosaurLivingMutationCarrier>();
+		var  dinosaurLivingMutationCarrier = interaction.TargetObject.GetComponent<DinosaurLivingMutationCarrier>();
 
-		if (DinosaurLivingMutationCarrier != null)
+		if (dinosaurLivingMutationCarrier != null)
 		{
-			if (DinosaurLivingMutationCarrier.StageSynchronise == (DinosaurLivingMutationCarrier.GrowingStages.Count - 1))
+			if (dinosaurLivingMutationCarrier.StageSynchronise == (dinosaurLivingMutationCarrier.GrowingStages.Count - 1))
 			{
-				foreach (var Mutation in DinosaurLivingMutationCarrier.CarryingMutations)
+				foreach (var Mutation in dinosaurLivingMutationCarrier.CarryingMutations)
 				{
 					if (CarryingMutations.Contains(Mutation) == false)
 					{
@@ -99,27 +99,27 @@ public class MutationGrabber : MonoBehaviour, IExaminable , ICheckedInteractable
 			}
 			else
 			{
-				string Adding = "";
-				var mobfood = DinosaurLivingMutationCarrier.GetComponent<MobExplore>();
+				string adding = "";
+				var mobfood = dinosaurLivingMutationCarrier.GetComponent<MobExplore>();
 				if (mobfood != null)
 				{
 					if (mobfood.HasFoodPrefereces)
 					{
-						Adding = "Try feeding them some food Such as " ;
+						adding = "Try feeding them some food Such as " ;
 						foreach (var food in mobfood.FoodPreferences)
 						{
-							Adding += food.name + ", ";
+							adding += food.name + ", ";
 						}
 					}
 					else
 					{
-						Adding = "Try feeding them some food";
+						adding = "Try feeding them some food";
 					}
 
 				}
 
 
-				Chat.AddExamineMsgFromServer(interaction.Performer, $" The DNA mutations are too unstable from {interaction.TargetObject.ExpensiveName()} needs to become stabilised from growth. " + Adding);
+				Chat.AddExamineMsgFromServer(interaction.Performer, $" The DNA mutations are too unstable from {interaction.TargetObject.ExpensiveName()} needs to become stabilised from growth. " + adding);
 
 			}
 
@@ -156,14 +156,14 @@ public class MutationGrabber : MonoBehaviour, IExaminable , ICheckedInteractable
 		}
 		else
 		{
-			var Buildingstring = " Contained within the buffer is  ";
+			var buildingstring = " Contained within the buffer is  ";
 			foreach (var Mutation in CarryingMutations)
 			{
-				Buildingstring += Mutation.name + ", ";
+				buildingstring += Mutation.name + ", ";
 			}
 
-			Buildingstring += " and That is it ";
-			return Buildingstring;
+			buildingstring += " and That is it ";
+			return buildingstring;
 		}
 	}
 }
