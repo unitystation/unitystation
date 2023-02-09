@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
+using HealthV2;
 using Systems.MobAIs;
 using UnityEngine;
 
-public class MutationGrabber : MonoBehaviour, IExaminable , ICheckedInteractable<PositionalHandApply>
+public class MutationGrabber : MonoBehaviour, IExaminable , ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<HandApply>
 {
 
 	public List<MutationSO> CarryingMutations = new List<MutationSO>();
@@ -13,6 +15,66 @@ public class MutationGrabber : MonoBehaviour, IExaminable , ICheckedInteractable
 		if (interaction.TargetObject == gameObject) return false;
 		if (Validations.HasComponent<DinosaurLivingMutationCarrier>(interaction.TargetObject) == false && Validations.HasComponent<DNAConsole>(interaction.TargetObject) == false) return false;
 		return true;
+	}
+
+	public bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
+		// can only be applied to LHB
+		return Validations.HasComponent<LivingHealthMasterBase>(interaction.TargetObject);
+	}
+
+	public void ServerPerformInteraction(HandApply interaction)
+	{
+		var performerName = interaction.Performer.ExpensiveName();
+		var targetName = interaction.TargetObject.ExpensiveName();
+		Chat.AddActionMsgToChat(interaction.Performer,
+			$"You analyze {targetName}'s DNA.",
+			$"{performerName} analyzes {targetName}'s DNA.");
+		var health = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
+		StringBuilder scanMessage = new StringBuilder(
+			"----------------------------------------\n" +
+			$"{targetName} With stability of {health.Stability} \n");
+		foreach (var bodypart in health.BodyPartList)
+		{
+
+			string Toadd = "";
+			string ToCapable = "";
+			var Mutation = bodypart.GetComponent<BodyPartMutations>();
+			if (Mutation != null)
+			{
+				if (Mutation.ActiveMutations.Count > 0)
+				{
+					foreach (var mutation in Mutation.ActiveMutations)
+					{
+						Toadd += mutation.RelatedMutationSO.name + " " + mutation.Stability + ", ";
+					}
+				}
+
+				if (interaction.IsAltClick)
+				{
+					if (Mutation.CapableMutations.Count > 0)
+					{
+						foreach (var mutation in Mutation.CapableMutations)
+						{
+							ToCapable += mutation.name + " " + mutation.Stability + ", ";
+						}
+					}
+				}
+			}
+
+			if (string.IsNullOrEmpty(Toadd) == false)
+			{
+				scanMessage.AppendLine($"Body part : {bodypart.name} has " + Toadd + " Mutations ");
+			}
+
+			if (string.IsNullOrEmpty(ToCapable) == false)
+			{
+				scanMessage.AppendLine($"Body part : {bodypart.name} Is capable of  " + ToCapable + " Mutations ");
+			}
+		}
+
+		Chat.AddExamineMsgFromServer(interaction.Performer, $"</i>{scanMessage}<i>");
 	}
 
 
