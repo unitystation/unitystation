@@ -57,11 +57,11 @@
 			{
 				// Mix Lights.
 				fixed4 occlusionSample = tex2D(_OcclusionMask, i.occlusionUv);
-				fixed4 lightSample = tex2D(_LightMask, i.lightUv);
+				half4 lightSample = tex2D(_LightMask, i.lightUv);
 				fixed4 occLightSample = tex2D(_ObstacleLightMask, i.lightUv);
 
 				float _obstacleMask = occlusionSample.r;
-				fixed4 mixedLight = lightSample;
+				half4 mixedLight = lightSample;
 				fixed4 screen = tex2D(_MainTex, i.uv);
 
 				//Times the light so it's a little bit brighter, this is from the reduced range we have 0 to 0.66 = normal light 0.66 to 1 blown out light
@@ -72,25 +72,25 @@
 				float length = sqrt( (mixedLight.r*2) + (mixedLight.g*2) + (mixedLight.b*2));
 
 				//2.25 Is balancing numbers
-				fixed3 normaliseColour = (mixedLight / (length/2.25)) ; 
+				half3 normaliseColour = (mixedLight / (length/2.25)) ; 
 			
 
 				//Adding the occlusion and wall stuff
-				fixed3 BalanceLight = clamp(normaliseColour * clamp( occLightSample.a +  mixedLight.a + 0.55, 0,1), 0, 1);
+				half3 BalanceLight = clamp(normaliseColour * clamp( occLightSample.a +  mixedLight.a + 0.55, 0,1), 0, 1);
 
 				//Adding the occlusion and wall stuff
 				BalanceLight = BalanceLight + (( occLightSample * 0.75 ) * (_obstacleMask));
 				
 				//generate bloom 
-				fixed3 balancedMixLight =  clamp(normaliseColour*(mixedLight.a - 0.66), 0, 10)*1;
+				half3 balancedMixLight =  clamp(normaliseColour*(mixedLight.a - 0.66), 0, 10)*1;
 				
 				// Blend light with scene.
-				fixed4 screenLit =  fixed4( ((screen.rgb*BalanceLight+balancedMixLight)) , screen.a);
+				half4 screenLit =  fixed4( ((screen.rgb*BalanceLight+balancedMixLight)) , screen.a);
 				
 				// Mix Background.
-				fixed4 background = tex2D(_BackgroundTex, i.uv);
+				half4 background = tex2D(_BackgroundTex, i.uv);
 				float backgroundMask = clamp(occlusionSample.g-(screen.a * 2), 0, 1);
-				fixed4 screenLitBackground = background * backgroundMask + screenLit;
+				half4 screenLitBackground = background * backgroundMask + screenLit;
 
 				return screenLitBackground;
 			}
