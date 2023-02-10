@@ -184,7 +184,8 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		/// So functions can subscribe and do there Funky stuff when damage is taken
+		/// Triggers when a body part receives damage. 
+		///It has the attack type, damage type and the amount of damage as parameters for the callback
 		/// </summary>
 		public event Action<AttackType,DamageType, float> OnDamageChangeBy;
 
