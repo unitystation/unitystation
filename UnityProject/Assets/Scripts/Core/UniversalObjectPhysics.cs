@@ -561,6 +561,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			{
 				sprite.enabled = true;
 			}
+
+			if (isServer == false || this is not MovementSynchronisation c) return;
+			transform.localRotation = c.playerScript.RegisterPlayer.IsLayingDown ? Quaternion.Euler(0, 0, -90) : Quaternion.Euler(0,0,0);
 		}
 		else
 		{
