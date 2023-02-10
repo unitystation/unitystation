@@ -186,7 +186,7 @@ namespace HealthV2
 		/// <summary>
 		/// So functions can subscribe and do there Funky stuff when damage is taken
 		/// </summary>
-		public event Action<AttackType,DamageType, float> OnDamageChangeBy;
+		public event Action<AttackType,DamageType, float> OnDamageTaken;
 
 
 		/// <summary>
@@ -378,7 +378,7 @@ namespace HealthV2
 			}
 
 			AffectDamage(damageToLimb, (int) damageType);
-			OnDamageChangeBy?.Invoke(attackType, damageType,  damageToLimb);
+			OnDamageTaken?.Invoke(attackType, damageType,  damageToLimb);
 
 			// May be changed to individual damage
 			// May also want it so it can miss sub organs

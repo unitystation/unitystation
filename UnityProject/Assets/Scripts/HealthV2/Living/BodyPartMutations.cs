@@ -41,7 +41,7 @@ public class BodyPartMutations : BodyPartFunctionality
 	public override void Awake()
 	{
 		base.Awake();
-		RelatedPart.OnDamageChangeBy += OnDMGMutationCheck;
+		RelatedPart.OnDamageTaken += OnDMGMutationCheck;
 	}
 
 
