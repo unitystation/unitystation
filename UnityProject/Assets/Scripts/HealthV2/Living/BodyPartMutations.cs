@@ -38,6 +38,43 @@ public class BodyPartMutations : BodyPartFunctionality
 		return MutationVariants[Mutation];
 	}
 
+	public override void Awake()
+	{
+		base.Awake();
+		RelatedPart.OnDamageTaken += OnDMGMutationCheck;
+	}
+
+
+	public void OnDMGMutationCheck(AttackType attackType,DamageType damageType, float amount)
+	{
+		if (damageType == DamageType.Clone)
+		{
+			//Range = -999999 to 9999999
+			if (amount > 0)
+			{
+				//Range = 0 to 9999999
+				amount = Mathf.Clamp(amount, 0, 100);
+				//Range = 0 to 100
+				//Percentage 100 = 10
+
+				var RNG= Random.Range(0, 1000);
+				if (amount >= RNG)
+				{
+					List<MutationSO> available = new List<MutationSO>(CapableMutations);
+					foreach (var active in ActiveMutations)
+					{
+						available.Remove(active.RelatedMutationSO);
+					}
+
+					AddMutation(available.PickRandom());
+				}
+			}
+			//Maybe under undo mutations??
+
+		}
+	}
+
+
 	public static MutationRoundData GetSpeciesRoundData(PlayerHealthData species)
 	{
 		if (RaceDataVariants.ContainsKey(species) == false)
