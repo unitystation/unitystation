@@ -7,6 +7,7 @@ using UnityEngine;
 public class MutationChooseElement : DynamicEntry
 {
 
+	public NetText_label NetText_label;
 	public GUI_DNAConsole GUI_DNAConsole;
 	public MutationSO MutationSO;
 
@@ -14,6 +15,7 @@ public class MutationChooseElement : DynamicEntry
 	{
 		MutationSO = InMutationSO;
 		GUI_DNAConsole = InGUI_DNAConsole;
+		NetText_label.MasterSetValue(InMutationSO.name);
 	}
 
 	public void OnSelect()

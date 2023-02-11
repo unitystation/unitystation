@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: Human
   m_EditorClassIdentifier: 
   Base:
-    BrainPrefab: {fileID: 3442747058158572537, guid: 1e19c4562afbbd2479d14830399db738,
-      type: 3}
     Head:
       Elements:
       - {fileID: 7761316997644922781, guid: 78253771c2047f94c9ae40161a6be7ee, type: 3}
@@ -80,3 +78,5 @@ MonoBehaviour:
       type: 3}
     SkinProduce: {fileID: 6495706577167429729, guid: d8939ebf8b82f5e4cbb20bfbead306c1,
       type: 3}
+    CanShowUpInTheCharacterCreatorScreen: 1
+    PreviewSprite: {fileID: 11400000, guid: 2f4ed06eb37f4c645a274b500687e360, type: 2}

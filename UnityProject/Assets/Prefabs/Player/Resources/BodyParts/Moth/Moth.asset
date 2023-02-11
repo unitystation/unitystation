@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: Moth
   m_EditorClassIdentifier: 
   Base:
-    BrainPrefab: {fileID: 3442747058158572537, guid: 1e19c4562afbbd2479d14830399db738,
-      type: 3}
     Head:
       Elements:
       - {fileID: 2786272515407694308, guid: 3e063bcb6e08156418d85b3bac4bd1bd, type: 3}
@@ -55,3 +53,7 @@ MonoBehaviour:
     BodyNaturalToxinReagent: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12,
       type: 2}
     ClueString: a short light fuzzy hair
+    MeatProduce: {fileID: 0}
+    SkinProduce: {fileID: 0}
+    CanShowUpInTheCharacterCreatorScreen: 1
+    PreviewSprite: {fileID: 11400000, guid: 7c3ee7b3fd0d8344daabae83054c3913, type: 2}
