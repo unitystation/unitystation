@@ -1,6 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Util;
 
 namespace UI.Core
 {
@@ -14,7 +15,7 @@ namespace UI.Core
 		public void Setup(string text, Sprite icon, System.Action actionOnClick)
 		{
 			onClickDoAction = actionOnClick;
-			choiceText.text = text;
+			choiceText.text = text.CapitalizeFirstLetter();
 			if (icon == null)
 			{
 				choiceIcon.SetActive(false);
