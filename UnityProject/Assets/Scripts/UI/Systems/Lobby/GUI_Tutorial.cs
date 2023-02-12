@@ -10,16 +10,16 @@ public class GUI_Tutorial : MonoBehaviour
     public void OnTutorialButton(string choice)
     {
         ///Start tutorial if directory languages exist
-        if(Directory.Exists(Application.persistentDataPath + "/languages"))
+        //if(Directory.Exists(Application.persistentDataPath + "/languages"))
         {
             GameManager.Instance.onTuto = true;
             GameManager.Instance.language = choice;
             LoadingScreenManager.LoadFromLobby(CustomNetworkManager.Instance.StartHost);
         }
-        else
-        {
-            Debug.LogError("CAN'T FIND LANGUAGES");
-        }
+        //else
+        //{
+        //    Debug.LogError($"CAN'T FIND LANGUAGES: {Application.persistentDataPath + "/languages"}");
+        //}
     }
 
     public void ChoiceLanguage()
