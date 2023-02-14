@@ -331,10 +331,24 @@ namespace Shared.Editor
 			var master = Masters[index];
 			var distance = Vector3.Distance(slave.gameObject.transform.position, master.gameObject.transform.position);
 
+			var Oldmaster = slave.Master;
+
 			if (distance <= master.MaxDistance)
 			{
 				slave.SetMasterEditor(master);
 			}
+
+			if (Oldmaster != null)
+			{
+				EditorUtility.SetDirty((Component)Oldmaster);
+				Undo.RecordObject(Oldmaster.gameObject, " unLink");
+
+			}
+			EditorUtility.SetDirty((Component)Masters[0]);
+			Undo.RecordObject(Masters[0].gameObject, " Link");
+
+			EditorUtility.SetDirty((Component)slave);
+			Undo.RecordObject(slave.gameObject, " Link");
 
 			return distance;
 		}
