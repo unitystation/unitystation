@@ -55,11 +55,13 @@ MonoBehaviour:
   Cleanable: 1
   CanDryUp: 0
   isBlood: 0
+  IsFootprint: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   PossibleSprites:
   - {fileID: 21300000, guid: 7aa725398c56b1244b258dba5164b9fd, type: 3}
   - {fileID: 21300000, guid: 4fc061f29d367f84da38401fadc895fb, type: 3}
   - {fileID: 21300000, guid: 33795ea0ccaa51742bc638a540d0b4ae, type: 3}
+  DontTouchSpriteRenderer: 0
 --- !u!114 &114595774069620348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,17 +142,27 @@ MonoBehaviour:
   SnapToGridOnStart: 0
   LocalTargetPosition: {x: 0, y: 0, z: 0}
   ChangesDirectionPush: 0
-  isNotPushable: 0
-  newtonianMovement: {x: 0, y: 0}
+  Intangible: 0
+  CanBeWindPushed: 1
+  IsPlayer: 0
+  InitialLocationSynchronised: 0
+  tileMoveSpeed: 1
+  isNotPushable: 1
+  HasOwnGravity: 0
   airTime: 0
   slideTime: 0
+  SetIgnoreSticky: 0
   thrownBy: {fileID: 0}
   aim: 0
   spinMagnitude: 0
+  ForcedPushedFrame: 0
+  TryPushedFrame: 0
+  PushedFrame: 0
+  FramePushDecision: 1
   stickyMovement: 0
+  OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
   onStationMovementsRound: 0
-  attributes: {fileID: 0}
   registerTile: {fileID: 0}
   ContextGameObjects:
   - {fileID: 0}
@@ -160,15 +172,12 @@ MonoBehaviour:
   CorrectingCourse: 0
   Pushing: []
   Hits: []
-  Speed: 1
-  AIR: 3
-  SLIDE: 4
   Animating: 0
-  IsFlyingSliding: 0
+  isFlyingSliding: 0
   IsMoving: 0
-  IsWalking: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
+  BuckledToObject: {fileID: 0}
 --- !u!1 &1230737790073880
 GameObject:
   m_ObjectHideFlags: 0
