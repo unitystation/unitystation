@@ -15,7 +15,8 @@ namespace UI.Core
 		public void Setup(string text, Sprite icon, System.Action actionOnClick)
 		{
 			onClickDoAction = actionOnClick;
-			choiceText.text = text.CapitalizeFirstLetter();
+
+			choiceText.text = text.Capitalize();
 			if (icon == null)
 			{
 				choiceIcon.SetActive(false);
