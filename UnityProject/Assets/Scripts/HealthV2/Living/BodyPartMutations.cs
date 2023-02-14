@@ -150,6 +150,7 @@ public class BodyPartMutations : BodyPartFunctionality
 	{
 		foreach (var Mutation in CapableMutations)
 		{
+			if (Mutation == null) continue;
 			if (Mutation.Stability > 0)
 			{
 				bool AlreadyActive = false;

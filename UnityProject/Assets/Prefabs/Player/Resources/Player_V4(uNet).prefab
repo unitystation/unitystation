@@ -1015,8 +1015,8 @@ MonoBehaviour:
   CHem: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12, type: 2}
   NutrimentConsumed: 0
   Stability: 0
-  NegativeMutationMinimumTimeMinutes: 5
-  NegativeMutationMaximumTimeMinutes: 15
+  NegativeMutationMinimumTimeMinutes: 1
+  NegativeMutationMaximumTimeMinutes: 4
   ClientSprites: []
   percentAllergies: 30
   commonAllergies: {fileID: 0}
@@ -8282,7 +8282,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: -4549444404219585148, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

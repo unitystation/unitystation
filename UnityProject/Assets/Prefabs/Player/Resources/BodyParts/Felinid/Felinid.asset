@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: Felinid
   m_EditorClassIdentifier: 
   Base:
-    BrainPrefab: {fileID: 3442747058158572537, guid: 1e19c4562afbbd2479d14830399db738,
-      type: 3}
     Head:
       Elements:
       - {fileID: 6093929245599716695, guid: 7a55e658b049a4d4ab406b62b7e2b85b, type: 3}
@@ -80,3 +78,5 @@ MonoBehaviour:
       type: 3}
     SkinProduce: {fileID: 6989094639558291709, guid: 091452380cc20484c9d50501ddce41dd,
       type: 3}
+    CanShowUpInTheCharacterCreatorScreen: 1
+    PreviewSprite: {fileID: 11400000, guid: 639fe71c8579b98479fe7f032db1bb85, type: 2}
