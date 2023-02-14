@@ -12,20 +12,15 @@ namespace Core.Chat
 		[SerializeField] private EmoteListSO emoteList;
 		public EmoteListSO EmoteList => emoteList;
 
-		private KeybindManager.KeyCombo windowInputComboKeys = new KeybindManager.KeyCombo();
-
 
 		public override void Start()
 		{
 			base.Start();
-			windowInputComboKeys.MainKey = KeybindManager.Instance.userKeybinds[KeyAction.ChatLocal].PrimaryCombo.MainKey;
-			windowInputComboKeys.ModKey1 = KeyCode.LeftShift;
 			UpdateManager.Add(CallbackType.UPDATE, CheckForInputForEmoteWindow);
 		}
 
 		public override void OnDestroy()
 		{
-			windowInputComboKeys = null;
 			UpdateManager.Remove(CallbackType.UPDATE, CheckForInputForEmoteWindow);
 			base.OnDestroy();
 		}
@@ -48,7 +43,8 @@ namespace Core.Chat
 
 		private bool IsPressingEmoteWindowInput()
 		{
-			return KeybindManager.Instance.CaptureKeyCombo() == windowInputComboKeys;
+			return KeybindManager.Instance.CaptureKeyCombo() ==
+			       KeybindManager.Instance.userKeybinds[KeyAction.EmoteWindowUI].PrimaryCombo;
 		}
 
 		public static bool HasEmote(string emote)
