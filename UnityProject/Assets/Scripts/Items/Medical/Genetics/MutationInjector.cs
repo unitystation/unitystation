@@ -6,11 +6,6 @@ using UnityEngine;
 public class MutationInjector : Syringe
 {
 	public List<DNAMutationData> DNAPayload = new List<DNAMutationData>();
-
-
-	public SpriteHandler SpriteHandler;
-
-
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
 		var LHB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
