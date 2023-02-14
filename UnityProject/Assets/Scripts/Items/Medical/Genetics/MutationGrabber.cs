@@ -38,8 +38,15 @@ public class MutationGrabber : MonoBehaviour, IExaminable , ICheckedInteractable
 		foreach (var bodypart in health.BodyPartList)
 		{
 
+			string toCustomise = "";
 			string toadd = "";
 			string toCapable = "";
+
+			if (string.IsNullOrEmpty(bodypart.SetCustomisationData) == false)
+			{
+				toCustomise += "Customisation of " + bodypart.SetCustomisationData;
+			}
+
 			var mutations = bodypart.GetComponent<BodyPartMutations>();
 			if (mutations != null)
 			{
@@ -71,6 +78,21 @@ public class MutationGrabber : MonoBehaviour, IExaminable , ICheckedInteractable
 			if (string.IsNullOrEmpty(toCapable) == false)
 			{
 				scanMessage.AppendLine($"Body part : {bodypart.name} Is capable of  " + toCapable + " Mutations ");
+			}
+		}
+		scanMessage.AppendLine($"----------- Customisation ------------------");
+		foreach (var bodypart in health.BodyPartList)
+		{
+			string toCustomise = "";
+
+			if (string.IsNullOrEmpty(bodypart.SetCustomisationData) == false)
+			{
+				toCustomise += "Customisation of " + bodypart.SetCustomisationData;
+			}
+
+			if (string.IsNullOrEmpty(toCustomise) == false)
+			{
+				scanMessage.AppendLine($"Body part : {bodypart.name} has Customisation of " + toCustomise );
 			}
 		}
 

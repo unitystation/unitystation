@@ -3,24 +3,17 @@ using System.Collections.Generic;
 using HealthV2;
 using UnityEngine;
 
-public class MutationInjector : MonoBehaviour , ICheckedInteractable<PositionalHandApply>
+public class MutationInjector : Syringe
 {
 	public List<DNAMutationData> DNAPayload = new List<DNAMutationData>();
 
 
 	public SpriteHandler SpriteHandler;
 
-	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
-	{
-		if (DefaultWillInteract.Default(interaction, side) == false) return false;
-		if (interaction.TargetObject == gameObject) return false;
-		if (Validations.HasComponent<LivingHealthMasterBase>(interaction.TargetObject) == false) return false;
-		return true;
-	}
 
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
-		var LHB  = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
+		var LHB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 		if (LHB != null)
 		{
 			LHB.InjectDNA(DNAPayload);
@@ -28,5 +21,14 @@ public class MutationInjector : MonoBehaviour , ICheckedInteractable<PositionalH
 		}
 	}
 
+	public override void InjectBehavior(LivingHealthMasterBase LHB, RegisterPlayer performer)
+	{
+		Chat.AddCombatMsgToChat(performer.gameObject,
+			$"You Inject The {this.name} into {LHB.gameObject.ExpensiveName()}",
+			$"{performer.PlayerScript.visibleName} injects a {this.name} into {LHB.gameObject.ExpensiveName()}");
+		if (SicknessesInSyringe.Count > 0) LHB.AddSickness(SicknessesInSyringe.PickRandom().Sickness);
+		LHB.InjectDNA(DNAPayload);
 
+		SpriteHandler.ChangeSprite(1);
+	}
 }

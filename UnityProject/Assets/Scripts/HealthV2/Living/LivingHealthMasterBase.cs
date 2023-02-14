@@ -589,8 +589,8 @@ namespace HealthV2
 		#region Mutations
 
 		public int Stability = 0;
-		public int NegativeMutationMinimumTimeMinutes = 5;
-		public int NegativeMutationMaximumTimeMinutes = 15;
+		public int NegativeMutationMinimumTimeMinutes = 1;
+		public int NegativeMutationMaximumTimeMinutes = 4;
 		private Coroutine routine;
 
 
@@ -674,7 +674,7 @@ namespace HealthV2
 				yield return WaitFor.Seconds(1f);
 				foreach (var BP in BodyPartList)
 				{
-					if (BP.name.Contains(InDNAMutationData.BodyPartSearchString))
+					if (BP.name.ToLower().Contains(InDNAMutationData.BodyPartSearchString.ToLower()))
 					{
 						yield return WaitFor.Seconds(1f);
 						var Mutation = BP.GetComponent<BodyPartMutations>();
