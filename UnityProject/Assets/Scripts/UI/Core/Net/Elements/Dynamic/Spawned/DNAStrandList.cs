@@ -12,6 +12,21 @@ namespace UI.Core.Net.Elements.Dynamic.Spawned
 	public class DNAStrandList : EmptyItemList
 	{
 
+		public bool HasEntryInArea(DNAStrandElement.Location Location)
+		{
+			var Elements = GetElements();
+			foreach (var Entry in Elements)
+			{
+				if (Entry.NetParentSetter.Value == (int) Location)
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+
 
 		public DNAStrandElement AddElement(DNAMutationData.DNAPayload Payload, string target, DNAStrandElement.Location SetLocation)
 		{

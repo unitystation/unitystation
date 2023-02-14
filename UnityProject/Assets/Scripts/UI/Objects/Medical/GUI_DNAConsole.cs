@@ -81,7 +81,8 @@ namespace UI.Objects.Medical
 			payload.CustomisationTarget = find.Value;
 			payload.CustomisationReplaceWith = replace.Value;
 
-			DNAStrandList.AddElement(payload, "", DNAStrandElement.Location.CustomisationMutation);
+			if (DNAStrandList.HasEntryInArea(DNAStrandElement.Location.BodyPartTarget)) return;
+			DNAStrandList.AddElement(payload, "", DNAStrandElement.Location.BodyPartTarget);
 		}
 
 		public void GenerateEgg()
@@ -131,13 +132,14 @@ namespace UI.Objects.Medical
 				payload.TargetMutationSO = Mutation;
 			}
 
-
-			DNAStrandList.AddElement(payload, "", DNAStrandElement.Location.Mutation);
+			if (DNAStrandList.HasEntryInArea(DNAStrandElement.Location.BodyPartTarget)) return;
+			DNAStrandList.AddElement(payload, "", DNAStrandElement.Location.BodyPartTarget);
 		}
 
 		public void GenerateElementTarget()
 		{
 			var payload = new DNAMutationData.DNAPayload();
+			if (DNAStrandList.HasEntryInArea(DNAStrandElement.Location.BodyPartTarget)) return;
 			DNAStrandList.AddElement(payload, target.Value, DNAStrandElement.Location.BodyPartTarget);
 		}
 
@@ -146,8 +148,8 @@ namespace UI.Objects.Medical
 			var payload = new DNAMutationData.DNAPayload();
 			payload.SpeciesMutateTo = SpeciesMutateTo;
 			payload.MutateToBodyPart = BodyPart;
-
-			DNAStrandList.AddElement(payload, "", DNAStrandElement.Location.SpeciesMutation);
+			if (DNAStrandList.HasEntryInArea(DNAStrandElement.Location.BodyPartTarget)) return;
+			DNAStrandList.AddElement(payload, "", DNAStrandElement.Location.BodyPartTarget);
 		}
 
 

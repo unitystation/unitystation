@@ -84,7 +84,7 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 			.ServerStartProgress(performer, time, performer.PlayerScript.gameObject);
 	}
 
-	private void InjectBehavior(LivingHealthMasterBase LHB, RegisterPlayer performer)
+	public virtual void InjectBehavior(LivingHealthMasterBase LHB, RegisterPlayer performer)
 	{
 		if (LocalContainer.ReagentMixTotal > 0)
 		{

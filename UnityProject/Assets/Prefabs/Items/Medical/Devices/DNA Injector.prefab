@@ -131,5 +131,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5302ea4034b780044bdc182af0888b45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LocalContainer: {fileID: 0}
+  SpriteHandler: {fileID: 2932140103522656762}
+  SicknessesInSyringe: []
+  singleUse: 1
+  ChangesSprite: 0
+  SpiteFullIndex: 0
+  SpiteEmptyIndex: 1
+  injectTime: 0.55
+  armourMultiplier: 2.75
   DNAPayload: []
   SpriteHandler: {fileID: 2932140103522656762}
