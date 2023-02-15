@@ -5,12 +5,12 @@ labels: 'Group: Mapping'
 body:
 
 - type: checkboxes
-    attributes:
-      label: There is no other issue reporting the same problem.
-      description: Please take some time and try to find another issue reporting the same problem you encountered.
-      options:
-      - label: I have searched the existing issues
-        required: true
+  attributes:
+    label: There is no other issue reporting the same problem.
+    description: Please take some time and try to find another issue reporting the same problem you encountered.
+    options:
+    - label: I have searched the existing issues
+      required: true
 
 - type: dropdown
   attributes:
