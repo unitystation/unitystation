@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: cough
   m_EditorClassIdentifier: 
   emoteName: cough
+  EmoteIcon: {fileID: 21300000, guid: 3afe2724c44470e4b83c8d72218d8fe5, type: 3}
   requiresHands: 0
   allowEmoteWhileInCrit: 1
   isAudibleEmote: 0
@@ -26,3 +27,4 @@ MonoBehaviour:
   defaultSounds: []
   TypedSounds: []
   pitchRange: {x: 0.7, y: 1}
+  allowedPlayerTypes: 1
