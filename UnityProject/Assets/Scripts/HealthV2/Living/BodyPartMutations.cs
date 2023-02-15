@@ -195,23 +195,23 @@ public class BodyPartMutations : BodyPartFunctionality
 
 	private IEnumerator ProcessChangeToSpecies(PlayerHealthData NewSpecies, GameObject BodyPart)
 	{
-		var Modifier = (1 + UnityEngine.Random.Range(-0.75f, 0.90f));
-		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * Modifier);
+		var modifier = (1 + UnityEngine.Random.Range(-0.75f, 0.90f));
+		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * modifier);
 
 		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.gameObject,
 			$" Your {RelatedPart.gameObject.ExpensiveName()} Feels strange");
 
-		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) *  Modifier);
+		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) *  modifier);
 
 		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.gameObject,
 			$" Your {RelatedPart.gameObject.ExpensiveName()} Starts to hurt");
 
-		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * Modifier);
+		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * modifier);
 
 		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.gameObject,
 			$" You feel {RelatedPart.gameObject.ExpensiveName()} starting to morph and change");
 
-		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * Modifier);
+		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * modifier);
 
 		var SpawnedBodypart = Spawn.ServerPrefab(BodyPart).GameObject.GetComponent<BodyPart>();
 
