@@ -289,17 +289,17 @@ namespace Shared.Editor
 
 			var master = distance > Masters[0].MaxDistance ? null : Masters[0];
 
-			var Oldmaster = slave.Master;
+			var oldmaster = slave.Master;
 
 			slave.SetMasterEditor(master);
 
 
 			if (Masters.Count > 0)
 			{
-				if (Oldmaster != null)
+				if (oldmaster != null)
 				{
-					EditorUtility.SetDirty((Component)Oldmaster);
-					Undo.RecordObject(Oldmaster.gameObject, " unLink");
+					EditorUtility.SetDirty((Component)oldmaster);
+					Undo.RecordObject(oldmaster.gameObject, " unLink");
 
 				}
 				EditorUtility.SetDirty((Component)Masters[0]);
@@ -331,17 +331,17 @@ namespace Shared.Editor
 			var master = Masters[index];
 			var distance = Vector3.Distance(slave.gameObject.transform.position, master.gameObject.transform.position);
 
-			var Oldmaster = slave.Master;
+			var oldmaster = slave.Master;
 
 			if (distance <= master.MaxDistance)
 			{
 				slave.SetMasterEditor(master);
 			}
 
-			if (Oldmaster != null)
+			if (oldmaster != null)
 			{
-				EditorUtility.SetDirty((Component)Oldmaster);
-				Undo.RecordObject(Oldmaster.gameObject, " unLink");
+				EditorUtility.SetDirty((Component)oldmaster);
+				Undo.RecordObject(oldmaster.gameObject, " unLink");
 
 			}
 			EditorUtility.SetDirty((Component)Masters[0]);
