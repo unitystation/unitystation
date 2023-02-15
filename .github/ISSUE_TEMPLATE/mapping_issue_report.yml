@@ -13,8 +13,8 @@ body:
 
 - type: dropdown
   attributes:
-    label: Map name
-    description: What map did you encounter the problem on?
+    label: OS
+    description: The operating system you are using.
     options:
     - BoxStation
     - PogStation
@@ -27,9 +27,8 @@ body:
     - Lavaland
     - Asteroid
     - Other
-    validations:
-      required: true
-
+  validations:
+    required: true
 
 - type: textarea
   attributes:
