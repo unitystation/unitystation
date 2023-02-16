@@ -237,9 +237,8 @@ public class BodyPartMutations : BodyPartFunctionality
 				}
 				else
 				{
-					RelatedPart.OrganStorage.ServerTryRemove(gameObject, false,
+					RelatedPart.OrganStorage.ServerTryRemove(itemSlot.Item.gameObject, false,
 						DroppedAtWorldPositionOrThrowVector: ConverterExtensions.GetRandomRotatedVector2(-0.5f, 0.5f), Throw: true);
-					Inventory.ServerThrow(itemSlot, RelatedPart.gameObject.AssumedWorldPosServer());
 				}
 			}
 		}
