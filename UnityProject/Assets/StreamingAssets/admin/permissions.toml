@@ -1,0 +1,29 @@
+﻿[ranks.host]
+show_in_chat = false
+abbreviation = "H"
+color = "red"
+permissions = ["perma_promote", "promote", "demote", "kick", "ban", "fun"]
+
+[ranks.admin]
+show_in_chat = true
+abbreviation = "A"
+color = "blue"
+permissions = ["promote", "kick", "ban", "fun"]
+
+[ranks.normal]
+show_in_chat = false
+abbreviation = "N"
+color = "white"
+permissions = []
+
+[[players]]
+identifier = "hostPlayer"
+rank = "host"
+
+[[players]]
+identifier = "adminPlayer"
+rank = "admin"
+
+[[players]]
+identifier = "normalPlayer"
+rank = "normal"
