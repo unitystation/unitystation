@@ -24,8 +24,8 @@ public class MutationUnlockMiniGame : MonoBehaviour
 	{
 		ClearSelection();
 
-		var data = BodyPartMutations.GetMutationRoundData(Mutation);
-		GenerateForSliderMiniGameData(data.SliderMiniGame);
+		//var data = BodyPartMutations.GetMutationRoundData(Mutation);
+		//GenerateForSliderMiniGameData(data.SliderMiniGame);
 	}
 
 	public void GenerateForSliderMiniGameData(BodyPartMutations.MutationRoundData.SliderMiniGameData SliderMiniGameData)
