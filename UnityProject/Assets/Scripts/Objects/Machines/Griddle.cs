@@ -23,7 +23,7 @@ namespace Objects.Kitchen
 	/// If the item has the Cookable component, the item will be cooked
 	/// once enough time has lapsed as determined in that component.
 	/// </summary>
-	public class Griddle : NetworkBehaviour, IAPCPowerable, IRefreshParts
+	public class Griddle : NetworkBehaviour, IAPCPowerable, IRefreshParts, IDisposable
 	{
 		private enum SpriteState
 		{
@@ -351,5 +351,10 @@ namespace Objects.Kitchen
 		}
 
 		#endregion
+
+		public void Dispose()
+		{
+			audioLoopLock?.Dispose();
+		}
 	}
 }

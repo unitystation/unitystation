@@ -10,7 +10,7 @@ namespace Objects.Kitchen
 	/// </summary>
 	[RequireComponent(typeof(Griddle))]
 	public class InteractableGriddle : MonoBehaviour, ICheckedInteractable<PositionalHandApply>,
-			IRightClickable, ICheckedInteractable<ContextMenuApply>
+			IRightClickable, ICheckedInteractable<ContextMenuApply>, IDisposable
 	{
 
 		[SerializeField]
@@ -86,5 +86,10 @@ namespace Objects.Kitchen
 		}
 
 		#endregion Interaction-ContextMenu
+
+		public void Dispose()
+		{
+			griddle?.Dispose();
+		}
 	}
 }
