@@ -299,8 +299,6 @@ public class BodyPartMutations : BodyPartFunctionality
 		public PlayerHealthData PlayerHealthData;
 		public int ResearchDifficult;
 
-		public SliderMiniGameData SliderMiniGame;
-
 		//
 
 		public class SliderMiniGameData
@@ -322,6 +320,11 @@ public class BodyPartMutations : BodyPartFunctionality
 		{
 			var NumberOfSliders =
 				Mathf.RoundToInt(((Difficulty / 100f) * 9f)); //9f = Max number of sliders
+			if (NumberOfSliders is 0 or 1)
+			{
+				NumberOfSliders = 2;
+			}
+
 			NewSliderMiniGameData.Parameters.Clear();
 			for (int i = 0; i < NumberOfSliders; i++)
 			{
@@ -426,8 +429,6 @@ public class BodyPartMutations : BodyPartFunctionality
 			this.RoundID = GameManager.RoundID;
 			if (MutationSO != null)
 			{
-
-				SliderMiniGame = new SliderMiniGameData();
 				this.ResearchDifficult =
 					Mathf.RoundToInt((MutationSO.ResearchDifficult *
 					                  Random.Range(0.75f, 1.25f))); //TODO Change to percentage-based system?
@@ -437,8 +438,6 @@ public class BodyPartMutations : BodyPartFunctionality
 				this.Stability =
 					Mathf.RoundToInt((MutationSO.Stability *
 					                  Random.Range(0.5f, 1.5f))); //TODO Change to percentage-based system?
-
-				PopulateSliderMiniGame(SliderMiniGame, ResearchDifficult, MutationSO.CanRequireLocks);
 			}
 			else
 			{
