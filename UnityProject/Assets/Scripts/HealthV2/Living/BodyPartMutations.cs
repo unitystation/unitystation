@@ -222,12 +222,24 @@ public class BodyPartMutations : BodyPartFunctionality
 			Inventory.ServerDespawn(itemSlot);
 		}
 
+		bool HasOpenProcedure = Enumerable.OfType<OpenProcedure>(SpawnedBodypart.SurgeryProcedureBase).Any();
+
+
 		foreach (var itemSlot in RelatedPart.OrganStorage.GetItemSlots())
 		{
 			if (itemSlot.Item != null)
 			{
-				var toSlot = SpawnedBodypart.OrganStorage;
-				Inventory.ServerTransfer(itemSlot, toSlot.GetBestSlotFor(itemSlot.Item));
+				if (HasOpenProcedure)
+				{
+					var toSlot = SpawnedBodypart.OrganStorage;
+					Inventory.ServerTransfer(itemSlot, toSlot.GetBestSlotFor(itemSlot.Item));
+				}
+				else
+				{
+					RelatedPart.OrganStorage.ServerTryRemove(gameObject, false,
+						DroppedAtWorldPositionOrThrowVector: ConverterExtensions.GetRandomRotatedVector2(-0.5f, 0.5f), Throw: true);
+					Inventory.ServerThrow(itemSlot, RelatedPart.gameObject.AssumedWorldPosServer());
+				}
 			}
 		}
 
