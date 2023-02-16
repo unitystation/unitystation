@@ -15,7 +15,6 @@ namespace Systems.FilthGenerator
 	{
 		private static readonly System.Random RANDOM = new System.Random();
 		private Tilemap floorTilemap;
-		private MetaTileMap metaTileMap;
 		private TileChangeManager tileChangeManager;
 
 		[SerializeField, Range(0f,100f)]
@@ -23,8 +22,7 @@ namespace Systems.FilthGenerator
 
 		[SerializeField] private List<GameObject> filthDecalsAndObjects = new List<GameObject>();
 		[SerializeField] private bool generateFilthReagent = true;
-
-
+		
 		public override void Initialize()
 		{
 			RunFilthGenerator();
