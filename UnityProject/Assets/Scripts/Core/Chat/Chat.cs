@@ -763,6 +763,7 @@ public partial class Chat : MonoBehaviour
 	/// <param name="msg">The examine message</param>
 	public static void AddExamineMsgFromServer(GameObject recipient, string msg)
 	{
+		if (recipient == null) return;
 		if (!IsServer()) return;
 		UpdateChatMessage.Send(recipient, ChatChannel.Examine, ChatModifier.None, msg, Loudness.NORMAL);
 	}

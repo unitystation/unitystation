@@ -198,24 +198,24 @@ public class BodyPartMutations : BodyPartFunctionality
 		var modifier = (1 + UnityEngine.Random.Range(-0.75f, 0.90f));
 		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * modifier);
 
-		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.gameObject,
+		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.OrNull()?.gameObject,
 			$" Your {RelatedPart.gameObject.ExpensiveName()} Feels strange");
 
 		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) *  modifier);
 
-		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.gameObject,
+		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.OrNull()?.gameObject,
 			$" Your {RelatedPart.gameObject.ExpensiveName()} Starts to hurt");
 
 		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * modifier);
 
-		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.gameObject,
+		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.OrNull()?.gameObject,
 			$" You feel {RelatedPart.gameObject.ExpensiveName()} starting to morph and change");
 
 		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * modifier);
 
 		var SpawnedBodypart = Spawn.ServerPrefab(BodyPart).GameObject.GetComponent<BodyPart>();
 
-		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.gameObject,
+		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.OrNull()?.gameObject,
 			$" Your {RelatedPart.gameObject.ExpensiveName()} Morphs into a {SpawnedBodypart.gameObject.ExpensiveName()}");
 
 		foreach (var itemSlot in SpawnedBodypart.OrganStorage.GetItemSlots())
