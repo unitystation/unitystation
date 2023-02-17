@@ -41,6 +41,11 @@ public class PlayerAlertView : ChatEntryView, IDisposable
 		}
 	}
 
+	void OnDestroy()
+	{
+		this.Dispose();
+	}
+
 	public void GibRequest()
 	{
 		AdminPlayerAlertActions.Send(PlayerAlertActions.Gibbed, playerAlertData.roundTime, playerAlertData.playerNetId, PlayerList.Instance.AdminToken);

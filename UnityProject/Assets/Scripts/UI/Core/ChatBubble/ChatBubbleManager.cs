@@ -174,6 +174,11 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise, IDisposable
 		SceneManager.activeSceneChanged -= OnSceneChange;
 	}
 
+	void OnDestroy()
+	{
+		this.Dispose();
+	}
+
 	void OnSceneChange(Scene oldScene, Scene newScene)
 	{
 		ResetAll();
@@ -194,7 +199,7 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise, IDisposable
 	{
 		foreach (ChatBubble chatBubble in chatBubblePool)
 		{
-			chatBubble.Dispose();
+			chatBubble.OrNull()?.Dispose();
 		}
 	}
 }

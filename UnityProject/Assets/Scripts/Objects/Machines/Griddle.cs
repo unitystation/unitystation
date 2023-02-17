@@ -91,6 +91,11 @@ namespace Objects.Kitchen
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
+		void OnDestroy()
+		{
+			this.Dispose();
+		}
+
 		#endregion
 
 		/// <summary>

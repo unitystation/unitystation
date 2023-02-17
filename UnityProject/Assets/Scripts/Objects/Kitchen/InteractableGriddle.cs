@@ -28,6 +28,11 @@ namespace Objects.Kitchen
 			griddle = GetComponent<Griddle>();
 		}
 
+		void OnDestroy()
+		{
+			this.Dispose();
+		}
+
 		#region Interaction-PositionalHandApply
 
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
@@ -89,7 +94,7 @@ namespace Objects.Kitchen
 
 		public void Dispose()
 		{
-			griddle?.Dispose();
+			griddle.OrNull()?.Dispose();
 		}
 	}
 }
