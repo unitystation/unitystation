@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
@@ -76,14 +77,6 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		objectLayer = GetComponentInChildren<ObjectLayer>();
 		tileChangeManager = GetComponent<TileChangeManager>();
 		CacheTileMaps();
-
-		// Register message handler for CableCuttingMessage here because CableCuttingWindow prefab won't be loaded on server
-		// so registration cannot be inside Start or Awake method inside CableCuttingWindow. ReplaceHandler does the same
-		// thing as RegisterHandler, except RegisterHandler warns about conflicting ID types. See Mirror's documentation or
-		// Mirror's implementation of these methods in NetworkServer.cs.
-		// TODO: This is somehow called multiple times. Not sure why. Figure out if it's an issue and document why this
-		//       happens.
-		NetworkServer.ReplaceHandler<CableCuttingWindow.CableCuttingMessage>(ServerPerformCableCuttingInteraction);
 	}
 
 	/// <summary>
@@ -332,8 +325,10 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 	/// <summary>
 	/// [Message Handler] Perform cable cutting interaction on server side
 	/// </summary>
-	private void ServerPerformCableCuttingInteraction(NetworkConnection conn, CableCuttingWindow.CableCuttingMessage message)
+	public static void ServerPerformCableCuttingInteraction(NetworkConnection conn, RequestCableCut.NetMessage message, GameObject performer)
 	{
+
+
 		// get object at target position
 		GameObject hit = MouseUtils.GetOrderedObjectsAtPoint(message.targetWorldPosition).FirstOrDefault();
 		// get matrix
@@ -351,8 +346,8 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		if (electricalCable == null) return;
 
 		// add messages to chat
-		string othersMessage = Chat.ReplacePerformer(othersStartActionMessage, message.performer);
-		Chat.AddActionMsgToChat(message.performer, performerStartActionMessage, othersMessage);
+		//string othersMessage = Chat.ReplacePerformer(othersStartActionMessage, message.performer);
+		//Chat.AddActionMsgToChat(message.performer, performerStartActionMessage, othersMessage);
 
 		// source: ElectricalCableDeconstruction.cs
 		var metaDataNode = matrix.GetMetaDataNode(targetCellPosition);
@@ -364,7 +359,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 			ElectricityFunctions.WorkOutActualNumbers(ElectricalData.InData);
 			float voltage = ElectricalData.InData.Data.ActualVoltage;
 			var electrocution = new Electrocution(voltage, message.targetWorldPosition, "cable");
-			var performerLHB = message.performer.GetComponent<LivingHealthMasterBase>();
+			var performerLHB = performer.GetComponent<LivingHealthMasterBase>();
 			var severity = performerLHB.Electrocute(electrocution);
 			if (severity > LivingShockResponse.Mild) return;
 
