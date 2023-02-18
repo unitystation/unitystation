@@ -1,29 +1,67 @@
-﻿[ranks.host]
-show_in_chat = false
-abbreviation = "H"
-color = "red"
-permissions = ["perma_promote", "promote", "demote", "kick", "ban", "fun"]
+﻿# Permissions file
+# This file contains all the permissions that can be given to players.
+# The permissions grant access to admin actions and other features.
+
+# Create ranks and assign them permissions. Use the following as example:
+
+[ranks.host] # text after the dot is the rank name. It can be anything
+show_in_chat = false # whether the rank should be shown in OOC chat.
+abbreviation = "H" # the abbreviation that will be shown in chat
+color = "red" # the color of the rank in chat
+permissions = ["*"] # the permissions that the rank has. * means all permissions
 
 [ranks.admin]
 show_in_chat = true
 abbreviation = "A"
-color = "blue"
-permissions = ["promote", "kick", "ban", "fun"]
+color = "red"
+permissions = [
+    "alogs", "achat", "aghost", "ahelp", "prays", "admin_overlay", "game_mode", "player_manager", "centcomm", 
+    "events_manager", "round_manager", "server_settings", "global_sound", "global_music", "spawn_object",
+    "clone_object", "destroy_object", "tile_changer", "variable_viewer"
+]
 
-[ranks.normal]
+[ranks.developer]
 show_in_chat = false
-abbreviation = "N"
-color = "white"
-permissions = []
+abbreviation = "D"
+color = "red"
+permissions = [
+    "game_mode", "player_manager", "events_manager", "round_manager", "server_settings", "spawn_object", "clone_object",
+    "destroy_object", "tile_changer", "variable_viewer"
+]
+
+[ranks.game_master]
+show_in_chat = false
+abbreviation = "GM"
+color = "red"
+permissions = [
+    "achat", "aghost", "prays", "centcomm", "events_manager", "round_manager", "global_sound", "global_music",
+    "spawn_object", "clone_object", "destroy_object", "tile_changer"
+]
+
+[ranks.mentor]
+show_in_chat = true
+abbreviation = "M"
+color = "blue"
+permissions = ["m_chat"]
+
+# Asing ranks to players. Use the following as example:
+
+[[players]] ## this will append this entry to the players list
+identifier = "host_user_id" # the player's user id. Comes from firebase UUID currently.
+rank = "host" # the rank to assign to the player
 
 [[players]]
-identifier = "hostPlayer"
-rank = "host"
-
-[[players]]
-identifier = "adminPlayer"
+identifier = "admin_user_id"
 rank = "admin"
 
 [[players]]
-identifier = "normalPlayer"
-rank = "normal"
+identifier = "developer_user_id"
+rank = "developer"
+
+[[players]]
+identifier = "game_master_user_id"
+rank = "game_master"
+
+[[players]]
+identifier = "mentor_user_id"
+rank = "mentor"
