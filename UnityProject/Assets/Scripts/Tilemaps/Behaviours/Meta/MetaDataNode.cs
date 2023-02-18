@@ -289,7 +289,21 @@ public class MetaDataNode : IGasMixContainer
 	/// </summary>
 	public bool IsOccupied => Type == NodeType.Occupied;
 
-	public bool IsSlippery = false;
+
+	private bool isSlippery = false;
+
+	public bool IsSlippery
+	{
+		get
+		{
+			return isSlippery;
+		}
+		set
+		{
+			isSlippery = value;
+			ForceUpdateClient();
+		}
+	}
 
 	public bool Exists => this != None;
 
