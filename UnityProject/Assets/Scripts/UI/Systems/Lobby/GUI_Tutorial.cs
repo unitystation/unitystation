@@ -62,7 +62,7 @@ public class GUI_Tutorial : MonoBehaviour
 		}
 		catch (Exception exception)
 		{
-			Debug.Log($"Error while copying text from: {source} to: {destination}. {exception}");
+			Debug.Log($"[LANGUAGES] Error while copying text from: {source} to: {destination}. {exception}");
 		}
 	}
 
