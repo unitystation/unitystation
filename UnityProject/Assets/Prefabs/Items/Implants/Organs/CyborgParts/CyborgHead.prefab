@@ -76,6 +76,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 33df0af85b253624589f9d8c588992d3,
         type: 2}
+    - target: {fileID: 6786220533655849171, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: Populater.DeprecatedContents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7585268129894669505, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
       propertyPath: m_Sprite
@@ -146,6 +151,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CyborgHead
+      objectReference: {fileID: 0}
+    - target: {fileID: 7873295243319357914, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: CapableMutations.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7879089347396255999, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
