@@ -14,24 +14,24 @@ public class GUI_Tutorial : MonoBehaviour
 		"Lang_Bot_French.xml"
 	};
 	private string[] languageFilePaths;
-	private string languageFolderPath = Application.persistentDataPath + "/languages";
+	private string languageFolderPath;
 
 	public GameObject languageChoice;
 
 	private void Start()
 	{
+		languageFolderPath = Application.persistentDataPath + "/languages";
+
 		if (!Directory.Exists(languageFolderPath))
 		{
-			
 			BuildLanguagesDirectory();
+			CreateFilePaths();
 		}
 	}
 
 	private void BuildLanguagesDirectory()
 	{
 		Directory.CreateDirectory(languageFolderPath);
-
-		CreateFilePaths();
 	}
 
 	private void CreateFilePaths()
