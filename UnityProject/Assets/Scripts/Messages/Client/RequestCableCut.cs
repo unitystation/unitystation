@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Construction.Conveyors;
 using Messages.Client;
 using Mirror;
 using UnityEngine;
@@ -9,7 +6,6 @@ public class RequestCableCut : ClientMessage<RequestCableCut.NetMessage>
 {
 	public struct NetMessage : NetworkMessage
 	{
-		//public uint performer;
 		public Vector3 targetWorldPosition;
 		public string Name;
 		public TileType TileType;

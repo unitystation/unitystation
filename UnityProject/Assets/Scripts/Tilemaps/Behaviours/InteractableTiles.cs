@@ -346,8 +346,8 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		if (electricalCable == null) return;
 
 		// add messages to chat
-		//string othersMessage = Chat.ReplacePerformer(othersStartActionMessage, message.performer);
-		//Chat.AddActionMsgToChat(message.performer, performerStartActionMessage, othersMessage);
+		// TODO readd string othersMessage = Chat.ReplacePerformer(othersStartActionMessage, message.performer);
+		// TODO readd Chat.AddActionMsgToChat(message.performer, performerStartActionMessage, othersMessage);
 
 		// source: ElectricalCableDeconstruction.cs
 		var metaDataNode = matrix.GetMetaDataNode(targetCellPosition);
