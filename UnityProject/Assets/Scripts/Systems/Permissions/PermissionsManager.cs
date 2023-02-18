@@ -72,7 +72,10 @@ namespace Systems.Permissions
 			}
 
 			var rank = Config.Ranks[rankName];
-			return rank.Permissions.Contains(permission);
+
+			//wildcard permission means they have all permissions
+			return rank.Permissions.Contains("*") ||
+			       rank.Permissions.Contains(permission);
 		}
 	}
 }
