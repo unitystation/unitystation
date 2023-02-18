@@ -81,6 +81,8 @@ public enum KeyAction
 	//Interactions that only happen when this key is pressed
 	RadialScrollBackward,
 	RadialScrollForward,
+
+	HideUi
 }
 
 /// <summary>
@@ -377,8 +379,9 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.RadialScrollForward, new KeybindMetadata("Radial Scroll Forward", ActionType.UI)},
 		{ KeyAction.RadialScrollBackward, new KeybindMetadata("Radial Scroll Backward", ActionType.UI)},
 		{ KeyAction.EmoteWindowUI,	new KeybindMetadata("Open Emote Window.", ActionType.UI)},
+		{ KeyAction.HideUi, new KeybindMetadata("Hide UI", ActionType.UI) },
 
-		};
+	};
 
 	private readonly KeybindDict defaultKeybinds = new KeybindDict
 	{
@@ -441,6 +444,7 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.RadialScrollForward,	new DualKeyCombo(new KeyCombo(KeyCode.E, KeyCode.LeftShift), null)},
 		{ KeyAction.RadialScrollBackward,	new DualKeyCombo(new KeyCombo(KeyCode.Q, KeyCode.LeftShift), null)},
 		{ KeyAction.EmoteWindowUI,	new DualKeyCombo(new KeyCombo(KeyCode.T, KeyCode.LeftShift), null)},
+		{ KeyAction.HideUi, new DualKeyCombo(new KeyCombo(KeyCode.F11), null) },
 
 	};
 	public KeybindDict userKeybinds = new KeybindDict();
