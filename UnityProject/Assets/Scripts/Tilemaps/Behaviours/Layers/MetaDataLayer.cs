@@ -179,6 +179,7 @@ public class MetaDataLayer : MonoBehaviour
 			return;
 		}
 		tile.IsSlippery = true;
+
 		if (canDryUp)
 		{
 			if (tile.CurrentDrying != null)
@@ -369,7 +370,6 @@ public class MetaDataLayer : MonoBehaviour
 		//Blood should take 3 mins to dry (TG STATION)
 		yield return WaitFor.Seconds(180);
 		tile.IsSlippery = false;
-		tile.ForceUpdateClient();
 
 		var floorDecals = matrix.Get<FloorDecal>(tile.LocalPosition, isServer: true);
 		foreach (var decal in floorDecals)
