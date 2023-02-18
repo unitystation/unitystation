@@ -1,99 +1,102 @@
 using Light2D;
 using UnityEngine;
 
-public class LightSpriteHandler  : SpriteHandler
+namespace Core.Sprite_Handler
 {
-	private LightSprite lightSprite;
-
-	public override Sprite CurrentSprite
+	public class LightSpriteHandler  : SpriteHandler
 	{
-		get
+		private LightSprite lightSprite;
+
+		public override Sprite CurrentSprite
 		{
-			if (lightSprite)
+			get
 			{
-				return lightSprite.Sprite;
+				if (lightSprite)
+				{
+					return lightSprite.Sprite;
+				}
+
+				return null;
 			}
-
-			return null;
 		}
-	}
 
-	public override Color CurrentColor
-	{
-		get
+		public override Color CurrentColor
 		{
-			if (lightSprite)
+			get
 			{
-				return lightSprite.Color;
+				if (lightSprite)
+				{
+					return lightSprite.Color;
+				}
+				return Color.white;
 			}
-			return Color.white;
 		}
-	}
 
-	protected override void Awake()
-	{
-		base.Awake();
-		lightSprite = GetComponent<LightSprite>();
-	}
-
-	protected override void SetImageColor(Color value)
-	{
-		base.SetImageColor(value);
-		if (lightSprite != null)
+		protected override void Awake()
 		{
-			lightSprite.Color = value;
+			base.Awake();
+			lightSprite = GetComponent<LightSprite>();
 		}
-	}
 
-	protected override void UpdateImageColor()
-	{
-		base.UpdateImageColor();
-		if (lightSprite != null)
+		protected override void SetImageColor(Color value)
 		{
-			setColour = lightSprite.Color;
+			base.SetImageColor(value);
+			if (lightSprite != null)
+			{
+				lightSprite.Color = value;
+			}
 		}
-	}
 
-	protected override void SetPaletteOnSpriteRenderer()
-	{
-		base.SetPaletteOnSpriteRenderer();
-		if (lightSprite != null)
+		protected override void UpdateImageColor()
 		{
-			Logger.LogError("SetPaletteOnSpriteRenderer Is not supported on lightSprite?");
+			base.UpdateImageColor();
+			if (lightSprite != null)
+			{
+				setColour = lightSprite.Color;
+			}
 		}
-	}
 
-	protected override void SetImageSprite(Sprite value)
-	{
+		protected override void SetPaletteOnSpriteRenderer()
+		{
+			base.SetPaletteOnSpriteRenderer();
+			if (lightSprite != null)
+			{
+				Logger.LogError("SetPaletteOnSpriteRenderer Is not supported on lightSprite?");
+			}
+		}
 
-		base.SetImageSprite(value);
+		protected override void SetImageSprite(Sprite value)
+		{
+
+			base.SetImageSprite(value);
 #if  UNITY_EDITOR
-		if (Application.isPlaying == false)
-		{
-			if (lightSprite == null)
+			if (Application.isPlaying == false)
 			{
-				lightSprite = GetComponent<LightSprite>();
-			}
+				if (lightSprite == null)
+				{
+					lightSprite = GetComponent<LightSprite>();
+				}
 
-		}
+			}
 #endif
 
-		if (lightSprite != null)
-		{
-			lightSprite.Sprite = value;
-		}
-	}
-
-	protected override bool HasSpriteInImageComponent()
-	{
-		if (lightSprite != null)
-		{
-			if (lightSprite.Sprite != null)
+			if (lightSprite != null)
 			{
-				return true;
+				lightSprite.Sprite = value;
 			}
 		}
 
-		return (false);
+		protected override bool HasSpriteInImageComponent()
+		{
+			if (lightSprite != null)
+			{
+				if (lightSprite.Sprite != null)
+				{
+					return true;
+				}
+			}
+
+			return (false);
+		}
 	}
 }
