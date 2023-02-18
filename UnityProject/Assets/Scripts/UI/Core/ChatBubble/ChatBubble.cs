@@ -6,9 +6,8 @@ using System.Text;
 using System.Threading;
 using TMPro;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-public class ChatBubble : MonoBehaviour
+public class ChatBubble : MonoBehaviour, IDisposable
 {
 	[SerializeField] private Transform target;
 	public Transform Target => target;
@@ -436,5 +435,10 @@ public class ChatBubble : MonoBehaviour
 	    gameObject.SetActive(false);
 	    showingDialogue = false;
 	    target = null;
+    }
+
+    public void Dispose()
+    {
+	    cancelSource?.Dispose();
     }
 }
