@@ -7,6 +7,7 @@ using UnityEngine;
 using TileManagement;
 using Mirror;
 using HealthV2;
+using Messages.Client;
 using Messages.Client.Interaction;
 using Systems.Electricity;
 using Tiles;

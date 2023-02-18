@@ -1,6 +1,7 @@
 ﻿using Mirror;
 using System.Collections.Generic;
 using System.Linq;
+using Messages.Client;
 using UnityEngine;
 using UnityEngine.UI;
 
