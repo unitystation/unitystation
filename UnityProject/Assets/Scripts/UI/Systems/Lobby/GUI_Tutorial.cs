@@ -40,7 +40,7 @@ public class GUI_Tutorial : MonoBehaviour
 
 		for (int i = 0; i < languageFileNames.Length; i++)
 		{
-			languageFilePaths[i] = Path.Combine(Application.streamingAssetsPath, languageFileNames[i]);
+			languageFilePaths[i] = Path.Combine(Application.streamingAssetsPath + "/languages", languageFileNames[i]);
 		}
 
 		for (int i = 0; i < languageFileNames.Length; i++)
