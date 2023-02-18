@@ -116,6 +116,9 @@ static class BuildScript
 
 		ReportOptions(buildOptions);
 
+		// Restore NuGet packages
+		RestoreNugetPackages();
+
 		// Perform build
 		BuildReport buildReport = BuildPipeline.BuildPlayer(buildOptions);
 
@@ -126,6 +129,11 @@ static class BuildScript
 		// Result
 		BuildResult result = summary.result;
 		ExitWithResult(result);
+	}
+
+	private static void RestoreNugetPackages()
+	{
+		NugetForUnity.NugetHelper.Restore();
 	}
 
 	private static void ReportOptions(BuildPlayerOptions options)
