@@ -221,7 +221,7 @@ PrefabInstance:
     - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: maxCapacity
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
@@ -283,6 +283,8 @@ MonoBehaviour:
   ChangesSprite: 0
   SpiteFullIndex: 0
   SpiteEmptyIndex: 1
+  injectTime: 0.55
+  armourMultiplier: 2.75
 --- !u!114 &6210555589579530044 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
