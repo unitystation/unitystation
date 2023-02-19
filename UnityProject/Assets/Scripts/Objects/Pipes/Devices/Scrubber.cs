@@ -120,11 +120,20 @@ namespace Objects.Atmospherics
 		public Mode OperatingMode { get; private set; } = Mode.Scrubbing;
 
 		public bool IsExpandedRange { get; private set; } = false;
+
+
+		public float SiphonMultiplier = 2f;
+
+		public float ExpandedRangeNumber = 0.2f;
+
+		public float NormalRangeNumber = 0.10f;
+
+		//public bool IsExpandedRange
 		/// <summary>Updates the scrubber's power consumption when the collection is modified.</summary>
 		public ObservableCollection<GasSO> FilteredGases;
 
 		private float Effectiveness => voltageMultiplier;
-		private readonly float nominalMolesTransferCap = 10;
+		public float nominalMolesTransferCap = 10;
 		private float[] scrubbingGasMoles;
 
 		private GasMix pipeMix;
@@ -147,7 +156,7 @@ namespace Objects.Atmospherics
 			// Scrub out a portion of each specified gas.
 			// If all these gases exceed transfer amount, reduce each gas scrub mole count proportionally.
 
-			var percentageRemoved = (IsExpandedRange ? 0.10f : 0.20f) * Effectiveness;
+			var percentageRemoved = (IsExpandedRange ?  ExpandedRangeNumber : NormalRangeNumber) * Effectiveness;
 
 			float scrubbableMolesAvailable = 0;
 
@@ -189,7 +198,7 @@ namespace Objects.Atmospherics
 
 		private void ModeSiphon()
 		{
-			float moles = metaNode.GasMix.Moles * (IsExpandedRange ? 0.40f : 0.10f) * Effectiveness; // siphon a portion
+			float moles = metaNode.GasMix.Moles * (IsExpandedRange ? ExpandedRangeNumber : NormalRangeNumber ) * Effectiveness * SiphonMultiplier; // siphon a portion
 			moles = moles.Clamp(0, nominalMolesTransferCap);
 
 			if (moles.Approx(0)) return;
