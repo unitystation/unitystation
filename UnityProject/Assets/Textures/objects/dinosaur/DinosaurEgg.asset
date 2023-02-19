@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78a27bfcb4f67d74689937f61ecadf69, type: 3}
-  m_Name: Anemia
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: DinosaurEgg
   m_EditorClassIdentifier: 
-  ResearchDifficult: 20
-  Stability: 2
-  Description: 
-  CanRequireLocks: 0
-  BloodRegenerationRemove: 28
+  Variance:
+  - Frames:
+    - sprite: {fileID: 21300000, guid: b1a40c2070fab8a4398be9f8678d7136, type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 

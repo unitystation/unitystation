@@ -203,6 +203,36 @@ namespace Systems.Atmospherics
 			return FromPressure(gases, pressure, volume);
 		}
 
+		public static GasMix FromTemperatureAndPressure(GasData gases ,  float temperature,float pressure, float volume = AtmosConstants.TileVolume)
+		{
+			var NeededMoles = AtmosUtils.CalcMoles(pressure, volume, temperature);
+			var ActualMoles = 0f;
+			foreach (var GV in gases.GasesArray)
+			{
+				ActualMoles += GV.Moles;
+			}
+
+			if (Mathf.Approximately(ActualMoles, 0))
+			{
+				Logger.LogError("Inappropriate Input for FromTemperatureAndPressure ", Category.Atmos);
+				return GasMixesSingleton.Instance.air.BaseGasMix;
+			}
+
+			var multiplier = NeededMoles / ActualMoles;
+			var Copygases = gases.Copy();
+			foreach (var GV in Copygases.GasesArray)
+			{
+				GV.Moles *= multiplier;
+			}
+
+			var gaxMix = new GasMix();
+			gaxMix.GasData = Copygases;
+			gaxMix.Pressure = pressure;
+			gaxMix.Volume = volume;
+			gaxMix.Temperature = temperature;
+			return gaxMix;
+		}
+
 		public static GasMix FromPressure(GasData gases, float pressure,
 			float volume = AtmosConstants.TileVolume)
 		{
@@ -555,7 +585,7 @@ namespace Systems.Atmospherics
 			RecalculatePressure();
 		}
 
-		public void Copy(GasMix other)
+		public void CopyFrom(GasMix other)
 		{
 			other.GasData.CopyTo(GasData);
 			Pressure = other.Pressure;

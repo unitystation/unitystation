@@ -109,7 +109,7 @@ namespace Objects.Atmospherics
 
 			if (selfSufficient)
 			{
-				pipeMix.Copy(GasMixes.BaseEmptyMix); // We don't need to do this, just void the gas
+				pipeMix.CopyFrom(GasMixes.BaseEmptyMix); // We don't need to do this, just void the gas
 			}
 		}
 
