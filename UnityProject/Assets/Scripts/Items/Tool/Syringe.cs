@@ -25,6 +25,8 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 	public int SpiteFullIndex = 0;
 	public int SpiteEmptyIndex = 1;
 
+	public float TransferAmount = 5;
+
 	private static readonly StandardProgressActionConfig injectProgressBar =
 		new StandardProgressActionConfig(StandardProgressActionType.CPR);
 
@@ -81,7 +83,7 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 		}
 		Chat.AddCombatMsgToChat(performer.gameObject, $"You try to Inject The {this.name} into {healthTarget.gameObject.ExpensiveName()}",
 			$"{performer.PlayerScript.visibleName} Tries to inject a {this.name} into {healthTarget.gameObject.ExpensiveName()}");
-		
+
 		StandardProgressAction.Create(injectProgressBar,
 				() => InjectBehavior(healthTarget, performer))
 			.ServerStartProgress(performer, time, performer.PlayerScript.gameObject);
@@ -92,7 +94,7 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 		if (LocalContainer.ReagentMixTotal > 0)
 		{
 			if (LHB.CirculatorySystem != null)
-				LHB.CirculatorySystem.BloodPool.Add(LocalContainer.TakeReagents(LocalContainer.ReagentMixTotal));
+				LHB.CirculatorySystem.BloodPool.Add(LocalContainer.TakeReagents(TransferAmount));
 			LocalContainer.ReagentsChanged();
 			Chat.AddCombatMsgToChat(performer.gameObject, $"You Inject The {this.name} into {LHB.gameObject.ExpensiveName()}",
 				$"{performer.PlayerScript.visibleName} injects a {this.name} into {LHB.gameObject.ExpensiveName()}");
