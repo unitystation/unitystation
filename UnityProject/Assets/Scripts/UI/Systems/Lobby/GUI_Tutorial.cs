@@ -5,6 +5,14 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using System;
 
+/// <summary>
+/// This script loads language files into LocalLow\Unitystation\unitystation\languages so the XML files are available
+/// in the final build and generates a button for each language found.
+/// 
+/// To add a new language, add the xml filename to <param>languageFileNames</param> array and save the xml file to
+/// Unitystation-Tutorial\UnityProject\Assets\StreamingAssets\languages
+/// </summary>
+
 public class GUI_Tutorial : MonoBehaviour
 {
 	// Add new file name to list when new languages are added
