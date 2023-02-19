@@ -102,7 +102,7 @@ namespace UI.Objects.Medical
 				Logger.LogError("no mutations available for egg");
 			}
 
-			var RNGamount = Random.Range(2, 4);
+			var RNGamount = Random.Range(4, 6);
 
 			var chosen = new List<MutationSO>();
 			available = available.Shuffle().ToList();

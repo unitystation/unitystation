@@ -40,8 +40,6 @@ namespace Objects.Atmospherics
 		public float MaximumMoles = 0f;
 
 		public float ReleasePressure = AtmosConstants.ONE_ATMOSPHERE;
-		public float Volume;
-		public float Temperature;
 
 		private RegisterTile registerTile;
 		private Integrity integrity;
@@ -184,9 +182,6 @@ namespace Objects.Atmospherics
 
 				metaDataLayer.UpdateSystemsAt(localPosition, SystemType.AtmosSystem);
 
-				Volume = GasMix.Volume;
-				Temperature = GasMix.Temperature;
-
 				var List = AtmosUtils.CopyGasArray(GasMix.GasData);
 
 				for (int i = List.List.Count - 1; i >= 0; i--)
@@ -207,13 +202,13 @@ namespace Objects.Atmospherics
 		private void Validate()
 		{
 			Undo.RecordObject(gameObject, "Gas Change");
-			StoredGasMix = GasMix.FromTemperature(StoredGasMix.GasData, Temperature, Volume);
+			StoredGasMix =   GasMix.FromTemperatureAndPressure(StoredGasMix.GasData, StoredGasMix.Temperature, StoredGasMix.Pressure, StoredGasMix.Volume );
 		}
 #endif
 		public void UpdateGasMix()
 		{
 			gasIsInitialised = true;
-			GasMix = GasMix.FromTemperature(StoredGasMix.GasData, Temperature, Volume);
+			GasMix = GasMix.FromTemperature(StoredGasMix.GasData, StoredGasMix.Temperature, StoredGasMix.Volume);
 		}
 	}
 }
