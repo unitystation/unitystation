@@ -23,6 +23,8 @@ public class MutationMiniGameElement : DynamicEntry
 
 	public bool locked = false;
 
+	public NetColorChanger NetColorChanger;
+
 	public Dictionary<MutationMiniGameElement, float> AccumulatedForces = new Dictionary<MutationMiniGameElement, float>();
 
 	//net Service Synchronise string
@@ -45,6 +47,8 @@ public class MutationMiniGameElement : DynamicEntry
 	public void ValueChangeSlider(float UnusedValue)
 	{
 
+		if (containedInTab.IsMasterTab == false) return;
+
 		var TargetFloat = SliderParameters.TargetPosition / 100f;
 
 
@@ -53,11 +57,11 @@ public class MutationMiniGameElement : DynamicEntry
 
 		if (SatisfiesTarget())
 		{
-			LineImage.color = Color.magenta;
+			NetColorChanger.MasterSetValue(Color.magenta);
 		}
 		else
 		{
-			LineImage.color = Color.LerpUnclamped(Color.red, Color.green, NearValue);
+			NetColorChanger.MasterSetValue(Color.LerpUnclamped(Color.red, Color.green, NearValue));
 		}
 
 	}
