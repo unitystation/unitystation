@@ -20,7 +20,7 @@ namespace ScriptableObjects.Atmospherics
 			get
 			{
 				var data = new GasMix();
-				gasMix.Copy(data);
+				data.CopyFrom(gasMix);
 				return data;
 			}
 		}

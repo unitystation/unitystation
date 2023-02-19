@@ -585,7 +585,7 @@ namespace Systems.Atmospherics
 			RecalculatePressure();
 		}
 
-		public void Copy(GasMix other)
+		public void CopyFrom(GasMix other)
 		{
 			other.GasData.CopyTo(GasData);
 			Pressure = other.Pressure;
