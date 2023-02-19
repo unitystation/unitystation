@@ -21,12 +21,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 6b9e3105933a07148b919b0ed8d2d109,
+      objectReference: {fileID: 21300000, guid: b1a40c2070fab8a4398be9f8678d7136,
         type: 3}
     - target: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.0009689331
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
@@ -36,7 +36,7 @@ PrefabInstance:
     - target: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: m_Color.r
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
@@ -103,16 +103,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3558259718671294003, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3558259718671294003, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4428698834604649417, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: foreverID
@@ -122,7 +112,7 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 54ba86a4bf817a24594b804b56054cf2,
+      objectReference: {fileID: 11400000, guid: ffe89e455c0176a4f9c8c2d8d1fd5207,
         type: 2}
     - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
