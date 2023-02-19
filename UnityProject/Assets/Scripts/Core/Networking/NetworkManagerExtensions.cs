@@ -29,6 +29,7 @@ public static class NetworkManagerExtensions
 	/// </summary>
 	public static void RegisterClientHandlers()
 	{
+		Logger.LogError("RegisterClientHandlers");
 		IEnumerable<Type> types = GetDerivedTypes(typeof(ServerMessage<>));
 		MethodInfo mi = GetHandlerInfo();
 
