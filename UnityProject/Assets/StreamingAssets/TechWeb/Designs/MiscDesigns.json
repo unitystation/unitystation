@@ -591,6 +591,26 @@
         "Item_ID": "advmop"
     },
     {
+        "Internal_ID": "adv_lightreplacer",
+        "Description": "An upgraded light replacer with light tuning capabilities.",
+        "Category": [
+            "Equipment"
+        ],
+        "Materials": {
+            "Metal": 100,
+            "Glass": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Service",
+            "Science"
+        ],
+        "name": "Advanced Light Replacer",
+        "Item_ID": "adv_lightreplacer"
+    },
+    {
         "Internal_ID": "buffer",
         "Description": "A floor buffer that can be attached to vehicular janicarts.",
         "Category": [

@@ -1,0 +1,144 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1739583718142988183
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1163226963447212798, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 68fe0cb50445f0b47b853cc6b4bf9484
+      objectReference: {fileID: 0}
+    - target: {fileID: 1163231041994618932, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      propertyPath: pickupAnimSpeed
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1270907325304482366, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1270907325304482366, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1270907325304482366, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1270907325304482366, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1270907325304482366, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1270907325304482366, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1270907325304482366, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1270907325304482366, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1270907325304482366, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1270907325304482366, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1270907325304482366, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1274704900924856138, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      propertyPath: m_Name
+      value: AdvancedLightReplacer
+      objectReference: {fileID: 0}
+    - target: {fileID: 1387492167235560470, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.7271374
+      objectReference: {fileID: 0}
+    - target: {fileID: 1387492167235560470, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.3726415
+      objectReference: {fileID: 0}
+    - target: {fileID: 1387492167235560470, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683558935381850152, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      propertyPath: initialName
+      value: Advanced Light Replacer
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683558935381850152, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      propertyPath: initialDescription
+      value: Allows turned on lights to be replaced without burning your hands, and
+        allows you to fine tune the properties of lights.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683558935381850152, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: e150900d9427a8148aefe6313d0a1d5a,
+        type: 2}
+    - target: {fileID: 5263037525709609767, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      propertyPath: foreverID
+      value: adv_lightreplacer
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263037525709609767, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      propertyPath: <AlternativePrefabName>k__BackingField
+      value: light
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 81e4f93f9ae0fc64aad2053ade3ae29e, type: 3}
+--- !u!1 &690343177129040093 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1274704900924856138, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1739583718142988183}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7371254084972930010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 690343177129040093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d5b7812fabf4dbc83f7455c139367ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  currentColor: {r: 1, g: 1, b: 1, a: 0.7607843}

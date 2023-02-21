@@ -7,6 +7,7 @@ using Light2D;
 using Systems.Electricity;
 using Shared.Systems.ObjectConnection;
 using Objects.Construction;
+using UnityEngine.Serialization;
 
 
 namespace Objects.Lighting
@@ -17,7 +18,18 @@ namespace Objects.Lighting
 	public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowerable, IServerLifecycle,
 		IMultitoolSlaveable
 	{
-		public Color ONColour;
+		[SyncVar, SerializeField, FormerlySerializedAs("ONColour")] private Color currentOnColor;
+
+		public Color ONColour
+		{
+			get => currentOnColor;
+			set
+			{
+				currentOnColor = value;
+				SetAnimation();
+			}
+		}
+
 		public Color EmergencyColour;
 
 		public LightSwitchV2 relatedLightSwitch;
@@ -372,7 +384,7 @@ namespace Objects.Lighting
 			_ = Despawn.ServerSingle(interaction.HandObject);
 		}
 
-		private void TryReplaceBulb(HandApply interaction)
+		public void TryReplaceBulb(HandApply interaction)
 		{
 			if (mState != LightMountState.MissingBulb)
 			{
