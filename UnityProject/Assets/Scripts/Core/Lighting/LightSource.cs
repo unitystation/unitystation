@@ -36,8 +36,8 @@ namespace Objects.Lighting
 
 		[SerializeField] private LightMountState InitialState = LightMountState.On;
 
-		[SyncVar(hook = nameof(SyncLightState))]
-		private LightMountState mState;
+		[field: SyncVar(hook = nameof(SyncLightState))]
+		public LightMountState mState { get; private set; }
 
 		[Header("Generates itself if this is null:")]
 		public GameObject mLightRendererObject;
@@ -71,6 +71,7 @@ namespace Objects.Lighting
 		private LightFixtureConstruction construction;
 
 		private ItemTrait traitRequired;
+		public ItemTrait TraitRequired => traitRequired;
 		private GameObject itemInMount;
 
 		public float integrityThreshBar { get; private set; }
@@ -384,13 +385,33 @@ namespace Objects.Lighting
 			_ = Despawn.ServerSingle(interaction.HandObject);
 		}
 
-		public void TryReplaceBulb(HandApply interaction)
+		public void TryAddBulb(GameObject lightBulb)
 		{
-			if (mState != LightMountState.MissingBulb)
+			if (mState != LightMountState.MissingBulb) return;
+
+			if (Validations.HasItemTrait(lightBulb, CommonTraits.Instance.Broken))
 			{
-				Spawn.ServerPrefab(itemInMount, interaction.Performer.AssumedWorldPosServer());
-				ServerChangeLightState(LightMountState.MissingBulb);
+				ServerChangeLightState(LightMountState.Broken);
 			}
+			else
+			{
+				ServerChangeLightState(
+					(switchState && (powerState == PowerState.On))
+						? LightMountState.On
+						: (powerState != PowerState.OverVoltage)
+							? LightMountState.Emergency
+							: LightMountState.Off);
+			}
+
+			_ = Despawn.ServerSingle(lightBulb);
+		}
+
+		public bool TryReplaceBulb(HandApply interaction)
+		{
+			if (mState == LightMountState.MissingBulb) return false;
+			Spawn.ServerPrefab(itemInMount, interaction.Performer.AssumedWorldPosServer());
+			ServerChangeLightState(LightMountState.MissingBulb);
+			return true;
 		}
 
 		#endregion

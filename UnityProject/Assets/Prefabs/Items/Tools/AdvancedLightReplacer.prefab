@@ -94,14 +94,34 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1683558935381850152, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
         type: 3}
+      propertyPath: hitDamage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683558935381850152, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
       propertyPath: initialName
       value: Advanced Light Replacer
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683558935381850152, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      propertyPath: throwDamage
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1683558935381850152, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
         type: 3}
       propertyPath: initialDescription
       value: Allows turned on lights to be replaced without burning your hands, and
         allows you to fine tune the properties of lights.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683558935381850152, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      propertyPath: traumaDamageChance
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683558935381850152, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1683558935381850152, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
         type: 3}
@@ -142,3 +162,29 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   currentColor: {r: 1, g: 1, b: 1, a: 0.7607843}
+  storage: {fileID: 6447919417946254890}
+--- !u!114 &6447919417946254890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 690343177129040093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 0480160aa55493d42b53c8d08da3be7c,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 411b6b7a74c524a91b9a38a0c692761b,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 1
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}

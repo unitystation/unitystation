@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Mirror;
 using Objects.Lighting;
+using ScriptableObjects;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
 
@@ -10,6 +14,12 @@ namespace Items.Tool
 	{
 		private bool lightTuner = false;
 		[SyncVar, SerializeField] private Color currentColor;
+		[SerializeField] private ItemStorage storage;
+
+		private void Awake()
+		{
+			if (storage == null) storage = GetComponent<ItemStorage>();
+		}
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
@@ -36,6 +46,15 @@ namespace Items.Tool
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			if (Validations.HasItemTrait(interaction.TargetObject, CommonTraits.Instance.LightBulb) ||
+			    Validations.HasItemTrait(interaction.TargetObject, CommonTraits.Instance.LightTube))
+			{
+				storage.ServerTryAdd(interaction.TargetObject);
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"You watch as the tool automatically pulls out a mechanical arm that slots in the {interaction.TargetObject.ExpensiveName()}",
+					$"{interaction.PerformerPlayerScript.visibleName} slots in the {interaction.TargetObject.ExpensiveName()} using the {gameObject.ExpensiveName()}.");
+				return;
+			}
 			if (interaction.TargetObject.TryGetComponent<LightSource>(out var source) == false) return;
 			if (lightTuner)
 			{
@@ -43,8 +62,23 @@ namespace Items.Tool
 			}
 			else
 			{
+				var target = storage.GetTopOccupiedIndexedSlot();
+				if (target == null)
+				{
+					source.TryReplaceBulb(interaction);
+					return;
+				}
+				if (target.ItemAttributes.GetTraits().Contains(source.TraitRequired) == false) return;
 				source.TryReplaceBulb(interaction);
+				AddLightToFixture(target, source, interaction);
+				Chat.AddExamineMsg(interaction.Performer, "You replace the light-bulb with another one.");
 			}
+		}
+
+		private void AddLightToFixture(ItemSlot target, LightSource source, HandApply interaction)
+		{
+			target.ItemStorage.ServerTryRemove(target.ItemObject, false, interaction.PerformerPlayerScript.AssumedWorldPos);
+			source.TryAddBulb(target.ItemObject);
 		}
 
 		private void LightTunerWindowOpen()
@@ -64,7 +98,10 @@ namespace Items.Tool
 
 		public string HoverTip()
 		{
-			return $"Lighter Tuner On: {lightTuner}";
+			StringBuilder statusText = new StringBuilder();
+			statusText.AppendLine($"Lighter Tuner On: {lightTuner}");
+			statusText.AppendLine($"Slots used: {storage.GetOccupiedSlots().Count} out of {storage.ItemStorageStructure.IndexedSlots}");
+			return statusText.ToString();
 		}
 
 		public string CustomTitle() { return null; }
@@ -89,6 +126,11 @@ namespace Items.Tool
 			interactions.Add(new TextColor()
 			{
 				Text = "Click on a nearby light fixture to interact with it.",
+				Color = Color.green,
+			});
+			interactions.Add(new TextColor()
+			{
+				Text = "Click on a nearby light bulbs to load them in.",
 				Color = Color.green,
 			});
 			return interactions;
