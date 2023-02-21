@@ -104,11 +104,11 @@ namespace Items.Tool
 			return statusText.ToString();
 		}
 
-		public string CustomTitle() { return null; }
+		public string CustomTitle() => null;
 
-		public Sprite CustomIcon() { return null; }
+		public Sprite CustomIcon() => null;
 
-		public List<Sprite> IconIndicators() { return null; }
+		public List<Sprite> IconIndicators() => null;
 
 		public List<TextColor> InteractionsStrings()
 		{
