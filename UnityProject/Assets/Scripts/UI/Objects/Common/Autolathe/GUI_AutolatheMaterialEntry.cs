@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using UI.Core.NetUI;
-using UI.Objects.Robotics;
+﻿using UI.Core.NetUI;
 
 namespace UI.Objects
 {
@@ -26,8 +23,9 @@ namespace UI.Objects
 			}
 			else
 			{
-				ExoFabMasterTab?.OnDispenseSheetClicked.Invoke(amount, materialType);
+				ExoFabMasterTab.OnDispenseSheetClicked.Invoke(amount, materialType);
 			}
+			ExoFabMasterTab.UpdateMaterialsDisplay();
 		}
 
 		public void ReInit(ItemTrait material, int amount)

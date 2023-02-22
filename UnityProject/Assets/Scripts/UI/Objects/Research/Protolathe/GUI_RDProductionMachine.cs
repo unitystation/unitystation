@@ -124,6 +124,7 @@ namespace UI.Objects
 			materialsAndCategoryDisplay.InitMaterialList(rdProductionMachine.materialStorageLink.usedStorage);
 			materialsAndCategoryDisplay.InitCategories(rdProductionMachine.Categories);
 			OnTabOpened.AddListener(UpdateGUIForPeepers);
+			if (rdProductionMachine != null) rdProductionMachine.MaterialsManipulated += UpdateMaterialsDisplay;
 		}
 
 		public void UpdateServerDisplay()
@@ -278,7 +279,7 @@ namespace UI.Objects
 
 		private void OnDestroy()
 		{
-			RDProductionMachine.MaterialsManipulated -= UpdateMaterialsDisplay;
+			if (rdProductionMachine != null) rdProductionMachine.MaterialsManipulated -= UpdateMaterialsDisplay;
 		}
 
 		[System.Serializable]
