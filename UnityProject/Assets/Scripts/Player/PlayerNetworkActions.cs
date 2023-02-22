@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using AdminTools;
 using Items.PDA;
 using UnityEngine;
 using Mirror;
@@ -11,12 +9,11 @@ using Audio.Containers;
 using ScriptableObjects;
 using AdminCommands;
 using Antagonists;
-using Systems.Atmospherics;
+using Core.Chat;
 using HealthV2;
 using Items;
 using Items.Tool;
 using Messages.Server;
-using UI.Systems.AdminTools.DevTools;
 using Objects.Other;
 using Player.Movement;
 using Shuttles;
@@ -25,11 +22,7 @@ using UI.Items;
 using Doors;
 using Managers;
 using Objects;
-using Objects.Atmospherics;
-using Objects.Disposals;
 using Player.Language;
-using Systems.Electricity;
-using Systems.Pipes;
 using Tiles;
 using Util;
 using Random = UnityEngine.Random;
@@ -989,5 +982,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			Inventory.ServerTransfer(gameObjectSent.PickupableOrNull().ItemSlot, slot, ReplacementStrategy.DropOther);
 		}
+	}
+
+	[Command]
+	public void CmdDoEmote(GameObject player, string emoteName)
+	{
+		EmoteActionManager.DoEmote(emoteName, player);
 	}
 }
