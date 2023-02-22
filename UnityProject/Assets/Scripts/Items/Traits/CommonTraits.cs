@@ -100,6 +100,8 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait PowerControlBoard;
 	public ItemTrait Beaker;
 
+	public ItemTrait CoreBodyPart;
+
 	/// <summary>
 	/// Do not use this list to get references to traits, locally reference them in your scripts instead!
 	/// </summary>

@@ -318,6 +318,18 @@ namespace HealthV2
 
 		//Default is mute yes
 
+		public bool HasCoreBodyPart()
+		{
+			foreach (var BodyPart in SurfaceBodyParts)
+			{
+				if (BodyPart.ItemAttributes.HasTrait(CommonTraits.Instance.CoreBodyPart))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
 		public virtual void Awake()
 		{
 			rootBodyPartController = GetComponent<RootBodyPartController>();
@@ -388,18 +400,46 @@ namespace HealthV2
 		/// </summary>
 		private void BodyPartTransfer(Pickupable prevImplant, Pickupable newImplant)
 		{
+			//SO
+			//Body part with transparency added or removed
+			//Body parts removed from transparent Body part
+
 			if (newImplant && newImplant.TryGetComponent<BodyPart>(out var addedBodyPart))
 			{
-				addedBodyPart.BodyPartAddHealthMaster(this);
-				SurfaceBodyParts.Add(addedBodyPart);
+				addedBodyPart.BodyPartAddHealthMaster(this); //Don't worry It comes back around
 			}
 			else if (prevImplant && prevImplant.TryGetComponent<BodyPart>(out var removedBodyPart))
 			{
-				removedBodyPart.BodyPartRemoveHealthMaster();
-				if (SurfaceBodyParts.Contains(removedBodyPart))
+				removedBodyPart.BodyPartRemoveHealthMaster(); //Don't worry It comes back around
+			}
+		}
+
+		public void AddingBodyPart(BodyPart BodyPart)
+		{
+			if (BodyPartList.Contains(BodyPart) == false)
+			{
+				BodyPartList.Add(BodyPart);
+			}
+
+			if (BodyPart.IsInAnOpenAir)
+			{
+				if (SurfaceBodyParts.Contains(BodyPart) == false)
 				{
-					SurfaceBodyParts.Remove(removedBodyPart);
+					SurfaceBodyParts.Add(BodyPart);
 				}
+			}
+		}
+
+		public void RemovingBodyPart(BodyPart BodyPart)
+		{
+			if (BodyPartList.Contains(BodyPart))
+			{
+				BodyPartList.Remove(BodyPart);
+			}
+
+			if (SurfaceBodyParts.Contains(BodyPart))
+			{
+				SurfaceBodyParts.Remove(BodyPart);
 			}
 		}
 
@@ -472,11 +512,24 @@ namespace HealthV2
 					var HasBodyPart = false;
 					foreach (var bodyPart in PrecalculatedMetabolismReactions[Reaction.Key])
 					{
-						if (bodyPart.BodyPartType == storage.Key)
+						if (SurfaceReagents.ContainsKey(bodyPart.BodyPartType) == false)
 						{
-							HasBodyPart = true;
-							break;
+							if (BodyPartType.Chest == storage.Key)
+							{
+								HasBodyPart = true;
+								break;
+							}
 						}
+						else
+						{
+							if (bodyPart.BodyPartType == storage.Key)
+							{
+								HasBodyPart = true;
+								break;
+							}
+						}
+
+
 					}
 
 					if (HasBodyPart)
@@ -491,10 +544,21 @@ namespace HealthV2
 					float ProcessingAmount = 0;
 					foreach (var bodyPart in PrecalculatedMetabolismReactions[Reaction])
 					{
-						if (bodyPart.BodyPartType == storage.Key)
+						if (SurfaceReagents.ContainsKey(bodyPart.BodyPartType) == false)
 						{
-							TMPUseList.Add(bodyPart);
-							ProcessingAmount += 1;
+							if (BodyPartType.Chest == storage.Key)
+							{
+								TMPUseList.Add(bodyPart);
+								ProcessingAmount += 1;
+							}
+						}
+						else
+						{
+							if (bodyPart.BodyPartType == storage.Key)
+							{
+								TMPUseList.Add(bodyPart);
+								ProcessingAmount += 1;
+							}
 						}
 					}
 

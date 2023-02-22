@@ -24,14 +24,43 @@ namespace HealthV2
 		[HideInInspector] private readonly List<BodyPart> containBodyParts = new List<BodyPart>();
 		public List<BodyPart> ContainBodyParts => containBodyParts;
 
+
+
 		/// <summary>
 		/// Storage container for things (usually other body parts) held within this body part
 		/// </summary>
 		[HorizontalLine] [Tooltip("Things (eg other organs) held within this")]
 		public ItemStorage OrganStorage = null;
 
+		[Tooltip(
+			" Could you splatter sit on the player and Could the acid touch body parts contained in this body part ")]
+		private bool isOpenAir = false;
+		public bool IsOpenAir
+		{
+			get
+			{
+				if (isOpenAir)
+				{
+					if (ContainedIn == null) return true;
 
-		public CommonComponents CommonComponents;
+					return ContainedIn.IsOpenAir;
+				}
+
+				return false;
+			}
+		}
+
+		public bool IsInAnOpenAir
+		{
+			get
+			{
+				if (ContainedIn == null) return true;
+				return ContainedIn.IsOpenAir;
+			}
+		}
+
+
+		[HideInInspector] public CommonComponents CommonComponents;
 
 		//Organs on the same body part
 		[NonSerialized] public List<BodyPartFunctionality> OrganList = new List<BodyPartFunctionality>();
@@ -299,10 +328,7 @@ namespace HealthV2
 		/// </summary>
 		public void BodyPartAddHealthMaster(LivingHealthMasterBase livingHealth) //Only add Body parts
 		{
-			if (livingHealth.BodyPartList.Contains(this) == false)
-			{
-				livingHealth.BodyPartList.Add(this);
-			}
+			HealthMaster.AddingBodyPart(this);
 
 			SetHealthMaster(livingHealth);
 			livingHealth.ServerCreateSprite(this);
@@ -337,7 +363,7 @@ namespace HealthV2
 
 			RemoveSprites(playerSprites, HealthMaster);
 			HealthMaster.rootBodyPartController.UpdateClients();
-			HealthMaster.BodyPartList.Remove(this);
+			HealthMaster.RemovingBodyPart(this);
 			HealthMaster.BodyPartListChange();
 			HealthMaster = null;
 		}
