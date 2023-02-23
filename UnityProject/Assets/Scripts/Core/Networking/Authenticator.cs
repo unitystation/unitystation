@@ -385,6 +385,7 @@ namespace Core.Networking
 			Logger.Log($"Disconnecting from server. Reason: {msg.Code}.");
 			ClientReject(); // Gracefully handle rejection by disconnecting.
 
+			// Then shut down the client to return to the main menu.
 			// If this client is also the host but not headless (i.e. not handled by OnServerClientAuthRequest()),
 			// we should handle a disconnect request slightly differently.
 			if (CustomNetworkManager.IsServer)
