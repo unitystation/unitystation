@@ -37,7 +37,7 @@ namespace Objects.Lighting
 		[SerializeField] private LightMountState InitialState = LightMountState.On;
 
 		[field: SyncVar(hook = nameof(SyncLightState))]
-		public LightMountState mState { get; private set; }
+		public LightMountState MountState { get; private set; }
 
 		[Header("Generates itself if this is null:")]
 		public GameObject mLightRendererObject;
@@ -116,7 +116,7 @@ namespace Objects.Lighting
 		{
 			if (info.SpawnItems == false)
 			{
-				mState = LightMountState.MissingBulb;
+				MountState = LightMountState.MissingBulb;
 			}
 		}
 
@@ -167,7 +167,7 @@ namespace Objects.Lighting
 		[Server]
 		public void ServerChangeLightState(LightMountState newState)
 		{
-			mState = newState;
+			MountState = newState;
 
 			if (newState == LightMountState.Broken)
 			{
@@ -181,12 +181,12 @@ namespace Objects.Lighting
 
 		public bool HasBulb()
 		{
-			return mState != LightMountState.MissingBulb && mState != LightMountState.None;
+			return MountState != LightMountState.MissingBulb && MountState != LightMountState.None;
 		}
 
 		private void SyncLightState(LightMountState oldState, LightMountState newState)
 		{
-			mState = newState;
+			MountState = newState;
 			ChangeCurrentState(newState);
 			SetSprites();
 			SetAnimation();
@@ -230,7 +230,7 @@ namespace Objects.Lighting
 		private void SetSprites()
 		{
 			spriteHandler.SetSpriteSO(currentState.SpriteData, null);
-			spriteRendererLightOn.sprite = mState == LightMountState.On
+			spriteRendererLightOn.sprite = MountState == LightMountState.On
 				? spritesStateOnEffect.sprites[0]
 				: null;
 
@@ -248,7 +248,7 @@ namespace Objects.Lighting
 		private void SetAnimation()
 		{
 			lightSprite.Color = currentState.LightColor;
-			switch (mState)
+			switch (MountState)
 			{
 				case LightMountState.Emergency:
 					lightSprite.Color = EmergencyColour;
@@ -332,7 +332,7 @@ namespace Objects.Lighting
 					return false;
 				}
 
-				if (mState == LightMountState.On && HasGlove() == false)
+				if (MountState == LightMountState.On && HasGlove() == false)
 				{
 					float damage = Random.Range(0, maximumDamageOnTouch);
 					var playerHealth = interaction.PerformerPlayerScript.playerHealth;
@@ -366,7 +366,7 @@ namespace Objects.Lighting
 
 		private void TryAddBulb(HandApply interaction)
 		{
-			if (mState != LightMountState.MissingBulb) return;
+			if (MountState != LightMountState.MissingBulb) return;
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Broken))
 			{
@@ -387,7 +387,7 @@ namespace Objects.Lighting
 
 		public void TryAddBulb(GameObject lightBulb)
 		{
-			if (mState != LightMountState.MissingBulb) return;
+			if (MountState != LightMountState.MissingBulb) return;
 
 			if (Validations.HasItemTrait(lightBulb, CommonTraits.Instance.Broken))
 			{
@@ -408,7 +408,7 @@ namespace Objects.Lighting
 
 		public bool TryReplaceBulb(HandApply interaction)
 		{
-			if (mState == LightMountState.MissingBulb) return false;
+			if (MountState == LightMountState.MissingBulb) return false;
 			Spawn.ServerPrefab(itemInMount, interaction.Performer.AssumedWorldPosServer());
 			ServerChangeLightState(LightMountState.MissingBulb);
 			return true;
@@ -426,8 +426,8 @@ namespace Objects.Lighting
 		{
 			if (isServer == false) return;
 			powerState = newPowerState;
-			if (mState == LightMountState.Broken
-			    || mState == LightMountState.MissingBulb) return;
+			if (MountState == LightMountState.Broken
+			    || MountState == LightMountState.MissingBulb) return;
 
 			switch (newPowerState)
 			{
@@ -468,7 +468,7 @@ namespace Objects.Lighting
 		{
 			if (isServer == false) return;
 			switchState = newState;
-			if (mState == LightMountState.On || mState == LightMountState.Off)
+			if (MountState == LightMountState.On || MountState == LightMountState.Off)
 				ServerChangeLightState(newState ? LightMountState.On : LightMountState.Off);
 		}
 
@@ -479,7 +479,7 @@ namespace Objects.Lighting
 		private void TrySpark()
 		{
 			//Has to be broken and have power to spark
-			if (mState != LightMountState.Broken || powerState == PowerState.Off) return;
+			if (MountState != LightMountState.Broken || powerState == PowerState.Off) return;
 
 			InternalSpark(30f);
 		}
@@ -525,10 +525,10 @@ namespace Objects.Lighting
 
 		private void CheckIntegrityState(DamageInfo arg0)
 		{
-			if (integrity.integrity > integrityThreshBar || mState == LightMountState.MissingBulb) return;
+			if (integrity.integrity > integrityThreshBar || MountState == LightMountState.MissingBulb) return;
 			Vector3 pos = gameObject.AssumedWorldPosServer();
 
-			if (mState == LightMountState.Broken)
+			if (MountState == LightMountState.Broken)
 			{
 				ServerChangeLightState(LightMountState.MissingBulb);
 				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GlassStep, pos, sourceObj: gameObject);
