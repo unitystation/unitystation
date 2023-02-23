@@ -413,8 +413,11 @@ public class Mind : NetworkBehaviour, IActionGUI
 	private void SyncActiveOn(uint oldID, uint newID)
 	{
 		IDActivelyControlling = newID;
-		HandleActiveOnChange(oldID, newID);
-
+		if (isClient)
+		{
+			LoadManager.RegisterActionDelayed(() => { HandleActiveOnChange(oldID, newID); },
+				2);
+		}
 	}
 
 	private void SyncPossessing(uint oldID, uint newID)
