@@ -382,9 +382,24 @@ namespace Core.Networking
 				return;
 			}
 
-			Logger.Log($"Disconnected from server. Reason: {msg.Code}.");
+			Logger.Log($"Disconnecting from server. Reason: {msg.Code}.");
+			ClientReject(); // Gracefully handle rejection by disconnecting.
 
+			// If this client is also the host but not headless (i.e. not handled by OnServerClientAuthRequest()),
+			// we should handle a disconnect request slightly differently.
+			if (CustomNetworkManager.IsServer)
+			{
+				CustomNetworkManager.Instance.StopHost();
+			}
+			else
+			{
+				CustomNetworkManager.Instance.StopClient();
+			}
+
+			// Try to use the fancy info panel (Lobby scene only)
 			// LobbyManager.UI null check, perhaps it will be possible to join a server while not in the lobby scene.
+			// It is also null if the client is also the (non-headless) host, as the server has already switched to a different scene.
+			// For a headless host, the server's client does not use this authentication path.
 			if (msg.Code == ResponseCode.InvalidClientVersion && LobbyManager.UI != null)
 			{
 				LobbyManager.UI.ShowInfoPanel(new InfoPanelArgs
@@ -409,11 +424,9 @@ namespace Core.Networking
 			}
 			else
 			{
+				// Otherwise use the basic info panel
 				UIManager.InfoWindow.Show(msg.Message, bwoink: false, "Disconnected");
 			}
-
-			ClientReject(); // Gracefully handle rejection by disconnecting.
-			CustomNetworkManager.Instance.StopClient(); // Then shut down the client to return to the main menu.
 		}
 
 		private string GetPhysicalAddress()
