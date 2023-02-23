@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UI.Core.NetUI;
@@ -19,21 +20,27 @@ public class NetCountdownTimer : MonoBehaviour
 		Completed = false;
 		RemainingSeconds = TimeSeconds;
 		StartingSeconds = TimeSeconds;
-		StartCoroutine(Refresh());
+		UpdateManager.Add(Refresh, 1);
 	}
 
 
-	private IEnumerator Refresh()
+	private void Refresh()
 	{
-		while (RemainingSeconds > 0)
+		RemainingSeconds -= 1;
+		UpdateDisplay();
+
+
+
+		if (RemainingSeconds > 0 == false)
 		{
-			UpdateDisplay();
-			yield return WaitFor.Seconds(1f);
-			RemainingSeconds -= 1;
+			Completed = true;
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Refresh);
 		}
+	}
 
-		Completed = true;
-
+	public void OnDestroy()
+	{
+		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Refresh);
 	}
 
 	public void UpdateDisplay()

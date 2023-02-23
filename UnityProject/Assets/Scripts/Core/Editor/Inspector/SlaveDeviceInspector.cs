@@ -130,9 +130,11 @@ namespace CustomInspectors
 
 		private void Save()
 		{
+			Undo.RecordObject ((Component) thisDevice, "Save");
 			EditorUtility.SetDirty((Component) thisDevice);
 			if (thisDevice.Master != null)
 			{
+				Undo.RecordObject ((Component) thisDevice.Master, "Save");
 				EditorUtility.SetDirty((Component) thisDevice.Master);
 			}
 			EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());

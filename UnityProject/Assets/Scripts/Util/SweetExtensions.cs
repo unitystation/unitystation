@@ -416,7 +416,7 @@ public static class SweetExtensions
 	{
 		if (chunkSize <= 0)
 		{
-			throw new ArgumentException("chunkSize must be greater than 0.");
+			throw new ArgumentException($"{nameof(chunkSize)} must be greater than 0.", nameof(chunkSize));
 		}
 
 		while (list.Any())

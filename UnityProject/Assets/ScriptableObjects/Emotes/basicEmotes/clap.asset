@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: clap
   m_EditorClassIdentifier: 
   emoteName: clap
+  EmoteIcon: {fileID: 21300000, guid: cf19c11507ab77445ac5d6bb2ba127c6, type: 3}
   requiresHands: 1
   allowEmoteWhileInCrit: 1
   isAudibleEmote: 0
@@ -26,3 +27,4 @@ MonoBehaviour:
   defaultSounds: []
   TypedSounds: []
   pitchRange: {x: 0.7, y: 1}
+  allowedPlayerTypes: 1

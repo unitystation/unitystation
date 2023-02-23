@@ -1,6 +1,7 @@
 ﻿using Mirror;
 using System.Collections.Generic;
 using System.Linq;
+using Messages.Client;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -432,17 +433,7 @@ public class CableCuttingWindow : MonoBehaviour
 	/// <param name="positionZ">Z position of target tile</param>
 	private void SendCableCuttingMessage(Vector3 targetWorldPosition, string Name,TileType TileType)
 	{
-		// create  message
-		CableCuttingMessage message = new CableCuttingMessage()
-		{
-			performer = PlayerManager.LocalPlayerObject,
-			targetWorldPosition = targetWorldPosition,
-			Name = Name,
-			TileType = TileType
-		};
-
-		// send message
-		NetworkClient.Send(message, 0);
+		RequestCableCut.Send(targetWorldPosition,Name, TileType );
 	}
 
 	/// <summary>
@@ -455,14 +446,4 @@ public class CableCuttingWindow : MonoBehaviour
 		public ElectricalCableTile electricalCable;
 	}
 
-	/// <summary>
-	/// Message containing data needed for cutting cables
-	/// </summary>
-	public struct CableCuttingMessage : NetworkMessage
-	{
-		public GameObject performer;
-		public Vector3 targetWorldPosition;
-		public string Name;
-		public TileType TileType;
-	}
 }

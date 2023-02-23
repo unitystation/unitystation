@@ -28,6 +28,7 @@ namespace UI.Objects
 		private NetPageSwitcher nestedSwitcher = null;
 
 		private Autolathe autolathe;
+		public Autolathe Autolathe => autolathe;
 
 		public Dictionary<string, GameObject[]> categoryNameToProductEntries = new Dictionary<string, GameObject[]>();
 

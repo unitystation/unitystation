@@ -627,4 +627,10 @@ public class UIManager : MonoBehaviour, IInitialise
 
 		ChatUI.Instance.OpenChatWindow();
 	}
+
+	public void ToggleUiVisibility()
+	{
+		gameObject.SetActive(!gameObject.activeInHierarchy);
+		ChatUI.Instance.CloseChatWindow(true);
+	}
 }

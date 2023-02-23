@@ -35,11 +35,16 @@ namespace InGameEvents
 
 		private IEnumerator StartRoundTimer()
 		{
+			int Round = GameManager.RoundID;
 			remainingTime = eventTime;
 			while (remainingTime > 0f)
 			{
 				remainingTime -= 1f;
 				yield return WaitFor.Seconds(1f);
+				if (Round != GameManager.RoundID)
+				{
+					yield break; 
+				}
 			}
 			GameManager.Instance.EndRound();
 		}

@@ -502,21 +502,14 @@ namespace UI.Chat_UI
 			RefreshChannelPanel();
 		}
 
-		public void CloseChatWindow(bool QuickClose = false)
+		public void CloseChatWindow(bool quickClose = false)
 		{
 			StartWindowCooldown();
 			UIManager.IsInputFocus = false;
 			chatInputWindow.SetActive(false);
 			languagePanel.gameObject.SetActive(false);
 
-			if (QuickClose)
-			{
-				EventManager.Broadcast(Event.ChatQuickUnfocus);
-			}
-			else
-			{
-				EventManager.Broadcast(Event.ChatUnfocused);
-			}
+			EventManager.Broadcast(quickClose ? Event.ChatQuickUnfocus : Event.ChatUnfocused);
 
 			Showing = false;
 			StartCoroutine(AnimateBackground());

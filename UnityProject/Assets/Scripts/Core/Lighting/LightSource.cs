@@ -76,6 +76,8 @@ namespace Objects.Lighting
 
 		public float integrityThreshBar { get; private set; }
 
+		private bool sparking = false;
+
 		#region Lifecycle
 
 		private void Awake()
@@ -172,10 +174,16 @@ namespace Objects.Lighting
 			if (newState == LightMountState.Broken)
 			{
 				UpdateManager.Add(TrySpark, 1f);
+				sparking = true;
 			}
 			else
 			{
-				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, TrySpark);
+				if (sparking)
+				{
+					UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, TrySpark);
+				}
+
+				sparking = false;
 			}
 		}
 

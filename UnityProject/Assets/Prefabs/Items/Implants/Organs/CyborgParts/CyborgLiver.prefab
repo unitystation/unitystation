@@ -64,6 +64,7 @@ MonoBehaviour:
   transferMode: 0
   possibleTransferAmounts: []
   transferAmount: 20
+  transferSound: []
 --- !u!1001 &7994835678340444955
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -216,6 +217,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 892f0c642e2049640b08d738517bb0f5,
         type: 2}
+    - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: CapableMutations.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: BodyPartType
@@ -341,7 +347,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1a0d3d772ca8863b19514f620289014a, type: 2}
   - {fileID: 11400000, guid: 143a0045ccc01b1288106b4252eea6c4, type: 2}
   processAmount: 4
-  drunkMultiplier: 1.5
 --- !u!210 &8919293330744629812 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 1528108646680144175, guid: 35ef0ee8523cfc342bc863c12a3ac07c,

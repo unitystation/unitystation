@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: laugh
   m_EditorClassIdentifier: 
   emoteName: laugh
+  EmoteIcon: {fileID: 21300000, guid: cabf396edae30734da23839a694cab70, type: 3}
   requiresHands: 0
   allowEmoteWhileInCrit: 1
   isAudibleEmote: 1
@@ -135,3 +136,4 @@ MonoBehaviour:
           m_SubObjectType: 
           m_EditorAssetChanged: 0
   pitchRange: {x: 0.8, y: 1}
+  allowedPlayerTypes: 1

@@ -29,7 +29,7 @@ public class PlayerInfo
 	public string Username { get; set; }
 
 	/// <summary>The player script for the player while in the game.</summary>
-	public PlayerScript Script => GameObject.GetComponent<PlayerScript>();
+	public PlayerScript Script => GameObject.OrNull()?.GetComponent<PlayerScript>();
 	/// <summary>The player script for the player while in the lobby.</summary>
 	public JoinedViewer ViewerScript { get; private set; }
 

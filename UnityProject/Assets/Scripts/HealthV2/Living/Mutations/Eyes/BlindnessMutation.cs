@@ -24,12 +24,12 @@ namespace HealthV2.Living.Mutations.Eyes
 			public override void SetUp()
 			{
 				RelatedEye = BodyPart.GetComponent<Eye>();
-				RelatedEye.SyncBlindness (false, true);
+				RelatedEye.SyncPreventBlindness (false, false);
 			}
 
 			public override void Remove()
 			{
-				RelatedEye.SyncBlindness (false, false);
+				RelatedEye.SyncPreventBlindness (false, true);
 			}
 
 		}
