@@ -985,8 +985,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdDoEmote(GameObject player, string emoteName)
+	public void CmdDoEmote(string emoteName)
 	{
-		EmoteActionManager.DoEmote(emoteName, player);
+		EmoteActionManager.DoEmote(emoteName, playerScript.gameObject);
 	}
 }
