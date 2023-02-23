@@ -328,7 +328,7 @@ namespace HealthV2
 		/// </summary>
 		public void BodyPartAddHealthMaster(LivingHealthMasterBase livingHealth) //Only add Body parts
 		{
-			HealthMaster.AddingBodyPart(this);
+			livingHealth.AddingBodyPart(this);
 
 			SetHealthMaster(livingHealth);
 			livingHealth.ServerCreateSprite(this);
