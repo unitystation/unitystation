@@ -86,6 +86,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	public RoundEndScoreScreen ScoreScreen;
 
 	[field: SerializeField] public ExpLevelUI FirstTimePlayerExperienceScreen { get; set; }
+	[field: SerializeField] public ColorPicker GlobalColorPicker { get; set; }
 
 	public static bool PreventChatInput
 	{
