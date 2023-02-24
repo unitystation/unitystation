@@ -134,7 +134,7 @@ namespace Systems.Atmospherics
 				//If its not space then share otherwise it is space so set to empty
 				if (node.IsSpace == false)
 				{
-					node.GasMix.Copy(meanGasMix);
+					node.GasMix.CopyFrom(meanGasMix);
 				}
 				else
 				{

@@ -295,7 +295,7 @@ namespace Chemistry
 
 		public void Add(Reagent reagent, float amount)
 		{
-			if (amount == 0f)
+			if (Mathf.Approximately(amount, 0f))
 			{
 				return;
 			}

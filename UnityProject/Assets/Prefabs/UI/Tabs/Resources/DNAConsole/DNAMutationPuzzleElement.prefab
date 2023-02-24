@@ -445,6 +445,7 @@ GameObject:
   - component: {fileID: 5937752465422565197}
   - component: {fileID: 7633920641177528811}
   - component: {fileID: 1446916212630949369}
+  - component: {fileID: 278188074437840022}
   m_Layer: 5
   m_Name: Handle
   m_TagString: Untagged
@@ -530,6 +531,18 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+--- !u!114 &278188074437840022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650191019551283064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea513a57707b421f8f2880e64ddbfd96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3007679883985024169
 GameObject:
   m_ObjectHideFlags: 0
@@ -1210,6 +1223,7 @@ MonoBehaviour:
   Indicator: {fileID: 286206254191513121}
   LineImage: {fileID: 7633920641177528811}
   locked: 0
+  NetColorChanger: {fileID: 278188074437840022}
 --- !u!1 &9086816756704524585
 GameObject:
   m_ObjectHideFlags: 0

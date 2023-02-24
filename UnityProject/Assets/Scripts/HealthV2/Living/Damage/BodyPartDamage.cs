@@ -184,6 +184,13 @@ namespace HealthV2
 		}
 
 		/// <summary>
+		/// Triggers when a body part receives damage. 
+		///It has the attack type, damage type and the amount of damage as parameters for the callback
+		/// </summary>
+		public event Action<AttackType,DamageType, float> OnDamageTaken;
+
+
+		/// <summary>
 		/// Adjusts the appropriate damage type by the given damage amount and updates body part
 		/// functionality based on its new health total
 		/// </summary>
@@ -372,6 +379,7 @@ namespace HealthV2
 			}
 
 			AffectDamage(damageToLimb, (int) damageType);
+			OnDamageTaken?.Invoke(attackType, damageType,  damageToLimb);
 
 			// May be changed to individual damage
 			// May also want it so it can miss sub organs

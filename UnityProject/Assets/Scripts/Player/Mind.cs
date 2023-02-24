@@ -413,11 +413,11 @@ public class Mind : NetworkBehaviour, IActionGUI
 	private void SyncActiveOn(uint oldID, uint newID)
 	{
 		IDActivelyControlling = newID;
-
-		LoadManager.RegisterActionDelayed(() => { HandleActiveOnChange(oldID, newID); },
-			2); //This is to handle The game object being spawned in and data being provided before Owner message
-		//s sent owner, This means the game object it's told it's in charge of is not actually in charge of Until later on in that frame is Dumb,
-		//Plus this handles server player funnies with the same thing Just stretched over another frame so that's why it's 2
+		if (isClient)
+		{
+			LoadManager.RegisterActionDelayed(() => { HandleActiveOnChange(oldID, newID); },
+				2);
+		}
 	}
 
 	private void SyncPossessing(uint oldID, uint newID)
@@ -425,6 +425,9 @@ public class Mind : NetworkBehaviour, IActionGUI
 		IDPossessing = newID;
 		LoadManager.RegisterActionDelayed(() => { HandlePossessingChange(oldID, newID); },
 			2);
+		//This is to handle The game object being spawned in and data being provided before Owner message
+		//s sent owner, This means the game object it's told it's in charge of is not actually in charge of Until later on in that frame is Dumb,
+		//Plus this handles server player funnies with the same thing Just stretched over another frame so that's why it's 2
 	}
 
 	private void HandlePossessingChange(uint oldID, uint newID)

@@ -62,7 +62,7 @@ jobs:
       - name: Run tests
         uses: game-ci/unity-test-runner@v2
         with:
-          customParameters: "-nographics"
+          customParameters: "-nographics -ignoreCompilerErrors -executeMethod NugetForUnity.NugetHelper.Restore"
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           artifactsPath: ./testReports/${{ matrix.targetPlatform }}

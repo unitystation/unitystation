@@ -18,6 +18,8 @@ namespace ScriptableObjects.RP
 		protected string emoteName = "";
 		public string EmoteName => emoteName;
 
+		[field: SerializeField] public Sprite EmoteIcon;
+
 		[Tooltip("Does this emote require the player to have hands that exist and not handcuffed?")]
 		[SerializeField]
 		protected bool requiresHands;

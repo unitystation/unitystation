@@ -53,6 +53,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
   gunList: {fileID: 11400000, guid: b4c25bef2920de643af01571c6e46a17, type: 2}
   globalSound:
     SetLoadSetting: 0
@@ -118,6 +119,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
   gunList: {fileID: 11400000, guid: b31575fc3fe98884fbac380727b6a5c5, type: 2}
   globalSound:
     SetLoadSetting: 0
@@ -183,6 +185,7 @@ MonoBehaviour:
   parametersPageType: 1
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
 --- !u!1 &1092207170390034217
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,6 +239,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
   reagentContainer: {fileID: 5188649654063371458, guid: 63a58edd1e5377040a9ea82e307c1f04,
     type: 3}
   dispersionAgents:
@@ -295,6 +299,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
   ghostRole: {fileID: 11400000, guid: af2384fe291fd1e469745e1438edc9e4, type: 2}
   message: 
 --- !u!1 &2185954026833562878
@@ -350,6 +355,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
   portalPrefab: {fileID: 4686069471335676681, guid: 6ca11e1a2337f494d8337d3d47f0a042,
     type: 3}
   mobsToSpawn:
@@ -425,7 +431,9 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 0
   highlanderAntag: {fileID: 11400000, guid: 0f19f9b747ac2ee499c57e02517aed37, type: 2}
+  eventTime: 900
 --- !u!1 &2330691836870820202
 GameObject:
   m_ObjectHideFlags: 0
@@ -479,6 +487,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
   radiationSourcePrefab: {fileID: 17891910219878129, guid: 8eba7f110a40abb4891c1a0b3412faa3,
     type: 3}
   numberOfStorms: {x: 10, y: 20}
@@ -535,6 +544,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
   mobPrefabs:
   - {fileID: 28648831485940211, guid: 6c9f4a005c9a60d4b8dee2e5fdbe767d, type: 3}
   rareMobPrefabs:
@@ -597,6 +607,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
   asteroidEventLevels: 0
   minMeteorAmount: 2
   maxMeteorAmount: 10
@@ -625,6 +636,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
   asteroidEventLevels: 1
   minMeteorAmount: 3
   maxMeteorAmount: 8
@@ -653,6 +665,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
   asteroidEventLevels: 2
   minMeteorAmount: 4
   maxMeteorAmount: 8
@@ -713,6 +726,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
 --- !u!1 &2976795245637686985
 GameObject:
   m_ObjectHideFlags: 0
@@ -848,6 +862,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
   mobPrefabs:
   - {fileID: 7729724215270615374, guid: 843edc78b2c231249a2c4936447b61fe, type: 3}
   - {fileID: 4082601550872308833, guid: 9c078bd06d8a43943ab0e581a334abf4, type: 3}
@@ -912,6 +927,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
   gunList: {fileID: 11400000, guid: b4c25bef2920de643af01571c6e46a17, type: 2}
 --- !u!114 &7640521655157332548
 MonoBehaviour:
@@ -934,6 +950,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
   itemList:
   - {fileID: 7781396554342910705, guid: 229f1c93e0e4ada439cfe4b781f65997, type: 3}
   - {fileID: 7781396554342910705, guid: bffa4f7b47979d445854af572064d36b, type: 3}
@@ -994,6 +1011,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
 --- !u!1 &4938991384554239466
 GameObject:
   m_ObjectHideFlags: 0
@@ -1080,6 +1098,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
   ghostRole: {fileID: 11400000, guid: e0bcf33d6a9ef0443960a18ba45b742e, type: 2}
   message: 
 --- !u!1 &5506525348332587342
@@ -1135,6 +1154,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
   ghostRole: {fileID: 11400000, guid: df31f525e37890241b61376d16ec3af3, type: 2}
   message: GREETINGS. WE ARE WIZARDS OF THE WIZARD FEDERATION. WE HAVE DECIDED TO
     CAUSE PROBLEMS ON PURPOSE TODAY.
@@ -1191,6 +1211,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
   mobPrefabs:
   - {fileID: 4267452151052300856, guid: 959aef1c36706b7428a7e700a978e648, type: 3}
   - {fileID: 7161211515976270597, guid: fe372e5eb4602664ba2bf856c4ffc47f, type: 3}
@@ -1284,6 +1305,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
   immovableRodPrefab: {fileID: 7144248469089430455, guid: 92917100ffedb8446b152dfce67581f8,
     type: 3}
   minStrength: 200
@@ -1342,6 +1364,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
 --- !u!1 &6744402598111110196
 GameObject:
   m_ObjectHideFlags: 0
@@ -1395,6 +1418,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
 --- !u!1 &7299932607165905505
 GameObject:
   m_ObjectHideFlags: 0
@@ -1451,6 +1475,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
   itemList:
   - {fileID: 2176312772723587003, guid: 5922881ffc5c59842906e74798fa92bd, type: 3}
   announceText: A gift from the gods!
@@ -1475,6 +1500,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
   itemList:
   - {fileID: 1094635065414597411, guid: 0c06e6afc8686d24b85639acdc03c511, type: 3}
   - {fileID: 1094635065414597411, guid: 0c06e6afc8686d24b85639acdc03c511, type: 3}
@@ -1508,6 +1534,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
   itemList:
   - {fileID: 4339745470843389610, guid: ae02065a0ad44ee438294399e80855b8, type: 3}
   - {fileID: 8905347068602959076, guid: 5554099297dad36449a7b262def104c4, type: 3}
@@ -1539,6 +1566,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
   itemList:
   - {fileID: 6952585937312028515, guid: 04970687af9a8114db43f25200a13676, type: 3}
   - {fileID: 7661217922564485807, guid: 4f9805413b48329458d0ffcfc031e65b, type: 3}
@@ -1634,6 +1662,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
   itemList:
   - {fileID: 2176312772723587003, guid: 5922881ffc5c59842906e74798fa92bd, type: 3}
   announceText: A gift from the gods!
@@ -1690,6 +1719,7 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
+  CanRandomlyTrigger: 1
 --- !u!1 &8929341582706713524
 GameObject:
   m_ObjectHideFlags: 0
@@ -1742,6 +1772,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerEventInterval: 1200
   chanceItIsFake: 20
+  scoreForSpawningEvents: 25
   RandomEventsAllowed: 1
   minPlayersForRandomEventsToHappen: 5
   EnumListCache: []

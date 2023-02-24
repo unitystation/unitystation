@@ -147,8 +147,16 @@ namespace Items.Implants.Organs
 					{
 						DrunkPercentage = MaxDrunkAtPercentage;
 					}
+					var  percentage = DrunkPercentage / MaxDrunkAtPercentage;
 
-					DrunkAmount = DrunkPercentage / MaxDrunkAtPercentage;
+					if (percentage > 0.05f)
+					{
+						SyncDrunkenness(DrunkAmount, percentage);
+					}
+					else
+					{
+						SyncDrunkenness(DrunkAmount, 0);
+					}
 				}
 				else
 				{

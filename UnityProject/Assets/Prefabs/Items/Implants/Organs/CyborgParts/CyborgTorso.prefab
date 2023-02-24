@@ -71,6 +71,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2eb09c0535749d54ba9f5e92022d9294,
         type: 2}
+    - target: {fileID: 5634484993905305047, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8743880023469781445, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: m_Sprite
@@ -170,5 +175,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 51ca87009f5327b44b59092dea2460c5,
         type: 2}
+    - target: {fileID: 9034038257073577182, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: CapableMutations.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc032f91cda505e44b066c36db32760d, type: 3}

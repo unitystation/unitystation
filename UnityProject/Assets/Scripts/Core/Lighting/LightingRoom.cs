@@ -43,7 +43,7 @@ namespace Core.Lighting
 
 		private void Start()
 		{
-			Invoke("PrintBounds", 1f);
+			Invoke(nameof(PrintBounds), 1f);
 		}
 
 		private void PrintBounds()

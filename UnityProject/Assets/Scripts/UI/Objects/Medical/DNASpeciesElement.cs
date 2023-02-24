@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using HealthV2;
+using UI.Core.Net.Elements;
 using UI.Core.NetUI;
 using UI.Objects.Medical;
 using UnityEngine;
@@ -28,6 +29,9 @@ public class DNASpeciesElement : DynamicEntry
 	public GUI_DNAConsole GUI_DNAConsole;
 
 	public Transform WindowPanel;
+
+
+	public NetSpriteHandler NetSpriteHandler;
 
 
 	public void GenerateOption(string BodyPartName)
@@ -144,6 +148,12 @@ public class DNASpeciesElement : DynamicEntry
 		PlayerHealthData = InPlayerHealthData;
 		netServerSyncString.SetValue(InPlayerHealthData.name);
 		GUI_DNAConsole = InGUI_DNAConsole;
+		if (InPlayerHealthData.OrNull()?.Base?.PreviewSprite != null)
+		{
+			NetSpriteHandler.MasterSetValue(InPlayerHealthData.Base.PreviewSprite.SetID);
+		}
+
+
 		TargetSpecies(InPlayerHealthData.name);
 	}
 

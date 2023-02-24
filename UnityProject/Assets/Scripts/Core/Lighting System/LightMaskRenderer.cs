@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 
 public class LightMaskRenderer : MonoBehaviour
 {
@@ -64,6 +65,7 @@ public class LightMaskRenderer : MonoBehaviour
 		{
 			mPPRenderTexture = new PixelPerfectRT(iPPRTParameter);
 			mPPRenderTexture.renderTexture.filterMode = FilterMode.Bilinear;
+			mPPRenderTexture.renderTexture.graphicsFormat = GraphicsFormat.R16G16B16A16_UNorm;
 		}
 		else
 		{

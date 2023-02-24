@@ -7,6 +7,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2754028161940518094, guid: fa32e425c45c4cf4f8d4ca0b2e4acb27,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 814951014, guid: cae24e91892e78e45b5e27e547de9b06,
+        type: 3}
+    - target: {fileID: 4270450382073283543, guid: fa32e425c45c4cf4f8d4ca0b2e4acb27,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f210759b478a70747b9308bdd72c45b6,
+        type: 2}
     - target: {fileID: 6920973335385907160, guid: fa32e425c45c4cf4f8d4ca0b2e4acb27,
         type: 3}
       propertyPath: hasFoodPrefereces

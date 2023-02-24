@@ -84,7 +84,7 @@ namespace Objects.Atmospherics
 
 			if (selfSufficient)
 			{
-				pipeMix.Copy(GasMixes.BaseAirMix);
+				pipeMix.CopyFrom(GasMixes.BaseAirMix);
 			}
 		}
 

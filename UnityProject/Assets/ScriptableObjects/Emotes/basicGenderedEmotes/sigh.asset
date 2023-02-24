@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: sigh
   m_EditorClassIdentifier: 
   emoteName: sigh
+  EmoteIcon: {fileID: 21300006, guid: 5ac49bdee78232f4e8d7405935643a36, type: 3}
   requiresHands: 0
   allowEmoteWhileInCrit: 1
   isAudibleEmote: 0
@@ -26,3 +27,4 @@ MonoBehaviour:
   defaultSounds: []
   TypedSounds: []
   pitchRange: {x: 0.7, y: 1}
+  allowedPlayerTypes: 1
