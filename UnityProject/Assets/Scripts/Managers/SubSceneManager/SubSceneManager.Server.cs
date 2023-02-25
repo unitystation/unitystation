@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Messages.Server;
 using Mirror;
 using Tilemaps.Behaviours.Layers;
 using UnityEngine;
@@ -102,6 +103,6 @@ public partial class SubSceneManager
 		}
 
 		yield return null;
-		FinishedAddedObserver.Send(connToAdd , sceneContext.name);
+		FinishedAddedObserverMessage.Send(connToAdd , sceneContext.name);
 	}
 }
