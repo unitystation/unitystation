@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Mirror;
 using Tilemaps.Behaviours.Layers;
@@ -75,8 +76,11 @@ public partial class SubSceneManager
 
 		yield return WaitFor.EndOfFrame;
 
+		var Stopwatch = new Stopwatch();
+
 		var objCount = 0;
 		var netIds = NetworkServer.spawned.Values.ToList();
+		Stopwatch.Start();
 		foreach (var n in netIds)
 		{
 			if (n == null) continue;
@@ -88,14 +92,16 @@ public partial class SubSceneManager
 				yield break;
 
 			n.AddPlayerObserver(connToAdd);
-			objCount++;
-			if (objCount >= 20)
+
+			if (Stopwatch.ElapsedMilliseconds >= 10)
 			{
-				objCount = 0;
+				Stopwatch.Reset();
 				yield return WaitFor.EndOfFrame;
+				Stopwatch.Start();
 			}
 		}
 
-		yield return WaitFor.EndOfFrame;
+		yield return null;
+		FinishedAddedObserver.Send(connToAdd , sceneContext.name);
 	}
 }
