@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Messages.Client;
 using Mirror;
 using UnityEngine;
@@ -16,6 +17,8 @@ public partial class SubSceneManager
 
 	private float waitTime = 0f;
 	private readonly float tickRate = 1f;
+
+	public Dictionary<string, bool> ClientObserver = new Dictionary<string, bool>();
 
 	void MonitorServerSceneListOnClient()
 	{
@@ -97,6 +100,7 @@ public partial class SubSceneManager
 				yield break;
 			}
 			clientLoadedSubScenes.Add(Scene);
+
 		}
 
 		NetworkClient.PrepareToSpawnSceneObjects();
@@ -112,6 +116,7 @@ public partial class SubSceneManager
 				yield break;
 			}
 			RequestObserverRefresh.Send(Scene.SceneName);
+			ClientObserver[Scene.SceneName] = false;
 		}
 
 		clientIsLoadingSubscene = false;
@@ -121,7 +126,24 @@ public partial class SubSceneManager
 			KillClientLoadingCoroutine = false;
 			yield break;
 		}
+
+		int Count = 0;
+		while (ObserverOfAll() == false && Count < 600)
+		{
+			yield return WaitFor.Seconds(0.1f);
+			Count++;
+		}
+
+
+		ClientObserver.Clear();
 		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
 		OnFinish.Invoke();
 	}
+
+
+	public bool ObserverOfAll()
+	{
+		return ClientObserver.All(x => x.Value);
+	}
+
 }

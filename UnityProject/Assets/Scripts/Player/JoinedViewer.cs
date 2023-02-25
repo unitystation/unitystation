@@ -34,7 +34,7 @@ namespace Player
 
 			PlayerManager.SetViewerForControl(this);
 
-			if (isServer)
+			if (isServer && isLocalPlayer)
 			{
 				RequestObserverRefresh.Send(SceneManager.GetActiveScene().name);
 				HandleServerConnection();
@@ -266,7 +266,6 @@ namespace Player
 			}
 
 			TargetLocalPlayerRejoinUI(connectionToClient);
-
 			STVerifiedConnPlayer.Mind.OrNull()?.ReLog();
 			ClearCache();
 			_ = Despawn.ServerSingle(this.gameObject);

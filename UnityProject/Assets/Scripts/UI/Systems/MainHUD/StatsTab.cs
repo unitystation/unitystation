@@ -14,8 +14,6 @@ public class StatsTab : SingletonManager<StatsTab>
 
 	void OnEnable()
 	{
-		Invoke("SetScrollToTop",0.1f);
-
 		EventManager.AddHandler(Event.PreRoundStarted, OnPreRoundStarted);
 		EventManager.AddHandler(Event.MatrixManagerInit, OnMapInit);
 		EventManager.AddHandler(Event.RoundStarted, OnRoundStarted);
