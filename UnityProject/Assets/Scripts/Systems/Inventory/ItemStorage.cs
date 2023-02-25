@@ -596,6 +596,15 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 
 
 	/// <summary>
+	/// Returns if any slot is occupied
+	/// </summary>
+	/// <returns></returns>
+	public bool HasAnyOccupied()
+	{
+		return GetIndexedSlots().Any(slot => slot.Item != null);
+	}
+
+	/// <summary>
 	/// Server only (can be called client side but has no effect).
 	/// Add this player to the list of players currently observing all slots in the slot tree
 	/// This observer will receive updates as they happen to this slot and will
