@@ -443,6 +443,13 @@ public static class PlayerSpawn
 			if (account.Connection != null && to.connectionToClient != account.Connection)
 			{
 				NetworkServer.ReplacePlayerForConnection(account.Connection, to.gameObject);
+
+				if (account.ViewerScript != null)
+				{
+					_ = Despawn.ServerSingle(account.ViewerScript.gameObject);
+					account.GameObject = null;
+				}
+
 				//TriggerEventMessage.SendTo(To, Event.); //TODO Call this manually
 			}
 

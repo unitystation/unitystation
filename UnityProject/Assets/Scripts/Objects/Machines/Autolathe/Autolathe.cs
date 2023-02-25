@@ -77,13 +77,10 @@ namespace Objects.Machines
 
 		#endregion
 
-		private void UpdateGUI()
+		public void UpdateGUI()
 		{
 			// Delegate calls method in all subscribers when material is changed
-			if (MaterialsManipulated != null)
-			{
-				MaterialsManipulated();
-			}
+			MaterialsManipulated?.Invoke();
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -112,7 +109,6 @@ namespace Objects.Machines
 					{
 						StartCoroutine(AnimateAcceptingMaterials());
 					}
-					UpdateGUI();
 				}
 				else Chat.AddActionMsgToChat(interaction.Performer, "Autolathe is full",
 					"Autolathe is full");
@@ -134,6 +130,7 @@ namespace Objects.Machines
 			{
 				stateSync = AutolatheState.Idle;
 			}
+			UpdateGUI();
 		}
 
 		public void DispenseMaterialSheet(int amountOfSheets, ItemTrait materialType)
@@ -165,6 +162,7 @@ namespace Objects.Machines
 
 			Spawn.ServerPrefab(productObject, registerObject.WorldPositionServer, transform.parent, count: 1);
 			stateSync = AutolatheState.Idle;
+			UpdateGUI();
 		}
 
 		public void SyncSprite(AutolatheState stateOld, AutolatheState stateNew)

@@ -57,7 +57,8 @@ namespace Systems.Research
 
 			foreach(TechWebNode node in nodes)
 			{
-				if (node.technology.techType == ResearchFocus) node.technology.ResearchCosts = (int)(node.technology.ResearchCosts * (1 - FOCUS_DISCOUNT)); //Discounts technology by discount amount
+				if (node.technology.techType == ResearchFocus) node.technology.ResearchCosts =
+					(int)(node.technology.ResearchCosts * (1 - FOCUS_DISCOUNT)); //Discounts technology by discount amount
 			}
 
 			UpdateTechnologyLists();
@@ -91,7 +92,7 @@ namespace Systems.Research
 		private void UpdateTechnologyLists()
 		{
 			AvailableTech.Clear();
-			FutureTech.Clear();		
+			FutureTech.Clear();
 
 			foreach(Technology technology in GetTech())
 			{

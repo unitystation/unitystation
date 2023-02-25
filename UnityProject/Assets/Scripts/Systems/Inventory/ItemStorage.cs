@@ -594,6 +594,20 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		return GetIndexedSlots().LastOrDefault(ids => ids.Item != null);
 	}
 
+	/// <summary>
+	/// Gets the highest indexed slot that is currently occupied. Null if none are occupied
+	/// </summary>
+	/// <returns></returns>
+	public List<ItemSlot> GetOccupiedSlots()
+	{
+		var result = new List<ItemSlot>();
+		foreach (var slot in GetIndexedSlots())
+		{
+			if (slot.IsOccupied) result.Add(slot);
+		}
+		return result;
+	}
+
 
 	/// <summary>
 	/// Returns if any slot is occupied

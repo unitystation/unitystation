@@ -81,7 +81,7 @@ namespace ScriptableObjects.RP
 
 		public virtual void Do(GameObject player)
 		{
-			if(CheckAllBaseConditions(player) == false) return;
+			if (CheckAllBaseConditions(player) == false) return;
 			Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewText}.");
 			PlayAudio(defaultSounds, player);
 		}

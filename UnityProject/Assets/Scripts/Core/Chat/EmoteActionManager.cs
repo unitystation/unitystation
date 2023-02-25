@@ -35,7 +35,8 @@ namespace Core.Chat
 				var newChoice = new DynamicUIChoiceEntryData();
 				newChoice.Text = emote.EmoteName;
 				newChoice.Icon = emote.EmoteIcon;
-				newChoice.ChoiceAction = () => emote.Do(PlayerManager.LocalPlayerObject);
+				// Emotes can only be ran server side, so we have to invoke a command on the server.
+				newChoice.ChoiceAction = () => PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdDoEmote(emote.EmoteName);
 				choices.Add(newChoice);
 			}
 			DynamicChoiceUI.DisplayChoices("Emotes", "Choose an emote you'd like to perform.", choices);

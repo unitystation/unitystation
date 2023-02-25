@@ -269,6 +269,7 @@ namespace Player
 
 			STVerifiedConnPlayer.Mind.OrNull()?.ReLog();
 			ClearCache();
+			_ = Despawn.ServerSingle(this.gameObject);
 		}
 
 		[TargetRpc]

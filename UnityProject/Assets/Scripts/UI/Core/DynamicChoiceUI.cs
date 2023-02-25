@@ -8,6 +8,9 @@ using UnityEngine.UI;
 
 namespace UI.Core
 {
+	/// <summary>
+	/// Client side menu that lists a bunch of choices that invokes commands.
+	/// </summary>
 	public class DynamicChoiceUI : SingletonManager<DynamicChoiceUI>
 	{
 		[SerializeField] private Transform entryPrefab;
