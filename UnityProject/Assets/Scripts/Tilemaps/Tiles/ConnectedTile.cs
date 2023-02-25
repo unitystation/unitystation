@@ -109,14 +109,6 @@ namespace Tiles
 			}
 		}
 
-		private void OnDestroy()
-		{
-		}
-
-		public void Clear()
-		{
-		}
-
 		protected bool HasSameTile(Vector3Int position, Vector3Int direction, Quaternion rotation, ITilemap tilemap)
 		{
 			TileBase tile = tilemap.GetTile(position + (rotation * direction).RoundToInt());
