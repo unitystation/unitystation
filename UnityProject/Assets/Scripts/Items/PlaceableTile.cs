@@ -61,6 +61,21 @@ namespace Tiles
 			Cooldowns.TryStartClient(interaction, CommonCooldowns.Instance.Melee);
 		}
 
+		public void Clear()
+		{
+			int i = 0;
+			foreach (var entry in waysToPlace)
+			{
+				if (entry.layerTile is ConnectedTile)
+				{
+					(entry.layerTile as ConnectedTile).Clear();
+					i++;
+				}
+			}
+
+			Debug.Log("Called clear" + i + " times on a connected tile");
+		}
+
 		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
 			//which matrix are we clicking on

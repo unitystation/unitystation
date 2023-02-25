@@ -72,6 +72,15 @@ public class UpdateManager : MonoBehaviour
 		}
 	}
 
+	public void Clear()
+	{
+		Debug.Log("removed " + CleanupUtil.RidListOfSoonToBeDeadElements(updateActions, u => u.Target as MonoBehaviour) + " messed up events in UpdateManager.updateActions");
+		Debug.Log("removed " + CleanupUtil.RidListOfSoonToBeDeadElements(fixedUpdateActions, u => u.Target as MonoBehaviour) + " messed up events in UpdateManager.fixedUpdateActions");
+		Debug.Log("removed " + CleanupUtil.RidListOfSoonToBeDeadElements(lateUpdateActions, u => u.Target as MonoBehaviour) + " messed up events in UpdateManager.lateUpdateActions");
+		Debug.Log("removed " + CleanupUtil.RidListOfSoonToBeDeadElements(periodicUpdateActions, u => u.Action.Target as MonoBehaviour) + " messed up events in UpdateManager.periodicUpdateActions");
+		Debug.Log("removed " + (CleanupUtil.RidListOfSoonToBeDeadElements(pooledTimedUpdates, u => u?.Action?.Target as MonoBehaviour) + CleanupUtil.RidListOfDeadElements(pooledTimedUpdates, u => (MonoBehaviour)u?.Action?.Target)) + " messed up events in UpdateManager.pooledTimedUpdates");
+	}
+
 	private void Awake()
 	{
 		if (instance != null)
@@ -89,6 +98,7 @@ public class UpdateManager : MonoBehaviour
 		instance = this;
 	}
 
+	List<(CallbackType, Action)> survivors_list = new List<(CallbackType, Action)>();
 	public static void Add(CallbackType type, Action action)
 	{
 		instance.AddCallbackInternal(type, action);

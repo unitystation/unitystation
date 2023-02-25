@@ -247,25 +247,33 @@ namespace Lobby
 					ignorance.port = port;
 				}
 
-				CustomNetworkManager.Instance.OnClientDisconnected.AddListener(() =>
-				{
-					lobbyDialogue.ShowInfoPanel(new InfoPanelArgs
-					{
-						IsError = true,
-						Heading = "Join Server Failed",
-						Text = "Couldn't connect to the server.",
-						LeftButtonLabel = "Back",
-						LeftButtonCallback = lobbyDialogue.ShowJoinPanel,
-						RightButtonLabel = "Retry",
-						RightButtonCallback = () => JoinServer(address, port),
-					});
-				});
+				CustomNetworkManager.Instance.OnClientDisconnected.AddListener(GetOnClientDisconnected(address, port));
 
 				CustomNetworkManager.Instance.StartClient();
 			});
 		}
 
-		public void HostServer()
+		public static UnityEngine.Events.UnityAction GetOnClientDisconnected(string address, ushort port)
+		{
+			return () =>
+			{
+				if (LobbyManager.Instance != null)
+				{
+					LobbyManager.Instance.lobbyDialogue.ShowInfoPanel(new InfoPanelArgs
+					{
+						IsError = true,
+						Heading = "Join Server Failed",
+						Text = "Couldn't connect to the server.",
+						LeftButtonLabel = "Back",
+						LeftButtonCallback = LobbyManager.Instance.lobbyDialogue.ShowJoinPanel,
+						RightButtonLabel = "Retry",
+						RightButtonCallback = () => LobbyManager.Instance.JoinServer(address, port),
+					});
+				}
+			};
+		}
+
+			public void HostServer()
 		{
 			lobbyDialogue.ShowLoadingPanel("Hosting a game...");
 			LoadingScreenManager.LoadFromLobby(CustomNetworkManager.Instance.StartHost);

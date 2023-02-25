@@ -17,6 +17,8 @@ namespace Messages.Client.Admin
 			{
 				AdminToolRefreshMessage.Send(SentByPlayer.GameObject, SentByPlayer.UserId);
 			}
+
+			SentByPlayer = null;
 		}
 
 		public static NetMessage Send()

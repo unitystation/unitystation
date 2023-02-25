@@ -68,7 +68,6 @@ public class PlayerManager : MonoBehaviour
 
 	private void OnEnable()
 	{
-		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
 		EventManager.AddHandler(Event.PlayerDied, OnPlayerDeath);
 		EventManager.AddHandler(Event.PlayerRejoined, OnRejoinPlayer);
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
@@ -76,7 +75,6 @@ public class PlayerManager : MonoBehaviour
 
 	private void OnDisable()
 	{
-		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
 		EventManager.RemoveHandler(Event.PlayerDied, OnPlayerDeath);
 		EventManager.RemoveHandler(Event.PlayerRejoined, OnRejoinPlayer);
 		PlayerPrefs.Save();

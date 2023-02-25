@@ -43,8 +43,8 @@ public enum Event
 public class EventManager : MonoBehaviour
 {
 	// Stores the delegates that get called when an event is fired (Simple Events)
-	private static readonly Dictionary<Event, Action> eventTable
-		= new Dictionary<Event, Action>();
+	private static readonly Dictionary<Event, List<Action>> eventTable
+		= new Dictionary<Event, List<Action>>();
 
 	private static EventManager eventManager;
 
@@ -61,22 +61,22 @@ public class EventManager : MonoBehaviour
 	{
 		if (!eventTable.ContainsKey(evnt))
 		{
-			eventTable[evnt] = action;
+			eventTable[evnt] = new List<Action>();
 		}
-		else
-		{
-			eventTable[evnt] += action;
-		}
+
+		eventTable[evnt].Add(action);
 	}
 
 	public static void RemoveHandler(Event evnt, Action action)
 	{
 		if (!eventTable.ContainsKey(evnt)) return;
+
 		if (eventTable[evnt] != null)
 		{
-			eventTable[evnt] -= action;
+			eventTable[evnt].Remove(action);
 		}
-		if (eventTable[evnt] == null)
+
+		if (eventTable[evnt] == null || eventTable[evnt].Count == 0)
 		{
 			eventTable.Remove(evnt);
 		}
@@ -96,7 +96,10 @@ public class EventManager : MonoBehaviour
 		}
 		else
 		{
-			eventTable[evnt]();
+			for (int i = 0, max = eventTable[evnt].Count; i < max; i++)
+			{
+				eventTable[evnt][i]();
+			}
 		}
 	}
 
@@ -179,5 +182,17 @@ public class EventManager : MonoBehaviour
 		Logger.LogTrace(msg, category);
 
 
+	}
+
+	public void Clear()
+	{
+		int removed_count = 0;
+
+		foreach (var a in eventTable)
+		{
+			removed_count += CleanupUtil.RidListOfDeadElements(a.Value);
+		}
+
+		Debug.Log("removing " + removed_count + " dead elements from EventManager.eventTable");
 	}
 }

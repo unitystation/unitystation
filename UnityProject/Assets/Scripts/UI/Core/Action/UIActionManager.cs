@@ -43,6 +43,41 @@ namespace UI.Core.Action
 		public GameObject Panel;
 		public GameObject TooltipPrefab;
 
+		public void Clear()
+		{
+			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(IActionGUIToID, (u,k)=> u as MonoBehaviour != null) + " from UIActionManager.IActionGUIToID");
+			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(ClientIActionGUIToID, (u, k) => u as MonoBehaviour != null) + " from UIActionManager.ClientIActionGUIToID");
+			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(MultiIActionGUIToMind, (u, k) => u as MonoBehaviour != null) + " from UIActionManager.MultiIActionGUIToMind");
+			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(MultiIActionGUIToID, (u, k) => u as MonoBehaviour != null) + " from UIActionManager.MultiIActionGUIToID");
+			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(ClientMultiIActionGUIToID, (u, k) => u as MonoBehaviour != null) + " from UIActionManager.ClientMultiIActionGUIToID");
+			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(ActivePlayerActions, (u, k) => u != null) + " from UIActionManager.ActivePlayerActions");
+			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(Instance.DicIActionGUI, (u, k) => u as MonoBehaviour != null) + " from Instance.DicIActionGUI");
+			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(Instance.IActionGUIToMind, (u, k) => u as MonoBehaviour != null) + " from Instance.IActionGUIToMind");
+			
+			{
+				int internals = 0;
+
+				foreach (var a in ActivePlayerActions)
+				{
+					internals += CleanupUtil.RidListOfDeadElements(a.Value, u => u as MonoBehaviour);
+				}
+
+				Debug.Log("removed " + internals + " from internals of UIActionManager.ActivePlayerActions");
+			}
+
+			{
+				int internals = 0;
+
+				foreach (var a in Instance.DicIActionGUI)
+				{
+					internals += CleanupUtil.RidListOfDeadElements(a.Value);
+				}
+
+				Debug.Log("removed " + internals + " from internals of Instance.DicIActionGUI");
+			}
+
+		}
+
 		public ActionTooltip TooltipInstance => tooltipInstance == null
 			? tooltipInstance = Instantiate(TooltipPrefab, transform.parent).GetComponent<ActionTooltip>()
 			: tooltipInstance;
@@ -353,7 +388,7 @@ namespace UI.Core.Action
 			if (Body == null)
 			{
 				//Client stuff
-				if (Instance.DicIActionGUI.ContainsKey(iAction))
+				if (Instance.DicIActionGUI.ContainsKey(iAction) && Instance.ClientIActionGUIToID.ContainsKey(iAction))
 				{
 					var _UIAction = Instance.DicIActionGUI[iAction][0];
 					var ID = Instance.ClientIActionGUIToID[iAction];
@@ -383,6 +418,11 @@ namespace UI.Core.Action
 
 		public void OnRoundEnd()
 		{
+			if (this == null)
+			{
+				Debug.LogError("damn hell");
+			}
+
 			foreach (var _Actions in DicIActionGUI)
 			{
 				foreach (var _Action in _Actions.Value)
@@ -394,7 +434,7 @@ namespace UI.Core.Action
 			DicIActionGUI = new Dictionary<IAction, List<UIAction>>();
 		}
 
-		public static void ClearAllActionsServer(Scene oldScene, Scene newScene)
+		public static void ClearAllActionsServer()
 		{
 			Instance.IActionGUIToMind.Clear();
 			Instance.ActivePlayerActions.Clear();
@@ -428,9 +468,6 @@ namespace UI.Core.Action
 
 		private void OnEnable()
 		{
-			SceneManager.activeSceneChanged += ClearAllActionsServer;
-			SceneManager.activeSceneChanged -= ClearAllActionsServer;
-
 			EventManager.AddHandler(Event.RoundEnded, OnRoundEnd);
 
 		}
