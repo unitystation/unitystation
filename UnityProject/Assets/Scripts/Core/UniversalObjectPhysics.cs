@@ -18,19 +18,8 @@ using UnityEngine.Events;
 using Util;
 using Random = UnityEngine.Random;
 
-public interface IHasDestructionInfo
+public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegisterTileInitialised
 {
-	public string GetInfo();
-}
-
-public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegisterTileInitialised, IHasDestructionInfo
-{
-	string destruction_info = "default";
-	public string GetInfo()
-	{
-		return destruction_info;
-	}
-
 	//TODO parentContainer Need to test
 	//TODO Maybe work on conveyor belts and players a bit more
 	//TODO Sometime Combine buckling and object storage
@@ -1902,8 +1891,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	public virtual void OnDestroy()
 	{
-		//destruction_info = Managers.InfiniteLoopTracker.Instance.GetLackCheckpointString();
-
 		if (PulledBy.HasComponent)
 		{
 			PulledBy.Component.PullSet(null, false);
