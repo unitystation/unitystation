@@ -9,52 +9,52 @@ using Audio.Containers;
 public static class CleanupUtil
 {
 
-	public static int RidListOfSoonToBeDeadElements<T>(IList<T> list_in_question, Func<T, UnityEngine.MonoBehaviour> target_extractor)
+	public static int RidListOfSoonToBeDeadElements<T>(IList<T> listInQuestion, Func<T, UnityEngine.MonoBehaviour> targetExtractor)
 	{
-		if (list_in_question == null)
+		if (listInQuestion == null)
 		{
 			return -1;
 		}
 
-		List<T> survivor_list = new List<T>();
+		List<T> survivorList = new List<T>();
 
-		for (int i = 0, max = list_in_question.Count; i < max; i++)
+		for (int i = 0, max = listInQuestion.Count; i < max; i++)
 		{
-			MonoBehaviour target = target_extractor(list_in_question[i]);
+			MonoBehaviour target = targetExtractor(listInQuestion[i]);
 
-			if (list_in_question[i] != null && (target == null || target.gameObject.scene.buildIndex == -1))
+			if (listInQuestion[i] != null && (target == null || target.gameObject.scene.buildIndex == -1))
 			{
-				survivor_list.Add(list_in_question[i]);
+				survivorList.Add(listInQuestion[i]);
 			}
 		}
 
-		int res = list_in_question.Count - survivor_list.Count;
-		list_in_question.Clear();
+		int res = listInQuestion.Count - survivorList.Count;
+		listInQuestion.Clear();
 
-		for (int i = 0, max = survivor_list.Count; i < max; i++)
+		for (int i = 0, max = survivorList.Count; i < max; i++)
 		{
-			list_in_question.Add(survivor_list[i]);
+			listInQuestion.Add(survivorList[i]);
 		}
 
 		return res;
 	}
 
-	public static int RidListOfDeadElements<T>(IList<T> list_in_question, Func<T, UnityEngine.MonoBehaviour> target_extractor, bool verbose = false)
+	public static int RidListOfDeadElements<T>(IList<T> listInQuestion, Func<T, UnityEngine.MonoBehaviour> targetExtractor, bool verbose = false)
 	{
-		if (list_in_question == null)
+		if (listInQuestion == null)
 		{
 			return -1;
 		}
 
-		List<T> survivor_list = new List<T>();
+		List<T> survivorList = new List<T>();
 
-		for (int i = 0, max = list_in_question.Count; i < max; i++)
+		for (int i = 0, max = listInQuestion.Count; i < max; i++)
 		{
-			MonoBehaviour target = target_extractor(list_in_question[i]);
+			MonoBehaviour target = targetExtractor(listInQuestion[i]);
 
-			if (list_in_question[i] != null && target == null)
+			if (listInQuestion[i] != null && target == null)
 			{
-				survivor_list.Add(list_in_question[i]);
+				survivorList.Add(listInQuestion[i]);
 			}
 			else
 			{
@@ -81,31 +81,31 @@ public static class CleanupUtil
 			}
 		}
 
-		int res = list_in_question.Count - survivor_list.Count;
-		list_in_question.Clear();
+		int res = listInQuestion.Count - survivorList.Count;
+		listInQuestion.Clear();
 
-		for (int i = 0, max = survivor_list.Count; i < max; i++)
+		for (int i = 0, max = survivorList.Count; i < max; i++)
 		{
-			list_in_question.Add(survivor_list[i]);
+			listInQuestion.Add(survivorList[i]);
 		}
 
 		return res;
 	}
 
-	public static int RidListOfDeadElements(IList<Action> list_in_question, bool verbose = false)
+	public static int RidListOfDeadElements(IList<Action> listInQuestion, bool verbose = false)
 	{
-		if (list_in_question == null)
+		if (listInQuestion == null)
 		{
 			return -1;
 		}
 
-		List<Action> survivor_list = new List<Action>();
+		List<Action> survivorList = new List<Action>();
 
-		for (int i = 0, max = list_in_question.Count; i < max; i++)
+		for (int i = 0, max = listInQuestion.Count; i < max; i++)
 		{
-			if (list_in_question[i] != null && list_in_question[i].Target == null)
+			if (listInQuestion[i] != null && listInQuestion[i].Target == null)
 			{
-				survivor_list.Add(list_in_question[i]);
+				survivorList.Add(listInQuestion[i]);
 			}
 			else
 			{
@@ -113,7 +113,7 @@ public static class CleanupUtil
 				{
 					try
 					{
-						Logger.Log("Name of leaked object : " + (list_in_question[i].Target as MonoBehaviour).name, Category.MemoryCleanup);
+						Logger.Log("Name of leaked object : " + (listInQuestion[i].Target as MonoBehaviour).name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -122,7 +122,7 @@ public static class CleanupUtil
 
 					try
 					{
-						Logger.Log("Typename of leaked object : " + list_in_question[i].Target.GetType().Name, Category.MemoryCleanup);
+						Logger.Log("Typename of leaked object : " + listInQuestion[i].Target.GetType().Name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -132,30 +132,30 @@ public static class CleanupUtil
 			}
 		}
 
-		int res = list_in_question.Count - survivor_list.Count;
-		list_in_question.Clear();
+		int res = listInQuestion.Count - survivorList.Count;
+		listInQuestion.Clear();
 
-		for (int i = 0, max = survivor_list.Count; i < max; i++)
+		for (int i = 0, max = survivorList.Count; i < max; i++)
 		{
-			list_in_question.Add(survivor_list[i]);
+			listInQuestion.Add(survivorList[i]);
 		}
 
 		return res;
 	}
 
-	public static int RidListOfDeadElements<T>(IList<T> list_in_question, bool verbose = false) where T: MonoBehaviour
+	public static int RidListOfDeadElements<T>(IList<T> listInQuestion, bool verbose = false) where T: MonoBehaviour
 	{
-		if (list_in_question == null)
+		if (listInQuestion == null)
 		{
 			return -1;
 		}
-		List<T> survivor_list = new List<T>();
+		List<T> survivorList = new List<T>();
 		
-		for (int i = 0, max = list_in_question.Count; i < max; i++)
+		for (int i = 0, max = listInQuestion.Count; i < max; i++)
 		{
-			if (list_in_question[i] != null)
+			if (listInQuestion[i] != null)
 			{
-				survivor_list.Add(list_in_question[i]);
+				survivorList.Add(listInQuestion[i]);
 			}
 			else
 			{
@@ -163,7 +163,7 @@ public static class CleanupUtil
 				{
 					try
 					{
-						Logger.Log("Name of leaked object : " + list_in_question[i].name, Category.MemoryCleanup);
+						Logger.Log("Name of leaked object : " + listInQuestion[i].name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -172,7 +172,7 @@ public static class CleanupUtil
 
 					try
 					{
-						Logger.Log("Typename of leaked object : " + list_in_question[i].GetType().Name, Category.MemoryCleanup);
+						Logger.Log("Typename of leaked object : " + listInQuestion[i].GetType().Name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -182,31 +182,31 @@ public static class CleanupUtil
 			}
 		}
 
-		int res = list_in_question.Count - survivor_list.Count;
-		list_in_question.Clear();
+		int res = listInQuestion.Count - survivorList.Count;
+		listInQuestion.Clear();
 
-		for (int i = 0, max = survivor_list.Count; i < max; i++)
+		for (int i = 0, max = survivorList.Count; i < max; i++)
 		{
-			list_in_question.Add(survivor_list[i]);
+			listInQuestion.Add(survivorList[i]);
 		}
 
 		return res;
 	}
 
-	public static int RidDictionaryOfDeadElements<TKey, TValue>(IDictionary<TKey, TValue> dict_in_question, Func<TKey, TValue, bool> condition, bool verbose = false)
+	public static int RidDictionaryOfDeadElements<TKey, TValue>(IDictionary<TKey, TValue> dictInQuestion, Func<TKey, TValue, bool> survivalCondition, bool verbose = false)
 	{
-		if (dict_in_question == null)
+		if (dictInQuestion == null)
 		{
 			return -1;
 		}
 
-		List<KeyValuePair<TKey, TValue>> survivor_list = new List<KeyValuePair<TKey, TValue>>();
+		List<KeyValuePair<TKey, TValue>> survivorList = new List<KeyValuePair<TKey, TValue>>();
 
-		foreach (var a in dict_in_question)
+		foreach (var keyValuePair in dictInQuestion)
 		{
-			if (condition(a.Key, a.Value))
+			if (survivalCondition(keyValuePair.Key, keyValuePair.Value))
 			{
-				survivor_list.Add(a);
+				survivorList.Add(keyValuePair);
 			}
 			else
 			{
@@ -214,7 +214,7 @@ public static class CleanupUtil
 				{
 					try
 					{
-						Logger.Log("Typename of (possibly) leaked object : " + a.Key.GetType().Name, Category.MemoryCleanup);
+						Logger.Log("Typename of (possibly) leaked object : " + keyValuePair.Key.GetType().Name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -223,7 +223,7 @@ public static class CleanupUtil
 
 					try
 					{
-						Logger.Log("Typename of (possibly) leaked object : " + a.Value.GetType().Name, Category.MemoryCleanup);
+						Logger.Log("Typename of (possibly) leaked object : " + keyValuePair.Value.GetType().Name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -233,31 +233,31 @@ public static class CleanupUtil
 			}
 		}
 
-		int res = dict_in_question.Count - survivor_list.Count;
-		dict_in_question.Clear();
+		int res = dictInQuestion.Count - survivorList.Count;
+		dictInQuestion.Clear();
 
-		for (int i = 0, max = survivor_list.Count; i < max; i++)
+		for (int i = 0, max = survivorList.Count; i < max; i++)
 		{
-			dict_in_question.Add(survivor_list[i].Key, survivor_list[i].Value);
+			dictInQuestion.Add(survivorList[i].Key, survivorList[i].Value);
 		}
 
 		return res;
 	}
 
-	public static int RidDictionaryOfDeadElements<TKey, TValue>(IDictionary<TKey, TValue> dict_in_question, bool verbose = false)
+	public static int RidDictionaryOfDeadElements<TKey, TValue>(IDictionary<TKey, TValue> dictInQuestion, bool verbose = false)
 	{
-		if (dict_in_question == null)
+		if (dictInQuestion == null)
 		{
 			return -1;
 		}
 
-		List<KeyValuePair<TKey, TValue>> survivor_list = new List<KeyValuePair<TKey, TValue>>();
+		List<KeyValuePair<TKey, TValue>> survivorList = new List<KeyValuePair<TKey, TValue>>();
 		
-		foreach(var a in dict_in_question)
+		foreach(var keyValuePair in dictInQuestion)
 		{
-			if (a.Key != null && a.Value != null)
+			if (keyValuePair.Key != null && keyValuePair.Value != null)
 			{
-				survivor_list.Add(a);
+				survivorList.Add(keyValuePair);
 			}
 			else
 			{
@@ -265,7 +265,7 @@ public static class CleanupUtil
 				{
 					try
 					{
-						Logger.Log("Typename of (possibly) leaked object : " + a.Key.GetType().Name, Category.MemoryCleanup);
+						Logger.Log("Typename of (possibly) leaked object : " + keyValuePair.Key.GetType().Name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -274,7 +274,7 @@ public static class CleanupUtil
 
 					try
 					{
-						Logger.Log("Typename of (possibly) leaked object : " + a.Value.GetType().Name, Category.MemoryCleanup);
+						Logger.Log("Typename of (possibly) leaked object : " + keyValuePair.Value.GetType().Name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -284,12 +284,12 @@ public static class CleanupUtil
 			}
 		}
 
-		int res = dict_in_question.Count - survivor_list.Count;
-		dict_in_question.Clear();
+		int res = dictInQuestion.Count - survivorList.Count;
+		dictInQuestion.Clear();
 
-		for (int i = 0, max = survivor_list.Count; i < max; i++)
+		for (int i = 0, max = survivorList.Count; i < max; i++)
 		{
-			dict_in_question.Add(survivor_list[i].Key, survivor_list[i].Value);
+			dictInQuestion.Add(survivorList[i].Key, survivorList[i].Value);
 		}
 
 		return res;
