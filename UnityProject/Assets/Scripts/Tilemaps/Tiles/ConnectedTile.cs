@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Linq;
 
 namespace Tiles
 {
@@ -36,11 +37,6 @@ namespace Tiles
 		public SpriteSheetAndData spriteSheet;
 		public string texturePath;
 
-		/// <summary>
-		/// Cached layer we live in, so we can determine our rotation
-		/// </summary>
-		protected Layer layer;
-
 		public override Sprite PreviewSprite => sprites != null && sprites.Length > 0 ? sprites[0] : null;
 
 		private Sprite[] sprites
@@ -59,10 +55,6 @@ namespace Tiles
 
 		public override bool StartUp(Vector3Int location, ITilemap tilemap, GameObject go)
 		{
-			if (Application.isPlaying)
-			{
-				layer = tilemap.GetComponent<Layer>();
-			}
 			return true;
 		}
 
@@ -70,19 +62,6 @@ namespace Tiles
 		{
 			//find our offset by checking our parent layer
 			Quaternion rotation;
-			//ensure we have our layer (if possible)
-			if (layer == null)
-			{
-				layer = tilemap.GetComponent<Layer>();
-			}
-			if (layer != null)
-			{
-				//I dont really get the need for this since
-				//to make a rotation makes sense you would have to rotate The tile positionally
-				//rotation = layer.RotationOffset.QuaternionInverted;
-				rotation = Quaternion.identity;
-			}
-			else
 			{
 				rotation = Quaternion.identity;
 			}
