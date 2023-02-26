@@ -62,7 +62,7 @@ public static class CleanupUtil
 				{
 					try
 					{
-						Debug.Log("Name of leaked object : " + target.name);
+						Logger.Log("Name of leaked object : " + target.name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -71,7 +71,7 @@ public static class CleanupUtil
 
 					try
 					{
-						Debug.Log("Typename of leaked object : " + target.GetType().Name);
+						Logger.Log("Typename of leaked object : " + target.GetType().Name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -113,7 +113,7 @@ public static class CleanupUtil
 				{
 					try
 					{
-						Debug.Log("Name of leaked object : " + (list_in_question[i].Target as MonoBehaviour).name);
+						Logger.Log("Name of leaked object : " + (list_in_question[i].Target as MonoBehaviour).name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -122,7 +122,7 @@ public static class CleanupUtil
 
 					try
 					{
-						Debug.Log("Typename of leaked object : " + list_in_question[i].Target.GetType().Name);
+						Logger.Log("Typename of leaked object : " + list_in_question[i].Target.GetType().Name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -163,7 +163,7 @@ public static class CleanupUtil
 				{
 					try
 					{
-						Debug.Log("Name of leaked object : " + list_in_question[i].name);
+						Logger.Log("Name of leaked object : " + list_in_question[i].name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -172,7 +172,7 @@ public static class CleanupUtil
 
 					try
 					{
-						Debug.Log("Typename of leaked object : " + list_in_question[i].GetType().Name);
+						Logger.Log("Typename of leaked object : " + list_in_question[i].GetType().Name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -214,7 +214,7 @@ public static class CleanupUtil
 				{
 					try
 					{
-						Debug.Log("Typename of (possibly) leaked object : " + a.Key.GetType().Name);
+						Logger.Log("Typename of (possibly) leaked object : " + a.Key.GetType().Name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -223,7 +223,7 @@ public static class CleanupUtil
 
 					try
 					{
-						Debug.Log("Typename of (possibly) leaked object : " + a.Value.GetType().Name);
+						Logger.Log("Typename of (possibly) leaked object : " + a.Value.GetType().Name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -265,7 +265,7 @@ public static class CleanupUtil
 				{
 					try
 					{
-						Debug.Log("Typename of (possibly) leaked object : " + a.Key.GetType().Name);
+						Logger.Log("Typename of (possibly) leaked object : " + a.Key.GetType().Name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
@@ -274,7 +274,7 @@ public static class CleanupUtil
 
 					try
 					{
-						Debug.Log("Typename of (possibly) leaked object : " + a.Value.GetType().Name);
+						Logger.Log("Typename of (possibly) leaked object : " + a.Value.GetType().Name, Category.MemoryCleanup);
 					}
 					catch (Exception ee)
 					{
