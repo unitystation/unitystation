@@ -6,285 +6,331 @@ using System;
 using UI.Action;
 using Audio.Containers;
 
-public class CleanupUtilWindow : EditorWindow
-{
-	[MenuItem("Window/Cleanup util")]
-	static void Init()
-	{
-		CleanupUtilWindow wnd = EditorWindow.GetWindow<CleanupUtilWindow>();
-		wnd.Show();
-	}
-
-	string last_message = "";
-
-	private void OnGUI()
-	{
-		GUILayout.Label(last_message);
-
-		if (GUILayout.Button("TileManager.Instance.DeepCleanupTiles()"))
-		{
-			int i = 0;
-
-			var tileManagers = FindObjectsOfType<TileManager>();
-			Debug.Log("tileManagers.Len = " + tileManagers.Length);
-
-			foreach (var a in tileManagers)
-			{
-				i += a.DeepCleanupTiles();
-			}
-
-			last_message = "removed " + (TileManager.Instance.DeepCleanupTiles() + i) + " objects using TileManager.Instance.DeepCleanupTiles()";
-		}
-
-		if (GUILayout.Button("SpriteHandlerManager.Instance.Clean()"))
-		{
-			SpriteHandlerManager.Instance.Clean();
-		}
-	}
-}
-
-public static class Reporting
-{
-	public static string ReportingPath = "H:/UnityStationDumps/dump.json";
-
-	[System.Serializable]
-	public class ObjectInfo
-	{
-		[SerializeField]
-		public string ObjectString;
-		[SerializeField]
-		public WeakReference<MonoBehaviour> weakref;
-
-		public int scene_build_index = -9999;
-	}
-
-	[System.Serializable]
-	public struct FinalInfo
-	{
-		[SerializeField]
-		public string ObjectString;
-		[SerializeField]
-		public string lifecycle_status;
-	}
-
-	static System.Collections.Concurrent.ConcurrentQueue<ObjectInfo> object_queue = new System.Collections.Concurrent.ConcurrentQueue<ObjectInfo>();
-	public static void AddObject(MonoBehaviour @object)
-	{
-		object_queue.Enqueue(new ObjectInfo() { ObjectString = @object.GetType() + " :: " +  @object.ToString(), weakref = new WeakReference<MonoBehaviour>(@object), scene_build_index = @object.gameObject.scene.buildIndex });
-	}
-
-	public static void DumpAll()
-	{
-		using (var writer = System.IO.File.AppendText(ReportingPath))
-		{
-			foreach (var a in object_queue)
-			{
-				FinalInfo fi = new FinalInfo();
-				fi.ObjectString = a.ObjectString;
-				MonoBehaviour t;
-
-				if (a.weakref.TryGetTarget(out t))
-				{
-					if (t != null)
-					{
-						fi.lifecycle_status = "alive, build index : " + t.gameObject.scene.buildIndex;
-					}
-					else
-					{
-						fi.lifecycle_status = "leaked, build index : " + a.scene_build_index;
-					}
-
-					if (t is IHasDestructionInfo)
-					{
-						fi.lifecycle_status += ", destruction info : " + (t as IHasDestructionInfo).GetInfo();
-					}
-
-					writer.WriteLine(UnityEngine.JsonUtility.ToJson(fi));
-				}
-			}
-
-			writer.Flush();
-		}
-
-		Debug.Log("Dumped " + object_queue.Count + " objects");
-		object_queue.Clear();
-	}
-}
-
 public static class CleanupUtil
 {
-
-	public static int RidListOfSoonToBeDeadElements<T>(IList<T> list_in_question, Func<T, UnityEngine.MonoBehaviour> target_extractor)
+	/// <summary>
+	/// this methods scans the provided list and removes from it all elements, that are not marked as DontDestroyOnLoad. Will keep elements that are equal to null
+	/// <paramref name="targetExtractor"/> is just used to get the MonoBehaviour that is then being used to figure out whether or not element should be removed
+	/// </summary>
+	/// <param name="listInQuestion"> is a list that should be altered according to the rules provided by the method</param>
+	/// <param name="targetExtractor"> is a delegate that is transforming <typeparamref name="T"/> into a <c>UnityEngine.MonoBehaviour</c> that is later then removed from the <paramref name="listInQuestion"> if it's not marked as DontDestroyOnLoad </param>
+	public static int RidListOfSoonToBeDeadElements<T>(IList<T> listInQuestion, Func<T, UnityEngine.MonoBehaviour> targetExtractor)
 	{
-		if (list_in_question == null)
+		if (listInQuestion == null)
 		{
 			return -1;
 		}
 
-		List<T> survivor_list = new List<T>();
+		List<T> survivorList = new List<T>();
 
-		for (int i = 0, max = list_in_question.Count; i < max; i++)
+		for (int i = 0, max = listInQuestion.Count; i < max; i++)
 		{
-			MonoBehaviour target = target_extractor(list_in_question[i]);
+			MonoBehaviour target = targetExtractor(listInQuestion[i]);
 
-			if (list_in_question[i] != null && (target == null || target.gameObject.scene.buildIndex == -1))
+			if (listInQuestion[i] != null && (target == null || target.gameObject.scene.buildIndex == -1))
 			{
-				survivor_list.Add(list_in_question[i]);
+				survivorList.Add(listInQuestion[i]);
 			}
 		}
 
-		int res = list_in_question.Count - survivor_list.Count;
-		list_in_question.Clear();
+		int res = listInQuestion.Count - survivorList.Count;
+		listInQuestion.Clear();
 
-		for (int i = 0, max = survivor_list.Count; i < max; i++)
+		for (int i = 0, max = survivorList.Count; i < max; i++)
 		{
-			list_in_question.Add(survivor_list[i]);
+			listInQuestion.Add(survivorList[i]);
 		}
 
 		return res;
 	}
 
-	public static int RidListOfDeadElements<T>(IList<T> list_in_question, Func<T, UnityEngine.MonoBehaviour> target_extractor)
+	/// <summary>
+	/// this methods scans the provided list and removes from it all elements that are equal to null
+	/// <paramref name="targetExtractor"/> is just used to get the MonoBehaviour that is then being used to figure out whether or not element should be removed
+	/// </summary>
+	/// <param name="listInQuestion"> is a  list that should be altered according to the rules provided by the method</param>
+	/// <param name="targetExtractor"> is a delegate that is transforming <typeparamref name="T"/> into a <c>UnityEngine.MonoBehaviour</c> that is later then removed from the <paramref name="listInQuestion"> if it's equal to null </param>
+	/// <param name="verbose"> set it to True if you want to allow it to attempt to log typenames or even object names of objects, that would be removed from the list </param>
+	public static int RidListOfDeadElements<T>(IList<T> listInQuestion, Func<T, UnityEngine.MonoBehaviour> targetExtractor, bool verbose = false)
 	{
-		if (list_in_question == null)
+		if (listInQuestion == null)
 		{
 			return -1;
 		}
 
-		List<T> survivor_list = new List<T>();
+		List<T> survivorList = new List<T>();
 
-		for (int i = 0, max = list_in_question.Count; i < max; i++)
+		for (int i = 0, max = listInQuestion.Count; i < max; i++)
 		{
-			MonoBehaviour target = target_extractor(list_in_question[i]);
+			MonoBehaviour target = targetExtractor(listInQuestion[i]);
 
-			if (list_in_question[i] != null && target == null)
+			if (listInQuestion[i] != null && target == null)
 			{
-				survivor_list.Add(list_in_question[i]);
+				survivorList.Add(listInQuestion[i]);
+			}
+			else
+			{
+				if (verbose)
+				{
+					try
+					{
+						Logger.Log("Name of leaked object : " + target.name, Category.MemoryCleanup);
+					}
+					catch (Exception ee)
+					{
+						//do nothing
+					}
+
+					try
+					{
+						Logger.Log("Typename of leaked object : " + target.GetType().Name, Category.MemoryCleanup);
+					}
+					catch (Exception ee)
+					{
+						//do nothing
+					}
+				}
 			}
 		}
 
-		int res = list_in_question.Count - survivor_list.Count;
-		list_in_question.Clear();
+		int res = listInQuestion.Count - survivorList.Count;
+		listInQuestion.Clear();
 
-		for (int i = 0, max = survivor_list.Count; i < max; i++)
+		for (int i = 0, max = survivorList.Count; i < max; i++)
 		{
-			list_in_question.Add(survivor_list[i]);
+			listInQuestion.Add(survivorList[i]);
+		}
+
+		return res;
+	}
+	/// <summary>
+	/// this methods scans the provided list and removes from it all instances of <c>System.Action</c> that have targets equal to null
+	/// </summary>
+	/// <param name="listInQuestion"> is a list that should be altered according to the rules provided by the method</param>
+	/// <param name="verbose"> set it to True if you want to allow it to attempt to log typenames or even object names of objects, that would be removed from the list </param>
+
+	public static int RidListOfDeadElements(IList<Action> listInQuestion, bool verbose = false)
+	{
+		if (listInQuestion == null)
+		{
+			return -1;
+		}
+
+		List<Action> survivorList = new List<Action>();
+
+		for (int i = 0, max = listInQuestion.Count; i < max; i++)
+		{
+			if (listInQuestion[i] != null && listInQuestion[i].Target == null)
+			{
+				survivorList.Add(listInQuestion[i]);
+			}
+			else
+			{
+				if (verbose)
+				{
+					try
+					{
+						Logger.Log("Name of leaked object : " + (listInQuestion[i].Target as MonoBehaviour).name, Category.MemoryCleanup);
+					}
+					catch (Exception ee)
+					{
+						//do nothing
+					}
+
+					try
+					{
+						Logger.Log("Typename of leaked object : " + listInQuestion[i].Target.GetType().Name, Category.MemoryCleanup);
+					}
+					catch (Exception ee)
+					{
+						//do nothing
+					}
+				}
+			}
+		}
+
+		int res = listInQuestion.Count - survivorList.Count;
+		listInQuestion.Clear();
+
+		for (int i = 0, max = survivorList.Count; i < max; i++)
+		{
+			listInQuestion.Add(survivorList[i]);
 		}
 
 		return res;
 	}
 
-	public static int RidListOfDeadElements(IList<Action> list_in_question)
+	/// <summary>
+	/// this methods scans the provided list and removes from it all elements that are equal to null
+	/// </summary>
+	/// <param name="listInQuestion"> is a  list that should be altered according to the rules provided by the method</param>
+	/// <param name="verbose"> set it to True if you want to allow it to attempt to log typenames or even object names of objects, that would be removed from the list </param>
+	public static int RidListOfDeadElements<T>(IList<T> listInQuestion, bool verbose = false) where T : MonoBehaviour
 	{
-		if (list_in_question == null)
+		if (listInQuestion == null)
 		{
 			return -1;
 		}
+		List<T> survivorList = new List<T>();
 
-		List<Action> survivor_list = new List<Action>();
-
-		for (int i = 0, max = list_in_question.Count; i < max; i++)
+		for (int i = 0, max = listInQuestion.Count; i < max; i++)
 		{
-			if (list_in_question[i] != null && list_in_question[i].Target == null)
+			if (listInQuestion[i] != null)
 			{
-				survivor_list.Add(list_in_question[i]);
+				survivorList.Add(listInQuestion[i]);
+			}
+			else
+			{
+				if (verbose)
+				{
+					try
+					{
+						Logger.Log("Name of leaked object : " + listInQuestion[i].name, Category.MemoryCleanup);
+					}
+					catch (Exception ee)
+					{
+						//do nothing
+					}
+
+					try
+					{
+						Logger.Log("Typename of leaked object : " + listInQuestion[i].GetType().Name, Category.MemoryCleanup);
+					}
+					catch (Exception ee)
+					{
+						//do nothing
+					}
+				}
 			}
 		}
 
-		int res = list_in_question.Count - survivor_list.Count;
-		list_in_question.Clear();
+		int res = listInQuestion.Count - survivorList.Count;
+		listInQuestion.Clear();
 
-		for (int i = 0, max = survivor_list.Count; i < max; i++)
+		for (int i = 0, max = survivorList.Count; i < max; i++)
 		{
-			list_in_question.Add(survivor_list[i]);
+			listInQuestion.Add(survivorList[i]);
 		}
 
 		return res;
 	}
 
-	public static int RidListOfDeadElements<T>(IList<T> list_in_question) where T: MonoBehaviour
+	/// <summary>
+	/// this methods scans the provided dictionary and removes from it all elements that didn't pass <paramref name="survivalCondition"> curvival condition
+	/// <paramref name="survivalCondition"/> should return true of provided pair of key and value is supposed to stay in the dictionary
+	/// </summary>
+	/// <param name="dictInQuestion"> is a dictionary that should be altered according to the rules provided by the method</param>
+	/// <param name="survivalCondition"> is a delegate that is deciding whether or not pair of key and value of the dictionary should stay in the dictionary</param>
+	/// <param name="verbose"> set it to True if you want to allow it to attempt to log typenames or even object names of objects, that would be removed from the list </param>
+	public static int RidDictionaryOfDeadElements<TKey, TValue>(IDictionary<TKey, TValue> dictInQuestion, Func<TKey, TValue, bool> survivalCondition, bool verbose = false)
 	{
-		if (list_in_question == null)
+		if (dictInQuestion == null)
 		{
 			return -1;
 		}
-		List<T> survivor_list = new List<T>();
-		
-		for (int i = 0, max = list_in_question.Count; i < max; i++)
+
+		List<KeyValuePair<TKey, TValue>> survivorList = new List<KeyValuePair<TKey, TValue>>();
+
+		foreach (var keyValuePair in dictInQuestion)
 		{
-			if (list_in_question[i] != null)
+			if (survivalCondition(keyValuePair.Key, keyValuePair.Value))
 			{
-				survivor_list.Add(list_in_question[i]);
+				survivorList.Add(keyValuePair);
+			}
+			else
+			{
+				if (verbose)
+				{
+					try
+					{
+						Logger.Log("Typename of (possibly) leaked object : " + keyValuePair.Key.GetType().Name, Category.MemoryCleanup);
+					}
+					catch (Exception ee)
+					{
+						//do nothing
+					}
+
+					try
+					{
+						Logger.Log("Typename of (possibly) leaked object : " + keyValuePair.Value.GetType().Name, Category.MemoryCleanup);
+					}
+					catch (Exception ee)
+					{
+						//do nothing
+					}
+				}
 			}
 		}
 
-		int res = list_in_question.Count - survivor_list.Count;
-		list_in_question.Clear();
+		int res = dictInQuestion.Count - survivorList.Count;
+		dictInQuestion.Clear();
 
-		for (int i = 0, max = survivor_list.Count; i < max; i++)
+		for (int i = 0, max = survivorList.Count; i < max; i++)
 		{
-			list_in_question.Add(survivor_list[i]);
+			dictInQuestion.Add(survivorList[i].Key, survivorList[i].Value);
+		}
+
+		return res;
+	}
+	/// <summary>
+	/// this methods scans the provided dictionary and removes from it all keyvaluepairs in which either key or value are equal to null
+	/// </summary>
+	/// <param name="dictInQuestion"> is a dictionary that should be altered according to the rules provided by the method</param>
+	/// <param name="verbose"> set it to True if you want to allow it to attempt to log typenames or even object names of objects, that would be removed from the list </param>
+	public static int RidDictionaryOfDeadElements<TKey, TValue>(IDictionary<TKey, TValue> dictInQuestion, bool verbose = false)
+	{
+		if (dictInQuestion == null)
+		{
+			return -1;
+		}
+
+		List<KeyValuePair<TKey, TValue>> survivorList = new List<KeyValuePair<TKey, TValue>>();
+
+		foreach (var keyValuePair in dictInQuestion)
+		{
+			if (keyValuePair.Key != null && keyValuePair.Value != null)
+			{
+				survivorList.Add(keyValuePair);
+			}
+			else
+			{
+				if (verbose)
+				{
+					try
+					{
+						Logger.Log("Typename of (possibly) leaked object : " + keyValuePair.Key.GetType().Name, Category.MemoryCleanup);
+					}
+					catch (Exception ee)
+					{
+						//do nothing
+					}
+
+					try
+					{
+						Logger.Log("Typename of (possibly) leaked object : " + keyValuePair.Value.GetType().Name, Category.MemoryCleanup);
+					}
+					catch (Exception ee)
+					{
+						//do nothing
+					}
+				}
+			}
+		}
+
+		int res = dictInQuestion.Count - survivorList.Count;
+		dictInQuestion.Clear();
+
+		for (int i = 0, max = survivorList.Count; i < max; i++)
+		{
+			dictInQuestion.Add(survivorList[i].Key, survivorList[i].Value);
 		}
 
 		return res;
 	}
 
-	public static int RidDictionaryOfDeadElements<TKey, TValue>(IDictionary<TKey, TValue> dict_in_question, Func<TKey, TValue, bool> condition )
-	{
-		if (dict_in_question == null)
-		{
-			return -1;
-		}
-
-		List<KeyValuePair<TKey, TValue>> survivor_list = new List<KeyValuePair<TKey, TValue>>();
-
-		foreach (var a in dict_in_question)
-		{
-			if (condition(a.Key, a.Value))
-			{
-				survivor_list.Add(a);
-			}
-		}
-
-		int res = dict_in_question.Count - survivor_list.Count;
-		dict_in_question.Clear();
-
-		for (int i = 0, max = survivor_list.Count; i < max; i++)
-		{
-			dict_in_question.Add(survivor_list[i].Key, survivor_list[i].Value);
-		}
-
-		return res;
-	}
-
-	public static int RidDictionaryOfDeadElements<TKey, TValue>(IDictionary<TKey, TValue> dict_in_question)
-	{
-		if (dict_in_question == null)
-		{
-			return -1;
-		}
-
-		List<KeyValuePair<TKey, TValue>> survivor_list = new List<KeyValuePair<TKey, TValue>>();
-		
-		foreach(var a in dict_in_question)
-		{
-			if (a.Key != null && a.Value != null)
-			{
-				survivor_list.Add(a);
-			}
-		}
-
-		int res = dict_in_question.Count - survivor_list.Count;
-		dict_in_question.Clear();
-
-		for (int i = 0, max = survivor_list.Count; i < max; i++)
-		{
-			dict_in_question.Add(survivor_list[i].Key, survivor_list[i].Value);
-		}
-
-		return res;
-	}
-
+	/// <summary>
+	/// Should be called right when round ended, but before any scene unloaded
+	/// </summary>
 	public static void EndRoundCleanup()
 	{
 		PlayerManager.Reset();
@@ -340,6 +386,9 @@ public static class CleanupUtil
 		//}
 	}
 
+	/// <summary>
+	/// Should be called right after previous round ended, and some scenes might already be unloaded
+	/// </summary>
 	public static void CleanupInbetweenScenes()
 	{
 		MatrixManager.Instance.ResetMatrixManager();
@@ -353,6 +402,9 @@ public static class CleanupUtil
 		RidDictionaryOfDeadElements(LandingZoneManager.Instance.landingZones, (u, k) => u != null);
 	}
 
+	/// <summary>
+	/// Should be called sometimes after round started and all necessary scenes are loaded
+	/// </summary>
 	public static void RoundStartCleanup()
 	{
 		Initialisation.LoadManager.RegisterActionDelayed(()=> { Debug.Log("Delayed cleanup started");
