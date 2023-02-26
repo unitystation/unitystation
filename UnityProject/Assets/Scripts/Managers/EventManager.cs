@@ -193,6 +193,6 @@ public class EventManager : MonoBehaviour
 			removed_count += CleanupUtil.RidListOfDeadElements(a.Value);
 		}
 
-		Debug.Log("removing " + removed_count + " dead elements from EventManager.eventTable");
+		Logger.Log("removing " + removed_count + " dead elements from EventManager.eventTable", Category.MemoryCleanup);
 	}
 }
