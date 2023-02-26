@@ -454,6 +454,14 @@ namespace HealthV2
 			}
 		}
 
+		public void ChangeBodyPartColor(Color color)
+		{
+			foreach (var sprite in RelatedPresentSprites)
+			{
+				sprite.baseSpriteHandler.SetColor(color);
+			}
+		}
+
 
 		#region BodyPartStorage
 

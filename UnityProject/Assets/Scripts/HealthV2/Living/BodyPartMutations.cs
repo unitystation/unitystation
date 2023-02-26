@@ -45,7 +45,7 @@ public class BodyPartMutations : BodyPartFunctionality
 	}
 
 
-	public void OnDMGMutationCheck(AttackType attackType,DamageType damageType, float amount)
+	public void OnDMGMutationCheck(AttackType attackType,DamageType damageType, float amount, TraumaticDamageTypes traumaticDamageType = TraumaticDamageTypes.NONE)
 	{
 		if (damageType == DamageType.Clone)
 		{

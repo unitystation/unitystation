@@ -316,6 +316,8 @@ namespace HealthV2
 			MultiInterestBool.RegisterBehaviour.RegisterFalse,
 			MultiInterestBool.BoolBehaviour.ReturnOnFalse);
 
+		[SerializeField, Range(1,60f)] private float updateTime = 1.25f;
+
 		//Default is mute yes
 
 		public virtual void Awake()
@@ -521,7 +523,7 @@ namespace HealthV2
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 
-			UpdateManager.Add(PeriodicUpdate, 1f);
+			UpdateManager.Add(PeriodicUpdate, updateTime);
 		}
 
 		private void OnDisable()
@@ -564,7 +566,7 @@ namespace HealthV2
 				BodyPartList[i].ImplantPeriodicUpdate();
 			}
 
-			CirculatorySystem.BloodUpdate();
+			if (CirculatorySystem != null) CirculatorySystem.BloodUpdate();
 			ExternalMetaboliseReactions();
 
 			FireStacksDamage();

@@ -184,10 +184,10 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		/// Triggers when a body part receives damage. 
-		///It has the attack type, damage type and the amount of damage as parameters for the callback
+		/// Triggers when a body part receives damage.
+		/// It has the attack type, damage type and the amount of damage as parameters for the callback
 		/// </summary>
-		public event Action<AttackType,DamageType, float> OnDamageTaken;
+		public event Action<AttackType, DamageType, float, TraumaticDamageTypes> OnDamageTaken;
 
 
 		/// <summary>
@@ -365,7 +365,7 @@ namespace HealthV2
 		/// <param name="organDamageSplit">Should the damage be divided amongst the contained organs or applied to a random one</param>
 		public void TakeDamage(GameObject damagedBy, float damage, AttackType attackType, DamageType damageType,
 								bool organDamageSplit = false, bool DamageSubOrgans = true, float armorPenetration = 0,
-								double traumaDamageChance = 100, TraumaticDamageTypes tramuticDamageType = TraumaticDamageTypes.NONE)
+								double traumaDamageChance = 100, TraumaticDamageTypes tramuticDamageType = TraumaticDamageTypes.NONE, bool invokeOnDamageEvent = true)
 		{
 			float damageToLimb = Armor.GetTotalDamage(
 				SelfArmor.GetDamage(damage, attackType, armorPenetration),
@@ -379,7 +379,7 @@ namespace HealthV2
 			}
 
 			AffectDamage(damageToLimb, (int) damageType);
-			OnDamageTaken?.Invoke(attackType, damageType,  damageToLimb);
+			if (invokeOnDamageEvent && damage > 0) OnDamageTaken?.Invoke(attackType, damageType,  damageToLimb, tramuticDamageType);
 
 			// May be changed to individual damage
 			// May also want it so it can miss sub organs
@@ -389,22 +389,6 @@ namespace HealthV2
 			}
 
 			if(damage < damageThreshold) return; //Do not apply traumas if the damage is not serious.
-			if(damageType == DamageType.Brute) //Check damage type to avoid bugs where you can blow someone's head off with a shoe.
-			{
-				if (attackType == AttackType.Melee || attackType == AttackType.Laser || attackType == AttackType.Energy)
-				{
-					if (tramuticDamageType != TraumaticDamageTypes.NONE && DMMath.Prob(traumaDamageChance))
-					{
-						//TODO: move this to an utility, its hard to read! - picks a random enum from the ones already flagged
-						Random random = new Random();
-						TraumaticDamageTypes[] typeToSelectFrom = Enum.GetValues(typeof(TraumaticDamageTypes)).Cast<TraumaticDamageTypes>().Where(x => tramuticDamageType.HasFlag(x)).ToArray();
-						TraumaticDamageTypes selectedType = typeToSelectFrom[random.Next(1, typeToSelectFrom.Length)];
-						ApplyTraumaDamage(selectedType);
-					}
-					CheckBodyPartIntegrity();
-				}
-			}
-
 			if(attackType == AttackType.Bomb)
 			{
 				TakeBluntDamage();
