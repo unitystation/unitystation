@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Systems.Character;
 using Systems.Clothing;
 using Light2D;
 using Effects.Overlays;

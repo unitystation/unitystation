@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Firebase.Auth;
 using Newtonsoft.Json;
 using UnityEngine;
+using Systems.Character;
 
 namespace DatabaseAPI
 {

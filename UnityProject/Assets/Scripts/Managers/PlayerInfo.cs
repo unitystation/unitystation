@@ -3,6 +3,7 @@ using UnityEngine;
 using Mirror;
 using Player;
 using Messages.Server;
+using Systems.Character;
 
 /// <summary>
 /// Server-only full player information class

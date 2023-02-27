@@ -13,6 +13,13 @@
 
 	#endregion
 
+	#region Player
+
+	/// <summary>The PlayerPref key for index of the <see cref="CharacterSheet"/> the player the last used.</summary>
+	public static readonly string LastCharacterIndex = "lastCharacter";
+
+	#endregion
+
 	/// <summary>
 	/// The PlayerPref key for ChatBubble preference.
 	/// Use PlayerPrefs.GetInt(chatBubblePref) to determine the players

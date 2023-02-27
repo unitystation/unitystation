@@ -6,6 +6,8 @@ using UnityEngine;
 using UI.CharacterCreator;
 using Random = UnityEngine.Random;
 
+namespace Systems.Character
+{
 /// <summary>
 /// Class containing all character preferences for a player
 /// Includes appearance, job preferences etc...
@@ -349,4 +351,5 @@ public class CharacterSheet
 	}
 
 	#endregion
+}
 }

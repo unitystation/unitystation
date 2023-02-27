@@ -7,6 +7,7 @@ using Firebase.Auth;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
+using Systems.Character;
 
 namespace DatabaseAPI
 {
