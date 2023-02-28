@@ -13,6 +13,8 @@ using Core.Chat;
 using Core.Utils;
 using Health.Sickness;
 using HealthV2.Living.CirculatorySystem;
+using HealthV2.Living.PolymorphicSystems;
+using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Items.Implants.Organs;
 using JetBrains.Annotations;
 using NaughtyAttributes;
@@ -103,6 +105,8 @@ namespace HealthV2
 		/// </summary>
 		[CanBeNull]
 		public CirculatorySystemBase CirculatorySystem { get; private set; }
+
+		public ReagentPoolSystem reagentPoolSystem => ActiveSystems.OfType<ReagentPoolSystem>().FirstOrDefault();
 
 		public Brain brain { get; private set; }
 
@@ -206,6 +210,9 @@ namespace HealthV2
 		public ChatModifier BodyChatModifier = ChatModifier.None;
 
 		public float BodyPartSurfaceVolume = 5;
+
+		public List<HealthSystemBase> ActiveSystems = new List<HealthSystemBase>();
+
 
 		/// <summary>
 		/// The current hunger state of the creature, currently always returns normal
@@ -394,6 +401,7 @@ namespace HealthV2
 
 		}
 
+
 		//TODO: confusing, make it not depend from the inventory storage Action
 		/// <summary>
 		/// Server and client trigger this on both addition and removal of a bodypart
@@ -411,6 +419,17 @@ namespace HealthV2
 			else if (prevImplant && prevImplant.TryGetComponent<BodyPart>(out var removedBodyPart))
 			{
 				removedBodyPart.BodyPartRemoveHealthMaster(); //Don't worry It comes back around
+			}
+
+
+			if (prevImplant && newImplant == null)
+			{
+				if (BodyPartStorage.HasAnyOccupied() == false)
+				{
+					//TODO cyborg chassis doesn't appear, shouldn't be able to get a  chassis by itself?
+					_ = Despawn.ServerSingle(this.gameObject);
+				}
+
 			}
 		}
 
@@ -893,7 +912,7 @@ namespace HealthV2
 		/// </summary>
 		public float GetSpareBlood()
 		{
-			return CirculatorySystem.BloodPool[CirculatorySystem.BloodType];
+			return CirculatorySystem.BloodPool.Total;
 		}
 
 		/// <summary>
@@ -1689,7 +1708,14 @@ namespace HealthV2
 		{
 			int i = 0;
 			bool isSurfaceSprite = implant.IsSurface || implant.BodyPartItemInheritsSkinColor;
-			var sprites = implant.GetBodyTypeSprites(playerSprites.ThisCharacter.BodyType);
+
+			BodyType bodyType = BodyType.NonBinary;
+			if (playerSprites.ThisCharacter != null)
+			{
+				bodyType = playerSprites.ThisCharacter.BodyType;
+			}
+
+			var sprites = implant.GetBodyTypeSprites(bodyType);
 			foreach (var Sprite in sprites.Item2)
 			{
 				var newSprite = Spawn
@@ -1999,6 +2025,16 @@ namespace HealthV2
 
 		public void InitialiseFromRaceData(PlayerHealthData RaceBodyparts)
 		{
+			foreach (var System in RaceBodyparts.Base.SystemSettings)
+			{
+				var newsys = System.CloneThisSystem();
+				newsys.Base = this;
+				newsys.InIt();
+				newsys.StartFresh();
+				ActiveSystems.Add(newsys);
+			}
+
+
 			CirculatorySystem.SetBloodType(RaceBodyparts.Base.BloodType);
 			CirculatorySystem.InitialiseHunger(RaceBodyparts.Base.NumberOfMinutesBeforeStarving);
 			CirculatorySystem.InitialiseToxGeneration(RaceBodyparts.Base.TotalToxinGenerationPerSecond);

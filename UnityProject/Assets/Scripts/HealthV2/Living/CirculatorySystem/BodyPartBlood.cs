@@ -58,7 +58,7 @@ namespace HealthV2
 
 		/// <summary>
 		/// The amount (in moles) of required reagent (eg oxygen) this body part needs consume each tick.
-		/// </summary>
+		/// </summary>Her
 		[Tooltip("What percentage per update of oxygen*(Required reagent) is consumed")]
 		[SerializeField]
 		public float bloodReagentConsumedPercentageb = 0.5f;
@@ -123,11 +123,6 @@ namespace HealthV2
 		/// </summary>
 		public void BloodInitialise()
 		{
-			if (bloodType == null)
-			{
-				bloodType = HealthMaster.CirculatorySystem.BloodType;
-			}
-
 			AddModifier(HungerModifier);
 		}
 

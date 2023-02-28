@@ -32,8 +32,8 @@ namespace HealthV2
 		[HorizontalLine] [Tooltip("Things (eg other organs) held within this")]
 		public ItemStorage OrganStorage = null;
 
-		[Tooltip(
-			" Could you splatter sit on the player and Could the acid touch body parts contained in this body part ")]
+		[SerializeField, Tooltip(
+			 " Could you splatter sit on the player and Could the acid touch body parts contained in this body part ")]
 		private bool isOpenAir = false;
 		public bool IsOpenAir
 		{
@@ -106,8 +106,7 @@ namespace HealthV2
 		/// <summary>
 		/// The list of sprites associated with this body part
 		/// </summary>
-		[Tooltip("Sprites associated wtih this part, generated when part is initialized/changed")]
-		public List<BodyPartSprites> RelatedPresentSprites = new List<BodyPartSprites>();
+		[HideInInspector] public List<BodyPartSprites> RelatedPresentSprites = new List<BodyPartSprites>();
 
 		/// <summary>
 		/// The final sprite data for this body part accounting for body type and gender

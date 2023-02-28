@@ -13,7 +13,7 @@ namespace Items.Implants.Organs
 
 		[SerializeField] private int delaySeconds = 600;
 
-		private float lastTrigger = 0; 
+		private float lastTrigger = 0;
 
 		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
@@ -34,9 +34,9 @@ namespace Items.Implants.Organs
 
 		public override void EmpResult(int strength)
 		{
-			Heart heart = RelatedPart.HealthMaster.CirculatorySystem.Hearts.PickRandom();
+			Heart heart = RelatedPart.HealthMaster.reagentPoolSystem?.PumpingDevices?.PickRandom();
 
-			heart.DoHeartAttack();
+			heart.OrNull()?.DoHeartAttack();
 		}
 	}
 }

@@ -21,9 +21,9 @@ namespace HealthV2
 		[SerializeField]
 		[Required("Must have a blood type in a circulatory system.")]
 		private BloodType bloodType = null;
-		public BloodType BloodType => bloodType;
+		private BloodType BloodType => bloodType;
 		public ReagentMix BloodPool;
-		public Chemistry.Reagent CirculatedReagent => bloodType.CirculatedReagent;
+		private Chemistry.Reagent CirculatedReagent => bloodType.CirculatedReagent;
 
 		[SerializeField]
 		[Required("Inital injecton of blood on player spawn")]

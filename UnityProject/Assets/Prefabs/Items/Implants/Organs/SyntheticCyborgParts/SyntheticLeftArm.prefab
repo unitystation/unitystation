@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 1766215212362074963, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
       propertyPath: m_Name
-      value: CyborgLeftArm
+      value: SyntheticLeftArm
       objectReference: {fileID: 0}
     - target: {fileID: 1770294262758372903, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
@@ -81,7 +81,7 @@ PrefabInstance:
     - target: {fileID: 2193043925453136945, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
       propertyPath: initialName
-      value: cyborg left arm
+      value: Synthetic left arm
       objectReference: {fileID: 0}
     - target: {fileID: 2193043925453136945, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
@@ -113,7 +113,7 @@ PrefabInstance:
     - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
       propertyPath: isBloodCirculated
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
@@ -123,7 +123,7 @@ PrefabInstance:
     - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
       propertyPath: isBloodReagentConsumed
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
