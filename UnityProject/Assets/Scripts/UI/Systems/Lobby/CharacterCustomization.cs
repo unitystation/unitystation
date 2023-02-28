@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Newtonsoft.Json;
 using NaughtyAttributes;
+using Core.Utils;
 using DatabaseAPI;
 using HealthV2;
 using Systems.Character;
@@ -332,7 +333,7 @@ namespace UI.CharacterCreator
 		private void SelectCharacterByIndex(int index)
 		{
 			// Map a circular index (-1 => end, length + 1 => start)
-			currentCharacterIndex = RandomUtils.Mod(index, CharacterManager.Characters.Count);
+			currentCharacterIndex = MathUtils.Mod(index, CharacterManager.Characters.Count);
 
 			CharacterPreviewDropdown.value = currentCharacterIndex;
 			RefreshSelectorData();
