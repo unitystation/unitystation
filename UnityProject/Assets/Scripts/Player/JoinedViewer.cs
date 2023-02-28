@@ -1,16 +1,14 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 using Mirror;
 using Core.Networking;
 using Systems;
+using Systems.Character;
 using Messages.Server;
 using Messages.Client;
 using Messages.Client.NewPlayer;
-using ScriptableObjects.Characters;
 using UI;
 
 namespace Player

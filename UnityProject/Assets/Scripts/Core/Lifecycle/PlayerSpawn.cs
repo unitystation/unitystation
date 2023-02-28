@@ -7,6 +7,7 @@ using Messages.Server;
 using Messages.Server.LocalGuiMessages;
 using Player;
 using Systems;
+using Systems.Character;
 
 /// <summary>
 /// This interface will be called after the client has rejoined and has all scenes loaded!

@@ -1,19 +1,22 @@
 using System;
-using System.IO;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using DatabaseAPI;
-using HealthV2;
-using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
+using Newtonsoft.Json;
 using NaughtyAttributes;
-using System.Globalization;
+using Core.Utils;
+using DatabaseAPI;
+using HealthV2;
+using Systems.Character;
 
 namespace UI.CharacterCreator
 {
 	public class CharacterCustomization : MonoBehaviour
 	{
+		public CharacterManager CharacterManager => PlayerManager.CharacterManager;
+
 		[Header("Character Customizer")] public GameObject SpriteContainer;
 
 		public CustomisationSubPart customisationSubPart;
@@ -103,8 +106,6 @@ namespace UI.CharacterCreator
 
 		[SerializeField] private GameObject CharacterSelectorPage;
 		[SerializeField] private GameObject CharacterCreatorPage;
-
-		public List<CharacterSheet> PlayerCharacters = new List<CharacterSheet>();
 
 		private CharacterSheet lastSettings;
 		private int currentCharacterIndex = 0;
@@ -251,9 +252,9 @@ namespace UI.CharacterCreator
 			}
 
 			CharacterSheet character = new CharacterSheet();
-			PlayerCharacters.Add(character);
-			currentCharacterIndex = PlayerCharacters.Count() - 1;
-			LoadSettings(PlayerCharacters[currentCharacterIndex]);
+			CharacterManager.Characters.Add(character);
+			currentCharacterIndex = CharacterManager.Characters.Count() - 1;
+			LoadSettings(CharacterManager.Characters[currentCharacterIndex]);
 			currentCharacter.Species = Race.Human.ToString();
 			ShowCharacterCreator();
 			ReturnCharacterPreviewFromTheCharacterSelector();
@@ -263,8 +264,8 @@ namespace UI.CharacterCreator
 		public void EditCharacter()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			LoadSettings(PlayerCharacters[currentCharacterIndex]);
-			lastSettings = PlayerCharacters[currentCharacterIndex];
+			LoadSettings(CharacterManager.Characters[currentCharacterIndex]);
+			lastSettings = CharacterManager.Characters[currentCharacterIndex];
 			ReturnCharacterPreviewFromTheCharacterSelector();
 			ShowCharacterCreator();
 		}
@@ -286,14 +287,14 @@ namespace UI.CharacterCreator
 		/// </summary>
 		private void RefreshSelectorData()
 		{
-			CharacterPreviewRace.text = PlayerCharacters[currentCharacterIndex].Species;
-			CharacterPreviewBodyType.text = PlayerCharacters[currentCharacterIndex].BodyType.ToString();
+			CharacterPreviewRace.text = CharacterManager.Characters[currentCharacterIndex].Species;
+			CharacterPreviewBodyType.text = CharacterManager.Characters[currentCharacterIndex].BodyType.ToString();
 		}
 
 		private void UpdateCharactersDropDown()
 		{
 			CharacterPreviewDropdown.ClearOptions();
-			var itemOptions = PlayerCharacters.Select(pcd => pcd.Name).ToList();
+			var itemOptions = CharacterManager.Characters.Select(pcd => pcd.Name).ToList();
 			CharacterPreviewDropdown.AddOptions(itemOptions);
 			CharacterPreviewDropdown.onValueChanged.RemoveAllListeners();
 			CharacterPreviewDropdown.onValueChanged.AddListener(ItemChange);
@@ -307,8 +308,8 @@ namespace UI.CharacterCreator
 		private void ItemChange(int newValue)
 		{
 			currentCharacterIndex = newValue;
-			LoadSettings(PlayerCharacters[currentCharacterIndex]);
-			PlayerManager.CurrentCharacterSheet = PlayerCharacters[currentCharacterIndex];
+			LoadSettings(CharacterManager.Characters[currentCharacterIndex]);
+			PlayerManager.CurrentCharacterSheet = CharacterManager.Characters[currentCharacterIndex];
 			SaveLastCharacterIndex();
 			RefreshSelectorData();
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
@@ -316,7 +317,7 @@ namespace UI.CharacterCreator
 
 		private void CheckIfCharacterListIsEmpty()
 		{
-			if (PlayerCharacters.Count == 0)
+			if (CharacterManager.Characters.Count == 0)
 			{
 				EditCharacterButton.SetActive(false);
 				ShowNoCharacterError();
@@ -329,16 +330,10 @@ namespace UI.CharacterCreator
 			}
 		}
 
-		public void ScrollSelectorLeft()
+		private void SelectCharacterByIndex(int index)
 		{
-			if (currentCharacterIndex != 0)
-			{
-				currentCharacterIndex--;
-			}
-			else
-			{
-				currentCharacterIndex = PlayerCharacters.Count();
-			}
+			// Map a circular index (-1 => end, length + 1 => start)
+			currentCharacterIndex = MathUtils.Mod(index, CharacterManager.Characters.Count);
 
 			CharacterPreviewDropdown.value = currentCharacterIndex;
 			RefreshSelectorData();
@@ -347,23 +342,14 @@ namespace UI.CharacterCreator
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 
+		public void ScrollSelectorLeft()
+		{
+			SelectCharacterByIndex(currentCharacterIndex - 1);
+		}
+
 		public void ScrollSelectorRight()
 		{
-			if (currentCharacterIndex == PlayerCharacters.Count() ||
-			    currentCharacterIndex == PlayerCharacters.Count() - 1)
-			{
-				currentCharacterIndex = 0;
-			}
-			else
-			{
-				currentCharacterIndex++;
-			}
-
-			CharacterPreviewDropdown.value = currentCharacterIndex;
-			RefreshSelectorData();
-			RefreshAll();
-			SaveLastCharacterIndex();
-			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			SelectCharacterByIndex(currentCharacterIndex + 1);
 		}
 
 		private void GetOriginalLocalPositionForCharacterPreview()
@@ -994,7 +980,7 @@ namespace UI.CharacterCreator
 		/// </summary>
 		private void SaveLastCharacterIndex()
 		{
-			PlayerPrefs.SetInt("lastCharacter", currentCharacterIndex);
+			PlayerPrefs.SetInt(PlayerPrefKeys.LastCharacterIndex, currentCharacterIndex);
 			PlayerPrefs.Save();
 		}
 
@@ -1003,68 +989,25 @@ namespace UI.CharacterCreator
 		/// </summary>
 		private void SaveCharacters()
 		{
-			var settings = new JsonSerializerSettings
-			{
-				PreserveReferencesHandling = PreserveReferencesHandling.All,
-				NullValueHandling = NullValueHandling.Ignore,
-				ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
-				Formatting = Formatting.Indented
-			};
-			string json;
-			string path = Application.persistentDataPath + "characters.json";
-			if (PlayerCharacters.Count == 0)
-			{
-				json = "";
-			}
-			else
-			{
-				json = JsonConvert.SerializeObject(PlayerCharacters, settings);
-			}
-
-			if (File.Exists(path))
-			{
-				File.Delete(path);
-			}
-
-			File.WriteAllText(path, json);
+			CharacterManager.SaveCharactersOffline();
 			SaveLastCharacterIndex(); //Remember the current character index, prevents a bug for newly created characters.
 		}
 
-		/// <summary>
-		/// Get all characters that are saved in %APPDATA%/Locallow/unitystation/characters.json
-		/// </summary>
 		public void GetSavedCharacters()
 		{
-			PlayerCharacters
-				.Clear(); //Clear all entries so we don't have duplicates when re-opening the character page.
-			string path = Application.persistentDataPath + "characters.json";
-
-			if (File.Exists(path))
+			if (!CharacterManager.Characters.Any())
 			{
-				string json = File.ReadAllText(path);
-				if (json == "")
-				{
-					ShowNoCharacterError();
-					return;
-				}
-
-				CharacterPreviews.SetActive(true);
-				NoCharactersError.SetActive(false);
-				var characters = JsonConvert.DeserializeObject<List<CharacterSheet>>(json);
-
-				foreach (var c in characters)
-				{
-					PlayerCharacters.Add(c);
-				}
-
-				currentCharacterIndex = PlayerPrefs.GetInt("lastCharacter", currentCharacterIndex);
-				UpdateCharactersDropDown();
-				CharacterPreviewDropdown.value = currentCharacterIndex;
-				RefreshSelectorData();
+				ShowNoCharacterError();
 			}
 			else
 			{
-				ShowNoCharacterError();
+				CharacterPreviews.SetActive(true);
+				NoCharactersError.SetActive(false);
+
+				currentCharacterIndex = CharacterManager.GetCurrentCharacterIndex();
+				UpdateCharactersDropDown();
+				CharacterPreviewDropdown.value = currentCharacterIndex;
+				RefreshSelectorData();
 			}
 		}
 
@@ -1074,16 +1017,16 @@ namespace UI.CharacterCreator
 		/// </summary>
 		public void ValidateCurrentCharacter()
 		{
-			PlayerPrefs.GetInt("lastCharacter", currentCharacterIndex);
-			currentCharacter = PlayerCharacters[currentCharacterIndex];
+			PlayerPrefs.GetInt(PlayerPrefKeys.LastCharacterIndex, currentCharacterIndex);
+			currentCharacter = CharacterManager.Characters[currentCharacterIndex];
 		}
 
 		private void DeleteCharacterFromCharactersList(int index)
 		{
-			PlayerCharacters.Remove(PlayerCharacters[index]);
+			CharacterManager.Characters.Remove(CharacterManager.Characters[index]);
 			currentCharacterIndex -= 1;
 			MakeSureCurrentCharacterIndexIsntABadValue();
-			if (PlayerCharacters.Count == 0)
+			if (CharacterManager.Characters.Count == 0)
 			{
 				CheckIfCharacterListIsEmpty();
 				SaveCharacters();
@@ -1224,7 +1167,7 @@ namespace UI.CharacterCreator
 				return;
 			}
 
-			PlayerCharacters[currentCharacterIndex] = currentCharacter; //SaveData Saves the PlayerCharacters
+			CharacterManager.Characters[currentCharacterIndex] = currentCharacter; //SaveData Saves the PlayerCharacters
 			SaveData();
 			GetSavedCharacters();
 			ShowCharacterSelectorPage();

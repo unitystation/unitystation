@@ -13,8 +13,8 @@ using Messages.Client.GhostRoles;
 using Messages.Server;
 using Player.Language;
 using ScriptableObjects;
+using Systems.Character;
 using Systems.StatusesAndEffects;
-using UI.Core.Action;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Serialization;
 
