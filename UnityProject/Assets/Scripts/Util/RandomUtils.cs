@@ -66,4 +66,15 @@ public static class RandomUtils
 		Color c = Color.HSVToRGB(h, s, v);
 		return c;
 	}
+
+	/**
+	 * Calculate modulo mathematically.
+	 * With most languages "x % m" actually calculates the remainder and so is different to the modulo for negative x.
+	 * See https://en.wikipedia.org/wiki/Modulo
+	 */
+	// In RandomUtils... Random in this context is random assortment of utilities, riiight? 😛
+	public static int Mod(int x, int m)
+	{
+		return (x % m + m) % m;
+	}
 }

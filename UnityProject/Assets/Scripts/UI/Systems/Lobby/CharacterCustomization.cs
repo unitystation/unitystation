@@ -331,7 +331,8 @@ namespace UI.CharacterCreator
 
 		private void SelectCharacterByIndex(int index)
 		{
-			currentCharacterIndex = Math.Clamp(index, 0, CharacterManager.Characters.Count());
+			// Map a circular index (-1 => end, length + 1 => start)
+			currentCharacterIndex = RandomUtils.Mod(index, CharacterManager.Characters.Count);
 
 			CharacterPreviewDropdown.value = currentCharacterIndex;
 			RefreshSelectorData();

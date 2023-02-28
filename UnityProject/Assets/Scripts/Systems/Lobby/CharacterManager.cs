@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
@@ -38,7 +38,7 @@ namespace Systems.Character
 		{
 			Characters.Clear();
 
-			if (!File.Exists(OfflineStoragePath)) return;
+			if (File.Exists(OfflineStoragePath) == false) return;
 
 			string json = File.ReadAllText(OfflineStoragePath);
 
