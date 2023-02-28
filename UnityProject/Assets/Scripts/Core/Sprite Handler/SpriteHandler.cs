@@ -89,7 +89,7 @@ public class SpriteHandler : MonoBehaviour
 	/// Invokes when sprite just changed by animation or other script
 	/// Null if sprite became hidden
 	/// </summary>
-	public event Action<Sprite> OnSpriteChanged;
+	public List<Action<Sprite>> OnSpriteChanged = new List<Action<Sprite>>();
 
 	/// <summary>
 	/// Invokes when sprite data scriptable object is changed
@@ -100,7 +100,7 @@ public class SpriteHandler : MonoBehaviour
 	/// <summary>
 	/// Invoke when sprite handler has changed color of sprite
 	/// </summary>
-	public event Action<Color> OnColorChanged;
+	public List<Action<Color>> OnColorChanged = new List<Action<Color>>();
 
 	/// <summary>
 	/// The amount of SubCatalogues defined for this SpriteHandler.
@@ -336,6 +336,8 @@ public class SpriteHandler : MonoBehaviour
 		PushClear(false);
 		PresentSpriteSet = null;
 		OnSpriteDataSOChanged?.Invoke(null);
+		OnColorChanged.Clear();
+		OnSpriteChanged.Clear();
 
 		if (networked)
 		{
@@ -655,7 +657,7 @@ public class SpriteHandler : MonoBehaviour
 			image.color = value;
 		}
 
-		OnColorChanged?.Invoke(value);
+		new List<Action<Color>>(OnColorChanged?.ToArray()).ForEach(u => u(value));
 	}
 
 	protected virtual  void UpdateImageColor()
@@ -761,7 +763,7 @@ public class SpriteHandler : MonoBehaviour
 			}
 		}
 
-		OnSpriteChanged?.Invoke(value);
+		new List<Action<Sprite>>(OnSpriteChanged?.ToArray()).ForEach(u => u(value));
 	}
 
 	protected virtual bool HasSpriteInImageComponent()
@@ -806,7 +808,8 @@ public class SpriteHandler : MonoBehaviour
 		}
 
 		TryToggleAnimationState(false);
-		OnSpriteChanged?.Invoke(null);
+		OnSpriteChanged.Clear();
+		OnColorChanged.Clear();
 	}
 
 	private bool IsPaletted()
