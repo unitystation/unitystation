@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using GameRunTests;
 using NaughtyAttributes;
 using UnityEngine;
 using Newtonsoft.Json;
 using Player;
+using Systems.Character;
 
 public partial class TestAction
 {

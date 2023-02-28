@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Core.Utils;
 using NaughtyAttributes;
 using Objects.Atmospherics;
 using ScriptableObjects.Atmospherics;
@@ -258,7 +259,7 @@ namespace Systems.Atmospherics
 
 			var sourceStartMoles = source.Moles;
 			molesToTransfer = molesToTransfer.Clamp(0, sourceStartMoles);
-			if (CodeUtilities.IsEqual(molesToTransfer, 0) || CodeUtilities.IsEqual(sourceStartMoles, 0))
+			if (MathUtils.IsEqual(molesToTransfer, 0) || MathUtils.IsEqual(sourceStartMoles, 0))
 				return;
 			var ratio = molesToTransfer / sourceStartMoles;
 			var targetStartMoles = target.Moles;
@@ -271,7 +272,7 @@ namespace Systems.Atmospherics
 				if (gas.GasSO == null) continue;
 
 				var sourceMoles = source.GetMoles(gas.GasSO);
-				if (CodeUtilities.IsEqual(sourceMoles, 0)) continue;
+				if (MathUtils.IsEqual(sourceMoles, 0)) continue;
 
 				var transfer = sourceMoles * ratio;
 
@@ -288,7 +289,7 @@ namespace Systems.Atmospherics
 
 			Listsource.Pool();
 
-			if (CodeUtilities.IsEqual(target.Temperature, source.Temperature))
+			if (MathUtils.IsEqual(target.Temperature, source.Temperature))
 			{
 				target.RecalculatePressure();
 			}
@@ -302,7 +303,7 @@ namespace Systems.Atmospherics
 
 			if (doNotTouchOriginalMix == false)
 			{
-				if (CodeUtilities.IsEqual(ratio, 1)) //transferred everything, source is empty
+				if (MathUtils.IsEqual(ratio, 1)) //transferred everything, source is empty
 				{
 					source.SetPressure(0);
 				}
