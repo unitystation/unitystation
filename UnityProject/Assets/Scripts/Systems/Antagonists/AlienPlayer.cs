@@ -346,7 +346,7 @@ namespace Systems.Antagonists
 				return;
 			}
 
-			if (CurrentAlienType != AlienTypes.Larva3 || connectionToClient != null) return;
+			if (CurrentAlienType != AlienTypes.Larva3 || connectionToClient == null) return;
 
 			if(openedEvolveMenu) return;
 			openedEvolveMenu = true;
