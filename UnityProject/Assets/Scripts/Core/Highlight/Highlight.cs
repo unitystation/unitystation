@@ -83,7 +83,7 @@ public class Highlight : MonoBehaviour, IInitialise
 			foreach (var SH in SubscribeSpriteHandlers)
 			{
 				if (SH == null) continue;
-				SH.OnSpriteChanged -= UpdateCurrentHighlight;
+				SH.OnSpriteChanged.Remove(UpdateCurrentHighlight);
 			}
 			SubscribeSpriteHandlers.Clear();
 		}
@@ -103,7 +103,7 @@ public class Highlight : MonoBehaviour, IInitialise
 			foreach (var SH in SubscribeSpriteHandlers)
 			{
 				if (SH == null) continue;
-				SH.OnSpriteChanged -= UpdateCurrentHighlight;
+				SH.OnSpriteChanged.Remove(UpdateCurrentHighlight);
 			}
 			SubscribeSpriteHandlers.Clear();
 
@@ -155,15 +155,15 @@ public class Highlight : MonoBehaviour, IInitialise
 		foreach (var SH in SubscribeSpriteHandlers)
 		{
 			if (SH == null) continue;
-			SH.OnSpriteChanged -= UpdateCurrentHighlight;
+			SH.OnSpriteChanged.Remove(UpdateCurrentHighlight);
 		}
 
 		SubscribeSpriteHandlers = Highlightobject.GetComponentsInChildren<SpriteHandler>().ToList();
 		foreach (var SH in SubscribeSpriteHandlers)
 		{
 			if (SH == null) continue;
-			SH.OnSpriteChanged -= UpdateCurrentHighlight;
-			SH.OnSpriteChanged += UpdateCurrentHighlight;
+			SH.OnSpriteChanged.Remove(UpdateCurrentHighlight);
+			SH.OnSpriteChanged.Add(UpdateCurrentHighlight);
 		}
 
 		SpriteRenderers = SpriteRenderers.Where(x => x.sprite != null && x != instance.spriteRenderer).ToArray();
@@ -219,7 +219,7 @@ public class Highlight : MonoBehaviour, IInitialise
 		foreach (var SH in SubscribeSpriteHandlers)
 		{
 			if (SH == null) continue;
-			SH.OnSpriteChanged -= UpdateCurrentHighlight;
+			SH.OnSpriteChanged.Remove(UpdateCurrentHighlight);
 		}
 		SubscribeSpriteHandlers.Clear();
 	}
