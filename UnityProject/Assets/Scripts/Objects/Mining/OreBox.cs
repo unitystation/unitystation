@@ -42,8 +42,8 @@ public class OreBox : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 	{
 		if (!DefaultWillInteract.Default(interaction, side))
 			return false;
-		if (interaction.HandSlot.IsEmpty)
-			return false;
+		if (interaction.HandSlot.IsEmpty && interaction.IsAltClick)
+			return true;
 		if (Validations.HasItemTrait(interaction.HandSlot.ItemObject, CommonTraits.Instance.Crowbar))
 			return true;
 		if (Validations.HasItemTrait(interaction.HandSlot.ItemObject, CommonTraits.Instance.OreGeneral))
@@ -57,9 +57,10 @@ public class OreBox : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		var itemObject = interaction.HandSlot.ItemObject;
-		if (Validations.HasItemTrait(itemObject, CommonTraits.Instance.Crowbar))
+		if (Validations.HasItemTrait(itemObject, CommonTraits.Instance.Crowbar) || (interaction.HandSlot.ItemObject == null && interaction.IsAltClick))
 		{
-			oreBoxItemStorage.ServerDropAll();
+			Chat.AddActionMsgToChat(interaction.Performer.gameObject, $"You empty out the {this.name} Quickly", $" {interaction.Performer} empties out the {this.name} Quickly");
+			oreBoxItemStorage.ServerDropAllAtWorld(interaction.Performer.AssumedWorldPosServer());
 		}
 		else if (Validations.HasItemTrait(itemObject, CommonTraits.Instance.OreGeneral))
 		{

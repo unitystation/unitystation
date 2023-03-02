@@ -319,6 +319,8 @@ namespace Systems.Antagonists
 		private int growth;
 
 		private bool didMessage;
+
+		[SyncVar(hook = nameof(SyncopenedEvolveMenu))]
 		private bool openedEvolveMenu;
 
 		private void GrowthUpdate()
@@ -346,18 +348,22 @@ namespace Systems.Antagonists
 				return;
 			}
 
-			if (CurrentAlienType != AlienTypes.Larva3 || connectionToClient != null) return;
+			if (CurrentAlienType != AlienTypes.Larva3 || connectionToClient == null) return;
 
 			if(openedEvolveMenu) return;
-			openedEvolveMenu = true;
 
-			RpcOpenEvolveMenu();
+			SyncopenedEvolveMenu(openedEvolveMenu, true);
 		}
 
-		[TargetRpc]
-		private void RpcOpenEvolveMenu()
+
+
+		public void SyncopenedEvolveMenu(bool old, bool bnew)
 		{
-			UIManager.Instance.panelHudBottomController.AlienUI.OpenEvolveMenu();
+			openedEvolveMenu = bnew;
+			if (bnew && hasAuthority)
+			{
+				UIManager.Instance.panelHudBottomController.AlienUI.OpenEvolveMenu();
+			}
 		}
 
 		[ContextMenu("Set growth 100%")]

@@ -1423,6 +1423,11 @@ namespace TileManagement
 
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
+				if (Application.isPlaying == false)
+				{
+					return layer.HasTile(position);
+				}
+
 				if (layer.LayerType.IsUnderFloor())
 				{
 					return layer.HasTile(position);
