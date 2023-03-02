@@ -107,8 +107,8 @@ namespace Player
 				if (GameData.Instance.DevBuild == false)
 				{
 					Existingplayer = PlayerList.Instance.GetLoggedOnClient(authData.ClientId, authData.AccountId);
-
-					if (Existingplayer.Connection != connectionToClient)
+          
+					if (Existingplayer != null && Existingplayer.Connection != connectionToClient)
 					{
 						Logger.LogError($"Disconnecting player {Existingplayer?.Name} via Disconnect previous Using account/mac Address ");
 						Existingplayer.Connection?.Disconnect();
