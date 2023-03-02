@@ -5,6 +5,7 @@ using Alien;
 using Core.Chat;
 using HealthV2;
 using HealthV2.Limbs;
+using Initialisation;
 using Items.Others;
 using Managers;
 using Messages.Server.LocalGuiMessages;
@@ -125,7 +126,8 @@ namespace Systems.Antagonists
 		[SerializeField]
 		private AlienTypeDataSO alienType;
 		public AlienTypeDataSO AlienType => alienType;
-		public AlienTypes CurrentAlienType => alienType.AlienType;
+
+		[SyncVar] public AlienTypes CurrentAlienType;
 		public List<ActionData> ActionData => alienType.ActionData;
 
 		[SyncVar]
@@ -360,7 +362,13 @@ namespace Systems.Antagonists
 		public void SyncopenedEvolveMenu(bool old, bool bnew)
 		{
 			openedEvolveMenu = bnew;
-			if (bnew && hasAuthority)
+
+			LoadManager.RegisterActionDelayed(showUI, 300);
+		}
+
+		public void showUI()
+		{
+			if (openedEvolveMenu && hasAuthority)
 			{
 				UIManager.Instance.panelHudBottomController.AlienUI.OpenEvolveMenu();
 			}
@@ -448,6 +456,7 @@ namespace Systems.Antagonists
 		{
 			firstTimeSetup = true;
 			alienType = newone;
+			CurrentAlienType = alienType.AlienType;
 			if (changeName == false)
 			{
 				nameNumber = oldNameNumber;
