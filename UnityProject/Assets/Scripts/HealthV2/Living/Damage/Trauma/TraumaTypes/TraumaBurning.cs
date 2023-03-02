@@ -98,5 +98,17 @@ namespace HealthV2.TraumaTypes
 			bodyPart.HealthMaster.DismemberBodyPart(bodyPart);
 			_ = Despawn.ServerSingle(bodyPart.gameObject);
 		}
+
+		public override string StageDescriptor()
+		{
+			return currentStage switch
+			{
+				0 => null,
+				1 => $"{bodyPart.gameObject.ExpensiveName()} - Second Degree Burns.",
+				2 => $"{bodyPart.gameObject.ExpensiveName()} - Third Degree Burns.",
+				3 => $"{bodyPart.gameObject.ExpensiveName()} - Fourth Degree Burns. (Catastrophic Burns)",
+				_ => null
+			};
+		}
 	}
 }

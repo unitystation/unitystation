@@ -71,6 +71,18 @@ namespace HealthV2.TraumaTypes
 			}
 		}
 
+		public override string StageDescriptor()
+		{
+			return currentStage switch
+			{
+				0 => null,
+				1 => $"{bodyPart.gameObject.ExpensiveName()} - Joint Dislocation.",
+				2 => $"{bodyPart.gameObject.ExpensiveName()} - Hairline Fracture.",
+				3 => $"{bodyPart.gameObject.ExpensiveName()} - Compound Fracture.",
+				_ => null
+			};
+		}
+
 		[Serializable]
 		private struct BluntTraumaDamageInfo
 		{

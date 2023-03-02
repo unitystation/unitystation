@@ -26,16 +26,27 @@ namespace HealthV2
 			currentStage--;
 			currentStage = Mathf.Clamp(currentStage, 0, stages.Count - 1);
 		}
+
 		public virtual void OnTakeDamage(float damage, DamageType damageType, AttackType attackType)
 		{
 			if ( bodyPart.HealthMaster == null ) return;
 			if ( damage >= deadlyDamageInOneHit ) ProgressDeadlyEffect();
 		}
 
-		public void GenericStageProgression()
+		protected void GenericStageProgression()
 		{
 			Debug.Log($"{currentStage} - {bodyPart.TotalDamage} / {stages[currentStage + 1]}");
 			if (bodyPart.TotalDamage >= stages[currentStage + 1]) ProgressDeadlyEffect();
+		}
+
+		/// <summary>
+		/// Describes the current affect of trauma on the body part.
+		/// Usually used for things like the Advanced Health Scanner
+		/// </summary>
+		/// <returns>A string describing damage. Null for no description.</returns>
+		public virtual string StageDescriptor()
+		{
+			return null;
 		}
 	}
 }

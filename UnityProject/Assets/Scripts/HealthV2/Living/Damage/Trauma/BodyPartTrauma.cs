@@ -7,6 +7,7 @@ namespace HealthV2
 	public class BodyPartTrauma : MonoBehaviour
 	{
 		[SerializeField] private List<TraumaLogic> traumaTypesOnBodyPart;
+		public List<TraumaLogic> TraumaTypesOnBodyPart => traumaTypesOnBodyPart;
 		[SerializeField] private BodyPart bodyPart;
 
 		private void Start()

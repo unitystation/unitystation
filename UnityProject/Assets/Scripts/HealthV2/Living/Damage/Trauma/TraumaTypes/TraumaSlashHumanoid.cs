@@ -91,5 +91,17 @@ namespace HealthV2.TraumaTypes
 			if ( bodyPart.HealthMaster == null ) yield break;
 			Chat.AddExamineMsg(bodyPart.HealthMaster.gameObject, "You notice your wound slightly close up on its own.");
 		}
+
+		public override string StageDescriptor()
+		{
+			return currentStage switch
+			{
+				0 => null,
+				1 => $"{bodyPart.gameObject.ExpensiveName()} - Rough Abrasion.",
+				2 => $"{bodyPart.gameObject.ExpensiveName()} - Open Laceration.",
+				3 => $"{bodyPart.gameObject.ExpensiveName()} - Weeping Avulsion.",
+				_ => null
+			};
+		}
 	}
 }
