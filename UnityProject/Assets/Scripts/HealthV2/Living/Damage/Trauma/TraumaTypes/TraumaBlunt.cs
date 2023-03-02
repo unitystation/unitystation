@@ -25,7 +25,7 @@ namespace HealthV2.TraumaTypes
 			if ( damage < minimumDamage ) return;
 			if ( attackType is not AttackType.Melee ) return;
 			if ( damageType is not DamageType.Brute ) return;
-			if ( CheckArmourChance() == false ) return;
+			if ( CheckArmourChance() ) return;
 
 			GenericStageProgression();
 		}

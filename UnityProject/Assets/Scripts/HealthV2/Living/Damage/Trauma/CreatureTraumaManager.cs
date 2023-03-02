@@ -12,6 +12,7 @@ namespace HealthV2
 
 		private void Awake()
 		{
+			if (health == null) health = GetComponent<LivingHealthMasterBase>();
 			health.OnBodyPartAdded += OnBodyPartAdded;
 			health.OnBodyPartRemoved += OnBodyPartRemoved;
 		}
