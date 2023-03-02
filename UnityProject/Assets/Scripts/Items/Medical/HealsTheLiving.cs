@@ -91,10 +91,6 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 		{
 			RemoveLimbLossBleed(livingHealth, interaction);
 		}
-		if (HealsTraumaDamage)
-		{
-			HealTraumaDamage(livingHealth, interaction);
-		}
 		stackable.ServerConsume(1);
 	}
 
@@ -107,17 +103,6 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 
 		StandardProgressAction.Create(ProgressConfig, ProgressComplete)
 			.ServerStartProgress(originator.RegisterTile(), 5f, originator);
-	}
-
-	protected void HealTraumaDamage(LivingHealthMasterBase livingHealth, HandApply interaction)
-	{
-		if (livingHealth.HasTraumaDamage(interaction.TargetBodyPart))
-		{
-			livingHealth.HealTraumaDamage(interaction.TargetBodyPart, TraumaTypeToHeal);
-			Chat.AddActionMsgToChat(interaction,
-			$"You apply the {gameObject.ExpensiveName()} to {livingHealth.playerScript.visibleName}",
-			$"{interaction.Performer.ExpensiveName()} applies {name} to {livingHealth.playerScript.visibleName}.");
-		}
 	}
 
 	protected bool CheckForBleedingBodyContainers(LivingHealthMasterBase livingHealth, HandApply interaction)

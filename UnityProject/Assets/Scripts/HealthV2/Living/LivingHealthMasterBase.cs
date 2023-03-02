@@ -281,6 +281,9 @@ namespace HealthV2
 		public event Action<DamageType, GameObject> OnTakeDamageType;
 		public event Action OnLowHealth;
 
+		public event Action<BodyPart> OnBodyPartRemoved;
+		public event Action<BodyPart> OnBodyPartAdded;
+
 		[SyncVar] public bool CannotRecognizeNames = false;
 
 
@@ -394,10 +397,12 @@ namespace HealthV2
 			{
 				addedBodyPart.BodyPartAddHealthMaster(this);
 				SurfaceBodyParts.Add(addedBodyPart);
+				OnBodyPartAdded?.Invoke(addedBodyPart);
 			}
 			else if (prevImplant && prevImplant.TryGetComponent<BodyPart>(out var removedBodyPart))
 			{
 				removedBodyPart.BodyPartRemoveHealthMaster();
+				OnBodyPartRemoved?.Invoke(removedBodyPart);
 				if (SurfaceBodyParts.Contains(removedBodyPart))
 				{
 					SurfaceBodyParts.Remove(removedBodyPart);
@@ -729,23 +734,21 @@ namespace HealthV2
 		/// </summary>
 		public void FireStacksDamage()
 		{
-			if (fireStacks > 0)
+			if (fireStacks <= 0) return;
+			//TODO: Burn clothes (see species.dm handle_fire)
+			ApplyDamageAll(null, fireStacks, AttackType.Fire, DamageType.Burn, true);
+			//gradually deplete fire stacks
+			healthStateController.SetFireStacks(fireStacks - 0.1f);
+			//instantly stop burning if there's no oxygen at this location
+			MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPositionClient); //TODO Account for containers
+			if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
 			{
-				//TODO: Burn clothes (see species.dm handle_fire)
-				ApplyDamageAll(null, fireStacks, AttackType.Fire, DamageType.Burn, true);
-				//gradually deplete fire stacks
-				healthStateController.SetFireStacks(fireStacks - 0.1f);
-				//instantly stop burning if there's no oxygen at this location
-				MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPositionClient); //TODO Account for containers
-				if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
-				{
-					healthStateController.SetFireStacks(0);
-					return;
-				}
-
-				RegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(), 700,
-					true);
+				healthStateController.SetFireStacks(0);
+				return;
 			}
+
+			RegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(), 700,
+				true);
 		}
 
 		/// <summary>
@@ -1117,42 +1120,6 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		/// Does the body part we're targeting suffer from traumatic damage?
-		/// </summary>
-		/// <param name="damageTypeToGet">Trauma damage type</param>
-		/// <param name="partType">targted body part.</param>
-		/// <returns></returns>
-		public bool HasTraumaDamage(BodyPartType partType)
-		{
-			foreach (BodyPart bodyPart in BodyPartList)
-			{
-				if (bodyPart.BodyPartType == partType)
-				{
-					if (bodyPart.CurrentSlashDamageLevel > TraumaDamageLevel.NONE)
-						return true;
-					if (bodyPart.CurrentPierceDamageLevel > TraumaDamageLevel.NONE)
-						return true;
-					if (bodyPart.CurrentBurnDamageLevel > TraumaDamageLevel.NONE)
-						return true;
-					return bodyPart.CurrentBluntDamageLevel != TraumaDamageLevel.NONE;
-				}
-			}
-
-			return false;
-		}
-
-		public void HealTraumaDamage(BodyPartType targetBodyPartToHeal, TraumaticDamageTypes typeToHeal)
-		{
-			foreach (var bodyPart in BodyPartList)
-			{
-				if (bodyPart.BodyPartType == targetBodyPartToHeal)
-				{
-					bodyPart.HealTraumaticDamage(typeToHeal);
-				}
-			}
-		}
-
-		/// <summary>
 		/// Revives a dead player to full health.
 		/// </summary>
 		public void FullyHeal()
@@ -1468,19 +1435,7 @@ namespace HealthV2
 				if (part.IsBleeding)
 				{
 					healthString.Append(
-						$"<color=red>\n {theyPronoun} {part.BodyPartReadableName} is bleeding!</color>");
-				}
-
-				if (part.CurrentSlashDamageLevel >= TraumaDamageLevel.SERIOUS)
-				{
-					healthString.Append(
-						$"<color=red>\n {theyPronoun} {part.BodyPartReadableName} is cut wide open!</color>");
-				}
-
-				if (part.CurrentPierceDamageLevel >= TraumaDamageLevel.SERIOUS)
-				{
-					healthString.Append(
-						$"<color=red>\n {theyPronoun} have a huge hole in their {part.BodyPartReadableName}!</color>");
+						$"<color=red>\n {theyPronoun} {part.gameObject.ExpensiveName()} is bleeding!</color>");
 				}
 			}
 

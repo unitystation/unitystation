@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8248151176931537112}
   - component: {fileID: 6338624737017434410}
   - component: {fileID: 859397022374069695}
+  - component: {fileID: 6260959610955051881}
   m_Layer: 10
   m_Name: Traumas
   m_TagString: Untagged
@@ -49,6 +50,7 @@ MonoBehaviour:
   traumaTypesOnBodyPart:
   - {fileID: 6338624737017434410}
   - {fileID: 859397022374069695}
+  - {fileID: 6260959610955051881}
   bodyPart: {fileID: 7241952607628385263}
 --- !u!114 &6338624737017434410
 MonoBehaviour:
@@ -64,26 +66,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <traumaTypes>k__BackingField: 4
   deadlyDamageInOneHit: 55
-  armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
-    Magic: 0
-    Bio: 0
-    Anomaly: 0
-    DismembermentProtectionChance: 0
-    StunImmunity: 0
-    TemperatureProtectionInK: {x: 268.15, y: 313.15}
-    PressureProtectionInKpa: {x: 30, y: 300}
   bodyPart: {fileID: 7241952607628385263}
   stages:
     m_keys: 01000000020000000300000004000000
-    m_values: 23000000550000007d00000096000000
+    m_values: 320000007d00000096000000c8000000
   bodyPartColorWhenCharred: {r: 0.24528301, g: 0.07762121, b: 0, a: 1}
   bodyPartColorWhenSecondDegreeBurns: {r: 0.6981132, g: 0.38527945, b: 0.38527945,
     a: 1}
@@ -100,29 +86,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbefa1dc9397413d843f8aa0aa0e9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <traumaTypes>k__BackingField: 0
+  <traumaTypes>k__BackingField: 1
   deadlyDamageInOneHit: 55
-  armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
-    Magic: 0
-    Bio: 0
-    Anomaly: 0
-    DismembermentProtectionChance: 0
-    StunImmunity: 0
-    TemperatureProtectionInK: {x: 268.15, y: 313.15}
-    PressureProtectionInKpa: {x: 30, y: 300}
   bodyPart: {fileID: 7241952607628385263}
   stages:
     m_keys: 01000000020000000300000004000000
-    m_values: 2300000055000000640000007d000000
-  minimumDamageToProgressStages: 20
+    m_values: 230000007d000000af000000c8000000
+  minimumDamageToProgressStages: 16
+  healingTimeFirstStage: 20
+  healingTimeSecondStage: 60
+--- !u!114 &6260959610955051881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 89636263594776868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f4811d9f15647899e17db8b443f43ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <traumaTypes>k__BackingField: 8
+  deadlyDamageInOneHit: 55
+  bodyPart: {fileID: 7241952607628385263}
+  stages:
+    m_keys: 010000000200000003000000
+    m_values: 41000000730000009b000000
+  minimumDamage: 14
+  internalDamagePerStage:
+    m_keys: 010000000200000003000000
+    m_values:
+    - Damage: 3
+      TimeForDamage: 45
+    - Damage: 6
+      TimeForDamage: 25
+    - Damage: 8
+      TimeForDamage: 18
 --- !u!1001 &8339248978158643673
 PrefabInstance:
   m_ObjectHideFlags: 0

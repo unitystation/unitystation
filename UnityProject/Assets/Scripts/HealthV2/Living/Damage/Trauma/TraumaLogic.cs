@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace HealthV2
@@ -9,7 +9,6 @@ namespace HealthV2
 		public TraumaticDamageTypes traumaTypes { get; private set; } = TraumaticDamageTypes.NONE;
 
 		[SerializeField] protected float deadlyDamageInOneHit = 55f;
-		[SerializeField] protected Armor armor;
 		[SerializeField] protected BodyPart bodyPart;
 
 		protected int currentStage = 0;
@@ -21,9 +20,15 @@ namespace HealthV2
 
 		protected bool RollForArmor(float damage) => true;
 		public virtual void ProgressDeadlyEffect() { }
-		public virtual void HealStage() { }
+
+		public virtual void HealStage()
+		{
+			currentStage--;
+			currentStage = Mathf.Clamp(currentStage, 0, stages.Count - 1);
+		}
 		public virtual void OnTakeDamage(float damage, DamageType damageType, AttackType attackType)
 		{
+			if ( bodyPart.HealthMaster == null ) return;
 			if ( damage >= deadlyDamageInOneHit ) ProgressDeadlyEffect();
 		}
 

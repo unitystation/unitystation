@@ -92,11 +92,11 @@ namespace Items.Medical
 
 			if (interaction.IsAltClick && AdvancedHealthScanner)
 			{
-				foreach(BodyPart part in health.BodyPartList)
+				foreach (BodyPart part in health.BodyPartList)
 				{
 					if(part.BodyPartType == interaction.TargetBodyPart)
 					{
-						scanMessage.AppendLine(part.GetFullBodyPartDamageDescReport());
+						//scanMessage.AppendLine(part.GetFullBodyPartDamageDescReport());
 					}
 				}
 			}
@@ -107,7 +107,7 @@ namespace Items.Medical
 			{
 				if ( bodypart.DamageContributesToOverallHealth) continue;
 				if (bodypart.TotalDamage == 0) continue;
-				
+
 				partMessages.AppendLine(GetBodypartMessage(bodypart));
 			}
 

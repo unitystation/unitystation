@@ -387,20 +387,6 @@ namespace HealthV2
 			{
 				DamageOrgans(damage, attackType, damageType, organDamageSplit, armorPenetration);
 			}
-
-			if(damage < damageThreshold) return; //Do not apply traumas if the damage is not serious.
-			if(attackType == AttackType.Bomb)
-			{
-				TakeBluntDamage();
-				DismemberBodyPartWithChance();
-			}
-
-			if (damageType == DamageType.Burn || attackType == AttackType.Fire ||
-			    attackType == AttackType.Laser || attackType == AttackType.Energy)
-			{
-				ApplyTraumaDamage(TraumaticDamageTypes.BURN);
-			}
-
 		}
 
 		private void DamageOrgans(float damage, AttackType attackType, DamageType damageType, bool organDamageSplit, float armorPenetration)
@@ -501,7 +487,6 @@ namespace HealthV2
 			if (severity <= 0)
 			{
 				Severity = DamageSeverity.None;
-				currentPierceDamageLevel = TraumaDamageLevel.NONE;
 			}
 			// If the limb is under 10% damage
 			else if (severity < 0.1)
