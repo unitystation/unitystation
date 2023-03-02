@@ -52,7 +52,7 @@ namespace Player
 		[Command]
 		private void CmdServerSetupPlayer(string currentScene)
 		{
-			ClearCache();
+			ClearCache(true);
 			ServerSetUpPlayer(currentScene);
 		}
 
@@ -92,6 +92,7 @@ namespace Player
 			{
 				Logger.Log(
 					$"A client attempted to set up their server player object but they haven't authenticated yet! Address: {connectionToClient.address}.");
+				ClearCache();
 				return;
 			}
 
@@ -106,8 +107,12 @@ namespace Player
 				if (GameData.Instance.DevBuild == false)
 				{
 					Existingplayer = PlayerList.Instance.GetLoggedOnClient(authData.ClientId, authData.AccountId);
-					Logger.LogError($"Disconnecting player {Existingplayer?.Name} via Disconnect previous Using account/mac Address ");
-					Existingplayer?.GameObject.OrNull()?.GetComponent<NetworkIdentity>().OrNull()?.connectionToClient?.Disconnect();
+
+					if (Existingplayer.Connection != connectionToClient)
+					{
+						Logger.LogError($"Disconnecting player {Existingplayer?.Name} via Disconnect previous Using account/mac Address ");
+						Existingplayer.Connection?.Disconnect();
+					}
 				}
 			}
 
@@ -180,6 +185,7 @@ namespace Player
 			{
 				Logger.LogError($"Disconnecting {this.STVerifiedUserid} by Trying to call CMDFinishLoading When server wasn't expecting player to be loading  ", Category.Connections);
 				connectionToClient.Disconnect();
+				ClearCache();
 				return;
 			}
 
@@ -194,16 +200,22 @@ namespace Player
 			ClientFinishLoading();
 		}
 
-		public void ClearCache()
+		public void ClearCache(bool bNew = false)
 		{
 			IsValidPlayerAndWaitingOnLoad = false;
 			STUnverifiedClientId = null;
 			STVerifiedUserid = null;
 			STVerifiedConnPlayer = null;
+			if (bNew == false)
+			{
+				_ = Despawn.ServerSingle(this.gameObject);
+			}
+
 		}
 
 		public void ClientFinishLoading()
 		{
+			IsValidPlayerAndWaitingOnLoad = false;
 			// Only sync the pre-round countdown if it's already started.
 			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound)
 			{
@@ -250,6 +262,7 @@ namespace Player
 				                "Cannot rejoin that player. Was original player object improperly created? " +
 				                "Did we get runtime error while creating it?", Category.Connections);
 				// TODO: if this issue persists, should probably send the poor player a message about failing to rejoin.
+				ClearCache();
 				yield break;
 			}
 
@@ -259,6 +272,7 @@ namespace Player
 				if (connectionToClient == null)
 				{
 					//disconnected while we were waiting
+					ClearCache();
 					yield break;
 				}
 			}
@@ -266,7 +280,6 @@ namespace Player
 			TargetLocalPlayerRejoinUI(connectionToClient);
 			STVerifiedConnPlayer.Mind.OrNull()?.ReLog();
 			ClearCache();
-			_ = Despawn.ServerSingle(this.gameObject);
 		}
 
 		[TargetRpc]
