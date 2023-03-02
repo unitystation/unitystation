@@ -39,6 +39,11 @@ public class SaturationComponent : BodyPartComponentBase
 	[FormerlySerializedAs("ReagentCirculated")] [HideInInspector]
 	public ReagentCirculatedComponent reagentCirculatedComponent;
 
+
+	public float currentBloodSaturation = 0;
+
+	public float CurrentBloodSaturation => currentBloodSaturation;
+
 	public override void Awake()
 	{
 		base.Awake();

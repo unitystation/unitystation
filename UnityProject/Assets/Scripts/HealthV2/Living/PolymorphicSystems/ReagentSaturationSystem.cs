@@ -9,8 +9,8 @@ public class ReagentSaturationSystem : HealthSystemBase
 {
 	private ReagentPoolSystem _reagentPoolSystem;
 
-	public Dictionary<BloodType, Dictionary<Reagent, CirculatorySystemBase.ReagentWithBodyParts>> SaturationToConsume =
-		new Dictionary<BloodType, Dictionary<Reagent, CirculatorySystemBase.ReagentWithBodyParts>>();
+	public Dictionary<BloodType, Dictionary<Reagent, ReagentWithBodyParts>> SaturationToConsume =
+		new Dictionary<BloodType, Dictionary<Reagent, ReagentWithBodyParts>>();
 
 
 	public List<SaturationComponent> BodyParts;
@@ -25,6 +25,14 @@ public class ReagentSaturationSystem : HealthSystemBase
 		return new ReagentSaturationSystem()
 		{
 		};
+	}
+
+	public class ReagentWithBodyParts
+	{
+		public float Percentage;
+		public float TotalNeeded;
+		public List<SaturationComponent> RelatedBodyParts = new List<SaturationComponent>();
+		public Dictionary<Reagent, ReagentWithBodyParts> ReplacesWith = new Dictionary<Reagent, ReagentWithBodyParts>();
 	}
 
 	public override void BodyPartAdded(BodyPart bodyPart)
@@ -59,17 +67,17 @@ public class ReagentSaturationSystem : HealthSystemBase
 			if (SaturationToConsume.ContainsKey(bodyPart.bloodType) == false)
 			{
 				SaturationToConsume[bodyPart.bloodType] =
-					new Dictionary<Reagent, CirculatorySystemBase.ReagentWithBodyParts>();
+					new Dictionary<Reagent, ReagentWithBodyParts>();
 			}
 
 			if (SaturationToConsume[bodyPart.bloodType].ContainsKey(bodyPart.requiredReagent) == false)
 			{
 				SaturationToConsume[bodyPart.bloodType][bodyPart.requiredReagent] =
-					new CirculatorySystemBase.ReagentWithBodyParts();
+					new ReagentWithBodyParts();
 			}
 
 			var requiredReagent = SaturationToConsume[bodyPart.bloodType][bodyPart.requiredReagent];
-			requiredReagent.RelatedBodyParts.Add(bodyPart.RelatedPart);
+			requiredReagent.RelatedBodyParts.Add(bodyPart);
 
 			requiredReagent.TotalNeeded += bodyPart.bloodReagentConsumedPercentageb * bodyPart.reagentCirculatedComponent.Throughput;
 
@@ -81,7 +89,7 @@ public class ReagentSaturationSystem : HealthSystemBase
 				if (requiredReagent.ReplacesWith.ContainsKey(bodyPart.wasteReagent) == false)
 				{
 					requiredReagent.ReplacesWith[bodyPart.wasteReagent] =
-						new CirculatorySystemBase.ReagentWithBodyParts();
+						new ReagentWithBodyParts();
 				}
 
 				requiredReagent.ReplacesWith[bodyPart.wasteReagent].TotalNeeded +=
@@ -101,6 +109,8 @@ public class ReagentSaturationSystem : HealthSystemBase
 
 		BloodSaturationCalculations(HeartEfficiency);
 	}
+
+
 
 	public void BloodSaturationCalculations(float HeartEfficiency)
 	{
@@ -197,7 +207,7 @@ public class ReagentSaturationSystem : HealthSystemBase
 				foreach (var bodyPart in KVP.Value.RelatedBodyParts)
 				{
 					bodyPart.currentBloodSaturation = bloodSaturation;
-					bodyPart.TakeDamage(null, damage, AttackType.Internal, DamageType.Oxy, DamageSubOrgans: false);
+					bodyPart.RelatedPart.TakeDamage(null, damage, AttackType.Internal, DamageType.Oxy, DamageSubOrgans: false);
 				}
 			}
 		}
