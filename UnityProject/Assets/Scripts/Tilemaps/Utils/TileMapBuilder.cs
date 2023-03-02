@@ -52,7 +52,10 @@ public class TileMapBuilder
 		{
 			foreach (LayerTile requiredTile in tile.RequiredTiles)
 			{
-				SetTile(position, requiredTile, matrixTransform);
+				if (metaTileMap.HasTile(position, requiredTile.LayerType) == false)
+				{
+					SetTile(position, requiredTile, matrixTransform);
+				}
 			}
 
 			metaTileMap.SetTile(position, tile, matrixTransform);
