@@ -32,7 +32,7 @@ public class PlayerInfo
 	/// <summary>The player script for the player while in the game.</summary>
 	public PlayerScript Script => GameObject.OrNull()?.GetComponent<PlayerScript>();
 	/// <summary>The player script for the player while in the lobby.</summary>
-	public JoinedViewer ViewerScript { get; private set; }
+	public JoinedViewer ViewerScript { get;  set; }
 
 	public Mind Mind { get; private set; }
 

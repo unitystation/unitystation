@@ -435,6 +435,14 @@ public static class PlayerSpawn
 
 		if (to)
 		{
+
+			if (account.ViewerScript != null)
+			{
+				_ = Despawn.ServerSingle(account.ViewerScript.gameObject);
+				account.ViewerScript = null;
+			}
+
+
 			var netIdentity = to.GetComponent<NetworkIdentity>();
 			if (netIdentity.connectionToClient != null && to.connectionToClient != account.Connection)
 			{

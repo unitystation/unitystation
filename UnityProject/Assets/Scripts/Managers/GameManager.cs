@@ -511,7 +511,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		catch (Exception e)
 		{
 			Logger.LogError("Failed to log Players antagonist preferences" + e.ToString());
-			throw;
 		}
 
 
@@ -538,7 +537,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		catch (Exception e)
 		{
 			Logger.LogError("Failed to GameMode.SetupRound(); " + e.ToString());
-			throw;
 		}
 
 

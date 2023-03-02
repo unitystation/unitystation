@@ -107,7 +107,7 @@ namespace Player
 				if (GameData.Instance.DevBuild == false)
 				{
 					Existingplayer = PlayerList.Instance.GetLoggedOnClient(authData.ClientId, authData.AccountId);
-          
+
 					if (Existingplayer != null && Existingplayer.Connection != connectionToClient)
 					{
 						Logger.LogError($"Disconnecting player {Existingplayer?.Name} via Disconnect previous Using account/mac Address ");
@@ -239,7 +239,7 @@ namespace Player
 			if (STVerifiedConnPlayer.Mind == null) //TODO Handle when someone gets kicked out of their mind
 			{
 				TargetLocalPlayerSetupNewPlayer(connectionToClient, GameManager.Instance.CurrentRoundState);
-				ClearCache();
+				ClearCache(true);
 			}
 			else
 			{

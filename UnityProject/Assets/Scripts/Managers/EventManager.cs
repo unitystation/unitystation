@@ -96,9 +96,16 @@ public class EventManager : MonoBehaviour
 		}
 		else
 		{
-			for (int i = 0, max = eventTable[evnt].Count; i < max; i++)
+			for (int i =  eventTable[evnt].Count - 1; i >= 0; i--)
 			{
-				eventTable[evnt][i]();
+				try
+				{
+					eventTable[evnt][i]();
+				}
+				catch (Exception e)
+				{
+					Logger.LogError(e.ToString());
+				}
 			}
 		}
 	}
