@@ -59,7 +59,7 @@ public class OreBox : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 		var itemObject = interaction.HandSlot.ItemObject;
 		if (Validations.HasItemTrait(itemObject, CommonTraits.Instance.Crowbar) || (interaction.HandSlot.ItemObject == null && interaction.IsAltClick))
 		{
-			Chat.AddActionMsgToChat(interaction.Performer.gameObject, $"You empty out the {this.name} Quickly", $" {interaction.Performer} empties out the {this.name} Quickly");
+			Chat.AddActionMsgToChat(interaction.Performer.gameObject, $"You empty out the {this.gameObject.ExpensiveName()} Quickly", $" {interaction.Performer} empties out the {this.gameObject.ExpensiveName()} Quickly");
 			oreBoxItemStorage.ServerDropAllAtWorld(interaction.Performer.AssumedWorldPosServer());
 		}
 		else if (Validations.HasItemTrait(itemObject, CommonTraits.Instance.OreGeneral))
