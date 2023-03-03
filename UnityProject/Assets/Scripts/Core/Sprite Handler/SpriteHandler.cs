@@ -763,7 +763,10 @@ public class SpriteHandler : MonoBehaviour
 			}
 		}
 
-		new List<Action<Sprite>>(OnSpriteChanged?.ToArray()).ForEach(u => u(value));
+		for (int i = OnSpriteChanged.Count - 1; i >= 0; i--)
+		{
+			OnSpriteChanged[i].Invoke(value);
+		}
 	}
 
 	protected virtual bool HasSpriteInImageComponent()

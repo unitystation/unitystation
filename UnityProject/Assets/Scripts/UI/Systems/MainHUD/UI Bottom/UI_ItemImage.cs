@@ -295,6 +295,8 @@ public class UI_ItemImage
 				// subscribe to new handler changes
 				if (handler)
 				{
+					OnHandlerSpriteChanged(handler.CurrentSprite);
+					OnHandlerColorChanged(handler.CurrentColor);
 					handler.OnSpriteChanged.Add(OnHandlerSpriteChanged);
 					handler.OnColorChanged.Add(OnHandlerColorChanged);
 				}
@@ -342,6 +344,8 @@ public class UI_ItemImage
 
 		internal void Clear()
 		{
+			OnHandlerSpriteChanged(null);
+			OnHandlerColorChanged(Color.white);
 			handler.OnSpriteChanged.Remove(OnHandlerSpriteChanged);
 			handler.OnColorChanged.Remove(OnHandlerColorChanged);
 		}
