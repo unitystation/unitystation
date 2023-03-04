@@ -76,14 +76,6 @@ namespace HealthV2.TraumaTypes
 						$"{bodyPart.gameObject.ExpensiveName()} has all of its insides exposed!</color></size>");
 					StopCoroutine(nameof(NaturalHealing));
 					break;
-				case 4:
-					if (DMMath.Prob(75))
-					{
-						currentStage = 3;
-						return;
-					}
-					bodyPart.TryRemoveFromBody();
-					break;
 			}
 
 			foreach (var organ in bodyPart.OrganList)
