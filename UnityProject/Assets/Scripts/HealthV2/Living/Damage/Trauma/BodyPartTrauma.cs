@@ -40,5 +40,13 @@ namespace HealthV2
 				if (traumaticTypes.HasFlag(logic.traumaTypes)) logic.OnTakeDamage(damage, damageType, attackType);
 			}
 		}
+
+		public void HealTraumaStage(TraumaticDamageTypes traumaToHeal)
+		{
+			foreach (var logic in traumaTypesOnBodyPart)
+			{
+				if (traumaToHeal.HasFlag(logic.traumaTypes)) logic.HealStage();
+			}
+		}
 	}
 }

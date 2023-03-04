@@ -736,7 +736,7 @@ namespace HealthV2
 		{
 			if (fireStacks <= 0) return;
 			//TODO: Burn clothes (see species.dm handle_fire)
-			ApplyDamageAll(null, fireStacks, AttackType.Fire, DamageType.Burn, true);
+			ApplyDamageAll(null, fireStacks, AttackType.Fire, DamageType.Burn, true, TraumaticDamageTypes.BURN);
 			//gradually deplete fire stacks
 			healthStateController.SetFireStacks(fireStacks - 0.1f);
 			//instantly stop burning if there's no oxygen at this location
@@ -959,7 +959,7 @@ namespace HealthV2
 		/// <param name="damageSplit">Should the damage be divided by number of body parts or applied to each body part separately</param>
 		[Server]
 		public void ApplyDamageAll(GameObject damagedBy, float damage, AttackType attackType, DamageType damageType,
-			bool damageSplit = true)
+			bool damageSplit = true, TraumaticDamageTypes traumaticDamageTypes = TraumaticDamageTypes.NONE, double traumaChance = 50)
 		{
 			if (damageSplit)
 			{
@@ -969,7 +969,8 @@ namespace HealthV2
 
 			foreach (var bodyPart in SurfaceBodyParts.ToArray())
 			{
-				bodyPart.TakeDamage(damagedBy, damage, attackType, damageType, damageSplit);
+				bodyPart.TakeDamage(damagedBy, damage, attackType, damageType, damageSplit,
+					default, default, traumaChance, traumaticDamageTypes);
 			}
 
 			if (damageType == DamageType.Brute)
@@ -1310,9 +1311,20 @@ namespace HealthV2
 			healthStateController.SetFireStacks(Mathf.Clamp((fireStacks + deltaValue), 0, maxFireStacks));
 		}
 
+		/// <summary>
+		/// Adds a number of bleed stacks on the creature. Use negative numbers to reduce the number of stacks.
+		/// </summary>
 		public void ChangeBleedStacks(float deltaValue)
 		{
 			healthStateController.SetBleedStacks(Mathf.Clamp((BleedStacks + deltaValue), 0, maxBleedStacks));
+		}
+
+		/// <summary>
+		/// Forces a number of bleed stacks on the creature.
+		/// </summary>
+		public void SetBleedStacks(float deltaValue)
+		{
+			healthStateController.SetBleedStacks(Mathf.Clamp(deltaValue, 0, maxBleedStacks));
 		}
 
 		/// <summary>

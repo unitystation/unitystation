@@ -20,7 +20,7 @@ namespace HealthV2.TraumaTypes
 			if ( damage < minimumDamageToProgressStages ) return;
 			if ( attackType is not (AttackType.Bullet or AttackType.Melee) ) return;
 			if ( damageType is not (DamageType.Brute or DamageType.Burn) ) return;
-			if ( CheckArmourStatus() ) return;
+			if ( CheckArmourStatus() == false ) return;
 			GenericStageProgression();
 		}
 

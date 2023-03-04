@@ -6,7 +6,7 @@ namespace HealthV2
 {
 	public class CreatureTraumaManager : MonoBehaviour
 	{
-		public List<BodyPartTrauma> Traumas { get; private set; } = new List<BodyPartTrauma>();
+		public Dictionary<BodyPart, BodyPartTrauma> Traumas { get; private set; } = new Dictionary<BodyPart, BodyPartTrauma>();
 		[SerializeField] private LivingHealthMasterBase health;
 
 
@@ -28,9 +28,15 @@ namespace HealthV2
 			foreach (var bodyPart in health.BodyPartList)
 			{
 				var hasTrauma = bodyPart.GetComponentInChildren<BodyPartTrauma>();
-				if (hasTrauma == null || Traumas.Contains(hasTrauma)) continue;
-				Traumas.Add(hasTrauma);
+				if (hasTrauma == null || Traumas.ContainsValue(hasTrauma)) continue;
+				Traumas.Add(bodyPart, hasTrauma);
 			}
+		}
+
+		public void HealBodyPartTrauma(BodyPart bodyPart, TraumaticDamageTypes traumaToHeal)
+		{
+			if (bodyPart == null || Traumas.ContainsKey(bodyPart) == false) return;
+			Traumas[bodyPart].HealTraumaStage(traumaToHeal);
 		}
 
 		private BodyPartTrauma CheckBodyPart(BodyPart bodyPart)
@@ -42,14 +48,14 @@ namespace HealthV2
 		{
 			var trauma = CheckBodyPart(bodyPart);
 			if ( trauma == null ) return;
-			Traumas.Add(trauma);
+			Traumas.Add(bodyPart, trauma);
 		}
 
 		private void OnBodyPartRemoved(BodyPart bodyPart)
 		{
 			var trauma = CheckBodyPart(bodyPart);
-			if ( trauma == null || Traumas.Contains(trauma) == false ) return;
-			Traumas.Remove(trauma);
+			if ( trauma == null || Traumas.ContainsValue(trauma) == false ) return;
+			Traumas.Remove(bodyPart);
 		}
 	}
 }

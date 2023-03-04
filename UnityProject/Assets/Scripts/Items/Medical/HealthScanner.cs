@@ -116,9 +116,9 @@ namespace Items.Medical
 		private string GetTraumaText(CreatureTraumaManager creatureTrauma)
 		{
 			var traumaText = new StringBuilder();
-			foreach (BodyPartTrauma part in creatureTrauma.Traumas)
+			foreach (BodyPartTrauma part in creatureTrauma.Traumas.Values)
 			{
-				foreach (var traumaLogic in part.TraumaTypesOnBodyPart)
+				foreach (TraumaLogic traumaLogic in part.TraumaTypesOnBodyPart)
 				{
 					if (traumaLogic.StageDescriptor() != null) traumaText.AppendLine(traumaLogic.StageDescriptor());
 				}

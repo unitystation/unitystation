@@ -11,15 +11,13 @@ namespace Items.Medical
 	public class Gauze : HealsTheLiving
 	{
 
+		[SerializeField] private float gauzeApplyTime = 1.2f;
+
 		public override bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
-			//can only be applied to LHB
-			if (!Validations.HasComponent<LivingHealthMasterBase>(interaction.TargetObject)) return false;
-
-			if(interaction.Intent != Intent.Help) return false;
-
-			return true;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			if (Validations.HasComponent<LivingHealthMasterBase>(interaction.TargetObject) == false) return false;
+			return interaction.Intent == Intent.Help;
 		}
 
 		public override void ServerPerformInteraction(HandApply interaction)
@@ -27,8 +25,15 @@ namespace Items.Medical
 			var LHB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 			if (LHB.BleedStacks > 0)
 			{
-				LHB.ChangeBleedStacks(-2f);
-				stackable.ServerConsume(1);
+				StandardProgressAction action = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.CPR, true),
+					() =>
+					{
+						LHB.SetBleedStacks(LHB.BleedStacks > 2 ? LHB.BleedStacks / 2 : 0);
+						stackable.ServerConsume(1);
+						Chat.AddActionMsgToChat(interaction.Performer, $"{interaction.PerformerPlayerScript.visibleName} applies the gauze.");
+						if (HasTrauma(LHB)) HealTrauma(LHB);
+					});
+				action.ServerStartProgress(interaction.PerformerPlayerScript.gameObject.AssumedWorldPosServer(), gauzeApplyTime, interaction.Performer);
 			}
 			else if (CheckForBleedingBodyContainers(LHB, interaction))
 			{
