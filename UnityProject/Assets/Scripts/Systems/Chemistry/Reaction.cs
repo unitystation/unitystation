@@ -27,11 +27,11 @@ namespace Chemistry
 		public float? tempMin;
 		public float? tempMax;
 
-		public virtual bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
+		public virtual bool Apply(object sender, ReagentMix reagentMix)
 		{
 			if (IsReactionValid(reagentMix) == false) return false;
 
-			ApplyReaction(sender, reagentMix);
+			ApplyReaction(sender as MonoBehaviour, reagentMix);
 
 			return true;
 		}

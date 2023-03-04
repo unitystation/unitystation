@@ -59,7 +59,14 @@ public class HungerComponent : BodyPartComponentBase
 		}
 	}
 
-	public float BloodThroughput => reagentCirculatedComponent.Throughput;
+	public float BloodThroughput
+	{
+		get
+		{
+			if (reagentCirculatedComponent == null) return 1;
+			return reagentCirculatedComponent.Throughput;
+		}
+	}
 
 	public override void Awake()
 	{

@@ -476,15 +476,16 @@ namespace HealthV2
 			{
 				foreach (var bodyPart in SurfaceBodyParts)
 				{
-					if (bodyPart.ItemAttributes.HasAllTraits(externalReaction.ExternalAllRequired) &&
-					    bodyPart.ItemAttributes.HasAnyTrait(externalReaction.ExternalBlacklist) == false)
+					if (bodyPart.ItemAttributes.HasAllTraits(externalReaction.ExternalAllRequired)
+					    && bodyPart.ItemAttributes.HasAnyTrait(externalReaction.ExternalBlacklist) == false
+					    && bodyPart.TryGetComponent<BodyPart>(out var MetabolismComponent))
 					{
 						if (PrecalculatedMetabolismReactions.ContainsKey(externalReaction) == false)
 						{
 							PrecalculatedMetabolismReactions[externalReaction] = new List<BodyPart>();
 						}
 
-						PrecalculatedMetabolismReactions[externalReaction].Add(bodyPart);
+						PrecalculatedMetabolismReactions[externalReaction].Add(MetabolismComponent);
 					}
 				}
 			}

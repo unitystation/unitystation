@@ -25,7 +25,7 @@ public class MetabolismReaction : Reaction
 	//public List<ItemTrait> SingleRequired = new List<ItemTrait>(); TODO add ability to Apply to multiple tags
 	public List<ItemTrait> ExternalBlacklist  = new List<ItemTrait>();
 
-	public override bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
+	public override bool Apply(object sender, ReagentMix reagentMix)
 	{
 		if (IsReactionValid(reagentMix) == false)
 		{

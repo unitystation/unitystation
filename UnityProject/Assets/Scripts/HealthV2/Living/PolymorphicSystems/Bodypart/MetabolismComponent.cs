@@ -32,6 +32,21 @@ public class MetabolismComponent : BodyPartComponentBase
 	}
 
 
+	public float GetThroughput
+	{
+		get
+		{
+			if (reagentCirculatedComponent != null)
+			{
+				return reagentCirculatedComponent.Throughput;
+			}
+			else
+			{
+				return 1;
+			}
+		}
+	}
+
 	public override void Awake()
 	{
 		base.Awake();
