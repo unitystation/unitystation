@@ -18,7 +18,9 @@ namespace HealthV2
 		/// </summary>
 		[SerializeField] protected SerializableDictionary<int, int> stages;
 
-		protected bool RollForArmor(float damage) => true;
+		/// <summary>
+		/// Used to apply the effects of the next trauma stage.
+		/// </summary>
 		public virtual void ProgressDeadlyEffect() { }
 
 		public virtual void HealStage()
@@ -27,6 +29,11 @@ namespace HealthV2
 			currentStage = Mathf.Clamp(currentStage, 0, stages.Count - 1);
 		}
 
+		/// <summary>
+		/// Trauma damage initiator, checks if all the requirements are met stage progression.
+		/// And can house different functionalities based on the trauma's behavior.
+		/// </summary>
+		/// <param name="data"></param>
 		public virtual void OnTakeDamage(BodyPartDamageData data)
 		{
 			if ( bodyPart.HealthMaster == null ) return;
@@ -34,6 +41,9 @@ namespace HealthV2
 			if ( data.DamageAmount >= deadlyDamageInOneHit ) ProgressDeadlyEffect();
 		}
 
+		/// <summary>
+		/// The most basic of stage progression checks. Uses the body's total damage to move forward.
+		/// </summary>
 		protected void GenericStageProgression()
 		{
 			Debug.Log($"{currentStage} - {bodyPart.TotalDamage} / {stages[currentStage + 1]}");

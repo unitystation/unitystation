@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 6338624737017434410}
   - component: {fileID: 859397022374069695}
   - component: {fileID: 6260959610955051881}
+  - component: {fileID: 6098588744699528211}
+  - component: {fileID: 2344083342784665871}
   m_Layer: 10
   m_Name: Traumas
   m_TagString: Untagged
@@ -51,6 +53,8 @@ MonoBehaviour:
   - {fileID: 6338624737017434410}
   - {fileID: 859397022374069695}
   - {fileID: 6260959610955051881}
+  - {fileID: 6098588744699528211}
+  - {fileID: 2344083342784665871}
   bodyPart: {fileID: 7241952607628385263}
 --- !u!114 &6338624737017434410
 MonoBehaviour:
@@ -123,6 +127,45 @@ MonoBehaviour:
       TimeForDamage: 25
     - Damage: 8
       TimeForDamage: 18
+--- !u!114 &6098588744699528211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 89636263594776868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81e8c75aad164fdaae489c366f3c1a77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <traumaTypes>k__BackingField: 2
+  deadlyDamageInOneHit: 55
+  bodyPart: {fileID: 7241952607628385263}
+  stages:
+    m_keys: 010000000200000003000000
+    m_values: 2300000091000000c8000000
+  minimumDamageToProgressStages: 16
+  healingTimeFirstStage: 15
+  healingTimeSecondStage: 45
+--- !u!114 &2344083342784665871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 89636263594776868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0b6f9c8a1b04979a8bbf068f12f703a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <traumaTypes>k__BackingField: 0
+  deadlyDamageInOneHit: 25
+  bodyPart: {fileID: 7241952607628385263}
+  stages:
+    m_keys: 01000000
+    m_values: 19000000
 --- !u!1001 &8339248978158643673
 PrefabInstance:
   m_ObjectHideFlags: 0
