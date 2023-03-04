@@ -4,9 +4,11 @@
 	{
 		public override void OnTakeDamage(BodyPartDamageData data)
 		{
+			if ( data.TramuticDamageType != TraumaticDamageTypes.NONE ) return;
 			if ( data.AttackType != AttackType.Bomb ) return;
 			if ( deadlyDamageInOneHit > data.DamageAmount ) return;
 			if ( DMMath.Prob(GetBombProtectionPercentage()) ) return;
+			if ( DMMath.Prob(data.TraumaDamageChance) == false ) return;
 			ProgressDeadlyEffect();
 		}
 
