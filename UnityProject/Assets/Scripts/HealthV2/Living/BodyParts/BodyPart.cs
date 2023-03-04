@@ -368,7 +368,7 @@ namespace HealthV2
 					HealthMaster.Death();
 				}
 
-				if (beingGibbed == false)
+				if (beingGibbed)
 				{
 					HealthMaster.OnGib();
 				}
