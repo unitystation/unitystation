@@ -1,5 +1,171 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1184948361678666440
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6261603888642619574}
+  - component: {fileID: 3175773726620761552}
+  - component: {fileID: 2728592379231489674}
+  - component: {fileID: 6102157500274823570}
+  - component: {fileID: 4434023247273284483}
+  - component: {fileID: 1058680709829996922}
+  - component: {fileID: 7822575272286095514}
+  m_Layer: 10
+  m_Name: Traumas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6261603888642619574
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184948361678666440}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2815555166148818142}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3175773726620761552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184948361678666440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a35915b45cb54b97bc3c38a21c1d3209, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  traumaTypesOnBodyPart:
+  - {fileID: 2728592379231489674}
+  - {fileID: 6102157500274823570}
+  - {fileID: 4434023247273284483}
+  - {fileID: 1058680709829996922}
+  - {fileID: 7822575272286095514}
+  bodyPart: {fileID: 1673759363237950006}
+--- !u!114 &2728592379231489674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184948361678666440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f6beaddc22e42f485e6e754bba9cb9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <traumaTypes>k__BackingField: 4
+  deadlyDamageInOneHit: 55
+  bodyPart: {fileID: 1673759363237950006}
+  stages:
+    m_keys: 01000000020000000300000004000000
+    m_values: 320000007d00000096000000c8000000
+  bodyPartColorWhenCharred: {r: 0.24528301, g: 0.07762121, b: 0, a: 1}
+  bodyPartColorWhenSecondDegreeBurns: {r: 0.6981132, g: 0.38527945, b: 0.38527945,
+    a: 1}
+  bodyPartColorWhenThirdBurns: {r: 0.8773585, g: 0.1779548, b: 0.28664598, a: 1}
+--- !u!114 &6102157500274823570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184948361678666440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbefa1dc9397413d843f8aa0aa0e9a2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <traumaTypes>k__BackingField: 1
+  deadlyDamageInOneHit: 55
+  bodyPart: {fileID: 1673759363237950006}
+  stages:
+    m_keys: 01000000020000000300000004000000
+    m_values: 230000007d000000af000000c8000000
+  minimumDamageToProgressStages: 16
+  healingTimeFirstStage: 20
+  healingTimeSecondStage: 60
+--- !u!114 &4434023247273284483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184948361678666440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f4811d9f15647899e17db8b443f43ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <traumaTypes>k__BackingField: 8
+  deadlyDamageInOneHit: 55
+  bodyPart: {fileID: 1673759363237950006}
+  stages:
+    m_keys: 010000000200000003000000
+    m_values: 41000000730000009b000000
+  minimumDamage: 14
+  internalDamagePerStage:
+    m_keys: 010000000200000003000000
+    m_values:
+    - Damage: 3
+      TimeForDamage: 45
+    - Damage: 6
+      TimeForDamage: 25
+    - Damage: 8
+      TimeForDamage: 18
+--- !u!114 &1058680709829996922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184948361678666440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81e8c75aad164fdaae489c366f3c1a77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <traumaTypes>k__BackingField: 2
+  deadlyDamageInOneHit: 55
+  bodyPart: {fileID: 1673759363237950006}
+  stages:
+    m_keys: 010000000200000003000000
+    m_values: 2300000091000000c8000000
+  minimumDamageToProgressStages: 16
+  healingTimeFirstStage: 15
+  healingTimeSecondStage: 45
+--- !u!114 &7822575272286095514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184948361678666440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0b6f9c8a1b04979a8bbf068f12f703a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <traumaTypes>k__BackingField: 0
+  deadlyDamageInOneHit: 30
+  bodyPart: {fileID: 1673759363237950006}
+  stages:
+    m_keys: 01000000
+    m_values: 1e000000
 --- !u!1001 &3973776844980201138
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -190,3 +356,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1162a9966a460f940a18b4d183b04c30, type: 3}
+--- !u!114 &1673759363237950006 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+    type: 3}
+  m_PrefabInstance: {fileID: 3973776844980201138}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &2815555166148818142 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1168521912962732652, guid: 1162a9966a460f940a18b4d183b04c30,
+    type: 3}
+  m_PrefabInstance: {fileID: 3973776844980201138}
+  m_PrefabAsset: {fileID: 0}

@@ -46,7 +46,6 @@ namespace HealthV2
 		/// </summary>
 		protected void GenericStageProgression()
 		{
-			Debug.Log($"{currentStage} - {bodyPart.TotalDamage} / {stages[currentStage + 1]}");
 			if (bodyPart.TotalDamage >= stages[currentStage + 1]) ProgressDeadlyEffect();
 		}
 

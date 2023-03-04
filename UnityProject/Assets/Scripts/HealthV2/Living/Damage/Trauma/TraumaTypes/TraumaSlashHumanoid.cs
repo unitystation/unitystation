@@ -6,7 +6,6 @@ namespace HealthV2.TraumaTypes
 {
 	public class TraumaSlashHumanoid : TraumaLogic
 	{
-
 		[SerializeField] private float minimumDamageToProgressStages = 18f;
 		[SerializeField] private float healingTimeFirstStage = 20f;
 		[SerializeField] private float healingTimeSecondStage = 60f;
@@ -45,7 +44,6 @@ namespace HealthV2.TraumaTypes
 
 		public override void ProgressDeadlyEffect()
 		{
-			base.ProgressDeadlyEffect();
 			currentStage++;
 			switch (currentStage)
 			{
@@ -74,7 +72,7 @@ namespace HealthV2.TraumaTypes
 					StopCoroutine(nameof(NaturalHealing));
 					break;
 				case 4:
-					if (DMMath.Prob(75))
+					if (DMMath.Prob(75) || bodyPart.BodyPartType == BodyPartType.Chest)
 					{
 						currentStage = 3;
 						return;

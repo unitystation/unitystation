@@ -81,7 +81,7 @@ namespace HealthV2.TraumaTypes
 		private void AshBodyPart()
 		{
 
-			if (bodyPart.BodyPartType == BodyPartType.Chest || bodyPart.BodyPartType == BodyPartType.Head) return; //TODO is temporary weighting on Trauma discussion
+			if (bodyPart.BodyPartType == BodyPartType.Chest) return;
 			var internalItemList = bodyPart.OrganStorage.GetItemSlots();
 			foreach (var item in internalItemList)
 			{
