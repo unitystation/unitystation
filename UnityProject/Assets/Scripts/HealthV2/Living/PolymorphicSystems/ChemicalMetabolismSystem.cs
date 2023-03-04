@@ -90,7 +90,7 @@ public class ChemicalMetabolismSystem : HealthSystemBase, IAreaReactionBase
 			float ProcessingAmount = 0;
 			foreach (var bodyPart in PrecalculatedMetabolismReactions[Reaction]) //TODO maybe lag? Alternative?
 			{
-				ProcessingAmount += bodyPart.ReagentMetabolism * bodyPart.reagentCirculatedComponent.Throughput *
+				ProcessingAmount += bodyPart.ReagentMetabolism * bodyPart.GetThroughput *
 				                    bodyPart.GetCurrentBloodSaturation *
 				                    Mathf.Max(0.10f, bodyPart.RelatedPart.TotalModified);
 			}
