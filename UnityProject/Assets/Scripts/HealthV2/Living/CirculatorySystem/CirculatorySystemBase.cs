@@ -21,7 +21,7 @@ namespace HealthV2
 		[SerializeField]
 		[Required("Must have a blood type in a circulatory system.")]
 		private BloodType bloodType = null;
-		private BloodType BloodType => bloodType;
+		public BloodType BloodType => bloodType;
 		public ReagentMix BloodPool;
 		private Chemistry.Reagent CirculatedReagent => bloodType.CirculatedReagent;
 

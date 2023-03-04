@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace HealthV2.Living.PolymorphicSystems
 {
-	[System.Serializable] //TODO Set on Species data the defaults
+	[System.Serializable] 
 	public class ReagentPoolSystem : HealthSystemBase
 	{
 		public ReagentMix BloodPool = new ReagentMix();

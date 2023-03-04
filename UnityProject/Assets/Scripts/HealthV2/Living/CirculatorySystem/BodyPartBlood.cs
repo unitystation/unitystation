@@ -123,6 +123,10 @@ namespace HealthV2
 		/// </summary>
 		public void BloodInitialise()
 		{
+			if (bloodType == null) //TODO
+			{
+				bloodType = HealthMaster.CirculatorySystem.BloodType;
+			}
 			AddModifier(HungerModifier);
 		}
 

@@ -62,12 +62,14 @@ namespace Items.Implants.Organs
 
 		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
-			livingHealth.reagentPoolSystem.PumpingDevices.Remove(this);
+			//livingHealth.reagentPoolSystem.PumpingDevices.Remove(this);
+			livingHealth.CirculatorySystem.Hearts.Remove(this);
 		}
 
 		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
-			livingHealth.reagentPoolSystem.PumpingDevices.Add(this);
+			//livingHealth.reagentPoolSystem.PumpingDevices.Add(this);
+			livingHealth.CirculatorySystem.Hearts.Add(this);
 		}
 
 		public override void InternalDamageLogic()

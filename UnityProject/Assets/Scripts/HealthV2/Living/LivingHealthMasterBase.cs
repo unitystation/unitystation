@@ -478,7 +478,7 @@ namespace HealthV2
 				{
 					if (bodyPart.ItemAttributes.HasAllTraits(externalReaction.ExternalAllRequired)
 					    && bodyPart.ItemAttributes.HasAnyTrait(externalReaction.ExternalBlacklist) == false
-					    && bodyPart.TryGetComponent<BodyPart>(out var MetabolismComponent))
+					    && bodyPart.TryGetComponent<BodyPart>(out var MetabolismComponent)) //TODO
 					{
 						if (PrecalculatedMetabolismReactions.ContainsKey(externalReaction) == false)
 						{
@@ -2028,6 +2028,7 @@ namespace HealthV2
 		{
 			foreach (var System in RaceBodyparts.Base.SystemSettings)
 			{
+				continue; //TODO temp
 				var newsys = System.CloneThisSystem();
 				newsys.Base = this;
 				newsys.InIt();
