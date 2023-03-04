@@ -33,7 +33,7 @@ namespace HealthV2
 		public ItemStorage OrganStorage = null;
 
 		[SerializeField, Tooltip(
-			 " Could you splatter sit on the player and Could the acid touch body parts contained in this body part ")]
+			 " If you threw acid onto a player would body parts contained in this body part get touched by the acid, If this body part was on the surface ")]
 		private bool isOpenAir = false;
 		public bool IsOpenAir
 		{
