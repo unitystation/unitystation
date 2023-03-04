@@ -13,21 +13,22 @@ namespace HealthV2.TraumaTypes
 
 		private bool alreadyHealed = false;
 
-		public override void OnTakeDamage(float damage, DamageType damageType, AttackType attackType)
+		public override void OnTakeDamage(BodyPartDamageData data)
 		{
-			base.OnTakeDamage(damage, damageType, attackType);
+			base.OnTakeDamage(data);
+			if ( DMMath.Prob(data.TraumaDamageChance) == false ) return;
 			if ( bodyPart.HealthMaster == null ) return;
-			if ( damage < minimumDamageToProgressStages ) return;
-			if ( attackType is not (AttackType.Bullet or AttackType.Melee) ) return;
-			if ( damageType is not (DamageType.Brute or DamageType.Burn) ) return;
-			if ( CheckArmourStatus() == false ) return;
+			if ( data.DamageAmount < minimumDamageToProgressStages ) return;
+			if ( data.AttackType is not (AttackType.Bullet or AttackType.Melee) ) return;
+			if ( data.DamageType is not (DamageType.Brute or DamageType.Burn) ) return;
+			if ( CheckArmourStatus() ) return;
 			GenericStageProgression();
 		}
 
 		private bool CheckArmourStatus()
 		{
 			var percent = CalculateDismembermentProtection(bodyPart.ClothingArmors);
-			if ( percent.IsBetween(0, 0.95f) ) return true;
+			if ( percent.IsBetween(0, 0.95f) ) return false;
 			return DMMath.Prob(percent);
 		}
 

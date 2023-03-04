@@ -27,10 +27,11 @@ namespace HealthV2
 			currentStage = Mathf.Clamp(currentStage, 0, stages.Count - 1);
 		}
 
-		public virtual void OnTakeDamage(float damage, DamageType damageType, AttackType attackType)
+		public virtual void OnTakeDamage(BodyPartDamageData data)
 		{
 			if ( bodyPart.HealthMaster == null ) return;
-			if ( damage >= deadlyDamageInOneHit ) ProgressDeadlyEffect();
+			if ( DMMath.Prob(data.TraumaDamageChance) == false ) return;
+			if ( data.DamageAmount >= deadlyDamageInOneHit ) ProgressDeadlyEffect();
 		}
 
 		protected void GenericStageProgression()

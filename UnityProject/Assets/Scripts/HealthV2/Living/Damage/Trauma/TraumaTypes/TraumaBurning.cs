@@ -10,10 +10,11 @@ namespace HealthV2.TraumaTypes
 		[SerializeField] private Color bodyPartColorWhenSecondDegreeBurns;
 		[SerializeField] private Color bodyPartColorWhenThirdBurns;
 
-		public override void OnTakeDamage(float damage, DamageType damageType, AttackType attackType)
+		public override void OnTakeDamage(BodyPartDamageData data)
 		{
-			base.OnTakeDamage(damage, damageType, attackType);
-			if (CheckArmourChance() == false) return;
+			base.OnTakeDamage(data);
+			if ( DMMath.Prob(data.TraumaDamageChance) == false ) return;
+			if ( CheckArmourChance() ) return;
 			GenericStageProgression();
 		}
 
@@ -28,6 +29,7 @@ namespace HealthV2.TraumaTypes
 
 			percent += bodyPart.SelfArmor.Fire;
 			percent += bodyPart.SelfArmor.Energy;
+			if ( percent.IsBetween(0, 0.95f) ) return false;
 			return DMMath.Prob(percent);
 		}
 

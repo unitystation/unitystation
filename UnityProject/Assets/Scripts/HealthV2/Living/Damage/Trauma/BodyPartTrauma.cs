@@ -33,11 +33,11 @@ namespace HealthV2
 			bodyPart.OnDamageTaken -= OnDamageTaken;
 		}
 
-		private void OnDamageTaken(AttackType attackType, DamageType damageType, float damage, TraumaticDamageTypes traumaticTypes)
+		private void OnDamageTaken(BodyPartDamageData data)
 		{
 			foreach (var logic in traumaTypesOnBodyPart)
 			{
-				if (traumaticTypes.HasFlag(logic.traumaTypes)) logic.OnTakeDamage(damage, damageType, attackType);
+				if (data.TramuticDamageType.HasFlag(logic.traumaTypes)) logic.OnTakeDamage(data);
 			}
 		}
 

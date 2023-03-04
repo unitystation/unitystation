@@ -187,7 +187,9 @@ namespace HealthV2
 		/// Triggers when a body part receives damage.
 		/// It has the attack type, damage type and the amount of damage as parameters for the callback
 		/// </summary>
-		public event Action<AttackType, DamageType, float, TraumaticDamageTypes> OnDamageTaken;
+		public event Action<BodyPartDamageData> OnDamageTaken;
+
+		public BodyPartDamageData LastDamageData { get; private set; } = new BodyPartDamageData();
 
 
 		/// <summary>
@@ -367,6 +369,19 @@ namespace HealthV2
 								bool organDamageSplit = false, bool DamageSubOrgans = true, float armorPenetration = 0,
 								double traumaDamageChance = 100, TraumaticDamageTypes tramuticDamageType = TraumaticDamageTypes.NONE, bool invokeOnDamageEvent = true)
 		{
+			LastDamageData = new BodyPartDamageData()
+			{
+				DamageAmount = damage,
+				DamagedBy = damagedBy,
+				AttackType = attackType,
+				DamageType = damageType,
+				OrganDamageSplit = organDamageSplit,
+				DamageSubOrgans = DamageSubOrgans,
+				ArmorPenetration = armorPenetration,
+				TramuticDamageType = tramuticDamageType,
+				TraumaDamageChance = traumaDamageChance,
+				InvokeOnDamageEvent = invokeOnDamageEvent
+			};
 			float damageToLimb = Armor.GetTotalDamage(
 				SelfArmor.GetDamage(damage, attackType, armorPenetration),
 				attackType,
@@ -379,7 +394,7 @@ namespace HealthV2
 			}
 
 			AffectDamage(damageToLimb, (int) damageType);
-			if (invokeOnDamageEvent && damage > 0) OnDamageTaken?.Invoke(attackType, damageType,  damageToLimb, tramuticDamageType);
+			if (invokeOnDamageEvent && damage > 0) OnDamageTaken?.Invoke(LastDamageData);
 
 			// May be changed to individual damage
 			// May also want it so it can miss sub organs
@@ -543,4 +558,18 @@ namespace HealthV2
 			maxHealth = newMaxHealth;
 		}
 	}
+}
+
+public class BodyPartDamageData
+{
+	public GameObject DamagedBy = null;
+	public float DamageAmount = 0f;
+	public AttackType AttackType = AttackType.Melee;
+	public DamageType DamageType = DamageType.Brute;
+	public bool OrganDamageSplit = false;
+	public bool DamageSubOrgans = true;
+	public float ArmorPenetration = 0;
+	public double TraumaDamageChance = 100;
+	public TraumaticDamageTypes TramuticDamageType = TraumaticDamageTypes.NONE;
+	public bool InvokeOnDamageEvent = true;
 }

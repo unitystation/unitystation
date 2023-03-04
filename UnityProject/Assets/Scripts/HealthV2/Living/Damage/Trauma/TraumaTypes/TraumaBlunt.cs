@@ -19,12 +19,13 @@ namespace HealthV2.TraumaTypes
 		}
 
 
-		public override void OnTakeDamage(float damage, DamageType damageType, AttackType attackType)
+		public override void OnTakeDamage(BodyPartDamageData data)
 		{
-			base.OnTakeDamage(damage, damageType, attackType);
-			if ( damage < minimumDamage ) return;
-			if ( attackType is not AttackType.Melee ) return;
-			if ( damageType is not DamageType.Brute ) return;
+			base.OnTakeDamage(data);
+			if ( DMMath.Prob(data.TraumaDamageChance) == false ) return;
+			if ( data.DamageAmount < minimumDamage ) return;
+			if ( data.AttackType is not AttackType.Melee ) return;
+			if ( data.DamageType is not DamageType.Brute ) return;
 			if ( CheckArmourChance() ) return;
 
 			GenericStageProgression();
