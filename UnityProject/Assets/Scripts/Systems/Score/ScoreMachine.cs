@@ -16,11 +16,21 @@ namespace Systems.Score
 			String,
 		}
 
+		void ClearScores()
+		{
+			Scores.Clear();
+		}
 		public override void Awake()
 		{
 			base.Awake();
-			EventManager.AddHandler(Event.PreRoundStarted, () => Scores.Clear());
+			EventManager.AddHandler(Event.PreRoundStarted, ClearScores);
 			Scores = new Dictionary<string, ScoreEntry>(); //This only works if set on Awake()
+		}
+
+		public override void OnDestroy()
+		{
+			EventManager.RemoveHandler(Event.PreRoundStarted, ClearScores);
+			base.OnDestroy();
 		}
 
 		/// <summary>
