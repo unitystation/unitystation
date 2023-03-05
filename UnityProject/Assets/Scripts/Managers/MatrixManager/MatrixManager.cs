@@ -66,13 +66,11 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	private void OnEnable()
 	{
-		SceneManager.activeSceneChanged += OnSceneChange;
 		EventManager.AddHandler(Event.ScenesLoadedServer, OnScenesLoaded);
 	}
 
 	private void OnDisable()
 	{
-		SceneManager.activeSceneChanged -= OnSceneChange;
 		EventManager.RemoveHandler(Event.ScenesLoadedServer, OnScenesLoaded);
 		if (Application.isPlaying)
 		{
@@ -89,7 +87,14 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		}
 	}
 
-	void ResetMatrixManager()
+	public void PostRoundStartCleanup()
+	{
+		foreach (var a in InitializingMatrixes)
+		{
+			Debug.Log("removed " + CleanupUtil.RidListOfDeadElements(a.Value) + " dead matrices from MatrixManager.InitializingMatrixes");
+		}
+	}
+	public void ResetMatrixManager()
 	{
 		Instance.spaceMatrix = null;
 		Instance.mainStationMatrix = null;
