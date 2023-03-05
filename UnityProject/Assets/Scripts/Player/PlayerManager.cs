@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Player;
 using Shared.Util;
-using Systems.Character;
+using Util;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -44,8 +44,6 @@ public class PlayerManager : MonoBehaviour
 	/// <summary>The player script for the player while in the lobby.</summary>
 	public static JoinedViewer LocalViewerScript { get; private set; }
 
-	public static CharacterManager CharacterManager { get; } = new CharacterManager();
-
 	public static bool HasSpawned { get; private set; }
 
 	public static CharacterSheet CurrentCharacterSheet { get; set; }
@@ -68,14 +66,8 @@ public class PlayerManager : MonoBehaviour
 	}
 #endif
 
-	private void Start()
-	{
-		CharacterManager.Init();
-	}
-
 	private void OnEnable()
 	{
-		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
 		EventManager.AddHandler(Event.PlayerDied, OnPlayerDeath);
 		EventManager.AddHandler(Event.PlayerRejoined, OnRejoinPlayer);
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
@@ -83,7 +75,6 @@ public class PlayerManager : MonoBehaviour
 
 	private void OnDisable()
 	{
-		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
 		EventManager.RemoveHandler(Event.PlayerDied, OnPlayerDeath);
 		EventManager.RemoveHandler(Event.PlayerRejoined, OnRejoinPlayer);
 		PlayerPrefs.Save();
