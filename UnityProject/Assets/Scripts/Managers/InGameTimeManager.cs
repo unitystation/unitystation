@@ -26,6 +26,12 @@ namespace Managers
 			EventManager.RemoveHandler(Event.RoundStarted, ServerSetupUniversalSpaceTime);
 		}
 
+		public override void OnDestroy()
+		{
+			EventManager.RemoveHandler(Event.RoundStarted, ServerSetupUniversalSpaceTime);
+			base.OnDestroy();
+		}
+
 		private void ServerSetupUniversalSpaceTime()
 		{
 			if (CustomNetworkManager.Instance == null || CustomNetworkManager.IsServer == false) return;

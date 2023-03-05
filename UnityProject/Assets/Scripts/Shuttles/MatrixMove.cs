@@ -66,7 +66,7 @@ public class MatrixMove : ManagedBehaviour
 	/// <summary>
 	/// All the various events that can be subscribed to on this matrix
 	/// </summary>
-	public readonly MatrixMoveEvents MatrixMoveEvents = new MatrixMoveEvents();
+	public MatrixMoveEvents MatrixMoveEvents = new MatrixMoveEvents();
 
 	//server-only values
 	public MatrixState ServerState => serverState;

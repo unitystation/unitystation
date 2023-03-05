@@ -17,7 +17,30 @@ namespace Managers
 		public override void Start()
 		{
 			base.Start();
-			EventManager.AddHandler(Event.SceneUnloading, () => Receivers.Clear());
+			EventManager.AddHandler(Event.SceneUnloading, ClearReceivers);
+		}
+		void ClearReceivers()
+		{
+			Receivers.Clear();
+		}
+
+		public override void OnDestroy()
+		{
+			EventManager.RemoveHandler(Event.SceneUnloading, ClearReceivers);
+			base.OnDestroy();
+		}
+
+		public void Clear()
+		{
+			List<SignalReceiver> receivers = new List<SignalReceiver>();
+			receivers.AddRange(Receivers);
+			Debug.Log("removed " + CleanupUtil.RidListOfSoonToBeDeadElements(receivers, u=> u) + " dead elements from SignalsManager.Receivers");
+			Receivers.Clear();
+
+			foreach (var a in receivers)
+			{
+				Receivers.Add(a);
+			}
 		}
 
 		/// <summary>
