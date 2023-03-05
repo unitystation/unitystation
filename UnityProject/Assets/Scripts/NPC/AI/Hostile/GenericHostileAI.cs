@@ -232,7 +232,7 @@ namespace Systems.MobAIs
 
 		protected virtual async Task PlayRandomSound(bool force = false)
 		{
-			while(!IsDead && !IsUnconscious && randomSounds.Count > 0)
+			while(!IsDead && !IsUnconscious && randomSounds.Count > 0 && this != null)
 			{
 				await Task.Delay(playRandomSoundTimer * 1000); //Converted from seconds to milliseconds
 				if (force || DMMath.Prob(randomSoundProbability))
