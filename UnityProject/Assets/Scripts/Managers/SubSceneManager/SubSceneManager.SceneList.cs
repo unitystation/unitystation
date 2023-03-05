@@ -11,6 +11,7 @@ using UnityEngine;
 //The scene list on the server
 public partial class SubSceneManager
 {
+	public bool InitialLoadingComplete { get; private set;  } = false;
 	private string serverChosenAwaySite = "loading";
 	private string serverChosenMainStation = "loading";
 
@@ -23,6 +24,7 @@ public partial class SubSceneManager
 	public static Dictionary<string, HashSet<int>> ConnectionLoadedRecord = new Dictionary<string , HashSet<int>>();
 	IEnumerator RoundStartServerLoadSequence()
 	{
+		InitialLoadingComplete = false;
 		ConnectionLoadedRecord.Clear();//New round
 		var loadTimer = new SubsceneLoadTimer();
 		//calculate load time:
@@ -57,6 +59,7 @@ public partial class SubSceneManager
 		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
 		EventManager.Broadcast( Event.ScenesLoadedServer, false);
 		Logger.Log($"Server has loaded {serverChosenAwaySite} away site", Category.Round);
+		InitialLoadingComplete = true;
 	}
 
 	//Load the space scene on the server

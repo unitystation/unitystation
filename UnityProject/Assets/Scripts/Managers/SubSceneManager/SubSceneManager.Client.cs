@@ -13,7 +13,7 @@ public partial class SubSceneManager
 	private bool KillClientLoadingCoroutine = false;
 
 	private bool clientIsLoadingSubscene = false;
-	private HashSet<SceneInfo> clientLoadedSubScenes = new HashSet<SceneInfo>();
+	public HashSet<SceneInfo> clientLoadedSubScenes = new HashSet<SceneInfo>();
 
 	private float waitTime = 0f;
 	private readonly float tickRate = 1f;

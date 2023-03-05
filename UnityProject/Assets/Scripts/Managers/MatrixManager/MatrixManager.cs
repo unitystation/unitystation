@@ -55,6 +55,8 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	public static MatrixInfo MainStationMatrix => Get(Instance.mainStationMatrix);
 
+	private bool ClientWaitingRoutine = false;
+
 	public override void Start()
 	{
 		base.Start();
@@ -72,6 +74,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	private void OnDisable()
 	{
+		ClientWaitingRoutine = false;
 		SceneManager.activeSceneChanged -= OnSceneChange;
 		EventManager.RemoveHandler(Event.ScenesLoadedServer, OnScenesLoaded);
 		if (Application.isPlaying)
@@ -141,12 +144,32 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 					ClientAllMatrixReady();
 				}
 			}
+			else
+			{
+				if (ClientWaitingRoutine == false)
+				{
+					ClientWaitingRoutine = true;
+					StartCoroutine(ClientWaitForAllMatrices());
+				}
+			}
 		}
 	}
 
+
+
 	private bool AreAllMatrixReady()
 	{
-		if (SubSceneManager.Instance.loadedScenesList.Count != InitializingMatrixes.Count)
+		int Count = 0;
+		if (CustomNetworkManager.IsServer)
+		{
+			Count = SubSceneManager.Instance.loadedScenesList.Count;
+		}
+		else
+		{
+			Count = SubSceneManager.Instance.clientLoadedSubScenes.Count;
+		}
+
+		if (Count != InitializingMatrixes.Count)
 		{
 			return false;
 		}
@@ -172,6 +195,21 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		StartCoroutine(WaitForAllMatrices());
 	}
 
+	private IEnumerator ClientWaitForAllMatrices()
+	{
+		while (AreAllMatrixReady() == false)
+		{
+			yield return null;
+		}
+
+		foreach (var matrixInfo in ActiveMatricesList)
+		{
+			ClientMatrixInitialization(matrixInfo.Matrix);
+		}
+
+		ClientWaitingRoutine = false;
+	}
+
 	[Server]
 	private IEnumerator WaitForAllMatrices()
 	{
@@ -189,6 +227,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		EventManager.Broadcast(Event.MatrixManagerInit);
 	}
+
 
 	[Server]
 	private void ServerMatrixInitialization(Matrix matrix)

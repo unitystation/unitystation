@@ -51,19 +51,20 @@ public partial class SubSceneManager : NetworkBehaviour
 	private void OnEnable()
 	{
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-		EventManager.AddHandler(Event.RoundEnded, KillClientCoroutine);
+		EventManager.AddHandler(Event.RoundEnded, RoundEnded);
 	}
 
 	private void OnDisable()
 	{
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-		EventManager.RemoveHandler(Event.RoundEnded, KillClientCoroutine);
+		EventManager.RemoveHandler(Event.RoundEnded, RoundEnded);
 	}
 
-	void KillClientCoroutine() //So the client isn't loading scenes while server is Loading a new round
+	void RoundEnded() //So the client isn't loading scenes while server is Loading a new round
 	{
 		ClientSideFinishAction?.Invoke();
 		KillClientLoadingCoroutine = true;
+		InitialLoadingComplete = false;
 	}
 
 	void UpdateMe()
