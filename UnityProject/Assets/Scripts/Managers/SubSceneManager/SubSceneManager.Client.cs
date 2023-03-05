@@ -22,7 +22,7 @@ public partial class SubSceneManager
 
 	void MonitorServerSceneListOnClient()
 	{
-		if (isServer || clientIsLoadingSubscene || AddressableCatalogueManager.FinishLoaded == false) return;
+		if (CustomNetworkManager.IsServer || clientIsLoadingSubscene || AddressableCatalogueManager.FinishLoaded == false) return;
 
 		waitTime += Time.deltaTime;
 		if (waitTime < tickRate) return;
@@ -32,10 +32,9 @@ public partial class SubSceneManager
 		{
 			var sceneToCheck = loadedScenesList[i];
 			if(clientLoadedSubScenes.Contains(sceneToCheck)) continue;
-
 			clientIsLoadingSubscene = true;
-			clientLoadedSubScenes.Add(sceneToCheck);
 			StartCoroutine(LoadClientSubScene(sceneToCheck));
+			break;
 		}
 	}
 
@@ -71,6 +70,7 @@ public partial class SubSceneManager
 		{
 			clientIsLoadingSubscene = false;
 		}
+		clientLoadedSubScenes.Add(sceneInfo);
 	}
 
 	public void LoadScenesFromServer(List<SceneInfo> Scenes, string OriginalScene, Action OnFinish)
@@ -99,8 +99,6 @@ public partial class SubSceneManager
 				clientIsLoadingSubscene = false;
 				yield break;
 			}
-			clientLoadedSubScenes.Add(Scene);
-
 		}
 
 		NetworkClient.PrepareToSpawnSceneObjects();

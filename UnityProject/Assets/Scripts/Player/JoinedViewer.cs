@@ -57,13 +57,8 @@ namespace Player
 		}
 
 		[Server]
-		private IEnumerator ServerRequestLoadedScenes(string AlreadyLoaded)
+		private void ServerRequestLoadedScenes(string AlreadyLoaded)
 		{
-			while (SubSceneManager.Instance.InitialLoadingComplete == false)
-			{
-				yield return null;
-			}
-
 			List<SceneInfo> SceneS = new List<SceneInfo>();
 
 			foreach (var Scene in SubSceneManager.Instance.loadedScenesList)
@@ -179,7 +174,7 @@ namespace Player
 
 			if (string.IsNullOrEmpty(currentScene) == false)
 			{
-				StartCoroutine( ServerRequestLoadedScenes(currentScene));
+				ServerRequestLoadedScenes(currentScene);
 			}
 		}
 

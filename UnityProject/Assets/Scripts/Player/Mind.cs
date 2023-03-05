@@ -58,7 +58,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 	public Occupation occupation;
 
 	public PlayerScript ghost { private set; get; }
-	public PlayerScript Body => GetDeepestBody().GetComponent<PlayerScript>();
+	public PlayerScript Body => GetDeepestBody()?.GetComponent<PlayerScript>();
 	private SpawnedAntag antag;
 	public bool IsAntag => CustomNetworkManager.IsServer ? antag != null : NetworkedisAntag;
 

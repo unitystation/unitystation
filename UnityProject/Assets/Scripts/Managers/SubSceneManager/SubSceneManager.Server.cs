@@ -11,13 +11,7 @@ using UnityEngine.SceneManagement;
 //Server
 public partial class SubSceneManager
 {
-	public override void OnStartServer()
-	{
-		NetworkServer.observerSceneList.Clear();
-		// Determine a Main station subscene and away site
-		StartCoroutine(RoundStartServerLoadSequence());
-		base.OnStartServer();
-	}
+
 
 	/// <summary>
 	/// Starts a collection of scenes that this connection is allowed to see

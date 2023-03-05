@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Messages.Client;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public partial class SubSceneManager : NetworkBehaviour
+public partial class SubSceneManager : MonoBehaviour
 {
 	private static SubSceneManager subSceneManager;
 
@@ -17,7 +18,7 @@ public partial class SubSceneManager : NetworkBehaviour
 	[SerializeField] private AsteroidListSO asteroidList = null;
 	[SerializeField] private AdditionalSceneListSO additionalSceneList = null;
 
-	public readonly ScenesSyncList loadedScenesList = new ScenesSyncList();
+	public ScenesSyncList loadedScenesList => SubSceneManagerNetworked.loadedScenesList;
 
 	public MainStationListSO MainStationList => mainStationList;
 
@@ -35,6 +36,8 @@ public partial class SubSceneManager : NetworkBehaviour
 	public bool SyndicateLoaded { get; private set; }
 	public Scene SyndicateScene { get; private set; }
 	public bool WizardLoaded { get; private set; }
+
+	public SubSceneManagerNetworked SubSceneManagerNetworked;
 
 	void Awake()
 	{
@@ -79,6 +82,11 @@ public partial class SubSceneManager : NetworkBehaviour
 	/// <returns></returns>
 	IEnumerator LoadSubScene(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true)
 	{
+		if (CustomNetworkManager.IsServer == false)
+		{
+			if(clientLoadedSubScenes.Any(x=> x.SceneName == sceneName)) yield break;
+		}
+
 		ConnectionLoadedRecord[sceneName] = new HashSet<int>();
 		AsyncOperation AO = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 		if (AO == null) yield break; // Null if scene not found.
@@ -90,7 +98,7 @@ public partial class SubSceneManager : NetworkBehaviour
 		}
 
 		if (loadTimer != null) loadTimer.IncrementLoadBar();
-		if (isServer)
+		if (CustomNetworkManager.IsServer)
 		{
 			NetworkServer.SpawnObjects();
 			RequestObserverRefresh.Send(sceneName);

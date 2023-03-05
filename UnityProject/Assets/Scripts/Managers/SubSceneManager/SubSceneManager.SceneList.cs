@@ -22,7 +22,7 @@ public partial class SubSceneManager
 	public static bool AdminAllowLavaland;
 
 	public static Dictionary<string, HashSet<int>> ConnectionLoadedRecord = new Dictionary<string , HashSet<int>>();
-	IEnumerator RoundStartServerLoadSequence()
+	public IEnumerator RoundStartServerLoadSequence()
 	{
 		InitialLoadingComplete = false;
 		ConnectionLoadedRecord.Clear();//New round
@@ -53,7 +53,7 @@ public partial class SubSceneManager
 			yield return StartCoroutine(ServerLoadAdditionalScenes(loadTimer));
 		}
 
-		netIdentity.isDirty = true;
+		SubSceneManagerNetworked.netIdentity.isDirty = true;
 
 		yield return WaitFor.Seconds(0.1f);
 		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
@@ -72,7 +72,7 @@ public partial class SubSceneManager
 			SceneName = "SpaceScene",
 			SceneType = SceneType.Space
 		});
-		netIdentity.isDirty = true;
+		SubSceneManagerNetworked.netIdentity.isDirty = true;
 	}
 
 	//Choose and load a main station on the server
@@ -105,7 +105,7 @@ public partial class SubSceneManager
 			SceneName = serverChosenMainStation,
 			SceneType = SceneType.MainStation
 		});
-		netIdentity.isDirty = true;
+		SubSceneManagerNetworked.netIdentity.isDirty = true;
 	}
 
 	//Load all the asteroids on the server
@@ -122,7 +122,7 @@ public partial class SubSceneManager
 				SceneName = asteroid,
 				SceneType = SceneType.Asteroid
 			});
-			netIdentity.isDirty = true;
+			SubSceneManagerNetworked.netIdentity.isDirty = true;
 		}
 	}
 
@@ -148,7 +148,7 @@ public partial class SubSceneManager
 				SceneName = centComData.CentComSceneName,
 				SceneType = SceneType.AdditionalScenes
 			});
-			netIdentity.isDirty = true;
+			SubSceneManagerNetworked.netIdentity.isDirty = true;
 			yield break;
 		}
 
@@ -164,7 +164,7 @@ public partial class SubSceneManager
 			SceneName = pickedMap,
 			SceneType = SceneType.AdditionalScenes
 		});
-		netIdentity.isDirty = true;
+		SubSceneManagerNetworked.netIdentity.isDirty = true;
 	}
 
 	//Load all the asteroids on the server
@@ -202,7 +202,7 @@ public partial class SubSceneManager
 				SceneName = additionalScene,
 				SceneType = SceneType.AdditionalScenes
 			});
-			netIdentity.isDirty = true;
+			SubSceneManagerNetworked.netIdentity.isDirty = true;
 		}
 	}
 
@@ -240,7 +240,7 @@ public partial class SubSceneManager
 				SceneName = serverChosenAwaySite,
 				SceneType = SceneType.HiddenScene
 			});
-			netIdentity.isDirty = true;
+			SubSceneManagerNetworked.netIdentity.isDirty = true;
 		}
 	}
 
@@ -270,7 +270,7 @@ public partial class SubSceneManager
 			SceneName = pickedMap,
 			SceneType = SceneType.HiddenScene
 		});
-		netIdentity.isDirty = true;
+		SubSceneManagerNetworked.netIdentity.isDirty = true;
 
 		SyndicateScene = SceneManager.GetSceneByName(pickedMap);
 		SyndicateLoaded = true;
@@ -291,7 +291,7 @@ public partial class SubSceneManager
 			SceneName = pickedScene,
 			SceneType = SceneType.HiddenScene
 		});
-		netIdentity.isDirty = true;
+		SubSceneManagerNetworked.netIdentity.isDirty = true;
 
 		WizardLoaded = true;
 		yield return TryWaitClients(pickedScene);
