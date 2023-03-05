@@ -37,6 +37,17 @@ public class ShipThruster : MonoBehaviour
 		shipMatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(RotateFX);
 	}
 
+	private void OnDestroy()
+	{
+		if (shipMatrixMove == null)
+		{
+			return;
+		}
+		shipMatrixMove.MatrixMoveEvents.OnStartMovementClient.RemoveListener(UpdateEngineState);
+		shipMatrixMove.MatrixMoveEvents.OnStopMovementClient.RemoveListener(UpdateEngineState);
+		shipMatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(RotateFX);
+	}
+
 	IEnumerator Init()
 	{
 		int tries = 0;
