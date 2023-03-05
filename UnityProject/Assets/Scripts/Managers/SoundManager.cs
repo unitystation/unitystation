@@ -52,17 +52,7 @@ public class SoundManager : MonoBehaviour
 		layerMask = LayerMask.GetMask("Walls", "Door Closed");
 	}
 
-	private void OnEnable()
-	{
-		SceneManager.activeSceneChanged += OnSceneChange;
-	}
-
-	private void OnDisable()
-	{
-		SceneManager.activeSceneChanged -= OnSceneChange;
-	}
-
-	private void OnSceneChange(Scene oldScene, Scene newScene)
+	public void Clear()
 	{
 		foreach (var sound in Instance.SoundSpawns)
 		{
