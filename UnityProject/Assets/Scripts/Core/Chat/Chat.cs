@@ -523,8 +523,6 @@ public partial class Chat : MonoBehaviour
 	public static void AddActionMsgToChat(GameObject originator, string everyoneMessage)
 	{
 		if (!IsServer()) return;
-
-		//dont send message if originator message is blank
 		if (string.IsNullOrWhiteSpace(everyoneMessage)) return;
 
 		ChatRelay.Instance.PropagateChatToClients(new ChatEvent
