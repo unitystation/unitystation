@@ -135,6 +135,8 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 				logic.HealStage();
 			}
 		}
+
+		stackable.ServerConsume(1);
 	}
 
 	protected void RemoveLimbLossBleed(LivingHealthMasterBase livingHealth, HandApply interaction)
