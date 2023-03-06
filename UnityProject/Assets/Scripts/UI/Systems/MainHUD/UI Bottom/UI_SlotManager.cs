@@ -39,6 +39,14 @@ public class UI_SlotManager : MonoBehaviour
 		EventManager.AddHandler(Event.PreRoundStarted, CompleteClean);
 	}
 
+	private void OnDestroy()
+	{
+		EventManager.RemoveHandler(Event.ServerLoggedOut, CompleteClean);
+		EventManager.RemoveHandler(Event.PlayerSpawned, UpdateUI);
+		EventManager.RemoveHandler(Event.RoundEnded, UpdateUI);
+		EventManager.RemoveHandler(Event.PreRoundStarted, CompleteClean);
+		OpenSlots.Clear();
+	}
 	public void CompleteClean()
 	{
 		foreach (var contained in ContainSlots)
