@@ -28,7 +28,7 @@ namespace Items.Medical
 				StandardProgressAction action = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.CPR, true),
 					() =>
 					{
-						LHB.SetBleedStacks(LHB.BleedStacks > 4 ? LHB.BleedStacks / 2 : 0);
+						LHB.SetBleedStacks(LHB.BleedStacks > 8 ? LHB.BleedStacks / 2 : 0);
 						stackable.ServerConsume(1);
 						Chat.AddActionMsgToChat(interaction.Performer, $"{interaction.PerformerPlayerScript.visibleName} applies the gauze.");
 						if (HasTrauma(LHB)) HealTrauma(LHB);
