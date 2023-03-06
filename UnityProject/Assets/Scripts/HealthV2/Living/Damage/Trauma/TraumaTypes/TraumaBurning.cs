@@ -35,6 +35,7 @@ namespace HealthV2.TraumaTypes
 
 		public override void ProgressDeadlyEffect()
 		{
+			if (currentStage == 4) return;
 			base.ProgressDeadlyEffect();
 			currentStage++;
 			switch (currentStage)

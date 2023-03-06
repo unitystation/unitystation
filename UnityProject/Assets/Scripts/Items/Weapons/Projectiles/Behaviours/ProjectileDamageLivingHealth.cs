@@ -49,7 +49,9 @@ namespace Weapons.Projectiles.Behaviours
 			var health = coll.GetComponent<LivingHealthMasterBase>();
 			if (health != null)
 			{
-				health.ApplyDamageToBodyPart(shooter, damageData.Damage, damageData.AttackType, damageData.DamageType, targetZone);
+				health.ApplyDamageToBodyPart(shooter, damageData.Damage,
+					damageData.AttackType, damageData.DamageType, targetZone, default, 50,
+					TraumaticDamageTypes.PIERCE);
 
 				Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);
 				Logger.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms,
