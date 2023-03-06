@@ -13,12 +13,12 @@ namespace HealthV2
 			base.FinnishSurgeryProcedure(OnBodyPart, interaction, PresentProcedure);
 			if (PresentProcedure.RelatedBodyPart.ContainedIn != null)
 			{
-				PresentProcedure.ISon.currentlyOn = PresentProcedure.RelatedBodyPart.ContainedIn.gameObject;
+				PresentProcedure.isOn.currentlyOn = PresentProcedure.RelatedBodyPart.ContainedIn.gameObject;
 			}
 			else
 			{
-				PresentProcedure.ISon.SetBodyPartIsOpen(false,  false);
-				PresentProcedure.ISon.currentlyOn = null;
+				PresentProcedure.isOn.SetBodyPartIsOpen(false,  false);
+				PresentProcedure.isOn.currentlyOn = null;
 				PresentProcedure.RelatedBodyPart = null;
 			}
 		}

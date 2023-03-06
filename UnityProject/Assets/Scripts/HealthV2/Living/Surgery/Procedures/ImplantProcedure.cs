@@ -27,18 +27,18 @@ namespace HealthV2
 				}
 				else
 				{
-					var health = PresentProcedure.ISon.GetComponent<LivingHealthMasterBase>();
+					var health = PresentProcedure.isOn.GetComponent<LivingHealthMasterBase>();
 
 					if (itemApp.HasTrait(CommonTraits.Instance.CoreBodyPart))
 					{
 						if (health.HasCoreBodyPart()) return;
 						health.BodyPartStorage.ServerTryTransferFrom(interaction.HandSlot);
-						PresentProcedure.ISon.currentlyOn = null;
+						PresentProcedure.isOn.currentlyOn = null;
 					}
 					else
 					{
 						health.BodyPartStorage.ServerTryTransferFrom(interaction.HandSlot);
-						PresentProcedure.ISon.currentlyOn = null;
+						PresentProcedure.isOn.currentlyOn = null;
 					}
 
 
