@@ -543,8 +543,10 @@ namespace Messages.Server.SpritesMessages
 			{
 				foreach (var keyValuePair in message.Data)
 				{
+					var netid = keyValuePair.Key.GetMasterNetID();
+					if (netid.netId == 0) continue; //If it is zero it is invalid and will also cause the network message to explode and die
 					var spriteChange = keyValuePair.Value;
-					writer.WriteUInt(keyValuePair.Key.GetMasterNetID().netId);
+					writer.WriteUInt(netid.netId);
 					writer.WriteString(keyValuePair.Key.name);
 					RightChange(writer, spriteChange);
 				}
