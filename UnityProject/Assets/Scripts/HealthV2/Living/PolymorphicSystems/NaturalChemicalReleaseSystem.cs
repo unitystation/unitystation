@@ -1,100 +1,100 @@
-using System.Collections;
 using System.Collections.Generic;
 using Chemistry;
-using HealthV2;
-using HealthV2.Living.PolymorphicSystems;
-using UnityEngine;
+using HealthV2.Living.PolymorphicSystems.Bodypart;
 
-public class NaturalChemicalReleaseSystem : HealthSystemBase
+namespace HealthV2.Living.PolymorphicSystems
 {
-	public Dictionary<Reagent, ReagentWithBodyParts> Toxicity = new Dictionary<Reagent, ReagentWithBodyParts>();
-
-	public List<NaturalChemicalReleaseComponent> BodyParts;
-
-	public class ReagentWithBodyParts
+	public class NaturalChemicalReleaseSystem : HealthSystemBase
 	{
-		public float Percentage;
-		public float TotalNeeded;
-		public List<NaturalChemicalReleaseComponent> RelatedBodyParts = new List<NaturalChemicalReleaseComponent>();
-		public Dictionary<Reagent, ReagentWithBodyParts> ReplacesWith = new Dictionary<Reagent, ReagentWithBodyParts>();
-	}
+		public Dictionary<Reagent, ReagentWithBodyParts> Toxicity = new Dictionary<Reagent, ReagentWithBodyParts>();
 
-	private ReagentPoolSystem _reagentPoolSystem;
+		public List<NaturalChemicalReleaseComponent> BodyParts;
 
-	public override void InIt()
-	{
-		_reagentPoolSystem = Base.reagentPoolSystem; //idk Shouldn't change
-	}
-
-	public override void BodyPartAdded(BodyPart bodyPart)
-	{
-		var component = bodyPart.GetComponent<NaturalChemicalReleaseComponent>();
-		if (component != null)
+		public class ReagentWithBodyParts
 		{
-			BodyParts.Add(component);
-			BodyPartListChange();
+			public float Percentage;
+			public float TotalNeeded;
+			public List<NaturalChemicalReleaseComponent> RelatedBodyParts = new List<NaturalChemicalReleaseComponent>();
+			public Dictionary<Reagent, ReagentWithBodyParts> ReplacesWith = new Dictionary<Reagent, ReagentWithBodyParts>();
 		}
-	}
 
-	public override void BodyPartRemoved(BodyPart bodyPart)
-	{
-		var component = bodyPart.GetComponent<NaturalChemicalReleaseComponent>();
-		if (component != null)
+		private ReagentPoolSystem _reagentPoolSystem;
+
+		public override void InIt()
 		{
-			if (BodyParts.Contains(component))
+			_reagentPoolSystem = Base.reagentPoolSystem; //idk Shouldn't change
+		}
+
+		public override void BodyPartAdded(BodyPart bodyPart)
+		{
+			var component = bodyPart.GetComponent<NaturalChemicalReleaseComponent>();
+			if (component != null)
 			{
-				BodyParts.Remove(component);
+				BodyParts.Add(component);
+				BodyPartListChange();
+			}
+		}
+
+		public override void BodyPartRemoved(BodyPart bodyPart)
+		{
+			var component = bodyPart.GetComponent<NaturalChemicalReleaseComponent>();
+			if (component != null)
+			{
+				if (BodyParts.Contains(component))
+				{
+					BodyParts.Remove(component);
+				}
+
+				BodyPartListChange();
+			}
+		}
+
+
+		public void BodyPartListChange()
+		{
+			Toxicity.Clear();
+
+			foreach (var bodyPart in BodyParts)
+			{
+				if (Toxicity.ContainsKey(bodyPart.NaturalToxinReagent) == false)
+				{
+					Toxicity[bodyPart.NaturalToxinReagent] = new ReagentWithBodyParts();
+				}
+
+				Toxicity[bodyPart.NaturalToxinReagent].RelatedBodyParts.Add(bodyPart);
+				Toxicity[bodyPart.NaturalToxinReagent].TotalNeeded += bodyPart.ToxinGeneration * bodyPart.BloodThroughput;
+			}
+		}
+
+		public override void SystemUpdate()
+		{
+			float HeartEfficiency = 0;
+			foreach (var Heart in _reagentPoolSystem.PumpingDevices)
+			{
+				HeartEfficiency += Heart.CalculateHeartbeat();
 			}
 
-			BodyPartListChange();
+			ToxinGeneration(HeartEfficiency);
 		}
-	}
 
-
-	public void BodyPartListChange()
-	{
-		Toxicity.Clear();
-
-		foreach (var bodyPart in BodyParts)
+		public void ToxinGeneration(float HeartEfficiency)
 		{
-			if (Toxicity.ContainsKey(bodyPart.NaturalToxinReagent) == false)
+			float Multiplier = HeartEfficiency;
+			if (HeartEfficiency == 0)
 			{
-				Toxicity[bodyPart.NaturalToxinReagent] = new ReagentWithBodyParts();
+				Multiplier = 0.0025f;
 			}
 
-			Toxicity[bodyPart.NaturalToxinReagent].RelatedBodyParts.Add(bodyPart);
-			Toxicity[bodyPart.NaturalToxinReagent].TotalNeeded += bodyPart.ToxinGeneration * bodyPart.BloodThroughput;
+			foreach (var KVP in Toxicity)
+			{
+				_reagentPoolSystem.BloodPool.Add(KVP.Key, KVP.Value.TotalNeeded * Multiplier);
+			}
 		}
-	}
 
-	public override void SystemUpdate()
-	{
-		float HeartEfficiency = 0;
-		foreach (var Heart in _reagentPoolSystem.PumpingDevices)
+
+		public override HealthSystemBase CloneThisSystem()
 		{
-			HeartEfficiency += Heart.CalculateHeartbeat();
+			return new NaturalChemicalReleaseSystem();
 		}
-
-		ToxinGeneration(HeartEfficiency);
-	}
-
-	public void ToxinGeneration(float HeartEfficiency)
-	{
-		float Multiplier = HeartEfficiency;
-		if (HeartEfficiency == 0)
-		{
-			Multiplier = 0.0025f;
-		}
-
-		foreach (var KVP in Toxicity)
-		{
-			_reagentPoolSystem.BloodPool.Add(KVP.Key, KVP.Value.TotalNeeded * Multiplier);
-		}
-	}
-
-
-	public override HealthSystemBase CloneThisSystem()
-	{
-		return new NaturalChemicalReleaseSystem();
 	}
 }
