@@ -209,7 +209,6 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	[Server]
 	public bool ServerConsume(int consumed)
 	{
-
 		if (consumed > amount)
 		{
 			Logger.LogErrorFormat($"Consumed amount {consumed} is greater than amount in this stack {amount}, will not consume.", Category.Objects);

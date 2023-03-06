@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using HealthV2;
 using UnityEngine;
-using NaughtyAttributes;
 using Items;
- using Messages.Server.HealthMessages;
 
- /// <summary>
+/// <summary>
 /// Component which allows this object to be applied to a living thing, healing it.
 /// </summary>
 [RequireComponent(typeof(Stackable))]
@@ -131,7 +126,7 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 		{
 			foreach (var logic in bodyPartTrauma.Value.TraumaTypesOnBodyPart)
 			{
-				if(logic.traumaTypes.HasFlag(TraumaTypeToHeal) == false) continue;
+				if (logic.traumaTypes.HasFlag(TraumaTypeToHeal) == false) continue;
 				logic.HealStage();
 			}
 		}
