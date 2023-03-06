@@ -11,11 +11,17 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		[HideInInspector] public LivingHealthMasterBase Base;
 
+		/// <summary>
+		/// Used for initialising when a system wakes up
+		/// </summary>
 		public virtual void InIt()
 		{
 
 		}
 
+		/// <summary>
+		/// Used for when the players Spawns in for the first time, When you want to add initial contents
+		/// </summary>
 		public virtual void StartFresh()
 		{
 
