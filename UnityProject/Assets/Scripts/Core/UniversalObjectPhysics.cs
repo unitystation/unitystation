@@ -1584,11 +1584,15 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 								if (hit.TryGetComponent<Integrity>(out var integrity))
 								{
-									integrity.ApplyDamage(damage, AttackType.Melee, IAV2.ServerDamageType);
+									if (isServer)
+									{
+										integrity.ApplyDamage(damage, AttackType.Melee, IAV2.ServerDamageType);
+									}
+
 								}
 
 								var randomHitZone = aim.Randomize();
-								if (hit.TryGetComponent<LivingHealthMasterBase>(out var livingHealthMasterBase))
+								if (hit.TryGetComponent<LivingHealthMasterBase>(out var livingHealthMasterBase) && isServer)
 								{
 									livingHealthMasterBase.ApplyDamageToBodyPart(thrownBy, damage, AttackType.Melee,
 										DamageType.Brute,
@@ -1596,15 +1600,18 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 									Chat.AddThrowHitMsgToChat(gameObject, livingHealthMasterBase.gameObject, randomHitZone);
 								}
 
-								if (hit.TryGetComponent<LivingHealthBehaviour>(out var oldMob))
+								if (hit.TryGetComponent<LivingHealthBehaviour>(out var oldMob) && isServer)
 								{
 									oldMob.ApplyDamage(thrownBy, damage, AttackType.Melee, DamageType.Brute);
 									Chat.AddThrowHitMsgToChat(gameObject, livingHealthMasterBase.gameObject, randomHitZone);
 								}
 
-								AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.85f, 1f));
-								SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GenericHit, transform.position,
-									audioSourceParameters, sourceObj: gameObject);
+								if (isServer)
+								{
+									AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.85f, 1f));
+									SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GenericHit, transform.position,
+										audioSourceParameters, sourceObj: gameObject);
+								}
 							}
 						}
 					}
