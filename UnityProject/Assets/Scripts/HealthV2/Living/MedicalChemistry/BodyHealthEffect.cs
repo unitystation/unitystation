@@ -82,7 +82,7 @@ public class BodyHealthEffect : MetabolismReaction
 			float ProcessingAmount = 0;
 			foreach (var bodyPart in Toloop)
 			{
-				ProcessingAmount += bodyPart.ReagentMetabolism * bodyPart.BloodThroughput * bodyPart.currentBloodSaturation * Mathf.Max(0.10f, bodyPart.TotalModified);
+				ProcessingAmount += bodyPart.ReagentMetabolism * bodyPart.BloodThroughput * bodyPart.CurrentBloodSaturation * Mathf.Max(0.10f, bodyPart.TotalModified);
 			}
 
 			if (TotalChemicalsProcessed > ProcessingAmount)
@@ -100,7 +100,7 @@ public class BodyHealthEffect : MetabolismReaction
 
 		foreach (var bodyPart in Toloop)
 		{
-			var Individual = bodyPart.ReagentMetabolism * bodyPart.BloodThroughput * bodyPart.currentBloodSaturation * Mathf.Max(0.10f, bodyPart.TotalModified) * ReagentMetabolismMultiplier;
+			var Individual = bodyPart.ReagentMetabolism * bodyPart.BloodThroughput * bodyPart.CurrentBloodSaturation * Mathf.Max(0.10f, bodyPart.TotalModified) * ReagentMetabolismMultiplier;
 
 			var PercentageOfProcess = Individual / BodyReactionAmount;
 
