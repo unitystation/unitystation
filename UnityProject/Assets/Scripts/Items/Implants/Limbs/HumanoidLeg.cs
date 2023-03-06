@@ -30,16 +30,16 @@ namespace HealthV2.Limbs
 		public float WalkingSpeedModifier => walkingSpeed * legEfficiency * RelatedPart.TotalModified;
 		public float CrawlingSpeedModifier { get; }
 
-		public override void AddedToBody(LivingHealthMasterBase livingHealth)
+		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
-			base.AddedToBody(livingHealth);
+			base.OnAddedToBody(livingHealth);
 			playerHealth.OrNull()?.PlayerMove.AddLeg(this);
 			playerHealth.OrNull()?.PlayerMove.AddModifier(this);
 		}
 
-		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
-			base.RemovedFromBody(livingHealth);
+			base.OnRemovedFromBody(livingHealth);
 			playerHealth.OrNull()?.PlayerMove.RemoveLeg(this);
 		}
 

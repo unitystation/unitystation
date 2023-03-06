@@ -63,7 +63,7 @@ namespace Items.Implants.Organs
 			}
 		}
 
-		public override void AddedToBody(LivingHealthMasterBase livingHealth)
+		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			AddFat();
 		}
@@ -80,9 +80,9 @@ namespace Items.Implants.Organs
 			}
 		}
 
-		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
-			base.RemovedFromBody(livingHealth);
+			base.OnRemovedFromBody(livingHealth);
 			BodyFats.Clear();
 		}
 	}

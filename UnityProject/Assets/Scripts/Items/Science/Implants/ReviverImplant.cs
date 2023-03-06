@@ -15,7 +15,7 @@ namespace Items.Implants.Organs
 
 		private float lastTrigger = 0;
 
-		public override void AddedToBody(LivingHealthMasterBase livingHealth)
+		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			lastTrigger = Time.time - delaySeconds; //Ready to revive
 		}

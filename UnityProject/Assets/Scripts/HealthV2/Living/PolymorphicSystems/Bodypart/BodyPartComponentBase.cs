@@ -5,7 +5,7 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 {
 	public abstract class BodyPartComponentBase : BodyPartFunctionality
 	{
-		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
 			foreach (var sys in livingHealth.ActiveSystems)
 			{
@@ -13,7 +13,7 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 			}
 		}
 
-		public override void AddedToBody(LivingHealthMasterBase livingHealth)
+		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			if(HasSystem(livingHealth) == false)
 			{

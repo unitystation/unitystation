@@ -334,7 +334,7 @@ namespace HealthV2
 
 			foreach (var organ in OrganList)
 			{
-				organ.AddedToBody(HealthMaster); //Only add Body parts
+				organ.OnAddedToBody(HealthMaster); //Only add Body parts
 			}
 
 			for (int i = 0; i < containBodyParts.Count; i++) //Only add Body parts
@@ -352,7 +352,7 @@ namespace HealthV2
 		{
 			foreach (var organ in OrganList)
 			{
-				organ.RemovedFromBody(HealthMaster);
+				organ.OnRemovedFromBody(HealthMaster);
 			}
 
 			foreach (var organ in containBodyParts)

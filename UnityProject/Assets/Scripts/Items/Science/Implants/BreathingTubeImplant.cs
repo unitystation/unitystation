@@ -7,12 +7,12 @@ namespace Items.Implants.Organs
 	{
 		[field: SyncVar] public bool isEMPed { get; private set; } = false;
 
-		public override void AddedToBody(LivingHealthMasterBase livingHealth)
+		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			RelatedPart.HealthMaster.RespiratorySystem.AddImplant(this);
 		}
 
-		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
 			RelatedPart.HealthMaster.RespiratorySystem.RemoveImplant(this);
 		}

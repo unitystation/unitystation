@@ -71,7 +71,7 @@ namespace Items.Implants.Organs
 
 		//Ensure removal of brain
 
-		public override void AddedToBody(LivingHealthMasterBase livingHealth)
+		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
 
 			livingHealth.SetBrain(this);
@@ -91,7 +91,7 @@ namespace Items.Implants.Organs
 			UpdateChatModifier(true);
 		}
 
-		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
 			livingHealth.SetBrain(null);
 			livingHealth.IsMute.RemovePosition(this);

@@ -60,13 +60,13 @@ namespace Items.Implants.Organs
 			DoHeartBeat();
 		}
 
-		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
 			//livingHealth.reagentPoolSystem.PumpingDevices.Remove(this);
 			livingHealth.CirculatorySystem.Hearts.Remove(this);
 		}
 
-		public override void AddedToBody(LivingHealthMasterBase livingHealth)
+		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			//livingHealth.reagentPoolSystem.PumpingDevices.Add(this);
 			livingHealth.CirculatorySystem.Hearts.Add(this);

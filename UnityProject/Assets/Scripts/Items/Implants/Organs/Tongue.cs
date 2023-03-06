@@ -14,7 +14,7 @@ namespace Items.Implants.Organs
 
 		public bool CannotSpeak {get; private set; }
 
-		public override void AddedToBody(LivingHealthMasterBase livingHealth)
+		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			RelatedPart = GetComponent<BodyPart>();
 			mobLanguages = livingHealth.GetComponent<MobLanguages>();
@@ -29,7 +29,7 @@ namespace Items.Implants.Organs
 
 		}
 
-		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
 			if(CustomNetworkManager.IsServer == false) return;
 			livingHealth.IsMute.RemovePosition(this);
