@@ -96,11 +96,6 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 	/// </summary>
 	public readonly UnityEvent OnContentsChangeServer = new UnityEvent();
 
-	public static void Clear()
-	{
-		//Debug.Log(" removed " + CleanupUtil.RidDictionaryOfDeadElements(ServerObjectToSlots, (u, k) => u != null) + " dead items from DynamicItemStorage.ServerObjectToSlots");
-	}
-
 	public void Awake()
 	{
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
