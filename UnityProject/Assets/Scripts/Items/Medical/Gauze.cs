@@ -26,7 +26,7 @@ namespace Items.Medical
 						LHB.SetBleedStacks(LHB.BleedStacks > 8 ? LHB.BleedStacks / 2 : 0);
 						stackable.ServerConsume(1);
 						Chat.AddActionMsgToChat(interaction.Performer, $"{interaction.PerformerPlayerScript.visibleName} applies the gauze.");
-						if (HasTrauma(LHB)) HealTrauma(LHB);
+						if (HasTrauma(LHB)) HealTrauma(LHB, interaction);
 					});
 				action.ServerStartProgress(interaction.PerformerPlayerScript.gameObject.AssumedWorldPosServer(), gauzeApplyTime, interaction.Performer);
 			}

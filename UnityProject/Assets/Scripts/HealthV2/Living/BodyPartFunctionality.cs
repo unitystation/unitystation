@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using Mirror;
-using UnityEngine;
 using Systems.Explosions;
 using NaughtyAttributes;
 
@@ -43,6 +41,7 @@ namespace HealthV2
 		public virtual void Awake()
 		{
 			RelatedPart = GetComponent<BodyPart>();
+			if (RelatedPart) RelatedPart = GetComponentInParent<BodyPart>();
 		}
 
 	}

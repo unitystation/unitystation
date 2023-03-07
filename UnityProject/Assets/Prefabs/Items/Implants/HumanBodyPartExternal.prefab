@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6261603888642619574}
-  - component: {fileID: 3175773726620761552}
   - component: {fileID: 2728592379231489674}
   - component: {fileID: 6102157500274823570}
   - component: {fileID: 4434023247273284483}
@@ -37,25 +36,6 @@ Transform:
   m_Father: {fileID: 2815555166148818142}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3175773726620761552
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1184948361678666440}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a35915b45cb54b97bc3c38a21c1d3209, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  traumaTypesOnBodyPart:
-  - {fileID: 2728592379231489674}
-  - {fileID: 6102157500274823570}
-  - {fileID: 4434023247273284483}
-  - {fileID: 1058680709829996922}
-  - {fileID: 7822575272286095514}
-  bodyPart: {fileID: 1673759363237950006}
 --- !u!114 &2728592379231489674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,12 +342,40 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 3973776844980201138}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 2810631690420259242}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2810631690420259242 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
+    type: 3}
+  m_PrefabInstance: {fileID: 3973776844980201138}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7066321411952799056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2810631690420259242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a35915b45cb54b97bc3c38a21c1d3209, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  isEMPVunerable: 0
+  EMPResistance: 2
+  traumaTypesOnBodyPart:
+  - {fileID: 2728592379231489674}
+  - {fileID: 6102157500274823570}
+  - {fileID: 4434023247273284483}
+  - {fileID: 1058680709829996922}
+  - {fileID: 7822575272286095514}
 --- !u!4 &2815555166148818142 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1168521912962732652, guid: 1162a9966a460f940a18b4d183b04c30,

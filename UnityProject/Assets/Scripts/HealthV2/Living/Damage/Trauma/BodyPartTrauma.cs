@@ -3,33 +3,44 @@ using UnityEngine;
 
 namespace HealthV2
 {
-	public class BodyPartTrauma : MonoBehaviour
+	public class BodyPartTrauma : BodyPartFunctionality
 	{
 		[SerializeField] private List<TraumaLogic> traumaTypesOnBodyPart;
 		public List<TraumaLogic> TraumaTypesOnBodyPart => traumaTypesOnBodyPart;
-		[SerializeField] private BodyPart bodyPart;
 
 		private void Start()
 		{
-			if (bodyPart != null)
-			{
-				bodyPart.OnDamageTaken += OnDamageTaken;
-				return;
-			}
-			Logger.LogWarning($"No bodyPart found on {gameObject.name}. Looking for one automatically.");
-			bodyPart = GetComponentInParent<BodyPart>();
-			if (bodyPart == null)
+			if (RelatedPart == null)
 			{
 				Logger.LogError($"No component found on parent. Make sure to put this component on a child of the bodyPart");
 				return;
 			}
 
-			bodyPart.OnDamageTaken += OnDamageTaken;
+			RelatedPart.OnDamageTaken += OnDamageTaken;
 		}
 
 		private void OnDestroy()
 		{
-			bodyPart.OnDamageTaken -= OnDamageTaken;
+			RelatedPart.OnDamageTaken -= OnDamageTaken;
+		}
+
+		public override void AddedToBody(LivingHealthMasterBase livingHealth)
+		{
+			var creatureTraumaAPI = livingHealth.GetComponent<CreatureTraumaManager>();
+			if (creatureTraumaAPI == null)
+			{
+				Logger.LogWarning($"[BodyPartTrauma/OnAddBodyPart] - No high level trauma manager detected on creature." +
+				                  $"Functionalities like trauma healing may not be available for this body part.");
+				return;
+			}
+			creatureTraumaAPI.Traumas.Add(RelatedPart, this);
+		}
+
+		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
+		{
+			var creatureTraumaAPI = livingHealth.GetComponent<CreatureTraumaManager>();
+			if (creatureTraumaAPI == null) return;
+			creatureTraumaAPI.Traumas.Remove(RelatedPart);
 		}
 
 		private void OnDamageTaken(BodyPartDamageData data)

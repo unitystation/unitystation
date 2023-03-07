@@ -281,9 +281,6 @@ namespace HealthV2
 		public event Action<DamageType, GameObject> OnTakeDamageType;
 		public event Action OnLowHealth;
 
-		public event Action<BodyPart> OnBodyPartRemoved;
-		public event Action<BodyPart> OnBodyPartAdded;
-
 		[SyncVar] public bool CannotRecognizeNames = false;
 
 
@@ -397,12 +394,10 @@ namespace HealthV2
 			{
 				addedBodyPart.BodyPartAddHealthMaster(this);
 				SurfaceBodyParts.Add(addedBodyPart);
-				OnBodyPartAdded?.Invoke(addedBodyPart);
 			}
 			else if (prevImplant && prevImplant.TryGetComponent<BodyPart>(out var removedBodyPart))
 			{
 				removedBodyPart.BodyPartRemoveHealthMaster();
-				OnBodyPartRemoved?.Invoke(removedBodyPart);
 				if (SurfaceBodyParts.Contains(removedBodyPart))
 				{
 					SurfaceBodyParts.Remove(removedBodyPart);

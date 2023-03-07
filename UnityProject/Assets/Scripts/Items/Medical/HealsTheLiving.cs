@@ -72,7 +72,7 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 
 		//(MAX): TEMPORARY.
 		//TODO: Add proper trauma healing.
-		if (HasTrauma(LHB)) HealTrauma(LHB);
+		if (HasTrauma(LHB)) HealTrauma(LHB, interaction);
 	}
 
 	private void ServerApplyHeal(LivingHealthMasterBase livingHealth, HandApply interaction)
@@ -119,18 +119,10 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 		return false;
 	}
 
-	protected virtual void HealTrauma(LivingHealthMasterBase health)
+	protected virtual void HealTrauma(LivingHealthMasterBase health, HandApply interaction)
 	{
 		if (health.gameObject.TryGetComponent<CreatureTraumaManager>(out var traumaManager) == false) return;
-		foreach (var bodyPartTrauma in traumaManager.Traumas)
-		{
-			foreach (var logic in bodyPartTrauma.Value.TraumaTypesOnBodyPart)
-			{
-				if (logic.traumaTypes.HasFlag(TraumaTypeToHeal) == false) continue;
-				logic.HealStage();
-			}
-		}
-
+		foreach (var bodyPart in health.BodyPartList) traumaManager.HealBodyPartTrauma(bodyPart, TraumaTypeToHeal);
 		stackable.ServerConsume(1);
 	}
 
