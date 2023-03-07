@@ -165,14 +165,14 @@ public static class CleanupUtil
 	/// </summary>
 	/// <param name="listInQuestion"> is a  list that should be altered according to the rules provided by the method</param>
 	/// <param name="verbose"> set it to True if you want to allow it to attempt to log typenames or even object names of objects, that would be removed from the list </param>
-	public static int RidListOfDeadElements<T>(IList<T> listInQuestion, bool verbose = false) where T: MonoBehaviour
+	public static int RidListOfDeadElements<T>(IList<T> listInQuestion, bool verbose = false) where T : MonoBehaviour
 	{
 		if (listInQuestion == null)
 		{
 			return -1;
 		}
 		List<T> survivorList = new List<T>();
-		
+
 		for (int i = 0, max = listInQuestion.Count; i < max; i++)
 		{
 			if (listInQuestion[i] != null)
@@ -285,8 +285,8 @@ public static class CleanupUtil
 		}
 
 		List<KeyValuePair<TKey, TValue>> survivorList = new List<KeyValuePair<TKey, TValue>>();
-		
-		foreach(var keyValuePair in dictInQuestion)
+
+		foreach (var keyValuePair in dictInQuestion)
 		{
 			if (keyValuePair.Key != null && keyValuePair.Value != null)
 			{
@@ -333,6 +333,39 @@ public static class CleanupUtil
 	/// </summary>
 	public static void EndRoundCleanup()
 	{
+		PlayerManager.Reset();
+		GameManager.Instance.CentComm.Clear();
+		GameManager.Instance.SpaceBodies.Clear();
+		Items.Weapons.ExplosiveBase.ExplosionEvent = new UnityEngine.Events.UnityEvent<Vector3Int, Items.Weapons.BlastData>();
+		Items.TrackingBeacon.Clear();
+		SoundManager.Instance.Clear();
+		SpriteHandlerManager.Instance.OnRoundRestart(default(UnityEngine.SceneManagement.Scene), default(UnityEngine.SceneManagement.Scene));
+		UpdateManager.Instance.Clear();
+		AudioManager.Instance.MultiInterestFloat.InterestedParties.Clear();
+		SoundManager.Instance.SoundSpawns.Clear();
+		SoundManager.Instance.NonplayingSounds.Clear();
+		GameManager.Instance.ResetStaticsOnNewRound();
+		SpriteHandlerManager.PresentSprites.Clear();
+		LandingZoneManager.Instance.landingZones.Clear();
+		LandingZoneManager.Instance.spaceTeleportPoints.Clear();
+		SpriteHandlerManager.PresentSprites = new Dictionary<Mirror.NetworkIdentity, Dictionary<string, SpriteHandler>>();
+		ChatBubbleManager.Instance.Clear();
+
+		foreach (var a in GameObject.FindObjectsOfType<AdminTools.AdminPlayerEntry>(true))
+		{
+			a.pendingMsgNotification = null;
+		}
+
+		foreach (var a in GameObject.FindObjectsOfType<UI_ItemSlot>(true))
+		{
+			a.Image.ClearAll();
+		}
+		
+		foreach (var a in GameObject.FindObjectsOfType<UI_SlotManager>(true))
+		{
+			a.OpenSlots.Clear();
+		}
+		UI_ItemImage.ImageAndHandler.ClearAll();
 	}
 
 	/// <summary>
@@ -340,6 +373,15 @@ public static class CleanupUtil
 	/// </summary>
 	public static void CleanupInbetweenScenes()
 	{
+		MatrixManager.Instance.ResetMatrixManager();
+		MatrixManager.IsInitialized = false;
+		GameManager.Instance.ResetStaticsOnNewRound();
+		Systems.Cargo.CargoManager.Instance.OnRoundRestart();
+		Systems.Scenes.LavaLandManager.Instance.Clean();
+		ClientSynchronisedEffectsManager.Instance.ClearData();
+		TileManager.Instance.Cleanup_between_rounds();
+		CleanupUtil.RidListOfDeadElements(GameManager.Instance.SpaceBodies);
+		RidDictionaryOfDeadElements(LandingZoneManager.Instance.landingZones, (u, k) => u != null);
 	}
 
 	/// <summary>
@@ -347,5 +389,31 @@ public static class CleanupUtil
 	/// </summary>
 	public static void RoundStartCleanup()
 	{
+		foreach (var a in UnityEngine.GameObject.FindObjectsOfType<UIAction>(true))
+		{
+			if ((a.iAction is UI.Action.ItemActionButton) && (a.iAction as UI.Action.ItemActionButton == null || (a.iAction as UI.Action.ItemActionButton).CurrentlyOn == null))
+			{
+				a.iAction = null;
+				UnityEngine.GameObject.Destroy(a.gameObject);
+			}
+		}
+		
+		ComponentManager.ObjectToPhysics.Clear();
+		Spawn.Clean();
+		MatrixManager.Instance.PostRoundStartCleanup();
+		SpriteHandlerManager.Instance.Clean();
+		Debug.Log("removed " + RidDictionaryOfDeadElements(Mirror.NetworkClient.spawned, (u,k)=> k != null) + " dead elements from Mirror.NetworkClient.spawned");
+		Debug.Log("removed " + RidDictionaryOfDeadElements(SoundManager.Instance.SoundSpawns, (u, k) => k != null) + " dead elements from SoundManager.Instance.SoundSpawns");
+		AdminTools.AdminOverlay.Instance?.Clear();
+		TileManager.Instance.DeepCleanupTiles();
+		CleanupUtil.RidListOfDeadElements(GameManager.Instance.SpaceBodies);
+		UI.Core.Action.UIActionManager.Instance.Clear();//maybe it'l work second time?
+		SpriteHandlerManager.Instance.Clean();
+		Dictionary<UInt64, Mirror.NetworkIdentity > dict = (Dictionary < UInt64, Mirror.NetworkIdentity > )typeof(Mirror.NetworkIdentity).GetField("sceneIds", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic).GetValue(null);
+		Debug.Log("removed " + RidDictionaryOfDeadElements(dict, (u, k) => k != null) + " dead elements from Mirror.NetworkIdentity.sceneIds");
+		RidDictionaryOfDeadElements(LandingZoneManager.Instance.landingZones, (u, k) => u != null);
+		SpriteHandlerManager.Instance.Clean();
+		Debug.Log("removed " + RidDictionaryOfDeadElements(SoundManager.Instance.NonplayingSounds, (u, k) => k != null) + " dead elements from SoundManager.Instance.NonplayingSounds");
+		RidDictionaryOfDeadElements(SpriteHandlerManager.PresentSprites, (u, k) => u != null && k != null);
 	}
 }

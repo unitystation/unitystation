@@ -26,6 +26,12 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise, IDisposable
 
 	public InitialisationSystems Subsystem => InitialisationSystems.ChatBubbleManager;
 
+	public void Clear()
+	{
+		chatBubblePool.Clear();
+		actionPool.Clear();
+	}
+
 	void IInitialise.Initialise()
 	{
 		if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleSize) == false)
