@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
+using DatabaseAPI;
 
 namespace Systems.Character
 {
 	/// <summary>Manage a player's characters. Intended for the local player client.</summary>
+	// TODO this class has stubs
 	public class CharacterManager
 	{
 		public List<CharacterSheet> Characters { get; } = new();
@@ -27,8 +29,17 @@ namespace Systems.Character
 			return Math.Clamp(lastCharacterIndex, 0, Characters.Count);
 		}
 
+		/// <summary>Remember which character the player last selected.</summary>
+		public void SetCurrentCharacterIndex(int index)
+		{
+			index = Math.Clamp(index, 0, Characters.Count);
+
+			PlayerPrefs.SetInt(PlayerPrefKeys.LastCharacterIndex, index);
+			PlayerPrefs.Save();
+		}
+
 		/// <summary>Load characters that have been saved to the cloud.</summary>
-		public void LoadCharacters()
+		public void LoadOnlineCharacters()
 		{
 			throw new NotImplementedException();
 		}
@@ -55,10 +66,18 @@ namespace Systems.Character
 			}
 		}
 
-		/// <summary>Save characters to the cloud.</summary>
+		/// <summary>Save characters to both the cloud and offline storage.</summary>
 		public void SaveCharacters()
 		{
-			throw new NotImplementedException();
+			SaveCharactersOffline();
+			SaveCharactersOnline();
+		}
+
+		/// <summary>Save characters to the cloud.</summary>
+		public void SaveCharactersOnline()
+		{
+			// TODO support multiple characters
+			_ = ServerData.UpdateCharacterProfile(Characters[GetCurrentCharacterIndex()]);
 		}
 
 		/// <summary>Save characters to Unity's persistent data folder.</summary>

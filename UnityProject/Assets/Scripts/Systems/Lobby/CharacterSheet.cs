@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 using UnityEngine;
 using UI.CharacterCreator;
 using Random = UnityEngine.Random;
@@ -12,7 +13,7 @@ namespace Systems.Character
 /// Class containing all character preferences for a player
 /// Includes appearance, job preferences etc...
 /// </summary>
-public class CharacterSheet
+public class CharacterSheet : ICloneable
 {
 	// TODO: all of the in-game appearance variables should probably be refactored into a separate class which can
 	// then be used in PlayerScript since job preferences are only needed at round start in ConnectedPlayer
@@ -271,17 +272,27 @@ public class CharacterSheet
 		return RaceSOSingleton.Instance.Races.FirstOrDefault(x => x.name == Species);
 	}
 
+	public object Clone()
+	{
+		string json = JsonConvert.SerializeObject(this);
+		return JsonConvert.DeserializeObject<CharacterSheet>(json);
+	}
+
 	#region StaticCustomizationFunctions
 
-	public static CharacterSheet GenerateRandomCharacter( )
+	public static CharacterSheet GenerateRandomCharacter()
 	{
 		CharacterSheet character = new CharacterSheet();
 
-		character.Species = RaceSOSingleton.Instance.Races.PickRandom().name;
-		character.BodyType = character.BodyType.PickRandom();
-		character.Age = Random.Range(19, 84);
-		character.SkinTone = GetRandomSkinTone(character.Species);
-		character.Name = character.Species == "Lizard" ? StringManager.GetRandomLizardName() : StringManager.GetRandomName();
+		PlayerHealthData race = RaceSOSingleton.Instance.Races.PickRandom();
+
+		character.Species = race.name;
+		character.BodyType = race.Base.bodyTypeSettings.AvailableBodyTypes.PickRandom().bodyType;
+		character.Age = Random.Range(19, 84); // TODO should be a race characteristic, literally 1984
+		character.SkinTone = GetRandomSkinTone(race);
+		character.Name = character.Species == "Lizard"
+				? StringManager.GetRandomLizardName()
+				: StringManager.GetRandomName(); // TODO do moths and what-not not have random names? Should be race characteristic
 		character.Speech = DMMath.Prob(35) ? character.Speech.PickRandom() : Speech.None;
 		character.PlayerPronoun = character.PlayerPronoun.PickRandom();
 		character.ClothingStyle = character.ClothingStyle.PickRandom();
@@ -289,8 +300,8 @@ public class CharacterSheet
 
 		character.AiName = "R.O.B.O.T."; // TODO: random names.
 
-		character.SerialisedBodyPartCustom = new List<CustomisationStorage>(); // TODO ask bod
-		character.SerialisedExternalCustom = GetRandomUnderwear(character.Species);
+		character.SerialisedBodyPartCustom = new List<CustomisationStorage>(); // things like beards etc, TODO ask bod
+		character.SerialisedExternalCustom = GetRandomUnderwear(race); // socks, t-shirts etc
 
 		return character;
 	}
@@ -300,43 +311,24 @@ public class CharacterSheet
 		return new Color(Random.Range(0.1f, 1f), Random.Range(0.1f, 1f), Random.Range(0.1f, 1f));
 	}
 
-	public static string GetRandomSkinTone(string speciesName = "Human")
+	public static string GetRandomSkinTone(PlayerHealthData race)
 	{
-		if (RaceSOSingleton.TryGetRaceByName(speciesName, out PlayerHealthData race))
-		{
-			List<Color> raceSkinColors = race.Base.SkinColours;
-			if (raceSkinColors.Count > 0)
-			{
-				return $"#{ColorUtility.ToHtmlStringRGB(raceSkinColors.PickRandom())}";
-			}
-		}
-
-		return $"#{ColorUtility.ToHtmlStringRGB(GetRandomColor())}";
+		return race.Base.SkinColours.Count > 0
+				? $"#{ColorUtility.ToHtmlStringRGB(race.Base.SkinColours.PickRandom())}"
+				: $"#{ColorUtility.ToHtmlStringRGB(GetRandomColor())}";
 	}
 
-	private static List<ExternalCustomisation> GetRandomUnderwear(string speciesName = "Human")
+	private static List<ExternalCustomisation> GetRandomUnderwear(PlayerHealthData race)
 	{
 		var externalCustomisations = new List<ExternalCustomisation>();
 
-		if (RaceSOSingleton.TryGetRaceByName(speciesName, out PlayerHealthData race) == false)
+		foreach (CustomisationAllowedSetting customisation in race.Base.CustomisationSettings)
 		{
-			return externalCustomisations;
-		}
-
-		void Logic(CustomisationAllowedSetting setting)
-		{
-			PlayerCustomisationData customizationToAdd = setting.CustomisationGroup.PlayerCustomisations.PickRandom();
-			ExternalCustomisation newExternalCustomisation = new ExternalCustomisation();
+			PlayerCustomisationData customizationToAdd = customisation.CustomisationGroup.PlayerCustomisations.PickRandom();
+			ExternalCustomisation newExternalCustomisation = new();
 			newExternalCustomisation.Key = customizationToAdd.name;
 			newExternalCustomisation.SerialisedValue = SerialiseCustomizationData(customizationToAdd);
 			externalCustomisations.Add(newExternalCustomisation);
-		}
-
-		foreach (CustomisationAllowedSetting customisation in race.Base.CustomisationSettings)
-		{
-			if (customisation.CustomisationGroup.name == "PlayerUnderShirt") Logic(customisation);
-			if (customisation.CustomisationGroup.name == "PlayerUnderWear") Logic(customisation);
-			if (customisation.CustomisationGroup.name == "PlayerSocks") Logic(customisation);
 		}
 
 		return externalCustomisations;

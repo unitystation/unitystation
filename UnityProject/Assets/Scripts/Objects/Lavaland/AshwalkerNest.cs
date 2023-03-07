@@ -244,7 +244,7 @@ namespace Objects
 			characterSettings.Species = ashwalkerRaceData.name;
 			characterSettings.SerialisedExternalCustom?.Clear();
 
-			characterSettings.SkinTone = CharacterSheet.GetRandomSkinTone(ashwalkerRaceData.name);
+			characterSettings.SkinTone = CharacterSheet.GetRandomSkinTone(ashwalkerRaceData);
 
 			//Give random lizard name
 			characterSettings.Name = StringManager.GetRandomLizardName(characterSettings.GetGender());
