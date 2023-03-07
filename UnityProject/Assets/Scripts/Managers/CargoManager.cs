@@ -108,6 +108,11 @@ namespace Systems.Cargo
 			return false;
 		}
 
+		public void Start()
+		{
+			OnRoundRestart();
+		}
+
 		public void OnRoundRestart()
 		{
 			Supplies.Clear();
