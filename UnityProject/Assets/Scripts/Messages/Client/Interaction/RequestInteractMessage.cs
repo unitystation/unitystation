@@ -335,8 +335,6 @@ namespace Messages.Client.Interaction
 				var interaction = ContextMenuApply.ByClient(performer, usedObj, targetObj, RequestedOption, Intent, Mind);
 				ProcessInteraction(interaction, processorObj, ComponentType);
 			}
-
-			SentByPlayer = null;
 		}
 
 		private void CheckMatrixSync(ref GameObject toCheck)
