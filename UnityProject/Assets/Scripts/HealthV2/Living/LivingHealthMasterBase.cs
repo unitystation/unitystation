@@ -316,7 +316,7 @@ namespace HealthV2
 			MultiInterestBool.RegisterBehaviour.RegisterFalse,
 			MultiInterestBool.BoolBehaviour.ReturnOnFalse);
 
-		[SerializeField, Range(1,60f)] private float updateTime = 1.25f;
+		[SerializeField, Range(1,60f)] private float updateTime = 1f;
 
 		//Default is mute yes
 
