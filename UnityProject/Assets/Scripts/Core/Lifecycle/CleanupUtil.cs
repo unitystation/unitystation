@@ -389,36 +389,31 @@ public static class CleanupUtil
 	/// </summary>
 	public static void RoundStartCleanup()
 	{
-		Initialisation.LoadManager.RegisterActionDelayed(()=> { Debug.Log("Delayed cleanup started");
-		
-			foreach (var a in UnityEngine.GameObject.FindObjectsOfType<UIAction>(true))
+		foreach (var a in UnityEngine.GameObject.FindObjectsOfType<UIAction>(true))
+		{
+			if ((a.iAction is UI.Action.ItemActionButton) && (a.iAction as UI.Action.ItemActionButton == null || (a.iAction as UI.Action.ItemActionButton).CurrentlyOn == null))
 			{
-				if ((a.iAction is UI.Action.ItemActionButton) && (a.iAction as UI.Action.ItemActionButton == null || (a.iAction as UI.Action.ItemActionButton).CurrentlyOn == null))
-				{
-					a.iAction = null;
-					UnityEngine.GameObject.Destroy(a.gameObject);
-				}
+				a.iAction = null;
+				UnityEngine.GameObject.Destroy(a.gameObject);
 			}
+		}
 		
-			ComponentManager.ObjectToPhysics.Clear();
-			Spawn.Clean();
-			MatrixManager.Instance.PostRoundStartCleanup();
-			SpriteHandlerManager.Instance.Clean();
-			Debug.Log("removed " + RidDictionaryOfDeadElements(Mirror.NetworkClient.spawned, (u,k)=> k != null) + " dead elements from Mirror.NetworkClient.spawned");
-			Debug.Log("removed " + RidDictionaryOfDeadElements(SoundManager.Instance.SoundSpawns, (u, k) => k != null) + " dead elements from SoundManager.Instance.SoundSpawns");
-			AdminTools.AdminOverlay.Instance?.Clear();
-			TileManager.Instance.DeepCleanupTiles();
-			CleanupUtil.RidListOfDeadElements(GameManager.Instance.SpaceBodies);
-			UI.Core.Action.UIActionManager.Instance.Clear();//maybe it'l work second time?
-			SpriteHandlerManager.Instance.Clean();
-			Dictionary<UInt64, Mirror.NetworkIdentity > dict = (Dictionary < UInt64, Mirror.NetworkIdentity > )typeof(Mirror.NetworkIdentity).GetField("sceneIds", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic).GetValue(null);
-			Debug.Log("removed " + RidDictionaryOfDeadElements(dict, (u, k) => k != null) + " dead elements from Mirror.NetworkIdentity.sceneIds");
-			RidDictionaryOfDeadElements(LandingZoneManager.Instance.landingZones, (u, k) => u != null);
-			SpriteHandlerManager.Instance.Clean();
-			Debug.Log("removed " + RidDictionaryOfDeadElements(SoundManager.Instance.NonplayingSounds, (u, k) => k != null) + " dead elements from SoundManager.Instance.NonplayingSounds");
-			RidDictionaryOfDeadElements(SpriteHandlerManager.PresentSprites, (u, k) => u != null && k != null);
-		}, 300);
-
-		//
+		ComponentManager.ObjectToPhysics.Clear();
+		Spawn.Clean();
+		MatrixManager.Instance.PostRoundStartCleanup();
+		SpriteHandlerManager.Instance.Clean();
+		Debug.Log("removed " + RidDictionaryOfDeadElements(Mirror.NetworkClient.spawned, (u,k)=> k != null) + " dead elements from Mirror.NetworkClient.spawned");
+		Debug.Log("removed " + RidDictionaryOfDeadElements(SoundManager.Instance.SoundSpawns, (u, k) => k != null) + " dead elements from SoundManager.Instance.SoundSpawns");
+		AdminTools.AdminOverlay.Instance?.Clear();
+		TileManager.Instance.DeepCleanupTiles();
+		CleanupUtil.RidListOfDeadElements(GameManager.Instance.SpaceBodies);
+		UI.Core.Action.UIActionManager.Instance.Clear();//maybe it'l work second time?
+		SpriteHandlerManager.Instance.Clean();
+		Dictionary<UInt64, Mirror.NetworkIdentity > dict = (Dictionary < UInt64, Mirror.NetworkIdentity > )typeof(Mirror.NetworkIdentity).GetField("sceneIds", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic).GetValue(null);
+		Debug.Log("removed " + RidDictionaryOfDeadElements(dict, (u, k) => k != null) + " dead elements from Mirror.NetworkIdentity.sceneIds");
+		RidDictionaryOfDeadElements(LandingZoneManager.Instance.landingZones, (u, k) => u != null);
+		SpriteHandlerManager.Instance.Clean();
+		Debug.Log("removed " + RidDictionaryOfDeadElements(SoundManager.Instance.NonplayingSounds, (u, k) => k != null) + " dead elements from SoundManager.Instance.NonplayingSounds");
+		RidDictionaryOfDeadElements(SpriteHandlerManager.PresentSprites, (u, k) => u != null && k != null);
 	}
 }
