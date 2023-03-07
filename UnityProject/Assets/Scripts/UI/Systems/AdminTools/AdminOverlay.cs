@@ -48,18 +48,10 @@ namespace AdminTools
 			Init();
 		}
 
-		private void OnEnable()
+		public void Clear()
 		{
-			SceneManager.activeSceneChanged += OnSceneChange;
-		}
+			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(serverInfos, (u, k) => k != null) + " dead elements from AdminOverlay.serverInfos");
 
-		private void OnDisable()
-		{
-			SceneManager.activeSceneChanged -= OnSceneChange;
-		}
-
-		void OnSceneChange(Scene oldScene, Scene newScene)
-		{
 			foreach (Transform t in transform)
 			{
 				var panel = t.GetComponent<AdminOverlayPanel>();
@@ -69,6 +61,7 @@ namespace AdminTools
 				}
 			}
 		}
+
 
 		void Init()
 		{

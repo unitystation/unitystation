@@ -14,6 +14,7 @@ namespace Messages.Client.Admin
 		public override void Process(NetMessage msg)
 		{
 			VerifyAdminStatus(msg);
+			SentByPlayer = null;
 		}
 
 		private void VerifyAdminStatus(NetMessage msg)

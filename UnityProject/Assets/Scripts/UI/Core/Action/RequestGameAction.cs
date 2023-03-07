@@ -38,24 +38,31 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 
 	public override void Process(NetMessage msg)
 	{
-		var type = componentIDToComponentType[msg.ComponentID];
-		LoadNetworkObject(msg.NetObject);
-
-		if (SentByPlayer == PlayerInfo.Invalid) return;
-
-		var IActionGUIs = NetworkObject.GetComponentsInChildren(type);
-		if (IActionGUIs.Length > msg.ComponentLocation)
+		try
 		{
-			if (IActionGUIs[msg.ComponentLocation] is IServerActionGUI IServerActionGUI)
-			{
-				IServerActionGUI.CallActionServer(SentByPlayer);
-				return;
-			}
+			var type = componentIDToComponentType[msg.ComponentID];
+			LoadNetworkObject(msg.NetObject);
 
-			if (IActionGUIs[msg.ComponentLocation] is IServerActionGUIMulti IServerActionGUIMulti)
+			if (SentByPlayer == PlayerInfo.Invalid) return;
+
+			var IActionGUIs = NetworkObject.GetComponentsInChildren(type);
+			if (IActionGUIs.Length > msg.ComponentLocation)
 			{
-				IServerActionGUIMulti.CallActionServer(IServerActionGUIMulti.ActionData[msg.listIndex], SentByPlayer);
+				if (IActionGUIs[msg.ComponentLocation] is IServerActionGUI IServerActionGUI)
+				{
+					IServerActionGUI.CallActionServer(SentByPlayer);
+					return;
+				}
+
+				if (IActionGUIs[msg.ComponentLocation] is IServerActionGUIMulti IServerActionGUIMulti)
+				{
+					IServerActionGUIMulti.CallActionServer(IServerActionGUIMulti.ActionData[msg.listIndex], SentByPlayer);
+				}
 			}
+		}
+		finally
+		{
+			SentByPlayer = null;
 		}
 	}
 

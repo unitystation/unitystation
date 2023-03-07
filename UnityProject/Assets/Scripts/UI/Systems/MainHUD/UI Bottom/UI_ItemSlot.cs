@@ -92,22 +92,6 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		hidden = initiallyHidden;
 	}
 
-	private void OnEnable()
-	{
-		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
-	}
-
-	private void OnDisable()
-	{
-		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
-	}
-
-	//Reset Item slot sprite on game restart
-	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)
-	{
-		image.ClearAll();
-	}
-
 	/// <summary>
 	/// Link this item slot to its configured named slot on the local player, if this slot is for the local player.
 	/// Should only be called after local player is spawned.

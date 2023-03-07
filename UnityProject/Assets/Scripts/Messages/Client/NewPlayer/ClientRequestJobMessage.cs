@@ -27,6 +27,8 @@ namespace Messages.Client.NewPlayer
 			{
 				AcceptRequest(msg);
 			}
+
+			SentByPlayer = null;
 		}
 
 		public static NetMessage Send(JobType jobType, string jsonCharSettings, string playerID)
