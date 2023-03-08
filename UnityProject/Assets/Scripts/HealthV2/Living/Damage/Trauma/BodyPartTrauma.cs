@@ -16,12 +16,12 @@ namespace HealthV2
 				return;
 			}
 
-			RelatedPart.OnDamageTaken += OnDamageTaken;
+			RelatedPart.OnDamageTaken += OnTakeDamage;
 		}
 
 		private void OnDestroy()
 		{
-			RelatedPart.OnDamageTaken -= OnDamageTaken;
+			RelatedPart.OnDamageTaken -= OnTakeDamage;
 		}
 
 		public override void AddedToBody(LivingHealthMasterBase livingHealth)
@@ -43,7 +43,7 @@ namespace HealthV2
 			creatureTraumaAPI.Traumas.Remove(RelatedPart);
 		}
 
-		private void OnDamageTaken(BodyPartDamageData data)
+		public override void OnTakeDamage(BodyPartDamageData data)
 		{
 			foreach (var logic in traumaTypesOnBodyPart)
 			{

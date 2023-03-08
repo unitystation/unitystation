@@ -21,6 +21,7 @@ namespace HealthV2
 		public virtual void AddedToBody(LivingHealthMasterBase livingHealth){} //Warning only add body parts do not remove body parts in this
 		public virtual void SetUpSystems(){}
 		public virtual void InternalDamageLogic() {}
+		public virtual void OnTakeDamage(BodyPartDamageData data) {}
 
 		public virtual void OnEmp(int strength)
 		{
