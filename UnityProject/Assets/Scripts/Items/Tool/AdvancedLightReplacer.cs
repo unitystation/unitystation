@@ -25,7 +25,7 @@ namespace Items.Tool
 		{
 			if (lightTuner && interaction.IsAltClick)
 			{
-				LightTunerWindowOpen();
+				LightTunerWindowOpen(interaction.PerformerPlayerScript.netIdentity.connectionToClient);
 				return;
 			}
 			lightTuner = !lightTuner;
@@ -81,7 +81,8 @@ namespace Items.Tool
 			source.TryAddBulb(target.ItemObject);
 		}
 
-		private void LightTunerWindowOpen()
+		[TargetRpc]
+		private void LightTunerWindowOpen(NetworkConnection target)
 		{
 			UIManager.Instance.GlobalColorPicker.EnablePicker(SetColorToTune);
 		}
