@@ -1,19 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
 using Mirror;
 using IgnoranceTransport;
+using Firebase;
 using Firebase.Auth;
 using Firebase.Extensions;
 using Shared.Managers;
 using Managers;
 using DatabaseAPI;
-using UI.CharacterCreator;
-using System.Linq;
-using Firebase;
 
 namespace Lobby
 {
@@ -23,7 +22,7 @@ namespace Lobby
 	public class LobbyManager : SingletonManager<LobbyManager>
 	{
 		[SerializeField]
-		private CharacterCustomization characterCustomization;
+		private GameObject characterSettings;
 
 		[SerializeField]
 		private GUI_LobbyDialogue lobbyDialogue;
@@ -220,7 +219,7 @@ namespace Lobby
 
 		public void ShowCharacterEditor()
 		{
-			characterCustomization.SetActive(true);
+			characterSettings.SetActive(true);
 		}
 
 		public void JoinServer(string address, ushort port)
@@ -286,7 +285,7 @@ namespace Lobby
 			PlayerPrefs.DeleteKey(PlayerPrefKeys.AccountToken);
 			PlayerPrefs.Save();
 
-			characterCustomization.gameObject.SetActive(false);
+			characterSettings.SetActive(false);
 			lobbyDialogue.gameObject.SetActive(true);
 			lobbyDialogue.ShowLoginPanel();
 		}
@@ -303,7 +302,7 @@ namespace Lobby
 			{
 				if (!UIManager.IsTablet)
 				{
-					characterCustomization.transform.localScale *= 1.25f;
+					characterSettings.transform.localScale *= 1.25f;
 					lobbyDialogue.transform.localScale *= 2.0f;
 				}
 			}
@@ -311,12 +310,12 @@ namespace Lobby
 			{
 				if (Screen.height > 720f)
 				{
-					characterCustomization.transform.localScale *= 0.8f;
+					characterSettings.transform.localScale *= 0.8f;
 					lobbyDialogue.transform.localScale *= 0.8f;
 				}
 				else
 				{
-					characterCustomization.transform.localScale *= 0.9f;
+					characterSettings.transform.localScale *= 0.9f;
 					lobbyDialogue.transform.localScale *= 0.9f;
 				}
 			}

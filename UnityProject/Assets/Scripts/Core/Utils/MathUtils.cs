@@ -7,7 +7,7 @@ namespace Core.Utils
 	/// <seealso cref="DMMath"/>
 	/// <seealso cref="RandomUtils"/>
 	/// </summary>
-	public class MathUtils
+	public static class MathUtils
 	{
 		/// <summary>Check if a float is approximately equal to another.</summary>
 		public static bool IsEqual(float a, float b)
