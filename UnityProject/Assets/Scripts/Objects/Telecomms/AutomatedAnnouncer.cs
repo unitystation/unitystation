@@ -77,7 +77,7 @@ namespace Objects.Telecomms
 
 		private void AnnounceNewCrewmember(Mind player)
 		{
-			string playerName = player.CurrentPlayScript.characterSettings.Name;
+			string playerName = player.CurrentCharacterSettings.Name;
 			Loudness annoucementImportance = GetAnnouncementImportance(player.occupation);
 
 			ChatChannel chatChannels = ChatChannel.Common;
