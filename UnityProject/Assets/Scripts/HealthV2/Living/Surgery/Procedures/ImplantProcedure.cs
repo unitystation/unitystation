@@ -19,7 +19,7 @@ namespace HealthV2
 
 			var itemApp = interaction?.HandSlot?.Item.OrNull()?.GetComponent<ItemAttributesV2>();
 
-			if (interaction.HandSlot.Item != null && itemApp.HasTrait(RequiredImplantTrait))
+			if (interaction?.HandSlot?.Item != null && itemApp.OrNull()?.HasTrait(RequiredImplantTrait) == true)
 			{
 				if (OnBodyPart != null)
 				{

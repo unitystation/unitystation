@@ -22,9 +22,7 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		public override HealthSystemBase CloneThisSystem()
 		{
-			return new ReagentSaturationSystem()
-			{
-			};
+			return new ReagentSaturationSystem();
 		}
 
 		public class ReagentWithBodyParts
