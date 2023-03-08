@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
@@ -9,7 +8,6 @@ using UnityEngine.SceneManagement;
 using Player;
 using Shared.Util;
 using Systems.Character;
-using Util;
 
 public class PlayerManager : MonoBehaviour
 {

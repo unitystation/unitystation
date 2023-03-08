@@ -233,9 +233,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-		EventManager.AddHandler(Event.Cleanup,ClientCleanupInbetweenScenes );
-		EventManager.AddHandler(Event.CleanupEnd,ClientCleanupEndRoundCleanups );
-		EventManager.AddHandler(Event.PostRoundStarted,ClientRoundStartCleanup );
+		EventManager.AddHandler( Event.Cleanup, ClientCleanupInbetweenScenes );
+		EventManager.AddHandler( Event.CleanupEnd, ClientCleanupEndRoundCleanups );
+		EventManager.AddHandler( Event.PostRoundStarted, ClientRoundStartCleanup );
 
 
 	}
@@ -244,9 +244,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-		EventManager.RemoveHandler(Event.Cleanup,ClientCleanupInbetweenScenes );
-		EventManager.RemoveHandler(Event.CleanupEnd,ClientCleanupEndRoundCleanups );
-		EventManager.RemoveHandler(Event.PostRoundStarted,ClientRoundStartCleanup );
+		EventManager.RemoveHandler( Event.Cleanup, ClientCleanupInbetweenScenes );
+		EventManager.RemoveHandler( Event.CleanupEnd, ClientCleanupEndRoundCleanups );
+		EventManager.RemoveHandler( Event.PostRoundStarted, ClientRoundStartCleanup );
 
 	}
 
