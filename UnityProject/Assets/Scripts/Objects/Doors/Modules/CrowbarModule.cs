@@ -31,7 +31,7 @@ namespace Doors.Modules
 
 		public override void OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
-			if (interaction == null) return;
+			if (interaction is not { Intent: Intent.Help }) return;
 			//If the door is powered, only allow things that are made to pry doors. If it isn't powered, we let crowbars work.
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) || Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
@@ -56,7 +56,7 @@ namespace Doors.Modules
 
 		public override void ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
-			if (interaction == null) return;
+			if (interaction is not { Intent: Intent.Help }) return;
 
 			//TODO card coded not larva, maybe when moved to body parts larva has their doesnt have this ability on theirs
 			if (interaction.HandObject == null
