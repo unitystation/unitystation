@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Managers;
 using Systems.Electricity;
 using UnityEngine;
 using Communications;
@@ -58,14 +57,16 @@ namespace Objects.Telecomms
 			}
 		}
 
-		private void ServerOnPlayerSpawned(object sender, PlayerSpawn.SpawnEventArgs args)
+		private void ServerOnPlayerSpawned(GameObject player)
 		{
+			/*
 			if (GameManager.Instance.stationTime < TIME_BEFORE_JOIN_ANNOUNCEMENTS)
 			{
 				return;
 			}
+			*/
 
-			AnnounceNewCrewmember(args.Player);
+			AnnounceNewCrewmember(player);
 		}
 
 		protected override bool SendSignalLogic()

@@ -97,9 +97,8 @@ public static class PlayerSpawn
 		public GameObject Player;
 	}
 
-	public delegate void SpawnHandler(object sender, SpawnEventArgs args);
 
-	public static event SpawnHandler SpawnEvent;
+	public static event Action<GameObject> SpawnEvent;
 
 
 	//Time to start spawning players at arrivals
@@ -167,7 +166,8 @@ public static class PlayerSpawn
 	{
 		//Validate?
 		var mind = SpawnMind(character);
-		SpawnAndApplyRole(mind, requestedOccupation, character, SpawnType.NewSpawn);
+		var playerObject = SpawnAndApplyRole(mind, requestedOccupation, character, SpawnType.NewSpawn);
+		SpawnEvent?.Invoke(playerObject);
 		return mind;
 	}
 
