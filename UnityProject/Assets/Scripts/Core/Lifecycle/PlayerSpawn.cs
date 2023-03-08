@@ -92,14 +92,7 @@ public interface IClientPlayerTransferProcess
 /// </summary>
 public static class PlayerSpawn
 {
-	public class SpawnEventArgs : EventArgs
-	{
-		public GameObject Player;
-	}
-
-	public delegate void SpawnHandler(object sender, SpawnEventArgs args);
-
-	public static event SpawnHandler SpawnEvent;
+	public static event Action<Mind> SpawnEvent;
 
 
 	//Time to start spawning players at arrivals
@@ -151,6 +144,7 @@ public static class PlayerSpawn
 
 			var mind = NewSpawnCharacterV2(requestedOccupation, character);
 			TransferAccountToSpawnedMind(account, mind);
+			SpawnEvent?.Invoke(mind);
 			return mind;
 		}
 		catch (Exception e)
@@ -158,7 +152,6 @@ public static class PlayerSpawn
 			Logger.LogError(e.ToString());
 			return null;
 		}
-
 	}
 
 
