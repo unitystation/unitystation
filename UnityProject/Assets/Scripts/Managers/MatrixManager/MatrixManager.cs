@@ -80,6 +80,9 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
+
+		ResetMatrixManager();
+		IsInitialized = false;
 	}
 
 	void OnSceneChange(Scene oldScene, Scene newScene)
