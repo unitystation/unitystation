@@ -57,7 +57,7 @@ namespace Objects.Telecomms
 			}
 		}
 
-		private void ServerOnPlayerSpawned(GameObject player)
+		private void ServerOnPlayerSpawned(Mind player)
 		{
 			/*
 			if (GameManager.Instance.stationTime < TIME_BEFORE_JOIN_ANNOUNCEMENTS)
@@ -78,44 +78,42 @@ namespace Objects.Telecomms
 		public override void SignalFailed() { }
 
 
-		private void AnnounceNewCrewmember(GameObject player)
+		private void AnnounceNewCrewmember(Mind player)
 		{
-			PlayerScript playerScript = player.GetComponent<PlayerScript>();
-			Occupation playerOccupation = playerScript.Mind.occupation;
-			string playerName = player.ExpensiveName();
-			Loudness annoucementImportance = GetAnnouncementImportance(playerOccupation);
+			string playerName = player.CurrentPlayScript.visibleName;
+			Loudness annoucementImportance = GetAnnouncementImportance(player.occupation);
 
 			ChatChannel chatChannels = ChatChannel.Common;
-			string commonMessage = $"{playerName} has signed up as {playerOccupation.DisplayName}.";
-			string deptMessage = $"{playerName}, {playerOccupation.DisplayName}, is the department head.";
+			string commonMessage = $"{playerName} has signed up as {player.occupation.DisplayName}.";
+			string deptMessage = $"{playerName}, {player.occupation.DisplayName}, is the department head.";
 
 			// Get the channel of the newly joined head from their occupation.
-			if (channelFromJob.ContainsKey(playerOccupation.JobType))
+			if (channelFromJob.ContainsKey(player.occupation.JobType))
 			{
-				BroadcastCommMsg(channelFromJob[playerOccupation.JobType], deptMessage, annoucementImportance);
+				BroadcastCommMsg(channelFromJob[player.occupation.JobType], deptMessage, annoucementImportance);
 			}
 
 			// Announce the arrival on the CentComm channel if is a CentComm occupation.
-			if (JobCategories.CentCommJobs.Contains(playerOccupation.JobType))
+			if (JobCategories.CentCommJobs.Contains(player.occupation.JobType))
 			{
 				chatChannels = ChatChannel.CentComm;
 			}
 
-			if (playerOccupation.JobType == JobType.AI)
+			if (player.occupation.JobType == JobType.AI)
 			{
-				commonMessage = $"{player.ExpensiveName()} has been bluespace-beamed into the AI core!";
+				commonMessage = $"{player.CurrentCharacterSettings.AiName} has been bluespace-beamed into the AI core!";
 			}
-			else if (playerOccupation.JobType == JobType.SYNDICATE)
+			else if (player.occupation.JobType == JobType.SYNDICATE)
 			{
 				chatChannels = ChatChannel.Syndicate;
 			}
-			else if (playerOccupation.IsCrewmember == false)
+			else if (player.occupation.IsCrewmember == false)
 			{
 				// Don't announce non-crewmembers like wizards, fugitives at all (they don't have their own chat channel).
 				return;
 			}
 
-			BroadcastCommMsg(chatChannels, commonMessage, GetAnnouncementImportance(playerOccupation));
+			BroadcastCommMsg(chatChannels, commonMessage, GetAnnouncementImportance(player.occupation));
 		}
 
 		private Loudness GetAnnouncementImportance(Occupation job)
