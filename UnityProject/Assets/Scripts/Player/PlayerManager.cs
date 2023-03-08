@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
@@ -143,6 +144,12 @@ public class PlayerManager : MonoBehaviour
 	{
 		HasSpawned = false;
 		EventManager.Broadcast(Event.DisableInternals);
+	}
+
+
+	public void OnDestroy()
+	{
+		HasSpawned = false;
 	}
 
 	public static void SetViewerForControl(JoinedViewer viewer)

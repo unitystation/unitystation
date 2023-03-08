@@ -233,13 +233,24 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		EventManager.AddHandler(Event.Cleanup,ClientCleanupInbetweenScenes );
+		EventManager.AddHandler(Event.CleanupEnd,ClientCleanupEndRoundCleanups );
+		EventManager.AddHandler(Event.PostRoundStarted,ClientRoundStartCleanup );
+
+
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		EventManager.RemoveHandler(Event.Cleanup,ClientCleanupInbetweenScenes );
+		EventManager.RemoveHandler(Event.CleanupEnd,ClientCleanupEndRoundCleanups );
+		EventManager.RemoveHandler(Event.PostRoundStarted,ClientRoundStartCleanup );
+
 	}
+
+
 
 	///<summary>
 	/// This is for any space object that needs to be randomly placed in the solar system
@@ -621,6 +632,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		EventManager.Broadcast(Event.RoundEnded, true);
 		GameMode.EndRoundReport();
 		CleanupUtil.EndRoundCleanup();
+
+		EventManager.Broadcast(Event.CleanupEnd, true);
+
 		counting = false;
 
 		StartCoroutine(WaitForRoundRestart());
@@ -891,6 +905,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			yield return WaitFor.Seconds(0.2f);
 			CleanupUtil.CleanupInbetweenScenes();
 
+			EventManager.Broadcast(Event.Cleanup, true);
+
 			CustomNetworkManager.Instance.ServerChangeScene("OnlineScene");
 
 			StopAllCoroutines();
@@ -905,4 +921,32 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			Application.Quit();
 		}
 	}
+
+	public void ClientCleanupInbetweenScenes()
+	{
+		if (CustomNetworkManager.IsServer == false)
+		{
+			CleanupUtil.CleanupInbetweenScenes();
+		}
+
+	}
+
+	public void ClientCleanupEndRoundCleanups()
+	{
+		if (CustomNetworkManager.IsServer == false)
+		{
+			CleanupUtil.EndRoundCleanup();
+		}
+
+	}
+
+
+	public void ClientRoundStartCleanup()
+	{
+		if (CustomNetworkManager.IsServer == false)
+		{
+			CleanupUtil.RoundStartCleanup();
+		}
+	}
+
 }

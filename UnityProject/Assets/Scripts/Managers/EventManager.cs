@@ -36,7 +36,9 @@ public enum Event
 	BlobSpawned,
 	ScenesLoadedServer,
 	LavalandFirstEntered,
-	ChatQuickUnfocus
+	ChatQuickUnfocus,
+	Cleanup,
+	CleanupEnd
 } // + other events. Add them as you need them
 
 [ExecuteInEditMode]
