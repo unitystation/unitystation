@@ -59,6 +59,19 @@ namespace Systems.Scenes
 			EventManager.RemoveHandler(Event.ScenesLoadedServer, SpawnLavaLand);
 		}
 
+		public override void OnDestroy()
+		{
+			EventManager.RemoveHandler(Event.ScenesLoadedServer, SpawnLavaLand);
+			randomGenScripts.Clear();
+			base.OnDestroy();
+		}
+
+		public void Clean()
+		{
+			tileChangeManager = null;
+			Debug.Log("removed " + CleanupUtil.RidListOfDeadElements(randomGenScripts) + " dead elements from LavaLandManager.randomGenScripts");
+		}
+
 		public void SpawnLavaLand()
 		{
 			if (CustomNetworkManager.IsServer == false) return;
@@ -228,6 +241,11 @@ namespace Systems.Scenes
 					}
 				}
 			}
+		}
+
+		public static void ClearBetweenRounds()
+		{
+			Debug.Log("removed " + CleanupUtil.RidListOfDeadElements(Instance.randomGenScripts) + " dead elements from LavalLandManager.randomGenScripts");
 		}
 	}
 }

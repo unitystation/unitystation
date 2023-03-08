@@ -61,26 +61,26 @@ public class MetaDataLayerMessage : ServerMessage<MetaDataLayerMessage.NetMessag
 	public static void Send(GameObject managerSubject, List<MetaDataNode> changeList)
 	{
 		var netID = managerSubject.transform.parent.GetComponent<NetworkedMatrix>().MatrixSync.netId;
-		// foreach (var changeChunk in changeList.Chunk(MAX_CHANGES_PER_MESSAGE)) //TODO Check it's not too big maybe
-		// {
-		List<DelayedData> Changes = new List<DelayedData>();
-
-		foreach (var metaData in changeList)
+		foreach (var changeChunk in changeList.Chunk(MAX_CHANGES_PER_MESSAGE))
 		{
-			Changes.Add(new DelayedData()
+			List<DelayedData> Changes = new List<DelayedData>();
+
+			foreach (var metaData in changeChunk)
 			{
-				Position = metaData.LocalPosition,
-				IsSlippy = metaData.IsSlippery
-			});
-		}
+				Changes.Add(new DelayedData()
+				{
+					Position = metaData.LocalPosition,
+					IsSlippy = metaData.IsSlippery
+				});
+			}
 
-		NetMessage msg = new NetMessage
-		{
-			MatrixSyncNetID = netID,
-			Changes = Changes
-		};
-		SendToAll(msg);
-		// }
+			NetMessage msg = new NetMessage
+			{
+				MatrixSyncNetID = netID,
+				Changes = Changes
+			};
+			SendToAll(msg);
+		}
 	}
 
 	public struct DelayedData
@@ -123,6 +123,7 @@ public static class UpdateTileMessageReaderWriters
 		foreach (var delayedData in message.Changes)
 		{
 			writer.WriteBool(true);
+
 			writer.WriteVector3Int(delayedData.Position);
 			writer.WriteBool(delayedData.IsSlippy);
 		}

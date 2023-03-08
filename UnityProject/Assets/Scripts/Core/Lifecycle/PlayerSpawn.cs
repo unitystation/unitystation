@@ -7,6 +7,7 @@ using Messages.Server;
 using Messages.Server.LocalGuiMessages;
 using Player;
 using Systems;
+using Systems.Character;
 
 /// <summary>
 /// This interface will be called after the client has rejoined and has all scenes loaded!
@@ -434,6 +435,14 @@ public static class PlayerSpawn
 
 		if (to)
 		{
+
+			if (account.ViewerScript != null)
+			{
+				_ = Despawn.ServerSingle(account.ViewerScript.gameObject);
+				account.ViewerScript = null;
+			}
+
+
 			var netIdentity = to.GetComponent<NetworkIdentity>();
 			if (netIdentity.connectionToClient != null && to.connectionToClient != account.Connection)
 			{

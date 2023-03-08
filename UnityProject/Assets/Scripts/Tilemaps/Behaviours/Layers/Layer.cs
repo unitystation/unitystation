@@ -126,6 +126,12 @@ public class Layer : MonoBehaviour
 		}
 	}
 
+	private void OnDestroy()
+	{
+		{
+			matrixMove?.MatrixMoveEvents?.OnRotate?.RemoveListener(OnRotate);
+		}
+	}
 	private void OnRotate(MatrixRotationInfo info)
 	{
 		if (info.IsEnding || info.IsObjectBeingRegistered)

@@ -357,8 +357,8 @@ namespace GameModes
 		{
 			Logger.LogFormat("Starting {0} round!", Category.GameMode, Name);
 
-			List<PlayerSpawnRequest> playerSpawnRequests;
-			List<PlayerSpawnRequest> antagSpawnRequests;
+			List<PlayerSpawnRequest> playerSpawnRequests = new List<PlayerSpawnRequest>();
+			List<PlayerSpawnRequest> antagSpawnRequests = new List<PlayerSpawnRequest>();;
 			int antagsToSpawn = CalculateAntagCount(PlayerList.Instance.ReadyPlayers.Count);
 			var jobAllocator = new JobAllocator();
 			var playerPool = PlayerList.Instance.ReadyPlayers;
@@ -391,7 +391,6 @@ namespace GameModes
 			catch (Exception e)
 			{
 				Logger.LogError("Failed on Antag Job Allocation" + e.ToString());
-				throw;
 			}
 
 			// Spawn all players and antags
@@ -405,7 +404,6 @@ namespace GameModes
 				catch (Exception e)
 				{
 					Logger.LogError($" Failed to spawn player {spawnReq?.Player?.Name} " + e.ToString());
-					throw;
 				}
 			}
 
@@ -420,7 +418,6 @@ namespace GameModes
 				catch (Exception e)
 				{
 					Logger.LogError($" Failed to SpawnAntag {spawnReq?.Player?.Name} Antag {spawnReq?.RequestedOccupation.OrNull()?.name}  " + e.ToString());
-					throw;
 				}
 			}
 
@@ -432,7 +429,6 @@ namespace GameModes
 			catch (Exception e)
 			{
 				Logger.LogError($" Failed to DiscordWebhookMessage Started round message " + e.ToString());
-				throw;
 			}
 
 			GameManager.Instance.CurrentRoundState = RoundState.Started;

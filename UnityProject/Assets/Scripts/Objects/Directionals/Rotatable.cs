@@ -92,7 +92,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 				CmdChangeDirection(dir);
 			}
 
-			OnRotationChange.Invoke(dir);
+			OnRotationChange?.Invoke(dir);
 		}
 	}
 

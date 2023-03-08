@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using HealthV2;
 using UnityEngine;
-using UI.Objects.Medical;
 using Random = UnityEngine.Random;
 using Health.Sickness;
+using Systems.Character;
 using UI.Objects.Medical.Cloning;
 
 namespace Objects.Medical

@@ -19,6 +19,12 @@ namespace Systems.Score
 			EventManager.AddHandler(Event.RoundStarted, CreateCommonScoreEntries);
 		}
 
+		public override void OnDestroy()
+		{
+			EventManager.RemoveHandler(Event.RoundEnded, CalculateScoresAndShow);
+			EventManager.RemoveHandler(Event.RoundStarted, CreateCommonScoreEntries);
+			base.OnDestroy();
+		}
 		private void CreateCommonScoreEntries()
 		{
 			ScoreMachine.AddNewScoreEntry(COMMON_SCORE_LABORPOINTS, "Total Labor Points", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Good);

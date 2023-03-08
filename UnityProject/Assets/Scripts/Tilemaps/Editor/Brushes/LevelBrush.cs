@@ -187,7 +187,10 @@ public class LevelBrush : GridBrush
 	{
 		foreach (LayerTile requiredTile in tile.RequiredTiles)
 		{
-			SetTile(metaTileMap, position, requiredTile);
+			if (metaTileMap.HasTile(position, requiredTile.LayerType) == false)
+			{
+				SetTile(metaTileMap, position, requiredTile);
+			}
 		}
 
 		metaTileMap.SetTile(position, tile, cells[0].matrix, cells[0].color, isPlaying: false);
