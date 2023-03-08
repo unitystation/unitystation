@@ -25,7 +25,7 @@ namespace Items.Tool
 		{
 			if (lightTuner && interaction.IsAltClick)
 			{
-				LightTunerWindowOpen(interaction.PerformerPlayerScript.netIdentity.connectionToServer);
+				LightTunerWindowOpen(interaction.PerformerPlayerScript.netIdentity.connectionToClient);
 				return;
 			}
 			lightTuner = !lightTuner;
