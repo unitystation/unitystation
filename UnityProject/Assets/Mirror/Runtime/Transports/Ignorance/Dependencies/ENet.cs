@@ -29,6 +29,8 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
 
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Mirror.Runtime.Transports.Ignorance.Editor")]
+
 namespace ENet
 {
     [Flags]
