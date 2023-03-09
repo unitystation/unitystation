@@ -10,7 +10,6 @@ namespace Items.Implants.Organs
 
 		public float GenerationOvershoot = 1;
 
-
 		public override void SetUpSystems()
 		{
 			base.SetUpSystems();
@@ -18,7 +17,8 @@ namespace Items.Implants.Organs
 			{
 				GeneratesThis = RelatedPart.HealthMaster.CirculatorySystem.BloodType;
 			}
-		}
+		} //TODO remove
+
 		public override void ImplantPeriodicUpdate()
 		{
 			if ((RelatedPart.HealthMaster.CirculatorySystem.StartingBlood * GenerationOvershoot) > RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Total)  //Assuming this is blood cap max)

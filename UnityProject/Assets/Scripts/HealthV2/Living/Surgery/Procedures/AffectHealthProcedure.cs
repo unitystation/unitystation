@@ -24,11 +24,11 @@ namespace HealthV2
 		{
 			if (PresentProcedure.RelatedBodyPart.ContainedIn != null)
 			{
-				PresentProcedure.ISon.currentlyOn = PresentProcedure.RelatedBodyPart.ContainedIn.gameObject;
+				PresentProcedure.isOn.currentlyOn = PresentProcedure.RelatedBodyPart.ContainedIn.gameObject;
 			}
 			else
 			{
-				PresentProcedure.ISon.currentlyOn = null;
+				PresentProcedure.isOn.currentlyOn = null;
 			}
 
 			if (interaction.HandSlot.Item != null && interaction.HandSlot.Item.GetComponent<ItemAttributesV2>().HasTrait(RequiredTrait))

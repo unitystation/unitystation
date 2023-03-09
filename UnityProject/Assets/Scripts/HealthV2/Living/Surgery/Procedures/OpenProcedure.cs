@@ -11,7 +11,7 @@ namespace HealthV2
 			Dissectible.PresentProcedure PresentProcedure)
 		{
 			base.FinnishSurgeryProcedure(OnBodyPart, interaction, PresentProcedure);
-			PresentProcedure.ISon.SetBodyPartIsOpen(true,true);
+			PresentProcedure.isOn.SetBodyPartIsOpen(true,true);
 
 		}
 

@@ -13,6 +13,8 @@ using Core.Chat;
 using Core.Utils;
 using Health.Sickness;
 using HealthV2.Living.CirculatorySystem;
+using HealthV2.Living.PolymorphicSystems;
+using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Items.Implants.Organs;
 using JetBrains.Annotations;
 using NaughtyAttributes;
@@ -103,6 +105,8 @@ namespace HealthV2
 		/// </summary>
 		[CanBeNull]
 		public CirculatorySystemBase CirculatorySystem { get; private set; }
+
+		public ReagentPoolSystem reagentPoolSystem => ActiveSystems.OfType<ReagentPoolSystem>().FirstOrDefault();
 
 		public Brain brain { get; private set; }
 
@@ -206,6 +210,9 @@ namespace HealthV2
 		public ChatModifier BodyChatModifier = ChatModifier.None;
 
 		public float BodyPartSurfaceVolume = 5;
+
+		public List<HealthSystemBase> ActiveSystems = new List<HealthSystemBase>();
+
 
 		/// <summary>
 		/// The current hunger state of the creature, currently always returns normal
@@ -318,6 +325,18 @@ namespace HealthV2
 
 		//Default is mute yes
 
+		public bool HasCoreBodyPart()
+		{
+			foreach (var BodyPart in SurfaceBodyParts)
+			{
+				if (BodyPart.ItemAttributes.HasTrait(CommonTraits.Instance.CoreBodyPart))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
 		public virtual void Awake()
 		{
 			rootBodyPartController = GetComponent<RootBodyPartController>();
@@ -382,24 +401,64 @@ namespace HealthV2
 
 		}
 
+
 		//TODO: confusing, make it not depend from the inventory storage Action
 		/// <summary>
 		/// Server and client trigger this on both addition and removal of a bodypart
 		/// </summary>
 		private void BodyPartTransfer(Pickupable prevImplant, Pickupable newImplant)
 		{
+			//SO
+			//Body part with transparency added or removed
+			//Body parts removed from transparent Body part
+
 			if (newImplant && newImplant.TryGetComponent<BodyPart>(out var addedBodyPart))
 			{
-				addedBodyPart.BodyPartAddHealthMaster(this);
-				SurfaceBodyParts.Add(addedBodyPart);
+				addedBodyPart.BodyPartAddHealthMaster(this); //Don't worry It comes back around
 			}
 			else if (prevImplant && prevImplant.TryGetComponent<BodyPart>(out var removedBodyPart))
 			{
-				removedBodyPart.BodyPartRemoveHealthMaster();
-				if (SurfaceBodyParts.Contains(removedBodyPart))
+				removedBodyPart.BodyPartRemoveHealthMaster(); //Don't worry It comes back around
+			}
+
+
+			if (prevImplant && newImplant == null)
+			{
+				if (BodyPartStorage.HasAnyOccupied() == false)
 				{
-					SurfaceBodyParts.Remove(removedBodyPart);
+					//TODO cyborg chassis doesn't appear, shouldn't be able to get a  chassis by itself?
+					_ = Despawn.ServerSingle(this.gameObject);
 				}
+
+			}
+		}
+
+		public void AddingBodyPart(BodyPart BodyPart)
+		{
+			if (BodyPartList.Contains(BodyPart) == false)
+			{
+				BodyPartList.Add(BodyPart);
+			}
+
+			if (BodyPart.IsInAnOpenAir)
+			{
+				if (SurfaceBodyParts.Contains(BodyPart) == false)
+				{
+					SurfaceBodyParts.Add(BodyPart);
+				}
+			}
+		}
+
+		public void RemovingBodyPart(BodyPart BodyPart)
+		{
+			if (BodyPartList.Contains(BodyPart))
+			{
+				BodyPartList.Remove(BodyPart);
+			}
+
+			if (SurfaceBodyParts.Contains(BodyPart))
+			{
+				SurfaceBodyParts.Remove(BodyPart);
 			}
 		}
 
@@ -417,15 +476,16 @@ namespace HealthV2
 			{
 				foreach (var bodyPart in SurfaceBodyParts)
 				{
-					if (bodyPart.ItemAttributes.HasAllTraits(externalReaction.ExternalAllRequired) &&
-					    bodyPart.ItemAttributes.HasAnyTrait(externalReaction.ExternalBlacklist) == false)
+					if (bodyPart.ItemAttributes.HasAllTraits(externalReaction.ExternalAllRequired)
+					    && bodyPart.ItemAttributes.HasAnyTrait(externalReaction.ExternalBlacklist) == false
+					    && bodyPart.TryGetComponent<BodyPart>(out var MetabolismComponent)) //TODO
 					{
 						if (PrecalculatedMetabolismReactions.ContainsKey(externalReaction) == false)
 						{
 							PrecalculatedMetabolismReactions[externalReaction] = new List<BodyPart>();
 						}
 
-						PrecalculatedMetabolismReactions[externalReaction].Add(bodyPart);
+						PrecalculatedMetabolismReactions[externalReaction].Add(MetabolismComponent);
 					}
 				}
 			}
@@ -472,11 +532,24 @@ namespace HealthV2
 					var HasBodyPart = false;
 					foreach (var bodyPart in PrecalculatedMetabolismReactions[Reaction.Key])
 					{
-						if (bodyPart.BodyPartType == storage.Key)
+						if (SurfaceReagents.ContainsKey(bodyPart.BodyPartType) == false)
 						{
-							HasBodyPart = true;
-							break;
+							if (BodyPartType.Chest == storage.Key)
+							{
+								HasBodyPart = true;
+								break;
+							}
 						}
+						else
+						{
+							if (bodyPart.BodyPartType == storage.Key)
+							{
+								HasBodyPart = true;
+								break;
+							}
+						}
+
+
 					}
 
 					if (HasBodyPart)
@@ -491,10 +564,21 @@ namespace HealthV2
 					float ProcessingAmount = 0;
 					foreach (var bodyPart in PrecalculatedMetabolismReactions[Reaction])
 					{
-						if (bodyPart.BodyPartType == storage.Key)
+						if (SurfaceReagents.ContainsKey(bodyPart.BodyPartType) == false)
 						{
-							TMPUseList.Add(bodyPart);
-							ProcessingAmount += 1;
+							if (BodyPartType.Chest == storage.Key)
+							{
+								TMPUseList.Add(bodyPart);
+								ProcessingAmount += 1;
+							}
+						}
+						else
+						{
+							if (bodyPart.BodyPartType == storage.Key)
+							{
+								TMPUseList.Add(bodyPart);
+								ProcessingAmount += 1;
+							}
 						}
 					}
 
@@ -829,7 +913,7 @@ namespace HealthV2
 		/// </summary>
 		public float GetSpareBlood()
 		{
-			return CirculatorySystem.BloodPool[CirculatorySystem.BloodType];
+			return CirculatorySystem.BloodPool.Total;
 		}
 
 		/// <summary>
@@ -1625,7 +1709,14 @@ namespace HealthV2
 		{
 			int i = 0;
 			bool isSurfaceSprite = implant.IsSurface || implant.BodyPartItemInheritsSkinColor;
-			var sprites = implant.GetBodyTypeSprites(playerSprites.ThisCharacter.BodyType);
+
+			BodyType bodyType = BodyType.NonBinary;
+			if (playerSprites.ThisCharacter != null)
+			{
+				bodyType = playerSprites.ThisCharacter.BodyType;
+			}
+
+			var sprites = implant.GetBodyTypeSprites(bodyType);
 			foreach (var Sprite in sprites.Item2)
 			{
 				var newSprite = Spawn
@@ -1935,6 +2026,17 @@ namespace HealthV2
 
 		public void InitialiseFromRaceData(PlayerHealthData RaceBodyparts)
 		{
+			foreach (var System in RaceBodyparts.Base.SystemSettings)
+			{
+				continue; //TODO temp
+				var newsys = System.CloneThisSystem();
+				newsys.Base = this;
+				newsys.InIt();
+				newsys.StartFresh();
+				ActiveSystems.Add(newsys);
+			}
+
+
 			CirculatorySystem.SetBloodType(RaceBodyparts.Base.BloodType);
 			CirculatorySystem.InitialiseHunger(RaceBodyparts.Base.NumberOfMinutesBeforeStarving);
 			CirculatorySystem.InitialiseToxGeneration(RaceBodyparts.Base.TotalToxinGenerationPerSecond);
