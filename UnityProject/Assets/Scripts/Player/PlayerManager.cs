@@ -8,7 +8,6 @@ using UnityEngine.SceneManagement;
 using Player;
 using Shared.Util;
 using Systems.Character;
-using Util;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -143,6 +142,12 @@ public class PlayerManager : MonoBehaviour
 	{
 		HasSpawned = false;
 		EventManager.Broadcast(Event.DisableInternals);
+	}
+
+
+	public void OnDestroy()
+	{
+		HasSpawned = false;
 	}
 
 	public static void SetViewerForControl(JoinedViewer viewer)

@@ -1347,6 +1347,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 
 		foreach (var InventoryObject in InventoryObjects )
 		{
+			if (InventoryObject.GameObject == null) continue;
 			var playerRejoins = InventoryObject.GameObject.GetComponents<IOnPlayerLeaveBody>();
 			foreach (var playerRejoin in playerRejoins)
 			{
