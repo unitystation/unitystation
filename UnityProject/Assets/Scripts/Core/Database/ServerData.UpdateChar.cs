@@ -44,9 +44,6 @@ namespace DatabaseAPI
 				return false;
 			}
 
-			PlayerPrefs.SetString("currentcharacter", jsonSettings);
-			PlayerPrefs.Save();
-
 			return true;
 		}
 	}

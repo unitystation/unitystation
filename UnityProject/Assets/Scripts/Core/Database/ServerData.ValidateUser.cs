@@ -84,12 +84,6 @@ namespace DatabaseAPI
 				}
 			}
 
-			// In case PlayerPrefs doesn't already have the settings
-			string jsonChar = JsonConvert.SerializeObject(characterSettings);
-			PlayerPrefs.SetString("currentcharacter", jsonChar);
-
-			PlayerManager.CurrentCharacterSheet = characterSettings;
-
 			PlayerPrefs.SetString(PlayerPrefKeys.AccountEmail, user.Email);
 			PlayerPrefs.Save();
 			return true;
