@@ -23,6 +23,14 @@ namespace HealthV2.Limbs
 		{
 			base.AddedToBody(livingHealth);
 			playerHealth.OrNull()?.PlayerMove.AddModifier(this);
+
+
+		}
+
+		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
+		{
+			base.RemovedFromBody(livingHealth);
+			(livingHealth as PlayerHealthV2).OrNull()?.PlayerMove.RemoveModifier(this);
 		}
 
 		public void SetNewSpeeds(float newCrawlingSpeed)
