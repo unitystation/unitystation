@@ -234,6 +234,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
+      propertyPath: traumaDamageChance
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/BladeSlice.prefab
       objectReference: {fileID: 0}
@@ -314,13 +324,13 @@ MonoBehaviour:
   LightEmission: {fileID: 0}
   objectLightEmission: {fileID: 4425414661908067713, guid: 64e430f828cfc465ea88b8d6e6fecda4,
     type: 3}
+  CommonComponents: {fileID: 0}
   Intensity: 1
   Colour: {r: 1, g: 0, b: 0, a: 1}
   EnumSprite: 0
   Size: 6
   IsOn: 1
   PlayerLightData:
-    Intensity: 0
     Colour: {r: 0, g: 0, b: 0, a: 0}
     EnumSprite: 0
     Size: 12

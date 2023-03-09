@@ -208,18 +208,9 @@ namespace HealthV2
 			{
 				var organ = OrganList[i];
 				organ.ImplantPeriodicUpdate();
-				if (IsBleedingInternally)
-				{
-					organ.InternalDamageLogic();
-				}
 			}
 
 			CalculateRadiationDamage();
-
-			if (IsBleeding)
-			{
-				InternalBleedingLogic();
-			}
 		}
 
 		public void SetHealthMaster(LivingHealthMasterBase livingHealth)
@@ -373,7 +364,6 @@ namespace HealthV2
 		public void TryRemoveFromBody(bool beingGibbed = false, bool CausesBleed = true, bool Destroy = false, bool PreventGibb_Death = false)
 		{
 			bool alreadyBleeding = false;
-			SetRemovedColor();
 			if (CausesBleed)
 			{
 				foreach (var bodyPart in HealthMaster.BodyPartList)
@@ -394,11 +384,6 @@ namespace HealthV2
 			var bodyPartUISlot = GetComponent<BodyPartUISlots>();
 			var dynamicItemStorage = HealthMaster.GetComponent<DynamicItemStorage>();
 			dynamicItemStorage.Remove(bodyPartUISlot);
-			//Fixes an error where externally bleeding body parts would continue to try bleeding even after their removal.
-			if (IsBleedingExternally)
-			{
-				StopExternalBleeding();
-			}
 
 			if (PreventGibb_Death == false)
 			{
@@ -408,7 +393,7 @@ namespace HealthV2
 					HealthMaster.Death();
 				}
 
-				if (gibsEntireBodyOnRemoval && beingGibbed == false)
+				if (beingGibbed)
 				{
 					HealthMaster.OnGib();
 				}
@@ -479,19 +464,16 @@ namespace HealthV2
 			}
 		}
 
-
-		#region BodyPartStorage
-
-		/// <summary>
-		/// Sets the color of the body part item that is removed
-		/// </summary>
-		private void SetRemovedColor()
+		public void ChangeBodyPartColor(Color color)
 		{
-			if (currentBurnDamageLevel == TraumaDamageLevel.CRITICAL)
+			foreach (var sprite in RelatedPresentSprites)
 			{
-				BodyPartItemSprite.OrNull()?.SetColor(bodyPartColorWhenCharred);
+				sprite.baseSpriteHandler.SetColor(color);
 			}
 		}
+
+
+		#region BodyPartStorage
 
 
 		private void RemoveSprites(PlayerSprites sprites, LivingHealthMasterBase livingHealth)

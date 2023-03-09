@@ -93,11 +93,6 @@ namespace Items.Implants.Organs
 			{
 				AtmosManager.Instance.UpdateNode(node);
 			}
-
-			if (RelatedPart.IsBleedingInternally)
-			{
-				InternalDamageLogic();
-			}
 		}
 
 		/// <summary>
@@ -336,41 +331,6 @@ namespace Items.Implants.Organs
 			}
 
 			RelatedPart.HealthMaster.HealthStateController.SetToxins(hasToxins);
-		}
-
-		public override void InternalDamageLogic()
-		{
-			if (!onCooldown)
-			{
-				if (RelatedPart.CurrentInternalBleedingDamage > RelatedPart.MaximumInternalBleedDamage / 2)
-				{
-					Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject,
-						"You gasp for air; but you drown in your own blood from the inside!",
-						$"{RelatedPart.HealthMaster.playerScript.visibleName} gasps for air!");
-					RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
-				}
-				else
-				{
-					RelatedPart.InternalBleedingLogic();
-				}
-
-				if (DMMath.Prob(coughChanceWhenInternallyBleeding))
-				{
-					Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, "You cough up blood!",
-						$"{RelatedPart.HealthMaster.playerScript.visibleName} coughs up blood!");
-					RelatedPart.CurrentInternalBleedingDamage -= 4;
-
-					//TODO: TAKE BLOOD
-					var bloodLoss = new ReagentMix();
-					RelatedPart.HealthMaster.CirculatorySystem.BloodPool.TransferTo(bloodLoss,
-						RelatedPart.CurrentInternalBleedingDamage);
-					MatrixManager.ReagentReact(bloodLoss,
-						RelatedPart.HealthMaster.gameObject.RegisterTile().WorldPositionServer);
-				}
-
-				onCooldown = true;
-				StartCoroutine(CooldownTick());
-			}
 		}
 
 		private IEnumerator<WaitForSeconds> CooldownTick()

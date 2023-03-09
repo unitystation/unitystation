@@ -323,6 +323,8 @@ namespace HealthV2
 			MultiInterestBool.RegisterBehaviour.RegisterFalse,
 			MultiInterestBool.BoolBehaviour.ReturnOnFalse);
 
+		[SerializeField, Range(1,60f)] private float updateTime = 1f;
+
 		//Default is mute yes
 
 		public bool HasCoreBodyPart()
@@ -605,7 +607,7 @@ namespace HealthV2
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 
-			UpdateManager.Add(PeriodicUpdate, 1f);
+			UpdateManager.Add(PeriodicUpdate, updateTime);
 		}
 
 		private void OnDisable()
@@ -648,7 +650,7 @@ namespace HealthV2
 				BodyPartList[i].ImplantPeriodicUpdate();
 			}
 
-			CirculatorySystem.BloodUpdate();
+			if (CirculatorySystem != null) CirculatorySystem.BloodUpdate();
 			ExternalMetaboliseReactions();
 
 			FireStacksDamage();
@@ -811,23 +813,21 @@ namespace HealthV2
 		/// </summary>
 		public void FireStacksDamage()
 		{
-			if (fireStacks > 0)
+			if (fireStacks <= 0) return;
+			//TODO: Burn clothes (see species.dm handle_fire)
+			ApplyDamageAll(null, fireStacks, AttackType.Fire, DamageType.Burn, true, TraumaticDamageTypes.BURN);
+			//gradually deplete fire stacks
+			healthStateController.SetFireStacks(fireStacks - 0.1f);
+			//instantly stop burning if there's no oxygen at this location
+			MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPositionClient); //TODO Account for containers
+			if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
 			{
-				//TODO: Burn clothes (see species.dm handle_fire)
-				ApplyDamageAll(null, fireStacks, AttackType.Fire, DamageType.Burn, true);
-				//gradually deplete fire stacks
-				healthStateController.SetFireStacks(fireStacks - 0.1f);
-				//instantly stop burning if there's no oxygen at this location
-				MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPositionClient); //TODO Account for containers
-				if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
-				{
-					healthStateController.SetFireStacks(0);
-					return;
-				}
-
-				RegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(), 700,
-					true);
+				healthStateController.SetFireStacks(0);
+				return;
 			}
+
+			RegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(), 700,
+				true);
 		}
 
 		/// <summary>
@@ -1038,7 +1038,7 @@ namespace HealthV2
 		/// <param name="damageSplit">Should the damage be divided by number of body parts or applied to each body part separately</param>
 		[Server]
 		public void ApplyDamageAll(GameObject damagedBy, float damage, AttackType attackType, DamageType damageType,
-			bool damageSplit = true)
+			bool damageSplit = true, TraumaticDamageTypes traumaticDamageTypes = TraumaticDamageTypes.NONE, double traumaChance = 50)
 		{
 			if (damageSplit)
 			{
@@ -1048,7 +1048,8 @@ namespace HealthV2
 
 			foreach (var bodyPart in SurfaceBodyParts.ToArray())
 			{
-				bodyPart.TakeDamage(damagedBy, damage, attackType, damageType, damageSplit);
+				bodyPart.TakeDamage(damagedBy, damage, attackType, damageType, damageSplit,
+					default, default, traumaChance, traumaticDamageTypes);
 			}
 
 			if (damageType == DamageType.Brute)
@@ -1195,42 +1196,6 @@ namespace HealthV2
 			foreach (var bodyPart in BodyPartList)
 			{
 				bodyPart.ResetDamage();
-			}
-		}
-
-		/// <summary>
-		/// Does the body part we're targeting suffer from traumatic damage?
-		/// </summary>
-		/// <param name="damageTypeToGet">Trauma damage type</param>
-		/// <param name="partType">targted body part.</param>
-		/// <returns></returns>
-		public bool HasTraumaDamage(BodyPartType partType)
-		{
-			foreach (BodyPart bodyPart in BodyPartList)
-			{
-				if (bodyPart.BodyPartType == partType)
-				{
-					if (bodyPart.CurrentSlashDamageLevel > TraumaDamageLevel.NONE)
-						return true;
-					if (bodyPart.CurrentPierceDamageLevel > TraumaDamageLevel.NONE)
-						return true;
-					if (bodyPart.CurrentBurnDamageLevel > TraumaDamageLevel.NONE)
-						return true;
-					return bodyPart.CurrentBluntDamageLevel != TraumaDamageLevel.NONE;
-				}
-			}
-
-			return false;
-		}
-
-		public void HealTraumaDamage(BodyPartType targetBodyPartToHeal, TraumaticDamageTypes typeToHeal)
-		{
-			foreach (var bodyPart in BodyPartList)
-			{
-				if (bodyPart.BodyPartType == targetBodyPartToHeal)
-				{
-					bodyPart.HealTraumaticDamage(typeToHeal);
-				}
 			}
 		}
 
@@ -1425,9 +1390,20 @@ namespace HealthV2
 			healthStateController.SetFireStacks(Mathf.Clamp((fireStacks + deltaValue), 0, maxFireStacks));
 		}
 
+		/// <summary>
+		/// Adds a number of bleed stacks on the creature. Use negative numbers to reduce the number of stacks.
+		/// </summary>
 		public void ChangeBleedStacks(float deltaValue)
 		{
 			healthStateController.SetBleedStacks(Mathf.Clamp((BleedStacks + deltaValue), 0, maxBleedStacks));
+		}
+
+		/// <summary>
+		/// Forces a number of bleed stacks on the creature.
+		/// </summary>
+		public void SetBleedStacks(float deltaValue)
+		{
+			healthStateController.SetBleedStacks(Mathf.Clamp(deltaValue, 0, maxBleedStacks));
 		}
 
 		/// <summary>
@@ -1550,19 +1526,7 @@ namespace HealthV2
 				if (part.IsBleeding)
 				{
 					healthString.Append(
-						$"<color=red>\n {theyPronoun} {part.BodyPartReadableName} is bleeding!</color>");
-				}
-
-				if (part.CurrentSlashDamageLevel >= TraumaDamageLevel.SERIOUS)
-				{
-					healthString.Append(
-						$"<color=red>\n {theyPronoun} {part.BodyPartReadableName} is cut wide open!</color>");
-				}
-
-				if (part.CurrentPierceDamageLevel >= TraumaDamageLevel.SERIOUS)
-				{
-					healthString.Append(
-						$"<color=red>\n {theyPronoun} have a huge hole in their {part.BodyPartReadableName}!</color>");
+						$"<color=red>\n {theyPronoun} {part.gameObject.ExpensiveName()} is bleeding!</color>");
 				}
 			}
 

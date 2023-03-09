@@ -295,7 +295,9 @@ namespace HealthV2
 					foreach (var bodyPart in KVP.Value.RelatedBodyParts)
 					{
 						bodyPart.currentBloodSaturation = bloodSaturation;
-						bodyPart.TakeDamage(null, damage,  AttackType.Internal, DamageType.Oxy, DamageSubOrgans : false);
+						bodyPart.TakeDamage(null, damage,  AttackType.Internal, DamageType.Oxy,
+							false, true, default, default,
+							default, false);
 					}
 				}
 			}
