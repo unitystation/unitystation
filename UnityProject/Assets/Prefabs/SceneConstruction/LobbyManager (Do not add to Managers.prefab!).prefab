@@ -5759,7 +5759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 291dd4eece8a349fdb82566310ac62f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterCustomization: {fileID: 6296311149165174115}
+  characterSettings: {fileID: 6296311149165174113}
   lobbyDialogue: {fileID: 6296311150680667342}
   <LobbyPasswordGUI>k__BackingField: {fileID: 3387452124320400239}
 --- !u!1 &6296311149546204878
@@ -13917,18 +13917,12 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 6194484311469972379}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6296311149165174115 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 186836750335182584, guid: 464eef54ebfa2cd47918181c9a33e358,
+--- !u!1 &6296311149165174113 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 186836750335182586, guid: 464eef54ebfa2cd47918181c9a33e358,
     type: 3}
   m_PrefabInstance: {fileID: 6194484311469972379}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02d89c76373634794bb5f2ac29838a92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &6296311151264094341
 PrefabInstance:
   m_ObjectHideFlags: 0

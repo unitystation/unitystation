@@ -160,6 +160,7 @@ MonoBehaviour:
   transferMode: 4
   possibleTransferAmounts: []
   transferAmount: 20
+  transferSound: []
 --- !u!114 &8838087964586130285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,7 +184,7 @@ MonoBehaviour:
   IsPlayer: 0
   InitialLocationSynchronised: 0
   tileMoveSpeed: 1
-  isNotPushable: 0
+  isNotPushable: 1
   HasOwnGravity: 0
   airTime: 0
   slideTime: 0

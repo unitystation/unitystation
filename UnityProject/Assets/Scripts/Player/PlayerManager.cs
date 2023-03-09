@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Player;
 using Shared.Util;
-using Util;
+using Systems.Character;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -44,31 +44,23 @@ public class PlayerManager : MonoBehaviour
 	/// <summary>The player script for the player while in the lobby.</summary>
 	public static JoinedViewer LocalViewerScript { get; private set; }
 
+	public static CharacterManager CharacterManager { get; } = new CharacterManager();
+
 	public static bool HasSpawned { get; private set; }
 
-	public static CharacterSheet CurrentCharacterSheet { get; set; }
+	public static CharacterSheet ActiveCharacter => CharacterManager.ActiveCharacter;
 
 	private int mobIDcount;
 
 	public static PlayerManager Instance => FindUtils.LazyFindObject(ref playerManager);
 
-#if UNITY_EDITOR	//Opening the station scene instead of going through the lobby
 	private void Awake()
 	{
-		if (CurrentCharacterSheet != null)
-		{
-			return;
-		}
-		// Load CharacterSettings from PlayerPrefs or create a new one
-		string unescapedJson = Regex.Unescape(PlayerPrefs.GetString("currentcharacter"));
-		var deserialized = JsonConvert.DeserializeObject<CharacterSheet>(unescapedJson);
-		CurrentCharacterSheet = deserialized ?? new CharacterSheet();
+		CharacterManager.Init();
 	}
-#endif
 
 	private void OnEnable()
 	{
-		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
 		EventManager.AddHandler(Event.PlayerDied, OnPlayerDeath);
 		EventManager.AddHandler(Event.PlayerRejoined, OnRejoinPlayer);
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
@@ -76,7 +68,6 @@ public class PlayerManager : MonoBehaviour
 
 	private void OnDisable()
 	{
-		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
 		EventManager.RemoveHandler(Event.PlayerDied, OnPlayerDeath);
 		EventManager.RemoveHandler(Event.PlayerRejoined, OnRejoinPlayer);
 		PlayerPrefs.Save();
@@ -139,6 +130,12 @@ public class PlayerManager : MonoBehaviour
 	{
 		HasSpawned = false;
 		EventManager.Broadcast(Event.DisableInternals);
+	}
+
+
+	public void OnDestroy()
+	{
+		HasSpawned = false;
 	}
 
 	public static void SetViewerForControl(JoinedViewer viewer)

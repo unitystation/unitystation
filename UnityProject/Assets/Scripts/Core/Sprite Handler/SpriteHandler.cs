@@ -65,7 +65,7 @@ public class SpriteHandler : MonoBehaviour
 
 	private bool animateOnce;
 
-	private Color? setColour = null;
+	protected Color? setColour = null;
 
 	[Tooltip("The palette that is applied to the Sprite Renderer, if the Present Sprite Set is paletted.")]
 	[SerializeField] private List<Color> palette = new List<Color>();
@@ -89,7 +89,7 @@ public class SpriteHandler : MonoBehaviour
 	/// Invokes when sprite just changed by animation or other script
 	/// Null if sprite became hidden
 	/// </summary>
-	public event Action<Sprite> OnSpriteChanged;
+	public List<Action<Sprite>> OnSpriteChanged = new List<Action<Sprite>>();
 
 	/// <summary>
 	/// Invokes when sprite data scriptable object is changed
@@ -100,7 +100,7 @@ public class SpriteHandler : MonoBehaviour
 	/// <summary>
 	/// Invoke when sprite handler has changed color of sprite
 	/// </summary>
-	public event Action<Color> OnColorChanged;
+	public List<Action<Color>> OnColorChanged = new List<Action<Color>>();
 
 	/// <summary>
 	/// The amount of SubCatalogues defined for this SpriteHandler.
@@ -111,7 +111,7 @@ public class SpriteHandler : MonoBehaviour
 	/// Current sprite from SpriteRender or Image
 	/// Null if sprite is hidden
 	/// </summary>
-	public Sprite CurrentSprite
+	public virtual Sprite CurrentSprite
 	{
 		get
 		{
@@ -132,7 +132,7 @@ public class SpriteHandler : MonoBehaviour
 	/// Current sprite color from SpriteRender or Image
 	/// White means no color modification was added
 	/// </summary>
-	public Color CurrentColor
+	public virtual Color CurrentColor
 	{
 		get
 		{
@@ -336,6 +336,8 @@ public class SpriteHandler : MonoBehaviour
 		PushClear(false);
 		PresentSpriteSet = null;
 		OnSpriteDataSOChanged?.Invoke(null);
+		OnColorChanged.Clear();
+		OnSpriteChanged.Clear();
 
 		if (networked)
 		{
@@ -588,7 +590,7 @@ public class SpriteHandler : MonoBehaviour
 	}
 
 
-	void Awake()
+	protected virtual void Awake()
 	{
 		if (Application.isPlaying)
 		{
@@ -644,7 +646,7 @@ public class SpriteHandler : MonoBehaviour
 		}
 	}
 
-	private void SetImageColor(Color value)
+	protected virtual void SetImageColor(Color value)
 	{
 		if (spriteRenderer != null)
 		{
@@ -655,10 +657,10 @@ public class SpriteHandler : MonoBehaviour
 			image.color = value;
 		}
 
-		OnColorChanged?.Invoke(value);
+		new List<Action<Color>>(OnColorChanged?.ToArray()).ForEach(u => u(value));
 	}
 
-	private void UpdateImageColor()
+	protected virtual  void UpdateImageColor()
 	{
 		if (spriteRenderer != null)
 		{
@@ -670,7 +672,7 @@ public class SpriteHandler : MonoBehaviour
 		}
 	}
 
-	private void SetPaletteOnSpriteRenderer()
+	protected virtual void SetPaletteOnSpriteRenderer()
 	{
 		isPaletteSet = true;
 		var palette = GetPaletteOrNull();
@@ -710,7 +712,7 @@ public class SpriteHandler : MonoBehaviour
 		}
 	}
 
-	private void SetImageSprite(Sprite value)
+	protected virtual void SetImageSprite(Sprite value)
 	{
 
 #if  UNITY_EDITOR
@@ -719,6 +721,11 @@ public class SpriteHandler : MonoBehaviour
 			if (spriteRenderer == null)
 			{
 				spriteRenderer = GetComponent<SpriteRenderer>();
+			}
+
+			if (image == null)
+			{
+				image = GetComponent<Image>();
 			}
 		}
 #endif
@@ -756,10 +763,13 @@ public class SpriteHandler : MonoBehaviour
 			}
 		}
 
-		OnSpriteChanged?.Invoke(value);
+		for (int i = OnSpriteChanged.Count - 1; i >= 0; i--)
+		{
+			OnSpriteChanged[i].Invoke(value);
+		}
 	}
 
-	public bool HasSpriteInImageComponent()
+	protected virtual bool HasSpriteInImageComponent()
 	{
 		if (spriteRenderer != null)
 		{
@@ -801,7 +811,8 @@ public class SpriteHandler : MonoBehaviour
 		}
 
 		TryToggleAnimationState(false);
-		OnSpriteChanged?.Invoke(null);
+		OnSpriteChanged.Clear();
+		OnColorChanged.Clear();
 	}
 
 	private bool IsPaletted()

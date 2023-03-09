@@ -23,7 +23,7 @@ namespace HealthV2
 		private BloodType bloodType = null;
 		public BloodType BloodType => bloodType;
 		public ReagentMix BloodPool;
-		public Chemistry.Reagent CirculatedReagent => bloodType.CirculatedReagent;
+		private Chemistry.Reagent CirculatedReagent => bloodType.CirculatedReagent;
 
 		[SerializeField]
 		[Required("Inital injecton of blood on player spawn")]
@@ -295,7 +295,9 @@ namespace HealthV2
 					foreach (var bodyPart in KVP.Value.RelatedBodyParts)
 					{
 						bodyPart.currentBloodSaturation = bloodSaturation;
-						bodyPart.TakeDamage(null, damage,  AttackType.Internal, DamageType.Oxy, DamageSubOrgans : false);
+						bodyPart.TakeDamage(null, damage,  AttackType.Internal, DamageType.Oxy,
+							false, true, default, default,
+							default, false);
 					}
 				}
 			}
@@ -383,7 +385,7 @@ namespace HealthV2
 				float ProcessingAmount = 0;
 				foreach (var bodyPart in PrecalculatedMetabolismReactions[Reaction]) //TODO maybe lag? Alternative?
 				{
-					ProcessingAmount += bodyPart.ReagentMetabolism * bodyPart.BloodThroughput * bodyPart.currentBloodSaturation * Mathf.Max(0.10f, bodyPart.TotalModified);
+					ProcessingAmount += bodyPart.ReagentMetabolism * bodyPart.BloodThroughput * bodyPart.CurrentBloodSaturation * Mathf.Max(0.10f, bodyPart.TotalModified);
 				}
 
 				if (ProcessingAmount == 0) continue;

@@ -24,11 +24,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: MaximumMoles
-      value: 1846.242
-      objectReference: {fileID: 0}
-    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
-        type: 3}
       propertyPath: gasMix.Pressure
       value: 148753.4
       objectReference: {fileID: 0}
@@ -49,12 +44,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: StoredGasMix.Volume
-      value: 1
+      propertyPath: StoredGasMix.Pressure
+      value: 4500
       objectReference: {fileID: 0}
     - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
-      propertyPath: StoredGasMix.Pressure
+      propertyPath: StoredGasMix.pressure
       value: 4500
       objectReference: {fileID: 0}
     - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
@@ -90,6 +85,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].moles
+      value: 1163.1324
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
       propertyPath: StoredGasMix.GasData.GasesArray.Array.data[1].GasSO
       value: 
       objectReference: {fileID: 11400000, guid: ac2834f2705dcbc4da8731a53d3076fc,
@@ -98,6 +98,11 @@ PrefabInstance:
         type: 3}
       propertyPath: StoredGasMix.GasData.GasesArray.Array.data[1].Moles
       value: 1458.531
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[1].moles
+      value: 4375.5933
       objectReference: {fileID: 0}
     - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}

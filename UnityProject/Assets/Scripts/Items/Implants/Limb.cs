@@ -9,7 +9,7 @@ namespace HealthV2
 	{
 		protected PlayerHealthV2 playerHealth;
 
-		public override void AddedToBody(LivingHealthMasterBase livingHealth)
+		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			RelatedPart = GetComponent<BodyPart>();
 			playerHealth = RelatedPart.HealthMaster as PlayerHealthV2;

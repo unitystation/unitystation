@@ -102,5 +102,52 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 8c638788cde389a4e897d3fd1a25e1e3
       objectReference: {fileID: 0}
+    - target: {fileID: 7999786827976290855, guid: 673bb8fcbfe706f4ba328a489e31337d,
+        type: 3}
+      propertyPath: UpdateGUIs.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7999786827976290855, guid: 673bb8fcbfe706f4ba328a489e31337d,
+        type: 3}
+      propertyPath: UpdateGUIs.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7999786827976290855, guid: 673bb8fcbfe706f4ba328a489e31337d,
+        type: 3}
+      propertyPath: UpdateGUIs.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5245650292007246961}
+    - target: {fileID: 7999786827976290855, guid: 673bb8fcbfe706f4ba328a489e31337d,
+        type: 3}
+      propertyPath: UpdateGUIs.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7999786827976290855, guid: 673bb8fcbfe706f4ba328a489e31337d,
+        type: 3}
+      propertyPath: UpdateGUIs.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateGUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 7999786827976290855, guid: 673bb8fcbfe706f4ba328a489e31337d,
+        type: 3}
+      propertyPath: UpdateGUIs.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Systems.Research.Objects.RDProductionMachine, Assets
+      objectReference: {fileID: 0}
+    - target: {fileID: 7999786827976290855, guid: 673bb8fcbfe706f4ba328a489e31337d,
+        type: 3}
+      propertyPath: UpdateGUIs.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 673bb8fcbfe706f4ba328a489e31337d, type: 3}
+--- !u!114 &5245650292007246961 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9194734761668546694, guid: 673bb8fcbfe706f4ba328a489e31337d,
+    type: 3}
+  m_PrefabInstance: {fileID: 3987385141909818615}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2d704290178fc3469f378c39a09f003, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

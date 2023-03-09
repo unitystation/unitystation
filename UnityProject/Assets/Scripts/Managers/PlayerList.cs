@@ -5,6 +5,7 @@ using Antagonists;
 using Messages.Server;
 using UnityEngine;
 using Mirror;
+using Systems.Character;
 using UI.CharacterCreator;
 
 /// Comfy place to get players and their info (preferably via their connection)

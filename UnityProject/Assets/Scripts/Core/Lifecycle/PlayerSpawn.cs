@@ -7,6 +7,7 @@ using Messages.Server;
 using Messages.Server.LocalGuiMessages;
 using Player;
 using Systems;
+using Systems.Character;
 
 /// <summary>
 /// This interface will be called after the client has rejoined and has all scenes loaded!
@@ -91,14 +92,7 @@ public interface IClientPlayerTransferProcess
 /// </summary>
 public static class PlayerSpawn
 {
-	public class SpawnEventArgs : EventArgs
-	{
-		public GameObject Player;
-	}
-
-	public delegate void SpawnHandler(object sender, SpawnEventArgs args);
-
-	public static event SpawnHandler SpawnEvent;
+	public static event Action<Mind> SpawnEvent;
 
 
 	//Time to start spawning players at arrivals
@@ -150,6 +144,7 @@ public static class PlayerSpawn
 
 			var mind = NewSpawnCharacterV2(requestedOccupation, character);
 			TransferAccountToSpawnedMind(account, mind);
+			SpawnEvent?.Invoke(mind);
 			return mind;
 		}
 		catch (Exception e)
@@ -157,7 +152,6 @@ public static class PlayerSpawn
 			Logger.LogError(e.ToString());
 			return null;
 		}
-
 	}
 
 
@@ -434,6 +428,14 @@ public static class PlayerSpawn
 
 		if (to)
 		{
+
+			if (account.ViewerScript != null)
+			{
+				_ = Despawn.ServerSingle(account.ViewerScript.gameObject);
+				account.ViewerScript = null;
+			}
+
+
 			var netIdentity = to.GetComponent<NetworkIdentity>();
 			if (netIdentity.connectionToClient != null && to.connectionToClient != account.Connection)
 			{
@@ -443,6 +445,13 @@ public static class PlayerSpawn
 			if (account.Connection != null && to.connectionToClient != account.Connection)
 			{
 				NetworkServer.ReplacePlayerForConnection(account.Connection, to.gameObject);
+
+				if (account.ViewerScript != null)
+				{
+					_ = Despawn.ServerSingle(account.ViewerScript.gameObject);
+					account.GameObject = null;
+				}
+
 				//TriggerEventMessage.SendTo(To, Event.); //TODO Call this manually
 			}
 

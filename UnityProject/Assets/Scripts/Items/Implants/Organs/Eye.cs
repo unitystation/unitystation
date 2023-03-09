@@ -71,14 +71,14 @@ namespace Items.Implants.Organs
 		[NaughtyAttributes.Button()]
 		public void GiveSite()
 		{
-			SyncBlindness(false, true);
+			SyncPreventBlindness(false, true);
 		}
 
 
 		[NaughtyAttributes.Button()]
 		public void MakeBlind()
 		{
-			SyncBlindness(false, false);
+			SyncPreventBlindness(false, false);
 		}
 
 
@@ -90,7 +90,7 @@ namespace Items.Implants.Organs
 
 		public uint OnPlayerID => OnBodyID;
 
-		[SyncVar(hook = nameof(SyncBlindness))]
+		[SyncVar(hook = nameof(SyncPreventBlindness))]
 		public bool PreventsBlindness = true; //TODO change to multi-interest bool, Is good enough for now, For multiple eyes
 		public bool DefaultPreventsBlindness_ = false;
 
@@ -123,7 +123,7 @@ namespace Items.Implants.Organs
 		}
 
 
-		public void SyncBlindness(bool oldValue, bool newState)
+		public void SyncPreventBlindness(bool oldValue, bool newState)
 		{
 			PreventsBlindness = newState;
 			if (Preimplemented.IsOnLocalPlayer)

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2790365158569898244}
   - component: {fileID: 3136316728950698336}
   - component: {fileID: -8884600944220647437}
+  - component: {fileID: 582239529690298414}
   m_Layer: 21
   m_Name: FireLight2D
   m_TagString: Untagged
@@ -31,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 1762630675659964}
   m_LocalRotation: {x: 0.00000031610082, y: 0.00000021073387, z: -0.70710665, w: 0.707107}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 12, y: 12, z: 12}
+  m_LocalScale: {x: 15, y: 15, z: 12}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -50,7 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Color: {r: 0.7735849, g: 0.20882004, b: 0, a: 0.8}
-  Sprite: {fileID: 21300000, guid: 9e9f6c63bf3334c8791e01efff5c16fb, type: 3}
+  Sprite: {fileID: 21300000, guid: 3cd49c29477fa8648bd693e5a51d3c51, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
@@ -148,3 +149,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &582239529690298414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1762630675659964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6510c9b95b6fa3498b97083dcdd5e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 0
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: 54f00872c0db5d043ab67b7f96af72b5, type: 2}
+  randomInitialSprite: 0
+  doReverseAnimation: 0
+  pushTextureOnStartUp: 1
+  initialVariantIndex: 0
+  palette: []

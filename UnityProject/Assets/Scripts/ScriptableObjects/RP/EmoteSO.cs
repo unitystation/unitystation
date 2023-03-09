@@ -18,6 +18,8 @@ namespace ScriptableObjects.RP
 		protected string emoteName = "";
 		public string EmoteName => emoteName;
 
+		[field: SerializeField] public Sprite EmoteIcon;
+
 		[Tooltip("Does this emote require the player to have hands that exist and not handcuffed?")]
 		[SerializeField]
 		protected bool requiresHands;
@@ -79,7 +81,7 @@ namespace ScriptableObjects.RP
 
 		public virtual void Do(GameObject player)
 		{
-			if(CheckAllBaseConditions(player) == false) return;
+			if (CheckAllBaseConditions(player) == false) return;
 			Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewText}.");
 			PlayAudio(defaultSounds, player);
 		}

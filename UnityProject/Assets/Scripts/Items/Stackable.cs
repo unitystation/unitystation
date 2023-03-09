@@ -58,6 +58,14 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	[SerializeField] private bool autoStackOnDrop = true;
 
 
+	void OnDestroy()
+	{
+		if (CustomNetworkManager.IsServer)
+		{
+			registerTile.OnLocalPositionChangedServer.RemoveListener(OnLocalPositionChangedServer);
+		}
+	}
+
 	private void Awake()
 	{
 		EnsureInit();
@@ -209,7 +217,6 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	[Server]
 	public bool ServerConsume(int consumed)
 	{
-
 		if (consumed > amount)
 		{
 			Logger.LogErrorFormat($"Consumed amount {consumed} is greater than amount in this stack {amount}, will not consume.", Category.Objects);

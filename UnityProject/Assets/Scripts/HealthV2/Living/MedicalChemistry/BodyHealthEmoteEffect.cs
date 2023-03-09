@@ -13,7 +13,7 @@ public class BodyHealthEmoteEffect : BodyHealthEffect
 {
 
 	public List<EmoteTypeAndChance> EmoteEffects = new List<EmoteTypeAndChance>();
-	
+
 	[System.Serializable]
 	public struct EmoteTypeAndChance
 	{

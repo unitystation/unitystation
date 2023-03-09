@@ -68,6 +68,9 @@ namespace InGameEvents
 		[HideInInspector]
 		public bool AnnounceEvent = true;
 
+
+		public bool CanRandomlyTrigger = true;
+
 		private void Start()
 		{
 			InGameEventsManager.Instance.AddEventToList(this, EventType);

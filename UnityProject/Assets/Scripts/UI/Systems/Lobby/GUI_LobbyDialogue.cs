@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Firebase.Auth;
+using Systems.Character;
 
 namespace Lobby
 {
@@ -41,7 +42,7 @@ namespace Lobby
 
 		#region Lifecycle
 
-		private void Awake()
+		private void Start()
 		{
 			DeterminePanel();
 		}
@@ -66,11 +67,6 @@ namespace Lobby
 			{
 				//skip login
 				ShowMainPanel();
-				//if there aren't char settings, default
-				if (PlayerManager.CurrentCharacterSheet == null)
-				{
-					PlayerManager.CurrentCharacterSheet = new CharacterSheet();
-				}
 			}
 		}
 

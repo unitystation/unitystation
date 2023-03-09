@@ -53,7 +53,7 @@ namespace Systems.Research.Objects
 		public List<string> AvailableForMachine;
 
 		public delegate void MaterialsManipulating();
-		public static event MaterialsManipulating MaterialsManipulated;
+		public event MaterialsManipulating MaterialsManipulated;
 
 		private IEnumerator currentProduction;
 
@@ -279,13 +279,10 @@ namespace Systems.Research.Objects
 			UpdateGUI();
 		}
 
-		private void UpdateGUI()
+		public void UpdateGUI()
 		{
 			// Delegate calls method in all subscribers when material is changed
-			if (MaterialsManipulated != null)
-			{
-				MaterialsManipulated();
-			}
+			MaterialsManipulated?.Invoke();
 		}
 
 		private IEnumerator AnimateAcceptingMaterials()

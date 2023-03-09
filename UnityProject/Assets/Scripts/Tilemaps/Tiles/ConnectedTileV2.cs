@@ -45,18 +45,6 @@ namespace Tiles
 		{
 			//find our offset by checking our parent layer
 			Quaternion rotation;
-			//ensure we have our layer (if possible)
-			if (layer == null)
-			{
-				layer = tilemap.GetComponent<Layer>();
-			}
-			if (layer != null)
-			{
-				//I dont really get the need for this since
-				//to make a rotation makes sense you would have to rotate The tile positionally
-				rotation = Quaternion.identity;
-			}
-			else
 			{
 				rotation = Quaternion.identity;
 			}

@@ -7,6 +7,71 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2981390789209867571, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
+        type: 3}
+      propertyPath: butcherResults.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2981390789209867571, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
+        type: 3}
+      propertyPath: butcherResults.Array.data[0]
+      value: 
+      objectReference: {fileID: 2106675762234240265, guid: 7d0886a9531d70647be3830983bb598a,
+        type: 3}
+    - target: {fileID: 2981390789209867571, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
+        type: 3}
+      propertyPath: butcherResults.Array.data[1]
+      value: 
+      objectReference: {fileID: 2106675762234240265, guid: 7d0886a9531d70647be3830983bb598a,
+        type: 3}
+    - target: {fileID: 2981390789209867571, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
+        type: 3}
+      propertyPath: butcherResults.Array.data[2]
+      value: 
+      objectReference: {fileID: 2106675762234240265, guid: 7d0886a9531d70647be3830983bb598a,
+        type: 3}
+    - target: {fileID: 2981390789209867571, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
+        type: 3}
+      propertyPath: butcherResults.Array.data[3]
+      value: 
+      objectReference: {fileID: 2106675762234240265, guid: 7d0886a9531d70647be3830983bb598a,
+        type: 3}
+    - target: {fileID: 2981390789209867571, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
+        type: 3}
+      propertyPath: butcherResults.Array.data[4]
+      value: 
+      objectReference: {fileID: 2106675762234240265, guid: 7d0886a9531d70647be3830983bb598a,
+        type: 3}
+    - target: {fileID: 2981390789209867571, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
+        type: 3}
+      propertyPath: butcherResults.Array.data[5]
+      value: 
+      objectReference: {fileID: 2106675762234240265, guid: 7d0886a9531d70647be3830983bb598a,
+        type: 3}
+    - target: {fileID: 2981390789209867571, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
+        type: 3}
+      propertyPath: butcherResults.Array.data[6]
+      value: 
+      objectReference: {fileID: 2106675762234240265, guid: 7d0886a9531d70647be3830983bb598a,
+        type: 3}
+    - target: {fileID: 2981390789209867571, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
+        type: 3}
+      propertyPath: butcherResults.Array.data[7]
+      value: 
+      objectReference: {fileID: 2106675762234240265, guid: 7d0886a9531d70647be3830983bb598a,
+        type: 3}
+    - target: {fileID: 2981390789209867571, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
+        type: 3}
+      propertyPath: butcherResults.Array.data[8]
+      value: 
+      objectReference: {fileID: 2106675762234240265, guid: 7d0886a9531d70647be3830983bb598a,
+        type: 3}
+    - target: {fileID: 2981390789209867571, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
+        type: 3}
+      propertyPath: butcherResults.Array.data[9]
+      value: 
+      objectReference: {fileID: 2106675762234240265, guid: 7d0886a9531d70647be3830983bb598a,
+        type: 3}
     - target: {fileID: 3133844393595939535, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
         type: 3}
       propertyPath: m_Size.x
@@ -123,9 +188,8 @@ MonoBehaviour:
   syncInterval: 0.1
   CarryingMutations: []
   DifficultyLevel: 0
-  GrowthStages: 3
   GrowingStages:
-  - SpriteSizeScale: 0.25
+  - SpriteSizeScale: 0.5
     FoodRefreshTime: 120
   - SpriteSizeScale: 0.7
     FoodRefreshTime: 120

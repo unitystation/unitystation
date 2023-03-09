@@ -144,6 +144,11 @@ namespace Items
 			}
 		}
 
+		public static void Clear()
+		{
+			activeBeacons.Clear();
+		}
+
 		private static List<TrackingBeacon> GetType(TrackingBeaconTypes type)
 		{
 			if (activeBeacons.TryGetValue(type, out var beacons))

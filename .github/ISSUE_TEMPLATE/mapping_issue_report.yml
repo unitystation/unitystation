@@ -1,21 +1,20 @@
 name: Mapping issue report
 description: Report a mapping problem you found while playing.
-title: ''
-labels: 'Group: Mapping'
+title: '[Mapping] '
+labels: ['Group: Mapping']
 body:
-
 - type: checkboxes
   attributes:
     label: There is no other issue reporting the same problem.
-    description: Please take some time and try to find another issue reporting the same problem you encountered.
+    description: Please take some time and try to find another issue with the same feature request you encountered.
     options:
     - label: I have searched the existing issues
       required: true
 
--type: dropdown
+- type: dropdown
   attributes:
-    label: Map name
-    description: What map did you encounter the problem on?
+    label: Map
+    description: The operating system you are using.
     options:
     - BoxStation
     - PogStation
@@ -43,6 +42,6 @@ body:
   attributes:
     label: Pictures/videos
     description: Provide pictures or videos of the problem.
-    placeholder: ""
+    placeholder: "something"
   validations:
     required: true

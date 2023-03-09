@@ -558,7 +558,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 			}
 		}
 
-		if (ServerObjectToSlots.ContainsKey(bodyPartUISlots.GameObject) &&
+		if (bodyPartUISlots.GameObject != null && ServerObjectToSlots.ContainsKey(bodyPartUISlots.GameObject) &&
 		    ServerObjectToSlots[bodyPartUISlots.GameObject].Count == 0)
 		{
 			ServerObjectToSlots.Remove(bodyPartUISlots.GameObject);
@@ -715,11 +715,19 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 			ClientContents[sstorageCharacteristicse.namedSlot] = new List<ItemSlot>();
 		ClientContents[sstorageCharacteristicse.namedSlot]
 			.Remove(slot);
-		if (ClientObjectToSlots.ContainsKey(BbodyPartUISlots.GameObject) == false)
+		if (BbodyPartUISlots.GameObject != null && ClientObjectToSlots.ContainsKey(BbodyPartUISlots.GameObject) == false)
 			ClientObjectToSlots[BbodyPartUISlots.GameObject] = new List<ItemSlot>();
-		ClientObjectToSlots[BbodyPartUISlots.GameObject]
-			.Remove(slot);
-		if (ClientSlotCharacteristic.ContainsKey(slot)) ClientSlotCharacteristic.Remove(slot);
+
+		if (BbodyPartUISlots.GameObject != null)
+		{
+			ClientObjectToSlots[BbodyPartUISlots.GameObject].Remove(slot);
+		}
+
+		if (slot != null && ClientSlotCharacteristic.ContainsKey(slot))
+		{
+			ClientSlotCharacteristic.Remove(slot);
+		}
+
 		ClientTotal.Remove(slot);
 		if (hasAuthority)
 		{
@@ -770,12 +778,17 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		{
 			if (spawnedList.TryGetValue(IntIn.ID, out var spawned) == false)
 			{
-				void TempFunction()
-				{
-					ProcessChangeClient(NewST);
-				}
+				WeakReference<DynamicItemStorage> wptr = new WeakReference<DynamicItemStorage>(this);
 
-				LoadManager.RegisterActionDelayed(TempFunction, 30);
+				LoadManager.RegisterActionDelayed(() =>
+				{
+					DynamicItemStorage di;
+
+					if (wptr.TryGetTarget(out di))
+					{
+						di.ProcessChangeClient(NewST);
+					}
+				}, 30);
 				return;
 			}
 
@@ -1334,6 +1347,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 
 		foreach (var InventoryObject in InventoryObjects )
 		{
+			if (InventoryObject.GameObject == null) continue;
 			var playerRejoins = InventoryObject.GameObject.GetComponents<IOnPlayerLeaveBody>();
 			foreach (var playerRejoin in playerRejoins)
 			{

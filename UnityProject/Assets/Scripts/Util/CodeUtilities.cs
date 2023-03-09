@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public static class CodeUtilities
 {
@@ -21,15 +18,4 @@ public static class CodeUtilities
 
 		return String.Empty;
 	}
-
-	public static bool IsEqual(float a, float b)
-	{
-		if (a >= b - Mathf.Epsilon && a <= b + Mathf.Epsilon)
-		{
-			return true;
-		}
-
-		return false;
-	}
-
 }

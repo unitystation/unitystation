@@ -86,6 +86,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	public RoundEndScoreScreen ScoreScreen;
 
 	[field: SerializeField] public ExpLevelUI FirstTimePlayerExperienceScreen { get; set; }
+	[field: SerializeField] public ColorPicker GlobalColorPicker { get; set; }
 
 	public static bool PreventChatInput
 	{
@@ -625,5 +626,11 @@ public class UIManager : MonoBehaviour, IInitialise
 		}
 
 		ChatUI.Instance.OpenChatWindow();
+	}
+
+	public void ToggleUiVisibility()
+	{
+		gameObject.SetActive(!gameObject.activeInHierarchy);
+		ChatUI.Instance.CloseChatWindow(true);
 	}
 }

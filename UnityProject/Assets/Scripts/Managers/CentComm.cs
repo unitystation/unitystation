@@ -79,6 +79,12 @@ namespace Managers
 			EventManager.RemoveHandler(Event.RoundStarted, OnRoundStart);
 		}
 
+		public void Clear()
+		{
+			OnAlertLevelChange = () => { };
+			OnStatusDisplayUpdate = new StatusDisplayUpdateEvent();
+		}
+
 		private void OnRoundStart()
 		{
 			asteroidLocations.Clear();

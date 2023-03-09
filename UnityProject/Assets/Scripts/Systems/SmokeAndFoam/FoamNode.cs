@@ -115,7 +115,6 @@ public class FoamNode : SpreadNode
 	{
 		base.Clean();
 		OnMetaDataNode.IsSlippery = false;
-		OnMetaDataNode.ForceUpdateClient();
 	}
 
 
@@ -131,7 +130,6 @@ public class FoamNode : SpreadNode
 
 		OnMetaDataNode.PositionMatrix.MetaTileMap.AddOverlay(OnMetaDataNode.LocalPosition, SmokeAndFoamManager.Instance.OverlayTileFoam, Matrix4x4.identity, colour);
 		OnMetaDataNode.IsSlippery = true;
-		OnMetaDataNode.ForceUpdateClient();
 	}
 }
 public class FoamSourceReservoir : SourceReservoir
