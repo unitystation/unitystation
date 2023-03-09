@@ -1,0 +1,185 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2127416087990069851
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 426665761668545610, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 14e93bb467f8ed649bd366a6cef200b7,
+        type: 2}
+    - target: {fileID: 426665761668545610, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 39e8bd810cff8b042ba80636a74b3505,
+        type: 2}
+    - target: {fileID: 3666507880365142169, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0378a9ca5bc5ce945aac0e998962e216,
+        type: 2}
+    - target: {fileID: 4548261438558078835, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: foreverID
+      value: 05849a8c832dadc4dbdbb0e5bbe37ec8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: CanBeBroken
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: CanGetHungry
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: isBloodCirculated
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: HasNaturalToxicity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: isBloodReagentConsumed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: spillChanceWhenCutPresent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: BodyPartDisembowlLogicOnCutSize
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 14e93bb467f8ed649bd366a6cef200b7,
+        type: 2}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 39e8bd810cff8b042ba80636a74b3505,
+        type: 2}
+    - target: {fileID: 7010284919959774332, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: initialName
+      value: Synthetic right arm
+      objectReference: {fileID: 0}
+    - target: {fileID: 7010284919959774332, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: initialDescription
+      value: A skeletal limb wrapped in pseudomuscles, with a low-conductivity case.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7010284919959774332, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f1d60753d471f874895d5d78e99f4721,
+        type: 2}
+    - target: {fileID: 7010284919959774332, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 51ca87009f5327b44b59092dea2460c5,
+        type: 2}
+    - target: {fileID: 7012736517293872473, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: CapableMutations.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7301997280600668226, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8ab84bb014d157141b75cb6473b4cef8,
+        type: 3}
+    - target: {fileID: 7363429173861889706, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 05849a8c832dadc4dbdbb0e5bbe37ec8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7468114191605762846, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: m_Name
+      value: SyntheticRightArm
+      objectReference: {fileID: 0}
+    - target: {fileID: 7473600891628779114, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7473600891628779114, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7473600891628779114, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7473600891628779114, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7473600891628779114, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7473600891628779114, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7473600891628779114, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7473600891628779114, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7473600891628779114, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7473600891628779114, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7473600891628779114, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 3783771954129541353, guid: ba9a875c31908af4ab3749cd127a2edb, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: ba9a875c31908af4ab3749cd127a2edb, type: 3}

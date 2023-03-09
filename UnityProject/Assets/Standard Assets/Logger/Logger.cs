@@ -500,6 +500,11 @@ public enum Category
 		/// Logs for use in the editor
 		/// </summary>
 		Editor,
+
+		/// <summary>
+		/// Logs that describe work of memory cleanup actions
+		/// </summary>
+		MemoryCleanup,
 }
 
 [Serializable]

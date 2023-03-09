@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Firebase.Auth;
+using Systems.Character;
 
 namespace Lobby
 {
@@ -41,7 +42,7 @@ namespace Lobby
 
 		#region Lifecycle
 
-		private void Awake()
+		private void Start()
 		{
 			DeterminePanel();
 		}

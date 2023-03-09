@@ -41,6 +41,11 @@ public class TileChangeManager : MonoBehaviour
 	public MetaTileMap MetaTileMap => metaTileMap;
 
 
+	private void OnDestroy()
+	{
+		networkMatrix = null;
+	}
+
 	private void Awake()
 	{
 		metaTileMap = GetComponentInChildren<MetaTileMap>();

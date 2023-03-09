@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using AdminCommands;
 using UnityEngine;
 using Mirror;
 using Antagonists;
+using Systems.Character;
 using Systems.Spells;
 using HealthV2;
 using Initialisation;
 using Items.PDA;
 using Messages.Server;
-using Player;
 using ScriptableObjects.Audio;
-using UI.Action;
 using ScriptableObjects.Systems.Spells;
 using UI.Core.Action;
 
@@ -60,7 +58,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 	public Occupation occupation;
 
 	public PlayerScript ghost { private set; get; }
-	public PlayerScript Body => GetDeepestBody().GetComponent<PlayerScript>();
+	public PlayerScript Body => GetDeepestBody()?.GetComponent<PlayerScript>();
 	private SpawnedAntag antag;
 	public bool IsAntag => CustomNetworkManager.IsServer ? antag != null : NetworkedisAntag;
 
@@ -413,8 +411,11 @@ public class Mind : NetworkBehaviour, IActionGUI
 	private void SyncActiveOn(uint oldID, uint newID)
 	{
 		IDActivelyControlling = newID;
-		HandleActiveOnChange(oldID, newID);
-
+		if (isClient)
+		{
+			LoadManager.RegisterActionDelayed(() => { HandleActiveOnChange(oldID, newID); },
+				2);
+		}
 	}
 
 	private void SyncPossessing(uint oldID, uint newID)

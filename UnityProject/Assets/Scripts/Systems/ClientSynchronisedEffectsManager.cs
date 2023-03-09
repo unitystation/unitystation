@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Shared.Managers;
@@ -21,7 +22,7 @@ public class ClientSynchronisedEffectsManager : SingletonManager<ClientSynchroni
 	}
 
 
-	private void ClearData()
+	public void ClearData()
 	{
 		Data.Clear();
 	}

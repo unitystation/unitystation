@@ -49,6 +49,7 @@ namespace Items.Medical
 			var trauma = interaction.TargetObject.GetComponent<CreatureTraumaManager>();
 			var totalPercent = Mathf.Floor(100 * health.OverallHealth / health.MaxHealth);
 			var bloodTotal = Mathf.Round(health.GetTotalBlood());
+			//var bloodPercent = Mathf.Round(bloodTotal / health.reagentPoolSystem.BloodInfo.BLOOD_NORMAL * 100);
 			var bloodPercent = Mathf.Round(bloodTotal / health.CirculatorySystem.BloodInfo.BLOOD_NORMAL * 100);
 			float[] fullDamage = new float[7];
 
@@ -56,7 +57,7 @@ namespace Items.Medical
 					"----------------------------------------\n" +
 					$"{targetName} is {health.ConsciousState}\n" +
 					$"<b>Overall status: {totalPercent} % healthy</b>\n" +
-					$"Blood level: {bloodTotal}cc, {bloodPercent} %\n");
+					$"Blood Pool level: {bloodTotal}cc, {bloodPercent} %\n");
 			StringBuilder partMessages = new StringBuilder();
 			foreach (var bodypart in health.BodyPartList)
 			{
@@ -102,7 +103,7 @@ namespace Items.Medical
 			{
 				if ( bodypart.DamageContributesToOverallHealth ) continue;
 				if ( bodypart.TotalDamage == 0 ) continue;
-
+        
 				partMessages.AppendLine(GetBodypartMessage(bodypart));
 			}
 

@@ -78,12 +78,12 @@ namespace Items.Implants.Organs
 		}
 
 
-		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckPressure);
 		}
 
-		public override void AddedToBody(LivingHealthMasterBase livingHealth)
+		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			UpdateManager.Add(CheckPressure, 1);
 		}

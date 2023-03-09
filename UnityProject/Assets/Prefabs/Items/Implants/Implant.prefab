@@ -142,6 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OrganStorage: {fileID: 2719098251223779414}
+  isOpenAir: 0
   CommonComponents: {fileID: 0}
   playerSprites: {fileID: 0}
   IsBleeding: 0
@@ -295,6 +296,7 @@ MonoBehaviour:
   transferMode: 0
   possibleTransferAmounts: []
   transferAmount: 20
+  transferSound: []
 --- !u!210 &4940620596253206870 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 6104600676241079028, guid: a7abba22164ce49f0bf9b9b219f39298,

@@ -288,12 +288,12 @@ namespace Items.Implants.Organs
 			// May want to change this code to reflect that in the future so people don't hyperventilate when they are on nitrous oxide
 
 
-			if (RelatedPart.currentBloodSaturation >= RelatedPart.bloodType.BLOOD_REAGENT_SATURATION_OKAY)
+			if (RelatedPart.CurrentBloodSaturation >= RelatedPart.bloodType.BLOOD_REAGENT_SATURATION_OKAY)
 			{
 				currentBreatheCooldown = breatheCooldown; //Slow breathing, we're all good
 				RelatedPart.HealthMaster.HealthStateController.SetSuffocating(false);
 			}
-			else if (RelatedPart.currentBloodSaturation <= RelatedPart.bloodType.BLOOD_REAGENT_SATURATION_BAD)
+			else if (RelatedPart.CurrentBloodSaturation <= RelatedPart.bloodType.BLOOD_REAGENT_SATURATION_BAD)
 			{
 				RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
 				if (DMMath.Prob(20))

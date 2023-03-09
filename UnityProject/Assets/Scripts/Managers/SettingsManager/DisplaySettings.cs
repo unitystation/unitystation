@@ -556,6 +556,7 @@ namespace Managers.SettingsManager
 			if (fullScreenOn)
 			{
 				Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, true);
+				Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
 				yield return null;
 			}
 			else
@@ -574,6 +575,7 @@ namespace Managers.SettingsManager
 				}
 
 				Screen.SetResolution(windowWidth, windowHeight, false);
+				Screen.fullScreenMode = FullScreenMode.Windowed;
 				yield return null;
 			}
 			dsEventArgs.FullScreenChanged = true;

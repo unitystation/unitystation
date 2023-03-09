@@ -1,4 +1,5 @@
-﻿using Assets.HSVPicker;
+﻿using System;
+using Assets.HSVPicker;
 using UnityEngine;
 
 public class ColorPicker : MonoBehaviour
@@ -20,6 +21,8 @@ public class ColorPicker : MonoBehaviour
     [Header("Event")]
     public ColorChangedEvent onValueChanged = new ColorChangedEvent();
     public HSVChangedEvent onHSVChanged = new HSVChangedEvent();
+
+    public Action<Color> DynamicValueChangeEvent;
 
 	private Color lastColor;
     public Color CurrentColor
@@ -59,12 +62,18 @@ public class ColorPicker : MonoBehaviour
         SendChangedEvent();
     }
 
-	private void OnEnable() {
+	private void OnEnable()
+	{
 		// save color before edit
 		lastColor = CurrentColor;
 	}
 
-    public float H
+	private void OnDisable()
+	{
+		DynamicValueChangeEvent = null;
+	}
+
+	public float H
     {
         get
         {
@@ -195,6 +204,12 @@ public class ColorPicker : MonoBehaviour
         }
     }
 
+    public void EnablePicker(Action<Color> onChange)
+    {
+	    DynamicValueChangeEvent += onChange;
+	    gameObject.SetActive(true);
+    }
+
     private void RGBChanged()
     {
         HsvColor color = HSVUtil.ConvertRgbToHsv(CurrentColor);
@@ -215,8 +230,9 @@ public class ColorPicker : MonoBehaviour
 
     private void SendChangedEvent()
     {
-        onValueChanged.Invoke(CurrentColor);
-        onHSVChanged.Invoke(_hue, _saturation, _brightness);
+        onValueChanged?.Invoke(CurrentColor);
+        onHSVChanged?.Invoke(_hue, _saturation, _brightness);
+        DynamicValueChangeEvent?.Invoke(CurrentColor);
     }
 
     public void AssignColor(ColorValues type, float value)

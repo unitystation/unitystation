@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using AdminCommands;
 using UnityEngine;
 using UnityEditor;
@@ -13,13 +12,9 @@ using Learning;
 using Messages.Client;
 using Messages.Server;
 using Messages.Server.HealthMessages;
-using Mirror;
-using Objects.Engineering;
-using Objects.Lighting;
 using ScriptableObjects;
-using Systems.Electricity;
+using Systems.Character;
 using Systems.Score;
-using UI.Action;
 
 namespace IngameDebugConsole
 {

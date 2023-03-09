@@ -17,8 +17,8 @@ namespace HealthV2
 		public int EMPResistance = 2;
 
 		public virtual void ImplantPeriodicUpdate(){}
-		public virtual void RemovedFromBody(LivingHealthMasterBase livingHealth){}
-		public virtual void AddedToBody(LivingHealthMasterBase livingHealth){} //Warning only add body parts do not remove body parts in this
+		public virtual void OnRemovedFromBody(LivingHealthMasterBase livingHealth){}
+		public virtual void OnAddedToBody(LivingHealthMasterBase livingHealth){} //Warning only add body parts do not remove body parts in this
 		public virtual void SetUpSystems(){}
 		public virtual void InternalDamageLogic() {}
 		public virtual void OnTakeDamage(BodyPartDamageData data) {}

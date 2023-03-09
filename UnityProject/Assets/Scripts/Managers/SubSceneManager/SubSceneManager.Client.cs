@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Messages.Client;
 using Mirror;
 using UnityEngine;
@@ -12,14 +13,16 @@ public partial class SubSceneManager
 	private bool KillClientLoadingCoroutine = false;
 
 	private bool clientIsLoadingSubscene = false;
-	private HashSet<SceneInfo> clientLoadedSubScenes = new HashSet<SceneInfo>();
+	public HashSet<SceneInfo> clientLoadedSubScenes = new HashSet<SceneInfo>();
 
 	private float waitTime = 0f;
 	private readonly float tickRate = 1f;
 
+	public Dictionary<string, bool> ClientObserver = new Dictionary<string, bool>();
+
 	void MonitorServerSceneListOnClient()
 	{
-		if (isServer || clientIsLoadingSubscene || AddressableCatalogueManager.FinishLoaded == false) return;
+		if (CustomNetworkManager.IsServer || clientIsLoadingSubscene || AddressableCatalogueManager.FinishLoaded == false) return;
 
 		waitTime += Time.deltaTime;
 		if (waitTime < tickRate) return;
@@ -29,10 +32,9 @@ public partial class SubSceneManager
 		{
 			var sceneToCheck = loadedScenesList[i];
 			if(clientLoadedSubScenes.Contains(sceneToCheck)) continue;
-
 			clientIsLoadingSubscene = true;
-			clientLoadedSubScenes.Add(sceneToCheck);
 			StartCoroutine(LoadClientSubScene(sceneToCheck));
+			break;
 		}
 	}
 
@@ -68,6 +70,7 @@ public partial class SubSceneManager
 		{
 			clientIsLoadingSubscene = false;
 		}
+		clientLoadedSubScenes.Add(sceneInfo);
 	}
 
 	public void LoadScenesFromServer(List<SceneInfo> Scenes, string OriginalScene, Action OnFinish)
@@ -96,7 +99,6 @@ public partial class SubSceneManager
 				clientIsLoadingSubscene = false;
 				yield break;
 			}
-			clientLoadedSubScenes.Add(Scene);
 		}
 
 		NetworkClient.PrepareToSpawnSceneObjects();
@@ -112,6 +114,7 @@ public partial class SubSceneManager
 				yield break;
 			}
 			RequestObserverRefresh.Send(Scene.SceneName);
+			ClientObserver[Scene.SceneName] = false;
 		}
 
 		clientIsLoadingSubscene = false;
@@ -121,7 +124,24 @@ public partial class SubSceneManager
 			KillClientLoadingCoroutine = false;
 			yield break;
 		}
+
+		int Count = 0;
+		while (ObserverOfAll() == false && Count < 600)
+		{
+			yield return WaitFor.Seconds(0.1f);
+			Count++;
+		}
+
+
+		ClientObserver.Clear();
 		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
 		OnFinish.Invoke();
 	}
+
+
+	public bool ObserverOfAll()
+	{
+		return ClientObserver.All(x => x.Value);
+	}
+
 }

@@ -5,6 +5,7 @@ using Alien;
 using Core.Chat;
 using HealthV2;
 using HealthV2.Limbs;
+using Initialisation;
 using Items.Others;
 using Managers;
 using Messages.Server.LocalGuiMessages;
@@ -13,9 +14,9 @@ using Objects;
 using Player.Language;
 using Player.Movement;
 using ScriptableObjects;
+using Systems.Character;
 using Systems.GhostRoles;
 using Tiles;
-using UI.Action;
 using UI.Core.Action;
 using UnityEngine;
 using Weapons.Projectiles;
@@ -125,7 +126,8 @@ namespace Systems.Antagonists
 		[SerializeField]
 		private AlienTypeDataSO alienType;
 		public AlienTypeDataSO AlienType => alienType;
-		public AlienTypes CurrentAlienType => alienType.AlienType;
+
+		[SyncVar] public AlienTypes CurrentAlienType;
 		public List<ActionData> ActionData => alienType.ActionData;
 
 		[SyncVar]
@@ -319,6 +321,8 @@ namespace Systems.Antagonists
 		private int growth;
 
 		private bool didMessage;
+
+		[SyncVar(hook = nameof(SyncopenedEvolveMenu))]
 		private bool openedEvolveMenu;
 
 		private void GrowthUpdate()
@@ -346,18 +350,28 @@ namespace Systems.Antagonists
 				return;
 			}
 
-			if (CurrentAlienType != AlienTypes.Larva3 || connectionToClient != null) return;
+			if (CurrentAlienType != AlienTypes.Larva3 || connectionToClient == null) return;
 
 			if(openedEvolveMenu) return;
-			openedEvolveMenu = true;
 
-			RpcOpenEvolveMenu();
+			SyncopenedEvolveMenu(openedEvolveMenu, true);
 		}
 
-		[TargetRpc]
-		private void RpcOpenEvolveMenu()
+
+
+		public void SyncopenedEvolveMenu(bool old, bool bnew)
 		{
-			UIManager.Instance.panelHudBottomController.AlienUI.OpenEvolveMenu();
+			openedEvolveMenu = bnew;
+
+			LoadManager.RegisterActionDelayed(showUI, 300);
+		}
+
+		public void showUI()
+		{
+			if (openedEvolveMenu && hasAuthority)
+			{
+				UIManager.Instance.panelHudBottomController.AlienUI.OpenEvolveMenu();
+			}
 		}
 
 		[ContextMenu("Set growth 100%")]
@@ -442,6 +456,7 @@ namespace Systems.Antagonists
 		{
 			firstTimeSetup = true;
 			alienType = newone;
+			CurrentAlienType = alienType.AlienType;
 			if (changeName == false)
 			{
 				nameNumber = oldNameNumber;

@@ -131,9 +131,12 @@
     "DisplayName": "Janitorial Science",
     "Description": "New ways to keep the station clean.",
     "StartingNode": false,
-    "RequiredTechnologies": [],
+    "RequiredTechnologies": [
+      "base"
+    ],
     "DesignIDs": [
-      "adv_mop"
+      "adv_mop",
+      "adv_lightreplacer"
     ],
     "ResearchCosts": 10,
     "ExportPrice": 0,

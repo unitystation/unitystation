@@ -565,6 +565,29 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		return GetIndexedSlots().LastOrDefault(ids => ids.Item != null);
 	}
 
+	/// <summary>
+	/// Gets the highest indexed slot that is currently occupied. Null if none are occupied
+	/// </summary>
+	/// <returns></returns>
+	public List<ItemSlot> GetOccupiedSlots()
+	{
+		var result = new List<ItemSlot>();
+		foreach (var slot in GetIndexedSlots())
+		{
+			if (slot.IsOccupied) result.Add(slot);
+		}
+		return result;
+	}
+
+
+	/// <summary>
+	/// Returns if any slot is occupied
+	/// </summary>
+	/// <returns></returns>
+	public bool HasAnyOccupied()
+	{
+		return GetIndexedSlots().Any(slot => slot.Item != null);
+	}
 
 	/// <summary>
 	/// Server only (can be called client side but has no effect).
@@ -643,11 +666,25 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// <summary>
 	/// Drops all items in all slots.
 	/// </summary>
-	public void ServerDropAll(Vector2? worldTargetVector = null)
+	public void ServerDropAll(Vector2? worldDeltaTargetVector = null)
 	{
 		foreach (var itemSlot in GetItemSlots())
 		{
-			Inventory.ServerDrop(itemSlot, worldTargetVector);
+			Inventory.ServerDrop(itemSlot, worldDeltaTargetVector);
 		}
+	}
+
+	/// <summary>
+	/// Drops all items in all slots.
+	/// </summary>
+	public void ServerDropAllAtWorld(Vector3? DropAtWorld = null)
+	{
+		Vector2? worldDeltaTargetVector = null;
+		if (DropAtWorld != null)
+		{
+			worldDeltaTargetVector =  DropAtWorld - gameObject.AssumedWorldPosServer() ;
+		}
+
+		ServerDropAll(worldDeltaTargetVector);
 	}
 }

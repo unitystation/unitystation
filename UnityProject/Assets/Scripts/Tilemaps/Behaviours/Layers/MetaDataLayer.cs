@@ -57,6 +57,9 @@ public class MetaDataLayer : MonoBehaviour
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, SynchroniseNodeChanges);
 		}
+		nodes.Clear();
+		ChangedNodes.Clear();
+		nodesToUpdate.Clear();
 	}
 
 	private void Awake()

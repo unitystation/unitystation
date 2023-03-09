@@ -27,7 +27,7 @@ namespace AdminTools
 		[SerializeField] private Image backgroundImage;
 		public AdminGiveItem giveItemPage;
 		private PlayerChatPage playerChatPageScript;
-		private PlayerManagePage playerManagePageScript;
+		public PlayerManagePage playerManagePageScript;
 		public KickBanEntryPage kickBanEntryPage;
 		public AreYouSurePage areYouSurePage;
 
@@ -49,6 +49,8 @@ namespace AdminTools
 		{
 			playerChatPageScript = playerChatPage.GetComponent<PlayerChatPage>();
 			playerManagePageScript = playerManagePage.GetComponent<PlayerManagePage>();
+			GameObject.DontDestroyOnLoad(playerChatPage);
+			GameObject.DontDestroyOnLoad(playerManagePage);
 		}
 
 		private void Update()

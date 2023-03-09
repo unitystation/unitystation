@@ -2,6 +2,7 @@ using Messages.Server;
 using Mirror;
 using Newtonsoft.Json;
 using Player;
+using Systems.Character;
 
 namespace Messages.Client.NewPlayer
 {
