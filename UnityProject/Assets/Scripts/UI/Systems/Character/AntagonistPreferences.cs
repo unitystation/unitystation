@@ -1,13 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Antagonists;
-using DatabaseAPI;
 using UnityEngine;
+using Antagonists;
+using UI.Character;
 
 namespace UI.CharacterCreator
 {
 	public class AntagonistPreferences : MonoBehaviour
 	{
+		[SerializeField]
+		private CharacterSettings characterSettings;
+
 		[SerializeField]
 		private GameObject antagEntryTemplate = null;
 
@@ -79,7 +82,7 @@ namespace UI.CharacterCreator
 		/// </summary>
 		private void LoadAntagPreferences()
 		{
-			antagPrefs = PlayerManager.CurrentCharacterSheet.AntagPreferences;
+			antagPrefs = characterSettings.EditedCharacter.AntagPreferences;
 
 			foreach (string antagName in antagPrefs.Keys.ToList())
 			{
@@ -100,8 +103,7 @@ namespace UI.CharacterCreator
 		/// </summary>
 		private void SaveAntagPreferences()
 		{
-			PlayerManager.CurrentCharacterSheet.AntagPreferences = antagPrefs;
-			_ = ServerData.UpdateCharacterProfile(PlayerManager.CurrentCharacterSheet);
+			characterSettings.EditedCharacter.AntagPreferences = antagPrefs;
 		}
 
 		/// <summary>

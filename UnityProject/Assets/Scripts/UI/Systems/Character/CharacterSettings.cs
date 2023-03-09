@@ -35,6 +35,8 @@ namespace UI.Character
 
 		#endregion
 
+		public CharacterSheet EditedCharacter { get; private set; }
+
 		private CharacterManager CharacterManager => PlayerManager.CharacterManager;
 
 		private CharacterCustomization characterEditorScript;
@@ -65,9 +67,9 @@ namespace UI.Character
 		public void EditCharacter(int key)
 		{
 			editedCharacterKey = key;
-			// Provide a copy in case changes are discarded
-			var character = (CharacterSheet) CharacterManager.Characters[key].Clone();
-			ShowCharacterEditor(character);
+			// Use a copy in case changes are discarded
+			EditedCharacter = (CharacterSheet) CharacterManager.Get(key).Clone();
+			ShowCharacterEditor(EditedCharacter);
 		}
 
 		public void ShowCharacterEditor(CharacterSheet character)
@@ -80,7 +82,7 @@ namespace UI.Character
 
 		public void SaveCharacter(CharacterSheet character)
 		{
-			CharacterManager.Characters[editedCharacterKey] = character;
+			CharacterManager.Set(editedCharacterKey, character);
 			CharacterManager.SaveCharacters();
 		}
 

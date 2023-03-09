@@ -1177,12 +1177,28 @@ namespace UI.CharacterCreator
 
 		public void LoadSerialisedData()
 		{
+			DisplayErrorText(string.Empty);
+
 			var inCharacter = JsonConvert.DeserializeObject<CharacterSheet>(SerialiseData.text);
-			if (inCharacter != null) // TODO validate character
+
+			if (inCharacter == null)
 			{
-				Cleanup();
-				LoadCharacter(currentCharacter);
+				DisplayErrorText("Provided JSON couldn't be deserialised.");
+				return;
 			}
+
+			try
+			{
+				inCharacter.ValidateSettings();
+			}
+			catch (InvalidOperationException e)
+			{
+				DisplayErrorText($"Deserialised JSON failed character validation. {e.Message}.");
+				return;
+			}
+
+			Cleanup();
+			LoadCharacter(currentCharacter);
 		}
 
 		public enum CharacterDir
@@ -1204,12 +1220,5 @@ namespace UI.CharacterCreator
 	{
 		public string path;
 		public string Data;
-	}
-
-	public enum CustomisationType
-	{
-		Custom,
-		Replace,
-		Additional
 	}
 }

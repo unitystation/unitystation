@@ -1,22 +1,24 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
-using DatabaseAPI;
+using UnityEngine;
 
 /// <summary>
 /// A dictionary using JobType and Priority. Used to store a player's job preferences.
 /// </summary>
 public class JobPrefsDict : Dictionary<JobType, Priority> { }
 
-namespace UI
+namespace UI.Character
 {
 	/// <summary>
 	/// Controls the job preferences screen
 	/// </summary>
 	public class GUI_JobPreferences : MonoBehaviour
 	{
+		[SerializeField]
+		private CharacterSettings characterSettings;
+
 		/// <summary>
 		/// Have all the jobs already been populated?
 		/// </summary>
@@ -197,8 +199,7 @@ namespace UI
 		/// </summary>
 		private void SaveJobPreferences()
 		{
-			PlayerManager.CurrentCharacterSheet.JobPreferences = jobPreferences;
-			_ = ServerData.UpdateCharacterProfile(PlayerManager.CurrentCharacterSheet);
+			characterSettings.EditedCharacter.JobPreferences = jobPreferences;
 		}
 
 		/// <summary>
@@ -208,7 +209,7 @@ namespace UI
 		{
 			// Loop through all jobs and set the dropdown to the specified priority.
 			// This will update the local jobPreferences variable using OnPriorityChange.
-			foreach (var jobPref in PlayerManager.CurrentCharacterSheet.JobPreferences.ToList())
+			foreach (var jobPref in characterSettings.EditedCharacter.JobPreferences.ToList())
 			{
 				jobEntries[jobPref.Key].SetPriority(jobPref.Value);
 			}
