@@ -63,7 +63,7 @@ namespace Systems.Character
 		/// <returns>True if the key is valid.</returns>
 		public bool IsCharacterKeyValid(int key)
 		{
-			return key > 0 && key < Characters.Count;
+			return key >= 0 && key < Characters.Count;
 		}
 
 		/// <summary>Get the key of the <see cref="CharacterSheet"/> that was last set as active.</summary>
