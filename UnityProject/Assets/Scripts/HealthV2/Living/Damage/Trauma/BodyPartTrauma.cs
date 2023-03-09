@@ -24,7 +24,7 @@ namespace HealthV2
 			RelatedPart.OnDamageTaken -= OnTakeDamage;
 		}
 
-		public override void AddedToBody(LivingHealthMasterBase livingHealth)
+		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			var creatureTraumaAPI = livingHealth.GetComponent<CreatureTraumaManager>();
 			if (creatureTraumaAPI == null)
@@ -36,7 +36,7 @@ namespace HealthV2
 			creatureTraumaAPI.Traumas.Add(RelatedPart, this);
 		}
 
-		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
 			var creatureTraumaAPI = livingHealth.GetComponent<CreatureTraumaManager>();
 			if (creatureTraumaAPI == null) return;
