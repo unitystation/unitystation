@@ -19,7 +19,7 @@ namespace Lobby
 				return;
 			}
 
-			authenticator.ClientSendPassword(passwordInputField.text);
+			authenticator.ClientSendLobbyPassword(passwordInputField.text);
 		}
 	}
 }

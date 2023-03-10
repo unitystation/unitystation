@@ -11,6 +11,9 @@ namespace Systems.Character
 	// TODO this class has stubs
 	public class CharacterManager
 	{
+		/// <summary>Character sheets not under this version will be ignored.</summary>
+		public static readonly string CharacterSheetVersion = "unitystation-v1"; // TODO: this place is arbitrary.
+
 		/// <summary>
 		/// A list of the player's loaded characters.
 		/// Please consider using <see cref="CharacterManager"/>'s methods to manipulate the list instead of directly.
@@ -191,7 +194,8 @@ namespace Systems.Character
 		public void SaveCharactersOnline()
 		{
 			// TODO support multiple characters
-			_ = ServerData.UpdateCharacterProfile(Get(GetLastCharacterKey()));
+			// TODO: bad
+			_ = PlayerManager.Account.SetCharacter(Get(GetLastCharacterKey()));
 		}
 
 		/// <summary>Save characters to Unity's persistent data folder.</summary>

@@ -23,7 +23,7 @@ namespace Messages.Client.VariableViewer
 			if (IsFromAdmin() == false) return;
 
 			global::VariableViewer.RequestChangeVariable(
-					msg.PageID, msg.newValue, msg.SendToClient, SentByPlayer.GameObject, SentByPlayer.UserId);
+					msg.PageID, msg.newValue, msg.SendToClient, SentByPlayer.GameObject, SentByPlayer.AccountId);
 
 			Logger.Log(
 					$"Admin {SentByPlayer.Username} changed variable {msg.PageID} (in VV) with a new value of: {msg.newValue} ",

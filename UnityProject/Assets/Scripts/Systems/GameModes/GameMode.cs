@@ -232,7 +232,7 @@ namespace GameModes
 
 			// Has this player enabled any of the possible antags?
 			if (HasPossibleAntagEnabled(ref spawnRequest.CharacterSettings.AntagPreferences) == false
-					|| HasPossibleAntagNotBanned(spawnRequest.Player.UserId) == false)
+					|| HasPossibleAntagNotBanned(spawnRequest.Player.AccountId) == false)
 			{
 				return false;
 			}
@@ -275,7 +275,7 @@ namespace GameModes
 
 			var antagPool = PossibleAntags.Where(a =>
 					HasAntagEnabled(ref playerSpawnRequest.CharacterSettings.AntagPreferences, a)
-					&& PlayerList.Instance.IsJobBanned(playerSpawnRequest.Player.UserId, a.AntagJobType) == false).ToList();
+					&& PlayerList.Instance.IsJobBanned(playerSpawnRequest.Player.AccountId, a.AntagJobType) == false).ToList();
 
 			if (antagPool.Count < 1)
 			{
@@ -370,7 +370,7 @@ namespace GameModes
 					playerSpawnRequests = jobAllocator.DetermineJobs(playerPool);
 					var antagCandidates = playerSpawnRequests.Where(p =>
 						!NonAntagJobTypes.Contains(p.RequestedOccupation.JobType) &&
-						HasPossibleAntagEnabled(ref p.CharacterSettings.AntagPreferences) && HasPossibleAntagNotBanned(p.Player.UserId));
+						HasPossibleAntagEnabled(ref p.CharacterSettings.AntagPreferences) && HasPossibleAntagNotBanned(p.Player.AccountId));
 					antagSpawnRequests = antagCandidates.PickRandom(antagsToSpawn).ToList();
 					// Player and antag spawn requests are kept separate to stop players being spawned twice
 					playerSpawnRequests.RemoveAll(antagSpawnRequests.Contains);
@@ -379,7 +379,7 @@ namespace GameModes
 				{
 					// Choose antags first then allocate jobs to all other players
 					var antagCandidates = playerPool.Where(p =>
-						HasPossibleAntagEnabled(ref p.RequestedCharacterSettings.AntagPreferences) && HasPossibleAntagNotBanned(p.UserId));
+						HasPossibleAntagEnabled(ref p.RequestedCharacterSettings.AntagPreferences) && HasPossibleAntagNotBanned(p.AccountId));
 					var chosenAntags = antagCandidates.PickRandom(antagsToSpawn).ToList();
 					// Player and antag spawn requests are kept separate to stop players being spawned twice
 					playerPool.RemoveAll(chosenAntags.Contains);
@@ -406,8 +406,6 @@ namespace GameModes
 					Logger.LogError($" Failed to spawn player {spawnReq?.Player?.Name} " + e.ToString());
 				}
 			}
-
-
 
 			foreach (var spawnReq in antagSpawnRequests)
 			{

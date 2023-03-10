@@ -44,7 +44,7 @@ namespace Messages.Client.DevSpawner
 					Stackable.ServerSetAmount(msg.SpawnStackAmount);
 				}
 				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-					$"{SentByPlayer.Username} spawned a {prefab.name} at {msg.WorldPosition}", SentByPlayer.UserId);
+					$"{SentByPlayer.Username} spawned a {prefab.name} at {msg.WorldPosition}", SentByPlayer.AccountId);
 			}
 			else
 			{

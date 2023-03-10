@@ -7,12 +7,11 @@ using Newtonsoft.Json;
 using UnityEngine;
 using Mirror;
 using IgnoranceTransport;
-using Firebase;
-using Firebase.Auth;
-using Firebase.Extensions;
-using Shared.Managers;
+using Core.Accounts;
+using Core.Database;
+using UI.CharacterCreator;
 using Managers;
-using DatabaseAPI;
+using Shared.Managers;
 
 namespace Lobby
 {
@@ -36,7 +35,7 @@ namespace Lobby
 		public bool WasDisconnected { get; set; } = false;
 
 		public List<ConnectionHistory> ServerJoinHistory { get; private set; }
-		private static readonly int MaxJoinHistory = 20; // Aribitrary & more than enough
+		private static readonly int MaxJoinHistory = 20; // Arbitrary & more than enough
 
 		#region Lifecycle
 
@@ -73,148 +72,189 @@ namespace Lobby
 			"Howdy {0}!",
 		};
 
-		public async Task<bool> TryLogin(string email, string password)
+		public async Task<bool> TryLogin(string emailAddress, string password)
 		{
 			lobbyDialogue.ShowLoadingPanel("Signing in...");
 
-			bool isLoginSuccess = false;
-			await FirebaseAuth.DefaultInstance.SignInWithEmailAndPasswordAsync(email, password)
-					.ContinueWithOnMainThread(async task =>
+			PlayerPrefs.SetString(PlayerPrefKeys.AccountEmail, emailAddress);
+
+			await PlayerManager.Account.Login(emailAddress, password).Then(task =>
 			{
-				if (task.IsCanceled)
-				{
-					Logger.LogWarning($"Sign in canceled.", Category.DatabaseAPI);
-					lobbyDialogue.ShowLoginPanel();
-				}
-				else if (task.IsFaulted)
-				{
-					var knownCodes = new List<int> { 12 };
-
-					var exception = task.Exception.Flatten().InnerExceptions[0];
-					Logger.LogError($"Sign in error: {task.Exception.Message}", Category.DatabaseAPI);
-
-					if (exception is FirebaseException firebaseException && knownCodes.Contains(firebaseException.ErrorCode))
-					{
-						lobbyDialogue.ShowLoginError($"Account sign in failed. {firebaseException.Message}");
-					}
-					else
-					{
-						lobbyDialogue.ShowLoginError($"Unexpected error. Check your console (F5)");
-					}
-				}
-				else if (await ServerData.ValidateUser(task.Result, (errorStr) => {
-					Logger.LogError($"Account validation error: {errorStr}", Category.DatabaseAPI);
-					lobbyDialogue.ShowLoginError($"Account validation error. {errorStr}");
-				}))
-				{
-					isLoginSuccess = true;
-					PlayerPrefs.SetString(PlayerPrefKeys.AccountEmail, task.Result.Email);
-					lobbyDialogue.ShowMainPanel();
-				}
+				HandleLoginTask(task);
 			});
 
-			return isLoginSuccess;
+			return PlayerManager.Account.IsAvailable;
 		}
 
-		public async Task<bool> TryTokenLogin(string uid, string token)
+		public async Task<bool> TryTokenLogin(string token)
 		{
-			lobbyDialogue.ShowLoadingPanel("Welcome back! Signing you in...");
+			var username = PlayerPrefs.GetString(PlayerPrefKeys.AccountName);
 
-			var refreshToken = new RefreshToken();
-			refreshToken.refreshToken = token;
-			refreshToken.userID = uid;
+			var randomGreeting = string.Format(greetings.PickRandom(), username);
+			lobbyDialogue.ShowLoadingPanel($"{randomGreeting}\n\nSigning you in...");
 
-			var response = await ServerData.ValidateToken(refreshToken);
-
-			if (response == null)
+			// It's weird that we use the PlayerManager.Account to log in, but then we go and update that same object w/ the result...
+			var loginTask = PlayerManager.Account.Login(token);
+			try
 			{
-				lobbyDialogue.ShowLoginError($"Unknown server error. Check your console (F5)");
-				return false;
+				await loginTask;
+			}
+			finally
+			{
+				// Let HandleLoginTask handle any exceptions.
+				HandleLoginTask(loginTask);
 			}
 
-			if (string.IsNullOrEmpty(response.errorMsg) == false)
-			{
-				Logger.LogError($"Something went wrong with hub token validation: {response.errorMsg}", Category.DatabaseAPI);
-				lobbyDialogue.ShowLoginError($"Could not verify your details. {response.errorMsg}");
-				return false;
-			}
-
-			bool isLoginSuccess = false;
-			await FirebaseAuth.DefaultInstance.SignInWithCustomTokenAsync(response.message)
-					.ContinueWithOnMainThread(async task =>
-			{
-				if (task.IsCanceled)
-				{
-					Logger.LogError("Custom token sign in was canceled.", Category.DatabaseAPI);
-					lobbyDialogue.ShowLoginError($"Sign in was cancelled.");
-				}
-				else if (task.IsFaulted)
-				{
-					Logger.LogError($"Token login task faulted: {task.Exception}", Category.DatabaseAPI);
-					lobbyDialogue.ShowLoginError($"Unexpected error encountered. Check your console (F5)");
-				}
-				else if (await ServerData.ValidateUser(task.Result, lobbyDialogue.ShowLoginError))
-				{
-					Logger.Log("Sign in with token successful.", Category.DatabaseAPI);
-					isLoginSuccess = true;
-				}
-			});
-
-			return isLoginSuccess;
+			return PlayerManager.Account.IsAvailable;
 		}
 
 		public async Task<bool> TryAutoLogin()
 		{
-			if (FirebaseAuth.DefaultInstance.CurrentUser == null)
+			Logger.Log("Attempting automatic login by token...");
+
+			if (PlayerPrefs.GetInt(PlayerPrefKeys.AccountAutoLogin) == 1 && PlayerPrefs.HasKey(PlayerPrefKeys.AccountToken))
 			{
-				// We haven't seen this user before.
-				lobbyDialogue.ShowAlphaPanel();
-				return false;
+				return await TryTokenLogin(PlayerPrefs.GetString(PlayerPrefKeys.AccountToken));
 			}
 
-			var randomGreeting = string.Format(greetings.PickRandom(), FirebaseAuth.DefaultInstance.CurrentUser.DisplayName);
-			lobbyDialogue.ShowLoadingPanel($"{randomGreeting}\n\nSigning you in...");
-
-			bool isLoginSuccess = false;
-			await FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread(task => {
-				if (task.IsCanceled)
-				{
-					Logger.LogWarning($"Auto sign in cancelled.");
-					lobbyDialogue.ShowLoginPanel();
-				}
-				else if (task.IsFaulted)
-				{
-					Logger.LogError($"Auto sign in failed: {task.Exception?.Message}");
-					lobbyDialogue.ShowLoginError("Unexpected error encountered. Check your console (F5)");
-				}
-				isLoginSuccess = true;
-			});
-
-			if (isLoginSuccess == false) return false;
-
-			if (await ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser, lobbyDialogue.ShowLoginError))
-			{
-				lobbyDialogue.ShowMainPanel();
-				return true;
-			}
+			Logger.Log("Couldn't log in via PlayerPrefs token: automatic login not enabled or no token.");
 
 			return false;
 		}
 
+		private void HandleLoginTask(Task<Account> task)
+		{
+			if (task.IsCanceled)
+			{
+				Logger.LogWarning("Login cancelled.");
+				lobbyDialogue.ShowLoginPanel();
+			}
+			else if (task.IsFaulted)
+			{
+				if (task.Exception?.GetBaseException() is ApiRequestException apiException)
+				{
+					lobbyDialogue.ShowLoginError(apiException.Message);
+				}
+				else
+				{
+					Logger.LogError("Fault while logging in.");
+					task.LogFaultedTask();
+					lobbyDialogue.ShowLoginError("Cannot communicate with the account server. Check your console (F5).");
+				}
+			}
+			else
+			{
+				var account = task.Result;
+				PlayerManager.Instance.SetAccount(account);
+
+				lobbyDialogue.ShowMainPanel();
+			}
+		}
+
+		public void SetAutoLogin(bool shouldAutoLogin)
+		{
+			PlayerPrefs.SetInt(PlayerPrefKeys.AccountAutoLogin, shouldAutoLogin ? 1 : 0);
+		}
+
 		#endregion
 
-		public void ResendEmail()
+		public async Task<bool> CreateAccount(string username, string email, string accountIdentifier, string password) // TODO accountIdentifier, order
 		{
-			if (FirebaseAuth.DefaultInstance.CurrentUser == null)
+			var isSuccess = false;
+			await PlayerManager.Account.Register(username, email, accountIdentifier, password).Then(task =>
 			{
-				Logger.LogError("Cannot resend email for unknown account.", Category.DatabaseAPI);
-				return;
+				if (task.IsCanceled)
+				{
+					Logger.LogWarning("Account creation cancelled.");
+					lobbyDialogue.ShowAccountCreatePanel();
+				}
+				else if (task.IsFaulted)
+				{
+					var message = "Couldn't create your account. Check the console (F5).";
+
+					if (task.Exception.InnerException is ApiRequestException apiException)
+					{
+						message = $"Couldn't create your account. {apiException.Message}";
+					}
+					else
+					{
+						task.LogFaultedTask();
+					}
+
+					lobbyDialogue.ShowInfoPanel(new InfoPanelArgs
+					{
+						Heading = "Account Creation Failed",
+						Text = message,
+						IsError = true,
+						LeftButtonLabel = "Back",
+						LeftButtonCallback = lobbyDialogue.ShowAccountCreatePanel, // TODo move here?>
+						RightButtonLabel = "Retry",
+						RightButtonCallback = () => _ = CreateAccount(username, email, accountIdentifier, password),
+					});
+				}
+				else
+				{
+					isSuccess = true;
+					lobbyDialogue.ShowInfoPanel(new InfoPanelArgs
+					{
+						Heading = "Account Created",
+						Text = $"Success! An email will be sent to\n<b>{email}</b>\n\n" +
+								$"Please click the link in the email to verify your account before signing in.",
+						LeftButtonLabel = "Back",
+						LeftButtonCallback = lobbyDialogue.ShowLoginPanel,
+						RightButtonLabel = "Resend Email",
+						RightButtonCallback = ResendVerifyEmail,
+					});
+				}
+			});
+
+			if (isSuccess)
+			{
+				PlayerPrefs.SetString(PlayerPrefKeys.AccountEmail, email);
+				PlayerPrefs.Save();
 			}
 
-			FirebaseAuth.DefaultInstance.CurrentUser.SendEmailVerificationAsync();
-			UI.ShowEmailResendPanel(FirebaseAuth.DefaultInstance.CurrentUser.Email);
+			return isSuccess;
+		}
 
-			FirebaseAuth.DefaultInstance.SignOut();
+		public void ResendVerifyEmail()
+		{
+			var email = PlayerPrefs.GetString(PlayerPrefKeys.AccountEmail);
+			PlayerManager.Account.RequestNewVerifyEmail().Then(task =>
+			{
+				if (task.IsCanceled)
+				{
+					Logger.Log("Request for a new verification email cancelled.");
+					lobbyDialogue.ShowLoginPanel();
+				}
+				else if (task.IsFaulted)
+				{
+					Logger.LogError($"Couldn't request a new verification email. {task.Exception.GetBaseException()}");
+					lobbyDialogue.ShowInfoPanel(new InfoPanelArgs
+					{
+						Heading = "Account Creation Failed",
+						Text = $"Failed to request a new verification email for \n<b>{email}<b>.\nCheck your console (F5)",
+						IsError = true,
+						LeftButtonLabel = "Back",
+						LeftButtonCallback = lobbyDialogue.ShowLoginPanel,
+						RightButtonLabel = "Retry",
+						RightButtonCallback = ResendVerifyEmail,
+					});
+				}
+				else
+				{
+					lobbyDialogue.ShowInfoPanel(new InfoPanelArgs
+					{
+						Heading = "Resend Verification Email",
+						Text = $"A new verification email will be sent to \n<b>{email}</b>",
+						IsError = true,
+						LeftButtonLabel = "Back",
+						LeftButtonCallback = lobbyDialogue.ShowLoginPanel,
+					});
+				}
+			});
+
+			PlayerManager.Account.Logout(); // TODO why here
 		}
 
 		public void ShowCharacterEditor()
@@ -272,7 +312,7 @@ namespace Lobby
 			};
 		}
 
-			public void HostServer()
+		public void HostServer()
 		{
 			lobbyDialogue.ShowLoadingPanel("Hosting a game...");
 			LoadingScreenManager.LoadFromLobby(CustomNetworkManager.Instance.StartHost);
@@ -280,10 +320,12 @@ namespace Lobby
 
 		public void Logout()
 		{
-			ServerData.Auth.SignOut();
-			PlayerPrefs.DeleteKey(PlayerPrefKeys.AccountUsername);
-			PlayerPrefs.DeleteKey(PlayerPrefKeys.AccountToken);
-			PlayerPrefs.Save();
+			// Only clear the cached email address if deliberately logged out,
+			// so login email form can be prepopulated if user restarts game.
+			PlayerPrefs.DeleteKey(PlayerPrefKeys.AccountEmail);
+			PlayerPrefs.DeleteKey(PlayerPrefKeys.AccountAutoLogin);
+
+			PlayerManager.Account.Logout();
 
 			characterSettings.SetActive(false);
 			lobbyDialogue.gameObject.SetActive(true);

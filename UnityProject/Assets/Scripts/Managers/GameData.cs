@@ -1,17 +1,19 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using DatabaseAPI;
-using Lobby;
-using Managers;
-using Shared.Util;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
+using Core.Database;
+using Core.Networking;
+using DatabaseAPI;
+using Lobby;
+using Managers;
+using Shared.Util;
 
 public class GameData : MonoBehaviour
 {
@@ -60,6 +62,11 @@ public class GameData : MonoBehaviour
 
 	#region Lifecycle
 
+	private void Awake()
+	{
+		ApiServer.Client = Http.Client;
+	}
+
 	private void Start()
 	{
 		_ = Init();
@@ -77,7 +84,7 @@ public class GameData : MonoBehaviour
 		HttpResponseMessage res;
 		try
 		{
-			res = await ServerData.HttpClient.SendAsync(r, cancellationToken);
+			res = await Http.Client.SendAsync(r, cancellationToken);
 		}
 		catch (System.Net.Http.HttpRequestException e)
 		{
@@ -214,7 +221,7 @@ public class GameData : MonoBehaviour
 		if (string.IsNullOrEmpty(token) == false)
 		{
 			Logger.Log("Logging in via hub account...");
-			if (await LobbyManager.Instance.TryTokenLogin(uid, token))
+			if (await LobbyManager.Instance.TryTokenLogin(token)) // TODO uid not needed anymore?
 			{
 				LobbyManager.Instance.JoinServer(ip, port);
 				return true;

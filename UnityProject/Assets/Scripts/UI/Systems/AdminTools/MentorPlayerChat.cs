@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 using Mirror;
-using DatabaseAPI;
 using DiscordWebhook;
 using Messages.Client.Admin;
 using Messages.Server.AdminTools;
@@ -16,21 +15,17 @@ namespace AdminTools
 	{
 		[SerializeField] private ChatScroll chatScroll = null;
 		private AdminPlayerEntryData selectedPlayer;
-		public AdminPlayerEntryData SelectedPlayer
-		{
-			get { return selectedPlayer; }
-		}
+		public AdminPlayerEntryData SelectedPlayer => selectedPlayer;
+
 		/// <summary>
 		/// All messages sent and recieved from players to mentors
 		/// </summary>
-		private Dictionary<string, List<AdminChatMessage>> serverMentorPlayerChatLogs
-			= new Dictionary<string, List<AdminChatMessage>>();
+		private readonly Dictionary<string, List<AdminChatMessage>> serverMentorPlayerChatLogs = new();
 
 		/// <summary>
 		/// The mentors client local cache for mentor to player chat
 		/// </summary>
-		private Dictionary<string, List<AdminChatMessage>> clientMentorPlayerChatLogs
-			= new Dictionary<string, List<AdminChatMessage>>();
+		private readonly Dictionary<string, List<AdminChatMessage>> clientMentorPlayerChatLogs = new();
 
 		public void ClearLogs()
 		{
@@ -44,34 +39,34 @@ namespace AdminTools
 				? $"{player.Username}: {message}"
 				: $"{mentor.Username}: {message}";
 
-			if (!serverMentorPlayerChatLogs.ContainsKey(player.UserId))
+			if (!serverMentorPlayerChatLogs.ContainsKey(player.AccountId))
 			{
-				serverMentorPlayerChatLogs.Add(player.UserId, new List<AdminChatMessage>());
+				serverMentorPlayerChatLogs.Add(player.AccountId, new List<AdminChatMessage>());
 			}
 
 			var entry = new AdminChatMessage
 			{
-				fromUserid = player.UserId,
+				fromUserid = player.AccountId,
 				Message = message
 			};
 
 			if (mentor != null)
 			{
-				entry.fromUserid = mentor.UserId;
+				entry.fromUserid = mentor.AccountId;
 				entry.wasFromAdmin = true;
 			}
-			serverMentorPlayerChatLogs[player.UserId].Add(entry);
-			MentorPlayerChatUpdateMessage.SendSingleEntryToMentors(entry, player.UserId);
+			serverMentorPlayerChatLogs[player.AccountId].Add(entry);
+			MentorPlayerChatUpdateMessage.SendSingleEntryToMentors(entry, player.AccountId);
 			if (mentor != null)
 			{
-				AdminChatNotifications.SendToAll(player.UserId, AdminChatWindow.MentorPlayerChat, 0, true);
+				AdminChatNotifications.SendToAll(player.AccountId, AdminChatWindow.MentorPlayerChat, 0, true);
 			}
 			else
 			{
-				AdminChatNotifications.SendToAll(player.UserId, AdminChatWindow.MentorPlayerChat, 1);
+				AdminChatNotifications.SendToAll(player.AccountId, AdminChatWindow.MentorPlayerChat, 1);
 			}
 
-			ServerMessageRecording(player.UserId, entry);
+			ServerMessageRecording(player.AccountId, entry);
 		}
 
 		private void ServerMessageRecording(string playerId, AdminChatMessage entry)

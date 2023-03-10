@@ -20,11 +20,11 @@ namespace Player
 	/// </summary>
 	public class JoinedViewer : NetworkBehaviour
 	{
-		public bool IsValidPlayerAndWaitingOnLoad = false; //Note This class is reused for multiple Connections
+		private bool IsValidPlayerAndWaitingOnLoad = false; //Note This class is reused for multiple Connections
 
-		public string STUnverifiedClientId;
-		public string STVerifiedUserid;
-		public PlayerInfo STVerifiedConnPlayer;
+		private string STUnverifiedClientId;
+		private string STVerifiedUserid;
+		private PlayerInfo STVerifiedConnPlayer;
 
 		public override void OnStartLocalPlayer()
 		{
@@ -35,18 +35,13 @@ namespace Player
 			if (isServer && isLocalPlayer)
 			{
 				RequestObserverRefresh.Send(SceneManager.GetActiveScene().name);
-				HandleServerConnection();
+				ServerSetUpPlayer(string.Empty);
+				ClientFinishLoading();
 			}
 			else
 			{
 				CmdServerSetupPlayer(SceneManager.GetActiveScene().name);
 			}
-		}
-
-		private void HandleServerConnection()
-		{
-			ServerSetUpPlayer(string.Empty);
-			ClientFinishLoading();
 		}
 
 		[Command]
@@ -71,15 +66,12 @@ namespace Player
 		}
 
 		[TargetRpc]
-		void RpcLoadScenes(string Data, string OriginalScene)
+		private void RpcLoadScenes(string Data, string OriginalScene)
 		{
-			if (isServer)
-			{
-				return;
-			}
+			if (isServer) return;
 
 			SubSceneManager.Instance.LoadScenesFromServer(JsonConvert.DeserializeObject<List<SceneInfo>>(Data),
-				OriginalScene, CMDFinishLoading);
+				OriginalScene, CmdFinishLoading);
 		}
 
 		[Server]
@@ -97,16 +89,16 @@ namespace Player
 			}
 
 			Logger.LogTrace(
-				$"{authData.Username}'s {nameof(JoinedViewer)} called CmdServerSetupPlayer. ClientId: {authData.ClientId}.",
+				$"{authData.Account.Username}'s {nameof(JoinedViewer)} called CmdServerSetupPlayer. ClientId: {authData.ClientId}.",
 				Category.Connections);
 
 
-			var Existingplayer = PlayerList.Instance.GetLoggedOffClient(authData.ClientId, authData.AccountId);
-			if (Existingplayer == null || Existingplayer == PlayerInfo.Invalid  )
+			var Existingplayer = PlayerList.Instance.GetLoggedOffClient(authData.ClientId, authData.Account.Id);
+			if (Existingplayer == null || Existingplayer == PlayerInfo.Invalid)
 			{
 				if (GameData.Instance.DevBuild == false)
 				{
-					Existingplayer = PlayerList.Instance.GetLoggedOnClient(authData.ClientId, authData.AccountId);
+					Existingplayer = PlayerList.Instance.GetLoggedOnClient(authData.ClientId, authData.Account.Id);
 
 					if (Existingplayer != null && Existingplayer.Connection != connectionToClient)
 					{
@@ -121,20 +113,16 @@ namespace Player
 				Existingplayer = new PlayerInfo
 				{
 					Connection = connectionToClient,
-					GameObject = gameObject,
-					Username = authData.Username,
+					ConnectionIP = connectionToClient.address,
 					ClientId = authData.ClientId,
-					UserId = authData.AccountId,
-					ConnectionIP = connectionToClient.address
+					Account = authData.Account,
+					GameObject = gameObject,
 				};
 			}
 
-
-
-
 			Existingplayer.Connection = connectionToClient;
 			Existingplayer.ClientId = authData.ClientId;
-			Existingplayer.UserId = authData.AccountId;
+			Existingplayer.Account = authData.Account;
 			Existingplayer.ConnectionIP = connectionToClient.address;
 			// Register player to player list (logging code exists in PlayerList so no need for extra logging here)
 			var player = PlayerList.Instance.AddOrUpdate(Existingplayer);
@@ -144,8 +132,9 @@ namespace Player
 			if (isValidPlayer == false)
 			{
 				ClearCache();
+				// Any actions, including logging, done in CanPlayerJoin.
 				PlayerList.Instance.Remove(player);
-				Logger.LogWarning($"Set up new player: invalid player. For {authData.Username}", Category.Connections);
+				Logger.LogWarning($"Set up new player: invalid player. For {authData.Account.Username}", Category.Connections);
 				return;
 			}
 
@@ -166,7 +155,7 @@ namespace Player
 
 			IsValidPlayerAndWaitingOnLoad = true;
 			STUnverifiedClientId = authData.ClientId;
-			STVerifiedUserid = authData.AccountId;
+			STVerifiedUserid = authData.Account.Id;
 			STVerifiedConnPlayer = player;
 
 
@@ -179,7 +168,7 @@ namespace Player
 		}
 
 		[Command]
-		public void CMDFinishLoading()
+		public void CmdFinishLoading()
 		{
 			if (IsValidPlayerAndWaitingOnLoad == false)
 			{
@@ -229,8 +218,6 @@ namespace Player
 					GameManager.Instance.CheckPlayerCount();
 				}
 			}
-
-
 
 			PlayerList.Instance.CheckAdminState(STVerifiedConnPlayer);
 			PlayerList.Instance.CheckMentorState(STVerifiedConnPlayer, STVerifiedUserid);
@@ -325,19 +312,19 @@ namespace Player
 				return;
 			}
 
-			ClientRequestJobMessage.Send(job, jsonCharSettings, DatabaseAPI.ServerData.UserID);
+			ClientRequestJobMessage.Send(job, jsonCharSettings);
 		}
 
 		public void RequestJob(int attribute)
 		{
 			var jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.ActiveCharacter);
-			ClientRequestSpawnWithAttribute.Send(attribute, jsonCharSettings, DatabaseAPI.ServerData.UserID);
+			ClientRequestSpawnWithAttribute.Send(attribute, jsonCharSettings, PlayerManager.Account.Id);
 		}
 
 		public void Spectate()
 		{
 			var jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.ActiveCharacter);
-			ClientRequestJobMessage.Send(JobType.NULL, jsonCharSettings, DatabaseAPI.ServerData.UserID);
+			ClientRequestJobMessage.Send(JobType.NULL, jsonCharSettings);
 		}
 
 		/// <summary>

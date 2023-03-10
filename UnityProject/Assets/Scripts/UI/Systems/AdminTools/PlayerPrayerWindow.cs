@@ -19,48 +19,48 @@ namespace AdminTools
 		{
 			message = admin != null ? $"<i><color=yellow>{admin.Username}: {message}</color></i>" : $"{player.Username} ({player.Name}) prays to the gods: {message}";
 
-			if (!serverAdminPlayerChatLogs.ContainsKey(player.UserId))
+			if (!serverAdminPlayerChatLogs.ContainsKey(player.AccountId))
 			{
-				serverAdminPlayerChatLogs.Add(player.UserId, new List<AdminChatMessage>());
+				serverAdminPlayerChatLogs.Add(player.AccountId, new List<AdminChatMessage>());
 			}
 
 			var entry = new AdminChatMessage
 			{
-				fromUserid = player.UserId,
+				fromUserid = player.AccountId,
 				Message = message
 			};
 
 			if (admin != null)
 			{
-				entry.fromUserid = admin.UserId;
+				entry.fromUserid = admin.AccountId;
 				entry.wasFromAdmin = true;
 			}
-			serverAdminPlayerChatLogs[player.UserId].Add(entry);
-			PrayerChatUpdateMessage.SendSinglePrayerEntryToAdmins(entry, player.UserId);
+			serverAdminPlayerChatLogs[player.AccountId].Add(entry);
+			PrayerChatUpdateMessage.SendSinglePrayerEntryToAdmins(entry, player.AccountId);
 
 			if (admin != null)
 			{
-				AdminChatNotifications.SendToAll(player.UserId, AdminChatWindow.PrayerWindow, 0, true);
+				AdminChatNotifications.SendToAll(player.AccountId, AdminChatWindow.PrayerWindow, 0, true);
 			}
 			else
 			{
-				AdminChatNotifications.SendToAll(player.UserId, AdminChatWindow.PrayerWindow, 1);
+				AdminChatNotifications.SendToAll(player.AccountId, AdminChatWindow.PrayerWindow, 1);
 			}
 
-			ServerMessageRecording(player.UserId, entry);
+			ServerMessageRecording(player.AccountId, entry);
 
 		}
 
 		public void OnHealUpButton()
 		{
-			AdminCommandsManager.Instance.CmdHealUpPlayer(selectedPlayer.uid);
+			AdminCommandsManager.Instance.CmdHealUpPlayer(SelectedPlayer.uid);
 		}
 
 		public void GiveItemToPlayerButton()
 		{
 			adminTools.gameObject.SetActive(true);
 
-			adminTools.giveItemPage.selectedPlayerId = selectedPlayer.uid;
+			adminTools.giveItemPage.selectedPlayerId = SelectedPlayer.uid;
 
 			adminTools.ShowGiveItemPagePage();
 		}
@@ -70,7 +70,7 @@ namespace AdminTools
 			PlayerManager.LocalMindScript.CmdAGhost();
 			RequestAdminTeleport.Send(
 				null,
-				selectedPlayer.uid,
+				SelectedPlayer.uid,
 				RequestAdminTeleport.OpperationList.AdminToPlayer,
 				true,
 				new Vector3(0, 0, 0)
@@ -86,7 +86,7 @@ namespace AdminTools
 		{
 			message = $"{MessagePrefix} {message}";
 
-			RequestPrayerBwoink.Send(selectedPlayer.uid, message);
+			RequestPrayerBwoink.Send(SelectedPlayer.uid, message);
 		}
 	}
 }

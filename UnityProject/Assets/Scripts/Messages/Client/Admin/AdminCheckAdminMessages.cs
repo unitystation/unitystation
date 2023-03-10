@@ -13,7 +13,7 @@ namespace Messages.Client.Admin
 		public override void Process(NetMessage msg)
 		{
 			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerGetUnreadMessages(
-					SentByPlayer.UserId, msg.CurrentCount, SentByPlayer.Connection);
+					SentByPlayer.AccountId, msg.CurrentCount, SentByPlayer.Connection);
 		}
 
 		public static NetMessage Send(int currentCount)

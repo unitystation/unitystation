@@ -2,14 +2,17 @@
 {
 	#region Account
 
-	/// <summary>The PlayerPref key for the current user's Unitystation account email address.</summary>
-	public static readonly string AccountEmail = "lastLogin";
+	/// <summary>The PlayerPref key for the current user's Unitystation account name.</summary>
+	public static string AccountName = "Account/Name";
 
-	/// <summary>The PlayerPref key for the current user's Unitystation account username.</summary>
-	public static readonly string AccountUsername = "username";
+	/// <summary>The PlayerPref key for the current user's Unitystation account email address.</summary>
+	public static string AccountEmail = "Account/Email";
 
 	/// <summary>The PlayerPref key for the current user's Unitystation account login token, if allowed to remember.</summary>
-	public static readonly string AccountToken = "cookie";
+	public static string AccountToken = "Account/Token";
+
+	/// <summary>The PlayerPref key for the current user's preference to automatically log in with a stored token.</summary>
+	public static string AccountAutoLogin = "Account/AutoLogin";
 
 	#endregion
 

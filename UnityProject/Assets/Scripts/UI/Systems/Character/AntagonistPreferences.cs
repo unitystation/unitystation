@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Antagonists;
@@ -17,7 +17,7 @@ namespace UI.CharacterCreator
 		[SerializeField]
 		private AntagData antagData = null;
 
-		private Dictionary<string, AntagEntry> antagEntries = new Dictionary<string, AntagEntry>();
+		private readonly Dictionary<string, AntagEntry> antagEntries = new();
 		private bool isPopulated;
 
 		/// <summary>

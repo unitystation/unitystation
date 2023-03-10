@@ -7,8 +7,8 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using AddressableReferences;
+using Core.Accounts;
 using Core.Chat;
-using DatabaseAPI;
 using Managers;
 using Mirror;
 using NaughtyAttributes;
@@ -22,11 +22,10 @@ using Random = UnityEngine.Random;
 
 public partial class Chat
 {
-	private static Dictionary<string, UniqueQueue<DestroyChatMessage>> messageQueueDict =
-		new Dictionary<string, UniqueQueue<DestroyChatMessage>>();
+	private static readonly Dictionary<string, UniqueQueue<DestroyChatMessage>> messageQueueDict = new();
 
 	private static Coroutine composeMessageHandle;
-	private static StringBuilder stringBuilder = new StringBuilder();
+	private static readonly StringBuilder stringBuilder = new();
 
 	private struct DestroyChatMessage
 	{
@@ -276,7 +275,7 @@ public partial class Chat
 			}
 
 			//highlight OOC name by bolding and underlining if possible
-			message = HighlightName(message, ServerData.Auth.CurrentUser.DisplayName);
+			message = HighlightName(message, PlayerManager.Account.Username);
 
 			message = AddMsgColor(channels, $"[ooc] <b>{name}: {message}</b>");
 			return message;

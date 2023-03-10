@@ -41,7 +41,7 @@ namespace Messages.Client.Admin
 		{
 			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
 					$"{SentByPlayer.Username} respawned dead player {deadPlayer.Username} ({deadPlayer.Name}) as {occupation}",
-					SentByPlayer.UserId);
+					SentByPlayer.AccountId);
 
 			var respawnType = (RespawnType) msg.Type;
 

@@ -90,7 +90,7 @@ namespace Messages.Server.AdminTools
 
 				var entry = new AdminPlayerEntryData();
 				entry.name = player.Name;
-				entry.uid = player.UserId;
+				entry.uid = player.AccountId;
 				entry.currentJob = player.Job.ToString();
 				entry.accountName = player.Username;
 
@@ -102,8 +102,8 @@ namespace Messages.Server.AdminTools
 				}
 
 				entry.isAntag = PlayerList.Instance.AntagPlayers.Contains(player);
-				entry.isAdmin = PlayerList.Instance.IsAdmin(player.UserId);
-				entry.isMentor = PlayerList.Instance.IsMentor(player.UserId);
+				entry.isAdmin = PlayerList.Instance.IsAdmin(player.AccountId);
+				entry.isMentor = PlayerList.Instance.IsMentor(player.AccountId);
 				entry.isOnline = player.Connection != null;
 				entry.isOOCMuted = player.IsOOCMuted;
 

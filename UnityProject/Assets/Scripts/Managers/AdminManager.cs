@@ -14,15 +14,15 @@ namespace Managers
 		{
 			var holder = Spawn.ServerPrefab(ItemStorageHolderPrefab, null, gameObject.transform);
 			var itemStorage = holder.GameObject.GetComponent<ItemStorage>();
-			ghostStorageList.Add(player.UserId, itemStorage);
+			ghostStorageList.Add(player.AccountId, itemStorage);
 			return itemStorage;
 		}
 
 		public ItemStorage GetItemSlotStorage(PlayerInfo player)
 		{
-			if (ghostStorageList.ContainsKey(player.UserId))
+			if (ghostStorageList.ContainsKey(player.AccountId))
 			{
-				return ghostStorageList[player.UserId];
+				return ghostStorageList[player.AccountId];
 			}
 			return CreateItemSlotStorage(player);
 		}

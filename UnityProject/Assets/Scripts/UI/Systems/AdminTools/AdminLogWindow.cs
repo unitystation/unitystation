@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Mirror;
-using DatabaseAPI;
+using Core.Accounts;
 using Messages.Client.Admin;
 using Messages.Server.AdminTools;
 
@@ -18,12 +18,12 @@ namespace AdminTools
 		/// <summary>
 		/// All messages sent and recieved between admins
 		/// </summary>
-		private readonly List<AdminChatMessage> serverAdminLogs = new List<AdminChatMessage>();
+		private readonly List<AdminChatMessage> serverAdminLogs = new();
 
 		/// <summary>
 		/// The admins client local cache for admin to admin chat
 		/// </summary>
-		private readonly List<AdminChatMessage> clientAdminLogs = new List<AdminChatMessage>();
+		private readonly List<AdminChatMessage> clientAdminLogs = new();
 
 		public void ClearLogs()
 		{
@@ -94,7 +94,7 @@ namespace AdminTools
 
 		public void OnInputSend(string message)
 		{
-			RequestAdminChatMessage.Send($"{ServerData.Auth.CurrentUser.DisplayName}: {message}");
+			RequestAdminChatMessage.Send($"{PlayerManager.Account.Username}: {message}");
 		}
 	}
 }

@@ -9,6 +9,7 @@ using Random = UnityEngine.Random;
 using System.Text;
 using System.Threading.Tasks;
 using Items;
+using System.Threading.Tasks;
 using Messages.Server;
 
 public static class SweetExtensions
@@ -513,6 +514,11 @@ public static class SweetExtensions
 	public static string Capitalize(this string text)
 	{
 		return text[0].ToString().ToUpper() + text.Substring(1);
+	}
+
+	public static string Uncapitalize(this string text)
+	{
+		return text[0].ToString().ToLower() + text.Substring(1);
 	}
 
 	/// <summary>

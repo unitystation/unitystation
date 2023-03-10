@@ -196,7 +196,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 
 			var player = PlayerManager.LocalPlayerObject.Player();
 			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-					$"{player.Username} spawned a {prefab.name} at {position}", player.UserId);
+					$"{player.Username} spawned a {prefab.name} at {position}", player.AccountId);
 		}
 		else
 		{

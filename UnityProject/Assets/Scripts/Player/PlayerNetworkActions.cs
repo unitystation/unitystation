@@ -471,7 +471,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (VotingManager.Instance == null) return;
 		var connectedPlayer = PlayerList.Instance.GetOnline(gameObject);
 		if (connectedPlayer == PlayerInfo.Invalid) return;
-		VotingManager.Instance.RegisterVote(connectedPlayer.UserId, isFor);
+		VotingManager.Instance.RegisterVote(connectedPlayer.AccountId, isFor);
 	}
 
 	[Command]

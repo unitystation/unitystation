@@ -16,7 +16,7 @@ namespace Messages.Client.Admin
 
 		public override void Process(NetMessage msg)
 		{
-			UIManager.Instance.playerAlerts.ServerProcessActionRequest(SentByPlayer.UserId, (PlayerAlertActions)msg.ActionRequested,
+			UIManager.Instance.playerAlerts.ServerProcessActionRequest(SentByPlayer.AccountId, (PlayerAlertActions)msg.ActionRequested,
 				msg.RoundTimeOfIncident, msg.PerpNetID, msg.AdminToken);
 		}
 

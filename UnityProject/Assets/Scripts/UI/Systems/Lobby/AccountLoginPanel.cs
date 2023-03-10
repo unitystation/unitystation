@@ -29,8 +29,6 @@ namespace Lobby
 		[SerializeField]
 		private Button OffLineButtonControl = default;
 
-		public bool IsAutoLoginEnabled => autoLoginControl.isOn;
-
 		private void Awake()
 		{
 			emailControl.onValueChanged.AddListener((_) => ClearError());
@@ -88,6 +86,8 @@ namespace Lobby
 		{
 			if (ValidateLogin() == false) return;
 
+			LobbyManager.Instance.SetAutoLogin(autoLoginControl.isOn);
+
 			_ = LobbyManager.Instance.TryLogin(emailControl.text, passwordControl.text);
 			passwordControl.text = string.Empty;
 		}
@@ -142,14 +142,11 @@ namespace Lobby
 
 		private void ClearError() => errorControl.text = string.Empty;
 
-
-
 		private void OnOffLineMode()
 		{
 			GameData.Instance.SetForceOfflineMode(true);
 			LobbyManager.UI.ShowMainPanel();
 		}
-
 
 		private void OnLoginBtn()
 		{

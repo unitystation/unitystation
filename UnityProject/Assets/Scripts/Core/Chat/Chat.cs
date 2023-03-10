@@ -181,7 +181,7 @@ public partial class Chat : MonoBehaviour
 			chatEvent.speaker = StripAll(sentByPlayer.Username);
 
 			//Show admin tag for ghosts
-			var isAdmin = PlayerList.Instance.IsAdmin(sentByPlayer.UserId);
+			var isAdmin = PlayerList.Instance.IsAdmin(sentByPlayer.AccountId);
 			if (isAdmin)
 			{
 				chatEvent.speaker = "<color=red>[A]</color> " + chatEvent.speaker;
@@ -192,7 +192,7 @@ public partial class Chat : MonoBehaviour
 			if (isOOC)
 			{
 				//Add mentor tag for non-admin mentors for OOC
-				if (isAdmin == false && PlayerList.Instance.IsMentor(sentByPlayer.UserId))
+				if (isAdmin == false && PlayerList.Instance.IsMentor(sentByPlayer.AccountId))
 				{
 					chatEvent.speaker = "<color=#6400ff>[M]</color> " + chatEvent.speaker;
 				}
@@ -332,7 +332,7 @@ public partial class Chat : MonoBehaviour
 			return;
 		}
 
-		var isAdmin = PlayerList.Instance.IsAdmin(sentByPlayer.UserId);
+		var isAdmin = PlayerList.Instance.IsAdmin(sentByPlayer.AccountId);
 
 		//If global OOCMute don't allow anyone but admins to talk on OOC
 		if (Instance.OOCMute && isAdmin == false) return;

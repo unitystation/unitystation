@@ -45,11 +45,11 @@ namespace Messages.Server
 			{
 				var tag = "";
 
-				if (PlayerList.Instance.IsAdmin(c.UserId))
+				if (PlayerList.Instance.IsAdmin(c.AccountId))
 				{
 					tag = "<color=red>[Admin]</color>";
 				}
-				else if (PlayerList.Instance.IsMentor(c.UserId))
+				else if (PlayerList.Instance.IsMentor(c.AccountId))
 				{
 					tag = "<color=#6400ff>[Mentor]</color>";
 				}

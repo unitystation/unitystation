@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Mirror;
-using DatabaseAPI;
+using Core.Accounts;
 using Messages.Client.Admin;
 using Messages.Server.AdminTools;
 
@@ -18,12 +18,12 @@ namespace AdminTools
 		/// <summary>
 		/// All messages sent and recieved between admins
 		/// </summary>
-		private readonly List<AdminChatMessage> serverAdminChatLogs = new List<AdminChatMessage>();
+		private readonly List<AdminChatMessage> serverAdminChatLogs = new();
 
 		/// <summary>
 		/// The admins client local cache for admin to admin chat
 		/// </summary>
-		private readonly List<AdminChatMessage> clientAdminChatLogs = new List<AdminChatMessage>();
+		private readonly List<AdminChatMessage> clientAdminChatLogs = new();
 
 		public void ClearLogs()
 		{
@@ -44,12 +44,12 @@ namespace AdminTools
 			chatScroll.OnInputFieldSubmit -= OnInputSend;
 		}
 
-		public void ServerAddChatRecord(string message, string userId)
+		public void ServerAddChatRecord(string message, PlayerInfo fromPlayer)
 		{
 			var entry = new AdminChatMessage
 			{
-				fromUserid = userId,
-				Message = message
+				fromUserid = fromPlayer.AccountId,
+				Message = $"{fromPlayer.Username}: {message}",
 			};
 
 			serverAdminChatLogs.Add(entry);
@@ -68,7 +68,7 @@ namespace AdminTools
 
 			foreach (var adminChatChunk in serverAdminChatLogs.ToList().Chunk(100))
 			{
-				AdminChatUpdate update = new AdminChatUpdate
+				AdminChatUpdate update = new()
 				{
 					messages = adminChatChunk.ToList()
 				};
@@ -94,7 +94,7 @@ namespace AdminTools
 
 		public void OnInputSend(string message)
 		{
-			RequestAdminChatMessage.Send($"{ServerData.Auth.CurrentUser.DisplayName}: {message}");
+			RequestAdminChatMessage.Send(message);
 		}
 	}
 }

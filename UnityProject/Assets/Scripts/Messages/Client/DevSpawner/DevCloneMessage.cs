@@ -41,7 +41,7 @@ namespace Messages.Client.DevSpawner
 				{
 					Spawn.ServerClone(NetworkObject, msg.WorldPosition);
 					UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-						$"{SentByPlayer.Username} spawned a clone of {NetworkObject} at {msg.WorldPosition}", SentByPlayer.UserId);
+						$"{SentByPlayer.Username} spawned a clone of {NetworkObject} at {msg.WorldPosition}", SentByPlayer.AccountId);
 				}
 			}
 		}

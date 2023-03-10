@@ -145,7 +145,7 @@ public partial class PlayerList : NetworkBehaviour
 	{
 		foreach (var player in AllPlayers)
 		{
-			if (player.UserId == id) return player;
+			if (player.AccountId == id) return player;
 		}
 
 		return null;
@@ -212,10 +212,10 @@ public partial class PlayerList : NetworkBehaviour
 			return player;
 		}
 
-		Logger.LogTrace($"Player {player.Username}'s client ID is: {player.ClientId} User ID: {player.UserId}.", Category.Connections);
+		Logger.LogTrace($"Player {player.Username}'s client ID is: {player.ClientId} User ID: {player.Account.Id}.", Category.Connections);
 
 		loggedIn.Add(player);
-		Logger.Log($"Player with account {player.UserId} has joined the game. Player count: {loggedIn.Count}.", Category.Connections);
+		Logger.Log($"Player with account {player.AccountId} has joined the game. Player count: {loggedIn.Count}.", Category.Connections);
 		CheckRcon();
 		return player;
 	}
@@ -276,7 +276,7 @@ public partial class PlayerList : NetworkBehaviour
 	[Server]
 	public PlayerInfo GetLoggedOffClient(string clientID, string userId)
 	{
-		var index = loggedOff.FindIndex(x => x.ClientId == clientID || x.UserId == userId);
+		var index = loggedOff.FindIndex(x => x.ClientId == clientID || x.AccountId == userId);
 		if (index != -1)
 		{
 			return loggedOff[index];
@@ -289,7 +289,7 @@ public partial class PlayerList : NetworkBehaviour
 	[Server]
 	public PlayerInfo GetLoggedOnClient(string clientID, string userId)
 	{
-		var index = loggedIn.FindIndex(x => x.ClientId == clientID || x.UserId == userId);
+		var index = loggedIn.FindIndex(x => x.ClientId == clientID || x.AccountId == userId);
 		if (index != -1)
 		{
 			return loggedIn[index];
@@ -304,7 +304,7 @@ public partial class PlayerList : NetworkBehaviour
 		var character = GetByCharacter(characterName);
 		if (character.Equals(PlayerInfo.Invalid)) return false;
 
-		return character.UserId != userId;
+		return character.AccountId != userId;
 	}
 
 	[Server]
@@ -313,7 +313,7 @@ public partial class PlayerList : NetworkBehaviour
 		var character = GetOnlineByCharacter(characterName);
 		if (character.Equals(PlayerInfo.Invalid)) return false;
 
-		return character.UserId != userId;
+		return character.AccountId != userId;
 	}
 
 	[Server]
@@ -376,14 +376,14 @@ public partial class PlayerList : NetworkBehaviour
 	[Server]
 	public bool TryGetByUserID(string userID, out PlayerInfo player)
 	{
-		player = GetInternalAll(player => player.UserId == userID);
+		player = GetInternalAll(player => player.AccountId == userID);
 		return player != null && player.Equals(PlayerInfo.Invalid) == false;
 	}
 
 	[Server]
 	public bool TryGetOnlineByUserID(string userID, out PlayerInfo player)
 	{
-		player = GetInternalLoggedOn(player => player.UserId == userID);
+		player = GetInternalLoggedOn(player => player.AccountId == userID);
 		return player != null && player.Equals(PlayerInfo.Invalid) == false;
 	}
 
@@ -513,8 +513,8 @@ public partial class PlayerList : NetworkBehaviour
 		}
 
 		SetPlayerReady(player, false);
-		CheckForLoggedOffAdmin(player.UserId, player.Username);
-		CheckForLoggedOffMentor(player.UserId, player.Username);
+		CheckForLoggedOffAdmin(player.AccountId, player.Username);
+		CheckForLoggedOffMentor(player.AccountId, player.Username);
 		TryMoveClientToOfflineList(player);
 	}
 
@@ -565,8 +565,8 @@ public partial class PlayerList : NetworkBehaviour
 		Logger.LogTraceFormat("Searching for logged off players with userId {0}", Category.Connections, userId);
 		foreach (var player in loggedOff)
 		{
-			Logger.LogTraceFormat("Found logged off player with userId {0}", Category.Connections, player.UserId);
-			if (player.UserId == userId)
+			Logger.LogTraceFormat("Found logged off player with userId {0}", Category.Connections, player.AccountId);
+			if (player.AccountId == userId)
 			{
 				loggedOff.Remove(player);
 				return player.GameObject;
@@ -582,9 +582,9 @@ public partial class PlayerList : NetworkBehaviour
 		Logger.LogTraceFormat("Searching for players with userId: {0}", Category.Connections, userId);
 		foreach (var player in loggedOff)
 		{
-			if ((player.UserId == userId))
+			if (player.Account.Id == userId)
 			{
-				Logger.LogTraceFormat("Found player with userId {0} clientId: {1}", Category.Connections, player.UserId, player.ClientId);
+				Logger.LogTraceFormat("Found player with userId {0} clientId: {1}", Category.Connections, player.Account.Id, player.ClientId);
 				loggedOff.Remove(player);
 				return player;
 			}
@@ -599,11 +599,11 @@ public partial class PlayerList : NetworkBehaviour
 
 			if (GameData.Instance.OfflineMode)
 			{
-				if (serverAdmins.Contains(player.UserId)) continue; //Allow admins to multikey (local devs connecting multiple clients)
+				if (serverAdmins.Contains(player.Account.Id)) continue; //Allow admins to multikey (local devs connecting multiple clients)
 			}
 
 
-			if (player.UserId == userId && newPlayer != player)
+			if (player.Account.Id == userId && newPlayer != player)
 			{
 				Logger.LogError($"Disconnecting {player.Name} by RemovePlayerbyUserId ", Category.Connections);
 				player.Connection.Disconnect(); //new client while online or dc timer not triggering yet
@@ -622,9 +622,9 @@ public partial class PlayerList : NetworkBehaviour
 		Logger.LogTraceFormat("Searching for players with userId: {0} clientId: {1}", Category.Connections, userId, clientId);
 		foreach (var player in loggedOff)
 		{
-			if ((player.ClientId == clientId || player.UserId == userId) && newPlayer != player)
+			if ((player.ClientId == clientId || player.AccountId == userId) && newPlayer != player)
 			{
-				Logger.LogTraceFormat("Found player with userId {0} clientId: {1}", Category.Connections, player.UserId, player.ClientId);
+				Logger.LogTraceFormat("Found player with userId {0} clientId: {1}", Category.Connections, player.AccountId, player.ClientId);
 				loggedOff.Remove(player);
 				return player;
 			}
@@ -637,9 +637,9 @@ public partial class PlayerList : NetworkBehaviour
 				continue; //server player
 			}
 
-			if (serverAdmins.Contains(player.UserId)) continue; // Allow admins to multikey (local devs connecting multiple clients)
+			if (serverAdmins.Contains(player.AccountId)) continue; // Allow admins to multikey (local devs connecting multiple clients)
 
-			if ((player.ClientId == clientId || player.UserId == userId) && newPlayer != player)
+			if ((player.ClientId == clientId || player.AccountId == userId) && newPlayer != player)
 			{
 				Logger.LogError($"Disconnecting {player.Name} by RemovePlayerbyClientId ", Category.Connections);
 				player.Connection.Disconnect(); //new client while online or dc timer not triggering yet

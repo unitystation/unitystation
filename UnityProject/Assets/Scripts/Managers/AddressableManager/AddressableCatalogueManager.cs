@@ -17,6 +17,7 @@ using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
 using UnityEngine.ResourceManagement.Util;
+using Core.Networking;
 
 public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 {
@@ -92,8 +93,7 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 
 			if (Catalogue.Contains("http"))
 			{
-				HttpClient client = new HttpClient();
-				string result = await client.GetStringAsync(Catalogue);
+				string result = await Http.Client.GetStringAsync(Catalogue);
 				var Task = Addressables.LoadContentCatalogAsync(result);
 				await Task.Task;
 				Instance.AssetBundleDownloadDependencies(Task, RegisterComplete);

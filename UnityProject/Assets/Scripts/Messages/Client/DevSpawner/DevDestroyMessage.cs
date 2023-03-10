@@ -44,11 +44,11 @@ namespace Messages.Client.DevSpawner
 				{
 					victim.playerHealth.OnGib();
 					UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-						$"{SentByPlayer.Username} gibbed {victim.playerName} at {worldPos} using the dev destroyer tool.", SentByPlayer.UserId);
+						$"{SentByPlayer.Username} gibbed {victim.playerName} at {worldPos} using the dev destroyer tool.", SentByPlayer.AccountId);
 					return;
 				}
 				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-					$"{SentByPlayer.Username} destroyed a {NetworkObject} at {worldPos}", SentByPlayer.UserId);
+					$"{SentByPlayer.Username} destroyed a {NetworkObject} at {worldPos}", SentByPlayer.AccountId);
 				_ = Despawn.ServerSingle(NetworkObject);
 			}
 		}
