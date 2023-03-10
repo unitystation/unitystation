@@ -2,6 +2,11 @@
 
 namespace Items
 {
+	/// <summary>
+	/// Component that houses functionality for the OnDrop and OnThrow events too hook onto via the unity inspector,
+	/// or dynamically. Does not do anything on its own and requires the OnDropOrThrow function to be subscribed to an event.
+	/// Re-adds this item back to an item storage when dropped, mainly used for things like the Defib Paddles.
+	/// </summary>
 	public class AddBackToStorageOnDropOrThrow : MonoBehaviour
 	{
 		[SerializeField] private ItemStorage storage;
