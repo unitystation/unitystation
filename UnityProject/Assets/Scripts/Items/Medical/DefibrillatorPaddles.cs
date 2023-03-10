@@ -144,12 +144,14 @@ namespace Items.Medical
 				$"<color=green>The {gameObject.ExpensiveName()} is charged and ready to be used.</color>");
 		}
 
-		public void OnDrop(GameObject droppedObject)
+		public void OnDropOrThrow(GameObject droppedObject)
 		{
 			if (storage.ServerTryAdd(gameObject))
 			{
-				Chat.AddActionMsgToChat();
+				Chat.AddActionMsgToChat(gameObject, "The paddles spring back into its storage unit.");
+				return;
 			}
+			Logger.LogError("[DefibPaddles] - Something went wrong while trying to re-add the paddles back to their item storage.");
 		}
 	}
 }

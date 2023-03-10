@@ -62,12 +62,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: OnThrow.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: OnDrop.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: OnThrow.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: OnDrop.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 9019548994788298775}
+    - target: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: OnThrow.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 9019548994788298775}
     - target: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
@@ -78,11 +93,26 @@ PrefabInstance:
     - target: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: OnDrop.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnDrop
+      value: OnDropOrThrow
+      objectReference: {fileID: 0}
+    - target: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: OnThrow.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: OnThrow.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnDropOrThrow
       objectReference: {fileID: 0}
     - target: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: OnDrop.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Items.Medical.DefibrillatorPaddles, Assets
+      objectReference: {fileID: 0}
+    - target: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: OnThrow.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Items.Medical.DefibrillatorPaddles, Assets
       objectReference: {fileID: 0}
     - target: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
@@ -92,7 +122,17 @@ PrefabInstance:
       objectReference: {fileID: 1182366540502230666}
     - target: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: OnThrow.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1182366540502230666}
+    - target: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: OnDrop.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: OnThrow.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
@@ -219,7 +259,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefibrillatorTrait: {fileID: 11400000, guid: 680252d70a89d4846bc5de6e814ffa57, type: 2}
-  storage: {fileID: 0}
   Time: 5
   soundCharged:
     SetLoadSetting: 0

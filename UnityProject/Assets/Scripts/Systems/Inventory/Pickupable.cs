@@ -74,6 +74,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	public UnityEvent<GameObject> OnMoveToPlayerInventory;
 
 	public UnityEvent<GameObject> OnDrop;
+	public UnityEvent<GameObject> OnThrow;
 
 	[SerializeField] private LastTouch lastTouch;
 
@@ -151,9 +152,14 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			info.ToPlayer.GetComponent<PlayerScript>().RefreshVisibleName();
 		}
 
-		if (info.RemoveType is InventoryRemoveType.Drop or InventoryRemoveType.Throw)
+		switch (info.RemoveType)
 		{
-			OnDrop?.Invoke(gameObject);
+			case InventoryRemoveType.Drop:
+				OnDrop?.Invoke(gameObject);
+				break;
+			case InventoryRemoveType.Throw:
+				OnThrow?.Invoke(gameObject);
+				break;
 		}
 	}
 
