@@ -8,7 +8,6 @@ namespace Items.Medical
 	public class DefibrillatorPaddles : MonoBehaviour, ICheckedInteractable<HandApply>, IInteractable<HandActivate>
 	{
 		public ItemTrait DefibrillatorTrait;
-		private ItemStorage storage;
 
 		public float Time;
 
@@ -21,15 +20,6 @@ namespace Items.Medical
 		private bool isReady;
 		private bool onCooldown;
 		private readonly float cooldown = 5;
-
-		private void Start()
-		{
-			storage = gameObject.PickupableOrNull().ItemSlot.ItemStorage;
-			if (storage == null)
-			{
-				Logger.LogError("Unable to find correct place for paddle! make sure its inside item storage!");
-			}
-		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
@@ -142,16 +132,6 @@ namespace Items.Medical
 
 			Chat.AddExamineMsg(interaction.Performer,
 				$"<color=green>The {gameObject.ExpensiveName()} is charged and ready to be used.</color>");
-		}
-
-		public void OnDropOrThrow(GameObject droppedObject)
-		{
-			if (storage.ServerTryAdd(gameObject))
-			{
-				Chat.AddActionMsgToChat(gameObject, "The paddles spring back into its storage unit.");
-				return;
-			}
-			Logger.LogError("[DefibPaddles] - Something went wrong while trying to re-add the paddles back to their item storage.");
 		}
 	}
 }
