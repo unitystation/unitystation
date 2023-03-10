@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Objects.Other;
@@ -133,6 +133,12 @@ namespace Items.Others
 			if (holosignsAtPos != null)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, "There is already a holosign there!");
+				return false;
+			}
+
+			if (MatrixManager.IsTotallyImpassable(interaction.WorldPositionTarget.To3Int(), true))
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "You cannot place a holosign here!");
 				return false;
 			}
 
