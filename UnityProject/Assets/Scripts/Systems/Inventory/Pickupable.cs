@@ -104,6 +104,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		}
 		OnMoveToPlayerInventory?.RemoveAllListeners();
 		OnDrop?.RemoveAllListeners();
+		OnThrow?.RemoveAllListeners();
 	}
 
 	#endregion
