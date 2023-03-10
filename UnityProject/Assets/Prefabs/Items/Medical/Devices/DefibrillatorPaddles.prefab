@@ -55,6 +55,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: OnDrop.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: OnDrop.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: OnDrop.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 9019548994788298775}
+    - target: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: OnDrop.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: OnDrop.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnDrop
+      objectReference: {fileID: 0}
+    - target: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: OnDrop.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Items.Medical.DefibrillatorPaddles, Assets
+      objectReference: {fileID: 0}
+    - target: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: OnDrop.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1182366540502230666}
+    - target: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: OnDrop.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_AssetId
@@ -64,7 +104,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 1296248730303449946}
+      objectReference: {fileID: 0}
     - target: {fileID: 114883521337486670, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: Resistances.Indestructable
@@ -179,6 +219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefibrillatorTrait: {fileID: 11400000, guid: 680252d70a89d4846bc5de6e814ffa57, type: 2}
+  storage: {fileID: 0}
   Time: 5
   soundCharged:
     SetLoadSetting: 0
@@ -220,15 +261,3 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
---- !u!114 &1296248730303449946 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114341119007412586, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 1183052514340215344}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1182366540502230666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
