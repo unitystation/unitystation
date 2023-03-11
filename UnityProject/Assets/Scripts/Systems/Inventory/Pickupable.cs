@@ -73,6 +73,9 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	/// </summary>
 	public UnityEvent<GameObject> OnMoveToPlayerInventory;
 
+	public UnityEvent<GameObject> OnDrop;
+	public UnityEvent<GameObject> OnThrow;
+
 	[SerializeField] private LastTouch lastTouch;
 
 
@@ -100,6 +103,8 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			Inventory.ServerDespawn(itemSlot);
 		}
 		OnMoveToPlayerInventory?.RemoveAllListeners();
+		OnDrop?.RemoveAllListeners();
+		OnThrow?.RemoveAllListeners();
 	}
 
 	#endregion
@@ -148,8 +153,15 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			info.ToPlayer.GetComponent<PlayerScript>().RefreshVisibleName();
 		}
 
-
-
+		switch (info.RemoveType)
+		{
+			case InventoryRemoveType.Drop:
+				OnDrop?.Invoke(gameObject);
+				break;
+			case InventoryRemoveType.Throw:
+				OnThrow?.Invoke(gameObject);
+				break;
+		}
 	}
 
 	private bool HasClothingItem(RegisterPlayer onPlayer, ItemSlot infoToSlot)
