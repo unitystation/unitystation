@@ -1482,7 +1482,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		if (intPosition != intNewPosition)
 		{
-			if ((intPosition - intNewPosition).magnitude > 1.5f)
+			if ((intPosition - intNewPosition).magnitude > 1.25f)
 			{
 				if (Collider != null) Collider.enabled = false;
 
@@ -1519,6 +1519,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					{
 						if (isServer)
 						{
+							if ((UniversalObjectPhysics) bump == this) continue;
 							bump.OnBump(this.gameObject, null);
 						}
 					}

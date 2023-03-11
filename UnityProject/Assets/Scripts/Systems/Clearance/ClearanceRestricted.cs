@@ -40,6 +40,8 @@ namespace Systems.Clearance
 				return true;
 			}
 
+			if (clearanceSource == null) return false;
+
 			// If the player has null access, access is denied
 			if (clearanceSource.GetCurrentClearance == null)
 			{
@@ -98,7 +100,8 @@ namespace Systems.Clearance
 				return HasClearance(handObject);
 			}
 
-			return false;
+			return HasClearance(null as IClearanceSource);
+
 		}
 
 		/// <summary>
