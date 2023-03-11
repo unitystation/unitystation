@@ -139,7 +139,7 @@ namespace Objects.Drawers
 				if (obj.TryGetComponent<LivingHealthBehaviour>(out var healthBehaviour)) //For NPCs
 					healthBehaviour.ApplyDamage(gameObject, burningDamage, AttackType.Fire, DamageType.Burn);
 				if (obj.TryGetComponent<PlayerHealthV2>(out var playerHealthV2)) //For Players
-					playerHealthV2.ApplyDamageAll(gameObject, burningDamage, AttackType.Fire, DamageType.Burn);
+					playerHealthV2.ApplyDamageAll(gameObject, burningDamage, AttackType.Fire, DamageType.Burn, false, TraumaticDamageTypes.BURN);
 			}
 
 			yield return WaitFor.Seconds(BURNING_DURATION);

@@ -125,9 +125,9 @@ namespace Items.Implants.Organs
 			AbsorbedAmount = 0;
 		}
 
-		public override void AddedToBody(LivingHealthMasterBase livingHealth)
+		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
-			base.AddedToBody(livingHealth);
+			base.OnAddedToBody(livingHealth);
 			var playerHealthV2 = RelatedPart.HealthMaster as PlayerHealthV2;
 			if (playerHealthV2 != null)
 			{
@@ -135,9 +135,9 @@ namespace Items.Implants.Organs
 			}
 		}
 
-		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
-			base.RemovedFromBody(livingHealth);
+			base.OnRemovedFromBody(livingHealth);
 			RelatedStomach.BodyFats.Remove(this);
 			var playerHealthV2 = livingHealth as PlayerHealthV2;
 			if (playerHealthV2 != null)

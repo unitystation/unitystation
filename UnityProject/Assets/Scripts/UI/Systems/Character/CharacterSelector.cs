@@ -36,7 +36,7 @@ namespace UI.Character
 		#endregion
 
 		private CharacterManager CharacterManager => PlayerManager.CharacterManager;
-		private CharacterSheet PreviewedCharacter => CharacterManager.Characters[previewedCharacterKey];
+		private CharacterSheet PreviewedCharacter => CharacterManager.Get(previewedCharacterKey);
 
 		private int previewedCharacterKey = -1;
 
@@ -60,7 +60,7 @@ namespace UI.Character
 			// (we'd like to preview the character we just edited, even if it is not selected as the active character yet)
 			if (previewedCharacterKey == -1)
 			{
-				previewedCharacterKey = CharacterManager.GetCurrentCharacterIndex();
+				previewedCharacterKey = CharacterManager.ActiveCharacterKey;
 			}
 
 			if (TryShowOptions())
@@ -121,7 +121,7 @@ namespace UI.Character
 		private void CreateCharacter()
 		{
 			var character = CharacterSheet.GenerateRandomCharacter();
-			CharacterManager.Characters.Add(character);
+			CharacterManager.Add(character);
 			CharacterManager.SaveCharacters();
 
 			UpdateCharactersDropDown();
@@ -134,11 +134,10 @@ namespace UI.Character
 
 		private void DeletePreviewedCharacter()
 		{
-			CharacterManager.Characters.RemoveAt(previewedCharacterKey);
+			CharacterManager.Remove(previewedCharacterKey);
 			CharacterManager.SaveCharacters();
 
 			previewedCharacterKey -= 1;
-			CharacterManager.SetCurrentCharacterIndex(previewedCharacterKey);
 
 			UpdateCharactersDropDown();
 
@@ -201,7 +200,8 @@ namespace UI.Character
 		private void OnSelectCharacterBtn()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			CharacterManager.SetCurrentCharacterIndex(previewedCharacterKey);
+			CharacterManager.SetActiveCharacter(previewedCharacterKey);
+			CharacterManager.SetLastCharacterKey(previewedCharacterKey);
 			characterSettingsWindow.SetActive(false);
 		}
 

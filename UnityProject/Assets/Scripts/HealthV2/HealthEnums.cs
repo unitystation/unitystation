@@ -61,14 +61,6 @@ public enum DamageType
 	Radiation = 6
 }
 
-public enum TraumaDamageLevel
-{
-	NONE,
-	SMALL,
-	SERIOUS,
-	CRITICAL
-}
-
 [Flags]
 public enum TraumaticDamageTypes
 {

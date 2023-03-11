@@ -118,7 +118,8 @@ namespace Systems.Explosions
 			{
 
 				// do damage
-				player.GetComponent<LivingHealthMasterBase>().ApplyDamageAll(null, DamageDealt, AttackType.Bomb, DamageType.Brute);
+				player.GetComponent<LivingHealthMasterBase>()
+					.ApplyDamageAll(null, DamageDealt, AttackType.Bomb, DamageType.Brute, default, TraumaticDamageTypes.NONE, 75);
 
 			}
 			return EnergyExpended;
@@ -130,12 +131,14 @@ namespace Systems.Explosions
 			if (strength >= bodyPart.Health)
 			{
 				float temp = bodyPart.Health; //temporary store to make sure we don't use an updated health when decrementing strength
-				bodyPart.TakeDamage(null, temp, AttackType.Internal, DamageType.Brute);
+				bodyPart.TakeDamage(null, temp, AttackType.Internal, DamageType.Brute,
+					default, default, default, 0);
 				strength -= temp;
 			}
 			else
 			{
-				bodyPart.TakeDamage(null, strength, AttackType.Internal, DamageType.Brute);
+				bodyPart.TakeDamage(null, strength, AttackType.Internal, DamageType.Brute,
+					default, default, default, 0);
 				strength = 0;
 			}
 
@@ -144,12 +147,14 @@ namespace Systems.Explosions
 				if (strength >= part.Health)
 				{
 					float temp = part.Health; //temporary store to make sure we don't use an updated health when decrementing strength
-					part.TakeDamage(null, temp, AttackType.Internal, DamageType.Brute);
+					bodyPart.TakeDamage(null, temp, AttackType.Internal, DamageType.Brute,
+						default, default, default, 0);
 					strength -= temp;
 				}
 				else
 				{
-					part.TakeDamage(null, strength, AttackType.Internal, DamageType.Brute);
+					bodyPart.TakeDamage(null, strength, AttackType.Internal, DamageType.Brute,
+						default, default, default, 0);
 					strength = 0;
 				}
 			}

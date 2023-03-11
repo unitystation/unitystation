@@ -309,7 +309,7 @@ namespace HealthV2
 		{
 			System.Random RNG = new System.Random();
 
-			public Dissectible ISon;
+			public Dissectible isOn;
 
 			public SurgeryProcedureBase SurgeryProcedureBase;
 			public int CurrentStep = 0;
@@ -351,15 +351,15 @@ namespace HealthV2
 					}
 					else
 					{
-						Chat.AddActionMsgToChat(interaction, $" You poke {this.ISon.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} with the {interaction.UsedObject.name} ",
-							$"{interaction.PerformerPlayerScript.visibleName} pokes {this.ISon.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} with the {interaction.UsedObject.name} ");
+						Chat.AddActionMsgToChat(interaction, $" You poke {this.isOn.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} with the {interaction.UsedObject.name} ",
+							$"{interaction.PerformerPlayerScript.visibleName} pokes {this.isOn.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} with the {interaction.UsedObject.name} ");
 					}
 				}
 
 				if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Cautery))
 				{
-					Chat.AddActionMsgToChat(interaction, $" You use the {interaction.HandObject.ExpensiveName()} to close up {this.ISon.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} ",
-						$"{interaction.PerformerPlayerScript.visibleName} uses a {interaction.UsedObject.ExpensiveName()} to close up  {this.ISon.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} ");
+					Chat.AddActionMsgToChat(interaction, $" You use the {interaction.HandObject.ExpensiveName()} to close up {this.isOn.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} ",
+						$"{interaction.PerformerPlayerScript.visibleName} uses a {interaction.UsedObject.ExpensiveName()} to close up  {this.isOn.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} ");
 
 					CancelSurgery();
 					return;
@@ -380,12 +380,12 @@ namespace HealthV2
 				NumberSteps = SurgeryProcedureBase.SurgerySteps.Count;
 				if (CurrentStep >= NumberSteps)
 				{
-					ISon.ProcedureInProgress = false;
+					isOn.ProcedureInProgress = false;
 
 					SurgeryProcedureBase.FinnishSurgeryProcedure(RelatedBodyPart, Stored, this);
 
 					RelatedBodyPart?.SuccessfulProcedure(Stored, this);
-					ISon.ProcedureInProgress = false;
+					isOn.ProcedureInProgress = false;
 					//reset!
 				}
 			}
@@ -400,10 +400,10 @@ namespace HealthV2
 			public void CancelSurgery()
 			{
 				RelatedBodyPart = PreviousBodyPart;
-				ISon.currentlyOn = RelatedBodyPart?.gameObject;
+				isOn.currentlyOn = RelatedBodyPart?.gameObject;
 				CurrentStep = 0;
 				SurgeryProcedureBase = null;
-				ISon.ProcedureInProgress = false;
+				isOn.ProcedureInProgress = false;
 			}
 
 			public void Clean()
@@ -418,13 +418,13 @@ namespace HealthV2
 				SurgeryProcedureBase inSurgeryProcedureBase)
 			{
 				Clean();
-				if (ISon != Dissectible)
+				if (isOn != Dissectible)
 				{
 					PreviousBodyPart = null;
 				}
 
-				ISon = Dissectible;
-				ISon.ProcedureInProgress = true;
+				isOn = Dissectible;
+				isOn.ProcedureInProgress = true;
 				RelatedBodyPart = bodyPart;
 				SurgeryProcedureBase = inSurgeryProcedureBase;
 			}

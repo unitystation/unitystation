@@ -8,7 +8,6 @@ using UnityEngine.SceneManagement;
 using Player;
 using Shared.Util;
 using Systems.Character;
-using Util;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -44,30 +43,18 @@ public class PlayerManager : MonoBehaviour
 
 	/// <summary>The player script for the player while in the lobby.</summary>
 	public static JoinedViewer LocalViewerScript { get; private set; }
+
 	public static CharacterManager CharacterManager { get; } = new CharacterManager();
 
 	public static bool HasSpawned { get; private set; }
 
-	public static CharacterSheet CurrentCharacterSheet { get; set; }
+	public static CharacterSheet ActiveCharacter => CharacterManager.ActiveCharacter;
 
 	private int mobIDcount;
 
 	public static PlayerManager Instance => FindUtils.LazyFindObject(ref playerManager);
 
-#if UNITY_EDITOR	//Opening the station scene instead of going through the lobby
 	private void Awake()
-	{
-		if (CurrentCharacterSheet != null)
-		{
-			return;
-		}
-		// Load CharacterSettings from PlayerPrefs or create a new one
-		string unescapedJson = Regex.Unescape(PlayerPrefs.GetString("currentcharacter"));
-		var deserialized = JsonConvert.DeserializeObject<CharacterSheet>(unescapedJson);
-		CurrentCharacterSheet = deserialized ?? new CharacterSheet();
-	}
-#endif
-	private void Start()
 	{
 		CharacterManager.Init();
 	}
@@ -143,6 +130,12 @@ public class PlayerManager : MonoBehaviour
 	{
 		HasSpawned = false;
 		EventManager.Broadcast(Event.DisableInternals);
+	}
+
+
+	public void OnDestroy()
+	{
+		HasSpawned = false;
 	}
 
 	public static void SetViewerForControl(JoinedViewer viewer)

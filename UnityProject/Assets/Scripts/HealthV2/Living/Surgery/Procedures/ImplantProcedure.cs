@@ -17,7 +17,9 @@ namespace HealthV2
 		{
 			base.FinnishSurgeryProcedure(OnBodyPart, interaction, PresentProcedure);
 
-			if (interaction.HandSlot.Item != null && interaction.HandSlot.Item.GetComponent<ItemAttributesV2>().HasTrait(RequiredImplantTrait))
+			var itemApp = interaction?.HandSlot?.Item.OrNull()?.GetComponent<ItemAttributesV2>();
+
+			if (interaction?.HandSlot?.Item != null && itemApp.OrNull()?.HasTrait(RequiredImplantTrait) == true)
 			{
 				if (OnBodyPart != null)
 				{
@@ -25,8 +27,21 @@ namespace HealthV2
 				}
 				else
 				{
-					PresentProcedure.ISon.GetComponent<LivingHealthMasterBase>().BodyPartStorage.ServerTryTransferFrom(interaction.HandSlot);
-					PresentProcedure.ISon.currentlyOn = null;
+					var health = PresentProcedure.isOn.GetComponent<LivingHealthMasterBase>();
+
+					if (itemApp.HasTrait(CommonTraits.Instance.CoreBodyPart))
+					{
+						if (health.HasCoreBodyPart()) return;
+						health.BodyPartStorage.ServerTryTransferFrom(interaction.HandSlot);
+						PresentProcedure.isOn.currentlyOn = null;
+					}
+					else
+					{
+						health.BodyPartStorage.ServerTryTransferFrom(interaction.HandSlot);
+						PresentProcedure.isOn.currentlyOn = null;
+					}
+
+
 				}
 			}
 		}

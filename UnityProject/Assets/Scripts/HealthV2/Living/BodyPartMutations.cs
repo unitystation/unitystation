@@ -45,33 +45,25 @@ public class BodyPartMutations : BodyPartFunctionality
 	}
 
 
-	public void OnDMGMutationCheck(AttackType attackType,DamageType damageType, float amount)
+	private void OnDMGMutationCheck(BodyPartDamageData data)
 	{
-		if (damageType == DamageType.Clone)
+		if (data.DamageType != DamageType.Clone) return;
+		if (data.DamageAmount <= 0) return;
+
+		data.DamageAmount = Mathf.Clamp(data.DamageAmount, 0, 100);
+		//Range = 0 to 100
+		//Percentage 100 = 10
+		var RNG= Random.Range(0, 1000);
+		if ((data.DamageAmount >= RNG) == false) return;
+
+		var available = new List<MutationSO>(CapableMutations);
+		foreach (var active in ActiveMutations)
 		{
-			//Range = -999999 to 9999999
-			if (amount > 0)
-			{
-				//Range = 0 to 9999999
-				amount = Mathf.Clamp(amount, 0, 100);
-				//Range = 0 to 100
-				//Percentage 100 = 10
-
-				var RNG= Random.Range(0, 1000);
-				if (amount >= RNG)
-				{
-					List<MutationSO> available = new List<MutationSO>(CapableMutations);
-					foreach (var active in ActiveMutations)
-					{
-						available.Remove(active.RelatedMutationSO);
-					}
-
-					AddMutation(available.PickRandom());
-				}
-			}
-			//Maybe under undo mutations??
-
+			available.Remove(active.RelatedMutationSO);
 		}
+
+		AddMutation(available.PickRandom());
+		//Maybe under undo mutations??
 	}
 
 

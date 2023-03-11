@@ -16,8 +16,6 @@ namespace Items.Implants.Organs
 
 		public int CurrentPulse = 0;
 
-		private bool alarmedForInternalBleeding = false;
-
 		[SerializeField] private Reagent salt;
 
 		[SerializeField] private float dangerSaltLevel = 20f; //in u
@@ -60,31 +58,16 @@ namespace Items.Implants.Organs
 			DoHeartBeat();
 		}
 
-		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
+			//livingHealth.reagentPoolSystem.PumpingDevices.Remove(this);
 			livingHealth.CirculatorySystem.Hearts.Remove(this);
 		}
 
-		public override void AddedToBody(LivingHealthMasterBase livingHealth)
+		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
+			//livingHealth.reagentPoolSystem.PumpingDevices.Add(this);
 			livingHealth.CirculatorySystem.Hearts.Add(this);
-		}
-
-		public override void InternalDamageLogic()
-		{
-			base.InternalDamageLogic();
-			if (RelatedPart.CurrentInternalBleedingDamage > 50 && alarmedForInternalBleeding == false)
-			{
-				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject,
-					$"You feel a sharp pain in your {RelatedPart.gameObject.ExpensiveName()}!",
-					$"{RelatedPart.HealthMaster.playerScript.visibleName} holds their {RelatedPart.gameObject.ExpensiveName()} in pain!");
-				alarmedForInternalBleeding = true;
-			}
-
-			if (RelatedPart.CurrentInternalBleedingDamage > RelatedPart.MaximumInternalBleedDamage)
-			{
-				DoHeartAttack();
-			}
 		}
 
 		public void DoHeartBeat()
@@ -96,7 +79,6 @@ namespace Items.Implants.Organs
 				if (DMMath.Prob(0.1))
 				{
 					HeartAttack = false;
-					alarmedForInternalBleeding = false;
 				}
 
 				return;

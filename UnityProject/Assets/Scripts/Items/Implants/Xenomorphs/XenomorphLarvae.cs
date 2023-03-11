@@ -28,7 +28,7 @@ namespace HealthV2
 
 		private short lastIndex;
 
-		public override void AddedToBody(LivingHealthMasterBase livingHealth)
+		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			if(livingHealth.TryGetComponent<PlayerScript>(out var playerScript) == false) return;
 
@@ -37,7 +37,7 @@ namespace HealthV2
 			AddToInfected(playerScript);
 		}
 
-		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
 			if(checkPlayerScript.HasComponent == false) return;
 
