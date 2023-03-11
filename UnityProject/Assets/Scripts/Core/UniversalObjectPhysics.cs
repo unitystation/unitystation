@@ -1519,7 +1519,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					{
 						if (isServer)
 						{
-							if ((UniversalObjectPhysics) bump == this) continue;
+							if (bump as UniversalObjectPhysics == this) continue;
 							bump.OnBump(this.gameObject, null);
 						}
 					}
