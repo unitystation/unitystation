@@ -27,9 +27,9 @@ namespace HealthV2.Limbs
 
 		}
 
-		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
-			base.RemovedFromBody(livingHealth);
+			base.OnRemovedFromBody(livingHealth);
 			(livingHealth as PlayerHealthV2).OrNull()?.PlayerMove.RemoveModifier(this);
 		}
 
