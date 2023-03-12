@@ -53,7 +53,20 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	public Matrix lavaLandMatrix { get; private set; }
 	private Matrix mainStationMatrix = null;
 
-	public static MatrixInfo MainStationMatrix => Get(Instance.mainStationMatrix);
+	public static MatrixInfo MainStationMatrix
+	{
+		get
+		{
+			if (Instance.mainStationMatrix == null)
+			{
+				return Instance.ActiveMatricesList[1];
+			}
+			else
+			{
+				return Get(Instance.mainStationMatrix);
+			}
+		}
+	}
 
 	private bool ClientWaitingRoutine = false;
 
