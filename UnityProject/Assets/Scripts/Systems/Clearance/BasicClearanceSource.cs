@@ -43,6 +43,11 @@ namespace Systems.Clearance
 		[Server]
 		public void ServerAddClearance(Clearance newClearance)
 		{
+			if (syncedClearance.Contains(newClearance))
+			{
+				return;
+			}
+
 			syncedClearance.Add(newClearance);
 			netIdentity.isDirty = true;
 		}
