@@ -100,12 +100,6 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		var issuedClearance = occupation.IssuedClearance;
 		var lowPopClearance = occupation.IssuedLowPopClearance;
 
-		if (lowPopClearance.Any() == false)
-		{
-			lowPopClearance = issuedClearance;
-			Logger.LogError($"Occupation {occupation} has no issued clearance for low pop! Using normal clearance instead.", Category.Jobs);
-		}
-
 		switch (jobType)
 		{
 			case JobType.CAPTAIN:
