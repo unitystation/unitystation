@@ -75,12 +75,13 @@ namespace Systems.Clearance
 		[Server]
 		public void ServerAddLowPopClearance(Clearance newClearance)
 		{
+			if (syncedLowpopClearance.Contains(newClearance))
+			{
+				return;
+			}
+
 			syncedLowpopClearance.Add(newClearance);
 			netIdentity.isDirty = true;
-			if (lowPopClearance.Contains(newClearance) == false)
-			{
-				lowPopClearance.Add(newClearance);
-			}
 		}
 
 		/// <summary>
