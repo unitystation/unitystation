@@ -631,9 +631,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		CurrentRoundState = RoundState.Ended;
 		EventManager.Broadcast(Event.RoundEnded, true);
 		GameMode.EndRoundReport();
-		CleanupUtil.EndRoundCleanup();
 
-		EventManager.Broadcast(Event.CleanupEnd, true);
 
 		counting = false;
 
@@ -901,7 +899,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			// Notify all clients that the round has ended
 			EventManager.Broadcast(Event.RoundEnded, true);
 			EventManager.Broadcast(Event.SceneUnloading, true);
-
+			CleanupUtil.EndRoundCleanup();
+			EventManager.Broadcast(Event.CleanupEnd, true);
 			yield return WaitFor.Seconds(0.2f);
 			CleanupUtil.CleanupInbetweenScenes();
 
