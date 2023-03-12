@@ -4,7 +4,6 @@ using Items;
 using UnityEngine;
 using Mirror;
 using Systems.Clearance;
-using UnityEngine.Serialization;
 using WebSocketSharp;
 
 /// <summary>
@@ -23,16 +22,6 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	[Tooltip("Sprite to use when the card is a command-tier card")]
 	[SerializeField]
 	private Sprite commandSprite = null;
-
-	[Tooltip("This is used to place ID cards via map editor and then setting their initial clearance type")]
-	[SerializeField]
-	private List<Clearance> manuallyAddedClearance = new List<Clearance>();
-
-	[Tooltip("For cards added via map editor and set their initial IDCardType here. This will only work" +
-	         "if there are entries in ManuallyAddedAccess list")]
-	[FormerlySerializedAs("ManuallyAssignCardType")]
-	[SerializeField]
-	private IDCardType manuallyAssignCardType = IDCardType.standard;
 
 	[Tooltip("If true, will initialize itself with the correct access list, name, job, etc...based on the" +
 	         " first player whose inventory it is added to. Used for initial loadout.")]
