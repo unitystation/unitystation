@@ -100,6 +100,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		}
 		playerScript.playerMove.intent = intent;
+		playerScript.OnIntentChange?.Invoke(intent);
 	}
 
 

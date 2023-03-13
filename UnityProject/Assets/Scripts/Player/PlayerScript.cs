@@ -176,6 +176,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 
 	public bool CanVentCrawl => canVentCrawl;
 
+	public Action<Intent> OnIntentChange;
+
 	#region Lifecycle
 
 	private void Awake()

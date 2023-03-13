@@ -25,7 +25,7 @@ namespace Learning
 
 		[SerializeField] protected List<string> highlightableObjectNames;
 
-		private void Awake()
+		protected virtual void Awake()
 		{
 			if (TipSO == null)
 			{

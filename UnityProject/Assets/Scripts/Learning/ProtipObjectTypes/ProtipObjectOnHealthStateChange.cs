@@ -65,7 +65,7 @@ namespace Learning.ProtipObjectTypes
 
 		private void Awake()
 		{
-			healthState = GetComponent<HealthStateController>();
+			healthState = GetComponentInParent<HealthStateController>();
 			if (healthState != null) return;
 			Logger.LogError($"[Protips/HealthStateChangeTip/{gameObject} - Missing Health State controller.]");
 			Destroy(this);
