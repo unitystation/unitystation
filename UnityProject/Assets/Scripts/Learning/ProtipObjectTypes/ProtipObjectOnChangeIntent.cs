@@ -15,7 +15,6 @@ namespace Learning.ProtipObjectTypes
 		{
 			if (playerScript == null) playerScript = GetComponentInParent<PlayerScript>();
 			playerScript.OnIntentChange += OnIntentChange;
-			base.Awake();
 		}
 
 		private void OnDestroy()
