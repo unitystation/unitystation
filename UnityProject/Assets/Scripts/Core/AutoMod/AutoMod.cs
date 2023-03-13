@@ -164,7 +164,7 @@ namespace AdminTools
 
 			if (PlayerList.Instance.IsAntag(killedBy.GameObject)) return;
 
-			string roundTime = GameManager.Instance.stationTime.ToString("O");
+			string roundTime = GameManager.Instance.StationTime.ToString("O");
 			UIManager.Instance.playerAlerts.ServerAddNewEntry(roundTime, PlayerAlertTypes.RDM, killedBy,
 				$"{roundTime} : {killedBy.Name} killed {victim.Name} as a non-antag");
 		}
@@ -176,7 +176,7 @@ namespace AdminTools
 
 			if (PlayerList.Instance.IsAntag(perp.GameObject)) return;
 
-			string roundTime = GameManager.Instance.stationTime.ToString("O");
+			string roundTime = GameManager.Instance.StationTime.ToString("O");
 			UIManager.Instance.playerAlerts.ServerAddNewEntry(roundTime, PlayerAlertTypes.PlasmaOpen, perp,
 				$"{roundTime} : {perp.Name} has released plasma as a non-antag");
 		}

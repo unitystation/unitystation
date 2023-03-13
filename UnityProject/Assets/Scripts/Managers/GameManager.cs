@@ -22,6 +22,7 @@ using UnityEngine.Profiling;
 using Player;
 using Systems.Cargo;
 using ScriptableObjects.Characters;
+using UnityEngine.Serialization;
 
 public partial class GameManager : MonoBehaviour, IInitialise
 {
@@ -114,10 +115,11 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	public string InitialGameMode { get; set; } = "Random";
 
 	public Text roundTimer;
-
 	public bool waitForStart;
 
-	public DateTime stationTime;
+	[field: SerializeField, FormerlySerializedAs("stationTime")]
+	public DateTime StationTime { get; private set; }
+	public int StationTimeInMinutes { get; private set; }
 	public int RoundsPerMap { get; set; } = 10;
 
 	//Is dependent on number of results
@@ -229,6 +231,11 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		Physics2D.simulationMode = SimulationMode2D.Update;
 	}
 
+	private void Start()
+	{
+		if ( CustomNetworkManager.IsServer ) UpdateManager.Add(UpdateMinutes, 1f);
+	}
+
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
@@ -236,21 +243,23 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		EventManager.AddHandler( Event.Cleanup, ClientCleanupInbetweenScenes );
 		EventManager.AddHandler( Event.CleanupEnd, ClientCleanupEndRoundCleanups );
 		EventManager.AddHandler( Event.PostRoundStarted, ClientRoundStartCleanup );
-
-
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		if ( CustomNetworkManager.IsServer ) UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMinutes);
 		EventManager.RemoveHandler( Event.Cleanup, ClientCleanupInbetweenScenes );
 		EventManager.RemoveHandler( Event.CleanupEnd, ClientCleanupEndRoundCleanups );
 		EventManager.RemoveHandler( Event.PostRoundStarted, ClientRoundStartCleanup );
-
 	}
 
-
+	private void UpdateMinutes()
+	{
+		if ( counting == false ) return;
+		StationTimeInMinutes += 1;
+	}
 
 	///<summary>
 	/// This is for any space object that needs to be randomly placed in the solar system
@@ -378,14 +387,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		return (UnityEngine.Random.insideUnitCircle * solarSystemRadius).RoundToInt();
 	}
 
-	//	private void OnValidate()
-	//	{
-	//		if (Occupations.All(o => o.GetComponent<OccupationRoster>().Type != JobType.ASSISTANT)) //wtf is that about
-	//		{
-	//			Logger.LogError("There is no ASSISTANT job role defined in the the GameManager Occupation rosters");
-	//		}
-	//	}
-
 	private void OnSceneChange(Scene oldScene, Scene newScene)
 	{
 		if (CustomNetworkManager.Instance._isServer && newScene.name != "Lobby")
@@ -411,13 +412,13 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		NetworkedMatrix._ClearInitEvents();
 	}
 
-	public void SyncTime(string currentTime)
+	public void SyncTime(string currentTime, int minutes)
 	{
 		if (string.IsNullOrEmpty(currentTime)) return;
 
 		if (!CustomNetworkManager.Instance._isServer)
 		{
-			stationTime = DateTime.ParseExact(currentTime, "O", CultureInfo.InvariantCulture,
+			StationTime = DateTime.ParseExact(currentTime, "O", CultureInfo.InvariantCulture,
 				DateTimeStyles.RoundtripKind);
 			counting = true;
 		}
@@ -425,7 +426,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	public void ResetRoundTime()
 	{
-		stationTime = new DateTime().AddHours(12);
+		StationTimeInMinutes = 0;
+		StationTime = new DateTime().AddHours(12);
 		counting = true;
 		StartCoroutine(NotifyClientsRoundTime());
 	}
@@ -433,7 +435,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	IEnumerator NotifyClientsRoundTime()
 	{
 		yield return WaitFor.EndOfFrame;
-		UpdateRoundTimeMessage.Send(stationTime.ToString("O"));
+		UpdateRoundTimeMessage.Send(StationTime.ToString("O"), StationTimeInMinutes);
 	}
 
 	private void UpdateMe()
@@ -458,11 +460,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 		else if (counting)
 		{
-			stationTime = stationTime.AddSeconds(Time.deltaTime);
-			roundTimer.text = stationTime.ToString("HH:mm:ss");
+			StationTime = StationTime.AddSeconds(Time.deltaTime);
+			roundTimer.text = StationTime.ToString("HH:mm:ss");
 		}
-
-		if (CustomNetworkManager.Instance._isServer == false) return;
 	}
 
 	/// <summary>
@@ -552,7 +552,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 
 		// Standard round start setup
-		stationTime = new DateTime().AddHours(12);
+		StationTime = new DateTime().AddHours(12);
+		StationTimeInMinutes = 0;
 		counting = true;
 		RespawnCurrentlyAllowed = GameMode.CanRespawn;
 		StartCoroutine(WaitToInitEscape());

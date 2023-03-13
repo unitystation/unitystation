@@ -59,7 +59,7 @@ namespace Objects.Telecomms
 
 		private void ServerOnPlayerSpawned(Mind player)
 		{
-			if (GameManager.Instance.stationTime < TIME_BEFORE_JOIN_ANNOUNCEMENTS)
+			if (GameManager.Instance.StationTime < TIME_BEFORE_JOIN_ANNOUNCEMENTS)
 			{
 				return;
 			}

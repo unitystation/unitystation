@@ -1342,7 +1342,7 @@ namespace HealthV2
 			//Don't trigger if already dead
 			if (ConsciousState == ConsciousState.DEAD) return;
 
-			timeOfDeath = GameManager.Instance.stationTime;
+			timeOfDeath = GameManager.Instance.StationTime;
 
 			var HV2 = (this as PlayerHealthV2);
 			if (HV2 != null)
@@ -1424,7 +1424,7 @@ namespace HealthV2
 			//TODO:Check for non-organic/zombie/husk
 
 			//Don't produce miasma until 2 minutes after death
-			if (GameManager.Instance.stationTime.Subtract(timeOfDeath).TotalMinutes < 2) return;
+			if (GameManager.Instance.StationTime.Subtract(timeOfDeath).TotalMinutes < 2) return;
 
 			MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPositionClient);
 

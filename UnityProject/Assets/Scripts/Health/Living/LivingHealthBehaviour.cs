@@ -546,7 +546,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			return;
 		}
 
-		timeOfDeath = GameManager.Instance.stationTime;
+		timeOfDeath = GameManager.Instance.StationTime;
 
 		OnDeathNotifyEvent?.Invoke();
 		afterDeathDamage = 0;
@@ -619,7 +619,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	private void MiasmaCreation()
 	{
 		//Don't produce miasma until 2 minutes after death
-		if (GameManager.Instance.stationTime.Subtract(timeOfDeath).TotalMinutes < 2) return;
+		if (GameManager.Instance.StationTime.Subtract(timeOfDeath).TotalMinutes < 2) return;
 
 		MetaDataNode node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionClient);
 

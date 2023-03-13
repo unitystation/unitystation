@@ -43,7 +43,7 @@ namespace Systems.Score
 		{
 			//Grab round length and make it a score
 			ScoreMachine.AddNewScoreEntry("roundLength", "Shift Length", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Good);
-			ScoreMachine.AddToScoreInt(GameManager.Instance.stationTime.Minute, "roundLength");
+			ScoreMachine.AddToScoreInt(GameManager.Instance.StationTime.Minute, "roundLength");
 			//How many crew members are still on the station?
 			ScoreMachine.AddNewScoreEntry("abandonedCrew", "Abandoned Crew", ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Bad);
 			ScoreMachine.AddToScoreInt(-MatrixManager.MainStationMatrix.Matrix.PresentPlayers.Count * negativeModifer, "abandonedCrew");
