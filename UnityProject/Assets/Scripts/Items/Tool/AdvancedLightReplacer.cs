@@ -118,7 +118,7 @@ namespace Items.Tool
 			List<TextColor> interactions = new List<TextColor>();
 			interactions.Add(new TextColor()
 			{
-				Text = "Alt+Click to change the tuner settings.",
+				Text = $"Alt+Click or Alt + {KeybindManager.Instance.userKeybinds[KeyAction.HandActivate].PrimaryCombo} to change the tuner settings.",
 				Color = Color.green,
 			});
 			interactions.Add(new TextColor()
