@@ -8231,7 +8231,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: -1841058614580174146, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -8512,6 +8512,7 @@ GameObject:
   - component: {fileID: 8061568402345945545}
   - component: {fileID: 5351602423307907470}
   - component: {fileID: 1909587578637499756}
+  - component: {fileID: 3203916732476723940}
   m_Layer: 8
   m_Name: Protips
   m_TagString: Untagged
@@ -8638,6 +8639,24 @@ MonoBehaviour:
     type: 2}
   pressureHighEvent: {fileID: 11400000, guid: 4b51b193b167eec4ea3108add75e852a, type: 2}
   pressureLowEvent: {fileID: 11400000, guid: 03a097741db78a648a4cb07a947ddeff, type: 2}
+--- !u!114 &3203916732476723940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5107184086272219585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d288affa207c424f93d537f45ed888b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TipSO: {fileID: 11400000, guid: 7b9ebf7dd0d9f964198454a0c3ecfd5c, type: 2}
+  triggerOnce: 1
+  showEvenAfterDeath: 0
+  tipCooldown: 200
+  highlightableObjectNames: []
+  playerScript: {fileID: 114617133355526680}
 --- !u!1 &7706745016017648645
 GameObject:
   m_ObjectHideFlags: 0

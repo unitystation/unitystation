@@ -2,8 +2,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Managers;
+using NaughtyAttributes;
 using Newtonsoft.Json;
 using Shared.Managers;
+using UnityEditor;
 using UnityEngine;
 
 namespace Learning
@@ -134,6 +136,13 @@ namespace Learning
 				}
 			}
 			IsShowingTip = true;
+		}
+
+		[Button("Test")]
+		public void TriggerTestUI()
+		{
+			if (Application.isPlaying == false) return;
+			ShowTip(RecordedProtips.PickRandom(), new List<string>());
 		}
 
 		private struct QueueTipData
