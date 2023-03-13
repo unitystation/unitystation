@@ -84,9 +84,11 @@ namespace Items.Tool
 		[TargetRpc]
 		private void LightTunerWindowOpen(NetworkConnection target)
 		{
+			UIManager.Instance.GlobalColorPicker.CurrentColor = currentColor;
 			UIManager.Instance.GlobalColorPicker.EnablePicker(SetColorToTune);
 		}
 
+		[Command(requiresAuthority = false)]
 		private void SetColorToTune(Color newColor)
 		{
 			currentColor = newColor;

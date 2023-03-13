@@ -253,6 +253,7 @@ namespace Objects.Lighting
 			RefreshBoxCollider();
 		}
 
+		[ClientRpc]
 		private void SetAnimation()
 		{
 			lightSprite.Color = currentState.LightColor;
