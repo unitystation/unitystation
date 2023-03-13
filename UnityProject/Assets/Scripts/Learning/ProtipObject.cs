@@ -13,7 +13,7 @@ namespace Learning
 	{
 		public ProtipSO TipSO;
 		[SerializeField, Tooltip("Does this tip object only trigger once then saved as so?")]
-		private bool triggerOnce = true;
+		private bool triggerOnce, removeAfterRemembering = true;
 
 		[SerializeField]
 		private bool showEvenAfterDeath = false;
@@ -104,7 +104,7 @@ namespace Learning
 			if (triggerOnce)
 			{
 				ProtipManager.Instance.SaveTipState(protipSo.TipTitle);
-				RemoveThisComponent();
+				if (removeAfterRemembering) RemoveThisComponent();
 				return;
 			}
 
