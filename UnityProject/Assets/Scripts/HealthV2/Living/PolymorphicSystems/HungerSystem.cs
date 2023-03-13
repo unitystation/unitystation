@@ -14,6 +14,36 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		private ReagentPoolSystem _reagentPoolSystem;
 
+		/// <summary>
+		/// The current hunger state of the creature, currently always returns normal
+		/// </summary>
+		public HungerState HungerState => CalculateHungerState();
+
+		public HungerState CalculateHungerState()
+		{
+			var State = HungerState.Full;
+			foreach (var bodyPart in BodyParts)
+			{
+				if (bodyPart.HungerState == HungerState.Full)
+				{
+					State = HungerState.Full;
+					break;
+				}
+
+				if ((int) bodyPart.HungerState > (int) State) //TODO Add the other states
+				{
+					State = bodyPart.HungerState;
+					if (State == HungerState.Starving)
+					{
+						break;
+					}
+				}
+			}
+
+			return State;
+		}
+
+
 		public override void InIt()
 		{
 			_reagentPoolSystem = Base.reagentPoolSystem; //idk Shouldn't change
@@ -28,6 +58,65 @@ namespace HealthV2.Living.PolymorphicSystems
 				BodyPartListChange();
 			}
 		}
+
+		public override void StartFresh()
+		{
+			foreach (var bodyPart in BodyParts)
+			{
+				if (bodyPart.Nutriment == null)
+				{
+					bodyPart.Nutriment = Base.InitialSpecies.Base.BodyNutriment;
+				}
+			}
+
+			InitialiseHunger(Base.InitialSpecies.Base.NumberOfMinutesBeforeStarving);
+
+
+
+		}
+
+		//The cause of world hunger
+		public void InitialiseHunger(float numberOfMinutesBeforeHunger)
+		{
+			var TotalBloodThroughput = 0f;
+
+			foreach (var bodyPart in BodyParts)
+			{
+				TotalBloodThroughput += bodyPart.BloodThroughput;
+			}
+
+			var ConsumptionPerFlowSecond = (1f / 60f) / TotalBloodThroughput;
+
+			foreach (var bodyPart in BodyParts)
+			{
+				bodyPart.PassiveConsumptionNutriment = ConsumptionPerFlowSecond;
+			}
+			//numberOfMinutesBeforeHunger
+			var Stomachs = Base.GetStomachs();
+
+			var MinutesAvailable = 0f;
+
+			foreach (var Stomach in Stomachs)
+			{
+				foreach (var bodyFat in Stomach.BodyFats)
+				{
+					MinutesAvailable += bodyFat.AbsorbedAmount;
+				}
+			}
+
+			var  Bymultiply = numberOfMinutesBeforeHunger / MinutesAvailable;
+
+			Bymultiply *= (1 + UnityEngine.Random.Range(-0.25f, 0.25f));
+
+			foreach (var Stomach in Stomachs)
+			{
+				foreach (var bodyFat in Stomach.BodyFats)
+				{
+					bodyFat.AbsorbedAmount *= Bymultiply;
+				}
+			}
+		}
+
 
 		public override void BodyPartRemoved(BodyPart bodyPart)
 		{
@@ -69,6 +158,7 @@ namespace HealthV2.Living.PolymorphicSystems
 			}
 
 			NutrimentCalculation(HeartEfficiency);
+			Base.HealthStateController.SetHunger(HungerState);
 		}
 
 		public void NutrimentCalculation(float HeartEfficiency)

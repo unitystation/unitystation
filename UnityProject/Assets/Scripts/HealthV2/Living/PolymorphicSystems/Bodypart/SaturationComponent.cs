@@ -5,14 +5,9 @@ using UnityEngine.Serialization;
 
 namespace HealthV2.Living.PolymorphicSystems.Bodypart
 {
-	public class SaturationComponent : BodyPartComponentBase
+	public class SaturationComponent : BodyPartComponentBase<ReagentSaturationSystem>
 	{
-
-		/// <summary>
-		/// The reagent that is used by this body part, eg oxygen.
-		/// </summary>
-		[Tooltip("What type of blood does this body part work with?")] [NonSerialized]
-		public BloodType bloodType = null;
+		public BloodType bloodType => reagentCirculatedComponent.bloodType;
 
 		/// <summary>
 		/// The reagent that is used by this body part, eg oxygen.
@@ -47,14 +42,8 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 			reagentCirculatedComponent = GetComponent<ReagentCirculatedComponent>();
 		}
 
-		public override HealthSystemBase GenSystem(LivingHealthMasterBase livingHealth)
-		{
-			return new ReagentSaturationSystem();
-		}
 
-		public override bool HasSystem(LivingHealthMasterBase livingHealth)
-		{
-			return livingHealth.ActiveSystems.OfType<ReagentSaturationSystem>().Any();
-		}
+
+
 	}
 }

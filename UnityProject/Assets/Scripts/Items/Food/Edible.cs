@@ -6,6 +6,7 @@ using System.Text;
 using AddressableReferences;
 using Chemistry;
 using Chemistry.Components;
+using HealthV2.Living.PolymorphicSystems;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -103,7 +104,15 @@ namespace Items.Food
 			}
 
 			// Show eater message
-			var eaterHungerState = eater.playerHealth.HungerState;
+
+			var sys = eater.playerHealth.GetSystem<HungerSystem>();
+			HungerState eaterHungerState = HungerState.Normal;
+
+			if (sys != null)
+			{
+				eaterHungerState = sys.HungerState;
+			}
+
 			ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");
 
 			if (feeder != eater) //If you're feeding it to someone else.
@@ -169,7 +178,7 @@ namespace Items.Food
 			ReagentMix incomingFood = FoodContents.CurrentReagentMix.Clone();
 			if (stackable == null) //Since it just consumes one
 			{
-				incomingFood.Divide(maxBites); 
+				incomingFood.Divide(maxBites);
 			}
 
 

@@ -3,13 +3,16 @@ using System.Linq;
 
 namespace HealthV2.Living.PolymorphicSystems.Bodypart
 {
-	public abstract class BodyPartComponentBase : BodyPartFunctionality
+	public abstract class BodyPartComponentBase<T>  : BodyPartFunctionality where T : HealthSystemBase, new()
 	{
+		public T AssociatedSystem;
+
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
 			foreach (var sys in livingHealth.ActiveSystems)
 			{
-				sys.BodyPartRemoved(RelatedPart);
+				sys.InternalBodyPartRemoved(RelatedPart, this as BodyPartComponentBase<HealthSystemBase>);
+				SetSystem(sys, true);
 			}
 		}
 
@@ -17,20 +20,42 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 		{
 			if(HasSystem(livingHealth) == false)
 			{
-				var sys = GenSystem(livingHealth);
+				var sys = GenSystem();
 				sys.Base = livingHealth;
 				sys.InIt();
 				livingHealth.ActiveSystems.Add(sys);
+				SetSystem(sys, false);
 			}
 
 			foreach (var sys in livingHealth.ActiveSystems)
 			{
-				sys.BodyPartAdded(RelatedPart);
+				sys.InternalBodyPartAdded(RelatedPart, this as BodyPartComponentBase<HealthSystemBase>);
 			}
 		} //Warning only add body parts do not remove body parts in this
 
-		public abstract bool HasSystem(LivingHealthMasterBase livingHealth);
+		public bool HasSystem(LivingHealthMasterBase livingHealth)
+		{
+			return livingHealth.ActiveSystems.OfType<T>().Any();
+		}
 
-		public abstract HealthSystemBase GenSystem(LivingHealthMasterBase livingHealth);
+		public HealthSystemBase GenSystem()
+		{
+			return new T();
+		}
+
+		public void SetSystem(HealthSystemBase healthSystemBase, bool removing)
+		{
+			if (healthSystemBase is T sys)
+			{
+				if (removing)
+				{
+					AssociatedSystem = default(T);
+				}
+				else
+				{
+					AssociatedSystem = sys;
+				}
+			}
+		}
 	}
 }

@@ -4,6 +4,7 @@ using CameraEffects;
 using Chemistry;
 using Core.Utils;
 using HealthV2;
+using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -47,10 +48,13 @@ namespace Items.Implants.Organs
 
 		public ChatModifier BodyChatModifier = ChatModifier.None;
 
+		public ReagentCirculatedComponent ReagentCirculatedComponent;
+
 		public override void Awake()
 		{
 			base.Awake();
-			RelatedPart = GetComponent<BodyPart>();
+			RelatedPart = this.GetComponentCustom<BodyPart>();
+			ReagentCirculatedComponent = this.GetComponentCustom<ReagentCirculatedComponent>();
 		}
 
 		public void Start()
@@ -138,9 +142,9 @@ namespace Items.Implants.Organs
 
 		public override void ImplantPeriodicUpdate()
 		{
-			if (RelatedPart.HealthMaster.CirculatorySystem.BloodPool.reagents.Contains(DrunkReagent))
+			if (ReagentCirculatedComponent.AssociatedSystem.BloodPool.reagents.Contains(DrunkReagent))
 			{
-				float DrunkPercentage  = RelatedPart.HealthMaster.CirculatorySystem.BloodPool.GetPercent(DrunkReagent);
+				float DrunkPercentage  = ReagentCirculatedComponent.AssociatedSystem.BloodPool.GetPercent(DrunkReagent);
 				if (DrunkPercentage > 0)
 				{
 					if (DrunkPercentage > MaxDrunkAtPercentage)

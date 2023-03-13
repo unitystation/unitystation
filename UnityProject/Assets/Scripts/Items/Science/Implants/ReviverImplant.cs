@@ -34,8 +34,7 @@ namespace Items.Implants.Organs
 
 		public override void EmpResult(int strength)
 		{
-			//Heart heart = RelatedPart.HealthMaster.reagentPoolSystem?.PumpingDevices?.PickRandom();
-			Heart heart = RelatedPart.HealthMaster.CirculatorySystem.Hearts.PickRandom();
+			Heart heart = RelatedPart.HealthMaster.reagentPoolSystem?.PumpingDevices?.PickRandom();
 
 			heart.OrNull()?.DoHeartAttack();
 		}

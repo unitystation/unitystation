@@ -186,6 +186,34 @@ public static class SweetExtensions
 		}
 	}
 
+
+	//New better system for Get component That cashs results
+	public static T GetComponentCustom<T>(this Component go)  where T : Component
+	{
+		if (ComponentManager.TryGetCommonComponent(go.gameObject, out  var commonComponent))
+		{
+			return commonComponent.SafeGetComponent<T>();
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+
+	//New better system for Get component That cashs results
+	public static T GetComponentCustom<T>(this GameObject go)  where T : Component
+	{
+		if (ComponentManager.TryGetCommonComponent(go, out  var commonComponent))
+		{
+			return commonComponent.SafeGetComponent<T>();
+		}
+		else
+		{
+			return null;
+		}
+	}
+
 	/// <summary>
 	/// Returns true for adjacent coordinates
 	/// </summary>

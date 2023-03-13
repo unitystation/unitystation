@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace HealthV2.Living.PolymorphicSystems
 {
-	[System.Serializable] 
+	[System.Serializable]
 	public class ReagentPoolSystem : HealthSystemBase
 	{
 		public ReagentMix BloodPool = new ReagentMix();
@@ -20,9 +20,11 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		[SerializeField]
 		[Required("Must have a blood type in a circulatory system.")]
-		private BloodType bloodType = null; //TODO move to Reagent
+		public BloodType bloodType = null;
 
 		[HideInInspector] public List<Heart> PumpingDevices = new List<Heart>();
+
+
 
 
 		///<summary>
@@ -41,14 +43,38 @@ namespace HealthV2.Living.PolymorphicSystems
 		}
 
 
-		public override HealthSystemBase CloneThisSystem()
+		public void Bleed(float amount)
 		{
-			return new ReagentPoolSystem()
-			{
-				BloodPool = this.BloodPool.Clone(),
-				StartingBlood = this.StartingBlood,
-				bloodType = this.bloodType
-			};
+			var bloodLoss = new ReagentMix();
+			BloodPool.TransferTo(bloodLoss, amount);
+			MatrixManager.ReagentReact(bloodLoss, Base.gameObject.RegisterTile().WorldPositionServer);
 		}
+
+		/// <summary>
+		/// Returns the total amount of blood in the body of the type of blood the body should have
+		/// </summary>
+		public float GetTotalBlood()
+		{
+			return GetSpareBlood();
+		}
+
+
+		/// <summary>
+		/// Returns the total amount of 'spare' blood outside of the organs
+		/// </summary>
+		public float GetSpareBlood()
+		{
+			return BloodPool.Total;
+		}
+
+		// public override HealthSystemBase CloneThisSystem()
+		// {
+		// 	return new ReagentPoolSystem()
+		// 	{
+		// 		BloodPool = this.BloodPool.Clone(),
+		// 		StartingBlood = this.StartingBlood,
+		// 		bloodType = this.bloodType
+		// 	};
+		// }
 	}
 }

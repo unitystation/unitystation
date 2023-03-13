@@ -6,14 +6,14 @@ using UnityEngine.Serialization;
 
 namespace HealthV2.Living.PolymorphicSystems.Bodypart
 {
-	public class HungerComponent : BodyPartComponentBase
+	public class HungerComponent : BodyPartComponentBase<HungerSystem>
 	{
 		/// <summary>
 		/// Modifier that multiplicatively reduces the efficiency of the body part based on damage
 		/// </summary>
 		[Tooltip("Modifier to reduce efficiency when the character gets hungry")] [NonSerialized]
 		public Modifier HungerModifier = new Modifier();
-		//TODO add to Body part
+		//TODO add to Body part AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
 
 		/// <summary>
@@ -69,16 +69,6 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 		{
 			base.Awake();
 			reagentCirculatedComponent = GetComponent<ReagentCirculatedComponent>();
-		}
-
-		public override bool HasSystem(LivingHealthMasterBase livingHealth)
-		{
-			return livingHealth.ActiveSystems.OfType<HungerSystem>().Any();
-		}
-
-		public override HealthSystemBase GenSystem(LivingHealthMasterBase livingHealth)
-		{
-			return new HungerSystem();
 		}
 	}
 }

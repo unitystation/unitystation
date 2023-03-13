@@ -1,3 +1,4 @@
+using HealthV2.Living.PolymorphicSystems.Bodypart;
 using UnityEngine;
 
 namespace HealthV2.Living.Mutations.Metabolism
@@ -12,7 +13,7 @@ namespace HealthV2.Living.Mutations.Metabolism
 
 		private class InAnaerobicMetabolism : Mutation
 		{
-
+			public ReagentCirculatedComponent ReagentCirculatedComponent;
 
 			public InAnaerobicMetabolism(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
 			{
@@ -21,12 +22,13 @@ namespace HealthV2.Living.Mutations.Metabolism
 
 			public override void SetUp()
 			{
-				BodyPart.SetIsBloodReagentConsumed(false);
+				ReagentCirculatedComponent = BodyPart.GetComponent<ReagentCirculatedComponent>();
+				ReagentCirculatedComponent.SetIsBloodReagentConsumed(false);
 			}
 
 			public override void Remove()
 			{
-				BodyPart.SetIsBloodReagentConsumed(true);
+				ReagentCirculatedComponent.SetIsBloodReagentConsumed(true);
 			}
 
 		}

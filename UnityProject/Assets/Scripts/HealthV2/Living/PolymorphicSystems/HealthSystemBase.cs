@@ -1,9 +1,11 @@
+using System;
+using HealthV2.Living.PolymorphicSystems.Bodypart;
 using UnityEngine;
 
 namespace HealthV2.Living.PolymorphicSystems
 {
 	[System.Serializable]
-	public abstract class HealthSystemBase
+	public class HealthSystemBase
 	{
 
 		//TODO Out of order adding systems  or Ensure fixed order?
@@ -27,8 +29,22 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		}
 
+		public void InternalBodyPartAdded(BodyPart bodyPart, BodyPartComponentBase<HealthSystemBase> BodyPartComponentBase)
+		{
+			BodyPartComponentBase.SetSystem(this, false);
+			BodyPartAdded(bodyPart);
+		}
+
+
 		public virtual void BodyPartAdded(BodyPart bodyPart)
 		{
+
+		}
+
+		public void InternalBodyPartRemoved(BodyPart bodyPart, BodyPartComponentBase<HealthSystemBase> BodyPartComponentBase)
+		{
+			BodyPartComponentBase.SetSystem(this, true);
+			BodyPartRemoved(bodyPart);
 		}
 
 		public virtual void BodyPartRemoved(BodyPart bodyPart)
@@ -40,6 +56,10 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		}
 
-		public abstract HealthSystemBase CloneThisSystem();
+		public virtual HealthSystemBase CloneThisSystem()
+		{
+			throw new NotImplementedException($"Implement CloneThisSystem God dammit for {this.GetType()}");
+		}
 	}
 }
+

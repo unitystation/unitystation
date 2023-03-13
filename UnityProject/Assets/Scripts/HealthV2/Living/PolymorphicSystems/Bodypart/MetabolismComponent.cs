@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace HealthV2.Living.PolymorphicSystems.Bodypart
 {
-	public class MetabolismComponent : BodyPartComponentBase
+	public class MetabolismComponent : BodyPartComponentBase<ChemicalMetabolismSystem>
 	{
 		[Tooltip("How many metabolic reactions can happen inside of this body part Per tick per 1u of blood flow ")]
 		public float ReagentMetabolism = 0.2f;
@@ -13,7 +13,7 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 		[HideInInspector]
 		public SaturationComponent saturationComponent;
 
-		public float GetCurrentBloodSaturation
+		public float CurrentBloodSaturation
 		{
 			get
 			{
@@ -29,7 +29,7 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 		}
 
 
-		public float GetThroughput
+		public float BloodThroughput
 		{
 			get
 			{
@@ -50,16 +50,5 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 			reagentCirculatedComponent = GetComponent<ReagentCirculatedComponent>();
 			saturationComponent = GetComponent<SaturationComponent>();
 		}
-
-		public override bool HasSystem(LivingHealthMasterBase livingHealth)
-		{
-			return true;
-		}
-
-		public override HealthSystemBase GenSystem(LivingHealthMasterBase livingHealth)
-		{
-			return new ChemicalMetabolismSystem();
-		}
-
 	}
 }

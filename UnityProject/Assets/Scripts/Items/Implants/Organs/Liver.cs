@@ -4,6 +4,7 @@ using System.Text;
 using Chemistry;
 using Chemistry.Components;
 using HealthV2;
+using HealthV2.Living.PolymorphicSystems.Bodypart;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -41,14 +42,22 @@ namespace Items.Implants.Organs
 
 
 
-		private CirculatorySystemBase circ;
+
 		private StringBuilder debug;
 		private List<Tuple<Reagent, float>> tempArray;
 
+
+
+		public ReagentCirculatedComponent ReagentCirculatedComponent;
+
+		public override void Awake()
+		{
+			base.Awake();
+			ReagentCirculatedComponent = this.GetComponentCustom<ReagentCirculatedComponent>();
+		}
+
 		public override void SetUpSystems()
 		{
-			circ = RelatedPart.HealthMaster.GetComponent<CirculatorySystemBase>();
-
 			tempArray = new List<Tuple<Reagent, float>>();
 		}
 
@@ -59,7 +68,7 @@ namespace Items.Implants.Organs
 			if (RelatedPart.TotalModified == 0) return;
 			debug = new StringBuilder();
 
-			BloodToLiver(circ.BloodPool);
+			BloodToLiver(ReagentCirculatedComponent.AssociatedSystem.BloodPool);
 			Processing();
 			ReturnReagentsToBlood();
 
@@ -167,7 +176,7 @@ namespace Items.Implants.Organs
 			{
 				//debug.AppendLine($"{reagent.Item2}cc of {reagent.Item1}\n");
 				processingContainer.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
-				circ.BloodPool.Add(reagent.Item1, reagent.Item2);
+				ReagentCirculatedComponent.AssociatedSystem.BloodPool.Add(reagent.Item1, reagent.Item2);
 			}
 
 			tempArray.Clear();

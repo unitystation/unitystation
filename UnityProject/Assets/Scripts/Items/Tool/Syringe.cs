@@ -93,8 +93,8 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
 		if (LocalContainer.ReagentMixTotal > 0)
 		{
-			if (LHB.CirculatorySystem != null)
-				LHB.CirculatorySystem.BloodPool.Add(LocalContainer.TakeReagents(TransferAmount));
+			if (LHB.reagentPoolSystem != null)
+				LHB.reagentPoolSystem.BloodPool.Add(LocalContainer.TakeReagents(TransferAmount));
 			LocalContainer.ReagentsChanged();
 			Chat.AddCombatMsgToChat(performer.gameObject, $"You Inject The {this.name} into {LHB.gameObject.ExpensiveName()}",
 				$"{performer.PlayerScript.visibleName} injects a {this.name} into {LHB.gameObject.ExpensiveName()}");
@@ -104,8 +104,8 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 		}
 		else
 		{
-			if (LHB.CirculatorySystem != null)
-				LocalContainer.Add(LHB.CirculatorySystem.BloodPool.Take(LocalContainer.MaxCapacity));
+			if (LHB.reagentPoolSystem != null)
+				LocalContainer.Add(LHB.reagentPoolSystem.BloodPool.Take(LocalContainer.MaxCapacity));
 			LocalContainer.ReagentsChanged();
 			if (ChangesSprite) SpriteHandler.ChangeSprite(SpiteFullIndex);
 			Chat.AddCombatMsgToChat(performer.gameObject, $"You pull the blood from {LHB.gameObject.ExpensiveName()}",

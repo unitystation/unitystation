@@ -48,9 +48,8 @@ namespace Items.Medical
 			var health = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 			var trauma = interaction.TargetObject.GetComponent<CreatureTraumaManager>();
 			var totalPercent = Mathf.Floor(100 * health.OverallHealth / health.MaxHealth);
-			var bloodTotal = Mathf.Round(health.GetTotalBlood());
-			//var bloodPercent = Mathf.Round(bloodTotal / health.reagentPoolSystem.BloodInfo.BLOOD_NORMAL * 100);
-			var bloodPercent = Mathf.Round(bloodTotal / health.CirculatorySystem.BloodInfo.BLOOD_NORMAL * 100);
+			var bloodTotal = Mathf.Round(health.reagentPoolSystem.GetTotalBlood());
+			var bloodPercent = Mathf.Round(bloodTotal / health.reagentPoolSystem.BloodInfo.BLOOD_NORMAL * 100);
 			float[] fullDamage = new float[7];
 
 			StringBuilder scanMessage = new StringBuilder(
@@ -103,7 +102,7 @@ namespace Items.Medical
 			{
 				if ( bodypart.DamageContributesToOverallHealth ) continue;
 				if ( bodypart.TotalDamage == 0 ) continue;
-        
+
 				partMessages.AppendLine(GetBodypartMessage(bodypart));
 			}
 

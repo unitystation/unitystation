@@ -1,4 +1,6 @@
 using HealthV2;
+using HealthV2.Living.PolymorphicSystems;
+using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Items.Implants.Organs;
 using UnityEngine;
 
@@ -79,7 +81,7 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 			}
 		}
 
-		health.CirculatorySystem.Heartbeat(1);
+		health.GetSystem<ReagentSaturationSystem>()?.BloodSaturationCalculations(1); //TODO Rethink AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
 		if (hasLung)
 		{

@@ -108,6 +108,12 @@ namespace HealthV2
 
 		public ReagentPoolSystem reagentPoolSystem => ActiveSystems.OfType<ReagentPoolSystem>().FirstOrDefault();
 
+		public T  GetSystem<T>()
+		{
+			return ActiveSystems.OfType<T>().FirstOrDefault();
+		}
+
+
 		public Brain brain { get; private set; }
 
 
@@ -214,34 +220,7 @@ namespace HealthV2
 		public List<HealthSystemBase> ActiveSystems = new List<HealthSystemBase>();
 
 
-		/// <summary>
-		/// The current hunger state of the creature, currently always returns normal
-		/// </summary>
-		public HungerState HungerState => CalculateHungerState();
 
-		public HungerState CalculateHungerState()
-		{
-			var State = HungerState.Full;
-			foreach (var bodyPart in BodyPartList)
-			{
-				if (bodyPart.HungerState == HungerState.Full)
-				{
-					State = HungerState.Full;
-					break;
-				}
-
-				if ((int) bodyPart.HungerState > (int) State) //TODO Add the other states
-				{
-					State = bodyPart.HungerState;
-					if (State == HungerState.Starving)
-					{
-						break;
-					}
-				}
-			}
-
-			return State;
-		}
 
 		public BleedingState BleedingState => CalculateBleedingState();
 
@@ -324,6 +303,9 @@ namespace HealthV2
 			MultiInterestBool.BoolBehaviour.ReturnOnFalse);
 
 		[SerializeField, Range(1,60f)] private float updateTime = 1f;
+
+		[NonSerialized]
+		public PlayerHealthData InitialSpecies = null;
 
 		//Default is mute yes
 
@@ -466,7 +448,6 @@ namespace HealthV2
 
 		public void BodyPartListChange()
 		{
-			CirculatorySystem.OrNull()?.BodyPartListChange();
 			SurfaceBodyPartChanges();
 			BodyPartsChangeMutation();
 		}
@@ -480,11 +461,11 @@ namespace HealthV2
 				{
 					if (bodyPart.ItemAttributes.HasAllTraits(externalReaction.ExternalAllRequired)
 					    && bodyPart.ItemAttributes.HasAnyTrait(externalReaction.ExternalBlacklist) == false
-					    && bodyPart.TryGetComponent<BodyPart>(out var MetabolismComponent)) //TODO
+					    && bodyPart.TryGetComponent<MetabolismComponent>(out var MetabolismComponent)) //TODO
 					{
 						if (PrecalculatedMetabolismReactions.ContainsKey(externalReaction) == false)
 						{
-							PrecalculatedMetabolismReactions[externalReaction] = new List<BodyPart>();
+							PrecalculatedMetabolismReactions[externalReaction] = new List<MetabolismComponent>();
 						}
 
 						PrecalculatedMetabolismReactions[externalReaction].Add(MetabolismComponent);
@@ -495,7 +476,7 @@ namespace HealthV2
 
 
 
-		private List<BodyPart> TMPUseList = new List<BodyPart>();
+		private List<MetabolismComponent> TMPUseList = new List<MetabolismComponent>();
 
 		public void ExternalMetaboliseReactions()
 		{
@@ -534,7 +515,7 @@ namespace HealthV2
 					var HasBodyPart = false;
 					foreach (var bodyPart in PrecalculatedMetabolismReactions[Reaction.Key])
 					{
-						if (SurfaceReagents.ContainsKey(bodyPart.BodyPartType) == false)
+						if (SurfaceReagents.ContainsKey(bodyPart.RelatedPart.BodyPartType) == false)
 						{
 							if (BodyPartType.Chest == storage.Key)
 							{
@@ -544,7 +525,7 @@ namespace HealthV2
 						}
 						else
 						{
-							if (bodyPart.BodyPartType == storage.Key)
+							if (bodyPart.RelatedPart.BodyPartType == storage.Key)
 							{
 								HasBodyPart = true;
 								break;
@@ -566,7 +547,7 @@ namespace HealthV2
 					float ProcessingAmount = 0;
 					foreach (var bodyPart in PrecalculatedMetabolismReactions[Reaction])
 					{
-						if (SurfaceReagents.ContainsKey(bodyPart.BodyPartType) == false)
+						if (SurfaceReagents.ContainsKey(bodyPart.RelatedPart.BodyPartType) == false)
 						{
 							if (BodyPartType.Chest == storage.Key)
 							{
@@ -576,7 +557,7 @@ namespace HealthV2
 						}
 						else
 						{
-							if (bodyPart.BodyPartType == storage.Key)
+							if (bodyPart.RelatedPart.BodyPartType == storage.Key)
 							{
 								TMPUseList.Add(bodyPart);
 								ProcessingAmount += 1;
@@ -600,8 +581,8 @@ namespace HealthV2
 
 		public List<MetabolismReaction> MetabolismReactions { get; } = new();
 
-		private Dictionary<MetabolismReaction, List<BodyPart>> PrecalculatedMetabolismReactions =
-			new Dictionary<MetabolismReaction, List<BodyPart>>();
+		private Dictionary<MetabolismReaction, List<MetabolismComponent>> PrecalculatedMetabolismReactions =
+			new Dictionary<MetabolismReaction, List<MetabolismComponent>>();
 
 		private void OnEnable()
 		{
@@ -624,13 +605,6 @@ namespace HealthV2
 			healthStateController.SetMaxHealth(newMaxHealth);
 		}
 
-		public Reagent CHem;
-
-		[RightClickMethod]
-		public void InjectChemical()
-		{
-			CirculatorySystem.BloodPool.Add(CHem, 5);
-		}
 
 		[RightClickMethod]
 		public void DODMG()
@@ -650,7 +624,6 @@ namespace HealthV2
 				BodyPartList[i].ImplantPeriodicUpdate();
 			}
 
-			if (CirculatorySystem != null) CirculatorySystem.BloodUpdate();
 			ExternalMetaboliseReactions();
 
 			FireStacksDamage();
@@ -837,7 +810,7 @@ namespace HealthV2
 		{
 			if (BleedStacks > 0)
 			{
-				CirculatorySystem.Bleed(1f * (float) Math.Ceiling(BleedStacks));
+				reagentPoolSystem?.Bleed(1f * (float) Math.Ceiling(BleedStacks));
 				healthStateController.SetBleedStacks(BleedStacks - 0.1f);
 			}
 		}
@@ -899,22 +872,7 @@ namespace HealthV2
 			return toReturn;
 		}
 
-		/// <summary>
-		/// Returns the total amount of blood in the body of the type of blood the body should have
-		/// </summary>
-		public float GetTotalBlood()
-		{
-			return GetSpareBlood();
-		}
 
-
-		/// <summary>
-		/// Returns the total amount of 'spare' blood outside of the organs
-		/// </summary>
-		public float GetSpareBlood()
-		{
-			return CirculatorySystem.BloodPool.Total;
-		}
 
 		/// <summary>
 		/// Returns true if the creature has the given body part of a type targetable by the UI
@@ -968,7 +926,7 @@ namespace HealthV2
 
 			//Sync health
 			healthStateController.SetOverallHealth(currentHealth);
-			healthStateController.SetHunger(HungerState);
+
 			healthStateController.SetBleedingState(BleedingState);
 
 			if (currentHealth < -100)
@@ -1321,7 +1279,7 @@ namespace HealthV2
 		{
 			_ = SoundManager.PlayAtPosition(CommonSounds.Instance.Slip, gameObject.transform.position,
 				gameObject); //TODO: replace with gibbing noise
-			CirculatorySystem.Bleed(GetTotalBlood());
+			reagentPoolSystem?.Bleed(reagentPoolSystem.GetTotalBlood());
 			Death();
 			for (int i = BodyPartList.Count - 1; i >= 0; i--)
 			{
@@ -1990,23 +1948,15 @@ namespace HealthV2
 
 		public void InitialiseFromRaceData(PlayerHealthData RaceBodyparts)
 		{
+			InitialSpecies = RaceBodyparts;
 			foreach (var System in RaceBodyparts.Base.SystemSettings)
 			{
-				continue; //TODO temp
 				var newsys = System.CloneThisSystem();
 				newsys.Base = this;
 				newsys.InIt();
 				newsys.StartFresh();
 				ActiveSystems.Add(newsys);
 			}
-
-
-			CirculatorySystem.SetBloodType(RaceBodyparts.Base.BloodType);
-			CirculatorySystem.InitialiseHunger(RaceBodyparts.Base.NumberOfMinutesBeforeStarving);
-			CirculatorySystem.InitialiseToxGeneration(RaceBodyparts.Base.TotalToxinGenerationPerSecond);
-			CirculatorySystem.InitialiseMetabolism(RaceBodyparts);
-			CirculatorySystem.InitialiseDefaults(RaceBodyparts);
-			CirculatorySystem.BodyPartListChange();
 
 			meatProduce = RaceBodyparts.Base.MeatProduce;
 			skinProduce = RaceBodyparts.Base.SkinProduce;

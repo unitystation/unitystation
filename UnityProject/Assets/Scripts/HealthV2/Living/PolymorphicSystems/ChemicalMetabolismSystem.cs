@@ -23,6 +23,44 @@ namespace HealthV2.Living.PolymorphicSystems
 			_reagentPoolSystem = Base.reagentPoolSystem; //idk Shouldn't change
 		}
 
+		public override void StartFresh()
+		{
+
+			PlayerHealthData RaceBodypart = null;
+			var InternalTotalBloodThroughput = 0f;
+
+			foreach (var bodyPart in MetabolismComponents)
+			{
+				InternalTotalBloodThroughput += bodyPart.BloodThroughput;
+			}
+
+			var InternalMetabolismFlowPerOne = RaceBodypart.Base.InternalMetabolismPerSecond / InternalTotalBloodThroughput;
+
+			foreach (var bodyPart in MetabolismComponents)
+			{
+				bodyPart.ReagentMetabolism = InternalMetabolismFlowPerOne;
+			}
+
+
+
+			var ExternalTotalBloodThroughput = 0f;
+
+			foreach (var bodyPart in MetabolismComponents)
+			{
+				if (bodyPart.RelatedPart.DamageContributesToOverallHealth == false) continue;
+				ExternalTotalBloodThroughput += bodyPart.BloodThroughput;
+			}
+
+			var MetabolismFlowPerOne =  RaceBodypart.Base.ExternalMetabolismPerSecond / ExternalTotalBloodThroughput;
+
+			foreach (var bodyPart in MetabolismComponents)
+			{
+				if (bodyPart.RelatedPart.DamageContributesToOverallHealth == false) continue;
+				bodyPart.ReagentMetabolism = MetabolismFlowPerOne;
+			}
+		}
+
+
 
 		public override void BodyPartAdded(BodyPart bodyPart)
 		{
@@ -90,8 +128,8 @@ namespace HealthV2.Living.PolymorphicSystems
 				float ProcessingAmount = 0;
 				foreach (var metabolismComponent in PrecalculatedMetabolismReactions[Reaction]) //TODO maybe lag? Alternative?
 				{
-					ProcessingAmount += metabolismComponent.ReagentMetabolism * metabolismComponent.GetThroughput *
-					                    metabolismComponent.GetCurrentBloodSaturation *
+					ProcessingAmount += metabolismComponent.ReagentMetabolism * metabolismComponent.BloodThroughput *
+					                    metabolismComponent.CurrentBloodSaturation *
 					                    Mathf.Max(0.10f, metabolismComponent.RelatedPart.TotalModified);
 				}
 

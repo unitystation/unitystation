@@ -8,7 +8,7 @@ namespace HealthV2.Living.PolymorphicSystems
 	{
 		public Dictionary<Reagent, ReagentWithBodyParts> Toxicity = new Dictionary<Reagent, ReagentWithBodyParts>();
 
-		public List<NaturalChemicalReleaseComponent> BodyParts;
+		public List<NaturalChemicalReleaseComponent> BodyParts = new List<NaturalChemicalReleaseComponent>();
 
 		public class ReagentWithBodyParts
 		{
@@ -23,6 +23,42 @@ namespace HealthV2.Living.PolymorphicSystems
 		public override void InIt()
 		{
 			_reagentPoolSystem = Base.reagentPoolSystem; //idk Shouldn't change
+		}
+
+		public override void StartFresh()
+		{
+			foreach (var bodyPart in BodyParts)
+			{
+				if (bodyPart.NaturalToxinReagent == null)
+				{
+					bodyPart.NaturalToxinReagent = Base.InitialSpecies.Base.BodyNaturalToxinReagent;
+				}
+			}
+
+			InitialiseToxGeneration();
+
+		}
+
+		public void InitialiseToxGeneration()
+		{
+
+			float TotalToxinGenerationPerSecond = Base.InitialSpecies.Base.TotalToxinGenerationPerSecond;
+
+
+
+			var TotalBloodThroughput = 0f;
+
+			foreach (var bodyPart in BodyParts)
+			{
+				TotalBloodThroughput += bodyPart.BloodThroughput;
+			}
+
+			var ToxinFlowPerOne = TotalToxinGenerationPerSecond / TotalBloodThroughput;
+
+			foreach (var bodyPart in BodyParts)
+			{
+				bodyPart.ToxinGeneration = ToxinFlowPerOne;
+			}
 		}
 
 		public override void BodyPartAdded(BodyPart bodyPart)
