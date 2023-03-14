@@ -1319,13 +1319,20 @@ namespace HealthV2
 		[Server]
 		public virtual void OnGib()
 		{
-			_ = SoundManager.PlayAtPosition(CommonSounds.Instance.Slip, gameObject.transform.position,
+			SoundManager.PlayAtPosition(CommonSounds.Instance.Slip, gameObject.transform.position,
 				gameObject); //TODO: replace with gibbing noise
-			CirculatorySystem.Bleed(GetTotalBlood());
+			CirculatorySystem.OrNull()?.Bleed(GetTotalBlood());
 			Death();
+			StartCoroutine(RemoveAllBodyParts());
+		}
+
+		private IEnumerator RemoveAllBodyParts()
+		{
 			for (int i = BodyPartList.Count - 1; i >= 0; i--)
 			{
-				BodyPartList[i].TryRemoveFromBody(true);
+				if (BodyPartList[i].BodyPartType == BodyPartType.Chest) continue;
+				BodyPartList[i].TryRemoveFromBody();
+				yield return WaitFor.EndOfFrame;
 			}
 		}
 

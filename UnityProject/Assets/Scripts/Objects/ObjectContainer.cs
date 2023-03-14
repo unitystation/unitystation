@@ -201,7 +201,7 @@ namespace Objects
 		/// Takes the given object out of storage, dropping it in the tile of the container, inheriting the inertia of the container.
 		/// If the object belongs to a player, then sends a <see cref="FollowCameraMessage"/>.
 		/// </summary>
-		public void RetrieveObject(GameObject obj, Vector3? worldPosition = null)
+		public void RetrieveObject(GameObject obj, Vector3? worldPosition = null, Action onDrop = null)
 		{
 			if (obj == null || storedObjects.TryGetValue(obj, out var offset) == false) return;
 			storedObjects.Remove(obj);
@@ -211,6 +211,8 @@ namespace Objects
 				uop.DropAtAndInheritMomentum(ObjectPhysics);
 				uop.StoreTo(null);
 			}
+
+			onDrop?.Invoke();
 		}
 
 		public void RetrieveObjects(Vector3? worldPosition = null)
