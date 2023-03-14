@@ -1319,7 +1319,7 @@ namespace HealthV2
 		[Server]
 		public virtual void OnGib()
 		{
-			SoundManager.PlayAtPosition(CommonSounds.Instance.Slip, gameObject.transform.position,
+			_ = SoundManager.PlayAtPosition(CommonSounds.Instance.Slip, gameObject.transform.position,
 				gameObject); //TODO: replace with gibbing noise
 			CirculatorySystem.OrNull()?.Bleed(GetTotalBlood());
 			Death();
