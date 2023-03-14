@@ -62,6 +62,7 @@ namespace HealthV2.Living.PolymorphicSystems
 			SaturationToConsume.Clear();
 			foreach (var bodyPart in BodyParts)
 			{
+				if (bodyPart.isBloodReagentConsumed) continue;
 				if (SaturationToConsume.ContainsKey(bodyPart.bloodType) == false)
 				{
 					SaturationToConsume[bodyPart.bloodType] =

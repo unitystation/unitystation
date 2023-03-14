@@ -14,7 +14,7 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 		[Tooltip("What type of blood does this body part work with?")]
 		public BloodType bloodType = null;
 
-		private bool isBloodReagentConsumed = false; //TODO REEEEEEEEEEEEEEEEEEEEE AAAAAAAAAAA
+
 
 		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
@@ -25,10 +25,6 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 			}
 		}
 
-		public void SetIsBloodReagentConsumed(bool State)
-		{
-			isBloodReagentConsumed = State;
-			//HealthMaster.OrNull()?.CirculatorySystem.OrNull()?.BodyPartListChange(); //TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		}
+
 	}
 }

@@ -13,7 +13,7 @@ namespace HealthV2.Living.Mutations.Metabolism
 
 		private class InAnaerobicMetabolism : Mutation
 		{
-			public ReagentCirculatedComponent ReagentCirculatedComponent;
+			public SaturationComponent SaturationComponent;
 
 			public InAnaerobicMetabolism(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
 			{
@@ -22,13 +22,13 @@ namespace HealthV2.Living.Mutations.Metabolism
 
 			public override void SetUp()
 			{
-				ReagentCirculatedComponent = BodyPart.GetComponent<ReagentCirculatedComponent>();
-				ReagentCirculatedComponent.SetIsBloodReagentConsumed(false);
+				SaturationComponent = BodyPart.GetComponent<SaturationComponent>();
+				SaturationComponent.SetIsBloodReagentConsumed(false);
 			}
 
 			public override void Remove()
 			{
-				ReagentCirculatedComponent.SetIsBloodReagentConsumed(true);
+				SaturationComponent.SetIsBloodReagentConsumed(true);
 			}
 
 		}

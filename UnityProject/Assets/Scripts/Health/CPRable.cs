@@ -86,7 +86,7 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 				}
 			}
 		}
-		
+
 		if (hasLung)
 		{
 			Chat.AddActionMsgToChat(
