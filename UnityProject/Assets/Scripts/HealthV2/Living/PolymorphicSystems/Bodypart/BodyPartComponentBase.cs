@@ -1,17 +1,28 @@
 using System;
 using System.Linq;
+using UnityEngine;
 
 namespace HealthV2.Living.PolymorphicSystems.Bodypart
 {
-	public abstract class BodyPartComponentBase<T>  : BodyPartFunctionality where T : HealthSystemBase, new() //TODO Apparently doesn't like Generics AAAAAAAAAAAAAAA
+	public interface IBodyPartComponentBase
 	{
+		public void OnRemovedFromBody(LivingHealthMasterBase livingHealth);
+		public void OnAddedToBody(LivingHealthMasterBase livingHealth);
+		public bool HasSystem(LivingHealthMasterBase livingHealth);
+
+		public void SetSystem(HealthSystemBase healthSystemBase, bool removing);
+	}
+
+	public abstract class BodyPartComponentBase<T> : BodyPartFunctionality, IBodyPartComponentBase  where T : HealthSystemBase, new()
+	{
+		[HideInInspector]
 		public T AssociatedSystem;
 
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
 			foreach (var sys in livingHealth.ActiveSystems)
 			{
-				sys.InternalBodyPartRemoved(RelatedPart, this as BodyPartComponentBase<HealthSystemBase>);
+				sys.InternalBodyPartRemoved(RelatedPart, this);
 				SetSystem(sys, true);
 			}
 		}
@@ -29,7 +40,7 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 
 			foreach (var sys in livingHealth.ActiveSystems)
 			{
-				sys.InternalBodyPartAdded(RelatedPart, this as BodyPartComponentBase<HealthSystemBase>);
+				sys.InternalBodyPartAdded(RelatedPart, this);
 			}
 		} //Warning only add body parts do not remove body parts in this
 

@@ -624,6 +624,13 @@ namespace HealthV2
 				BodyPartList[i].ImplantPeriodicUpdate();
 			}
 
+
+			foreach (var System in ActiveSystems)
+			{
+				System.SystemUpdate();
+			}
+
+
 			ExternalMetaboliseReactions();
 
 			FireStacksDamage();
@@ -1954,13 +1961,21 @@ namespace HealthV2
 				var newsys = System.CloneThisSystem();
 				newsys.Base = this;
 				newsys.InIt();
-				newsys.StartFresh();
 				ActiveSystems.Add(newsys);
 			}
 
 			meatProduce = RaceBodyparts.Base.MeatProduce;
 			skinProduce = RaceBodyparts.Base.SkinProduce;
 		}
+
+		public void StartFresh()
+		{
+			foreach (var System in ActiveSystems)
+			{
+				System.StartFresh();
+			}
+		}
+
 		//hummmm
 		//How to handle Items being in item storage That being moved in and out of players item storage?
 		//hummmmmmmmmmmmmmmmmmmmmmmmmmmmm

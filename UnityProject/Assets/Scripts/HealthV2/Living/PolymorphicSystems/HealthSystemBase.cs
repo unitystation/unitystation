@@ -29,7 +29,7 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		}
 
-		public void InternalBodyPartAdded(BodyPart bodyPart, BodyPartComponentBase<HealthSystemBase> BodyPartComponentBase)
+		public void InternalBodyPartAdded(BodyPart bodyPart, IBodyPartComponentBase BodyPartComponentBase)
 		{
 			BodyPartComponentBase.SetSystem(this, false);
 			BodyPartAdded(bodyPart);
@@ -41,7 +41,7 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		}
 
-		public void InternalBodyPartRemoved(BodyPart bodyPart, BodyPartComponentBase<HealthSystemBase> BodyPartComponentBase)
+		public void InternalBodyPartRemoved(BodyPart bodyPart, IBodyPartComponentBase BodyPartComponentBase)
 		{
 			BodyPartComponentBase.SetSystem(this, true);
 			BodyPartRemoved(bodyPart);

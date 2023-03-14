@@ -1,6 +1,7 @@
 ﻿using Chemistry;
 using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Items.Implants.Organs
@@ -27,6 +28,11 @@ namespace Items.Implants.Organs
 
 		public int ForcedBeats = 0;
 
+		public bool isEMPVunerable = false;
+
+		[ShowIf("isEMPVunerable")]
+		public int EMPResistance = 2;
+
 		public override void Awake()
 		{
 			base.Awake();
@@ -34,11 +40,14 @@ namespace Items.Implants.Organs
 			_ReagentCirculatedComponent = this.GetComponentCustom<ReagentCirculatedComponent>();
 		}
 
-		public override void EmpResult(int strength)
+		public override void OnEmp(int strength)
 		{
-			if (DMMath.Prob(50)) DoHeartAttack();
+			if (isEMPVunerable == false) return;
 
-			base.EmpResult(strength);
+			if (EMPResistance == 0 || DMMath.Prob(100 / EMPResistance))
+			{
+				if (DMMath.Prob(50)) DoHeartAttack();
+			}
 		}
 
 		public override void ImplantPeriodicUpdate()

@@ -16,23 +16,33 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		public List<MetabolismComponent> MetabolismComponents = new List<MetabolismComponent>();
 
+		private ReagentPoolSystem reagentPoolSystem
+		{
+			get
+			{
+				if (_reagentPoolSystem == null)
+				{
+					_reagentPoolSystem = Base.reagentPoolSystem;
+				}
+
+				return _reagentPoolSystem;
+			}
+		}
+
 		private ReagentPoolSystem _reagentPoolSystem;
 
-		public override void InIt()
-		{
-			_reagentPoolSystem = Base.reagentPoolSystem; //idk Shouldn't change
-		}
 
 		public override void StartFresh()
 		{
 
-			PlayerHealthData RaceBodypart = null;
+			PlayerHealthData RaceBodypart = Base.InitialSpecies;
 			var InternalTotalBloodThroughput = 0f;
 
 			foreach (var bodyPart in MetabolismComponents)
 			{
 				InternalTotalBloodThroughput += bodyPart.BloodThroughput;
 			}
+			if (InternalTotalBloodThroughput == 0) return;
 
 			var InternalMetabolismFlowPerOne = RaceBodypart.Base.InternalMetabolismPerSecond / InternalTotalBloodThroughput;
 
@@ -67,8 +77,11 @@ namespace HealthV2.Living.PolymorphicSystems
 			var component = bodyPart.GetComponent<MetabolismComponent>();
 			if (component != null)
 			{
-				MetabolismComponents.Add(component);
-				BodyPartListChange();
+				if (MetabolismComponents.Contains(component) == false)
+				{
+					MetabolismComponents.Add(component);
+					BodyPartListChange();
+				}
 			}
 		}
 
@@ -120,7 +133,7 @@ namespace HealthV2.Living.PolymorphicSystems
 
 			foreach (var Reaction in PrecalculatedMetabolismReactions)
 			{
-				Reaction.Key.Apply(this, _reagentPoolSystem.BloodPool);
+				Reaction.Key.Apply(this, reagentPoolSystem.BloodPool);
 			}
 
 			foreach (var Reaction in MetabolismReactions)

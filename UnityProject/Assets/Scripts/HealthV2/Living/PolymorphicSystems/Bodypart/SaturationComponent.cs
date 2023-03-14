@@ -36,7 +36,7 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 
 		public float CurrentBloodSaturation => currentBloodSaturation;
 
-		public bool isBloodReagentConsumed = false;
+		public bool isNotBloodReagentConsumed = false;
 
 		public override void Awake()
 		{
@@ -44,9 +44,9 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 			reagentCirculatedComponent = GetComponent<ReagentCirculatedComponent>();
 		}
 
-		public void SetIsBloodReagentConsumed(bool State)
+		public void SetNotIsBloodReagentConsumed(bool State)
 		{
-			isBloodReagentConsumed = State;
+			isNotBloodReagentConsumed = State;
 			AssociatedSystem.BodyPartListChange();
 		}
 	}

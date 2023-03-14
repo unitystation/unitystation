@@ -448,9 +448,11 @@ namespace Player
 					Logger.LogError($"Failed to find race for {gameObject.ExpensiveName()} with race: {characterSettings.Species}");
 				}
 
+				livingHealthMasterBase.InitialiseFromRaceData(RaceBodyparts);
 				livingHealthMasterBase.SetUpCharacter(RaceBodyparts);
 				SetupSprites();
-				livingHealthMasterBase.InitialiseFromRaceData(RaceBodyparts);
+				livingHealthMasterBase.StartFresh();
+
 
 			}
 		}

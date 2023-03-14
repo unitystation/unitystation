@@ -23,12 +23,12 @@ namespace HealthV2.Living.Mutations.Metabolism
 			public override void SetUp()
 			{
 				SaturationComponent = BodyPart.GetComponent<SaturationComponent>();
-				SaturationComponent.SetIsBloodReagentConsumed(false);
+				SaturationComponent.SetNotIsBloodReagentConsumed(true);
 			}
 
 			public override void Remove()
 			{
-				SaturationComponent.SetIsBloodReagentConsumed(true);
+				SaturationComponent.SetNotIsBloodReagentConsumed(false);
 			}
 
 		}

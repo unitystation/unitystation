@@ -10,10 +10,22 @@ namespace HealthV2.Living.PolymorphicSystems
 		public Dictionary<Reagent, ReagentWithBodyParts> NutrimentToConsume =
 			new Dictionary<Reagent, ReagentWithBodyParts>();
 
-		public List<HungerComponent> BodyParts;
+		public List<HungerComponent> BodyParts = new List<HungerComponent>();
+
+		private ReagentPoolSystem reagentPoolSystem
+		{
+			get
+			{
+				if (_reagentPoolSystem == null)
+				{
+					_reagentPoolSystem = Base.reagentPoolSystem;
+				}
+
+				return _reagentPoolSystem;
+			}
+		}
 
 		private ReagentPoolSystem _reagentPoolSystem;
-
 		/// <summary>
 		/// The current hunger state of the creature, currently always returns normal
 		/// </summary>
@@ -44,18 +56,16 @@ namespace HealthV2.Living.PolymorphicSystems
 		}
 
 
-		public override void InIt()
-		{
-			_reagentPoolSystem = Base.reagentPoolSystem; //idk Shouldn't change
-		}
-
 		public override void BodyPartAdded(BodyPart bodyPart)
 		{
 			var component = bodyPart.GetComponent<HungerComponent>();
 			if (component != null)
 			{
-				BodyParts.Add(component);
-				BodyPartListChange();
+				if (BodyParts.Contains(component) == false)
+				{
+					BodyParts.Add(component);
+					BodyPartListChange();
+				}
 			}
 		}
 
@@ -152,7 +162,7 @@ namespace HealthV2.Living.PolymorphicSystems
 		public override void SystemUpdate()
 		{
 			float HeartEfficiency = 0;
-			foreach (var Heart in _reagentPoolSystem.PumpingDevices)
+			foreach (var Heart in reagentPoolSystem.PumpingDevices)
 			{
 				HeartEfficiency += Heart.CalculateHeartbeat();
 			}
@@ -177,11 +187,11 @@ namespace HealthV2.Living.PolymorphicSystems
 				}
 
 
-				var AvailablePercentage = _reagentPoolSystem.BloodPool[KVP.Key] / Needed;
+				var AvailablePercentage = reagentPoolSystem.BloodPool[KVP.Key] / Needed;
 				var Effective = Mathf.Min(HeartEfficiency, AvailablePercentage);
 
 				var Amount = Needed * Effective;
-				_reagentPoolSystem.BloodPool.Remove(KVP.Key, Amount);
+				reagentPoolSystem.BloodPool.Remove(KVP.Key, Amount);
 				foreach (var bodyPart in KVP.Value.RelatedBodyParts)
 				{
 					if (Effective > 0.1f)

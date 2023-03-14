@@ -153,6 +153,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 892f0c642e2049640b08d738517bb0f5,
         type: 2}
+    - target: {fileID: 6638208500181761376, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Throughput
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: BodyPartType
@@ -221,8 +226,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d907426271c5e5544a1c7131da7c493c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEMPVunerable: 0
-  EMPResistance: 2
+  syncMode: 0
+  syncInterval: 0.1
   HeartAttack: 0
   CanTriggerHeartAttack: 1
   heartAttackThreshold: -100
@@ -230,3 +235,8 @@ MonoBehaviour:
   CurrentPulse: 0
   salt: {fileID: 11400000, guid: b9bdb0acb54b8dc40837f92c2e7819a6, type: 2}
   dangerSaltLevel: 20
+  HungerComponent: {fileID: 0}
+  _ReagentCirculatedComponent: {fileID: 0}
+  ForcedBeats: 0
+  isEMPVunerable: 0
+  EMPResistance: 2

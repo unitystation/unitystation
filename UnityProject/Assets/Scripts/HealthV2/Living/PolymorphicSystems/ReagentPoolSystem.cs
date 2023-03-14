@@ -67,14 +67,14 @@ namespace HealthV2.Living.PolymorphicSystems
 			return BloodPool.Total;
 		}
 
-		// public override HealthSystemBase CloneThisSystem()
-		// {
-		// 	return new ReagentPoolSystem()
-		// 	{
-		// 		BloodPool = this.BloodPool.Clone(),
-		// 		StartingBlood = this.StartingBlood,
-		// 		bloodType = this.bloodType
-		// 	};
-		// }
+		public override HealthSystemBase CloneThisSystem()
+		{
+			return new ReagentPoolSystem()
+			{
+				BloodPool = this.BloodPool.Clone(),
+				StartingBlood = this.StartingBlood,
+				bloodType = this.bloodType
+			};
+		}
 	}
 }
