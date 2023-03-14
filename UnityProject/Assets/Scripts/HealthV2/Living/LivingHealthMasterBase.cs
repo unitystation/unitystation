@@ -1323,16 +1323,10 @@ namespace HealthV2
 				gameObject); //TODO: replace with gibbing noise
 			CirculatorySystem.OrNull()?.Bleed(GetTotalBlood());
 			Death();
-			StartCoroutine(RemoveAllBodyParts());
-		}
-
-		private IEnumerator RemoveAllBodyParts()
-		{
 			for (int i = BodyPartList.Count - 1; i >= 0; i--)
 			{
 				if (BodyPartList[i].BodyPartType == BodyPartType.Chest) continue;
 				BodyPartList[i].TryRemoveFromBody();
-				yield return WaitFor.EndOfFrame;
 			}
 		}
 
