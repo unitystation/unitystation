@@ -25,6 +25,8 @@ namespace Items.Implants.Organs
 
 		public ReagentCirculatedComponent _ReagentCirculatedComponent;
 
+		public int ForcedBeats = 0;
+
 		public override void Awake()
 		{
 			base.Awake();
@@ -110,6 +112,12 @@ namespace Items.Implants.Organs
 
 		public float CalculateHeartbeat()
 		{
+			if (ForcedBeats > 0)
+			{
+				ForcedBeats--;
+				return 1;
+			}
+
 			if (HeartAttack || RelatedPart.HealthMaster.brain == null) //Needs a brain for heart to work
 			{
 				return 0;

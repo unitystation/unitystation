@@ -77,12 +77,16 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 						lung.TryBreathing(node, 6, true);
 						hasLung = true;
 					}
+
+					if (organ is Heart Heart)
+					{
+						Heart.ForcedBeats++;
+						hasHeart = true;
+					}
 				}
 			}
 		}
-
-		health.GetSystem<ReagentSaturationSystem>()?.BloodSaturationCalculations(1); //TODO Rethink AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-
+		
 		if (hasLung)
 		{
 			Chat.AddActionMsgToChat(

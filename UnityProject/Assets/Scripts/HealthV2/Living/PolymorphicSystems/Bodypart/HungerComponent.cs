@@ -13,8 +13,6 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 		/// </summary>
 		[Tooltip("Modifier to reduce efficiency when the character gets hungry")] [NonSerialized]
 		public Modifier HungerModifier = new Modifier();
-		//TODO add to Body part AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-
 
 		/// <summary>
 		/// The nutriment reagent that this part consumes in order to perform tasks
@@ -69,6 +67,7 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 		{
 			base.Awake();
 			reagentCirculatedComponent = GetComponent<ReagentCirculatedComponent>();
+			RelatedPart.AddModifier(HungerModifier);
 		}
 	}
 }

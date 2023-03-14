@@ -461,7 +461,7 @@ namespace HealthV2
 				{
 					if (bodyPart.ItemAttributes.HasAllTraits(externalReaction.ExternalAllRequired)
 					    && bodyPart.ItemAttributes.HasAnyTrait(externalReaction.ExternalBlacklist) == false
-					    && bodyPart.TryGetComponent<MetabolismComponent>(out var MetabolismComponent)) //TODO
+					    && bodyPart.TryGetComponent<MetabolismComponent>(out var MetabolismComponent))
 					{
 						if (PrecalculatedMetabolismReactions.ContainsKey(externalReaction) == false)
 						{

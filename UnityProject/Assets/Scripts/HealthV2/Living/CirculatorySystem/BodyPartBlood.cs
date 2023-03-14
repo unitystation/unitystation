@@ -118,17 +118,6 @@ namespace HealthV2
 
 		[SerializeField] private HungerState HungerState = HungerState.Normal;
 
-		/// <summary>
-		/// Initializes the body part as part of the circulatory system
-		/// </summary>
-		public void BloodInitialise()
-		{
-
-			AddModifier(HungerModifier);
-		}
-
-
-
 
 		/// <summary>
 		/// Heals damage caused by sources other than lack of blood reagent
