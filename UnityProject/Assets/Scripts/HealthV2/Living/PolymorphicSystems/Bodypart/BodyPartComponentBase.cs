@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace HealthV2.Living.PolymorphicSystems.Bodypart
 {
-	public abstract class BodyPartComponentBase<T>  : BodyPartFunctionality where T : HealthSystemBase, new()
+	public abstract class BodyPartComponentBase<T>  : BodyPartFunctionality where T : HealthSystemBase, new() //TODO Apparently doesn't like Generics AAAAAAAAAAAAAAA
 	{
 		public T AssociatedSystem;
 
