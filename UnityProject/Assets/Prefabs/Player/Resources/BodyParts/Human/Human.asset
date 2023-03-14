@@ -80,3 +80,39 @@ MonoBehaviour:
       type: 3}
     CanShowUpInTheCharacterCreatorScreen: 1
     PreviewSprite: {fileID: 11400000, guid: 2f4ed06eb37f4c645a274b500687e360, type: 2}
+    SystemSettings:
+    - rid: 5920833068371804171
+    - rid: 5920833068371804172
+    - rid: 5920833068371804173
+    - rid: 5920833068371804174
+  references:
+    version: 2
+    RefIds:
+    - rid: 5920833068371804171
+      type: {class: ChemicalMetabolismSystem, ns: HealthV2.Living.PolymorphicSystems,
+        asm: Assets}
+      data:
+        Base: {fileID: 0}
+        ALLMetabolismReactions: []
+        MetabolismComponents: []
+    - rid: 5920833068371804172
+      type: {class: ChemicalMetabolismSystem, ns: HealthV2.Living.PolymorphicSystems,
+        asm: Assets}
+      data:
+        Base: {fileID: 0}
+        ALLMetabolismReactions: []
+        MetabolismComponents: []
+    - rid: 5920833068371804173
+      type: {class: ChemicalMetabolismSystem, ns: HealthV2.Living.PolymorphicSystems,
+        asm: Assets}
+      data:
+        Base: {fileID: 0}
+        ALLMetabolismReactions: []
+        MetabolismComponents: []
+    - rid: 5920833068371804174
+      type: {class: ChemicalMetabolismSystem, ns: HealthV2.Living.PolymorphicSystems,
+        asm: Assets}
+      data:
+        Base: {fileID: 0}
+        ALLMetabolismReactions: []
+        MetabolismComponents: []

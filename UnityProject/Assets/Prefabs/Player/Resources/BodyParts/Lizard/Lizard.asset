@@ -64,20 +64,38 @@ MonoBehaviour:
     CanShowUpInTheCharacterCreatorScreen: 1
     PreviewSprite: {fileID: 11400000, guid: d0262d585491cd34d95efefea7c7a023, type: 2}
     SystemSettings:
-    - rid: 7608922337399013459
+    - rid: 5920833068371804187
+    - rid: 5920833068371804188
+    - rid: 5920833068371804189
+    - rid: 5920833068371804190
   references:
     version: 2
     RefIds:
-    - rid: 7608922337399013459
-      type: {class: ReagentPool, ns: HealthV2.Living.PolymorphicSystems, asm: Assets}
+    - rid: 5920833068371804187
+      type: {class: ChemicalMetabolismSystem, ns: HealthV2.Living.PolymorphicSystems,
+        asm: Assets}
       data:
         Base: {fileID: 0}
-        BloodPool:
-          temperature: 273.15
-          reagents:
-            m_keys: []
-            m_values: []
-          reagentKeys: []
-        StartingBlood: 500
-        bloodInfo: {fileID: 11400000, guid: 5a85f8bded849a44290c34e227cd4096, type: 2}
-        bloodType: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
+        ALLMetabolismReactions: []
+        MetabolismComponents: []
+    - rid: 5920833068371804188
+      type: {class: ChemicalMetabolismSystem, ns: HealthV2.Living.PolymorphicSystems,
+        asm: Assets}
+      data:
+        Base: {fileID: 0}
+        ALLMetabolismReactions: []
+        MetabolismComponents: []
+    - rid: 5920833068371804189
+      type: {class: ChemicalMetabolismSystem, ns: HealthV2.Living.PolymorphicSystems,
+        asm: Assets}
+      data:
+        Base: {fileID: 0}
+        ALLMetabolismReactions: []
+        MetabolismComponents: []
+    - rid: 5920833068371804190
+      type: {class: ChemicalMetabolismSystem, ns: HealthV2.Living.PolymorphicSystems,
+        asm: Assets}
+      data:
+        Base: {fileID: 0}
+        ALLMetabolismReactions: []
+        MetabolismComponents: []
