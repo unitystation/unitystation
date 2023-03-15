@@ -5,7 +5,7 @@ using UnityEngine;
 namespace HealthV2.Living.PolymorphicSystems
 {
 	[System.Serializable]
-	public class HealthSystemBase
+	public abstract class HealthSystemBase
 	{
 
 		//TODO Out of order adding systems  or Ensure fixed order?
@@ -56,10 +56,7 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		}
 
-		public virtual HealthSystemBase CloneThisSystem()
-		{
-			throw new NotImplementedException($"Implement CloneThisSystem God dammit for {this.GetType()}");
-		}
+		public abstract HealthSystemBase CloneThisSystem();
 	}
 }
 

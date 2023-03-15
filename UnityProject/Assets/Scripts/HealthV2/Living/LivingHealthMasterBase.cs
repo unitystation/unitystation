@@ -108,6 +108,9 @@ namespace HealthV2
 
 		public ReagentPoolSystem reagentPoolSystem => ActiveSystems.OfType<ReagentPoolSystem>().FirstOrDefault();
 
+		///<summary>
+		/// Fetch first or default system by type from the active systems on this living thing.
+		///</summary>
 		public T  GetSystem<T>()
 		{
 			return ActiveSystems.OfType<T>().FirstOrDefault();
@@ -625,9 +628,9 @@ namespace HealthV2
 			}
 
 
-			foreach (var System in ActiveSystems)
+			foreach (var system in ActiveSystems)
 			{
-				System.SystemUpdate();
+				system.SystemUpdate();
 			}
 
 
@@ -1970,9 +1973,9 @@ namespace HealthV2
 
 		public void StartFresh()
 		{
-			foreach (var System in ActiveSystems)
+			foreach (var system in ActiveSystems)
 			{
-				System.StartFresh();
+				system.StartFresh();
 			}
 		}
 

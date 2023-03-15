@@ -11,7 +11,7 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 		/// <summary>
 		/// Modifier that multiplicatively reduces the efficiency of the body part based on damage
 		/// </summary>
-		[Tooltip("Modifier to reduce efficiency when the character gets hungry")] [NonSerialized]
+		[NonSerialized]
 		public Modifier HungerModifier = new Modifier();
 
 		/// <summary>

@@ -116,8 +116,12 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	}
 	public void ResetMatrixManager()
 	{
-		Instance.spaceMatrix = null;
-		Instance.mainStationMatrix = null;
+		if (Instance != null)
+		{
+			Instance.spaceMatrix = null;
+			Instance.mainStationMatrix = null;
+		}
+
 		MovableMatrices.Clear();
 		ActiveMatrices.Clear();
 		ActiveMatricesList.Clear();

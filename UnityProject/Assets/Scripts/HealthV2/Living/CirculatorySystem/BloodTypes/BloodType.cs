@@ -69,7 +69,7 @@ namespace HealthV2
 
 		public float CalculatePercentageBloodPresent(ReagentMix reagentMix)
 		{
-			if (reagentMix.Total == 0)
+			if (reagentMix.Total.Approx(0))
 			{
 				return 0;
 			}
