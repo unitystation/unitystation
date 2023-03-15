@@ -335,9 +335,7 @@ public class Matrix : MonoBehaviour
 		}
 
 		var filtered = new List<T>();
-		var list = (isServer ? ServerObjects : ClientObjects).Get(localPosition);
-		list.Reverse();
-		foreach (RegisterTile t in list)
+		foreach (RegisterTile t in (isServer ? ServerObjects : ClientObjects).Get(localPosition))
 		{
 			if (t == null || t.TryGetComponent<T>(out var x) == false) continue;
 			filtered.Add(x);
