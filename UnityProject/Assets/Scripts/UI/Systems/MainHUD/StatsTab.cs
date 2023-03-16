@@ -86,6 +86,6 @@ public class StatsTab : SingletonManager<StatsTab>
 	public void UpdateRoundTime()
 	{
 		if(roundTimer == null) return;
-		roundTimer.text = GameManager.Instance.stationTime.ToShortTimeString();
+		roundTimer.text = GameManager.Instance.RoundTime.ToShortTimeString();
 	}
 }

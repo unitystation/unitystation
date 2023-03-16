@@ -232,6 +232,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 
 			//lock current direction
 			playerDirectional.LockDirectionTo(true, playerDirectional.CurrentDirection);
+			playerScript.OnLayDown?.Invoke();
 		}
 		else
 		{

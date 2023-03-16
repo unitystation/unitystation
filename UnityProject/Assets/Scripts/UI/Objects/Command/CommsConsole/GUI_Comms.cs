@@ -211,7 +211,7 @@ namespace UI.Objects.Command
 
 		public void ChangeAlertLevel()
 		{
-			if (GameManager.Instance.stationTime < GameManager.Instance.CentComm.lastAlertChange.AddMinutes(
+			if (GameManager.Instance.RoundTime < GameManager.Instance.CentComm.lastAlertChange.AddMinutes(
 				GameManager.Instance.CentComm.coolDownAlertChange))
 			{
 				StartCoroutine(DisplayAlertErrorMessage("Error: recent alert level change detected!"));
@@ -219,7 +219,7 @@ namespace UI.Objects.Command
 			}
 
 			Logger.Log(nameof(ChangeAlertLevel), Category.Shuttles);
-			GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.stationTime;
+			GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.RoundTime;
 			GameManager.Instance.CentComm.ChangeAlertLevel(LocalAlertLevel);
 
 			OpenMenu();

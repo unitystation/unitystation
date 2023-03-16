@@ -5,7 +5,7 @@ namespace Learning
 {
 	public class ProtipListUI : MonoBehaviour
 	{
-		[SerializeField] private GameObject entryToSpawn;
+		[SerializeField] private Transform entryToSpawn;
 		[SerializeField] private Transform entryList;
 		[SerializeField] private Transform mainPage;
 
@@ -44,7 +44,7 @@ namespace Learning
 			{
 				for (int i = 0; i < entryList.childCount - 1; i++)
 				{
-					Destroy(entryList.GetChild(i));
+					Destroy(entryList.GetChild(i).gameObject);
 				}
 			}
 			foreach (var tipSO in ProtipManager.Instance.RecordedProtips)

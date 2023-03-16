@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc4baa140f472c84284eccd1fdbb429d, type: 3}
+  m_Name: DisarmIntentTip
+  m_EditorClassIdentifier: 
+  TipTitle: Hey! Put that down!
+  TipData:
+    Tip: You're in disarm intent now. Other mobs cannot switch places with you, and
+      you can push them when walking. You can also attempt to disarm other players
+      by clicking on them.
+    TipIcon: {fileID: 21300000, guid: 7c38e5b571f18fd41a5cda7da86585b5, type: 3}
+    ShowAnimation: 2
+    MinimumExperienceLevelToTrigger: 0
+    ShowDuration: 6
