@@ -33,26 +33,26 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		public HungerState CalculateHungerState()
 		{
-			var State = HungerState.Full;
+			var state = HungerState.Full;
 			foreach (var bodyPart in BodyParts)
 			{
 				if (bodyPart.HungerState == HungerState.Full)
 				{
-					State = HungerState.Full;
+					state = HungerState.Full;
 					break;
 				}
 
-				if ((int) bodyPart.HungerState > (int) State) //TODO Add the other states
+				if ((int) bodyPart.HungerState > (int) state) //TODO Add the other states
 				{
-					State = bodyPart.HungerState;
-					if (State == HungerState.Starving)
+					state = bodyPart.HungerState;
+					if (state == HungerState.Starving)
 					{
 						break;
 					}
 				}
 			}
 
-			return State;
+			return state;
 		}
 
 

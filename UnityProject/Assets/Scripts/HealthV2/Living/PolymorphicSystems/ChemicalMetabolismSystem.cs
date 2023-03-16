@@ -36,37 +36,39 @@ namespace HealthV2.Living.PolymorphicSystems
 		{
 
 			PlayerHealthData RaceBodypart = Base.InitialSpecies;
-			var InternalTotalBloodThroughput = 0f;
+			var internalTotalBloodThroughput = 0f;
 
 			foreach (var bodyPart in MetabolismComponents)
 			{
-				InternalTotalBloodThroughput += bodyPart.BloodThroughput;
+				internalTotalBloodThroughput += bodyPart.BloodThroughput;
 			}
-			if (InternalTotalBloodThroughput == 0) return;
 
-			var InternalMetabolismFlowPerOne = RaceBodypart.Base.InternalMetabolismPerSecond / InternalTotalBloodThroughput;
+
+			if (internalTotalBloodThroughput.Approx(0)) return;
+
+			var internalMetabolismFlowPerOne = RaceBodypart.Base.InternalMetabolismPerSecond / internalTotalBloodThroughput;
 
 			foreach (var bodyPart in MetabolismComponents)
 			{
-				bodyPart.ReagentMetabolism = InternalMetabolismFlowPerOne;
+				bodyPart.ReagentMetabolism = internalMetabolismFlowPerOne;
 			}
 
 
 
-			var ExternalTotalBloodThroughput = 0f;
+			var externalTotalBloodThroughput = 0f;
 
 			foreach (var bodyPart in MetabolismComponents)
 			{
 				if (bodyPart.RelatedPart.DamageContributesToOverallHealth == false) continue;
-				ExternalTotalBloodThroughput += bodyPart.BloodThroughput;
+				externalTotalBloodThroughput += bodyPart.BloodThroughput;
 			}
 
-			var MetabolismFlowPerOne =  RaceBodypart.Base.ExternalMetabolismPerSecond / ExternalTotalBloodThroughput;
+			var metabolismFlowPerOne =  RaceBodypart.Base.ExternalMetabolismPerSecond / externalTotalBloodThroughput;
 
 			foreach (var bodyPart in MetabolismComponents)
 			{
 				if (bodyPart.RelatedPart.DamageContributesToOverallHealth == false) continue;
-				bodyPart.ReagentMetabolism = MetabolismFlowPerOne;
+				bodyPart.ReagentMetabolism = metabolismFlowPerOne;
 			}
 		}
 
