@@ -337,11 +337,8 @@ public class Matrix : MonoBehaviour
 		var filtered = new List<T>();
 		foreach (RegisterTile t in (isServer ? ServerObjects : ClientObjects).Get(localPosition))
 		{
-			T x = t.GetComponent<T>();
-			if (x != null)
-			{
-				filtered.Add(x);
-			}
+			if (t == null || t.TryGetComponent<T>(out var x) == false) continue;
+			filtered.Add(x);
 		}
 
 		return filtered;

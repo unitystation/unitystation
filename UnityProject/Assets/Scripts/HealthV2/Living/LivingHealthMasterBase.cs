@@ -1289,11 +1289,14 @@ namespace HealthV2
 		{
 			_ = SoundManager.PlayAtPosition(CommonSounds.Instance.Slip, gameObject.transform.position,
 				gameObject); //TODO: replace with gibbing noise
+
 			reagentPoolSystem?.Bleed(reagentPoolSystem.GetTotalBlood());
+
 			Death();
 			for (int i = BodyPartList.Count - 1; i >= 0; i--)
 			{
-				BodyPartList[i].TryRemoveFromBody(true);
+				if (BodyPartList[i].BodyPartType == BodyPartType.Chest) continue;
+				BodyPartList[i].TryRemoveFromBody();
 			}
 		}
 
