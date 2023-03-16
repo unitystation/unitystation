@@ -5,12 +5,13 @@ namespace Learning.ProtipObjectTypes
 {
 	public class ProtipObjectOnJoinTime : ProtipObject
 	{
-		private int lateTime = 1;
 		[SerializeField] private ProtipSO lateTip;
+
+		private const int LATE_TIME = 1;
 
 		private void Start()
 		{
-			TriggerTip(GameManager.Instance.RoundTimeInMinutes >= lateTime ? lateTip : TipSO);
+			TriggerTip(GameManager.Instance.RoundTimeInMinutes >= LATE_TIME ? lateTip : TipSO);
 		}
 
 		protected override bool TriggerConditions(GameObject triggeredBy, ProtipSO protipSo)
