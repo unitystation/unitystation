@@ -16,12 +16,62 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		public List<MetabolismComponent> MetabolismComponents = new List<MetabolismComponent>();
 
+		private ReagentPoolSystem reagentPoolSystem
+		{
+			get
+			{
+				if (_reagentPoolSystem == null)
+				{
+					_reagentPoolSystem = Base.reagentPoolSystem;
+				}
+
+				return _reagentPoolSystem;
+			}
+		}
+
 		private ReagentPoolSystem _reagentPoolSystem;
 
-		public override void InIt()
+
+		public override void StartFresh()
 		{
-			_reagentPoolSystem = Base.reagentPoolSystem; //idk Shouldn't change
+
+			PlayerHealthData RaceBodypart = Base.InitialSpecies;
+			var internalTotalBloodThroughput = 0f;
+
+			foreach (var bodyPart in MetabolismComponents)
+			{
+				internalTotalBloodThroughput += bodyPart.BloodThroughput;
+			}
+
+
+			if (internalTotalBloodThroughput.Approx(0)) return;
+
+			var internalMetabolismFlowPerOne = RaceBodypart.Base.InternalMetabolismPerSecond / internalTotalBloodThroughput;
+
+			foreach (var bodyPart in MetabolismComponents)
+			{
+				bodyPart.ReagentMetabolism = internalMetabolismFlowPerOne;
+			}
+
+
+
+			var externalTotalBloodThroughput = 0f;
+
+			foreach (var bodyPart in MetabolismComponents)
+			{
+				if (bodyPart.RelatedPart.DamageContributesToOverallHealth == false) continue;
+				externalTotalBloodThroughput += bodyPart.BloodThroughput;
+			}
+
+			var metabolismFlowPerOne =  RaceBodypart.Base.ExternalMetabolismPerSecond / externalTotalBloodThroughput;
+
+			foreach (var bodyPart in MetabolismComponents)
+			{
+				if (bodyPart.RelatedPart.DamageContributesToOverallHealth == false) continue;
+				bodyPart.ReagentMetabolism = metabolismFlowPerOne;
+			}
 		}
+
 
 
 		public override void BodyPartAdded(BodyPart bodyPart)
@@ -29,8 +79,11 @@ namespace HealthV2.Living.PolymorphicSystems
 			var component = bodyPart.GetComponent<MetabolismComponent>();
 			if (component != null)
 			{
-				MetabolismComponents.Add(component);
-				BodyPartListChange();
+				if (MetabolismComponents.Contains(component) == false)
+				{
+					MetabolismComponents.Add(component);
+					BodyPartListChange();
+				}
 			}
 		}
 
@@ -82,7 +135,7 @@ namespace HealthV2.Living.PolymorphicSystems
 
 			foreach (var Reaction in PrecalculatedMetabolismReactions)
 			{
-				Reaction.Key.Apply(this, _reagentPoolSystem.BloodPool);
+				Reaction.Key.Apply(this, reagentPoolSystem.BloodPool);
 			}
 
 			foreach (var Reaction in MetabolismReactions)
@@ -90,8 +143,8 @@ namespace HealthV2.Living.PolymorphicSystems
 				float ProcessingAmount = 0;
 				foreach (var metabolismComponent in PrecalculatedMetabolismReactions[Reaction]) //TODO maybe lag? Alternative?
 				{
-					ProcessingAmount += metabolismComponent.ReagentMetabolism * metabolismComponent.GetThroughput *
-					                    metabolismComponent.GetCurrentBloodSaturation *
+					ProcessingAmount += metabolismComponent.ReagentMetabolism * metabolismComponent.BloodThroughput *
+					                    metabolismComponent.CurrentBloodSaturation *
 					                    Mathf.Max(0.10f, metabolismComponent.RelatedPart.TotalModified);
 				}
 

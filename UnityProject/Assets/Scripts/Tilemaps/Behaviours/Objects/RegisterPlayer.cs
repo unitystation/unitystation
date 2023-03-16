@@ -308,8 +308,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
             || isLayingDown
 			|| playerScript.playerHealth.IsCrit
 			|| playerScript.playerHealth.IsSoftCrit
-			|| playerScript.playerHealth.IsDead
-			|| playerScript.playerHealth.HungerState == HungerState.Starving)
+			|| playerScript.playerHealth.IsDead)
 		{
 			return;
 		}

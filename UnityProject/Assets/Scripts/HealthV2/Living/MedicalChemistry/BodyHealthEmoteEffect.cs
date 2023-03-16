@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Chemistry;
 using HealthV2;
+using HealthV2.Living.PolymorphicSystems.Bodypart;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -28,7 +29,7 @@ public class BodyHealthEmoteEffect : BodyHealthEffect
 		[ShowIf(nameof(CanOverdose))] [AllowNesting] public bool StopIfOverdosed;
 	}
 
-	public override void PossibleReaction(List<BodyPart> senders, ReagentMix reagentMix,
+	public override void PossibleReaction(List<MetabolismComponent> senders, ReagentMix reagentMix,
 		float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed, out bool overdose) //limitedReactionAmountPercentage = 0 to 1
 	{
 
@@ -38,7 +39,7 @@ public class BodyHealthEmoteEffect : BodyHealthEffect
 		{
 					//Check if there are organs to act on
 					if (senders.Count == 0) { break; }
-			GameObject player = senders[0].HealthMaster.gameObject;
+			GameObject player = senders[0].RelatedPart.HealthMaster.gameObject;
 			if (emote.StopIfOverdosed == true && overdose == true) { continue; }
 
 			if (Random.Range(0, 100) <= emote.ChancePerTick)

@@ -443,7 +443,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 
 		if (Animating == false && transform.localPosition != newLocalTarget.Vector3)
+		{
+			Animating = true;
 			UpdateManager.Add(CallbackType.UPDATE, AnimationUpdateMe);
+		}
 	}
 
 
@@ -605,6 +608,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	public void DropAtAndInheritMomentum(UniversalObjectPhysics droppedFrom)
 	{
+
 		SynchroniseVisibility(isVisible, true);
 		ForceSetLocalPosition(droppedFrom.transform.localPosition, droppedFrom.newtonianMovement, false,
 			droppedFrom.registerTile.Matrix.Id);

@@ -146,7 +146,7 @@ namespace Core.Editor.Tools
 			{
 				var net = allNets[i].GetComponent<NetworkIdentity>();
 
-				if (net.assetId == Guid.Empty)
+				if (net.assetId == 0)
 				{
 					Debug.Log($"{allNets[i].name} has empty asset id");
 				}

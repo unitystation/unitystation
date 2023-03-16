@@ -57,3 +57,39 @@ MonoBehaviour:
     SkinProduce: {fileID: 0}
     CanShowUpInTheCharacterCreatorScreen: 1
     PreviewSprite: {fileID: 11400000, guid: 7c3ee7b3fd0d8344daabae83054c3913, type: 2}
+    SystemSettings:
+    - rid: 5920833068371804191
+    - rid: 5920833068371804192
+    - rid: 5920833068371804193
+    - rid: 5920833068371804194
+  references:
+    version: 2
+    RefIds:
+    - rid: 5920833068371804191
+      type: {class: ChemicalMetabolismSystem, ns: HealthV2.Living.PolymorphicSystems,
+        asm: Assets}
+      data:
+        Base: {fileID: 0}
+        ALLMetabolismReactions: []
+        MetabolismComponents: []
+    - rid: 5920833068371804192
+      type: {class: ChemicalMetabolismSystem, ns: HealthV2.Living.PolymorphicSystems,
+        asm: Assets}
+      data:
+        Base: {fileID: 0}
+        ALLMetabolismReactions: []
+        MetabolismComponents: []
+    - rid: 5920833068371804193
+      type: {class: ChemicalMetabolismSystem, ns: HealthV2.Living.PolymorphicSystems,
+        asm: Assets}
+      data:
+        Base: {fileID: 0}
+        ALLMetabolismReactions: []
+        MetabolismComponents: []
+    - rid: 5920833068371804194
+      type: {class: ChemicalMetabolismSystem, ns: HealthV2.Living.PolymorphicSystems,
+        asm: Assets}
+      data:
+        Base: {fileID: 0}
+        ALLMetabolismReactions: []
+        MetabolismComponents: []

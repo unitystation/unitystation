@@ -496,7 +496,7 @@ public partial class PlayerList : NetworkBehaviour
 	[Server]
 	public void RemoveByConnection(NetworkConnection connection)
 	{
-		if (connection?.address == null || connection.identity == null)
+		if (connection?.identity?.connectionToClient?.address == null || connection.identity == null)
 		{
 			Logger.Log($"Unknown player disconnected: verifying playerlists for integrity - connection, its address and identity was null.", Category.Connections);
 			ValidatePlayerListRecords();
@@ -507,7 +507,7 @@ public partial class PlayerList : NetworkBehaviour
 		if (player.Equals(PlayerInfo.Invalid))
 		{
 			Logger.Log($"Unknown player disconnected: verifying playerlists for integrity - connected player was invalid. " +
-			           $"IP: {connection.address}. Name: {connection.identity.name}.", Category.Connections);
+			           $"IP: {connection?.identity?.connectionToClient?.address}. Name: {connection.identity.name}.", Category.Connections);
 			ValidatePlayerListRecords();
 			return;
 		}

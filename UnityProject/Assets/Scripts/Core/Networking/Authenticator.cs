@@ -81,7 +81,7 @@ namespace Core.Networking
 			NetworkServer.RegisterHandler<ServerClientAuthRequestMessage>(OnServerClientAuthRequest, false);
 		}
 
-		public override void OnServerAuthenticate(NetworkConnection conn)
+		public override void OnServerAuthenticate(NetworkConnectionToClient conn)
 		{
 			Logger.LogTrace($"A client not yet authenticated is joining. Address: {conn.address}.", Category.Connections);
 		}
@@ -140,7 +140,7 @@ namespace Core.Networking
 			ServerAccept(conn);
 		}
 
-		private bool IsSpamming(NetworkConnection conn)
+		private bool IsSpamming(NetworkConnectionToClient conn)
 		{
 			if (connectionCooldowns.ContainsKey(conn.address) == false)
 			{
@@ -202,7 +202,7 @@ namespace Core.Networking
 			}
 		}
 
-		private bool ValidatePlayerClient(NetworkConnection conn, int clientVersion)
+		private bool ValidatePlayerClient(NetworkConnectionToClient conn, int clientVersion)
 		{
 			// Check the client version is the same as the server
 			if (clientVersion != GameData.BuildNumber)
@@ -217,7 +217,7 @@ namespace Core.Networking
 			return true;
 		}
 
-		private async Task<bool> ValidatePlayerAccount(NetworkConnection conn, AuthRequestMessage msg)
+		private async Task<bool> ValidatePlayerAccount(NetworkConnectionToClient conn, AuthRequestMessage msg)
 		{
 			// Allow local offline testing
 			if (GameData.Instance.OfflineMode) return true;
@@ -267,7 +267,7 @@ namespace Core.Networking
 			return true;
 		}
 
-		private bool ValidatePassword(NetworkConnection conn, AuthRequestMessage msg)
+		private bool ValidatePassword(NetworkConnectionToClient conn, AuthRequestMessage msg)
 		{
 			var accountId = msg.AccountId;
 
@@ -310,10 +310,10 @@ namespace Core.Networking
 			return false;
 		}
 
-		private void DisconnectClient(NetworkConnection connection, ResponseCode reason, string message = "")
+		private void DisconnectClient(NetworkConnectionToClient connection, ResponseCode reason, string message = "")
 				=> StartCoroutine(_DisconnectClient(connection, reason, message));
 
-		private IEnumerator _DisconnectClient(NetworkConnection conn, ResponseCode reason, string message = "")
+		private IEnumerator _DisconnectClient(NetworkConnectionToClient conn, ResponseCode reason, string message = "")
 		{
 			var msg = new AuthResponseMessage
 			{

@@ -1,3 +1,5 @@
+using System;
+using HealthV2.Living.PolymorphicSystems.Bodypart;
 using UnityEngine;
 
 namespace HealthV2.Living.PolymorphicSystems
@@ -27,8 +29,22 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		}
 
+		public void InternalBodyPartAdded(BodyPart bodyPart, IBodyPartComponentBase BodyPartComponentBase)
+		{
+			BodyPartComponentBase.SetSystem(this, false);
+			BodyPartAdded(bodyPart);
+		}
+
+
 		public virtual void BodyPartAdded(BodyPart bodyPart)
 		{
+
+		}
+
+		public void InternalBodyPartRemoved(BodyPart bodyPart, IBodyPartComponentBase BodyPartComponentBase)
+		{
+			BodyPartComponentBase.SetSystem(this, true);
+			BodyPartRemoved(bodyPart);
 		}
 
 		public virtual void BodyPartRemoved(BodyPart bodyPart)
@@ -43,3 +59,4 @@ namespace HealthV2.Living.PolymorphicSystems
 		public abstract HealthSystemBase CloneThisSystem();
 	}
 }
+
