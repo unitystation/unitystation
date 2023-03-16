@@ -81,7 +81,7 @@ namespace AdminCommands
 				{
 					var message =
 						$"Failed Admin check with id: {player?.ClientId}, associated player with that id (null if not valid id): {player?.Username}," +
-						$"Possible hacked client with ip address: {sender?.address}, netIdentity object name: {sender?.identity.OrNull()?.name}]";
+						$"Possible hacked client with ip address: {sender?.identity?.connectionToClient?.address}, netIdentity object name: {sender?.identity.OrNull()?.name}]";
 					Logger.LogError(message, Category.Exploits);
 					LogAdminAction(message);
 				}

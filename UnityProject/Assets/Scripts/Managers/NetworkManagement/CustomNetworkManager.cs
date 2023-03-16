@@ -300,10 +300,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		base.OnStartServer();
 		NetworkManagerExtensions.RegisterServerHandlers();
 		// Fixes loading directly into the station scene
-		if (GameManager.Instance.LoadedDirectlyToStation)
-		{
-			GameManager.Instance.PreRoundStart();
-		}
+		GameManager.Instance.PreRoundStart();
 	}
 
 	public override void OnStartHost()
@@ -347,7 +344,6 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	//called on client side when client first connects to the server
 	public override void OnClientConnect()
 	{
-		Logger.Log($"We (the client) connected to the server {NetworkClient.connection.address}.", Category.Connections);
 		//Does this need to happen all the time? OnClientConnect can be called multiple times
 		NetworkManagerExtensions.RegisterClientHandlers();
 
@@ -385,7 +381,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 		//transfer to a temporary object
 		GameObject disconnectedViewer = Instantiate(CustomNetworkManager.Instance.disconnectedViewerPrefab);
-		NetworkServer.ReplacePlayerForConnection(conn, disconnectedViewer, System.Guid.NewGuid());
+		NetworkServer.ReplacePlayerForConnection(conn, disconnectedViewer, BitConverter.ToUInt32(System.Guid.NewGuid().ToByteArray(), 0), false);
 
 		foreach (var ownedObject in conn.clientOwnedObjects.ToArray())
 		{

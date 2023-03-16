@@ -51,7 +51,8 @@ MonoBehaviour:
   dontDestroyOnLoad: 1
   runInBackground: 1
   autoStartServerBuild: 1
-  serverTickRate: 100
+  autoConnectClientBuild: 0
+  sendRate: 100
   offlineScene: Assets/Scenes/ActiveScenes/Lobby.unity
   onlineScene: Assets/Scenes/ActiveScenes/OnlineScene.unity
   transport: {fileID: 752180679074368365}
@@ -5574,6 +5575,17 @@ MonoBehaviour:
   - {fileID: 7469762742606550612, guid: 744b0cb256b76454bb452aa847daf921, type: 3}
   - {fileID: 7469762742606550612, guid: 041da926944070b4a9056013727394ae, type: 3}
   - {fileID: 7469762742606550612, guid: 400c9a3ef18ca344ba6745843a4e5f15, type: 3}
+  snapshotSettings:
+    bufferTimeMultiplier: 2
+    catchupNegativeThreshold: -1
+    catchupPositiveThreshold: 1
+    catchupSpeed: 0.009999999776482582
+    slowdownSpeed: 0.009999999776482582
+    driftEmaDuration: 1
+    dynamicAdjustment: 1
+    dynamicAdjustmentTolerance: 1
+    deliveryTimeEmaDuration: 2
+  timeInterpolationGui: 0
   _isServer: 0
   humanPlayerPrefab: {fileID: 1133514949248654, guid: c4494414d24d2f2468e74daa79468631,
     type: 3}
