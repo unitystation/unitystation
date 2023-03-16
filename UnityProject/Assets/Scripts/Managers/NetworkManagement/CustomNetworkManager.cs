@@ -341,7 +341,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		Logger.LogTrace($"Spawning a GameObject for the client {conn}.", Category.Connections);
 		base.OnServerAddPlayer(conn);
 		SubSceneManager.Instance.AddNewObserverScenePermissions(conn);
-		UpdateRoundTimeMessage.Send(GameManager.Instance.StationTime.ToString("O"), GameManager.Instance.StationTimeInMinutes);
+		UpdateRoundTimeMessage.Send(GameManager.Instance.RoundTime.ToString("O"), GameManager.Instance.RoundTimeInMinutes);
 	}
 
 	//called on client side when client first connects to the server

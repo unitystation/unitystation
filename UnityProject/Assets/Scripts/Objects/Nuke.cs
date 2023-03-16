@@ -202,7 +202,7 @@ namespace Objects.Command
 				{
 					if (isTimerTicking)
 					{
-						GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.StationTime;
+						GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.RoundTime;
 						GameManager.Instance.CentComm.ChangeAlertLevel(CurrentAlertLevel);
 						this.TryStopCoroutine(ref timerHandle);
 						isTimerTicking = false;
@@ -239,7 +239,7 @@ namespace Objects.Command
 				if (isTimer && isTimerTicking)
 				{
 					isTimerTicking = false;
-					GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.StationTime;
+					GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.RoundTime;
 					GameManager.Instance.CentComm.ChangeAlertLevel(CurrentAlertLevel);
 					this.TryStopCoroutine(ref timerHandle);
 				}
@@ -267,7 +267,7 @@ namespace Objects.Command
 				isTimerTicking = true;
 				CurrentTimerSeconds = digit;
 				CurrentAlertLevel = GameManager.Instance.CentComm.CurrentAlertLevel;
-				GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.StationTime;
+				GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.RoundTime;
 				GameManager.Instance.CentComm.ChangeAlertLevel(CentComm.AlertLevel.Delta);
 				this.StartCoroutine(TickTimer(), ref timerHandle);
 				return true;

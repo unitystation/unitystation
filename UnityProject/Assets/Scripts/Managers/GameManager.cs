@@ -118,9 +118,15 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	public bool waitForStart;
 
 	[field: SerializeField, FormerlySerializedAs("stationTime")]
-	public DateTime StationTime { get; private set; }
-	public int StationTimeInMinutes { get; private set; }
-	public int RoundsPerMap { get; set; } = 10;
+	public DateTime RoundTime { get; private set; }
+
+	/// <summary>
+	/// Tracks the total number of minutes a round has had since it started. This is to avoid a bug with DateTime that resets
+	/// numbers when rounds spend more than 24 hours being active.
+	/// </summary>
+	public int RoundTimeInMinutes { get; private set; }
+
+	private int RoundsPerMap { get; set; } = 10;
 
 	//Is dependent on number of results
 	public static int RoundID;
@@ -233,7 +239,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	private void Start()
 	{
-		if ( CustomNetworkManager.IsServer ) UpdateManager.Add(UpdateMinutes, 1f);
+		if ( CustomNetworkManager.IsServer ) UpdateManager.Add(UpdateMinutes, 60f);
 	}
 
 	private void OnEnable()
@@ -258,7 +264,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	private void UpdateMinutes()
 	{
 		if ( counting == false ) return;
-		StationTimeInMinutes += 1;
+		RoundTimeInMinutes += 1;
 	}
 
 	///<summary>
@@ -418,7 +424,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		if (!CustomNetworkManager.Instance._isServer)
 		{
-			StationTime = DateTime.ParseExact(currentTime, "O", CultureInfo.InvariantCulture,
+			RoundTime = DateTime.ParseExact(currentTime, "O", CultureInfo.InvariantCulture,
 				DateTimeStyles.RoundtripKind);
 			counting = true;
 		}
@@ -426,8 +432,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	public void ResetRoundTime()
 	{
-		StationTimeInMinutes = 0;
-		StationTime = new DateTime().AddHours(12);
+		RoundTimeInMinutes = 0;
+		RoundTime = new DateTime().AddHours(12);
 		counting = true;
 		StartCoroutine(NotifyClientsRoundTime());
 	}
@@ -435,7 +441,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	IEnumerator NotifyClientsRoundTime()
 	{
 		yield return WaitFor.EndOfFrame;
-		UpdateRoundTimeMessage.Send(StationTime.ToString("O"), StationTimeInMinutes);
+		UpdateRoundTimeMessage.Send(RoundTime.ToString("O"), RoundTimeInMinutes);
 	}
 
 	private void UpdateMe()
@@ -460,8 +466,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 		else if (counting)
 		{
-			StationTime = StationTime.AddSeconds(Time.deltaTime);
-			roundTimer.text = StationTime.ToString("HH:mm:ss");
+			RoundTime = RoundTime.AddSeconds(Time.deltaTime);
+			roundTimer.text = RoundTime.ToString("HH:mm:ss");
 		}
 	}
 
@@ -552,8 +558,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 
 		// Standard round start setup
-		StationTime = new DateTime().AddHours(12);
-		StationTimeInMinutes = 0;
+		RoundTime = new DateTime().AddHours(12);
+		RoundTimeInMinutes = 0;
 		counting = true;
 		RespawnCurrentlyAllowed = GameMode.CanRespawn;
 		StartCoroutine(WaitToInitEscape());

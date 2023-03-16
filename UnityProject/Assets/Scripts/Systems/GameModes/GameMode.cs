@@ -458,7 +458,7 @@ namespace GameModes
 		/// </summary>
 		public void EndRoundReport()
 		{
-			var roundDuration = GameManager.Instance.StationTime.AddHours(-12);
+			var roundDuration = GameManager.Instance.RoundTime.AddHours(-12);
 			var output = $"A round has ended. Round duration: {roundDuration.ToString("HH:mm")}.";
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, $"`{output}`", "");
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL, $"```{output} Total errors: {GameManager.Instance.errorCounter}. Unique errors: {GameManager.Instance.uniqueErrorCounter}```", "");

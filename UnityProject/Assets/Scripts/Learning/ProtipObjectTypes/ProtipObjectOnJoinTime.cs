@@ -10,7 +10,7 @@ namespace Learning.ProtipObjectTypes
 
 		private void Start()
 		{
-			TriggerTip(GameManager.Instance.StationTimeInMinutes >= lateTime ? lateTip : TipSO);
+			TriggerTip(GameManager.Instance.RoundTimeInMinutes >= lateTime ? lateTip : TipSO);
 		}
 
 		protected override bool TriggerConditions(GameObject triggeredBy, ProtipSO protipSo)

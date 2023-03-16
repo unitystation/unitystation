@@ -130,7 +130,7 @@ namespace Managers
 			// Checks if there will be antags this round and sets the initial update/report
 			if (GameManager.Instance.GetGameModeName(true) != "Extended")
 			{
-				lastAlertChange = GameManager.Instance.StationTime;
+				lastAlertChange = GameManager.Instance.RoundTime;
 				SendAntagUpdate();
 			}
 			else
@@ -209,7 +209,7 @@ namespace Managers
 					UpdateSound.Alert);
 			}
 
-			lastAlertChange = gameManager.StationTime;
+			lastAlertChange = gameManager.RoundTime;
 			CurrentAlertLevel = toLevel;
 			OnAlertLevelChange?.Invoke();
 		}
