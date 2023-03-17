@@ -81,38 +81,67 @@ MonoBehaviour:
     CanShowUpInTheCharacterCreatorScreen: 1
     PreviewSprite: {fileID: 11400000, guid: 2f4ed06eb37f4c645a274b500687e360, type: 2}
     SystemSettings:
-    - rid: 5920833068371804171
-    - rid: 5920833068371804172
-    - rid: 5920833068371804173
-    - rid: 5920833068371804174
+    - rid: 5920833068371804161
+    - rid: 5920833068371804162
+    - rid: 5920833068371804164
+    - rid: 5920833068371804166
   references:
     version: 2
     RefIds:
-    - rid: 5920833068371804171
+    - rid: 5920833068371804161
+      type: {class: ReagentPoolSystem, ns: HealthV2.Living.PolymorphicSystems, asm: Assets}
+      data:
+        Base: {fileID: 0}
+        BloodPool:
+          temperature: 273.15
+          reagents:
+            m_keys: []
+            m_values: []
+          reagentKeys: []
+        StartingBlood: 500
+        bloodInfo: {fileID: 11400000, guid: 5a85f8bded849a44290c34e227cd4096, type: 2}
+        bloodType: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
+        PumpingDevices: []
+    - rid: 5920833068371804162
       type: {class: ChemicalMetabolismSystem, ns: HealthV2.Living.PolymorphicSystems,
         asm: Assets}
       data:
         Base: {fileID: 0}
-        ALLMetabolismReactions: []
+        ALLMetabolismReactions:
+        - {fileID: 11400000, guid: ac0c760ad1cbab341b756545ba0586a4, type: 2}
+        - {fileID: 11400000, guid: 764107d010af362458271da1cae0b721, type: 2}
+        - {fileID: 11400000, guid: be96438d1ece65d42ac82b073c5b0dbd, type: 2}
+        - {fileID: 11400000, guid: f3831b1acebd1cc49b8bedc1d561da2d, type: 2}
+        - {fileID: 11400000, guid: b68a4df01ef69964596c5dc9daa503fc, type: 2}
+        - {fileID: 11400000, guid: 2314f18e5395f214ca02e5976e2ac99e, type: 2}
+        - {fileID: 11400000, guid: e0148fad25511cf4282cedc206ee507a, type: 2}
+        - {fileID: 11400000, guid: a1c4a4720b715e84ab247305a46e923a, type: 2}
+        - {fileID: 11400000, guid: 2bb9f5c33f1a9cf4ea2a004aa7873462, type: 2}
+        - {fileID: 11400000, guid: 70f22bab240e3b3468ad4b1509c90e9f, type: 2}
+        - {fileID: 11400000, guid: 132f2cd5d79066e46af78ea80a196713, type: 2}
+        - {fileID: 11400000, guid: e83c05c9c83ddfc4c84a80bff9a2cc8c, type: 2}
+        - {fileID: 11400000, guid: 11e70b972f4994f40ba26c72d9bc4b5e, type: 2}
+        - {fileID: 11400000, guid: d6d894f88c77aa54e814bcd831ff6eab, type: 2}
+        - {fileID: 11400000, guid: c3c30039428d04945891a05a5b24d90b, type: 2}
+        - {fileID: 11400000, guid: a6633049f2276744bb1debe8b7a4f1fb, type: 2}
+        - {fileID: 11400000, guid: 9d9fccd4b659b2e45a6089eb7fd5a8ec, type: 2}
+        - {fileID: 11400000, guid: 467467a8d844a53429f385bc1d11d6b3, type: 2}
+        - {fileID: 11400000, guid: cdad4fded4aa182459103c9a59012dc8, type: 2}
+        - {fileID: 11400000, guid: 6783e379d47680046abcc3d47d62c03a, type: 2}
+        - {fileID: 11400000, guid: 1d6fd38b48113c8448800db674a5110c, type: 2}
+        - {fileID: 11400000, guid: 7b8e80a904cafcf41a634682976c06a0, type: 2}
+        - {fileID: 11400000, guid: 85b402a852ad1ad49b64886cd42e93ce, type: 2}
+        - {fileID: 11400000, guid: 3ea6d21ecff38954a9e1b05795f3f45e, type: 2}
+        - {fileID: 11400000, guid: b7d0a552223af4d4d9f3eb3217df9183, type: 2}
         MetabolismComponents: []
-    - rid: 5920833068371804172
-      type: {class: ChemicalMetabolismSystem, ns: HealthV2.Living.PolymorphicSystems,
+    - rid: 5920833068371804164
+      type: {class: HungerSystem, ns: HealthV2.Living.PolymorphicSystems, asm: Assets}
+      data:
+        Base: {fileID: 0}
+        BodyParts: []
+    - rid: 5920833068371804166
+      type: {class: NaturalChemicalReleaseSystem, ns: HealthV2.Living.PolymorphicSystems,
         asm: Assets}
       data:
         Base: {fileID: 0}
-        ALLMetabolismReactions: []
-        MetabolismComponents: []
-    - rid: 5920833068371804173
-      type: {class: ChemicalMetabolismSystem, ns: HealthV2.Living.PolymorphicSystems,
-        asm: Assets}
-      data:
-        Base: {fileID: 0}
-        ALLMetabolismReactions: []
-        MetabolismComponents: []
-    - rid: 5920833068371804174
-      type: {class: ChemicalMetabolismSystem, ns: HealthV2.Living.PolymorphicSystems,
-        asm: Assets}
-      data:
-        Base: {fileID: 0}
-        ALLMetabolismReactions: []
-        MetabolismComponents: []
+        BodyParts: []
