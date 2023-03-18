@@ -18,7 +18,8 @@ namespace Objects.Lighting
 	public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowerable, IServerLifecycle,
 		IMultitoolSlaveable
 	{
-		[SyncVar, SerializeField, FormerlySerializedAs("ONColour")] private Color currentOnColor;
+		[SyncVar, SerializeField, FormerlySerializedAs("ONColour")]
+		private Color currentOnColor;
 
 		public Color ONColour
 		{
@@ -98,6 +99,7 @@ namespace Objects.Lighting
 			ChangeCurrentState(InitialState);
 			traitRequired = currentState.TraitRequired;
 			RefreshBoxCollider();
+			lightSprite.Color = currentOnColor;
 		}
 
 		private void OnEnable()
