@@ -256,7 +256,7 @@ namespace Objects.Lighting
 		[ClientRpc]
 		private void SetAnimation()
 		{
-			lightSprite.Color = currentState.LightColor;
+			lightSprite.Color = ONColour;
 			switch (MountState)
 			{
 				case LightMountState.Emergency:
@@ -287,6 +287,7 @@ namespace Objects.Lighting
 
 					mLightRendererObject.transform.localScale = Vector3.one * 12.0f;
 					mLightRendererObject.SetActive(false);
+					lightSprite.Color = ONColour;
 					break;
 			}
 		}
