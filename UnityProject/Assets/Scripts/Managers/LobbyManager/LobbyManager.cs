@@ -225,7 +225,6 @@ namespace Lobby
 		public void JoinServer(string address, ushort port)
 		{
 			lobbyDialogue.ShowLoadingPanel("Joining game...");
-			NetworkManagerExtensions.RegisterClientHandlers();
 			GameScreenManager.Instance.serverIP = address;
 
 			LoadingScreenManager.LoadFromLobby(() =>
