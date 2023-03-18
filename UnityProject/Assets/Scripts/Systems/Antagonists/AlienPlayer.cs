@@ -424,30 +424,38 @@ namespace Systems.Antagonists
 				return;
 			}
 
-			var newAlienData = typeFound[0];
-
-			if (newAlienData == alienType)
+			try
 			{
-				Chat.AddExamineMsgFromServer(gameObject, $"You are already an {newAlien.ToString()}");
-				return;
+				var newAlienData = typeFound[0];
+
+				if (newAlienData == alienType)
+				{
+					Chat.AddExamineMsgFromServer(gameObject, $"You are already an {newAlien.ToString()}");
+					return;
+				}
+
+				Chat.AddActionMsgToChat(gameObject, "You begin to evolve!",
+					$"{playerScript.playerName} begins to twist and contort!");
+
+				var alienBody = PlayerSpawn.RespawnPlayerAt(playerScript.Mind, newAlienData.AlienOccupation, new CharacterSheet()
+				{
+					Name = "Alien"
+				}, playerScript.ObjectPhysics.OfficialPosition);
+
+
+				Chat.AddExamineMsgFromServer(gameObject, $"You evolve into a {alienType.Name}!");
+
+				var newAlienPlayer = alienBody.GetComponent<AlienPlayer>();
+
+				newAlienPlayer.SetUpFromPrefab(alienType, newAlienData,changeName, nameNumber);
+
+				newAlienPlayer.DoConnectCheck();
+
 			}
-
-			Chat.AddActionMsgToChat(gameObject, "You begin to evolve!",
-				$"{playerScript.playerName} begins to twist and contort!");
-
-			 var alienBody = PlayerSpawn.RespawnPlayerAt(playerScript.Mind, newAlienData.AlienOccupation, new CharacterSheet()
-			 {
-				 Name = "Alien"
-			 }, playerScript.ObjectPhysics.OfficialPosition);
-
-
-			Chat.AddExamineMsgFromServer(gameObject, $"You evolve into a {alienType.Name}!");
-
-			var newAlienPlayer = alienBody.GetComponent<AlienPlayer>();
-
-			newAlienPlayer.SetUpFromPrefab(alienType, newAlienData,changeName, nameNumber);
-
-			newAlienPlayer.DoConnectCheck();
+			catch (Exception e)
+			{
+				Logger.LogError(e.ToString());
+			}
 
 			_ = Despawn.ServerSingle(gameObject);
 		}
