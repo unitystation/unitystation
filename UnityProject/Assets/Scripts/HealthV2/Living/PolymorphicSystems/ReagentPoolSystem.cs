@@ -73,7 +73,8 @@ namespace HealthV2.Living.PolymorphicSystems
 			{
 				BloodPool = this.BloodPool.Clone(),
 				StartingBlood = this.StartingBlood,
-				bloodType = this.bloodType
+				bloodType = this.bloodType,
+				bloodInfo = this.bloodInfo
 			};
 		}
 	}

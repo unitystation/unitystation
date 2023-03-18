@@ -142,7 +142,7 @@ namespace Items.Implants.Organs
 
 		public override void ImplantPeriodicUpdate()
 		{
-			if (ReagentCirculatedComponent.AssociatedSystem.BloodPool.reagents.Contains(DrunkReagent))
+			if (ReagentCirculatedComponent.AssociatedSystem != null && ReagentCirculatedComponent.AssociatedSystem.BloodPool.reagents.Contains(DrunkReagent))
 			{
 				float DrunkPercentage  = ReagentCirculatedComponent.AssociatedSystem.BloodPool.GetPercent(DrunkReagent);
 				if (DrunkPercentage > 0)
