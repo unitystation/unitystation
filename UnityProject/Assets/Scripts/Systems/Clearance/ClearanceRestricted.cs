@@ -84,6 +84,14 @@ namespace Systems.Clearance
 				return false;
 			}
 
+			// Check hand first
+			var activeHandObject = playerStorage.GetActiveHandSlot().ItemObject;
+			if (activeHandObject != null && activeHandObject.TryGetComponent<IClearanceSource>(out var handObject))
+			{
+				if (HasClearance(handObject)) return true;
+			}
+
+
 			// Try get object in ID slot
 			foreach (var slot in playerStorage.GetNamedItemSlots(NamedSlot.id))
 			{
@@ -91,13 +99,6 @@ namespace Systems.Clearance
 				{
 					return HasClearance(idObject);
 				}
-			}
-
-			// Nothing worked, let's go with active hand
-			var activeHandObject = playerStorage.GetActiveHandSlot().ItemObject;
-			if (activeHandObject != null && activeHandObject.TryGetComponent<IClearanceSource>(out var handObject))
-			{
-				return HasClearance(handObject);
 			}
 
 			return HasClearance(null as IClearanceSource);
