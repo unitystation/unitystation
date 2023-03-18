@@ -18,18 +18,8 @@ namespace Objects.Lighting
 	public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowerable, IServerLifecycle,
 		IMultitoolSlaveable
 	{
-		[SyncVar, SerializeField, FormerlySerializedAs("ONColour")]
-		private Color currentOnColor;
-
-		public Color ONColour
-		{
-			get => currentOnColor;
-			set
-			{
-				currentOnColor = value;
-				SetAnimation();
-			}
-		}
+		[SyncVar(hook = nameof(SetAnimation)), SerializeField, FormerlySerializedAs("ONColour")]
+		public Color CurrentOnColor;
 
 		public Color EmergencyColour;
 
@@ -99,7 +89,11 @@ namespace Objects.Lighting
 			ChangeCurrentState(InitialState);
 			traitRequired = currentState.TraitRequired;
 			RefreshBoxCollider();
-			SetAnimation();
+		}
+
+		private void Start()
+		{
+			lightSprite.Color = CurrentOnColor;
 		}
 
 		private void OnEnable()
@@ -199,7 +193,7 @@ namespace Objects.Lighting
 			MountState = newState;
 			ChangeCurrentState(newState);
 			SetSprites();
-			SetAnimation();
+			SetAnimation(CurrentOnColor, CurrentOnColor);
 		}
 
 		private void ChangeCurrentState(LightMountState newState)
@@ -254,11 +248,10 @@ namespace Objects.Lighting
 
 			RefreshBoxCollider();
 		}
-
-		[ClientRpc]
-		private void SetAnimation()
+		
+		private void SetAnimation(Color oldState, Color newState)
 		{
-			lightSprite.Color = ONColour;
+			lightSprite.Color = newState;
 			switch (MountState)
 			{
 				case LightMountState.Emergency:
@@ -277,7 +270,7 @@ namespace Objects.Lighting
 						emergencyLightAnimator.StopAnimation();
 					}
 
-					lightSprite.Color = ONColour;
+					lightSprite.Color = newState;
 					mLightRendererObject.transform.localScale = Vector3.one * 12.0f;
 					mLightRendererObject.SetActive(true);
 					break;

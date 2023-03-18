@@ -98,7 +98,7 @@ namespace Items.Tool
 
 		private void SetLightColors(LightSource source)
 		{
-			source.ONColour = currentColor;
+			source.CurrentOnColor = currentColor;
 		}
 
 		public string HoverTip()
