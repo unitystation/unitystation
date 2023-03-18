@@ -148,6 +148,7 @@ namespace Objects.Command
 			}
 			else
 			{
+				GameManager.Instance.RoundEndTime = 15;
 				GameManager.Instance.EndRound();
 			}
 		}

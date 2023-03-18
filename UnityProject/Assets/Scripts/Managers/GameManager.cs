@@ -636,9 +636,23 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 
 		CurrentRoundState = RoundState.Ended;
-		EventManager.Broadcast(Event.RoundEnded, true);
-		GameMode.EndRoundReport();
+		try
+		{
+			EventManager.Broadcast(Event.RoundEnded, true);
+		}
+		catch (Exception e)
+		{
+			Logger.LogError(e.ToString());
+		}
 
+		try
+		{
+			GameMode.EndRoundReport();
+		}
+		catch (Exception e)
+		{
+			Logger.LogError(e.ToString());
+		}
 
 		counting = false;
 
@@ -652,7 +666,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// </summary>
 	private IEnumerator WaitForRoundRestart()
 	{
-		Logger.Log($"Waiting {RoundEndTime} seconds to restart...", Category.Round);
+		Logger.LogError($"Waiting {RoundEndTime} seconds to restart...", Category.Round);
 		yield return WaitFor.Seconds(RoundEndTime);
 		RestartRound();
 	}
@@ -863,11 +877,15 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// </summary>
 	public void RestartRound()
 	{
-		if (CustomNetworkManager.Instance._isServer == false) return;
+		if (CustomNetworkManager.Instance._isServer == false)
+		{
+			Logger.LogError("Cannot restart round, Is not server!", Category.Round);
+			return;
+		}
 
 		if (CurrentRoundState == RoundState.Restarting)
 		{
-			Logger.Log("Cannot restart round, round is already restarting!", Category.Round);
+			Logger.LogError("Cannot restart round, round is already restarting!", Category.Round);
 			return;
 		}
 
@@ -906,10 +924,26 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			// Notify all clients that the round has ended
 			EventManager.Broadcast(Event.RoundEnded, true);
 			EventManager.Broadcast(Event.SceneUnloading, true);
-			CleanupUtil.EndRoundCleanup();
+			try
+			{
+				CleanupUtil.EndRoundCleanup();
+			}
+			catch (Exception e)
+			{
+				Logger.LogError(e.ToString());
+			}
+			
 			EventManager.Broadcast(Event.CleanupEnd, true);
 			yield return WaitFor.Seconds(0.2f);
-			CleanupUtil.CleanupInbetweenScenes();
+
+			try
+			{
+				CleanupUtil.CleanupInbetweenScenes();
+			}
+			catch (Exception e)
+			{
+				Logger.LogError(e.ToString());
+			}
 
 			EventManager.Broadcast(Event.Cleanup, true);
 
