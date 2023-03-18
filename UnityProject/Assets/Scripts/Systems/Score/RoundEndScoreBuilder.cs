@@ -52,7 +52,7 @@ namespace Systems.Score
 			{
 				ScoreMachine.AddNewScoreEntry("captainWithHisShip", "Captain goes down with his ship", ScoreMachine.ScoreType.Bool, ScoreCategory.StationScore, ScoreAlignment.Good);
 				ScoreMachine.AddToScoreBool(MatrixManager.MainStationMatrix.Matrix.PresentPlayers.Any(crew =>
-					crew.PlayerScript.Mind.occupation == captainOccupation), "captainWithHisShip");
+					crew.OrNull()?.PlayerScript.OrNull()?.Mind.OrNull()?.occupation == captainOccupation), "captainWithHisShip");
 			}
 			//How many dead crew are there if there are more than two crewmembers?
 			if (PlayerList.Instance.AllPlayers.Count > 2)
