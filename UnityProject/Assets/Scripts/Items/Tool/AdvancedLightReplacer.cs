@@ -91,6 +91,8 @@ namespace Items.Tool
 		[Command(requiresAuthority = false)]
 		private void SetColorToTune(Color newColor)
 		{
+			if (gameObject.PickupableOrNull()?.ItemSlot == null) return;
+			if (gameObject.PickupableOrNull()?.ItemSlot.NamedSlot != NamedSlot.hands) return;
 			currentColor = newColor;
 		}
 
