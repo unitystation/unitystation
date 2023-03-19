@@ -22,6 +22,7 @@ namespace Systems.Scenes
 		{
 			foreach (MaintGenerator maintGenerator in MaintGenerators)
 			{
+				if (maintGenerator == null) continue;
 				maintGenerator.CreateTiles();
 				maintGenerator.PlaceObjects();
 			}
