@@ -51,12 +51,19 @@ namespace HealthV2
 			}
 		}
 
-		public void HealTraumaStage(TraumaticDamageTypes traumaToHeal)
+		public bool HealTraumaStage(TraumaticDamageTypes traumaToHeal)
 		{
+			var healed = false;
 			foreach (var logic in traumaTypesOnBodyPart)
 			{
-				if (traumaToHeal.HasFlag(logic.traumaTypes)) logic.HealStage();
+				if (traumaToHeal.HasFlag(logic.traumaTypes))
+				{
+					logic.HealStage();
+					healed = true;
+				}
 			}
+
+			return healed;
 		}
 	}
 }
