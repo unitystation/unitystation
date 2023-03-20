@@ -248,8 +248,8 @@ namespace Objects.Lighting
 
 			RefreshBoxCollider();
 		}
-		
-		private void SetAnimation(Color oldState, Color newState)
+
+		public void SetAnimation(Color oldState, Color newState)
 		{
 			lightSprite.Color = newState;
 			switch (MountState)
