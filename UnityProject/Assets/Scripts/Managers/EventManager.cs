@@ -94,7 +94,15 @@ public class EventManager : MonoBehaviour
 
 		if (CustomNetworkManager.IsServer && network)
 		{
-			TriggerEventMessage.SendToAll(evnt);
+			try
+			{
+				TriggerEventMessage.SendToAll(evnt);
+			}
+			catch (Exception e)
+			{
+				Logger.LogError(e.ToString());
+			}
+
 		}
 		else
 		{

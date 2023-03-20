@@ -168,6 +168,12 @@ namespace Objects.Wallmounts.Switches
 		{
 			foreach (var turret in turrets)
 			{
+				if (turret == null)
+				{
+					Logger.LogError($"null turrets in Turret switch at {this.transform.localPosition}");
+					continue;
+				}
+
 				if (isOn == false)
 				{
 					turret.ChangeBulletState(Turret.TurretState.Off);
