@@ -56,7 +56,7 @@ namespace HealthV2
 			var healed = false;
 			foreach (var logic in traumaTypesOnBodyPart)
 			{
-				if (traumaToHeal.HasFlag(logic.traumaTypes))
+				if (traumaToHeal.HasFlag(logic.traumaTypes) && logic.CurrentStage > 0)
 				{
 					logic.HealStage();
 					healed = true;

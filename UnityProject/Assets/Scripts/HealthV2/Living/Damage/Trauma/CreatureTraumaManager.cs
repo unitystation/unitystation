@@ -18,7 +18,6 @@ namespace HealthV2
 		public bool HealBodyPartTrauma(BodyPart bodyPart, TraumaticDamageTypes traumaToHeal)
 		{
 			if (bodyPart == null || Traumas.ContainsKey(bodyPart) == false) return false;
-			if (Traumas[bodyPart])
 			Traumas[bodyPart].HealTraumaStage(traumaToHeal);
 			return true;
 		}
