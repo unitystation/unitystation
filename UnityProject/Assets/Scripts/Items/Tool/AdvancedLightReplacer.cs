@@ -85,15 +85,22 @@ namespace Items.Tool
 		private void LightTunerWindowOpen(NetworkConnection target)
 		{
 			UIManager.Instance.GlobalColorPicker.CurrentColor = currentColor;
-			UIManager.Instance.GlobalColorPicker.EnablePicker(SetColorToTune);
+			UIManager.Instance.GlobalColorPicker.EnablePicker(SetColorToTuneWapper);
 		}
 
 		[Command(requiresAuthority = false)]
-		private void SetColorToTune(Color newColor)
+		private void SetColorToTune(Color newColor, NetworkConnectionToClient sender = null)
 		{
+			if (sender == null) return;
+			if (Validations.CanApply(PlayerList.Instance.Get(sender).Script, this.gameObject, NetworkSide.Server, false, ReachRange.Standard) == false) return;
 			if (gameObject.PickupableOrNull().ItemSlot == null) return;
 			if (gameObject.PickupableOrNull().ItemSlot.Player == null) return;
 			currentColor = newColor;
+		}
+
+		private void SetColorToTuneWapper(Color newColor)
+		{
+			SetColorToTune(newColor);
 		}
 
 		private void SetLightColors(LightSource source)
