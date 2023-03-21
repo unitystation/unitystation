@@ -37,6 +37,9 @@ namespace GameModes
 					Explosion.StartExplosion(possibleBrother.Owner.Body.gameObject.AssumedWorldPosServer().CutToInt(), 750);
 				}
 			}
+
+			if(GameManager.Instance.CurrentRoundState == RoundState.Ended) return;
+			GameManager.Instance.EndRound();
 		}
 
 		public static bool AreBrothersAlive()
