@@ -13,6 +13,11 @@ namespace GameModes
 		public override void EndRoundReport()
 		{
 			base.EndRoundReport();
+			CheckFreedomStatus();
+		}
+
+		private static void CheckFreedomStatus()
+		{
 			if (AreBrothersAlive() && BrothersEarnedTheirFreedom())
 			{
 				Chat.AddGameWideSystemMsgToChat("<color=green><size+=35>The Blood Brothers have earned their freedom.");
@@ -31,7 +36,8 @@ namespace GameModes
 				if (possibleBrother.Antagonist is not BloodBrother) continue;
 				Chat.AddExamineMsg(possibleBrother.Owner.Body.gameObject,
 					"You feel your fellow brother part ways with their body.. And you follow them.");
-				possibleBrother.Owner.CurrentPlayScript.playerHealth.Death();
+				// We do this to avoid a stack overflow.
+				if (possibleBrother.Owner.CurrentPlayScript.IsDeadOrGhost == false) possibleBrother.Owner.CurrentPlayScript.playerHealth.Death(false);
 				if (DMMath.Prob(15))
 				{
 					Explosion.StartExplosion(possibleBrother.Owner.Body.gameObject.AssumedWorldPosServer().CutToInt(), 750);
@@ -39,7 +45,14 @@ namespace GameModes
 			}
 
 			if(GameManager.Instance.CurrentRoundState == RoundState.Ended) return;
-			GameManager.Instance.EndRound();
+			if (GameManager.Instance.GameMode is BloodBrothers)
+			{
+				GameManager.Instance.EndRound();
+			}
+			else
+			{
+				CheckFreedomStatus();
+			}
 		}
 
 		public static bool AreBrothersAlive()
@@ -53,7 +66,7 @@ namespace GameModes
 			return true;
 		}
 
-		private bool BrothersEarnedTheirFreedom()
+		private static bool BrothersEarnedTheirFreedom()
 		{
 			var totalNumberOfObjectives = 0;
 			var totalNumberOfObjectivesCompleted = 0;
