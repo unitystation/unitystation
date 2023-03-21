@@ -468,7 +468,7 @@ namespace GameModes
 		/// <summary>
 		/// End the round and display any relevant reports
 		/// </summary>
-		public void EndRoundReport()
+		public virtual void EndRoundReport()
 		{
 			var roundDuration = GameManager.Instance.RoundTime.AddHours(-12);
 			var output = $"A round has ended. Round duration: {roundDuration.ToString("HH:mm")}.";

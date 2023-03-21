@@ -25,7 +25,7 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
   textColor: {r: 1, g: 0, b: 0, a: 1}
   backgroundColor: {r: 0.1792453, g: 0, b: 0.067857586, a: 1}
-  numberOfObjectives: 2
+  numberOfObjectives: 3
   canUseSharedObjectives: 1
   needsEscapeObjective: 0
   chanceForGimmickObjective: 50
@@ -33,4 +33,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7bea1ef82dee8264aabacb465d9a7946, type: 2}
   antagOccupation: {fileID: 0}
   showInPreferences: 1
-  extraHealthForBrothers: 350
+  extraHealthForBrothers: 550
+  paranoiaSickness: {fileID: 8177265969630170377, guid: ad489c5a66fec7f418fa5935feb9efa2,
+    type: 3}

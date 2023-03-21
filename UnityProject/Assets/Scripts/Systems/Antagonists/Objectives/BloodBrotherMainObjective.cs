@@ -1,4 +1,5 @@
-﻿using Systems.Antagonists.Antags;
+﻿using GameModes;
+using Systems.Antagonists.Antags;
 using UnityEngine;
 
 namespace Antagonists
@@ -10,13 +11,7 @@ namespace Antagonists
 
 		protected override bool CheckCompletion()
 		{
-			foreach (var possibleBrother in AntagManager.Instance.ActiveAntags)
-			{
-				if (possibleBrother.Antagonist is not BloodBrother) continue;
-				if (possibleBrother.Owner.CurrentPlayScript.playerHealth.IsDead == false) continue;
-				return false;
-			}
-			return true;
+			return BloodBrothers.AreBrothersAlive();
 		}
 	}
 }
