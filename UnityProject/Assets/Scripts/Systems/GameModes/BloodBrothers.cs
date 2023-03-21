@@ -21,11 +21,11 @@ namespace GameModes
 		{
 			if (AreBrothersAlive() && BrothersEarnedTheirFreedom())
 			{
-				Chat.AddGameWideSystemMsgToChat("<color=green><size+=35>The Blood Brothers have earned their freedom.</size></color>");
+				Chat.AddGameWideSystemMsgToChat("<color=green><size=+35>The Blood Brothers have earned their freedom.</size></color>");
 			}
 			else
 			{
-				Chat.AddGameWideSystemMsgToChat("<color=red><size+=35>The Blood Brothers have failed to earn their freedom.</size></color>");
+				Chat.AddGameWideSystemMsgToChat("<color=red><size=+35>The Blood Brothers have failed to earn their freedom.</size></color>");
 			}
 		}
 
