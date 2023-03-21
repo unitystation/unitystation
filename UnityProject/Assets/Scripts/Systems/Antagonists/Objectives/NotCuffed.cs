@@ -12,8 +12,13 @@ namespace Antagonists
 
 		protected override bool CheckCompletion()
 		{
+			if (Owner == null)
+			{
+				Logger.LogError("[Objective/NotCuffed] - No owner found! Giving free objective.");
+				return true;
+			}
 			//for whatever reason this is null, give the guy the greentext
-			if (Owner == null || Owner.Body == null || Owner.Body.TryGetComponent<DynamicItemStorage>(out var dynamicItemStorage) == false) return true;
+			if (Owner.Body == null || Owner.Body.TryGetComponent<DynamicItemStorage>(out var dynamicItemStorage) == false) return true;
 
 			foreach (var handCuffs in dynamicItemStorage.GetNamedItemSlots(NamedSlot.handcuffs))
 			{
