@@ -70,7 +70,7 @@ namespace GameModes
 				}
 			}
 
-			return (int)Math.Round((double)(100 * totalNumberOfObjectivesCompleted) / totalNumberOfObjectives) > 75;
+			return totalNumberOfObjectivesCompleted / totalNumberOfObjectives > 0.7;
 		}
 	}
 }
