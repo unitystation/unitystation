@@ -270,6 +270,8 @@ namespace HealthV2
 		public event Action<DamageType, GameObject> OnTakeDamageType;
 		public event Action OnLowHealth;
 
+		public event Action OnDeath;
+
 		[SyncVar] public bool CannotRecognizeNames = false;
 
 
@@ -1326,6 +1328,7 @@ namespace HealthV2
 
 			SetConsciousState(ConsciousState.DEAD);
 			OnDeathActions();
+			OnDeath?.Invoke();
 		}
 
 		protected abstract void OnDeathActions();

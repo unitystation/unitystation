@@ -84,6 +84,10 @@ namespace GameModes
 		[SerializeField]
 		[Min(1)]
 		private int maxAntags = 100;
+
+		[SerializeField]
+		protected int hardNumberOfAntagsToSpawn = 0;
+
 		/// <summary>
 		/// The maximum amount of antags spawned in the gamemode.
 		/// If <see cref="forceMinAntags"/> is true, the number of chosen antags will be rounded up to this number.
@@ -362,36 +366,8 @@ namespace GameModes
 			int antagsToSpawn = CalculateAntagCount(PlayerList.Instance.ReadyPlayers.Count);
 			var jobAllocator = new JobAllocator();
 			var playerPool = PlayerList.Instance.ReadyPlayers;
-			try
-			{
-				if (AllocateJobsToAntags)
-				{
-					// Allocate jobs to all players first then choose antags
-					playerSpawnRequests = jobAllocator.DetermineJobs(playerPool);
-					var antagCandidates = playerSpawnRequests.Where(p =>
-						!NonAntagJobTypes.Contains(p.RequestedOccupation.JobType) &&
-						HasPossibleAntagEnabled(ref p.CharacterSettings.AntagPreferences) && HasPossibleAntagNotBanned(p.Player.UserId));
-					antagSpawnRequests = antagCandidates.PickRandom(antagsToSpawn).ToList();
-					// Player and antag spawn requests are kept separate to stop players being spawned twice
-					playerSpawnRequests.RemoveAll(antagSpawnRequests.Contains);
-				}
-				else
-				{
-					// Choose antags first then allocate jobs to all other players
-					var antagCandidates = playerPool.Where(p =>
-						HasPossibleAntagEnabled(ref p.RequestedCharacterSettings.AntagPreferences) && HasPossibleAntagNotBanned(p.UserId));
-					var chosenAntags = antagCandidates.PickRandom(antagsToSpawn).ToList();
-					// Player and antag spawn requests are kept separate to stop players being spawned twice
-					playerPool.RemoveAll(chosenAntags.Contains);
-					playerSpawnRequests = jobAllocator.DetermineJobs(playerPool);
-					antagSpawnRequests = chosenAntags.Select(player => new PlayerSpawnRequest(player, null)).ToList();
-				}
 
-			}
-			catch (Exception e)
-			{
-				Logger.LogError("Failed on Antag Job Allocation" + e.ToString());
-			}
+			AntagJobAllocation(jobAllocator, playerPool, playerSpawnRequests, antagSpawnRequests, antagsToSpawn);
 
 			// Spawn all players and antags
 			foreach (var spawnReq in playerSpawnRequests)
@@ -435,11 +411,47 @@ namespace GameModes
 			EventManager.Broadcast(Event.RoundStarted, true);
 		}
 
+		protected void AntagJobAllocation(JobAllocator jobAllocator, List<PlayerInfo> playerPool,
+			List<PlayerSpawnRequest> playerSpawnRequests, List<PlayerSpawnRequest> antagSpawnRequests, int antagsToSpawn)
+		{
+			try
+			{
+				if (AllocateJobsToAntags)
+				{
+					// Allocate jobs to all players first then choose antags
+					playerSpawnRequests = jobAllocator.DetermineJobs(playerPool);
+					var antagCandidates = playerSpawnRequests.Where(p =>
+						!NonAntagJobTypes.Contains(p.RequestedOccupation.JobType) &&
+						HasPossibleAntagEnabled(ref p.CharacterSettings.AntagPreferences) && HasPossibleAntagNotBanned(p.Player.UserId));
+					antagSpawnRequests = antagCandidates.PickRandom(antagsToSpawn).ToList();
+					// Player and antag spawn requests are kept separate to stop players being spawned twice
+					playerSpawnRequests.RemoveAll(antagSpawnRequests.Contains);
+				}
+				else
+				{
+					// Choose antags first then allocate jobs to all other players
+					var antagCandidates = playerPool.Where(p =>
+						HasPossibleAntagEnabled(ref p.RequestedCharacterSettings.AntagPreferences) && HasPossibleAntagNotBanned(p.UserId));
+					var chosenAntags = antagCandidates.PickRandom(antagsToSpawn).ToList();
+					// Player and antag spawn requests are kept separate to stop players being spawned twice
+					playerPool.RemoveAll(chosenAntags.Contains);
+					playerSpawnRequests = jobAllocator.DetermineJobs(playerPool);
+					antagSpawnRequests = chosenAntags.Select(player => new PlayerSpawnRequest(player, null)).ToList();
+				}
+
+			}
+			catch (Exception e)
+			{
+				Logger.LogError("Failed on Antag Job Allocation" + e.ToString());
+			}
+		}
+
 		/// <summary>
 		/// Calculates how many antags should be chosen at round start based on the player count.
 		/// </summary>
-		private int CalculateAntagCount(int playerCount)
+		protected int CalculateAntagCount(int playerCount)
 		{
+			if (hardNumberOfAntagsToSpawn > 0) return hardNumberOfAntagsToSpawn;
 			var antagCount = Math.Min((int)Math.Floor(playerCount * antagRatio), maxAntags);
 			// If RequiresMinAntags is true then round up to MinAntags if antagCount is below
 			return ForceMinAntags ? Math.Max(MinAntags, antagCount) : antagCount;
