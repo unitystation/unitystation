@@ -13,19 +13,21 @@ MonoBehaviour:
   m_Name: BloodBrothers
   m_EditorClassIdentifier: 
   gameModeName: Blood Brothers
-  description: Two syndicate agents bound with their blood must complete objectives
-    together with limited resources. If one of the antag dies, the other ones dies
-    as well.
-  canRespawn: 0
+  description: Two syndicate agents bound by their blood to each other after being
+    expiremented on in prison must complete objectives together with limited resources.
+    If one of the antag dies, the other ones dies as well.
+  canRespawn: 1
   minPlayers: 6
-  antagRatio: 0
+  antagRatio: 0.2
   minAntags: 2
-  maxAntags: 2
+  maxAntags: 4
   hardNumberOfAntagsToSpawn: 2
   forceMinAntags: 1
   teamGameMode: 1
-  midRoundAntags: 0
+  midRoundAntags: 1
   midRoundAntagsChance: 25
-  possibleAntags: []
+  possibleAntags:
+  - {fileID: 11400000, guid: 054c3003e031e0a4c9146f6b0f806940, type: 2}
+  - {fileID: 11400000, guid: c060c33698c0f81449f0735a800740ca, type: 2}
   allocateJobsToAntags: 1
   nonAntagJobTypes: 06000000160000001700000023000000210000001100000001000000

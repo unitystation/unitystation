@@ -15,16 +15,20 @@ namespace Systems.Antagonists.Antags
 		public override void AfterSpawn(Mind SpawnMind)
 		{
 			Chat.AddExamineMsg(SpawnMind.Body.gameObject,
-				"<color=red>You're a convicted prisoner who was given" +
-				"a new chance for freedom by the syndicate. You and your blood brothers <b>must all succeed</b> to earn your freedom, or die trying.</color>");
+				"<color=red>You're a convicted prisoner and test subject who was given " +
+				"a new chance for freedom by the syndicate.\n You and your blood brothers <b>must all succeed</b> to earn your freedom, or die trying.</color>");
 			CheckForOtherBloodBrothers(SpawnMind.Body.gameObject);
 			SpawnMind.Body.playerHealth.OnDeath += BloodBrothers.OnBrotherDeath;
 			SpawnMind.Body.playerHealth.SetMaxHealth(SpawnMind.Body.playerHealth.MaxHealth + extraHealthForBrothers);
 			if (DMMath.Prob(15))
 			{
 				SpawnMind.Body.playerHealth.AddSickness(paranoiaSickness);
-				Chat.AddExamineMsg(SpawnMind.Body.gameObject, "Due to your past in prison.. You've gained paranoia from the experiments they've done on you.");
+				Chat.AddExamineMsg(SpawnMind.Body.gameObject, 
+					"Due to your past in prison.. You've gained paranoia from the experiments they've done on you.");
+				return;
 			}
+			Chat.AddExamineMsg(SpawnMind.Body.gameObject, 
+				"You feel much more resilient.");
 		}
 
 		private async void CheckForOtherBloodBrothers(GameObject spawnMind)
