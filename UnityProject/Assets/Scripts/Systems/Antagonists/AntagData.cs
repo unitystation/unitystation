@@ -124,7 +124,9 @@ namespace Antagonists
 
 			foreach (var alwaysStartWithObjective in antag.AlwaysStartWithObjectives)
 			{
-				generatedObjs.Add(Instantiate(alwaysStartWithObjective));
+				var objectiveNew = Instantiate(alwaysStartWithObjective);
+				objectiveNew.DoSetup(Mind);
+				generatedObjs.Add(objectiveNew);
 			}
 
 			return generatedObjs;
