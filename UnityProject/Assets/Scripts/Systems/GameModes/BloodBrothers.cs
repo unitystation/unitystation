@@ -14,6 +14,7 @@ namespace GameModes
 		{
 			base.EndRoundReport();
 			CheckFreedomStatus();
+			if(BrothersEarnedTheirFreedom() == false) OnBrotherDeath();
 		}
 
 		private static void CheckFreedomStatus()
@@ -25,7 +26,6 @@ namespace GameModes
 			else
 			{
 				Chat.AddGameWideSystemMsgToChat("<color=red><size+=35>The Blood Brothers have failed to earn their freedom.</size></color>");
-				OnBrotherDeath();
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace GameModes
 				}
 			}
 
-			if(GameManager.Instance.CurrentRoundState == RoundState.Ended) return;
+			if (GameManager.Instance.CurrentRoundState == RoundState.Ended) return;
 			if (GameManager.Instance.GameMode is BloodBrothers)
 			{
 				GameManager.Instance.EndRound();
