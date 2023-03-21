@@ -12,6 +12,12 @@ namespace Systems.Antagonists.Antags
 	{
 		[SerializeField] private float extraHealthForBrothers = 350f;
 		[SerializeField] private Sickness paranoiaSickness;
+
+		[Tooltip("For use in Syndicate Uplinks")]
+		[SerializeField]
+		private int initialTC = 12;
+
+
 		public override void AfterSpawn(Mind SpawnMind)
 		{
 			Chat.AddExamineMsg(SpawnMind.Body.gameObject,
@@ -20,14 +26,15 @@ namespace Systems.Antagonists.Antags
 			CheckForOtherBloodBrothers(SpawnMind.Body.gameObject);
 			SpawnMind.Body.playerHealth.OnDeath += BloodBrothers.OnBrotherDeath;
 			SpawnMind.Body.playerHealth.SetMaxHealth(SpawnMind.Body.playerHealth.MaxHealth + extraHealthForBrothers);
+			AntagManager.TryInstallPDAUplink(SpawnMind, initialTC, false);
 			if (DMMath.Prob(15))
 			{
 				SpawnMind.Body.playerHealth.AddSickness(paranoiaSickness);
-				Chat.AddExamineMsg(SpawnMind.Body.gameObject, 
+				Chat.AddExamineMsg(SpawnMind.Body.gameObject,
 					"Due to your past in prison.. You've gained paranoia from the experiments they've done on you.");
 				return;
 			}
-			Chat.AddExamineMsg(SpawnMind.Body.gameObject, 
+			Chat.AddExamineMsg(SpawnMind.Body.gameObject,
 				"You feel much more resilient.");
 		}
 
