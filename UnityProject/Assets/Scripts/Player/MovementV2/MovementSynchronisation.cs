@@ -839,7 +839,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		}
 	}
 
-
 	public void ReceivePlayerMoveAction(PlayerAction moveActions)
 	{
 		if (UIManager.IsInputFocus) return;
@@ -863,6 +862,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 		if (CanInPutMove())
 		{
+
+
 			var newMoveData = new MoveData()
 			{
 				LocalPosition = transform.localPosition,

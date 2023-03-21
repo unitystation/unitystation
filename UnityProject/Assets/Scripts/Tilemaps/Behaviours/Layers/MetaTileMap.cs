@@ -6,6 +6,7 @@ using System.Threading;
 using Messages.Server;
 using Objects;
 using Objects.Atmospherics;
+using ScriptableObjects;
 using Tiles;
 using UnityEngine;
 #if UNITY_EDITOR
@@ -161,6 +162,17 @@ namespace TileManagement
 								Tile.layerTile = getTile;
 								Tile.Colour = layer.Tilemap.GetColor(localPlace);
 								Tile.transformMatrix = layer.Tilemap.GetTransformMatrix(localPlace);
+
+								if (layer.LayerType is LayerType.Walls or LayerType.Windows)
+								{
+									var Sprite3D = Instantiate(CommonPrefabs.Instance.Cube3D, localPlace + new Vector3Int(1,1,0), new Quaternion(),
+										this.transform).GetComponent<SetCubeSprite>();
+
+									Tile.AssociatedSetCubeSprite = Sprite3D;
+									Sprite3D.SetSprite(getTile.PreviewSprite);
+								}
+
+
 								ToInsertDictionary[localPlace] = Tile;
 								InBoundLocations.ExpandToPoint2D(localPlace);
 							}

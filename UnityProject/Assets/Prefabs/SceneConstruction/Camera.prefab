@@ -558,6 +558,7 @@ GameObject:
   - component: {fileID: 7171882492086519817}
   - component: {fileID: 7964655504328845500}
   - component: {fileID: 8481840996761083126}
+  - component: {fileID: 1571278215165730018}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -776,6 +777,8 @@ MonoBehaviour:
   maxDrunkTime: 120
   maxFlashTime: 25
   LightingSystem: {fileID: 0}
+  BlindFOVDistance: 0.65
+  FullVisionFOVDistance: 15
 --- !u!114 &5935000786866830145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -858,6 +861,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 99ecfeede2d287d4eb583cf0f6914645, type: 2}
   CurrentColourMode: 1
+--- !u!114 &1571278215165730018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365047106309440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 009c8f3df7c35d64199c7796baaa0f06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1456048741972242
 GameObject:
   m_ObjectHideFlags: 0

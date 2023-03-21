@@ -39,7 +39,7 @@ public class Camera2DFollow : MonoBehaviour
 	private float lookAheadFactor;
 	private Vector3 lookAheadPos;
 	private float lookAheadSave;
-	private float offsetZ = -1f;
+	public float offsetZ = -1f;
 
 	public Transform starsBackground;
 	public float pixelAdjustment = 64f;
@@ -80,10 +80,7 @@ public class Camera2DFollow : MonoBehaviour
 	private void Start()
 	{
 		lookAheadSave = lookAheadFactor;
-		if (target != null)
-		{
-			offsetZ = (transform.position - target.position).z;
-		}
+
 		transform.parent = null;
 		starsBackground.parent = null;
 	}
@@ -133,7 +130,8 @@ public class Camera2DFollow : MonoBehaviour
 
 			}
 
-			Vector3 aheadTargetPos = target.gameObject.AssumedWorldPosServer() + Vector3.forward * offsetZ;
+			Vector3 aheadTargetPos =
+				target.gameObject.AssumedWorldPosServer() + new Vector3(0, 0, offsetZ);
 
 			aheadTargetPos.y += yOffSet;
 
