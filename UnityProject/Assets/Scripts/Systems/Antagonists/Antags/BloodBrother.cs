@@ -4,6 +4,7 @@ using GameModes;
 using Health.Sickness;
 using UnityEngine;
 using Task = System.Threading.Tasks.Task;
+using Wizard = Antagonists.Wizard;
 
 namespace Systems.Antagonists.Antags
 {
@@ -27,6 +28,12 @@ namespace Systems.Antagonists.Antags
 			SpawnMind.Body.playerHealth.OnDeath += BloodBrothers.OnBrotherDeath;
 			SpawnMind.Body.playerHealth.SetMaxHealth(SpawnMind.Body.playerHealth.MaxHealth + extraHealthForBrothers);
 			AntagManager.TryInstallPDAUplink(SpawnMind, initialTC, false);
+			if (DMMath.Prob(25))
+			{
+				Wizard.AddSpellToPlayer(Wizard.GetRandomWizardSpell(), SpawnMind);
+				Chat.AddExamineMsg(SpawnMind.Body.gameObject,
+					"Due to your past in prison.. You've gained magical ability.");
+			}
 			if (DMMath.Prob(15))
 			{
 				SpawnMind.Body.playerHealth.AddSickness(paranoiaSickness);
