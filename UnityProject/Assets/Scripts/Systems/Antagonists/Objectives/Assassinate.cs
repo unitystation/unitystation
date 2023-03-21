@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Systems.Antagonists.Antags;
 using UnityEngine;
 using Systems.GhostRoles;
 
@@ -21,7 +22,9 @@ namespace Antagonists
 		/// </summary>
 		protected override bool IsPossibleInternal(Mind candidate)
 		{
-			int targetCount = PlayerList.Instance.InGamePlayers.Count(p => (p.Mind != candidate) && !AntagManager.Instance.TargetedPlayers.Contains(p.Mind));
+			int targetCount = PlayerList.Instance.InGamePlayers.Count(p => (p.Mind != candidate)
+			                                                               && AntagManager.Instance.TargetedPlayers.Contains(p.Mind) == false
+			                                                               && p.Mind.GetAntag().Antagonist is not BloodBrother);
 			return (targetCount > 0);
 		}
 

@@ -66,10 +66,10 @@ namespace Antagonists
 		{
 			int amount = antag.NumberOfObjectives;
 			// Get all antag core and shared objectives which are possible for this player
-			List<Objective> objPool = antag.CoreObjectives.Where(obj => obj.IsPossible(Mind)).ToList();
+			List<Objective> objPool = antag.CoreObjectives.Where(obj => obj.IsPossible(Mind) && antag.BlackListedObjectives.Contains(obj) == false).ToList();
 			if (antag.CanUseSharedObjectives)
 			{
-				objPool = objPool.Concat(SharedObjectives).Where(obj => obj.IsPossible(Mind)).ToList();
+				objPool = objPool.Concat(SharedObjectives).Where(obj => obj.IsPossible(Mind) && antag.BlackListedObjectives.Contains(obj) == false).ToList();
 			}
 
 			if (objPool.Count == 0)

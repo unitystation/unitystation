@@ -109,6 +109,8 @@ namespace Antagonists
 		/// </summary>
 		public bool ShowInPreferences => showInPreferences;
 
+		[field: SerializeField] public List<Objective> BlackListedObjectives { get; set; } = new List<Objective>();
+
 		/// <summary>
 		/// Server only. Spawn the joined viewer as the indicated antag, includes creating their player object
 		/// and transferring them to it.
@@ -128,6 +130,7 @@ namespace Antagonists
 
 		public void AddObjective(Objective objective)
 		{
+			if ( BlackListedObjectives.Contains(objective) ) return;
 			numberOfObjectives++;
 			coreObjectives.Add(objective);
 		}
