@@ -14,7 +14,7 @@ namespace GameModes
 		{
 			base.EndRoundReport();
 			CheckFreedomStatus();
-			if(BrothersEarnedTheirFreedom() == false) OnBrotherDeath();
+			if (BrothersEarnedTheirFreedom() == false) OnBrotherDeath();
 		}
 
 		private static void CheckFreedomStatus()
