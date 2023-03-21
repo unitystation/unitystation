@@ -13,12 +13,12 @@ namespace Antagonists
 		protected override bool CheckCompletion()
 		{
 			//for whatever reason this is null, give the guy the greentext
-			if (Owner.Body == null || Owner.Body.TryGetComponent<DynamicItemStorage>(out var dynamicItemStorage) == false) return true;
+			if (Owner == null || Owner.Body == null || Owner.Body.TryGetComponent<DynamicItemStorage>(out var dynamicItemStorage) == false) return true;
 
 			foreach (var handCuffs in dynamicItemStorage.GetNamedItemSlots(NamedSlot.handcuffs))
 			{
 				if (handCuffs.IsEmpty) continue;
-				
+
 				//If any hands are cuff then we fail
 				return false;
 			}
