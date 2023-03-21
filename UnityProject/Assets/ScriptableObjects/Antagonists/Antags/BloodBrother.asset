@@ -29,11 +29,14 @@ MonoBehaviour:
   canUseSharedObjectives: 1
   needsEscapeObjective: 0
   chanceForGimmickObjective: 50
-  coreObjectives:
-  - {fileID: 11400000, guid: 7bea1ef82dee8264aabacb465d9a7946, type: 2}
-  - {fileID: 11400000, guid: 748ac891cd195d145b7386127b0de87b, type: 2}
+  coreObjectives: []
   antagOccupation: {fileID: 0}
   showInPreferences: 1
+  <BlackListedObjectives>k__BackingField:
+  - {fileID: 11400000, guid: ae28c203a113d5b42a7099948692bb10, type: 2}
+  <AlwaysStartWithObjectives>k__BackingField:
+  - {fileID: 11400000, guid: 748ac891cd195d145b7386127b0de87b, type: 2}
+  - {fileID: 11400000, guid: 7bea1ef82dee8264aabacb465d9a7946, type: 2}
   extraHealthForBrothers: 550
   paranoiaSickness: {fileID: 8177265969630170377, guid: ad489c5a66fec7f418fa5935feb9efa2,
     type: 3}

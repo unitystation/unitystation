@@ -122,6 +122,11 @@ namespace Antagonists
 				generatedObjs.Add(newObjective);
 			}
 
+			foreach (var alwaysStartWithObjective in antag.AlwaysStartWithObjectives)
+			{
+				antag.AddObjective(alwaysStartWithObjective);
+			}
+
 			return generatedObjs;
 		}
 
