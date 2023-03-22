@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Learning;
 using Messages.Client.Lobby;
+using UI.Chat_UI;
 
 
 namespace UI
@@ -24,6 +25,8 @@ namespace UI
 		public static GUI_IngameMenu Instance;
 
 		private bool sentData;
+
+		[SerializeField] private string wikiURL = "https://wiki.unitystation.org/index.php/Welcome_to_Unitystation";
 
 		#region Lifecycle
 
@@ -171,6 +174,18 @@ namespace UI
 		public void ShowProtipListUI()
 		{
 			ProtipManager.Instance.ShowListUI();
+		}
+
+		public void ShowMentorHelp()
+		{
+			HideAllMenus();
+			ChatUI.Instance.OnHelpButton();
+		}
+
+		public void OpenWiki()
+		{
+			HideAllMenus();
+			Application.OpenURL(wikiURL);
 		}
 
 		#endregion
