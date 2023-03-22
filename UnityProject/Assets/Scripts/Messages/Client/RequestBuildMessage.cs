@@ -19,11 +19,11 @@ namespace Messages.Client
 
 		public override void Process(NetMessage msg)
 		{
-			ProcessBuild(msg);
+			ProcessBuild(msg,SentByPlayer );
 		}
 
 
-		public void ProcessBuild(NetMessage msg)
+		public void ProcessBuild(NetMessage msg, PlayerInfo SentByPlayer)
 		{
 			var playerScript = SentByPlayer.Script;
 			var playerObject = SentByPlayer.GameObject;
@@ -95,13 +95,13 @@ namespace Messages.Client
 				$"{playerObject.ExpensiveName()} begins building the {entry.Name}...");
 			ToolUtils.ServerUseTool(playerObject, usedSlot.ItemObject,
 				ActionTarget.Tile(playerScript.RegisterPlayer.WorldPositionServer), entry.BuildTime,
-				(() =>  Build(msg,entry, playerScript, hasConstructionMenu,  playerObject) ));
+				(() =>  Build(msg,entry, playerScript, hasConstructionMenu,  playerObject,SentByPlayer) ));
 
 		}
 
 
 		//build and consume
-		public void Build(NetMessage msg, BuildList.Entry  entry, PlayerScript playerScript, BuildingMaterial hasConstructionMenu, GameObject playerObject)
+		public void Build(NetMessage msg, BuildList.Entry  entry, PlayerScript playerScript, BuildingMaterial hasConstructionMenu, GameObject playerObject, PlayerInfo SentByPlayer)
 		{
 			var builtObject =
 				entry.ServerBuild(SpawnDestination.At(playerScript.RegisterPlayer), hasConstructionMenu);
@@ -124,7 +124,7 @@ namespace Messages.Client
 
 			if (msg.Number > 0)
 			{
-				ProcessBuild(msg);
+				ProcessBuild(msg, SentByPlayer);
 			}
 
 		}
