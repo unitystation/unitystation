@@ -30,7 +30,7 @@ namespace HealthV2
 			if (data.DamageAmount > minimumDamageRequired) SpewBloodSpat();
 		}
 
-		public void SpewBloodSpat(float chanceToSpew = 50)
+		public void SpewBloodSpat(float chanceToSpew = 35)
 		{
 			if (DMMath.Prob(chanceToSpew) == false) return;
 			if (bodyPart.HealthMaster == null || bodyPart.HealthMaster.TryGetComponent<Rotatable>(out var banana) == false) return;
