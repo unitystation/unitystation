@@ -184,6 +184,8 @@ namespace Chemistry.Components
 				integrity.OnWillDestroyServer.AddListener(info => SpillAll());
 			}
 			//OnReagentMixChanged.AddListener(ReagentsChanged);
+
+			if (spriteHandler == null) spriteHandler.GetComponentInChildren<SpriteHandler>();
 		}
 
 		public void SetSpriteColor(Color newColor)
