@@ -367,7 +367,7 @@ namespace GameModes
 			var jobAllocator = new JobAllocator();
 			var playerPool = PlayerList.Instance.ReadyPlayers;
 
-			AntagJobAllocation(jobAllocator, playerPool, playerSpawnRequests, antagSpawnRequests, antagsToSpawn);
+			AntagJobAllocation(jobAllocator, playerPool, ref playerSpawnRequests, ref antagSpawnRequests, antagsToSpawn);
 
 			// Spawn all players and antags
 			foreach (var spawnReq in playerSpawnRequests)
