@@ -412,7 +412,7 @@ namespace GameModes
 		}
 
 		protected void AntagJobAllocation(JobAllocator jobAllocator, List<PlayerInfo> playerPool,
-			List<PlayerSpawnRequest> playerSpawnRequests, List<PlayerSpawnRequest> antagSpawnRequests, int antagsToSpawn)
+			ref List<PlayerSpawnRequest> playerSpawnRequests, ref List<PlayerSpawnRequest> antagSpawnRequests, int antagsToSpawn)
 		{
 			try
 			{
