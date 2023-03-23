@@ -176,7 +176,6 @@ public class WeaponNetworkActions : NetworkBehaviour
 			{
 				// The punch missed.
 				string victimName = victim.ExpensiveName();
-				string weaponName = weapon.ExpensiveName();
 
 				if (miss.missSound.Count > 0)
 				{
@@ -185,8 +184,8 @@ public class WeaponNetworkActions : NetworkBehaviour
 
 				if (weaponAttributes != null)
 				{
-					Chat.AddCombatMsgToChat(gameObject, $"You missed {victimName} with {weaponName}!",
-						$"{gameObject.ExpensiveName()} missed {victimName} with {weaponName}!");
+					Chat.AddCombatMsgToChat(gameObject, $"You missed {victimName} with {weapon.ExpensiveName()}!",
+						$"{gameObject.ExpensiveName()} missed {victimName} with {weapon.ExpensiveName()}!");
 				}
 				else
 				{
