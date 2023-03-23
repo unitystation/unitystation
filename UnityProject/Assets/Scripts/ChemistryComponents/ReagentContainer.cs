@@ -185,7 +185,7 @@ namespace Chemistry.Components
 			}
 			//OnReagentMixChanged.AddListener(ReagentsChanged);
 
-			if (spriteHandler == null) spriteHandler.GetComponentInChildren<SpriteHandler>();
+			if (spriteHandler == null) spriteHandler = GetComponentInChildren<SpriteHandler>();
 		}
 
 		public void SetSpriteColor(Color newColor)
