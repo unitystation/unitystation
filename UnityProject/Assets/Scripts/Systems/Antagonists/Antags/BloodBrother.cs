@@ -24,7 +24,7 @@ namespace Systems.Antagonists.Antags
 			Chat.AddExamineMsg(SpawnMind.Body.gameObject,
 				"<color=red>You're a convicted prisoner and test subject who was given " +
 				"a new chance for freedom by the syndicate.\n You and your blood brothers <b>must all succeed</b> to earn your freedom, or die trying.</color>");
-			CheckForOtherBloodBrothers(SpawnMind.Body.gameObject);
+			_ = CheckForOtherBloodBrothers(SpawnMind.Body.gameObject);
 			SpawnMind.Body.playerHealth.OnDeath += BloodBrothers.OnBrotherDeath;
 			SpawnMind.Body.playerHealth.SetMaxHealth(SpawnMind.Body.playerHealth.MaxHealth + extraHealthForBrothers);
 			AntagManager.TryInstallPDAUplink(SpawnMind, initialTC, false);
@@ -45,7 +45,7 @@ namespace Systems.Antagonists.Antags
 				"You feel much more resilient.");
 		}
 
-		private async void CheckForOtherBloodBrothers(GameObject spawnMind)
+		private async Task CheckForOtherBloodBrothers(GameObject spawnMind)
 		{
 			await Task.Delay(1250);
 			if (AntagManager.Instance.AntagCount < 2)
