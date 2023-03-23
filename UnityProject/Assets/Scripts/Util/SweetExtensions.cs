@@ -751,6 +751,26 @@ public static class SweetExtensions
 		};
 	}
 
+	public static OrientationEnum GetOppositeDirection(this OrientationEnum dir)
+	{
+		switch (dir)
+		{
+			case OrientationEnum.Default:
+				return OrientationEnum.Down_By180;
+			case OrientationEnum.Right_By270:
+				return OrientationEnum.Left_By90;
+			case OrientationEnum.Up_By0:
+				return OrientationEnum.Default;
+			case OrientationEnum.Left_By90:
+				return OrientationEnum.Right_By270;
+			case OrientationEnum.Down_By180:
+				return OrientationEnum.Up_By0;
+			default:
+				throw new ArgumentOutOfRangeException();
+		}
+		return OrientationEnum.Down_By180;
+	}
+
 	public static string RemovePunctuation(this string input)
 	{
 		return new string(input.Where(c => !char.IsPunctuation(c)).ToArray());
