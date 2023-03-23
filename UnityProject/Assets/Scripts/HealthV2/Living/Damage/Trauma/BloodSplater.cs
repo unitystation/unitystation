@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Chemistry.Components;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -33,13 +34,16 @@ namespace HealthV2
 		{
 			if (DMMath.Prob(chanceToSpew) == false) return;
 			if (bodyPart.HealthMaster == null || bodyPart.HealthMaster.TryGetComponent<Rotatable>(out var banana) == false) return;
+			if (bodyPart.HealthMaster.reagentPoolSystem == null) return;
 			bodyPart.HealthMaster.reagentPoolSystem.Bleed(Random.Range(1,8), false);
 			var direction = banana.GetOppositeVectorToDirection();
 			if (MatrixManager.IsWallAt(direction, true) || MatrixManager.IsSpaceAt(direction, true))
 			{
 				direction = bodyPart.HealthMaster.gameObject.AssumedWorldPosServer().CutToInt();
 			}
-			Spawn.ServerPrefab(bloodSplats.PickRandom(), direction);
+			var result = Spawn.ServerPrefab(bloodSplats.PickRandom(), direction);
+			if (result.Successful == false || result.GameObject.TryGetComponent<ReagentContainer>(out var container) == false) return;
+			container.SetSpriteColor(bodyPart.HealthMaster.reagentPoolSystem.BloodPool.MixColor);
 		}
 	}
 }
