@@ -176,14 +176,23 @@ public class WeaponNetworkActions : NetworkBehaviour
 			{
 				// The punch missed.
 				string victimName = victim.ExpensiveName();
+				string weaponName = weapon.ExpensiveName();
 
 				if (miss.missSound.Count > 0)
 				{
 					SoundManager.PlayNetworkedAtPos(miss.missSound.PickRandom(), transform.position, sourceObj: gameObject);
 				}
 
-				Chat.AddCombatMsgToChat(gameObject, $"You attempted to {attackVerb} {victimName} but missed!",
-					$"{gameObject.ExpensiveName()} has attempted to {attackVerb} {victimName}!");
+				if (weaponAttributes != null)
+				{
+					Chat.AddCombatMsgToChat(gameObject, $"You missed {victimName} with {weaponName}!",
+						$"{gameObject.ExpensiveName()} missed {victimName} with {weaponName}!");
+				}
+				else
+				{
+					Chat.AddCombatMsgToChat(gameObject, $"You missed {victimName}!",
+						$"{gameObject.ExpensiveName()} missed {victimName}!");
+				}
 			}
 		}
 
