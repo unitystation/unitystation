@@ -69,19 +69,22 @@ public class MetaDataSystem : SubsystemBehaviour
 	[Server]
 	public override void Initialize()
 	{
-		if (Initialized) return;
 		Stopwatch sw = new Stopwatch();
 		sw.Start();
-		StartCoroutine(LocateRooms());
-		Stopwatch Dsw = new Stopwatch();
-		Dsw.Start();
-		matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
-		Dsw.Stop();
-		Logger.Log($"Initialise {gameObject.name} Utilities (Power cables, Atmos pipes): " + Dsw.ElapsedMilliseconds + " ms", Category.Matrix);
-		Chat.AddGameWideSystemMsgToChat($"Initialise {gameObject.name} Utilities (Power cables, Atmos pipes): " + Dsw.ElapsedMilliseconds + "ms");
+
+		if (MatrixManager.IsInitialized)
+		{
+			StartCoroutine(LocateRooms());
+			Stopwatch Dsw = new Stopwatch();
+			Dsw.Start();
+			matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
+			Dsw.Stop();
+			Logger.Log($"Initialise {gameObject.name} Utilities (Power cables, Atmos pipes): " + Dsw.ElapsedMilliseconds + " ms", Category.Matrix);
+		}
+
 		sw.Stop();
+
 		Logger.Log($"{gameObject.name} MetaData init: " + sw.ElapsedMilliseconds + " ms", Category.Matrix);
-		Initialized = true;
 	}
 
 	public override void UpdateAt(Vector3Int localPosition)

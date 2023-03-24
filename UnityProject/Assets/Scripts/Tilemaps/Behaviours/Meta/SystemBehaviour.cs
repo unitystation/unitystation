@@ -2,11 +2,10 @@
 using TileManagement;
 using UnityEngine;
 
-namespace Tilemaps.Behaviours.Meta
-{
-	public abstract class SubsystemBehaviour : MonoBehaviour
+
+public abstract class SubsystemBehaviour : MonoBehaviour
 	{
-		public bool Initialized { get; protected set; } = false;
+
 		protected MetaDataLayer metaDataLayer;
 		protected MetaTileMap metaTileMap;
 		protected SubsystemManager subsystemManager;
@@ -28,5 +27,3 @@ namespace Tilemaps.Behaviours.Meta
 
 		public abstract void UpdateAt(Vector3Int localPosition);
 	}
-}
-

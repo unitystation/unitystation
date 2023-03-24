@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using ScriptableObjects.Atmospherics;
 using UnityEngine;
 using Mirror;
-using Tilemaps.Behaviours.Meta;
 using Tiles;
 
 namespace Systems.Atmospherics
