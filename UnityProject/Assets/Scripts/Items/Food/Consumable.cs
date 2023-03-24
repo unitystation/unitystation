@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using AddressableReferences;
 using HealthV2;
 using Items;
+using Mirror;
 using UnityEngine;
 using NaughtyAttributes;
 using Player;
@@ -13,8 +14,10 @@ using Player;
 /// Item that can be drinked or eaten by player
 /// Also supports force feeding other player
 /// </summary>
-public abstract class Consumable : MonoBehaviour, ICheckedInteractable<HandApply>
+public abstract class Consumable : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
+	[SerializeField] private float consumeTime = 0.1f;
+
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		if (interaction.HandObject == null && interaction.Performer.GetComponent<ConsumeFromFloor>() != null)
@@ -33,10 +36,7 @@ public abstract class Consumable : MonoBehaviour, ICheckedInteractable<HandApply
 			}
 		}
 		var targetPlayer = interaction.TargetObject.GetComponent<PlayerScript>();
-		if (targetPlayer == null)
-		{
-			return;
-		}
+		if (targetPlayer == null) return;
 
 		PlayerScript feeder = interaction.PerformerPlayerScript;
 		var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
@@ -46,7 +46,10 @@ public abstract class Consumable : MonoBehaviour, ICheckedInteractable<HandApply
 		}
 
 		PlayerScript eater = targetPlayer;
-		TryConsume(feeder.gameObject, eater.gameObject);
+		var bar = StandardProgressAction.Create(
+			new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false),
+			() => TryConsume(feeder.gameObject, eater.gameObject));
+		bar.ServerStartProgress(interaction.Performer.RegisterTile(), consumeTime, interaction.Performer);
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)

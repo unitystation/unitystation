@@ -408,15 +408,15 @@ public class MouseInputController : MonoBehaviour
 
 			foreach (var handAppliable in handAppliables.Reverse())
 			{
-				if (handAppliable is IBaseInteractable<HandApply>)
+				if (handAppliable is IBaseInteractable<HandApply> hap)
+					//Technically PositionalHandApply Inherits from HandApply So it should work But it doesn't For some reason I don't know why, if it breaks Check this probably
 				{
-					var hap = handAppliable as IBaseInteractable<HandApply>;
 					if (hap.ClientCheckAndTrigger(handApply)) return true;
 				}
-				else
+
+				if (handAppliable is IBaseInteractable<PositionalHandApply> appliable)
 				{
-					var hap = handAppliable as IBaseInteractable<PositionalHandApply>;
-					if (hap.ClientCheckAndTrigger(posHandApply)) return true;
+					if (appliable.ClientCheckAndTrigger(posHandApply)) return true;
 				}
 			}
 		}

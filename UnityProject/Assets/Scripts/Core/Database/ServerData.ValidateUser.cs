@@ -7,6 +7,7 @@ using Firebase.Auth;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
+using Systems.Character;
 
 namespace DatabaseAPI
 {
@@ -82,12 +83,6 @@ namespace DatabaseAPI
 					return false;
 				}
 			}
-
-			// In case PlayerPrefs doesn't already have the settings
-			string jsonChar = JsonConvert.SerializeObject(characterSettings);
-			PlayerPrefs.SetString("currentcharacter", jsonChar);
-
-			PlayerManager.CurrentCharacterSheet = characterSettings;
 
 			PlayerPrefs.SetString(PlayerPrefKeys.AccountEmail, user.Email);
 			PlayerPrefs.Save();

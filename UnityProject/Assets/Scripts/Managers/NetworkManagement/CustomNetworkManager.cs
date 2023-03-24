@@ -48,6 +48,22 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	public static Dictionary<uint, NetworkIdentity> Spawned => IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 
 
+	public void Clear()
+	{
+		Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(IndexLookupSpawnablePrefabs, (u, k) => u != null) + " dead elements from CustomNetworkManager.IndexLookupSpawnablePrefabs");
+
+		foreach (var a in IndexLookupSpawnablePrefabs)
+		{
+			TileManager tm = a.Key.GetComponent<TileManager>();
+
+			if (tm != null)
+			{
+				tm.DeepCleanupTiles();
+			}
+		}
+	}
+
+
 	public override void Awake()
 	{
 		if (IndexLookupSpawnablePrefabs.Count == 0)
@@ -278,10 +294,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		base.OnStartServer();
 		NetworkManagerExtensions.RegisterServerHandlers();
 		// Fixes loading directly into the station scene
-		if (GameManager.Instance.LoadedDirectlyToStation)
-		{
-			GameManager.Instance.PreRoundStart();
-		}
+		GameManager.Instance.PreRoundStart();
 	}
 
 	public override void OnStartHost()
@@ -319,13 +332,12 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		Logger.LogTrace($"Spawning a GameObject for the client {conn}.", Category.Connections);
 		base.OnServerAddPlayer(conn);
 		SubSceneManager.Instance.AddNewObserverScenePermissions(conn);
-		UpdateRoundTimeMessage.Send(GameManager.Instance.stationTime.ToString("O"));
+		UpdateRoundTimeMessage.Send(GameManager.Instance.RoundTime.ToString("O"), GameManager.Instance.RoundTimeInMinutes);
 	}
 
 	//called on client side when client first connects to the server
 	public override void OnClientConnect()
 	{
-		Logger.Log($"We (the client) connected to the server {NetworkClient.connection.address}.", Category.Connections);
 		//Does this need to happen all the time? OnClientConnect can be called multiple times
 		NetworkManagerExtensions.RegisterClientHandlers();
 
@@ -350,6 +362,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	/// server actions when client disconnects
 	public override void OnServerDisconnect(NetworkConnectionToClient conn)
 	{
+		Logger.LogError($"Disconnecting {conn.address}");
 		//register them as removed from our own player list
 		PlayerList.Instance.RemoveByConnection(conn);
 
@@ -359,12 +372,14 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		//note that we can't remove authority from player owned objects, the workaround is to transfer authority to
 		//a different temporary object, remove authority from the original, and then run the normal disconnect logic
 
+
 		//transfer to a temporary object
 		GameObject disconnectedViewer = Instantiate(CustomNetworkManager.Instance.disconnectedViewerPrefab);
-		NetworkServer.ReplacePlayerForConnection(conn, disconnectedViewer, System.Guid.NewGuid());
+		NetworkServer.ReplacePlayerForConnection(conn, disconnectedViewer, BitConverter.ToUInt32(System.Guid.NewGuid().ToByteArray(), 0), false);
 
 		foreach (var ownedObject in conn.clientOwnedObjects.ToArray())
 		{
+			if (disconnectedViewer == ownedObject.gameObject) continue;
 			ownedObject.RemoveClientAuthority();
 		}
 

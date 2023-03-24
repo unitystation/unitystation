@@ -164,13 +164,9 @@ namespace Chemistry.Components
 		/// <summary>
 		/// Server side only. Total reagent mix amount in units
 		/// </summary>
-		public float ReagentMixTotal
-		{
-			get
-			{
-				return CurrentReagentMix.Total;
-			}
-		}
+		public float ReagentMixTotal => CurrentReagentMix.Total;
+
+		[SerializeField] private SpriteHandler spriteHandler;
 
 		private void Awake()
 		{
@@ -188,6 +184,13 @@ namespace Chemistry.Components
 				integrity.OnWillDestroyServer.AddListener(info => SpillAll());
 			}
 			//OnReagentMixChanged.AddListener(ReagentsChanged);
+
+			if (spriteHandler == null) spriteHandler = GetComponentInChildren<SpriteHandler>();
+		}
+
+		public void SetSpriteColor(Color newColor)
+		{
+			spriteHandler.SetColor(newColor);
 		}
 
 		private void OnImpact(UniversalObjectPhysics UOP, Vector2 Momentum)

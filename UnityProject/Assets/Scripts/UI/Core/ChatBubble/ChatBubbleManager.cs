@@ -1,4 +1,5 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using Initialisation;
 using Managers.SettingsManager;
@@ -10,7 +11,7 @@ using Util;
 /// <summary>
 /// Handles ChatBubbles and displays them in ScreenSpace
 /// </summary>
-public class ChatBubbleManager : MonoBehaviour, IInitialise
+public class ChatBubbleManager : MonoBehaviour, IInitialise, IDisposable
 {
 	private static ChatBubbleManager chatBubbleManager;
 
@@ -24,6 +25,12 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise
 
 
 	public InitialisationSystems Subsystem => InitialisationSystems.ChatBubbleManager;
+
+	public void Clear()
+	{
+		chatBubblePool.Clear();
+		actionPool.Clear();
+	}
 
 	void IInitialise.Initialise()
 	{
@@ -173,6 +180,11 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise
 		SceneManager.activeSceneChanged -= OnSceneChange;
 	}
 
+	void OnDestroy()
+	{
+		this.Dispose();
+	}
+
 	void OnSceneChange(Scene oldScene, Scene newScene)
 	{
 		ResetAll();
@@ -186,6 +198,14 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise
 			{
 				cb.ReturnToPool();
 			}
+		}
+	}
+
+	public void Dispose()
+	{
+		foreach (ChatBubble chatBubble in chatBubblePool)
+		{
+			chatBubble.OrNull()?.Dispose();
 		}
 	}
 }

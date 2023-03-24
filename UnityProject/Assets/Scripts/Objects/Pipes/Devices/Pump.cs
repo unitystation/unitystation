@@ -10,7 +10,7 @@ namespace Objects.Atmospherics
 		public SpriteHandler spriteHandlerOverlay = null;
 
 		private float MaxPressure = 4500f;
-		private float TransferMoles = 500f;
+		private float TransferMoles = 5000f;
 
 		public bool IsOn = false;
 

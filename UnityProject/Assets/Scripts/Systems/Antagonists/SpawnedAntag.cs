@@ -107,7 +107,7 @@ namespace Antagonists
 
 		public string GetObjectiveStatusNonRich()
 		{
-			var message = $"{Owner.Body.playerName}, {Owner.occupation.DisplayName}\n";
+			var message = $"{Owner.OrNull()?.Body.OrNull()?.playerName}, {Owner.OrNull()?.occupation.OrNull()?.DisplayName}\n";
 			var objectiveList = Objectives.ToList();
 			for (int i = 0; i < objectiveList.Count; i++)
 			{

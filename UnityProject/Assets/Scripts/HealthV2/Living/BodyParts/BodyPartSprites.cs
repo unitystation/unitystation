@@ -1,8 +1,8 @@
-﻿using Systems.Clothing;
-using HealthV2;
-using Mirror;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using UnityEngine;
+using HealthV2;
+using Systems.Character;
+using Systems.Clothing;
 
 /// <summary>
 /// This is used to contain data about the basic rendering of a body part.

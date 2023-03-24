@@ -24,14 +24,43 @@ namespace HealthV2
 		[HideInInspector] private readonly List<BodyPart> containBodyParts = new List<BodyPart>();
 		public List<BodyPart> ContainBodyParts => containBodyParts;
 
+
+
 		/// <summary>
 		/// Storage container for things (usually other body parts) held within this body part
 		/// </summary>
 		[HorizontalLine] [Tooltip("Things (eg other organs) held within this")]
 		public ItemStorage OrganStorage = null;
 
+		[SerializeField, Tooltip(
+			 " If you threw acid onto a player would body parts contained in this body part get touched by the acid, If this body part was on the surface ")]
+		private bool isOpenAir = false;
+		public bool IsOpenAir
+		{
+			get
+			{
+				if (isOpenAir)
+				{
+					if (ContainedIn == null) return true;
 
-		public CommonComponents CommonComponents;
+					return ContainedIn.IsOpenAir;
+				}
+
+				return false;
+			}
+		}
+
+		public bool IsInAnOpenAir
+		{
+			get
+			{
+				if (ContainedIn == null) return true;
+				return ContainedIn.IsOpenAir;
+			}
+		}
+
+
+		[HideInInspector] public CommonComponents CommonComponents;
 
 		//Organs on the same body part
 		[NonSerialized] public List<BodyPartFunctionality> OrganList = new List<BodyPartFunctionality>();
@@ -77,8 +106,7 @@ namespace HealthV2
 		/// <summary>
 		/// The list of sprites associated with this body part
 		/// </summary>
-		[Tooltip("Sprites associated wtih this part, generated when part is initialized/changed")]
-		public List<BodyPartSprites> RelatedPresentSprites = new List<BodyPartSprites>();
+		[HideInInspector] public List<BodyPartSprites> RelatedPresentSprites = new List<BodyPartSprites>();
 
 		/// <summary>
 		/// The final sprite data for this body part accounting for body type and gender
@@ -180,18 +208,9 @@ namespace HealthV2
 			{
 				var organ = OrganList[i];
 				organ.ImplantPeriodicUpdate();
-				if (IsBleedingInternally)
-				{
-					organ.InternalDamageLogic();
-				}
 			}
 
 			CalculateRadiationDamage();
-
-			if (IsBleeding)
-			{
-				InternalBleedingLogic();
-			}
 		}
 
 		public void SetHealthMaster(LivingHealthMasterBase livingHealth)
@@ -299,17 +318,14 @@ namespace HealthV2
 		/// </summary>
 		public void BodyPartAddHealthMaster(LivingHealthMasterBase livingHealth) //Only add Body parts
 		{
-			if (livingHealth.BodyPartList.Contains(this) == false)
-			{
-				livingHealth.BodyPartList.Add(this);
-			}
+			livingHealth.AddingBodyPart(this);
 
 			SetHealthMaster(livingHealth);
 			livingHealth.ServerCreateSprite(this);
 
 			foreach (var organ in OrganList)
 			{
-				organ.AddedToBody(HealthMaster); //Only add Body parts
+				organ.OnAddedToBody(HealthMaster); //Only add Body parts
 			}
 
 			for (int i = 0; i < containBodyParts.Count; i++) //Only add Body parts
@@ -327,7 +343,7 @@ namespace HealthV2
 		{
 			foreach (var organ in OrganList)
 			{
-				organ.RemovedFromBody(HealthMaster);
+				organ.OnRemovedFromBody(HealthMaster);
 			}
 
 			foreach (var organ in containBodyParts)
@@ -337,7 +353,7 @@ namespace HealthV2
 
 			RemoveSprites(playerSprites, HealthMaster);
 			HealthMaster.rootBodyPartController.UpdateClients();
-			HealthMaster.BodyPartList.Remove(this);
+			HealthMaster.RemovingBodyPart(this);
 			HealthMaster.BodyPartListChange();
 			HealthMaster = null;
 		}
@@ -348,7 +364,6 @@ namespace HealthV2
 		public void TryRemoveFromBody(bool beingGibbed = false, bool CausesBleed = true, bool Destroy = false, bool PreventGibb_Death = false)
 		{
 			bool alreadyBleeding = false;
-			SetRemovedColor();
 			if (CausesBleed)
 			{
 				foreach (var bodyPart in HealthMaster.BodyPartList)
@@ -369,11 +384,6 @@ namespace HealthV2
 			var bodyPartUISlot = GetComponent<BodyPartUISlots>();
 			var dynamicItemStorage = HealthMaster.GetComponent<DynamicItemStorage>();
 			dynamicItemStorage.Remove(bodyPartUISlot);
-			//Fixes an error where externally bleeding body parts would continue to try bleeding even after their removal.
-			if (IsBleedingExternally)
-			{
-				StopExternalBleeding();
-			}
 
 			if (PreventGibb_Death == false)
 			{
@@ -383,7 +393,7 @@ namespace HealthV2
 					HealthMaster.Death();
 				}
 
-				if (gibsEntireBodyOnRemoval && beingGibbed == false)
+				if (beingGibbed)
 				{
 					HealthMaster.OnGib();
 				}
@@ -454,19 +464,16 @@ namespace HealthV2
 			}
 		}
 
-
-		#region BodyPartStorage
-
-		/// <summary>
-		/// Sets the color of the body part item that is removed
-		/// </summary>
-		private void SetRemovedColor()
+		public void ChangeBodyPartColor(Color color)
 		{
-			if (currentBurnDamageLevel == TraumaDamageLevel.CRITICAL)
+			foreach (var sprite in RelatedPresentSprites)
 			{
-				BodyPartItemSprite.OrNull()?.SetColor(bodyPartColorWhenCharred);
+				sprite.baseSpriteHandler.SetColor(color);
 			}
 		}
+
+
+		#region BodyPartStorage
 
 
 		private void RemoveSprites(PlayerSprites sprites, LivingHealthMasterBase livingHealth)
@@ -493,7 +500,6 @@ namespace HealthV2
 		{
 			if (SystemSetup) return;
 			SystemSetup = true;
-			BloodInitialise();
 
 			foreach (var Organ in OrganList)
 			{

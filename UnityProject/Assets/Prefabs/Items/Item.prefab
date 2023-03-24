@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 6393191727481188567}
   - component: {fileID: 5414819541850508356}
   - component: {fileID: 2611437823404169790}
+  - component: {fileID: 4885464012290422036}
   m_Layer: 10
   m_Name: Item
   m_TagString: Abstract
@@ -134,6 +135,10 @@ MonoBehaviour:
   syncInterval: 0.1
   pickupAnimSpeed: 0.2
   ItemAttributesV2: {fileID: 0}
+  OnMoveToPlayerInventory:
+    m_PersistentCalls:
+      m_Calls: []
+  lastTouch: {fileID: 4885464012290422036}
 --- !u!114 &114776788309089574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,6 +210,8 @@ MonoBehaviour:
     Anomaly: 0
     DismembermentProtectionChance: 0
     StunImmunity: 0
+    TemperatureProtectionInK: {x: 268.15, y: 313.15}
+    PressureProtectionInKpa: {x: 30, y: 300}
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -307,6 +314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foreverID: a7abba22164ce49f0bf9b9b219f39298
+  <AlternativePrefabName>k__BackingField: 
 --- !u!114 &5414819541850508356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,6 +379,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13b3f20d3b30cb24fb70b1f35524c360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4885464012290422036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011433845357754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9306f5c12c5c44b1a525a287c5cced72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1344926539164060
@@ -447,7 +467,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 40
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: b5191cf54f9e01d4d9ac14dc228024e6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -455,7 +475,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &6144467708197095229
@@ -472,7 +492,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  PresentSpriteSet: {fileID: 11400000, guid: 531dea593ef508f4abc5b76a73fd82a8, type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1

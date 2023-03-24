@@ -286,10 +286,27 @@ namespace Shared.Editor
 			SortMastersToPosition(slave.gameObject.transform.position);
 
 			float distance = Vector3.Distance(slave.gameObject.transform.position, Masters[0].gameObject.transform.position);
-			slave.SetMasterEditor(distance > Masters[0].MaxDistance ? null : Masters[0]);
+
+			var master = distance > Masters[0].MaxDistance ? null : Masters[0];
+
+			var oldmaster = slave.Master;
+
+			slave.SetMasterEditor(master);
+
+
 			if (Masters.Count > 0)
 			{
+				if (oldmaster != null)
+				{
+					EditorUtility.SetDirty((Component)oldmaster);
+					Undo.RecordObject(oldmaster.gameObject, " unLink");
+
+				}
 				EditorUtility.SetDirty((Component)Masters[0]);
+				Undo.RecordObject(Masters[0].gameObject, " Link");
+
+				EditorUtility.SetDirty((Component)slave);
+				Undo.RecordObject(slave.gameObject, " Link");
 			}
 
 			return distance;
@@ -314,10 +331,24 @@ namespace Shared.Editor
 			var master = Masters[index];
 			var distance = Vector3.Distance(slave.gameObject.transform.position, master.gameObject.transform.position);
 
+			var oldmaster = slave.Master;
+
 			if (distance <= master.MaxDistance)
 			{
 				slave.SetMasterEditor(master);
 			}
+
+			if (oldmaster != null)
+			{
+				EditorUtility.SetDirty((Component)oldmaster);
+				Undo.RecordObject(oldmaster.gameObject, " unLink");
+
+			}
+			EditorUtility.SetDirty((Component)Masters[0]);
+			Undo.RecordObject(Masters[0].gameObject, " Link");
+
+			EditorUtility.SetDirty((Component)slave);
+			Undo.RecordObject(slave.gameObject, " Link");
 
 			return distance;
 		}

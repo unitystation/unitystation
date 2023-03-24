@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 963437112795886085}
   - component: {fileID: 7516114600395653180}
+  - component: {fileID: 7581324461393458882}
   m_Layer: 0
   m_Name: SettingsManager
   m_TagString: Untagged
@@ -45,3 +46,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windowSize: 0.5
+--- !u!114 &7581324461393458882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031153170959551819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c8518125db5477e9cd5f4b82d9f956f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

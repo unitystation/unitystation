@@ -1,6 +1,7 @@
 using UnityEngine;
 using HealthV2;
 using AddressableReferences;
+using NaughtyAttributes;
 
 namespace Items.Implants.Organs
 {
@@ -13,9 +14,14 @@ namespace Items.Implants.Organs
 
 		[SerializeField] private int delaySeconds = 600;
 
-		private float lastTrigger = 0; 
+		private float lastTrigger = 0;
 
-		public override void AddedToBody(LivingHealthMasterBase livingHealth)
+		public bool isEMPVunerable = false;
+
+		[ShowIf("isEMPVunerable")]
+		public int EMPResistance = 2;
+
+		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			lastTrigger = Time.time - delaySeconds; //Ready to revive
 		}
@@ -32,11 +38,16 @@ namespace Items.Implants.Organs
 			_ = SoundManager.PlayNetworkedAtPosAsync(reviveSound, objectPhysics.OfficialPosition);
 		}
 
-		public override void EmpResult(int strength)
+		public override void OnEmp(int strength)
 		{
-			Heart heart = RelatedPart.HealthMaster.CirculatorySystem.Hearts.PickRandom();
+			if (isEMPVunerable == false) return;
 
-			heart.DoHeartAttack();
+			if (EMPResistance == 0 || DMMath.Prob(100 / EMPResistance))
+			{
+				Heart heart = RelatedPart.HealthMaster.reagentPoolSystem?.PumpingDevices?.PickRandom();
+
+				heart.OrNull()?.DoHeartAttack();
+			}
 		}
 	}
 }

@@ -6,6 +6,7 @@ using Mirror;
 using CustomInspectors;
 using Systems.Clearance;
 using Shared.Systems.ObjectConnection;
+using Systems.Electricity;
 
 namespace Objects.Wallmounts
 {
@@ -22,12 +23,15 @@ namespace Objects.Wallmounts
 		private bool buttonCoolDown = false;
 		private ClearanceRestricted clearanceRestricted;
 
+		private APCPoweredDevice APCPoweredDevice;
+
 		private void Start()
 		{
 			//This is needed because you can no longer apply shutterSwitch prefabs (it will move all of the child sprite positions)
 			gameObject.layer = LayerMask.NameToLayer("WallMounts");
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 			clearanceRestricted = GetComponent<ClearanceRestricted>();
+			APCPoweredDevice = GetComponent<APCPoweredDevice>();
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -52,13 +56,18 @@ namespace Objects.Wallmounts
 			{
 				RpcPlayButtonAnim(false);
 				return;
-			}		
+			}
 
 			RunDoorController();
 		}
 
 		public void RunDoorController()
 		{
+			if (APCPoweredDevice != null)
+			{
+				if (APCPoweredDevice.IsOn(PowerState.On) == false) return;
+			}
+
 			RpcPlayButtonAnim(true);
 
 			for (int i = 0; i < generalSwitchControllers.Count; i++)

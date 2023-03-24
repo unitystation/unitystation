@@ -46,6 +46,12 @@ namespace Systems.Scenes
 			tileChangeManager = transform.parent.parent.parent.GetComponent<TileChangeManager>();
 		}
 
+		private void OnDestroy()
+		{
+			LavaLandManager.Instance.randomGenScripts.Remove(this);
+			tileChangeManager = null;
+		}
+
 		public void DoSim()
 		{
 			var gameObjectPos = gameObject.transform.localPosition.RoundToInt();

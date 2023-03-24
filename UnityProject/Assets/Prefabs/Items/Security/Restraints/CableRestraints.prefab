@@ -7,6 +7,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1888440275042186969, guid: 3e49627878e69e941a8ddc6808be2f28,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1888440275042186969, guid: 3e49627878e69e941a8ddc6808be2f28,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 699e523c4be366f4c902147c30b8c386,
+        type: 2}
+    - target: {fileID: 1888440275042186969, guid: 3e49627878e69e941a8ddc6808be2f28,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1969092953192173677, guid: 3e49627878e69e941a8ddc6808be2f28,
         type: 3}
       propertyPath: initialName

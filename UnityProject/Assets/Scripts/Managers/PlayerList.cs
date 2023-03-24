@@ -5,6 +5,7 @@ using Antagonists;
 using Messages.Server;
 using UnityEngine;
 using Mirror;
+using Systems.Character;
 using UI.CharacterCreator;
 
 /// Comfy place to get players and their info (preferably via their connection)
@@ -40,7 +41,7 @@ public partial class PlayerList : NetworkBehaviour
 		loggedIn.FindAll(player => player?.Mind != null && player.Mind.IsAntag);
 
 	public List<PlayerInfo> AllPlayers =>
-		loggedIn.FindAll(player => (player?.Script.OrNull()?.Mind  != null || player?.ViewerScript != null));
+		loggedIn.FindAll(player => (player?.Mind  != null || player?.ViewerScript != null));
 
 	/// <summary>
 	/// Players in the pre-round lobby who have clicked the ready button and have up to date CharacterSettings
@@ -486,6 +487,7 @@ public partial class PlayerList : NetworkBehaviour
 			loggedIn.Remove(connectedPlayer);
 		}
 
+		Logger.LogError($"Disconnecting player {connectedPlayer.Name} via Remove From playlist");
 		connectedPlayer.Connection.Disconnect();
 
 
@@ -494,7 +496,7 @@ public partial class PlayerList : NetworkBehaviour
 	[Server]
 	public void RemoveByConnection(NetworkConnection connection)
 	{
-		if (connection?.address == null || connection.identity == null)
+		if (connection?.identity?.connectionToClient?.address == null || connection.identity == null)
 		{
 			Logger.Log($"Unknown player disconnected: verifying playerlists for integrity - connection, its address and identity was null.", Category.Connections);
 			ValidatePlayerListRecords();
@@ -505,7 +507,7 @@ public partial class PlayerList : NetworkBehaviour
 		if (player.Equals(PlayerInfo.Invalid))
 		{
 			Logger.Log($"Unknown player disconnected: verifying playerlists for integrity - connected player was invalid. " +
-			           $"IP: {connection.address}. Name: {connection.identity.name}.", Category.Connections);
+			           $"IP: {connection?.identity?.connectionToClient?.address}. Name: {connection.identity.name}.", Category.Connections);
 			ValidatePlayerListRecords();
 			return;
 		}
@@ -603,7 +605,7 @@ public partial class PlayerList : NetworkBehaviour
 
 			if (player.UserId == userId && newPlayer != player)
 			{
-				Logger.LogTraceFormat("Found player with userId {0} clientId: {1}", Category.Connections, player.UserId, player.ClientId);
+				Logger.LogError($"Disconnecting {player.Name} by RemovePlayerbyUserId ", Category.Connections);
 				player.Connection.Disconnect(); //new client while online or dc timer not triggering yet
 				loggedIn.Remove(player);
 				return player;
@@ -639,7 +641,7 @@ public partial class PlayerList : NetworkBehaviour
 
 			if ((player.ClientId == clientId || player.UserId == userId) && newPlayer != player)
 			{
-				Logger.LogTraceFormat("Found player with userId {0} clientId: {1}", Category.Connections, player.UserId, player.ClientId);
+				Logger.LogError($"Disconnecting {player.Name} by RemovePlayerbyClientId ", Category.Connections);
 				player.Connection.Disconnect(); //new client while online or dc timer not triggering yet
 				loggedIn.Remove(player);
 				return player;

@@ -65,6 +65,11 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 		}
 	}
 
+	public int DeepCleanupTiles()
+	{
+		return 0;
+	}
+
 	public override void Awake()
 	{
 		base.Awake();
@@ -78,7 +83,7 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 	[ContextMenu("Cache All Assets")]
 	public bool CacheAllAssets()
 	{
-		layerTileCollections.Clear();
+		layerTileCollections = new List<TilePathEntry>();
 		foreach (TileType tileType in Enum.GetValues(typeof(TileType)))
 		{
 			string path = TilePaths.Get(tileType);
@@ -165,5 +170,10 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 			: $"Could not find layerTile in {tileType} dictionary with key: {key}");
 
 		return null;
+	}
+
+	public void Cleanup_between_rounds()
+	{
+		layerTileCollections = new List<TilePathEntry>();
 	}
 }

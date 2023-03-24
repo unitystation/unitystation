@@ -313,11 +313,9 @@ namespace TileManagement
 			//TODO note Boundaries only recap later when tiles are added outside of it, so therefore it can only increase in size
 			// remember update transforms and position and colour when removing On tile map I'm assuming It doesn't clear it?
 			// Maybe it sets it to the correct ones when you set a tile idk
-			tileLocation.layer.SubsystemManager.UpdateAt(tileLocation.position);
-			lock (PooledTileLocation)
-			{
-				PooledTileLocation.Push(tileLocation);
-			}
+			var position = tileLocation.position;
+			var layer = tileLocation.layer;
+
 
 			if (CustomNetworkManager.IsServer)
 			{
@@ -340,8 +338,14 @@ namespace TileManagement
 				tileLocation.layer.TilemapDamage.SwitchObjectsMatrixAt(tileLocation.position);
 			}
 
+			lock (PooledTileLocation)
+			{
+				PooledTileLocation.Push(tileLocation);
+			}
+
 			tileLocation.Clean();
 
+			layer.SubsystemManager.UpdateAt(position);
 		}
 
 		private void MainThreadSetTile(TileLocation tileLocation)
@@ -393,6 +397,7 @@ namespace TileManagement
 					tileLocation.layerTile.TileType, tileLocation.layerTile.name,
 					tileLocation.transformMatrix, tileLocation.Colour, tileLocation.layerTile.LayerType);
 			}
+			tileLocation.layer.SubsystemManager.UpdateAt(tileLocation.position);
 		}
 
 		/// <summary>
@@ -1418,6 +1423,11 @@ namespace TileManagement
 
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
+				if (Application.isPlaying == false)
+				{
+					return layer.HasTile(position);
+				}
+
 				if (layer.LayerType.IsUnderFloor())
 				{
 					return layer.HasTile(position);

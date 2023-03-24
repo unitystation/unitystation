@@ -206,5 +206,23 @@
         ],
         "name": "Artifact Research Console Board",
         "Item_ID": "br7j2ouDZR@E15jDYUKk"
+    },
+    {
+        "Internal_ID": "board_dna_console",
+        "Description": "Circuit board used in the construction of consoles",
+        "Category": [
+            "Computer Boards"
+        ],
+        "Materials": {
+            "Glass": 1000
+        },
+        "Machinery_type": [
+            "CircuitImprinter"
+        ],
+        "Compatible_machinery": [
+            "Science"
+        ],
+        "name": "DNA Console board",
+        "Item_ID": "4bdb5ad25167fc848ab3b1f820df6638"
     }
 ]

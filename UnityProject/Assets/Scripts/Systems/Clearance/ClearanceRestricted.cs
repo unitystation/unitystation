@@ -33,6 +33,15 @@ namespace Systems.Clearance
 			{
 				return true;
 			}
+
+			if (requiredClearance.Contains(Clearance.BasicPublicAccess))
+			{
+				Logger.LogError($"{this.name} has null Clearance potentially letting anyone access");
+				return true;
+			}
+
+			if (clearanceSource == null) return false;
+
 			// If the player has null access, access is denied
 			if (clearanceSource.GetCurrentClearance == null)
 			{
@@ -75,6 +84,14 @@ namespace Systems.Clearance
 				return false;
 			}
 
+			// Check hand first
+			var activeHandObject = playerStorage.GetActiveHandSlot().ItemObject;
+			if (activeHandObject != null && activeHandObject.TryGetComponent<IClearanceSource>(out var handObject))
+			{
+				if (HasClearance(handObject)) return true;
+			}
+
+
 			// Try get object in ID slot
 			foreach (var slot in playerStorage.GetNamedItemSlots(NamedSlot.id))
 			{
@@ -84,14 +101,8 @@ namespace Systems.Clearance
 				}
 			}
 
-			// Nothing worked, let's go with active hand
-			var activeHandObject = playerStorage.GetActiveHandSlot().ItemObject;
-			if (activeHandObject != null && activeHandObject.TryGetComponent<IClearanceSource>(out var handObject))
-			{
-				return HasClearance(handObject);
-			}
+			return HasClearance(null as IClearanceSource);
 
-			return false;
 		}
 
 		/// <summary>

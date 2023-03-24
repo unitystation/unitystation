@@ -56,7 +56,7 @@ public partial class GameManager
 	/// <summary>
 	/// The current game mode
 	/// </summary>
-	private GameMode GameMode;
+	public GameMode GameMode { get; private set; }
 
 	/// <summary>
 	/// Sets the current gamemode using a string to find the gamemode name

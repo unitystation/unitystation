@@ -46,4 +46,10 @@ public class ManagedBehaviour : MonoBehaviour
 	public virtual void LateUpdateMe()
 	{
 	}
+
+	public virtual void OnDestroy()
+	{
+		UpdateManager.Remove(this);
+		IsUpdating = false;
+	}
 }

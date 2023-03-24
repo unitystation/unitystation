@@ -132,7 +132,7 @@ MonoBehaviour:
   ExamineContent: 0
   traitWhitelist: []
   reagentWhitelist: []
-  transferMode: 0
+  transferMode: 4
   possibleTransferAmounts: []
   transferAmount: 20
 --- !u!114 &2616710669765538430
@@ -152,7 +152,7 @@ MonoBehaviour:
   Cleanable: 1
   CanDryUp: 0
   isBlood: 0
-  isFootprint: 1
+  IsFootprint: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   PossibleSprites:
   - {fileID: -2821041230122053228, guid: 66bb9a70ba1fcf54a8077994a6b8f3d3, type: 3}

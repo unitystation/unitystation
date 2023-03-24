@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using Core.Utils;
 using ScriptableObjects.Atmospherics;
 using Chemistry;
 using Systems.Atmospherics;
@@ -29,7 +29,7 @@ namespace Systems.Pipes
 				}
 
 				var InWholeHeatCapacity = WholeHeatCapacity;
-				if (CodeUtilities.IsEqual(InWholeHeatCapacity, 0))
+				if (MathUtils.IsEqual(InWholeHeatCapacity, 0))
 				{
 					mix.Temperature = 0;
 					gasMix.SetTemperature(0);
@@ -48,7 +48,7 @@ namespace Systems.Pipes
 		{
 			get
 			{
-				if (CodeUtilities.IsEqual(WholeHeatCapacity, 0))
+				if (MathUtils.IsEqual(WholeHeatCapacity, 0))
 				{
 					return 0;
 				}
@@ -143,7 +143,7 @@ namespace Systems.Pipes
 
 		public Tuple<ReagentMix, GasMix> Take(MixAndVolume inMixAndVolume, bool removeVolume = true)
 		{
-			if (CodeUtilities.IsEqual(Volume, 0))
+			if (MathUtils.IsEqual(Volume, 0))
 			{
 				Logger.LogError("Tried to take from pipe but its volume was 0!", Category.Pipes);
 			}
@@ -189,7 +189,7 @@ namespace Systems.Pipes
 				return;
 			}
 
-			if (CodeUtilities.IsEqual(divideAmount, 0))
+			if (MathUtils.IsEqual(divideAmount, 0))
 			{
 				Logger.LogError("Tried to divide pipe contents, but the amount to divide by was 0!", Category.Pipes);
 			}
@@ -353,7 +353,7 @@ namespace Systems.Pipes
 			{
 				float totalVolume = Volume + PipeFunctions.PipeOrNet(another).Volume;
 				float totalReagents = mix.Total + PipeFunctions.PipeOrNet(another).mix.Total;
-				if (CodeUtilities.IsEqual(totalVolume, 0))
+				if (MathUtils.IsEqual(totalVolume, 0))
 				{
 					Logger.LogError("Tried to equalise two pipes, but their total volume was 0!", Category.Pipes);
 				}
@@ -399,7 +399,7 @@ namespace Systems.Pipes
 					totalReagents += PipeFunctions.PipeOrNet(pipe).mix.Total;
 				}
 
-				if (CodeUtilities.IsEqual(totalVolume, 0))
+				if (MathUtils.IsEqual(totalVolume, 0))
 				{
 					Logger.LogError("Tried to equalise multiple pipes, but their total volume was 0!", Category.Pipes);
 				}

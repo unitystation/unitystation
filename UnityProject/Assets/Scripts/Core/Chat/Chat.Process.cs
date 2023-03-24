@@ -420,8 +420,9 @@ public partial class Chat
 		if (PlayerManager.LocalPlayerScript.PossessingMind == null) return input;
 		if (PlayerManager.LocalPlayerScript.PossessingMind.IsAntag == false) return input;
 
-		SpawnedAntag antag = PlayerManager.LocalPlayerScript.PossessingMind.GetAntag();
+		SpawnedAntag antag = PlayerManager.LocalMindScript.GetAntag();
 
+		if (antag == null) return input;
 		if(antag.Antagonist.AntagJobType != JobType.TRAITOR && antag.Antagonist.AntagJobType != JobType.SYNDICATE) return input;
 
 		string[] coloredText = input.Split(' '); //Split at each Word

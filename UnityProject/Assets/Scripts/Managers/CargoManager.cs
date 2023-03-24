@@ -81,13 +81,11 @@ namespace Systems.Cargo
 
 		private void OnEnable()
 		{
-			SceneManager.activeSceneChanged += OnRoundRestart;
 			UpdateManager.Add(UpdateMe, checkForTimeCooldown);
 		}
 
 		private void OnDisable()
 		{
-			SceneManager.activeSceneChanged -= OnRoundRestart;
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 		}
 
@@ -110,7 +108,12 @@ namespace Systems.Cargo
 			return false;
 		}
 
-		void OnRoundRestart(Scene oldScene, Scene newScene)
+		public void Start()
+		{
+			OnRoundRestart();
+		}
+
+		public void OnRoundRestart()
 		{
 			Supplies.Clear();
 			ActiveBounties.Clear();
@@ -203,7 +206,7 @@ namespace Systems.Cargo
 				}
 			}
 
-			OnShuttleUpdate.Invoke();
+			OnShuttleUpdate?.Invoke();
 		}
 
 		private IEnumerator Timer(bool launchToStation)
@@ -211,7 +214,7 @@ namespace Systems.Cargo
 			while (CurrentFlyTime > 0f)
 			{
 				CurrentFlyTime -= 1f;
-				OnTimerUpdate.Invoke();
+				OnTimerUpdate?.Invoke();
 				yield return WaitFor.Seconds(1);
 			}
 

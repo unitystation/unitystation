@@ -9,7 +9,7 @@ using Mirror;
 using UnityEngine.UI;
 
 
-public class PlayerAlertView : ChatEntryView
+public class PlayerAlertView : ChatEntryView, IDisposable
 {
 	private PlayerAlertData playerAlertData;
 	public PlayerAlertData LoadedData => playerAlertData;
@@ -39,6 +39,11 @@ public class PlayerAlertView : ChatEntryView
 		{
 			cancelSource.Cancel();
 		}
+	}
+
+	void OnDestroy()
+	{
+		this.Dispose();
 	}
 
 	public void GibRequest()
@@ -96,5 +101,10 @@ public class PlayerAlertView : ChatEntryView
 	{
 		AdminPlayerAlertActions.Send(PlayerAlertActions.TakenCareOf, playerAlertData.roundTime, playerAlertData.playerNetId, PlayerList.Instance.AdminToken);
 		takenCareOfButton.interactable = false;
+	}
+
+	public void Dispose()
+	{
+		cancelSource?.Dispose();
 	}
 }

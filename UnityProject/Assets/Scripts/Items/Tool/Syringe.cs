@@ -25,6 +25,14 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 	public int SpiteFullIndex = 0;
 	public int SpiteEmptyIndex = 1;
 
+	public float TransferAmount = 5;
+
+	private static readonly StandardProgressActionConfig injectProgressBar =
+		new StandardProgressActionConfig(StandardProgressActionType.CPR);
+
+	[SerializeField] private float injectTime = 0.55f;
+	[SerializeField] private float armourMultiplier = 2.75f;
+
 	public void Awake()
 	{
 		if (LocalContainer == null)
@@ -60,30 +68,49 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 			used = true;
 		}
 
-
-
 		var LHB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
-		if (LHB != null)
-		{
-			if (LocalContainer.ReagentMixTotal > 0)
-			{
-				LHB.CirculatorySystem.BloodPool.Add(LocalContainer.TakeReagents(LocalContainer.ReagentMixTotal));
-				LocalContainer.ReagentsChanged();
-				Chat.AddActionMsgToChat(interaction.Performer, $"You Inject The {this.name} into {LHB.gameObject.ExpensiveName()}",
-					$"{interaction.Performer.ExpensiveName()} injects a {this.name} into {LHB.gameObject.ExpensiveName()}");
-				if(SicknessesInSyringe.Count > 0) LHB.AddSickness(SicknessesInSyringe.PickRandom().Sickness);
-				if (ChangesSprite) SpriteHandler.ChangeSprite(SpiteEmptyIndex);
+		if (LHB == null) return;
+		TryInject(interaction.PerformerPlayerScript.RegisterPlayer, LHB);
+	}
 
-			}
-			else
-			{
-				LocalContainer.Add(LHB.CirculatorySystem.BloodPool.Take(LocalContainer.MaxCapacity));
-				LocalContainer.ReagentsChanged();
-				if (ChangesSprite) SpriteHandler.ChangeSprite(SpiteFullIndex);
-				Chat.AddActionMsgToChat(interaction.Performer, $"You pull the blood from {LHB.gameObject.ExpensiveName()}",
-					$"{interaction.Performer.ExpensiveName()} pulls the blood from {LHB.gameObject.ExpensiveName()}");
-				if(LHB.mobSickness.sicknessAfflictions.Count > 0) SicknessesInSyringe.AddRange(LHB.mobSickness.sicknessAfflictions);
-			}
+	private void TryInject(RegisterPlayer performer, LivingHealthMasterBase healthTarget)
+	{
+		var time = injectTime;
+		foreach (var slot in healthTarget.playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.outerwear))
+		{
+			if (slot.IsEmpty) continue;
+			time *= armourMultiplier;
+		}
+		Chat.AddCombatMsgToChat(performer.gameObject, $"You try to Inject The {this.name} into {healthTarget.gameObject.ExpensiveName()}",
+			$"{performer.PlayerScript.visibleName} Tries to inject a {this.name} into {healthTarget.gameObject.ExpensiveName()}");
+
+		StandardProgressAction.Create(injectProgressBar,
+				() => InjectBehavior(healthTarget, performer))
+			.ServerStartProgress(performer, time, performer.PlayerScript.gameObject);
+	}
+
+	public virtual void InjectBehavior(LivingHealthMasterBase LHB, RegisterPlayer performer)
+	{
+		if (LocalContainer.ReagentMixTotal > 0)
+		{
+			if (LHB.reagentPoolSystem != null)
+				LHB.reagentPoolSystem.BloodPool.Add(LocalContainer.TakeReagents(TransferAmount));
+			LocalContainer.ReagentsChanged();
+			Chat.AddCombatMsgToChat(performer.gameObject, $"You Inject The {this.name} into {LHB.gameObject.ExpensiveName()}",
+				$"{performer.PlayerScript.visibleName} injects a {this.name} into {LHB.gameObject.ExpensiveName()}");
+			if(SicknessesInSyringe.Count > 0) LHB.AddSickness(SicknessesInSyringe.PickRandom().Sickness);
+			if (ChangesSprite) SpriteHandler.ChangeSprite(SpiteEmptyIndex);
+
+		}
+		else
+		{
+			if (LHB.reagentPoolSystem != null)
+				LocalContainer.Add(LHB.reagentPoolSystem.BloodPool.Take(LocalContainer.MaxCapacity));
+			LocalContainer.ReagentsChanged();
+			if (ChangesSprite) SpriteHandler.ChangeSprite(SpiteFullIndex);
+			Chat.AddCombatMsgToChat(performer.gameObject, $"You pull the blood from {LHB.gameObject.ExpensiveName()}",
+				$"{performer.PlayerScript.visibleName} pulls the blood from {LHB.gameObject.ExpensiveName()}");
+			if(LHB.mobSickness.sicknessAfflictions.Count > 0) SicknessesInSyringe.AddRange(LHB.mobSickness.sicknessAfflictions);
 		}
 	}
 }

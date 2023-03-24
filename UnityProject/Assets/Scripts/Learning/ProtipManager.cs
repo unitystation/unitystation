@@ -2,8 +2,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Managers;
+using NaughtyAttributes;
 using Newtonsoft.Json;
 using Shared.Managers;
+using UnityEditor;
 using UnityEngine;
 
 namespace Learning
@@ -105,14 +107,15 @@ namespace Learning
 
 		private void CheckQueue()
 		{
-			if(IsShowingTip || queuedTips.Count == 0) return;
+			if (IsShowingTip || queuedTips.Count == 0) return;
 			var tip = queuedTips.Dequeue();
 			ShowTip(tip.Tip, tip.highlightNames);
 		}
 
 		public void QueueTip(ProtipSO tip, List<string> highlightNames)
 		{
-			if(tip == null || queuedTips.Any(x => x.Tip == tip)) return;
+			if (tip == null || queuedTips.Any(x => x.Tip == tip)) return;
+			if (ProtipSaveStates.ContainsKey(tip.TipTitle)) return;
 			QueueTipData data = new QueueTipData
 			{
 				Tip = tip,
@@ -133,6 +136,13 @@ namespace Learning
 				}
 			}
 			IsShowingTip = true;
+		}
+
+		[Button("Test")]
+		public void TriggerTestUI()
+		{
+			if (Application.isPlaying == false) return;
+			ShowTip(RecordedProtips.PickRandom(), new List<string>());
 		}
 
 		private struct QueueTipData

@@ -193,34 +193,15 @@ namespace Doors
 				return;
 			}
 
-			bool canOpen = true;
+
 			HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
 			foreach (var module in modulesList)
 			{
-				ModuleSignal signal = module.BumpingInteraction(byPlayer, states);
-
-				if (!module.CanDoorStateChange() || signal == ModuleSignal.ContinueWithoutDoorStateChange)
-				{
-					canOpen = false;
-				}
-
-				if(signal == ModuleSignal.ContinueRegardlessOfOtherModulesStates)
-				{
-					//(Max): This is to prevent some modules breaking some door behavior and rendering them un-useable.
-					//Only use this signal if you're module's logic is being interrupted by other
-					//modules that are sending ContinueWithoutDoorStateChange as a signal.
-					canOpen = true;
-					break;
-				}
-
-				if (signal == ModuleSignal.SkipRemaining || signal == ModuleSignal.Break)
-				{
-					StartInputCoolDown();
-					break;
-				}
+				module.BumpingInteraction(byPlayer, states);
 			}
 
-			if (!isPerformingAction && canOpen && CheckStatusAllow(states))
+
+			if (!isPerformingAction && CheckStatusAllow(states))
 			{
 				TryOpen(byPlayer);
 			}
@@ -285,30 +266,12 @@ namespace Doors
 		public void OpenInteraction(HandApply interaction)
 		{
 			HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
-			bool canClose = true;
 			foreach (DoorModuleBase module in modulesList)
 			{
-				ModuleSignal signal = module.OpenInteraction(interaction, states);
-
-				if (!module.CanDoorStateChange() || signal == ModuleSignal.ContinueWithoutDoorStateChange)
-				{
-					canClose = false;
-				}
-
-				if (signal == ModuleSignal.SkipRemaining)
-				{
-					StartInputCoolDown();
-					break;
-				}
-
-				if (signal == ModuleSignal.Break)
-				{
-					StartInputCoolDown();
-					return;
-				}
+				module.OpenInteraction(interaction, states);
 			}
 
-			if (!isPerformingAction && canClose && CheckStatusAllow(states) && allowInteraction)
+			if (!isPerformingAction && CheckStatusAllow(states) && allowInteraction)
 			{
 				if (clickDisablesAutoClose)
 				{
@@ -331,26 +294,10 @@ namespace Doors
 			HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
 			foreach (DoorModuleBase module in modulesList)
 			{
-				ModuleSignal signal = module.ClosedInteraction(interaction, states);
-
-				if (!module.CanDoorStateChange() || signal == ModuleSignal.ContinueWithoutDoorStateChange)
-				{
-					canOpen = false;
-				}
-
-
-				if (signal == ModuleSignal.SkipRemaining)
-				{
-					break;
-				}
-
-				if (signal == ModuleSignal.Break)
-				{
-					return;
-				}
+				module.ClosedInteraction(interaction, states);
 			}
 
-			if (!isPerformingAction && (canOpen) && CheckStatusAllow(states) && allowInteraction)
+			if (!isPerformingAction  && CheckStatusAllow(states) && allowInteraction)
 			{
 				if (clickDisablesAutoClose)
 				{
@@ -366,6 +313,7 @@ namespace Doors
 
 		public bool CheckStatusAllow(HashSet<DoorProcessingStates> states)
 		{
+			if (states.Contains(DoorProcessingStates.PhysicallyPrevented)) return false;
 			if (states.Contains(DoorProcessingStates.SoftwarePrevented))
 			{
 				return states.Contains(DoorProcessingStates.SoftwareHacked);
@@ -407,13 +355,14 @@ namespace Doors
 		{
 			if (!IsClosed) return false; //Can't open if we are open. Figures.
 
+			HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
+
 			foreach (DoorModuleBase module in modulesList)
 			{
-				if (!module.CanDoorStateChange())
-				{
-					return false;
-				}
+				module.ClosedInteraction(null, states);
 			}
+
+			if (states.Contains(DoorProcessingStates.PhysicallyPrevented)) return false;
 
 			Open();
 			return true;
@@ -432,13 +381,14 @@ namespace Doors
 		{
 			if (IsClosed) return; //Can't close if we are close. Figures.
 
+			HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
+
 			foreach (DoorModuleBase module in modulesList)
 			{
-				if (!module.CanDoorStateChange())
-				{
-					return;
-				}
+				module.OpenInteraction(null, states);
 			}
+
+			if (states.Contains(DoorProcessingStates.PhysicallyPrevented)) return;
 
 			Close();
 		}
@@ -472,29 +422,13 @@ namespace Doors
 				else
 				{
 					HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
-					bool canClose = true;
+
 					foreach (DoorModuleBase module in modulesList)
 					{
-						ModuleSignal signal = module.OpenInteraction(null, states);
-
-						if (!module.CanDoorStateChange() || signal == ModuleSignal.ContinueWithoutDoorStateChange)
-						{
-							canClose = false;
-						}
-
-						if (signal == ModuleSignal.SkipRemaining)
-						{
-							break;
-						}
-
-						if (signal == ModuleSignal.Break)
-						{
-							ResetWaiting();
-							return;
-						}
+						 module.OpenInteraction(null, states);
 					}
 
-					if (!isPerformingAction && canClose && CheckStatusAllow(states))
+					if (!isPerformingAction && CheckStatusAllow(states))
 					{
 						Close();
 					}

@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Player;
 using Shared.Util;
-using Util;
+using Systems.Character;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -20,40 +20,47 @@ public class PlayerManager : MonoBehaviour
 	public static Equipment Equipment { get; private set; }
 
 	/// <summary>The player GameObject. Null if not in game.</summary>
-	public static GameObject LocalPlayerObject { get; set; }
+	public static GameObject LocalPlayerObject {
+		get
+		{
+			if (LocalMindScript != null)
+			{
+				return LocalMindScript.GetDeepestBody().gameObject;
+			}
+			else if (LocalViewerScript != null)
+			{
+				return LocalViewerScript.gameObject;
+			}
+
+			return null;
+		}
+	}
+
 	/// <summary>The player script for the player while in the game.</summary>
-	public static PlayerScript LocalPlayerScript { get; private set; }
+	public static PlayerScript LocalPlayerScript => LocalPlayerObject.OrNull()?.GetComponent<PlayerScript>(); //TODO Maybe a bit lagg
 
 	public static Mind LocalMindScript { get; private set; }
 
 	/// <summary>The player script for the player while in the lobby.</summary>
 	public static JoinedViewer LocalViewerScript { get; private set; }
 
+	public static CharacterManager CharacterManager { get; } = new CharacterManager();
+
 	public static bool HasSpawned { get; private set; }
 
-	public static CharacterSheet CurrentCharacterSheet { get; set; }
+	public static CharacterSheet ActiveCharacter => CharacterManager.ActiveCharacter;
 
 	private int mobIDcount;
 
 	public static PlayerManager Instance => FindUtils.LazyFindObject(ref playerManager);
 
-#if UNITY_EDITOR	//Opening the station scene instead of going through the lobby
 	private void Awake()
 	{
-		if (CurrentCharacterSheet != null)
-		{
-			return;
-		}
-		// Load CharacterSettings from PlayerPrefs or create a new one
-		string unescapedJson = Regex.Unescape(PlayerPrefs.GetString("currentcharacter"));
-		var deserialized = JsonConvert.DeserializeObject<CharacterSheet>(unescapedJson);
-		CurrentCharacterSheet = deserialized ?? new CharacterSheet();
+		CharacterManager.Init();
 	}
-#endif
 
 	private void OnEnable()
 	{
-		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
 		EventManager.AddHandler(Event.PlayerDied, OnPlayerDeath);
 		EventManager.AddHandler(Event.PlayerRejoined, OnRejoinPlayer);
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
@@ -61,7 +68,6 @@ public class PlayerManager : MonoBehaviour
 
 	private void OnDisable()
 	{
-		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
 		EventManager.RemoveHandler(Event.PlayerDied, OnPlayerDeath);
 		EventManager.RemoveHandler(Event.PlayerRejoined, OnRejoinPlayer);
 		PlayerPrefs.Save();
@@ -126,6 +132,12 @@ public class PlayerManager : MonoBehaviour
 		EventManager.Broadcast(Event.DisableInternals);
 	}
 
+
+	public void OnDestroy()
+	{
+		HasSpawned = false;
+	}
+
 	public static void SetViewerForControl(JoinedViewer viewer)
 	{
 		LocalViewerScript = viewer;
@@ -133,8 +145,6 @@ public class PlayerManager : MonoBehaviour
 
 	public static void SetPlayerForControl(GameObject playerObjToControl, IPlayerControllable movementControllable)
 	{
-		LocalPlayerObject = playerObjToControl;
-		LocalPlayerScript = playerObjToControl.GetComponent<PlayerScript>();
 		Equipment = playerObjToControl.GetComponent<Equipment>();
 
 		Camera2DFollow.followControl.target = playerObjToControl.transform;

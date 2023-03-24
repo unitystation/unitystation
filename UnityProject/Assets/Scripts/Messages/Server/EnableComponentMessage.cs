@@ -13,7 +13,7 @@ namespace Messages.Server
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public GameObject GameObject;
+			public uint GameObject;
 			public int ComponentIndex;
 			public string ComponentName;
 			public bool SetActive;
@@ -21,7 +21,8 @@ namespace Messages.Server
 
 		public override void Process(NetMessage msg)
 		{
-			var components = msg.GameObject.GetComponents<Behaviour>();
+			LoadNetworkObject(msg.GameObject);
+			var components = NetworkObject.GetComponents<Behaviour>();
 			if (msg.ComponentIndex < components.Length)
 			{
 				var component = components[msg.ComponentIndex];
@@ -40,7 +41,7 @@ namespace Messages.Server
 
 			var msg = new NetMessage
 			{
-				GameObject = toEnable.gameObject,
+				GameObject = toEnable.gameObject.NetId(),
 				ComponentIndex = Array.IndexOf(components, toEnable),
 				ComponentName = toEnable.GetType().Name,
 				SetActive = setActive,

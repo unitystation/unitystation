@@ -1,16 +1,14 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 using Mirror;
 using Core.Networking;
 using Systems;
+using Systems.Character;
 using Messages.Server;
 using Messages.Client;
 using Messages.Client.NewPlayer;
-using ScriptableObjects.Characters;
 using UI;
 
 namespace Player
@@ -34,7 +32,7 @@ namespace Player
 
 			PlayerManager.SetViewerForControl(this);
 
-			if (isServer)
+			if (isServer && isLocalPlayer)
 			{
 				RequestObserverRefresh.Send(SceneManager.GetActiveScene().name);
 				HandleServerConnection();
@@ -54,7 +52,7 @@ namespace Player
 		[Command]
 		private void CmdServerSetupPlayer(string currentScene)
 		{
-			ClearCache();
+			ClearCache(true);
 			ServerSetUpPlayer(currentScene);
 		}
 
@@ -94,6 +92,7 @@ namespace Player
 			{
 				Logger.Log(
 					$"A client attempted to set up their server player object but they haven't authenticated yet! Address: {connectionToClient.address}.");
+				ClearCache();
 				return;
 			}
 
@@ -108,7 +107,12 @@ namespace Player
 				if (GameData.Instance.DevBuild == false)
 				{
 					Existingplayer = PlayerList.Instance.GetLoggedOnClient(authData.ClientId, authData.AccountId);
-					Existingplayer?.GameObject.OrNull()?.GetComponent<NetworkIdentity>().OrNull()?.connectionToClient?.Disconnect();
+
+					if (Existingplayer != null && Existingplayer.Connection != connectionToClient)
+					{
+						Logger.LogError($"Disconnecting player {Existingplayer?.Name} via Disconnect previous Using account/mac Address ");
+						Existingplayer.Connection?.Disconnect();
+					}
 				}
 			}
 
@@ -179,12 +183,15 @@ namespace Player
 		{
 			if (IsValidPlayerAndWaitingOnLoad == false)
 			{
+				Logger.LogError($"Disconnecting {this.STVerifiedUserid} by Trying to call CMDFinishLoading When server wasn't expecting player to be loading  ", Category.Connections);
 				connectionToClient.Disconnect();
+				ClearCache();
 				return;
 			}
 
 			if (STVerifiedConnPlayer.Connection != connectionToClient)
 			{
+				Logger.LogError($"Disconnecting {this.STVerifiedConnPlayer.Name} by Authenticated user connection matching The game objects connection ", Category.Connections);
 				connectionToClient.Disconnect();
 				ClearCache();
 				return;
@@ -193,16 +200,22 @@ namespace Player
 			ClientFinishLoading();
 		}
 
-		public void ClearCache()
+		public void ClearCache(bool bNew = false)
 		{
 			IsValidPlayerAndWaitingOnLoad = false;
 			STUnverifiedClientId = null;
 			STVerifiedUserid = null;
 			STVerifiedConnPlayer = null;
+			if (bNew == false)
+			{
+				_ = Despawn.ServerSingle(this.gameObject);
+			}
+
 		}
 
 		public void ClientFinishLoading()
 		{
+			IsValidPlayerAndWaitingOnLoad = false;
 			// Only sync the pre-round countdown if it's already started.
 			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound)
 			{
@@ -226,7 +239,7 @@ namespace Player
 			if (STVerifiedConnPlayer.Mind == null) //TODO Handle when someone gets kicked out of their mind
 			{
 				TargetLocalPlayerSetupNewPlayer(connectionToClient, GameManager.Instance.CurrentRoundState);
-				ClearCache();
+				ClearCache(true);
 			}
 			else
 			{
@@ -249,6 +262,7 @@ namespace Player
 				                "Cannot rejoin that player. Was original player object improperly created? " +
 				                "Did we get runtime error while creating it?", Category.Connections);
 				// TODO: if this issue persists, should probably send the poor player a message about failing to rejoin.
+				ClearCache();
 				yield break;
 			}
 
@@ -258,12 +272,12 @@ namespace Player
 				if (connectionToClient == null)
 				{
 					//disconnected while we were waiting
+					ClearCache();
 					yield break;
 				}
 			}
 
 			TargetLocalPlayerRejoinUI(connectionToClient);
-
 			STVerifiedConnPlayer.Mind.OrNull()?.ReLog();
 			ClearCache();
 		}
@@ -301,7 +315,7 @@ namespace Player
 
 		public void RequestJob(JobType job)
 		{
-			var jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSheet);
+			var jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.ActiveCharacter);
 
 			if (PlayerList.Instance.ClientJobBanCheck(job) == false)
 			{
@@ -316,13 +330,13 @@ namespace Player
 
 		public void RequestJob(int attribute)
 		{
-			var jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSheet);
+			var jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.ActiveCharacter);
 			ClientRequestSpawnWithAttribute.Send(attribute, jsonCharSettings, DatabaseAPI.ServerData.UserID);
 		}
 
 		public void Spectate()
 		{
-			var jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSheet);
+			var jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.ActiveCharacter);
 			ClientRequestJobMessage.Send(JobType.NULL, jsonCharSettings, DatabaseAPI.ServerData.UserID);
 		}
 
@@ -344,7 +358,7 @@ namespace Player
 			var jsonCharSettings = "";
 			if (isReady)
 			{
-				jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSheet);
+				jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.ActiveCharacter);
 			}
 
 			CmdPlayerReady(isReady, jsonCharSettings);

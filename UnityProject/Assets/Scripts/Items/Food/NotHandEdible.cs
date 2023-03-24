@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AddressableReferences;
 using Chemistry;
 using Chemistry.Components;
+using HealthV2.Living.PolymorphicSystems;
 using UnityEngine;
 
 namespace Items
@@ -75,7 +76,13 @@ namespace Items
 			var feeder = feederGO.GetComponent<PlayerScript>();
 
 			// Show eater message
-			var eaterHungerState = eater.playerHealth.HungerState;
+			var sys = eater.playerHealth.GetSystem<HungerSystem>();
+			HungerState eaterHungerState = HungerState.Normal;
+
+			if (sys != null)
+			{
+				eaterHungerState = sys.HungerState;
+			}
 			ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");
 
 			// Check if eater can eat anything

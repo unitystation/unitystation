@@ -64,24 +64,29 @@ namespace Doors.Modules
 			IsElectrified = !IsElectrified;
 		}
 
-		public override ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		public override void OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
 			if (interaction == null)
 			{
-				return ModuleSignal.Continue;
+				return;
 			}
 
-			return CanElectricute(interaction.Performer);
+			CanElectricute(interaction.Performer);
 		}
 
-		public override ModuleSignal ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		public override void ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
-			return CanElectricute(interaction.Performer);
+			if (interaction == null)
+			{
+				return;
+			}
+
+			CanElectricute(interaction.Performer);
 		}
 
-		public override ModuleSignal BumpingInteraction(GameObject mob, HashSet<DoorProcessingStates> States)
+		public override void BumpingInteraction(GameObject mob, HashSet<DoorProcessingStates> States)
 		{
-			return CanElectricute(mob);
+			CanElectricute(mob);
 		}
 
 		public bool PulsePreventElectrocution()
@@ -94,7 +99,7 @@ namespace Doors.Modules
 			master.HackingProcessBase.ReceivedPulse(PreventElectrocution);
 		}
 
-		private ModuleSignal CanElectricute(GameObject mob)
+		private void CanElectricute(GameObject mob)
 		{
 			if (master.HasPower)
 			{
@@ -105,10 +110,10 @@ namespace Doors.Modules
 						if (PlayerHasInsulatedGloves(mob) == false)
 						{
 							ServerElectrocute(mob);
-							return ModuleSignal.Continue;
+							return;
 						}
 
-						return ModuleSignal.ContinueRegardlessOfOtherModulesStates;
+						return;
 					}
 				}
 				else
@@ -116,13 +121,13 @@ namespace Doors.Modules
 					if (PlayerHasInsulatedGloves(mob) == false)
 					{
 						ServerElectrocute(mob);
-						return ModuleSignal.Continue;
+						return;
 					}
 
-					return ModuleSignal.ContinueRegardlessOfOtherModulesStates;
+					return;
 				}
 			}
-			return ModuleSignal.Continue;
+			return;
 		}
 
 		private bool PlayerHasInsulatedGloves(GameObject mob)
@@ -153,15 +158,6 @@ namespace Doors.Modules
 			healthScript.Electrocute(electrocution);
 		}
 
-		public override bool CanDoorStateChange()
-		{
-			if (master.HasPower && IsElectrified)
-			{
-				return false;
-			}
-
-			return true;
-		}
 
 		#region Synthetic sprite
 

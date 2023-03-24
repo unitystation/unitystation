@@ -80,7 +80,8 @@ public static class SweetExtensions
 		}
 
 		var player = go.Player();
-		if (player != null && !String.IsNullOrWhiteSpace(player.Script.visibleName))
+
+		if (player != null && player.Script != null && String.IsNullOrWhiteSpace(player.Script.visibleName) == false)
 		{
 			return player.Script.visibleName;
 		}
@@ -92,6 +93,12 @@ public static class SweetExtensions
 	{
 		return list?.Count > 0 ? list.PickRandom() : default(T);
 	}
+
+	public static Dictionary<uint, NetworkIdentity> GetSpawned()
+	{
+		return CustomNetworkManager.Spawned;
+	}
+
 
 	public static GameObject NetIdToGameObject(this uint NetID)
 	{
@@ -172,6 +179,34 @@ public static class SweetExtensions
 		if (ComponentManager.TryGetCommonComponent(go, out  var commonComponent))
 		{
 			return commonComponent;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+
+	//New better system for Get component That caches results
+	public static T GetComponentCustom<T>(this Component go)  where T : Component
+	{
+		if (ComponentManager.TryGetCommonComponent(go.gameObject, out  var commonComponent))
+		{
+			return commonComponent.SafeGetComponent<T>();
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+
+	//New better system for Get component That cashs results
+	public static T GetComponentCustom<T>(this GameObject go)  where T : Component
+	{
+		if (ComponentManager.TryGetCommonComponent(go, out  var commonComponent))
+		{
+			return commonComponent.SafeGetComponent<T>();
 		}
 		else
 		{
@@ -409,7 +444,7 @@ public static class SweetExtensions
 	{
 		if (chunkSize <= 0)
 		{
-			throw new ArgumentException("chunkSize must be greater than 0.");
+			throw new ArgumentException($"{nameof(chunkSize)} must be greater than 0.", nameof(chunkSize));
 		}
 
 		while (list.Any())
@@ -714,6 +749,26 @@ public static class SweetExtensions
 			OrientationEnum.Left_By90 => Vector3Int.left,
 			_ => Vector3Int.zero
 		};
+	}
+
+	public static OrientationEnum GetOppositeDirection(this OrientationEnum dir)
+	{
+		switch (dir)
+		{
+			case OrientationEnum.Default:
+				return OrientationEnum.Down_By180;
+			case OrientationEnum.Right_By270:
+				return OrientationEnum.Left_By90;
+			case OrientationEnum.Up_By0:
+				return OrientationEnum.Default;
+			case OrientationEnum.Left_By90:
+				return OrientationEnum.Right_By270;
+			case OrientationEnum.Down_By180:
+				return OrientationEnum.Up_By0;
+			default:
+				throw new ArgumentOutOfRangeException();
+		}
+		return OrientationEnum.Down_By180;
 	}
 
 	public static string RemovePunctuation(this string input)

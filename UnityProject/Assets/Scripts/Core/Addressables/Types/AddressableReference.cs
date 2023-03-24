@@ -204,20 +204,24 @@ namespace AddressableReferences
 	[Serializable]
 	public class AddressableAudioSource : AddressableReference<GameObject>
 	{
-		private AudioSource audioSource = null;
+		private WeakReference<AudioSource> audioSource = null;
 
 		public AudioSource AudioSource
 		{
 			get
 			{
-				if (audioSource == null)
+				AudioSource result = null;
+
+				if (audioSource == null || !audioSource.TryGetTarget(out result))
 				{
 					GameObject gameObject = base.Retrieve();
-					if (gameObject == null || !gameObject.TryGetComponent(out audioSource))
+					if (gameObject == null || !gameObject.TryGetComponent(out result))
 						return null;
+
+					audioSource = new WeakReference<AudioSource>(result);
 				}
 
-				return audioSource;
+				return result;
 			}
 		}
 

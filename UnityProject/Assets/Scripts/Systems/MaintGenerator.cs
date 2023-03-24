@@ -8,7 +8,7 @@ using Objects;
 
 namespace Systems.Scenes
 {
-	public class MaintGenerator : MonoBehaviour, IServerSpawn
+	public class MaintGenerator : MonoBehaviour
 	{
 		private enum Direction
 		{
@@ -40,7 +40,7 @@ namespace Systems.Scenes
 		[SerializeField] private Matrix matrix;
 
 		[SerializeField] private List<MaintObject> possibleSpawns = new List<MaintObject>();
-		
+
 		[SerializeField,Tooltip("Possible crates or lockers that items can spawn in")]
 		private List<GameObject> containers = new List<GameObject>();
 
@@ -50,7 +50,7 @@ namespace Systems.Scenes
 		private int[,] mazeArray;
 		private HashSet<Vector2Int> bordercells;
 
-		public void OnSpawnServer(SpawnInfo spawnInfo)
+		public void Start()
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 
@@ -68,7 +68,7 @@ namespace Systems.Scenes
 			foreach(ExclusionZone zone in exclusionZones)
 			{
 				Gizmos.DrawWireCube(transform.position + zone.Offset.To3() + zone.Size.To3()/WALL_GAP + GIZMO_OFFSET, zone.Size.To3());
-			}		
+			}
 		}
 
 		#region Tiles
@@ -173,7 +173,7 @@ namespace Systems.Scenes
 
 		public void CreateTiles()
 		{
-			
+
 			//Places tiles at mazeArray elements with value 1
 			for (int x = 0; x < width; x++)
 			{
@@ -204,7 +204,7 @@ namespace Systems.Scenes
 					int h = UnityEngine.Random.Range(0, MAX_PERCENT);
 					if (h > objectChance) continue;
 
-					TrySpawnObject(i,j);		
+					TrySpawnObject(i,j);
 				}
 			}
 		}

@@ -1,10 +1,10 @@
 ﻿using System.Linq;
+using Systems.Character;
 using Systems.CraftingV2;
 using Systems.GhostRoles;
 using AddressableReferences;
 using HealthV2;
 using Managers;
-using Player.Language;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -263,7 +263,7 @@ namespace Objects
 			characterSettings.Species = ashwalkerRaceData.name;
 			characterSettings.SerialisedExternalCustom?.Clear();
 
-			characterSettings.SkinTone = CharacterSheet.GetRandomSkinTone(ashwalkerRaceData.name);
+			characterSettings.SkinTone = CharacterSheet.GetRandomSkinTone(ashwalkerRaceData);
 
 			//Give random lizard name
 			characterSettings.Name = StringManager.GetRandomLizardName(characterSettings.GetGender());

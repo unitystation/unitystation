@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
-using Mirror;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Mirror;
+using TMPro;
 using AdminCommands;
 using Messages.Client.Lobby;
+using UI.Character;
 
 namespace UI
 {
@@ -207,7 +208,7 @@ namespace UI
 		public void OnReadyButton()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			if (PlayerManager.CurrentCharacterSheet == null)
+			if (PlayerManager.ActiveCharacter == null)
 			{
 				warnText.SetActive(true);
 				return;

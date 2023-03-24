@@ -150,7 +150,8 @@ namespace InGameEvents
 		{
 			if (eventList.Count == 0) return;
 
-			foreach (var eventInList in eventList.Shuffle())
+			var ToLoop = eventList.Where(x => x.CanRandomlyTrigger).Shuffle();
+			foreach (var eventInList in ToLoop)
 			{
 				//If there's not enough players try to trigger a different one
 				if(eventInList.MinPlayersToTrigger > PlayerList.Instance.InGamePlayers.Count) continue;

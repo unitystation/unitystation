@@ -26,19 +26,19 @@ PrefabInstance:
     - target: {fileID: 2447550672866220013, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: CapableMutations.Array.size
-      value: 6
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 2447550672866220013, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
-      propertyPath: CapableMutations.Array.data[4]
+      propertyPath: CapableMutations.Array.data[21]
       value: 
-      objectReference: {fileID: 11400000, guid: 690f18a2fa4bec141971d6f5c7753177,
+      objectReference: {fileID: 11400000, guid: 7d30a8633ee38fd49b6dd72e35a0dc0c,
         type: 2}
     - target: {fileID: 2447550672866220013, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
-      propertyPath: CapableMutations.Array.data[5]
+      propertyPath: CapableMutations.Array.data[22]
       value: 
-      objectReference: {fileID: 11400000, guid: 7d30a8633ee38fd49b6dd72e35a0dc0c,
+      objectReference: {fileID: 11400000, guid: 690f18a2fa4bec141971d6f5c7753177,
         type: 2}
     - target: {fileID: 2780143343961368630, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
@@ -114,6 +114,11 @@ PrefabInstance:
         type: 3}
       propertyPath: maxCapacity
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6261603888642619574, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9204204549946934727, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}

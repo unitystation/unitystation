@@ -9,11 +9,12 @@ using Mirror;
 using HealthV2;
 using Player;
 using Items;
+using Messages.Client.GhostRoles;
 using Messages.Server;
 using Player.Language;
 using ScriptableObjects;
+using Systems.Character;
 using Systems.StatusesAndEffects;
-using UI.Core.Action;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Serialization;
 
@@ -33,13 +34,14 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 
 	public IPlayerPossessable Itself => this as IPlayerPossessable;
 
+
 	public void OnPossessPlayer(Mind mind, IPlayerPossessable parent)
 	{
 		if (mind == null) return;
 		if (IsNormal && parent == null &&  playerTypeSettings.PlayerType != PlayerTypes.Ghost)//Can't be possessed directly
 		{
 			mind.SetPossessingObject(playerHealth.OrNull()?.brain.OrNull()?.gameObject);
-			mind.SetControllingObject(playerHealth.OrNull()?.brain.OrNull()?.gameObject);
+			mind.StopGhosting();
 			return;
 		}
 		else
@@ -49,7 +51,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 
 	}
 
-	public void OnControlPlayer(Mind mind, bool isServer, IPlayerPossessable parent)
+	public void OnControlPlayer(Mind mind)
 	{
 		if (mind == null) return;
 		Init(mind);
@@ -61,11 +63,10 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		Itself.PreImplementedSyncPossessingID(previouslyPossessing, currentlyPossessing);
 	}
 
-
 	/// maximum distance the player needs to be to an object to interact with it
 	public const float INTERACTION_DISTANCE = 1.5f;
 
-	public Mind Mind { private set; get; }
+	public Mind Mind => PossessingMind;
 	public PlayerInfo PlayerInfo;
 
 	[FormerlySerializedAs("playerStateSettings")] [SerializeField]
@@ -175,6 +176,9 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 
 	public bool CanVentCrawl => canVentCrawl;
 
+	public Action<Intent> OnIntentChange;
+	public Action OnLayDown;
+
 	#region Lifecycle
 
 	private void Awake()
@@ -243,7 +247,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 			{
 				SyncPlayerName(mind.name, mind.name);
 			}
-
 		}
 
 
@@ -273,6 +276,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 				mask |= 1 << LayerMask.NameToLayer("Ghosts");
 				Camera2DFollow.followControl.cam.cullingMask = mask;
 				UIManager.Display.RejoinedEvent();
+				RequestAvailableGhostRolesMessage.SendMessage();
 			}
 			//Normal players
 			else if (IsPlayerSemiGhost == false)
@@ -387,12 +391,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	public void SetPlayerChatLocation(GameObject newLocation)
 	{
 		playerChatLocation = newLocation;
-	}
-
-
-	public void SetMind(Mind inMind)
-	{
-		Mind = inMind;
 	}
 
 	/// <summary>

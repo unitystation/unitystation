@@ -38,6 +38,35 @@ public class BodyPartMutations : BodyPartFunctionality
 		return MutationVariants[Mutation];
 	}
 
+	public override void Awake()
+	{
+		base.Awake();
+		RelatedPart.OnDamageTaken += OnDMGMutationCheck;
+	}
+
+
+	private void OnDMGMutationCheck(BodyPartDamageData data)
+	{
+		if (data.DamageType != DamageType.Clone) return;
+		if (data.DamageAmount <= 0) return;
+
+		data.DamageAmount = Mathf.Clamp(data.DamageAmount, 0, 100);
+		//Range = 0 to 100
+		//Percentage 100 = 10
+		var RNG= Random.Range(0, 1000);
+		if ((data.DamageAmount >= RNG) == false) return;
+
+		var available = new List<MutationSO>(CapableMutations);
+		foreach (var active in ActiveMutations)
+		{
+			available.Remove(active.RelatedMutationSO);
+		}
+
+		AddMutation(available.PickRandom());
+		//Maybe under undo mutations??
+	}
+
+
 	public static MutationRoundData GetSpeciesRoundData(PlayerHealthData species)
 	{
 		if (RaceDataVariants.ContainsKey(species) == false)
@@ -113,6 +142,7 @@ public class BodyPartMutations : BodyPartFunctionality
 	{
 		foreach (var Mutation in CapableMutations)
 		{
+			if (Mutation == null) continue;
 			if (Mutation.Stability > 0)
 			{
 				bool AlreadyActive = false;
@@ -157,26 +187,27 @@ public class BodyPartMutations : BodyPartFunctionality
 
 	private IEnumerator ProcessChangeToSpecies(PlayerHealthData NewSpecies, GameObject BodyPart)
 	{
-		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * (1 + UnityEngine.Random.Range(-0.75f, 0.90f)));
+		var modifier = (1 + UnityEngine.Random.Range(-0.75f, 0.90f));
+		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * modifier);
 
-		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.gameObject,
+		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.OrNull()?.gameObject,
 			$" Your {RelatedPart.gameObject.ExpensiveName()} Feels strange");
 
-		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * (1 + UnityEngine.Random.Range(-0.75f, 0.90f)));
+		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) *  modifier);
 
-		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.gameObject,
+		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.OrNull()?.gameObject,
 			$" Your {RelatedPart.gameObject.ExpensiveName()} Starts to hurt");
 
-		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * (1 + UnityEngine.Random.Range(-0.75f, 0.90f)));
+		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * modifier);
 
-		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.gameObject,
+		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.OrNull()?.gameObject,
 			$" You feel {RelatedPart.gameObject.ExpensiveName()} starting to morph and change");
 
-		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * (1 + UnityEngine.Random.Range(-0.75f, 0.90f)));
+		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * modifier);
 
 		var SpawnedBodypart = Spawn.ServerPrefab(BodyPart).GameObject.GetComponent<BodyPart>();
 
-		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.gameObject,
+		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.OrNull()?.gameObject,
 			$" Your {RelatedPart.gameObject.ExpensiveName()} Morphs into a {SpawnedBodypart.gameObject.ExpensiveName()}");
 
 		foreach (var itemSlot in SpawnedBodypart.OrganStorage.GetItemSlots())
@@ -184,12 +215,23 @@ public class BodyPartMutations : BodyPartFunctionality
 			Inventory.ServerDespawn(itemSlot);
 		}
 
+		bool HasOpenProcedure = Enumerable.OfType<OpenProcedure>(SpawnedBodypart.SurgeryProcedureBase).Any();
+
+
 		foreach (var itemSlot in RelatedPart.OrganStorage.GetItemSlots())
 		{
 			if (itemSlot.Item != null)
 			{
-				var toSlot = SpawnedBodypart.OrganStorage;
-				Inventory.ServerTransfer(itemSlot, toSlot.GetBestSlotFor(itemSlot.Item));
+				if (HasOpenProcedure)
+				{
+					var toSlot = SpawnedBodypart.OrganStorage;
+					Inventory.ServerTransfer(itemSlot, toSlot.GetBestSlotFor(itemSlot.Item));
+				}
+				else
+				{
+					RelatedPart.OrganStorage.ServerTryRemove(itemSlot.Item.gameObject, false,
+						DroppedAtWorldPositionOrThrowVector: ConverterExtensions.GetRandomRotatedVector2(-0.5f, 0.5f), Throw: true);
+				}
 			}
 		}
 
@@ -261,8 +303,6 @@ public class BodyPartMutations : BodyPartFunctionality
 		public PlayerHealthData PlayerHealthData;
 		public int ResearchDifficult;
 
-		public SliderMiniGameData SliderMiniGame;
-
 		//
 
 		public class SliderMiniGameData
@@ -284,6 +324,11 @@ public class BodyPartMutations : BodyPartFunctionality
 		{
 			var NumberOfSliders =
 				Mathf.RoundToInt(((Difficulty / 100f) * 9f)); //9f = Max number of sliders
+			if (NumberOfSliders is 0 or 1)
+			{
+				NumberOfSliders = 2;
+			}
+
 			NewSliderMiniGameData.Parameters.Clear();
 			for (int i = 0; i < NumberOfSliders; i++)
 			{
@@ -388,8 +433,6 @@ public class BodyPartMutations : BodyPartFunctionality
 			this.RoundID = GameManager.RoundID;
 			if (MutationSO != null)
 			{
-
-				SliderMiniGame = new SliderMiniGameData();
 				this.ResearchDifficult =
 					Mathf.RoundToInt((MutationSO.ResearchDifficult *
 					                  Random.Range(0.75f, 1.25f))); //TODO Change to percentage-based system?
@@ -399,8 +442,6 @@ public class BodyPartMutations : BodyPartFunctionality
 				this.Stability =
 					Mathf.RoundToInt((MutationSO.Stability *
 					                  Random.Range(0.5f, 1.5f))); //TODO Change to percentage-based system?
-
-				PopulateSliderMiniGame(SliderMiniGame, ResearchDifficult, MutationSO.CanRequireLocks);
 			}
 			else
 			{

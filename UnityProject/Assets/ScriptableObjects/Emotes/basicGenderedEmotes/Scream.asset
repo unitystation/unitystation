@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Scream
   m_EditorClassIdentifier: 
   emoteName: scream
+  EmoteIcon: {fileID: 21300002, guid: 5ac49bdee78232f4e8d7405935643a36, type: 3}
   requiresHands: 0
   allowEmoteWhileInCrit: 1
   isAudibleEmote: 1
@@ -232,3 +233,4 @@ MonoBehaviour:
           m_SubObjectType: 
           m_EditorAssetChanged: 0
   pitchRange: {x: 0.7, y: 1}
+  allowedPlayerTypes: 1

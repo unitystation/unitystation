@@ -23,5 +23,6 @@
 	{
 		SoftwarePrevented,
 		SoftwareHacked,
+		PhysicallyPrevented,
 	}
 }

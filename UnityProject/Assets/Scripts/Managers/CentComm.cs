@@ -79,6 +79,12 @@ namespace Managers
 			EventManager.RemoveHandler(Event.RoundStarted, OnRoundStart);
 		}
 
+		public void Clear()
+		{
+			OnAlertLevelChange = () => { };
+			OnStatusDisplayUpdate = new StatusDisplayUpdateEvent();
+		}
+
 		private void OnRoundStart()
 		{
 			asteroidLocations.Clear();
@@ -124,7 +130,7 @@ namespace Managers
 			// Checks if there will be antags this round and sets the initial update/report
 			if (GameManager.Instance.GetGameModeName(true) != "Extended")
 			{
-				lastAlertChange = GameManager.Instance.stationTime;
+				lastAlertChange = GameManager.Instance.RoundTime;
 				SendAntagUpdate();
 			}
 			else
@@ -203,7 +209,7 @@ namespace Managers
 					UpdateSound.Alert);
 			}
 
-			lastAlertChange = gameManager.stationTime;
+			lastAlertChange = gameManager.RoundTime;
 			CurrentAlertLevel = toLevel;
 			OnAlertLevelChange?.Invoke();
 		}

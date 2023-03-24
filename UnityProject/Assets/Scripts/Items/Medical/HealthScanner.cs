@@ -46,16 +46,17 @@ namespace Items.Medical
 					$"{performerName} analyzes {targetName}'s vitals.");
 
 			var health = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
+			var trauma = interaction.TargetObject.GetComponent<CreatureTraumaManager>();
 			var totalPercent = Mathf.Floor(100 * health.OverallHealth / health.MaxHealth);
-			var bloodTotal = Mathf.Round(health.GetTotalBlood());
-			var bloodPercent = Mathf.Round(bloodTotal / health.CirculatorySystem.BloodInfo.BLOOD_NORMAL * 100);
+			var bloodTotal = Mathf.Round(health.reagentPoolSystem.GetTotalBlood());
+			var bloodPercent = Mathf.Round(bloodTotal / health.reagentPoolSystem.BloodInfo.BLOOD_NORMAL * 100);
 			float[] fullDamage = new float[7];
 
 			StringBuilder scanMessage = new StringBuilder(
 					"----------------------------------------\n" +
 					$"{targetName} is {health.ConsciousState}\n" +
 					$"<b>Overall status: {totalPercent} % healthy</b>\n" +
-					$"Blood level: {bloodTotal}cc, {bloodPercent} %\n");
+					$"Blood Pool level: {bloodTotal}cc, {bloodPercent} %\n");
 			StringBuilder partMessages = new StringBuilder();
 			foreach (var bodypart in health.BodyPartList)
 			{
@@ -90,24 +91,18 @@ namespace Items.Medical
 				scanMessage.Append("</mspace>");
 			}
 
-			if (interaction.IsAltClick && AdvancedHealthScanner)
+			if (AdvancedHealthScanner)
 			{
-				foreach(BodyPart part in health.BodyPartList)
-				{
-					if(part.BodyPartType == interaction.TargetBodyPart)
-					{
-						scanMessage.AppendLine(part.GetFullBodyPartDamageDescReport());
-					}
-				}
+				if (trauma != null) scanMessage.AppendLine(GetTraumaText(trauma));
 			}
 
 			scanMessage.AppendLine("-------===== Internal damage =====------");
 			partMessages.Clear();
 			foreach (var bodypart in health.BodyPartList)
 			{
-				if ( bodypart.DamageContributesToOverallHealth) continue;
-				if (bodypart.TotalDamage == 0) continue;
-				
+				if ( bodypart.DamageContributesToOverallHealth ) continue;
+				if ( bodypart.TotalDamage == 0 ) continue;
+
 				partMessages.AppendLine(GetBodypartMessage(bodypart));
 			}
 
@@ -116,6 +111,20 @@ namespace Items.Medical
 			scanMessage.Append("----------------------------------------");
 
 			Chat.AddExamineMsgFromServer(interaction.Performer, $"</i>{scanMessage}<i>");
+		}
+
+		private string GetTraumaText(CreatureTraumaManager creatureTrauma)
+		{
+			var traumaText = new StringBuilder();
+			foreach (BodyPartTrauma part in creatureTrauma.Traumas.Values)
+			{
+				foreach (TraumaLogic traumaLogic in part.TraumaTypesOnBodyPart)
+				{
+					if (traumaLogic.StageDescriptor() != null) traumaText.AppendLine(traumaLogic.StageDescriptor());
+				}
+			}
+
+			return traumaText.ToString();
 		}
 
 		private string GetBodypartMessage(BodyPart bodypart)

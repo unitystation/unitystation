@@ -19,10 +19,18 @@ namespace HealthV2.Limbs
 		private float crawlingSpeed = 0.3f;
 		public float CrawlingSpeed => crawlingSpeed;
 
-		public override void AddedToBody(LivingHealthMasterBase livingHealth)
+		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
-			base.AddedToBody(livingHealth);
+			base.OnAddedToBody(livingHealth);
 			playerHealth.OrNull()?.PlayerMove.AddModifier(this);
+
+
+		}
+
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+		{
+			base.OnRemovedFromBody(livingHealth);
+			(livingHealth as PlayerHealthV2).OrNull()?.PlayerMove.RemoveModifier(this);
 		}
 
 		public void SetNewSpeeds(float newCrawlingSpeed)

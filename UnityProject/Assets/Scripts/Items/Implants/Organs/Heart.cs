@@ -1,5 +1,7 @@
 ﻿using Chemistry;
 using HealthV2;
+using HealthV2.Living.PolymorphicSystems.Bodypart;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Items.Implants.Organs
@@ -16,17 +18,36 @@ namespace Items.Implants.Organs
 
 		public int CurrentPulse = 0;
 
-		private bool alarmedForInternalBleeding = false;
-
 		[SerializeField] private Reagent salt;
 
 		[SerializeField] private float dangerSaltLevel = 20f; //in u
 
-		public override void EmpResult(int strength)
-		{
-			if (DMMath.Prob(50)) DoHeartAttack();
+		public HungerComponent HungerComponent;
 
-			base.EmpResult(strength);
+		public ReagentCirculatedComponent _ReagentCirculatedComponent;
+
+		public int ForcedBeats = 0;
+
+		public bool isEMPVunerable = false;
+
+		[ShowIf("isEMPVunerable")]
+		public int EMPResistance = 2;
+
+		public override void Awake()
+		{
+			base.Awake();
+			HungerComponent = this.GetComponentCustom<HungerComponent>();
+			_ReagentCirculatedComponent = this.GetComponentCustom<ReagentCirculatedComponent>();
+		}
+
+		public override void OnEmp(int strength)
+		{
+			if (isEMPVunerable == false) return;
+
+			if (EMPResistance == 0 || DMMath.Prob(100 / EMPResistance))
+			{
+				if (DMMath.Prob(50)) DoHeartAttack();
+			}
 		}
 
 		public override void ImplantPeriodicUpdate()
@@ -60,31 +81,14 @@ namespace Items.Implants.Organs
 			DoHeartBeat();
 		}
 
-		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
-			livingHealth.CirculatorySystem.Hearts.Remove(this);
+			_ReagentCirculatedComponent.AssociatedSystem.PumpingDevices.Remove(this);
 		}
 
-		public override void AddedToBody(LivingHealthMasterBase livingHealth)
+		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
-			livingHealth.CirculatorySystem.Hearts.Add(this);
-		}
-
-		public override void InternalDamageLogic()
-		{
-			base.InternalDamageLogic();
-			if (RelatedPart.CurrentInternalBleedingDamage > 50 && alarmedForInternalBleeding == false)
-			{
-				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject,
-					$"You feel a sharp pain in your {RelatedPart.gameObject.ExpensiveName()}!",
-					$"{RelatedPart.HealthMaster.playerScript.visibleName} holds their {RelatedPart.gameObject.ExpensiveName()} in pain!");
-				alarmedForInternalBleeding = true;
-			}
-
-			if (RelatedPart.CurrentInternalBleedingDamage > RelatedPart.MaximumInternalBleedDamage)
-			{
-				DoHeartAttack();
-			}
+			_ReagentCirculatedComponent.AssociatedSystem.PumpingDevices.Add(this);
 		}
 
 		public void DoHeartBeat()
@@ -96,7 +100,6 @@ namespace Items.Implants.Organs
 				if (DMMath.Prob(0.1))
 				{
 					HeartAttack = false;
-					alarmedForInternalBleeding = false;
 				}
 
 				return;
@@ -104,8 +107,8 @@ namespace Items.Implants.Organs
 
 			if (RelatedPart.HealthMaster.IsDead)
 				return; //For some reason the heart will randomly still continue to try and beat after death.
-			if (RelatedPart.HealthMaster.CirculatorySystem.BloodPool.MajorMixReagent == salt ||
-			    RelatedPart.HealthMaster.CirculatorySystem.BloodPool[salt] > dangerSaltLevel)
+			if (_ReagentCirculatedComponent.AssociatedSystem.BloodPool.MajorMixReagent == salt ||
+			    _ReagentCirculatedComponent.AssociatedSystem.BloodPool[salt] > dangerSaltLevel)
 			{
 				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject,
 					"<color=red>Your body spasms as a jolt of pain surges all over your body then into your heart!</color>",
@@ -118,6 +121,12 @@ namespace Items.Implants.Organs
 
 		public float CalculateHeartbeat()
 		{
+			if (ForcedBeats > 0)
+			{
+				ForcedBeats--;
+				return 1;
+			}
+
 			if (HeartAttack || RelatedPart.HealthMaster.brain == null) //Needs a brain for heart to work
 			{
 				return 0;
@@ -133,7 +142,7 @@ namespace Items.Implants.Organs
 					toMultiply = Mathf.Max(0f,
 						Mathf.Max(RelatedPart.MaxHealth - RelatedPart.TotalDamageWithoutOxyCloneRadStam, 0) / RelatedPart.MaxHealth);
 				}
-				else if (modifier == RelatedPart.HungerModifier)
+				else if (modifier == HungerComponent.OrNull()?.HungerModifier)
 				{
 					continue;
 				}

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Firebase.Auth;
 using Newtonsoft.Json;
 using UnityEngine;
+using Systems.Character;
 
 namespace DatabaseAPI
 {
@@ -42,9 +43,6 @@ namespace DatabaseAPI
 				Logger.LogError($"Error occured when uploading character: {e.Message}", Category.DatabaseAPI);
 				return false;
 			}
-
-			PlayerPrefs.SetString("currentcharacter", jsonSettings);
-			PlayerPrefs.Save();
 
 			return true;
 		}

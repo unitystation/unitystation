@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Systems.Character;
 using Systems.Clothing;
 using Light2D;
 using Effects.Overlays;
@@ -447,9 +448,11 @@ namespace Player
 					Logger.LogError($"Failed to find race for {gameObject.ExpensiveName()} with race: {characterSettings.Species}");
 				}
 
+				livingHealthMasterBase.InitialiseFromRaceData(RaceBodyparts);
 				livingHealthMasterBase.SetUpCharacter(RaceBodyparts);
 				SetupSprites();
-				livingHealthMasterBase.InitialiseFromRaceData(RaceBodyparts);
+				livingHealthMasterBase.StartFresh();
+
 
 			}
 		}

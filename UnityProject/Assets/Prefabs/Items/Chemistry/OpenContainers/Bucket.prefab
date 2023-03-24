@@ -243,6 +243,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6421186659643855438, guid: 364841a08150e9345b119e71191c8dcf,
         type: 3}
+      propertyPath: transferSound.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6421186659643855438, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
       propertyPath: possibleTransferAmounts.Array.size
       value: 8
       objectReference: {fileID: 0}
@@ -250,6 +255,26 @@ PrefabInstance:
         type: 3}
       propertyPath: possibleTransferAmounts.Array.data[7]
       value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 6421186659643855438, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: transferSound.Array.data[0].AssetAddress
+      value: Assets/Prefabs/footsteps/water/FootstepWater1.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 6421186659643855438, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: transferSound.Array.data[1].AssetAddress
+      value: Assets/Prefabs/footsteps/water/FootstepWater2.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 6421186659643855438, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: transferSound.Array.data[2].AssetAddress
+      value: Assets/Prefabs/footsteps/water/FootstepWater3.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 6421186659643855438, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: transferSound.Array.data[3].AssetAddress
+      value: Assets/Prefabs/footsteps/water/FootstepWater4.prefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 364841a08150e9345b119e71191c8dcf, type: 3}
@@ -313,7 +338,11 @@ MonoBehaviour:
       Acid: 50
       Magic: 0
       Bio: 0
+      Anomaly: 0
       DismembermentProtectionChance: 0
+      StunImmunity: 0
+      TemperatureProtectionInK: {x: 268.15, y: 313.15}
+      PressureProtectionInKpa: {x: 30, y: 300}
 --- !u!114 &6812290110784052155
 MonoBehaviour:
   m_ObjectHideFlags: 0

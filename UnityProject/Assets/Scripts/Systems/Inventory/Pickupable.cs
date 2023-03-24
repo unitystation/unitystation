@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Items;
 using UI;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 /// <summary>
@@ -67,7 +68,16 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	public ItemAttributesV2 ItemAttributesV2;
 
-	public event Action<GameObject> OnMoveToPlayerInventory;
+	/// <summary>
+	/// Client Side Events. Expects an interactor.
+	/// </summary>
+	public UnityEvent<GameObject> OnMoveToPlayerInventory;
+
+	public UnityEvent<GameObject> OnDrop;
+	public UnityEvent<GameObject> OnThrow;
+
+	[SerializeField] private LastTouch lastTouch;
+
 
 
 	#region Lifecycle
@@ -76,6 +86,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	{
 		ItemAttributesV2 =  GetComponent<ItemAttributesV2>();
 		universalObjectPhysics = GetComponent<UniversalObjectPhysics>();
+		if (lastTouch == null) lastTouch = GetComponent<LastTouch>();
 	}
 
 	// make sure to call this in subclasses
@@ -91,6 +102,9 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		{
 			Inventory.ServerDespawn(itemSlot);
 		}
+		OnMoveToPlayerInventory?.RemoveAllListeners();
+		OnDrop?.RemoveAllListeners();
+		OnThrow?.RemoveAllListeners();
 	}
 
 	#endregion
@@ -139,8 +153,15 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			info.ToPlayer.GetComponent<PlayerScript>().RefreshVisibleName();
 		}
 
-
-
+		switch (info.RemoveType)
+		{
+			case InventoryRemoveType.Drop:
+				OnDrop?.Invoke(gameObject);
+				break;
+			case InventoryRemoveType.Throw:
+				OnThrow?.Invoke(gameObject);
+				break;
+		}
 	}
 
 	private bool HasClothingItem(RegisterPlayer onPlayer, ItemSlot infoToSlot)
@@ -210,6 +231,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		PickupAnim(interaction.Performer.gameObject);
 		RpcPickupAnimation(interaction.Performer.gameObject);
 		OnMoveToPlayerInventory?.Invoke(interaction.Performer);
+		if (lastTouch != null) lastTouch.LastTouchedBy = interaction.PerformerPlayerScript.PlayerInfo;
 		yield return WaitFor.Seconds(pickupAnimSpeed);
 
 		//Make sure that the object is scaled back to it's original size.

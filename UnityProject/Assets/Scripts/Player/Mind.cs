@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using AdminCommands;
 using UnityEngine;
 using Mirror;
 using Antagonists;
+using Systems.Character;
 using Systems.Spells;
 using HealthV2;
 using Initialisation;
 using Items.PDA;
 using Messages.Server;
-using Player;
 using ScriptableObjects.Audio;
-using UI.Action;
 using ScriptableObjects.Systems.Spells;
+using Systems.Antagonists.Antags;
 using UI.Core.Action;
 
 /// <summary>
@@ -24,25 +23,46 @@ public class Mind : NetworkBehaviour, IActionGUI
 {
 	[SyncVar(hook = nameof(SyncActiveOn))] private uint IDActivelyControlling;
 
-	[SyncVar(hook = nameof(SyncPossessing))] private uint IDPossessing;
+	[SyncVar] public bool IsGhosting;
+
+	[SyncVar(hook = nameof(SyncPossessing))]
+	private uint IDPossessing;
 
 	//TODO ondatesiss
 
 	//Antag
-	[SyncVar]
-	private bool NetworkedisAntag;
+	[SyncVar] private bool NetworkedisAntag;
 
-	public GameObject PossessingObject { get; private set; }
-	public IPlayerPossessable PlayerPossessable { get; private set; }
+	public GameObject PossessingObject
+	{
+		get
+		{
+			var Spawned = SweetExtensions.GetSpawned();
+			if (Spawned.TryGetValue(IDPossessing, out var Returning))
+			{
+				return Returning.gameObject;
+			}
+
+			return null;
+		}
+	}
+
+	public IPlayerPossessable PlayerPossessable
+	{
+		get
+		{
+			return PossessingObject.OrNull()?.GetComponent<IPlayerPossessable>();
+			//TODO Looking to optimising some time
+		}
+	}
 
 	public Occupation occupation;
 
 	public PlayerScript ghost { private set; get; }
-	public PlayerScript Body => GetDeepestBody().GetComponent<PlayerScript>();
+	public PlayerScript Body => GetDeepestBody()?.GetComponent<PlayerScript>();
 	private SpawnedAntag antag;
 	public bool IsAntag => CustomNetworkManager.IsServer ? antag != null : NetworkedisAntag;
 
-	[SyncVar] public bool IsGhosting;
 
 	public bool DenyCloning;
 	public int bodyMobID;
@@ -222,16 +242,17 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 		HandleOwnershipChangeMulti(Losing, gaining);
 
-		SyncPossessing(IDPossessing, obj.NetId());
+		var intID = this.netId;
+		if (obj != null)
+		{
+			intID = obj.NetId();
+		}
 
-		PlayerPossessable = InPossessing;
-		PossessingObject = obj;
-
+		SyncPossessing(IDPossessing, intID);
 	}
 
-	public void SetControllingObject(GameObject obj)
+	public void InternalSetControllingObject(GameObject obj)
 	{
-
 		if (obj == this.gameObject)
 		{
 			IsGhosting = true;
@@ -239,6 +260,11 @@ public class Mind : NetworkBehaviour, IActionGUI
 		else
 		{
 			IsGhosting = false;
+		}
+
+		if (PlayerPossessable != null)
+		{
+			PlayerPossessable.InternalOnPlayerLeave(this);
 		}
 
 		SyncActiveOn(IDActivelyControlling, obj.NetId());
@@ -283,7 +309,6 @@ public class Mind : NetworkBehaviour, IActionGUI
 	public void SetGhost(PlayerScript newGhost)
 	{
 		ghost = newGhost;
-		newGhost.SetMind(this);
 	}
 
 
@@ -306,9 +331,9 @@ public class Mind : NetworkBehaviour, IActionGUI
 	public void Ghost()
 	{
 		var Body = GetDeepestBody();
-		Move.ForcePositionClient(Body.transform.position, Smooth : false);
+		Move.ForcePositionClient(Body.transform.position, Smooth: false);
 		IsGhosting = true;
-		SetControllingObject(GetDeepestBody().gameObject);
+		InternalSetControllingObject(GetDeepestBody().gameObject);
 	}
 
 	/// <summary>
@@ -347,8 +372,6 @@ public class Mind : NetworkBehaviour, IActionGUI
 		{
 			Ghost();
 		}
-
-
 	}
 
 	/// <summary>
@@ -383,17 +406,17 @@ public class Mind : NetworkBehaviour, IActionGUI
 			return;
 		}
 
-		SetControllingObject(PossessingObject.gameObject);
+		InternalSetControllingObject(PossessingObject.gameObject);
 	}
 
-	public void SyncActiveOn(uint oldID, uint newID)
+	private void SyncActiveOn(uint oldID, uint newID)
 	{
 		IDActivelyControlling = newID;
-
-		LoadManager.RegisterActionDelayed(() => { HandleActiveOnChange(oldID, newID); },
-			2); //This is to handle The game object being spawned in and data being provided before Owner message
-		//s sent owner, This means the game object it's told it's in charge of is not actually in charge of Until later on in that frame is Dumb,
-		//Plus this handles server player funnies with the same thing Just stretched over another frame so that's why it's 2
+		if (isClient)
+		{
+			LoadManager.RegisterActionDelayed(() => { HandleActiveOnChange(oldID, newID); },
+				2);
+		}
 	}
 
 	private void SyncPossessing(uint oldID, uint newID)
@@ -401,11 +424,13 @@ public class Mind : NetworkBehaviour, IActionGUI
 		IDPossessing = newID;
 		LoadManager.RegisterActionDelayed(() => { HandlePossessingChange(oldID, newID); },
 			2);
+		//This is to handle The game object being spawned in and data being provided before Owner message
+		//s sent owner, This means the game object it's told it's in charge of is not actually in charge of Until later on in that frame is Dumb,
+		//Plus this handles server player funnies with the same thing Just stretched over another frame so that's why it's 2
 	}
 
 	private void HandlePossessingChange(uint oldID, uint newID)
 	{
-
 		var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 
 		if (spawned.ContainsKey(oldID))
@@ -426,29 +451,23 @@ public class Mind : NetworkBehaviour, IActionGUI
 	{
 		var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 		if (spawned.ContainsKey(newID) == false) return;
+
 		if (ControlledBy != null) //TODO Remove
 		{
 			ControlledBy.GameObject = spawned[newID].gameObject;
 		}
 
-		IPlayerPossessable oldPossessable = null;
-		if (spawned.ContainsKey(oldID))
-		{
-			oldPossessable = spawned[oldID].GetComponent<IPlayerPossessable>();
-			oldPossessable?.InternalOnPlayerLeave(this);
-		}
+		var possessable = spawned[newID].GetComponent<IPlayerPossessable>();
 
-		var Possessable = spawned[newID].GetComponent<IPlayerPossessable>();
-		if (Possessable != null)
+		if (possessable != null)
 		{
-			Possessable.InternalOnControlPlayer( this,
-				CustomNetworkManager.IsServer, null);
+			possessable.InternalOnControlPlayer(this, isServer);
 		}
 		else
 		{
 			if (isServer && spawned[newID].gameObject == gameObject) //Has ghosted
 			{
-				PossessAndUnpossessMessage.Send(this.gameObject, gameObject,null);
+				PossessAndUnpossessMessage.Send(this.gameObject, gameObject, null);
 			}
 
 			//TODO For objects
@@ -470,10 +489,17 @@ public class Mind : NetworkBehaviour, IActionGUI
 	{
 		account.SetMind(this);
 
-		var relatedBodies = GetRelatedBodies();
-		foreach (var body in relatedBodies)
+		var RelatedBodies = GetRelatedBodies();
+		foreach (var Body in RelatedBodies)
 		{
-			PlayerSpawn.TransferOwnershipFromToConnection(account, null, body);
+			PlayerSpawn.TransferOwnershipFromToConnection(ControlledBy, null, Body);
+		}
+
+		UpdateMind.SendTo(ControlledBy?.Connection, this);
+
+		if (PlayerPossessable != null)
+		{
+			PlayerPossessable.PlayerRejoin();
 		}
 
 		SyncPossessing(IDPossessing, IDPossessing);
@@ -490,18 +516,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 		PlayerSpawn.TransferAccountToSpawnedMind(ControlledBy, this);
 
-		var RelatedBodies = GetRelatedBodies();
-		foreach (var Body in RelatedBodies)
-		{
-			PlayerSpawn.TransferOwnershipFromToConnection(ControlledBy, null, Body);
-		}
 
-		UpdateMind.SendTo(ControlledBy?.Connection, this);
-
-		if (PlayerPossessable != null)
-		{
-			PlayerPossessable.PlayerRejoin();
-		}
 	}
 
 	public void HandleOwnershipChangeMulti(List<NetworkIdentity> Losing, List<NetworkIdentity> Gaining)
@@ -605,8 +620,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 		return PlayerList.Instance.Has(connection);
 	}
 
-	[SerializeField]
-	private ActionData actionData = null; //Antagonist show objectives button
+	[SerializeField] private ActionData actionData = null; //Antagonist show objectives button
 	public ActionData ActionData => actionData;
 
 	public void CallActionClient()
@@ -632,13 +646,14 @@ public class Mind : NetworkBehaviour, IActionGUI
 		Chat.AddExamineMsgFromServer(playerMob, antag.GetObjectivesForPlayer());
 
 		if (playerMob.TryGetComponent<PlayerScript>(out var body) == false) return;
-		if (antag.Antagonist.AntagJobType == JobType.TRAITOR || antag.Antagonist.AntagJobType == JobType.SYNDICATE)
+		if (antag.Antagonist.AntagJobType == JobType.TRAITOR || antag.Antagonist.AntagJobType == JobType.SYNDICATE || antag.Antagonist is BloodBrother)
 		{
 			string codeWordsString = "Code Words:";
 			for (int i = 0; i < CodeWordManager.WORD_COUNT; i++)
 			{
 				codeWordsString += $"\n-{CodeWordManager.Instance.Words[i]}";
 			}
+
 			codeWordsString += "\n\nResponses:";
 			for (int i = 0; i < CodeWordManager.WORD_COUNT; i++)
 			{

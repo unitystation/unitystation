@@ -29,6 +29,8 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
 
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Mirror.Runtime.Transports.Ignorance.Editor")]
+
 namespace ENet
 {
     [Flags]
@@ -172,7 +174,7 @@ namespace ENet
         public bool SetIP(string ip)
         {
             if (ip == null)
-                throw new ArgumentNullException("ip");
+                throw new ArgumentNullException(nameof(ip));
 
             return Native.enet_address_set_ip(ref nativeAddress, ip) == 0;
         }
@@ -190,7 +192,7 @@ namespace ENet
         public bool SetHost(string hostName)
         {
             if (hostName == null)
-                throw new ArgumentNullException("hostName");
+                throw new ArgumentNullException(nameof(hostName));
 
             return Native.enet_address_set_hostname(ref nativeAddress, hostName) == 0;
         }
@@ -393,7 +395,7 @@ namespace ENet
         public void Create(byte[] data)
         {
             if (data == null)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
 
             Create(data, data.Length);
         }
@@ -411,10 +413,10 @@ namespace ENet
         public void Create(byte[] data, int length, PacketFlags flags)
         {
             if (data == null)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
 
             if (length < 0 || length > data.Length)
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
 
             nativePacket = Native.enet_packet_create(data, (IntPtr)length, flags);
         }
@@ -422,10 +424,10 @@ namespace ENet
         public void Create(IntPtr data, int length, PacketFlags flags)
         {
             if (data == IntPtr.Zero)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
 
             if (length < 0)
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
 
             nativePacket = Native.enet_packet_create(data, (IntPtr)length, flags);
         }
@@ -433,13 +435,13 @@ namespace ENet
         public void Create(byte[] data, int offset, int length, PacketFlags flags)
         {
             if (data == null)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
 
             if (offset < 0)
-                throw new ArgumentOutOfRangeException("offset");
+                throw new ArgumentOutOfRangeException(nameof(offset));
 
             if (length < 0 || length > data.Length)
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
 
             nativePacket = Native.enet_packet_create_offset(data, (IntPtr)length, (IntPtr)offset, flags);
         }
@@ -447,13 +449,13 @@ namespace ENet
         public void Create(IntPtr data, int offset, int length, PacketFlags flags)
         {
             if (data == IntPtr.Zero)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
 
             if (offset < 0)
-                throw new ArgumentOutOfRangeException("offset");
+                throw new ArgumentOutOfRangeException(nameof(offset));
 
             if (length < 0)
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
 
             nativePacket = Native.enet_packet_create_offset(data, (IntPtr)length, (IntPtr)offset, flags);
         }
@@ -461,7 +463,7 @@ namespace ENet
         public void CopyTo(byte[] destination, int startPos = 0)
         {
             if (destination == null)
-                throw new ArgumentNullException("destination");
+                throw new ArgumentNullException(nameof(destination));
 
             // Fix by katori, prevents trying to copy a NULL
             // from native world (ie. disconnect a client)			
@@ -578,7 +580,7 @@ namespace ENet
         private static void ThrowIfChannelsExceeded(int channelLimit)
         {
             if (channelLimit < 0 || channelLimit > Library.maxChannelCount)
-                throw new ArgumentOutOfRangeException("channelLimit");
+                throw new ArgumentOutOfRangeException(nameof(channelLimit));
         }
 
         public void Create()
@@ -622,7 +624,7 @@ namespace ENet
                 throw new InvalidOperationException("Host already created");
 
             if (peerLimit < 0 || peerLimit > Library.maxPeers)
-                throw new ArgumentOutOfRangeException("peerLimit");
+                throw new ArgumentOutOfRangeException(nameof(peerLimit));
 
             ThrowIfChannelsExceeded(channelLimit);
 
@@ -669,7 +671,7 @@ namespace ENet
         public void Broadcast(byte channelID, ref Packet packet, Peer[] peers)
         {
             if (peers == null)
-                throw new ArgumentNullException("peers");
+                throw new ArgumentNullException(nameof(peers));
 
             ThrowIfNotCreated();
 
@@ -742,7 +744,7 @@ namespace ENet
         public int Service(int timeout, out Event @event)
         {
             if (timeout < 0)
-                throw new ArgumentOutOfRangeException("timeout");
+                throw new ArgumentOutOfRangeException(nameof(timeout));
 
             ThrowIfNotCreated();
 
@@ -1105,7 +1107,7 @@ namespace ENet
         public static int StringLength(this byte[] data)
         {
             if (data == null)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
 
             int i;
 
@@ -1149,7 +1151,7 @@ namespace ENet
         public static bool Initialize(Callbacks callbacks)
         {
             if (callbacks == null)
-                throw new ArgumentNullException("callbacks");
+                throw new ArgumentNullException(nameof(callbacks));
 
             if (Native.enet_linked_version() != version)
                 throw new InvalidOperationException("ENet native is out of date. Download the latest release from https://github.com/SoftwareGuy/ENet-CSharp/releases");

@@ -704,11 +704,6 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7824998303851274232, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
-      propertyPath: pushTextureOnStartUp
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7824998303851274232, guid: 5d7892c86699e21499ad5f872fd4d512,
-        type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -756,6 +751,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   NetTabType: 10
   aiInteractable: 0
 --- !u!114 &3242550791702936155
@@ -775,13 +772,11 @@ MonoBehaviour:
   StoredGasMix:
     GasData:
       GasesArray: []
-    Pressure: 0
-    Volume: 2.5
-    Temperature: 293.15
-  MaximumMoles: 1846.242
+    pressure: 0
+    Volume: 3
+    temperature: 293.15
+  MaximumMoles: 5538.72
   ReleasePressure: 101.325
-  Volume: 1
-  Temperature: 293.15
   CargoSealApproved: 1
 --- !u!114 &3744673748159336733
 MonoBehaviour:

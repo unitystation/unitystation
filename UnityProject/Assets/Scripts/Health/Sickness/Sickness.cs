@@ -145,7 +145,7 @@ namespace Health.Sickness
 
 		public virtual bool CheckForCureInHealth(LivingHealthMasterBase health)
 		{
-			return health.CirculatorySystem.BloodPool.reagentKeys.Contains(CureForSickness) || health.CirculatorySystem.NutrimentToConsume.ContainsKey(CureForSickness);
+			return health.reagentPoolSystem.BloodPool.reagentKeys.Contains(CureForSickness);
 		}
 
 		protected virtual IEnumerator Cooldown()

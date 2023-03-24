@@ -111,12 +111,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
-      propertyPath: wasteReagent
-      value: 
-      objectReference: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4,
-        type: 2}
-    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
-        type: 3}
       propertyPath: DeathOnRemoval
       value: 1
       objectReference: {fileID: 0}
@@ -318,6 +312,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2780246240171570206, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
+      propertyPath: _assetId
+      value: 4279644326
+      objectReference: {fileID: 0}
+    - target: {fileID: 2780246240171570206, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
       propertyPath: m_AssetId
       value: 78253771c2047f94c9ae40161a6be7ee
       objectReference: {fileID: 0}
@@ -380,6 +379,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7822575272286095514, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: deadlyDamageInOneHit
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8234622556944347693, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}

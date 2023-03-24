@@ -38,13 +38,15 @@ public class AccessRestrictions : MonoBehaviour
 		if (playerStorage == null) return false;
 
 
+		if (CheckAccessCard(playerStorage.GetActiveHandSlot()?.ItemObject, restriction)) return true;
+
 		//check if active hand or equipped id cards have access
 		foreach (var itemSlot in playerStorage.GetNamedItemSlots(NamedSlot.id))
 		{
 			if (CheckAccessCard(itemSlot.ItemObject, restriction)) return true;
 		}
 
-		return CheckAccessCard(playerStorage.GetActiveHandSlot()?.ItemObject, restriction);
+		return false;
 	}
 
 	public static bool CheckAccessCard(GameObject idCardObj, Clearance restriction)

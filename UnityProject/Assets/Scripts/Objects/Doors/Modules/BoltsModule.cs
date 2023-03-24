@@ -84,40 +84,47 @@ namespace Doors.Modules
 			SetBoltsState(!boltsDown);
 		}
 
-		public override ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		public override void OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
 			if (interaction != null && interaction.UsedObject != null)
 			{
 				if (interaction.UsedObject.GetComponent<ItemAttributesV2>().HasTrait(IDToggleCard))
 				{
 					PulseToggleBolts();
-					return ModuleSignal.Break;
+					States.Add(DoorProcessingStates.SoftwarePrevented);
 				}
 
 				if (PulsePreventBoltsFall())
 				{
 					SetBoltsState(true); //so Preveving all cables
-					return ModuleSignal.Break;
 				}
 			}
 
-			return ModuleSignal.Continue;
+			if (boltsDown)
+			{
+				States.Add(DoorProcessingStates.PhysicallyPrevented);
+			}
+
+			return;
 		}
 
-		public override ModuleSignal ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		public override void ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
 			if (interaction != null && interaction.UsedObject != null)
 			{
 				if (interaction.UsedObject.GetComponent<ItemAttributesV2>().HasTrait(IDToggleCard))
 				{
 					PulseToggleBolts();
-					return ModuleSignal.Break;
+					States.Add(DoorProcessingStates.SoftwarePrevented);
 				}
-
-
 			}
 
-			return ModuleSignal.Continue;
+			if (boltsDown)
+			{
+				States.Add(DoorProcessingStates.PhysicallyPrevented);
+			}
+
+			return;
 		}
 
 		public void PreventBoltsFall()
@@ -144,18 +151,18 @@ namespace Doors.Modules
 
 		}
 
-		public override ModuleSignal BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
-		{
-			return ModuleSignal.Continue;
-		}
-
-		public override bool CanDoorStateChange()
+		public override void BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
 		{
 			if (PulsePreventBoltsFall())
 			{
 				SetBoltsState(true);
 			}
-			return !boltsDown;
+
+			if (boltsDown)
+			{
+				States.Add(DoorProcessingStates.PhysicallyPrevented);
+			}
 		}
+
 	}
 }

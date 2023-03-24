@@ -1,5 +1,6 @@
 ﻿using System;
 using HealthV2;
+using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Player.Movement;
 using UnityEngine;
 
@@ -41,9 +42,15 @@ namespace Items.Implants.Organs
 
 		public bool isFreshBlood;
 
+		public HungerComponent HungerComponent;
+		public ReagentCirculatedComponent ReagentCirculatedComponent;
 		public void Awake()
 		{
-			AbsorbedAmount = StartAbsorbedAmount;
+			HungerComponent = this.GetComponentCustom<HungerComponent>();
+			ReagentCirculatedComponent = this.GetComponentCustom<ReagentCirculatedComponent>();
+
+
+			AbsorbedAmount = StartAbsorbedAmount; //TODO Probably should be moved somewhere else?
 		}
 
 		public void SetAbsorbedAmount(float newAbsorbedAmount)
@@ -56,7 +63,7 @@ namespace Items.Implants.Organs
 			isFreshBlood = true;
 			base.ImplantPeriodicUpdate();
 			// Logger.Log("Absorbing >" + Absorbing);
-			float NutrimentPercentage = (RelatedPart.HealthMaster.CirculatorySystem.BloodPool[RelatedPart.Nutriment] / RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Total);
+			float NutrimentPercentage = (ReagentCirculatedComponent.AssociatedSystem.BloodPool[HungerComponent.Nutriment] / ReagentCirculatedComponent.AssociatedSystem.BloodPool.Total);
 			//Logger.Log("NutrimentPercentage >" + NutrimentPercentage);
 			if (NutrimentPercentage < ReleaseNutrimentPercentage)
 			{
@@ -66,20 +73,20 @@ namespace Items.Implants.Organs
 					ToRelease = AbsorbedAmount;
 				}
 
-				RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Add(RelatedPart.Nutriment, ToRelease);
+				ReagentCirculatedComponent.AssociatedSystem.BloodPool.Add(HungerComponent.Nutriment, ToRelease);
 				AbsorbedAmount -= ToRelease;
 				isFreshBlood = false;
 				// Logger.Log("ToRelease >" + ToRelease);
 			}
 			else if (isFreshBlood && NutrimentPercentage > AbsorbNutrimentPercentage && AbsorbedAmount < MinuteStoreMaxAmount)
 			{
-				float ToAbsorb = RelatedPart.HealthMaster.CirculatorySystem.BloodPool[RelatedPart.Nutriment];
+				float ToAbsorb = ReagentCirculatedComponent.AssociatedSystem.BloodPool[HungerComponent.Nutriment];
 				if (AbsorbedAmount + ToAbsorb > MinuteStoreMaxAmount)
 				{
 					ToAbsorb = ToAbsorb - ((AbsorbedAmount + ToAbsorb) - MinuteStoreMaxAmount);
 				}
 
-				float Absorbing = RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Remove(RelatedPart.Nutriment, ToAbsorb);
+				float Absorbing = ReagentCirculatedComponent.AssociatedSystem.BloodPool.Remove(HungerComponent.Nutriment, ToAbsorb);
 				AbsorbedAmount += Absorbing;
 				// Logger.Log("Absorbing >" + Absorbing);
 			}
@@ -103,19 +110,19 @@ namespace Items.Implants.Organs
 
 			if (AbsorbedAmount == 0)
 			{
-				RelatedPart.HungerState = HungerState.Malnourished;
+				HungerComponent.HungerState = HungerState.Malnourished;
 			}
 			else if (AbsorbedAmount < 5) //Five minutes of food
 			{
-				RelatedPart.HungerState = HungerState.Hungry;
+				HungerComponent.HungerState = HungerState.Hungry;
 			}
 			else  if (NoticeableDebuffInPoint < AbsorbedAmount)
 			{
-				RelatedPart.HungerState = HungerState.Full;
+				HungerComponent.HungerState = HungerState.Full;
 			}
 			else
 			{
-				RelatedPart.HungerState = HungerState.Normal;
+				HungerComponent.HungerState = HungerState.Normal;
 			}
 		}
 
@@ -125,9 +132,9 @@ namespace Items.Implants.Organs
 			AbsorbedAmount = 0;
 		}
 
-		public override void AddedToBody(LivingHealthMasterBase livingHealth)
+		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
-			base.AddedToBody(livingHealth);
+			base.OnAddedToBody(livingHealth);
 			var playerHealthV2 = RelatedPart.HealthMaster as PlayerHealthV2;
 			if (playerHealthV2 != null)
 			{
@@ -135,9 +142,9 @@ namespace Items.Implants.Organs
 			}
 		}
 
-		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
-			base.RemovedFromBody(livingHealth);
+			base.OnRemovedFromBody(livingHealth);
 			RelatedStomach.BodyFats.Remove(this);
 			var playerHealthV2 = livingHealth as PlayerHealthV2;
 			if (playerHealthV2 != null)

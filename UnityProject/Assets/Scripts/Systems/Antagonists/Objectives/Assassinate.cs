@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Systems.Antagonists.Antags;
 using UnityEngine;
 using Systems.GhostRoles;
 
@@ -21,7 +22,9 @@ namespace Antagonists
 		/// </summary>
 		protected override bool IsPossibleInternal(Mind candidate)
 		{
-			int targetCount = PlayerList.Instance.InGamePlayers.Count(p => (p.Mind != candidate) && !AntagManager.Instance.TargetedPlayers.Contains(p.Mind));
+			int targetCount = PlayerList.Instance.InGamePlayers.Count(p => (p.Mind != candidate)
+			                                                               && AntagManager.Instance.TargetedPlayers.Contains(p.Mind) == false
+			                                                               && p.Mind.GetAntag().Antagonist is not BloodBrother);
 			return (targetCount > 0);
 		}
 
@@ -32,7 +35,7 @@ namespace Antagonists
 		{
 			// Get all ingame players except the one who owns this objective and players who have already been targeted and the ones who cant be targeted
 			List<PlayerInfo> playerPool = PlayerList.Instance.InGamePlayers.Where( p =>
-				(p.Script != Owner.Body) && !AntagManager.Instance.TargetedPlayers.Contains(p.Mind) && p.Script.Mind.occupation != null && p.Script.Mind.occupation.IsTargeteable
+				(p.Script != Owner.Body) && !AntagManager.Instance.TargetedPlayers.Contains(p.Mind) && p.Mind.occupation != null && p.Mind.occupation.IsTargeteable
 
 			).ToList();
 

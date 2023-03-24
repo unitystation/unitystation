@@ -189,6 +189,8 @@ namespace Messages.Server
 			foreach (var delayedData in message.Changes)
 			{
 				writer.WriteBool(true);
+
+
 				writer.WriteVector3Int(delayedData.Position);
 				writer.WriteInt((int)delayedData.TileType);
 				writer.WriteInt((int)delayedData.layerType);

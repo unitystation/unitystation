@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Systems.Clearance;
 using NUnit.Framework;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace Tests.ClearanceFramework
 		public bool IsLowPop { get; set; } = false;
 
 		// Skips dependency with GameManager.Centcomm
-		public IEnumerable<Clearance> GetCurrentClearance => IsLowPop ? issuedLowPopClearance : issuedClearance;
+		public IEnumerable<Clearance> GetCurrentClearance => IsLowPop ? IssuedClearance.Concat(LowPopIssuedClearance).Distinct() : IssuedClearance;
 		public IEnumerable<Clearance> IssuedClearance => issuedClearance;
 		public IEnumerable<Clearance> LowPopIssuedClearance => issuedLowPopClearance;
 
@@ -94,6 +95,24 @@ namespace Tests.ClearanceFramework
 				new List<Clearance> {Clearance.Bar, Clearance.Armory, Clearance.Atmospherics});
 
 			Assert.True(restricted.HasClearance(source));
+		}
+
+		[Test]
+		public void GivenSufficientExtraClearanceWhenRoundIsLowPopResultsTrue()
+		{
+			restricted.SetClearance(new List<Clearance>{ Clearance.Captain });
+			source.SetClearance(new List<Clearance>(), new List<Clearance>{ Clearance.Captain });
+			source.IsLowPop = true;
+			Assert.True(restricted.HasClearance(source));
+		}
+
+		[Test]
+		public void GivenSufficientExtraClearanceWhenRoundIsNotLowPopResultsFalse()
+		{
+			restricted.SetClearance(new List<Clearance>{ Clearance.Captain });
+			source.SetClearance(new List<Clearance>(), new List<Clearance>{ Clearance.Captain });
+			source.IsLowPop = false;
+			Assert.False(restricted.HasClearance(source));
 		}
 	}
 }

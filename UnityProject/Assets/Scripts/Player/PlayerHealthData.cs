@@ -6,7 +6,9 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using System;
 using Chemistry;
+using Core.Editor.Attributes;
 using HealthV2;
+using HealthV2.Living.PolymorphicSystems;
 
 [CreateAssetMenu(fileName = "PlayerHealthData", menuName = "ScriptableObjects/Health/PlayerHealthData", order = 1)]
 public class PlayerHealthData : ScriptableObject
@@ -67,6 +69,11 @@ public class RaceHealthData
 	public GameObject MeatProduce;
 	public GameObject SkinProduce;
 	public bool CanShowUpInTheCharacterCreatorScreen = true;
+
+	public SpriteDataSO PreviewSprite;
+
+	[SerializeReference, SelectImplementation(typeof(HealthSystemBase))] public List<HealthSystemBase> SystemSettings = new List<HealthSystemBase>();
+
 }
 
 

@@ -5,6 +5,7 @@ using Alien;
 using Core.Chat;
 using HealthV2;
 using HealthV2.Limbs;
+using Initialisation;
 using Items.Others;
 using Managers;
 using Messages.Server.LocalGuiMessages;
@@ -13,9 +14,9 @@ using Objects;
 using Player.Language;
 using Player.Movement;
 using ScriptableObjects;
+using Systems.Character;
 using Systems.GhostRoles;
 using Tiles;
-using UI.Action;
 using UI.Core.Action;
 using UnityEngine;
 using Weapons.Projectiles;
@@ -125,7 +126,8 @@ namespace Systems.Antagonists
 		[SerializeField]
 		private AlienTypeDataSO alienType;
 		public AlienTypeDataSO AlienType => alienType;
-		public AlienTypes CurrentAlienType => alienType.AlienType;
+
+		[SyncVar] public AlienTypes CurrentAlienType;
 		public List<ActionData> ActionData => alienType.ActionData;
 
 		[SyncVar]
@@ -319,6 +321,8 @@ namespace Systems.Antagonists
 		private int growth;
 
 		private bool didMessage;
+
+		[SyncVar(hook = nameof(SyncopenedEvolveMenu))]
 		private bool openedEvolveMenu;
 
 		private void GrowthUpdate()
@@ -346,18 +350,28 @@ namespace Systems.Antagonists
 				return;
 			}
 
-			if (CurrentAlienType != AlienTypes.Larva3 || connectionToClient != null) return;
+			if (CurrentAlienType != AlienTypes.Larva3 || connectionToClient == null) return;
 
 			if(openedEvolveMenu) return;
-			openedEvolveMenu = true;
 
-			RpcOpenEvolveMenu();
+			SyncopenedEvolveMenu(openedEvolveMenu, true);
 		}
 
-		[TargetRpc]
-		private void RpcOpenEvolveMenu()
+
+
+		public void SyncopenedEvolveMenu(bool old, bool bnew)
 		{
-			UIManager.Instance.panelHudBottomController.AlienUI.OpenEvolveMenu();
+			openedEvolveMenu = bnew;
+
+			LoadManager.RegisterActionDelayed(showUI, 300);
+		}
+
+		public void showUI()
+		{
+			if (openedEvolveMenu && hasAuthority)
+			{
+				UIManager.Instance.panelHudBottomController.AlienUI.OpenEvolveMenu();
+			}
 		}
 
 		[ContextMenu("Set growth 100%")]
@@ -410,30 +424,38 @@ namespace Systems.Antagonists
 				return;
 			}
 
-			var newAlienData = typeFound[0];
-
-			if (newAlienData == alienType)
+			try
 			{
-				Chat.AddExamineMsgFromServer(gameObject, $"You are already an {newAlien.ToString()}");
-				return;
+				var newAlienData = typeFound[0];
+
+				if (newAlienData == alienType)
+				{
+					Chat.AddExamineMsgFromServer(gameObject, $"You are already an {newAlien.ToString()}");
+					return;
+				}
+
+				Chat.AddActionMsgToChat(gameObject, "You begin to evolve!",
+					$"{playerScript.playerName} begins to twist and contort!");
+
+				var alienBody = PlayerSpawn.RespawnPlayerAt(playerScript.Mind, newAlienData.AlienOccupation, new CharacterSheet()
+				{
+					Name = "Alien"
+				}, playerScript.ObjectPhysics.OfficialPosition);
+
+
+				Chat.AddExamineMsgFromServer(gameObject, $"You evolve into a {alienType.Name}!");
+
+				var newAlienPlayer = alienBody.GetComponent<AlienPlayer>();
+
+				newAlienPlayer.SetUpFromPrefab(alienType, newAlienData,changeName, nameNumber);
+
+				newAlienPlayer.DoConnectCheck();
+
 			}
-
-			Chat.AddActionMsgToChat(gameObject, "You begin to evolve!",
-				$"{playerScript.playerName} begins to twist and contort!");
-
-			 var alienBody = PlayerSpawn.RespawnPlayerAt(playerScript.Mind, newAlienData.AlienOccupation, new CharacterSheet()
-			 {
-				 Name = "Alien"
-			 }, playerScript.ObjectPhysics.OfficialPosition);
-
-
-			Chat.AddExamineMsgFromServer(gameObject, $"You evolve into a {alienType.Name}!");
-
-			var newAlienPlayer = alienBody.GetComponent<AlienPlayer>();
-
-			newAlienPlayer.SetUpFromPrefab(alienType, newAlienData,changeName, nameNumber);
-
-			newAlienPlayer.DoConnectCheck();
+			catch (Exception e)
+			{
+				Logger.LogError(e.ToString());
+			}
 
 			_ = Despawn.ServerSingle(gameObject);
 		}
@@ -442,6 +464,7 @@ namespace Systems.Antagonists
 		{
 			firstTimeSetup = true;
 			alienType = newone;
+			CurrentAlienType = alienType.AlienType;
 			if (changeName == false)
 			{
 				nameNumber = oldNameNumber;

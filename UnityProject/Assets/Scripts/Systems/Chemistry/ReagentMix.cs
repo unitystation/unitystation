@@ -295,7 +295,7 @@ namespace Chemistry
 
 		public void Add(Reagent reagent, float amount)
 		{
-			if (amount == 0f)
+			if (Mathf.Approximately(amount, 0f))
 			{
 				return;
 			}
@@ -331,9 +331,16 @@ namespace Chemistry
 
 		public float Remove(Reagent reagent, float amount)
 		{
+			if (amount == 0) return 0;
+
 			if (amount < 0f)
 			{
 				Debug.LogError($"Trying to remove Negative {amount} amount of {reagent}");
+				return 0;
+			}
+
+			if (Mathf.Approximately(amount, 0))
+			{
 				return 0;
 			}
 

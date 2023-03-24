@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Linq;
 using HealthV2;
 using UnityEngine;
-using NaughtyAttributes;
 using Items;
- using Messages.Server.HealthMessages;
 
- /// <summary>
+/// <summary>
 /// Component which allows this object to be applied to a living thing, healing it.
 /// </summary>
 [RequireComponent(typeof(Stackable))]
@@ -19,12 +15,8 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 	public DamageType healType;
 
 	public bool StopsExternalBleeding = false;
-	public bool HealsTraumaDamage = false;
 
-	[Range(0,100), EnableIf("HealsTraumaDamage")]
-	public float TraumaDamageToHeal = 20;
-
-	[SerializeField, EnableIf("HealsTraumaDamage")]
+	[SerializeField]
 	protected TraumaticDamageTypes TraumaTypeToHeal;
 
 	protected Stackable stackable;
@@ -37,15 +29,10 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 	public virtual bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
-		//can only be applied to LHB
 		if (!Validations.HasComponent<LivingHealthMasterBase>(interaction.TargetObject)) return false;
-
 		if (interaction.TargetObject.GetComponent<Dissectible>().GetBodyPartIsopen && interaction.IsAltClick == false) return false;
 
-		if(interaction.Intent != Intent.Help) return false;
-
-
-		return true;
+		return interaction.Intent == Intent.Help;
 	}
 
 	public virtual void ServerPerformInteraction(HandApply interaction)
@@ -73,7 +60,7 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 		else
 		{
 			//If there is no limb in this Zone, check if it's bleeding from limb loss.
-			if(CheckForBleedingBodyContainers(LHB, interaction) && StopsExternalBleeding)
+			if (CheckForBleedingBodyContainers(LHB, interaction) && StopsExternalBleeding)
 			{
 				RemoveLimbLossBleed(LHB, interaction);
 			}
@@ -82,6 +69,10 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"The {interaction.TargetBodyPart} does not need to be healed.");
 			}
 		}
+
+		//(MAX): TEMPORARY.
+		//TODO: Add proper trauma healing.
+		if (HasTrauma(LHB)) HealTrauma(LHB, interaction);
 	}
 
 	private void ServerApplyHeal(LivingHealthMasterBase livingHealth, HandApply interaction)
@@ -90,10 +81,6 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 		if (StopsExternalBleeding)
 		{
 			RemoveLimbLossBleed(livingHealth, interaction);
-		}
-		if (HealsTraumaDamage)
-		{
-			HealTraumaDamage(livingHealth, interaction);
 		}
 		stackable.ServerConsume(1);
 	}
@@ -109,17 +96,6 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 			.ServerStartProgress(originator.RegisterTile(), 5f, originator);
 	}
 
-	protected void HealTraumaDamage(LivingHealthMasterBase livingHealth, HandApply interaction)
-	{
-		if (livingHealth.HasTraumaDamage(interaction.TargetBodyPart))
-		{
-			livingHealth.HealTraumaDamage(interaction.TargetBodyPart, TraumaTypeToHeal);
-			Chat.AddActionMsgToChat(interaction,
-			$"You apply the {gameObject.ExpensiveName()} to {livingHealth.playerScript.visibleName}",
-			$"{interaction.Performer.ExpensiveName()} applies {name} to {livingHealth.playerScript.visibleName}.");
-		}
-	}
-
 	protected bool CheckForBleedingBodyContainers(LivingHealthMasterBase livingHealth, HandApply interaction)
 	{
 		foreach(var bodyPart in livingHealth.BodyPartList)
@@ -130,6 +106,23 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 			}
 		}
 		return false;
+	}
+
+	protected bool HasTrauma(LivingHealthMasterBase health)
+	{
+		if (health.gameObject.TryGetComponent<CreatureTraumaManager>(out var traumaManager) == false) return false;
+		return traumaManager.HasAnyTraumaOfType(TraumaTypeToHeal) == false;
+	}
+
+	protected virtual void HealTrauma(LivingHealthMasterBase health, HandApply interaction)
+	{
+		if (health.gameObject.TryGetComponent<CreatureTraumaManager>(out var traumaManager) == false) return;
+		var healedTrauma = false;
+		foreach (var bodyPart in health.BodyPartList)
+		{
+			if (traumaManager.HealBodyPartTrauma(bodyPart, TraumaTypeToHeal)) healedTrauma = true;
+		}
+		if(healedTrauma) stackable.ServerConsume(1);
 	}
 
 	protected void RemoveLimbLossBleed(LivingHealthMasterBase livingHealth, HandApply interaction)
@@ -147,3 +140,8 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 		}
 	}
 }
+
+/// NOTE FROM MAX ///
+/// this script really needs to be re-thought out ///
+/// away from the fact it looks ugly, it seems to be poorly designed or tries to do multiple things at once ///
+/// I would fix it right now, but I've spent so much time cleaning other stuff; I'd be here all month just cleaning old bad code ///

@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Systems.Atmospherics;
 using Systems.ElectricalArcs;
 using Systems.Explosions;
 using Systems.Radiation;
 using AddressableReferences;
+using AdminTools;
 using Core.Lighting;
 using HealthV2;
 using Light2D;
@@ -22,6 +24,7 @@ using Objects.Machines.ServerMachines.Communications;
 using ScriptableObjects.Communications;
 using Systems.Communications;
 using InGameEvents;
+using Items;
 
 
 namespace Objects.Engineering
@@ -1080,7 +1083,7 @@ namespace Objects.Engineering
 			if (sendToCommon) chatEvent.channels |= ChatChannel.Common;
 
 			InfluenceChat(chatEvent);
-			
+
 		}
 
 		protected override bool SendSignalLogic()
@@ -1138,8 +1141,7 @@ namespace Objects.Engineering
 		//Called when bumped by players or collided with by flying items
 		public void OnBump(GameObject bumpedBy, GameObject client)
 		{
-			if (isServer == false) return;
-			if(isHugBox) return;
+			if (isServer == false || isHugBox) return;
 
 			if (bumpedBy.TryGetComponent<PlayerHealthV2>(out var playerHealth))
 			{
@@ -1162,10 +1164,11 @@ namespace Objects.Engineering
 
 				health.OnGib();
 			}
-			else if(bumpedBy.TryGetComponent<Integrity>(out var integrity))
+			else if (bumpedBy.TryGetComponent<Integrity>(out var integrity))
 			{
 				//Items flying
 				Chat.AddLocalMsgToChat($"The {bumpedBy.ExpensiveName()} smacks into the {gameObject.ExpensiveName()} and rapidly flashes to ash", bumpedBy);
+				LogBumpForAdmin(bumpedBy);
 
 				integrity.ApplyDamage(1000, AttackType.Rad, DamageType.Brute, true, ignoreArmor: true);
 			}
@@ -1173,6 +1176,14 @@ namespace Objects.Engineering
 			matterPower += 150;
 			RadiationManager.Instance.RequestPulse( registerTile.WorldPositionServer, 200, GetInstanceID());
 			SoundManager.PlayNetworkedAtPos(lightningSound, registerTile.WorldPositionServer, sourceObj: gameObject);
+		}
+
+		private void LogBumpForAdmin(GameObject thrownObject)
+		{
+			if (thrownObject.TryGetComponent<LastTouch>(out var touch) == false || touch.LastTouchedBy == null) return;
+			var time = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+			PlayerAlerts.LogPlayerAction(time, PlayerAlertTypes.RDM, touch.LastTouchedBy,
+				$"{time} : A {thrownObject.ExpensiveName()} was thrown at a super-matter and was last touched by {touch.LastTouchedBy.Script.playerName} ({touch.LastTouchedBy.Username}).");
 		}
 
 		#endregion

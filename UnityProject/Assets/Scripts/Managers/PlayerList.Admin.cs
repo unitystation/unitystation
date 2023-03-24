@@ -113,81 +113,81 @@ public partial class PlayerList
 		LoadJobBanList();
 	}
 
-	void LoadBanList()
+	static void LoadBanList()
 	{
-		StartCoroutine(LoadBans());
+		Instance.StartCoroutine(LoadBans());
 	}
-	void LoadWhiteList(object source, FileSystemEventArgs e)
+	static void LoadWhiteList(object source, FileSystemEventArgs e)
 	{
 		LoadWhiteList();
 	}
 
-	void LoadWhiteList()
+	static void LoadWhiteList()
 	{
-		StartCoroutine(LoadWhiteListed());
+		Instance.StartCoroutine(LoadWhiteListed());
 	}
 
-	void LoadCurrentAdmins(object source, FileSystemEventArgs e)
+	static void LoadCurrentAdmins(object source, FileSystemEventArgs e)
 	{
 		LoadCurrentAdmins();
 	}
 
-	void LoadCurrentAdmins()
+	static void LoadCurrentAdmins()
 	{
-		StartCoroutine(LoadAdmins());
+		Instance.StartCoroutine(LoadAdmins());
 	}
 
-	void LoadCurrentMentors(object source, FileSystemEventArgs e)
+	static void LoadCurrentMentors(object source, FileSystemEventArgs e)
 	{
 		LoadCurrentMentors();
 	}
 
-	void LoadCurrentMentors()
+	static void LoadCurrentMentors()
 	{
-		StartCoroutine(LoadMentors());
+		Instance.StartCoroutine(LoadMentors());
 	}
 
-	void LoadJobBanList()
+	static void LoadJobBanList()
 	{
-		StartCoroutine(LoadJobBans());
+		Instance.StartCoroutine(LoadJobBans());
 	}
 
-	IEnumerator LoadJobBans()
+	static IEnumerator LoadJobBans()
 	{
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
-		jobBanList = JsonUtility.FromJson<JobBanList>(File.ReadAllText(jobBanPath));
+		Instance.jobBanList = JsonUtility.FromJson<JobBanList>(File.ReadAllText(Instance.jobBanPath));
 	}
 
-	IEnumerator LoadBans()
+	static IEnumerator LoadBans()
 	{
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
-		banList = JsonUtility.FromJson<BanList>(File.ReadAllText(banPath));
+		Instance.banList = JsonUtility.FromJson<BanList>(File.ReadAllText(Instance.banPath));
 	}
 
-	IEnumerator LoadWhiteListed()
+	static IEnumerator LoadWhiteListed()
 	{
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
-		whiteListUsers.Clear();
-		whiteListUsers = new List<string>(File.ReadAllLines(whiteListPath));
+		Instance.whiteListUsers.Clear();
+		Instance.whiteListUsers = new List<string>(File.ReadAllLines(Instance.whiteListPath));
 	}
 
-	IEnumerator LoadAdmins()
+	static IEnumerator LoadAdmins()
 	{
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
-		serverAdmins.Clear();
-		serverAdmins = new HashSet<string>(File.ReadAllLines(adminsPath));
+		Instance.serverAdmins.Clear();
+		Instance.serverAdmins = new HashSet<string>(File.ReadAllLines(Instance.adminsPath));
 	}
 
-	IEnumerator LoadMentors()
+	static IEnumerator LoadMentors()
 	{
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
-		mentorUsers.Clear();
-		mentorUsers = new HashSet<string>(File.ReadAllLines(mentorsPath));
+		Instance.mentorUsers.Clear();
+		Instance.mentorUsers = new HashSet<string>(File.ReadAllLines(Instance.mentorsPath));
 	}
 
 	[Server]
@@ -972,6 +972,7 @@ public partial class PlayerList
 
 		yield return WaitFor.Seconds(1f);
 
+		Logger.LogError($"Disconnecting client {connPlayer.Username} : Via admin KickOrBanPlayer {message}", Category.Admin);
 		connPlayer.Connection.Disconnect();
 
 		while (!loggedOff.Contains(connPlayer))

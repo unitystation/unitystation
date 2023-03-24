@@ -443,7 +443,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 
 		if (Animating == false && transform.localPosition != newLocalTarget.Vector3)
+		{
+			Animating = true;
 			UpdateManager.Add(CallbackType.UPDATE, AnimationUpdateMe);
+		}
 	}
 
 
@@ -561,6 +564,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			{
 				sprite.enabled = true;
 			}
+
+			if (this is not MovementSynchronisation c) return;
+			transform.localRotation = c.playerScript.RegisterPlayer.IsLayingDown ? Quaternion.Euler(0, 0, -90) : Quaternion.Euler(0,0,0);
 		}
 		else
 		{
@@ -602,6 +608,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	public void DropAtAndInheritMomentum(UniversalObjectPhysics droppedFrom)
 	{
+
 		SynchroniseVisibility(isVisible, true);
 		ForceSetLocalPosition(droppedFrom.transform.localPosition, droppedFrom.newtonianMovement, false,
 			droppedFrom.registerTile.Matrix.Id);
@@ -1479,7 +1486,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		if (intPosition != intNewPosition)
 		{
-			if ((intPosition - intNewPosition).magnitude > 1.5f)
+			if ((intPosition - intNewPosition).magnitude > 1.25f)
 			{
 				if (Collider != null) Collider.enabled = false;
 
@@ -1516,6 +1523,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					{
 						if (isServer)
 						{
+							if (bump as UniversalObjectPhysics == this) continue;
 							bump.OnBump(this.gameObject, null);
 						}
 					}
@@ -1581,11 +1589,15 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 								if (hit.TryGetComponent<Integrity>(out var integrity))
 								{
-									integrity.ApplyDamage(damage, AttackType.Melee, IAV2.ServerDamageType);
+									if (isServer)
+									{
+										integrity.ApplyDamage(damage, AttackType.Melee, IAV2.ServerDamageType);
+									}
+
 								}
 
 								var randomHitZone = aim.Randomize();
-								if (hit.TryGetComponent<LivingHealthMasterBase>(out var livingHealthMasterBase))
+								if (hit.TryGetComponent<LivingHealthMasterBase>(out var livingHealthMasterBase) && isServer)
 								{
 									livingHealthMasterBase.ApplyDamageToBodyPart(thrownBy, damage, AttackType.Melee,
 										DamageType.Brute,
@@ -1593,15 +1605,18 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 									Chat.AddThrowHitMsgToChat(gameObject, livingHealthMasterBase.gameObject, randomHitZone);
 								}
 
-								if (hit.TryGetComponent<LivingHealthBehaviour>(out var oldMob))
+								if (hit.TryGetComponent<LivingHealthBehaviour>(out var oldMob) && isServer)
 								{
 									oldMob.ApplyDamage(thrownBy, damage, AttackType.Melee, DamageType.Brute);
 									Chat.AddThrowHitMsgToChat(gameObject, livingHealthMasterBase.gameObject, randomHitZone);
 								}
 
-								AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.85f, 1f));
-								SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GenericHit, transform.position,
-									audioSourceParameters, sourceObj: gameObject);
+								if (isServer)
+								{
+									AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.85f, 1f));
+									SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GenericHit, transform.position,
+										audioSourceParameters, sourceObj: gameObject);
+								}
 							}
 						}
 					}

@@ -1,7 +1,10 @@
 ﻿using System;
 using Audio.Containers;
+using CameraEffects;
+using Chemistry;
 using Core.Utils;
 using HealthV2;
+using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -19,6 +22,9 @@ namespace Items.Implants.Organs
 
 		public Pickupable Pickupable;
 
+		[SerializeField] private Reagent DrunkReagent;
+		[SerializeField] public float MaxDrunkAtPercentage = 0.06f;
+
 		public uint OnPlayerID => OnBodyID;
 		public uint PossessingID => possessingID;
 
@@ -35,14 +41,25 @@ namespace Items.Implants.Organs
 
 
 		[SyncVar(hook = nameof(SyncTelekinesis))] private bool hasTelekinesis = false;
+
+		[SyncVar(hook = nameof(SyncDrunkenness))] private float DrunkAmount = 0;
+
 		public bool HasTelekinesis => hasTelekinesis;
 
 		public ChatModifier BodyChatModifier = ChatModifier.None;
 
+		public ReagentCirculatedComponent ReagentCirculatedComponent;
+
 		public override void Awake()
 		{
 			base.Awake();
-			RelatedPart = GetComponent<BodyPart>();
+			RelatedPart = this.GetComponentCustom<BodyPart>();
+			ReagentCirculatedComponent = this.GetComponentCustom<ReagentCirculatedComponent>();
+		}
+
+		public void Start()
+		{
+			SyncOnPlayer(this.netId, this.netId);
 		}
 
 		public override void SetUpSystems()
@@ -58,7 +75,7 @@ namespace Items.Implants.Organs
 
 		//Ensure removal of brain
 
-		public override void AddedToBody(LivingHealthMasterBase livingHealth)
+		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
 
 			livingHealth.SetBrain(this);
@@ -78,7 +95,7 @@ namespace Items.Implants.Organs
 			UpdateChatModifier(true);
 		}
 
-		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
 			livingHealth.SetBrain(null);
 			livingHealth.IsMute.RemovePosition(this);
@@ -89,6 +106,21 @@ namespace Items.Implants.Organs
 		public void SyncTelekinesis(bool Oldvalue, bool NewValue)
 		{
 			hasTelekinesis = NewValue;
+		}
+
+		public void SyncDrunkenness(float Oldvalue, float NewValue)
+		{
+			DrunkAmount = NewValue;
+			if (Preimplemented.IsOnLocalPlayer)
+			{
+				ApplyChangesDrunkenness(DrunkAmount);
+			}
+
+		}
+
+		public void ApplyChangesDrunkenness(float newState)
+		{
+			Camera.main.GetComponent<CameraEffectControlScript>().drunkCamera.SetDrunkStrength(newState);
 		}
 
 		public void SyncPossessingID(uint previouslyPossessing, uint currentlyPossessing)
@@ -103,16 +135,40 @@ namespace Items.Implants.Organs
 			Preimplemented.ImplementationSyncOnPlayer(PreviouslyOn, CurrentlyOn);
 		}
 
+
 		void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)
 		{
-			if (ShowForPlayer != null)
-			{
-				SyncOnPlayer(OnBodyID, ShowForPlayer.netId);
+		}
 
-			}
-			else
+		public override void ImplantPeriodicUpdate()
+		{
+			if (ReagentCirculatedComponent.AssociatedSystem != null && ReagentCirculatedComponent.AssociatedSystem.BloodPool.reagents.Contains(DrunkReagent))
 			{
-				SyncOnPlayer(OnBodyID, NetId.Empty);
+				float DrunkPercentage  = ReagentCirculatedComponent.AssociatedSystem.BloodPool.GetPercent(DrunkReagent);
+				if (DrunkPercentage > 0)
+				{
+					if (DrunkPercentage > MaxDrunkAtPercentage)
+					{
+						DrunkPercentage = MaxDrunkAtPercentage;
+					}
+					var  percentage = DrunkPercentage / MaxDrunkAtPercentage;
+
+					if (percentage > 0.05f)
+					{
+						SyncDrunkenness(DrunkAmount, percentage);
+					}
+					else
+					{
+						SyncDrunkenness(DrunkAmount, 0);
+					}
+				}
+				else
+				{
+					if (DrunkAmount != 0)
+					{
+						DrunkAmount = 0;
+					}
+				}
 			}
 		}
 
@@ -131,6 +187,7 @@ namespace Items.Implants.Organs
 		{
 			ApplyChangesBlindness(Default ? false : true);
 			ApplyDeafness(Default ? 0 : 1);
+			ApplyChangesDrunkenness(Default ? 0 : DrunkAmount);
 		}
 
 		public void ApplyDeafness(float Value)
@@ -216,7 +273,7 @@ namespace Items.Implants.Organs
 		public RegisterPlayer CurrentlyOn { get; set; }
 		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
-		public void OnControlPlayer( Mind mind, bool isServer, IPlayerPossessable parent) { }
+		public void OnControlPlayer( Mind mind) { }
 		public void OnPossessPlayer(Mind mind, IPlayerPossessable parent) {}
 		#endregion
 	}

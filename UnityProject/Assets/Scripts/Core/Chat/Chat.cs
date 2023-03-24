@@ -513,6 +513,29 @@ public partial class Chat : MonoBehaviour
 		});
 	}
 
+	/// <summary>
+	/// For all general action based messages (i.e. The clown hugged runtime)
+	/// Do not use this method for combat messages
+	/// Remember to only use this server side
+	/// </summary>
+	/// <param name="originator"> The player who caused the action</param>
+	/// <param name="everyoneMessage"> The message that everyone (including the orignator) will see</param>
+	public static void AddActionMsgToChat(GameObject originator, string everyoneMessage)
+	{
+		if (!IsServer()) return;
+		if (string.IsNullOrWhiteSpace(everyoneMessage)) return;
+
+		ChatRelay.Instance.PropagateChatToClients(new ChatEvent
+		{
+			channels = ChatChannel.Action,
+			speaker = originator.name,
+			message = everyoneMessage,
+			messageOthers = everyoneMessage,
+			position = originator.AssumedWorldPosServer(),
+			originator = originator
+		});
+	}
+
 	/// <see cref="Chat.AddActionMsgToChat"/>
 	/// <param name="interaction"> The interaction which caused this action (performer will be originator)</param>
 	/// <param name="originatorMessage"> The message that should be given to the originator only (i.e you hugged ian) </param>
@@ -763,6 +786,7 @@ public partial class Chat : MonoBehaviour
 	/// <param name="msg">The examine message</param>
 	public static void AddExamineMsgFromServer(GameObject recipient, string msg)
 	{
+		if (recipient == null) return;
 		if (!IsServer()) return;
 		UpdateChatMessage.Send(recipient, ChatChannel.Examine, ChatModifier.None, msg, Loudness.NORMAL);
 	}

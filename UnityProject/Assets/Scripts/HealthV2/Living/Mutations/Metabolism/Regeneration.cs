@@ -1,3 +1,4 @@
+using HealthV2.Living.PolymorphicSystems.Bodypart;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -17,7 +18,7 @@ namespace HealthV2.Living.Mutations.Metabolism
 		{
 			public Regeneration Regeneration => (RelatedMutationSO as Regeneration);
 
-			public BodyPart Related;
+			public HungerComponent Related;
 
 			public InRegeneration(BodyPart BodyPart,MutationSO _RelatedMutationSO) : base(BodyPart,_RelatedMutationSO)
 			{
@@ -26,12 +27,14 @@ namespace HealthV2.Living.Mutations.Metabolism
 
 			public override void SetUp()
 			{
-				Related = BodyPart;
+				Related = BodyPart.GetComponent<HungerComponent>();
+				if (Related == null) return;
 				Related.HealingNutrimentMultiplier += Regeneration.HealingNutriment;
 			}
 
 			public override void Remove()
 			{
+				if (Related == null) return;
 				Related.HealingNutrimentMultiplier -= Regeneration.HealingNutriment;
 			}
 

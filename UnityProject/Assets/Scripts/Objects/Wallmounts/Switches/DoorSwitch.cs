@@ -8,7 +8,9 @@ using Systems.Clearance;
 using Systems.Interaction;
 using Doors;
 using CustomInspectors;
+using Items;
 using Shared.Systems.ObjectConnection;
+using Systems.Electricity;
 
 namespace Objects.Wallmounts
 {
@@ -32,6 +34,8 @@ namespace Objects.Wallmounts
 		private bool buttonCoolDown = false;
 		private ClearanceRestricted clearanceRestricted;
 
+		private APCPoweredDevice APCPoweredDevice;
+
 		public void OnSpawnServer(SpawnInfo info)
 		{
 		}
@@ -47,6 +51,7 @@ namespace Objects.Wallmounts
 			gameObject.layer = LayerMask.NameToLayer("WallMounts");
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 			clearanceRestricted = GetComponent<ClearanceRestricted>();
+			APCPoweredDevice = GetComponent<APCPoweredDevice>();
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -62,12 +67,32 @@ namespace Objects.Wallmounts
 			buttonCoolDown = true;
 			StartCoroutine(CoolDown());
 
+
+			var Storage = interaction.Performer.OrNull()?.GetComponent<DynamicItemStorage>();
+
+			if (Storage != null)
+			{
+				var emag = Emag.GetEmagInDynamicItemStorage(Storage);
+				if (emag != null)
+				{
+					if (emag.UseCharge(interaction))
+					{
+						RunDoorController();
+						RpcPlayButtonAnim(false);
+						return;
+					}
+				}
+			}
+
+
+
+
 			if (clearanceRestricted.HasClearance(interaction.Performer) == false)
 			{
 				RpcPlayButtonAnim(false);
 				return;
 			}
-		
+
 			RunDoorController();
 		}
 
@@ -85,14 +110,33 @@ namespace Objects.Wallmounts
 				// Door doesn't exist anymore - shuttle crash, admin smash, etc.
 				if (door == null) continue;
 
-				if (door.IsClosed)
+				if (APCPoweredDevice != null)
 				{
-					door.TryOpen(null);
+					if (APCPoweredDevice.IsOn(PowerState.On))
+					{
+						if (door.IsClosed)
+						{
+							door.TryOpen(null);
+						}
+						else
+						{
+							door.TryClose();
+						}
+					}
 				}
 				else
 				{
-					door.TryClose();
+					if (door.IsClosed)
+					{
+						door.TryOpen(null);
+					}
+					else
+					{
+						door.TryClose();
+					}
 				}
+
+
 			}
 
 			foreach (var door in NewdoorControllers)

@@ -14,7 +14,7 @@ namespace Objects.Machines
 		[SerializeField] private ObjectContainer storage;
 		[SerializeField] private UniversalObjectPhysics physics;
 		[SerializeField] private Integrity machineIntegrity;
-		[SerializeField] private float timeToGib = 12f;
+		[SerializeField] private int numberOfTimesToDamage = 8;
 		[SerializeField] private int produceMultiplier = 4;
 		[SerializeField] private int damagePerFrame = 20;
 		[SerializeField] private GameObject defaultProduce;
@@ -23,12 +23,13 @@ namespace Objects.Machines
 		[SerializeField] private SpriteDataSO lightson;
 
 		private bool isRunning = false;
+		private int damageNumber = 0;
 
 		private Dictionary<GameObject, int> gibbed = new Dictionary<GameObject, int>();
 
-		private const float DAMAGE_TIME = 0.6f;
+		private const float DAMAGE_TIME = 1.8f;
 		private const int HALF = 2;
-		private const float LOW_HEALTH = -100f;
+		private const float LOW_HEALTH = -75f;
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
@@ -48,8 +49,21 @@ namespace Objects.Machines
 				return;
 			}
 
+			if (storage.IsEmpty)
+			{
+				Chat.AddExamineMsg(interaction.Performer, "This Gibber has nothing inside of it.");
+				return;
+			}
+
 			isRunning = !isRunning;
-			if (isRunning) StartCoroutine(GibbingTime());
+			if (isRunning)
+			{
+				StartGibbing();
+			}
+			else
+			{
+				StopGibbing();
+			}
 		}
 
 		public bool WillInteract(MouseDrop interaction, NetworkSide side)
@@ -65,24 +79,18 @@ namespace Objects.Machines
 			storage.StoreObject(interaction.DroppedObject);
 		}
 
-		private IEnumerator GibbingTime()
+		private void StartGibbing()
 		{
 			Chat.AddLocalMsgToChat("The gibber violently shakes as it shreds everything inside of it.", gameObject);
 			lights.SetSpriteSO(lightson);
-			int time = 0;
-			while (isRunning)
-			{
-				if(timeToGib <= time) break;
-				time++;
-				yield return WaitFor.Seconds(DAMAGE_TIME);
-				yield return CheckContentAndHarm();
-			}
+			UpdateManager.Add(CheckContentAndHarm, DAMAGE_TIME);
+		}
 
-			foreach (var slot in storage.GetStoredObjects().Reverse())
-			{
-				_ = Despawn.ServerSingle(slot);
-			}
-
+		private void StopGibbing()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckContentAndHarm);
+			Chat.AddLocalMsgToChat("The gibber stops vibrating as it finishes its operation.", gameObject);
+			lights.SetSpriteSO(lightsoff);
 			storage.RetrieveObjects();
 
 			foreach (var products in gibbed)
@@ -92,12 +100,13 @@ namespace Objects.Machines
 			}
 			gibbed.Clear();
 			isRunning = false;
-			Chat.AddLocalMsgToChat("The gibber stops vibrating as it finishes its operation.", gameObject);
-			lights.SetSpriteSO(lightsoff);
+			numberOfTimesToDamage = 0;
+			damageNumber = 0;
 		}
 
-		private IEnumerator CheckContentAndHarm()
+		private void CheckContentAndHarm()
 		{
+			damageNumber++;
 			foreach (var slot in storage.GetStoredObjects().Reverse())
 			{
 				if (slot.TryGetComponent<LivingHealthMasterBase>(out var gib))
@@ -108,9 +117,7 @@ namespace Objects.Machines
 					var meatToProduce = gib.MeatProduce.OrNull() ?? defaultProduce;
 					var skinToProduce = gib.SkinProduce.OrNull() ?? defaultProduce;
 					AddItemsThatWillBeSpawned(meatToProduce, skinToProduce);
-					storage.RemoveObject(slot);
-					yield return WaitFor.EndOfFrame;
-					gib.OnGib();
+					storage.RetrieveObject(slot ,null, gib.OnGib);
 					continue;
 				}
 
@@ -128,6 +135,7 @@ namespace Objects.Machines
 					false, false, false, true);
 				integrity.ApplyDamage(damagePerFrame, AttackType.Melee, DamageType.Brute);
 			}
+			if (damageNumber > numberOfTimesToDamage) StopGibbing();
 		}
 
 		private void AddItemsThatWillBeSpawned(GameObject meat, GameObject skin = null)

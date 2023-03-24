@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4343989174440723700, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: circuitBoardPrefab
+      value: 
+      objectReference: {fileID: 5890792449271279797, guid: 4bdb5ad25167fc848ab3b1f820df6638,
+        type: 3}
     - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_AssetId
@@ -216,6 +222,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fa2fe46fa461fb64eb39fff39008d48e, type: 2}
   - {fileID: 11400000, guid: d4c4e5ba19454334b928512081d5c510, type: 2}
   - {fileID: 11400000, guid: 93463c37a4972ce4aa1104392aa3cc33, type: 2}
+  - {fileID: 11400000, guid: 0d67f903a71649d4b95dddb95b36c805, type: 2}
+  - {fileID: 11400000, guid: 946daa6f977e3404a867763dbd618564, type: 2}
   UnlockedMutations: []
   Injecting:
   - BodyPartSearchString: Torso

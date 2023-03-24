@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using System;
+using Mirror;
 using NaughtyAttributes;
 
 #if UNITY_EDITOR
@@ -92,7 +93,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 				CmdChangeDirection(dir);
 			}
 
-			OnRotationChange.Invoke(dir);
+			OnRotationChange?.Invoke(dir);
 		}
 	}
 
@@ -406,6 +407,31 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		else
 		{
 			DebugGizmoUtils.DrawArrow(transform.position, CurrentDirection.ToLocalVector3());
+		}
+	}
+
+	public Vector3Int GetOppositeVectorToDirection()
+	{
+		var position = gameObject.AssumedWorldPosServer().CutToInt();
+		switch (CurrentDirection.GetOppositeDirection())
+		{
+			case OrientationEnum.Default:
+				position.y -= 1;
+				return position;
+			case OrientationEnum.Right_By270:
+				position.x += 1;
+				return position;
+			case OrientationEnum.Up_By0:
+				position.y += 1;
+				return position;
+			case OrientationEnum.Left_By90:
+				position.x -= 1;
+				return position;
+			case OrientationEnum.Down_By180:
+				position.y -= 1;
+				return position;
+			default:
+				throw new ArgumentOutOfRangeException();
 		}
 	}
 

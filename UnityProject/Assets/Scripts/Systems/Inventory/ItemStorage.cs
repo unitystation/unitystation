@@ -208,54 +208,25 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		Vector3? DroppedAtWorldPositionOrThrowVector = null,
 		bool Throw = false)
 	{
-		ItemAttributesV2 item = InGameObject.GetComponent<ItemAttributesV2>();
-		if (item == null) return false;
-		IEnumerable<ItemSlot> slots = GetItemSlots();
-		HealthV2.BodyPart mobHealth = InGameObject.GetComponent<HealthV2.BodyPart>();
+		var slots = GetItemSlots();
 		foreach (var slot in slots)
 		{
-			if (slot.Item.OrNull()?.gameObject == InGameObject)
+			if (slot.Item.OrNull()?.gameObject != InGameObject) continue;
+			if (Destroy)
 			{
-				if (mobHealth != null)
-				{
-					if (mobHealth.CurrentBurnDamageLevel == TraumaDamageLevel.CRITICAL)
-					{
-						_ = Spawn.ServerPrefab(ashPrefab,
-							mobHealth.HealthMaster.gameObject.RegisterTile().WorldPosition);
-						_ = Despawn.ServerSingle(slot.Item.gameObject);
-						return true;
-					}
-				}
-
-				if (Destroy)
-				{
-					return Inventory.ServerDespawn(slot);
-				}
-				else
-				{
-					if (Throw)
-					{
-						if (DroppedAtWorldPositionOrThrowVector != null)
-						{
-							return Inventory.ServerThrow(slot, DroppedAtWorldPositionOrThrowVector.GetValueOrDefault());
-						}
-						else
-						{
-							return Inventory.ServerThrow(slot, Vector2.zero);
-						}
-					}
-					else
-					{
-						if (DroppedAtWorldPositionOrThrowVector != null)
-						{
-							return Inventory.ServerDrop(slot, DroppedAtWorldPositionOrThrowVector.GetValueOrDefault());
-						}
-						else
-						{
-							return Inventory.ServerDrop(slot);
-						}
-					}
-				}
+				return Inventory.ServerDespawn(slot);
+			}
+			if (Throw)
+			{
+				return DroppedAtWorldPositionOrThrowVector != null ?
+					Inventory.ServerThrow(slot, DroppedAtWorldPositionOrThrowVector.GetValueOrDefault())
+					: Inventory.ServerThrow(slot, Vector2.zero);
+			}
+			else
+			{
+				return DroppedAtWorldPositionOrThrowVector != null ?
+					Inventory.ServerDrop(slot, DroppedAtWorldPositionOrThrowVector.GetValueOrDefault())
+					: Inventory.ServerDrop(slot);
 			}
 		}
 
@@ -482,6 +453,20 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		return ItemSlot.GetIndexed(this, slotIndex);
 	}
 
+	public ItemSlot GetNextEmptySlot()
+	{
+		var slots = GetItemSlots();
+		foreach (var slot in slots)
+		{
+			if (slot.Item == null)
+			{
+				return slot;
+			}
+		}
+
+		return null;
+	}
+
 	/// <summary>
 	/// Server-side only. Destroys all items in inventory.
 	/// </summary>
@@ -580,6 +565,29 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		return GetIndexedSlots().LastOrDefault(ids => ids.Item != null);
 	}
 
+	/// <summary>
+	/// Gets the highest indexed slot that is currently occupied. Null if none are occupied
+	/// </summary>
+	/// <returns></returns>
+	public List<ItemSlot> GetOccupiedSlots()
+	{
+		var result = new List<ItemSlot>();
+		foreach (var slot in GetIndexedSlots())
+		{
+			if (slot.IsOccupied) result.Add(slot);
+		}
+		return result;
+	}
+
+
+	/// <summary>
+	/// Returns if any slot is occupied
+	/// </summary>
+	/// <returns></returns>
+	public bool HasAnyOccupied()
+	{
+		return GetIndexedSlots().Any(slot => slot.Item != null);
+	}
 
 	/// <summary>
 	/// Server only (can be called client side but has no effect).
@@ -658,11 +666,25 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// <summary>
 	/// Drops all items in all slots.
 	/// </summary>
-	public void ServerDropAll(Vector2? worldTargetVector = null)
+	public void ServerDropAll(Vector2? worldDeltaTargetVector = null)
 	{
 		foreach (var itemSlot in GetItemSlots())
 		{
-			Inventory.ServerDrop(itemSlot, worldTargetVector);
+			Inventory.ServerDrop(itemSlot, worldDeltaTargetVector);
 		}
+	}
+
+	/// <summary>
+	/// Drops all items in all slots.
+	/// </summary>
+	public void ServerDropAllAtWorld(Vector3? DropAtWorld = null)
+	{
+		Vector2? worldDeltaTargetVector = null;
+		if (DropAtWorld != null)
+		{
+			worldDeltaTargetVector =  DropAtWorld - gameObject.AssumedWorldPosServer() ;
+		}
+
+		ServerDropAll(worldDeltaTargetVector);
 	}
 }

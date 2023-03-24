@@ -12,7 +12,14 @@ namespace Messages.Client
 		public override void Process(NetworkConnection sentBy, T msg)
 		{
 			SentByPlayer = PlayerList.Instance.GetOnline(sentBy);
-			base.Process(sentBy, msg);
+			try
+			{
+				base.Process(sentBy, msg);
+			}
+			finally
+			{
+				SentByPlayer = null;
+			}
 		}
 
 		public static void Send(T msg)

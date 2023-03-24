@@ -13,7 +13,7 @@ namespace Messages.Client.DevSpawner
 		public struct NetMessage : NetworkMessage
 		{
 			// asset ID of the prefab to spawn
-			public Guid PrefabAssetID;
+			public uint PrefabAssetID;
 			// position to spawn at.
 			public Vector2 WorldPosition;
 

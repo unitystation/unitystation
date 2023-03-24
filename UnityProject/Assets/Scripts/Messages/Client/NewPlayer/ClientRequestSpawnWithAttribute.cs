@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using Messages.Server;
 using Mirror;
 using Newtonsoft.Json;
-using NUnit.Framework;
 using ScriptableObjects.Characters;
+using Systems.Character;
 
 namespace Messages.Client.NewPlayer
 {

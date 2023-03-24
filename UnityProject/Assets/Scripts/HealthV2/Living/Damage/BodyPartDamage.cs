@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
-using System.Linq;
 using Health.Objects;
-using Random = System.Random;
 
 namespace HealthV2
 {
@@ -184,6 +181,15 @@ namespace HealthV2
 		}
 
 		/// <summary>
+		/// Triggers when a body part receives damage.
+		/// It has the attack type, damage type and the amount of damage as parameters for the callback
+		/// </summary>
+		public event Action<BodyPartDamageData> OnDamageTaken;
+
+		public BodyPartDamageData LastDamageData { get; private set; } = new BodyPartDamageData();
+
+
+		/// <summary>
 		/// Adjusts the appropriate damage type by the given damage amount and updates body part
 		/// functionality based on its new health total
 		/// </summary>
@@ -358,8 +364,21 @@ namespace HealthV2
 		/// <param name="organDamageSplit">Should the damage be divided amongst the contained organs or applied to a random one</param>
 		public void TakeDamage(GameObject damagedBy, float damage, AttackType attackType, DamageType damageType,
 								bool organDamageSplit = false, bool DamageSubOrgans = true, float armorPenetration = 0,
-								double traumaDamageChance = 100, TraumaticDamageTypes tramuticDamageType = TraumaticDamageTypes.NONE)
+								double traumaDamageChance = 100, TraumaticDamageTypes tramuticDamageType = TraumaticDamageTypes.NONE, bool invokeOnDamageEvent = true)
 		{
+			LastDamageData = new BodyPartDamageData()
+			{
+				DamageAmount = damage,
+				DamagedBy = damagedBy,
+				AttackType = attackType,
+				DamageType = damageType,
+				OrganDamageSplit = organDamageSplit,
+				DamageSubOrgans = DamageSubOrgans,
+				ArmorPenetration = armorPenetration,
+				TramuticDamageType = tramuticDamageType,
+				TraumaDamageChance = traumaDamageChance,
+				InvokeOnDamageEvent = invokeOnDamageEvent
+			};
 			float damageToLimb = Armor.GetTotalDamage(
 				SelfArmor.GetDamage(damage, attackType, armorPenetration),
 				attackType,
@@ -372,6 +391,7 @@ namespace HealthV2
 			}
 
 			AffectDamage(damageToLimb, (int) damageType);
+			if (invokeOnDamageEvent && damage > 0) OnDamageTaken?.Invoke(LastDamageData);
 
 			// May be changed to individual damage
 			// May also want it so it can miss sub organs
@@ -379,36 +399,6 @@ namespace HealthV2
 			{
 				DamageOrgans(damage, attackType, damageType, organDamageSplit, armorPenetration);
 			}
-
-			if(damage < damageThreshold) return; //Do not apply traumas if the damage is not serious.
-			if(damageType == DamageType.Brute) //Check damage type to avoid bugs where you can blow someone's head off with a shoe.
-			{
-				if (attackType == AttackType.Melee || attackType == AttackType.Laser || attackType == AttackType.Energy)
-				{
-					if (tramuticDamageType != TraumaticDamageTypes.NONE && DMMath.Prob(traumaDamageChance))
-					{
-						//TODO: move this to an utility, its hard to read! - picks a random enum from the ones already flagged
-						Random random = new Random();
-						TraumaticDamageTypes[] typeToSelectFrom = Enum.GetValues(typeof(TraumaticDamageTypes)).Cast<TraumaticDamageTypes>().Where(x => tramuticDamageType.HasFlag(x)).ToArray();
-						TraumaticDamageTypes selectedType = typeToSelectFrom[random.Next(1, typeToSelectFrom.Length)];
-						ApplyTraumaDamage(selectedType);
-					}
-					CheckBodyPartIntegrity();
-				}
-			}
-
-			if(attackType == AttackType.Bomb)
-			{
-				TakeBluntDamage();
-				DismemberBodyPartWithChance();
-			}
-
-			if (damageType == DamageType.Burn || attackType == AttackType.Fire ||
-			    attackType == AttackType.Laser || attackType == AttackType.Energy)
-			{
-				ApplyTraumaDamage(TraumaticDamageTypes.BURN);
-			}
-
 		}
 
 		private void DamageOrgans(float damage, AttackType attackType, DamageType damageType, bool organDamageSplit, float armorPenetration)
@@ -509,7 +499,6 @@ namespace HealthV2
 			if (severity <= 0)
 			{
 				Severity = DamageSeverity.None;
-				currentPierceDamageLevel = TraumaDamageLevel.NONE;
 			}
 			// If the limb is under 10% damage
 			else if (severity < 0.1)
@@ -566,4 +555,18 @@ namespace HealthV2
 			maxHealth = newMaxHealth;
 		}
 	}
+}
+
+public class BodyPartDamageData
+{
+	public GameObject DamagedBy = null;
+	public float DamageAmount = 0f;
+	public AttackType AttackType = AttackType.Melee;
+	public DamageType DamageType = DamageType.Brute;
+	public bool OrganDamageSplit = false;
+	public bool DamageSubOrgans = true;
+	public float ArmorPenetration = 0;
+	public double TraumaDamageChance = 100;
+	public TraumaticDamageTypes TramuticDamageType = TraumaticDamageTypes.NONE;
+	public bool InvokeOnDamageEvent = true;
 }

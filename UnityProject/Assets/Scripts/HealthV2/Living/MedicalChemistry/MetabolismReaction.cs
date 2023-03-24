@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Chemistry;
 using HealthV2;
 using HealthV2.Living.CirculatorySystem;
+using HealthV2.Living.PolymorphicSystems.Bodypart;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -25,7 +26,7 @@ public class MetabolismReaction : Reaction
 	//public List<ItemTrait> SingleRequired = new List<ItemTrait>(); TODO add ability to Apply to multiple tags
 	public List<ItemTrait> ExternalBlacklist  = new List<ItemTrait>();
 
-	public override bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
+	public override bool Apply(object sender, ReagentMix reagentMix)
 	{
 		if (IsReactionValid(reagentMix) == false)
 		{
@@ -43,7 +44,7 @@ public class MetabolismReaction : Reaction
 		return false;
 	}
 
-	public void React(List<BodyPart> sender, ReagentMix reagentMix, float ReactionAmount)
+	public void React(List<MetabolismComponent> sender, ReagentMix reagentMix, float ReactionAmount)
 	{
 		var reactionMultiple = GetReactionAmount(reagentMix);
 
@@ -64,7 +65,7 @@ public class MetabolismReaction : Reaction
 		PossibleReaction(sender, reagentMix, reactionMultiple, ReactionAmount, AmountProcessing, out overdose);
 	}
 
-	public virtual void PossibleReaction(List<BodyPart> senders, ReagentMix reagentMix, float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed, out bool overdose)
+	public virtual void PossibleReaction(List<MetabolismComponent> senders, ReagentMix reagentMix, float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed, out bool overdose)
 	{
 		//out must be asigned to something, overdose is never used here.
 		overdose = false;

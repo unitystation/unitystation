@@ -62,14 +62,25 @@ namespace Antagonists
 
 			foreach (WizardSpellData randomSpell in GetRandomWizardSpells())
 			{
-				Spell spell = randomSpell.AddToPlayer(player);
-				player.AddSpell(spell);
+				AddSpellToPlayer(randomSpell, player);
 				playerMsg.Append($"<b>{randomSpell.Name}</b>, ");
 			}
 
 			playerMsg.RemoveLast(", ").Append(".");
 
 			Chat.AddExamineMsgFromServer(player.gameObject, playerMsg.ToString());
+		}
+
+		public static void AddSpellToPlayer(WizardSpellData randomSpell, Mind player)
+		{
+			Spell spell = randomSpell.AddToPlayer(player);
+			player.AddSpell(spell);
+		}
+
+		public static void AddSpellToPlayer(SpellData randomSpell, Mind player)
+		{
+			Spell spell = randomSpell.AddToPlayer(player);
+			player.AddSpell(spell);
 		}
 
 		private void SetPapers(Mind player)
@@ -107,6 +118,16 @@ namespace Antagonists
 		private IEnumerable<SpellData> GetRandomWizardSpells()
 		{
 			return SpellList.Instance.Spells.Where(s => s is WizardSpellData).PickRandom(StartingSpellCount);
+		}
+
+		public static IEnumerable<SpellData> GetRandomWizardSpells(int numberOfSpells)
+		{
+			return SpellList.Instance.Spells.Where(s => s is WizardSpellData).PickRandom(numberOfSpells);
+		}
+
+		public static SpellData GetRandomWizardSpell()
+		{
+			return SpellList.Instance.Spells.Where(s => s is WizardSpellData).PickRandom();
 		}
 	}
 }
