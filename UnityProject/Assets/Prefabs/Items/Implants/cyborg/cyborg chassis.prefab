@@ -69,6 +69,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1274760333973328556, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
+      propertyPath: _assetId
+      value: 1556140197
+      objectReference: {fileID: 0}
+    - target: {fileID: 1274760333973328556, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
       propertyPath: m_AssetId
       value: a54ff5941b31b6e499a9f63299979d7d
       objectReference: {fileID: 0}
@@ -96,8 +101,26 @@ PrefabInstance:
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: SurgeryProcedureBase.Array.size
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 042d01452f7f9ec4aa0e9ca6ea309242,
+        type: 2}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 10171eea099bebb4c8fa8ec66c5ed051,
+        type: 2}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 32f04f929f3a7134e8894559e262ec8a,
+        type: 2}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: SurgeryProcedureBase.Array.data[3]

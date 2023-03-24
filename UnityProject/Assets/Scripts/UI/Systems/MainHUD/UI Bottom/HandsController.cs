@@ -121,8 +121,7 @@ public class HandsController : MonoBehaviour
 		}
 	}
 
-	public void RemoveHand(
-		BodyPartUISlots.StorageCharacteristics StorageCharacteristics)
+	public void RemoveHand(BodyPartUISlots.StorageCharacteristics StorageCharacteristics)
 	{
 		if (StorageToHands.ContainsKey(StorageCharacteristics) == false) return;
 		if (StorageToHands[StorageCharacteristics].RemoveHand( StorageCharacteristics))

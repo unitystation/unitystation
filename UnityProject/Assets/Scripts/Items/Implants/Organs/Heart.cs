@@ -1,5 +1,6 @@
 ﻿using Chemistry;
 using HealthV2;
+using HealthV2.Living.PolymorphicSystems;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using NaughtyAttributes;
 using UnityEngine;
@@ -81,14 +82,18 @@ namespace Items.Implants.Organs
 			DoHeartBeat();
 		}
 
+		private ReagentPoolSystem ReagentCirculatedComponent;
+
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
-			_ReagentCirculatedComponent.AssociatedSystem.PumpingDevices.Remove(this);
+			ReagentCirculatedComponent.PumpingDevices.Remove(this);
+			ReagentCirculatedComponent = null;
 		}
 
 		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
-			_ReagentCirculatedComponent.AssociatedSystem.PumpingDevices.Add(this);
+			ReagentCirculatedComponent = _ReagentCirculatedComponent.AssociatedSystem;
+			ReagentCirculatedComponent.PumpingDevices.Add(this);
 		}
 
 		public void DoHeartBeat()

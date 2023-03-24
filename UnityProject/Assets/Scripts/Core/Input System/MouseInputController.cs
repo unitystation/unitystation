@@ -629,7 +629,7 @@ public class MouseInputController : MonoBehaviour
 		if (UIManager.IsThrow)
 		{
 			var currentSlot = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot();
-			if (currentSlot.Item != null || PlayerManager.LocalPlayerScript.playerMove.Pulling.HasComponent)
+			if (currentSlot?.Item != null || PlayerManager.LocalPlayerScript.playerMove.Pulling.HasComponent)
 			{
 				var localTarget = MouseWorldPosition.ToLocal(playerMove.registerTile.Matrix);
 				var vector = MouseWorldPosition - PlayerManager.LocalPlayerScript.transform.position;

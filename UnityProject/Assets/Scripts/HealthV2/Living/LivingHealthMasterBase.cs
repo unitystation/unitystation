@@ -1296,7 +1296,7 @@ namespace HealthV2
 			for (int i = BodyPartList.Count - 1; i >= 0; i--)
 			{
 				if (BodyPartList[i].BodyPartType == BodyPartType.Chest) continue;
-				BodyPartList[i].TryRemoveFromBody();
+				BodyPartList[i].TryRemoveFromBody(true, PreventGibb_Death : true);
 			}
 		}
 

@@ -287,7 +287,15 @@ public class CharacterSheet : ICloneable
 		PlayerHealthData race = RaceSOSingleton.Instance.Races.PickRandom();
 
 		character.Species = race.name;
-		character.BodyType = race.Base.bodyTypeSettings.AvailableBodyTypes.PickRandom().bodyType;
+		if (race.Base.bodyTypeSettings.AvailableBodyTypes.Count != 0)
+		{
+			character.BodyType = race.Base.bodyTypeSettings.AvailableBodyTypes.PickRandom().bodyType;
+		}
+		else
+		{
+			character.BodyType = BodyType.NonBinary;
+		}
+
 		character.Age = Random.Range(19, 84); // TODO should be a race characteristic, literally 1984
 		character.SkinTone = GetRandomSkinTone(race);
 		character.Name = character.Species == "Lizard"
