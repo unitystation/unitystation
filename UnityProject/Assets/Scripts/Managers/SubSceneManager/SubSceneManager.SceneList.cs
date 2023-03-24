@@ -137,27 +137,24 @@ public partial class SubSceneManager
 	//Load all the asteroids on the server
 	private IEnumerator ServerLoadAdditionalScenes(SubsceneLoadTimer loadTimer)
 	{
-		if (GameManager.Instance.QuickLoad)
-		{
-			yield return null;
-		}
+		if (GameManager.Instance.QuickLoad) yield return null;
 
 		loadTimer.IncrementLoadBar("Loading Additional Scenes");
 		foreach (var additionalScene in additionalSceneList.AdditionalScenes)
 		{
 			//LAVALAND
 			//only spawn if game config allows
-			if (additionalScene.ToString() == "LavaLand" && !GameConfig.GameConfigManager.GameConfig.SpawnLavaLand && !AdminAllowLavaland)
+			if (additionalScene.ToString().Contains("LavaLand") && !GameConfig.GameConfigManager.GameConfig.SpawnLavaLand && !AdminAllowLavaland)
 			{
 				continue;
 			}
 
-			if (additionalScene.ToString() == "LavaLand" && !GameConfig.GameConfigManager.GameConfig.SpawnLavaLand)
+			if (additionalScene.ToString().Contains("LavaLand") && !GameConfig.GameConfigManager.GameConfig.SpawnLavaLand)
 			{
 				//reset back to false for the next round if false before.
 				AdminAllowLavaland = false;
 			}
-			else if (additionalScene.ToString() == "LavaLand")
+			else if (additionalScene.ToString().Contains("LavaLand"))
 			{
 				AdminAllowLavaland = true;
 			}
