@@ -67,6 +67,7 @@ namespace HealthV2.Living.PolymorphicSystems
 			{
 				bodyPart.ToxinGeneration = ToxinFlowPerOne;
 			}
+			BodyPartListChange();
 		}
 
 		public override void BodyPartAdded(BodyPart bodyPart)
