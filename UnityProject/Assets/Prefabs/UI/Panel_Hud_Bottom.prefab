@@ -3222,7 +3222,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disableDrag: 0
-  resetPositionOnDisable: 0
   wikiURL: https://unitystation.github.io/unitystation-wiki/
 --- !u!114 &3118169619861214544
 MonoBehaviour:
@@ -8285,9 +8284,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DoubleHandController: {fileID: 7139280182161848993, guid: c4c07c46d5efe314fa78b0cfb8d3cb98,
     type: 3}
+  PrefabToolCarousel: {fileID: 3893690355953749214, guid: 90e69a12576b2e6409c426c350c53a0a,
+    type: 3}
   AvailableLeftHand: []
   AvailableRightHand: []
-  activeDoubleHandController: {fileID: 0}
+  AllToolCarousels: []
   ActiveHand: 0
 --- !u!1 &8322022242344282369
 GameObject:
@@ -9285,8 +9286,6 @@ MonoBehaviour:
   thisImg: {fileID: 4057572765835875074}
   runWalkBorder: {fileID: 8220972936054280300}
   helpWindow: {fileID: 3821884654562194279}
-  startRestMessage: You try to lie down.
-  endRestMessage: You try to stand up.
   startRunningMessage: You start running
   startWalkingMessage: You start walking
 --- !u!114 &2685064010475739368

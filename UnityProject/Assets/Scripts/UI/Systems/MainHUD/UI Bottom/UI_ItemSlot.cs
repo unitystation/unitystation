@@ -51,7 +51,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	/// <summary>
 	/// Item in this slot, null if empty.
 	/// </summary>
-	public Pickupable Item => itemSlot.Item;
+	public Pickupable Item => itemSlot?.Item;
 
 	/// <summary>
 	/// Actual slot this UI slot is linked to
