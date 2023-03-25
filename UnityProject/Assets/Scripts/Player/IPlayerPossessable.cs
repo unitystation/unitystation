@@ -278,6 +278,7 @@ public interface IPlayerPossessable
 
 	public void InternalOnPlayerLeave(Mind mind)
 	{
+		if (GameObject == null) return;
 		if (GameObject.GetComponent<NetworkIdentity>().hasAuthority  || mind == PlayerManager.LocalMindScript)
 		{
 			var leaveInterfaces = GameObject.GetComponents<IOnPlayerLeaveBody>();
