@@ -47,29 +47,36 @@ namespace Systems.Electricity.NodeModules
 			{
 				supply.ControllingNode.Node.InData.FlushSupplyAndUp(supply.ControllingNode.Node); //Needs change
 
-				if (!supply.ControllingNode.Node.InData.Data.ChangeToOff)
+				//Reactive supplies are Triggered by the Electrical In-N-Out
+
+				if (supply.current != 0 && supply.ControllingNode.Node.InData.Data.ChangeToOff == false)
 				{
-					if (supply.current != 0)
-					{
-						PushCurrentDownline(supply, supply.current);
-					}
-					else if (supply.SupplyingVoltage != 0)
-					{
-						float Current = (supply.SupplyingVoltage) / (supply.InternalResistance
-																	 + ElectricityFunctions.WorkOutResistance(supply.ControllingNode.Node.InData.Data.SupplyDependent[supply.ControllingNode.Node].ResistanceComingFrom));
-						PushCurrentDownline(supply, Current);
-					}
-					else if (supply.ProducingWatts != 0)
-					{
-						float Current = (float)(Math.Sqrt(supply.ProducingWatts *
-														  ElectricityFunctions.WorkOutResistance(supply.ControllingNode.Node.InData.Data.SupplyDependent[supply.ControllingNode.Node].ResistanceComingFrom))
-						/ ElectricityFunctions.WorkOutResistance(supply.ControllingNode.Node.InData.Data.SupplyDependent[supply.ControllingNode.Node].ResistanceComingFrom));
-						PushCurrentDownline(supply, Current);
-					}
+					PushCurrentDownline(supply, supply.current);
+				}
+				else if (supply.SupplyingVoltage != 0 && supply.ControllingNode.Node.InData.Data.ChangeToOff == false)
+				{
+					float Current = (supply.SupplyingVoltage) / (supply.InternalResistance
+					                                             + ElectricityFunctions.WorkOutResistance(supply
+						                                             .ControllingNode.Node.InData.Data
+						                                             .SupplyDependent[supply.ControllingNode.Node]
+						                                             .ResistanceComingFrom));
+					PushCurrentDownline(supply, Current);
+				}
+				else if (supply.ProducingWatts != 0 && supply.ControllingNode.Node.InData.Data.ChangeToOff == false)
+				{
+					float Current = (float) (Math.Sqrt(supply.ProducingWatts *
+					                                   ElectricityFunctions.WorkOutResistance(supply.ControllingNode
+						                                   .Node.InData.Data
+						                                   .SupplyDependent[supply.ControllingNode.Node]
+						                                   .ResistanceComingFrom))
+					                         / ElectricityFunctions.WorkOutResistance(supply.ControllingNode.Node.InData
+						                         .Data.SupplyDependent[supply.ControllingNode.Node]
+						                         .ResistanceComingFrom));
+					PushCurrentDownline(supply, Current);
 				}
 				else
 				{
-					foreach (var connectedDevice in supply.ControllingNode.Node.connectedDevices)
+					foreach (var connectedDevice in supply.ControllingNode.Node.connectedDevices) //Makes it so reactive supplies can react to no Current
 					{
 						if (sync.ReactiveSuppliesSet.Contains(connectedDevice.Categorytype))
 						{
