@@ -59,6 +59,13 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// </summary>
 	public float RoundEndTime { get; set; } = 60f;
 
+
+	/// <summary>
+	/// Default How long to wait between ending the round and starting a new one
+	/// </summary>
+	public float DefaultRoundEndTime { get; set; } = 60f;
+
+
 	/// <summary>
 	/// How long to wait between ending the round and starting a new one
 	/// </summary>
@@ -668,6 +675,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	{
 		Logger.LogError($"Waiting {RoundEndTime} seconds to restart...", Category.Round);
 		yield return WaitFor.Seconds(RoundEndTime);
+		RoundEndTime = DefaultRoundEndTime;
 		RestartRound();
 	}
 
@@ -932,7 +940,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			{
 				Logger.LogError(e.ToString());
 			}
-			
+
 			EventManager.Broadcast(Event.CleanupEnd, true);
 			yield return WaitFor.Seconds(0.2f);
 
