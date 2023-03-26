@@ -182,8 +182,16 @@ public class WeaponNetworkActions : NetworkBehaviour
 					SoundManager.PlayNetworkedAtPos(miss.missSound.PickRandom(), transform.position, sourceObj: gameObject);
 				}
 
-				Chat.AddCombatMsgToChat(gameObject, $"You attempted to {attackVerb} {victimName} but missed!",
-					$"{gameObject.ExpensiveName()} has attempted to {attackVerb} {victimName}!");
+				if (weaponAttributes != null)
+				{
+					Chat.AddCombatMsgToChat(gameObject, $"You missed {victimName} with {weapon.ExpensiveName()}!",
+						$"{gameObject.ExpensiveName()} missed {victimName} with {weapon.ExpensiveName()}!");
+				}
+				else
+				{
+					Chat.AddCombatMsgToChat(gameObject, $"You missed {victimName}!",
+						$"{gameObject.ExpensiveName()} missed {victimName}!");
+				}
 			}
 		}
 

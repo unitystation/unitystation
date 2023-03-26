@@ -12,6 +12,7 @@ using Items.PDA;
 using Messages.Server;
 using ScriptableObjects.Audio;
 using ScriptableObjects.Systems.Spells;
+using Systems.Antagonists.Antags;
 using UI.Core.Action;
 
 /// <summary>
@@ -645,7 +646,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 		Chat.AddExamineMsgFromServer(playerMob, antag.GetObjectivesForPlayer());
 
 		if (playerMob.TryGetComponent<PlayerScript>(out var body) == false) return;
-		if (antag.Antagonist.AntagJobType == JobType.TRAITOR || antag.Antagonist.AntagJobType == JobType.SYNDICATE)
+		if (antag.Antagonist.AntagJobType == JobType.TRAITOR || antag.Antagonist.AntagJobType == JobType.SYNDICATE || antag.Antagonist is BloodBrother)
 		{
 			string codeWordsString = "Code Words:";
 			for (int i = 0; i < CodeWordManager.WORD_COUNT; i++)

@@ -188,7 +188,7 @@ namespace Systems.Explosions
 			int Radius = 0;
 			if (fixedRadius <= 0)
 			{
-				Radius = (int)Math.Round(strength / (Math.PI * 75));
+				Radius = (int)Math.Round(strength / (Math.PI * 75)) + 5;
 			}
 			else
 			{

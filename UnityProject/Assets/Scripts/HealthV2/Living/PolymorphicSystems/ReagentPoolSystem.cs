@@ -43,11 +43,11 @@ namespace HealthV2.Living.PolymorphicSystems
 		}
 
 
-		public void Bleed(float amount)
+		public void Bleed(float amount, bool spawnReagentOnFloor = true)
 		{
 			var bloodLoss = new ReagentMix();
 			BloodPool.TransferTo(bloodLoss, amount);
-			MatrixManager.ReagentReact(bloodLoss, Base.gameObject.RegisterTile().WorldPositionServer);
+			if (spawnReagentOnFloor) MatrixManager.ReagentReact(bloodLoss, Base.gameObject.RegisterTile().WorldPositionServer);
 		}
 
 		/// <summary>
