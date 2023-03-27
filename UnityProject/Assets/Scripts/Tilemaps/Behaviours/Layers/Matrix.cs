@@ -156,12 +156,9 @@ public class Matrix : MonoBehaviour
 				//maybe shake items somehow, too
 			}
 		});
-	}
-
-	void Start()
-	{
 		StartCoroutine(MatrixManager.Instance.RegisterWhenReady(this));
 	}
+
 
 	public void CompressAllBounds()
 	{

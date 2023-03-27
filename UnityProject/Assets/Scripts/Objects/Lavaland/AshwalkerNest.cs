@@ -213,6 +213,7 @@ namespace Objects
 			SetSprite();
 
 			createdRoleKey = GhostRoleManager.Instance.ServerCreateRole(ghostRole);
+			if (ErrorCheckRoundRestartEvent()) return;
 			var role = GhostRoleManager.Instance.serverAvailableRoles[createdRoleKey];
 
 			GhostRoleManager.Instance.ServerUpdateRole(createdRoleKey, 1, ashwalkerEggs, -1);
@@ -220,6 +221,24 @@ namespace Objects
 			role.OnPlayerAdded += OnSpawnPlayer;
 
 			EventManager.RemoveHandler(Event.LavalandFirstEntered, OnRoundRestart);
+		}
+
+		private bool ErrorCheckRoundRestartEvent()
+		{
+			if (GhostRoleManager.Instance == null || GhostRoleManager.Instance.OrNull()?.serverAvailableRoles == null)
+			{
+				Logger.LogError("[AshwalkerNest] - GhostRoleManager is null or has a non-initialised dictionary.");
+				EventManager.RemoveHandler(Event.LavalandFirstEntered, OnRoundRestart);
+				return true;
+			}
+			if (GhostRoleManager.Instance.serverAvailableRoles.ContainsKey(createdRoleKey) == false)
+			{
+				Logger.LogError("[AshwalkerNest] - createdRoleKey is mismatched with what's registered.");
+				EventManager.RemoveHandler(Event.LavalandFirstEntered, OnRoundRestart);
+				return true;
+			}
+
+			return false;
 		}
 
 		private void OnSpawnPlayer(PlayerInfo player)

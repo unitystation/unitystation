@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 using Mirror;
@@ -30,6 +31,7 @@ using TileManagement;
 using Tiles;
 using UI.Systems.AdminTools;
 using UI.Systems.AdminTools.DevTools;
+using UnityEngine.AddressableAssets;
 
 namespace AdminCommands
 {
@@ -231,12 +233,21 @@ namespace AdminCommands
 		public void CmdChangeNextMap(string nextMap, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var player) == false) return;
+			var nextMapRef = SubSceneManager.Instance.MainStationList
+				.Where(map => map.Key == nextMap)
+				.Select(map => map.Key).FirstOrDefault();
 
-			if (SubSceneManager.AdminForcedMainStation == nextMap) return;
+			if (nextMapRef == null)
+			{
+				LogAdminAction($"{player.Username}: Tried Changing the next round map from but {nextMap} couldn't be found.");
+				return;
+			}
+
+			if (SubSceneManager.AdminForcedMainStation == nextMapRef) return;
 
 			LogAdminAction($"{player.Username}: Changed the next round map from {SubSceneManager.AdminForcedMainStation} to {nextMap}.");
 
-			SubSceneManager.AdminForcedMainStation = nextMap;
+			SubSceneManager.AdminForcedMainStation = nextMapRef;
 		}
 
 		[Command(requiresAuthority = false)]

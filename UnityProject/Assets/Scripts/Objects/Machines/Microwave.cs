@@ -433,7 +433,7 @@ namespace Objects.Kitchen
 		/// <param name="state">The power state to set the microwave's state with.</param>
 		public void StateUpdate(PowerState state)
 		{
-			CurrentState.PowerStateUpdate(state);
+			CurrentState?.PowerStateUpdate(state);
 		}
 
 		public void PowerNetworkUpdate(float voltage)

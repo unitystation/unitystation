@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 [CreateAssetMenu(fileName = "AdditionalSceneListSO", menuName = "ScriptableObjects/AdditionalSceneList", order = 1)]
 public class AdditionalSceneListSO : ScriptableObject
@@ -12,38 +13,39 @@ public class AdditionalSceneListSO : ScriptableObject
 	         "spawned at runtime. Remember to also add your scene to " +
 	         "the build settings list",EInfoBoxType.Normal)]
 
-	[Scene]
-	public List<string> AdditionalScenes = new List<string>();
+	public List<AssetReference> AdditionalScenes = new List<AssetReference>();
 
-	[Scene]
+
 	[Tooltip("Default Central Command scene used if no specific map is set")]
-	public List<string> defaultCentComScenes = new List<string>();
+	public List<AssetReference> defaultCentComScenes = new List<AssetReference>();
 
 	[Tooltip("List of CentCom scenes that will be picked randomly at round load unless specific map is set")]
 	public List<CentComData> CentComScenes = new List<CentComData>();
 
-	[Scene]
+
 	[Tooltip("List of Syndie bases that will be picked randomly at round load unless specific map is set")]
-	public List<string> defaultSyndicateScenes = new List<string>();
+	public List<AssetReference> defaultSyndicateScenes = new List<AssetReference>();
 
 	[Tooltip("Used to set a specific scene to load for a map")]
 	public List<SyndicateData> SyndicateScenes = new List<SyndicateData>();
 
-	[Scene]
 	[Tooltip("List of wizard scenes that will be picked randomly at round load, if wizard gamemode.")]
-	public List<string> WizardScenes = new List<string>();
+	public List<AssetReference> WizardScenes = new List<AssetReference>();
+
+	public List<AssetReference> WizardScenesCustom = new List<AssetReference>();
+
 
 	[Serializable]
 	public class CentComData
 	{
-		[Scene] public string CentComSceneName;
-		[Scene] public string DependentScene = null;
+		public AssetReference CentComSceneName;
+		public AssetReference DependentScene = null;
 	}
 
 	[Serializable]
 	public class SyndicateData
 	{
-		[Scene] public string SyndicateSceneName;
-		[Scene] public string DependentScene = null;
+		public AssetReference SyndicateSceneName;
+		public AssetReference DependentScene = null;
 	}
 }

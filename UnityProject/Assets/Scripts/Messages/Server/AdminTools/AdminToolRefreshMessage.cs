@@ -46,7 +46,7 @@ namespace Messages.Server.AdminTools
 			pageData.randomEventsAllowed = InGameEventsManager.Instance.RandomEventsAllowed;
 
 			//Round Manager
-			pageData.nextMap = SubSceneManager.AdminForcedMainStation;
+			pageData.nextMap = SubSceneManager.AdminForcedMainStation == null ? "Random" : SubSceneManager.AdminForcedMainStation;
 			pageData.nextAwaySite = SubSceneManager.AdminForcedAwaySite;
 			pageData.allowLavaLand = SubSceneManager.AdminAllowLavaland;
 			pageData.alertLevel = GameManager.Instance.CentComm.CurrentAlertLevel.ToString();

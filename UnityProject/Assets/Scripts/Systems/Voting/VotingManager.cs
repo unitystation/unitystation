@@ -9,6 +9,7 @@ using Mirror;
 using UnityEngine;
 using UI;
 using Strings;
+using UnityEngine.AddressableAssets;
 
 /// <summary>
 /// Controls everything to do with player voting
@@ -50,7 +51,7 @@ public class VotingManager : NetworkBehaviour
 	/// </summary>
 	private Coroutine cooldown;
 
-	private List<string> MapList = new List<string>();
+	private List<MainStationInfo> MapList = new List<MainStationInfo>();
 	private List<string> GameModeList = new List<string>();
 	private List<string> yesNoList = new List<string>();
 
@@ -77,7 +78,7 @@ public class VotingManager : NetworkBehaviour
 
 	private void Start()
 	{
-		MapList = SubSceneManager.Instance.MainStationList.GetMaps();
+		MapList = SubSceneManager.Instance.MainStationList;
 		GameModeList = GameManager.Instance.GetAvailableGameModeNames();
 		yesNoList.Add("Yes");
 		yesNoList.Add("No");
@@ -157,8 +158,11 @@ public class VotingManager : NetworkBehaviour
 				RpcOpenVoteWindow("Voting for next Game Mode initiated by", instigator.name, CountAmountString(), (time - prevSecond).ToString(), GameModeList);
 				break;
 			case VoteType.NextMap:
-				possibleVotes.AddRange(MapList);
-				RpcOpenVoteWindow("Voting for next map initiated by", instigator.name, CountAmountString(), (time - prevSecond).ToString(), MapList);
+				foreach (var mapvotes in SubSceneManager.Instance.MainStationList)
+				{
+					possibleVotes.Add(mapvotes.Name);
+				}
+				RpcOpenVoteWindow("Voting for next map initiated by", instigator.name, CountAmountString(), (time - prevSecond).ToString(), possibleVotes);
 				break;
 		}
 		RpcVoteCallerDefault(sender);
@@ -276,7 +280,11 @@ public class VotingManager : NetworkBehaviour
 					break;
 				case VoteType.NextMap:
 					Chat.AddGameWideSystemMsgToChat($"<color=blue>Vote passed! Next map will be {winner}</color>");
-					SubSceneManager.AdminForcedMainStation = winner;
+					foreach (var station in SubSceneManager.Instance.MainStationList.Where(station => winner == station.Name))
+					{
+						SubSceneManager.AdminForcedMainStation = station.Key;
+						break;
+					}
 					break;
 			}
 

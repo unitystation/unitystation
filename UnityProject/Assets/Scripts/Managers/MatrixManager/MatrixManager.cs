@@ -53,22 +53,9 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	public Matrix lavaLandMatrix { get; private set; }
 	private Matrix mainStationMatrix = null;
 
-	public static MatrixInfo MainStationMatrix
-	{
-		get
-		{
-			if (Instance.mainStationMatrix == null)
-			{
-				return Instance.ActiveMatricesList[1];
-			}
-			else
-			{
-				return Get(Instance.mainStationMatrix);
-			}
-		}
-	}
+	public static MatrixInfo MainStationMatrix => Get(Instance.mainStationMatrix);
 
-	private bool ClientWaitingRoutine = false;
+	private const float MATRIX_READY_WAIT_TIME = 1.25f;
 
 	public override void Start()
 	{
@@ -81,47 +68,30 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	private void OnEnable()
 	{
+		SceneManager.activeSceneChanged += OnSceneChange;
 		EventManager.AddHandler(Event.ScenesLoadedServer, OnScenesLoaded);
 	}
 
 	private void OnDisable()
 	{
-		ClientWaitingRoutine = false;
 		SceneManager.activeSceneChanged -= OnSceneChange;
 		EventManager.RemoveHandler(Event.ScenesLoadedServer, OnScenesLoaded);
 		if (Application.isPlaying)
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
-
-		ResetMatrixManager();
-		IsInitialized = false;
 	}
 
 	void OnSceneChange(Scene oldScene, Scene newScene)
 	{
 		ResetMatrixManager();
-		if (newScene.name.Equals("Lobby") == false)
-		{
-			IsInitialized = false;
-		}
+		IsInitialized = false;
 	}
 
-	public void PostRoundStartCleanup()
+	void ResetMatrixManager()
 	{
-		foreach (var a in InitializingMatrixes)
-		{
-			Debug.Log("removed " + CleanupUtil.RidListOfDeadElements(a.Value) + " dead matrices from MatrixManager.InitializingMatrixes");
-		}
-	}
-	public void ResetMatrixManager()
-	{
-		if (Instance != null)
-		{
-			Instance.spaceMatrix = null;
-			Instance.mainStationMatrix = null;
-		}
-
+		Instance.spaceMatrix = null;
+		Instance.mainStationMatrix = null;
 		MovableMatrices.Clear();
 		ActiveMatrices.Clear();
 		ActiveMatricesList.Clear();
@@ -158,44 +128,22 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		}
 		else
 		{
-			if (AreAllMatrixReady())
+			if (AreAllMatrixReady() == false) yield break;
+			if (IsInitialized)
 			{
-				if (IsInitialized)
-				{
-					ClientMatrixInitialization(matrix);
-				}
-				else
-				{
-					IsInitialized = true;
-					ClientAllMatrixReady();
-				}
+				ClientMatrixInitialization(matrix);
 			}
 			else
 			{
-				if (ClientWaitingRoutine == false)
-				{
-					ClientWaitingRoutine = true;
-					StartCoroutine(ClientWaitForAllMatrices());
-				}
+				IsInitialized = true;
+				ClientAllMatrixReady();
 			}
 		}
 	}
 
-
-
 	private bool AreAllMatrixReady()
 	{
-		int Count = 0;
-		if (CustomNetworkManager.IsServer)
-		{
-			Count = SubSceneManager.Instance.loadedScenesList.Count;
-		}
-		else
-		{
-			Count = SubSceneManager.Instance.clientLoadedSubScenes.Count;
-		}
-
-		if (Count != InitializingMatrixes.Count)
+		if (SubSceneManager.Instance.loadedScenesList.Count != InitializingMatrixes.Count)
 		{
 			return false;
 		}
@@ -221,39 +169,23 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		StartCoroutine(WaitForAllMatrices());
 	}
 
-	private IEnumerator ClientWaitForAllMatrices()
-	{
-		while (AreAllMatrixReady() == false)
-		{
-			yield return null;
-		}
-
-		foreach (var matrixInfo in ActiveMatricesList)
-		{
-			ClientMatrixInitialization(matrixInfo.Matrix);
-		}
-
-		ClientWaitingRoutine = false;
-	}
-
 	[Server]
 	private IEnumerator WaitForAllMatrices()
 	{
+		if (IsInitialized) yield break;
 		while (AreAllMatrixReady() == false)
 		{
-			yield return null;
+			yield return WaitFor.Seconds(MATRIX_READY_WAIT_TIME);
 		}
-
-		IsInitialized = true;
 
 		foreach (var matrixInfo in ActiveMatricesList)
 		{
 			ServerMatrixInitialization(matrixInfo.Matrix);
+			yield return WaitFor.EndOfFrame;
 		}
-
+		IsInitialized = true;
 		EventManager.Broadcast(Event.MatrixManagerInit);
 	}
-
 
 	[Server]
 	private void ServerMatrixInitialization(Matrix matrix)

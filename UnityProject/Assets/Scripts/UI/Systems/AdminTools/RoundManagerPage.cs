@@ -106,23 +106,15 @@ public class RoundManagerPage : AdminPage
 			text = "Random"
 		});
 
-		foreach (var mapName in SubSceneManager.Instance.MainStationList.MainStations)
-		{
-			optionData.Add(new Dropdown.OptionData
-			{
-				text = mapName
-			});
-		}
+		optionData.AddRange(SubSceneManager.Instance.MainStationList.Select(mapName => new Dropdown.OptionData { text = mapName.Key }));
 
 		nextMapDropDown.options = optionData;
 
 		for (var i = 0; i < optionData.Count; i++)
 		{
-			if (optionData[i].text == adminPageData.nextMap)
-			{
-				nextMapDropDown.value = i;
-				return;
-			}
+			if (optionData[i].text != adminPageData.nextMap) continue;
+			nextMapDropDown.value = i;
+			return;
 		}
 	}
 
@@ -141,7 +133,7 @@ public class RoundManagerPage : AdminPage
 		{
 			optionData.Add(new Dropdown.OptionData
 			{
-				text = awaySiteName
+				text = awaySiteName.ToString()
 			});
 		}
 

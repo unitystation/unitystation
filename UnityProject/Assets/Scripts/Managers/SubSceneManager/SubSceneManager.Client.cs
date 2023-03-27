@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Messages.Client;
 using Mirror;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 
 // Client
@@ -13,16 +13,16 @@ public partial class SubSceneManager
 	private bool KillClientLoadingCoroutine = false;
 
 	private bool clientIsLoadingSubscene = false;
-	public HashSet<SceneInfo> clientLoadedSubScenes = new HashSet<SceneInfo>();
+	private HashSet<SceneInfo> clientLoadedSubScenes = new HashSet<SceneInfo>();
 
 	private float waitTime = 0f;
 	private readonly float tickRate = 1f;
 
-	public Dictionary<string, bool> ClientObserver = new Dictionary<string, bool>();
+	private Action ClientSideFinishAction;
 
 	void MonitorServerSceneListOnClient()
 	{
-		if (CustomNetworkManager.IsServer || clientIsLoadingSubscene || AddressableCatalogueManager.FinishLoaded == false) return;
+		if (isServer || clientIsLoadingSubscene || AddressableCatalogueManager.FinishLoaded == false) return;
 
 		waitTime += Time.deltaTime;
 		if (waitTime < tickRate) return;
@@ -32,9 +32,10 @@ public partial class SubSceneManager
 		{
 			var sceneToCheck = loadedScenesList[i];
 			if(clientLoadedSubScenes.Contains(sceneToCheck)) continue;
+
 			clientIsLoadingSubscene = true;
+			clientLoadedSubScenes.Add(sceneToCheck);
 			StartCoroutine(LoadClientSubScene(sceneToCheck));
-			break;
 		}
 	}
 
@@ -51,26 +52,22 @@ public partial class SubSceneManager
 			}
 
 			SubsceneLoadTimer.IncrementLoadBar($"Loading {sceneInfo.SceneName}");
-			yield return StartCoroutine(LoadSubScene(sceneInfo.SceneName, SubsceneLoadTimer, HandlSynchronising));
+			yield return StartCoroutine(LoadSubScene(sceneInfo.SceneKey, SubsceneLoadTimer, HandlSynchronising, sceneInfo.SceneType));
 			MainStationLoaded = true;
 
 		}
 		else
 		{
-			if (SubsceneLoadTimer != null)
-			{
-				SubsceneLoadTimer.IncrementLoadBar(sceneInfo.SceneType != SceneType.HiddenScene ?
-					$"Loading {sceneInfo.SceneName}" : "");
-			}
+			SubsceneLoadTimer?.IncrementLoadBar(sceneInfo.SceneType != SceneType.HiddenScene ?
+				$"Loading {sceneInfo.SceneName}" : "");
 
-			yield return StartCoroutine(LoadSubScene(sceneInfo.SceneName, HandlSynchronising  :HandlSynchronising ));
+			yield return StartCoroutine(LoadSubScene(sceneInfo.SceneKey, HandlSynchronising :HandlSynchronising, type:sceneInfo.SceneType));
 		}
 
 		if (OverrideclientIsLoadingSubscene == false)
 		{
 			clientIsLoadingSubscene = false;
 		}
-		clientLoadedSubScenes.Add(sceneInfo);
 	}
 
 	public void LoadScenesFromServer(List<SceneInfo> Scenes, string OriginalScene, Action OnFinish)
@@ -78,8 +75,6 @@ public partial class SubSceneManager
 		KillClientLoadingCoroutine = false;
 		StartCoroutine(LoadClientScenesFromServer(Scenes,OriginalScene, OnFinish));
 	}
-
-	private Action ClientSideFinishAction;
 
 	IEnumerator LoadClientScenesFromServer(List<SceneInfo> Scenes, string OriginalScene, Action OnFinish)
 	{
@@ -94,11 +89,12 @@ public partial class SubSceneManager
 			yield return LoadClientSubScene(Scene, false, SubsceneLoadTimer, true );
 			if (KillClientLoadingCoroutine)
 			{
-				yield return SceneManager.UnloadSceneAsync(Scene.SceneName);
+				yield return SceneManager.UnloadSceneAsync(Scene.SceneName.ToString());
 				KillClientLoadingCoroutine = false;
 				clientIsLoadingSubscene = false;
 				yield break;
 			}
+			clientLoadedSubScenes.Add(Scene);
 		}
 
 		NetworkClient.PrepareToSpawnSceneObjects();
@@ -113,8 +109,7 @@ public partial class SubSceneManager
 				clientIsLoadingSubscene = false;
 				yield break;
 			}
-			RequestObserverRefresh.Send(Scene.SceneName);
-			ClientObserver[Scene.SceneName] = false;
+			RequestObserverRefresh.Send(Scene.SceneName.ToString());
 		}
 
 		clientIsLoadingSubscene = false;
@@ -124,24 +119,7 @@ public partial class SubSceneManager
 			KillClientLoadingCoroutine = false;
 			yield break;
 		}
-
-		int Count = 0;
-		while (ObserverOfAll() == false && Count < 600)
-		{
-			yield return WaitFor.Seconds(0.1f);
-			Count++;
-		}
-
-
-		ClientObserver.Clear();
 		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
 		OnFinish.Invoke();
 	}
-
-
-	public bool ObserverOfAll()
-	{
-		return ClientObserver.All(x => x.Value);
-	}
-
 }

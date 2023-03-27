@@ -129,12 +129,6 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	void IInitialise.Initialise()
 	{
 		ApplyConfig();
-
-		var prevEditorScene = SubSceneManager.GetEditorPrevScene();
-		if (prevEditorScene != string.Empty && prevEditorScene != "StartUp" && prevEditorScene != "Lobby")
-		{
-			StartHost();
-		}
 	}
 
 	void ApplyConfig()

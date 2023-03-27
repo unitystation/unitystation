@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Systems;
@@ -89,7 +90,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// <summary>
 	/// True if the server allows respawning at round start by default.
 	/// </summary>
-	public bool RespawnAllowed { get; set; }
+	public bool RespawnAllowed { get; set; } = true;
 
 	/// <summary>
 	/// True if the server allows gibbing people when they receive enough post-mortem damage.
