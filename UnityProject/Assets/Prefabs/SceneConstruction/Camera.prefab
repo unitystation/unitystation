@@ -558,7 +558,6 @@ GameObject:
   - component: {fileID: 7171882492086519817}
   - component: {fileID: 7964655504328845500}
   - component: {fileID: 8481840996761083126}
-  - component: {fileID: 1571278215165730018}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -603,9 +602,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53e3142adc76418db1fe76b4e22c2035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  yOffSet: -0.5
   starScroll: -0.8
   damping: 0
   listenerObj: {fileID: 1187200688554218}
+  offsetZ: -1
   starsBackground: {fileID: 4848993904202032}
   pixelAdjustment: 64
   target: {fileID: 0}
@@ -636,7 +637,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: -1000
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
   orthographic: 1
@@ -861,18 +862,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 99ecfeede2d287d4eb583cf0f6914645, type: 2}
   CurrentColourMode: 1
---- !u!114 &1571278215165730018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1365047106309440}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 009c8f3df7c35d64199c7796baaa0f06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1456048741972242
 GameObject:
   m_ObjectHideFlags: 0

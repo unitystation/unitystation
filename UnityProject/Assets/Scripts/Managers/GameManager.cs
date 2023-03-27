@@ -20,9 +20,12 @@ using Objects.Machines.ServerMachines.Communications;
 using Tilemaps.Behaviours.Layers;
 using UnityEngine.Profiling;
 using Player;
+using ScriptableObjects;
 using Systems.Cargo;
 using ScriptableObjects.Characters;
+using TileManagement;
 using UnityEngine.Serialization;
+using UnityEngine.Tilemaps;
 
 public partial class GameManager : MonoBehaviour, IInitialise
 {
@@ -239,31 +242,31 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	private void Start()
 	{
-		if ( CustomNetworkManager.IsServer ) UpdateManager.Add(UpdateMinutes, 60f);
+		if (CustomNetworkManager.IsServer) UpdateManager.Add(UpdateMinutes, 60f);
 	}
 
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-		EventManager.AddHandler( Event.Cleanup, ClientCleanupInbetweenScenes );
-		EventManager.AddHandler( Event.CleanupEnd, ClientCleanupEndRoundCleanups );
-		EventManager.AddHandler( Event.PostRoundStarted, ClientRoundStartCleanup );
+		EventManager.AddHandler(Event.Cleanup, ClientCleanupInbetweenScenes);
+		EventManager.AddHandler(Event.CleanupEnd, ClientCleanupEndRoundCleanups);
+		EventManager.AddHandler(Event.PostRoundStarted, ClientRoundStartCleanup);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-		if ( CustomNetworkManager.IsServer ) UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMinutes);
-		EventManager.RemoveHandler( Event.Cleanup, ClientCleanupInbetweenScenes );
-		EventManager.RemoveHandler( Event.CleanupEnd, ClientCleanupEndRoundCleanups );
-		EventManager.RemoveHandler( Event.PostRoundStarted, ClientRoundStartCleanup );
+		if (CustomNetworkManager.IsServer) UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMinutes);
+		EventManager.RemoveHandler(Event.Cleanup, ClientCleanupInbetweenScenes);
+		EventManager.RemoveHandler(Event.CleanupEnd, ClientCleanupEndRoundCleanups);
+		EventManager.RemoveHandler(Event.PostRoundStarted, ClientRoundStartCleanup);
 	}
 
 	private void UpdateMinutes()
 	{
-		if ( counting == false ) return;
+		if (counting == false) return;
 		RoundTimeInMinutes += 1;
 	}
 
@@ -282,6 +285,130 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 
 		PendingSpaceBodies.Enqueue(mm);
+	}
+
+	public bool Is3D = false;
+	public GameObject objectToSpawn;
+
+
+	[NaughtyAttributes.Button()]
+	public void ConvertTo3D()
+	{
+		Is3D = true;
+
+
+
+		// Get the specific scene by name or index
+		Scene targetScene = SceneManager.GetSceneByName("OnlineScene");
+		// Alternatively, you can use the scene index: SceneManager.GetSceneByIndex(0);
+
+		// Check if the target scene is valid and loaded
+		if (targetScene.IsValid() && targetScene.isLoaded)
+		{
+			// Instantiate the object to spawn at the root of the scene
+			GameObject spawnedObject = Instantiate(objectToSpawn, Vector3.zero, Quaternion.identity, targetScene.GetRootGameObjects()[0].transform);
+
+			spawnedObject.transform.localRotation = Quaternion.Euler(-90, 0, 0);
+
+			// Set the object to parent to the spawned object
+			Camera.main.transform.parent = spawnedObject.transform;
+
+			Camera.main.gameObject.AddComponent<FirstPersonCamera>();
+			spawnedObject.transform.parent = null;
+		}
+
+		Camera.main.GetComponent<LightingSystem>().enabled = false;
+
+		Camera.main.orthographic = false;
+
+
+		var Follow = Camera.main.GetComponent<Camera2DFollow>();
+		Follow.offsetZ = 0;
+		Follow.yOffSet = 0;
+
+
+		var Tiles = FindObjectsOfType<RegisterTile>();
+
+		foreach (var Tile in Tiles)
+		{
+			if (Tile.GetComponent<ConvertTo3D>() == null)
+			{
+				Tile.gameObject.AddComponent<ConvertTo3D>();
+			}
+		}
+
+		var To3D = FindObjectsOfType<ConvertTo3D>();
+
+		foreach (var I3D in To3D)
+		{
+			I3D.DoConvertTo3D();
+		}
+
+		var maps = FindObjectsOfType<MetaTileMap>();
+
+
+		foreach (var map in maps)
+		{
+			var PresentTiles = map.PresentTilesNeedsLock;
+			lock (PresentTiles)
+			{
+				foreach (var Layer in PresentTiles)
+				{
+					if (Layer.Key.LayerType == LayerType.Walls || Layer.Key.LayerType == LayerType.Windows ||
+					    Layer.Key.LayerType == LayerType.Grills)
+					{
+						foreach (var TileInfo in Layer.Value)
+						{
+							var Sprite3D = Instantiate(CommonPrefabs.Instance.Cube3D,
+								TileInfo.Key + new Vector3(0.5f, 0.5f, 0), new Quaternion(),
+								Layer.Key.transform).GetComponent<SetCubeSprite>();
+
+							Sprite3D.gameObject.transform.localPosition = TileInfo.Key +  new Vector3(0.5f, 0.5f, 0);
+
+							TileInfo.Value.AssociatedSetCubeSprite = Sprite3D;
+							Sprite3D.SetSprite(TileInfo.Value.layerTile.PreviewSprite);
+						}
+
+						var Renderer = Layer.Key.GetComponent<TilemapRenderer>();
+						if (Renderer != null)
+						{
+							Renderer.enabled = false;
+						}
+					}
+					else if (Layer.Key.LayerType != LayerType.Objects)
+					{
+						Layer.Key.gameObject.transform.localPosition = new Vector3(0, 0, 0.5f);
+					}
+				}
+			}
+
+			var MultilayerPresentTiles = map.MultilayerPresentTilesNeedsLock;
+			lock (MultilayerPresentTiles)
+			{
+				foreach (var Layer in MultilayerPresentTiles)
+				{
+					if (Layer.Key.LayerType != LayerType.Effects)
+					{
+						Layer.Key.gameObject.transform.localPosition = new Vector3(0, 0, 0.5f);
+					}
+				}
+			}
+		}
+
+
+		var ParallaxControllers = FindObjectsOfType<ParallaxController>();
+
+		foreach (var ParallaxController in ParallaxControllers)
+		{
+			foreach (var Column in ParallaxController.backgroundTiles)
+			{
+				foreach (var Tile in Column.rows)
+				{
+					Tile.gameObject.SetActive(false);
+				}
+			}
+		}
+
 	}
 
 	IEnumerator ProcessSpaceBody(MatrixMove mm)
@@ -621,7 +748,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	{
 		if (CustomNetworkManager.Instance._isServer == false) return;
 
-		if (CurrentRoundState != RoundState.Started && CurrentRoundState != RoundState.PreRound) //PreRound If the round didn't even start at all and because of an error
+		if (CurrentRoundState != RoundState.Started &&
+		    CurrentRoundState !=
+		    RoundState.PreRound) //PreRound If the round didn't even start at all and because of an error
 		{
 			if (CurrentRoundState == RoundState.Ended)
 			{
@@ -932,7 +1061,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			{
 				Logger.LogError(e.ToString());
 			}
-			
+
 			EventManager.Broadcast(Event.CleanupEnd, true);
 			yield return WaitFor.Seconds(0.2f);
 
@@ -955,7 +1084,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		else
 		{
 			Logger.LogError("Server is rebooting now. If you don't have a way to automatically restart the " +
-			                "Unitystation process such as systemctl the server won't be able to restart!", Category.Round);
+			                "Unitystation process such as systemctl the server won't be able to restart!",
+				Category.Round);
 			Chat.AddGameWideSystemMsgToChat("<size=72><b>The server is now restarting!</b></size>");
 			yield return WaitFor.Seconds(4f);
 			Application.Quit();
@@ -968,7 +1098,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			CleanupUtil.CleanupInbetweenScenes();
 		}
-
 	}
 
 	public void ClientCleanupEndRoundCleanups()
@@ -977,7 +1106,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			CleanupUtil.EndRoundCleanup();
 		}
-
 	}
 
 
@@ -988,5 +1116,4 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			CleanupUtil.RoundStartCleanup();
 		}
 	}
-
 }

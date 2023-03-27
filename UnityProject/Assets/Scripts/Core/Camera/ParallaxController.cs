@@ -46,6 +46,7 @@ public class ParallaxController : MonoBehaviour
 
 	void UpdateMe()
 	{
+		if (GameManager.Instance.Is3D) return;
 		MonitorTiles();
 	}
 

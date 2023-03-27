@@ -13,7 +13,7 @@ public class FirstPersonCamera : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.GetKey(KeyCode.E))
+		if (Input.GetKey(KeyCode.E) == false)
 		{
 			float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
 			float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
@@ -33,24 +33,6 @@ public class FirstPersonCamera : MonoBehaviour
 
 			transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0f);
 			//playerBody.Rotate(Vector3.up * mouseX);
-		}
-
-		if (Input.GetKey(KeyCode.F8))
-		{
-			var Sprites = FindObjectsOfType<SpriteRenderer>();
-			foreach (var Sprite in Sprites)
-			{
-				if (Sprite.name.Contains("Square")) continue;
-				Sprite.sortingOrder = 0;
-				Sprite.sortingLayerName = "Default";
-			}
-
-			var Orders = FindObjectsOfType<SortingGroup>();
-			foreach (var Order in Orders)
-			{
-				Order.sortingOrder = 1;
-				Order.sortingLayerName = "Walls";
-			}
 		}
 	}
 }
