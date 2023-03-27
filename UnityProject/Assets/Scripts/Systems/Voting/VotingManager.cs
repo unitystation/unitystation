@@ -265,6 +265,8 @@ public class VotingManager : NetworkBehaviour
 					if (GameManager.Instance.CurrentRoundState != RoundState.Started) return;
 					Logger.Log("Vote to restart server was successful. Restarting now.....", Category.Admin);
 					VideoPlayerMessage.Send(VideoType.RestartRound);
+					GameManager.Instance.RoundEndTime = 5; // Quick round end when triggered by Players.
+
 					GameManager.Instance.EndRound();
 					break;
 				case VoteType.NextGameMode:
