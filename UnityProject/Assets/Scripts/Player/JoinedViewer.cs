@@ -277,9 +277,10 @@ namespace Player
 
 
 			TargetLocalPlayerRejoinUI(connectionToClient);
+			GameManager.Instance.OrNull()?.PlayerLoadedIn(connectionToClient);
 			STVerifiedConnPlayer.Mind.OrNull()?.ReLog();
 
-			GameManager.Instance.OrNull()?.PlayerLoadedIn(connectionToClient);
+
 			ClearCache();
 		}
 

@@ -205,6 +205,22 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		IPlayerEntersTiles = GetComponents<IPlayerEntersTile>();
 		IObjectEntersTiles = GetComponents<IObjectEntersTile>();
 		CurrentsortingGroup = GetComponent<SortingGroup>();
+
+		if (GameManager.Is3D)
+		{
+			var Is3D = this.gameObject.GetComponent<ConvertTo3D>();
+			if (Is3D == null)
+			{
+
+				Is3D =this.gameObject.AddComponent<ConvertTo3D>();
+
+			}
+			Is3D?.DoConvertTo3D();
+		}
+		else
+		{
+			transform.localRotation = Quaternion.Euler(0, 0, transform.localRotation.eulerAngles.z);
+		}
 	}
 
 	public override void OnStartServer()
@@ -831,14 +847,14 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	public void SetNewSortingOrder(int newLayerId)
 	{
-		if (GameManager.Instance != null && GameManager.Instance.Is3D) return;
+		if (GameManager.Is3D) return;
 		if (CurrentsortingGroup == null) return;
 		CurrentsortingGroup.sortingOrder = newLayerId;
 	}
 
 	public void SetNewSortingLayer(int newLayerId, bool BoolReorderSorting = true)
 	{
-		if (GameManager.Instance != null && GameManager.Instance.Is3D) return;
+		if (GameManager.Is3D) return;
 		CurrentsortingGroup.sortingLayerID = newLayerId;
 		if (BoolReorderSorting)
 		{

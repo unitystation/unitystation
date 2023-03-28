@@ -24,7 +24,7 @@ public class FirstPersonCamera : MonoBehaviour
 	{
 		LightingSystem.enabled = false;
 
-		if (Input.GetKey(KeyCode.E) == false && Application.isFocused)
+		if (Input.GetKey(KeyCode.Tab) == false && Application.isFocused)
 		{
 			float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
 			float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;

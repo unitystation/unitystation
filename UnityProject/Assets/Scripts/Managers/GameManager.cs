@@ -276,6 +276,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		EventManager.RemoveHandler(Event.CleanupEnd, ClientCleanupEndRoundCleanups);
 		EventManager.RemoveHandler(Event.PostRoundStarted, ClientRoundStartCleanup);
 		EventManager.RemoveHandler(Event.RoundEnded, ClientAndServerEndCleanup);
+		Is3D = false;
 	}
 
 	private void ClientAndServerEndCleanup()
@@ -309,7 +310,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		PendingSpaceBodies.Enqueue(mm);
 	}
 
-	public bool Is3D = false;
+	public static bool Is3D = false;
 	public GameObject objectToSpawn;
 
 	public void PlayerLoadedIn(NetworkConnectionToClient Player)
@@ -326,7 +327,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	{
 		if (Is3D) return;
 
-		DynamicChoiceUI.DisplayChoices("Doom?", " would you like to activate DOOM mode?, is a WIP so is buggy but is fun **Hold E to use mouse!!!***, Would you also like music to accompany it? ",
+		DynamicChoiceUI.DisplayChoices("Doom? **Hold !!!TAB!!! to use mouse!!!***", " would you like to activate DOOM mode?, is a WIP so is buggy but is fun **Hold !!!TAB!!! to use mouse!!!***, Would you also like music to accompany it? ",
 			new List<DynamicUIChoiceEntryData>()
 			{
 				new DynamicUIChoiceEntryData()

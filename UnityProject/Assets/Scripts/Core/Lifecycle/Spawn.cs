@@ -294,19 +294,6 @@ public static class Spawn
 				{
 					result.GameObject.AddComponent<RuntimeSpawned>();
 				}
-				if (GameManager.Instance.Is3D)
-				{
-					var Is3D = result.GameObject.GetComponent<ConvertTo3D>();
-					if (Is3D == null)
-					{
-						var ISInGameobject = result.GameObject.GetComponent<RegisterTile>();
-						if (ISInGameobject != null)
-						{
-							Is3D =result.GameObject.AddComponent<ConvertTo3D>();
-						}
-					}
-					Is3D?.DoConvertTo3D();
-				}
 
 				spawnedObjects.Add(result.GameObject);
 				//apply scattering if it was specified
