@@ -344,7 +344,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 				new DynamicUIChoiceEntryData()
 				{
 					ChoiceAction = null,
-					Text = " No thank you  "
+					Text = " No, thank you. "
 				}
 			});
 	}
