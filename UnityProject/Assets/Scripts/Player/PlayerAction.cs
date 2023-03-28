@@ -47,7 +47,7 @@ public struct PlayerAction
 
 	public Vector2Int TransformMove(Vector2Int moveDirection) {
 
-		// Create the move vector based on the input axes
+		// Create the move vector based on the input axis
 		Vector3 moveVector = new Vector3(moveDirection.x, 0, moveDirection.y);
 
 		// Rotate the move vector based on the Y rotation of the camera
