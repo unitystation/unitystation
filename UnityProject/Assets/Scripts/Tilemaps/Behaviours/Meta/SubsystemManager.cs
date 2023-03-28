@@ -16,6 +16,7 @@ public class SubsystemManager : MonoBehaviour
 		systems = systems.OrderByDescending(s => s.Priority).ToList();
 		foreach (var system in systems)
 		{
+			if (system.Initialized) continue;
 			system.Initialize();
 		}
 		initialized = true;
