@@ -118,6 +118,7 @@ public partial class SubSceneManager : MonoBehaviour
 			SceneName = sceneName,
 			SceneType = sceneType
 		});
+		SubSceneManagerNetworked.netIdentity.isDirty = true;
 	}
 
 	public static void ProcessObserverRefreshReq(PlayerInfo connectedPlayer, Scene sceneContext)

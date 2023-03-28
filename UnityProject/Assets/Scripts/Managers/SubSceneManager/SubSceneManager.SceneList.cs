@@ -79,7 +79,6 @@ public partial class SubSceneManager
 	{
 		loadTimer.IncrementLoadBar($"Loading the void of time and space");
 		yield return StartCoroutine(LoadSubScene("SpaceScene", loadTimer, default, SceneType.Space));
-		SubSceneManagerNetworked.netIdentity.isDirty = true;
 	}
 
 	//Choose and load a main station on the server
@@ -100,7 +99,6 @@ public partial class SubSceneManager
 		loadTimer.IncrementLoadBar($"Loading {serverChosenMainStation}");
 		//load main station
 		yield return StartCoroutine(LoadSubScene(serverChosenMainStation, loadTimer, default, SceneType.MainStation));
-		SubSceneManagerNetworked.netIdentity.isDirty = true;
 		MainStationLoaded = true;
 	}
 
@@ -112,7 +110,6 @@ public partial class SubSceneManager
 		foreach (var asteroid in asteroidList.Asteroids)
 		{
 			yield return StartCoroutine(LoadSubScene(asteroid, loadTimer, default, SceneType.Asteroid));
-			SubSceneManagerNetworked.netIdentity.isDirty = true;
 		}
 	}
 
@@ -132,7 +129,6 @@ public partial class SubSceneManager
 			if (centComData.DependentScene != serverChosenMainStation) continue;
 
 			yield return StartCoroutine(LoadSubScene(centComData.CentComSceneName, loadTimer, default, SceneType.AdditionalScenes));
-			SubSceneManagerNetworked.netIdentity.isDirty = true;
 			yield break;
 		}
 
@@ -140,7 +136,6 @@ public partial class SubSceneManager
 		if (string.IsNullOrEmpty(pickedMap)) yield break;
 		//If no special CentCom load default.
 		yield return StartCoroutine(LoadSubScene(pickedMap, loadTimer, default, SceneType.AdditionalScenes));
-		SubSceneManagerNetworked.netIdentity.isDirty = true;
 	}
 
 	//Load all the asteroids on the server
@@ -172,7 +167,6 @@ public partial class SubSceneManager
 			}
 
 			yield return StartCoroutine(LoadSubScene(additionalScene, loadTimer, default, SceneType.AdditionalScenes));
-			SubSceneManagerNetworked.netIdentity.isDirty = true;
 		}
 	}
 
@@ -200,7 +194,6 @@ public partial class SubSceneManager
 		{
 			yield return StartCoroutine(LoadSubScene(serverChosenAwaySite, loadTimer));
 			AwaySiteLoaded = true;
-			SubSceneManagerNetworked.netIdentity.isDirty = true;
 		}
 	}
 
@@ -224,14 +217,6 @@ public partial class SubSceneManager
 
 
 		yield return StartCoroutine(LoadSubScene(pickedMap));
-
-		loadedScenesList.Add(new SceneInfo
-		{
-			SceneName = pickedMap,
-			SceneType = SceneType.HiddenScene
-		});
-		SubSceneManagerNetworked.netIdentity.isDirty = true;
-
 		SyndicateScene = SceneManager.GetSceneByName(pickedMap);
 		SyndicateLoaded = true;
 
@@ -245,13 +230,6 @@ public partial class SubSceneManager
 		string pickedScene = additionalSceneList.WizardScenes.PickRandom();
 
 		yield return StartCoroutine(LoadSubScene(pickedScene));
-
-		loadedScenesList.Add(new SceneInfo
-		{
-			SceneName = pickedScene,
-			SceneType = SceneType.HiddenScene
-		});
-		SubSceneManagerNetworked.netIdentity.isDirty = true;
 
 		WizardLoaded = true;
 		yield return TryWaitClients(pickedScene);
