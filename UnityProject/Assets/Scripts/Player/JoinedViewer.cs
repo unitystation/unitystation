@@ -235,6 +235,7 @@ namespace Player
 			if (STVerifiedConnPlayer.Mind == null) //TODO Handle when someone gets kicked out of their mind
 			{
 				TargetLocalPlayerSetupNewPlayer(connectionToClient, GameManager.Instance.CurrentRoundState);
+				GameManager.Instance.OrNull()?.PlayerLoadedIn(connectionToClient);
 				ClearCache(true);
 			}
 			else
@@ -273,8 +274,12 @@ namespace Player
 				}
 			}
 
+
+
 			TargetLocalPlayerRejoinUI(connectionToClient);
 			STVerifiedConnPlayer.Mind.OrNull()?.ReLog();
+
+			GameManager.Instance.OrNull()?.PlayerLoadedIn(connectionToClient);
 			ClearCache();
 		}
 
@@ -307,6 +312,7 @@ namespace Player
 					UIManager.Display.SetScreenForJoining();
 					break;
 			}
+
 		}
 
 		public void RequestJob(JobType job)

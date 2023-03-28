@@ -187,6 +187,7 @@ public class Camera2DFollow : MonoBehaviour
 	/// <param name="cameraRecoilConfig">configuration for the recoil</param>
 	public void Recoil(Vector2 dir, CameraRecoilConfig cameraRecoilConfig)
 	{
+		if (GameManager.Instance != null && GameManager.Instance.Is3D) return;
 		if (isShaking) return;
 		this.activeRecoilConfig = cameraRecoilConfig;
 		if (recoilOffsetDestination != Vector2.zero)

@@ -449,8 +449,11 @@ namespace Weapons
 			if (interaction.MouseButtonState == MouseButtonState.PRESS ||
 			    (WeaponType != WeaponType.SemiAutomatic && AllowSuicide))
 			{
-				isSuicide = interaction.IsAimingAtSelf;
-				AllowSuicide = isSuicide;
+				if (GameManager.Instance.Is3D == false)
+				{
+					isSuicide = interaction.IsAimingAtSelf;
+					AllowSuicide = isSuicide;
+				}
 			}
 
 			if (FiringPin != null)

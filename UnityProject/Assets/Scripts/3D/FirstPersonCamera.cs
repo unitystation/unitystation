@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,9 +12,19 @@ public class FirstPersonCamera : MonoBehaviour
 	private float xRotation = 0f;
 	private float yRotation = 0f;
 
+
+	private LightingSystem LightingSystem;
+
+	public void Awake()
+	{
+		LightingSystem = Camera.main.GetComponent<LightingSystem>();
+	}
+
 	void Update()
 	{
-		if (Input.GetKey(KeyCode.E) == false)
+		LightingSystem.enabled = false;
+
+		if (Input.GetKey(KeyCode.E) == false && Application.isFocused)
 		{
 			float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
 			float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
@@ -21,7 +32,7 @@ public class FirstPersonCamera : MonoBehaviour
 			xRotation -= mouseY;
 			xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-			yRotation -= mouseX;
+			yRotation += mouseX;
 			if (yRotation > 180)
 			{
 				yRotation = -180;
@@ -33,6 +44,15 @@ public class FirstPersonCamera : MonoBehaviour
 
 			transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0f);
 			//playerBody.Rotate(Vector3.up * mouseX);
+
+			// Set the mouse position to the center of the screen
+			Cursor.lockState = CursorLockMode.Locked;
+			Cursor.visible = false;
+		}
+		else
+		{
+			Cursor.lockState = CursorLockMode.None;
+			Cursor.visible = true;
 		}
 	}
 }

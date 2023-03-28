@@ -17,5 +17,10 @@ namespace Unitystation.Options
 		{
 			ProtipManager.Instance.SetExperienceLevel((ProtipManager.ExperienceLevel)playerExperienceChoices.value);
 		}
+
+		public void OnPlayerClick3D()
+        {
+	        GameManager.Instance.PromptConvertTo3D();
+		}
 	}
 }

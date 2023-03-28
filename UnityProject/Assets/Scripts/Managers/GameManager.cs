@@ -24,8 +24,10 @@ using ScriptableObjects;
 using Systems.Cargo;
 using ScriptableObjects.Characters;
 using TileManagement;
+using UI.Core;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
+using Random = System.Random;
 
 public partial class GameManager : MonoBehaviour, IInitialise
 {
@@ -226,6 +228,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		MinReadyPlayersForCountdown = GameConfigManager.GameConfig.MinReadyPlayersForCountdown;
 		PreRoundTime = GameConfigManager.GameConfig.PreRoundTime;
 		RoundEndTime = GameConfigManager.GameConfig.RoundEndTime;
+		DefaultRoundEndTime = GameConfigManager.GameConfig.RoundEndTime;
 		RoundsPerMap = GameConfigManager.GameConfig.RoundsPerMap;
 		InitialGameMode = GameConfigManager.GameConfig.InitialGameMode;
 		RespawnAllowed = GameConfigManager.GameConfig.RespawnAllowed;
@@ -259,6 +262,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		EventManager.AddHandler(Event.Cleanup, ClientCleanupInbetweenScenes);
 		EventManager.AddHandler(Event.CleanupEnd, ClientCleanupEndRoundCleanups);
 		EventManager.AddHandler(Event.PostRoundStarted, ClientRoundStartCleanup);
+		EventManager.AddHandler(Event.RoundEnded, ClientAndServerEndCleanup);
+
+
 	}
 
 	private void OnDisable()
@@ -269,6 +275,15 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		EventManager.RemoveHandler(Event.Cleanup, ClientCleanupInbetweenScenes);
 		EventManager.RemoveHandler(Event.CleanupEnd, ClientCleanupEndRoundCleanups);
 		EventManager.RemoveHandler(Event.PostRoundStarted, ClientRoundStartCleanup);
+		EventManager.RemoveHandler(Event.RoundEnded, ClientAndServerEndCleanup);
+	}
+
+	private void ClientAndServerEndCleanup()
+	{
+		if (Is3D)
+		{
+			Is3D = false;
+		}
 	}
 
 	private void UpdateMinutes()
@@ -297,13 +312,75 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	public bool Is3D = false;
 	public GameObject objectToSpawn;
 
+	public void PlayerLoadedIn(NetworkConnectionToClient Player)
+	{
+		//TODO Action system Lazy for now
+
+		if (Is3D)
+		{
+			Activate3DMode.SendTo(Player);
+		}
+	}
+
+	public void PromptConvertTo3D()
+	{
+		if (Is3D) return;
+
+		DynamicChoiceUI.DisplayChoices("Doom?", " would you like to activate DOOM mode?, is a WIP so is buggy but is fun **Hold E to use mouse!!!***, Would you also like music to accompany it? ",
+			new List<DynamicUIChoiceEntryData>()
+			{
+				new DynamicUIChoiceEntryData()
+				{
+					ChoiceAction =  ConvertTo3DWithMusic,
+					Text = " Give me music and DOOM! ( Opens YouTube in browser )  "
+				},
+				new DynamicUIChoiceEntryData()
+				{
+					ChoiceAction =  ConvertTo3D,
+					Text = " Give me DOOM! "
+				},
+				new DynamicUIChoiceEntryData()
+				{
+					ChoiceAction = null,
+					Text = " No thank you  "
+				}
+			});
+	}
+
+
+	public void ConvertTo3DWithMusic()
+	{
+		Random rand = new Random();
+		int randomNumber = rand.Next(701);
+		char[] charArray = randomNumber.ToString().ToCharArray();
+		Array.Reverse(charArray);
+		string reversedString = new string(charArray);
+
+		if (reversedString == "007") //This never happened to the other fella
+		{
+			Application.OpenURL("https://youtu.be/AFaJWqVcv8k?t=11");
+		}
+		else
+		{
+			Application.OpenURL("https://youtu.be/0gEkNVq1ct0?t=8");
+		}
+
+		ConvertTo3D();
+	}
+
+
 
 	[NaughtyAttributes.Button()]
 	public void ConvertTo3D()
 	{
 		Is3D = true;
 
+		if (CustomNetworkManager.IsServer)
+		{
+			Activate3DMode.SendToEveryone();
+		}
 
+		if(GameData.IsHeadlessServer) return;
 
 		// Get the specific scene by name or index
 		Scene targetScene = SceneManager.GetSceneByName("OnlineScene");
@@ -324,7 +401,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			spawnedObject.transform.parent = null;
 		}
 
-		Camera.main.GetComponent<LightingSystem>().enabled = false;
+		//Camera.main.GetComponent<LightingSystem>().enabled = false;
 
 		Camera.main.orthographic = false;
 
@@ -753,6 +830,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// </summary>
 	public void EndRound()
 	{
+
 		if (CustomNetworkManager.Instance._isServer == false) return;
 
 		if (CurrentRoundState != RoundState.Started &&

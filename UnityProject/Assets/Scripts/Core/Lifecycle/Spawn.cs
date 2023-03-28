@@ -305,7 +305,7 @@ public static class Spawn
 							Is3D =result.GameObject.AddComponent<ConvertTo3D>();
 						}
 					}
-					Is3D.DoConvertTo3D();
+					Is3D?.DoConvertTo3D();
 				}
 
 				spawnedObjects.Add(result.GameObject);

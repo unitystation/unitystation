@@ -182,8 +182,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private CheckedComponent<UniversalObjectPhysics> objectPhysics = new CheckedComponent<UniversalObjectPhysics>();
 	public CheckedComponent<UniversalObjectPhysics> ObjectPhysics => objectPhysics;
 
-	[PrefabModeOnly]
-	public SortingGroup CurrentsortingGroup;
+	[SerializeField, PrefabModeOnly]
+	private SortingGroup CurrentsortingGroup;
 
 	private bool Initialized;
 
@@ -831,14 +831,24 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	public void SetNewSortingOrder(int newLayerId)
 	{
+		if (GameManager.Instance != null && GameManager.Instance.Is3D) return;
+		if (CurrentsortingGroup == null) return;
+		CurrentsortingGroup.sortingOrder = newLayerId;
+	}
+
+	public void SetNewSortingLayer(int newLayerId, bool BoolReorderSorting = true)
+	{
+		if (GameManager.Instance != null && GameManager.Instance.Is3D) return;
 		CurrentsortingGroup.sortingLayerID = newLayerId;
-		ReorderSorting();
+		if (BoolReorderSorting)
+		{
+			ReorderSorting();
+		}
 	}
 
 	private void ReorderSorting()
 	{
 		objectLayer.ClientObjects.ReorderObjects(LocalPositionClient);
-
 		if(CustomNetworkManager.IsServer == false) return;
 		objectLayer.ServerObjects.ReorderObjects(LocalPositionServer);
 	}
