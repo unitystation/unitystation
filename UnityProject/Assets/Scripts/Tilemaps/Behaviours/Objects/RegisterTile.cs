@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using _3D;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
@@ -208,14 +209,14 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 		if (GameManager.Is3D)
 		{
-			var Is3D = this.gameObject.GetComponent<ConvertTo3D>();
-			if (Is3D == null)
+			var convertTo3d = this.gameObject.GetComponent<ConvertTo3D>();
+			if (convertTo3d  == null)
 			{
 
-				Is3D =this.gameObject.AddComponent<ConvertTo3D>();
+				convertTo3d = gameObject.AddComponent<ConvertTo3D>();
 
 			}
-			Is3D?.DoConvertTo3D();
+			convertTo3d .DoConvertTo3D();
 		}
 		else
 		{

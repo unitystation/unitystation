@@ -1,24 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class ConvertTo3D : MonoBehaviour
+namespace _3D
 {
-
-	public void DoConvertTo3D()
+	public class ConvertTo3D : MonoBehaviour
 	{
-		this.gameObject.AddComponent<Billboard>();
 
-		var  sorting = this.gameObject.GetComponent<SortingGroup>();
-
-		if (sorting == null)
+		public void DoConvertTo3D()
 		{
-			sorting = this.gameObject.AddComponent<SortingGroup>();
+			this.gameObject.AddComponent<Billboard>();
+
+			var  sorting = this.gameObject.GetComponent<SortingGroup>();
+
+			if (sorting == null)
+			{
+				sorting = this.gameObject.AddComponent<SortingGroup>();
+			}
+
+			sorting.sortingOrder = 1;
+
+			sorting.sortingLayerName = "Walls";
 		}
-
-		sorting.sortingOrder = 1;
-
-		sorting.sortingLayerName = "Walls";
 	}
 }
