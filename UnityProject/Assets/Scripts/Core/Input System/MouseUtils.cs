@@ -35,7 +35,7 @@ public static class MouseUtils
 	/// </summary>
 	public static Vector3 MouseToWorldPos()
 	{
-		if (GameManager.Is3D)
+		if (Manager3D.Is3D)
 		{
 			var worldPos3D = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 

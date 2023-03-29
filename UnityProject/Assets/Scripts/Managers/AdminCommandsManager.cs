@@ -163,7 +163,7 @@ namespace AdminCommands
 			var message = new StringBuilder();
 			message.AppendLine($"{player.Username}: Change the server to 3D");
 
-			GameManager.Instance.ConvertTo3D();
+			Manager3D.Instance.ConvertTo3D();
 
 			if(message.Length == 0) return;
 			LogAdminAction(message.ToString());

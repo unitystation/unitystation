@@ -362,7 +362,7 @@ namespace TileManagement
 			tileLocation.layer.SetTile(tileLocation.position, tileLocation.layerTile,
 				tileLocation.transformMatrix, tileLocation.Colour);
 
-			if (GameManager.Is3D)
+			if (Manager3D.Is3D)
 			{
 				var Sprite3D = Instantiate(CommonPrefabs.Instance.Cube3D,
 					tileLocation.position + new Vector3(0.5f, 0.5f, 0), new Quaternion(),

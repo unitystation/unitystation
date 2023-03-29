@@ -449,7 +449,7 @@ namespace Weapons
 			if (interaction.MouseButtonState == MouseButtonState.PRESS ||
 			    (WeaponType != WeaponType.SemiAutomatic && AllowSuicide))
 			{
-				if (GameManager.Is3D == false)
+				if (Manager3D.Is3D == false)
 				{
 					isSuicide = interaction.IsAimingAtSelf;
 					AllowSuicide = isSuicide;

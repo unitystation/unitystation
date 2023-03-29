@@ -15,7 +15,7 @@ namespace Messages.Server
 			{
 				return;
 			}
-			GameManager.Instance.PromptConvertTo3D();
+			Manager3D.Instance.PromptConvertTo3D();
 		}
 
 		public static void SendToEveryone()

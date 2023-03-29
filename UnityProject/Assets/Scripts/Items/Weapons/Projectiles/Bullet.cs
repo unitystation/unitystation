@@ -49,7 +49,7 @@ namespace Weapons.Projectiles
 			thisTransform = transform;
 
 
-			if (GameManager.Is3D)
+			if (Manager3D.Is3D)
 			{
 				var Handler = this.GetComponentInChildren<SpriteHandler>(); //So it doesn't mess up the movement of the bullet
 				var Is3D =Handler.gameObject.AddComponent<ConvertTo3D>();

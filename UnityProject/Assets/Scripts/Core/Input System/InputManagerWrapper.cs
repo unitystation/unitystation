@@ -21,7 +21,7 @@ public class InputManagerWrapper : MonoBehaviour
 
 	public static Vector3 GetMousePosition()
 	{
-		if (GameManager.Is3D && Input.GetKey(KeyCode.E) == false &&
+		if (Manager3D.Is3D && Input.GetKey(KeyCode.E) == false &&
 		    Application.isFocused)
 		{
 			// Get the center point of the screen

@@ -207,7 +207,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		IObjectEntersTiles = GetComponents<IObjectEntersTile>();
 		CurrentsortingGroup = GetComponent<SortingGroup>();
 
-		if (GameManager.Is3D)
+		if (Manager3D.Is3D)
 		{
 			var convertTo3d = this.gameObject.GetComponent<ConvertTo3D>();
 			if (convertTo3d  == null)
@@ -848,14 +848,14 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	public void SetNewSortingOrder(int newLayerId)
 	{
-		if (GameManager.Is3D) return;
+		if (Manager3D.Is3D) return;
 		if (CurrentsortingGroup == null) return;
 		CurrentsortingGroup.sortingOrder = newLayerId;
 	}
 
 	public void SetNewSortingLayer(int newLayerId, bool BoolReorderSorting = true)
 	{
-		if (GameManager.Is3D) return;
+		if (Manager3D.Is3D) return;
 		CurrentsortingGroup.sortingLayerID = newLayerId;
 		if (BoolReorderSorting)
 		{

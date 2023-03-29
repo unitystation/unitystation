@@ -14,8 +14,10 @@ public class Billboard : MonoBehaviour
 	void LateUpdate()
 	{
 		if (cam == null) Destroy(this);
-		transform.LookAt(transform.position + cam.forward, cam.up);
-		transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, 0);
-
+		if ((transform.position - cam.transform.position).magnitude < 25)
+		{
+			transform.LookAt(transform.position + cam.forward, cam.up);
+			transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, 0);
+		}
 	}
 }
