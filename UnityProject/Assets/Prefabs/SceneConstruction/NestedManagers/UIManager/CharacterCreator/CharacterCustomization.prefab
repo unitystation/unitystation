@@ -7260,9 +7260,6 @@ MonoBehaviour:
       m_Calls: []
   m_OnDidEndEdit:
     m_PersistentCalls:
-      m_Calls: []
-  m_OnValueChanged:
-    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1457936255286317830}
         m_TargetAssemblyTypeName: UI.CharacterCreator.CharacterCustomization, Assets
@@ -7276,6 +7273,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  m_OnValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
