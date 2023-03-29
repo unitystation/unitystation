@@ -847,6 +847,7 @@ public class SpriteHandler : MonoBehaviour
 			if (variantIndex < PresentSpriteSet.Variance.Count)
 			{
 				animationIndex = isReversing ? animationIndex - 1 : animationIndex + 1;
+				
 				var frameCount = PresentSpriteSet.Variance[variantIndex].Frames.Count;
 
 				if (animationIndex < 0)
@@ -870,7 +871,6 @@ public class SpriteHandler : MonoBehaviour
 
 					//-2 so we don't repeat the last frame
 					animationIndex = isReversing ? frameCount - 2 : 0;
-
 					if (animateOnce && isReversing == false)
 					{
 						InternalStopAnimation();
@@ -879,6 +879,7 @@ public class SpriteHandler : MonoBehaviour
 				}
 
 				var frame = PresentSpriteSet.Variance[variantIndex].Frames[animationIndex];
+				
 				SetSprite(frame);
 			}
 

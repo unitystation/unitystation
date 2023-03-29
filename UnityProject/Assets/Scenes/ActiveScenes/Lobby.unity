@@ -136,6 +136,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: NetworkManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2920527550438430692, guid: 8ade74bde5193e44ba1122195399606e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2924057578287968402, guid: 8ade74bde5193e44ba1122195399606e,
         type: 3}
       propertyPath: m_RootOrder
@@ -309,6 +314,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Managers
       objectReference: {fileID: 0}
+    - target: {fileID: 1856013830592554, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4244501537706558, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -356,7 +365,7 @@ PrefabInstance:
     - target: {fileID: 224486056363285358, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -19.612183
+      value: -19.612305
       objectReference: {fileID: 0}
     - target: {fileID: 252153304076729325, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
@@ -882,6 +891,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2967165629858354674, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -12.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2967335146640221780, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -24.999939
       objectReference: {fileID: 0}
     - target: {fileID: 2970664891730648836, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
@@ -1871,7 +1890,7 @@ PrefabInstance:
     - target: {fileID: 8051656082601835977, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -23.000366
+      value: -23.000488
       objectReference: {fileID: 0}
     - target: {fileID: 8052999676949073909, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
@@ -2158,6 +2177,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9124399208950492046, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -2.8999023
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 3}
 --- !u!1001 &1017793069
@@ -2171,6 +2195,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LobbyManager (Do not add to Managers.prefab!)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6296311149504455408, guid: 28885d36e1690184b8efae0cd26e6b5a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6296311149504455410, guid: 28885d36e1690184b8efae0cd26e6b5a,
         type: 3}
@@ -2568,6 +2597,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1897758349740974, guid: 38ecd680d57974ffe87b4bdd8cd52589, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4351849121973474, guid: 38ecd680d57974ffe87b4bdd8cd52589, type: 3}
       propertyPath: m_RootOrder
       value: 0
