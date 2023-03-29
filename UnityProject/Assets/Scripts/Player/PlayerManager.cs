@@ -54,7 +54,7 @@ public class PlayerManager : MonoBehaviour
 
 	public static PlayerManager Instance => FindUtils.LazyFindObject(ref playerManager);
 
-	private void Awake()
+	private void Start()
 	{
 		CharacterManager.Init();
 	}
