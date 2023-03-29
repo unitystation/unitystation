@@ -80,7 +80,7 @@ public partial class SubSceneManager : MonoBehaviour
 	/// </summary>
 	/// <param name="sceneName"></param>
 	/// <returns></returns>
-	IEnumerator LoadSubScene(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true)
+	IEnumerator LoadSubScene(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true, SceneType sceneType = SceneType.HiddenScene)
 	{
 		if (CustomNetworkManager.IsServer == false)
 		{
@@ -112,6 +112,13 @@ public partial class SubSceneManager : MonoBehaviour
 				RequestObserverRefresh.Send(sceneName);
 			}
 		}
+
+		loadedScenesList.Add(new SceneInfo
+		{
+			SceneName = sceneName,
+			SceneType = sceneType
+		});
+		SubSceneManagerNetworked.netIdentity.isDirty = true;
 	}
 
 	public static void ProcessObserverRefreshReq(PlayerInfo connectedPlayer, Scene sceneContext)
