@@ -12,7 +12,7 @@ public class Camera2DFollow : MonoBehaviour
 	private readonly float lookAheadMoveThreshold = 0.05f;
 	private readonly float lookAheadReturnSpeed = 0.5f;
 
-	private readonly float yOffSet = -0.5f;
+	public float yOffSet = -0.5f;
 
 	private Vector3 cachePos;
 	private Vector3 currentVelocity;
@@ -39,7 +39,7 @@ public class Camera2DFollow : MonoBehaviour
 	private float lookAheadFactor;
 	private Vector3 lookAheadPos;
 	private float lookAheadSave;
-	private float offsetZ = -1f;
+	public float offsetZ = -1f;
 
 	public Transform starsBackground;
 	public float pixelAdjustment = 64f;
@@ -80,10 +80,7 @@ public class Camera2DFollow : MonoBehaviour
 	private void Start()
 	{
 		lookAheadSave = lookAheadFactor;
-		if (target != null)
-		{
-			offsetZ = (transform.position - target.position).z;
-		}
+
 		transform.parent = null;
 		starsBackground.parent = null;
 	}
@@ -133,7 +130,8 @@ public class Camera2DFollow : MonoBehaviour
 
 			}
 
-			Vector3 aheadTargetPos = target.gameObject.AssumedWorldPosServer() + Vector3.forward * offsetZ;
+			Vector3 aheadTargetPos =
+				target.gameObject.AssumedWorldPosServer() + new Vector3(0, 0, offsetZ);
 
 			aheadTargetPos.y += yOffSet;
 
@@ -189,6 +187,7 @@ public class Camera2DFollow : MonoBehaviour
 	/// <param name="cameraRecoilConfig">configuration for the recoil</param>
 	public void Recoil(Vector2 dir, CameraRecoilConfig cameraRecoilConfig)
 	{
+		if (Manager3D.Is3D) return;
 		if (isShaking) return;
 		this.activeRecoilConfig = cameraRecoilConfig;
 		if (recoilOffsetDestination != Vector2.zero)
@@ -224,6 +223,7 @@ public class Camera2DFollow : MonoBehaviour
 	/// <param name="length"></param>
 	public void Shake(float amt, float length)
 	{
+		if (Manager3D.Is3D) return;
 		//cancel recoil if it is happening
 		if (recoilOffsetDestination != Vector2.zero)
 		{
@@ -243,6 +243,7 @@ public class Camera2DFollow : MonoBehaviour
 
 	private void DoShake()
 	{
+		if (Manager3D.Is3D) return;
 		if (shakeAmount > 0)
 		{
 			Vector3 camPos = transform.position;

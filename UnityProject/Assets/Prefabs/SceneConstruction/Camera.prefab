@@ -602,9 +602,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53e3142adc76418db1fe76b4e22c2035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  yOffSet: -0.5
   starScroll: -0.8
   damping: 0
   listenerObj: {fileID: 1187200688554218}
+  offsetZ: -1
   starsBackground: {fileID: 4848993904202032}
   pixelAdjustment: 64
   target: {fileID: 0}
@@ -635,7 +637,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: -1000
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
   orthographic: 1
@@ -776,6 +778,8 @@ MonoBehaviour:
   maxDrunkTime: 120
   maxFlashTime: 25
   LightingSystem: {fileID: 0}
+  BlindFOVDistance: 0.65
+  FullVisionFOVDistance: 15
 --- !u!114 &5935000786866830145
 MonoBehaviour:
   m_ObjectHideFlags: 0
