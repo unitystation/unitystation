@@ -433,7 +433,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			objectLayer = newObjectLayer;
 		}
 
-		transform.SetParent(objectLayer.transform, false);
+		var WorldCashed = transform.position;
+
+		transform.SetParent(objectLayer.transform, true);
 
 		//preserve absolute rotation if there was spin rotation
 		if (hadSpinRotation)
@@ -451,7 +453,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 		if (objectPhysics.HasComponent)
 		{
-			transform.localPosition =  objectPhysics.Component.CalculateLocalPosition();
+			transform.localPosition =  WorldCashed.ToLocal(objectLayer.Matrix);
 		}
 
 		UpdatePositionClient();
