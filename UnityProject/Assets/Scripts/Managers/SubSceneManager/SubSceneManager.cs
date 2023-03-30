@@ -113,12 +113,16 @@ public partial class SubSceneManager : MonoBehaviour
 			}
 		}
 
-		loadedScenesList.Add(new SceneInfo
+		if (CustomNetworkManager.IsServer)
 		{
-			SceneName = sceneName,
-			SceneType = sceneType
-		});
-		SubSceneManagerNetworked.netIdentity.isDirty = true;
+			loadedScenesList.Add(new SceneInfo
+			{
+				SceneName = sceneName,
+				SceneType = sceneType
+			});
+			SubSceneManagerNetworked.netIdentity.isDirty = true;
+		}
+
 	}
 
 	public static void ProcessObserverRefreshReq(PlayerInfo connectedPlayer, Scene sceneContext)
