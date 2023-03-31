@@ -153,46 +153,69 @@ public class Manager3D : MonoBehaviour
 		foreach (var map in maps)
 		{
 			var PresentTiles = map.PresentTilesNeedsLock;
-			lock (PresentTiles)
+			if (PresentTiles != null)
 			{
-				foreach (var Layer in PresentTiles)
+				lock (PresentTiles)
 				{
-					if (Layer.Key.LayerType == LayerType.Walls || Layer.Key.LayerType == LayerType.Windows ||
-					    Layer.Key.LayerType == LayerType.Grills)
+
+					foreach (var Layer in PresentTiles)
 					{
-						foreach (var TileInfo in Layer.Value)
+						if (Layer.Key == null || Layer.Value == null) continue;
+						if (Layer.Key.LayerType == LayerType.Walls || Layer.Key.LayerType == LayerType.Windows ||
+						    Layer.Key.LayerType == LayerType.Grills)
 						{
-							var Sprite3D = Instantiate(CommonPrefabs.Instance.Cube3D,
-								TileInfo.Key + new Vector3(0.5f, 0.5f, 0), new Quaternion(),
-								Layer.Key.transform).GetComponent<SetCubeSprite>();
+							foreach (var TileInfo in Layer.Value)
+							{
+								var Sprite3D = Instantiate(CommonPrefabs.Instance.Cube3D,
+									TileInfo.Key + new Vector3(0.5f, 0.5f, 0), new Quaternion(),
+									Layer.Key.transform).GetComponent<SetCubeSprite>();
 
-							Sprite3D.gameObject.transform.localPosition = TileInfo.Key +  new Vector3(0.5f, 0.5f, 0);
+								Sprite3D.gameObject.transform.localPosition = TileInfo.Key + new Vector3(0.5f, 0.5f, 0);
 
-							TileInfo.Value.AssociatedSetCubeSprite = Sprite3D;
-							Sprite3D.SetSprite(TileInfo.Value.layerTile.PreviewSprite);
+								if (TileInfo.Value?.layerTile?.PreviewSprite != null)
+								{
+									Sprite3D.SetSprite(TileInfo.Value.layerTile.PreviewSprite);
+								}
+
+								if (TileInfo.Value != null)
+								{
+									TileInfo.Value.AssociatedSetCubeSprite = Sprite3D;
+								}
+								else
+								{
+									Destroy(Sprite3D.gameObject);
+								}
+
+
+
+							}
+
+							var Renderer = Layer.Key.GetComponent<TilemapRenderer>();
+							if (Renderer != null)
+							{
+								Renderer.enabled = false;
+							}
 						}
-
-						var Renderer = Layer.Key.GetComponent<TilemapRenderer>();
-						if (Renderer != null)
+						else if (Layer.Key.LayerType != LayerType.Objects)
 						{
-							Renderer.enabled = false;
+							Layer.Key.gameObject.transform.localPosition = new Vector3(0, 0, 0.5f);
 						}
-					}
-					else if (Layer.Key.LayerType != LayerType.Objects)
-					{
-						Layer.Key.gameObject.transform.localPosition = new Vector3(0, 0, 0.5f);
 					}
 				}
 			}
 
+
 			var MultilayerPresentTiles = map.MultilayerPresentTilesNeedsLock;
-			lock (MultilayerPresentTiles)
+			if (MultilayerPresentTiles != null)
 			{
-				foreach (var Layer in MultilayerPresentTiles)
+				lock (MultilayerPresentTiles)
 				{
-					if (Layer.Key.LayerType != LayerType.Effects)
+					foreach (var Layer in MultilayerPresentTiles)
 					{
-						Layer.Key.gameObject.transform.localPosition = new Vector3(0, 0, 0.5f);
+						if (Layer.Key.LayerType != LayerType.Effects)
+						{
+							Layer.Key.gameObject.transform.localPosition = new Vector3(0, 0, 0.5f);
+						}
 					}
 				}
 			}
