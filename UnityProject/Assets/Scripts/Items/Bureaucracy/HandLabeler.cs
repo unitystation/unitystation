@@ -44,7 +44,8 @@ namespace Items
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 			if (interaction.HandObject == null) return false;
-			if (interaction.TargetObject.Item() == null || HasWhiteListedComponents(interaction) == false) return false;
+			if (interaction.TargetObject.AttributesOrNull() == null) return false;
+			if (HasWhiteListedComponents(interaction) == false)
 
 			//if(interaction.HandObject.Item().HasTrait(refillTrait)) return true; //Check for refill
 
@@ -57,6 +58,7 @@ namespace Items
 		{
 			return interaction.TargetObject.HasComponent<ClosetControl>() ||
 			       interaction.TargetObject.HasComponent<ItemStorage>() ||
+				   interaction.TargetObject.HasComponent<ItemAttributesV2>() ||
 			       interaction.TargetObject.HasComponent<ObjectContainer>();
 		}
 
