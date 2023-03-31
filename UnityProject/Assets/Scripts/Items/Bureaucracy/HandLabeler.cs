@@ -44,13 +44,20 @@ namespace Items
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 			if (interaction.HandObject == null) return false;
-			if (interaction.TargetObject.Item() == null || interaction.TargetObject.HasComponent<ClosetControl>()) return false;
+			if (interaction.TargetObject.Item() == null || HasWhiteListedComponents(interaction) == false) return false;
 
 			//if(interaction.HandObject.Item().HasTrait(refillTrait)) return true; //Check for refill
 
 			if (interaction.HandObject != gameObject) return false;
 
 			return true;
+		}
+
+		private bool HasWhiteListedComponents(HandApply interaction)
+		{
+			return interaction.TargetObject.HasComponent<ClosetControl>() ||
+			       interaction.TargetObject.HasComponent<ItemStorage>() ||
+			       interaction.TargetObject.HasComponent<ObjectContainer>();
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
