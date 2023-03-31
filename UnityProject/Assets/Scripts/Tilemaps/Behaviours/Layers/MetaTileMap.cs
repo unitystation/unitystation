@@ -316,7 +316,7 @@ namespace TileManagement
 
 			if (tileLocation.AssociatedSetCubeSprite != null)
 			{
-				Destroy(tileLocation.AssociatedSetCubeSprite);
+				Destroy(tileLocation.AssociatedSetCubeSprite.gameObject);
 			}
 
 			//TODO note Boundaries only recap later when tiles are added outside of it, so therefore it can only increase in size
@@ -362,7 +362,7 @@ namespace TileManagement
 			tileLocation.layer.SetTile(tileLocation.position, tileLocation.layerTile,
 				tileLocation.transformMatrix, tileLocation.Colour);
 
-			if (Manager3D.Is3D)
+			if (Manager3D.Is3D && GameData.IsHeadlessServer == false)
 			{
 				var Sprite3D = Instantiate(CommonPrefabs.Instance.Cube3D,
 					tileLocation.position + new Vector3(0.5f, 0.5f, 0), new Quaternion(),

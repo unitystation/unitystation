@@ -207,7 +207,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		IObjectEntersTiles = GetComponents<IObjectEntersTile>();
 		CurrentsortingGroup = GetComponent<SortingGroup>();
 
-		if (Manager3D.Is3D)
+		if (Manager3D.Is3D && GameData.IsHeadlessServer == false )
 		{
 			var convertTo3d = this.gameObject.GetComponent<ConvertTo3D>();
 			if (convertTo3d  == null)
