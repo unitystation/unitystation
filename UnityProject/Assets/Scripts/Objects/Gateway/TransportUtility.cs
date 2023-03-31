@@ -71,22 +71,13 @@ namespace Gateway
 			for (var node = linkedList.First; node != null; node = node.Next)
 			{
 				var currentObj = node.Value;
-				var previous = node.Previous?.Value;
-
-				//Disconnect pulling to make it not be a problem
-				currentObj.PullSet(null, false); //TODO Test without
 
 				//Transport current
 				TransportObject(currentObj, transportTo, doTileStep, maintRoomChanceModifier);
 
-				if (previous != null && currentObj.gameObject != null)
-				{
-					//There was another object before this one, pulling it. Re-establish pulling. (But only if the current object's gameObject is not null)
-					previous.CmdPullObject(currentObj.gameObject);
-				}
-
 				//TODO: Make pulling acutally continue working across teleporters for clients, not just server
 				//TODO: Find a way to make the teleporter the teleport not all be on the same tile.
+				//(Max): what
 			}
 		}
 
