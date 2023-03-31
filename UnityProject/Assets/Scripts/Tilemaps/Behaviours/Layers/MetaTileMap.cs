@@ -316,7 +316,7 @@ namespace TileManagement
 
 			if (tileLocation.AssociatedSetCubeSprite != null)
 			{
-				Destroy(tileLocation.AssociatedSetCubeSprite);
+				Destroy(tileLocation.AssociatedSetCubeSprite.gameObject);
 			}
 
 			//TODO note Boundaries only recap later when tiles are added outside of it, so therefore it can only increase in size

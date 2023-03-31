@@ -32,7 +32,7 @@ namespace TileManagement
 			transformMatrix = Matrix4x4.identity;
 			if (AssociatedSetCubeSprite != null)
 			{
-				GameObject.Destroy(AssociatedSetCubeSprite);
+				GameObject.Destroy(AssociatedSetCubeSprite.gameObject);
 			}
 			AssociatedSetCubeSprite = null;
 		}
