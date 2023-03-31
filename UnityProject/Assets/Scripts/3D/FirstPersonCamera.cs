@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace _3D
 {
@@ -16,6 +17,7 @@ namespace _3D
 		public void Awake()
 		{
 			LightingSystem = Camera.main.GetComponent<LightingSystem>();
+			RandomiseSkybox();
 		}
 
 		void Update()
@@ -44,6 +46,16 @@ namespace _3D
 				//playerBody.Rotate(Vector3.up * mouseX);
 
 				// Set the mouse position to the center of the screen
+
+			}
+			CursorVis();
+			RandomiseSkyboxOnDemand();
+		}
+
+		private void CursorVis()
+		{
+			if (Input.GetKey(KeyCode.Tab) || UIManager.Instance.isInputFocus == false || Application.isFocused)
+			{
 				Cursor.lockState = CursorLockMode.Locked;
 				Cursor.visible = false;
 			}
@@ -52,6 +64,18 @@ namespace _3D
 				Cursor.lockState = CursorLockMode.None;
 				Cursor.visible = true;
 			}
+		}
+
+		private void RandomiseSkybox()
+		{
+			GetComponent<Skybox>().material = SkyboxData.Instance.SkyboxMaterials.PickRandom();
+			Camera.main.clearFlags = CameraClearFlags.Skybox;
+
+		}
+
+		private void RandomiseSkyboxOnDemand()
+		{
+			if (Input.GetKeyDown(KeyCode.PageDown)) RandomiseSkybox();
 		}
 	}
 }
