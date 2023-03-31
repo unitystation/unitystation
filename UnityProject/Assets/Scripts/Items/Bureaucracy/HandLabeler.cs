@@ -1,6 +1,7 @@
 ﻿using Mirror;
 using System.Collections;
 using System.Collections.Generic;
+using Objects;
 using UnityEngine;
 
 namespace Items
@@ -43,7 +44,7 @@ namespace Items
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 			if (interaction.HandObject == null) return false;
-			if (interaction.TargetObject.Item() == null) return false; //Only works on items
+			if (interaction.TargetObject.Item() == null || interaction.TargetObject.HasComponent<ClosetControl>()) return false;
 
 			//if(interaction.HandObject.Item().HasTrait(refillTrait)) return true; //Check for refill
 
