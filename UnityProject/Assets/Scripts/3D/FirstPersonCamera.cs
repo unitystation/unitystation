@@ -24,7 +24,7 @@ namespace _3D
 		{
 			LightingSystem.enabled = false;
 
-			if (Input.GetKey(KeyCode.Tab) == false && Application.isFocused)
+			if (Input.GetKey(KeyCode.Tab) == false && Application.isFocused && UIManager.Instance.isInputFocus == false)
 			{
 				float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
 				float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
@@ -54,7 +54,7 @@ namespace _3D
 
 		private void CursorVis()
 		{
-			if (Input.GetKey(KeyCode.Tab) || UIManager.Instance.isInputFocus == false || Application.isFocused)
+			if (Input.GetKey(KeyCode.Tab) || UIManager.Instance.isInputFocus == false)
 			{
 				Cursor.lockState = CursorLockMode.Locked;
 				Cursor.visible = false;
