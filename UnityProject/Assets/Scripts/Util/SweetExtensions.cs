@@ -39,6 +39,11 @@ public static class SweetExtensions
 		return go.OrNull()?.GetComponent<ObjectAttributes>();
 	}
 
+	public static Attributes AttributesOrNull(this GameObject go)
+	{
+		return go.OrNull()?.GetComponent<Attributes>();
+	}
+
 	public static bool HasComponent<T>(this GameObject go) where T : Component
 	{
 		return go.TryGetComponent<T>(out _);

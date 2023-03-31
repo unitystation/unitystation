@@ -74,7 +74,7 @@ namespace Items
 				return;
 			}
 
-			var item = interaction.TargetObject.Item();
+			var item = interaction.TargetObject.AttributesOrNull();
 
 			item.ServerSetArticleName(item.InitialName + " '" + currentLabel + "'");
 
@@ -97,7 +97,7 @@ namespace Items
 		{
 			labelAmount = LABEL_CAPACITY;
 			_ = Despawn.ServerSingle(interaction.UsedObject);
-			Chat.AddExamineMsg(interaction.Performer, $"You insert the {interaction.UsedObject.Item().ArticleName.ToLower()} into the {gameObject.Item().InitialName.ToLower()}.");
+			Chat.AddExamineMsg(interaction.Performer, $"You insert the {interaction.UsedObject.AttributesOrNull().ArticleName.ToLower()} into the {gameObject.AttributesOrNull().InitialName.ToLower()}.");
 		}
 
 		public bool Interact(HandActivate interaction)
