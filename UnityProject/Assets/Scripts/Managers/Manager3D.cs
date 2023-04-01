@@ -50,12 +50,17 @@ public class Manager3D : MonoBehaviour
 			{
 				new DynamicUIChoiceEntryData()
 				{
+					ChoiceAction =  Ceilings,
+					Text = " Give me DOOM with ceilings! ( Performance heavy )"
+				},
+				new DynamicUIChoiceEntryData()
+				{
 					ChoiceAction =  ConvertTo3DWithMusic,
 					Text = " Give me music and DOOM! ( Opens YouTube in browser )  "
 				},
 				new DynamicUIChoiceEntryData()
 				{
-					ChoiceAction =  ConvertTo3D,
+					ChoiceAction =  NoCeilings,
 					Text = " Give me DOOM! "
 				},
 				new DynamicUIChoiceEntryData()
@@ -87,10 +92,19 @@ public class Manager3D : MonoBehaviour
 		ConvertTo3D();
 	}
 
+	private void Ceilings()
+	{
+		ConvertTo3D(true);
+	}
+
+	private void NoCeilings()
+	{
+		ConvertTo3D();
+	}
 
 
 	[NaughtyAttributes.Button()]
-	public void ConvertTo3D()
+	public void ConvertTo3D(bool addCeilings = false)
 	{
 		Is3D = true;
 
@@ -157,7 +171,6 @@ public class Manager3D : MonoBehaviour
 			{
 				lock (PresentTiles)
 				{
-
 					foreach (var Layer in PresentTiles)
 					{
 						if (Layer.Key == null || Layer.Value == null) continue;
@@ -185,15 +198,25 @@ public class Manager3D : MonoBehaviour
 								{
 									Destroy(Sprite3D.gameObject);
 								}
-
-
-
 							}
-
 							var Renderer = Layer.Key.GetComponent<TilemapRenderer>();
 							if (Renderer != null)
 							{
 								Renderer.enabled = false;
+							}
+						}
+						else if (Layer.Key.LayerType == LayerType.Floors && addCeilings)
+						{
+							foreach (var TileInfo in Layer.Value)
+							{
+								var Sprite3D = Instantiate(CommonPrefabs.Instance.Cube3D,
+									TileInfo.Key + new Vector3(0.5f, 0.5f, -5), new Quaternion(),
+									Layer.Key.transform).GetComponent<SetCubeSprite>();
+
+								Sprite3D.gameObject.transform.localPosition = TileInfo.Key +  new Vector3(0.5f, 0.5f, -1.1f);
+
+								TileInfo.Value.AssociatedSetCubeSprite = Sprite3D;
+								Sprite3D.SetSprite(TileInfo.Value.layerTile.PreviewSprite);
 							}
 						}
 						else if (Layer.Key.LayerType != LayerType.Objects)
