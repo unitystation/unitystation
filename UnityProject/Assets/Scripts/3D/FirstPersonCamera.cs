@@ -26,6 +26,8 @@ namespace _3D
 
 			if (Input.GetKey(KeyCode.Tab) == false && Application.isFocused && UIManager.Instance.isInputFocus == false)
 			{
+				Cursor.lockState = CursorLockMode.Locked;
+				Cursor.visible = false;
 				float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
 				float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
@@ -46,31 +48,22 @@ namespace _3D
 				//playerBody.Rotate(Vector3.up * mouseX);
 
 				// Set the mouse position to the center of the screen
-
-			}
-			CursorVis();
-			RandomiseSkyboxOnDemand();
-		}
-
-		private void CursorVis()
-		{
-			if (Input.GetKey(KeyCode.Tab) || UIManager.Instance.isInputFocus == false)
-			{
-				Cursor.lockState = CursorLockMode.Locked;
-				Cursor.visible = false;
 			}
 			else
 			{
 				Cursor.lockState = CursorLockMode.None;
 				Cursor.visible = true;
 			}
+
+
+			RandomiseSkyboxOnDemand();
 		}
+
 
 		private void RandomiseSkybox()
 		{
 			GetComponent<Skybox>().material = SkyboxData.Instance.SkyboxMaterials.PickRandom();
 			Camera.main.clearFlags = CameraClearFlags.Skybox;
-
 		}
 
 		private void RandomiseSkyboxOnDemand()
