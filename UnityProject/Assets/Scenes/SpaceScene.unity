@@ -211,7 +211,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 776718967
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -561,7 +561,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 776718967
   m_SortingLayer: 1
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -1268,7 +1268,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 776718967
   m_SortingLayer: 1
-  m_SortingOrder: 1
+  m_SortingOrder: 4
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -1596,6 +1596,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1629061c87b84efca254e0716499651e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Priority>k__BackingField: 0
 --- !u!114 &1554729484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1620,6 +1621,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf585bb4ff8944df896c3974105a1d53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Priority>k__BackingField: 0
   defaultRoomGasMixOverride: {fileID: 0}
   overriderTileSpawnWithNoAir: 0
 --- !u!114 &1554729489
@@ -1736,7 +1738,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 776718967
   m_SortingLayer: 1
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16

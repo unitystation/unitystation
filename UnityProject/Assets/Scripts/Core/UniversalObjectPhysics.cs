@@ -444,7 +444,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		{
 			SetMatrix(MatrixManager.Get(newLocalTarget.Matrix).Matrix);
 		}
-		SetLocalTarget = newLocalTarget;
+
+		if (isClient)
+		{
+			SetLocalTarget = newLocalTarget;
+		}
 
 		if (IsFlyingSliding)
 		{
