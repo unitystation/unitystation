@@ -46,8 +46,13 @@ namespace _3D
 				//playerBody.Rotate(Vector3.up * mouseX);
 
 				// Set the mouse position to the center of the screen
-
 			}
+			else
+			{
+				Cursor.lockState = CursorLockMode.None;
+				Cursor.visible = true;
+			}
+
 			CursorVis();
 			RandomiseSkyboxOnDemand();
 		}
@@ -70,7 +75,6 @@ namespace _3D
 		{
 			GetComponent<Skybox>().material = SkyboxData.Instance.SkyboxMaterials.PickRandom();
 			Camera.main.clearFlags = CameraClearFlags.Skybox;
-
 		}
 
 		private void RandomiseSkyboxOnDemand()
