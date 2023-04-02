@@ -1,6 +1,7 @@
 ﻿using Mirror;
 using System.Collections;
 using System.Collections.Generic;
+using Objects;
 using UnityEngine;
 
 namespace Items
@@ -43,13 +44,22 @@ namespace Items
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 			if (interaction.HandObject == null) return false;
-			if (interaction.TargetObject.Item() == null) return false; //Only works on items
+			if (interaction.TargetObject.AttributesOrNull() == null) return false;
+			if (HasWhiteListedComponents(interaction) == false) return false;
 
 			//if(interaction.HandObject.Item().HasTrait(refillTrait)) return true; //Check for refill
 
 			if (interaction.HandObject != gameObject) return false;
 
 			return true;
+		}
+
+		private bool HasWhiteListedComponents(HandApply interaction)
+		{
+			return interaction.TargetObject.HasComponent<ClosetControl>() ||
+			       interaction.TargetObject.HasComponent<ItemStorage>() ||
+				   interaction.TargetObject.HasComponent<ItemAttributesV2>() ||
+			       interaction.TargetObject.HasComponent<ObjectContainer>();
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
@@ -66,7 +76,7 @@ namespace Items
 				return;
 			}
 
-			var item = interaction.TargetObject.Item();
+			var item = interaction.TargetObject.AttributesOrNull();
 
 			item.ServerSetArticleName(item.InitialName + " '" + currentLabel + "'");
 
@@ -89,7 +99,7 @@ namespace Items
 		{
 			labelAmount = LABEL_CAPACITY;
 			_ = Despawn.ServerSingle(interaction.UsedObject);
-			Chat.AddExamineMsg(interaction.Performer, $"You insert the {interaction.UsedObject.Item().ArticleName.ToLower()} into the {gameObject.Item().InitialName.ToLower()}.");
+			Chat.AddExamineMsg(interaction.Performer, $"You insert the {interaction.UsedObject.AttributesOrNull().ArticleName.ToLower()} into the {gameObject.AttributesOrNull().InitialName.ToLower()}.");
 		}
 
 		public bool Interact(HandActivate interaction)
