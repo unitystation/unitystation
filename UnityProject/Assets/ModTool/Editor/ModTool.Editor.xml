@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ModTool.Editor</name>
+    </assembly>
+    <members>
+        <member name="T:ModTool.Editor.AssetSelector">
+            <summary>
+            A window for selecting shared assets.
+            </summary>
+        </member>
+        <member name="M:ModTool.Editor.ExporterCreator.CreateExporter">
+            <summary>
+            Create a mod exporter package for this game.
+            </summary>
+        </member>
+        <member name="M:ModTool.Editor.ExporterCreator.CreateExporterPostBuild(UnityEditor.BuildTarget,System.String)">
+            <summary>
+            Create a mod exporter package after building the game.
+            </summary>
+        </member>
+        <member name="T:ModTool.Editor.PackageSelector">
+            <summary>
+            A window for selecting shared packages.
+            </summary>
+        </member>
+        <member name="M:ModTool.Editor.SelectionWindow`1.Open">
+            <summary>
+            Open A selection window.
+            </summary>
+        </member>
+        <member name="T:ModTool.Editor.SettingsEditorWindow">
+            <summary>
+            ModTool's settings window.
+            </summary>
+        </member>
+        <member name="M:ModTool.Editor.SettingsEditorWindow.ShowWindow">
+            <summary>
+            Open ModTool's settings window.
+            </summary>
+        </member>
+    </members>
+</doc>
