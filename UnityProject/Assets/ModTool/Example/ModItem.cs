@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Diagnostics;
+using UnityEngine;
 using UnityEngine.UI;
 using ModTool;
+using Debug = System.Diagnostics.Debug;
 
 public class ModItem : MonoBehaviour {
 
@@ -18,6 +20,9 @@ public class ModItem : MonoBehaviour {
     /// <param name="modMenu"></param>
 	public void Initialize(Mod mod)
     {
+	    var Stopwatch = new Stopwatch();
+	    Stopwatch.Start();
+
         this.mod = mod;
 
         modName.text = mod.name;
@@ -25,7 +30,11 @@ public class ModItem : MonoBehaviour {
 
         toggle.isOn = mod.isEnabled;
 
-        toggle.onValueChanged.AddListener( value => Toggle(value)); 
+        toggle.onValueChanged.AddListener( value => Toggle(value));
+
+        Stopwatch.Stop();
+
+
     }
 
     /// <summary>
@@ -43,5 +52,5 @@ public class ModItem : MonoBehaviour {
     public void SetToggleInteractable(bool interactable)
     {
         toggle.interactable = interactable;
-    }    
+    }
 }

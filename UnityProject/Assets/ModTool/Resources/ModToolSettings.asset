@@ -17,5 +17,3144 @@ MonoBehaviour:
   _supportedPlatforms: 15
   _supportedContent: 7
   _logLevel: 3
-  _sharedAssets: []
+  _sharedAssets:
+  - Assets/Plugins/Android/info.txt
+  - Assets/Plugins/Android/libsunvox.so
+  - Assets/Plugins/IOS/Firebase/libFirebaseCppApp.a
+  - Assets/Plugins/IOS/Firebase/libFirebaseCppAuth.a
+  - Assets/Plugins/IOS/Firebase/libFirebaseCppFirestore.a
+  - Assets/Plugins/IOS/Firebase/libFirebaseCppStorage.a
+  - Assets/Plugins/IOS/sunvox.a
+  - Assets/Plugins/Linux/sunvox.so
+  - Assets/Plugins/MacOS/sunvox.bundle
+  - Assets/Plugins/SerializableDictionary/Editor/SerializableDictionary.Editor.asmdef
+  - Assets/Plugins/SerializableDictionary/Editor/UI_DictEditor.cs
+  - Assets/Plugins/SerializableDictionary/SerializableDictionary.asmdef
+  - Assets/Plugins/SerializableDictionary/SerializableDictionary.cs
+  - Assets/Plugins/WebSockets/websocket-sharp.dll
+  - Assets/Plugins/WebSockets/websocket-sharp.dll.mdb
+  - Assets/Plugins/WebSockets/websocket-sharp.pdb
+  - Assets/Plugins/Win/sunvox.dll
+  - Assets/Plugins/YamlDotNet/Core/AnchorName.cs
+  - Assets/Plugins/YamlDotNet/Core/AnchorNotFoundException.cs
+  - Assets/Plugins/YamlDotNet/Core/CharacterAnalyzer.cs
+  - Assets/Plugins/YamlDotNet/Core/Constants.cs
+  - Assets/Plugins/YamlDotNet/Core/Cursor.cs
+  - Assets/Plugins/YamlDotNet/Core/Emitter.cs
+  - Assets/Plugins/YamlDotNet/Core/EmitterSettings.cs
+  - Assets/Plugins/YamlDotNet/Core/EmitterState.cs
+  - Assets/Plugins/YamlDotNet/Core/Events/AnchorAlias.cs
+  - Assets/Plugins/YamlDotNet/Core/Events/Comment.cs
+  - Assets/Plugins/YamlDotNet/Core/Events/DocumentEnd.cs
+  - Assets/Plugins/YamlDotNet/Core/Events/DocumentStart.cs
+  - Assets/Plugins/YamlDotNet/Core/Events/EventType.cs
+  - Assets/Plugins/YamlDotNet/Core/Events/IParsingEventVisitor.cs
+  - Assets/Plugins/YamlDotNet/Core/Events/MappingEnd.cs
+  - Assets/Plugins/YamlDotNet/Core/Events/MappingStart.cs
+  - Assets/Plugins/YamlDotNet/Core/Events/MappingStyle.cs
+  - Assets/Plugins/YamlDotNet/Core/Events/NodeEvent.cs
+  - Assets/Plugins/YamlDotNet/Core/Events/ParsingEvent.cs
+  - Assets/Plugins/YamlDotNet/Core/Events/Scalar.cs
+  - Assets/Plugins/YamlDotNet/Core/Events/SequenceEnd.cs
+  - Assets/Plugins/YamlDotNet/Core/Events/SequenceStart.cs
+  - Assets/Plugins/YamlDotNet/Core/Events/SequenceStyle.cs
+  - Assets/Plugins/YamlDotNet/Core/Events/StreamEnd.cs
+  - Assets/Plugins/YamlDotNet/Core/Events/StreamStart.cs
+  - Assets/Plugins/YamlDotNet/Core/ForwardAnchorNotSupportedException.cs
+  - Assets/Plugins/YamlDotNet/Core/HashCode.cs
+  - Assets/Plugins/YamlDotNet/Core/IEmitter.cs
+  - Assets/Plugins/YamlDotNet/Core/ILookAheadBuffer.cs
+  - Assets/Plugins/YamlDotNet/Core/InsertionQueue.cs
+  - Assets/Plugins/YamlDotNet/Core/IParser.cs
+  - Assets/Plugins/YamlDotNet/Core/IScanner.cs
+  - Assets/Plugins/YamlDotNet/Core/LookAheadBuffer.cs
+  - Assets/Plugins/YamlDotNet/Core/Mark.cs
+  - Assets/Plugins/YamlDotNet/Core/MaximumRecursionLevelReachedException.cs
+  - Assets/Plugins/YamlDotNet/Core/MergingParser.cs
+  - Assets/Plugins/YamlDotNet/Core/Parser.cs
+  - Assets/Plugins/YamlDotNet/Core/ParserExtensions.cs
+  - Assets/Plugins/YamlDotNet/Core/ParserState.cs
+  - Assets/Plugins/YamlDotNet/Core/RecursionLevel.cs
+  - Assets/Plugins/YamlDotNet/Core/ScalarStyle.cs
+  - Assets/Plugins/YamlDotNet/Core/Scanner.cs
+  - Assets/Plugins/YamlDotNet/Core/SemanticErrorException.cs
+  - Assets/Plugins/YamlDotNet/Core/SimpleKey.cs
+  - Assets/Plugins/YamlDotNet/Core/StringLookAheadBuffer.cs
+  - Assets/Plugins/YamlDotNet/Core/SyntaxErrorException.cs
+  - Assets/Plugins/YamlDotNet/Core/TagDirectiveCollection.cs
+  - Assets/Plugins/YamlDotNet/Core/TagName.cs
+  - Assets/Plugins/YamlDotNet/Core/Tokens/Anchor.cs
+  - Assets/Plugins/YamlDotNet/Core/Tokens/AnchorAlias.cs
+  - Assets/Plugins/YamlDotNet/Core/Tokens/BlockEnd.cs
+  - Assets/Plugins/YamlDotNet/Core/Tokens/BlockEntry.cs
+  - Assets/Plugins/YamlDotNet/Core/Tokens/BlockMappingStart.cs
+  - Assets/Plugins/YamlDotNet/Core/Tokens/BlockSequenceStart.cs
+  - Assets/Plugins/YamlDotNet/Core/Tokens/Comment.cs
+  - Assets/Plugins/YamlDotNet/Core/Tokens/DocumentEnd.cs
+  - Assets/Plugins/YamlDotNet/Core/Tokens/DocumentStart.cs
+  - Assets/Plugins/YamlDotNet/Core/Tokens/Error.cs
+  - Assets/Plugins/YamlDotNet/Core/Tokens/FlowEntry.cs
+  - Assets/Plugins/YamlDotNet/Core/Tokens/FlowMappingEnd.cs
+  - Assets/Plugins/YamlDotNet/Core/Tokens/FlowMappingStart.cs
+  - Assets/Plugins/YamlDotNet/Core/Tokens/FlowSequenceEnd.cs
+  - Assets/Plugins/YamlDotNet/Core/Tokens/FlowSequenceStart.cs
+  - Assets/Plugins/YamlDotNet/Core/Tokens/Key.cs
+  - Assets/Plugins/YamlDotNet/Core/Tokens/Scalar.cs
+  - Assets/Plugins/YamlDotNet/Core/Tokens/StreamEnd.cs
+  - Assets/Plugins/YamlDotNet/Core/Tokens/StreamStart.cs
+  - Assets/Plugins/YamlDotNet/Core/Tokens/Tag.cs
+  - Assets/Plugins/YamlDotNet/Core/Tokens/TagDirective.cs
+  - Assets/Plugins/YamlDotNet/Core/Tokens/Token.cs
+  - Assets/Plugins/YamlDotNet/Core/Tokens/Value.cs
+  - Assets/Plugins/YamlDotNet/Core/Tokens/VersionDirective.cs
+  - Assets/Plugins/YamlDotNet/Core/Version.cs
+  - Assets/Plugins/YamlDotNet/Core/YamlException.cs
+  - Assets/Plugins/YamlDotNet/csc.rsp
+  - Assets/Plugins/YamlDotNet/Examples/ConvertYamlToJson.cs
+  - Assets/Plugins/YamlDotNet/Examples/DeserializeObjectGraph.cs
+  - Assets/Plugins/YamlDotNet/Examples/DeserializingMultipleDocuments.cs
+  - Assets/Plugins/YamlDotNet/Examples/Helpers/ExampleRunner.cs
+  - Assets/Plugins/YamlDotNet/Examples/Helpers/ITestOutputHelper.cs
+  - Assets/Plugins/YamlDotNet/Examples/Helpers/SampleAttribute.cs
+  - Assets/Plugins/YamlDotNet/Examples/LoadingAYamlStream.cs
+  - Assets/Plugins/YamlDotNet/Examples/SerializeObjectGraph.cs
+  - Assets/Plugins/YamlDotNet/Examples/YamlDotNet.Examples.asmdef
+  - Assets/Plugins/YamlDotNet/Examples.unity
+  - Assets/Plugins/YamlDotNet/Helpers/ExpressionExtensions.cs
+  - Assets/Plugins/YamlDotNet/Helpers/GenericCollectionToNonGenericAdapter.cs
+  - Assets/Plugins/YamlDotNet/Helpers/GenericDictionaryToNonGenericAdapter.cs
+  - Assets/Plugins/YamlDotNet/Helpers/IOrderedDictionary.cs
+  - Assets/Plugins/YamlDotNet/Helpers/NumberExtensions.cs
+  - Assets/Plugins/YamlDotNet/Helpers/OrderedDictionary.cs
+  - Assets/Plugins/YamlDotNet/Portability/netstandard1.3/CultureInfoAdapter.cs
+  - Assets/Plugins/YamlDotNet/Portability/netstandard1.3/ReflectionExtensions.cs
+  - Assets/Plugins/YamlDotNet/Portability/NullableReferences.cs
+  - Assets/Plugins/YamlDotNet/Portability/unitysubset3.5/PropertyInfoExtensions.cs
+  - Assets/Plugins/YamlDotNet/Portability/unitysubset3.5/StandardRegexOptions.cs
+  - Assets/Plugins/YamlDotNet/Readme.txt
+  - Assets/Plugins/YamlDotNet/RepresentationModel/DocumentLoadingState.cs
+  - Assets/Plugins/YamlDotNet/RepresentationModel/EmitterState.cs
+  - Assets/Plugins/YamlDotNet/RepresentationModel/IYamlVisitor.cs
+  - Assets/Plugins/YamlDotNet/RepresentationModel/LibYamlEventStream.cs
+  - Assets/Plugins/YamlDotNet/RepresentationModel/YamlAliasNode.cs
+  - Assets/Plugins/YamlDotNet/RepresentationModel/YamlDocument.cs
+  - Assets/Plugins/YamlDotNet/RepresentationModel/YamlMappingNode.cs
+  - Assets/Plugins/YamlDotNet/RepresentationModel/YamlNode.cs
+  - Assets/Plugins/YamlDotNet/RepresentationModel/YamlNodeIdentityEqualityComparer.cs
+  - Assets/Plugins/YamlDotNet/RepresentationModel/YamlNodeType.cs
+  - Assets/Plugins/YamlDotNet/RepresentationModel/YamlScalarNode.cs
+  - Assets/Plugins/YamlDotNet/RepresentationModel/YamlSequenceNode.cs
+  - Assets/Plugins/YamlDotNet/RepresentationModel/YamlStream.cs
+  - Assets/Plugins/YamlDotNet/RepresentationModel/YamlVisitor.cs
+  - Assets/Plugins/YamlDotNet/RepresentationModel/YamlVisitorBase.cs
+  - Assets/Plugins/YamlDotNet/Serialization/BuilderSkeleton.cs
+  - Assets/Plugins/YamlDotNet/Serialization/Converters/DateTimeConverter.cs
+  - Assets/Plugins/YamlDotNet/Serialization/Converters/GuidConverter.cs
+  - Assets/Plugins/YamlDotNet/Serialization/Converters/SystemTypeConverter.cs
+  - Assets/Plugins/YamlDotNet/Serialization/DefaultValuesHandling.cs
+  - Assets/Plugins/YamlDotNet/Serialization/Deserializer.cs
+  - Assets/Plugins/YamlDotNet/Serialization/DeserializerBuilder.cs
+  - Assets/Plugins/YamlDotNet/Serialization/EmissionPhaseObjectGraphVisitorArgs.cs
+  - Assets/Plugins/YamlDotNet/Serialization/EventEmitters/ChainedEventEmitter.cs
+  - Assets/Plugins/YamlDotNet/Serialization/EventEmitters/JsonEventEmitter.cs
+  - Assets/Plugins/YamlDotNet/Serialization/EventEmitters/TypeAssigningEventEmitter.cs
+  - Assets/Plugins/YamlDotNet/Serialization/EventEmitters/WriterEventEmitter.cs
+  - Assets/Plugins/YamlDotNet/Serialization/EventInfo.cs
+  - Assets/Plugins/YamlDotNet/Serialization/IAliasProvider.cs
+  - Assets/Plugins/YamlDotNet/Serialization/IDeserializer.cs
+  - Assets/Plugins/YamlDotNet/Serialization/IEventEmitter.cs
+  - Assets/Plugins/YamlDotNet/Serialization/INamingConvention.cs
+  - Assets/Plugins/YamlDotNet/Serialization/INodeDeserializer.cs
+  - Assets/Plugins/YamlDotNet/Serialization/INodeTypeResolver.cs
+  - Assets/Plugins/YamlDotNet/Serialization/IObjectDescriptor.cs
+  - Assets/Plugins/YamlDotNet/Serialization/IObjectFactory.cs
+  - Assets/Plugins/YamlDotNet/Serialization/IObjectGraphTraversalStrategy.cs
+  - Assets/Plugins/YamlDotNet/Serialization/IObjectGraphVisitor.cs
+  - Assets/Plugins/YamlDotNet/Serialization/IPropertyDescriptor.cs
+  - Assets/Plugins/YamlDotNet/Serialization/IRegistrationLocationSelectionSyntax.cs
+  - Assets/Plugins/YamlDotNet/Serialization/ISerializer.cs
+  - Assets/Plugins/YamlDotNet/Serialization/ITypeInspector.cs
+  - Assets/Plugins/YamlDotNet/Serialization/ITypeResolver.cs
+  - Assets/Plugins/YamlDotNet/Serialization/IValueDeserializer.cs
+  - Assets/Plugins/YamlDotNet/Serialization/IValuePromise.cs
+  - Assets/Plugins/YamlDotNet/Serialization/IValueSerializer.cs
+  - Assets/Plugins/YamlDotNet/Serialization/IYamlConvertible.cs
+  - Assets/Plugins/YamlDotNet/Serialization/IYamlSerializable.cs
+  - Assets/Plugins/YamlDotNet/Serialization/IYamlTypeConverter.cs
+  - Assets/Plugins/YamlDotNet/Serialization/LazyComponentRegistrationList.cs
+  - Assets/Plugins/YamlDotNet/Serialization/LazyComponentRegistrationListExtensions.cs
+  - Assets/Plugins/YamlDotNet/Serialization/NamingConventions/CamelCaseNamingConvention.cs
+  - Assets/Plugins/YamlDotNet/Serialization/NamingConventions/HyphenatedNamingConvention.cs
+  - Assets/Plugins/YamlDotNet/Serialization/NamingConventions/LowerCaseNamingConvention.cs
+  - Assets/Plugins/YamlDotNet/Serialization/NamingConventions/NullNamingConvention.cs
+  - Assets/Plugins/YamlDotNet/Serialization/NamingConventions/PascalCaseNamingConvention.cs
+  - Assets/Plugins/YamlDotNet/Serialization/NamingConventions/UnderscoredNamingConvention.cs
+  - Assets/Plugins/YamlDotNet/Serialization/NodeDeserializers/ArrayNodeDeserializer.cs
+  - Assets/Plugins/YamlDotNet/Serialization/NodeDeserializers/CollectionNodeDeserializer.cs
+  - Assets/Plugins/YamlDotNet/Serialization/NodeDeserializers/DictionaryNodeDeserializer.cs
+  - Assets/Plugins/YamlDotNet/Serialization/NodeDeserializers/EnumerableNodeDeserializer.cs
+  - Assets/Plugins/YamlDotNet/Serialization/NodeDeserializers/NullNodeDeserializer.cs
+  - Assets/Plugins/YamlDotNet/Serialization/NodeDeserializers/ObjectNodeDeserializer.cs
+  - Assets/Plugins/YamlDotNet/Serialization/NodeDeserializers/ScalarNodeDeserializer.cs
+  - Assets/Plugins/YamlDotNet/Serialization/NodeDeserializers/TypeConverterNodeDeserializer.cs
+  - Assets/Plugins/YamlDotNet/Serialization/NodeDeserializers/YamlConvertibleNodeDeserializer.cs
+  - Assets/Plugins/YamlDotNet/Serialization/NodeDeserializers/YamlSerializableNodeDeserializer.cs
+  - Assets/Plugins/YamlDotNet/Serialization/NodeTypeResolvers/DefaultContainersNodeTypeResolver.cs
+  - Assets/Plugins/YamlDotNet/Serialization/NodeTypeResolvers/MappingNodeTypeResolver.cs
+  - Assets/Plugins/YamlDotNet/Serialization/NodeTypeResolvers/RejectUnknownTagsNodeTypeResolver.cs
+  - Assets/Plugins/YamlDotNet/Serialization/NodeTypeResolvers/TagNodeTypeResolver.cs
+  - Assets/Plugins/YamlDotNet/Serialization/NodeTypeResolvers/TypeNameInTagNodeTypeResolver.cs
+  - Assets/Plugins/YamlDotNet/Serialization/NodeTypeResolvers/YamlConvertibleTypeResolver.cs
+  - Assets/Plugins/YamlDotNet/Serialization/NodeTypeResolvers/YamlSerializableTypeResolver.cs
+  - Assets/Plugins/YamlDotNet/Serialization/Nothing.cs
+  - Assets/Plugins/YamlDotNet/Serialization/ObjectDescriptor.cs
+  - Assets/Plugins/YamlDotNet/Serialization/ObjectFactories/DefaultObjectFactory.cs
+  - Assets/Plugins/YamlDotNet/Serialization/ObjectFactories/LambdaObjectFactory.cs
+  - Assets/Plugins/YamlDotNet/Serialization/ObjectGraphTraversalStrategies/FullObjectGraphTraversalStrategy.cs
+  - Assets/Plugins/YamlDotNet/Serialization/ObjectGraphTraversalStrategies/RoundtripObjectGraphTraversalStrategy.cs
+  - Assets/Plugins/YamlDotNet/Serialization/ObjectGraphTraversalStrategyFactory.cs
+  - Assets/Plugins/YamlDotNet/Serialization/ObjectGraphVisitors/AnchorAssigner.cs
+  - Assets/Plugins/YamlDotNet/Serialization/ObjectGraphVisitors/AnchorAssigningObjectGraphVisitor.cs
+  - Assets/Plugins/YamlDotNet/Serialization/ObjectGraphVisitors/ChainedObjectGraphVisitor.cs
+  - Assets/Plugins/YamlDotNet/Serialization/ObjectGraphVisitors/CommentsObjectGraphVisitor.cs
+  - Assets/Plugins/YamlDotNet/Serialization/ObjectGraphVisitors/CustomSerializationObjectGraphVisitor.cs
+  - Assets/Plugins/YamlDotNet/Serialization/ObjectGraphVisitors/DefaultExclusiveObjectGraphVisitor.cs
+  - Assets/Plugins/YamlDotNet/Serialization/ObjectGraphVisitors/DefaultValuesObjectGraphVisitor.cs
+  - Assets/Plugins/YamlDotNet/Serialization/ObjectGraphVisitors/EmittingObjectGraphVisitor.cs
+  - Assets/Plugins/YamlDotNet/Serialization/ObjectGraphVisitors/PreProcessingPhaseObjectGraphVisitorSkeleton.cs
+  - Assets/Plugins/YamlDotNet/Serialization/PropertyDescriptor.cs
+  - Assets/Plugins/YamlDotNet/Serialization/Schemas/FailsafeSchema.cs
+  - Assets/Plugins/YamlDotNet/Serialization/Serializer.cs
+  - Assets/Plugins/YamlDotNet/Serialization/SerializerBuilder.cs
+  - Assets/Plugins/YamlDotNet/Serialization/StreamFragment.cs
+  - Assets/Plugins/YamlDotNet/Serialization/TagMappings.cs
+  - Assets/Plugins/YamlDotNet/Serialization/TypeInspectors/CachedTypeInspector.cs
+  - Assets/Plugins/YamlDotNet/Serialization/TypeInspectors/CompositeTypeInspector.cs
+  - Assets/Plugins/YamlDotNet/Serialization/TypeInspectors/NamingConventionTypeInspector.cs
+  - Assets/Plugins/YamlDotNet/Serialization/TypeInspectors/ReadableAndWritablePropertiesTypeInspector.cs
+  - Assets/Plugins/YamlDotNet/Serialization/TypeInspectors/ReadableFieldsTypeInspector.cs
+  - Assets/Plugins/YamlDotNet/Serialization/TypeInspectors/ReadablePropertiesTypeInspector.cs
+  - Assets/Plugins/YamlDotNet/Serialization/TypeInspectors/TypeInspectorSkeleton.cs
+  - Assets/Plugins/YamlDotNet/Serialization/TypeResolvers/DynamicTypeResolver.cs
+  - Assets/Plugins/YamlDotNet/Serialization/TypeResolvers/StaticTypeResolver.cs
+  - Assets/Plugins/YamlDotNet/Serialization/Utilities/IPostDeserializationCallback.cs
+  - Assets/Plugins/YamlDotNet/Serialization/Utilities/ObjectAnchorCollection.cs
+  - Assets/Plugins/YamlDotNet/Serialization/Utilities/ReflectionUtility.cs
+  - Assets/Plugins/YamlDotNet/Serialization/Utilities/SerializerState.cs
+  - Assets/Plugins/YamlDotNet/Serialization/Utilities/StringExtensions.cs
+  - Assets/Plugins/YamlDotNet/Serialization/Utilities/TypeConverter.cs
+  - Assets/Plugins/YamlDotNet/Serialization/ValueDeserializers/AliasValueDeserializer.cs
+  - Assets/Plugins/YamlDotNet/Serialization/ValueDeserializers/NodeValueDeserializer.cs
+  - Assets/Plugins/YamlDotNet/Serialization/YamlAttributeOverrides.cs
+  - Assets/Plugins/YamlDotNet/Serialization/YamlAttributeOverridesInspector.cs
+  - Assets/Plugins/YamlDotNet/Serialization/YamlAttributesTypeInspector.cs
+  - Assets/Plugins/YamlDotNet/Serialization/YamlFormatter.cs
+  - Assets/Plugins/YamlDotNet/Serialization/YamlIgnoreAttribute.cs
+  - Assets/Plugins/YamlDotNet/Serialization/YamlMemberAttribute.cs
+  - Assets/Plugins/YamlDotNet/YamlDotNet.asmdef
+  - Assets/Plugins/YamlDotNet/YamlDotNet.license.txt
+  - Assets/Prefabs/Items/BloodCult/ArcaneTome.prefab
+  - Assets/Prefabs/Items/BloodCult/BloodBoltBarrage.prefab
+  - Assets/Prefabs/Items/BloodCult/BloodHalberd.prefab
+  - Assets/Prefabs/Items/BloodCult/BloodyBastardSword.prefab
+  - Assets/Prefabs/Items/BloodCult/CursedOrb.prefab
+  - Assets/Prefabs/Items/BloodCult/Ectoplasm.prefab
+  - Assets/Prefabs/Items/BloodCult/EctoplasmAngelic.prefab
+  - Assets/Prefabs/Items/BloodCult/EldritchLongsword.prefab
+  - Assets/Prefabs/Items/BloodCult/FlaskOfUnholyWater.prefab
+  - Assets/Prefabs/Items/BloodCult/MagicalAura.prefab
+  - Assets/Prefabs/Items/BloodCult/MirrorShield.prefab
+  - Assets/Prefabs/Items/BloodCult/RitualDagger.prefab
+  - Assets/Prefabs/Items/BloodCult/SoulstoneShard.prefab
+  - Assets/Prefabs/Items/BloodCult/VeilShifter.prefab
+  - Assets/Prefabs/Items/BloodCult/WhetstoneEldritch.prefab
+  - Assets/Prefabs/Items/BloodCult/ZealotsBlindfold.prefab
+  - Assets/Prefabs/Items/Botany/Equipment/BottleHydroKiller.prefab
+  - Assets/Prefabs/Items/Botany/Equipment/BottleOfEZNutrient.prefab
+  - Assets/Prefabs/Items/Botany/Equipment/BottleOfLeft4Zed.prefab
+  - Assets/Prefabs/Items/Botany/Equipment/BottleOfNutrientBase.prefab
+  - Assets/Prefabs/Items/Botany/Equipment/BottleOfNutrientEmpty.prefab
+  - Assets/Prefabs/Items/Botany/Equipment/BottleOfPestSpray.prefab
+  - Assets/Prefabs/Items/Botany/Equipment/BottleOfRobustHarvest.prefab
+  - Assets/Prefabs/Items/Botany/Equipment/BottleOfWeedkiller.prefab
+  - Assets/Prefabs/Items/Botany/Equipment/Cultivator.prefab
+  - Assets/Prefabs/Items/Botany/Equipment/Hatchet.prefab
+  - Assets/Prefabs/Items/Botany/Equipment/PestSpray.prefab
+  - Assets/Prefabs/Items/Botany/Equipment/Spade.prefab
+  - Assets/Prefabs/Items/Botany/Equipment/WeedSpray.prefab
+  - Assets/Prefabs/Items/Bureaucracy/_Base_SimpleBook.prefab
+  - Assets/Prefabs/Items/Bureaucracy/BookOnSimplicity.prefab
+  - Assets/Prefabs/Items/Bureaucracy/HandLabeler.prefab
+  - Assets/Prefabs/Items/Bureaucracy/HandLabelerRoll.prefab
+  - Assets/Prefabs/Items/Bureaucracy/LanguageBooks/_Base_LanguageBook.prefab
+  - Assets/Prefabs/Items/Bureaucracy/LanguageBooks/CalcicBook.prefab
+  - Assets/Prefabs/Items/Bureaucracy/LanguageBooks/CalcicBookUnlimited.prefab
+  - Assets/Prefabs/Items/Bureaucracy/LanguageBooks/CodespeakBook.prefab
+  - Assets/Prefabs/Items/Bureaucracy/LanguageBooks/CodespeakBookUnlimited.prefab
+  - Assets/Prefabs/Items/Bureaucracy/LanguageBooks/DraconicBook.prefab
+  - Assets/Prefabs/Items/Bureaucracy/LanguageBooks/DraconicBookUnlimited.prefab
+  - Assets/Prefabs/Items/Bureaucracy/LanguageBooks/DroneBook.prefab
+  - Assets/Prefabs/Items/Bureaucracy/LanguageBooks/DroneBookOverride.prefab
+  - Assets/Prefabs/Items/Bureaucracy/LanguageBooks/GalComBook.prefab
+  - Assets/Prefabs/Items/Bureaucracy/LanguageBooks/GalComBookUnlimited.prefab
+  - Assets/Prefabs/Items/Bureaucracy/LanguageBooks/GalUncomBook.prefab
+  - Assets/Prefabs/Items/Bureaucracy/LanguageBooks/GalUncomBookUnlimited.prefab
+  - Assets/Prefabs/Items/Bureaucracy/LanguageBooks/MofficBook.prefab
+  - Assets/Prefabs/Items/Bureaucracy/LanguageBooks/MofficBookUnlimited.prefab
+  - Assets/Prefabs/Items/Bureaucracy/LanguageBooks/NekomimeticBook.prefab
+  - Assets/Prefabs/Items/Bureaucracy/LanguageBooks/NekomimeticBookUnlimited.prefab
+  - Assets/Prefabs/Items/Bureaucracy/Megaphones/Megaphone.prefab
+  - Assets/Prefabs/Items/Bureaucracy/Megaphones/MegaphoneCargo.prefab
+  - Assets/Prefabs/Items/Bureaucracy/Megaphones/MegaphoneCommand.prefab
+  - Assets/Prefabs/Items/Bureaucracy/Megaphones/MegaphoneSec.prefab
+  - Assets/Prefabs/Items/Bureaucracy/NTSecretDocuments.prefab
+  - Assets/Prefabs/Items/Bureaucracy/Paper Bin1.prefab
+  - Assets/Prefabs/Items/Bureaucracy/Paper.prefab
+  - Assets/Prefabs/Items/Bureaucracy/Pens/CharchoalStylus.prefab
+  - Assets/Prefabs/Items/Bureaucracy/Pens/EnergyDagger.prefab
+  - Assets/Prefabs/Items/Bureaucracy/Pens/FountainPen.prefab
+  - Assets/Prefabs/Items/Bureaucracy/Pens/FountainPenCaptain.prefab
+  - Assets/Prefabs/Items/Bureaucracy/Pens/Pen.prefab
+  - Assets/Prefabs/Items/Bureaucracy/Pens/PenBlue.prefab
+  - Assets/Prefabs/Items/Bureaucracy/Pens/PenFourColor.prefab
+  - Assets/Prefabs/Items/Bureaucracy/Pens/PenInvisible.prefab
+  - Assets/Prefabs/Items/Bureaucracy/Pens/PenRed.prefab
+  - Assets/Prefabs/Items/Bureaucracy/Pens/PenSleepy.prefab
+  - Assets/Prefabs/Items/Bureaucracy/Pens/SurvivalPen.prefab
+  - Assets/Prefabs/Items/Bureaucracy/RecipeBook/_Base_RecipeBook.prefab
+  - Assets/Prefabs/Items/Bureaucracy/RecipeBook/BakingRecipeBook.prefab
+  - Assets/Prefabs/Items/Bureaucracy/Toner.prefab
+  - Assets/Prefabs/Items/Cards/CardBase.prefab
+  - Assets/Prefabs/Items/Cards/EMagCryptographicSequencer.prefab
+  - Assets/Prefabs/Items/Cards/EmagCryptographicSequencerFake.prefab
+  - Assets/Prefabs/Items/Cards/EmagHackOLantern.prefab
+  - Assets/Prefabs/Items/Cards/IDCards/IDCard.prefab
+  - Assets/Prefabs/Items/Cards/IDCards/IDCardAgent.prefab
+  - Assets/Prefabs/Items/Cards/IDCards/IDCardAgentAutoInit.prefab
+  - Assets/Prefabs/Items/Cards/IDCards/IDCardAncient.prefab
+  - Assets/Prefabs/Items/Cards/IDCards/IDCardAutoInit.prefab
+  - Assets/Prefabs/Items/Cards/IDCards/IDCardAutoInitAncient.prefab
+  - Assets/Prefabs/Items/Cards/IDCards/IDCardAutoInitWizard.prefab
+  - Assets/Prefabs/Items/Cards/IDCards/IDCardCaptainsSpare.prefab
+  - Assets/Prefabs/Items/Cards/IDCards/IDCardCentCom.prefab
+  - Assets/Prefabs/Items/Cards/IDCards/IDCardCentComAutoInit.prefab
+  - Assets/Prefabs/Items/Cards/IDCards/IDCardGold.prefab
+  - Assets/Prefabs/Items/Cards/IDCards/IDCardGoldAutoInit.prefab
+  - Assets/Prefabs/Items/Cards/IDCards/IDCardPrisoner.prefab
+  - Assets/Prefabs/Items/Cards/IDCards/IDCardSilver.prefab
+  - Assets/Prefabs/Items/Cards/IDCards/IDCardSilverAutoInit.prefab
+  - Assets/Prefabs/Items/Cargo/_ItemParcel.prefab
+  - Assets/Prefabs/Items/Cargo/_ItemParcelGift.prefab
+  - Assets/Prefabs/Items/Cargo/Best Christmas gift.prefab
+  - Assets/Prefabs/Items/Cargo/Export Scanner.prefab
+  - Assets/Prefabs/Items/Cargo/WrappingPaper.prefab
+  - Assets/Prefabs/Items/Cargo/WrappingPaperFestive.prefab
+  - Assets/Prefabs/Items/Cargo/Xmas Gift.prefab
+  - Assets/Prefabs/Items/Devices/AccessRemote.prefab
+  - Assets/Prefabs/Items/Devices/RemoteAccessVarients/AccessRemoteCaptain.prefab
+  - Assets/Prefabs/Items/Devices/RemoteAccessVarients/AccessRemoteCargo.prefab
+  - Assets/Prefabs/Items/Devices/RemoteAccessVarients/AccessRemoteCE.prefab
+  - Assets/Prefabs/Items/Devices/RemoteAccessVarients/AccessRemoteCMO.prefab
+  - Assets/Prefabs/Items/Devices/RemoteAccessVarients/AccessRemoteHOP.prefab
+  - Assets/Prefabs/Items/Devices/RemoteAccessVarients/AccessRemoteHOS.prefab
+  - Assets/Prefabs/Items/Devices/RemoteSignaller.prefab
+  - Assets/Prefabs/Items/Economy/Cash/SpaceCash.prefab
+  - Assets/Prefabs/Items/Economy/Cash/SpaceCash10.prefab
+  - Assets/Prefabs/Items/Economy/Cash/SpaceCash100.prefab
+  - Assets/Prefabs/Items/Economy/Cash/SpaceCash1000.prefab
+  - Assets/Prefabs/Items/Economy/Cash/SpaceCash1000Five.prefab
+  - Assets/Prefabs/Items/Economy/Cash/SpaceCash20.prefab
+  - Assets/Prefabs/Items/Economy/Cash/SpaceCash200.prefab
+  - Assets/Prefabs/Items/Economy/Cash/SpaceCash50.prefab
+  - Assets/Prefabs/Items/Economy/Cash/SpaceCash500.prefab
+  - Assets/Prefabs/Items/Economy/Coins/AdamantineCoin.prefab
+  - Assets/Prefabs/Items/Economy/Coins/AntagToken.prefab
+  - Assets/Prefabs/Items/Economy/Coins/BananiumCoin.prefab
+  - Assets/Prefabs/Items/Economy/Coins/CoinBase.prefab
+  - Assets/Prefabs/Items/Economy/Coins/DiamondCoin.prefab
+  - Assets/Prefabs/Items/Economy/Coins/GoldCoin.prefab
+  - Assets/Prefabs/Items/Economy/Coins/IronCoin.prefab
+  - Assets/Prefabs/Items/Economy/Coins/MythrilCoin.prefab
+  - Assets/Prefabs/Items/Economy/Coins/PlasmaCoin.prefab
+  - Assets/Prefabs/Items/Economy/Coins/SilverCoin.prefab
+  - Assets/Prefabs/Items/Economy/Coins/UraniumCoin.prefab
+  - Assets/Prefabs/Items/Electricity/Engine/ControlRod.prefab
+  - Assets/Prefabs/Items/Electricity/Engine/EngineStarter.prefab
+  - Assets/Prefabs/Items/Electricity/Engine/FuelRod.prefab
+  - Assets/Prefabs/Items/Electricity/Engine/SupermatterSliver.prefab
+  - Assets/Prefabs/Items/Electricity/HighCableCoil.prefab
+  - Assets/Prefabs/Items/Electricity/LowCableCoil.prefab
+  - Assets/Prefabs/Items/Electricity/MachineConnectorLowItem.prefab
+  - Assets/Prefabs/Items/Electricity/MachineConnectorMediumItem.prefab
+  - Assets/Prefabs/Items/Electricity/MediumCableCoil.prefab
+  - Assets/Prefabs/Items/Electricity/SingleHighCableCoil.prefab
+  - Assets/Prefabs/Items/Electricity/SingleLowCableCoil.prefab
+  - Assets/Prefabs/Items/Electricity/SingleMediumCableCoil.prefab
+  - Assets/Prefabs/Items/Item.prefab
+  - Assets/Prefabs/Items/Medical/Basic Treatments/Bruise Pack.prefab
+  - Assets/Prefabs/Items/Medical/Basic Treatments/Charcoal Pill.prefab
+  - Assets/Prefabs/Items/Medical/Basic Treatments/RAD Pill.prefab
+  - Assets/Prefabs/Items/Medical/Devices/Combat Defibrillator NT.prefab
+  - Assets/Prefabs/Items/Medical/Devices/Combat Defibrillator Syndie.prefab
+  - Assets/Prefabs/Items/Medical/Devices/Defibrillator.prefab
+  - Assets/Prefabs/Items/Medical/Devices/DefibrillatorCompact.prefab
+  - Assets/Prefabs/Items/Medical/Devices/DefibrillatorPaddles.prefab
+  - Assets/Prefabs/Items/Medical/Devices/DefibrillatorPaddlesNT.prefab
+  - Assets/Prefabs/Items/Medical/Devices/DefibrillatorPaddlesSyndie.prefab
+  - Assets/Prefabs/Items/Medical/Devices/DNA Injector.prefab
+  - Assets/Prefabs/Items/Medical/Devices/HealthAnalyzer.prefab
+  - Assets/Prefabs/Items/Medical/Devices/Implanter.prefab
+  - Assets/Prefabs/Items/Medical/Devices/Mutation Grabber.prefab
+  - Assets/Prefabs/Items/Medical/FoldedBluespaceBodyBag.prefab
+  - Assets/Prefabs/Items/Medical/FoldedBodyBag.prefab
+  - Assets/Prefabs/Items/Medical/Trauma Treatment/Advanced Regen Mesh.prefab
+  - Assets/Prefabs/Items/Medical/Trauma Treatment/Gauze.prefab
+  - Assets/Prefabs/Items/Medical/Trauma Treatment/Ointment.prefab
+  - Assets/Prefabs/Items/Medical/Trauma Treatment/Regen Mesh.prefab
+  - Assets/Prefabs/Items/Mining/EverburningCandle.prefab
+  - Assets/Prefabs/Items/Mining/MiningDrill.prefab
+  - Assets/Prefabs/Items/Mining/MiningDrillDiamondTipped.prefab
+  - Assets/Prefabs/Items/Mining/MiningScanner.prefab
+  - Assets/Prefabs/Items/Mining/Ore/_OreBase.prefab
+  - Assets/Prefabs/Items/Mining/Ore/Amber.prefab
+  - Assets/Prefabs/Items/Mining/Ore/BananiumOre.prefab
+  - Assets/Prefabs/Items/Mining/Ore/BluespaceCrystal.prefab
+  - Assets/Prefabs/Items/Mining/Ore/DiamondOre.prefab
+  - Assets/Prefabs/Items/Mining/Ore/GoldOre.prefab
+  - Assets/Prefabs/Items/Mining/Ore/IronOre.prefab
+  - Assets/Prefabs/Items/Mining/Ore/PlasmaOre.prefab
+  - Assets/Prefabs/Items/Mining/Ore/SandPile.prefab
+  - Assets/Prefabs/Items/Mining/Ore/SilverOre.prefab
+  - Assets/Prefabs/Items/Mining/Ore/Slag.prefab
+  - Assets/Prefabs/Items/Mining/Ore/TitaniumOre.prefab
+  - Assets/Prefabs/Items/Mining/Ore/UraniumOre.prefab
+  - Assets/Prefabs/Items/Mining/Ore/VolcanicAsh.prefab
+  - Assets/Prefabs/Items/Mining/Pickaxe.prefab
+  - Assets/Prefabs/Items/Mining/PickaxeCompact.prefab
+  - Assets/Prefabs/Items/Mining/PickaxeDiamondTipped.prefab
+  - Assets/Prefabs/Items/Mining/PickaxeImprovised.prefab
+  - Assets/Prefabs/Items/Mining/PickaxeSilverPlated.prefab
+  - Assets/Prefabs/Items/Mining/PlasmaCutter.prefab
+  - Assets/Prefabs/Items/Mining/PlasmaCutterAdvanced.prefab
+  - Assets/Prefabs/Items/Mining/ProtoKineticAccelerator.prefab
+  - Assets/Prefabs/Items/Mining/Shovel.prefab
+  - Assets/Prefabs/Items/Mining/ShovelSerratedBone.prefab
+  - Assets/Prefabs/Items/Mining/SonicJackhammer.prefab
+  - Assets/Scripts/3D/Billboard.cs
+  - Assets/Scripts/3D/ConvertTo3D.cs
+  - Assets/Scripts/3D/FirstPersonCamera.cs
+  - Assets/Scripts/3D/SetCubeSprite.cs
+  - Assets/Scripts/3D/SkyboxData.cs
+  - Assets/Scripts/ChemistryComponents/IReagentMixProvider.cs
+  - Assets/Scripts/ChemistryComponents/MorphableReagentContainer.cs
+  - Assets/Scripts/ChemistryComponents/MorphableReagentContainerData.cs
+  - Assets/Scripts/ChemistryComponents/ReagentContainer.cs
+  - Assets/Scripts/ChemistryComponents/ReagentContainer.Examine.cs
+  - Assets/Scripts/ChemistryComponents/ReagentContainer.TransferInteraction.cs
+  - Assets/Scripts/ChemistryComponents/ReagentContainerBody.cs
+  - Assets/Scripts/ChemistryComponents/ReagentContainerFillVisualisation.cs
+  - Assets/Scripts/Clothing/BackPack/InteractableStorage.cs
+  - Assets/Scripts/Clothing/ClothingDataV2.cs
+  - Assets/Scripts/Clothing/ClothingV2.cs
+  - Assets/Scripts/Clothing/CustomisationGroup.cs
+  - Assets/Scripts/Clothing/Eyewear/NightVisionGoggles.cs
+  - Assets/Scripts/Clothing/Eyewear/PrescriptionGlasses.cs
+  - Assets/Scripts/Clothing/FacehuggerImpregnation.cs
+  - Assets/Scripts/Clothing/PlayerCustomisationData.cs
+  - Assets/Scripts/Clothing/RaceSOSingleton.cs
+  - Assets/Scripts/Clothing/RestraintOverlay.cs
+  - Assets/Scripts/Clothing/StepChanger.cs
+  - Assets/Scripts/Clothing/WearableArmor.cs
+  - Assets/Scripts/Clothing/WearableSpeechMod.cs
+  - Assets/Scripts/Clothing/WearableSpeedDebuff.cs
+  - Assets/Scripts/Communications/SignalEmitter.cs
+  - Assets/Scripts/Communications/SignalReceiver.cs
+  - Assets/Scripts/Core/Addressables/AssetLoadingPopup.cs
+  - Assets/Scripts/Core/Addressables/CommonSounds.cs
+  - Assets/Scripts/Core/Addressables/Types/AddressableReference.cs
+  - Assets/Scripts/Core/Attributes/Attributes.cs
+  - Assets/Scripts/Core/AutoMod/AutoMod.cs
+  - Assets/Scripts/Core/Camera/BlurryVision.cs
+  - Assets/Scripts/Core/Camera/Camera2DFollow.cs
+  - Assets/Scripts/Core/Camera/CameraEffectControlScript.cs
+  - Assets/Scripts/Core/Camera/CameraRecoilConfig.cs
+  - Assets/Scripts/Core/Camera/CaptureScreen.cs
+  - Assets/Scripts/Core/Camera/ColourblindEmulation.cs
+  - Assets/Scripts/Core/Camera/DrunkCamera.cs
+  - Assets/Scripts/Core/Camera/GreyscaleCamera.cs
+  - Assets/Scripts/Core/Camera/InteractCamera.cs
+  - Assets/Scripts/Core/Camera/NightVisionCamera.cs
+  - Assets/Scripts/Core/Camera/ParallaxController.cs
+  - Assets/Scripts/Core/Camera/ParallaxStars.cs
+  - Assets/Scripts/Core/Camera/UseMainCameraSize.cs
+  - Assets/Scripts/Core/Camera/UVFollow.cs
+  - Assets/Scripts/Core/Characters/AttributeBehaviors/GiveAccessToID.cs
+  - Assets/Scripts/Core/Characters/AttributeBehaviors/SetupPlayerInventory.cs
+  - Assets/Scripts/Core/Characters/AttributeBehaviors/SpawnAtJobType.cs
+  - Assets/Scripts/Core/Characters/CharacterAttributeBehavior.cs
+  - Assets/Scripts/Core/Characters/CharacterAttributes.cs
+  - Assets/Scripts/Core/Chat/Chat.cs
+  - Assets/Scripts/Core/Chat/Chat.Process.cs
+  - Assets/Scripts/Core/Chat/ChatContext/ChatInputContext.cs
+  - Assets/Scripts/Core/Chat/ChatContext/IChatInputContext.cs
+  - Assets/Scripts/Core/Chat/ChatEntry.cs
+  - Assets/Scripts/Core/Chat/ChatEntryPool.cs
+  - Assets/Scripts/Core/Chat/ChatEvent.cs
+  - Assets/Scripts/Core/Chat/ChatFilter.cs
+  - Assets/Scripts/Core/Chat/ChatHelpWindowUI.cs
+  - Assets/Scripts/Core/Chat/ChatHyperlinks.cs
+  - Assets/Scripts/Core/Chat/ChatPlayerNameTooltip.cs
+  - Assets/Scripts/Core/Chat/ChatRelay.cs
+  - Assets/Scripts/Core/Chat/ChatScrollRect/ChatEntryData.cs
+  - Assets/Scripts/Core/Chat/ChatScrollRect/ChatEntryView.cs
+  - Assets/Scripts/Core/Chat/ChatScrollRect/ChatScroll.cs
+  - Assets/Scripts/Core/Chat/ChatTypingSync.cs
+  - Assets/Scripts/Core/Chat/ChatUI.cs
+  - Assets/Scripts/Core/Chat/DiscordWebhookMessage.cs
+  - Assets/Scripts/Core/Chat/EmoteActionManager.cs
+  - Assets/Scripts/Core/Chat/LanguageEntry.cs
+  - Assets/Scripts/Core/Chat/LanguageScreen.cs
+  - Assets/Scripts/Core/Chat/ParsedChatInput.cs
+  - Assets/Scripts/Core/Cooldowns/CommonCooldowns.cs
+  - Assets/Scripts/Core/Cooldowns/Cooldown.cs
+  - Assets/Scripts/Core/Cooldowns/CooldownID.cs
+  - Assets/Scripts/Core/Cooldowns/Cooldowns.cs
+  - Assets/Scripts/Core/Cooldowns/HasCooldowns.cs
+  - Assets/Scripts/Core/Cooldowns/ICooldown.cs
+  - Assets/Scripts/Core/Database/ServerData.CreateAccount.cs
+  - Assets/Scripts/Core/Database/ServerData.cs
+  - Assets/Scripts/Core/Database/ServerData.ServerStatus.cs
+  - Assets/Scripts/Core/Database/ServerData.UpdateChar.cs
+  - Assets/Scripts/Core/Database/ServerData.ValidateUser.cs
+  - Assets/Scripts/Core/Editor/Addressable editor/AddressablePicker.cs
+  - Assets/Scripts/Core/Editor/Addressable editor/AddressableReferencePropertyDrawer.cs
+  - Assets/Scripts/Core/Editor/Addressable editor/AddressablesDevBuildSetup.cs
+  - Assets/Scripts/Core/Editor/Addressable editor/CatalogueData.cs
+  - Assets/Scripts/Core/Editor/Addressable editor/StringSearchList.cs
+  - Assets/Scripts/Core/Editor/BuildServer.cs
+  - Assets/Scripts/Core/Editor/CheckmarkMenuItems/CheckmarkMenuItems.cs
+  - Assets/Scripts/Core/Editor/ClearancePropertyDrawer.cs
+  - Assets/Scripts/Core/Editor/CsprojAssetPostprocessor.cs
+  - Assets/Scripts/Core/Editor/Doors/AirlockMigrationTool.cs
+  - Assets/Scripts/Core/Editor/Doors/DoorAnimatorEditor.cs
+  - Assets/Scripts/Core/Editor/Editor.asmdef
+  - Assets/Scripts/Core/Editor/EditorDrawPreview.cs
+  - Assets/Scripts/Core/Editor/GeneratePlantSOs.cs
+  - Assets/Scripts/Core/Editor/Inspector/RotatableInspector.cs
+  - Assets/Scripts/Core/Editor/Inspector/SlaveDeviceInspector.cs
+  - Assets/Scripts/Core/Editor/Mac Ignorance Fix/SetUpENetMac.cs
+  - Assets/Scripts/Core/Editor/Matrix/MatrixCheckEditor.cs
+  - Assets/Scripts/Core/Editor/Matrix/MatrixNudgeEditor.cs
+  - Assets/Scripts/Core/Editor/Matrix/Utils/GizmoUtils.cs
+  - Assets/Scripts/Core/Editor/Matrix/Views/BasicView.cs
+  - Assets/Scripts/Core/Editor/Matrix/Views/MetaDataView.cs
+  - Assets/Scripts/Core/Editor/Matrix/Views/MetaTileMapView.cs
+  - Assets/Scripts/Core/Editor/MiscFunctions_RRT.cs
+  - Assets/Scripts/Core/Editor/PlayerPrefsEditor.cs
+  - Assets/Scripts/Core/Editor/PostBuildActions.cs
+  - Assets/Scripts/Core/Editor/PreBuildActions.cs
+  - Assets/Scripts/Core/Editor/Prefab/CreateRequiredComponentWindow.cs
+  - Assets/Scripts/Core/Editor/ProcessExtension.cs
+  - Assets/Scripts/Core/Editor/PropertyDrawers/HealthSystemBasePropertyDrawer.cs
+  - Assets/Scripts/Core/Editor/PropertyDrawers/PropertyDrawers.cs
+  - Assets/Scripts/Core/Editor/QuickBuild.cs
+  - Assets/Scripts/Core/Editor/SceneAutoLoader.cs
+  - Assets/Scripts/Core/Editor/SetupsSpriteCatalogue.cs
+  - Assets/Scripts/Core/Editor/StopRandomMidGameCompile_import.cs
+  - Assets/Scripts/Core/Editor/ThemeHandlerEditor.cs
+  - Assets/Scripts/Core/Editor/Tools/AddressableToGameObjectTree.cs
+  - Assets/Scripts/Core/Editor/Tools/FindAddressableAudioSource.cs
+  - Assets/Scripts/Core/Editor/Tools/GameObjectToPrefab.cs
+  - Assets/Scripts/Core/Editor/Tools/Mapping/ObjectNameValidator.cs
+  - Assets/Scripts/Core/Editor/Tools/MigrateClothingSOs.cs
+  - Assets/Scripts/Core/Editor/Tools/PrefabToAddressable.cs
+  - Assets/Scripts/Core/Editor/Tools/ReplaceWithPrefab.cs
+  - Assets/Scripts/Core/Editor/Tools/SearchandDestroy.cs
+  - Assets/Scripts/Core/Editor/Tools/Tools.cs
+  - Assets/Scripts/Core/Editor/Tools/WorldSpaceCamera.cs
+  - Assets/Scripts/Core/Factories/EffectsFactory.cs
+  - Assets/Scripts/Core/Factories/NPCFactory.cs
+  - Assets/Scripts/Core/Highlight/Highlight.cs
+  - Assets/Scripts/Core/Highlight/IHighlightable.cs
+  - Assets/Scripts/Core/Highlight/LightHighlight.cs
+  - Assets/Scripts/Core/Initialisation/LoadManager.cs
+  - Assets/Scripts/Core/Input System/AlienMouseInputController.cs
+  - Assets/Scripts/Core/Input System/BlobMouseInputController.cs
+  - Assets/Scripts/Core/Input System/CablePlacementVisualisation.cs
+  - Assets/Scripts/Core/Input System/CommonInput.cs
+  - Assets/Scripts/Core/Input System/HandActivateSpawnItem.cs
+  - Assets/Scripts/Core/Input System/InputManagerWrapper.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/ActionTarget.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/DefaultWillInteract.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/Interactions/AiActivate.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/Interactions/AimApply.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/Interactions/ConnectionApply.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/Interactions/ContextMenuApply.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/Interactions/HandActivate.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/Interactions/HandApply.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/Interactions/Internal/BodyPartTargetedInteraction.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/Interactions/Internal/Interaction.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/Interactions/Internal/TargetedInteraction.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/Interactions/InventoryApply.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/Interactions/MouseDrop.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/Interactions/PositionalHandApply.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/InteractionUtils.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/Interfaces/IBaseInteractable.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/Interfaces/ICheckable.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/Interfaces/ICheckedInteractable.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/Interfaces/IClientInteractable.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/Interfaces/IExaminable.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/Interfaces/IInteractable.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/Interfaces/IPredictedCheckedInteractable.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/Interfaces/IPredictedInteractable.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/MouseDraggable.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/NetworkSide.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/ReachRange.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/ServerValidations.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/TileInteraction/ChangeTileWhenItemUsed.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/TileInteraction/DamageTile.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/TileInteraction/DeconstructDisposalPipe.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/TileInteraction/DeconstructWhenItemUsed.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/TileInteraction/ElectricalCableDeconstruction.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/TileInteraction/ElectrifiedGrilleInteraction.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/TileInteraction/LavaStepInteraction.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/TileInteraction/PipeDeconstruction.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/TileInteraction/TableDeconstruction.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/TileInteraction/TableInteraction.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/TileInteraction/TableInteractionClimb.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/TileInteraction/TileApply.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/TileInteraction/TileInteraction.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/TileInteraction/TileMouseDrop.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/TileInteraction/TileStepInteraction.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/TileInteraction/WindowInteract.cs
+  - Assets/Scripts/Core/Input System/InteractionV2/Validations.cs
+  - Assets/Scripts/Core/Input System/KeybindManager.cs
+  - Assets/Scripts/Core/Input System/KeyboardInputManager.cs
+  - Assets/Scripts/Core/Input System/MouseInputController.cs
+  - Assets/Scripts/Core/Input System/MouseUtils.cs
+  - Assets/Scripts/Core/Input System/ObjectTrigger.cs
+  - Assets/Scripts/Core/Input System/RightClickOption.cs
+  - Assets/Scripts/Core/Input System/RightClickOptionOrder.cs
+  - Assets/Scripts/Core/Input System/SpriteClickRegion.cs
+  - Assets/Scripts/Core/Input System/WallMountHandApplySpawn.cs
+  - Assets/Scripts/Core/Lifecycle/CleanupUtil.cs
+  - Assets/Scripts/Core/Lifecycle/ClientDespawnInfo.cs
+  - Assets/Scripts/Core/Lifecycle/ClientSpawnInfo.cs
+  - Assets/Scripts/Core/Lifecycle/Despawn.cs
+  - Assets/Scripts/Core/Lifecycle/DespawnInfo.cs
+  - Assets/Scripts/Core/Lifecycle/DespawnResult.cs
+  - Assets/Scripts/Core/Lifecycle/IServerDespawn.cs
+  - Assets/Scripts/Core/Lifecycle/IServerLifecycle.cs
+  - Assets/Scripts/Core/Lifecycle/IServerSpawn.cs
+  - Assets/Scripts/Core/Lifecycle/ObjectPool.cs
+  - Assets/Scripts/Core/Lifecycle/PlayerSpawn.cs
+  - Assets/Scripts/Core/Lifecycle/PlayerSpawnRequest.cs
+  - Assets/Scripts/Core/Lifecycle/PoolConfig.cs
+  - Assets/Scripts/Core/Lifecycle/Spawn.cs
+  - Assets/Scripts/Core/Lifecycle/Spawnable/IClientSpawnable.cs
+  - Assets/Scripts/Core/Lifecycle/Spawnable/ISpawnable.cs
+  - Assets/Scripts/Core/Lifecycle/Spawnable/SpawnableClone.cs
+  - Assets/Scripts/Core/Lifecycle/Spawnable/SpawnableList.cs
+  - Assets/Scripts/Core/Lifecycle/Spawnable/SpawnablePrefab.cs
+  - Assets/Scripts/Core/Lifecycle/Spawnable/SpawnableResult.cs
+  - Assets/Scripts/Core/Lifecycle/Spawnable/SpawnableUtils.cs
+  - Assets/Scripts/Core/Lifecycle/SpawnDestination.cs
+  - Assets/Scripts/Core/Lifecycle/SpawnInfo.cs
+  - Assets/Scripts/Core/Lifecycle/SpawnResult.cs
+  - Assets/Scripts/Core/Lifecycle/SpawnSafeThread.cs
+  - Assets/Scripts/Core/Lighting/AmbientTile.cs
+  - Assets/Scripts/Core/Lighting/ElectricalArcGlow.cs
+  - Assets/Scripts/Core/Lighting/EmergencyLightAnimator.cs
+  - Assets/Scripts/Core/Lighting/HighlightScan.cs
+  - Assets/Scripts/Core/Lighting/HighlightScanManager.cs
+  - Assets/Scripts/Core/Lighting/LightGlitch.cs
+  - Assets/Scripts/Core/Lighting/LightingManager.cs
+  - Assets/Scripts/Core/Lighting/LightingRoom.cs
+  - Assets/Scripts/Core/Lighting/LightingSourceManager.cs
+  - Assets/Scripts/Core/Lighting/LightingTileManager.cs
+  - Assets/Scripts/Core/Lighting/LightPulser.cs
+  - Assets/Scripts/Core/Lighting/LightSource.cs
+  - Assets/Scripts/Core/Lighting/LightTile.cs
+  - Assets/Scripts/Core/Lighting System/BackgroundRenderer.cs
+  - Assets/Scripts/Core/Lighting System/CameraShaker.cs
+  - Assets/Scripts/Core/Lighting System/DisposableProfiler.cs
+  - Assets/Scripts/Core/Lighting System/Editor/PixelPerfectRTParameterEditor.cs
+  - Assets/Scripts/Core/Lighting System/ITextureRenderer.cs
+  - Assets/Scripts/Core/Lighting System/LayerMaskExtensions.cs
+  - Assets/Scripts/Core/Lighting System/Light2D/CustomSprite.cs
+  - Assets/Scripts/Core/Lighting System/Light2D/LightSprite.cs
+  - Assets/Scripts/Core/Lighting System/Light2D/LightSpriteBuilder.cs
+  - Assets/Scripts/Core/Lighting System/Light2D/NetworkLight.cs
+  - Assets/Scripts/Core/Lighting System/Light2D/Point2.cs
+  - Assets/Scripts/Core/Lighting System/Light2D/Util.cs
+  - Assets/Scripts/Core/Lighting System/LightEmissionBehaviour.cs
+  - Assets/Scripts/Core/Lighting System/Lighting.asmdef
+  - Assets/Scripts/Core/Lighting System/LightingSystem.cs
+  - Assets/Scripts/Core/Lighting System/LightMaskRenderer.cs
+  - Assets/Scripts/Core/Lighting System/MaterialContainer.cs
+  - Assets/Scripts/Core/Lighting System/OcclusionMaskRenderer.cs
+  - Assets/Scripts/Core/Lighting System/OperationParameters.cs
+  - Assets/Scripts/Core/Lighting System/PixelPerfectRTP.cs
+  - Assets/Scripts/Core/Lighting System/PixelPerfectRTParameter.cs
+  - Assets/Scripts/Core/Lighting System/PostProcessingStack.cs
+  - Assets/Scripts/Core/Lighting System/RenderFrameTimer.cs
+  - Assets/Scripts/Core/Lighting System/RenderSettings.cs
+  - Assets/Scripts/Core/Lighting System/ReSamplePower.cs
+  - Assets/Scripts/Core/Lighting System/TextureDataRequest.cs
+  - Assets/Scripts/Core/Networking/Authenticator.cs
+  - Assets/Scripts/Core/Networking/CustomInterestManagement.cs
+  - Assets/Scripts/Core/Networking/CustomNetSceneChecker.cs
+  - Assets/Scripts/Core/Networking/NetworkManagerExtensions.cs
+  - Assets/Scripts/Core/Networking/NetworkUtils.cs
+  - Assets/Scripts/Core/Networking/SpawnListMonitor.cs
+  - Assets/Scripts/Core/Sound/AmbientSoundArea.cs
+  - Assets/Scripts/Core/Sound/SoundSpawn.cs
+  - Assets/Scripts/Core/Sound/SunVox.cs
+  - Assets/Scripts/Core/Sound/Synth.cs
+  - Assets/Scripts/Core/Spawners/NPCSpawner.cs
+  - Assets/Scripts/Core/Sprite Handler/ItemsSprites.cs
+  - Assets/Scripts/Core/Sprite Handler/LightSpriteHandler.cs
+  - Assets/Scripts/Core/Sprite Handler/SpriteCatalogue.cs
+  - Assets/Scripts/Core/Sprite Handler/SpriteColorSync.cs
+  - Assets/Scripts/Core/Sprite Handler/SpriteData.cs
+  - Assets/Scripts/Core/Sprite Handler/SpriteDataSO.cs
+  - Assets/Scripts/Core/Sprite Handler/SpriteFunctions.cs
+  - Assets/Scripts/Core/Sprite Handler/SpriteHandler.cs
+  - Assets/Scripts/Core/Sprite Handler/SpriteHandlerEditor.cs
+  - Assets/Scripts/Core/Sprite Handler/SpriteHandlerManager.cs
+  - Assets/Scripts/Core/Stateful/Stateful.cs
+  - Assets/Scripts/Core/Stateful/StatefulState.cs
+  - Assets/Scripts/Core/Threading/ThreadBehaviour.cs
+  - Assets/Scripts/Core/Transform/NudgeInfo.cs
+  - Assets/Scripts/Core/Transform/Orientation.cs
+  - Assets/Scripts/Core/Transform/RotateAroundTransform.cs
+  - Assets/Scripts/Core/Transform/RotationOffset.cs
+  - Assets/Scripts/Core/Transform/ScaleSync.cs
+  - Assets/Scripts/Core/Transform/ThrowInfo.cs
+  - Assets/Scripts/Core/Transform/TransformGizmoDrawer.cs
+  - Assets/Scripts/Core/Transform/TransformState.cs
+  - Assets/Scripts/Core/TTS/MaryTTS.cs
+  - Assets/Scripts/Core/TTS/WavUtility.cs
+  - Assets/Scripts/Core/UniversalObjectPhysics.cs
+  - Assets/Scripts/Core/Utils/CommonComponents.cs
+  - Assets/Scripts/Core/Utils/IClientSynchronisedEffect.cs
+  - Assets/Scripts/Core/Utils/ItemInOutMovedPlayer.cs
+  - Assets/Scripts/Core/Utils/MathUtils.cs
+  - Assets/Scripts/Core/Utils/Utilities.cs
+  - Assets/Scripts/Core/Utils/ValidationUtils.cs
+  - Assets/Scripts/Core/Video/VideoPlayerController.cs
+  - Assets/Scripts/Core/Video/VideoTexture.renderTexture
+  - Assets/Scripts/Detective/AppliedDetails.cs
+  - Assets/Scripts/Detective/DetectiveScanner.cs
+  - Assets/Scripts/EditorButInAssetsAssembly/ImnterfaceMultitoolGUI.cs
+  - Assets/Scripts/EditorButInAssetsAssembly/MasterDeviceInspector.cs
+  - Assets/Scripts/EditorButInAssetsAssembly/SubscriptionControllerEditor.cs
+  - Assets/Scripts/Effects/AnimateIcon.cs
+  - Assets/Scripts/Effects/CleanupParticleSystem.cs
+  - Assets/Scripts/Effects/CustomEffectBehaviour.cs
+  - Assets/Scripts/Effects/Effect.cs
+  - Assets/Scripts/Effects/EffectShape/BombermanEffectShape.cs
+  - Assets/Scripts/Effects/EffectShape/CircleEffectShape.cs
+  - Assets/Scripts/Effects/EffectShape/DiamondEffectShape.cs
+  - Assets/Scripts/Effects/EffectShape/EffectShape.cs
+  - Assets/Scripts/Effects/EffectShape/OutlineSquareEffectShape.cs
+  - Assets/Scripts/Effects/EffectShape/SquareEffectShape.cs
+  - Assets/Scripts/Effects/Fire/BurningOverlay.cs
+  - Assets/Scripts/Effects/FloatingEffect.cs
+  - Assets/Scripts/Effects/FloorEffect/FloorPrintEffect.cs
+  - Assets/Scripts/Effects/FloorEffect/LeaveFootprints.cs
+  - Assets/Scripts/Effects/FloorEffect/MakesFootPrints.cs
+  - Assets/Scripts/Effects/LTEffect.cs
+  - Assets/Scripts/Effects/PointEffect.cs
+  - Assets/Scripts/Effects/RotateEffect.cs
+  - Assets/Scripts/Effects/Shake.cs
+  - Assets/Scripts/Effects/ShroudTile.cs
+  - Assets/Scripts/Effects/SparkEffect.cs
+  - Assets/Scripts/Effects/TimedClientEffect.cs
+  - Assets/Scripts/Effects/TimedEffect.cs
+  - Assets/Scripts/Health/BloodHealth/DNABloodTypeGen.cs
+  - Assets/Scripts/Health/BodyParts/BodyPartBehaviour.cs
+  - Assets/Scripts/Health/CPRable.cs
+  - Assets/Scripts/Health/Electrocution.cs
+  - Assets/Scripts/Health/FireExposure.cs
+  - Assets/Scripts/Health/IFireExposable.cs
+  - Assets/Scripts/Health/IHealth.cs
+  - Assets/Scripts/Health/Living/LivingHealthBehaviour.cs
+  - Assets/Scripts/Health/Living/SimpleAnimal/SimpleAnimal.cs
+  - Assets/Scripts/Health/Objects/Armor.cs
+  - Assets/Scripts/Health/Objects/DamageWeaknesses.cs
+  - Assets/Scripts/Health/Objects/Integrity.cs
+  - Assets/Scripts/Health/Objects/Resistances.cs
+  - Assets/Scripts/Health/Sickness/Contagion.cs
+  - Assets/Scripts/Health/Sickness/CustomSicknesses/ParanoiaSickness.cs
+  - Assets/Scripts/Health/Sickness/CustomSicknesses/SicknessHealthDamagerBase.cs
+  - Assets/Scripts/Health/Sickness/MobSickness.cs
+  - Assets/Scripts/Health/Sickness/Sickness.cs
+  - Assets/Scripts/Health/Sickness/SicknessAffliction.cs
+  - Assets/Scripts/Health/Sickness/SicknessManager.cs
+  - Assets/Scripts/HealthV2/HealthEnums.cs
+  - Assets/Scripts/HealthV2/IFullyHealable.cs
+  - Assets/Scripts/HealthV2/IGib.cs
+  - Assets/Scripts/HealthV2/ISuicide.cs
+  - Assets/Scripts/HealthV2/Living/BodyPartFunctionality.cs
+  - Assets/Scripts/HealthV2/Living/BodyPartMutations.cs
+  - Assets/Scripts/HealthV2/Living/BodyParts/BodyPart.cs
+  - Assets/Scripts/HealthV2/Living/BodyParts/BodyPartModifiers.cs
+  - Assets/Scripts/HealthV2/Living/BodyParts/BodyPartSprites.cs
+  - Assets/Scripts/HealthV2/Living/BodyParts/BodyPartSurgery.cs
+  - Assets/Scripts/HealthV2/Living/BodyParts/RootBodyPartController.cs
+  - Assets/Scripts/HealthV2/Living/BodyParts/SpriteSOnOrder.cs
+  - Assets/Scripts/HealthV2/Living/CirculatorySystem/BloodTypes/BloodType.cs
+  - Assets/Scripts/HealthV2/Living/CirculatorySystem/BodyPartBlood.cs
+  - Assets/Scripts/HealthV2/Living/CirculatorySystem/CirculatoryInfo/CirculatoryInfo.cs
+  - Assets/Scripts/HealthV2/Living/CirculatorySystem/CirculatorySystemBase.cs
+  - Assets/Scripts/HealthV2/Living/CirculatorySystem/IAreaReactionBase.cs
+  - Assets/Scripts/HealthV2/Living/CirculatorySystem/Toxins/ToxinBase.cs
+  - Assets/Scripts/HealthV2/Living/Damage/BodyPartDamage.cs
+  - Assets/Scripts/HealthV2/Living/Damage/Trauma/BloodSplater.cs
+  - Assets/Scripts/HealthV2/Living/Damage/Trauma/BodyPartTrauma.cs
+  - Assets/Scripts/HealthV2/Living/Damage/Trauma/CreatureTraumaManager.cs
+  - Assets/Scripts/HealthV2/Living/Damage/Trauma/TraumaLogic.cs
+  - Assets/Scripts/HealthV2/Living/Damage/Trauma/TraumaTypes/TraumaBlunt.cs
+  - Assets/Scripts/HealthV2/Living/Damage/Trauma/TraumaTypes/TraumaBombExplosionHumanoid.cs
+  - Assets/Scripts/HealthV2/Living/Damage/Trauma/TraumaTypes/TraumaBurning.cs
+  - Assets/Scripts/HealthV2/Living/Damage/Trauma/TraumaTypes/TraumaPierceHumanoid.cs
+  - Assets/Scripts/HealthV2/Living/Damage/Trauma/TraumaTypes/TraumaSlashHumanoid.cs
+  - Assets/Scripts/HealthV2/Living/DamageInfo.cs
+  - Assets/Scripts/HealthV2/Living/HealthStateController.cs
+  - Assets/Scripts/HealthV2/Living/LivingHealthMasterBase.cs
+  - Assets/Scripts/HealthV2/Living/MedicalChemistry/BodyEffect.cs
+  - Assets/Scripts/HealthV2/Living/MedicalChemistry/BodyHealthEffect.cs
+  - Assets/Scripts/HealthV2/Living/MedicalChemistry/BodyHealthEmoteEffect.cs
+  - Assets/Scripts/HealthV2/Living/MedicalChemistry/ExternalBodyHealthEffect.cs
+  - Assets/Scripts/HealthV2/Living/MedicalChemistry/MetabolismReaction.cs
+  - Assets/Scripts/HealthV2/Living/Metabolism/MetabolismSystemV2.cs
+  - Assets/Scripts/HealthV2/Living/Mutations/BigStomachMutation.cs
+  - Assets/Scripts/HealthV2/Living/Mutations/Bones/Anemia.cs
+  - Assets/Scripts/HealthV2/Living/Mutations/Bones/BigBoned.cs
+  - Assets/Scripts/HealthV2/Living/Mutations/Bones/Polycythemia.cs
+  - Assets/Scripts/HealthV2/Living/Mutations/Brain/AlcoholEffectMutation.cs
+  - Assets/Scripts/HealthV2/Living/Mutations/Brain/MutationTelekinesis.cs
+  - Assets/Scripts/HealthV2/Living/Mutations/Brain/SpeechMutation.cs
+  - Assets/Scripts/HealthV2/Living/Mutations/Ears/Deafness.cs
+  - Assets/Scripts/HealthV2/Living/Mutations/Eyes/BlindnessMutation.cs
+  - Assets/Scripts/HealthV2/Living/Mutations/Eyes/BlurryVisionMutation.cs
+  - Assets/Scripts/HealthV2/Living/Mutations/Eyes/ColourblindMutation.cs
+  - Assets/Scripts/HealthV2/Living/Mutations/Eyes/XRayVision.cs
+  - Assets/Scripts/HealthV2/Living/Mutations/LegsAndArms/StrongMuscles.cs
+  - Assets/Scripts/HealthV2/Living/Mutations/LegsAndArms/WeakMuscles.cs
+  - Assets/Scripts/HealthV2/Living/Mutations/Metabolism/AnaerobicMetabolism.cs
+  - Assets/Scripts/HealthV2/Living/Mutations/Metabolism/HeightenedChemicalMetabolism.cs
+  - Assets/Scripts/HealthV2/Living/Mutations/Metabolism/Regeneration.cs
+  - Assets/Scripts/HealthV2/Living/Mutations/Metabolism/ToxicResistance.cs
+  - Assets/Scripts/HealthV2/Living/Mutations/Speech/Mute.cs
+  - Assets/Scripts/HealthV2/Living/Mutations/Surface/FireEffect.cs
+  - Assets/Scripts/HealthV2/Living/Mutations/Surface/PressureEffect.cs
+  - Assets/Scripts/HealthV2/Living/Mutations/Surface/ThermalEffect.cs
+  - Assets/Scripts/HealthV2/Living/MutationsSO.cs
+  - Assets/Scripts/HealthV2/Living/PlayerHealthV2.cs
+  - Assets/Scripts/HealthV2/Living/PolymorphicSystems/Bodypart/BodyPartComponentBase.cs
+  - Assets/Scripts/HealthV2/Living/PolymorphicSystems/Bodypart/HungerComponent.cs
+  - Assets/Scripts/HealthV2/Living/PolymorphicSystems/Bodypart/MetabolismComponent.cs
+  - Assets/Scripts/HealthV2/Living/PolymorphicSystems/Bodypart/NaturalChemicalReleaseComponent.cs
+  - Assets/Scripts/HealthV2/Living/PolymorphicSystems/Bodypart/ReagentCirculatedComponent.cs
+  - Assets/Scripts/HealthV2/Living/PolymorphicSystems/Bodypart/SaturationComponent.cs
+  - Assets/Scripts/HealthV2/Living/PolymorphicSystems/ChemicalMetabolismSystem.cs
+  - Assets/Scripts/HealthV2/Living/PolymorphicSystems/HealthSystemBase.cs
+  - Assets/Scripts/HealthV2/Living/PolymorphicSystems/HungerSystem.cs
+  - Assets/Scripts/HealthV2/Living/PolymorphicSystems/NaturalChemicalReleaseSystem.cs
+  - Assets/Scripts/HealthV2/Living/PolymorphicSystems/ReagentPoolSystem.cs
+  - Assets/Scripts/HealthV2/Living/PolymorphicSystems/ReagentSaturationSystem.cs
+  - Assets/Scripts/HealthV2/Living/Races/CatPerson/SpriteCatEars.cs
+  - Assets/Scripts/HealthV2/Living/Respiration/RespiratorySystemBase.cs
+  - Assets/Scripts/HealthV2/Living/Surgery/Dissectible.cs
+  - Assets/Scripts/HealthV2/Living/Surgery/Procedures/AffectHealthProcedure.cs
+  - Assets/Scripts/HealthV2/Living/Surgery/Procedures/CloseProcedure.cs
+  - Assets/Scripts/HealthV2/Living/Surgery/Procedures/ImplantProcedure.cs
+  - Assets/Scripts/HealthV2/Living/Surgery/Procedures/OpenProcedure.cs
+  - Assets/Scripts/HealthV2/Living/Surgery/Procedures/RemovalProcedure.cs
+  - Assets/Scripts/HealthV2/Living/Surgery/RequestBodyParts.cs
+  - Assets/Scripts/HealthV2/Living/Surgery/RequestSurgery.cs
+  - Assets/Scripts/HealthV2/Living/Surgery/SendSurgeryBodyParts.cs
+  - Assets/Scripts/HealthV2/Living/Surgery/SurgeryDialogue.cs
+  - Assets/Scripts/HealthV2/Living/Surgery/SurgeryProcedureBase.cs
+  - Assets/Scripts/HealthV2/Living/Surgery/SurgeryProcedureBaseSingleton.cs
+  - Assets/Scripts/HealthV2/Living/Surgery/SurgicalProcessItem.cs
+  - Assets/Scripts/Items/AddBackToStorageOnDropOrThrow.cs
+  - Assets/Scripts/Items/Attributes.cs
+  - Assets/Scripts/Items/Botany/CottonBundle.cs
+  - Assets/Scripts/Items/Botany/Fruit/NoFruit.cs
+  - Assets/Scripts/Items/Botany/SeedPacket.cs
+  - Assets/Scripts/Items/Bureaucracy/DroneLanguageBook.cs
+  - Assets/Scripts/Items/Bureaucracy/HandLabeler.cs
+  - Assets/Scripts/Items/Bureaucracy/Internal/Printer.cs
+  - Assets/Scripts/Items/Bureaucracy/Internal/PrinterSerializer.cs
+  - Assets/Scripts/Items/Bureaucracy/Internal/Scanner.cs
+  - Assets/Scripts/Items/Bureaucracy/Internal/ScannerSerializer.cs
+  - Assets/Scripts/Items/Bureaucracy/LanguageBook.cs
+  - Assets/Scripts/Items/Bureaucracy/Megaphone.cs
+  - Assets/Scripts/Items/Bureaucracy/PaperBin.cs
+  - Assets/Scripts/Items/Bureaucracy/Photocopier.cs
+  - Assets/Scripts/Items/Bureaucracy/RandomBookCover.cs
+  - Assets/Scripts/Items/Bureaucracy/SimpleBook.cs
+  - Assets/Scripts/Items/Bureaucracy/Toner.cs
+  - Assets/Scripts/Items/Cards/Emag.cs
+  - Assets/Scripts/Items/Cargo/ExportScanner.cs
+  - Assets/Scripts/Items/Cargo/MiningScanner.cs
+  - Assets/Scripts/Items/Cargo/NoteAttachable.cs
+  - Assets/Scripts/Items/Cargo/Wrapping/WrappableBase.cs
+  - Assets/Scripts/Items/Cargo/Wrapping/WrappableItem.cs
+  - Assets/Scripts/Items/Cargo/Wrapping/WrappableObject.cs
+  - Assets/Scripts/Items/Cargo/Wrapping/WrappedBase.cs
+  - Assets/Scripts/Items/Cargo/Wrapping/WrappedItem.cs
+  - Assets/Scripts/Items/Cargo/Wrapping/WrappedObject.cs
+  - Assets/Scripts/Items/Cargo/Wrapping/WrappingPaper.cs
+  - Assets/Scripts/Items/ClothingItem.cs
+  - Assets/Scripts/Items/Devices/AccessRemote.cs
+  - Assets/Scripts/Items/Devices/ButtonSignalEmitter.cs
+  - Assets/Scripts/Items/Devices/ButtonSignalReceiver.cs
+  - Assets/Scripts/Items/Devices/ChemicalGrenade.cs
+  - Assets/Scripts/Items/Devices/RemoteSignaller.cs
+  - Assets/Scripts/Items/Dice/FlipCoin.cs
+  - Assets/Scripts/Items/Dice/Roll8Ball.cs
+  - Assets/Scripts/Items/Dice/RollD00.cs
+  - Assets/Scripts/Items/Dice/RollD20.cs
+  - Assets/Scripts/Items/Dice/RollDie.cs
+  - Assets/Scripts/Items/Dice/RollFudgeDie.cs
+  - Assets/Scripts/Items/Dice/RollMultidimensionalDie.cs
+  - Assets/Scripts/Items/Dice/RollSpaceCube.cs
+  - Assets/Scripts/Items/Dice/RollSpecialDie.cs
+  - Assets/Scripts/Items/EncryptionKey.cs
+  - Assets/Scripts/Items/Engineering/CableCoil.cs
+  - Assets/Scripts/Items/Engineering/FireExtinguisher.cs
+  - Assets/Scripts/Items/Engineering/Reactor/ControlRod.cs
+  - Assets/Scripts/Items/Engineering/Reactor/EngineStarter.cs
+  - Assets/Scripts/Items/Engineering/Reactor/FuelRod.cs
+  - Assets/Scripts/Items/Engineering/StockTier.cs
+  - Assets/Scripts/Items/Food/Bread.cs
+  - Assets/Scripts/Items/Food/Cigarette.cs
+  - Assets/Scripts/Items/Food/Consumable.cs
+  - Assets/Scripts/Items/Food/ConsumableTextUtils.cs
+  - Assets/Scripts/Items/Food/Drink.cs
+  - Assets/Scripts/Items/Food/DrinkableContainer.cs
+  - Assets/Scripts/Items/Food/Edible.cs
+  - Assets/Scripts/Items/Food/HealableJobEdible.cs
+  - Assets/Scripts/Items/Food/LeanDrink.cs
+  - Assets/Scripts/Items/Food/Lighter.cs
+  - Assets/Scripts/Items/Food/NotHandEdible.cs
+  - Assets/Scripts/Items/Food/PillStackRemover.cs
+  - Assets/Scripts/Items/Food/PillToxHeale.cs
+  - Assets/Scripts/Items/Food/Torch.cs
+  - Assets/Scripts/Items/Food/WishSoup.cs
+  - Assets/Scripts/Items/Food/XenomorphFood.cs
+  - Assets/Scripts/Items/Glass/GlassShard.cs
+  - Assets/Scripts/Items/Glass/IceShard.cs
+  - Assets/Scripts/Items/HandPreparable.cs
+  - Assets/Scripts/Items/Headset.cs
+  - Assets/Scripts/Items/ICustomDamageCalculation.cs
+  - Assets/Scripts/Items/IDCard.cs
+  - Assets/Scripts/Items/Implants/Limb.cs
+  - Assets/Scripts/Items/Implants/Limbs/HumanoidArm.cs
+  - Assets/Scripts/Items/Implants/Limbs/HumanoidLeg.cs
+  - Assets/Scripts/Items/Implants/Organs/BodyFat.cs
+  - Assets/Scripts/Items/Implants/Organs/BodyPartUISlots.cs
+  - Assets/Scripts/Items/Implants/Organs/Bones.cs
+  - Assets/Scripts/Items/Implants/Organs/Brain.cs
+  - Assets/Scripts/Items/Implants/Organs/DamageSymptoms.cs
+  - Assets/Scripts/Items/Implants/Organs/Ears.cs
+  - Assets/Scripts/Items/Implants/Organs/Eye.cs
+  - Assets/Scripts/Items/Implants/Organs/Heart.cs
+  - Assets/Scripts/Items/Implants/Organs/Kidneys.cs
+  - Assets/Scripts/Items/Implants/Organs/Liver.cs
+  - Assets/Scripts/Items/Implants/Organs/Lungs.cs
+  - Assets/Scripts/Items/Implants/Organs/Stomach.cs
+  - Assets/Scripts/Items/Implants/Organs/Tongue.cs
+  - Assets/Scripts/Items/Implants/Xenomorphs/XenomorphLarvae.cs
+  - Assets/Scripts/Items/Implants/Xenomorphs/XenomorphLungs.cs
+  - Assets/Scripts/Items/ItemAttributesV2.cs
+  - Assets/Scripts/Items/ItemBreakable.cs
+  - Assets/Scripts/Items/Kitchen/Cookable.cs
+  - Assets/Scripts/Items/Kitchen/Dryable.cs
+  - Assets/Scripts/Items/Kitchen/Fermentable.cs
+  - Assets/Scripts/Items/Kitchen/Grindable.cs
+  - Assets/Scripts/Items/Kitchen/Juiceable.cs
+  - Assets/Scripts/Items/Kitchen/Processable.cs
+  - Assets/Scripts/Items/LastTouch.cs
+  - Assets/Scripts/Items/MaterialSheet.cs
+  - Assets/Scripts/Items/Medical/DefibrillatorPaddles.cs
+  - Assets/Scripts/Items/Medical/Gauze.cs
+  - Assets/Scripts/Items/Medical/Genetics/Amber.cs
+  - Assets/Scripts/Items/Medical/Genetics/MutationGrabber.cs
+  - Assets/Scripts/Items/Medical/Genetics/MutationInjector.cs
+  - Assets/Scripts/Items/Medical/HealsTheLiving.cs
+  - Assets/Scripts/Items/Medical/HealthScanner.cs
+  - Assets/Scripts/Items/Medical/Implanter.cs
+  - Assets/Scripts/Items/Medical/ReagentScanner.cs
+  - Assets/Scripts/Items/Medical/RollerBedSpriteChange.cs
+  - Assets/Scripts/Items/ObjectAttributes.cs
+  - Assets/Scripts/Items/Others/AcidPool.cs
+  - Assets/Scripts/Items/Others/AdminHandTeleporter.cs
+  - Assets/Scripts/Items/Others/ArtifactS/ArtifactDataDisk.cs
+  - Assets/Scripts/Items/Others/ArtifactS/Artifacts.Items.asmref
+  - Assets/Scripts/Items/Others/ArtifactS/ArtifactSliver.cs
+  - Assets/Scripts/Items/Others/Candle.cs
+  - Assets/Scripts/Items/Others/ChickenEgg.cs
+  - Assets/Scripts/Items/Others/EmergencyOxygenTank.cs
+  - Assets/Scripts/Items/Others/FlashLight.cs
+  - Assets/Scripts/Items/Others/GSheetToRGSheet.cs
+  - Assets/Scripts/Items/Others/HandTeleporter.cs
+  - Assets/Scripts/Items/Others/HolosignProjector.cs
+  - Assets/Scripts/Items/Others/HolyBook.cs
+  - Assets/Scripts/Items/Others/Horn.cs
+  - Assets/Scripts/Items/Others/InteractablePaper.cs
+  - Assets/Scripts/Items/Others/ItemMagBoots.cs
+  - Assets/Scripts/Items/Others/ItemPinpointer.cs
+  - Assets/Scripts/Items/Others/Jetpack.cs
+  - Assets/Scripts/Items/Others/Knife.cs
+  - Assets/Scripts/Items/Others/LightPreparable.cs
+  - Assets/Scripts/Items/Others/Magical/BookOfSpells.cs
+  - Assets/Scripts/Items/Others/Magical/ContractOfApprenticeship.cs
+  - Assets/Scripts/Items/Others/Magical/Scroll.cs
+  - Assets/Scripts/Items/Others/Magical/ScrollOfTeleportation.cs
+  - Assets/Scripts/Items/Others/Magical/SpellBooks/FireballPunishment.cs
+  - Assets/Scripts/Items/Others/Magical/SpellBooks/ForcewallPunishment.cs
+  - Assets/Scripts/Items/Others/Magical/SpellBooks/InstantSummonsPunishment.cs
+  - Assets/Scripts/Items/Others/Magical/SpellBooks/SpellBook.cs
+  - Assets/Scripts/Items/Others/Magical/SpellBooks/SpellBookPunishment.cs
+  - Assets/Scripts/Items/Others/MixingBowl.cs
+  - Assets/Scripts/Items/Others/NukeDiskScript.cs
+  - Assets/Scripts/Items/Others/NullRod.cs
+  - Assets/Scripts/Items/Others/Paper.cs
+  - Assets/Scripts/Items/Others/Pen.cs
+  - Assets/Scripts/Items/Others/RandomItemPool.cs
+  - Assets/Scripts/Items/Others/RandomItemSpot.cs
+  - Assets/Scripts/Items/Others/Restraint.cs
+  - Assets/Scripts/Items/Others/RodsToMetal.cs
+  - Assets/Scripts/Items/Others/RollingPin.cs
+  - Assets/Scripts/Items/Others/SupermatterSliver.cs
+  - Assets/Scripts/Items/Others/SupermatterSliverContainer.cs
+  - Assets/Scripts/Items/Others/TrackingBeacon.cs
+  - Assets/Scripts/Items/Others/TransformableItem.cs
+  - Assets/Scripts/Items/Others/VendingRestock.cs
+  - Assets/Scripts/Items/PDA/MessageHandler.cs
+  - Assets/Scripts/Items/PDA/NoteUpdateMessage.cs
+  - Assets/Scripts/Items/PDA/PDACartridge.cs
+  - Assets/Scripts/Items/PDA/PDALogic.cs
+  - Assets/Scripts/Items/PDA/PDANotesNetworkHandler.cs
+  - Assets/Scripts/Items/PDA/UplinkPasswordList.cs
+  - Assets/Scripts/Items/Pipes/PipeItem.cs
+  - Assets/Scripts/Items/PlaceableTile.cs
+  - Assets/Scripts/Items/PlaceableTileReplaceBase.cs
+  - Assets/Scripts/Items/PlaceItemAsObject.cs
+  - Assets/Scripts/Items/Renameable.cs
+  - Assets/Scripts/Items/Science/Clothing/BagOfHolding.cs
+  - Assets/Scripts/Items/Science/Clothing/ReactiveArmor.cs
+  - Assets/Scripts/Items/Science/Implants/BreathingTubeImplant.cs
+  - Assets/Scripts/Items/Science/Implants/ReviverImplant.cs
+  - Assets/Scripts/Items/Science/Implants/WeldingShieldImplant.cs
+  - Assets/Scripts/Items/ServiceBell.cs
+  - Assets/Scripts/Items/Stackable.cs
+  - Assets/Scripts/Items/Storage/Lockbox.cs
+  - Assets/Scripts/Items/Storage/PizzaBox.cs
+  - Assets/Scripts/Items/Storage/RackParts.cs
+  - Assets/Scripts/Items/Storage/SatchelBehaviour.cs
+  - Assets/Scripts/Items/Storage/VirtualStorage/HardDriveBase.cs
+  - Assets/Scripts/Items/Storage/VirtualStorage/VirtualData.cs
+  - Assets/Scripts/Items/ThrowableBreakable.cs
+  - Assets/Scripts/Items/Tool/AdvancedLightReplacer.cs
+  - Assets/Scripts/Items/Tool/AirlockPainter.cs
+  - Assets/Scripts/Items/Tool/AtmosphericAnalyser/AtmosphericAnalyser.cs
+  - Assets/Scripts/Items/Tool/AtmosphericAnalyser/DebugAtmosphericAnalyser.cs
+  - Assets/Scripts/Items/Tool/CrayonSprayCan.cs
+  - Assets/Scripts/Items/Tool/DebugMultitool.cs
+  - Assets/Scripts/Items/Tool/EmptyFullSync.cs
+  - Assets/Scripts/Items/Tool/FlasherItem.cs
+  - Assets/Scripts/Items/Tool/GeigerCounter.cs
+  - Assets/Scripts/Items/Tool/Igniter.cs
+  - Assets/Scripts/Items/Tool/Mop.cs
+  - Assets/Scripts/Items/Tool/Multitool/Multitool.cs
+  - Assets/Scripts/Items/Tool/Pickaxe.cs
+  - Assets/Scripts/Items/Tool/QuantumKey.cs
+  - Assets/Scripts/Items/Tool/Screwdriver.cs
+  - Assets/Scripts/Items/Tool/Soap.cs
+  - Assets/Scripts/Items/Tool/SpaceCleaner.cs
+  - Assets/Scripts/Items/Tool/SupermatterTongs.cs
+  - Assets/Scripts/Items/Tool/Syringe.cs
+  - Assets/Scripts/Items/Tool/Tool.cs
+  - Assets/Scripts/Items/Tool/ToolSwapComponent.cs
+  - Assets/Scripts/Items/Tool/ToolUtils.cs
+  - Assets/Scripts/Items/Tool/TRayScanner.cs
+  - Assets/Scripts/Items/Tool/Welder.cs
+  - Assets/Scripts/Items/Traits/BestSlotForTrait.cs
+  - Assets/Scripts/Items/Traits/CommonTraits.cs
+  - Assets/Scripts/Items/Traits/ItemTrait.cs
+  - Assets/Scripts/Items/Traits/ItemTypeToTraitMapping.cs
+  - Assets/Scripts/Items/Weapons/AttachableExplosive.cs
+  - Assets/Scripts/Items/Weapons/BulkyExplosive.cs
+  - Assets/Scripts/Items/Weapons/ElectricalMagazine.cs
+  - Assets/Scripts/Items/Weapons/ExplosionUtils.cs
+  - Assets/Scripts/Items/Weapons/ExplosiveBase.cs
+  - Assets/Scripts/Items/Weapons/FireLemon.cs
+  - Assets/Scripts/Items/Weapons/FiringPins/ClownPin.cs
+  - Assets/Scripts/Items/Weapons/FiringPins/GenericPin.cs
+  - Assets/Scripts/Items/Weapons/FiringPins/HonkPin.cs
+  - Assets/Scripts/Items/Weapons/FiringPins/IDLockedPin.cs
+  - Assets/Scripts/Items/Weapons/FiringPins/PinBase.cs
+  - Assets/Scripts/Items/Weapons/Grenade.cs
+  - Assets/Scripts/Items/Weapons/Gun.cs
+  - Assets/Scripts/Items/Weapons/GunElectrical.cs
+  - Assets/Scripts/Items/Weapons/GunPKA.cs
+  - Assets/Scripts/Items/Weapons/ImplantExplosive.cs
+  - Assets/Scripts/Items/Weapons/ImplantExplosiveTrigger.cs
+  - Assets/Scripts/Items/Weapons/MagazineBehaviour.cs
+  - Assets/Scripts/Items/Weapons/Melee/EnergySword.cs
+  - Assets/Scripts/Items/Weapons/Melee/ExtradimBlade.cs
+  - Assets/Scripts/Items/Weapons/Melee/MeleeEffect.cs
+  - Assets/Scripts/Items/Weapons/Melee/StunBaton.cs
+  - Assets/Scripts/Items/Weapons/Melee/ToggleableEffect.cs
+  - Assets/Scripts/Items/Weapons/Meleeable.cs
+  - Assets/Scripts/Items/Weapons/PlasmaRefill.cs
+  - Assets/Scripts/Items/Weapons/PowerSink.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Beam.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/BulletCasing.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/IOnDespawn.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/IOnHit.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/IOnHitDetect.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/IOnHitInteractTile.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/IOnMove.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/IOnShoot.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/LineDrawer.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/LocalTrailRenderer.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/ProjectileAnimateTile.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/ProjectileBounce.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/ProjectileDamageAtPoint.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/ProjectileDamageIntegrity.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/ProjectileDamageIntegrityKinetic.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/ProjectileDamageLivingHealth.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/ProjectileDamageLivingHealthKinetic.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/ProjectileDamageTile.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/ProjectileDamageTileKinetic.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/ProjectileDamageTopTile.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/ProjectileDecal.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/ProjectileDecalOnDespawn.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/ProjectileExplode.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/ProjectileHitTileProcessor.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/ProjectileIncendiary.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/ProjectileKineticDamageCalculation.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/ProjectileMine.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/ProjectileMineMultiple.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/ProjectileObjectOnDespawn.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/ProjectileRangeLimited.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/ProjectileStun.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Behaviours/TimeLimitedDecal.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Bullet.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/MovingProjectile.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/Projectile.cs
+  - Assets/Scripts/Items/Weapons/Projectiles/ProjectileManager.cs
+  - Assets/Scripts/Items/Weapons/SawnOff.cs
+  - Assets/Scripts/Items/Weapons/SyndicateBombBecon.cs
+  - Assets/Scripts/Items/Weapons/WeaponNetworkActions.cs
+  - Assets/Scripts/Items/Wieldable.cs
+  - Assets/Scripts/Learning/ProtipManager.cs
+  - Assets/Scripts/Learning/ProtipObject.cs
+  - Assets/Scripts/Learning/ProtipObjectTypes/ProtipObjectOnChangeIntent.cs
+  - Assets/Scripts/Learning/ProtipObjectTypes/ProtipObjectOnEnterRadius.cs
+  - Assets/Scripts/Learning/ProtipObjectTypes/ProtipObjectOnHealthStateChange.cs
+  - Assets/Scripts/Learning/ProtipObjectTypes/ProtipObjectOnJoinTime.cs
+  - Assets/Scripts/Learning/ProtipObjectTypes/ProtipObjectOnLayDown.cs
+  - Assets/Scripts/Learning/ProtipObjectTypes/ProtipObjectOnOpenUI.cs
+  - Assets/Scripts/Learning/ProtipObjectTypes/ProtipObjectOnPickup.cs
+  - Assets/Scripts/Learning/ProtipObjectTypes/ProtipObjectOnPickupTrait.cs
+  - Assets/Scripts/Learning/ProtipObjectTypes/ProtipObjectOnReceiveDamageType.cs
+  - Assets/Scripts/Learning/ProtipSO.cs
+  - Assets/Scripts/Learning/UI/ExpLevelUI.cs
+  - Assets/Scripts/Learning/UI/ProtipListEntry.cs
+  - Assets/Scripts/Learning/UI/ProtipListUI.cs
+  - Assets/Scripts/Learning/UI/ProtipUI.cs
+  - Assets/Scripts/Managers/AddressableManager/AddressableBar.cs
+  - Assets/Scripts/Managers/AddressableManager/AddressableCatalogueManager.cs
+  - Assets/Scripts/Managers/AddressableManager/AddressableDownloadPopUp.cs
+  - Assets/Scripts/Managers/AdminCommandsManager.cs
+  - Assets/Scripts/Managers/AdminManager.cs
+  - Assets/Scripts/Managers/AssetManager.cs
+  - Assets/Scripts/Managers/AudioManager.cs
+  - Assets/Scripts/Managers/BuildPreferences.cs
+  - Assets/Scripts/Managers/CargoManager.cs
+  - Assets/Scripts/Managers/CentComm.cs
+  - Assets/Scripts/Managers/ComponentManager.cs
+  - Assets/Scripts/Managers/CraftingManager.cs
+  - Assets/Scripts/Managers/EventController.cs
+  - Assets/Scripts/Managers/EventManager.cs
+  - Assets/Scripts/Managers/GameConfigManager.cs
+  - Assets/Scripts/Managers/GameData.cs
+  - Assets/Scripts/Managers/GameManager.cs
+  - Assets/Scripts/Managers/GameManager.Escape.cs
+  - Assets/Scripts/Managers/GameManager.GameMode.cs
+  - Assets/Scripts/Managers/GameScreenManager.cs
+  - Assets/Scripts/Managers/GlobalHighlighterManager.cs
+  - Assets/Scripts/Managers/InfiniteLoopTracker.cs
+  - Assets/Scripts/Managers/InGameTimeManager.cs
+  - Assets/Scripts/Managers/JobAllocator.cs
+  - Assets/Scripts/Managers/LandingZoneManager.cs
+  - Assets/Scripts/Managers/LanguageManager.cs
+  - Assets/Scripts/Managers/LavaLandManager.cs
+  - Assets/Scripts/Managers/LoadingScreenManager.cs
+  - Assets/Scripts/Managers/LobbyManager/LobbyManager.cs
+  - Assets/Scripts/Managers/LobbyManager/MusicManager.cs
+  - Assets/Scripts/Managers/LobbyManager/SpriteStretch.cs
+  - Assets/Scripts/Managers/Manager3D.cs
+  - Assets/Scripts/Managers/MatrixManager/BoundsExtensions.cs
+  - Assets/Scripts/Managers/MatrixManager/MatrixInfo.cs
+  - Assets/Scripts/Managers/MatrixManager/MatrixManager.Collisions.cs
+  - Assets/Scripts/Managers/MatrixManager/MatrixManager.cs
+  - Assets/Scripts/Managers/NetworkManagement/CustomNetworkManager.cs
+  - Assets/Scripts/Managers/NetworkManagement/NetworkTabManager.cs
+  - Assets/Scripts/Managers/NetworkManagement/SpawnPoint.cs
+  - Assets/Scripts/Managers/PlayerInfo.cs
+  - Assets/Scripts/Managers/PlayerList.Admin.cs
+  - Assets/Scripts/Managers/PlayerList.cs
+  - Assets/Scripts/Managers/PopUpAddressable/AssetLoadingPopupManager.cs
+  - Assets/Scripts/Managers/ProfileManager.cs
+  - Assets/Scripts/Managers/RadioManager.cs
+  - Assets/Scripts/Managers/SettingsManager/DisplaySettings.cs
+  - Assets/Scripts/Managers/SettingsManager/MiscSettings.cs
+  - Assets/Scripts/Managers/SignalsManager.cs
+  - Assets/Scripts/Managers/SOs.cs
+  - Assets/Scripts/Managers/SoundAmbientManager.cs
+  - Assets/Scripts/Managers/SoundManager.cs
+  - Assets/Scripts/Managers/SpriteManager.cs
+  - Assets/Scripts/Managers/StringManager.cs
+  - Assets/Scripts/Managers/SubSceneManager/AdditionalSceneListSO.cs
+  - Assets/Scripts/Managers/SubSceneManager/AsteroidListSO.cs
+  - Assets/Scripts/Managers/SubSceneManager/AwayWorldListSO.cs
+  - Assets/Scripts/Managers/SubSceneManager/MainStationListSO.cs
+  - Assets/Scripts/Managers/SubSceneManager/SubSceneManager.Client.cs
+  - Assets/Scripts/Managers/SubSceneManager/SubSceneManager.cs
+  - Assets/Scripts/Managers/SubSceneManager/SubSceneManager.Gateways.cs
+  - Assets/Scripts/Managers/SubSceneManager/SubSceneManager.SceneList.cs
+  - Assets/Scripts/Managers/SubSceneManager/SubSceneManager.Server.cs
+  - Assets/Scripts/Managers/SubSceneManager/SubSceneManagerNetworked.cs
+  - Assets/Scripts/Managers/SubsystemBehaviourQueueInit.cs
+  - Assets/Scripts/Managers/TimedEventsManager.cs
+  - Assets/Scripts/Managers/UpdateManager/ManagedBehaviour.cs
+  - Assets/Scripts/Managers/UpdateManager/ManagedNetworkBehaviour.cs
+  - Assets/Scripts/Managers/UpdateManager/UpdateManager.cs
+  - Assets/Scripts/Managers/VersionCheck.cs
+  - Assets/Scripts/Map/Asteroid.cs
+  - Assets/Scripts/Map/LavaLand/LandingZone.cs
+  - Assets/Scripts/Map/LavaLand/LavaLandAreaSpawnerScript.cs
+  - Assets/Scripts/Map/LavaLand/LavaLandRandomGenScript.cs
+  - Assets/Scripts/Map/MapList.cs
+  - Assets/Scripts/Map/MatrixDrawers/SectionDrawer.cs
+  - Assets/Scripts/MapSaver/MapSaver.cs
+  - Assets/Scripts/MapSaver/MapSaverAttribute.cs
+  - Assets/Scripts/MapSaver/RuntimeSpawned.cs
+  - Assets/Scripts/MapSaver/TestMapSaverScript.cs
+  - Assets/Scripts/Messages/Client/Addressable/ClientRequestCatalogues.cs
+  - Assets/Scripts/Messages/Client/Admin/AdminCheckAdminMessages.cs
+  - Assets/Scripts/Messages/Client/Admin/AdminCheckMessages.cs
+  - Assets/Scripts/Messages/Client/Admin/AdminCheckPlayerAlerts.cs
+  - Assets/Scripts/Messages/Client/Admin/AdminPlayerAlertActions.cs
+  - Assets/Scripts/Messages/Client/Admin/AdminReplyMessage.cs
+  - Assets/Scripts/Messages/Client/Admin/MentorReplyMessage.cs
+  - Assets/Scripts/Messages/Client/Admin/PrayerReplyMessage.cs
+  - Assets/Scripts/Messages/Client/Admin/RequestAdminBwoink.cs
+  - Assets/Scripts/Messages/Client/Admin/RequestAdminChatMessage.cs
+  - Assets/Scripts/Messages/Client/Admin/RequestAdminPageRefresh.cs
+  - Assets/Scripts/Messages/Client/Admin/RequestAdminPlayerList.cs
+  - Assets/Scripts/Messages/Client/Admin/RequestAdminTeleport.cs
+  - Assets/Scripts/Messages/Client/Admin/RequestKickMessage.cs
+  - Assets/Scripts/Messages/Client/Admin/RequestLavaLandToggle.cs
+  - Assets/Scripts/Messages/Client/Admin/RequestMentorBwoink.cs
+  - Assets/Scripts/Messages/Client/Admin/RequestPrayerBwoink.cs
+  - Assets/Scripts/Messages/Client/Admin/RequestRandomEventAllowedChange.cs
+  - Assets/Scripts/Messages/Client/Admin/RequestRespawnPlayer.cs
+  - Assets/Scripts/Messages/Client/AdminInventoryTransferMessage.cs
+  - Assets/Scripts/Messages/Client/ClientMessage.cs
+  - Assets/Scripts/Messages/Client/ClientTypingMessage.cs
+  - Assets/Scripts/Messages/Client/DevSpawner/DevCloneMessage.cs
+  - Assets/Scripts/Messages/Client/DevSpawner/DevDestroyMessage.cs
+  - Assets/Scripts/Messages/Client/DevSpawner/DevSpawnMessage.cs
+  - Assets/Scripts/Messages/Client/GhostRoles/RequestAvailableGhostRolesMessage.cs
+  - Assets/Scripts/Messages/Client/GhostRoles/RequestGhostRoleMessage.cs
+  - Assets/Scripts/Messages/Client/Interaction/RequestExamineMessage.cs
+  - Assets/Scripts/Messages/Client/Interaction/RequestInteractMessage.cs
+  - Assets/Scripts/Messages/Client/Lobby/InfoPanelMessageClient.cs
+  - Assets/Scripts/Messages/Client/NewPlayer/ClientRequestJobMessage.cs
+  - Assets/Scripts/Messages/Client/NewPlayer/ClientRequestSpawnWithAttribute.cs
+  - Assets/Scripts/Messages/Client/NewPlayer/DoorNewPlayer.cs
+  - Assets/Scripts/Messages/Client/NewPlayer/MatrixMoveNewPlayer.cs
+  - Assets/Scripts/Messages/Client/NewPlayer/PlayerNewPlayer.cs
+  - Assets/Scripts/Messages/Client/NewPlayer/TileChangeNewPlayer.cs
+  - Assets/Scripts/Messages/Client/OtherPlayerSlotTransferMessage.cs
+  - Assets/Scripts/Messages/Client/PingMessage.cs
+  - Assets/Scripts/Messages/Client/PostToChatMessage.cs
+  - Assets/Scripts/Messages/Client/RequestBuildMessage.cs
+  - Assets/Scripts/Messages/Client/RequestCableCut.cs
+  - Assets/Scripts/Messages/Client/RequestConveyorBuildMessage.cs
+  - Assets/Scripts/Messages/Client/RequestElectricalStats.cs
+  - Assets/Scripts/Messages/Client/RequestHackingNodeConnections.cs
+  - Assets/Scripts/Messages/Client/RequestHighlanderTime.cs
+  - Assets/Scripts/Messages/Client/RequestIconsUIActionRefresh.cs
+  - Assets/Scripts/Messages/Client/RequestInventoryTransferMessage.cs
+  - Assets/Scripts/Messages/Client/RequestObserverRefresh.cs
+  - Assets/Scripts/Messages/Client/SpriteMessages/RequestForceSpriteUpdate.cs
+  - Assets/Scripts/Messages/Client/SpriteMessages/SpriteRequestCurrentStateMessage.cs
+  - Assets/Scripts/Messages/Client/SuicideMessage.cs
+  - Assets/Scripts/Messages/Client/TabInteractMessage.cs
+  - Assets/Scripts/Messages/Client/UpdateHeadsetKeyMessage.cs
+  - Assets/Scripts/Messages/Client/VariableViewer/OpenBookIDNetMessage.cs
+  - Assets/Scripts/Messages/Client/VariableViewer/OpenPageValueNetMessage.cs
+  - Assets/Scripts/Messages/Client/VariableViewer/RequestBookshelfNetMessage.cs
+  - Assets/Scripts/Messages/Client/VariableViewer/RequestChangeVariableNetMessage.cs
+  - Assets/Scripts/Messages/Client/VariableViewer/RequestInvokeFunction.cs
+  - Assets/Scripts/Messages/Client/VariableViewer/RequestRefreshHierarchy.cs
+  - Assets/Scripts/Messages/Client/VariableViewer/RequestToViewObjectsAtTile.cs
+  - Assets/Scripts/Messages/GameMessageBase.cs
+  - Assets/Scripts/Messages/Server/Activate3DMode.cs
+  - Assets/Scripts/Messages/Server/Addressable/SendCataloguesToClient.cs
+  - Assets/Scripts/Messages/Server/AdminTools/AdminBwoinkMessage.cs
+  - Assets/Scripts/Messages/Server/AdminTools/AdminChatNotifications.cs
+  - Assets/Scripts/Messages/Server/AdminTools/AdminChatUpdateMessage.cs
+  - Assets/Scripts/Messages/Server/AdminTools/AdminEnableMessage.cs
+  - Assets/Scripts/Messages/Server/AdminTools/AdminInfoUpdateMessage.cs
+  - Assets/Scripts/Messages/Server/AdminTools/AdminLogUpdateMessage.cs
+  - Assets/Scripts/Messages/Server/AdminTools/AdminPlayerChatUpdateMessage.cs
+  - Assets/Scripts/Messages/Server/AdminTools/AdminPlayerListRefreshMessage.cs
+  - Assets/Scripts/Messages/Server/AdminTools/AdminToolRefreshMessage.cs
+  - Assets/Scripts/Messages/Server/AdminTools/MentorBwoinkMessage.cs
+  - Assets/Scripts/Messages/Server/AdminTools/MentorEnableMessage.cs
+  - Assets/Scripts/Messages/Server/AdminTools/MentorPlayerChatUpdateMessage.cs
+  - Assets/Scripts/Messages/Server/AdminTools/PlayerAlertNotifications.cs
+  - Assets/Scripts/Messages/Server/AdminTools/PlayerAlertsUpdateMessage.cs
+  - Assets/Scripts/Messages/Server/AdminTools/PrayerBwoinkMessage.cs
+  - Assets/Scripts/Messages/Server/AdminTools/PrayerChatUpdateMessage.cs
+  - Assets/Scripts/Messages/Server/AdminTools/ProfileMessage.cs
+  - Assets/Scripts/Messages/Server/AnnouncementMessage.cs
+  - Assets/Scripts/Messages/Server/ClearActionsMessage.cs
+  - Assets/Scripts/Messages/Server/DoorUpdateMessage.cs
+  - Assets/Scripts/Messages/Server/ElectricalArcMessage.cs
+  - Assets/Scripts/Messages/Server/ElectricalCableMessage.cs
+  - Assets/Scripts/Messages/Server/ElectricalStatsMessage.cs
+  - Assets/Scripts/Messages/Server/ElectrifiedDoorMessage.cs
+  - Assets/Scripts/Messages/Server/EnableComponentMessage.cs
+  - Assets/Scripts/Messages/Server/FinishedAddedObserverMessage.cs
+  - Assets/Scripts/Messages/Server/FollowCameraMessage.cs
+  - Assets/Scripts/Messages/Server/GhostRoles/GhostRoleResponseMessage.cs
+  - Assets/Scripts/Messages/Server/GhostRoles/GhostRoleUpdateMessage.cs
+  - Assets/Scripts/Messages/Server/GibMessage.cs
+  - Assets/Scripts/Messages/Server/HealthMessages/HealthBodyPartMessage.cs
+  - Assets/Scripts/Messages/Server/HighlanderTimerMessage.cs
+  - Assets/Scripts/Messages/Server/InfectedMessage.cs
+  - Assets/Scripts/Messages/Server/InfoWindowMessage.cs
+  - Assets/Scripts/Messages/Server/JoinedViewer/JobRequestFailedMessage.cs
+  - Assets/Scripts/Messages/Server/Lobby/InfoPanelMessageServer.cs
+  - Assets/Scripts/Messages/Server/LocalGuiMessages/SpawnBannerMessage.cs
+  - Assets/Scripts/Messages/Server/MatrixMoveMessage.cs
+  - Assets/Scripts/Messages/Server/MetaDataLayerMessage.cs
+  - Assets/Scripts/Messages/Server/MobMeleeLerpMessage.cs
+  - Assets/Scripts/Messages/Server/ObserveInteractableStorageMessage.cs
+  - Assets/Scripts/Messages/Server/PaperUpdateMessage.cs
+  - Assets/Scripts/Messages/Server/PlayEffect.cs
+  - Assets/Scripts/Messages/Server/PlayerAppearanceMessage.cs
+  - Assets/Scripts/Messages/Server/PlayerPopulateInventoryUIMessage.cs
+  - Assets/Scripts/Messages/Server/PlayParticleMessage.cs
+  - Assets/Scripts/Messages/Server/PlayWindEffect.cs
+  - Assets/Scripts/Messages/Server/PortalSpawnAnimateMessage.cs
+  - Assets/Scripts/Messages/Server/PossessAndUnpossessMessage.cs
+  - Assets/Scripts/Messages/Server/ProgressBarMessage.cs
+  - Assets/Scripts/Messages/Server/RemoveTileMessage.cs
+  - Assets/Scripts/Messages/Server/SendClientLogMessage.cs
+  - Assets/Scripts/Messages/Server/ServerMessage.cs
+  - Assets/Scripts/Messages/Server/ServerTypingMessage.cs
+  - Assets/Scripts/Messages/Server/SetActionUIMessage.cs
+  - Assets/Scripts/Messages/Server/ShowChatBubbleMessage.cs
+  - Assets/Scripts/Messages/Server/ShuttleRcsMessage.cs
+  - Assets/Scripts/Messages/Server/SoundMessages/AudioSourceParameters.cs
+  - Assets/Scripts/Messages/Server/SoundMessages/ChangeAudioSourceParametersMessage.cs
+  - Assets/Scripts/Messages/Server/SoundMessages/PlayMusicMessage.cs
+  - Assets/Scripts/Messages/Server/SoundMessages/PlaySoundMessage.cs
+  - Assets/Scripts/Messages/Server/SoundMessages/ShakeParameters.cs
+  - Assets/Scripts/Messages/Server/SoundMessages/StopMusicMessage.cs
+  - Assets/Scripts/Messages/Server/SoundMessages/StopSoundMessage.cs
+  - Assets/Scripts/Messages/Server/SpritesMessages/SpriteUpdateMessage.cs
+  - Assets/Scripts/Messages/Server/TabUpdateMessage.cs
+  - Assets/Scripts/Messages/Server/TriggerEventMessage.cs
+  - Assets/Scripts/Messages/Server/UpdateChatMessage.cs
+  - Assets/Scripts/Messages/Server/UpdateConnectedPlayersMessage.cs
+  - Assets/Scripts/Messages/Server/UpdateCountdownMessage.cs
+  - Assets/Scripts/Messages/Server/UpdateItemSlotMessage.cs
+  - Assets/Scripts/Messages/Server/UpdateJobCountsMessage.cs
+  - Assets/Scripts/Messages/Server/UpdateMind.cs
+  - Assets/Scripts/Messages/Server/UpdateRoundTimeMessage.cs
+  - Assets/Scripts/Messages/Server/UpdateServerFPS.cs
+  - Assets/Scripts/Messages/Server/UpdateTileMessage.cs
+  - Assets/Scripts/Messages/Server/UpdateUIMessage.cs
+  - Assets/Scripts/Messages/Server/VariableViewer/BookNetMessage.cs
+  - Assets/Scripts/Messages/Server/VariableViewer/LibraryNetMessage.cs
+  - Assets/Scripts/Messages/Server/VariableViewer/SubBookshelfNetMessage.cs
+  - Assets/Scripts/Messages/Server/VariableViewer/UpdateClientValue.cs
+  - Assets/Scripts/Messages/Server/VideoPlayerMessage.cs
+  - Assets/Scripts/MiniGames/MiniGameModule.cs
+  - Assets/Scripts/MiniGames/MiniGameModules/GuessTheNumberMiniGame.cs
+  - Assets/Scripts/MiniGames/MiniGameResultTracker.cs
+  - Assets/Scripts/Mobs/Equipment/Equipment.cs
+  - Assets/Scripts/NPC/AI/Brains/Configs/explore.yaml
+  - Assets/Scripts/NPC/AI/Brains/Configs/move.yaml
+  - Assets/Scripts/NPC/AI/Brains/MobExploreBrain.asset
+  - Assets/Scripts/NPC/AI/Brains/MobFollowBrain.asset
+  - Assets/Scripts/NPC/AI/Brains/Models/FollowModel.nn
+  - Assets/Scripts/NPC/AI/Brains/Models/MobExploreBrain.nn
+  - Assets/Scripts/NPC/AI/ExaminableMood.cs
+  - Assets/Scripts/NPC/AI/Friendly/CatAI.cs
+  - Assets/Scripts/NPC/AI/Friendly/ChickenAI.cs
+  - Assets/Scripts/NPC/AI/Friendly/CorgiAI.cs
+  - Assets/Scripts/NPC/AI/Friendly/CowAI.cs
+  - Assets/Scripts/NPC/AI/Friendly/GenericFriendlyAI.cs
+  - Assets/Scripts/NPC/AI/Friendly/GodAI.cs
+  - Assets/Scripts/NPC/AI/Friendly/MouseAI.cs
+  - Assets/Scripts/NPC/AI/Friendly/ParrotAI.cs
+  - Assets/Scripts/NPC/AI/Hostile/BlobAI.cs
+  - Assets/Scripts/NPC/AI/Hostile/BlobRally.cs
+  - Assets/Scripts/NPC/AI/Hostile/FaceHugAction.cs
+  - Assets/Scripts/NPC/AI/Hostile/FaceHuggerAI.cs
+  - Assets/Scripts/NPC/AI/Hostile/GenericHostileAI.cs
+  - Assets/Scripts/NPC/AI/Hostile/GenericRetaliateAI.cs
+  - Assets/Scripts/NPC/AI/Hostile/LarvaeAI.cs
+  - Assets/Scripts/NPC/AI/Hostile/StatueAI.cs
+  - Assets/Scripts/NPC/AI/Hostile/XenoAI.cs
+  - Assets/Scripts/NPC/AI/Hostile/XenoQueenAI.cs
+  - Assets/Scripts/NPC/AI/MobAI.cs
+  - Assets/Scripts/NPC/AI/MobController.cs
+  - Assets/Scripts/NPC/AI/MobDrop.cs
+  - Assets/Scripts/NPC/AI/MobExplore.cs
+  - Assets/Scripts/NPC/AI/MobFlee.cs
+  - Assets/Scripts/NPC/AI/MobFollow.cs
+  - Assets/Scripts/NPC/AI/MobMeleeAction.cs
+  - Assets/Scripts/NPC/AI/MobMeleeAttack.cs
+  - Assets/Scripts/NPC/AI/MobObjective.cs
+  - Assets/Scripts/NPC/AI/MobPathFinder.cs
+  - Assets/Scripts/NPC/AI/PathFinding/Node.cs
+  - Assets/Scripts/NPC/AI/PathFinding/PriorityQueue.cs
+  - Assets/Scripts/NPC/ConeOfSight/ConeOfSight.cs
+  - Assets/Scripts/NPC/MobSprite.cs
+  - Assets/Scripts/NPC/Mood/FeedableMob.cs
+  - Assets/Scripts/NPC/Mood/MilkableMob.cs
+  - Assets/Scripts/NPC/Mood/MobMood.cs
+  - Assets/Scripts/Objects/Alien/AlienEggCycle.cs
+  - Assets/Scripts/Objects/Alien/AlienWeeds.cs
+  - Assets/Scripts/Objects/Atmospherics/AcuDevice.cs
+  - Assets/Scripts/Objects/Atmospherics/AcuSample.cs
+  - Assets/Scripts/Objects/Atmospherics/AcuSensor.cs
+  - Assets/Scripts/Objects/Atmospherics/AcuThresholds.cs
+  - Assets/Scripts/Objects/Atmospherics/AirController.cs
+  - Assets/Scripts/Objects/Botany/HydroponicsTray.cs
+  - Assets/Scripts/Objects/Botany/Loom.cs
+  - Assets/Scripts/Objects/Botany/PlantTrayMessage.cs
+  - Assets/Scripts/Objects/Botany/SeedExtractor.cs
+  - Assets/Scripts/Objects/Canisters/BurstCanister.cs
+  - Assets/Scripts/Objects/Canisters/Canister.cs
+  - Assets/Scripts/Objects/Canisters/PlasmaAddable.cs
+  - Assets/Scripts/Objects/Cargo/ConveyorBelts/ConveyorBelt.cs
+  - Assets/Scripts/Objects/Cargo/ConveyorBelts/ConveyorBeltSwitch.cs
+  - Assets/Scripts/Objects/Cargo/ConveyorBelts/ConveyorDirections.cs
+  - Assets/Scripts/Objects/Charger.cs
+  - Assets/Scripts/Objects/Chemistry/BoozeDispenser.cs
+  - Assets/Scripts/Objects/Chemistry/ChemistryDispenser.cs
+  - Assets/Scripts/Objects/Chemistry/ChemMaster.cs
+  - Assets/Scripts/Objects/Chemistry/ReagentContainerObjectInteractionScript.cs
+  - Assets/Scripts/Objects/Climbable.cs
+  - Assets/Scripts/Objects/Closets/AbandonedCrates.cs
+  - Assets/Scripts/Objects/Closets/ClosetControl.cs
+  - Assets/Scripts/Objects/Closets/InteractableFireCabinet.cs
+  - Assets/Scripts/Objects/CollisionInfo.cs
+  - Assets/Scripts/Objects/Consoles/CargoConsole.cs
+  - Assets/Scripts/Objects/Consoles/CommsConsole.cs
+  - Assets/Scripts/Objects/Consoles/ConsoleScreenAnimator.cs
+  - Assets/Scripts/Objects/Consoles/ShuttleConsole.cs
+  - Assets/Scripts/Objects/Consoles/SyndicateOpConsole.cs
+  - Assets/Scripts/Objects/Consoles/SyndicateTelecrystalStation.cs
+  - Assets/Scripts/Objects/Construction/APCFrame.cs
+  - Assets/Scripts/Objects/Construction/Deconstructable.cs
+  - Assets/Scripts/Objects/Construction/FloorDecals/FloorDecal.cs
+  - Assets/Scripts/Objects/Construction/Floors/FloorTile.cs
+  - Assets/Scripts/Objects/Construction/Floors/FloorTileEditor.cs
+  - Assets/Scripts/Objects/Construction/Girder.cs
+  - Assets/Scripts/Objects/Construction/GrilleObject.cs
+  - Assets/Scripts/Objects/Construction/Rack.cs
+  - Assets/Scripts/Objects/Construction/ReinforcedGirder.cs
+  - Assets/Scripts/Objects/Construction/WindowDirectionalObject.cs
+  - Assets/Scripts/Objects/Construction/WindowFullTileObject.cs
+  - Assets/Scripts/Objects/Directionals/DirectionalPassable.cs
+  - Assets/Scripts/Objects/Directionals/DirectionalRotationSprites.cs
+  - Assets/Scripts/Objects/Directionals/DirectionalSpriteV2.cs
+  - Assets/Scripts/Objects/Directionals/Rotatable.cs
+  - Assets/Scripts/Objects/Disposals/DisposalBin.cs
+  - Assets/Scripts/Objects/Disposals/DisposalIntake.cs
+  - Assets/Scripts/Objects/Disposals/DisposalMachine.cs
+  - Assets/Scripts/Objects/Disposals/DisposalOutlet.cs
+  - Assets/Scripts/Objects/Disposals/DisposalPipe.cs
+  - Assets/Scripts/Objects/Disposals/DisposalPipeBroken.cs
+  - Assets/Scripts/Objects/Disposals/DisposalPipeObject.cs
+  - Assets/Scripts/Objects/Disposals/DisposalVirtualContainer.cs
+  - Assets/Scripts/Objects/Disposals/PipeDispenser.cs
+  - Assets/Scripts/Objects/Doors/AccessType.cs
+  - Assets/Scripts/Objects/Doors/AirLockAnimator.cs
+  - Assets/Scripts/Objects/Doors/AirlockCatalogueSync.cs
+  - Assets/Scripts/Objects/Doors/ConstructibleDoor.cs
+  - Assets/Scripts/Objects/Doors/DoorAnimator.cs
+  - Assets/Scripts/Objects/Doors/DoorAnimatorV2.cs
+  - Assets/Scripts/Objects/Doors/DoorController.cs
+  - Assets/Scripts/Objects/Doors/DoorMasterController.cs
+  - Assets/Scripts/Objects/Doors/Editor/DoorAnimatorV2Editor.cs
+  - Assets/Scripts/Objects/Doors/FireLock.cs
+  - Assets/Scripts/Objects/Doors/FovDoorController.cs
+  - Assets/Scripts/Objects/Doors/GeneralDoorAnimator.cs
+  - Assets/Scripts/Objects/Doors/InteractableDoor.cs
+  - Assets/Scripts/Objects/Doors/Modules/AccessModule.cs
+  - Assets/Scripts/Objects/Doors/Modules/BoltsModule.cs
+  - Assets/Scripts/Objects/Doors/Modules/CrowbarModule.cs
+  - Assets/Scripts/Objects/Doors/Modules/DoorModuleBase.cs
+  - Assets/Scripts/Objects/Doors/Modules/ElectrifiedDoorModule.cs
+  - Assets/Scripts/Objects/Doors/Modules/EmagInteractionModule.cs
+  - Assets/Scripts/Objects/Doors/Modules/ModuleSignal.cs
+  - Assets/Scripts/Objects/Doors/Modules/PressureModule.cs
+  - Assets/Scripts/Objects/Doors/Modules/WeldModule.cs
+  - Assets/Scripts/Objects/Doors/WindoorAnimator.cs
+  - Assets/Scripts/Objects/Drawers/Cremator.cs
+  - Assets/Scripts/Objects/Drawers/Drawer.cs
+  - Assets/Scripts/Objects/Drawers/FileCabinet.cs
+  - Assets/Scripts/Objects/Drawers/InteractableDrawerTray.cs
+  - Assets/Scripts/Objects/Drawers/Morgue.cs
+  - Assets/Scripts/Objects/Engineering/AntiBreachingShield.cs
+  - Assets/Scripts/Objects/Engineering/APC.cs
+  - Assets/Scripts/Objects/Engineering/APCPoweredDevice.cs
+  - Assets/Scripts/Objects/Engineering/DepartmentBattery.cs
+  - Assets/Scripts/Objects/Engineering/Emitter.cs
+  - Assets/Scripts/Objects/Engineering/FieldGenerator.cs
+  - Assets/Scripts/Objects/Engineering/ParticleAcceleratorControl.cs
+  - Assets/Scripts/Objects/Engineering/ParticleAcceleratorHitSpawner.cs
+  - Assets/Scripts/Objects/Engineering/ParticleAcceleratorPart.cs
+  - Assets/Scripts/Objects/Engineering/PowerGenerator.cs
+  - Assets/Scripts/Objects/Engineering/RadiationCollector.cs
+  - Assets/Scripts/Objects/Engineering/Reactor/BoilerTurbineController.cs
+  - Assets/Scripts/Objects/Engineering/Reactor/ReactorBoiler.cs
+  - Assets/Scripts/Objects/Engineering/Reactor/ReactorChamberRod.cs
+  - Assets/Scripts/Objects/Engineering/Reactor/ReactorControlConsole.cs
+  - Assets/Scripts/Objects/Engineering/Reactor/ReactorGraphiteChamber.cs
+  - Assets/Scripts/Objects/Engineering/Reactor/ReactorTurbine.cs
+  - Assets/Scripts/Objects/Engineering/Reflector.cs
+  - Assets/Scripts/Objects/Engineering/SMES.cs
+  - Assets/Scripts/Objects/Engineering/SuperMatter.cs
+  - Assets/Scripts/Objects/Engineering/TeslaCoil.cs
+  - Assets/Scripts/Objects/EntersTileInterfaces.cs
+  - Assets/Scripts/Objects/EnterTileBase.cs
+  - Assets/Scripts/Objects/ExecutionDevices/ExecutionDeviceController.cs
+  - Assets/Scripts/Objects/ExecutionDevices/Guillotine.cs
+  - Assets/Scripts/Objects/ExecutionDevices/IExecutionDevice.cs
+  - Assets/Scripts/Objects/ExosuitFabricator.cs
+  - Assets/Scripts/Objects/FlasherBase.cs
+  - Assets/Scripts/Objects/FloorHazard.cs
+  - Assets/Scripts/Objects/FuelTank.cs
+  - Assets/Scripts/Objects/Furniture/BuckleInteract.cs
+  - Assets/Scripts/Objects/Furniture/DirectionalSprite.cs
+  - Assets/Scripts/Objects/Furniture/InteractableFurniture.cs
+  - Assets/Scripts/Objects/Furniture/ObjectPickupable.cs
+  - Assets/Scripts/Objects/Furniture/OccupiableDirectionalSprite.cs
+  - Assets/Scripts/Objects/Furniture/TableBuilding.cs
+  - Assets/Scripts/Objects/GasContainer.cs
+  - Assets/Scripts/Objects/Gateway/MobSpawnControlScript.cs
+  - Assets/Scripts/Objects/Gateway/MobSpawnScript.cs
+  - Assets/Scripts/Objects/Gateway/StationGateway.cs
+  - Assets/Scripts/Objects/Gateway/TransportUtility.cs
+  - Assets/Scripts/Objects/Gateway/WorldGateway.cs
+  - Assets/Scripts/Objects/HasNetworkTab.cs
+  - Assets/Scripts/Objects/HasNetworkTabItem.cs
+  - Assets/Scripts/Objects/IBumpableObject.cs
+  - Assets/Scripts/Objects/InternalBattery.cs
+  - Assets/Scripts/Objects/ITrapComponent.cs
+  - Assets/Scripts/Objects/Kitchen/InteractableBarrel.cs
+  - Assets/Scripts/Objects/Kitchen/InteractableDryingRack.cs
+  - Assets/Scripts/Objects/Kitchen/InteractableGriddle.cs
+  - Assets/Scripts/Objects/Kitchen/InteractableGrinder.cs
+  - Assets/Scripts/Objects/Kitchen/InteractableMicrowave.cs
+  - Assets/Scripts/Objects/Kitchen/InteractableOven.cs
+  - Assets/Scripts/Objects/Kitchen/InteractableProcessor.cs
+  - Assets/Scripts/Objects/LaserReflectObject.cs
+  - Assets/Scripts/Objects/Lavaland/AshwalkerNest.cs
+  - Assets/Scripts/Objects/Machines/AIOGrinder.cs
+  - Assets/Scripts/Objects/Machines/Autolathe/Autolathe.cs
+  - Assets/Scripts/Objects/Machines/BioChemScanner.cs
+  - Assets/Scripts/Objects/Machines/DryingRack.cs
+  - Assets/Scripts/Objects/Machines/FermentingBarrel.cs
+  - Assets/Scripts/Objects/Machines/FoodProcessor.cs
+  - Assets/Scripts/Objects/Machines/Gibber.cs
+  - Assets/Scripts/Objects/Machines/Griddle.cs
+  - Assets/Scripts/Objects/Machines/IQuantumReaction.cs
+  - Assets/Scripts/Objects/Machines/Jukebox.cs
+  - Assets/Scripts/Objects/Machines/MachineProductsCollection.cs
+  - Assets/Scripts/Objects/Machines/MassDriver.cs
+  - Assets/Scripts/Objects/Machines/MaterialStorage.cs
+  - Assets/Scripts/Objects/Machines/MaterialStorageLink.cs
+  - Assets/Scripts/Objects/Machines/Microwave.cs
+  - Assets/Scripts/Objects/Machines/Oven.cs
+  - Assets/Scripts/Objects/Machines/QuantumPad.cs
+  - Assets/Scripts/Objects/Machines/RDProductionMachine.cs
+  - Assets/Scripts/Objects/Machines/ServerMachines/Communications/BlackboxMachine.cs
+  - Assets/Scripts/Objects/Machines/ServerMachines/Communications/CommsServer.cs
+  - Assets/Scripts/Objects/Medical/BodyBag.cs
+  - Assets/Scripts/Objects/Medical/ClonableStatus.cs
+  - Assets/Scripts/Objects/Medical/CloningConsole.cs
+  - Assets/Scripts/Objects/Medical/CloningPod.cs
+  - Assets/Scripts/Objects/Medical/DNAConsole.cs
+  - Assets/Scripts/Objects/Medical/DNAScanner.cs
+  - Assets/Scripts/Objects/Medical/Genetics/DinosaurLivingMutationCarrier.cs
+  - Assets/Scripts/Objects/Medical/Genetics/GeneticEggLogic.cs
+  - Assets/Scripts/Objects/MessageOnInteract.cs
+  - Assets/Scripts/Objects/Mining/MaterialSilo.cs
+  - Assets/Scripts/Objects/Mining/OreBox.cs
+  - Assets/Scripts/Objects/Mining/OreRedemptionMachine.cs
+  - Assets/Scripts/Objects/Mining/PickaxeMineable.cs
+  - Assets/Scripts/Objects/MonitorCameras/MonitorCamera.cs
+  - Assets/Scripts/Objects/Nuke.cs
+  - Assets/Scripts/Objects/ObjectContainer.cs
+  - Assets/Scripts/Objects/Other/CrawlingVirtualContainer.cs
+  - Assets/Scripts/Objects/Other/DropPod.cs
+  - Assets/Scripts/Objects/Other/Holosign.cs
+  - Assets/Scripts/Objects/Other/JanitorCart.cs
+  - Assets/Scripts/Objects/Other/MagicMirror.cs
+  - Assets/Scripts/Objects/Other/MouseTrap.cs
+  - Assets/Scripts/Objects/Other/PineTreeXmas.cs
+  - Assets/Scripts/Objects/Other/PortableFlasher.cs
+  - Assets/Scripts/Objects/Other/Turret.cs
+  - Assets/Scripts/Objects/OutsideFlashingLight.cs
+  - Assets/Scripts/Objects/PassableExclusionHolder.cs
+  - Assets/Scripts/Objects/Pipes/Devices/AirInjector.cs
+  - Assets/Scripts/Objects/Pipes/Devices/AirVent.cs
+  - Assets/Scripts/Objects/Pipes/Devices/Connector.cs
+  - Assets/Scripts/Objects/Pipes/Devices/Filter.cs
+  - Assets/Scripts/Objects/Pipes/Devices/GasDigitalValve.cs
+  - Assets/Scripts/Objects/Pipes/Devices/GasHeatExchange.cs
+  - Assets/Scripts/Objects/Pipes/Devices/GasManualValve.cs
+  - Assets/Scripts/Objects/Pipes/Devices/GasMeter.cs
+  - Assets/Scripts/Objects/Pipes/Devices/HeaterFreezer.cs
+  - Assets/Scripts/Objects/Pipes/Devices/Mixer.cs
+  - Assets/Scripts/Objects/Pipes/Devices/Pump.cs
+  - Assets/Scripts/Objects/Pipes/Devices/ReservoirTank.cs
+  - Assets/Scripts/Objects/Pipes/Devices/Scrubber.cs
+  - Assets/Scripts/Objects/Pipes/Devices/WaterPump.cs
+  - Assets/Scripts/Objects/Pipes/MonoPipe.cs
+  - Assets/Scripts/Objects/Pipes/PipeItemObject.cs
+  - Assets/Scripts/Objects/Pipes/PipeItemTile.cs
+  - Assets/Scripts/Objects/Pipes/PipeRun.cs
+  - Assets/Scripts/Objects/Pipes/PipeTile.cs
+  - Assets/Scripts/Objects/Pipes/ReactorPipe.cs
+  - Assets/Scripts/Objects/PlayerFlippable.cs
+  - Assets/Scripts/Objects/PlayerRotatable.cs
+  - Assets/Scripts/Objects/Posters/Poster.cs
+  - Assets/Scripts/Objects/Posters/PosterBehaviour.cs
+  - Assets/Scripts/Objects/ReinforcementTeleporter.cs
+  - Assets/Scripts/Objects/Research/AiLawModule.cs
+  - Assets/Scripts/Objects/Research/AiVessel.cs
+  - Assets/Scripts/Objects/Research/Artifacts/Artifact.cs
+  - Assets/Scripts/Objects/Research/Artifacts/ArtifactAnalyser.cs
+  - Assets/Scripts/Objects/Research/Artifacts/ArtifactConsole.cs
+  - Assets/Scripts/Objects/Research/Artifacts/Artifacts.asmdef
+  - Assets/Scripts/Objects/Research/Artifacts/Tools/ArtifactsDetector.cs
+  - Assets/Scripts/Objects/Research/BlastYieldDetector.cs
+  - Assets/Scripts/Objects/Research/Portal.cs
+  - Assets/Scripts/Objects/Research/ResearchPointMachine.cs
+  - Assets/Scripts/Objects/Research/TeleporterBase.cs
+  - Assets/Scripts/Objects/Research/TeleporterControl.cs
+  - Assets/Scripts/Objects/Research/TeleporterHub.cs
+  - Assets/Scripts/Objects/Research/TeleporterStation.cs
+  - Assets/Scripts/Objects/RolledPoster.cs
+  - Assets/Scripts/Objects/SecurityCamera.cs
+  - Assets/Scripts/Objects/SecurityRecordsConsole.cs
+  - Assets/Scripts/Objects/Singularity.cs
+  - Assets/Scripts/Objects/Spawner.cs
+  - Assets/Scripts/Objects/StatusDisplay.cs
+  - Assets/Scripts/Objects/Telecomms/AutomatedAnnouncer.cs
+  - Assets/Scripts/Objects/Telecomms/LocalRadioListener.cs
+  - Assets/Scripts/Objects/Telecomms/SBRSignaller.cs
+  - Assets/Scripts/Objects/Telecomms/StationBouncedRadio.cs
+  - Assets/Scripts/Objects/TeslaEnergyBall.cs
+  - Assets/Scripts/Objects/UprightSprites.cs
+  - Assets/Scripts/Objects/Vendor.cs
+  - Assets/Scripts/Objects/Wallmounts/CameraAssembly.cs
+  - Assets/Scripts/Objects/Wallmounts/ClockWallmount.cs
+  - Assets/Scripts/Objects/Wallmounts/FireAlarm.cs
+  - Assets/Scripts/Objects/Wallmounts/PublicTerminals/Modules/PublicTerminalRadioModule.cs
+  - Assets/Scripts/Objects/Wallmounts/PublicTerminals/PublicDepartmentTerminal.cs
+  - Assets/Scripts/Objects/Wallmounts/PublicTerminals/PublicTerminalModule.cs
+  - Assets/Scripts/Objects/Wallmounts/PublicTerminals/PublicTerminalModuleManager.cs
+  - Assets/Scripts/Objects/Wallmounts/PublicTerminals/PublicTerminalReceiver.cs
+  - Assets/Scripts/Objects/Wallmounts/Switches/DoorSwitch.cs
+  - Assets/Scripts/Objects/Wallmounts/Switches/GeneralSwitch.cs
+  - Assets/Scripts/Objects/Wallmounts/Switches/GeneralSwitchController.cs
+  - Assets/Scripts/Objects/Wallmounts/Switches/LightSwitchV2.cs
+  - Assets/Scripts/Objects/Wallmounts/Switches/TurretSwitch.cs
+  - Assets/Scripts/Objects/Wallmounts/WallmountBehavior.cs
+  - Assets/Scripts/Objects/Wallmounts/WallmountSpriteBehavior.cs
+  - Assets/Scripts/Objects/Wallmounts/WallmountTextBehavior.cs
+  - Assets/Scripts/Objects/Wallmounts/WallProtrusion.cs
+  - Assets/Scripts/Objects/WrenchSecurableWithAccessRestriction.cs
+  - Assets/Scripts/Player/AlienInfectionViewer.cs
+  - Assets/Scripts/Player/ChatIcon.cs
+  - Assets/Scripts/Player/ConsumeFromFloor.cs
+  - Assets/Scripts/Player/ElectrifiedDoorViewer.cs
+  - Assets/Scripts/Player/EmoteScripts/Backflip.cs
+  - Assets/Scripts/Player/EmoteScripts/Dance.cs
+  - Assets/Scripts/Player/EmoteScripts/FelinePurr.cs
+  - Assets/Scripts/Player/EmoteScripts/ListEmotesHelp.cs
+  - Assets/Scripts/Player/EmoteScripts/ShakeEmote.cs
+  - Assets/Scripts/Player/EmoteScripts/Suicide.cs
+  - Assets/Scripts/Player/EmoteScripts/Surrender.cs
+  - Assets/Scripts/Player/ExaminablePlayer.cs
+  - Assets/Scripts/Player/GhostMove.cs
+  - Assets/Scripts/Player/GhostOrbit.cs
+  - Assets/Scripts/Player/GhostSprites.cs
+  - Assets/Scripts/Player/HitIcon.cs
+  - Assets/Scripts/Player/Huggable.cs
+  - Assets/Scripts/Player/IPlayerControllable.cs
+  - Assets/Scripts/Player/IPlayerPossessable.cs
+  - Assets/Scripts/Player/ItemLightControl.cs
+  - Assets/Scripts/Player/JoinedViewer.cs
+  - Assets/Scripts/Player/Language/DefaultLanguageGroupSO.cs
+  - Assets/Scripts/Player/Language/LanguageSO.cs
+  - Assets/Scripts/Player/Language/MobLanguages.cs
+  - Assets/Scripts/Player/Language/NarsianLanguageSO.cs
+  - Assets/Scripts/Player/LightEmissionPlayer.cs
+  - Assets/Scripts/Player/Mind.cs
+  - Assets/Scripts/Player/Movement/IMovementEffect.cs
+  - Assets/Scripts/Player/MovementV2/MatrixCash.cs
+  - Assets/Scripts/Player/MovementV2/MovementSynchronisation.cs
+  - Assets/Scripts/Player/Overlays/PlayerDirectionalOverlay.cs
+  - Assets/Scripts/Player/Pettable.cs
+  - Assets/Scripts/Player/PlayerAction.cs
+  - Assets/Scripts/Player/PlayerCrafting.cs
+  - Assets/Scripts/Player/PlayerEffectsManager.cs
+  - Assets/Scripts/Player/PlayerFlashEffects.cs
+  - Assets/Scripts/Player/PlayerHealthData.cs
+  - Assets/Scripts/Player/PlayerManager.cs
+  - Assets/Scripts/Player/PlayerNetworkActions.cs
+  - Assets/Scripts/Player/PlayerOnlySyncValues.cs
+  - Assets/Scripts/Player/PlayerScript.cs
+  - Assets/Scripts/Player/PlayerSprites.cs
+  - Assets/Scripts/Player/PlayerState.cs
+  - Assets/Scripts/Player/PlayerUtils.cs
+  - Assets/Scripts/Player/StepType.cs
+  - Assets/Scripts/Player/TeleportUtils.cs
+  - Assets/Scripts/PlayerPrefs/PlayerPrefKeys.cs
+  - Assets/Scripts/RCON/FPSMonitor.cs
+  - Assets/Scripts/RCON/RconManager.cs
+  - Assets/Scripts/Robotics/Bots/BotConstruction.cs
+  - Assets/Scripts/Robotics/Bots/ContainerConstruct.cs
+  - Assets/Scripts/Robotics/Bots/InteractableBot.cs
+  - Assets/Scripts/ScriptableObjects/AlcoholicDrinksSOScript.cs
+  - Assets/Scripts/ScriptableObjects/AlienTypeDataSO.cs
+  - Assets/Scripts/ScriptableObjects/Atmospherics/GasesSingleton.cs
+  - Assets/Scripts/ScriptableObjects/Atmospherics/GasMixesSingleton.cs
+  - Assets/Scripts/ScriptableObjects/Atmospherics/GasMixesSO.cs
+  - Assets/Scripts/ScriptableObjects/Atmospherics/GasSO.cs
+  - Assets/Scripts/ScriptableObjects/Audio/AudioClipsArray.cs
+  - Assets/Scripts/ScriptableObjects/Audio/FloorSounds.cs
+  - Assets/Scripts/ScriptableObjects/Audio/FootstepSounds.cs
+  - Assets/Scripts/ScriptableObjects/Characters/CharacterAttribute.cs
+  - Assets/Scripts/ScriptableObjects/Characters/RoundJoinAttributes.cs
+  - Assets/Scripts/ScriptableObjects/ChemistryReagentsSO.cs
+  - Assets/Scripts/ScriptableObjects/CommonPrefabs.cs
+  - Assets/Scripts/ScriptableObjects/DamageOverlaySO.cs
+  - Assets/Scripts/ScriptableObjects/DoorsSO.cs
+  - Assets/Scripts/ScriptableObjects/GameObjectList.cs
+  - Assets/Scripts/ScriptableObjects/GhostRoleData.cs
+  - Assets/Scripts/ScriptableObjects/GhostRoleList.cs
+  - Assets/Scripts/ScriptableObjects/GraffitiCategoriesScriptableObject.cs
+  - Assets/Scripts/ScriptableObjects/GraffitiTileList.cs
+  - Assets/Scripts/ScriptableObjects/Gun/DamageData.cs
+  - Assets/Scripts/ScriptableObjects/Gun/DespawnOnHit.cs
+  - Assets/Scripts/ScriptableObjects/Gun/DespawnOnRequest.cs
+  - Assets/Scripts/ScriptableObjects/Gun/HitConditions/Tile/CheckLayerType.cs
+  - Assets/Scripts/ScriptableObjects/Gun/HitConditions/Tile/CheckTileReflection.cs
+  - Assets/Scripts/ScriptableObjects/Gun/HitConditions/Tile/ConditionsTileArray.cs
+  - Assets/Scripts/ScriptableObjects/Gun/HitConditions/Tile/HitInteractTileCondition.cs
+  - Assets/Scripts/ScriptableObjects/Gun/HitProcessor.cs
+  - Assets/Scripts/ScriptableObjects/Gun/LayerMaskData.cs
+  - Assets/Scripts/ScriptableObjects/Gun/TileAnimations/AnimationTile.cs
+  - Assets/Scripts/ScriptableObjects/Items/SpellBook/SpellBookArtifact.cs
+  - Assets/Scripts/ScriptableObjects/Items/SpellBook/SpellBookData.cs
+  - Assets/Scripts/ScriptableObjects/Items/SpellBook/SpellBookRitual.cs
+  - Assets/Scripts/ScriptableObjects/Items/SpellBook/SpellBookSpell.cs
+  - Assets/Scripts/ScriptableObjects/LavaLandRandomAreaSO.cs
+  - Assets/Scripts/ScriptableObjects/LootOnDespawn.cs
+  - Assets/Scripts/ScriptableObjects/PassableExclusionTrait.cs
+  - Assets/Scripts/ScriptableObjects/PlayerTypeSettings.cs
+  - Assets/Scripts/ScriptableObjects/PlayerTypeSingleton.cs
+  - Assets/Scripts/ScriptableObjects/Research/Artifacts/ArtifactDataSO.cs
+  - Assets/Scripts/ScriptableObjects/Research/Artifacts/Artifacts.ScriptableObjects.asmref
+  - Assets/Scripts/ScriptableObjects/Research/Artifacts/Effects/AreaEffects/AreaEffectBase.cs
+  - Assets/Scripts/ScriptableObjects/Research/Artifacts/Effects/AreaEffects/ForcefieldAreaEffect.cs
+  - Assets/Scripts/ScriptableObjects/Research/Artifacts/Effects/AreaEffects/GasAreaEffect.cs
+  - Assets/Scripts/ScriptableObjects/Research/Artifacts/Effects/AreaEffects/LightningAreaEffect.cs
+  - Assets/Scripts/ScriptableObjects/Research/Artifacts/Effects/AreaEffects/ParanoiaAreaEffect.cs
+  - Assets/Scripts/ScriptableObjects/Research/Artifacts/Effects/AreaEffects/SicknessAreaEffect.cs
+  - Assets/Scripts/ScriptableObjects/Research/Artifacts/Effects/AreaEffects/SpawningArtifactEffect.cs
+  - Assets/Scripts/ScriptableObjects/Research/Artifacts/Effects/AreaEffects/StunAreaEffect.cs
+  - Assets/Scripts/ScriptableObjects/Research/Artifacts/Effects/AreaEffects/TeleportArtifactEffect.cs
+  - Assets/Scripts/ScriptableObjects/Research/Artifacts/Effects/AreaEffects/TerraformAreaEffect.cs
+  - Assets/Scripts/ScriptableObjects/Research/Artifacts/Effects/ArtifactEffect.cs
+  - Assets/Scripts/ScriptableObjects/Research/Artifacts/Effects/DamageEffect/AreaEffectOnDamage.cs
+  - Assets/Scripts/ScriptableObjects/Research/Artifacts/Effects/DamageEffect/DamageEffectBase.cs
+  - Assets/Scripts/ScriptableObjects/Research/Artifacts/Effects/DamageEffect/ExplosiveDamageEffect.cs
+  - Assets/Scripts/ScriptableObjects/Research/Artifacts/Effects/InteractEffects/InteractEffectBase.cs
+  - Assets/Scripts/ScriptableObjects/Research/Artifacts/Effects/InteractEffects/PortalInteractEffect.cs
+  - Assets/Scripts/ScriptableObjects/Research/Artifacts/Effects/InteractEffects/TransmuteArtifactEffect.cs
+  - Assets/Scripts/ScriptableObjects/Research/DefaultTechwebData.cs
+  - Assets/Scripts/ScriptableObjects/Research/DesignProductionData.cs
+  - Assets/Scripts/ScriptableObjects/Research/Ordnance/ExplosiveBounty.cs
+  - Assets/Scripts/ScriptableObjects/Research/Ordnance/ExplosiveBountySO.cs
+  - Assets/Scripts/ScriptableObjects/Research/RDProCategoryListSO.cs
+  - Assets/Scripts/ScriptableObjects/Research/RDProInitialProductsSO.cs
+  - Assets/Scripts/ScriptableObjects/RightClickOptionsList.cs
+  - Assets/Scripts/ScriptableObjects/RP/EmoteListSO.cs
+  - Assets/Scripts/ScriptableObjects/RP/EmoteSO.cs
+  - Assets/Scripts/ScriptableObjects/RP/GenderedEmote.cs
+  - Assets/Scripts/ScriptableObjects/RP/SpeciesSpecficEmote.cs
+  - Assets/Scripts/ScriptableObjects/SingletonScriptableObject.cs
+  - Assets/Scripts/ScriptableObjects/SOAdminJobsList.cs
+  - Assets/Scripts/ScriptableObjects/SOLightMountState.cs
+  - Assets/Scripts/ScriptableObjects/SOLightMountStatesMachine.cs
+  - Assets/Scripts/ScriptableObjects/SpeechModifier.cs
+  - Assets/Scripts/ScriptableObjects/SpeechModManager.cs
+  - Assets/Scripts/ScriptableObjects/SpritesDirectional.cs
+  - Assets/Scripts/ScriptableObjects/StringList.cs
+  - Assets/Scripts/ScriptableObjects/Telecomms/EncryptionDataSO.cs
+  - Assets/Scripts/ScriptableObjects/Telecomms/SignalDataSO.cs
+  - Assets/Scripts/ScriptableObjects/TileCategorySO.cs
+  - Assets/Scripts/ScriptableObjects/TileListSO.cs
+  - Assets/Scripts/ScriptableObjects/TimedGameEvents/HalloweenGhosts.cs
+  - Assets/Scripts/ScriptableObjects/TimedGameEvents/TimedGameEventSO.cs
+  - Assets/Scripts/Shared/Editor/Check.cs
+  - Assets/Scripts/Shared/Editor/DeviceLinker.cs
+  - Assets/Scripts/Shared/Editor/EditorUIUtils.cs
+  - Assets/Scripts/Shared/Editor/GizmoUtils.cs
+  - Assets/Scripts/Shared/Extensions/SharedConverterExtensions.cs
+  - Assets/Scripts/Shared/Managers/SingletonManager.cs
+  - Assets/Scripts/Shared/Shared.asmdef
+  - Assets/Scripts/Shared/Systems/ObjectConnection/IMultitoolLinkable.cs
+  - Assets/Scripts/Shared/Systems/ObjectConnection/ISubscriptionController.cs
+  - Assets/Scripts/Shared/Util/FindUtils.cs
+  - Assets/Scripts/Shuttles/BetterBounds.cs
+  - Assets/Scripts/Shuttles/BetterBoundsInt.cs
+  - Assets/Scripts/Shuttles/CargoShuttle.cs
+  - Assets/Scripts/Shuttles/CentComShuttlePoints.cs
+  - Assets/Scripts/Shuttles/CollisionSensor.cs
+  - Assets/Scripts/Shuttles/Destination.cs
+  - Assets/Scripts/Shuttles/EscapeShuttle.cs
+  - Assets/Scripts/Shuttles/EscapeShuttleConsole.cs
+  - Assets/Scripts/Shuttles/IMatrixRotation.cs
+  - Assets/Scripts/Shuttles/MatrixMove.cs
+  - Assets/Scripts/Shuttles/MatrixMoveEvents.cs
+  - Assets/Scripts/Shuttles/MatrixPositionFilter.cs
+  - Assets/Scripts/Shuttles/MatrixRotationInfo.cs
+  - Assets/Scripts/Shuttles/MatrixState.cs
+  - Assets/Scripts/Shuttles/MatrixSync.cs
+  - Assets/Scripts/Shuttles/RcsThruster.cs
+  - Assets/Scripts/Shuttles/RotationCollisionSensor.cs
+  - Assets/Scripts/Shuttles/ShipThruster.cs
+  - Assets/Scripts/Shuttles/ShuttleFuelConnector.cs
+  - Assets/Scripts/Shuttles/ShuttleFuelSystem.cs
+  - Assets/Scripts/Shuttles/ShuttleLanding.cs
+  - Assets/Scripts/Shuttles/ShuttleStartAutoMove.cs
+  - Assets/Scripts/Shuttles/ShuttleStatus.cs
+  - Assets/Scripts/Strings/ChatTemplates.cs
+  - Assets/Scripts/Strings/ReportTemplates.cs
+  - Assets/Scripts/Systems/Access/AccessList.cs
+  - Assets/Scripts/Systems/Ai/AiLawSet.cs
+  - Assets/Scripts/Systems/Ai/AiMouseInputController.cs
+  - Assets/Scripts/Systems/Ai/AiPlayer.cs
+  - Assets/Scripts/Systems/Ai/AiUploadConsole.cs
+  - Assets/Scripts/Systems/Antagonists/AlienPlayer.cs
+  - Assets/Scripts/Systems/Antagonists/AntagData.cs
+  - Assets/Scripts/Systems/Antagonists/AntagManager.cs
+  - Assets/Scripts/Systems/Antagonists/Antagonist.cs
+  - Assets/Scripts/Systems/Antagonists/Antags/Blob/Blob.cs
+  - Assets/Scripts/Systems/Antagonists/Antags/Blob/BlobPlayer.cs
+  - Assets/Scripts/Systems/Antagonists/Antags/Blob/BlobStarter.cs
+  - Assets/Scripts/Systems/Antagonists/Antags/Blob/BlobStructure.cs
+  - Assets/Scripts/Systems/Antagonists/Antags/BloodBrother.cs
+  - Assets/Scripts/Systems/Antagonists/Antags/Cargonian.cs
+  - Assets/Scripts/Systems/Antagonists/Antags/CodeWordManager.cs
+  - Assets/Scripts/Systems/Antagonists/Antags/Fugitive.cs
+  - Assets/Scripts/Systems/Antagonists/Antags/NuclearOperative.cs
+  - Assets/Scripts/Systems/Antagonists/Antags/Survivor.cs
+  - Assets/Scripts/Systems/Antagonists/Antags/Traitor.cs
+  - Assets/Scripts/Systems/Antagonists/Antags/Wizard.cs
+  - Assets/Scripts/Systems/Antagonists/BlobStrain.cs
+  - Assets/Scripts/Systems/Antagonists/Highlander.cs
+  - Assets/Scripts/Systems/Antagonists/Objective.cs
+  - Assets/Scripts/Systems/Antagonists/Objectives/Assassinate.cs
+  - Assets/Scripts/Systems/Antagonists/Objectives/BlobDestroyStation.cs
+  - Assets/Scripts/Systems/Antagonists/Objectives/BloodBrotherMainObjective.cs
+  - Assets/Scripts/Systems/Antagonists/Objectives/CaptureCapsHat.cs
+  - Assets/Scripts/Systems/Antagonists/Objectives/CargoEliminateSecurity.cs
+  - Assets/Scripts/Systems/Antagonists/Objectives/CargoMenSurvival.cs
+  - Assets/Scripts/Systems/Antagonists/Objectives/EscapeObjectives/Escape.cs
+  - Assets/Scripts/Systems/Antagonists/Objectives/EscapeObjectives/GloriousDeath.cs
+  - Assets/Scripts/Systems/Antagonists/Objectives/EscapeObjectives/Hijack.cs
+  - Assets/Scripts/Systems/Antagonists/Objectives/EscapeObjectives/PreventEveryoneFromEscaping.cs
+  - Assets/Scripts/Systems/Antagonists/Objectives/EscapeObjectives/Survive.cs
+  - Assets/Scripts/Systems/Antagonists/Objectives/Gimmick.cs
+  - Assets/Scripts/Systems/Antagonists/Objectives/Maroon.cs
+  - Assets/Scripts/Systems/Antagonists/Objectives/NotCuffed.cs
+  - Assets/Scripts/Systems/Antagonists/Objectives/OnlyCargoMenEscape.cs
+  - Assets/Scripts/Systems/Antagonists/Objectives/Steal.cs
+  - Assets/Scripts/Systems/Antagonists/Objectives/SurvivalistGuns.cs
+  - Assets/Scripts/Systems/Antagonists/Objectives/SurvivalistMagic.cs
+  - Assets/Scripts/Systems/Antagonists/Objectives/TriggerNuke.cs
+  - Assets/Scripts/Systems/Antagonists/SpawnedAntag.cs
+  - Assets/Scripts/Systems/Botany/GrownFood.cs
+  - Assets/Scripts/Systems/Botany/PlantData.cs
+  - Assets/Scripts/Systems/Cargo/CargoBounty.cs
+  - Assets/Scripts/Systems/Cargo/CargoCategory.cs
+  - Assets/Scripts/Systems/Cargo/CargoData.cs
+  - Assets/Scripts/Systems/Cargo/CargoOrderSO.cs
+  - Assets/Scripts/Systems/Chemistry/Chemistry.asmdef
+  - Assets/Scripts/Systems/Chemistry/ChemistryUtils.cs
+  - Assets/Scripts/Systems/Chemistry/Editor/Chemistry.Editor.asmdef
+  - Assets/Scripts/Systems/Chemistry/Editor/Importer.cs
+  - Assets/Scripts/Systems/Chemistry/Editor/ReactionEditor.cs
+  - Assets/Scripts/Systems/Chemistry/Effect.cs
+  - Assets/Scripts/Systems/Chemistry/Effects/Body/ChemHallucination.cs
+  - Assets/Scripts/Systems/Chemistry/Effects/ChemExplosion.cs
+  - Assets/Scripts/Systems/Chemistry/Effects/Chemistry.Effects.asmdef
+  - Assets/Scripts/Systems/Chemistry/Effects/ConsumeItem.cs
+  - Assets/Scripts/Systems/Chemistry/Effects/Debug.cs
+  - Assets/Scripts/Systems/Chemistry/Effects/FoamEffect.cs
+  - Assets/Scripts/Systems/Chemistry/Effects/Item.cs
+  - Assets/Scripts/Systems/Chemistry/Effects/SmokeEffect.cs
+  - Assets/Scripts/Systems/Chemistry/Reaction.cs
+  - Assets/Scripts/Systems/Chemistry/ReactionSet.cs
+  - Assets/Scripts/Systems/Chemistry/Reagent.cs
+  - Assets/Scripts/Systems/Chemistry/ReagentMix.cs
+  - Assets/Scripts/Systems/Chemistry/ReagentState.cs
+  - Assets/Scripts/Systems/ChemistryInMainAssembly/ChemistryManager.cs
+  - Assets/Scripts/Systems/Clearance/BasicClearanceSource.cs
+  - Assets/Scripts/Systems/Clearance/CheckType.cs
+  - Assets/Scripts/Systems/Clearance/Clearance.cs
+  - Assets/Scripts/Systems/Clearance/ClearanceRestricted.cs
+  - Assets/Scripts/Systems/Clearance/IClearanceSource.cs
+  - Assets/Scripts/Systems/Clearance/SyncListClearance.cs
+  - Assets/Scripts/Systems/Clearance/Utils/MigrationData.cs
+  - Assets/Scripts/Systems/ClientSynchronisedEffectsManager.cs
+  - Assets/Scripts/Systems/Communications/ChatInfluncer.cs
+  - Assets/Scripts/Systems/Construction/AiCoreFrame.cs
+  - Assets/Scripts/Systems/Construction/AirlockAssembly.cs
+  - Assets/Scripts/Systems/Construction/AirlockElectronics.cs
+  - Assets/Scripts/Systems/Construction/BuildingMaterial.cs
+  - Assets/Scripts/Systems/Construction/BuildList.cs
+  - Assets/Scripts/Systems/Construction/Computer.cs
+  - Assets/Scripts/Systems/Construction/ComputerCircuitboard.cs
+  - Assets/Scripts/Systems/Construction/ComputerFrame.cs
+  - Assets/Scripts/Systems/Construction/LightFixtureConstruction.cs
+  - Assets/Scripts/Systems/Construction/Machine.cs
+  - Assets/Scripts/Systems/Construction/MachineCircuitBoard.cs
+  - Assets/Scripts/Systems/Construction/MachineFrame.cs
+  - Assets/Scripts/Systems/Construction/MachineParts.cs
+  - Assets/Scripts/Systems/Construction/MachinePartsItemTraits.cs
+  - Assets/Scripts/Systems/Construction/MachinePartsPrefabs.cs
+  - Assets/Scripts/Systems/Construction/Parts/Battery.cs
+  - Assets/Scripts/Systems/Construction/Parts/Capacitor.cs
+  - Assets/Scripts/Systems/Construction/Parts/Manipulator.cs
+  - Assets/Scripts/Systems/Construction/Parts/MatterBin.cs
+  - Assets/Scripts/Systems/Construction/Parts/MicroLaser.cs
+  - Assets/Scripts/Systems/Construction/Parts/ScanningModule.cs
+  - Assets/Scripts/Systems/Construction/SpawnOnWrench.cs
+  - Assets/Scripts/Systems/Construction/TurretFrame.cs
+  - Assets/Scripts/Systems/Construction/WrenchSecurable.cs
+  - Assets/Scripts/Systems/Crafting/CraftingDatabase.cs
+  - Assets/Scripts/Systems/Crafting/GrinderRecipe.cs
+  - Assets/Scripts/Systems/Crafting/Ingredient.cs
+  - Assets/Scripts/Systems/Crafting/IngredientMarker.cs
+  - Assets/Scripts/Systems/Crafting/Recipe.cs
+  - Assets/Scripts/Systems/CraftingV2/CategoryAndIcon.cs
+  - Assets/Scripts/Systems/CraftingV2/ClientServerLogic/RequestInitRecipes.cs
+  - Assets/Scripts/Systems/CraftingV2/ClientServerLogic/RequestRefreshRecipes.cs
+  - Assets/Scripts/Systems/CraftingV2/ClientServerLogic/RequestStartCraftingAction.cs
+  - Assets/Scripts/Systems/CraftingV2/ClientServerLogic/SendForgottenCraftingRecipe.cs
+  - Assets/Scripts/Systems/CraftingV2/ClientServerLogic/SendInitRecipesOrder.cs
+  - Assets/Scripts/Systems/CraftingV2/ClientServerLogic/SendLearnedCraftingRecipe.cs
+  - Assets/Scripts/Systems/CraftingV2/ClientServerLogic/SendRefreshRecipesOrder.cs
+  - Assets/Scripts/Systems/CraftingV2/CraftingActionParameters.cs
+  - Assets/Scripts/Systems/CraftingV2/CraftingIngredient.cs
+  - Assets/Scripts/Systems/CraftingV2/CraftingRecipe.cs
+  - Assets/Scripts/Systems/CraftingV2/CraftingRecipeList.cs
+  - Assets/Scripts/Systems/CraftingV2/CraftingRecipeSingleton.cs
+  - Assets/Scripts/Systems/CraftingV2/CraftingStatus.cs
+  - Assets/Scripts/Systems/CraftingV2/CustomUnityEditors/RecipeEditor.cs
+  - Assets/Scripts/Systems/CraftingV2/CustomUnityEditors/RecipeSingletonEditor.cs
+  - Assets/Scripts/Systems/CraftingV2/CustomUnityEditors/Utils.cs
+  - Assets/Scripts/Systems/CraftingV2/GUI/CategoryButtonScript.cs
+  - Assets/Scripts/Systems/CraftingV2/GUI/CraftingMenu.cs
+  - Assets/Scripts/Systems/CraftingV2/GUI/RecipeButtonScript.cs
+  - Assets/Scripts/Systems/CraftingV2/GUI/RecipesInCategory.cs
+  - Assets/Scripts/Systems/CraftingV2/RecipeBook.cs
+  - Assets/Scripts/Systems/CraftingV2/RecipeCategory.cs
+  - Assets/Scripts/Systems/CraftingV2/RecipeIngredient.cs
+  - Assets/Scripts/Systems/CraftingV2/RecipeIngredientReagent.cs
+  - Assets/Scripts/Systems/CraftingV2/RelatedRecipe.cs
+  - Assets/Scripts/Systems/CraftingV2/ResultHandlers/IResultHandler.cs
+  - Assets/Scripts/Systems/Disposals/DisposalPipeNode.cs
+  - Assets/Scripts/Systems/Disposals/DisposalsManager.cs
+  - Assets/Scripts/Systems/Disposals/DisposalTraversal.cs
+  - Assets/Scripts/Systems/Electricity/ConnectionMap.cs
+  - Assets/Scripts/Systems/Electricity/Electrical processes/ElectricalManager.cs
+  - Assets/Scripts/Systems/Electricity/Electrical processes/ElectricalPool.cs
+  - Assets/Scripts/Systems/Electricity/Electrical processes/ElectricalSynchronisation.cs
+  - Assets/Scripts/Systems/Electricity/Electrical processes/ElectricalThread.cs
+  - Assets/Scripts/Systems/Electricity/FunctionsAndClasses/cable tiles/CableTileList.cs
+  - Assets/Scripts/Systems/Electricity/FunctionsAndClasses/CableLine.cs
+  - Assets/Scripts/Systems/Electricity/FunctionsAndClasses/ElectricalCableTile.cs
+  - Assets/Scripts/Systems/Electricity/FunctionsAndClasses/ElectricalDataCleanup.cs
+  - Assets/Scripts/Systems/Electricity/FunctionsAndClasses/ElectricalMetaData.cs
+  - Assets/Scripts/Systems/Electricity/FunctionsAndClasses/ElectricityFunctions.cs
+  - Assets/Scripts/Systems/Electricity/FunctionsAndClasses/ElectronicData.cs
+  - Assets/Scripts/Systems/Electricity/FunctionsAndClasses/ElectronicSupplyData.cs
+  - Assets/Scripts/Systems/Electricity/FunctionsAndClasses/InLineDevice.cs
+  - Assets/Scripts/Systems/Electricity/FunctionsAndClasses/InputOutputFunctions.cs
+  - Assets/Scripts/Systems/Electricity/FunctionsAndClasses/IntrinsicElectronicData.cs
+  - Assets/Scripts/Systems/Electricity/FunctionsAndClasses/OverlapDestroy.cs
+  - Assets/Scripts/Systems/Electricity/FunctionsAndClasses/PowerInputReactions.cs
+  - Assets/Scripts/Systems/Electricity/FunctionsAndClasses/PowerSupplyFunction.cs
+  - Assets/Scripts/Systems/Electricity/FunctionsAndClasses/PowerTypeCategories.cs
+  - Assets/Scripts/Systems/Electricity/FunctionsAndClasses/Resistance.cs
+  - Assets/Scripts/Systems/Electricity/FunctionsAndClasses/TransformerCalculations.cs
+  - Assets/Scripts/Systems/Electricity/FunctionsAndClasses/VIRCurrent.cs
+  - Assets/Scripts/Systems/Electricity/Inheritance/CableInheritance.cs
+  - Assets/Scripts/Systems/Electricity/Inheritance/ElectricalIOInheritance.cs
+  - Assets/Scripts/Systems/Electricity/Inheritance/ElectricalModuleInheritance.cs
+  - Assets/Scripts/Systems/Electricity/Interfaces/IAPCPowerable.cs
+  - Assets/Scripts/Systems/Electricity/Interfaces/ICodeNodeControl.cs
+  - Assets/Scripts/Systems/Electricity/Interfaces/IDeviceControl.cs
+  - Assets/Scripts/Systems/Electricity/NodeModules/BatterySupplyingModule.cs
+  - Assets/Scripts/Systems/Electricity/NodeModules/ElectricalNodeControl.cs
+  - Assets/Scripts/Systems/Electricity/NodeModules/ModuleSupplyingDevice.cs
+  - Assets/Scripts/Systems/Electricity/NodeModules/ResistanceSourceModule.cs
+  - Assets/Scripts/Systems/Electricity/NodeModules/TransformerModule.cs
+  - Assets/Scripts/Systems/Electricity/PowerSupplies/ToggleableElectricalNode.cs
+  - Assets/Scripts/Systems/Electricity/readme.md
+  - Assets/Scripts/Systems/Electricity/Sprites/Based machine connector.png
+  - Assets/Scripts/Systems/Electricity/Sprites/dep_bat.png
+  - Assets/Scripts/Systems/Electricity/Sprites/DepartmentBattery.png
+  - Assets/Scripts/Systems/Electricity/Sprites/depbat_overlays.png
+  - Assets/Scripts/Systems/Electricity/Sprites/low cable overlay.png
+  - Assets/Scripts/Systems/Electricity/Sprites/Medium cable overlay.png
+  - Assets/Scripts/Systems/Electricity/Sprites/PowerTerminalBase.asset
+  - Assets/Scripts/Systems/Electricity/Sprites/PowerTerminalLow.asset
+  - Assets/Scripts/Systems/Electricity/Sprites/solar.png
+  - Assets/Scripts/Systems/Electricity/Sprites/Sprite palette low Sprite .png
+  - Assets/Scripts/Systems/Electricity/Sprites/Sprite palette Medium Sprite .png
+  - Assets/Scripts/Systems/Electricity/Sprites/Transformer/HighVoltageNS.png
+  - Assets/Scripts/Systems/Electricity/Sprites/Transformer/HighVoltageWE.png
+  - Assets/Scripts/Systems/Electricity/Sprites/Transformer/LowVoltageNS.png
+  - Assets/Scripts/Systems/Electricity/Sprites/Transformer/LowVoltageWE.png
+  - Assets/Scripts/Systems/Electricity/Sprites/Transformer/MediumVoltageNS.png
+  - Assets/Scripts/Systems/Electricity/Sprites/Transformer/MedVoltageWE.png
+  - Assets/Scripts/Systems/Electricity/Sprites/Transformer/TransformerNS.png
+  - Assets/Scripts/Systems/Electricity/Sprites/Transformer/TransformerWE.asset
+  - Assets/Scripts/Systems/Electricity/Sprites/Transformer/TransformerWE.json
+  - Assets/Scripts/Systems/Electricity/Sprites/Transformer/TransformerWE.png
+  - Assets/Scripts/Systems/Electricity/Sprites/Transformer medium to low.png
+  - Assets/Scripts/Systems/Electricity/Sprites/Transformer North south.png
+  - Assets/Scripts/Systems/Electricity/Sprites/Transformers.png
+  - Assets/Scripts/Systems/Electricity/Wire/CableCategories/HighVoltageCable.cs
+  - Assets/Scripts/Systems/Electricity/Wire/CableCategories/LowVoltageCable.cs
+  - Assets/Scripts/Systems/Electricity/Wire/CableCategories/LowVoltageMachineConnector.cs
+  - Assets/Scripts/Systems/Electricity/Wire/CableCategories/MediumMachineConnector.cs
+  - Assets/Scripts/Systems/Electricity/Wire/CableCategories/StandardCable.cs
+  - Assets/Scripts/Systems/Electricity/Wire/MachineConnectorSpriteHandler.cs
+  - Assets/Scripts/Systems/Electricity/Wire/WireConnect.cs
+  - Assets/Scripts/Systems/Electricity/Wire/WireDirections.cs
+  - Assets/Scripts/Systems/Events/EventRegistry.cs
+  - Assets/Scripts/Systems/Events/IUnsubscribable.cs
+  - Assets/Scripts/Systems/Events/SubscribedAction.cs
+  - Assets/Scripts/Systems/Explosions/ElectricalArc.cs
+  - Assets/Scripts/Systems/Explosions/Explosion.cs
+  - Assets/Scripts/Systems/Explosions/ExplosionComponent.cs
+  - Assets/Scripts/Systems/Explosions/ExplosionManager.cs
+  - Assets/Scripts/Systems/Explosions/ExplosionTypes.cs
+  - Assets/Scripts/Systems/Explosions/IEMPAble.cs
+  - Assets/Scripts/Systems/Explosions/IOnLightningHit.cs
+  - Assets/Scripts/Systems/Explosions/NodeTypes/ExplosionEmpNode.cs
+  - Assets/Scripts/Systems/Explosions/NodeTypes/ExplosionNode.cs
+  - Assets/Scripts/Systems/Explosions/SparkUtil.cs
+  - Assets/Scripts/Systems/Explosions/TestExplosionScript.cs
+  - Assets/Scripts/Systems/FilthGenerator/FilthGenerator.cs
+  - Assets/Scripts/Systems/Fire/FireSource.cs
+  - Assets/Scripts/Systems/Fluids/LiquidPipeNet.cs
+  - Assets/Scripts/Systems/Fluids/MixAndVolume.cs
+  - Assets/Scripts/Systems/Fluids/PipeActions.cs
+  - Assets/Scripts/Systems/Fluids/PipeData.cs
+  - Assets/Scripts/Systems/Fluids/PipeFunctions.cs
+  - Assets/Scripts/Systems/Fluids/PipeNode.cs
+  - Assets/Scripts/Systems/Fluids/PipeTileSingleton.cs
+  - Assets/Scripts/Systems/GameModes/Blob.cs
+  - Assets/Scripts/Systems/GameModes/BloodBrothers.cs
+  - Assets/Scripts/Systems/GameModes/Cargonia.cs
+  - Assets/Scripts/Systems/GameModes/Extended.cs
+  - Assets/Scripts/Systems/GameModes/GameMode.cs
+  - Assets/Scripts/Systems/GameModes/GameModeData.cs
+  - Assets/Scripts/Systems/GameModes/Highlander.cs
+  - Assets/Scripts/Systems/GameModes/NukeOps.cs
+  - Assets/Scripts/Systems/GameModes/Traitor.cs
+  - Assets/Scripts/Systems/GameModes/Wizard.cs
+  - Assets/Scripts/Systems/GhostRoles/GhostRole.cs
+  - Assets/Scripts/Systems/GhostRoles/GhostRoleManager.cs
+  - Assets/Scripts/Systems/Hacking/HackingProcesses/HackingProcessBase.cs
+  - Assets/Scripts/Systems/InGameEvents/BaseEventParameters.cs
+  - Assets/Scripts/Systems/InGameEvents/EventRadiationStorm.cs
+  - Assets/Scripts/Systems/InGameEvents/EventScriptBase.cs
+  - Assets/Scripts/Systems/InGameEvents/InGameEventScripts/EventAsteroids.cs
+  - Assets/Scripts/Systems/InGameEvents/InGameEventScripts/EventCommsBlackout.cs
+  - Assets/Scripts/Systems/InGameEvents/InGameEventScripts/EventElectricalStorm.cs
+  - Assets/Scripts/Systems/InGameEvents/InGameEventScripts/EventGiveGuns.cs
+  - Assets/Scripts/Systems/InGameEvents/InGameEventScripts/EventGiveItems.cs
+  - Assets/Scripts/Systems/InGameEvents/InGameEventScripts/EventHighlander.cs
+  - Assets/Scripts/Systems/InGameEvents/InGameEventScripts/EventImmovableRod.cs
+  - Assets/Scripts/Systems/InGameEvents/InGameEventScripts/EventMiceMigration.cs
+  - Assets/Scripts/Systems/InGameEvents/InGameEventScripts/EventMobSpawn.cs
+  - Assets/Scripts/Systems/InGameEvents/InGameEventScripts/EventOxyToPlasma.cs
+  - Assets/Scripts/Systems/InGameEvents/InGameEventScripts/EventPortalStorm.cs
+  - Assets/Scripts/Systems/InGameEvents/InGameEventScripts/EventPowernetCheck.cs
+  - Assets/Scripts/Systems/InGameEvents/InGameEventScripts/EventProcessorOverload.cs
+  - Assets/Scripts/Systems/InGameEvents/InGameEventScripts/EventScrubberSurge.cs
+  - Assets/Scripts/Systems/InGameEvents/InGameEventScripts/EventSickness.cs
+  - Assets/Scripts/Systems/InGameEvents/InGameEventScripts/EventStartGhostRole.cs
+  - Assets/Scripts/Systems/InGameEvents/InGameEventScripts/EventSummonGuns.cs
+  - Assets/Scripts/Systems/InGameEvents/InGameEventScripts/RadiationStormObject.cs
+  - Assets/Scripts/Systems/InGameEvents/InGameEventsManager.cs
+  - Assets/Scripts/Systems/InGameEvents/SicknessEventParameters.cs
+  - Assets/Scripts/Systems/Inventory/ClientInventoryMove.cs
+  - Assets/Scripts/Systems/Inventory/ClothingSlots.cs
+  - Assets/Scripts/Systems/Inventory/DamageOnPickUp.cs
+  - Assets/Scripts/Systems/Inventory/Disarmable.cs
+  - Assets/Scripts/Systems/Inventory/DynamicItemStorage.cs
+  - Assets/Scripts/Systems/Inventory/FancyItemStorage.cs
+  - Assets/Scripts/Systems/Inventory/IClientInventoryMove.cs
+  - Assets/Scripts/Systems/Inventory/IDynamicItemSlotS.cs
+  - Assets/Scripts/Systems/Inventory/IItemStoragePopulator.cs
+  - Assets/Scripts/Systems/Inventory/Inventory.cs
+  - Assets/Scripts/Systems/Inventory/InventoryMoveType.cs
+  - Assets/Scripts/Systems/Inventory/InvisibleBox.cs
+  - Assets/Scripts/Systems/Inventory/IServerInventoryMove.cs
+  - Assets/Scripts/Systems/Inventory/ItemSlot.cs
+  - Assets/Scripts/Systems/Inventory/ItemStorage.cs
+  - Assets/Scripts/Systems/Inventory/ItemType.cs
+  - Assets/Scripts/Systems/Inventory/NamedSlot.cs
+  - Assets/Scripts/Systems/Inventory/Pickupable.cs
+  - Assets/Scripts/Systems/Inventory/PopulationContext.cs
+  - Assets/Scripts/Systems/Inventory/Populators/ItemStoragePopulator.cs
+  - Assets/Scripts/Systems/Inventory/Populators/PopulatorUtils.cs
+  - Assets/Scripts/Systems/Inventory/Populators/Storage/AutoOccupationStoragePopulator.cs
+  - Assets/Scripts/Systems/Inventory/Populators/Storage/PlayerSlotStoragePopulator.cs
+  - Assets/Scripts/Systems/Inventory/Populators/Storage/StoragePopulator.cs
+  - Assets/Scripts/Systems/Inventory/Populators/Storage/StoragePopulatorChain.cs
+  - Assets/Scripts/Systems/Inventory/Size.cs
+  - Assets/Scripts/Systems/Inventory/SlotIdentifier.cs
+  - Assets/Scripts/Systems/Inventory/SpriteType.cs
+  - Assets/Scripts/Systems/Inventory/StorageIdentifier.cs
+  - Assets/Scripts/Systems/Inventory/Structure/DefinedSlotCapacity.cs
+  - Assets/Scripts/Systems/Inventory/Structure/DefinedStorageCapacity.cs
+  - Assets/Scripts/Systems/Inventory/Structure/ItemStorageCapacity.cs
+  - Assets/Scripts/Systems/Inventory/Structure/ItemStorageStructure.cs
+  - Assets/Scripts/Systems/Inventory/Structure/SlotCapacity.cs
+  - Assets/Scripts/Systems/Inventory/UI_DynamicItemSlot.cs
+  - Assets/Scripts/Systems/Lobby/CharacterManager.cs
+  - Assets/Scripts/Systems/Lobby/CharacterSheet.cs
+  - Assets/Scripts/Systems/MaintGenerator.cs
+  - Assets/Scripts/Systems/MaintGeneratorManager.cs
+  - Assets/Scripts/Systems/MaintRoomsMarker.cs
+  - Assets/Scripts/Systems/Occupations/AccessRestrictions.cs
+  - Assets/Scripts/Systems/Occupations/Department.cs
+  - Assets/Scripts/Systems/Occupations/DepartmentList.cs
+  - Assets/Scripts/Systems/Occupations/JobType.cs
+  - Assets/Scripts/Systems/Occupations/Occupation.cs
+  - Assets/Scripts/Systems/Occupations/OccupationList.cs
+  - Assets/Scripts/Systems/Ore Generation/OreGenerator.cs
+  - Assets/Scripts/Systems/Ore Generation/OreGeneratorConfig.cs
+  - Assets/Scripts/Systems/Permissions/Permissions.asmdef
+  - Assets/Scripts/Systems/Permissions/PermissionsConfig.cs
+  - Assets/Scripts/Systems/Permissions/PermissionsManager.cs
+  - Assets/Scripts/Systems/Radiation/RadiationManager.cs
+  - Assets/Scripts/Systems/Radiation/RadiationNode.cs
+  - Assets/Scripts/Systems/Radiation/RadiationProducer.cs
+  - Assets/Scripts/Systems/Radiation/RadiationThread.cs
+  - Assets/Scripts/Systems/Radio/RadioMessager.cs
+  - Assets/Scripts/Systems/Radio/RadioReceiver.cs
+  - Assets/Scripts/Systems/Research/Data/TechwebExporter.cs
+  - Assets/Scripts/Systems/Research/Data/TechwebImporter.cs
+  - Assets/Scripts/Systems/Research/Data/TechWebNode.cs
+  - Assets/Scripts/Systems/Research/Designs.cs
+  - Assets/Scripts/Systems/Research/ImporterExporter/TechwebJSONExporter.cs
+  - Assets/Scripts/Systems/Research/ImporterExporter/TechwebJSONImporter.cs
+  - Assets/Scripts/Systems/Research/Objects/ResearchServer.cs
+  - Assets/Scripts/Systems/Research/Techweb.cs
+  - Assets/Scripts/Systems/Score/RoundEndScoreBuilder.cs
+  - Assets/Scripts/Systems/Score/RoundEndScoreBuilder.Data.cs
+  - Assets/Scripts/Systems/Score/ScoreEntry/ScoreEntry.cs
+  - Assets/Scripts/Systems/Score/ScoreEntry/ScoreEntryBool.cs
+  - Assets/Scripts/Systems/Score/ScoreEntry/ScoreEntryInt.cs
+  - Assets/Scripts/Systems/Score/ScoreEntry/ScoreEntryString.cs
+  - Assets/Scripts/Systems/Score/ScoreMachine.cs
+  - Assets/Scripts/Systems/SmokeAndFoam/FoamNode.cs
+  - Assets/Scripts/Systems/SmokeAndFoam/SmokeAndFoamManager.cs
+  - Assets/Scripts/Systems/SmokeAndFoam/SmokeNode.cs
+  - Assets/Scripts/Systems/SmokeAndFoam/SpreadNode.cs
+  - Assets/Scripts/Systems/Spells/Mime/MimeBox.cs
+  - Assets/Scripts/Systems/Spells/Mime/MimeChair.cs
+  - Assets/Scripts/Systems/Spells/Mime/MimeSpeech.cs
+  - Assets/Scripts/Systems/Spells/Mime/MimeWall.cs
+  - Assets/Scripts/Systems/Spells/Spell.cs
+  - Assets/Scripts/Systems/Spells/SpellData.cs
+  - Assets/Scripts/Systems/Spells/SpellList.cs
+  - Assets/Scripts/Systems/Spells/Wizard/Blink.cs
+  - Assets/Scripts/Systems/Spells/Wizard/Fireball.cs
+  - Assets/Scripts/Systems/Spells/Wizard/Forcewall.cs
+  - Assets/Scripts/Systems/Spells/Wizard/InstantSummons.cs
+  - Assets/Scripts/Systems/Spells/Wizard/LesserSummonGuns.cs
+  - Assets/Scripts/Systems/Spells/Wizard/LightningBolt.cs
+  - Assets/Scripts/Systems/Spells/Wizard/Rockdrop.cs
+  - Assets/Scripts/Systems/Spells/Wizard/SpawnByPortal.cs
+  - Assets/Scripts/Systems/Spells/Wizard/TeleportAction.cs
+  - Assets/Scripts/Systems/Spells/Wizard/TeleportSpell.cs
+  - Assets/Scripts/Systems/Spells/WizardSpellData.cs
+  - Assets/Scripts/Systems/StationObjectives/Objectives/ShipResources.cs
+  - Assets/Scripts/Systems/StationObjectives/StationObjective.cs
+  - Assets/Scripts/Systems/StationObjectives/StationObjectiveData.cs
+  - Assets/Scripts/Systems/StationObjectives/StationObjectiveManager.cs
+  - Assets/Scripts/Systems/StatusesAndEffects/Implementations/Convulsing.cs
+  - Assets/Scripts/Systems/StatusesAndEffects/Interfaces/IExpirableStatus.cs
+  - Assets/Scripts/Systems/StatusesAndEffects/Interfaces/IImmediateEffect.cs
+  - Assets/Scripts/Systems/StatusesAndEffects/Interfaces/IStackableStatus.cs
+  - Assets/Scripts/Systems/StatusesAndEffects/StatusEffect.cs
+  - Assets/Scripts/Systems/StatusesAndEffects/StatusEffectManager.cs
+  - Assets/Scripts/Systems/Voting/VotePopUp.cs
+  - Assets/Scripts/Systems/Voting/VotingButton.cs
+  - Assets/Scripts/Systems/Voting/VotingManager.cs
+  - Assets/Scripts/Tilemaps/Behaviours/InteractableTiles.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Layers/APCState.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Layers/DisposalsLayer.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Layers/ElectricalLayer.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Layers/Layer.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Layers/Matrix.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Layers/MetaDataLayer.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Layers/MetaTileMap.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Layers/NetworkedMatrix.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Layers/ObjectLayer.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Layers/PipeLayer.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Layers/TileLocation.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Layers/UnderFloorLayer.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/AtmosDefines.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/AtmosManager.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/AtmosSimulation.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/AtmosSystem.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/AtmosThread.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/Data/Gas.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/Data/GasMix.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/Data/GasMixes.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/Data/Reactions/BZFormation.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/Data/Reactions/FreonFireReaction.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/Data/Reactions/FreonFormation.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/Data/Reactions/FusionReaction.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/Data/Reactions/HydrogenFormation.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/Data/Reactions/HyperNobliumFormation.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/Data/Reactions/MetalHydrogenFormation.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/Data/Reactions/MiasmaDecomposition.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/Data/Reactions/NitrylFormation.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/Data/Reactions/NO2Decomposition.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/Data/Reactions/NO2Formation.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/Data/Reactions/PlasmaFireReaction.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/Data/Reactions/Reaction.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/Data/Reactions/Reactions.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/Data/Reactions/StimBallReaction.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/Data/Reactions/StimulumFormation.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/Data/Reactions/TritiumFireReaction.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/Data/Reactions/WaterVapourReaction.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/Hotspot.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/IGasMixContainer.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/ReactionManager.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Atmospherics/RoomGasSetter.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/MetaDataNode.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/MetaDataSystem.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/NodeType.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/SubsystemManager.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/SystemBehaviour.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/TileChangeManager.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Utils/AtmosConstants.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Utils/AtmosUtils.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Utils/MetaUtils.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Meta/Utils/UniqueQueue.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Objects/RegisterDoor.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Objects/RegisterItem.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Objects/RegisterObject.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Objects/RegisterPlayer.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Objects/RegisterTile.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Objects/SpatialRelationship/BaseSpatialRelationship.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Objects/SpatialRelationship/ObserveStorageRelationship.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Objects/SpatialRelationship/RangeRelationship.cs
+  - Assets/Scripts/Tilemaps/Behaviours/Objects/SpatialRelationship/SpatialRelationship.cs
+  - Assets/Scripts/Tilemaps/Behaviours/TileHealthBehaviour.cs
+  - Assets/Scripts/Tilemaps/Behaviours/TilemapDamage.cs
+  - Assets/Scripts/Tilemaps/Editor/Brushes/LevelBrush.cs
+  - Assets/Scripts/Tilemaps/Editor/Brushes/LevelBrushEditor.cs
+  - Assets/Scripts/Tilemaps/Editor/Brushes/Utils/PreviewTile.cs
+  - Assets/Scripts/Tilemaps/Editor/CreateTilesMenu.cs
+  - Assets/Scripts/Tilemaps/Editor/PaletteGenerator.cs
+  - Assets/Scripts/Tilemaps/Editor/SpritesToTiles.cs
+  - Assets/Scripts/Tilemaps/Editor/TilemapsEditor.asmdef
+  - Assets/Scripts/Tilemaps/Editor/Utils/TileBuilder.cs
+  - Assets/Scripts/Tilemaps/TileManager.cs
+  - Assets/Scripts/Tilemaps/Tiles/AnimatedOverlayTile.cs
+  - Assets/Scripts/Tilemaps/Tiles/AnimatedTile.cs
+  - Assets/Scripts/Tilemaps/Tiles/BasicTile.cs
+  - Assets/Scripts/Tilemaps/Tiles/ConnectedTile.cs
+  - Assets/Scripts/Tilemaps/Tiles/ConnectedTileV2.cs
+  - Assets/Scripts/Tilemaps/Tiles/GenericTile.cs
+  - Assets/Scripts/Tilemaps/Tiles/LayerTile.cs
+  - Assets/Scripts/Tilemaps/Tiles/MetaTile.cs
+  - Assets/Scripts/Tilemaps/Tiles/OverlayTile.cs
+  - Assets/Scripts/Tilemaps/Tiles/SimpleTile.cs
+  - Assets/Scripts/Tilemaps/Tiles/TileCategory.cs
+  - Assets/Scripts/Tilemaps/Utils/IRegisterTileAction.cs
+  - Assets/Scripts/Tilemaps/Utils/PreviewSpriteBuilder.cs
+  - Assets/Scripts/Tilemaps/Utils/RendererComparer.cs
+  - Assets/Scripts/Tilemaps/Utils/TileList.cs
+  - Assets/Scripts/Tilemaps/Utils/TileListChunk.cs
+  - Assets/Scripts/Tilemaps/Utils/TileMapBuilder.cs
+  - Assets/Scripts/Tilemaps/Utils/Types.cs
+  - Assets/Scripts/UI/Core/Action/ActionControlInventory.cs
+  - Assets/Scripts/UI/Core/Action/ActionData.cs
+  - Assets/Scripts/UI/Core/Action/ActionTooltip.cs
+  - Assets/Scripts/UI/Core/Action/IActionGUI.cs
+  - Assets/Scripts/UI/Core/Action/ItemActionButton.cs
+  - Assets/Scripts/UI/Core/Action/RequestGameAction.cs
+  - Assets/Scripts/UI/Core/Action/RequestGameActionSO.cs
+  - Assets/Scripts/UI/Core/Action/UIAction.cs
+  - Assets/Scripts/UI/Core/Action/UIActionManager.cs
+  - Assets/Scripts/UI/Core/Action/UIActionScriptableObject.cs
+  - Assets/Scripts/UI/Core/Action/UIActionSOSingleton.cs
+  - Assets/Scripts/UI/Core/Animations/AnimatedRadialRotation.cs
+  - Assets/Scripts/UI/Core/Animations/AnimateOnHover.cs
+  - Assets/Scripts/UI/Core/Animations/AnimationDirection.cs
+  - Assets/Scripts/UI/Core/Animations/FilledImageAnimation.cs
+  - Assets/Scripts/UI/Core/Animations/Presets/AnimationBase.cs
+  - Assets/Scripts/UI/Core/Animations/Presets/SimpleFadeInFadeOut.cs
+  - Assets/Scripts/UI/Core/Animations/ReversibleObjectScale.cs
+  - Assets/Scripts/UI/Core/Animations/SimpleImageRotate.cs
+  - Assets/Scripts/UI/Core/BringToFront.cs
+  - Assets/Scripts/UI/Core/CameraZoomHandler.cs
+  - Assets/Scripts/UI/Core/CanvasHelper.cs
+  - Assets/Scripts/UI/Core/CanvasResolution.cs
+  - Assets/Scripts/UI/Core/ChatBubble/ActionText.cs
+  - Assets/Scripts/UI/Core/ChatBubble/ChatBubble.cs
+  - Assets/Scripts/UI/Core/ChatBubble/ChatBubbleManager.cs
+  - Assets/Scripts/UI/Core/ControlTabs.cs
+  - Assets/Scripts/UI/Core/CrayonUI.cs
+  - Assets/Scripts/UI/Core/DestroyOnDisable.cs
+  - Assets/Scripts/UI/Core/DisablePlatformSpecific.cs
+  - Assets/Scripts/UI/Core/DragAndDrop/DragAndDropInteractable.cs
+  - Assets/Scripts/UI/Core/DragAndDrop/UIDragAndDrop.cs
+  - Assets/Scripts/UI/Core/DynamicChoiceEntry.cs
+  - Assets/Scripts/UI/Core/DynamicChoiceUI.cs
+  - Assets/Scripts/UI/Core/EmptyItemList.cs
+  - Assets/Scripts/UI/Core/EscapeKeyTarget.cs
+  - Assets/Scripts/UI/Core/Events/PointerDownUpTrigger.cs
+  - Assets/Scripts/UI/Core/Events/PointerEventsListener.cs
+  - Assets/Scripts/UI/Core/Events/PointerEventType.cs
+  - Assets/Scripts/UI/Core/FlowLayoutGroup.cs
+  - Assets/Scripts/UI/Core/GeneralInputField.cs
+  - Assets/Scripts/UI/Core/GUI/Components/DiegeticLabel.cs
+  - Assets/Scripts/UI/Core/GUI/Components/GUI_ClickController.cs
+  - Assets/Scripts/UI/Core/GUI/Components/GUI_Component.cs
+  - Assets/Scripts/UI/Core/GUI/Components/GUI_EnterMethod.cs
+  - Assets/Scripts/UI/Core/GUI/Components/GUI_Notification.cs
+  - Assets/Scripts/UI/Core/GUI/Components/GUI_TabNext.cs
+  - Assets/Scripts/UI/Core/GUI/Components/GUI_TextInput.cs
+  - Assets/Scripts/UI/Core/GUI/Components/RaycastOpacity.cs
+  - Assets/Scripts/UI/Core/GUI/Editor/GUI_ButtonInstance.cs
+  - Assets/Scripts/UI/Core/GUI/Editor/GUI_ChatScrollWithInput.cs
+  - Assets/Scripts/UI/Core/GUI/Editor/GUI_ComponentInstance.cs
+  - Assets/Scripts/UI/Core/GUI/Editor/GUI_DialogueInstance.cs
+  - Assets/Scripts/UI/Core/GUI/Editor/GUI_Editor.asmdef
+  - Assets/Scripts/UI/Core/GUI/Editor/GUI_NotificationInstance.cs
+  - Assets/Scripts/UI/Core/GUI/Editor/GUI_TextInputInstance.cs
+  - Assets/Scripts/UI/Core/GUI/Editor/GUI_ToggleInstance.cs
+  - Assets/Scripts/UI/Core/ImageExtensions.cs
+  - Assets/Scripts/UI/Core/Info/FPSCounter.cs
+  - Assets/Scripts/UI/Core/Info/GUI_Info.cs
+  - Assets/Scripts/UI/Core/InputFieldFocus.cs
+  - Assets/Scripts/UI/Core/InputFieldTMPFocus.cs
+  - Assets/Scripts/UI/Core/LoadingScreen.cs
+  - Assets/Scripts/UI/Core/Net/Elements/Dynamic/DynamicEntry.cs
+  - Assets/Scripts/UI/Core/Net/Elements/Dynamic/NetDynamicButton.cs
+  - Assets/Scripts/UI/Core/Net/Elements/Dynamic/NetUIDynamicList.cs
+  - Assets/Scripts/UI/Core/Net/Elements/Dynamic/Prefab/ItemEntry.cs
+  - Assets/Scripts/UI/Core/Net/Elements/Dynamic/Prefab/ItemList.cs
+  - Assets/Scripts/UI/Core/Net/Elements/Dynamic/Spawned/DNASpeciesList.cs
+  - Assets/Scripts/UI/Core/Net/Elements/Dynamic/Spawned/DNAStrandList.cs
+  - Assets/Scripts/UI/Core/Net/Elements/Dynamic/Spawned/MutationMiniGameList.cs
+  - Assets/Scripts/UI/Core/Net/Elements/Dynamic/Spawned/MutationUnlockSelectList.cs
+  - Assets/Scripts/UI/Core/Net/Elements/Dynamic/Spawned/RadarEntry.cs
+  - Assets/Scripts/UI/Core/Net/Elements/Dynamic/Spawned/RadarList.cs
+  - Assets/Scripts/UI/Core/Net/Elements/Dynamic/Spawned/SpawnedObjectEntry.cs
+  - Assets/Scripts/UI/Core/Net/Elements/Dynamic/Spawned/SpawnedObjectList.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetAnchoredPosition.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetButton.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetButtonAuth.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetClientSyncString.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetColorChanger.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetCompositeImage.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetFilledInputField.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetFlasher.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetInteractiveButton.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetKeyButton.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetListButBetter.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetParentSetter.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetParentSetterTarget.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetPrefabImage.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetRadiusCircle.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetServerSyncString.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetSlider.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetSliderDial.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetSpriteHandler.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetSpriteImage.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetSubmitButton.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetText_label.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetTMPInputField.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetTMPSubmitButton.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetToggle.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetTouchScreen.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetUIElement.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetUIIntElement.cs
+  - Assets/Scripts/UI/Core/Net/Elements/NetUIStringElement.cs
+  - Assets/Scripts/UI/Core/Net/ICanOpenNetTab.cs
+  - Assets/Scripts/UI/Core/Net/NetTab.cs
+  - Assets/Scripts/UI/Core/Net/Page/NetPage.cs
+  - Assets/Scripts/UI/Core/Net/Page/NetPageSwitcher.cs
+  - Assets/Scripts/UI/Core/OnMouseEnterUI.cs
+  - Assets/Scripts/UI/Core/OptionsMenu/DisplayOptions.cs
+  - Assets/Scripts/UI/Core/OptionsMenu/GameplayOptions.cs
+  - Assets/Scripts/UI/Core/OptionsMenu/MiscOptions.cs
+  - Assets/Scripts/UI/Core/OptionsMenu/OptionsButton.cs
+  - Assets/Scripts/UI/Core/OptionsMenu/OptionsMenu.cs
+  - Assets/Scripts/UI/Core/OptionsMenu/SoundOptions.cs
+  - Assets/Scripts/UI/Core/OptionsMenu/ThemeOptions/ChatOptions.cs
+  - Assets/Scripts/UI/Core/OptionsMenu/ThemeOptions/ThemeHandler.cs
+  - Assets/Scripts/UI/Core/OptionsMenu/ThemeOptions/ThemeManager.cs
+  - Assets/Scripts/UI/Core/OptionsMenu/ThemeOptions/ThemeOptions.cs
+  - Assets/Scripts/UI/Core/OptionsMenu/ThemeOptions/ThemeTypes.cs
+  - Assets/Scripts/UI/Core/OptionsMenu/ZoomButtons.cs
+  - Assets/Scripts/UI/Core/PanelHudBottomController.cs
+  - Assets/Scripts/UI/Core/PlayerExaminationMessage.cs
+  - Assets/Scripts/UI/Core/PlayerExaminationWindowSlot.cs
+  - Assets/Scripts/UI/Core/PlayerExaminationWindowUI.cs
+  - Assets/Scripts/UI/Core/PopUps/GUI_Rename.cs
+  - Assets/Scripts/UI/Core/PopUps/GUI_TextInputDialog.cs
+  - Assets/Scripts/UI/Core/PrefabTracker.cs
+  - Assets/Scripts/UI/Core/ProgressBar/EndProgressInfo.cs
+  - Assets/Scripts/UI/Core/ProgressBar/InProgressInfo.cs
+  - Assets/Scripts/UI/Core/ProgressBar/IProgressAction.cs
+  - Assets/Scripts/UI/Core/ProgressBar/ProgressAction.cs
+  - Assets/Scripts/UI/Core/ProgressBar/ProgressBar.cs
+  - Assets/Scripts/UI/Core/ProgressBar/StandardProgressAction.cs
+  - Assets/Scripts/UI/Core/ProgressBar/StandardProgressActionConfig.cs
+  - Assets/Scripts/UI/Core/ProgressBar/StandardProgressActionType.cs
+  - Assets/Scripts/UI/Core/ProgressBar/StartProgressInfo.cs
+  - Assets/Scripts/UI/Core/Radial/IRadial.cs
+  - Assets/Scripts/UI/Core/Radial/Radial.cs
+  - Assets/Scripts/UI/Core/Radial/RadialDrag.cs
+  - Assets/Scripts/UI/Core/Radial/RadialItem.cs
+  - Assets/Scripts/UI/Core/Radial/RadialScroll.cs
+  - Assets/Scripts/UI/Core/Radial/ScrollableRadial.cs
+  - Assets/Scripts/UI/Core/ResponsiveUI.cs
+  - Assets/Scripts/UI/Core/RightClick/ActionRadial.cs
+  - Assets/Scripts/UI/Core/RightClick/IRadialPosition.cs
+  - Assets/Scripts/UI/Core/RightClick/IRightClickable.cs
+  - Assets/Scripts/UI/Core/RightClick/ItemRadial.cs
+  - Assets/Scripts/UI/Core/RightClick/RadialBranch.cs
+  - Assets/Scripts/UI/Core/RightClick/RadialScreenPosition.cs
+  - Assets/Scripts/UI/Core/RightClick/RadialWorldPosition.cs
+  - Assets/Scripts/UI/Core/RightClick/RightClickableElement.cs
+  - Assets/Scripts/UI/Core/RightClick/RightClickableResult.cs
+  - Assets/Scripts/UI/Core/RightClick/RightClickAppearance.cs
+  - Assets/Scripts/UI/Core/RightClick/RightClickButton.cs
+  - Assets/Scripts/UI/Core/RightClick/RightClickManager.cs
+  - Assets/Scripts/UI/Core/RightClick/RightClickMenuController.cs
+  - Assets/Scripts/UI/Core/RightClick/RightClickMenuItem.cs
+  - Assets/Scripts/UI/Core/RightClick/RightClickMethod.cs
+  - Assets/Scripts/UI/Core/RightClick/RightClickRadialButton.cs
+  - Assets/Scripts/UI/Core/RightClick/RightClickRadialOptions.cs
+  - Assets/Scripts/UI/Core/RootCanvas.cs
+  - Assets/Scripts/UI/Core/SliderValueToLabel.cs
+  - Assets/Scripts/UI/Core/Spritelist.cs
+  - Assets/Scripts/UI/Core/SpriteProcessing/SpriteMetadata.cs
+  - Assets/Scripts/UI/Core/SpriteProcessing/SpriteProcessing.asmdef
+  - Assets/Scripts/UI/Core/SpriteProcessing/TextureMetadata.cs
+  - Assets/Scripts/UI/Core/SpriteProcessing/TextureMetadataCache.cs
+  - Assets/Scripts/UI/Core/StartUpScreen/PleaseWaitScreen.cs
+  - Assets/Scripts/UI/Core/Tab.cs
+  - Assets/Scripts/UI/Core/TMPInputFocusWrapper.cs
+  - Assets/Scripts/UI/Core/ToggleButton.cs
+  - Assets/Scripts/UI/Core/Tooltip.cs
+  - Assets/Scripts/UI/Core/TooltipMonoBehaviour.cs
+  - Assets/Scripts/UI/Core/TooltipNetworked.cs
+  - Assets/Scripts/UI/Core/TooltipTextCopier.cs
+  - Assets/Scripts/UI/Core/Touchable.cs
+  - Assets/Scripts/UI/Core/TouchScreen.cs
+  - Assets/Scripts/UI/Core/UI_HoverTooltip.cs
+  - Assets/Scripts/UI/Core/UppercaseInputFieldFocus.cs
+  - Assets/Scripts/UI/Core/WindowDrag.cs
+  - Assets/Scripts/UI/Core/WindowDragUIIinteract.cs
+  - Assets/Scripts/UI/Core/WindowFocus.cs
+  - Assets/Scripts/UI/Core/Windows/TeleportWindow/TeleportApplyButton.cs
+  - Assets/Scripts/UI/Core/Windows/TeleportWindow/TeleportButton.cs
+  - Assets/Scripts/UI/Core/Windows/TeleportWindow/TeleportButtonSearchBar.cs
+  - Assets/Scripts/UI/Core/Windows/TeleportWindow/TeleportSearchBarText.cs
+  - Assets/Scripts/UI/Core/Windows/TeleportWindow/TeleportWindow.cs
+  - Assets/Scripts/UI/Core/Windows/TeleportWindow/TeleportXCoordinate.cs
+  - Assets/Scripts/UI/Core/Windows/TeleportWindow/TeleportYCoordinate.cs
+  - Assets/Scripts/UI/Items/GUI_AirlockElectronics.cs
+  - Assets/Scripts/UI/Items/GUI_AirlockElectronicsEntry.cs
+  - Assets/Scripts/UI/Items/GUI_Explosive.cs
+  - Assets/Scripts/UI/Items/GUI_HandTeleporter.cs
+  - Assets/Scripts/UI/Items/GUI_InteliCard.cs
+  - Assets/Scripts/UI/Items/GUI_NullRod.cs
+  - Assets/Scripts/UI/Items/GUI_Paper.cs
+  - Assets/Scripts/UI/Items/GUI_PizzaBomb.cs
+  - Assets/Scripts/UI/Items/PDA/GUI_PDA.cs
+  - Assets/Scripts/UI/Items/PDA/GUI_PDA_IPageLifecycle.cs
+  - Assets/Scripts/UI/Items/PDA/GUI_PDACrewManifest.cs
+  - Assets/Scripts/UI/Items/PDA/GUI_PDAMainMenu.cs
+  - Assets/Scripts/UI/Items/PDA/GUI_PDAManifestTemplate.cs
+  - Assets/Scripts/UI/Items/PDA/GUI_PDANotes.cs
+  - Assets/Scripts/UI/Items/PDA/GUI_PDASettingMenu.cs
+  - Assets/Scripts/UI/Items/PDA/GUI_PDAUplinkCategory.cs
+  - Assets/Scripts/UI/Items/PDA/GUI_PDAUplinkCategoryTemplate.cs
+  - Assets/Scripts/UI/Items/PDA/GUI_PDAUplinkItem.cs
+  - Assets/Scripts/UI/Items/PDA/GUI_PDAUplinkItemTemplate.cs
+  - Assets/Scripts/UI/Items/PDA/GUI_PDAUplinkMenu.cs
+  - Assets/Scripts/UI/Items/PDA/ManifestTemplate.prefab
+  - Assets/Scripts/UI/Items/PDA/UplinkCategoryList.cs
+  - Assets/Scripts/UI/Items/Scroll/GUI_ContractOfApprenticeship.cs
+  - Assets/Scripts/UI/Items/Scroll/GUI_TeleportScroll.cs
+  - Assets/Scripts/UI/Items/Scroll/GUI_TeleportScrollEntry.cs
+  - Assets/Scripts/UI/Items/SpellBook/GUI_SpellBook.cs
+  - Assets/Scripts/UI/Items/SpellBook/GUI_SpellBookCategoryEntry.cs
+  - Assets/Scripts/UI/Items/SpellBook/GUI_SpellBookEntry.cs
+  - Assets/Scripts/UI/Items/SpellBook/HandTeleporterEntry.cs
+  - Assets/Scripts/UI/Objects/Atmospherics/ACU/GUI_Acu.cs
+  - Assets/Scripts/UI/Objects/Atmospherics/ACU/GUI_AcuPage.cs
+  - Assets/Scripts/UI/Objects/Atmospherics/ACU/Pages/GUI_AcuDevicesPage.cs
+  - Assets/Scripts/UI/Objects/Atmospherics/ACU/Pages/GUI_AcuLockedPage.cs
+  - Assets/Scripts/UI/Objects/Atmospherics/ACU/Pages/GUI_AcuNoPowerPage.cs
+  - Assets/Scripts/UI/Objects/Atmospherics/ACU/Pages/GUI_AcuOperatingModePage.cs
+  - Assets/Scripts/UI/Objects/Atmospherics/ACU/Pages/GUI_AcuOverviewPage.cs
+  - Assets/Scripts/UI/Objects/Atmospherics/ACU/Pages/GUI_AcuThresholdsPage.cs
+  - Assets/Scripts/UI/Objects/Atmospherics/ACU/Pages/GUI_AcuValueModal.cs
+  - Assets/Scripts/UI/Objects/Atmospherics/ACU/Templates/GUI_AcuGasEntry.cs
+  - Assets/Scripts/UI/Objects/Atmospherics/ACU/Templates/GUI_AcuScrubberEntry.cs
+  - Assets/Scripts/UI/Objects/Atmospherics/ACU/Templates/GUI_AcuThresholdEntry.cs
+  - Assets/Scripts/UI/Objects/Atmospherics/ACU/Templates/GUI_AcuVentEntry.cs
+  - Assets/Scripts/UI/Objects/Atmospherics/Canister/DigitSpinner.cs
+  - Assets/Scripts/UI/Objects/Atmospherics/Canister/GUI_Canister.cs
+  - Assets/Scripts/UI/Objects/Atmospherics/Canister/NetWheel.cs
+  - Assets/Scripts/UI/Objects/Atmospherics/Canister/NumberSpinner.cs
+  - Assets/Scripts/UI/Objects/Atmospherics/Canister/ReleaseLever.cs
+  - Assets/Scripts/UI/Objects/Atmospherics/Canister/Wheel.cs
+  - Assets/Scripts/UI/Objects/Atmospherics/GUI_DisposalBin.cs
+  - Assets/Scripts/UI/Objects/Atmospherics/GUI_PipeDispenser.cs
+  - Assets/Scripts/UI/Objects/Atmospherics/GUI_Thermomachine.cs
+  - Assets/Scripts/UI/Objects/Atmospherics/Pipes/GUI_Filter.cs
+  - Assets/Scripts/UI/Objects/Atmospherics/Pipes/GUI_Mixer.cs
+  - Assets/Scripts/UI/Objects/Botany/SeedExtractor/GUI_SeedExtractor.cs
+  - Assets/Scripts/UI/Objects/Botany/SeedExtractor/SeedExtractorItemEntry.cs
+  - Assets/Scripts/UI/Objects/Botany/SeedExtractor/SeedExtractorItemTypeEntry.cs
+  - Assets/Scripts/UI/Objects/Bureaucracy/GUI_Photocopier.cs
+  - Assets/Scripts/UI/Objects/Cargo/GUI_Cargo.cs
+  - Assets/Scripts/UI/Objects/Cargo/GUI_CargoBounty.cs
+  - Assets/Scripts/UI/Objects/Cargo/GUI_CargoCartItem.cs
+  - Assets/Scripts/UI/Objects/Cargo/GUI_CargoCategory.cs
+  - Assets/Scripts/UI/Objects/Cargo/GUI_CargoItem.cs
+  - Assets/Scripts/UI/Objects/Cargo/GUI_CargoOfflinePage.cs
+  - Assets/Scripts/UI/Objects/Cargo/GUI_CargoPage.cs
+  - Assets/Scripts/UI/Objects/Cargo/GUI_CargoPageBounties.cs
+  - Assets/Scripts/UI/Objects/Cargo/GUI_CargoPageCart.cs
+  - Assets/Scripts/UI/Objects/Cargo/GUI_CargoPageCategories.cs
+  - Assets/Scripts/UI/Objects/Cargo/GUI_CargoPageStatus.cs
+  - Assets/Scripts/UI/Objects/Cargo/GUI_CargoPageSupplies.cs
+  - Assets/Scripts/UI/Objects/Command/CommsConsole/GUI_Comms.cs
+  - Assets/Scripts/UI/Objects/Command/IDConsole/GUI_IDConsole.cs
+  - Assets/Scripts/UI/Objects/Command/IDConsole/GUI_IDConsoleEntry.cs
+  - Assets/Scripts/UI/Objects/Command/IDConsole/IdConsole.cs
+  - Assets/Scripts/UI/Objects/Command/Nuke/GUI_NukeWindow.cs
+  - Assets/Scripts/UI/Objects/Common/Autolathe/GUI_Autolathe.cs
+  - Assets/Scripts/UI/Objects/Common/Autolathe/GUI_AutolatheCategoryEntry.cs
+  - Assets/Scripts/UI/Objects/Common/Autolathe/GUI_AutolatheItem.cs
+  - Assets/Scripts/UI/Objects/Common/Autolathe/GUI_AutolatheMaterialEntry.cs
+  - Assets/Scripts/UI/Objects/Common/Autolathe/GUI_AutolathePageMaterialsAndCategory.cs
+  - Assets/Scripts/UI/Objects/Common/Autolathe/GUI_AutolathePageProducts.cs
+  - Assets/Scripts/UI/Objects/Common/Autolathe/GUI_AutolatheQueueDisplay.cs
+  - Assets/Scripts/UI/Objects/Common/Autolathe/GUI_AutolatheQueueItem.cs
+  - Assets/Scripts/UI/Objects/Common/GUI_MagicMirror.cs
+  - Assets/Scripts/UI/Objects/Common/Jukebox/GUI_Jukebox.cs
+  - Assets/Scripts/UI/Objects/Common/Vending/GUI_Spawner.cs
+  - Assets/Scripts/UI/Objects/Common/Vending/GUI_Vendor.cs
+  - Assets/Scripts/UI/Objects/Common/Vending/VendorItemEntry.cs
+  - Assets/Scripts/UI/Objects/Engineering/APC/GUI_APC.cs
+  - Assets/Scripts/UI/Objects/Engineering/Cable/CableCuttingWindow.cs
+  - Assets/Scripts/UI/Objects/Engineering/Cable/CableUICell.cs
+  - Assets/Scripts/UI/Objects/Engineering/Cable/LoadCableCuttingWindow.cs
+  - Assets/Scripts/UI/Objects/Engineering/GUI_ParticleAccelerator.cs
+  - Assets/Scripts/UI/Objects/Engineering/Reactor/GUI_BoilerTurbineController.cs
+  - Assets/Scripts/UI/Objects/Engineering/Reactor/GUI_ReactorController.cs
+  - Assets/Scripts/UI/Objects/GUI_Airlock.cs
+  - Assets/Scripts/UI/Objects/GUI_SyndicateOpConsole.cs
+  - Assets/Scripts/UI/Objects/Medical/Cloning/GUI_Cloning.cs
+  - Assets/Scripts/UI/Objects/Medical/Cloning/GUI_CloningItemList.cs
+  - Assets/Scripts/UI/Objects/Medical/Cloning/GUI_CloningRecordItem.cs
+  - Assets/Scripts/UI/Objects/Medical/DNAButtonData.cs
+  - Assets/Scripts/UI/Objects/Medical/DNASpeciesElement.cs
+  - Assets/Scripts/UI/Objects/Medical/DNAStrandElement.cs
+  - Assets/Scripts/UI/Objects/Medical/genetics/MutationChoiceElement.cs
+  - Assets/Scripts/UI/Objects/Medical/genetics/MutationChooseElement.cs
+  - Assets/Scripts/UI/Objects/Medical/genetics/MutationMiniGameElement.cs
+  - Assets/Scripts/UI/Objects/Medical/genetics/MutationUnlockMiniGame.cs
+  - Assets/Scripts/UI/Objects/Medical/genetics/NetCountdownTimer.cs
+  - Assets/Scripts/UI/Objects/Medical/genetics/SpeciesChoiceElement.cs
+  - Assets/Scripts/UI/Objects/Medical/genetics/SudokuPuzzle/sudoku generator/README.txt
+  - Assets/Scripts/UI/Objects/Medical/genetics/SudokuPuzzle/sudoku generator/SudokuGenerator.cs
+  - Assets/Scripts/UI/Objects/Medical/genetics/SudokuPuzzle/SudokuPuzzleGame.cs
+  - Assets/Scripts/UI/Objects/Medical/GUI_BoozeDispenser.cs
+  - Assets/Scripts/UI/Objects/Medical/GUI_ChemBufferEntry.cs
+  - Assets/Scripts/UI/Objects/Medical/GUI_ChemContainerEntry.cs
+  - Assets/Scripts/UI/Objects/Medical/GUI_ChemistryDispenser.cs
+  - Assets/Scripts/UI/Objects/Medical/GUI_ChemMaster.cs
+  - Assets/Scripts/UI/Objects/Medical/GUI_ChemProductEntry.cs
+  - Assets/Scripts/UI/Objects/Medical/GUI_DNAConsole.cs
+  - Assets/Scripts/UI/Objects/Mining/Material Silo/GUI_MaterialSilo.cs
+  - Assets/Scripts/UI/Objects/Mining/Ore Redemption Machine/GUI_MaterialEntry.cs
+  - Assets/Scripts/UI/Objects/Mining/Ore Redemption Machine/GUI_MaterialsList.cs
+  - Assets/Scripts/UI/Objects/Mining/Ore Redemption Machine/GUI_OreRedemptionMachine.cs
+  - Assets/Scripts/UI/Objects/Research/Artifacts/Artifacts.UI.asmref
+  - Assets/Scripts/UI/Objects/Research/Artifacts/GUI_ArtifactAnalyser.cs
+  - Assets/Scripts/UI/Objects/Research/Artifacts/GUI_ArtifactConsole.cs
+  - Assets/Scripts/UI/Objects/Research/BlastYieldDetector/ExplosiveBountyUIEntry.cs
+  - Assets/Scripts/UI/Objects/Research/BlastYieldDetector/GUI_BlastGraphNode.cs
+  - Assets/Scripts/UI/Objects/Research/BlastYieldDetector/GUI_BlastYieldDetector.cs
+  - Assets/Scripts/UI/Objects/Research/GUI_TeleporterConsole.cs
+  - Assets/Scripts/UI/Objects/Research/Protolathe/GUI_RDProCategoryEntry.cs
+  - Assets/Scripts/UI/Objects/Research/Protolathe/GUI_RDProductionMachine.cs
+  - Assets/Scripts/UI/Objects/Research/Protolathe/GUI_RDProItem.cs
+  - Assets/Scripts/UI/Objects/Research/Protolathe/GUI_RDProMaterialEntry.cs
+  - Assets/Scripts/UI/Objects/Research/Protolathe/GUI_RDProPageMaterialsAndCategory.cs
+  - Assets/Scripts/UI/Objects/Research/Protolathe/GUI_RDProPageProducts.cs
+  - Assets/Scripts/UI/Objects/Research/Protolathe/GUI_RDProQueueDisplay.cs
+  - Assets/Scripts/UI/Objects/Research/Protolathe/GUI_RDProQueueItem.cs
+  - Assets/Scripts/UI/Objects/Research/ResearchServer/AvailableTechEntry.cs
+  - Assets/Scripts/UI/Objects/Research/ResearchServer/GUI_FocusPage.cs
+  - Assets/Scripts/UI/Objects/Research/ResearchServer/GUI_ResearchServer.cs
+  - Assets/Scripts/UI/Objects/Research/ResearchServer/GUI_TechwebPage.cs
+  - Assets/Scripts/UI/Objects/Research/ResearchServer/ResearchedTechEntry.cs
+  - Assets/Scripts/UI/Objects/Research/TeleporterEntry.cs
+  - Assets/Scripts/UI/Objects/Robotics/ExosuitFabricator/ExoFabCategoryEntryTemplate.prefab
+  - Assets/Scripts/UI/Objects/Robotics/ExosuitFabricator/ExoFabMaterialEntryTemplate.prefab
+  - Assets/Scripts/UI/Objects/Robotics/ExosuitFabricator/ExoFabProductEntryTemplate.prefab
+  - Assets/Scripts/UI/Objects/Robotics/ExosuitFabricator/ExoFabQueueEntryTemplate.prefab
+  - Assets/Scripts/UI/Objects/Robotics/ExosuitFabricator/GUI_ExoFabCategoryEntry.cs
+  - Assets/Scripts/UI/Objects/Robotics/ExosuitFabricator/GUI_ExoFabItem.cs
+  - Assets/Scripts/UI/Objects/Robotics/ExosuitFabricator/GUI_ExoFabMaterialEntry.cs
+  - Assets/Scripts/UI/Objects/Robotics/ExosuitFabricator/GUI_ExoFabPageBuildingProcess.cs
+  - Assets/Scripts/UI/Objects/Robotics/ExosuitFabricator/GUI_ExoFabPageMaterialsAndCategory.cs
+  - Assets/Scripts/UI/Objects/Robotics/ExosuitFabricator/GUI_ExoFabPageProducts.cs
+  - Assets/Scripts/UI/Objects/Robotics/ExosuitFabricator/GUI_ExoFabProductButton.cs
+  - Assets/Scripts/UI/Objects/Robotics/ExosuitFabricator/GUI_ExoFabQueueDisplay.cs
+  - Assets/Scripts/UI/Objects/Robotics/ExosuitFabricator/GUI_ExoFabQueueItem.cs
+  - Assets/Scripts/UI/Objects/Robotics/ExosuitFabricator/GUI_ExoFabQueueLabel.cs
+  - Assets/Scripts/UI/Objects/Robotics/ExosuitFabricator/GUI_ExoFabRemoveMaterialButton.cs
+  - Assets/Scripts/UI/Objects/Robotics/ExosuitFabricator/GUI_ExosuitFabricator.cs
+  - Assets/Scripts/UI/Objects/Robotics/MaterialNetLabel.cs
+  - Assets/Scripts/UI/Objects/Security/GUI_Turret.cs
+  - Assets/Scripts/UI/Objects/Security/GUI_TurretController.cs
+  - Assets/Scripts/UI/Objects/Security/SecurityRecordsConsole/GUI_SecurityRecords.cs
+  - Assets/Scripts/UI/Objects/Security/SecurityRecordsConsole/GUI_SecurityRecordsCrime.cs
+  - Assets/Scripts/UI/Objects/Security/SecurityRecordsConsole/GUI_SecurityRecordsEntriesPage.cs
+  - Assets/Scripts/UI/Objects/Security/SecurityRecordsConsole/GUI_SecurityRecordsEntryPage.cs
+  - Assets/Scripts/UI/Objects/Security/SecurityRecordsConsole/GUI_SecurityRecordsItem.cs
+  - Assets/Scripts/UI/Objects/Shuttles/GUI_CoordReadout.cs
+  - Assets/Scripts/UI/Objects/Shuttles/GUI_FuelGauge.cs
+  - Assets/Scripts/UI/Objects/Shuttles/GUI_ShuttleControl.cs
+  - Assets/Scripts/UI/Objects/Shuttles/GUI_TextSwap.cs
+  - Assets/Scripts/UI/Objects/Shuttles/NetFuelGauge.cs
+  - Assets/Scripts/UI/Objects/Telecomms/GUI_FrequencyChanger.cs
+  - Assets/Scripts/UI/Objects/Telecomms/GUI_PublicTerminal.cs
+  - Assets/Scripts/UI/Objects/Telecomms/GUI_TerminalMessageEntry.cs
+  - Assets/Scripts/UI/Systems/AdminTabButtons.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AdminBountyManager.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AdminBountyManagerListEntry.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AdminChatButtons.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AdminChatEntry.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AdminChatWindows.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AdminGiveItem.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AdminGiveItemEntry.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AdminGlobalAudio.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AdminGlobalAudioButton.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AdminGlobalAudioButtonTab.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AdminGlobalAudioSearchBar.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AdminGlobalAudioSearchText.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AdminGlobalMusic.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AdminGlobalSound.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AdminHelpChat.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AdminInfo.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AdminLogWindow.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AdminOverlay.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AdminOverlayPanel.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AdminPage.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AdminPlayerChat.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AdminPlayerEntry.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AdminPlayersScrollView.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AdminRespawnPage.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AdminToAdminChat.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AGhost.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AntagRespawnTab.cs
+  - Assets/Scripts/UI/Systems/AdminTools/AreYouSurePage.cs
+  - Assets/Scripts/UI/Systems/AdminTools/CentCommPage.cs
+  - Assets/Scripts/UI/Systems/AdminTools/DevTools/DevSpawnerListItemController.cs
+  - Assets/Scripts/UI/Systems/AdminTools/DevTools/GUI_DevCloner.cs
+  - Assets/Scripts/UI/Systems/AdminTools/DevTools/GUI_DevDestroyer.cs
+  - Assets/Scripts/UI/Systems/AdminTools/DevTools/GUI_DevSelectVVTile.cs
+  - Assets/Scripts/UI/Systems/AdminTools/DevTools/GUI_DevSpawner.cs
+  - Assets/Scripts/UI/Systems/AdminTools/DevTools/GUI_DevTileChanger.cs
+  - Assets/Scripts/UI/Systems/AdminTools/DevTools/Search/DevSpawnerDocument.cs
+  - Assets/Scripts/UI/Systems/AdminTools/DevTools/Search/SpawnerSearch.cs
+  - Assets/Scripts/UI/Systems/AdminTools/DevToolsPage.cs
+  - Assets/Scripts/UI/Systems/AdminTools/EventParameterPages.cs
+  - Assets/Scripts/UI/Systems/AdminTools/EventsManagerPage.cs
+  - Assets/Scripts/UI/Systems/AdminTools/GameModePage.cs
+  - Assets/Scripts/UI/Systems/AdminTools/GUI_AdminTools.cs
+  - Assets/Scripts/UI/Systems/AdminTools/Interfaces/IAdminInfo.cs
+  - Assets/Scripts/UI/Systems/AdminTools/JobBanListItem.cs
+  - Assets/Scripts/UI/Systems/AdminTools/JobRespawnTab.cs
+  - Assets/Scripts/UI/Systems/AdminTools/KickBanEntryPage.cs
+  - Assets/Scripts/UI/Systems/AdminTools/MentorPlayerChat.cs
+  - Assets/Scripts/UI/Systems/AdminTools/PlayerAlerts/PlayerAlertsScroll.cs
+  - Assets/Scripts/UI/Systems/AdminTools/PlayerAlerts/PlayerAlertView.cs
+  - Assets/Scripts/UI/Systems/AdminTools/PlayerAlerts.cs
+  - Assets/Scripts/UI/Systems/AdminTools/PlayerChatPage.cs
+  - Assets/Scripts/UI/Systems/AdminTools/PlayerManagePage.cs
+  - Assets/Scripts/UI/Systems/AdminTools/PlayerPrayerWindow.cs
+  - Assets/Scripts/UI/Systems/AdminTools/ProfileEntry.cs
+  - Assets/Scripts/UI/Systems/AdminTools/ProfileScrollView.cs
+  - Assets/Scripts/UI/Systems/AdminTools/RespawnTab.cs
+  - Assets/Scripts/UI/Systems/AdminTools/RoundManagerPage.cs
+  - Assets/Scripts/UI/Systems/AdminTools/ServerSettingsPage.cs
+  - Assets/Scripts/UI/Systems/AdminTools/SicknessParametersPage.cs
+  - Assets/Scripts/UI/Systems/AdminTools/SpecialJobRespawnTab.cs
+  - Assets/Scripts/UI/Systems/Alerts/AlertUI.cs
+  - Assets/Scripts/UI/Systems/Alerts/UI_HeartMonitor.cs
+  - Assets/Scripts/UI/Systems/Alerts/UI_PressureAlert.cs
+  - Assets/Scripts/UI/Systems/Alerts/UI_TemperatureAlert.cs
+  - Assets/Scripts/UI/Systems/CameraOverlays/OverlayCrits.cs
+  - Assets/Scripts/UI/Systems/Character/AntagEntry.cs
+  - Assets/Scripts/UI/Systems/Character/AntagonistPreferences.cs
+  - Assets/Scripts/UI/Systems/Character/AntagPrefsDict.cs
+  - Assets/Scripts/UI/Systems/Character/CharacterSelector.cs
+  - Assets/Scripts/UI/Systems/Character/CharacterSettings.cs
+  - Assets/Scripts/UI/Systems/ChatChannel/IconConstants.cs
+  - Assets/Scripts/UI/Systems/ChatChannel/UIToggleChannel.cs
+  - Assets/Scripts/UI/Systems/ControlDisplays.cs
+  - Assets/Scripts/UI/Systems/EndRound/RoundEndScoreScreen.cs
+  - Assets/Scripts/UI/Systems/Hacking/GUI_CablePanel.cs
+  - Assets/Scripts/UI/Systems/Hacking/GUI_Hacking.cs
+  - Assets/Scripts/UI/Systems/Hacking/GUI_HackingOutputAndInput.cs
+  - Assets/Scripts/UI/Systems/Hacking/GUI_HackingPort.cs
+  - Assets/Scripts/UI/Systems/Hacking/GUI_HackingWire.cs
+  - Assets/Scripts/UI/Systems/Hacking/HackingTestScript.cs
+  - Assets/Scripts/UI/Systems/IngameMenu/ControlSettingsMenu.cs
+  - Assets/Scripts/UI/Systems/IngameMenu/GUI_IngameMenu.cs
+  - Assets/Scripts/UI/Systems/IngameMenu/KeybindItemTemplate.cs
+  - Assets/Scripts/UI/Systems/IngameMenu/LobbyUIListTemplate.cs
+  - Assets/Scripts/UI/Systems/IngameMenu/LobbyUIPlayerListController.cs
+  - Assets/Scripts/UI/Systems/IngameMenu/LogoDiscord.png
+  - Assets/Scripts/UI/Systems/IngameMenu/LogoGithub.png
+  - Assets/Scripts/UI/Systems/IngameMenu/LogoReddit.png
+  - Assets/Scripts/UI/Systems/IngameMenu/ModalPanelManager.cs
+  - Assets/Scripts/UI/Systems/IngameMenu/OpenURL.cs
+  - Assets/Scripts/UI/Systems/IngameMenu/Patreon_White.png
+  - Assets/Scripts/UI/Systems/ItemListPanel/UITileList.cs
+  - Assets/Scripts/UI/Systems/ItemListPanel/UITileListItem.cs
+  - Assets/Scripts/UI/Systems/Jobs/CrewManifestManager.cs
+  - Assets/Scripts/UI/Systems/Jobs/GUI_JobInfo.cs
+  - Assets/Scripts/UI/Systems/Jobs/GUI_JobPreferences.cs
+  - Assets/Scripts/UI/Systems/Jobs/GUI_PlayerJobs.cs
+  - Assets/Scripts/UI/Systems/Jobs/GUIAntagBanner.cs
+  - Assets/Scripts/UI/Systems/Jobs/JobPreferences/JobDepartmentEntry.cs
+  - Assets/Scripts/UI/Systems/Jobs/JobPreferences/JobListEntry.cs
+  - Assets/Scripts/UI/Systems/Jobs/Priority.cs
+  - Assets/Scripts/UI/Systems/Lobby/AccountCreatePanel.cs
+  - Assets/Scripts/UI/Systems/Lobby/AccountLoginPanel.cs
+  - Assets/Scripts/UI/Systems/Lobby/BagStyle.cs
+  - Assets/Scripts/UI/Systems/Lobby/CharacterCustomization.cs
+  - Assets/Scripts/UI/Systems/Lobby/CharacterSprites.cs
+  - Assets/Scripts/UI/Systems/Lobby/CharacterView.cs
+  - Assets/Scripts/UI/Systems/Lobby/ClothingStyle.cs
+  - Assets/Scripts/UI/Systems/Lobby/ConnectionHistoryLog/HistoryLogEntry.cs
+  - Assets/Scripts/UI/Systems/Lobby/Gender.cs
+  - Assets/Scripts/UI/Systems/Lobby/GUI_HornHonk.cs
+  - Assets/Scripts/UI/Systems/Lobby/GUI_LobbyDialogue.cs
+  - Assets/Scripts/UI/Systems/Lobby/GUI_PlayerOptions.cs
+  - Assets/Scripts/UI/Systems/Lobby/GUI_ServerPassword.cs
+  - Assets/Scripts/UI/Systems/Lobby/InfoPanel.cs
+  - Assets/Scripts/UI/Systems/Lobby/InputField_Ext.cs
+  - Assets/Scripts/UI/Systems/Lobby/JoinPanel.cs
+  - Assets/Scripts/UI/Systems/Lobby/LoadingPanel.cs
+  - Assets/Scripts/UI/Systems/Lobby/MainMenuPanel.cs
+  - Assets/Scripts/UI/Systems/Lobby/Pronouns.cs
+  - Assets/Scripts/UI/Systems/Lobby/Race.cs
+  - Assets/Scripts/UI/Systems/Lobby/ServerHistoryPanel.cs
+  - Assets/Scripts/UI/Systems/Lobby/SongTracker.cs
+  - Assets/Scripts/UI/Systems/Lobby/Speech.cs
+  - Assets/Scripts/UI/Systems/Lobby/SubCustomisation/BodyPartCustomisations/BodyPartColourSprite.cs
+  - Assets/Scripts/UI/Systems/Lobby/SubCustomisation/BodyPartCustomisations/BodyPartCustomisationBase.cs
+  - Assets/Scripts/UI/Systems/Lobby/SubCustomisation/BodyPartCustomisations/BodyPartDropDownOrgans.cs
+  - Assets/Scripts/UI/Systems/Lobby/SubCustomisation/BodyPartCustomisations/BodyPartDropDownReplaceOrgan.cs
+  - Assets/Scripts/UI/Systems/Lobby/SubCustomisation/BodyPartCustomisations/BodyPartSpriteAndColour.cs
+  - Assets/Scripts/UI/Systems/Lobby/SubCustomisation/CustomisationSubPart.cs
+  - Assets/Scripts/UI/Systems/Lobby/SubCustomisation/DropDownSelectorItem.cs
+  - Assets/Scripts/UI/Systems/Lobby/SubCustomisation/MultiDropDownSelector.cs
+  - Assets/Scripts/UI/Systems/Lobby/SubCustomisation/SpriteHandlerNorder.cs
+  - Assets/Scripts/UI/Systems/MainHUD/HighlanderTimerUI.cs
+  - Assets/Scripts/UI/Systems/MainHUD/OxygenButton.cs
+  - Assets/Scripts/UI/Systems/MainHUD/PanelTooltipManager.cs
+  - Assets/Scripts/UI/Systems/MainHUD/PlayerHealthUI.cs
+  - Assets/Scripts/UI/Systems/MainHUD/StatsTab.cs
+  - Assets/Scripts/UI/Systems/MainHUD/TabDropdown/ClientTab.cs
+  - Assets/Scripts/UI/Systems/MainHUD/TabDropdown/RightPanelResize.cs
+  - Assets/Scripts/UI/Systems/MainHUD/TabDropdown/TabHeaderButton.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/AdminSearchBar.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/AdminSearchBarText.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/Alien/EvolveMenuEntry.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/Alien/HiveMenuEntry.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/Alien/UI_Alien.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/Alien/UI_AlienEvolveMenu.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/Alien/UI_AlienHiveMenu.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/Construction/BuildMenu.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/Construction/BuildMenuEntryController.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/Construction/ConveyorBuildMenu.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/ControlAction.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/ControlClothing.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/ControlIntent.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/ControlInternals.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/ControlWalkRun.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/DoubleHandController.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/GameKey.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/GamePad.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/Ghost/GhostRoleWindow.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/Ghost/GhostRoleWindowEntry.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/Ghost/GhostToggleLight.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/Handcuff.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/Hands.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/HandsController.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/HasSubInventory.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/LabeledGameKey.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/MiniActionsHelpWindowUI.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/UI_AdminItemSwap.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/UI_Ai.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/UI_Blob.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/UI_GhostOptions.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/UI_Hands.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/UI_IHasUISlot.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/UI_ItemImage.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/UI_ItemSlot.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/UI_ItemSwap.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/UI_SlotManager.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/UI_StorageHandler.cs
+  - Assets/Scripts/UI/Systems/MainHUD/UI Bottom/ZoneSelector.cs
+  - Assets/Scripts/UI/Systems/More_Buttons.cs
+  - Assets/Scripts/UI/Systems/NukeOpsGameMode/GUI_NukeOps.cs
+  - Assets/Scripts/UI/Systems/PreRound/GUI_PreRoundWindow.cs
+  - Assets/Scripts/UI/Systems/PreRound/TipsUI.cs
+  - Assets/Scripts/UI/Systems/ServerInfoPanel/BuildEntry.cs
+  - Assets/Scripts/UI/Systems/ServerInfoPanel/ChangeEntry.cs
+  - Assets/Scripts/UI/Systems/ServerInfoPanel/EventEntry.cs
+  - Assets/Scripts/UI/Systems/ServerInfoPanel/Models/ChangelogData.cs
+  - Assets/Scripts/UI/Systems/ServerInfoPanel/Models/ServerMotdData.cs
+  - Assets/Scripts/UI/Systems/ServerInfoPanel/Pages/ChangelogPage.cs
+  - Assets/Scripts/UI/Systems/ServerInfoPanel/Pages/EventsPage.cs
+  - Assets/Scripts/UI/Systems/ServerInfoPanel/Pages/InfoPanelPage.cs
+  - Assets/Scripts/UI/Systems/ServerInfoPanel/Pages/MotdPage.cs
+  - Assets/Scripts/UI/Systems/ServerInfoPanel/Pages/RulesPage.cs
+  - Assets/Scripts/UI/Systems/ServerInfoPanel/ServerInfoPanelWindow.cs
+  - Assets/Scripts/UI/Systems/SplittingMenu.cs
+  - Assets/Scripts/UI/Systems/Tooltips/HoverTooltips/HoverTooltipUI.cs
+  - Assets/Scripts/UI/Systems/Tooltips/HoverTooltips/IHoverTooltip.cs
+  - Assets/Scripts/UI/Systems/UIManager.cs
+  - Assets/Scripts/Util/ArrayElementTitleDrawer.cs
+  - Assets/Scripts/Util/CaptureUI.cs
+  - Assets/Scripts/Util/CheckedComponent.cs
+  - Assets/Scripts/Util/CodeUtilities.cs
+  - Assets/Scripts/Util/ComponentExtensions.cs
+  - Assets/Scripts/Util/ConverterExtensions.cs
+  - Assets/Scripts/Util/CoroutineExtensions.cs
+  - Assets/Scripts/Util/Debug/DebugGizmoUtils.cs
+  - Assets/Scripts/Util/Debug/DebugTools.cs
+  - Assets/Scripts/Util/DisableOnPlay.cs
+  - Assets/Scripts/Util/DMMath.cs
+  - Assets/Scripts/Util/EncryptionUtils.cs
+  - Assets/Scripts/Util/EnumerableExt.cs
+  - Assets/Scripts/Util/EnumFlagAttribute.cs
+  - Assets/Scripts/Util/EnumUtils.cs
+  - Assets/Scripts/Util/Events.cs
+  - Assets/Scripts/Util/GameObjectExtensions.cs
+  - Assets/Scripts/Util/Independent/Editor/TemperatureAttributeEditor.cs
+  - Assets/Scripts/Util/Independent/Editor/Utils.Editor.asmdef
+  - Assets/Scripts/Util/Independent/TemperatureAttribute.cs
+  - Assets/Scripts/Util/Independent/TemperatureUtils.cs
+  - Assets/Scripts/Util/Independent/TextUtils.cs
+  - Assets/Scripts/Util/Independent/Utils.asmdef
+  - Assets/Scripts/Util/IsExternalInit.cs
+  - Assets/Scripts/Util/KillOnWorldStart.cs
+  - Assets/Scripts/Util/ListExtensions.cs
+  - Assets/Scripts/Util/NetFriendlyColour.cs
+  - Assets/Scripts/Util/NetId.cs
+  - Assets/Scripts/Util/NetworkedLeanTween.cs
+  - Assets/Scripts/Util/NumberFormatExtension.cs
+  - Assets/Scripts/Util/ObjectImageSnapshot.cs
+  - Assets/Scripts/Util/ObsoleteObject.cs
+  - Assets/Scripts/Util/OtherUtil.cs
+  - Assets/Scripts/Util/RandomUtils.cs
+  - Assets/Scripts/Util/Rx/BehaviourSubject.cs
+  - Assets/Scripts/Util/SceneModifiedOnLoad.cs
+  - Assets/Scripts/Util/SnapshotCamera.cs
+  - Assets/Scripts/Util/SpriteSheet.cs
+  - Assets/Scripts/Util/SpriteSheetAndData.cs
+  - Assets/Scripts/Util/SpriteSheetAndDataPropertyDrawer.cs
+  - Assets/Scripts/Util/SpriteSheetPropertyDrawer.cs
+  - Assets/Scripts/Util/SweetExtensions.cs
+  - Assets/Scripts/Util/ThreadSafeList.cs
+  - Assets/Scripts/Util/Vector2EqualityComparer.cs
+  - Assets/Scripts/Util/VectorExtensions.cs
+  - Assets/Scripts/Util/WhatIsThisNetworkIdentity.cs
+  - Assets/Scripts/Util/WindowNameChanger.cs
+  - Assets/Scripts/Variable Viewer/BookshelfViewer/Bookshelf shelf.png
+  - Assets/Scripts/Variable Viewer/BookshelfViewer/Bookshelf support.png
+  - Assets/Scripts/Variable Viewer/BookshelfViewer/BookshelfBack.png
+  - Assets/Scripts/Variable Viewer/BookshelfViewer/BookshelfViewer - Copy.prefab
+  - Assets/Scripts/Variable Viewer/BookshelfViewer/BookshelfViewer.cs
+  - Assets/Scripts/Variable Viewer/BookshelfViewer/bookside.png
+  - Assets/Scripts/Variable Viewer/BookshelfViewer/HeldBook.cs
+  - Assets/Scripts/Variable Viewer/BookshelfViewer/IndividualBookshelf.prefab
+  - Assets/Scripts/Variable Viewer/BookshelfViewer/SingleBookshelf.cs
+  - Assets/Scripts/Variable Viewer/BookshelfViewer/SUBBookShelf.cs
+  - Assets/Scripts/Variable Viewer/BookshelfViewer/SUBbookshelf.png
+  - Assets/Scripts/Variable Viewer/BookshelfViewer/SUBBookShelf.prefab
+  - Assets/Scripts/Variable Viewer/BookViewer/Book 1.png
+  - Assets/Scripts/Variable Viewer/BookViewer/ElementDisplay/ElementTypes/Bool/GUI_P_Bool.cs
+  - Assets/Scripts/Variable Viewer/BookViewer/ElementDisplay/ElementTypes/Bool/UIBool.prefab
+  - Assets/Scripts/Variable Viewer/BookViewer/ElementDisplay/ElementTypes/Class/GUI_P_Class.cs
+  - Assets/Scripts/Variable Viewer/BookViewer/ElementDisplay/ElementTypes/Class/UIClassButton.prefab
+  - Assets/Scripts/Variable Viewer/BookViewer/ElementDisplay/ElementTypes/Collection/ENPList_Dict.prefab
+  - Assets/Scripts/Variable Viewer/BookViewer/ElementDisplay/ElementTypes/Collection/GUI_P_Collection.cs
+  - Assets/Scripts/Variable Viewer/BookViewer/ElementDisplay/ElementTypes/Collection/PCollection.prefab
+  - Assets/Scripts/Variable Viewer/BookViewer/ElementDisplay/ElementTypes/Colour/GUI_P_Colour.cs
+  - Assets/Scripts/Variable Viewer/BookViewer/ElementDisplay/ElementTypes/Colour/UIColour.prefab
+  - Assets/Scripts/Variable Viewer/BookViewer/ElementDisplay/ElementTypes/Enum/GUI_P_Enum.cs
+  - Assets/Scripts/Variable Viewer/BookViewer/ElementDisplay/ElementTypes/Enum/PEume.prefab
+  - Assets/Scripts/Variable Viewer/BookViewer/ElementDisplay/ElementTypes/InputField/GUI_P_Input.cs
+  - Assets/Scripts/Variable Viewer/BookViewer/ElementDisplay/ElementTypes/InputField/UIInputField.prefab
+  - Assets/Scripts/Variable Viewer/BookViewer/ElementDisplay/ElementTypes/Vectors/GUI_P_Vectors.cs
+  - Assets/Scripts/Variable Viewer/BookViewer/ElementDisplay/ElementTypes/Vectors/UIVectors.prefab
+  - Assets/Scripts/Variable Viewer/BookViewer/ElementDisplay/PageElement.cs
+  - Assets/Scripts/Variable Viewer/BookViewer/ElementDisplay/SUB_ElementHandler.cs
+  - Assets/Scripts/Variable Viewer/BookViewer/ElementDisplay/VariableViewerUIFunctionHandler.cs
+  - Assets/Scripts/Variable Viewer/BookViewer/GUI_PageEntry.cs
+  - Assets/Scripts/Variable Viewer/BookViewer/GUI_VariableViewer.cs
+  - Assets/Scripts/Variable Viewer/BookViewer/PageVariable.prefab
+  - Assets/Scripts/Variable Viewer/BookViewer/TestVariableViewerScript.cs
+  - Assets/Scripts/Variable Viewer/BookViewer/TitleScroll.png
+  - Assets/Scripts/Variable Viewer/BookViewer/UISendToClientToggle.cs
+  - Assets/Scripts/Variable Viewer/BookViewer/UIShowDebugOptions.cs
+  - Assets/Scripts/Variable Viewer/BookViewer/VariableViewer 1.prefab
+  - Assets/Scripts/Variable Viewer/BookViewer/VariableViewer.cs
+  - Assets/Scripts/Variable Viewer/BookViewer/VariableViewer.prefab
+  - Assets/Scripts/Variable Viewer/BookViewer/Window.prefab
+  - Assets/Scripts/Variable Viewer/TestObject.prefab
+  - Assets/Scripts/Variable Viewer/VariableUI/Book.prefab
+  - Assets/Scripts/Variable Viewer/VariableUI/buttonpressedscript.cs
+  - Assets/Scripts/Variable Viewer/VariableUI/Hierarchy/HierarchyEntry.cs
+  - Assets/Scripts/Variable Viewer/VariableUI/Hierarchy/HierarchyEntry.prefab
+  - Assets/Scripts/Variable Viewer/VariableUI/Hierarchy/LibraryUI.cs
+  - Assets/Scripts/Variable Viewer/VariableUI/UI_BooksInBookshelf.cs
+  - Assets/Scripts/Variable Viewer/VariableUI/VariableViewerV2UI.prefab
+  - Assets/Scripts/Variable Viewer/VariableViewerManager.cs
+  - Assets/Scripts/Variable Viewer/VariableViewerManager.prefab
+  - Assets/Scripts/Variable Viewer/VariableViewerNetworking.cs
+  - Assets/Scripts/Variable Viewer/VVMote.cs
+  - Assets/Scripts/WaitFor.cs
+  - Assets/Standard Assets/AssetUsageDetector/Editor/AssetUsageDetector.cs
+  - Assets/Standard Assets/AssetUsageDetector/Editor/AssetUsageDetectorEditor.asmdef
+  - Assets/Standard Assets/AssetUsageDetector/Editor/AssetUsageDetectorWindow.cs
+  - Assets/Standard Assets/AssetUsageDetector/Editor/Enumerators.cs
+  - Assets/Standard Assets/AssetUsageDetector/Editor/ListDrawer.cs
+  - Assets/Standard Assets/AssetUsageDetector/Editor/ObjectToSearch.cs
+  - Assets/Standard Assets/AssetUsageDetector/Editor/SearchResult.cs
+  - Assets/Standard Assets/AssetUsageDetector/Editor/Utilities.cs
+  - Assets/Standard Assets/AssetUsageDetector/Editor/VariableGetter.cs
+  - Assets/Standard Assets/AssetUsageDetector/README.txt
+  - Assets/Standard Assets/Editor/BoxSliderEditor.cs
+  - Assets/Standard Assets/GameInfo/GameInfo.asmdef
+  - Assets/Standard Assets/GameInfo/GameInfo.cs
+  - Assets/Standard Assets/HSVPicker/Enums/ColorValues.cs
+  - Assets/Standard Assets/HSVPicker/Events/ColorChangedEvent.cs
+  - Assets/Standard Assets/HSVPicker/Events/HSVChangedEvent.cs
+  - Assets/Standard Assets/HSVPicker/Other/ColorPickerTester.cs
+  - Assets/Standard Assets/HSVPicker/Other/TiltWindow.cs
+  - Assets/Standard Assets/HSVPicker/Picker 2.0.prefab
+  - Assets/Standard Assets/HSVPicker/README.txt
+  - Assets/Standard Assets/HSVPicker/Resources/Shaders/Compute/GenerateSVTexture.compute
+  - Assets/Standard Assets/HSVPicker/UI/ColorImage.cs
+  - Assets/Standard Assets/HSVPicker/UI/ColorLabel.cs
+  - Assets/Standard Assets/HSVPicker/UI/ColorPicker.cs
+  - Assets/Standard Assets/HSVPicker/UI/ColorPickerSetup.cs
+  - Assets/Standard Assets/HSVPicker/UI/ColorPresetManager.cs
+  - Assets/Standard Assets/HSVPicker/UI/ColorPresets.cs
+  - Assets/Standard Assets/HSVPicker/UI/ColorSlider.cs
+  - Assets/Standard Assets/HSVPicker/UI/ColorSliderImage.cs
+  - Assets/Standard Assets/HSVPicker/UI/HexColorField.cs
+  - Assets/Standard Assets/HSVPicker/UI/SVBoxSlider.cs
+  - Assets/Standard Assets/HSVPicker/UtilityScripts/BoxSlider.cs
+  - Assets/Standard Assets/HSVPicker/UtilityScripts/HSVUtil.cs
+  - Assets/Standard Assets/LeanTween/Documentation/assets/css/main.css
+  - Assets/Standard Assets/LeanTween/Documentation/assets/favicon.ico
+  - Assets/Standard Assets/LeanTween/Documentation/assets/index.html
+  - Assets/Standard Assets/LeanTween/Documentation/classes/index.html
+  - Assets/Standard Assets/LeanTween/Documentation/classes/LeanAudio.html
+  - Assets/Standard Assets/LeanTween/Documentation/classes/LeanAudioOptions.html
+  - Assets/Standard Assets/LeanTween/Documentation/classes/LeanSmooth.html
+  - Assets/Standard Assets/LeanTween/Documentation/classes/LeanTween.html
+  - Assets/Standard Assets/LeanTween/Documentation/classes/LeanTweenType.html
+  - Assets/Standard Assets/LeanTween/Documentation/classes/LTBezierPath.html
+  - Assets/Standard Assets/LeanTween/Documentation/classes/LTDescr.html
+  - Assets/Standard Assets/LeanTween/Documentation/classes/LTEvent.html
+  - Assets/Standard Assets/LeanTween/Documentation/classes/LTRect.html
+  - Assets/Standard Assets/LeanTween/Documentation/classes/LTSeq.html
+  - Assets/Standard Assets/LeanTween/Documentation/classes/LTSpline.html
+  - Assets/Standard Assets/LeanTween/Documentation/elements/index.html
+  - Assets/Standard Assets/LeanTween/Documentation/index.html
+  - Assets/Standard Assets/LeanTween/Editor/LeanTweenDocumentationEditor.cs
+  - Assets/Standard Assets/LeanTween/Framework/LeanAudio.cs
+  - Assets/Standard Assets/LeanTween/Framework/LeanSmooth.cs
+  - Assets/Standard Assets/LeanTween/Framework/LeanTest.cs
+  - Assets/Standard Assets/LeanTween/Framework/LeanTween.cs
+  - Assets/Standard Assets/LeanTween/Framework/LeanTween.dll.zip
+  - Assets/Standard Assets/LeanTween/Framework/LeanTweenExt.cs
+  - Assets/Standard Assets/LeanTween/Framework/LTDescr.cs
+  - Assets/Standard Assets/LeanTween/Framework/LTDescrOptional.cs
+  - Assets/Standard Assets/LeanTween/Framework/LTSeq.cs
+  - Assets/Standard Assets/LeanTween/LeanTween.asmdef
+  - Assets/Standard Assets/LeanTween/License.txt
+  - Assets/Standard Assets/LeanTween/ReadMe.txt
+  - Assets/Standard Assets/LightningBolt/Demo/LightningBoltDemo.unity
+  - Assets/Standard Assets/LightningBolt/Demo/LightningBoltDemoObjects.unity
+  - Assets/Standard Assets/LightningBolt/Demo/LightningBoltDemoObjectsSettings.lighting
+  - Assets/Standard Assets/LightningBolt/Demo/LightningBoltDemoSettings.lighting
+  - Assets/Standard Assets/LightningBolt/Editor/LightningBoltEditor.cs
+  - Assets/Standard Assets/LightningBolt/Editor/LightningBoltLogo.png
+  - Assets/Standard Assets/LightningBolt/LightningBoltMaterialAdditive.mat
+  - Assets/Standard Assets/LightningBolt/LightningBoltMaterialAlphaBlend.mat
+  - Assets/Standard Assets/LightningBolt/LightningBoltMaterialAnimatedAdditive.mat
+  - Assets/Standard Assets/LightningBolt/LightningBoltScript.cs
+  - Assets/Standard Assets/LightningBolt/MODIFICATIONS.txt
+  - Assets/Standard Assets/LightningBolt/Readme.txt
+  - Assets/Standard Assets/LightningBolt/SimpleLightningBoltAnimatedPrefab.prefab
+  - Assets/Standard Assets/LightningBolt/SimpleLightningBoltPrefab.prefab
+  - Assets/Standard Assets/LightningBolt/Textures/LightningBoltTexture.png
+  - Assets/Standard Assets/LightningBolt/Textures/LightningSpriteSheet1.png
+  - Assets/Standard Assets/LightningBolt/Textures/LightningSpriteSheet2.png
+  - Assets/Standard Assets/LightningBolt/Textures/LightningSpriteSheet3.png
+  - Assets/Standard Assets/Logger/Editor/EditorLogger.asmdef
+  - Assets/Standard Assets/Logger/Editor/LogLevels.cs
+  - Assets/Standard Assets/Logger/Logger.asmdef
+  - Assets/Standard Assets/Logger/Logger.cs
+  - Assets/Standard Assets/Logger/ThreadLogger.cs
+  - Assets/Standard Assets/PathFinder/AStarFinder.cs
+  - Assets/Standard Assets/PathFinder/DiagonalMovement.cs
+  - Assets/Standard Assets/PathFinder/Grid/BaseGrid.cs
+  - Assets/Standard Assets/PathFinder/Grid/DynamicGrid.cs
+  - Assets/Standard Assets/PathFinder/Grid/DynamicGridWPool.cs
+  - Assets/Standard Assets/PathFinder/Grid/PartialGridWPool.cs
+  - Assets/Standard Assets/PathFinder/Grid/StaticGrid.cs
+  - Assets/Standard Assets/PathFinder/GridPos.cs
+  - Assets/Standard Assets/PathFinder/GridRect.cs
+  - Assets/Standard Assets/PathFinder/Heuristic.cs
+  - Assets/Standard Assets/PathFinder/JumpPointFinder.cs
+  - Assets/Standard Assets/PathFinder/NodePool.cs
+  - Assets/Standard Assets/PathFinder/ParamBase.cs
+  - Assets/Standard Assets/PathFinder/UnityC5/C5.dll
+  - Assets/Standard Assets/PathFinder/Util.cs
+  - Assets/Standard Assets/TextMesh Pro/Documentation/TextMesh Pro User Guide 2016.pdf
+  - Assets/Standard Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans
+    SDF - Drop Shadow.mat
+  - Assets/Standard Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans
+    SDF - Outline.mat
+  - Assets/Standard Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans
+    SDF - Underlay + Outline (ChatEntry only).mat
+  - Assets/Standard Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans
+    SDF.asset
+  - Assets/Standard Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt
+  - Assets/Standard Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt
+  - Assets/Standard Assets/TextMesh Pro/Resources/Shaders/TMP_Bitmap.shader
+  - Assets/Standard Assets/TextMesh Pro/Resources/Shaders/TMP_Bitmap-Custom-Atlas.shader
+  - Assets/Standard Assets/TextMesh Pro/Resources/Shaders/TMP_Bitmap-Mobile.shader
+  - Assets/Standard Assets/TextMesh Pro/Resources/Shaders/TMP_SDF Overlay.shader
+  - Assets/Standard Assets/TextMesh Pro/Resources/Shaders/TMP_SDF.shader
+  - Assets/Standard Assets/TextMesh Pro/Resources/Shaders/TMP_SDF-Mobile Masking.shader
+  - Assets/Standard Assets/TextMesh Pro/Resources/Shaders/TMP_SDF-Mobile Overlay.shader
+  - Assets/Standard Assets/TextMesh Pro/Resources/Shaders/TMP_SDF-Mobile.shader
+  - Assets/Standard Assets/TextMesh Pro/Resources/Shaders/TMP_SDF-Surface.shader
+  - Assets/Standard Assets/TextMesh Pro/Resources/Shaders/TMP_SDF-Surface-Mobile.shader
+  - Assets/Standard Assets/TextMesh Pro/Resources/Shaders/TMP_Sprite.shader
+  - Assets/Standard Assets/TextMesh Pro/Resources/Shaders/TMPro.cginc
+  - Assets/Standard Assets/TextMesh Pro/Resources/Shaders/TMPro_Properties.cginc
+  - Assets/Standard Assets/TextMesh Pro/Resources/Shaders/TMPro_Surface.cginc
+  - Assets/Standard Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset
+  - Assets/Standard Assets/TextMesh Pro/Resources/Sprite Assets/RadioIcon.asset
+  - Assets/Standard Assets/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset
+  - Assets/Standard Assets/TextMesh Pro/Resources/TMP Settings.asset
+  - Assets/Standard Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt
+  - Assets/Standard Assets/TextMesh Pro/Sprites/EmojiOne.json
+  - Assets/Standard Assets/TextMesh Pro/Sprites/EmojiOne.png
+  - Assets/Standard Assets/UPAToolkit/Editor/EditorGUI/UPAEditorWindow.cs
+  - Assets/Standard Assets/UPAToolkit/Editor/EditorGUI/UPAExportWindow.cs
+  - Assets/Standard Assets/UPAToolkit/Editor/EditorGUI/UPAImageCreationWindow.cs
+  - Assets/Standard Assets/UPAToolkit/Editor/EditorGUI/UPAImageEditorPreview.cs
+  - Assets/Standard Assets/UPAToolkit/Editor/EditorGUI/UPALayerSettings.cs
+  - Assets/Standard Assets/UPAToolkit/Editor/UPABlendModes.cs
+  - Assets/Standard Assets/UPAToolkit/Editor/UPACustomTypes.cs
+  - Assets/Standard Assets/UPAToolkit/Editor/UPADrawer.cs
+  - Assets/Standard Assets/UPAToolkit/Editor/UPAEditorToolKit.asmdef
+  - Assets/Standard Assets/UPAToolkit/Editor/UPAImage.cs
+  - Assets/Standard Assets/UPAToolkit/Editor/UPALayer.cs
+  - Assets/Standard Assets/UPAToolkit/Editor/UPASession.cs
+  - Assets/Standard Assets/UPAToolkit/README.pdf
+  - Assets/Standard Assets/UPAToolkit/Resources/UI/add.png
+  - Assets/Standard Assets/UPAToolkit/Resources/UI/CrossWhite.psd
+  - Assets/Standard Assets/UPAToolkit/Resources/UI/delete.png
+  - Assets/Standard Assets/UPAToolkit/Resources/UI/down.png
+  - Assets/Standard Assets/UPAToolkit/Resources/UI/duplicate.png
+  - Assets/Standard Assets/UPAToolkit/Resources/UI/edit.png
+  - Assets/Standard Assets/UPAToolkit/Resources/UI/import.png
+  - Assets/Standard Assets/UPAToolkit/Resources/UI/locked.png
+  - Assets/Standard Assets/UPAToolkit/Resources/UI/merge.png
+  - Assets/Standard Assets/UPAToolkit/Resources/UI/unlocked.png
+  - Assets/Standard Assets/UPAToolkit/Resources/UI/up.png
   _sharedPackages: []

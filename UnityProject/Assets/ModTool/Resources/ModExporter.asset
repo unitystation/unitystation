@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -330421226, guid: 428e933d3f7300d4aab85a5ea182df35, type: 3}
+  m_Name: ModExporter
+  m_EditorClassIdentifier: 
+  _isExporting: 0
+  currentStep: 0
+  data:
+    assemblyDefinitions: []
+    assemblies: []
+    assets: []
+    scenes: []
+    content: 0
+    loadedScene: 
