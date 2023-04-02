@@ -22,9 +22,10 @@ namespace Antagonists
 		/// </summary>
 		protected override bool IsPossibleInternal(Mind candidate)
 		{
-			int targetCount = PlayerList.Instance.InGamePlayers.Count(p => (p.Mind != candidate)
-			                                                               && AntagManager.Instance.TargetedPlayers.Contains(p.Mind) == false
-			                                                               && p.Mind.GetAntag().Antagonist is not BloodBrother);
+			var players = PlayerList.Instance.InGamePlayers.FindAll(x => x.Mind != null);
+			int targetCount = players.Count(p => (p.Mind != candidate)
+			                                     && AntagManager.Instance.TargetedPlayers.Contains(p.Mind) == false
+			                                     && p.Mind.GetAntag()?.Antagonist is not BloodBrother);
 			return (targetCount > 0);
 		}
 
