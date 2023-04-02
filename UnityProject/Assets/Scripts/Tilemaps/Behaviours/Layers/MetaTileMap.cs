@@ -364,14 +364,19 @@ namespace TileManagement
 
 			if (Manager3D.Is3D && GameData.IsHeadlessServer == false)
 			{
-				var Sprite3D = Instantiate(CommonPrefabs.Instance.Cube3D,
-					tileLocation.position + new Vector3(0.5f, 0.5f, 0), new Quaternion(),
-					tileLocation.layer.transform).GetComponent<SetCubeSprite>();
+				if (tileLocation.layer.LayerType == LayerType.Walls ||
+				    tileLocation.layer.LayerType == LayerType.Windows ||
+				    tileLocation.layer.LayerType == LayerType.Grills)
+				{
+					var Sprite3D = Instantiate(CommonPrefabs.Instance.Cube3D,
+						tileLocation.position + new Vector3(0.5f, 0.5f, 0), new Quaternion(),
+						tileLocation.layer.transform).GetComponent<SetCubeSprite>();
 
-				Sprite3D.gameObject.transform.localPosition = tileLocation.position +  new Vector3(0.5f, 0.5f, 0);
+					Sprite3D.gameObject.transform.localPosition = tileLocation.position +  new Vector3(0.5f, 0.5f, 0);
 
-				tileLocation.AssociatedSetCubeSprite = Sprite3D;
-				Sprite3D.SetSprite(tileLocation.layerTile.PreviewSprite);
+					tileLocation.AssociatedSetCubeSprite = Sprite3D;
+					Sprite3D.SetSprite(tileLocation.layerTile.PreviewSprite);
+				}
 			}
 
 			tileLocation.layer.SubsystemManager.UpdateAt(tileLocation.position);
