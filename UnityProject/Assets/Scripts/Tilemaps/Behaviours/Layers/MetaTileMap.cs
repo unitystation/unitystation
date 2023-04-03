@@ -365,8 +365,7 @@ namespace TileManagement
 			if (Manager3D.Is3D && GameData.IsHeadlessServer == false)
 			{
 				if (tileLocation.layer.LayerType == LayerType.Walls ||
-				    tileLocation.layer.LayerType == LayerType.Windows ||
-				    tileLocation.layer.LayerType == LayerType.Grills)
+				    tileLocation.layer.LayerType == LayerType.Windows)
 				{
 					var Sprite3D = Instantiate(CommonPrefabs.Instance.Cube3D,
 						tileLocation.position + new Vector3(0.5f, 0.5f, 0), new Quaternion(),
