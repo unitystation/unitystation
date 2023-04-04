@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UI.Core;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Tilemaps;
@@ -147,7 +148,16 @@ public static class MouseUtils
 	public static IEnumerable<GameObject> GetOrderedObjectsUnderMouse(LayerMask? layerMask = null,
 		Func<GameObject, bool> gameObjectFilter = null)
 	{
-		return GetOrderedObjectsAtPoint(MouseToWorldPos(), layerMask,
+
+		var WorldPos = MouseToWorldPos();
+
+		if (ClickOnSelfUI.SelfClick)
+		{
+			ClickOnSelfUI.SelfClick = false;
+			return new[] {PlayerManager.LocalPlayerObject};
+		}
+
+		return GetOrderedObjectsAtPoint(WorldPos, layerMask,
 			gameObjectFilter);
 	}
 

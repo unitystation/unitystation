@@ -29,6 +29,7 @@ public class Manager3D : MonoBehaviour
 
 
 	public static bool Is3D = false;
+
 	public GameObject objectToSpawn;
 
 	public void PlayerLoadedIn(NetworkConnectionToClient Player)
@@ -144,6 +145,9 @@ public class Manager3D : MonoBehaviour
 		Follow.yOffSet = 0;
 
 
+		UIManager.Instance.OrNull()?.panelHudBottomController.OrNull()?.ClickOnSelfUI.OrNull()?.gameObject.OrNull()?.SetActive(true);
+
+
 		var Tiles = FindObjectsOfType<RegisterTile>();
 
 		foreach (var Tile in Tiles)
@@ -174,8 +178,7 @@ public class Manager3D : MonoBehaviour
 					foreach (var Layer in PresentTiles)
 					{
 						if (Layer.Key == null || Layer.Value == null) continue;
-						if (Layer.Key.LayerType == LayerType.Walls || Layer.Key.LayerType == LayerType.Windows ||
-						    Layer.Key.LayerType == LayerType.Grills)
+						if (Layer.Key.LayerType == LayerType.Walls || Layer.Key.LayerType == LayerType.Windows)
 						{
 							foreach (var TileInfo in Layer.Value)
 							{
