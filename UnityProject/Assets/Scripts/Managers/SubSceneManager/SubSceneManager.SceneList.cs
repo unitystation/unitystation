@@ -26,6 +26,8 @@ public partial class SubSceneManager
 	public IEnumerator RoundStartServerLoadSequence()
 	{
 		InitialLoadingComplete = false;
+		SubsystemBehaviourQueueInit.InitializedAll = false;
+
 		ConnectionLoadedRecord.Clear();//New round
 		var loadTimer = new SubsceneLoadTimer();
 		//calculate load time:

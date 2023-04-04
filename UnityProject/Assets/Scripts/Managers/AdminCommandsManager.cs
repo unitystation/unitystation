@@ -217,6 +217,9 @@ namespace AdminCommands
 
 			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound && GameManager.Instance.waitForStart)
 			{
+				if (SubsystemBehaviourQueueInit.InitializedAll == false) return;
+				if (SubSceneManager.Instance.InitialLoadingComplete == false) return;
+
 				GameManager.Instance.StartRound();
 
 				Chat.AddGameWideSystemMsgToChat($"<color={AdminActionChatColor}>An admin started the round early.</color>");
