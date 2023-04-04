@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using _3D;
 using Systems;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -20,9 +21,14 @@ using Objects.Machines.ServerMachines.Communications;
 using Tilemaps.Behaviours.Layers;
 using UnityEngine.Profiling;
 using Player;
+using ScriptableObjects;
 using Systems.Cargo;
 using ScriptableObjects.Characters;
+using TileManagement;
+using UI.Core;
 using UnityEngine.Serialization;
+using UnityEngine.Tilemaps;
+using Random = System.Random;
 
 public partial class GameManager : MonoBehaviour, IInitialise
 {
@@ -58,6 +64,13 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// How long to wait between ending the round and starting a new one
 	/// </summary>
 	public float RoundEndTime { get; set; } = 60f;
+
+
+	/// <summary>
+	/// Default How long to wait between ending the round and starting a new one
+	/// </summary>
+	public float DefaultRoundEndTime { get; set; } = 60f;
+
 
 	/// <summary>
 	/// How long to wait between ending the round and starting a new one
@@ -216,6 +229,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		MinReadyPlayersForCountdown = GameConfigManager.GameConfig.MinReadyPlayersForCountdown;
 		PreRoundTime = GameConfigManager.GameConfig.PreRoundTime;
 		RoundEndTime = GameConfigManager.GameConfig.RoundEndTime;
+		DefaultRoundEndTime = GameConfigManager.GameConfig.RoundEndTime;
 		RoundsPerMap = GameConfigManager.GameConfig.RoundsPerMap;
 		InitialGameMode = GameConfigManager.GameConfig.InitialGameMode;
 		RespawnAllowed = GameConfigManager.GameConfig.RespawnAllowed;
@@ -239,31 +253,49 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	private void Start()
 	{
-		if ( CustomNetworkManager.IsServer ) UpdateManager.Add(UpdateMinutes, 60f);
+		if (CustomNetworkManager.IsServer) UpdateManager.Add(UpdateMinutes, 60f);
 	}
 
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-		EventManager.AddHandler( Event.Cleanup, ClientCleanupInbetweenScenes );
-		EventManager.AddHandler( Event.CleanupEnd, ClientCleanupEndRoundCleanups );
-		EventManager.AddHandler( Event.PostRoundStarted, ClientRoundStartCleanup );
+		EventManager.AddHandler(Event.Cleanup, ClientCleanupInbetweenScenes);
+		EventManager.AddHandler(Event.CleanupEnd, ClientCleanupEndRoundCleanups);
+		EventManager.AddHandler(Event.PostRoundStarted, ClientRoundStartCleanup);
+		EventManager.AddHandler(Event.RoundEnded, ClientAndServerEndCleanup);
+
+
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-		if ( CustomNetworkManager.IsServer ) UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMinutes);
-		EventManager.RemoveHandler( Event.Cleanup, ClientCleanupInbetweenScenes );
-		EventManager.RemoveHandler( Event.CleanupEnd, ClientCleanupEndRoundCleanups );
-		EventManager.RemoveHandler( Event.PostRoundStarted, ClientRoundStartCleanup );
+		if (CustomNetworkManager.IsServer) UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMinutes);
+		EventManager.RemoveHandler(Event.Cleanup, ClientCleanupInbetweenScenes);
+		EventManager.RemoveHandler(Event.CleanupEnd, ClientCleanupEndRoundCleanups);
+		EventManager.RemoveHandler(Event.PostRoundStarted, ClientRoundStartCleanup);
+		EventManager.RemoveHandler(Event.RoundEnded, ClientAndServerEndCleanup);
+		Manager3D.Is3D = false;
+	}
+
+	private void ClientAndServerEndCleanup()
+	{
+		if (Manager3D.Is3D)
+		{
+			Manager3D.Is3D = false;
+		}
+	}
+
+	public void PlayerLoadedIn(NetworkConnectionToClient Player)
+	{
+		Manager3D.Instance.OrNull()?.PlayerLoadedIn(Player);
 	}
 
 	private void UpdateMinutes()
 	{
-		if ( counting == false ) return;
+		if (counting == false) return;
 		RoundTimeInMinutes += 1;
 	}
 
@@ -283,6 +315,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		PendingSpaceBodies.Enqueue(mm);
 	}
+
 
 	IEnumerator ProcessSpaceBody(MatrixMove mm)
 	{
@@ -619,9 +652,12 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// </summary>
 	public void EndRound()
 	{
+
 		if (CustomNetworkManager.Instance._isServer == false) return;
 
-		if (CurrentRoundState != RoundState.Started && CurrentRoundState != RoundState.PreRound) //PreRound If the round didn't even start at all and because of an error
+		if (CurrentRoundState != RoundState.Started &&
+		    CurrentRoundState !=
+		    RoundState.PreRound) //PreRound If the round didn't even start at all and because of an error
 		{
 			if (CurrentRoundState == RoundState.Ended)
 			{
@@ -668,6 +704,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	{
 		Logger.LogError($"Waiting {RoundEndTime} seconds to restart...", Category.Round);
 		yield return WaitFor.Seconds(RoundEndTime);
+		RoundEndTime = DefaultRoundEndTime;
 		RestartRound();
 	}
 
@@ -932,7 +969,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			{
 				Logger.LogError(e.ToString());
 			}
-			
+
 			EventManager.Broadcast(Event.CleanupEnd, true);
 			yield return WaitFor.Seconds(0.2f);
 
@@ -955,7 +992,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		else
 		{
 			Logger.LogError("Server is rebooting now. If you don't have a way to automatically restart the " +
-			                "Unitystation process such as systemctl the server won't be able to restart!", Category.Round);
+			                "Unitystation process such as systemctl the server won't be able to restart!",
+				Category.Round);
 			Chat.AddGameWideSystemMsgToChat("<size=72><b>The server is now restarting!</b></size>");
 			yield return WaitFor.Seconds(4f);
 			Application.Quit();
@@ -968,7 +1006,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			CleanupUtil.CleanupInbetweenScenes();
 		}
-
 	}
 
 	public void ClientCleanupEndRoundCleanups()
@@ -977,7 +1014,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			CleanupUtil.EndRoundCleanup();
 		}
-
 	}
 
 
@@ -988,5 +1024,4 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			CleanupUtil.RoundStartCleanup();
 		}
 	}
-
 }

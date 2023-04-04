@@ -299,7 +299,7 @@ namespace Objects.Command
 
 		IEnumerator WaitForDeath()
 		{
-			yield return WaitFor.Seconds(5f);
+			yield return WaitFor.Seconds(2.5f);
 			var worldPos = gameObject.GetComponent<RegisterTile>().WorldPosition;
 			foreach (LivingHealthMasterBase livingHealth in FindObjectsOfType<LivingHealthMasterBase>())
 			{
@@ -309,9 +309,11 @@ namespace Objects.Command
 					livingHealth.Death();
 				}
 			}
-			yield return WaitFor.Seconds(15f);
+			yield return WaitFor.Seconds(10f);
 			// Trigger end of round
+			GameManager.Instance.RoundEndTime = 10;
 			GameManager.Instance.EndRound();
+
 		}
 
 		IEnumerator TickTimer()

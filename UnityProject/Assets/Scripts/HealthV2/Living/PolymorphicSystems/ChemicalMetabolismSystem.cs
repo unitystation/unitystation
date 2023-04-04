@@ -70,6 +70,7 @@ namespace HealthV2.Living.PolymorphicSystems
 				if (bodyPart.RelatedPart.DamageContributesToOverallHealth == false) continue;
 				bodyPart.ReagentMetabolism = metabolismFlowPerOne;
 			}
+			BodyPartListChange();
 		}
 
 

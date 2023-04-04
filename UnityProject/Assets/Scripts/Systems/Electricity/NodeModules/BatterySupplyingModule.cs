@@ -229,7 +229,9 @@ namespace Systems.Electricity.NodeModules
 								PullLastDeductedTime = -1;
 							}
 						}
-						else if (VoltageAtSupplyPort < MinimumSupportVoltage && CurrentCapacity > 0)
+
+
+						if (VoltageAtSupplyPort < MinimumSupportVoltage && CurrentCapacity > 0)
 						{
 							var needToPushVoltage = StandardSupplyingVoltage - VoltageAtSupplyPort;
 							current = needToPushVoltage / CircuitResistance;

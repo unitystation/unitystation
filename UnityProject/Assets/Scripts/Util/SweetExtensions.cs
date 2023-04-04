@@ -39,6 +39,11 @@ public static class SweetExtensions
 		return go.OrNull()?.GetComponent<ObjectAttributes>();
 	}
 
+	public static Attributes AttributesOrNull(this GameObject go)
+	{
+		return go.OrNull()?.GetComponent<Attributes>();
+	}
+
 	public static bool HasComponent<T>(this GameObject go) where T : Component
 	{
 		return go.TryGetComponent<T>(out _);
@@ -749,6 +754,26 @@ public static class SweetExtensions
 			OrientationEnum.Left_By90 => Vector3Int.left,
 			_ => Vector3Int.zero
 		};
+	}
+
+	public static OrientationEnum GetOppositeDirection(this OrientationEnum dir)
+	{
+		switch (dir)
+		{
+			case OrientationEnum.Default:
+				return OrientationEnum.Down_By180;
+			case OrientationEnum.Right_By270:
+				return OrientationEnum.Left_By90;
+			case OrientationEnum.Up_By0:
+				return OrientationEnum.Default;
+			case OrientationEnum.Left_By90:
+				return OrientationEnum.Right_By270;
+			case OrientationEnum.Down_By180:
+				return OrientationEnum.Up_By0;
+			default:
+				throw new ArgumentOutOfRangeException();
+		}
+		return OrientationEnum.Down_By180;
 	}
 
 	public static string RemovePunctuation(this string input)

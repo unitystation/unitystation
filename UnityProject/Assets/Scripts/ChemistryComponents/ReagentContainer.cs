@@ -166,6 +166,8 @@ namespace Chemistry.Components
 		/// </summary>
 		public float ReagentMixTotal => CurrentReagentMix.Total;
 
+		[SerializeField] private SpriteHandler spriteHandler;
+
 		private void Awake()
 		{
 			// register spill on throw
@@ -182,6 +184,13 @@ namespace Chemistry.Components
 				integrity.OnWillDestroyServer.AddListener(info => SpillAll());
 			}
 			//OnReagentMixChanged.AddListener(ReagentsChanged);
+
+			if (spriteHandler == null) spriteHandler = GetComponentInChildren<SpriteHandler>();
+		}
+
+		public void SetSpriteColor(Color newColor)
+		{
+			spriteHandler.SetColor(newColor);
 		}
 
 		private void OnImpact(UniversalObjectPhysics UOP, Vector2 Momentum)

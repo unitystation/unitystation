@@ -270,6 +270,8 @@ namespace HealthV2
 		public event Action<DamageType, GameObject> OnTakeDamageType;
 		public event Action OnLowHealth;
 
+		public event Action OnDeath;
+
 		[SyncVar] public bool CannotRecognizeNames = false;
 
 
@@ -1308,7 +1310,7 @@ namespace HealthV2
 		///<Summary>
 		/// Kills the creature, used for causes of death other than damage.
 		///</Summary>
-		public void Death()
+		public void Death(bool invokeDeathEvent = true)
 		{
 			//Don't trigger if already dead
 			if (ConsciousState == ConsciousState.DEAD) return;
@@ -1326,6 +1328,7 @@ namespace HealthV2
 
 			SetConsciousState(ConsciousState.DEAD);
 			OnDeathActions();
+			if (invokeDeathEvent) OnDeath?.Invoke();
 		}
 
 		protected abstract void OnDeathActions();

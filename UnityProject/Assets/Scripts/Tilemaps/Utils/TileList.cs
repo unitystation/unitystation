@@ -79,9 +79,7 @@ namespace Tilemaps.Utils
 			var i = 0;
 			foreach (var register in objects[chunkPos].Get(position))
 			{
-				if (register.OrNull()?.CurrentsortingGroup == null) continue;
-
-				register.CurrentsortingGroup.sortingOrder = (i * 4) + offset;
+				register.SetNewSortingOrder((i * 4) + offset);
 				i++;
 			}
 		}

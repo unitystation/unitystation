@@ -128,6 +128,8 @@ namespace Objects
 		public bool IsLocked => lockState == Lock.Locked;
 		public bool IsWelded => weldState == Weld.Welded;
 
+		[SerializeField] protected ItemTrait handPriorityTrait;
+
 
 		[SerializeField] private bool CannotBeInteractedWithWhenClosed = false;
 
@@ -329,11 +331,16 @@ namespace Objects
 			if (CannotBeInteractedWithWhenClosed && lockState == Lock.Locked) return false;
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false;
+			if (interaction.HandObject != null &&
+			    handPriorityTrait != null && HasHandPriority(interaction.HandObject.PickupableOrNull()?.ItemAttributesV2)) return false;
 
 			//only allow interactions targeting this closet
-			if (interaction.TargetObject != gameObject) return false;
+			return interaction.TargetObject == gameObject;
+		}
 
-			return true;
+		private bool HasHandPriority(ItemAttributesV2 handObjectAttributes)
+		{
+			return handObjectAttributes.GetTraits().Contains(handPriorityTrait);
 		}
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)

@@ -507,7 +507,7 @@ namespace Doors
 			IsClosed = true;
 			SetLayer(closedLayer);
 			spriteRenderer.sortingLayerID = closedSortingLayer;
-			registerTile.SetNewSortingOrder(closedSortingLayer);
+			registerTile.SetNewSortingLayer(closedSortingLayer);
 		}
 
 		public void BoxCollToggleOff()
@@ -515,7 +515,7 @@ namespace Doors
 			IsClosed = false;
 			SetLayer(openLayer);
 			spriteRenderer.sortingLayerID = openSortingLayer;
-			registerTile.SetNewSortingOrder(openSortingLayer);
+			registerTile.SetNewSortingLayer(openSortingLayer);
 		}
 
 		private void SetLayer(int layer)

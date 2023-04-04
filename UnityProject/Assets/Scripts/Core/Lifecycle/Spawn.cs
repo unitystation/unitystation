@@ -294,6 +294,7 @@ public static class Spawn
 				{
 					result.GameObject.AddComponent<RuntimeSpawned>();
 				}
+
 				spawnedObjects.Add(result.GameObject);
 				//apply scattering if it was specified
 				if (info.ScatterRadius != null)

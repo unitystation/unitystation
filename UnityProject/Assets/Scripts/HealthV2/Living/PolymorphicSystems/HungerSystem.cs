@@ -125,6 +125,7 @@ namespace HealthV2.Living.PolymorphicSystems
 					bodyFat.AbsorbedAmount *= Bymultiply;
 				}
 			}
+			BodyPartListChange();
 		}
 
 

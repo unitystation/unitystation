@@ -280,6 +280,9 @@ public class CharacterSheet : ICloneable
 
 	#region StaticCustomizationFunctions
 
+	/// <summary>Generate a random character.</summary>
+	/// <remarks>not safe to use in Awake().</remarks>
+	/// <returns>a random character.</returns>
 	public static CharacterSheet GenerateRandomCharacter()
 	{
 		CharacterSheet character = new CharacterSheet();

@@ -20,6 +20,8 @@ using Random = UnityEngine.Random;
 
 public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegisterTileInitialised
 {
+	//TODO Definitely can do the cleanup There's a decent amount of duplication
+
 	//TODO parentContainer Need to test
 	//TODO Maybe work on conveyor belts and players a bit more
 	//TODO Sometime Combine buckling and object storage
@@ -332,7 +334,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			SetLocalTarget = new Vector3WithData()
 			{
 				Vector3 = transform.localPosition,
-				ByClient = NetId.Empty
+				ByClient = NetId.Empty,
+				Matrix = -1
 			};
 		}
 		else
@@ -399,9 +402,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	{
 		public Vector3 Vector3;
 		public uint ByClient;
+		public int Matrix;
 
-
-		public bool Equals(Vector3WithData other) => Equals(Vector3, other.Vector3) && ByClient == other.ByClient;
+		public bool Equals(Vector3WithData other) =>
+			Equals(Vector3, other.Vector3)
+		    && ByClient == other.ByClient
+			&& Matrix == other.Matrix;
 
 		public override bool Equals(object obj)
 		{
@@ -410,7 +416,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		public override int GetHashCode()
 		{
-			return HashCode.Combine(Vector3, ByClient);
+			return HashCode.Combine(Vector3, ByClient, Matrix);
 		}
 	}
 
@@ -432,7 +438,17 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 				&& spawned.TryGetValue(newLocalTarget.ByClient, out var local)
 				&& local.gameObject == PlayerManager.LocalPlayerObject) return;
 
-		SetLocalTarget = newLocalTarget;
+
+
+		if (newLocalTarget.Matrix != -1)
+		{
+			SetMatrix(MatrixManager.Get(newLocalTarget.Matrix).Matrix);
+		}
+
+		if (isClient)
+		{
+			SetLocalTarget = newLocalTarget;
+		}
 
 		if (IsFlyingSliding)
 		{
@@ -536,7 +552,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			SetLocalTarget = new Vector3WithData()
 			{
 				Vector3 = resetToLocal,
-				ByClient = NetId.Empty
+				ByClient = NetId.Empty,
+				Matrix = matrixID
 			};
 			SetTransform(resetToLocal, false);
 		}
@@ -675,7 +692,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 				SetLocalTarget = new Vector3WithData()
 				{
 					Vector3 = resetToLocal,
-					ByClient = NetId.Empty
+					ByClient = NetId.Empty,
+					Matrix = matrixID
 				};
 				SetRegisterTileLocation(resetToLocal.RoundToInt());
 
@@ -700,7 +718,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 				SetLocalTarget = new Vector3WithData()
 				{
 					Vector3 = resetToLocal,
-					ByClient = NetId.Empty
+					ByClient = NetId.Empty,
+					Matrix = matrixID
 				};
 				SetTransform(resetToLocal, false);
 				SetRegisterTileLocation(resetToLocal.RoundToInt());
@@ -842,11 +861,15 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		registerTile.FinishNetworkedMatrixRegistration(movetoMatrix.NetworkedMatrix);
 		SetTransform(TransformCash, true);
 		LocalDifferenceNeeded = Vector2.zero;
-		SetLocalTarget = new Vector3WithData()
-		{
-			Vector3 = transform.localPosition,
-			ByClient = NetId.Empty
-		};
+
+			SetLocalTarget = new Vector3WithData()
+			{
+				Vector3 = transform.localPosition,
+				ByClient = NetId.Empty,
+				Matrix = movetoMatrix.Id
+			};
+
+
 	}
 
 	/// <summary>
@@ -997,7 +1020,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		SetLocalTarget = new Vector3WithData()
 		{
 			Vector3 = localPosition.RoundToInt(),
-			ByClient = byClient.NetId()
+			ByClient = byClient.NetId(),
+			Matrix = movetoMatrix.Id
 		};
 
 
@@ -1058,7 +1082,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		SetLocalTarget = new Vector3WithData()
 		{
 			Vector3 = transform.localPosition,
-			ByClient = NetId.Empty
+			ByClient = NetId.Empty,
+			Matrix = registerTile.Matrix.Id
 		};
 		newtonianMovement = Vector2.zero;
 		airTime = 0;
@@ -1658,7 +1683,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			SetLocalTarget = new Vector3WithData()
 			{
 				Vector3 = localPosition,
-				ByClient = NetId.Empty
+				ByClient = NetId.Empty,
+				Matrix = movetoMatrix.Id
 			};
 
 			InternalTriggerOnLocalTileReached(localPosition);

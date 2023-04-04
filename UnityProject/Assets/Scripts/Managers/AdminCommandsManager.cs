@@ -157,6 +157,19 @@ namespace AdminCommands
 		}
 
 		[Command(requiresAuthority = false)]
+		public void CmdMake3D(NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var player) == false) return;
+			var message = new StringBuilder();
+			message.AppendLine($"{player.Username}: Change the server to 3D");
+
+			Manager3D.Instance.ConvertTo3D();
+
+			if(message.Length == 0) return;
+			LogAdminAction(message.ToString());
+		}
+
+		[Command(requiresAuthority = false)]
 		public void CmdChangeGameMode(string nextGameMode, bool isSecret, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var player) == false) return;

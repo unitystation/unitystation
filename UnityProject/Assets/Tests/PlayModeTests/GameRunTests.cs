@@ -27,7 +27,7 @@ namespace GameRunTests
 		public static void RunRestartRound()
 		{
 			GameManager.Instance.RoundEndTime = 0f;
-			GameManager.Instance.EndRound(); ;
+			GameManager.Instance.EndRound();
 		}
 
 		// public void RunRestartRound()

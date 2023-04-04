@@ -34,6 +34,13 @@ namespace AdminTools
 			AdminCommandsManager.Instance.CmdChangeGameMode(currentData.nextGameMode, currentData.isSecret);
 		}
 
+
+		public void Send3DRequest()
+		{
+			AdminCommandsManager.Instance.CmdMake3D();
+		}
+
+
 		public override void OnPageRefresh(AdminPageRefreshData adminPageData)
 		{
 			base.OnPageRefresh(adminPageData);

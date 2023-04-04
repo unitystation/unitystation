@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using _3D;
 using Messages.Server;
 using Objects;
 using Objects.Atmospherics;
+using ScriptableObjects;
 using Tiles;
 using UnityEngine;
 #if UNITY_EDITOR
@@ -161,6 +163,8 @@ namespace TileManagement
 								Tile.layerTile = getTile;
 								Tile.Colour = layer.Tilemap.GetColor(localPlace);
 								Tile.transformMatrix = layer.Tilemap.GetTransformMatrix(localPlace);
+
+
 								ToInsertDictionary[localPlace] = Tile;
 								InBoundLocations.ExpandToPoint2D(localPlace);
 							}
@@ -310,6 +314,11 @@ namespace TileManagement
 
 			tileLocation.layer.RemoveTile(tileLocation.position);
 
+			if (tileLocation.AssociatedSetCubeSprite != null)
+			{
+				Destroy(tileLocation.AssociatedSetCubeSprite.gameObject);
+			}
+
 			//TODO note Boundaries only recap later when tiles are added outside of it, so therefore it can only increase in size
 			// remember update transforms and position and colour when removing On tile map I'm assuming It doesn't clear it?
 			// Maybe it sets it to the correct ones when you set a tile idk
@@ -352,6 +361,23 @@ namespace TileManagement
 		{
 			tileLocation.layer.SetTile(tileLocation.position, tileLocation.layerTile,
 				tileLocation.transformMatrix, tileLocation.Colour);
+
+			if (Manager3D.Is3D && GameData.IsHeadlessServer == false)
+			{
+				if (tileLocation.layer.LayerType == LayerType.Walls ||
+				    tileLocation.layer.LayerType == LayerType.Windows)
+				{
+					var Sprite3D = Instantiate(CommonPrefabs.Instance.Cube3D,
+						tileLocation.position + new Vector3(0.5f, 0.5f, 0), new Quaternion(),
+						tileLocation.layer.transform).GetComponent<SetCubeSprite>();
+
+					Sprite3D.gameObject.transform.localPosition = tileLocation.position +  new Vector3(0.5f, 0.5f, 0);
+
+					tileLocation.AssociatedSetCubeSprite = Sprite3D;
+					Sprite3D.SetSprite(tileLocation.layerTile.PreviewSprite);
+				}
+			}
+
 			tileLocation.layer.SubsystemManager.UpdateAt(tileLocation.position);
 			if (LocalCachedBounds != null)
 			{

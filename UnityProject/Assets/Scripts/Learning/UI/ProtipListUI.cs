@@ -9,8 +9,6 @@ namespace Learning
 		[SerializeField] private Transform entryList;
 		[SerializeField] private Transform mainPage;
 
-		[SerializeField] private string wikiURL = "https://unitystation.github.io/unitystation-wiki/";
-
 
 		private void Awake()
 		{
@@ -24,7 +22,7 @@ namespace Learning
 		public void OnPressWikiButton()
 		{
 			//TODO : ADD THE WIKI IN-GAME PAGE THAT LETS YOU SEARCH ARTICLES TO OPEN LIKE SS13
-			Application.OpenURL(wikiURL);
+
 		}
 
 		public void OnPressCatalougePage()

@@ -340,7 +340,7 @@ public class MouseInputController : MonoBehaviour
 		PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdSlideItem(Vector3Int.RoundToInt(MouseWorldPosition));
 	}
 
-	private bool CheckClick()
+	public bool CheckClick()
 	{
 		ChangeDirection();
 		// currently there is nothing for ghosts to interact with, they only can change facing

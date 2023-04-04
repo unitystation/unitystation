@@ -1291,6 +1291,7 @@ namespace Blob
 			Chat.AddGameWideSystemMsgToChat($"At its biggest the blob had {maxCount} tiles controlled" +
 			                                $" but only had {maxNonSpaceCount} non-space tiles which counted to victory.");
 
+			GameManager.Instance.RoundEndTime = 10; // Quick round end when triggered by Players
 			GameManager.Instance.EndRound();
 		}
 

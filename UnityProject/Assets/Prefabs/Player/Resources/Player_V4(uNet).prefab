@@ -463,6 +463,7 @@ GameObject:
   - component: {fileID: 3844190322150875557}
   - component: {fileID: 6445802770983522070}
   - component: {fileID: 1307789518832348530}
+  - component: {fileID: 4571425272607837074}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -530,6 +531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f99bb0ad07434da089f740997e6916, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   playerTypeSettings: {fileID: 11400000, guid: f1ddb9807767eb342a542c93328653f0, type: 2}
@@ -558,6 +560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f78acb2535fb62449a31c66eb9a7725, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   PlayerSpritesData: 
@@ -634,6 +637,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f941a6ff000f14c42a6a1e012b4495cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   IsInternalsEnabled: 0
@@ -649,6 +653,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9451929b6fd9342dab7a272b50ef5aa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   chatBubbleTarget: {fileID: 8006988482386011679}
@@ -664,6 +669,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99e9a7c3cfbc64868950975c02790ac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   attackSpeed: 7
@@ -682,6 +688,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c7b6bc021c23c54d8e5410a430ca7fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   matrixDebugLogging: 0
@@ -701,6 +708,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   MethodRotation: 0
@@ -756,6 +764,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc835be17c750e246bed37c4406e0113, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   DefaultIntensity: 0
@@ -872,9 +881,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
+  _assetId: 1889941320
   serverOnly: 0
   visible: 0
-  m_AssetId: c4494414d24d2f2468e74daa79468631
   hasSpawned: 0
 --- !u!114 &4171332437423579703
 MonoBehaviour:
@@ -915,6 +924,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cc34b2077deffe4ca88851eaaff1394, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   offsetPosition: {x: 0, y: -0.6}
@@ -959,6 +969,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1b752b8671651846ba4fca8bf2c233a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   CanRotateIfNotMovable: 0
@@ -987,6 +998,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f391033110eb6324494d054acda7a321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   BodyType: 0
@@ -1013,7 +1025,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 305eafe3e2fbc9e4283aee243b3edb51, type: 2}
   - {fileID: 11400000, guid: c0ceb2d6f23ad014bbab88285b3815e3, type: 2}
   - {fileID: 11400000, guid: 1c50065647d14e04f8952396dc2e055b, type: 2}
-  CHem: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12, type: 2}
   NutrimentConsumed: 0
   Stability: 0
   NegativeMutationMinimumTimeMinutes: 1
@@ -1034,44 +1045,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1c58bdf91308514abf6c708bee62286, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ALLMetabolismReactions:
-  - {fileID: 11400000, guid: ac0c760ad1cbab341b756545ba0586a4, type: 2}
-  - {fileID: 11400000, guid: 764107d010af362458271da1cae0b721, type: 2}
-  - {fileID: 11400000, guid: be96438d1ece65d42ac82b073c5b0dbd, type: 2}
-  - {fileID: 11400000, guid: f3831b1acebd1cc49b8bedc1d561da2d, type: 2}
-  - {fileID: 11400000, guid: b68a4df01ef69964596c5dc9daa503fc, type: 2}
-  - {fileID: 11400000, guid: e0148fad25511cf4282cedc206ee507a, type: 2}
-  - {fileID: 11400000, guid: a1c4a4720b715e84ab247305a46e923a, type: 2}
-  - {fileID: 11400000, guid: 70f22bab240e3b3468ad4b1509c90e9f, type: 2}
-  - {fileID: 11400000, guid: e83c05c9c83ddfc4c84a80bff9a2cc8c, type: 2}
-  - {fileID: 11400000, guid: 11e70b972f4994f40ba26c72d9bc4b5e, type: 2}
-  - {fileID: 11400000, guid: 9d9fccd4b659b2e45a6089eb7fd5a8ec, type: 2}
-  - {fileID: 11400000, guid: 467467a8d844a53429f385bc1d11d6b3, type: 2}
-  - {fileID: 11400000, guid: cdad4fded4aa182459103c9a59012dc8, type: 2}
-  - {fileID: 11400000, guid: 6783e379d47680046abcc3d47d62c03a, type: 2}
-  - {fileID: 11400000, guid: 1d6fd38b48113c8448800db674a5110c, type: 2}
-  - {fileID: 11400000, guid: 7b8e80a904cafcf41a634682976c06a0, type: 2}
-  - {fileID: 11400000, guid: 85b402a852ad1ad49b64886cd42e93ce, type: 2}
-  - {fileID: 11400000, guid: 3ea6d21ecff38954a9e1b05795f3f45e, type: 2}
-  - {fileID: 11400000, guid: b7d0a552223af4d4d9f3eb3217df9183, type: 2}
-  - {fileID: 11400000, guid: 246b944c9799b87489519d7f19307a06, type: 2}
-  - {fileID: 11400000, guid: 2314f18e5395f214ca02e5976e2ac99e, type: 2}
-  - {fileID: 11400000, guid: a6633049f2276744bb1debe8b7a4f1fb, type: 2}
-  - {fileID: 11400000, guid: c3c30039428d04945891a05a5b24d90b, type: 2}
-  - {fileID: 11400000, guid: d6d894f88c77aa54e814bcd831ff6eab, type: 2}
-  - {fileID: 11400000, guid: 132f2cd5d79066e46af78ea80a196713, type: 2}
-  - {fileID: 11400000, guid: c08bfc7b09a88c34d9be46b34e311204, type: 2}
-  - {fileID: 11400000, guid: 2bb9f5c33f1a9cf4ea2a004aa7873462, type: 2}
-  bloodType: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
-  BloodPool:
-    temperature: 0
-    reagents:
-      m_keys: []
-      m_values: []
-    reagentKeys: []
-  StartingBlood: 500
-  bloodInfo: {fileID: 11400000, guid: 5a85f8bded849a44290c34e227cd4096, type: 2}
-  Hearts: []
 --- !u!114 &4232843736106124361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1084,6 +1057,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fad55d26381ef594c8bff2db4222570c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   canBreathAnywhere: 0
@@ -1100,6 +1074,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3a4d93919206aa40bad0e7a3e0bb835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   LivingHealthMasterBase: {fileID: 1354417930896543338}
@@ -1122,6 +1097,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f78acb2535fb62449a31c66eb9a7725, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   PlayerSpritesData: 
@@ -1151,6 +1127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ee217de27dd4545be3c51829125825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0
   livingHealthMasterBase: {fileID: 0}
@@ -1178,6 +1155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be8cd0497d2bc4a418b84e2aa84244c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   Target: {fileID: 4962232741225816}
@@ -1193,6 +1171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03d7a3d174472564ea12881872e65759, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   axisMode: 0
@@ -1211,6 +1190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 995dd83783e16e449a5caad75d24d94f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   axisMode: 3
@@ -1229,6 +1209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c816f56390b01c44fb2cdced367b73b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   axisMode: 0
@@ -1261,6 +1242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f2289be7f53edd4a99fd0e94ec456bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 1
   syncInterval: 0
 --- !u!114 &91908198791635565
@@ -1275,6 +1257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a9211349d74cc745b7ba53da3ecadd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   playerNetworkActions: {fileID: 0}
@@ -1317,6 +1300,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ec8196c49f245629895b62b442ab8e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   defaultKnownRecipes: {fileID: 11400000, guid: 0b96641161704304fbde87724ab226b3,
@@ -1347,6 +1331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61d54d2e664e46eebfc8375e5a889f19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   WeldingShieldImplants: 0
@@ -1362,6 +1347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84699d86ce37b1b40891616630505912, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   DEBUG: 0
@@ -1442,6 +1428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd4fccae344a4981a0739eaa263d1b9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   defaultLanguages: {fileID: 0}
@@ -1459,6 +1446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dce365038caa4ced995ef927dbe0ed20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
 --- !u!114 &1307789518832348530
@@ -1474,6 +1462,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: {fileID: 1354417930896543338}
+--- !u!114 &4571425272607837074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a088a411ff27eb7419f4302446539af3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -8231,7 +8231,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: -4549444404219585148, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

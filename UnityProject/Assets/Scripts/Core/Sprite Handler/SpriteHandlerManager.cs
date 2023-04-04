@@ -395,6 +395,7 @@ public class SpriteHandlerManager : NetworkBehaviour
 			if (spriteChange.Empty)
 			{
 				if (PresentSpriteSet != -1) PresentSpriteSet = -1;
+				if (CataloguePage != -1) CataloguePage = -1;
 				Empty = spriteChange.Empty;
 			}
 
