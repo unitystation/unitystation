@@ -170,6 +170,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6327756969131596099, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
+      propertyPath: _assetId
+      value: 3890719471
+      objectReference: {fileID: 0}
+    - target: {fileID: 6327756969131596099, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
       propertyPath: m_AssetId
       value: fb2c1c5d5f027eb45bb342edeb5a3d8f
       objectReference: {fileID: 0}
@@ -352,6 +357,25 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+--- !u!114 &1771482854461073481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4194276244320548660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MachineParts: {fileID: 11400000, guid: 3b8ac60f073c7f14e9e38f513a72953a, type: 2}
+  machineBoardPrefab: {fileID: 8221461112639270638, guid: f46eb7aa84f0b044b8c2b66b51952897,
+    type: 3}
+  canNotBeDeconstructed: 0
+  isEMPResistant: 0
+  mustBeUnanchored: 1
+  secondsToScrewdrive: 2
 --- !u!114 &3879102292432146991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,6 +388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   MethodRotation: 0
@@ -385,6 +410,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1b752b8671651846ba4fca8bf2c233a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   CanRotateIfNotMovable: 0
