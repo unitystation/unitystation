@@ -186,7 +186,7 @@ public class SpriteHandler : MonoBehaviour
 		InternalChangeSprite(cataloguePage, networked, true);
 	}
 
-	private void InternalChangeSprite(int cataloguePage, bool networked = true, bool animateOnce = false, bool forceUpdate = false)
+	private void InternalChangeSprite(int cataloguePage, bool networked = true, bool animateOnce = false)
 	{
 		if (animateOnce == false)
 		{
@@ -200,12 +200,6 @@ public class SpriteHandler : MonoBehaviour
 		}
 
 		this.cataloguePage = cataloguePage;
-		if (forceUpdate)
-		{
-			SetSpriteSO(SubCatalogue[cataloguePage]);
-			this.animateOnce = animateOnce;
-			return;
-		}
 
 		if (isSubCatalogueChanged)
 		{
