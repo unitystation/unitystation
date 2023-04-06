@@ -7,32 +7,32 @@ using UnityEngine;
 
 public class ToolCarousel : MonoBehaviour, IUIHandAreasSelectable
 {
-	public List<UI_DynamicItemSlot> AllSlots = new List<UI_DynamicItemSlot>();
-
-	public List<GameObject> AllHighlightSlots = new List<GameObject>();
-
 	public int ActiveHandInt = -1;
 
-	public List<UI_DynamicItemSlot> AvailableSlots = new List<UI_DynamicItemSlot>();
-	public List<UI_DynamicItemSlot> FilledSlots = new List<UI_DynamicItemSlot>();
+	public List<ToolCarouselSlot> FilledSlots = new List<ToolCarouselSlot>();
 
 	public HandsController RelatedHandsController;
 
+	public ToolCarouselSlot SlotPrefab;
+
+	public GameObject wearables_bg;
+
 	public void AddToCarousel(IDynamicItemSlotS bodyPartUISlots, BodyPartUISlots.StorageCharacteristics storageCharacteristics)
 	{
-		var slot = AvailableSlots[0];
-		AvailableSlots.Remove(slot);
-		slot.transform.parent.SetActive(true);
-		slot.SetupSlot(bodyPartUISlots, storageCharacteristics);
+		var slot = Instantiate(SlotPrefab, wearables_bg.transform);
+		slot.transform.localScale = Vector3.one;
+		slot.RelatedToolCarousel = this;
+		slot.transform.SetActive(true);
+		slot.RelatedUI_DynamicItemSlot.SetupSlot(bodyPartUISlots, storageCharacteristics);
 		FilledSlots.Add(slot);
 	}
 
 	public void RemoveFromCarousel(BodyPartUISlots.StorageCharacteristics storageCharacteristics)
 	{
-		UI_DynamicItemSlot slot = null;
+		ToolCarouselSlot slot = null;
 		foreach (var Filledslot in FilledSlots)
 		{
-			if (Filledslot._storageCharacteristics == storageCharacteristics)
+			if (Filledslot.RelatedUI_DynamicItemSlot._storageCharacteristics == storageCharacteristics)
 			{
 				slot = Filledslot;
 				break;
@@ -46,9 +46,7 @@ public class ToolCarousel : MonoBehaviour, IUIHandAreasSelectable
 		}
 
 		FilledSlots.Remove(slot);
-		slot.transform.parent.SetActive(false);
-		slot.ReSetSlot();
-		AvailableSlots.Add(slot);
+		Destroy(slot.gameObject);
 	}
 
 
@@ -56,20 +54,20 @@ public class ToolCarousel : MonoBehaviour, IUIHandAreasSelectable
 	{
 		if (ActiveHandInt == index) return;
 
-		AllHighlightSlots[index].SetActive(true);
-		RelatedHandsController.SetActiveHand(this, AllSlots[index]._storageCharacteristics.namedSlot);
+		FilledSlots[index].Highlight.SetActive(true);
+		RelatedHandsController.SetActiveHand(this, FilledSlots[index].RelatedUI_DynamicItemSlot._storageCharacteristics.namedSlot);
 		ActiveHandInt = index;
 	}
 
 	public void DeSelect(NamedSlot Hand)
 	{
-		for (var index = 0; index < AllSlots.Count; index++)
+		for (var index = 0; index < FilledSlots.Count; index++)
 		{
-			var slot = AllSlots[index];
-			if (slot._storageCharacteristics != null && slot._storageCharacteristics.namedSlot == Hand)
+			var slot = FilledSlots[index];
+			if (slot.RelatedUI_DynamicItemSlot._storageCharacteristics != null && slot.RelatedUI_DynamicItemSlot._storageCharacteristics.namedSlot == Hand)
 			{
 				ActiveHandInt = -1;
-				AllHighlightSlots[index].SetActive(false);
+				FilledSlots[index].Highlight.SetActive(false);
 			}
 		}
 	}
@@ -86,16 +84,22 @@ public class ToolCarousel : MonoBehaviour, IUIHandAreasSelectable
 			newActiveHandInt = 0;
 		}
 
-		SetActive(AllSlots.IndexOf(FilledSlots[newActiveHandInt]));
+		if (FilledSlots.Count == 0)
+		{
+			ActiveHandInt = -1;
+			return;
+		}
+
+		SetActive(FilledSlots.IndexOf(FilledSlots[newActiveHandInt]));
 	}
 
 	public UI_DynamicItemSlot GetHand(NamedSlot Hand)
 	{
 		foreach (var Filledslot in FilledSlots)
 		{
-			if (Filledslot._storageCharacteristics?.namedSlot == Hand)
+			if (Filledslot.RelatedUI_DynamicItemSlot._storageCharacteristics?.namedSlot == Hand)
 			{
-				return Filledslot;
+				return Filledslot.RelatedUI_DynamicItemSlot;
 			}
 		}
 
@@ -104,24 +108,16 @@ public class ToolCarousel : MonoBehaviour, IUIHandAreasSelectable
 
 	public bool HasFree()
 	{
-		if (AvailableSlots.Count > 0)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return true;
 	}
 
 	public bool HasSlot(BodyPartUISlots.StorageCharacteristics storageCharacteristics)
 	{
 		foreach (var Filledslot in FilledSlots)
 		{
-			if (Filledslot._storageCharacteristics == storageCharacteristics)
+			if (Filledslot.RelatedUI_DynamicItemSlot._storageCharacteristics == storageCharacteristics)
 			{
 				return true;
-
 			}
 		}
 		return false;
@@ -129,7 +125,7 @@ public class ToolCarousel : MonoBehaviour, IUIHandAreasSelectable
 
 	public void HideAll()
 	{
-		foreach (var slot in AllSlots)
+		foreach (var slot in FilledSlots)
 		{
 			slot.transform.parent.SetActive(false);
 		}

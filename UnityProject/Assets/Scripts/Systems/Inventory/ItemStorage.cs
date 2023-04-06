@@ -83,6 +83,8 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	public RegisterPlayer Player => player;
 	private RegisterPlayer player;
 
+	public bool SetSlotItemNotRemovableOnStartUp = false;
+
 	public void SetRegisterPlayer(RegisterPlayer registerPlayer)
 	{
 		player = registerPlayer;
@@ -96,6 +98,13 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	{
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
 		CacheDefinedSlots();
+		if (SetSlotItemNotRemovableOnStartUp)
+		{
+			foreach (var slot in GetItemSlots())
+			{
+				slot.ItemNotRemovable = true;
+			}
+		}
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
