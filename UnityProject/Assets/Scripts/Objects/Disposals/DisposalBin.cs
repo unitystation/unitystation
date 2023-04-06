@@ -583,7 +583,10 @@ namespace Objects.Disposals
 
 		#endregion Construction
 
-		public void PowerNetworkUpdate(float voltage) { }
+		public void PowerNetworkUpdate(float voltage)
+		{
+			//Does not require any updates related to voltage currently. State works just fine.
+		}
 
 		public void StateUpdate(PowerState state)
 		{
