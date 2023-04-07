@@ -90,14 +90,19 @@ namespace Objects.Disposals
 			}
 			SoundManager.PlayNetworkedAtPos(ClangSound, ContainerWorldPosition);
 			var pb = StandardProgressAction.Create(new StandardProgressActionConfig(
-				StandardProgressActionType.Escape, true, false, true, true),
-				OnFinishStruggle);
+				StandardProgressActionType.Escape, false, false, true, true),
+				() => OnFinishStruggle(entity));
 			Chat.AddExamineMsg(entity, "You attempt to stop yourself from being sucked in by the oily air.");
 			ProgressAction.ServerStartProgress(pb, gameObject.RegisterTile(), 3.25f, entity);
 		}
 
-		private void OnFinishStruggle()
+		private void OnFinishStruggle(GameObject entity)
 		{
+			if (DMMath.Prob(50))
+			{
+				Chat.AddExamineMsg(entity, "Your hands slip and you continue being sucked away.");
+				return;
+			}
 			SelfControlled = true;
 		}
 

@@ -97,7 +97,7 @@ namespace Systems.Disposals
 			ReadyToTraverse = false;
 
 			// Check if just started so we don't end the traversal at the disposal machine we started from.
-			if (justStarted == false && currentPipe.PipeType == DisposalPipeType.Terminal)
+			if (justStarted == false && currentPipe.PipeType == DisposalPipeType.Terminal && BlocksForPipeCrawling() == false)
 			{
 				EjectViaDisposalPipeTerminal();
 				return;
@@ -122,13 +122,21 @@ namespace Systems.Disposals
 			ReadyToTraverse = true;
 		}
 
+		private bool BlocksForPipeCrawling()
+		{
+			if (virtualContainer.SelfControlled == false) return false;
+			var disposalMachine = matrix.GetFirst<DisposalMachine>(currentPipeLocalPos, true);
+			if (disposalMachine == null) return false;
+			return disposalMachine is DisposalBin == true;
+		}
+
 		private DisposalPipe GetPipeAt(Vector3Int localPosition, DisposalPipeType? type = null, OrientationEnum? requiredSide = null)
 		{
 			// Gets the first disposal pipe that meets the criteria.
 			foreach (DisposalPipe pipe in matrix.GetDisposalPipesAt(localPosition))
 			{
-				if (type != null && pipe.PipeType != type.Value) continue;
-				if (requiredSide != null && pipe.ConnectablePoints.ContainsKey(requiredSide.Value) == false) continue;
+				if (type != null && (pipe.PipeType != type.Value && virtualContainer.SelfControlled == false)) continue;
+				if (requiredSide != null && pipe.ConnectablePoints.ContainsKey(requiredSide.Value) == false && virtualContainer.SelfControlled == false) continue;
 
 				return pipe;
 			}
@@ -194,6 +202,7 @@ namespace Systems.Disposals
 
 		private void EjectViaPipeEnd()
 		{
+			if (virtualContainer.SelfControlled) return;
 			TryDamageTileFromEjection(NextPipeLocalPosition);
 			var worldPos = MatrixManager.LocalToWorld(NextPipeLocalPosition, matrix);
 			SoundManager.PlayNetworkedAtPos(DisposalsManager.Instance.DisposalEjectionHiss, worldPos);
@@ -205,7 +214,8 @@ namespace Systems.Disposals
 		private void EjectViaDisposalPipeTerminal()
 		{
 			var disposalMachine = matrix.GetFirst<DisposalMachine>(currentPipeLocalPos, true);
-			if (disposalMachine != null && disposalMachine.MachineSecured)
+			if (disposalMachine == null) return;
+			if (disposalMachine.MachineSecured)
 			{
 				EjectViaDisposalMachine(disposalMachine);
 			}
