@@ -26,6 +26,7 @@ namespace UI.Systems.AdminTools.DevTools.Search
 			SearchableName = new List<string>();
 			SearchableName.Add(SpawnerSearch.Standardize(prefab.name));
 			if (prefab.TryGetComponent<PrefabTracker>(out var tracker) == false) return;
+			if (tracker.CanBeSpawnedByAdmin == false) return;
 			if (string.IsNullOrWhiteSpace(tracker.AlternativePrefabName) == false) SearchableName.Add(tracker.AlternativePrefabName);
 		}
 
@@ -33,8 +34,10 @@ namespace UI.Systems.AdminTools.DevTools.Search
 		/// Create a dev spawner document representing this prefab.
 		/// </summary>
 		/// <param name="prefab"></param>
-		public static DevSpawnerDocument ForPrefab(GameObject prefab)
+		public static DevSpawnerDocument? ForPrefab(GameObject prefab)
 		{
+			if (prefab.TryGetComponent<PrefabTracker>(out var tracker) == false) return null;
+			if (tracker.CanBeSpawnedByAdmin == false) return null;
 			return new DevSpawnerDocument(prefab);
 		}
 	}
