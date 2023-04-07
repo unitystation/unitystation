@@ -172,9 +172,9 @@ public class SpriteHandler : MonoBehaviour
 	/// </summary>
 	/// <param name="cataloguePage">Index as defined via the inspector on the object.</param>
 	/// <param name="networked">Whether this change should be sent to clients, if server.</param>
-	public void ChangeSprite(int cataloguePage, bool networked = true, bool forceUpdate = false)
+	public void ChangeSprite(int cataloguePage, bool networked = true)
 	{
-		InternalChangeSprite(cataloguePage, networked, forceUpdate);
+		InternalChangeSprite(cataloguePage, networked);
 	}
 
 	/// <summary>
