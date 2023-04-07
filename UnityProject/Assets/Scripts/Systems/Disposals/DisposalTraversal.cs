@@ -203,6 +203,7 @@ namespace Systems.Disposals
 		private void EjectViaPipeEnd()
 		{
 			if (virtualContainer.SelfControlled) return;
+			virtualContainer.SelfControlled = false;
 			TryDamageTileFromEjection(NextPipeLocalPosition);
 			var worldPos = MatrixManager.LocalToWorld(NextPipeLocalPosition, matrix);
 			SoundManager.PlayNetworkedAtPos(DisposalsManager.Instance.DisposalEjectionHiss, worldPos);
@@ -215,6 +216,7 @@ namespace Systems.Disposals
 		{
 			var disposalMachine = matrix.GetFirst<DisposalMachine>(currentPipeLocalPos, true);
 			if (disposalMachine == null) return;
+			virtualContainer.SelfControlled = false;
 			if (disposalMachine.MachineSecured)
 			{
 				EjectViaDisposalMachine(disposalMachine);
@@ -231,6 +233,7 @@ namespace Systems.Disposals
 
 		private void EjectViaDisposalMachine(DisposalMachine machine)
 		{
+			virtualContainer.SelfControlled = false;
 			if (machine is DisposalOutlet)
 			{
 				(machine as DisposalOutlet).ServerReceiveAndEjectContainer(virtualContainer);

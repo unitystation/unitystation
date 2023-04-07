@@ -26,7 +26,7 @@ namespace Objects.Disposals
 		// transform.position seems to be the only reliable method after OnDespawnServer() has been called.
 		private Vector3 ContainerWorldPosition => transform.position;
 
-		public bool SelfControlled { get; private set; } = false;
+		public bool SelfControlled { get; set; } = false;
 
 		private void Awake()
 		{
