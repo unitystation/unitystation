@@ -66,16 +66,20 @@ namespace Systems.Disposals
 			switch (moveAction)
 			{
 				case MoveAction.MoveUp:
+					currentPipeOutputSide = Orientation.Up;
 					nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide, true).AsEnum();
 					break;
 				case MoveAction.MoveLeft:
+					currentPipeOutputSide = Orientation.Left;
 					nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide, true).AsEnum();
 					break;
 				case MoveAction.MoveDown:
-					nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide, false).AsEnum();
+					currentPipeOutputSide = Orientation.Down;
+					nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide, true).AsEnum();
 					break;
 				case MoveAction.MoveRight:
-					nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide, false).AsEnum();
+					currentPipeOutputSide = Orientation.Right;
+					nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide, true).AsEnum();
 					break;
 				case MoveAction.NoMove:
 					break;
@@ -106,7 +110,7 @@ namespace Systems.Disposals
 
 			if (nextPipe == null)
 			{
-				EjectViaPipeEnd();
+				if (virtualContainer.SelfControlled == false) EjectViaPipeEnd();
 				return;
 			}
 
