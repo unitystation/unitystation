@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using AddressableReferences;
 using Objects.Atmospherics;
+using Systems.Disposals;
 using Random = UnityEngine.Random;
 
 namespace Objects.Disposals
@@ -20,9 +21,12 @@ namespace Objects.Disposals
 
 		private ObjectContainer objectContainer;
 		private GasContainer gasContainer;
+		public DisposalTraversal traversal;
 
 		// transform.position seems to be the only reliable method after OnDespawnServer() has been called.
 		private Vector3 ContainerWorldPosition => transform.position;
+
+		public bool SelfControlled { get; private set; } = false;
 
 		private void Awake()
 		{
@@ -78,7 +82,23 @@ namespace Objects.Disposals
 
 		public void EntityTryEscape(GameObject entity, Action ifCompleted, MoveAction moveAction)
 		{
+			if (moveAction == MoveAction.NoMove) return;
+			if (SelfControlled)
+			{
+				traversal.ChangeMovementTrajectory(moveAction);
+				return;
+			}
 			SoundManager.PlayNetworkedAtPos(ClangSound, ContainerWorldPosition);
+			var pb = StandardProgressAction.Create(new StandardProgressActionConfig(
+				StandardProgressActionType.Escape, true, false, true, true),
+				OnFinishStruggle);
+			Chat.AddExamineMsg(entity, "You attempt to stop yourself from being sucked in by the oily air.");
+			ProgressAction.ServerStartProgress(pb, gameObject.RegisterTile(), 3.25f, entity);
+		}
+
+		private void OnFinishStruggle()
+		{
+			SelfControlled = true;
 		}
 
 		public string Examine(Vector3 worldPos = default)

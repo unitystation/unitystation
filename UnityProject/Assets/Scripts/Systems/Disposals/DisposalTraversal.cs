@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEngine;
 using Objects.Disposals;
 using AddressableReferences;
@@ -13,7 +14,7 @@ namespace Systems.Disposals
 	public class DisposalTraversal
 	{
 		readonly Matrix matrix;
-		readonly DisposalVirtualContainer virtualContainer;
+		public readonly DisposalVirtualContainer virtualContainer;
 		readonly UniversalObjectPhysics ObjectPhysics;
 
 		public bool ReadyToTraverse = false;
@@ -27,6 +28,8 @@ namespace Systems.Disposals
 
 		private Vector3Int NextPipeVector => currentPipeOutputSide.LocalVectorInt.To3Int();
 		private Vector3Int NextPipeLocalPosition => currentPipeLocalPos + NextPipeVector;
+
+		private OrientationEnum nextPipeRequiredSide = OrientationEnum.Default;
 
 		/// <summary>
 		/// Create a new disposal instance.
@@ -58,6 +61,30 @@ namespace Systems.Disposals
 			ReadyToTraverse = true;
 		}
 
+		public void ChangeMovementTrajectory(MoveAction moveAction)
+		{
+			switch (moveAction)
+			{
+				case MoveAction.MoveUp:
+					nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide, true).AsEnum();
+					break;
+				case MoveAction.MoveLeft:
+					nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide, true).AsEnum();
+					break;
+				case MoveAction.MoveDown:
+					nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide, false).AsEnum();
+					break;
+				case MoveAction.MoveRight:
+					nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide, false).AsEnum();
+					break;
+				case MoveAction.NoMove:
+					break;
+				default:
+					throw new ArgumentOutOfRangeException(nameof(moveAction), moveAction, null);
+			}
+			Traverse();
+		}
+
 		/// <summary>
 		/// Advances the disposal traversal by one tile.
 		/// </summary>
@@ -74,7 +101,7 @@ namespace Systems.Disposals
 
 			// Advance to next pipe
 			justStarted = false;
-			OrientationEnum nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide).AsEnum();
+			if (virtualContainer.SelfControlled == false) nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide).AsEnum();
 			DisposalPipe nextPipe = GetPipeAt(NextPipeLocalPosition, requiredSide: nextPipeRequiredSide);
 
 			if (nextPipe == null)
@@ -105,17 +132,27 @@ namespace Systems.Disposals
 			return default;
 		}
 
-		private Orientation GetConnectedSide(Orientation side)
+		private Orientation GetConnectedSide(Orientation side, bool opposite = false)
 		{
-			switch (side.AsEnum())
+			if (opposite)
 			{
-				case OrientationEnum.Up_By0: return Orientation.Down;
-				case OrientationEnum.Down_By180: return Orientation.Up;
-				case OrientationEnum.Left_By90: return Orientation.Right;
-				case OrientationEnum.Right_By270: return Orientation.Left;
+				return side.AsEnum() switch
+				{
+					OrientationEnum.Up_By0 => Orientation.Up,
+					OrientationEnum.Down_By180 => Orientation.Down,
+					OrientationEnum.Left_By90 => Orientation.Left,
+					OrientationEnum.Right_By270 => Orientation.Right,
+					_ => throw new ArgumentOutOfRangeException(nameof(side), side, "Invalid OrientationEnum value."),
+				};
 			}
-
-			return Orientation.Left;
+			return side.AsEnum() switch
+			{
+				OrientationEnum.Up_By0 => Orientation.Down,
+				OrientationEnum.Down_By180 => Orientation.Up,
+				OrientationEnum.Left_By90 => Orientation.Right,
+				OrientationEnum.Right_By270 => Orientation.Left,
+				_ => throw new ArgumentOutOfRangeException(nameof(side), side, "Invalid OrientationEnum value."),
+			};
 		}
 
 		private OrientationEnum GetPipeLeavingSide(DisposalPipe pipe, OrientationEnum sideEntered)
