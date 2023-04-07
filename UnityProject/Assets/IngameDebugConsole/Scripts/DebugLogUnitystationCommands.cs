@@ -735,5 +735,34 @@ namespace IngameDebugConsole
 			if(IsAdmin() == false) return;
 			AdminCommandsManager.Instance.TurnOnEmergencyLightsStationWide();
 		}
+
+#if UNITY_EDITOR
+		[MenuItem("Networking/Give me a cyborg!")]
+#endif
+		private static void GenerateCyborg()
+		{
+			var Cyborg =  Spawn.ServerPrefab("test_cyborgTODO_dynamic", PlayerManager.LocalPlayerScript.gameObject.transform.position).GameObject;
+			//Spawn.ServerPrefab()
+
+			foreach (var slot in Cyborg.GetComponent<ItemStorage>().GetIndexedSlots())
+			{
+				if (slot.Item != null)
+				{
+					var Head = Spawn.ServerPrefab("Cyborg Head").GameObject;
+
+					Head.GetComponent<ItemStorage>().ServerTryAdd(Spawn.ServerPrefab("Artificial Brain").GameObject);
+
+					slot.Item.GetComponent<ItemStorage>().ServerTryAdd(Head);
+					slot.Item.GetComponent<ItemStorage>().ServerTryAdd(Spawn.ServerPrefab("cyborg left arm").GameObject);
+					slot.Item.GetComponent<ItemStorage>().ServerTryAdd(Spawn.ServerPrefab("cyborg leg left").GameObject);
+					slot.Item.GetComponent<ItemStorage>().ServerTryAdd(Spawn.ServerPrefab("cyborg leg right").GameObject);
+					slot.Item.GetComponent<ItemStorage>().ServerTryAdd(Spawn.ServerPrefab("cyborg right arm").GameObject);
+					slot.Item.GetComponent<ItemStorage>().ServerTryAdd(Spawn.ServerPrefab("Cyborg Torso").GameObject);
+					slot.Item.GetComponent<ItemStorage>().ServerTryAdd(Spawn.ServerPrefab("ToolCarousel").GameObject);
+				}
+
+			}
+
+		}
 	}
 }
