@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Objects.Disposals;
+using Systems.Electricity;
 using UI.Core;
 using UI.Core.NetUI;
 using UI.Objects.Robotics;
@@ -186,11 +187,27 @@ namespace UI.Objects.Disposals
 
 		public void ServerTogglePower()
 		{
+			if (bin.PowerDisconnected)
+			{
+				foreach (var player in Peepers)
+				{
+					Chat.AddExamineMsg(player.Mind.Body.gameObject, "This bin is not connected to any power source!");
+				}
+				return;
+			}
 			bin.TogglePower();
 		}
 
 		public void ServerFlush()
 		{
+			if (bin.PowerDisconnected || bin.BinState == BinState.Off)
+			{
+				foreach (var player in Peepers)
+				{
+					Chat.AddExamineMsg(player.Mind.Body.gameObject, "This bin is not powered!");
+				}
+				return;
+			}
 			bin.FlushContents();
 		}
 

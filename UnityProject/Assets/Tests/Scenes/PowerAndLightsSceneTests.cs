@@ -4,6 +4,7 @@ using Objects.Engineering;
 using Objects.Lighting;
 using Objects.Wallmounts;
 using Systems.Electricity;
+using Systems.Scenes.Electricity;
 
 namespace Tests.Scenes
 {
@@ -25,6 +26,7 @@ namespace Tests.Scenes
 			foreach (var device in RootObjects.ComponentsInChildren<APCPoweredDevice>().NotNull())
 			{
 				if (device.IsSelfPowered) continue;
+				if (device.GetComponentInChildren<AutoAPCLinker>() != null) continue;
 
 				var deviceLocation = device.transform.NameAndPosition();
 				var relatedAPC = device.RelatedAPC;

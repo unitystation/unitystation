@@ -172,9 +172,9 @@ public class SpriteHandler : MonoBehaviour
 	/// </summary>
 	/// <param name="cataloguePage">Index as defined via the inspector on the object.</param>
 	/// <param name="networked">Whether this change should be sent to clients, if server.</param>
-	public void ChangeSprite(int cataloguePage, bool networked = true)
+	public void ChangeSprite(int cataloguePage, bool networked = true, bool forceUpdate = false)
 	{
-		InternalChangeSprite(cataloguePage, networked);
+		InternalChangeSprite(cataloguePage, networked, forceUpdate);
 	}
 
 	/// <summary>
@@ -200,6 +200,7 @@ public class SpriteHandler : MonoBehaviour
 		}
 
 		this.cataloguePage = cataloguePage;
+
 		if (isSubCatalogueChanged)
 		{
 			SetSpriteSO(SubCatalogue[cataloguePage]);

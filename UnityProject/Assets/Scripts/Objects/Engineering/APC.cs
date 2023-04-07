@@ -459,6 +459,7 @@ namespace Objects.Engineering
 			}
 
 			connectedDevices.Remove(apcPoweredDevice);
+			apcPoweredDevice.OnDeviceUnLinked?.Invoke();
 			apcPoweredDevice.PowerNetworkUpdate(0.1f);
 		}
 
@@ -467,6 +468,7 @@ namespace Objects.Engineering
 			if (!connectedDevices.Contains(apcPoweredDevice))
 			{
 				connectedDevices.Add(apcPoweredDevice);
+				apcPoweredDevice.OnDeviceLinked?.Invoke();
 			}
 		}
 
