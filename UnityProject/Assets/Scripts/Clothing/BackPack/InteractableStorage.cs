@@ -6,6 +6,7 @@ using HealthV2;
 using Items;
 using Messages.Server;
 using Objects;
+using Objects.Disposals;
 using Objects.Other;
 using UI.Action;
 using UI.Core.Action;
@@ -283,6 +284,8 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		if (allowedToInteract == false) return false;
 		// Use default interaction checks
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+		if (interaction.TargetObject != null && interaction.TargetObject.HasComponent<DisposalBin>()) return false;
 
 		// See which item needs to be stored
 		if (Validations.IsTarget(gameObject, interaction))

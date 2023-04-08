@@ -1,15 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
+using System.Threading.Tasks;
 using UnityEngine;
 using Mirror;
 using Systems.Disposals;
 using AddressableReferences;
 using Random = UnityEngine.Random;
 using Messages.Server.SoundMessages;
-using Objects.Atmospherics;
 using Systems.Atmospherics;
+using Systems.Electricity;
+using UI.Systems.Tooltips.HoverTooltips;
 
 namespace Objects.Disposals
 {
@@ -37,10 +38,12 @@ namespace Objects.Disposals
 		Handle = 3
 	}
 
-	public class DisposalBin : DisposalMachine, IExaminable, ICheckedInteractable<MouseDrop>, IEscapable, IBumpableObject
+	public class DisposalBin : DisposalMachine, IExaminable, ICheckedInteractable<MouseDrop>, IEscapable, IBumpableObject,
+		IAPCPowerable, IHoverTooltip
 	{
 		private const int CHARGED_PRESSURE = 200; // kPa
 		private const int AUTO_FLUSH_DELAY = 2;
+		private const int MAX_RECHARGE_TIME = 8;
 		private const float ANIMATION_TIME = 1.3f; // As per sprite sheet JSON file.
 
 		[SerializeField]
@@ -55,6 +58,9 @@ namespace Objects.Disposals
 		[SerializeField]
 		[Tooltip("The sound when the item doesn't fall into the trash can.")]
 		private AddressableAudioSource trashDunkMissSound = null;
+
+		[field: SerializeField] public APCPoweredDevice PoweredDevice { get; private set; }
+		[SerializeField] private float wattageUseage = 1500;
 
 		private string runLoopGUID = "";
 
@@ -74,8 +80,10 @@ namespace Objects.Disposals
 		private float chargePressure = 0;
 
 		public BinState BinState => binState;
-		public bool PowerDisconnected => binState == BinState.Disconnected;
-		public bool PowerOff => binState == BinState.Off;
+
+		public bool PowerDisconnected => binState is BinState.Disconnected;
+
+		public bool PowerOff => binState == BinState.Off || turnedOff;
 		public bool BinReady => binState == BinState.Ready;
 		public bool BinFlushing => binState == BinState.Flushing;
 		public bool BinCharging => binState == BinState.Recharging;
@@ -90,6 +98,11 @@ namespace Objects.Disposals
 
 		private float RandomDunkPitch => Random.Range(0.7f, 1.2f);
 
+		/// <summary>
+		/// Checks if the bin is turned off locally. Does not relate to APC functionality.
+		/// </summary>
+		private bool turnedOff = true;
+
 		#region Lifecycle
 
 		protected override void Awake()
@@ -97,6 +110,11 @@ namespace Objects.Disposals
 			base.Awake();
 			netTab = GetComponent<HasNetworkTab>();
 			overlaysSpriteHandler = transform.GetChild(1).GetComponent<SpriteHandler>();
+			PoweredDevice = GetComponent<APCPoweredDevice>();
+			if (PoweredDevice.RelatedAPC == null)
+			{
+				SetBinState(BinState.Off);
+			}
 		}
 
 		public override void OnSpawnServer(SpawnInfo info)
@@ -159,29 +177,18 @@ namespace Objects.Disposals
 				return;
 			}
 
-			switch (binState)
+			var baseSprite = binState == BinState.Flushing ? BinSprite.Flushing : BinSprite.Upright;
+			var overlaySprite = binState switch
 			{
-				case BinState.Disconnected:
-					baseSpriteHandler.ChangeSprite((int) BinSprite.Upright);
-					overlaysSpriteHandler.PushClear();
-					break;
-				case BinState.Off:
-					baseSpriteHandler.ChangeSprite((int) BinSprite.Upright);
-					overlaysSpriteHandler.PushClear();
-					break;
-				case BinState.Ready:
-					baseSpriteHandler.ChangeSprite((int) BinSprite.Upright);
-					overlaysSpriteHandler.ChangeSprite((int) BinOverlaySprite.Ready);
-					break;
-				case BinState.Flushing:
-					baseSpriteHandler.ChangeSprite((int) BinSprite.Flushing);
-					overlaysSpriteHandler.PushClear();
-					break;
-				case BinState.Recharging:
-					baseSpriteHandler.ChangeSprite((int) BinSprite.Upright);
-					overlaysSpriteHandler.ChangeSprite((int) BinOverlaySprite.Charging);
-					break;
-			}
+				BinState.Ready => BinOverlaySprite.Ready,
+				BinState.Recharging => BinOverlaySprite.Charging,
+				_ => BinOverlaySprite.Ready,
+			};
+
+			baseSpriteHandler.ChangeSprite((int)baseSprite);
+			overlaysSpriteHandler.ChangeSprite((int)overlaySprite);
+
+			overlaysSpriteHandler.PushTexture();
 
 			BinStateUpdated?.Invoke();
 		}
@@ -206,6 +213,14 @@ namespace Objects.Disposals
 		public override void ServerPerformInteraction(PositionalHandApply interaction)
 		{
 			currentInteraction = interaction;
+
+			if (interaction.HandObject != null && interaction.HandObject.TryGetComponent<InteractableStorage>(out var storage))
+			{
+				storage.ItemStorage.ServerDropAllAtWorld(gameObject.AssumedWorldPosServer());
+				objectContainer.GatherObjects();
+				Chat.AddExamineMsg(interaction.Performer, "You throw all of the bag's contents into the disposal bin.");
+				return;
+			}
 
 			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench) && MachineWrenchable)
 			{
@@ -396,6 +411,7 @@ namespace Objects.Disposals
 
 		public void TogglePower()
 		{
+			ToggleTurnedOffState();
 			if (PowerOff)
 			{
 				TurnPowerOn();
@@ -403,6 +419,20 @@ namespace Objects.Disposals
 			else
 			{
 				TurnPowerOff();
+			}
+		}
+
+		private void ToggleTurnedOffState()
+		{
+			turnedOff = !turnedOff;
+			if (turnedOff)
+			{
+				overlaysSpriteHandler.PushClear();
+			}
+			else
+			{
+				overlaysSpriteHandler.ChangeSprite(0);
+				overlaysSpriteHandler.PushTexture();
 			}
 		}
 
@@ -435,18 +465,23 @@ namespace Objects.Disposals
 
 			if (autoFlushCoroutine != null) StopCoroutine(autoFlushCoroutine);
 			if (rechargeCoroutine != null) StopCoroutine(rechargeCoroutine);
+			PoweredDevice.UpdateSynchronisedState(PoweredDevice.State, PowerState.Off);
 			SetBinState(BinState.Off);
 		}
 
 		private IEnumerator Recharge()
 		{
-			while (BinCharging && BinCharged == false)
+			var rechargeTime = 0;
+			PoweredDevice.Wattusage += wattageUseage;
+			Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()} starts humming as it sucks the surrounding air into it.");
+			while (BinCharging && BinCharged == false || rechargeTime < MAX_RECHARGE_TIME)
 			{
 				yield return WaitFor.Seconds(1);
+				rechargeTime += 1;
 				OperateAirPump();
 			}
 
-			if (PowerOff == false && PowerDisconnected == false)
+			if (PowerOff == false || PowerDisconnected == false)
 			{
 				SetBinState(BinState.Ready);
 				this.RestartCoroutine(AutoFlush(), ref autoFlushCoroutine);
@@ -454,6 +489,8 @@ namespace Objects.Disposals
 
 			// Sound of the bin's air intake flap closing.
 			SoundManager.PlayNetworkedAtPos(AirFlapSound, registerObject.WorldPositionServer, sourceObj: gameObject);
+			Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()} closes its air intake's flaps.");
+			PoweredDevice.Wattusage -= wattageUseage;
 		}
 
 		private void OperateAirPump()
@@ -461,7 +498,6 @@ namespace Objects.Disposals
 			MetaDataLayer metadata = registerObject.Matrix.MetaDataLayer;
 			GasMix tileMix = metadata.Get(registerObject.LocalPositionServer, false).GasMix;
 
-			// TODO: add voltage multiplier when bins are powered
 			var molesToTransfer = (tileMix.Moles - (tileMix.Moles * (CHARGED_PRESSURE / gasContainer.GasMix.Pressure))) * -1;
 			molesToTransfer *= 0.5f;
 
@@ -490,6 +526,7 @@ namespace Objects.Disposals
 		private IEnumerator AutoFlush()
 		{
 			yield return WaitFor.Seconds(AUTO_FLUSH_DELAY);
+			if (binState is BinState.Off or BinState.Disconnected) yield break;
 			if (BinReady && objectContainer.IsEmpty == false)
 			{
 				StartCoroutine(RunFlushSequence());
@@ -545,5 +582,71 @@ namespace Objects.Disposals
 		}
 
 		#endregion Construction
+
+		public void PowerNetworkUpdate(float voltage)
+		{
+			//Does not require any updates related to voltage currently. State works just fine.
+		}
+
+		public void StateUpdate(PowerState state)
+		{
+			//This is to avoid StateUpdate turning bins back on even though a player told it to stay off.
+			if (PowerOff) return;
+			SetBinState(state == PowerState.Off ? BinState.Off : BinState.Ready);
+		}
+
+		public void OnAPCLinked()
+		{
+			turnedOff = false;
+			_ = APCInit();
+		}
+
+		private async Task APCInit()
+		{
+			//Power updates take at least two seconds to update properly; especially when the round starts.
+			//This isn't an issue when connecting APCs using multi-tools or during normal gameplay. But for other cases at the start of the round, this delay is needed.
+			if (GameManager.Instance.RoundTimeInMinutes < 2) await Task.Delay(2500);
+			StateUpdate(PoweredDevice.State);
+			FlushContents();
+		}
+
+		public void OnAPCUnlinked()
+		{
+			SetBinState(BinState.Disconnected);
+		}
+
+		public string HoverTip()
+		{
+			var onOffText = PowerOff ? "off" : "on";
+			return $"It appears to be powered {onOffText}";
+		}
+
+		public string CustomTitle() => null;
+		public Sprite CustomIcon() => null;
+		public List<Sprite> IconIndicators() => null;
+
+		public List<TextColor> InteractionsStrings()
+		{
+			List<TextColor> interactions = new List<TextColor>()
+			{
+				new TextColor()
+				{
+					Text = "Click on bin with object in hand to dispose of it.",
+					Color = Color.green
+				},
+
+				new TextColor()
+				{
+					Text = "Click on bin with empty hand to view controls.",
+					Color = Color.green
+				},
+				new TextColor()
+				{
+					Text = "Throw an object at the bin to dispose of it from afar.",
+					Color = Color.blue
+				},
+			};
+			return interactions;
+		}
 	}
 }

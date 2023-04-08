@@ -200,6 +200,7 @@ public class SpriteHandler : MonoBehaviour
 		}
 
 		this.cataloguePage = cataloguePage;
+
 		if (isSubCatalogueChanged)
 		{
 			SetSpriteSO(SubCatalogue[cataloguePage]);
