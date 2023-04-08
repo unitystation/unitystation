@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 366270aa675a1f8489e0fd2dea5091c9, type: 3}
+  m_Name: CommonAlertSOs
+  m_EditorClassIdentifier: 
+  Full: {fileID: 11400000, guid: 9dcf0f63efe865449a8efde4713b5348, type: 2}
+  Hungry: {fileID: 11400000, guid: 3803e6aed03ceaf4190e5fdbd1e27dbb, type: 2}
+  Malnourished: {fileID: 11400000, guid: 756fa4a7b0404794a9db193e0514e2b5, type: 2}
+  Starving: {fileID: 11400000, guid: 37880884910e549479c706e04e015105, type: 2}

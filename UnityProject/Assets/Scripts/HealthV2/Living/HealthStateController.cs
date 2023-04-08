@@ -69,14 +69,9 @@ namespace HealthV2
 		private string healthDollData;
 
 		[SyncVar]
-		private HungerState hungerState;
-		public HungerState HungerState => hungerState;
-
-		[SyncVar]
 		private BleedingState bleedingState;
 		public BleedingState BleedingState => bleedingState;
 
-		public event Action<HungerState> HungerEvent;
 		public event Action<BleedingState> BleedingEvent;
 		public event Action<ConsciousState> ConsciousEvent;
 		public event Action<bool> SuffuicationEvent;
@@ -129,13 +124,6 @@ namespace HealthV2
 		}
 		//Holds all methods which the server will use to change a health value, will then sync change to client
 
-		[Server]
-		public void SetHunger(HungerState newHungerState)
-		{
-			hungerState = newHungerState;
-			if (connectionToClient == null) return;
-			InvokeClientHungerEvent(hungerState);
-		}
 
 		[Server]
 		public void SetBleedingState(BleedingState newBleedingState)
@@ -288,12 +276,6 @@ namespace HealthV2
 				UIManager.PlayerHealthUI.bodyPartListeners[i].SetDamageColor(CurrentHealthDollStorage.DollStates[i].damageColor.UncompresseToColour());
 				UIManager.PlayerHealthUI.bodyPartListeners[i].SetBodyPartColor(CurrentHealthDollStorage.DollStates[i].bodyPartColor.UncompresseToColour());
 			}
-		}
-
-		[TargetRpc]
-		private void InvokeClientHungerEvent(HungerState state)
-		{
-			HungerEvent?.Invoke(state);
 		}
 
 		[TargetRpc]

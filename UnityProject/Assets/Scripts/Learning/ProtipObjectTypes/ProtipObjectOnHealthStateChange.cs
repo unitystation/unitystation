@@ -75,7 +75,7 @@ namespace Learning.ProtipObjectTypes
 		{
 			if(CustomNetworkManager.IsHeadless) return;
 			healthState.BleedingEvent += TriggerBleedingTip;
-			healthState.HungerEvent += TriggerHungerTip;
+			//healthState.HungerEvent += TriggerHungerTip;
 			healthState.FireStacksEvent += TriggerFireStacksTip;
 			healthState.SuffuicationEvent += TriggerSuffocatingTip;
 			healthState.ToxinEvent += TriggerToxinsTip;
@@ -88,7 +88,7 @@ namespace Learning.ProtipObjectTypes
 		{
 			if(CustomNetworkManager.IsHeadless) return;
 			healthState.BleedingEvent -= TriggerBleedingTip;
-			healthState.HungerEvent -= TriggerHungerTip;
+			//healthState.HungerEvent -= TriggerHungerTip;
 			healthState.FireStacksEvent -= TriggerFireStacksTip;
 			healthState.SuffuicationEvent -= TriggerSuffocatingTip;
 			healthState.ToxinEvent -= TriggerToxinsTip;
@@ -159,7 +159,7 @@ namespace Learning.ProtipObjectTypes
 					break;
 			}
 
-			if(lastHungerState != HungerState.Normal) StartCoroutine(HungerCooldown());
+			if(lastHungerState != HungerState.Normal) StartCoroutine(HungerCooldown()); //TODO AAAAAAAAAAAAAAAAAAAAA
 		}
 
 		private void TriggerBleedingTip(BleedingState state)

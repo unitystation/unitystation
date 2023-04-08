@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,8 @@ public class AlertSO : ScriptableObject
 {
 
 	public SpriteDataSO AssociatedSprite;
+
+	public string HoverToolTip;
 
 	//conditional
 	//hide if others are present
@@ -18,6 +21,17 @@ public class AlertSO : ScriptableObject
 	// [NaughtyAttributes.ShowIf("Showpriority")]
 	// public int DoNotShowIfPresentPriority;
 
+
+	[NonSerialized] public int SetID = -1;
+
+	public int GetIndexed()
+	{
+		if (SetID == -1)
+		{
+			SetID = AlertSOs.Instance.AllAlertSOs.IndexOf(this);
+		}
+		return SetID;
+	}
 
 	public bool CheckConditionalsShow(List<AlertUIElement> LivingAlerts)
 	{
@@ -31,4 +45,5 @@ public class AlertSO : ScriptableObject
 
 		return true;
 	}
+
 }

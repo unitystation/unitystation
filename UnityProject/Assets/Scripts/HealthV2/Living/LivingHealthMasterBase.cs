@@ -644,6 +644,8 @@ namespace HealthV2
 
 			EnvironmentDamage();
 
+			CalculateOverallHealth();
+
 
 			if (IsDead)
 			{
@@ -654,7 +656,7 @@ namespace HealthV2
 			//Sickness logic should not be triggered if the player is dead.
 			mobSickness.TriggerCustomSicknessLogic();
 
-			CalculateOverallHealth();
+
 		}
 
 		#region Mutations

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Shared.Managers;
 using UnityEngine;
 
@@ -27,6 +28,7 @@ public class ClientAlertManager : SingletonManager<ClientAlertManager>
 
 	public void RegisterAlert(AlertSO alertSo)
 	{
+		this.gameObject.SetActive(true);
 		var newAlert = Instantiate(PrefabAlertUIElement, UIArea.transform);
 		newAlert.AlertSO = alertSo;
 		RegisteredAlerts.Add(newAlert);
@@ -63,6 +65,15 @@ public class ClientAlertManager : SingletonManager<ClientAlertManager>
 		foreach (var Alert in RegisteredAlerts)
 		{
 			Alert.StateChangeThisUpdate = false;
+		}
+	}
+
+	public void UnRegisterAlertALL()
+	{
+		var Copy = RegisteredAlerts.ToList();
+		foreach (var Alert in Copy)
+		{
+			UnRegisterAlert(Alert.AlertSO);
 		}
 	}
 }

@@ -11,13 +11,16 @@ public class AlertUIElement : MonoBehaviour
 	public List<AlertUIElement> HiddenByAction;
 	public bool StateChangeThisUpdate = false;
 
+	public UI_HoverTooltip UI_HoverTooltip;
+
 	public void Initialise()
 	{
 		// Subscribe to the OnActionAdded and OnActionRemoved events of the UIActionManager
 		ClientAlertManager.Instance.OnActionShown += HandleActionShown;
 		ClientAlertManager.Instance.OnActionHidden += HandleActionHidden;
 		// Check if this UIAction should be hidden at start
-		SpriteHandler.PushTexture(AlertSO.AssociatedSprite);
+		SpriteHandler.SetSpriteSO(AlertSO.AssociatedSprite);
+		UI_HoverTooltip.hoverName = AlertSO.HoverToolTip;
 		CheckIfHidden();
 	}
 
