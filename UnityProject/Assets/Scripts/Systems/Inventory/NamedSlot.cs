@@ -38,6 +38,16 @@ public enum NamedSlot
 	storage08 = 24,
 	storage09 = 25,
 	storage10 = 26,
+	storage11 = 27,
+	storage12 = 28,
+	storage13 = 29,
+	storage14 = 30,
+	storage15 = 31,
+	storage16 = 32,
+	storage17 = 33,
+	storage18 = 34,
+	storage19 = 35,
+	storage20 = 36,
 
 	//special
 	ghostStorage01 = 50,

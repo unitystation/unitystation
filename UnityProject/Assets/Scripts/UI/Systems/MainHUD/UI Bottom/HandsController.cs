@@ -97,6 +97,16 @@ public class HandsController : MonoBehaviour
 			case NamedSlot.storage08:
 			case NamedSlot.storage09:
 			case NamedSlot.storage10:
+			case NamedSlot.storage11:
+			case NamedSlot.storage12:
+			case NamedSlot.storage13:
+			case NamedSlot.storage14:
+			case NamedSlot.storage15:
+			case NamedSlot.storage16:
+			case NamedSlot.storage17:
+			case NamedSlot.storage18:
+			case NamedSlot.storage19:
+			case NamedSlot.storage20:
 
 				ToolCarousel uesToolCarousel = null;
 
@@ -236,6 +246,16 @@ public class HandsController : MonoBehaviour
 			case NamedSlot.storage08:
 			case NamedSlot.storage09:
 			case NamedSlot.storage10:
+			case NamedSlot.storage11:
+			case NamedSlot.storage12:
+			case NamedSlot.storage13:
+			case NamedSlot.storage14:
+			case NamedSlot.storage15:
+			case NamedSlot.storage16:
+			case NamedSlot.storage17:
+			case NamedSlot.storage18:
+			case NamedSlot.storage19:
+			case NamedSlot.storage20:
 
 				ToolCarousel uesToolCarousel = null;
 
