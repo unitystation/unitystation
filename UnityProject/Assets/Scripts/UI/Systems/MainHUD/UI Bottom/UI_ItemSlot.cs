@@ -238,7 +238,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 			if (MoreInventoryImage != null)
 			{
 				var Storage = item.GetComponent<InteractableStorage>();
-				if (Storage != null)
+				if (Storage != null && Storage.DoNotShowInventoryOnUI == false)
 				{
 					HasSubInventory.itemStorage = Storage.ItemStorage;
 					MoreInventoryImage.enabled = true;

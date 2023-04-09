@@ -85,6 +85,9 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		set => preventUIShowingAfterTrapTrigger = value;
 	}
 
+
+	public bool DoNotShowInventoryOnUI = false;
+
 	/// <summary>
 	/// Used on the server to switch the pickup mode of this InteractableStorage
 	/// </summary>
@@ -157,7 +160,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 		// can only be opened if it's in the player's top level inventory or player is alt-clicking
 		if ((PlayerManager.LocalPlayerScript.DynamicItemStorage.ClientTotal.Contains(interaction.TargetSlot) &&
-		     TopLevelAlt == false) || interaction.IsAltClick)
+		     TopLevelAlt == false) || interaction.IsAltClick && DoNotShowInventoryOnUI == false)
 		{
 			if (interaction.UsedObject == null)
 			{
@@ -614,6 +617,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		}
 		else
 		{
+			if (DoNotShowInventoryOnUI) return;
 			// player can observe this storage
 			itemStorage.ServerAddObserverPlayer(interaction.Performer);
 			ObserveInteractableStorageMessage.Send(interaction.Performer, this, true);

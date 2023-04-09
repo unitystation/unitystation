@@ -187,7 +187,6 @@ namespace Objects.Disposals
 
 			baseSpriteHandler.ChangeSprite((int)baseSprite);
 			overlaysSpriteHandler.ChangeSprite((int)overlaySprite);
-
 			overlaysSpriteHandler.PushTexture();
 
 			BinStateUpdated?.Invoke();
@@ -607,7 +606,6 @@ namespace Objects.Disposals
 			//This isn't an issue when connecting APCs using multi-tools or during normal gameplay. But for other cases at the start of the round, this delay is needed.
 			if (GameManager.Instance.RoundTimeInMinutes < 2) await Task.Delay(2500);
 			StateUpdate(PoweredDevice.State);
-			FlushContents();
 		}
 
 		public void OnAPCUnlinked()
