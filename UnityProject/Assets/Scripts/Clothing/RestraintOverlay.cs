@@ -76,7 +76,7 @@ namespace UI.Items
 			positionCache = thisPlayerScript.RegisterPlayer.LocalPositionServer;
 			if (!CanUncuff()) return;
 
-			var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.Unbuckle, false, false, true), TryUncuff);
+			var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.Uncuff, false, false, true, false, true), TryUncuff);
 			bar.ServerStartProgress(thisPlayerScript.RegisterPlayer, resistTime, thisPlayerScript.gameObject);
 			Chat.AddActionMsgToChat(
 				thisPlayerScript.gameObject,
