@@ -48,8 +48,6 @@ public class MetabolismReaction : Reaction
 	{
 		var reactionMultiple = GetReactionAmount(reagentMix);
 
-		ReactionAmount *=  ReagentMetabolismMultiplier;
-
 		var AmountProcessing = 0f;
 		foreach (var ingredient in ingredients.m_dict)
 		{

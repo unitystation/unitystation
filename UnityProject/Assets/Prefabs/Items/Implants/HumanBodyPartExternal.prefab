@@ -191,6 +191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bodyPart: {fileID: 1673759363237950006}
+  minimumDamageRequired: 8
   bloodSplats:
   - {fileID: 3109035668459811093, guid: 0044109ca09aecc4a85e0829f5feaf81, type: 3}
   - {fileID: 1069497300762596, guid: b5d421f0156248b4297eecc918b8758a, type: 3}
@@ -235,17 +236,17 @@ PrefabInstance:
     - target: {fileID: 1168521912962732652, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1168521912962732652, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1168521912962732652, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1168521912962732652, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -408,6 +409,45 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3973776844980201138}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3243135318912008533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2810631690420259242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49e8d56bad352cc47925df17616dded1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  ReagentMetabolism: 0.2
+  reagentCirculatedComponent: {fileID: 0}
+  saturationComponent: {fileID: 0}
+--- !u!114 &6882847001899026306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2810631690420259242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c78758cf40985e84692bbc8a9860e432, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
+  wasteReagent: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4, type: 2}
+  bloodReagentConsumedPercentageb: 0.5
+  reagentCirculatedComponent: {fileID: 0}
+  currentBloodSaturation: 0
+  isNotBloodReagentConsumed: 0
 --- !u!114 &7066321411952799056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -429,7 +469,54 @@ MonoBehaviour:
   - {fileID: 4434023247273284483}
   - {fileID: 1058680709829996922}
   - {fileID: 7822575272286095514}
-  damageReact: {fileID: 0}
+--- !u!114 &9055646429353295198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2810631690420259242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 132a8f200f593b24cb7bc31ef84a253c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
+  HealingNutrimentMultiplier: 2
+  HungerState: 1
+  reagentCirculatedComponent: {fileID: 0}
+--- !u!114 &1605418696277317149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2810631690420259242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9ebd1817f5f0547a70d4591eca98a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  AssociatedSystem:
+    Base: {fileID: 0}
+    BloodPool:
+      temperature: 273.15
+      reagents:
+        m_keys: []
+        m_values: []
+      reagentKeys: []
+    StartingBlood: 500
+    bloodInfo: {fileID: 0}
+    bloodType: {fileID: 0}
+    PumpingDevices: []
+  Throughput: 1
+  bloodType: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
 --- !u!4 &2815555166148818142 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1168521912962732652, guid: 1162a9966a460f940a18b4d183b04c30,

@@ -145,13 +145,12 @@ namespace HealthV2.Living.PolymorphicSystems
 				foreach (var metabolismComponent in PrecalculatedMetabolismReactions[Reaction]) //TODO maybe lag? Alternative?
 				{
 					ProcessingAmount += metabolismComponent.ReagentMetabolism * metabolismComponent.BloodThroughput *
-					                    metabolismComponent.CurrentBloodSaturation *
-					                    Mathf.Max(0.10f, metabolismComponent.RelatedPart.TotalModified);
+					                    metabolismComponent.CurrentBloodSaturation;
 				}
 
 				if (ProcessingAmount == 0) continue;
 
-				//Reaction.React(PrecalculatedMetabolismReactions[Reaction], _reagentPoolSystem.BloodPool, ProcessingAmount);
+				Reaction.React(PrecalculatedMetabolismReactions[Reaction], _reagentPoolSystem.BloodPool, ProcessingAmount);
 			}
 		}
 
