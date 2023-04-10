@@ -92,6 +92,7 @@ namespace Systems.Disposals
 		{
 			// Spawn virtual container
 			var disposalContainer = SpawnVirtualContainer(sourceObject.RegisterTile().WorldPositionServer);
+			var virtualContainer = disposalContainer.GetComponent<DisposalVirtualContainer>();
 
 			// Transfer contents
 			if (sourceObject.TryGetComponent<ObjectContainer>(out var objectContainer))
@@ -104,7 +105,8 @@ namespace Systems.Disposals
 			}
 
 			// Start traversing
-			var traversal = new DisposalTraversal(disposalContainer.GetComponent<DisposalVirtualContainer>());
+			var traversal = new DisposalTraversal(virtualContainer);
+			virtualContainer.traversal = traversal;
 			disposalInstances.Add(traversal);
 		}
 
@@ -119,6 +121,11 @@ namespace Systems.Disposals
 
 		private void UpdateDisposal(DisposalTraversal disposal)
 		{
+			if (disposal.virtualContainer.SelfControlled)
+			{
+				return;
+			}
+
 			if (disposal.TraversalFinished)
 			{
 				FinishDisposal(disposal);

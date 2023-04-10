@@ -42,7 +42,10 @@ public class SpawnerSearch
 				                      " networked prefabs can be spawned.", Category.Admin);
 				continue;
 			}
-			documents.Add(DevSpawnerDocument.ForPrefab(prefab));
+
+			var newEntry = DevSpawnerDocument.ForPrefab(prefab);
+			if ( newEntry == null ) continue;
+			documents.Add( (DevSpawnerDocument) newEntry );
 		}
 
 		return new SpawnerSearch(documents.OrderBy(doc => doc.SearchableName[0]).ToArray());
