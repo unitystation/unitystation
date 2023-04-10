@@ -69,12 +69,11 @@ namespace HealthV2.Living.PolymorphicSystems
 			// Calculate the sum of all the numbers in the list
 			float sum = 0;
 
-			for (int i = 0; i < BatteryPacks.Count; i++)
+			foreach (var batteryPack in BatteryPacks)
 			{
-				var batteryPack = BatteryPacks[i];
-				for (int j = 0; j < batteryPack.Cells.Count; j++)
+				foreach (var battery in batteryPack.Cells)
 				{
-					sum += batteryPack.Cells[j].Watts;
+					sum += battery.Watts;
 				}
 			}
 
@@ -84,12 +83,11 @@ namespace HealthV2.Living.PolymorphicSystems
 				float adjustmentFactor = (sum - ConsumingWatts) / sum;
 
 				// Adjust each number in the list by the factor
-				for (int i = 0; i < BatteryPacks.Count; i++)
+				foreach (var batteryPack in BatteryPacks)
 				{
-					var batteryPack = BatteryPacks[i];
-					for (int j = 0; j < batteryPack.Cells.Count; j++)
+					foreach (var Cell in batteryPack.Cells)
 					{
-						batteryPack.Cells[j].Watts = Mathf.RoundToInt((batteryPack.Cells[j].Watts * adjustmentFactor)) ;
+						Cell.Watts = Mathf.RoundToInt((Cell.Watts * adjustmentFactor)) ;
 					}
 				}
 
@@ -105,14 +103,11 @@ namespace HealthV2.Living.PolymorphicSystems
 			{
 				if (sum > 0)
 				{
-
-
-					for (int i = 0; i < BatteryPacks.Count; i++)
+					foreach (var batteryPack in BatteryPacks)
 					{
-						var batteryPack = BatteryPacks[i];
-						for (int j = 0; j < batteryPack.Cells.Count; j++)
+						foreach (var cell in batteryPack.Cells)
 						{
-							batteryPack.Cells[j].Watts = 0;
+							cell.Watts = 0;
 						}
 					}
 				}
@@ -121,15 +116,10 @@ namespace HealthV2.Living.PolymorphicSystems
 				{
 					if (consumer.PowerModifier.Multiplier != 0)
 					{
-						//consumer.PowerModifier.Multiplier = 0.0f;
+						//consumer.PowerModifier.Multiplier = 0.0f; //TODO!!!!
 					}
 				}
 			}
-
-
-
-
-			//TODO set debbuff
 		}
 
 		public override HealthSystemBase CloneThisSystem()
