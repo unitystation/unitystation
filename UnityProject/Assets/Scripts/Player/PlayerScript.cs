@@ -429,6 +429,12 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		RefreshVisibleName();
 	}
 
+	[RightClickMethod]
+	public void Possess()
+	{
+		PlayerManager.LocalMindScript.SetPossessingObject(this.gameObject);
+	}
+
 	public bool IsHidden => PlayerSync.IsVisible == false;
 
 	/// <summary>

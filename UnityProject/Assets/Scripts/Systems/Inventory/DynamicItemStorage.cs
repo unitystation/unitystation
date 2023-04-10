@@ -774,38 +774,41 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		removed.Clear();
 		var incomingList = JsonConvert.DeserializeObject<List<InternalData>>(NewST);
 		var spawnedList = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
-		foreach (var IntIn in incomingList)
+		if (incomingList != null)
 		{
-			if (spawnedList.TryGetValue(IntIn.ID, out var spawned) == false)
+			foreach (var IntIn in incomingList)
 			{
-				WeakReference<DynamicItemStorage> wptr = new WeakReference<DynamicItemStorage>(this);
-
-				LoadManager.RegisterActionDelayed(() =>
+				if (spawnedList.TryGetValue(IntIn.ID, out var spawned) == false)
 				{
-					DynamicItemStorage di;
+					WeakReference<DynamicItemStorage> wptr = new WeakReference<DynamicItemStorage>(this);
 
-					if (wptr.TryGetTarget(out di))
+					LoadManager.RegisterActionDelayed(() =>
 					{
-						di.ProcessChangeClient(NewST);
-					}
-				}, 30);
-				return;
-			}
+						DynamicItemStorage di;
 
-
-			bool Contain = false;
-			foreach (var ID in ClientUIBodyPartsToSerialise)
-			{
-				if (ID.ID == IntIn.ID && ID.IndexEnabled == IntIn.IndexEnabled)
-				{
-					Contain = true;
-					break;
+						if (wptr.TryGetTarget(out di))
+						{
+							di.ProcessChangeClient(NewST);
+						}
+					}, 30);
+					return;
 				}
-			}
 
-			if (Contain == false)
-			{
-				added.Add(IntIn);
+
+				bool Contain = false;
+				foreach (var ID in ClientUIBodyPartsToSerialise)
+				{
+					if (ID.ID == IntIn.ID && ID.IndexEnabled == IntIn.IndexEnabled)
+					{
+						Contain = true;
+						break;
+					}
+				}
+
+				if (Contain == false)
+				{
+					added.Add(IntIn);
+				}
 			}
 		}
 
@@ -873,7 +876,11 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 			AddClient(InIDynamicItemSlotS, addInt.IndexEnabled);
 		}
 
-		ClientUIBodyPartsToSerialise = incomingList;
+		if (incomingList != null)
+		{
+			ClientUIBodyPartsToSerialise = incomingList;
+		}
+
 	}
 
 	public void OnDestroy()

@@ -366,6 +366,14 @@ public static class Inventory
 			return false;
 		}
 
+
+		if (fromSlot.ItemNotRemovable)
+		{
+			Logger.LogTraceFormat("Attempted to remove {0} from inventory but from slot {1} had ItemNotRemovable." +
+			                      " Move will not be performed.", Category.Inventory, pickupable.name, fromSlot);
+			return false;
+		}
+
 		//update pickupable's item and slot's item
 		pickupable._SetItemSlot(null);
 		fromSlot._ServerRemoveItem();

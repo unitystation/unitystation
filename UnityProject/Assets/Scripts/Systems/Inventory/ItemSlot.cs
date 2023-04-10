@@ -49,6 +49,13 @@ public class ItemSlot
 	/// </summary>
 	public Pickupable Item => item;
 
+
+	/// <summary>
+	/// Dictates whether or not the item can be removed by any means
+	/// Remember to send UpdateItemSlotMessage If you change it!!
+	/// </summary>
+	public bool ItemNotRemovable = false;
+
 	/// <summary>
 	/// Net ID of the ItemStorage this slot exists in
 	/// </summary>

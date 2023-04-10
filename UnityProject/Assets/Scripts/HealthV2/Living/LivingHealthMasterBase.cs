@@ -1298,7 +1298,7 @@ namespace HealthV2
 			for (int i = BodyPartList.Count - 1; i >= 0; i--)
 			{
 				if (BodyPartList[i].BodyPartType == BodyPartType.Chest) continue;
-				BodyPartList[i].TryRemoveFromBody();
+				BodyPartList[i].TryRemoveFromBody(true, PreventGibb_Death : true);
 			}
 		}
 
@@ -1711,6 +1711,11 @@ namespace HealthV2
 			{
 				if (playerSprites.RaceBodyparts.Base.SkinColours.Count > 0)
 				{
+					if (playerSprites.ThisCharacter == null)
+					{
+						Logger.LogError("playerSprites.ThisCharacter == null");
+						return;
+					}
 					ColorUtility.TryParseHtmlString(playerSprites.ThisCharacter.SkinTone, out CurrentSurfaceColour);
 
 					var hasColour = false;

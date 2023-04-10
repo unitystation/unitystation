@@ -85,7 +85,7 @@ namespace Systems.Clearance
 			}
 
 			// Check hand first
-			var activeHandObject = playerStorage.GetActiveHandSlot().ItemObject;
+			var activeHandObject = playerStorage.GetActiveHandSlot()?.ItemObject;
 			if (activeHandObject != null && activeHandObject.TryGetComponent<IClearanceSource>(out var handObject))
 			{
 				if (HasClearance(handObject)) return true;
