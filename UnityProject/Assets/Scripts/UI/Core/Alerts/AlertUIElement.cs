@@ -18,8 +18,8 @@ public class AlertUIElement : MonoBehaviour
 	public void Initialise()
 	{
 		// Subscribe to the OnActionAdded and OnActionRemoved events of the UIActionManager
-		ClientAlertManager.Instance.OnActionShown += HandleActionShown;
-		ClientAlertManager.Instance.OnActionHidden += HandleActionHidden;
+		UIManager.Instance.ClientAlertManager.OnActionShown += HandleActionShown;
+		UIManager.Instance.ClientAlertManager.OnActionHidden += HandleActionHidden;
 		// Check if this UIAction should be hidden at start
 		SpriteHandler.SetSpriteSO(AlertSO.AssociatedSprite);
 		UI_HoverTooltip.hoverName = AlertSO.HoverToolTip;
@@ -29,8 +29,8 @@ public class AlertUIElement : MonoBehaviour
 	private void OnDestroy()
 	{
 		// Unsubscribe from the OnActionAdded and OnActionRemoved events when this UIAction is destroyed
-		ClientAlertManager.Instance.OnActionShown -= HandleActionShown;
-		ClientAlertManager.Instance.OnActionHidden -= HandleActionHidden;
+		UIManager.Instance.ClientAlertManager.OnActionShown -= HandleActionShown;
+		UIManager.Instance.ClientAlertManager.OnActionHidden -= HandleActionHidden;
 	}
 
 	private void HandleActionShown(AlertUIElement addedAction)
@@ -62,7 +62,7 @@ public class AlertUIElement : MonoBehaviour
 	{
 		bool hide = false;
 		// Check if any of the hiddenByActions are currently active in the UI
-		foreach (var addedAction in ClientAlertManager.Instance.RegisteredAlerts)
+		foreach (var addedAction in UIManager.Instance.ClientAlertManager.RegisteredAlerts)
 		{
 			// Check if the added action is in the hiddenByActions list
 			if (AlertSO.DoNotShowIfPresent.Contains(addedAction.AlertSO))
@@ -87,7 +87,7 @@ public class AlertUIElement : MonoBehaviour
 			Logger.LogError($"state changed too many times in one frame, potential infinite loop with {AlertSO.name} settings");
 		}
 		StateChangeThisUpdate = true;
-		ClientAlertManager.Instance.HidingAction(this);
+		UIManager.Instance.ClientAlertManager.HidingAction(this);
 
 
 		if (AlertSO.PlayerProtip != null)
@@ -107,7 +107,7 @@ public class AlertUIElement : MonoBehaviour
 		}
 		StateChangeThisUpdate = true;
 
-		ClientAlertManager.Instance.ShowingAction(this);
+		UIManager.Instance.ClientAlertManager.ShowingAction(this);
 
 		// Set this UIAction to be inactive and invisible
 		gameObject.SetActive(false);

@@ -37,11 +37,11 @@ public class BodyAlertManager : NetworkBehaviour, IClientPlayerLeaveBody, IClien
 		if (isOwned && PlayerManager.LocalPlayerObject == this.gameObject)
 		{
 			var List = JsonConvert.DeserializeObject<List<int>>(PresentAlertsJson);
-			ClientAlertManager.Instance.UnRegisterAlertALL(); //TODO Suboptimal but easy
+			UIManager.Instance.ClientAlertManager.UnRegisterAlertALL(); //TODO Suboptimal but easy
 
 			foreach (var NewAlert in List)
 			{
-				ClientAlertManager.Instance.RegisterAlert(AlertSOs.Instance.AllAlertSOs[NewAlert]);
+				UIManager.Instance.ClientAlertManager.RegisterAlert(AlertSOs.Instance.AllAlertSOs[NewAlert]);
 			}
 		}
 	}
@@ -49,17 +49,17 @@ public class BodyAlertManager : NetworkBehaviour, IClientPlayerLeaveBody, IClien
 
 	public void ClientOnPlayerLeaveBody()
 	{
-		ClientAlertManager.Instance.UnRegisterAlertALL();
+		UIManager.Instance.ClientAlertManager.UnRegisterAlertALL();
 	}
 
 	public void ClientOnPlayerTransferProcess()
 	{
 		var List = JsonConvert.DeserializeObject<List<int>>(PresentAlertsJson);
-		ClientAlertManager.Instance.UnRegisterAlertALL(); //TODO Suboptimal but easy
+		UIManager.Instance.ClientAlertManager.UnRegisterAlertALL(); //TODO Suboptimal but easy
 
 		foreach (var NewAlert in List)
 		{
-			ClientAlertManager.Instance.RegisterAlert(AlertSOs.Instance.AllAlertSOs[NewAlert]);
+			UIManager.Instance.ClientAlertManager.RegisterAlert(AlertSOs.Instance.AllAlertSOs[NewAlert]);
 		}
 	}
 }

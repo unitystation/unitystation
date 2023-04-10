@@ -4,7 +4,7 @@ using System.Linq;
 using Shared.Managers;
 using UnityEngine;
 
-public class ClientAlertManager : SingletonManager<ClientAlertManager>
+public class ClientAlertManager : MonoBehaviour
 {
 	public List<AlertUIElement> RegisteredAlerts = new List<AlertUIElement>();
 
