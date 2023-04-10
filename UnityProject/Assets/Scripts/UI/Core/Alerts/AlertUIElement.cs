@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Learning;
+using Learning.ProtipObjectTypes;
 using UnityEngine;
 
 public class AlertUIElement : MonoBehaviour
@@ -88,6 +90,11 @@ public class AlertUIElement : MonoBehaviour
 		ClientAlertManager.Instance.HidingAction(this);
 
 
+		if (AlertSO.PlayerProtip != null)
+		{
+			TriggerTip(AlertSO.PlayerProtip);
+		}
+
 		// Set this UIAction to be active and visible
 		gameObject.SetActive(true);
 	}
@@ -104,5 +111,11 @@ public class AlertUIElement : MonoBehaviour
 
 		// Set this UIAction to be inactive and invisible
 		gameObject.SetActive(false);
+	}
+
+	protected void TriggerTip(ProtipSO protipSo)
+	{
+		PlayerManager.LocalPlayerObject.GetComponentInChildren<ProtipObjectOnHealthStateChange>()
+			?.StandardTrigger(protipSo);
 	}
 }

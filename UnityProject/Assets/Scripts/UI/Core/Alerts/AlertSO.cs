@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Learning;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Alert", menuName = "ScriptableObjects/UIAlerts")]
@@ -10,6 +11,8 @@ public class AlertSO : ScriptableObject
 	public SpriteDataSO AssociatedSprite;
 
 	public string HoverToolTip;
+
+	public ProtipSO PlayerProtip;
 
 	//conditional
 	//hide if others are present

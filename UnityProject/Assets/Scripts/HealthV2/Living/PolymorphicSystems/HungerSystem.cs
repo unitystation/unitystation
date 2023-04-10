@@ -74,7 +74,6 @@ namespace HealthV2.Living.PolymorphicSystems
 				default:
 					return null;
 			}
-
 		}
 
 		public override void InIt()
@@ -214,7 +213,6 @@ namespace HealthV2.Living.PolymorphicSystems
 					BodyAlertManager.RegisterAlert(newOne);
 				}
 			}
-
 		}
 
 		public void NutrimentCalculation(float HeartEfficiency)
