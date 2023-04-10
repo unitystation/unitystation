@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1702153511569563100, guid: bf1232ff5948494499fb98f10c1c1ef6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1984926235737303078, guid: bf1232ff5948494499fb98f10c1c1ef6,
         type: 3}
       propertyPath: foreverID
@@ -40,17 +45,17 @@ PrefabInstance:
     - target: {fileID: 3237949637132849333, guid: bf1232ff5948494499fb98f10c1c1ef6,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3237949637132849333, guid: bf1232ff5948494499fb98f10c1c1ef6,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3237949637132849333, guid: bf1232ff5948494499fb98f10c1c1ef6,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3237949637132849333, guid: bf1232ff5948494499fb98f10c1c1ef6,
         type: 3}
@@ -93,6 +98,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: This represents our promise to the crew, and the station itself, to
         cut down as many trees as possible.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424356324654834445, guid: bf1232ff5948494499fb98f10c1c1ef6,
+        type: 3}
+      propertyPath: _assetId
+      value: 4291730160
       objectReference: {fileID: 0}
     - target: {fileID: 6424356324654834445, guid: bf1232ff5948494499fb98f10c1c1ef6,
         type: 3}

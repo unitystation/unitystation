@@ -89,6 +89,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6424356324654834445, guid: bf1232ff5948494499fb98f10c1c1ef6,
         type: 3}
+      propertyPath: _assetId
+      value: 2954829714
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424356324654834445, guid: bf1232ff5948494499fb98f10c1c1ef6,
+        type: 3}
       propertyPath: m_AssetId
       value: 00173e5de3306664c90ceda936ce817f
       objectReference: {fileID: 0}
@@ -97,5 +102,7 @@ PrefabInstance:
       propertyPath: randomInitialSprite
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8143815861460355957, guid: bf1232ff5948494499fb98f10c1c1ef6, type: 3}
+    - {fileID: 4929016382402049943, guid: bf1232ff5948494499fb98f10c1c1ef6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: bf1232ff5948494499fb98f10c1c1ef6, type: 3}
