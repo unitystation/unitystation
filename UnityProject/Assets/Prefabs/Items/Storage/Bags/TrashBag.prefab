@@ -85,17 +85,17 @@ PrefabInstance:
     - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
         type: 3}
@@ -119,8 +119,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3433479011725450937, guid: a4904005b4f886143a41a4b3c99a6845,
         type: 3}
+      propertyPath: _assetId
+      value: 381177405
+      objectReference: {fileID: 0}
+    - target: {fileID: 3433479011725450937, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
       propertyPath: m_AssetId
       value: 8c5919c02a742274a82e60ed2153f555
+      objectReference: {fileID: 0}
+    - target: {fileID: 4856947985332647053, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: DoNotShowInventoryOnUI
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8541259781182205792, guid: a4904005b4f886143a41a4b3c99a6845,
         type: 3}

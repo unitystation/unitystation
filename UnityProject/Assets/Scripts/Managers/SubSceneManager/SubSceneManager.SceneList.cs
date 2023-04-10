@@ -86,9 +86,16 @@ public partial class SubSceneManager
 	//Choose and load a main station on the server
 	IEnumerator ServerLoadMainStation(SubsceneLoadTimer loadTimer)
 	{
+
+		var prevEditorScene = GetEditorPrevScene();
+
 		if (AdminForcedMainStation is not "Random")
 		{
 			serverChosenMainStation = AdminForcedMainStation;
+		}
+		else if (prevEditorScene.Contains("Lobby") == false && (prevEditorScene != "")  && prevEditorScene.Contains("Online") == false && GameData.Instance.DoNotLoadEditorPreviousScene == false ) //TODO Game data option!!!!
+		{
+			serverChosenMainStation = prevEditorScene;
 		}
 		else
 		{

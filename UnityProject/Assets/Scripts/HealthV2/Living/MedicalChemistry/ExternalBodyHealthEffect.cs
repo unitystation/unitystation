@@ -52,7 +52,7 @@ public class ExternalBodyHealthEffect : MetabolismReaction
 						foreach (var Effect in Effects)
 						{
 							bodyPart.RelatedPart.TakeDamage(null,
-								Effect.EffectPerOne * ReagentMetabolismMultiplier * -OverdoseDamageMultiplier,
+								Effect.EffectPerOne * -OverdoseDamageMultiplier * ReagentMetabolismMultiplier,
 								Effect.AttackType,
 								Effect.DamageEffect, DamageSubOrgans: false);
 						}
@@ -60,7 +60,7 @@ public class ExternalBodyHealthEffect : MetabolismReaction
 					else
 					{
 						bodyPart.RelatedPart.TakeDamage(null,
-							AttackBodyPartPerOneU *  ReagentMetabolismMultiplier *  -OverdoseDamageMultiplier,
+							AttackBodyPartPerOneU  *  -OverdoseDamageMultiplier * ReagentMetabolismMultiplier,
 							AttackType,
 							DamageEffect, DamageSubOrgans: false);
 					}
@@ -73,13 +73,13 @@ public class ExternalBodyHealthEffect : MetabolismReaction
 				{
 					foreach (var Effect in Effects)
 					{
-						bodyPart.RelatedPart.TakeDamage(null, Effect.EffectPerOne *  ReagentMetabolismMultiplier , Effect.AttackType,
+						bodyPart.RelatedPart.TakeDamage(null, Effect.EffectPerOne  * ReagentMetabolismMultiplier , Effect.AttackType,
 							Effect.DamageEffect, DamageSubOrgans: false);
 					}
 				}
 				else
 				{
-					bodyPart.RelatedPart.TakeDamage(null, AttackBodyPartPerOneU  *  ReagentMetabolismMultiplier, AttackType,
+					bodyPart.RelatedPart.TakeDamage(null, AttackBodyPartPerOneU * ReagentMetabolismMultiplier , AttackType,
 						DamageEffect, DamageSubOrgans: false);
 				}
 			}

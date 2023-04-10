@@ -93,7 +93,9 @@ public class MouseDraggable : MonoBehaviour
 
 		if (shadowObject != null)
 		{
-			shadowObject.transform.position = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+			var transformPosition = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+			transformPosition.z = 1;
+			shadowObject.transform.position = transformPosition;
 		}
 	}
 

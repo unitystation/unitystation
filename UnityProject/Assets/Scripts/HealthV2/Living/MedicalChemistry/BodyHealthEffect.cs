@@ -83,7 +83,7 @@ public class BodyHealthEffect : MetabolismReaction
 			float ProcessingAmount = 0;
 			foreach (var bodyPart in Toloop)
 			{
-				ProcessingAmount += bodyPart.ReagentMetabolism * bodyPart.BloodThroughput * bodyPart.CurrentBloodSaturation * Mathf.Max(0.10f, bodyPart.RelatedPart.TotalModified);
+				ProcessingAmount += bodyPart.ReagentMetabolism * bodyPart.BloodThroughput * bodyPart.CurrentBloodSaturation;
 			}
 
 			if (TotalChemicalsProcessed > ProcessingAmount)
@@ -96,17 +96,17 @@ public class BodyHealthEffect : MetabolismReaction
 				}
 			}
 
-			BodyReactionAmount = ProcessingAmount * ReagentMetabolismMultiplier;
+			BodyReactionAmount = ProcessingAmount;
 		}
 
 		foreach (var bodyPart in Toloop)
 		{
-			var Individual = bodyPart.ReagentMetabolism * bodyPart.BloodThroughput * bodyPart.CurrentBloodSaturation * Mathf.Max(0.10f, bodyPart.RelatedPart.TotalModified) * ReagentMetabolismMultiplier;
+			var Individual = bodyPart.ReagentMetabolism * bodyPart.BloodThroughput * bodyPart.CurrentBloodSaturation;
 
 			var PercentageOfProcess = Individual / BodyReactionAmount;
 
 
-			var TotalChemicalsProcessedByBodyPart = TotalChemicalsProcessed * PercentageOfProcess;
+			var TotalChemicalsProcessedByBodyPart = (TotalChemicalsProcessed * ReagentMetabolismMultiplier)  * PercentageOfProcess;
 
 			if (CanOverdose)
 			{

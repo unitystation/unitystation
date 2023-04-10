@@ -111,6 +111,13 @@ namespace Objects
 		private HashSet<GameObject> pushRecently = new HashSet<GameObject>();
 		private int pushTimer;
 
+		public bool DEBUGpointLock = false;
+		public bool DEBUGPushBlock = false;
+		public bool DEBUGDestroyBlock = false;
+		public bool DEBUGMoveBlock = false;
+		public bool DEBUGExplosionBlock = false;
+		public bool DEBUGRadiationBlock = false;
+
 		private readonly List<Vector3Int> adjacentCoords = new List<Vector3Int>
 		{
 			new Vector3Int(0, 1, 0),
@@ -153,7 +160,7 @@ namespace Objects
 			currentFacing = currentFacing.Rotate(Random.Range(1, 4)); //Random direction on start
 		}
 
-		private void OnEnable() 
+		private void OnEnable()
 		{
 			UpdateManager.Add(SingularityUpdate, updateFrequency);
 		}
@@ -224,7 +231,7 @@ namespace Objects
 			}
 
 			//Points decrease by 4 every 0.5 seconds, unless locked by PA at setting 0
-			if (pointLock == false)
+			if (pointLock == false && DEBUGpointLock == false)
 			{
 				ChangePoints(-pointLossRate);
 			}
@@ -247,9 +254,13 @@ namespace Objects
 			//Radiation Pulse
 			var radStrength = Mathf.Max(((float) CurrentStage + 1) / 6 * maxRadiation, 0);
 
-			RadiationManager.Instance.RequestPulse(registerTile.WorldPositionServer, radStrength, objectId);
+			if (DEBUGRadiationBlock == false)
+			{
+				RadiationManager.Instance.RequestPulse(registerTile.WorldPositionServer, radStrength, objectId);
+			}
 
-			if(DMMath.Prob(5))
+
+			if(DMMath.Prob(5) && DEBUGExplosionBlock == false)
 			{
 				int empStrength = Random.Range((int)CurrentStage * 100, (int)CurrentStage * 100 + 300);
 				Vector3Int empPosition = registerTile.WorldPositionServer;
@@ -263,6 +274,7 @@ namespace Objects
 
 		private void PushPullObjects()
 		{
+			if (DEBUGPushBlock) return;
 			int distance;
 
 			switch (currentStage)
@@ -356,6 +368,8 @@ namespace Objects
 
 		private void DestroyObjectsAndTiles()
 		{
+			if (DEBUGDestroyBlock) return;
+
 			int radius;
 
 			switch (currentStage)
@@ -502,6 +516,7 @@ namespace Objects
 
 		private void TryMove()
 		{
+			if (DEBUGMoveBlock) return;
 			int radius = GetRadius(CurrentStage);
 
 			var coord = currentFacing.LocalVectorInt.To3Int() + registerTile.WorldPositionServer;

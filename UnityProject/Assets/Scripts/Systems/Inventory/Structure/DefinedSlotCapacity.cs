@@ -42,6 +42,8 @@ public class DefinedSlotCapacity : SlotCapacity
 	public override bool CanFit(Pickupable toCheck)
 	{
 		if (toCheck == null) return false;
+		bool hasRequiredTraits = true;
+
 		Logger.LogTraceFormat("Checking if {0} can fit", Category.Inventory, toCheck.name);
 		Size size = Size.Huge;
 		var itemAttrs = toCheck.GetComponent<ItemAttributesV2>();
@@ -91,19 +93,20 @@ public class DefinedSlotCapacity : SlotCapacity
 		//If an item has a whitelisted trait, return true, else move onto black list
 		if (Whitelist != null && Whitelist.Count > 0)
 		{
+			hasRequiredTraits = false;
 			Logger.LogTraceFormat("Whitelist is {0}", Category.Inventory,
 				String.Join(", ", Whitelist.Select(it => it == null ? "null" : it.name)));
 			if (itemAttrs == null)
 			{
 				Logger.LogTrace("Item has no ItemAttributes, thus has no whitelisted traits", Category.Inventory);
-				return false;
+				hasRequiredTraits = false;
 			}
 			foreach (var whitelistTrait in Whitelist)
 			{
 				if (itemAttrs.HasTrait(whitelistTrait))
 				{
 					Logger.LogTraceFormat("Item has whitelisted trait {0}", Category.Inventory, whitelistTrait.name);
-					return true;
+					hasRequiredTraits = true;
 				}
 			}
 		}
@@ -124,12 +127,12 @@ public class DefinedSlotCapacity : SlotCapacity
 					if (itemAttrs.HasTrait(blacklistTrait))
 					{
 						Logger.LogTraceFormat("Item has blacklisted trait {0}", Category.Inventory, blacklistTrait.name);
-						return false;
+						hasRequiredTraits = false;
 					}
 				}
 			}
 		}
 
-		return true; //If has required traits, no whitelists or blacklists, the return true
+		return hasRequiredTraits; //If has required traits, no whitelists or blacklists, the return true
 	}
 }
