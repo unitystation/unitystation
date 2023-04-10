@@ -48,12 +48,10 @@ namespace HealthV2.Living.PolymorphicSystems
 			}
 
 			var Battery =  bodyPart.GetComponent<BatteryPack>();
-			if (Battery != null)
+			if (Battery == null) return;
+			if (BatteryPacks.Contains(Battery) == false)
 			{
-				if (BatteryPacks.Contains(Battery) == false)
-				{
-					BatteryPacks.Remove(Battery);
-				}
+				BatteryPacks.Remove(Battery);
 			}
 		}
 
