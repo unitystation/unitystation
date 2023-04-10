@@ -115,7 +115,7 @@ public class AlertUIElement : MonoBehaviour
 
 	protected void TriggerTip(ProtipSO protipSo)
 	{
-		PlayerManager.LocalPlayerObject.GetComponentInChildren<ProtipObjectOnHealthStateChange>()
+		PlayerManager.LocalPlayerObject.OrNull()?.GetComponentInChildren<ProtipObjectOnHealthStateChange>()
 			?.StandardTrigger(protipSo);
 	}
 }
