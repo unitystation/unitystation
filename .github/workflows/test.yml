@@ -57,12 +57,19 @@ jobs:
           cat "$LICENSE_FILE_PATH" >> "$GITHUB_ENV"
           printf "\nLICENSE-EOF" >> "$GITHUB_ENV"
 
+      - name: Installs dotnet and restores packages
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.0.x'
+      - run: dotnet tool install --global NuGetForUnity.Cli
+      - run: nugetforunity restore ${{ matrix.projectPath }}
+
       # Run tests - only edit mode supported
       # Note: exits with non-zero on legitimate test fails, "if: always()" is needed for reporting
       - name: Run tests
         uses: game-ci/unity-test-runner@v2
         with:
-          customParameters: "-nographics -ignoreCompilerErrors -executeMethod NugetForUnity.NugetHelper.Restore"
+          customParameters: "-nographics"
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           artifactsPath: ./testReports/${{ matrix.targetPlatform }}
