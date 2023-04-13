@@ -33,15 +33,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -54,6 +54,11 @@ PrefabInstance:
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: _assetId
+      value: 4279135065
       objectReference: {fileID: 0}
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -116,10 +121,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d72619b419eb784d89be0849c02177b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  isEMPVunerable: 0
-  EMPResistance: 2
   CapableMutations:
   - {fileID: 11400000, guid: 11fc1b84d220b6742a4912446b0e7e2b, type: 2}
   - {fileID: 11400000, guid: 85b46608a403da74892b9bb16d3b712c, type: 2}
@@ -226,19 +230,6 @@ MonoBehaviour:
   DamageEfficiencyMultiplier: 1
   maxHealth: 100
   Severity: 50
-  BodyPartReadableName: '[Default Part Name]'
-  BoneFracturedLvlThreeDesc: This {readableName} is suffering Hairline Fracture.
-  BoneFracturedLvlTwoDesc: This {readableName} is suffering Compound Fracture. It
-    is completely snapped in half.
-  maximumInternalBleedDamage: 100
-  minMaxInternalBleedingBloodLoss: {x: 2, y: 4}
-  minMaxExternalBleedingValues: {x: 2, y: 14}
-  bodyPartColorWhenCharred: {r: 0, g: 0, b: 0, a: 1}
-  GibChance: 15
-  spillChanceWhenCutPresent: 0.5
-  CanBleedInternally: 0
-  CanBeBroken: 0
-  gibsEntireBodyOnRemoval: 0
 --- !u!114 &2719098251223779414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,6 +279,7 @@ MonoBehaviour:
   destroyOnEmpty: 0
   ContentsSet: 0
   menuOptions: -1
+  spriteHandler: {fileID: 0}
   UseStandardExamine: 1
   ExamineAmount: 0
   ExamineContent: 0
@@ -297,6 +289,21 @@ MonoBehaviour:
   possibleTransferAmounts: []
   transferAmount: 20
   transferSound: []
+--- !u!114 &832554512957402842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1163316686972202776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea3b715ac32a0014787603458c14c14c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!210 &4940620596253206870 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 6104600676241079028, guid: a7abba22164ce49f0bf9b9b219f39298,

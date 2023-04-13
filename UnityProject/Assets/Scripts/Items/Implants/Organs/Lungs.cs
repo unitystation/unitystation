@@ -56,12 +56,23 @@ namespace Items.Implants.Organs
 		public ReagentCirculatedComponent ReagentCirculatedComponent;
 		public SaturationComponent SaturationComponent;
 		public HungerComponent HungerComponent;
+
+		public BodyPartAlerts BodyPartAlerts;
+
+		public bool hasToxinsCash =false;
+
+		private bool suffocatingCash = false;
+
+		public AlertSO ToxinAlert;
+		public AlertSO SuffocatingAlert;
+
 		public override void Awake()
 		{
 			base.Awake();
 			ReagentCirculatedComponent = this.GetComponentCustom<ReagentCirculatedComponent>();
 			SaturationComponent = this.GetComponentCustom<SaturationComponent>();
 			HungerComponent = this.GetComponentCustom<HungerComponent>();
+			BodyPartAlerts = this.GetComponentCustom<BodyPartAlerts>();
 		}
 
 		public override void ImplantPeriodicUpdate()
@@ -296,6 +307,7 @@ namespace Items.Implants.Organs
 			RelatedPart.HealthMaster.RespiratorySystem.GasExchangeToBlood(breathGasMix, blood, toInhale, LungSize);
 
 
+			bool suffocating = false;
 			// Counterintuitively, in humans respiration is stimulated by pressence of CO2 in the blood, not lack of oxygen
 			// May want to change this code to reflect that in the future so people don't hyperventilate when they are on nitrous oxide
 
@@ -303,15 +315,28 @@ namespace Items.Implants.Organs
 			if (SaturationComponent.CurrentBloodSaturation >= SaturationComponent.bloodType.BLOOD_REAGENT_SATURATION_OKAY)
 			{
 				currentBreatheCooldown = breatheCooldown; //Slow breathing, we're all good
-				RelatedPart.HealthMaster.HealthStateController.SetSuffocating(false);
+				suffocating = false;
 			}
 			else if (SaturationComponent.CurrentBloodSaturation <= SaturationComponent.bloodType.BLOOD_REAGENT_SATURATION_BAD)
 			{
-				RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
+				suffocating = true;
 				if (DMMath.Prob(20))
 				{
 					Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, "You gasp for breath!",
 						$"{RelatedPart.HealthMaster.playerScript.visibleName} gasps!");
+				}
+			}
+
+			if (suffocatingCash != suffocating)
+			{
+				suffocatingCash = suffocating;
+				if (suffocatingCash)
+				{
+					BodyPartAlerts.AddAlert(SuffocatingAlert);
+				}
+				else
+				{
+					BodyPartAlerts.RemoveAlert(SuffocatingAlert);
 				}
 			}
 
@@ -342,7 +367,18 @@ namespace Items.Implants.Organs
 				}
 			}
 
-			RelatedPart.HealthMaster.HealthStateController.SetToxins(hasToxins);
+			if (hasToxinsCash != hasToxins)
+			{
+				hasToxinsCash = hasToxins;
+				if (hasToxins)
+				{
+					BodyPartAlerts.AddAlert(ToxinAlert);
+				}
+				else
+				{
+					BodyPartAlerts.RemoveAlert(ToxinAlert);
+				}
+			}
 		}
 
 		private IEnumerator<WaitForSeconds> CooldownTick()

@@ -43,6 +43,8 @@ public class UIManager : MonoBehaviour, IInitialise
 	public Text toolTip;
 	public Text pingDisplay;
 
+	public ClientAlertManager ClientAlertManager;
+
 	[SerializeField] [Tooltip("Text displaying the game's version number.")]
 	public Text versionDisplay;
 
