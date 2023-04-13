@@ -27,6 +27,8 @@ namespace Chemistry.Components
 	{
 		[Header("Transfer settings")]
 
+		[SerializeField] private bool isInteractable = true;
+
 		[Tooltip("If not empty, another container should have one of this traits to interact")]
 		[FormerlySerializedAs("TraitWhitelist")]
 		[FormerlySerializedAs("AcceptedTraits")]
@@ -74,6 +76,7 @@ namespace Chemistry.Components
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
+			if (isInteractable == false) return false;
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 
 			var playerScript = interaction.Performer.GetComponent<PlayerScript>();
