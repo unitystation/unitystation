@@ -139,7 +139,7 @@ public class ObjectLayer : Layer
 			}
 
 			//If you can't bump anything on an adjacent tile, you may be blocked by a bumpable object on your current tile (probably a windoor)
-			if (!Bumps.Any())
+			if (Bumps.Any() == false)
 			{
 				foreach (var objectOnTile in Matrix.Get<UniversalObjectPhysics>(originalFrom, CustomNetworkManager.IsServer))
 				{
