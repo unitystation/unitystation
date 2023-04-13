@@ -442,7 +442,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		if (newLocalTarget.Matrix != -1)
 		{
-			SetMatrix(MatrixManager.Get(newLocalTarget.Matrix).Matrix);
+			SetMatrix(MatrixManager.Get(newLocalTarget.Matrix).Matrix, false);
 		}
 
 		if (isClient)
@@ -843,7 +843,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	}
 
 
-	public void SetMatrix(Matrix movetoMatrix)
+	public void SetMatrix(Matrix movetoMatrix, bool SetTarget = true)
 	{
 		if (movetoMatrix == null) return;
 		if (registerTile == null)
@@ -862,14 +862,15 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		SetTransform(TransformCash, true);
 		LocalDifferenceNeeded = Vector2.zero;
 
+		if (SetTarget)
+		{
 			SetLocalTarget = new Vector3WithData()
 			{
 				Vector3 = transform.localPosition,
 				ByClient = NetId.Empty,
 				Matrix = movetoMatrix.Id
 			};
-
-
+		}
 	}
 
 	/// <summary>

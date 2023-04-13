@@ -132,7 +132,7 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 			if(bodyPart.BodyPartType == interaction.TargetBodyPart && bodyPart.IsBleeding == true)
 			{
 				bodyPart.IsBleeding = false;
-				livingHealth.HealthStateController.SetBleedStacks(0f);
+				livingHealth.SetBleedStacks(0f);
 				Chat.AddActionMsgToChat(interaction.Performer.gameObject,
 				$"You stopped {interaction.TargetObject.ExpensiveName()}'s bleeding.",
 				$"{interaction.PerformerPlayerScript.visibleName} stopped {interaction.TargetObject.ExpensiveName()}'s bleeding.");

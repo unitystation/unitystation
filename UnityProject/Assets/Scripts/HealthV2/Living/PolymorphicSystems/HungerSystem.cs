@@ -12,6 +12,8 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		public List<HungerComponent> BodyParts = new List<HungerComponent>();
 
+		private BodyAlertManager BodyAlertManager;
+
 		private ReagentPoolSystem reagentPoolSystem
 		{
 			get
@@ -30,6 +32,8 @@ namespace HealthV2.Living.PolymorphicSystems
 		/// The current hunger state of the creature, currently always returns normal
 		/// </summary>
 		public HungerState HungerState => CalculateHungerState();
+
+		private HungerState CashedOldHungerState = HungerState.Normal;
 
 		public HungerState CalculateHungerState()
 		{
@@ -55,6 +59,28 @@ namespace HealthV2.Living.PolymorphicSystems
 			return state;
 		}
 
+		public AlertSO GetAlertSOFromHunger(HungerState HungerStates)
+		{
+			switch (HungerStates)
+			{
+				case HungerState.Full:
+					return CommonAlertSOs.Instance.Full;
+				case HungerState.Starving:
+					return CommonAlertSOs.Instance.Starving;
+				case HungerState.Malnourished:
+					return CommonAlertSOs.Instance.Malnourished;
+				case HungerState.Hungry:
+					return CommonAlertSOs.Instance.Hungry;
+				default:
+					return null;
+			}
+		}
+
+		public override void InIt()
+		{
+			base.InIt();
+			BodyAlertManager = Base.GetComponent<BodyAlertManager>();
+		}
 
 		public override void BodyPartAdded(BodyPart bodyPart)
 		{
@@ -169,7 +195,24 @@ namespace HealthV2.Living.PolymorphicSystems
 			}
 
 			NutrimentCalculation(HeartEfficiency);
-			Base.HealthStateController.SetHunger(HungerState);
+
+			//TODO HungerState should properly have a cash optimisation here!!
+			if (HungerState != CashedOldHungerState)
+			{
+				var old = GetAlertSOFromHunger(CashedOldHungerState);
+				if (old != null)
+				{
+					BodyAlertManager.UnRegisterAlert(old);
+				}
+
+				CashedOldHungerState = HungerState;
+
+				var newOne = GetAlertSOFromHunger(HungerState);
+				if (newOne != null)
+				{
+					BodyAlertManager.RegisterAlert(newOne);
+				}
+			}
 		}
 
 		public void NutrimentCalculation(float HeartEfficiency)
