@@ -331,8 +331,8 @@ namespace Objects.Lighting
 				{
 					foreach (var slot in handSlots)
 					{
-						if (interaction.PerformerMind.PossessingObject.TryGetComponent<Brain>(out var brain) &&
-						    brain.HasTelekinesis)
+						if (interaction.PerformerPlayerScript.playerHealth.brain != null &&
+						    interaction.PerformerPlayerScript.playerHealth.brain.HasTelekinesis)
 						{
 							Chat.AddExamineMsg(interaction.Performer, "You instinctively use your telekinetic power to protect your hand from getting burnt.");
 							return true;
