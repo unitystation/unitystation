@@ -81,7 +81,7 @@ namespace Items
 
 			if (sys != null)
 			{
-				eaterHungerState = sys.HungerState;
+				eaterHungerState = sys.CashedHungerState;
 			}
 			ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");
 
