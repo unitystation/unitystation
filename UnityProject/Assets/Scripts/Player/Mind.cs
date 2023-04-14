@@ -161,6 +161,11 @@ public class Mind : NetworkBehaviour, IActionGUI
 		{
 			SetProperty(pair.Key, pair.Value);
 		}
+
+		if (occupation.JobType == JobType.AI)
+		{
+			SetPermanentName(CurrentCharacterSettings.AiName ?? "H.A.L.E");
+		}
 	}
 
 

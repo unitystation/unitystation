@@ -20,6 +20,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: _assetId
+      value: 4079858535
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: m_AssetId
       value: bdd61d74d4f4ef14d9435c363e39b397
       objectReference: {fileID: 0}
@@ -56,17 +61,17 @@ PrefabInstance:
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -247,10 +252,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fae19aae8ddc974c84a11abe4f1279e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  isEMPVunerable: 1
-  EMPResistance: 1
   breatheCooldown: 4
   pressureSafeMin: 8
   toxicGases:
@@ -270,3 +274,10 @@ MonoBehaviour:
   LungSize: 0.5
   coughChanceWhenInternallyBleeding: 35
   internalBleedingCooldown: 4
+  ReagentCirculatedComponent: {fileID: 0}
+  SaturationComponent: {fileID: 0}
+  HungerComponent: {fileID: 0}
+  BodyPartAlerts: {fileID: 0}
+  hasToxinsCash: 0
+  ToxinAlert: {fileID: 11400000, guid: 2c812669f183287449afa3e620bfcef6, type: 2}
+  SuffocatingAlert: {fileID: 11400000, guid: a242a18320bcd0345b83fe02838d0460, type: 2}

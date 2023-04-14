@@ -151,7 +151,9 @@ namespace HealthV2
 
 		// FireStacks note: It's called "stacks" but it's really just a floating point value that
 		// can go up or down based on possible sources of being on fire. Max seems to be 20 in tg.
-		private float fireStacks => healthStateController.FireStacks;
+		private float fireStacks;
+
+		private bool HasFireStacksCash = false;
 
 		/// <summary>
 		/// How on fire we are, same as tg fire_stacks. 0 = not on fire.
@@ -172,7 +174,7 @@ namespace HealthV2
 		/// How badly we're bleeding, same as tg bleed_stacks. 0 = not bleeding.
 		/// Exists client side - synced with server.
 		/// </summary>
-		public float BleedStacks => healthStateController.BleedStacks;
+		public float BleedStacks;
 
 		private float maxBleedStacks = 10f;
 
@@ -223,9 +225,12 @@ namespace HealthV2
 		public List<HealthSystemBase> ActiveSystems = new List<HealthSystemBase>();
 
 
+		private BodyAlertManager BodyAlertManager;
 
 
 		public BleedingState BleedingState => CalculateBleedingState();
+
+		private BleedingState CashedBleedingState;
 
 		public BleedingState CalculateBleedingState()
 		{
@@ -340,7 +345,7 @@ namespace HealthV2
 			playerScript = GetComponent<PlayerScript>();
 			BodyPartStorage.ServerInventoryItemSlotSet += BodyPartTransfer;
 			BodyPartStorage.SetRegisterPlayer(GetComponent<RegisterPlayer>());
-
+			BodyAlertManager = GetComponent<BodyAlertManager>();
 			//Needs to be in awake so the mobId is set before mind transfer (OnSpawnServer happens after that so cannot be used)
 			mobID = PlayerManager.Instance.GetMobID();
 		}
@@ -644,6 +649,8 @@ namespace HealthV2
 
 			EnvironmentDamage();
 
+			CalculateOverallHealth();
+
 
 			if (IsDead)
 			{
@@ -654,7 +661,7 @@ namespace HealthV2
 			//Sickness logic should not be triggered if the player is dead.
 			mobSickness.TriggerCustomSicknessLogic();
 
-			CalculateOverallHealth();
+
 		}
 
 		#region Mutations
@@ -798,16 +805,30 @@ namespace HealthV2
 		/// </summary>
 		public void FireStacksDamage()
 		{
+			if (HasFireStacksCash != fireStacks > 0)
+			{
+				HasFireStacksCash = fireStacks > 0;
+
+				if (HasFireStacksCash)
+				{
+					BodyAlertManager.RegisterAlert(CommonAlertSOs.Instance.HasFireStacks);
+				}
+				else
+				{
+					BodyAlertManager.UnRegisterAlert(CommonAlertSOs.Instance.HasFireStacks);
+				}
+			}
+
 			if (fireStacks <= 0) return;
 			//TODO: Burn clothes (see species.dm handle_fire)
 			ApplyDamageAll(null, fireStacks, AttackType.Fire, DamageType.Burn, true, TraumaticDamageTypes.BURN);
 			//gradually deplete fire stacks
-			healthStateController.SetFireStacks(fireStacks - 0.1f);
+			fireStacks -= 0.1f;
 			//instantly stop burning if there's no oxygen at this location
 			MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPositionClient); //TODO Account for containers
 			if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
 			{
-				healthStateController.SetFireStacks(0);
+				fireStacks = 0;
 				return;
 			}
 
@@ -823,7 +844,7 @@ namespace HealthV2
 			if (BleedStacks > 0)
 			{
 				reagentPoolSystem?.Bleed(1f * (float) Math.Ceiling(BleedStacks));
-				healthStateController.SetBleedStacks(BleedStacks - 0.1f);
+				BleedStacks = BleedStacks - 0.1f;
 			}
 		}
 
@@ -909,6 +930,25 @@ namespace HealthV2
 			return false;
 		}
 
+		public AlertSO GetAlertSOFromBleedingState(BleedingState HungerStates)
+		{
+			switch (HungerStates)
+			{
+				case BleedingState.UhOh:
+					return CommonAlertSOs.Instance.Bleeding_UhOh;
+				case BleedingState.High:
+					return CommonAlertSOs.Instance.Bleeding_High;
+				case BleedingState.Medium:
+					return CommonAlertSOs.Instance.Bleeding_Medium;
+				case BleedingState.Low:
+					return CommonAlertSOs.Instance.Bleeding_Low;
+				case BleedingState.VeryLow:
+					return CommonAlertSOs.Instance.Bleeding_VeryLow;
+				default:
+					return null;
+			}
+		}
+
 
 		/// <summary>
 		/// Updates overall health based on damage sustained by body parts thus far.
@@ -939,7 +979,23 @@ namespace HealthV2
 			//Sync health
 			healthStateController.SetOverallHealth(currentHealth);
 
-			healthStateController.SetBleedingState(BleedingState);
+			//TODO HungerState should properly have a cash optimisation here!!
+			if (BleedingState != CashedBleedingState)
+			{
+				var old = GetAlertSOFromBleedingState(BleedingState);
+				if (old != null)
+				{
+					BodyAlertManager.UnRegisterAlert(old);
+				}
+
+				CashedBleedingState = BleedingState;
+
+				var newOne = GetAlertSOFromBleedingState(BleedingState);
+				if (newOne != null)
+				{
+					BodyAlertManager.RegisterAlert(newOne);
+				}
+			}
 
 			if (currentHealth < -100)
 			{
@@ -1361,7 +1417,7 @@ namespace HealthV2
 		/// <param name="deltaValue">The amount to adjust the stacks by, negative if reducing positive if increasing</param>
 		public void ChangeFireStacks(float deltaValue)
 		{
-			healthStateController.SetFireStacks(Mathf.Clamp((fireStacks + deltaValue), 0, maxFireStacks));
+			fireStacks = Mathf.Clamp((fireStacks + deltaValue), 0, maxFireStacks);
 		}
 
 		/// <summary>
@@ -1369,7 +1425,7 @@ namespace HealthV2
 		/// </summary>
 		public void ChangeBleedStacks(float deltaValue)
 		{
-			healthStateController.SetBleedStacks(Mathf.Clamp((BleedStacks + deltaValue), 0, maxBleedStacks));
+			BleedStacks = Mathf.Clamp((BleedStacks + deltaValue), 0, maxBleedStacks);
 		}
 
 		/// <summary>
@@ -1377,7 +1433,7 @@ namespace HealthV2
 		/// </summary>
 		public void SetBleedStacks(float deltaValue)
 		{
-			healthStateController.SetBleedStacks(Mathf.Clamp(deltaValue, 0, maxBleedStacks));
+			BleedStacks = (Mathf.Clamp(deltaValue, 0, maxBleedStacks));
 		}
 
 		/// <summary>
@@ -1385,7 +1441,7 @@ namespace HealthV2
 		/// </summary>
 		public void Extinguish()
 		{
-			healthStateController.SetFireStacks(0);
+			fireStacks = 0;
 		}
 
 		private void DeathPeriodicUpdate()
@@ -1862,6 +1918,9 @@ namespace HealthV2
 		}
 
 
+		private TemperatureAlert ExtremistTemperatureCash = TemperatureAlert.None;
+		private PressureAlert ExtremistPressureCash = PressureAlert.None;
+
 		public void ExposePressureTemperature(float EnvironmentalPressure, float EnvironmentalTemperature)
 		{
 
@@ -1917,8 +1976,74 @@ namespace HealthV2
 				}
 			}
 
-			healthStateController.SetTemperature(ExtremistTemperature);
-			healthStateController.SetPressure(ExtremistPressure);
+			if (ExtremistPressure != ExtremistPressureCash)
+			{
+				var old = GetAlertSOFromPressure(ExtremistPressureCash);
+				if (old != null)
+				{
+					BodyAlertManager.UnRegisterAlert(old);
+				}
+
+				ExtremistPressureCash = ExtremistPressure;
+
+				var newOne = GetAlertSOFromPressure(ExtremistPressure);
+				if (newOne != null)
+				{
+					BodyAlertManager.RegisterAlert(newOne);
+				}
+			}
+
+			if (ExtremistTemperature != ExtremistTemperatureCash)
+			{
+				var old = GetAlertSOFromTemperature(ExtremistTemperatureCash);
+				if (old != null)
+				{
+					BodyAlertManager.UnRegisterAlert(old);
+				}
+
+				ExtremistTemperatureCash = ExtremistTemperature;
+
+				var newOne = GetAlertSOFromTemperature(ExtremistTemperature);
+				if (newOne != null)
+				{
+					BodyAlertManager.RegisterAlert(newOne);
+				}
+			}
+		}
+
+
+		public AlertSO GetAlertSOFromTemperature(TemperatureAlert TemperatureAlert)
+		{
+			switch (TemperatureAlert)
+			{
+				case TemperatureAlert.Hot:
+					return CommonAlertSOs.Instance.Temperature_Hot;
+				case TemperatureAlert.TooHot:
+					return CommonAlertSOs.Instance.Temperature_TooHot;
+				case TemperatureAlert.Cold:
+					return CommonAlertSOs.Instance.Temperature_Cold;
+				case TemperatureAlert.TooCold:
+					return CommonAlertSOs.Instance.Temperature_TooCold;
+				default:
+					return null;
+			}
+		}
+
+		public AlertSO GetAlertSOFromPressure(PressureAlert PressureAlert)
+		{
+			switch (PressureAlert)
+			{
+				case PressureAlert.PressureTooHigher:
+					return CommonAlertSOs.Instance.Pressure_TooHigher;
+				case PressureAlert.PressureHigher:
+					return CommonAlertSOs.Instance.Pressure_Higher;
+				case PressureAlert.PressureLow:
+					return CommonAlertSOs.Instance.Pressure_Low;
+				case PressureAlert.PressureTooLow:
+					return CommonAlertSOs.Instance.Pressure_TooLow;
+				default:
+					return null;
+			}
 		}
 
 
