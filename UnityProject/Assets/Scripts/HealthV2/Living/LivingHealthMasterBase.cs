@@ -982,7 +982,7 @@ namespace HealthV2
 			//TODO HungerState should properly have a cash optimisation here!!
 			if (BleedingState != CashedBleedingState)
 			{
-				var old = GetAlertSOFromBleedingState(BleedingState);
+				var old = GetAlertSOFromBleedingState(CashedBleedingState);
 				if (old != null)
 				{
 					BodyAlertManager.UnRegisterAlert(old);
