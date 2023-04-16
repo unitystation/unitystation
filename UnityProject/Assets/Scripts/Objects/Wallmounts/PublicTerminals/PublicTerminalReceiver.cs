@@ -22,7 +22,7 @@ namespace Objects.Wallmounts.PublicTerminals
 
 			SoundManager.PlayNetworkedAtPosAsync(NotificationSound, GetComponent<RegisterTile>().WorldPositionServer, sourceObj: this.gameObject);
 
-			Chat.AddActionMsgToChat(gameObject, "Public Terminal - Request Received");
+			Chat.AddActionMsgToChat(gameObject, "Public Terminal - Request Received.");
 
 			OwnEmitter.ReceivedMessageData.Add(emitter.SendMessageData);
 

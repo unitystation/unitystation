@@ -143,7 +143,7 @@ namespace Items.Weapons
 			bar.ServerStartProgress(interaction.Performer.RegisterTile(), progressTime, interaction.Performer);
 			SparkUtil.TrySpark(interaction.Performer);
 			Chat.AddActionMsgToChat(interaction.Performer, $"{interaction.PerformerPlayerScript.visibleName} hovers a " +
-															$"{emitter.gameObject.ExpensiveName()} over the {gameObject.ExpensiveName()}");
+															$"{emitter.gameObject.ExpensiveName()} over the {gameObject.ExpensiveName()}.");
 			return true;
 		}
 

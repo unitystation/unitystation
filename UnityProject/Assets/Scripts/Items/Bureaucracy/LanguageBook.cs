@@ -158,7 +158,7 @@ namespace Items.Bureaucracy
 			if(languageFound == null) return;
 
 			languageToLearn = languageFound;
-			Chat.AddActionMsgToChat(gameObject, $"The book transforms into the book for {languageToLearn.LanguageName}");
+			Chat.AddActionMsgToChat(gameObject, $"The book transforms into the book for {languageToLearn.LanguageName}.");
 
 			var itemAtt = GetComponent<ItemAttributesV2>();
 			itemAtt.ServerSetArticleName($"{languageToLearn.LanguageName} Manual");

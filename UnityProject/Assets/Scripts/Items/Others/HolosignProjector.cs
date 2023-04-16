@@ -66,7 +66,7 @@ namespace Items.Others
 				var holosign = holosigns[i].OrNull()?.gameObject;
 				if(holosign == null) continue;
 
-				Chat.AddActionMsgToChat(holosign, $"{holosign.ExpensiveName()} fizzles out into nothingness");
+				Chat.AddActionMsgToChat(holosign, $"{holosign.ExpensiveName()} fizzles out into nothingness.");
 
 				_ = Despawn.ServerSingle(holosign);
 			}

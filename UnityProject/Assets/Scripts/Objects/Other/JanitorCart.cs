@@ -65,7 +65,7 @@ namespace Objects.Other
 				if(slot.ItemAttributes.GetTraits().Contains(thingToGrab) == false) continue;
 				if (Inventory.ServerTransfer(slot, interaction.HandSlot) == false) continue;
 				Chat.AddActionMsgToChat(interaction.Performer, $"{interaction.PerformerPlayerScript.visibleName} grabs " +
-																$"something from the {gameObject.ExpensiveName()}");
+																$"something from the {gameObject.ExpensiveName()}.");
 				return true;
 			}
 
@@ -77,7 +77,7 @@ namespace Objects.Other
 			if (Inventory.ServerTransfer(interaction.HandObject.PickupableOrNull().ItemSlot,
 				    jaintorToolsHolding.GetNextFreeIndexedSlot()))
 			{
-				Chat.AddActionMsgToChat(interaction.Performer, $"{interaction.PerformerPlayerScript.visibleName} adds a {interaction.HandObject.ExpensiveName()} to the {gameObject.ExpensiveName()}");
+				Chat.AddActionMsgToChat(interaction.Performer, $"{interaction.PerformerPlayerScript.visibleName} adds a {interaction.HandObject.ExpensiveName()} to the {gameObject.ExpensiveName()}.");
 				return;
 			}
 			Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} has no space for the {interaction.HandObject.ExpensiveName()}");
@@ -92,7 +92,7 @@ namespace Objects.Other
 				if (slot.ItemObject.TryGetComponent<ItemStorage>(out var bag) == false) continue;
 				if (bag.ServerTryTransferFrom(interaction.HandSlot))
 				{
-					Chat.AddActionMsgToChat(interaction.Performer, $"{interaction.PerformerPlayerScript.visibleName} throws a {interaction.HandObject.ExpensiveName()} into the {gameObject.ExpensiveName()}");
+					Chat.AddActionMsgToChat(interaction.Performer, $"{interaction.PerformerPlayerScript.visibleName} throws a {interaction.HandObject.ExpensiveName()} into the {gameObject.ExpensiveName()}.");
 					return;
 				}
 				Chat.AddExamineMsg(interaction.Performer, "This wont fit into the trash bag that's on this cart!");
@@ -109,7 +109,7 @@ namespace Objects.Other
 					Chat.AddExamineMsg(interaction.Performer, "You can't add this to the cart");
 					return;
 				}
-				Chat.AddActionMsgToChat(interaction.Performer, $"{interaction.PerformerPlayerScript.visibleName} adds a {interaction.HandObject.ExpensiveName()} to the {gameObject.ExpensiveName()}");
+				Chat.AddActionMsgToChat(interaction.Performer, $"{interaction.PerformerPlayerScript.visibleName} adds a {interaction.HandObject.ExpensiveName()} to the {gameObject.ExpensiveName()}.");
 				return;
 			}
 			base.ServerPerformInteraction(interaction);

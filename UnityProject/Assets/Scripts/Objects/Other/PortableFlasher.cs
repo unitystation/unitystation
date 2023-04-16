@@ -74,7 +74,7 @@ namespace Objects.Other
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE ,FlashInRadius);
 			}
 			var status = isOn ? "on" : "off";
-			Chat.AddActionMsgToChat(gameObject, $"{switcher.visibleName} switches {status} the {gameObject.ExpensiveName()}");
+			Chat.AddActionMsgToChat(gameObject, $"{switcher.visibleName} switches {status} the {gameObject.ExpensiveName()}.");
 		}
 	}
 }

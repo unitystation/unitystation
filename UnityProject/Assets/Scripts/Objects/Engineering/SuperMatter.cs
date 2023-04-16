@@ -1166,7 +1166,7 @@ namespace Objects.Engineering
 			else if (bumpedBy.TryGetComponent<Integrity>(out var integrity))
 			{
 				//Items flying
-				Chat.AddActionMsgToChat(bumpedBy, $"The {bumpedBy.ExpensiveName()} smacks into the {gameObject.ExpensiveName()} and rapidly flashes to ash");
+				Chat.AddActionMsgToChat(bumpedBy, $"The {bumpedBy.ExpensiveName()} smacks into the {gameObject.ExpensiveName()} and rapidly flashes to ash!");
 				LogBumpForAdmin(bumpedBy);
 
 				integrity.ApplyDamage(1000, AttackType.Rad, DamageType.Brute, true, ignoreArmor: true);

@@ -305,7 +305,7 @@ namespace Objects.Research
 			if (isDormant && Validations.HasItemTrait(interaction.UsedObject, DormantTrigger))
 			{
 				ToggleDormancy(false);
-				Chat.AddActionMsgToChat(gameObject, $"{gameObject.ExpensiveName()} begins to humm quietly");
+				Chat.AddActionMsgToChat(gameObject, $"{gameObject.ExpensiveName()} begins to humm quietly!");
 			}
 
 			TryActivateByTouch(interaction);
@@ -354,12 +354,12 @@ namespace Objects.Research
 			{
 				if(DMMath.Prob(50))
 				{
-					Chat.AddActionMsgToChat(gameObject, "The anomaly begins to gently humm");
+					Chat.AddActionMsgToChat(gameObject, "The anomaly begins to gently humm!");
 					ToggleDormancy(false);
 				}
 				else
 				{
-					Chat.AddActionMsgToChat(gameObject, $"{gameObject.ExpensiveName()} quivers as a crack forms along its edge");
+					Chat.AddActionMsgToChat(gameObject, $"{gameObject.ExpensiveName()} quivers as a crack forms along its edge!");
 				}
 			}
 			if (isDormant == false && !UnderTimeoutDamage)

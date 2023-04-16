@@ -61,7 +61,7 @@ namespace Objects.Research
 		{
 			if(CustomNetworkManager.IsServer == false) return;
 
-			Chat.AddActionMsgToChat(gameObject, "The portal fizzles out into nothing");
+			Chat.AddActionMsgToChat(gameObject, "The portal fizzles out into nothing!");
 
 			//Despawn after time is up
 			portalPairs.Remove(this);

@@ -98,7 +98,7 @@ namespace Objects
 
 				if (eatingTimer == 5)
 				{
-					Chat.AddActionMsgToChat(gameObject, "The nest reaches out and searches for food");
+					Chat.AddActionMsgToChat(gameObject, "The nest reaches out and searches for food.");
 				}
 
 				return;
@@ -135,7 +135,7 @@ namespace Objects
 				}
 			}
 
-			Chat.AddActionMsgToChat(gameObject, "The nest gurgles in displeasure, there was no food to eat");
+			Chat.AddActionMsgToChat(gameObject, "The nest gurgles in displeasure, there was no food to eat.");
 		}
 
 		private void EatMobBody(LivingHealthBehaviour mobHealth)

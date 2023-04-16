@@ -58,7 +58,7 @@ namespace Items.Others
 
 			if(DMMath.Prob(75)) return;
 
-			Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()} fizzes");
+			Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()} fizzes.");
 		}
 
 		private void ObjectDamage(Vector3Int localPos)

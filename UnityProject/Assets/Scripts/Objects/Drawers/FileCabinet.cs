@@ -25,13 +25,13 @@ namespace Objects.Drawers
 			if (interaction.HandObject != null && interaction.HandObject.PickupableOrNull() != null && interaction.HandObject.Item().HasAnyTrait(acceptableObjects))
 			{
 				Chat.AddActionMsgToChat(interaction.Performer, $"{interaction.PerformerPlayerScript.visibleName} adds the " +
-																$"{interaction.HandObject.ExpensiveName()} to the {gameObject.ExpensiveName()}");
+																$"{interaction.HandObject.ExpensiveName()} to the {gameObject.ExpensiveName()}.");
 				Inventory.ServerTransfer(interaction.HandObject.PickupableOrNull().ItemSlot,
 					itemStorage.GetNextFreeIndexedSlot());
 				return;
 			}
 			itemStorage.ServerDropAll();
-			Chat.AddActionMsgToChat(interaction.Performer, $"{interaction.PerformerPlayerScript.visibleName} opens the {gameObject.ExpensiveName()}");
+			Chat.AddActionMsgToChat(interaction.Performer, $"{interaction.PerformerPlayerScript.visibleName} opens the {gameObject.ExpensiveName()}.");
 		}
 	}
 }

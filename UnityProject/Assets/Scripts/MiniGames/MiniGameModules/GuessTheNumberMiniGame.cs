@@ -58,7 +58,7 @@ namespace MiniGames.MiniGameModules
 			Chat.AddActionMsgToChat(MiniGameParent, $"An advanced looking lock-pad lights up on the {MiniGameParent.ExpensiveName()} before" +
 													" a static and muffled robotic voice loudly starts making fake alarm noises.");
 			yield return WaitFor.Seconds(SHORT_WAIT_LENGTH);
-			Chat.AddActionMsgToChat(MiniGameParent, $"{MiniGameParent.ExpensiveName()} loudly states 'IDENTIFY YOURSELF'");
+			Chat.AddActionMsgToChat(MiniGameParent, $"{MiniGameParent.ExpensiveName()} loudly states 'IDENTIFY YOURSELF'.");
 			stage = sequenceStage.IDENTIFY;
 			yield return WaitFor.Seconds(LONG_WAIT_LENGTH);
 			if (stage != sequenceStage.IDENTIFY) yield break;
