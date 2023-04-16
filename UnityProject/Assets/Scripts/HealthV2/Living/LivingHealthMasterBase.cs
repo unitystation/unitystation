@@ -310,7 +310,7 @@ namespace HealthV2
 		[NonSerialized]
 		public MultiInterestBool IsMute = new MultiInterestBool(true,
 			MultiInterestBool.RegisterBehaviour.RegisterFalse,
-			MultiInterestBool.BoolBehaviour.ReturnOnFalse);
+			MultiInterestBool.BoolBehaviour.ReturnOnTrue);
 
 		[SerializeField, Range(1,60f)] private float updateTime = 1f;
 
