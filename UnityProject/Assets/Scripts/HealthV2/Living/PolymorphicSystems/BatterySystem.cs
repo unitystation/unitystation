@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace HealthV2.Living.PolymorphicSystems
 {
-	public class BatterySystem : HealthSystemBase
+	public class BatterySystem : HealthSystemBase, IChargeable
 	{
 		public List<BatteryPack> BatteryPacks = new List<BatteryPack>();
 
@@ -26,6 +26,52 @@ namespace HealthV2.Living.PolymorphicSystems
 			BodyAlertManager = Base.GetComponent<BodyAlertManager>();
 		}
 
+
+		public bool FullyCharged()
+		{
+			bool FullyCharged = true;
+			foreach (var BatteryPack in BatteryPacks)
+			{
+				if (BatteryPack.FullyCharged() == false)
+				{
+					FullyCharged = false;
+					break;
+				}
+			}
+
+			return FullyCharged;
+		}
+
+
+
+		public void ChargeBy(float Watts)
+		{
+			bool NonCharging = true;
+
+			BatteryPack ToCharge = null;
+
+			//Code that charges Each battery individually until they're all full
+
+			foreach (var BatteryPack in BatteryPacks)
+			{
+				if (BatteryPack.FullyCharged() == false)
+				{
+					ToCharge = BatteryPack;
+					break;
+				}
+			}
+
+			if (ToCharge != null)
+			{
+				ToCharge.ChargeBy(Watts);
+				return;
+			}
+			else
+			{
+				return;
+			}
+
+		}
 
 		public enum BatteryState
 		{

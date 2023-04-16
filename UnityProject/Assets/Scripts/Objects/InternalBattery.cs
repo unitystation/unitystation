@@ -5,7 +5,7 @@ namespace Objects
 	/// <summary>
 	/// Mainly used for Getting the Battery from a object
 	/// </summary>
-	public class InternalBattery : MonoBehaviour
+	public class InternalBattery : MonoBehaviour, IChargeable
 	{
 		private ItemSlot InternalBatterySlot;
 
@@ -16,6 +16,9 @@ namespace Objects
 			ItemStorage BatteryitemStorage = GetComponent<ItemStorage>();
 			InternalBatterySlot = BatteryitemStorage.GetIndexedItemSlot(0);
 		}
+
+		public bool FullyCharged() => battery.FullyCharged();
+		public void ChargeBy(float Watts) => battery.ChargeBy(Watts);
 
 		public Battery GetBattery()
 		{

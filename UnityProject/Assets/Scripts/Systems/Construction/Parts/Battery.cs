@@ -4,7 +4,7 @@ using UnityEngine;
 using Items;
 using Systems.Explosions;
 
-public class Battery : MonoBehaviour, IEmpAble, IExaminable
+public class Battery : MonoBehaviour, IEmpAble, IExaminable, IChargeable
 {
 	public int Watts = 9000;
 	public int MaxWatts = 9000;
@@ -12,6 +12,23 @@ public class Battery : MonoBehaviour, IEmpAble, IExaminable
 	public int InternalResistance = 240;
 
 	public bool isBroken = false;
+
+	public bool FullyCharged()
+	{
+		return Watts >= MaxWatts;
+	}
+
+
+	public void ChargeBy(float Watts)
+	{
+		if(this.Watts + Watts > MaxWatts)
+		{
+			this.Watts = MaxWatts;
+			return;
+		}
+		this.Watts += (int)Watts;
+		return;
+	}
 
 	public void OnEmp(int EmpStrength)
 	{

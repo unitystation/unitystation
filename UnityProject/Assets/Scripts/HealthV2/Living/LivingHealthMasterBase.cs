@@ -36,7 +36,7 @@ namespace HealthV2
 	[RequireComponent(typeof(HealthStateController))]
 	[RequireComponent(typeof(MobSickness))]
 	public abstract class LivingHealthMasterBase : NetworkBehaviour, IFireExposable, IExaminable, IFullyHealable, IGib,
-		IAreaReactionBase, IRightClickable, IServerSpawn, IHoverTooltip
+		IAreaReactionBase, IRightClickable, IServerSpawn, IHoverTooltip, IChargeable
 	{
 		/// <summary>
 		/// Server side, each mob has a different one and never it never changes
@@ -395,6 +395,33 @@ namespace HealthV2
 
 		}
 
+
+		public bool FullyCharged()
+		{
+			var chargeable = GetSystem<BatterySystem>();
+			if (chargeable == null)
+			{
+				return true;
+			}
+			else
+			{
+				return chargeable.FullyCharged();
+			}
+
+		}
+
+		public void ChargeBy(float Watts)
+		{
+			var chargeable = GetSystem<BatterySystem>();
+			if (chargeable == null)
+			{
+				return;
+			}
+			else
+			{
+				chargeable.ChargeBy(Watts);
+			}
+		}
 
 		//TODO: confusing, make it not depend from the inventory storage Action
 		/// <summary>
@@ -982,7 +1009,7 @@ namespace HealthV2
 			//TODO HungerState should properly have a cash optimisation here!!
 			if (BleedingState != CashedBleedingState)
 			{
-				var old = GetAlertSOFromBleedingState(BleedingState);
+				var old = GetAlertSOFromBleedingState(CashedBleedingState );
 				if (old != null)
 				{
 					BodyAlertManager.UnRegisterAlert(old);
