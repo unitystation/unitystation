@@ -502,7 +502,7 @@ namespace Chemistry.Components
 			}
 			else
 			{
-				Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()}'s contents spill all over the floor!", gameObject);
+				Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()}'s contents spill all over the floor!");
 			}
 		}
 

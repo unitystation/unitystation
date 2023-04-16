@@ -268,7 +268,7 @@ namespace Systems.Research.Objects
 		public void CompleteBounty(ExplosiveBounty bountyToComplete)
 		{
 			AddResearchPoints(BOUNTY_AWARD);
-			Chat.AddLocalMsgToChat($"Bounty completed, {BOUNTY_AWARD} points gained. Current RP: {Techweb?.researchPoints}", gameObject);
+			Chat.AddActionMsgToChat(gameObject, $"Bounty completed, {BOUNTY_AWARD} points gained. Current RP: {Techweb?.researchPoints}");
 			ExplosiveBounties.Remove(bountyToComplete);
 		}
 

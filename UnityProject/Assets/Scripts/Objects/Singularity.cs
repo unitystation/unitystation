@@ -224,7 +224,7 @@ namespace Objects
 
 			if (singularityPoints <= 0 && zeroPointDeath)
 			{
-				Chat.AddLocalMsgToChat("The singularity implodes", gameObject);
+				Chat.AddActionMsgToChat(gameObject, "The singularity implodes!");
 				RadiationManager.Instance.RequestPulse( registerTile.WorldPositionServer, maxRadiation, objectId);
 				_ = Despawn.ServerSingle(gameObject);
 				return;
@@ -458,8 +458,7 @@ namespace Objects
 							eatenSuperMatter = true;
 							ChangePoints(3250);
 							_ = Despawn.ServerSingle(objectToMove.gameObject);
-							Chat.AddLocalMsgToChat("<color=red>The singularity expands rapidly, uh oh...</color>",
-								gameObject);
+							Chat.AddActionMsgToChat(gameObject, "<color=red>The singularity expands rapidly, uh oh...</color>");
 							return;
 						}
 
@@ -663,7 +662,7 @@ namespace Objects
 
 			if (noObstructions)
 			{
-				Chat.AddLocalMsgToChat($"The singularity fluctuates and {(newStage < CurrentStage ? "decreases" : "increases")} in size", gameObject);
+				Chat.AddActionMsgToChat(gameObject, $"The singularity fluctuates and {(newStage < CurrentStage ? "decreases" : "increases")} in size!");
 				CurrentStage = newStage;
 				UpdateVectors();
 				dynamicScale = Vector3.zero; // keyed value: don't tween; set it to 1x scale immediately

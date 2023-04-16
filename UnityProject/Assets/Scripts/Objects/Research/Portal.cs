@@ -61,7 +61,7 @@ namespace Objects.Research
 		{
 			if(CustomNetworkManager.IsServer == false) return;
 
-			Chat.AddLocalMsgToChat("The portal fizzles out into nothing", gameObject);
+			Chat.AddActionMsgToChat(gameObject, "The portal fizzles out into nothing");
 
 			//Despawn after time is up
 			portalPairs.Remove(this);
@@ -129,7 +129,7 @@ namespace Objects.Research
 			ProjectileManager.InstantiateAndShoot(data.BulletObject.GetComponent<Bullet>().PrefabName,
 				data.BulletShootDirection, connectedPortal.gameObject, null, BodyPartType.None, range);
 
-			Chat.AddLocalMsgToChat($"The {data.BulletName} enters through the portal!", gameObject);
+			Chat.AddActionMsgToChat(gameObject, $"The {data.BulletName} enters through the portal!");
 
 			SparkUtil.TrySpark(gameObject, expose: false);
 			SparkUtil.TrySpark(connectedPortal.gameObject, expose: false);

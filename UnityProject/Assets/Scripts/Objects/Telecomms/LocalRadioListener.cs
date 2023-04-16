@@ -29,7 +29,7 @@ namespace Objects.Telecomms
 
 		public override void SignalFailed()
 		{
-			Chat.AddLocalMsgToChat("ksshhhk!", gameObject);
+			Chat.AddActionMsgToChat(gameObject, "ksshhhk!");
 		}
 
 		public bool WillInfluenceChat()

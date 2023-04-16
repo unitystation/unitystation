@@ -163,7 +163,7 @@ namespace HealthV2
 				their = "their";
 			}
 
-			Chat.AddLocalMsgToChat($"<b>{playerScript.visibleName}</b> seizes up and falls limp, {their} eyes dead and lifeless...", gameObject);
+			Chat.AddActionMsgToChat(gameObject, $"<b>{playerScript.visibleName}</b> seizes up and falls limp, {their} eyes dead and lifeless...");
 
 			registerPlayer.ServerLayDown();
 

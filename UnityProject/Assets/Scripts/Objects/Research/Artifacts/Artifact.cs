@@ -305,7 +305,7 @@ namespace Objects.Research
 			if (isDormant && Validations.HasItemTrait(interaction.UsedObject, DormantTrigger))
 			{
 				ToggleDormancy(false);
-				Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()} begins to humm quietly", gameObject);
+				Chat.AddActionMsgToChat(gameObject, $"{gameObject.ExpensiveName()} begins to humm quietly");
 			}
 
 			TryActivateByTouch(interaction);
@@ -354,12 +354,12 @@ namespace Objects.Research
 			{
 				if(DMMath.Prob(50))
 				{
-					Chat.AddLocalMsgToChat("The anomlay begins to gently humm", gameObject);
+					Chat.AddActionMsgToChat(gameObject, "The anomaly begins to gently humm");
 					ToggleDormancy(false);
 				}
 				else
 				{
-					Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()} quivers as a crack forms along its edge", gameObject);
+					Chat.AddActionMsgToChat(gameObject, $"{gameObject.ExpensiveName()} quivers as a crack forms along its edge");
 				}
 			}
 			if (isDormant == false && !UnderTimeoutDamage)
@@ -383,7 +383,7 @@ namespace Objects.Research
 				else
 				{
 					Chat.AddActionMsgToChat(interaction.Performer, "You touch the anomaly, it twitches slightly, but remains dormant...",
-						$"{interaction.Performer.ExpensiveName()} touches the anomaly, it twitches slighty, but remains dormant...");
+						$"{interaction.Performer.ExpensiveName()} touches the anomaly, it twitches slightly, but remains dormant...");
 				}
 			}
 			else if(!UnderTimeoutTouch)
@@ -415,7 +415,7 @@ namespace Objects.Research
 			if (moles > 0 && DMMath.Prob(Mathf.Clamp(moles, 0, 100)))
 			{
 				ToggleDormancy(true);
-				Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()} falls dormant...", gameObject);
+				Chat.AddActionMsgToChat(gameObject, $"{gameObject.ExpensiveName()} falls dormant...");
 			}
 		}
 

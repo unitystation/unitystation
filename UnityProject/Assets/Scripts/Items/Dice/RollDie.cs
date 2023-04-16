@@ -158,7 +158,7 @@ namespace Items.Dice
 
 			result = GetSide();
 			UpdateOverlay();
-			Chat.AddLocalMsgToChat(GetMessage(), gameObject);
+			Chat.AddActionMsgToChat(gameObject, GetMessage());
 		}
 
 		#endregion Throwing

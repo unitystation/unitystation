@@ -138,8 +138,8 @@ namespace Objects
 				return;
 			}
 
-			Chat.AddLocalMsgToChat(interaction.Performer.ExpensiveName() +
-								   " rips the poster in a single, decisive motion!", interaction.Performer);
+			Chat.AddActionMsgToChat(interaction.Performer, interaction.Performer.ExpensiveName() +
+															" rips the poster in a single, decisive motion!");
 			SoundManager.PlayNetworkedAtPos(RipSound, pos, sourceObj: gameObject);
 
 			SyncPosterType(posterVariant, Posters.Ripped);
