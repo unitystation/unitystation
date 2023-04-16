@@ -20,6 +20,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: _assetId
+      value: 2518856348
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: m_AssetId
       value: 57bdc54d41899c34a897a26ef0a10933
       objectReference: {fileID: 0}
@@ -56,17 +61,17 @@ PrefabInstance:
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -104,6 +109,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5e9ac88966a35d34a9fd90c34e1ddaa0,
+        type: 2}
     - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: CapableMutations.Array.size
@@ -140,9 +156,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0af11106d5149f7a522aab42f362b54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  isEMPVunerable: 0
-  EMPResistance: 2
   languages:
   - {fileID: 11400000, guid: 90699dd78f8cfad4e983185c4f67ae72, type: 2}
