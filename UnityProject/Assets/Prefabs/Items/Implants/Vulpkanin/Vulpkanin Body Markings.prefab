@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1201516008082455910, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
         type: 3}
+      propertyPath: _assetId
+      value: 3349050935
+      objectReference: {fileID: 0}
+    - target: {fileID: 1201516008082455910, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
+        type: 3}
       propertyPath: m_AssetId
       value: 819be8adcec143543b7049d4602018d1
       objectReference: {fileID: 0}
@@ -83,6 +88,17 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1717291329471442864, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1717291329471442864, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 892f0c642e2049640b08d738517bb0f5,
+        type: 2}
     - target: {fileID: 1717291329471442864, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
         type: 3}
       propertyPath: inventoryMoveSound.AssetAddress
