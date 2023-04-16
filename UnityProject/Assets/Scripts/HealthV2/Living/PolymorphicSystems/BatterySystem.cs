@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using HealthV2.Living.Cyborg;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
+using Systems.Construction.Parts;
 using UnityEngine;
 
 namespace HealthV2.Living.PolymorphicSystems
@@ -27,49 +29,46 @@ namespace HealthV2.Living.PolymorphicSystems
 		}
 
 
-		public bool FullyCharged()
+		public bool IsFullyCharged
 		{
-			bool FullyCharged = true;
-			foreach (var BatteryPack in BatteryPacks)
+			get
 			{
-				if (BatteryPack.FullyCharged() == false)
+				bool fullyCharged = true;
+				foreach (var batteryPack in BatteryPacks)
 				{
-					FullyCharged = false;
-					break;
+					if (batteryPack.IsFullyCharged == false)
+					{
+						fullyCharged = false;
+						break;
+					}
 				}
-			}
 
-			return FullyCharged;
+				return fullyCharged;
+			}
 		}
 
 
 
-		public void ChargeBy(float Watts)
+		public void ChargeBy(float watts)
 		{
-			bool NonCharging = true;
-
-			BatteryPack ToCharge = null;
+			BatteryPack toCharge = null;
 
 			//Code that charges Each battery individually until they're all full
 
-			foreach (var BatteryPack in BatteryPacks)
+			foreach (var batteryPack in BatteryPacks)
 			{
-				if (BatteryPack.FullyCharged() == false)
+				if (batteryPack.IsFullyCharged == false)
 				{
-					ToCharge = BatteryPack;
+					toCharge = batteryPack;
 					break;
 				}
 			}
 
-			if (ToCharge != null)
+			if (toCharge != null)
 			{
-				ToCharge.ChargeBy(Watts);
-				return;
+				toCharge.ChargeBy(watts);
 			}
-			else
-			{
-				return;
-			}
+
 
 		}
 
@@ -177,12 +176,12 @@ namespace HealthV2.Living.PolymorphicSystems
 				}
 			}
 
-			var Battery =  bodyPart.GetComponent<BatteryPack>();
-			if (Battery != null)
+			var battery =  bodyPart.GetComponent<BatteryPack>();
+			if (battery != null)
 			{
-				if (BatteryPacks.Contains(Battery) == false)
+				if (BatteryPacks.Contains(battery) == false)
 				{
-					BatteryPacks.Add(Battery);
+					BatteryPacks.Add(battery);
 				}
 			}
 		}
@@ -200,20 +199,20 @@ namespace HealthV2.Living.PolymorphicSystems
 				BodyPartListChange();
 			}
 
-			var Battery =  bodyPart.GetComponent<BatteryPack>();
-			if (Battery == null) return;
-			if (BatteryPacks.Contains(Battery) == false)
+			var battery =  bodyPart.GetComponent<BatteryPack>();
+			if (battery == null) return;
+			if (BatteryPacks.Contains(battery) == false)
 			{
-				BatteryPacks.Remove(Battery);
+				BatteryPacks.Remove(battery);
 			}
 		}
 
 		public void BodyPartListChange()
 		{
 			ConsumingWatts = 0;
-			foreach (var Consume in Consuming)
+			foreach (var consume in Consuming)
 			{
-				ConsumingWatts += Consume.WattConsumption;
+				ConsumingWatts += consume.WattConsumption;
 			}
 		}
 
@@ -239,9 +238,9 @@ namespace HealthV2.Living.PolymorphicSystems
 				// Adjust each number in the list by the factor
 				foreach (var batteryPack in BatteryPacks)
 				{
-					foreach (var Cell in batteryPack.Cells)
+					foreach (var cell in batteryPack.Cells)
 					{
-						Cell.Watts = Mathf.RoundToInt((Cell.Watts * adjustmentFactor)) ;
+						cell.Watts = Mathf.RoundToInt((cell.Watts * adjustmentFactor)) ;
 					}
 				}
 
@@ -275,10 +274,10 @@ namespace HealthV2.Living.PolymorphicSystems
 				}
 			}
 
-			var Percentage =ChargePercentage();
-			var State =  GetBatteryStateWithChargePercentage(Percentage, sum);
+			var percentage = ChargePercentage();
+			var state =  GetBatteryStateWithChargePercentage(percentage, sum);
 
-			if (State != CashedBatteryState)
+			if (state != CashedBatteryState)
 			{
 				var old = GetAlertSOFromBatteryState(CashedBatteryState);
 				if (old != null)
@@ -286,9 +285,9 @@ namespace HealthV2.Living.PolymorphicSystems
 					BodyAlertManager.UnRegisterAlert(old);
 				}
 
-				CashedBatteryState = State;
+				CashedBatteryState = state;
 
-				var newOne = GetAlertSOFromBatteryState(State);
+				var newOne = GetAlertSOFromBatteryState(state);
 				if (newOne != null)
 				{
 					BodyAlertManager.RegisterAlert(newOne);
@@ -297,7 +296,7 @@ namespace HealthV2.Living.PolymorphicSystems
 			}
 
 			PreviousStoredWatts = sum;
-			CashedBatteryState = State;
+			CashedBatteryState = state;
 
 
 		}

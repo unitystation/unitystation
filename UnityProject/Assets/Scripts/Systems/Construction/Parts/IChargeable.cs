@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface IChargeable
+namespace Systems.Construction.Parts
 {
+	public interface IChargeable
+	{
 
-	public bool FullyCharged();
+		public bool IsFullyCharged { get;}
 
-	public void ChargeBy(float Watts);
+		public void ChargeBy(float watts);
 
+	}
 }

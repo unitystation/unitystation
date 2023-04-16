@@ -1,96 +1,96 @@
-using System.Collections;
-using System.Collections.Generic;
-using HealthV2;
-using Objects;
+using Systems.Construction.Parts;
 using Systems.Electricity;
 using UnityEngine;
 
-public class RechargeDock : ClosetControl, IAPCPowerable
+namespace Objects.Closets
 {
-	public float IdleWattage = 1f;
-
-	public float ChargingWattage = 300f;
-
-
-	public IChargeable ChargeableDevice;
-
-	public APCPoweredDevice APCPoweredDevice;
-
-
-	public bool On = false;
-
-	public override void Awake()
+	public class RechargeDock : ClosetControl, IAPCPowerable
 	{
-		base.Awake();
-		APCPoweredDevice = this.GetComponentCustom<APCPoweredDevice>();
-		APCPoweredDevice.Wattusage = IdleWattage;
-		SetDoor(Door.Opened);
-	}
+		public float IdleWattage = 1f;
 
-	public void PowerNetworkUpdate(float voltage){}
+		public float ChargingWattage = 300f;
 
-	public void StateUpdate(PowerState state) { }
 
-	public void ChargeUpdate()
-	{
+		private IChargeable ChargeableDevice;
 
-		float ChargingMultiplier = 1;
+		private APCPoweredDevice APCPoweredDevice;
 
-		switch (APCPoweredDevice.State)
+
+		public bool On = false;
+
+		public override void Awake()
 		{
-			case PowerState.Off:
-				ChargingMultiplier = 0;
-				break;
-			case PowerState.LowVoltage:
-				ChargingMultiplier = 0.5f;
-				break;
-			case PowerState.On:
-				ChargingMultiplier = 1;
-				break;
-			case PowerState.OverVoltage:
-				ChargingMultiplier = 2;
-				break;
-		}
-
-		if (ChargeableDevice.FullyCharged())
-		{
+			base.Awake();
+			APCPoweredDevice = this.GetComponentCustom<APCPoweredDevice>();
+			APCPoweredDevice.Wattusage = IdleWattage;
 			SetDoor(Door.Opened);
 		}
-		else
+
+		public void PowerNetworkUpdate(float voltage){}
+
+		public void StateUpdate(PowerState state) { }
+
+		public void ChargeUpdate()
 		{
-			ChargeableDevice.ChargeBy(ChargingMultiplier * ChargingWattage);
-		}
-	}
 
-	public override void CollectObjects()
-	{
-		foreach (var entity in registerObject.Matrix.Get<IChargeable>(registerObject.LocalPositionServer, true))
+			float ChargingMultiplier = 1;
+
+			switch (APCPoweredDevice.State)
+			{
+				case PowerState.Off:
+					ChargingMultiplier = 0;
+					break;
+				case PowerState.LowVoltage:
+					ChargingMultiplier = 0.5f;
+					break;
+				case PowerState.On:
+					ChargingMultiplier = 1;
+					break;
+				case PowerState.OverVoltage:
+					ChargingMultiplier = 2;
+					break;
+			}
+
+			if (ChargeableDevice.IsFullyCharged)
+			{
+				SetDoor(Door.Opened);
+			}
+			else
+			{
+				ChargeableDevice.ChargeBy(ChargingMultiplier * ChargingWattage);
+			}
+		}
+
+		public override void CollectObjects()
 		{
-			var Universal = (entity as Component).GetComponent<UniversalObjectPhysics>();
-			// Don't add the container to itself...
-			if (Universal.gameObject == gameObject) continue;
+			foreach (var entity in registerObject.Matrix.Get<IChargeable>(registerObject.LocalPositionServer, true))
+			{
+				var physics = (entity as Component).GetComponent<UniversalObjectPhysics>();
+				// Don't add the container to itself...
+				if (physics.gameObject == gameObject) continue;
 
-			// Can't store secured objects (exclude this check on mobs as e.g. magboots set pushable false)
-			if (Universal.IsNotPushable) continue;
+				// Can't store secured objects (exclude this check on mobs as e.g. magboots set pushable false)
+				if (physics.IsNotPushable) continue;
 
-			//No Nested ObjectContainer shenanigans
-			if (Universal.GetComponent<ObjectContainer>()) continue;
+				//No Nested ObjectContainer shenanigans
+				if (physics.GetComponent<ObjectContainer>()) continue;
 
-			objectContainer.StoreObject(Universal.gameObject, Universal.transform.position - transform.position);
-			ChargeableDevice = entity;
-			On = true;
-			APCPoweredDevice.Wattusage = ChargingWattage;
-			UpdateManager.Add(ChargeUpdate, 1);
-			return;
+				objectContainer.StoreObject(physics .gameObject, physics .transform.position - transform.position);
+				ChargeableDevice = entity;
+				On = true;
+				APCPoweredDevice.Wattusage = ChargingWattage;
+				UpdateManager.Add(ChargeUpdate, 1);
+				return;
+			}
 		}
-	}
 
-	public override void ReleaseObjects()
-	{
-		objectContainer.RetrieveObjects();
-		ChargeableDevice = null;
-		On = false;
-		APCPoweredDevice.Wattusage = IdleWattage;
-		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, ChargeUpdate);
+		public override void ReleaseObjects()
+		{
+			objectContainer.RetrieveObjects();
+			ChargeableDevice = null;
+			On = false;
+			APCPoweredDevice.Wattusage = IdleWattage;
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, ChargeUpdate);
+		}
 	}
 }

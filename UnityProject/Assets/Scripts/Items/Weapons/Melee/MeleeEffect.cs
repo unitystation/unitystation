@@ -2,6 +2,7 @@ using Systems.Teleport;
 using UnityEngine;
 using AddressableReferences;
 using NaughtyAttributes;
+using Systems.Construction.Parts;
 
 namespace Weapons
 {

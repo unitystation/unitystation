@@ -1,82 +1,79 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
+using Systems.Construction.Parts;
 using UnityEngine;
 
-public class BatteryPack : MonoBehaviour, IChargeable
+namespace HealthV2.Living.Cyborg
 {
-	public List<Battery> Cells = new List<Battery>();
-
-	public ItemStorage Storage;
-
-	public bool FullyCharged()
+	public class BatteryPack : MonoBehaviour, IChargeable
 	{
-		bool FullyCharged = true;
-		foreach (var Battery in Cells)
+		public List<Battery> Cells = new List<Battery>();
+
+		public ItemStorage Storage;
+
+		public bool IsFullyCharged
 		{
-			if (Battery.FullyCharged() == false)
+			get
 			{
-				FullyCharged = false;
-				break;
+				bool fullyCharged = true;
+				foreach (var battery in Cells)
+				{
+					if (battery.IsFullyCharged == false)
+					{
+						fullyCharged = false;
+						break;
+					}
+				}
+
+				return fullyCharged;
 			}
 		}
 
-		return FullyCharged;
-	}
 
 
-
-	public void ChargeBy(float Watts)
-	{
-		bool NonCharging = true;
-
-		Battery ToCharge = null;
-
-		//Code that charges Each battery individually until they're all full
-
-		foreach (var Battery in Cells)
+		public void ChargeBy(float watts)
 		{
-			if (Battery.FullyCharged() == false)
+			Battery toCharge = null;
+
+			//Code that charges Each battery individually until they're all full
+
+			foreach (var Battery in Cells)
 			{
-				ToCharge = Battery;
-				break;
+				if (Battery.IsFullyCharged == false)
+				{
+					toCharge = Battery;
+					break;
+				}
+			}
+
+			if (toCharge != null)
+			{
+				toCharge.ChargeBy(watts);
 			}
 		}
 
-		if (ToCharge != null)
+
+		public void Awake()
 		{
-			ToCharge.ChargeBy(Watts);
-			return;
-		}
-		else
-		{
-			return;
+			Storage.ServerInventoryItemSlotSet += BodyPartTransfer;
 		}
 
-	}
-
-
-	public void Awake()
-	{
-		Storage.ServerInventoryItemSlotSet += BodyPartTransfer;
-	}
-
-	private void BodyPartTransfer(Pickupable prevImplant, Pickupable newImplant)
-	{
-		Battery Battery = null;
-		if (newImplant && newImplant.TryGetComponent(out Battery))
+		private void BodyPartTransfer(Pickupable prevImplant, Pickupable newImplant)
 		{
-			if (Cells.Contains(Battery) == false)
+			Battery Battery = null;
+			if (newImplant && newImplant.TryGetComponent(out Battery))
 			{
-				Cells.Add(Battery);
+				if (Cells.Contains(Battery) == false)
+				{
+					Cells.Add(Battery);
+				}
 			}
-		}
 
-		if (prevImplant && prevImplant.TryGetComponent(out Battery))
-		{
-			if (Cells.Contains(Battery))
+			if (prevImplant && prevImplant.TryGetComponent(out Battery))
 			{
-				Cells.Remove(Battery);
+				if (Cells.Contains(Battery))
+				{
+					Cells.Remove(Battery);
+				}
 			}
 		}
 	}

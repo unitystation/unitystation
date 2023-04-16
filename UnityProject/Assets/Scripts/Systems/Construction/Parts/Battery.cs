@@ -1,54 +1,51 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Items;
+﻿using Items;
 using Systems.Explosions;
+using UnityEngine;
 
-public class Battery : MonoBehaviour, IEmpAble, IExaminable, IChargeable
+namespace Systems.Construction.Parts
 {
-	public int Watts = 9000;
-	public int MaxWatts = 9000;
-
-	public int InternalResistance = 240;
-
-	public bool isBroken = false;
-
-	public bool FullyCharged()
+	public class Battery : MonoBehaviour, IEmpAble, IExaminable, IChargeable
 	{
-		return Watts >= MaxWatts;
-	}
+		public int Watts = 9000;
+		public int MaxWatts = 9000;
 
+		public int InternalResistance = 240;
 
-	public void ChargeBy(float Watts)
-	{
-		if(this.Watts + Watts > MaxWatts)
+		public bool isBroken = false;
+
+		public bool IsFullyCharged =>  Watts >= MaxWatts;
+
+		public void ChargeBy(float watts)
 		{
-			this.Watts = MaxWatts;
+			if(this.Watts + watts > MaxWatts)
+			{
+				this.Watts = MaxWatts;
+				return;
+			}
+			this.Watts += (int)watts;
 			return;
 		}
-		this.Watts += (int)Watts;
-		return;
-	}
 
-	public void OnEmp(int EmpStrength)
-	{
-		Watts -= EmpStrength * 100;
-		Mathf.Clamp(Watts, 0, MaxWatts);
-
-		if(EmpStrength > 50 && DMMath.Prob(25))
+		public void OnEmp(int EmpStrength)
 		{
-			isBroken = true;
-		}
-	}
+			Watts -= EmpStrength * 100;
+			Mathf.Clamp(Watts, 0, MaxWatts);
 
-	public string Examine(Vector3 worldPos = default)
-	{
-		string status = "";
-		if (isBroken)
-		{
-			status = $"<color=red>It appears to be broken.";
+			if(EmpStrength > 50 && DMMath.Prob(25))
+			{
+				isBroken = true;
+			}
 		}
-		return $"{gameObject.GetComponent<ItemAttributesV2>().InitialDescription}. Charge indicator shows a {Watts/MaxWatts*100} percent charge." +
-			status;
+
+		public string Examine(Vector3 worldPos = default)
+		{
+			string status = "";
+			if (isBroken)
+			{
+				status = $"<color=red>It appears to be broken.";
+			}
+			return $"{gameObject.GetComponent<ItemAttributesV2>().InitialDescription}. Charge indicator shows a {Watts/MaxWatts*100} percent charge." +
+			       status;
+		}
 	}
 }

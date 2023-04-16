@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Systems.Construction.Parts;
+using UnityEngine;
 
 namespace Objects
 {
@@ -17,8 +18,9 @@ namespace Objects
 			InternalBatterySlot = BatteryitemStorage.GetIndexedItemSlot(0);
 		}
 
-		public bool FullyCharged() => battery.FullyCharged();
-		public void ChargeBy(float Watts) => battery.ChargeBy(Watts);
+		public bool IsFullyCharged => battery.IsFullyCharged;
+
+		public void ChargeBy(float watts) => battery.ChargeBy(watts);
 
 		public Battery GetBattery()
 		{

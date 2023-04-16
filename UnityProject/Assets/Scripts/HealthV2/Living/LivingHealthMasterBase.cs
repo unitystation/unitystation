@@ -21,6 +21,7 @@ using NaughtyAttributes;
 using Player;
 using Newtonsoft.Json;
 using ScriptableObjects.RP;
+using Systems.Construction.Parts;
 using Systems.Score;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Serialization;
@@ -396,21 +397,23 @@ namespace HealthV2
 		}
 
 
-		public bool FullyCharged()
+		public bool IsFullyCharged
 		{
-			var chargeable = GetSystem<BatterySystem>();
-			if (chargeable == null)
+			get
 			{
-				return true;
+				var chargeable = GetSystem<BatterySystem>();
+				if (chargeable == null)
+				{
+					return true;
+				}
+				else
+				{
+					return chargeable.IsFullyCharged;
+				}
 			}
-			else
-			{
-				return chargeable.FullyCharged();
-			}
-
 		}
 
-		public void ChargeBy(float Watts)
+		public void ChargeBy(float watts)
 		{
 			var chargeable = GetSystem<BatterySystem>();
 			if (chargeable == null)
@@ -419,7 +422,7 @@ namespace HealthV2
 			}
 			else
 			{
-				chargeable.ChargeBy(Watts);
+				chargeable.ChargeBy(watts);
 			}
 		}
 
