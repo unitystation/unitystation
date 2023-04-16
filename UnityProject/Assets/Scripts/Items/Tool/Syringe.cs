@@ -65,7 +65,6 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 			{
 				return;
 			}
-			used = true;
 		}
 
 		var LHB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
@@ -91,6 +90,7 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	public virtual void InjectBehavior(LivingHealthMasterBase LHB, RegisterPlayer performer)
 	{
+		used = true;
 		if (LocalContainer.ReagentMixTotal > 0)
 		{
 			if (LHB.reagentPoolSystem != null)

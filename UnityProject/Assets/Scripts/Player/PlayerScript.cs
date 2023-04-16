@@ -66,6 +66,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 	/// maximum distance the player needs to be to an object to interact with it
 	public const float INTERACTION_DISTANCE = 1.5f;
 
+	public const float INTERACTION_DISTANCE_EXTENDED = 1.75f;
+
 	public Mind Mind => PossessingMind;
 	public PlayerInfo PlayerInfo;
 
@@ -612,7 +614,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		if (ComponentManager.TryGetUniversalObjectPhysics(interactable.gameObject, out var uop) == false) return;
 
 		if ((this.gameObject.AssumedWorldPosServer() - uop.OfficialPosition ).magnitude >
-		    PlayerScript.INTERACTION_DISTANCE) //If telekinesis was used play effect I assume TODO test , also return maybe because you can't Put fingerprint on something far away
+		    PlayerScript.INTERACTION_DISTANCE_EXTENDED) //If telekinesis was used play effect I assume TODO test , also return maybe because you can't Put fingerprint on something far away
 		{
 			PlayEffect.SendToAll(interactable.gameObject, "TelekinesisEffect");
 		}

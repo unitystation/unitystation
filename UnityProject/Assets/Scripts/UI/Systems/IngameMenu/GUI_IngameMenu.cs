@@ -252,6 +252,7 @@ namespace UI
 		{
 			menuWindow.SetActive(false);
 			votingWindow.SetActive(false);
+			helpWindow.SetActive(false);
 			if (UIManager.Display.disclaimer != null) UIManager.Display.disclaimer.SetActive(false);
 		}
 
