@@ -615,7 +615,7 @@ public class MouseInputController : MonoBehaviour
 						$"Forcefully updated atmos at worldPos {position}/ localPos {localPos} of {matrix.Name}");
 				});
 
-				Chat.AddLocalMsgToChat("Ping " + DateTime.Now.ToFileTimeUtc(), PlayerManager.LocalPlayerObject);
+				Chat.AddActionMsgToChat(PlayerManager.LocalPlayerObject, "Ping " + DateTime.Now.ToFileTimeUtc());
 			}
 
 			return true;

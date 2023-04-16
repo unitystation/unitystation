@@ -83,7 +83,7 @@ namespace Objects.Machines
 
 		private void StartGibbing()
 		{
-			Chat.AddLocalMsgToChat("The gibber violently shakes as it shreds everything inside of it.", gameObject);
+			Chat.AddActionMsgToChat(gameObject, "The gibber violently shakes as it shreds everything inside of it.");
 			lights.SetSpriteSO(lightson);
 			UpdateManager.Add(CheckContentAndHarm, DAMAGE_TIME);
 		}
@@ -91,7 +91,7 @@ namespace Objects.Machines
 		private void StopGibbing()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckContentAndHarm);
-			Chat.AddLocalMsgToChat("The gibber stops vibrating as it finishes its operation.", gameObject);
+			Chat.AddActionMsgToChat(gameObject, "The gibber stops vibrating as it finishes its operation.");
 			lights.SetSpriteSO(lightsoff);
 			storage.RetrieveObjects();
 

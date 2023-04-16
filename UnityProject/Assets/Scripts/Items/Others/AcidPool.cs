@@ -45,7 +45,7 @@ namespace Items.Others
 
 			if (timer > DespawnTime)
 			{
-				Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} fizzles out.", gameObject);
+				Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()} fizzles out.");
 				_ = Despawn.ServerSingle(gameObject);
 				return;
 			}
@@ -58,7 +58,7 @@ namespace Items.Others
 
 			if(DMMath.Prob(75)) return;
 
-			Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} fizzes", gameObject);
+			Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()} fizzes.");
 		}
 
 		private void ObjectDamage(Vector3Int localPos)

@@ -115,11 +115,11 @@ namespace Objects.Research
 				test = false;
 			}
 
-			Chat.AddLocalMsgToChat(foundHub ? "Teleporter Hub found and connected..." : "Teleporter Hub not found!", gameObject);
+			Chat.AddActionMsgToChat(gameObject, foundHub ? "Teleporter Hub found and connected..." : "Teleporter Hub not found!");
 
-			Chat.AddLocalMsgToChat(foundControl ? "Teleporter Console found and connected..." : "Teleporter Console not found!", gameObject);
+			Chat.AddActionMsgToChat(gameObject, foundControl ? "Teleporter Console found and connected..." : "Teleporter Console not found!");
 
-			Chat.AddLocalMsgToChat(test ? "All devices found!" : "Not all devices found!", gameObject);
+			Chat.AddActionMsgToChat(gameObject, test ? "All devices found!" : "Not all devices found!");
 
 			SetActive(test);
 		}
