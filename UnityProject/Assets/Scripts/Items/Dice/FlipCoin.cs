@@ -108,7 +108,7 @@ public class FlipCoin : MonoBehaviour, IExaminable, ICheckedInteractable<HandAct
 		IsUpright = Random.Range(0, 2) == 0;
 		UpdateSprite();
 
-		Chat.AddLocalMsgToChat($"The coin lands a '{GetFaceName()}'.", gameObject);
+		Chat.AddActionMsgToChat(gameObject, $"The coin lands a '{GetFaceName()}'.");
 	}
 
 	#endregion Throwing

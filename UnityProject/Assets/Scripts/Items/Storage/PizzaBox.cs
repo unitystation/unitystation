@@ -63,8 +63,8 @@ namespace Items.Storage
 			if (isOpen) pizzaSprites.SetSpriteSO(spritePizzaBoxBombActive);
 			if (writtenNote != "")
 			{
-				Chat.AddLocalMsgToChat($"<color=red>An explosive can be seen ticking from the {gameObject.ExpensiveName()} " +
-				                       $"and below it is a note that reads '{writtenNote}'!</color>", gameObject);
+				Chat.AddActionMsgToChat(gameObject, $"<color=red>An explosive can be seen ticking from the {gameObject.ExpensiveName()} " +
+													$"and below it is a note that reads '{writtenNote}'!</color>");
 			}
 			if (PizzaGui != null) PizzaGui.StartCoroutine(PizzaGui.UpdateTimer());
 			yield return WaitFor.Seconds(timeToDetonate);
@@ -135,7 +135,7 @@ namespace Items.Storage
 
 		protected override void Detonate()
 		{
-			Chat.AddLocalMsgToChat("<color=red>The pizza bomb violently explodes!</color>", gameObject);
+			Chat.AddCombatMsgToChat(gameObject, default, "<size=+6>The pizza bomb violently explodes!</size>");
 			base.Detonate();
 		}
 

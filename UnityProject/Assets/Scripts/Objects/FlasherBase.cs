@@ -43,7 +43,7 @@ namespace Objects
 				PerformFlash(target.gameObject);
 			}
 			StartCoroutine(Cooldown());
-			Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} flashes everyone in its radius.", gameObject);
+			Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()} flashes everyone in its radius.");
 		}
 
 		[Server]
