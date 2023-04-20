@@ -107,9 +107,9 @@ namespace Objects
 		#endregion
 
 		// Components
-		private RegisterObject registerObject;
+		protected RegisterObject registerObject;
 		private ObjectAttributes attributes;
-		private ObjectContainer objectContainer;
+		protected ObjectContainer objectContainer;
 		private GasContainer gasContainer;
 		private UniversalObjectPhysics objectPhysics;
 		private ClearanceRestricted clearanceRestricted;
@@ -135,7 +135,7 @@ namespace Objects
 
 		#region Lifecycle
 
-		private void Awake()
+		public virtual void Awake()
 		{
 			registerObject = GetComponent<RegisterObject>();
 			attributes = GetComponent<ObjectAttributes>();
@@ -242,12 +242,12 @@ namespace Objects
 			lockSpritehandler.ChangeSprite((int) lockState);
 		}
 
-		public void CollectObjects()
+		public virtual void CollectObjects()
 		{
 			objectContainer.GatherObjects();
 		}
 
-		public void ReleaseObjects()
+		public virtual void ReleaseObjects()
 		{
 			objectContainer.RetrieveObjects();
 		}

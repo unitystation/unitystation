@@ -31,4 +31,12 @@ public class CommonAlertSOs : SingletonScriptableObject<CommonAlertSOs>
     public AlertSO Pressure_Higher;
     public AlertSO Pressure_TooHigher;
 
+    public AlertSO CellMostlycharge;
+    public AlertSO CellMidcharge;
+    public AlertSO CellLowcharge;
+    public AlertSO CellDeadcharge;
+
+    public AlertSO CellMissing;
+
+    public AlertSO CellCharging;
 }

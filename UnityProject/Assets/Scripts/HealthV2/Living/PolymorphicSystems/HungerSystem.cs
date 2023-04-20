@@ -31,9 +31,9 @@ namespace HealthV2.Living.PolymorphicSystems
 		/// <summary>
 		/// The current hunger state of the creature, currently always returns normal
 		/// </summary>
-		public HungerState HungerState => CalculateHungerState();
+		private HungerState HungerState => CalculateHungerState();
 
-		private HungerState CashedOldHungerState = HungerState.Normal;
+		public HungerState CashedHungerState = HungerState.Normal;
 
 		public HungerState CalculateHungerState()
 		{
@@ -188,6 +188,7 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		public override void SystemUpdate()
 		{
+			var State = HungerState;
 			float HeartEfficiency = 0;
 			foreach (var Heart in reagentPoolSystem.PumpingDevices)
 			{
@@ -197,17 +198,17 @@ namespace HealthV2.Living.PolymorphicSystems
 			NutrimentCalculation(HeartEfficiency);
 
 			//TODO HungerState should properly have a cash optimisation here!!
-			if (HungerState != CashedOldHungerState)
+			if (State != CashedHungerState)
 			{
-				var old = GetAlertSOFromHunger(CashedOldHungerState);
+				var old = GetAlertSOFromHunger(CashedHungerState);
 				if (old != null)
 				{
 					BodyAlertManager.UnRegisterAlert(old);
 				}
 
-				CashedOldHungerState = HungerState;
+				CashedHungerState = State;
 
-				var newOne = GetAlertSOFromHunger(HungerState);
+				var newOne = GetAlertSOFromHunger(State);
 				if (newOne != null)
 				{
 					BodyAlertManager.RegisterAlert(newOne);
@@ -263,6 +264,54 @@ namespace HealthV2.Living.PolymorphicSystems
 
 						bodyPart.HungerState = HungerState.Starving; //TODO Can optimise by setting the main hunger thing
 					}
+				}
+			}
+		}
+
+
+		[NaughtyAttributes.Button()]
+		public void MakeStarving()
+		{
+			foreach (var KVP in NutrimentToConsume)
+			{
+				reagentPoolSystem.BloodPool.Remove(KVP.Key, 9999);
+			}
+			var Stomachs = Base.GetStomachs();
+
+			foreach (var Stomach in Stomachs)
+			{
+				foreach (var bodyFat in Stomach.BodyFats)
+				{
+					bodyFat.AbsorbedAmount = 0;
+				}
+			}
+		}
+
+
+		[NaughtyAttributes.Button()]
+		public void MakeHungary()
+		{
+			var Stomachs = Base.GetStomachs();
+
+			foreach (var Stomach in Stomachs)
+			{
+				foreach (var bodyFat in Stomach.BodyFats)
+				{
+					bodyFat.AbsorbedAmount = 4;
+				}
+			}
+		}
+
+		[NaughtyAttributes.Button()]
+		public void MakeFull()
+		{
+			var Stomachs = Base.GetStomachs();
+
+			foreach (var Stomach in Stomachs)
+			{
+				foreach (var bodyFat in Stomach.BodyFats)
+				{
+					bodyFat.AbsorbedAmount = bodyFat.MinuteStoreMaxAmount;
 				}
 			}
 		}

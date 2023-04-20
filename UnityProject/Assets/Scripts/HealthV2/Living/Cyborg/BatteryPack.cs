@@ -1,36 +1,79 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
+using Systems.Construction.Parts;
 using UnityEngine;
 
-public class BatteryPack : MonoBehaviour
+namespace HealthV2.Living.Cyborg
 {
-	public List<Battery> Cells = new List<Battery>();
-
-	public ItemStorage Storage;
-
-
-	public void Awake()
+	public class BatteryPack : MonoBehaviour, IChargeable
 	{
-		Storage.ServerInventoryItemSlotSet += BodyPartTransfer;
-	}
+		public List<Battery> Cells = new List<Battery>();
 
-	private void BodyPartTransfer(Pickupable prevImplant, Pickupable newImplant)
-	{
-		Battery Battery = null;
-		if (newImplant && newImplant.TryGetComponent(out Battery))
+		public ItemStorage Storage;
+
+		public bool IsFullyCharged
 		{
-			if (Cells.Contains(Battery) == false)
+			get
 			{
-				Cells.Add(Battery);
+				bool fullyCharged = true;
+				foreach (var battery in Cells)
+				{
+					if (battery.IsFullyCharged == false)
+					{
+						fullyCharged = false;
+						break;
+					}
+				}
+
+				return fullyCharged;
 			}
 		}
 
-		if (prevImplant && prevImplant.TryGetComponent(out Battery))
+
+
+		public void ChargeBy(float watts)
 		{
-			if (Cells.Contains(Battery))
+			Battery toCharge = null;
+
+			//Code that charges Each battery individually until they're all full
+
+			foreach (var Battery in Cells)
 			{
-				Cells.Remove(Battery);
+				if (Battery.IsFullyCharged == false)
+				{
+					toCharge = Battery;
+					break;
+				}
+			}
+
+			if (toCharge != null)
+			{
+				toCharge.ChargeBy(watts);
+			}
+		}
+
+
+		public void Awake()
+		{
+			Storage.ServerInventoryItemSlotSet += BodyPartTransfer;
+		}
+
+		private void BodyPartTransfer(Pickupable prevImplant, Pickupable newImplant)
+		{
+			Battery Battery = null;
+			if (newImplant && newImplant.TryGetComponent(out Battery))
+			{
+				if (Cells.Contains(Battery) == false)
+				{
+					Cells.Add(Battery);
+				}
+			}
+
+			if (prevImplant && prevImplant.TryGetComponent(out Battery))
+			{
+				if (Cells.Contains(Battery))
+				{
+					Cells.Remove(Battery);
+				}
 			}
 		}
 	}

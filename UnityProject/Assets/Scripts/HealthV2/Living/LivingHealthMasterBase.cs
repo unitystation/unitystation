@@ -21,6 +21,7 @@ using NaughtyAttributes;
 using Player;
 using Newtonsoft.Json;
 using ScriptableObjects.RP;
+using Systems.Construction.Parts;
 using Systems.Score;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Serialization;
@@ -36,7 +37,7 @@ namespace HealthV2
 	[RequireComponent(typeof(HealthStateController))]
 	[RequireComponent(typeof(MobSickness))]
 	public abstract class LivingHealthMasterBase : NetworkBehaviour, IFireExposable, IExaminable, IFullyHealable, IGib,
-		IAreaReactionBase, IRightClickable, IServerSpawn, IHoverTooltip
+		IAreaReactionBase, IRightClickable, IServerSpawn, IHoverTooltip, IChargeable
 	{
 		/// <summary>
 		/// Server side, each mob has a different one and never it never changes
@@ -395,6 +396,35 @@ namespace HealthV2
 
 		}
 
+
+		public bool IsFullyCharged
+		{
+			get
+			{
+				var chargeable = GetSystem<BatterySystem>();
+				if (chargeable == null)
+				{
+					return true;
+				}
+				else
+				{
+					return chargeable.IsFullyCharged;
+				}
+			}
+		}
+
+		public void ChargeBy(float watts)
+		{
+			var chargeable = GetSystem<BatterySystem>();
+			if (chargeable == null)
+			{
+				return;
+			}
+			else
+			{
+				chargeable.ChargeBy(watts);
+			}
+		}
 
 		//TODO: confusing, make it not depend from the inventory storage Action
 		/// <summary>

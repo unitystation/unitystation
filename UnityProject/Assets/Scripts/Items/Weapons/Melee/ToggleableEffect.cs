@@ -1,5 +1,6 @@
 using AddressableReferences;
 using Mirror;
+using Systems.Construction.Parts;
 using UnityEngine;
 
 namespace Weapons
