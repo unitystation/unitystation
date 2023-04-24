@@ -172,7 +172,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			playerScript.RegisterPlayer.ServerSetIsStanding(false);
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
 		}
-		playerScript.playerMove.allowInput = false;
+		playerScript.playerMove.ServerAllowInput.RecordPosition(this, false);
 
 		// Drop player items
 
@@ -213,13 +213,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			playerScript.playerHealth.Extinguish();
 			playerScript.RegisterPlayer.ServerStandUp(true);
-			playerScript.playerMove.allowInput = true;
+			playerScript.playerMove.ServerAllowInput.RemovePosition(this);
 		}
 
 		//Allow barely conscious players to move again if they are not stunned
 		if (playerScript.playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS
 			&& playerScript.RegisterPlayer.IsSlippingServer == false) {
-			playerScript.playerMove.allowInput = true;
+			playerScript.playerMove.ServerAllowInput.RemovePosition(this);
 		}
 
 		IsRolling = false;
@@ -568,44 +568,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void OnConsciousStateChanged(ConsciousState oldState, ConsciousState newState)
 	{
-		switch (newState)
-		{
-			case ConsciousState.CONSCIOUS:
-				playerMove.allowInput = true;
-				playerMove.CurrentMovementType = MovementType.Running;
-				break;
-			case ConsciousState.BARELY_CONSCIOUS:
-				//Drop hand items when unconscious
-				foreach (var itemSlot in itemStorage.GetHandSlots())
-				{
-					Inventory.ServerDrop(itemSlot);
-				}
-				playerMove.allowInput = true;
-				playerMove.CurrentMovementType = MovementType.Running;
-				if (oldState == ConsciousState.CONSCIOUS)
-				{
-					//only play the sound if we are falling
-					SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
-				}
 
-				break;
-			case ConsciousState.UNCONSCIOUS:
-				//Drop items when unconscious
-				foreach (var itemSlot in itemStorage.GetHandSlots())
-				{
-					Inventory.ServerDrop(itemSlot);
-				}
-				playerMove.allowInput = false;
-				if (oldState == ConsciousState.CONSCIOUS)
-				{
-					//only play the sound if we are falling
-					SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
-				}
-
-				break;
-		}
-
-		playerScript.ObjectPhysics.StopPulling(false);
 	}
 
 	[Server]

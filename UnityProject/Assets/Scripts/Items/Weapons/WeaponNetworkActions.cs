@@ -251,19 +251,6 @@ public class WeaponNetworkActions : NetworkBehaviour
 		lerping = true;
 	}
 
-	[Command]
-	private void CmdRequestInputActivation()
-	{
-		if (playerScript.playerHealth.serverPlayerConscious)
-		{
-			playerMove.allowInput = true;
-		}
-		else
-		{
-			playerMove.allowInput = false;
-		}
-	}
-
 	// Server lerps
 	private void UpdateMe()
 	{
@@ -277,13 +264,6 @@ public class WeaponNetworkActions : NetworkBehaviour
 				{
 					ResetLerp();
 					spritesObj.transform.localPosition = Vector3.zero;
-					if (PlayerManager.LocalPlayerObject)
-					{
-						if (PlayerManager.LocalPlayerObject == gameObject)
-						{
-							CmdRequestInputActivation(); // Ask server if you can move again after melee attack
-						}
-					}
 				}
 				else
 				{

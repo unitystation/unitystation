@@ -21,6 +21,8 @@ public class GUI_DevSpawner : MonoBehaviour
 
 	public InputField StackAmountBox;
 
+	public Toggle DEBUGToggle;
+
 	public int StackAmount
 	{
 		get
@@ -122,7 +124,7 @@ public class GUI_DevSpawner : MonoBehaviour
 		    Destroy(child.gameObject);
 	    }
 
-	    var docs = spawnerSearch.Search(searchBox.text);
+	    var docs = spawnerSearch.Search(searchBox.text, DEBUGToggle.isOn);
 
 	    // display new results
 	    foreach (var doc in docs)

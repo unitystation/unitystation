@@ -131,11 +131,12 @@ namespace Core.Utils
 			return value.State;
 		}
 
-		public MultiInterestBool(bool InInitialState = false,
+		public MultiInterestBool(bool InDefaultState = false,
 			RegisterBehaviour inRegisterBehaviour = RegisterBehaviour.RemoveFalse,
 			BoolBehaviour InSetBoolBehaviour = BoolBehaviour.ReturnOnTrue)
 		{
-			InitialState = InInitialState;
+			InitialState = InDefaultState;
+			state = InitialState;
 			Behaviour = inRegisterBehaviour;
 			SetBoolBehaviour = InSetBoolBehaviour;
 		}

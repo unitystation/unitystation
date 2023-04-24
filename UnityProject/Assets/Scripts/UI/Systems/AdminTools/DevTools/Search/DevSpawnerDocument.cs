@@ -20,8 +20,11 @@ namespace UI.Systems.AdminTools.DevTools.Search
 		/// </summary>
 		public readonly List<string> SearchableName;
 
-		private DevSpawnerDocument(GameObject prefab)
+		public bool IsDEBUG;
+
+		private DevSpawnerDocument(GameObject prefab, bool _isDebug)
 		{
+			IsDEBUG = _isDebug;
 			Prefab = prefab;
 			SearchableName = new List<string>();
 			SearchableName.Add(SpawnerSearch.Standardize(prefab.name));
@@ -36,9 +39,14 @@ namespace UI.Systems.AdminTools.DevTools.Search
 		/// <param name="prefab"></param>
 		public static DevSpawnerDocument? ForPrefab(GameObject prefab)
 		{
-			if (prefab.TryGetComponent<PrefabTracker>(out var tracker) == false) return null;
-			if (tracker.CanBeSpawnedByAdmin == false) return null;
-			return new DevSpawnerDocument(prefab);
+			bool isDebug = false;
+
+			if (prefab.TryGetComponent<PrefabTracker>(out var tracker) == false) isDebug = true;
+			else if (tracker.CanBeSpawnedByAdmin == false) isDebug = true;
+
+			//	if (prefab.TryGetComponent<PrefabTracker>(out var tracker) && tracker.CanBeSpawnedByAdmin == false) isDebug = true;
+
+			return new DevSpawnerDocument(prefab, isDebug);
 		}
 	}
 }

@@ -367,7 +367,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 
 		if (StopMovement)
 		{
-			playerScript.playerMove.allowInput = false;
+			playerScript.playerMove.ServerAllowInput.RecordPosition(this, false);
 		}
 
 
@@ -401,7 +401,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		if (playerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS
 			 || playerScript.playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS)
 		{
-			playerScript.playerMove.allowInput = true;
+			playerScript.playerMove.ServerAllowInput.RemovePosition(this);
 		}
 	}
 

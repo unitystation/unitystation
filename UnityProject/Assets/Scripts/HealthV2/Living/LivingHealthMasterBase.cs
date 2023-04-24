@@ -1265,7 +1265,7 @@ namespace HealthV2
 			healthStateController
 				.SetOverallHealth(MaxHealth); //Set the player's overall health to their race's maxHealth.
 			RestartHeart();
-			playerScript.playerMove.allowInput = true; //Let them interact with the world again.
+			SetConsciousState(ConsciousState.CONSCIOUS);
 			playerScript.RegisterPlayer.ServerStandUp();
 			playerScript.Mind.OrNull()?.StopGhosting();
 		}
@@ -1402,15 +1402,6 @@ namespace HealthV2
 			if (ConsciousState == ConsciousState.DEAD) return;
 
 			timeOfDeath = GameManager.Instance.RoundTime;
-
-			var HV2 = (this as PlayerHealthV2);
-			if (HV2 != null)
-			{
-				if (HV2.playerScript.OrNull()?.playerMove.OrNull()?.allowInput != null)
-				{
-					HV2.playerScript.playerMove.allowInput = false;
-				}
-			}
 
 			SetConsciousState(ConsciousState.DEAD);
 			OnDeathActions();

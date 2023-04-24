@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Core.Editor.Attributes;
+using Core.Utils;
 using Items;
 using Managers;
 using Messages.Client.Interaction;
@@ -32,7 +33,10 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public bool Step = false;
 
 	[SyncVar(hook = nameof(SyncInput))] [NonSerialized]
-	public bool allowInput = true; //Should be synchvar far
+	public bool allowInput = true;
+
+
+	public readonly MultiInterestBool ServerAllowInput = new MultiInterestBool(true, MultiInterestBool.RegisterBehaviour.RegisterFalse, MultiInterestBool.BoolBehaviour.ReturnOnFalse  );
 
 	[SyncVar(hook = nameof(SyncIntent))] [NonSerialized]
 	public Intent intent; //TODO Cleanup in mind rework
@@ -301,7 +305,15 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		playerScript = GetComponent<PlayerScript>();
 		holder = GetComponent<PassableExclusionHolder>();
 		OnThrowEnd.AddListener(ThrowEnding);
+
+		ServerAllowInput.OnBoolChange.AddListener(BoolServerAllowInputChange);
+
 		base.Awake();
+	}
+
+	private void BoolServerAllowInputChange(bool NewValue)
+	{
+		SyncInput(allowInput, NewValue);
 	}
 
 	private void ThrowEnding(UniversalObjectPhysics thing)
