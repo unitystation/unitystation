@@ -154,7 +154,7 @@ public class ObjectLayer : Layer
 					}
 				}
 			}
-			
+
 			if (Hits != null) Hits.Add(o.ObjectPhysics.Component);
 
 			Pushings.Clear();
@@ -241,11 +241,7 @@ public class ObjectLayer : Layer
 				{
 					if (o.gameObject == context.Pulling.Component.gameObject)
 					{
-						if (isServer)
-						{
-							context.StopPulling(false);
-						}
-
+						context.StopPulling(false);
 						return false;
 					}
 				}
