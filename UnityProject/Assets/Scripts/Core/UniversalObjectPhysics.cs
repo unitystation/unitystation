@@ -168,6 +168,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 				}
 			}
 
+			if (parentContainer is (NetId.Invalid or NetId.Empty))
+			{
+				return null;
+			}
+
 			return CachedContainedInContainer;
 		}
 	}
