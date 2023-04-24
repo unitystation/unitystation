@@ -8,5 +8,5 @@ public interface IItemStoragePopulator
 	/// </summary>
 	/// <param name="toPopulate">storage to populate</param>
 	/// <param name="populationContext">details / context of the population being performed.</param>
-	void PopulateItemStorage(ItemStorage toPopulate, PopulationContext populationContext);
+	void PopulateItemStorage(ItemStorage toPopulate, PopulationContext populationContext, SpawnInfo info);
 }

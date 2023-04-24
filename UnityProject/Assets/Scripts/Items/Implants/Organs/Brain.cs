@@ -50,6 +50,13 @@ namespace Items.Implants.Organs
 
 		public ReagentCirculatedComponent ReagentCirculatedComponent;
 
+		[RightClickMethod]
+		public void Possess()
+		{
+			PlayerManager.LocalMindScript.SetPossessingObject(this.gameObject);
+		}
+
+
 		public override void Awake()
 		{
 			base.Awake();
@@ -264,7 +271,7 @@ namespace Items.Implants.Organs
 
 		public IPlayerPossessable PossessedBy { get; set; }
 
-		public MindNIPossessingEvent OnPossessedBy  { get; set; }
+		[SerializeField] public MindNIPossessingEvent OnPossessedBy { get; set; } = new MindNIPossessingEvent();
 
 		public Action OnActionControlPlayer { get; set; }
 

@@ -162,35 +162,36 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 0
+  ManuallySpawnContent: 0
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 1
   Populater:
     SlotContents:
     - DoNotGetFirstEmptySlot: 0
-      IndexSlot: 0
-      IfOccupiedFindEmptySlot: 0
-      UseIndex: 0
-      NamedSlot: 16
       Prefab: {fileID: 8096842924384943973, guid: 1bd4d6ea60dfdc1498ee8f06b7289fb4,
         type: 3}
+      UseIndex: 0
+      IndexSlot: 0
+      NamedSlot: 16
+      IfOccupiedFindEmptySlot: 0
       ReplacementStrategy: 0
       namedSlotPopulatorEntrys: []
     - DoNotGetFirstEmptySlot: 0
-      IndexSlot: 1
-      IfOccupiedFindEmptySlot: 0
-      UseIndex: 0
-      NamedSlot: 17
       Prefab: {fileID: 4930866777566109869, guid: 7976a84ef9209f14697cdd941b913e2a,
         type: 3}
+      UseIndex: 0
+      IndexSlot: 1
+      NamedSlot: 17
+      IfOccupiedFindEmptySlot: 0
       ReplacementStrategy: 0
       namedSlotPopulatorEntrys: []
     - DoNotGetFirstEmptySlot: 0
-      IndexSlot: 2
-      IfOccupiedFindEmptySlot: 0
-      UseIndex: 0
-      NamedSlot: 19
       Prefab: {fileID: 8868920090029130384, guid: 366fb594c17e76346bbb29ad4ce021ad,
         type: 3}
+      UseIndex: 0
+      IndexSlot: 2
+      NamedSlot: 19
+      IfOccupiedFindEmptySlot: 0
       ReplacementStrategy: 0
       namedSlotPopulatorEntrys: []
     DeprecatedContents: []

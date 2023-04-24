@@ -136,13 +136,13 @@ public static class Spawn
 	public static SpawnResult ServerPrefab(GameObject prefab, Vector3? worldPosition = null, Transform parent = null,
 		Quaternion? localRotation = null, int count = 1, float? scatterRadius = null, bool cancelIfImpassable = false,
 		bool spawnItems = true, bool AutoOnSpawnServerHook = true,
-		UniversalObjectPhysics sharePosition = null, bool mapspawn = false, bool PrePickRandom = false)
+		UniversalObjectPhysics sharePosition = null, bool mapspawn = false, bool PrePickRandom = false,bool spawnManualContents = false )
 	{
 		return Server(
 			SpawnInfo.Spawnable(
 				SpawnablePrefab.For(prefab, PrePickRandom),
 				SpawnDestination.At(worldPosition, parent, localRotation, cancelIfImpassable, sharePosition),
-				count, scatterRadius, spawnItems: spawnItems, mapspawn: mapspawn), AutoOnSpawnServerHook);
+				count, scatterRadius, spawnItems: spawnItems, mapspawn: mapspawn, spawnManualContents : spawnManualContents), AutoOnSpawnServerHook);
 	}
 
 	/// <summary>
@@ -211,7 +211,7 @@ public static class Spawn
 	/// <param name="cancelIfImpassable">If true, the spawn will be cancelled if the location being spawned into is totally impassable.</param>
 	/// <returns>the newly created GameObject</returns>
 	public static SpawnResult ServerPrefab(string prefabName, Vector3? worldPosition = null, Transform parent = null,
-		Quaternion? localRotation = null, int count = 1, float? scatterRadius = null, bool cancelIfImpassable = false, bool mapspawn = false )
+		Quaternion? localRotation = null, int count = 1, float? scatterRadius = null, bool cancelIfImpassable = false, bool mapspawn = false)
 	{
 		return Server(
 			SpawnInfo.Spawnable(
@@ -267,6 +267,7 @@ public static class Spawn
 		return Server(
 			SpawnInfo.Clone(toClone, SpawnDestination.At(worldPosition, parent, localRotation)));
 	}
+
 
 	/// <summary>
 	/// Server-side only. Performs the spawn and syncs it to all clients.

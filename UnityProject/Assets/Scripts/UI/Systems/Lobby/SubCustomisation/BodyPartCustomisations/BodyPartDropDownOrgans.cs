@@ -35,7 +35,7 @@ namespace UI.CharacterCreator
 			{
 				if (PreviousOptions[i])
 				{
-					var spawned = Spawn.ServerPrefab(Body_Part.OptionalOrgans[i].gameObject);
+					var spawned = Spawn.ServerPrefab(Body_Part.OptionalOrgans[i].gameObject, spawnManualContents: true);
 					LivingHealthMasterBase.BodyPartStorage.ServerTryAdd(spawned.GameObject);
 				}
 			}

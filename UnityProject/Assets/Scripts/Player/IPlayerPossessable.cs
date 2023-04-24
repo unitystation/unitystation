@@ -53,7 +53,7 @@ public interface IPlayerPossessable
 
 	public IPlayerPossessable PossessedBy { get; set; }
 
-	public MindNIPossessingEvent OnPossessedBy { get; set; }
+	[SerializeField] public MindNIPossessingEvent OnPossessedBy { get; set; } // = new MindNIPossessingEvent();
 
 	public Action OnActionControlPlayer { get; set; }
 
@@ -143,7 +143,7 @@ public interface IPlayerPossessable
 		{
 			possessing.InternalOnPossessPlayer(mind, this);
 		}
-		OnPossessedBy?.Invoke(mind, parent);
+		OnPossessedBy.Invoke(mind, parent);
 	}
 
 	public void ServerInternalOnPossess(Mind mind, IPlayerPossessable parent)

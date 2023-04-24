@@ -192,11 +192,11 @@ namespace UI.Systems.MainHUD.UI_Bottom
 				aiPlayer = PlayerManager.LocalPlayerObject.OrNull()?.GetComponent<AiPlayer>();
 			}
 
-			if (aiPlayer == null)
-			{
-				Logger.LogError("Failed to find AiPlayer for player");
-				return;
-			}
+			// if (aiPlayer == null)
+			// {
+			// 	Logger.LogError("Failed to find AiPlayer for player");
+			// 	return;
+			// }
 
 			aiLawsTab.SetActive(true);
 			aiLawsTabDummyLaw.SetActive(false);
@@ -211,7 +211,16 @@ namespace UI.Systems.MainHUD.UI_Bottom
 			}
 
 			// 0 laws first, freeform last
-			var laws = aiPlayer.GetLaws();
+			var laws = aiPlayer?.GetLaws();
+
+
+			if (laws == null)
+			{
+				laws = PlayerManager.LocalMindScript.PossessingObject.GetComponent<BrainLaws>().GetLaws();
+			}
+
+
+
 
 			amountOfLawsText.text = $"You have <color=orange>{laws.Count}</color> law{(laws.Count == 1 ? "" : "s")}\nYou Must Follow Them";
 

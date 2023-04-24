@@ -224,7 +224,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 
 			//determine if we should show an amount
 			var stack = item.GetComponent<Stackable>();
-			if (stack != null && stack.Amount > 1 && amountText)
+			if (stack != null && ((stack.Amount > 1  && amountText)|| stack.IsRepresentationOfStack) )
 			{
 				amountText.enabled = true;
 				amountText.text = stack.Amount.ToString();
@@ -368,13 +368,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	{
 		// Clicked on another slot other than our own hands
 		bool IsHandSlots = false;
-		foreach (var HadnitemSlot in PlayerManager.LocalPlayerScript.DynamicItemStorage.GetHandSlots())
-		{
-			if (HadnitemSlot == itemSlot)
-			{
-				IsHandSlots = true;
-			}
-		}
+		IsHandSlots = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot() == itemSlot;
 
 		if (IsHandSlots == false)
 		{

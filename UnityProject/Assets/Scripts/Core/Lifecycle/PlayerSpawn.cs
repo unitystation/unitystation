@@ -299,6 +299,13 @@ public static class PlayerSpawn
 			// This causes body parts to be made for the species, will cause death if body parts are needed and
 			// CharacterSettings is null
 			var toUseCharacterSettings = requestedOccupation.UseCharacterSettings ? character : null;
+			if (requestedOccupation.CustomSpeciesOverwrite != null)
+			{
+				character.Species = requestedOccupation.CustomSpeciesOverwrite.name;
+				playerSprites.raceOverride = requestedOccupation.CustomSpeciesOverwrite.name;
+			}
+
+
 			playerSprites.OnCharacterSettingsChange(toUseCharacterSettings);
 		}
 

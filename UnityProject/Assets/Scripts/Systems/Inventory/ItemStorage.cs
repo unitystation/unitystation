@@ -52,6 +52,8 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	[Tooltip("Force spawn contents at round start rather than first open")]
 	public bool forceSpawnContents;
 
+	public bool ManuallySpawnContent = false;
+
 	private bool contentsSpawned;
 	public bool ContentsSpawned => contentsSpawned;
 
@@ -113,7 +115,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 
 		if (forceSpawnContents)
 		{
-			TrySpawnContents();
+			TrySpawnContents(info);
 		}
 
 		//if this is a player's inventory, make them an observer of all slots
@@ -123,16 +125,20 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		}
 	}
 
-	public void TrySpawnContents()
+	public void TrySpawnContents(SpawnInfo info = null)
 	{
 		if (contentsSpawned || spawnInfo == null) return;
 		contentsSpawned = true;
 
-		ServerPopulate(itemStoragePopulator, PopulationContext.AfterSpawn(spawnInfo));
-		if (UesAddlistPopulater)
+		if (ManuallySpawnContent == false || info?.SpawnManualContents == true)
 		{
-			ServerPopulate(Populater, PopulationContext.AfterSpawn(spawnInfo));
+			ServerPopulate(itemStoragePopulator, PopulationContext.AfterSpawn(spawnInfo), info);
+			if (UesAddlistPopulater)
+			{
+				ServerPopulate(Populater, PopulationContext.AfterSpawn(spawnInfo), info);
+			}
 		}
+
 	}
 
 	public void OnDespawnServer(DespawnInfo info)
@@ -424,12 +430,12 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// </summary>
 	/// <param name="populator"></param>
 	/// <param name="context">context of the population</param>
-	public void ServerPopulate(IItemStoragePopulator populator, PopulationContext context)
+	public void ServerPopulate(IItemStoragePopulator populator, PopulationContext context, SpawnInfo info)
 	{
 		if (populator == null) return;
 		if (!CustomNetworkManager.IsServer) return;
 		if (!context.SpawnInfo.SpawnItems) return;
-		populator.PopulateItemStorage(this, context);
+		populator.PopulateItemStorage(this, context, info);
 	}
 
 	/// <summary>

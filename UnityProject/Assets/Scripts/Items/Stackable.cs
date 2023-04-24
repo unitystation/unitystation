@@ -6,6 +6,7 @@ using Mirror;
 using UnityEngine;
 using Messages.Server;
 using UI;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Allows an item to be stacked, occupying a single inventory slot.
@@ -27,6 +28,11 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 				" in this list on either prefab to allow it to recognize that it's stackable with the parent.")]
 	[SerializeField]
 	private List<GameObject> stacksWith;
+
+	[FormerlySerializedAs("IsRepresentationOfStack")] [SerializeField][Tooltip("Basically is this a representation of a stack vs an actual stack used in cyborg inventory ")]
+	private bool isRepresentationOfStack = false;
+
+	public bool IsRepresentationOfStack => isRepresentationOfStack;
 
 	/// <summary>
 	/// Amount of things in this stack.
@@ -223,7 +229,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 			return false;
 		}
 		SyncAmount(amount, amount - consumed);
-		if (amount <= 0)
+		if (amount <= 0 && isRepresentationOfStack == false)
 		{
 			_ = Despawn.ServerSingle(gameObject);
 		}

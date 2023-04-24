@@ -50,7 +50,7 @@ namespace Player
 
 		[Tooltip("Override the race of the character sheet")]
 		[SerializeField]
-		private string raceOverride = "";
+		public string raceOverride = "";
 
 		#endregion Inspector fields
 
@@ -248,7 +248,7 @@ namespace Player
 				SubSetBodyPart(bodyPart.Item.GetComponent<BodyPart>(), "", Randomised);
 			}
 
-			PlayerHealthData SetRace = ThisCharacter.GetRaceSo();
+			PlayerHealthData SetRace = RaceBodyparts;
 
 			List<IntName> ToClient = new List<IntName>();
 			foreach (var Customisation in SetRace.Base.CustomisationSettings)
@@ -441,7 +441,8 @@ namespace Player
 				}
 
 				ThisCharacter = characterSettings;
-				RaceBodyparts = characterSettings.GetRaceSo();
+				bool notCustomSpecies = string.IsNullOrEmpty(raceOverride);
+				RaceBodyparts = characterSettings.GetRaceSo(notCustomSpecies);
 
 				if (RaceBodyparts == null)
 				{

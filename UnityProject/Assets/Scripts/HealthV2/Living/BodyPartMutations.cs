@@ -210,10 +210,6 @@ public class BodyPartMutations : BodyPartFunctionality
 		Chat.AddExamineMsgFromServer(RelatedPart.OrNull()?.HealthMaster.OrNull()?.gameObject,
 			$" Your {RelatedPart.gameObject.ExpensiveName()} Morphs into a {SpawnedBodypart.gameObject.ExpensiveName()}");
 
-		foreach (var itemSlot in SpawnedBodypart.OrganStorage.GetItemSlots())
-		{
-			Inventory.ServerDespawn(itemSlot);
-		}
 
 		bool HasOpenProcedure = Enumerable.OfType<OpenProcedure>(SpawnedBodypart.SurgeryProcedureBase).Any();
 

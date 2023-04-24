@@ -644,21 +644,21 @@ public static class Inventory
 	/// Used to populate an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory,
 	/// Recursively far down as specified in namedSlotPopulatorEntrys
 	/// </summary>
-	public static void PopulateSubInventory(GameObject gameObject, List<SlotPopulatorEntry> namedSlotPopulatorEntrys)
+	public static void PopulateSubInventory(GameObject gameObject, List<SlotPopulatorEntry> namedSlotPopulatorEntrys, SpawnInfo info)
 	{
 		if (namedSlotPopulatorEntrys.Count == 0) return;
 
 		var itemStorage = gameObject.GetComponent<ItemStorage>();
 		if (itemStorage == null) return;
 
-		PopulateSubInventory(itemStorage, namedSlotPopulatorEntrys);
+		PopulateSubInventory(itemStorage, namedSlotPopulatorEntrys, info);
 	}
 
 	/// <summary>
 	/// Used to populate an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory,
 	/// Recursively far down as specified in namedSlotPopulatorEntrys
 	/// </summary>
-	public static void PopulateSubInventory(ItemStorage itemStorage, List<SlotPopulatorEntry> namedSlotPopulatorEntrys)
+	public static void PopulateSubInventory(ItemStorage itemStorage, List<SlotPopulatorEntry> namedSlotPopulatorEntrys, SpawnInfo info)
 	{
 		if (namedSlotPopulatorEntrys.Count == 0) return;
 
@@ -690,9 +690,9 @@ public static class Inventory
 
 			if (ItemSlot == null) continue;
 
-			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true);
+			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true, spawnManualContents: info?.SpawnManualContents ?? false);
 			ServerAdd(spawn.GameObject, ItemSlot,namedSlotPopulatorEntry.ReplacementStrategy, true );
-			PopulateSubInventoryRecursive(spawn.GameObject, namedSlotPopulatorEntry.namedSlotPopulatorEntrys);
+			PopulateSubInventoryRecursive(spawn.GameObject, namedSlotPopulatorEntry.namedSlotPopulatorEntrys, info);
 		}
 	}
 
@@ -700,21 +700,21 @@ public static class Inventory
 	/// Used to populate an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory,
 	/// Recursively far down as specified in SlotPopulatorEntryRecursive
 	/// </summary>
-	public static void PopulateSubInventoryRecursive(GameObject gameObject, List<SlotPopulatorEntryRecursive> namedSlotPopulatorEntrys)
+	public static void PopulateSubInventoryRecursive(GameObject gameObject, List<SlotPopulatorEntryRecursive> namedSlotPopulatorEntrys, SpawnInfo info)
 	{
 		if (namedSlotPopulatorEntrys.Count == 0) return;
 
 		var itemStorage = gameObject.GetComponent<ItemStorage>();
 		if (itemStorage == null) return;
 
-		PopulateSubInventoryRecursive(itemStorage, namedSlotPopulatorEntrys);
+		PopulateSubInventoryRecursive(itemStorage, namedSlotPopulatorEntrys, info);
 	}
 
 	/// <summary>
 	/// Used to populate an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory,
 	/// Recursively far down as specified in SlotPopulatorEntryRecursive
 	/// </summary>
-	public static void PopulateSubInventoryRecursive(ItemStorage itemStorage, List<SlotPopulatorEntryRecursive> namedSlotPopulatorEntrys)
+	public static void PopulateSubInventoryRecursive(ItemStorage itemStorage, List<SlotPopulatorEntryRecursive> namedSlotPopulatorEntrys, SpawnInfo info)
 	{
 		if (namedSlotPopulatorEntrys.Count == 0) return;
 
@@ -743,7 +743,7 @@ public static class Inventory
 				}
 			}
 
-			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true);
+			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true, spawnManualContents: info?.SpawnManualContents ?? false);
 			ServerAdd(spawn.GameObject, ItemSlot,namedSlotPopulatorEntry.ReplacementStrategy, true);
 		}
 	}

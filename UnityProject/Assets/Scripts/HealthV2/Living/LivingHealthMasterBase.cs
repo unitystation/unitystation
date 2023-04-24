@@ -2158,7 +2158,7 @@ namespace HealthV2
 			{
 				foreach (var ToSpawn in ListToSpawn.Elements)
 				{
-					var bodyPartObject = Spawn.ServerPrefab(ToSpawn).GameObject;
+					var bodyPartObject = Spawn.ServerPrefab(ToSpawn, spawnManualContents: true).GameObject;
 					BodyPartStorage.ServerTryAdd(bodyPartObject);
 				}
 			}

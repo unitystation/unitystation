@@ -11,5 +11,5 @@ public abstract class ItemStoragePopulator : ScriptableObject, IItemStoragePopul
 	/// Populate the specified storage.
 	/// </summary>
 	/// <param name="toPopulate">storage to populate</param>
-	public abstract void PopulateItemStorage(ItemStorage toPopulate, PopulationContext context);
+	public abstract void PopulateItemStorage(ItemStorage toPopulate, PopulationContext context, SpawnInfo info);
 }
