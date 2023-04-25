@@ -192,11 +192,11 @@ namespace UI.Systems.MainHUD.UI_Bottom
 				aiPlayer = PlayerManager.LocalPlayerObject.OrNull()?.GetComponent<AiPlayer>();
 			}
 
-			// if (aiPlayer == null)
-			// {
-			// 	Logger.LogError("Failed to find AiPlayer for player");
-			// 	return;
-			// }
+			if (aiPlayer == null)
+			{
+				Logger.LogError("Failed to find AiPlayer for player");
+				return;
+			}
 
 			aiLawsTab.SetActive(true);
 			aiLawsTabDummyLaw.SetActive(false);
