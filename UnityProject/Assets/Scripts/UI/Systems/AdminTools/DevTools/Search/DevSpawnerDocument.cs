@@ -40,11 +40,8 @@ namespace UI.Systems.AdminTools.DevTools.Search
 		public static DevSpawnerDocument? ForPrefab(GameObject prefab)
 		{
 			bool isDebug = false;
-
-			if (prefab.TryGetComponent<PrefabTracker>(out var tracker) == false) isDebug = true;
-			else if (tracker.CanBeSpawnedByAdmin == false) isDebug = true;
-
-			//	if (prefab.TryGetComponent<PrefabTracker>(out var tracker) && tracker.CanBeSpawnedByAdmin == false) isDebug = true;
+			
+			if (prefab.TryGetComponent<PrefabTracker>(out var tracker) && tracker.CanBeSpawnedByAdmin == false) isDebug = true;
 
 			return new DevSpawnerDocument(prefab, isDebug);
 		}
