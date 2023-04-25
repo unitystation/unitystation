@@ -465,6 +465,7 @@ GameObject:
   - component: {fileID: 1307789518832348530}
   - component: {fileID: 4571425272607837074}
   - component: {fileID: 1141615694652522293}
+  - component: {fileID: 1568398651731903223}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -1008,6 +1009,7 @@ MonoBehaviour:
   SurfaceBodyParts: []
   BodyPartStorage: {fileID: 0}
   playerSprites: {fileID: 0}
+  BleedStacks: 0
   painScreamDamage: 18
   painScreamCooldown: 15
   screamEmote: {fileID: 11400000, guid: c167f7374cdcf604a82efb440115efe4, type: 2}
@@ -1282,11 +1284,13 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 1
+  ManuallySpawnContent: 0
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 1
   Populater:
     SlotContents: []
     DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!114 &5123748548063984441
@@ -1320,6 +1324,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foreverID: oRKrJS26sGZ7QuMo1?Rh
   <AlternativePrefabName>k__BackingField: 
+  <CanBeSpawnedByAdmin>k__BackingField: 1
 --- !u!114 &1594872346571213938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1374,6 +1379,7 @@ MonoBehaviour:
   FramePushDecision: 1
   stickyMovement: 1
   OnThrowEndResetRotation: 0
+  CanSwap: 0
   maximumStickSpeed: 10
   onStationMovementsRound: 1
   registerTile: {fileID: 0}
@@ -1491,6 +1497,18 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   PresentAlertsJson: '[]'
+--- !u!114 &1568398651731903223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0ea4b273a995f3429e87dd6eb5f3f68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
