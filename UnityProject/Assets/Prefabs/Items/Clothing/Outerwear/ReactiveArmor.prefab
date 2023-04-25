@@ -99,6 +99,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3564945054494194852, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
+      propertyPath: _assetId
+      value: 1155034604
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564945054494194852, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
       propertyPath: m_AssetId
       value: f736e201fb6e2d046ac2c309e9b62997
       objectReference: {fileID: 0}
@@ -121,7 +126,7 @@ PrefabInstance:
     - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: initialName
-      value: ReactiveArmor
+      value: reactive armor
       objectReference: {fileID: 0}
     - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
@@ -131,9 +136,7 @@ PrefabInstance:
     - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: initialDescription
-      value: A special type of armor that reacts to being hit. Randomly teleporting
-        the wearer to a different location when getting hit. Has the seal of RD's
-        approval on it.
+      value: A special type of armor that reacts to being hit.
       objectReference: {fileID: 0}
     - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}

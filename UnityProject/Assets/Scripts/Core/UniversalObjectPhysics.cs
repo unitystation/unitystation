@@ -168,6 +168,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 				}
 			}
 
+			if (parentContainer is (NetId.Invalid or NetId.Empty))
+			{
+				return null;
+			}
+
 			return CachedContainedInContainer;
 		}
 	}
@@ -1902,7 +1907,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			    context: gameObject, interactDist: interactDist) && initiator != this)
 		{
 			if ((initiator.gameObject.AssumedWorldPosServer() - this.gameObject.AssumedWorldPosServer()).magnitude >
-			    PlayerScript.INTERACTION_DISTANCE) //If telekinesis was used play effect
+			    PlayerScript.INTERACTION_DISTANCE_EXTENDED) //If telekinesis was used play effect
 			{
 				PlayEffect.SendToAll(this.gameObject, "TelekinesisEffect");
 			}

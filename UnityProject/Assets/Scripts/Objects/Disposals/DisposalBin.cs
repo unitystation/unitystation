@@ -321,13 +321,13 @@ namespace Objects.Disposals
 			{
 				if (DMMath.Prob(25))
 				{
-					Chat.AddLocalMsgToChat($"The {item.ExpensiveName()} bounces off the rim of the {gameObject.ExpensiveName()}!", gameObject);
+					Chat.AddActionMsgToChat(gameObject, $"The {item.ExpensiveName()} bounces off the rim of the {gameObject.ExpensiveName()}!");
 					var dunkMissParameters = new AudioSourceParameters(pitch: RandomDunkPitch);
 					SoundManager.PlayNetworkedAtPos(trashDunkMissSound, registerObject.WorldPositionServer, dunkMissParameters);
 					return;
 				}
 
-				Chat.AddLocalMsgToChat($"The {item.ExpensiveName()} goes straight into the {gameObject.ExpensiveName()}! Score!", gameObject);
+				Chat.AddActionMsgToChat(gameObject, $"The {item.ExpensiveName()} goes straight into the {gameObject.ExpensiveName()}! Score!");
 				StoreItem(item);
 			}
 		}

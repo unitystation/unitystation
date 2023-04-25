@@ -1158,16 +1158,15 @@ namespace Objects.Engineering
 			else if (bumpedBy.TryGetComponent<LivingHealthMasterBase>(out var health))
 			{
 				//Npcs
-				Chat.AddLocalMsgToChat(
-					$"The {bumpedBy.ExpensiveName()} slams into the {gameObject.ExpensiveName()} inducing a resonance... its body starts to glow and burst into flames before flashing into dust!",
-					bumpedBy);
+				Chat.AddActionMsgToChat(bumpedBy, $"The {bumpedBy.ExpensiveName()} slams into the {gameObject.ExpensiveName()} inducing a resonance... " +
+													"its body starts to glow and burst into flames before flashing into dust!");
 
 				health.OnGib();
 			}
 			else if (bumpedBy.TryGetComponent<Integrity>(out var integrity))
 			{
 				//Items flying
-				Chat.AddLocalMsgToChat($"The {bumpedBy.ExpensiveName()} smacks into the {gameObject.ExpensiveName()} and rapidly flashes to ash", bumpedBy);
+				Chat.AddActionMsgToChat(bumpedBy, $"The {bumpedBy.ExpensiveName()} smacks into the {gameObject.ExpensiveName()} and rapidly flashes to ash!");
 				LogBumpForAdmin(bumpedBy);
 
 				integrity.ApplyDamage(1000, AttackType.Rad, DamageType.Brute, true, ignoreArmor: true);

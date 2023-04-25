@@ -408,7 +408,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 
 			if ((playerMove.transform.position - playerMove.Pulling.Component.gameObject.AssumedWorldPosServer()).magnitude >
-			    PlayerScript.INTERACTION_DISTANCE) //If telekinesis was used play effect
+			    PlayerScript.INTERACTION_DISTANCE_EXTENDED) //If telekinesis was used play effect
 			{
 				PlayEffect.SendToAll(playerMove.Pulling.Component.gameObject, "TelekinesisEffect");
 			}

@@ -28,7 +28,7 @@ namespace Items
 
 		public override void Respond(SignalEmitter signalEmitter)
 		{
-			Chat.AddLocalMsgToChat("Signal received!", signalEmitter.gameObject);
+			Chat.AddActionMsgToChat(signalEmitter.gameObject, "Signal received!");
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
