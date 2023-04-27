@@ -11,7 +11,7 @@ namespace UI.Core.NetUI
 
 		public override string Value {
 			get => ((int)(TargetValue * 100)).ToString();
-			set => SetTargetValue(int.Parse(value) / 100f);
+			protected set => SetTargetValue(int.Parse(value) / 100f);
 		}
 
 		public override ElementMode InteractionMode => ElementMode.ServerWrite;

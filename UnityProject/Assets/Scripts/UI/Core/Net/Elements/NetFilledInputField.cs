@@ -17,7 +17,7 @@ namespace UI.Core.NetUI
 
 		public override string Value {
 			get => Element.text;
-			set {
+			protected set {
 				externalChange = true;
 				Element.text = value;
 				externalChange = false;

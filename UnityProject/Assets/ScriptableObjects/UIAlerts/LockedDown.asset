@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1055f6767b8d254fb6634c7bbb32cda, type: 3}
+  m_Name: LockedDown
+  m_EditorClassIdentifier: 
+  AssociatedSprite: {fileID: 11400000, guid: d2d38a7255feccc4eb70cf02a2785c30, type: 2}
+  HoverToolTip: You have been remotely locked by the RD's Robotics console you are
+    unable to move
+  PlayerProtip: {fileID: 0}
+  DoNotShowIfPresent: []

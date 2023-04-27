@@ -14,7 +14,7 @@ namespace UI.Core.NetUI
 
 		public override string Value {
 			get => State.ToString();
-			set {
+			protected set {
 				if (State != bool.Parse(value))
 				{
 					State = bool.Parse(value);

@@ -37,12 +37,12 @@ namespace UI.Core.NetUI
 			foreach (var element in Elements.Cast<NetUIElement<string>>())
 			{
 				string nameBeforeIndex = element.name.Split(DELIMITER)[0];
-				element.Value = nameBeforeIndex switch
+				element.MasterSetValue(nameBeforeIndex switch
 				{
 					"ItemName" => itemAttributes.name,
 					"ItemIcon" => itemAttributes.gameObject.name,
 					_ => string.Empty,
-				};
+				});
 			}
 			Logger.Log(
 					$"ItemEntry: Init success! Prefab={Prefab}, ItemName={itemAttributes.name}, ItemIcon={itemAttributes.gameObject.name}",

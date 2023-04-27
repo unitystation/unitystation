@@ -11,7 +11,7 @@ namespace UI.Objects.Robotics
 	{
 		public override string Value {
 			get => TextComponent.text;
-			set {
+			protected set {
 				externalChange = true;
 				TextComponent.text = value;
 				externalChange = false;

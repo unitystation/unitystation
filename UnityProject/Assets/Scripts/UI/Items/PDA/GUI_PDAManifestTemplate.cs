@@ -10,8 +10,8 @@ namespace UI.Items.PDA
 		[SerializeField] private NetText_label job = default;
 		public void ReInit(string charName, string jobName)
 		{
-			playerName.Value = charName;
-			job.Value = jobName;
+			playerName.MasterSetValue(charName);
+			job.MasterSetValue(jobName);
 		}
 	}
 }

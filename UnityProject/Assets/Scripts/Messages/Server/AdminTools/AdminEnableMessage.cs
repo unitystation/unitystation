@@ -44,24 +44,41 @@ namespace Messages.Server.AdminTools
 			UpdateManager.Instance.StartCoroutine( SendMessageCo(player, adminToken));
 		}
 
-		private static IEnumerator  SendMessageCo(PlayerInfo player, string adminToken)
+		private static IEnumerator SendMessageCo(PlayerInfo player, string adminToken)
 		{
 
-			yield return WaitFor.Seconds(3);
+			yield return WaitFor.Seconds(10);
+			try
+			{
+
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
+				throw;
+			}
 			ItemStorage adminGhostItemStorage = null;
 
-			UIManager.Instance.adminChatButtons.ServerUpdateAdminNotifications(player.Connection);
-			adminGhostItemStorage = AdminManager.Instance.GetItemSlotStorage(player);
+			try
+			{
+				UIManager.Instance.adminChatButtons.ServerUpdateAdminNotifications(player.Connection);
+				adminGhostItemStorage = AdminManager.Instance.GetItemSlotStorage(player);
+			}
+			catch (Exception e)
+			{
+				Logger.LogError(e.ToString());
+			}
 
-			Send(player, adminToken, adminGhostItemStorage.GetComponent<NetworkIdentity>().netId);
+
+			Send(player, adminToken, adminGhostItemStorage?.GetComponent<NetworkIdentity>()?.netId);
 		}
 
-		private static NetMessage Send(PlayerInfo player, string adminToken, uint netId)
+		private static NetMessage Send(PlayerInfo player, string adminToken, uint? netId)
 		{
 			NetMessage msg = new NetMessage
 			{
 				AdminToken = adminToken,
-				AdminGhostStorage = netId
+				AdminGhostStorage = netId ?? NetId.Empty
 			};
 
 			SendTo(player.Connection, msg);

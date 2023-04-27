@@ -12,7 +12,7 @@ namespace UI.Core.NetUI
 
 		public override string Value
 		{
-			set
+			protected set
 			{
 				externalChange = true;
 				Element.RotateToValue(Convert.ToInt32(Convert.ToDouble(value)));

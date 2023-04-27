@@ -19,7 +19,7 @@ public class NetServerSyncString : NetUIStringElement
 		{
 			return CurrentString;
 		}
-		set
+		protected set
 		{
 			CurrentString = value;
 			OnChange.Invoke(CurrentString);

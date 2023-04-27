@@ -40,7 +40,7 @@ namespace UI.Core.NetUI
 
 		public override string Value {
 			get { return syncedValue.ToString(); }
-			set {
+			protected set {
 				int newVal = Convert.ToInt32(value);
 				if (newVal == DisplayedValue) return;
 				externalChange = true;

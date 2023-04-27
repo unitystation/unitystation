@@ -15,7 +15,7 @@ namespace UI.Core.NetUI
 		public override string Value
 		{
 			get => JsonConvert.SerializeObject(ListElements);
-			set
+			protected set
 			{
 				if (CustomNetworkManager.IsServer) return;
 				ListElements = JsonConvert.DeserializeObject<List<T>>(value);

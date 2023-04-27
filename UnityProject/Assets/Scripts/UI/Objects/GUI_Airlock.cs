@@ -27,25 +27,25 @@ namespace UI.Objects
 		public void OnTabOpenedHandler(PlayerInfo connectedPlayer)
 		{
 			bool foundBolts = false;
-			labelOpen.Value = DoorMasterController.IsClosed ? "Closed" : "Open";
+			labelOpen.MasterSetValue( DoorMasterController.IsClosed ? "Closed" : "Open");
 
 			foreach (var module in DoorMasterController.ModulesList)
 			{
 				if (module is BoltsModule bolts)
 				{
-					labelBolts.Value = bolts.BoltsDown ? "Bolted" : "Unbolted";
+					labelBolts.MasterSetValue(bolts.BoltsDown ? "Bolted" : "Unbolted");
 					foundBolts = true;
 				}
 				if (module is ElectrifiedDoorModule electric)
 				{
-					labelSafety.Value = electric.IsElectrified ? "DANGER" : "SAFE";
+					labelSafety.MasterSetValue(electric.IsElectrified ? "DANGER" : "SAFE");
 					UpdateSafetyStatusUI(electric);
 				}
 			}
 
 			if (foundBolts == false)
 			{
-				labelBolts.Value = "No Bolt Module";
+				labelBolts.MasterSetValue("No Bolt Module");
 			}
 		}
 

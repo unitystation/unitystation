@@ -385,7 +385,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		var slot = itemStorage.GetActiveHandSlot();
 		Vector3 targetVector = targetLocalPosition.ToWorld(playerMove.registerTile.Matrix) - playerMove.transform.position;
-		if (slot.Item != null)
+		if (slot?.Item != null)
 		{
 			Inventory.ServerThrow(slot, targetVector, (BodyPartType) aim);
 		}

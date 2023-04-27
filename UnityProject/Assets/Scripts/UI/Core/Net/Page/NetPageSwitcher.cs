@@ -32,7 +32,7 @@ namespace UI.Core.NetUI
 
 		public override string Value {
 			get => CurrentPageIndex.ToString();
-			set {
+			protected set {
 				externalChange = true;
 
 				if (int.TryParse(value, out var parsedValue) && Pages.Count > parsedValue && parsedValue > -1)

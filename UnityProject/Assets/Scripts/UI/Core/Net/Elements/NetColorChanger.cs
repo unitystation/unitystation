@@ -15,7 +15,7 @@ namespace UI.Core.NetUI
 
 		public override Color Value {
 			get => Element.color;
-			set {
+			protected set {
 				externalChange = true;
 				Element.color = value;
 				externalChange = false;

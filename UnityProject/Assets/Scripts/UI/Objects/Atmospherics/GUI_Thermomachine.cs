@@ -29,9 +29,9 @@ namespace UI.Objects.Atmospherics
 			stringBuilder.AppendLine($"Target Temp: {HeaterFreezer.TargetTemperature}");
 			stringBuilder.AppendLine($"Max Temp: {HeaterFreezer.MaxTemperature}");
 
-			temperatureData.Value = stringBuilder.ToString();
+			temperatureData.MasterSetValue(stringBuilder.ToString());
 
-			onOffSwitch.Value = (HeaterFreezer.IsOn ? 1 * 100 : 0).ToString();
+			onOffSwitch.MasterSetValue( (HeaterFreezer.IsOn ? 1 * 100 : 0).ToString());
 		}
 
 		public void PowerChange()

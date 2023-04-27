@@ -47,7 +47,7 @@ namespace UI.Objects.Shuttles
 		public void ReInit()
 		{
 			icon.SetSprite((int)Type);
-			circle.Value = Radius.ToString();
+			circle.MasterSetValue(Radius.ToString());
 		}
 	}
 

@@ -29,12 +29,12 @@ namespace UI.Objects.Security
 
 		public void OnTabOpenedHandler(PlayerInfo connectedPlayer)
 		{
-			labelPower.Value = Turret.HasPower ? Turret.CurrentTurretState == Turret.TurretState.Off ? "Off" : "On" : "No Power";
-			labelWeapons.Value = Turret.CheckWeaponAuthorisation ? "Yes" : "No";
-			labelRecord.Value = Turret.CheckSecurityRecords ? "Yes" : "No";
-			labelArrest.Value = Turret.CheckForArrest ? "Yes" : "No";
-			labelAuthorised.Value = Turret.CheckUnauthorisedPersonnel ? "Yes" : "No";
-			labelLifeSigns.Value = Turret.CheckUnidentifiedLifeSigns ? "Yes" : "No";
+			labelPower.MasterSetValue(Turret.HasPower ? Turret.CurrentTurretState == Turret.TurretState.Off ? "Off" : "On" : "No Power");
+			labelWeapons.MasterSetValue(Turret.CheckWeaponAuthorisation ? "Yes" : "No");
+			labelRecord.MasterSetValue(Turret.CheckSecurityRecords ? "Yes" : "No");
+			labelArrest.MasterSetValue(Turret.CheckForArrest ? "Yes" : "No");
+			labelAuthorised.MasterSetValue( Turret.CheckUnauthorisedPersonnel ? "Yes" : "No");
+			labelLifeSigns.MasterSetValue(Turret.CheckUnidentifiedLifeSigns ? "Yes" : "No");
 		}
 
 		public void OnTogglePower()

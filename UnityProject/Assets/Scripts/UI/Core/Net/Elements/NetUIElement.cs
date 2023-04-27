@@ -46,7 +46,7 @@ namespace UI.Core.NetUI
 
 		public virtual T Value {
 			get => default;
-			set { }
+			protected set { }
 		}
 
 		public override object ValueObject {

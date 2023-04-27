@@ -18,9 +18,10 @@ namespace UI.Core.NetUI
 
 		public override ElementMode InteractionMode => ElementMode.ServerWrite;
 
+		//Do not use this!!!  use MasterSetValue
 		public override string Value {
 			get => ElementTmp != null ? ElementTmp.text : Element.text;
-			set {
+			protected set {
 				externalChange = true;
 				if (ElementTmp != null)
 				{
