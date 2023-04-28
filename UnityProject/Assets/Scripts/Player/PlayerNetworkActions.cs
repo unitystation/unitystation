@@ -986,6 +986,22 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
+	public void HardSuicide()
+	{
+		var health = playerScript.playerHealth;
+		if (health.IsDead)
+		{
+			Logger.LogError("[PlayerNetworkActions/HardSuicide()] - Player is already dead!");
+			return;
+		}
+		health.ApplyDamageAll(playerScript.gameObject,
+			health.MaxHealth * 2,
+			AttackType.Melee, DamageType.Brute,
+			false,
+			traumaChance: 0);
+	}
+
+	[Command]
 	public void CmdDoEmote(string emoteName)
 	{
 		EmoteActionManager.DoEmote(emoteName, playerScript.gameObject);
