@@ -990,4 +990,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		EmoteActionManager.DoEmote(emoteName, playerScript.gameObject);
 	}
+
+	[Command]
+	public void CmdResetMovementForSelf()
+	{
+		playerScript.playerMove.ResetEverything();
+		playerScript.playerMove.ResetLocationOnClient(playerScript.connectionToClient);
+	}
 }

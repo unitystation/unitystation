@@ -764,5 +764,17 @@ namespace IngameDebugConsole
 			}
 
 		}
+
+		[ConsoleMethod("reset-movement", "Resets all movement values. Helpful if you get stuck for no reason.")]
+		public static void ResetMovementStats()
+		{
+			if(IsAdmin() == false) return;
+			if (PlayerManager.LocalPlayerScript == null)
+			{
+				Logger.LogError("[Console Command] - Cannot Reset movement due to null player.", Category.DebugConsole);
+				return;
+			}
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdResetMovementForSelf();
+		}
 	}
 }
