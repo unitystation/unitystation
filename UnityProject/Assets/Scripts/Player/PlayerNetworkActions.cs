@@ -995,6 +995,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdResetMovementForSelf()
 	{
 		playerScript.playerMove.ResetEverything();
-		playerScript.playerMove.ResetLocationOnClient(playerScript.connectionToClient);
+		playerScript.playerMove.ResetLocationOnClients();
 	}
 }
