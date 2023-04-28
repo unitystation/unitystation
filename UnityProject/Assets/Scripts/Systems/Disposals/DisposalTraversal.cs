@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Objects.Disposals;
@@ -110,7 +111,27 @@ namespace Systems.Disposals
 
 			if (nextPipe == null)
 			{
-				if (virtualContainer.SelfControlled == false) EjectViaPipeEnd();
+				if (virtualContainer.SelfControlled)
+				{
+					var directionsToCheck = new List<Vector3Int>
+						{
+							new Vector3Int(-1, 0, 0),
+							new Vector3Int(1, 0, 0),
+							new Vector3Int(0, -1, 0),
+							new Vector3Int(0, 1, 0)
+						};
+
+					foreach (var direction in directionsToCheck)
+					{
+						if (GetPipeAt(out var pipe, currentPipeLocalPos + direction,
+							    requiredSide: nextPipeRequiredSide) == null) continue;
+						if (pipe.PipeType != DisposalPipeType.Terminal) continue;
+						EjectViaPipeEnd();
+						break;
+					}
+					return;
+				}
+				EjectViaPipeEnd();
 				return;
 			}
 
@@ -144,6 +165,16 @@ namespace Systems.Disposals
 			return default;
 		}
 
+		private DisposalPipe GetPipeAt(out DisposalPipe result, Vector3Int localPosition, DisposalPipeType? type = null, OrientationEnum? requiredSide = null)
+		{
+			result = GetPipeAt(localPosition, type, requiredSide);
+			if (result == default)
+			{
+				result = null;
+			}
+			return default;
+		}
+
 		private Orientation GetConnectedSide(Orientation side, bool opposite = false)
 		{
 			if (opposite)
@@ -171,23 +202,33 @@ namespace Systems.Disposals
 		{
 			switch (pipe.PipeType)
 			{
+				// Basic pipes should only have two connectable points, so return the first that is not the entered side.
 				case DisposalPipeType.Basic:
-					// Basic pipes should only have two connectable points, so return the first that is not the entered side.
-					return pipe.ConnectablePoints.First(x => x.Key != sideEntered).Key;
+					return virtualContainer.SelfControlled ?
+						pipe.ConnectablePoints.First().Key : //If self controlled, ignore restriction.
+						pipe.ConnectablePoints.First(x => x.Key != sideEntered).Key;
+
+				// Terminals (pipes that connect to disposal machines) should only have one connectable point.
 				case DisposalPipeType.Terminal:
-					// Terminals (pipes that connect to disposal machines) should only have one connectable point.
 					return pipe.ConnectablePoints.First().Key;
+
 				case DisposalPipeType.Merger:
-					OrientationEnum tryOutputSide = pipe.ConnectablePoints.First(x => x.Value == DisposalPipeConnType.Output).Key;
+					OrientationEnum tryOutputSide =
+						pipe.ConnectablePoints.First
+							(x => x.Value == DisposalPipeConnType.Output).Key;
 					if (tryOutputSide == sideEntered)
 					{
 						// If a disposals instance enters a merger pipe from the output, just choose an input to exit from.
 						return pipe.ConnectablePoints.First(x => x.Value != DisposalPipeConnType.Output).Key;
 					}
-					else return tryOutputSide;
+					else
+					{
+						return tryOutputSide;
+					}
+
+				// TODO: Implement disposal instance destination to auto-select appropriate path to take.
+				// Feature: If no destination, split incoming packets alternately.
 				case DisposalPipeType.Splitter:
-					// TODO: Implement disposal instance destination to auto-select appropriate path to take.
-					// Feature: If no destination, split incoming packets alternately.
 					return pipe.ConnectablePoints.First(x => x.Value != DisposalPipeConnType.Input).Key;
 			}
 
@@ -202,8 +243,6 @@ namespace Systems.Disposals
 
 		private void EjectViaPipeEnd()
 		{
-			if (virtualContainer.SelfControlled) return;
-			virtualContainer.SelfControlled = false;
 			TryDamageTileFromEjection(NextPipeLocalPosition);
 			var worldPos = MatrixManager.LocalToWorld(NextPipeLocalPosition, matrix);
 			SoundManager.PlayNetworkedAtPos(DisposalsManager.Instance.DisposalEjectionHiss, worldPos);
@@ -215,9 +254,7 @@ namespace Systems.Disposals
 		private void EjectViaDisposalPipeTerminal()
 		{
 			var disposalMachine = matrix.GetFirst<DisposalMachine>(currentPipeLocalPos, true);
-			if (disposalMachine == null) return;
-			virtualContainer.SelfControlled = false;
-			if (disposalMachine.MachineSecured)
+			if (disposalMachine is not null && disposalMachine.MachineSecured)
 			{
 				EjectViaDisposalMachine(disposalMachine);
 			}
@@ -262,8 +299,10 @@ namespace Systems.Disposals
 		/// </summary>
 		private void DespawnContainerAndFinish()
 		{
-			_ = Despawn.ServerSingle(virtualContainer.gameObject);
+			virtualContainer.SelfControlled = false;
 			TraversalFinished = true;
+			if (virtualContainer.SelfControlled) DisposalsManager.Instance.FinishDisposal(this);
+			_ = Despawn.ServerSingle(virtualContainer.gameObject);
 		}
 	}
 }
