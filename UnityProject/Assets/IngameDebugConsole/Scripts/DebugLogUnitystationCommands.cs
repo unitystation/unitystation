@@ -775,6 +775,8 @@ namespace IngameDebugConsole
 				return;
 			}
 			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdResetMovementForSelf();
+			Logger.Log("[Console Command] - Movement Reset Successfully. " +
+			           "If you're still stuck, please report this and any errors you might find in the console on github/discord.", Category.DebugConsole);
 		}
 	}
 }
