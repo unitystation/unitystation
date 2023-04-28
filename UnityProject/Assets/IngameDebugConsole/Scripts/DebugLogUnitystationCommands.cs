@@ -111,7 +111,7 @@ namespace IngameDebugConsole
 			}
 			else
 			{
-				SuicideMessage.Send(null);
+				PlayerManager.LocalPlayerScript.PlayerNetworkActions.HardSuicide();
 			}
 		}
 

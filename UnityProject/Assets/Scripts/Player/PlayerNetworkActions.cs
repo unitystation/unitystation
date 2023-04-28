@@ -9,6 +9,7 @@ using Audio.Containers;
 using ScriptableObjects;
 using AdminCommands;
 using Antagonists;
+using Blob;
 using Core.Chat;
 using HealthV2;
 using Items;
@@ -23,6 +24,7 @@ using Doors;
 using Managers;
 using Objects;
 using Player.Language;
+using Systems.Ai;
 using Tiles;
 using Util;
 using Random = UnityEngine.Random;
@@ -983,6 +985,34 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			Inventory.ServerTransfer(gameObjectSent.PickupableOrNull().ItemSlot, slot, ReplacementStrategy.DropOther);
 		}
+	}
+
+	[Command]
+	public void HardSuicide()
+	{
+		if (playerScript.TryGetComponent<AiPlayer>(out var aiPlayer))
+		{
+			aiPlayer.Suicide();
+			return;
+		}
+
+		if (playerScript.TryGetComponent<BlobPlayer>(out var blobPlayer))
+		{
+			blobPlayer.Death();
+			return;
+		}
+
+		var health = playerScript.playerHealth;
+		if (health.IsDead)
+		{
+			Logger.LogError("[PlayerNetworkActions/HardSuicide()] - Player is already dead!");
+			return;
+		}
+		health.ApplyDamageAll(playerScript.gameObject,
+			health.MaxHealth * 2,
+			AttackType.Melee, DamageType.Brute,
+			false,
+			traumaChance: 0);
 	}
 
 	[Command]
