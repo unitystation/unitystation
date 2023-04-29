@@ -301,7 +301,6 @@ namespace Systems.Disposals
 		{
 			virtualContainer.SelfControlled = false;
 			TraversalFinished = true;
-			if (virtualContainer.SelfControlled) DisposalsManager.Instance.FinishDisposal(this);
 			_ = Despawn.ServerSingle(virtualContainer.gameObject);
 		}
 	}
