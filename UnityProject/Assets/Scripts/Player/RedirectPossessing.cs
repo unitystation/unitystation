@@ -38,27 +38,26 @@ public class RedirectPossessing : MonoBehaviour
 	public void Possessing(Mind mind, IPlayerPossessable parent)
 	{
 		if (mind == null) return;
-		if (parent == null ) //Can't be possessed directly
-		{
-			if (ToPossessTo == null)
-			{
-				var Slots = ItemStorage.GetItemSlots();
+		if (parent != null) return;
 
-				foreach (var Slot in Slots)
+		if (ToPossessTo == null)
+		{
+			var Slots = ItemStorage.GetItemSlots();
+
+			foreach (var Slot in Slots)
+			{
+				if (Slot.Item != null)
 				{
-					if (Slot.Item != null)
-					{
-						ToPossessTo = Slot.Item.GetComponent<IPlayerPossessable>();
-						break;
-					}
+					ToPossessTo = Slot.Item.GetComponent<IPlayerPossessable>();
+					break;
 				}
 			}
-
-
-			mind.SetPossessingObject(ToPossessTo.GameObject);
-			mind.StopGhosting();
-			return;
 		}
+
+
+		mind.SetPossessingObject(ToPossessTo.GameObject);
+		mind.StopGhosting();
+		return;
 
 	}
 

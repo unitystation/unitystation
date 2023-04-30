@@ -24,19 +24,18 @@ public class RemotelyControlledBrain : BodyPartFunctionality
 
 	public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 	{
-		if (lockdown)
+		if (!lockdown) return;
+
+		var MovementSynchronisation = livingHealth.GetComponent<MovementSynchronisation>();
+		if (MovementSynchronisation != null)
 		{
-			var MovementSynchronisation = livingHealth.GetComponent<MovementSynchronisation>();
-			if (MovementSynchronisation != null)
+			MovementSynchronisation.ServerAllowInput.RemovePosition(this);
+			if (lockdown)
 			{
-				MovementSynchronisation.ServerAllowInput.RemovePosition(this);
-				if (lockdown)
+				var BodyAlertManager = livingHealth.GetComponent<BodyAlertManager>();
+				if (BodyAlertManager != null)
 				{
-					var BodyAlertManager = livingHealth.GetComponent<BodyAlertManager>();
-					if (BodyAlertManager != null)
-					{
-						BodyAlertManager.UnRegisterAlert(LockeddownAlertSO);
-					}
+					BodyAlertManager.UnRegisterAlert(LockeddownAlertSO);
 				}
 			}
 		}
@@ -45,23 +44,21 @@ public class RemotelyControlledBrain : BodyPartFunctionality
 
 	public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 	{
-		if (lockdown)
+		if (!lockdown) return;
+
+		var MovementSynchronisation = livingHealth.GetComponent<MovementSynchronisation>();
+		if (MovementSynchronisation != null)
 		{
-			var MovementSynchronisation = livingHealth.GetComponent<MovementSynchronisation>();
-			if (MovementSynchronisation != null)
+			MovementSynchronisation.ServerAllowInput.RecordPosition(this, !lockdown);
+			if (lockdown)
 			{
-				MovementSynchronisation.ServerAllowInput.RecordPosition(this, !lockdown);
-				if (lockdown)
+				var BodyAlertManager = livingHealth.GetComponent<BodyAlertManager>();
+				if (BodyAlertManager != null)
 				{
-					var BodyAlertManager = livingHealth.GetComponent<BodyAlertManager>();
-					if (BodyAlertManager != null)
-					{
-						BodyAlertManager.RegisterAlert(LockeddownAlertSO);
-					}
+					BodyAlertManager.RegisterAlert(LockeddownAlertSO);
 				}
-
-
 			}
+
 
 		}
 

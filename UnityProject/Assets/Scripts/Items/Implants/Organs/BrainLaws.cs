@@ -214,11 +214,9 @@ public class BrainLaws : NetworkBehaviour, IActionGUI, IClientInteractable<HandA
 
 		foreach (var law in lawFromModule)
 		{
-			if (law.Key != AiPlayer.LawOrder.Core)
-			{
-				notOnlyCoreLaws = true;
-				break;
-			}
+			if (law.Key == AiPlayer.LawOrder.Core) continue;
+			notOnlyCoreLaws = true;
+			break;
 		}
 
 		SetLaws(lawFromModule, true, notOnlyCoreLaws);

@@ -70,7 +70,7 @@ public class BodyPartMorpher : NetworkBehaviour, IClientInteractable<HandActivat
 		SlotCash.ItemNotRemovable = ItemNotRemovableCash;
 
 
-		Destroy(gameObject);
-		Destroy(nPickupable.gameObject);
+		_ = Despawn.ServerSingle(gameObject);
+		_ = Despawn.ServerSingle(nPickupable.gameObject);
 	}
 }

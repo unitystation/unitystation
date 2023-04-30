@@ -48,15 +48,6 @@ namespace Messages.Server.AdminTools
 		{
 
 			yield return WaitFor.Seconds(10);
-			try
-			{
-
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine(e);
-				throw;
-			}
 			ItemStorage adminGhostItemStorage = null;
 
 			try

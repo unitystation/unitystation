@@ -789,14 +789,14 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 
 					LoadManager.RegisterActionDelayed(() =>
 					{
-						DynamicItemStorage di;
+						DynamicItemStorage DIS;
 
-						int NTries = Tries;
-						NTries++;
+						int LocalTries = Tries;
+						LocalTries++;
 
-						if (wptr.TryGetTarget(out di))
+						if (wptr.TryGetTarget(out DIS))
 						{
-							di.ProcessChangeClient(NewST, NTries);
+							DIS.ProcessChangeClient(NewST, LocalTries);
 						}
 					}, 30);
 					return;
