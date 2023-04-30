@@ -424,7 +424,9 @@ namespace Player
 			}
 		}
 
-		public void OnCharacterSettingsChange(CharacterSheet characterSettings)
+
+
+		public IEnumerator OnCharacterSettingsChange(CharacterSheet characterSettings)
 		{
 			if (RootBodyPartsLoaded == false)
 			{
@@ -451,6 +453,7 @@ namespace Player
 
 				livingHealthMasterBase.InitialiseFromRaceData(RaceBodyparts);
 				livingHealthMasterBase.SetUpCharacter(RaceBodyparts);
+				yield return null; //so Spawned in Sprites have time to get network Initialised on client
 				SetupSprites();
 				livingHealthMasterBase.StartFresh();
 

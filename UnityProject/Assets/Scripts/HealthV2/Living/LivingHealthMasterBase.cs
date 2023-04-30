@@ -1771,7 +1771,7 @@ namespace HealthV2
 				LoadManager.RegisterActionDelayed(() =>
 				{
 					newSprite.UpdateSpritesForImplant(implant, implant.ClothingHide, Sprite, newOrder);
-				}, 2 );
+				}, 1 );
 
 				if (isSurfaceSprite)
 				{

@@ -306,7 +306,7 @@ public static class PlayerSpawn
 			}
 
 
-			playerSprites.OnCharacterSettingsChange(toUseCharacterSettings);
+			playerSprites.StartCoroutine( playerSprites.OnCharacterSettingsChange(toUseCharacterSettings));
 		}
 
 
