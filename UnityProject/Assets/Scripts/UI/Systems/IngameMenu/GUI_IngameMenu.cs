@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Learning;
 using Messages.Client.Lobby;
+using UI.Chat_UI;
 
 
 namespace UI
@@ -24,6 +25,8 @@ namespace UI
 		public static GUI_IngameMenu Instance;
 
 		private bool sentData;
+
+		[SerializeField] private string wikiURL = "https://wiki.unitystation.org/index.php/Welcome_to_Unitystation";
 
 		#region Lifecycle
 
@@ -173,6 +176,18 @@ namespace UI
 			ProtipManager.Instance.ShowListUI();
 		}
 
+		public void ShowMentorHelp()
+		{
+			HideAllMenus();
+			ChatUI.Instance.OnHelpButton();
+		}
+
+		public void OpenWiki()
+		{
+			HideAllMenus();
+			Application.OpenURL(wikiURL);
+		}
+
 		#endregion
 
 		#region Logout Confirmation Window Functions
@@ -237,6 +252,7 @@ namespace UI
 		{
 			menuWindow.SetActive(false);
 			votingWindow.SetActive(false);
+			helpWindow.SetActive(false);
 			if (UIManager.Display.disclaimer != null) UIManager.Display.disclaimer.SetActive(false);
 		}
 

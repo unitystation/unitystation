@@ -1,4 +1,6 @@
 using HealthV2;
+using HealthV2.Living.PolymorphicSystems;
+using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Items.Implants.Organs;
 using UnityEngine;
 
@@ -75,19 +77,23 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 						lung.TryBreathing(node, 6, true);
 						hasLung = true;
 					}
+
+					if (organ is Heart heart)
+					{
+						heart.ForcedBeats++;
+						hasHeart = true;
+					}
 				}
 			}
 		}
 
-		health.CirculatorySystem.Heartbeat(1);
-
-		if (hasLung)
+		if (hasLung && hasHeart)
 		{
 			Chat.AddActionMsgToChat(
 				performer,
 				$"You perform CPR on {targetName}.",
 				$"{performerName} performs CPR on {targetName}.");
-			Chat.AddExamineMsgFromServer(target, $"You feel fresh air enter your lungs. It feels good!");
+			Chat.AddExamineMsgFromServer(target, $"You feel fresh air enter your lungs and your heart pumping, It feels good!");
 		}
 		else
 		{

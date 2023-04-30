@@ -21,6 +21,7 @@ using NaughtyAttributes;
 using Player;
 using Newtonsoft.Json;
 using ScriptableObjects.RP;
+using Systems.Construction.Parts;
 using Systems.Score;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Serialization;
@@ -36,7 +37,7 @@ namespace HealthV2
 	[RequireComponent(typeof(HealthStateController))]
 	[RequireComponent(typeof(MobSickness))]
 	public abstract class LivingHealthMasterBase : NetworkBehaviour, IFireExposable, IExaminable, IFullyHealable, IGib,
-		IAreaReactionBase, IRightClickable, IServerSpawn, IHoverTooltip
+		IAreaReactionBase, IRightClickable, IServerSpawn, IHoverTooltip, IChargeable
 	{
 		/// <summary>
 		/// Server side, each mob has a different one and never it never changes
@@ -108,6 +109,15 @@ namespace HealthV2
 
 		public ReagentPoolSystem reagentPoolSystem => ActiveSystems.OfType<ReagentPoolSystem>().FirstOrDefault();
 
+		///<summary>
+		/// Fetch first or default system by type from the active systems on this living thing.
+		///</summary>
+		public T  GetSystem<T>()
+		{
+			return ActiveSystems.OfType<T>().FirstOrDefault();
+		}
+
+
 		public Brain brain { get; private set; }
 
 
@@ -142,7 +152,9 @@ namespace HealthV2
 
 		// FireStacks note: It's called "stacks" but it's really just a floating point value that
 		// can go up or down based on possible sources of being on fire. Max seems to be 20 in tg.
-		private float fireStacks => healthStateController.FireStacks;
+		private float fireStacks;
+
+		private bool HasFireStacksCash = false;
 
 		/// <summary>
 		/// How on fire we are, same as tg fire_stacks. 0 = not on fire.
@@ -163,7 +175,7 @@ namespace HealthV2
 		/// How badly we're bleeding, same as tg bleed_stacks. 0 = not bleeding.
 		/// Exists client side - synced with server.
 		/// </summary>
-		public float BleedStacks => healthStateController.BleedStacks;
+		public float BleedStacks;
 
 		private float maxBleedStacks = 10f;
 
@@ -214,36 +226,12 @@ namespace HealthV2
 		public List<HealthSystemBase> ActiveSystems = new List<HealthSystemBase>();
 
 
-		/// <summary>
-		/// The current hunger state of the creature, currently always returns normal
-		/// </summary>
-		public HungerState HungerState => CalculateHungerState();
+		private BodyAlertManager BodyAlertManager;
 
-		public HungerState CalculateHungerState()
-		{
-			var State = HungerState.Full;
-			foreach (var bodyPart in BodyPartList)
-			{
-				if (bodyPart.HungerState == HungerState.Full)
-				{
-					State = HungerState.Full;
-					break;
-				}
-
-				if ((int) bodyPart.HungerState > (int) State) //TODO Add the other states
-				{
-					State = bodyPart.HungerState;
-					if (State == HungerState.Starving)
-					{
-						break;
-					}
-				}
-			}
-
-			return State;
-		}
 
 		public BleedingState BleedingState => CalculateBleedingState();
+
+		private BleedingState CashedBleedingState;
 
 		public BleedingState CalculateBleedingState()
 		{
@@ -288,6 +276,8 @@ namespace HealthV2
 		public event Action<DamageType, GameObject> OnTakeDamageType;
 		public event Action OnLowHealth;
 
+		public event Action OnDeath;
+
 		[SyncVar] public bool CannotRecognizeNames = false;
 
 
@@ -321,9 +311,12 @@ namespace HealthV2
 		[NonSerialized]
 		public MultiInterestBool IsMute = new MultiInterestBool(true,
 			MultiInterestBool.RegisterBehaviour.RegisterFalse,
-			MultiInterestBool.BoolBehaviour.ReturnOnFalse);
+			MultiInterestBool.BoolBehaviour.ReturnOnTrue);
 
 		[SerializeField, Range(1,60f)] private float updateTime = 1f;
+
+		[NonSerialized]
+		public PlayerHealthData InitialSpecies = null;
 
 		//Default is mute yes
 
@@ -353,7 +346,7 @@ namespace HealthV2
 			playerScript = GetComponent<PlayerScript>();
 			BodyPartStorage.ServerInventoryItemSlotSet += BodyPartTransfer;
 			BodyPartStorage.SetRegisterPlayer(GetComponent<RegisterPlayer>());
-
+			BodyAlertManager = GetComponent<BodyAlertManager>();
 			//Needs to be in awake so the mobId is set before mind transfer (OnSpawnServer happens after that so cannot be used)
 			mobID = PlayerManager.Instance.GetMobID();
 		}
@@ -403,6 +396,35 @@ namespace HealthV2
 
 		}
 
+
+		public bool IsFullyCharged
+		{
+			get
+			{
+				var chargeable = GetSystem<BatterySystem>();
+				if (chargeable == null)
+				{
+					return true;
+				}
+				else
+				{
+					return chargeable.IsFullyCharged;
+				}
+			}
+		}
+
+		public void ChargeBy(float watts)
+		{
+			var chargeable = GetSystem<BatterySystem>();
+			if (chargeable == null)
+			{
+				return;
+			}
+			else
+			{
+				chargeable.ChargeBy(watts);
+			}
+		}
 
 		//TODO: confusing, make it not depend from the inventory storage Action
 		/// <summary>
@@ -466,7 +488,6 @@ namespace HealthV2
 
 		public void BodyPartListChange()
 		{
-			CirculatorySystem.OrNull()?.BodyPartListChange();
 			SurfaceBodyPartChanges();
 			BodyPartsChangeMutation();
 		}
@@ -480,11 +501,11 @@ namespace HealthV2
 				{
 					if (bodyPart.ItemAttributes.HasAllTraits(externalReaction.ExternalAllRequired)
 					    && bodyPart.ItemAttributes.HasAnyTrait(externalReaction.ExternalBlacklist) == false
-					    && bodyPart.TryGetComponent<BodyPart>(out var MetabolismComponent)) //TODO
+					    && bodyPart.TryGetComponent<MetabolismComponent>(out var MetabolismComponent))
 					{
 						if (PrecalculatedMetabolismReactions.ContainsKey(externalReaction) == false)
 						{
-							PrecalculatedMetabolismReactions[externalReaction] = new List<BodyPart>();
+							PrecalculatedMetabolismReactions[externalReaction] = new List<MetabolismComponent>();
 						}
 
 						PrecalculatedMetabolismReactions[externalReaction].Add(MetabolismComponent);
@@ -495,7 +516,7 @@ namespace HealthV2
 
 
 
-		private List<BodyPart> TMPUseList = new List<BodyPart>();
+		private List<MetabolismComponent> TMPUseList = new List<MetabolismComponent>();
 
 		public void ExternalMetaboliseReactions()
 		{
@@ -534,7 +555,7 @@ namespace HealthV2
 					var HasBodyPart = false;
 					foreach (var bodyPart in PrecalculatedMetabolismReactions[Reaction.Key])
 					{
-						if (SurfaceReagents.ContainsKey(bodyPart.BodyPartType) == false)
+						if (SurfaceReagents.ContainsKey(bodyPart.RelatedPart.BodyPartType) == false)
 						{
 							if (BodyPartType.Chest == storage.Key)
 							{
@@ -544,7 +565,7 @@ namespace HealthV2
 						}
 						else
 						{
-							if (bodyPart.BodyPartType == storage.Key)
+							if (bodyPart.RelatedPart.BodyPartType == storage.Key)
 							{
 								HasBodyPart = true;
 								break;
@@ -566,7 +587,7 @@ namespace HealthV2
 					float ProcessingAmount = 0;
 					foreach (var bodyPart in PrecalculatedMetabolismReactions[Reaction])
 					{
-						if (SurfaceReagents.ContainsKey(bodyPart.BodyPartType) == false)
+						if (SurfaceReagents.ContainsKey(bodyPart.RelatedPart.BodyPartType) == false)
 						{
 							if (BodyPartType.Chest == storage.Key)
 							{
@@ -576,7 +597,7 @@ namespace HealthV2
 						}
 						else
 						{
-							if (bodyPart.BodyPartType == storage.Key)
+							if (bodyPart.RelatedPart.BodyPartType == storage.Key)
 							{
 								TMPUseList.Add(bodyPart);
 								ProcessingAmount += 1;
@@ -600,8 +621,8 @@ namespace HealthV2
 
 		public List<MetabolismReaction> MetabolismReactions { get; } = new();
 
-		private Dictionary<MetabolismReaction, List<BodyPart>> PrecalculatedMetabolismReactions =
-			new Dictionary<MetabolismReaction, List<BodyPart>>();
+		private Dictionary<MetabolismReaction, List<MetabolismComponent>> PrecalculatedMetabolismReactions =
+			new Dictionary<MetabolismReaction, List<MetabolismComponent>>();
 
 		private void OnEnable()
 		{
@@ -624,13 +645,6 @@ namespace HealthV2
 			healthStateController.SetMaxHealth(newMaxHealth);
 		}
 
-		public Reagent CHem;
-
-		[RightClickMethod]
-		public void InjectChemical()
-		{
-			CirculatorySystem.BloodPool.Add(CHem, 5);
-		}
 
 		[RightClickMethod]
 		public void DODMG()
@@ -650,7 +664,13 @@ namespace HealthV2
 				BodyPartList[i].ImplantPeriodicUpdate();
 			}
 
-			if (CirculatorySystem != null) CirculatorySystem.BloodUpdate();
+
+			foreach (var system in ActiveSystems)
+			{
+				system.SystemUpdate();
+			}
+
+
 			ExternalMetaboliseReactions();
 
 			FireStacksDamage();
@@ -658,6 +678,8 @@ namespace HealthV2
 			BleedStacksDamage();
 
 			EnvironmentDamage();
+
+			CalculateOverallHealth();
 
 
 			if (IsDead)
@@ -669,7 +691,7 @@ namespace HealthV2
 			//Sickness logic should not be triggered if the player is dead.
 			mobSickness.TriggerCustomSicknessLogic();
 
-			CalculateOverallHealth();
+
 		}
 
 		#region Mutations
@@ -813,16 +835,30 @@ namespace HealthV2
 		/// </summary>
 		public void FireStacksDamage()
 		{
+			if (HasFireStacksCash != fireStacks > 0)
+			{
+				HasFireStacksCash = fireStacks > 0;
+
+				if (HasFireStacksCash)
+				{
+					BodyAlertManager.RegisterAlert(CommonAlertSOs.Instance.HasFireStacks);
+				}
+				else
+				{
+					BodyAlertManager.UnRegisterAlert(CommonAlertSOs.Instance.HasFireStacks);
+				}
+			}
+
 			if (fireStacks <= 0) return;
 			//TODO: Burn clothes (see species.dm handle_fire)
 			ApplyDamageAll(null, fireStacks, AttackType.Fire, DamageType.Burn, true, TraumaticDamageTypes.BURN);
 			//gradually deplete fire stacks
-			healthStateController.SetFireStacks(fireStacks - 0.1f);
+			fireStacks -= 0.1f;
 			//instantly stop burning if there's no oxygen at this location
 			MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPositionClient); //TODO Account for containers
 			if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
 			{
-				healthStateController.SetFireStacks(0);
+				fireStacks = 0;
 				return;
 			}
 
@@ -837,8 +873,8 @@ namespace HealthV2
 		{
 			if (BleedStacks > 0)
 			{
-				CirculatorySystem.Bleed(1f * (float) Math.Ceiling(BleedStacks));
-				healthStateController.SetBleedStacks(BleedStacks - 0.1f);
+				reagentPoolSystem?.Bleed(1f * (float) Math.Ceiling(BleedStacks));
+				BleedStacks = BleedStacks - 0.1f;
 			}
 		}
 
@@ -899,22 +935,7 @@ namespace HealthV2
 			return toReturn;
 		}
 
-		/// <summary>
-		/// Returns the total amount of blood in the body of the type of blood the body should have
-		/// </summary>
-		public float GetTotalBlood()
-		{
-			return GetSpareBlood();
-		}
 
-
-		/// <summary>
-		/// Returns the total amount of 'spare' blood outside of the organs
-		/// </summary>
-		public float GetSpareBlood()
-		{
-			return CirculatorySystem.BloodPool.Total;
-		}
 
 		/// <summary>
 		/// Returns true if the creature has the given body part of a type targetable by the UI
@@ -937,6 +958,25 @@ namespace HealthV2
 			}
 
 			return false;
+		}
+
+		public AlertSO GetAlertSOFromBleedingState(BleedingState HungerStates)
+		{
+			switch (HungerStates)
+			{
+				case BleedingState.UhOh:
+					return CommonAlertSOs.Instance.Bleeding_UhOh;
+				case BleedingState.High:
+					return CommonAlertSOs.Instance.Bleeding_High;
+				case BleedingState.Medium:
+					return CommonAlertSOs.Instance.Bleeding_Medium;
+				case BleedingState.Low:
+					return CommonAlertSOs.Instance.Bleeding_Low;
+				case BleedingState.VeryLow:
+					return CommonAlertSOs.Instance.Bleeding_VeryLow;
+				default:
+					return null;
+			}
 		}
 
 
@@ -968,8 +1008,24 @@ namespace HealthV2
 
 			//Sync health
 			healthStateController.SetOverallHealth(currentHealth);
-			healthStateController.SetHunger(HungerState);
-			healthStateController.SetBleedingState(BleedingState);
+
+			//TODO HungerState should properly have a cash optimisation here!!
+			if (BleedingState != CashedBleedingState)
+			{
+				var old = GetAlertSOFromBleedingState(CashedBleedingState);
+				if (old != null)
+				{
+					BodyAlertManager.UnRegisterAlert(old);
+				}
+
+				CashedBleedingState = BleedingState;
+
+				var newOne = GetAlertSOFromBleedingState(BleedingState);
+				if (newOne != null)
+				{
+					BodyAlertManager.RegisterAlert(newOne);
+				}
+			}
 
 			if (currentHealth < -100)
 			{
@@ -1321,11 +1377,14 @@ namespace HealthV2
 		{
 			_ = SoundManager.PlayAtPosition(CommonSounds.Instance.Slip, gameObject.transform.position,
 				gameObject); //TODO: replace with gibbing noise
-			CirculatorySystem.Bleed(GetTotalBlood());
+
+			reagentPoolSystem?.Bleed(reagentPoolSystem.GetTotalBlood());
+
 			Death();
 			for (int i = BodyPartList.Count - 1; i >= 0; i--)
 			{
-				BodyPartList[i].TryRemoveFromBody(true);
+				if (BodyPartList[i].BodyPartType == BodyPartType.Chest) continue;
+				BodyPartList[i].TryRemoveFromBody(true, PreventGibb_Death : true);
 			}
 		}
 
@@ -1337,17 +1396,17 @@ namespace HealthV2
 		///<Summary>
 		/// Kills the creature, used for causes of death other than damage.
 		///</Summary>
-		public void Death()
+		public void Death(bool invokeDeathEvent = true)
 		{
 			//Don't trigger if already dead
 			if (ConsciousState == ConsciousState.DEAD) return;
 
-			timeOfDeath = GameManager.Instance.stationTime;
+			timeOfDeath = GameManager.Instance.RoundTime;
 
 			var HV2 = (this as PlayerHealthV2);
 			if (HV2 != null)
 			{
-				if (HV2.playerScript.OrNull()?.playerMove.OrNull()?.allowInput != null)
+				if (HV2.playerScript.OrNull()?.playerMove.OrNull() is not null)
 				{
 					HV2.playerScript.playerMove.allowInput = false;
 				}
@@ -1355,6 +1414,7 @@ namespace HealthV2
 
 			SetConsciousState(ConsciousState.DEAD);
 			OnDeathActions();
+			if (invokeDeathEvent) OnDeath?.Invoke();
 		}
 
 		protected abstract void OnDeathActions();
@@ -1387,7 +1447,7 @@ namespace HealthV2
 		/// <param name="deltaValue">The amount to adjust the stacks by, negative if reducing positive if increasing</param>
 		public void ChangeFireStacks(float deltaValue)
 		{
-			healthStateController.SetFireStacks(Mathf.Clamp((fireStacks + deltaValue), 0, maxFireStacks));
+			fireStacks = Mathf.Clamp((fireStacks + deltaValue), 0, maxFireStacks);
 		}
 
 		/// <summary>
@@ -1395,7 +1455,7 @@ namespace HealthV2
 		/// </summary>
 		public void ChangeBleedStacks(float deltaValue)
 		{
-			healthStateController.SetBleedStacks(Mathf.Clamp((BleedStacks + deltaValue), 0, maxBleedStacks));
+			BleedStacks = Mathf.Clamp((BleedStacks + deltaValue), 0, maxBleedStacks);
 		}
 
 		/// <summary>
@@ -1403,7 +1463,7 @@ namespace HealthV2
 		/// </summary>
 		public void SetBleedStacks(float deltaValue)
 		{
-			healthStateController.SetBleedStacks(Mathf.Clamp(deltaValue, 0, maxBleedStacks));
+			BleedStacks = (Mathf.Clamp(deltaValue, 0, maxBleedStacks));
 		}
 
 		/// <summary>
@@ -1411,7 +1471,7 @@ namespace HealthV2
 		/// </summary>
 		public void Extinguish()
 		{
-			healthStateController.SetFireStacks(0);
+			fireStacks = 0;
 		}
 
 		private void DeathPeriodicUpdate()
@@ -1424,7 +1484,7 @@ namespace HealthV2
 			//TODO:Check for non-organic/zombie/husk
 
 			//Don't produce miasma until 2 minutes after death
-			if (GameManager.Instance.stationTime.Subtract(timeOfDeath).TotalMinutes < 2) return;
+			if (GameManager.Instance.RoundTime.Subtract(timeOfDeath).TotalMinutes < 2) return;
 
 			MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPositionClient);
 
@@ -1737,6 +1797,11 @@ namespace HealthV2
 			{
 				if (playerSprites.RaceBodyparts.Base.SkinColours.Count > 0)
 				{
+					if (playerSprites.ThisCharacter == null)
+					{
+						Logger.LogError("playerSprites.ThisCharacter == null");
+						return;
+					}
 					ColorUtility.TryParseHtmlString(playerSprites.ThisCharacter.SkinTone, out CurrentSurfaceColour);
 
 					var hasColour = false;
@@ -1883,6 +1948,9 @@ namespace HealthV2
 		}
 
 
+		private TemperatureAlert ExtremistTemperatureCash = TemperatureAlert.None;
+		private PressureAlert ExtremistPressureCash = PressureAlert.None;
+
 		public void ExposePressureTemperature(float EnvironmentalPressure, float EnvironmentalTemperature)
 		{
 
@@ -1938,8 +2006,74 @@ namespace HealthV2
 				}
 			}
 
-			healthStateController.SetTemperature(ExtremistTemperature);
-			healthStateController.SetPressure(ExtremistPressure);
+			if (ExtremistPressure != ExtremistPressureCash)
+			{
+				var old = GetAlertSOFromPressure(ExtremistPressureCash);
+				if (old != null)
+				{
+					BodyAlertManager.UnRegisterAlert(old);
+				}
+
+				ExtremistPressureCash = ExtremistPressure;
+
+				var newOne = GetAlertSOFromPressure(ExtremistPressure);
+				if (newOne != null)
+				{
+					BodyAlertManager.RegisterAlert(newOne);
+				}
+			}
+
+			if (ExtremistTemperature != ExtremistTemperatureCash)
+			{
+				var old = GetAlertSOFromTemperature(ExtremistTemperatureCash);
+				if (old != null)
+				{
+					BodyAlertManager.UnRegisterAlert(old);
+				}
+
+				ExtremistTemperatureCash = ExtremistTemperature;
+
+				var newOne = GetAlertSOFromTemperature(ExtremistTemperature);
+				if (newOne != null)
+				{
+					BodyAlertManager.RegisterAlert(newOne);
+				}
+			}
+		}
+
+
+		public AlertSO GetAlertSOFromTemperature(TemperatureAlert TemperatureAlert)
+		{
+			switch (TemperatureAlert)
+			{
+				case TemperatureAlert.Hot:
+					return CommonAlertSOs.Instance.Temperature_Hot;
+				case TemperatureAlert.TooHot:
+					return CommonAlertSOs.Instance.Temperature_TooHot;
+				case TemperatureAlert.Cold:
+					return CommonAlertSOs.Instance.Temperature_Cold;
+				case TemperatureAlert.TooCold:
+					return CommonAlertSOs.Instance.Temperature_TooCold;
+				default:
+					return null;
+			}
+		}
+
+		public AlertSO GetAlertSOFromPressure(PressureAlert PressureAlert)
+		{
+			switch (PressureAlert)
+			{
+				case PressureAlert.PressureTooHigher:
+					return CommonAlertSOs.Instance.Pressure_TooHigher;
+				case PressureAlert.PressureHigher:
+					return CommonAlertSOs.Instance.Pressure_Higher;
+				case PressureAlert.PressureLow:
+					return CommonAlertSOs.Instance.Pressure_Low;
+				case PressureAlert.PressureTooLow:
+					return CommonAlertSOs.Instance.Pressure_TooLow;
+				default:
+					return null;
+			}
 		}
 
 
@@ -1990,27 +2124,27 @@ namespace HealthV2
 
 		public void InitialiseFromRaceData(PlayerHealthData RaceBodyparts)
 		{
+			InitialSpecies = RaceBodyparts;
 			foreach (var System in RaceBodyparts.Base.SystemSettings)
 			{
-				continue; //TODO temp
 				var newsys = System.CloneThisSystem();
 				newsys.Base = this;
 				newsys.InIt();
-				newsys.StartFresh();
 				ActiveSystems.Add(newsys);
 			}
-
-
-			CirculatorySystem.SetBloodType(RaceBodyparts.Base.BloodType);
-			CirculatorySystem.InitialiseHunger(RaceBodyparts.Base.NumberOfMinutesBeforeStarving);
-			CirculatorySystem.InitialiseToxGeneration(RaceBodyparts.Base.TotalToxinGenerationPerSecond);
-			CirculatorySystem.InitialiseMetabolism(RaceBodyparts);
-			CirculatorySystem.InitialiseDefaults(RaceBodyparts);
-			CirculatorySystem.BodyPartListChange();
 
 			meatProduce = RaceBodyparts.Base.MeatProduce;
 			skinProduce = RaceBodyparts.Base.SkinProduce;
 		}
+
+		public void StartFresh()
+		{
+			foreach (var system in ActiveSystems)
+			{
+				system.StartFresh();
+			}
+		}
+
 		//hummmm
 		//How to handle Items being in item storage That being moved in and out of players item storage?
 		//hummmmmmmmmmmmmmmmmmmmmmmmmmmmm

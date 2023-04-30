@@ -340,7 +340,7 @@ public class MouseInputController : MonoBehaviour
 		PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdSlideItem(Vector3Int.RoundToInt(MouseWorldPosition));
 	}
 
-	private bool CheckClick()
+	public bool CheckClick()
 	{
 		ChangeDirection();
 		// currently there is nothing for ghosts to interact with, they only can change facing
@@ -615,7 +615,7 @@ public class MouseInputController : MonoBehaviour
 						$"Forcefully updated atmos at worldPos {position}/ localPos {localPos} of {matrix.Name}");
 				});
 
-				Chat.AddLocalMsgToChat("Ping " + DateTime.Now.ToFileTimeUtc(), PlayerManager.LocalPlayerObject);
+				Chat.AddActionMsgToChat(PlayerManager.LocalPlayerObject, "Ping " + DateTime.Now.ToFileTimeUtc());
 			}
 
 			return true;
@@ -629,7 +629,7 @@ public class MouseInputController : MonoBehaviour
 		if (UIManager.IsThrow)
 		{
 			var currentSlot = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot();
-			if (currentSlot.Item != null || PlayerManager.LocalPlayerScript.playerMove.Pulling.HasComponent)
+			if (currentSlot?.Item != null || PlayerManager.LocalPlayerScript.playerMove.Pulling.HasComponent)
 			{
 				var localTarget = MouseWorldPosition.ToLocal(playerMove.registerTile.Matrix);
 				var vector = MouseWorldPosition - PlayerManager.LocalPlayerScript.transform.position;

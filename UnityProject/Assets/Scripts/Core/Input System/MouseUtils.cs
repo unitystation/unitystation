@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UI.Core;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Tilemaps;
@@ -35,6 +36,15 @@ public static class MouseUtils
 	/// </summary>
 	public static Vector3 MouseToWorldPos()
 	{
+		if (Manager3D.Is3D)
+		{
+			var worldPos3D = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+			worldPos3D = worldPos3D+ Camera.main.transform.forward;
+			worldPos3D.z = 0;
+			return worldPos3D;
+		}
+
 		var worldPos = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
 		worldPos.z = 0;
 		return worldPos;
@@ -138,7 +148,16 @@ public static class MouseUtils
 	public static IEnumerable<GameObject> GetOrderedObjectsUnderMouse(LayerMask? layerMask = null,
 		Func<GameObject, bool> gameObjectFilter = null)
 	{
-		return GetOrderedObjectsAtPoint(MouseToWorldPos(), layerMask,
+
+		var WorldPos = MouseToWorldPos();
+
+		if (ClickOnSelfUI.SelfClick)
+		{
+			ClickOnSelfUI.SelfClick = false;
+			return new[] {PlayerManager.LocalPlayerObject};
+		}
+
+		return GetOrderedObjectsAtPoint(WorldPos, layerMask,
 			gameObjectFilter);
 	}
 
@@ -264,7 +283,7 @@ public static class MouseUtils
 		if (texPosY < 0 || texPosY < textureRect.y || texPosY >= Mathf.FloorToInt(textureRect.yMax)) return false;
 
 		// Check to make sure texture is readable and get pixel color
-		if(texture.isReadable)
+		if (texture.isReadable)
 			color = texture.GetPixel(texPosX, texPosY);
 
 		return true;

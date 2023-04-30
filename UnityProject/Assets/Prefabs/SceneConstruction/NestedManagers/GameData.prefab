@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2960250731806234843}
   - component: {fileID: 8115948098267028479}
   - component: {fileID: 7111023755091482494}
+  - component: {fileID: 557460515347656071}
   m_Layer: 0
   m_Name: GameData
   m_TagString: Untagged
@@ -101,3 +102,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a9ebfd5d49245c3aae9c470e3101480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &557460515347656071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8929341582706713524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cef37a452ce643989764903ac32c4be5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SkyboxMaterials:
+  - {fileID: 2100000, guid: 345f8fe007d66d9409b2c1eba1f3248d, type: 2}
+  - {fileID: 2100000, guid: ea44b32e436ee994f9570b7e84c5a97b, type: 2}
+  - {fileID: 2100000, guid: 93ea008da3cf67c4693b77fb2e69332a, type: 2}
+  - {fileID: 2100000, guid: 399a737ddb6689a43af2c4bf0b8822f6, type: 2}

@@ -111,19 +111,18 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 	protected bool HasTrauma(LivingHealthMasterBase health)
 	{
 		if (health.gameObject.TryGetComponent<CreatureTraumaManager>(out var traumaManager) == false) return false;
-		foreach (var bodyPartTrauma in traumaManager.Traumas)
-		{
-			if(bodyPartTrauma.Value.TraumaTypesOnBodyPart.Any(x => x.traumaTypes.HasFlag(TraumaTypeToHeal)) == false) continue;
-			return true;
-		}
-		return false;
+		return traumaManager.HasAnyTraumaOfType(TraumaTypeToHeal) == false;
 	}
 
 	protected virtual void HealTrauma(LivingHealthMasterBase health, HandApply interaction)
 	{
 		if (health.gameObject.TryGetComponent<CreatureTraumaManager>(out var traumaManager) == false) return;
-		foreach (var bodyPart in health.BodyPartList) traumaManager.HealBodyPartTrauma(bodyPart, TraumaTypeToHeal);
-		stackable.ServerConsume(1);
+		var healedTrauma = false;
+		foreach (var bodyPart in health.BodyPartList)
+		{
+			if (traumaManager.HealBodyPartTrauma(bodyPart, TraumaTypeToHeal)) healedTrauma = true;
+		}
+		if(healedTrauma) stackable.ServerConsume(1);
 	}
 
 	protected void RemoveLimbLossBleed(LivingHealthMasterBase livingHealth, HandApply interaction)
@@ -133,7 +132,7 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 			if(bodyPart.BodyPartType == interaction.TargetBodyPart && bodyPart.IsBleeding == true)
 			{
 				bodyPart.IsBleeding = false;
-				livingHealth.HealthStateController.SetBleedStacks(0f);
+				livingHealth.SetBleedStacks(0f);
 				Chat.AddActionMsgToChat(interaction.Performer.gameObject,
 				$"You stopped {interaction.TargetObject.ExpensiveName()}'s bleeding.",
 				$"{interaction.PerformerPlayerScript.visibleName} stopped {interaction.TargetObject.ExpensiveName()}'s bleeding.");

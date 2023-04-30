@@ -62,7 +62,7 @@ namespace UI
 			base.OnPointerEnter(eventData);
 			try
 			{
-				var item = PlayerManager.LocalPlayerScript?.DynamicItemStorage?.GetActiveHandSlot().Item;
+				var item = PlayerManager.LocalPlayerScript?.DynamicItemStorage?.GetActiveHandSlot()?.Item;
 				if (item == null
 				    || itemSlot.Item != null
 				    || itemSlot.NamedSlot == NamedSlot.rightHand

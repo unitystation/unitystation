@@ -500,7 +500,6 @@ namespace HealthV2
 		{
 			if (SystemSetup) return;
 			SystemSetup = true;
-			BloodInitialise();
 
 			foreach (var Organ in OrganList)
 			{

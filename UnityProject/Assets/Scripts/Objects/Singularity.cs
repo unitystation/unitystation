@@ -111,6 +111,13 @@ namespace Objects
 		private HashSet<GameObject> pushRecently = new HashSet<GameObject>();
 		private int pushTimer;
 
+		public bool DEBUGpointLock = false;
+		public bool DEBUGPushBlock = false;
+		public bool DEBUGDestroyBlock = false;
+		public bool DEBUGMoveBlock = false;
+		public bool DEBUGExplosionBlock = false;
+		public bool DEBUGRadiationBlock = false;
+
 		private readonly List<Vector3Int> adjacentCoords = new List<Vector3Int>
 		{
 			new Vector3Int(0, 1, 0),
@@ -153,7 +160,7 @@ namespace Objects
 			currentFacing = currentFacing.Rotate(Random.Range(1, 4)); //Random direction on start
 		}
 
-		private void OnEnable() 
+		private void OnEnable()
 		{
 			UpdateManager.Add(SingularityUpdate, updateFrequency);
 		}
@@ -217,14 +224,14 @@ namespace Objects
 
 			if (singularityPoints <= 0 && zeroPointDeath)
 			{
-				Chat.AddLocalMsgToChat("The singularity implodes", gameObject);
+				Chat.AddActionMsgToChat(gameObject, "The singularity implodes!");
 				RadiationManager.Instance.RequestPulse( registerTile.WorldPositionServer, maxRadiation, objectId);
 				_ = Despawn.ServerSingle(gameObject);
 				return;
 			}
 
 			//Points decrease by 4 every 0.5 seconds, unless locked by PA at setting 0
-			if (pointLock == false)
+			if (pointLock == false && DEBUGpointLock == false)
 			{
 				ChangePoints(-pointLossRate);
 			}
@@ -247,9 +254,13 @@ namespace Objects
 			//Radiation Pulse
 			var radStrength = Mathf.Max(((float) CurrentStage + 1) / 6 * maxRadiation, 0);
 
-			RadiationManager.Instance.RequestPulse(registerTile.WorldPositionServer, radStrength, objectId);
+			if (DEBUGRadiationBlock == false)
+			{
+				RadiationManager.Instance.RequestPulse(registerTile.WorldPositionServer, radStrength, objectId);
+			}
 
-			if(DMMath.Prob(5))
+
+			if(DMMath.Prob(5) && DEBUGExplosionBlock == false)
 			{
 				int empStrength = Random.Range((int)CurrentStage * 100, (int)CurrentStage * 100 + 300);
 				Vector3Int empPosition = registerTile.WorldPositionServer;
@@ -263,6 +274,7 @@ namespace Objects
 
 		private void PushPullObjects()
 		{
+			if (DEBUGPushBlock) return;
 			int distance;
 
 			switch (currentStage)
@@ -356,6 +368,8 @@ namespace Objects
 
 		private void DestroyObjectsAndTiles()
 		{
+			if (DEBUGDestroyBlock) return;
+
 			int radius;
 
 			switch (currentStage)
@@ -444,8 +458,7 @@ namespace Objects
 							eatenSuperMatter = true;
 							ChangePoints(3250);
 							_ = Despawn.ServerSingle(objectToMove.gameObject);
-							Chat.AddLocalMsgToChat("<color=red>The singularity expands rapidly, uh oh...</color>",
-								gameObject);
+							Chat.AddActionMsgToChat(gameObject, "<color=red>The singularity expands rapidly, uh oh...</color>");
 							return;
 						}
 
@@ -502,6 +515,7 @@ namespace Objects
 
 		private void TryMove()
 		{
+			if (DEBUGMoveBlock) return;
 			int radius = GetRadius(CurrentStage);
 
 			var coord = currentFacing.LocalVectorInt.To3Int() + registerTile.WorldPositionServer;
@@ -648,7 +662,7 @@ namespace Objects
 
 			if (noObstructions)
 			{
-				Chat.AddLocalMsgToChat($"The singularity fluctuates and {(newStage < CurrentStage ? "decreases" : "increases")} in size", gameObject);
+				Chat.AddActionMsgToChat(gameObject, $"The singularity fluctuates and {(newStage < CurrentStage ? "decreases" : "increases")} in size!");
 				CurrentStage = newStage;
 				UpdateVectors();
 				dynamicScale = Vector3.zero; // keyed value: don't tween; set it to 1x scale immediately

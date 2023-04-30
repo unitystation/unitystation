@@ -90,7 +90,7 @@ namespace Player
 			// Sanity check in case Mirror does a surprising thing and allows commands from unauthenticated clients.
 			if (connectionToClient.isAuthenticated == false)
 			{
-				Logger.Log(
+				Logger.LogError(
 					$"A client attempted to set up their server player object but they haven't authenticated yet! Address: {connectionToClient.address}.");
 				ClearCache();
 				return;
@@ -143,9 +143,9 @@ namespace Player
 			var isValidPlayer = PlayerList.Instance.TryLogIn(player);
 			if (isValidPlayer == false)
 			{
-				ClearCache();
 				PlayerList.Instance.Remove(player);
-				Logger.LogWarning($"Set up new player: invalid player. For {authData.Username}", Category.Connections);
+				Logger.LogError($"Set up new player: invalid player. For {authData.Username}", Category.Connections);
+				ClearCache();
 				return;
 			}
 
@@ -168,9 +168,6 @@ namespace Player
 			STUnverifiedClientId = authData.ClientId;
 			STVerifiedUserid = authData.AccountId;
 			STVerifiedConnPlayer = player;
-
-
-
 
 			if (string.IsNullOrEmpty(currentScene) == false)
 			{
@@ -210,7 +207,6 @@ namespace Player
 			{
 				_ = Despawn.ServerSingle(this.gameObject);
 			}
-
 		}
 
 		public void ClientFinishLoading()
@@ -239,6 +235,7 @@ namespace Player
 			if (STVerifiedConnPlayer.Mind == null) //TODO Handle when someone gets kicked out of their mind
 			{
 				TargetLocalPlayerSetupNewPlayer(connectionToClient, GameManager.Instance.CurrentRoundState);
+				GameManager.Instance.OrNull()?.PlayerLoadedIn(connectionToClient);
 				ClearCache(true);
 			}
 			else
@@ -277,8 +274,13 @@ namespace Player
 				}
 			}
 
+
+
 			TargetLocalPlayerRejoinUI(connectionToClient);
+			GameManager.Instance.OrNull()?.PlayerLoadedIn(connectionToClient);
 			STVerifiedConnPlayer.Mind.OrNull()?.ReLog();
+
+
 			ClearCache();
 		}
 
@@ -311,6 +313,7 @@ namespace Player
 					UIManager.Display.SetScreenForJoining();
 					break;
 			}
+
 		}
 
 		public void RequestJob(JobType job)

@@ -97,6 +97,9 @@ namespace Systems.Electricity
 
 		private bool isEMPed = false;
 
+		public UnityEvent OnDeviceLinked = new UnityEvent();
+		public UnityEvent OnDeviceUnLinked = new UnityEvent();
+
 		#region Lifecycle
 
 		private void Awake()
@@ -130,6 +133,12 @@ namespace Systems.Electricity
 			{
 				SelfPoweredUpdate();
 			}
+		}
+
+		private void OnDestroy()
+		{
+			OnDeviceLinked?.RemoveAllListeners();
+			OnDeviceUnLinked?.RemoveAllListeners();
 		}
 
 		private void SelfPoweredUpdate()
@@ -283,7 +292,7 @@ namespace Systems.Electricity
 			}
 		}
 
-		private void UpdateSynchronisedState(PowerState oldState, PowerState newState)
+		public void UpdateSynchronisedState(PowerState oldState, PowerState newState)
 		{
 			EnsureInit();
 			if (!isEMPed)

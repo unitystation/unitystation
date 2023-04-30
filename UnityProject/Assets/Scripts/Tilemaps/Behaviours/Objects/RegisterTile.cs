@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using _3D;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
@@ -182,8 +183,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private CheckedComponent<UniversalObjectPhysics> objectPhysics = new CheckedComponent<UniversalObjectPhysics>();
 	public CheckedComponent<UniversalObjectPhysics> ObjectPhysics => objectPhysics;
 
-	[PrefabModeOnly]
-	public SortingGroup CurrentsortingGroup;
+	[SerializeField, PrefabModeOnly]
+	private SortingGroup CurrentsortingGroup;
 
 	private bool Initialized;
 
@@ -205,6 +206,22 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		IPlayerEntersTiles = GetComponents<IPlayerEntersTile>();
 		IObjectEntersTiles = GetComponents<IObjectEntersTile>();
 		CurrentsortingGroup = GetComponent<SortingGroup>();
+
+		if (Manager3D.Is3D && GameData.IsHeadlessServer == false )
+		{
+			var convertTo3d = this.gameObject.GetComponent<ConvertTo3D>();
+			if (convertTo3d  == null)
+			{
+
+				convertTo3d = gameObject.AddComponent<ConvertTo3D>();
+
+			}
+			convertTo3d .DoConvertTo3D();
+		}
+		else
+		{
+			transform.localRotation = Quaternion.Euler(0, 0, transform.localRotation.eulerAngles.z);
+		}
 	}
 
 	public override void OnStartServer()
@@ -416,7 +433,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			objectLayer = newObjectLayer;
 		}
 
-		transform.SetParent(objectLayer.transform, false);
+		var WorldCashed = transform.position;
+
+		transform.SetParent(objectLayer.transform, true);
 
 		//preserve absolute rotation if there was spin rotation
 		if (hadSpinRotation)
@@ -434,7 +453,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 		if (objectPhysics.HasComponent)
 		{
-			transform.localPosition =  objectPhysics.Component.CalculateLocalPosition();
+			transform.localPosition =  WorldCashed.ToLocal(objectLayer.Matrix);
 		}
 
 		UpdatePositionClient();
@@ -831,14 +850,24 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	public void SetNewSortingOrder(int newLayerId)
 	{
+		if (Manager3D.Is3D) return;
+		if (CurrentsortingGroup == null) return;
+		CurrentsortingGroup.sortingOrder = newLayerId;
+	}
+
+	public void SetNewSortingLayer(int newLayerId, bool BoolReorderSorting = true)
+	{
+		if (Manager3D.Is3D) return;
 		CurrentsortingGroup.sortingLayerID = newLayerId;
-		ReorderSorting();
+		if (BoolReorderSorting)
+		{
+			ReorderSorting();
+		}
 	}
 
 	private void ReorderSorting()
 	{
 		objectLayer.ClientObjects.ReorderObjects(LocalPositionClient);
-
 		if(CustomNetworkManager.IsServer == false) return;
 		objectLayer.ServerObjects.ReorderObjects(LocalPositionServer);
 	}

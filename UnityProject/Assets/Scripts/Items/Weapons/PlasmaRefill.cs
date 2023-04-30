@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Items;
 using Objects;
+using Systems.Construction.Parts;
 
 namespace Weapons
 {

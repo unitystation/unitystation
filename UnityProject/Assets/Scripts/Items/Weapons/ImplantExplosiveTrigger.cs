@@ -1,4 +1,5 @@
 using HealthV2;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Items.Weapons
@@ -12,6 +13,11 @@ namespace Items.Weapons
 		bool hasDetonated = false;
 
 		private ImplantExplosive explosive;
+
+		public bool isEMPVunerable = false;
+
+		[ShowIf("isEMPVunerable")]
+		public int EMPResistance = 2;
 
 		public override void SetUpSystems()
 		{
@@ -38,9 +44,15 @@ namespace Items.Weapons
 			StartCoroutine(explosive.Countdown());
 		}
 
-		public override void EmpResult(int strength)
+		public override void OnEmp(int strength)
 		{
-			Detonate();
+			if (isEMPVunerable == false) return;
+
+			if (EMPResistance == 0 || DMMath.Prob(100 / EMPResistance))
+			{
+				Detonate();
+			}
+
 		}
 	}
 }

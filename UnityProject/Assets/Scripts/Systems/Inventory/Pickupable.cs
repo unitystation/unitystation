@@ -40,10 +40,14 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	[SyncVar] private uint clientSynchronisedStorageIn;
 
-	public GameObject ClientStoredInItemStorage
+	public GameObject StoredInItemStorageNetworked
 	{
 		get
 		{
+			if (isServer)
+			{
+				return ItemSlot?.ItemStorage.OrNull()?.gameObject;
+			}
 			var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 			if (clientSynchronisedStorageIn is NetId.Empty or NetId.Invalid)
 			{

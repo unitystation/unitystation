@@ -165,7 +165,7 @@ namespace Messages.Server
 			if (values != null && tabAction != TabAction.Close)
 			{
 				// get max possible packet size from current transform
-				var maxPacketSize = Transport.activeTransport.GetMaxPacketSize(0);
+				var maxPacketSize = Transport.active.GetMaxPacketSize(0);
 
 				// set currentSize start value to max TCP header size (60b)
 				var currentSize = 100;

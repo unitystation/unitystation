@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UI.Core;
 using UI.Systems.MainHUD.UI_Bottom;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -22,6 +23,8 @@ namespace UI
 
 		private ItemSlot OXsuit;
 		private ItemSlot uniform;
+
+		public ClickOnSelfUI ClickOnSelfUI;
 
 		/// <summary>
 		/// Do player have item in uniform slot

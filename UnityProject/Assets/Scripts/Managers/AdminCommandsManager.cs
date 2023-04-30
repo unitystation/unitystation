@@ -81,7 +81,7 @@ namespace AdminCommands
 				{
 					var message =
 						$"Failed Admin check with id: {player?.ClientId}, associated player with that id (null if not valid id): {player?.Username}," +
-						$"Possible hacked client with ip address: {sender?.address}, netIdentity object name: {sender?.identity.OrNull()?.name}]";
+						$"Possible hacked client with ip address: {sender?.identity?.connectionToClient?.address}, netIdentity object name: {sender?.identity.OrNull()?.name}]";
 					Logger.LogError(message, Category.Exploits);
 					LogAdminAction(message);
 				}
@@ -157,6 +157,19 @@ namespace AdminCommands
 		}
 
 		[Command(requiresAuthority = false)]
+		public void CmdMake3D(NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var player) == false) return;
+			var message = new StringBuilder();
+			message.AppendLine($"{player.Username}: Change the server to 3D");
+
+			Manager3D.Instance.ConvertTo3D();
+
+			if(message.Length == 0) return;
+			LogAdminAction(message.ToString());
+		}
+
+		[Command(requiresAuthority = false)]
 		public void CmdChangeGameMode(string nextGameMode, bool isSecret, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var player) == false) return;
@@ -204,6 +217,13 @@ namespace AdminCommands
 
 			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound && GameManager.Instance.waitForStart)
 			{
+				if (SubsystemBehaviourQueueInit.InitializedAll == false || SubSceneManager.Instance.InitialLoadingComplete == false)
+				{
+					Chat.AddGameWideSystemMsgToChat($"<color={AdminActionChatColor}> An Admin tried to start the game early but the server wasn't ready. **insert Walter White Breaks Down meme here** </color>");
+					return;
+				}
+
+
 				GameManager.Instance.StartRound();
 
 				Chat.AddGameWideSystemMsgToChat($"<color={AdminActionChatColor}>An admin started the round early.</color>");

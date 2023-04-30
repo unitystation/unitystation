@@ -38,6 +38,8 @@ public class GameData : MonoBehaviour
 	public bool testServer;
 	private RconManager rconManager;
 
+	public bool DoNotLoadEditorPreviousScene;
+
 	/// <summary>
 	///     Check to see if you are in the game or in the lobby
 	/// </summary>

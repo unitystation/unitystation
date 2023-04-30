@@ -10,18 +10,20 @@ namespace Messages.Server
 		public struct NetMessage : NetworkMessage
 		{
 			public string Time;
+			public int Minutes;
 		}
 
 		public override void Process(NetMessage msg)
 		{
-			GameManager.Instance.SyncTime(msg.Time);
+			GameManager.Instance.SyncTime(msg.Time, msg.Minutes);
 		}
 
-		public static NetMessage Send(string time)
+		public static NetMessage Send(string time, int minutes)
 		{
 			NetMessage msg = new NetMessage
 			{
-				Time = time
+				Time = time,
+				Minutes = minutes
 			};
 
 			SendToAll(msg);

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1055f6767b8d254fb6634c7bbb32cda, type: 3}
+  m_Name: Temperature_TooHot
+  m_EditorClassIdentifier: 
+  AssociatedSprite: {fileID: 11400000, guid: 1706c35d54a2eae4a93bfa430c19538c, type: 2}
+  HoverToolTip: 
+  PlayerProtip: {fileID: 11400000, guid: 76b1fee33a8e5334aafd5f6c95d3aedd, type: 2}
+  DoNotShowIfPresent: []

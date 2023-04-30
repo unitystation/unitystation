@@ -18,6 +18,7 @@ namespace Messages.Server
 			public uint Item;
 			public int SlotIndex;
 			public NamedSlot NamedSlot;
+			public bool ItemNotRemovable;
 		}
 
 		public override void Process(NetMessage msg)
@@ -40,6 +41,8 @@ namespace Messages.Server
 				{
 					slot = ItemSlot.GetIndexed(NetworkObjects[0].GetComponents<ItemStorage>()[msg.StorageIndexOnGameObject], msg.SlotIndex);
 				}
+
+				slot.ItemNotRemovable = msg.ItemNotRemovable;
 
 				if (slot.ItemObject)
 				{
@@ -89,7 +92,8 @@ namespace Messages.Server
 				Storage = itemSlot.ItemStorageNetID,
 				Item = informEmpty ? NetId.Invalid : (itemSlot.Item != null ? itemSlot.Item.GetComponent<NetworkIdentity>().netId : NetId.Invalid),
 				SlotIndex = itemSlot.SlotIdentifier.SlotIndex,
-				NamedSlot = itemSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.none)
+				NamedSlot = itemSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.none),
+				ItemNotRemovable = itemSlot.ItemNotRemovable
 			};
 
 			try

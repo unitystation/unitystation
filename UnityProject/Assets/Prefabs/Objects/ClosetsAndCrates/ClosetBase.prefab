@@ -451,6 +451,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 136634061082832056, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
+      propertyPath: _assetId
+      value: 801182241
+      objectReference: {fileID: 0}
+    - target: {fileID: 136634061082832056, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
       propertyPath: m_AssetId
       value: 68a3eee06f0a8cf4da5d8ab811ce1c73
       objectReference: {fileID: 0}
@@ -695,6 +700,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55e27ef87b09cc84988939559a2f51ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   passableWhenOpen: 1
@@ -749,6 +755,8 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+  handPriorityTrait: {fileID: 11400000, guid: 3b31d94e5f52dd740a920ade9a2dc27f, type: 2}
+  CannotBeInteractedWithWhenClosed: 0
 --- !u!114 &-3721001473523075953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -797,22 +805,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf6a312c50114272bc561c429cbb4175, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   StoredGasMix:
     GasData:
       GasesArray:
       - GasSO: {fileID: 11400000, guid: ac2834f2705dcbc4da8731a53d3076fc, type: 2}
-        Moles: 8.314244
+        moles: 8.314244
       - GasSO: {fileID: 11400000, guid: d7d4e6085864f9f4e83593f63d102d08, type: 2}
-        Moles: 33.256973
-    Pressure: 101.32501
+        moles: 33.256973
+    pressure: 101.32501
     Volume: 1
-    Temperature: 293.15
+    temperature: 293.15
   MaximumMoles: 1013.25
   ReleasePressure: 101.325
-  Volume: 1
-  Temperature: 293.15
+  CargoSealApproved: 0
 --- !u!114 &6872015153723498109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -825,6 +833,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48487dad7f2bc0541964880f6187c474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   isSecuredStateExaminable: 1

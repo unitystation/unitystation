@@ -14,6 +14,7 @@ using HealthV2;
 /// The Required component for all living creatures
 /// Monitors and calculates health
 /// </summary>
+[Obsolete("LivingHealthBehaviour is deprecated, please use LivingHealthMasterBase instead unless you are working on V1 Mobs.")]
 public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireExposable, IExaminable, IServerSpawn
 {
 	private static readonly float GIB_THRESHOLD = 200f;
@@ -241,6 +242,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 		return bodyPartType;
 	}
+
+
 
 	/// ---------------------------
 	/// PUBLIC FUNCTIONS: HEAL AND DAMAGE:
@@ -539,6 +542,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	/// CRIT + DEATH METHODS
 	/// ---------------------------
 	///Death from other causes
+	[Obsolete("LivingHealthBehaviour is deprecated, please use LivingHealthMasterBase instead unless you are working on V1 Mobs.")]
 	public void Death()
 	{
 		if (IsDead)
@@ -546,7 +550,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			return;
 		}
 
-		timeOfDeath = GameManager.Instance.stationTime;
+		timeOfDeath = GameManager.Instance.RoundTime;
 
 		OnDeathNotifyEvent?.Invoke();
 		afterDeathDamage = 0;
@@ -615,11 +619,11 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		MiasmaCreation();
 	}
 
-	//Old health, dont need the TODO's
+	[Obsolete("LivingHealthBehaviour is deprecated, please use LivingHealthMasterBase instead unless you are working on V1 Mobs.")]
 	private void MiasmaCreation()
 	{
 		//Don't produce miasma until 2 minutes after death
-		if (GameManager.Instance.stationTime.Subtract(timeOfDeath).TotalMinutes < 2) return;
+		if (GameManager.Instance.RoundTime.Subtract(timeOfDeath).TotalMinutes < 2) return;
 
 		MetaDataNode node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionClient);
 
@@ -671,6 +675,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		Gib();
 	}
 
+	[Obsolete("LivingHealthBehaviour is deprecated, please use LivingHealthMasterBase.OnGib() instead unless you are working on V1 Mobs.")]
 	[Server]
 	protected virtual void Gib()
 	{

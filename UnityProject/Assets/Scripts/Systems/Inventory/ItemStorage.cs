@@ -83,6 +83,8 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	public RegisterPlayer Player => player;
 	private RegisterPlayer player;
 
+	public bool SetSlotItemNotRemovableOnStartUp = false;
+
 	public void SetRegisterPlayer(RegisterPlayer registerPlayer)
 	{
 		player = registerPlayer;
@@ -96,6 +98,13 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	{
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
 		CacheDefinedSlots();
+		if (SetSlotItemNotRemovableOnStartUp)
+		{
+			foreach (var slot in GetItemSlots())
+			{
+				slot.ItemNotRemovable = true;
+			}
+		}
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
@@ -216,16 +225,17 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 			{
 				return Inventory.ServerDespawn(slot);
 			}
+
 			if (Throw)
 			{
-				return DroppedAtWorldPositionOrThrowVector != null ?
-					Inventory.ServerThrow(slot, DroppedAtWorldPositionOrThrowVector.GetValueOrDefault())
+				return DroppedAtWorldPositionOrThrowVector != null
+					? Inventory.ServerThrow(slot, DroppedAtWorldPositionOrThrowVector.GetValueOrDefault())
 					: Inventory.ServerThrow(slot, Vector2.zero);
 			}
 			else
 			{
-				return DroppedAtWorldPositionOrThrowVector != null ?
-					Inventory.ServerDrop(slot, DroppedAtWorldPositionOrThrowVector.GetValueOrDefault())
+				return DroppedAtWorldPositionOrThrowVector != null
+					? Inventory.ServerDrop(slot, DroppedAtWorldPositionOrThrowVector.GetValueOrDefault())
 					: Inventory.ServerDrop(slot);
 			}
 		}
@@ -500,7 +510,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	{
 		if (slot.Item == null)
 		{
-			return new[] {slot};
+			return new[] { slot };
 		}
 
 		var itemStorage = slot.Item.GetComponents<ItemStorage>();
@@ -510,7 +520,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 			ListThis.AddRange(itemStorages.GetItemSlotTree());
 		}
 
-		var ToReturn = ListThis.ToArray().Concat(new[] {slot});
+		var ToReturn = ListThis.ToArray().Concat(new[] { slot });
 		return ToReturn;
 	}
 
@@ -576,6 +586,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		{
 			if (slot.IsOccupied) result.Add(slot);
 		}
+
 		return result;
 	}
 
@@ -682,9 +693,8 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		Vector2? worldDeltaTargetVector = null;
 		if (DropAtWorld != null)
 		{
-			worldDeltaTargetVector =  DropAtWorld - gameObject.AssumedWorldPosServer() ;
+			worldDeltaTargetVector = DropAtWorld - gameObject.AssumedWorldPosServer();
 		}
-
 		ServerDropAll(worldDeltaTargetVector);
 	}
 }

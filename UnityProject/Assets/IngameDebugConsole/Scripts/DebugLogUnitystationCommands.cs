@@ -111,7 +111,7 @@ namespace IngameDebugConsole
 			}
 			else
 			{
-				SuicideMessage.Send(null);
+				PlayerManager.LocalPlayerScript.PlayerNetworkActions.HardSuicide();
 			}
 		}
 
@@ -734,6 +734,48 @@ namespace IngameDebugConsole
 		{
 			if(IsAdmin() == false) return;
 			AdminCommandsManager.Instance.TurnOnEmergencyLightsStationWide();
+		}
+
+#if UNITY_EDITOR
+		[MenuItem("Networking/Give me a cyborg!")]
+#endif
+		private static void GenerateCyborg()
+		{
+			var Cyborg =  Spawn.ServerPrefab("test_cyborgTODO_dynamic", PlayerManager.LocalPlayerScript.gameObject.transform.position).GameObject;
+			//Spawn.ServerPrefab()
+
+			foreach (var slot in Cyborg.GetComponent<ItemStorage>().GetIndexedSlots())
+			{
+				if (slot.Item != null)
+				{
+					var Head = Spawn.ServerPrefab("Cyborg Head").GameObject;
+
+					Head.GetComponent<ItemStorage>().ServerTryAdd(Spawn.ServerPrefab("Artificial Brain").GameObject);
+
+					slot.Item.GetComponent<ItemStorage>().ServerTryAdd(Head);
+					slot.Item.GetComponent<ItemStorage>().ServerTryAdd(Spawn.ServerPrefab("cyborg left arm").GameObject);
+					slot.Item.GetComponent<ItemStorage>().ServerTryAdd(Spawn.ServerPrefab("cyborg leg left").GameObject);
+					slot.Item.GetComponent<ItemStorage>().ServerTryAdd(Spawn.ServerPrefab("cyborg leg right").GameObject);
+					slot.Item.GetComponent<ItemStorage>().ServerTryAdd(Spawn.ServerPrefab("cyborg right arm").GameObject);
+					slot.Item.GetComponent<ItemStorage>().ServerTryAdd(Spawn.ServerPrefab("Cyborg Torso").GameObject);
+					slot.Item.GetComponent<ItemStorage>().ServerTryAdd(Spawn.ServerPrefab("ToolCarousel").GameObject);
+				}
+
+			}
+
+		}
+
+		[ConsoleMethod("reset-movement", "Resets all movement values. Helpful if you get stuck for no reason.")]
+		public static void ResetMovementStats()
+		{
+			if (PlayerManager.LocalPlayerScript == null)
+			{
+				Logger.LogError("[Console Command] - Cannot Reset movement due to null player.", Category.DebugConsole);
+				return;
+			}
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdResetMovementForSelf();
+			Logger.Log("[Console Command] - Movement Reset Successfully. " +
+			           "If you're still stuck, please report this and any errors you might find in the console on github/discord.", Category.DebugConsole);
 		}
 	}
 }

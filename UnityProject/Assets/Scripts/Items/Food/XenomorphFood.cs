@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Threading.Tasks;
 using HealthV2;
+using HealthV2.Living.PolymorphicSystems;
 using Items;
 
 namespace Items.Food
@@ -32,7 +33,13 @@ namespace Items.Food
 			var feeder = feederGO.GetComponent<PlayerScript>();
 
 			// Show eater message
-			var eaterHungerState = eater.playerHealth.HungerState;
+			var sys = eater.playerHealth.GetSystem<HungerSystem>();
+			HungerState eaterHungerState = HungerState.Normal;
+
+			if (sys != null)
+			{
+				eaterHungerState = sys.CashedHungerState;
+			}
 			ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");
 
 			// Check if eater can eat anything

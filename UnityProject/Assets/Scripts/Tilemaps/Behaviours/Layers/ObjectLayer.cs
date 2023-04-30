@@ -138,6 +138,23 @@ public class ObjectLayer : Layer
 				}
 			}
 
+			//If you can't bump anything on an adjacent tile, you may be blocked by a bumpable object on your current tile (probably a windoor)
+			if (Bumps.Any() == false)
+			{
+				foreach (var objectOnTile in Matrix.Get<UniversalObjectPhysics>(originalFrom, CustomNetworkManager.IsServer))
+				{
+					if (objectOnTile.Intangible) continue;
+					//Prevents living creatures from bumping themselves (or other living creatures) if on the same tile.
+					if (objectOnTile.GetComponent<HealthV2.HealthStateController>() != null) continue;
+
+					var bumpAbles = objectOnTile.GetComponents<IBumpableObject>();
+					foreach (var bump in bumpAbles)
+					{
+						Bumps.Add(bump);
+					}
+				}
+			}
+
 			if (Hits != null) Hits.Add(o.ObjectPhysics.Component);
 
 			Pushings.Clear();

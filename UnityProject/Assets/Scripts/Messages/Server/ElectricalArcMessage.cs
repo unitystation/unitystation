@@ -12,7 +12,7 @@ namespace Messages.Server
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public Guid prefabAssetID;
+			public uint prefabAssetID;
 			public GameObject startObject;
 			public GameObject endObject;
 			public Vector3 startPosition;

@@ -449,8 +449,11 @@ namespace Weapons
 			if (interaction.MouseButtonState == MouseButtonState.PRESS ||
 			    (WeaponType != WeaponType.SemiAutomatic && AllowSuicide))
 			{
-				isSuicide = interaction.IsAimingAtSelf;
-				AllowSuicide = isSuicide;
+				if (Manager3D.Is3D == false)
+				{
+					isSuicide = interaction.IsAimingAtSelf;
+					AllowSuicide = isSuicide;
+				}
 			}
 
 			if (FiringPin != null)
@@ -929,6 +932,7 @@ namespace Weapons
 
 		public bool CanSuicide(GameObject performer)
 		{
+			if (AllowSuicide == false) return false;
 			return CurrentMagazine != null && CurrentMagazine.ServerAmmoRemains != 0;
 		}
 
@@ -944,7 +948,8 @@ namespace Weapons
 		protected virtual IEnumerator SuicideAction(GameObject performer)
 		{
 			DequeueAndProcessServerShot(performer, performer.RegisterTile().LocalPosition.ToLocal(), BodyPartType.Head, true);
-			performer.GetComponent<LivingHealthBehaviour>().Death();
+			var health = performer.GetComponent<LivingHealthMasterBase>();
+			health.ApplyDamageAll(performer, health.MaxHealth / 2, AttackType.Bullet, DamageType.Brute);
 			yield return null;
 		}
 	}

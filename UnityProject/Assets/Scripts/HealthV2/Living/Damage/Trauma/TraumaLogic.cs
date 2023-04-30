@@ -11,6 +11,7 @@ namespace HealthV2
 		[SerializeField] protected BodyPart bodyPart;
 
 		protected int currentStage = 0;
+		public int CurrentStage => currentStage;
 
 		/// <summary>
 		/// Key: Stage Number. Value: Required Damage to trigger.

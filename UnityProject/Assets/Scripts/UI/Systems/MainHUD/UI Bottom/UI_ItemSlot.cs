@@ -51,7 +51,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	/// <summary>
 	/// Item in this slot, null if empty.
 	/// </summary>
-	public Pickupable Item => itemSlot.Item;
+	public Pickupable Item => itemSlot?.Item;
 
 	/// <summary>
 	/// Actual slot this UI slot is linked to
@@ -238,7 +238,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 			if (MoreInventoryImage != null)
 			{
 				var Storage = item.GetComponent<InteractableStorage>();
-				if (Storage != null)
+				if (Storage != null && Storage.DoNotShowInventoryOnUI == false)
 				{
 					HasSubInventory.itemStorage = Storage.ItemStorage;
 					MoreInventoryImage.enabled = true;

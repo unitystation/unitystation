@@ -132,7 +132,7 @@ namespace UI.Objects.Wallmounts
 			}
 
 
-			DateTime stationTimeHolder = GameManager.Instance.stationTime;
+			DateTime stationTimeHolder = GameManager.Instance.RoundTime;
 
 			string timestring = stationTimeHolder.ToString("HH:mm");
 			string voltagestring = masterTerminal.CurrentVoltage + "V";

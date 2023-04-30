@@ -1,4 +1,5 @@
 ﻿using Chemistry;
+using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Items.Implants.Organs;
 using ScriptableObjects.Atmospherics;
 using Systems.Atmospherics;
@@ -11,13 +12,15 @@ namespace HealthV2
 		[SerializeField]
 		private float circulatedReagentAmount = 10;
 
+
+
 		protected override bool BreatheIn(GasMix breathGasMix, ReagentMix blood, float efficiency)
 		{
 			var baseBool = base.BreatheIn(breathGasMix, blood, efficiency);
 
-			if (RelatedPart.CurrentBloodSaturation < ((BodyPartFunctionality) this).RelatedPart.bloodType.BLOOD_REAGENT_SATURATION_OKAY)
+			if (SaturationComponent.CurrentBloodSaturation < (ReagentCirculatedComponent.bloodType.BLOOD_REAGENT_SATURATION_OKAY))
 			{
-				blood.Add(((BodyPartFunctionality) this).RelatedPart.bloodType.CirculatedReagent, circulatedReagentAmount);
+				blood.Add(ReagentCirculatedComponent.bloodType.CirculatedReagent, circulatedReagentAmount);
 			}
 
 			return baseBool;

@@ -1,4 +1,5 @@
 using System;
+using Items.Implants.Organs;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Mirror;
@@ -18,17 +19,8 @@ namespace Objects.Lighting
 	public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowerable, IServerLifecycle,
 		IMultitoolSlaveable
 	{
-		[SyncVar, SerializeField, FormerlySerializedAs("ONColour")] private Color currentOnColor;
-
-		public Color ONColour
-		{
-			get => currentOnColor;
-			set
-			{
-				currentOnColor = value;
-				SetAnimation();
-			}
-		}
+		[SyncVar(hook = nameof(SetAnimation)), SerializeField, FormerlySerializedAs("ONColour")]
+		public Color CurrentOnColor;
 
 		public Color EmergencyColour;
 
@@ -98,6 +90,11 @@ namespace Objects.Lighting
 			ChangeCurrentState(InitialState);
 			traitRequired = currentState.TraitRequired;
 			RefreshBoxCollider();
+		}
+
+		private void Start()
+		{
+			lightSprite.Color = CurrentOnColor;
 		}
 
 		private void OnEnable()
@@ -197,7 +194,7 @@ namespace Objects.Lighting
 			MountState = newState;
 			ChangeCurrentState(newState);
 			SetSprites();
-			SetAnimation();
+			SetAnimation(CurrentOnColor, CurrentOnColor);
 		}
 
 		private void ChangeCurrentState(LightMountState newState)
@@ -253,9 +250,10 @@ namespace Objects.Lighting
 			RefreshBoxCollider();
 		}
 
-		private void SetAnimation()
+		public void SetAnimation(Color oldState, Color newState)
 		{
-			lightSprite.Color = currentState.LightColor;
+		    CurrentOnColor = newState;
+			lightSprite.Color = newState;
 			switch (MountState)
 			{
 				case LightMountState.Emergency:
@@ -274,7 +272,7 @@ namespace Objects.Lighting
 						emergencyLightAnimator.StopAnimation();
 					}
 
-					lightSprite.Color = ONColour;
+					lightSprite.Color = newState;
 					mLightRendererObject.transform.localScale = Vector3.one * 12.0f;
 					mLightRendererObject.SetActive(true);
 					break;
@@ -333,6 +331,12 @@ namespace Objects.Lighting
 				{
 					foreach (var slot in handSlots)
 					{
+						if (interaction.PerformerPlayerScript.playerHealth.brain != null &&
+						    interaction.PerformerPlayerScript.playerHealth.brain.HasTelekinesis)
+						{
+							Chat.AddExamineMsg(interaction.Performer, "You instinctively use your telekinetic power to protect your hand from getting burnt.");
+							return true;
+						}
 						if (slot.IsEmpty) continue;
 						if (Validations.HasItemTrait(slot.ItemObject, CommonTraits.Instance.BlackGloves)) return true;
 					}

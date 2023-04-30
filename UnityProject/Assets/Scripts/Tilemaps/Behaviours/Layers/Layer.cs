@@ -151,6 +151,9 @@ public class Layer : MonoBehaviour
 		InternalSetTile(position, tile);
 		tilemap.SetColor(position, color);
 		tilemap.SetTransformMatrix(position, transformMatrix);
+
+
+
 		//Client stuff, never spawn this on the server. (IsServer is technically a client in some cases so only return this on headless)
 		if (CustomNetworkManager.IsHeadless) return;
 		if (tile is not SimpleTile c) return; //Not a tile that has the data we need

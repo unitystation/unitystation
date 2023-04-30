@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Chemistry;
 using HealthV2;
+using HealthV2.Living.PolymorphicSystems.Bodypart;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -40,9 +41,9 @@ public class BodyHealthEffect : MetabolismReaction
 	}
 
 	[System.NonSerialized]
-	public List<BodyPart> DamagedList = new List<BodyPart>(); //Not multithread safe
+	public List<MetabolismComponent> DamagedList = new List<MetabolismComponent>(); //Not multithread safe
 
-	public override void PossibleReaction(List<BodyPart> senders, ReagentMix reagentMix,
+	public override void PossibleReaction(List<MetabolismComponent> senders, ReagentMix reagentMix,
 		float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed, out bool overdose) //limitedReactionAmountPercentage = 0 to 1
 	{
 		overdose = false;
@@ -55,7 +56,7 @@ public class BodyHealthEffect : MetabolismReaction
 				{
 					foreach (var Effect in Effects)
 					{
-						if (Effect.EffectPerOne < 0 && bodyPart.GetDamage(Effect.DamageEffect) > 0)
+						if (Effect.EffectPerOne < 0 && bodyPart.RelatedPart.GetDamage(Effect.DamageEffect) > 0)
 						{
 							if (DamagedList.Contains(bodyPart) == false)
 							{
@@ -66,7 +67,7 @@ public class BodyHealthEffect : MetabolismReaction
 				}
 				else
 				{
-					if (AttackBodyPartPerOneU < 0 && bodyPart.GetDamage(DamageEffect) > 0)
+					if (AttackBodyPartPerOneU < 0 && bodyPart.RelatedPart.GetDamage(DamageEffect) > 0)
 					{
 						DamagedList.Add(bodyPart);
 					}
@@ -82,7 +83,7 @@ public class BodyHealthEffect : MetabolismReaction
 			float ProcessingAmount = 0;
 			foreach (var bodyPart in Toloop)
 			{
-				ProcessingAmount += bodyPart.ReagentMetabolism * bodyPart.BloodThroughput * bodyPart.CurrentBloodSaturation * Mathf.Max(0.10f, bodyPart.TotalModified);
+				ProcessingAmount += bodyPart.ReagentMetabolism * bodyPart.BloodThroughput * bodyPart.CurrentBloodSaturation;
 			}
 
 			if (TotalChemicalsProcessed > ProcessingAmount)
@@ -95,17 +96,17 @@ public class BodyHealthEffect : MetabolismReaction
 				}
 			}
 
-			BodyReactionAmount = ProcessingAmount * ReagentMetabolismMultiplier;
+			BodyReactionAmount = ProcessingAmount;
 		}
 
 		foreach (var bodyPart in Toloop)
 		{
-			var Individual = bodyPart.ReagentMetabolism * bodyPart.BloodThroughput * bodyPart.CurrentBloodSaturation * Mathf.Max(0.10f, bodyPart.TotalModified) * ReagentMetabolismMultiplier;
+			var Individual = bodyPart.ReagentMetabolism * bodyPart.BloodThroughput * bodyPart.CurrentBloodSaturation;
 
 			var PercentageOfProcess = Individual / BodyReactionAmount;
 
 
-			var TotalChemicalsProcessedByBodyPart = TotalChemicalsProcessed * PercentageOfProcess;
+			var TotalChemicalsProcessedByBodyPart = (TotalChemicalsProcessed * ReagentMetabolismMultiplier)  * PercentageOfProcess;
 
 			if (CanOverdose)
 			{
@@ -116,7 +117,7 @@ public class BodyHealthEffect : MetabolismReaction
 					{
 						foreach (var Effect in Effects)
 						{
-							bodyPart.TakeDamage(null,
+							bodyPart.RelatedPart.TakeDamage(null,
 								Effect.EffectPerOne * TotalChemicalsProcessedByBodyPart * -OverdoseDamageMultiplier,
 								Effect.AttackType,
 								Effect.DamageEffect, DamageSubOrgans: false);
@@ -124,7 +125,7 @@ public class BodyHealthEffect : MetabolismReaction
 					}
 					else
 					{
-						bodyPart.TakeDamage(null,
+						bodyPart.RelatedPart.TakeDamage(null,
 							AttackBodyPartPerOneU * TotalChemicalsProcessedByBodyPart * -OverdoseDamageMultiplier,
 							AttackType,
 							DamageEffect, DamageSubOrgans: false);
@@ -138,13 +139,13 @@ public class BodyHealthEffect : MetabolismReaction
 				{
 					foreach (var Effect in Effects)
 					{
-						bodyPart.TakeDamage(null, Effect.EffectPerOne * TotalChemicalsProcessedByBodyPart, Effect.AttackType,
+						bodyPart.RelatedPart.TakeDamage(null, Effect.EffectPerOne * TotalChemicalsProcessedByBodyPart, Effect.AttackType,
 							Effect.DamageEffect, DamageSubOrgans: false);
 					}
 				}
 				else
 				{
-					bodyPart.TakeDamage(null, AttackBodyPartPerOneU * TotalChemicalsProcessedByBodyPart, AttackType,
+					bodyPart.RelatedPart.TakeDamage(null, AttackBodyPartPerOneU * TotalChemicalsProcessedByBodyPart, AttackType,
 						DamageEffect, DamageSubOrgans: false);
 				}
 			}

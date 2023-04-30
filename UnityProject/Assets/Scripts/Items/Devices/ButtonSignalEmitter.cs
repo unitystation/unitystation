@@ -33,7 +33,7 @@ namespace Items
 
 		public override void SignalFailed()
 		{
-			Chat.AddLocalMsgToChat("Bzzt!", gameObject);
+			Chat.AddActionMsgToChat(gameObject, "Bzzt!");
 		}
 
 		public void ServerPerformInteraction(HandActivate interaction)

@@ -313,11 +313,10 @@ public class StandardProgressAction : IProgressAction
 	{
 		//note: doesn't check cross matrix situations.
 		return playerScript.playerHealth.ConsciousState == initialConsciousState &&
-		       playerScript.playerMove.IsCuffed == false &&
+		       (progressActionConfig.AllowDuringCuff || playerScript.playerMove.IsCuffed == false) &&
 		       playerScript.RegisterPlayer.IsSlippingServer == false &&
 			   playerScript.PlayerNetworkActions.IsRolling == false &&
-		       (progressActionConfig.AllowTurning ||
-		        playerScript.PlayerDirectional.CurrentDirection != initialDirection) &&
+		       (progressActionConfig.AllowTurning || playerScript.PlayerDirectional.CurrentDirection != initialDirection) &&
 		       playerScript.PlayerSync.IsMoving == false &&
 		       //make sure we're still in range
 		       Validations.IsInReachDistanceByPositions(playerScript.RegisterPlayer.WorldPositionServer,

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Chemistry;
 using HealthV2;
+using HealthV2.Living.PolymorphicSystems.Bodypart;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -33,12 +34,12 @@ public class ExternalBodyHealthEffect : MetabolismReaction
 
 	[ShowIf(nameof(HasInitialTouchCharacteristics))] public List<BodyHealthEffect.TypeAndStrength> InitialTouchCharacteristics = new List<BodyHealthEffect.TypeAndStrength>();
 
-	public override void PossibleReaction(List<BodyPart> senders, ReagentMix reagentMix,
+	public override void PossibleReaction(List<MetabolismComponent> senders, ReagentMix reagentMix,
 		float reactionMultiple, float BodyReactionAmount,
 		float TotalChemicalsProcessed, out bool overdose) //limitedReactionAmountPercentage = 0 to 1
 	{
 
-	base.PossibleReaction(senders, reagentMix, reactionMultiple, BodyReactionAmount, TotalChemicalsProcessed, out overdose);
+		base.PossibleReaction(senders, reagentMix, reactionMultiple, BodyReactionAmount, TotalChemicalsProcessed, out overdose);
 
 		foreach (var bodyPart in senders)
 		{
@@ -50,16 +51,16 @@ public class ExternalBodyHealthEffect : MetabolismReaction
 					{
 						foreach (var Effect in Effects)
 						{
-							bodyPart.TakeDamage(null,
-								Effect.EffectPerOne * ReagentMetabolismMultiplier * -OverdoseDamageMultiplier,
+							bodyPart.RelatedPart.TakeDamage(null,
+								Effect.EffectPerOne * -OverdoseDamageMultiplier * ReagentMetabolismMultiplier,
 								Effect.AttackType,
 								Effect.DamageEffect, DamageSubOrgans: false);
 						}
 					}
 					else
 					{
-						bodyPart.TakeDamage(null,
-							AttackBodyPartPerOneU *  ReagentMetabolismMultiplier *  -OverdoseDamageMultiplier,
+						bodyPart.RelatedPart.TakeDamage(null,
+							AttackBodyPartPerOneU  *  -OverdoseDamageMultiplier * ReagentMetabolismMultiplier,
 							AttackType,
 							DamageEffect, DamageSubOrgans: false);
 					}
@@ -72,13 +73,13 @@ public class ExternalBodyHealthEffect : MetabolismReaction
 				{
 					foreach (var Effect in Effects)
 					{
-						bodyPart.TakeDamage(null, Effect.EffectPerOne *  ReagentMetabolismMultiplier , Effect.AttackType,
+						bodyPart.RelatedPart.TakeDamage(null, Effect.EffectPerOne  * ReagentMetabolismMultiplier , Effect.AttackType,
 							Effect.DamageEffect, DamageSubOrgans: false);
 					}
 				}
 				else
 				{
-					bodyPart.TakeDamage(null, AttackBodyPartPerOneU  *  ReagentMetabolismMultiplier, AttackType,
+					bodyPart.RelatedPart.TakeDamage(null, AttackBodyPartPerOneU * ReagentMetabolismMultiplier , AttackType,
 						DamageEffect, DamageSubOrgans: false);
 				}
 			}

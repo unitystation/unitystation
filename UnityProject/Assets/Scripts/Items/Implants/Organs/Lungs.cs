@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Chemistry;
 using HealthV2;
+using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Objects.Atmospherics;
 using ScriptableObjects.Atmospherics;
 using Systems.Atmospherics;
@@ -52,6 +53,28 @@ namespace Items.Implants.Organs
 		[SerializeField] private float internalBleedingCooldown = 4f;
 		private bool onCooldown = false;
 
+		public ReagentCirculatedComponent ReagentCirculatedComponent;
+		public SaturationComponent SaturationComponent;
+		public HungerComponent HungerComponent;
+
+		public BodyPartAlerts BodyPartAlerts;
+
+		public bool hasToxinsCash =false;
+
+		private bool suffocatingCash = false;
+
+		public AlertSO ToxinAlert;
+		public AlertSO SuffocatingAlert;
+
+		public override void Awake()
+		{
+			base.Awake();
+			ReagentCirculatedComponent = this.GetComponentCustom<ReagentCirculatedComponent>();
+			SaturationComponent = this.GetComponentCustom<SaturationComponent>();
+			HungerComponent = this.GetComponentCustom<HungerComponent>();
+			BodyPartAlerts = this.GetComponentCustom<BodyPartAlerts>();
+		}
+
 		public override void ImplantPeriodicUpdate()
 		{
 			base.ImplantPeriodicUpdate();
@@ -77,7 +100,7 @@ namespace Items.Implants.Organs
 						Mathf.Max(RelatedPart.MaxHealth - RelatedPart.TotalDamageWithoutOxyCloneRadStam, 0) /
 						RelatedPart.MaxHealth);
 				}
-				else if (modifier == RelatedPart.HungerModifier)
+				else if (modifier == HungerComponent.OrNull()?.HungerModifier)
 				{
 					continue;
 				}
@@ -117,7 +140,7 @@ namespace Items.Implants.Organs
 				}
 			}
 
-			if (RelatedPart.HealthMaster.CirculatorySystem.BloodPool[RelatedPart.bloodType] == 0)
+			if (ReagentCirculatedComponent.AssociatedSystem.BloodPool[SaturationComponent.bloodType] == 0)
 			{
 				return false; //No point breathing if we dont have blood.
 			}
@@ -144,8 +167,8 @@ namespace Items.Implants.Organs
 			}
 
 			ReagentMix availableBlood =
-				RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Take(
-					(RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Total * efficiency) / 2f);
+				ReagentCirculatedComponent.AssociatedSystem.BloodPool.Take(
+					(ReagentCirculatedComponent.AssociatedSystem.BloodPool.Total * efficiency) / 2f);
 
 			if (internalGasMix == false)
 			{
@@ -158,7 +181,7 @@ namespace Items.Implants.Organs
 
 			bool tryExhale = BreatheOut(gasMixSink, availableBlood);
 			bool tryInhale = BreatheIn(container.GasMix, availableBlood, efficiency);
-			RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Add(availableBlood);
+			ReagentCirculatedComponent.AssociatedSystem.BloodPool.Add(availableBlood);
 			return tryExhale || tryInhale;
 		}
 
@@ -221,12 +244,12 @@ namespace Items.Implants.Organs
 		{
 			if (RelatedPart.HealthMaster.RespiratorySystem.CanBreatheAnywhere)
 			{
-				blood.Add(RelatedPart.requiredReagent, RelatedPart.bloodType.GetSpareGasCapacity(blood));
+				blood.Add(SaturationComponent.requiredReagent, SaturationComponent.bloodType.GetSpareGasCapacity(blood));
 				return false;
 			}
 
 			ReagentMix toInhale = new ReagentMix();
-			var available = RelatedPart.bloodType.GetNormalGasCapacity(blood);
+			var available = SaturationComponent.bloodType.GetNormalGasCapacity(blood);
 
 			ToxinBreathinCheck(breathGasMix);
 			float percentageCanTake = 1;
@@ -263,11 +286,11 @@ namespace Items.Implants.Organs
 					// Get as much as we need, or as much as in the lungs, whichever is lower
 					float molesRecieved = 0;
 
-					if (gasReagent == RelatedPart.bloodType.CirculatedReagent)
+					if (gasReagent == SaturationComponent.bloodType.CirculatedReagent)
 					{
 						var percentageMultiplier = (gasMoles / (totalMoles));
-						molesRecieved = RelatedPart.bloodType.GetSpecialGasCapacity(blood) * percentageMultiplier *
-										pressureMultiplier;
+						molesRecieved = SaturationComponent.bloodType.GetSpecialGasCapacity(blood) * percentageMultiplier *
+						                pressureMultiplier;
 					}
 					else if (gasMoles != 0)
 					{
@@ -284,22 +307,36 @@ namespace Items.Implants.Organs
 			RelatedPart.HealthMaster.RespiratorySystem.GasExchangeToBlood(breathGasMix, blood, toInhale, LungSize);
 
 
+			bool suffocating = false;
 			// Counterintuitively, in humans respiration is stimulated by pressence of CO2 in the blood, not lack of oxygen
 			// May want to change this code to reflect that in the future so people don't hyperventilate when they are on nitrous oxide
 
 
-			if (RelatedPart.CurrentBloodSaturation >= RelatedPart.bloodType.BLOOD_REAGENT_SATURATION_OKAY)
+			if (SaturationComponent.CurrentBloodSaturation >= SaturationComponent.bloodType.BLOOD_REAGENT_SATURATION_OKAY)
 			{
 				currentBreatheCooldown = breatheCooldown; //Slow breathing, we're all good
-				RelatedPart.HealthMaster.HealthStateController.SetSuffocating(false);
+				suffocating = false;
 			}
-			else if (RelatedPart.CurrentBloodSaturation <= RelatedPart.bloodType.BLOOD_REAGENT_SATURATION_BAD)
+			else if (SaturationComponent.CurrentBloodSaturation <= SaturationComponent.bloodType.BLOOD_REAGENT_SATURATION_BAD)
 			{
-				RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
+				suffocating = true;
 				if (DMMath.Prob(20))
 				{
 					Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, "You gasp for breath!",
 						$"{RelatedPart.HealthMaster.playerScript.visibleName} gasps!");
+				}
+			}
+
+			if (suffocatingCash != suffocating)
+			{
+				suffocatingCash = suffocating;
+				if (suffocatingCash)
+				{
+					BodyPartAlerts.AddAlert(SuffocatingAlert);
+				}
+				else
+				{
+					BodyPartAlerts.RemoveAlert(SuffocatingAlert);
 				}
 			}
 
@@ -330,7 +367,18 @@ namespace Items.Implants.Organs
 				}
 			}
 
-			RelatedPart.HealthMaster.HealthStateController.SetToxins(hasToxins);
+			if (hasToxinsCash != hasToxins)
+			{
+				hasToxinsCash = hasToxins;
+				if (hasToxins)
+				{
+					BodyPartAlerts.AddAlert(ToxinAlert);
+				}
+				else
+				{
+					BodyPartAlerts.RemoveAlert(ToxinAlert);
+				}
+			}
 		}
 
 		private IEnumerator<WaitForSeconds> CooldownTick()

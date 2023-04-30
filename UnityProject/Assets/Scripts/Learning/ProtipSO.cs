@@ -22,7 +22,7 @@ namespace Learning
 		public float ShowDuration;
 
 		public bool Equals(Protip obj)
-		{		
+		{
 			if(obj.Tip == null || Tip == null) return false;
 			if(obj.Tip != Tip) return false;
 			return base.Equals (obj);

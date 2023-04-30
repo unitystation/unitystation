@@ -42,7 +42,7 @@ namespace IngameDebugConsole
 		/// <summary>
 		/// Indices of debug entries to show in collapsedLogEntries
 		/// </summary>
-		private DebugLogIndexList indicesOfEntriesToShow = null;
+		private DebugLogIndexList indicesOfEntriesToShow = new DebugLogIndexList();
 
 		private int indexOfSelectedLogEntry = int.MaxValue;
 		private float positionOfSelectedLogEntry = float.MaxValue;

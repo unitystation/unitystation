@@ -33,15 +33,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -54,6 +54,11 @@ PrefabInstance:
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: _assetId
+      value: 422209012
       objectReference: {fileID: 0}
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -201,6 +206,7 @@ MonoBehaviour:
   Populater:
     SlotContents: []
     DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
   ashPrefab: {fileID: 0}
 --- !u!114 &4644871529314044369
 MonoBehaviour:
@@ -214,6 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8343d0f678a24c949baac4bba12c2f59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   ammoPrefab: {fileID: 0}
@@ -267,7 +274,7 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   FireDelay: 0.5
-  AllowSuicide: 0
+  AllowSuicide: 1
   MaxRecoilVariance: 0
   ProjectileVelocity: 20
   CameraRecoilConfig:

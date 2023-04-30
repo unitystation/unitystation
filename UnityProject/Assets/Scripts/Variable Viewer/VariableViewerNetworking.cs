@@ -271,7 +271,7 @@ public class VariableViewerNetworking : MonoBehaviour
 		};
 
 		// get max possible packet size from current transform
-		int maxPacketSize = Mirror.Transport.activeTransport.GetMaxPacketSize(0);
+		int maxPacketSize = Mirror.Transport.active.GetMaxPacketSize(0);
 		// set currentSize start value to max TCP header size (60b)
 		int currentSize = 60;
 
