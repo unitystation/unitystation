@@ -16,7 +16,7 @@ public class TableInteractionClimb : TileInteraction
 
 	public override bool WillInteract(TileApply interaction, NetworkSide side)
 	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
 		if (interaction.TileApplyType != TileApply.ApplyType.MouseDrop) return false;
 
 		MovementSynchronisation playerSync;

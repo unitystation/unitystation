@@ -56,7 +56,7 @@ namespace Items
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			if (!Validations.HasItemTrait(interaction.TargetObject, supermatterSliverContainer)) return false;
 
@@ -94,7 +94,7 @@ namespace Items
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			if (!Validations.HasItemTrait(interaction.TargetObject, supermatterSliverContainer)) return false;
 
@@ -132,7 +132,7 @@ namespace Items
 
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			return true;
 		}

@@ -133,7 +133,7 @@ namespace Objects.Other
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.UsedObject == null) return false;
 			return true;
 		}

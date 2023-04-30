@@ -65,7 +65,7 @@ public class Knife : MonoBehaviour, ICheckedInteractable<InventoryApply>,  IChec
 	{
 
 		//can the player act at all?
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 		//interaction only occurs if cutting target is on a hand slot.
 		if (!interaction.IsToHandSlot) return false;

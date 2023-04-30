@@ -15,7 +15,7 @@ public class RodsToMetal : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 		// Only active welder will transform rods.
 		return Validations.HasUsedActiveWelder(interaction);

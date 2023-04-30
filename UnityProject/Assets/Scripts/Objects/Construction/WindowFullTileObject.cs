@@ -82,7 +82,7 @@ namespace Objects.Construction
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			//start with the default HandApply WillInteract logic.
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			//only care about interactions targeting us
 			if (interaction.TargetObject != gameObject) return false;
@@ -162,7 +162,7 @@ namespace Objects.Construction
 				objectPhysics.ServerSetAnchored(false, interaction.Performer);
 				return;
 			}
-			
+
 			var interactableTiles = InteractableTiles.GetAt(interaction.TargetObject.TileWorldPosition(), true);
 			Vector3Int cellPos = interactableTiles.WorldToCell(interaction.TargetObject.TileWorldPosition());
 			interactableTiles.TileChangeManager.MetaTileMap.SetTile(cellPos, layerTile);

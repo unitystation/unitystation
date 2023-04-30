@@ -80,7 +80,7 @@ namespace Objects
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			// Checking if avaliable for restock
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag)) return true;
 			if (!Validations.HasComponent<VendingRestock>(interaction.HandObject)) return false;
 			return true;

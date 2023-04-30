@@ -78,7 +78,7 @@ namespace Chemistry
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			//only interaction that works is using a reagent container on this
 			if (!Validations.HasComponent<ReagentContainer>(interaction.HandObject)) return false;

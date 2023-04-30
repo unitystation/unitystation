@@ -17,7 +17,7 @@ public class IngredientMarker : MonoBehaviour, ICheckedInteractable<InventoryApp
 	{
 
 		//can the player act at all?
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 		//make sure both items are ingredients!
 		if (!Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Ingredient)) return false;

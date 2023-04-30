@@ -50,7 +50,7 @@ namespace Objects.Electrical
 
 		public bool WillInteract(ConnectionApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			//can only be used on tiles
 			if (!Validations.HasComponent<InteractableTiles>(interaction.TargetObject)) return false;
 			// If there's a table, we should drop there

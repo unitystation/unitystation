@@ -32,7 +32,7 @@ namespace Doors
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.TargetObject != gameObject) return false;
 			if (Validations.HasUsedActiveWelder(interaction)) return true;
 			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar)) return true;

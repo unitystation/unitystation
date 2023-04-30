@@ -64,7 +64,7 @@ namespace Chemistry.Components
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side))
+			if (DefaultWillInteract.Default(interaction, side) == false)
 			{
 				return false;
 			}
@@ -74,7 +74,7 @@ namespace Chemistry.Components
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			var playerScript = interaction.Performer.GetComponent<PlayerScript>();
 			if (!playerScript) return false;
@@ -188,7 +188,7 @@ namespace Chemistry.Components
 
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			return possibleTransferAmounts.Count != 0;
 		}

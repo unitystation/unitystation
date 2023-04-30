@@ -36,7 +36,7 @@ namespace Objects.Wallmounts
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			//this validation is only done client side for their convenience - they can't
 			//press button while it's animating.
 			if (side == NetworkSide.Client)

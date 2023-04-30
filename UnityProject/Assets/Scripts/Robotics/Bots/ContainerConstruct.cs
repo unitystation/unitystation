@@ -25,7 +25,7 @@ namespace Items
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			var hand = interaction.HandObject != null ? interaction.HandObject : null;
 			if (hand == null)

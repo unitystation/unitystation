@@ -44,7 +44,7 @@ public class Restraint : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 		MovementSynchronisation targetPM = interaction.TargetObject.OrNull()?.GetComponent<MovementSynchronisation>();
 

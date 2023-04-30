@@ -26,7 +26,7 @@ namespace Robotics
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.TargetObject != gameObject) return false;
 			if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false;
 
@@ -60,7 +60,7 @@ namespace Robotics
 			}
 
 			spriteHandler.ChangeSprite(1, true);
-			
+
 		}
 	}
 }

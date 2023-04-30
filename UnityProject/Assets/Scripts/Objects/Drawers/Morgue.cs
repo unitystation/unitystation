@@ -51,7 +51,7 @@ namespace Objects.Drawers
 
 		public override bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver)) return true;
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag)) return true;

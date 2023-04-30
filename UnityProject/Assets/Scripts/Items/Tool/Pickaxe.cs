@@ -29,7 +29,7 @@ namespace Items
 
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (!Validations.HasTarget(interaction)) return false;
 			var interactableTiles = interaction.TargetObject.GetComponent<InteractableTiles>();
 			if (interactableTiles == null) return false;
@@ -123,7 +123,7 @@ namespace Items
 						$"{interaction.Performer.ExpensiveName()} pings off the {objectName}, leaving hardly a scratch.");
 			}
 
-				
+
 		}
 
 		#endregion

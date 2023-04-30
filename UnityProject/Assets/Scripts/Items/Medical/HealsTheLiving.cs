@@ -28,7 +28,7 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	public virtual bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
 		if (!Validations.HasComponent<LivingHealthMasterBase>(interaction.TargetObject)) return false;
 		if (interaction.TargetObject.GetComponent<Dissectible>().GetBodyPartIsopen && interaction.IsAltClick == false) return false;
 

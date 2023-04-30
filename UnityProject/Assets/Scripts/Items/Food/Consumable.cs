@@ -71,7 +71,7 @@ public abstract class Consumable : NetworkBehaviour, ICheckedInteractable<HandAp
 			}
 		}
 
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 		return CanBeConsumedBy(interaction.TargetObject);
 	}

@@ -33,7 +33,7 @@ namespace Items
 
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			//can only scrub tiles, for now
 			if (!Validations.HasComponent<InteractableTiles>(interaction.TargetObject)) return false;
 

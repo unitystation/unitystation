@@ -61,7 +61,7 @@ namespace Objects.Drawers
 
 		public bool WillInteract(ContextMenuApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (drawerState == (DrawerState)CrematorState.ShutAndActive) return false;
 
 			return true;

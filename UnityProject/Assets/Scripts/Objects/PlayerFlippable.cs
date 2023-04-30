@@ -24,7 +24,7 @@ namespace Objects
 
 		public bool WillInteract(ContextMenuApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (TryGetComponent(out UniversalObjectPhysics behaviour) && behaviour.IsNotPushable) return false;
 
 			return DefaultWillInteract.Default(interaction, side);
