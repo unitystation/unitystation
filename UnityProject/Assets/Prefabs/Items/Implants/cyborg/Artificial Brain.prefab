@@ -7,6 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: BodyPartType
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: DamageContributesToOverallHealth
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4083826922132060799, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
       propertyPath: m_RootOrder
@@ -78,6 +88,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: f8a8feb78cb48a941a53e76e52695743,
         type: 3}
+    - target: {fileID: 4490847932940167273, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4490847932940167273, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5e9ac88966a35d34a9fd90c34e1ddaa0,
+        type: 2}
     - target: {fileID: 6919096067490597734, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
       propertyPath: foreverID
@@ -209,6 +230,9 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  AiPlayer: {fileID: 0}
+  ActionDataLawDisplay: {fileID: 11400000, guid: b87630ffb912394448320b37a52aff10,
+    type: 2}
   defaultLawSets:
   - {fileID: 11400000, guid: 930af6a3ce5305e4d81aff947e78f33d, type: 2}
 --- !u!114 &7747582576144492454
@@ -229,3 +253,19 @@ MonoBehaviour:
   clearance: 2f0000003a000000240000002d0000003e00000008000000290000001000000016000000350000000100000028000000370000001c000000070000002a00000033000000260000003d0000003c0000003b000000060000002e0000002b0000005b000000380000000500000057000000580000005500000056000000590000000c0000002c000000220000001b000000190000002100000032000000310000001200000009000000360000000d000000110000000b0000000a0000001a000000270000001f000000250000005a000000300000001e0000001300000002000000180000003f0000001700000003000000140000000f000000
   lowPopClearance: 2f0000003a000000240000002d0000003e00000008000000290000001000000016000000350000000100000028000000370000001c000000070000002a00000033000000260000003d0000003c0000003b000000060000002e0000002b0000005b000000380000000500000057000000580000005500000056000000590000000c0000002c000000220000001b000000190000002100000032000000310000001200000009000000360000000d000000110000000b0000000a0000001a000000270000001f000000250000005a000000300000001e0000001300000002000000180000003f0000001700000003000000140000000f000000
   ClearanceDisabled: 0
+--- !u!114 &9155728420169415678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2474793813072843241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5372f6bd9e03b5a43946c7a4b7a86113, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  AvailableChannels: 8120

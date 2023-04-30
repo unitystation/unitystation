@@ -24,6 +24,26 @@ public class PossessbleGhost : MonoBehaviour
 			SetUpGhostRole();
 		}
 
+		Possessedble.OnActionPossess += OnPlayerPossessing;
+
+
+	}
+
+	public void OnDestroy()
+	{
+		if (createdRoleKey != 0)
+		{
+			GhostRoleManager.Instance.ServerRemoveRole(createdRoleKey);
+		}
+	}
+
+
+	public void OnPlayerPossessing()
+	{
+		if (createdRoleKey != 0)
+		{
+			GhostRoleManager.Instance.ServerRemoveRole(createdRoleKey);
+		}
 	}
 
 

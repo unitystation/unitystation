@@ -145,7 +145,7 @@ public static class Validations
 		//Can't interact cuffed
 		if (allowCuffed == false && playerScript.playerMove.IsCuffed) return false;
 
-		if (playerScript.playerMove.allowInput == false) return false;
+		if (playerScript.playerMove.AllowInput == false) return false;
 
 		if (CanInteractByConsciousState(playerScript.playerHealth, allowSoftCrit, side) == false) return false;
 

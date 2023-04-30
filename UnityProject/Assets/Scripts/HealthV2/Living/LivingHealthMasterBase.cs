@@ -471,6 +471,13 @@ namespace HealthV2
 					SurfaceBodyParts.Add(BodyPart);
 				}
 			}
+
+
+
+			foreach (var sys in ActiveSystems)
+			{
+				sys.BodyPartAdded(BodyPart);
+			}
 		}
 
 		public void RemovingBodyPart(BodyPart BodyPart)
@@ -993,7 +1000,7 @@ namespace HealthV2
 				currentHealth -= implant.TotalDamageWithoutOxyCloneRadStam;
 			}
 
-			if (brain == null || brain.RelatedPart.Health < -100)
+			if (brain == null || brain.RelatedPart.Health < -100 || brain.RelatedPart.TotalModified == 0)
 			{
 				currentHealth -= 200;
 				healthStateController.SetOverallHealth(currentHealth);

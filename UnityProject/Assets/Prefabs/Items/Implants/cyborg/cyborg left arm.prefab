@@ -20,6 +20,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6017517368183394490, guid: 0af3fb6f8543f0b4b914da932bd18ea0,
         type: 3}
+      propertyPath: BodyPartType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017517368183394490, guid: 0af3fb6f8543f0b4b914da932bd18ea0,
+        type: 3}
       propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[0]
       value: 2
       objectReference: {fileID: 0}
@@ -44,22 +49,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b6c6943f596035c499f587f247df5148,
         type: 2}
-    - target: {fileID: 6206376866756643944, guid: 0af3fb6f8543f0b4b914da932bd18ea0,
-        type: 3}
-      propertyPath: UesAddlistPopulater
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6206376866756643944, guid: 0af3fb6f8543f0b4b914da932bd18ea0,
-        type: 3}
-      propertyPath: Populater.SlotContents.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6206376866756643944, guid: 0af3fb6f8543f0b4b914da932bd18ea0,
-        type: 3}
-      propertyPath: Populater.SlotContents.Array.data[0].Prefab
-      value: 
-      objectReference: {fileID: 3250486276559530944, guid: cd287eec52472d346851c32182e250c8,
-        type: 3}
     - target: {fileID: 7009936737376475258, guid: 0af3fb6f8543f0b4b914da932bd18ea0,
         type: 3}
       propertyPath: m_Sprite

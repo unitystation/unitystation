@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1324909553908066933, guid: 8f1728f5955b2e549b17eb98ffbd5c3c,
+        type: 3}
+      propertyPath: DamageContributesToOverallHealth
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1711641579172525735, guid: 8f1728f5955b2e549b17eb98ffbd5c3c,
         type: 3}
       propertyPath: itemStorageCapacity
@@ -123,6 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   denyStorageOfStorageItems: 0
+  itemStorage: {fileID: 0}
   canClickPickup: 0
   canQuickEmpty: 0
   TopLevelAlt: 0

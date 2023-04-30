@@ -7,6 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: BodyPartType
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: DamageContributesToOverallHealth
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4083826922132060799, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
       propertyPath: m_RootOrder
@@ -35,17 +45,17 @@ PrefabInstance:
     - target: {fileID: 4083826922132060799, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4083826922132060799, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4083826922132060799, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4083826922132060799, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
@@ -146,10 +156,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   denyStorageOfStorageItems: 0
+  itemStorage: {fileID: 8875872263943656018}
   canClickPickup: 0
   canQuickEmpty: 0
   TopLevelAlt: 0
   actionData: {fileID: 11400000, guid: be9856a38a3b7d44198fc4fcd9df4d47, type: 2}
+  DoNotShowInventoryOnUI: 0
 --- !u!114 &8875872263943656018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,19 +180,57 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 1
+  ManuallySpawnContent: 1
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 1
   Populater:
     SlotContents:
     - DoNotGetFirstEmptySlot: 0
-      IndexSlot: 0
-      IfOccupiedFindEmptySlot: 1
-      UseIndex: 1
-      NamedSlot: 0
       Prefab: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
+      UseIndex: 1
+      IndexSlot: 0
+      NamedSlot: 0
+      IfOccupiedFindEmptySlot: 1
+      ReplacementStrategy: 1
+      namedSlotPopulatorEntrys: []
+    - DoNotGetFirstEmptySlot: 0
+      Prefab: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
+      UseIndex: 1
+      IndexSlot: 0
+      NamedSlot: 0
+      IfOccupiedFindEmptySlot: 1
+      ReplacementStrategy: 1
+      namedSlotPopulatorEntrys: []
+    - DoNotGetFirstEmptySlot: 0
+      Prefab: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
+      UseIndex: 1
+      IndexSlot: 0
+      NamedSlot: 0
+      IfOccupiedFindEmptySlot: 1
+      ReplacementStrategy: 1
+      namedSlotPopulatorEntrys: []
+    - DoNotGetFirstEmptySlot: 0
+      Prefab: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
+      UseIndex: 1
+      IndexSlot: 0
+      NamedSlot: 0
+      IfOccupiedFindEmptySlot: 1
+      ReplacementStrategy: 1
+      namedSlotPopulatorEntrys: []
+    - DoNotGetFirstEmptySlot: 0
+      Prefab: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
+      UseIndex: 1
+      IndexSlot: 0
+      NamedSlot: 0
+      IfOccupiedFindEmptySlot: 1
       ReplacementStrategy: 1
       namedSlotPopulatorEntrys: []
     DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}

@@ -169,11 +169,11 @@ PrefabInstance:
     - target: {fileID: 5932985456522563345, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5932985456522563345, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: initialTraits.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: f4bf367b42a325c4dbf26b76591e0ef1,
         type: 2}
@@ -236,6 +236,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HumanRightArm
+      objectReference: {fileID: 0}
+    - target: {fileID: 6138298517168709063, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: _assetId
+      value: 638188405
       objectReference: {fileID: 0}
     - target: {fileID: 6138298517168709063, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
@@ -408,7 +413,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe56a83532907c141b7592eead8f0641, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NamedSlotFlagged: 0
   relatedStorage: {fileID: 5756682103643324902}
   storage:
   - NotPresentOnUI: 0
@@ -459,8 +463,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a79a26cefea34ae3ad4615dab28acf61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEMPVunerable: 0
-  EMPResistance: 2
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   armEfficiency: 1
   crawlingSpeed: 0.3
 --- !u!114 &5756682103643324902
@@ -481,9 +486,11 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 0
+  ManuallySpawnContent: 0
   dropItemsOnDespawn: 1
   UesAddlistPopulater: 0
   Populater:
     SlotContents: []
     DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
   ashPrefab: {fileID: 0}

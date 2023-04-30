@@ -273,6 +273,17 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: e241039a7933eb347bd1a9bb67a9078a
       objectReference: {fileID: 0}
+    - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 57eb2d1faf36d2040ade08046da48bfa,
+        type: 2}
     - target: {fileID: 1644590815055589727, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: CapableMutations.Array.size
@@ -409,6 +420,35 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3973776844980201138}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1605418696277317149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2810631690420259242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9ebd1817f5f0547a70d4591eca98a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  AssociatedSystem:
+    Base: {fileID: 0}
+    BloodPool:
+      temperature: 273.15
+      reagents:
+        m_keys: []
+        m_values: []
+      reagentKeys: []
+    StartingBlood: 500
+    bloodInfo: {fileID: 0}
+    bloodType: {fileID: 0}
+    PumpingDevices: []
+  Throughput: 1
+  bloodType: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
 --- !u!114 &3243135318912008533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,35 +528,6 @@ MonoBehaviour:
   HealingNutrimentMultiplier: 2
   HungerState: 1
   reagentCirculatedComponent: {fileID: 0}
---- !u!114 &1605418696277317149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2810631690420259242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a9ebd1817f5f0547a70d4591eca98a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  AssociatedSystem:
-    Base: {fileID: 0}
-    BloodPool:
-      temperature: 273.15
-      reagents:
-        m_keys: []
-        m_values: []
-      reagentKeys: []
-    StartingBlood: 500
-    bloodInfo: {fileID: 0}
-    bloodType: {fileID: 0}
-    PumpingDevices: []
-  Throughput: 1
-  bloodType: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
 --- !u!4 &2815555166148818142 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1168521912962732652, guid: 1162a9966a460f940a18b4d183b04c30,

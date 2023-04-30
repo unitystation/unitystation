@@ -48,6 +48,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	/// </summary>
 	public ItemStorage ItemStorage => itemStorage;
 
+	[SerializeField]
 	private ItemStorage itemStorage;
 
 	/// <summary>
@@ -121,7 +122,11 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	private void OnEnable()
 	{
 		allowedToInteract = false;
-		itemStorage = GetComponent<ItemStorage>();
+		if (itemStorage == null)
+		{
+			itemStorage = GetComponent<ItemStorage>();
+		}
+
 		StartCoroutine(SpawnCoolDown());
 	}
 

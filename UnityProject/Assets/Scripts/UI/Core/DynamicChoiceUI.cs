@@ -33,7 +33,7 @@ namespace UI.Core
 			base.OnDestroy();
 		}
 
-		public static void DisplayChoices(string windowName, string choiceInfo, List<DynamicUIChoiceEntryData> choices)
+		public static void ClientDisplayChoicesNotNetworked(string windowName, string choiceInfo, List<DynamicUIChoiceEntryData> choices)
 		{
 			Instance.SetActive(true);
 			Instance.ClearChoices();

@@ -28,7 +28,7 @@ namespace HealthV2
 	{
 		public ItemTrait RequiredTrait;
 		public float Time; //ues tool
-		public int SuccessChance = 100;
+		public int FailChance;
 
 		public string StartSelf = "";
 		public string StartOther = "";

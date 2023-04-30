@@ -88,6 +88,17 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 57eb2d1faf36d2040ade08046da48bfa,
+        type: 2}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: IsSurface
@@ -100,38 +111,103 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
+      propertyPath: SelfArmor.Bio
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SelfArmor.Rad
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SelfArmor.Bomb
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SelfArmor.Fire
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SelfArmor.Energy
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SelfArmor.StunImmunity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.Bio
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.Rad
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.Bomb
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SubOrganDamageIncreasePoint
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.Bullet
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.Anomaly
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
       propertyPath: SurgeryProcedureBase.Array.size
-      value: 3
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: DamageContributesToOverallHealth
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: SurgeryProcedureBase.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 042d01452f7f9ec4aa0e9ca6ea309242,
+      objectReference: {fileID: 11400000, guid: f76dfadb9e74d2c4a85ad57a19384808,
         type: 2}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: SurgeryProcedureBase.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 10171eea099bebb4c8fa8ec66c5ed051,
+      objectReference: {fileID: 11400000, guid: f72d7fe930fb0b549970e92942bd2ec3,
         type: 2}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: SurgeryProcedureBase.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: 32f04f929f3a7134e8894559e262ec8a,
+      objectReference: {fileID: 11400000, guid: f489ddb5e21afdc44afced4652ed4c79,
         type: 2}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: SurgeryProcedureBase.Array.data[3]
       value: 
-      objectReference: {fileID: 11400000, guid: 042d01452f7f9ec4aa0e9ca6ea309242,
+      objectReference: {fileID: 11400000, guid: 5028ec94fac773247837534dd8c3b513,
         type: 2}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: SurgeryProcedureBase.Array.data[4]
       value: 
-      objectReference: {fileID: 11400000, guid: 10171eea099bebb4c8fa8ec66c5ed051,
+      objectReference: {fileID: 11400000, guid: 01aad575537f3114d806563d1f3df18e,
         type: 2}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -141,8 +217,43 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
+      propertyPath: SelfArmor.PressureProtectionInKpa.x
+      value: -5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SelfArmor.PressureProtectionInKpa.y
+      value: 20202.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.StunImmunity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SelfArmor.TemperatureProtectionInK.x
+      value: -5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SelfArmor.TemperatureProtectionInK.y
+      value: 5173.135
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.PressureProtectionInKpa.x
+      value: -5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.PressureProtectionInKpa.y
+      value: 20202.8
       objectReference: {fileID: 0}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -166,6 +277,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
+      propertyPath: SubOrganBodyPartArmour.TemperatureProtectionInK.x
+      value: -5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.TemperatureProtectionInK.y
+      value: 5173.1357
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.DismembermentProtectionChance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -182,8 +308,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2719098251223779414, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: d4f7db956169a1d4c97c9d58886d2023,
+        type: 2}
+    - target: {fileID: 2719098251223779414, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: ManuallySpawnContent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2719098251223779414, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: 0480160aa55493d42b53c8d08da3be7c,
+        type: 2}
+    - target: {fileID: 2719098251223779414, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
       propertyPath: Populater.SlotContents.Array.size
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2719098251223779414, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -220,6 +363,18 @@ PrefabInstance:
       propertyPath: Populater.SlotContents.Array.data[5].Prefab
       value: 
       objectReference: {fileID: 266762788856045110, guid: 25e233ffa6e387c489c390743d4fc6e5,
+        type: 3}
+    - target: {fileID: 2719098251223779414, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[6].Prefab
+      value: 
+      objectReference: {fileID: 2380150684190563494, guid: 6355023c74a9a964a9bb0672d5425201,
+        type: 3}
+    - target: {fileID: 2719098251223779414, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[7].Prefab
+      value: 
+      objectReference: {fileID: 4778886125544350650, guid: 22a0f31b240a38d43889201d251db483,
         type: 3}
     - target: {fileID: 2719098251223779414, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}

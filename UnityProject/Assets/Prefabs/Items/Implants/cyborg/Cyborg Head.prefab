@@ -10,25 +10,25 @@ PrefabInstance:
     - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
       propertyPath: SurgeryProcedureBase.Array.size
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
-      propertyPath: SurgeryProcedureBase.Array.data[0]
+      propertyPath: SurgeryProcedureBase.Array.data[3]
       value: 
-      objectReference: {fileID: 11400000, guid: 32f04f929f3a7134e8894559e262ec8a,
+      objectReference: {fileID: 11400000, guid: f72d7fe930fb0b549970e92942bd2ec3,
         type: 2}
     - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
-      propertyPath: SurgeryProcedureBase.Array.data[1]
+      propertyPath: SurgeryProcedureBase.Array.data[4]
       value: 
-      objectReference: {fileID: 11400000, guid: 10171eea099bebb4c8fa8ec66c5ed051,
+      objectReference: {fileID: 11400000, guid: f489ddb5e21afdc44afced4652ed4c79,
         type: 2}
     - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
-      propertyPath: SurgeryProcedureBase.Array.data[2]
+      propertyPath: SurgeryProcedureBase.Array.data[5]
       value: 
-      objectReference: {fileID: 11400000, guid: 042d01452f7f9ec4aa0e9ca6ea309242,
+      objectReference: {fileID: 11400000, guid: f76dfadb9e74d2c4a85ad57a19384808,
         type: 2}
     - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
@@ -71,6 +71,12 @@ PrefabInstance:
       propertyPath: UesAddlistPopulater
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 947985715124805701, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: 67bccc09cee577e49b7d1ba558e7e80f,
+        type: 2}
     - target: {fileID: 947985715124805701, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
       propertyPath: Populater.SlotContents.Array.size

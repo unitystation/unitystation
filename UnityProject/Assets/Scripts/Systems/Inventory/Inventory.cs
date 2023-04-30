@@ -278,6 +278,14 @@ public static class Inventory
 
 		if (toSlot.Item != null)
 		{
+
+			if (toSlot.ItemNotRemovable)
+			{
+				Logger.LogTraceFormat("Attempted to remove {0} from inventory but from slot {1} had ItemNotRemovable." +
+				                      " Move will not be performed.", Category.Inventory, pickupable.name, fromSlot);
+				return false;
+			}
+
 			// Check if the items can be stacked
 			var stackableTarget = toSlot.Item.GetComponent<Stackable>();
 			if (stackableTarget != null && stackableTarget.CanAccommodate(pickupable.gameObject))
@@ -325,6 +333,13 @@ public static class Inventory
 		{
 			Logger.LogTraceFormat("Attempted to transfer {0} to slot {1} but slot cannot fit this item." +
 			                      " transfer will not be performed.", Category.Inventory, pickupable.name, toSlot);
+			return false;
+		}
+
+		if (fromSlot.ItemNotRemovable)
+		{
+			Logger.LogTraceFormat("Attempted to remove {0} from inventory but from slot {1} had ItemNotRemovable." +
+			                      " Move will not be performed.", Category.Inventory, pickupable.name, fromSlot);
 			return false;
 		}
 

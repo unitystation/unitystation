@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: ExoFabProducts
   m_EditorClassIdentifier: 
   productCategoryList:
-  - categoryName: Cyborg
+  - categoryName: Synthetic implants
     products:
-    - name: Cyborg Head
+    - name: Synthetic Head
       product: {fileID: 433477362824022622, guid: 49bf760d173ffa6448d7853757b910d3,
         type: 3}
       materialToAmounts:
@@ -23,7 +23,7 @@ MonoBehaviour:
         - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
         m_values: 10270000
       productionTime: 10
-    - name: Cyborg Left Arm
+    - name: Synthetic Left Arm
       product: {fileID: 1964728513064046117, guid: 6288c623448564447ad3e18185754a58,
         type: 3}
       materialToAmounts:
@@ -31,7 +31,7 @@ MonoBehaviour:
         - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
         m_values: 10270000
       productionTime: 10
-    - name: Cyborg Right Arm
+    - name: Synthetic Right Arm
       product: {fileID: 8800609691600052549, guid: 05849a8c832dadc4dbdbb0e5bbe37ec8,
         type: 3}
       materialToAmounts:
@@ -39,7 +39,7 @@ MonoBehaviour:
         - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
         m_values: 10270000
       productionTime: 10
-    - name: Cyborg Left Leg
+    - name: Synthetic Left Leg
       product: {fileID: 7651257320191419119, guid: eb43f0bbcf0aa6d45b1475262374be13,
         type: 3}
       materialToAmounts:
@@ -47,7 +47,7 @@ MonoBehaviour:
         - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
         m_values: 10270000
       productionTime: 10
-    - name: Cyborg Right Leg
+    - name: Synthetic Right Leg
       product: {fileID: 3583108002486775345, guid: 5c22d550fc2d31941bf147d721294daa,
         type: 3}
       materialToAmounts:
@@ -55,16 +55,8 @@ MonoBehaviour:
         - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
         m_values: 10270000
       productionTime: 10
-    - name: Cyborg Torso
+    - name: Synthetic Torso
       product: {fileID: 7201002963641514693, guid: 1fe4d4b542cb36c4ab21e92e3871b27e,
-        type: 3}
-      materialToAmounts:
-        m_keys:
-        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
-        m_values: 10270000
-      productionTime: 10
-    - name: Cyborg Endoskeleton
-      product: {fileID: 3837237231600640225, guid: 670650a39aed63c43a82c56573faea7b,
         type: 3}
       materialToAmounts:
         m_keys:
@@ -91,3 +83,119 @@ MonoBehaviour:
         - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
         m_values: 20030000c8000000
       productionTime: 0.8
+  - categoryName: Cyborg
+    products:
+    - name: Cyborg Chassis
+      product: {fileID: 5268205109412059703, guid: 8683e5618e6a7924a9756e98ce1369e3,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: d0070000
+      productionTime: 1
+    - name: cyborg head
+      product: {fileID: 6721824315215711349, guid: afaafddf73343874997e5305000af9d8,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000f4010000
+      productionTime: 1
+    - name: Cyborg Arm Left
+      product: {fileID: 7029765293304545759, guid: 40e2b6f8f7fbcdb4cbe892093907ef91,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: f4010000
+      productionTime: 1
+    - name: Cyborg Arm Right
+      product: {fileID: 7185978976352611110, guid: 0af3fb6f8543f0b4b914da932bd18ea0,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: f4010000
+      productionTime: 1
+    - name: Cyborg Leg Left
+      product: {fileID: 6918345769292873565, guid: c223b70091789db4fbd3d7b0122c07db,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: f4010000
+      productionTime: 1
+    - name: Cyborg Leg Right
+      product: {fileID: 4146909570655625759, guid: 2f8167654012aac4d83e586030d95284,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: f4010000
+      productionTime: 1
+    - name: Cyborg Torso
+      product: {fileID: 266762788856045110, guid: 25e233ffa6e387c489c390743d4fc6e5,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: d0070000
+      productionTime: 1
+    - name: Man Machine Interface
+      product: {fileID: 13862477182529743, guid: 078c2fa95806853429b804a438e8dafe,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: aad81582143ba4f4fb4f4c99563f715f, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: f4010000fa000000f4010000
+      productionTime: 1
+    - name: Artificial Brain
+      product: {fileID: 2474793813072843241, guid: 8f1728f5955b2e549b17eb98ffbd5c3c,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: aad81582143ba4f4fb4f4c99563f715f, type: 2}
+        - {fileID: 11400000, guid: b7ce9f6cefef7fa4f88b853789e97c7d, type: 2}
+        m_values: e8030000f4010000fa000000
+      productionTime: 1
+    - name: Empty Battery Pack
+      product: {fileID: 2380150684190563494, guid: 6355023c74a9a964a9bb0672d5425201,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: fa000000
+      productionTime: 1
+  - categoryName: Cyborg Tools
+    products:
+    - name: Janitor Tool Carousel
+      product: {fileID: 4907576085023357264, guid: 29018cade99cfd64ca8c63b372e9cd13,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: e8030000e8030000
+      productionTime: 3
+    - name: Engineering Tool Carousel
+      product: {fileID: 7303459570999999453, guid: df0b5e78b605957408a6313dfbbb6a77,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: e8030000e8030000
+      productionTime: 3
+    - name: Medical Tool Carousel
+      product: {fileID: 3250486276559530944, guid: cd287eec52472d346851c32182e250c8,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: e8030000e8030000
+      productionTime: 3

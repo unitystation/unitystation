@@ -86,6 +86,7 @@ namespace HealthV2
 						}
 
 						break;
+					case ConsciousState.DEAD:
 					case ConsciousState.UNCONSCIOUS:
 						//Drop items when unconscious
 						foreach (var itemSlot in playerScript.DynamicItemStorage.GetHandSlots())

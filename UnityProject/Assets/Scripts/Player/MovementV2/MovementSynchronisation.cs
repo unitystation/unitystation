@@ -33,8 +33,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public bool Step = false;
 
 	[SyncVar(hook = nameof(SyncInput))] [NonSerialized]
-	public bool allowInput = true;
+	private bool allowInput = true;
 
+	public bool AllowInput => allowInput;
 
 	public readonly MultiInterestBool ServerAllowInput = new MultiInterestBool(true, MultiInterestBool.RegisterBehaviour.RegisterFalse, MultiInterestBool.BoolBehaviour.ReturnOnFalse  );
 

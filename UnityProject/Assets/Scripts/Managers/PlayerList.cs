@@ -158,7 +158,7 @@ public partial class PlayerList : NetworkBehaviour
 			players = InGamePlayers;
 		}
 
-		return players.FindAll(p => !p.Script.IsGhost && p.Script.playerMove.allowInput);
+		return players.FindAll(p => !p.Script.IsGhost && p.Script.playerMove.AllowInput);
 	}
 
 	/// Don't do this unless you realize the consequences

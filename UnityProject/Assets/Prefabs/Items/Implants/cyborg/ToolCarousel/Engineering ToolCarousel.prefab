@@ -19,6 +19,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4147696764540277749, guid: 22a0f31b240a38d43889201d251db483,
         type: 3}
+      propertyPath: storage.Array.data[0].SlotArea
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4147696764540277749, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
+      propertyPath: storage.Array.data[1].SlotArea
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4147696764540277749, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
+      propertyPath: storage.Array.data[2].SlotArea
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4147696764540277749, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
       propertyPath: storage.Array.data[3].SlotArea
       value: 2
       objectReference: {fileID: 0}
@@ -51,6 +66,11 @@ PrefabInstance:
         type: 3}
       propertyPath: storage.Array.data[9].SlotArea
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4147696764540277749, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
+      propertyPath: storage.Array.data[0].namedSlot
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 4147696764540277749, guid: 22a0f31b240a38d43889201d251db483,
         type: 3}
@@ -96,6 +116,16 @@ PrefabInstance:
         type: 3}
       propertyPath: storage.Array.data[18].SlotArea
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4147696764540277749, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
+      propertyPath: storage.Array.data[1].namedSlot
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 4147696764540277749, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
+      propertyPath: storage.Array.data[2].namedSlot
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 4147696764540277749, guid: 22a0f31b240a38d43889201d251db483,
         type: 3}
@@ -248,11 +278,34 @@ PrefabInstance:
       propertyPath: _assetId
       value: 2422158
       objectReference: {fileID: 0}
+    - target: {fileID: 4953846514621402328, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
+      propertyPath: initialName
+      value: Engineering Tool Carousel
+      objectReference: {fileID: 0}
     - target: {fileID: 5678182667614193453, guid: 22a0f31b240a38d43889201d251db483,
         type: 3}
       propertyPath: Populater.SlotContents.Array.size
       value: 19
       objectReference: {fileID: 0}
+    - target: {fileID: 5678182667614193453, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[0].Prefab
+      value: 
+      objectReference: {fileID: 4930866777566109869, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+    - target: {fileID: 5678182667614193453, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[1].Prefab
+      value: 
+      objectReference: {fileID: 8096842924384943973, guid: 1bd4d6ea60dfdc1498ee8f06b7289fb4,
+        type: 3}
+    - target: {fileID: 5678182667614193453, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[2].Prefab
+      value: 
+      objectReference: {fileID: 8868920090029130384, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
     - target: {fileID: 5678182667614193453, guid: 22a0f31b240a38d43889201d251db483,
         type: 3}
       propertyPath: Populater.SlotContents.Array.data[3].Prefab
@@ -359,5 +412,6 @@ PrefabInstance:
       propertyPath: Populater.SlotContents.Array.data[3].NamedSlot
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1209591193149552991, guid: 22a0f31b240a38d43889201d251db483, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 22a0f31b240a38d43889201d251db483, type: 3}

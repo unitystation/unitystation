@@ -361,7 +361,7 @@ namespace HealthV2
 		/// <summary>
 		/// Server only - Tries to remove a body part
 		/// </summary>
-		public void TryRemoveFromBody(bool beingGibbed = false, bool CausesBleed = true, bool Destroy = false, bool PreventGibb_Death = false)
+		public void TryRemoveFromBody(bool beingGibbed = false, bool CausesBleed = true, bool Destroy = false, bool PreventGibb_Death = false) //TODO It should do the stuff automatically when removed from inventory
 		{
 			bool alreadyBleeding = false;
 			if (CausesBleed)

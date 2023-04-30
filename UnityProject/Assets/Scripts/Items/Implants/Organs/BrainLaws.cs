@@ -4,14 +4,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mirror;
+using Newtonsoft.Json;
 using Objects;
 using Objects.Research;
 using Systems.Ai;
+using UI.Core;
+using UI.Core.Action;
 using UI.Systems.MainHUD.UI_Bottom;
 using UnityEngine;
 
-public class BrainLaws : NetworkBehaviour
+public class BrainLaws : NetworkBehaviour, IActionGUI, ICheckedInteractable<HandActivate>
 {
+
+
+	public AiPlayer AiPlayer; //TODO refactor at some point
+
+	public ActionData ActionDataLawDisplay;
+
+	public ActionData ActionData => ActionDataLawDisplay;
+
 	// 	Law priority order is this:
 	//	0: Traitor/Malf/Onehuman-board Law
 	//  ##?$-##: HACKED LAW ##!£//#
@@ -29,13 +40,19 @@ public class BrainLaws : NetworkBehaviour
 
 	private LightingSystem lightingSystem;
 
+	[SyncVar(hook = nameof(SynchronisedUpdate))]
+	private string SynchronisedLaws;
+
 	//Clientside only
 	private UI_Ai aiUi;
 
 	[SerializeField] private List<AiLawSet> defaultLawSets = new List<AiLawSet>();
 
+	private RegisterTile RegisterTile;
+
 	private void Awake()
 	{
+		RegisterTile = this.GetComponent<RegisterTile>();
 		if (aiUi == null)
 		{
 			aiUi = UIManager.Instance.displayControl.hudBottomAi.GetComponent<UI_Ai>();
@@ -47,6 +64,75 @@ public class BrainLaws : NetworkBehaviour
 		}
 	}
 
+	#region AILinking
+
+	public bool WillInteract(HandActivate interaction, NetworkSide side)
+	{
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+		if (interaction.IsAltClick == false) return false;
+
+		return true;
+	}
+
+	public void ServerPerformInteraction(HandActivate interaction)
+	{
+
+		var Choosing = 	new List<DynamicUIChoiceEntryData>()
+		{
+			new DynamicUIChoiceEntryData()
+			{
+				ChoiceAction = () =>
+				{
+					LinkToAI(null);
+				},
+				Text = " No AI. "
+			}
+		};
+
+		foreach (var Player in RegisterTile.Matrix.PresentPlayers)
+		{
+
+			if (Player.TryGetComponent<AiPlayer>(out var AiPlayer))
+			{
+
+				Choosing.Add(new DynamicUIChoiceEntryData()
+					{
+						ChoiceAction = () =>
+						{
+							LinkToAI(AiPlayer);
+						},
+						Text = AiPlayer.name
+
+					}
+				);
+
+			}
+		}
+
+		DynamicChoiceUI.ClientDisplayChoicesNotNetworked("Choose linked AI for Brain ",
+			" Choose whichever you would like to link this brain to ", Choosing);
+
+	}
+
+	#endregion
+
+
+	public void LinkToAI(AiPlayer _AiPlayer)
+	{
+		if (AiPlayer != null)
+		{
+			if (AiPlayer.LinkedCyborgs.Contains(this))
+			{
+				AiPlayer.LinkedCyborgs.Remove(this);
+			}
+		}
+
+		AiPlayer = _AiPlayer;
+		AiPlayer.OrNull()?.LinkedCyborgs?.Add(this);
+	}
+
+
 	private void Start()
 	{
 		if (CustomNetworkManager.IsServer == false) return;
@@ -55,6 +141,24 @@ public class BrainLaws : NetworkBehaviour
 
 		//Set up laws
 		SetRandomDefaultLawSet();
+		UIActionManager.ToggleServer(this.gameObject,this, true);
+	}
+
+	public void CallActionClient()
+	{
+		AILawsTabUI.Instance.OpenLaws();
+	}
+
+
+	public void OnDestroy()
+	{
+		if (AiPlayer != null)
+		{
+			if (AiPlayer.LinkedCyborgs.Contains(this))
+			{
+				AiPlayer.LinkedCyborgs.Remove(this);
+			}
+		}
 	}
 
 	[Server]
@@ -306,35 +410,37 @@ public class BrainLaws : NetworkBehaviour
 			});
 		}
 
-		TargetRpcForceLawUpdate(data);
+
+
+		SynchronisedUpdate(SynchronisedLaws, JsonConvert.SerializeObject(data));
 	}
 
+
 	//Force a law update on player and makes player open law screen
-	[TargetRpc]
-	private void TargetRpcForceLawUpdate(List<AiPlayer.LawSyncData> newData)
+
+	private void SynchronisedUpdate(string OldData  , string newDataString)
 	{
+		SynchronisedLaws = newDataString;
+		if (isServer) return;
+
 		aiLaws.Clear();
+		var newData = JsonConvert.DeserializeObject<List<AiPlayer.LawSyncData>>(newDataString);
 
 		foreach (var lawData in newData)
 		{
 			aiLaws.Add(lawData.LawOrder, lawData.Laws.ToList());
 		}
 
-		// if (aiUi.aiPlayer == null)
-		// {
-		// 	aiUi.SetUp(this);
-		// }
-
-		aiUi.OpenLaws();
+		if (isOwned)
+		{
+			AILawsTabUI.Instance.OpenLaws();
+		}
 	}
 
 	[Command]
 	private void CmdAskForLawUpdate()
 	{
 		ServerUpdateClientLaws();
-
-		//Sync number of cameras here for new player.
-		SecurityCamera.SyncNumberOfCameras();
 	}
 
 	[ContextMenu("randomise laws")]

@@ -35,17 +35,17 @@ PrefabInstance:
     - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4039560752263721574, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
@@ -66,6 +66,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BluespaceCrystal
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145792851350106790, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: _assetId
+      value: 1749790525
       objectReference: {fileID: 0}
     - target: {fileID: 4145792851350106790, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
@@ -97,13 +102,19 @@ PrefabInstance:
     - target: {fileID: 4535546548030824560, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4535546548030824560, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
       propertyPath: initialTraits.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 5454ae301f8f02a43ae7496ed16f70bc,
+        type: 2}
+    - target: {fileID: 4535546548030824560, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: ab59f71b2d708274ea51105b4c9ac177,
         type: 2}
     - target: {fileID: 4582402145700071108, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}

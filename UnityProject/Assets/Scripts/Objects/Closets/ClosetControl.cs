@@ -350,7 +350,7 @@ namespace Objects
 
 		protected virtual void InteractionChecks(PositionalHandApply interaction)
 		{
-			if (interaction.IsAltClick)
+			if (interaction.IsAltClick && IsOpen == false)
 			{
 				TryToggleLock(interaction);
 			}
@@ -360,7 +360,7 @@ namespace Objects
 			}
 			else if (IsLocked)
 			{
-				if (interaction.HandSlot.IsOccupied && interaction.HandObject.TryGetComponent<Emag>(out var emag))
+				if (interaction.HandSlot.IsOccupied && interaction.HandObject.TryGetComponent<Emag>(out var emag) && interaction.IsAltClick == false)
 				{
 					TryEmag(interaction, emag);
 				}
@@ -371,7 +371,7 @@ namespace Objects
 			}
 			else if (IsOpen)
 			{
-				if (interaction.HandSlot.IsOccupied)
+				if (interaction.HandSlot.IsOccupied && interaction.IsAltClick == false)
 				{
 					// If nothing in the player's hand can be used on the closet, drop it in the closet.
 					TryStoreItem(interaction);
@@ -382,7 +382,7 @@ namespace Objects
 					TryToggleDoor(interaction);
 				}
 			}
-			else if (Validations.HasUsedComponent<IDCard>(interaction) || Validations.HasUsedComponent<Items.PDA.PDALogic>(interaction))
+			else if (Validations.HasUsedComponent<IDCard>(interaction) || Validations.HasUsedComponent<Items.PDA.PDALogic>(interaction) && interaction.IsAltClick == false)
 			{
 				TryToggleLock(interaction);
 			}

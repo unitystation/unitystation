@@ -85,7 +85,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 	{
 		if (victim == null) return;
 		if (Cooldowns.IsOnServer(playerScript, CommonCooldowns.Instance.Melee)) return;
-		if (playerMove.allowInput == false) return;
+		if (playerMove.AllowInput == false) return;
 		if (playerScript.PlayerTypeSettings.CanMelee == false) return;
 		if (playerScript.playerHealth.serverPlayerConscious == false) return;
 

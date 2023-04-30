@@ -53,7 +53,7 @@ namespace UI.Core.Action
 			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(ActivePlayerActions, (u, k) => u != null) + " from UIActionManager.ActivePlayerActions");
 			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(Instance.DicIActionGUI, (u, k) => u as MonoBehaviour != null) + " from Instance.DicIActionGUI");
 			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(Instance.IActionGUIToMind, (u, k) => u as MonoBehaviour != null) + " from Instance.IActionGUIToMind");
-			
+
 			{
 				int internals = 0;
 
@@ -130,7 +130,7 @@ namespace UI.Core.Action
 		#region IActionGUI
 
 		/// <summary>
-		/// Set the action button visibility, locally (clientside)
+		/// Set the action button visibility
 		/// </summary>
 		public static void ToggleServer(GameObject body, IActionGUI iActionGUI, bool show)
 		{

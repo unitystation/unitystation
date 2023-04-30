@@ -188,12 +188,13 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		public override void BodyPartRemoved(BodyPart bodyPart)
 		{
-			var newSaturation =  bodyPart.GetComponent<BatteryPoweredComponent>();
-			if (newSaturation != null)
+			var Consumption =  bodyPart.GetComponent<BatteryPoweredComponent>();
+			if (Consumption != null)
 			{
-				if (Consuming.Contains(newSaturation))
+				if (Consuming.Contains(Consumption))
 				{
-					Consuming.Remove(newSaturation);
+					Consumption.PowerModifier.Multiplier = 0;
+					Consuming.Remove(Consumption);
 				}
 
 				BodyPartListChange();
@@ -212,7 +213,7 @@ namespace HealthV2.Living.PolymorphicSystems
 			ConsumingWatts = 0;
 			foreach (var consume in Consuming)
 			{
-				ConsumingWatts += consume.WattConsumption;
+				ConsumingWatts += consume.ConsumptionWatts;
 			}
 		}
 
@@ -269,7 +270,7 @@ namespace HealthV2.Living.PolymorphicSystems
 				{
 					if (consumer.PowerModifier.Multiplier != 0)
 					{
-						//consumer.PowerModifier.Multiplier = 0.0f; //TODO!!!!
+						consumer.PowerModifier.Multiplier = 0.0f;
 					}
 				}
 			}

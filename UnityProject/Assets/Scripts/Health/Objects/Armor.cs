@@ -32,10 +32,10 @@ public class Armor
 	public bool StunImmunity = false;
 
 
-	[MinMaxSlider(0.00f, 50000.0f)]
+	[MinMaxSlider(-5000.00f, 50000.0f)]
 	public Vector2 TemperatureProtectionInK = new Vector2( 268.15f, 313.15f);
 
-	[MinMaxSlider(0.00f, 50000.0f)]
+	[MinMaxSlider(-5000.00f, 50000.0f)]
 	public Vector2 PressureProtectionInKpa = new Vector2(30f, 300f);
 
 

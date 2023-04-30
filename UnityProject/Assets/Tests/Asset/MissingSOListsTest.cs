@@ -1,3 +1,4 @@
+using HealthV2;
 using NUnit.Framework;
 using ScriptableObjects.Systems.Spells;
 
@@ -30,7 +31,31 @@ namespace Tests.Asset
 
 			foreach (var AlertSO in AllSpells)
 			{
-				report.FailIfNot( AlertSOs.Instance.AllAlertSOs.Contains(AlertSO)).AppendLine($"AlertSO {AlertSO} is missing From the AlertSOs AlertSO SO , Please add in ");
+				if (AlertSOs.Instance.AllAlertSOs.Contains(AlertSO) == false)
+				{
+					AlertSOs.Instance.FindAll();
+					report.FailIfNot(false).AppendLine($"AlertSO {AlertSO} is missing From the AlertSOs AlertSO SO , Automatically adding in commit changes plz");
+				}
+
+			}
+
+			report.AssertPassed();
+		}
+
+		[Test]
+		public void SurgerySOsListHasAllSurgerySOs()
+		{
+			var report = new TestReport();
+
+			var SurgeryProcedureBases = Utils.FindAssetsByType<SurgeryProcedureBase>();
+
+			foreach (var SurgeryProcedureBase in SurgeryProcedureBases)
+			{
+				if (SurgeryProcedureBaseSingleton.Instance.StoredReferences.Contains(SurgeryProcedureBase) == false)
+				{
+					SurgeryProcedureBaseSingleton.Instance.FindAll();
+					report.FailIfNot(false).AppendLine($"SurgeryProcedureBase {SurgeryProcedureBase} is missing From the StoredReferences StoredReferences SO , Automatically adding in commit changes plz");
+				}
 			}
 
 			report.AssertPassed();

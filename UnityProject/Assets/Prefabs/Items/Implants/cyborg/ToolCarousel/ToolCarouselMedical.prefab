@@ -19,6 +19,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4147696764540277749, guid: 22a0f31b240a38d43889201d251db483,
         type: 3}
+      propertyPath: storage.Array.data[0].SlotArea
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4147696764540277749, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
+      propertyPath: storage.Array.data[1].SlotArea
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4147696764540277749, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
+      propertyPath: storage.Array.data[2].SlotArea
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4147696764540277749, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
       propertyPath: storage.Array.data[3].SlotArea
       value: 2
       objectReference: {fileID: 0}
@@ -71,6 +86,16 @@ PrefabInstance:
         type: 3}
       propertyPath: storage.Array.data[13].SlotArea
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4147696764540277749, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
+      propertyPath: storage.Array.data[1].namedSlot
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 4147696764540277749, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
+      propertyPath: storage.Array.data[2].namedSlot
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 4147696764540277749, guid: 22a0f31b240a38d43889201d251db483,
         type: 3}
@@ -197,6 +222,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _assetId
       value: 160407361
+      objectReference: {fileID: 0}
+    - target: {fileID: 4953846514621402328, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
+      propertyPath: initialName
+      value: Medical Tool Carousel
       objectReference: {fileID: 0}
     - target: {fileID: 5678182667614193453, guid: 22a0f31b240a38d43889201d251db483,
         type: 3}
@@ -397,5 +427,6 @@ PrefabInstance:
       propertyPath: Populater.SlotContents.Array.data[13].NamedSlot
       value: 19
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1209591193149552991, guid: 22a0f31b240a38d43889201d251db483, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 22a0f31b240a38d43889201d251db483, type: 3}

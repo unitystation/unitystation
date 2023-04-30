@@ -46,7 +46,7 @@ public class Manager3D : MonoBehaviour
 	{
 		if (Is3D) return;
 
-		DynamicChoiceUI.DisplayChoices("Doom? **Hold !!!TAB to use mouse, will freeze for a few seconds", " would you like to activate DOOM mode?, is a WIP so is buggy will freeze for a few seconds *Hold !TAB! to use mouse!*, Would you also like music to accompany it? ",
+		DynamicChoiceUI.ClientDisplayChoicesNotNetworked("Doom? **Hold !!!TAB to use mouse, will freeze for a few seconds", " would you like to activate DOOM mode?, is a WIP so is buggy will freeze for a few seconds *Hold !TAB! to use mouse!*, Would you also like music to accompany it? ",
 			new List<DynamicUIChoiceEntryData>()
 			{
 				new DynamicUIChoiceEntryData()
