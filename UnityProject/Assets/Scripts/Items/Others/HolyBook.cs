@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using HealthV2;
@@ -8,7 +9,7 @@ namespace Items
 	/// <summary>
 	/// Component which allows this object to heal or cause brain damage if used by the Chaplain.
 	/// </summary>
-	public class HolyBook : MonoBehaviour, IPredictedCheckedInteractable<PositionalHandApply>
+	public class HolyBook : MonoBehaviour, IPredictedCheckedInteractable<PositionalHandApply>, ISuicide
 	{
 		//The amount a single thwack heals or damages.
 		public int healthModifier = 10;
@@ -108,6 +109,18 @@ namespace Items
 
 			//Start server cooldown.
 			Cooldowns.TryStartServer(interaction.Performer.GetComponent<PlayerScript>(), CommonCooldowns.Instance.Melee);
+		}
+
+		public bool CanSuicide(GameObject performer)
+		{
+			return true;
+		}
+
+		public IEnumerator OnSuicide(GameObject performer)
+		{
+			yield return WaitFor.FixedUpdate;
+			Chat.AddActionMsgToChat(performer, $"{performer.ExpensiveName()} farts on the holy book.");
+			performer.Player().Script.playerHealth.OnGib();
 		}
 	}
 }

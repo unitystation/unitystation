@@ -932,6 +932,7 @@ namespace Weapons
 
 		public bool CanSuicide(GameObject performer)
 		{
+			if (AllowSuicide == false) return false;
 			return CurrentMagazine != null && CurrentMagazine.ServerAmmoRemains != 0;
 		}
 
@@ -947,7 +948,8 @@ namespace Weapons
 		protected virtual IEnumerator SuicideAction(GameObject performer)
 		{
 			DequeueAndProcessServerShot(performer, performer.RegisterTile().LocalPosition.ToLocal(), BodyPartType.Head, true);
-			performer.GetComponent<LivingHealthBehaviour>().Death();
+			var health = performer.GetComponent<LivingHealthMasterBase>();
+			health.ApplyDamageAll(performer, health.MaxHealth / 2, AttackType.Bullet, DamageType.Brute);
 			yield return null;
 		}
 	}

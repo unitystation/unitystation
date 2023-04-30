@@ -1411,6 +1411,15 @@ namespace HealthV2
 
 			timeOfDeath = GameManager.Instance.RoundTime;
 
+			var HV2 = (this as PlayerHealthV2);
+			if (HV2 != null)
+			{
+				if (HV2.playerScript.OrNull()?.playerMove.OrNull() is not null)
+				{
+					HV2.playerScript.playerMove.allowInput = false;
+				}
+			}
+
 			SetConsciousState(ConsciousState.DEAD);
 			OnDeathActions();
 			if (invokeDeathEvent) OnDeath?.Invoke();
