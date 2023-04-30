@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using Objects.Disposals;
 using AddressableReferences;
+using Random = UnityEngine.Random;
 
 namespace Systems.Disposals
 {
@@ -31,6 +32,8 @@ namespace Systems.Disposals
 		private Vector3Int NextPipeLocalPosition => currentPipeLocalPos + NextPipeVector;
 
 		private OrientationEnum nextPipeRequiredSide = OrientationEnum.Default;
+
+		private Vector2 pipeEjectionFloorDamage = new Vector2(30, 55);
 
 		/// <summary>
 		/// Create a new disposal instance.
@@ -291,7 +294,10 @@ namespace Systems.Disposals
 		private void TryDamageTileFromEjection(Vector3Int localPosition)
 		{
 			if (matrix.TileChangeManager.MetaTileMap.HasTile(localPosition, LayerType.Floors) == false) return;
-			matrix.TileChangeManager.MetaTileMap.SetTile(localPosition, TileType.Floor, "damaged3");
+			matrix.TileChangeManager.MetaTileMap.ApplyDamage(
+				localPosition,
+				Random.Range(pipeEjectionFloorDamage.x, pipeEjectionFloorDamage.y),
+				virtualContainer.gameObject.AssumedWorldPosServer().CutToInt());
 		}
 
 		/// <summary>
