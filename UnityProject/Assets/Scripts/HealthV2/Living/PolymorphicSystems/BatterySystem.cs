@@ -213,7 +213,7 @@ namespace HealthV2.Living.PolymorphicSystems
 			ConsumingWatts = 0;
 			foreach (var consume in Consuming)
 			{
-				ConsumingWatts += consume.ConsumptionWatts;
+				ConsumingWatts += consume.WattsConsumption;
 			}
 		}
 
