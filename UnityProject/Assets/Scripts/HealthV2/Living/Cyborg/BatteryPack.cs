@@ -34,20 +34,24 @@ namespace HealthV2.Living.Cyborg
 		{
 			Battery toCharge = null;
 
-			//Code that charges Each battery individually until they're all full
 
+			int DischargeCells = 0;
 			foreach (var Battery in Cells)
 			{
 				if (Battery.IsFullyCharged == false)
 				{
-					toCharge = Battery;
-					break;
+					DischargeCells++;
 				}
 			}
 
-			if (toCharge != null)
+			if (DischargeCells == 0) return;
+			watts = watts / DischargeCells;
+			foreach (var Battery in Cells)
 			{
-				toCharge.ChargeBy(watts);
+				if (Battery.IsFullyCharged == false)
+				{
+					Battery.ChargeBy(watts);
+				}
 			}
 		}
 
