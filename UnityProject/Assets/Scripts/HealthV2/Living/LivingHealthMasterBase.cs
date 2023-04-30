@@ -1410,7 +1410,7 @@ namespace HealthV2
 			if (ConsciousState == ConsciousState.DEAD) return;
 
 			timeOfDeath = GameManager.Instance.RoundTime;
-			
+
 			SetConsciousState(ConsciousState.DEAD);
 			OnDeathActions();
 			if (invokeDeathEvent) OnDeath?.Invoke();
