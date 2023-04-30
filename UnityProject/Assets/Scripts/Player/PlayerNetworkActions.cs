@@ -714,8 +714,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		NetworkIdentity hand = null;
 		if (handID != 0 && NetworkServer.spawned.TryGetValue(handID, out hand) == false) return;
-		if (namedSlot != NamedSlot.leftHand && namedSlot != NamedSlot.rightHand && namedSlot != NamedSlot.none) return;
-
 		// Because Ghosts don't have dynamic item storage
 		if (playerScript.DynamicItemStorage == null) return;
 

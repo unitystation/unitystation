@@ -74,14 +74,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3377645697590253390, guid: 288980126acf5f441841169958c31630,
         type: 3}
+      propertyPath: stacksWith.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3377645697590253390, guid: 288980126acf5f441841169958c31630,
+        type: 3}
       propertyPath: isRepresentationOfStack
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3377645697590253390, guid: 288980126acf5f441841169958c31630,
         type: 3}
+      propertyPath: stacksWith.Array.data[0]
+      value: 
+      objectReference: {fileID: 4019383695740491213, guid: 930cb494644d9ed46b31e1ecf4222089,
+        type: 3}
+    - target: {fileID: 3377645697590253390, guid: 288980126acf5f441841169958c31630,
+        type: 3}
+      propertyPath: stacksWith.Array.data[1]
+      value: 
+      objectReference: {fileID: 1431646644770877665, guid: 288980126acf5f441841169958c31630,
+        type: 3}
+    - target: {fileID: 3377645697590253390, guid: 288980126acf5f441841169958c31630,
+        type: 3}
       propertyPath: stacksWith.Array.data[2]
       value: 
-      objectReference: {fileID: 656266135466860134}
+      objectReference: {fileID: 0}
     - target: {fileID: 5432611008878820492, guid: 288980126acf5f441841169958c31630,
         type: 3}
       propertyPath: foreverID
@@ -89,9 +106,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 288980126acf5f441841169958c31630, type: 3}
---- !u!1 &656266135466860134 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1431646644770877665, guid: 288980126acf5f441841169958c31630,
-    type: 3}
-  m_PrefabInstance: {fileID: 1929156490760580743}
-  m_PrefabAsset: {fileID: 0}

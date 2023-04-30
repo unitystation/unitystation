@@ -13,7 +13,7 @@ using UI.Core.Action;
 using UI.Systems.MainHUD.UI_Bottom;
 using UnityEngine;
 
-public class BrainLaws : NetworkBehaviour, IActionGUI, ICheckedInteractable<HandActivate>
+public class BrainLaws : NetworkBehaviour, IActionGUI, IClientInteractable<HandActivate>
 {
 
 
@@ -66,54 +66,71 @@ public class BrainLaws : NetworkBehaviour, IActionGUI, ICheckedInteractable<Hand
 
 	#region AILinking
 
-	public bool WillInteract(HandActivate interaction, NetworkSide side)
+	public bool Interact(HandActivate interaction)
 	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
-
 		if (interaction.IsAltClick == false) return false;
-
-		return true;
-	}
-
-	public void ServerPerformInteraction(HandActivate interaction)
-	{
-
 		var Choosing = 	new List<DynamicUIChoiceEntryData>()
 		{
 			new DynamicUIChoiceEntryData()
 			{
 				ChoiceAction = () =>
 				{
-					LinkToAI(null);
+					CommandLinkToAI(-1);
 				},
 				Text = " No AI. "
 			}
 		};
 
-		foreach (var Player in RegisterTile.Matrix.PresentPlayers)
+		for (var index = 0; index < RegisterTile.Matrix.PresentPlayers.Count; index++)
 		{
-
-			if (Player.TryGetComponent<AiPlayer>(out var AiPlayer))
+			var Player = RegisterTile.Matrix.PresentPlayers[index];
+			if (Player.TryGetComponent<AiPlayer>(
+				    out var AiPlayer)) //TODO Think of some way to network this Since it's not always going to be AiPlayer
 			{
-
+				var thisindex = index;
 				Choosing.Add(new DynamicUIChoiceEntryData()
 					{
 						ChoiceAction = () =>
 						{
-							LinkToAI(AiPlayer);
+
+							CommandLinkToAI(thisindex);
 						},
 						Text = AiPlayer.name
-
 					}
 				);
-
 			}
 		}
 
 		DynamicChoiceUI.ClientDisplayChoicesNotNetworked("Choose linked AI for Brain ",
 			" Choose whichever you would like to link this brain to ", Choosing);
+		return true;
 
 	}
+
+
+	[Command(requiresAuthority = false)]
+	public void CommandLinkToAI(int AIIndex, NetworkConnectionToClient sender = null)
+	{
+		if (sender == null) return;
+		if (Validations.CanApply(PlayerList.Instance.Get(sender).Script, this.gameObject, NetworkSide.Server, false, ReachRange.Standard) == false) return;
+
+		if (AIIndex == -1)
+		{
+			LinkToAI(null);
+		}
+
+		if (RegisterTile.Matrix.PresentPlayers.Count > AIIndex)
+		{
+			var AI = RegisterTile.Matrix.PresentPlayers[AIIndex].GetComponent<AiPlayer>();
+			if (AI != null)
+			{
+				LinkToAI(AI);
+			}
+
+
+		}
+	}
+
 
 	#endregion
 

@@ -79,19 +79,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8345754989556495534, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
-      propertyPath: isRepresentationOfStack
-      value: 1
+      propertyPath: stacksWith.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8345754989556495534, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
-      propertyPath: stacksWith.Array.data[2]
-      value: 
-      objectReference: {fileID: 5870593039450586072}
+      propertyPath: isRepresentationOfStack
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3e6805b264a935428b0de415ea57943, type: 3}
---- !u!1 &5870593039450586072 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943,
-    type: 3}
-  m_PrefabInstance: {fileID: 2282040102809807065}
-  m_PrefabAsset: {fileID: 0}

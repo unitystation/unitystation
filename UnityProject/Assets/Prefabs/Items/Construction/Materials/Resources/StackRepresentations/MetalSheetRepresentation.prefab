@@ -40,17 +40,17 @@ PrefabInstance:
     - target: {fileID: 5766763191504408339, guid: b83b68cfa4a201748aeeece963a989c3,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5766763191504408339, guid: b83b68cfa4a201748aeeece963a989c3,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5766763191504408339, guid: b83b68cfa4a201748aeeece963a989c3,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5766763191504408339, guid: b83b68cfa4a201748aeeece963a989c3,
         type: 3}
@@ -79,6 +79,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7860434352612808136, guid: b83b68cfa4a201748aeeece963a989c3,
         type: 3}
+      propertyPath: stacksWith.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860434352612808136, guid: b83b68cfa4a201748aeeece963a989c3,
+        type: 3}
       propertyPath: IsRepresentationOfStack
       value: 1
       objectReference: {fileID: 0}
@@ -91,12 +96,7 @@ PrefabInstance:
         type: 3}
       propertyPath: stacksWith.Array.data[0]
       value: 
-      objectReference: {fileID: 329588525192369323}
+      objectReference: {fileID: 5770283965274354279, guid: b83b68cfa4a201748aeeece963a989c3,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b83b68cfa4a201748aeeece963a989c3, type: 3}
---- !u!1 &329588525192369323 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5770283965274354279, guid: b83b68cfa4a201748aeeece963a989c3,
-    type: 3}
-  m_PrefabInstance: {fileID: 6090772930557224652}
-  m_PrefabAsset: {fileID: 0}

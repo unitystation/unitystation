@@ -7,6 +7,7 @@ using UnityEngine;
 using Messages.Server;
 using UI;
 using UnityEngine.Serialization;
+using Util;
 
 /// <summary>
 /// Allows an item to be stacked, occupying a single inventory slot.
@@ -345,6 +346,20 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	public bool StacksWith(Stackable toCheck)
 	{
 		if (toCheck == null) return false;
+
+		var Tracker = toCheck.GetComponent<PrefabTracker>();
+
+		if (Tracker != null)
+		{
+			foreach (var InObject in stacksWith)
+			{
+				var OtherTracker = InObject.GetComponent<PrefabTracker>();
+				if (OtherTracker.ForeverID == Tracker.ForeverID)
+				{
+					return true;
+				}
+			}
+		}
 
 		return stacksWith.Intersect(toCheck.stacksWith).Any();
 	}

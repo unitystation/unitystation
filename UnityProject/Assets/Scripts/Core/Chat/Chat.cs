@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using Tilemaps.Behaviours.Meta;
 using AdminTools;
+using Communications;
 using DiscordWebhook;
 using DatabaseAPI;
 using Systems.Communications;
@@ -73,6 +74,7 @@ public partial class Chat : MonoBehaviour
 				}
 				//for normal players, just grab the headset that's on their dynamic item storage.
 				DynamicInventoryRadioSignal(playerScript, radioMessageData);
+				BodyPartInventoryRadioSignal(playerScript, radioMessageData);
 				continue;
 			}
 
@@ -110,6 +112,17 @@ public partial class Chat : MonoBehaviour
 			//The headset is responsible for sending this chatEvent to an in-game server that
 			//relays this chatEvent to other players
 			headset.TrySendSignal(null, radioMessageData);
+		}
+	}
+
+	private static void BodyPartInventoryRadioSignal(PlayerScript playerScript,CommsServer.RadioMessageData radioMessageData)
+	{
+		foreach (var BodyPart in playerScript.playerHealth.BodyPartList)
+		{
+			if(BodyPart.TryGetComponent<SignalEmitter>(out var Emitter) == false) continue;
+			//The headset is responsible for sending this chatEvent to an in-game server that
+			//relays this chatEvent to other players
+			Emitter.TrySendSignal(null, radioMessageData);
 		}
 	}
 

@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
-public class CombinedRadioAccess : MonoBehaviour
+public class CombinedRadioAccess : NetworkBehaviour
 {
 
 	public List<BodyPartRadioAccess> ConnectedAccess = new List<BodyPartRadioAccess>();
+
+
+	[SyncVar]
+	public ChatChannel AccessToChannel = ChatChannel.None;
 
 
 	public void AddAccess(BodyPartRadioAccess access)
@@ -14,6 +19,14 @@ public class CombinedRadioAccess : MonoBehaviour
 		{
 			ConnectedAccess.Add(access);
 		}
+
+		ChatChannel channel = ChatChannel.None;
+		foreach (BodyPartRadioAccess Inaccess in ConnectedAccess)
+		{
+			channel = channel | Inaccess.AvailableChannels;
+		}
+
+		AccessToChannel = channel;
 	}
 
 	public void RemoveAccess(BodyPartRadioAccess access)
@@ -22,16 +35,18 @@ public class CombinedRadioAccess : MonoBehaviour
 		{
 			ConnectedAccess.Remove(access);
 		}
+		ChatChannel channel = ChatChannel.None;
+		foreach (BodyPartRadioAccess Inaccess in ConnectedAccess)
+		{
+			channel = channel | Inaccess.AvailableChannels;
+		}
+
+		AccessToChannel = channel;
 	}
 
 	public ChatChannel GetChannels()
 	{
-		ChatChannel channel = ChatChannel.None;
-		foreach (BodyPartRadioAccess access in ConnectedAccess)
-		{
-			channel = channel | access.AvailableChannels;
-		}
-		return channel;
+		return AccessToChannel;
 	}
 
 

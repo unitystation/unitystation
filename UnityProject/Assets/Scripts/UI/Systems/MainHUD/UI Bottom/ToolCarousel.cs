@@ -57,6 +57,8 @@ public class ToolCarousel : MonoBehaviour, IUIHandAreasSelectable
 		FilledSlots[index].Highlight.SetActive(true);
 		RelatedHandsController.SetActiveHand(this, FilledSlots[index].RelatedUI_DynamicItemSlot._storageCharacteristics.namedSlot);
 		ActiveHandInt = index;
+
+
 	}
 
 	public void DeSelect(NamedSlot Hand)

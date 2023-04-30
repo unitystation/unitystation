@@ -409,7 +409,7 @@ public static class Spawn
 	/// </summary>
 	/// <param name="instance">object whose prefab should be determined.</param>
 	/// <returns>the prefab, otherwise null if it could not be determined.</returns>
-	public static GameObject DeterminePrefab(GameObject instance)
+	public static GameObject DeterminePrefab(GameObject instance) //TODO Use forever ID
 	{
 		var tracker = instance.GetComponent<PoolPrefabTracker>();
 		if (tracker != null)

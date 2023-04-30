@@ -14,6 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6837800674117434005, guid: 5dce4d3e01518474bb9bb8085b718980,
         type: 3}
+      propertyPath: stacksWith.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837800674117434005, guid: 5dce4d3e01518474bb9bb8085b718980,
+        type: 3}
       propertyPath: isRepresentationOfStack
       value: 1
       objectReference: {fileID: 0}
@@ -21,7 +26,8 @@ PrefabInstance:
         type: 3}
       propertyPath: stacksWith.Array.data[0]
       value: 
-      objectReference: {fileID: 4262771051628408145}
+      objectReference: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
+        type: 3}
     - target: {fileID: 7093590733113843854, guid: 5dce4d3e01518474bb9bb8085b718980,
         type: 3}
       propertyPath: _assetId
@@ -89,9 +95,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5dce4d3e01518474bb9bb8085b718980, type: 3}
---- !u!1 &4262771051628408145 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
-    type: 3}
-  m_PrefabInstance: {fileID: 6398820156170039403}
-  m_PrefabAsset: {fileID: 0}

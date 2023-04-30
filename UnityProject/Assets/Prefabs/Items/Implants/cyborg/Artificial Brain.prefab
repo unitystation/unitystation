@@ -235,6 +235,28 @@ MonoBehaviour:
     type: 2}
   defaultLawSets:
   - {fileID: 11400000, guid: 930af6a3ce5305e4d81aff947e78f33d, type: 2}
+--- !u!114 &7528340131870021846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2474793813072843241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94ef0b479478b5a40a4d6476c1c2c7fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  emmitableSignalData:
+  - {fileID: 11400000, guid: 248cafaf10637f2439d052ae7b819a6e, type: 2}
+  passCode: 0
+  frequency: 122
+  requiresPower: 0
+  isPowered: 1
+  canExamineFrequency: 0
 --- !u!114 &7747582576144492454
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -15,6 +15,7 @@ using Health.Sickness;
 using HealthV2.Living.CirculatorySystem;
 using HealthV2.Living.PolymorphicSystems;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
+using Initialisation;
 using Items.Implants.Organs;
 using JetBrains.Annotations;
 using NaughtyAttributes;
@@ -1758,16 +1759,19 @@ namespace HealthV2
 				ClientData.Name =
 					implant.name + "_" + i + "_" + implant.GetInstanceID(); //is Fine because name is being Networked
 				newSprite.SetName(ClientData.Name);
-				ClientData.Int =
-					CustomNetworkManager.Instance.IndexLookupSpawnablePrefabs[implant.SpritePrefab.gameObject];
+				ClientData.Int = CustomNetworkManager.Instance.IndexLookupSpawnablePrefabs[implant.SpritePrefab.gameObject];
 				ClientData.Data = JsonConvert.SerializeObject(newOrder);
 				implant.intName = ClientData;
 				InternalNetIDs.Add(ClientData);
 
 				newSprite.baseSpriteHandler.NetworkThis = true;
-				newSprite.UpdateSpritesForImplant(implant, implant.ClothingHide, Sprite, newOrder);
 				SpriteHandlerManager.RegisterHandler(playerSprites.GetComponent<NetworkIdentity>(),
 					newSprite.baseSpriteHandler);
+
+				LoadManager.RegisterActionDelayed(() =>
+				{
+					newSprite.UpdateSpritesForImplant(implant, implant.ClothingHide, Sprite, newOrder);
+				}, 2 );
 
 				if (isSurfaceSprite)
 				{

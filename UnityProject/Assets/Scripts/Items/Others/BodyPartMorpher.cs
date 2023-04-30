@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using HealthV2;
+using Mirror;
 using UI.Core;
 using UnityEngine;
 
-public class BodyPartMorpher : MonoBehaviour, IInteractable<HandActivate>
+public class BodyPartMorpher : NetworkBehaviour, IClientInteractable<HandActivate>
 {
 	private Pickupable Pickupable;
 
@@ -15,16 +16,22 @@ public class BodyPartMorpher : MonoBehaviour, IInteractable<HandActivate>
 		Pickupable = this.GetComponent<Pickupable>();
 	}
 
-	public void ServerPerformInteraction(HandActivate interaction)
+
+	public bool Interact(HandActivate interaction)
 	{
 		var Choosing = new List<DynamicUIChoiceEntryData>();
 
-
-		foreach (var Morph in PossibleMorph)
+		for (var index = 0; index < PossibleMorph.Count; index++)
 		{
+			var Thisindex = index;
+			var Morph = PossibleMorph[index];
 			Choosing.Add(new DynamicUIChoiceEntryData()
 				{
-					ChoiceAction = () => { MorphTo(Morph); },
+					ChoiceAction = () =>
+					{
+
+						CommandMorphTo(Thisindex);
+					},
 					Text = $"Morph Item to {Morph.name}"
 				}
 			);
@@ -32,6 +39,21 @@ public class BodyPartMorpher : MonoBehaviour, IInteractable<HandActivate>
 
 		DynamicChoiceUI.ClientDisplayChoicesNotNetworked("Choose linked AI for Brain ",
 			" Choose whichever you would like to link this brain to ", Choosing);
+		return true;
+	}
+
+
+
+	[Command(requiresAuthority = false)]
+	public void CommandMorphTo(int ItemIndex, NetworkConnectionToClient sender = null)
+	{
+		if (sender == null) return;
+		if (Validations.CanApply(PlayerList.Instance.Get(sender).Script, this.gameObject, NetworkSide.Server, false, ReachRange.Standard) == false) return;
+
+		if (PossibleMorph.Count > ItemIndex)
+		{
+			MorphTo(PossibleMorph[ItemIndex]);
+		}
 	}
 
 	public void MorphTo(GameObject NewItem)
