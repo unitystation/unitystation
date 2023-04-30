@@ -19,7 +19,10 @@ namespace Objects.Disposals
 		[SerializeField]
 		private AddressableAudioSource ClangSound = default;
 
-		private ObjectContainer objectContainer;
+		[SerializeField] private float struggleChance = 50f;
+		[SerializeField] private float timeForStruggle = 3.25f;
+
+		public ObjectContainer ObjectContainer { get; private set; }
 		private GasContainer gasContainer;
 		public DisposalTraversal traversal;
 
@@ -30,8 +33,12 @@ namespace Objects.Disposals
 
 		private void Awake()
 		{
-			objectContainer = GetComponent<ObjectContainer>();
+			ObjectContainer = GetComponent<ObjectContainer>();
 			gasContainer = GetComponent<GasContainer>();
+#if UNITY_EDITOR
+			struggleChance = 90f;
+			timeForStruggle = 0.9f;
+#endif
 		}
 
 		#region EjectContents
@@ -47,7 +54,7 @@ namespace Objects.Disposals
 		/// </summary>
 		public void EjectContents()
 		{
-			objectContainer.RetrieveObjects();
+			ObjectContainer.RetrieveObjects();
 			gasContainer.ReleaseContentsInstantly();
 			gasContainer.IsSealed = false;
 		}
@@ -58,8 +65,8 @@ namespace Objects.Disposals
 		/// <param name="exitVector">The direction (and distance) to throw or push the contents with</param>
 		public void EjectContentsWithVector(Vector3 exitVector)
 		{
-			var objects = objectContainer.GetStoredObjects().ToArray();
-			objectContainer.RetrieveObjects();
+			var objects = ObjectContainer.GetStoredObjects().ToArray();
+			ObjectContainer.RetrieveObjects();
 
 			foreach (var obj in objects)
 			{
@@ -71,6 +78,7 @@ namespace Objects.Disposals
 				if (obj.TryGetComponent<PlayerScript>(out var script))
 				{
 					script.RegisterPlayer.ServerStun();
+					script.playerMove.ResetEverything();
 				}
 			}
 
@@ -93,12 +101,12 @@ namespace Objects.Disposals
 				StandardProgressActionType.Escape, false, false, true, true),
 				() => OnFinishStruggle(entity));
 			Chat.AddExamineMsg(entity, "You attempt to stop yourself from being sucked in by the oily air.");
-			ProgressAction.ServerStartProgress(pb, gameObject.RegisterTile(), 3.25f, entity);
+			ProgressAction.ServerStartProgress(pb, gameObject.RegisterTile(), timeForStruggle, entity);
 		}
 
 		private void OnFinishStruggle(GameObject entity)
 		{
-			if (DMMath.Prob(50))
+			if (DMMath.Prob(struggleChance) == false)
 			{
 				Chat.AddExamineMsg(entity, "Your hands slip and you continue being sucked away.");
 				return;
@@ -108,7 +116,7 @@ namespace Objects.Disposals
 
 		public string Examine(Vector3 worldPos = default)
 		{
-			int contentsCount = objectContainer.GetStoredObjects().Count();
+			int contentsCount = ObjectContainer.GetStoredObjects().Count();
 			return $"There {(contentsCount == 1 ? "is one entity" : $"are {contentsCount} entities")} inside.";
 		}
 	}

@@ -32,7 +32,7 @@ namespace Systems.Disposals
 
 		public AddressableAudioSource DisposalEjectionHiss => disposalEjectionHiss;
 
-		private readonly List<DisposalTraversal> disposalInstances = new List<DisposalTraversal>();
+		public readonly List<DisposalTraversal> disposalInstances = new List<DisposalTraversal>();
 
 		private void OnEnable()
 		{
@@ -90,6 +90,7 @@ namespace Systems.Disposals
 		/// <param name="sourceContainer">The container holding the entities to be disposed of.</param>
 		public void NewDisposal(GameObject sourceObject)
 		{
+			var selfControlledOnStart = false;
 			// Spawn virtual container
 			var disposalContainer = SpawnVirtualContainer(sourceObject.RegisterTile().WorldPositionServer);
 			var virtualContainer = disposalContainer.GetComponent<DisposalVirtualContainer>();
@@ -99,14 +100,29 @@ namespace Systems.Disposals
 			{
 				objectContainer.TransferObjectsTo(disposalContainer.GetComponent<ObjectContainer>());
 			}
+			else
+			{
+				virtualContainer.ObjectContainer.StoreObject(sourceObject);
+				selfControlledOnStart = true;
+			}
 			if (sourceObject.TryGetComponent<GasContainer>(out var gasContainer))
 			{
 				GasMix.TransferGas(disposalContainer.GetComponent<GasContainer>().GasMix, gasContainer.GasMix, gasContainer.GasMix.Moles);
+			}
+			else
+			{
+				var tile = sourceObject.RegisterTile();
+				var gasMix = tile.Matrix.MetaDataLayer.Get(tile.LocalPositionServer)?.GasMix;
+				if (gasMix != null)
+				{
+					GasMix.TransferGas(disposalContainer.GetComponent<GasContainer>().GasMix, gasMix, gasMix.Moles);
+				}
 			}
 
 			// Start traversing
 			var traversal = new DisposalTraversal(virtualContainer);
 			virtualContainer.traversal = traversal;
+			virtualContainer.SelfControlled = selfControlledOnStart;
 			disposalInstances.Add(traversal);
 		}
 
