@@ -143,7 +143,7 @@ public interface IPlayerPossessable
 		{
 			possessing.InternalOnPossessPlayer(mind, this);
 		}
-		OnPossessedBy.Invoke(mind, parent);
+		OnPossessedBy?.Invoke(mind, parent);
 	}
 
 	public void ServerInternalOnPossess(Mind mind, IPlayerPossessable parent)
