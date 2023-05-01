@@ -454,6 +454,7 @@ namespace Player
 				livingHealthMasterBase.InitialiseFromRaceData(RaceBodyparts);
 				livingHealthMasterBase.SetUpCharacter(RaceBodyparts);
 				yield return null; //so Spawned in Sprites have time to get network Initialised on client
+				yield return null; 
 				SetupSprites();
 				livingHealthMasterBase.StartFresh();
 
