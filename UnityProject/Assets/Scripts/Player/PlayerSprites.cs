@@ -297,6 +297,10 @@ namespace Player
 					}
 				}
 			}
+
+			infectedSpriteHandler.PushTexture(); //This is needed because  RegisterHandler in ServerCreateSprite Is busted and doesn't make sprites
+			infectedSpriteHandler.PushClear();
+
 			GetComponent<RootBodyPartController>().PlayerSpritesData = JsonConvert.SerializeObject(ToClient);
 
 			SetSurfaceColour();
@@ -454,7 +458,6 @@ namespace Player
 				livingHealthMasterBase.InitialiseFromRaceData(RaceBodyparts);
 				livingHealthMasterBase.SetUpCharacter(RaceBodyparts);
 				yield return null; //so Spawned in Sprites have time to get network Initialised on client
-				yield return null; 
 				SetupSprites();
 				livingHealthMasterBase.StartFresh();
 
