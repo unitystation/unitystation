@@ -1768,11 +1768,7 @@ namespace HealthV2
 				SpriteHandlerManager.RegisterHandler(playerSprites.GetComponent<NetworkIdentity>(),
 					newSprite.baseSpriteHandler);
 
-				LoadManager.RegisterActionDelayed(() =>
-				{
-					newSprite.UpdateSpritesForImplant(implant, implant.ClothingHide, Sprite, newOrder);
-				}, 1 );
-
+				newSprite.UpdateSpritesForImplant(implant, implant.ClothingHide, Sprite, newOrder);
 				if (isSurfaceSprite)
 				{
 					playerSprites.SurfaceSprite.Add(newSprite);
