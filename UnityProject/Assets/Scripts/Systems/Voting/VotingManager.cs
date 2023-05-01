@@ -129,7 +129,7 @@ public class VotingManager : NetworkBehaviour
 		SetupVote(VoteType.NextMap, VotePolicy.MajorityRules, 30, instigator, sender);
 	}
 
-	private void SetupVote(VoteType type, VotePolicy policy, int time, GameObject instigator, NetworkConnection sender)
+	public void SetupVote(VoteType type, VotePolicy policy, int time, GameObject instigator, NetworkConnection sender)
 	{
 		if (voteInProgress || voteRestartSuccess) return;
 
@@ -161,7 +161,12 @@ public class VotingManager : NetworkBehaviour
 				RpcOpenVoteWindow("Voting for next map initiated by", instigator.name, CountAmountString(), (time - prevSecond).ToString(), MapList);
 				break;
 		}
-		RpcVoteCallerDefault(sender);
+
+		if (sender != null)
+		{
+			RpcVoteCallerDefault(sender);
+		}
+
 		Logger.Log($"Vote initiated by {instigator.name}", Category.Admin);
 	}
 

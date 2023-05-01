@@ -671,6 +671,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			return;
 		}
 
+
 		CurrentRoundState = RoundState.Ended;
 		try
 		{
@@ -691,6 +692,11 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 
 		counting = false;
+		if (RoundEndTime > 10)
+		{
+			VotingManager.Instance.SetupVote(VotingManager.VoteType.NextMap, VotingManager.VotePolicy.MajorityRules,  Mathf.FloorToInt(RoundEndTime-1) , this.gameObject, null);
+		}
+
 
 		StartCoroutine(WaitForRoundRestart());
 
