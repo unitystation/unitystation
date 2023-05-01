@@ -74,7 +74,7 @@ namespace Systems.Clearance
 			// Is the entity an item or mob with clearance source at root?
 			if (entity.TryGetComponent<IClearanceSource>(out var clearanceSource))
 			{
-				return HasClearance(clearanceSource);
+				if (HasClearance(clearanceSource)) return true;
 			}
 
 			// Is the entity a player with dynamic storage?

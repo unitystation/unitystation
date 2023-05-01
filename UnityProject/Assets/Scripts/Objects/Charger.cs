@@ -50,7 +50,7 @@ namespace Objects
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.HandObject != null)
 			{
 				if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.InternalBattery)) return false;
@@ -124,7 +124,7 @@ namespace Objects
 		private void AddCharge()
 		{
 			battery.Watts += ChargingWatts;
-			
+
 			if (battery.Watts > battery.MaxWatts)
 			{
 				battery.Watts = battery.MaxWatts;

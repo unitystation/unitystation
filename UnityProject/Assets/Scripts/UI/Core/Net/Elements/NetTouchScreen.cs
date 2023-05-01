@@ -11,7 +11,7 @@ namespace UI.Core.NetUI
 		public override ElementMode InteractionMode => ElementMode.ClientWrite;
 
 		public override string Value {
-			set => Element.LastTouchPosition = value.Vectorized();
+			protected  set => Element.LastTouchPosition = value.Vectorized();
 			get => Element.LastTouchPosition.Stringified();
 		}
 

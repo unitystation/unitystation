@@ -22,17 +22,18 @@ namespace Systems.Storage
 				 " to slot index that it will populate). **Deprecated**")]
 		private List<GameObject> DeprecatedContents = new List<GameObject>();
 
-		public override void PopulateItemStorage(ItemStorage ItemStorage, PopulationContext context)
+		public override void PopulateItemStorage(ItemStorage ItemStorage, PopulationContext context, SpawnInfo info)
 		{
 			//Uses the old contents for now
 			foreach (var gameObject in DeprecatedContents)
 			{
 				var ItemSlot = ItemStorage.GetNextFreeIndexedSlot();
-				var spawn = Spawn.ServerPrefab(gameObject, PrePickRandom: true);
+
+				var spawn = Spawn.ServerPrefab(gameObject, PrePickRandom: true, spawnManualContents: info?.SpawnManualContents ?? false);
 				Inventory.ServerAdd(spawn.GameObject, ItemSlot, IgnoreRestraints: true);
 			}
 
-			Inventory.PopulateSubInventory(ItemStorage, SlotContents);
+			Inventory.PopulateSubInventory(ItemStorage, SlotContents, info);
 		}
 	}
 
@@ -62,17 +63,17 @@ namespace Systems.Storage
 			return Returning;
 		}
 
-		public void PopulateItemStorage(ItemStorage ItemStorage, PopulationContext context)
+		public void PopulateItemStorage(ItemStorage ItemStorage, PopulationContext context, SpawnInfo info)
 		{
 			foreach (var gameObject in DeprecatedContents)
 			{
 				if (gameObject == null) continue;
 				var ItemSlot = ItemStorage.GetNextFreeIndexedSlot();
-				var spawn = Spawn.ServerPrefab(gameObject, PrePickRandom: true);
+				var spawn = Spawn.ServerPrefab(gameObject, PrePickRandom: true, spawnManualContents: info?.SpawnManualContents ?? false);
 				Inventory.ServerAdd(spawn.GameObject, ItemSlot, IgnoreRestraints: true);
 			}
 
-			Inventory.PopulateSubInventory(ItemStorage, SlotContents);
+			Inventory.PopulateSubInventory(ItemStorage, SlotContents, info);
 		}
 	}
 }

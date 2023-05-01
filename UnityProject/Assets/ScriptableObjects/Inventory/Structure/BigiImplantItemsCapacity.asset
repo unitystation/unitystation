@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c909446621c41cd975e26eab73860a6, type: 3}
   m_Name: BigiImplantItemsCapacity
   m_EditorClassIdentifier: 
-  MaxItemSize: 4
+  maxSize: 4
   Whitelist:
   - {fileID: 11400000, guid: d859938ed34564a4a932f3beb902e34c, type: 2}
-  Required: []
+  Required:
+  - {fileID: 11400000, guid: 57eb2d1faf36d2040ade08046da48bfa, type: 2}
   Blacklist: []

@@ -12,7 +12,7 @@ public class NetParentSetter : NetUIIntElement
 
 	public override int Value {
 		get => CurrentLocation;
-		set
+		protected set
 		{
 			CurrentLocation = value;
 			SetParentInternal(value);

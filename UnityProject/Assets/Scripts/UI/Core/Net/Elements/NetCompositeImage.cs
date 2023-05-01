@@ -19,7 +19,7 @@ namespace UI.Core.NetUI
 
 		public override string Value {
 			get => ObjectNetId.ToString();
-			set {
+			protected set {
 				//don't update if it's the same sprite
 				if (ObjectNetId.ToString() != value && uint.TryParse(value, out var result))
 				{

@@ -71,7 +71,7 @@ namespace UI.CharacterCreator
 
 			var ActualIndex = PreviousOptions - 1;
 
-			var spawned = Spawn.ServerPrefab(bodyPart.OptionalReplacementOrgan[ActualIndex].gameObject);
+			var spawned = Spawn.ServerPrefab(bodyPart.OptionalReplacementOrgan[ActualIndex].gameObject, spawnManualContents: true);
 
 			var Storage = bodyPart.ContainedIn;
 

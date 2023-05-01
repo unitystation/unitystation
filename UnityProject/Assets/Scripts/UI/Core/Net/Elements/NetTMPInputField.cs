@@ -9,7 +9,7 @@ public class NetTMPInputField : NetUIStringElement
 {
 	public override string Value {
 		get => Element.text;
-		set {
+		protected set {
 			externalChange = true; //TODO looking to WHY???
 			Element.text = value;
 			externalChange = false;

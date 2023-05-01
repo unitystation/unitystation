@@ -247,7 +247,7 @@ namespace Systems.Antagonists
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			//This triggers the spawning of the alien body parts
-			playerScript.playerSprites.OnCharacterSettingsChange(characterSheet);
+			playerScript.playerSprites.StartCoroutine( playerScript.playerSprites.OnCharacterSettingsChange(characterSheet));
 		}
 
 		#endregion

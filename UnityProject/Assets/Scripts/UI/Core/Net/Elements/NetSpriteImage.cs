@@ -23,7 +23,7 @@ namespace UI.Core.NetUI
 
 		public override string Value {
 			get => spriteIndex.ToString() ?? "-1";
-			set {
+			protected set {
 				externalChange = true;
 				SetSprite(value);
 				externalChange = false;

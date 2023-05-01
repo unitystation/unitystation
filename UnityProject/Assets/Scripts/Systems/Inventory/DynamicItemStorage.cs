@@ -768,7 +768,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 
 	private readonly Dictionary<uint, IDynamicItemSlotS> ClientCash = new Dictionary<uint, IDynamicItemSlotS>();
 
-	public void ProcessChangeClient(string NewST)
+	public void ProcessChangeClient(string NewST, int Tries = 0)
 	{
 		added.Clear();
 		removed.Clear();
@@ -780,15 +780,23 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 			{
 				if (spawnedList.TryGetValue(IntIn.ID, out var spawned) == false)
 				{
+					if (Tries > 10)
+					{
+						Logger.LogError($"Failed to find object in spawned objects, might have not spawned yet? netId: {IntIn}");
+						continue;
+					}
 					WeakReference<DynamicItemStorage> wptr = new WeakReference<DynamicItemStorage>(this);
 
 					LoadManager.RegisterActionDelayed(() =>
 					{
-						DynamicItemStorage di;
+						DynamicItemStorage DIS;
 
-						if (wptr.TryGetTarget(out di))
+						int LocalTries = Tries;
+						LocalTries++;
+
+						if (wptr.TryGetTarget(out DIS))
 						{
-							di.ProcessChangeClient(NewST);
+							DIS.ProcessChangeClient(NewST, LocalTries);
 						}
 					}, 30);
 					return;

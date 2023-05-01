@@ -36,7 +36,7 @@ namespace Objects.Construction
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			if (!Validations.IsTarget(gameObject, interaction)) return false;
 

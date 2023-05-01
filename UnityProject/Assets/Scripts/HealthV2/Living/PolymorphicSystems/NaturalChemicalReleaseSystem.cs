@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Chemistry;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
+using UnityEngine;
 
 namespace HealthV2.Living.PolymorphicSystems
 {
@@ -9,6 +10,11 @@ namespace HealthV2.Living.PolymorphicSystems
 		public Dictionary<Reagent, ReagentWithBodyParts> Toxicity = new Dictionary<Reagent, ReagentWithBodyParts>();
 
 		public List<NaturalChemicalReleaseComponent> BodyParts = new List<NaturalChemicalReleaseComponent>();
+
+		public float TotalToxinGenerationPerSecond = 0.1f;
+
+		[Tooltip("What reagent does this expel as waste?, Sets all the body parts that don't have a set NaturalToxinReagent")]
+		public Reagent BodyNaturalToxinReagent;
 
 		public class ReagentWithBodyParts
 		{
@@ -39,7 +45,7 @@ namespace HealthV2.Living.PolymorphicSystems
 			{
 				if (bodyPart.NaturalToxinReagent == null)
 				{
-					bodyPart.NaturalToxinReagent = Base.InitialSpecies.Base.BodyNaturalToxinReagent;
+					bodyPart.NaturalToxinReagent = BodyNaturalToxinReagent;
 				}
 			}
 
@@ -49,10 +55,6 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		public void InitialiseToxGeneration()
 		{
-
-			float TotalToxinGenerationPerSecond = Base.InitialSpecies.Base.TotalToxinGenerationPerSecond;
-
-
 
 			var TotalBloodThroughput = 0f;
 

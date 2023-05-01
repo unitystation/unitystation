@@ -20,7 +20,7 @@ PrefabInstance:
     - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: stacksWith.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
@@ -32,6 +32,12 @@ PrefabInstance:
       propertyPath: stacksWith.Array.data[1]
       value: 
       objectReference: {fileID: 4435676122793348777, guid: c567e6c3b003a2b488534a8766866cb0,
+        type: 3}
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: stacksWith.Array.data[2]
+      value: 
+      objectReference: {fileID: 5870593039450586072, guid: aeb7181029581034f83f8191643b900b,
         type: 3}
     - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
@@ -92,6 +98,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MediumCableCoil
+      objectReference: {fileID: 0}
+    - target: {fileID: 1821991397738242279, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: _assetId
+      value: 1377153895
       objectReference: {fileID: 0}
     - target: {fileID: 1821991397738242279, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
@@ -343,6 +354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c1dcb3aeedc1446a9e40fc57eb5cd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   CableType: 0

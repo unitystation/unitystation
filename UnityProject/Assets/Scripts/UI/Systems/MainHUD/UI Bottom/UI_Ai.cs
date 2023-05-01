@@ -211,7 +211,16 @@ namespace UI.Systems.MainHUD.UI_Bottom
 			}
 
 			// 0 laws first, freeform last
-			var laws = aiPlayer.GetLaws();
+			var laws = aiPlayer?.GetLaws();
+
+
+			if (laws == null)
+			{
+				laws = PlayerManager.LocalMindScript.PossessingObject.GetComponent<BrainLaws>().GetLaws();
+			}
+
+
+
 
 			amountOfLawsText.text = $"You have <color=orange>{laws.Count}</color> law{(laws.Count == 1 ? "" : "s")}\nYou Must Follow Them";
 

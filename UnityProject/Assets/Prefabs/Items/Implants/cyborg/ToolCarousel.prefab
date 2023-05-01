@@ -7,6 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: BodyPartType
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: DamageContributesToOverallHealth
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4083826922132060799, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
       propertyPath: m_RootOrder
@@ -122,28 +132,6 @@ MonoBehaviour:
       CategoryID: 
       ConditionalParameter: 0
       XAmountConditional: 0
-  - NotPresentOnUI: 0
-    SlotArea: 2
-    namedSlot: 17
-    hoverName: 
-    DropContents: 0
-    placeholderSprite: {fileID: 0}
-    Conditional: 0
-    Condition:
-      CategoryID: 
-      ConditionalParameter: 0
-      XAmountConditional: 0
-  - NotPresentOnUI: 0
-    SlotArea: 2
-    namedSlot: 19
-    hoverName: 
-    DropContents: 0
-    placeholderSprite: {fileID: 0}
-    Conditional: 0
-    Condition:
-      CategoryID: 
-      ConditionalParameter: 0
-      XAmountConditional: 0
 --- !u!114 &5678182667614193453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,35 +150,18 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 0
+  ManuallySpawnContent: 0
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 1
   Populater:
     SlotContents:
     - DoNotGetFirstEmptySlot: 0
+      Prefab: {fileID: 4439164406491812292, guid: beb72eed82ff8754faf980687c5716e4,
+        type: 3}
+      UseIndex: 0
       IndexSlot: 0
+      NamedSlot: 0
       IfOccupiedFindEmptySlot: 0
-      UseIndex: 0
-      NamedSlot: 16
-      Prefab: {fileID: 8096842924384943973, guid: 1bd4d6ea60dfdc1498ee8f06b7289fb4,
-        type: 3}
-      ReplacementStrategy: 0
-      namedSlotPopulatorEntrys: []
-    - DoNotGetFirstEmptySlot: 0
-      IndexSlot: 1
-      IfOccupiedFindEmptySlot: 0
-      UseIndex: 0
-      NamedSlot: 17
-      Prefab: {fileID: 4930866777566109869, guid: 7976a84ef9209f14697cdd941b913e2a,
-        type: 3}
-      ReplacementStrategy: 0
-      namedSlotPopulatorEntrys: []
-    - DoNotGetFirstEmptySlot: 0
-      IndexSlot: 2
-      IfOccupiedFindEmptySlot: 0
-      UseIndex: 0
-      NamedSlot: 19
-      Prefab: {fileID: 8868920090029130384, guid: 366fb594c17e76346bbb29ad4ce021ad,
-        type: 3}
       ReplacementStrategy: 0
       namedSlotPopulatorEntrys: []
     DeprecatedContents: []

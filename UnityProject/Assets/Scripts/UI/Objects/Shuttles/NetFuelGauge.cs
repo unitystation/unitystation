@@ -12,7 +12,7 @@ namespace UI.Objects.Shuttles
 		public override ElementMode InteractionMode => ElementMode.ServerWrite;
 		public override string Value {
 			get => Element.PercentageFuel.ToString();
-			set {
+			protected set {
 				externalChange = true;
 				Element.PercentageFuel = float.Parse(value);
 				Element.UpdateFuelLevel(Element.PercentageFuel);

@@ -49,7 +49,7 @@ namespace Objects
 				return false;
 			playerInteracted = interaction.Performer;
 			//interaction only works if hand is empty
-			if (interaction.HandObject != null)
+			if (interaction.HandObject != null && interaction.IsAltClick == false)
 			{ return false; }
 
 			return true;

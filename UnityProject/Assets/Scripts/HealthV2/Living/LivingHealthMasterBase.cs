@@ -15,6 +15,7 @@ using Health.Sickness;
 using HealthV2.Living.CirculatorySystem;
 using HealthV2.Living.PolymorphicSystems;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
+using Initialisation;
 using Items.Implants.Organs;
 using JetBrains.Annotations;
 using NaughtyAttributes;
@@ -470,6 +471,13 @@ namespace HealthV2
 				{
 					SurfaceBodyParts.Add(BodyPart);
 				}
+			}
+
+
+
+			foreach (var sys in ActiveSystems)
+			{
+				sys.BodyPartAdded(BodyPart);
 			}
 		}
 
@@ -993,7 +1001,7 @@ namespace HealthV2
 				currentHealth -= implant.TotalDamageWithoutOxyCloneRadStam;
 			}
 
-			if (brain == null || brain.RelatedPart.Health < -100)
+			if (brain == null || brain.RelatedPart.Health < -100 || brain.RelatedPart.TotalModified == 0)
 			{
 				currentHealth -= 200;
 				healthStateController.SetOverallHealth(currentHealth);
@@ -1265,7 +1273,7 @@ namespace HealthV2
 			healthStateController
 				.SetOverallHealth(MaxHealth); //Set the player's overall health to their race's maxHealth.
 			RestartHeart();
-			playerScript.playerMove.allowInput = true; //Let them interact with the world again.
+			SetConsciousState(ConsciousState.CONSCIOUS);
 			playerScript.RegisterPlayer.ServerStandUp();
 			playerScript.Mind.OrNull()?.StopGhosting();
 		}
@@ -1402,15 +1410,6 @@ namespace HealthV2
 			if (ConsciousState == ConsciousState.DEAD) return;
 
 			timeOfDeath = GameManager.Instance.RoundTime;
-
-			var HV2 = (this as PlayerHealthV2);
-			if (HV2 != null)
-			{
-				if (HV2.playerScript.OrNull()?.playerMove.OrNull() is not null)
-				{
-					HV2.playerScript.playerMove.allowInput = false;
-				}
-			}
 
 			SetConsciousState(ConsciousState.DEAD);
 			OnDeathActions();
@@ -1760,16 +1759,19 @@ namespace HealthV2
 				ClientData.Name =
 					implant.name + "_" + i + "_" + implant.GetInstanceID(); //is Fine because name is being Networked
 				newSprite.SetName(ClientData.Name);
-				ClientData.Int =
-					CustomNetworkManager.Instance.IndexLookupSpawnablePrefabs[implant.SpritePrefab.gameObject];
+				ClientData.Int = CustomNetworkManager.Instance.IndexLookupSpawnablePrefabs[implant.SpritePrefab.gameObject];
 				ClientData.Data = JsonConvert.SerializeObject(newOrder);
 				implant.intName = ClientData;
 				InternalNetIDs.Add(ClientData);
 
 				newSprite.baseSpriteHandler.NetworkThis = true;
-				newSprite.UpdateSpritesForImplant(implant, implant.ClothingHide, Sprite, newOrder);
 				SpriteHandlerManager.RegisterHandler(playerSprites.GetComponent<NetworkIdentity>(),
 					newSprite.baseSpriteHandler);
+
+				LoadManager.RegisterActionDelayed(() =>
+				{
+					newSprite.UpdateSpritesForImplant(implant, implant.ClothingHide, Sprite, newOrder);
+				}, 1 );
 
 				if (isSurfaceSprite)
 				{
@@ -2158,7 +2160,7 @@ namespace HealthV2
 			{
 				foreach (var ToSpawn in ListToSpawn.Elements)
 				{
-					var bodyPartObject = Spawn.ServerPrefab(ToSpawn).GameObject;
+					var bodyPartObject = Spawn.ServerPrefab(ToSpawn, spawnManualContents: true).GameObject;
 					BodyPartStorage.ServerTryAdd(bodyPartObject);
 				}
 			}

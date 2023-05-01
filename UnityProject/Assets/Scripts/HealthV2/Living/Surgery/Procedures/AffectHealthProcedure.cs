@@ -9,15 +9,12 @@ namespace HealthV2
 	[CreateAssetMenu(fileName = "AffectHealthProcedure", menuName = "ScriptableObjects/Surgery/AffectHealthProcedure")]
 	public class AffectHealthProcedure : SurgeryProcedureBase
 	{
-		[FormerlySerializedAs("RequiredImplantTrait")] public ItemTrait RequiredTrait;
 		public DamageType Affects;
 		public float HeelStrength;
 
 		public bool ConsumeItem;
 
 		public AttackType FailAttackType = AttackType.Melee;
-
-		public bool UseUpItem = false;
 
 		public override void FinnishSurgeryProcedure(BodyPart OnBodyPart, HandApply interaction,
 			Dissectible.PresentProcedure PresentProcedure)
@@ -31,7 +28,7 @@ namespace HealthV2
 				PresentProcedure.isOn.currentlyOn = null;
 			}
 
-			if (interaction.HandSlot.Item != null && interaction.HandSlot.Item.GetComponent<ItemAttributesV2>().HasTrait(RequiredTrait))
+			if (interaction.HandSlot.Item != null)
 			{
 				OnBodyPart.HealDamage(interaction.UsedObject,HeelStrength,Affects);
 

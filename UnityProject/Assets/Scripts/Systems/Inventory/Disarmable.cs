@@ -26,7 +26,7 @@ public class Disarmable : MonoBehaviour, ICheckedInteractable<PositionalHandAppl
 
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
 		if (interaction.Intent != Intent.Disarm) return false;
 		if (interaction.TargetObject == interaction.Performer) return false;
 

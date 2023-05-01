@@ -74,7 +74,7 @@ namespace Items
 
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			if (isSealed) return false;
 

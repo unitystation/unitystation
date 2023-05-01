@@ -22,19 +22,19 @@ namespace UI.Objects.Security
 		{
 			ChangeStatus();
 
-			onOffSwitch.Value = TurretSwitch.IsOn ? (1 * 100).ToString() : "0";
-			stunLethalSwitch.Value = TurretSwitch.IsStun ? "0" : (1 * 100).ToString();
+			onOffSwitch.MasterSetValue(TurretSwitch.IsOn ? (1 * 100).ToString() : "0");
+			stunLethalSwitch.MasterSetValue(TurretSwitch.IsStun ? "0" : (1 * 100).ToString());
 		}
 
 		private void ChangeStatus()
 		{
 			if (TurretSwitch.HasPower == false)
 			{
-				powerSetting.Value = "No Power";
+				powerSetting.MasterSetValue("No Power");
 			}
 			else
 			{
-				powerSetting.Value = TurretSwitch.IsOn ? TurretSwitch.IsStun ? "Stun" : "Lethal" : "Off";
+				powerSetting.MasterSetValue(TurretSwitch.IsOn ? TurretSwitch.IsStun ? "Stun" : "Lethal" : "Off");
 			}
 		}
 

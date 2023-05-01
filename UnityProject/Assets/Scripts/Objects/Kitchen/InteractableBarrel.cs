@@ -28,7 +28,7 @@ namespace Objects.Kitchen
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench) == false;
 		}

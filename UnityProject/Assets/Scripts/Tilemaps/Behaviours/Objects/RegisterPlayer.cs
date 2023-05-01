@@ -200,11 +200,13 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		if (MatrixOld != null && MatrixOld.PresentPlayers.Contains(this))
 		{
 			MatrixOld.PresentPlayers.Remove(this);
+			MatrixNew.UpdatedPlayerFrame = Time.frameCount;
 		}
 
 		if (MatrixNew != null && MatrixNew.PresentPlayers.Contains(this) == false)
 		{
 			MatrixNew.PresentPlayers.Add(this);
+			MatrixNew.UpdatedPlayerFrame = Time.frameCount;
 		}
 	}
 
@@ -367,7 +369,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 
 		if (StopMovement)
 		{
-			playerScript.playerMove.allowInput = false;
+			playerScript.playerMove.ServerAllowInput.RecordPosition(this, false);
 		}
 
 
@@ -401,7 +403,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		if (playerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS
 			 || playerScript.playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS)
 		{
-			playerScript.playerMove.allowInput = true;
+			playerScript.playerMove.ServerAllowInput.RemovePosition(this);
 		}
 	}
 

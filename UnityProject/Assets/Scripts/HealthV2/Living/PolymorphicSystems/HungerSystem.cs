@@ -14,6 +14,11 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		private BodyAlertManager BodyAlertManager;
 
+		public float NumberOfMinutesBeforeStarving = 30;
+
+		[Tooltip("What does this live off?, Sets all the body parts that don't have a set nutriment")]
+		public Reagent BodyNutriment;
+
 		private ReagentPoolSystem reagentPoolSystem
 		{
 			get
@@ -101,11 +106,11 @@ namespace HealthV2.Living.PolymorphicSystems
 			{
 				if (bodyPart.Nutriment == null)
 				{
-					bodyPart.Nutriment = Base.InitialSpecies.Base.BodyNutriment;
+					bodyPart.Nutriment = BodyNutriment;
 				}
 			}
 
-			InitialiseHunger(Base.InitialSpecies.Base.NumberOfMinutesBeforeStarving);
+			InitialiseHunger(NumberOfMinutesBeforeStarving);
 
 
 

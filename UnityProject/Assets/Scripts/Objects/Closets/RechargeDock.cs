@@ -51,14 +51,14 @@ namespace Objects.Closets
 					break;
 			}
 
+
+
+			ChargeableDevice.ChargeBy(ChargingMultiplier * ChargingWattage);
 			if (ChargeableDevice.IsFullyCharged)
 			{
 				SetDoor(Door.Opened);
 			}
-			else
-			{
-				ChargeableDevice.ChargeBy(ChargingMultiplier * ChargingWattage);
-			}
+
 		}
 
 		public override void CollectObjects()

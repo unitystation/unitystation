@@ -28,6 +28,8 @@ namespace Systems.Ai
 		private GameObject corePrefab = null;
 
 
+		public List<BrainLaws> LinkedCyborgs = new List<BrainLaws>();
+
 
 		[SyncVar(hook = nameof(SyncCore))]
 		//Ai core or card
@@ -1536,6 +1538,13 @@ namespace Systems.Ai
 		[Server]
 		private void ServerUpdateClientLaws()
 		{
+
+			foreach (var Cyborg in LinkedCyborgs)
+			{
+				Cyborg.SetLaws(aiLaws);
+			}
+
+
 			var data = new List<LawSyncData>();
 
 			foreach (var lawGroup in aiLaws)

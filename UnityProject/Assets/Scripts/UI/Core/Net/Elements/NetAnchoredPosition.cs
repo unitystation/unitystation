@@ -14,7 +14,7 @@ namespace UI.Core.NetUI
 		public override string Value
 		{
 			get => position.ToString() ?? "-1";
-			set
+			protected set
 			{
 				externalChange = true;
 				SetPosition(value);
@@ -28,8 +28,8 @@ namespace UI.Core.NetUI
 		}
 
 		private void SetPosition(string anchoredPosition)
-		{		
-			anchoredPosition = anchoredPosition.TrimStart('(').TrimEnd(')');		
+		{
+			anchoredPosition = anchoredPosition.TrimStart('(').TrimEnd(')');
 			string[] pos = anchoredPosition.Split(',');
 
 			if (float.TryParse(pos[0], out float x) == false) return;

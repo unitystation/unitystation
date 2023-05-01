@@ -10,6 +10,11 @@ namespace HealthV2.Living.PolymorphicSystems
 		public Dictionary<MetabolismReaction, List<MetabolismComponent>> PrecalculatedMetabolismReactions =
 			new Dictionary<MetabolismReaction, List<MetabolismComponent>>();
 
+		[Tooltip(" How much does medicine get metabolised by body parts That are internal and don't contribute to  overall health ")]
+		public float InternalMetabolismPerSecond  = 1f;
+
+		[Tooltip(" How much does medicine get metabolised by body parts that contribute to overall health ")]
+		public float ExternalMetabolismPerSecond = 2f;
 		public List<MetabolismReaction> MetabolismReactions { get; } = new();
 
 		public List<MetabolismReaction> ALLMetabolismReactions = new List<MetabolismReaction>(); //TOOD Move somewhere static maybe
@@ -46,7 +51,7 @@ namespace HealthV2.Living.PolymorphicSystems
 
 			if (internalTotalBloodThroughput.Approx(0)) return;
 
-			var internalMetabolismFlowPerOne = RaceBodypart.Base.InternalMetabolismPerSecond / internalTotalBloodThroughput;
+			var internalMetabolismFlowPerOne = InternalMetabolismPerSecond / internalTotalBloodThroughput;
 
 			foreach (var bodyPart in MetabolismComponents)
 			{
@@ -63,7 +68,7 @@ namespace HealthV2.Living.PolymorphicSystems
 				externalTotalBloodThroughput += bodyPart.BloodThroughput;
 			}
 
-			var metabolismFlowPerOne =  RaceBodypart.Base.ExternalMetabolismPerSecond / externalTotalBloodThroughput;
+			var metabolismFlowPerOne =  ExternalMetabolismPerSecond / externalTotalBloodThroughput;
 
 			foreach (var bodyPart in MetabolismComponents)
 			{

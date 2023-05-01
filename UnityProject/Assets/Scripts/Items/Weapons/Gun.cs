@@ -603,7 +603,7 @@ namespace Weapons
 			// check if we can still shoot
 			MovementSynchronisation shooter = shotBy.GetComponent<MovementSynchronisation>();
 			PlayerScript shooterScript = shotBy.GetComponent<PlayerScript>();
-			if (shooter.allowInput == false || shooterScript.IsNormal == false)
+			if (shooter.AllowInput == false || shooterScript.IsNormal == false)
 			{
 				Logger.Log("A player tried to shoot when not allowed or when they were a ghost.", Category.Exploits);
 				Logger.LogWarning("A shot was attempted when shooter is a ghost or is not allowed to shoot.",

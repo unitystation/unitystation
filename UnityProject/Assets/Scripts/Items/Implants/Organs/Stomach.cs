@@ -67,7 +67,7 @@ namespace Items.Implants.Organs
 
 			if (AllFat)
 			{
-				var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject).GameObject.GetComponent<BodyFat>();
+				var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject, spawnManualContents: true).GameObject.GetComponent<BodyFat>();
 				Added.SetAbsorbedAmount(0);
 				Added.RelatedStomach = this;
 				BodyFats.Add(Added);

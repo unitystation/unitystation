@@ -49,6 +49,9 @@ public class Occupation : ScriptableObject
 	private bool useCharacterSettings = true;
 	public bool UseCharacterSettings => useCharacterSettings;
 
+	public PlayerHealthData CustomSpeciesOverwrite;
+
+
 	[FormerlySerializedAs("Limit")]
 	[SerializeField]
 	[Tooltip("Maximum simultaneous players with this occupation. Set to -1 for unlimited")]

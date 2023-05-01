@@ -38,10 +38,10 @@ namespace UI
 			   switch (elementName)
 			   {
 				   case "MobName":
-					   netElement.Value = newObject.ExpensiveName();
+					   netElement.MasterSetValue(newObject.ExpensiveName());
 					   break;
 				   case "MobIcon":
-					   netElement.Value = newObject.NetId().ToString();
+					   netElement.MasterSetValue(newObject.NetId().ToString());
 					   break;
 				   default:
 					//Don't need to change netElement.Value for other elements

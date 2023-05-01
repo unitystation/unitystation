@@ -13,7 +13,7 @@ namespace UI.Core.NetUI
 	{
 		public override string Value {
 			get => Element.isOn ? "1" : "0";
-			set {
+			protected set {
 				externalChange = true;
 				Element.isOn = value.Equals("1");
 				externalChange = false;

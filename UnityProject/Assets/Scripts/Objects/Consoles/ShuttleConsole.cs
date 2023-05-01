@@ -73,7 +73,7 @@ namespace Objects.Shuttles
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			//can only be interacted with an emag (normal click behavior is in HasNetTab)
 			if (!Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Emag)) return false;
 			return true;

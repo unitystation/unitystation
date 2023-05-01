@@ -24,7 +24,7 @@ namespace UI.Core.NetUI
 
 		public override string[] Value {
 			get => EntryIndex.Keys.ToArray();
-			set {
+			protected set {
 				externalChange = true;
 
 				if (value.Length == 0)

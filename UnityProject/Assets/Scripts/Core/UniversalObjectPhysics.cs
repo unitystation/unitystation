@@ -1019,12 +1019,17 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		IsMoving = false;
 		MoveIsWalking = false;
-		SetLocalTarget = new Vector3WithData()
+		if (registerTile.Matrix != null)
 		{
-			Vector3 = transform.localPosition,
-			ByClient = NetId.Empty,
-			Matrix = registerTile.Matrix.Id
-		};
+			SetLocalTarget = new Vector3WithData()
+			{
+				Vector3 = transform.localPosition,
+				ByClient = NetId.Empty,
+				Matrix = registerTile.Matrix.Id
+			};
+		}
+
+
 		newtonianMovement = Vector2.zero;
 		airTime = 0;
 		slideTime = 0;

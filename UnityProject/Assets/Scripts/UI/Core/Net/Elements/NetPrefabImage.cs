@@ -11,7 +11,7 @@ namespace UI.Core.NetUI
 		public override ElementMode InteractionMode => ElementMode.ServerWrite;
 		public override string Value {
 			get => prefab ?? "-1";
-			set {
+			protected set {
 				externalChange = true;
 				Sprite sprite = null;
 				if (!string.IsNullOrEmpty(value) && !value.Equals("-1"))
@@ -26,7 +26,7 @@ namespace UI.Core.NetUI
 			}
 		}
 		private static readonly Color transparentColor = new Color(0, 0, 0, 0);
-		
+
 		private string prefab;
 
 		public Image Element => element ??= GetComponent<Image>();

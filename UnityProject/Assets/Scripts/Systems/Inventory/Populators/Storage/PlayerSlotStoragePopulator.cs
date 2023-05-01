@@ -22,7 +22,7 @@ namespace Systems.Storage
 		public GameObject duffelVariant;
 		public GameObject satchelVariant;
 
-		public override void PopulateItemStorage(ItemStorage toPopulate, PopulationContext context)
+		public override void PopulateItemStorage(ItemStorage toPopulate, PopulationContext context, SpawnInfo info)
 		{
 			Logger.LogError("This shouldn't be used but  is required for inheritance", Category.EntitySpawn);
 		}
@@ -160,25 +160,30 @@ namespace Systems.Storage
 	/// <summary>
 	/// Used for populating a specified index lot or inventory slot, then can specify what should be populated in the inventory of what was populated in the inventory Slot that was specified
 	/// </summary>
-	[Serializable]
+	[System.Serializable]
 	public class SlotPopulatorEntryRecursive
 	{
 		public bool DoNotGetFirstEmptySlot = false;
 
-		[Tooltip("  The Index lot that the prefab will be spawned into " )]
-		public int IndexSlot = 0;
+		[Tooltip("Prefab to spawn in this slot. Takes precedence over slot populator.")]
+		public GameObject Prefab;
 
-		public bool IfOccupiedFindEmptySlot = true;
+		[HorizontalLine]
 
 		[FormerlySerializedAs("UesIndex")] [Tooltip(" Place object in Specified indexed slot or Use named slot Identifer ")]
 		public bool UseIndex = false;
+
+		[Tooltip("  The Index lot that the prefab will be spawned into " )]
+		public int IndexSlot = 0;
 
 		[Tooltip("Named slot being populated. A NamedSlot should not appear" +
 		                                         " more than once in these entries.")]
 		public NamedSlot NamedSlot = NamedSlot.none;
 
-		[Tooltip("Prefab to spawn in this slot. Takes precedence over slot populator.")]
-		public GameObject Prefab;
+		[HorizontalLine]
+
+		public bool IfOccupiedFindEmptySlot = true;
+
 
 		public ReplacementStrategy ReplacementStrategy = ReplacementStrategy.DropOther;
 	}

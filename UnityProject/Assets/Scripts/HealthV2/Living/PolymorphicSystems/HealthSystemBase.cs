@@ -32,7 +32,6 @@ namespace HealthV2.Living.PolymorphicSystems
 		public void InternalBodyPartAdded(BodyPart bodyPart, IBodyPartComponentBase BodyPartComponentBase)
 		{
 			BodyPartComponentBase.SetSystem(this, false);
-			BodyPartAdded(bodyPart);
 		}
 
 

@@ -10,7 +10,7 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 		[NonSerialized]
 		public Modifier PowerModifier = new Modifier();
 
-		public float WattConsumption = 1;
+		public float WattsConsumption = 0.25f;
 
 		public override void Awake()
 		{

@@ -11,6 +11,7 @@ using HealthV2;
 using Messages.Server;
 using Newtonsoft.Json;
 using UI.CharacterCreator;
+using UnityEngine.Serialization;
 
 namespace Player
 {
@@ -48,9 +49,8 @@ namespace Player
 		[SerializeField]
 		private LightSprite muzzleFlash = default;
 
-		[Tooltip("Override the race of the character sheet")]
-		[SerializeField]
-		private string raceOverride = "";
+		[FormerlySerializedAs("raceOverride")] [Tooltip("Override the race of the character sheet")]
+		public string RaceOverride = "";
 
 		#endregion Inspector fields
 
@@ -248,7 +248,7 @@ namespace Player
 				SubSetBodyPart(bodyPart.Item.GetComponent<BodyPart>(), "", Randomised);
 			}
 
-			PlayerHealthData SetRace = ThisCharacter.GetRaceSo();
+			PlayerHealthData SetRace = RaceBodyparts;
 
 			List<IntName> ToClient = new List<IntName>();
 			foreach (var Customisation in SetRace.Base.CustomisationSettings)
@@ -424,12 +424,14 @@ namespace Player
 			}
 		}
 
-		public void OnCharacterSettingsChange(CharacterSheet characterSettings)
+
+
+		public IEnumerator OnCharacterSettingsChange(CharacterSheet characterSettings)
 		{
 			if (RootBodyPartsLoaded == false)
 			{
 				RootBodyPartsLoaded = true;
-				var overrideSheet = string.IsNullOrEmpty(raceOverride) == false;
+				var overrideSheet = string.IsNullOrEmpty(RaceOverride) == false;
 				if (characterSettings == null || overrideSheet)
 				{
 					characterSettings = new CharacterSheet();
@@ -437,11 +439,12 @@ namespace Player
 
 				if (overrideSheet)
 				{
-					characterSettings.Species = raceOverride;
+					characterSettings.Species = RaceOverride;
 				}
 
 				ThisCharacter = characterSettings;
-				RaceBodyparts = characterSettings.GetRaceSo();
+				bool notCustomSpecies = string.IsNullOrEmpty(RaceOverride);
+				RaceBodyparts = characterSettings.GetRaceSo(notCustomSpecies);
 
 				if (RaceBodyparts == null)
 				{
@@ -450,6 +453,7 @@ namespace Player
 
 				livingHealthMasterBase.InitialiseFromRaceData(RaceBodyparts);
 				livingHealthMasterBase.SetUpCharacter(RaceBodyparts);
+				yield return null; //so Spawned in Sprites have time to get network Initialised on client
 				SetupSprites();
 				livingHealthMasterBase.StartFresh();
 

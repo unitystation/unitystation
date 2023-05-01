@@ -14,7 +14,7 @@ namespace UI.Core.NetUI
 		//SetValue will set this and change the value for the client.
 		public override string Value {
 			get => Element.interactable.ToString();
-			set {
+			protected set {
 				if (value.ToLower().Equals("false"))
 				{
 					externalChange = true;

@@ -20,6 +20,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6017517368183394490, guid: 0af3fb6f8543f0b4b914da932bd18ea0,
         type: 3}
+      propertyPath: BodyPartType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017517368183394490, guid: 0af3fb6f8543f0b4b914da932bd18ea0,
+        type: 3}
       propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[0]
       value: 2
       objectReference: {fileID: 0}
@@ -83,17 +88,17 @@ PrefabInstance:
     - target: {fileID: 7181618450371466834, guid: 0af3fb6f8543f0b4b914da932bd18ea0,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7181618450371466834, guid: 0af3fb6f8543f0b4b914da932bd18ea0,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7181618450371466834, guid: 0af3fb6f8543f0b4b914da932bd18ea0,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7181618450371466834, guid: 0af3fb6f8543f0b4b914da932bd18ea0,
         type: 3}

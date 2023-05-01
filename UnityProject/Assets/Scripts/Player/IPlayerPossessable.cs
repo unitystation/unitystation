@@ -53,7 +53,7 @@ public interface IPlayerPossessable
 
 	public IPlayerPossessable PossessedBy { get; set; }
 
-	public MindNIPossessingEvent OnPossessedBy { get; set; }
+	[field: SerializeField] public MindNIPossessingEvent OnPossessedBy { get; set; } // = new MindNIPossessingEvent();
 
 	public Action OnActionControlPlayer { get; set; }
 

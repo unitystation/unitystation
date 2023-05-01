@@ -553,6 +553,13 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 			}
 		}
 
+		var CombinedRadioAccess = gameObject.GetComponent<CombinedRadioAccess>();
+		if (CombinedRadioAccess != null)
+		{
+			transmitChannels |= CombinedRadioAccess.GetChannels();
+		}
+
+
 		if (transmitOnly)
 		{
 			return transmitChannels;

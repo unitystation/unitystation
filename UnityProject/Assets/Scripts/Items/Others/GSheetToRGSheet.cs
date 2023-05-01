@@ -25,7 +25,7 @@ public class GSheetToRGSheet : NetworkBehaviour, ICheckedInteractable<HandApply>
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		//start with the default HandApply WillInteract logic.
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 		GameObject ObjectInHand = interaction.HandObject;
 

@@ -57,6 +57,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: _assetId
+      value: 2500544944
+      objectReference: {fileID: 0}
+    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: m_AssetId
       value: 3ce7c70f4f293004689a6e84fe5b861d
       objectReference: {fileID: 0}
@@ -64,7 +69,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 1821874675337654403}
+      objectReference: {fileID: 0}
     - target: {fileID: 114776788309089574, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: CurrentsortingGroup
@@ -163,12 +168,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7c30ca55ffa4467a421abf7a832a6a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   initialAmount: 6
   maxAmount: 6
   stacksWith:
   - {fileID: 1791647728409730387}
+  - {fileID: 4726568959345873596, guid: 965ac1c7b67fe104eac948b3239e70ab, type: 3}
+  isRepresentationOfStack: 0
   stackNames:
   - Name: Gauze
     OverAmount: 1
@@ -199,21 +207,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healType: 0
   StopsExternalBleeding: 1
-  HealsTraumaDamage: 0
-  TraumaDamageToHeal: 20
   TraumaTypeToHeal: 0
---- !u!114 &1821874675337654403 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114341119007412586, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 1792047792650166761}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1791647728409730387}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  gauzeApplyTime: 1.2
 --- !u!210 &5506006793603177245 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 6104600676241079028, guid: a7abba22164ce49f0bf9b9b219f39298,

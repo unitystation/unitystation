@@ -26,9 +26,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5200803135255930768, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
+      propertyPath: stacksWith.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5200803135255930768, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
       propertyPath: stackSprites.Array.size
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5200803135255930768, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: stacksWith.Array.data[0]
+      value: 
+      objectReference: {fileID: 1880914696806288452, guid: 24c4ed2f1e9f533409c8a1f4aa2642e0,
+        type: 3}
     - target: {fileID: 5200803135255930768, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: stackSprites.Array.data[0].SpriteSO
@@ -122,6 +133,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8410813880369429899, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
+      propertyPath: _assetId
+      value: 1557013687
+      objectReference: {fileID: 0}
+    - target: {fileID: 8410813880369429899, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
       propertyPath: m_AssetId
       value: 66a5287d0bf216847a2f4fe34228a0cf
       objectReference: {fileID: 0}
@@ -158,17 +174,17 @@ PrefabInstance:
     - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8448331862702718283, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
@@ -216,6 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a92be9a13622bf48a10f05367a474f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   rods: 2
