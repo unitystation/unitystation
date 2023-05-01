@@ -11,6 +11,7 @@ using HealthV2;
 using Messages.Server;
 using Newtonsoft.Json;
 using UI.CharacterCreator;
+using UnityEngine.Serialization;
 
 namespace Player
 {
@@ -48,9 +49,8 @@ namespace Player
 		[SerializeField]
 		private LightSprite muzzleFlash = default;
 
-		[Tooltip("Override the race of the character sheet")]
-		[SerializeField]
-		public string raceOverride = "";
+		[FormerlySerializedAs("raceOverride")] [Tooltip("Override the race of the character sheet")]
+		public string RaceOverride = "";
 
 		#endregion Inspector fields
 
@@ -431,7 +431,7 @@ namespace Player
 			if (RootBodyPartsLoaded == false)
 			{
 				RootBodyPartsLoaded = true;
-				var overrideSheet = string.IsNullOrEmpty(raceOverride) == false;
+				var overrideSheet = string.IsNullOrEmpty(RaceOverride) == false;
 				if (characterSettings == null || overrideSheet)
 				{
 					characterSettings = new CharacterSheet();
@@ -439,11 +439,11 @@ namespace Player
 
 				if (overrideSheet)
 				{
-					characterSettings.Species = raceOverride;
+					characterSettings.Species = RaceOverride;
 				}
 
 				ThisCharacter = characterSettings;
-				bool notCustomSpecies = string.IsNullOrEmpty(raceOverride);
+				bool notCustomSpecies = string.IsNullOrEmpty(RaceOverride);
 				RaceBodyparts = characterSettings.GetRaceSo(notCustomSpecies);
 
 				if (RaceBodyparts == null)

@@ -302,7 +302,7 @@ public static class PlayerSpawn
 			if (requestedOccupation.CustomSpeciesOverwrite != null)
 			{
 				character.Species = requestedOccupation.CustomSpeciesOverwrite.name;
-				playerSprites.raceOverride = requestedOccupation.CustomSpeciesOverwrite.name;
+				playerSprites.RaceOverride = requestedOccupation.CustomSpeciesOverwrite.name;
 			}
 
 
