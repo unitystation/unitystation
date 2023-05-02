@@ -8,6 +8,9 @@ namespace HealthV2
 {
 	public partial class BodyPart
 	{
+
+		public bool CanNotBeHealedByExternalHealingPack = false;
+
 		/// <summary>
 		/// The armor of the clothing covering a part of the body, ignoring selfArmor.
 		/// </summary>
@@ -39,10 +42,6 @@ namespace HealthV2
 		[Tooltip("Does damaging this body part affect the creature's overall health?")]
 		public bool DamageContributesToOverallHealth = true;
 
-		/// <summary>
-		/// Affects how much damage contributes to the efficiency of the body part, currently unimplemented
-		/// </summary>
-		[HideInInspector] public float DamageEfficiencyMultiplier = 1;
 
 		/// <summary>
 		/// Modifier that multiplicatively reduces the efficiency of the body part based on damage

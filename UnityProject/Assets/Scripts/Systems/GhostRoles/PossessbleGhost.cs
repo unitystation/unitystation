@@ -91,6 +91,8 @@ public class PossessbleGhost : MonoBehaviour
 		//PlayerTookOver only needs to be set for ServerTransferPlayerToNewBody as OnPlayerTransfer is triggered
 		//During it
 		playerTookOver = null;
+
+		player.Mind.StopGhosting();
 	}
 
 

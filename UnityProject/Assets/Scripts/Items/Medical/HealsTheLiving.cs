@@ -77,7 +77,7 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	private void ServerApplyHeal(LivingHealthMasterBase livingHealth, HandApply interaction)
 	{
-		livingHealth.HealDamage(null, 40, healType, interaction.TargetBodyPart);
+		livingHealth.HealDamage(null, 40, healType, interaction.TargetBodyPart, true);
 		if (StopsExternalBleeding)
 		{
 			RemoveLimbLossBleed(livingHealth, interaction);
