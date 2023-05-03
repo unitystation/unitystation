@@ -166,8 +166,8 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3147719305205115041}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 7148195385354092348}
+        m_TargetAssemblyTypeName: UI.Objects.GUI_RDProCategoryEntry, Assets
         m_MethodName: OpenCategory
         m_Mode: 1
         m_Arguments:
@@ -550,7 +550,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1771978687508338011}
-  - component: {fileID: 3147719305205115041}
+  - component: {fileID: 7148195385354092348}
   m_Layer: 5
   m_Name: RDProCategoryEntryTemplate
   m_TagString: Untagged
@@ -580,7 +580,7 @@ RectTransform:
   m_AnchoredPosition: {x: 312.6, y: -28.585}
   m_SizeDelta: {x: 625.2, y: 57.17}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3147719305205115041
+--- !u!114 &7148195385354092348
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -589,7 +589,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4525605446218851680}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb2bc966c5cd94647ad02f234eb60c82, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d68d044898ef4c4eb526a00ed6d162c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Poolble: 1
