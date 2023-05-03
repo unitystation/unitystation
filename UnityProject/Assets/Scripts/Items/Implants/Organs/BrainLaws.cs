@@ -251,12 +251,6 @@ public class BrainLaws : NetworkBehaviour, IActionGUI, IClientInteractable<HandA
 			aiLaws[order].Add(newLaw);
 		}
 
-		//Dont spam client on init
-		if (init) return;
-
-		Chat.AddExamineMsgFromServer(gameObject, "Your Laws Have Been Updated!");
-
-		//Tell player to open law screen so they dont miss that their laws have changed
 		ServerUpdateClientLaws();
 	}
 
@@ -436,8 +430,8 @@ public class BrainLaws : NetworkBehaviour, IActionGUI, IClientInteractable<HandA
 	private void SynchronisedUpdate(string OldData  , string newDataString)
 	{
 		SynchronisedLaws = newDataString;
-		if (isServer) return;
 
+		if (isServer) return;
 		aiLaws.Clear();
 		var newData = JsonConvert.DeserializeObject<List<AiPlayer.LawSyncData>>(newDataString);
 

@@ -1305,12 +1305,17 @@ namespace HealthV2
 		/// <param name="bodyPartAim">Body Part to heal</param>
 		[Server]
 		public void HealDamage(GameObject healingItem, float healAmt,
-			DamageType damageTypeToHeal, BodyPartType bodyPartAim)
+			DamageType damageTypeToHeal, BodyPartType bodyPartAim, bool ExternalHealing = false)
 		{
 			foreach (var bodyPart in SurfaceBodyParts)
 			{
 				if (bodyPart.BodyPartType == bodyPartAim)
 				{
+					if (ExternalHealing && bodyPart.CanNotBeHealedByExternalHealingPack)
+					{
+						continue;
+					}
+
 					bodyPart.HealDamage(healingItem, healAmt, damageTypeToHeal);
 				}
 			}

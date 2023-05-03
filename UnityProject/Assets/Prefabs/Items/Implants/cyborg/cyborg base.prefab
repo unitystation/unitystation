@@ -177,6 +177,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
+      propertyPath: CanNotBeHealedByExternalHealingPack
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
       propertyPath: SelfArmor.PressureProtectionInKpa.x
       value: -5000
       objectReference: {fileID: 0}
@@ -253,4 +258,4 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  ConsumptionWatts: 0.5
+  WattsConsumption: 0.25
