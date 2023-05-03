@@ -9,6 +9,7 @@ using Objects.Wallmounts;
 using Shared.Systems.ObjectConnection;
 using Systems.Clearance;
 using UI.Objects.Atmospherics.Acu;
+using Items;
 
 
 namespace Objects.Atmospherics
@@ -91,6 +92,8 @@ namespace Objects.Atmospherics
 		public bool IsWriteable => IsPowered && IsLocked == false;
 
 		private readonly AcuSample acuSample = new AcuSample();
+
+		private bool isEmagged = false;
 
 		#region Lifecycle
 
@@ -263,6 +266,22 @@ namespace Objects.Atmospherics
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			if (isEmagged) return;
+
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag) && interaction.HandObject.TryGetComponent<Emag>(out var emag) && emag.EmagHasCharges())
+			{
+				IsLocked = false;
+				isEmagged = true;
+
+				emag.UseCharge(interaction);
+
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"The air controller unit sparks as you wave the emag across it.",
+					$"You hear sparking from somewhere nearby...");
+
+				return;
+			}
+
 			if (restricted.HasClearance(interaction.HandObject))
 			{
 				IsLocked = !IsLocked;

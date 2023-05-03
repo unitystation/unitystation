@@ -2,7 +2,6 @@
 using UI.Core.NetUI;
 using ScriptableObjects.Items.SpellBook;
 using Systems.Spells;
-using UI.Objects.Robotics;
 
 namespace UI.SpellBook
 {

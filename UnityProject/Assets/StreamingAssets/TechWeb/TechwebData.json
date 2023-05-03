@@ -18,93 +18,68 @@
     "Techweb": null
   },
   {
-    "ID": "advcyber",
-    "DisplayName": "Advanced Cybernetics",
-    "Description": "Cybernetic organs for more advanced surgeries.",
-    "StartingNode": false,
+    "ID": "synthorgan",
+    "DisplayName": "Synthetic Organs",
+    "Description": "Mechanical replacements for living organs. Improved and refined.",
+    "StartingNode": true,
     "RequiredTechnologies": [
       "base"
     ],
     "DesignIDs": [
       "cyber_heart",
-      "cyber_lung"
+      "cyber_lung",
+      "cyber_liver"
     ],
     "ResearchCosts": 15,
     "ExportPrice": 0,
     "PotentialUnlocks": [],
-    "prefabID": "advcyber",
+    "prefabID": "organ",
     "techType": 1,
     "Techweb": null
   },
   {
-    "ID": "breathimplant",
-    "DisplayName": "Breathing Tube Implant",
-    "Description": "Implanted in the patients head, this implant will allow for breathing of internals regardless of mask wear.",
+    "ID": "cyborgs",
+    "DisplayName": "Advanced Cybernetics",
+    "Description": "The newest in artifical intelligence, and the technology needed to give them form.",
     "StartingNode": false,
     "RequiredTechnologies": [
-      "advcyber"
+      "synthorgan"
     ],
     "DesignIDs": [
-      "ci_breather"
+      "cyborg_head",
+      "cyborg_chassis",
+      "cyborg_torso",
+      "cyborg_leftarm",
+      "cyborg_rightarm",
+      "cyborg_leftleg",
+      "cyborg_rightleg",
+      "mmi",
+      "mmi_posi"
     ],
-    "ResearchCosts": 20,
+    "ResearchCosts": 30,
     "ExportPrice": 0,
     "PotentialUnlocks": [],
-    "prefabID": "breath",
+    "prefabID": "cyborgs",
     "techType": 1,
     "Techweb": null
   },
   {
-    "ID": "reviver",
-    "DisplayName": "Reviver Implant",
-    "Description": "Performs an emergency heal after falling into crit. Has a ten minute cooldown between charges",
+    "ID": "synthenhance",
+    "DisplayName": "Synthetic Enhancements",
+    "Description": "The newest in synthetic implant technology, pushing past the limitations of living flesh.",
     "StartingNode": false,
     "RequiredTechnologies": [
-      "advcyber"
+      "synthorgan"
     ],
     "DesignIDs": [
-      "ci_reviver"
+      "ci_breather",
+      "ci_reviver",
+      "ci_weld"
     ],
-    "ResearchCosts": 25,
+    "ResearchCosts": 30,
     "ExportPrice": 0,
     "PotentialUnlocks": [],
-    "prefabID": "reviver",
-    "techType": 1,
-    "Techweb": null
-  },
-  {
-    "ID": "weld",
-    "DisplayName": "Welding Shield Implant",
-    "Description": "A small device to implanted in the eye. Protects the wearer from bright flashes of light.",
-    "StartingNode": false,
-    "RequiredTechnologies": [
-      "advcyber"
-    ],
-    "DesignIDs": [
-      "ci_weldshield"
-    ],
-    "ResearchCosts": 20,
-    "ExportPrice": 0,
-    "PotentialUnlocks": [],
-    "prefabID": "weld",
-    "techType": 1,
-    "Techweb": null
-  },
-  {
-    "ID": "filtering",
-    "DisplayName": "Cybernetic Filtering",
-    "Description": "Cybernetic livers are more efficient at filtering toxins from the body, completely protecting the host from certain toxins.",
-    "StartingNode": false,
-    "RequiredTechnologies": [
-      "advcyber"
-    ],
-    "DesignIDs": [
-      "cyber_liver"
-    ],
-    "ResearchCosts": 20,
-    "ExportPrice": 0,
-    "PotentialUnlocks": [],
-    "prefabID": "liver",
+    "prefabID": "synth",
     "techType": 1,
     "Techweb": null
   },
@@ -131,9 +106,7 @@
     "DisplayName": "Janitorial Science",
     "Description": "New ways to keep the station clean.",
     "StartingNode": false,
-    "RequiredTechnologies": [
-      "base"
-    ],
+    "RequiredTechnologies": [],
     "DesignIDs": [
       "adv_mop",
       "adv_lightreplacer"

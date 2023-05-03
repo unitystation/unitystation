@@ -84,9 +84,6 @@ namespace Objects.Wallmounts
 				}
 			}
 
-
-
-
 			if (clearanceRestricted.HasClearance(interaction.Performer) == false)
 			{
 				RpcPlayButtonAnim(false);
