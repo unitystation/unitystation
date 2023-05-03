@@ -151,7 +151,8 @@ public class Camera2DFollow : MonoBehaviour
 			listenerObj.transform.position = target.gameObject.AssumedWorldPosServer();
 			starsBackground.position = -newPos * starScroll;
 
-			if (stencilMask != null && stencilMask.transform.parent != target) {
+			if (stencilMask != null && stencilMask.transform.parent != target)
+			{
 				stencilMask.transform.parent = target;
 				stencilMask.transform.localPosition = Vector3.zero;
 			}

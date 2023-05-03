@@ -95,6 +95,8 @@ namespace Items.Implants.Organs
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckPressure);
 			}
 
+			if (RelatedPart.HealthMaster.playerScript.OrNull()?.playerMove.IsVisible == false) return;
+
 			var Pressure =
 				RelatedPart.HealthMaster.RegisterTile.Matrix.GetMetaDataNode(RelatedPart.HealthMaster.RegisterTile
 					.LocalPosition).GasMix.Pressure;
