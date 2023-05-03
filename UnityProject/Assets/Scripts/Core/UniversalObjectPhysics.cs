@@ -55,6 +55,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	private BoxCollider2D Collider; //TODO Checked component
 
+
+	[SyncVar]
 	private float TileMoveSpeedOverride = 0;
 
 
@@ -111,14 +113,27 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	public CheckedComponent<Pickupable> pickupable = new CheckedComponent<Pickupable>();
 
-	public bool InitialLocationSynchronised;
-
 	public bool IsVisible => isVisible;
 
-	[SyncVar(hook = nameof(SyncMovementSpeed))]
+
 	public float tileMoveSpeed = 1;
 
-	public float TileMoveSpeed => tileMoveSpeed;
+
+	public float CurrentTileMoveSpeed
+	{
+		get
+		{
+			if (TileMoveSpeedOverride == 0)
+			{
+				return tileMoveSpeed;
+			}
+			else
+			{
+				return TileMoveSpeedOverride;
+			}
+		}
+	}
+
 
 	[SyncVar(hook = nameof(SyncLocalTarget))]
 	private Vector3WithData synchLocalTargetPosition;
@@ -300,7 +315,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			{
 				Vector3 = transform.localPosition,
 				ByClient = NetId.Empty,
-				Matrix = -1
+				Matrix = -1,
+				Speed = tileMoveSpeed
+
 			};
 		}
 		else
@@ -370,11 +387,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		public Vector3 Vector3;
 		public uint ByClient;
 		public int Matrix;
+		public float Speed;
 
 		public bool Equals(Vector3WithData other) =>
 			Equals(Vector3, other.Vector3)
 			&& ByClient == other.ByClient
-			&& Matrix == other.Matrix;
+			&& Matrix == other.Matrix
+			&& Speed == other.Speed;
 
 		public override bool Equals(object obj)
 		{
@@ -383,11 +402,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		public override int GetHashCode()
 		{
-			return HashCode.Combine(Vector3, ByClient, Matrix);
+			return HashCode.Combine(Vector3, ByClient, Matrix, Speed);
 		}
 	}
 
-	public void SyncMovementSpeed(float old, float newMove)
+	public void SetMovementSpeed(float newMove)
 	{
 		tileMoveSpeed = newMove;
 	}
@@ -400,6 +419,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (isServer) return;
 		if (LocalTargetPosition == newLocalTarget.Vector3) return;
 		if (hasAuthority && PulledBy.HasComponent == false) return;
+
+		//if (hasAuthority == false && PulledBy.HasComponent) return;
 
 		var spawned = CustomNetworkManager.Spawned;
 
@@ -475,7 +496,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		{
 			TryTilePush(worldDirection, causedByClient, speed);
 		}
-
 	}
 
 
@@ -901,7 +921,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		doNotApplyMomentumOnTarget = false;
 		if (float.IsNaN(speed))
 		{
-			speed = TileMoveSpeed;
+			speed = CurrentTileMoveSpeed;
 		}
 
 		if (inPushing.Count > 0 && registerTile.IsPassable(isServer) == false)
@@ -935,7 +955,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		var newWorldPosition = cachedPosition + worldDirection.To3Int();
 
-		if ((newWorldPosition - transform.position).magnitude > 1.45f) return;
+		if (isServer && (newWorldPosition - transform.position).magnitude > 1.45f) return;
 
 		var movetoMatrix = SetMatrixCache.GetforDirection(worldDirection.To3Int()).Matrix;
 
@@ -972,7 +992,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (isServer && (PulledBy.HasComponent == false || overridePull))
 		{
 			SetTimestampID = Time.frameCount;
-			if (SendWorld == false)
+			if (SendWorld == false && connectionToClient != null && isServer)
 			{
 				RPCClientTilePush(worldDirection, speed, byClient, overridePull, SetTimestampID, true);
 			}
@@ -1236,27 +1256,17 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		IsMoving = (localPos - LocalTargetPosition).magnitude > 0.001;
 		if (IsMoving)
 		{
-			if (TileMoveSpeedOverride > 0)
-			{
-				SetTransform(this.MoveTowards(localPos, LocalTargetPosition,
-					TileMoveSpeedOverride * Time.deltaTime), false); //* transform.localPosition.SpeedTo(targetPos)
-			}
-			else
-			{
-				SetTransform(this.MoveTowards(localPos, LocalTargetPosition,
-					TileMoveSpeed * Time.deltaTime), false);
-			}
+
+			SetTransform(this.MoveTowards(localPos, LocalTargetPosition,
+					CurrentTileMoveSpeed * Time.deltaTime), false);
+
 
 			LastDifference = transform.localPosition - localPos;
 		}
 		else
 		{
-			var cache = TileMoveSpeedOverride;
-			if (TileMoveSpeedOverride == 0)
-			{
-				cache = TileMoveSpeed;
-			}
 
+			var cache = CurrentTileMoveSpeed;
 			TileMoveSpeedOverride = 0;
 			Animating = false;
 
@@ -1670,10 +1680,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (Pulling.HasComponent)
 		{
 			var inDirection = cachedPosition - Pulling.Component.transform.position;
-			if (inDirection.magnitude > 2f && (isServer || hasAuthority))
+			if (inDirection.magnitude > 2f && (isServer))
 			{
-				PullSet(null, false); //TODO maybe remove
-				if (hasAuthority && isServer == false) CmdStopPulling();
+				PullSet(null, false);
 			}
 			else
 			{
