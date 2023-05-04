@@ -712,6 +712,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	//Warning only update clients!!
 	public void ResetLocationOnClients(bool smooth = false)
 	{
+		if (isServer == false) return;
 		SetLastResetID = Time.frameCount;
 		RPCForceSetPosition(transform.localPosition, newtonianMovement, smooth, registerTile.Matrix.Id,
 			transform.localRotation.eulerAngles.z, SetLastResetID);
