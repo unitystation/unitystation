@@ -539,6 +539,22 @@ public class Matrix : MonoBehaviour
 		return (0);
 	}
 
+	/// <summary>
+	/// Retrieves the local position from world position using UOP's OfficalPosition variable.
+	/// Avoid using this on every frame as it can generate a small amount of GC that can add up quickly.
+	/// </summary>
+	/// <param name="physics">the object's physics.</param>
+	/// <returns>The local position the object is on. Will return Vector3Int.ZERO if there's no Matrix assigned.</returns>
+	public static Vector3Int GetLocalPositionFromWorldPosition(UniversalObjectPhysics physics)
+	{
+		if (physics.gameObject.RegisterTile().Matrix == null)
+		{
+			Logger.LogError("[Matrix/GetLocalPosFromWorldPos] - Could not find Matrix.");
+			return Vector3Int.zero;
+		}
+		return physics.OfficialPosition.ToLocalInt(physics.gameObject.RegisterTile().Matrix);
+	}
+
 	public float GetRadiationLevel(Vector2Int localPosition)
 	{
 		return (GetRadiationLevel(new Vector3Int(localPosition.x, localPosition.y, 0)));
