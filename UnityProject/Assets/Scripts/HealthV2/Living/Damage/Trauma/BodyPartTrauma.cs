@@ -9,6 +9,11 @@ namespace HealthV2
 		[SerializeField] private List<TraumaLogic> traumaTypesOnBodyPart;
 		public List<TraumaLogic> TraumaTypesOnBodyPart => traumaTypesOnBodyPart;
 
+		private void Start()
+		{
+			if (RelatedPart != null) return;
+			Logger.LogError($"No component found on parent. Make sure to put this component on a child of the bodyPart");
+		}
 
 		private void OnDestroy()
 		{
