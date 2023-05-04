@@ -46,6 +46,13 @@ namespace HealthV2
 		/// </summary>
 		protected void GenericStageProgression()
 		{
+			if (gameObject == null || bodyPart == null)
+			{
+				Logger.LogWarning(
+					"[TraumaLogic/GenericStageProgression] - bodyPart might have been destroyed during other stage progressions. Skipping..");
+				return;
+			}
+			if (stages == null || stages.ContainsKey(currentStage + 1) == false) return;
 			if (bodyPart.TotalDamage >= stages[currentStage + 1]) ProgressDeadlyEffect();
 		}
 

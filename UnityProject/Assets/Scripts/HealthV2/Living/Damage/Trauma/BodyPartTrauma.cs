@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace HealthV2
@@ -8,16 +9,6 @@ namespace HealthV2
 		[SerializeField] private List<TraumaLogic> traumaTypesOnBodyPart;
 		public List<TraumaLogic> TraumaTypesOnBodyPart => traumaTypesOnBodyPart;
 
-		private void Start()
-		{
-			if (RelatedPart == null)
-			{
-				Logger.LogError($"No component found on parent. Make sure to put this component on a child of the bodyPart");
-				return;
-			}
-
-			RelatedPart.OnDamageTaken += OnTakeDamage;
-		}
 
 		private void OnDestroy()
 		{
@@ -26,6 +17,7 @@ namespace HealthV2
 
 		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
+			RelatedPart.OnDamageTaken += OnTakeDamage;
 			var creatureTraumaAPI = livingHealth.GetComponent<CreatureTraumaManager>();
 			if (creatureTraumaAPI == null)
 			{
@@ -38,6 +30,7 @@ namespace HealthV2
 
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
+			RelatedPart.OnDamageTaken -= OnTakeDamage;
 			var creatureTraumaAPI = livingHealth.GetComponent<CreatureTraumaManager>();
 			if (creatureTraumaAPI == null) return;
 			creatureTraumaAPI.Traumas.Remove(RelatedPart);
