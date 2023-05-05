@@ -20,6 +20,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: _assetId
+      value: 2239709946
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: m_AssetId
       value: fff7a4f0870e48b439feb1d43d9f8de6
       objectReference: {fileID: 0}
@@ -124,7 +129,7 @@ PrefabInstance:
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: initialName
-      value: Synthetic heart
+      value: synthetic heart
       objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -257,10 +262,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d907426271c5e5544a1c7131da7c493c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  isEMPVunerable: 1
-  EMPResistance: 1
   HeartAttack: 0
   CanTriggerHeartAttack: 1
   heartAttackThreshold: -100
@@ -268,3 +272,8 @@ MonoBehaviour:
   CurrentPulse: 0
   salt: {fileID: 11400000, guid: b9bdb0acb54b8dc40837f92c2e7819a6, type: 2}
   dangerSaltLevel: 100000000
+  HungerComponent: {fileID: 0}
+  _ReagentCirculatedComponent: {fileID: 0}
+  ForcedBeats: 0
+  isEMPVunerable: 1
+  EMPResistance: 1

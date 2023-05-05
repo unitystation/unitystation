@@ -32,7 +32,6 @@ public enum NetTabType
 	NullRod = 14,
 	SeedExtractor = 15,
 	Photocopier = 16,
-	ExosuitFabricator = 17,
 	Autolathe = 18,
 	HackingPanel = 19,
 	BoozeDispenser = 20,

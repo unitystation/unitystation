@@ -60,7 +60,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e798a74be3b69c1a9aab4faa8fc5cdd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EntryPrefab: {fileID: 1052453609811832562, guid: 6b82f8488c8ca1741ad6a804df36f696,
+  Entries: []
+  EntryPrefab: {fileID: 4525605446218851680, guid: 6c177924da7ec3f48895fe5e63bbdc2b,
     type: 3}
 --- !u!114 &9010453552631298006
 MonoBehaviour:
@@ -929,6 +930,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnMouseEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2333525597412155780
 GameObject:
   m_ObjectHideFlags: 0
@@ -1005,7 +1012,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e798a74be3b69c1a9aab4faa8fc5cdd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EntryPrefab: {fileID: 8781422490786299763, guid: b481b6e84016f7b408ebd973b28ec231,
+  Entries: []
+  EntryPrefab: {fileID: 4540200223632791686, guid: b481b6e84016f7b408ebd973b28ec231,
     type: 3}
 --- !u!1 &2398820867000418390
 GameObject:
@@ -1337,6 +1345,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnMouseEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
   machineProduct:
     name: 
     product: {fileID: 0}
@@ -1783,7 +1797,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disableDrag: 0
-  resetPositionOnDisable: 0
 --- !u!114 &6427409266670667800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3059,7 +3072,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e798a74be3b69c1a9aab4faa8fc5cdd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EntryPrefab: {fileID: 8559748961336819217, guid: 7624d9b0593fec946bd1d0eb544fce51,
+  Entries: []
+  EntryPrefab: {fileID: 3021304019835086480, guid: 7624d9b0593fec946bd1d0eb544fce51,
     type: 3}
 --- !u!1 &7309253295906906567
 GameObject:
@@ -3239,6 +3253,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnMouseEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7602129706130894247
 GameObject:
   m_ObjectHideFlags: 0
@@ -3376,7 +3396,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e798a74be3b69c1a9aab4faa8fc5cdd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EntryPrefab: {fileID: 1052453609811832562, guid: 6b82f8488c8ca1741ad6a804df36f696,
+  Entries: []
+  EntryPrefab: {fileID: 4525605446218851680, guid: 6c177924da7ec3f48895fe5e63bbdc2b,
     type: 3}
 --- !u!114 &1941785401116293647
 MonoBehaviour:
@@ -3628,7 +3649,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e798a74be3b69c1a9aab4faa8fc5cdd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EntryPrefab: {fileID: 4156060851291131194, guid: 532fad625131ae44592e36d893cd7f59,
+  Entries: []
+  EntryPrefab: {fileID: 3602802681182049465, guid: 532fad625131ae44592e36d893cd7f59,
     type: 3}
 --- !u!114 &4619126459970771482
 MonoBehaviour:

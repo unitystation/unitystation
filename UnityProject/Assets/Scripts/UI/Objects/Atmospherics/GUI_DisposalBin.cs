@@ -1,10 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Objects.Disposals;
-using Systems.Electricity;
-using UI.Core;
 using UI.Core.NetUI;
-using UI.Objects.Robotics;
 
 namespace UI.Objects.Disposals
 {

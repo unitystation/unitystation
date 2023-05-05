@@ -91,7 +91,13 @@ PrefabInstance:
     - target: {fileID: 4490847932940167273, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
       propertyPath: initialName
-      value: BatteryPack
+      value: battery pack
+      objectReference: {fileID: 0}
+    - target: {fileID: 4490847932940167273, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: initialDescription
+      value: Structure that can hold five power cells, able to interface with cyborgs
+        as a portable power supply.
       objectReference: {fileID: 0}
     - target: {fileID: 6919096067490597734, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}

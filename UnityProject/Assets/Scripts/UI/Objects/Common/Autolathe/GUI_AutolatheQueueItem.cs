@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using UI.Core.NetUI;
+﻿using UI.Core.NetUI;
 using Objects.Machines;
-using UI.Objects.Robotics;
 
 namespace UI.Objects
 {
@@ -18,8 +15,8 @@ namespace UI.Objects
 		public NetInteractiveButton UpButton => upButton;
 		private NetInteractiveButton downButton;
 		public NetInteractiveButton DownButton => downButton;
-		private GUI_ExoFabQueueLabel numberInQueueColorElement;
-		private GUI_ExoFabQueueLabel productTextColorElement;
+		private GUI_RDProQueueLabel numberInQueueColorElement;
+		private GUI_RDProQueueLabel productTextColorElement;
 
 		public void ForwardInQueue()
 		{
@@ -69,12 +66,12 @@ namespace UI.Objects
 				switch (nameBeforeIndex)
 				{
 					case "QueueNumber":
-						numberInQueueColorElement = element as GUI_ExoFabQueueLabel;
+						numberInQueueColorElement = element as GUI_RDProQueueLabel;
 						((NetUIElement<string>)element).MasterSetValue(NumberInQueue.ToString());
 						break;
 
 					case "ProductName":
-						productTextColorElement = element as GUI_ExoFabQueueLabel;
+						productTextColorElement = element as GUI_RDProQueueLabel;
 						((NetUIElement<string>)element).MasterSetValue(Product.Name);
 						break;
 

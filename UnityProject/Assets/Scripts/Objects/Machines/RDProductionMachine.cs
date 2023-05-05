@@ -72,6 +72,7 @@ namespace Systems.Research.Objects
 		{
 			ProtoLathe = 0,
 			CircuitImprinter = 1,
+			ExosuitFabricator = 2,
 		}
 
 		public enum Department

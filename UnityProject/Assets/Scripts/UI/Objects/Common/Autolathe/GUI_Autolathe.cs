@@ -4,7 +4,6 @@ using UnityEngine;
 using UI.Core.NetUI;
 using Systems.Electricity;
 using Objects.Machines;
-using UI.Objects.Robotics;
 
 //Reused code from GUI_ExosuitFabricator
 
@@ -22,7 +21,7 @@ namespace UI.Objects
 		private GUI_AutolatheQueueDisplay queueDisplay = null;
 
 		[SerializeField]
-		private GUI_ExoFabPageBuildingProcess buildingPage = null;
+		private GUI_RDProPageBuildingProcess buildingPage = null;
 
 		[SerializeField]
 		private NetPageSwitcher nestedSwitcher = null;
@@ -32,30 +31,30 @@ namespace UI.Objects
 
 		public Dictionary<string, GameObject[]> categoryNameToProductEntries = new Dictionary<string, GameObject[]>();
 
-		private ExoFabProductAddClickedEvent onProductAddClicked;
-		public ExoFabProductAddClickedEvent OnProductAddClicked { get => onProductAddClicked; }
-		private ExoFabCategoryClickedEvent onCategoryClicked;
-		public ExoFabCategoryClickedEvent OnCategoryClicked { get => onCategoryClicked; }
-		private ExoFabRemoveProductClickedEvent onRemoveProductClicked;
-		public ExoFabRemoveProductClickedEvent OnRemoveProductClicked { get => onRemoveProductClicked; }
+		private AutolatheProductAddClickedEvent onProductAddClicked;
+		public AutolatheProductAddClickedEvent OnProductAddClicked { get => onProductAddClicked; }
+		private AutolatheCategoryClickedEvent onCategoryClicked;
+		public AutolatheCategoryClickedEvent OnCategoryClicked { get => onCategoryClicked; }
+		private RDProRemoveProductClickedEvent onRemoveProductClicked;
+		public RDProRemoveProductClickedEvent OnRemoveProductClicked { get => onRemoveProductClicked; }
 
-		private ExoFabUpQueueClickedEvent onUpQueueClicked;
-		public ExoFabUpQueueClickedEvent OnUpQueueClicked { get => onUpQueueClicked; }
-		private ExoFabDownQueueClickedEvent onDownQueueClicked;
-		public ExoFabDownQueueClickedEvent OnDownQueueClicked { get => onDownQueueClicked; }
-		private ExoFabDispenseSheetClickedEvent onDispenseSheetClicked;
-		public ExoFabDispenseSheetClickedEvent OnDispenseSheetClicked { get => onDispenseSheetClicked; }
+		private RDProUpQueueClickedEvent onUpQueueClicked;
+		public RDProUpQueueClickedEvent OnUpQueueClicked { get => onUpQueueClicked; }
+		private RDProDownQueueClickedEvent onDownQueueClicked;
+		public RDProDownQueueClickedEvent OnDownQueueClicked { get => onDownQueueClicked; }
+		private RDProDispenseSheetClickedEvent onDispenseSheetClicked;
+		public RDProDispenseSheetClickedEvent OnDispenseSheetClicked { get => onDispenseSheetClicked; }
 
-		private ExoFabClearQueueClickedEvent onClearQueueClicked;
-		public ExoFabClearQueueClickedEvent OnClearQueueClicked { get => onClearQueueClicked; }
+		private RDProClearQueueClickedEvent onClearQueueClicked;
+		public RDProClearQueueClickedEvent OnClearQueueClicked { get => onClearQueueClicked; }
 
-		private ExoFabProcessQueueClickedEvent onProcessQueueClicked;
+		private RDProProcessQueueClickedEvent onProcessQueueClicked;
 
-		public ExoFabProcessQueueClickedEvent OnProcessQueueClicked { get => onProcessQueueClicked; }
+		public RDProProcessQueueClickedEvent OnProcessQueueClicked { get => onProcessQueueClicked; }
 
-		private ExoFabProductFinishedEvent onProductFinishedEvent;
+		private RDProProductFinishedEvent onProductFinishedEvent;
 
-		public ExoFabProductFinishedEvent OnProductFinishedEvent { get => onProductFinishedEvent; }
+		public RDProProductFinishedEvent OnProductFinishedEvent { get => onProductFinishedEvent; }
 
 		private bool isUpdating = false;
 		private bool isProcessing = false;
@@ -72,39 +71,39 @@ namespace UI.Objects
 				yield return WaitFor.EndOfFrame;
 			}
 
-			onProductAddClicked = new ExoFabProductAddClickedEvent();
+			onProductAddClicked = new AutolatheProductAddClickedEvent();
 
 			OnProductAddClicked.AddListener(AddProductToQueue);
 
-			onCategoryClicked = new ExoFabCategoryClickedEvent();
+			onCategoryClicked = new AutolatheCategoryClickedEvent();
 
 			OnCategoryClicked.AddListener(OpenCategory);
 
-			onRemoveProductClicked = new ExoFabRemoveProductClickedEvent();
+			onRemoveProductClicked = new RDProRemoveProductClickedEvent();
 
 			OnRemoveProductClicked.AddListener(RemoveFromQueue);
 
-			onUpQueueClicked = new ExoFabUpQueueClickedEvent();
+			onUpQueueClicked = new RDProUpQueueClickedEvent();
 
 			OnUpQueueClicked.AddListener(UpQueue);
 
-			onDownQueueClicked = new ExoFabDownQueueClickedEvent();
+			onDownQueueClicked = new RDProDownQueueClickedEvent();
 
 			OnDownQueueClicked.AddListener(DownQueue);
 
-			onDispenseSheetClicked = new ExoFabDispenseSheetClickedEvent();
+			onDispenseSheetClicked = new RDProDispenseSheetClickedEvent();
 
 			OnDispenseSheetClicked.AddListener(DispenseSheet);
 
-			onClearQueueClicked = new ExoFabClearQueueClickedEvent();
+			onClearQueueClicked = new RDProClearQueueClickedEvent();
 
 			OnClearQueueClicked.AddListener(ClearQueue);
 
-			onProcessQueueClicked = new ExoFabProcessQueueClickedEvent();
+			onProcessQueueClicked = new RDProProcessQueueClickedEvent();
 
 			onProcessQueueClicked.AddListener(ProcessQueue);
 
-			onProductFinishedEvent = new ExoFabProductFinishedEvent();
+			onProductFinishedEvent = new RDProProductFinishedEvent();
 
 			onProductFinishedEvent.AddListener(ProcessQueue);
 
@@ -216,7 +215,7 @@ namespace UI.Objects
 		{
 		}
 
-		public void ReturnFromProductPage(GUI_ExoFabProductButton button)
+		public void ReturnFromProductPage(GUI_RDProProductButton button)
 		{
 			nestedSwitcher.SetActivePage(materialsAndCategoryDisplay);
 			UpdateMaterialsDisplay();

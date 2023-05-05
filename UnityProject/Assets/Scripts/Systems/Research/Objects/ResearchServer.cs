@@ -36,7 +36,7 @@ namespace Systems.Research.Objects
 
 		public readonly SyncList<ExplosiveBounty> ExplosiveBounties = new SyncList<ExplosiveBounty>();
 
-		[NonSerialized, SyncVar(hook = nameof(SyncFocus))] public int UIselectedFocus = 0; //The current Focus selected in menu, not nesscarily confirmed.
+		[NonSerialized, SyncVar(hook = nameof(SyncFocus))] public int UIselectedFocus = 1; //The current Focus selected in menu, not nesscarily confirmed.
 
 		private void InitialiseDisk()
 		{

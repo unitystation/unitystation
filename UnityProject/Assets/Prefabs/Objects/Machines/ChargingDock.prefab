@@ -7,6 +7,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: MachineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: 910f6526d5b5ab04bafd718bda671cd4,
+        type: 2}
+    - target: {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: machineBoardPrefab
+      value: 
+      objectReference: {fileID: 3771814775745245850, guid: 13f91f4e4fdc8a442b4d297f3ddd7da2,
+        type: 3}
     - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_Size.x
@@ -153,6 +165,21 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6335999742447154027}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1403623475510034775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4717316159231850199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b69764f5a0c65e247b0ecdf6e2d40c8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialContents: {fileID: 0}
+  spawnContentsAtRoundstart: 0
+  registerTile: {fileID: 4155393202343679647}
 --- !u!114 &2486680600366044753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,20 +250,4 @@ MonoBehaviour:
   CannotBeInteractedWithWhenClosed: 1
   IdleWattage: 1
   ChargingWattage: 300
-  APCPoweredDevice: {fileID: 0}
   On: 0
---- !u!114 &1403623475510034775
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4717316159231850199}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b69764f5a0c65e247b0ecdf6e2d40c8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialContents: {fileID: 0}
-  spawnContentsAtRoundstart: 0
-  registerTile: {fileID: 4155393202343679647}
