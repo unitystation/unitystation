@@ -27,7 +27,7 @@ namespace HealthV2
 		public virtual void Awake()
 		{
 			RelatedPart = GetComponent<BodyPart>();
-			if (RelatedPart) RelatedPart = GetComponentInParent<BodyPart>();
+			if (RelatedPart == null) RelatedPart = GetComponentInParent<BodyPart>();
 		}
 
 	}

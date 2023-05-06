@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using HealthV2;
 using UnityEngine;
 using Mirror;
 
@@ -23,7 +24,7 @@ public enum EnumSpriteLightData
 }
 
 [RequireComponent(typeof(Pickupable))]
-public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
+public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 {
 	[Tooltip("Controls the light the player emits if they have this object equipped.")]
 	public LightEmissionPlayer LightEmission;
@@ -47,8 +48,6 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 		NamedSlot.id // PDA in ID slot
 	};
 
-	public float Intensity;
-
 	[SerializeField]
 	private Color Colour = default;
 
@@ -58,8 +57,6 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 
 	[SyncVar(hook = nameof(SyncState))]
 	public bool IsOn = true;
-
-	private float CachedIntensity = 0.5f;
 
 	[NaughtyAttributes.ReadOnlyAttribute] public PlayerLightData PlayerLightData;
 
@@ -107,6 +104,20 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 		}
 	}
 
+
+	public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+	{
+		LightEmission.RemoveLight(PlayerLightData);
+		LightEmission = null;
+	}
+
+	public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
+	{
+		LightEmission = livingHealth.GetComponent<LightEmissionPlayer>();
+		if (!IsOn) return;
+		LightEmission.AddLight(PlayerLightData);
+	} //Warning only add body parts do not remove body parts in this
+
 	/// <summary>
 	/// Allows you to toggle the light
 	/// </summary>
@@ -122,30 +133,7 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 		IsOn = on; // Will trigger SyncState.
 		UpdateLights();
 	}
-	/// <summary>
-	/// Changes the intensity of the light, must be higher than -1
-	/// </summary>
-	/// <param name="intensity"></param>
-	public void SetIntensity(float intensity = -1)
-	{
-		if (PlayerLightData == null)
-		{
-			Logger.LogError("PlayerLightData returned Null please check scripts", Category.Lighting);
-			return;
-		}
-		if (IsOn && intensity > -1)
-		{
-			//caches the intensity just incase and sets intensity
-			CachedIntensity = intensity;
-			PlayerLightData.Colour.a = intensity;
-		}
-		else
-		{
-			//Sets the cached intensity so it the light will be set to that intensity when it is toggled on
-			if(intensity <= -1) return;
-			CachedIntensity = intensity;
-		}
-	}
+
 
 	/// <summary>
 	/// Set the color for this GameObject's Light2D object's LightSprite component world color.
@@ -156,6 +144,21 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 		Colour = color;
 		PlayerLightData.Colour = color;
 		objectLightSprite.Color = color;
+		if (LightEmission != null && IsOn)
+		{
+			LightEmission.UpdateDominantLightSource();
+		}
+	}
+
+	public void SetSize(int Size)
+	{
+		this.Size = Size;
+		PlayerLightData.Size = Size;
+		//objectLightSprite = Size; TODO
+		if (LightEmission != null && IsOn)
+		{
+			LightEmission.UpdateDominantLightSource();
+		}
 	}
 
 	private void SyncState(bool oldState, bool newState)
@@ -167,13 +170,12 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 		}
 	}
 
+
 	private void UpdateLights()
 	{
 		if (IsOn)
 		{
-			PlayerLightData.Colour.a = CachedIntensity;
 			LightEmission.AddLight(PlayerLightData);
-			LightToggleIntensity();
 			objectLightEmission.SetActive(true);
 		}
 		else
@@ -194,13 +196,5 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 		{
 			objectLightEmission.SetActive(IsOn);
 		}
-	}
-
-	/// <summary>
-	/// Called when the light is toggled on so that it can set the intensity
-	/// </summary>
-	private void LightToggleIntensity()
-	{
-		PlayerLightData.Colour.a = CachedIntensity;
 	}
 }

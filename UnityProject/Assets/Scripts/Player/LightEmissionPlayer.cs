@@ -58,9 +58,21 @@ public class LightEmissionPlayer : NetworkBehaviour
 
 	public void AddLight(PlayerLightData Light)
 	{
-		if (!(PresentLights.Contains(Light)))
+		if (PresentLights.Contains(Light) == false)
 		{
 			PresentLights.Add(Light);
+			UpdateDominantLightSource();
+		}
+	}
+
+	public void UpdateDominantLightSource()
+	{
+		if (PresentLights.Count == 0)
+		{
+			CurrentLight = DefaultSettings;
+		}
+		else
+		{
 			foreach (PlayerLightData Lighte in PresentLights) //The light that is worked out to be in charges chosen by the one that's has the highest intensity
 			{
 				if (Lighte.Colour.a > CurrentLight.Colour.a)
@@ -68,27 +80,17 @@ public class LightEmissionPlayer : NetworkBehaviour
 					CurrentLight = Lighte;
 				}
 			}
-			UpdatelightSource();
 		}
+
+		UpdatelightSource();
 	}
+
 	public void RemoveLight(PlayerLightData Light)
 	{
 		if (PresentLights.Contains(Light))
 		{
 			PresentLights.Remove(Light);
-			if (CurrentLight == Light)
-			{
-				CurrentLight = DefaultSettings;
-			}
-			foreach (PlayerLightData Lighte in PresentLights)
-			{
-				if (Lighte.Colour.a > CurrentLight.Colour.a)
-				{
-					CurrentLight = Lighte;
-				}
-
-			}
-			UpdatelightSource();
+			UpdateDominantLightSource();
 		}
 	}
 	public void UpdatelightSource()
