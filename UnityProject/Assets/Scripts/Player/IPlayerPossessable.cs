@@ -82,7 +82,10 @@ public interface IPlayerPossessable
 		}
 		else
 		{
-			InternalOnControlPlayer( PossessingMind, CustomNetworkManager.IsServer);
+			if (PossessingMind.IsGhosting == false) //Has authority to Set control
+			{
+				InternalOnControlPlayer( PossessingMind, CustomNetworkManager.IsServer);
+			}
 		}
 	}
 

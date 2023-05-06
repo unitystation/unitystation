@@ -429,13 +429,13 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		switch (CurrentMovementType)
 		{
 			case MovementType.Running:
-				SyncMovementSpeed(TileMoveSpeed, RunSpeed);
+				SetMovementSpeed(RunSpeed);
 				break;
 			case MovementType.Walking:
-				SyncMovementSpeed(TileMoveSpeed, WalkSpeed);
+				SetMovementSpeed(WalkSpeed);
 				break;
 			case MovementType.Crawling:
-				SyncMovementSpeed(TileMoveSpeed, CrawlSpeed);
+				SetMovementSpeed(CrawlSpeed);
 				break;
 		}
 	}
@@ -492,7 +492,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				    this.gameObject.AssumedWorldPosServer(), SetMatrixCache, this, Pushing, Bumps) == false) return;
 			var pushVector = (move.transform.position - this.transform.position).RoundToInt().To2Int();
 			if (Mathf.Abs(pushVector.x) > 1 || Mathf.Abs(pushVector.y) > 1) return;
-			ForceTilePush(pushVector, Pushing, client, move.TileMoveSpeed, SendWorld: false);
+			ForceTilePush(pushVector, Pushing, client, move.CurrentTileMoveSpeed, SendWorld: false);
 
 
 		}
@@ -620,6 +620,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		uint causedByClient, bool overridePull,
 		int timestampID, bool forced)
 	{
+
 	}
 
 
@@ -773,7 +774,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 							{
 								var MS = Body.NetIdToGameObject().GetComponent<MovementSynchronisation>();
 								MS.TargetRPCClientTilePush(this.netIdentity.connectionToClient,
-									entry.GlobalMoveDirection.ToVector() * -1, TileMoveSpeed, NetId.Empty, false,
+									entry.GlobalMoveDirection.ToVector() * -1, CurrentTileMoveSpeed, NetId.Empty, false,
 									SetTimestampID, true);
 							}
 						}
@@ -863,7 +864,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 						{
 							if (FPSMonitor.Instance.Average < 10)
 							{
-								if ((entry.Timestamp + (TileMoveSpeed) < NetworkTime.time))
+								if ((entry.Timestamp + (CurrentTileMoveSpeed) < NetworkTime.time))
 								{
 									transform.localPosition = LocalTargetPosition;
 									registerTile.ServerSetLocalPosition(LocalTargetPosition.RoundToInt());
@@ -1078,7 +1079,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				{
 					var move = newMoveData.GlobalMoveDirection.ToVector();
 					move.Normalize();
-					objectPhysics.TryTilePush(move * -1, byClient, TileMoveSpeed);
+					objectPhysics.TryTilePush(move * -1, byClient, CurrentTileMoveSpeed);
 				}
 				//Pushes off object for example pushing the object the other way
 			}
@@ -1125,7 +1126,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 			if (causesSlipClient)
 			{
-				NewtonianPush(newMoveData.GlobalMoveDirection.ToVector(), TileMoveSpeed, Single.NaN, 4,
+				NewtonianPush(newMoveData.GlobalMoveDirection.ToVector(), CurrentTileMoveSpeed, Single.NaN, 4,
 					spinFactor: 35, doNotUpdateThisClient: byClient);
 
 				var player = registerTile as RegisterPlayer;
