@@ -116,6 +116,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	public bool IsVisible => isVisible;
 
 
+	[SyncVar]
 	public float tileMoveSpeed = 1;
 
 
