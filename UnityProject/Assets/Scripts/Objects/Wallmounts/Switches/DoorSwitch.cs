@@ -34,7 +34,7 @@ namespace Objects.Wallmounts
 		private bool buttonCoolDown = false;
 		private ClearanceRestricted clearanceRestricted;
 
-		private APCPoweredDevice APCPoweredDevice;
+		private APCPoweredDevice thisAPCPoweredDevice;
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
@@ -51,7 +51,7 @@ namespace Objects.Wallmounts
 			gameObject.layer = LayerMask.NameToLayer("WallMounts");
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 			clearanceRestricted = GetComponent<ClearanceRestricted>();
-			APCPoweredDevice = GetComponent<APCPoweredDevice>();
+			thisAPCPoweredDevice = GetComponent<APCPoweredDevice>();
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -107,18 +107,11 @@ namespace Objects.Wallmounts
 				// Door doesn't exist anymore - shuttle crash, admin smash, etc.
 				if (door == null) continue;
 
-				if (APCPoweredDevice != null)
+				if (thisAPCPoweredDevice != null)
 				{
-					if (APCPoweredDevice.IsOn(PowerState.On))
+					if (APCPoweredDevice.IsOn(thisAPCPoweredDevice.State) == false)
 					{
-						if (door.IsClosed)
-						{
-							door.TryOpen(null);
-						}
-						else
-						{
-							door.TryClose();
-						}
+						continue;
 					}
 				}
 				else
