@@ -15,13 +15,29 @@ public class PossessbleGhost : MonoBehaviour
 
 	public GhostRoleData roleData;
 
+	public SpriteHandler SpriteHandler;
+
+	public SpriteDataSO SpriteOccupied;
+
+	public SpriteDataSO SpriteUnclaimed;
 
 	public void Start()
 	{
 		var Possessedble = this.GetComponent<IPlayerPossessable>();
 		if (Possessedble.PossessingMind == null)
 		{
+			if (SpriteHandler != null)
+			{
+				SpriteHandler.SetSpriteSO(SpriteUnclaimed);
+			}
 			SetUpGhostRole();
+		}
+		else
+		{
+			if (SpriteHandler != null)
+			{
+				SpriteHandler.SetSpriteSO(SpriteOccupied);
+			}
 		}
 
 		Possessedble.OnActionPossess += OnPlayerPossessing;
@@ -43,6 +59,10 @@ public class PossessbleGhost : MonoBehaviour
 		if (createdRoleKey != 0)
 		{
 			GhostRoleManager.Instance.ServerRemoveRole(createdRoleKey);
+			if (SpriteHandler != null)
+			{
+				SpriteHandler.SetSpriteSO(SpriteOccupied);
+			}
 		}
 	}
 
@@ -93,6 +113,10 @@ public class PossessbleGhost : MonoBehaviour
 		playerTookOver = null;
 
 		player.Mind.StopGhosting();
+		if (SpriteHandler != null)
+		{
+			SpriteHandler.SetSpriteSO(SpriteOccupied);
+		}
 	}
 
 
