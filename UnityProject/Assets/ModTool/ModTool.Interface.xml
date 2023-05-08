@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ModTool.Interface</name>
+    </assembly>
+    <members>
+        <member name="T:ModTool.Interface.IModHandler">
+            <summary>
+            Interface to be implemented by mods that wish to receive OnLoaded and OnUnloaded calls. 
+            Non-UnityEngine.Object types that implement this interface will be instantiated when the Mod loads.
+            </summary>
+        </member>
+        <member name="M:ModTool.Interface.IModHandler.OnLoaded">
+            <summary>
+            Called when the Mod is loaded.
+            </summary>
+        </member>
+        <member name="M:ModTool.Interface.IModHandler.OnUnloaded">
+            <summary>
+            Called when the Mod is unloaded.
+            </summary>
+        </member>
+    </members>
+</doc>

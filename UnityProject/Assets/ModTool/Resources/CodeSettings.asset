@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 562734972, guid: b981ac5fea65cbf46ab728daad9c9206, type: 3}
+  m_Name: CodeSettings
+  m_EditorClassIdentifier: 
+  _inheritanceRestrictions: []
+  _memberRestrictions: []
+  _typeRestrictions: []
+  _namespaceRestrictions:
+  - message: Reflection is not allowed.
+    targetType: 
+    restrictionMode: 0
+    nameSpace: System.Reflection
+    includeNested: 1
+  - message: IO is not allowed.
+    targetType: 
+    restrictionMode: 0
+    nameSpace: System.IO
+    includeNested: 1
