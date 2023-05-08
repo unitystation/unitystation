@@ -560,6 +560,13 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 		}
 
 
+		var BodyPartRadioAccess = gameObject.GetComponent<BodyPartRadioAccess>(); //TODO interface?
+		if (BodyPartRadioAccess != null)
+		{
+			transmitChannels |= BodyPartRadioAccess.AvailableChannels;
+		}
+
+
 		if (transmitOnly)
 		{
 			return transmitChannels;

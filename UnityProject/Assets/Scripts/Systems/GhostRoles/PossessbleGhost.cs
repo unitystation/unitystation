@@ -59,6 +59,10 @@ public class PossessbleGhost : MonoBehaviour
 		if (createdRoleKey != 0)
 		{
 			GhostRoleManager.Instance.ServerRemoveRole(createdRoleKey);
+			if (SpriteHandler != null)
+			{
+				SpriteHandler.SetSpriteSO(SpriteOccupied);
+			}
 		}
 	}
 
