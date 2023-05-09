@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: -237638106791004033, guid: a4c2debd67d612549b05801d1e37121a,
         type: 3}
       propertyPath: numberOfTilesAffected
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 3981583822149455068, guid: a4c2debd67d612549b05801d1e37121a,
         type: 3}
@@ -126,4 +126,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useExplosionPrefab: 0
   explosionPrefab: {fileID: 0}
-  explosionStrength: 60
+  explosionStrength: 45
