@@ -9,356 +9,366 @@ using Random = UnityEngine.Random;
 
 namespace Systems.Character
 {
-/// <summary>
-/// Class containing all character preferences for a player
-/// Includes appearance, job preferences etc...
-/// </summary>
-public class CharacterSheet : ICloneable
-{
-	// TODO: all of the in-game appearance variables should probably be refactored into a separate class which can
-	// then be used in PlayerScript since job preferences are only needed at round start in ConnectedPlayer
-
-	// IMPORTANT: these fields use primitive types (int, string... etc) so they can be sent  over the network with
-	// RPCs and Commands without needing to serialise them to JSON!
-	public const int MAX_NAME_LENGTH = 26; // Arbitrary limit, but 26 is the max the current UI can fit
-
-	public string Name = "Cuban Pete";
-	public string AiName = "R.O.B.O.T.";
-	public BodyType BodyType = BodyType.Male;
-	public ClothingStyle ClothingStyle = ClothingStyle.JumpSuit;
-	public BagStyle BagStyle = BagStyle.Backpack;
-	public PlayerPronoun PlayerPronoun = PlayerPronoun.He_him;
-	public int Age = 22;
-	public Speech Speech = Speech.None;
-	public string SkinTone = "#ffe0d1";
-	public List<CustomisationStorage> SerialisedBodyPartCustom = new List<CustomisationStorage>();
-	public List<ExternalCustomisation> SerialisedExternalCustom = new List<ExternalCustomisation>();
-
-	public string Species = "Human";
-	public JobPrefsDict JobPreferences = new JobPrefsDict();
-	public AntagPrefsDict AntagPreferences = new AntagPrefsDict();
-
-	[Serializable]
-	public class CustomisationClass
-	{
-		public string SelectedName = "None";
-		public string Colour = "#ffffff";
-	}
-
-	public override string ToString()
-	{
-		var sb = new StringBuilder($"{Name}'s character sheet:\n", 300);
-		sb.AppendLine($"Name: {Name}");
-		sb.AppendLine($"AiName: {AiName}");
-		sb.AppendLine($"ClothingStyle: {ClothingStyle}");
-		sb.AppendLine($"BagStyle: {BagStyle}");
-		sb.AppendLine($"Pronouns: {PlayerPronoun}");
-		sb.AppendLine($"Age: {Age}");
-		sb.AppendLine($"Speech: {Speech}");
-		sb.AppendLine($"SkinTone: {SkinTone}");
-		sb.AppendLine($"JobPreferences: \n\t{string.Join("\n\t", JobPreferences)}");
-		sb.AppendLine($"AntagPreferences: \n\t{string.Join("\n\t", AntagPreferences)}");
-		return sb.ToString();
-	}
-
 	/// <summary>
-	/// Does nothing if all the character's properties are valid
-	/// <exception cref="InvalidOperationException">If the character settings are not valid</exception>
+	/// Class containing all character preferences for a player
+	/// Includes appearance, job preferences etc...
 	/// </summary>
-	public void ValidateSettings()
+	public class CharacterSheet : ICloneable
 	{
-		ValidateName();
-		ValidateAiName();
-		ValidateJobPreferences();
-	}
+		// TODO: all of the in-game appearance variables should probably be refactored into a separate class which can
+		// then be used in PlayerScript since job preferences are only needed at round start in ConnectedPlayer
 
-	/// <summary>
-	/// Checks if the character name follows all rules
-	/// </summary>
-	/// <exception cref="InvalidOperationException">If the name not valid</exception>
-	private void ValidateName()
-	{
-		if (String.IsNullOrWhiteSpace(Name))
+		// IMPORTANT: these fields use primitive types (int, string... etc) so they can be sent  over the network with
+		// RPCs and Commands without needing to serialise them to JSON!
+		public const int MAX_NAME_LENGTH = 26; // Arbitrary limit, but 26 is the max the current UI can fit
+
+		public string Name = "Cuban Pete";
+		public string AiName = "R.O.B.O.T.";
+		public BodyType BodyType = BodyType.Male;
+		public ClothingStyle ClothingStyle = ClothingStyle.JumpSuit;
+		public BagStyle BagStyle = BagStyle.Backpack;
+		public PlayerPronoun PlayerPronoun = PlayerPronoun.He_him;
+		public int Age = 22;
+		public Speech Speech = Speech.None;
+		public string SkinTone = "#ffe0d1";
+		public List<CustomisationStorage> SerialisedBodyPartCustom = new List<CustomisationStorage>();
+		public List<ExternalCustomisation> SerialisedExternalCustom = new List<ExternalCustomisation>();
+
+		public string Species = "Human";
+		public JobPrefsDict JobPreferences = new JobPrefsDict();
+		public AntagPrefsDict AntagPreferences = new AntagPrefsDict();
+
+		[Serializable]
+		public class CustomisationClass
 		{
-			throw new InvalidOperationException("Name cannot be blank");
+			public string SelectedName = "None";
+			public string Colour = "#ffffff";
 		}
 
-		if (Name.Length > MAX_NAME_LENGTH)
+		public override string ToString()
 		{
-			throw new InvalidOperationException("Name cannot exceed " + MAX_NAME_LENGTH + " characters");
-		}
-	}
-
-	/// <summary>
-	/// Checks if the character Ai name follows all rules
-	/// </summary>
-	/// <exception cref="InvalidOperationException">If the name not valid</exception>
-	private void ValidateAiName()
-	{
-		if (String.IsNullOrWhiteSpace(AiName))
-		{
-			AiName = "R.O.B.O.T.";
-		}
-
-		if (AiName.Length > MAX_NAME_LENGTH)
-		{
-			throw new InvalidOperationException("Name cannot exceed " + MAX_NAME_LENGTH + " characters");
-		}
-	}
-
-	/// <summary>
-	/// Checks if the job preferences have more than one high priority set
-	/// </summary>
-	/// <exception cref="InvalidOperationException">If the job preferences are not valid</exception>
-	private void ValidateJobPreferences()
-	{
-		if (JobPreferences.Count(jobPref => jobPref.Value == Priority.High) > 1)
-		{
-			throw new InvalidOperationException("Cannot have more than one job set to high priority");
-		}
-	}
-
-	/// <summary>
-	/// Returns a possessive string (i.e. "their", "his", "her") for the provided gender enum.
-	/// </summary>
-	public string TheirPronoun(PlayerScript script)
-	{
-		if (script.Equipment != null &&
-		     script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
-		{
-			return "their";
+			var sb = new StringBuilder($"{Name}'s character sheet:\n", 300);
+			sb.AppendLine($"Name: {Name}");
+			sb.AppendLine($"AiName: {AiName}");
+			sb.AppendLine($"ClothingStyle: {ClothingStyle}");
+			sb.AppendLine($"BagStyle: {BagStyle}");
+			sb.AppendLine($"Pronouns: {PlayerPronoun}");
+			sb.AppendLine($"Age: {Age}");
+			sb.AppendLine($"Speech: {Speech}");
+			sb.AppendLine($"SkinTone: {SkinTone}");
+			sb.AppendLine($"JobPreferences: \n\t{string.Join("\n\t", JobPreferences)}");
+			sb.AppendLine($"AntagPreferences: \n\t{string.Join("\n\t", AntagPreferences)}");
+			return sb.ToString();
 		}
 
-		switch (PlayerPronoun)
+		/// <summary>
+		/// Does nothing if all the character's properties are valid
+		/// <exception cref="InvalidOperationException">If the character settings are not valid</exception>
+		/// </summary>
+		public void ValidateSettings()
 		{
-			case PlayerPronoun.He_him:
-				return "his";
-			case PlayerPronoun.She_her:
-				return "her";
-			default:
+			ValidateName();
+			ValidateAiName();
+			ValidateJobPreferences();
+		}
+
+		/// <summary>
+		/// Checks if the character name follows all rules
+		/// </summary>
+		/// <exception cref="InvalidOperationException">If the name not valid</exception>
+		private void ValidateName()
+		{
+			if (String.IsNullOrWhiteSpace(Name))
+			{
+				throw new InvalidOperationException("Name cannot be blank");
+			}
+
+			if (Name.Length > MAX_NAME_LENGTH)
+			{
+				throw new InvalidOperationException("Name cannot exceed " + MAX_NAME_LENGTH + " characters");
+			}
+		}
+
+		/// <summary>
+		/// Checks if the character Ai name follows all rules
+		/// </summary>
+		/// <exception cref="InvalidOperationException">If the name not valid</exception>
+		private void ValidateAiName()
+		{
+			if (String.IsNullOrWhiteSpace(AiName))
+			{
+				AiName = "R.O.B.O.T.";
+			}
+
+			if (AiName.Length > MAX_NAME_LENGTH)
+			{
+				throw new InvalidOperationException("Name cannot exceed " + MAX_NAME_LENGTH + " characters");
+			}
+		}
+
+		/// <summary>
+		/// Checks if the job preferences have more than one high priority set
+		/// </summary>
+		/// <exception cref="InvalidOperationException">If the job preferences are not valid</exception>
+		private void ValidateJobPreferences()
+		{
+			if (JobPreferences.Count(jobPref => jobPref.Value == Priority.High) > 1)
+			{
+				throw new InvalidOperationException("Cannot have more than one job set to high priority");
+			}
+		}
+
+		/// <summary>
+		/// Returns a possessive string (i.e. "their", "his", "her") for the provided gender enum.
+		/// </summary>
+		public string TheirPronoun(PlayerScript script)
+		{
+			if (script.Equipment != null &&
+			    script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
+			{
 				return "their";
-		}
-	}
+			}
 
-	/// <summary>
-	/// Returns a personal pronoun string (i.e. "he", "she", "they") for the provided gender enum.
-	/// </summary>
-	public string TheyPronoun(PlayerScript script)
-	{
-		if (script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
-		{
-			return "they";
+			switch (PlayerPronoun)
+			{
+				case PlayerPronoun.He_him:
+					return "his";
+				case PlayerPronoun.She_her:
+					return "her";
+				default:
+					return "their";
+			}
 		}
-		switch (PlayerPronoun)
+
+		/// <summary>
+		/// Returns a personal pronoun string (i.e. "he", "she", "they") for the provided gender enum.
+		/// </summary>
+		public string TheyPronoun(PlayerScript script)
 		{
-			case PlayerPronoun.He_him:
-				return "he";
-			case PlayerPronoun.She_her:
-				return "she";
-			default:
+			if (script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
+			{
 				return "they";
-		}
-	}
+			}
 
-	/// <summary>
-	/// Returns an object pronoun string (i.e. "him", "her", "them") for the provided gender enum.
-	/// </summary>
-	public string ThemPronoun(PlayerScript script)
-	{
-		if (script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
-		{
-			return "them";
+			switch (PlayerPronoun)
+			{
+				case PlayerPronoun.He_him:
+					return "he";
+				case PlayerPronoun.She_her:
+					return "she";
+				default:
+					return "they";
+			}
 		}
-		switch (PlayerPronoun)
+
+		/// <summary>
+		/// Returns an object pronoun string (i.e. "him", "her", "them") for the provided gender enum.
+		/// </summary>
+		public string ThemPronoun(PlayerScript script)
 		{
-			case PlayerPronoun.He_him:
-				return "him";
-			case PlayerPronoun.She_her:
-				return "her";
-			default:
+			if (script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
+			{
 				return "them";
-		}
-	}
+			}
 
-	/// <summary>
-	/// Returns an object pronoun string (i.e. "he's", "she's", "they're") for the provided gender enum.
-	/// </summary>
-	public string TheyrePronoun(PlayerScript script)
-	{
-		if (script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
-		{
-			return "they're";
+			switch (PlayerPronoun)
+			{
+				case PlayerPronoun.He_him:
+					return "him";
+				case PlayerPronoun.She_her:
+					return "her";
+				default:
+					return "them";
+			}
 		}
-		switch (PlayerPronoun)
+
+		/// <summary>
+		/// Returns an object pronoun string (i.e. "he's", "she's", "they're") for the provided gender enum.
+		/// </summary>
+		public string TheyrePronoun(PlayerScript script)
 		{
-			case PlayerPronoun.He_him:
-				return "he's";
-			case PlayerPronoun.She_her:
-				return "she's";
-			default:
+			if (script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
+			{
 				return "they're";
-		}
-	}
+			}
 
-	/// <summary>
-	/// Returns an object pronoun string (i.e. "himself", "herself", "themself") for the provided gender enum.
-	/// </summary>
-	public string ThemselfPronoun(PlayerScript script)
-	{
-		if (script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
-		{
-			return "themself";
+			switch (PlayerPronoun)
+			{
+				case PlayerPronoun.He_him:
+					return "he's";
+				case PlayerPronoun.She_her:
+					return "she's";
+				default:
+					return "they're";
+			}
 		}
-		switch (PlayerPronoun)
+
+		/// <summary>
+		/// Returns an object pronoun string (i.e. "himself", "herself", "themself") for the provided gender enum.
+		/// </summary>
+		public string ThemselfPronoun(PlayerScript script)
 		{
-			case PlayerPronoun.He_him:
-				return "himself";
-			case PlayerPronoun.She_her:
-				return "herself";
-			default:
+			if (script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
+			{
 				return "themself";
-		}
-	}
+			}
 
-	public string IsPronoun(PlayerScript script)
-	{
-		if (script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
-		{
-			return "are";
+			switch (PlayerPronoun)
+			{
+				case PlayerPronoun.He_him:
+					return "himself";
+				case PlayerPronoun.She_her:
+					return "herself";
+				default:
+					return "themself";
+			}
 		}
-		switch (PlayerPronoun)
+
+		public string IsPronoun(PlayerScript script)
 		{
-			case PlayerPronoun.He_him:
-			case PlayerPronoun.She_her:
-				return "is";
-			case PlayerPronoun.They_them:
-			default:
+			if (script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
+			{
 				return "are";
-		}
-	}
+			}
 
-	public string HasPronoun(PlayerScript script)
-	{
-		if (script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
-		{
-			return "have";
+			switch (PlayerPronoun)
+			{
+				case PlayerPronoun.He_him:
+				case PlayerPronoun.She_her:
+					return "is";
+				case PlayerPronoun.They_them:
+				default:
+					return "are";
+			}
 		}
-		switch (PlayerPronoun)
+
+		public string HasPronoun(PlayerScript script)
 		{
-			case PlayerPronoun.He_him:
-			case PlayerPronoun.She_her:
-				return "has";
-			case PlayerPronoun.They_them:
-			default:
+			if (script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
+			{
 				return "have";
-		}
-	}
+			}
 
-	public Gender GetGender()
-	{
-		switch (BodyType)
+			switch (PlayerPronoun)
+			{
+				case PlayerPronoun.He_him:
+				case PlayerPronoun.She_her:
+					return "has";
+				case PlayerPronoun.They_them:
+				default:
+					return "have";
+			}
+		}
+
+		public Gender GetGender()
 		{
-			case BodyType.Male:
-				return Gender.Male;
-			case BodyType.Female:
-				return Gender.Female;
-			default:
-				return Gender.NonBinary;
+			switch (BodyType)
+			{
+				case BodyType.Male:
+					return Gender.Male;
+				case BodyType.Female:
+					return Gender.Female;
+				default:
+					return Gender.NonBinary;
+			}
 		}
-	}
 
-	public PlayerHealthData GetRaceSo(bool onlyCharacterCurator = false)
-	{
-		var ToReturn = RaceSOSingleton.Instance.Races.FirstOrDefault(x =>
-			x.name == Species && (onlyCharacterCurator == false || x.Base.CanShowUpInTheCharacterCreatorScreen));
-		if (ToReturn == null)
+		public PlayerHealthData GetRaceSo(bool onlyCharacterCurator = false)
 		{
-			return  RaceSOSingleton.Instance.Races.FirstOrDefault(x => x.name == "Human");
+			var ToReturn = RaceSOSingleton.Instance.Races.FirstOrDefault(x =>
+				x.name == Species && (onlyCharacterCurator == false || x.Base.CanShowUpInTheCharacterCreatorScreen));
+			if (ToReturn == null)
+			{
+				return RaceSOSingleton.Instance.Races.FirstOrDefault(x => x.name == "Human");
+			}
+
+			return ToReturn;
 		}
-		return ToReturn;
-	}
 
-	public object Clone()
-	{
-		string json = JsonConvert.SerializeObject(this);
-		return JsonConvert.DeserializeObject<CharacterSheet>(json);
-	}
-
-	#region StaticCustomizationFunctions
-
-	/// <summary>Generate a random character.</summary>
-	/// <remarks>not safe to use in Awake().</remarks>
-	/// <returns>a random character.</returns>
-	public static CharacterSheet GenerateRandomCharacter()
-	{
-		CharacterSheet character = new CharacterSheet();
-
-		PlayerHealthData race = RaceSOSingleton.Instance.Races.PickRandom();
-
-		character.Species = race.name;
-		if (race.Base.bodyTypeSettings.AvailableBodyTypes.Count != 0)
+		public object Clone()
 		{
-			character.BodyType = race.Base.bodyTypeSettings.AvailableBodyTypes.PickRandom().bodyType;
-		}
-		else
-		{
-			character.BodyType = BodyType.NonBinary;
+			string json = JsonConvert.SerializeObject(this);
+			return JsonConvert.DeserializeObject<CharacterSheet>(json);
 		}
 
-		character.Age = Random.Range(19, 84); // TODO should be a race characteristic, literally 1984
-		character.SkinTone = GetRandomSkinTone(race);
-		character.Name = character.Species == "Lizard"
+		#region StaticCustomizationFunctions
+
+		/// <summary>Generate a random character.</summary>
+		/// <remarks>not safe to use in Awake().</remarks>
+		/// <returns>a random character.</returns>
+		public static CharacterSheet GenerateRandomCharacter()
+		{
+			CharacterSheet character = new CharacterSheet();
+
+			PlayerHealthData race = RaceSOSingleton.Instance.Races.PickRandom();
+
+			character.Species = race.name;
+			if (race.Base.bodyTypeSettings.AvailableBodyTypes.Count != 0)
+			{
+				character.BodyType = race.Base.bodyTypeSettings.AvailableBodyTypes.PickRandom().bodyType;
+			}
+			else
+			{
+				character.BodyType = BodyType.NonBinary;
+			}
+
+			character.Age = Random.Range(19, 84); // TODO should be a race characteristic, literally 1984
+			character.SkinTone = GetRandomSkinTone(race);
+			character.Name = character.Species == "Lizard"
 				? StringManager.GetRandomLizardName()
-				: StringManager.GetRandomName(); // TODO do moths and what-not not have random names? Should be race characteristic
-		character.Speech = DMMath.Prob(35) ? character.Speech.PickRandom() : Speech.None;
-		character.PlayerPronoun = character.PlayerPronoun.PickRandom();
-		character.ClothingStyle = character.ClothingStyle.PickRandom();
-		character.BagStyle = character.BagStyle.PickRandom();
+				: StringManager
+					.GetRandomName(); // TODO do moths and what-not not have random names? Should be race characteristic
+			character.Speech = DMMath.Prob(35) ? character.Speech.PickRandom() : Speech.None;
+			character.PlayerPronoun = character.PlayerPronoun.PickRandom();
+			character.ClothingStyle = character.ClothingStyle.PickRandom();
+			character.BagStyle = character.BagStyle.PickRandom();
 
-		character.AiName = "R.O.B.O.T."; // TODO: random names.
+			character.AiName = "R.O.B.O.T."; // TODO: random names.
 
-		character.SerialisedBodyPartCustom = new List<CustomisationStorage>(); // things like beards etc, TODO ask bod
-		character.SerialisedExternalCustom = GetRandomUnderwear(race); // socks, t-shirts etc
+			character.SerialisedBodyPartCustom =
+				new List<CustomisationStorage>(); // things like beards etc, TODO ask bod
+			character.SerialisedExternalCustom = GetRandomUnderwear(race); // socks, t-shirts etc
 
-		return character;
-	}
+			return character;
+		}
 
-	private static Color GetRandomColor()
-	{
-		return new Color(Random.Range(0.1f, 1f), Random.Range(0.1f, 1f), Random.Range(0.1f, 1f));
-	}
+		private static Color GetRandomColor()
+		{
+			return new Color(Random.Range(0.1f, 1f), Random.Range(0.1f, 1f), Random.Range(0.1f, 1f));
+		}
 
-	public static string GetRandomSkinTone(PlayerHealthData race)
-	{
-		return race.Base.SkinColours.Count > 0
+		public static string GetRandomSkinTone(PlayerHealthData race)
+		{
+			return race.Base.SkinColours.Count > 0
 				? $"#{ColorUtility.ToHtmlStringRGB(race.Base.SkinColours.PickRandom())}"
 				: $"#{ColorUtility.ToHtmlStringRGB(GetRandomColor())}";
-	}
-
-	private static List<ExternalCustomisation> GetRandomUnderwear(PlayerHealthData race)
-	{
-		var externalCustomisations = new List<ExternalCustomisation>();
-
-		foreach (CustomisationAllowedSetting customisation in race.Base.CustomisationSettings)
-		{
-			PlayerCustomisationData customizationToAdd = customisation.CustomisationGroup.PlayerCustomisations.PickRandom();
-			ExternalCustomisation newExternalCustomisation = new();
-			newExternalCustomisation.Key = customizationToAdd.name;
-			newExternalCustomisation.SerialisedValue = SerialiseCustomizationData(customizationToAdd);
-			externalCustomisations.Add(newExternalCustomisation);
 		}
 
-		return externalCustomisations;
-	}
+		private static List<ExternalCustomisation> GetRandomUnderwear(PlayerHealthData race)
+		{
+			var externalCustomisations = new List<ExternalCustomisation>();
 
-	private static CustomisationClass SerialiseCustomizationData(PlayerCustomisationData data)
-	{
-		var newcurrentSetting = new CustomisationClass();
-		newcurrentSetting.Colour = $"#{ColorUtility.ToHtmlStringRGB(GetRandomColor())}";
-		newcurrentSetting.SelectedName = data.Name;
-		return newcurrentSetting;
-	}
+			foreach (CustomisationAllowedSetting customisation in race.Base.CustomisationSettings)
+			{
+				PlayerCustomisationData customizationToAdd =
+					customisation.CustomisationGroup.PlayerCustomisations.PickRandom();
+				ExternalCustomisation newExternalCustomisation = new();
+				newExternalCustomisation.Key = customizationToAdd.name;
+				newExternalCustomisation.SerialisedValue = SerialiseCustomizationData(customizationToAdd);
+				externalCustomisations.Add(newExternalCustomisation);
+			}
 
-	#endregion
-}
+			return externalCustomisations;
+		}
+
+		private static CustomisationClass SerialiseCustomizationData(PlayerCustomisationData data)
+		{
+			var newcurrentSetting = new CustomisationClass();
+			newcurrentSetting.Colour = $"#{ColorUtility.ToHtmlStringRGB(GetRandomColor())}";
+			newcurrentSetting.SelectedName = data.Name;
+			return newcurrentSetting;
+		}
+
+		#endregion
+	}
 }
