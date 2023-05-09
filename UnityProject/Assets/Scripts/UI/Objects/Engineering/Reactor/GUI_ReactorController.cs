@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UI.Core.NetUI;
 using Objects.Engineering;
+using Objects.Engineering.Reactor;
 
 namespace UI.Objects.Engineering
 {

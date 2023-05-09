@@ -32,8 +32,6 @@ namespace Objects.Telecomms
 
 		[SerializeField] private SignalDataSO radioSO;
 
-		private const float MINIMUM_DAMAGE_BEFORE_OBFUSCATION = 8f;
-
 		private void Start()
 		{
 			objectPhysics = GetComponent<UniversalObjectPhysics>();
@@ -156,7 +154,7 @@ namespace Objects.Telecomms
 		{
 			CommsServer.RadioMessageData msg = new CommsServer.RadioMessageData();
 			// If the integrity of this terminal is so low, start scrambling text.
-			if (integrity.integrity > MINIMUM_DAMAGE_BEFORE_OBFUSCATION)
+			if (integrity.integrity > minimumDamageBeforeObfuscation)
 			{
 				msg.ChatEvent = chatToManipulate;
 				TrySendSignal(radioSO, msg);
