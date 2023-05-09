@@ -138,6 +138,28 @@ PrefabInstance:
       propertyPath: TraumaticDamageType
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 4582402145700071108, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4582402145700071108, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: db5eba4a850bfb64e812022fc6d2615f,
+        type: 2}
+    - target: {fileID: 4582402145700071108, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: db5eba4a850bfb64e812022fc6d2615f,
+        type: 2}
+    - target: {fileID: 4582402145700071108, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6964355983317795711, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
       propertyPath: foreverID
