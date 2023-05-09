@@ -158,13 +158,19 @@ public static class PlayerSpawn
 
 	public static Mind NewSpawnCharacterV2(Occupation requestedOccupation, CharacterSheet character)
 	{
+		//TODO: This is hard-coded for now and shouldn't be here.
+		if (IsValidForBorgName(requestedOccupation)) character.Name = StringManager.GetRandomGenericBorgSerialNumberName();
 		//Validate?
 		var mind = SpawnMind(character);
 		SpawnAndApplyRole(mind, requestedOccupation, character, SpawnType.NewSpawn);
 		return mind;
 	}
 
-
+	private static bool IsValidForBorgName(Occupation requestedOccupation)
+	{
+		if (requestedOccupation is null) return false;
+		return requestedOccupation.DisplayName == "Cyborg";
+	}
 
 	public static GameObject RespawnPlayer(Mind mind, Occupation requestedOccupation, CharacterSheet character)
 	{

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using ScriptableObjects;
+using Systems.Character;
+using UI.Character;
 
 namespace Systems.GhostRoles
 {
@@ -153,6 +155,7 @@ namespace Systems.GhostRoles
 		private void SpawnPlayer(PlayerInfo player)
 		{
 			playersSpawned++;
+			player.Mind.CurrentCharacterSettings = CharacterSheet.GenerateRandomCharacter();
 			if (RoleData.IsAntagonist)
 			{
 				player.Script.PlayerNetworkActions.ServerRespawnPlayerAntag(player, RoleData.TargetAntagonist.AntagName);
