@@ -134,7 +134,7 @@ namespace HealthV2.Living.PolymorphicSystems
 			float Multiplier = HeartEfficiency;
 			if (HeartEfficiency == 0)
 			{
-				Multiplier = 0.0025f;
+				return;
 			}
 
 			foreach (var KVP in Toxicity)
