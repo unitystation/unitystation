@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Systems.Explosions;
+using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
 
 namespace Items.Others
 {
 	[RequireComponent(typeof(Integrity))]
 	[RequireComponent(typeof(Pickupable))]
-	public class Gibtonite : MonoBehaviour, ICheckedInteractable<HandApply>
+	public class Gibtonite : MonoBehaviour, ICheckedInteractable<HandApply>, IHoverTooltip
 	{
 		private enum GibState
 		{
@@ -126,6 +128,32 @@ namespace Items.Others
 			return interaction.HandSlot != null
 			       && interaction.HandSlot.ItemAttributes != null
 			       && DefaultWillInteract.Default(interaction, side);
+		}
+
+		public string HoverTip()
+		{
+			return state switch
+			{
+				GibState.ACTIVE => "It is active! It might explode if it receives any damage.",
+				GibState.INACTIVE => "It is inactive and relatively safe for now.",
+				GibState.FUSED => "OHGODOHFUCK",
+				_ => throw new ArgumentOutOfRangeException()
+			};
+		}
+
+		public string CustomTitle() => null;
+
+		public Sprite CustomIcon() => null;
+
+		public List<Sprite> IconIndicators() => null;
+
+		public List<TextColor> InteractionsStrings()
+		{
+			return new List<TextColor>()
+			{
+				new TextColor() { Color = Color.green, Text = "Use a drill or a pickaxe to disable it completely." },
+				new TextColor() { Color = Color.red, Text = "If you see it flashing, either run or quickly click on it with a mining scanner." },
+			};
 		}
 	}
 }
