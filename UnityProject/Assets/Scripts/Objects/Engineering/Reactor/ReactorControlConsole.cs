@@ -23,7 +23,7 @@ namespace Objects.Engineering.Reactor
 		private ChatEvent chatEvent = new ChatEvent();
 		private const ChatChannel ChatChannels = ChatChannel.Engineering | ChatChannel.Common;
 
-		[SerializeField] private float chatAnnouncementCheckTime = 12f;
+		[SerializeField] private float chatAnnouncementCheckTime = 8f;
 
 		private void Awake()
 		{
@@ -63,10 +63,11 @@ namespace Objects.Engineering.Reactor
 
 		private void UpdateMe()
 		{
-			if (ReactorChambers is null || ReactorChambers.MeltedDown == false) return;
+			if (ReactorChambers is null) return;
+			if (ReactorChambers.MeltedDown == false || ReactorChambers.PresentNeutrons < 200) return;
 
 			StringBuilder state = new StringBuilder();
-			state.Append("Warning, Reactor Meltdown.").AppendLine();
+			state.Append("Warning, Reactor Meltdown/Catastrophe imminent.").AppendLine();
 			if (ReactorChambers.CurrentPressure >= ReactorChambers.MaxPressure / (decimal)1.35f)
 			{
 				state.Append("Pressure: ").Append(
@@ -78,6 +79,12 @@ namespace Objects.Engineering.Reactor
 			if (ReactorChambers.Temperature >= ReactorChambers.RodMeltingTemperatureK)
 			{
 				state.Append(" Temperature: ").Append(ReactorChambers.GetTemperature()).Append(".");
+			}
+
+			// magic number copied from GUI_ReactorController
+			if (ReactorChambers.PresentNeutrons >= 200)
+			{
+				state.Append(" Neutron levels Unstable. ");
 			}
 
 			chatEvent.message = state.ToString();
