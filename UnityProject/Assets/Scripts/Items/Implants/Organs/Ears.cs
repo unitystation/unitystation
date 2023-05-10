@@ -98,7 +98,7 @@ namespace Items.Implants.Organs
 
 			var localPosition = Matrix.GetLocalPositionFromRootObject(Pickupable.UniversalObjectPhysics);
 			var pressure =
-				RelatedPart.HealthMaster.RegisterTile
+				RelatedPart.HealthMaster.playerScript.playerMove.GetRootObject.RegisterTile()
 					.Matrix.GetMetaDataNode(localPosition)
 					.GasMix.Pressure;
 
