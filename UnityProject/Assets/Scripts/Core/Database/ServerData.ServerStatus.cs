@@ -161,7 +161,7 @@ namespace DatabaseAPI
 				status.CurrentMap = SubSceneManager.ServerChosenMainStation;
 			}
 
-			status.Passworded = !string.IsNullOrEmpty(config.ConnectionPassword);
+			status.Passworded = string.IsNullOrEmpty(config.ConnectionPassword) == false;
             status.RoundTime = GameManager.Instance.RoundTimeInMinutes.ToString();
             status.PlayerCountMax = GameManager.Instance.PlayerLimit;
 
