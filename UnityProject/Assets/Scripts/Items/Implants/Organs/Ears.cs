@@ -1,6 +1,7 @@
 using Audio.Containers;
 using HealthV2;
 using Mirror;
+using UnityEngine;
 
 namespace Items.Implants.Organs
 {
@@ -95,27 +96,24 @@ namespace Items.Implants.Organs
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckPressure);
 			}
 
-			var Pressure =
-				RelatedPart.HealthMaster.RegisterTile.Matrix.GetMetaDataNode(RelatedPart.HealthMaster.RegisterTile
-					.LocalPosition).GasMix.Pressure;
+			var localPosition = Matrix.GetLocalPositionFromRootObject(Pickupable.UniversalObjectPhysics);
+			var pressure =
+				RelatedPart.HealthMaster.playerScript.playerMove.GetRootObject.RegisterTile()
+					.Matrix.GetMetaDataNode(localPosition)
+					.GasMix.Pressure;
 
-			if (Pressure > 80)
+			if (pressure > 80)
 			{
-				if (PressureMultiplier != 1)
-				{
-					PressureMultiplier = 1;
-					UpDateTotalValue();
-				}
+				if (Mathf.Approximately(PressureMultiplier, 1)) return;
+				PressureMultiplier = 1;
+				UpDateTotalValue();
 			}
 			else
 			{
-				var InModifier = Pressure / 80f;
-				if (InModifier != PressureMultiplier)
-				{
-					PressureMultiplier = Pressure / 80f;
-					UpDateTotalValue();
-				}
-
+				var inModifier = pressure / 80f;
+				if (Mathf.Approximately(inModifier, PressureMultiplier) == false) return;
+				PressureMultiplier = pressure / 80f;
+				UpDateTotalValue();
 			}
 		}
 
