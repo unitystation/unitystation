@@ -96,7 +96,7 @@ namespace Items.Implants.Organs
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckPressure);
 			}
 
-			var localPosition = Matrix.GetLocalPositionFromWorldPosition(Pickupable.UniversalObjectPhysics);
+			var localPosition = Matrix.GetLocalPositionFromRootObject(Pickupable.UniversalObjectPhysics);
 			var pressure =
 				RelatedPart.HealthMaster.RegisterTile
 					.Matrix.GetMetaDataNode(localPosition)

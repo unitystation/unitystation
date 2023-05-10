@@ -540,19 +540,29 @@ public class Matrix : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Retrieves the local position from world position using UOP's OfficalPosition variable.
-	/// Avoid using this on every frame as it can generate a small amount of GC that can add up quickly.
+	/// Retrieves the world position from an object's highest root.
+	/// Helpful when checking for positions in a moving container.
 	/// </summary>
 	/// <param name="physics">the object's physics.</param>
-	/// <returns>The local position the object is on. Will return Vector3Int.ZERO if there's no Matrix assigned.</returns>
-	public static Vector3Int GetLocalPositionFromWorldPosition(UniversalObjectPhysics physics)
+	/// <returns>The local position the object is on. Will return Vector3Int.ZERO if there's no RegisterTile assigned.</returns>
+	public static Vector3Int GetWorldPositionFromRootObject(UniversalObjectPhysics physics)
 	{
-		if (physics.gameObject.RegisterTile().Matrix == null)
-		{
-			Logger.LogError("[Matrix/GetLocalPosFromWorldPos] - Could not find Matrix.");
-			return Vector3Int.zero;
-		}
-		return physics.OfficialPosition.ToLocalInt(physics.gameObject.RegisterTile().Matrix);
+		if (physics.GetRootObject.RegisterTile() != null) return physics.GetRootObject.RegisterTile().WorldPosition;
+		Logger.LogError("[Matrix/GetLocalPosFromWorldPos] - Could not find RegisterTile.");
+		return Vector3Int.zero;
+	}
+
+	/// <summary>
+	/// Retrieves the local position from an object's highest root.
+	/// Helpful when checking for positions in a moving container.
+	/// </summary>
+	/// <param name="physics">the object's physics.</param>
+	/// <returns>The local position the object is on. Will return Vector3Int.ZERO if there's no RegisterTile assigned.</returns>
+	public static Vector3Int GetLocalPositionFromRootObject(UniversalObjectPhysics physics)
+	{
+		if (physics.GetRootObject.RegisterTile() != null) return physics.GetRootObject.RegisterTile().LocalPosition;
+		Logger.LogError("[Matrix/GetLocalPosFromWorldPos] - Could not find RegisterTile.");
+		return Vector3Int.zero;
 	}
 
 	public float GetRadiationLevel(Vector2Int localPosition)
