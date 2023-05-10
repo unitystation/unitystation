@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using ScriptableObjects;
+using Systems.Character;
+using UI.Character;
 
 namespace Systems.GhostRoles
 {
@@ -25,6 +27,8 @@ namespace Systems.GhostRoles
 		/// <summary> The amount of time remaining for this ghost role instance.
 		/// Invokes <see cref="OnTimerExpired"/> at the end of this period.</summary>
 		public float TimeRemaining { get; set; }
+
+		public bool RandomiseCharacterSheet { get; set; } = true;
 
 		/// <summary> Invoked when <see cref="TimeRemaining"/> hits zero.</summary>
 		public event Action OnTimerExpired;
@@ -153,6 +157,7 @@ namespace Systems.GhostRoles
 		private void SpawnPlayer(PlayerInfo player)
 		{
 			playersSpawned++;
+			if (RandomiseCharacterSheet) player.Mind.CurrentCharacterSettings = CharacterSheet.GenerateRandomCharacter();
 			if (RoleData.IsAntagonist)
 			{
 				player.Script.PlayerNetworkActions.ServerRespawnPlayerAntag(player, RoleData.TargetAntagonist.AntagName);

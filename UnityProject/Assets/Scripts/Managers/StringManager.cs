@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Initialisation;
 using Shared.Managers;
 using UnityEngine;
+using Random = System.Random;
 
 public class StringManager : SingletonManager<StringManager>, IInitialise
 {
@@ -45,11 +46,38 @@ public class StringManager : SingletonManager<StringManager>, IInitialise
 		return Instance.textObjects[$"lizard_{genderKey}"].PickRandom();
 	}
 
+	public static string GetRandomGenericBorgSerialNumberName()
+	{
+		Random random = new Random();
+		int a = random.Next(0, 26);
+		int b = random.Next(0, 26);
+		int num = random.Next(100, 999);
+		char ch1 = (char)('a' + a);
+		char ch2 = (char)('a' + b);
+		return $"{ch1}{ch2}-{num}".ToUpper();
+	}
+
 	/// <summary>
 	/// Combines a random first and last name depending on gender.
-	/// Uses both male and female names if gender is NonBinary.
+	/// Uses both male and female names if gender is NonBinary. Species aware. Will return humanoid names if no species is specified.
 	/// </summary>
-	public static string GetRandomName(Gender gender = Gender.NonBinary)
+	public static string GetRandomName(Gender gender = Gender.NonBinary, string species = "Human")
+	{
+		//TODO: Make this more generic so we don't hard-code these things all the time.
+		if (species == "Lizard" || species == "Ashwalker")
+		{
+			return GetRandomLizardName(gender);
+		}
+
+		if (species == "Robot" || species == "Cyborg" || species == "Borg")
+		{
+			return GetRandomGenericBorgSerialNumberName();
+		}
+
+		return GetRandomHumanoidName(gender);
+	}
+
+	public static string GetRandomHumanoidName(Gender gender = Gender.NonBinary)
 	{
 		//Uses random gendered name if NonBinary
 		if (gender == Gender.NonBinary)
