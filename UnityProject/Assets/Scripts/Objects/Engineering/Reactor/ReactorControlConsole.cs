@@ -21,7 +21,7 @@ namespace Objects.Engineering.Reactor
 		private UniversalObjectPhysics objectPhysics;
 
 		private ChatEvent chatEvent = new ChatEvent();
-		private const ChatChannel ChatChannels = ChatChannel.Common;
+		private const ChatChannel ChatChannels = ChatChannel.Engineering;
 
 		[SerializeField] private float chatAnnouncementCheckTime = 8f;
 
