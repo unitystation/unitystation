@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
-  m_Name: Gold Ore
+  m_Name: Gibtonite Ore
   m_EditorClassIdentifier: 
-  displayName: 
-  description: 
+  displayName: Gibtonite
+  description: Ooo, shiny.. I wonder what happens if I try to mine it?
   LayerType: 0
   TileType: 1
   RequiredTiles: []
@@ -21,23 +21,23 @@ MonoBehaviour:
   CanSoundOverride: 0
   atmosPassable: 0
   isSealed: 0
-  SpawnWithNoAir: 1
+  SpawnWithNoAir: 0
   passable: 0
-  mineable: 0
-  miningTime: 5
+  mineable: 1
+  miningTime: 0.25
   miningHardness: 1
   constructable: 0
   RadiationPassability: 1
-  ThermalConductivity: 0
-  HeatCapacity: 312500
-  doesReflectBullet: 0
+  ThermalConductivity: 0.05
+  HeatCapacity: 10000
+  doesReflectBullet: 1
   indestructible: 0
   ExplosionImpassable: 1
   BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 
     m_values: 
-  maxHealth: 100
+  maxHealth: 0
   damageDeflection: 0
   armor:
     Melee: 90
@@ -59,9 +59,9 @@ MonoBehaviour:
   <OnTileStartMining>k__BackingField: []
   <OnTileFinishMining>k__BackingField: []
   tileStepInteractions: []
-  spawnOnDeconstruct: {fileID: 2983437147595714925, guid: 8ea4bb3d70e3ed14391cd7eee704747f,
+  spawnOnDeconstruct: {fileID: 170274586052777823, guid: 3d90b276e8ed61b42bdc9753e70799ee,
     type: 3}
-  spawnAmountOnDeconstruct: 2
+  spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 0}
   toTileWhenDestroyed: {fileID: 0}
   spawnOnDestroy: {fileID: 0}
@@ -76,7 +76,6 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
   SoundOnDestroy: []
   sprite: {fileID: 21300000, guid: a9d8f27a5eb052c4a88ae45d1bbc2acf, type: 3}
-  CanBeHighlightedThroughScanners: 1
+  CanBeHighlightedThroughScanners: 0
   AssoicatedSpawnedObjects: []
-  HighlightObject: {fileID: 7029668430360334507, guid: bc9d1b1b93ab1b0409cc354d1b3595c3,
-    type: 3}
+  HighlightObject: {fileID: 0}

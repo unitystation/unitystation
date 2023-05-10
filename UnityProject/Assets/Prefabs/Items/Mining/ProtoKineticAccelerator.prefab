@@ -58,6 +58,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4342894697621943514, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: _assetId
+      value: 2170793208
+      objectReference: {fileID: 0}
+    - target: {fileID: 4342894697621943514, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: m_AssetId
       value: ad527ba4de069794796e314f236794f4
       objectReference: {fileID: 0}
@@ -171,6 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f888b335971e08846a5f560ec1eead9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   ammoPrefab: {fileID: 5999901686547831408, guid: bd07fb3945875634685790190ea8decc,
@@ -178,6 +184,22 @@ MonoBehaviour:
   casingPrefabOverride: {fileID: 0}
   allowMagazineRemoval: 1
   ammoType: 18
+  loadMagSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  unloadMagSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   pinPrefab: {fileID: 6004521592186936485, guid: 0c0328cbf94ffe648a0903cfc375ab91,
     type: 3}
   suppressorPrefab: {fileID: 0}
