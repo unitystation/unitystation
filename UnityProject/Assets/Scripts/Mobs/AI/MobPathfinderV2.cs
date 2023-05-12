@@ -48,8 +48,8 @@ namespace Mobs.AI
 			registerTile = GetComponent<RegisterTile>();
 			Rotatable = GetComponent<Rotatable>();
 			mobBase = GetComponent<Mob>();
-			health = mobBase.Health;
-			Movement = mobBase.Possession.playerMove;
+			health = GetComponent<LivingHealthMasterBase>();
+			Movement = GetComponent<MovementSynchronisation>();;
 		}
 
 		public virtual void OnEnable()
