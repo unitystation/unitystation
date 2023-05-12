@@ -48,7 +48,7 @@ namespace HealthV2
 		/// <summary>
 		/// Rate at which periodic damage, such as radiation, should be applied
 		/// </summary>
-		private float tickRate = 1f;
+		[SerializeField] private float tickRate = 1f;
 
 		/// <summary>
 		/// The Register Tile of the living creature

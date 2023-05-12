@@ -192,6 +192,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b6fd9e69eadae4148bbd6a85d785f16a, type: 2}
   - {fileID: 11400000, guid: 3a60d21cb4e18b14ba0387530f2dccd5, type: 2}
   - {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329, type: 2}
+  CanNotBeHealedByExternalHealingPack: 0
   SelfArmor:
     Melee: 0
     Bullet: 0
@@ -226,7 +227,6 @@ MonoBehaviour:
     PressureProtectionInKpa: {x: 30, y: 300}
   SubOrganDamageIncreasePoint: 80
   DamageContributesToOverallHealth: 1
-  DamageEfficiencyMultiplier: 1
   maxHealth: 100
   Severity: 50
 --- !u!114 &2719098251223779414

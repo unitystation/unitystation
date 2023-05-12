@@ -33,6 +33,7 @@ namespace HealthV2.Living.PolymorphicSystems
 		public void AddFreshBlood(ReagentMix bloodPool, float amount)
 		{
 			// Currently only does blood and required reagents, should at nutriments and other common gases
+			if(bloodPool == null || bloodType == null || bloodType.CirculatedReagent == null) return;
 			var bloodToAdd = new ReagentMix(bloodType, amount);
 			bloodToAdd.Add(CirculatedReagent, bloodType.GetSpareGasCapacity(bloodToAdd));
 			bloodPool.Add(bloodToAdd);
