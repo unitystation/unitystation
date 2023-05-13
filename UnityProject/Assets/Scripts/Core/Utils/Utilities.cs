@@ -1,11 +1,23 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
 
 namespace Core.Utils
 {
+
+	public static class Utils
+	{
+		public static T[] FindAll<T>(this T[] items, Predicate<T> predicate) => Array.FindAll<T>(items, predicate);
+		public static T PickRandom<T>(this IEnumerable<T> source)
+		{
+			return source.PickRandom(1).SingleOrDefault();
+		}
+	}
+
+
 
 	public class MindNIPossessingEvent : UnityEvent<Mind, IPlayerPossessable> { }
 
@@ -284,6 +296,9 @@ namespace Core.Utils
 			SetFloatBehaviour  = InSetFloatBehaviour;
 		}
 	}
+
+
+
 }
 
 

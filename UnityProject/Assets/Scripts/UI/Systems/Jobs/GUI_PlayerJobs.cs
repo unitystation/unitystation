@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Castle.Core.Internal;
+using Core.Utils;
 using Messages.Server;
 using ScriptableObjects.Characters;
 
@@ -304,4 +304,6 @@ namespace UI
 			possibleJobs.PickRandom().onClick.Invoke();
 		}
 	}
+
+
 }
