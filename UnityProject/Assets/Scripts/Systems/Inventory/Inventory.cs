@@ -527,6 +527,14 @@ public static class Inventory
 		// item is not currently in inventory, it should be moved into inventory system into
 		// the indicated slot.
 
+		if (pickupable.UniversalObjectPhysics.IsBuckled)
+		{
+			Logger.LogTraceFormat("Attempted to add {0} to inventory but item is buckled to something {1}." +
+			                      " Move will not be performed.", Category.Inventory, pickupable.name, pickupable.UniversalObjectPhysics.BuckledToObject);
+			return false;
+		}
+
+
 		if (pickupable.ItemSlot != null)
 		{
 			Logger.LogTraceFormat("Attempted to add {0} to inventory but item is already in slot {1}." +

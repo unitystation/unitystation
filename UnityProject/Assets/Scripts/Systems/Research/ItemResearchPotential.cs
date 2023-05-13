@@ -1,0 +1,133 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using Initialisation;
+using UnityEngine;
+using Util;
+using Random = UnityEngine.Random;
+
+public class ItemResearchPotential : MonoBehaviour
+{
+
+
+	public PrefabTracker PrefabTracker;
+
+	private static Dictionary<string, ItemResearchPotentialData> ItemResearchRandomisedData = new Dictionary<string, ItemResearchPotentialData>();
+	private static int RoundID = 0;
+
+
+	[SerializeField,Range(0,100)]
+	private int BasePurity = 15;
+
+
+	private int CurrentPurity = 0;
+	public List<TechnologyAndBeams> TechWebDesigns;
+
+
+	public void Awake()
+	{
+		int Round = GameManager.RoundID;
+		if (Round != RoundID)
+		{
+			ItemResearchRandomisedData.Clear();
+			RoundID = Round;
+		}
+
+		LoadManager.RegisterAction(InitialiseData);
+
+	}
+
+
+	public void InitialiseData()
+	{
+		if (ItemResearchRandomisedData.ContainsKey(PrefabTracker.ForeverID) == false)
+		{
+			ItemResearchRandomisedData[PrefabTracker.ForeverID] = GenerateItemResearchPotentialData();
+		}
+
+		ApplyItemResearchPotentialData(ItemResearchRandomisedData[PrefabTracker.ForeverID]);
+	}
+
+	public ItemResearchPotentialData GenerateItemResearchPotentialData()
+	{
+		int Techs = 1;
+
+		var toReturn = new ItemResearchPotentialData();
+		toReturn.TechWebDesigns = new List<TechnologyAndBeams>();
+		System.Random random = new System.Random();
+		if (random.NextDouble() < 0.15)
+		{
+			int min = 25;
+			int max = 75;
+			toReturn.AddedPurity = Random.Range(min, max + 1);
+		}
+		else
+		{
+			int min = -25;
+			int max = 25;
+			toReturn.AddedPurity = Random.Range(min, max + 1);
+		}
+
+		if (BasePurity + toReturn.AddedPurity > 50)
+		{
+			bool randomBool = random.Next(2) == 0;
+			if (randomBool)
+			{
+				Techs++;
+			}
+
+			if (BasePurity + toReturn.AddedPurity > 75)
+			{
+				randomBool = random.Next(2) == 0;
+				if (randomBool)
+				{
+					Techs++;
+				}
+			}
+		}
+		var InNumberOfBeams = (int)Math.Round((BasePurity + toReturn.AddedPurity) / 20f); //100 = 5, 0 = 0
+
+		//DEBUG
+		Techs = 1;
+		InNumberOfBeams = 2;
+		for (int i = 0; i < Techs; i++)
+		{
+			var data = new TechnologyAndBeams();
+			data.Beams = new List<int>();
+
+			for (int j = 0; j < InNumberOfBeams; j++)
+			{
+				if (j == 0)
+				{
+					data.Beams.Add(90);
+				}
+				if (j == 1)
+				{
+					data.Beams.Add(270);
+				}
+				//data.Beams.Add(Random.Range(25, 335 + 1));
+			}
+			toReturn.TechWebDesigns.Add(data);
+		}
+
+		return toReturn;
+	}
+
+	public void ApplyItemResearchPotentialData(ItemResearchPotentialData ItemResearchPotentialData)
+	{
+		CurrentPurity = BasePurity + ItemResearchPotentialData.AddedPurity;
+		TechWebDesigns = ItemResearchPotentialData.TechWebDesigns;
+	}
+}
+
+
+public struct ItemResearchPotentialData
+{
+	public int AddedPurity;
+	public List<TechnologyAndBeams> TechWebDesigns;
+}
+public struct TechnologyAndBeams
+{
+	public string Technology;
+	public List<int> Beams;
+}

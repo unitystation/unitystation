@@ -382,51 +382,75 @@ namespace Objects.Engineering
 			Single
 		}
 
+		public bool ValidState()
+		{
+			if (currentState == ReflectorType.Base) return false;
+
+			if (isWelded == false) return false;
+			return true;
+		}
+
+		public float GetReflect(Vector2 InDirection)
+		{
+			switch (currentState)
+			{
+				//Sends all to rotation direction
+				case ReflectorType.Box:
+					return ReturnBox(InDirection);
+					break;
+				case ReflectorType.Double:
+					return ReturnTryAngleDouble(InDirection);
+					break;
+				case ReflectorType.Single:
+					return ReturnTryAngleSingle(InDirection);
+					break;
+			}
+
+			return float.NaN;
+		}
+
 		public void OnHitDetect(OnHitDetectData data)
 		{
 			//Only reflect lasers
 			if (data.BulletObject.TryGetComponent<Bullet>(out var bullet) == false ||
 			    bullet.MaskData != laserData) return;
 
-			if (currentState == ReflectorType.Base) return;
+			if (ValidState() == false) return;
 
-			if (isWelded == false) return;
-
-			switch (currentState)
-			{
-				//Sends all to rotation direction
-				case ReflectorType.Box:
-					ShootAtDirection(rotation + 90, data);
-					break;
-				case ReflectorType.Double:
-					TryAngleDouble(data);
-					break;
-				case ReflectorType.Single:
-					TryAngleSingle(data);
-					break;
-			}
+			float Angle = GetReflect(data.BulletShootDirection);
+			if (float.IsNaN(Angle)) return;
+			ShootAtDirection(Angle, data);
 		}
 
-		private void TryAngleSingle(OnHitDetectData data)
+
+		public float ReturnBox(Vector2 InDirection)
 		{
-			if (Vector2.Angle(data.BulletShootDirection, VectorExtensions.DegreeToVector2(rotation - 90)) <= 55)
-			{
-				ShootAtDirection(rotation + 90, data);
-			}
+			return rotation + 90;
 		}
 
-		private void TryAngleDouble(OnHitDetectData data)
+		public float ReturnTryAngleSingle(Vector2 InDirection)
 		{
-			if (Vector2.Angle(data.BulletShootDirection, VectorExtensions.DegreeToVector2(rotation - 90)) <= 55)
+			if (Vector2.Angle(InDirection, VectorExtensions.DegreeToVector2(rotation - 90)) <= 55)
 			{
-				ShootAtDirection(rotation + 90, data);
+				return rotation + 90;
 			}
-			else if (Vector2.Angle(data.BulletShootDirection, VectorExtensions.DegreeToVector2(rotation + 180 - 90)) <=
+			return float.NaN;
+		}
+
+		public float ReturnTryAngleDouble(Vector2 InDirection)
+		{
+			if (Vector2.Angle(InDirection, VectorExtensions.DegreeToVector2(rotation - 90)) <= 55)
+			{
+				return rotation + 90;
+			}
+			else if (Vector2.Angle(InDirection, VectorExtensions.DegreeToVector2(rotation + 180 - 90)) <=
 			         55)
 			{
-				ShootAtDirection(rotation + 180 + 90, data);
+				return rotation + 180 + 90;
 			}
+			return float.NaN;
 		}
+
 
 		private void ShootAtDirection(float rotationToShoot, OnHitDetectData data)
 		{

@@ -2110,6 +2110,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	{
 		ObjectIsBuckling = newBuckledTo;
 		BuckleToChange(ObjectIsBuckling);
+		ObjectIsBuckling.AppearAtWorldPositionServer(this.transform.position);
 	}
 
 	#endregion
