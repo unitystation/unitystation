@@ -353,6 +353,17 @@ namespace Objects.Engineering
 				int pos = Array.IndexOf(ReactorRods, null);
 				if (pos > -1)
 				{
+					var engineStarter = Rod as EngineStarter;
+					if (engineStarter != null)
+					{
+						if (ConnectedConsoles.Count == 0)
+						{
+							Chat.AddExamineMsgFromServer(interaction.Performer,
+								" The hole for the starter rod seems to be closed, Seems like you need to hook it up to a console for it to open ");
+							return true;
+						}
+					}
+
 					ReactorRods[pos] = Rod;
 					var EmptySlot = RodStorage.GetIndexedItemSlot(pos);
 					Inventory.ServerTransfer(interaction.HandSlot, EmptySlot);
@@ -363,15 +374,8 @@ namespace Objects.Engineering
 					}
 
 
-
-					var engineStarter = Rod as EngineStarter;
 					if (engineStarter != null)
 					{
-						if (ConnectedConsoles.Count == 0)
-						{
-							Chat.AddExamineMsgFromServer(interaction.Performer, " The hole for the starter rod seems to be closed, Seems like you need to hook it up to a console for it to open " );
-							return true;
-						}
 						ReactorEngineStarters.Add(engineStarter);
 					}
 				}
