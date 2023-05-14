@@ -257,7 +257,7 @@ public class ChatScroll : MonoBehaviour
 		{
 			AddNewChatEntry(new ChatEntryData
 			{
-				Message = $"You: {inputField.text}"
+				Message = $"You: { GameManager.Instance.RoundTime.ToString(@"hh\:mm\:ss") + " - " + inputField.text}"
 			});
 		}
 

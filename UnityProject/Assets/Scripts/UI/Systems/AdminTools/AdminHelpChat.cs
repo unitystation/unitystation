@@ -41,7 +41,7 @@ namespace AdminTools
 			if (chatScroll == null) return;
 			chatScroll.AddNewChatEntry(new ChatEntryData
 			{
-				Message = message
+				Message =  message
 			});
 		}
 
