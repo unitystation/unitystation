@@ -40,6 +40,12 @@ namespace Mobs
 
 		private void MobInit()
 		{
+			GenerateCharacterSheet();
+			Possession.SyncVisibleName("", MobName);
+		}
+
+		private void GenerateCharacterSheet()
+		{
 			var sheet = new CharacterSheet()
 			{
 				Name = MobName,
@@ -48,7 +54,6 @@ namespace Mobs
 			};
 			Possession.characterSettings = sheet;
 			Possession.playerSprites.OnCharacterSettingsChange(sheet);
-			Possession.visibleName = MobName;
 		}
 	}
 }
