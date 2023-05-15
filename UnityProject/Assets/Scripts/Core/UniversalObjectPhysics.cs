@@ -409,6 +409,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	public void SetMovementSpeed(float newMove)
 	{
+		if (isServer == false) return;
 		tileMoveSpeed = newMove;
 	}
 
