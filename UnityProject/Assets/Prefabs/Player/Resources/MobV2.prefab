@@ -120,7 +120,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 8165807964432903219, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+      objectReference: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4494414d24d2f2468e74daa79468631, type: 3}
@@ -136,20 +136,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2713808369754550337}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8954699621631322616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2714936893829969615}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7364d494f07972d4b8277fc2dbf43696, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <MobName>k__BackingField: Nubby
-  <MobPronouns>k__BackingField: 0
 --- !u!114 &8032489187165120434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,3 +164,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mobBase: {fileID: 8954699621631322616}
   TickDelay: 1
+--- !u!114 &8954699621631322616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2714936893829969615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7364d494f07972d4b8277fc2dbf43696, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <MobName>k__BackingField: Nubby
+  <MobPronouns>k__BackingField: 0
