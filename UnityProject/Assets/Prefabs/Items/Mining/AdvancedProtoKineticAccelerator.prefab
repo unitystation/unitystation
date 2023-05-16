@@ -105,18 +105,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4299065660771937395, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cd1532d707dda3d419ded6d88630921b,
+        type: 3}
+    - target: {fileID: 4299065660771937395, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
       propertyPath: m_Color.b
-      value: 0.5188679
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4299065660771937395, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.4831573
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4299065660771937395, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       propertyPath: m_Color.r
-      value: 0.46666667
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
@@ -133,5 +139,11 @@ PrefabInstance:
       propertyPath: foreverID
       value: 3053347191ae5df4d8e2f8395311213f
       objectReference: {fileID: 0}
+    - target: {fileID: 7790862161162773672, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d7f01fed8a3bc58468007f93cc2344d9,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad527ba4de069794796e314f236794f4, type: 3}
