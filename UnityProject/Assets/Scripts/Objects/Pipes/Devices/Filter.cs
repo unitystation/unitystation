@@ -176,30 +176,33 @@ namespace Objects.Atmospherics
 							if (FilteredPressureDensity.x > MaxPressure ||  FilteredPressureDensity.y > MaxPressure)
 							{
 								IntermediateMixAndVolume.TransferSpecifiedTo(pipeData.mixAndVolume,
-									GasIndex, FilterReagent);
+									GasIndex, FilterReagent); //Return FilterReagent Back to the internal pipe from intermediate mix
+
 								if (PressureDensity.x > MaxPressure && PressureDensity.y > MaxPressure)
 								{
-									IntermediateMixAndVolume.TransferTo(pipeData.mixAndVolume, IntermediateMixAndVolume.Total);
+									IntermediateMixAndVolume.TransferTo(pipeData.mixAndVolume, IntermediateMixAndVolume.Total); //Transfer all Intermediate back into internal pipe
 								}
 								else
 								{
-									IntermediateMixAndVolume.TransferTo(UnfilteredConnection.Connected.GetMixAndVolume, IntermediateMixAndVolume.Total);
+									IntermediateMixAndVolume.TransferTo(UnfilteredConnection.Connected.GetMixAndVolume, IntermediateMixAndVolume.Total); //Output to the unfiltered area ( Everything except the filtered reagent )
 								}
 
 								return;
 							}
 
+
+							IntermediateMixAndVolume.TransferSpecifiedTo(FilteredConnection.Connected.GetMixAndVolume,
+								GasIndex, FilterReagent);  //Transfer filtered gas into filtered output
+
 							if (PressureDensity.x > MaxPressure && PressureDensity.y > MaxPressure)
 							{
-								IntermediateMixAndVolume.TransferSpecifiedTo(FilteredConnection.Connected.GetMixAndVolume,
-									GasIndex, FilterReagent);
-								IntermediateMixAndVolume.TransferTo(pipeData.mixAndVolume, IntermediateMixAndVolume.Total);
+								IntermediateMixAndVolume.TransferTo(pipeData.mixAndVolume, IntermediateMixAndVolume.Total);  //Transfer gas into pipe itself Returning it into the pipe it came from
 								return;
 							}
-							IntermediateMixAndVolume.TransferSpecifiedTo(FilteredConnection.Connected.GetMixAndVolume,
-								GasIndex, FilterReagent);
-
-							IntermediateMixAndVolume.TransferTo(UnfilteredConnection.Connected.GetMixAndVolume, IntermediateMixAndVolume.Total);
+							else
+							{
+								IntermediateMixAndVolume.TransferTo(UnfilteredConnection.Connected.GetMixAndVolume, IntermediateMixAndVolume.Total); //Output to the unfiltered area ( Everything except the filtered reagent )
+							}
 						}
 					}
 				}

@@ -177,6 +177,7 @@ public class Highlight : MonoBehaviour, IInitialise
 
 			foreach (var T in SpriteRenderers)
 			{
+				if (T.sortingLayerName == "Preview") continue;
 				RecursiveTextureStack(mainTex, T);
 			}
 
