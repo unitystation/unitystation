@@ -5,6 +5,10 @@ using UnityEngine;
 public class LaserLine : MonoBehaviour
 {
 
+	//TODO Check objects for updates, move, Reflect angle change
+
+	//TODO https://www.youtube.com/watch?v=DwGcKFMxrmI
+
 	public void SetUpLine(GameObject Origin, GameObject Target , Vector3 WorldTarget, TechnologyAndBeams TechnologyAndBeams)
 	{
 		if (Target != null)

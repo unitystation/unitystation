@@ -18,7 +18,7 @@ namespace Objects.Engineering
 		[SerializeField] private ReflectorType startingState = ReflectorType.Base;
 		private ReflectorType currentState = ReflectorType.Base;
 
-		[SerializeField] private float startingAngle = 0;
+		[SerializeField, Range(0f, 360f)] private float startingAngle = 0;
 
 		[SerializeField] private bool startSetUp;
 
@@ -69,7 +69,7 @@ namespace Objects.Engineering
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			currentState = startingState;
 			spriteHandler.ChangeSprite((int) startingState);
-			rotation = -startingAngle;
+			rotation = startingAngle;
 			transform.localEulerAngles = new Vector3(0, 0, rotation);
 			spriteTransform.localEulerAngles = Vector3.zero;
 		}
@@ -80,7 +80,7 @@ namespace Objects.Engineering
 			if (CustomNetworkManager.IsServer == false) return;
 
 			ChangeState(startingState);
-			rotation = -startingAngle;
+			rotation = startingAngle;
 			transform.localEulerAngles = new Vector3(0, 0, rotation);
 			spriteTransform.localEulerAngles = Vector3.zero;
 
@@ -259,6 +259,15 @@ namespace Objects.Engineering
 				rotation -= 5;
 			}
 
+			if (rotation >= 360)
+			{
+				rotation -= 360;
+			}
+			else if (rotation < 0)
+			{
+				rotation += 360;
+			}
+
 			Chat.AddExamineMsgFromServer(interaction.Performer, $"You rotate the reflector to {rotation - 90} degrees");
 		}
 
@@ -423,31 +432,92 @@ namespace Objects.Engineering
 		}
 
 
+		private float ConvertToWorldRotation(float Local)
+		{
+			if (Local >= 360)
+			{
+				Local -= 360;
+			}
+			else if (Local < 0)
+			{
+				Local += 360;
+			}
+
+			var ModifiedAngle = Local;
+
+			if (registerTile.Matrix.MatrixMove != null)
+			{
+				ModifiedAngle = registerTile.Matrix.MatrixMove.CurrentState.FacingDirection.AsEnum().Rotate360By(ModifiedAngle);
+			}
+
+			// If the final angle is greater than or equal to 360 or less than 0, wrap it around.
+			if (ModifiedAngle >= 360)
+			{
+				ModifiedAngle -= 360;
+			}
+			else if (ModifiedAngle < 0)
+			{
+				ModifiedAngle += 360;
+			}
+			return ModifiedAngle;
+		}
+
 		public float ReturnBox(Vector2 InDirection)
 		{
-			return rotation + 90;
+			return ConvertToWorldRotation(rotation) + 90;
 		}
+
+
 
 		public float ReturnTryAngleSingle(Vector2 InDirection)
 		{
-			if (Vector2.Angle(InDirection, VectorExtensions.DegreeToVector2(rotation - 90)) <= 55)
+			var incoming = InDirection.VectorToAngle360();
+
+			var WorldRotation = ConvertToWorldRotation(rotation - 90);
+
+			if (Vector2.Angle(InDirection,  VectorExtensions.DegreeToVector2(WorldRotation)) <= 85f)
 			{
-				return rotation + 90;
+				float reflectedAngle = (2 * ConvertToWorldRotation(rotation)) - incoming;
+				return reflectedAngle;
 			}
+
+			// if (Vector2.Angle(InDirection, VectorExtensions.DegreeToVector2(rotation - 90)) <= 55)
+			// {
+				// return rotation + 90;
+			// }
 			return float.NaN;
 		}
 
 		public float ReturnTryAngleDouble(Vector2 InDirection)
 		{
-			if (Vector2.Angle(InDirection, VectorExtensions.DegreeToVector2(rotation - 90)) <= 55)
+
+			var incoming = InDirection.VectorToAngle360();
+
+			var WorldRotation = ConvertToWorldRotation(rotation - 90);
+
+			if (Vector2.Angle(InDirection,  VectorExtensions.DegreeToVector2(WorldRotation)) <= 85f)
 			{
-				return rotation + 90;
+				float reflectedAngle = (2 * ConvertToWorldRotation(rotation)) - incoming;
+				return reflectedAngle;
 			}
-			else if (Vector2.Angle(InDirection, VectorExtensions.DegreeToVector2(rotation + 180 - 90)) <=
-			         55)
+
+			WorldRotation = ConvertToWorldRotation(rotation + 180 - 90);
+
+			if (Vector2.Angle(InDirection,  VectorExtensions.DegreeToVector2(WorldRotation)) <= 85f)
 			{
-				return rotation + 180 + 90;
+				float reflectedAngle = (2 * ConvertToWorldRotation(rotation + 180)) - incoming;
+				return reflectedAngle;
 			}
+
+			// if (Vector2.Angle(InDirection, VectorExtensions.DegreeToVector2(rotation - 90)) <= 55)
+			// {
+				// return rotation + 90;
+			// }
+			// else if (Vector2.Angle(InDirection, VectorExtensions.DegreeToVector2(rotation + 180 - 90)) <=
+			         // 55)
+			// {
+				// return rotation + 180 + 90;
+			// }
 			return float.NaN;
 		}
 
