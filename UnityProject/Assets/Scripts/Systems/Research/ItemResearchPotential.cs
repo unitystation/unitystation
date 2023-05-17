@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Initialisation;
+using Systems.Research.Data;
 using UnityEngine;
 using Util;
 using Random = UnityEngine.Random;
@@ -88,7 +89,7 @@ public class ItemResearchPotential : MonoBehaviour
 		var InNumberOfBeams = (int)Math.Round((BasePurity + toReturn.AddedPurity) / 20f); //100 = 5, 0 = 0
 
 		//DEBUG
-		Techs = 1;
+		Techs = 2;
 		InNumberOfBeams = 2;
 		for (int i = 0; i < Techs; i++)
 		{
@@ -97,15 +98,15 @@ public class ItemResearchPotential : MonoBehaviour
 
 			for (int j = 0; j < InNumberOfBeams; j++)
 			{
-				if (j == 0)
-				{
-					data.Beams.Add(90);
-				}
-				if (j == 1)
-				{
-					data.Beams.Add(270);
-				}
-				//data.Beams.Add(Random.Range(25, 335 + 1));
+				// if (j == 0)
+				// {
+					// data.Beams.Add(90);
+				// }
+				// if (j == 1)
+				// {
+					// data.Beams.Add(270);
+				// }
+				data.Beams.Add(Random.Range(25, 335 + 1));
 			}
 			toReturn.TechWebDesigns.Add(data);
 		}
@@ -126,8 +127,10 @@ public struct ItemResearchPotentialData
 	public int AddedPurity;
 	public List<TechnologyAndBeams> TechWebDesigns;
 }
-public struct TechnologyAndBeams
+public class TechnologyAndBeams
 {
-	public string Technology;
+	public Technology Technology;
 	public List<int> Beams;
+	public Color Colour = Color.white;
+
 }

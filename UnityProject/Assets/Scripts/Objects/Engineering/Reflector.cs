@@ -30,6 +30,8 @@ namespace Objects.Engineering
 		private ObjectAttributes objectAttributes;
 		private Integrity integrity;
 
+		public event Action AngleChange;
+
 		[SerializeField] private int glassNeeded = 5;
 		[SerializeField] private int reinforcedGlassNeeded = 10;
 		[SerializeField] private int diamondsNeeded = 1;
@@ -69,7 +71,7 @@ namespace Objects.Engineering
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			currentState = startingState;
 			spriteHandler.ChangeSprite((int) startingState);
-			rotation = startingAngle;
+			SyncRotation(rotation, startingAngle);
 			transform.localEulerAngles = new Vector3(0, 0, rotation);
 			spriteTransform.localEulerAngles = Vector3.zero;
 		}
@@ -80,7 +82,7 @@ namespace Objects.Engineering
 			if (CustomNetworkManager.IsServer == false) return;
 
 			ChangeState(startingState);
-			rotation = startingAngle;
+			SyncRotation(rotation, startingAngle);
 			transform.localEulerAngles = new Vector3(0, 0, rotation);
 			spriteTransform.localEulerAngles = Vector3.zero;
 
@@ -96,6 +98,7 @@ namespace Objects.Engineering
 			rotation = newVar;
 			transform.localEulerAngles = new Vector3(0, 0, rotation);
 			spriteTransform.localEulerAngles = Vector3.zero;
+			AngleChange?.Invoke();
 		}
 
 		private void OnEnable()
@@ -106,6 +109,11 @@ namespace Objects.Engineering
 		private void OnDisable()
 		{
 			integrity.OnWillDestroyServer.RemoveListener(OnDestruction);
+		}
+
+		private void OnDestroy()
+		{
+			AngleChange = null;
 		}
 
 		#endregion
@@ -250,24 +258,27 @@ namespace Objects.Engineering
 				return;
 			}
 
+
+			float NewRotate = 0;
 			if (interaction.IsAltClick)
 			{
-				rotation += 5;
+				NewRotate = rotation + 5;
 			}
 			else
 			{
-				rotation -= 5;
+				NewRotate = rotation - 5;
 			}
 
-			if (rotation >= 360)
+			if (NewRotate >= 360)
 			{
-				rotation -= 360;
+				NewRotate -= 360;
 			}
-			else if (rotation < 0)
+			else if (NewRotate < 0)
 			{
 				rotation += 360;
 			}
 
+			SyncRotation(rotation, NewRotate);
 			Chat.AddExamineMsgFromServer(interaction.Performer, $"You rotate the reflector to {rotation - 90} degrees");
 		}
 
@@ -532,7 +543,7 @@ namespace Objects.Engineering
 			}
 
 			ProjectileManager.InstantiateAndShoot(data.BulletObject.GetComponent<Bullet>().PrefabName,
-				VectorExtensions.DegreeToVector2(rotationToShoot), gameObject, null, BodyPartType.None, range);
+				VectorExtensions.DegreeToVector2(rotationToShoot), gameObject, null, BodyPartType.None, range, data.HitWorldPosition);
 		}
 	}
 }

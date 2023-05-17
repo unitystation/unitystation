@@ -176,6 +176,17 @@ public static class ConverterExtensions
 	}
 
 
+	public static Color ToColour(this string SerialiseData)
+	{
+		Color TheColour = Color.white;
+		string[] rgbaValues = SerialiseData.Split(',');
+		TheColour.r = (int.Parse(rgbaValues[0]) / 255f) ;
+		TheColour.g = (int.Parse(rgbaValues[1]) / 255f) ;
+		TheColour.b = (int.Parse(rgbaValues[2]) / 255f) ;
+		TheColour.a = (int.Parse(rgbaValues[3]) / 255f) ;
+		return TheColour;
+	}
+
 
 	public static Color UncompresseToColour(this string SerialiseData)
 	{

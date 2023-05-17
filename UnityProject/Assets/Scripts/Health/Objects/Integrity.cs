@@ -38,6 +38,12 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	[NonSerialized]
 	public DestructionEvent OnWillDestroyServer = new DestructionEvent();
 
+
+	/// <summary>
+	/// Works on client and server , triggered when onDestroyed is called
+	/// </summary>
+	public event Action BeingDestroyed;
+
 	/// <summary>
 	/// Server-side event invoked when ApplyDamage is called
 	/// and Integrity is about to apply damage.
@@ -435,6 +441,12 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	public void OnDespawnServer(DespawnInfo info)
 	{
 		OnServerDespawnEvent?.Invoke();
+	}
+
+	private void OnDestroy()
+	{
+		BeingDestroyed?.Invoke();
+		BeingDestroyed = null;
 	}
 }
 

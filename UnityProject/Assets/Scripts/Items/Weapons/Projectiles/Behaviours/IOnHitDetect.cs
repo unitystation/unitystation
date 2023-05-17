@@ -34,15 +34,17 @@ namespace Weapons.Projectiles.Behaviours
 		public Vector2 BulletShootDirection;
 		public Vector2 BulletShootNormal;
 		public GameObject BulletObject;
+		public Vector3 HitWorldPosition;
 
 		public OnHitDetectData(DamageData data, string bulletName, Vector2 bulletShootDirection, Vector2 bulletShootNormal,
-			GameObject bulletObject)
+			GameObject bulletObject, Vector3 _HitWorldPosition)
 		{
 			DamageData = data;
 			BulletName = bulletName;
 			BulletShootDirection = bulletShootDirection;
 			BulletShootNormal = bulletShootNormal;
 			BulletObject = bulletObject;
+			HitWorldPosition = _HitWorldPosition;
 		}
 	}
 }

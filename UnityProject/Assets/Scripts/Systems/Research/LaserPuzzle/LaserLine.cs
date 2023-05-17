@@ -1,37 +1,103 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Objects.Engineering;
 using UnityEngine;
 
 public class LaserLine : MonoBehaviour
 {
 
-	//TODO Check objects for updates, move, Reflect angle change
+	private GameObject TOrigin;
+	private Reflector TOriginReflector;
+	private Integrity TOriginIntegrity;
+	private UniversalObjectPhysics TOriginUniversalObjectPhysics;
 
-	//TODO https://www.youtube.com/watch?v=DwGcKFMxrmI
 
-	public void SetUpLine(GameObject Origin, GameObject Target , Vector3 WorldTarget, TechnologyAndBeams TechnologyAndBeams)
+
+	private GameObject TTarget;
+	private Reflector TTargetReflector;
+	private Integrity TTargetIntegrity;
+	private UniversalObjectPhysics TTargetUniversalObjectPhysics;
+
+
+	public LaserProjection RelatedLaserProjection;
+
+
+	public SpriteRenderer Sprite;
+
+
+	private void HookInto()
 	{
-		if (Target != null)
+		if (TOrigin != null)
+		{
+			TOriginReflector  = TOrigin.GetComponent<Reflector>();
+			if (TOriginReflector != null)
+			{
+				TOriginReflector.AngleChange += DestroyLine;
+			}
+
+			TOriginIntegrity = TOrigin.GetComponent<Integrity>();
+			TOriginIntegrity.BeingDestroyed += DestroyLine;
+
+			TOriginUniversalObjectPhysics = TOrigin.GetComponent<UniversalObjectPhysics>();
+			TOriginUniversalObjectPhysics.OnLocalTileReached.AddListener(DestroyLine2);
+
+		}
+
+		if (TTarget != null)
+		{
+			TTargetReflector  = TTarget.GetComponent<Reflector>();
+			if (TTargetReflector != null)
+			{
+				TTargetReflector.AngleChange += DestroyLine;
+			}
+
+			TTargetIntegrity = TTarget.GetComponent<Integrity>();
+			if (TTargetIntegrity != null)
+			{
+				TTargetIntegrity.BeingDestroyed += DestroyLine;
+			}
+
+
+			TTargetUniversalObjectPhysics = TTarget.GetComponent<UniversalObjectPhysics>();
+			TTargetUniversalObjectPhysics.OnLocalTileReached.AddListener(DestroyLine2);
+
+		}
+	}
+
+
+	public void SetUpLine(GameObject Origin,  Vector3? OriginTarget, GameObject Target , Vector3? WorldTarget, TechnologyAndBeams TechnologyAndBeams, LaserProjection _RelatedLaserProjection)
+	{
+		TTarget = Target;
+		TOrigin = Origin;
+
+		RelatedLaserProjection = _RelatedLaserProjection;
+		Sprite.color = TechnologyAndBeams.Colour;
+		HookInto();
+		if (WorldTarget == null)
 		{
 			WorldTarget = Target.transform.position;
 		}
 
-		PositionLaserBody(Origin, WorldTarget);
+		if (OriginTarget == null)
+		{
+			OriginTarget = Origin.transform.position;
+		}
 
-
+		PositionLaserBody(OriginTarget.Value, WorldTarget.Value);
 	}
 
-	public void PositionLaserBody(GameObject Origin, Vector3 WorldTarget )
+	public void PositionLaserBody(Vector3 OriginTarget, Vector3 WorldTarget )
 	{
 		Transform wireBodyRectTransform = this.GetComponent<Transform>();
 
-		Vector2 dif = (WorldTarget - Origin.transform.position);
+		Vector2 dif = (WorldTarget - OriginTarget);
 
 		Vector2 norm = dif.normalized;
 		float dist = dif.magnitude;
 		float angle = -Vector2.SignedAngle(norm, Vector2.up);
 
-		Vector2 wireOrigin = dist * 0.5f * norm + (Vector2) Origin.transform.position;
+		Vector2 wireOrigin = dist * 0.5f * norm + (Vector2) OriginTarget;
 
 
 		Vector2 oldSize = gameObject.transform.localScale;
@@ -49,4 +115,42 @@ public class LaserLine : MonoBehaviour
 		wireBodyRectTransform.transform.eulerAngles = rotation;
 	}
 
+	public void DestroyLine2(Vector3Int move, Vector3Int move2)
+	{
+		DestroyLine();
+	}
+
+	public void DestroyLine()
+	{
+		RelatedLaserProjection.CleanupAndDestroy(true);
+	}
+
+	public void OnDestroy()
+	{
+		if (TOrigin != null)
+		{
+			if (TOriginReflector != null)
+			{
+				TOriginReflector.AngleChange -= DestroyLine;
+			}
+
+			TOriginIntegrity.BeingDestroyed -= DestroyLine;
+			TOriginUniversalObjectPhysics.OnLocalTileReached.RemoveListener(DestroyLine2);
+		}
+
+		if (TTarget != null)
+		{
+			if (TTargetReflector != null)
+			{
+				TTargetReflector.AngleChange -= DestroyLine;
+			}
+
+			if (TTargetIntegrity != null)
+			{
+				TTargetIntegrity.BeingDestroyed -= DestroyLine;
+			}
+
+			TTargetUniversalObjectPhysics.OnLocalTileReached.RemoveListener(DestroyLine2);
+		}
+	}
 }

@@ -13,9 +13,20 @@ public class LaserProjection : MonoBehaviour
 	public List<LaserLine> LaserLines = new List<LaserLine>();
 
 
-	public void Initialise(GameObject Source, ItemPlinth Target, ResearchLaserProjector ResearchLaserProjector )
-	{
+	public ResearchLaserProjector ResearchLaserProjector;
 
+	private bool Destroyed = false;
+
+	//TODO https://www.youtube.com/watch?v=DwGcKFMxrmI
+	//TODO Technology stuff Colour  And picking
+	//collector Single face#
+	//button to toggle and stuff
+
+	//Actual laser
+
+	public void Initialise(GameObject Source, ItemPlinth Target, ResearchLaserProjector _ResearchLaserProjector )
+	{
+		ResearchLaserProjector = _ResearchLaserProjector;
 		var hits = MatrixManager.Linecast(Source.transform.position, ProjectionLayerTypeSelection, LayerMask,
 			Target.transform.position);
 
@@ -26,7 +37,7 @@ public class LaserProjection : MonoBehaviour
 		}
 
 		var line = Instantiate(LaserLinePrefab, this.transform);
-		line.SetUpLine(Source, Target.gameObject,Target.transform.position, new TechnologyAndBeams() );
+		line.SetUpLine(Source, Source.transform.position  ,Target.gameObject,Target.transform.position, new TechnologyAndBeams(), this );
 		LaserLines.Add(line);
 
 
@@ -41,8 +52,22 @@ public class LaserProjection : MonoBehaviour
 
 		//TODO Initialise technologies on ItemResearchPotential
 
+
+
 		foreach (var Design in ItemResearchPotential.TechWebDesigns)
 		{
+			if (Design.Technology == null)
+			{
+				Design.Technology = ResearchLaserProjector.Server.Techweb.nodes.PickRandom().technology;
+				Design.Colour = Design.Technology.Colour;
+			}
+		}
+
+		Target.gameObject.GetComponent<Collider2D>().enabled = false;
+
+		foreach (var Design in ItemResearchPotential.TechWebDesigns)
+		{
+
 			foreach (var Beam in Design.Beams)
 			{
 
@@ -65,27 +90,32 @@ public class LaserProjection : MonoBehaviour
 
 				//Angle stuff
 				//Spawn new stuff and go down line
-
-				TraverseLaser(VectorExtensions.DegreeToVector2(finalAngle), Target.gameObject, Design);
+				var Angle = VectorExtensions.DegreeToVector2(finalAngle);
+				TraverseLaser(Angle, Target.gameObject, Design, 0, Target.gameObject.transform.position );
 			}
 		}
-
+		Target.gameObject.GetComponent<Collider2D>().enabled = true;
 	}
 
-	public void TraverseLaser(Vector2 WorldDirection, GameObject Origin, TechnologyAndBeams TechnologyAndBeams, int Bounces = 0)
+	public void TraverseLaser(Vector2 WorldDirection, GameObject Origin, TechnologyAndBeams TechnologyAndBeams, int Bounces = 0, Vector3? OriginPosition = null)
 	{
+		if (OriginPosition == null)
+		{
+			OriginPosition = Origin.transform.position;
+		}
+
 		if (Bounces > 5)
 		{
 			return;
 		}
 
-		var hit = MatrixManager.RayCast(Origin.transform.position + WorldDirection.To3(), WorldDirection, 15,ProjectionLayerTypeSelection, LayerMask);
+		var hit = MatrixManager.RayCast(OriginPosition.Value, WorldDirection, 15,ProjectionLayerTypeSelection, LayerMask);
 
 		if (hit.ItHit == false)
 		{
-			var World = Origin.transform.position + (Vector3) (WorldDirection.normalized * 15);
+			var World = OriginPosition.Value + (Vector3) (WorldDirection.normalized * 15);
 			var line = Instantiate(LaserLinePrefab, this.transform);
-			line.SetUpLine(Origin, null,World, TechnologyAndBeams );
+			line.SetUpLine(Origin, OriginPosition ,null,World, TechnologyAndBeams,this );
 			LaserLines.Add(line);
 
 			return;
@@ -95,7 +125,7 @@ public class LaserProjection : MonoBehaviour
 			if (hit.CollisionHit.GameObject != null)
 			{
 				var line = Instantiate(LaserLinePrefab, this.transform);
-				line.SetUpLine(Origin,  hit.CollisionHit.GameObject, hit.CollisionHit.GameObject.transform.position, TechnologyAndBeams );
+				line.SetUpLine(Origin,  OriginPosition,hit.CollisionHit.GameObject, hit.HitWorld, TechnologyAndBeams, this );
 				LaserLines.Add(line);
 
 				var Reflector = hit.CollisionHit.GameObject.GetComponent<Reflector>();
@@ -109,7 +139,7 @@ public class LaserProjection : MonoBehaviour
 
 					if (float.IsNaN(NewDirection)) return;
 
-					TraverseLaser(	VectorExtensions.DegreeToVector2(NewDirection), Reflector.gameObject, TechnologyAndBeams, Bounces);
+					TraverseLaser(	VectorExtensions.DegreeToVector2(NewDirection), Reflector.gameObject, TechnologyAndBeams, Bounces, hit.HitWorld);
 
 					return;
 				}
@@ -125,14 +155,29 @@ public class LaserProjection : MonoBehaviour
 			{
 
 				var line = Instantiate(LaserLinePrefab, this.transform);
-				line.SetUpLine(Origin, null,hit.HitWorld, TechnologyAndBeams );
+				line.SetUpLine(Origin,  OriginPosition ,null,hit.HitWorld, TechnologyAndBeams, this );
 				LaserLines.Add(line);
 
 				return;
 			}
 		}
+	}
 
+	public void CleanupAndDestroy(bool Reshoot = false)
+	{
+		if (Destroyed) return;
+		Destroyed = true;
 
+		foreach (var Line in LaserLines)
+		{
+			Destroy(Line.gameObject);
+		}
+		Destroy(this.gameObject);
+
+		if (Reshoot && ResearchLaserProjector != null)
+		{
+			ResearchLaserProjector.TriggerLaser();
+		}
 
 	}
 
