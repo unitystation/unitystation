@@ -2,9 +2,15 @@ namespace Mobs.AI.States
 {
 	public class IdleThink : MobState
 	{
-		public override void OnEnterState(MobAI master) { }
+		public override void OnEnterState(MobAI master)
+		{
+			// No Behavior Required
+		}
 
-		public override void OnExitState(MobAI master) { }
+		public override void OnExitState(MobAI master)
+		{
+			// No Behavior Required
+		}
 
 		public override void OnUpdateTick(MobAI master)
 		{

@@ -14,9 +14,15 @@ namespace Mobs.AI.States
 			new Vector3Int(0, -1, 0),
 		};
 
-		public override void OnEnterState(MobAI master) { }
+		public override void OnEnterState(MobAI master)
+		{
+			// No Behavior Required
+		}
 
-		public override void OnExitState(MobAI master) { }
+		public override void OnExitState(MobAI master)
+		{
+			// No Behavior Required
+		}
 
 		public override void OnUpdateTick(MobAI master)
 		{
