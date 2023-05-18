@@ -45,6 +45,7 @@ namespace HealthV2
 		/// </summary>
 		public int mobID { get; private set; }
 
+		// TODO: Add a way to change tickRates based on specific conditions such as players controlling specific mobs that require the tickrate to change to a different value
 		/// <summary>
 		/// Rate at which periodic damage, such as radiation, should be applied
 		/// </summary>
