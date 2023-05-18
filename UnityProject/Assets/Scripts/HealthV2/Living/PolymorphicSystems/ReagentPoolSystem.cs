@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Chemistry;
 using Items.Implants.Organs;
@@ -33,10 +34,20 @@ namespace HealthV2.Living.PolymorphicSystems
 		public void AddFreshBlood(ReagentMix bloodPool, float amount)
 		{
 			// Currently only does blood and required reagents, should at nutriments and other common gases
-			if(bloodPool == null || bloodType == null || bloodType.CirculatedReagent == null) return;
-			var bloodToAdd = new ReagentMix(bloodType, amount);
-			bloodToAdd.Add(CirculatedReagent, bloodType.GetSpareGasCapacity(bloodToAdd));
-			bloodPool.Add(bloodToAdd);
+			if (bloodPool == null || bloodType == null || bloodType.CirculatedReagent == null)
+			{
+				Logger.LogError("[ReagentPoolSystem/AddFreshBlood] - Missing data detected. Make sure you're not spawning a bodyPart without its proper systems defined.");
+			}
+			try
+			{
+				var bloodToAdd = new ReagentMix(bloodType, amount);
+				bloodToAdd.Add(CirculatedReagent, bloodType.GetSpareGasCapacity(bloodToAdd));
+				bloodPool?.Add(bloodToAdd);
+			}
+			catch (Exception e)
+			{
+				Logger.LogError(e.ToString());
+			}
 		}
 		public override void StartFresh()
 		{
