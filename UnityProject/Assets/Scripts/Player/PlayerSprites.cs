@@ -452,7 +452,7 @@ namespace Player
 
 				if (RaceBodyparts == null)
 				{
-					Logger.LogError($"Failed to find race for {gameObject.ExpensiveName()} with race: {characterSettings.Species}");
+					return;
 				}
 
 				livingHealthMasterBase.InitialiseFromRaceData(RaceBodyparts);

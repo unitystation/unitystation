@@ -273,7 +273,7 @@ public class CharacterSheet : ICloneable
 			x.name == Species && (onlyCharacterCurator == false || x.Base.CanShowUpInTheCharacterCreatorScreen));
 		if (ToReturn == null)
 		{
-			return  RaceSOSingleton.Instance.Races.FirstOrDefault(x => x.name == "Human");
+			return  null;
 		}
 		return ToReturn;
 	}
