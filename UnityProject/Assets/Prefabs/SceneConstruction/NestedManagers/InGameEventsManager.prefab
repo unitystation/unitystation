@@ -1770,11 +1770,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238710bf5371ddd49ad9ac4d929a4114, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerEventInterval: 1200
+  triggerEventInterval: 600
   chanceItIsFake: 20
   scoreForSpawningEvents: 25
   RandomEventsAllowed: 1
-  minPlayersForRandomEventsToHappen: 5
+  minPlayersForRandomEventsToHappen: 2
   EnumListCache: []
 --- !u!114 &3416911991172850115
 MonoBehaviour:

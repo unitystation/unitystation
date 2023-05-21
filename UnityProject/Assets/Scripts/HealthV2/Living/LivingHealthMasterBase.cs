@@ -1060,6 +1060,7 @@ namespace HealthV2
 		private void CheckHeartStatus()
 		{
 			bool hasAllHeartAttack = true;
+			if (BodyPartList.Count == 0) hasAllHeartAttack = false;
 			foreach (var Implant in BodyPartList)
 			{
 				foreach (var organ in Implant.OrganList)
