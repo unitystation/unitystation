@@ -32,6 +32,7 @@ namespace Items.Others
 		[SerializeField] private SpriteDataSO spriteFused;
 		[SerializeField] private ItemTrait miningScanner;
 		[SerializeField] private ItemTrait pickaxe;
+		[SerializeField] private List<ItemTrait> itemTraitsToIgnoreOnExplosion = new List<ItemTrait>();
 		private bool willExpload = false;
 
 
@@ -103,7 +104,7 @@ namespace Items.Others
 		{
 			var pos = gameObject.AssumedWorldPosServer().CutToInt();
 			_ = Despawn.ServerSingle(gameObject);
-			Explosion.StartExplosion(pos, explosionStrength);
+			Explosion.StartExplosion(pos, explosionStrength, damageIgnoreAttributes: itemTraitsToIgnoreOnExplosion);
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
