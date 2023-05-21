@@ -9,6 +9,7 @@ using Light2D;
 using Effects.Overlays;
 using HealthV2;
 using Messages.Server;
+using Mobs;
 using Newtonsoft.Json;
 using UI.CharacterCreator;
 using UnityEngine.Serialization;
@@ -432,34 +433,33 @@ namespace Player
 
 		public void OnCharacterSettingsChange(CharacterSheet characterSettings)
 		{
-			if (RootBodyPartsLoaded == false)
+			if (RootBodyPartsLoaded) return;
+			RootBodyPartsLoaded = true;
+			var overrideSheet = string.IsNullOrEmpty(RaceOverride) == false;
+			if (characterSettings == null || overrideSheet)
 			{
-				RootBodyPartsLoaded = true;
-				var overrideSheet = string.IsNullOrEmpty(RaceOverride) == false;
-				if (characterSettings == null || overrideSheet)
-				{
-					characterSettings = new CharacterSheet();
-				}
-
-				if (overrideSheet)
-				{
-					characterSettings.Species = RaceOverride;
-				}
-
-				ThisCharacter = characterSettings;
-				bool notCustomSpecies = string.IsNullOrEmpty(RaceOverride);
-				RaceBodyparts = characterSettings.GetRaceSo(notCustomSpecies);
-
-				if (RaceBodyparts == null)
-				{
-					return;
-				}
-
-				livingHealthMasterBase.InitialiseFromRaceData(RaceBodyparts);
-				livingHealthMasterBase.SetUpCharacter(RaceBodyparts);
-				SetupSprites();
-				livingHealthMasterBase.StartFresh();
+				characterSettings = new CharacterSheet();
 			}
+
+			if (overrideSheet)
+			{
+				characterSettings.Species = RaceOverride;
+			}
+
+			ThisCharacter = characterSettings;
+			bool notCustomSpecies = string.IsNullOrEmpty(RaceOverride);
+			RaceBodyparts = gameObject.TryGetComponent<Mob>(out var mob) ?
+			characterSettings.GetRaceSoNoValidation() : characterSettings.GetRaceSo(notCustomSpecies);
+
+			if (RaceBodyparts == null)
+			{
+				Logger.LogError($"Failed to find race for {gameObject.ExpensiveName()} with race: {characterSettings.Species}");
+			}
+
+			livingHealthMasterBase.InitialiseFromRaceData(RaceBodyparts);
+			livingHealthMasterBase.SetUpCharacter(RaceBodyparts);
+			SetupSprites();
+			livingHealthMasterBase.StartFresh();
 		}
 
 		public void NotifyPlayer(NetworkConnection recipient, bool clothItems = false)

@@ -278,6 +278,17 @@ public class CharacterSheet : ICloneable
 		return ToReturn;
 	}
 
+	public PlayerHealthData GetRaceSoNoValidation()
+	{
+		var toReturn = RaceSOSingleton.Instance.Races.FirstOrDefault(x => x.name == Species);
+		if (toReturn == null)
+		{
+			Logger.LogError("[GetRaceSONoValidation] No race found for " + Species);
+			return  RaceSOSingleton.Instance.Races.FirstOrDefault(x => x.name == "Human");
+		}
+		return toReturn;
+	}
+
 	public object Clone()
 	{
 		string json = JsonConvert.SerializeObject(this);

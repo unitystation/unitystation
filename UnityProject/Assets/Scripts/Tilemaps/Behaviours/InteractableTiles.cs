@@ -279,7 +279,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 			// TODO: Check how many cables we have first. Only open the cable
 			//       cutting window when the number of cables exceeds 2.
 			if (underFloorTile is ElectricalCableTile &&
-			    Validations.HasItemTrait(PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject,
+			    Validations.HasItemTrait(PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot()?.ItemObject,
 				    CommonTraits.Instance.Wirecutter))
 			{
 				// open cable cutting ui window instead of cutting cable
