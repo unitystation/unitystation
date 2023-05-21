@@ -161,6 +161,10 @@ namespace DatabaseAPI
 				status.CurrentMap = SubSceneManager.ServerChosenMainStation;
 			}
 
+			status.Passworded = string.IsNullOrEmpty(config.ConnectionPassword) == false;
+            status.RoundTime = GameManager.Instance.RoundTimeInMinutes.ToString();
+            status.PlayerCountMax = GameManager.Instance.PlayerLimit;
+
 			status.GameMode = GameManager.Instance.GetGameModeName();
 			status.IngameTime = GameManager.Instance.roundTimer.text;
 			if (PlayerList.Instance != null)
@@ -215,13 +219,16 @@ namespace DatabaseAPI
 	[Serializable]
 	public class ServerStatus
 	{
+		public bool Passworded;
 		public string ServerName;
 		public string ForkName;
 		public int BuildVersion;
 		public string CurrentMap;
 		public string GameMode;
 		public string IngameTime;
+		public string RoundTime;
 		public int PlayerCount;
+		public int PlayerCountMax;
 		public string ServerIP;
 		public int ServerPort;
 		public string WinDownload;

@@ -887,9 +887,7 @@ namespace UI.CharacterCreator
 
 		public void RandomNameBtn()
 		{
-			currentCharacter.Name = currentCharacter.Species == "Lizard"
-				? StringManager.GetRandomLizardName(currentCharacter.GetGender())
-				: StringManager.GetRandomName(currentCharacter.GetGender());
+			currentCharacter.Name = StringManager.GetRandomName(currentCharacter.GetGender(), currentCharacter.Species);
 			RefreshName();
 		}
 

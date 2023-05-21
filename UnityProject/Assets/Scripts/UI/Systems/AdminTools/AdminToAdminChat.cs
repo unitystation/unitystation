@@ -49,7 +49,7 @@ namespace AdminTools
 			var entry = new AdminChatMessage
 			{
 				fromUserid = userId,
-				Message = message
+				Message = GameManager.Instance.RoundTime.ToString(@"hh\:mm\:ss") + " - " + message
 			};
 
 			serverAdminChatLogs.Add(entry);

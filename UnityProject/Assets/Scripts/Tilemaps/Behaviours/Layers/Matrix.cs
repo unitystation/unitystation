@@ -539,6 +539,32 @@ public class Matrix : MonoBehaviour
 		return (0);
 	}
 
+	/// <summary>
+	/// Retrieves the world position from an object's highest root.
+	/// Helpful when checking for positions in a moving container.
+	/// </summary>
+	/// <param name="physics">the object's physics.</param>
+	/// <returns>The local position the object is on. Will return Vector3Int.ZERO if there's no RegisterTile assigned.</returns>
+	public static Vector3Int GetWorldPositionFromRootObject(UniversalObjectPhysics physics)
+	{
+		if (physics.GetRootObject.RegisterTile() != null) return physics.GetRootObject.RegisterTile().WorldPosition;
+		Logger.LogError("[Matrix/GetLocalPosFromWorldPos] - Could not find RegisterTile.");
+		return Vector3Int.zero;
+	}
+
+	/// <summary>
+	/// Retrieves the local position from an object's highest root.
+	/// Helpful when checking for positions in a moving container.
+	/// </summary>
+	/// <param name="physics">the object's physics.</param>
+	/// <returns>The local position the object is on. Will return Vector3Int.ZERO if there's no RegisterTile assigned.</returns>
+	public static Vector3Int GetLocalPositionFromRootObject(UniversalObjectPhysics physics)
+	{
+		if (physics.GetRootObject.RegisterTile() != null) return physics.GetRootObject.RegisterTile().LocalPosition;
+		Logger.LogError("[Matrix/GetLocalPosFromWorldPos] - Could not find RegisterTile.");
+		return Vector3Int.zero;
+	}
+
 	public float GetRadiationLevel(Vector2Int localPosition)
 	{
 		return (GetRadiationLevel(new Vector3Int(localPosition.x, localPosition.y, 0)));

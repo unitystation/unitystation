@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: AdvancedPKA
+  m_EditorClassIdentifier: 
+  category: 0
+  craftingTime: 28
+  recipeName: Advanced PKA
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: A reguler ol PKA powered by explosive Gibtonites.
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 170274586052777823, guid: 3d90b276e8ed61b42bdc9753e70799ee,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 4467086071194833421, guid: c84a09f09199afb48b0d8a0c5c2a5bea,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits:
+  - {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
+  result:
+  - {fileID: 3377224843644295863, guid: 3053347191ae5df4d8e2f8395311213f, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 443

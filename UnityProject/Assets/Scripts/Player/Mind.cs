@@ -530,6 +530,12 @@ public class Mind : NetworkBehaviour, IActionGUI
 		foreach (var Lost in Losing)
 		{
 			PlayerSpawn.TransferOwnershipFromToConnection(ControlledBy, Lost, null);
+
+			var PlayerPositionable = Lost.GetComponent<IPlayerPossessable>();
+			if (PlayerPositionable != null)
+			{
+				PlayerPositionable.InternalOnLosePossess();
+			}
 		}
 
 		foreach (var Gained in Gaining)

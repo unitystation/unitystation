@@ -40,6 +40,9 @@ namespace HealthV2
 	public abstract class LivingHealthMasterBase : NetworkBehaviour, IFireExposable, IExaminable, IFullyHealable, IGib,
 		IAreaReactionBase, IRightClickable, IServerSpawn, IHoverTooltip, IChargeable
 	{
+
+		public bool DoesNotRequireBrain = false;
+
 		/// <summary>
 		/// Server side, each mob has a different one and never it never changes
 		/// </summary>
@@ -1001,16 +1004,20 @@ namespace HealthV2
 				currentHealth -= implant.TotalDamageWithoutOxyCloneRadStam;
 			}
 
-			if (brain == null || brain.RelatedPart.Health < -100 || brain.RelatedPart.TotalModified == 0)
+			if (DoesNotRequireBrain == false)
 			{
-				currentHealth -= 200;
-				healthStateController.SetOverallHealth(currentHealth);
-				CheckHeartStatus();
-				return;
-			}
-			else
-			{
-				currentHealth -= brain.RelatedPart.Oxy;
+				if (brain == null || brain.RelatedPart.Health < -100 || brain.RelatedPart.TotalModified == 0)
+				{
+					currentHealth -= 200;
+					healthStateController.SetOverallHealth(currentHealth);
+					CheckHeartStatus();
+					return;
+				}
+				else
+				{
+
+					currentHealth -= brain.RelatedPart.Oxy;
+				}
 			}
 
 
@@ -1059,6 +1066,7 @@ namespace HealthV2
 		private void CheckHeartStatus()
 		{
 			bool hasAllHeartAttack = true;
+			if (BodyPartList.Count == 0) hasAllHeartAttack = false;
 			foreach (var Implant in BodyPartList)
 			{
 				foreach (var organ in Implant.OrganList)

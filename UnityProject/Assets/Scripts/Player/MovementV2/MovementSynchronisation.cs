@@ -22,6 +22,8 @@ using UnityEngine.Events;
 public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, IActionGUI, ICooldown,
 	IBumpableObject, ICheckedInteractable<ContextMenuApply>
 {
+	public bool HardcodedSpeed = false;
+
 	public PlayerScript playerScript;
 
 	public List<MoveData> MoveQueue = new List<MoveData>();
@@ -394,6 +396,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public void UpdateSpeeds()
 	{
+		if (HardcodedSpeed)
+		{
+			UpdateMovementSpeed();
+			return;
+		}
+
 		float newRunSpeed = 0;
 		float newWalkSpeed = 0;
 		float newCrawlSpeed = 0;

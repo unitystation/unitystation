@@ -298,8 +298,8 @@ namespace Player
 				}
 			}
 
-			infectedSpriteHandler.PushTexture(); //This is needed because  RegisterHandler in ServerCreateSprite Is busted and doesn't make sprites
-			infectedSpriteHandler.PushClear();
+			infectedSpriteHandler.OrNull()?.PushTexture(); //This is needed because  RegisterHandler in ServerCreateSprite Is busted and doesn't make sprites
+			infectedSpriteHandler.OrNull()?.PushClear();
 
 			GetComponent<RootBodyPartController>().PlayerSpritesData = JsonConvert.SerializeObject(ToClient);
 
@@ -452,7 +452,7 @@ namespace Player
 
 				if (RaceBodyparts == null)
 				{
-					Logger.LogError($"Failed to find race for {gameObject.ExpensiveName()} with race: {characterSettings.Species}");
+					return;
 				}
 
 				livingHealthMasterBase.InitialiseFromRaceData(RaceBodyparts);

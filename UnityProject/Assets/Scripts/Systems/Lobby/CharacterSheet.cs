@@ -273,7 +273,7 @@ public class CharacterSheet : ICloneable
 			x.name == Species && (onlyCharacterCurator == false || x.Base.CanShowUpInTheCharacterCreatorScreen));
 		if (ToReturn == null)
 		{
-			return  RaceSOSingleton.Instance.Races.FirstOrDefault(x => x.name == "Human");
+			return  null;
 		}
 		return ToReturn;
 	}
@@ -307,9 +307,7 @@ public class CharacterSheet : ICloneable
 
 		character.Age = Random.Range(19, 84); // TODO should be a race characteristic, literally 1984
 		character.SkinTone = GetRandomSkinTone(race);
-		character.Name = character.Species == "Lizard"
-				? StringManager.GetRandomLizardName()
-				: StringManager.GetRandomName(); // TODO do moths and what-not not have random names? Should be race characteristic
+		character.Name = StringManager.GetRandomName(character.GetGender(), character.Species);
 		character.Speech = DMMath.Prob(35) ? character.Speech.PickRandom() : Speech.None;
 		character.PlayerPronoun = character.PlayerPronoun.PickRandom();
 		character.ClothingStyle = character.ClothingStyle.PickRandom();

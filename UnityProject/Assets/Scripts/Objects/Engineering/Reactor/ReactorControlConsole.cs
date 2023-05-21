@@ -3,6 +3,7 @@ using System.Text;
 using Communications;
 using InGameEvents;
 using Objects.Machines.ServerMachines.Communications;
+using System.Collections.Generic;
 using Shared.Systems.ObjectConnection;
 using Systems.Communications;
 using Systems.Electricity;
@@ -43,6 +44,11 @@ namespace Objects.Engineering.Reactor
 #if UNITY_EDITOR
 			chatAnnouncementCheckTime = 2f;
 #endif
+		}
+
+		private void Awake()
+		{
+			AddToReactorChambers();
 		}
 
 		public void SuchControllRodDepth(float requestedDepth)
@@ -103,12 +109,42 @@ namespace Objects.Engineering.Reactor
 		}
 		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
 		{
-			SetMaster(master);
+			ReactorChambers = master is ReactorGraphiteChamber reactor ? reactor : null;
 		}
 
 		private void SetMaster(IMultitoolMasterable master)
 		{
+
+			RemoveToReactorChambers();
 			ReactorChambers = master is ReactorGraphiteChamber reactor ? reactor : null;
+			AddToReactorChambers();
+		}
+
+		private void AddToReactorChambers()
+		{
+			if (ReactorChambers != null)
+			{
+				if (ReactorChambers.ConnectedConsoles.Contains(this) == false)
+				{
+					ReactorChambers.ConnectedConsoles.Add(this);
+				}
+			}
+		}
+
+		private void RemoveToReactorChambers()
+		{
+			if (ReactorChambers != null)
+			{
+				if (ReactorChambers.ConnectedConsoles.Contains(this))
+				{
+					ReactorChambers.ConnectedConsoles.Remove(this);
+				}
+			}
+		}
+
+		public void OnDestroy()
+		{
+			RemoveToReactorChambers();
 		}
 
 		#endregion

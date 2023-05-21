@@ -820,4 +820,25 @@ public static class SweetExtensions
 
 		return "Its";
 	}
+
+	/// <summary>
+	/// returns a list of children of that are under a gameObject.
+	/// </summary>
+	public static List<GameObject> GetAllChildren(this GameObject gameObject)
+	{
+		return (from Transform child in gameObject.transform select child.gameObject).ToList();
+	}
+
+	/// <summary>
+	/// Destroys all children that are under a gameObject. Only use this for client-side objects or UI elements.
+	/// Use the despawn class when dealing with networked objects.
+	/// </summary>
+	public static void DestroyAllChildren(this GameObject gameObject)
+	{
+		foreach (var child in GetAllChildren(gameObject))
+		{
+			// Do not use DestroyImmediate() as that will modify the collection before the end of the frame.
+			UnityEngine.Object.Destroy(child);
+		}
+	}
 }

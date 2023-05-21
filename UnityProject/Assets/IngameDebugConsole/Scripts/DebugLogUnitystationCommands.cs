@@ -103,8 +103,13 @@ namespace IngameDebugConsole
 		[ConsoleMethod("suicide", "kill yo' self")]
 		public static void RunSuicide()
 		{
+			if (PlayerManager.LocalMindScript == null || PlayerManager.LocalMindScript.IsGhosting)
+			{
+				Logger.LogError("You cannot kill yourself as a ghost!");
+				return;
+			}
 			bool playerSpawned = (PlayerManager.LocalPlayerObject != null);
-			if (!playerSpawned)
+			if (playerSpawned == false)
 			{
 				Logger.Log("Cannot commit suicide. Player has not spawned.", Category.DebugConsole);
 

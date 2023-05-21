@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Core.Utils;
 using Messages.Server;
 using ScriptableObjects.Characters;
 
@@ -59,7 +60,6 @@ namespace UI
 		[Tooltip("Number of seconds to wait after selecting a job. If the player does not spawn within that time the job selection re-opens.")]
 		private float waitForSpawnTimerMax = 6;
 
-		public OccupationList EmergancyOccupationList;
 		[SerializeField] private RoundJoinAttributes attributesJoinList;
 		[SerializeField] private Toggle expirementalJobsTestToggle;
 		[SerializeField] private Transform expiermentalWarning;
@@ -149,6 +149,7 @@ namespace UI
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			expirementalJobsTestToggle.isOn = false;
+			footer.DestroyAllChildren();
 		}
 
 		/// <summary>
@@ -274,12 +275,15 @@ namespace UI
 		/// </summary>
 		public void SetFooter()
 		{
-			GameObject occupationGO = Instantiate(buttonPrefab, footer.transform);
-			occupationGO.GetComponent<Image>().color = Color.white;
-			occupationGO.GetComponentInChildren<TextMeshProUGUI>().text = "Spectate";
-			occupationGO.transform.localScale = new Vector3(1.0f, 1f, 1.0f);
-			occupationGO.GetComponent<Button>().onClick.AddListener(() => { PlayerManager.LocalViewerScript.Spectate(); });
+			var occupationGo = Instantiate(buttonPrefab, footer.transform);
+			occupationGo.GetComponent<Image>().color = Color.white;
+			occupationGo.GetComponentInChildren<TextMeshProUGUI>().text = "Spectate";
+			occupationGo.GetComponent<Button>().onClick.AddListener(() => { PlayerManager.LocalViewerScript.Spectate(); });
 
+			var occupationRandom = Instantiate(buttonPrefab, footer.transform);
+			occupationRandom.GetComponent<Image>().color = Color.gray;
+			occupationRandom.GetComponentInChildren<TextMeshProUGUI>().text = "Random";
+			occupationRandom.GetComponent<Button>().onClick.AddListener(RandomJob);
 		}
 
 		public void ToggleExpierementalStuff()
@@ -288,5 +292,18 @@ namespace UI
 			jobInfo.gameObject.SetActive(expirementalJobsTestToggle.isOn == false);
 			expiermentalWarning.SetActive(expirementalJobsTestToggle.isOn);
 		}
+
+		private void RandomJob()
+		{
+			var possibleJobs = screen_Jobs.transform.GetComponentsInChildren<Button>().FindAll(x => x.interactable);
+			if (possibleJobs.Length == 0)
+			{
+				ModalPanelManager.Instance.Inform("No jobs available.");
+				return;
+			}
+			possibleJobs.PickRandom().onClick.Invoke();
+		}
 	}
+
+
 }

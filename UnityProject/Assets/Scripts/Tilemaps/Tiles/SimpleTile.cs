@@ -14,11 +14,10 @@ namespace Tiles
 
 		public bool CanBeHighlightedThroughScanners = false;
 
-		[HideInInspector] public List<GameObject> AssoicatedSpawnedObjects;
+		[NonSerialized] public List<GameObject> AssoicatedSpawnedObjects = new List<GameObject>();
 
 		[ShowIf(nameof(CanBeHighlightedThroughScanners))]
 		public GameObject HighlightObject;
-
 
 		private void OnDestroy()
 		{
