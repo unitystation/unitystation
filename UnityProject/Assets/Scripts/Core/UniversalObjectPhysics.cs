@@ -1958,6 +1958,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			return;
 		}
 
+		if (pullable is MovementSynchronisation c) c.playerScript.RegisterPlayer.LayDownBehavior.EnsureCorrectState();
+
 		if (Pulling.HasComponent)
 		{
 			//Just stopping pulling of object if we try pulling it again
@@ -1990,8 +1992,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.ThudSwoosh, pullable.transform.position,
 			sourceObj: pullableObject);
 
-		if (pullable is MovementSynchronisation c) c.playerScript.RegisterPlayer.LayDownBehavior.EnsureCorrectState();
-		
 		//TODO Update the UI
 	}
 
