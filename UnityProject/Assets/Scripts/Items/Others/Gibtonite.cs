@@ -57,21 +57,24 @@ namespace Items.Others
 				case GibState.ACTIVE:
 					spritehandler.SetSpriteSO(spriteActive);
 					StopFuse();
+					Chat.AddLocalMsgToChat("The gibtonite turns into its active state.", gameObject);
 					break;
 				case GibState.INACTIVE:
 					spritehandler.SetSpriteSO(spriteInActive);
 					StopFuse();
+					Chat.AddLocalMsgToChat("The gibtonite is no longer a threat, for now.", gameObject);
 					break;
 				case GibState.FUSED:
 					spritehandler.SetSpriteSO(spriteFused);
 					_ = Fuse();
+					Chat.AddLocalMsgToChat("<color=red>The gibtonite hisses!</color>", gameObject);
 					break;
 			}
 		}
 
 		private void OnDamageTaken(DamageInfo damageInfo)
 		{
-			if ( damageInfo.Damage == 0 ) return;
+			if ( damageInfo.Damage <= 0 ) return;
 			if ( damageInfo.DamageType == DamageType.Radiation ) return;
 			switch (state)
 			{
