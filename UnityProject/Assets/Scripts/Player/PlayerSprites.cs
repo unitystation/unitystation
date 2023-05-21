@@ -449,7 +449,7 @@ namespace Player
 			ThisCharacter = characterSettings;
 			bool notCustomSpecies = string.IsNullOrEmpty(RaceOverride);
 			RaceBodyparts = gameObject.TryGetComponent<Mob>(out var mob) ?
-				characterSettings.GetRaceSoNoValidation() : characterSettings.GetRaceSo(notCustomSpecies);
+			characterSettings.GetRaceSoNoValidation() : characterSettings.GetRaceSo(notCustomSpecies);
 
 			if (RaceBodyparts == null)
 			{
