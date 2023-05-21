@@ -138,7 +138,7 @@ namespace Items.Command
 			}
 			else
 			{
-				Chat.AddExamineMsg(pick.ItemSlot.Player.PlayerScript.gameObject,
+				Chat.AddExamineMsg(gameObject,
 					"The range-activated bluespace retrieval system triggers, whisking away the Nuclear Authentication Disk!");
 			}
 
