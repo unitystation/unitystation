@@ -176,7 +176,8 @@ namespace Objects.Science
 			foreach (UniversalObjectPhysics player in Matrix.Get<UniversalObjectPhysics>(registerTileLocation, ObjectType.Player, true))
 			{
 				Chat.AddExamineMsgFromServer(player.gameObject, message);
-				SoundManager.PlayNetworkedForPlayer(player.gameObject, CommonSounds.Instance.StealthOff); //very weird, sometimes does the sound other times not.
+				SoundManager.PlayNetworkedForPlayer(connectedPad.gameObject, CommonSounds.Instance.StealthOff);
+				SoundManager.PlayNetworkedForPlayer(gameObject, CommonSounds.Instance.StealthOff);
 				TransportUtility.TransportObjectAndPulled(player, travelCoord, true, maintRoomChanceModifier);
 				somethingTeleported = true;
 

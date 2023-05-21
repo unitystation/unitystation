@@ -565,9 +565,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			}
 
 			if (this is not MovementSynchronisation c) return;
-			transform.localRotation = c.playerScript.RegisterPlayer.IsLayingDown
-				? Quaternion.Euler(0, 0, -90)
-				: Quaternion.Euler(0, 0, 0);
+			c.playerScript.RegisterPlayer.LayDownBehavior.EnsureCorrectState();
 		}
 		else
 		{
@@ -1991,6 +1989,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		PullSet(pullable, true);
 		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.ThudSwoosh, pullable.transform.position,
 			sourceObj: pullableObject);
+
+		if (pullable is MovementSynchronisation c) c.playerScript.RegisterPlayer.LayDownBehavior.EnsureCorrectState();
+		
 		//TODO Update the UI
 	}
 
