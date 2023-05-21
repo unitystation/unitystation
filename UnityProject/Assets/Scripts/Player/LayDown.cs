@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using HealthV2;
+using Mirror;
 using Player.Movement;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ namespace Player
 	public class LayDown : NetworkBehaviour
 	{
 		[SerializeField] private Transform sprites;
+		[SerializeField] private LivingHealthMasterBase health;
 		[SerializeField] private Rotatable playerDirectional;
 		[SerializeField] private PlayerScript playerScript;
 		[SerializeField] private Util.NetworkedLeanTween networkedLean;
@@ -20,6 +22,7 @@ namespace Player
 		{
 			playerScript ??= GetComponent<PlayerScript>();
 			playerDirectional ??= GetComponent<Rotatable>();
+			health ??= GetComponent<LivingHealthMasterBase>();
 		}
 
 		private void OnEnable()
@@ -40,13 +43,12 @@ namespace Player
 
 		public void EnsureCorrectState()
 		{
-			if (IsLayingDown) { LayingDownLogic(true); }
-			else { UpLogic(true); }
+			if (IsLayingDown || health.IsDead) { LayingDownLogic(true); } else { UpLogic(true); }
 		}
 
 		public void OnLayDown(bool oldValue, bool newValue)
 		{
-			if (newValue)
+			if (newValue || health.IsDead)
 			{
 				LayingDownLogic();
 			}
@@ -65,8 +67,8 @@ namespace Player
 				spriteRenderer.sortingLayerName = "Bodies";
 			}
 			playerScript.PlayerSync.CurrentMovementType  = MovementType.Crawling;
-			if(CustomNetworkManager.IsServer) playerDirectional.LockDirectionTo(true, playerDirectional.CurrentDirection);
-			if(CustomNetworkManager.IsServer) playerScript.OnLayDown?.Invoke();
+			if (CustomNetworkManager.IsServer) playerDirectional.LockDirectionTo(true, playerDirectional.CurrentDirection);
+			if (CustomNetworkManager.IsServer) playerScript.OnLayDown?.Invoke();
 		}
 
 		private void UpLogic(bool forceState = false)
