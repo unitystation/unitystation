@@ -43,7 +43,7 @@ namespace Core.Lighting
 		{
 			if (sprite == null)
 			{
-				spriteRenderer.sprite = noHighlightSpriteObj.GetComponentInChildren<SpriteRenderer>().sprite;
+				spriteRenderer.sprite = noHighlightSpriteObj.GetComponentInChildren<SpriteRenderer>()?.sprite;
 				return;
 			}
 			spriteRenderer.sprite = sprite;
