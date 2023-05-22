@@ -111,7 +111,7 @@ namespace Systems.Explosions
 						.NewtonianPush(AngleAndIntensity.Rotate90(),
 							9,  1,3 ,
 							BodyPartType.Chest,integrity.gameObject, 15);
-					if (IgnoreAttributes != null && traits.GetTraits().Any(x => IgnoreAttributes.Contains(x))) continue;
+					if (IgnoreAttributes != null && traits.HasAnyTrait(IgnoreAttributes)) continue;
 				}
 
 				//And do damage to objects
