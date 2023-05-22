@@ -43,7 +43,14 @@ namespace Player
 
 		public void EnsureCorrectState()
 		{
-			if (IsLayingDown || health.IsDead) { LayingDownLogic(true); } else { UpLogic(true); }
+			if (IsLayingDown || health.IsDead)
+			{
+				LayingDownLogic(true);
+			}
+			else
+			{
+				UpLogic(true);
+			}
 		}
 
 		public void OnLayDown(bool oldValue, bool newValue)
@@ -67,8 +74,10 @@ namespace Player
 				spriteRenderer.sortingLayerName = "Bodies";
 			}
 			playerScript.PlayerSync.CurrentMovementType  = MovementType.Crawling;
-			if (CustomNetworkManager.IsServer) playerDirectional.LockDirectionTo(true, playerDirectional.CurrentDirection);
-			if (CustomNetworkManager.IsServer) playerScript.OnLayDown?.Invoke();
+			if (CustomNetworkManager.IsServer == false) return;
+			playerDirectional.LockDirectionTo(true, playerDirectional.CurrentDirection);
+			playerScript.OnLayDown?.Invoke();
+
 		}
 
 		private void UpLogic(bool forceState = false)
@@ -78,8 +87,9 @@ namespace Player
 			{
 				spriteRenderer.sortingLayerName = "Players";
 			}
-			if (CustomNetworkManager.IsServer) playerDirectional.LockDirectionTo(false, playerDirectional.CurrentDirection);
-			if (CustomNetworkManager.IsServer) playerScript.PlayerSync.CurrentMovementType = MovementType.Running;
+			if (CustomNetworkManager.IsServer == false) return;
+			playerDirectional.LockDirectionTo(false, playerDirectional.CurrentDirection);
+			playerScript.PlayerSync.CurrentMovementType = MovementType.Running;
 		}
 
 		private void HandleGetupAnimation(bool getUp)
