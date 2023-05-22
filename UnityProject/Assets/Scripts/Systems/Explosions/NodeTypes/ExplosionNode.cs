@@ -1,13 +1,11 @@
 ﻿using System.Threading.Tasks;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Light2D;
 using HealthV2;
 using Systems.Pipes;
 using Items;
-using Items.Others;
-using Systems.Electricity;
 using TileManagement;
 using AddressableReferences;
 
@@ -23,6 +21,8 @@ namespace Systems.Explosions
 		public Vector2 AngleAndIntensity;
 
 		public List<PipeNode> SavedPipes = new List<PipeNode>();
+
+		public List<ItemTrait> IgnoreAttributes = new List<ItemTrait>();
 
 		public virtual string EffectName
 		{
@@ -105,9 +105,13 @@ namespace Systems.Explosions
 			foreach (var integrity in matrix.Get<Integrity>(v3int, true))
 			{
 				//Throw items
-				if (integrity.GetComponent<ItemAttributesV2>() != null)
+				if (integrity.TryGetComponent<ItemAttributesV2>(out var traits))
 				{
-					integrity.GetComponent<UniversalObjectPhysics>().NewtonianPush(AngleAndIntensity.Rotate90(), 9,  1,3 ,  BodyPartType.Chest,integrity.gameObject, 15);
+					integrity.GetComponent<UniversalObjectPhysics>()?
+						.NewtonianPush(AngleAndIntensity.Rotate90(),
+							9,  1,3 ,
+							BodyPartType.Chest,integrity.gameObject, 15);
+					if (IgnoreAttributes != null && traits.HasAnyTrait(IgnoreAttributes)) continue;
 				}
 
 				//And do damage to objects

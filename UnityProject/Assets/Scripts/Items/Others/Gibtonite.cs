@@ -32,6 +32,7 @@ namespace Items.Others
 		[SerializeField] private SpriteDataSO spriteFused;
 		[SerializeField] private ItemTrait miningScanner;
 		[SerializeField] private ItemTrait pickaxe;
+		[SerializeField] private List<ItemTrait> itemTraitsToIgnoreOnExplosion = new List<ItemTrait>();
 		private bool willExpload = false;
 
 
@@ -56,21 +57,24 @@ namespace Items.Others
 				case GibState.ACTIVE:
 					spritehandler.SetSpriteSO(spriteActive);
 					StopFuse();
+					Chat.AddLocalMsgToChat("The gibtonite turns into its active state.", gameObject);
 					break;
 				case GibState.INACTIVE:
 					spritehandler.SetSpriteSO(spriteInActive);
 					StopFuse();
+					Chat.AddLocalMsgToChat("The gibtonite is no longer a threat, for now.", gameObject);
 					break;
 				case GibState.FUSED:
 					spritehandler.SetSpriteSO(spriteFused);
 					_ = Fuse();
+					Chat.AddLocalMsgToChat("<color=red>The gibtonite hisses!</color>", gameObject);
 					break;
 			}
 		}
 
 		private void OnDamageTaken(DamageInfo damageInfo)
 		{
-			if ( damageInfo.Damage == 0 ) return;
+			if ( damageInfo.Damage <= 0 ) return;
 			if ( damageInfo.DamageType == DamageType.Radiation ) return;
 			switch (state)
 			{
@@ -103,7 +107,7 @@ namespace Items.Others
 		{
 			var pos = gameObject.AssumedWorldPosServer().CutToInt();
 			_ = Despawn.ServerSingle(gameObject);
-			Explosion.StartExplosion(pos, explosionStrength);
+			Explosion.StartExplosion(pos, explosionStrength, damageIgnoreAttributes: itemTraitsToIgnoreOnExplosion);
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
