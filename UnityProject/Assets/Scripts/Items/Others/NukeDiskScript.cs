@@ -129,6 +129,19 @@ namespace Items.Command
 				position = new Vector3(Random.Range(bound.xMin, bound.xMax), Random.Range(bound.yMin, bound.yMax), 0);
 			}
 
+			if (pick.ItemSlot?.Player is not null)
+			{
+				Chat.AddExamineMsg(pick.ItemSlot.Player.PlayerScript.gameObject, "You feel a sudden tingling sensation in your pocket, " +
+				                             "and as you reach inside, you realize that the Nuclear Authentication Disk " +
+				                             "has vanished into thin air. The unmistakable hum of bluespace technology echoes in your ears, " +
+				                             "indicating that it has been teleported away to an unknown location");
+			}
+			else
+			{
+				Chat.AddExamineMsg(gameObject,
+					"The range-activated bluespace retrieval system triggers, whisking away the Nuclear Authentication Disk!");
+			}
+
 			if (pick?.ItemSlot != null)
 			{
 				Inventory.ServerDrop(pick.ItemSlot);
