@@ -67,17 +67,20 @@ namespace Systems.Research
 		public bool ResearchTechology(Technology technologyToResearch, bool updateUI = true)
 		{
 			if(researchPoints < technologyToResearch.ResearchCosts) return false;
-
-			ResearchedTech.Add(technologyToResearch);
-			researchedTechIDs.Add(technologyToResearch.ID);
+			UnlockTechnology(technologyToResearch, updateUI);
 			researchPoints -= technologyToResearch.ResearchCosts;
 
+			return true;
+		}
+
+		public void UnlockTechnology(Technology technologyToResearch, bool updateUI = true)
+		{
+			ResearchedTech.Add(technologyToResearch);
+			researchedTechIDs.Add(technologyToResearch.ID);
 			UpdateTechnologyLists();
 			UpdateAvailableDesigns();
-
 			if(updateUI) UIupdate?.Invoke();
 
-			return true;
 		}
 
 		private void GenerateResearchedIDList()

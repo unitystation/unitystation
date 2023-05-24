@@ -55,7 +55,7 @@ namespace Systems.Research.Objects
 
 				var newTechwebFile = new TechwebFiles();
 				newTechwebFile.Techweb = Techweb;
-				disk.AddDataToStorage(newTechwebFile);		
+				disk.AddDataToStorage(newTechwebFile);
 			}
 			else
 			{
@@ -82,7 +82,7 @@ namespace Systems.Research.Objects
 			ExplosiveBounties.Clear();
 
 			for(int i = 0; i < bountiesOnStart; i++)
-			{ 
+			{
 				AddRandomExplosiveBounty();
 			}
 
@@ -197,7 +197,14 @@ namespace Systems.Research.Objects
 		/// <returns></returns>
 		public int AddResearchPoints(ResearchPointMachine source, int points)
 		{
+
+
 			string sourcename = source.GetType().Name;
+			if (PointTotalSourceList.ContainsKey(sourcename) == false)
+			{
+				PointTotalSourceList[sourcename] = 0;
+			}
+
 			Techweb.AddResearchPoints(points);
 			PointTotalSourceList[sourcename] += points;
 			return points;
@@ -220,7 +227,7 @@ namespace Systems.Research.Objects
 		private MultitoolConnectionType conType = MultitoolConnectionType.ResearchServer;
 		public MultitoolConnectionType ConType => conType;
 
-		public bool MultiMaster => true;
+		public bool MultiMaster => false;
 		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		#endregion
@@ -253,7 +260,7 @@ namespace Systems.Research.Objects
 				}
 			}
 
-			return bounty;		
+			return bounty;
 		}
 
 		/// <summary>

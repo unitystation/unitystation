@@ -38,6 +38,24 @@ namespace Weapons.Projectiles
 			return InstantiateAndShoot(Spawn.GetPrefabByName(projectile), finalDirection, shooter, fromWeapon,
 				targetZone, Rangeoverride, ShootWorldPosition);
 		}
+
+		public static GameObject CloneAndShoot(OnHitDetectData data, string projectile, Vector2 finalDirection, GameObject shooter,
+			Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest, float Rangeoverride = -1f,
+			Vector3? ShootWorldPosition = null)
+		{
+			var  Newprojectile = InstantiateAndShoot(Spawn.GetPrefabByName(projectile), finalDirection, shooter, fromWeapon,
+			targetZone, Rangeoverride, ShootWorldPosition);
+
+			var ToCopys = data.BulletObject.GetComponents<ICloneble>();
+
+			foreach (var ToCopy in ToCopys)
+			{
+				ToCopy.CloneTo(Newprojectile);
+			}
+
+			return Newprojectile;
+		}
+
 	}
 }
 

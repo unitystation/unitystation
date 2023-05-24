@@ -40,6 +40,19 @@ public static class VectorExtensions
 		return RadianToVector2(degree * Mathf.Deg2Rad);
 	}
 
+	public static Vector2 RotateVectorBy(this Vector2 vector, Vector2 rotation)
+	{
+		Quaternion rotationQuat = Quaternion.Euler(0f, 0f, Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg);
+		Vector2 rotatedVector = rotationQuat * vector;
+		return rotatedVector;
+	}
+
+	public static Vector2 RotateVectorBy(this Vector2Int vector, Vector2 rotation)
+	{
+		var InVector2 = (vector.To2());
+		return InVector2.RotateVectorBy(rotation);
+	}
+
 	public static Vector2 Rotate(this Vector2 v, float degrees) {
 		float sin = Mathf.Sin(degrees * Mathf.Deg2Rad);
 		float cos = Mathf.Cos(degrees * Mathf.Deg2Rad);

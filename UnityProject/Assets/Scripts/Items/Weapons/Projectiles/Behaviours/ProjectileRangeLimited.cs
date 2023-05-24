@@ -5,7 +5,7 @@ namespace Weapons.Projectiles.Behaviours
 	/// <summary>
 	/// Limits projectiles travel distance
 	/// </summary>
-	public class ProjectileRangeLimited : MonoBehaviour, IOnMove
+	public class ProjectileRangeLimited : MonoBehaviour, IOnMove, ICloneble
 	{
 		[Tooltip("How many tiles it will travel.")]
 		[SerializeField] private float maxDistance = 15;
@@ -17,6 +17,12 @@ namespace Weapons.Projectiles.Behaviours
 		{
 			return AddDistance(traveledDistance.magnitude);
 		}
+
+		public void CloneTo(GameObject InCloneTo)
+		{
+			InCloneTo.GetComponent<ProjectileRangeLimited>().SetDistance(currentDistance);
+		}
+
 
 		private bool AddDistance(float distance)
 		{

@@ -21,7 +21,7 @@ public class ItemResearchPotential : MonoBehaviour
 	private int BasePurity = 15;
 
 
-	private int CurrentPurity = 0;
+  	[NonSerialized] public int CurrentPurity = 0;
 	public List<TechnologyAndBeams> TechWebDesigns;
 
 
@@ -86,11 +86,11 @@ public class ItemResearchPotential : MonoBehaviour
 				}
 			}
 		}
-		var InNumberOfBeams = (int)Math.Round((BasePurity + toReturn.AddedPurity) / 20f); //100 = 5, 0 = 0
+		var InNumberOfBeams = (int)Math.Round((BasePurity + toReturn.AddedPurity + Random.Range(-10,  30)) / 20f); //100 = 5, 0 = 0
 
 		//DEBUG
-		Techs = 2;
-		InNumberOfBeams = 2;
+		//Techs = 2;
+		//InNumberOfBeams = 2;
 		for (int i = 0; i < Techs; i++)
 		{
 			var data = new TechnologyAndBeams();
@@ -98,14 +98,6 @@ public class ItemResearchPotential : MonoBehaviour
 
 			for (int j = 0; j < InNumberOfBeams; j++)
 			{
-				// if (j == 0)
-				// {
-					// data.Beams.Add(90);
-				// }
-				// if (j == 1)
-				// {
-					// data.Beams.Add(270);
-				// }
 				data.Beams.Add(Random.Range(25, 335 + 1));
 			}
 			toReturn.TechWebDesigns.Add(data);

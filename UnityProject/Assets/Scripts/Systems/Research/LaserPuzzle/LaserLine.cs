@@ -12,6 +12,7 @@ public class LaserLine : MonoBehaviour
 	private Integrity TOriginIntegrity;
 	private UniversalObjectPhysics TOriginUniversalObjectPhysics;
 
+	private ItemPlinth TOriginPlinth;
 
 
 	private GameObject TTarget;
@@ -35,6 +36,14 @@ public class LaserLine : MonoBehaviour
 			{
 				TOriginReflector.AngleChange += DestroyLine;
 			}
+
+			TOriginPlinth  = TOrigin.GetComponent<ItemPlinth>();
+			if (TOriginPlinth != null)
+			{
+				TOriginPlinth.OnItemChange += DestroyLine;
+			}
+
+
 
 			TOriginIntegrity = TOrigin.GetComponent<Integrity>();
 			TOriginIntegrity.BeingDestroyed += DestroyLine;
@@ -133,6 +142,12 @@ public class LaserLine : MonoBehaviour
 			{
 				TOriginReflector.AngleChange -= DestroyLine;
 			}
+
+			if (TOriginPlinth != null)
+			{
+				TOriginPlinth.OnItemChange -= DestroyLine;
+			}
+
 
 			TOriginIntegrity.BeingDestroyed -= DestroyLine;
 			TOriginUniversalObjectPhysics.OnLocalTileReached.RemoveListener(DestroyLine2);

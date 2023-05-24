@@ -17,40 +17,32 @@ public class LaserProjection : MonoBehaviour
 
 	private bool Destroyed = false;
 
-	//TODO https://www.youtube.com/watch?v=DwGcKFMxrmI
-	//TODO Technology stuff Colour  And picking
-	//collector Single face#
-	//button to toggle and stuff
 
-	//Actual laser
-
-	public void Initialise(GameObject Source, ItemPlinth Target, ResearchLaserProjector _ResearchLaserProjector )
+	public void Initialise(GameObject Source, Vector2 WorldDirection, ResearchLaserProjector _ResearchLaserProjector )
 	{
 		ResearchLaserProjector = _ResearchLaserProjector;
-		var hits = MatrixManager.Linecast(Source.transform.position, ProjectionLayerTypeSelection, LayerMask,
-			Target.transform.position);
+		var hits = MatrixManager.RayCast(Source.transform.position, WorldDirection, 15,  ProjectionLayerTypeSelection, LayerMask);
 
-		if (hits.ItHit)
-		{
-			//TODO Destroy
-			//return;
-		}
+
+		if (hits.ItHit == false) return;
+
+		if (hits.CollisionHit.GameObject == null) return;
+		var Plinth = hits.CollisionHit.GameObject.GetComponent<ItemPlinth>();
+		if (Plinth == null) return;
 
 		var line = Instantiate(LaserLinePrefab, this.transform);
-		line.SetUpLine(Source, Source.transform.position  ,Target.gameObject,Target.transform.position, new TechnologyAndBeams(), this );
+		line.SetUpLine(Source, Source.transform.position  ,Plinth.gameObject,Plinth.transform.position, new TechnologyAndBeams(), this );
 		LaserLines.Add(line);
 
 
-		if (Target.HasItem == false)
+		if (Plinth.HasItem == false)
 		{
 			//TODO Destroy
 			//return;
 		}
 
 
-		var ItemResearchPotential = Target.DisplayedItem.GetComponent<ItemResearchPotential>();
-
-		//TODO Initialise technologies on ItemResearchPotential
+		var ItemResearchPotential = Plinth.DisplayedItem.GetComponent<ItemResearchPotential>();
 
 
 
@@ -58,12 +50,12 @@ public class LaserProjection : MonoBehaviour
 		{
 			if (Design.Technology == null)
 			{
-				Design.Technology = ResearchLaserProjector.Server.Techweb.nodes.PickRandom().technology;
+				Design.Technology = ResearchLaserProjector.researchServer.Techweb.nodes.PickRandom().technology;
 				Design.Colour = Design.Technology.Colour;
 			}
 		}
 
-		Target.gameObject.GetComponent<Collider2D>().enabled = false;
+		Plinth.gameObject.GetComponent<Collider2D>().enabled = false;
 
 		foreach (var Design in ItemResearchPotential.TechWebDesigns)
 		{
@@ -72,7 +64,7 @@ public class LaserProjection : MonoBehaviour
 			{
 
 				// Calculate the incoming angle using the source and target positions.
-				Vector2 direction = Target.transform.position - Source.transform.position;
+				Vector2 direction = Plinth.transform.position - Source.transform.position;
 				float incomingAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
 				// Add the bending angle to the incoming angle to get the final angle.
@@ -91,10 +83,10 @@ public class LaserProjection : MonoBehaviour
 				//Angle stuff
 				//Spawn new stuff and go down line
 				var Angle = VectorExtensions.DegreeToVector2(finalAngle);
-				TraverseLaser(Angle, Target.gameObject, Design, 0, Target.gameObject.transform.position );
+				TraverseLaser(Angle, Plinth.gameObject, Design, 0, Plinth.gameObject.transform.position );
 			}
 		}
-		Target.gameObject.GetComponent<Collider2D>().enabled = true;
+		Plinth.gameObject.GetComponent<Collider2D>().enabled = true;
 	}
 
 	public void TraverseLaser(Vector2 WorldDirection, GameObject Origin, TechnologyAndBeams TechnologyAndBeams, int Bounces = 0, Vector3? OriginPosition = null)

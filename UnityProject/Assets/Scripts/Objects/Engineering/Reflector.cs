@@ -542,7 +542,7 @@ namespace Objects.Engineering
 				range = rangeLimited.CurrentDistance;
 			}
 
-			ProjectileManager.InstantiateAndShoot(data.BulletObject.GetComponent<Bullet>().PrefabName,
+			ProjectileManager.CloneAndShoot(data, data.BulletObject.GetComponent<Bullet>().PrefabName,
 				VectorExtensions.DegreeToVector2(rotationToShoot), gameObject, null, BodyPartType.None, range, data.HitWorldPosition);
 		}
 	}

@@ -29,6 +29,10 @@ namespace Objects.Engineering
 		[Tooltip("Whether this emitter should start wrenched and welded")]
 		private bool startSetUp;
 
+		[SerializeField, ShowIf(nameof(startSetUp))]
+		[Tooltip("Whether or not it should try shooting straight away")]
+		private bool startOn;
+
 		[SerializeField]
 		[Tooltip("Whether this emitter should always shoot even if no power")]
 		private bool alwaysShoot;
@@ -41,6 +45,11 @@ namespace Objects.Engineering
 		[Tooltip("Sound made when emitter shoots")]
 		[Foldout("AddressableSound")]
 		private AddressableAudioSource sound = null;
+
+		[SerializeField]
+		[Tooltip("Used if you want Overwrite functionality and prevent it from firing")]
+		private bool DoesNotShoot = false;
+
 
 		private bool isWelded;
 		private bool isWrenched;
@@ -73,6 +82,7 @@ namespace Objects.Engineering
 				isWrenched = true;
 				directional.LockDirectionTo(true, directional.CurrentDirection);
 				objectBehaviour.SetIsNotPushable(true);
+				TogglePower(startOn);
 			}
 		}
 
@@ -98,16 +108,9 @@ namespace Objects.Engineering
 		/// </summary>
 		private void EmitterUpdate()
 		{
-			if(isOn == false && alwaysShoot == false) return;
 
-			if (voltage < minVoltage && alwaysShoot == false)
-			{
-				spriteHandler.ChangeSprite(2);
-				return;
-			}
-
-			//Reset sprite if power is now available
-			TogglePower(isOn);
+			if (ValidSetup() == false) return;
+			if (DoesNotShoot) return;
 
 			//Shoot 75% of the time, to add variation
 			if(DMMath.Prob(25)) return;
@@ -115,9 +118,27 @@ namespace Objects.Engineering
 			ShootEmitter();
 		}
 
+
+		public bool ValidSetup()
+		{
+			if (isWrenched == false) return false;
+			if (isWelded == false) return false;
+			if(isOn == false && alwaysShoot == false) return false;
+
+			if (voltage < minVoltage && alwaysShoot == false)
+			{
+				spriteHandler.ChangeSprite(2);
+				return false;
+			}
+
+			//Reset sprite if power is now available
+			TogglePower(isOn);
+			return true;
+		}
+
 		public void ShootEmitter()
 		{
-			ProjectileManager.InstantiateAndShoot( projectilePrefab, directional.CurrentDirection.ToLocalVector3(),gameObject, default);
+			ProjectileManager.InstantiateAndShoot( projectilePrefab, directional.WorldDirection,gameObject, default);
 
 			SoundManager.PlayNetworkedAtPos(sound, registerTile.WorldPositionServer);
 		}
