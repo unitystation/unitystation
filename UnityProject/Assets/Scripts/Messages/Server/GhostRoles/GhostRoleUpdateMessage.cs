@@ -1,5 +1,4 @@
-﻿using System.Net.Configuration;
-using Systems.GhostRoles;
+﻿using Systems.GhostRoles;
 using Mirror;
 
 namespace Messages.Server.GhostRoles

@@ -8,3 +8,8 @@
 		public string DiscordLink { get; init; }
 	}
 }
+
+namespace System.Runtime.CompilerServices
+{
+	internal static class IsExternalInit {}
+}
