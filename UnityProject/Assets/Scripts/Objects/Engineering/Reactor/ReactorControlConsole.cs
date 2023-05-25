@@ -31,6 +31,7 @@ namespace Objects.Engineering.Reactor
 			poweredDevice = GetComponent<APCPoweredDevice>();
 			integrity = GetComponent<Integrity>();
 			objectPhysics = GetComponent<UniversalObjectPhysics>();
+			AddToReactorChambers();
 		}
 
 		private void Start()
@@ -45,12 +46,6 @@ namespace Objects.Engineering.Reactor
 			chatAnnouncementCheckTime = 2f;
 #endif
 		}
-
-		private void Awake()
-		{
-			AddToReactorChambers();
-		}
-
 		public void SuchControllRodDepth(float requestedDepth)
 		{
 			requestedDepth = requestedDepth.Clamp(0, 1);
