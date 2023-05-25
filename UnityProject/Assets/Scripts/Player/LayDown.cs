@@ -25,22 +25,6 @@ namespace Player
 			health ??= GetComponent<LivingHealthMasterBase>();
 		}
 
-		private void OnEnable()
-		{
-			if (CustomNetworkManager.IsServer == false)
-			{
-				UpdateManager.Add(EnsureCorrectState, 5f);
-			}
-		}
-
-		private void OnDisable()
-		{
-			if (CustomNetworkManager.IsServer == false)
-			{
-				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, EnsureCorrectState);
-			}
-		}
-
 		public void EnsureCorrectState()
 		{
 			if (IsLayingDown || health.IsDead)
