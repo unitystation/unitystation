@@ -40,14 +40,22 @@ namespace AdminTools
 
 		private static List<string> GetCataloguePath()
 		{
+#if UNITY_EDITOR
 			var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets", StringComparison.Ordinal));
 			path = Path.Combine(path, "AddressablePackingProjects");
+#else
+			var path = Path.Combine(Application.streamingAssetsPath, "AddressableCatalogues");
+#endif
 			Logger.Log(path, Category.Addressables);
 			var directories = Directory.GetDirectories(path);
 			var foundFiles = new List<string>();
 			foreach (var directori in directories)
 			{
+#if UNITY_EDITOR
 				var newpath = directori + "/ServerData";
+#else
+				var newpath = directori;
+#endif
 				if (Directory.Exists(newpath) == false) continue;
 				var files = Directory.GetFiles(newpath);
 
