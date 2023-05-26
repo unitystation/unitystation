@@ -61,9 +61,11 @@ public class ResearchCollector : MonoBehaviour, IOnHitDetect, IMultitoolSlaveabl
 
 
 		if (data.BulletObject.TryGetComponent<ContainsResearchData>(out var Data) == false) return;
-
+		if (Data.ResearchData.Technology == null) return;
 		var Vector = Rotatable.CurrentDirection.ToLocalVector2Int();
 		float rotation = Mathf.Atan2(Vector.y, Vector.x) * Mathf.Rad2Deg;
+		rotation += 180;
+
 		if (rotation >= 360)
 		{
 			rotation -= 360;
