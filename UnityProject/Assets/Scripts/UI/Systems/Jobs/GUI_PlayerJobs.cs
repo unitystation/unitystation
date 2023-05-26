@@ -6,7 +6,6 @@ using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Castle.Core.Internal;
 using Messages.Server;
 using ScriptableObjects.Characters;
 
@@ -295,13 +294,6 @@ namespace UI
 
 		private void RandomJob()
 		{
-			var possibleJobs = screen_Jobs.transform.GetComponentsInChildren<Button>().FindAll(x => x.interactable);
-			if (possibleJobs.Length == 0)
-			{
-				ModalPanelManager.Instance.Inform("No jobs available.");
-				return;
-			}
-			possibleJobs.PickRandom().onClick.Invoke();
 		}
 	}
 }

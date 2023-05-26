@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
+using Util;
 using Weapons.Projectiles;
 using Weapons.Projectiles.Behaviours;
 
@@ -80,6 +81,7 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 		if (TechnologyLaser == null) return;
 		if (TechnologyLaser.ResearchData.Technology != null) return;
 
+
 		foreach (var Design in DisplayedItem.GetComponent<ItemResearchPotential>().TechWebDesigns)
 		{
 			if (Design.Technology == null)
@@ -88,36 +90,59 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 				Design.Colour = Design.Technology.Colour;
 			}
 		}
-		gameObject.GetComponent<Collider2D>().enabled = false;
 
-		foreach (var Design in DisplayedItem.GetComponent<ItemResearchPotential>().TechWebDesigns)
+		var Identifier = DisplayedItem.GetComponent<PrefabTracker>();
+
+		if (Identifier == null)
 		{
-
-			foreach (var Beam in Design.Beams)
-			{
-
-				// Calculate the incoming angle using the source and target positions.
-				Vector2 direction = data.BulletShootDirection;
-				float incomingAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-				// Add the bending angle to the incoming angle to get the final angle.
-				int finalAngle =  Mathf.RoundToInt(incomingAngle + Beam);
-
-				// If the final angle is greater than or equal to 360 or less than 0, wrap it around.
-				if (finalAngle >= 360)
-				{
-					finalAngle -= 360;
-				}
-				else if (finalAngle < 0)
-				{
-					finalAngle += 360;
-				}
-
-				ShootAtDirection(finalAngle, data, Design);
-			}
+			Logger.LogError($"aaa get rid of non-parented prefabs!, Missing PrefabTracker on item prefab for {DisplayedItem.name} " );
+			return;
 		}
 
-		gameObject.GetComponent<Collider2D>().enabled = true;
+		if (TechnologyLaser.ShotFrom.researchServer.Techweb.TestedPrefabs.Contains(Identifier.ForeverID) == false)
+		{
+			Chat.AddActionMsgToChat(this.gameObject, $"{DisplayedItem.gameObject.ExpensiveName()} Explodes Shooting out many bright beams");
+
+			gameObject.GetComponent<Collider2D>().enabled = false;
+
+			foreach (var Design in DisplayedItem.GetComponent<ItemResearchPotential>().TechWebDesigns)
+			{
+
+				foreach (var Beam in Design.Beams)
+				{
+
+					// Calculate the incoming angle using the source and target positions.
+					Vector2 direction = data.BulletShootDirection;
+					float incomingAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+					// Add the bending angle to the incoming angle to get the final angle.
+					int finalAngle =  Mathf.RoundToInt(incomingAngle + Beam);
+
+					// If the final angle is greater than or equal to 360 or less than 0, wrap it around.
+					if (finalAngle >= 360)
+					{
+						finalAngle -= 360;
+					}
+					else if (finalAngle < 0)
+					{
+						finalAngle += 360;
+					}
+
+					ShootAtDirection(finalAngle, data, Design);
+				}
+			}
+
+			gameObject.GetComponent<Collider2D>().enabled = true;
+			TechnologyLaser.ShotFrom.researchServer.Techweb.TestedPrefabs.Add(Identifier.ForeverID);
+		}
+		else
+		{
+			Chat.AddActionMsgToChat(this.gameObject, $"{DisplayedItem.gameObject.ExpensiveName()} Fizzles and disappears, looks like all useful research has been extracted from this");
+		}
+
+
+		//TODO Destroy item here
+
 	}
 
 	private void ShootAtDirection(float rotationToShoot, OnHitDetectData data, TechnologyAndBeams TechnologyAndBeams )

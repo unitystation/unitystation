@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Mirror;
+using Newtonsoft.Json;
 using Objects.Engineering;
 using Objects.Machines;
 using Shared.Systems.ObjectConnection;
@@ -12,9 +14,7 @@ using Weapons.Projectiles;
 
 public class ResearchLaserProjector : ResearchPointMachine, ICheckedInteractable<HandApply>
 {
-	//TODO Dropped item from plinth
-	//TODO Network
-	//TODO Go through and balance items
+	//TODO Go through and balance items , Done to a basic level
 	//TODO map
 
 	//TODO Destroy item When hit
@@ -29,9 +29,6 @@ public class ResearchLaserProjector : ResearchPointMachine, ICheckedInteractable
 	public GameObject LaserProjectilePrefab;
 
 	private Rotatable Rotatable;
-	private RegisterTile RegisterTile;
-
-	public List<ResearchCollector> Collectors = new List<ResearchCollector>();
 
 	public List<ResearchData> CollectedData = new List<ResearchData>();
 
@@ -39,11 +36,39 @@ public class ResearchLaserProjector : ResearchPointMachine, ICheckedInteractable
 
 	private bool OnCoolDown = false;
 
+	[SyncVar(hook = nameof(UpdateLinesClient))]
+	private string SynchronisedData;
+
+	public struct DataSynchronised
+	{
+		public string Origin;
+		public string Target;
+		public string Colour;
+	}
+
+	public void UpdateLinesClient(string Olddata, string Newdata)
+	{
+		SynchronisedData = Newdata;
+		if (isServer) return;
+		var Data = JsonConvert.DeserializeObject<List<DataSynchronised>>(Newdata);
+		if (LivingLine != null)
+		{
+			Destroy(LivingLine.gameObject);
+		}
+		LivingLine = Instantiate(LaserProjectionprefab, this.transform);
+
+		foreach (var line in Data)
+		{
+			LivingLine.ManualGenerateLine(line);
+		}
+
+
+	}
+
 	public void Awake()
 	{
 		Emitter = this.GetComponent<Emitter>();
 		Rotatable = this.GetComponent<Rotatable>();
-		RegisterTile = this.GetComponent<RegisterTile>();
 	}
 
 	[NaughtyAttributes.Button()]
@@ -177,6 +202,20 @@ public class ResearchLaserProjector : ResearchPointMachine, ICheckedInteractable
 	}
 
 
+	public void SynchroniseLaser(List<LaserLine> LaserLines)
+	{
+		List<DataSynchronised> data = new List<DataSynchronised>();
 
 
+		foreach (var LaserLine in LaserLines)
+		{
+			data.Add(new DataSynchronised()
+			{
+				Origin =  LaserLine.VOrigin.ToSerialiseString(),
+				Target = LaserLine.VTarget.ToSerialiseString(),
+				Colour = LaserLine.Sprite.color.ToStringCompressed()
+			});
+		}
+		SynchronisedData = JsonConvert.SerializeObject(data);
+	}
 }

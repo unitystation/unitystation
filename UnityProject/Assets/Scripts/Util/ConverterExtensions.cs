@@ -176,6 +176,24 @@ public static class ConverterExtensions
 	}
 
 
+	public static  string ToSerialiseString(this Vector3 Vector3data)
+	{
+		return $"{Vector3data.x},{Vector3data.y},{Vector3data.z}";
+	}
+
+	public static  Vector3 ToVector3(this string SerialiseData)
+	{
+		Vector3 TheColour = Vector3.zero;
+		string[] XYZ = SerialiseData.Split(',');
+		TheColour.x = float.Parse(XYZ[0]);
+		TheColour.y = float.Parse(XYZ[1]);
+		TheColour.z = float.Parse(XYZ[2]);
+
+		return TheColour;
+	}
+
+
+
 	public static Color ToColour(this string SerialiseData)
 	{
 		Color TheColour = Color.white;

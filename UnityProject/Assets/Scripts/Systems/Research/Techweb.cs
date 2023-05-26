@@ -8,6 +8,8 @@ namespace Systems.Research
 
 	public class Techweb
 	{
+		public List<string> TestedPrefabs = new List<string>();
+
 		public List<TechWebNode> nodes = new List<TechWebNode>();
 		public int researchPoints = 0;
 

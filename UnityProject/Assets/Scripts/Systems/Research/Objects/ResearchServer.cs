@@ -24,6 +24,8 @@ namespace Systems.Research.Objects
 		//Only send signals to the Research Server when issuing commands and changing values, not reading the data everytime we access it.
 		public Techweb Techweb { get; private set; } = new Techweb();
 
+
+
 		/// <summary>
 		/// Used to hold reference to how many points have been awarded, by source.
 		/// </summary>

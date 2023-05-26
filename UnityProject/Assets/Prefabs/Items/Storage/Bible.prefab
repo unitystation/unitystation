@@ -53,6 +53,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7216603720401401982, guid: 3d19628d41d177c469a643ad9c65a0a0,
         type: 3}
+      propertyPath: _assetId
+      value: 3459514863
+      objectReference: {fileID: 0}
+    - target: {fileID: 7216603720401401982, guid: 3d19628d41d177c469a643ad9c65a0a0,
+        type: 3}
       propertyPath: m_AssetId
       value: 6cc52e3e49f58614882eba9fac485fbb
       objectReference: {fileID: 0}
@@ -84,17 +89,17 @@ PrefabInstance:
     - target: {fileID: 7323188762720336062, guid: 3d19628d41d177c469a643ad9c65a0a0,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7323188762720336062, guid: 3d19628d41d177c469a643ad9c65a0a0,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7323188762720336062, guid: 3d19628d41d177c469a643ad9c65a0a0,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7323188762720336062, guid: 3d19628d41d177c469a643ad9c65a0a0,
         type: 3}
@@ -142,4 +147,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a436bea4d8cf79140bdecf02f6fa75ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthModifier: 10
+  healthModifier: 30

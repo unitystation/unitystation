@@ -26,6 +26,9 @@ public class LaserLine : MonoBehaviour
 
 	public SpriteRenderer Sprite;
 
+	public Vector3 VOrigin;
+	public Vector3 VTarget;
+
 
 	private void HookInto()
 	{
@@ -96,8 +99,16 @@ public class LaserLine : MonoBehaviour
 		PositionLaserBody(OriginTarget.Value, WorldTarget.Value);
 	}
 
+	public void ManualSetup(Vector3 OriginTarget, Vector3 WorldTarget, Color Colour)
+	{
+		Sprite.color = Colour;
+		PositionLaserBody(OriginTarget, WorldTarget);
+	}
+
 	public void PositionLaserBody(Vector3 OriginTarget, Vector3 WorldTarget )
 	{
+		VOrigin = OriginTarget;
+		VTarget = WorldTarget;
 		Transform wireBodyRectTransform = this.GetComponent<Transform>();
 
 		Vector2 dif = (WorldTarget - OriginTarget);

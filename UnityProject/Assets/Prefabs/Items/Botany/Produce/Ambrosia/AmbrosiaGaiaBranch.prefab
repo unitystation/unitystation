@@ -127,6 +127,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 441189880119871534, guid: f92b2950637a12c408848cede6089288,
         type: 3}
+      propertyPath: _assetId
+      value: 3508367478
+      objectReference: {fileID: 0}
+    - target: {fileID: 441189880119871534, guid: f92b2950637a12c408848cede6089288,
+        type: 3}
       propertyPath: m_AssetId
       value: 43513ab6d8fbf664eaf879a7d16a51c3
       objectReference: {fileID: 0}
@@ -196,6 +201,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9122989393151911348, guid: 34a11862539658743b96c2c59b31a717,
         type: 3}
+    - target: {fileID: 3835604159855027766, guid: f92b2950637a12c408848cede6089288,
+        type: 3}
+      propertyPath: BasePurity
+      value: 42
+      objectReference: {fileID: 0}
     - target: {fileID: 5966497049696685597, guid: f92b2950637a12c408848cede6089288,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -227,17 +237,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d3d65b4ce352374ba2f4a8645c9476c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   LightEmission: {fileID: 0}
   objectLightEmission: {fileID: 8008070255442440296}
-  Intensity: 1
+  CommonComponents: {fileID: 0}
   Colour: {r: 0.9882353, g: 0.7607843, b: 0.003921569, a: 1}
   EnumSprite: 0
   Size: 5
   IsOn: 0
   PlayerLightData:
-    Intensity: 0
     Colour: {r: 0, g: 0, b: 0, a: 0}
     EnumSprite: 0
     Size: 12

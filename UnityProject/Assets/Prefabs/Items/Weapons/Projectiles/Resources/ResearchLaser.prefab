@@ -152,10 +152,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88404897b1f696a4987ee831c7a911a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   ShotFrom: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
   SpriteHandler: {fileID: 3692199496842923931}
-  LightSprite: {fileID: 6507560964140904507}
+  LightSprite: {fileID: 0}
 --- !u!114 &3692199496842923931 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2567080129922137229, guid: f8f5682e74c42bb45851c71a4b53b20b,
@@ -168,15 +171,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6507560964140904507 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5391593875210699565, guid: f8f5682e74c42bb45851c71a4b53b20b,
+--- !u!1 &6782718180832264683 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5673484502209229565, guid: f8f5682e74c42bb45851c71a4b53b20b,
     type: 3}
   m_PrefabInstance: {fileID: 1197194610213532438}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+--- !u!114 &5857110662182237722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6782718180832264683}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
+  m_Script: {fileID: 11500000, guid: a6510c9b95b6fa3498b97083dcdd5e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: d39f2938943a271468e9efbe0dee0bcb, type: 2}
+  randomInitialSprite: 0
+  doReverseAnimation: 0
+  pushTextureOnStartUp: 1
+  initialVariantIndex: 0
+  palette: []

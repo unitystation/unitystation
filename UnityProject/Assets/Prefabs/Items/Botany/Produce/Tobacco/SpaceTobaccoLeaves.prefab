@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 135033938901714520, guid: fb9217ba5e9d4a84cbc897250c78134d,
+        type: 3}
+      propertyPath: BasePurity
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 208349597168355847, guid: fb9217ba5e9d4a84cbc897250c78134d,
         type: 3}
       propertyPath: fermentedReagents.m_keys.Array.size
@@ -29,6 +34,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: f201531ecbffb97468c97656cb9b80c9,
         type: 3}
+    - target: {fileID: 3673277946006235200, guid: fb9217ba5e9d4a84cbc897250c78134d,
+        type: 3}
+      propertyPath: _assetId
+      value: 1344081039
+      objectReference: {fileID: 0}
     - target: {fileID: 3673277946006235200, guid: fb9217ba5e9d4a84cbc897250c78134d,
         type: 3}
       propertyPath: m_AssetId

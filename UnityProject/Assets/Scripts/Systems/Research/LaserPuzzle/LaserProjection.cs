@@ -87,7 +87,12 @@ public class LaserProjection : MonoBehaviour
 			}
 		}
 		Plinth.gameObject.GetComponent<Collider2D>().enabled = true;
+
+		_ResearchLaserProjector.SynchroniseLaser(LaserLines);
+
 	}
+
+
 
 	public void TraverseLaser(Vector2 WorldDirection, GameObject Origin, TechnologyAndBeams TechnologyAndBeams, int Bounces = 0, Vector3? OriginPosition = null)
 	{
@@ -153,6 +158,13 @@ public class LaserProjection : MonoBehaviour
 				return;
 			}
 		}
+	}
+
+	public void ManualGenerateLine(ResearchLaserProjector.DataSynchronised DataSynchronised)
+	{
+		var line = Instantiate(LaserLinePrefab, this.transform);
+		line.ManualSetup(DataSynchronised.Origin.ToVector3(), DataSynchronised.Target.ToVector3(),
+			DataSynchronised.Colour.UncompresseToColour());
 	}
 
 	public void CleanupAndDestroy(bool Reshoot = false)

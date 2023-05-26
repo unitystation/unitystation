@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core.Sprite_Handler;
 using Light2D;
+using Mirror;
 using Systems.Research.Data;
 using UnityEngine;
 
@@ -11,7 +13,7 @@ public class ResearchData
 	public float ResearchPower = 0;
 }
 
-public class ContainsResearchData : MonoBehaviour, ICloneble
+public class ContainsResearchData : NetworkBehaviour, ICloneble
 {
 
 
@@ -26,7 +28,7 @@ public class ContainsResearchData : MonoBehaviour, ICloneble
 	public ResearchData ResearchData = new ResearchData();
 
 	public SpriteHandler SpriteHandler;
-	public LightSprite LightSprite;
+	public LightSpriteHandler LightSprite;
 
 	private TechnologyAndBeams TechnologyAndBeams;
 
@@ -46,7 +48,7 @@ public class ContainsResearchData : MonoBehaviour, ICloneble
 			Colour = TechnologyAndBeams.Colour;
 
 			SpriteHandler.SetColor(Colour);
-			LightSprite.Color = Colour;
+			LightSprite.SetColor(Colour);
 		}
 	}
 }
