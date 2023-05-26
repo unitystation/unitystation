@@ -37,8 +37,7 @@ public class LaserProjection : MonoBehaviour
 
 		if (Plinth.HasItem == false)
 		{
-			//TODO Destroy
-			//return;
+			return;
 		}
 
 

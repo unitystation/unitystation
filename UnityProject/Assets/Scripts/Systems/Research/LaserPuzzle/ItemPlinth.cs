@@ -141,7 +141,9 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 		}
 
 
-		//TODO Destroy item here
+		OnItemChange?.Invoke();
+		HasItem = false;
+		_ = Despawn.ServerSingle(DisplayedItem.gameObject);
 
 	}
 

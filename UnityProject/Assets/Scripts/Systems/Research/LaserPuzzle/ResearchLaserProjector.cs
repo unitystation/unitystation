@@ -15,10 +15,7 @@ using Weapons.Projectiles;
 public class ResearchLaserProjector : ResearchPointMachine, ICheckedInteractable<HandApply>
 {
 	//TODO Go through and balance items , Done to a basic level
-	
-	//TODO item scanner needs to be built and in lockers
-	//TODO Double Collector  angle
-	//TODO Destroy item When hit
+
 	//TODO Sprite collector
 	//TODO https://www.youtube.com/watch?v=DwGcKFMxrmI
 
