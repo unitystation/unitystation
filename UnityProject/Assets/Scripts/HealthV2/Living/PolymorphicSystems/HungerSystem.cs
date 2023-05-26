@@ -216,7 +216,7 @@ namespace HealthV2.Living.PolymorphicSystems
 				var newOne = GetAlertSOFromHunger(State);
 				if (newOne != null)
 				{
-					BodyAlertManager.RegisterAlert(newOne);
+					BodyAlertManager?.RegisterAlert(newOne);
 				}
 			}
 		}

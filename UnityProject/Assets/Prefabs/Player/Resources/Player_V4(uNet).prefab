@@ -467,6 +467,7 @@ GameObject:
   - component: {fileID: 1141615694652522293}
   - component: {fileID: 1568398651731903223}
   - component: {fileID: 7505980873864335948}
+  - component: {fileID: 8176686349149668929}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -588,7 +589,7 @@ MonoBehaviour:
     type: 3}
   infectedSpriteHandler: {fileID: 7962154314580008223}
   muzzleFlash: {fileID: 114824170203619628}
-  raceOverride: 
+  RaceOverride: 
   livingHealthMasterBase: {fileID: 1354417930896543338}
   characterSprites:
   - {fileID: 5811805431220600328}
@@ -698,6 +699,7 @@ MonoBehaviour:
   objectType: 2
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
+  <LayDownBehavior>k__BackingField: {fileID: 0}
   networkedLean: {fileID: -8106636780342977062}
 --- !u!114 &114449635359748350
 MonoBehaviour:
@@ -1004,6 +1006,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  DoesNotRequireBrain: 0
   BodyType: 0
   RTT: 0
   BodyPartList: []
@@ -1370,7 +1373,6 @@ MonoBehaviour:
   Intangible: 0
   CanBeWindPushed: 1
   IsPlayer: 1
-  InitialLocationSynchronised: 0
   tileMoveSpeed: 1
   isNotPushable: 0
   HasOwnGravity: 0
@@ -1404,6 +1406,7 @@ MonoBehaviour:
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
   BuckledToObject: {fileID: 0}
+  HardcodedSpeed: 0
   playerScript: {fileID: 0}
   Step: 0
   CanMoveThroughObstructions: 0
@@ -1528,7 +1531,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15cb59dbd56e8f241a981fadf2adfb11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   ConnectedAccess: []
+  AccessToChannel: 0
+--- !u!114 &8176686349149668929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f7e7b047d3c42e0b2df604c775f9cfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  sprites: {fileID: 4962232741225816}
+  playerDirectional: {fileID: 114449635359748350}
+  playerScript: {fileID: 114617133355526680}
+  networkedLean: {fileID: -8106636780342977062}
+  IsLayingDown: 0
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0

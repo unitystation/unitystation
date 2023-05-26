@@ -245,7 +245,7 @@ namespace Objects
 		private void CheckPlayerCrawlState(UniversalObjectPhysics playerBehaviour)
 		{
 			var regPlayer = playerBehaviour.GetComponent<RegisterPlayer>();
-			regPlayer.HandleGetupAnimation(!regPlayer.IsLayingDown);
+			regPlayer.LayDownBehavior.EnsureCorrectState();
 		}
 
 		/// <summary>

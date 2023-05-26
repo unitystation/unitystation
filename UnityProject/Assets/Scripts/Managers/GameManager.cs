@@ -253,7 +253,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	private void Start()
 	{
-		if (CustomNetworkManager.IsServer) UpdateManager.Add(UpdateMinutes, 60f);
+		UpdateManager.Add(UpdateMinutes, 60f);
 	}
 
 	private void OnEnable()
@@ -272,7 +272,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-		if (CustomNetworkManager.IsServer) UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMinutes);
+		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMinutes);
 		EventManager.RemoveHandler(Event.Cleanup, ClientCleanupInbetweenScenes);
 		EventManager.RemoveHandler(Event.CleanupEnd, ClientCleanupEndRoundCleanups);
 		EventManager.RemoveHandler(Event.PostRoundStarted, ClientRoundStartCleanup);
@@ -295,7 +295,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	private void UpdateMinutes()
 	{
-		if (counting == false) return;
+		if (counting == false || CustomNetworkManager.IsServer == false) return;
 		RoundTimeInMinutes += 1;
 	}
 

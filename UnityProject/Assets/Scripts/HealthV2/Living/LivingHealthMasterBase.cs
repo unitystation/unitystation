@@ -40,15 +40,19 @@ namespace HealthV2
 	public abstract class LivingHealthMasterBase : NetworkBehaviour, IFireExposable, IExaminable, IFullyHealable, IGib,
 		IAreaReactionBase, IRightClickable, IServerSpawn, IHoverTooltip, IChargeable
 	{
+
+		public bool DoesNotRequireBrain = false;
+
 		/// <summary>
 		/// Server side, each mob has a different one and never it never changes
 		/// </summary>
 		public int mobID { get; private set; }
 
+		// TODO: Add a way to change tickRates based on specific conditions such as players controlling specific mobs that require the tickrate to change to a different value
 		/// <summary>
 		/// Rate at which periodic damage, such as radiation, should be applied
 		/// </summary>
-		private float tickRate = 1f;
+		[SerializeField] private float tickRate = 1f;
 
 		/// <summary>
 		/// The Register Tile of the living creature
@@ -1001,16 +1005,20 @@ namespace HealthV2
 				currentHealth -= implant.TotalDamageWithoutOxyCloneRadStam;
 			}
 
-			if (brain == null || brain.RelatedPart.Health < -100 || brain.RelatedPart.TotalModified == 0)
+			if (DoesNotRequireBrain == false)
 			{
-				currentHealth -= 200;
-				healthStateController.SetOverallHealth(currentHealth);
-				CheckHeartStatus();
-				return;
-			}
-			else
-			{
-				currentHealth -= brain.RelatedPart.Oxy;
+				if (brain == null || brain.RelatedPart.Health < -100 || brain.RelatedPart.TotalModified == 0)
+				{
+					currentHealth -= 200;
+					healthStateController.SetOverallHealth(currentHealth);
+					CheckHeartStatus();
+					return;
+				}
+				else
+				{
+
+					currentHealth -= brain.RelatedPart.Oxy;
+				}
 			}
 
 
@@ -1059,6 +1067,7 @@ namespace HealthV2
 		private void CheckHeartStatus()
 		{
 			bool hasAllHeartAttack = true;
+			if (BodyPartList.Count == 0) hasAllHeartAttack = false;
 			foreach (var Implant in BodyPartList)
 			{
 				foreach (var organ in Implant.OrganList)

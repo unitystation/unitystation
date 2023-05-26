@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Mirror;
 using UnityEngine;
@@ -36,7 +35,7 @@ namespace Systems.Explosions
 			}
 			SubCheckLines.Clear();
 
-			foreach (var explosionNode in CheckLocations.ToArray())
+			foreach (ExplosionNode explosionNode in CheckLocations.ToArray())
 			{
 				CheckLocations.Remove(explosionNode); //lets not create infinite explosions in the case of a runtime
 				explosionNode.Process();

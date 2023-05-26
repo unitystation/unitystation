@@ -135,6 +135,7 @@ public partial class SubSceneManager
 
 		ClientObserver.Clear();
 		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
+		ClientSideFinishAction = null;
 		OnFinish.Invoke();
 	}
 

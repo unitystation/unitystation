@@ -273,9 +273,20 @@ public class CharacterSheet : ICloneable
 			x.name == Species && (onlyCharacterCurator == false || x.Base.CanShowUpInTheCharacterCreatorScreen));
 		if (ToReturn == null)
 		{
-			return  RaceSOSingleton.Instance.Races.FirstOrDefault(x => x.name == "Human");
+			return  null;
 		}
 		return ToReturn;
+	}
+
+	public PlayerHealthData GetRaceSoNoValidation()
+	{
+		var toReturn = RaceSOSingleton.Instance.Races.FirstOrDefault(x => x.name == Species);
+		if (toReturn == null)
+		{
+			Logger.LogError("[GetRaceSONoValidation] No race found for " + Species);
+			return  RaceSOSingleton.Instance.Races.FirstOrDefault(x => x.name == "Human");
+		}
+		return toReturn;
 	}
 
 	public object Clone()

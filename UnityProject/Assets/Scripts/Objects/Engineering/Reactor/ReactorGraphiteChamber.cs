@@ -15,11 +15,11 @@ namespace Objects.Engineering
 	{
 		public float EditorPresentNeutrons;
 		public float EditorEnergyReleased;
+
 		public GameObject UraniumOre;
 		public GameObject MetalOre;
 
-		public GameObject
-			ConstructMaterial; //Was set to PlasSteel. Changed to generic material in anticipation of changing to graphite in future.
+		public GameObject ConstructMaterial; //Was set to PlasSteel. Changed to generic material in anticipation of changing to graphite in future.
 
 		[SerializeField] private int droppedMaterialAmount = 40;
 
@@ -345,12 +345,25 @@ namespace Objects.Engineering
 
 		public bool TryInsertRod(HandApply interaction)
 		{
+
+
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.ReactorRod))
 			{
 				var Rod = interaction.UsedObject.gameObject.GetComponent<ReactorChamberRod>();
 				int pos = Array.IndexOf(ReactorRods, null);
 				if (pos > -1)
 				{
+					var engineStarter = Rod as EngineStarter;
+					if (engineStarter != null)
+					{
+						if (ConnectedConsoles.Count == 0)
+						{
+							Chat.AddExamineMsgFromServer(interaction.Performer,
+								" The hole for the starter rod seems to be closed, Seems like you need to hook it up to a console for it to open ");
+							return true;
+						}
+					}
+
 					ReactorRods[pos] = Rod;
 					var EmptySlot = RodStorage.GetIndexedItemSlot(pos);
 					Inventory.ServerTransfer(interaction.HandSlot, EmptySlot);
@@ -360,7 +373,7 @@ namespace Objects.Engineering
 						ReactorFuelRods.Add(fuelRod);
 					}
 
-					var engineStarter = Rod as EngineStarter;
+
 					if (engineStarter != null)
 					{
 						ReactorEngineStarters.Add(engineStarter);
@@ -487,9 +500,11 @@ namespace Objects.Engineering
 
 		#region Multitool Interaction
 
+		public List<ReactorControlConsole> ConnectedConsoles = new List<ReactorControlConsole>();
+
 		public MultitoolConnectionType ConType => MultitoolConnectionType.ReactorChamber;
 		public bool MultiMaster => false;
-		int IMultitoolMasterable.MaxDistance => int.MaxValue;
+		int IMultitoolMasterable.MaxDistance => 30;
 
 		#endregion
 	}

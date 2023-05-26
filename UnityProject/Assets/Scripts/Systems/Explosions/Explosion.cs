@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Systems.Score;
 using UnityEngine;
@@ -178,12 +177,15 @@ namespace Systems.Explosions
 			public HashSet<Vector2Int> CircleCircumference = new HashSet<Vector2Int>();
 		}
 
-		public static void StartExplosion(Vector3Int WorldPOS, float strength, ExplosionNode nodeType = null, int fixedRadius = -1, int fixedShakingStrength = -1)
+		public static void StartExplosion(Vector3Int WorldPOS, float strength, ExplosionNode nodeType = null,
+			int fixedRadius = -1, int fixedShakingStrength = -1, List<ItemTrait> damageIgnoreAttributes = null)
 		{
 			if (nodeType == null)
 			{
 				nodeType = new ExplosionNode();
 			}
+
+			nodeType.IgnoreAttributes = damageIgnoreAttributes;
 
 			int Radius = 0;
 			if (fixedRadius <= 0)

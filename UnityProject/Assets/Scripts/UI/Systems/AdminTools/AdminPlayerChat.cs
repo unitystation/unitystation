@@ -52,7 +52,7 @@ namespace AdminTools
 			var entry = new AdminChatMessage
 			{
 				fromUserid = player.UserId,
-				Message = message
+				Message = GameManager.Instance.RoundTime.ToString(@"hh\:mm\:ss") + " - " +  message
 			};
 
 			if (admin != null)
@@ -81,7 +81,7 @@ namespace AdminTools
 				Logger.LogError($"Could not find player with ID '{playerId}'. Unable to record admin dialogue.");
 				return;
 			}
-			
+
 			var chatlogDir = Path.Combine(Application.streamingAssetsPath, "chatlogs");
 			if (!Directory.Exists(chatlogDir))
 			{
