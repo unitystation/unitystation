@@ -23,6 +23,7 @@ namespace Player
 			playerScript ??= GetComponent<PlayerScript>();
 			playerDirectional ??= GetComponent<Rotatable>();
 			health ??= GetComponent<LivingHealthMasterBase>();
+			networkedLean ??= GetComponent<Util.NetworkedLeanTween>();
 		}
 
 		public void EnsureCorrectState()
@@ -35,6 +36,7 @@ namespace Player
 			{
 				UpLogic(true);
 			}
+			gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
 		}
 
 		public void OnLayDown(bool oldValue, bool newValue)
@@ -61,7 +63,6 @@ namespace Player
 			if (CustomNetworkManager.IsServer == false) return;
 			playerDirectional.LockDirectionTo(true, playerDirectional.CurrentDirection);
 			playerScript.OnLayDown?.Invoke();
-
 		}
 
 		private void UpLogic(bool forceState = false)
@@ -81,11 +82,11 @@ namespace Player
 			if (CustomNetworkManager.IsHeadless) return;
 			if (getUp == false && networkedLean.Target.rotation.z > -90)
 			{
-				networkedLean.RotateGameObject(new Vector3(0, 0, -90), 0.15f);
+				networkedLean.RotateGameObject(new Vector3(0, 0, -90), 0.15f, sprites.gameObject);
 			}
-			else if (getUp == true && networkedLean.Target.rotation.z < 90)
+			else if (getUp && networkedLean.Target.rotation.z < 90)
 			{
-				networkedLean.RotateGameObject(new Vector3(0, 0, 0), 0.19f);
+				networkedLean.RotateGameObject(new Vector3(0, 0, 0), 0.19f, sprites.gameObject);
 			}
 		}
 	}
