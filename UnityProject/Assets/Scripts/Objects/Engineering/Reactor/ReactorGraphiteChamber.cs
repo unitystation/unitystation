@@ -6,6 +6,7 @@ using Systems.Explosions;
 using Systems.Radiation;
 using Items.Engineering;
 using Objects.Atmospherics;
+using Objects.Engineering.Reactor;
 using Shared.Systems.ObjectConnection;
 
 

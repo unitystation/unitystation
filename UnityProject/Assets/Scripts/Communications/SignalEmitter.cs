@@ -27,6 +27,8 @@ namespace Communications
 
 		[SerializeField] protected bool canExamineFrequency = false;
 
+		[SerializeField] protected float minimumDamageBeforeObfuscation = 12f;
+
 		public float Frequency
 		{
 			get => frequency;
