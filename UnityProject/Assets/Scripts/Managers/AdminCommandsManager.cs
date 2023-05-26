@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using AddressableReferences;
 using UnityEngine;
 using Mirror;
 using DiscordWebhook;
@@ -13,6 +14,7 @@ using Messages.Server.AdminTools;
 using Strings;
 using HealthV2;
 using AdminTools;
+using Audio.Containers;
 using DatabaseAPI;
 using Doors;
 using Doors.Modules;
@@ -516,12 +518,14 @@ namespace AdminCommands
 		#region Sound
 
 		//FIXME: DISABLED UNTIL JUSTIN RETURNS WORK ON THIS AND WEAVER ISSUES GET FIXED
-		/*
+
 		[Command(requiresAuthority = false)]
-		public void CmdPlaySound(AddressableAudioSource addressableAudioSource, NetworkConnectionToClient sender = null)
+		public void CmdPlaySound(string addressableAudioSource, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
-			SoundManager.PlayNetworked(addressableAudioSource);
+			AddressableAudioSource sound = new AddressableAudioSource();
+			sound.AssetAddress = addressableAudioSource;
+			SoundManager.PlayNetworked(sound);
 		}
 
 
@@ -530,12 +534,13 @@ namespace AdminCommands
 		#region Music
 
 		[Command(requiresAuthority = false)]
-		public void CmdPlayMusic(AddressableAudioSource addressableAudioSource, NetworkConnectionToClient sender = null)
+		public void CmdPlayMusic(string addressableAudioSource, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
-			MusicManager.PlayNetworked(addressableAudioSource);
+			AddressableAudioSource sound = new AddressableAudioSource();
+			sound.AssetAddress = addressableAudioSource;
+			MusicManager.PlayNetworked(sound);
 		}
-		*/
 
 		#endregion
 
