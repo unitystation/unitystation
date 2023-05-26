@@ -24,11 +24,14 @@ namespace AdminTools
 		[SerializeField] private AudioClipsArray audioAddressables = null;
 
 		public Dictionary<AddressableAudioSource, string> audioList = new Dictionary<AddressableAudioSource, string>();
-		public static CatalogueData catalogueData;
+		public CatalogueData catalogueData;
 
 		private void Awake()
 		{
 			SearchBar = GetComponentInChildren<AdminGlobalAudioSearchBar>();
+#if UNITY_EDITOR
+			catalogueData = AssetDatabase.LoadAssetAtPath<CatalogueData>("Assets/CachedData/CatalogueData.asset");
+#endif
 
 			Refresh();
 			DoLoadAudio(catalogueData);
@@ -77,7 +80,7 @@ namespace AdminTools
 			return FoundFiles;
 		}
 
-		public static void Refresh()
+		public void Refresh()
 		{
 			var FoundFiles = GetCataloguePath();
 			foreach (var FoundFile in FoundFiles)
@@ -86,7 +89,6 @@ namespace AdminTools
 				var IDs = o1.GetValue("m_InternalIds");
 				var ListIDs = IDs.ToObject<List<string>>().Where(x => x.Contains(".bundle") == false);
 
-				catalogueData = AssetDatabase.LoadAssetAtPath<CatalogueData>("Assets/CachedData/CatalogueData.asset");
 				if (catalogueData == null)
 				{
 					Logger.LogError("Couldn't find catalogue data!");
