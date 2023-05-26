@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -37,47 +38,42 @@ namespace AdminTools
 			DoLoadAudio(catalogueData);
 		}
 
-		public static List<string> GetCataloguePath()
+		private static List<string> GetCataloguePath()
 		{
-			var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
-			path += "/AddressablePackingProjects";
+			var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets", StringComparison.Ordinal));
+			path = Path.Combine(path, "AddressablePackingProjects");
 			Logger.Log(path, Category.Addressables);
-			var Directories = Directory.GetDirectories(path);
-			var FoundFiles = new List<string>();
-			foreach (var Directori in Directories)
+			var directories = Directory.GetDirectories(path);
+			var foundFiles = new List<string>();
+			foreach (var directori in directories)
 			{
-				var newpath = Directori + "/ServerData";
-				if (Directory.Exists(newpath))
+				var newpath = directori + "/ServerData";
+				if (Directory.Exists(newpath) == false) continue;
+				var files = Directory.GetFiles(newpath);
+
+				string FoundFile = "";
+				foreach (var File in files)
 				{
-					var Files = Directory.GetFiles(newpath);
-
-					string FoundFile = "";
-					foreach (var File in Files)
+					if (File.EndsWith(".json") == false) continue;
+					if (FoundFile != "")
 					{
-						//Logger.Log(File);
-						if (File.EndsWith(".json"))
-						{
-							if (FoundFile != "")
-							{
-								Logger.LogError("two catalogues present please only ensure one", Category.Addressables);
-							}
-
-							FoundFile = File;
-						}
+						Logger.LogError("two catalogues present please only ensure one", Category.Addressables);
 					}
 
-					if (FoundFile == "")
-					{
-						Logger.LogWarning("missing json file", Category.Addressables);
-					}
-					else
-					{
-						FoundFiles.Add(FoundFile);
-					}
+					FoundFile = File;
+				}
+
+				if (FoundFile == "")
+				{
+					Logger.LogWarning("missing json file", Category.Addressables);
+				}
+				else
+				{
+					foundFiles.Add(FoundFile);
 				}
 			}
 
-			return FoundFiles;
+			return foundFiles;
 		}
 
 		public void Refresh()
