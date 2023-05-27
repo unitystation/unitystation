@@ -188,3 +188,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   laserData: {fileID: 11400000, guid: 1f27d6f13909584488e2bca02d0cfed4, type: 2}
   AssociatedResearchLaserProjector: {fileID: 0}
+--- !u!114 &8654778979778417811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6415327953930269996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48487dad7f2bc0541964880f6187c474, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  isSecuredStateExaminable: 1
+  isExposedFloorPlatingRequired: 0
+  secondsToSecure: 0
+  secondsToUnsecure: 0
+  lockSpriteDirection: 0
+  blockAnchorChange: 0
+  blockMessage: 
