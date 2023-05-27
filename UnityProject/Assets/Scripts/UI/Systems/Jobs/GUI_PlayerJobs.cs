@@ -295,6 +295,13 @@ namespace UI
 
 		private void RandomJob()
 		{
+			var possibleJobs = screen_Jobs.transform.GetComponentsInChildren<Button>().FindAll(x => x.interactable);
+			if (possibleJobs.Length == 0)
+			{
+				ModalPanelManager.Instance.Inform("No jobs available.");
+				return;
+			}
+			possibleJobs.PickRandom().onClick.Invoke();
 		}
 	}
 
