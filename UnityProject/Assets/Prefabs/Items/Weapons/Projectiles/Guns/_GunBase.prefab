@@ -160,6 +160,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 42e5466ddef02874b982886c7c91632c,
         type: 2}
+    - target: {fileID: 3652986707257552662, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: BasePurity
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -201,6 +206,7 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 0}
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 0
+  ManuallySpawnContent: 0
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:

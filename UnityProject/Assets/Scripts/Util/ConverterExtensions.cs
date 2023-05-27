@@ -176,6 +176,35 @@ public static class ConverterExtensions
 	}
 
 
+	public static  string ToSerialiseString(this Vector3 Vector3data)
+	{
+		return $"{Vector3data.x},{Vector3data.y},{Vector3data.z}";
+	}
+
+	public static  Vector3 ToVector3(this string SerialiseData)
+	{
+		Vector3 TheColour = Vector3.zero;
+		string[] XYZ = SerialiseData.Split(',');
+		TheColour.x = float.Parse(XYZ[0]);
+		TheColour.y = float.Parse(XYZ[1]);
+		TheColour.z = float.Parse(XYZ[2]);
+
+		return TheColour;
+	}
+
+
+
+	public static Color ToColour(this string SerialiseData)
+	{
+		Color TheColour = Color.white;
+		string[] rgbaValues = SerialiseData.Split(',');
+		TheColour.r = (int.Parse(rgbaValues[0]) / 255f) ;
+		TheColour.g = (int.Parse(rgbaValues[1]) / 255f) ;
+		TheColour.b = (int.Parse(rgbaValues[2]) / 255f) ;
+		TheColour.a = (int.Parse(rgbaValues[3]) / 255f) ;
+		return TheColour;
+	}
+
 
 	public static Color UncompresseToColour(this string SerialiseData)
 	{
@@ -227,6 +256,8 @@ public static class ConverterExtensions
 			OrientationEnum.Left_By90 => Vector3.left,
 			_ => Vector3.zero
 		};
+
+
 
 	/// <summary>
 	/// Takes a unit <see cref="Vector2Int"/> direction with a single axis set to 1 or -1 and returns the equivalent

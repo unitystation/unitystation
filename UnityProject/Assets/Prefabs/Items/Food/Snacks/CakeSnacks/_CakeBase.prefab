@@ -41,6 +41,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4971432123339430557, guid: 15c2e5750e27b0c4b8faf56ad3e06f46,
         type: 3}
+      propertyPath: _assetId
+      value: 2003102918
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971432123339430557, guid: 15c2e5750e27b0c4b8faf56ad3e06f46,
+        type: 3}
       propertyPath: m_AssetId
       value: 7d3192a7eebeb004c8bd3d53172d6ce9
       objectReference: {fileID: 0}
@@ -104,6 +109,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5159949975043953781, guid: 15c2e5750e27b0c4b8faf56ad3e06f46,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b5191cf54f9e01d4d9ac14dc228024e6,
+        type: 3}
+    - target: {fileID: 5159949975043953781, guid: 15c2e5750e27b0c4b8faf56ad3e06f46,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6070902302758907777, guid: 15c2e5750e27b0c4b8faf56ad3e06f46,
         type: 3}
       propertyPath: maxCapacity
@@ -140,6 +156,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8636696133206111365, guid: 15c2e5750e27b0c4b8faf56ad3e06f46,
+        type: 3}
+      propertyPath: BasePurity
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 15c2e5750e27b0c4b8faf56ad3e06f46, type: 3}

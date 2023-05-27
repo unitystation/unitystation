@@ -794,9 +794,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	{
 		isNotPushable = newState;
 
-		//Force update atmos
-		registerTile.Matrix.TileChangeManager.SubsystemManager.UpdateAt(
-			OfficialPosition.ToLocalInt(registerTile.Matrix));
+		if (registerTile.Matrix != null) //Happens in initialisation/Start
+		{
+			//Force update atmos
+			registerTile.Matrix.TileChangeManager.SubsystemManager.UpdateAt(
+				OfficialPosition.ToLocalInt(registerTile.Matrix));
+		}
+
 	}
 
 	private void SyncIsNotPushable(bool wasNotPushable, bool isNowNotPushable)
@@ -2110,8 +2114,14 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	[Server]
 	public void BuckleObjectToThis(UniversalObjectPhysics newBuckledTo)
 	{
+		if (newBuckledTo == null)
+		{
+			Unbuckle();
+			return;
+		}
 		ObjectIsBuckling = newBuckledTo;
 		BuckleToChange(ObjectIsBuckling);
+		ObjectIsBuckling.AppearAtWorldPositionServer(this.transform.position);
 	}
 
 	#endregion

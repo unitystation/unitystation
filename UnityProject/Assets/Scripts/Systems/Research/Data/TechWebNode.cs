@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Systems.Research.Data
 {
@@ -52,6 +53,8 @@ namespace Systems.Research.Data
 		public TechType techType;
 
 		public Techweb Techweb;
+
+		public Color Colour;
 	}
 
 	public enum TechType

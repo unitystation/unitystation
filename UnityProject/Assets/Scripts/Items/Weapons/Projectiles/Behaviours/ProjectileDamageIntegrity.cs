@@ -35,7 +35,7 @@ namespace Weapons.Projectiles.Behaviours
 
 			var thisGameObject = gameObject;
 
-			var data = new OnHitDetectData(damageData, thisGameObject.name, direction, hit.Normal, thisGameObject);
+			var data = new OnHitDetectData(damageData, thisGameObject.name, direction, hit.Normal, thisGameObject,hit.HitWorld);
 
 			var allowDamage = true;
 

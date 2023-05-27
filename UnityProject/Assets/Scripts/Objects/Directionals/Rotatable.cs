@@ -28,6 +28,20 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 	[FormerlySerializedAs("InitialDirection")]
 	public OrientationEnum CurrentDirection;
 
+	public Vector2 WorldDirection
+	{
+		get
+		{
+			if (RegisterTile.Matrix.MatrixMove != null)
+			{
+				return CurrentDirection.ToLocalVector2Int()
+					.RotateVectorBy(RegisterTile.Matrix.MatrixMove.CurrentState.FacingDirection.LocalVector);
+			}
+
+			return CurrentDirection.ToLocalVector3();
+		}
+	}
+
 	[SyncVar(hook = nameof(SyncServerDirection))]
 	private OrientationEnum SynchroniseCurrentDirection;
 
@@ -44,6 +58,8 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 	public bool IsAtmosphericDevice = false;
 	public bool doNotResetOtherSpriteOptions = false;
+
+	private RegisterTile RegisterTile;
 
 	/// <summary>
 	/// Invoked when this object's sprites should be updated to indicate it is facing the
@@ -205,6 +221,8 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		{
 			spriteHandlers = GetComponentsInChildren<SpriteHandler>();
 		}
+
+		RegisterTile = this.GetComponent<RegisterTile>();
 	}
 
 	public Quaternion ByDegreesToQuaternion(OrientationEnum dir)

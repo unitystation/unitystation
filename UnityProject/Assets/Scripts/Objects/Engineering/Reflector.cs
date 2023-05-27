@@ -18,7 +18,7 @@ namespace Objects.Engineering
 		[SerializeField] private ReflectorType startingState = ReflectorType.Base;
 		private ReflectorType currentState = ReflectorType.Base;
 
-		[SerializeField] private float startingAngle = 0;
+		[SerializeField, Range(0f, 360f)] private float startingAngle = 0;
 
 		[SerializeField] private bool startSetUp;
 
@@ -29,6 +29,8 @@ namespace Objects.Engineering
 		private RegisterTile registerTile;
 		private ObjectAttributes objectAttributes;
 		private Integrity integrity;
+
+		public event Action AngleChange;
 
 		[SerializeField] private int glassNeeded = 5;
 		[SerializeField] private int reinforcedGlassNeeded = 10;
@@ -69,7 +71,7 @@ namespace Objects.Engineering
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			currentState = startingState;
 			spriteHandler.ChangeSprite((int) startingState);
-			rotation = -startingAngle;
+			SyncRotation(rotation, startingAngle);
 			transform.localEulerAngles = new Vector3(0, 0, rotation);
 			spriteTransform.localEulerAngles = Vector3.zero;
 		}
@@ -80,7 +82,7 @@ namespace Objects.Engineering
 			if (CustomNetworkManager.IsServer == false) return;
 
 			ChangeState(startingState);
-			rotation = -startingAngle;
+			SyncRotation(rotation, startingAngle);
 			transform.localEulerAngles = new Vector3(0, 0, rotation);
 			spriteTransform.localEulerAngles = Vector3.zero;
 
@@ -96,6 +98,7 @@ namespace Objects.Engineering
 			rotation = newVar;
 			transform.localEulerAngles = new Vector3(0, 0, rotation);
 			spriteTransform.localEulerAngles = Vector3.zero;
+			AngleChange?.Invoke();
 		}
 
 		private void OnEnable()
@@ -106,6 +109,11 @@ namespace Objects.Engineering
 		private void OnDisable()
 		{
 			integrity.OnWillDestroyServer.RemoveListener(OnDestruction);
+		}
+
+		private void OnDestroy()
+		{
+			AngleChange = null;
 		}
 
 		#endregion
@@ -250,15 +258,27 @@ namespace Objects.Engineering
 				return;
 			}
 
+
+			float NewRotate = 0;
 			if (interaction.IsAltClick)
 			{
-				rotation += 5;
+				NewRotate = rotation + 5;
 			}
 			else
 			{
-				rotation -= 5;
+				NewRotate = rotation - 5;
 			}
 
+			if (NewRotate >= 360)
+			{
+				NewRotate -= 360;
+			}
+			else if (NewRotate < 0)
+			{
+				rotation += 360;
+			}
+
+			SyncRotation(rotation, NewRotate);
 			Chat.AddExamineMsgFromServer(interaction.Performer, $"You rotate the reflector to {rotation - 90} degrees");
 		}
 
@@ -382,51 +402,136 @@ namespace Objects.Engineering
 			Single
 		}
 
+		public bool ValidState()
+		{
+			if (currentState == ReflectorType.Base) return false;
+
+			if (isWelded == false) return false;
+			return true;
+		}
+
+		public float GetReflect(Vector2 InDirection)
+		{
+			switch (currentState)
+			{
+				//Sends all to rotation direction
+				case ReflectorType.Box:
+					return ReturnBox(InDirection);
+					break;
+				case ReflectorType.Double:
+					return ReturnTryAngleDouble(InDirection);
+					break;
+				case ReflectorType.Single:
+					return ReturnTryAngleSingle(InDirection);
+					break;
+			}
+
+			return float.NaN;
+		}
+
 		public void OnHitDetect(OnHitDetectData data)
 		{
 			//Only reflect lasers
 			if (data.BulletObject.TryGetComponent<Bullet>(out var bullet) == false ||
 			    bullet.MaskData != laserData) return;
 
-			if (currentState == ReflectorType.Base) return;
+			if (ValidState() == false) return;
 
-			if (isWelded == false) return;
-
-			switch (currentState)
-			{
-				//Sends all to rotation direction
-				case ReflectorType.Box:
-					ShootAtDirection(rotation + 90, data);
-					break;
-				case ReflectorType.Double:
-					TryAngleDouble(data);
-					break;
-				case ReflectorType.Single:
-					TryAngleSingle(data);
-					break;
-			}
+			float Angle = GetReflect(data.BulletShootDirection);
+			if (float.IsNaN(Angle)) return;
+			ShootAtDirection(Angle, data);
 		}
 
-		private void TryAngleSingle(OnHitDetectData data)
+
+		private float ConvertToWorldRotation(float Local)
 		{
-			if (Vector2.Angle(data.BulletShootDirection, VectorExtensions.DegreeToVector2(rotation - 90)) <= 55)
+			if (Local >= 360)
 			{
-				ShootAtDirection(rotation + 90, data);
+				Local -= 360;
 			}
+			else if (Local < 0)
+			{
+				Local += 360;
+			}
+
+			var ModifiedAngle = Local;
+
+			if (registerTile.Matrix.MatrixMove != null)
+			{
+				ModifiedAngle = registerTile.Matrix.MatrixMove.CurrentState.FacingDirection.AsEnum().Rotate360By(ModifiedAngle);
+			}
+
+			// If the final angle is greater than or equal to 360 or less than 0, wrap it around.
+			if (ModifiedAngle >= 360)
+			{
+				ModifiedAngle -= 360;
+			}
+			else if (ModifiedAngle < 0)
+			{
+				ModifiedAngle += 360;
+			}
+			return ModifiedAngle;
 		}
 
-		private void TryAngleDouble(OnHitDetectData data)
+		public float ReturnBox(Vector2 InDirection)
 		{
-			if (Vector2.Angle(data.BulletShootDirection, VectorExtensions.DegreeToVector2(rotation - 90)) <= 55)
-			{
-				ShootAtDirection(rotation + 90, data);
-			}
-			else if (Vector2.Angle(data.BulletShootDirection, VectorExtensions.DegreeToVector2(rotation + 180 - 90)) <=
-			         55)
-			{
-				ShootAtDirection(rotation + 180 + 90, data);
-			}
+			return ConvertToWorldRotation(rotation) + 90;
 		}
+
+
+
+		public float ReturnTryAngleSingle(Vector2 InDirection)
+		{
+			var incoming = InDirection.VectorToAngle360();
+
+			var WorldRotation = ConvertToWorldRotation(rotation - 90);
+
+			if (Vector2.Angle(InDirection,  VectorExtensions.DegreeToVector2(WorldRotation)) <= 85f)
+			{
+				float reflectedAngle = (2 * ConvertToWorldRotation(rotation)) - incoming;
+				return reflectedAngle;
+			}
+
+			// if (Vector2.Angle(InDirection, VectorExtensions.DegreeToVector2(rotation - 90)) <= 55)
+			// {
+				// return rotation + 90;
+			// }
+			return float.NaN;
+		}
+
+		public float ReturnTryAngleDouble(Vector2 InDirection)
+		{
+
+			var incoming = InDirection.VectorToAngle360();
+
+			var WorldRotation = ConvertToWorldRotation(rotation - 90);
+
+			if (Vector2.Angle(InDirection,  VectorExtensions.DegreeToVector2(WorldRotation)) <= 85f)
+			{
+				float reflectedAngle = (2 * ConvertToWorldRotation(rotation)) - incoming;
+				return reflectedAngle;
+			}
+
+			WorldRotation = ConvertToWorldRotation(rotation + 180 - 90);
+
+			if (Vector2.Angle(InDirection,  VectorExtensions.DegreeToVector2(WorldRotation)) <= 85f)
+			{
+				float reflectedAngle = (2 * ConvertToWorldRotation(rotation + 180)) - incoming;
+				return reflectedAngle;
+			}
+
+			// if (Vector2.Angle(InDirection, VectorExtensions.DegreeToVector2(rotation - 90)) <= 55)
+			// {
+				// return rotation + 90;
+			// }
+			// else if (Vector2.Angle(InDirection, VectorExtensions.DegreeToVector2(rotation + 180 - 90)) <=
+			         // 55)
+			// {
+				// return rotation + 180 + 90;
+			// }
+			return float.NaN;
+		}
+
 
 		private void ShootAtDirection(float rotationToShoot, OnHitDetectData data)
 		{
@@ -437,8 +542,8 @@ namespace Objects.Engineering
 				range = rangeLimited.CurrentDistance;
 			}
 
-			ProjectileManager.InstantiateAndShoot(data.BulletObject.GetComponent<Bullet>().PrefabName,
-				VectorExtensions.DegreeToVector2(rotationToShoot), gameObject, null, BodyPartType.None, range);
+			ProjectileManager.CloneAndShoot(data, data.BulletObject.GetComponent<Bullet>().PrefabName,
+				VectorExtensions.DegreeToVector2(rotationToShoot), gameObject, null, BodyPartType.None, range, data.HitWorldPosition);
 		}
 	}
 }

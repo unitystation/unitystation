@@ -9,11 +9,16 @@ namespace Weapons.Projectiles
 	public class ProjectileManager : MonoBehaviour
 	{
 		public static GameObject InstantiateAndShoot(GameObject projectile, Vector2 finalDirection, GameObject shooter,
-			Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest, float Rangeoverride = -1f)
+			Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest, float Rangeoverride = -1f, Vector3? ShootWorldPosition = null)
 		{
 
+			if (ShootWorldPosition == null)
+			{
+				ShootWorldPosition = shooter.transform.position;
+			}
+
 			GameObject Newprojectile = Spawn.ServerPrefab(projectile,
-				shooter.transform.position, parent: shooter.transform.parent).GameObject;
+				ShootWorldPosition, parent: shooter.transform.parent).GameObject;
 			Projectile projectileComponent = Newprojectile.GetComponent<Projectile>();
 			projectileComponent.Shoot(finalDirection, shooter, fromWeapon, targetZone);
 			if (Rangeoverride != -1f)
@@ -28,11 +33,29 @@ namespace Weapons.Projectiles
 		}
 
 		public static GameObject InstantiateAndShoot(string projectile, Vector2 finalDirection, GameObject shooter,
-			Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest, float Rangeoverride = -1f)
+			Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest, float Rangeoverride = -1f, Vector3? ShootWorldPosition = null)
 		{
 			return InstantiateAndShoot(Spawn.GetPrefabByName(projectile), finalDirection, shooter, fromWeapon,
-				targetZone, Rangeoverride);
+				targetZone, Rangeoverride, ShootWorldPosition);
 		}
+
+		public static GameObject CloneAndShoot(OnHitDetectData data, string projectile, Vector2 finalDirection, GameObject shooter,
+			Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest, float Rangeoverride = -1f,
+			Vector3? ShootWorldPosition = null)
+		{
+			var  Newprojectile = InstantiateAndShoot(Spawn.GetPrefabByName(projectile), finalDirection, shooter, fromWeapon,
+			targetZone, Rangeoverride, ShootWorldPosition);
+
+			var ToCopys = data.BulletObject.GetComponents<ICloneble>();
+
+			foreach (var ToCopy in ToCopys)
+			{
+				ToCopy.CloneTo(Newprojectile);
+			}
+
+			return Newprojectile;
+		}
+
 	}
 }
 

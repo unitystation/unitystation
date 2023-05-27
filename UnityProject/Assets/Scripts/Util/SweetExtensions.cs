@@ -756,6 +756,49 @@ public static class SweetExtensions
 		};
 	}
 
+
+	public static float VectorToAngle360(this Vector2 vector)
+	{
+		float angle = Mathf.Atan2(vector.y, vector.x) * Mathf.Rad2Deg;
+		if (angle < 0)
+			angle += 360f;
+		return angle;
+	}
+
+	public static float Rotate360By(this OrientationEnum dir, float finalAngle)
+	{
+		switch (dir)
+		{
+			case OrientationEnum.Default:
+				 break;
+			case OrientationEnum.Right_By270:
+				 finalAngle = finalAngle + 270;
+				 break;
+			case OrientationEnum.Up_By0:
+				 finalAngle = finalAngle + 0;
+				 break;
+			case OrientationEnum.Left_By90:
+				finalAngle = finalAngle + 90;
+				break;
+			case OrientationEnum.Down_By180:
+				finalAngle = finalAngle + 180;
+				break;
+			default:
+				throw new ArgumentOutOfRangeException();
+		}
+
+		// If the final angle is greater than or equal to 360 or less than 0, wrap it around.
+		if (finalAngle >= 360)
+		{
+			finalAngle -= 360;
+		}
+		else if (finalAngle < 0)
+		{
+			finalAngle += 360;
+		}
+		return finalAngle;
+	}
+
 	public static OrientationEnum GetOppositeDirection(this OrientationEnum dir)
 	{
 		switch (dir)

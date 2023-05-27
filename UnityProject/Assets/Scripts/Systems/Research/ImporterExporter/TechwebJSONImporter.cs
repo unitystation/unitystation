@@ -92,6 +92,18 @@ namespace Systems.Research.ImporterExporter
 					TechnologyPass.PotentialUnlocks = EmptyPotentialUnlocks;
 				}
 
+
+
+				if (JsonTechweb[i].ContainsKey("Colour"))
+				{
+					TechnologyPass.Colour = JsonTechweb[i]["Colour"].ToString().ToColour();
+				}
+				else
+				{
+					TechnologyPass.Colour = Color.white;
+				}
+
+
 				newNode.technology = TechnologyPass;
 				TechnologyPass.Techweb = techweb;
 				Nodes.Add(newNode);

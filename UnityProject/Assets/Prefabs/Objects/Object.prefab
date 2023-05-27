@@ -253,6 +253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foreverID: ebb08cf966efc084aa918bd8d9429604
   <AlternativePrefabName>k__BackingField: 
+  <CanBeSpawnedByAdmin>k__BackingField: 1
 --- !u!114 &4083520829584162099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,7 +276,6 @@ MonoBehaviour:
   Intangible: 0
   CanBeWindPushed: 1
   IsPlayer: 0
-  InitialLocationSynchronised: 0
   tileMoveSpeed: 1
   isNotPushable: 1
   HasOwnGravity: 0
@@ -291,6 +291,7 @@ MonoBehaviour:
   FramePushDecision: 1
   stickyMovement: 0
   OnThrowEndResetRotation: 1
+  CanSwap: 0
   maximumStickSpeed: 1.5
   onStationMovementsRound: 1
   registerTile: {fileID: 0}
