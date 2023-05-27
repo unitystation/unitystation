@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using UnityEngine;
 using Audio.Containers;
 using AddressableReferences;
-using Newtonsoft.Json.Linq;
-using UnityEditor;
+using DatabaseAPI;
+using UnityEngine.AddressableAssets;
+using UnityEngine.AddressableAssets.ResourceLocators;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 
 namespace AdminTools
@@ -22,109 +23,61 @@ namespace AdminTools
 		private AdminGlobalAudioSearchBar SearchBar;
 		public List<GameObject> audioButtons = new List<GameObject>();
 
-		[SerializeField] private AudioClipsArray audioAddressables = null;
-
 		public Dictionary<AddressableAudioSource, string> audioList = new Dictionary<AddressableAudioSource, string>();
-		public CatalogueData catalogueData;
 
 		private void Awake()
 		{
 			SearchBar = GetComponentInChildren<AdminGlobalAudioSearchBar>();
-#if UNITY_EDITOR
-			catalogueData = AssetDatabase.LoadAssetAtPath<CatalogueData>("Assets/CachedData/CatalogueData.asset");
-#endif
-
-			Refresh();
-			DoLoadAudio(catalogueData);
+			DoLoadAudio();
 		}
 
-		private static List<string> GetCataloguePath()
-		{
-#if UNITY_EDITOR
-			var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets", StringComparison.Ordinal));
-			path = Path.Combine(path, "AddressablePackingProjects");
-#else
-			var path = Path.Combine(Application.streamingAssetsPath, "AddressableCatalogues");
-#endif
-			Logger.Log(path, Category.Addressables);
-			var directories = Directory.GetDirectories(path);
-			var foundFiles = new List<string>();
-			foreach (var directori in directories)
-			{
-#if UNITY_EDITOR
-				var newpath = directori + "/ServerData";
-#else
-				var newpath = directori;
-#endif
-				if (Directory.Exists(newpath) == false) continue;
-				var files = Directory.GetFiles(newpath);
-
-				string FoundFile = "";
-				foreach (var File in files)
-				{
-					if (File.EndsWith(".json") == false) continue;
-					if (FoundFile != "")
-					{
-						Logger.LogError("two catalogues present please only ensure one", Category.Addressables);
-					}
-
-					FoundFile = File;
-				}
-
-				if (FoundFile == "")
-				{
-					Logger.LogWarning("missing json file", Category.Addressables);
-				}
-				else
-				{
-					foundFiles.Add(FoundFile);
-				}
-			}
-
-			return foundFiles;
-		}
-
-		public void Refresh()
-		{
-			var FoundFiles = GetCataloguePath();
-			foreach (var FoundFile in FoundFiles)
-			{
-				JObject o1 = JObject.Parse(File.ReadAllText((@FoundFile.Replace("/", @"/"))));
-				var IDs = o1.GetValue("m_InternalIds");
-				var ListIDs = IDs.ToObject<List<string>>().Where(x => x.Contains(".bundle") == false);
-
-				if (catalogueData == null)
-				{
-					Logger.LogError("Couldn't find catalogue data!");
-				}
-				var flip = new FileInfo(FoundFile);
-				var ToPutInList = ListIDs.ToList();
-				ToPutInList.Insert(0, "null");
-				catalogueData.Data[flip.Directory.Parent.Name] = ToPutInList;
-			}
-		}
-
-		private async void DoLoadAudio(CatalogueData audioAddressables)
+		private async void DoLoadAudio()
 		{
 			loadingView.SetActive(true);
 			audioList = new Dictionary<AddressableAudioSource, string>();
-
+			var serverCatalouges = new List<string>();
+			serverCatalouges.AddRange(ServerData.ServerConfig.AddressableCatalogues);
+			serverCatalouges.AddRange(ServerData.ServerConfig.LobbyAddressableCatalogues);
 			loadingBar.size = 0;
-
-			foreach (var audioSources in audioAddressables.Data.Values)
+			//(Max): This shit wont work correctly in the editor when adding new sounds but i don't give a fuck anymore.
+			//Fuck addressables and I hope everyone who agreed to use addressables in this project to be forced into an
+			//ALS Ice Bucket Challenge, CIA style.
+			foreach (var serverCatalouge in serverCatalouges.Where(serverCatalouge => serverCatalouge != string.Empty))
 			{
-				var count = 0;
-				foreach (var audioSource in audioSources)
+				Logger.Log(serverCatalouge);
+				AsyncOperationHandle<IResourceLocator> task;
+				if (serverCatalouge.Contains("http"))
 				{
-					loadingBar.size = (count - 0.1f) / (audioSources.Count() - 0.1f);
-					AddressableAudioSource audio = new AddressableAudioSource();
-					audio.AssetAddress = audioSource;
-					audio = await AudioManager.GetAddressableAudioSourceFromCache(audio);
-					if(audio != null) audioList.Add(audio, audioSource);
+					HttpClient client = new HttpClient();
+					string result = await client.GetStringAsync(serverCatalouge);
+					Logger.Log(result);
+					task = Addressables.LoadContentCatalogAsync(result);
+					await task.Task;
+				}
+				else
+				{
+					task = Addressables.LoadContentCatalogAsync(serverCatalouge);
+					await task.Task;
+				}
+
+				var count = 0;
+				foreach (var audioSources in task.Result.Keys)
+				{
+					loadingBar.size = (count - 0.1f) / (task.Result.Keys.Count() - 0.1f);
 					count++;
+					try
+					{
+						AddressableAudioSource audioSource = new AddressableAudioSource();
+						audioSource.AssetAddress = audioSources.ToString();
+						audioSource = await AudioManager.GetAddressableAudioSourceFromCache(audioSource);
+						if(audioSource != null) audioList.Add(audioSource, audioSources.ToString());
+					}
+					catch
+					{
+						continue;
+					}
 				}
 			}
-
 			loadingView.SetActive(false);
 			LoadButtons();
 		}
@@ -143,16 +96,14 @@ namespace AdminTools
 			foreach (var audio in audioList)
 			{
 				AudioSource source = audio.Key.AudioSource;
-				if (!source.loop)
-				{
-					GameObject button = Instantiate(buttonTemplate) as GameObject; //creates new button
-					button.SetActive(true);
-					AdminGlobalAudioButton buttonScript = button.GetComponent<AdminGlobalAudioButton>();
-					buttonScript.SetText($"{source.clip.name}\n {(int)source.clip.length} seconds");
-					buttonScript.SoundAddress = audio.Value;
-					audioButtons.Add(button);
-					button.transform.SetParent(buttonTemplate.transform.parent, false);
-				}
+				if (source.loop) continue;
+				GameObject button = Instantiate(buttonTemplate); //creates new button
+				button.SetActive(true);
+				AdminGlobalAudioButton buttonScript = button.GetComponent<AdminGlobalAudioButton>();
+				buttonScript.SetText($"{source.clip.name}\n {(int)source.clip.length} seconds");
+				buttonScript.SoundAddress = audio.Value;
+				audioButtons.Add(button);
+				button.transform.SetParent(buttonTemplate.transform.parent, false);
 			}
 		}
 
