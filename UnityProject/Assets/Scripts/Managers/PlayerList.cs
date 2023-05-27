@@ -684,12 +684,14 @@ public partial class PlayerList : NetworkBehaviour
 			// Update connection with locked in job prefs
 			if (charSettings != null)
 			{
+				charSettings.ValidateSpeciesCanBePlayerChosen(); //Probably a better way to do this but IDK
 				player.RequestedCharacterSettings = charSettings;
 			}
 			else
 			{
 				Logger.LogError($"{player.Username} was set to ready with NULL character settings:\n{player}", Category.Round);
 			}
+
 			ReadyPlayers.Add(player);
 			Logger.Log($"Set {player.Username} to ready with these character settings:\n{charSettings}", Category.Round);
 		}

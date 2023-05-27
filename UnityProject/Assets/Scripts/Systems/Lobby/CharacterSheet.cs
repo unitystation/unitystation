@@ -106,6 +106,16 @@ public class CharacterSheet : ICloneable
 		}
 	}
 
+	public void ValidateSpeciesCanBePlayerChosen()
+	{
+		if (GetRaceSo(true) == null)
+		{
+			Species = RaceSOSingleton.Instance.Races.Where(x => x.Base.CanBePlayerChosen).PickRandom().name;
+		}
+
+	}
+
+
 	/// <summary>
 	/// Checks if the job preferences have more than one high priority set
 	/// </summary>
@@ -270,7 +280,7 @@ public class CharacterSheet : ICloneable
 	public PlayerHealthData GetRaceSo(bool onlyCharacterCurator = false)
 	{
 		var ToReturn = RaceSOSingleton.Instance.Races.FirstOrDefault(x =>
-			x.name == Species && (onlyCharacterCurator == false || x.Base.CanShowUpInTheCharacterCreatorScreen));
+			x.name == Species && (onlyCharacterCurator == false || x.Base.CanBePlayerChosen));
 		if (ToReturn == null)
 		{
 			return  null;

@@ -111,7 +111,7 @@ namespace UI.CharacterCreator
 				return;
 			}
 			allSpecies = RaceSOSingleton.Instance.Races;
-			var queueRemoval = allSpecies.Where(alien => alien.Base.CanShowUpInTheCharacterCreatorScreen == false).ToList();
+			var queueRemoval = allSpecies.Where(alien => alien.Base.CanBePlayerChosen == false).ToList();
 			foreach (var blacklistedItem in queueRemoval)
 			{
 				allSpecies.Remove(blacklistedItem);
