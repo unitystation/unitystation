@@ -50,32 +50,32 @@ namespace AdminTools
 			foreach (var serverCatalouge in serverCatalouges.Where(serverCatalouge => serverCatalouge != string.Empty))
 			{
 				Logger.Log(serverCatalouge);
-				var Task = new AsyncOperationHandle<IResourceLocator>();
+				AsyncOperationHandle<IResourceLocator> task;
 				if (serverCatalouge.Contains("http"))
 				{
 					HttpClient client = new HttpClient();
 					string result = await client.GetStringAsync(serverCatalouge);
 					Logger.Log(result);
-					Task = Addressables.LoadContentCatalogAsync(result);
-					await Task.Task;
+					task = Addressables.LoadContentCatalogAsync(result);
+					await task.Task;
 				}
 				else
 				{
-					Task = Addressables.LoadContentCatalogAsync(serverCatalouge);
-					await Task.Task;
+					task = Addressables.LoadContentCatalogAsync(serverCatalouge);
+					await task.Task;
 				}
 
 				var count = 0;
-				foreach (var audioSources in Task.Result.Keys)
+				foreach (var audioSources in task.Result.Keys)
 				{
-					loadingBar.size = (count - 0.1f) / (Task.Result.Keys.Count() - 0.1f);
+					loadingBar.size = (count - 0.1f) / (task.Result.Keys.Count() - 0.1f);
 					count++;
 					try
 					{
-						AddressableAudioSource audio = new AddressableAudioSource();
-						audio.AssetAddress = audioSources.ToString();
-						audio = await AudioManager.GetAddressableAudioSourceFromCache(audio);
-						if(audio != null) audioList.Add(audio, audioSources.ToString());
+						AddressableAudioSource audioSource = new AddressableAudioSource();
+						audioSource.AssetAddress = audioSources.ToString();
+						audioSource = await AudioManager.GetAddressableAudioSourceFromCache(audioSource);
+						if(audioSource != null) audioList.Add(audioSource, audioSources.ToString());
 					}
 					catch
 					{
@@ -101,16 +101,14 @@ namespace AdminTools
 			foreach (var audio in audioList)
 			{
 				AudioSource source = audio.Key.AudioSource;
-				if (!source.loop)
-				{
-					GameObject button = Instantiate(buttonTemplate) as GameObject; //creates new button
-					button.SetActive(true);
-					AdminGlobalAudioButton buttonScript = button.GetComponent<AdminGlobalAudioButton>();
-					buttonScript.SetText($"{source.clip.name}\n {(int)source.clip.length} seconds");
-					buttonScript.SoundAddress = audio.Value;
-					audioButtons.Add(button);
-					button.transform.SetParent(buttonTemplate.transform.parent, false);
-				}
+				if (source.loop) continue;
+				GameObject button = Instantiate(buttonTemplate); //creates new button
+				button.SetActive(true);
+				AdminGlobalAudioButton buttonScript = button.GetComponent<AdminGlobalAudioButton>();
+				buttonScript.SetText($"{source.clip.name}\n {(int)source.clip.length} seconds");
+				buttonScript.SoundAddress = audio.Value;
+				audioButtons.Add(button);
+				button.transform.SetParent(buttonTemplate.transform.parent, false);
 			}
 		}
 
