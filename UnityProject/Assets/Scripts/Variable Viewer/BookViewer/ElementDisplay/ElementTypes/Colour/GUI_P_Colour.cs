@@ -16,6 +16,8 @@ namespace AdminTools.VariableViewer
 		public override PageElementEnum PageElementType => PageElementEnum.Colour;
 		public Color thisColor = Color.white;
 
+		public bool IgnoreUpdates = false;
+
 		public HashSet<Type> CanDo = new HashSet<Type>()
 		{
 			typeof(Color),
@@ -52,6 +54,7 @@ namespace AdminTools.VariableViewer
 
 		public void UpdateColour()
 		{
+			if (IgnoreUpdates) return;
 			if (PageID != 0)
 			{
 				thisColor = ColorPicker.CurrentColor;
@@ -99,8 +102,10 @@ namespace AdminTools.VariableViewer
 			TheColour.a = Data[3] / 255f;
 			if (SetUI)
 			{
+				IgnoreUpdates = true;
 				thisColor = TheColour;
 				ColorPicker.CurrentColor = TheColour;
+				IgnoreUpdates = false;
 			}
 
 			return TheColour;

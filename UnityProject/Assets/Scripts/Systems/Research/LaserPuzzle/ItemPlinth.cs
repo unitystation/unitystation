@@ -58,7 +58,7 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 			HasItem = false;
 			UniversalObjectPhysics.BuckleObjectToThis(null);
 			Inventory.ServerAdd(DisplayedItem, interaction.HandSlot);
-
+			DisplayedItem = null;
 			OnItemChange?.Invoke();
 		}
 		else
@@ -141,10 +141,11 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 		}
 
 
-		OnItemChange?.Invoke();
+
 		HasItem = false;
 		_ = Despawn.ServerSingle(DisplayedItem.gameObject);
-
+		DisplayedItem = null;
+		OnItemChange?.Invoke();
 	}
 
 	private void ShootAtDirection(float rotationToShoot, OnHitDetectData data, TechnologyAndBeams TechnologyAndBeams )

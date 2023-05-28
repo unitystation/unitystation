@@ -9,6 +9,7 @@ using Chemistry;
 using Core.Editor.Attributes;
 using HealthV2;
 using HealthV2.Living.PolymorphicSystems;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "PlayerHealthData", menuName = "ScriptableObjects/Health/PlayerHealthData", order = 1)]
 public class PlayerHealthData : ScriptableObject
@@ -51,7 +52,7 @@ public class RaceHealthData
 
 	public GameObject MeatProduce;
 	public GameObject SkinProduce;
-	public bool CanShowUpInTheCharacterCreatorScreen = true;
+	[FormerlySerializedAs("CanShowUpInTheCharacterCreatorScreen")] public bool CanBePlayerChosen = true;
 
 	public SpriteDataSO PreviewSprite;
 
