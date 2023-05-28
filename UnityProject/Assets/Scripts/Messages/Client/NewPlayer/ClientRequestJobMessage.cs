@@ -98,13 +98,14 @@ namespace Messages.Client.NewPlayer
 			if (msg.JobType == JobType.NULL)
 			{
 				var character = JsonConvert.DeserializeObject<CharacterSheet>(msg.JsonCharSettings);
+				character.ValidateSpeciesCanBePlayerChosen();
 				PlayerSpawn.NewSpawnPlayerV2(SentByPlayer, null , character);
 			}
 			else
 			{
 				var character = JsonConvert.DeserializeObject<CharacterSheet>(msg.JsonCharSettings);
 				var spawnRequest = new PlayerSpawnRequest(SentByPlayer, GameManager.Instance.GetRandomFreeOccupation(msg.JobType), character);
-
+				character.ValidateSpeciesCanBePlayerChosen();
 				if (GameManager.Instance.TrySpawnPlayer(spawnRequest) == false)
 				{
 					SendClientLogMessage.SendErrorToClient(SentByPlayer, "Server couldn't spawn you.");
