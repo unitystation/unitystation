@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Objects.Engineering;
 using UnityEngine;
+using Util;
 
 public class LaserProjection : MonoBehaviour
 {
@@ -30,12 +31,20 @@ public class LaserProjection : MonoBehaviour
 		var Plinth = hits.CollisionHit.GameObject.GetComponent<ItemPlinth>();
 		if (Plinth == null) return;
 
+
 		var line = Instantiate(LaserLinePrefab, this.transform);
 		line.SetUpLine(Source, Source.transform.position  ,Plinth.gameObject,Plinth.transform.position, new TechnologyAndBeams(), this );
 		LaserLines.Add(line);
 
 
 		if (Plinth.HasItem == false)
+		{
+			return;
+		}
+
+		var Identify = Plinth.DisplayedItem.GetComponent<PrefabTracker>();
+
+		if (_ResearchLaserProjector.researchServer.Techweb.TestedPrefabs.Contains(Identify.ForeverID))
 		{
 			return;
 		}
