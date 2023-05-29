@@ -108,7 +108,7 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 			var Technology = DisplayedItem.GetComponent<ItemResearchPotential>();
 			if (Technology.IsTooPure)
 			{
-				Chat.AddActionMsgToChat(this.gameObject, $"GORDON!! AHHHHHHHHHH");
+				Chat.AddActionMsgToChat(this.gameObject, $"GORDON!!");
 				InGameEventsManager.Instance.TriggerSpecificEvent("Resonance cascade", false, true);
 				TooPure = true;
 			}
