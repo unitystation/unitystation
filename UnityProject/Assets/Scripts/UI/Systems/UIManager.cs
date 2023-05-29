@@ -225,6 +225,8 @@ public class UIManager : MonoBehaviour, IInitialise
 	[SerializeField] private HoverTooltipUI hoverTooltipUI;
 	public HoverTooltipUI HoverTooltipUI => hoverTooltipUI;
 
+	[SerializeField] public CanvasScaler Scaler;
+
 	public static string SetToolTip
 	{
 		set
