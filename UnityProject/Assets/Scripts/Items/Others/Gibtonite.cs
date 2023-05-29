@@ -66,7 +66,7 @@ namespace Items.Others
 					break;
 				case GibState.FUSED:
 					spritehandler.SetSpriteSO(spriteFused);
-					_ = Fuse();
+					Fuse();
 					Chat.AddLocalMsgToChat("<color=red>The gibtonite hisses!</color>", gameObject);
 					break;
 			}
@@ -91,10 +91,10 @@ namespace Items.Others
 			}
 		}
 
-		private async Task Fuse()
+		private void Fuse()
 		{
 			willExpload = true;
-			await Task.Delay(fuseTime);
+			Task.Delay(fuseTime).Wait();
 			if (willExpload) Expload();
 		}
 
