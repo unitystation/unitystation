@@ -163,7 +163,8 @@ public class ResearchLaserProjector : ResearchPointMachine, ICheckedInteractable
 		if (interaction.IsAltClick)
 		{
 			Emitter.TogglePower(!Emitter.IsOn);
-			Chat.AddActionMsgToChat(this.gameObject, $" You toggle The research laser to {Emitter.IsOn} ");
+			var state = Emitter.IsOn ? "on" : "off";
+			Chat.AddActionMsgToChat(this.gameObject, $" You toggle The research laser to {state}. ");
 			return;
 		}
 
@@ -195,7 +196,7 @@ public class ResearchLaserProjector : ResearchPointMachine, ICheckedInteractable
 			}
 			else
 			{
-				Chat.AddActionMsgToChat(this.gameObject, " The research laser beeps and boops. Firing test Projection, Remember to connect collectors to research laser ");
+				Chat.AddActionMsgToChat(this.gameObject, " The research laser beeps and boops. firing test projection., Remember to connect collectors to research laser ");
 
 				TriggerLaser();
 			}
