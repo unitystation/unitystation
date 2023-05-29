@@ -11,6 +11,8 @@ public class ItemResearchPotential : MonoBehaviour
 {
 
 
+	public bool IsTooPure = false;
+
 	public PrefabTracker PrefabTracker;
 
 	private static Dictionary<string, ItemResearchPotentialData> ItemResearchRandomisedData = new Dictionary<string, ItemResearchPotentialData>();
@@ -35,6 +37,8 @@ public class ItemResearchPotential : MonoBehaviour
 		}
 
 		LoadManager.RegisterAction(InitialiseData);
+
+
 
 	}
 
@@ -68,6 +72,15 @@ public class ItemResearchPotential : MonoBehaviour
 			int max = 25;
 			toReturn.AddedPurity = Random.Range(min, max + 1);
 		}
+
+
+		var rng = Random.Range(0, 2000);
+		if (rng > 1950)
+		{
+			toReturn.AddedPurity += 100;
+			toReturn.IsTooPure = true;
+		}
+
 
 		if (BasePurity + toReturn.AddedPurity > 50)
 		{
@@ -108,6 +121,7 @@ public class ItemResearchPotential : MonoBehaviour
 
 	public void ApplyItemResearchPotentialData(ItemResearchPotentialData ItemResearchPotentialData)
 	{
+		IsTooPure = ItemResearchPotentialData.IsTooPure;
 		CurrentPurity = BasePurity + ItemResearchPotentialData.AddedPurity;
 		TechWebDesigns = ItemResearchPotentialData.TechWebDesigns;
 	}
@@ -116,6 +130,7 @@ public class ItemResearchPotential : MonoBehaviour
 
 public struct ItemResearchPotentialData
 {
+	public bool IsTooPure;
 	public int AddedPurity;
 	public List<TechnologyAndBeams> TechWebDesigns;
 }

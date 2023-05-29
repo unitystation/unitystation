@@ -27,6 +27,12 @@ public class ResearchItemScanner : MonoBehaviour,	ICheckedInteractable<Positiona
 		Stringy.AppendLine($" Item {interaction.TargetObject.gameObject.ExpensiveName()} has a purity of {Purity}");
 		Stringy.AppendLine($" Also contains { Research.TechWebDesigns.Count} as potential technologies");
 
+		if (Research.IsTooPure)
+		{
+			Stringy.AppendLine($" this is the purest sample we've seen yet. and potentially the most unstable. ");
+		}
+
+
 		Chat.AddExamineMsgFromServer(interaction.Performer, Stringy.ToString());
 	}
 }

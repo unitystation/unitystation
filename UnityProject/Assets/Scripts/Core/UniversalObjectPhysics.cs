@@ -1599,7 +1599,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 								if (hit.TryGetComponent<LivingHealthBehaviour>(out var oldMob) && isServer)
 								{
 									oldMob.ApplyDamage(thrownBy, damage, AttackType.Melee, DamageType.Brute);
-									Chat.AddThrowHitMsgToChat(gameObject, livingHealthMasterBase.gameObject,
+									Chat.AddThrowHitMsgToChat(gameObject, oldMob.gameObject,
 										randomHitZone);
 								}
 
