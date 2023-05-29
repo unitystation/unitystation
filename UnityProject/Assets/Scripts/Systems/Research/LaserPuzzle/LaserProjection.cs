@@ -91,7 +91,7 @@ public class LaserProjection : MonoBehaviour
 				//Angle stuff
 				//Spawn new stuff and go down line
 				var Angle = VectorExtensions.DegreeToVector2(finalAngle);
-				TraverseLaser(Angle, Plinth.gameObject, Design, 0, Plinth.gameObject.transform.position );
+				TraverseLaser(Angle, Plinth.gameObject, Design, 0, hits.HitWorld);
 			}
 		}
 		Plinth.gameObject.GetComponent<Collider2D>().enabled = true;
