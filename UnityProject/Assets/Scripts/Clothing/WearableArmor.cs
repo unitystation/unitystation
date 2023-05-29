@@ -41,7 +41,7 @@ namespace Clothing
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
 			//Wearing
-			if (info.ToSlot != null & info.ToSlot?.NamedSlot != null)
+			if (info.ToSlot != null && info.ToSlot.NamedSlot != null)
 			{
 				playerHealthV2 = info.ToRootPlayer?.PlayerScript.playerHealth;
 
@@ -52,7 +52,7 @@ namespace Clothing
 			}
 
 			//taking off
-			if (info.FromSlot != null & info.FromSlot?.NamedSlot != null)
+			if (info.FromSlot != null && info.FromSlot.NamedSlot != null)
 			{
 				playerHealthV2 = info.FromRootPlayer?.PlayerScript.playerHealth;
 

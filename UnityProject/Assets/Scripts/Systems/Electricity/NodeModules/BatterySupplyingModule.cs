@@ -250,7 +250,9 @@ namespace Systems.Electricity.NodeModules
 					}
 				}
 			}
-			if (current != Previouscurrent | SupplyingVoltage != PreviousSupplyingVoltage | InternalResistance != PreviousInternalResistance)
+			if (current != Previouscurrent
+			    || SupplyingVoltage != PreviousSupplyingVoltage
+			    || InternalResistance != PreviousInternalResistance)
 			{
 				ControllingNode.Node.InData.Data.SupplyingCurrent = current;
 				Previouscurrent = current;
