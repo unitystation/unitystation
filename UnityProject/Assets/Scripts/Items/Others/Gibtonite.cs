@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Mirror;
 using Systems.Explosions;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
@@ -10,7 +12,7 @@ namespace Items.Others
 {
 	[RequireComponent(typeof(Integrity))]
 	[RequireComponent(typeof(Pickupable))]
-	public class Gibtonite : MonoBehaviour, ICheckedInteractable<HandApply>, IHoverTooltip
+	public class Gibtonite : NetworkBehaviour, ICheckedInteractable<HandApply>, IHoverTooltip
 	{
 		private enum GibState
 		{
@@ -23,10 +25,10 @@ namespace Items.Others
 		private Integrity integrity;
 		[SerializeField] private SpriteHandler spritehandler;
 
-		private GibState state = GibState.FUSED;
+		[SyncVar] private GibState state = GibState.FUSED;
 		[SerializeField] private float explosionStrength = 120f;
 		[SerializeField] private float fullDifuselTime = 12f;
-		[SerializeField] private int fuseTime = 2750;
+		[SerializeField] private float fuseTime = 4.50f;
 		[SerializeField] private SpriteDataSO spriteActive;
 		[SerializeField] private SpriteDataSO spriteInActive;
 		[SerializeField] private SpriteDataSO spriteFused;
@@ -38,12 +40,14 @@ namespace Items.Others
 
 		private void Awake()
 		{
-			pickupable = GetComponent<Pickupable>();
-			integrity = GetComponent<Integrity>();
+			pickupable ??= GetComponent<Pickupable>();
+			integrity ??= GetComponent<Integrity>();
+			spritehandler ??= GetComponentInChildren<SpriteHandler>();
 		}
 
 		private void Start()
 		{
+			if(CustomNetworkManager.IsServer == false) return;
 			integrity.OnApplyDamage.AddListener(OnDamageTaken);
 			// If this ore starts in storage already, then assume it is safe.
 			SetState(pickupable.ItemSlot != null ? GibState.INACTIVE : GibState.FUSED);
@@ -55,18 +59,18 @@ namespace Items.Others
 			switch (state)
 			{
 				case GibState.ACTIVE:
-					spritehandler.SetSpriteSO(spriteActive);
 					StopFuse();
+					spritehandler.SetSpriteSO(spriteActive);
 					Chat.AddLocalMsgToChat("The gibtonite turns into its active state.", gameObject);
 					break;
 				case GibState.INACTIVE:
-					spritehandler.SetSpriteSO(spriteInActive);
 					StopFuse();
+					spritehandler.SetSpriteSO(spriteInActive);
 					Chat.AddLocalMsgToChat("The gibtonite is no longer a threat, for now.", gameObject);
 					break;
 				case GibState.FUSED:
 					spritehandler.SetSpriteSO(spriteFused);
-					_ = Fuse();
+					StartCoroutine(Fuse());
 					Chat.AddLocalMsgToChat("<color=red>The gibtonite hisses!</color>", gameObject);
 					break;
 			}
@@ -91,16 +95,17 @@ namespace Items.Others
 			}
 		}
 
-		private async Task Fuse()
+		private IEnumerator Fuse()
 		{
 			willExpload = true;
-			await Task.Delay(fuseTime);
+			yield return WaitFor.Seconds(fuseTime);
 			if (willExpload) Expload();
 		}
 
 		private void StopFuse()
 		{
 			willExpload = false;
+			StopCoroutine(Fuse());
 		}
 
 		private void Expload()
