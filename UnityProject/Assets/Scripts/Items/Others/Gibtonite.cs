@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,7 +27,7 @@ namespace Items.Others
 		private GibState state = GibState.FUSED;
 		[SerializeField] private float explosionStrength = 120f;
 		[SerializeField] private float fullDifuselTime = 12f;
-		[SerializeField] private int fuseTime = 2750;
+		[SerializeField] private float fuseTime = 4.50f;
 		[SerializeField] private SpriteDataSO spriteActive;
 		[SerializeField] private SpriteDataSO spriteInActive;
 		[SerializeField] private SpriteDataSO spriteFused;
@@ -66,7 +67,7 @@ namespace Items.Others
 					break;
 				case GibState.FUSED:
 					spritehandler.SetSpriteSO(spriteFused);
-					Fuse();
+					StartCoroutine(Fuse());
 					Chat.AddLocalMsgToChat("<color=red>The gibtonite hisses!</color>", gameObject);
 					break;
 			}
@@ -91,16 +92,17 @@ namespace Items.Others
 			}
 		}
 
-		private void Fuse()
+		private IEnumerator Fuse()
 		{
 			willExpload = true;
-			Task.Delay(fuseTime).Wait();
+			yield return WaitFor.Seconds(fuseTime);
 			if (willExpload) Expload();
 		}
 
 		private void StopFuse()
 		{
 			willExpload = false;
+			StopCoroutine(Fuse());
 		}
 
 		private void Expload()
