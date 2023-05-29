@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Mirror;
 using Systems.Explosions;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace Items.Others
 {
 	[RequireComponent(typeof(Integrity))]
 	[RequireComponent(typeof(Pickupable))]
-	public class Gibtonite : MonoBehaviour, ICheckedInteractable<HandApply>, IHoverTooltip
+	public class Gibtonite : NetworkBehaviour, ICheckedInteractable<HandApply>, IHoverTooltip
 	{
 		private enum GibState
 		{
@@ -24,7 +25,7 @@ namespace Items.Others
 		private Integrity integrity;
 		[SerializeField] private SpriteHandler spritehandler;
 
-		private GibState state = GibState.FUSED;
+		[SyncVar] private GibState state = GibState.FUSED;
 		[SerializeField] private float explosionStrength = 120f;
 		[SerializeField] private float fullDifuselTime = 12f;
 		[SerializeField] private float fuseTime = 4.50f;
@@ -39,12 +40,14 @@ namespace Items.Others
 
 		private void Awake()
 		{
-			pickupable = GetComponent<Pickupable>();
-			integrity = GetComponent<Integrity>();
+			pickupable ??= GetComponent<Pickupable>();
+			integrity ??= GetComponent<Integrity>();
+			spritehandler ??= GetComponentInChildren<SpriteHandler>();
 		}
 
 		private void Start()
 		{
+			if(CustomNetworkManager.IsServer == false) return;
 			integrity.OnApplyDamage.AddListener(OnDamageTaken);
 			// If this ore starts in storage already, then assume it is safe.
 			SetState(pickupable.ItemSlot != null ? GibState.INACTIVE : GibState.FUSED);
@@ -56,13 +59,13 @@ namespace Items.Others
 			switch (state)
 			{
 				case GibState.ACTIVE:
-					spritehandler.SetSpriteSO(spriteActive);
 					StopFuse();
+					spritehandler.SetSpriteSO(spriteActive);
 					Chat.AddLocalMsgToChat("The gibtonite turns into its active state.", gameObject);
 					break;
 				case GibState.INACTIVE:
-					spritehandler.SetSpriteSO(spriteInActive);
 					StopFuse();
+					spritehandler.SetSpriteSO(spriteInActive);
 					Chat.AddLocalMsgToChat("The gibtonite is no longer a threat, for now.", gameObject);
 					break;
 				case GibState.FUSED:
