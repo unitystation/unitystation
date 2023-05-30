@@ -227,12 +227,34 @@ public static class PlayerSpawn
 
 			var body = SpawnPlayerBody(bodyPrefab);
 
-			mind.ApplyOccupation(requestedOccupation); //Probably shouldn't be here?
+			try
+			{
+				mind.ApplyOccupation(requestedOccupation); //Probably shouldn't be here?
+			}
+			catch (Exception e)
+			{
+				Logger.LogError(e.ToString());
+			}
 
-			//Setup body with custom stuff
-			ApplyNewSpawnRoleToBody(body, requestedOccupation, character, spawnType);
-			mind.SetPossessingObject(body);
-			mind.StopGhosting();
+			try
+			{
+				//Setup body with custom stuff
+				ApplyNewSpawnRoleToBody(body, requestedOccupation, character, spawnType);
+			}
+			catch (Exception e)
+			{
+				Logger.LogError(e.ToString());
+			}
+
+			try
+			{
+				mind.SetPossessingObject(body);
+				mind.StopGhosting();
+			}
+			catch (Exception e)
+			{
+				Logger.LogError(e.ToString());
+			}
 
 			//get the old body if they have one.
 			// var oldBody = existingMind.OrNull()?.GetCurrentMob();
@@ -298,26 +320,42 @@ public static class PlayerSpawn
 			PlayerScript.characterSettings = character;
 		}
 
-		//Character attributes
-		var playerSprites = body.GetComponent<PlayerSprites>();
-		if (playerSprites)
+		try
 		{
-			// This causes body parts to be made for the species, will cause death if body parts are needed and
-			// CharacterSettings is null
-			var toUseCharacterSettings = requestedOccupation.UseCharacterSettings ? character : null;
-			if (requestedOccupation.CustomSpeciesOverwrite != null)
+			//Character attributes
+			var playerSprites = body.GetComponent<PlayerSprites>();
+			if (playerSprites)
 			{
-				character.Species = requestedOccupation.CustomSpeciesOverwrite.name;
-				playerSprites.RaceOverride = requestedOccupation.CustomSpeciesOverwrite.name;
+				// This causes body parts to be made for the species, will cause death if body parts are needed and
+				// CharacterSettings is null
+				var toUseCharacterSettings = requestedOccupation.UseCharacterSettings ? character : null;
+				if (requestedOccupation.CustomSpeciesOverwrite != null)
+				{
+					character.Species = requestedOccupation.CustomSpeciesOverwrite.name;
+					playerSprites.RaceOverride = requestedOccupation.CustomSpeciesOverwrite.name;
+				}
+
+
+				playerSprites.OnCharacterSettingsChange(toUseCharacterSettings);
 			}
 
-
-			playerSprites.OnCharacterSettingsChange(toUseCharacterSettings);
+		}
+		catch (Exception e)
+		{
+			Logger.LogError(e.ToString());
 		}
 
+		try
+		{
+			//determine where to spawn them
+			physics.AppearAtWorldPositionServer(GetSpawnPointForOccupation(requestedOccupation));
+		}
+		catch (Exception e)
+		{
+			Logger.LogError(e.ToString());
 
-		//determine where to spawn them
-		physics.AppearAtWorldPositionServer(GetSpawnPointForOccupation(requestedOccupation));
+			physics.AppearAtWorldPositionServer(SpawnPoint.GetRandomPointForLateSpawn().transform.position);
+		}
 
 		switch (spawnType)
 		{
