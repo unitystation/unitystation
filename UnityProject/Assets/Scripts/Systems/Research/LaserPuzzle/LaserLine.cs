@@ -83,8 +83,13 @@ public class LaserLine : MonoBehaviour
 		TTarget = Target;
 		TOrigin = Origin;
 
+
 		RelatedLaserProjection = _RelatedLaserProjection;
-		Sprite.color = TechnologyAndBeams.Colour;
+		var Colour = TechnologyAndBeams.Colour;
+		Colour.a = 0.65f;
+		Sprite.color = Colour;
+
+
 		HookInto();
 		if (WorldTarget == null)
 		{
@@ -101,6 +106,7 @@ public class LaserLine : MonoBehaviour
 
 	public void ManualSetup(Vector3 OriginTarget, Vector3 WorldTarget, Color Colour)
 	{
+		Colour.a = 0.65f;
 		Sprite.color = Colour;
 		PositionLaserBody(OriginTarget, WorldTarget);
 	}
