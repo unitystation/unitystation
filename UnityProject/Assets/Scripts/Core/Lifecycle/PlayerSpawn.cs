@@ -353,6 +353,8 @@ public static class PlayerSpawn
 		catch (Exception e)
 		{
 			Logger.LogError(e.ToString());
+
+			physics.AppearAtWorldPositionServer(SpawnPoint.GetRandomPointForLateSpawn().transform.position);
 		}
 
 		switch (spawnType)
