@@ -12,6 +12,7 @@ namespace Player
 		[SerializeField] private Rotatable playerDirectional;
 		[SerializeField] private PlayerScript playerScript;
 		[SerializeField] private Util.NetworkedLeanTween networkedLean;
+		[SerializeField] private bool disabled = false;
 		private readonly Quaternion layingDownRotation = Quaternion.Euler(0, 0, -90);
 		private readonly Quaternion standingUp = Quaternion.Euler(0, 0, 0);
 
@@ -28,7 +29,9 @@ namespace Player
 
 		public void EnsureCorrectState()
 		{
-			if (IsLayingDown || health.IsDead)
+			gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+			if (disabled || health == null) return;
+			if (IsLayingDown || health.IsCrit || health.IsDead)
 			{
 				LayingDownLogic(true);
 			}
@@ -36,12 +39,11 @@ namespace Player
 			{
 				UpLogic(true);
 			}
-			gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
 		}
 
 		public void OnLayDown(bool oldValue, bool newValue)
 		{
-			if (newValue || health.IsDead)
+			if (newValue)
 			{
 				LayingDownLogic();
 			}
