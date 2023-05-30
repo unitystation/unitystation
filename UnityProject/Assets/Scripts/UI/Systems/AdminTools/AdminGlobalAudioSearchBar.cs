@@ -61,7 +61,7 @@ namespace AdminTools
 				if (buttons[i] != null)
 				{
 					if (buttons[i].GetComponent<AdminGlobalAudioButton>().myText.text.ToLower()
-						    .Contains(Searchtext.text.ToLower()) | Searchtext.text.Length == 0)
+						    .Contains(Searchtext.text.ToLower()) || Searchtext.text.Length == 0)
 					{
 					}
 					else

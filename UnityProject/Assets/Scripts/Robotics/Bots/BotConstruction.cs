@@ -60,7 +60,10 @@ namespace Items.Robotics
 			// Goes through list of items and checks them against the stageParts list and stageCounter
 			for (int x = 0; x <= stageParts.Length - 1; x++)
 			{
-				if (hand == checkItem & x == stageCounter) return true;
+				if (hand == checkItem && x == stageCounter)
+				{
+					return true;
+				}
 			}
 			return false;
 		}

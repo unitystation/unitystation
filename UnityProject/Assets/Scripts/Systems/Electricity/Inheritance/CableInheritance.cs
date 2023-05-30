@@ -205,7 +205,7 @@ namespace Objects.Electrical
 		{
 			if (this != null && !BeingDestroyed)
 			{
-				if (wireConnect.InData.WireEndA != Connection.NA | wireConnect.InData.WireEndB != Connection.NA)
+				if (wireConnect.InData.WireEndA != Connection.NA || wireConnect.InData.WireEndB != Connection.NA)
 				{
 					var searchVec = wireConnect.registerTile.LocalPosition;
 					if (wireConnect.SpriteHandler == null)
@@ -253,7 +253,7 @@ namespace Objects.Electrical
 
 		public void FindOverlapsAndCombine()
 		{
-			if (WireEndA == Connection.Overlap | WireEndB == Connection.Overlap)
+			if (WireEndA == Connection.Overlap || WireEndB == Connection.Overlap)
 			{
 				List<IntrinsicElectronicData> Econns = new List<IntrinsicElectronicData>();
 
