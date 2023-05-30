@@ -95,7 +95,7 @@ public class ResearchCollector : MonoBehaviour, IOnHitDetect, IMultitoolSlaveabl
 
 	}
 	MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.ResearchLaser;
-	IMultitoolMasterable IMultitoolSlaveable.Master => AssociatedResearchLaserProjector.GetComponent<IMultitoolMasterable>();
+	IMultitoolMasterable IMultitoolSlaveable.Master => AssociatedResearchLaserProjector.OrNull()?.GetComponent<IMultitoolMasterable>();
 	bool IMultitoolSlaveable.RequireLink => true;
 
 

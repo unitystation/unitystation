@@ -54,6 +54,9 @@ namespace Objects.Engineering
 		private bool isWelded;
 		private bool isWrenched;
 		private bool isOn;
+
+		public bool IsOn => isOn;
+
 		private bool isLocked;
 
 		// Voltage in wire
@@ -119,11 +122,15 @@ namespace Objects.Engineering
 		}
 
 
-		public bool ValidSetup()
+		public bool ValidSetup(bool IgnoreOn = false)
 		{
 			if (isWrenched == false) return false;
 			if (isWelded == false) return false;
-			if(isOn == false && alwaysShoot == false) return false;
+			if (IgnoreOn == false)
+			{
+				if(isOn == false && alwaysShoot == false) return false;
+			}
+
 
 			if (voltage < minVoltage && alwaysShoot == false)
 			{
@@ -238,7 +245,7 @@ namespace Objects.Engineering
 			}
 		}
 
-		private void TogglePower(bool newIsOn)
+		public void TogglePower(bool newIsOn)
 		{
 			if (newIsOn)
 			{

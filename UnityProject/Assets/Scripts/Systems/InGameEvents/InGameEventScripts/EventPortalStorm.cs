@@ -33,6 +33,9 @@ namespace InGameEvents
 		{
 			PortalHeight = 0,
 			EntityRotate = false,
+			PortalOpenTime = 0,
+			PortalCloseTime = 10,
+			PortalSuspenseTime = 10,
 		};
 
 		public override void OnEventStart()

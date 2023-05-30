@@ -160,6 +160,14 @@ public class ResearchLaserProjector : ResearchPointMachine, ICheckedInteractable
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
+		if (interaction.IsAltClick)
+		{
+			Emitter.TogglePower(!Emitter.IsOn);
+			var state = Emitter.IsOn ? "on" : "off";
+			Chat.AddActionMsgToChat(this.gameObject, $" You toggle The research laser to {state}. ");
+			return;
+		}
+
 		if (researchServer == null)
 		{
 			Chat.AddActionMsgToChat(this.gameObject, " The research laser beeps and boops Stating it's missing a connection to a research server ");
@@ -172,22 +180,28 @@ public class ResearchLaserProjector : ResearchPointMachine, ICheckedInteractable
 			return;
 		}
 
-		if (Emitter.ValidSetup() == false)
+		if (Emitter.ValidSetup(true) == false)
 		{
 			Chat.AddActionMsgToChat(this.gameObject, " The research laser beeps and boops Stating Still needs to be constructed fully and Powered");
 			return;
 
 		}
 
-		if (interaction.IsAltClick)
-		{
-			FireLaser();
-		}
-		else
-		{
-			Chat.AddActionMsgToChat(this.gameObject, " The research laser beeps and boops. Firing test Projection, Remember to connect collectors to research laser ");
 
-			TriggerLaser();
+		if (interaction.IsAltClick == false)
+		{
+			if (Emitter.IsOn)
+			{
+				FireLaser();
+			}
+			else
+			{
+				Chat.AddActionMsgToChat(this.gameObject, "The research laser beeps and boops. firing test projection. Remember to connect collectors to research laser");
+
+				TriggerLaser();
+			}
+
+
 		}
 		StartCoroutine(WaitForRecharge());
 	}

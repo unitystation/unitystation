@@ -146,6 +146,38 @@ namespace InGameEvents
 			}
 		}
 
+		public void TriggerSpecificEvent(string EventName, bool isFake = false, bool announceEvent = true, string serializedEventParameters = null)
+		{
+			var Event = ListOfFunEventScripts.FirstOrDefault(x => x.EventName == EventName);
+			if (Event == null)
+			{
+				Event = listOfSpecialEventScripts.FirstOrDefault(x => x.EventName == EventName);
+			}
+
+			if (Event == null)
+			{
+				Event = listOfAntagonistEventScripts.FirstOrDefault(x => x.EventName == EventName);
+			}
+
+			if (Event == null)
+			{
+				Event = listOfDebugEventScripts.FirstOrDefault(x => x.EventName == EventName);
+			}
+
+			if (Event == null)
+			{
+				Logger.LogError($"Unable to find event {EventName}, Make sure it set up properly inside of In game event manager prefab, And the name is exactly copied from the field EventName");
+				return;
+			}
+
+			Event.FakeEvent = isFake;
+			Event.AnnounceEvent = announceEvent;
+			Event.TriggerEvent(serializedEventParameters);
+
+			AdminCommandsManager.LogAdminAction($"GameCode: triggered the event: {Event.EventName}. Is fake: {isFake}. Announce: {announceEvent}");
+
+		}
+
 		public void StartRandomEvent(List<EventScriptBase> eventList, bool anEventMustHappen = false, bool isFake = false, bool serverTriggered = false, string adminName = null, bool announceEvent = true, int stackOverFlowProtection = 0)
 		{
 			if (eventList.Count == 0) return;

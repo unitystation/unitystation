@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using InGameEvents;
 using Mirror;
+using Systems.Explosions;
 using UnityEngine;
 using Util;
 using Weapons.Projectiles;
@@ -99,13 +101,29 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 			return;
 		}
 
+		bool TooPure = false;
+
 		if (TechnologyLaser.ShotFrom.researchServer.Techweb.TestedPrefabs.Contains(Identifier.ForeverID) == false)
 		{
-			Chat.AddActionMsgToChat(this.gameObject, $"{DisplayedItem.gameObject.ExpensiveName()} Explodes Shooting out many bright beams");
+			var Technology = DisplayedItem.GetComponent<ItemResearchPotential>();
+			if (Technology.IsTooPure)
+			{
+				Chat.AddActionMsgToChat(this.gameObject, $"GORDON!!");
+				InGameEventsManager.Instance.TriggerSpecificEvent("Resonance cascade", false, true);
+				TooPure = true;
+			}
+			else
+			{
+				Chat.AddActionMsgToChat(this.gameObject, $"{DisplayedItem.gameObject.ExpensiveName()} Explodes Shooting out many bright beams");
+			}
+
+
+
+
 
 			gameObject.GetComponent<Collider2D>().enabled = false;
 
-			foreach (var Design in DisplayedItem.GetComponent<ItemResearchPotential>().TechWebDesigns)
+			foreach (var Design in Technology.TechWebDesigns)
 			{
 
 				foreach (var Beam in Design.Beams)
@@ -141,11 +159,16 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 		}
 
 
-
 		HasItem = false;
 		_ = Despawn.ServerSingle(DisplayedItem.gameObject);
 		DisplayedItem = null;
 		OnItemChange?.Invoke();
+
+
+		if (TooPure)
+		{
+			Explosion.StartExplosion(data.HitWorldPosition.RoundToInt(), 1500);
+		}
 	}
 
 	private void ShootAtDirection(float rotationToShoot, OnHitDetectData data, TechnologyAndBeams TechnologyAndBeams )
