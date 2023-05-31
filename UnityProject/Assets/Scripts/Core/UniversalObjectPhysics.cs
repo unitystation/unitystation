@@ -253,6 +253,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	[PlayModeOnly] public bool IsCurrentlyFloating;
 
+	private bool ResetClientPositionReachTile = false;
+
+
+	//Pulling.Component.ResetLocationOnClients();
 
 	[PlayModeOnly]
 	// TODO: Bod this is not what CheckedComponent is for as the reference is not on the same object as this script - Dan
@@ -323,7 +327,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 		else
 		{
-			SetRegisterTileLocation(synchLocalTargetPosition.Vector3.RoundToInt());
+			InternalTriggerOnLocalTileReached(synchLocalTargetPosition.Vector3.RoundToInt());
 			SetTransform(synchLocalTargetPosition.Vector3, false);
 		}
 
@@ -523,7 +527,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		spinMagnitude = inSpinFactor;
 		SetMatrix(MatrixManager.Get(matrixID).Matrix);
 
-		SetRegisterTileLocation(resetToLocal.RoundToInt());
+		InternalTriggerOnLocalTileReached(resetToLocal.RoundToInt());
 
 		if (IsFlyingSliding) //If we flying try and smooth it
 		{
@@ -576,7 +580,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			}
 
 			SetTransform(TransformState.HiddenPos, false);
-			SetRegisterTileLocation(TransformState.HiddenPos);
+			InternalTriggerOnLocalTileReached(TransformState.HiddenPos);
 			ResetEverything();
 		}
 	}
@@ -645,7 +649,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			{
 				newtonianMovement = momentum;
 				LocalDifferenceNeeded = resetToLocal - transform.localPosition;
-				SetRegisterTileLocation(resetToLocal.RoundToInt());
+				InternalTriggerOnLocalTileReached(resetToLocal.RoundToInt());
 				if (CorrectingCourse == false)
 				{
 					CorrectingCourse = true;
@@ -661,7 +665,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					ByClient = NetId.Empty,
 					Matrix = matrixID
 				};
-				SetRegisterTileLocation(resetToLocal.RoundToInt());
+				InternalTriggerOnLocalTileReached(resetToLocal.RoundToInt());
 
 				if (Animating == false)
 				{
@@ -676,7 +680,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			{
 				newtonianMovement = momentum;
 				SetTransform(resetToLocal, false);
-				SetRegisterTileLocation(resetToLocal.RoundToInt());
+				InternalTriggerOnLocalTileReached(resetToLocal.RoundToInt());
 			}
 			else
 			{
@@ -688,7 +692,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					Matrix = matrixID
 				};
 				SetTransform(resetToLocal, false);
-				SetRegisterTileLocation(resetToLocal.RoundToInt());
+				InternalTriggerOnLocalTileReached(resetToLocal.RoundToInt());
 			}
 		}
 	}
@@ -976,7 +980,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		var localPosition = (newWorldPosition).ToLocal(movetoMatrix);
 
-		SetRegisterTileLocation(localPosition.RoundToInt());
+		InternalTriggerOnLocalTileReached(localPosition.RoundToInt());
 
 		SetLocalTarget = new Vector3WithData()
 		{
@@ -1086,7 +1090,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		{
 			var worldPOS = transform.position;
 			SetMatrix(newMatrix.Matrix);
-			SetRegisterTileLocation(worldPOS.ToLocal(newMatrix.Matrix).RoundToInt());
+			InternalTriggerOnLocalTileReached(worldPOS.ToLocal(newMatrix.Matrix).RoundToInt());
 			ResetLocationOnClients();
 		}
 	}
@@ -1138,7 +1142,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			if (hasAuthority) UIManager.Action.UpdatePullingUI(false);
 			if (Pulling.HasComponent)
 			{
-				Pulling.Component.ResetLocationOnClients();
+				Pulling.Component.ResetClientPositionReachTile = true;
 				Pulling.Component.PulledBy.SetToNull();
 				Pulling.SetToNull();
 				ContextGameObjects[1] = null;
@@ -1287,6 +1291,14 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			doNotApplyMomentumOnTarget = false;
 
 			UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
+
+			if (ResetClientPositionReachTile)
+			{
+				ResetClientPositionReachTile = false;
+				ResetLocationOnClients();
+			}
+
+			InternalTriggerOnLocalTileReached(transform.localPosition.RoundToInt());
 
 			if (newtonianMovement.magnitude > 0.01f)
 			{
@@ -1633,7 +1645,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		var localPosition = newPosition.ToLocal(movetoMatrix);
 
-		SetRegisterTileLocation(localPosition.RoundToInt());
+		InternalTriggerOnLocalTileReached(localPosition.RoundToInt());
 
 		if (isServer)
 		{
@@ -1666,6 +1678,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					UpdateManager.Add(CallbackType.UPDATE, AnimationUpdateMe);
 				}
 			}
+			else if (ResetClientPositionReachTile)
+			{
+				ResetClientPositionReachTile = false;
+				ResetLocationOnClients();
+			}
+
 
 			IsFlyingSliding = false;
 			airTime = 0;
@@ -1749,7 +1767,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 
 		var localPosition = (newPosition).ToLocal(movetoMatrix);
-		SetRegisterTileLocation(localPosition.RoundToInt());
+		InternalTriggerOnLocalTileReached(localPosition.RoundToInt());
 
 		if (Pulling.HasComponent)
 		{
@@ -1809,7 +1827,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		OnLocalTileReached.Invoke(oldLocalTilePosition, rounded);
 
 		oldLocalTilePosition = rounded;
-
+		SetRegisterTileLocation(rounded);
 		if (isServer == false)
 		{
 			ClientTileReached(rounded);
