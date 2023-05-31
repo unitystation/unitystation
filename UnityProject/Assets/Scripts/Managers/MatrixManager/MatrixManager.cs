@@ -485,6 +485,11 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			var Hit2D = Physics2D.Raycast(Worldorigin, direction.normalized, distance, Layermask2D.Value);
 			if (ClosestHit != null)
 			{
+				if (Hit2D.distance != 0)
+				{
+					Logger.LogError($"You're probably Hitting yourself at {Worldorigin} With direction {direction.normalized} FIX it, Falling back to tile Collisions ");
+				}
+
 				if (Hit2D.distance != 0 && ClosestHit.Value.Distance > Hit2D.distance)
 				{
 					ClosestHit = new CustomPhysicsHit(Hit2D);

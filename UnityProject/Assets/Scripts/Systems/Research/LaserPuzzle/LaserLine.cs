@@ -15,12 +15,13 @@ public class LaserLine : MonoBehaviour
 	private ItemPlinth TOriginPlinth;
 
 
+
 	private GameObject TTarget;
 	private Reflector TTargetReflector;
 	private Integrity TTargetIntegrity;
 	private UniversalObjectPhysics TTargetUniversalObjectPhysics;
 
-
+	private ItemPlinth TTargetPlinth;
 	public LaserProjection RelatedLaserProjection;
 
 
@@ -69,6 +70,13 @@ public class LaserLine : MonoBehaviour
 			{
 				TTargetIntegrity.BeingDestroyed += DestroyLine;
 			}
+
+			TTargetPlinth  = TTarget.GetComponent<ItemPlinth>();
+			if (TTargetPlinth != null)
+			{
+				TTargetPlinth.OnItemChange += DestroyLine;
+			}
+
 
 
 			TTargetUniversalObjectPhysics = TTarget.GetComponent<UniversalObjectPhysics>();
@@ -180,6 +188,11 @@ public class LaserLine : MonoBehaviour
 			if (TTargetIntegrity != null)
 			{
 				TTargetIntegrity.BeingDestroyed -= DestroyLine;
+			}
+
+			if (TTargetPlinth != null)
+			{
+				TTargetPlinth.OnItemChange -= DestroyLine;
 			}
 
 			TTargetUniversalObjectPhysics.OnLocalTileReached.RemoveListener(DestroyLine2);
