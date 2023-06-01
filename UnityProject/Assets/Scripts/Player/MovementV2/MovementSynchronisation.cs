@@ -829,7 +829,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 							foreach (var nonMatch in nonMatching)
 							{
 								spawned[nonMatch].GetComponent<UniversalObjectPhysics>()
-									.ResetLocationOnClient(connectionToClient);
+									.ResetLocationOnClient(connectionToClient, true);
 							}
 						}
 
