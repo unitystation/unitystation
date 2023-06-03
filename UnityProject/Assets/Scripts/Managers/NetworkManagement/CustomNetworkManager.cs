@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AddressableReferences;
 using UnityEngine;
 using Mirror;
 using UnityEngine.SceneManagement;
@@ -203,7 +204,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		foreach (var objectsPath in objectsPaths)
 		{
 			var asset = AssetDatabase.LoadAssetAtPath<GameObject>(objectsPath);
-			if (asset == null) continue;
+			if (asset is null) continue;
 
 			if (asset.TryGetComponent<NetworkIdentity>(out _) && playerPrefab != asset)
 			{
@@ -256,15 +257,8 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			}
 		}
 
-		try
-		{
-			AssetDatabase.StopAssetEditing();
-			AssetDatabase.SaveAssets();
-		}
-		catch (Exception e)
-		{
-			UnityEngine.TestTools.LogAssert.Expect(LogType.Warning, e.ToString());
-		}
+		AssetDatabase.StopAssetEditing();
+		AssetDatabase.SaveAssets();
 #endif
 	}
 
