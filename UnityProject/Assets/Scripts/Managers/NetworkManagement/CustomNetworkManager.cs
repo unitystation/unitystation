@@ -256,8 +256,16 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			}
 		}
 
-		AssetDatabase.StopAssetEditing();
-		AssetDatabase.SaveAssets();
+		try
+		{
+			AssetDatabase.StopAssetEditing();
+			AssetDatabase.SaveAssets();
+		}
+		catch (Exception e)
+		{
+			Logger.LogError(e.ToString());
+			throw;
+		}
 #endif
 	}
 
