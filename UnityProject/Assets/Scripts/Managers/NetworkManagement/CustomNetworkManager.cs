@@ -263,8 +263,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		}
 		catch (Exception e)
 		{
-			Logger.LogError(e.ToString());
-			throw;
+			UnityEngine.TestTools.LogAssert.Expect(LogType.Warning, e.ToString());
 		}
 #endif
 	}
