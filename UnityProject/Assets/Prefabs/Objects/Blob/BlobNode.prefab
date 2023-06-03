@@ -203,6 +203,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1157012077813375949, guid: 8222ca60d13546344a9ff991f239a0b0,
@@ -350,6 +351,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6748064994123771905, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
+      propertyPath: _assetId
+      value: 4286375797
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748064994123771905, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
       propertyPath: m_AssetId
       value: 78595bed3a93a2c459820c745204ed51
       objectReference: {fileID: 0}
@@ -360,6 +366,21 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: db46e5573557fe2408b8e4caa7ba3fa5,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2913148756339950521, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5046012217405305142}
+    - targetCorrespondingSourceObject: {fileID: 2913148756339950521, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6041230892512918776}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2916116569050989923, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -7050501883286639821}
   m_SourcePrefab: {fileID: 100100000, guid: 8222ca60d13546344a9ff991f239a0b0, type: 3}
 --- !u!4 &8322911466583423185 stripped
 Transform:
@@ -375,6 +396,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!120 &-7050501883286639821
 LineRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -462,13 +484,17 @@ LineRenderer:
       atime6: 0
       atime7: 0
       m_Mode: 1
+      m_ColorSpace: -1
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
     textureMode: 0
+    textureScale: {x: 1, y: 1}
     shadowBias: 0.5
     generateLightingData: 0
+  m_MaskInteraction: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+  m_ApplyActiveColorSpace: 0

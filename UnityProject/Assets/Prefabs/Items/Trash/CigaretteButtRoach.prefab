@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2667914488157679143, guid: 76c1cf9465a29384faac0d9df2eec3c9,
@@ -27,6 +28,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A manky old roach, or for non-stoners, a used rollup.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8946640814207148030, guid: 76c1cf9465a29384faac0d9df2eec3c9,
+        type: 3}
+      propertyPath: _assetId
+      value: 2536646341
       objectReference: {fileID: 0}
     - target: {fileID: 8946640814207148030, guid: 76c1cf9465a29384faac0d9df2eec3c9,
         type: 3}
@@ -100,4 +106,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 0e49864bfb9db344db87180f7cdd9c61,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76c1cf9465a29384faac0d9df2eec3c9, type: 3}

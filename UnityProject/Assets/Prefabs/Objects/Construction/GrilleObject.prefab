@@ -137,6 +137,25 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -165,6 +184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   matrixDebugLogging: 0
@@ -216,6 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   initialIntegrity: 50
@@ -242,6 +263,8 @@ MonoBehaviour:
     Anomaly: 0
     DismembermentProtectionChance: 0
     StunImmunity: 0
+    TemperatureProtectionInK: {x: 268.15, y: 313.15}
+    PressureProtectionInKpa: {x: 30, y: 300}
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -267,9 +290,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
+  _assetId: 459731547
   serverOnly: 0
   visible: 0
-  m_AssetId: e7a19fe59d5bcfe49a1d885d7fedab6e
   hasSpawned: 0
 --- !u!114 &5807791750556871521
 MonoBehaviour:
@@ -295,6 +318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   initialName: grille
@@ -317,6 +341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 207a47c00f1890a45a45b43092463d23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   layerTile: {fileID: 11400000, guid: 3975642db6c52ed4fa2086247abc1f28, type: 2}
@@ -334,6 +359,7 @@ SortingGroup:
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 1
+  m_SortAtRoot: 0
 --- !u!114 &-2923143411006564638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,6 +372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   DEBUG: 0
@@ -355,7 +382,6 @@ MonoBehaviour:
   Intangible: 0
   CanBeWindPushed: 1
   IsPlayer: 0
-  InitialLocationSynchronised: 0
   tileMoveSpeed: 1
   isNotPushable: 0
   HasOwnGravity: 0
@@ -371,6 +397,7 @@ MonoBehaviour:
   FramePushDecision: 1
   stickyMovement: 0
   OnThrowEndResetRotation: 0
+  CanSwap: 0
   maximumStickSpeed: 1.5
   onStationMovementsRound: 0
   registerTile: {fileID: 0}

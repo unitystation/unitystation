@@ -5,12 +5,18 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3685518439402342249, guid: 4fc25c61215094048b41943837cf2e3f,
         type: 3}
       propertyPath: initialName
       value: engineering radio encryption key
+      objectReference: {fileID: 0}
+    - target: {fileID: 3772952514296108479, guid: 4fc25c61215094048b41943837cf2e3f,
+        type: 3}
+      propertyPath: _assetId
+      value: 3910008366
       objectReference: {fileID: 0}
     - target: {fileID: 3772952514296108479, guid: 4fc25c61215094048b41943837cf2e3f,
         type: 3}
@@ -95,4 +101,7 @@ PrefabInstance:
       value: 8ba928feb755fda4f88101157de0018a
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4fc25c61215094048b41943837cf2e3f, type: 3}

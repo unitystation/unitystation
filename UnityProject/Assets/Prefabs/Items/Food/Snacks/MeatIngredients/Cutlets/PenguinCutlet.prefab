@@ -5,12 +5,18 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3568663156133970348, guid: 22153594ca62ee0418bb92cef2a1a384,
         type: 3}
       propertyPath: foreverID
       value: 50cbedabba658224ba3d3a2d9dc77dc4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7541554960362008693, guid: 22153594ca62ee0418bb92cef2a1a384,
+        type: 3}
+      propertyPath: _assetId
+      value: 1000910313
       objectReference: {fileID: 0}
     - target: {fileID: 7541554960362008693, guid: 22153594ca62ee0418bb92cef2a1a384,
         type: 3}
@@ -83,4 +89,7 @@ PrefabInstance:
       value: penguin cutlet
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22153594ca62ee0418bb92cef2a1a384, type: 3}

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6,
@@ -123,6 +124,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7153803037707514078, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: _assetId
+      value: 3672235032
+      objectReference: {fileID: 0}
+    - target: {fileID: 7153803037707514078, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: m_AssetId
       value: cf95e110ce481ec4783c18ef38cfa8e4
       objectReference: {fileID: 0}
@@ -137,6 +143,21 @@ PrefabInstance:
       value: Holds Research Data!
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2275805243632234819}
+    - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2537597061325202176}
+    - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9065833264468658804}
   m_SourcePrefab: {fileID: 100100000, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
 --- !u!1 &8008296850104345303 stripped
 GameObject:
@@ -156,6 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   NetTabType: 50
@@ -172,13 +194,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db58d378271c49fbb7a12d33ef3b9231, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  researchPointsTrickle: 1
-  TrickleTime: 60
+  <ResearchPointsTrickle>k__BackingField: 1
   techWebDisk: {fileID: 577098253553543881, guid: 3a892d56aceb2d24d8c917409cce08c5,
     type: 3}
-  AvailableDesigns: []
   explosiveBountyList: {fileID: 11400000, guid: fe0ad0f017efea543816cacfac4670f9,
     type: 2}
   bountiesOnStart: 10
@@ -202,18 +223,21 @@ MonoBehaviour:
   itemStoragePopulator: {fileID: 11400000, guid: 0a613ea8f3cc89b4c88ddb62d0483c59,
     type: 2}
   forceSpawnContents: 1
+  ManuallySpawnContent: 0
   dropItemsOnDespawn: 1
   UesAddlistPopulater: 0
   Populater:
     SlotContents:
-    - IndexSlot: 0
-      IfOccupiedFindEmptyIndexSlot: 0
-      UesIndex: 1
-      NamedSlot: 2048
+    - DoNotGetFirstEmptySlot: 0
       Prefab: {fileID: 577098253553543881, guid: 3a892d56aceb2d24d8c917409cce08c5,
         type: 3}
+      UseIndex: 1
+      IndexSlot: 0
+      NamedSlot: 2048
+      IfOccupiedFindEmptySlot: 1
       ReplacementStrategy: 0
       namedSlotPopulatorEntrys: []
     DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}

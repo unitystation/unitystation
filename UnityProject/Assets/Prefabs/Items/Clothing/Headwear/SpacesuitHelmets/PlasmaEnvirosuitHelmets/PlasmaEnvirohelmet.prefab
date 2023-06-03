@@ -107,6 +107,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3613193060126830548, guid: 5269bbb43ef5a0b40a2676310664d6c6,
@@ -240,6 +241,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7419268474676488679, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
+      propertyPath: _assetId
+      value: 517831372
+      objectReference: {fileID: 0}
+    - target: {fileID: 7419268474676488679, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
       propertyPath: m_AssetId
       value: 2c46f309a45d8714f9c5db5361e854e6
       objectReference: {fileID: 0}
@@ -324,6 +330,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7453808017583302951, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4139358835908759898}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7449724294196008019, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7083980442365488448}
+    - targetCorrespondingSourceObject: {fileID: 7449724294196008019, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9128007668606455301}
   m_SourcePrefab: {fileID: 100100000, guid: 5269bbb43ef5a0b40a2676310664d6c6, type: 3}
 --- !u!1 &911725522681720307 stripped
 GameObject:
@@ -343,12 +364,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d3d65b4ce352374ba2f4a8645c9476c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   LightEmission: {fileID: 0}
   objectLightEmission: {fileID: 5820569774446038092}
   CommonComponents: {fileID: 0}
-  Intensity: 0.5
   Colour: {r: 1, g: 1, b: 1, a: 1}
   EnumSprite: 0
   Size: 6
@@ -369,6 +390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 364f9fbced37d9048b4071fca95e51ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   spriteHandler: {fileID: 6476465160503121524}

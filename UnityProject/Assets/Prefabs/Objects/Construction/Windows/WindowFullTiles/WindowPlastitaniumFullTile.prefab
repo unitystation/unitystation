@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 707225928725273275, guid: 422afccc119081a4fa895bc72e8ecd78,
@@ -131,6 +132,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9182134985305426894, guid: 422afccc119081a4fa895bc72e8ecd78,
         type: 3}
+      propertyPath: _assetId
+      value: 2791528790
+      objectReference: {fileID: 0}
+    - target: {fileID: 9182134985305426894, guid: 422afccc119081a4fa895bc72e8ecd78,
+        type: 3}
       propertyPath: m_AssetId
       value: b670446c2e73a094aa965de9e3a5da59
       objectReference: {fileID: 0}
@@ -142,6 +148,17 @@ PrefabInstance:
     - {fileID: 3383985568769546103, guid: 422afccc119081a4fa895bc72e8ecd78, type: 3}
     - {fileID: 6784075479398023743, guid: 422afccc119081a4fa895bc72e8ecd78, type: 3}
     - {fileID: 4811040299159149250, guid: 422afccc119081a4fa895bc72e8ecd78, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 770307766077472428, guid: 422afccc119081a4fa895bc72e8ecd78,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 551113872907803671}
+    - targetCorrespondingSourceObject: {fileID: 770307766077472428, guid: 422afccc119081a4fa895bc72e8ecd78,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7431892531360401419}
   m_SourcePrefab: {fileID: 100100000, guid: 422afccc119081a4fa895bc72e8ecd78, type: 3}
 --- !u!1 &6397275954408119094 stripped
 GameObject:
@@ -161,6 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   matrixDebugLogging: 0
@@ -184,6 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9e51e431ef59f64ea946349935e5148, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   layerTile: {fileID: 11400000, guid: 657356183813ad14b9739f199d420fbe, type: 2}

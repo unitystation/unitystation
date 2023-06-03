@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1499169744200704914, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
@@ -130,6 +131,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7094281925372949223, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
+      propertyPath: _assetId
+      value: 782255890
+      objectReference: {fileID: 0}
+    - target: {fileID: 7094281925372949223, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
       propertyPath: m_AssetId
       value: 5cb574d8e6bf6964a97eefa7dcab9ebc
       objectReference: {fileID: 0}
@@ -180,4 +186,7 @@ PrefabInstance:
         Could you fit in this?
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9bb4cf2e55ac1249ae2afe0243cf436, type: 3}

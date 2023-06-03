@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3504482881622366517, guid: 7c4d6f08fc4da3b4dbd86d2f111812ea,
@@ -77,6 +78,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BluespaceBananaPeel
+      objectReference: {fileID: 0}
+    - target: {fileID: 3731140592673150941, guid: 7c4d6f08fc4da3b4dbd86d2f111812ea,
+        type: 3}
+      propertyPath: _assetId
+      value: 1715425144
       objectReference: {fileID: 0}
     - target: {fileID: 3731140592673150941, guid: 7c4d6f08fc4da3b4dbd86d2f111812ea,
         type: 3}
@@ -158,4 +164,7 @@ PrefabInstance:
       value: 0746f27c7585c40418edce2b9925b38e
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c4d6f08fc4da3b4dbd86d2f111812ea, type: 3}

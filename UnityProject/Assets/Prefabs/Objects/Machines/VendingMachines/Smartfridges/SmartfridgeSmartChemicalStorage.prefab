@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
@@ -74,6 +75,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7577488249132383049, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
+      propertyPath: _assetId
+      value: 1728507689
+      objectReference: {fileID: 0}
+    - target: {fileID: 7577488249132383049, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
       propertyPath: m_AssetId
       value: 56be2676dc2707246b78c44d136d587b
       objectReference: {fileID: 0}
@@ -88,4 +94,7 @@ PrefabInstance:
       value: A refrigerated storage unit for medicine storage.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d444ad6dde436d44920ac030fc733de, type: 3}

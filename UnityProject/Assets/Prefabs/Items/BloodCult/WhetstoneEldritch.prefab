@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2006231833280263201, guid: 718d1f376545f3643aa114f47282f5ae,
@@ -22,6 +23,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A block, empowered by dark magic. Sharp weapons will be enhanced when
         used on the stone.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2066657539452561143, guid: 718d1f376545f3643aa114f47282f5ae,
+        type: 3}
+      propertyPath: _assetId
+      value: 2190997122
       objectReference: {fileID: 0}
     - target: {fileID: 2066657539452561143, guid: 718d1f376545f3643aa114f47282f5ae,
         type: 3}
@@ -106,4 +112,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 04b25d8b52b903542870eb54edafeacc,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 718d1f376545f3643aa114f47282f5ae, type: 3}

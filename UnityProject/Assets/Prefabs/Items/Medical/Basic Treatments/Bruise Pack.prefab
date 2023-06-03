@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
@@ -127,6 +128,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1821991397738242279, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
+      propertyPath: _assetId
+      value: 117835438
+      objectReference: {fileID: 0}
+    - target: {fileID: 1821991397738242279, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
       propertyPath: m_AssetId
       value: 13186a514a60194429e94407b6cf1e0a
       objectReference: {fileID: 0}
@@ -207,6 +213,13 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: d7f55acbef20fd74f9e511cbc45ce5b3,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1791647728409730387, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4441490070594631954}
   m_SourcePrefab: {fileID: 100100000, guid: c3138c3e8a46444199668b85070b1a39, type: 3}
 --- !u!1 &6748581008247049004 stripped
 GameObject:
@@ -228,6 +241,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healType: 0
   StopsExternalBleeding: 0
-  HealsTraumaDamage: 0
-  TraumaDamageToHeal: 20
   TraumaTypeToHeal: 0

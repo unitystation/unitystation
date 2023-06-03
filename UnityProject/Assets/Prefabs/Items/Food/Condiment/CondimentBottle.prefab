@@ -110,6 +110,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 581308222893969371, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
@@ -182,6 +183,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 825558115691839795, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: _assetId
+      value: 3525514853
       objectReference: {fileID: 0}
     - target: {fileID: 825558115691839795, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
@@ -281,6 +287,21 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: aa747bddfc05abe42befbe9631375bf2,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 789061236122354163, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2021716953393998812}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 783851887035088007, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -5003536389538966795}
+    - targetCorrespondingSourceObject: {fileID: 783851887035088007, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2575248337170886117}
   m_SourcePrefab: {fileID: 100100000, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3, type: 3}
 --- !u!4 &8431935078031720043 stripped
 Transform:
@@ -306,6 +327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed44c09dda7911046be12dffc5fdebdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   mainSpriteRender: {fileID: 8639654489432600643}
@@ -322,6 +344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8872d4cc4320514995f91133f2a5adb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   fillSpriteRender: {fileID: 3430472353476352236}

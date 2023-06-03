@@ -425,6 +425,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -4477014874976573806, guid: da85b7a590e7c8444af73629fcb5dd22,
@@ -469,6 +470,11 @@ PrefabInstance:
         type: 3}
       propertyPath: allowMagazineRemoval
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8109205671878849838, guid: da85b7a590e7c8444af73629fcb5dd22,
+        type: 3}
+      propertyPath: _assetId
+      value: 806525295
       objectReference: {fileID: 0}
     - target: {fileID: 8109205671878849838, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
@@ -576,6 +582,33 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents:
     - {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6288949174333782400}
+    - targetCorrespondingSourceObject: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4318467024818780366}
+    - targetCorrespondingSourceObject: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5785640420543790341}
+    - targetCorrespondingSourceObject: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8763012772582486514}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8150840225578731674, guid: da85b7a590e7c8444af73629fcb5dd22,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4206346965545160429}
+    - targetCorrespondingSourceObject: {fileID: 8150840225578731674, guid: da85b7a590e7c8444af73629fcb5dd22,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6648593666208859230}
   m_SourcePrefab: {fileID: 100100000, guid: da85b7a590e7c8444af73629fcb5dd22, type: 3}
 --- !u!4 &4450321759764526106 stripped
 Transform:
@@ -613,6 +646,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b65971c5a3836c41e850378c8d413b4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   ammoPrefab: {fileID: 5999901686547831408, guid: bd07fb3945875634685790190ea8decc,

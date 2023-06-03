@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4003491813111447359, guid: e1b6777d67d2e244f8149d1eb84fc582,
@@ -23,6 +24,11 @@ PrefabInstance:
       value: A 7.12x82mm bullet casing designed with a chemical-filled capsule on
         the tip that when bursted, reacts with the atmosphere to produce a fireball,
         engulfing the target in flames.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7971880326410833638, guid: e1b6777d67d2e244f8149d1eb84fc582,
+        type: 3}
+      propertyPath: _assetId
+      value: 3249177724
       objectReference: {fileID: 0}
     - target: {fileID: 7971880326410833638, guid: e1b6777d67d2e244f8149d1eb84fc582,
         type: 3}
@@ -90,4 +96,7 @@ PrefabInstance:
       value: Ammo7.12x82mmIncendiary
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1b6777d67d2e244f8149d1eb84fc582, type: 3}

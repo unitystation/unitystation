@@ -111,6 +111,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1661091511410774423, guid: c7bd454a0c6f11747b3c0a8c5bdb10c8,
@@ -257,6 +258,13 @@ PrefabInstance:
       value: SnowyBush
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7117101304906981935, guid: c7bd454a0c6f11747b3c0a8c5bdb10c8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8832137627280670589}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7bd454a0c6f11747b3c0a8c5bdb10c8, type: 3}
 --- !u!4 &7985033582257652017 stripped
 Transform:

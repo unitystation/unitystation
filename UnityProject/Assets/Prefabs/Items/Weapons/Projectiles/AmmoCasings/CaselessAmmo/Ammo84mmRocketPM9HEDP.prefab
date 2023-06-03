@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -2625148932084804424, guid: d449122ab9878fd4dab243529623d4a8,
@@ -39,6 +40,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: An 84mm High-Explosive Dual-Purpose rocket. Pointy end toward mechs
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852990787764874578, guid: d449122ab9878fd4dab243529623d4a8,
+        type: 3}
+      propertyPath: _assetId
+      value: 3701098004
       objectReference: {fileID: 0}
     - target: {fileID: 7852990787764874578, guid: d449122ab9878fd4dab243529623d4a8,
         type: 3}
@@ -112,4 +118,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 37fa66199a6b1c641b4f4e06f30c44d5,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d449122ab9878fd4dab243529623d4a8, type: 3}

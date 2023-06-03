@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3579279403042536298, guid: f9b48c194efec7840b9dea9662005173,
@@ -66,6 +67,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7530770484140264115, guid: f9b48c194efec7840b9dea9662005173,
         type: 3}
+      propertyPath: _assetId
+      value: 2402895712
+      objectReference: {fileID: 0}
+    - target: {fileID: 7530770484140264115, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
       propertyPath: m_AssetId
       value: 496bd7f7917a94e44878b6f2a57900a0
       objectReference: {fileID: 0}
@@ -116,6 +122,13 @@ PrefabInstance:
       value: It feels warm to the touch.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7572413834478188295, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2293888574925559366}
   m_SourcePrefab: {fileID: 100100000, guid: f9b48c194efec7840b9dea9662005173, type: 3}
 --- !u!1 &7792469808048322689 stripped
 GameObject:

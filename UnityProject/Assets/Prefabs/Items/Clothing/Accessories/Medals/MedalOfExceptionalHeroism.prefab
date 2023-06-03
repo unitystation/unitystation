@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3732330060081758159, guid: 08198d608da024f47ae27defb4e20c43,
@@ -18,6 +19,11 @@ PrefabInstance:
       value: An extremely rare golden medal awarded only by CentCom. To receive such
         a medal is the highest honor and as such, very few exist. This medal is almost
         never awarded to anybody but commanders.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3797178001479478553, guid: 08198d608da024f47ae27defb4e20c43,
+        type: 3}
+      propertyPath: _assetId
+      value: 4243518435
       objectReference: {fileID: 0}
     - target: {fileID: 3797178001479478553, guid: 08198d608da024f47ae27defb4e20c43,
         type: 3}
@@ -90,4 +96,7 @@ PrefabInstance:
       value: 9dbc0f8277de1ed449efae96f66428e9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08198d608da024f47ae27defb4e20c43, type: 3}

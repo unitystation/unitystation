@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -4441519557137854397, guid: b564e5d916b891446903adc342af08bd,
@@ -45,6 +46,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: An extremely weak shotgun shell with multiple small pellets made out
         of metal shards.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8364667066244186251, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
+      propertyPath: _assetId
+      value: 2293759400
       objectReference: {fileID: 0}
     - target: {fileID: 8364667066244186251, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
@@ -118,4 +124,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 31cc9a4e03994994e9b3643c91e0498b,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b564e5d916b891446903adc342af08bd, type: 3}

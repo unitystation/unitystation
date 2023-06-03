@@ -5,8 +5,14 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 583878553009238015, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
+        type: 3}
+      propertyPath: _assetId
+      value: 679908660
+      objectReference: {fileID: 0}
     - target: {fileID: 583878553009238015, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
         type: 3}
       propertyPath: m_AssetId
@@ -74,6 +80,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4863277160209273534, guid: 7ff56f8e13078c1419de4821c2b5ecfd, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9063366402093685405, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7470765398914834986}
   m_SourcePrefab: {fileID: 100100000, guid: 7ff56f8e13078c1419de4821c2b5ecfd, type: 3}
 --- !u!1 &2690072642478446657 stripped
 GameObject:
@@ -93,13 +106,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1302b527b9f115146824dfee8d3ef952, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   runningInterfaces: []
   greenSprite: {fileID: 21300000, guid: acf88d35ee6536c4fb4bfe32fd85ab99, type: 3}
   offSprite: {fileID: 21300000, guid: 30fdc2d451617c44e80f6ebd3a2dea54, type: 3}
   redSprite: {fileID: 21300002, guid: a139d46eda53f454ba131993ab7ea47e, type: 3}
-  restricted: 0
-  access: 0
   doorControllers: []
   conType: 7

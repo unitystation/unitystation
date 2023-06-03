@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -4343989174440723700, guid: b46887a995abc224aab70e21b9e53697,
@@ -798,6 +799,13 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 5854eb35cfc2c1b47ae108a5080b33d6,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7759570870767460473, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2114407587521241139}
   m_SourcePrefab: {fileID: 100100000, guid: b46887a995abc224aab70e21b9e53697, type: 3}
 --- !u!1 &676355976789840720 stripped
 GameObject:
@@ -829,3 +837,4 @@ MonoBehaviour:
   canExamineFrequency: 1
   minimumDamageBeforeObfuscation: 12
   ReactorChambers: {fileID: 0}
+  chatAnnouncementCheckTime: 8

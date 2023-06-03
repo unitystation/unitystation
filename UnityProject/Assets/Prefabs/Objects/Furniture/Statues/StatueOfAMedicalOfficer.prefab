@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1801773235492261439, guid: a599ae33edcae4144b6e89b844f99370,
@@ -106,6 +107,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7844425010889767773, guid: a599ae33edcae4144b6e89b844f99370,
         type: 3}
+      propertyPath: _assetId
+      value: 1114274060
+      objectReference: {fileID: 0}
+    - target: {fileID: 7844425010889767773, guid: a599ae33edcae4144b6e89b844f99370,
+        type: 3}
       propertyPath: m_AssetId
       value: fe080db714dc6564e83cbbe48f5cbd3d
       objectReference: {fileID: 0}
@@ -115,4 +121,7 @@ PrefabInstance:
       value: statue of a medical officer
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a599ae33edcae4144b6e89b844f99370, type: 3}

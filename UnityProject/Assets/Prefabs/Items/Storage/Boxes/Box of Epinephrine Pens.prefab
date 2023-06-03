@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 309958516471808564, guid: 3e5919f639f566c4590d07d54ef256dd,
@@ -33,6 +34,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A Box containing emergency Epinephrine Pens
+      objectReference: {fileID: 0}
+    - target: {fileID: 8521467601672753390, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: _assetId
+      value: 1006578954
       objectReference: {fileID: 0}
     - target: {fileID: 8521467601672753390, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
@@ -164,7 +170,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
+      propertyPath: Populater.SlotContents.Array.data[0].UseIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
       propertyPath: Populater.SlotContents.Array.data[1].UesIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[1].UseIndex
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
@@ -174,7 +190,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
+      propertyPath: Populater.SlotContents.Array.data[2].UseIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
       propertyPath: Populater.SlotContents.Array.data[3].UesIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[3].UseIndex
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
@@ -184,12 +210,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
+      propertyPath: Populater.SlotContents.Array.data[4].UseIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
       propertyPath: Populater.SlotContents.Array.data[5].UesIndex
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
+      propertyPath: Populater.SlotContents.Array.data[5].UseIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
       propertyPath: Populater.SlotContents.Array.data[6].UesIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[6].UseIndex
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
@@ -238,4 +279,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e5919f639f566c4590d07d54ef256dd, type: 3}

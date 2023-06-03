@@ -5,8 +5,14 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1145543468140709448, guid: 5516fc74bd367c64baa5a82dff0e929c,
+        type: 3}
+      propertyPath: _assetId
+      value: 195656346
+      objectReference: {fileID: 0}
     - target: {fileID: 1145543468140709448, guid: 5516fc74bd367c64baa5a82dff0e929c,
         type: 3}
       propertyPath: m_AssetId
@@ -115,4 +121,7 @@ PrefabInstance:
       value: CellWinDoorRight
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5516fc74bd367c64baa5a82dff0e929c, type: 3}

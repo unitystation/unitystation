@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1525096605579474955, guid: 04715b92af42bdc45be575a92446c3bd,
@@ -80,6 +81,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4753569094755384888, guid: 04715b92af42bdc45be575a92446c3bd,
         type: 3}
+      propertyPath: _assetId
+      value: 292067788
+      objectReference: {fileID: 0}
+    - target: {fileID: 4753569094755384888, guid: 04715b92af42bdc45be575a92446c3bd,
+        type: 3}
       propertyPath: m_AssetId
       value: 34a3108c7cae9bd41a212aa9f4d43517
       objectReference: {fileID: 0}
@@ -100,4 +106,7 @@ PrefabInstance:
       value: For containing patient documents
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04715b92af42bdc45be575a92446c3bd, type: 3}

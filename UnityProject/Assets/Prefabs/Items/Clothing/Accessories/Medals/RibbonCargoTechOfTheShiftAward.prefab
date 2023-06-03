@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3146888697320768413, guid: ee5df863675e12742aa716c3ab6ce5c1,
@@ -17,6 +18,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: An award bestowed only upon those cargotechs who have exhibited devotion
         to their duty in keeping with the highest traditions of Cargonia.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3229733720471425355, guid: ee5df863675e12742aa716c3ab6ce5c1,
+        type: 3}
+      propertyPath: _assetId
+      value: 4095261924
       objectReference: {fileID: 0}
     - target: {fileID: 3229733720471425355, guid: ee5df863675e12742aa716c3ab6ce5c1,
         type: 3}
@@ -89,4 +95,7 @@ PrefabInstance:
       value: 0e4715e0f795b5a489699b0b18376044
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee5df863675e12742aa716c3ab6ce5c1, type: 3}

@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -81071058559821619, guid: a075086024d70074e8747c26b57dfa7f,
@@ -118,6 +119,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: heavy firelock
+      objectReference: {fileID: 0}
+    - target: {fileID: 1707175749831390194, guid: a075086024d70074e8747c26b57dfa7f,
+        type: 3}
+      propertyPath: _assetId
+      value: 1845932521
       objectReference: {fileID: 0}
     - target: {fileID: 1707175749831390194, guid: a075086024d70074e8747c26b57dfa7f,
         type: 3}
@@ -278,4 +284,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a075086024d70074e8747c26b57dfa7f, type: 3}

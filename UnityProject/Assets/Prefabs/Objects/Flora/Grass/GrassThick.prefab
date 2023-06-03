@@ -111,6 +111,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 155908463860164561, guid: 00173e5de3306664c90ceda936ce817f,
@@ -176,7 +177,7 @@ PrefabInstance:
     - target: {fileID: 3843837462726334872, guid: 00173e5de3306664c90ceda936ce817f,
         type: 3}
       propertyPath: m_Name
-      value: xJungleGrassAx
+      value: GrassThick
       objectReference: {fileID: 0}
     - target: {fileID: 3906926717121101199, guid: 00173e5de3306664c90ceda936ce817f,
         type: 3}
@@ -251,6 +252,13 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 3c94e6ee94926544c8982a59ad8f16cc,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3840928387997474626, guid: 00173e5de3306664c90ceda936ce817f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3156862581751553345}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00173e5de3306664c90ceda936ce817f, type: 3}
 --- !u!4 &9051683190382505958 stripped
 Transform:

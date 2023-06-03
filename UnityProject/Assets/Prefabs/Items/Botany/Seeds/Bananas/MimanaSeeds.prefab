@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3075874683970725352, guid: 20a3d1857d5f66c4aa945129302471a7,
@@ -63,6 +64,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: They're seeds that grow into mimana trees. When grown, keep away from
         mime
+      objectReference: {fileID: 0}
+    - target: {fileID: 4379662516609680101, guid: 20a3d1857d5f66c4aa945129302471a7,
+        type: 3}
+      propertyPath: _assetId
+      value: 1129351516
       objectReference: {fileID: 0}
     - target: {fileID: 4379662516609680101, guid: 20a3d1857d5f66c4aa945129302471a7,
         type: 3}
@@ -147,4 +153,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 939186a77bb8e3f4bba1083b02794192,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20a3d1857d5f66c4aa945129302471a7, type: 3}

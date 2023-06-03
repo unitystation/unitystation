@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3856594560014231766, guid: a8b053482da561b4eba3bd81d8fe51ab,
@@ -27,6 +28,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: These seeds grow into chilly pepper plants.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7830612057451895055, guid: a8b053482da561b4eba3bd81d8fe51ab,
+        type: 3}
+      propertyPath: _assetId
+      value: 4239361072
       objectReference: {fileID: 0}
     - target: {fileID: 7830612057451895055, guid: a8b053482da561b4eba3bd81d8fe51ab,
         type: 3}
@@ -132,4 +138,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8b053482da561b4eba3bd81d8fe51ab, type: 3}

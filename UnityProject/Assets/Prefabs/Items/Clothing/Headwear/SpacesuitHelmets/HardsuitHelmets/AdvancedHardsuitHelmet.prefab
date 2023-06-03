@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3547883628967403028, guid: c947ef228fe12b44dad029156a74f62b,
@@ -116,6 +117,11 @@ PrefabInstance:
         type: 3}
       propertyPath: armoredBodyParts.Array.data[2].armor.Melee
       value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7499075161934737357, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: _assetId
+      value: 331652266
       objectReference: {fileID: 0}
     - target: {fileID: 7499075161934737357, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
@@ -237,4 +243,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 25046d1cc9626fd40a6d2946b71eae3a,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c947ef228fe12b44dad029156a74f62b, type: 3}

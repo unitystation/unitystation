@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1417260671552940035, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
@@ -16,6 +17,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A cake with added orange.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500455408126966485, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+        type: 3}
+      propertyPath: _assetId
+      value: 3292255362
       objectReference: {fileID: 0}
     - target: {fileID: 1500455408126966485, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
@@ -105,4 +111,7 @@ PrefabInstance:
       value: c54f90932687dbb4fb017ea56d63be7f
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d3192a7eebeb004c8bd3d53172d6ce9, type: 3}

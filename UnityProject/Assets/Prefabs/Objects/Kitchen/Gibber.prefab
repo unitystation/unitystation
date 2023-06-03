@@ -56,6 +56,25 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -278,7 +297,6 @@ MonoBehaviour:
   Intangible: 0
   CanBeWindPushed: 1
   IsPlayer: 0
-  InitialLocationSynchronised: 0
   tileMoveSpeed: 1
   isNotPushable: 1
   HasOwnGravity: 0
@@ -294,6 +312,7 @@ MonoBehaviour:
   FramePushDecision: 1
   stickyMovement: 0
   OnThrowEndResetRotation: 0
+  CanSwap: 0
   maximumStickSpeed: 1.5
   onStationMovementsRound: 0
   registerTile: {fileID: 0}
@@ -360,6 +379,7 @@ SortingGroup:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: -10000
+  m_SortAtRoot: 0
 --- !u!1 &1367537609961248
 GameObject:
   m_ObjectHideFlags: 0

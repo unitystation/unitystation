@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2276679310510023228, guid: 673bb8fcbfe706f4ba328a489e31337d,
@@ -99,6 +100,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6716092082655734039, guid: 673bb8fcbfe706f4ba328a489e31337d,
         type: 3}
+      propertyPath: _assetId
+      value: 469104793
+      objectReference: {fileID: 0}
+    - target: {fileID: 6716092082655734039, guid: 673bb8fcbfe706f4ba328a489e31337d,
+        type: 3}
       propertyPath: m_AssetId
       value: 8c638788cde389a4e897d3fd1a25e1e3
       objectReference: {fileID: 0}
@@ -138,6 +144,9 @@ PrefabInstance:
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 673bb8fcbfe706f4ba328a489e31337d, type: 3}
 --- !u!114 &5245650292007246961 stripped
 MonoBehaviour:

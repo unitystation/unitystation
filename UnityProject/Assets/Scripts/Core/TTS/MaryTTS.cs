@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Audio;
 using Audio.Containers;
 using UnityWebRequest = UnityEngine.Networking.UnityWebRequest;
-using Utility = UnityEngine.Networking.Utility;
-using Mirror;
 
 public class MaryTTS : MonoBehaviour {
 	public static MaryTTS Instance;

@@ -5,12 +5,18 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4275613704400762766, guid: c1864b9c35707f44da16d6a9dd59b43c,
         type: 3}
       propertyPath: initialName
       value: black bishop's cloak
+      objectReference: {fileID: 0}
+    - target: {fileID: 4336868785935525208, guid: c1864b9c35707f44da16d6a9dd59b43c,
+        type: 3}
+      propertyPath: _assetId
+      value: 3994399341
       objectReference: {fileID: 0}
     - target: {fileID: 4336868785935525208, guid: c1864b9c35707f44da16d6a9dd59b43c,
         type: 3}
@@ -101,4 +107,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 4e37bd7bbfba64048a9089b56d40500a,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1864b9c35707f44da16d6a9dd59b43c, type: 3}

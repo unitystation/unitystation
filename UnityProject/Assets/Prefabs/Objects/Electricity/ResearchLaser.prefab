@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -7926788470919046243, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
@@ -127,6 +128,21 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 89afa2f48f8b75e4bb944900f7858935,
         type: 2}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4194276244320548660, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1090558377515816039}
+    - targetCorrespondingSourceObject: {fileID: 4194276244320548660, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1951002309018821911}
+    - targetCorrespondingSourceObject: {fileID: 4194276244320548660, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4616934901244668392}
   m_SourcePrefab: {fileID: 100100000, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f, type: 3}
 --- !u!1 &3151798844342946279 stripped
 GameObject:
@@ -155,7 +171,6 @@ MonoBehaviour:
     type: 3}
   LaserProjectilePrefab: {fileID: 3256196131092598179, guid: c588338f2b0ee5e4196afedb7f1ace30,
     type: 3}
-  Collectors: []
 --- !u!114 &1951002309018821911
 MonoBehaviour:
   m_ObjectHideFlags: 0

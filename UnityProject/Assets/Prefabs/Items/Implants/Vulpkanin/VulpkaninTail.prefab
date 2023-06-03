@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2323349423520023988, guid: b87ebcdea6fb0dd49b0fbcf1b308c159,
@@ -71,6 +72,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A severed vulpkanin tail. Somewhere, no doubt, a fox hater is very pleased
         with themselves.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8425139041998570375, guid: b87ebcdea6fb0dd49b0fbcf1b308c159,
+        type: 3}
+      propertyPath: _assetId
+      value: 1207016108
       objectReference: {fileID: 0}
     - target: {fileID: 8425139041998570375, guid: b87ebcdea6fb0dd49b0fbcf1b308c159,
         type: 3}
@@ -144,4 +150,7 @@ PrefabInstance:
       objectReference: {fileID: 5844802705718556708, guid: b4351ba620e49a648acee7dcd567ef9c,
         type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b87ebcdea6fb0dd49b0fbcf1b308c159, type: 3}

@@ -107,6 +107,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1163226963447212798, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
@@ -247,6 +248,21 @@ PrefabInstance:
       value: light
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1270907325304482366, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8598184198671114641}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1274704900924856138, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6447919417946254890}
+    - targetCorrespondingSourceObject: {fileID: 1274704900924856138, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7371254084972930010}
   m_SourcePrefab: {fileID: 100100000, guid: 81e4f93f9ae0fc64aad2053ade3ae29e, type: 3}
 --- !u!4 &686540928847996329 stripped
 Transform:
@@ -278,11 +294,13 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 0
+  ManuallySpawnContent: 0
   dropItemsOnDespawn: 1
   UesAddlistPopulater: 0
   Populater:
     SlotContents: []
     DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!114 &7371254084972930010

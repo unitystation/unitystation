@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 55285483987348138, guid: 9d444ad6dde436d44920ac030fc733de,
@@ -113,7 +114,12 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 8086984464816162904}
+      objectReference: {fileID: 0}
+    - target: {fileID: 7577488249132383049, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
+      propertyPath: _assetId
+      value: 2289165261
+      objectReference: {fileID: 0}
     - target: {fileID: 7577488249132383049, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
       propertyPath: m_AssetId
@@ -134,6 +140,21 @@ PrefabInstance:
     - {fileID: 2113994910920152532, guid: 9d444ad6dde436d44920ac030fc733de, type: 3}
     - {fileID: 3289875697544077319, guid: 9d444ad6dde436d44920ac030fc733de, type: 3}
     - {fileID: 55285483987348138, guid: 9d444ad6dde436d44920ac030fc733de, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2086702233188027947, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3314006952415964248}
+    - targetCorrespondingSourceObject: {fileID: 2086702233188027947, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4287802351136866684}
+    - targetCorrespondingSourceObject: {fileID: 2086702233188027947, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8580516019668165460}
   m_SourcePrefab: {fileID: 100100000, guid: 9d444ad6dde436d44920ac030fc733de, type: 3}
 --- !u!1 &6385563160038612826 stripped
 GameObject:
@@ -159,11 +180,13 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 0
+  ManuallySpawnContent: 0
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
     SlotContents: []
     DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!114 &4287802351136866684
@@ -178,6 +201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5037c1a6e33442c4b8e4ca89c248b067, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
 --- !u!114 &8580516019668165460
@@ -190,17 +214,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4965049a29576ac468cf2514bb95ea45, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8086984464816162904 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3770035132992035113, guid: 9d444ad6dde436d44920ac030fc733de,
-    type: 3}
-  m_PrefabInstance: {fileID: 4930148002410254705}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6385563160038612826}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

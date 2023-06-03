@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 203609217757205374, guid: d2ef9e5590dc00048833d43a568feb07,
@@ -78,6 +79,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6197365604022048077, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
+      propertyPath: _assetId
+      value: 1962774316
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197365604022048077, guid: d2ef9e5590dc00048833d43a568feb07,
+        type: 3}
       propertyPath: m_AssetId
       value: 236a9f0fec9e17340992ee58b46e4d18
       objectReference: {fileID: 0}
@@ -142,4 +148,7 @@ PrefabInstance:
       value: SnowconeOrange
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2ef9e5590dc00048833d43a568feb07, type: 3}

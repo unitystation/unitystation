@@ -5,12 +5,18 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4315868323956475258, guid: 5fcdd7b5846d1734381c1bf52c4ffdba,
         type: 3}
       propertyPath: foreverID
       value: 62302001b39236e4c91b50f3ab1724fb
+      objectReference: {fileID: 0}
+    - target: {fileID: 7118932224558036131, guid: 5fcdd7b5846d1734381c1bf52c4ffdba,
+        type: 3}
+      propertyPath: _assetId
+      value: 1554030577
       objectReference: {fileID: 0}
     - target: {fileID: 7118932224558036131, guid: 5fcdd7b5846d1734381c1bf52c4ffdba,
         type: 3}
@@ -88,4 +94,7 @@ PrefabInstance:
       value: A .50 caliber penetrator round casing.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fcdd7b5846d1734381c1bf52c4ffdba, type: 3}
