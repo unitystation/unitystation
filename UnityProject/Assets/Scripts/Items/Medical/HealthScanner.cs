@@ -54,7 +54,7 @@ namespace Items.Medical
 			if (health.reagentPoolSystem != null)
 			{
 				bloodTotal = Mathf.Round(health.reagentPoolSystem.GetTotalBlood());
-				bloodPercent = Mathf.Round(bloodTotal / health.reagentPoolSystem.BloodInfo.BLOOD_NORMAL * 100);
+				bloodPercent = Mathf.Round(bloodTotal / health.reagentPoolSystem.NormalBlood * 100);
 			}
 
 			float[] fullDamage = new float[7];

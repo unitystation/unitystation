@@ -1,0 +1,150 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1475676968582113321
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1627570985089510486, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: Nutriment
+      value: 
+      objectReference: {fileID: 11400000, guid: 00d9a9827ebcc49ab8b0df647c4f7da5,
+        type: 2}
+    - target: {fileID: 3258052693451940005, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1a91b277117bcf54eb25965854eb299f,
+        type: 3}
+    - target: {fileID: 3338061971700198989, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: _assetId
+      value: 3011347290
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442747058158572537, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: m_Name
+      value: SlimeCore
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446549031494643341, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446549031494643341, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446549031494643341, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446549031494643341, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446549031494643341, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446549031494643341, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446549031494643341, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446549031494643341, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446549031494643341, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446549031494643341, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446549031494643341, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3627688992291996152, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: bloodType
+      value: 
+      objectReference: {fileID: 11400000, guid: 79cf9f797c1edd346b997bb2157303f9,
+        type: 2}
+    - target: {fileID: 3627688992291996152, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: bloodReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 00d9a9827ebcc49ab8b0df647c4f7da5,
+        type: 2}
+    - target: {fileID: 4959976547195528774, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: hasInbuiltSight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4959976547195528774, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: hasInbuiltSpeech
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4959976547195528774, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: hasInbuiltHearing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8610215983224430484, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: foreverID
+      value: 789d74731ecbf8e4a813fc024afaf831
+      objectReference: {fileID: 0}
+    - target: {fileID: 8827344453534656638, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8253ab1a6600a6e4d843aba148ce5601,
+        type: 2}
+    m_RemovedComponents:
+    - {fileID: 1512013037722720825, guid: 1e19c4562afbbd2479d14830399db738, type: 3}
+    - {fileID: 6883510592972252665, guid: 1e19c4562afbbd2479d14830399db738, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 1e19c4562afbbd2479d14830399db738, type: 3}
+--- !u!1 &4304790706924288976 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3442747058158572537, guid: 1e19c4562afbbd2479d14830399db738,
+    type: 3}
+  m_PrefabInstance: {fileID: 1475676968582113321}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &465681690408585956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4304790706924288976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 870b6be01ee6ce841b56a05571789ba8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  SpriteDataSO: {fileID: 11400000, guid: acd2ecd125c46cd4a8482eb53f94fd93, type: 2}

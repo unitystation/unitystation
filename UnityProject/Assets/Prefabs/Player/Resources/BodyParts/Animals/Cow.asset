@@ -28,9 +28,10 @@ MonoBehaviour:
       Elements: []
     CustomisationSettings: []
     bodyTypeSettings:
-      AvailableBodyTypes: []
+      AvailableBodyTypes:
+      - bodyType: 0
+        Name: Cow
     SkinColours: []
-    BloodType: {fileID: 0}
     RootImplantProcedure: {fileID: 0}
     BodyPartsThatShareTheSkinTone: []
     ClueString: bohven fur..
@@ -38,7 +39,7 @@ MonoBehaviour:
       type: 3}
     SkinProduce: {fileID: 8592233378525956144, guid: a002cd94594e0f04d8872caee46f879f,
       type: 3}
-    CanShowUpInTheCharacterCreatorScreen: 1
+    CanBePlayerChosen: 0
     PreviewSprite: {fileID: 11400000, guid: 8538e6a992447fb4190cf4023ab272ac, type: 2}
     SystemSettings: []
   references:

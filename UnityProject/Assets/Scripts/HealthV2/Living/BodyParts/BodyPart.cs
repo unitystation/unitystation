@@ -109,11 +109,6 @@ namespace HealthV2
 		[HideInInspector] public List<BodyPartSprites> RelatedPresentSprites = new List<BodyPartSprites>();
 
 		/// <summary>
-		/// The final sprite data for this body part accounting for body type and gender
-		/// </summary>
-		public ListSpriteDataSOWithOrder LimbSpriteData { get; private set; }
-
-		/// <summary>
 		/// The prefab sprites for this body part
 		/// </summary>
 		[Tooltip("The prefab sprites for this")]
@@ -126,10 +121,6 @@ namespace HealthV2
 			"Does this body part share the same color as the player's skintone when it deattatches from his body?")]
 		public bool BodyPartItemInheritsSkinColor = false;
 
-		/// <summary>
-		/// Boolean for whether the sprites for the body part have been set, returns true when they are
-		/// </summary>
-		[HideInInspector] public bool BodySpriteSet = false;
 
 		/// <summary>
 		/// Custom settings from the lobby character designer
@@ -221,27 +212,6 @@ namespace HealthV2
 				playerSprites = livingHealth.GetComponent<PlayerSprites>();
 			}
 
-			if (BodySpriteSet == false)
-			{
-				//If gendered part then set the sprite limb data to it
-				if (isDimorphic)
-				{
-					LimbSpriteData = new ListSpriteDataSOWithOrder();
-					LimbSpriteData.SpriteOrder = BodyTypesSprites.SpriteOrder;
-					LimbSpriteData.Sprites = BodyTypesSprites.BodyTypes[(int) HealthMaster.BodyType].Sprites;
-				}
-				else
-				{
-					LimbSpriteData = new ListSpriteDataSOWithOrder();
-					LimbSpriteData.SpriteOrder = BodyTypesSprites.SpriteOrder;
-					if (BodyTypesSprites.BodyTypes.Count > 0)
-					{
-						LimbSpriteData.Sprites = BodyTypesSprites.BodyTypes[(int) BodyType.NonBinary].Sprites;
-					}
-				}
-
-				BodySpriteSet = true;
-			}
 
 
 			UpdateIcons();

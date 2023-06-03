@@ -1756,8 +1756,7 @@ namespace HealthV2
 			var sprites = implant.GetBodyTypeSprites(bodyType);
 			foreach (var Sprite in sprites.Item2)
 			{
-				var newSprite = Spawn
-					.ServerPrefab(implant.SpritePrefab.gameObject, Vector3.zero, playerSprites.BodySprites.transform)
+				var newSprite = Spawn.ServerPrefab(implant.SpritePrefab.gameObject, Vector3.zero, playerSprites.BodySprites.transform)
 					.GameObject.GetComponent<BodyPartSprites>();
 				newSprite.transform.localPosition = Vector3.zero;
 				playerSprites.Addedbodypart.Add(newSprite);

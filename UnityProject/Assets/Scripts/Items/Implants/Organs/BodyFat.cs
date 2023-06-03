@@ -38,12 +38,11 @@ namespace Items.Implants.Organs
 
 		public float NoticeableDebuffInPoint = 45;
 
-		public bool WasApplyingDebuff = false;
-
 		public bool isFreshBlood;
 
 		public HungerComponent HungerComponent;
 		public ReagentCirculatedComponent ReagentCirculatedComponent;
+
 		public void Awake()
 		{
 			HungerComponent = this.GetComponentCustom<HungerComponent>();
@@ -60,6 +59,7 @@ namespace Items.Implants.Organs
 
 		public override void ImplantPeriodicUpdate()
 		{
+
 			isFreshBlood = true;
 			base.ImplantPeriodicUpdate();
 			// Logger.Log("Absorbing >" + Absorbing);
@@ -95,7 +95,6 @@ namespace Items.Implants.Organs
 			//TODOH Proby doesn't need to be updated so often
 			if (DDebuffInPoint < AbsorbedAmount)
 			{
-				WasApplyingDebuff = true;
 				float DeBuffMultiplier = (AbsorbedAmount - DDebuffInPoint) / (MinuteStoreMaxAmount - DDebuffInPoint);
 				// Logger.Log("DeBuffMultiplier >" + DeBuffMultiplier);
 				RunningSpeedModifier = maxRunSpeedDebuff * DeBuffMultiplier;
@@ -114,6 +113,7 @@ namespace Items.Implants.Organs
 			}
 			else if (AbsorbedAmount < 5) //Five minutes of food
 			{
+
 				HungerComponent.HungerState = HungerState.Hungry;
 			}
 			else  if (NoticeableDebuffInPoint < AbsorbedAmount)
@@ -145,7 +145,11 @@ namespace Items.Implants.Organs
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
 			base.OnRemovedFromBody(livingHealth);
-			RelatedStomach.BodyFats.Remove(this);
+			if (RelatedStomach != null)
+			{
+				RelatedStomach.BodyFats.Remove(this);
+			}
+
 			var playerHealthV2 = livingHealth as PlayerHealthV2;
 			if (playerHealthV2 != null)
 			{
