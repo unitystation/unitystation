@@ -257,8 +257,11 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			}
 		}
 
+		EditorUtility.SetDirty(this.gameObject);
+		Undo.RecordObject(this.gameObject, "List setup");
 		AssetDatabase.StopAssetEditing();
-		AssetDatabase.SaveAssets();
+
+
 #endif
 	}
 
