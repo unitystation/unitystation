@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: LavaGlow
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 21300000, guid: af79f6a4109137a488b3de590c958e09, type: 3}
+      secondDelay: 0.9
+    - sprite: {fileID: 21300000, guid: 964bc04b6837a944a85392f37deedcd6, type: 3}
+      secondDelay: 0.9
+    - sprite: {fileID: 21300000, guid: fc55cdbc3488aa64e8d7810e1221d48d, type: 3}
+      secondDelay: 0.9
+    - sprite: {fileID: 21300000, guid: f353cbe3392eed74c8aae469fdf12518, type: 3}
+      secondDelay: 0.9
+    - sprite: {fileID: 21300000, guid: 8c91c6d0e664de943926a7834b4ea229, type: 3}
+      secondDelay: 0.9
+    - sprite: {fileID: 21300000, guid: f6b7e0ae543859c4fba46319c96f54a5, type: 3}
+      secondDelay: 0.9
+    - sprite: {fileID: 21300000, guid: f5534109b65a409459d7f0207c19a538, type: 3}
+      secondDelay: 0.9
+    - sprite: {fileID: 21300000, guid: 77a3b06ff090c8d4c922b5b8dce82394, type: 3}
+      secondDelay: 0.9
+    - sprite: {fileID: 21300000, guid: 1ce75e9515ce9ea4e9d5077ec26b8bc3, type: 3}
+      secondDelay: 0.9
+    - sprite: {fileID: 21300000, guid: 77f1c30aac77f8d4b9e9a25f1c1d4daa, type: 3}
+      secondDelay: 0.9
+    - sprite: {fileID: 21300000, guid: a0201dcea1525674fb24bc885555883b, type: 3}
+      secondDelay: 0.9
+    - sprite: {fileID: 21300000, guid: d7fdfecd8e4fed449a88f6b360b8ac9b, type: 3}
+      secondDelay: 0.9
+  IsPalette: 0
+  DisplayName: 
