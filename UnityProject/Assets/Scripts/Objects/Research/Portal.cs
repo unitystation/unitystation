@@ -24,7 +24,7 @@ namespace Objects.Research
 		private LightSprite lightSprite;
 
 		private bool isOnCooldown = false;
-		private float cooldownTime = 0.3f;
+		private readonly float cooldownTime = 0.75f;
 
 		protected override void Awake()
 		{
