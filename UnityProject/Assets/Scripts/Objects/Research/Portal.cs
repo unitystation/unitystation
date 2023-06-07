@@ -91,7 +91,8 @@ namespace Objects.Research
 
 		public override void OnPlayerStep(PlayerScript playerScript)
 		{
-			Teleport(playerScript.gameObject);
+			if (isOnCooldown) return;
+			_ = Teleport(playerScript.gameObject);
 		}
 
 		public override bool WillAffectObject(GameObject eventData)
@@ -108,19 +109,20 @@ namespace Objects.Research
 
 		public override void OnObjectEnter(GameObject eventData)
 		{
+			if (isOnCooldown) return;
 			_ = Teleport(eventData);
 		}
 
 		private async Task Teleport(GameObject eventData)
 		{
 			if (connectedPortal == null || isOnCooldown) return;
-			if (eventData.HasComponent<PlayerScript>() == false || eventData.GetComponent<SparkEffect>() != null) return;
+			if (eventData.HasComponent<PlayerScript>() == false || eventData.HasComponent<SparkEffect>()) return;
 			connectedPortal.isOnCooldown = true;
 			isOnCooldown = true;
 			TransportUtility.TeleportToObject(eventData, connectedPortal.gameObject,
 				connectedPortal.ObjectPhysics.OfficialPosition.RandomOnOneAxis(-1, 1), true, false);
 			SparkUtil.TrySpark(gameObject, expose: false);
-			await Task.Delay(750);
+			await Task.Delay(850);
 			isOnCooldown = false;
 			connectedPortal.isOnCooldown = false;
 		}
