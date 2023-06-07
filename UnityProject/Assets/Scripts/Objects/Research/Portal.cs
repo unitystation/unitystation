@@ -115,15 +115,14 @@ namespace Objects.Research
 
 		private async Task Teleport(GameObject eventData)
 		{
+			await Task.Delay(200);
 			if (connectedPortal == null || isOnCooldown) return;
 			if (eventData.HasComponent<PlayerScript>() == false
 			    || eventData.HasComponent<SparkEffect>()
 			    || eventData.TryGetComponent<UniversalObjectPhysics>(out var uop) == false) return;
 			connectedPortal.isOnCooldown = true;
 			isOnCooldown = true;
-			var pos = connectedPortal.ObjectPhysics.OfficialPosition;
-			pos.y += 4;
-			TransportUtility.TransportObject(uop, pos, false, 0.01f);
+			TransportUtility.TransportObject(uop, connectedPortal.ObjectPhysics.OfficialPosition, false, 0.01f);
 			await Task.Delay(650);
 			isOnCooldown = false;
 			connectedPortal.isOnCooldown = false;
