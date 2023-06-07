@@ -106,18 +106,19 @@ namespace Objects.Research
 
 		public override void OnObjectEnter(GameObject eventData)
 		{
-			Teleport(eventData);
+			StartCoroutine(Teleport(eventData));
 		}
 
 		private IEnumerator Teleport(GameObject eventData)
 		{
 			if (connectedPortal == null || isOnCooldown) yield break;
 			StartCoroutine(Cooldown(connectedPortal));
-			StartCoroutine(Cooldown(this));
 
 			TransportUtility.TeleportToObject(eventData, connectedPortal.gameObject,
 				connectedPortal.ObjectPhysics.OfficialPosition, true, false);
 
+			StartCoroutine(Cooldown(this));
+			yield return WaitFor.EndOfFrame;
 			SparkUtil.TrySpark(gameObject, expose: false);
 		}
 
