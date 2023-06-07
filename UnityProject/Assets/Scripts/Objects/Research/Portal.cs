@@ -37,7 +37,6 @@ namespace Objects.Research
 		protected override void OnDisable()
 		{
 			base.OnDisable();
-			if (isOnCooldown) StopCoroutine(Cooldown());
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PortalDeath);
 			portalPairs.Remove(this);
 		}
@@ -70,7 +69,6 @@ namespace Objects.Research
 
 			//Despawn after time is up
 			portalPairs.Remove(this);
-			if (isOnCooldown) StopCoroutine(Cooldown());
 			_ = Despawn.ServerSingle(gameObject);
 		}
 
@@ -111,11 +109,11 @@ namespace Objects.Research
 			Teleport(eventData);
 		}
 
-		private void Teleport(GameObject eventData)
+		private IEnumerator Teleport(GameObject eventData)
 		{
-			if (connectedPortal == null || isOnCooldown) return;
-			StartCoroutine(Cooldown());
-			connectedPortal.SetCooldown();
+			if (connectedPortal == null || isOnCooldown) yield break;
+			StartCoroutine(Cooldown(connectedPortal));
+			StartCoroutine(Cooldown(this));
 
 			TransportUtility.TeleportToObject(eventData, connectedPortal.gameObject,
 				connectedPortal.ObjectPhysics.OfficialPosition, true, false);
@@ -145,16 +143,11 @@ namespace Objects.Research
 			return false;
 		}
 
-		public void SetCooldown()
+		private IEnumerator Cooldown(Portal target)
 		{
-			StartCoroutine(Cooldown());
-		}
-
-		private IEnumerator Cooldown()
-		{
-			isOnCooldown = true;
+			target.isOnCooldown = true;
 			yield return WaitFor.Seconds(cooldownTime);
-			isOnCooldown = false;
+			target.isOnCooldown = false;
 		}
 	}
 }
