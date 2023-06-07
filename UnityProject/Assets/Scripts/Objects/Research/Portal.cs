@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Effects;
 using Gateway;
 using Items;
 using Light2D;
@@ -106,23 +108,23 @@ namespace Objects.Research
 
 		public override void OnObjectEnter(GameObject eventData)
 		{
-			StartCoroutine(Teleport(eventData));
+			_ = Teleport(eventData);
 		}
 
-		private IEnumerator Teleport(GameObject eventData)
+		private async Task Teleport(GameObject eventData)
 		{
-			if (connectedPortal == null || isOnCooldown) yield break;
-			StartCoroutine(Cooldown(connectedPortal));
+			if (connectedPortal == null || isOnCooldown) return;
+			if (eventData.HasComponent<PlayerScript>() == false || eventData.GetComponent<SparkEffect>() != null) return;
 			connectedPortal.isOnCooldown = true;
-
-			TransportUtility.TeleportToObject(eventData, connectedPortal.gameObject,
-				connectedPortal.ObjectPhysics.OfficialPosition, true, false);
-
-			StartCoroutine(Cooldown(this));
 			isOnCooldown = true;
-			yield return WaitFor.EndOfFrame;
+			TransportUtility.TeleportToObject(eventData, connectedPortal.gameObject,
+				connectedPortal.ObjectPhysics.OfficialPosition.RandomOnOneAxis(-1, 1), true, false);
 			SparkUtil.TrySpark(gameObject, expose: false);
+			await Task.Delay(750);
+			isOnCooldown = false;
+			connectedPortal.isOnCooldown = false;
 		}
+
 
 		public bool OnPreHitDetect(OnHitDetectData data)
 		{
@@ -144,13 +146,6 @@ namespace Objects.Research
 			SparkUtil.TrySpark(connectedPortal.gameObject, expose: false);
 
 			return false;
-		}
-
-		private IEnumerator Cooldown(Portal target)
-		{
-			target.isOnCooldown = true;
-			yield return WaitFor.Seconds(cooldownTime);
-			target.isOnCooldown = false;
 		}
 	}
 }
