@@ -113,13 +113,14 @@ namespace Objects.Research
 
 		private void Teleport(GameObject eventData)
 		{
-			if(connectedPortal == null || isOnCooldown) return;
-
-			SparkUtil.TrySpark(gameObject, expose: false);
+			if (connectedPortal == null || isOnCooldown) return;
+			StartCoroutine(Cooldown());
+			connectedPortal.SetCooldown();
 
 			TransportUtility.TeleportToObject(eventData, connectedPortal.gameObject,
 				connectedPortal.ObjectPhysics.OfficialPosition, true, false);
-			StartCoroutine(Cooldown());
+
+			SparkUtil.TrySpark(gameObject, expose: false);
 		}
 
 		public bool OnPreHitDetect(OnHitDetectData data)
@@ -142,6 +143,11 @@ namespace Objects.Research
 			SparkUtil.TrySpark(connectedPortal.gameObject, expose: false);
 
 			return false;
+		}
+
+		public void SetCooldown()
+		{
+			StartCoroutine(Cooldown());
 		}
 
 		private IEnumerator Cooldown()
