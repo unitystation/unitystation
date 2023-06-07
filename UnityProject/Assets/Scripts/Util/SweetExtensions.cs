@@ -893,23 +893,25 @@ public static class SweetExtensions
 		var axis = Random.Range(0, 2);
 		var y =  Random.Range(min, max);
 		var x =  Random.Range(min, max);
+
 		if (neverZero)
 		{
 			if (y == 0) y += min;
 			if (x == 0) x += min;
 		}
-		switch (axis)
+
+		if (axis == 0)
 		{
-			case 2:
-				vector3.y += y;
-				break;
-			case 1:
-				vector3.x += x;
-				break;
-			default:
-				vector3.x += x;
-				vector3.y += y;
-				break;
+			vector3.x += x;
+			vector3.y += y;
+		}
+		else if (axis == 1)
+		{
+			vector3.x += x;
+		}
+		else if (axis == 2)
+		{
+			vector3.y += y;
 		}
 		return vector3;
 	}

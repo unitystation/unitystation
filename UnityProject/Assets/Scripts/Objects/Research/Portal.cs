@@ -120,9 +120,9 @@ namespace Objects.Research
 			connectedPortal.isOnCooldown = true;
 			isOnCooldown = true;
 			TransportUtility.TeleportToObject(eventData, connectedPortal.gameObject,
-				connectedPortal.ObjectPhysics.OfficialPosition.RandomOnOneAxis(-1, 1), true, false);
+				connectedPortal.ObjectPhysics.OfficialPosition.RandomOnOneAxis(-2, 2), true, false);
 			SparkUtil.TrySpark(gameObject, expose: false);
-			await Task.Delay(850);
+			await Task.Delay(1250);
 			isOnCooldown = false;
 			connectedPortal.isOnCooldown = false;
 		}
