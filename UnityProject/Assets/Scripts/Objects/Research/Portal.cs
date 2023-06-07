@@ -24,7 +24,7 @@ namespace Objects.Research
 		private LightSprite lightSprite;
 
 		private bool isOnCooldown = false;
-		private readonly float cooldownTime = 0.75f;
+		private readonly float cooldownTime = 1.45f;
 
 		protected override void Awake()
 		{
@@ -113,11 +113,13 @@ namespace Objects.Research
 		{
 			if (connectedPortal == null || isOnCooldown) yield break;
 			StartCoroutine(Cooldown(connectedPortal));
+			connectedPortal.isOnCooldown = true;
 
 			TransportUtility.TeleportToObject(eventData, connectedPortal.gameObject,
 				connectedPortal.ObjectPhysics.OfficialPosition, true, false);
 
 			StartCoroutine(Cooldown(this));
+			isOnCooldown = true;
 			yield return WaitFor.EndOfFrame;
 			SparkUtil.TrySpark(gameObject, expose: false);
 		}
