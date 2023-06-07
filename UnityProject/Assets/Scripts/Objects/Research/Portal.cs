@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Gateway;
 using Items;
 using Light2D;
@@ -22,6 +23,9 @@ namespace Objects.Research
 		private SpriteHandler spriteHandler;
 		private LightSprite lightSprite;
 
+		private bool isOnCooldown = false;
+		private float cooldownTime = 0.3f;
+
 		protected override void Awake()
 		{
 			base.Awake();
@@ -33,6 +37,7 @@ namespace Objects.Research
 		protected override void OnDisable()
 		{
 			base.OnDisable();
+			if (isOnCooldown) StopCoroutine(Cooldown());
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PortalDeath);
 			portalPairs.Remove(this);
 		}
@@ -65,6 +70,7 @@ namespace Objects.Research
 
 			//Despawn after time is up
 			portalPairs.Remove(this);
+			if (isOnCooldown) StopCoroutine(Cooldown());
 			_ = Despawn.ServerSingle(gameObject);
 		}
 
@@ -107,12 +113,13 @@ namespace Objects.Research
 
 		private void Teleport(GameObject eventData)
 		{
-			if(connectedPortal == null) return;
+			if(connectedPortal == null || isOnCooldown) return;
 
 			SparkUtil.TrySpark(gameObject, expose: false);
 
 			TransportUtility.TeleportToObject(eventData, connectedPortal.gameObject,
 				connectedPortal.ObjectPhysics.OfficialPosition, true, false);
+			StartCoroutine(Cooldown());
 		}
 
 		public bool OnPreHitDetect(OnHitDetectData data)
@@ -135,6 +142,13 @@ namespace Objects.Research
 			SparkUtil.TrySpark(connectedPortal.gameObject, expose: false);
 
 			return false;
+		}
+
+		private IEnumerator Cooldown()
+		{
+			isOnCooldown = true;
+			yield return WaitFor.Seconds(cooldownTime);
+			isOnCooldown = false;
 		}
 	}
 }
