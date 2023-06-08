@@ -151,7 +151,7 @@ public partial class Chat : MonoBehaviour
 		{
 			channels &= player.GetAvailableChannelsMask(true);
 		}
-		else
+		else if(sentByPlayer.UserId != "rcon") //Rcon can send on all channels, and wouldn't have a player script
 		{
 			//If player is null, must be in lobby therefore lock to OOC
 			channels = ChatChannel.OOC;

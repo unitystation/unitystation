@@ -122,7 +122,7 @@ namespace AdminTools
 		public static string ProcessChatServer(PlayerInfo player, string message)
 		{
 			if (player == null || Instance.loadedConfig == null
-			                   || !Instance.loadedConfig.enableSpamProtection) return message;
+			                   || !Instance.loadedConfig.enableSpamProtection || player.UserId == "rcon") return message;
 
 			if (!chatLogs.ContainsKey(player))
 			{
