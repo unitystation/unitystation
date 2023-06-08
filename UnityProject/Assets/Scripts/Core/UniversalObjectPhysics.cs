@@ -983,8 +983,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		var localPosition = (newWorldPosition).ToLocal(movetoMatrix);
 
-		InternalTriggerOnLocalTileReached(localPosition.RoundToInt());
-
 		SetLocalTarget = new Vector3WithData()
 		{
 			Vector3 = localPosition.RoundToInt(),

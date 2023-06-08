@@ -115,7 +115,6 @@ namespace Objects.Research
 
 		private async Task Teleport(GameObject eventData)
 		{
-			await Task.Delay(200);
 			if (connectedPortal == null || isOnCooldown) return;
 			if (eventData.HasComponent<PlayerScript>() == false
 			    || eventData.HasComponent<SparkEffect>()
