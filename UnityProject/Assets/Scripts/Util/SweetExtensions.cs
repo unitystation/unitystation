@@ -884,4 +884,35 @@ public static class SweetExtensions
 			UnityEngine.Object.Destroy(child);
 		}
 	}
+
+	/// <summary>
+	/// Returns an offset for a single axis for a vector. Axis offset is random.
+	/// </summary>
+	public static Vector3 RandomOnOneAxis(this Vector3 vector3, int min, int max, bool neverZero = true)
+	{
+		var axis = Random.Range(0, 2);
+		var y =  Random.Range(min, max);
+		var x =  Random.Range(min, max);
+
+		if (neverZero)
+		{
+			if (y == 0) y += min;
+			if (x == 0) x += min;
+		}
+
+		if (axis == 0)
+		{
+			vector3.x += x;
+			vector3.y += y;
+		}
+		else if (axis == 1)
+		{
+			vector3.x += x;
+		}
+		else if (axis == 2)
+		{
+			vector3.y += y;
+		}
+		return vector3;
+	}
 }

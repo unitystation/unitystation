@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Effects;
 using Gateway;
 using Items;
 using Light2D;
@@ -21,6 +24,9 @@ namespace Objects.Research
 
 		private SpriteHandler spriteHandler;
 		private LightSprite lightSprite;
+
+		private bool isOnCooldown = false;
+		private readonly float cooldownTime = 1.45f;
 
 		protected override void Awake()
 		{
@@ -85,7 +91,8 @@ namespace Objects.Research
 
 		public override void OnPlayerStep(PlayerScript playerScript)
 		{
-			Teleport(playerScript.gameObject);
+			if (isOnCooldown) return;
+			_ = Teleport(playerScript.gameObject);
 		}
 
 		public override bool WillAffectObject(GameObject eventData)
@@ -102,18 +109,24 @@ namespace Objects.Research
 
 		public override void OnObjectEnter(GameObject eventData)
 		{
-			Teleport(eventData);
+			if (isOnCooldown) return;
+			_ = Teleport(eventData);
 		}
 
-		private void Teleport(GameObject eventData)
+		private async Task Teleport(GameObject eventData)
 		{
-			if(connectedPortal == null) return;
-
-			SparkUtil.TrySpark(gameObject, expose: false);
-
-			TransportUtility.TeleportToObject(eventData, connectedPortal.gameObject,
-				connectedPortal.ObjectPhysics.OfficialPosition, true, false);
+			if (connectedPortal == null || isOnCooldown) return;
+			if (eventData.HasComponent<PlayerScript>() == false
+			    || eventData.HasComponent<SparkEffect>()
+			    || eventData.TryGetComponent<UniversalObjectPhysics>(out var uop) == false) return;
+			connectedPortal.isOnCooldown = true;
+			isOnCooldown = true;
+			TransportUtility.TransportObject(uop, connectedPortal.ObjectPhysics.OfficialPosition, false, 0.01f);
+			await Task.Delay(650);
+			isOnCooldown = false;
+			connectedPortal.isOnCooldown = false;
 		}
+
 
 		public bool OnPreHitDetect(OnHitDetectData data)
 		{
