@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using AdminCommands;
+using Core;
 using UnityEngine;
 using UnityEditor;
 using Systems.Atmospherics;
@@ -781,6 +782,12 @@ namespace IngameDebugConsole
 			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdResetMovementForSelf();
 			Logger.Log("[Console Command] - Movement Reset Successfully. " +
 			           "If you're still stuck, please report this and any errors you might find in the console on github/discord.", Category.DebugConsole);
+		}
+
+		[ConsoleMethod("random-index", "Grabs the current index of Random13")]
+		public static void GrabRandom13Index()
+		{
+			Logger.Log(Random13.Instance.CurrentRandomTableIndex.ToString());
 		}
 	}
 }
