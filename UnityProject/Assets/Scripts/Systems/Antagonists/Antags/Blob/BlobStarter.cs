@@ -83,7 +83,12 @@ namespace Blob
 
 		private void OnEnable()
 		{
+#if UNITY_EDITOR
+			UpdateManager.Add(PeriodicUpdate, 0.15f);
+			Logger.Log("Periodic Update adjusted for blob in editor for faster testing.");
+#else
 			UpdateManager.Add(PeriodicUpdate, updateTime);
+#endif
 		}
 
 		private void OnDisable()
@@ -289,15 +294,10 @@ namespace Blob
 				return;
 			}
 
-			var connection = GetComponent<NetworkIdentity>().connectionToClient;
-
-
-
-
+			var mind = playerScript.Mind;
 			playerScript.Mind.SetPossessingObject(spawnResult.GameObject);
-			playerScript.Mind.StopGhosting();
 			//Start the blob control script
-			spawnResult.GameObject.GetComponent<BlobPlayer>().BlobStart(playerScript.Mind);
+			spawnResult.GameObject.GetComponent<BlobPlayer>().BlobStart(mind);
 
 
 			Chat.AddActionMsgToChat(spawnResult.GameObject, $"<color=#FF151F>You explode from your {bodyPart}, a new being has been born.</color>",

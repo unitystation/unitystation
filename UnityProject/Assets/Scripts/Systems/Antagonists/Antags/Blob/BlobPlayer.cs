@@ -197,6 +197,12 @@ namespace Blob
 				return;
 			}
 
+			if (mind == null)
+			{
+				Logger.LogError("Mind was null on blob and couldnt be found.", Category.Blob);
+				return;
+			}
+
 			mind.SetPossessingObject(playerScript.gameObject);
 			mind.StopGhosting();
 
