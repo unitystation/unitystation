@@ -41,13 +41,13 @@ namespace Core
 
 		public int CurrentRandomTableIndex { get; private set; } = 0;
 		public int RandomNumber => randomTable[CurrentRandomTableIndex];
-		public Action OnRandomTableIndexChanged;
+		public Action<int> OnRandomTableIndexChanged;
 
 		private void ProgressIndex()
 		{
 			CurrentRandomTableIndex++;
 			if (CurrentRandomTableIndex >= randomTable.Length - 1) CurrentRandomTableIndex = 0;
-			OnRandomTableIndexChanged?.Invoke();
+			OnRandomTableIndexChanged?.Invoke(CurrentRandomTableIndex);
 		}
 
 		/// <summary>
