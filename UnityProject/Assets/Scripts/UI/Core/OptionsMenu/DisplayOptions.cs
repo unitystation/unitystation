@@ -60,7 +60,7 @@ namespace Unitystation.Options
 			camZoomSlider.value = DisplaySettings.Instance.ZoomLevel / 8f;
 
 			scrollWheelZoomToggle.isOn = DisplaySettings.Instance.ScrollWheelZoom;
-			uiScaleSlider.value = UIManager.Instance.Scaler.scaleFactor;
+			uiScaleSlider.value = PlayerPrefs.GetFloat(DisplaySettings.UISCALE_KEY, DisplaySettings.UISCALE_DEFAULT);
 		}
 
 		/// <summary>
@@ -133,6 +133,8 @@ namespace Unitystation.Options
 		public void OnUIScaleChange()
 		{
 			UIManager.Instance.Scaler.scaleFactor = uiScaleSlider.value;
+			PlayerPrefs.SetFloat(DisplaySettings.UISCALE_KEY, uiScaleSlider.value);
+			PlayerPrefs.Save();
 		}
 
 		public void OnScrollWheelToggle()
