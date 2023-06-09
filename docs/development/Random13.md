@@ -40,3 +40,9 @@ public class LuckyCat : Monobehavior
 Random13 provides a second way to provide deterministic behavior and it is via the `ProbFromTime()` method. It is generally an excellent way to have consistency when dealing with systems that take time into consideration, and is technically more random than `Prob()` due to its infinite nature.
 
 Because this function relies on time to work, it is recommended to keep a consistent DateTime variable like the one inside the `GameManager` to ensure maximum reliability.
+
+# Cheating
+
+`Prob()` has 255 predictable states, ProbFromTime has an infinite amount of states that is always changing all the time.
+255 always changing states is pretty hard to brute force in a game like Unitystation where there are a lot of changing elements that cause the random table to constantly move all the time, but it's still possible to predict a desired result if someone finds the current index from a pattern that the server is on via observation.
+`ProbFromTime()` is much harder to predict and use to your advantage while you're playing, it is best used when you're having randomness in things that involve points, events or things that has a positive advantage for players.
