@@ -47,7 +47,7 @@ namespace Core
 		{
 			CurrentRandomTableIndex++;
 			if (CurrentRandomTableIndex >= randomTable.Length - 1) CurrentRandomTableIndex = 0;
-			OnRandomTableIndexChanged?.Invoke(CurrentRandomTableIndex);
+			OnRandomTableIndexChanged?.Invoke(randomTable[CurrentRandomTableIndex]);
 		}
 
 		/// <summary>
