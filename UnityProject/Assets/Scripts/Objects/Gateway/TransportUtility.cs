@@ -1,5 +1,6 @@
 ﻿using Mirror;
 using System.Collections.Generic;
+using Core;
 using UnityEngine;
 using Objects;
 using Systems.Explosions;
@@ -22,14 +23,14 @@ namespace Gateway
 		/// <param name="transportTo">Destination to transport <paramref name="objectPhysics"/> to.</param>
 		/// <param name="doTileStep">Whether step interactions should trigger on teleport</param>
 		[Server]
-		public static void TransportObject(UniversalObjectPhysics objectPhysics, Vector3 transportTo, bool doTileStep = true, float maintRoomChanceModifier = 0.5f)
+		public static void TransportObject(UniversalObjectPhysics objectPhysics, Vector3 transportTo, bool doTileStep = true, float maintRoomChanceModifier = 0.09f)
 		{
 			if (objectPhysics == null) return; //Don't even bother...
 
 			var dest = transportTo;
 
-			var RandomChance = Random.Range(0, 100000) / 1000f; //100000 / 1000 = 100
-			if (SubSceneManager.Instance.IsMaintRooms && RandomChance <= maintRoomChanceModifier)
+
+			if (SubSceneManager.Instance.IsMaintRooms && Random13.ProbChance(maintRoomChanceModifier))
 			{
 				dest = MaintRoomLocations.PickRandom().RegisterTile().WorldPositionServer;
 			}
@@ -48,7 +49,7 @@ namespace Gateway
 		/// <param name="doTileStep">Whether step interactions should trigger on teleport</param>
 		[Server]
 		public static void TransportObjectAndPulled(UniversalObjectPhysics objectPhysics, Vector3 transportTo,
-			bool doTileStep = true, float maintRoomChanceModifier = 0.5f)
+			bool doTileStep = true, float maintRoomChanceModifier = 0.09f)
 		{
 			if (objectPhysics == null) return; //Don't even bother...
 

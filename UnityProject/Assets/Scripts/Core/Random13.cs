@@ -58,11 +58,44 @@ namespace Core
 		{
 			if (Instance == null)
 			{
-				throw new NotImplementedException("Random13 was never created and stored anywhere.");
+				throw new Exception("Random13 was never created and stored anywhere.");
 			}
 			Instance.ProgressIndex();
-			if (Instance.RandomNumber % 2 == 0) return true;
-			return false;
+			return Instance.RandomNumber % 2 == 0;
+		}
+
+		/// <summary>
+		/// Consistent random numbers for things like damage.
+		/// </summary>
+		public static float RandomNumberWave(float baseNumber)
+		{
+			if (Instance == null)
+			{
+				throw new Exception("Random13 was never created and stored anywhere.");
+			}
+			Instance.ProgressIndex();
+			//Random number between 1 and 8 then multiplied by base damage.
+			return (Instance.RandomNumber % 8 + 1) * baseNumber;
+		}
+
+		/// <summary>
+		/// Random deterministic chance. Try your luck!
+		/// </summary>
+		/// <param name="chance">Chance between 0 and 1 (0.5 is 50%, etc.)</param>
+		public static bool ProbChance(double chance)
+		{
+			if (Instance == null)
+			{
+				throw new Exception("Random13 was never created and stored anywhere.");
+			}
+
+			if (chance is > 1 or < 0)
+			{
+				throw new ArgumentException("Chance must be between 0 and 1 as a double!!");
+			}
+			Instance.ProgressIndex();
+			var random = new Random(Instance.RandomNumber); //uses the table as a seed
+			return random.NextDouble() < chance;
 		}
 
 		/// <summary>
