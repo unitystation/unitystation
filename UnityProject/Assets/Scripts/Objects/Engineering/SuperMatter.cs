@@ -20,6 +20,7 @@ using Weapons.Projectiles;
 using Weapons.Projectiles.Behaviours;
 using Random = UnityEngine.Random;
 using Communications;
+using Core;
 using Objects.Machines.ServerMachines.Communications;
 using ScriptableObjects.Communications;
 using Systems.Communications;
@@ -564,7 +565,7 @@ namespace Objects.Engineering
 				//if there is more pluox and n2 then anything else, we receive no power increase from heat
 				power = Mathf.Max((removeMix.Temperature * tempFactor / 273.15f) * gasmixPowerRatio + power, 0f);
 
-				if (DMMath.Prob(50))
+				if (Random13.Prob())
 				{
 					var strength = power * Mathf.Max(0,
 						(1 + (powerTransmissionBonus / (10 - (bzCompositon * 5))) * freonBonus));

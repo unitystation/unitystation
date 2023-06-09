@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Core;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
@@ -10,6 +11,7 @@ using Initialisation;
 using Messages.Client;
 using Objects.Electrical;
 using Systems.Explosions;
+using Random = System.Random;
 
 namespace Systems.Hacking
 {
@@ -373,7 +375,7 @@ namespace Systems.Hacking
 		{
 			foreach(Cable cable in Cables)
 			{
-				if(DMMath.Prob(50))
+				if(Random13.Prob())
 				{
 					cable.Impulse();
 				}

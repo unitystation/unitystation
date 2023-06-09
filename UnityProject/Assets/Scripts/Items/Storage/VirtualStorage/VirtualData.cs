@@ -1,5 +1,5 @@
-﻿using Systems.Research;
-using Objects.Research;
+﻿using Core;
+using Systems.Research;
 
 namespace Items.Storage.VirtualStorage
 {
@@ -10,7 +10,7 @@ namespace Items.Storage.VirtualStorage
 
 		public void CorruptDataByChance()
 		{
-			if (DMMath.Prob(50)) Corrupted = true;
+			if (Random13.Prob()) Corrupted = true; // 50/50 chance.
 		}
 	}
 

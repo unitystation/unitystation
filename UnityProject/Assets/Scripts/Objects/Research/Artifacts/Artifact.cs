@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using Core;
 using UnityEngine;
 using Items.Science;
 using Systems.Research;
@@ -71,7 +71,7 @@ namespace Objects.Research
 		[SerializeField]
 		private DamageEffectBase forceWallDamageEffectSO = null;
 		private bool forceWallDamageEffect = false;
-	
+
 
 
 		[SyncVar] public string ID = "T376";
@@ -352,7 +352,7 @@ namespace Objects.Research
 		{
 			if(isDormant)
 			{
-				if(DMMath.Prob(50))
+				if(Random13.Prob())
 				{
 					Chat.AddActionMsgToChat(gameObject, "The anomaly begins to gently humm!");
 					ToggleDormancy(false);

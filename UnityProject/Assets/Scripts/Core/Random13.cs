@@ -66,7 +66,8 @@ namespace Core
 		}
 
 		/// <summary>
-		/// Uses a given time to determine the probability of having a 50/50 chance for something to happen. Extremely fast.
+		/// Uses a given time to determine the probability of having a 50/50 chance for something to happen.
+		/// Extremely fast and much more predictable.
 		/// </summary>
 		/// <param name="time">Usually DateTime.Now but a specific time can be given to replay expected events.</param>
 		/// <returns>50/50 chance for true or false based on current time given.</returns>
