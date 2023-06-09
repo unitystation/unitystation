@@ -46,7 +46,7 @@ namespace Core
 		private void ProgressIndex()
 		{
 			CurrentRandomTableIndex++;
-			if (CurrentRandomTableIndex >= randomTable.Length) CurrentRandomTableIndex = 0;
+			if (CurrentRandomTableIndex >= randomTable.Length - 1) CurrentRandomTableIndex = 0;
 			OnRandomTableIndexChanged?.Invoke();
 		}
 
