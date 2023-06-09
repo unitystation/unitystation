@@ -4,6 +4,7 @@ namespace Core
 {
 	/// <summary>
 	/// An extremely fast, efficient and deterministic class for randomness.
+	/// Best reserved for server logic, while client logic can use DMMath.
 	/// </summary>
 	public class Random13
 	{
