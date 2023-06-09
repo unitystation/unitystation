@@ -784,7 +784,7 @@ namespace IngameDebugConsole
 			           "If you're still stuck, please report this and any errors you might find in the console on github/discord.", Category.DebugConsole);
 		}
 
-		[ConsoleMethod("random-index", "Grabs the current index of Random13")]
+		[ConsoleMethod("random-index", "Grabs the current index of Random13. (Not accurate on clients.)")]
 		public static void GrabRandom13Index()
 		{
 			Logger.Log(Random13.Instance.CurrentRandomTableIndex.ToString());
