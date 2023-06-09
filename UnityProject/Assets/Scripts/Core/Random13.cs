@@ -16,7 +16,7 @@ namespace Core
 		public static Random13 Instance;
 
 		//https://github.com/id-Software/DOOM/blob/77735c3ff0772609e9c8d29e3ce2ab42ff54d20b/linuxdoom-1.10/m_random.c#LL31C1-L31C1
-		private readonly int[] randomTable = new[]
+		private readonly byte[] randomTable = new byte[]
 		{
 			0, 8, 109, 220, 222, 241, 149, 107, 75, 248, 254, 140, 16, 66,
 			74, 21, 211, 47, 80, 242, 154, 27, 205, 128, 161, 89, 77, 36,
