@@ -15,6 +15,7 @@ using Mirror;
 using GameConfig;
 using Initialisation;
 using Audio.Containers;
+using Core;
 using Managers;
 using Messages.Server;
 using Objects.Machines.ServerMachines.Communications;
@@ -190,6 +191,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	[SerializeField] private RoundJoinAttributes roundJoinAttributes;
 	public RoundJoinAttributes RoundJoinAttributes => roundJoinAttributes;
+	public static Random13 Random { get; private set; } = new Random13();
 
 	void IInitialise.Initialise()
 	{
@@ -449,6 +451,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		ItemSlot.Cleanup();
 		//reset matrix init events
 		NetworkedMatrix._ClearInitEvents();
+		Random = new Random13();
 	}
 
 	public void SyncTime(string currentTime, int minutes)

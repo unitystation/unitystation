@@ -1,3 +1,4 @@
+using Core;
 using UnityEngine;
 
 namespace Weapons
@@ -36,7 +37,7 @@ namespace Weapons
 		protected void ClumsyShotServer(AimApply interaction, bool isSuicide)
 		{
 			//shooting a non-clusmy weapon as a clusmy person
-			if (DMMath.Prob(50))
+			if (Random13.Prob())
 			{
 				CallShotServer(interaction, true);
 

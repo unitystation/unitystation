@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Core;
 using Messages.Server;
 using ScriptableObjects.Gun;
 using UnityEngine;
@@ -122,7 +123,7 @@ namespace Objects.Engineering
 			powerUsage = $"{powerNeeded}";
 			UpdateGUI();
 
-			if(DMMath.Prob(50)) return;
+			if(Random13.Prob()) return;
 
 			ShootParticleAccelerator();
 		}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core;
 using UnityEngine;
 using Mirror;
 using Light2D;
@@ -427,7 +428,7 @@ namespace Objects
 						if (health.RegisterPlayer.PlayerScript.Mind?.occupation == OccupationList.Instance.Get(JobType.CLOWN))
 						{
 							health.OnGib();
-							ChangePoints(DMMath.Prob(50) ? -1000 : 1000);
+							ChangePoints(Random13.ProbFromTime(GameManager.Instance.RoundTime) ? -1000 : 1000);
 							return;
 						}
 
