@@ -141,11 +141,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <traumaTypes>k__BackingField: 0
-  deadlyDamageInOneHit: 30
+  deadlyDamageInOneHit: 65
   bodyPart: {fileID: 1673759363237950006}
   stages:
     m_keys: 01000000
-    m_values: 1e000000
+    m_values: 41000000
+  juddgerResistence: 12
 --- !u!1 &2499910798797443627
 GameObject:
   m_ObjectHideFlags: 0
