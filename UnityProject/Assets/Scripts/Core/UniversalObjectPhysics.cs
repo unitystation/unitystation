@@ -1828,7 +1828,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		//Can truncate as the localPos should be near enough to the int value
 		var rounded = localPos.TruncateToInt();
 
-		OnLocalTileReached.Invoke(oldLocalTilePosition, rounded);
+		if (TransformState.HiddenPos != localPos)
+		{
+			OnLocalTileReached.Invoke(oldLocalTilePosition, rounded);
+		}
+
 
 		oldLocalTilePosition = rounded;
 		SetRegisterTileLocation(rounded);
@@ -1850,6 +1854,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	public virtual void LocalServerTileReached(Vector3Int localPos)
 	{
 		if (doStepInteractions == false) return;
+		if (localPos == TransformState.HiddenPos) return;
 
 		var matrix = registerTile.Matrix;
 		if (matrix == null) return;
