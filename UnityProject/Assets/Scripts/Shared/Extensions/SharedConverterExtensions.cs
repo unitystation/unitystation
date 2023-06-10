@@ -41,7 +41,7 @@ public static class SharedConverterExtensions
 
 	/// <summary>Cast (Truncate) <see cref="Vector3"/> to <see cref="Vector3Int"/> while cutting z-axis</summary>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static Vector3Int TruncateToInt(this Vector3 other) => new((int) other.x, (int) other.y);
+	public static Vector3Int TruncateToInt(this Vector3 other) => new((int) other.x, (int) other.y, (int) other.z);
 
 	/// <summary>Round <see cref="Vector2"/> to <see cref="Vector2Int"/>.</summary>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
