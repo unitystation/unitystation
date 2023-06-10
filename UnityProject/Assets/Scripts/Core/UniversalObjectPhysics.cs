@@ -1018,7 +1018,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			}
 			else
 			{
-				Pulling.Component.TryTilePush(inDirection.NormalizeTo2Int(), byClient, speed, pushedBy, pulledBy: this);
+
+				Pulling.Component.SetMatrixCache.ResetNewPosition(Pulling.Component.transform.position);
+				Pulling.Component.Pushing.Clear();
+				Pulling.Component.ForceTilePush(inDirection.NormalizeTo2Int(), Pulling.Component.Pushing, byClient, speed, pulledBy:  this);
 			}
 		}
 
@@ -1035,8 +1038,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			}
 			else
 			{
-				ObjectIsBucklingChecked.Component.Pulling.Component.TryTilePush(inDirection.NormalizeTo2Int(), byClient,
-					speed, pushedBy);
+				ObjectIsBucklingChecked.Component.Pulling.Component.SetMatrixCache.ResetNewPosition(ObjectIsBucklingChecked.Component.Pulling.Component.transform.position);
+				ObjectIsBucklingChecked.Component.Pulling.Component.Pushing.Clear();
+				ObjectIsBucklingChecked.Component.Pulling.Component.ForceTilePush(inDirection.NormalizeTo2Int(), ObjectIsBucklingChecked.Component.Pulling.Component.Pushing, byClient, speed, pulledBy:  this);
 			}
 		}
 	}
@@ -1281,7 +1285,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			TileMoveSpeedOverride = 0;
 			Animating = false;
 
-			InternalTriggerOnLocalTileReached(transform.localPosition);
 			MoveIsWalking = false;
 
 			if (IsFloating() && PulledBy.HasComponent == false && doNotApplyMomentumOnTarget == false)
@@ -1828,7 +1831,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		//Can truncate as the localPos should be near enough to the int value
 		var rounded = localPos.TruncateToInt();
 
-		OnLocalTileReached.Invoke(oldLocalTilePosition, rounded);
+		if (TransformState.HiddenPos != localPos)
+		{
+			OnLocalTileReached.Invoke(oldLocalTilePosition, rounded);
+		}
+
 
 		oldLocalTilePosition = rounded;
 		SetRegisterTileLocation(rounded);
@@ -1850,6 +1857,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	public virtual void LocalServerTileReached(Vector3Int localPos)
 	{
 		if (doStepInteractions == false) return;
+		if (localPos == TransformState.HiddenPos) return;
 
 		var matrix = registerTile.Matrix;
 		if (matrix == null) return;
