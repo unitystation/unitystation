@@ -406,9 +406,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		if (isServer) return;
 		if (LocalTargetPosition == newLocalTarget.Vector3) return;
-		if (hasAuthority && PulledBy.HasComponent == false) return;
-
-		//if (hasAuthority == false && PulledBy.HasComponent) return;
+		if (isOwned && PulledBy.HasComponent == false) return;
 
 		var spawned = CustomNetworkManager.Spawned;
 
@@ -570,7 +568,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	public void SynchroniseUpdatePulling(PullData oldPullData, PullData newPulling)
 	{
 		ThisPullData = newPulling;
-		if (newPulling.WasCausedByClient && hasAuthority) return;
+		if (newPulling.WasCausedByClient && isOwned) return;
 		PullSet(newPulling.NewPulling, false, true);
 	}
 
@@ -1006,10 +1004,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (ObjectIsBucklingChecked.HasComponent && ObjectIsBucklingChecked.Component.Pulling.HasComponent)
 		{
 			var inDirection = cachedPosition;
-			if (inDirection.magnitude > 2f && (isServer || hasAuthority))
+			if (inDirection.magnitude > 2f && (isServer || isOwned))
 			{
 				ObjectIsBucklingChecked.Component.PullSet(null, false); //TODO maybe remove
-				if (ObjectIsBucklingChecked.Component.hasAuthority && isServer == false)
+				if (ObjectIsBucklingChecked.Component.isOwned && isServer == false)
 				{
 					ObjectIsBucklingChecked.Component.CmdStopPulling();
 				}
@@ -1118,12 +1116,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			Pulling.DirectSetComponent(toPull);
 			toPull.PulledBy.DirectSetComponent(this);
 			ContextGameObjects[1] = toPull.gameObject;
-			if (hasAuthority) UIManager.Action.UpdatePullingUI(true);
+			if (isOwned) UIManager.Action.UpdatePullingUI(true);
 		}
 		else
 		{
 
-			if (hasAuthority) UIManager.Action.UpdatePullingUI(false);
+			if (isOwned) UIManager.Action.UpdatePullingUI(false);
 			if (Pulling.HasComponent)
 			{
 				Pulling.Component.ResetClientPositionReachTile = true;
@@ -1693,10 +1691,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (ObjectIsBucklingChecked.HasComponent && ObjectIsBucklingChecked.Component.Pulling.HasComponent)
 		{
 			var inDirection = cachedPosition - ObjectIsBucklingChecked.Component.Pulling.Component.transform.position;
-			if (inDirection.magnitude > 2f && (isServer || hasAuthority))
+			if (inDirection.magnitude > 2f && (isServer || isOwned))
 			{
 				ObjectIsBucklingChecked.Component.PullSet(null, false); //TODO maybe remove
-				if (ObjectIsBucklingChecked.Component.hasAuthority && isServer == false)
+				if (ObjectIsBucklingChecked.Component.isOwned && isServer == false)
 					ObjectIsBucklingChecked.Component.CmdStopPulling();
 			}
 			else
