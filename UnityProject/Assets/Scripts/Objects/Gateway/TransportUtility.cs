@@ -27,7 +27,7 @@ namespace Gateway
 			if (objectPhysics == null) return; //Don't even bother...
 
 			var dest = transportTo;
-			if (SubSceneManager.Instance.IsMaintRooms && DMMath.Prob(maintRoomChanceModifier))
+			if (SubSceneManager.Instance.IsMaintRooms && DMMath.Prob(0.001f * maintRoomChanceModifier))
 			{
 				dest = MaintRoomLocations.PickRandom().RegisterTile().WorldPositionServer;
 			}
