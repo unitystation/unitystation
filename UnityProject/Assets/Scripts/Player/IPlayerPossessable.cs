@@ -287,13 +287,13 @@ public interface IPlayerPossessable
 			var leaveInterfaces = GameObject.GetComponents<IOnPlayerLeaveBody>();
 			foreach (var leaveInterface in leaveInterfaces)
 			{
-				leaveInterface.OnPlayerLeaveBody(mind.ControlledBy);
+				leaveInterface.OnPlayerLeaveBody(mind?.ControlledBy);
 			}
 		}
 
 		if (CustomNetworkManager.IsServer)
 		{
-			PossessAndUnpossessMessage.Send(mind.gameObject, null,GameObject);
+			PossessAndUnpossessMessage.Send(mind?.gameObject, null,GameObject);
 		}
 
 		var possessing = GetPossessing();

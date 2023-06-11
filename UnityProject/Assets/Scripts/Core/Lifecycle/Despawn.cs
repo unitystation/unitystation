@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using Systems.Electricity;
@@ -71,7 +72,15 @@ public static class Despawn
 			}
 		}
 
-		_ServerFireDespawnHooks(DespawnResult.Single(info));
+		try
+		{
+			_ServerFireDespawnHooks(DespawnResult.Single(info));
+		}
+		catch (Exception e)
+		{
+			Logger.LogError(e.ToString());
+		}
+
 
 		var objectPhysics = info.GameObject.GetComponent<UniversalObjectPhysics>();
 		if (objectPhysics != null)

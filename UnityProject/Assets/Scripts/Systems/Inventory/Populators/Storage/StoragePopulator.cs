@@ -30,6 +30,12 @@ namespace Systems.Storage
 				var ItemSlot = ItemStorage.GetNextFreeIndexedSlot();
 
 				var spawn = Spawn.ServerPrefab(gameObject, PrePickRandom: true, spawnManualContents: info?.SpawnManualContents ?? false);
+
+				if (Validations.CanFit(ItemSlot, spawn.GameObject, NetworkSide.Server) == false)
+				{
+					Logger.LogError($"Your initial contents spawn for Storage {ItemStorage.name} for {spawn.GameObject} Is bypassing the Can fit requirements");
+				}
+
 				Inventory.ServerAdd(spawn.GameObject, ItemSlot, IgnoreRestraints: true);
 			}
 
@@ -70,6 +76,13 @@ namespace Systems.Storage
 				if (gameObject == null) continue;
 				var ItemSlot = ItemStorage.GetNextFreeIndexedSlot();
 				var spawn = Spawn.ServerPrefab(gameObject, PrePickRandom: true, spawnManualContents: info?.SpawnManualContents ?? false);
+
+				if (Validations.CanFit(ItemSlot, spawn.GameObject, NetworkSide.Server) == false)
+				{
+					Logger.LogError($"Your initial contents spawn for ItemStorage {ItemStorage.name} for {spawn.GameObject} Is bypassing the Can fit requirements");
+				}
+
+
 				Inventory.ServerAdd(spawn.GameObject, ItemSlot, IgnoreRestraints: true);
 			}
 

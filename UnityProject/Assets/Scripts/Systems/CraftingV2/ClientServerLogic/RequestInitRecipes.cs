@@ -21,6 +21,8 @@ namespace Systems.CraftingV2.ClientServerLogic
 				return;
 			}
 
+			if (SentByPlayer?.Script.OrNull()?.PlayerCrafting.OrNull()?.KnownRecipesByCategory == null) return;
+
 			SendInitRecipesOrder.SendTo(
 				SentByPlayer,
 				SentByPlayer.Script.PlayerCrafting.KnownRecipesByCategory, SentByPlayer.Script.PlayerCrafting.gameObject

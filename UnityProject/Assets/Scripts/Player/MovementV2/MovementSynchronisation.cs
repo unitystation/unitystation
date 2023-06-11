@@ -113,6 +113,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	[Command]
 	public void CmdUnbuckle()
 	{
+		if (BuckledToObject == null) return;
 		var buckleInteract = BuckledToObject.GetComponent<BuckleInteract>();
 		if (buckleInteract == null)
 		{

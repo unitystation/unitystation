@@ -13,6 +13,33 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 00d9a9827ebcc49ab8b0df647c4f7da5,
         type: 2}
+    - target: {fileID: 2304758689651533925, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: OptionalReplacementOrgan.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2304758689651533925, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: OptionalReplacementOrgan.Array.data[0]
+      value: 
+      objectReference: {fileID: 7528045160662823784, guid: a1d27e9b59b0c1745a5b7a32b805e618,
+        type: 3}
+    - target: {fileID: 2304758689651533925, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: OptionalReplacementOrgan.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2966326797250985115, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2966326797250985115, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: initialTraits.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 892f0c642e2049640b08d738517bb0f5,
+        type: 2}
     - target: {fileID: 3258052693451940005, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
       propertyPath: m_Sprite
@@ -147,4 +174,74 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  SpriteDataSO: {fileID: 11400000, guid: acd2ecd125c46cd4a8482eb53f94fd93, type: 2}
+  AdultSprite: {fileID: 11400000, guid: 7f7189ad0070b714b9c3b5f85fd0d2a3, type: 2}
+  BabySprite: {fileID: 11400000, guid: f5b13374767a9b847b94a896b116d7c5, type: 2}
+  CanSplitInto:
+  - ChanceToMutateTo: 50
+    CoreMutateTo: {fileID: 465681690408585956}
+  - ChanceToMutateTo: 50
+    CoreMutateTo: {fileID: 7316132249805633984, guid: a1d27e9b59b0c1745a5b7a32b805e618,
+      type: 3}
+  SlimeJelly: {fileID: 11400000, guid: 00d9a9827ebcc49ab8b0df647c4f7da5, type: 2}
+  StartingAmount: 25
+--- !u!114 &3350947404595399408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4304790706924288976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 878bffb860f19364598ed06c53b0f50c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  <Blacklist>k__BackingField: []
+  <UpdateType>k__BackingField: 3
+  <PeriodicUpdateInterval>k__BackingField: 1
+  <master>k__BackingField: {fileID: 0}
+  eatFoodSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  hitMask:
+    serializedVersion: 2
+    m_Bits: 256
+--- !u!114 &8973296730264542746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4304790706924288976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f14e9b5b4498704cb98ada2d5271d86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  thinkingState: {fileID: 3350947404595399408}
+  Brain: {fileID: 5814085553101229679}
+  DEBUGoverride: 0
+  Body: {fileID: 0}
+--- !u!114 &5814085553101229679 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4959976547195528774, guid: 1e19c4562afbbd2479d14830399db738,
+    type: 3}
+  m_PrefabInstance: {fileID: 1475676968582113321}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4304790706924288976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840609453e4bf334cbd14cd7999c6fb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

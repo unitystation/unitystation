@@ -1908,6 +1908,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (Animating) UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
 		if (IsFlyingSliding) UpdateManager.Remove(CallbackType.UPDATE, FlyingUpdateMe);
 		if (CorrectingCourse) UpdateManager.Remove(CallbackType.UPDATE, FloatingCourseCorrection);
+		if (BuckledToObject != null) Unbuckle();
+		if (ObjectIsBucklingChecked.HasComponent) ObjectIsBucklingChecked.Component.Unbuckle();
+
 	}
 
 
@@ -2095,7 +2098,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			rotatable = gameObject.GetComponent<Rotatable>();
 		}
 
-		rotatable.FaceDirection(newDir);
+		rotatable.OrNull()?.FaceDirection(newDir);
 	}
 
 	/// <summary>
@@ -2104,7 +2107,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	[Server]
 	public void Unbuckle()
 	{
-		ObjectIsBuckling = null;
+		SyncBuckledToObject(ObjectIsBuckling, null);
 		BuckleToChange(ObjectIsBuckling);
 	}
 
@@ -2112,17 +2115,20 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	/// Server side logic for buckling a player
 	/// </summary>
 	[Server]
-	public void BuckleObjectToThis(UniversalObjectPhysics newBuckledTo)
+	public void BuckleTo(UniversalObjectPhysics newBuckledTo)
 	{
 		if (newBuckledTo == null)
 		{
 			Unbuckle();
 			return;
 		}
-		ObjectIsBuckling = newBuckledTo;
+
+		SyncBuckledToObject(ObjectIsBuckling, newBuckledTo);
 		BuckleToChange(ObjectIsBuckling);
-		ObjectIsBuckling.AppearAtWorldPositionServer(this.transform.position);
+		ObjectIsBuckling.AppearAtWorldPositionServer(transform.position);
 	}
+
+
 
 	#endregion
 

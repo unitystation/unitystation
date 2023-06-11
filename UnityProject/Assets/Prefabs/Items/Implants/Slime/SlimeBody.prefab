@@ -76,12 +76,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 946ad55a8f6016d4884a5ea1badfe998,
+      objectReference: {fileID: 21300000, guid: 6dc8f963c321be24bafa3a44d5efc699,
         type: 3}
     - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -100,6 +100,18 @@ PrefabInstance:
       propertyPath: initialTraits.Array.data[3]
       value: 
       objectReference: {fileID: 11400000, guid: 892f0c642e2049640b08d738517bb0f5,
+        type: 2}
+    - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: initialTraits.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 72071c3894678c0479883bb71edaec74,
+        type: 2}
+    - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: initialTraits.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8d9bddcf38348465eb528212d15282b5,
         type: 2}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -124,6 +136,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2719098251223779414, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: 15095c5e789d4b4408d8ca389eab47d8,
+        type: 2}
+    - target: {fileID: 2719098251223779414, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
       propertyPath: Populater.SlotContents.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -137,7 +155,7 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: f5b13374767a9b847b94a896b116d7c5,
+      objectReference: {fileID: 11400000, guid: 0faaccdf4877d2f4cbc73370fcb0428e,
         type: 2}
     - target: {fileID: 5232716269704749941, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -188,6 +206,23 @@ MonoBehaviour:
   HealingNutrimentMultiplier: 2
   HungerState: 1
   reagentCirculatedComponent: {fileID: 0}
+--- !u!114 &3112491456799726097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 960852636360704351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c1b53b561690594d8e7781acb1d85bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  SlimeJelly: {fileID: 11400000, guid: 00d9a9827ebcc49ab8b0df647c4f7da5, type: 2}
+  AdultThreshold: 50
 --- !u!114 &4338165651726550389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,6 +276,27 @@ MonoBehaviour:
   ReagentMetabolism: 0.2
   reagentCirculatedComponent: {fileID: 0}
   saturationComponent: {fileID: 0}
+--- !u!114 &8898726088625958075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 960852636360704351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee907d2275dd9f244a48f957426ed737, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  CurrentlyEating: {fileID: 0}
+  EdibleCurrentlyEating: {fileID: 0}
+  LivingHealthMasterBaseCurrentlyEating: {fileID: 0}
+  DUBUGCurrentlyEating: {fileID: 0}
+  SlimeJelly: {fileID: 11400000, guid: 00d9a9827ebcc49ab8b0df647c4f7da5, type: 2}
+  Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
 --- !u!114 &9064598536239669808
 MonoBehaviour:
   m_ObjectHideFlags: 0

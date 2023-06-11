@@ -12,6 +12,10 @@ public class CommonComponents : MonoBehaviour
 
 	public PlayerScript PlayerScript => SafeGetComponent<PlayerScript>();
 
+	public Rotatable Rotatable => SafeGetComponent<Rotatable>();
+
+
+
 	public Dictionary<Type, Component> dictionary = new Dictionary<Type, Component>();
 
 	public T SafeGetComponent<T>() where T : Component

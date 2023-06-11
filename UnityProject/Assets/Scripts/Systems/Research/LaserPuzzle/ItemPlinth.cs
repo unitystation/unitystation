@@ -58,7 +58,7 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 		if (HasItem)
 		{
 			HasItem = false;
-			UniversalObjectPhysics.BuckleObjectToThis(null);
+			UniversalObjectPhysics.BuckleTo(null);
 			Inventory.ServerAdd(DisplayedItem, interaction.HandSlot);
 			DisplayedItem = null;
 			OnItemChange?.Invoke();
@@ -69,7 +69,7 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 			DisplayedItem = interaction.HandSlot.Item;
 			Inventory.ServerDrop(interaction.HandSlot);
 
-			UniversalObjectPhysics.BuckleObjectToThis(DisplayedItem.UniversalObjectPhysics);
+			UniversalObjectPhysics.BuckleTo(DisplayedItem.UniversalObjectPhysics);
 			OnItemChange?.Invoke();
 		}
 

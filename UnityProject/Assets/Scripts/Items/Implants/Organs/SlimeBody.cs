@@ -18,7 +18,7 @@ public class SlimeBody : BodyPartFunctionality
 
 	public Reagent SlimeJelly;
 
-	public float AdultThreshold;
+	public float AdultThreshold = 50;
 
 	public bool? CurrentState;
 

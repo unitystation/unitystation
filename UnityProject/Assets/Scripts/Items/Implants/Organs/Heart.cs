@@ -98,7 +98,7 @@ namespace Items.Implants.Organs
 
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
-			_ReagentCirculatedComponent.AssociatedSystem.PumpingDevices.Remove(this);
+			_ReagentCirculatedComponent.OrNull()?.AssociatedSystem?.PumpingDevices?.Remove(this);
 
 		}
 

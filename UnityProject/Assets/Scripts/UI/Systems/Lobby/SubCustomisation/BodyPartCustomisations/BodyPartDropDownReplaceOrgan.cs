@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using HealthV2;
+using Items.Implants.Organs;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,9 +13,9 @@ namespace UI.CharacterCreator
 	{
 		public Dropdown Dropdown;
 
-		public List<BodyPart> ToChooseFromBodyParts = new List<BodyPart>();
+		private List<BodyPart> ToChooseFromBodyParts = new List<BodyPart>();
 
-		public BodyPart CurrentBodyPart;
+		private BodyPart CurrentBodyPart;
 
 		public BodyPart ParentBodyPart; // can be null with root
 
@@ -22,7 +23,7 @@ namespace UI.CharacterCreator
 		{
 			base.SetUp(incharacterCustomization, Body_Part, path);
 			RelatedBodyPart = Body_Part;
-			List<string> itemOptions = null;
+			List<string> itemOptions = new List<string>();
 			// Make a list of all available options which can then be passed to the dropdown box
 			foreach (var Keyv in incharacterCustomization.ParentDictionary)
 			{
@@ -34,7 +35,10 @@ namespace UI.CharacterCreator
 
 			CurrentBodyPart = Body_Part;
 			ToChooseFromBodyParts = Body_Part.OptionalReplacementOrgan;
-			itemOptions = Body_Part.OptionalReplacementOrgan.Select(gameObject => gameObject.name).ToList();
+			foreach (var Organ in  Body_Part.OptionalReplacementOrgan)
+			{
+				itemOptions.Add(Organ.name);
+			}
 
 
 			itemOptions.Sort();
@@ -75,8 +79,30 @@ namespace UI.CharacterCreator
 
 			var Storage = bodyPart.ContainedIn;
 
+			var IPlayerPossessable = bodyPart.GetComponent<IPlayerPossessable>();
+
+
+
+
 			Storage.OrganStorage.ServerTryAdd(spawned.GameObject);
+
+			if (IPlayerPossessable != null)
+			{
+
+				if (IPlayerPossessable.PossessedBy != null)
+				{
+					IPlayerPossessable.PossessedBy.SetPossessingObject(spawned.GameObject);
+				}
+
+				if (IPlayerPossessable.PossessingMind != null)
+				{
+					IPlayerPossessable.PossessingMind.SetPossessingObject(spawned.GameObject);
+				}
+			}
+
 			Storage.OrganStorage.ServerTryRemove(bodyPart.gameObject);
+			_ = Despawn.ServerSingle(bodyPart.gameObject);
+
 		}
 
 		public void SetDropdownValue(string currentSetting)
@@ -164,7 +190,7 @@ namespace UI.CharacterCreator
 				var ChosenOption = Dropdown.options[Dropdown.value].text;
 				CurrentBodyPart = ToChooseFromBodyParts.First(x => x.name == ChosenOption);
 				characterCustomization.ParentDictionary[ParentBodyPart].Add(CurrentBodyPart);
-				characterCustomization.SetUpBodyPart(CurrentBodyPart);
+				characterCustomization.SetUpBodyPart(CurrentBodyPart, false);
 			}
 		}
 	}
