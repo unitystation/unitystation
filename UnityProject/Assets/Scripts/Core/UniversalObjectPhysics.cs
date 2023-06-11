@@ -1385,10 +1385,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			return;
 		}
 
-		if (IsMoving)
-		{
-			return;
-		}
+		if (IsMoving) return;
 
 		isFlyingSliding = true;
 		MoveIsWalking = false;
@@ -1407,10 +1404,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			}
 		}
 
-		if (PulledBy.HasComponent)
-		{
-			return; //It is recursively handled By parent
-		}
+		if (PulledBy.HasComponent) return; //It is recursively handled By parent
 
 		if (airTime > 0)
 		{
