@@ -8,6 +8,7 @@ namespace Player
 	public class LayDown : NetworkBehaviour
 	{
 		[SerializeField] private Transform sprites;
+		public Transform Sprites => sprites;
 		[SerializeField] private LivingHealthMasterBase health;
 		[SerializeField] private Rotatable playerDirectional;
 		[SerializeField] private PlayerScript playerScript;
@@ -18,7 +19,6 @@ namespace Player
 
 		[SyncVar(hook = nameof(OnLayDown))] public bool IsLayingDown = false;
 
-
 		private void Awake()
 		{
 			playerScript ??= GetComponent<PlayerScript>();
@@ -27,6 +27,7 @@ namespace Player
 			networkedLean ??= GetComponent<Util.NetworkedLeanTween>();
 		}
 
+		[ClientRpc]
 		public void EnsureCorrectState()
 		{
 			gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
