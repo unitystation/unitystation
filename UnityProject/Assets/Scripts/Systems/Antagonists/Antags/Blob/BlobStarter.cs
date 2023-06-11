@@ -83,12 +83,7 @@ namespace Blob
 
 		private void OnEnable()
 		{
-#if UNITY_EDITOR
-			UpdateManager.Add(PeriodicUpdate, 0.15f);
-			Logger.Log("Periodic Update adjusted for blob in editor for faster testing.");
-#else
 			UpdateManager.Add(PeriodicUpdate, updateTime);
-#endif
 		}
 
 		private void OnDisable()
