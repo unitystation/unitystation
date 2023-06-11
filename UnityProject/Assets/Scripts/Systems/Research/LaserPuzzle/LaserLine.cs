@@ -15,12 +15,13 @@ public class LaserLine : MonoBehaviour
 	private ItemPlinth TOriginPlinth;
 
 
+
 	private GameObject TTarget;
 	private Reflector TTargetReflector;
 	private Integrity TTargetIntegrity;
 	private UniversalObjectPhysics TTargetUniversalObjectPhysics;
 
-
+	private ItemPlinth TTargetPlinth;
 	public LaserProjection RelatedLaserProjection;
 
 
@@ -70,6 +71,13 @@ public class LaserLine : MonoBehaviour
 				TTargetIntegrity.BeingDestroyed += DestroyLine;
 			}
 
+			TTargetPlinth  = TTarget.GetComponent<ItemPlinth>();
+			if (TTargetPlinth != null)
+			{
+				TTargetPlinth.OnItemChange += DestroyLine;
+			}
+
+
 
 			TTargetUniversalObjectPhysics = TTarget.GetComponent<UniversalObjectPhysics>();
 			TTargetUniversalObjectPhysics.OnLocalTileReached.AddListener(DestroyLine2);
@@ -83,8 +91,13 @@ public class LaserLine : MonoBehaviour
 		TTarget = Target;
 		TOrigin = Origin;
 
+
 		RelatedLaserProjection = _RelatedLaserProjection;
-		Sprite.color = TechnologyAndBeams.Colour;
+		var Colour = TechnologyAndBeams.Colour;
+		Colour.a = 0.65f;
+		Sprite.color = Colour;
+
+
 		HookInto();
 		if (WorldTarget == null)
 		{
@@ -101,6 +114,7 @@ public class LaserLine : MonoBehaviour
 
 	public void ManualSetup(Vector3 OriginTarget, Vector3 WorldTarget, Color Colour)
 	{
+		Colour.a = 0.65f;
 		Sprite.color = Colour;
 		PositionLaserBody(OriginTarget, WorldTarget);
 	}
@@ -174,6 +188,11 @@ public class LaserLine : MonoBehaviour
 			if (TTargetIntegrity != null)
 			{
 				TTargetIntegrity.BeingDestroyed -= DestroyLine;
+			}
+
+			if (TTargetPlinth != null)
+			{
+				TTargetPlinth.OnItemChange -= DestroyLine;
 			}
 
 			TTargetUniversalObjectPhysics.OnLocalTileReached.RemoveListener(DestroyLine2);

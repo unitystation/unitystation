@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -9144785475698281503, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
+      propertyPath: machineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: bc2e37bb6c7402f42bcaf7997a15c7e4,
+        type: 2}
     - target: {fileID: 1777396284562217003, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
       propertyPath: m_RootOrder
@@ -78,6 +84,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: d999eb4fe1d2c9842adb223c569c7f66,
         type: 3}
+    - target: {fileID: 2185525740609964605, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
+      propertyPath: initialName
+      value: Research Collector Board
+      objectReference: {fileID: 0}
+    - target: {fileID: 2185525740609964605, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
+      propertyPath: initialDescription
+      value: A circuit board for building a research collector
+      objectReference: {fileID: 0}
     - target: {fileID: 4612723153341376818, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
       propertyPath: foreverID

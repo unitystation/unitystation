@@ -22,6 +22,8 @@ namespace Items.Weapons
 
 					//Macrobombs and microbombs will gib their victim
 					bodyPart.HealthMaster.OnGib();
+
+					bodyPart.ContainedIn?.OrganStorage.ServerTryRemove(gameObject);
 				}
 				else if (bodyPart.ContainedIn.BodyPartType != BodyPartType.Chest)
 				{

@@ -114,7 +114,23 @@ public class LaserProjection : MonoBehaviour
 			return;
 		}
 
+
+		Collider2D Collider = null;
+		if (Origin != null)
+		{
+			Collider =  Origin.GetComponent<Collider2D>();
+			if (Collider != null)
+			{
+				Collider.enabled = false;
+			}
+		}
+
 		var hit = MatrixManager.RayCast(OriginPosition.Value, WorldDirection, 15,ProjectionLayerTypeSelection, LayerMask);
+
+		if (Collider != null)
+		{
+			Collider.enabled = true;
+		}
 
 		if (hit.ItHit == false)
 		{

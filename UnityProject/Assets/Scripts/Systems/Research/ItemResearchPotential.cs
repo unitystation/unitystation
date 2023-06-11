@@ -62,8 +62,8 @@ public class ItemResearchPotential : MonoBehaviour
 		System.Random random = new System.Random();
 		if (random.NextDouble() < 0.15)
 		{
-			int min = 25;
-			int max = 75;
+			int min = 20;
+			int max = 35;
 			toReturn.AddedPurity = Random.Range(min, max + 1);
 		}
 		else
@@ -74,13 +74,15 @@ public class ItemResearchPotential : MonoBehaviour
 		}
 
 
-		var rng = Random.Range(0, 2000);
-		if (rng > 1950)
+		if (BasePurity + toReturn.AddedPurity > 51)
 		{
-			toReturn.AddedPurity += 100;
-			toReturn.IsTooPure = true;
+			var rng = Random.Range(0, 1000);
+			if (rng > 990)
+			{
+				toReturn.AddedPurity += 100;
+				toReturn.IsTooPure = true;
+			}
 		}
-
 
 		if (BasePurity + toReturn.AddedPurity > 50)
 		{
