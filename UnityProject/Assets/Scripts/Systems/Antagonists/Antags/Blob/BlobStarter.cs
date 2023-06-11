@@ -289,15 +289,10 @@ namespace Blob
 				return;
 			}
 
-			var connection = GetComponent<NetworkIdentity>().connectionToClient;
-
-
-
-
+			var mind = playerScript.Mind;
 			playerScript.Mind.SetPossessingObject(spawnResult.GameObject);
-			playerScript.Mind.StopGhosting();
 			//Start the blob control script
-			spawnResult.GameObject.GetComponent<BlobPlayer>().BlobStart(playerScript.Mind);
+			spawnResult.GameObject.GetComponent<BlobPlayer>().BlobStart(mind);
 
 
 			Chat.AddActionMsgToChat(spawnResult.GameObject, $"<color=#FF151F>You explode from your {bodyPart}, a new being has been born.</color>",
