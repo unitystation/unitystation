@@ -699,7 +699,7 @@ MonoBehaviour:
   objectType: 2
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
-  <LayDownBehavior>k__BackingField: {fileID: 0}
+  <LayDownBehavior>k__BackingField: {fileID: 8176686349149668929}
   networkedLean: {fileID: -8106636780342977062}
 --- !u!114 &114449635359748350
 MonoBehaviour:
@@ -1007,6 +1007,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   DoesNotRequireBrain: 0
+  tickRate: 1
   BodyType: 0
   RTT: 0
   BodyPartList: []
@@ -1366,25 +1367,29 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  DEBUG: 0
-  SnapToGridOnStart: 0
+  LocalDifferenceNeeded: {x: 0, y: 0}
   LocalTargetPosition: {x: 0, y: 0, z: 0}
-  ChangesDirectionPush: 1
-  Intangible: 0
-  CanBeWindPushed: 1
-  IsPlayer: 1
-  tileMoveSpeed: 1
-  isNotPushable: 0
-  HasOwnGravity: 0
+  CorrectingCourse: 0
+  Animating: 0
+  SetIgnoreSticky: 0
   airTime: 0
   slideTime: 0
-  SetIgnoreSticky: 0
+  spinMagnitude: 0
   thrownBy: {fileID: 0}
   aim: 0
-  spinMagnitude: 0
   ForcedPushedFrame: 0
   TryPushedFrame: 0
   PushedFrame: 0
+  ChangesDirectionPush: 1
+  Intangible: 0
+  SnapToGridOnStart: 0
+  IsPlayer: 1
+  DEBUG: 0
+  tileMoveSpeed: 1
+  HasOwnGravity: 0
+  isNotPushable: 0
+  CanBeWindPushed: 1
+  rotationTarget: {fileID: 4962232741225816}
   FramePushDecision: 1
   stickyMovement: 1
   OnThrowEndResetRotation: 0
@@ -1396,17 +1401,17 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   IsCurrentlyFloating: 0
-  LocalDifferenceNeeded: {x: 0, y: 0}
-  CorrectingCourse: 0
   Pushing: []
   Hits: []
-  Animating: 0
   isFlyingSliding: 0
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
   BuckledToObject: {fileID: 0}
+  IsPressedCashed: 0
+  IsPressedServer: 0
   HardcodedSpeed: 0
+  LastUpdatedFlyingPosition: 0
   playerScript: {fileID: 0}
   Step: 0
   CanMoveThroughObstructions: 0
@@ -1417,10 +1422,6 @@ MonoBehaviour:
   needsRunning: {fileID: 11400000, guid: 79263d379ff044244a9baa143471a268, type: 2}
   actionData: {fileID: 11400000, guid: 967a13d2ea206e9448f6c6e2af11a3cf, type: 2}
   IsBumping: 0
-  IsPressedCashed: 0
-  IsPressedServer: 0
-  LastUpdatedFlyingPosition: 0
-  DEBUGLastMoveMessageProcessed: 0
 --- !u!114 &3901833431230868314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1552,9 +1553,11 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   sprites: {fileID: 4962232741225816}
+  health: {fileID: 1354417930896543338}
   playerDirectional: {fileID: 114449635359748350}
   playerScript: {fileID: 114617133355526680}
   networkedLean: {fileID: -8106636780342977062}
+  disabled: 0
   IsLayingDown: 0
 --- !u!1 &1147423205297840
 GameObject:
@@ -8313,7 +8316,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: -1841058614580174146, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

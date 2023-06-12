@@ -22,8 +22,10 @@ using UnityEngine.Events;
 public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, IActionGUI, ICooldown,
 	IBumpableObject, ICheckedInteractable<ContextMenuApply>
 {
+	public bool IsPressedCashed;
+	public bool IsPressedServer;
 	public bool HardcodedSpeed = false;
-
+	public double LastUpdatedFlyingPosition = 0;
 	public PlayerScript playerScript;
 
 	public List<MoveData> MoveQueue = new List<MoveData>();
@@ -108,7 +110,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		CmdUnbuckle();
 	}
-
 
 	[Command]
 	public void CmdUnbuckle()
@@ -236,6 +237,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 
 	[Server]
+	//(Max) TODO: Move cuffing logic into their own separate component.
 	public void Cuff(HandApply interaction)
 	{
 		SyncCuffed(IsCuffed, true);
@@ -321,14 +323,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	private void ThrowEnding(UniversalObjectPhysics thing)
 	{
-		if (playerScript.RegisterPlayer.IsLayingDown)
-		{
-			transform.localRotation = Quaternion.Euler(0, 0, 90);
-		}
-		else
-		{
-			transform.localRotation = Quaternion.Euler(0, 0, 0);
-		}
+		playerScript.RegisterPlayer.LayDownBehavior.EnsureCorrectState();
 	}
 
 	public void Update()
@@ -346,9 +341,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			CMDPressedMovementKey(inputDetected);
 		}
 	}
-
-	public bool IsPressedCashed;
-	public bool IsPressedServer;
 
 	[Command]
 	public void CMDPressedMovementKey(bool isPressed)
@@ -611,14 +603,11 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public void ClientCheckLocationFlight()
 	{
-		if (hasAuthority == false) return;
-		if (IsFloating())
+		if (hasAuthority == false || IsFloating() == false) return;
+		if (NetworkTime.time - LastUpdatedFlyingPosition > 2)
 		{
-			if (NetworkTime.time - LastUpdatedFlyingPosition > 2)
-			{
-				LastUpdatedFlyingPosition = NetworkTime.time;
-				ServerCommandValidatePosition(transform.localPosition);
-			}
+			LastUpdatedFlyingPosition = NetworkTime.time;
+			ServerCommandValidatePosition(transform.localPosition);
 		}
 	}
 
@@ -631,12 +620,97 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	}
 
+	private void ClientResetOnLastID(MoveData entry, Dictionary<uint, NetworkIdentity> spawned)
+	{
+		if (entry.Pulling != NetId.Empty)
+		{
+			if (ComponentManager.TryGetUniversalObjectPhysics(spawned[entry.Pulling].gameObject,
+				    out var SupposedlyPulling))
+			{
+				SupposedlyPulling.ResetLocationOnClient(connectionToClient);
+			}
+		}
 
-	public double LastUpdatedFlyingPosition = 0;
+		if (string.IsNullOrEmpty(entry.PushedIDs) != false) return;
+		foreach (var nonMatch in JsonConvert.DeserializeObject<List<uint>>(entry.PushedIDs))
+		{
+			spawned[nonMatch].GetComponent<UniversalObjectPhysics>()
+				.ResetLocationOnClient(connectionToClient);
+		}
+	}
 
-	public double DEBUGLastMoveMessageProcessed = 0;
+	private void ServerCheckQueueIsFlying(ref MoveData entry, ref bool fudged, ref Vector3 stored)
+	{
+		if (IsFlyingSliding)
+		{
+			if ((transform.position - entry.LocalPosition.ToWorld(MatrixManager.Get(entry.MatrixID)))
+			    .magnitude <
+			    0.24f) //TODO Maybe not needed if needed can be used is when Move request comes in before player has quite reached tile in space flight
+			{
+				stored = transform.localPosition;
+				transform.localPosition = entry.LocalPosition;
+				registerTile.ServerSetLocalPosition(entry.LocalPosition.RoundToInt());
+				registerTile.ClientSetLocalPosition(entry.LocalPosition.RoundToInt());
+				SetMatrixCache.ResetNewPosition(transform.position, registerTile);
+				fudged = true;
+			}
+			else
+			{
+				//Logger.LogError(" Fail the Range floating check ");
+				ResetLocationOnClients();
+				MoveQueue.Clear();
+				return;
+			}
+		}
+		else
+		{
+			if (SetTimestampID != entry.LastPushID && entry.LastPushID != -1) return;
+			if ((transform.position - entry.LocalPosition.ToWorld(MatrixManager.Get(entry.MatrixID)))
+			    .magnitude >
+			    0.75f) //Resets play location if too far away
+			{
+				if ((transform.position - entry.LocalPosition.ToWorld(MatrixManager.Get(entry.MatrixID)))
+				    .magnitude >
+				    3f)
+				{
+					ResetLocationOnClients();
+				}
+				else
+				{
+					ResetLocationOnClients(true);
+				}
+			}
+		}
+	}
 
-	public System.Random RNG = new System.Random();
+	private void ServerCheckQueueingPulling(ref Dictionary<uint, NetworkIdentity> spawned, ref MoveData entry)
+	{
+		switch (Pulling.HasComponent)
+		{
+			case false when entry.Pulling != NetId.Empty:
+			{
+				PullSet(null, false);
+				if (ComponentManager.TryGetUniversalObjectPhysics(spawned[entry.Pulling].gameObject,
+					    out var supposedlyPulling))
+				{
+					supposedlyPulling.ResetLocationOnClient(connectionToClient);
+				}
+
+				break;
+			}
+			case true when Pulling.Component.netId != entry.Pulling:
+			{
+				PullSet(null, false);
+				if (ComponentManager.TryGetUniversalObjectPhysics(spawned[entry.Pulling].gameObject,
+					    out var supposedlyPulling))
+				{
+					supposedlyPulling.ResetLocationOnClient(connectionToClient);
+				}
+
+				break;
+			}
+		}
+	}
 
 	public void ServerCheckQueueingAndMove()
 	{
@@ -648,109 +722,28 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			{
 				bool fudged = false;
 				Vector3 stored = Vector3.zero;
-				var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
-
-				var entry = MoveQueue[0];
+				Dictionary<uint, NetworkIdentity> spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+				MoveData entry = MoveQueue[0];
 				MoveQueue.RemoveAt(0);
 
 				if (entry.LastResetID != SetLastResetID) //Client hasn't been reset yet
 				{
-					if (entry.Pulling != NetId.Empty)
-					{
-						if (ComponentManager.TryGetUniversalObjectPhysics(spawned[entry.Pulling].gameObject,
-							    out var SupposedlyPulling))
-						{
-							SupposedlyPulling.ResetLocationOnClient(connectionToClient);
-						}
-					}
-
-					if (string.IsNullOrEmpty(entry.PushedIDs) == false)
-					{
-						foreach (var nonMatch in JsonConvert.DeserializeObject<List<uint>>(entry.PushedIDs))
-						{
-							spawned[nonMatch].GetComponent<UniversalObjectPhysics>()
-								.ResetLocationOnClient(connectionToClient);
-						}
-					}
-
+					ClientResetOnLastID(entry, spawned);
 					return;
 				}
 
 				SetMatrixCache.ResetNewPosition(transform.position, registerTile);
-				//Logger.LogError(" Is Animating " +  Animating + " Is floating " +  IsAnimatingFlyingSliding +" move processed at" + transform.localPosition);
 
-				if (Pulling.HasComponent == false && entry.Pulling != NetId.Empty)
+				if (DEBUG)
 				{
-					PullSet(null, false);
-					if (ComponentManager.TryGetUniversalObjectPhysics(spawned[entry.Pulling].gameObject,
-						    out var supposedlyPulling))
-					{
-						supposedlyPulling.ResetLocationOnClient(connectionToClient);
-					}
-				}
-				else if (Pulling.HasComponent && Pulling.Component.netId != entry.Pulling)
-				{
-					PullSet(null, false);
-					if (ComponentManager.TryGetUniversalObjectPhysics(spawned[entry.Pulling].gameObject,
-						    out var supposedlyPulling))
-					{
-						supposedlyPulling.ResetLocationOnClient(connectionToClient);
-					}
+					Logger.LogError(" Is Animating:" + Animating
+					                                 + "\n Is floating: " + IsFloating()
+					                                 + "\n move processed at" + transform.localPosition
+					                                 + "\n is flying:" + IsFlyingSliding);
 				}
 
-
-				if (IsFlyingSliding)
-				{
-					if ((transform.position - entry.LocalPosition.ToWorld(MatrixManager.Get(entry.MatrixID)))
-					    .magnitude <
-					    0.24f) //TODO Maybe not needed if needed can be used is when Move request comes in before player has quite reached tile in space flight
-					{
-						stored = transform.localPosition;
-						transform.localPosition = entry.LocalPosition;
-						registerTile.ServerSetLocalPosition(entry.LocalPosition.RoundToInt());
-						registerTile.ClientSetLocalPosition(entry.LocalPosition.RoundToInt());
-						SetMatrixCache.ResetNewPosition(transform.position, registerTile);
-						fudged = true;
-					}
-					else
-					{
-						//Logger.LogError(" Fail the Range floating check ");
-						ResetLocationOnClients();
-						MoveQueue.Clear();
-						return;
-					}
-				}
-				else
-				{
-					if (SetTimestampID == entry.LastPushID || entry.LastPushID == -1)
-					{
-						if ((transform.position - entry.LocalPosition.ToWorld(MatrixManager.Get(entry.MatrixID)))
-						    .magnitude >
-						    0.75f) //Resets play location if too far away
-						{
-							// Logger.LogError("Reset from distance from actual target" +
-							//                 (transform.position -
-							//                  Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID))).magnitude +
-							//                 " SERVER : " +
-							//                 transform.position + " Client : " +
-							//                 Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID)));
-
-							if ((transform.position - entry.LocalPosition.ToWorld(MatrixManager.Get(entry.MatrixID)))
-							    .magnitude >
-							    3f)
-							{
-								ResetLocationOnClients();
-							}
-							else
-							{
-								ResetLocationOnClients(true);
-							}
-
-							return;
-						}
-					}
-				}
-
+				ServerCheckQueueingPulling(ref spawned, ref entry);
+				ServerCheckQueueIsFlying(ref entry, ref fudged, ref stored);
 
 				if (CanInPutMove())
 				{
@@ -845,19 +838,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 						}
 
 
-						// if (RNG.Next(0, 100) > 50)
-						// {
-						// 	var Node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPosition);
-						// 	var  feets =  playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.feet).PickRandom();
-						//
-						//
-						// 	Node.AppliedDetail.AddDetail(new Detail()
-						// 	{
-						//
-						// 	})
-						// }
-
-
 						//TODO this is good but need to clean up movement a bit more Logger.LogError("Delta magnitude " + (transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID).Matrix)).magnitude );
 						//do calculation is and set targets and stuff
 						//Reset client if movement failed Since its good movement only Getting sent
@@ -899,7 +879,10 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				}
 				else
 				{
-					//Logger.LogError("Failed Can input");
+					if (DEBUG)
+					{
+						Logger.LogError("Failed Can input", Category.Movement);
+					}
 					if (fudged)
 					{
 						transform.localPosition = stored;
@@ -907,7 +890,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 						registerTile.ClientSetLocalPosition(stored.RoundToInt());
 						SetMatrixCache.ResetNewPosition(transform.position, registerTile);
 					}
-
 					ResetLocationOnClients();
 				}
 			}
@@ -1049,7 +1031,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		}
 
 		//Logger.LogError(" Requested move > wth  Bump " + NewMoveData.Bump);
-		CMDRequestMove(newMoveData);
+		CmdRequestMove(newMoveData);
 	}
 
 	private List<uint> SwappedWith = new List<uint>();
@@ -1380,34 +1362,25 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	}
 
 	[Command]
-	public void CMDRequestMove(MoveData inMoveData)
+	public void CmdRequestMove(MoveData inMoveData)
 	{
-		if (CanInPutMove(true))
+		if (CanInPutMove(true) == false) return;
+		var Age = NetworkTime.time - inMoveData.Timestamp;
+		if (Age > MOVE_MAX_DELAY_QUEUE)
 		{
-			var Age = NetworkTime.time - inMoveData.Timestamp;
-			if (Age > MOVE_MAX_DELAY_QUEUE)
-			{
-				// Logger.LogError(
-				// $" Move message rejected because it is too old, Consider tweaking if ping is too high or Is being exploited Age {Age}");
-				ResetLocationOnClients();
-				MoveQueue.Clear();
-				return;
-			}
-
-
-			// NewMoveData.LocalMoveDirection =
-			// VectorToPlayerMoveDirection((LocalTargetPosition - transform.localPosition).RoundToInt().To2Int());
-
-			//TODO Might be funny with changing to diagonal not too sure though
-			var addedGlobalPosition =
-				(transform.position.ToLocal(MatrixManager.Get(inMoveData.MatrixID)) +
-				 inMoveData.LocalMoveDirection.ToVector().To3()).ToWorld(MatrixManager.Get(inMoveData.MatrixID));
-
-			inMoveData.GlobalMoveDirection =
-				VectorToPlayerMoveDirection((addedGlobalPosition - transform.position).RoundTo2Int());
-			//Logger.LogError(" Received move at  " + InMoveData.LocalPosition.ToString() + "  Currently at " + transform.localPosition );
-			MoveQueue.Add(inMoveData);
+			ResetLocationOnClients();
+			MoveQueue.Clear();
+			return;
 		}
+
+		//TODO Might be funny with changing to diagonal not too sure though
+		var addedGlobalPosition =
+			(transform.position.ToLocal(MatrixManager.Get(inMoveData.MatrixID)) +
+			 inMoveData.LocalMoveDirection.ToVector().To3()).ToWorld(MatrixManager.Get(inMoveData.MatrixID));
+
+		inMoveData.GlobalMoveDirection =
+			VectorToPlayerMoveDirection((addedGlobalPosition - transform.position).RoundTo2Int());
+		MoveQueue.Add(inMoveData);
 	}
 
 	public override void ClientTileReached(Vector3Int localPos)

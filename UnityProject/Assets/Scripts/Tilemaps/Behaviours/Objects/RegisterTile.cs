@@ -376,12 +376,12 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 		if (appeared)
 		{
-			OnAppearClient.Invoke();
+			OnAppearClient?.Invoke();
 		}
 
 		if (disappeared)
 		{
-			OnDisappearClient.Invoke();
+			OnDisappearClient?.Invoke();
 		}
 	}
 
