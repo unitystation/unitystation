@@ -3,6 +3,7 @@ using System.Linq;
 using Items;
 using UnityEngine;
 using Mirror;
+using NaughtyAttributes;
 using Systems.Clearance;
 using WebSocketSharp;
 
@@ -27,6 +28,17 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	         " first player whose inventory it is added to. Used for initial loadout.")]
 	[SerializeField]
 	private bool autoInitOnPickup = false;
+
+	[Tooltip("If set, it will be assigned to the ID card on spawn. Useful for storytelling.")]
+	[SerializeField]
+	[HideIf(nameof(autoInitOnPickup))]
+	private string initialName = "";
+
+	[Tooltip("If set, it will be assigned to the ID card on spawn. Useful for storytelling.")]
+	[SerializeField]
+	[HideIf(nameof(autoInitOnPickup))]
+	private string initialJobTitle = "";
+
 	private bool initialized;
 	public BasicClearanceSource ClearanceSource { get; private set; }
 
@@ -46,6 +58,8 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	[SyncVar(hook = nameof(SyncName))]
 	private string registeredName;
 
+
+
 	// FIXME: move currencies to their own component. Labor points and credits don't really have much in common and should be handled on their own components.
 	public int[] currencies = new int[(int)CurrencyType.Total];
 
@@ -54,6 +68,9 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	private Pickupable pickupable;
 
 	private ItemAttributesV2 itemAttributes;
+
+	private bool HasInitialNameOrTitle => string.IsNullOrEmpty(initialName) == false || string.IsNullOrEmpty(initialJobTitle) == false;
+
 
 	private void Awake()
 	{
@@ -66,6 +83,20 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		initialized = false;
+		if (autoInitOnPickup && HasInitialNameOrTitle)
+		{
+			Logger.LogWarning($"{gameObject.name} has autoInitOnPickup and initialName or initialJobTitle set. These values will be overriden when a player picks it up!", Category.Objects);
+		}
+
+		if (string.IsNullOrEmpty(initialName) == false)
+		{
+			SyncName("", initialName);
+		}
+
+		if (string.IsNullOrEmpty(initialJobTitle) == false)
+		{
+			SyncJobTitle("", initialJobTitle);
+		}
 	}
 
 	public void ServerPerformInteraction(HandActivate interaction)
