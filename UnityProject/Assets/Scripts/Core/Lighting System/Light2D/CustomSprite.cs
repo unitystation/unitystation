@@ -94,10 +94,17 @@ namespace Light2D
                 _meshFilter = gameObject.AddComponent<MeshFilter>();
 
 #if UNITY_EDITOR
-            if (Material == null)
-            {
-                Material = Resources.GetBuiltinResource<Material>("Sprites-Default.mat");
-            }
+	        try
+	        {
+		        if (Material == null)
+		        {
+			        Material = Resources.GetBuiltinResource<Material>("Sprites-Default.mat");
+		        }
+	        }
+	        catch (Exception e)
+	        {
+		        Logger.LogError(e.ToString());
+	        }
 #endif
 
             TryReleaseMesh();
