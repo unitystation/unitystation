@@ -150,7 +150,7 @@ namespace Weapons
 			{
 				if (meleeEffect.hasBattery)
 				{
-					if(meleeEffect.Battery != null && (meleeEffect.Battery.Watts >= meleeEffect.chargeUsage) && weaponState != WeaponState.NoCell)
+					if(meleeEffect.Battery != null && (meleeEffect.Battery.watts >= meleeEffect.chargeUsage) && weaponState != WeaponState.NoCell)
 					{
 						TurnOn();
 					}

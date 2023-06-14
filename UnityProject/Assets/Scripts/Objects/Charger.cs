@@ -104,7 +104,7 @@ namespace Objects
 
 		private void CheckCharging()
 		{
-			if (battery.Watts < battery.MaxWatts)
+			if (battery.watts < battery.MaxWatts)
 			{
 				if (ChargingWatts == 0)
 				{
@@ -123,11 +123,11 @@ namespace Objects
 
 		private void AddCharge()
 		{
-			battery.Watts += ChargingWatts;
+			battery.watts += ChargingWatts;
 
-			if (battery.Watts > battery.MaxWatts)
+			if (battery.watts > battery.MaxWatts)
 			{
-				battery.Watts = battery.MaxWatts;
+				battery.watts = battery.MaxWatts;
 			}
 
 			if (electricalMagazine != null)

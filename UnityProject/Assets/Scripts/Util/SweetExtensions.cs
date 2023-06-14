@@ -165,6 +165,18 @@ public static class SweetExtensions
 		return GetRootGameObject(go).transform.position;
 	}
 
+
+	public static Matrix OnMatrixRoot(this GameObject go)
+	{
+		if (ComponentManager.TryGetUniversalObjectPhysics(GetRootGameObject(go), out var UOP))
+		{
+			return UOP.registerTile.Matrix;
+		}
+
+		return null;
+	}
+
+
 	/// Creates garbage! Use very sparsely!
 	public static GameObject GetRootGameObject(this GameObject go)
 	{

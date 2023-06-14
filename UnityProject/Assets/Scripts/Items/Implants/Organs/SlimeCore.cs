@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Chemistry;
+using Chemistry.Components;
 using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Systems.Character;
@@ -10,6 +12,7 @@ using UnityEngine;
 [RequireComponent( typeof(ReagentCirculatedComponent))]
 public class SlimeCore : BodyPartFunctionality
 {
+
 
 	public int DropDownIndex = 0;
 
@@ -42,6 +45,11 @@ public class SlimeCore : BodyPartFunctionality
 
 	public float StartingAmount = 25;
 
+
+	public int CurrentNumberOfCore = 1;
+
+	public bool Stabilised = false;
+
 	public override void Awake()
 	{
 		base.Awake();
@@ -55,7 +63,6 @@ public class SlimeCore : BodyPartFunctionality
 		[Range(0, 100)] public int ChanceToMutateTo;
 		public SlimeCore CoreMutateTo;
 	}
-
 
 	[NaughtyAttributes.Button()]
 
@@ -139,6 +146,8 @@ public class SlimeCore : BodyPartFunctionality
 				var core = Mind.Body.GetComponent<LivingHealthMasterBase>().brain.GetComponent<SlimeCore>();
 				core.InitialiseBabySlime();
 
+				core.Stabilised = this.Stabilised;
+
 			}
 
 
@@ -156,7 +165,16 @@ public class SlimeCore : BodyPartFunctionality
         // Calculate the total chances
         for (int i = 0; i < CanSplitInto.Count; i++)
         {
-            totalChances += CanSplitInto[i].ChanceToMutateTo;
+	        if (this.Stabilised && CanSplitInto[i].CoreMutateTo == null)
+	        {
+		        totalChances += Mathf.RoundToInt(CanSplitInto[i].ChanceToMutateTo * 1.15f);
+
+	        }
+	        else
+	        {
+		        totalChances += CanSplitInto[i].ChanceToMutateTo;
+	        }
+
         }
 
         int cumulativeChance = 0;
@@ -176,5 +194,4 @@ public class SlimeCore : BodyPartFunctionality
         // If no index is found, return the last index
         return CanSplitInto.Count - 1;
     }
-
 }

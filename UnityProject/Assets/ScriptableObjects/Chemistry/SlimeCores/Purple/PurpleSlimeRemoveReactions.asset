@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1916b10721f72c927a14093e8210cb3f, type: 3}
-  m_Name: Blood
+  m_Script: {fileID: 11500000, guid: 1f10c18438178b8479204e397be6067f, type: 3}
+  m_Name: PurpleSlimeRemoveReactions
   m_EditorClassIdentifier: 
-  displayName: Blood
-  description: 
-  color: {r: 0.78431374, g: 0, b: 0, a: 1}
-  state: 0
-  heatDensity: 5
-  indexInSingleton: 347
+  ReactionsToRemove:
+  - {fileID: 11400000, guid: bd1e55d53f1cea54298c7917c39af8a3, type: 2}
+  - {fileID: 11400000, guid: cdf79d82fcc9cf946bbe994bc162b9dc, type: 2}
