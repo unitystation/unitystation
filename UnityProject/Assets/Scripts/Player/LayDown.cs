@@ -57,13 +57,9 @@ namespace Player
 
 		private void LayingDownLogic(bool forceState = false)
 		{
-			if (forceState)
+			if (forceState && sprites != null)
 			{
-				if (sprites != null)
-				{
-					sprites.localRotation = layingDownRotation;
-				}
-
+				sprites.localRotation = layingDownRotation;
 			}
 			foreach (SpriteRenderer spriteRenderer in GetComponentsInChildren<SpriteRenderer>())
 			{
@@ -77,12 +73,9 @@ namespace Player
 
 		private void UpLogic(bool forceState = false)
 		{
-			if (forceState)
+			if (forceState && sprites != null)
 			{
-				if (sprites != null)
-				{
-					sprites.localRotation = standingUp;
-				}
+				sprites.localRotation = standingUp;
 			}
 			foreach (SpriteRenderer spriteRenderer in GetComponentsInChildren<SpriteRenderer>())
 			{
