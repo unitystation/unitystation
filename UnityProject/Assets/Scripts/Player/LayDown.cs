@@ -57,7 +57,14 @@ namespace Player
 
 		private void LayingDownLogic(bool forceState = false)
 		{
-			if (forceState) sprites.localRotation = layingDownRotation;
+			if (forceState)
+			{
+				if (sprites != null)
+				{
+					sprites.localRotation = layingDownRotation;
+				}
+
+			}
 			foreach (SpriteRenderer spriteRenderer in GetComponentsInChildren<SpriteRenderer>())
 			{
 				spriteRenderer.sortingLayerName = "Bodies";
@@ -70,7 +77,13 @@ namespace Player
 
 		private void UpLogic(bool forceState = false)
 		{
-			if (forceState) sprites.localRotation = standingUp;
+			if (forceState)
+			{
+				if (sprites != null)
+				{
+					sprites.localRotation = standingUp;
+				}
+			}
 			foreach (SpriteRenderer spriteRenderer in GetComponentsInChildren<SpriteRenderer>())
 			{
 				spriteRenderer.sortingLayerName = "Players";
