@@ -15,7 +15,7 @@ namespace Core.Lighting
 		[SerializeField] private Rotatable rotatable;
 
 		private OrientationEnum currentOrientation = OrientationEnum.Default;
-		private float orientationAdditon = 90; //We add 90 to deal with the texture's own rotation.
+		private float orientationAdditon = 90; //We add 90 to deal with the texture's own origin/pivot.
 
 		private void Start()
 		{
