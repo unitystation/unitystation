@@ -146,6 +146,7 @@ namespace Core.Lighting
 			foreach (var SH in handlers)
 			{
 				SpriteHandlerManager.UnRegisterHandler(netIdentity, SH);
+				SH.NetworkThis = true;
 				SpriteHandlerManager.RegisterHandler(netIdentity, SH);
 			}
 		}
