@@ -15,7 +15,7 @@ namespace Core.Lighting
 		[SerializeField] private Rotatable rotatable;
 
 		private OrientationEnum currentOrientation = OrientationEnum.Default;
-		private float orientationAdditon = 90 + 90; //We add 90 to deal with the texture's own rotation.
+		private float orientationAdditon = 90; //We add 90 to deal with the texture's own rotation.
 
 		private void Start()
 		{
@@ -32,7 +32,7 @@ namespace Core.Lighting
 		private void OnRotate(OrientationEnum orientation)
 		{
 			currentOrientation = orientation;
-			var rotation = Quaternion.Euler(0f, 0f, (float)orientation * orientationAdditon);
+			var rotation = Quaternion.Euler(0f, 0f, (float)orientation * 90 + orientationAdditon);
 			foreach (Transform child in lightsParent)
 			{
 				child.rotation = rotation;
@@ -78,7 +78,7 @@ namespace Core.Lighting
 					SetLightData(Lights[i], lightSprite);
 					lightSprite.transform.localPosition = Vector3.zero;
 					// Set the correct facing direction so that the light sprite doesn't look in a different direction when it gets added to the player.
-					lightSprite.transform.rotation = Quaternion.Euler(0f, 0f, (float)currentOrientation * orientationAdditon);
+					lightSprite.transform.rotation = Quaternion.Euler(0f, 0f, (float)currentOrientation * 90 + orientationAdditon);
 				}
 				else
 				{
