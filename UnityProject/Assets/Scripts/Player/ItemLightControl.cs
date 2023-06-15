@@ -100,6 +100,13 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 		}
 	}
 
+	public void OnThrowDrop()
+	{
+		if (LightEmission == null) return;
+		LightEmission.RemoveLight(playerLightData);
+		LightEmission = null;
+	}
+
 
 	public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 	{
