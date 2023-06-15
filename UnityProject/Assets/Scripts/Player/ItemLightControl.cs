@@ -43,6 +43,7 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 	private LightData playerLightData;
 	private int lightID;
 	[SerializeField] private bool weakenOnGround = false;
+	[SerializeField] private bool revertToOldConsistencyBehavior = false;
 	[SerializeField, ShowIf(nameof(weakenOnGround))] private float weakenStrength = 1.25f;
 
 	private void Awake()
@@ -62,15 +63,21 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 			lightSprite = objectLightSprite.OrNull()?.Sprite,
 			Id = lightID,
 		};
+		LightConsistency();
+		commonComponents ??= GetComponent<CommonComponents>();
+		commonComponents.RegisterTile.OnAppearClient.AddListener(StateHiddenChange);
+		commonComponents.RegisterTile.OnDisappearClient.AddListener(StateHiddenChange);
+		commonComponents.UniversalObjectPhysics.OnVisibilityChange += StateHiddenChange;
+	}
+
+	private void LightConsistency()
+	{
+		if (revertToOldConsistencyBehavior) return;
 		objectLightSprite.Color = playerLightData.lightColor;
 		objectLightSprite.Sprite = playerLightData.lightSprite;
 		objectLightSprite.transform.localScale = weakenOnGround ?
 			new Vector3(Size / weakenStrength, Size / weakenStrength, Size / weakenStrength)
 			: new Vector3(Size, Size, Size);
-		commonComponents ??= GetComponent<CommonComponents>();
-		commonComponents.RegisterTile.OnAppearClient.AddListener(StateHiddenChange);
-		commonComponents.RegisterTile.OnDisappearClient.AddListener(StateHiddenChange);
-		commonComponents.UniversalObjectPhysics.OnVisibilityChange += StateHiddenChange;
 	}
 
 	public void OnInventoryMoveServer(InventoryMove info)
