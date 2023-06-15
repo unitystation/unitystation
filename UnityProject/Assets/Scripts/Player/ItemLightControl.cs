@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Core.Lighting;
 using HealthV2;
@@ -7,7 +6,6 @@ using Light2D;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Serialization;
-using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Pickupable))]
 public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
@@ -52,7 +50,7 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 			return;
 		}
 		objectLightSprite ??= objectLightEmission.GetComponent<LightSprite>();
-		lightID = Random.Range(-999999, 999999);
+		lightID = Guid.NewGuid().GetHashCode();
 		playerLightData = new LightData()
 		{
 			lightColor = colour,
@@ -70,7 +68,7 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 	public void OnInventoryMoveServer(InventoryMove info)
 	{
 		//was it transferred from a player's visible inventory?
-		if (info.FromPlayer != null && LightEmission != null)
+		if (info.FromPlayer == null && LightEmission != null)
 		{
 			LightEmission.RemoveLight(playerLightData);
 			LightEmission = null;
@@ -81,7 +79,7 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 			if (CompatibleSlots.Contains(info.ToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none)))
 			{
 				LightEmission = info.ToPlayer.GetComponent<LightsHolder>();
-				if (!IsOn) return;
+				if (IsOn == false) return;
 				LightEmission.AddLight(playerLightData);
 			}
 		}
@@ -97,7 +95,7 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 	public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 	{
 		LightEmission = livingHealth.GetComponent<LightsHolder>();
-		if (!IsOn) return;
+		if (IsOn == false) return;
 		LightEmission.AddLight(playerLightData);
 	} //Warning only add body parts do not remove body parts in this
 

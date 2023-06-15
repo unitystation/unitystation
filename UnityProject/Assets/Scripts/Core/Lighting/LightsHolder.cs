@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Light2D;
 using Mirror;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Core.Lighting
 {
@@ -41,6 +41,10 @@ namespace Core.Lighting
 
 		public void AddLight(LightData data)
 		{
+			if (Lights.Any(lightSprite => lightSprite.Id == data.Id))
+			{
+				return;
+			}
 			Lights.Add(data);
 			UpdateLights();
 		}
@@ -100,7 +104,7 @@ namespace Core.Lighting
 				return;
 			}
 			Logger.LogWarning("No id was given to lightSprite, assigning random one.", Category.Lighting);
-			var newId = Random.Range(-999999, 999999);
+			var newId = Guid.NewGuid().GetHashCode();
 			data.Id = newId;
 			lightSprite.GivenID = newId;
 		}
