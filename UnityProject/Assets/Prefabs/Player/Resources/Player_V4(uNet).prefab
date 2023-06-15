@@ -123,6 +123,8 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  isLight: 0
+  lightSprite: {fileID: 0}
 --- !u!1 &1051931730128558
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,6 +282,8 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  isLight: 0
+  lightSprite: {fileID: 0}
 --- !u!1 &1106181757792460
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,6 +407,8 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  isLight: 0
+  lightSprite: {fileID: 0}
 --- !u!1 &1133514949248654
 GameObject:
   m_ObjectHideFlags: 0
@@ -1670,6 +1676,8 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  isLight: 0
+  lightSprite: {fileID: 0}
 --- !u!1 &1332325770335918
 GameObject:
   m_ObjectHideFlags: 0
@@ -1793,6 +1801,8 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  isLight: 0
+  lightSprite: {fileID: 0}
 --- !u!1 &1392646042361530
 GameObject:
   m_ObjectHideFlags: 0
@@ -1916,6 +1926,8 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  isLight: 0
+  lightSprite: {fileID: 0}
 --- !u!1 &1442926995363424
 GameObject:
   m_ObjectHideFlags: 0
@@ -2039,6 +2051,8 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  isLight: 0
+  lightSprite: {fileID: 0}
 --- !u!1 &1456517064699986
 GameObject:
   m_ObjectHideFlags: 0
@@ -2162,6 +2176,8 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  isLight: 0
+  lightSprite: {fileID: 0}
 --- !u!1 &1562215114468348
 GameObject:
   m_ObjectHideFlags: 0
@@ -2285,6 +2301,8 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  isLight: 0
+  lightSprite: {fileID: 0}
 --- !u!1 &1626073062007556
 GameObject:
   m_ObjectHideFlags: 0
@@ -2408,6 +2426,8 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  isLight: 0
+  lightSprite: {fileID: 0}
 --- !u!1 &1653009388007362
 GameObject:
   m_ObjectHideFlags: 0
@@ -2531,6 +2551,8 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  isLight: 0
+  lightSprite: {fileID: 0}
 --- !u!1 &1660669868818532
 GameObject:
   m_ObjectHideFlags: 0
@@ -2654,6 +2676,8 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  isLight: 0
+  lightSprite: {fileID: 0}
 --- !u!1 &1889549945948160
 GameObject:
   m_ObjectHideFlags: 0
@@ -2777,6 +2801,8 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  isLight: 0
+  lightSprite: {fileID: 0}
 --- !u!1 &1894933337466704
 GameObject:
   m_ObjectHideFlags: 0
@@ -2829,6 +2855,7 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: 5d8645bc2e5501a4ebd138db5aa609bd, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
+  GivenID: 0
 --- !u!23 &23084276447697276
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3185,6 +3212,8 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  isLight: 0
+  lightSprite: {fileID: 0}
 --- !u!1 &1243472505666966351
 GameObject:
   m_ObjectHideFlags: 0
@@ -8304,7 +8333,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: 8165807964432903219, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -8340,6 +8369,8 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  isLight: 0
+  lightSprite: {fileID: 0}
 --- !u!1 &4006269813396621170
 GameObject:
   m_ObjectHideFlags: 0
@@ -8463,6 +8494,8 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  isLight: 0
+  lightSprite: {fileID: 0}
 --- !u!1 &4560473325844253165
 GameObject:
   m_ObjectHideFlags: 0
@@ -8827,8 +8860,41 @@ PrefabInstance:
       propertyPath: Color.a
       value: 0.003921569
       objectReference: {fileID: 0}
+    - target: {fileID: 582672025200934945, guid: e2b1333de46384f95876864de1911fff,
+        type: 3}
+      propertyPath: isLight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 582672025200934945, guid: e2b1333de46384f95876864de1911fff,
+        type: 3}
+      propertyPath: NetworkThis
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 582672025200934945, guid: e2b1333de46384f95876864de1911fff,
+        type: 3}
+      propertyPath: lightSprite
+      value: 
+      objectReference: {fileID: 4196149980577959187}
+    - target: {fileID: 582672025200934945, guid: e2b1333de46384f95876864de1911fff,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 587523750f1fe8f46a99c2d869e679cc,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2b1333de46384f95876864de1911fff, type: 3}
+--- !u!114 &4196149980577959187 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
+    type: 3}
+  m_PrefabInstance: {fileID: 4300145449095171559}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4299649681570296155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4299649681570296155 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1762630675659964, guid: e2b1333de46384f95876864de1911fff,

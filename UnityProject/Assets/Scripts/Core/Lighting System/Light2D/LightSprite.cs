@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Light2D
