@@ -8,7 +8,7 @@ namespace Core.Lighting
 {
 	public class LightsHolder : NetworkBehaviour
 	{
-		public SyncList<LightData> Lights { get; private set; } = new SyncList<LightData>();
+		public readonly SyncList<LightData> Lights = new SyncList<LightData>();
 
 		[SerializeField] private Transform lightsParent;
 		[SerializeField] private GameObject lightSpriteObject;
@@ -16,10 +16,27 @@ namespace Core.Lighting
 
 		private OrientationEnum currentOrientation = OrientationEnum.Default;
 
+		public override void OnStartClient()
+		{
+			base.OnStartClient();
+			Lights.Callback += OnLightsListChange;
+		}
+
+		public override void OnStopClient()
+		{
+			base.OnStopClient();
+			Lights.Callback -= OnLightsListChange;
+		}
+
+		private void OnDisable()
+		{
+			Lights.Callback -= OnLightsListChange;
+		}
+
 		private void Start()
 		{
 			rotatable ??= GetComponent<Rotatable>();
-			UpdateLights();
+			UpdateLights(); //you still need to update on start because Mirror does not invoke the OnLightsListChanged event when the list gets first populated.
 			rotatable.OnRotationChange.AddListener(OnRotate);
 		}
 
@@ -46,7 +63,7 @@ namespace Core.Lighting
 				return;
 			}
 			Lights.Add(data);
-			UpdateLights();
+			netIdentity.isDirty = true;
 		}
 
 		public void RemoveLight(LightData data)
@@ -65,10 +82,22 @@ namespace Core.Lighting
 			}
 
 			Lights.Remove(data);
-			UpdateLights();
+			netIdentity.isDirty = true;
 		}
 
-		[ClientRpc]
+		public void OnLightsListChange(SyncList<LightData>.Operation op, int index, LightData oldItem,
+			LightData newItem)
+		{
+			if (op == SyncList<LightData>.Operation.OP_CLEAR)
+			{
+				ClearHeldLights();
+			}
+			else
+			{
+				UpdateLights();
+			}
+		}
+
 		public void UpdateLights()
 		{
 			for (int i = 0; i < Lights.Count; i++)
@@ -109,7 +138,6 @@ namespace Core.Lighting
 			lightSprite.GivenID = newId;
 		}
 
-		[ClientRpc]
 		private void ClearHeldLights()
 		{
 			foreach (var sprite in lightsParent.GetComponentsInChildren<LightSprite>())
