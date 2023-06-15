@@ -277,7 +277,6 @@ namespace Systems.Ai
 		/// Sync is used to set up client and to reset stuff for rejoining client
 		/// This is only sync'd to the client which owns this object, due to setting on script
 		/// </summary>
-		[Client]
 		private void SyncCore(NetworkIdentity oldCore, NetworkIdentity newCore)
 		{
 			IDvesselObject = newCore;

@@ -274,7 +274,15 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		registerTile = GetComponent<RegisterTile>();
 		rotatable = GetComponent<Rotatable>();
 		pickupable.DirectSetComponent(GetComponent<Pickupable>());
+
+
+
 		SetRotationTarget();
+
+		if (rotationTarget == null)
+		{
+			rotationTarget = transform;
+		}
 	}
 
 	private void SetRotationTarget()
