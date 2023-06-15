@@ -85,7 +85,7 @@ namespace Core.Lighting
 			netIdentity.isDirty = true;
 		}
 
-		public void OnLightsListChange(SyncList<LightData>.Operation op, int index, LightData oldItem,
+		private void OnLightsListChange(SyncList<LightData>.Operation op, int index, LightData oldItem,
 			LightData newItem)
 		{
 			if (op == SyncList<LightData>.Operation.OP_CLEAR)
