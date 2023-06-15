@@ -90,7 +90,7 @@ namespace Items
 			//must target this labeler to load rolls into
 			if (!Validations.IsTarget(gameObject, interaction)) return false;
 			//item to use must have refill trait
-			if (!Validations.HasUsedItemTrait(interaction, refillTrait)) return false;
+			if (!Validations.HasItemTrait(interaction, refillTrait)) return false;
 
 			return true;
 		}

@@ -69,22 +69,22 @@ namespace Objects.Machines
 
 			if (HackingProcessBase != null)
 			{
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
-				       Validations.HasUsedItemTrait(interaction,
+				return Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
+				       Validations.HasItemTrait(interaction,
 					       CommonTraits.Instance.Crowbar) || //Should probably network if it is open or not
-				       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) ||
-				       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter);
+				       Validations.HasItemTrait(interaction, CommonTraits.Instance.Cable) ||
+				       Validations.HasItemTrait(interaction, CommonTraits.Instance.Wirecutter);
 			}
 			else
 			{
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
-				       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar);
+				return Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
+				       Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar);
 			}
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 			{
 				AudioSourceParameters audioSourceParameters =
 					new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.8f, 1.2f));
@@ -110,8 +110,8 @@ namespace Objects.Machines
 
 			if (HackingProcessBase != null)
 			{
-				if (panelopen && (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) ||
-				                  Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter)))
+				if (panelopen && (Validations.HasItemTrait(interaction, CommonTraits.Instance.Cable) ||
+				                  Validations.HasItemTrait(interaction, CommonTraits.Instance.Wirecutter)))
 				{
 					TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.HackingPanel, TabAction.Open);
 				}
@@ -133,7 +133,7 @@ namespace Objects.Machines
 				return;
 			}
 
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) && panelopen)
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar) && panelopen)
 			{
 				//unsecure
 				ToolUtils.ServerUseToolWithActionMessages(interaction, secondsToScrewdrive,

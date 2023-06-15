@@ -227,7 +227,7 @@ namespace Items
 		/// <param name="itemTrait"></param>
 		public bool HasTrait(ItemTrait toCheck)
 		{
-			return traits.Contains(toCheck);
+			return InitialTraits.Contains(toCheck);
 		}
 
 		/// <summary>

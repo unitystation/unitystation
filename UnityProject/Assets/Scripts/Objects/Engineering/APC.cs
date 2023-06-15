@@ -514,7 +514,7 @@ namespace Objects.Engineering
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver);
+			return Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver);
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)

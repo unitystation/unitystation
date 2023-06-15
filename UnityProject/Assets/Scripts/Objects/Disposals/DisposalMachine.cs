@@ -93,10 +93,10 @@ namespace Objects.Disposals
 			switch (installState)
 			{
 				case InstallState.Unattached:
-					if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench)) return true;
+					if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench)) return true;
 					break;
 				case InstallState.Anchored:
-					if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench)) return true;
+					if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench)) return true;
 					if (Validations.HasUsedActiveWelder(interaction)) return true;
 					break;
 				case InstallState.Secured:
@@ -111,7 +111,7 @@ namespace Objects.Disposals
 		{
 			currentInteraction = interaction;
 
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench) && MachineWrenchable)
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench) && MachineWrenchable)
 			{
 				TryUseWrench();
 			}
