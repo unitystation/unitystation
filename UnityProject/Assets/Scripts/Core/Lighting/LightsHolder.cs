@@ -36,11 +36,10 @@ namespace Core.Lighting
 			}
 		}
 
-		public int AddLight(LightData data)
+		public void AddLight(LightData data)
 		{
 			Lights.Add(data);
 			UpdateLights();
-			return Lights.Count - 1;
 		}
 
 		public void RemoveLight(LightData data)
@@ -55,8 +54,9 @@ namespace Core.Lighting
 
 			foreach (var sprite in lightsParent.GetComponentsInChildren<LightSprite>())
 			{
-				if (sprite.GivenID == data.Id) Despawn.ClientSingle(lightsParent.GetChild(data.Id).gameObject);
+				if (sprite.GivenID == data.Id) Despawn.ClientSingle(sprite.gameObject);
 			}
+
 			Lights.Remove(data);
 			UpdateLights();
 		}
@@ -89,7 +89,11 @@ namespace Core.Lighting
 			lightSprite.Shape = data.lightShape;
 			lightSprite.Sprite = data.lightSprite;
 			lightSprite.transform.localScale = new Vector3(data.size, data.size, data.size);
-			if (data.Id != 0) return;
+			if (data.Id != 0)
+			{
+				lightSprite.GivenID = data.Id;
+				return;
+			}
 			Logger.LogWarning("No id was given to lightSprite, assigning random one.", Category.Lighting);
 			var newId = Random.Range(-999999, 999999);
 			data.Id = newId;
