@@ -52,6 +52,7 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
+  GivenID: 0
 --- !u!23 &6082171317855352106
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -136,6 +137,11 @@ PrefabInstance:
         type: 3}
       propertyPath: foreverID
       value: 6f371050bff8b32438f91c7c680900bb
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442741923849517114, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: <AlternativePrefabName>k__BackingField
+      value: light
       objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -452,3 +458,6 @@ MonoBehaviour:
   commonComponents: {fileID: 0}
   SpriteShape: 0
   Size: 8
+  weakenOnGround: 0
+  revertToOldConsistencyBehavior: 0
+  weakenStrength: 1.25
