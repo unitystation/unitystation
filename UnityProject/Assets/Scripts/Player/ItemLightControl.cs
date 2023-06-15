@@ -5,6 +5,7 @@ using HealthV2;
 using Light2D;
 using UnityEngine;
 using Mirror;
+using NaughtyAttributes;
 using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Pickupable))]
@@ -41,6 +42,8 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 	public float Size;
 	private LightData playerLightData;
 	private int lightID;
+	[SerializeField] private bool weakenOnGround = false;
+	[SerializeField, ShowIf(nameof(weakenOnGround))] private float weakenStrength = 1.25f;
 
 	private void Awake()
 	{
@@ -59,6 +62,11 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 			lightSprite = objectLightSprite.OrNull()?.Sprite,
 			Id = lightID,
 		};
+		objectLightSprite.Color = playerLightData.lightColor;
+		objectLightSprite.Sprite = playerLightData.lightSprite;
+		objectLightSprite.transform.localScale = weakenOnGround ?
+			new Vector3(Size / weakenStrength, Size / weakenStrength, Size / weakenStrength)
+			: new Vector3(Size, Size, Size);
 		commonComponents ??= GetComponent<CommonComponents>();
 		commonComponents.RegisterTile.OnAppearClient.AddListener(StateHiddenChange);
 		commonComponents.RegisterTile.OnDisappearClient.AddListener(StateHiddenChange);
