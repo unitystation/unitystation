@@ -41,8 +41,8 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 
 	public LightSprite.LightShape SpriteShape;
 	public float Size;
-	private LightData playerLightData = new LightData();
-	private readonly int lightID = Random.Range(-999999, 999999);
+	private LightData playerLightData;
+	private int lightID;
 
 	private void Awake()
 	{
@@ -52,6 +52,7 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 			return;
 		}
 		objectLightSprite ??= objectLightEmission.GetComponent<LightSprite>();
+		lightID = Random.Range(-999999, 999999);
 		playerLightData = new LightData()
 		{
 			lightColor = colour,
