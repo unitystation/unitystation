@@ -105,6 +105,8 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  isLight: 0
+  lightSprite: {fileID: 0}
 --- !u!1001 &1004520157929427565
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -339,6 +341,12 @@ PrefabInstance:
       propertyPath: colour.r
       value: 0.39215687
       objectReference: {fileID: 0}
+    - target: {fileID: 5334267868750357690, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: spriteLightData
+      value: 
+      objectReference: {fileID: 11400000, guid: 587523750f1fe8f46a99c2d869e679cc,
+        type: 2}
     - target: {fileID: 5344101728563766022, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
       propertyPath: Sprite

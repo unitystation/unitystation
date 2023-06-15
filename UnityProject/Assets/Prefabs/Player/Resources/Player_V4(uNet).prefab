@@ -2829,6 +2829,7 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: 5d8645bc2e5501a4ebd138db5aa609bd, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
+  GivenID: 0
 --- !u!23 &23084276447697276
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8827,6 +8828,12 @@ PrefabInstance:
       propertyPath: Color.a
       value: 0.003921569
       objectReference: {fileID: 0}
+    - target: {fileID: 582672025200934945, guid: e2b1333de46384f95876864de1911fff,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 587523750f1fe8f46a99c2d869e679cc,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2b1333de46384f95876864de1911fff, type: 3}
 --- !u!1 &4299649681570296155 stripped

@@ -125,7 +125,11 @@ public class SpriteHandlerManager : NetworkBehaviour
 
 	public static void UnRegisterHandler(NetworkIdentity networkIdentity, SpriteHandler spriteHandler)
 	{
-		if (spriteHandler == null) return;
+		if (spriteHandler == null)
+		{
+			Logger.LogError("spriteHandler is null, cannot unregister.");
+			return;
+		}
 		if (networkIdentity == null)
 		{
 			if (spriteHandler?.transform?.parent != null)

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 114445607401685236}
   - component: {fileID: 23824325930050846}
   - component: {fileID: 33937463476659220}
+  - component: {fileID: 582672025200934945}
   m_Layer: 21
   m_Name: Light2D
   m_TagString: Untagged
@@ -52,6 +53,7 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
+  GivenID: 0
 --- !u!23 &23824325930050846
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -102,3 +104,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1762630675659964}
   m_Mesh: {fileID: 0}
+--- !u!114 &582672025200934945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1762630675659964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
+  doReverseAnimation: 0
+  pushTextureOnStartUp: 0
+  initialVariantIndex: 0
+  palette: []

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Light2D;
 using UnityEngine;
 using Mirror;
 
@@ -166,6 +167,9 @@ public class SpriteHandler : MonoBehaviour
 	}
 
 	private bool _initialAwake = true;
+
+	[SerializeField] private bool isLight = false;
+	[SerializeField] private LightSprite lightSprite;
 
 	/// <summary>
 	/// Changes the object's active <see cref="SpriteDataSO"></see>.
@@ -596,8 +600,15 @@ public class SpriteHandler : MonoBehaviour
 		if (Application.isPlaying)
 		{
 			ParentUniversalObjectPhysics = this.transform.parent.OrNull()?.GetComponent<UniversalObjectPhysics>();
-			spriteRenderer = GetComponent<SpriteRenderer>();
-			image = GetComponent<Image>();
+			if (isLight)
+			{
+				lightSprite ??= GetComponent<LightSprite>();
+			}
+			else
+			{
+				spriteRenderer = GetComponent<SpriteRenderer>();
+				image = GetComponent<Image>();
+			}
 			if (image != null)
 			{
 				// unity doesn't support property blocks on ui renderers, so this is a workaround
@@ -677,6 +688,7 @@ public class SpriteHandler : MonoBehaviour
 	{
 		isPaletteSet = true;
 		var palette = GetPaletteOrNull();
+		if (spriteRenderer == null) return;
 		if (palette != null && palette.Count > 0 && palette.Count <= 256)
 		{
 			MaterialPropertyBlock block = new MaterialPropertyBlock();
@@ -728,6 +740,11 @@ public class SpriteHandler : MonoBehaviour
 			{
 				image = GetComponent<Image>();
 			}
+
+			if (lightSprite == null)
+			{
+				lightSprite = GetComponent<LightSprite>();
+			}
 		}
 #endif
 
@@ -763,6 +780,10 @@ public class SpriteHandler : MonoBehaviour
 				image.enabled = true;
 			}
 		}
+		else if (lightSprite != null)
+		{
+			lightSprite.Sprite = value;
+		}
 
 		for (int i = OnSpriteChanged.Count - 1; i >= 0; i--)
 		{
@@ -779,13 +800,16 @@ public class SpriteHandler : MonoBehaviour
 				return true;
 			}
 		}
-
-		if (image != null)
+		else if (image != null)
 		{
 			if (image.sprite != null || image.enabled)
 			{
 				return true;
 			}
+		}
+		else if (lightSprite != null)
+		{
+			if (lightSprite.Sprite != null) return true;
 		}
 
 		return (false);
