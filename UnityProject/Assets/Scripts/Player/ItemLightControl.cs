@@ -7,6 +7,7 @@ using Light2D;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Pickupable))]
 public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
@@ -41,7 +42,7 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 	public LightSprite.LightShape SpriteShape;
 	public float Size;
 	private LightData playerLightData = new LightData();
-	private int lightId = 0;
+	private readonly int lightID = Random.Range(-999999, 999999);
 
 	private void Awake()
 	{
@@ -57,6 +58,7 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 			size = Size,
 			lightShape = SpriteShape,
 			lightSprite = objectLightSprite.OrNull()?.Sprite,
+			Id = lightID,
 		};
 		commonComponents ??= GetComponent<CommonComponents>();
 		commonComponents.RegisterTile.OnAppearClient.AddListener(StateHiddenChange);
@@ -69,7 +71,7 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 		//was it transferred from a player's visible inventory?
 		if (info.FromPlayer != null && LightEmission != null)
 		{
-			LightEmission.RemoveLight(lightId);
+			LightEmission.RemoveLight(playerLightData);
 			LightEmission = null;
 		}
 
@@ -79,7 +81,7 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 			{
 				LightEmission = info.ToPlayer.GetComponent<LightsHolder>();
 				if (!IsOn) return;
-				lightId = LightEmission.AddLight(playerLightData);
+				LightEmission.AddLight(playerLightData);
 			}
 		}
 	}
@@ -87,7 +89,7 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 
 	public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 	{
-		LightEmission.RemoveLight(lightId);
+		LightEmission.RemoveLight(playerLightData);
 		LightEmission = null;
 	}
 
@@ -131,7 +133,7 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 	{
 		if (LightEmission != null && IsOn)
 		{
-			LightEmission.Lights[lightId] = playerLightData;
+			LightEmission.Lights[lightID] = playerLightData;
 			LightEmission.UpdateLights();
 		}
 	}
@@ -162,7 +164,7 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 		}
 		else
 		{
-			LightEmission.RemoveLight(lightId);
+			LightEmission.RemoveLight(playerLightData);
 			objectLightEmission.SetActive(false);
 		}
 	}

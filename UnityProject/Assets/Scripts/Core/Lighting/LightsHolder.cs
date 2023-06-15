@@ -2,6 +2,7 @@
 using Light2D;
 using Mirror;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Core.Lighting
 {
@@ -42,17 +43,9 @@ namespace Core.Lighting
 			return Lights.Count - 1;
 		}
 
-		public void RemoveLight(LightData data, int index)
+		public void RemoveLight(LightData data)
 		{
-			Lights.Remove(data);
-			Despawn.ClientSingle(lightsParent.GetChild(index).gameObject);
-			UpdateLights();
-		}
-
-		public void RemoveLight(int data)
-		{
-			//BUG: Need to update the lights to remove the correct ID
-			if (Lights.Contains(Lights[data]) == false)
+			if (Lights.Contains(data) == false)
 			{
 				Logger.LogError("Could not find correct light source to remove.");
 				ClearHeldLights();
@@ -60,7 +53,11 @@ namespace Core.Lighting
 				return;
 			}
 
-			RemoveLight(Lights[data], data);
+			foreach (var sprite in lightsParent.GetComponentsInChildren<LightSprite>())
+			{
+				if (sprite.GivenID == data.Id) Despawn.ClientSingle(lightsParent.GetChild(data.Id).gameObject);
+			}
+			Lights.Remove(data);
 			UpdateLights();
 		}
 
@@ -92,6 +89,11 @@ namespace Core.Lighting
 			lightSprite.Shape = data.lightShape;
 			lightSprite.Sprite = data.lightSprite;
 			lightSprite.transform.localScale = new Vector3(data.size, data.size, data.size);
+			if (data.Id != 0) return;
+			Logger.LogWarning("No id was given to lightSprite, assigning random one.", Category.Lighting);
+			var newId = Random.Range(-999999, 999999);
+			data.Id = newId;
+			lightSprite.GivenID = newId;
 		}
 
 		[ClientRpc]
@@ -106,6 +108,7 @@ namespace Core.Lighting
 
 	public struct LightData
 	{
+		public int Id;
 		public Color lightColor;
 		public Light2D.LightSprite.LightShape lightShape;
 		public Sprite lightSprite;
