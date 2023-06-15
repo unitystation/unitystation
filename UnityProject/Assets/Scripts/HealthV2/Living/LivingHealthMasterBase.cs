@@ -15,7 +15,6 @@ using Health.Sickness;
 using HealthV2.Living.CirculatorySystem;
 using HealthV2.Living.PolymorphicSystems;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
-using Initialisation;
 using Items.Implants.Organs;
 using JetBrains.Annotations;
 using NaughtyAttributes;

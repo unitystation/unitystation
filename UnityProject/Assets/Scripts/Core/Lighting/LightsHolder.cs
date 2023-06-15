@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using Light2D;
 using Mirror;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 namespace Core.Lighting
 {
