@@ -424,6 +424,7 @@ GameObject:
   - component: {fileID: 114449635359748350}
   - component: {fileID: 50851566022184656}
   - component: {fileID: 114908376472113748}
+  - component: {fileID: 6017414943583453005}
   - component: {fileID: 6880295280032021907}
   - component: {fileID: 4282259093670066203}
   - component: {fileID: 4933264570295522567}
@@ -462,8 +463,6 @@ GameObject:
   - component: {fileID: 2690378354521890256}
   - component: {fileID: 8305622356435420699}
   - component: {fileID: 3151898299137416185}
-  - component: {fileID: 6367134133324094652}
-  - component: {fileID: -3608664027944320605}
   m_Layer: 8
   m_Name: AlienNewbornLarva
   m_TagString: Untagged
@@ -647,7 +646,6 @@ MonoBehaviour:
   objectType: 2
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
-  <LayDownBehavior>k__BackingField: {fileID: 0}
   networkedLean: {fileID: -8106636780342977062}
 --- !u!114 &114449635359748350
 MonoBehaviour:
@@ -705,6 +703,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
+--- !u!114 &6017414943583453005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc835be17c750e246bed37c4406e0113, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  DefaultIntensity: 0
+  DefaultColour: {r: 1, g: 1, b: 1, a: 0}
+  DefaultEnumSprite: 0
+  DefaultSize: 1.5
+  Sprites:
+  - {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
+  - {fileID: 21300000, guid: 9e9f6c63bf3334c8791e01efff5c16fb, type: 3}
+  - {fileID: 21300000, guid: b4d72dee411a3410db2df144025d628c, type: 3}
+  NameSprite: 000000000100000002000000
+  DefaultSettings:
+    Colour: {r: 0, g: 0, b: 0, a: 0}
+    EnumSprite: 0
+    Size: 12
+  lightSprite: {fileID: 4196149980577959187}
+  mLightRendererObject: {fileID: 4299649681570296155}
+  stringPlayerLightData: 
 --- !u!114 &6880295280032021907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -898,7 +927,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   DoesNotRequireBrain: 1
-  tickRate: 1
   BodyType: 0
   RTT: 0
   BodyPartList: []
@@ -1257,29 +1285,25 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  LocalDifferenceNeeded: {x: 0, y: 0}
+  DEBUG: 0
+  SnapToGridOnStart: 0
   LocalTargetPosition: {x: 0, y: 0, z: 0}
-  CorrectingCourse: 0
-  Animating: 0
-  SetIgnoreSticky: 0
+  ChangesDirectionPush: 1
+  Intangible: 0
+  CanBeWindPushed: 1
+  IsPlayer: 1
+  tileMoveSpeed: 1
+  isNotPushable: 0
+  HasOwnGravity: 0
   airTime: 0
   slideTime: 0
-  spinMagnitude: 0
+  SetIgnoreSticky: 0
   thrownBy: {fileID: 0}
   aim: 0
+  spinMagnitude: 0
   ForcedPushedFrame: 0
   TryPushedFrame: 0
   PushedFrame: 0
-  ChangesDirectionPush: 1
-  Intangible: 0
-  SnapToGridOnStart: 0
-  IsPlayer: 1
-  DEBUG: 0
-  tileMoveSpeed: 1
-  HasOwnGravity: 0
-  isNotPushable: 0
-  CanBeWindPushed: 1
-  rotationTarget: {fileID: 0}
   FramePushDecision: 1
   stickyMovement: 1
   OnThrowEndResetRotation: 0
@@ -1291,17 +1315,17 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   IsCurrentlyFloating: 0
+  LocalDifferenceNeeded: {x: 0, y: 0}
+  CorrectingCourse: 0
   Pushing: []
   Hits: []
+  Animating: 0
   isFlyingSliding: 0
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
   BuckledToObject: {fileID: 0}
-  IsPressedCashed: 0
-  IsPressedServer: 0
   HardcodedSpeed: 1
-  LastUpdatedFlyingPosition: 0
   playerScript: {fileID: 0}
   Step: 0
   CanMoveThroughObstructions: 0
@@ -1312,6 +1336,10 @@ MonoBehaviour:
   needsRunning: {fileID: 11400000, guid: 79263d379ff044244a9baa143471a268, type: 2}
   actionData: {fileID: 11400000, guid: 967a13d2ea206e9448f6c6e2af11a3cf, type: 2}
   IsBumping: 0
+  IsPressedCashed: 0
+  IsPressedServer: 0
+  LastUpdatedFlyingPosition: 0
+  DEBUGLastMoveMessageProcessed: 0
 --- !u!114 &3901833431230868314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1444,84 +1472,6 @@ MonoBehaviour:
   defaultLanguages: {fileID: 11400000, guid: 3bcae86c58aaeee46ac55ef5aa74ef38, type: 2}
   omniTongue: 0
   PlayerScript: {fileID: 0}
---- !u!114 &6367134133324094652
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f7e7b047d3c42e0b2df604c775f9cfe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  sprites: {fileID: 0}
-  health: {fileID: 0}
-  playerDirectional: {fileID: 0}
-  playerScript: {fileID: 0}
-  networkedLean: {fileID: 0}
-  disabled: 0
-  IsLayingDown: 0
---- !u!114 &-3608664027944320605
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  LocalDifferenceNeeded: {x: 0, y: 0}
-  LocalTargetPosition: {x: 0, y: 0, z: 0}
-  CorrectingCourse: 0
-  Animating: 0
-  SetIgnoreSticky: 0
-  airTime: 0
-  slideTime: 0
-  spinMagnitude: 0
-  thrownBy: {fileID: 0}
-  aim: 0
-  ForcedPushedFrame: 0
-  TryPushedFrame: 0
-  PushedFrame: 0
-  ChangesDirectionPush: 0
-  Intangible: 0
-  SnapToGridOnStart: 0
-  IsPlayer: 0
-  DEBUG: 0
-  tileMoveSpeed: 1
-  HasOwnGravity: 0
-  isNotPushable: 0
-  CanBeWindPushed: 1
-  rotationTarget: {fileID: 0}
-  FramePushDecision: 1
-  stickyMovement: 0
-  OnThrowEndResetRotation: 0
-  CanSwap: 0
-  maximumStickSpeed: 1.5
-  onStationMovementsRound: 0
-  registerTile: {fileID: 0}
-  ContextGameObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  IsCurrentlyFloating: 0
-  Pushing: []
-  Hits: []
-  isFlyingSliding: 0
-  IsMoving: 0
-  MoveIsWalking: 0
-  LastUpdateClientFlying: 0
-  BuckledToObject: {fileID: 0}
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -2804,7 +2754,6 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: 5d8645bc2e5501a4ebd138db5aa609bd, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
-  GivenID: 0
 --- !u!23 &23084276447697276
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8758,6 +8707,24 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2b1333de46384f95876864de1911fff, type: 3}
+--- !u!114 &4196149980577959187 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
+    type: 3}
+  m_PrefabInstance: {fileID: 4300145449095171559}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4299649681570296155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &4299649681570296155 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1762630675659964, guid: e2b1333de46384f95876864de1911fff,
+    type: 3}
+  m_PrefabInstance: {fileID: 4300145449095171559}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4304794156734570639 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff,

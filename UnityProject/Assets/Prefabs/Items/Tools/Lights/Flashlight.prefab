@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &440387127209129005
 Transform:
   m_ObjectHideFlags: 0
@@ -46,13 +46,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 1, g: 0.8939422, b: 0.5707547, a: 0.29803923}
-  Sprite: {fileID: 21300000, guid: d889f81f1d032fc4aac62153542b2700, type: 3}
+  Color: {r: 1, g: 1, b: 1, a: 0.65882355}
+  Sprite: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
-  GivenID: 0
 --- !u!23 &6082171317855352106
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -137,11 +136,6 @@ PrefabInstance:
         type: 3}
       propertyPath: foreverID
       value: 6f371050bff8b32438f91c7c680900bb
-      objectReference: {fileID: 0}
-    - target: {fileID: 3442741923849517114, guid: c9c58a9243d494537abcb4ee470efab0,
-        type: 3}
-      propertyPath: <AlternativePrefabName>k__BackingField
-      value: light
       objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -283,83 +277,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8568555645537651171, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
-      propertyPath: _assetId
-      value: 453992440
-      objectReference: {fileID: 0}
-    - target: {fileID: 8568555645537651171, guid: c9c58a9243d494537abcb4ee470efab0,
-        type: 3}
       propertyPath: m_AssetId
       value: 6f371050bff8b32438f91c7c680900bb
-      objectReference: {fileID: 0}
-    - target: {fileID: 8568559315124099881, guid: c9c58a9243d494537abcb4ee470efab0,
-        type: 3}
-      propertyPath: OnDrop.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8568559315124099881, guid: c9c58a9243d494537abcb4ee470efab0,
-        type: 3}
-      propertyPath: OnThrow.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8568559315124099881, guid: c9c58a9243d494537abcb4ee470efab0,
-        type: 3}
-      propertyPath: OnDrop.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8568559315124099881, guid: c9c58a9243d494537abcb4ee470efab0,
-        type: 3}
-      propertyPath: OnThrow.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8568559315124099881, guid: c9c58a9243d494537abcb4ee470efab0,
-        type: 3}
-      propertyPath: OnDrop.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 5334267868750357690}
-    - target: {fileID: 8568559315124099881, guid: c9c58a9243d494537abcb4ee470efab0,
-        type: 3}
-      propertyPath: OnThrow.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 5334267868750357690}
-    - target: {fileID: 8568559315124099881, guid: c9c58a9243d494537abcb4ee470efab0,
-        type: 3}
-      propertyPath: OnDrop.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8568559315124099881, guid: c9c58a9243d494537abcb4ee470efab0,
-        type: 3}
-      propertyPath: OnDrop.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnThrowDrop
-      objectReference: {fileID: 0}
-    - target: {fileID: 8568559315124099881, guid: c9c58a9243d494537abcb4ee470efab0,
-        type: 3}
-      propertyPath: OnThrow.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8568559315124099881, guid: c9c58a9243d494537abcb4ee470efab0,
-        type: 3}
-      propertyPath: OnThrow.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnThrowDrop
-      objectReference: {fileID: 0}
-    - target: {fileID: 8568559315124099881, guid: c9c58a9243d494537abcb4ee470efab0,
-        type: 3}
-      propertyPath: OnDrop.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: ItemLightControl, Assets
-      objectReference: {fileID: 0}
-    - target: {fileID: 8568559315124099881, guid: c9c58a9243d494537abcb4ee470efab0,
-        type: 3}
-      propertyPath: OnThrow.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: ItemLightControl, Assets
-      objectReference: {fileID: 0}
-    - target: {fileID: 8568559315124099881, guid: c9c58a9243d494537abcb4ee470efab0,
-        type: 3}
-      propertyPath: OnDrop.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 8568559315124099881, guid: c9c58a9243d494537abcb4ee470efab0,
-        type: 3}
-      propertyPath: OnThrow.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -389,17 +308,17 @@ PrefabInstance:
     - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -459,7 +378,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1360d2b65a03cdf449035cd3c4cd0153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   actionData: {fileID: 11400000, guid: 9cf6b1b6994732d4cb5f023e0cefaf19, type: 2}
@@ -478,7 +396,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   allClothingData:
@@ -501,7 +418,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 364f9fbced37d9048b4071fca95e51ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   spriteHandler: {fileID: 1932141341405303641}
@@ -517,17 +433,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d3d65b4ce352374ba2f4a8645c9476c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   LightEmission: {fileID: 0}
   objectLightEmission: {fileID: 3320711171919508498}
+  CommonComponents: {fileID: 0}
+  Intensity: 1
+  Colour: {r: 1, g: 1, b: 1, a: 0.65882355}
+  EnumSprite: 0
+  Size: 6
   IsOn: 0
-  colour: {r: 1, g: 0.90938777, b: 0.6839622, a: 0.28235295}
-  objectLightSprite: {fileID: 0}
-  commonComponents: {fileID: 0}
-  SpriteShape: 0
-  Size: 8
-  weakenOnGround: 0
-  revertToOldConsistencyBehavior: 0
-  weakenStrength: 1.25
+  PlayerLightData:
+    Intensity: 0
+    Colour: {r: 0, g: 0, b: 0, a: 0}
+    EnumSprite: 0
+    Size: 12
