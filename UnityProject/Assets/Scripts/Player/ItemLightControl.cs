@@ -22,7 +22,6 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 
 	[FormerlySerializedAs("Colour")] [SerializeField] private Color colour = default;
 	[SerializeField] private LightSprite objectLightSprite;
-	[SerializeField] private SpriteDataSO spriteLightData;
 	[SerializeField] private CommonComponents commonComponents;
 
 	public HashSet<NamedSlot> CompatibleSlots = new HashSet<NamedSlot>() {
@@ -54,11 +53,6 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 			Logger.LogError($"{this} field objectLightEmission is null, please check {gameObject} prefab.", Category.Lighting);
 			return;
 		}
-
-		if (spriteLightData == null)
-		{
-			Logger.LogError($"{this} field spriteLightData is null, please check {gameObject} prefab.", Category.Lighting);
-		}
 		objectLightSprite ??= objectLightEmission.GetComponent<LightSprite>();
 		lightID = Guid.NewGuid().GetHashCode();
 		playerLightData = new LightData()
@@ -66,7 +60,7 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 			lightColor = colour,
 			size = Size,
 			lightShape = SpriteShape,
-			lightSprite = spriteLightData,
+			lightSprite = objectLightSprite.OrNull()?.Sprite,
 			Id = lightID,
 		};
 		LightConsistency();
@@ -80,7 +74,7 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 	{
 		if (revertToOldConsistencyBehavior) return;
 		objectLightSprite.Color = playerLightData.lightColor;
-		objectLightSprite.Sprite = playerLightData.lightSprite.Variance[0].Frames[0].sprite;
+		objectLightSprite.Sprite = playerLightData.lightSprite;
 		objectLightSprite.transform.localScale = weakenOnGround ?
 			new Vector3(Size / weakenStrength, Size / weakenStrength, Size / weakenStrength)
 			: new Vector3(Size, Size, Size);

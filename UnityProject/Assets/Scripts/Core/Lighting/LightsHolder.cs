@@ -75,21 +75,14 @@ namespace Core.Lighting
 				UpdateLights();
 				return;
 			}
-			foreach (var lightObject in lightsParent.GetComponentsInChildren<LightSprite>())
-			{
-				if (lightObject.GivenID == data.Id) SpriteHandlerManager.UnRegisterHandler(netIdentity, lightObject.GetComponent<SpriteHandler>());
-			}
-			Lights.Remove(data);
-			netIdentity.isDirty = true;
-		}
 
-		public void RemoveLight(int id)
-		{
 			foreach (var sprite in lightsParent.GetComponentsInChildren<LightSprite>())
 			{
-				if (sprite.GivenID == id) Despawn.ClientSingle(sprite.gameObject);
+				if (sprite.GivenID == data.Id) Despawn.ClientSingle(sprite.gameObject);
 			}
-			UpdateHandlers();
+
+			Lights.Remove(data);
+			netIdentity.isDirty = true;
 		}
 
 		private void OnLightsListChange(SyncList<LightData>.Operation op, int index, LightData oldItem,
@@ -98,11 +91,6 @@ namespace Core.Lighting
 			if (op == SyncList<LightData>.Operation.OP_CLEAR)
 			{
 				ClearHeldLights();
-			}
-
-			else if (op == SyncList<LightData>.Operation.OP_REMOVEAT)
-			{
-				RemoveLight(oldItem.Id);
 			}
 			else
 			{
@@ -117,9 +105,6 @@ namespace Core.Lighting
 				if (lightsParent.childCount <= i || lightsParent.GetChild(i) == null)
 				{
 					var newLight = Spawn.ClientPrefab(lightSpriteObject, parent: lightsParent);
-					var sh = newLight.GameObject.GetComponent<SpriteHandler>();
-					SpriteHandlerManager.UnRegisterHandler(netIdentity, sh);
-					newLight.GameObject.name = $"light {Lights[i].Id}";
 					// Add the LightSprite component to the new game object
 					LightSprite lightSprite = newLight.GameObject.GetComponent<LightSprite>();
 					// Set the properties of the LightSprite component based on the corresponding data in the Lights list
@@ -134,26 +119,13 @@ namespace Core.Lighting
 					SetLightData(Lights[i], lightSprite);
 				}
 			}
-			UpdateHandlers();
-		}
-
-		private void UpdateHandlers()
-		{
-			var handlers = lightsParent.GetComponentsInChildren<SpriteHandler>();
-
-			foreach (var SH in handlers)
-			{
-				SpriteHandlerManager.UnRegisterHandler(netIdentity, SH);
-				SH.NetworkThis = true;
-				SpriteHandlerManager.RegisterHandler(netIdentity, SH);
-			}
 		}
 
 		private void SetLightData(LightData data, LightSprite lightSprite)
 		{
 			lightSprite.Color = data.lightColor;
 			lightSprite.Shape = data.lightShape;
-			lightSprite.Sprite = data.lightSprite.Variance[0].Frames[0].sprite;
+			lightSprite.Sprite = data.lightSprite;
 			lightSprite.transform.localScale = new Vector3(data.size, data.size, data.size);
 			if (data.Id != 0)
 			{
@@ -168,9 +140,8 @@ namespace Core.Lighting
 
 		private void ClearHeldLights()
 		{
-			foreach (var sprite in lightsParent.GetComponentsInChildren<SpriteHandler>())
+			foreach (var sprite in lightsParent.GetComponentsInChildren<LightSprite>())
 			{
-				SpriteHandlerManager.UnRegisterHandler(netIdentity, sprite);
 				Despawn.ClientSingle(sprite.gameObject);
 			}
 		}
@@ -181,7 +152,7 @@ namespace Core.Lighting
 		public int Id;
 		public Color lightColor;
 		public Light2D.LightSprite.LightShape lightShape;
-		public SpriteDataSO lightSprite;
+		public Sprite lightSprite;
 		public float size;
 	}
 }

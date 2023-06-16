@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Messages.Server.SpritesMessages;
@@ -124,11 +125,7 @@ public class SpriteHandlerManager : NetworkBehaviour
 
 	public static void UnRegisterHandler(NetworkIdentity networkIdentity, SpriteHandler spriteHandler)
 	{
-		if (spriteHandler == null)
-		{
-			Logger.LogError("spriteHandler is null, cannot unregister.");
-			return;
-		}
+		if (spriteHandler == null) return;
 		if (networkIdentity == null)
 		{
 			if (spriteHandler?.transform?.parent != null)

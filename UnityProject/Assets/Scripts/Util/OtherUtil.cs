@@ -2,7 +2,6 @@
 using System.Linq;
 using UnityEngine;
 using Shared.Managers;
-using System.IO;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -72,46 +71,6 @@ namespace Util
 			}
 
 			return singletonManager;
-		}
-
-		[MenuItem("Tools/Create SpriteSO automatically _g")]
-		public static void CreateSoAutomatically()
-		{
-			var selected = Selection.activeObject;
-			string assetPath = AssetDatabase.GetAssetPath(selected);
-			if (assetPath == null)
-			{
-				assetPath = "Assets";
-			}
-			else if (Path.GetExtension(assetPath) != "")
-			{
-				assetPath = assetPath.Replace(Path.GetFileName(AssetDatabase.GetAssetPath(selected)), "");
-			}
-
-			string assetPathAndName =
-				AssetDatabase.GenerateUniqueAssetPath(assetPath + "/" + selected + ".asset");
-			Debug.Log(assetPathAndName);
-			if (selected is Sprite c)
-			{
-				var so = ScriptableObject.CreateInstance<SpriteDataSO>();
-				var variant = new SpriteDataSO.Variant();
-				variant.Frames = new List<SpriteDataSO.Frame>();
-				variant.Frames.Add( new SpriteDataSO.Frame()
-				{
-					sprite = c,
-					secondDelay = 0,
-				});
-				so.DisplayName = c.name;
-				so.Variance.Add(variant);
-				AssetDatabase.CreateAsset(so, assetPathAndName);
-				EditorUtility.SetDirty(so);
-				AssetDatabase.SaveAssets();
-				AssetDatabase.Refresh();
-			}
-			else
-			{
-				Debug.Log($"{selected} is not a Sprite.");
-			}
 		}
 
 		#endif
