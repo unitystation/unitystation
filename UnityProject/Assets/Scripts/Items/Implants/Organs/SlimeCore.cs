@@ -55,6 +55,7 @@ public class SlimeCore : BodyPartFunctionality
 	public bool Enhanced = false;
 	public bool EnhancedUsedUp = false;
 
+
 	public override void Awake()
 	{
 		base.Awake();

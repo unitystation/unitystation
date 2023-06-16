@@ -34,6 +34,8 @@ public class BrainSlime : BrainMobState
 	private float RecentDamage = 0;
 
 
+	public bool FriendlySlime = false;
+
 	public void IncomingDamage(DamageType DamageType, GameObject GameObject, float DMG)
 	{
 		RecentDamage += DMG;
@@ -120,9 +122,8 @@ public class BrainSlime : BrainMobState
 		}
 
 		var players = Physics2D.OverlapCircleAll(master.Body.transform.position, 20f, hitMask);
-		if (players.Length == 0)
+		if (players.Length == 0 || FriendlySlime)
 		{
-
 			var food = master.Body.RegisterTile.Matrix.Get<ItemAttributesV2>(master.Body.transform.localPosition.RoundToInt(), true).FirstOrDefault(IsInFoodPreferences);
 
 			if (food is null)

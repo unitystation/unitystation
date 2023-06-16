@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Chemistry.Components;
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
 using UnityEditor;
 using System.IO;
-#endif
+
+//#endif
 using UnityEngine;
 
 namespace Items
@@ -17,7 +18,7 @@ namespace Items
 
 		public List<GameObjectPool> Pool => pool;
 
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
 		public ItemTrait RequiredTrait;
 
 		public static List<T> LoadAllPrefabsOfType<T>(string path) where T : MonoBehaviour
@@ -32,6 +33,8 @@ namespace Items
 
 			DirectoryInfo dirInfo = new DirectoryInfo(path);
 			FileInfo[] fileInf = dirInfo.GetFiles("*.prefab", SearchOption.AllDirectories);
+
+
 
 			//loop through directory loading the game object and checking if it has the component you want
 			List<T> prefabComponents = new List<T>();
@@ -66,37 +69,31 @@ namespace Items
 		public void Dothing()
 		{
 			pool.Clear();
-			var all = LoadAllPrefabsOfType<ReagentContainer>("Assets/Prefabs");
+			var all = LoadAllPrefabsOfType<mymarkerscript>("Assets/Prefabs");
 
 			foreach (var one in all)
 			{
+				pool.Add(new GameObjectPool()
+					{
+						prefab = one.gameObject,
+						maxAmount = 1,
+						probability = 100
+				});
 
-
-				var Attribute = one.GetComponent<ItemAttributesV2>();
-				if (Attribute == null) continue;
-				if (Attribute.HasTrait(RequiredTrait))
-				{
-					//pool.Add(new GameObjectPool()
-					//{
-					//	prefab = one.gameObject,
-				//		maxAmount = 1,
-				//		probability = 100
-				//	});
-				}
 			}
 		}
-#endif
+//#endif
 	}
 
 	[Serializable]
 	public class GameObjectPool
 	{
 		[Tooltip("Object we will spawn in the world")] [SerializeField]
-		private GameObject prefab = null;
+		public GameObject prefab = null;
 		[Tooltip("Max amount we can spawn of this object")] [SerializeField]
-		private int maxAmount = 1;
+		public int maxAmount = 1;
 		[Tooltip("Probability of spawning this item when chosen")] [SerializeField] [Range(0, 100)]
-		private int probability = 100;
+		public int probability = 100;
 
 		public GameObject Prefab => prefab;
 		public int MaxAmount => maxAmount;
