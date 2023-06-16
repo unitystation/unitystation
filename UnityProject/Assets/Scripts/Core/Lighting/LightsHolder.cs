@@ -76,13 +76,19 @@ namespace Core.Lighting
 				return;
 			}
 
-			foreach (var sprite in lightsParent.GetComponentsInChildren<LightSprite>())
-			{
-				if (sprite.GivenID == data.Id) Despawn.ClientSingle(sprite.gameObject);
-			}
+			//this gets called on the server
+			RemoveLightObject(data.Id);
 
 			Lights.Remove(data);
 			netIdentity.isDirty = true;
+		}
+
+		private void RemoveLightObject(int id)
+		{
+			foreach (var sprite in lightsParent.GetComponentsInChildren<LightSprite>())
+			{
+				if (sprite.GivenID == id) Despawn.ClientSingle(sprite.gameObject);
+			}
 		}
 
 		private void OnLightsListChange(SyncList<LightData>.Operation op, int index, LightData oldItem,
@@ -91,6 +97,11 @@ namespace Core.Lighting
 			if (op == SyncList<LightData>.Operation.OP_CLEAR)
 			{
 				ClearHeldLights();
+			}
+			else if (op == SyncList<LightData>.Operation.OP_REMOVEAT)
+			{
+				//this gets called on the client
+				RemoveLightObject(oldItem.Id);
 			}
 			else
 			{
