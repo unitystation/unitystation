@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using HealthV2;
+using Clothing;
+using Items;
 using UnityEngine;
-using Util;
 
-public class PotionSlimeStabiliser : MonoBehaviour, ICheckedInteractable<HandApply>
+public class PotionSpeedPotion : MonoBehaviour, ICheckedInteractable<HandApply>
 {
 	private static readonly StandardProgressActionConfig ProgressConfig =
 		new StandardProgressActionConfig(StandardProgressActionType.SelfHeal);
@@ -12,8 +12,6 @@ public class PotionSlimeStabiliser : MonoBehaviour, ICheckedInteractable<HandApp
 	public virtual bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
-		if (Validations.HasComponent<LivingHealthMasterBase>(interaction.TargetObject) ==false) return false;
-		if (interaction.TargetObject.GetComponent<LivingHealthMasterBase>().IsDead) return false;
 		return interaction.Intent == Intent.Help;
 	}
 
@@ -27,7 +25,8 @@ public class PotionSlimeStabiliser : MonoBehaviour, ICheckedInteractable<HandApp
 			}
 
 			StandardProgressAction.Create(ProgressConfig, ProgressComplete)
-				.ServerStartProgress(interaction.Performer.RegisterTile(), 5f, interaction.Performer); //TODO Think about
+				.ServerStartProgress(interaction.Performer.RegisterTile(), 5f,
+					interaction.Performer); //TODO Think about
 		}
 
 	}
@@ -37,8 +36,17 @@ public class PotionSlimeStabiliser : MonoBehaviour, ICheckedInteractable<HandApp
 	{
 		if (CheckTarget(Target))
 		{
-			var core = Target.GetComponent<LivingHealthMasterBase>().brain.GetComponent<SlimeCore>();
-			core.Stabilised = true;
+			var WearableSpeedDebuff = Target.GetComponent<WearableSpeedDebuff>();
+
+			WearableSpeedDebuff.SpeedDebuffRemoved = true;
+
+			var Sprites = Target.GetComponentsInChildren<SpriteHandler>();
+
+			foreach (var Sprite in Sprites)
+			{
+				Sprite.SetColor(new Color(1f, 0.992156f, 0.0039f));
+			}
+
 			_ = Despawn.ServerSingle(this.gameObject);
 		}
 	}
@@ -46,14 +54,10 @@ public class PotionSlimeStabiliser : MonoBehaviour, ICheckedInteractable<HandApp
 
 	public bool CheckTarget(GameObject Target)
 	{
-		if (Validations.HasComponent<LivingHealthMasterBase>(Target) ==false) return false;
-		if (Target.GetComponent<LivingHealthMasterBase>().IsDead) return false;
-		var core = Target.GetComponent<LivingHealthMasterBase>().brain.GetComponent<SlimeCore>();
-		if (core == null) return false;
-		if (core.Stabilised) return false;
-		if (core.DeStabilised) return false;
+		var WearableSpeedDebuff = Target.GetComponent<WearableSpeedDebuff>();
+		if (WearableSpeedDebuff == null) return false;
+		if (WearableSpeedDebuff.SpeedDebuffRemoved) return false;
 		return true;
 
 	}
-
 }

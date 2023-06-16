@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using HealthV2;
 using UnityEngine;
-using Util;
 
-public class PotionSlimeStabiliser : MonoBehaviour, ICheckedInteractable<HandApply>
+public class SlimeMutationPotion : MonoBehaviour, ICheckedInteractable<HandApply>
 {
 	private static readonly StandardProgressActionConfig ProgressConfig =
 		new StandardProgressActionConfig(StandardProgressActionType.SelfHeal);
@@ -38,7 +37,7 @@ public class PotionSlimeStabiliser : MonoBehaviour, ICheckedInteractable<HandApp
 		if (CheckTarget(Target))
 		{
 			var core = Target.GetComponent<LivingHealthMasterBase>().brain.GetComponent<SlimeCore>();
-			core.Stabilised = true;
+			core.DeStabilised = true;
 			_ = Despawn.ServerSingle(this.gameObject);
 		}
 	}

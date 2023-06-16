@@ -49,6 +49,8 @@ public class SlimeCore : BodyPartFunctionality
 	public int CurrentNumberOfCore = 1;
 
 	public bool Stabilised = false;
+	public bool DeStabilised = false;
+
 
 	public bool Enhanced = false;
 	public bool EnhancedUsedUp = false;
@@ -168,14 +170,30 @@ public class SlimeCore : BodyPartFunctionality
         // Calculate the total chances
         for (int i = 0; i < CanSplitInto.Count; i++)
         {
-	        if (this.Stabilised && CanSplitInto[i].CoreMutateTo == null)
+	        if (CanSplitInto[i].CoreMutateTo == null)
 	        {
-		        totalChances += Mathf.RoundToInt(CanSplitInto[i].ChanceToMutateTo * 1.15f);
+		        if (this.Stabilised)
+		        {
+			        totalChances += Mathf.RoundToInt(CanSplitInto[i].ChanceToMutateTo * 1.15f);
+		        }
+		        else
+		        {
+			        totalChances += CanSplitInto[i].ChanceToMutateTo;
+		        }
 
 	        }
 	        else
 	        {
-		        totalChances += CanSplitInto[i].ChanceToMutateTo;
+		        if (this.DeStabilised)
+		        {
+			        totalChances += Mathf.RoundToInt(CanSplitInto[i].ChanceToMutateTo * 1.12f);
+		        }
+		        else
+		        {
+			        totalChances += CanSplitInto[i].ChanceToMutateTo;
+		        }
+
+
 	        }
 
         }
