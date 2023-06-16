@@ -105,8 +105,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  isLight: 0
-  lightSprite: {fileID: 0}
 --- !u!1 &1911127701127708580
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,7 +192,6 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
-  GivenID: 0
 --- !u!23 &1379656452009383460
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -351,8 +348,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  isLight: 0
-  lightSprite: {fileID: 0}
 --- !u!1 &7590180909891276049
 GameObject:
   m_ObjectHideFlags: 0
@@ -458,8 +453,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  isLight: 0
-  lightSprite: {fileID: 0}
 --- !u!1 &8265600929450994583
 GameObject:
   m_ObjectHideFlags: 0
@@ -565,8 +558,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  isLight: 0
-  lightSprite: {fileID: 0}
 --- !u!1 &8868935868210309097
 GameObject:
   m_ObjectHideFlags: 0
@@ -673,8 +664,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  isLight: 0
-  lightSprite: {fileID: 0}
 --- !u!1001 &234557215263547549
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -893,13 +882,9 @@ MonoBehaviour:
   IsOn: 0
   colour: {r: 0.99215686, g: 0.96862745, b: 0.88235295, a: 0.5019608}
   objectLightSprite: {fileID: 1769808791634081217}
-  spriteLightData: {fileID: 11400000, guid: d7efc3e054b9ba244b07b9f31067c182, type: 2}
   commonComponents: {fileID: 2845395725340097187}
   SpriteShape: 0
   Size: 6
-  weakenOnGround: 0
-  revertToOldConsistencyBehavior: 0
-  weakenStrength: 1.25
 --- !u!114 &1293357877581254245
 MonoBehaviour:
   m_ObjectHideFlags: 0
