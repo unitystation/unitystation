@@ -125,7 +125,7 @@ namespace Core.Lighting
 		{
 			lightSprite.Color = data.lightColor;
 			lightSprite.Shape = data.lightShape;
-			lightSprite.Sprite = data.lightSprite;
+			lightSprite.Sprite = data.lightSpriteObject.GetComponent<ItemLightControl>().ObjectLightSprite.Sprite;
 			lightSprite.transform.localScale = new Vector3(data.size, data.size, data.size);
 			if (data.Id != 0)
 			{
@@ -152,7 +152,7 @@ namespace Core.Lighting
 		public int Id;
 		public Color lightColor;
 		public Light2D.LightSprite.LightShape lightShape;
-		public Sprite lightSprite;
+		public GameObject lightSpriteObject;
 		public float size;
 	}
 }

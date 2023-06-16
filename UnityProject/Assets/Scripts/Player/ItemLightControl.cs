@@ -22,6 +22,7 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 
 	[FormerlySerializedAs("Colour")] [SerializeField] private Color colour = default;
 	[SerializeField] private LightSprite objectLightSprite;
+	public LightSprite ObjectLightSprite => objectLightSprite;
 	[SerializeField] private CommonComponents commonComponents;
 
 	public HashSet<NamedSlot> CompatibleSlots = new HashSet<NamedSlot>() {
@@ -44,13 +45,20 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 	private int lightID;
 	[SerializeField] private bool weakenOnGround = false;
 	[SerializeField] private bool revertToOldConsistencyBehavior = false;
-	[SerializeField, ShowIf(nameof(weakenOnGround))] private float weakenStrength = 1.25f;
+	[SerializeField, ShowIf(nameof(weakenOnGround))] private float weakenStrength = 1.45f;
 
 	private void Awake()
 	{
 		if (objectLightEmission == null)
 		{
 			Logger.LogError($"{this} field objectLightEmission is null, please check {gameObject} prefab.", Category.Lighting);
+			return;
+		}
+
+		if (netIdentity == null)
+		{
+			Logger.LogError($"Mirror will not accept {this} while syncing in the LightsHolder syncList " +
+			                $"because it is missing a net identity component.");
 			return;
 		}
 		objectLightSprite ??= objectLightEmission.GetComponent<LightSprite>();
@@ -60,7 +68,7 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 			lightColor = colour,
 			size = Size,
 			lightShape = SpriteShape,
-			lightSprite = objectLightSprite.OrNull()?.Sprite,
+			lightSpriteObject = gameObject,
 			Id = lightID,
 		};
 		LightConsistency();
@@ -74,7 +82,6 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 	{
 		if (revertToOldConsistencyBehavior) return;
 		objectLightSprite.Color = playerLightData.lightColor;
-		objectLightSprite.Sprite = playerLightData.lightSprite;
 		objectLightSprite.transform.localScale = weakenOnGround ?
 			new Vector3(Size / weakenStrength, Size / weakenStrength, Size / weakenStrength)
 			: new Vector3(Size, Size, Size);
