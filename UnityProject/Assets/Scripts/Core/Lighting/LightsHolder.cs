@@ -94,18 +94,18 @@ namespace Core.Lighting
 		private void OnLightsListChange(SyncList<LightData>.Operation op, int index, LightData oldItem,
 			LightData newItem)
 		{
-			if (op == SyncList<LightData>.Operation.OP_CLEAR)
+			switch (op)
 			{
-				ClearHeldLights();
-			}
-			else if (op == SyncList<LightData>.Operation.OP_REMOVEAT)
-			{
-				//this gets called on the client
-				RemoveLightObject(oldItem.Id);
-			}
-			else
-			{
-				UpdateLights();
+				case SyncList<LightData>.Operation.OP_CLEAR:
+					ClearHeldLights();
+					break;
+				case SyncList<LightData>.Operation.OP_REMOVEAT:
+					//this gets called on the client
+					RemoveLightObject(oldItem.Id);
+					break;
+				default:
+					UpdateLights();
+					break;
 			}
 		}
 
@@ -163,7 +163,7 @@ namespace Core.Lighting
 		public int Id;
 		public Color lightColor;
 		public Light2D.LightSprite.LightShape lightShape;
-		public GameObject lightSpriteObject;
+		public NetworkIdentity lightSpriteObject;
 		public float size;
 	}
 }
