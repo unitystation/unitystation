@@ -100,6 +100,15 @@ namespace Doors
 			return;
 		}
 
+		/// <summary>
+		/// Method that allows to get loaded sprites by door animator
+		/// </summary>
+		/// <returns> Array with all loaded sprites</returns>
+		public Sprite[] GetAnimationSprites()
+		{
+			return (Sprite[])sprites.Clone();
+		}
+
 		private IEnumerator Delay()
 		{
 			yield return WaitFor.Seconds(0.3f);
