@@ -68,7 +68,7 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 			lightColor = colour,
 			size = Size,
 			lightShape = SpriteShape,
-			lightSpriteObject = gameObject,
+			lightSpriteObject = netIdentity,
 			Id = lightID,
 		};
 		LightConsistency();
