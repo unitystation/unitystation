@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2152051915416306454, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: foreverID
+      value: 174a60b83f7a16e429aef53ef61c652a
+      objectReference: {fileID: 0}
     - target: {fileID: 4866909607520428057, guid: 1e86836ca86312b47b6c5416bd8426f1,
         type: 3}
       propertyPath: initialName
@@ -104,3 +109,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d775af92b98ff448891a612e353e75e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaximumNumberOfCore: 5

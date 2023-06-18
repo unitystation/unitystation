@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4191028052465141348, guid: 789d74731ecbf8e4a813fc024afaf831,
+        type: 3}
+      propertyPath: _assetId
+      value: 4078274252
+      objectReference: {fileID: 0}
     - target: {fileID: 4300430181014406820, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
       propertyPath: m_RootOrder
@@ -65,7 +70,12 @@ PrefabInstance:
     - target: {fileID: 4304790706924288976, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
       propertyPath: m_Name
-      value: SlimeCore
+      value: SlimeCore - Yellow
+      objectReference: {fileID: 0}
+    - target: {fileID: 7135682799884072893, guid: 789d74731ecbf8e4a813fc024afaf831,
+        type: 3}
+      propertyPath: foreverID
+      value: 4f58fba1ca8d8074d9d4435239637a6e
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 789d74731ecbf8e4a813fc024afaf831, type: 3}

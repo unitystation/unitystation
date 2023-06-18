@@ -471,8 +471,15 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			return; //Storing something inside of itself what?
 		}
 
+
 		PullSet(null, false); //Presume you can't Pulling stuff inside container
 		//TODO Handle non-disappearing containers like Cart riding
+
+		if (ObjectIsBucklingChecked.HasComponent)
+		{
+			ObjectIsBucklingChecked.Component.Unbuckle();
+		}
+
 
 		parentContainer = newParent == null ? NetId.Empty : newParent.registerTile.netId;
 
@@ -592,13 +599,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		PullSet(newPulling.NewPulling, false, true);
 	}
 
-	public void AppearAtWorldPositionServer(Vector3 worldPos, bool smooth = false, bool doStepInteractions = true)
+	public void AppearAtWorldPositionServer(Vector3 worldPos, bool smooth = false, bool doStepInteractions = true, Vector2? Momentum = null)
 	{
 		this.doStepInteractions = doStepInteractions;
 
 		SynchroniseVisibility(isVisible, true);
 		var matrix = MatrixManager.AtPoint(worldPos, isServer);
-		ForceSetLocalPosition(worldPos.ToLocal(matrix), Vector2.zero, smooth, matrix.Id);
+		ForceSetLocalPosition(worldPos.ToLocal(matrix), Momentum == null ? Vector2.zero : Momentum.Value, smooth, matrix.Id);
 
 		this.doStepInteractions = true;
 	}
@@ -606,8 +613,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	public void DropAtAndInheritMomentum(UniversalObjectPhysics droppedFrom)
 	{
 		SynchroniseVisibility(isVisible, true);
-		ForceSetLocalPosition(droppedFrom.transform.localPosition, droppedFrom.newtonianMovement, false,
-			droppedFrom.registerTile.Matrix.Id);
+		AppearAtWorldPositionServer(droppedFrom.OfficialPosition, Momentum : droppedFrom.GetRootObject.GetComponent<UniversalObjectPhysics>().newtonianMovement);
 	}
 
 	public void DisappearFromWorld()

@@ -114,6 +114,7 @@ public class SlimeEat : BodyPartFunctionality
 
 	public override void ImplantPeriodicUpdate()
 	{
+		//TODO check buckling instead of this!!!
 		if (EdibleCurrentlyEating != null)
 		{
 			var food = EdibleCurrentlyEating.GetMixForBite(null);

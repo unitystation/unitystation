@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Chemistry.Components;
-//#if UNITY_EDITOR
+#if UNITY_EDITOR
 using UnityEditor;
 using System.IO;
-
-//#endif
+#endif
 using UnityEngine;
 
 namespace Items
@@ -18,7 +17,7 @@ namespace Items
 
 		public List<GameObjectPool> Pool => pool;
 
-//#if UNITY_EDITOR
+#if UNITY_EDITOR
 		public ItemTrait RequiredTrait;
 
 		public static List<T> LoadAllPrefabsOfType<T>(string path) where T : MonoBehaviour
@@ -82,7 +81,7 @@ namespace Items
 
 			}
 		}
-//#endif
+#endif
 	}
 
 	[Serializable]
