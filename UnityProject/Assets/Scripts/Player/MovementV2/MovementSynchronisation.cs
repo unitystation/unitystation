@@ -483,19 +483,30 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		Pushing.Clear();
 		Bumps.Clear();
-		if (intent != Intent.Help) return;
-		if (bumpedBy.TryGetComponent<MovementSynchronisation>(out var move))
-		{
-			if (move.intent != Intent.Help || move.CurrentMovementType == MovementType.Crawling || move.Pulling.HasComponent != false) return;
 
-			if (MatrixManager.IsPassableAtAllMatricesV2(bumpedBy.AssumedWorldPosServer(),
-				    this.gameObject.AssumedWorldPosServer(), SetMatrixCache, this, Pushing, Bumps) == false) return;
+		if (CanSwap(bumpedBy, out var move))
+		{
+			if (MatrixManager.IsPassableAtAllMatricesV2(bumpedBy.AssumedWorldPosServer(), this.gameObject.AssumedWorldPosServer(), SetMatrixCache, this, Pushing, Bumps) == false) return;
 			var pushVector = (move.transform.position - this.transform.position).RoundToInt().To2Int();
 			if (Mathf.Abs(pushVector.x) > 1 || Mathf.Abs(pushVector.y) > 1) return;
+			Pushing.Clear();
 			ForceTilePush(pushVector, Pushing, client, move.CurrentTileMoveSpeed, SendWorld: false);
+		}
+	}
 
+	public bool CanSwap(GameObject bumpedBy, out MovementSynchronisation move)
+	{
+		move = null;
+		if (intent != Intent.Help) return false;
+		if (bumpedBy.TryGetComponent<MovementSynchronisation>(out move))
+		{
+			if (move.intent != Intent.Help || move.CurrentMovementType == MovementType.Crawling ||
+			    move.Pulling.HasComponent != false) return false;
+			return true;
 
 		}
+
+		return false;
 	}
 
 
@@ -639,8 +650,10 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		}
 	}
 
-	private void ServerCheckQueueIsFlying(ref MoveData entry, ref bool fudged, ref Vector3 stored)
+	private void ServerCheckClientLocation(ref MoveData entry, ref bool fudged, ref Vector3 stored, out bool reset, out bool resetSmooth)
 	{
+		reset = false;
+		resetSmooth = false;
 		if (IsFlyingSliding)
 		{
 			if ((transform.position - entry.LocalPosition.ToWorld(MatrixManager.Get(entry.MatrixID)))
@@ -669,15 +682,19 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			    .magnitude >
 			    0.75f) //Resets play location if too far away
 			{
+				//TODO Force tile push if close enough??
 				if ((transform.position - entry.LocalPosition.ToWorld(MatrixManager.Get(entry.MatrixID)))
 				    .magnitude >
 				    3f)
 				{
-					ResetLocationOnClients();
+					reset = true;
+					//ResetLocationOnClients();
 				}
 				else
 				{
-					ResetLocationOnClients(true);
+					resetSmooth = true;
+					reset = true;
+					//ResetLocationOnClients(true);
 				}
 			}
 		}
@@ -743,7 +760,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				}
 
 				ServerCheckQueueingPulling(ref spawned, ref entry);
-				ServerCheckQueueIsFlying(ref entry, ref fudged, ref stored);
+				ServerCheckClientLocation(ref entry, ref fudged, ref stored, out bool reset, out bool smooth );
 
 				if (CanInPutMove())
 				{
@@ -762,6 +779,11 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 					if (TryMove(ref Newmove, gameObject, true, out var slip))
 					{
+						if (reset)
+						{
+							ResetLocationOnClients(smooth);
+						}
+
 						if (Newmove.SwappedOnMove && entry.SwappedOnMove) //Both agree
 						{
 							//TODO  some time it could There could be a Scenario with desynchronised If someone is changing the intenses
