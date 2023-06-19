@@ -688,13 +688,11 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				    3f)
 				{
 					reset = true;
-					//ResetLocationOnClients();
 				}
 				else
 				{
 					resetSmooth = true;
 					reset = true;
-					//ResetLocationOnClients(true);
 				}
 			}
 		}
