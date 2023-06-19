@@ -14,7 +14,6 @@ namespace Objects.Doors
 		[Tooltip("Empty tile to spawn when false wall texture is setted.")]
 		[SerializeField] private BasicTile falseTile = null;
 		private TileChangeManager tileChangeManager;
-		private GeneralDoorAnimator doorAnimator;
 		private DoorController doorController;
 		private Vector3Int falseWallPosition;
 		private List<LayerTile> tilesPresendtedNear = new List<LayerTile>();
@@ -35,9 +34,8 @@ namespace Objects.Doors
 			sprite = GetComponentInChildren<SpriteRenderer>();
 			var registerDoor = GetComponentInChildren<RegisterDoor>();
 			tileChangeManager = GetComponentInParent<TileChangeManager>();
-			falseWallPosition = Vector3Int.RoundToInt(transform.localPosition);
-			doorAnimator = GetComponent<GeneralDoorAnimator>();
-			sprites = doorAnimator.GetAnimationSprites();
+			falseWallPosition = registerDoor.WorldPositionServer + new Vector3Int(-1, -1);
+			sprites = GetComponent<GeneralDoorAnimator>().GetAnimationSprites();
 			doorController = GetComponent<DoorController>();
 
 			if (falseWallPresented.ContainsKey(falseWallPosition))
@@ -50,10 +48,11 @@ namespace Objects.Doors
 			UpdateManager.Add(CallbackType.LATE_UPDATE, UpdateMethod);
 		}
 
-		private void OnDisable()
+		private void OnDestroy()
 		{
 			falseWallPresented.Remove(falseWallPosition);
-			if (HasRealWall(falseWallPosition, tileChangeManager.MetaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>()))
+			if (!HasRealWall(falseWallPosition, tileChangeManager.MetaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>()))
+			{
 				tileChangeManager.MetaTileMap.Layers[LayerType.Walls].RemoveTile(falseWallPosition);
 			}
 
@@ -100,12 +99,9 @@ namespace Objects.Doors
 		[ContextMenu("Update wall sprite")]
 		public void UpdateWallSprite()
 		{
-			var smoothFrameIndex = SmoothFrame();
 			// Double check to be sure and don`t stop door animation
 			if (doorController.IsClosed && int.Parse(sprite.sprite.name.Split('_').Last()) > 3)
-				sprite.sprite = sprites[smoothFrameIndex];
-			doorAnimator.closeFrame = smoothFrameIndex;
-
+				sprite.sprite = (sprites[SmoothFrame()]);
 
 			if (!HasRealWall(falseWallPosition, tileChangeManager.MetaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>()))
 				tileChangeManager.MetaTileMap.SetTile(falseWallPosition, falseTile);
