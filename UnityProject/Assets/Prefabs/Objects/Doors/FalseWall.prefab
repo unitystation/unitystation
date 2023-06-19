@@ -146,7 +146,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -2110864004724914001, guid: 8f6fb134bac41a043808e4a0643c2bf4,
+      objectReference: {fileID: 21300002, guid: a18f70c9270e2584ea594005815c39bd,
         type: 3}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -254,20 +254,6 @@ MonoBehaviour:
   openingDirection: 0
   BlockAutoClose: 0
   conType: 0
---- !u!114 &4956081801997543282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1626197849799790230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6471b98199a4ff040aeea6a88862a74f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  falseTile: {fileID: 11400000, guid: 8a5d7b8cc9d261442bd185a31ad88e67, type: 2}
-  needUpdate: 1
 --- !u!114 &5759204677302852279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,7 +289,7 @@ MonoBehaviour:
   openFrame: 0
   direction: 0
   IncludeAccessDeniedAnim: 0
-  Smoothed: 1
+  Smoothed: 0
 --- !u!114 &8261635703963174013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,6 +306,20 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   allowInput: 1
+--- !u!114 &8927134743809822220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626197849799790230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6471b98199a4ff040aeea6a88862a74f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  falseTile: {fileID: 11400000, guid: 8a5d7b8cc9d261442bd185a31ad88e67, type: 2}
+  needUpdate: 0
 --- !u!210 &4061496330317937190 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 6554009657133641066, guid: a7af28adb717b4c44b8b2002b27670bd,
