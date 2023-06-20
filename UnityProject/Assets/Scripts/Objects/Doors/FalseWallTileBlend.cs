@@ -18,8 +18,7 @@ namespace Objects.Doors
 		private DoorController doorController;
 		private Vector3Int falseWallPosition;
 		private List<LayerTile> tilesPresendtedNear = new List<LayerTile>();
-		[Tooltip("Updates tile sprite in update")]
-		[SerializeField] private bool needUpdate = false;
+		private List<FalseWallTileBlend> falseWallsPresendtedNear = new List<FalseWallTileBlend>();
 		private static Dictionary<Vector3Int, FalseWallTileBlend> falseWallPresented = new Dictionary<Vector3Int, FalseWallTileBlend>();
 
 		private Sprite[] sprites;
@@ -44,6 +43,7 @@ namespace Objects.Doors
 				falseWallPresented.Remove(falseWallPosition);
 			falseWallPresented.Add(falseWallPosition, this);
 			tilesPresendtedNear = GetNearTilesExtended(falseWallPosition);
+			falseWallsPresendtedNear = GetNearFalseWalls(falseWallPosition);
 			UpdateWallSprite();
 			ChangeNearFalseWallSprites(GetNearFalseWalls(falseWallPosition));
 
@@ -52,26 +52,20 @@ namespace Objects.Doors
 
 		private void OnDisable()
 		{
-			falseWallPresented.Remove(falseWallPosition);
-			if (HasRealWall(falseWallPosition, tileChangeManager.MetaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>()))
-				tileChangeManager.MetaTileMap.Layers[LayerType.Walls].RemoveTile(falseWallPosition);
-
 			UpdateManager.Remove(CallbackType.LATE_UPDATE, UpdateMethod);
-			ChangeNearFalseWallSprites(GetNearFalseWalls(falseWallPosition));
+			falseWallPresented.Remove(falseWallPosition);
+			tileChangeManager.MetaTileMap.RemoveTileWithlayer(falseWallPosition, LayerType.Walls);
 		}
 
 		private void UpdateMethod()
 		{
-			if (CheckIfNeedUpdateNow())
-			{
-				needUpdate = false;
-				UpdateWallSprite();
-			}
+			UpdateWallSprite();
 		}
 
 		private bool CheckIfNeedUpdateNow()
 		{
 			var tilesPresendtsNear = GetNearTilesExtended(falseWallPosition, true);
+			var falseWallsPresendtsNear = GetNearFalseWalls(falseWallPosition);
 
 			var needUpdateNow = false;
 
@@ -80,9 +74,13 @@ namespace Objects.Doors
 				tilesPresendtedNear.Clear();
 				tilesPresendtedNear.AddRange(tilesPresendtsNear);
 				needUpdateNow = true;
+			} else if (!falseWallsPresendtsNear.SequenceEqual(falseWallsPresendtedNear))
+			{
+				falseWallsPresendtedNear.Clear();
+				falseWallsPresendtedNear.AddRange(falseWallsPresendtsNear);
+				needUpdateNow = true;
 			}
-
-			return needUpdateNow || this.needUpdate;
+			return needUpdateNow;
 		}
 
 		private void ChangeNearFalseWallSprites(List<FalseWallTileBlend> falseWallTileBlends)
@@ -101,7 +99,7 @@ namespace Objects.Doors
 		{
 			var smoothFrameIndex = SmoothFrame();
 			// Double check to be sure and don`t stop door animation
-			if (doorController.IsClosed && int.Parse(sprite.sprite.name.Split('_').Last()) > 3)
+			if (doorController.IsClosed && !doorController.isPerformingAction)
 				sprite.sprite = sprites[smoothFrameIndex];
 			doorAnimator.closeFrame = smoothFrameIndex;
 
@@ -161,7 +159,7 @@ namespace Objects.Doors
 
 		private FalseWallTileBlend GetFalseWall(Vector3Int pos)
 		{
-			if (falseWallPresented.ContainsKey(pos))
+			if (falseWallPresented.ContainsKey(pos) && falseWallPresented[pos] != null)
 				return falseWallPresented[pos];
 			return null;
 		}
@@ -181,7 +179,7 @@ namespace Objects.Doors
 		{
 			TileBase tile = tilemap.GetTile(position);
 			ConnectedTile t = tile as ConnectedTile;
-			return (t != null);
+			return (t != null) && (!t.PreviewSprite.name.Contains("false_wall"));
 		}
 
 		private int SmoothFrame()
