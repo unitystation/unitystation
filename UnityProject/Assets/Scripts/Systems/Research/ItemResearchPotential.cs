@@ -113,7 +113,7 @@ public class ItemResearchPotential : MonoBehaviour
 
 			for (int j = 0; j < InNumberOfBeams; j++)
 			{
-				data.Beams.Add(Random.Range(25, 335 + 1));
+				data.Beams.Add(Random.Range(35, 325 + 1));
 			}
 			toReturn.TechWebDesigns.Add(data);
 		}
