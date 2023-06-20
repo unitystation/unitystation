@@ -202,9 +202,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	[PrefabModeOnly] public bool OnThrowEndResetRotation;
 
-	[PrefabModeOnly] public bool CanSwap = false;
 
-		[PrefabModeOnly] public float maximumStickSpeed = 1.5f;
+	[PrefabModeOnly] public float maximumStickSpeed = 1.5f;
 	//Speed In tiles per second that, The thing would able to be stop itself if it was sticky
 
 	[PrefabModeOnly] public bool onStationMovementsRound;
@@ -472,23 +471,24 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 
 	[ClientRpc] //TODO investigate GameObject to netID Breaking everything
-	public void RPCClientTilePush(Vector2Int worldDirection, float speed, GameObject causedByClient, bool overridePull,
+	public void RPCClientTilePush(Vector2Int worldDirection, float speed, int causedByClient, bool overridePull,
 		int timestampID, bool forced)
 	{
 		SetTimestampID = timestampID;
 		if (isServer) return;
-		if (PlayerManager.LocalPlayerObject == causedByClient) return;
+		GameObject causedByClientOb = ((uint) causedByClient).NetIdToGameObject();
+		if (PlayerManager.LocalPlayerObject == causedByClientOb) return;
 		if (PulledBy.HasComponent && overridePull == false) return;
 
 		Pushing.Clear();
 		SetMatrixCache.ResetNewPosition(transform.position, registerTile);
 		if (forced)
 		{
-			ForceTilePush(worldDirection, Pushing, causedByClient, speed);
+			ForceTilePush(worldDirection, Pushing, causedByClientOb, speed);
 		}
 		else
 		{
-			TryTilePush(worldDirection, causedByClient, speed);
+			TryTilePush(worldDirection, causedByClientOb, speed);
 		}
 	}
 
@@ -604,7 +604,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	}
 
 	public void ForceSetLocalPosition(Vector3 resetToLocal, Vector2 momentum, bool smooth, int matrixID,
-		bool updateClient = true, float rotation = 0, NetworkConnection client = null, int resetID = -1, uint IgnoreForClient = NetId.Empty)
+		bool updateClient = true, float rotation = 0, NetworkConnection client = null, int resetID = -1, uint IgnoreForClient = NetId.Empty, Vector3? LocalTarget = null)
 	{
 		rotationTarget.rotation = Quaternion.Euler(new Vector3(0, 0, rotation));
 
@@ -615,13 +615,29 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			{
 				resetID = resetID == -1 ? Time.frameCount : resetID;
 				SetLastResetID = resetID;
-				RPCForceSetPosition(client, resetToLocal, momentum, smooth, matrixID, rotation, resetID);
+				RPCForceSetPosition(
+					client,
+					resetToLocal,
+					momentum,
+					LocalTarget ?? TransformState.HiddenPos,
+					smooth
+					, matrixID,
+					rotation,
+					resetID);
 			}
 			else
 			{
 				resetID = resetID == -1 ? Time.frameCount : resetID;
 				SetLastResetID = resetID;
-				RPCForceSetPosition(resetToLocal, momentum, smooth, matrixID, rotation, resetID, IgnoreForClient);
+				RPCForceSetPosition(
+					resetToLocal,
+					momentum,
+					LocalTarget ?? TransformState.HiddenPos,
+					smooth,
+					matrixID,
+					rotation,
+					resetID,
+					IgnoreForClient);
 			}
 		}
 		else if (isServer == false)
@@ -646,10 +662,17 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			}
 			else
 			{
+				var ToResetTo = resetToLocal;
+
+				if (LocalTarget != null)
+				{
+					ToResetTo = LocalTarget.Value;
+				}
+
 				newtonianMovement = momentum;
 				SetLocalTarget = new Vector3WithData()
 				{
-					Vector3 = resetToLocal,
+					Vector3 = ToResetTo,
 					ByClient = NetId.Empty,
 					Matrix = matrixID
 				};
@@ -672,35 +695,59 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			}
 			else
 			{
+				var ToResetTo = resetToLocal;
+
+				if (LocalTarget != null)
+				{
+					ToResetTo = LocalTarget.Value;
+				}
+
 				newtonianMovement = momentum;
 				SetLocalTarget = new Vector3WithData()
 				{
-					Vector3 = resetToLocal,
+					Vector3 = ToResetTo,
 					ByClient = NetId.Empty,
 					Matrix = matrixID
 				};
 				SetTransform(resetToLocal, false);
 				InternalTriggerOnLocalTileReached(resetToLocal.RoundToInt());
+
+				if (Animating == false)
+				{
+					Animating = true;
+					UpdateManager.Add(CallbackType.UPDATE, AnimationUpdateMe);
+				}
 			}
 		}
 	}
 
 	[ClientRpc]
-	public void RPCForceSetPosition(Vector3 resetToLocal, Vector2 momentum, bool smooth, int matrixID, float rotation,
+	public void RPCForceSetPosition(Vector3 resetToLocal, Vector2 momentum, Vector3 LocalTarget, bool smooth, int matrixID, float rotation,
 		int resetID, uint ignoreForClient)
 	{
 		if (isServer) return;
 		if (ignoreForClient is not NetId.Empty or NetId.Invalid
 		    && CustomNetworkManager.Spawned.TryGetValue(ignoreForClient, out var local)
 		    && local.gameObject == PlayerManager.LocalPlayerObject) return;
-		ForceSetLocalPosition(resetToLocal, momentum, smooth, matrixID, false, rotation, resetID: resetID);
+
+		Vector3? NullLocalTarget = LocalTarget;
+		if (NullLocalTarget.Value == TransformState.HiddenPos)
+		{
+			NullLocalTarget = null;
+		}
+		ForceSetLocalPosition(resetToLocal, momentum, smooth, matrixID, false, rotation, resetID: resetID, LocalTarget:NullLocalTarget );
 	}
 
 	[TargetRpc]
-	public void RPCForceSetPosition(NetworkConnection target, Vector3 resetToLocal, Vector2 momentum, bool smooth,
+	public void RPCForceSetPosition(NetworkConnection target, Vector3 resetToLocal, Vector2 momentum, Vector3 LocalTarget, bool smooth,
 		int matrixID, float rotation, int resetID)
 	{
-		ForceSetLocalPosition(resetToLocal, momentum, smooth, matrixID, false, rotation, resetID: resetID);
+		Vector3? NullLocalTarget = LocalTarget;
+		if (NullLocalTarget.Value == TransformState.HiddenPos)
+		{
+			NullLocalTarget = null;
+		}
+		ForceSetLocalPosition(resetToLocal, momentum, smooth, matrixID, false, rotation, resetID: resetID, LocalTarget:NullLocalTarget );
 	}
 
 
@@ -709,7 +756,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	{
 		if (isServer == false) return;
 		SetLastResetID = Time.frameCount;
-		RPCForceSetPosition(transform.localPosition, newtonianMovement, smooth, registerTile.Matrix.Id,
+		RPCForceSetPosition(transform.localPosition, newtonianMovement, LocalTargetPosition ,  smooth, registerTile.Matrix.Id,
 			rotationTarget.localRotation.eulerAngles.z, SetLastResetID, ignoreForClient);
 
 		if (Pulling.HasComponent)
@@ -730,7 +777,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	{
 		isVisible = true;
 		SetLastResetID = Time.frameCount;
-		RPCForceSetPosition(client, transform.localPosition, newtonianMovement, smooth, registerTile.Matrix.Id,
+		RPCForceSetPosition(client, transform.localPosition, newtonianMovement, LocalTargetPosition , smooth, registerTile.Matrix.Id,
 			rotationTarget.localRotation.eulerAngles.z, SetLastResetID);
 
 		if (Pulling.HasComponent)
@@ -894,6 +941,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (pushedBy == this) return;
 		if (CanPush(worldDirection))
 		{
+			if (isServer == false)
+			{
+				Pushing.Clear();
+			}
 			ForceTilePush(worldDirection, Pushing, byClient, speed, pushedBy: pushedBy, overridePull: overridePull,
 				pulledBy: pulledBy, SendWorld: useWorld);
 		}
@@ -988,7 +1039,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			SetTimestampID = Time.frameCount;
 			if (SendWorld == false && connectionToClient != null && isServer)
 			{
-				RPCClientTilePush(worldDirection, speed, byClient, overridePull, SetTimestampID, true);
+
+				int idbyClient = (int) NetId.Empty;
+				if (byClient != null)
+				{
+					idbyClient = (int)  byClient.NetId();
+				}
+				RPCClientTilePush(worldDirection, speed, idbyClient, overridePull, SetTimestampID, false);
 			}
 
 		}

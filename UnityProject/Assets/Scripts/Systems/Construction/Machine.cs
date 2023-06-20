@@ -254,7 +254,11 @@ namespace Objects.Machines
 			{
 				if (MachineParts.OrNull()?.machineParts == null)
 				{
-					Logger.LogError($"MachineParts was null on {gameObject.ExpensiveName()}");
+					if (canNotBeDeconstructed == false)
+					{
+						Logger.LogError($"MachineParts was null on {gameObject.ExpensiveName()}");
+					}
+
 					return;
 				}
 

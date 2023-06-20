@@ -39,6 +39,7 @@ public class LaserProjection : MonoBehaviour
 
 		if (Plinth.HasItem == false)
 		{
+			_ResearchLaserProjector.SynchroniseLaser(LaserLines);
 			return;
 		}
 
@@ -46,6 +47,7 @@ public class LaserProjection : MonoBehaviour
 
 		if (_ResearchLaserProjector.researchServer.Techweb.TestedPrefabs.Contains(Identify.ForeverID))
 		{
+			_ResearchLaserProjector.SynchroniseLaser(LaserLines);
 			return;
 		}
 
