@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Chemistry;
+using NaughtyAttributes;
 using ScriptableObjects;
 using Shuttles;
 using TileManagement;
@@ -13,25 +14,29 @@ namespace Systems.FilthGenerator
 {
 	public class FilthGenerator : SubsystemBehaviour
 	{
-		private static readonly System.Random RANDOM = new System.Random();
+		private static readonly System.Random Random = new System.Random();
 		private Tilemap floorTilemap;
 		private TileChangeManager tileChangeManager;
 
+		[SerializeField] private bool generateFilthReagent = true;
 		[SerializeField, Range(0f,100f)]
-		private float FilthDensityPercentage;
+		private float filthDensityPercentage = 4f;
+		[SerializeField, Range(0f,100f)]
+		private float filthReagentChance = 35f;
 
 		[SerializeField] private List<GameObject> filthDecalsAndObjects = new List<GameObject>();
-		[SerializeField] private bool generateFilthReagent = true;
-		
+
 		public override void Initialize()
 		{
+			if (Initialized) return;
 			RunFilthGenerator();
 		}
 
 		public override void UpdateAt(Vector3Int localPosition)
 		{
-
+			// No Updates Needed.
 		}
+
 		private void OnDestroy()
 		{
 			metaTileMap = null;
@@ -39,7 +44,7 @@ namespace Systems.FilthGenerator
 			tileChangeManager = null;
 		}
 
-
+		[Button]
 		public void RunFilthGenerator()
 		{
 			if (generateFilthReagent == false && filthDecalsAndObjects.Count == 0) return;
@@ -64,11 +69,11 @@ namespace Systems.FilthGenerator
 				}
 			}
 
-			int numberOfTiles = (int) ((EmptyTiled.Count / 100f) * FilthDensityPercentage);
+			int numberOfTiles = (int) ((EmptyTiled.Count / 100f) * filthDensityPercentage);
 
 			for (int i = 0; i < numberOfTiles; i++)
 			{
-				var chosenLocation = EmptyTiled[RANDOM.Next(EmptyTiled.Count)];
+				var chosenLocation = EmptyTiled[Random.Next(EmptyTiled.Count)];
 				DetermineFilthToSpawn(chosenLocation);
 			}
 		}
@@ -89,7 +94,7 @@ namespace Systems.FilthGenerator
 				return;
 			}
 
-			if (generateFilthReagent && DMMath.Prob(50))
+			if (generateFilthReagent && DMMath.Prob(filthReagentChance))
 			{
 				ReagentSpawn();
 			}
