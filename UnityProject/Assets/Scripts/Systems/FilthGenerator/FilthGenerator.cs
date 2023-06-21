@@ -30,6 +30,7 @@ namespace Systems.FilthGenerator
 		{
 			if (Initialized) return;
 			RunFilthGenerator();
+			Initialized = true;
 		}
 
 		public override void UpdateAt(Vector3Int localPosition)
