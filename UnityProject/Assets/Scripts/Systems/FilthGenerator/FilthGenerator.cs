@@ -10,7 +10,7 @@ using UnityEngine.Tilemaps;
 
 namespace Systems.FilthGenerator
 {
-	public class FilthGenerator : SubsystemBehaviour
+	public class FilthGenerator : MatrixSystemBehaviour
 	{
 		private static readonly System.Random Random = new System.Random();
 		private Tilemap floorTilemap;
@@ -32,13 +32,11 @@ namespace Systems.FilthGenerator
 
 		public override void Initialize()
 		{
-			if (Initialized) return;
 			Stopwatch sw = new Stopwatch();
 			sw.Start();
 			RunFilthGenerator();
 			sw.Stop();
 			Chat.AddGameWideSystemMsgToChat($"<color=yellow>Initialised {gameObject.name} FilthGen: " + sw.ElapsedMilliseconds + " ms</color>");
-			Initialized = true;
 		}
 
 		public override void UpdateAt(Vector3Int localPosition)

@@ -26,7 +26,7 @@ public partial class SubSceneManager
 	public IEnumerator RoundStartServerLoadSequence()
 	{
 		InitialLoadingComplete = false;
-		SubsystemBehaviourQueueInit.InitializedAll = false;
+		SubsystemMatrixQueueInit.InitializedAll = false;
 
 		ConnectionLoadedRecord.Clear();//New round
 		var loadTimer = new SubsceneLoadTimer();
@@ -57,15 +57,16 @@ public partial class SubSceneManager
 		}
 
 		SubSceneManagerNetworked.netIdentity.isDirty = true;
-
-		//(Max): this wait with magic unexplained number is stopping the game from wetting the bed after loading scenes.
-		//Why does waiting 0.1 seconds prevent the game breaking and not starting the round start timer and systems initialising properly? I have no clue.
-		//Add to this counter here for every hour spent trying to understand why this breaks: 2
-		yield return WaitFor.Seconds(0.1f);
+		EventManager.Broadcast( Event.ReadyToInitialiseMatrices, false);
+		while (MatrixManager.IsInitialized == false)
+		{
+			yield return null;
+		}
 
 		loadTimer.IncrementLoadBar("Loading Subsystems..");
-		SubsystemBehaviourQueueInit.InitAllSystems();
-		while (SubsystemBehaviourQueueInit.InitializedAll == false)
+		yield return SubsystemMatrixQueueInit.InitAllSystems();
+
+		while (SubsystemMatrixQueueInit.InitializedAll == false)
 		{
 			yield return WaitFor.Seconds(1f);
 		}

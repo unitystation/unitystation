@@ -13,7 +13,7 @@ using Tiles;
 /// <summary>
 /// Subsystem behavior which manages updating the MetaDataNodes and simulation that affects them for a given matrix.
 /// </summary>
-public class MetaDataSystem : SubsystemBehaviour
+public class MetaDataSystem : MatrixSystemBehaviour
 {
 	// for Conditional updating
 	public override SystemType SubsystemType =>SystemType.MetaDataSystem;

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Chemistry;
 using Doors;
+using Managers;
 using TileManagement;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -81,14 +82,14 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	private void OnEnable()
 	{
-		EventManager.AddHandler(Event.ScenesLoadedServer, OnScenesLoaded);
+		EventManager.AddHandler(Event.ReadyToInitialiseMatrices, OnScenesLoaded);
 	}
 
 	private void OnDisable()
 	{
 		ClientWaitingRoutine = false;
 		SceneManager.activeSceneChanged -= OnSceneChange;
-		EventManager.RemoveHandler(Event.ScenesLoadedServer, OnScenesLoaded);
+		EventManager.RemoveHandler(Event.ReadyToInitialiseMatrices, OnScenesLoaded);
 		if (Application.isPlaying)
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
@@ -148,15 +149,10 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			registerTile.Initialize(matrix);
 		}
 
-		if (CustomNetworkManager.IsServer)
-		{
-			if (IsInitialized)
-			{
-				//mid-round scene only
-				ServerMatrixInitialization(matrix);
-			}
-		}
-		else
+		SubsystemMatrixQueueInit.Queue(matrix);
+
+
+		if (CustomNetworkManager.IsServer == false)
 		{
 			if (AreAllMatrixReady())
 			{
@@ -181,8 +177,28 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		}
 	}
 
+	[Client]
+	private void ClientMatrixInitialization(Matrix matrix)
+	{
+		var subsystemManager = matrix.GetComponentInParent<MatrixSystemManager>();
+		matrix.StartCoroutine(subsystemManager.Initialize());
+	}
+	[Client]
 
+	private IEnumerator ClientWaitForAllMatrices()
+	{
+		while (AreAllMatrixReady() == false)
+		{
+			yield return null;
+		}
 
+		foreach (var matrixInfo in ActiveMatricesList)
+		{
+			ClientMatrixInitialization(matrixInfo.Matrix);
+		}
+
+		ClientWaitingRoutine = false;
+	}
 	private bool AreAllMatrixReady()
 	{
 		int Count = 0;
@@ -215,28 +231,11 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		return true;
 	}
 
-	[Server]
 	private void OnScenesLoaded()
 	{
 		StartCoroutine(WaitForAllMatrices());
 	}
 
-	private IEnumerator ClientWaitForAllMatrices()
-	{
-		while (AreAllMatrixReady() == false)
-		{
-			yield return null;
-		}
-
-		foreach (var matrixInfo in ActiveMatricesList)
-		{
-			ClientMatrixInitialization(matrixInfo.Matrix);
-		}
-
-		ClientWaitingRoutine = false;
-	}
-
-	[Server]
 	private IEnumerator WaitForAllMatrices()
 	{
 		while (AreAllMatrixReady() == false)
@@ -246,24 +245,14 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		IsInitialized = true;
 
-		foreach (var matrixInfo in ActiveMatricesList)
+		if (CustomNetworkManager.IsServer == false)
 		{
-			ServerMatrixInitialization(matrixInfo.Matrix);
+			ClientAllMatrixReady();
 		}
 
 		EventManager.Broadcast(Event.MatrixManagerInit);
 	}
 
-
-	[Server]
-	private void ServerMatrixInitialization(Matrix matrix)
-	{
-		var subsystemManager = matrix.GetComponentInParent<SubsystemManager>();
-		subsystemManager.Initialize();
-
-		var iServerSpawnList = matrix.GetComponentsInChildren<IServerSpawn>();
-		GameManager.Instance.MappedOnSpawnServer(iServerSpawnList);
-	}
 
 	[Client]
 	private void ClientAllMatrixReady()
@@ -276,13 +265,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		}
 
 		SpriteRequestCurrentStateMessage.Send(SpriteHandlerManager.Instance.GetComponent<NetworkIdentity>().netId);
-	}
-
-	[Client]
-	private void ClientMatrixInitialization(Matrix matrix)
-	{
-		var subsystemManager = matrix.GetComponentInParent<SubsystemManager>();
-		subsystemManager.Initialize();
 	}
 
 	private void RegisterMatrix(Matrix matrix)
@@ -348,7 +330,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			Objects = gameObj.transform.GetComponentInChildren<ObjectLayer>().transform,
 			MetaTileMap = gameObj.GetComponent<MetaTileMap>(),
 			MetaDataLayer = gameObj.GetComponent<MetaDataLayer>(),
-			SubsystemManager = gameObj.GetComponentInParent<SubsystemManager>(),
+			SubsystemManager = gameObj.GetComponentInParent<MatrixSystemManager>(),
 			ReactionManager = gameObj.GetComponentInParent<ReactionManager>(),
 			TileChangeManager = gameObj.GetComponentInParent<TileChangeManager>(),
 			InitialOffset = matrix.InitialOffset

@@ -14,7 +14,7 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 	public Matrix Matrix;
 	public MetaTileMap MetaTileMap;
 	public MetaDataLayer MetaDataLayer;
-	public SubsystemManager SubsystemManager;
+	public MatrixSystemManager SubsystemManager;
 	public TileChangeManager TileChangeManager;
 	public ReactionManager ReactionManager;
 	public GameObject GameObject;

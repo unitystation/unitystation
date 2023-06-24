@@ -468,6 +468,18 @@ public class Matrix : MonoBehaviour
 		return (list);
 	}
 
+	public IEnumerator MatrixInitialization()
+	{
+		var subsystemManager = this.GetComponentInParent<MatrixSystemManager>();
+		yield return subsystemManager.Initialize();
+
+		if (CustomNetworkManager.IsServer)
+		{
+			var iServerSpawnList = this.GetComponentsInChildren<IServerSpawn>();
+			GameManager.Instance.MappedOnSpawnServer(iServerSpawnList);
+		}
+	}
+
 	public void AddElectricalNode(Vector3Int position, WireConnect wireConnect)
 	{
 		var metaData = MetaDataLayer.Get(position, true);
