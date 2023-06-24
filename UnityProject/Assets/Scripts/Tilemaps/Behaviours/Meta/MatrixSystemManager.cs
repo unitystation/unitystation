@@ -10,7 +10,14 @@ public class MatrixSystemManager : MonoBehaviour
 	private List<MatrixSystemBehaviour> systems = new List<MatrixSystemBehaviour>();
 	private bool initialized;
 
-	[Server]
+
+	public void SelfInitialize()
+	{
+		StartCoroutine(Initialize());
+	}
+
+
+
 	public IEnumerator Initialize()
 	{
 		systems = systems.OrderByDescending(s => s.Priority).ToList();
