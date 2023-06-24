@@ -21,7 +21,7 @@ public abstract class SubsystemBehaviour : MonoBehaviour
 			metaTileMap = GetComponentInChildren<MetaTileMap>();
 			//TODO: Figure out why removing or disabling the old subsystem manager causes all stations to break.
 			//BUG: Electrical and atmospherics subsystems break whenever they're moved away from the legacy subsystem manager.
-			//BUG: If you put a Chat message while the Initialize() method is running on electrical/atmos subsystems, the fucking subsystem breaks for no reason EVEN IF THE FUCKER IS ALREADY DONE WITH ITS OPERATIONS.
+			//BUG: If you put a Chat message inside the Initialize() method while it is running on electrical/atmos subsystems, the fucking subsystem breaks for no reason EVEN IF THE FUCKER IS ALREADY DONE WITH ITS OPERATIONS WITHOUT ERRORS.
 			//(Max): This has been tormenting me since the 4th of January of 2023.
 			if (RegisteredToLegacySubsystemManager)
 			{
