@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -44,7 +43,6 @@ public class MetaDataSystem : SubsystemBehaviour
 	public override void Awake()
 	{
 		base.Awake();
-
 		matrix = GetComponentInChildren<Matrix>(true);
 		externalNodes = new ConcurrentDictionary<MetaDataNode, MetaDataNode>();
 		atmosSystem = GetComponent<AtmosSystem>();
@@ -83,7 +81,6 @@ public class MetaDataSystem : SubsystemBehaviour
 		}
 
 		sw.Stop();
-
 		Logger.Log($"{gameObject.name} MetaData init: " + sw.ElapsedMilliseconds + " ms", Category.Matrix);
 	}
 

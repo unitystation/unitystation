@@ -7,7 +7,8 @@ public abstract class SubsystemBehaviour : MonoBehaviour
 	{
 
 		public bool Initialized { get; protected set; } = false;
-		[field: SerializeField] public virtual int Priority { get; private set; } = 0;
+		[field: SerializeField] public virtual int Priority { get; protected set; } = 0;
+		[field: SerializeField] public virtual bool RegisteredToLegacySubsystemManager { get; protected set; } = true;
 		protected MetaDataLayer metaDataLayer;
 		protected MetaTileMap metaTileMap;
 		protected SubsystemManager subsystemManager;
@@ -18,8 +19,15 @@ public abstract class SubsystemBehaviour : MonoBehaviour
 		{
 			metaDataLayer = GetComponentInChildren<MetaDataLayer>();
 			metaTileMap = GetComponentInChildren<MetaTileMap>();
-			subsystemManager = GetComponent<SubsystemManager>();
-			subsystemManager.Register(this);
+			//TODO: Figure out why removing or disabling the old subsystem manager causes all stations to break.
+			//BUG: Electrical and atmospherics subsystems break whenever they're moved away from the legacy subsystem manager.
+			//BUG: If you put a Chat message while the Initialize() method is running on electrical/atmos subsystems, the fucking subsystem breaks for no reason EVEN IF THE FUCKER IS ALREADY DONE WITH ITS OPERATIONS.
+			//(Max): This has been tormenting me since the 4th of January of 2023.
+			if (RegisteredToLegacySubsystemManager)
+			{
+				subsystemManager = GetComponent<SubsystemManager>();
+				subsystemManager.Register(this);
+			}
 			SubsystemBehaviourQueueInit.Queue(this);
 		}
 

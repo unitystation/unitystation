@@ -25,6 +25,11 @@ namespace Managers
 
 		public static void Queue(SubsystemBehaviour behaviour)
 		{
+			if (Instance.behaviours.Contains(behaviour))
+			{
+				Logger.LogWarning($"{behaviour.gameObject} has the same exact behavior queued. Skipping");
+				return;
+			}
 			Instance.behaviours.Add(behaviour);
 		}
 
@@ -51,7 +56,7 @@ namespace Managers
 				InitializedAll = true;
 				return;
 			}
-			Chat.AddGameWideSystemMsgToChat($"<color=green>Subsystems loaded! Only took {watch.Elapsed.Seconds} seconds.</color>");
+			Chat.AddGameWideSystemMsgToChat($"<color=green>Subsystems loaded! Only took {watch.Elapsed.Milliseconds}ms</color>");
 			watch.Stop();
 			InitializedAll = true;
 		}

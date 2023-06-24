@@ -1,11 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Chemistry;
 using NaughtyAttributes;
 using ScriptableObjects;
-using Shuttles;
 using TileManagement;
-using Tilemaps.Behaviours.Layers;
 using Tiles;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -26,10 +24,20 @@ namespace Systems.FilthGenerator
 
 		[SerializeField] private List<GameObject> filthDecalsAndObjects = new List<GameObject>();
 
+		public override void Awake()
+		{
+			RegisteredToLegacySubsystemManager = false;
+			base.Awake();
+		}
+
 		public override void Initialize()
 		{
 			if (Initialized) return;
+			Stopwatch sw = new Stopwatch();
+			sw.Start();
 			RunFilthGenerator();
+			sw.Stop();
+			Chat.AddGameWideSystemMsgToChat($"<color=yellow>Initialised {gameObject.name} FilthGen: " + sw.ElapsedMilliseconds + " ms</color>");
 			Initialized = true;
 		}
 
