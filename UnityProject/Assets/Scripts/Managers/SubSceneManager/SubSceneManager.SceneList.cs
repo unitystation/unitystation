@@ -26,6 +26,7 @@ public partial class SubSceneManager
 
 	public IEnumerator RoundStartServerLoadSequence()
 	{
+		SubSceneManagerNetworked.ScenesInitialLoadingComplete = false;
 		ServerInitialLoadingComplete = false;
 		SubsystemMatrixQueueInit.InitializedAll = false;
 
