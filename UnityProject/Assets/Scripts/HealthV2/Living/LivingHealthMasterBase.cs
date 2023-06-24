@@ -1072,7 +1072,7 @@ namespace HealthV2
 			{
 				foreach (var organ in Implant.OrganList)
 				{
-					if (organ is Heart heart && heart.HeartAttack == false)
+					if (organ is Heart heart && heart.HeartAttack == false && heart.CanHaveHeartAttack)
 					{
 						hasAllHeartAttack = false;
 						SetConsciousState(ConsciousState.UNCONSCIOUS);

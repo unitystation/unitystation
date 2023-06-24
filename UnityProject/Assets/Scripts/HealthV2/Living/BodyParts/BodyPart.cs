@@ -328,6 +328,19 @@ namespace HealthV2
 			HealthMaster = null;
 		}
 
+
+		public void RemoveInventoryAndBody(Vector3 AppearAtWorld)
+		{
+			var slot = this.GetComponentCustom<Pickupable>().ItemSlot;
+			if (slot != null)
+			{
+				Inventory.ServerDrop(slot);
+			}
+
+			TryRemoveFromBody();
+			this.GetComponentCustom<UniversalObjectPhysics>().AppearAtWorldPositionServer(AppearAtWorld);
+		}
+
 		/// <summary>
 		/// Server only - Tries to remove a body part
 		/// </summary>

@@ -17,6 +17,7 @@ public class PlayerBlueprint : MonoBehaviour
 	{
 		var Mind =  PlayerSpawn.NewSpawnCharacterV2(null, CharacterSheet, NonImportantMind);
 		Mind.Body.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(this.transform.position);
+		_ = Despawn.ServerSingle(this.gameObject);
 	}
 
 

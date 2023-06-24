@@ -112,6 +112,12 @@ public class SlimeEat : BodyPartFunctionality
 
 	}
 
+	[NaughtyAttributes.Button()]
+	public void FullEat()
+	{
+		ReagentCirculatedComponent.AssociatedSystem.BloodPool.Add(SlimeJelly, 150f);
+	}
+
 	public override void ImplantPeriodicUpdate()
 	{
 		//TODO check buckling instead of this!!!
@@ -132,8 +138,8 @@ public class SlimeEat : BodyPartFunctionality
 				return;
 			}
 
-			LivingHealthMasterBaseCurrentlyEating.ApplyDamageAll(RelatedPart.HealthMaster.gameObject, 3.33333f, AttackType.Internal,DamageType.Clone, true);
-			ReagentCirculatedComponent.AssociatedSystem.BloodPool.Add(SlimeJelly, 1.25f);
+			LivingHealthMasterBaseCurrentlyEating.ApplyDamageAll(RelatedPart.HealthMaster.gameObject, 0.33333f, AttackType.Internal,DamageType.Clone, true);
+			ReagentCirculatedComponent.AssociatedSystem.BloodPool.Add(SlimeJelly, 0.145f);
 		}
 
 	}

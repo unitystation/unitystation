@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using HealthV2;
 using UnityEngine;
 
 public class CommonComponents : MonoBehaviour
@@ -14,7 +15,7 @@ public class CommonComponents : MonoBehaviour
 
 	public Rotatable Rotatable => SafeGetComponent<Rotatable>();
 
-
+	public LivingHealthMasterBase LivingHealth => SafeGetComponent<LivingHealthMasterBase>();
 
 	public Dictionary<Type, Component> dictionary = new Dictionary<Type, Component>();
 

@@ -18,16 +18,35 @@ public class VacpackGun : MonoBehaviour, 	ICheckedInteractable<PositionalHandApp
 
 	}
 
-
+/*
+	(
+		PlayerScript playerScript,
+		GameObject target,
+		NetworkSide side,
+		bool allowSoftCrit = false,
+		ReachRange reachRange = ReachRange.Standard,
+		Vector2? targetPosition = null,
+		Vector2? targetVector = null,
+		RegisterTile targetRegisterTile = null,
+		PlayerTypes apt = PlayerTypes.Normal
+	)
+	*/
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
-		if (DefaultWillInteract.Default(interaction, side) == false) return false;
+		if (Validations.CanInteract(interaction.PerformerPlayerScript,side, false) == false) return false;
+
+		var Distance = (interaction.Performer.AssumedWorldPosServer() - interaction.WorldPositionTarget.To3()).magnitude;
+		if (Distance > 2.5f) return false;
+
+		var hit =  MatrixManager.Linecast(interaction.Performer.AssumedWorldPosServer(),
+			LayerTypeSelection.Walls | LayerTypeSelection.Windows, null, interaction.WorldPositionTarget.To3());
+
+		if (hit.ItHit) return false;
+
 		if (interaction.TargetObject == gameObject) return false;
 		if (interaction.TargetObject == null) return false;
 		if (interaction.TargetObject != null)
 		{
-
-
 			var health = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 			if (health == null)
 			{
@@ -35,10 +54,6 @@ public class VacpackGun : MonoBehaviour, 	ICheckedInteractable<PositionalHandApp
 				if (Matrix == null) return false;
 			}
 		}
-
-
-		//TODO Distance check
-		//TODO Go through grills
 
 		return true;
 	}

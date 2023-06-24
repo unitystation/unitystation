@@ -25,7 +25,7 @@ public class SlimeCore : BodyPartFunctionality
 				new CustomisationStorage()
 				{
 					path = "/SlimeBody/SlimeCore" ,
-					Data = DropDownIndex.ToString()
+					Data = DropDownIndex + 1.ToString()
 				}
 
 			}
@@ -151,6 +151,9 @@ public class SlimeCore : BodyPartFunctionality
 
 				var core = Mind.Body.GetComponent<LivingHealthMasterBase>().brain.GetComponent<SlimeCore>();
 				core.InitialiseBabySlime();
+
+				var GoodPlayers = core.GetComponent<BrainSlime>();
+				GoodPlayers.GoodPlayers = GoodPlayers.GoodPlayers.Union(this.GetComponent<BrainSlime>().GoodPlayers).ToDictionary(s => s.Key, s => s.Value);
 
 				core.Stabilised = this.Stabilised;
 
