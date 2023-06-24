@@ -232,7 +232,8 @@ namespace Tests.Scenes
 			using var pool = ListPool<ElectricalCableTile>.Get(out var cables);
 			Span<bool> checkPipeDir = stackalloc bool[4];
 
-			// Copern: What are these magic numbers? Why specifically -48 to 1?
+			// The -48 to 2 refer to the Z axis of the tilemap. Some tiles can overlap themselves on the Z axis accidentally
+			// Because unity's tilemap does not have a proper way to prevent this from happening.
 			for (int z = -48; z < 2; z++)
 			{
 				var localPos = new Vector3Int(x, y, z);

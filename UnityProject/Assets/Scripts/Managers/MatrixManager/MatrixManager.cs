@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Chemistry;
 using Doors;
+using Managers;
 using TileManagement;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -81,14 +82,14 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	private void OnEnable()
 	{
-		EventManager.AddHandler(Event.ScenesLoadedServer, OnScenesLoaded);
+		EventManager.AddHandler(Event.ReadyToInitialiseMatrices, OnScenesLoaded);
 	}
 
 	private void OnDisable()
 	{
 		ClientWaitingRoutine = false;
 		SceneManager.activeSceneChanged -= OnSceneChange;
-		EventManager.RemoveHandler(Event.ScenesLoadedServer, OnScenesLoaded);
+		EventManager.RemoveHandler(Event.ReadyToInitialiseMatrices, OnScenesLoaded);
 		if (Application.isPlaying)
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
@@ -148,27 +149,18 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			registerTile.Initialize(matrix);
 		}
 
-		if (CustomNetworkManager.IsServer)
+		SubsystemMatrixQueueInit.Queue(matrix);
+
+
+		if (CustomNetworkManager.IsServer == false)
 		{
-			if (IsInitialized)
-			{
-				//mid-round scene only
-				ServerMatrixInitialization(matrix);
-			}
-		}
-		else
-		{
+			matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
+			TileChangeNewPlayer.Send(matrix.MatrixInfo.NetID);
+
 			if (AreAllMatrixReady())
 			{
-				if (IsInitialized)
-				{
-					ClientMatrixInitialization(matrix);
-				}
-				else
-				{
-					IsInitialized = true;
-					ClientAllMatrixReady();
-				}
+				IsInitialized = true;
+				ClientMatrixInitialization(matrix);
 			}
 			else
 			{
@@ -181,21 +173,35 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		}
 	}
 
+	[Client]
+	private void ClientMatrixInitialization(Matrix matrix)
+	{
+		var subsystemManager = matrix.GetComponentInParent<MatrixSystemManager>();
+		matrix.StartCoroutine(subsystemManager.Initialize());
+	}
+	[Client]
 
-
+	private IEnumerator ClientWaitForAllMatrices()
+	{
+		while (AreAllMatrixReady() == false)
+		{
+			yield return null;
+		}
+		ClientWaitingRoutine = false;
+		foreach (var matrixInfo in ActiveMatricesList)
+		{
+			ClientMatrixInitialization(matrixInfo.Matrix);
+		}
+		SpriteRequestCurrentStateMessage.Send(SpriteHandlerManager.Instance.GetComponent<NetworkIdentity>().netId);
+		ClientWaitingRoutine = false;
+	}
 	private bool AreAllMatrixReady()
 	{
 		int Count = 0;
-		if (CustomNetworkManager.IsServer)
-		{
-			Count = SubSceneManager.Instance.loadedScenesList.Count;
-		}
-		else
-		{
-			Count = SubSceneManager.Instance.clientLoadedSubScenes.Count;
-		}
 
-		if (Count != InitializingMatrixes.Count)
+		Count = SubSceneManager.Instance.loadedScenesList.Count;
+
+		if (Count != InitializingMatrixes.Count || SubSceneManager.Instance.clientIsLoadingSubscene || Count == 0 || SubSceneManager.Instance.SubSceneManagerNetworked.ScenesInitialLoadingComplete == false)
 		{
 			return false;
 		}
@@ -215,28 +221,11 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		return true;
 	}
 
-	[Server]
 	private void OnScenesLoaded()
 	{
 		StartCoroutine(WaitForAllMatrices());
 	}
 
-	private IEnumerator ClientWaitForAllMatrices()
-	{
-		while (AreAllMatrixReady() == false)
-		{
-			yield return null;
-		}
-
-		foreach (var matrixInfo in ActiveMatricesList)
-		{
-			ClientMatrixInitialization(matrixInfo.Matrix);
-		}
-
-		ClientWaitingRoutine = false;
-	}
-
-	[Server]
 	private IEnumerator WaitForAllMatrices()
 	{
 		while (AreAllMatrixReady() == false)
@@ -246,43 +235,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		IsInitialized = true;
 
-		foreach (var matrixInfo in ActiveMatricesList)
-		{
-			ServerMatrixInitialization(matrixInfo.Matrix);
-		}
-
 		EventManager.Broadcast(Event.MatrixManagerInit);
-	}
-
-
-	[Server]
-	private void ServerMatrixInitialization(Matrix matrix)
-	{
-		var subsystemManager = matrix.GetComponentInParent<SubsystemManager>();
-		subsystemManager.Initialize();
-
-		var iServerSpawnList = matrix.GetComponentsInChildren<IServerSpawn>();
-		GameManager.Instance.MappedOnSpawnServer(iServerSpawnList);
-	}
-
-	[Client]
-	private void ClientAllMatrixReady()
-	{
-		for (int i = 0; i < ActiveMatricesList.Count; i++)
-		{
-			//TODO fixme: expensive and overly complicated way to make tiles interactable by the client (wrenching pipe tiles, etc)
-			ActiveMatricesList[i].Matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
-			TileChangeNewPlayer.Send(ActiveMatricesList[i].NetID);
-		}
-
-		SpriteRequestCurrentStateMessage.Send(SpriteHandlerManager.Instance.GetComponent<NetworkIdentity>().netId);
-	}
-
-	[Client]
-	private void ClientMatrixInitialization(Matrix matrix)
-	{
-		var subsystemManager = matrix.GetComponentInParent<SubsystemManager>();
-		subsystemManager.Initialize();
 	}
 
 	private void RegisterMatrix(Matrix matrix)
@@ -348,7 +301,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			Objects = gameObj.transform.GetComponentInChildren<ObjectLayer>().transform,
 			MetaTileMap = gameObj.GetComponent<MetaTileMap>(),
 			MetaDataLayer = gameObj.GetComponent<MetaDataLayer>(),
-			SubsystemManager = gameObj.GetComponentInParent<SubsystemManager>(),
+			SubsystemManager = gameObj.GetComponentInParent<MatrixSystemManager>(),
 			ReactionManager = gameObj.GetComponentInParent<ReactionManager>(),
 			TileChangeManager = gameObj.GetComponentInParent<TileChangeManager>(),
 			InitialOffset = matrix.InitialOffset
