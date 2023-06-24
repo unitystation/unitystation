@@ -154,17 +154,13 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		if (CustomNetworkManager.IsServer == false)
 		{
+			matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
+			TileChangeNewPlayer.Send(matrix.MatrixInfo.NetID);
+
 			if (AreAllMatrixReady())
 			{
-				if (IsInitialized)
-				{
-					ClientMatrixInitialization(matrix);
-				}
-				else
-				{
-					IsInitialized = true;
-					ClientAllMatrixReady();
-				}
+				IsInitialized = true;
+				ClientMatrixInitialization(matrix);
 			}
 			else
 			{
@@ -191,27 +187,21 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		{
 			yield return null;
 		}
-
+		ClientWaitingRoutine = false;
 		foreach (var matrixInfo in ActiveMatricesList)
 		{
 			ClientMatrixInitialization(matrixInfo.Matrix);
 		}
-
+		SpriteRequestCurrentStateMessage.Send(SpriteHandlerManager.Instance.GetComponent<NetworkIdentity>().netId);
 		ClientWaitingRoutine = false;
 	}
 	private bool AreAllMatrixReady()
 	{
 		int Count = 0;
-		if (CustomNetworkManager.IsServer)
-		{
-			Count = SubSceneManager.Instance.loadedScenesList.Count;
-		}
-		else
-		{
-			Count = SubSceneManager.Instance.clientLoadedSubScenes.Count;
-		}
 
-		if (Count != InitializingMatrixes.Count)
+		Count = SubSceneManager.Instance.loadedScenesList.Count;
+
+		if (Count != InitializingMatrixes.Count || SubSceneManager.Instance.clientIsLoadingSubscene || Count == 0 || SubSceneManager.Instance.SubSceneManagerNetworked.ScenesInitialLoadingComplete == false)
 		{
 			return false;
 		}
@@ -245,26 +235,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		IsInitialized = true;
 
-		if (CustomNetworkManager.IsServer == false)
-		{
-			ClientAllMatrixReady();
-		}
-
 		EventManager.Broadcast(Event.MatrixManagerInit);
-	}
-
-
-	[Client]
-	private void ClientAllMatrixReady()
-	{
-		for (int i = 0; i < ActiveMatricesList.Count; i++)
-		{
-			//TODO fixme: expensive and overly complicated way to make tiles interactable by the client (wrenching pipe tiles, etc)
-			ActiveMatricesList[i].Matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
-			TileChangeNewPlayer.Send(ActiveMatricesList[i].NetID);
-		}
-
-		SpriteRequestCurrentStateMessage.Send(SpriteHandlerManager.Instance.GetComponent<NetworkIdentity>().netId);
 	}
 
 	private void RegisterMatrix(Matrix matrix)

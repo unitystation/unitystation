@@ -67,7 +67,7 @@ public partial class SubSceneManager : MonoBehaviour
 	{
 		ClientSideFinishAction?.Invoke();
 		KillClientLoadingCoroutine = true;
-		InitialLoadingComplete = false;
+		ServerInitialLoadingComplete = false;
 	}
 
 	void UpdateMe()

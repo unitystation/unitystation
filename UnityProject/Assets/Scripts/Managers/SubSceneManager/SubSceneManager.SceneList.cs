@@ -12,7 +12,7 @@ using UnityEngine;
 //The scene list on the server
 public partial class SubSceneManager
 {
-	public bool InitialLoadingComplete { get; private set;  } = false;
+	public bool ServerInitialLoadingComplete { get; private set; } = false;
 	private string serverChosenAwaySite = "loading";
 	private string serverChosenMainStation = "loading";
 
@@ -22,13 +22,14 @@ public partial class SubSceneManager
 	public static string AdminForcedAwaySite = "Random";
 	public static bool AdminAllowLavaland;
 
-	public static Dictionary<string, HashSet<int>> ConnectionLoadedRecord = new Dictionary<string , HashSet<int>>();
+	public static Dictionary<string, HashSet<int>> ConnectionLoadedRecord = new Dictionary<string, HashSet<int>>();
+
 	public IEnumerator RoundStartServerLoadSequence()
 	{
-		InitialLoadingComplete = false;
+		ServerInitialLoadingComplete = false;
 		SubsystemMatrixQueueInit.InitializedAll = false;
 
-		ConnectionLoadedRecord.Clear();//New round
+		ConnectionLoadedRecord.Clear(); //New round
 		var loadTimer = new SubsceneLoadTimer();
 		//calculate load time:
 		loadTimer.MaxLoadTime = 20f + (asteroidList.Asteroids.Count * 10f);
@@ -57,11 +58,14 @@ public partial class SubSceneManager
 		}
 
 		SubSceneManagerNetworked.netIdentity.isDirty = true;
-		EventManager.Broadcast( Event.ReadyToInitialiseMatrices, false);
+		EventManager.Broadcast(Event.ReadyToInitialiseMatrices, false);
+		SubSceneManagerNetworked.ScenesInitialLoadingComplete = true;
+
 		while (MatrixManager.IsInitialized == false)
 		{
 			yield return null;
 		}
+
 
 		loadTimer.IncrementLoadBar("Loading Subsystems..");
 		yield return SubsystemMatrixQueueInit.InitAllSystems();
@@ -72,9 +76,9 @@ public partial class SubSceneManager
 		}
 
 		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
-		EventManager.Broadcast( Event.ScenesLoadedServer, false);
+		EventManager.Broadcast(Event.ScenesLoadedServer, false);
 		Logger.Log($"Server has loaded {serverChosenAwaySite} away site", Category.Round);
-		InitialLoadingComplete = true;
+		ServerInitialLoadingComplete = true;
 	}
 
 	//Load the space scene on the server
@@ -87,14 +91,15 @@ public partial class SubSceneManager
 	//Choose and load a main station on the server
 	IEnumerator ServerLoadMainStation(SubsceneLoadTimer loadTimer)
 	{
-
 		var prevEditorScene = GetEditorPrevScene();
 
 		if (AdminForcedMainStation is not "Random")
 		{
 			serverChosenMainStation = AdminForcedMainStation;
 		}
-		else if (prevEditorScene.Contains("Lobby") == false && (prevEditorScene != "")  && prevEditorScene.Contains("Online") == false && GameData.Instance.DoNotLoadEditorPreviousScene == false ) //TODO Game data option!!!!
+		else if (prevEditorScene.Contains("Lobby") == false && (prevEditorScene != "") &&
+		         prevEditorScene.Contains("Online") == false &&
+		         GameData.Instance.DoNotLoadEditorPreviousScene == false) //TODO Game data option!!!!
 		{
 			serverChosenMainStation = prevEditorScene;
 		}
@@ -129,6 +134,7 @@ public partial class SubSceneManager
 		{
 			yield break;
 		}
+
 		loadTimer.IncrementLoadBar("Loading CentCom");
 
 		//CENTCOM
@@ -138,7 +144,8 @@ public partial class SubSceneManager
 
 			if (centComData.DependentScene != serverChosenMainStation) continue;
 
-			yield return StartCoroutine(LoadSubScene(centComData.CentComSceneName, loadTimer, default, SceneType.AdditionalScenes));
+			yield return StartCoroutine(LoadSubScene(centComData.CentComSceneName, loadTimer, default,
+				SceneType.AdditionalScenes));
 			yield break;
 		}
 
@@ -161,7 +168,8 @@ public partial class SubSceneManager
 		{
 			//LAVALAND
 			//only spawn if game config allows
-			if (additionalScene == "LavaLand" && !GameConfig.GameConfigManager.GameConfig.SpawnLavaLand && !AdminAllowLavaland)
+			if (additionalScene == "LavaLand" && !GameConfig.GameConfigManager.GameConfig.SpawnLavaLand &&
+			    !AdminAllowLavaland)
 			{
 				continue;
 			}
@@ -188,7 +196,7 @@ public partial class SubSceneManager
 			yield break;
 		}
 
-		if(AdminForcedAwaySite == "Random")
+		if (AdminForcedAwaySite == "Random")
 		{
 			serverChosenAwaySite = awayWorldList.GetRandomAwaySite();
 		}
@@ -250,13 +258,13 @@ public partial class SubSceneManager
 		int Clients = NetworkServer.connections.Values.Count();
 
 		float Seconds = 0;
-		while (ConnectionLoadedRecord[SceneName].Count < Clients && Seconds < 10) //So hacked clients can't Mess up the round
+		while (ConnectionLoadedRecord[SceneName].Count < Clients &&
+		       Seconds < 10) //So hacked clients can't Mess up the round
 		{
 			yield return WaitFor.Seconds(0.25f);
 			Seconds += 0.25f;
 		}
 	}
-
 
 	#endregion
 

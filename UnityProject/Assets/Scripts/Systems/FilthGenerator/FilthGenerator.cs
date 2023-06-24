@@ -32,6 +32,8 @@ namespace Systems.FilthGenerator
 
 		public override void Initialize()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
+
 			Stopwatch sw = new Stopwatch();
 			sw.Start();
 			RunFilthGenerator();
