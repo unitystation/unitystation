@@ -1,38 +1,29 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using Core.Lighting;
 using HealthV2;
+using Light2D;
 using UnityEngine;
 using Mirror;
-
-[Serializable]
-public class PlayerLightData
-{
-	public Color Colour;
-	//todo Make it so badmins can Mess around with the sprite so It can be set to anything they desire
-	//public Sprite Sprite;
-	public EnumSpriteLightData EnumSprite;
-	public float Size = 12;
-
-}
-
-public enum EnumSpriteLightData
-{
-	Default,
-	Square,
-	Clown,
-}
+using NaughtyAttributes;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Pickupable))]
 public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 {
 	[Tooltip("Controls the light the player emits if they have this object equipped.")]
-	public LightEmissionPlayer LightEmission;
+	public LightsHolder LightEmission;
 
 	[Tooltip("Controls the light the object emits while out of a player's or other object's inventory.")]
 	public GameObject objectLightEmission;
 
-	public CommonComponents CommonComponents;
+	[SyncVar(hook = nameof(SyncState))]
+	public bool IsOn = true;
+
+	[FormerlySerializedAs("Colour")] [SerializeField] private Color colour = default;
+	[SerializeField] private LightSprite objectLightSprite;
+	public LightSprite ObjectLightSprite => objectLightSprite;
+	[SerializeField] private CommonComponents commonComponents;
 
 	public HashSet<NamedSlot> CompatibleSlots = new HashSet<NamedSlot>() {
 		NamedSlot.leftHand,
@@ -48,48 +39,60 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 		NamedSlot.id // PDA in ID slot
 	};
 
-	[SerializeField]
-	private Color Colour = default;
-
-	//public Sprite Sprite;
-	public EnumSpriteLightData EnumSprite;
+	public LightSprite.LightShape SpriteShape;
 	public float Size;
-
-	[SyncVar(hook = nameof(SyncState))]
-	public bool IsOn = true;
-
-	[NaughtyAttributes.ReadOnlyAttribute] public PlayerLightData PlayerLightData;
-
-	private Light2D.LightSprite objectLightSprite;
+	private LightData playerLightData;
+	private int lightID;
+	[SerializeField] private bool weakenOnGround = false;
+	[SerializeField] private bool revertToOldConsistencyBehavior = false;
+	[SerializeField, ShowIf(nameof(weakenOnGround))] private float weakenStrength = 1.45f;
 
 	private void Awake()
 	{
-		PlayerLightData = new PlayerLightData()
-		{
-			Colour = Colour,
-			EnumSprite = EnumSprite,
-			Size = Size,
-		};
-		CommonComponents = this.GetComponent<CommonComponents>();
-		CommonComponents.RegisterTile.OnAppearClient.AddListener(StateHiddenChange);
-		CommonComponents.RegisterTile.OnDisappearClient.AddListener(StateHiddenChange);
-		CommonComponents.UniversalObjectPhysics.OnVisibilityChange += StateHiddenChange;
-
 		if (objectLightEmission == null)
 		{
 			Logger.LogError($"{this} field objectLightEmission is null, please check {gameObject} prefab.", Category.Lighting);
 			return;
 		}
 
-		objectLightSprite = objectLightEmission.GetComponent<Light2D.LightSprite>();
+		if (netIdentity == null)
+		{
+			Logger.LogError($"Mirror will not accept {this} while syncing in the LightsHolder syncList " +
+			                $"because it is missing a net identity component.");
+			return;
+		}
+		objectLightSprite ??= objectLightEmission.GetComponent<LightSprite>();
+		lightID = Guid.NewGuid().GetHashCode();
+		playerLightData = new LightData()
+		{
+			lightColor = colour,
+			size = Size,
+			lightShape = SpriteShape,
+			lightSpriteObject = netIdentity,
+			Id = lightID,
+		};
+		LightConsistency();
+		commonComponents ??= GetComponent<CommonComponents>();
+		commonComponents.RegisterTile.OnAppearClient.AddListener(StateHiddenChange);
+		commonComponents.RegisterTile.OnDisappearClient.AddListener(StateHiddenChange);
+		commonComponents.UniversalObjectPhysics.OnVisibilityChange += StateHiddenChange;
+	}
+
+	private void LightConsistency()
+	{
+		if (revertToOldConsistencyBehavior) return;
+		objectLightSprite.Color = playerLightData.lightColor;
+		objectLightSprite.transform.localScale = weakenOnGround ?
+			new Vector3(Size / weakenStrength, Size / weakenStrength, Size / weakenStrength)
+			: new Vector3(Size, Size, Size);
 	}
 
 	public void OnInventoryMoveServer(InventoryMove info)
 	{
 		//was it transferred from a player's visible inventory?
-		if (info.FromPlayer != null && LightEmission != null)
+		if (info.FromPlayer == null && LightEmission != null)
 		{
-			LightEmission.RemoveLight(PlayerLightData);
+			LightEmission.RemoveLight(playerLightData);
 			LightEmission = null;
 		}
 
@@ -97,25 +100,32 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 		{
 			if (CompatibleSlots.Contains(info.ToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none)))
 			{
-				LightEmission = info.ToPlayer.GetComponent<LightEmissionPlayer>();
-				if (!IsOn) return;
-				LightEmission.AddLight(PlayerLightData);
+				LightEmission = info.ToPlayer.GetComponent<LightsHolder>();
+				if (IsOn == false) return;
+				LightEmission.AddLight(playerLightData);
 			}
 		}
+	}
+
+	public void OnThrowDrop()
+	{
+		if (LightEmission == null) return;
+		LightEmission.RemoveLight(playerLightData);
+		LightEmission = null;
 	}
 
 
 	public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 	{
-		LightEmission.RemoveLight(PlayerLightData);
+		LightEmission.RemoveLight(playerLightData);
 		LightEmission = null;
 	}
 
 	public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 	{
-		LightEmission = livingHealth.GetComponent<LightEmissionPlayer>();
-		if (!IsOn) return;
-		LightEmission.AddLight(PlayerLightData);
+		LightEmission = livingHealth.GetComponent<LightsHolder>();
+		if (IsOn == false) return;
+		LightEmission.AddLight(playerLightData);
 	} //Warning only add body parts do not remove body parts in this
 
 	/// <summary>
@@ -141,30 +151,32 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 	/// <param name="color"></param>
 	public void SetColor(Color color)
 	{
-		Colour = color;
-		PlayerLightData.Colour = color;
+		colour = color;
+		playerLightData.lightColor = color;
 		objectLightSprite.Color = color;
+		SetDataOnHolder();
+	}
+
+	private void SetDataOnHolder()
+	{
 		if (LightEmission != null && IsOn)
 		{
-			LightEmission.UpdateDominantLightSource();
+			LightEmission.Lights[lightID] = playerLightData;
+			LightEmission.UpdateLights();
 		}
 	}
 
 	public void SetSize(int Size)
 	{
 		this.Size = Size;
-		PlayerLightData.Size = Size;
-		//objectLightSprite = Size; TODO
-		if (LightEmission != null && IsOn)
-		{
-			LightEmission.UpdateDominantLightSource();
-		}
+		playerLightData.size = Size;
+		SetDataOnHolder();
 	}
 
 	private void SyncState(bool oldState, bool newState)
 	{
 		IsOn = newState;
-		if (CommonComponents.UniversalObjectPhysics.IsVisible == false)
+		if (commonComponents.UniversalObjectPhysics.IsVisible == false)
 		{
 			objectLightEmission.SetActive(newState);
 		}
@@ -175,12 +187,12 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 	{
 		if (IsOn)
 		{
-			LightEmission.AddLight(PlayerLightData);
+			LightEmission.AddLight(playerLightData);
 			objectLightEmission.SetActive(true);
 		}
 		else
 		{
-			LightEmission.RemoveLight(PlayerLightData);
+			LightEmission.RemoveLight(playerLightData);
 			objectLightEmission.SetActive(false);
 		}
 	}
@@ -188,7 +200,7 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 
 	private void StateHiddenChange()
 	{
-		if (CommonComponents.UniversalObjectPhysics.IsVisible == false)
+		if (commonComponents.UniversalObjectPhysics.IsVisible == false)
 		{
 			objectLightEmission.SetActive(false);
 		}

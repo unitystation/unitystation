@@ -144,9 +144,10 @@ namespace Util
 		public static void Generate()
 		{
 
-			var SGen = new SudokuGenerator();
+			EditorPrefs.SetInt("kAutoRefresh", 1);
+			//var SGen = new SudokuGenerator();
 
-			Logger.LogError(SGen.generate("hard"));
+			//Logger.LogError(SGen.generate("hard"));
 			return;
 			AssetDatabase.StartAssetEditing();
 			AssetDatabase.ForceReserializeAssets();

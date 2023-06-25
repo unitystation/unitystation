@@ -70,15 +70,15 @@ namespace Objects.Disposals
 
 			foreach (var obj in objects)
 			{
-				if (obj.TryGetComponent<UniversalObjectPhysics>(out var uop))
-				{
-					uop.AppearAtWorldPositionServer(this.gameObject.AssumedWorldPosServer() + exitVector);
-					ThrowItem(uop, exitVector);
-				}
 				if (obj.TryGetComponent<PlayerScript>(out var script))
 				{
 					script.RegisterPlayer.ServerStun();
 					script.playerMove.ResetEverything();
+				}
+				if (obj.TryGetComponent<UniversalObjectPhysics>(out var uop))
+				{
+					uop.AppearAtWorldPositionServer(this.gameObject.AssumedWorldPosServer() + exitVector);
+					ThrowItem(uop, exitVector);
 				}
 			}
 

@@ -17,7 +17,7 @@ public class TileChangeManager : MonoBehaviour
 
 	public Vector3IntEvent OnFloorOrPlatingRemoved = new Vector3IntEvent();
 
-	private SubsystemManager subsystemManager;
+	private MatrixSystemManager subsystemManager;
 
 
 	private readonly Dictionary<Layer, Dictionary<Vector3Int, TileChangeEntry>> PresentTiles =
@@ -29,7 +29,7 @@ public class TileChangeManager : MonoBehaviour
 	/// <summary>
 	/// subsystem manager for these tiles
 	/// </summary>
-	public SubsystemManager SubsystemManager => subsystemManager;
+	public MatrixSystemManager SubsystemManager => subsystemManager;
 
 	private InteractableTiles interactableTiles;
 
@@ -49,7 +49,7 @@ public class TileChangeManager : MonoBehaviour
 	private void Awake()
 	{
 		metaTileMap = GetComponentInChildren<MetaTileMap>();
-		subsystemManager = GetComponent<SubsystemManager>();
+		subsystemManager = GetComponent<MatrixSystemManager>();
 		interactableTiles = GetComponent<InteractableTiles>();
 		networkMatrix = GetComponent<NetworkedMatrix>();
 	}

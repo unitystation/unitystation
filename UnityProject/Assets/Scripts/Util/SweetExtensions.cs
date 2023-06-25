@@ -162,6 +162,12 @@ public static class SweetExtensions
 	/// Creates garbage! Use very sparsely!
 	public static Vector3 AssumedWorldPosServer(this GameObject go)
 	{
+		if (go == null)
+		{
+			Logger.LogError("Null object passed into AssumedWorldPosServer");
+			return TransformState.HiddenPos;
+		}
+
 		return GetRootGameObject(go).transform.position;
 	}
 

@@ -34,7 +34,7 @@ public class MetaDataLayer : MonoBehaviour
 
 	private MetaDataSystem MetaDataSystem;
 
-	private SubsystemManager subsystemManager;
+	private MatrixSystemManager subsystemManager;
 	private ReactionManager reactionManager;
 	private Matrix matrix;
 	public Matrix Matrix => matrix;
@@ -64,7 +64,7 @@ public class MetaDataLayer : MonoBehaviour
 
 	private void Awake()
 	{
-		subsystemManager = GetComponentInParent<SubsystemManager>();
+		subsystemManager = GetComponentInParent<MatrixSystemManager>();
 		reactionManager = GetComponentInParent<ReactionManager>();
 		matrix = GetComponent<Matrix>();
 		MetaDataSystem = subsystemManager.GetComponent<MetaDataSystem>();

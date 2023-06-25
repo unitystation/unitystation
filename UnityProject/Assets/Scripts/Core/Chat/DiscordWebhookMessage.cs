@@ -185,6 +185,8 @@ namespace DiscordWebhook
 				msg += queue.Dequeue() + "\n";
 			}
 
+			msg = ObfuscateIpAddress(msg);
+
 			var payLoad = new JsonPayloadContent()
 			{
 				content = msg,
@@ -196,6 +198,14 @@ namespace DiscordWebhook
 			};
 
 			Post(url, payLoad);
+		}
+
+		private string ObfuscateIpAddress(string msg)
+		{
+			//matches IPV4 addresses
+			string pattern = @"\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b";
+			string replacement = "xxx.xxx.xxx.xxx";
+			return Regex.Replace(msg, pattern, replacement);
 		}
 
 		private string MsgMentionProcess(string msg, string mentionID = null)
