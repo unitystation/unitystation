@@ -127,6 +127,21 @@ MonoBehaviour:
   initialContents: {fileID: 0}
   spawnContentsAtRoundstart: 1
   registerTile: {fileID: 0}
+--- !u!114 &1155444365545178894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8768365312501795813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c06d7c265e14ba4299a561ade32dbfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectContainer: {fileID: 0}
+  CurrentlyStored: 0
+  MaxStored: 10
 --- !u!114 &1403702071027663688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,7 +198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
     type: 2}
-  itemStorageCapacity: {fileID: 11400000, guid: 861a555f9d1d9244fa6e5c97783e327c,
+  itemStorageCapacity: {fileID: 11400000, guid: a4677908f32c2b5478dfecf3ca19739d,
     type: 2}
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 0
@@ -204,18 +219,3 @@ MonoBehaviour:
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
   ashPrefab: {fileID: 0}
---- !u!114 &1155444365545178894
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8768365312501795813}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c06d7c265e14ba4299a561ade32dbfd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObjectContainer: {fileID: 0}
-  CurrentlyStored: 0
-  MaxStored: 10
