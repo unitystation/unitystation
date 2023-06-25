@@ -3,14 +3,15 @@ using TileManagement;
 using UnityEngine;
 
 
-public abstract class SubsystemBehaviour : MonoBehaviour
+public abstract class MatrixSystemBehaviour : MonoBehaviour
 	{
 
-		public bool Initialized { get; protected set; } = false;
-		[field: SerializeField] public virtual int Priority { get; private set; } = 0;
+		//public bool Initialized { get; protected set; } = false;
+		[field: SerializeField] public virtual int Priority { get; protected set; } = 0;
+		[field: SerializeField] public virtual bool RegisteredToLegacySubsystemManager { get; protected set; } = true;
 		protected MetaDataLayer metaDataLayer;
 		protected MetaTileMap metaTileMap;
-		protected SubsystemManager subsystemManager;
+		protected MatrixSystemManager subsystemManager;
 
 		public virtual SystemType SubsystemType => SystemType.None;
 
@@ -18,9 +19,8 @@ public abstract class SubsystemBehaviour : MonoBehaviour
 		{
 			metaDataLayer = GetComponentInChildren<MetaDataLayer>();
 			metaTileMap = GetComponentInChildren<MetaTileMap>();
-			subsystemManager = GetComponent<SubsystemManager>();
+			subsystemManager = GetComponent<MatrixSystemManager>();
 			subsystemManager.Register(this);
-			SubsystemBehaviourQueueInit.Queue(this);
 		}
 
 		public abstract void Initialize();

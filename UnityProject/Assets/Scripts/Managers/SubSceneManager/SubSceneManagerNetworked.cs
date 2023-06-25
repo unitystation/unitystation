@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class SubSceneManagerNetworked : NetworkBehaviour
 {
+	[SyncVar] public bool ScenesInitialLoadingComplete = false;
+
+
 	public readonly ScenesSyncList loadedScenesList = new ScenesSyncList();
 
 	public SubSceneManager SubSceneManager;

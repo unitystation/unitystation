@@ -38,7 +38,8 @@ public enum Event
 	LavalandFirstEntered,
 	ChatQuickUnfocus,
 	Cleanup,
-	CleanupEnd
+	CleanupEnd,
+	ReadyToInitialiseMatrices
 } // + other events. Add them as you need them
 
 [ExecuteInEditMode]

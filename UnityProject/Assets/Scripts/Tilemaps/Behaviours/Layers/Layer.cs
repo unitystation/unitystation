@@ -13,7 +13,7 @@ using UnityEngine.Tilemaps;
 [ExecuteInEditMode]
 public class Layer : MonoBehaviour
 {
-	public SubsystemManager SubsystemManager { get; private set; }
+	public MatrixSystemManager SubsystemManager { get; private set; }
 
 	[HideInInspector] public UnityEvent onTileMapChanges;
 
@@ -71,7 +71,7 @@ public class Layer : MonoBehaviour
 		Matrix = GetComponentInParent<Matrix>();
 		tilemap = GetComponent<Tilemap>();
 		TilemapDamage = GetComponent<TilemapDamage>();
-		SubsystemManager = GetComponentInParent<SubsystemManager>();
+		SubsystemManager = GetComponentInParent<MatrixSystemManager>();
 		RecalculateBounds();
 	}
 
