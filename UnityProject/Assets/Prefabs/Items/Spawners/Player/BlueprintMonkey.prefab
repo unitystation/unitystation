@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -1729072835972511318, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
+      propertyPath: NonImportantMind
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1729072835972511318, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
       propertyPath: CharacterSheet.Species
       value: Monkey
       objectReference: {fileID: 0}
@@ -17,6 +22,12 @@ PrefabInstance:
       propertyPath: foreverID
       value: 1796036e10808334798ef3fb0f911623
       objectReference: {fileID: 0}
+    - target: {fileID: 5805020867509229534, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: aab59a0f07ede8043ad41c425cffe0d8,
+        type: 3}
     - target: {fileID: 5939654197155682806, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
       propertyPath: m_RootOrder

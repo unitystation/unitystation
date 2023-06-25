@@ -18,6 +18,9 @@ public class SlimeProcessor : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 	public int MonkeyCharges = 0;
 
 	public int MonkeyChargesNeeded = 3;
+
+	public SpriteHandler Sprite;
+
 	public void Awake()
 	{
 		container = this.GetComponent<ObjectContainer>();
@@ -77,6 +80,7 @@ public class SlimeProcessor : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 		if (processing)
 		{
 			processing = false;
+			Sprite.ChangeSprite(0);
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE , Process);
 			return;
 		}
@@ -88,6 +92,7 @@ public class SlimeProcessor : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 		else
 		{
 			processing = true;
+			Sprite.ChangeSprite(1);
 			UpdateManager.Add(Process, 3);
 		}
 	}
@@ -107,7 +112,9 @@ public class SlimeProcessor : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 		if (container.StoredObjectsCount <= 0)
 		{
 			processing = false;
+			Sprite.ChangeSprite(0);
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE , Process);
+			return;
 		}
 
 		var Remov =  container.StoredObjects.PickRandom();
