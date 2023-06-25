@@ -14,6 +14,7 @@ using ScriptableObjects.Audio;
 using ScriptableObjects.Systems.Spells;
 using Systems.Antagonists.Antags;
 using UI.Core.Action;
+using Changeling;
 
 /// <summary>
 /// IC character information (job role, antag info, real name, etc). A body and their ghost link to the same mind
@@ -86,6 +87,9 @@ public class Mind : NetworkBehaviour, IActionGUI
 	private ObservableCollection<Spell> spells = new ObservableCollection<Spell>();
 	public ObservableCollection<Spell> Spells => spells;
 
+	private ObservableCollection<ChangelingAbility> changelingAbilities = new ObservableCollection<ChangelingAbility>();
+	public ObservableCollection<ChangelingAbility> ChangelingAbilities => changelingAbilities;
+
 	/// <summary>
 	/// General purpose properties storage for misc stuff like job-specific flags
 	/// </summary>
@@ -140,6 +144,30 @@ public class Mind : NetworkBehaviour, IActionGUI
 			if (e.OldItems != null)
 			{
 				foreach (Spell y in e.OldItems)
+				{
+					UIActionManager.ToggleServer(this.gameObject, y, false);
+				}
+			}
+		};
+
+		changelingAbilities.CollectionChanged += (sender, e) =>
+		{
+			if (e == null)
+			{
+				return;
+			}
+
+			if (e.NewItems != null)
+			{
+				foreach (ChangelingAbility x in e.NewItems)
+				{
+					UIActionManager.ToggleServer(this.gameObject, x, true);
+				}
+			}
+
+			if (e.OldItems != null)
+			{
+				foreach (ChangelingAbility y in e.OldItems)
 				{
 					UIActionManager.ToggleServer(this.gameObject, y, false);
 				}
@@ -706,6 +734,25 @@ public class Mind : NetworkBehaviour, IActionGUI
 		if (IsAntag == false) return false;
 
 		return antag.Antagonist is T;
+	}
+
+	public void AddAbility(ChangelingAbility ability)
+	{
+		if (changelingAbilities.Contains(ability))
+		{
+			return;
+		}
+
+		changelingAbilities.Add(ability);
+	}
+
+	public void RemoveAbility(ChangelingAbility ability)
+	{
+		if (changelingAbilities.Contains(ability))
+		{
+			changelingAbilities.Remove(ability);
+		}
+		return;
 	}
 
 	public void AddSpell(Spell spell)

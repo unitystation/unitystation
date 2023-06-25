@@ -28,6 +28,7 @@ using Systems.Ai;
 using Tiles;
 using Util;
 using Random = UnityEngine.Random;
+using Changeling;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -862,6 +863,19 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		foreach (var spell in playerScript.Mind.Spells)
 		{
 			if (spell.SpellData.Index == spellIndex)
+			{
+				spell.CallActionServer(PlayerList.Instance.GetOnline(gameObject), clickPosition);
+				return;
+			}
+		}
+	}
+
+	[Command]
+	public void CmdRequestChangelingAbilites(int spellIndex, Vector3 clickPosition)
+	{
+		foreach (var spell in playerScript.Mind.Body.GetComponent<ChangelingMain>().AbilitiesNow)
+		{
+			if (spell.AbilityData.Index == spellIndex)
 			{
 				spell.CallActionServer(PlayerList.Instance.GetOnline(gameObject), clickPosition);
 				return;

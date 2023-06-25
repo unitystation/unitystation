@@ -25,14 +25,13 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
   textColor: {r: 1, g: 0, b: 0, a: 1}
   backgroundColor: {r: 1, g: 0, b: 0, a: 1}
-  numberOfObjectives: 1
-  canUseSharedObjectives: 0
+  numberOfObjectives: 2
+  canUseSharedObjectives: 1
   needsEscapeObjective: 0
   chanceForGimmickObjective: 0
-  coreObjectives: []
+  coreObjectives:
+  - {fileID: 11400000, guid: 02dc5916faf00a94eae966e7a1ab17bd, type: 2}
   antagOccupation: {fileID: 0}
   showInPreferences: 1
   <BlackListedObjectives>k__BackingField: []
   <AlwaysStartWithObjectives>k__BackingField: []
-  initialTC: 20
-  aiTraitorObjective: {fileID: 0}

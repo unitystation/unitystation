@@ -1,22 +1,24 @@
 using Antagonists;
 using Blob;
+using Messages.Server;
 using Player;
 using System.Collections;
 using System.Collections.Generic;
 using Systems.Ai;
+using UI.Systems.MainHUD.UI_Bottom;
 using UnityEngine;
 
-namespace Antagonists
+namespace Changeling
 {
 	[CreateAssetMenu(menuName = "ScriptableObjects/Antagonist/Changeling/Changeling")]
 	public class Changeling : Antagonist
 	{
 		//[SerializeField] private Objective aiTraitorObjective;
-		[Header("Changeling attributes")]
-		[Tooltip("Abilites what is gona be in changeling store")]
-		[SerializeField] List<ChangelingAbilityBase> abilitiesToBuy = new List<ChangelingAbilityBase>();
-		[Tooltip("Abilites what is gona added on round start to changeling hands")]
-		[SerializeField] List<ChangelingAbilityBase> abilitiesDefault = new List<ChangelingAbilityBase>();
+		//[Header("Changeling attributes")]
+		//[Tooltip("Abilites what is gona be in changeling store")]
+		//[SerializeField] List<ChangelingActionData> abilitiesToBuy = new List<ChangelingActionData>();
+		//[Tooltip("Abilites what is gona added on round start to changeling hands")]
+		//[SerializeField] List<ChangelingActionData> abilitiesDefault = new List<ChangelingActionData>();
 
 		public override Mind ServerSpawn(PlayerSpawnRequest spawnRequest)
 		{
@@ -27,7 +29,7 @@ namespace Antagonists
 		public override void AfterSpawn(Mind NewMind)
 		{
 			var ch = NewMind.Body.gameObject.AddComponent<ChangelingMain>();
-			ch.SetAbilities(abilitiesToBuy, abilitiesDefault);
+			ch.Init(NewMind);
 		}
 	}
 }
