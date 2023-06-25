@@ -7,7 +7,7 @@ using Tiles;
 
 namespace Systems.Atmospherics
 {
-	public class AtmosSystem : SubsystemBehaviour
+	public class AtmosSystem : MatrixSystemBehaviour
 	{
 		public override SystemType SubsystemType => SystemType.AtmosSystem;
 

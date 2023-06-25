@@ -5,24 +5,40 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 
-public class SubsystemManager : MonoBehaviour
+public class MatrixSystemManager : MonoBehaviour
 {
-	private List<SubsystemBehaviour> systems = new List<SubsystemBehaviour>();
+	private List<MatrixSystemBehaviour> systems = new List<MatrixSystemBehaviour>();
 	private bool initialized;
 
-	[Server]
-	public void Initialize()
+
+	public void SelfInitialize()
+	{
+		StartCoroutine(Initialize());
+	}
+
+
+
+	public IEnumerator Initialize()
 	{
 		systems = systems.OrderByDescending(s => s.Priority).ToList();
 		foreach (var system in systems)
 		{
-			if (system.Initialized) continue;
-			system.Initialize();
+			try
+			{
+				system.Initialize();
+			}
+			catch (Exception e)
+			{
+				Chat.AddGameWideSystemMsgToChat($"<color=red>Error when initialising  {nameof(system)} on {this.name} Weird stuff might happen, check logs for error..</color>");
+				Logger.LogError(e.ToString());
+			}
+
+			yield return null;
 		}
 		initialized = true;
 	}
 
-	public void Register(SubsystemBehaviour system)
+	public void Register(MatrixSystemBehaviour system)
 	{
 		systems.Add(system);
 	}
