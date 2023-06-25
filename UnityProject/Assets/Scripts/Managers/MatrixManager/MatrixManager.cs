@@ -177,7 +177,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	private void ClientMatrixInitialization(Matrix matrix)
 	{
 		var subsystemManager = matrix.GetComponentInParent<MatrixSystemManager>();
-		matrix.StartCoroutine(subsystemManager.Initialize());
+		subsystemManager.SelfInitialize();
 	}
 	[Client]
 
@@ -187,6 +187,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		{
 			yield return null;
 		}
+		InitializingMatrixes.Clear();
 		ClientWaitingRoutine = false;
 		foreach (var matrixInfo in ActiveMatricesList)
 		{
@@ -217,7 +218,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			}
 		}
 
-		InitializingMatrixes.Clear();
 		return true;
 	}
 
@@ -232,7 +232,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		{
 			yield return null;
 		}
-
+		InitializingMatrixes.Clear();
 		IsInitialized = true;
 
 		EventManager.Broadcast(Event.MatrixManagerInit);
