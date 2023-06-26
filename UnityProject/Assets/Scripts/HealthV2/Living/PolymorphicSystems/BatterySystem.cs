@@ -92,7 +92,7 @@ namespace HealthV2.Living.PolymorphicSystems
 			{
 				foreach (var Cell in BatteryPack.Cells)
 				{
-					charge += Cell.watts;
+					charge += Cell.Watts;
 					max += Cell.MaxWatts;
 				}
 			}
@@ -226,7 +226,7 @@ namespace HealthV2.Living.PolymorphicSystems
 			{
 				foreach (var battery in batteryPack.Cells)
 				{
-					sum += battery.watts;
+					sum += battery.Watts;
 				}
 			}
 
@@ -241,7 +241,7 @@ namespace HealthV2.Living.PolymorphicSystems
 				{
 					foreach (var cell in batteryPack.Cells)
 					{
-						cell.watts = Mathf.RoundToInt((cell.watts * adjustmentFactor)) ;
+						cell.Watts = Mathf.RoundToInt((cell.Watts * adjustmentFactor)) ;
 					}
 				}
 
@@ -261,7 +261,7 @@ namespace HealthV2.Living.PolymorphicSystems
 					{
 						foreach (var cell in batteryPack.Cells)
 						{
-							cell.watts = 0;
+							cell.Watts = 0;
 						}
 					}
 				}

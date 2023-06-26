@@ -144,9 +144,9 @@ namespace Weapons
 
 			if (canEffect && hasBattery)
 			{
-				if (Battery.watts >= chargeUsage)
+				if (Battery.Watts >= chargeUsage)
 				{
-					Battery.watts -= chargeUsage;
+					Battery.Watts -= chargeUsage;
 				}
 				else
 				{
@@ -196,7 +196,7 @@ namespace Weapons
 				coolDownMessage = true;
 				if(hasBattery)
 				{
-					if(Battery.watts >= chargeUsage)
+					if(Battery.Watts >= chargeUsage)
 					{
 						Chat.AddExamineMsg(performer, $"{gameObject.ExpensiveName()} is on cooldown.");
 					}

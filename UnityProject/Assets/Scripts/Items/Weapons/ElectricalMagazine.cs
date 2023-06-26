@@ -39,25 +39,25 @@ namespace Weapons
 
 		public override void ExpendAmmo(int amount = 1)
 		{
-			if (toRemove > battery.watts) 
+			if (toRemove > battery.Watts) 
 			{
 				return;
 			}
 			base.ExpendAmmo(amount);
 			if (CustomNetworkManager.Instance._isServer == false) return;
-			battery.watts -= toRemove;
+			battery.Watts -= toRemove;
 		}
 
 		public void AddCharge()
 		{
-			int Ammo = Mathf.RoundToInt(magazineSize * ((float) battery.watts / (float) battery.MaxWatts));
+			int Ammo = Mathf.RoundToInt(magazineSize * ((float) battery.Watts / (float) battery.MaxWatts));
 			Ammo = Mathf.Clamp(Ammo, 0, magazineSize);
 			ServerSetAmmoRemains(Ammo);
 		}
 
 		public override String Examine(Vector3 pos)
 		{
-			float percent = (battery.watts * 100 / battery.MaxWatts);
+			float percent = (battery.Watts * 100 / battery.MaxWatts);
 			return $"It seems to be compatible with energy weapons. The charge indicator displays {Math.Round(percent)} percent.";
 		}
 	}

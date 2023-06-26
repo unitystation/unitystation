@@ -95,11 +95,11 @@ namespace Weapons
 
 		private void AddCharge(int ChargingWatts)
 		{
-			battery.watts += ChargingWatts;
+			battery.Watts += ChargingWatts;
 
-			if (battery.watts > battery.MaxWatts)
+			if (battery.Watts > battery.MaxWatts)
 			{
-				battery.watts = battery.MaxWatts;
+				battery.Watts = battery.MaxWatts;
 			}
 
 			if (electricalMagazine != null)

@@ -58,12 +58,12 @@ namespace Weapons
 				UpdateFiremode(currentFiremode, currentFiremode + 1);
 			}
 			Chat.AddExamineMsgFromServer(interaction.Performer, $"You switch your {gameObject.ExpensiveName()} into {firemodeName[currentFiremode]} mode");
-			CurrentMagazine.ServerSetAmmoRemains(Battery.watts / firemodeUsage[currentFiremode]);
+			CurrentMagazine.ServerSetAmmoRemains(Battery.Watts / firemodeUsage[currentFiremode]);
 		}
 
 		public override bool WillInteract(AimApply interaction, NetworkSide side)
 		{
-			if (Battery == null || firemodeUsage[currentFiremode] > Battery.watts)
+			if (Battery == null || firemodeUsage[currentFiremode] > Battery.Watts)
 			{
 				PlayEmptySfx();
 				return false;
@@ -75,9 +75,9 @@ namespace Weapons
 
 		public override void ServerPerformInteraction(AimApply interaction)
 		{
-			if (firemodeUsage[currentFiremode] > Battery.watts) return;
+			if (firemodeUsage[currentFiremode] > Battery.Watts) return;
 			base.ServerPerformInteraction(interaction);
-			CurrentMagazine.ServerSetAmmoRemains(Battery.watts / firemodeUsage[currentFiremode]);
+			CurrentMagazine.ServerSetAmmoRemains(Battery.Watts / firemodeUsage[currentFiremode]);
 		}
 
 		public override bool WillInteract(InventoryApply interaction, NetworkSide side)
@@ -156,7 +156,7 @@ namespace Weapons
 		{
 			StringBuilder exam = new StringBuilder();
 			exam.AppendLine($"{WeaponType} - Fires {ammoType} ammunition")
-				.AppendLine(CurrentMagazine != null ? $"{Mathf.Floor(Battery.watts / firemodeUsage[currentFiremode])} rounds loaded" : "It's empty!")
+				.AppendLine(CurrentMagazine != null ? $"{Mathf.Floor(Battery.Watts / firemodeUsage[currentFiremode])} rounds loaded" : "It's empty!")
 				.AppendLine(FiringPin != null ? $"It has a {FiringPin.gameObject.ExpensiveName()} installed" : "It doesn't have a firing pin installed, it won't fire")
 				.Append(firemodeProjectiles.Count > 1 ? $"It is set to {firemodeName[currentFiremode]} mode." : "");
 			return exam.ToString();
