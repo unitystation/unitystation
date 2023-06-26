@@ -78,7 +78,9 @@ namespace Chemistry.Components
 			}
 		}
 
-		[Tooltip("Initial mix of reagent inside container")] [FormerlySerializedAs("reagentMix")] [SerializeField]
+		[Tooltip("Initial mix of reagent inside container")]
+		[FormerlySerializedAs("reagentMix")]
+		[SerializeField]
 		private ReagentMix initialReagentMix = new ReagentMix();
 
 		[SerializeField] private bool destroyOnEmpty = default;
@@ -155,10 +157,7 @@ namespace Chemistry.Components
 			}
 		}
 
-		private string FancyContainerName
-		{
-			get { return itemAttributes ? itemAttributes.InitialName : gameObject.ExpensiveName(); }
-		}
+		private string FancyContainerName => itemAttributes ? itemAttributes.InitialName : gameObject.ExpensiveName();
 
 		/// <summary>
 		/// Server side only. Total reagent mix amount in units

@@ -15,7 +15,7 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 
 	public abstract class BodyPartComponentBase<T> : BodyPartFunctionality, IBodyPartComponentBase  where T : HealthSystemBase, new()
 	{
-		[NonSerialized,HideInInspector]
+		[NonSerialized]
 		public T AssociatedSystem;
 
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)

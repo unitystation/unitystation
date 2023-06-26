@@ -5,6 +5,7 @@ using Chemistry;
 using Chemistry.Components;
 using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
+using Items.Implants.Organs;
 using Systems.Character;
 using UI.CharacterCreator;
 using UnityEngine;

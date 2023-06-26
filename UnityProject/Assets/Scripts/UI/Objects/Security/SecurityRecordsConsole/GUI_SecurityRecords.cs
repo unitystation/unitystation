@@ -143,7 +143,6 @@ namespace Objects.Security
 
 		public SecurityRecord()
 		{
-			EntryName = "jjj";
 			EntryName = "NewEntry";
 			ID = "-";
 			Sex = "-";

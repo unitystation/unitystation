@@ -587,13 +587,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		PullSet(newPulling.NewPulling, false, true);
 	}
 
-	public void AppearAtWorldPositionServer(Vector3 worldPos, bool smooth = false, bool doStepInteractions = true, Vector2? Momentum = null)
+	public void AppearAtWorldPositionServer(Vector3 worldPos, bool smooth = false, bool doStepInteractions = true, Vector2? momentum = null)
 	{
 		this.doStepInteractions = doStepInteractions;
 
 		SynchroniseVisibility(isVisible, true);
 		var matrix = MatrixManager.AtPoint(worldPos, isServer);
-		ForceSetLocalPosition(worldPos.ToLocal(matrix), Momentum == null ? Vector2.zero : Momentum.Value, smooth, matrix.Id);
+		ForceSetLocalPosition(worldPos.ToLocal(matrix), momentum == null ? Vector2.zero : momentum.Value, smooth, matrix.Id);
 
 		this.doStepInteractions = true;
 	}
@@ -601,7 +601,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	public void DropAtAndInheritMomentum(UniversalObjectPhysics droppedFrom)
 	{
 		SynchroniseVisibility(isVisible, true);
-		AppearAtWorldPositionServer(droppedFrom.OfficialPosition, Momentum : droppedFrom.GetRootObject.GetComponent<UniversalObjectPhysics>().newtonianMovement);
+		AppearAtWorldPositionServer(droppedFrom.OfficialPosition, momentum : droppedFrom.GetRootObject.GetComponent<UniversalObjectPhysics>().newtonianMovement);
 	}
 
 	public void DisappearFromWorld()
@@ -610,7 +610,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	}
 
 	public void ForceSetLocalPosition(Vector3 resetToLocal, Vector2 momentum, bool smooth, int matrixID,
-		bool updateClient = true, float rotation = 0, NetworkConnection client = null, int resetID = -1, uint IgnoreForClient = NetId.Empty, Vector3? LocalTarget = null)
+		bool updateClient = true, float rotation = 0, NetworkConnection client = null, int resetID = -1, uint ignoreForClient = NetId.Empty, Vector3? localTarget = null)
 	{
 		rotationTarget.rotation = Quaternion.Euler(new Vector3(0, 0, rotation));
 
@@ -625,7 +625,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					client,
 					resetToLocal,
 					momentum,
-					LocalTarget ?? TransformState.HiddenPos,
+					localTarget ?? TransformState.HiddenPos,
 					smooth
 					, matrixID,
 					rotation,
@@ -638,12 +638,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 				RPCForceSetPosition(
 					resetToLocal,
 					momentum,
-					LocalTarget ?? TransformState.HiddenPos,
+					localTarget ?? TransformState.HiddenPos,
 					smooth,
 					matrixID,
 					rotation,
 					resetID,
-					IgnoreForClient);
+					ignoreForClient);
 			}
 		}
 		else if (isServer == false)
@@ -670,9 +670,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			{
 				var ToResetTo = resetToLocal;
 
-				if (LocalTarget != null)
+				if (localTarget != null)
 				{
-					ToResetTo = LocalTarget.Value;
+					ToResetTo = localTarget.Value;
 				}
 
 				newtonianMovement = momentum;
@@ -703,9 +703,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			{
 				var ToResetTo = resetToLocal;
 
-				if (LocalTarget != null)
+				if (localTarget != null)
 				{
-					ToResetTo = LocalTarget.Value;
+					ToResetTo = localTarget.Value;
 				}
 
 				newtonianMovement = momentum;
@@ -741,7 +741,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		{
 			NullLocalTarget = null;
 		}
-		ForceSetLocalPosition(resetToLocal, momentum, smooth, matrixID, false, rotation, resetID: resetID, LocalTarget:NullLocalTarget );
+		ForceSetLocalPosition(resetToLocal, momentum, smooth, matrixID, false, rotation, resetID: resetID, localTarget:NullLocalTarget );
 	}
 
 	[TargetRpc]
@@ -753,7 +753,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		{
 			NullLocalTarget = null;
 		}
-		ForceSetLocalPosition(resetToLocal, momentum, smooth, matrixID, false, rotation, resetID: resetID, LocalTarget:NullLocalTarget );
+		ForceSetLocalPosition(resetToLocal, momentum, smooth, matrixID, false, rotation, resetID: resetID, localTarget:NullLocalTarget );
 	}
 
 

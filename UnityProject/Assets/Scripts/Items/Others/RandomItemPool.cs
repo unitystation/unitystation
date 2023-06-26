@@ -68,18 +68,18 @@ namespace Items
 		public void Dothing()
 		{
 			pool.Clear();
-			var all = LoadAllPrefabsOfType<mymarkerscript>("Assets/Prefabs");
+			//var all = LoadAllPrefabsOfType<mymarkerscript>("Assets/Prefabs");
 
-			foreach (var one in all)
-			{
-				pool.Add(new GameObjectPool()
-					{
-						prefab = one.gameObject,
-						maxAmount = 1,
-						probability = 100
-				});
+			// foreach (var one in all)
+			// {
+				// pool.Add(new GameObjectPool()
+					// {
+						// prefab = one.gameObject,
+						// maxAmount = 1,
+						// probability = 100
+				// });
 
-			}
+			// }
 		}
 #endif
 	}

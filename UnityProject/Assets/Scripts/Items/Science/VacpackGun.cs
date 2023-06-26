@@ -5,7 +5,7 @@ using Tilemaps.Behaviours.Layers;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class VacpackGun : MonoBehaviour, 	ICheckedInteractable<PositionalHandApply>
+public class VacpackGun : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 {
 
 	[SerializeField] private ItemStorage storage;
@@ -18,19 +18,6 @@ public class VacpackGun : MonoBehaviour, 	ICheckedInteractable<PositionalHandApp
 
 	}
 
-/*
-	(
-		PlayerScript playerScript,
-		GameObject target,
-		NetworkSide side,
-		bool allowSoftCrit = false,
-		ReachRange reachRange = ReachRange.Standard,
-		Vector2? targetPosition = null,
-		Vector2? targetVector = null,
-		RegisterTile targetRegisterTile = null,
-		PlayerTypes apt = PlayerTypes.Normal
-	)
-	*/
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
 		if (Validations.CanInteract(interaction.PerformerPlayerScript,side, false) == false) return false;
