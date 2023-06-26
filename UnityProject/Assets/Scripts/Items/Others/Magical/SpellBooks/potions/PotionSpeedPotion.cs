@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class PotionSpeedPotion : MonoBehaviour, ICheckedInteractable<HandApply>
 {
+
+	public Color PotionColour = new Color(1f, 0.992156f, 0.0039f);
+
 	private static readonly StandardProgressActionConfig ProgressConfig =
 		new StandardProgressActionConfig(StandardProgressActionType.SelfHeal);
 
@@ -44,7 +47,7 @@ public class PotionSpeedPotion : MonoBehaviour, ICheckedInteractable<HandApply>
 
 			foreach (var Sprite in Sprites)
 			{
-				Sprite.SetColor(new Color(1f, 0.992156f, 0.0039f));
+				Sprite.SetColor(PotionColour);
 			}
 
 			_ = Despawn.ServerSingle(this.gameObject);

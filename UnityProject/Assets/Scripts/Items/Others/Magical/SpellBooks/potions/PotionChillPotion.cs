@@ -11,6 +11,8 @@ public class PotionChillPotion : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	private int Uses = 3;
 
+	public Color PotionColour = new Color(0.23529411764f, 0.53725f, 0.815686274f);
+
 	private static readonly StandardProgressActionConfig ProgressConfig =
 		new StandardProgressActionConfig(StandardProgressActionType.SelfHeal);
 
@@ -61,7 +63,7 @@ public class PotionChillPotion : MonoBehaviour, ICheckedInteractable<HandApply>
 
 			foreach (var Sprite in Sprites)
 			{
-				Sprite.SetColor(new Color(0.23529411764f, 0.53725f, 0.815686274f));
+				Sprite.SetColor(PotionColour);
 			}
 
 			var ItemAttributesV2 = Target.GetComponent<ItemAttributesV2>();
