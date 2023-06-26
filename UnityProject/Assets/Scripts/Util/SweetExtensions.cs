@@ -172,7 +172,7 @@ public static class SweetExtensions
 	}
 
 
-	public static Matrix OnMatrixRoot(this GameObject go)
+	public static Matrix GetMatrixRoot(this GameObject go)
 	{
 		if (ComponentManager.TryGetUniversalObjectPhysics(GetRootGameObject(go), out var UOP))
 		{
