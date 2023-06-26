@@ -154,13 +154,13 @@ public static class PlayerSpawn
 
 
 	public static Mind NewSpawnCharacterV2(Occupation requestedOccupation, CharacterSheet character,
-		bool NonImportantMind = false)
+		bool nonImportantMind = false)
 	{
 		//TODO: This is hard-coded for now and shouldn't be here.
 		if (IsValidForBorgName(requestedOccupation))
 			character.Name = StringManager.GetRandomGenericBorgSerialNumberName();
 		//Validate?
-		var mind = SpawnMind(character, NonImportantMind);
+		var mind = SpawnMind(character, nonImportantMind);
 		SpawnAndApplyRole(mind, requestedOccupation, character, SpawnType.NewSpawn);
 		return mind;
 	}
@@ -311,8 +311,6 @@ public static class PlayerSpawn
 		var name = requestedOccupation.OrNull()?.JobType != JobType.AI ? character.Name : character.AiName;
 		body.name = name;
 
-
-		Logger.LogError(JsonConvert.SerializeObject(character));
 
 		var PlayerScript = body.GetComponent<PlayerScript>();
 		if (PlayerScript)

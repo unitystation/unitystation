@@ -14,7 +14,12 @@ namespace HealthV2
 
 		public virtual void ImplantPeriodicUpdate(){}
 		public virtual void OnRemovedFromBody(LivingHealthMasterBase livingHealth){}
-		public virtual void OnAddedToBody(LivingHealthMasterBase livingHealth){} //Warning only add body parts do not remove body parts in this
+		
+		/// <summary>
+		/// Warning only add body parts do not remove body parts in this
+		/// </summary>
+		/// <param name="livingHealth"></param>
+		public virtual void OnAddedToBody(LivingHealthMasterBase livingHealth){}
 		public virtual void SetUpSystems(){}
 		public virtual void InternalDamageLogic() {}
 		public virtual void OnTakeDamage(BodyPartDamageData data) {}
