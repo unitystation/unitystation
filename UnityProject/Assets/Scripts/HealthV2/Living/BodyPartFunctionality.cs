@@ -14,7 +14,7 @@ namespace HealthV2
 
 		public virtual void ImplantPeriodicUpdate(){}
 		public virtual void OnRemovedFromBody(LivingHealthMasterBase livingHealth){}
-		
+
 		/// <summary>
 		/// Warning only add body parts do not remove body parts in this
 		/// </summary>

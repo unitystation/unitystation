@@ -1,72 +1,73 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Chemistry;
 using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using UnityEngine;
-using Util;
 
-[RequireComponent( typeof(ReagentCirculatedComponent))]
-public class SlimeBody : BodyPartFunctionality
+namespace Items.Implants.Organs
 {
+	[RequireComponent( typeof(ReagentCirculatedComponent))]
+    public class SlimeBody : BodyPartFunctionality
+    {
 
-	[NonSerialized] public SpriteDataSO AdultSprite;
-	[NonSerialized] public SpriteDataSO BabySprite;
+    	[NonSerialized] public SpriteDataSO AdultSprite;
+    	[NonSerialized] public SpriteDataSO BabySprite;
 
-	private ReagentCirculatedComponent ReagentCirculatedComponent;
+    	private ReagentCirculatedComponent ReagentCirculatedComponent;
 
-	public Reagent SlimeJelly;
+    	public Reagent SlimeJelly;
 
-	public float AdultThreshold = 50;
+    	public float AdultThreshold = 50;
 
-	public bool? CurrentState;
+    	public bool? CurrentState;
 
-	public override void Awake()
-	{
-		base.Awake();
-		ReagentCirculatedComponent = this.GetComponentCustom<ReagentCirculatedComponent>();
-	}
+    	public override void Awake()
+    	{
+    		base.Awake();
+    		ReagentCirculatedComponent = this.GetComponentCustom<ReagentCirculatedComponent>();
+    	}
 
-	public override void ImplantPeriodicUpdate()
-	{
-		if (CurrentState == null)
-		{
-			SetCurrentState(ReagentCirculatedComponent.AssociatedSystem.BloodPool[SlimeJelly] > AdultThreshold);
-		}
+    	public override void ImplantPeriodicUpdate()
+    	{
+    		if (CurrentState == null)
+    		{
+    			SetCurrentState(ReagentCirculatedComponent.AssociatedSystem.BloodPool[SlimeJelly] > AdultThreshold);
+    		}
 
-		var IsAdult = ReagentCirculatedComponent.AssociatedSystem.BloodPool[SlimeJelly] > AdultThreshold;
+    		var isAdult = ReagentCirculatedComponent.AssociatedSystem.BloodPool[SlimeJelly] > AdultThreshold;
 
-		if (IsAdult != CurrentState)
-		{
-			SetCurrentState(IsAdult);
-		}
+    		if (isAdult != CurrentState)
+    		{
+    			SetCurrentState(isAdult);
+    		}
 
 
-	}
+    	}
 
-	public void SetCurrentState(bool State)
-	{
-		if (State)
-		{
-			foreach (var Sprite in RelatedPart.RelatedPresentSprites)
-			{
-				Sprite.baseSpriteHandler.SetSpriteSO(AdultSprite);
-			}
-		}
-		else
-		{
-			foreach (var Sprite in RelatedPart.RelatedPresentSprites)
-			{
-				Sprite.baseSpriteHandler.SetSpriteSO(BabySprite);
-			}
-		}
+    	public void SetCurrentState(bool adult)
+    	{
+    		if (adult)
+    		{
+    			foreach (var sprite in RelatedPart.RelatedPresentSprites)
+    			{
+    				sprite.baseSpriteHandler.SetSpriteSO(AdultSprite);
+    			}
+    		}
+    		else
+    		{
+    			foreach (var Sprite in RelatedPart.RelatedPresentSprites)
+    			{
+    				Sprite.baseSpriteHandler.SetSpriteSO(BabySprite);
+    			}
+    		}
 
-		CurrentState = State;
-	}
+    		CurrentState = adult;
+    	}
+
+    }
+
+
+
+
 
 }
-
-
-
-
