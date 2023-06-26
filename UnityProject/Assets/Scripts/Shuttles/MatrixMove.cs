@@ -19,6 +19,11 @@ using Tilemaps.Behaviours.Layers;
 public class MatrixMove : ManagedBehaviour
 {
 
+	private Vector3 target = TransformState.HiddenPos;
+
+	///Zero means 100% accurate, but will lead to peculiar behaviour (autopilot not reacting fast enough on high speed -> going back/in circles etc)
+	private int AccuracyThreshold = 1;
+
 	/// <summary>
 	/// Set this to make sure collisions are correct for the MatrixMove
 	/// For example, shuttles collide with floors but players don't
@@ -103,7 +108,7 @@ public class MatrixMove : ManagedBehaviour
 
 	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
 	public bool IsRotatingServer => NeedsRotationClient; //todo: calculate rotation time on server instead
-	private bool IsAutopilotEngaged => Target != TransformState.HiddenPos;
+	private bool IsAutopilotEngaged => target != TransformState.HiddenPos;
 	public bool IsMovingClient => clientState.IsMoving && clientState.Speed > 0f;
 
 	/// <summary>
@@ -364,16 +369,12 @@ public class MatrixMove : ManagedBehaviour
 	///managed by UpdateManager
 	public override void FixedUpdateMe()
 	{
+		AnimateMovement();
+		TransformRotation = transform.rotation;
 		if (CustomNetworkManager.IsServer)
 		{
 			CheckMovementServer();
 		}
-	}
-
-	public override void UpdateMe()
-	{
-		AnimateMovement();
-		TransformRotation = transform.rotation;
 	}
 
 	///managed by UpdateManager
@@ -395,19 +396,6 @@ public class MatrixMove : ManagedBehaviour
 				receivedInitialState = true;
 				pendingInitialRotation = false;
 			}
-		}
-	}
-
-	[Server]
-	public void ToggleMovement()
-	{
-		if (IsMovingServer)
-		{
-			StopMovement();
-		}
-		else
-		{
-			StartMovement();
 		}
 	}
 
@@ -451,19 +439,6 @@ public class MatrixMove : ManagedBehaviour
 		RequestNotify();
 
 		MatrixMoveEvents.OnStartMovementServer.Invoke();
-	}
-
-	[Client]
-	public void RcsStartMovementClient(Orientation flyingDirection)
-	{
-		rcsMovementStartPosition = Vector2Int.RoundToInt(transform.position);
-		rcsMovementTargetPosition = rcsMovementStartPosition + flyingDirection.LocalVectorInt;
-
-		clientState.Speed = 1;
-		clientState.FlyingDirection = flyingDirection;
-		clientState.IsMoving = true;
-
-		MatrixMoveEvents.OnStartMovementClient.Invoke();
 	}
 
 	/// Stop movement
@@ -517,7 +492,7 @@ public class MatrixMove : ManagedBehaviour
 	[Server]
 	public void DisableAutopilotTarget()
 	{
-		Target = TransformState.HiddenPos;
+		target = TransformState.HiddenPos;
 	}
 
 	/// Adjust current ship's speed with a relative value
@@ -572,8 +547,6 @@ public class MatrixMove : ManagedBehaviour
 	/// </summary>
 	private void AnimateMovement()
 	{
-
-
 		if (Equals(clientState, MatrixState.Invalid))
 		{
 			return;
@@ -602,7 +575,7 @@ public class MatrixMove : ManagedBehaviour
 		{
 			//Only move target if rotation is finished
 			//predict client state because we don't get constant updates when flying in one direction.
-			clientState.Position += (clientState.Speed * Time.deltaTime) * clientState.FlyingDirection.LocalVector;
+			clientState.Position += (clientState.Speed * Time.fixedDeltaTime) * clientState.FlyingDirection.LocalVector;
 			if (rcsModeActive && clientState.IsMoving)
 			{
 				// if shuttle is close to reach target position,
@@ -612,7 +585,7 @@ public class MatrixMove : ManagedBehaviour
 					clientState.Speed = 0;
 					clientState.IsMoving = false;
 
-					MatrixMoveEvents.OnStopMovementClient.Invoke();
+					MatrixMoveEvents.OnStopMovementClient?.Invoke();
 				}
 			}
 		}
@@ -708,8 +681,8 @@ public class MatrixMove : ManagedBehaviour
 			var goal = Vector3Int.RoundToInt(serverState.Position + serverTargetState.FlyingDirection.LocalVector);
 			//keep moving
 			serverTargetState.Position = goal;
-			if (IsAutopilotEngaged && ((int)serverState.Position.x == (int)Target.x
-									   || (int)serverState.Position.y == (int)Target.y))
+			if (IsAutopilotEngaged && ((int)serverState.Position.x == (int)target.x
+									   || (int)serverState.Position.y == (int)target.y))
 			{
 				StartCoroutine(TravelToTarget());
 			}
@@ -853,17 +826,17 @@ public class MatrixMove : ManagedBehaviour
 
 		if (!oldState.IsMoving && newState.IsMoving)
 		{
-			MatrixMoveEvents.OnStartMovementClient.Invoke();
+			MatrixMoveEvents.OnStartMovementClient?.Invoke();
 		}
 
 		if (oldState.IsMoving && !newState.IsMoving)
 		{
-			MatrixMoveEvents.OnStopMovementClient.Invoke();
+			MatrixMoveEvents.OnStopMovementClient?.Invoke();
 		}
 
 		if ((int)oldState.Speed != (int)newState.Speed)
 		{
-			MatrixMoveEvents.OnSpeedChange.Invoke(oldState.Speed, newState.Speed);
+			MatrixMoveEvents.OnSpeedChange?.Invoke(oldState.Speed, newState.Speed);
 		}
 
 		if (!receivedInitialState && !pendingInitialRotation)
@@ -1001,18 +974,13 @@ public class MatrixMove : ManagedBehaviour
 		return false;
 	}
 
-	private Vector3 Target = TransformState.HiddenPos;
-
 	/// Makes matrix start moving towards given world pos
 	[Server]
 	public void AutopilotTo(Vector2 position)
 	{
-		Target = position;
+		target = position;
 		StartCoroutine(TravelToTarget());
 	}
-
-	///Zero means 100% accurate, but will lead to peculiar behaviour (autopilot not reacting fast enough on high speed -> going back/in circles etc)
-	private int AccuracyThreshold = 1;
 
 	public void SetAccuracy(int newAccuracy)
 	{
@@ -1024,7 +992,7 @@ public class MatrixMove : ManagedBehaviour
 		if (IsAutopilotEngaged)
 		{
 			var pos = serverState.Position;
-			if (Vector3.Distance(pos, Target) <= AccuracyThreshold)
+			if (Vector3.Distance(pos, target) <= AccuracyThreshold)
 			{
 				StopMovement();
 				yield break;
@@ -1034,11 +1002,11 @@ public class MatrixMove : ManagedBehaviour
 
 			Vector3 xProjection = Vector3.Project(pos, Vector3.right);
 			int xProjectionX = (int)xProjection.x;
-			int targetX = (int)Target.x;
+			int targetX = (int)target.x;
 
 			Vector3 yProjection = Vector3.Project(pos, Vector3.up);
 			int yProjectionY = (int)yProjection.y;
-			int targetY = (int)Target.y;
+			int targetY = (int)target.y;
 
 			bool xNeedsChange = Mathf.Abs(xProjectionX - targetX) > AccuracyThreshold;
 			bool yNeedsChange = Mathf.Abs(yProjectionY - targetY) > AccuracyThreshold;
@@ -1094,30 +1062,6 @@ public class MatrixMove : ManagedBehaviour
 			RcsStartMovementServer(orientation);
 		}
 	}
-
-	/// <summary>
-	/// [Client] start RCS movement on client side (prediction)
-	/// </summary>
-	/// <seealso cref="RcsMoveServer(Orientation)"></seealso>
-	/// <param name="orientation">flying direction in world space</param>
-	[Client]
-	public void RcsMoveClient(Orientation orientation)
-	{
-		if (!canClientUseRcs || clientState.IsMoving || IsForceStopped || (!IsFueled && RequiresFuel))
-			return;
-
-		// get releative direcion based on shutter facing
-		OrientationEnum releativeDirection = GetReleativeOrientation(clientState.FacingDirection.AsEnum(), orientation.AsEnum());
-
-		// move only if shuttle has RCS thrusters pointing target direction
-		if (rcsThrusters[releativeDirection].Count > 0)
-		{
-			StartCoroutine(ClientRCSCoroutine(releativeDirection, clientState.FlyingDirection));
-			RcsStartMovementClient(orientation);
-		}
-	}
-
-
 
 	/// <summary>
 	/// Get releative orientation based on shutter facing
@@ -1275,7 +1219,7 @@ public class MatrixMove : ManagedBehaviour
 	/// <summary>
 	/// Clear cached RCS thrusters
 	/// </summary>
-	void ClearRcsCache()
+	private void ClearRcsCache()
 	{
 		rcsThrusters[OrientationEnum.Up_By0].Clear();
 		rcsThrusters[OrientationEnum.Right_By270].Clear();

@@ -360,7 +360,7 @@ public class SoundManager : MonoBehaviour
 			return;
 
 		addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
-		if(addressableAudioSource == null) 
+		if(addressableAudioSource == null)
 		{
 			Logger.LogError("Cannot play sound! Sound is null!");
 			return;
@@ -504,6 +504,7 @@ public class SoundManager : MonoBehaviour
 			await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSources);
 		SoundSpawn soundSpawn =
 			Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken);
+		var soundTransform = soundSpawn.transform;
 
 		ApplyAudioSourceParameters(audioSourceParameters, soundSpawn);
 
@@ -512,16 +513,17 @@ public class SoundManager : MonoBehaviour
 			var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 			if (spawned.TryGetValue(netId, out var objectToPlayAt))
 			{
-				soundSpawn.transform.parent = objectToPlayAt.transform;
-				soundSpawn.transform.localPosition = Vector3.zero;
+				soundTransform.parent = objectToPlayAt.transform;
+				soundTransform.localPosition = Vector3.zero;
 
 				Instance.PlaySource(soundSpawn, polyphonic, isGlobal, audioSourceParameters.MixerType);
 				return;
 			}
 		}
 
-		soundSpawn.transform.parent = Instance.transform;
-		soundSpawn.transform.position = worldPos;
+		var point = MatrixManager.AtPoint(worldPos, CustomNetworkManager.IsServer);
+		soundTransform.parent = point != null ? point.Objects.transform : Instance.transform;
+		soundTransform.position = worldPos;
 
 		Instance.PlaySource(soundSpawn, polyphonic, isGlobal, audioSourceParameters.MixerType);
 	}
