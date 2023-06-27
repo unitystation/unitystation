@@ -26,7 +26,7 @@ public class SlimeCore : BodyPartFunctionality
 				new CustomisationStorage()
 				{
 					path = "/SlimeBody/SlimeCore" ,
-					Data = DropDownIndex + 1.ToString()
+					Data = (DropDownIndex + 1).ToString()
 				}
 
 			}

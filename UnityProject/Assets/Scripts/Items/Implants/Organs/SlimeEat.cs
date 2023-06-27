@@ -121,6 +121,8 @@ public class SlimeEat : BodyPartFunctionality
 	public override void ImplantPeriodicUpdate()
 	{
 		//TODO check buckling instead of this!!!
+		//Problem is determining intent, Since you can be riding something without eating it, So you have to set here
+		//Also the get component for edible and Living health , Could be fixed by common component reference in universal object physics
 		if (EdibleCurrentlyEating != null)
 		{
 			var food = EdibleCurrentlyEating.GetMixForBite(null);
@@ -138,8 +140,8 @@ public class SlimeEat : BodyPartFunctionality
 				return;
 			}
 
-			LivingHealthMasterBaseCurrentlyEating.ApplyDamageAll(RelatedPart.HealthMaster.gameObject, 0.33333f, AttackType.Internal,DamageType.Clone, true);
-			ReagentCirculatedComponent.AssociatedSystem.BloodPool.Add(SlimeJelly, 0.145f);
+			LivingHealthMasterBaseCurrentlyEating.ApplyDamageAll(RelatedPart.HealthMaster.gameObject, 1.33332f, AttackType.Internal,DamageType.Clone, true);
+			ReagentCirculatedComponent.AssociatedSystem.BloodPool.Add(SlimeJelly, 0.58f);
 		}
 
 	}

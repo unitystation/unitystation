@@ -468,6 +468,7 @@ GameObject:
   - component: {fileID: 7505980873864335948}
   - component: {fileID: 8176686349149668929}
   - component: {fileID: 1812110424391118221}
+  - component: {fileID: 1820177360701840881}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -541,6 +542,19 @@ MonoBehaviour:
   syncInterval: 0.1
   playerTypeSettings: {fileID: 11400000, guid: f1ddb9807767eb342a542c93328653f0, type: 2}
   inventorySpeechModifiers: 0
+  characterSettings:
+    Name: Cuban Pete
+    AiName: R.O.B.O.T.
+    BodyType: 1
+    ClothingStyle: 0
+    BagStyle: 0
+    PlayerPronoun: 1
+    Age: 22
+    Speech: 0
+    SkinTone: '#ffe0d1'
+    SerialisedBodyPartCustom: []
+    SerialisedExternalCustom: []
+    Species: Human
   playerName: ' '
   visibleName: ' '
   PlayerSync: {fileID: 0}
@@ -607,6 +621,19 @@ MonoBehaviour:
   - {fileID: 114292210339441364}
   - {fileID: 114572444233789018}
   - {fileID: 114683599938915282}
+  ThisCharacter:
+    Name: Cuban Pete
+    AiName: R.O.B.O.T.
+    BodyType: 1
+    ClothingStyle: 0
+    BagStyle: 0
+    PlayerPronoun: 1
+    Age: 22
+    Speech: 0
+    SkinTone: '#ffe0d1'
+    SerialisedBodyPartCustom: []
+    SerialisedExternalCustom: []
+    Species: Human
   ToInstantiateSpriteCustomisation: {fileID: 7987984179268195915, guid: 8e0d016d897a86947a17dcc45971c4c1,
     type: 3}
   CustomisationSprites: {fileID: 975496025995574624}
@@ -1363,7 +1390,6 @@ MonoBehaviour:
   FramePushDecision: 1
   stickyMovement: 1
   OnThrowEndResetRotation: 0
-  CanSwap: 0
   maximumStickSpeed: 10
   onStationMovementsRound: 1
   registerTile: {fileID: 0}
@@ -1547,6 +1573,18 @@ MonoBehaviour:
   lightsParent: {fileID: 8222515206267578457}
   lightSpriteObject: {fileID: 4299649681570296155}
   rotatable: {fileID: 114449635359748350}
+--- !u!114 &1820177360701840881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b3f20d3b30cb24fb70b1f35524c360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -2829,6 +2867,7 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: 5d8645bc2e5501a4ebd138db5aa609bd, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
+  GivenID: 0
 --- !u!23 &23084276447697276
 MeshRenderer:
   m_ObjectHideFlags: 0
