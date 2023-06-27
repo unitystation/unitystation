@@ -52,7 +52,15 @@ namespace Core.Lighting
 			var rotation = Quaternion.Euler(0f, 0f, (float)orientation * 90 + 90);
 			foreach (Transform child in lightsParent)
 			{
-				child.rotation = rotation;
+				if (CustomNetworkManager.IsHeadless)
+				{
+					child.rotation = rotation;
+				}
+				else
+				{
+					LeanTween.rotate(child.gameObject, rotation.eulerAngles, 0.24f).
+						setEaseInCubic().setEase(LeanTweenType.easeSpring);
+				}
 			}
 		}
 
