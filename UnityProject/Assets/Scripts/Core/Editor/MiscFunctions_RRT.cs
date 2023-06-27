@@ -133,8 +133,8 @@ namespace Util
 		[MenuItem("Tools/GenerateSpriteSO")]
 		public static void Generate()
 		{
-
-			EditorPrefs.SetInt("kAutoRefresh", 1);
+			EditorPrefs.SetInt("kAutoRefreshMode", (int)1);
+			EditorPrefs.SetInt("kAutoRefresh", 1); //older unity versions
 			//var SGen = new SudokuGenerator();
 
 			//Logger.LogError(SGen.generate("hard"));
