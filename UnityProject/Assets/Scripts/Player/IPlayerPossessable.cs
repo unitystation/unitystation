@@ -7,6 +7,7 @@ using Mirror;
 using Systems.Ai;
 using UI.Core.Action;
 using UnityEngine;
+using UnityEngine.Events;
 
 public interface IPlayerPossessable
 {
@@ -58,6 +59,9 @@ public interface IPlayerPossessable
 	public Action OnActionControlPlayer { get; set; }
 
 	public Action OnActionPossess { get; set; }
+
+	public UnityEvent OnBodyPossesedByPlayer { get; set; }
+	public UnityEvent OnBodyUnPossesedByPlayer { get; set; }
 
 	public void SyncPossessingID(uint previouslyPossessing, uint currentlyPossessing);
 

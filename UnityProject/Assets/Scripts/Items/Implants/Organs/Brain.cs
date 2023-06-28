@@ -7,6 +7,7 @@ using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 namespace Items.Implants.Organs
@@ -129,6 +130,8 @@ namespace Items.Implants.Organs
 		{
 			Camera.main.GetComponent<CameraEffectControlScript>().drunkCamera.SetDrunkStrength(newState);
 		}
+
+		public UnityEvent OnBodyUnPossesedByPlayer { get; set; }
 
 		public void SyncPossessingID(uint previouslyPossessing, uint currentlyPossessing)
 		{
@@ -276,6 +279,7 @@ namespace Items.Implants.Organs
 		public Action OnActionControlPlayer { get; set; }
 
 		public Action OnActionPossess { get; set; }
+		public UnityEvent OnBodyPossesedByPlayer { get; set; }
 
 		public RegisterPlayer CurrentlyOn { get; set; }
 		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
