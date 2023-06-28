@@ -71,7 +71,7 @@ public static class Validations
 	/// <param name="interaction"></param>
 	/// <param name="expectedTrait"></param>
 	/// <returns></returns>
-	public static bool HasUsedItemTrait(Interaction interaction, ItemTrait expectedTrait)
+	public static bool HasItemTrait(Interaction interaction, ItemTrait expectedTrait)
 	{
 		return HasItemTrait(interaction.UsedObject, expectedTrait);
 	}

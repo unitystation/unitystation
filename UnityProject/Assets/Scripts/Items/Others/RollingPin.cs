@@ -19,7 +19,7 @@ public class RollingPin : MonoBehaviour, ICheckedInteractable<InventoryApply>
 		if (!interaction.IsToHandSlot) return false;
 
 		//if the item isn't a butcher knife, no go.
-		if (!Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.RollingPin)) return false;
+		if (!Validations.HasItemTrait(interaction, CommonTraits.Instance.RollingPin)) return false;
 
 		//TargetSlot must not be empty.
 		if (interaction.TargetSlot.Item == null) return false;

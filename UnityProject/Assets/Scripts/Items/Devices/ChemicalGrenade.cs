@@ -221,7 +221,7 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 		if (interaction.TargetSlot.Item.OrNull()?.gameObject != gameObject) return false;
 		if (IsFullContainers && interaction.UsedObject != null)
 		{
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) == false) return false;
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) == false) return false;
 			return true;
 		}
 		else if (ScrewedClosed == false)

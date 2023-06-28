@@ -11,6 +11,9 @@ namespace Chemistry
 	{
 		public SerializableDictionary<Reagent, int> ingredients;
 		public bool useExactAmounts = false;
+
+		public float MinimumReactionMultiple = 0f;
+
 		public SerializableDictionary<Reagent, int> catalysts;
 		public SerializableDictionary<Reagent, int> inhibitors;
 		[HideInInspector]
@@ -43,18 +46,18 @@ namespace Chemistry
 				return false;
 			}
 
-			var reactionAmount = GetReactionAmount(reagentMix);
+			var reactionMultiple = GetReactionAmount(reagentMix);
 
 			if (useExactAmounts)
 			{
-				reactionAmount = (float)Math.Floor(reactionAmount);
-				if (reactionAmount == 0)
+				reactionMultiple = (float)Math.Floor(reactionMultiple);
+				if (reactionMultiple == 0)
 				{
 					return false;
 				}
 			}
 
-			if (CanReactionHappen(reagentMix, reactionAmount) == false)
+			if (CanReactionHappen(reagentMix, reactionMultiple) == false)
 			{
 				return false;
 			}
@@ -126,7 +129,7 @@ namespace Chemistry
 			return true;
 		}
 
-		public bool CanReactionHappen(ReagentMix reagentMix, float reactionAmount = 1)
+		public bool CanReactionHappen(ReagentMix reagentMix, float reactionMultiple = 1)
 		{
 			//correct temperature?
 			tempMin = hasMinTemp ? (float?)serializableTempMin : null;
@@ -137,10 +140,15 @@ namespace Chemistry
 				return false;
 			}
 
+			if (MinimumReactionMultiple > reactionMultiple)
+			{
+				return false;
+			}
+
 			//are all catalysts present?
 			foreach (var catalyst in catalysts.m_dict)
 			{
-				if (reagentMix[catalyst.Key] < catalyst.Value * reactionAmount)
+				if (reagentMix[catalyst.Key] < catalyst.Value * reactionMultiple)
 				{
 					return false;
 				}
@@ -149,7 +157,7 @@ namespace Chemistry
 			//is a single inhibitor present?
 			foreach (var inhibitor in inhibitors.m_dict)
 			{
-				if (reagentMix[inhibitor.Key] > inhibitor.Value * reactionAmount)
+				if (reagentMix[inhibitor.Key] > inhibitor.Value * reactionMultiple)
 				{
 					return false;
 				}

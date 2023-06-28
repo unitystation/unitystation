@@ -1,16 +1,24 @@
-﻿using Chemistry;
+﻿using System;
+using Chemistry;
 using HealthV2;
 using HealthV2.Living.PolymorphicSystems;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Items.Implants.Organs
 {
+	[RequireComponent(typeof(ReagentCirculatedComponent))]
 	public class Heart : BodyPartFunctionality
 	{
+		public bool CanHaveHeartAttack = true;
+
+		[FormerlySerializedAs("EfficiencyLinksToDamage")] public bool EfficiencyLinksToModifiers = true;
+
 		public bool HeartAttack = false;
 
+		[NonSerialized]
 		public bool CanTriggerHeartAttack = true;
 
 		public int heartAttackThreshold = -80;
@@ -54,52 +62,56 @@ namespace Items.Implants.Organs
 		public override void ImplantPeriodicUpdate()
 		{
 			base.ImplantPeriodicUpdate();
-			if (RelatedPart.HealthMaster.OverallHealth <= heartAttackThreshold)
+			if (CanHaveHeartAttack)
 			{
-				if (CanTriggerHeartAttack)
+				if (RelatedPart.HealthMaster.OverallHealth <= heartAttackThreshold)
 				{
-					DoHeartAttack();
-					CanTriggerHeartAttack = false;
-					CurrentPulse = 0;
-					return;
-				}
-
-				if (HeartAttack == false)
-				{
-					CurrentPulse++;
-					if (SecondsOfRevivePulse < CurrentPulse)
+					if (CanTriggerHeartAttack)
 					{
 						DoHeartAttack();
+						CanTriggerHeartAttack = false;
+						CurrentPulse = 0;
+						return;
+					}
+
+					if (HeartAttack == false)
+					{
+						CurrentPulse++;
+						if (SecondsOfRevivePulse < CurrentPulse)
+						{
+							DoHeartAttack();
+						}
 					}
 				}
+				else if (RelatedPart.HealthMaster.OverallHealth < heartAttackThreshold/2)
+				{
+					CanTriggerHeartAttack = true;
+					CurrentPulse = 0;
+				}
 			}
-			else if (RelatedPart.HealthMaster.OverallHealth < heartAttackThreshold/2)
-			{
-				CanTriggerHeartAttack = true;
-				CurrentPulse = 0;
-			}
+
 
 			DoHeartBeat();
 		}
 
-		private ReagentPoolSystem ReagentCirculatedComponent;
+
 
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
-			ReagentCirculatedComponent.PumpingDevices.Remove(this);
-			ReagentCirculatedComponent = null;
+			_ReagentCirculatedComponent.OrNull()?.AssociatedSystem?.PumpingDevices?.Remove(this);
+
 		}
 
 		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
-			ReagentCirculatedComponent = _ReagentCirculatedComponent.AssociatedSystem;
-			ReagentCirculatedComponent.PumpingDevices.Add(this);
+
+			_ReagentCirculatedComponent.AssociatedSystem.PumpingDevices.Add(this);
 		}
 
 		public void DoHeartBeat()
 		{
 			//If we actually have a circulatory system.
-			if (HeartAttack)
+			if (CanHaveHeartAttack && HeartAttack)
 			{
 				if (SecondsOfRevivePulse < CurrentPulse) return;
 				if (DMMath.Prob(0.1))
@@ -112,8 +124,8 @@ namespace Items.Implants.Organs
 
 			if (RelatedPart.HealthMaster.IsDead)
 				return; //For some reason the heart will randomly still continue to try and beat after death.
-			if (_ReagentCirculatedComponent.AssociatedSystem.BloodPool.MajorMixReagent == salt ||
-			    _ReagentCirculatedComponent.AssociatedSystem.BloodPool[salt] > dangerSaltLevel)
+			if (salt != null && (_ReagentCirculatedComponent.AssociatedSystem.BloodPool.MajorMixReagent == salt ||
+			    _ReagentCirculatedComponent.AssociatedSystem.BloodPool[salt] > dangerSaltLevel))
 			{
 				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject,
 					"<color=red>Your body spasms as a jolt of pain surges all over your body then into your heart!</color>",
@@ -132,31 +144,35 @@ namespace Items.Implants.Organs
 				return 1;
 			}
 
-			if (HeartAttack || RelatedPart.HealthMaster.brain == null) //Needs a brain for heart to work
+			if ((CanHaveHeartAttack && HeartAttack) || RelatedPart.HealthMaster.brain == null) //Needs a brain for heart to work
 			{
 				return 0;
 			}
 
 			//To exclude stuff like hunger and oxygen damage
 			var TotalModified = 1f;
-			foreach (var modifier in RelatedPart.AppliedModifiers)
+			if (EfficiencyLinksToModifiers)
 			{
-				var toMultiply = 1f;
-				if (modifier == RelatedPart.DamageModifier)
+				foreach (var modifier in RelatedPart.AppliedModifiers)
 				{
-					toMultiply = Mathf.Max(0f,
-						Mathf.Max(RelatedPart.MaxHealth - RelatedPart.TotalDamageWithoutOxyCloneRadStam, 0) / RelatedPart.MaxHealth);
-				}
-				else if (modifier == HungerComponent.OrNull()?.HungerModifier)
-				{
-					continue;
-				}
-				else
-				{
-					toMultiply = Mathf.Max(0f, modifier.Multiplier);
+					var toMultiply = 1f;
+					if (modifier == RelatedPart.DamageModifier)
+					{
+						toMultiply = Mathf.Max(0f,
+							Mathf.Max(RelatedPart.MaxHealth - RelatedPart.TotalDamageWithoutOxyCloneRadStam, 0) / RelatedPart.MaxHealth);
+					}
+					else if (modifier == HungerComponent.OrNull()?.HungerModifier)
+					{
+						continue;
+					}
+					else
+					{
+						toMultiply = Mathf.Max(0f, modifier.Multiplier);
+					}
+
+					TotalModified *= toMultiply;
 				}
 
-				TotalModified *= toMultiply;
 			}
 
 			return TotalModified;
@@ -164,8 +180,11 @@ namespace Items.Implants.Organs
 
 		public void DoHeartAttack()
 		{
-			HeartAttack = true;
-			RelatedPart.HealthMaster.Death();
+			if (CanHaveHeartAttack)
+			{
+				HeartAttack = true;
+				RelatedPart.HealthMaster.Death();
+			}
 		}
 	}
 }

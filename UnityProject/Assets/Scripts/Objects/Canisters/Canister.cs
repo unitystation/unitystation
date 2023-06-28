@@ -245,13 +245,13 @@ namespace Objects.Atmospherics
 			this.interaction = interaction;
 
 			//can click on the canister with a wrench to connect/disconnect it from a connector
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench))
 			{
 				TryWrenching();
 			}
 
 			//can click on the canister with a refillable tank to insert the refillable tank into the canister
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.CanisterFillable))
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.CanisterFillable))
 			{
 				TryInsertingContainer();
 			}

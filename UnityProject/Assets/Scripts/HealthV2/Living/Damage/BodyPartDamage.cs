@@ -161,6 +161,23 @@ namespace HealthV2
 			}
 		}
 
+		public float TotalDamageWithoutOxyRadStam
+		{
+			get
+			{
+				float TDamage = 0;
+				for (int i = 0; i < Damages.Length; i++)
+				{
+					if ((int) DamageType.Oxy == i) continue;
+					if ((int) DamageType.Radiation == i) continue;
+					if ((int) DamageType.Stamina == i) continue;
+					TDamage += Damages[i];
+				}
+
+				return TDamage;
+			}
+		}
+
 		/// <summary>
 		/// The total damage this body part has taken
 		/// </summary>

@@ -138,7 +138,7 @@ namespace Objects
 
 			if (forceLayingDown && playerScript.RegisterPlayer.IsLayingDown == false) playerScript.RegisterPlayer.ServerSetIsStanding(false);		
 
-			objectPhysics.BuckleObjectToThis(playerScript.playerMove);
+			objectPhysics.BuckleTo(playerScript.playerMove);
 			occupiedSpriteHandler.OrNull()?.ChangeSprite(0);
 			OnBuckleEvent?.Invoke();
 		}

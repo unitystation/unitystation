@@ -16,8 +16,6 @@ public class BodyPartSprites : MonoBehaviour
 
 	public SpriteRenderer spriteRenderer;
 
-	public CharacterSheet ThisCharacter;
-
 	public SpriteOrder SpriteOrder;
 
 	public ClothingHideFlags ClothingHide;

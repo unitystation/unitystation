@@ -38,6 +38,16 @@ namespace Util
 			AddressablePicker.Refresh();
 		}
 
+		[MenuItem("Tools/---CompiledDammit!!!!!!!!! #&q")]
+		public static void CompiledDammit()
+		{
+			EditorPrefs.SetInt("kAutoRefresh", 1);
+			UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation();
+
+
+		}
+
+
 		[MenuItem("Tools/Get Music keys")]
 		public static void GetMusicKeys()
 		{
