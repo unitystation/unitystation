@@ -68,7 +68,7 @@ namespace Changeling
 				return default;
 			}
 			spellComponent.ability = this;
-			//spellComponent.CooldownTime = CooldownTime;
+			spellComponent.CooldownTime = cooldown;
 			return spellComponent;
 		}
 	}

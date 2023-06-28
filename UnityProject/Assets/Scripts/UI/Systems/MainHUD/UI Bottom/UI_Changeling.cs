@@ -29,7 +29,6 @@ namespace Changeling
 		public void SetUp(ChangelingMain changeling)
 		{
 			changelingMain = changeling;
-			print("SET UP CHANGELING");
 			RefreshUI();
 			chems.SetActive(true);
 

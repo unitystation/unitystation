@@ -19,22 +19,22 @@ namespace Changeling
 	{
 		// TODO remove SerializeField from all bruh
 		[Header("Changeling main")]
-		[SyncVar] [SerializeField] private float chem = 0;
+		[SyncVar] [SerializeField] private float chem = 25;
 		public float Chem => chem;
-		[SyncVar] [SerializeField] private float chemMax = 100;
+		[SyncVar] [SerializeField] private float chemMax = 75;
 		[SerializeField] private float chemAddPerTime = 1;
-		[SerializeField] private float chemAddTime = 5;
+		[SerializeField] private const float chemAddTime = 3;
 		[SerializeField] public int ExtractedDNA => changelingDNAs.Count;
 		[SyncVar] [SerializeField] private int maxExtractedDNA = 7;
 
-		// TODO need to be SyncVar I think or not...
 		[SerializeField] private List<PlayerHealthData> changelingDNAs = new List<PlayerHealthData>();
+		[SerializeField] public List<PlayerHealthData> ChangelingDNAs => changelingDNAs;
 		// ep - evolution point
 		[SyncVar] [SerializeField] private int epPoints = 10;
 		public int EpPoints => epPoints;
 		[SerializeField] private List<ChangelingData> abilitiesToBuy = new List<ChangelingData>();
 		[SerializeField] public List<ChangelingData> AbilitiesToBuy => abilitiesToBuy;
-		[SerializeField] private ObservableCollection<ChangelingAbility> abilitiesNow = new ObservableCollection<ChangelingAbility>();
+		[SerializeField] private ObservableCollection<ChangelingAbility> abilitiesNow => changelingMind.ChangelingAbilities; // bruh
 		[SerializeField] public ObservableCollection<ChangelingAbility> AbilitiesNow => abilitiesNow;
 		[SerializeField] private UI_Changeling ui;
 		public UI_Changeling Ui => ui;
@@ -62,6 +62,11 @@ namespace Changeling
 			return changelingAbilityBases;
 		}
 
+		public void AddDNAServer()
+		{
+			
+		}
+
 		public List<ChangelingData> GetAbilitesBuyed()
 		{
 			List<ChangelingData> changelingAbilityBases = new List<ChangelingData>();
@@ -85,7 +90,7 @@ namespace Changeling
 			//playerScript = GetComponent<PlayerScript>();
 
 			//changelingMind = playerScript.Mind;
-			chem = 0;
+			//chem = 0;
 		}
 
 		void Tick()

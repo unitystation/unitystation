@@ -30,9 +30,9 @@ MonoBehaviour:
   PreventBeingControlledBy: 
   DisableOnEvent: 
   isAimable: 1
-  useCustomCursor: 0
-  cursorTexture: {fileID: 0}
-  cursorOffsetType: 0
+  useCustomCursor: 1
+  cursorTexture: {fileID: 2800000, guid: a98858de92927fd4c844f441140f55fe, type: 3}
+  cursorOffsetType: 1
   cursorOffset: {x: 0, y: 0}
   abilityEPCost: 0
   abilityChemCost: 0
@@ -40,6 +40,6 @@ MonoBehaviour:
   startAbility: 1
   abilityUsedOnStart: 0
   singleUseAbility: 0
-  cooldown: 1
+  cooldown: 5
   abilityImplementation: {fileID: 1515064019581797830, guid: 6dbfaba38d45b024ab41b00ab32b1202,
     type: 3}

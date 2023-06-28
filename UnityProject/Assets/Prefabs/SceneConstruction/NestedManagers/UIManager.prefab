@@ -1776,6 +1776,7 @@ MonoBehaviour:
   hudBottomBlob: {fileID: 1645623885778184550}
   hudBottomAi: {fileID: 6758610671296305507}
   hudAlien: {fileID: 0}
+  hudChangeling: {fileID: 0}
   currentHud: {fileID: 0}
   jobSelectWindow: {fileID: 8556394910883754237}
   teamSelectionWindow: {fileID: 8554602371908804983}
@@ -9887,16 +9888,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChangelingHud
       objectReference: {fileID: 0}
-    - target: {fileID: 3745129673071440612, guid: 6f3ec31486746b34a8da74bd0735fe4e,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -45
-      objectReference: {fileID: 0}
-    - target: {fileID: 3745129673071440612, guid: 6f3ec31486746b34a8da74bd0735fe4e,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -93.24805
-      objectReference: {fileID: 0}
     - target: {fileID: 5650228759557402727, guid: 6f3ec31486746b34a8da74bd0735fe4e,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -9941,26 +9932,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7616157293141145105, guid: 6f3ec31486746b34a8da74bd0735fe4e,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7616157293141145105, guid: 6f3ec31486746b34a8da74bd0735fe4e,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7616157293141145105, guid: 6f3ec31486746b34a8da74bd0735fe4e,
-        type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7616157293141145105, guid: 6f3ec31486746b34a8da74bd0735fe4e,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7616157293141145105, guid: 6f3ec31486746b34a8da74bd0735fe4e,
         type: 3}

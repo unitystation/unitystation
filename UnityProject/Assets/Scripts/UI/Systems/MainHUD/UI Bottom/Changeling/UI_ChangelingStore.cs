@@ -23,5 +23,20 @@ namespace Changeling
 		{
 
 		}
+
+		private void AddEntry()
+		{
+			entryPrefab.SetActive(true);
+			var newEntry = Instantiate(entryPrefab, contentArea.transform).GetComponent<EvolveMenuEntry>();
+			entryPrefab.SetActive(false);
+			entryPool.Add(newEntry);
+		}
+
+		private void RemoveEntry()
+		{
+			Destroy(entryPool[^1]);
+
+			entryPool.RemoveAt(entryPool.Count - 1);
+		}
 	}
 }

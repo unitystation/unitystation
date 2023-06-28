@@ -21,6 +21,7 @@ namespace Changeling
 		//ActionData IActionGUI.ActionData => ability;
 
 		public ActionData ActionData => ability;
+		public float CooldownTime { get; set; }
 
 		public virtual void CallActionClient()
 		{
@@ -39,7 +40,7 @@ namespace Changeling
 
 		private void AfterAbility(PlayerInfo sentByPlayer)
 		{
-
+			UIActionManager.SetCooldown(this, CooldownTime, sentByPlayer.GameObject);
 		}
 
 		private bool CastAbilityServer(PlayerInfo sentByPlayer, Vector3 clickPosition)
