@@ -68,9 +68,9 @@ namespace Objects.Research
 
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver)) return true;
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver)) return true;
 
-			if (Validations.HasUsedItemTrait(interaction, inteliCardTrait)) return true;
+			if (Validations.HasItemTrait(interaction, inteliCardTrait)) return true;
 
 			//Allow law changes directly on core
 			if (Validations.HasItemTrait(interaction.HandObject, moduleTrait)) return true;
@@ -81,14 +81,14 @@ namespace Objects.Research
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			//Deconstruct core
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 			{
 				TryDeconstruct(interaction);
 				return;
 			}
 
 			//Upload law to core
-			if (Validations.HasUsedItemTrait(interaction, moduleTrait))
+			if (Validations.HasItemTrait(interaction, moduleTrait))
 			{
 				TryUpload(interaction);
 				return;

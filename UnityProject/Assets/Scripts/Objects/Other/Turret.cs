@@ -601,15 +601,15 @@ namespace Objects.Other
 
 			if (!Validations.IsTarget(gameObject, interaction)) return false;
 
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Id)) return true;
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Id)) return true;
 
-			return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar);
+			return Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar);
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			//If Id try unlock
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Id))
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Id))
 			{
 				if (restricted.HasClearance(interaction.HandObject) == false)
 				{

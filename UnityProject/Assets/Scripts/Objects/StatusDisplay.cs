@@ -166,7 +166,7 @@ namespace Objects.Wallmounts
 		{
 			if (stateSync == MountedMonitorState.OpenCabled || stateSync == MountedMonitorState.OpenEmpty)
 			{
-				if (!hasCables && Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) &&
+				if (!hasCables && Validations.HasItemTrait(interaction, CommonTraits.Instance.Cable) &&
 				    Validations.HasUsedAtLeast(interaction, 5))
 				{
 					//add 5 cables
@@ -182,7 +182,7 @@ namespace Objects.Wallmounts
 							stateSync = MountedMonitorState.OpenCabled;
 						});
 				}
-				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.GlassSheet) &&
+				else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.GlassSheet) &&
 				         Validations.HasUsedAtLeast(interaction, 2))
 				{
 					//add 2 glass
@@ -197,7 +197,7 @@ namespace Objects.Wallmounts
 							stateSync = MountedMonitorState.NonScrewedPanel;
 						});
 				}
-				else if (hasCables && Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter))
+				else if (hasCables && Validations.HasItemTrait(interaction, CommonTraits.Instance.Wirecutter))
 				{
 					//cut out cables
 					Chat.AddActionMsgToChat(interaction, $"You remove the cables.",
@@ -213,7 +213,7 @@ namespace Objects.Wallmounts
 			}
 			else if (stateSync == MountedMonitorState.NonScrewedPanel)
 			{
-				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar))
+				if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar))
 				{
 					//remove glass
 					Chat.AddActionMsgToChat(interaction, $"You remove the glass panel.",
@@ -229,7 +229,7 @@ namespace Objects.Wallmounts
 						stateSync = MountedMonitorState.OpenEmpty;
 					}
 				}
-				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+				else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 				{
 					//screw in monitor, completing construction
 					Chat.AddActionMsgToChat(interaction, $"You connect the monitor.",
@@ -243,7 +243,7 @@ namespace Objects.Wallmounts
 			}
 			else
 			{
-				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+				if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 				{
 					//disconnect the monitor
 					Chat.AddActionMsgToChat(interaction, $"You disconnect the monitor.",
@@ -252,7 +252,7 @@ namespace Objects.Wallmounts
 					stateSync = MountedMonitorState.NonScrewedPanel;
 				}
 
-				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Id))
+				if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Id))
 				{
 					if (AccessRestrictions == null)
 					{

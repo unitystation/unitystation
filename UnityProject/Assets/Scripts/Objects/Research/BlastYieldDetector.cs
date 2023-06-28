@@ -254,7 +254,7 @@ namespace Systems.Research.Objects
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			if (stateSync != BlastYieldDetectorState.Connected) return;
-			if (!Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench)) return;
+			if (!Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench)) return;
 
 			ToolUtils.ServerUseToolWithActionMessages(interaction, 2,
 				$"You start to rotate the array of the {gameObject.ExpensiveName()}...",

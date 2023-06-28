@@ -1208,12 +1208,14 @@ namespace UI.CharacterCreator
 		}
 	}
 
+	[System.Serializable]
 	public class ExternalCustomisation
 	{
 		public string Key;
 		public CharacterSheet.CustomisationClass SerialisedValue;
 	}
 
+	[System.Serializable]
 	public class CustomisationStorage
 	{
 		public string path;

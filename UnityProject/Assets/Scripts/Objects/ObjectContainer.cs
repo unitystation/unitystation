@@ -78,6 +78,10 @@ namespace Objects
 		// stored contents and their positional offsets, if applicable
 		private readonly Dictionary<GameObject, Vector3> storedObjects = new Dictionary<GameObject, Vector3>();
 
+		public Dictionary<GameObject, Vector3> StoredObjects => storedObjects;
+
+		public int StoredObjectsCount => storedObjects.Count;
+
 		#region Lifecycle
 
 		private void Awake()
@@ -208,7 +212,15 @@ namespace Objects
 
 			if (obj.TryGetComponent<UniversalObjectPhysics>(out var uop))
 			{
-				uop.DropAtAndInheritMomentum(ObjectPhysics);
+				if (worldPosition == null)
+				{
+					uop.DropAtAndInheritMomentum(ObjectPhysics);
+
+				}
+				else
+				{
+					uop.AppearAtWorldPositionServer(worldPosition.Value);
+				}
 				uop.StoreTo(null);
 			}
 
@@ -241,6 +253,16 @@ namespace Objects
 				kvp.Key.GetComponent<UniversalObjectPhysics>().StoreTo( this );
 			}
 		}
+
+		public void RetrieveObject(Vector3 worldPosition)
+		{
+			foreach (var entity in GetStoredObjects().ToArray())
+			{
+				RetrieveObject(entity, worldPosition);
+				return; //So inefficient xD
+			}
+		}
+
 
 		private void CheckPlayerCrawlState(UniversalObjectPhysics playerBehaviour)
 		{

@@ -175,52 +175,61 @@ namespace Items.Food
 					"{performer} Unwillingly force themselves to eat the food");
 			}
 
+			ReagentMix incomingFood = GetMixForBite(feeder);
+
+			foreach (var Stomach in Stomachs)
+			{
+				Stomach.StomachContents.Add(incomingFood.Clone());
+			}
+
+			ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_FOODEATEN);
+		}
+
+
+		public ReagentMix GetMixForBite(PlayerScript feeder)
+		{
 			ReagentMix incomingFood = FoodContents.CurrentReagentMix.Clone();
 			if (stackable == null) //Since it just consumes one
 			{
 				incomingFood.Divide(maxBites);
 			}
 
-
-			incomingFood.Divide(Stomachs.Count);
-			foreach (var Stomach in Stomachs)
-			{
-				Stomach.StomachContents.Add(incomingFood.Clone());
-			}
-
-
-			var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
-			//If food has a stack component, decrease amount by one instead of deleting the entire stack.
 			if (stackable != null)
 			{
 				stackable.ServerConsume(1);
 			}
 			else
 			{
-				Bite(feeder, feederSlot);
-			}
 
-			ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_FOODEATEN);
-		}
-
-		private void Bite(PlayerScript feeder, ItemSlot feederSlot)
-		{
-			currentBites--;
-			if (currentBites > 0) return;
-			if (leavings != null)
-			{
-				var leavingsInstance = Spawn.ServerPrefab(leavings).GameObject;
-				var pickupable = leavingsInstance.GetComponent<Pickupable>();
-				bool added = Inventory.ServerAdd(pickupable, feederSlot);
-				if (added == false)
+				currentBites--;
+				if (leavings != null)
 				{
-					//If stackable has leavings and they couldn't go in the same slot, they should be dropped
-					pickupable.UniversalObjectPhysics.DropAtAndInheritMomentum(
-						feeder.GetComponent<UniversalObjectPhysics>());
+					var leavingsInstance = Spawn.ServerPrefab(leavings).GameObject;
+					var pickupable = leavingsInstance.GetComponent<Pickupable>();
+					bool added = false;
+					var ToDropOn = gameObject;
+
+					if (feeder != null)
+					{
+						var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
+
+						ToDropOn = feeder.gameObject;
+						added = Inventory.ServerAdd(pickupable, feederSlot);
+					}
+
+					if (added == false)
+					{
+						//If stackable has leavings and they couldn't go in the same slot, they should be dropped
+						pickupable.UniversalObjectPhysics.DropAtAndInheritMomentum(
+							ToDropOn.GetComponent<UniversalObjectPhysics>());
+					}
 				}
+				_ = Inventory.ServerDespawn(gameObject);
 			}
-			_ = Inventory.ServerDespawn(gameObject);
+
+			return incomingFood;
 		}
+
 
 		public string HoverTip()
 		{

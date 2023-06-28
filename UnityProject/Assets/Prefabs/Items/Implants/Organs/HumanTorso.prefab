@@ -706,6 +706,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2780246240171570206, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
+      propertyPath: _assetId
+      value: 4076721828
+      objectReference: {fileID: 0}
+    - target: {fileID: 2780246240171570206, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
       propertyPath: m_AssetId
       value: cc032f91cda505e44b066c36db32760d
       objectReference: {fileID: 0}
@@ -806,11 +811,13 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 0
+  ManuallySpawnContent: 0
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
     SlotContents: []
     DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
   ashPrefab: {fileID: 0}
 --- !u!114 &7318265604464753162
 MonoBehaviour:
@@ -824,7 +831,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe56a83532907c141b7592eead8f0641, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NamedSlotFlagged: 0
   relatedStorage: {fileID: 4802744573316854368}
   storage:
   - NotPresentOnUI: 0

@@ -278,7 +278,7 @@ namespace HealthV2
 
 		public PlayerScript playerScript;
 
-		public event Action<DamageType, GameObject> OnTakeDamageType;
+		public event Action<DamageType, GameObject, float> OnTakeDamageType;
 		public event Action OnLowHealth;
 
 		public event Action OnDeath;
@@ -1002,7 +1002,7 @@ namespace HealthV2
 			foreach (var implant in BodyPartList)
 			{
 				if (implant.DamageContributesToOverallHealth == false) continue;
-				currentHealth -= implant.TotalDamageWithoutOxyCloneRadStam;
+				currentHealth -= implant.TotalDamageWithoutOxyRadStam;
 			}
 
 			if (DoesNotRequireBrain == false)
@@ -1072,7 +1072,7 @@ namespace HealthV2
 			{
 				foreach (var organ in Implant.OrganList)
 				{
-					if (organ is Heart heart && heart.HeartAttack == false)
+					if (organ is Heart heart && heart.HeartAttack == false && heart.CanHaveHeartAttack)
 					{
 						hasAllHeartAttack = false;
 						SetConsciousState(ConsciousState.UNCONSCIOUS);
@@ -1132,7 +1132,7 @@ namespace HealthV2
 			}
 
 			IndicatePain(damage);
-			OnTakeDamageType?.Invoke(damageType, damagedBy);
+			OnTakeDamageType?.Invoke(damageType, damagedBy, damage);
 		}
 
 		/// <summary>
@@ -1189,7 +1189,7 @@ namespace HealthV2
 			}
 
 			IndicatePain(damage);
-			OnTakeDamageType?.Invoke(damageType, damagedBy);
+			OnTakeDamageType?.Invoke(damageType, damagedBy, damage);
 			if (HealthIsLow()) OnLowHealth?.Invoke();
 		}
 
@@ -1756,8 +1756,7 @@ namespace HealthV2
 			var sprites = implant.GetBodyTypeSprites(bodyType);
 			foreach (var Sprite in sprites.Item2)
 			{
-				var newSprite = Spawn
-					.ServerPrefab(implant.SpritePrefab.gameObject, Vector3.zero, playerSprites.BodySprites.transform)
+				var newSprite = Spawn.ServerPrefab(implant.SpritePrefab.gameObject, Vector3.zero, playerSprites.BodySprites.transform)
 					.GameObject.GetComponent<BodyPartSprites>();
 				newSprite.transform.localPosition = Vector3.zero;
 				playerSprites.Addedbodypart.Add(newSprite);
@@ -2194,14 +2193,14 @@ namespace HealthV2
 			AdminCommandsManager.Instance.CmdHealMob(gameObject);
 		}
 
-		private void ClownAbuseScoreEvent(DamageType damageType, GameObject abuser)
+		private void ClownAbuseScoreEvent(DamageType damageType, GameObject abuser, float Amount)
 		{
 			if (abuser == null) return;
 			if (damageType == DamageType.Clone || damageType == DamageType.Oxy ||
 			    damageType == DamageType.Radiation) return;
 			if (abuser.TryGetComponent<PlayerScript>(out var script) == false) return;
 			if (script.gameObject == abuser) return; //Don't add to the score if the clown hits themselves.
-			ScoreMachine.AddToScoreInt(-5, RoundEndScoreBuilder.COMMON_SCORE_CLOWNABUSE);
+			ScoreMachine.AddToScoreInt(Mathf.RoundToInt(-5 * Amount), RoundEndScoreBuilder.COMMON_SCORE_CLOWNABUSE);
 		}
 
 		public string HoverTip()

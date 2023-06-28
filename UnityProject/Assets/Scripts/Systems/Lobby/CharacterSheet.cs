@@ -13,6 +13,7 @@ namespace Systems.Character
 /// Class containing all character preferences for a player
 /// Includes appearance, job preferences etc...
 /// </summary>
+[System.Serializable]
 public class CharacterSheet : ICloneable
 {
 	// TODO: all of the in-game appearance variables should probably be refactored into a separate class which can

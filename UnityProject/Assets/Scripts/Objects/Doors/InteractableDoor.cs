@@ -35,7 +35,7 @@ namespace Doors
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.TargetObject != gameObject) return false;
 			if (Validations.HasUsedActiveWelder(interaction)) return true;
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar)) return true;
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar)) return true;
 			if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false; // False to allow melee
 
 			return allowInput && Controller != null;

@@ -104,7 +104,11 @@ namespace Items.Implants.Organs
 
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
-			livingHealth.SetBrain(null);
+			if (livingHealth.brain == this)
+			{
+				livingHealth.SetBrain(null);
+			}
+
 			livingHealth.IsMute.RemovePosition(this);
 			Itself.SetPossessingObject(null);
 			UpdateChatModifier(false);

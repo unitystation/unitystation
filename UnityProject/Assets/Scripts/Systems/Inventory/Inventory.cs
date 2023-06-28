@@ -714,6 +714,12 @@ public static class Inventory
 			if (ItemSlot == null) continue;
 
 			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true, spawnManualContents: info?.SpawnManualContents ?? false);
+
+			if (Validations.CanFit(ItemSlot, spawn.GameObject, NetworkSide.Server) == false)
+			{
+				Logger.LogError($"Your initial contents spawn for ItemStorage {itemStorage.name} for {spawn.GameObject} Is bypassing the Can fit requirements");
+			}
+
 			ServerAdd(spawn.GameObject, ItemSlot,namedSlotPopulatorEntry.ReplacementStrategy, true );
 			PopulateSubInventoryRecursive(spawn.GameObject, namedSlotPopulatorEntry.namedSlotPopulatorEntrys, info);
 		}
@@ -767,6 +773,12 @@ public static class Inventory
 			}
 
 			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true, spawnManualContents: info?.SpawnManualContents ?? false);
+
+			if (Validations.CanFit(ItemSlot, spawn.GameObject, NetworkSide.Server) == false)
+			{
+				Logger.LogError($"Your initial contents spawn for ItemStorage {itemStorage.name} for {spawn.GameObject} Is bypassing the Can fit requirements");
+			}
+
 			ServerAdd(spawn.GameObject, ItemSlot,namedSlotPopulatorEntry.ReplacementStrategy, true);
 		}
 	}

@@ -33,7 +33,7 @@ namespace Objects.Kitchen
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) == false;
+			return Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) == false;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)

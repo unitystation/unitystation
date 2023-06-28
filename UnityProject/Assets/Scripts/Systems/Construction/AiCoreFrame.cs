@@ -54,29 +54,29 @@ namespace Systems.Construction
 			//Anchor or disassemble
 			if (CurrentState == initialState)
 			{
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench) ||
+				return Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench) ||
 				       Validations.HasUsedActiveWelder(interaction);
 			}
 
 			//Adding Circuit board or unanchor
 			if (CurrentState == anchoredState)
 			{
-				return Validations.HasUsedItemTrait(interaction, aiCoreCircuitBoardTrait) ||
-				       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench);
+				return Validations.HasItemTrait(interaction, aiCoreCircuitBoardTrait) ||
+				       Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench);
 			}
 
 			//Screwdriver or remove Circuit board
 			if (CurrentState == circuitAddedState)
 			{
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
+				return Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
 				       interaction.HandObject == null;
 			}
 
 			//Add wire or unscrew
 			if (CurrentState == screwState)
 			{
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) ||
-					Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver);
+				return Validations.HasItemTrait(interaction, CommonTraits.Instance.Cable) ||
+					Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver);
 			}
 
 			//Add brain, or skip brain and add reinforced glass or remove wire
@@ -84,22 +84,22 @@ namespace Systems.Construction
 			{
 				//TODO enable brain stuff
 				return //Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.MMI / or Positron) ||
-				       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.ReinforcedGlassSheet) ||
-				       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter);
+				       Validations.HasItemTrait(interaction, CommonTraits.Instance.ReinforcedGlassSheet) ||
+				       Validations.HasItemTrait(interaction, CommonTraits.Instance.Wirecutter);
 			}
 
 			//Add reinforced glass or remove brain
 			if (CurrentState == brainAddedState)
 			{
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.ReinforcedGlassSheet) ||
-				       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar);
+				return Validations.HasItemTrait(interaction, CommonTraits.Instance.ReinforcedGlassSheet) ||
+				       Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar);
 			}
 
 			//Screw to finish or remove glass
 			if (CurrentState == glassState)
 			{
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
-				       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar);
+				return Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
+				       Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar);
 			}
 
 			return false;
@@ -110,7 +110,7 @@ namespace Systems.Construction
 			//Anchor or disassemble
 			if (CurrentState == initialState)
 			{
-				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
+				if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench))
 				{
 					if (ServerValidations.IsAnchorBlocked(interaction) == false)
 					{
@@ -153,7 +153,7 @@ namespace Systems.Construction
 			//Adding Circuit board or unanchor
 			if (CurrentState == anchoredState)
 			{
-				if (Validations.HasUsedItemTrait(interaction, aiCoreCircuitBoardTrait))
+				if (Validations.HasItemTrait(interaction, aiCoreCircuitBoardTrait))
 				{
 					//Add Circuit board
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
@@ -168,7 +168,7 @@ namespace Systems.Construction
 							spriteHandler.ChangeSprite(1);
 						});
 				}
-				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
+				else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench))
 				{
 					//Unanchor
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
@@ -189,7 +189,7 @@ namespace Systems.Construction
 			//Screwdriver or remove Circuit board
 			if (CurrentState == circuitAddedState)
 			{
-				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+				if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 				{
 					//Screwdriver
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
@@ -220,7 +220,7 @@ namespace Systems.Construction
 			//Add wire or unscrew
 			if (CurrentState == screwState)
 			{
-				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable))
+				if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Cable))
 				{
 					//Add wire
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
@@ -235,7 +235,7 @@ namespace Systems.Construction
 							spriteHandler.ChangeSprite(3);
 						});
 				}
-				else if  (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+				else if  (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 				{
 					//Remove unscrew
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
@@ -267,7 +267,7 @@ namespace Systems.Construction
 
 				//	spriteHandler.ChangeSprite(4);
 				// }
-				/*else */if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.ReinforcedGlassSheet))
+				/*else */if (Validations.HasItemTrait(interaction, CommonTraits.Instance.ReinforcedGlassSheet))
 				{
 					//Skip adding brain and add reinforced glass straight away instead
 					if (Validations.HasUsedAtLeast(interaction, 2) == false)
@@ -288,7 +288,7 @@ namespace Systems.Construction
 							spriteHandler.ChangeSprite(5);
 						});
 				}
-				else if  (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter))
+				else if  (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wirecutter))
 				{
 					//Remove wire
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
@@ -310,7 +310,7 @@ namespace Systems.Construction
 			//Add reinforced glass or remove brain
 			if (CurrentState == brainAddedState)
 			{
-				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.ReinforcedGlassSheet))
+				if (Validations.HasItemTrait(interaction, CommonTraits.Instance.ReinforcedGlassSheet))
 				{
 					//Add reinforced glass
 					if (Validations.HasUsedAtLeast(interaction, 2) == false)
@@ -331,7 +331,7 @@ namespace Systems.Construction
 							spriteHandler.ChangeSprite(5);
 						});
 				}
-				else if  (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar))
+				else if  (Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar))
 				{
 					//Remove brain
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
@@ -353,7 +353,7 @@ namespace Systems.Construction
 			//Screw to finish or remove glass
 			if (CurrentState == glassState)
 			{
-				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+				if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 				{
 					//Finish
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
@@ -374,7 +374,7 @@ namespace Systems.Construction
 							_ = Despawn.ServerSingle(gameObject);
 						});
 				}
-				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar))
+				else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar))
 				{
 					//Crowbar out glass
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
