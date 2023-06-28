@@ -8,6 +8,7 @@
 Shader "Stencil/Unlit background" {
 	Properties{
 		_MainTex("Base (RGB) Trans (A)", 2D) = "white" {}
+		_Alpha("Alpha", Range(0, 1)) = 1
 	}
 
 		SubShader{
@@ -43,6 +44,7 @@ Shader "Stencil/Unlit background" {
 
 	sampler2D _MainTex;
 	float4 _MainTex_ST;
+		float _Alpha;
 
 	v2f vert(appdata_t v)
 	{
@@ -55,6 +57,7 @@ Shader "Stencil/Unlit background" {
 	fixed4 frag(v2f i) : SV_Target
 	{
 		fixed4 col = tex2D(_MainTex, i.texcoord);
+		col.a *= _Alpha;
 		return col;
 	}
 		ENDCG
