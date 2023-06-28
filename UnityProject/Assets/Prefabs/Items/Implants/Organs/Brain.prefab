@@ -302,6 +302,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: CanBeSoldInCargo
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: initialDescription
       value: Not so intelligent now, ay?
       objectReference: {fileID: 0}
@@ -922,31 +927,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8973772558827523174}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1507314585553908059
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4398224852614849287}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 840609453e4bf334cbd14cd7999c6fb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  OnBodyID: 0
-  Pickupable: {fileID: 0}
-  DrunkReagent: {fileID: 11400000, guid: 68548df5bd53cc24b8d2bbfa735a274d, type: 2}
-  MaxDrunkAtPercentage: 0.06
-  hasInbuiltSight: 0
-  hasInbuiltHearing: 0
-  CannotSpeak: 0
-  hasInbuiltSpeech: 0
-  BodyChatModifier: 0
-  ReagentCirculatedComponent: {fileID: 0}
 --- !u!114 &1295970902754687950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -974,3 +954,28 @@ MonoBehaviour:
     - You feel very sick
     - You find it hard to keep your balance
   TimeBetweenSymptoms: 120
+--- !u!114 &1507314585553908059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4398224852614849287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840609453e4bf334cbd14cd7999c6fb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  OnBodyID: 0
+  Pickupable: {fileID: 0}
+  DrunkReagent: {fileID: 11400000, guid: 68548df5bd53cc24b8d2bbfa735a274d, type: 2}
+  MaxDrunkAtPercentage: 0.06
+  hasInbuiltSight: 0
+  hasInbuiltHearing: 0
+  CannotSpeak: 0
+  hasInbuiltSpeech: 0
+  BodyChatModifier: 0
+  ReagentCirculatedComponent: {fileID: 0}
