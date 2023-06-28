@@ -188,3 +188,62 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8, type: 3}
+--- !u!1 &6721824315215711349 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4089031872439371531, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+    type: 3}
+  m_PrefabInstance: {fileID: 7347516461834554238}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7632847522297461639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6721824315215711349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe56a83532907c141b7592eead8f0641, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  relatedStorage: {fileID: 8844659413925634137}
+  storage:
+  - NotPresentOnUI: 0
+    SlotArea: 4
+    namedSlot: 2
+    hoverName: Head
+    DropContents: 1
+    placeholderSprite: {fileID: 21300000, guid: 34683ea18e1b2454098abd09e1350e43,
+      type: 3}
+    Conditional: 0
+    Condition:
+      CategoryID: 
+      ConditionalParameter: 0
+      XAmountConditional: 0
+--- !u!114 &8844659413925634137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6721824315215711349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 6069a54d252319c4eac86896777fc512,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 7ecea5325dc0a4af0999d4b7cf5042e6,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  ManuallySpawnContent: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
