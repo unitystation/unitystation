@@ -90,7 +90,7 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 	public void OnInventoryMoveServer(InventoryMove info)
 	{
 		//was it transferred from a player's visible inventory?
-		if (info.FromPlayer == null && LightEmission != null)
+		if ((info.FromPlayer == null || info.ToPlayer == null) && LightEmission != null)
 		{
 			LightEmission.RemoveLight(playerLightData);
 			LightEmission = null;
@@ -98,12 +98,10 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 
 		if (info.ToPlayer != null)
 		{
-			if (CompatibleSlots.Contains(info.ToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none)))
-			{
-				LightEmission = info.ToPlayer.GetComponent<LightsHolder>();
-				if (IsOn == false) return;
-				LightEmission.AddLight(playerLightData);
-			}
+			if (CompatibleSlots.Contains(info.ToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none)) == false) return;
+			LightEmission = info.ToPlayer.GetComponent<LightsHolder>();
+			if (IsOn == false || LightEmission.Lights.Contains(playerLightData)) return;
+			LightEmission.AddLight(playerLightData);
 		}
 	}
 
@@ -111,6 +109,7 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 	{
 		if (LightEmission == null) return;
 		LightEmission.RemoveLight(playerLightData);
+		LightEmission.UpdateLights();
 		LightEmission = null;
 	}
 
