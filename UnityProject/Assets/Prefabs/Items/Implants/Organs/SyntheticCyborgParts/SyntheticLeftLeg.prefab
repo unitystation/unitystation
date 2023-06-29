@@ -70,9 +70,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2574131780916113488, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2574131780916113488, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: f1d60753d471f874895d5d78e99f4721,
+        type: 2}
+    - target: {fileID: 2574131780916113488, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: initialTraits.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: da0ab02318f88644982d7ebec5a2c8c9,
         type: 2}
     - target: {fileID: 2574131780916113488, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
@@ -118,17 +129,17 @@ PrefabInstance:
     - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
