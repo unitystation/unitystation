@@ -12,7 +12,7 @@ namespace Systems.Construction.Parts
 
 		public int Watts
 		{
-			get => Watts;
+			get => watts;
 			set
 			{
 				if (SelfCharging)

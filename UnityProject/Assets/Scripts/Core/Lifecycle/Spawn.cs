@@ -287,6 +287,14 @@ public static class Spawn
 		List<GameObject> spawnedObjects = new List<GameObject>();
 		for (int i = 0; i < info.Count; i++)
 		{
+			//apply scattering if it was specified
+			if (info.ScatterRadius != null)
+			{
+				var scatterRadius = info.ScatterRadius.GetValueOrDefault(0);
+				info.SpawnDestination.WorldPosition = info.SpawnDestination.WorldPosition + new Vector3(Random.Range(-scatterRadius, scatterRadius), Random.Range(-scatterRadius, scatterRadius));
+			}
+
+
 			var result = info.SpawnableToSpawn.SpawnAt(info.SpawnDestination);
 
 			if (result.Successful)
@@ -297,17 +305,6 @@ public static class Spawn
 				}
 
 				spawnedObjects.Add(result.GameObject);
-				//apply scattering if it was specified
-				if (info.ScatterRadius != null)
-				{
-					var uop = result.GameObject.GetComponent<UniversalObjectPhysics>();
-					var scatterRadius = info.ScatterRadius.GetValueOrDefault(0);
-					if (uop != null)
-					{
-						uop.AppearAtWorldPositionServer(info.SpawnDestination.WorldPosition + new Vector3(
-							Random.Range(-scatterRadius, scatterRadius), Random.Range(-scatterRadius, scatterRadius)));
-					}
-				}
 
 				if (info.SpawnDestination.SharePosition != null &&
 				    info.SpawnDestination.SharePosition.ContainedInObjectContainer != null)

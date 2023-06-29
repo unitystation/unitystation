@@ -95,6 +95,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4490847932940167273, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
+      propertyPath: CanBeSoldInCargo
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4490847932940167273, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
       propertyPath: initialDescription
       value: A device that mimics the structure of the brains of living creatures.
         The latest in artificial intelligence.
@@ -289,6 +294,7 @@ MonoBehaviour:
   requiresPower: 0
   isPowered: 1
   canExamineFrequency: 0
+  minimumDamageBeforeObfuscation: 12
   EncryptionKey: 0
   LoudSpeakOn: 0
   isEMPed: 0

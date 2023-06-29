@@ -182,7 +182,19 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 				new StandardProgressActionConfig(StandardProgressActionType.SelfHeal, false, false, true),
 				() =>
 				{
-					SyncIsLayingDown(layingDown);
+					bool cando = true;
+					foreach (var status in CheckableStatuses)
+					{
+						if (status.AllowChange(layingDown) == false)
+						{
+							cando = false;
+						}
+					}
+
+					if (cando)
+					{
+						SyncIsLayingDown(layingDown);
+					}
 				});
 
 			bar.ServerStartProgress(this, time, gameObject);
