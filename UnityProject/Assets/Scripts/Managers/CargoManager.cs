@@ -273,7 +273,11 @@ namespace Systems.Cargo
 		{
 			if (obj.TryGetComponent<Attributes>(out var attributes))
 			{
-				if (attributes.CanBeSoldInCargo == false) return;
+				if (attributes.CanBeSoldInCargo == false)
+				{
+					Inventory.ServerDrop(attributes.gameObject);
+					return;
+				}
 			}
 
 			if (obj.TryGetComponent<PlayerScript>(out var playerScript))
