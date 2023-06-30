@@ -14,7 +14,7 @@ namespace Items.Implants.Organs.Vomit
 		[SerializeField] private Stomach stomach;
 		[SerializeField] private EmoteSO dryHeavingEmote;
 		[SerializeField] private GameObject vomitReagentPrefab;
-		[SerializeField] private float divisbleVomitAmount = 6;
+		[SerializeField] private float divisbleVomitAmount = 4;
 		[SerializeField] private AddressableAudioSource vomitSound;
 		private List<IVomitExtension> vomitLogicExtensions = new List<IVomitExtension>();
 

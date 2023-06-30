@@ -15,7 +15,7 @@ MonoBehaviour:
   ingredients:
     m_keys:
     - {fileID: 11400000, guid: 5e2a5c76d1bce6144b8b1aac987b2751, type: 2}
-    m_values: 01000000
+    m_values: 03000000
   useExactAmounts: 0
   MinimumReactionMultiple: 0
   catalysts:
@@ -51,5 +51,5 @@ MonoBehaviour:
     CustomEmoterMessage: 
     CustomShownMessage: 
     Emote: {fileID: 11400000, guid: 10fbc8c0eb861c54199481242aef33a6, type: 2}
-    ChancePerTick: 100
+    ChancePerTick: 10
     StopIfOverdosed: 0
