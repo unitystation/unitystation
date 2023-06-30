@@ -27,6 +27,7 @@ namespace Systems.DynamicAmbience
 
 		public void DisableAmbienceForPlayer()
 		{
+			AudioManager.Instance.GameplayMixer.audioMixer.ClearFloat(AUDIOMIXER_REVERB_KEY);
 			if (CustomNetworkManager.IsHeadless) return;
 			if (transform.parent.gameObject.NetWorkIdentity()?.isOwned == false) return;
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
