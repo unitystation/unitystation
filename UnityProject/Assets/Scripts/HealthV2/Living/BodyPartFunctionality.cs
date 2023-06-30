@@ -8,7 +8,7 @@ namespace HealthV2
 	{
 
 		[NonSerialized] public BodyPart RelatedPart;
-		protected LivingHealthMasterBase livingHealthMaster => RelatedPart.HealthMaster;
+		protected LivingHealthMasterBase LivingHealthMaster => RelatedPart.HealthMaster;
 
 
 		public virtual void ImplantPeriodicUpdate(){}

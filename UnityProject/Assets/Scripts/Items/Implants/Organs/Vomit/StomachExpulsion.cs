@@ -33,7 +33,7 @@ namespace Items.Implants.Organs.Vomit
 			var amountToVomit = Random.Range(0.1f, stomach.StomachContents.CurrentReagentMix.Total / divisbleVomitAmount);
 			var vomitSplat = Spawn.ServerPrefab(
 				vomitReagentPrefab,
-				livingHealthMaster.gameObject.AssumedWorldPosServer());
+				LivingHealthMaster.gameObject.AssumedWorldPosServer());
 			var vomitReagent = vomitSplat.GameObject.GetComponent<ReagentContainer>();
 			if (vomitReagent == null)
 			{
@@ -43,10 +43,10 @@ namespace Items.Implants.Organs.Vomit
 			stomach.StomachContents.TransferTo(amountToVomit, vomitReagent);
 			foreach (var logic in vomitLogicExtensions)
 			{
-				logic?.OnVomit(amountToVomit, livingHealthMaster, stomach);
+				logic?.OnVomit(amountToVomit, LivingHealthMaster, stomach);
 			}
 			if(vomitSound != null) _ = SoundManager.PlayNetworkedAtPosAsync(
-				vomitSound, livingHealthMaster.gameObject.AssumedWorldPosServer());
+				vomitSound, LivingHealthMaster.gameObject.AssumedWorldPosServer());
 		}
 
 		private bool WillDryHeave()
