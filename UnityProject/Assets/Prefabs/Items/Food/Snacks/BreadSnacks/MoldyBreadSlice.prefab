@@ -28,6 +28,37 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: bd9ce6b56fcf1284c9117e5f7a26fb24,
         type: 2}
+    - target: {fileID: 2697906132478500034, guid: d2991f5505400ab479c5262137eed380,
+        type: 3}
+      propertyPath: initialReagentMix.temperature
+      value: 285.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2697906132478500034, guid: d2991f5505400ab479c5262137eed380,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2697906132478500034, guid: d2991f5505400ab479c5262137eed380,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2697906132478500034, guid: d2991f5505400ab479c5262137eed380,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5e2a5c76d1bce6144b8b1aac987b2751,
+        type: 2}
+    - target: {fileID: 2697906132478500034, guid: d2991f5505400ab479c5262137eed380,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2697906132478500034, guid: d2991f5505400ab479c5262137eed380,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 2.25
+      objectReference: {fileID: 0}
     - target: {fileID: 3654515168179534600, guid: d2991f5505400ab479c5262137eed380,
         type: 3}
       propertyPath: initialName
@@ -67,17 +98,17 @@ PrefabInstance:
     - target: {fileID: 3767659913715099934, guid: d2991f5505400ab479c5262137eed380,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3767659913715099934, guid: d2991f5505400ab479c5262137eed380,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3767659913715099934, guid: d2991f5505400ab479c5262137eed380,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3767659913715099934, guid: d2991f5505400ab479c5262137eed380,
         type: 3}
@@ -98,6 +129,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MoldyBreadSlice
+      objectReference: {fileID: 0}
+    - target: {fileID: 3877279333247478238, guid: d2991f5505400ab479c5262137eed380,
+        type: 3}
+      propertyPath: _assetId
+      value: 2892573292
       objectReference: {fileID: 0}
     - target: {fileID: 3877279333247478238, guid: d2991f5505400ab479c5262137eed380,
         type: 3}
