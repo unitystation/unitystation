@@ -7,7 +7,7 @@ namespace Systems.DynamicAmbience
 	{
 		[SerializeField] private LayerMask layerMask;
 		[SerializeField] private float updateTime = 0.75f;
-		[SerializeField] private float clustrophobicDistance = 2.95f;
+		[SerializeField] private float clustrophobicDistance = 8f;
 		[SerializeField] private bool debug = true;
 
 		private readonly float reverbFullStrength = 0.00f;
@@ -55,12 +55,12 @@ namespace Systems.DynamicAmbience
 				           $"-- Low {clustrophobicDistance / 1.50f}/{distance < clustrophobicDistance /1.50f}");
 			}
 
-			if (distance >= clustrophobicDistance || distance.Approx(clustrophobicDistance))
+			if (distance >= clustrophobicDistance || distance.Approx(clustrophobicDistance) || distance.Approx(1))
 			{
 				strength = reverbFullStrength;
 				return;
 			}
-			if (distance < clustrophobicDistance / 1.50f || distance.Approx(1)) strength = reverbLowStrength;
+			if (distance < clustrophobicDistance / 1.50f) strength = reverbLowStrength;
 			if (distance < clustrophobicDistance / 1.25f) strength = reverbMediumStrength;
 		}
 
@@ -93,11 +93,6 @@ namespace Systems.DynamicAmbience
 			var hitValidY = lineUp.ItHit && lineDown.ItHit;
 			var hitValidX = lineLeft.ItHit && lineRight.ItHit;
 
-			if (debug)
-			{
-				Logger.Log($"Wall Line check distance = Y+ {lineUp.Distance} Y- {lineDown.Distance} " +
-				           $"X+ {lineLeft.Distance} X- {lineRight}");
-			}
 			if (hitValidX)
 			{
 				distance = DistanceCheck(lineLeft.Distance, lineRight.Distance);
