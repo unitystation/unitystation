@@ -11,8 +11,8 @@ namespace Systems.DynamicAmbience
 		[SerializeField] private bool debug = true;
 
 		private readonly float reverbFullStrength = 0.00f;
-		private readonly float reverbMediumStrength = -925.00f;
-		private readonly float reverbLowStrength = -650.00f;
+		private readonly float reverbMediumStrength = -650.00f;
+		private readonly float reverbLowStrength = -950.00f;
 
 		private const string AUDIOMIXER_REVERB_KEY = "SFXReverb";
 
@@ -69,37 +69,38 @@ namespace Systems.DynamicAmbience
 			distance = clustrophobicDistance / 4;
 			var pos = transform.parent.gameObject.AssumedWorldPosServer().CutToInt();
 			if (MatrixManager.IsSpaceAt(pos, CustomNetworkManager.IsServer)) return true;
-			var lineUp = MatrixManager.Linecast(
-				pos,
-				LayerTypeSelection.Walls, layerMask,
-				new Vector3(pos.x, pos.y + clustrophobicDistance, pos.z),
-				debug);
-			var lineDown = MatrixManager.Linecast(
-				pos,
-				LayerTypeSelection.Walls, layerMask,
-				new Vector3(pos.x, pos.y - clustrophobicDistance, pos.z),
-				debug);
-			var lineLeft = MatrixManager.Linecast(
-				pos,
-				LayerTypeSelection.Walls, layerMask,
-				new Vector3(pos.x + clustrophobicDistance, pos.y, pos.z),
-				debug);
-			var lineRight = MatrixManager.Linecast(
-				pos,
-				LayerTypeSelection.Walls, layerMask,
-				new Vector3(pos.x - clustrophobicDistance, pos.y, pos.z),
-				debug);
-
-			var hitValidY = lineUp.ItHit && lineDown.ItHit;
-			var hitValidX = lineLeft.ItHit && lineRight.ItHit;
+			Vector3[] directions = new[]
+			{
+				new Vector3(pos.x, pos.y + clustrophobicDistance, pos.z), //up
+				new Vector3(pos.x, pos.y - clustrophobicDistance, pos.z), //down
+				new Vector3(pos.x + clustrophobicDistance, pos.y, pos.z), //left
+				new Vector3(pos.x - clustrophobicDistance, pos.y, pos.z) //right
+			};
+			HitData[] hitData = new HitData[4];
+			int index = -1;
+			foreach (var dir in directions)
+			{
+				index++;
+				HitData data = new HitData();
+				var line =  MatrixManager.Linecast(
+					pos,
+					LayerTypeSelection.Walls, layerMask,
+					dir,
+					debug);
+				data.Distance = distance;
+				data.Hit = line.ItHit;
+				hitData[index] = data;
+			}
+			var hitValidY = hitData[0].Hit && hitData[1].Hit;
+			var hitValidX = hitData[2].Hit && hitData[3].Hit;
 
 			if (hitValidX)
 			{
-				distance = DistanceCheck(lineLeft.Distance, lineRight.Distance);
+				distance = DistanceCheck(hitData[2].Distance, hitData[3].Distance);
 			}
 			else if (hitValidY)
 			{
-				distance = DistanceCheck(lineUp.Distance, lineDown.Distance);
+				distance = DistanceCheck(hitData[0].Distance, hitData[1].Distance);
 			}
 			else
 			{
@@ -113,6 +114,12 @@ namespace Systems.DynamicAmbience
 		{
 			//TODO: Create a better way to check how far the player is from nearby walls
 			return one + two;
+		}
+
+		private struct HitData
+		{
+			public bool Hit;
+			public float Distance;
 		}
 	}
 }
