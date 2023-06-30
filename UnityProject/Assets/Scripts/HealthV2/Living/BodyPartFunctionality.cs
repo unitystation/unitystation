@@ -1,15 +1,14 @@
 using System;
 using Mirror;
 using Systems.Explosions;
-using NaughtyAttributes;
 
 namespace HealthV2
 {
 	public class BodyPartFunctionality : NetworkBehaviour, IEmpAble
 	{
 
-		[NonSerialized]
-		public BodyPart RelatedPart;
+		[NonSerialized] public BodyPart RelatedPart;
+		protected LivingHealthMasterBase livingHealthMaster => RelatedPart.HealthMaster;
 
 
 		public virtual void ImplantPeriodicUpdate(){}
