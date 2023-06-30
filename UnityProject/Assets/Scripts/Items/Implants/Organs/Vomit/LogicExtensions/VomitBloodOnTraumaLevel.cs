@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Items.Implants.Organs.Vomit.LogicExtensions
 {
-	public class VomitBloodOnPierceTraumaLevel : MonoBehaviour, IVomitExtension
+	public class VomitBloodOnTraumaLevel : MonoBehaviour, IVomitExtension
 	{
 
 		[SerializeField] private TraumaticDamageTypes traumaTypes = TraumaticDamageTypes.PIERCE;
