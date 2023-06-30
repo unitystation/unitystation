@@ -10,9 +10,9 @@ namespace Systems.DynamicAmbience
 		[SerializeField] private float clustrophobicDistance = 2.95f;
 		[SerializeField] private bool debug = true;
 
-		private float reverbFullStrength = 0.00f;
-		private float reverbMediumStrength = -450.00f;
-		private float reverbLowStrength = -875.00f;
+		private readonly float reverbFullStrength = 0.00f;
+		private readonly float reverbMediumStrength = -925.00f;
+		private readonly float reverbLowStrength = -650.00f;
 
 		private const string AUDIOMIXER_REVERB_KEY = "SFXReverb";
 
@@ -50,13 +50,23 @@ namespace Systems.DynamicAmbience
 			//TODO: With the current values, this feature is not 100% noticeable.
 			//need a better way to handle this and a better balance for reverb strength based on how small the area the player is in.
 			if (distance >= clustrophobicDistance || distance.Approx(clustrophobicDistance)) strength = reverbFullStrength;
-			if (distance < clustrophobicDistance / 2) strength = reverbMediumStrength;
-			if (distance < clustrophobicDistance / 4) strength = reverbLowStrength;
+			if (distance < clustrophobicDistance / 1.25f) strength = reverbMediumStrength;
+			if (distance < clustrophobicDistance / 1.50f) strength = reverbLowStrength;
+
+			if (debug)
+			{
+				Logger.Log($"Distance: " +
+				           $"{distance} -- Full {clustrophobicDistance}/{distance >= clustrophobicDistance} " +
+				           $"-- Med {clustrophobicDistance / 1.25f}/{distance < clustrophobicDistance / 1.25f} " +
+				           $"-- Low {clustrophobicDistance / 1.50f}/{distance < clustrophobicDistance /1.50f}");
+			}
 		}
 
 		private bool ClaustrophobicSpace(out float distance)
 		{
-			var pos = transform.parent.gameObject.AssumedWorldPosServer();
+			distance = clustrophobicDistance / 4;
+			var pos = transform.parent.gameObject.AssumedWorldPosServer().CutToInt();
+			if (MatrixManager.IsSpaceAt(pos, CustomNetworkManager.IsServer)) return true;
 			var lineUp = MatrixManager.Linecast(
 				pos,
 				LayerTypeSelection.Walls, layerMask,
@@ -81,7 +91,6 @@ namespace Systems.DynamicAmbience
 			var hitValidY = lineUp.ItHit && lineDown.ItHit;
 			var hitValidX = lineLeft.ItHit && lineRight.ItHit;
 
-			distance = 0;
 			if (debug)
 			{
 				Logger.Log($"Wall Line check distance = Y+ {lineUp.Distance} Y- {lineDown.Distance} " +
@@ -94,6 +103,10 @@ namespace Systems.DynamicAmbience
 			else if (hitValidY)
 			{
 				distance = DistanceCheck(lineUp.Distance, lineDown.Distance);
+			}
+			else
+			{
+				distance = 0;
 			}
 
 			return hitValidY || hitValidX;
