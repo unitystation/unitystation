@@ -18,19 +18,23 @@ namespace Systems.DynamicAmbience
 
 		private float strength = 0.00f;
 
+		private bool isEnabled = false;
+
 		public void EnableAmbienceForPlayer()
 		{
 			if (CustomNetworkManager.IsHeadless) return;
-			if (transform.parent.gameObject.NetWorkIdentity()?.isOwned == false) return;
+			if (transform.parent.gameObject.NetWorkIdentity()?.isOwned == false || isEnabled) return;
 			UpdateManager.Add(UpdateMe, updateTime);
+			isEnabled = true;
 		}
 
 		public void DisableAmbienceForPlayer()
 		{
-			AudioManager.Instance.GameplayMixer.audioMixer.ClearFloat(AUDIOMIXER_REVERB_KEY);
 			if (CustomNetworkManager.IsHeadless) return;
 			if (transform.parent.gameObject.NetWorkIdentity()?.isOwned == false) return;
+			AudioManager.Instance.GameplayMixer.audioMixer.ClearFloat(AUDIOMIXER_REVERB_KEY);
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+			isEnabled = false;
 		}
 
 		private void UpdateMe()

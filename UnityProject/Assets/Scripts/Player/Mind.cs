@@ -336,6 +336,10 @@ public class Mind : NetworkBehaviour, IActionGUI
 	public void Ghost()
 	{
 		var Body = GetDeepestBody();
+		if (CurrentPlayScript != null)
+		{
+			CurrentPlayScript.OnBodyUnPossesedByPlayer?.Invoke();
+		}
 		Move.ForcePositionClient(Body.gameObject.AssumedWorldPosServer(), Smooth: false);
 		IsGhosting = true;
 		InternalSetControllingObject(GetDeepestBody().gameObject);
