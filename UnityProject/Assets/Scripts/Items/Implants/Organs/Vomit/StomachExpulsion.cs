@@ -16,7 +16,7 @@ namespace Items.Implants.Organs.Vomit
 		[SerializeField] private GameObject vomitReagentPrefab;
 		[SerializeField] private float divisbleVomitAmount = 4;
 		[SerializeField] private AddressableAudioSource vomitSound;
-		private List<IVomitExtension> vomitLogicExtensions = new List<IVomitExtension>();
+		private readonly List<IVomitExtension> vomitLogicExtensions = new List<IVomitExtension>();
 
 		public override void Awake()
 		{
