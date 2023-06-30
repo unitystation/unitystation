@@ -715,8 +715,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlay
 
 	public void OnDestroy()
 	{
-		OnBodyPossesedByPlayer.RemoveAllListeners();
-		OnBodyUnPossesedByPlayer.RemoveAllListeners();
 		Itself.PreImplementedOnDestroy();
 	}
 

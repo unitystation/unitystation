@@ -392,5 +392,8 @@ public interface IPlayerPossessable
 		{
 			PossessingMind.SetPossessingObject(null);
 		}
+
+		OnBodyPossesedByPlayer.RemoveAllListeners();
+		OnBodyUnPossesedByPlayer.RemoveAllListeners();
 	}
 }

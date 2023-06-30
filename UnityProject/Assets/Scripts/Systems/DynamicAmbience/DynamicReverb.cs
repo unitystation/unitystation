@@ -47,12 +47,6 @@ namespace Systems.DynamicAmbience
 
 		private void DistanceStrengthToUse(float distance)
 		{
-			//TODO: With the current values, this feature is not 100% noticeable.
-			//need a better way to handle this and a better balance for reverb strength based on how small the area the player is in.
-			if (distance >= clustrophobicDistance || distance.Approx(clustrophobicDistance)) strength = reverbFullStrength;
-			if (distance < clustrophobicDistance / 1.25f) strength = reverbMediumStrength;
-			if (distance < clustrophobicDistance / 1.50f) strength = reverbLowStrength;
-
 			if (debug)
 			{
 				Logger.Log($"Distance: " +
@@ -60,6 +54,14 @@ namespace Systems.DynamicAmbience
 				           $"-- Med {clustrophobicDistance / 1.25f}/{distance < clustrophobicDistance / 1.25f} " +
 				           $"-- Low {clustrophobicDistance / 1.50f}/{distance < clustrophobicDistance /1.50f}");
 			}
+
+			if (distance >= clustrophobicDistance || distance.Approx(clustrophobicDistance))
+			{
+				strength = reverbFullStrength;
+				return;
+			}
+			if (distance < clustrophobicDistance / 1.50f || distance.Approx(1)) strength = reverbLowStrength;
+			if (distance < clustrophobicDistance / 1.25f) strength = reverbMediumStrength;
 		}
 
 		private bool ClaustrophobicSpace(out float distance)
