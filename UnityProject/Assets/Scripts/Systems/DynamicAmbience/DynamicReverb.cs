@@ -70,6 +70,28 @@ namespace Systems.DynamicAmbience
 			distance = clustrophobicDistance / 4;
 			var pos = transform.parent.gameObject.AssumedWorldPosServer().CutToInt();
 			if (MatrixManager.IsSpaceAt(pos, CustomNetworkManager.IsServer)) return true;
+			var hitData = CheckSpace(pos);
+			var hitValidY = hitData[0].Hit && hitData[1].Hit;
+			var hitValidX = hitData[2].Hit && hitData[3].Hit;
+
+			if (hitValidX)
+			{
+				distance = DistanceCheck(hitData[2].Distance, hitData[3].Distance);
+			}
+			else if (hitValidY)
+			{
+				distance = DistanceCheck(hitData[0].Distance, hitData[1].Distance);
+			}
+			else
+			{
+				distance = 0;
+			}
+
+			return hitValidY || hitValidX;
+		}
+
+		private HitData[] CheckSpace(Vector3Int pos)
+		{
 			Vector3[] directions = new[]
 			{
 				new Vector3(pos.x, pos.y + clustrophobicDistance, pos.z), //up
@@ -88,27 +110,12 @@ namespace Systems.DynamicAmbience
 					LayerTypeSelection.Walls, layerMask,
 					dir,
 					debug);
-				data.Distance = distance;
+				data.Distance = line.Distance;
 				data.Hit = line.ItHit;
 				hitData[index] = data;
 			}
-			var hitValidY = hitData[0].Hit && hitData[1].Hit;
-			var hitValidX = hitData[2].Hit && hitData[3].Hit;
 
-			if (hitValidX)
-			{
-				distance = DistanceCheck(hitData[2].Distance, hitData[3].Distance);
-			}
-			else if (hitValidY)
-			{
-				distance = DistanceCheck(hitData[0].Distance, hitData[1].Distance);
-			}
-			else
-			{
-				distance = 0;
-			}
-
-			return hitValidY || hitValidX;
+			return hitData;
 		}
 
 		private float DistanceCheck(float one, float two)
