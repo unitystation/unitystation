@@ -22,10 +22,10 @@ namespace Player.EmoteScripts
 
 		private void CheckAndDo(GameObject player, LivingHealthMasterBase health)
 		{
-			var bodyParts = health.BodyPartStorage.GetOccupiedSlots();
+			var bodyParts = health.BodyPartList;
 			foreach (var part in bodyParts)
 			{
-				if (part.ItemObject.TryGetComponent<StomachExpulsion>(out var stomach) == false) continue;
+				if (part.TryGetComponent<StomachExpulsion>(out var stomach) == false) continue;
 				stomach.Vomit();
 				base.Do(player);
 				return;

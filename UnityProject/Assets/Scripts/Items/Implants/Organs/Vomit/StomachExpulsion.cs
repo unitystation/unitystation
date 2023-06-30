@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Castle.Core.Internal;
 using Chemistry.Components;
 using HealthV2;
 using NaughtyAttributes;
@@ -13,13 +14,14 @@ namespace Items.Implants.Organs.Vomit
 		[SerializeField] private Stomach stomach;
 		[SerializeField] private EmoteSO dryHeavingEmote;
 		[SerializeField] private GameObject vomitReagentPrefab;
-		[SerializeField] private List<IVomitExtension> vomitLogicExtensions;
 		[SerializeField] private float divisbleVomitAmount = 6;
+		private List<IVomitExtension> vomitLogicExtensions = new List<IVomitExtension>();
 
 		public override void Awake()
 		{
 			base.Awake();
 			stomach ??= GetComponent<Stomach>();
+			vomitLogicExtensions.AddRange(GetComponentsInChildren<IVomitExtension>());
 		}
 
 
@@ -42,7 +44,7 @@ namespace Items.Implants.Organs.Vomit
 			//add chat message here
 			foreach (var logic in vomitLogicExtensions)
 			{
-				logic.OnVomit(amountToVomit, livingHealthMaster);
+				logic?.OnVomit(amountToVomit, livingHealthMaster);
 			}
 		}
 
