@@ -8,8 +8,8 @@ namespace Items.Implants.Organs.Vomit.LogicExtensions
 		[SerializeField] private float stunDuration = 4f;
 		public void OnVomit(float amount, LivingHealthMasterBase health)
 		{
-			if(DMMath.Prob(50)) health.playerScript.RegisterPlayer.ServerLayDown();
 			health.playerScript.RegisterPlayer.ServerStun(stunDuration, true, false);
+			if(DMMath.Prob(50)) health.playerScript.RegisterPlayer.ServerLayDown();
 		}
 	}
 }
