@@ -8,16 +8,24 @@ namespace Player.EmoteScripts
 	[CreateAssetMenu(fileName = "Vomit", menuName = "ScriptableObjects/RP/Emotes/Vomit")]
 	public class Vomit : GenderedEmote
 	{
+
+		[SerializeField] private bool instant = false;
+
 		public override void Do(GameObject player)
 		{
 			var health = player.GetComponent<LivingHealthMasterBase>();
 			if (health.IsDead) return;
 
-			StandardProgressAction action = StandardProgressAction.Create(
-				new StandardProgressActionConfig(StandardProgressActionType.SelfHeal),
-				() => CheckAndDo(player, health));
-			Chat.AddActionMsgToChat(player, $"<color=red>{health.playerScript.visibleName} attempts to make themselves vomit.</color>");
-			action.ServerStartProgress(player.RegisterTile(), 6f, player);
+			if (instant == false)
+			{
+				StandardProgressAction action = StandardProgressAction.Create(
+					new StandardProgressActionConfig(StandardProgressActionType.SelfHeal),
+					() => CheckAndDo(player, health));
+				Chat.AddActionMsgToChat(player, $"<color=red>{health.playerScript.visibleName} attempts to make themselves vomit.</color>");
+				action.ServerStartProgress(player.RegisterTile(), 6f, player);
+				return;
+			}
+			CheckAndDo(player, health);
 		}
 
 		private void CheckAndDo(GameObject player, LivingHealthMasterBase health)
@@ -30,7 +38,7 @@ namespace Player.EmoteScripts
 				base.Do(player);
 				return;
 			}
-			Chat.AddExamineMsg(player, "You do not have a stomach to do this...");
+			if(instant == false) Chat.AddExamineMsg(player, "You do not have a stomach to do this...");
 		}
 	}
 }
