@@ -8,7 +8,7 @@ namespace Items.Implants.Organs.Vomit.LogicExtensions
 
 		[SerializeField] private Vector2 minMaxToxinHeal = new Vector2(2, 6);
 
-		public void OnVomit(float amount, LivingHealthMasterBase health)
+		public void OnVomit(float amount, LivingHealthMasterBase health, Stomach stomach)
 		{
 			health.HealDamageOnAll(null,
 				Random.Range(minMaxToxinHeal.x, minMaxToxinHeal.y),

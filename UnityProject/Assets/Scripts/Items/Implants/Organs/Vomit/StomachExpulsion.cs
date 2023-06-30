@@ -43,7 +43,7 @@ namespace Items.Implants.Organs.Vomit
 			stomach.StomachContents.TransferTo(amountToVomit, vomitReagent);
 			foreach (var logic in vomitLogicExtensions)
 			{
-				logic?.OnVomit(amountToVomit, livingHealthMaster);
+				logic?.OnVomit(amountToVomit, livingHealthMaster, stomach);
 			}
 			if(vomitSound != null) _ = SoundManager.PlayNetworkedAtPosAsync(
 				vomitSound, livingHealthMaster.gameObject.AssumedWorldPosServer());
