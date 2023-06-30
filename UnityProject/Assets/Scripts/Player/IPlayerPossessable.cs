@@ -279,14 +279,13 @@ public interface IPlayerPossessable
 		UIActionManager.ClearAllActionsClient();
 		RequestIconsUIActionRefresh.Send();
 		OnActionControlPlayer?.Invoke();
+		OnBodyPossesedByPlayer?.Invoke();
 	}
-
-
 
 	public void InternalOnPlayerLeave(Mind mind)
 	{
 		if (GameObject == null) return;
-		if (GameObject.GetComponent<NetworkIdentity>().hasAuthority  || mind == PlayerManager.LocalMindScript)
+		if (GameObject.GetComponent<NetworkIdentity>().isOwned  || mind == PlayerManager.LocalMindScript)
 		{
 			var leaveInterfaces = GameObject.GetComponents<IOnPlayerLeaveBody>();
 			foreach (var leaveInterface in leaveInterfaces)

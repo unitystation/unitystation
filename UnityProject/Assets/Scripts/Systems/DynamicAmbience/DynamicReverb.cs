@@ -23,6 +23,7 @@ namespace Systems.DynamicAmbience
 		public void EnableAmbienceForPlayer()
 		{
 			if (CustomNetworkManager.IsHeadless) return;
+			Logger.Log("Enabling Dynamic Reverb system.");
 			if (transform.parent.gameObject.NetWorkIdentity()?.isOwned == false || isEnabled) return;
 			UpdateManager.Add(UpdateMe, updateTime);
 			isEnabled = true;
@@ -31,6 +32,7 @@ namespace Systems.DynamicAmbience
 		public void DisableAmbienceForPlayer()
 		{
 			if (CustomNetworkManager.IsHeadless) return;
+			Logger.Log("Disabling Dynamic Reverb system.");
 			if (transform.parent.gameObject.NetWorkIdentity()?.isOwned == false) return;
 			AudioManager.Instance.GameplayMixer.audioMixer.ClearFloat(AUDIOMIXER_REVERB_KEY);
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
