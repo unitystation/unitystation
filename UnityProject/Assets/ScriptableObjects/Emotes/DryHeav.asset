@@ -19,19 +19,12 @@ MonoBehaviour:
   isAudibleEmote: 0
   allowEmoteWhileCrawling: 1
   viewText: dry heavs
-  youText: try to vomit by there's nothing in your stomach!
+  youText: You try to vomit by there's nothing in your stomach!
   failText: You were unable to preform this action!
   mouthBlockedText: You are unable to make a sound!
-  critViewText: screams in pain!
+  critViewText: lets out a lot of moans while dry heaving.
   soundsAreTyped: 0
-  defaultSounds:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/CutGash.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
+  defaultSounds: []
   TypedSounds: []
   pitchRange: {x: 0.7, y: 1}
   allowedPlayerTypes: 1

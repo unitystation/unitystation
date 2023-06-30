@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Castle.Core.Internal;
+using AddressableReferences;
 using Chemistry.Components;
 using HealthV2;
 using NaughtyAttributes;
@@ -15,6 +15,7 @@ namespace Items.Implants.Organs.Vomit
 		[SerializeField] private EmoteSO dryHeavingEmote;
 		[SerializeField] private GameObject vomitReagentPrefab;
 		[SerializeField] private float divisbleVomitAmount = 6;
+		[SerializeField] private AddressableAudioSource vomitSound;
 		private List<IVomitExtension> vomitLogicExtensions = new List<IVomitExtension>();
 
 		public override void Awake()
@@ -40,12 +41,12 @@ namespace Items.Implants.Organs.Vomit
 				return;
 			}
 			stomach.StomachContents.TransferTo(amountToVomit, vomitReagent);
-			//add sound here
-			//add chat message here
 			foreach (var logic in vomitLogicExtensions)
 			{
 				logic?.OnVomit(amountToVomit, livingHealthMaster);
 			}
+			if(vomitSound != null) _ = SoundManager.PlayNetworkedAtPosAsync(
+				vomitSound, livingHealthMaster.gameObject.AssumedWorldPosServer());
 		}
 
 		private bool WillDryHeave()
