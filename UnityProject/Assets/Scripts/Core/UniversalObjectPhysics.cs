@@ -716,7 +716,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					Matrix = matrixID
 				};
 				SetTransform(resetToLocal, false);
-				InternalTriggerOnLocalTileReached(resetToLocal.RoundToInt());
+				InternalTriggerOnLocalTileReached(resetToLocal);
 
 				if (Animating == false)
 				{
@@ -1865,7 +1865,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	private void InternalTriggerOnLocalTileReached(Vector3 localPos)
 	{
 		//Can truncate as the localPos should be near enough to the int value
-		var rounded = localPos.TruncateToInt();
+		var rounded = localPos.RoundToInt();
 
 		if (TransformState.HiddenPos != localPos)
 		{

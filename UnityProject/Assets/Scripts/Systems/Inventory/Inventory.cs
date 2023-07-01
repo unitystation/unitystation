@@ -127,6 +127,21 @@ public static class Inventory
 	}
 
 	/// <summary>
+	/// If you're too lazy to get the ItemSlot This will do it for you or Return false if it can't find ItemSlot it is in
+	/// </summary>
+	/// <param name="fromSlot"></param>
+	/// <param name="worldTargetVector"></param>
+	/// <returns></returns>
+	public static bool ServerDrop(GameObject Object, Vector2? worldTargetVector = null)
+	{
+		if (Object.TryGetComponent<Pickupable>(out var Pickupable) == false) return false;
+		if (Pickupable.ItemSlot == null) return false;
+
+		return ServerPerform(InventoryMove.Drop(Pickupable.ItemSlot , worldTargetVector));
+	}
+
+
+	/// <summary>
 	/// Drops all the items in the slots of the player
 	/// </summary>
 	/// <param name="playerStorage">players dynamic storage</param>
