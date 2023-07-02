@@ -947,10 +947,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (pushedBy == this) return;
 		if (CanPush(worldDirection))
 		{
-			if (isServer == false)
+			if (isServer == false && byClient != PlayerManager.LocalPlayerObject)
 			{
 				Pushing.Clear();
 			}
+
 			ForceTilePush(worldDirection, Pushing, byClient, speed, pushedBy: pushedBy, overridePull: overridePull,
 				pulledBy: pulledBy, SendWorld: useWorld);
 		}
