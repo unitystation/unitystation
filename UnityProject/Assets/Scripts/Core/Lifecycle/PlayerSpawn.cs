@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using Mirror;
 using Systems.Spawns;
@@ -223,6 +224,16 @@ public static class PlayerSpawn
 		{
 			bodyPrefab = requestedOccupation.SpecialPlayerPrefab;
 		}
+
+		if (requestedOccupation.BetterCustomProperties.FirstOrDefault(x => x is IGetPlayerPrefab) is IGetPlayerPrefab overwriteBody)
+		{
+			bodyPrefab = overwriteBody.GetPlayerPrefab();
+			if (bodyPrefab == null)
+			{
+				return mind.gameObject;
+			}
+		}
+
 
 		var body = SpawnPlayerBody(bodyPrefab);
 

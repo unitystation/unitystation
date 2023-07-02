@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using Systems.Clearance;
 using AddressableReferences;
+using Core.Editor.Attributes;
 using NaughtyAttributes;
 using UnityEditor;
 using UnityEngine;
@@ -149,6 +151,10 @@ public class Occupation : ScriptableObject
 	[SerializeField] private SerializableDictionary<string, bool> customProperties = default;
 	public SerializableDictionary<string, bool> CustomProperties => customProperties;
 
+	[Header("Custom properties that will be applied\nto new bodies with this occupation")]
+	[SerializeReference, SelectImplementation(typeof(OccupationCustomEffectBase))] public List<OccupationCustomEffectBase> BetterCustomProperties = new List<OccupationCustomEffectBase>();
+
+
 	[Header("If enabled, players with this job can be targeted by antags")]
 	[SerializeField] private bool isTargeteable=true;
 
@@ -184,4 +190,6 @@ public class Occupation : ScriptableObject
 	[SerializeField]
 	private GameObject specialPlayerPrefab = null;
 	public GameObject SpecialPlayerPrefab => specialPlayerPrefab;
+
+
 }

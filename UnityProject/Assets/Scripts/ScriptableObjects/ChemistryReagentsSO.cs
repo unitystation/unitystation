@@ -53,6 +53,14 @@ namespace ScriptableObjects
 				{
 					foreach (var Required in Reaction.ingredients)
 					{
+						Required.Key.RelatedReactions = new Reaction[0];
+					}
+				}
+
+				foreach (var Reaction in allChemistryReactions)
+				{
+					foreach (var Required in Reaction.ingredients)
+					{
 						if (Required.Key == null) continue;
 						if (Required.Key.RelatedReactions == null)
 						{
