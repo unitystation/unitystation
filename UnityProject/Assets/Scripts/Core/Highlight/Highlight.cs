@@ -14,7 +14,7 @@ public class Highlight : MonoBehaviour, IInitialise
 	public SpriteRenderer spriteRenderer;
 	public Material material;
 
-	public static List<SpriteHandler> SubscribeSpriteHandlers = new List<SpriteHandler>();
+	private static List<SpriteHandler> subscribeSpriteHandlers = new List<SpriteHandler>();
 
 	public InitialisationSystems Subsystem => InitialisationSystems.Highlight;
 
@@ -75,12 +75,12 @@ public class Highlight : MonoBehaviour, IInitialise
 		}
 		else
 		{
-			foreach (var SH in SubscribeSpriteHandlers)
+			foreach (var SH in subscribeSpriteHandlers)
 			{
 				if (SH == null) continue;
 				SH.OnSpriteUpdated.RemoveListener(UpdateCurrentHighlight);
 			}
-			SubscribeSpriteHandlers.Clear();
+			subscribeSpriteHandlers.Clear();
 		}
 	}
 
@@ -94,12 +94,12 @@ public class Highlight : MonoBehaviour, IInitialise
 				instance.spriteRenderer = Instantiate(instance.prefabSpriteRenderer);
 			}
 
-			foreach (var SH in SubscribeSpriteHandlers)
+			foreach (var SH in subscribeSpriteHandlers)
 			{
 				if (SH == null) continue;
 				SH.OnSpriteUpdated.RemoveListener(UpdateCurrentHighlight);
 			}
-			SubscribeSpriteHandlers.Clear();
+			subscribeSpriteHandlers.Clear();
 
 			Texture2D mainTex = instance.spriteRenderer.sprite.texture;
 			Unity.Collections.NativeArray<Color32> data = mainTex.GetRawTextureData<Color32>();
@@ -147,14 +147,14 @@ public class Highlight : MonoBehaviour, IInitialise
 		trans.localScale = Vector3.one;
 		instance.spriteRenderer.sortingLayerID = SpriteRenderers[0].sortingLayerID;
 
-		foreach (var SH in SubscribeSpriteHandlers)
+		foreach (var SH in subscribeSpriteHandlers)
 		{
 			if (SH == null) continue;
 			SH.OnSpriteUpdated.RemoveListener(UpdateCurrentHighlight);
 		}
 
-		SubscribeSpriteHandlers = Highlightobject.GetComponentsInChildren<SpriteHandler>().ToList();
-		foreach (var SH in SubscribeSpriteHandlers)
+		subscribeSpriteHandlers = Highlightobject.GetComponentsInChildren<SpriteHandler>().ToList();
+		foreach (var SH in subscribeSpriteHandlers)
 		{
 			if (SH == null) continue;
 			SH.OnSpriteUpdated.AddListener(UpdateCurrentHighlight);
@@ -212,12 +212,12 @@ public class Highlight : MonoBehaviour, IInitialise
 
 	public void OnDestroy()
 	{
-		foreach (var SH in SubscribeSpriteHandlers)
+		foreach (var SH in subscribeSpriteHandlers)
 		{
 			if (SH == null) continue;
 			SH.OnSpriteUpdated.RemoveListener(UpdateCurrentHighlight);
 		}
-		SubscribeSpriteHandlers.Clear();
+		subscribeSpriteHandlers.Clear();
 	}
 
 
