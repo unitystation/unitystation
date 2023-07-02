@@ -16,6 +16,8 @@ public class Highlight : MonoBehaviour, IInitialise
 	public SpriteRenderer spriteRenderer;
 	public Material material;
 
+	public static List<SpriteHandler> SubscribeSpriteHandlers = new List<SpriteHandler>();
+
 	public InitialisationSystems Subsystem => InitialisationSystems.Highlight;
 
 	void IInitialise.Initialise()
@@ -66,28 +68,22 @@ public class Highlight : MonoBehaviour, IInitialise
 		}
 	}
 
-
-	public static List<SpriteHandler> SubscribeSpriteHandlers = new List<SpriteHandler>();
-
-	public static void UpdateCurrentHighlight(Sprite Sprite)
+	public static void UpdateCurrentHighlight()
 	{
-		if (HighlightEnabled)
+		if (instance == null) return;
+		if (HighlightEnabled && instance.TargetObject != null)
 		{
-			if (instance != null)
-			{
-				HighlightThis(instance.TargetObject);
-			}
+			HighlightThis(instance.TargetObject);
 		}
 		else
 		{
 			foreach (var SH in SubscribeSpriteHandlers)
 			{
 				if (SH == null) continue;
-				SH.OnSpriteChanged.Remove(UpdateCurrentHighlight);
+				SH.OnSpriteUpdated.RemoveListener(UpdateCurrentHighlight);
 			}
 			SubscribeSpriteHandlers.Clear();
 		}
-
 	}
 
 
@@ -103,7 +99,7 @@ public class Highlight : MonoBehaviour, IInitialise
 			foreach (var SH in SubscribeSpriteHandlers)
 			{
 				if (SH == null) continue;
-				SH.OnSpriteChanged.Remove(UpdateCurrentHighlight);
+				SH.OnSpriteUpdated.RemoveListener(UpdateCurrentHighlight);
 			}
 			SubscribeSpriteHandlers.Clear();
 
@@ -145,25 +141,25 @@ public class Highlight : MonoBehaviour, IInitialise
 		instance.spriteRenderer.gameObject.SetActive(true);
 		instance.spriteRenderer.enabled = true;
 		var SpriteRenderers = Highlightobject.GetComponentsInChildren<SpriteRenderer>();
+		var trans = instance.spriteRenderer.transform;
 
-		instance.spriteRenderer.transform.SetParent(SpriteRenderers[0].transform, false);
-		instance.spriteRenderer.transform.localPosition = Vector3.zero;
-		instance.spriteRenderer.transform.transform.localRotation = Quaternion.Euler(0, 0, 0);
-		instance.spriteRenderer.transform.localScale = Vector3.one;
+		trans.SetParent(SpriteRenderers[0].transform, false);
+		trans.localPosition = Vector3.zero;
+		trans.transform.localRotation = Quaternion.Euler(0, 0, 0);
+		trans.localScale = Vector3.one;
 		instance.spriteRenderer.sortingLayerID = SpriteRenderers[0].sortingLayerID;
 
 		foreach (var SH in SubscribeSpriteHandlers)
 		{
 			if (SH == null) continue;
-			SH.OnSpriteChanged.Remove(UpdateCurrentHighlight);
+			SH.OnSpriteUpdated.RemoveListener(UpdateCurrentHighlight);
 		}
 
 		SubscribeSpriteHandlers = Highlightobject.GetComponentsInChildren<SpriteHandler>().ToList();
 		foreach (var SH in SubscribeSpriteHandlers)
 		{
 			if (SH == null) continue;
-			SH.OnSpriteChanged.Remove(UpdateCurrentHighlight);
-			SH.OnSpriteChanged.Add(UpdateCurrentHighlight);
+			SH.OnSpriteUpdated.AddListener(UpdateCurrentHighlight);
 		}
 
 		SpriteRenderers = SpriteRenderers.Where(x => x.sprite != null && x != instance.spriteRenderer).ToArray();
@@ -201,17 +197,18 @@ public class Highlight : MonoBehaviour, IInitialise
 				y < SpriteRenderers.sprite.textureRect.position.y + SpriteRenderers.sprite.rect.height;
 				y++)
 			{
+				if (SpriteRenderers.gameObject.activeInHierarchy == false) continue;
 				//Logger.Log(yy + " <XX YY> " + xx + "   " +  x + " <X Y> " + y  );
 				if (SpriteRenderers.sprite.texture.GetPixel(x, y).a != 0)
 				{
 					mainTex.SetPixel(xx, yy, SpriteRenderers.sprite.texture.GetPixel(x, y));
 				}
 
-				yy = yy + 1;
+				yy += 1;
 			}
 
 			yy = 3;
-			xx = xx + 1;
+			xx += 1;
 		}
 	}
 
@@ -220,7 +217,7 @@ public class Highlight : MonoBehaviour, IInitialise
 		foreach (var SH in SubscribeSpriteHandlers)
 		{
 			if (SH == null) continue;
-			SH.OnSpriteChanged.Remove(UpdateCurrentHighlight);
+			SH.OnSpriteUpdated.RemoveListener(UpdateCurrentHighlight);
 		}
 		SubscribeSpriteHandlers.Clear();
 	}
