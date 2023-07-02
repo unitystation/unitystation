@@ -235,6 +235,14 @@ public static class PlayerSpawn
 		}
 
 
+		var data = requestedOccupation.BetterCustomProperties.OfType<IModifyCharacterSettings>();
+
+		foreach (var modifycharacter in data)
+		{
+			character = modifycharacter.ModifyingCharacterSheet(character);
+		}
+
+
 		var body = SpawnPlayerBody(bodyPrefab);
 
 		try
@@ -348,6 +356,8 @@ public static class PlayerSpawn
 						playerSprites.RaceOverride = requestedOccupation.CustomSpeciesOverwrite.name;
 					}
 				}
+
+
 
 
 

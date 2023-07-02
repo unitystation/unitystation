@@ -4,8 +4,5 @@ using UnityEngine;
 
 public interface IGetPlayerPrefab
 {
-	public virtual GameObject GetPlayerPrefab()
-	{
-		return null;
-	}
+	public GameObject GetPlayerPrefab();
 }
