@@ -15,7 +15,7 @@ namespace Chemistry.Effects
 		public float AmountToRelease = 10;
 		public float TemperatureK = 293.15f;
 
-		public override void Apply(MonoBehaviour onObject, float amount)
+		public override void Apply(GameObject onObject, float amount)
 		{
 			var Matrix =  onObject.gameObject.GetMatrixRoot();
 

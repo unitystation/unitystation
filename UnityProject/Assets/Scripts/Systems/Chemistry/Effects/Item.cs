@@ -13,7 +13,7 @@ namespace Chemistry.Effects
 
 		public int numberToSpawn = -1;
 
-		public override void Apply(MonoBehaviour sender, float amount)
+		public override void Apply(GameObject sender, float amount)
 		{
 			amount = (int)Math.Floor(amount);
 			if (numberToSpawn != -1)

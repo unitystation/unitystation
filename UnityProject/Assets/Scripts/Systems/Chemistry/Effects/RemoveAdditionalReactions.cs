@@ -13,7 +13,7 @@ namespace Chemistry.Effects
 	{
 		public List<Reaction> ReactionsToRemove = new List<Reaction>();
 
-		public override void Apply(MonoBehaviour sender, float amount)
+		public override void Apply(GameObject sender, float amount)
 		{
 			var ReagentContainer = sender.GetComponent<ReagentContainer>();
 

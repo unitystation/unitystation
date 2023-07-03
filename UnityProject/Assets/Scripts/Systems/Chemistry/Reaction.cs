@@ -34,7 +34,7 @@ namespace Chemistry
 		{
 			if (IsReactionValid(reagentMix) == false) return false;
 
-			ApplyReaction(sender as MonoBehaviour, reagentMix);
+			ApplyReaction(sender as GameObject, reagentMix);
 
 			return true;
 		}
@@ -65,7 +65,7 @@ namespace Chemistry
 			return true;
 		}
 
-		public void ApplyReaction(MonoBehaviour sender, ReagentMix reagentMix)
+		public void ApplyReaction(GameObject sender, ReagentMix reagentMix)
 		{
 			var reactionAmount = GetReactionAmount(reagentMix);
 

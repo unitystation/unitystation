@@ -11,7 +11,7 @@ public class FoamEffect : Chemistry.Effect
 	public bool WallFoam = false;
 	public bool SmartWallFoam = false;
 
-	public override void Apply(MonoBehaviour sender, float amount)
+	public override void Apply(GameObject sender, float amount)
 	{
 		amount = (int) Math.Floor(amount);
 		var senderPosition = sender.gameObject.AssumedWorldPosServer();

@@ -15,7 +15,7 @@ namespace Chemistry.Effects
 		//public int ScaleSize = 7;
 
 		//public Color Colour = Color.white;
-		public override void Apply(MonoBehaviour onObject, float amount)
+		public override void Apply(GameObject onObject, float amount)
 		{
 			var gameObject =  onObject.gameObject;
 			var LightSprites = gameObject.GetComponentsInChildren<MeshRenderer>();

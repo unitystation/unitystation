@@ -12,7 +12,7 @@ namespace Chemistry.Effects
 
 		public float HotSpotTemperature = 1000f;
 
-		public override void Apply(MonoBehaviour onObject, float amount)
+		public override void Apply(GameObject onObject, float amount)
 		{
 			var Matrix =  onObject.gameObject.GetMatrixRoot();
 			var reactionManager = Matrix.ReactionManager;

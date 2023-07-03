@@ -13,7 +13,7 @@ namespace Chemistry.Effects
 
 		[Tooltip("Chance for this to take effect")]
 		[SerializeField] private float percentageChance = 100;
-		public override void Apply(MonoBehaviour sender, float amount)
+		public override void Apply(GameObject sender, float amount)
 		{
 			if (Random.Range(0, 100)>percentageChance)
 			{

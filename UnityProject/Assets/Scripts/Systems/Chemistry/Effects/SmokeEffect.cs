@@ -9,7 +9,7 @@ using UnityEngine;
 [Serializable]
 public class SmokeEffect : Chemistry.Effect
 {
-	public override void Apply(MonoBehaviour sender, float amount)
+	public override void Apply(GameObject sender, float amount)
 	{
 		amount = (int) Math.Floor(amount);
 		var senderPosition = sender.gameObject.AssumedWorldPosServer();

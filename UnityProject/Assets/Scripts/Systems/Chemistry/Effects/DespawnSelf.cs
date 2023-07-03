@@ -9,7 +9,7 @@ namespace Chemistry.Effects
 	[Serializable]
 	public class DespawnSelf : Chemistry.Effect
 	{
-		public override void Apply(MonoBehaviour sender, float amount)
+		public override void Apply(GameObject sender, float amount)
 		{
 			_ = Despawn.ServerSingle(sender.gameObject);
 		}

@@ -82,9 +82,8 @@ public class MetabolismReaction : Reaction
 		{
 			foreach (var sender in senders)
 			{
-				effect.Apply(sender, reactionMultiple);
+				effect.Apply(sender.gameObject, reactionMultiple);
 			}
-
 		}
 	}
 }

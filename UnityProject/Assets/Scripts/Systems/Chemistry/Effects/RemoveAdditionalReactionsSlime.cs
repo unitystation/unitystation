@@ -15,7 +15,7 @@ namespace Chemistry.Effects
 
 
 
-		public override void Apply(MonoBehaviour sender, float amount)
+		public override void Apply(GameObject sender, float amount)
 		{
 			var core = sender.GetComponent<SlimeCore>();
 

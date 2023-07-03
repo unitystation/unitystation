@@ -10,7 +10,7 @@ using UnityEngine;
 [Serializable]
 public class BodyEffect : Chemistry.Effect
 {
-	public override void Apply(MonoBehaviour sender, float amount)
+	public override void Apply(GameObject sender, float amount)
 	{
 		var BodyPart = sender.GetComponent<BodyPart>();
 

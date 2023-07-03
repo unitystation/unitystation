@@ -6,6 +6,6 @@ namespace Chemistry
 {
 	public abstract class Effect : ScriptableObject
 	{
-		public abstract void Apply(MonoBehaviour sender, float amount);
+		public abstract void Apply(GameObject sender, float amount);
 	}
 }

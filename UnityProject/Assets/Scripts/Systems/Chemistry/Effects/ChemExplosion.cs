@@ -20,13 +20,12 @@ namespace Chemistry.Effects
 
 		public float Delay = 0;
 
-		public override void Apply(MonoBehaviour sender, float amount)
+		public override void Apply(GameObject sender, float amount)
 		{
-
-			sender.StartCoroutine(NowExplosion(sender,amount ));
+			sender.GetComponent<UniversalObjectPhysics>()?.StartCoroutine(NowExplosion(sender ,amount ));
 		}
 
-		public IEnumerator NowExplosion(MonoBehaviour sender, float amount)
+		public IEnumerator NowExplosion(GameObject sender, float amount)
 		{
 			yield return WaitFor.Seconds(Delay);
 
