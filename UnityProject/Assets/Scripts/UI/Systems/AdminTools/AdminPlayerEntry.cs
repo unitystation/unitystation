@@ -99,6 +99,11 @@ namespace AdminTools
 			builder.Append(playerEntryData.uid);
 		}
 
+		public void OnEnable()
+		{
+			RefreshNotification();
+		}
+
 		public void RefreshNotification()
 		{
 			if (parentNotification == null) return;
