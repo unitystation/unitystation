@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Core.Lighting;
 using HealthV2;
 using Light2D;
@@ -9,7 +10,7 @@ using NaughtyAttributes;
 using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Pickupable))]
-public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
+public class ItemLightControl : BodyPartFunctionality, IItemInOutMovedPlayer
 {
 	[Tooltip("Controls the light the player emits if they have this object equipped.")]
 	public LightsHolder LightEmission;
@@ -46,6 +47,10 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 	[SerializeField] private bool weakenOnGround = false;
 	[SerializeField] private bool revertToOldConsistencyBehavior = false;
 	[SerializeField, ShowIf(nameof(weakenOnGround))] private float weakenStrength = 1.45f;
+
+	public RegisterPlayer CurrentlyOn { get; set; }
+	bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
+
 
 	private void Awake()
 	{
@@ -87,45 +92,32 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 			: new Vector3(Size, Size, Size);
 	}
 
-	public void OnInventoryMoveServer(InventoryMove info)
+	public bool IsValidSetup(RegisterPlayer player)
 	{
-		//was it transferred from a player's visible inventory?
-		if ((info.FromPlayer == null || info.ToPlayer == null) && LightEmission != null)
+		if (player == null) return false;
+		//more logic stuff here
+		//if (CompatibleSlots.Contains(player.NamedSlot.GetValueOrDefault(NamedSlot.none)) == false) return true;
+		return true;
+	}
+
+	void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)
+	{
+		if (HideForPlayer != null)
 		{
-			LightEmission.RemoveLight(playerLightData);
+			var Light = HideForPlayer.GetComponent<LightsHolder>();
+			Light.RemoveLight(playerLightData);
 			LightEmission = null;
 		}
 
-		if (info.ToPlayer != null)
+		if (ShowForPlayer != null)
 		{
-			if (CompatibleSlots.Contains(info.ToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none)) == false) return;
-			LightEmission = info.ToPlayer.GetComponent<LightsHolder>();
+			LightEmission = ShowForPlayer.GetComponent<LightsHolder>();
 			if (IsOn == false || LightEmission.Lights.Contains(playerLightData)) return;
 			LightEmission.AddLight(playerLightData);
 		}
+
 	}
 
-	public void OnThrowDrop()
-	{
-		if (LightEmission == null) return;
-		LightEmission.RemoveLight(playerLightData);
-		LightEmission.UpdateLights();
-		LightEmission = null;
-	}
-
-
-	public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
-	{
-		LightEmission.RemoveLight(playerLightData);
-		LightEmission = null;
-	}
-
-	public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
-	{
-		LightEmission = livingHealth.GetComponent<LightsHolder>();
-		if (IsOn == false) return;
-		LightEmission.AddLight(playerLightData);
-	} //Warning only add body parts do not remove body parts in this
 
 	/// <summary>
 	/// Allows you to toggle the light
@@ -160,7 +152,8 @@ public class ItemLightControl : BodyPartFunctionality, IServerInventoryMove
 	{
 		if (LightEmission != null && IsOn)
 		{
-			LightEmission.Lights[lightID] = playerLightData;
+			int index = LightEmission.Lights.FindIndex(x => x.Id == lightID);
+			LightEmission.Lights[index] = (playerLightData);
 			LightEmission.UpdateLights();
 		}
 	}
