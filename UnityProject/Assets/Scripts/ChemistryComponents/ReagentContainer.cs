@@ -17,7 +17,7 @@ namespace Chemistry.Components
 	/// </summary>
 	public partial class ReagentContainer : MonoBehaviour, IServerSpawn, IRightClickable,
 		ICheckedInteractable<ContextMenuApply>,
-		IEnumerable<KeyValuePair<Reagent, float>>, IServerDespawn
+		IEnumerable<KeyValuePair<Reagent, float>>, IServerDespawn, IFireExposable
 	{
 		[Flags]
 		private enum ShowMenuOptions
@@ -518,6 +518,14 @@ namespace Chemistry.Components
 			       $" {nameof(IsEmpty)}: {IsEmpty}," +
 			       $" {nameof(IsFull)}: {IsFull}" +
 			       "]";
+		}
+
+		public void OnExposed(FireExposure exposure)
+		{
+			foreach (var reagent in currentReagentMix.reagentKeys)
+			{
+
+			}
 		}
 
 		public RightClickableResult GenerateRightClickOptions()

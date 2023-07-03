@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Chemistry;
 using HealthV2;
 using UnityEngine;
 
@@ -18,6 +19,11 @@ public class BodyEffect : Chemistry.Effect
 		{
 			Apply(BodyPart, amount);
 		}
+	}
+
+	public override void HeatExposure(GameObject sender, float heat, ReagentMix inMix)
+	{
+		//no reaction
 	}
 
 	public virtual void Apply(BodyPart bodyPart, float amount)

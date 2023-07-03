@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Chemistry;
 using Chemistry.Components;
 using UnityEngine;
 [CreateAssetMenu(fileName = "FoamEffect", menuName = "ScriptableObjects/Chemistry/Effect/FoamEffect")]
@@ -23,5 +24,10 @@ public class FoamEffect : Chemistry.Effect
 		}
 
 		SmokeAndFoamManager.StartFoamAt(senderPosition,Container.CurrentReagentMix, (int)amount, WallFoam, SmartWallFoam);
+	}
+
+	public override void HeatExposure(GameObject sender, float heat, ReagentMix inMix)
+	{
+		//Do nothing
 	}
 }

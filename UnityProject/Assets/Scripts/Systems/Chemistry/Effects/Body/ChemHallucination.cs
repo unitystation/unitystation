@@ -20,5 +20,10 @@ namespace Chemistry.Effects
 				//TODO: do the thing
 			}
 		}
+
+		public override void HeatExposure(GameObject sender, float heat, ReagentMix inMix)
+		{
+
+		}
 	}
 }

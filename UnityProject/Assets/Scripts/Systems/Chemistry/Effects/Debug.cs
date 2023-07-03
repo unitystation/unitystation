@@ -9,5 +9,10 @@ namespace Chemistry.Effects
 		{
 			Logger.LogFormat("Effect called, Sender: {0}, amount {1}", Category.Chemistry, sender, amount);
 		}
+
+		public override void HeatExposure(GameObject sender, float heat, ReagentMix inMix)
+		{
+
+		}
 	}
 }

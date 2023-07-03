@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Chemistry.Effects
@@ -22,6 +20,11 @@ namespace Chemistry.Effects
 			reactionManager.ExposeHotspotWorldPosition(onObject.gameObject.TileWorldPosition() + Vector2Int.left, HotSpotTemperature, true);
 			reactionManager.ExposeHotspotWorldPosition(onObject.gameObject.TileWorldPosition() + Vector2Int.up, HotSpotTemperature, true);
 			reactionManager.ExposeHotspotWorldPosition(onObject.gameObject.TileWorldPosition() + Vector2Int.right, HotSpotTemperature, true);
+		}
+
+		public override void HeatExposure(GameObject sender, float heat, ReagentMix inMix)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

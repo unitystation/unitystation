@@ -24,5 +24,10 @@ namespace Chemistry.Effects
 				LightSprite.gameObject.SetActive(true);
 			}
 		}
+
+		public override void HeatExposure(GameObject sender, float heat, ReagentMix inMix)
+		{
+
+		}
 	}
 }

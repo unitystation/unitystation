@@ -29,5 +29,10 @@ namespace Chemistry.Effects
 				GasMix.TransferGas(metaNode.GasMix,mix, mix.Moles );
 			}
 		}
+
+		public override void HeatExposure(GameObject sender, float heat, ReagentMix inMix)
+		{
+			//No Reaction to heat
+		}
 	}
 }

@@ -1,6 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using Chemistry;
 using Chemistry.Components;
 using UnityEngine;
 
@@ -21,5 +20,10 @@ public class SmokeEffect : Chemistry.Effect
 		}
 
 		SmokeAndFoamManager.StartSmokeAt(senderPosition,Container.CurrentReagentMix, (int)amount);
+	}
+
+	public override void HeatExposure(GameObject sender, float heat, ReagentMix inMix)
+	{
+		//No reaction to heat.
 	}
 }

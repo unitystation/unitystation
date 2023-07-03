@@ -22,5 +22,10 @@ namespace Chemistry.Effects
 				ReagentContainer.AdditionalReactions.Remove(ReactionToRemove);
 			}
 		}
+
+		public override void HeatExposure(GameObject sender, float heat, ReagentMix inMix)
+		{
+
+		}
 	}
 }

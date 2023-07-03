@@ -34,5 +34,10 @@ namespace Chemistry.Effects
 				Despawn.ServerSingle(sender.gameObject);
 			}
 		}
+
+		public override void HeatExposure(GameObject sender, float heat, ReagentMix inMix)
+		{
+
+		}
 	}
 }

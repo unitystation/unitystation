@@ -39,6 +39,15 @@ namespace Chemistry
 			return true;
 		}
 
+		public virtual void OnExposedToHotSpot(GameObject sender, float heat, ReagentMix inMix)
+		{
+			foreach (var effect in effects)
+			{
+				if (effect != null)
+					effect.HeatExposure(sender, heat, inMix);
+			}
+		}
+
 		public bool IsReactionValid(ReagentMix reagentMix)
 		{
 			if (HasIngredients(reagentMix) == false)

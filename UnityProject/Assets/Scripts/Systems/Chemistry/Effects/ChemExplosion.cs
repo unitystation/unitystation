@@ -25,6 +25,11 @@ namespace Chemistry.Effects
 			sender.GetComponent<UniversalObjectPhysics>()?.StartCoroutine(NowExplosion(sender ,amount ));
 		}
 
+		public override void HeatExposure(GameObject sender, float heat, ReagentMix inMix)
+		{
+
+		}
+
 		public IEnumerator NowExplosion(GameObject sender, float amount)
 		{
 			yield return WaitFor.Seconds(Delay);
