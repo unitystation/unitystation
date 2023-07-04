@@ -6,6 +6,7 @@ using Light2D;
 using Mirror;
 using Systems.Research.Data;
 using UnityEngine;
+using Objects.Research;
 
 public class ResearchData
 {
@@ -15,15 +16,9 @@ public class ResearchData
 
 public class ContainsResearchData : NetworkBehaviour, ICloneble
 {
-
-
-
 	public ResearchLaserProjector ShotFrom;
 
-
 	public Color Colour = Color.white;
-
-
 
 	public ResearchData ResearchData = new ResearchData();
 
