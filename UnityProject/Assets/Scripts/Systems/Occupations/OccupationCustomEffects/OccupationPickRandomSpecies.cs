@@ -8,13 +8,9 @@ public class OccupationPickRandomSpecies : OccupationCustomEffectBase, IModifyCh
 {
 	public List<PlayerHealthData> ToChooseFrom = new List<PlayerHealthData>();
 
-	public CharacterSheet ModifyingCharacterSheet(CharacterSheet CharacterSheet)
+	public CharacterSheet ModifyingCharacterSheet(CharacterSheet characterSheet)
 	{
-		//GenerateRandomCharacter
-		//randomise completely
-
-		//only randomised species??
-		CharacterSheet = CharacterSheet.GenerateRandomCharacter(ToChooseFrom);
-		return CharacterSheet;
+		characterSheet = CharacterSheet.GenerateRandomCharacter(ToChooseFrom);
+		return characterSheet;
 	}
 }

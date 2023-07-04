@@ -104,8 +104,8 @@ public class ItemLightControl : BodyPartFunctionality, IItemInOutMovedPlayer
 	{
 		if (HideForPlayer != null)
 		{
-			var Light = HideForPlayer.GetComponent<LightsHolder>();
-			Light.RemoveLight(playerLightData);
+			var aLight = HideForPlayer.GetComponent<LightsHolder>();
+			aLight.RemoveLight(playerLightData);
 			LightEmission = null;
 		}
 

@@ -147,11 +147,11 @@ public class Occupation : ScriptableObject
 	private string descriptionLong = "";
 	public string DescriptionLong => descriptionLong;
 
-	[Header("Custom properties that will be applied\nto new bodies with this occupation")]
+	[Header("Custom properties that will be applied \n to new bodies with this occupation")]
 	[SerializeField] private SerializableDictionary<string, bool> customProperties = default;
 	public SerializableDictionary<string, bool> CustomProperties => customProperties;
 
-	[Header("Custom properties that will be applied\nto new bodies with this occupation")]
+	[Header(" Custom properties that will define how the person with this occupation spawns in ")]
 	[SerializeReference, SelectImplementation(typeof(OccupationCustomEffectBase))] public List<OccupationCustomEffectBase> BetterCustomProperties = new List<OccupationCustomEffectBase>();
 
 

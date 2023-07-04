@@ -311,16 +311,16 @@ public class CharacterSheet : ICloneable
 	/// <summary>Generate a random character.</summary>
 	/// <remarks>not safe to use in Awake().</remarks>
 	/// <returns>a random character.</returns>
-	public static CharacterSheet GenerateRandomCharacter(List<PlayerHealthData> SpeciesToChooseFrom = null)
+	public static CharacterSheet GenerateRandomCharacter(List<PlayerHealthData> speciesToChooseFrom = null)
 	{
 		CharacterSheet character = new CharacterSheet();
 
 
-		if (SpeciesToChooseFrom == null)
+		if (speciesToChooseFrom == null)
 		{
-			SpeciesToChooseFrom = RaceSOSingleton.Instance.Races;
+			speciesToChooseFrom = RaceSOSingleton.Instance.Races;
 		}
-		PlayerHealthData race = SpeciesToChooseFrom.PickRandom();
+		PlayerHealthData race = speciesToChooseFrom.PickRandom();
 
 		character.Species = race.name;
 		if (race.Base.bodyTypeSettings.AvailableBodyTypes.Count != 0)

@@ -1306,12 +1306,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		return false;
 	}
 
-	public bool IsNotObstructed(MoveData moveAction, List<UniversalObjectPhysics> pushing, List<IBumpableObject> bumps, List<UniversalObjectPhysics> Hits)
+	public bool IsNotObstructed(MoveData moveAction, List<UniversalObjectPhysics> pushing, List<IBumpableObject> bumps, List<UniversalObjectPhysics> hits)
 	{
 		var transform1 = transform.position;
 		return MatrixManager.IsPassableAtAllMatricesV2(transform1,
 			transform1 + moveAction.GlobalMoveDirection.ToVector().To3Int(), SetMatrixCache, this,
-			pushing, bumps, Hits);
+			pushing, bumps, hits);
 	}
 
 
