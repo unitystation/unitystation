@@ -40,6 +40,8 @@ namespace Chemistry.Components
 		[FormerlySerializedAs("TransferMode")]
 		[SerializeField] private TransferMode transferMode = TransferMode.Normal;
 
+		[SerializeField] public bool SyringePulling;
+
 		public TransferMode TransferMode => transferMode;
 
 		[FormerlySerializedAs("PossibleTransferAmounts")]
@@ -190,23 +192,49 @@ namespace Chemistry.Components
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			return possibleTransferAmounts.Count != 0;
+			return possibleTransferAmounts.Count != 0 || transferMode == TransferMode.Syringe;
 		}
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			var currentIndex = possibleTransferAmounts.IndexOf(TransferAmount);
-			if (currentIndex != -1)
+			if (transferMode == TransferMode.Syringe)
 			{
-				TransferAmount = possibleTransferAmounts.Wrap(currentIndex + 1);
+				SyringePulling = !SyringePulling;
+				if (IsFull && SyringePulling)
+				{
+					SyringePulling = false;
+					Chat.AddExamineMsg(interaction.Performer,
+						$"The {gameObject.ExpensiveName()} Is full you can't pull any more.");
+					return;
+				}
+
+				if (IsEmpty && SyringePulling == false)
+				{
+					SyringePulling = true;
+					Chat.AddExamineMsg(interaction.Performer,
+						$"The {gameObject.ExpensiveName()} Is empty you can't inject any more.");
+					return;
+				}
+
+				var pullstreing = SyringePulling ? "Pulling mode" : "Injecting mode";
+				Chat.AddExamineMsg(interaction.Performer,
+					$"you change {gameObject.ExpensiveName()} to {pullstreing}.");
 			}
 			else
 			{
-				TransferAmount = possibleTransferAmounts[0];
-			}
+				var currentIndex = possibleTransferAmounts.IndexOf(TransferAmount);
+				if (currentIndex != -1)
+				{
+					TransferAmount = possibleTransferAmounts.Wrap(currentIndex + 1);
+				}
+				else
+				{
+					TransferAmount = possibleTransferAmounts[0];
+				}
 
-			Chat.AddExamineMsg(interaction.Performer,
-				$"The {gameObject.ExpensiveName()}'s transfer amount is now {TransferAmount} units.");
+				Chat.AddExamineMsg(interaction.Performer,
+					$"The {gameObject.ExpensiveName()}'s transfer amount is now {TransferAmount} units.");
+			}
 		}
 
 		/// <summary>
@@ -241,7 +269,7 @@ namespace Chemistry.Components
 					switch (target.transferMode)
 					{
 						case TransferMode.Normal:
-							transferTo = objectInHands.IsFull ? target : objectInHands;
+							transferTo = objectInHands.SyringePulling == false ? target : objectInHands;
 							break;
 						case TransferMode.OutputOnly:
 							transferTo = objectInHands;

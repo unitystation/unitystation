@@ -223,7 +223,7 @@ public static class PlayerSpawn
 		{
 			bodyPrefab = requestedOccupation.SpecialPlayerPrefab;
 		}
-
+		
 		var body = SpawnPlayerBody(bodyPrefab);
 
 		try

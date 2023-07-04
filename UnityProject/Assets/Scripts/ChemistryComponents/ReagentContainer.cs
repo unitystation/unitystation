@@ -5,6 +5,7 @@ using HealthV2;
 using Items;
 using Items.Others;
 using Messages.Client.Interaction;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -132,6 +133,16 @@ namespace Chemistry.Components
 
 				return currentReagentMix;
 			}
+		}
+
+		//[RightClickMethod]
+		public void PrintContents()
+		{
+			foreach (var keyd in currentReagentMix.reagents.m_dict)
+			{
+				Logger.LogError(keyd.Key.Name + " > " + keyd.Value);
+			}
+			Logger.LogError("=====================================");
 		}
 
 		/// <summary>
