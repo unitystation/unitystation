@@ -51,6 +51,12 @@ namespace Messages.Server
 				origin = originator.GetComponent<NetworkIdentity>().netId;
 			}
 
+			if (recipient == null)
+			{
+				Logger.LogError("null recipient for Update chat message Please fix");
+				return new NetMessage();
+			}
+
 			NetMessage msg =
 				new NetMessage {Recipient = recipient.GetComponent<NetworkIdentity>().netId,
 					Channels = channels,

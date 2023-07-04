@@ -886,6 +886,16 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					else
 					{
 
+						if (this.connectionToClient != null) //IDK How this could happen, since it came from a client may be for disconnected after a move , better safe than sorry
+						{
+							foreach (var Hit in Hits)
+							{
+								Hit.ResetLocationOnClient(this.connectionToClient);
+							}
+						}
+
+
+
 						//Logger.LogError("Failed TryMove");
 						if (fudged)
 						{
@@ -1065,6 +1075,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		Bumps.Clear();
 		Pushing.Clear();
 		SwappedWith.Clear();
+		Hits.Clear();
 		if (CanMoveTo(newMoveData, out var causesSlipClient, Pushing, Bumps, out var pushesOff,
 			    out var slippingOn))
 		{
@@ -1219,7 +1230,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				}
 
 				//Need to check for Obstructions
-				if (IsNotObstructed(moveAction, willPushObjects, bumps))
+				if (IsNotObstructed(moveAction, willPushObjects, bumps, Hits))
 				{
 					causesSlipClient = DoesSlip(moveAction, out slippedOn);
 					return true;
@@ -1295,12 +1306,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		return false;
 	}
 
-	public bool IsNotObstructed(MoveData moveAction, List<UniversalObjectPhysics> pushing, List<IBumpableObject> bumps)
+	public bool IsNotObstructed(MoveData moveAction, List<UniversalObjectPhysics> pushing, List<IBumpableObject> bumps, List<UniversalObjectPhysics> hits)
 	{
 		var transform1 = transform.position;
 		return MatrixManager.IsPassableAtAllMatricesV2(transform1,
 			transform1 + moveAction.GlobalMoveDirection.ToVector().To3Int(), SetMatrixCache, this,
-			pushing, bumps);
+			pushing, bumps, hits);
 	}
 
 
