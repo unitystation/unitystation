@@ -26,6 +26,7 @@ public class VacpackGun : MonoBehaviour, ICheckedInteractable<PositionalHandAppl
 
 		if (Distance > 4.5f) return false;
 
+
 		var hit =  MatrixManager.Linecast(interaction.Performer.AssumedWorldPosServer(),
 			LayerTypeSelection.Walls | LayerTypeSelection.Windows, null, interaction.WorldPositionTarget.To3());
 
