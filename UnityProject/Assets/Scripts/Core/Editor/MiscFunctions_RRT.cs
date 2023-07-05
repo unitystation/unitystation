@@ -43,8 +43,6 @@ namespace Util
 		{
 			EditorPrefs.SetInt("kAutoRefresh", 1);
 			UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation();
-
-
 		}
 
 

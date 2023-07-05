@@ -536,6 +536,7 @@ namespace Chemistry.Components
 			}
 
 			return result;
+
 		}
 
 		private void OnExamineContentsClicked()

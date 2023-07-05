@@ -1,10 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Utility = UnityEngine.Networking.Utility;
-using Mirror;
-using System.Linq;
-using Newtonsoft.Json;
+﻿using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 

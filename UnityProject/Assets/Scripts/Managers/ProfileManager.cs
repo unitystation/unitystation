@@ -78,16 +78,16 @@ public class ProfileManager : MonoBehaviour
 
 		if (full)
 		{
-			MemoryProfiler.TakeSnapshot($"Profiles/FullMemoryProfile{DateTime.Now:yyyy-MM-dd HH-mm-ss}.snap", MemoryProfileEnd,
-				CaptureFlags.ManagedObjects | CaptureFlags.NativeAllocations | CaptureFlags.NativeObjects |
-				CaptureFlags.NativeAllocationSites |  CaptureFlags.NativeStackTraces);
+			Unity.Profiling.Memory.MemoryProfiler.TakeSnapshot($"Profiles/FullMemoryProfile{DateTime.Now:yyyy-MM-dd HH-mm-ss}.snap", MemoryProfileEnd,
+				Unity.Profiling.Memory.CaptureFlags.ManagedObjects | Unity.Profiling.Memory.CaptureFlags.NativeAllocations | Unity.Profiling.Memory.CaptureFlags.NativeObjects |
+				Unity.Profiling.Memory.CaptureFlags.NativeAllocationSites |  Unity.Profiling.Memory.CaptureFlags.NativeStackTraces);
 
 			return;
 		}
 
-		MemoryProfiler.TakeSnapshot($"Profiles/ManagedMemoryProfile{DateTime.Now:yyyy-MM-dd HH-mm-ss}.snap", MemoryProfileEnd,
-			CaptureFlags.ManagedObjects | CaptureFlags.NativeAllocations | CaptureFlags.NativeAllocationSites
-			|  CaptureFlags.NativeStackTraces);
+		Unity.Profiling.Memory.MemoryProfiler.TakeSnapshot($"Profiles/ManagedMemoryProfile{DateTime.Now:yyyy-MM-dd HH-mm-ss}.snap", MemoryProfileEnd,
+			Unity.Profiling.Memory.CaptureFlags.ManagedObjects | Unity.Profiling.Memory.CaptureFlags.NativeAllocations | Unity.Profiling.Memory.CaptureFlags.NativeAllocationSites
+			|  Unity.Profiling.Memory.CaptureFlags.NativeStackTraces);
 	}
 
 	private void MemoryProfileEnd(string t, bool b)
