@@ -134,16 +134,7 @@ namespace Chemistry.Components
 				return currentReagentMix;
 			}
 		}
-
-		//[RightClickMethod]
-		public void PrintContents()
-		{
-			foreach (var keyd in currentReagentMix.reagents.m_dict)
-			{
-				Logger.LogError(keyd.Key.Name + " > " + keyd.Value);
-			}
-			Logger.LogError("=====================================");
-		}
+		
 
 		/// <summary>
 		/// Returns reagent amount in container
