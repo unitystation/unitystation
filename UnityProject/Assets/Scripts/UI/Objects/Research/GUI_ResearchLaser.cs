@@ -66,6 +66,11 @@ namespace UI.Objects.Research
 			projector.UpdateGUI += UpdateGUI;
 		}
 
+		public void OnDestroy()
+		{
+			if(projector != null) projector.UpdateGUI -= UpdateGUI;
+		}
+
 		public void ToggleLaserMode()
 		{
 			if(projector.ProjectorState == LaserProjectorState.Live) projector.UpdateState(LaserProjectorState.Visual);

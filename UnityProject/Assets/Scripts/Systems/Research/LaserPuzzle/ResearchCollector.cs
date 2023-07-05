@@ -88,7 +88,7 @@ namespace Objects.Research
 			Data.ResearchData.ResearchPower = ResearchPower;
 			if (AssociatedResearchLaserProjector == null)
 			{
-				Chat.AddActionMsgToChat(this.gameObject, " The H.I.E.C.A begins to beep. Ensure a connection to a valid R&D laser projector.");
+				Chat.AddActionMsgToChat(this.gameObject, "The H.I.E.C.A begins to beep. Ensure a connection to a valid R&D laser projector.");
 				return;
 			}
 
