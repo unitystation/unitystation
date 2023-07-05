@@ -199,8 +199,6 @@ namespace Systems.Research.Objects
 		/// <returns></returns>
 		public int AddResearchPoints(ResearchPointMachine source, int points)
 		{
-
-
 			string sourcename = source.GetType().Name;
 			if (PointTotalSourceList.ContainsKey(sourcename) == false)
 			{
