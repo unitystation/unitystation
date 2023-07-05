@@ -102,7 +102,7 @@ public class EditorDrawPreview
 
 	private static void DrawProjectItem(string guid, Rect selectionRect)
 	{
-		if (EditorPrefs.GetBool("editorPreviewsDisable")) return;
+		if (EditorPrefs.GetBool("editorPreviewsDisable"), false) return;
 		if (TryGetSpriteData(guid, out var spriteData) == false) return;
 
 		var sprite = spriteData.CurrentSprite;
