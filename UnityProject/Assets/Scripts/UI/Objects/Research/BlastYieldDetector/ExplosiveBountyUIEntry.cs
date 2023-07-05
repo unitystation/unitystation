@@ -31,8 +31,6 @@ namespace UI.Objects.Research
 				label_text.Append($"\n\t-{reagent.RequiredReagent.Name}: {reagent.RequiredAmount}u");			
 			}
 
-			Debug.Log(label_text);
-
 			bountyDetails.SetValue(label_text.ToString());
 			bountyName.MasterSetValue($"Target [{index}]");
 		}
