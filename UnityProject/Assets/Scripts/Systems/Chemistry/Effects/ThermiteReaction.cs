@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using HealthV2;
 using UnityEngine;
 
 namespace Chemistry.Effects
@@ -10,30 +11,32 @@ namespace Chemistry.Effects
 	{
 		[SerializeField] private float heatTemp = 19950f;
 
-		private List<Vector2Int> directions = new List<Vector2Int>()
+		private List<Vector3Int> directions = new List<Vector3Int>()
 		{
-			Vector2Int.zero,
-			Vector2Int.down,
-			Vector2Int.up,
-			Vector2Int.left,
-			Vector2Int.right
+			Vector3Int.zero,
+			Vector3Int.down,
+			Vector3Int.up,
+			Vector3Int.left,
+			Vector3Int.right
 		};
 
 		public override void Apply(GameObject sender, float amount)
 		{
 			var matrix = sender.gameObject.GetMatrixRoot();
 			var reactionManager = matrix.ReactionManager;
-			var localPosition = sender.TileLocalPosition();
+			var localPosition = sender.TileLocalPosition().To3Int();
 			var worldPosition = sender.AssumedWorldPosServer();
 			if (reactionManager == null) return;
 
 			foreach (var dir in directions)
 			{
 				reactionManager.ExposeHotspotWorldPosition(localPosition + dir, heatTemp, true);
-				DamageWalls(sender.GetMatrixRoot(), 
-					localPosition.To3Int() + dir.To3Int(), worldPosition.CutToInt());
+				Damage(sender.GetMatrixRoot(),
+					localPosition + dir, worldPosition.CutToInt());
 			}
 
+			Chat.AddActionMsgToChat(sender,
+				"<color=red>The reagent lets out a fizzling sound before letting out extreme heat to everything around it.</color>");
 			_ = Despawn.ServerSingle(sender);
 		}
 
@@ -42,9 +45,14 @@ namespace Chemistry.Effects
 			Apply(sender, inMix.Total);
 		}
 
-		private void DamageWalls(Matrix matrix, Vector3Int localPosition, Vector3Int worldPos)
+		private void Damage(Matrix matrix, Vector3Int localPosition, Vector3Int worldPos)
 		{
-			if (matrix.TileChangeManager.MetaTileMap.HasTile(localPosition, LayerType.Walls) == false) return;
+			var mobs = matrix.Get<LivingHealthMasterBase>(localPosition, CustomNetworkManager.IsServer);
+			foreach (var mob in mobs)
+			{
+				mob.ApplyDamageAll(null, heatTemp / 200, AttackType.Fire, DamageType.Burn);
+				mob.ChangeFireStacks(mob.FireStacks + 8f);
+			}
 			matrix.TileChangeManager.MetaTileMap.ApplyDamage(
 				localPosition,
 				heatTemp / 100,
