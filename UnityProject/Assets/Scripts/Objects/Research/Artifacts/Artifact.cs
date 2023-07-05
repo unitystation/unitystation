@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Weapons.Projectiles.Behaviours;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,6 +36,11 @@ namespace Objects.Research
 
 		[SerializeField]
 		private GameObject SliverPrefab = null;
+
+		[SerializeField]
+		private GameObject artifactPlayerTargetEffectSuccess = null;
+		[SerializeField]
+		private GameObject artifactPlayerTargetEffectFail = null;
 
 		[SerializeField]
 		private SpriteHandler spriteHandler = null;
@@ -376,8 +381,8 @@ namespace Objects.Research
 			{
 				if (DMMath.Prob(10))
 				{
-					Chat.AddActionMsgToChat(interaction.Performer, "Message for waking up artifact",
-						$"{interaction.Performer.ExpensiveName()} Message for waking up artifact");
+					Chat.AddActionMsgToChat(interaction.Performer, "You touch the anomaly, a chill goes down your spine as the anomaly begins to humm quietly...",
+						$"{interaction.Performer.ExpensiveName()} touches the anomaly, a chill goes down your spine as the anomaly begins to humm quietly...");
 					ToggleDormancy(false);
 				}
 				else
@@ -417,6 +422,16 @@ namespace Objects.Research
 				ToggleDormancy(true);
 				Chat.AddActionMsgToChat(gameObject, $"{gameObject.ExpensiveName()} falls dormant...");
 			}
+		}
+
+		[TargetRpc]
+		public void SpawnClientEffect(NetworkConnectionToClient target, bool successful, Vector3 spawnDestination)
+		{
+			var effect = Spawn.ClientPrefab(successful == true ? artifactPlayerTargetEffectSuccess : artifactPlayerTargetEffectFail, spawnDestination).GameObject;
+
+			var timeLimitedDecal = effect.GetComponent<TimeLimitedDecal>();
+
+			timeLimitedDecal.SetUpDecal(0.5f);
 		}
 
 		#region Sprites
