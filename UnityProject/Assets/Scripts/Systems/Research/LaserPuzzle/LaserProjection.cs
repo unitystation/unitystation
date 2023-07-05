@@ -61,7 +61,7 @@ public class LaserProjection : MonoBehaviour
 		{
 			if (Design.Technology == null)
 			{
-				Design.Technology = ResearchLaserProjector.researchServer.Techweb.nodes.PickRandom().technology;
+				Design.Technology = ResearchLaserProjector.researchServer.Techweb.AvailableTech.PickRandom();
 				Design.Colour = Design.Technology.Colour;
 			}
 		}

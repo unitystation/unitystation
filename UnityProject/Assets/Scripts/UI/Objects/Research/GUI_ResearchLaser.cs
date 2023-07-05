@@ -109,7 +109,7 @@ namespace UI.Objects.Research
 			{
 				sb.AppendLine(line);
 			}
-			sb.AppendLine(">");
+			sb.AppendLine(">_");
 			outputLabel.SetValue(sb.ToString());
 
 			clearInterval++;

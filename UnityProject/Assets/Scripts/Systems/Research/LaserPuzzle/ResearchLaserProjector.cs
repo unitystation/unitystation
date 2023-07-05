@@ -1,11 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Mirror;
 using Newtonsoft.Json;
-using Objects.Engineering;
-using Objects.Machines;
 using Systems.Electricity;
 using Systems.Electricity.NodeModules;
 using Systems.Research.Objects;
@@ -13,10 +10,11 @@ using UnityEngine;
 using Weapons.Projectiles;
 using Systems.Research.Data;
 using UI.Core.Net;
+using UI.Systems.Tooltips.HoverTooltips;
 
 namespace Objects.Research
 {
-	public class ResearchLaserProjector : ResearchPointMachine, INodeControl, ICheckedInteractable<HandApply>, ICanOpenNetTab
+	public class ResearchLaserProjector : ResearchPointMachine, INodeControl, ICheckedInteractable<HandApply>, ICanOpenNetTab, IHoverTooltip
 	{
 		//TODO Go through and balance items , Done to a basic level
 
@@ -155,13 +153,14 @@ namespace Objects.Research
 				{
 					OutputLogs.Add($">{data.Technology.DisplayName} Research Complete!");
 					researchServer.Techweb.UnlockTechnology(data.Technology);
-					GroupedData.Remove(data.Technology);
 				}
 				else
 				{
 					OutputLogs.Add($">{(int)GroupedData[data.Technology]} RP Uploaded!");
 					AddResearchPoints(this, (int)GroupedData[data.Technology]);
-				}	
+				}
+
+				GroupedData.Remove(data.Technology);
 			}
 
 			UpdateGUI?.Invoke();
@@ -330,6 +329,71 @@ namespace Objects.Research
 						objectPhysics.SetIsNotPushable(true);
 					});
 			}
+		}
+
+		#endregion
+
+		#region Tooltips
+
+		public string HoverTip()
+		{
+			return null;
+		}
+
+		public string CustomTitle()
+		{
+			return null;
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			return null;
+		}
+
+		private bool LocalPlayerHasValidTool(ItemTrait requiredTool)
+		{
+			if (PlayerManager.LocalPlayerScript == null) return false;
+			if (PlayerManager.LocalPlayerScript.DynamicItemStorage == null) return false;
+			foreach (var slot in PlayerManager.LocalPlayerScript.DynamicItemStorage.GetHandSlots())
+			{
+				if (slot.IsEmpty) continue;
+				if (slot.ItemAttributes.GetTraits().Contains(requiredTool)) return true;
+			}
+
+			return false;
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			List<TextColor> interactions = new List<TextColor>();
+
+			ItemTrait traitToCheck;
+
+			if (isWrenched == true && LocalPlayerHasValidTool(CommonTraits.Instance.Welder))
+			{
+				TextColor text = new TextColor
+				{
+					Text = "Left-Click with Welder: Weld/Unweld projector.",
+					Color = IntentColors.Help
+				};
+				interactions.Add(text);
+			}
+			if(isWelded == false && LocalPlayerHasValidTool(CommonTraits.Instance.Wrench))
+			{
+				TextColor text = new TextColor
+				{
+					Text = "Left-Click with Wrench: Wrench/Unwrench projector.",
+					Color = IntentColors.Help
+				};
+				interactions.Add(text);
+			}
+
+			return interactions;
 		}
 
 		#endregion
