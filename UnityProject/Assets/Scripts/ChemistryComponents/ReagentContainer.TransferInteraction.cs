@@ -208,7 +208,7 @@ namespace Chemistry.Components
 				{
 					SyringePulling = true;
 					Chat.AddExamineMsg(interaction.Performer,
-						$"The {gameObject.ExpensiveName()} Is empty, you can't inject any more.");
+						$"The {gameObject.ExpensiveName()} Is empty, there's nothing to inject.");
 					return;
 				}
 
