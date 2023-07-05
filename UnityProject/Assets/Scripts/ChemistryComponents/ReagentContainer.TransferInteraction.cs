@@ -66,11 +66,7 @@ namespace Chemistry.Components
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
-			if (DefaultWillInteract.Default(interaction, side) == false)
-			{
-				return false;
-			}
-
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			return WillInteractHelp(interaction.UsedObject, interaction.TargetObject, side);
 		}
 
@@ -79,7 +75,7 @@ namespace Chemistry.Components
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			var playerScript = interaction.Performer.GetComponent<PlayerScript>();
-			if (!playerScript) return false;
+			if (playerScript == false) return false;
 
 			if (interaction.Intent == Intent.Help)
 			{
@@ -91,7 +87,7 @@ namespace Chemistry.Components
 				//Only spill if we're holding the alt key.
 				if (interaction.IsAltClick == false) return false;
 				//checks if it's possible to spill contents on player
-				if (!WillInteractHarm(interaction.HandObject, interaction.TargetObject, side)) return false;
+				if (WillInteractHarm(interaction.HandObject, interaction.TargetObject, side) == false) return false;
 			}
 
 			return true;
@@ -204,7 +200,7 @@ namespace Chemistry.Components
 				{
 					SyringePulling = false;
 					Chat.AddExamineMsg(interaction.Performer,
-						$"The {gameObject.ExpensiveName()} Is full you can't pull any more.");
+						$"The {gameObject.ExpensiveName()} Is full, you can't pull any more.");
 					return;
 				}
 
@@ -212,13 +208,13 @@ namespace Chemistry.Components
 				{
 					SyringePulling = true;
 					Chat.AddExamineMsg(interaction.Performer,
-						$"The {gameObject.ExpensiveName()} Is empty you can't inject any more.");
+						$"The {gameObject.ExpensiveName()} Is empty, you can't inject any more.");
 					return;
 				}
 
 				var pullstreing = SyringePulling ? "Pulling mode" : "Injecting mode";
 				Chat.AddExamineMsg(interaction.Performer,
-					$"you change {gameObject.ExpensiveName()} to {pullstreing}.");
+					$"You change {gameObject.ExpensiveName()} to {pullstreing}.");
 			}
 			else
 			{
@@ -354,7 +350,7 @@ namespace Chemistry.Components
 			string resultMessage;
 			if (string.IsNullOrEmpty(result.Message))
 				resultMessage = useFillMessage
-					? $"You fill the {transferTo.gameObject.ExpensiveName()} with {result.TransferAmount} units of the contents of the {transferFrom.gameObject.ExpensiveName()}."
+					? $"You fill the {transferTo.gameObject.ExpensiveName()} with {result.TransferAmount} units of contents from the {transferFrom.gameObject.ExpensiveName()}."
 					: $"You transfer {result.TransferAmount} units of the solution to the {transferTo.gameObject.ExpensiveName()}.";
 			else
 				resultMessage = result.Message;
