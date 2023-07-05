@@ -115,7 +115,7 @@ namespace Objects.Research
 
 			if (LivingLine != null)
 			{
-				Destroy(LivingLine.gameObject);
+				LivingLine.CleanupAndDestroy();
 			}
 		}
 
