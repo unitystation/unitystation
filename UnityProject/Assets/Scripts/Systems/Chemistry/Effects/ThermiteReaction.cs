@@ -49,7 +49,7 @@ namespace Chemistry.Effects
 			var mobs = matrix.Get<LivingHealthMasterBase>(localPosition.To3Int(), CustomNetworkManager.IsServer);
 			foreach (var mob in mobs)
 			{
-				mob.ApplyDamageAll(null, heatTemp / 200, AttackType.Fire, DamageType.Burn);
+				mob.ApplyDamageAll(null, heatTemp / 400, AttackType.Fire, DamageType.Burn);
 				mob.ChangeFireStacks(mob.FireStacks + 8f);
 			}
 			matrix.TileChangeManager.MetaTileMap.ApplyDamage(
