@@ -222,6 +222,14 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		{
 			transform.localRotation = Quaternion.Euler(0, 0, transform.localRotation.eulerAngles.z);
 		}
+
+		OnLocalPositionChangedServer.AddListener(CheckForHeatExposure);
+	}
+
+	private void CheckForHeatExposure(Vector3Int position)
+	{
+		var data = Matrix.GetMetaDataNode(position, true);
+		data?.HeatInteraction();
 	}
 
 	public override void OnStartServer()
@@ -298,7 +306,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			objectLayer.ServerObjects.Remove(LocalPositionServer, this);
 			objectLayer.ClientObjects.Remove(LocalPositionClient, this);
 		}
-
+		OnLocalPositionChangedServer.RemoveAllListeners();
 		Matrix?.MatrixMove?.MatrixMoveEvents?.OnRotate?.RemoveListener(OnRotate);
 	}
 
@@ -354,7 +362,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		LocalPositionServer = value;
 
 		CheckSameMatrixRelationships(); //TODO Might be laggy?
-		OnLocalPositionChangedServer.Invoke(LocalPositionServer);
+		OnLocalPositionChangedServer?.Invoke(LocalPositionServer);
 	}
 
 	public void ClientSetLocalPosition(Vector3Int value, bool overRideCheck = false)

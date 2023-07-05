@@ -25,7 +25,7 @@ namespace Chemistry.Effects
 
 		public override void HeatExposure(GameObject sender, float heat, ReagentMix inMix)
 		{
-
+			//No reaction
 		}
 	}
 }

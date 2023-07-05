@@ -9,7 +9,6 @@ namespace Chemistry.Effects
 	public class ThermiteReaction : Effect
 	{
 		[SerializeField] private float heatTemp = 19950f;
-		[SerializeField] private Reagent thermiteReagent;
 
 		private List<Vector2Int> directions = new List<Vector2Int>()
 		{
@@ -22,31 +21,25 @@ namespace Chemistry.Effects
 
 		public override void Apply(GameObject sender, float amount)
 		{
-			var Matrix =  sender.gameObject.GetMatrixRoot();
-			var reactionManager = Matrix.ReactionManager;
+			var matrix = sender.gameObject.GetMatrixRoot();
+			var reactionManager = matrix.ReactionManager;
+			var localPosition = sender.TileLocalPosition();
+			var worldPosition = sender.AssumedWorldPosServer();
 			if (reactionManager == null) return;
 
 			foreach (var dir in directions)
 			{
-				var pos = sender.TileLocalPosition() + dir;
-				var worldPos = sender.AssumedWorldPosServer() + dir.To3Int();
-				reactionManager.ExposeHotspotWorldPosition(pos, heatTemp, true);
-				DamageWalls(sender.GetMatrixRoot(), pos.To3Int(), worldPos.CutToInt());
+				reactionManager.ExposeHotspotWorldPosition(localPosition + dir, heatTemp, true);
+				DamageWalls(sender.GetMatrixRoot(), 
+					localPosition.To3Int() + dir.To3Int(), worldPosition.CutToInt());
 			}
+
+			_ = Despawn.ServerSingle(sender);
 		}
 
 		public override void HeatExposure(GameObject sender, float heat, ReagentMix inMix)
 		{
-			var thermiteAmount = 0f;
-			foreach (var reagent in inMix.reagents)
-			{
-				if (reagent.Key == thermiteReagent)
-				{
-					thermiteAmount += reagent.Value;
-					inMix.Remove(reagent.Key, reagent.Value);
-				}
-			}
-			Apply(sender, thermiteAmount);
+			Apply(sender, inMix.Total);
 		}
 
 		private void DamageWalls(Matrix matrix, Vector3Int localPosition, Vector3Int worldPos)
@@ -55,7 +48,7 @@ namespace Chemistry.Effects
 			matrix.TileChangeManager.MetaTileMap.ApplyDamage(
 				localPosition,
 				heatTemp / 100,
-				worldPos);
+				worldPos, AttackType.Bomb);
 		}
 	}
 }

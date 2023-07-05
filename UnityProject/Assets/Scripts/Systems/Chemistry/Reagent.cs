@@ -15,6 +15,7 @@ namespace Chemistry
 		public Color color;
 		public ReagentState state;
 		public float heatDensity = 5f; // Number of joules of energy to raise one unit of Reagent By 1Degrees
+		[field: SerializeField] public List<Effect> HeatEffects;
 
 		[SerializeField, HideInInspector]
 		private int indexInSingleton = -1;

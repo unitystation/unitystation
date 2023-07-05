@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Castle.Core.Internal;
+using Effects;
 using HealthV2;
 using Items;
 using Items.Others;
@@ -17,7 +19,7 @@ namespace Chemistry.Components
 	/// </summary>
 	public partial class ReagentContainer : MonoBehaviour, IServerSpawn, IRightClickable,
 		ICheckedInteractable<ContextMenuApply>,
-		IEnumerable<KeyValuePair<Reagent, float>>, IServerDespawn, IFireExposable
+		IEnumerable<KeyValuePair<Reagent, float>>, IServerDespawn, IHeatReactor
 	{
 		[Flags]
 		private enum ShowMenuOptions
@@ -520,11 +522,15 @@ namespace Chemistry.Components
 			       "]";
 		}
 
-		public void OnExposed(FireExposure exposure)
+		public void OnExposedToHeat(float heatCap)
 		{
+			if (heatCap is Single.NaN || currentReagentMix == null || currentReagentMix.reagentKeys == null) return;
 			foreach (var reagent in currentReagentMix.reagentKeys)
 			{
-
+				foreach (var reaction in reagent.HeatEffects)
+				{
+					reaction.HeatExposure(gameObject, heatCap, currentReagentMix);
+				}
 			}
 		}
 

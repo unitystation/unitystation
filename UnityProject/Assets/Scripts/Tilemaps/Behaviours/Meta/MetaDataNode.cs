@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Castle.Core.Internal;
 using Detective;
+using Effects;
 using UnityEngine;
 using ScriptableObjects.Atmospherics;
 using Tilemaps.Behaviours.Meta;
@@ -167,7 +169,18 @@ public class MetaDataNode : IGasMixContainer
 	//How easily the node conducts 0-1
 	public float ThermalConductivity = 0f;
 	//Heat capacity of the node, also effects conducting speed
-	public float HeatCapacity = 0f;
+
+	private float heatCapacitiy = 0f;
+
+	public float HeatCapacity
+	{
+		get => heatCapacitiy;
+		set
+		{
+			heatCapacitiy = value;
+			HeatInteraction();
+		}
+	}
 
 	//If this node started the conductivity
 	public bool StartingSuperConduct;
@@ -177,6 +190,18 @@ public class MetaDataNode : IGasMixContainer
 	//How long since the last wind spot particle was spawned
 	//This is here as dictionaries are a pain and for performance but costs more memory
 	public float windEffectTime = 0;
+
+
+	public void HeatInteraction()
+	{
+		var reactors = PositionMatrix.Get<IHeatReactor>(LocalPosition, CustomNetworkManager.IsServer);
+		if (reactors == null) return;
+		var heatReactors = reactors.ToList();
+		foreach (var reactor in heatReactors)
+		{
+			reactor.OnExposedToHeat(HeatCapacity);
+		}
+	}
 
 	public void AddGasOverlay(GasSO gas)
 	{
