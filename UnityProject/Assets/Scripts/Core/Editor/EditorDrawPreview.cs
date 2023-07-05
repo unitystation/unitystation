@@ -102,6 +102,7 @@ public class EditorDrawPreview
 
 	private static void DrawProjectItem(string guid, Rect selectionRect)
 	{
+		if (EditorPrefs.GetBool("editorPreviewsDisable")) return;
 		if (TryGetSpriteData(guid, out var spriteData) == false) return;
 
 		var sprite = spriteData.CurrentSprite;
@@ -195,6 +196,12 @@ public class EditorDrawPreview
 		}
 
 		return new Rect(x, y, width, height);
+	}
+
+	[MenuItem("Tools/DisableEnableEditorSpritePreviews #&]")]
+	public static void CompiledDammit()
+	{
+		EditorPrefs.SetBool("editorPreviewsDisable", !EditorPrefs.GetBool("editorPreviewsDisable", false));
 	}
 }
 #endif
