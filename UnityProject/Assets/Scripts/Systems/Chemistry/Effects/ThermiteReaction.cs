@@ -30,7 +30,6 @@ namespace Chemistry.Effects
 			for (int i = 0; i < directions.Count; i++)
 			{
 				var dir = directions[i];
-				Logger.Log($"{dir} - {worldPosition} - {worldPosition + dir} - {worldPosition + directions[i]} - {sender.AssumedWorldPosServer().RoundToInt()}");
 				reactionManager.ExposeHotspotWorldPosition(worldPosition + dir, heatTemp, true);
 				Damage(sender.GetMatrixRoot(), worldPosition + directions[i], sender.AssumedWorldPosServer().RoundToInt() + dir.To3Int());
 			}
@@ -47,17 +46,12 @@ namespace Chemistry.Effects
 
 		private void Damage(Matrix matrix, Vector2Int localPosition, Vector3Int worldPos)
 		{
-			if (localPosition == Vector2Int.zero || worldPos == Vector3Int.zero)
-			{
-				Logger.LogError("WHOOPSY, FUCKY WUCKY UWU.");
-			}
 			var mobs = matrix.Get<LivingHealthMasterBase>(localPosition.To3Int(), CustomNetworkManager.IsServer);
 			foreach (var mob in mobs)
 			{
 				mob.ApplyDamageAll(null, heatTemp / 200, AttackType.Fire, DamageType.Burn);
 				mob.ChangeFireStacks(mob.FireStacks + 8f);
 			}
-			Logger.Log(localPosition.To3Int().ToString());
 			matrix.TileChangeManager.MetaTileMap.ApplyDamage(
 				localPosition.To3Int(),
 				heatTemp / 100,
