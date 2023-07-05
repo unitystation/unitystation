@@ -9,30 +9,30 @@ namespace Chemistry.Effects
 	[CreateAssetMenu(fileName = "ThermiteReaction", menuName = "ScriptableObjects/Chemistry/Effect/ThermiteReaction")]
 	public class ThermiteReaction : Effect
 	{
-		[SerializeField] private float heatTemp = 19950f;
+		[SerializeField] private float heatTemp = 12950f;
 
-		private List<Vector3Int> directions = new List<Vector3Int>()
+		private List<Vector2Int> directions = new List<Vector2Int>()
 		{
-			Vector3Int.zero,
-			Vector3Int.down,
-			Vector3Int.up,
-			Vector3Int.left,
-			Vector3Int.right
+			Vector2Int.zero,
+			Vector2Int.down,
+			Vector2Int.up,
+			Vector2Int.left,
+			Vector2Int.right
 		};
 
 		public override void Apply(GameObject sender, float amount)
 		{
 			var matrix = sender.gameObject.GetMatrixRoot();
 			var reactionManager = matrix.ReactionManager;
-			var localPosition = sender.TileLocalPosition().To3Int();
-			var worldPosition = sender.AssumedWorldPosServer();
+			var worldPosition = sender.TileWorldPosition();
 			if (reactionManager == null) return;
 
-			foreach (var dir in directions)
+			for (int i = 0; i < directions.Count; i++)
 			{
-				reactionManager.ExposeHotspotWorldPosition(localPosition + dir, heatTemp, true);
-				Damage(sender.GetMatrixRoot(),
-					localPosition + dir, worldPosition.CutToInt());
+				var dir = directions[i];
+				Logger.Log($"{dir} - {worldPosition} - {worldPosition + dir} - {worldPosition + directions[i]} - {sender.AssumedWorldPosServer().RoundToInt()}");
+				reactionManager.ExposeHotspotWorldPosition(worldPosition + dir, heatTemp, true);
+				Damage(sender.GetMatrixRoot(), worldPosition + directions[i], sender.AssumedWorldPosServer().RoundToInt() + dir.To3Int());
 			}
 
 			Chat.AddActionMsgToChat(sender,
@@ -45,16 +45,21 @@ namespace Chemistry.Effects
 			Apply(sender, inMix.Total);
 		}
 
-		private void Damage(Matrix matrix, Vector3Int localPosition, Vector3Int worldPos)
+		private void Damage(Matrix matrix, Vector2Int localPosition, Vector3Int worldPos)
 		{
-			var mobs = matrix.Get<LivingHealthMasterBase>(localPosition, CustomNetworkManager.IsServer);
+			if (localPosition == Vector2Int.zero || worldPos == Vector3Int.zero)
+			{
+				Logger.LogError("WHOOPSY, FUCKY WUCKY UWU.");
+			}
+			var mobs = matrix.Get<LivingHealthMasterBase>(localPosition.To3Int(), CustomNetworkManager.IsServer);
 			foreach (var mob in mobs)
 			{
 				mob.ApplyDamageAll(null, heatTemp / 200, AttackType.Fire, DamageType.Burn);
 				mob.ChangeFireStacks(mob.FireStacks + 8f);
 			}
+			Logger.Log(localPosition.To3Int().ToString());
 			matrix.TileChangeManager.MetaTileMap.ApplyDamage(
-				localPosition,
+				localPosition.To3Int(),
 				heatTemp / 100,
 				worldPos, AttackType.Bomb);
 		}
