@@ -25,7 +25,6 @@ namespace HealthV2
 		public List<BodyPart> ContainBodyParts => containBodyParts;
 
 
-
 		/// <summary>
 		/// Storage container for things (usually other body parts) held within this body part
 		/// </summary>
@@ -35,6 +34,7 @@ namespace HealthV2
 		[SerializeField, Tooltip(
 			 " If you threw acid onto a player would body parts contained in this body part get touched by the acid, If this body part was on the surface ")]
 		private bool isOpenAir = false;
+
 		public bool IsOpenAir
 		{
 			get
@@ -213,7 +213,6 @@ namespace HealthV2
 			}
 
 
-
 			UpdateIcons();
 			SetUpSystemsThis();
 
@@ -344,10 +343,12 @@ namespace HealthV2
 		/// <summary>
 		/// Server only - Tries to remove a body part
 		/// </summary>
-		public void TryRemoveFromBody(bool beingGibbed = false, bool CausesBleed = true, bool Destroy = false, bool PreventGibb_Death = false) //TODO It should do the stuff automatically when removed from inventory
+		public void TryRemoveFromBody(bool beingGibbed = false, bool CausesBleed = true, bool Destroy = false,
+			bool PreventGibb_Death = false) //TODO It should do the stuff automatically when removed from inventory
 		{
+			if (HealthMaster == null) return;
 			bool alreadyBleeding = false;
-			if (CausesBleed)
+			if (CausesBleed && HealthMaster != null)
 			{
 				foreach (var bodyPart in HealthMaster.BodyPartList)
 				{
@@ -365,6 +366,7 @@ namespace HealthV2
 
 
 			var bodyPartUISlot = GetComponent<BodyPartUISlots>();
+
 			var dynamicItemStorage = HealthMaster.GetComponent<DynamicItemStorage>();
 			dynamicItemStorage.Remove(bodyPartUISlot);
 
@@ -388,20 +390,21 @@ namespace HealthV2
 				if (beingGibbed)
 				{
 					ContainedIn.OrganStorage.ServerTryRemove(gameObject, Destroy,
-						DroppedAtWorldPositionOrThrowVector: ConverterExtensions.GetRandomRotatedVector2(-0.5f, 0.5f), Throw: true);
+						DroppedAtWorldPositionOrThrowVector: ConverterExtensions.GetRandomRotatedVector2(-0.5f, 0.5f),
+						Throw: true);
 				}
 				else
 				{
 					ContainedIn.OrganStorage.ServerTryRemove(gameObject, Destroy);
 				}
-
 			}
 			else
 			{
 				if (beingGibbed)
 				{
-					HealthMaster.OrNull()?.BodyPartStorage.OrNull()?.ServerTryRemove(gameObject,Destroy,
-						DroppedAtWorldPositionOrThrowVector: ConverterExtensions.GetRandomRotatedVector2(-0.5f,0.5f), Throw: true);
+					HealthMaster.OrNull()?.BodyPartStorage.OrNull()?.ServerTryRemove(gameObject, Destroy,
+						DroppedAtWorldPositionOrThrowVector: ConverterExtensions.GetRandomRotatedVector2(-0.5f, 0.5f),
+						Throw: true);
 				}
 				else
 				{
@@ -416,6 +419,7 @@ namespace HealthV2
 		/// <param name="bodyPart">The bodyPart that's cut off</param>
 		private void DropItemsOnDismemberment(BodyPart bodyPart)
 		{
+			if (HealthMaster == null) return;
 			DynamicItemStorage storge = HealthMaster.playerScript.DynamicItemStorage;
 
 			void RemoveItemsFromSlot(NamedSlot namedSlot)
@@ -457,7 +461,6 @@ namespace HealthV2
 
 
 		#region BodyPartStorage
-
 
 		private void RemoveSprites(PlayerSprites sprites, LivingHealthMasterBase livingHealth)
 		{

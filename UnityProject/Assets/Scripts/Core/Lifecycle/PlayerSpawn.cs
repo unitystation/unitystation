@@ -225,7 +225,8 @@ public static class PlayerSpawn
 			bodyPrefab = requestedOccupation.SpecialPlayerPrefab;
 		}
 
-		if (requestedOccupation.BetterCustomProperties.FirstOrDefault(x => x is IGetPlayerPrefab) is IGetPlayerPrefab overwriteBody)
+
+		if (requestedOccupation.OrNull()?.BetterCustomProperties.FirstOrDefault(x => x is IGetPlayerPrefab) is IGetPlayerPrefab overwriteBody)
 		{
 			bodyPrefab = overwriteBody.GetPlayerPrefab();
 			if (bodyPrefab == null)
@@ -235,11 +236,14 @@ public static class PlayerSpawn
 		}
 
 
-		var data = requestedOccupation.BetterCustomProperties.OfType<IModifyCharacterSettings>();
-
-		foreach (var modifycharacter in data)
+		if (requestedOccupation != null)
 		{
-			character = modifycharacter.ModifyingCharacterSheet(character);
+			var data = requestedOccupation.BetterCustomProperties.OfType<IModifyCharacterSettings>();
+
+			foreach (var modifycharacter in data)
+			{
+				character = modifycharacter.ModifyingCharacterSheet(character);
+			}
 		}
 
 

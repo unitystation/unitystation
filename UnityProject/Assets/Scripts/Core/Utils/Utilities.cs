@@ -17,6 +17,16 @@ namespace Core.Utils
 		}
 	}
 
+	#if UNITY_EDITOR
+	public static class DEBUG
+	{
+		public static bool RUN(Action Action)
+		{
+			Action.Invoke();
+			return true;
+		}
+	}
+	#endif
 
 
 	public class MindNIPossessingEvent : UnityEvent<Mind, IPlayerPossessable> { }
