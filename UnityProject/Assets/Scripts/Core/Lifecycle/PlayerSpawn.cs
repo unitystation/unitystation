@@ -235,13 +235,15 @@ public static class PlayerSpawn
 		}
 
 
-		var data = requestedOccupation.BetterCustomProperties.OfType<IModifyCharacterSettings>();
-
-		foreach (var modifycharacter in data)
+		if (requestedOccupation != null)
 		{
-			character = modifycharacter.ModifyingCharacterSheet(character);
-		}
+			var data = requestedOccupation.BetterCustomProperties.OfType<IModifyCharacterSettings>();
 
+			foreach (var modifycharacter in data)
+			{
+				character = modifycharacter.ModifyingCharacterSheet(character);
+			}
+		}
 
 		var body = SpawnPlayerBody(bodyPrefab);
 
