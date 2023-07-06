@@ -91,7 +91,7 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 	public virtual void InjectBehavior(LivingHealthMasterBase LHB, RegisterPlayer performer)
 	{
 		used = true;
-		if (LocalContainer.ReagentMixTotal > 0)
+		if (LocalContainer.SyringePulling == false)
 		{
 			if (LHB.reagentPoolSystem != null)
 				LHB.reagentPoolSystem.BloodPool.Add(LocalContainer.TakeReagents(TransferAmount));

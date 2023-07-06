@@ -117,8 +117,9 @@ public class SlimeProcessor : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 			return;
 		}
 
+
 		var Remov =  container.StoredObjects.PickRandom();
-		container.StoredObjects.Remove(Remov.Key);
+		//container.StoredObjects.Remove(Remov.Key);
 
 		var Health = Remov.Key.gameObject.GetComponent<LivingHealthMasterBase>();
 
@@ -126,6 +127,9 @@ public class SlimeProcessor : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 		if (Slime != null)
 		{
 			Slime.RelatedPart.RemoveInventoryAndBody(this.gameObject.transform.position);
+
+			container.RetrieveObject(Slime.gameObject);
+			container.RetrieveObject(Remov.Key);
 			_ = Despawn.ServerSingle(Health.gameObject);
 
 			return;
@@ -141,6 +145,7 @@ public class SlimeProcessor : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 				Spawn.ServerPrefab(MonkeyCube, transform.position);
 
 			}
+			container.RetrieveObject(Remov.Key);
 			_ = Despawn.ServerSingle(Health.gameObject);
 			return;
 		}

@@ -5,6 +5,7 @@ using HealthV2;
 using Items;
 using Items.Others;
 using Messages.Client.Interaction;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -133,6 +134,7 @@ namespace Chemistry.Components
 				return currentReagentMix;
 			}
 		}
+		
 
 		/// <summary>
 		/// Returns reagent amount in container

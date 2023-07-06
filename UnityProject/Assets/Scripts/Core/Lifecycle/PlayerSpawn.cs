@@ -225,7 +225,8 @@ public static class PlayerSpawn
 			bodyPrefab = requestedOccupation.SpecialPlayerPrefab;
 		}
 
-		if (requestedOccupation.BetterCustomProperties.FirstOrDefault(x => x is IGetPlayerPrefab) is IGetPlayerPrefab overwriteBody)
+
+		if (requestedOccupation.OrNull()?.BetterCustomProperties.FirstOrDefault(x => x is IGetPlayerPrefab) is IGetPlayerPrefab overwriteBody)
 		{
 			bodyPrefab = overwriteBody.GetPlayerPrefab();
 			if (bodyPrefab == null)
