@@ -28,7 +28,6 @@ namespace Items.Implants.Organs.DeathRevival
 		public void Revive()
 		{
 			revivalEmote.Do(relatedBodyPart.HealthMaster.gameObject);
-			Debug.Log("i live again");
 		}
 	}
 }
