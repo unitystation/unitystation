@@ -21,8 +21,6 @@ namespace Items.Implants.Organs
 		[SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
 		[SyncVar(hook = nameof(SyncPossessingID))] private uint possessingID;
 
-		public Pickupable Pickupable;
-
 		[SerializeField] private Reagent DrunkReagent;
 		[SerializeField] public float MaxDrunkAtPercentage = 0.06f;
 
@@ -50,6 +48,9 @@ namespace Items.Implants.Organs
 		public ChatModifier BodyChatModifier = ChatModifier.None;
 
 		public ReagentCirculatedComponent ReagentCirculatedComponent;
+
+		public UnityEvent OnDeath = new UnityEvent();
+		public UnityEvent OnRevival = new UnityEvent();
 
 		[RightClickMethod]
 		public void Possess()
@@ -79,13 +80,14 @@ namespace Items.Implants.Organs
 		public void OnDestroy()
 		{
 			Itself.PreImplementedOnDestroy();
+			OnDeath.RemoveAllListeners();
+			OnRevival.RemoveAllListeners();
 		}
 
 		//Ensure removal of brain
 
 		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
-
 			livingHealth.SetBrain(this);
 			Itself.SetPossessingObject(livingHealth.gameObject);
 
@@ -101,10 +103,14 @@ namespace Items.Implants.Organs
 			}
 
 			UpdateChatModifier(true);
+			livingHealth.OnDeath += DeathEvent;
+			livingHealth.OnRevive.AddListener(ReviveEvent);
 		}
 
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
+			livingHealth.OnDeath -= DeathEvent;
+			livingHealth.OnRevive.RemoveListener(ReviveEvent);
 			if (livingHealth.brain == this)
 			{
 				livingHealth.SetBrain(null);
@@ -264,6 +270,16 @@ namespace Items.Implants.Organs
 			{
 				RelatedPart.HealthMaster.BodyChatModifier &= ~BodyChatModifier;
 			}
+		}
+
+		private void DeathEvent()
+		{
+			OnDeath?.Invoke();
+		}
+
+		private void ReviveEvent()
+		{
+			OnRevival?.Invoke();
 		}
 
 		#region Mind_stuff
