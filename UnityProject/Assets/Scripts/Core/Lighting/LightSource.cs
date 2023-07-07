@@ -103,6 +103,7 @@ namespace Objects.Lighting
 		private void Start()
 		{
 			lightSprite.Color = CurrentOnColor;
+			CheckAudioState();
 		}
 
 		private void OnEnable()
@@ -294,7 +295,6 @@ namespace Objects.Lighting
 					mLightRendererObject.SetActive(false);
 					break;
 			}
-
 			CheckAudioState();
 		}
 
