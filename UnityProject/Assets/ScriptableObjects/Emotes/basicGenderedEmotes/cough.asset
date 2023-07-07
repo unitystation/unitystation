@@ -23,8 +23,91 @@ MonoBehaviour:
   failText: You were unable to preform this action!
   mouthBlockedText: You are unable to make a sound!
   critViewText: lets out a painful cough.
-  soundsAreTyped: 0
+  soundsAreTyped: 1
   defaultSounds: []
-  TypedSounds: []
+  TypedSounds:
+  - VoiceRace: {fileID: 11400000, guid: f8cc40dce57da8d4aa283decb92b4507, type: 2}
+    VoiceDatas:
+    - VoiceSex: 2
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Cough/Female/Cough 1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Cough/Female/Cough 2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Cough/Female/Cough 3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Cough/Female/Cough 4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Cough/Female/Cough 5.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Cough/Female/Cough 6.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Cough/Female/Cough 7.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+    - VoiceSex: 1
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Cough/Male/Cough 1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Cough/Male/Cough 2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Cough/Male/Cough 3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Effects/Emotes/Cough/Male/Cough 4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
   pitchRange: {x: 0.7, y: 1}
   allowedPlayerTypes: 1
