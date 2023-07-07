@@ -131,6 +131,7 @@ namespace Objects.Lighting
 		{
 			Spawn.ServerPrefab(currentState.LootDrop, gameObject.RegisterTile().WorldPositionServer);
 			UnSubscribeFromSwitchEvent();
+			SoundManager.StopNetworked(loopKey);
 		}
 
 		#endregion
@@ -304,7 +305,6 @@ namespace Objects.Lighting
 			{
 				SoundManager.PlayAtPositionAttached(ambientSoundWhileOn,
 					gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, true);
-				Debug.Log($"playing audio {loopKey}");
 			}
 			else
 			{
