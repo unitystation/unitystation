@@ -71,6 +71,8 @@ namespace CustomInspectors
 
 				var objectsToDirt = controller.SubscribeToController(objectHitRaycast);
 
+				EditorUtility.SetDirty(controller as MonoBehaviour);
+				Undo.RecordObject(controller as MonoBehaviour, "Linking device");
 				EditorUtility.SetDirty(gameObject);
 				Undo.RecordObject(gameObject, "Linking device");
 				foreach (var objectToDirt in objectsToDirt)

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ using Items.Implants.Organs;
 using Systems.Character;
 using UI.CharacterCreator;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent( typeof(ReagentCirculatedComponent))]
 public class SlimeCore : BodyPartFunctionality
@@ -56,11 +58,20 @@ public class SlimeCore : BodyPartFunctionality
 	public bool Enhanced = false;
 	public bool EnhancedUsedUp = false;
 
+	public bool MakeIntoBabySlimeWhenAddedIfSlime = true;
+	private bool BabySlimeInit = false;
 
 	public override void Awake()
 	{
 		base.Awake();
 		ReagentCirculatedComponent = this.GetComponentCustom<ReagentCirculatedComponent>();
+
+	}
+
+
+	public void Start()
+	{
+		InitialiseBabySlime();
 	}
 
 
@@ -75,6 +86,9 @@ public class SlimeCore : BodyPartFunctionality
 
 	public void InitialiseBabySlime()
 	{
+		if (RelatedPart.HealthMaster == null) return;
+		if (BabySlimeInit) return;
+		BabySlimeInit = true;
 		var Multiplier = (StartingAmount / ReagentCirculatedComponent.AssociatedSystem.BloodPool.Total);
 		ReagentCirculatedComponent.AssociatedSystem.BloodPool.Multiply(Multiplier);
 

@@ -6,7 +6,7 @@ using UI.Character;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class PlayerBlueprint : MonoBehaviour
+public class PlayerBlueprint : MonoBehaviour, IServerSpawn
 {
 	public CharacterSheet CharacterSheet = new CharacterSheet();
 
@@ -16,9 +16,21 @@ public class PlayerBlueprint : MonoBehaviour
 	[NaughtyAttributes.Button()]
 	public void Start()
 	{
+		if (this.GetComponentCustom<RuntimeSpawned>() == null) return;
+		Spawn();
+
+	}
+
+	public void Spawn()
+	{
 		var Mind =  PlayerSpawn.NewSpawnCharacterV2(null, CharacterSheet, nonImportantMind);
 		Mind.Body.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(this.transform.position);
 		_ = Despawn.ServerSingle(this.gameObject);
+	}
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		Spawn();
 	}
 
 

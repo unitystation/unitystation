@@ -246,7 +246,6 @@ public static class PlayerSpawn
 			}
 		}
 
-
 		var body = SpawnPlayerBody(bodyPrefab);
 
 		try

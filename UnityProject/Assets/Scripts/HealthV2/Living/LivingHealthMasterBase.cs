@@ -1004,7 +1004,7 @@ namespace HealthV2
 			foreach (var implant in BodyPartList)
 			{
 				if (implant.DamageContributesToOverallHealth == false) continue;
-				currentHealth -= implant.TotalDamageWithoutOxyRadStam;
+				currentHealth -= implant.TotalDamageWithoutOxyCloneRadStam;
 			}
 
 			if (DoesNotRequireBrain == false)
