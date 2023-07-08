@@ -1117,7 +1117,15 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		slideTime = 0;
 		IsFlyingSliding = false;
 		Animating = false;
-		if (this is MovementSynchronisation c) c.playerScript.RegisterPlayer.LayDownBehavior.ServerEnsureCorrectState();
+		if (this is not MovementSynchronisation c) return;
+		if (CustomNetworkManager.IsServer)
+		{
+			c.playerScript.RegisterPlayer.LayDownBehavior.ServerEnsureCorrectState();
+		}
+		else
+		{
+			c.playerScript.RegisterPlayer.LayDownBehavior.ClientEnsureCorrectState();
+		}
 	}
 
 	[Server]

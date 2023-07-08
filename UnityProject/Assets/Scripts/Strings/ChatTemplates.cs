@@ -5,12 +5,12 @@ namespace Strings
 {
 	public static class ChatTemplates
 	{
-		public const int SmallText = 12;
-		public const int NormalText = 14;
-		public const int LargeText = 18;
-		public const int VeryLargeText = 24;
-		public const int ExtremelyLargeText = 36;
-		public const int AnnoyingText = 64;
+		public const int SmallText = 4;
+		public const int NormalText = 8;
+		public const int LargeText = 14;
+		public const int VeryLargeText = 22;
+		public const int ExtremelyLargeText = 32;
+		public const int AnnoyingText = 48;
 
 		public const string Blue = "#0077ff";
 
