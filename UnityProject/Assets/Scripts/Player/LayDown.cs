@@ -27,8 +27,20 @@ namespace Player
 			networkedLean ??= GetComponent<Util.NetworkedLeanTween>();
 		}
 
+
+		[Client]
+		public void ClientEnsureCorrectState()
+		{
+			CorrectState();
+		}
+
 		[ClientRpc]
-		public void EnsureCorrectState()
+		public void ServerEnsureCorrectState()
+		{
+			CorrectState();
+		}
+
+		private void CorrectState()
 		{
 			gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
 			if (disabled || health == null) return;
