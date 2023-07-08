@@ -133,7 +133,6 @@ namespace HealthV2
 			{
 				InvokeClientConsciousStateEvent(newConsciousState);
 			}
-
 		}
 
 		[Server]

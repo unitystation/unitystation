@@ -282,6 +282,7 @@ namespace HealthV2
 		public event Action OnLowHealth;
 
 		public event Action OnDeath;
+		public UnityEvent OnRevive;
 
 		[SyncVar] public bool CannotRecognizeNames = false;
 
@@ -999,6 +1000,7 @@ namespace HealthV2
 		public void CalculateOverallHealth()
 		{
 			float currentHealth = MaxHealth;
+			var conState = ConsciousState;
 			foreach (var implant in BodyPartList)
 			{
 				if (implant.DamageContributesToOverallHealth == false) continue;
@@ -1060,14 +1062,15 @@ namespace HealthV2
 				SetConsciousState(ConsciousState.CONSCIOUS);
 			}
 
-			//Logger.Log("overallHealth >" + overallHealth  +  " ConsciousState > " + ConsciousState);
-			// Logger.Log("NutrimentLevel >" + NutrimentLevel);
+			if (conState == ConsciousState.DEAD && ConsciousState is ConsciousState.CONSCIOUS or ConsciousState.BARELY_CONSCIOUS)
+			{
+				OnRevive?.Invoke();
+			}
 		}
 
 		private void CheckHeartStatus()
 		{
-			bool hasAllHeartAttack = true;
-			if (BodyPartList.Count == 0) hasAllHeartAttack = false;
+			bool hasAllHeartAttack = BodyPartList.Count != 0;
 			foreach (var Implant in BodyPartList)
 			{
 				foreach (var organ in Implant.OrganList)
