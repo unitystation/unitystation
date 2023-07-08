@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7616af8b1aca87f4f83d0af4e2f8aeb8, type: 3}
+  m_Name: SlimeProcessor
+  m_EditorClassIdentifier: 
+  machine: {fileID: 2547436927542266137, guid: e113efb88ff175a46907430c85805874, type: 3}
+  machineParts:
+  - itemTrait: {fileID: 11400000, guid: 2b530cc6dc3250f4e97d022110dbf1f8, type: 2}
+    basicItem: {fileID: 4467086071194833421, guid: c84a09f09199afb48b0d8a0c5c2a5bea,
+      type: 3}
+    amountOfThisPart: 2
+    tier: 0
+  - itemTrait: {fileID: 11400000, guid: 6745069dc8b5c0e44939b2b4795e997f, type: 2}
+    basicItem: {fileID: 2058509729992912251, guid: 08be734c1a459464f9c78d3b21384339,
+      type: 3}
+    amountOfThisPart: 2
+    tier: 0
