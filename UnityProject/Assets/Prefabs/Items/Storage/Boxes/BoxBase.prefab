@@ -105,6 +105,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &4991786853530350121
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -177,6 +180,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BoxBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 3676122640429376199, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: _assetId
+      value: 1355603732
       objectReference: {fileID: 0}
     - target: {fileID: 3676122640429376199, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
