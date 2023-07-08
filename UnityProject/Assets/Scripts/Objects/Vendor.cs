@@ -296,7 +296,6 @@ namespace Objects
 
 		private void CheckAudioState()
 		{
-			if (CustomNetworkManager.IsServer == false) return;
 			if (ActualCurrentPowerState is PowerState.On or PowerState.OverVoltage or PowerState.LowVoltage)
 			{
 				SoundManager.PlayAtPositionAttached(ambientSoundWhileOn,
