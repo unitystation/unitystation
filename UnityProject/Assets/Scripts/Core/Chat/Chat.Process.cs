@@ -364,7 +364,7 @@ public partial class Chat
 		return AddMsgColor(channels,
 			$"{chan}<b>{speaker}</b> {verb}" // [cmd]  Username says,
 			+ "  " // Two hair spaces. This triggers Text-to-Speech.
-			+ $"<size=+{textSize}>" + "\"" +  message + "\"" + "</size>"); // "This text will be spoken by TTS!"
+			+ $"<size={textSize + PlayerPrefs.GetInt(ChatOptions.FONTSCALE_KEY, 1)}>" + "\"" +  message + "\"" + "</size>"); // "This text will be spoken by TTS!"
 	}
 
 	private static string StripAll(string input)

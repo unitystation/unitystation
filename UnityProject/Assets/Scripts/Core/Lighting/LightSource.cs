@@ -300,7 +300,6 @@ namespace Objects.Lighting
 
 		private void CheckAudioState()
 		{
-			if (CustomNetworkManager.IsServer == false) return;
 			if (MountState == LightMountState.On)
 			{
 				SoundManager.PlayAtPositionAttached(ambientSoundWhileOn,

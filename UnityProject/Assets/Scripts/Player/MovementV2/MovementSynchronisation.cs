@@ -324,7 +324,14 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	private void ThrowEnding(UniversalObjectPhysics thing)
 	{
-		playerScript.RegisterPlayer.LayDownBehavior.EnsureCorrectState();
+		if (CustomNetworkManager.IsServer)
+		{
+			playerScript.RegisterPlayer.LayDownBehavior.ServerEnsureCorrectState();
+		}
+		else
+		{
+			playerScript.RegisterPlayer.LayDownBehavior.ClientEnsureCorrectState();
+		}
 	}
 
 	public void Update()
