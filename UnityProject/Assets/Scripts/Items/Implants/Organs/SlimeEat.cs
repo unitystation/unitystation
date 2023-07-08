@@ -141,6 +141,7 @@ public class SlimeEat : BodyPartFunctionality
 			}
 
 			LivingHealthMasterBaseCurrentlyEating.ApplyDamageAll(RelatedPart.HealthMaster.gameObject, 1.33332f, AttackType.Internal,DamageType.Clone, true);
+			LivingHealthMasterBaseCurrentlyEating.ApplyDamageAll(RelatedPart.HealthMaster.gameObject, 1.33332f, AttackType.Internal,DamageType.Burn, true);
 			ReagentCirculatedComponent.AssociatedSystem.BloodPool.Add(SlimeJelly, 0.58f);
 		}
 
