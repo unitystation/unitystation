@@ -18,9 +18,8 @@ namespace Chemistry.Effects
 		public override void Apply(MonoBehaviour onObject, float amount)
 		{
 			var Matrix =  onObject.gameObject.GetMatrixRoot();
-
-
-			var	metaNode = Matrix.MetaDataLayer.Get(onObject.transform.localPosition.RoundToInt());
+			
+			var	metaNode = Matrix.MetaDataLayer.Get(onObject.gameObject.AssumedWorldPosServer().ToLocalInt(Matrix));
 
 			lock (metaNode.GasMix.GasesArray) //no Double lock
 			{
