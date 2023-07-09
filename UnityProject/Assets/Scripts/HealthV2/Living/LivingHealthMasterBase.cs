@@ -1967,13 +1967,13 @@ namespace HealthV2
 
 		public void ExposePressureTemperature(float EnvironmentalPressure, float EnvironmentalTemperature)
 		{
-
 			PressureAlert ExtremistPressure = PressureAlert.None;
 			TemperatureAlert ExtremistTemperature = TemperatureAlert.None;
+			var SurfaceBodyPartsCount = SurfaceBodyParts.Count;
 			foreach (var bodyPart in SurfaceBodyParts)
 			{
-				var newTemperatureAlert = bodyPart.ExposeTemperature(EnvironmentalTemperature);
-				var newPressureAlert = bodyPart.ExposePressure(EnvironmentalPressure);
+				var newTemperatureAlert = bodyPart.ExposeTemperature(EnvironmentalTemperature, SurfaceBodyPartsCount);
+				var newPressureAlert = bodyPart.ExposePressure(EnvironmentalPressure, SurfaceBodyPartsCount);
 				if (newPressureAlert != PressureAlert.None)
 				{
 					if (ExtremistPressure is not PressureAlert.PressureTooHigher or PressureAlert.PressureTooLow)
