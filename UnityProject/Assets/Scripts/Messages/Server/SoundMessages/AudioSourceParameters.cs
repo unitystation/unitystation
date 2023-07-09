@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-﻿namespace Messages.Server.SoundMessages
+namespace Messages.Server.SoundMessages
 {
 	public enum MixerType
 	{
@@ -54,12 +54,12 @@
 		// True if volume is supposed to be 0.
 		// We need this because structs always initilize with with all variables equal to 0.
 		public bool IsMute;
-		
+
 		/// <Summary>
 		/// Constructor for the AudioSourceParameters Struct
 		/// </Summary>
 		public AudioSourceParameters(float pitch = 0, float volume = 0, float time = 0, float pan = 0,
-			float spatialBlend = 0, float spread = 0, float minDistance = 0, float maxDistance = 0, 
+			float spatialBlend = 0, float spread = 0, float minDistance = 0, float maxDistance = 0,
 			MixerType mixerType = MixerType.Master, VolumeRolloffType volumeRolloffType = VolumeRolloffType.Linear,
 			bool isMute = false)
 		{
