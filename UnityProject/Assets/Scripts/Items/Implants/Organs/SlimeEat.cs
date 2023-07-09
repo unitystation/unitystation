@@ -61,6 +61,7 @@ public class SlimeEat : BodyPartFunctionality
 
 		if ( RelatedPart.HealthMaster.ObjectBehaviour.BuckledToObject != null || RelatedPart.HealthMaster.ObjectBehaviour.ObjectIsBucklingChecked.HasComponent ) return;
 
+
 		var Edible = ToEat.GetComponent<Edible>();
 
 		if (Edible != null)
@@ -76,6 +77,8 @@ public class SlimeEat : BodyPartFunctionality
 
 		if (Health != null)
 		{
+			if (Health.ObjectBehaviour.BuckledToObject != null || Health.ObjectBehaviour.ObjectIsBucklingChecked.HasComponent ) return; //just buckle yourself to a chair lol
+
 			if (Health.IsDead)
 			{
 				return;
