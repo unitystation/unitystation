@@ -9,13 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 942de2d1e5138ff479292c0ff88783b8, type: 3}
-  m_Name: PKAs
+  m_Script: {fileID: 11500000, guid: 4ccfe138752d4b66bcb7c56a0c9769c7, type: 3}
+  m_Name: BagOfHolding
   m_EditorClassIdentifier: 
-  Demands:
-    m_keys:
-    - {fileID: 11400000, guid: 4b8a2d1facb43884ca56a1643ba18bbc, type: 2}
-    m_values: 02000000
-  Reward: 500
-  TooltipDescription: 
-  Title: Send 2 Proto Kinetic Accelerators.
+  traitDescription: it's a bag of holding, a bag of extra-dimensional capacity.
