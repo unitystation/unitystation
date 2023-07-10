@@ -78,7 +78,7 @@ namespace UI.Objects.Cargo
 
 			if (cargoGUI.cargoConsole.CorrectID || cargoGUI.IsAIInteracting())
 			{
-				confirmButtonText.SetValue("InvalidID");
+				confirmButtonText.MasterSetValue("InvalidID");
 			}
 
 			CheckTotalPrice();

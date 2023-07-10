@@ -83,19 +83,21 @@ namespace UI.Objects.Cargo
 		private void UpdateStatusText()
 		{
 			string[] statusText = new string[4] { "On-Route Station", "Docked at Station", "On-Route Centcomm", "Docked at Centcomm" };
-
+			
 			if (CargoManager.Instance.CargoOffline)
 			{
 				StatusText.SetValue("OFFLINE");
 				return;
 			}
-			if(CargoManager.Instance.ShuttleStatus == ShuttleStatus.DockedStation)
+
+			switch(CargoManager.Instance.ShuttleStatus)
 			{
-				raiseButtonText.SetValue("    Send");
-			}
-			if (CargoManager.Instance.ShuttleStatus == ShuttleStatus.DockedCentcom)
-			{
-				raiseButtonText.SetValue("    Call");
+				case ShuttleStatus.DockedStation:
+					raiseButtonText.SetValue("Send");
+					break;
+				case ShuttleStatus.DockedCentcom:
+					raiseButtonText.SetValue("Call");
+					break;
 			}
 
 			statusPage.UpdateTab();
