@@ -9,15 +9,12 @@ namespace UI.Objects.Cargo
 {
 	public class GUI_CargoPageStatus : GUI_CargoPage
 	{
-		private string logs;
 		[SerializeField]
 		private NetText_label logLabel;
 
 		public override void UpdateTab()
 		{
-			logs = CargoManager.Instance.CentcomMessage;
-
-			logLabel.SetValue(logs);
+			logLabel.SetValue(CargoManager.Instance.CentcomMessage);
 		}
 
 		

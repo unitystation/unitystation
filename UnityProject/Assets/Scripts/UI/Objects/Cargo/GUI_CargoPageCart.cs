@@ -46,7 +46,7 @@ namespace UI.Objects.Cargo
 
 		private void CheckTotalPrice()
 		{
-			totalPriceText.SetValue($"Total: {CargoManager.Instance.TotalCartPrice()} credits");
+			totalPriceText.SetValue($"Cost: {CargoManager.Instance.TotalCartPrice()} credits");
 		}
 
 		public void ConfirmCart()

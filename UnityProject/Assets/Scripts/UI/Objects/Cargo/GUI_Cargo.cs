@@ -82,7 +82,7 @@ namespace UI.Objects.Cargo
 
 		private void UpdateStatusText()
 		{
-			string[] statusText = new string[4] { "On-Route Station", "Docked at Station", "On-Route Centcomm", "Docked at Centcomm" };
+			string[] statusText = new string[] { "On-Route Station", "Docked at Station", "On-Route Centcomm", "Docked at Centcomm" };
 			
 			if (CargoManager.Instance.CargoOffline)
 			{
