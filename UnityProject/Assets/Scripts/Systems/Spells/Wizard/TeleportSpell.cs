@@ -65,7 +65,8 @@ namespace Systems.Spells.Wizard
 		private void SyncPlayer(NetworkIdentity oldPlayer, NetworkIdentity newPlayer)
 		{
 			IDteleportingPlayer = newPlayer;
-			playerSprite = teleportingPlayer.transform.Find("Sprites");
+			if (teleportingPlayer == null) return; //might be setting to null idk
+ 			playerSprite = teleportingPlayer.transform.Find("Sprites");
 
 			if (playerSprite == null)
 			{

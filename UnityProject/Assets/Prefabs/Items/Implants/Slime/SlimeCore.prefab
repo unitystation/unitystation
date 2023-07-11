@@ -151,6 +151,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2966326797250985115, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
+      propertyPath: initialName
+      value: Grey - SlimeCore
+      objectReference: {fileID: 0}
+    - target: {fileID: 2966326797250985115, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
       propertyPath: initialTraits.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -332,6 +337,7 @@ MonoBehaviour:
   DeStabilised: 0
   Enhanced: 0
   EnhancedUsedUp: 0
+  MakeIntoBabySlimeWhenAddedIfSlime: 1
 --- !u!114 &3350947404595399408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,6 +403,7 @@ MonoBehaviour:
   traitWhitelist: []
   reagentWhitelist: []
   transferMode: 0
+  SyringePulling: 0
   possibleTransferAmounts: []
   transferAmount: 20
   transferSound: []

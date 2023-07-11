@@ -167,6 +167,19 @@ public class Mind : NetworkBehaviour, IActionGUI
 	}
 
 
+	[Command]
+	public void CmdRequestPossess(uint ID)
+	{
+
+		if (AdminCommandsManager.IsAdmin(this.connectionToClient, out var _))
+		{
+			SetPossessingObject(CustomNetworkManager.Spawned[ID].gameObject);
+		}
+
+
+	}
+
+
 	public void CheckNonImportantMind()
 	{
 		var Deepestbody = GetDeepestBody();

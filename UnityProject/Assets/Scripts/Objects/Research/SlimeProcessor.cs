@@ -126,9 +126,23 @@ public class SlimeProcessor : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 		var Slime = Health.brain.GetComponent<SlimeCore>();
 		if (Slime != null)
 		{
-			Slime.RelatedPart.RemoveInventoryAndBody(this.gameObject.transform.position);
+			List<SlimeCore> SlimeCores = new List<SlimeCore>();
+			foreach (var bp in Health.BodyPartList)
+			{
+				var core = bp.GetComponent<SlimeCore>();
+				if (core != null)
+				{
+					SlimeCores.Add(core);
+				}
+			}
 
-			container.RetrieveObject(Slime.gameObject);
+
+			foreach (var core in SlimeCores)
+			{
+				core.RelatedPart.RemoveInventoryAndBody(this.gameObject.transform.position);
+				container.RetrieveObject(core.gameObject);
+			}
+			
 			container.RetrieveObject(Remov.Key);
 			_ = Despawn.ServerSingle(Health.gameObject);
 

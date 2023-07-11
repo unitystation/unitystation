@@ -55,7 +55,14 @@ namespace Items.Implants.Organs
 		[RightClickMethod]
 		public void Possess()
 		{
-			PlayerManager.LocalMindScript.SetPossessingObject(this.gameObject);
+			if (isServer)
+			{
+				PlayerManager.LocalMindScript.SetPossessingObject(this.gameObject);
+			}
+			else
+			{
+				PlayerManager.LocalMindScript.CmdRequestPossess(this.gameObject.NetId());
+			}
 		}
 
 
