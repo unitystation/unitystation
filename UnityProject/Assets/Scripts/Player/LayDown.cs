@@ -103,7 +103,7 @@ namespace Player
 			{
 				spriteRenderer.sortingLayerName = "Players";
 			}
-			if (CustomNetworkManager.IsServer == false) return;
+			if (CustomNetworkManager.IsServer == false || playerScript == null || playerScript.PlayerSync == null) return;
 			playerDirectional.LockDirectionTo(false, playerDirectional.CurrentDirection);
 			playerScript.PlayerSync.CurrentMovementType = MovementType.Running;
 		}
