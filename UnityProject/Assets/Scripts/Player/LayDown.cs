@@ -52,7 +52,10 @@ namespace Player
 			var state = IsLayingDown;
 			if (health != null)
 			{
-				if (health.IsDead || health.IsCrit) state = true;
+				if (health.IsDead || health.IsCrit)
+				{
+					state = true;
+				}
 			}
 			if (state)
 			{
