@@ -27,6 +27,12 @@ namespace Player
 			networkedLean ??= GetComponent<Util.NetworkedLeanTween>();
 		}
 
+		public override void OnStartClient()
+		{
+			base.OnStartClient();
+			ClientEnsureCorrectState();
+		}
+
 
 		[Client]
 		public void ClientEnsureCorrectState()
@@ -42,9 +48,13 @@ namespace Player
 
 		private void CorrectState()
 		{
-			gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
-			if (disabled || health == null) return;
-			if (IsLayingDown || health.IsCrit || health.IsDead)
+			if (disabled) return;
+			var state = IsLayingDown;
+			if (health != null)
+			{
+				if (health.IsDead || health.IsCrit) state = true;
+			}
+			if (state)
 			{
 				LayingDownLogic(true);
 			}
