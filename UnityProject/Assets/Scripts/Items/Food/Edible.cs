@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using AddressableReferences;
 using Chemistry;
 using Chemistry.Components;
 using HealthV2.Living.PolymorphicSystems;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using Messages.Server.SoundMessages;
 using Mirror;
@@ -157,13 +152,13 @@ namespace Items.Food
 				{
 					Chat.AddActionMsgToChat(feeder.gameObject,
 						"you try the stuff The food into your mouth but your stomach has no more room",
-						"{performer} Tries to stuff food into the mouth but is unable to");
+						$"{feeder} Tries to stuff food into the mouth but is unable to");
 				}
 				else
 				{
 					Chat.AddActionMsgToChat(feeder.gameObject,
 						"You try and stuff more food into your targets mouth but no more seems to go in",
-						"{performer} Tries to stuff food into Their targets mouth but no more food is going in");
+						$"{feeder} Tries to stuff food into Their targets mouth but no more food is going in");
 				}
 
 				return;
@@ -172,7 +167,7 @@ namespace Items.Food
 			if (SpareSpace < FoodContents.CurrentReagentMix.Total)
 			{
 				Chat.AddActionMsgToChat(feeder.gameObject, "You unwillingly eat the food",
-					"{performer} Unwillingly force themselves to eat the food");
+					$"{eater} Unwillingly force themselves to eat the food");
 			}
 
 			ReagentMix incomingFood = GetMixForBite(feeder);

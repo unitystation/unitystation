@@ -263,9 +263,9 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public GameObject GetSpawnablePrefabFromName(string prefabName)
 	{
-		var prefab = allSpawnablePrefabs.Where(o => o.name == prefabName).ToList();
+		var prefab = allSpawnablePrefabs?.Where(o => o.name == prefabName).ToList();
 
-		if (prefab.Any())
+		if (prefab != null && prefab.Any())
 		{
 			if (prefab.Count > 1)
 			{
