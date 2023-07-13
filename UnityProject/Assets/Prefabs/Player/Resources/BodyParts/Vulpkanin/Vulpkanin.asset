@@ -50,22 +50,14 @@ MonoBehaviour:
       - bodyType: 0
         Name: NonBinary
     SkinColours: []
-    BloodType: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
     RootImplantProcedure: {fileID: 11400000, guid: 3de247ed9ca572941975e45430051197,
       type: 2}
     BodyPartsThatShareTheSkinTone:
     - {fileID: 1644536323247627075, guid: df82693e0cd2bfc4b97bdedcf98469fb, type: 3}
-    NumberOfMinutesBeforeStarving: 30
-    TotalToxinGenerationPerSecond: 0.1
-    InternalMetabolismPerSecond: 1
-    ExternalMetabolismPerSecond: 2
-    BodyNutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
-    BodyNaturalToxinReagent: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12,
-      type: 2}
     ClueString: a bristly hair
     MeatProduce: {fileID: 0}
     SkinProduce: {fileID: 0}
-    CanShowUpInTheCharacterCreatorScreen: 1
+    CanBePlayerChosen: 1
     PreviewSprite: {fileID: 11400000, guid: 61fd5595729577647a3caf7a4bf15c37, type: 2}
     SystemSettings:
     - rid: 5920833068371804161
@@ -86,14 +78,16 @@ MonoBehaviour:
             m_values: []
           reagentKeys: []
         StartingBlood: 500
-        bloodInfo: {fileID: 11400000, guid: 5a85f8bded849a44290c34e227cd4096, type: 2}
-        bloodType: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
+        NormalBlood: 500
+        bloodReagent: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
         PumpingDevices: []
     - rid: 5920833068371804162
       type: {class: ChemicalMetabolismSystem, ns: HealthV2.Living.PolymorphicSystems,
         asm: Assets}
       data:
         Base: {fileID: 0}
+        InternalMetabolismPerSecond: 1
+        ExternalMetabolismPerSecond: 2
         ALLMetabolismReactions:
         - {fileID: 11400000, guid: ac0c760ad1cbab341b756545ba0586a4, type: 2}
         - {fileID: 11400000, guid: 764107d010af362458271da1cae0b721, type: 2}
@@ -120,15 +114,23 @@ MonoBehaviour:
         - {fileID: 11400000, guid: 85b402a852ad1ad49b64886cd42e93ce, type: 2}
         - {fileID: 11400000, guid: 3ea6d21ecff38954a9e1b05795f3f45e, type: 2}
         - {fileID: 11400000, guid: b7d0a552223af4d4d9f3eb3217df9183, type: 2}
+        - {fileID: 11400000, guid: 2902beb621ef39d42b6f061978844fc3, type: 2}
         MetabolismComponents: []
     - rid: 5920833068371804164
       type: {class: HungerSystem, ns: HealthV2.Living.PolymorphicSystems, asm: Assets}
       data:
         Base: {fileID: 0}
         BodyParts: []
+        NumberOfMinutesBeforeStarving: 30
+        BodyNutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
+          type: 2}
+        CashedHungerState: 1
     - rid: 5920833068371804166
       type: {class: NaturalChemicalReleaseSystem, ns: HealthV2.Living.PolymorphicSystems,
         asm: Assets}
       data:
         Base: {fileID: 0}
         BodyParts: []
+        TotalToxinGenerationPerSecond: 0.1
+        BodyNaturalToxinReagent: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12,
+          type: 2}

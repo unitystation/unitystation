@@ -30,7 +30,7 @@ namespace Objects.Kitchen
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench) == false;
+			return Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench) == false;
 		}
 
 		/// <summary>

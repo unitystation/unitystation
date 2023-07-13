@@ -143,6 +143,12 @@ namespace Systems.Storage
 
 				if (ItemSlot == null) continue;
 				var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true);
+
+				if (Validations.CanFit(ItemSlot, spawn.GameObject, NetworkSide.Server) == false)
+				{
+					Logger.LogError($"Your initial contents spawn for Storage {gameObject.name} for {spawn.GameObject} Is bypassing the Can fit requirements");
+				}
+
 				Inventory.ServerAdd(spawn.GameObject, ItemSlot, namedSlotPopulatorEntry.ReplacementStrategy, true);
 			}
 		}

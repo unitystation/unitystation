@@ -111,9 +111,6 @@ namespace HealthV2.Living.PolymorphicSystems
 			}
 
 			InitialiseHunger(NumberOfMinutesBeforeStarving);
-
-
-
 		}
 
 		//The cause of world hunger

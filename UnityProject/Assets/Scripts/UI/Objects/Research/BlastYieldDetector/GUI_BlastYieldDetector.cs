@@ -4,6 +4,7 @@ using System;
 using Systems.Research.Objects;
 using Systems.Research;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using Chemistry;
 using Items.Weapons;
@@ -12,16 +13,9 @@ namespace UI.Objects.Research
 {
 	public class GUI_BlastYieldDetector : NetTab
 	{
-		private BlastYieldDetector blastYieldDetector
-		{
-			get
-			{
-				if (_blastYieldDetector == null) _blastYieldDetector = Provider.GetComponent<BlastYieldDetector>();
+		private BlastYieldDetector blastYieldDetector;
 
-				return _blastYieldDetector;
-			}
-		}
-
+		private bool isUpdating;
 
 		private const int YAXIS_MAX = 1000; //Up to 1000 Blast yield
 		private const int XAXIS_MAX = 10; //Up to last 10 datapoints
@@ -30,8 +24,6 @@ namespace UI.Objects.Research
 		/// Offset to position highlight line UI properly
 		/// </summary>
 		public float rectOffset;
-
-		private BlastYieldDetector _blastYieldDetector;
 
 		#region Serializefields
 
@@ -70,15 +62,49 @@ namespace UI.Objects.Research
 
 		#region Initialization
 
-		private void Start()
+		protected override void InitServer()
 		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				StartCoroutine(WaitForProvider());
+			}
+		}
+
+		private IEnumerator WaitForProvider()
+		{
+
+			while (Provider == null)
+			{
+				yield return WaitFor.EndOfFrame;
+			}
+
+			blastYieldDetector = Provider.GetComponent<BlastYieldDetector>();
+
 			BlastYieldDetector.blastEvent += OnRecieveBlast;
 			BlastYieldDetector.updateGUIEvent += UpdateGui;
 
 			UpdateGui();
-
 			UpdateDataDisplay();
+
+			OnTabOpened.AddListener(UpdateGUIForPeepers);
 		}
+
+		public void UpdateGUIForPeepers(PlayerInfo notUsed)
+		{
+			if (!isUpdating)
+			{
+				isUpdating = true;
+				StartCoroutine(WaitForClient());
+			}
+		}
+
+		private IEnumerator WaitForClient()
+		{
+			yield return new WaitForSeconds(0.2f);
+			UpdateGui();
+			isUpdating = false;
+		}
+
 
 		#endregion
 
@@ -169,7 +195,7 @@ namespace UI.Objects.Research
 			{
 				Vector2 dataShownPos = GetNodePosition(yields[i], i);
 
-				if(graphContainer.transform.GetChild(i).gameObject.TryGetComponent<NetAnchoredPosition>(out var node)) node.SetPosition(dataShownPos);
+				graphContainer.Entries[i].GetComponentInChildren<NetAnchoredPosition>().SetPosition(dataShownPos);
 				
 				if (i != yields.Count - 1) continue;
 

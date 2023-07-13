@@ -9,7 +9,7 @@ public class SpawnDestination
 	/// <summary>
 	/// World position to spawn at. Defaults to HiddenPos.
 	/// </summary>
-	public readonly Vector3 WorldPosition;
+	public Vector3 WorldPosition;
 
 	/// <summary>
 	/// Parent transform to spawn under. This does not usually need to be specified because the RegisterTile

@@ -13,16 +13,32 @@ MonoBehaviour:
   m_Name: snap
   m_EditorClassIdentifier: 
   emoteName: snap
+  EmoteIcon: {fileID: 0}
   requiresHands: 1
   allowEmoteWhileInCrit: 1
   isAudibleEmote: 0
   allowEmoteWhileCrawling: 1
   viewText: snaps their fingers!
-  youText: snap your fingers
+  youText: You snap your fingers, making a clicking sound.
   failText: You cannot snap any fingers!
   mouthBlockedText: You are unable to make a sound!
   critViewText: screams in pain!
   soundsAreTyped: 0
-  defaultSounds: []
+  defaultSounds:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Emotes/FingerSnap/Snap 1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Emotes/FingerSnap/Snap 2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   TypedSounds: []
   pitchRange: {x: 0.7, y: 1}
+  allowedPlayerTypes: 1

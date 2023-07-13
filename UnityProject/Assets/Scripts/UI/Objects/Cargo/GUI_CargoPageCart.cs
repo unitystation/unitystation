@@ -5,7 +5,7 @@ using Systems.Cargo;
 
 namespace UI.Objects.Cargo
 {
-	public class GUI_CargoPageCart : GUI_CargoPage
+	public class GUI_CargoPageCart : MonoBehaviour
 	{
 		[SerializeField]
 		private NetText_label confirmButtonText;
@@ -14,35 +14,39 @@ namespace UI.Objects.Cargo
 		[SerializeField]
 		private EmptyItemList orderList;
 
-		public override void OpenTab()
+		[SerializeField]
+		private GUI_Cargo cargoGUI;
+
+		public void SetUpTab()
 		{
 			CargoManager.Instance.OnCartUpdate.AddListener(UpdateTab);
+			UpdateTab();
 		}
 
-		public override void UpdateTab()
+		public void UpdateTab()
 		{
 			DisplayCurrentCart();
 			if (cargoGUI.cargoConsole.CorrectID || cargoGUI.IsAIInteracting())
 			{
-				confirmButtonText.MasterSetValue(CanAffordCart() ? "CONFIRM CART" : "NOT ENOUGH CREDITS");
+				confirmButtonText.SetValue(CanAffordCart() ? "Confirm cart" : "Not enough credits!");
 
 				CheckTotalPrice();
 				if (CargoManager.Instance.CurrentCart.Count == 0)
 				{
-					confirmButtonText.MasterSetValue("CART IS EMPTY");
-					totalPriceText.MasterSetValue("");
+					confirmButtonText.SetValue("Cart is empty!");
+					totalPriceText.SetValue("");
 				}
 			}
 			else
 			{
-				confirmButtonText.MasterSetValue("InvalidID");
+				confirmButtonText.SetValue("InvalidID");
 			}
 
 		}
 
 		private void CheckTotalPrice()
 		{
-			totalPriceText.MasterSetValue($"TOTAL: {CargoManager.Instance.TotalCartPrice()} CREDITS");
+			totalPriceText.SetValue($"Cost: {CargoManager.Instance.TotalCartPrice()} credits");
 		}
 
 		public void ConfirmCart()

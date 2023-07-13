@@ -198,8 +198,7 @@ public class ObjectPool
 				return false;
 			}
 			spawnedObject.name = prefab.name;
-			var Matrix = MatrixManager.AtPoint(spawnedObject.transform.position, CustomNetworkManager.IsServer);
-			spawnedObject.GetComponent<UniversalObjectPhysics>()?.ForceSetLocalPosition(spawnedObject.transform.localPosition,Vector2.zero, false, Matrix.Id);
+			spawnedObject.GetComponent<UniversalObjectPhysics>()?.AppearAtWorldPositionServer(destination.WorldPosition);
 			// only add pool prefab tracker if the object can be pooled
 			if (IsPoolable(prefab))
 			{

@@ -24,7 +24,35 @@ MonoBehaviour:
   mouthBlockedText: You are unable to make a sound!
   critViewText: claps!
   soundsAreTyped: 0
-  defaultSounds: []
+  defaultSounds:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Emotes/Clap/Clap 1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Emotes/Clap/Clap 2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Emotes/Clap/Clap 3.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Emotes/Clap/Clap 4.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   TypedSounds: []
   pitchRange: {x: 0.7, y: 1}
   allowedPlayerTypes: 1

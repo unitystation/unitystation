@@ -76,17 +76,17 @@ PrefabInstance:
     - target: {fileID: 4152119194625564523, guid: 2f8167654012aac4d83e586030d95284,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4152119194625564523, guid: 2f8167654012aac4d83e586030d95284,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4152119194625564523, guid: 2f8167654012aac4d83e586030d95284,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4152119194625564523, guid: 2f8167654012aac4d83e586030d95284,
         type: 3}
@@ -119,6 +119,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Standard cyborg leg. This one is a left arm.
       objectReference: {fileID: 0}
+    - target: {fileID: 4567022741602258301, guid: 2f8167654012aac4d83e586030d95284,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4567022741602258301, guid: 2f8167654012aac4d83e586030d95284,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: da0ab02318f88644982d7ebec5a2c8c9,
+        type: 2}
     - target: {fileID: 7004911256669990514, guid: 2f8167654012aac4d83e586030d95284,
         type: 3}
       propertyPath: foreverID

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Objects.Engineering;
 using UnityEngine;
 using Util;
+using Objects.Research;
 
 public class LaserProjection : MonoBehaviour
 {
@@ -60,7 +61,7 @@ public class LaserProjection : MonoBehaviour
 		{
 			if (Design.Technology == null)
 			{
-				Design.Technology = ResearchLaserProjector.researchServer.Techweb.nodes.PickRandom().technology;
+				Design.Technology = ResearchLaserProjector.researchServer.Techweb.AvailableTech.PickRandom();
 				Design.Colour = Design.Technology.Colour;
 			}
 		}
@@ -93,7 +94,7 @@ public class LaserProjection : MonoBehaviour
 				//Angle stuff
 				//Spawn new stuff and go down line
 				var Angle = VectorExtensions.DegreeToVector2(finalAngle);
-				TraverseLaser(Angle, Plinth.gameObject, Design, 0, hits.HitWorld);
+				TraverseLaser(Angle, Plinth.gameObject, Design, 0);
 			}
 		}
 		Plinth.gameObject.GetComponent<Collider2D>().enabled = true;
@@ -202,6 +203,13 @@ public class LaserProjection : MonoBehaviour
 		{
 			Destroy(Line.gameObject);
 		}
+
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			LaserLines.Clear();
+			this.ResearchLaserProjector.SynchroniseLaser(LaserLines);
+		}
+
 		Destroy(this.gameObject);
 
 		if (Reshoot && ResearchLaserProjector != null)

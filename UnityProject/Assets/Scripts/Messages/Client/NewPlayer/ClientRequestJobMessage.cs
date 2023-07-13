@@ -1,3 +1,4 @@
+using System.Linq;
 using Messages.Server;
 using Mirror;
 using Newtonsoft.Json;
@@ -99,7 +100,7 @@ namespace Messages.Client.NewPlayer
 			{
 				var character = JsonConvert.DeserializeObject<CharacterSheet>(msg.JsonCharSettings);
 				character.ValidateSpeciesCanBePlayerChosen();
-				PlayerSpawn.NewSpawnPlayerV2(SentByPlayer, null , character);
+				PlayerSpawn.NewSpawnPlayerV2(SentByPlayer, OccupationList.Instance.AllOcccupations.First(x => x.name == "Spectator") , character);
 			}
 			else
 			{

@@ -127,6 +127,21 @@ public static class Inventory
 	}
 
 	/// <summary>
+	/// If you're too lazy to get the ItemSlot This will do it for you or Return false if it can't find ItemSlot it is in
+	/// </summary>
+	/// <param name="fromSlot"></param>
+	/// <param name="worldTargetVector"></param>
+	/// <returns></returns>
+	public static bool ServerDrop(GameObject Object, Vector2? worldTargetVector = null)
+	{
+		if (Object.TryGetComponent<Pickupable>(out var Pickupable) == false) return false;
+		if (Pickupable.ItemSlot == null) return false;
+
+		return ServerPerform(InventoryMove.Drop(Pickupable.ItemSlot , worldTargetVector));
+	}
+
+
+	/// <summary>
 	/// Drops all the items in the slots of the player
 	/// </summary>
 	/// <param name="playerStorage">players dynamic storage</param>
@@ -714,6 +729,12 @@ public static class Inventory
 			if (ItemSlot == null) continue;
 
 			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true, spawnManualContents: info?.SpawnManualContents ?? false);
+
+			if (Validations.CanFit(ItemSlot, spawn.GameObject, NetworkSide.Server) == false)
+			{
+				Logger.LogError($"Your initial contents spawn for ItemStorage {itemStorage.name} for {spawn.GameObject} Is bypassing the Can fit requirements");
+			}
+
 			ServerAdd(spawn.GameObject, ItemSlot,namedSlotPopulatorEntry.ReplacementStrategy, true );
 			PopulateSubInventoryRecursive(spawn.GameObject, namedSlotPopulatorEntry.namedSlotPopulatorEntrys, info);
 		}
@@ -767,6 +788,12 @@ public static class Inventory
 			}
 
 			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true, spawnManualContents: info?.SpawnManualContents ?? false);
+
+			if (Validations.CanFit(ItemSlot, spawn.GameObject, NetworkSide.Server) == false)
+			{
+				Logger.LogError($"Your initial contents spawn for ItemStorage {itemStorage.name} for {spawn.GameObject} Is bypassing the Can fit requirements");
+			}
+
 			ServerAdd(spawn.GameObject, ItemSlot,namedSlotPopulatorEntry.ReplacementStrategy, true);
 		}
 	}

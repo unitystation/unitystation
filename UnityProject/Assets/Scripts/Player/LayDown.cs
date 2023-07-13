@@ -27,12 +27,37 @@ namespace Player
 			networkedLean ??= GetComponent<Util.NetworkedLeanTween>();
 		}
 
-		[ClientRpc]
-		public void EnsureCorrectState()
+		public override void OnStartClient()
 		{
-			gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
-			if (disabled || health == null) return;
-			if (IsLayingDown || health.IsCrit || health.IsDead)
+			base.OnStartClient();
+			ClientEnsureCorrectState();
+		}
+
+
+		[Client]
+		public void ClientEnsureCorrectState()
+		{
+			CorrectState();
+		}
+
+		[ClientRpc]
+		public void ServerEnsureCorrectState()
+		{
+			CorrectState();
+		}
+
+		private void CorrectState()
+		{
+			if (disabled) return;
+			var state = IsLayingDown;
+			if (health != null)
+			{
+				if (health.IsDead || health.IsCrit)
+				{
+					state = true;
+				}
+			}
+			if (state)
 			{
 				LayingDownLogic(true);
 			}
@@ -81,7 +106,7 @@ namespace Player
 			{
 				spriteRenderer.sortingLayerName = "Players";
 			}
-			if (CustomNetworkManager.IsServer == false) return;
+			if (CustomNetworkManager.IsServer == false || playerScript == null || playerScript.PlayerSync == null) return;
 			playerDirectional.LockDirectionTo(false, playerDirectional.CurrentDirection);
 			playerScript.PlayerSync.CurrentMovementType = MovementType.Running;
 		}

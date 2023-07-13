@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c909446621c41cd975e26eab73860a6, type: 3}
+  m_Name: SlimeBodyCapacity
+  m_EditorClassIdentifier: 
+  maxSize: 5
+  Whitelist:
+  - {fileID: 11400000, guid: 5e9ac88966a35d34a9fd90c34e1ddaa0, type: 2}
+  - {fileID: 11400000, guid: 892f0c642e2049640b08d738517bb0f5, type: 2}
+  Required:
+  - {fileID: 11400000, guid: d859938ed34564a4a932f3beb902e34c, type: 2}
+  Blacklist: []

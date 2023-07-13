@@ -3827,7 +3827,7 @@ GameObject:
   - component: {fileID: 3795399826096152269}
   - component: {fileID: 4721178495299449939}
   m_Layer: 5
-  m_Name: PlayerChatWindow
+  m_Name: AchatWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7820,7 +7820,7 @@ GameObject:
   - component: {fileID: 7364811699000415073}
   - component: {fileID: 6821687644834788898}
   m_Layer: 5
-  m_Name: NotificationCounter
+  m_Name: prayerNotificationCounter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9239,8 +9239,6 @@ MonoBehaviour:
   loadingBar: {fileID: 4111285201191346116}
   loadingView: {fileID: 7124344804966050161}
   audioButtons: []
-  audioAddressables: {fileID: 11400000, guid: c1b2f01cfa730ed4aaa225c8cd7a0405, type: 2}
-  catalogueData: {fileID: 11400000, guid: 12f2fa4d6bcabc549b49b4657e9a0329, type: 2}
 --- !u!1 &4691709227139562678
 GameObject:
   m_ObjectHideFlags: 0
@@ -13047,7 +13045,7 @@ GameObject:
   - component: {fileID: 7409947060215299526}
   - component: {fileID: 8000452558354631923}
   m_Layer: 5
-  m_Name: PlayerChatBtn
+  m_Name: AChatBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13219,7 +13217,7 @@ GameObject:
   - component: {fileID: 8101869038184451758}
   - component: {fileID: 1732745787430331358}
   m_Layer: 5
-  m_Name: NotificationCounter
+  m_Name: ANotificationCounter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15074,7 +15072,7 @@ MonoBehaviour:
   playerListContent: {fileID: 3577272989389866969}
   playerEntryPrefab: {fileID: 1424975127111674072, guid: 3195071ba03a8f542aef14b2db314f68,
     type: 3}
-  masterNotification: {fileID: 1732745787430331358}
+  masterNotification: {fileID: 6821687644834788898}
   showAdminsOnly: 0
   disableButtonInteract: 0
   hideSensitiveFields: 0

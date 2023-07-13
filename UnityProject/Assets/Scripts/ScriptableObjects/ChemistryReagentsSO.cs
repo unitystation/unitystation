@@ -1,6 +1,7 @@
 ﻿#if UNITY_EDITOR
 using UnityEditor;
 #endif
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,15 +47,33 @@ namespace ScriptableObjects
 
 		public void GenerateReagentReactionReferences()
 		{
-
-			foreach (var Reaction in allChemistryReactions)
+			try
 			{
-				foreach (var Required in Reaction.ingredients)
+				foreach (var reaction in allChemistryReactions)
 				{
-					Required.Key.RelatedReactions = Required.Key.RelatedReactions.Append(Reaction).ToArray();
+					foreach (var required in reaction.ingredients)
+					{
+						required.Key.RelatedReactions = new Reaction[0];
+					}
+				}
+
+				foreach (var reaction in allChemistryReactions)
+				{
+					foreach (var required in reaction.ingredients)
+					{
+						if (required.Key == null) continue;
+						if (required.Key.RelatedReactions == null)
+						{
+							required.Key.RelatedReactions = new Reaction[0];
+						}
+						required.Key.RelatedReactions = required.Key.RelatedReactions.Append(reaction).ToArray();
+					}
 				}
 			}
-
+			catch (Exception e)
+			{
+				Logger.LogError(e.ToString());
+			}
 		}
 	}
 

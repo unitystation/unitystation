@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,9 +26,22 @@ namespace Audio.Containers
         public AudioMixerGroup SFXMuffledMixer;
         public AudioMixerGroup AmbientMixer;
         public AudioMixerGroup TTSMixer;
-
         public AudioMixerGroup GameplayMixer; //Affected by deafness and air pressure and all that stuff
 
+        public event Action<bool> AudioReflectionsToggled;
+        private bool enableAudioReflections = true;
+
+        public bool EnableAudioReflections
+        {
+	        get => enableAudioReflections;
+	        set => ToggleAudioReflections(value);
+        }
+
+        private void ToggleAudioReflections(bool value)
+        {
+	        AudioReflectionsToggled?.Invoke(value);
+	        enableAudioReflections = value;
+        }
 
         private float GameplayVolumeLevel = 1;
 
@@ -64,31 +78,36 @@ namespace Audio.Containers
         {
 	        base.Start();
 	        MultiInterestFloat.OnFloatChange.AddListener(OnSetGameplayVolume);
-            MasterVolume(
-                PlayerPrefs.HasKey(PlayerPrefKeys.MasterVolumeKey)
-                    ? PlayerPrefs.GetFloat(PlayerPrefKeys.MasterVolumeKey)
-                    : 1f
-                );
-            AmbientVolume(
-                PlayerPrefs.HasKey(PlayerPrefKeys.AmbientVolumeKey)
-                    ? PlayerPrefs.GetFloat(PlayerPrefKeys.AmbientVolumeKey)
-                    : 0.8f
-                );
-            SoundFXVolume(
-                PlayerPrefs.HasKey(PlayerPrefKeys.SoundFXVolumeKey)
-                    ? PlayerPrefs.GetFloat(PlayerPrefKeys.SoundFXVolumeKey)
-                    : 0.8f
-                );
-            MusicVolume(
-                PlayerPrefs.HasKey(PlayerPrefKeys.MusicVolumeKey)
-                    ? PlayerPrefs.GetFloat(PlayerPrefKeys.MusicVolumeKey)
-                    : 0.8f
-                );
-            TtsVolume(
-                PlayerPrefs.HasKey(PlayerPrefKeys.TtsVolumeKey)
-                    ? PlayerPrefs.GetFloat(PlayerPrefKeys.TtsVolumeKey)
-                    : 0.8f
-                );
+	        MasterVolume(
+		        PlayerPrefs.HasKey(PlayerPrefKeys.MasterVolumeKey)
+			        ? PlayerPrefs.GetFloat(PlayerPrefKeys.MasterVolumeKey)
+			        : 1f
+	        );
+	        AmbientVolume(
+		        PlayerPrefs.HasKey(PlayerPrefKeys.AmbientVolumeKey)
+			        ? PlayerPrefs.GetFloat(PlayerPrefKeys.AmbientVolumeKey)
+			        : 0.8f
+	        );
+	        SoundFXVolume(
+		        PlayerPrefs.HasKey(PlayerPrefKeys.SoundFXVolumeKey)
+			        ? PlayerPrefs.GetFloat(PlayerPrefKeys.SoundFXVolumeKey)
+			        : 0.8f
+	        );
+	        MusicVolume(
+		        PlayerPrefs.HasKey(PlayerPrefKeys.MusicVolumeKey)
+			        ? PlayerPrefs.GetFloat(PlayerPrefKeys.MusicVolumeKey)
+			        : 0.8f
+	        );
+	        TtsVolume(
+		        PlayerPrefs.HasKey(PlayerPrefKeys.TtsVolumeKey)
+			        ? PlayerPrefs.GetFloat(PlayerPrefKeys.TtsVolumeKey)
+			        : 0.8f
+	        );
+
+	        // ReSharper disable once SimplifyConditionalTernaryExpression
+	        EnableAudioReflections = PlayerPrefs.HasKey(PlayerPrefKeys.AudioReflectionsToggleKey)
+		        ? PlayerPrefs.GetInt(PlayerPrefKeys.AudioReflectionsToggleKey) == 1
+		        : true;
         }
 
         /// <summary>

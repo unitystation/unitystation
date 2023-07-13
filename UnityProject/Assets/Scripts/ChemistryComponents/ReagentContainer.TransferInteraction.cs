@@ -40,6 +40,8 @@ namespace Chemistry.Components
 		[FormerlySerializedAs("TransferMode")]
 		[SerializeField] private TransferMode transferMode = TransferMode.Normal;
 
+		[SerializeField] public bool SyringePulling;
+
 		public TransferMode TransferMode => transferMode;
 
 		[FormerlySerializedAs("PossibleTransferAmounts")]
@@ -64,11 +66,7 @@ namespace Chemistry.Components
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
-			if (DefaultWillInteract.Default(interaction, side) == false)
-			{
-				return false;
-			}
-
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			return WillInteractHelp(interaction.UsedObject, interaction.TargetObject, side);
 		}
 
@@ -77,7 +75,7 @@ namespace Chemistry.Components
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			var playerScript = interaction.Performer.GetComponent<PlayerScript>();
-			if (!playerScript) return false;
+			if (playerScript == false) return false;
 
 			if (interaction.Intent == Intent.Help)
 			{
@@ -89,7 +87,7 @@ namespace Chemistry.Components
 				//Only spill if we're holding the alt key.
 				if (interaction.IsAltClick == false) return false;
 				//checks if it's possible to spill contents on player
-				if (!WillInteractHarm(interaction.HandObject, interaction.TargetObject, side)) return false;
+				if (WillInteractHarm(interaction.HandObject, interaction.TargetObject, side) == false) return false;
 			}
 
 			return true;
@@ -190,23 +188,49 @@ namespace Chemistry.Components
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			return possibleTransferAmounts.Count != 0;
+			return possibleTransferAmounts.Count != 0 || transferMode == TransferMode.Syringe;
 		}
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			var currentIndex = possibleTransferAmounts.IndexOf(TransferAmount);
-			if (currentIndex != -1)
+			if (transferMode == TransferMode.Syringe)
 			{
-				TransferAmount = possibleTransferAmounts.Wrap(currentIndex + 1);
+				SyringePulling = !SyringePulling;
+				if (IsFull && SyringePulling)
+				{
+					SyringePulling = false;
+					Chat.AddExamineMsg(interaction.Performer,
+						$"The {gameObject.ExpensiveName()} Is full, you can't pull any more.");
+					return;
+				}
+
+				if (IsEmpty && SyringePulling == false)
+				{
+					SyringePulling = true;
+					Chat.AddExamineMsg(interaction.Performer,
+						$"The {gameObject.ExpensiveName()} Is empty, there's nothing to inject.");
+					return;
+				}
+
+				var pullstreing = SyringePulling ? "Pulling mode" : "Injecting mode";
+				Chat.AddExamineMsg(interaction.Performer,
+					$"You change {gameObject.ExpensiveName()} to {pullstreing}.");
 			}
 			else
 			{
-				TransferAmount = possibleTransferAmounts[0];
-			}
+				var currentIndex = possibleTransferAmounts.IndexOf(TransferAmount);
+				if (currentIndex != -1)
+				{
+					TransferAmount = possibleTransferAmounts.Wrap(currentIndex + 1);
+				}
+				else
+				{
+					TransferAmount = possibleTransferAmounts[0];
+				}
 
-			Chat.AddExamineMsg(interaction.Performer,
-				$"The {gameObject.ExpensiveName()}'s transfer amount is now {TransferAmount} units.");
+				Chat.AddExamineMsg(interaction.Performer,
+					$"The {gameObject.ExpensiveName()}'s transfer amount is now {TransferAmount} units.");
+			}
 		}
 
 		/// <summary>
@@ -241,7 +265,7 @@ namespace Chemistry.Components
 					switch (target.transferMode)
 					{
 						case TransferMode.Normal:
-							transferTo = objectInHands.IsFull ? target : objectInHands;
+							transferTo = objectInHands.SyringePulling == false ? target : objectInHands;
 							break;
 						case TransferMode.OutputOnly:
 							transferTo = objectInHands;
@@ -326,7 +350,7 @@ namespace Chemistry.Components
 			string resultMessage;
 			if (string.IsNullOrEmpty(result.Message))
 				resultMessage = useFillMessage
-					? $"You fill the {transferTo.gameObject.ExpensiveName()} with {result.TransferAmount} units of the contents of the {transferFrom.gameObject.ExpensiveName()}."
+					? $"You fill the {transferTo.gameObject.ExpensiveName()} with {result.TransferAmount} units of contents from the {transferFrom.gameObject.ExpensiveName()}."
 					: $"You transfer {result.TransferAmount} units of the solution to the {transferTo.gameObject.ExpensiveName()}.";
 			else
 				resultMessage = result.Message;

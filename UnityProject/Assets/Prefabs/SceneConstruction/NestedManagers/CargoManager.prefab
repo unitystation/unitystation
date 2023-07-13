@@ -55,6 +55,8 @@ MonoBehaviour:
   cartSizeLimit: 20
   cargoData: {fileID: 11400000, guid: 7cae1272613faf9a89f21ea1fbc2d806, type: 2}
   shuttleFlyDuration: 10
+  CargoOffline: 0
+  RandomBountiesActive: 1
   checkForTimeCooldown: 50
   randomTimeRangeForRandomBounty: {x: 320, y: 690}
   randomBountiesList:
@@ -108,3 +110,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bbbb566d813b2ba4ba339b5d2e96fc3a, type: 2}
   - {fileID: 11400000, guid: f3e9c8981e990ec459e8c43c72f3eab4, type: 2}
   - {fileID: 11400000, guid: be2f7bef9940eaa498fd2ab26c948a06, type: 2}
+  - {fileID: 11400000, guid: 4304cd12f2b22aa418e0c09930c2557d, type: 2}

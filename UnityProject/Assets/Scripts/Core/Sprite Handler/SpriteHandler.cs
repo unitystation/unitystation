@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using Unity.EditorCoroutines.Editor;
@@ -90,6 +90,8 @@ public class SpriteHandler : MonoBehaviour
 	/// Null if sprite became hidden
 	/// </summary>
 	public List<Action<Sprite>> OnSpriteChanged = new List<Action<Sprite>>();
+
+	public UnityEvent OnSpriteUpdated = new UnityEvent();
 
 	/// <summary>
 	/// Invokes when sprite data scriptable object is changed
@@ -645,6 +647,7 @@ public class SpriteHandler : MonoBehaviour
 			SpriteHandlerManager.Instance.QueueChanges.Remove(this);
 			SpriteHandlerManager.Instance.NewClientChanges.Remove(this);
 		}
+		OnSpriteUpdated?.RemoveAllListeners();
 	}
 
 	protected virtual void SetImageColor(Color value)
@@ -768,6 +771,7 @@ public class SpriteHandler : MonoBehaviour
 		{
 			OnSpriteChanged[i].Invoke(value);
 		}
+		OnSpriteUpdated?.Invoke();
 	}
 
 	protected virtual bool HasSpriteInImageComponent()
@@ -887,7 +891,7 @@ public class SpriteHandler : MonoBehaviour
 
 		if (isAnimation == false)
 		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Remove(CallbackType.LATE_UPDATE, UpdateMe);
 		}
 	}
 
@@ -895,7 +899,7 @@ public class SpriteHandler : MonoBehaviour
 	{
 		InternalChangeSprite(CataloguePage + 1 < SubCatalogue.Count ? CataloguePage + 1 : 0, false);
 		isAnimation = false;
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		UpdateManager.Remove(CallbackType.LATE_UPDATE, UpdateMe);
 	}
 
 	private void SetSprite(SpriteDataSO.Frame frame)
@@ -966,12 +970,12 @@ public class SpriteHandler : MonoBehaviour
 
 		if (turnOn && isAnimation == false)
 		{
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Add(CallbackType.LATE_UPDATE, UpdateMe);
 			isAnimation = true;
 		}
 		else if (turnOn == false && isAnimation)
 		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Remove(CallbackType.LATE_UPDATE, UpdateMe);
 			animationIndex = 0;
 			isAnimation = false;
 		}

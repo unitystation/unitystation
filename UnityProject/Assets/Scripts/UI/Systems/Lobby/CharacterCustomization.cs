@@ -69,7 +69,18 @@ namespace UI.CharacterCreator
 		public PlayerHealthData ThisSetRace { get; private set; }
 
 		private int SelectedBodyType;
-		private BodyTypeName ThisBodyType => AvailableBodyTypes[SelectedBodyType];
+		private BodyTypeName ThisBodyType
+		{
+			get
+			{
+				if (AvailableBodyTypes.Count <= SelectedBodyType)
+				{
+					SelectedBodyType = (AvailableBodyTypes.Count - 1);
+				}
+
+				return AvailableBodyTypes[SelectedBodyType];
+			}
+		}
 
 		private List<CustomisationStorage> bodyPartCustomisationStorage = new();
 		private List<ExternalCustomisation> ExternalCustomisationStorage = new();
@@ -1208,12 +1219,14 @@ namespace UI.CharacterCreator
 		}
 	}
 
+	[System.Serializable]
 	public class ExternalCustomisation
 	{
 		public string Key;
 		public CharacterSheet.CustomisationClass SerialisedValue;
 	}
 
+	[System.Serializable]
 	public class CustomisationStorage
 	{
 		public string path;

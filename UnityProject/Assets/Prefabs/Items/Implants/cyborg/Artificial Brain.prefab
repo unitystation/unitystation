@@ -95,6 +95,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4490847932940167273, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
+      propertyPath: CanBeSoldInCargo
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4490847932940167273, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
       propertyPath: initialDescription
       value: A device that mimics the structure of the brains of living creatures.
         The latest in artificial intelligence.
@@ -123,6 +128,18 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8, type: 3}
+--- !u!114 &1324909553908066933 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1938539118400460514}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2474793813072843241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2474793813072843241 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4089031872439371531, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
@@ -172,6 +189,21 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 873b362aa82d0274eb311c8003a29a2b, type: 2}
   - {fileID: 11400000, guid: 47efbe39a7009d9419eb48769a2409c3, type: 2}
   - {fileID: 11400000, guid: 94628fa641ba01342a5db9ad420c45e6, type: 2}
+--- !u!114 &5156403850238146881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2474793813072843241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 728aeea5e17840b4aaf4a7be649c0553, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathEmote: {fileID: 11400000, guid: 1373d87dc734e134b964210f4db16042, type: 2}
+  revivalEmote: {fileID: 11400000, guid: c44812a15f6a97e44900fbd6fa532ecc, type: 2}
+  relatedBodyPart: {fileID: 1324909553908066933}
 --- !u!114 &5682458813885905232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,7 +252,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   OnBodyID: 0
-  Pickupable: {fileID: 0}
   DrunkReagent: {fileID: 0}
   MaxDrunkAtPercentage: 0.06
   hasInbuiltSight: 1
@@ -229,6 +260,38 @@ MonoBehaviour:
   hasInbuiltSpeech: 1
   BodyChatModifier: 0
   ReagentCirculatedComponent: {fileID: 0}
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5156403850238146881}
+        m_TargetAssemblyTypeName: Items.Implants.Organs.DeathRevival.DoEmoteOnDeathRevival,
+          Assets
+        m_MethodName: Death
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnRevival:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5156403850238146881}
+        m_TargetAssemblyTypeName: Items.Implants.Organs.DeathRevival.DoEmoteOnDeathRevival,
+          Assets
+        m_MethodName: Revive
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6633108373680287949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,6 +352,7 @@ MonoBehaviour:
   requiresPower: 0
   isPowered: 1
   canExamineFrequency: 0
+  minimumDamageBeforeObfuscation: 12
   EncryptionKey: 0
   LoudSpeakOn: 0
   isEMPed: 0

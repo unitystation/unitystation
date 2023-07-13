@@ -133,25 +133,25 @@ namespace Objects.Construction
 			if (CurrentState == initialState)
 			{
 				//Add 5 cables or deconstruct
-				return (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) && Validations.HasUsedAtLeast(interaction, 5)) ||
+				return (Validations.HasItemTrait(interaction, CommonTraits.Instance.Cable) && Validations.HasUsedAtLeast(interaction, 5)) ||
 					Validations.HasUsedActiveWelder(interaction);
 			}
 			else if (CurrentState == cablesAddedState)
 			{
 				//cut cables or wrench frame
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter) ||
-					  Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench);
+				return Validations.HasItemTrait(interaction, CommonTraits.Instance.Wirecutter) ||
+					  Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench);
 			}
 			else if (CurrentState == wrenchedState)
 			{
 				//Unwrench or add circuit board
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench) ||
+				return Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench) ||
 					Validations.HasUsedComponent<MachineCircuitBoard>(interaction);
 			}
 			else if (CurrentState == circuitAddedState)
 			{
 				//remove circuit board, also removes all parts that have been added
-				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar))
+				if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar))
 				{
 					return true;
 				}
@@ -159,7 +159,7 @@ namespace Objects.Construction
 				//check part item traits, if in scriptableObject of the machine then return true.
 				foreach (var part in listOfAllowedTraits)
 				{
-					if (Validations.HasUsedItemTrait(interaction, part.AllowedTrait))
+					if (Validations.HasItemTrait(interaction, part.AllowedTrait))
 					{
 						return true;
 					}
@@ -169,8 +169,8 @@ namespace Objects.Construction
 			else if (CurrentState == partsAddedState)
 			{
 				//screw in parts or crowbar out circuit board which removes all parts
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
-					   Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar);
+				return Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
+					   Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar);
 			}
 
 			return false;
@@ -210,7 +210,7 @@ namespace Objects.Construction
 		/// <param name="interaction"></param>
 		private void InitialStateInteraction(HandApply interaction)
 		{
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) &&
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Cable) &&
 									 Validations.HasUsedAtLeast(interaction, 5))
 			{
 				//add 5 cables
@@ -249,7 +249,7 @@ namespace Objects.Construction
 		/// <param name="interaction"></param>
 		private void CablesAddedStateInteraction(HandApply interaction)
 		{
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter))
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wirecutter))
 			{
 				//cut out cables
 				Chat.AddActionMsgToChat(interaction, $"You remove the cables.",
@@ -260,7 +260,7 @@ namespace Objects.Construction
 
 				spriteHandler.ChangeSprite((int)SpriteStates.Box);
 			}
-			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
+			else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench))
 			{
 				if (!ServerValidations.IsAnchorBlocked(interaction))
 				{
@@ -317,7 +317,7 @@ namespace Objects.Construction
 
 				spriteHandler.ChangeSprite((int)SpriteStates.BoxCircuit);
 			}
-			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
+			else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench))
 			{
 				//unwrench
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
@@ -336,7 +336,7 @@ namespace Objects.Construction
 		/// <param name="interaction"></param>
 		private void CircuitAddedStateInteraction(HandApply interaction)
 		{
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) && circuitBoardSlot.IsOccupied)
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar) && circuitBoardSlot.IsOccupied)
 			{
 				//wrench out the circuit board, when it only has some of the parts
 				Chat.AddActionMsgToChat(interaction, $"You remove the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.",
@@ -377,7 +377,7 @@ namespace Objects.Construction
 		private void PartsAddedStateInteraction(HandApply interaction)
 		{
 			//Complete construction, spawn new machine and send data over to it.
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 			{
 				var spawnedObject = Spawn.ServerPrefab(machineParts.machine, SpawnDestination.At(gameObject)).GameObject.GetComponent<Machine>();
 
@@ -406,7 +406,7 @@ namespace Objects.Construction
 				//Despawn frame
 				_ = Despawn.ServerSingle(gameObject);
 			}
-			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) && circuitBoardSlot.IsOccupied)
+			else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar) && circuitBoardSlot.IsOccupied)
 			{
 				//wrench out the circuit board, when it has all the parts in.
 				Chat.AddActionMsgToChat(interaction, $"You remove the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.",
@@ -569,7 +569,7 @@ namespace Objects.Construction
 		{
 			foreach (var part in machineParts.machineParts)
 			{
-				if (Validations.HasUsedItemTrait(interaction, part.itemTrait) && (!basicPartsUsed.ContainsKey(part.itemTrait) || basicPartsUsed[part.itemTrait] != part.amountOfThisPart)) // Has items trait and we dont have enough yet
+				if (Validations.HasItemTrait(interaction, part.itemTrait) && (!basicPartsUsed.ContainsKey(part.itemTrait) || basicPartsUsed[part.itemTrait] != part.amountOfThisPart)) // Has items trait and we dont have enough yet
 				{
 					return true;
 				}

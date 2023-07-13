@@ -1,4 +1,5 @@
-﻿using HealthV2;
+﻿using Chemistry;
+using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace Items.Implants.Organs
 	public class Bones : BodyPartFunctionality
 	{
 		[SerializeField] public float BloodGeneratedByOneNutriment = 30;
-		[SerializeField] private BloodType GeneratesThis;
+		[SerializeField] private Reagent GeneratesThis;
 
 		public float GenerationOvershoot = 1;
 
@@ -15,14 +16,11 @@ namespace Items.Implants.Organs
 
 		public ReagentCirculatedComponent ReagentCirculatedComponent;
 
-		public SaturationComponent SaturationComponent;
-
 		public override void Awake()
 		{
 			base.Awake();
 			HungerComponent = this.GetComponentCustom<HungerComponent>();
 			ReagentCirculatedComponent = this.GetComponentCustom<ReagentCirculatedComponent>();
-			SaturationComponent = this.GetComponentCustom<SaturationComponent>();
 		}
 
 		public override void SetUpSystems()
@@ -30,9 +28,9 @@ namespace Items.Implants.Organs
 			base.SetUpSystems();
 			if (GeneratesThis == null)
 			{
-				GeneratesThis = SaturationComponent.bloodType;
+				GeneratesThis = ReagentCirculatedComponent.bloodReagent;
 			}
-		} //TODO remove
+		}
 
 		public override void ImplantPeriodicUpdate()
 		{

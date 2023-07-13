@@ -19,6 +19,8 @@ namespace Items.Medical
 		private string burnColor;
 		private string toxinColor;
 		private string oxylossColor;
+		private string CloneDMGColor;
+		private string radiationStacksColor;
 
 		private TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
 
@@ -28,6 +30,8 @@ namespace Items.Medical
 			burnColor = ColorUtility.ToHtmlStringRGB(Color.yellow);
 			toxinColor = ColorUtility.ToHtmlStringRGB(Color.green);
 			oxylossColor = ColorUtility.ToHtmlStringRGB(new Color(0.50f, 0.50f, 1));
+			CloneDMGColor = ColorUtility.ToHtmlStringRGB(new Color(0,1,1));
+			radiationStacksColor = ColorUtility.ToHtmlStringRGB(new Color(1,0.4980f,0.3137254f));
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -54,7 +58,7 @@ namespace Items.Medical
 			if (health.reagentPoolSystem != null)
 			{
 				bloodTotal = Mathf.Round(health.reagentPoolSystem.GetTotalBlood());
-				bloodPercent = Mathf.Round(bloodTotal / health.reagentPoolSystem.BloodInfo.BLOOD_NORMAL * 100);
+				bloodPercent = Mathf.Round(bloodTotal / health.reagentPoolSystem.NormalBlood * 100);
 			}
 
 			float[] fullDamage = new float[7];
@@ -92,7 +96,9 @@ namespace Items.Medical
 						$"<color=#{bruteColor}>{Mathf.Round(fullDamage[(int)DamageType.Brute]), 16}</color>" +
 						$"<color=#{burnColor}>{Mathf.Round(fullDamage[(int)DamageType.Burn]), 4}</color>" +
 						$"<color=#{toxinColor}>{Mathf.Round(fullDamage[(int)DamageType.Tox]), 4}</color>" +
-						$"<color=#{oxylossColor}>{Mathf.Round(fullDamage[(int)DamageType.Oxy]), 4}</color>"
+						$"<color=#{oxylossColor}>{Mathf.Round(fullDamage[(int)DamageType.Oxy]), 4}</color>" +
+						$"<color=#{CloneDMGColor}>{Mathf.Round(fullDamage[(int)DamageType.Clone]), 4}</color>"+
+						$"<color=#{radiationStacksColor}>{Mathf.Round(fullDamage[(int)DamageType.Radiation]), 4}</color>"
 				);
 				scanMessage.Append(partMessages);
 				scanMessage.Append("</mspace>");

@@ -7,6 +7,7 @@ using Mirror;
 using Systems.Ai;
 using UI.Core.Action;
 using UnityEngine;
+using UnityEngine.Events;
 
 public interface IPlayerPossessable
 {
@@ -58,6 +59,9 @@ public interface IPlayerPossessable
 	public Action OnActionControlPlayer { get; set; }
 
 	public Action OnActionPossess { get; set; }
+
+	public UnityEvent OnBodyPossesedByPlayer { get; set; }
+	public UnityEvent OnBodyUnPossesedByPlayer { get; set; }
 
 	public void SyncPossessingID(uint previouslyPossessing, uint currentlyPossessing);
 
@@ -275,25 +279,24 @@ public interface IPlayerPossessable
 		UIActionManager.ClearAllActionsClient();
 		RequestIconsUIActionRefresh.Send();
 		OnActionControlPlayer?.Invoke();
+		OnBodyPossesedByPlayer?.Invoke();
 	}
-
-
 
 	public void InternalOnPlayerLeave(Mind mind)
 	{
 		if (GameObject == null) return;
-		if (GameObject.GetComponent<NetworkIdentity>().hasAuthority  || mind == PlayerManager.LocalMindScript)
+		if (GameObject.GetComponent<NetworkIdentity>().isOwned  || mind == PlayerManager.LocalMindScript)
 		{
 			var leaveInterfaces = GameObject.GetComponents<IOnPlayerLeaveBody>();
 			foreach (var leaveInterface in leaveInterfaces)
 			{
-				leaveInterface.OnPlayerLeaveBody(mind.ControlledBy);
+				leaveInterface.OnPlayerLeaveBody(mind?.ControlledBy);
 			}
 		}
 
 		if (CustomNetworkManager.IsServer)
 		{
-			PossessAndUnpossessMessage.Send(mind.gameObject, null,GameObject);
+			PossessAndUnpossessMessage.Send(mind?.gameObject, null,GameObject);
 		}
 
 		var possessing = GetPossessing();
@@ -388,5 +391,8 @@ public interface IPlayerPossessable
 		{
 			PossessingMind.SetPossessingObject(null);
 		}
+
+		OnBodyPossesedByPlayer.RemoveAllListeners();
+		OnBodyUnPossesedByPlayer.RemoveAllListeners();
 	}
 }

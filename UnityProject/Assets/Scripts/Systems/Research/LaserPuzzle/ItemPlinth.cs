@@ -11,20 +11,23 @@ using Weapons.Projectiles.Behaviours;
 
 public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>, IOnHitDetect
 {
-	private UniversalObjectPhysics UniversalObjectPhysics;
+	[SerializeField] private SpriteHandler itemSpriteHandler;
+
+	private ItemStorage itemStorage;
 
 	public event Action OnItemChange;
 
+	public Pickupable DisplayedItem { get; private set; }
 
-	public Pickupable DisplayedItem;
-
-	[SyncVar]
-	public bool HasItem = false;
+	public bool HasItem => itemStorage.GetIndexedItemSlot(0).IsOccupied;
 
 	public void Awake()
 	{
-		UniversalObjectPhysics = this.GetComponentCustom<UniversalObjectPhysics>();
+		itemStorage = this.GetComponentCustom<ItemStorage>();
+		OnItemChange += UpdateItemDisplay;
 	}
+
+	#region Interaction
 
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
@@ -33,10 +36,7 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 			return false;
 		}
 
-
 		if (Validations.IsTarget(gameObject, interaction) == false) return false;
-
-
 
 		if (interaction.IsAltClick) return false;
 
@@ -57,23 +57,31 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 	{
 		if (HasItem)
 		{
-			HasItem = false;
-			UniversalObjectPhysics.BuckleObjectToThis(null);
-			Inventory.ServerAdd(DisplayedItem, interaction.HandSlot);
+			Inventory.ServerTransfer(itemStorage.GetIndexedItemSlot(0), interaction.HandSlot);
 			DisplayedItem = null;
 			OnItemChange?.Invoke();
 		}
 		else
 		{
-			HasItem = true;
 			DisplayedItem = interaction.HandSlot.Item;
-			Inventory.ServerDrop(interaction.HandSlot);
-
-			UniversalObjectPhysics.BuckleObjectToThis(DisplayedItem.UniversalObjectPhysics);
+			Inventory.ServerTransfer(interaction.HandSlot, itemStorage.GetNextEmptySlot());
 			OnItemChange?.Invoke();
 		}
 
 	}
+
+	private void UpdateItemDisplay()
+	{
+		if(DisplayedItem == null)
+		{
+			itemSpriteHandler.ChangeSprite(0);
+			return;
+		}
+
+		itemSpriteHandler.SetSpriteSO(DisplayedItem.GetComponentInChildren<SpriteHandler>().GetCurrentSpriteSO());
+	}
+
+	#endregion
 
 	public void OnHitDetect(OnHitDetectData data)
 	{
@@ -88,7 +96,7 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 		{
 			if (Design.Technology == null)
 			{
-				Design.Technology = TechnologyLaser.ShotFrom.researchServer.Techweb.nodes.PickRandom().technology;
+				Design.Technology = TechnologyLaser.ShotFrom.researchServer.Techweb.AvailableTech.PickRandom();
 				Design.Colour = Design.Technology.Colour;
 			}
 		}
@@ -117,11 +125,8 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 				Chat.AddActionMsgToChat(this.gameObject, $"{DisplayedItem.gameObject.ExpensiveName()} Explodes Shooting out many bright beams");
 			}
 
-
-
-
-
 			gameObject.GetComponent<Collider2D>().enabled = false;
+			data.HitWorldPosition = GetComponent<UniversalObjectPhysics>().OfficialPosition + new Vector3(0,0.12f,0); //The 0.12 offset centers the lasers on the center of the displayed item.
 
 			foreach (var Design in Technology.TechWebDesigns)
 			{
@@ -159,8 +164,7 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 		}
 
 
-		HasItem = false;
-		_ = Despawn.ServerSingle(DisplayedItem.gameObject);
+		_ = Despawn.ServerSingle(itemStorage.GetIndexedItemSlot(0).ItemObject);
 		DisplayedItem = null;
 		OnItemChange?.Invoke();
 
