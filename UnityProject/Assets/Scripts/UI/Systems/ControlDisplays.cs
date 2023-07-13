@@ -8,6 +8,7 @@ using Messages.Client.Lobby;
 using UI.Systems.Ghost;
 using UI.Action;
 using UI.Core.Action;
+using Changeling;
 
 namespace UI
 {
@@ -32,7 +33,7 @@ namespace UI
 		public GameObject hudBottomBlob;
 		public GameObject hudBottomAi;
 		public GameObject hudAlien;
-		public GameObject hudChangeling;
+		public UI_Changeling hudChangeling;
 		public GameObject currentHud;
 
 		public GameObject jobSelectWindow;
@@ -105,6 +106,10 @@ namespace UI
 				UIManager.Instance.UI_SlotManager.UpdateUI();
 				UIManager.Internals.SetupListeners();
 				UIManager.Instance.panelHudBottomController.SetupListeners();
+				//if (PlayerManager.LocalPlayerScript.Mind.GetAntag().Antagonist is Changeling.Changeling)
+				//{
+				//	hudChangeling.SetActive(true);
+				//}
 			}
 		}
 
@@ -249,6 +254,7 @@ namespace UI
 			hudBottomGhost.SetActive(false);
 			hudBottomBlob.SetActive(false);
 			hudBottomAi.SetActive(false);
+
 
 			if (currentHud == null) return;
 

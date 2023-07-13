@@ -9,18 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a36b6a4728f2814478c29af865aab746, type: 3}
-  m_Name: RevivingStasis
+  m_Script: {fileID: 11500000, guid: ee1470b55cb32bb42a0f600e94a1fae7, type: 3}
+  m_Name: OpenStore
   m_EditorClassIdentifier: 
   actionType: 0
   activeSpriteIndex: 1
-  callOnClient: 0
-  callOnServer: 1
-  actionName: Reviving stasis
-  description: A starter ability. The changeling can fake its death and enter a stasis
-    for a small cost.
+  callOnClient: 1
+  callOnServer: 0
+  actionName: Store
+  description: Store for getting abilities
   Sprites:
-  - {fileID: 11400000, guid: 2c60e2f19aec0bd47bd47dbb546b1732, type: 2}
+  - {fileID: 11400000, guid: f8e49ceef9665c24aa095a39253103ee, type: 2}
   Backgrounds:
   - {fileID: 11400000, guid: 8b8f8d4ab92854b4cbeb74ec8ec117df, type: 2}
   PreventBeingControlledBy: 
@@ -31,11 +30,22 @@ MonoBehaviour:
   cursorOffsetType: 0
   cursorOffset: {x: 0, y: 0}
   abilityEPCost: 0
-  abilityChemCost: 15
+  abilityChemCost: 0
   canBeReseted: 0
   startAbility: 1
   abilityUsedOnStart: 0
   singleUseAbility: 0
+  isSlowingChemRegeneration: 0
+  isStopingChemRegeneration: 0
+  isLocal: 1
+  dnaPrefab: {fileID: 4453983217321577311, guid: a8ea5e28fa87eb5408a30762618f4895,
+    type: 3}
+  showInStore: 0
   cooldown: 1
+  abilityType: 3
+  stingType: 0
+  healType: 0
+  transformType: 0
+  miscType: 2
   abilityImplementation: {fileID: 1515064019581797830, guid: 5722bf93b0593b44caafd2931b25840d,
     type: 3}

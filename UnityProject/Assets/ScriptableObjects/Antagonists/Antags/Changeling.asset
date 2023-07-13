@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Changeling
   m_EditorClassIdentifier: 
   antagName: Changeling
-  antagJobType: 0
+  antagJobType: 61
   playSound: 0
   spawnSound:
     SetLoadSetting: 0
@@ -26,7 +26,7 @@ MonoBehaviour:
   textColor: {r: 1, g: 0, b: 0, a: 1}
   backgroundColor: {r: 1, g: 0, b: 0, a: 1}
   numberOfObjectives: 2
-  canUseSharedObjectives: 1
+  canUseSharedObjectives: 0
   needsEscapeObjective: 1
   chanceForGimmickObjective: 0
   coreObjectives:

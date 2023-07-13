@@ -9,17 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5041d66e43c33f419c1c22eed7e1ea1, type: 3}
+  m_Script: {fileID: 11500000, guid: ee1470b55cb32bb42a0f600e94a1fae7, type: 3}
   m_Name: ExtractDNASting
   m_EditorClassIdentifier: 
   actionType: 1
   activeSpriteIndex: 0
   callOnClient: 0
-  callOnServer: 1
+  callOnServer: 0
   actionName: Extract DNA Sting
-  description: A starter ability. The changeling can sting a target to extract their
-    genetic information. They can then use the DNA like they just absorbed it. Helps
-    the changeling reach their genome objective.
+  description: Extraction body DNA.
   Sprites:
   - {fileID: 11400000, guid: f505ac6e5ac606044b49e377d6c8a7ca, type: 2}
   Backgrounds:
@@ -31,12 +29,36 @@ MonoBehaviour:
   cursorTexture: {fileID: 2800000, guid: a98858de92927fd4c844f441140f55fe, type: 3}
   cursorOffsetType: 1
   cursorOffset: {x: 0, y: 0}
+  descriptionStore: A starter ability. The changeling can sting a target to extract
+    their genetic information. They can then use the DNA like they just absorbed
+    it. Helps the changeling reach their genome objective.
   abilityEPCost: 0
   abilityChemCost: 25
+  castSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   canBeReseted: 0
   startAbility: 1
   abilityUsedOnStart: 0
   singleUseAbility: 0
-  cooldown: 5
-  abilityImplementation: {fileID: 1515064019581797830, guid: 8ecd41a18211fc642bab1ec749d1b42c,
+  isSlowingChemRegeneration: 0
+  isStopingChemRegeneration: 0
+  isLocal: 0
+  dnaPrefab: {fileID: 4453983217321577311, guid: a8ea5e28fa87eb5408a30762618f4895,
+    type: 3}
+  showInStore: 1
+  showInActions: 1
+  cooldown: 1
+  abilityType: 0
+  stingType: 0
+  healType: 0
+  transformType: 0
+  useAfterChoise: {fileID: 0}
+  miscType: 0
+  abilityImplementation: {fileID: 1515064019581797830, guid: 5722bf93b0593b44caafd2931b25840d,
     type: 3}

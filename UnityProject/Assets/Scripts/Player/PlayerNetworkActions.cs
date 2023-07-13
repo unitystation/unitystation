@@ -29,6 +29,7 @@ using Tiles;
 using Util;
 using Random = UnityEngine.Random;
 using Changeling;
+using System.Collections.Generic;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -878,6 +879,33 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			if (spell.AbilityData.Index == spellIndex)
 			{
 				spell.CallActionServer(PlayerList.Instance.GetOnline(gameObject), clickPosition);
+				return;
+			}
+		}
+	}
+
+	[Command]
+	public void CmdRequestChangelingAbilitesToggle(int spellIndex, Vector3 clickPosition, bool toggled)
+	{
+		foreach (var spell in playerScript.Mind.Body.GetComponent<ChangelingMain>().AbilitiesNow)
+		{
+			if (spell.AbilityData.Index == spellIndex)
+			{
+				spell.CallActionToggleServer(PlayerList.Instance.GetOnline(gameObject), clickPosition, toggled);
+				return;
+			}
+		}
+	}
+	
+
+	[Command]
+	public void CmdRequestChangelingAbilitesWithParam(int spellIndex, Vector3 clickPosition, List<string> param)
+	{
+		foreach (var spell in playerScript.Mind.Body.GetComponent<ChangelingMain>().AbilitiesNow)
+		{
+			if (spell.AbilityData.Index == spellIndex)
+			{
+				spell.CallActionServerWithParam(PlayerList.Instance.GetOnline(gameObject), clickPosition, param);
 				return;
 			}
 		}

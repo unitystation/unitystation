@@ -14,6 +14,7 @@ public interface IActionGUI : IAction
 	ActionData ActionData { get; }
 
 	void CallActionClient();
+	void CallToggleActionClient(bool toggled);
 }
 
 
@@ -23,6 +24,7 @@ public interface IActionGUI : IAction
 public interface IServerActionGUI : IActionGUI
 {
 	void CallActionServer(PlayerInfo playerInfo); //Requires validation in this
+	void CallToggleActionServer(PlayerInfo playerInfo, bool toggled); //Requires validation in this
 }
 
 
@@ -35,6 +37,11 @@ public class __ExampleIActionGUI__ : IActionGUI
 	public void CallActionClient()
 	{
 		//Do whatever you want
+	}
+
+	public void CallToggleActionClient(bool toggled)
+	{
+		//Do action when isToggleble and toggle is toggled
 	}
 }
 
@@ -55,6 +62,18 @@ public class __ExampleIServerActionGUI__ : IServerActionGUI
 		//Validation
 		//do Action
 	}
+
+	public void CallToggleActionClient(bool toggled)
+	{
+		//Do action when isToggleble and toggle is toggled
+		//Remember if its networked do validation
+	}
+
+	public void CallToggleActionServer(PlayerInfo playerInfo, bool toggled)
+	{
+		//Validation
+		//Do action when isToggleble and toggle is toggled
+	}
 }
 
 /// <summary>
@@ -65,6 +84,7 @@ public interface IActionGUIMulti : IAction
 	List<ActionData> ActionData { get; }
 
 	void CallActionClient(ActionData data);
+	void CallToggleActionClient(ActionData data, bool toggle);
 }
 
 
@@ -74,4 +94,5 @@ public interface IActionGUIMulti : IAction
 public interface IServerActionGUIMulti : IActionGUIMulti
 {
 	void CallActionServer(ActionData data, PlayerInfo playerInfo); //Requires validation in this
+	void CallToggleActionServer(ActionData data, PlayerInfo playerInfo, bool toggle);
 }

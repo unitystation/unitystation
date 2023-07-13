@@ -114,5 +114,10 @@ namespace UI.Items
 		{
 			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdTryUncuff();
 		}
+
+		public void CallToggleActionClient(bool toggled)
+		{
+			
+		}
 	}
 }

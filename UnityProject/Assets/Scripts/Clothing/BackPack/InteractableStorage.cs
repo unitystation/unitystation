@@ -692,4 +692,9 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	{
 		PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdSwitchPickupMode();
 	}
+
+	public void CallToggleActionClient(bool toggled)
+	{
+		
+	}
 }

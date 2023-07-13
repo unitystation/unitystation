@@ -65,5 +65,25 @@ public class UIActionScriptableObject : ScriptableObject, IServerActionGUI, ISer
 #endif
 	}
 
+	public void CallToggleActionClient(bool toggled)
+	{
+
+	}
+
+	public void CallToggleActionServer(ActionData data, PlayerInfo playerInfo, bool toggle)
+	{
+
+	}
+
+	public void CallToggleActionClient(ActionData data, bool toggle)
+	{
+
+	}
+
+	public void CallToggleActionServer(PlayerInfo playerInfo, bool toggled)
+	{
+
+	}
+
 	List<ActionData> IActionGUIMulti.ActionData => multiActionData;
 }

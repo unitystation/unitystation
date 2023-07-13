@@ -9,24 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f03b486cde14eb74b9250efc98de69c2, type: 3}
+  m_Script: {fileID: 11500000, guid: ee1470b55cb32bb42a0f600e94a1fae7, type: 3}
   m_Name: Transform
   m_EditorClassIdentifier: 
   actionType: 0
   activeSpriteIndex: 1
-  callOnClient: 1
+  callOnClient: 0
   callOnServer: 0
-  actionName: Transform
-  description: A starter ability. The changeling can transform into any of the DNAs
-    they have stored, allowing them to become nearly anyone. It will also mimic their
-    clothing and ID, if you're not already wearing one in those slots. These fake
-    items will be non-functional but can be deleted by clicking them or by using
-    the Drop Flesh Disguise option from the transformation menu. Transforming also
-    gives you a temporary but fully functional copy of the transform target's Skillchips.
-  Sprites:
-  - {fileID: 11400000, guid: 4fafc9fe0d5794243bb8e189d4952093, type: 2}
-  Backgrounds:
-  - {fileID: 11400000, guid: 8b8f8d4ab92854b4cbeb74ec8ec117df, type: 2}
+  actionName: 
+  description: 
+  Sprites: []
+  Backgrounds: []
   PreventBeingControlledBy: 
   DisableOnEvent: 
   isAimable: 0
@@ -34,12 +27,34 @@ MonoBehaviour:
   cursorTexture: {fileID: 0}
   cursorOffsetType: 0
   cursorOffset: {x: 0, y: 0}
+  descriptionStore: 
   abilityEPCost: 0
   abilityChemCost: 5
+  castSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   canBeReseted: 0
   startAbility: 1
   abilityUsedOnStart: 0
   singleUseAbility: 0
+  isSlowingChemRegeneration: 0
+  isStopingChemRegeneration: 0
+  isLocal: 0
+  dnaPrefab: {fileID: 4453983217321577311, guid: a8ea5e28fa87eb5408a30762618f4895,
+    type: 3}
+  showInStore: 0
+  showInActions: 0
   cooldown: 1
-  abilityImplementation: {fileID: 1515064019581797830, guid: fc13a88affb42a344b3bb0ebf294f27b,
+  abilityType: 2
+  stingType: 0
+  healType: 0
+  transformType: 1
+  useAfterChoise: {fileID: 0}
+  miscType: 0
+  abilityImplementation: {fileID: 1515064019581797830, guid: 5722bf93b0593b44caafd2931b25840d,
     type: 3}

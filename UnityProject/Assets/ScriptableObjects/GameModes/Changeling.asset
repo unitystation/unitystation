@@ -9,15 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0517b212ccd838f4280c6da22a616a77, type: 3}
+  m_Script: {fileID: 11500000, guid: 29d00f28d06a0c04ea330a7f44224c73, type: 3}
   m_Name: Changeling
   m_EditorClassIdentifier: 
   gameModeName: Changeling
-  description: Something unusual is being inside a crew member. The station must
-    survive.
+  description: 
   canRespawn: 0
-  minPlayers: 5
-  antagRatio: 1
+  minPlayers: 10
+  antagRatio: 0.3
   minAntags: 1
   maxAntags: 4
   hardNumberOfAntagsToSpawn: 0

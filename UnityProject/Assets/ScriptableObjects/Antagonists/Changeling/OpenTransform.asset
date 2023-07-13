@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee1470b55cb32bb42a0f600e94a1fae7, type: 3}
-  m_Name: Regenerate
+  m_Name: OpenTransform
   m_EditorClassIdentifier: 
   actionType: 0
   activeSpriteIndex: 1
   callOnClient: 0
   callOnServer: 0
-  actionName: Regenerate
-  description: Regenerate your body from damage.
+  actionName: Transform
+  description: Transformation to your stored dna.
   Sprites:
-  - {fileID: 11400000, guid: c2259a64e16036a4bb24eb21f9c91aa0, type: 2}
+  - {fileID: 11400000, guid: 4fafc9fe0d5794243bb8e189d4952093, type: 2}
   Backgrounds:
   - {fileID: 11400000, guid: 8b8f8d4ab92854b4cbeb74ec8ec117df, type: 2}
   PreventBeingControlledBy: 
@@ -29,15 +29,14 @@ MonoBehaviour:
   cursorTexture: {fileID: 0}
   cursorOffsetType: 0
   cursorOffset: {x: 0, y: 0}
-  descriptionStore: A starter ability. Allows the changeling to regrow and restore
-    missing external limbs and vital internal organs, as well as removing shrapnel,
-    healing major wounds, and restoring blood volume. Restoring limbs will make a
-    lot of noise which may alarm nearby crew.
+  descriptionStore: A starter ability. The changeling can transform into any of the
+    DNAs they have stored, allowing them to become nearly anyone. It will also mimic
+    their clothing and ID, if you're not already wearing one in those slots.
   abilityEPCost: 0
-  abilityChemCost: 10
+  abilityChemCost: 0
   castSound:
     SetLoadSetting: 0
-    AssetAddress: null
+    AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -49,17 +48,17 @@ MonoBehaviour:
   singleUseAbility: 0
   isSlowingChemRegeneration: 0
   isStopingChemRegeneration: 0
-  isLocal: 0
+  isLocal: 1
   dnaPrefab: {fileID: 4453983217321577311, guid: a8ea5e28fa87eb5408a30762618f4895,
     type: 3}
   showInStore: 1
   showInActions: 1
   cooldown: 1
-  abilityType: 1
+  abilityType: 2
   stingType: 0
   healType: 0
   transformType: 0
-  useAfterChoise: {fileID: 0}
+  useAfterChoise: {fileID: 11400000, guid: c658f85d11b4ee442ac1ea6d62a43d8f, type: 2}
   miscType: 0
   abilityImplementation: {fileID: 1515064019581797830, guid: 5722bf93b0593b44caafd2931b25840d,
     type: 3}

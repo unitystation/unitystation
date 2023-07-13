@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UI.Systems.MainHUD.UI_Bottom;
@@ -14,29 +15,66 @@ namespace Changeling
 		private GameObject contentArea = null;
 
 		[SerializeField]
-		private UI_Changeling uiAlien = null;
+		private GameObject resetButton = null;
 
-		private List<EvolveMenuEntry> entryPool = new List<EvolveMenuEntry>();
+		[SerializeField]
+		private UI_Changeling ui = null;
+		private ChangelingMain changelingMain = null;
 
+		private Dictionary<ChangelingData, ChangelingAbilityEntry> entryPool = new ();
 
-		public void Refresh()
+		public void Refresh(List<ChangelingData> toBuy, ChangelingMain changeling)
 		{
-
+			changelingMain = changeling;
+			Clear();
+			ShowAbilities(toBuy);
 		}
 
-		private void AddEntry()
+		private void ShowAbilities(List<ChangelingData> toBuy)
 		{
+			foreach (var x in toBuy)
+			{
+				if (x.ShowInStore)
+					AddEntry(x);
+			}
+			resetButton.SetActive(changelingMain.ResetsLeft > 0);
+		}
+
+		public void Clear()
+		{
+			foreach (var entry in entryPool)
+			{
+				RemoveEntry(entry.Key);
+			}
+			entryPool.Clear();
+		}
+
+		private void AddEntry(ChangelingData dataForCreatingEntry)
+		{
+			if (entryPool.ContainsKey(dataForCreatingEntry))
+				return;
 			entryPrefab.SetActive(true);
-			var newEntry = Instantiate(entryPrefab, contentArea.transform).GetComponent<EvolveMenuEntry>();
+			var newEntry = Instantiate(entryPrefab, contentArea.transform).GetComponent<ChangelingAbilityEntry>();
 			entryPrefab.SetActive(false);
-			entryPool.Add(newEntry);
+			newEntry.Init(this, dataForCreatingEntry, changelingMain);
+			entryPool.Add(dataForCreatingEntry, newEntry);
 		}
 
-		private void RemoveEntry()
+		private void RemoveEntry(ChangelingData dataForRemovingEntry)
 		{
-			Destroy(entryPool[^1]);
+			Destroy(entryPool[dataForRemovingEntry].gameObject);
+		}
 
-			entryPool.RemoveAt(entryPool.Count - 1);
+		public void ResetAbilites()
+		{
+			ui.ResetAbilites();
+			resetButton.SetActive(changelingMain.ResetsLeft > 0);
+		}
+
+		public void AddAbility(ChangelingData data)
+		{
+			//RemoveEntry(data);
+			ui.AddAbility(data);
 		}
 	}
 }

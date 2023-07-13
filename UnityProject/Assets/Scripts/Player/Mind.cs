@@ -15,6 +15,7 @@ using ScriptableObjects.Systems.Spells;
 using Systems.Antagonists.Antags;
 using UI.Core.Action;
 using Changeling;
+using static UniversalObjectPhysics;
 
 /// <summary>
 /// IC character information (job role, antag info, real name, etc). A body and their ghost link to the same mind
@@ -161,7 +162,8 @@ public class Mind : NetworkBehaviour, IActionGUI
 			{
 				foreach (ChangelingAbility x in e.NewItems)
 				{
-					UIActionManager.ToggleServer(this.gameObject, x, true);
+					if (x.AbilityData.ShowInActions)
+						UIActionManager.ToggleServer(this.gameObject, x, true);
 				}
 			}
 
@@ -755,6 +757,18 @@ public class Mind : NetworkBehaviour, IActionGUI
 		return;
 	}
 
+	public ChangelingAbility GetAbilityInstance (ChangelingData ability)
+	{
+		foreach (var spell in ChangelingAbilities)
+		{
+			if (spell.AbilityData == ability)
+			{
+				return spell;
+			}
+		}
+		return default;
+	}
+
 	public void AddSpell(Spell spell)
 	{
 		if (spells.Contains(spell))
@@ -806,5 +820,10 @@ public class Mind : NetworkBehaviour, IActionGUI
 	public T GetPropertyOrDefault<T>(string key, T defaultValue)
 	{
 		return properties.GetOrDefault(key, defaultValue) is T typedProperty ? typedProperty : defaultValue;
+	}
+
+	public void CallToggleActionClient(bool toggled)
+	{
+
 	}
 }

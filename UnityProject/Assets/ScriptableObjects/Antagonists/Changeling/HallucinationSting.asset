@@ -10,43 +10,40 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee1470b55cb32bb42a0f600e94a1fae7, type: 3}
-  m_Name: Regenerate
+  m_Name: HallucinationSting
   m_EditorClassIdentifier: 
-  actionType: 0
-  activeSpriteIndex: 1
+  actionType: 1
+  activeSpriteIndex: 0
   callOnClient: 0
   callOnServer: 0
-  actionName: Regenerate
-  description: Regenerate your body from damage.
+  actionName: Hallucination Sting
+  description: Extraction body DNA with injection of larege amount of hallucinogenics.
   Sprites:
-  - {fileID: 11400000, guid: c2259a64e16036a4bb24eb21f9c91aa0, type: 2}
+  - {fileID: 11400000, guid: 525df3709124824438b390e3a4031ca8, type: 2}
   Backgrounds:
   - {fileID: 11400000, guid: 8b8f8d4ab92854b4cbeb74ec8ec117df, type: 2}
   PreventBeingControlledBy: 
   DisableOnEvent: 
-  isAimable: 0
-  useCustomCursor: 0
-  cursorTexture: {fileID: 0}
-  cursorOffsetType: 0
+  isAimable: 1
+  useCustomCursor: 1
+  cursorTexture: {fileID: 2800000, guid: a98858de92927fd4c844f441140f55fe, type: 3}
+  cursorOffsetType: 1
   cursorOffset: {x: 0, y: 0}
-  descriptionStore: A starter ability. Allows the changeling to regrow and restore
-    missing external limbs and vital internal organs, as well as removing shrapnel,
-    healing major wounds, and restoring blood volume. Restoring limbs will make a
-    lot of noise which may alarm nearby crew.
-  abilityEPCost: 0
-  abilityChemCost: 10
+  descriptionStore: The changeling injects large doses of hallucinogenic chemicals
+    into their victim. Effect occurs after 30 to 60 seconds. The victim does not
+    notice they've been stung until they start tripping.
+  abilityEPCost: 1
+  abilityChemCost: 5
   castSound:
     SetLoadSetting: 0
-    AssetAddress: null
+    AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  canBeReseted: 0
-  startAbility: 1
-  abilityUsedOnStart: 0
-  singleUseAbility: 0
+  canBeReseted: 1
+  startAbility: 0
   isSlowingChemRegeneration: 0
   isStopingChemRegeneration: 0
   isLocal: 0
@@ -55,8 +52,8 @@ MonoBehaviour:
   showInStore: 1
   showInActions: 1
   cooldown: 1
-  abilityType: 1
-  stingType: 0
+  abilityType: 0
+  stingType: 4
   healType: 0
   transformType: 0
   useAfterChoise: {fileID: 0}

@@ -13,13 +13,6 @@ namespace Changeling
 	[CreateAssetMenu(menuName = "ScriptableObjects/Antagonist/Changeling/Changeling")]
 	public class Changeling : Antagonist
 	{
-		//[SerializeField] private Objective aiTraitorObjective;
-		//[Header("Changeling attributes")]
-		//[Tooltip("Abilites what is gona be in changeling store")]
-		//[SerializeField] List<ChangelingActionData> abilitiesToBuy = new List<ChangelingActionData>();
-		//[Tooltip("Abilites what is gona added on round start to changeling hands")]
-		//[SerializeField] List<ChangelingActionData> abilitiesDefault = new List<ChangelingActionData>();
-
 		public override Mind ServerSpawn(PlayerSpawnRequest spawnRequest)
 		{
 			// spawn them normally, with their preferred occupation

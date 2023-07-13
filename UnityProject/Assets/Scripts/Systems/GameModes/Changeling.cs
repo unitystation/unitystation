@@ -7,6 +7,6 @@ namespace GameModes
 	[CreateAssetMenu(menuName= "ScriptableObjects/GameModes/Changeling")]
 	public class Changeling : GameMode
 	{
-
+		
 	}
 }

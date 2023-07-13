@@ -421,6 +421,10 @@ public enum Category
 		/// Logs relating to the Blob Antag role
 		/// </summary>
 		Blob,
+		/// <summary>
+		/// Logs relating to the Changeling Antag role
+		/// </summary>
+		Changeling,
 
 	//Role Related Systems
 		/// <summary>
@@ -504,7 +508,7 @@ public enum Category
 		/// <summary>
 		/// Logs that describe work of memory cleanup actions
 		/// </summary>
-		MemoryCleanup,
+		MemoryCleanup
 }
 
 [Serializable]

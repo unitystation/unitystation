@@ -76,6 +76,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	/// Client Side Events. Expects an interactor.
 	/// </summary>
 	public UnityEvent<GameObject> OnMoveToPlayerInventory;
+	public UnityEvent<GameObject> OnInventoryMoveServerEvent;
 
 	public UnityEvent<GameObject> OnDrop;
 	public UnityEvent<GameObject> OnThrow;
@@ -155,6 +156,8 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 			//ask target playerscript to update shown name.
 			info.ToPlayer.GetComponent<PlayerScript>().RefreshVisibleName();
+
+			OnInventoryMoveServerEvent?.Invoke(gameObject);
 		}
 
 		switch (info.RemoveType)

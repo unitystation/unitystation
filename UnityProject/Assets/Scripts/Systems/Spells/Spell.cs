@@ -292,5 +292,10 @@ namespace Systems.Spells
 			CurrentTier++;
 			CooldownTime -= CooldownTime * (SpellData as WizardSpellData).CooldownModifier;
 		}
+
+		public void CallToggleActionClient(bool toggled)
+		{
+
+		}
 	}
 }

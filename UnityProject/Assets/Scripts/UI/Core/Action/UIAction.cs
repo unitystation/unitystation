@@ -24,6 +24,11 @@ namespace UI.Action
 		public ActionData ActionData => actionData;
 		private Vector3 lastClickPosition = default;
 		public Vector3 LastClickPosition => lastClickPosition;
+		private bool toggled = false;
+		public bool IsToggled { get
+			{
+				return ActionData.IsToggle && toggled;
+			} }
 
 		#region Lifecycle
 
@@ -100,10 +105,56 @@ namespace UI.Action
 			if (actionData.IsToggle)
 			{
 				Toggle();
+				if (!actionData.IsAimable)
+				{
+					UseToggleAction();
+				}
 				return;
 			}
 
 			UseAction();
+		}
+
+		private void UseToggleAction()
+		{
+			//Only client implemintation for some changeling abilities
+			toggled = !toggled;
+			if (actionData.CallOnClient)
+			{
+				if (iAction is IActionGUI iActionGUI)
+				{
+					iActionGUI.CallToggleActionClient(toggled);
+				}
+				else if (iAction is IActionGUIMulti iActionGUIMulti)
+				{
+					iActionGUIMulti.CallToggleActionClient(actionData, toggled);
+				}
+			}
+
+			if (actionData.CallOnServer == false) return;
+
+			if (iAction is IServerActionGUI)
+			{
+				if (iAction is UIActionScriptableObject actionSO)
+				{
+					RequestGameActionSO.Send(actionSO);
+				}
+				else
+				{
+					RequestGameAction.Send(iAction as IServerActionGUI);
+				}
+			}
+			else if (iAction is IServerActionGUIMulti)
+			{
+				if (iAction is UIActionScriptableObject actionSO)
+				{
+					RequestGameActionSO.Send(actionSO);
+				}
+				else
+				{
+					RequestGameAction.Send(iAction as IServerActionGUIMulti, actionData);
+				}
+			}
 		}
 
 		public void OnPointerEnter(PointerEventData eventData)

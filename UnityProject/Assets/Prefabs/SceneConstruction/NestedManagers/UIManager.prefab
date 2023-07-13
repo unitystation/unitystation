@@ -1776,7 +1776,7 @@ MonoBehaviour:
   hudBottomBlob: {fileID: 1645623885778184550}
   hudBottomAi: {fileID: 6758610671296305507}
   hudAlien: {fileID: 0}
-  hudChangeling: {fileID: 0}
+  hudChangeling: {fileID: 2786870150473676403}
   currentHud: {fileID: 0}
   jobSelectWindow: {fileID: 8556394910883754237}
   teamSelectionWindow: {fileID: 8554602371908804983}
@@ -10020,6 +10020,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f3ec31486746b34a8da74bd0735fe4e, type: 3}
+--- !u!114 &2786870150473676403 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7012115969203961352, guid: 6f3ec31486746b34a8da74bd0735fe4e,
+    type: 3}
+  m_PrefabInstance: {fileID: 5187295682530216059}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95cffef87f0011a479517b9b0b66f14f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &3336885042206752362 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7616157293141145105, guid: 6f3ec31486746b34a8da74bd0735fe4e,

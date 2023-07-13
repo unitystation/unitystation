@@ -27,6 +27,10 @@ using Systems.Score;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
+using Systems.Character;
+using Changeling;
+using UI.CharacterCreator;
+using UnityEditor;
 
 namespace HealthV2
 {
@@ -785,7 +789,6 @@ namespace HealthV2
 			}
 		}
 
-
 		public IEnumerator ProcessDNAPayload(DNAMutationData InDNAMutationData)
 		{
 			//TODO Skin and body type , is in character Settings  so is awkward
@@ -827,8 +830,163 @@ namespace HealthV2
 			}
 		}
 
-		#endregion
+		public IEnumerator ProcessDNAPayload(List<DNAMutationData> InDNAMutationDatas, CharacterSheet characterSheet = null) // made for changeling
+		{
+			Chat.AddExamineMsgFromServer(gameObject,
+				$" Your body starts morph into a new form");
 
+			yield return WaitFor.Seconds(2f);
+			var itemsBeforeTransform = new List<(Pickupable, NamedSlot)>();
+			if (characterSheet != null)
+			{
+				DynamicItemStorage storage = playerScript.DynamicItemStorage;
+				var allItemsStorage = storage.GetItemSlotTree();
+
+				foreach (ItemSlot itemSlot in allItemsStorage)
+				{
+					var item = InventoryMove.Drop(itemSlot).MovedObject;
+					if (item != null && itemSlot.NamedSlot != null)
+						itemsBeforeTransform.Add((item, (NamedSlot)itemSlot.NamedSlot));
+				}
+			}
+
+			foreach (var InDNAMutationData in InDNAMutationDatas)
+			{
+				//yield return WaitFor.Seconds(2f);
+				foreach (var Payload in InDNAMutationData.Payload)
+				{
+					//yield return WaitFor.Seconds(1f);
+					foreach (var BP in BodyPartList)
+					{
+						if (BP.name.ToLower().Contains(InDNAMutationData.BodyPartSearchString.ToLower()))
+						{
+							//yield return WaitFor.Seconds(1f);
+							var Mutation = BP.GetComponent<BodyPartMutations>();
+							if (Mutation != null)
+							{
+								if (string.IsNullOrEmpty(Payload.CustomisationTarget) == false || string.IsNullOrEmpty(Payload.CustomisationReplaceWith) == false)
+								{
+									Mutation.MutateCustomisation(Payload.CustomisationTarget,
+										Payload.CustomisationReplaceWith);
+								}
+
+								if (Payload.RemoveTargetMutationSO != null)
+								{
+									Mutation.RemoveMutation(Payload.RemoveTargetMutationSO);
+								}
+
+								if (Payload.TargetMutationSO != null)
+								{
+									Mutation.AddMutation(Payload.TargetMutationSO);
+								}
+
+								if (Payload.SpeciesMutateTo != null && Payload.MutateToBodyPart != null)
+								{
+									Mutation.ChangeToSpecies(Payload.SpeciesMutateTo,
+										Payload.MutateToBodyPart, characterSheet);
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+
+			var bodyParts = new Dictionary<NamedSlot, ItemSlot>();
+			foreach (var x in playerScript.DynamicItemStorage.GetItemSlotTree())
+			{
+				if (x.NamedSlot != null && !bodyParts.ContainsKey((NamedSlot)x.NamedSlot))
+					bodyParts.Add((NamedSlot)x.NamedSlot, x);
+			}
+
+			foreach (var itemForPlace in itemsBeforeTransform)
+			{
+				if (itemForPlace.Item1 != null && bodyParts.ContainsKey(itemForPlace.Item2))
+				{
+					Inventory.ServerAdd(itemForPlace.Item1.gameObject, bodyParts[itemForPlace.Item2]);
+				}
+			}
+
+			if (characterSheet != null)
+			{
+				yield return WaitFor.Seconds(1f);
+
+				foreach (var x in playerSprites.OpenSprites)
+				{
+					_ = Despawn.ServerSingle(x.gameObject);
+				}
+
+				playerSprites.SetupSprites();
+				playerSprites.SetSurfaceColour();
+
+				meatProduce = characterSheet.GetRaceSoNoValidation().Base.MeatProduce;
+				skinProduce = characterSheet.GetRaceSoNoValidation().Base.SkinProduce;
+
+				playerScript.PlayerNetworkActions.CmdSetActiveHand(bodyParts[NamedSlot.leftHand].ItemStorageNetID, NamedSlot.leftHand); // setting new hand because we deleted prev
+			}
+			yield break;
+		}
+
+		private void SubSetBodyPart(BodyPart Body_Part, string path, CharacterSheet ThisCharacter, bool Randomised = false)
+		{
+			var livingHealthMasterBase = this;
+			path = path + "/" + Body_Part.name;
+
+			CustomisationStorage customisationStorage = null;
+			if (ThisCharacter.SerialisedBodyPartCustom != null)
+			{
+				foreach (var Custom in ThisCharacter.SerialisedBodyPartCustom)
+				{
+					if (path == Custom.path)
+					{
+						customisationStorage = Custom;
+						break;
+					}
+				}
+			}
+
+
+			if (customisationStorage != null)
+			{
+				var data = customisationStorage.Data.Replace("@£", "\"");
+				if (Body_Part.OptionalOrgans.Count > 0)
+				{
+					BodyPartDropDownOrgans.PlayerBodyDeserialise(Body_Part, data, livingHealthMasterBase);
+				}
+				else if (Body_Part.OptionalReplacementOrgan.Count > 0)
+				{
+					BodyPartDropDownReplaceOrgan.OnPlayerBodyDeserialise(Body_Part, data);
+				}
+				else
+				{
+					if (Body_Part.LobbyCustomisation != null)
+					{
+						Body_Part.LobbyCustomisation.OnPlayerBodyDeserialise(Body_Part, data, livingHealthMasterBase);
+					}
+					else
+					{
+						Logger.Log($"[PlayerSprites] - Could not find {Body_Part.name}'s characterCustomization script. Returns -> {Body_Part.OrNull()?.LobbyCustomisation.OrNull()?.characterCustomization}", Category.Character);
+					}
+				}
+			}
+			else if (Randomised)
+			{
+				if (Body_Part.LobbyCustomisation != null)
+				{
+					Body_Part.LobbyCustomisation.RandomizeInBody(Body_Part, livingHealthMasterBase);
+				}
+			}
+
+
+			for (int i = 0; i < Body_Part.ContainBodyParts.Count; i++)
+			{
+				SubSetBodyPart(Body_Part.ContainBodyParts[i], path, ThisCharacter, Randomised);
+			}
+
+		}
+
+
+		#endregion
 		/// <summary>
 		/// Calculates and applies radiation damage
 		/// </summary>

@@ -1,13 +1,10 @@
-using ScriptableObjects.Systems.Spells;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Systems.Spells;
+using AddressableReferences;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Changeling
 {
-	[CreateAssetMenu(menuName = "ScriptableObjects/Antagonist/Changeling/Abilities/Base")]
+	[CreateAssetMenu(menuName = "ScriptableObjects/Antagonist/Changeling/Abilities/Ability")]
 	public class ChangelingData : ActionData, ICooldown
 	{
 		public short Index => (short)ChangelingAbilityList.Instance.Abilites.IndexOf(this);
@@ -15,39 +12,126 @@ namespace Changeling
 		public override bool CallOnClient => true;
 		public override bool CallOnServer => false;
 
+		[TextArea(8, 20)]
+		[SerializeField] protected string descriptionStore = "";
+		public string DescriptionStore
+		{
+			get
+			{
+				if (descriptionStore == null || descriptionStore.Length == 0)
+					return description;
+				return descriptionStore;
+			}
+		}
+
 		[Header("Variables")]
 		// ep - evolution point
 		[Tooltip("Evolution points cost for buying")]
 		[SerializeField] private int abilityEPCost;
+		[SerializeField] public int AbilityEPCost => abilityEPCost;
 		[Tooltip("Chemical points cost for use")]
 		[SerializeField] private int abilityChemCost;
+		[SerializeField] public int AbilityChemCost => abilityChemCost;
+
+		[Tooltip("Sount called when ability is used")]
+		[SerializeField] private AddressableAudioSource castSound = null;
+		public AddressableAudioSource CastSound => castSound;
+
+
 		[Tooltip("Is action can be reseted")]
 		public bool canBeReseted = false;
 		[Tooltip("Is ability will be added on start")]
 		public bool startAbility = false;
-		[Tooltip("Is ability will be used when added to changeling")]
-		public bool abilityUsedOnStart = false;
-		[Tooltip("Is ability will be used only one time")]
-		public bool singleUseAbility = false;
+		[Tooltip("Is ability slows chem generation while active")]
+		[SerializeField] bool isSlowingChemRegeneration = false;
+		public bool IsSlowingChemRegeneration => isSlowingChemRegeneration;
+		[Tooltip("Is ability stops chem generation while active")]
+		[SerializeField] bool isStopingChemRegeneration = false;
+		public bool IsStopingChemRegeneration => isStopingChemRegeneration;
+		[Tooltip("Is ability called on client")]
+		[SerializeField] private bool isLocal = false;
+		public bool IsLocal => isLocal;
+		[SerializeField] private GameObject dnaPrefab;
+		public GameObject DnaPrefab => dnaPrefab;
+
+		[SerializeField] private bool showInStore = true;
+		public bool ShowInStore => showInStore;
+
+		[SerializeField] private bool showInActions = true;
+		public bool ShowInActions => showInActions;
 
 		[SerializeField] private int cooldown = 1;
 		public float DefaultTime => cooldown;
 
-
 		public GameObject AbilityImplementation => abilityImplementation;
+
+
+		[Tooltip("What ability type is it")]
+		public ChangelingAbilityType abilityType = ChangelingAbilityType.Misc;
+
+		[Tooltip("What sting type is it")]
+		[ShowIf("ShowIfSting")]
+		public StingType stingType;
+
+		[Tooltip("What heal type is it")]
+		[ShowIf("ShowIfHeal")]
+		public ChangelingHealType healType;
+
+		[Tooltip("What transform type is it")]
+		[ShowIf("ShowIfTransform")]
+		public ChangelingTransformType transformType;
+
+		[ShowIf("ShowIfLocal")]
+		[Tooltip("What ability use when choised")]
+		[SerializeField] private ChangelingData useAfterChoise = null;
+		public ChangelingData UseAfterChoise => useAfterChoise;
+
+		[Tooltip("What transform type is it")]
+		[ShowIf("ShowIfMisc")]
+		public ChangelingMiscType miscType;
+
 		[Tooltip("Implementation prefab, defaults to SimpleSpell if null")]
 		[SerializeField] private GameObject abilityImplementation = null;
 
-		/// <summary>
-		/// Perfoms current ability.
-		/// </summary>
-		/// <param name="changeling"></param>
-		/// <param name="objToPerfom"></param>
-		/// <returns>Succeseded of perfoming</returns>
-		public virtual bool PerfomAbility(ChangelingMain changeling, dynamic objToPerfom)
+		#region Inspector
+
+		#if UNITY_EDITOR
+		private bool ShowIfSting()
+		{
+			return abilityType == ChangelingAbilityType.Sting;
+		}
+
+		private bool ShowIfHeal()
+		{
+			return abilityType == ChangelingAbilityType.Heal;
+		}
+
+		private bool ShowIfTransform()
+		{
+			return abilityType == ChangelingAbilityType.Transform;
+		}
+
+		private bool ShowIfMisc()
+		{
+			return abilityType == ChangelingAbilityType.Misc;
+		}
+
+		private bool ShowIfLocal()
+		{
+			return IsLocal;
+		}
+
+		public virtual bool PerfomAbility(ChangelingMain changeling, Vector3 objToPerfom)
 		{
 			return true;
 		}
+
+		public virtual bool PerfomAbilityClient()
+		{
+			return true;
+		}
+		#endif
+		#endregion
 
 		/// <summary>
 		/// Returns ability price as tuple.
@@ -56,6 +140,11 @@ namespace Changeling
 		public (int, int) GetAbilityPrice()
 		{
 			return (abilityEPCost, abilityChemCost);
+		}
+
+		protected bool AbilityValidation(ChangelingMain changeling)
+		{
+			return changeling.HasAbility(this);
 		}
 
 		public ChangelingAbility AddToPlayer(Mind player)
@@ -71,5 +160,38 @@ namespace Changeling
 			spellComponent.CooldownTime = cooldown;
 			return spellComponent;
 		}
+	}
+
+	public enum ChangelingAbilityType
+	{
+		Sting,
+		Heal,
+		Transform,
+		Misc
+	}
+
+	public enum StingType
+	{
+		ExtractDNASting,
+		HallucinationSting,
+		Absorb
+	}
+
+	public enum ChangelingHealType
+	{
+		Regenerate,
+		RevivingStasis
+	}
+
+	public enum ChangelingTransformType
+	{
+		TransformMenuOpen,
+		Transform
+	}
+
+	public enum ChangelingMiscType
+	{
+		AugmentedEyesight,
+		OpenStore
 	}
 }

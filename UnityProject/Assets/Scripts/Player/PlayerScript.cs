@@ -17,7 +17,7 @@ using Systems.Character;
 using Systems.StatusesAndEffects;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Serialization;
-
+using Changeling;
 
 public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IPlayerPossessable, IHoverTooltip
 {
