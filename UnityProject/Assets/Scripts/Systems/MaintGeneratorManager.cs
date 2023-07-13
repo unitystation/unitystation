@@ -16,6 +16,7 @@ namespace Systems.Scenes
 			MaintGenerators.Clear();
 
 			EventManager.AddHandler(Event.ScenesLoadedServer, GenerateMaints);
+			EventManager.AddHandler(Event.RoundStarted, PlaceObjects);
 		}
 
 		private void GenerateMaints()
@@ -24,10 +25,19 @@ namespace Systems.Scenes
 			{
 				if (maintGenerator == null) continue;
 				maintGenerator.CreateTiles();
+			}
+			Logger.Log("Finished generating maints tiles!", Category.Round);
+		}
+
+		private void PlaceObjects() //Have to do this later than the tiles, doors cannot be spawned too early less they dont initialise correctly.
+		{
+			foreach (MaintGenerator maintGenerator in MaintGenerators)
+			{
+				if (maintGenerator == null) continue;
 				maintGenerator.PlaceObjects();
 			}
 			MaintGenerators.Clear();
-			Logger.Log("Finished generating maints!", Category.Round);
+			Logger.Log("Finished generating maints objects!", Category.Round);
 		}
 	}
 }

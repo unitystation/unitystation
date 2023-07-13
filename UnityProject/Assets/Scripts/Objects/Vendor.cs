@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Systems.Clearance;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,6 +8,7 @@ using Systems.Electricity;
 using AddressableReferences;
 using Messages.Server.SoundMessages;
 using Items;
+using Random = UnityEngine.Random;
 
 
 namespace Objects
@@ -58,6 +60,10 @@ namespace Objects
 		public PowerState ActualCurrentPowerState = PowerState.On;
 		public bool DoesntRequirePower = false;
 
+		[Header("Audio")]
+		[SerializeField] private AddressableAudioSource ambientSoundWhileOn;
+		private string loopKey;
+
 		private void Awake()
 		{
 			// ensure we have a net tab set up with the correct type
@@ -69,6 +75,13 @@ namespace Objects
 			}
 
 			clearanceRestricted = GetComponent<ClearanceRestricted>();
+			loopKey = Guid.NewGuid().ToString();
+		}
+
+		private void OnDestroy()
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			SoundManager.StopNetworked(loopKey);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -279,7 +292,19 @@ namespace Objects
 			}
 
 			OnItemVended.Invoke(vendorItem);
+		}
 
+		private void CheckAudioState()
+		{
+			if (ActualCurrentPowerState is PowerState.On or PowerState.OverVoltage or PowerState.LowVoltage)
+			{
+				SoundManager.PlayAtPositionAttached(ambientSoundWhileOn,
+					gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, true);
+			}
+			else
+			{
+				SoundManager.StopNetworked(loopKey);
+			}
 		}
 
 		#region IAPCPowerable
@@ -289,6 +314,7 @@ namespace Objects
 		public void StateUpdate(PowerState state)
 		{
 			ActualCurrentPowerState = state;
+			CheckAudioState();
 		}
 
 		#endregion

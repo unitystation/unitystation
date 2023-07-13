@@ -105,6 +105,9 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+  OnSpriteUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &7428089721754950040
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -414,6 +417,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7153803037707514078, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: _assetId
+      value: 4033515741
+      objectReference: {fileID: 0}
+    - target: {fileID: 7153803037707514078, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: m_AssetId
       value: fde32c02abddc814f9366ff1fb21f234
       objectReference: {fileID: 0}
@@ -520,6 +528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 910cb18aec31e0645af7aeb86e55021f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   spriteHandler: {fileID: 3276952608748939964}
@@ -541,6 +550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   MethodRotation: 1
@@ -569,6 +579,7 @@ MonoBehaviour:
   itemStoragePopulator: {fileID: 11400000, guid: af85059b9a6cbce4f9ed59fd1e3fd992,
     type: 2}
   forceSpawnContents: 1
+  ManuallySpawnContent: 0
   dropItemsOnDespawn: 1
   UesAddlistPopulater: 0
   Populater:
@@ -576,6 +587,7 @@ MonoBehaviour:
     DeprecatedContents:
     - {fileID: 7657921970005526780, guid: 7f32e42309899114b9c122f261161bc5, type: 3}
     - {fileID: 5770283965274354279, guid: b83b68cfa4a201748aeeece963a989c3, type: 3}
+  SetSlotItemNotRemovableOnStartUp: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!114 &5109516359681254002
@@ -590,6 +602,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47ee25e15c851c447bd342aa75f7ca2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   sprites: []
@@ -619,9 +632,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cd47c8a7b3ca4905983be3a08c1caf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  ONColour: {r: 1, g: 0.9899574, b: 0.8443396, a: 0.65882355}
+  CurrentOnColor: {r: 1, g: 0.9899574, b: 0.8443396, a: 0.65882355}
   EmergencyColour: {r: 1, g: 0, b: 0, a: 0.33333334}
   relatedLightSwitch: {fileID: 0}
   InitialState: 1
@@ -642,6 +656,14 @@ MonoBehaviour:
   mountStatesMachine: {fileID: 11400000, guid: 2049efbecd5fb44478e9830e1b970f84, type: 2}
   maximumDamageOnTouch: 3
   sparkObject: {fileID: 7194976834760766862}
+  ambientSoundWhileOn:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/AmbienceObjects/Amb LightFixture.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
 --- !u!4 &8016220542479582908 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,

@@ -7,12 +7,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c0111dbbbed21d7429ee6cd911a65063, type: 3}
   m_Name: ChemistryReagentsSO
   m_EditorClassIdentifier: 
   allChemistryReactions:
+  - {fileID: 11400000, guid: f3ba7bddff4c38246b1350bf8f908e24, type: 2}
   - {fileID: 11400000, guid: ac0c760ad1cbab341b756545ba0586a4, type: 2}
   - {fileID: 11400000, guid: 764107d010af362458271da1cae0b721, type: 2}
   - {fileID: 11400000, guid: be96438d1ece65d42ac82b073c5b0dbd, type: 2}
@@ -26,6 +27,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 132f2cd5d79066e46af78ea80a196713, type: 2}
   - {fileID: 11400000, guid: 246b944c9799b87489519d7f19307a06, type: 2}
   - {fileID: 11400000, guid: c08bfc7b09a88c34d9be46b34e311204, type: 2}
+  - {fileID: 11400000, guid: 2902beb621ef39d42b6f061978844fc3, type: 2}
   - {fileID: 11400000, guid: e83c05c9c83ddfc4c84a80bff9a2cc8c, type: 2}
   - {fileID: 11400000, guid: 59b007343aceb79498f4899aa8108acb, type: 2}
   - {fileID: 11400000, guid: 9a4496787977597408dbeb53ca843921, type: 2}
@@ -571,6 +573,42 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 348f2488759ce634b9cde7404466a0ac, type: 2}
   - {fileID: 11400000, guid: 0550bd1df4f127c0284da1079fe5d12b, type: 2}
   - {fileID: 11400000, guid: b0ec4914a15777fa6aa9219967ac35a5, type: 2}
+  - {fileID: 11400000, guid: dd485b6c6161d9b4e82ed1bd3b4c8803, type: 2}
+  - {fileID: 11400000, guid: 6b8b5f527ceffcf43ac86bcfbd93996c, type: 2}
+  - {fileID: 11400000, guid: c56ea0fc5c64a6d48b8724cc930cbd5a, type: 2}
+  - {fileID: 11400000, guid: c586d12306977e34285a9c203b99deca, type: 2}
+  - {fileID: 11400000, guid: 6e204ab711e89c04ca985ca18df499f8, type: 2}
+  - {fileID: 11400000, guid: ba3e23809508bad4890dbda69c462531, type: 2}
+  - {fileID: 11400000, guid: 78926dddedf747445af41b0b76088a1e, type: 2}
+  - {fileID: 11400000, guid: a94750d0b9e844d4cb6115647b1f23b3, type: 2}
+  - {fileID: 11400000, guid: c56f938a48abb8344aa614651952f231, type: 2}
+  - {fileID: 11400000, guid: 311d8c395d7d40b448638231e558de5a, type: 2}
+  - {fileID: 11400000, guid: b838162184e4aad48bf2478be2ac4965, type: 2}
+  - {fileID: 11400000, guid: c1da0037a2db16240bc0ff4684d76124, type: 2}
+  - {fileID: 11400000, guid: 44110f2ccd177414f84b498d24a17651, type: 2}
+  - {fileID: 11400000, guid: ac514e1fc62066145b0575f764fd0733, type: 2}
+  - {fileID: 11400000, guid: b2e21642ee2ca54439d0e01916b47c15, type: 2}
+  - {fileID: 11400000, guid: b41247d17bc32d647973a50607e402d0, type: 2}
+  - {fileID: 11400000, guid: 9ccebccd172f0e34dafc90f8f968fe51, type: 2}
+  - {fileID: 11400000, guid: 897f511c2a5391d41b3da7df2b7efcc3, type: 2}
+  - {fileID: 11400000, guid: a7a938b9d8fd08a43b3e50354bf4e3a6, type: 2}
+  - {fileID: 11400000, guid: 1f64c1c606a7c884f85e3988f869d159, type: 2}
+  - {fileID: 11400000, guid: 754ee90c4df6d1e409bd5589f9675dce, type: 2}
+  - {fileID: 11400000, guid: dc78f710c7a1b78469cee10562dbdc80, type: 2}
+  - {fileID: 11400000, guid: 13cb49fed12af8549be71ea6aae66fc9, type: 2}
+  - {fileID: 11400000, guid: 355fda93de9e5df45965589b066e0f5a, type: 2}
+  - {fileID: 11400000, guid: cdf79d82fcc9cf946bbe994bc162b9dc, type: 2}
+  - {fileID: 11400000, guid: bd1e55d53f1cea54298c7917c39af8a3, type: 2}
+  - {fileID: 11400000, guid: 915bb58bc87902143a2a2722b8f6a168, type: 2}
+  - {fileID: 11400000, guid: 54c21046041fc014a922785966e3bc8c, type: 2}
+  - {fileID: 11400000, guid: 1d46a57bd22ed8e4f85aef0c3b906342, type: 2}
+  - {fileID: 11400000, guid: ca38c7a6becd87d49b628d557daf9244, type: 2}
+  - {fileID: 11400000, guid: 15adf23344798814db3a8301ef357369, type: 2}
+  - {fileID: 11400000, guid: fc04d3c21e9dba54e979f8dffa521cd4, type: 2}
+  - {fileID: 11400000, guid: 06cbf3af08d49cf4d97254050f2cc3d8, type: 2}
+  - {fileID: 11400000, guid: d10d069810b9336459753192798c76de, type: 2}
+  - {fileID: 11400000, guid: ac6db1f6d519e5947963c4fdfc8e41de, type: 2}
+  - {fileID: 11400000, guid: 412f43e1894160941b050da38c427852, type: 2}
   allChemistryReagents:
   - {fileID: 11400000, guid: 8f0919186512e2b00840bdfc242942ff, type: 2}
   - {fileID: 11400000, guid: e312e3786cf8d78b4bbcfebd67af0394, type: 2}
@@ -919,7 +957,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: eddd25f86520454488e058d81903952d, type: 2}
   - {fileID: 11400000, guid: 535b5444a8d6ceb8ba7d4b0bdc701977, type: 2}
   - {fileID: 11400000, guid: 6020e0fdb5ab895f39325f38103c33a9, type: 2}
-  - {fileID: 11400000, guid: eea05337a284c407e926bf3110b00916, type: 2}
   - {fileID: 11400000, guid: e991ebb91e244bb81a728380791d0f79, type: 2}
   - {fileID: 11400000, guid: e47da385625ee60be9119fba17508b01, type: 2}
   - {fileID: 11400000, guid: c8b0a877670e84d8aa73864eb8152aa5, type: 2}
@@ -1076,6 +1113,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b8a781e1379c635ae89668659280df98, type: 2}
   - {fileID: 11400000, guid: 5b255694ed5e8945790b893c1975d7cc, type: 2}
   - {fileID: 11400000, guid: ae16649c67a65c05198d3a4d8e97a066, type: 2}
+  - {fileID: 11400000, guid: 5e2a5c76d1bce6144b8b1aac987b2751, type: 2}
   - {fileID: 11400000, guid: 4abba3ce4cb2cbd6f8ba92f0e44d5958, type: 2}
   - {fileID: 11400000, guid: 8c4699092c1481a0088667b562e3c68a, type: 2}
   - {fileID: 11400000, guid: 4209bcf04e780ce22ab35c7fe09e49db, type: 2}

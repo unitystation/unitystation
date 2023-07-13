@@ -16,6 +16,7 @@ namespace Messages.Server.AdminTools
 
 		public override void Process(NetMessage msg)
 		{
+
 			LoadNetworkObject(msg.Recipient);
 			var listData = JsonUtility.FromJson<AdminPlayersList>(msg.JsonData);
 

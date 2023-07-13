@@ -15,6 +15,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1764592290455851827, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
+      propertyPath: _assetId
+      value: 1912926567
+      objectReference: {fileID: 0}
+    - target: {fileID: 1764592290455851827, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
       propertyPath: m_AssetId
       value: fd24ddc02f2fe5847aebda20f2e87e4a
       objectReference: {fileID: 0}
@@ -51,17 +56,17 @@ PrefabInstance:
     - target: {fileID: 1871985542549853171, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1871985542549853171, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1871985542549853171, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1871985542549853171, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
@@ -93,6 +98,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: Holds tools.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235114152810004965, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: Assets/Prefabs/Items/Equip/ToolbeltEquip.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 4707276644318323434, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}

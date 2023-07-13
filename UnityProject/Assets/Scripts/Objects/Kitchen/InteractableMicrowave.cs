@@ -56,8 +56,8 @@ namespace Objects.Kitchen
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			return (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) 
-				|| Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar)) == false;
+			return (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) 
+				|| Validations.HasItemTrait(interaction, CommonTraits.Instance.Crowbar)) == false;
 		}
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)

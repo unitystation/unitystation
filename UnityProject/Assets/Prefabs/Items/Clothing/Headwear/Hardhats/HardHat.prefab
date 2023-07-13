@@ -170,17 +170,17 @@ PrefabInstance:
     - target: {fileID: 2185168809060922027, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2185168809060922027, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2185168809060922027, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2185168809060922027, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
@@ -422,7 +422,7 @@ MonoBehaviour:
   LightEmission: {fileID: 0}
   objectLightEmission: {fileID: 4425414661908067713}
   IsOn: 0
-  colour: {r: 1, g: 1, b: 1, a: 1}
+  colour: {r: 1, g: 1, b: 1, a: 0.6}
   objectLightSprite: {fileID: 0}
   commonComponents: {fileID: 0}
   SpriteShape: 0

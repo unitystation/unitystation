@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using HealthV2;
 using Items;
 using Messages.Server;
-using Objects;
 using Objects.Disposals;
-using Objects.Other;
-using UI.Action;
 using UI.Core.Action;
+using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
 
 /// <summary>
@@ -22,7 +18,7 @@ using UnityEngine;
 public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActivate>,
 	IClientInteractable<InventoryApply>,
 	ICheckedInteractable<InventoryApply>, ICheckedInteractable<PositionalHandApply>,
-	ICheckedInteractable<HandApply>, ICheckedInteractable<MouseDrop>, IActionGUI, IItemInOutMovedPlayer
+	ICheckedInteractable<HandApply>, ICheckedInteractable<MouseDrop>, IActionGUI, IItemInOutMovedPlayer, IHoverTooltip
 {
 	/// <summary>
 	/// The click pickup mode.
@@ -691,5 +687,41 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	public void CallActionClient()
 	{
 		PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdSwitchPickupMode();
+	}
+
+	public string HoverTip()
+	{
+		if (itemStorage == null) return null;
+		var slots = itemStorage.GetItemSlots().ToList();
+		return slots.Any() == false ? null : $"This has {slots.Count()} slots.";
+	}
+
+	public string CustomTitle() => null;
+
+	public Sprite CustomIcon() => null;
+
+	public List<Sprite> IconIndicators() => null;
+
+	public List<TextColor> InteractionsStrings()
+	{
+		var interactions = new List<TextColor>()
+		{
+			new()
+			{
+				Text = canQuickEmpty
+					? $"Press {KeybindManager.Instance.userKeybinds[KeyAction.HandActivate].PrimaryCombo} or click to quickly empty"
+					: "",
+				Color = Color.green
+			},
+			new()
+			{
+				Text = TopLevelAlt
+					? $"Alt+Click with a free hand to access storage."
+					: "",
+				Color = Color.green
+			}
+		};
+
+		return interactions;
 	}
 }

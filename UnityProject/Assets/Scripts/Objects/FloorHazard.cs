@@ -5,6 +5,7 @@ using System.Linq;
 using Systems.MobAIs;
 using AddressableReferences;
 using HealthV2;
+using HealthV2.Limbs;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -68,6 +69,19 @@ namespace Objects
 					{
 						//Check if the footwear we have on has any protective traits against the floor hazard.
 						if (slot.ItemAttributes.GetTraits().Any(trait => protectiveItemTraits.Contains(trait)))
+						{
+							return;
+						}
+					}
+				}
+
+				foreach (var BodyPart in health.SurfaceBodyParts)
+				{
+					var leg = BodyPart.CommonComponents.SafeGetComponent<HumanoidLeg>();
+					if (leg != null)
+					{
+						//Check if the leg we have on has any protective traits against the floor hazard.
+						if (BodyPart.CommonComponents.ItemAttributes.GetTraits().Any(trait => protectiveItemTraits.Contains(trait)))
 						{
 							return;
 						}

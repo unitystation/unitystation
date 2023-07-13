@@ -12831,6 +12831,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -45.65
       objectReference: {fileID: 0}
+    - target: {fileID: 2739389561917205558, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2916427440774072448, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
       propertyPath: m_IsActive
@@ -12889,12 +12894,12 @@ PrefabInstance:
     - target: {fileID: 2967335146640221780, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -24.99997
+      value: -25
       objectReference: {fileID: 0}
     - target: {fileID: 2967373415580766804, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -7.1000366
+      value: -7.1000977
       objectReference: {fileID: 0}
     - target: {fileID: 2970664891730648836, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
@@ -13211,6 +13216,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -57.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4147125179588738938, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4147125179588738938, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4153480489544518175, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -13229,6 +13244,21 @@ PrefabInstance:
     - target: {fileID: 4153480489544518175, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4199685495035560006, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4199685495035560006, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4199685495035560006, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 3}
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4236498455849868228, guid: 829f4ca992b848d6bb4d007fb9c112e1,
@@ -14554,7 +14584,7 @@ PrefabInstance:
     - target: {fileID: 8388672857892549126, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -1.4000244
+      value: -1.4002686
       objectReference: {fileID: 0}
     - target: {fileID: 8425574330911350240, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
@@ -15091,6 +15121,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8828654199121321389, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8828654199121321389, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8897673338037527780, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -15281,6 +15321,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  ScenesInitialLoadingComplete: 0
   SubSceneManager: {fileID: 1314589445662661194}
 --- !u!1001 &1500091029
 PrefabInstance:
@@ -15700,6 +15741,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88cdce62f5f5af74fa58c874b74efc0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clientIsLoadingSubscene: 0
   awayWorldList: {fileID: 11400000, guid: 9336c6ca9dac2d94eb90f703a23a7484, type: 2}
   mainStationList: {fileID: 11400000, guid: 9b0018951af67314ca9e85705e0d2ce4, type: 2}
   asteroidList: {fileID: 11400000, guid: b1d9059b8db83ab479c9dffdc939b281, type: 2}

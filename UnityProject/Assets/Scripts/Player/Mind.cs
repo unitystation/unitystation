@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using AdminCommands;
 using UnityEngine;
@@ -91,6 +92,8 @@ public class Mind : NetworkBehaviour, IActionGUI
 	/// </summary>
 	private Dictionary<string, object> properties = new Dictionary<string, object>();
 
+	public bool NonImportantMind = false;
+
 	public bool IsMute
 	{
 		get
@@ -147,9 +150,48 @@ public class Mind : NetworkBehaviour, IActionGUI
 		};
 	}
 
+	public void Start()
+	{
+		if (NonImportantMind)
+		{
+			UpdateManager.Add(CheckNonImportantMind, 30f);
+		}
+	}
+
+	public void OnDestroy()
+	{
+		if (NonImportantMind)
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckNonImportantMind);
+		}
+	}
+
+
+	[Command]
+	public void CmdRequestPossess(uint ID)
+	{
+
+		if (AdminCommandsManager.IsAdmin(this.connectionToClient, out var _))
+		{
+			SetPossessingObject(CustomNetworkManager.Spawned[ID].gameObject);
+		}
+
+
+	}
+
+
+	public void CheckNonImportantMind()
+	{
+		var Deepestbody = GetDeepestBody();
+		if (Deepestbody.gameObject == this.gameObject && ControlledBy == null)
+		{
+			_ = Despawn.ServerSingle(this.gameObject);
+		}
+	}
 
 	public void ApplyOccupation(Occupation requestedOccupation)
 	{
+		if (requestedOccupation == null) return;
 		this.occupation = requestedOccupation;
 		foreach (var spellData in occupation.Spells)
 		{
@@ -336,6 +378,10 @@ public class Mind : NetworkBehaviour, IActionGUI
 	public void Ghost()
 	{
 		var Body = GetDeepestBody();
+		if (CurrentPlayScript != null)
+		{
+			CurrentPlayScript.OnBodyUnPossesedByPlayer?.Invoke();
+		}
 		Move.ForcePositionClient(Body.gameObject.AssumedWorldPosServer(), Smooth: false);
 		IsGhosting = true;
 		InternalSetControllingObject(GetDeepestBody().gameObject);

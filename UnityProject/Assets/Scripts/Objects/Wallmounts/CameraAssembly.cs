@@ -29,17 +29,17 @@ namespace Objects.Wallmounts
 
 			//Weld, or wrench to remove from wall
 			if (Validations.HasUsedActiveWelder(interaction) ||
-			    Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench)) return true;
+			    Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench)) return true;
 
 			//Wire or unweld from wall
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) ||
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Cable) ||
 			    Validations.HasUsedActiveWelder(interaction)) return true;
 
 			//TODO upgrades
 
 			//Screwdrive
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
-			    Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter)) return true;
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
+			    Validations.HasItemTrait(interaction, CommonTraits.Instance.Wirecutter)) return true;
 
 			return false;
 		}
@@ -64,7 +64,7 @@ namespace Objects.Wallmounts
 					return;
 				}
 
-				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
+				if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench))
 				{
 					//Wrench from wall
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
@@ -88,7 +88,7 @@ namespace Objects.Wallmounts
 
 			if (state == CameraAssemblyState.Welded)
 			{
-				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable))
+				if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Cable))
 				{
 					//Add cable
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
@@ -126,7 +126,7 @@ namespace Objects.Wallmounts
 
 			if (state == CameraAssemblyState.Wired)
 			{
-				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+				if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 				{
 					//Screwdrive shut
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
@@ -151,7 +151,7 @@ namespace Objects.Wallmounts
 					return;
 				}
 
-				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter))
+				if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wirecutter))
 				{
 					//Cut cable
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,

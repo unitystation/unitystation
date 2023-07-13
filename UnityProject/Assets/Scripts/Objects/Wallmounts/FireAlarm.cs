@@ -122,7 +122,7 @@ namespace Objects.Wallmounts
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 			{
 				if (coverOpen)
 				{
@@ -153,7 +153,7 @@ namespace Objects.Wallmounts
 			}
 			if (coverOpen)
 			{
-				if (hasCables && Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter))
+				if (hasCables && Validations.HasItemTrait(interaction, CommonTraits.Instance.Wirecutter))
 				{
 					//cut out cables
 					Chat.AddActionMsgToChat(interaction, $"You remove the cables.",
@@ -166,7 +166,7 @@ namespace Objects.Wallmounts
 					return;
 				}
 
-				if (!hasCables && Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) &&
+				if (!hasCables && Validations.HasItemTrait(interaction, CommonTraits.Instance.Cable) &&
 					Validations.HasUsedAtLeast(interaction, 5))
 				{
 					//add 5 cables

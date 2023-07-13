@@ -261,7 +261,7 @@ namespace Objects.Atmospherics
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Id);
+			return Validations.HasItemTrait(interaction, CommonTraits.Instance.Id);
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)

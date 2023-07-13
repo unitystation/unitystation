@@ -692,11 +692,17 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 
 		counting = false;
-		if (RoundEndTime > 10)
+		try
 		{
-			VotingManager.Instance.SetupVote(VotingManager.VoteType.NextMap, VotingManager.VotePolicy.MajorityRules,  Mathf.FloorToInt(RoundEndTime-1) , this.gameObject, null);
+			if (RoundEndTime > 10)
+			{
+				VotingManager.Instance.SetupVote(VotingManager.VoteType.NextMap, VotingManager.VotePolicy.MajorityRules,  Mathf.FloorToInt(RoundEndTime-1) , this.gameObject, null);
+			}
 		}
-
+		catch (Exception e)
+		{
+			Logger.LogError(e.ToString());
+		}
 
 		StartCoroutine(WaitForRoundRestart());
 

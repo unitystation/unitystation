@@ -163,7 +163,6 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		ServerCheckStandingChange(!isStanding);
 	}
 
-
 	public bool ServerCheckStandingChange(bool layingDown, bool doBar = false, float time = 1.5f)
 	{
 		if (IsLayingDown == layingDown) return false;
@@ -182,7 +181,19 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 				new StandardProgressActionConfig(StandardProgressActionType.SelfHeal, false, false, true),
 				() =>
 				{
-					SyncIsLayingDown(layingDown);
+					bool cando = true;
+					foreach (var status in CheckableStatuses)
+					{
+						if (status.AllowChange(layingDown) == false)
+						{
+							cando = false;
+						}
+					}
+
+					if (cando)
+					{
+						SyncIsLayingDown(layingDown);
+					}
 				});
 
 			bar.ServerStartProgress(this, time, gameObject);
@@ -207,6 +218,15 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		{
 			MatrixNew.PresentPlayers.Add(this);
 			MatrixNew.UpdatedPlayerFrame = Time.frameCount;
+		}
+
+		if (CustomNetworkManager.IsServer)
+		{
+			LayDownBehavior.ServerEnsureCorrectState();
+		}
+		else
+		{
+			LayDownBehavior.ClientEnsureCorrectState();
 		}
 	}
 

@@ -221,7 +221,7 @@ namespace Objects.Disposals
 				return;
 			}
 
-			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench) && MachineWrenchable)
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench) && MachineWrenchable)
 			{
 				TryUseWrench();
 			}
@@ -229,7 +229,7 @@ namespace Objects.Disposals
 			{
 				TryUseWelder();
 			}
-			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) && Screwdriverable)
+			else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) && Screwdriverable)
 			{
 				TryUseScrewdriver();
 			}

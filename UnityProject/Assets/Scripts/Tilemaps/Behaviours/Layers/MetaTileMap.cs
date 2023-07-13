@@ -1791,6 +1791,7 @@ namespace TileManagement
 
 				if (Application.isPlaying == false)
 				{
+					if (layer.gameObject.activeInHierarchy == false) continue;
 					if (layer.LayerType.IsUnderFloor())
 					{
 						//TODO Tile map upgrade , xyz z = is the z The level so We need one more xyzw w = what w Coordinate on the z Coordinate on the layer the tile is

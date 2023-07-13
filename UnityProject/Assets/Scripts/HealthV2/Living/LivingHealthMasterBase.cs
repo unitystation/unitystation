@@ -278,10 +278,11 @@ namespace HealthV2
 
 		public PlayerScript playerScript;
 
-		public event Action<DamageType, GameObject> OnTakeDamageType;
+		public event Action<DamageType, GameObject, float> OnTakeDamageType;
 		public event Action OnLowHealth;
 
 		public event Action OnDeath;
+		public UnityEvent OnRevive;
 
 		[SyncVar] public bool CannotRecognizeNames = false;
 
@@ -999,6 +1000,7 @@ namespace HealthV2
 		public void CalculateOverallHealth()
 		{
 			float currentHealth = MaxHealth;
+			var conState = ConsciousState;
 			foreach (var implant in BodyPartList)
 			{
 				if (implant.DamageContributesToOverallHealth == false) continue;
@@ -1060,19 +1062,20 @@ namespace HealthV2
 				SetConsciousState(ConsciousState.CONSCIOUS);
 			}
 
-			//Logger.Log("overallHealth >" + overallHealth  +  " ConsciousState > " + ConsciousState);
-			// Logger.Log("NutrimentLevel >" + NutrimentLevel);
+			if (conState == ConsciousState.DEAD && ConsciousState is ConsciousState.CONSCIOUS or ConsciousState.BARELY_CONSCIOUS)
+			{
+				OnRevive?.Invoke();
+			}
 		}
 
 		private void CheckHeartStatus()
 		{
-			bool hasAllHeartAttack = true;
-			if (BodyPartList.Count == 0) hasAllHeartAttack = false;
+			bool hasAllHeartAttack = BodyPartList.Count != 0;
 			foreach (var Implant in BodyPartList)
 			{
 				foreach (var organ in Implant.OrganList)
 				{
-					if (organ is Heart heart && heart.HeartAttack == false)
+					if (organ is Heart heart && heart.HeartAttack == false && heart.CanHaveHeartAttack)
 					{
 						hasAllHeartAttack = false;
 						SetConsciousState(ConsciousState.UNCONSCIOUS);
@@ -1132,7 +1135,7 @@ namespace HealthV2
 			}
 
 			IndicatePain(damage);
-			OnTakeDamageType?.Invoke(damageType, damagedBy);
+			OnTakeDamageType?.Invoke(damageType, damagedBy, damage);
 		}
 
 		/// <summary>
@@ -1189,7 +1192,7 @@ namespace HealthV2
 			}
 
 			IndicatePain(damage);
-			OnTakeDamageType?.Invoke(damageType, damagedBy);
+			OnTakeDamageType?.Invoke(damageType, damagedBy, damage);
 			if (HealthIsLow()) OnLowHealth?.Invoke();
 		}
 
@@ -1756,8 +1759,7 @@ namespace HealthV2
 			var sprites = implant.GetBodyTypeSprites(bodyType);
 			foreach (var Sprite in sprites.Item2)
 			{
-				var newSprite = Spawn
-					.ServerPrefab(implant.SpritePrefab.gameObject, Vector3.zero, playerSprites.BodySprites.transform)
+				var newSprite = Spawn.ServerPrefab(implant.SpritePrefab.gameObject, Vector3.zero, playerSprites.BodySprites.transform)
 					.GameObject.GetComponent<BodyPartSprites>();
 				newSprite.transform.localPosition = Vector3.zero;
 				playerSprites.Addedbodypart.Add(newSprite);
@@ -1965,13 +1967,13 @@ namespace HealthV2
 
 		public void ExposePressureTemperature(float EnvironmentalPressure, float EnvironmentalTemperature)
 		{
-
 			PressureAlert ExtremistPressure = PressureAlert.None;
 			TemperatureAlert ExtremistTemperature = TemperatureAlert.None;
+			var SurfaceBodyPartsCount = SurfaceBodyParts.Count;
 			foreach (var bodyPart in SurfaceBodyParts)
 			{
-				var newTemperatureAlert = bodyPart.ExposeTemperature(EnvironmentalTemperature);
-				var newPressureAlert = bodyPart.ExposePressure(EnvironmentalPressure);
+				var newTemperatureAlert = bodyPart.ExposeTemperature(EnvironmentalTemperature, SurfaceBodyPartsCount);
+				var newPressureAlert = bodyPart.ExposePressure(EnvironmentalPressure, SurfaceBodyPartsCount);
 				if (newPressureAlert != PressureAlert.None)
 				{
 					if (ExtremistPressure is not PressureAlert.PressureTooHigher or PressureAlert.PressureTooLow)
@@ -2194,14 +2196,14 @@ namespace HealthV2
 			AdminCommandsManager.Instance.CmdHealMob(gameObject);
 		}
 
-		private void ClownAbuseScoreEvent(DamageType damageType, GameObject abuser)
+		private void ClownAbuseScoreEvent(DamageType damageType, GameObject abuser, float Amount)
 		{
 			if (abuser == null) return;
 			if (damageType == DamageType.Clone || damageType == DamageType.Oxy ||
 			    damageType == DamageType.Radiation) return;
 			if (abuser.TryGetComponent<PlayerScript>(out var script) == false) return;
 			if (script.gameObject == abuser) return; //Don't add to the score if the clown hits themselves.
-			ScoreMachine.AddToScoreInt(-5, RoundEndScoreBuilder.COMMON_SCORE_CLOWNABUSE);
+			ScoreMachine.AddToScoreInt(Mathf.RoundToInt(-5 * Amount), RoundEndScoreBuilder.COMMON_SCORE_CLOWNABUSE);
 		}
 
 		public string HoverTip()

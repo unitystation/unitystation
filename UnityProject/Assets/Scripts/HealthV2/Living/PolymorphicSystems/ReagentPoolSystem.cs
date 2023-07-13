@@ -4,6 +4,7 @@ using Chemistry;
 using Items.Implants.Organs;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace HealthV2.Living.PolymorphicSystems
 {
@@ -13,15 +14,13 @@ namespace HealthV2.Living.PolymorphicSystems
 		public ReagentMix BloodPool = new ReagentMix();
 		public int StartingBlood = 500;
 
-		[SerializeField]
-		[Required("Need to know our limits for how much blood we have and what not.")]
-		private CirculatoryInfo bloodInfo = null;
-		public Chemistry.Reagent CirculatedReagent => bloodType.CirculatedReagent;
-		public CirculatoryInfo BloodInfo => bloodInfo;
+		public int NormalBlood = 500;
+
+		public BloodType bloodType => bloodReagent as BloodType;
 
 		[SerializeField]
-		[Required("Must have a blood type in a circulatory system.")]
-		public BloodType bloodType = null;
+		[Required("Must have a blood type in a circulatory system."), FormerlySerializedAs("bloodType")]
+		public Reagent bloodReagent = null;
 
 		[HideInInspector] public List<Heart> PumpingDevices = new List<Heart>();
 
@@ -34,14 +33,18 @@ namespace HealthV2.Living.PolymorphicSystems
 		public void AddFreshBlood(ReagentMix bloodPool, float amount)
 		{
 			// Currently only does blood and required reagents, should at nutriments and other common gases
-			if (bloodPool == null || bloodType == null || bloodType.CirculatedReagent == null)
+			if (bloodPool == null || bloodReagent == null)
 			{
 				Logger.LogError("[ReagentPoolSystem/AddFreshBlood] - Missing data detected. Make sure you're not spawning a bodyPart without its proper systems defined.");
 			}
 			try
 			{
-				var bloodToAdd = new ReagentMix(bloodType, amount);
-				bloodToAdd.Add(CirculatedReagent, bloodType.GetSpareGasCapacity(bloodToAdd));
+				var bloodToAdd = new ReagentMix(bloodReagent, amount);
+				if (bloodType != null)
+				{
+					bloodToAdd.Add(bloodType.CirculatedReagent, bloodType.GetSpareGasCapacity(bloodToAdd));
+				}
+
 				bloodPool?.Add(bloodToAdd);
 			}
 			catch (Exception e)
@@ -85,8 +88,7 @@ namespace HealthV2.Living.PolymorphicSystems
 			{
 				BloodPool = this.BloodPool.Clone(),
 				StartingBlood = this.StartingBlood,
-				bloodType = this.bloodType,
-				bloodInfo = this.bloodInfo
+				bloodReagent = this.bloodReagent,
 			};
 		}
 	}

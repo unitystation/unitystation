@@ -1,16 +1,13 @@
-﻿using System;
-using AddressableReferences;
+﻿using AddressableReferences;
 using Mirror;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Messages.Server.SoundMessages;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.SceneManagement;
 using Audio.Containers;
+using Core.Sound;
 using Shared.Util;
-using Util;
 
 /// <summary>
 /// Manager that allows to play sounds.
@@ -368,7 +365,7 @@ public class SoundManager : MonoBehaviour
 		SoundSpawn soundSpawn =
 			Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken);
 		ApplyAudioSourceParameters(audioSourceParameters, soundSpawn);
-		Instance.PlaySource(soundSpawn, polyphonic, true, audioSourceParameters.MixerType);
+		Instance.PlaySource(soundSpawn, polyphonic, true);
 	}
 
 	/// <summary>
@@ -392,25 +389,13 @@ public class SoundManager : MonoBehaviour
 	/// <param name="source">The SoundSpawn to be played</param>
 	/// <param name="polyphonic">Should the sound be played polyphonically</param>
 	/// <param name="global">Does everyone will receive the sound our just nearby players</param>
-	/// <param name="mixerType">The type of mixer to use</param>
-	private void PlaySource(SoundSpawn source, bool polyphonic = false, bool global = true, MixerType mixerType = MixerType.Master)
+	private void PlaySource(SoundSpawn source, bool polyphonic = false, bool global = true)
 	{
 		if (global == false && PlayerManager.LocalPlayerObject != null)
 		{
-			if ( ((PlayerManager.LocalPlayerObject.TileWorldPosition().To3Int() - source.transform.position.RoundTo2Int().To3Int()).magnitude > 20 ))
-			{
-				source.AudioSource.outputAudioMixerGroup = AudioManager.Instance.SFXMuffledMixer; //Maybe just not play?
-			}
-			else
-			{
-				if (MatrixManager.Linecast(PlayerManager.LocalPlayerObject.TileWorldPosition().To3Int(),
-						LayerTypeSelection.Walls, layerMask, source.transform.position.RoundTo2Int().To3Int())
-					.ItHit)
-				{
-					source.AudioSource.outputAudioMixerGroup = AudioManager.Instance.SFXMuffledMixer;
-				}
-			}
+			SoundPhysics.EvaluateAndRouteSoundToMixer(source);
 		}
+
 		if (polyphonic)
 		{
 			source.PlayOneShot();
@@ -516,7 +501,7 @@ public class SoundManager : MonoBehaviour
 				soundTransform.parent = objectToPlayAt.transform;
 				soundTransform.localPosition = Vector3.zero;
 
-				Instance.PlaySource(soundSpawn, polyphonic, isGlobal, audioSourceParameters.MixerType);
+				Instance.PlaySource(soundSpawn, polyphonic, isGlobal);
 				return;
 			}
 		}
@@ -525,7 +510,7 @@ public class SoundManager : MonoBehaviour
 		soundTransform.parent = point != null ? point.Objects.transform : Instance.transform;
 		soundTransform.position = worldPos;
 
-		Instance.PlaySource(soundSpawn, polyphonic, isGlobal, audioSourceParameters.MixerType);
+		Instance.PlaySource(soundSpawn, polyphonic, isGlobal);
 	}
 
 	/// <Summary>

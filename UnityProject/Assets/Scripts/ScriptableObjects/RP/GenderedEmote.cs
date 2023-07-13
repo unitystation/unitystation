@@ -15,7 +15,14 @@ namespace ScriptableObjects.RP
 		{
 			if(CheckAllBaseConditions(player) == false) return;
 			HealthCheck(player);
-			Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewTextFinal}.");
+			if (string.IsNullOrEmpty(youText))
+			{
+				Chat.AddActionMsgToChat(player, $"{player.ExpensiveName()} {viewTextFinal}.");
+			}
+			else
+			{
+				Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewTextFinal}.");
+			}
 			if (soundsAreTyped)
 			{
 				PlayAudio(GetBodyTypeAudio(player), player);

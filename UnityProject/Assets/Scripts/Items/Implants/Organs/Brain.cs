@@ -7,6 +7,7 @@ using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 namespace Items.Implants.Organs
@@ -19,8 +20,6 @@ namespace Items.Implants.Organs
 
 		[SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
 		[SyncVar(hook = nameof(SyncPossessingID))] private uint possessingID;
-
-		public Pickupable Pickupable;
 
 		[SerializeField] private Reagent DrunkReagent;
 		[SerializeField] public float MaxDrunkAtPercentage = 0.06f;
@@ -50,10 +49,20 @@ namespace Items.Implants.Organs
 
 		public ReagentCirculatedComponent ReagentCirculatedComponent;
 
+		public UnityEvent OnDeath = new UnityEvent();
+		public UnityEvent OnRevival = new UnityEvent();
+
 		[RightClickMethod]
 		public void Possess()
 		{
-			PlayerManager.LocalMindScript.SetPossessingObject(this.gameObject);
+			if (isServer)
+			{
+				PlayerManager.LocalMindScript.SetPossessingObject(this.gameObject);
+			}
+			else
+			{
+				PlayerManager.LocalMindScript.CmdRequestPossess(this.gameObject.NetId());
+			}
 		}
 
 
@@ -78,13 +87,14 @@ namespace Items.Implants.Organs
 		public void OnDestroy()
 		{
 			Itself.PreImplementedOnDestroy();
+			OnDeath.RemoveAllListeners();
+			OnRevival.RemoveAllListeners();
 		}
 
 		//Ensure removal of brain
 
 		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
-
 			livingHealth.SetBrain(this);
 			Itself.SetPossessingObject(livingHealth.gameObject);
 
@@ -100,11 +110,19 @@ namespace Items.Implants.Organs
 			}
 
 			UpdateChatModifier(true);
+			livingHealth.OnDeath += DeathEvent;
+			livingHealth.OnRevive.AddListener(ReviveEvent);
 		}
 
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
-			livingHealth.SetBrain(null);
+			livingHealth.OnDeath -= DeathEvent;
+			livingHealth.OnRevive.RemoveListener(ReviveEvent);
+			if (livingHealth.brain == this)
+			{
+				livingHealth.SetBrain(null);
+			}
+
 			livingHealth.IsMute.RemovePosition(this);
 			Itself.SetPossessingObject(null);
 			UpdateChatModifier(false);
@@ -129,6 +147,8 @@ namespace Items.Implants.Organs
 		{
 			Camera.main.GetComponent<CameraEffectControlScript>().drunkCamera.SetDrunkStrength(newState);
 		}
+
+		public UnityEvent OnBodyUnPossesedByPlayer { get; set; }
 
 		public void SyncPossessingID(uint previouslyPossessing, uint currentlyPossessing)
 		{
@@ -259,6 +279,16 @@ namespace Items.Implants.Organs
 			}
 		}
 
+		private void DeathEvent()
+		{
+			OnDeath?.Invoke();
+		}
+
+		private void ReviveEvent()
+		{
+			OnRevival?.Invoke();
+		}
+
 		#region Mind_stuff
 
 		public GameObject GameObject => gameObject;
@@ -276,6 +306,7 @@ namespace Items.Implants.Organs
 		public Action OnActionControlPlayer { get; set; }
 
 		public Action OnActionPossess { get; set; }
+		public UnityEvent OnBodyPossesedByPlayer { get; set; }
 
 		public RegisterPlayer CurrentlyOn { get; set; }
 		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }

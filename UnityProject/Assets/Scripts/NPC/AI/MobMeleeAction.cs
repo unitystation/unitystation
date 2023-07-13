@@ -75,6 +75,7 @@ namespace Systems.MobAIs
 		public override void DoAction()
 		{
 			if(isOnCooldown) return;
+			if (objectPhysics.ContainedInObjectContainer != null) return;
 			base.DoAction();
 			var hitInfo = ValidateTarget();
 			if (hitInfo.ItHit == false)
