@@ -252,7 +252,7 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		return default;
 	}
 
-	private enum SwordColor
+	public enum SwordColor
 	{
 		Random = 0,
 		Red = 1,

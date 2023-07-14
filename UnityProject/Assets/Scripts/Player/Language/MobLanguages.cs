@@ -310,7 +310,7 @@ namespace Player.Language
 
 		#endregion
 
-		private struct NetworkLanguage
+		public struct NetworkLanguage
 		{
 			public ushort languageId;
 			public bool canUnderstand;

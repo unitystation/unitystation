@@ -632,7 +632,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 
 	[TargetRpc]
-	public void TargetRPCClientTilePush(NetworkConnectionToClient target, Vector2Int worldDirection, float speed,
+	public void TargetRPCClientTilePush(NetworkConnection target, Vector2Int worldDirection, float speed,
 		uint causedByClient, bool overridePull,
 		int timestampID, bool forced)
 	{

@@ -23,7 +23,7 @@ namespace Systems.Research
 		{
 			var objCenter = centeredAround.AssumedWorldPosServer().RoundToInt();
 			var players = Physics2D.OverlapCircleAll(objCenter.To2(), AuraRadius, LayerMask.NameToLayer("Player"));
-			
+
 			foreach (var player in players)
 			{
 				if (player.TryGetComponent<PlayerScript>(out var playerScript))
@@ -86,7 +86,7 @@ namespace Systems.Research
 				}
 
 				totalAnomalyArmour += Mathf.Clamp(bodyPartTotalArmour, 0, 100);
-				partCount++;					
+				partCount++;
 			}
 
 			if(partCount != 0) totalAnomalyArmour /= partCount;

@@ -425,7 +425,7 @@ namespace Objects.Research
 		}
 
 		[TargetRpc]
-		public void SpawnClientEffect(bool successful, Vector3 spawnDestination)
+		public void SpawnClientEffect(NetworkConnection target, bool successful, Vector3 spawnDestination)
 		{
 			var effect = Spawn.ClientPrefab(successful == true ? artifactPlayerTargetEffectSuccess : artifactPlayerTargetEffectFail, spawnDestination).GameObject;
 
