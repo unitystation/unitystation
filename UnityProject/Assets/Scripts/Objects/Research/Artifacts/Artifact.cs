@@ -76,7 +76,7 @@ namespace Objects.Research
 		[SerializeField]
 		private DamageEffectBase forceWallDamageEffectSO = null;
 		private bool forceWallDamageEffect = false;
-	
+
 
 
 		[SyncVar] public string ID = "T376";
@@ -425,7 +425,7 @@ namespace Objects.Research
 		}
 
 		[TargetRpc]
-		public void SpawnClientEffect(NetworkConnectionToClient target, bool successful, Vector3 spawnDestination)
+		public void SpawnClientEffect(bool successful, Vector3 spawnDestination)
 		{
 			var effect = Spawn.ClientPrefab(successful == true ? artifactPlayerTargetEffectSuccess : artifactPlayerTargetEffectFail, spawnDestination).GameObject;
 
