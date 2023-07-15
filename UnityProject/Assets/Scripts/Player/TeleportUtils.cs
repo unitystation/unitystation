@@ -20,20 +20,21 @@ namespace Systems.Teleport
 		/// <returns>TeleportInfo, with name, position and object</returns>
 		public static IEnumerable<TeleportInfo> GetMobDestinations()
 		{
-			var playerBodies = UnityEngine.Object.FindObjectsOfType(typeof(PlayerScript));
+			var playerBodies = Object.FindObjectsOfType<PlayerScript>(false);
 
 			if (playerBodies == null)//If list of PlayerScripts is empty dont run rest of code.
 			{
 				yield break;
 			}
 
-			var sortedStr = from name in playerBodies
+			IOrderedEnumerable<PlayerScript> sortedStr = from name in playerBodies
 				orderby name.name
 				select name;
 
 			foreach (PlayerScript player in sortedStr)
 			{
-				if (player == PlayerManager.LocalPlayerScript)
+				//Don't add to the list the same player consulting it and ghosts.
+				if (player == PlayerManager.LocalPlayerScript || player.IsGhost)
 				{
 					continue;
 				}
@@ -41,38 +42,18 @@ namespace Systems.Teleport
 				//Gets Name of Player
 				string nameOfObject = player.name;
 
-				if (player.gameObject.name.Length == 0 || player.gameObject.name == null)
+				if (string.IsNullOrEmpty(player.gameObject.name))
 				{
 					nameOfObject = "Spectator";
 				}
 
-				string status;
-				//Gets Status of Player
-				//TODO better way to do this
-				if (player.IsGhost)
+				var status = player.PlayerType switch
 				{
-					status = "(Ghost)";
-				}
-				else if (player.IsNormal)
-				{
-					status = player.playerHealth.IsDead ? "(Dead)" : "(Alive)";
-				}
-				else if (player.PlayerType == PlayerTypes.Ai)
-				{
-					status = "(Ai)";
-				}
-				else if (player.PlayerType == PlayerTypes.Blob)
-				{
-					status = "(Blob)";
-				}
-				else if (player.PlayerType == PlayerTypes.Alien)
-				{
-					status = $"(Alien) {(player.playerHealth.IsDead ? "(Dead)" : "(Alive)")}";
-				}
-				else
-				{
-					status = "(Cant tell if Dead/Alive or Ghost)";
-				}
+					PlayerTypes.Ai => "(Ai)",
+					PlayerTypes.Blob => "(Blob)",
+					PlayerTypes.Alien => $"(Alien) {(player.playerHealth.IsDead ? "(Dead)" : "(Alive)")}",
+					_ => player.playerHealth.IsDead ? "(Dead)" : "(Alive)"
+				};
 
 				//Gets Position of Player
 				player.UpdateLastSyncedPosition();
@@ -88,7 +69,7 @@ namespace Systems.Teleport
 		/// <returns>TeleportInfo, with name, position and object</returns>
 		public static IEnumerable<TeleportInfo> GetSpawnDestinations()
 		{
-			var placeGameObjects = UnityEngine.Object.FindObjectsOfType(typeof(SpawnPoint));
+			var placeGameObjects = Object.FindObjectsOfType<SpawnPoint>();
 
 			if (placeGameObjects == null)//If list of SpawnPoints is empty dont run rest of code.
 			{
