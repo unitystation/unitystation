@@ -48,6 +48,7 @@ namespace Player
 
 		private void CorrectState()
 		{
+			gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
 			if (disabled) return;
 			var state = IsLayingDown;
 			if (health != null)
