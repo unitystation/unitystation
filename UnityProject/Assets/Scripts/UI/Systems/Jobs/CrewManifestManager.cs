@@ -75,7 +75,7 @@ namespace Systems
 		{
 			CrewManifestEntry entry = new CrewManifestEntry()
 			{
-				Name = script.playerName,
+				Name = script.characterSettings.Name,
 				JobType = jobType,
 			};
 			CrewManifest.Add(entry);
