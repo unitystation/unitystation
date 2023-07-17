@@ -295,11 +295,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   InitialVendorContent: []
   HullColor: {r: 0.58431375, g: 0.58431375, b: 0.58431375, a: 1}
   EjectObjects: 0
   EjectDirection: 0
-  VendingSound:
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  isEmagged: 0
+  VendorContent: []
+  ActualCurrentPowerState: 2
+  vendingSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/MachineVend.prefab
     AssetReference:
@@ -307,12 +315,6 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  restockMessage: Items restocked.
-  noAccessMessage: Access denied!
-  isEmagged: 0
-  VendorContent: []
-  ActualCurrentPowerState: 2
-  DoesntRequirePower: 0
   ambientSoundWhileOn:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/AmbienceObjects/Amb VendingMacine Or Fridge.prefab
@@ -321,6 +323,7 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+  lightSprite: {fileID: 815363352763762453}
 --- !u!4 &9084847140033546432 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
