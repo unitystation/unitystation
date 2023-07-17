@@ -192,13 +192,15 @@ namespace Objects
 
 		public async Task Stop(bool autoplay = false)
 		{
-			if(autoplay == false) IsPlaying = false;
-
+			if (autoplay == false) IsPlaying = false;
 			if (integrity.integrity >= integrity.initialIntegrity / 2)
+			{
 				StartCoroutine(UpdateSprites(SpriteIdle));
+			}
 			else
+			{
 				StartCoroutine(UpdateSprites(SpriteDamaged));
-
+			}
 			await Task.Run(StopAllGuids);
 
 			UpdateGUI();
@@ -248,7 +250,7 @@ namespace Objects
 		{
 			if (integrity.integrity <= integrity.initialIntegrity / 2)
 			{
-				Stop();
+				_ = Stop();
 			}
 		}
 
