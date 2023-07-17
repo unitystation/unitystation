@@ -159,10 +159,11 @@ public class SoundManager : MonoBehaviour
 	/// <param name="global">Does everyone will receive the sound our just nearby players</param>
 	/// <param name="shakeParameters">Camera shake effect associated with this sound</param>
 	/// <param name="sourceObj">The object that is the source of the sound</param>
+	/// <param name="attachToSource">Sound follows the source object</param>
 	/// <returns>The SoundSpawn Token generated that identifies the same sound spawn instance across server and clients</returns>
 	public static async Task<string> PlayNetworkedAtPosAsync(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false, bool global = true,
-		ShakeParameters shakeParameters = new ShakeParameters(), GameObject sourceObj = null)
+		ShakeParameters shakeParameters = new ShakeParameters(), GameObject sourceObj = null, bool attachToSource = false)
 	{
 		if (addressableAudioSource == null || string.IsNullOrEmpty(addressableAudioSource.AssetAddress) ||
 			addressableAudioSource.AssetAddress == "null")
@@ -177,12 +178,12 @@ public class SoundManager : MonoBehaviour
 		if (global)
 		{
 			return PlaySoundMessage.SendToAll(addressableAudioSource, worldPos, polyphonic, sourceObj, shakeParameters,
-				audioSourceParameters);
+				audioSourceParameters, attachToSource);
 		}
 		else
 		{
 			return PlaySoundMessage.SendToNearbyPlayers(addressableAudioSource, worldPos, polyphonic, sourceObj,
-				shakeParameters, audioSourceParameters);
+				shakeParameters, audioSourceParameters, attachToSource);
 		}
 	}
 
@@ -416,7 +417,7 @@ public class SoundManager : MonoBehaviour
 	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
 	public static void PlayAtPositionAttached(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
 		GameObject gameObject, string soundSpawnToken,	bool polyphonic = false, bool isGlobal = false,
-		AudioSourceParameters audioSourceParameters = new AudioSourceParameters())
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool networked = false)
 	{
 		PlayAtPositionAttached(new List<AddressableAudioSource> {addressableAudioSource}, worldPos, gameObject,
 			soundSpawnToken, polyphonic, isGlobal, audioSourceParameters);
