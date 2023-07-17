@@ -102,14 +102,12 @@ namespace Doors
 				{
 					DoorAnimatorV2.AddPanelOverlay();
 					Chat.AddActionMsgToChat(interaction.Performer,
-						$"You unscrew the {gameObject.ExpensiveName()}'s cable panel.",
 						$"{interaction.Performer.ExpensiveName()} unscrews {gameObject.ExpensiveName()}'s cable panel.");
 				}
 				else
 				{
 					DoorAnimatorV2.RemovePanelOverlay();
 					Chat.AddActionMsgToChat(interaction.Performer,
-						$"You screw in the {gameObject.ExpensiveName()}'s cable panel.",
 						$"{interaction.Performer.ExpensiveName()} screws in {gameObject.ExpensiveName()}'s cable panel.");
 
 					//Force close net tab when panel is closed
