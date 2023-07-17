@@ -199,7 +199,7 @@ namespace Objects
 			else
 				StartCoroutine(UpdateSprites(SpriteDamaged));
 
-			if(guid.Count != 0) await Task.Run(() => StopAllGuids());
+			await Task.Run(StopAllGuids);
 
 			UpdateGUI();
 		}
