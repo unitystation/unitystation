@@ -27,9 +27,11 @@ namespace ConfigurationSaves
 			{
 				if (string.IsNullOrEmpty(CashedForkName))
 				{
-					var data = JsonConvert.DeserializeObject<BuiltFork>(Path.Combine(Application.streamingAssetsPath,
+					var path = Path.GetFullPath(Path.Combine(Application.streamingAssetsPath,
 						"Config",
-						"buildinfo.json.txt"));
+						"buildinfo.json"));
+					var txte = File.ReadAllText(path);
+					var data = JsonConvert.DeserializeObject<BuiltFork>(txte);
 					if (data == null)
 					{
 						CashedForkName = "Unitystation";
@@ -63,98 +65,121 @@ namespace ConfigurationSaves
 
 		private static readonly string[] AllowedExtensions = new[] {".txt", ".json", ".toml", ".yaml", ".data", ".log"};
 
-		private static string ValidatePath(string relativePath, AccessCategory accessCategory, bool userPersistent)
+		private static string ValidatePath(string relativePath, AccessCategory accessCategory, bool userPersistent,
+			bool CreateFile, bool AddExtension = true)
 		{
 			bool isAllowedExtension = false;
-
-			foreach (var allowedExtension in AllowedExtensions)
-			{
-				if (relativePath.EndsWith(allowedExtension))
-				{
-					isAllowedExtension = true;
-					break;
-				}
-			}
-
 			var extension = "";
-			if (isAllowedExtension == false)
+
+			if (AddExtension)
 			{
-				switch (accessCategory)
+				foreach (var allowedExtension in AllowedExtensions)
 				{
-					case AccessCategory.Config:
-						extension = ".txt";
+					if (relativePath.EndsWith(allowedExtension))
+					{
+						isAllowedExtension = true;
 						break;
-					case AccessCategory.Data:
-						extension = ".Data";
-						break;
-					case AccessCategory.Logs:
-						extension = ".log";
-						break;
+					}
 				}
+
+				if (isAllowedExtension == false)
+				{
+					switch (accessCategory)
+					{
+						case AccessCategory.Config:
+							extension = ".txt";
+							break;
+						case AccessCategory.Data:
+							extension = ".Data";
+							break;
+						case AccessCategory.Logs:
+							extension = ".log";
+							break;
+					}
+				}
+
 			}
 
 
 			if (userPersistent)
 			{
-				var resolvedPath = Path.GetFullPath(Path.Combine(Application.streamingAssetsPath, accessCategory.ToString(), relativePath + extension));
-				if (resolvedPath.StartsWith(Application.streamingAssetsPath) == false)
+				var resolvedPath = Path.GetFullPath(Path.Combine(Application.persistentDataPath, ForkName , accessCategory.ToString(), relativePath + extension));
+				if (resolvedPath.StartsWith(Path.GetFullPath(Path.Combine(Application.persistentDataPath, ForkName))) == false)
 				{
 					Logger.LogError($"Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
 					throw new Exception($"Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
 				}
+
+				if (File.Exists(resolvedPath) == false)
+				{
+					System.IO.Directory.CreateDirectory(resolvedPath);
+				}
+
+				if (CreateFile)
+				{
+					// Check if the file already exists
+					if (File.Exists(resolvedPath) == false)
+					{
+						// Create the file at the specified path
+						File.Create(resolvedPath).Close();
+					}
+				}
+
+
 				return resolvedPath;
 			}
 			else
 			{
-				var resolvedPath = Path.GetFullPath(Path.Combine(Application.persistentDataPath, ForkName ,accessCategory.ToString(), relativePath + extension));
-				if (resolvedPath.StartsWith(Application.persistentDataPath) == false)
+				var resolvedPath = Path.GetFullPath(Path.Combine(Application.streamingAssetsPath,accessCategory.ToString(), relativePath + extension));
+				if (resolvedPath.StartsWith(Path.GetFullPath(Application.streamingAssetsPath)) == false)
 				{
 					Logger.LogError($"Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
 					throw new Exception($"Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
 				}
+
+				if (File.Exists(resolvedPath) == false)
+				{
+					System.IO.Directory.CreateDirectory(resolvedPath);
+				}
+
+				if (CreateFile)
+				{
+					// Check if the file already exists
+					if (File.Exists(resolvedPath) == false)
+					{
+						// Create the file at the specified path
+						File.Create(resolvedPath).Close();
+					}
+				}
+
 
 				return resolvedPath;
 			}
 
 		}
 
+
 		public static void Save(string relativePath, string data, AccessCategory accessCategory = AccessCategory.Config, bool userPersistent = false)
 		{
-			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent);
+			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, true);
 			File.WriteAllText(resolvedPath, data);
 		}
 
 		public static string Load(string relativePath, AccessCategory accessCategory = AccessCategory.Config, bool userPersistent = false)
 		{
-			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent);
-			if (File.Exists(resolvedPath))
-			{
-				return File.ReadAllText(resolvedPath);
-			}
-			else
-			{
-				Logger.LogError($"Unable to load configuration {relativePath} It might be missing Used {resolvedPath} to try to find it ");
-				return null;
-			}
+			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, true);
+			return File.ReadAllText(resolvedPath);
 		}
 
 		public static string[] ReadAllLines(string relativePath, AccessCategory accessCategory = AccessCategory.Config, bool userPersistent = false)
 		{
-			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent);
-			if (File.Exists(resolvedPath))
-			{
-				return File.ReadAllLines(resolvedPath);
-			}
-			else
-			{
-				Logger.LogError($"Unable to load configuration {relativePath} It might be missing Used {resolvedPath} to try to find it ");
-				return null;
-			}
+			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, true);
+			return File.ReadAllLines(resolvedPath);
 		}
 
 		public static void WriteAllLines(string relativePath, string[] lines, AccessCategory accessCategory = AccessCategory.Config, bool userPersistent = false)
 		{
-			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent);
+			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, true);
 			File.WriteAllLines(resolvedPath, lines);
 		}
 
@@ -162,7 +187,7 @@ namespace ConfigurationSaves
 
 		public static bool Exists(string relativePath, AccessCategory accessCategory = AccessCategory.Config, bool userPersistent = false)
 		{
-			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent);
+			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, false);
 
 			if (File.Exists(resolvedPath))
 			{
@@ -176,7 +201,7 @@ namespace ConfigurationSaves
 		}
 		public static string[] Contents(string relativePath, AccessCategory accessCategory = AccessCategory.Config, bool userPersistent = false)
 		{
-			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent);
+			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, false, false);
 			var Directorys = new DirectoryInfo(resolvedPath);
 			return Directorys.GetFiles().Select(x => x.Name.Replace(".txt", "")).ToArray();
 		}
@@ -184,14 +209,14 @@ namespace ConfigurationSaves
 
 		public static void Delete(string relativePath, AccessCategory accessCategory = AccessCategory.Config, bool userPersistent = false)
 		{
-			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent);
+			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, true);
 			File.Delete(resolvedPath);
 		}
 
 
 		public static void AppendAllText(string relativePath, string data , AccessCategory accessCategory = AccessCategory.Config, bool userPersistent = false)
 		{
-			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent);
+			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, true);
 
 			File.AppendAllText(resolvedPath, data);
 		}
@@ -199,7 +224,7 @@ namespace ConfigurationSaves
 
 		public static void Write(byte[] data, string relativePath, AccessCategory accessCategory = AccessCategory.Config, bool userPersistent = false)
 		{
-			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent);
+			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, true);
 
 			byte[] DataSet = new byte[data.Length];
 			Array.Copy(data, DataSet, data.Length);
@@ -208,7 +233,7 @@ namespace ConfigurationSaves
 
 		public static byte[] Read(string relativePath, AccessCategory accessCategory = AccessCategory.Config, bool userPersistent = false)
 		{
-			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent);
+			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, true);
 
 			if (File.Exists(resolvedPath))
 			{
@@ -236,7 +261,7 @@ namespace ConfigurationSaves
 		public static void Watch(string relativePath, Action toInvoke ,  AccessCategory accessCategory = AccessCategory.Config,
 			bool userPersistent = false)
 		{
-			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent);
+			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, true);
 
 			if (CurrentlyWatchingFile.ContainsKey(resolvedPath) == false)
 			{

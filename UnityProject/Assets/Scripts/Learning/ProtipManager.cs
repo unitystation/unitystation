@@ -21,7 +21,7 @@ namespace Learning
 
 		private readonly Queue<QueueTipData> queuedTips = new Queue<QueueTipData>();
 		private string jsonPath;
-		private readonly string jsonFileName = "/protips.json";
+		private readonly string jsonFileName = "protips.json";
 		private const int JSON_EMPTY_LIST = 5;
 
 		public enum ExperienceLevel
