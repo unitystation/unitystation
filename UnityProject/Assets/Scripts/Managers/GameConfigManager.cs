@@ -25,7 +25,7 @@ namespace GameConfig
 
 		private void AttemptConfigLoad()
 		{
-			var path = Path.Combine( "config", "gameConfig.json");
+			var path = "gameConfig.json";
 
 			if (AccessFile.Exists(path))
 			{
