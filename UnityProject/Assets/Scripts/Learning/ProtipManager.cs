@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using ConfigurationSaves;
 using Managers;
 using NaughtyAttributes;
 using Newtonsoft.Json;
@@ -37,7 +37,7 @@ namespace Learning
 		public override void Awake()
 		{
 			base.Awake();
-			jsonPath = Application.persistentDataPath + jsonFileName;
+			jsonPath = jsonFileName;
 			var experience = PlayerPrefs.GetInt("Learning/ExperienceLevel", -1);
 			if(experience == -1)
 			{
@@ -74,9 +74,9 @@ namespace Learning
 
 		private void UpdateRecordedTips()
 		{
-			if (File.Exists(jsonPath) == false || File.ReadAllText(jsonPath).Length <= JSON_EMPTY_LIST) return;
+			if (AccessFile.Exists(jsonPath, userPersistent : true) == false || AccessFile.Load(jsonPath, userPersistent : true).Length <= JSON_EMPTY_LIST) return;
 			var newList =
-				JsonConvert.DeserializeObject<Dictionary<string, bool>>(File.ReadAllText(jsonPath))
+				JsonConvert.DeserializeObject<Dictionary<string, bool>>(AccessFile.Load(jsonPath, userPersistent : true))
 				?? new Dictionary<string, bool>();
 			ProtipSaveStates = newList;
 		}
@@ -84,13 +84,13 @@ namespace Learning
 		private void SaveProtipSaveStates()
 		{
 			var newData = JsonConvert.SerializeObject(ProtipSaveStates, Formatting.Indented);
-			File.WriteAllText(jsonPath, newData);
+			AccessFile.Save(jsonPath, newData, userPersistent: true);
 		}
 
 		public void ClearSaveState()
 		{
 			ProtipSaveStates.Clear();
-			File.WriteAllText(jsonPath, "");
+			AccessFile.Save(jsonPath, "", userPersistent: true);
 		}
 
 		public void ShowListUI()

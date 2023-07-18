@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using ConfigurationSaves;
 using Newtonsoft.Json;
 using UnityEngine;
 using DatabaseAPI;
@@ -23,7 +23,7 @@ namespace Systems.Character
 		/// <summary>Get the active character (the character the rest of the game should use).</summary>
 		public CharacterSheet ActiveCharacter => Get(ActiveCharacterKey);
 
-		private string OfflineStoragePath => $"{Application.persistentDataPath}characters.json";
+		private string OfflineStoragePath => $"characters.json";
 
 		public void Init()
 		{
@@ -166,9 +166,9 @@ namespace Systems.Character
 		{
 			Characters.Clear();
 
-			if (File.Exists(OfflineStoragePath) == false) return;
+			if (AccessFile.Exists(OfflineStoragePath, userPersistent: true) == false) return;
 
-			string json = File.ReadAllText(OfflineStoragePath);
+			string json = AccessFile.Load(OfflineStoragePath, userPersistent: true);
 
 			var characters = JsonConvert.DeserializeObject<List<CharacterSheet>>(json);
 
@@ -209,12 +209,12 @@ namespace Systems.Character
 					? ""
 					: JsonConvert.SerializeObject(Characters, settings);
 
-			if (File.Exists(OfflineStoragePath))
+			if (AccessFile.Exists(OfflineStoragePath, userPersistent: true))
 			{
-				File.Delete(OfflineStoragePath);
+				AccessFile.Delete(OfflineStoragePath, userPersistent: true);
 			}
 
-			File.WriteAllText(OfflineStoragePath, json);
+			AccessFile.Save(OfflineStoragePath, json, userPersistent: true);
 		}
 
 		public bool ValidateCharacterSheet(CharacterSheet character)

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using Items.Storage.VirtualStorage;
 using Mirror;
 using UnityEngine;
 using Systems.Research.Data;
 using Shared.Systems.ObjectConnection;
 using Random = UnityEngine.Random;
-using System.IO;
 
 namespace Systems.Research.Objects
 {

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 using AddressableReferences;
 using UnityEngine;
@@ -569,11 +568,7 @@ namespace AdminCommands
 			if (IsAdmin(sender, out _) == false) return;
 			if (ProfileManager.runningProfile || ProfileManager.runningMemoryProfile) return;
 
-			string path = Directory.GetCurrentDirectory() + "/Profiles/" + profileName;
-			if (File.Exists(path))
-			{
-				File.Delete(path);
-			}
+			ProfileManager.Instance.RemoveProfile(profileName);
 
 			ProfileMessage.SendToApplicable();
 		}

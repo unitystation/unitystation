@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using ConfigurationSaves;
 using Mirror;
 using UnityEngine;
 using DatabaseAPI;
@@ -82,23 +83,17 @@ namespace AdminTools
 				return;
 			}
 
-			var chatlogDir = Path.Combine(Application.streamingAssetsPath, "chatlogs");
-			if (!Directory.Exists(chatlogDir))
-			{
-				Directory.CreateDirectory(chatlogDir);
-			}
+			var chatlogDir = "chatlogs";
 
 			var filePath = Path.Combine(chatlogDir, $"{playerId}.txt");
 
-			if (!File.Exists(filePath))
+			if (AccessFile.Exists(filePath, AccessCategory.Logs) == false)
 			{
-				var stream = File.Create(filePath);
-				stream.Close();
 				string header = $"Username: {player.Username} Character Name: {player.Name} \r\n" +
 				                $"IsAntag: {PlayerList.Instance.AntagPlayers.Contains(player)}  role: {player.Job} \r\n" +
 				                $"-----Chat Log----- \r\n" +
 				                $" \r\n";
-				File.AppendAllText(filePath, header);
+				AccessFile.AppendAllText(filePath, header, AccessCategory.Logs);
 			}
 
 			string entryName = player.Name;
@@ -109,7 +104,7 @@ namespace AdminTools
 
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminURL, entry.Message, entryName);
 
-			File.AppendAllText(filePath, $"[{DateTime.Now.ToString("O")}] {entryName}: {entry.Message}");
+			AccessFile.AppendAllText(filePath, $"[{DateTime.Now.ToString("O")}] {entryName}: {entry.Message}", AccessCategory.Logs);
 		}
 
 		public void ServerGetUnreadMessages(string playerId, int currentCount, NetworkConnection requestee)

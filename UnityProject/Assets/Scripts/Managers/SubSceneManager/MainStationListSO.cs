@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using ConfigurationSaves;
 using UnityEngine;
 using NaughtyAttributes;
 using UnityEngine.SceneManagement;
@@ -16,13 +16,11 @@ public class MainStationListSO : ScriptableObject
 
 	public string GetRandomMainStation()
 	{
-		var mapConfigPath = Path.Combine(Application.streamingAssetsPath, "maps.json");
+		var mapConfigPath = "maps.json";
 
-		if (File.Exists(mapConfigPath))
+		if (AccessFile.Exists(mapConfigPath))
 		{
-			var maps = JsonUtility.FromJson<MapList>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath,
-				"maps.json")));
-
+			var maps = JsonUtility.FromJson<MapList>(AccessFile.Load("maps.json"));
 			return maps.GetRandomMap();
 		}
 
@@ -39,12 +37,11 @@ public class MainStationListSO : ScriptableObject
 
 	public List<string> GetMaps()
 	{
-		var mapConfigPath = Path.Combine(Application.streamingAssetsPath, "maps.json");
+		var mapConfigPath =  "maps.json";
 
-		if (File.Exists(mapConfigPath))
+		if (AccessFile.Exists(mapConfigPath))
 		{
-			var maps = JsonUtility.FromJson<MapList>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath,
-				"maps.json")));
+			var maps = JsonUtility.FromJson<MapList>(AccessFile.Load(mapConfigPath));
 
 			return maps.highPopMaps.Union(maps.medPopMaps).Union(maps.lowPopMaps).ToList();
 		}

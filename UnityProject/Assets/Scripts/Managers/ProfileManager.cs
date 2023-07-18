@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using AdminTools;
 using Messages.Server.AdminTools;
 using Shared.Util;
 using UnityEngine.Profiling;
@@ -94,5 +96,34 @@ public class ProfileManager : MonoBehaviour
 	{
 		runningMemoryProfile = false;
 		UpdateManager.Instance.Profile = false;
+	}
+
+	public List<ProfileEntryData> GetCurrentProfiles()
+	{
+		var profileList = new List<ProfileEntryData>();
+		var info = new DirectoryInfo("Profiles");
+
+		if (!info.Exists)
+			return profileList;
+
+		var fileInfo = info.GetFiles();
+		foreach (var file in fileInfo)
+		{
+			var entry = new ProfileEntryData();
+			entry.Name = file.Name;
+			var size = (float)file.Length / 1048576; // 1048576 = 1024 * 1024
+			entry.Size = System.Math.Round(size, 2) + " MB";
+			profileList.Add(entry);
+		}
+		return profileList;
+	}
+
+	public void RemoveProfile(string profileName)
+	{
+		string path = Directory.GetCurrentDirectory() + "/Profiles/" + profileName;
+		if (File.Exists(path))
+		{
+			File.Delete(path);
+		}
 	}
 }

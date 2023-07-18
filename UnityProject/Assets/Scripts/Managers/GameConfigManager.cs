@@ -1,6 +1,7 @@
 ﻿using System;
-using UnityEngine;
 using System.IO;
+using ConfigurationSaves;
+using UnityEngine;
 using Shared.Managers;
 
 namespace GameConfig
@@ -24,11 +25,11 @@ namespace GameConfig
 
 		private void AttemptConfigLoad()
 		{
-			var path = Path.Combine(Application.streamingAssetsPath, "config", "gameConfig.json");
+			var path = Path.Combine( "config", "gameConfig.json");
 
-			if (File.Exists(path))
+			if (AccessFile.Exists(path))
 			{
-				config = JsonUtility.FromJson<GameConfig>(File.ReadAllText(path));
+				config = JsonUtility.FromJson<GameConfig>(AccessFile.Load(path));
 			}
 		}
 	}

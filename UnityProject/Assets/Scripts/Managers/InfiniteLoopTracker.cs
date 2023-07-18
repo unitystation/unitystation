@@ -1,7 +1,7 @@
 ﻿using System;
-using System.IO;
 using System.Text;
 using System.Threading;
+using ConfigurationSaves;
 using Initialisation;
 using Mirror;
 using Mirror.RemoteCalls;
@@ -14,7 +14,6 @@ namespace Managers
 	public class InfiniteLoopTracker : SingletonManager<InfiniteLoopTracker>
 	{
 		private Thread thread;
-		private StreamWriter streamWriter;
 
 		private int frameNumber;
 
@@ -32,8 +31,8 @@ namespace Managers
 	        base.Start();
 	        thread = new Thread (OverwatchMainThread);
 	        thread.Start();
-	        Directory.CreateDirectory("Logs");
-	        streamWriter = File.AppendText("Logs/InfiniteLoopTracker.txt");
+	        AccessFile.Delete("InfiniteLoopTracker.txt",AccessCategory.Logs);
+	        AccessFile.AppendAllText("InfiniteLoopTracker.txt", "", AccessCategory.Logs);
         }
 
         private void OnEnable()
@@ -43,11 +42,7 @@ namespace Managers
 
         private void OnDisable()
         {
-	        if (streamWriter != null)
-	        {
-		        streamWriter.Close();
-		        thread.Abort();
-	        }
+	        thread.Abort();
 	        UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
         }
 
@@ -160,8 +155,7 @@ namespace Managers
         private void Log(string aText)
         {
 	        Debug.LogError(aText); //in case of case positives we make a normal log
-            streamWriter.WriteLine(aText);
-            streamWriter.Flush();
+	        AccessFile.AppendAllText("InfiniteLoopTracker.txt", aText);
         }
 	}
 }

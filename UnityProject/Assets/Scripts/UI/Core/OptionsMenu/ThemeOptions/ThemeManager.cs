@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using AddressableReferences;
+using ConfigurationSaves;
 using Initialisation;
 using Shared.Util;
 using UnityEngine;
 using UnityEngine.UI;
 using Util;
 using YamlDotNet.RepresentationModel;
+using YamlDotNet.Serialization;
 
 namespace Unitystation.Options
 {
@@ -30,12 +32,12 @@ namespace Unitystation.Options
         //Add the root folder paths for each config type here:
         private static string[] folderPaths = new string[] { "ChatBubbleThemes" };
         //Directory info list of each folder path
-        private List<DirectoryInfo> diPaths = new List<DirectoryInfo>();
+        private List<string> diPaths = new List<string>();
         private Dictionary<ThemeType, List<ThemeHandler>> handlers = new Dictionary<ThemeType, List<ThemeHandler>>();
         //In case there are any hold ups with initialization, do init work via a queue
         private Queue<ThemeHandler> themeSetQueue = new Queue<ThemeHandler>();
         //All the loaded configs:
-        private Dictionary<ThemeType, List<ThemeConfig>> configs = new Dictionary<ThemeType, List<ThemeConfig>>();
+        private Dictionary<ThemeType, List<ThemeConfig>> Setconfigs = new Dictionary<ThemeType, List<ThemeConfig>>();
         //The theme the player has chosen to use:
         public Dictionary<ThemeType, ThemeConfig> chosenThemes = new Dictionary<ThemeType, ThemeConfig>();
         //Set to true when all the themes have been successfully loaded
@@ -55,7 +57,7 @@ namespace Unitystation.Options
 	        diPaths.Clear();
 	        foreach (string p in folderPaths)
 	        {
-		        diPaths.Add(new DirectoryInfo(Path.Combine(Application.streamingAssetsPath, $"Themes/{p}")));
+		        diPaths.Add(Path.Combine(Application.streamingAssetsPath, $"Themes/{p}"));
 	        }
 
 	        LoadAllThemes();
@@ -162,9 +164,9 @@ namespace Unitystation.Options
         public static List<string> GetThemeOptions(ThemeType themeType)
         {
             var list = new List<string>();
-            if (Instance.configs.ContainsKey(themeType))
+            if (Instance.Setconfigs.ContainsKey(themeType))
             {
-                foreach (ThemeConfig config in Instance.configs[themeType])
+                foreach (ThemeConfig config in Instance.Setconfigs[themeType])
                 {
                     list.Add(config.themeName);
                 }
@@ -183,24 +185,24 @@ namespace Unitystation.Options
         [ContextMenu("Load All Configs")]
         public void LoadAllThemes()
         {
-            configs.Clear();
+            Setconfigs.Clear();
 
-            foreach (DirectoryInfo di in diPaths)
+            foreach (string di in diPaths)
             {
-                if (di.Exists)
+                if (AccessFile.Exists(di, userPersistent: true))
                 {
-                    var files = di.GetFiles();
-                    foreach (FileInfo file in files)
+	                var files = AccessFile.Contents(di, userPersistent: true);
+                    foreach (string file in files)
                     {
-                        if (file.Extension.Equals(".yaml", System.StringComparison.OrdinalIgnoreCase))
+                        if (file.EndsWith(".yaml"))
                         {
-                            LoadThemeFile(file);
+                            LoadThemeFile(AccessFile.Load(Path.Combine(di, file), userPersistent: true));
                         }
                     }
                 }
                 else
                 {
-                    Logger.LogError($"Theme folder not found: {di.FullName}", Category.Themes);
+                    Logger.LogError($"Theme folder not found: {di}", Category.Themes);
                 }
             }
 
@@ -211,14 +213,21 @@ namespace Unitystation.Options
         }
 
         //Loads one theme file into the config dictionary
-        void LoadThemeFile(FileInfo file)
+        void LoadThemeFile(string data)
         {
-            var config = file.OpenText();
-            var yaml = new YamlStream();
-            yaml.Load(config);
 
-            //Examine the yaml file:
-            var mapping = (YamlMappingNode) yaml.Documents[0].RootNode;
+	        string yamlString = "your YAML string goes here";
+
+	        var deserializer = new DeserializerBuilder().Build();
+	        var yamlStream = new YamlStream();
+
+	        using (var reader = new StringReader(yamlString))
+	        {
+		        yamlStream.Load(reader);
+	        }
+
+	        //Examine the yaml file:all gold dust buckets this all or
+            var mapping = (YamlMappingNode) yamlStream.Documents[0].RootNode;
             foreach (var entry in mapping.Children)
             {
                 var nodeName = ((YamlScalarNode) entry.Key).Value;
@@ -232,9 +241,9 @@ namespace Unitystation.Options
                 //Get the theme type from the node name
                 ThemeType theme = (ThemeType) Enum.Parse(typeof(ThemeType), nodeName, true);
                 //See if we have a list set up for this theme type
-                if (!configs.ContainsKey(theme))
+                if (!Setconfigs.ContainsKey(theme))
                 {
-                    configs.Add(theme, new List<ThemeConfig>());
+                    Setconfigs.Add(theme, new List<ThemeConfig>());
                 }
 
                 //Get all the config names and their settings associated with this Theme type in this file
@@ -246,7 +255,7 @@ namespace Unitystation.Options
                     cfg.themeName = ((YamlScalarNode) c.Key).Value;
 
                     //check to see if that name is already in use:
-                    var index = configs[theme].FindIndex(x => x.themeName == cfg.themeName);
+                    var index = Setconfigs[theme].FindIndex(x => x.themeName == cfg.themeName);
                     if (index == -1)
                     {
                         //Get all the setting values for this config
@@ -270,7 +279,7 @@ namespace Unitystation.Options
                                 }
                             }
                         }
-                        configs[theme].Add(cfg);
+                        Setconfigs[theme].Add(cfg);
                     }
                     else
                     {
@@ -301,20 +310,20 @@ namespace Unitystation.Options
         /// </summary>
         public static void SetPreferredTheme(ThemeType themeType, string themeName)
         {
-            if (!Instance.configs.ContainsKey(themeType))
+            if (!Instance.Setconfigs.ContainsKey(themeType))
             {
                 Logger.LogError($"Theme Type {themeType} not found in ThemeManager", Category.Themes);
                 return;
             }
 
-            var index = Instance.configs[themeType].FindIndex(x => string.Equals(x.themeName, themeName, StringComparison.OrdinalIgnoreCase));
+            var index = Instance.Setconfigs[themeType].FindIndex(x => string.Equals(x.themeName, themeName, StringComparison.OrdinalIgnoreCase));
             if (index == -1)
             {
                 Logger.LogError($"Theme not found {themeName}", Category.Themes);
                 return;
             }
 
-            Instance.SetPreferredTheme(themeType, Instance.configs[themeType][index]);
+            Instance.SetPreferredTheme(themeType, Instance.Setconfigs[themeType][index]);
         }
 
         //Update the chosenThemes dictionary with the preferred theme
