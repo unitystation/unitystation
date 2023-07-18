@@ -9,11 +9,6 @@ using UnityEngine;
 namespace ConfigurationSaves
 {
 	//TODO Directory.CreateDirectory(Application.persistentDataPath + Path);
-	//TODO logs Entry
-	//same for files
-
-	//sing __ System.IO
-
 	public enum AccessCategory
 	{
 		Config,
