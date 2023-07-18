@@ -57,7 +57,7 @@ namespace Unitystation.Options
 	        diPaths.Clear();
 	        foreach (string p in folderPaths)
 	        {
-		        diPaths.Add(Path.Combine(Application.streamingAssetsPath, $"Themes/{p}"));
+		        diPaths.Add($"Themes/{p}");
 	        }
 
 	        LoadAllThemes();
