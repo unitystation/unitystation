@@ -72,6 +72,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 	public FloorSounds StepSound; //Why is this on the mind!!!, Should be on the body
 	public FloorSounds SecondaryStepSound;
 
+	private string pdaUplinkCode = "";
 
 	// Current way to check if it's not actually a ghost but a spectator, should set this not have it be the below.
 
@@ -759,10 +760,43 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 				//Send Uplink code
 				Chat.AddExamineMsgFromServer(playerMob, $"PDA uplink code retrieved: {PDA.UplinkUnlockCode}");
+				pdaUplinkCode = PDA.UplinkUnlockCode;
 				//TODO Store same place as objectives it's Dumb being here,
 				//Means you can View the code of Any PDA If you're an antagonist
 			}
 		}
+	}
+
+	public string GetObjectives()
+	{
+		var objectives = "";
+		if (IsAntag == false) return "";
+		var playerMob = GetCurrentMob();
+
+		//Send Objectives
+		objectives += antag.GetObjectivesForPlayer();
+
+		if (playerMob.TryGetComponent<PlayerScript>(out var body) == false) return "";
+		if (antag.Antagonist.AntagJobType == JobType.TRAITOR || antag.Antagonist.AntagJobType == JobType.SYNDICATE || antag.Antagonist is BloodBrother)
+		{
+			string codeWordsString = "\nCode Words:";
+			for (int i = 0; i < CodeWordManager.WORD_COUNT; i++)
+			{
+				codeWordsString += $"\n-{CodeWordManager.Instance.Words[i]}";
+			}
+
+			codeWordsString += "\nResponses:";
+			for (int i = 0; i < CodeWordManager.WORD_COUNT; i++)
+			{
+				codeWordsString += $"\n-{CodeWordManager.Instance.Responses[i]}";
+			}
+
+			objectives += codeWordsString;
+			//Chat.AddExamineMsgFromServer(playerMob, codeWordsString);
+
+			objectives += $"\nPDA uplink code retrieved:{pdaUplinkCode}";
+		}
+		return objectives;
 	}
 
 	/// <summary>

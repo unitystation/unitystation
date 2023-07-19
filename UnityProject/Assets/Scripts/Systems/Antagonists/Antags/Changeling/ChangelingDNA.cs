@@ -14,35 +14,46 @@ namespace Changeling
 	{
 		private ChangelingMain changelingOwner = null;
 		public ChangelingMain ChangelingOwner => changelingOwner;
-		private PlayerScript playerData = null;
-		public PlayerScript PlayerData => playerData;
 		[SyncVar] private CharacterSheet characterSheet;
 		public CharacterSheet CharacterSheet => characterSheet;
-		[SyncVar] private string dnaID;
-		public string DnaID => dnaID;
-		[SerializeField] private Sprite preview;
-		//public Sprite Preview => preview;
+		[SyncVar] private int dnaID;
+		public int DnaID => dnaID;
 		[SyncVar] List<string> bodyClothesPrefabID = new ();
 		public List<string> BodyClothesPrefabID => bodyClothesPrefabID;
 
+		[SyncVar] private string playerName = "";
+		public string PlayerName => playerName;
+
+		[SyncVar] private JobType job;
+		public JobType Job => job;
+
+		[SyncVar] private string objectives;
+		public string Objectives => objectives;
+
 		public void FormDNA(PlayerScript playerDataForDNA, ChangelingMain changelingOwnerSet)
 		{
-			playerData = playerDataForDNA;
-
 			foreach (var clothe in playerDataForDNA.Mind.Body.playerSprites.clothes)
 			{
 				if (clothe.Value.GameObjectReference != null)
 				{
 					bodyClothesPrefabID.Add(clothe.Value.GameObjectReference.GetComponent<PrefabTracker>().ForeverID);
-					// how to get object
 					// var obj = CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[clothe.Value.GameObjectReference.GetComponent<PrefabTracker>().ForeverID]; 
 				}
 			}
 
 			//dnaID = playerData.Mind.Body.netId;
-			dnaID = playerData.Mind.Body.GetComponent<PrefabTracker>().ForeverID;
-			characterSheet = (CharacterSheet)playerData.characterSettings.Clone();
+			playerName = playerDataForDNA.playerName;
+			dnaID = playerDataForDNA.Mind.bodyMobID;
+			characterSheet = (CharacterSheet)playerDataForDNA.Mind.CurrentCharacterSettings.Clone();
 			changelingOwner = changelingOwnerSet;
+			try
+			{
+				job = playerDataForDNA.PlayerInfo.Job;
+			} catch
+			{
+				job = JobType.ASSISTANT;
+				Logger.LogError("When creating DNA can`t find target job", Category.Changeling);
+			}
 		}
 
 		public void UpdateDNA(PlayerScript playerDataForDNA, ChangelingMain changelingOwnerSet)
@@ -55,7 +66,7 @@ namespace Changeling
 					bodyClothesPrefabID.Add(clothe.Value.GameObjectReference.GetComponent<PrefabTracker>().ForeverID);
 			}
 
-			characterSheet = (CharacterSheet)playerData.characterSettings.Clone();
+			characterSheet = (CharacterSheet)playerDataForDNA.characterSettings.Clone();
 			changelingOwner = changelingOwnerSet;
 		}
 	}

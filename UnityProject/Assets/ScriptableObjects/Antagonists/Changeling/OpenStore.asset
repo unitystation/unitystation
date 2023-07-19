@@ -17,7 +17,7 @@ MonoBehaviour:
   callOnClient: 1
   callOnServer: 0
   actionName: Store
-  description: Store for getting abilities
+  description: Store for getting abilities.
   Sprites:
   - {fileID: 11400000, guid: f8e49ceef9665c24aa095a39253103ee, type: 2}
   Backgrounds:
@@ -29,23 +29,42 @@ MonoBehaviour:
   cursorTexture: {fileID: 0}
   cursorOffsetType: 0
   cursorOffset: {x: 0, y: 0}
+  descriptionStore: 
   abilityEPCost: 0
   abilityChemCost: 0
+  castSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   canBeReseted: 0
   startAbility: 1
-  abilityUsedOnStart: 0
-  singleUseAbility: 0
   isSlowingChemRegeneration: 0
   isStopingChemRegeneration: 0
   isLocal: 1
-  dnaPrefab: {fileID: 4453983217321577311, guid: a8ea5e28fa87eb5408a30762618f4895,
-    type: 3}
   showInStore: 0
+  canBeUsedWhileInCrit: 0
+  swithedToOnWhenInCrit: 0
+  swithedToOffWhenExitCrit: 0
+  cooldownWhenToggled: 0
+  drawCostWhenToggledOn: 0
+  drawCostWhenToggledOff: 0
+  showInActions: 1
   cooldown: 1
+  expandedNightVisionVisibility: {x: 25, y: 25, z: 42}
+  defaultvisibilityAnimationSpeed: 1.25
+  revertvisibilityAnimationSpeed: 0.2
+  stingTime: 4
+  reagent: {fileID: 0}
+  reagentCount: 25
   abilityType: 3
   stingType: 0
   healType: 0
   transformType: 0
-  miscType: 2
+  useAfterChoise: {fileID: 0}
+  miscType: 1
   abilityImplementation: {fileID: 1515064019581797830, guid: 5722bf93b0593b44caafd2931b25840d,
     type: 3}

@@ -1,10 +1,14 @@
+using Chemistry.Components;
 using Clothing;
 using GameModes;
 using HealthV2;
 using Items;
 using Items.Implants.Organs;
+using Items.Others;
+using Items.PDA;
 using Mirror;
 using Newtonsoft.Json;
+using Objects.Atmospherics;
 using Shared.Editor;
 using System;
 using System.Collections;
@@ -15,46 +19,56 @@ using System.Net;
 using System.Text;
 using Systems.Character;
 using Systems.Clothing;
+using UI;
+using UI.Action;
 using UI.CharacterCreator;
 using UI.Core.Action;
 using UnityEngine;
+using UnityEngine.Events;
 using Util;
 
 namespace Changeling
 {
-	public class ChangelingMain : NetworkBehaviour, IOnPlayerPossess,
-			IOnPlayerRejoin, IOnPlayerLeaveBody, IServerActionGUIMulti
+	[DisallowMultipleComponent]
+	public class ChangelingMain : NetworkBehaviour, IServerActionGUIMulti
 	{
 		[Header("Changeling main")]
-		[SerializeField] [SyncVar] private float chem = 25;
+		[SyncVar (hook = nameof(SyncChemCount))] private float chem = 25;
 		public float Chem => chem;
+		[SyncVar(hook = nameof(SyncMindID))] private uint changelingMindID = 0;
 		[SyncVar] private float chemMax = 75;
-		private const float chemAddPerTimeConst = 1;
-		[SyncVar] private float chemAddPerTime = chemAddPerTimeConst;
-		private const float chemAddTimeBase = 2;
-		private const float chemAddTimeBaseSlowedAdd = 1;
-		[SyncVar] private float chemAddTime = chemAddTimeBase;
+		[SyncVar] private float chemAddPerTime = CHEM_ADD_PER_TIME;
+		[SyncVar] private float chemAddTime = CHEM_ADD_TIME_BASE;
 		public int ExtractedDNA => changelingDNAs.Count;
-		private const int maxLastExtractedDNA = 7;
 
 		[SyncVar] private int resetCount = 0;
 		[SyncVar] private int resetCountMax = 1;
+
+		[SyncVar] private int absorbCount = 0;
+		public int AbsorbCount => absorbCount;
 		public int ResetsLeft => resetCountMax - resetCount;
 
-		[SerializeField] [SyncVar] private List<ChangelingDNA> changelingDNAs = new List<ChangelingDNA>();
+		[SyncVar] private List<ChangelingDNA> changelingDNAs = new List<ChangelingDNA>();
+		[SyncVar] private List<ChangelingMemories> changelingMemories = new List<ChangelingMemories>();
+		public List<ChangelingMemories> ChangelingMemories => changelingMemories;
+
+		public bool isFakingDeath = false;
+
+		public ChangelingDNA currentDNA;
+
 		public List<ChangelingDNA> ChangelingDNAs => new List<ChangelingDNA>(changelingDNAs);
 		public List<ChangelingDNA> ChangelingLastDNAs
 		{
 			get
 			{
-				return ChangelingDNAs.Skip(changelingDNAs.Count - maxLastExtractedDNA).ToList();
+				return ChangelingDNAs.Skip(changelingDNAs.Count - MAX_LAST_EXTRACTED_DNA_FOR_TRANSFORM).ToList();
 			}
 		}
-		public List<string> ChangelingDNAsID
+		public List<int> ChangelingDNAsID
 		{
 			get
 			{
-				var dNAsIDs = new List<string>();
+				var dNAsIDs = new List<int>();
 				foreach (var x in changelingDNAs)
 				{
 					dNAsIDs.Add(x.DnaID);
@@ -75,7 +89,7 @@ namespace Changeling
 				return forRemove;
 			}
 		}
-		[SyncVar] private int evolutionPoints = 10;
+		[SyncVar(hook = nameof(SyncEPCount))] private int evolutionPoints = 10;
 		public int EvolutionPoints => evolutionPoints;
 
 		private List<ChangelingData> abilitiesToBuy = new List<ChangelingData>();
@@ -97,8 +111,8 @@ namespace Changeling
 		}
 		public List<ChangelingData> AllAbilities => ChangelingAbilityList.Instance.Abilites;
 
-		private UI_Changeling ui;
-		public UI_Changeling Ui => ui;
+		private UI_Changeling uiChangeling;
+		public UI_Changeling Ui => uiChangeling;
 		private Mind changelingMind;
 		public Mind ChangelingMind => changelingMind;
 
@@ -108,241 +122,19 @@ namespace Changeling
 
 		private int tickTimer = 0;
 
-		public string newNameTest;
-		public string charSetTest;
-
-		[ContextMenu("TESTRENAME")]
-		private void TESTRENAME()
-		{
-			PlayerScript body = changelingMind.Body;
-			CharacterSheet characterSheet = JsonConvert.DeserializeObject<CharacterSheet>(charSetTest);
-
-			body.visibleName = characterSheet.Name;
-			body.playerName = characterSheet.Name;
-
-			body.playerSprites.ThisCharacter = characterSheet;
-			body.GetComponent<PlayerScript>().characterSettings = characterSheet;
-			body.characterSettings = characterSheet;
-			body.PlayerInfo.Name = characterSheet.Name;
-			body.PlayerInfo.RequestedCharacterSettings = characterSheet;
-			body.Mind.CurrentCharacterSettings = characterSheet;
-			body.Mind.name = characterSheet.Name;
-		}
-
-		[ContextMenu("TESTTRANSFORMATIONTOSHEET")]
-		private void TESTTRANSFORMATIONTOSHEET()
-		{
-			PlayerScript body = changelingMind.Body;
-
-			CharacterSheet characterSheet = JsonConvert.DeserializeObject<CharacterSheet>(charSetTest);
-			body.visibleName = characterSheet.Name;
-			body.playerName = characterSheet.Name;
-
-			body.characterSettings = characterSheet;
-
-			var playerSprites = body.playerSprites;
-
-			PlayerHealthData raceBodyparts = characterSheet.GetRaceSoNoValidation();
-
-			ColorUtility.TryParseHtmlString(characterSheet.SkinTone, out var bodyColor);
-
-			foreach (var part in body.playerHealth.SurfaceBodyParts)
-			{
-				
-			}
-
-			List<DNAMutationData> dataForMutations = new List<DNAMutationData>();
-
-			DNAMutationData dataForMutation = new DNAMutationData();
-
-			DNAMutationData.DNAPayload payload = new DNAMutationData.DNAPayload();
-
-			payload.SpeciesMutateTo = raceBodyparts;
-			payload.MutateToBodyPart = raceBodyparts.Base.Head.Elements[0];
-
-			dataForMutation.Payload.Add(payload);
-			dataForMutation.BodyPartSearchString = "Head";
-
-			dataForMutations.Add(dataForMutation);
-
-			dataForMutation = new DNAMutationData();
-			payload = new DNAMutationData.DNAPayload
-			{
-				SpeciesMutateTo = raceBodyparts,
-				MutateToBodyPart = raceBodyparts.Base.Torso.Elements[0]
-			};
-
-			dataForMutation.Payload.Add(payload);
-
-			dataForMutation.BodyPartSearchString = "Chest";
-
-			dataForMutations.Add(dataForMutation);
-
-			dataForMutation = new DNAMutationData();
-			payload = new DNAMutationData.DNAPayload
-			{
-				SpeciesMutateTo = raceBodyparts,
-				MutateToBodyPart = raceBodyparts.Base.Torso.Elements[0]
-			};
-
-			dataForMutation.Payload.Add(payload);
-
-			dataForMutation.BodyPartSearchString = "Torso"; // adding the same thing but with dif name for some species that have torso for every gender
-
-			dataForMutations.Add(dataForMutation);
-
-			dataForMutation = new DNAMutationData();
-			payload = new DNAMutationData.DNAPayload
-			{
-				SpeciesMutateTo = raceBodyparts,
-				MutateToBodyPart = raceBodyparts.Base.LegRight.Elements[0]
-			};
-
-			dataForMutation.Payload.Add(payload);
-			dataForMutation.BodyPartSearchString = "RightLeg";
-
-			dataForMutations.Add(dataForMutation);
-
-			dataForMutation = new DNAMutationData();
-			payload = new DNAMutationData.DNAPayload
-			{
-				SpeciesMutateTo = raceBodyparts,
-				MutateToBodyPart = raceBodyparts.Base.ArmLeft.Elements[0]
-			};
-
-			dataForMutation.Payload.Add(payload);
-
-			dataForMutation.BodyPartSearchString = "LeftArm";
-
-			dataForMutations.Add(dataForMutation);
-
-			dataForMutation = new DNAMutationData();
-			payload = new DNAMutationData.DNAPayload
-			{
-				SpeciesMutateTo = raceBodyparts,
-				MutateToBodyPart = raceBodyparts.Base.LegLeft.Elements[0]
-			};
-
-			dataForMutation.Payload.Add(payload);
-			dataForMutation.BodyPartSearchString = "LeftLeg";
-
-			dataForMutations.Add(dataForMutation);
-
-			dataForMutation = new DNAMutationData();
-			payload = new DNAMutationData.DNAPayload
-			{
-				SpeciesMutateTo = raceBodyparts,
-				MutateToBodyPart = raceBodyparts.Base.ArmRight.Elements[0]
-			};
-
-			dataForMutation.Payload.Add(payload);
-
-			dataForMutation.BodyPartSearchString = "RightArm";
-
-			dataForMutations.Add(dataForMutation);
-
-			//dataForMutation = new DNAMutationData();
-			//payload = new DNAMutationData.DNAPayload
-			//{
-			//	SpeciesMutateTo = raceBodyparts,
-			//	MutateToBodyPart = raceBodyparts.Base.ArmRight.Elements[0]
-			//};
-
-			//dataForMutation.Payload.Add(payload);
-
-			//dataForMutation.BodyPartSearchString = "Hair";
-
-			//dataForMutations.Add(dataForMutation);
-
-
-			body.visibleName = characterSheet.Name;
-			body.playerName = characterSheet.Name;
-
-			body.playerSprites.ThisCharacter = characterSheet;
-			body.GetComponent<PlayerScript>().characterSettings = characterSheet;
-			body.characterSettings = characterSheet;
-			body.PlayerInfo.Name = characterSheet.Name;
-			body.PlayerInfo.RequestedCharacterSettings = characterSheet;
-			body.Mind.CurrentCharacterSettings = characterSheet;
-			body.Mind.name = characterSheet.Name;
-
-			//foreach (var bodyPart in changelingMind.Body.playerSprites.Addedbodypart)
-			//{
-			//	if (bodyPart.name.ToLower().Contains("eyes"))
-			//	{
-			//		var color = Color.red;
-			//		foreach (var bodyPartSheet in characterSheet.SerialisedBodyPartCustom)
-			//		{
-			//			if (bodyPartSheet.path.ToLower().Contains("eyes"))
-			//			{
-			//				ColorUtility.TryParseHtmlString(bodyPartSheet.Data, out color);
-			//			}
-			//			break;
-			//		}
-			//		bodyPart.spriteRenderer.color = color;
-			//		Debug.Log("EYES!");
-			//		break;
-			//	}
-			//}
-
-			StartCoroutine(body.playerHealth.ProcessDNAPayload(dataForMutations, characterSheet));
-
-			//changelingMind.Body.playerSprites.SetSurfaceColour();
-
-			//foreach (var x in changelingMind.Body.playerSprites.OpenSprites)
-			//{
-			//	x.spriteRenderer.color = bodyColor;
-			//}
-
-
-			//playerSprites.RootBodyPartsLoaded = false;
-			//foreach (var x in playerSprites.Addedbodypart)
-			//{
-			//	Destroy(x.gameObject);
-			//}
-			//playerSprites.Addedbodypart.Clear();
-
-			//playerSprites.OnCharacterSettingsChange(characterSheet);
-		}
-
-		public List<GameObject> clothes = new List<GameObject>();
-
-		[ContextMenu("TESTTRANSFORMCLOTHES")]
-		private void TESTTRANSFORMCLOTHES()
-		{
-			if (!CustomNetworkManager.IsServer) return;
-			DynamicItemStorage storage = ChangelingMind.CurrentPlayScript.DynamicItemStorage;
-
-
-			foreach (var clth in clothes)
-			{
-				var id = clth.GetComponent<PrefabTracker>().ForeverID;
-				var fakeClothes = Spawn.ServerPrefab(CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[id]).GameObject;
-				var placed = Inventory.ServerAdd(fakeClothes, storage.GetBestSlotFor(fakeClothes));
-				var itemName = fakeClothes.GetComponent<ItemAttributesV2>().InitialName;
-
-				fakeClothes.GetComponent<Pickupable>().OnInventoryMoveServerEvent.AddListener((GameObject item) => // removing item anytime when item was moved or something
-				{
-					Chat.AddCombatMsgToChat(gameObject,
-					$"<color=red>{itemName} was absorbed back into your body.</color>",
-					$"<color=red>{itemName} was absorbed into {ChangelingMind.CurrentPlayScript.playerName} body.</color>");
-
-					_ = Inventory.ServerDespawn(fakeClothes);
-
-					changelingMind.Body.RefreshVisibleName();
-				});
-
-				if (!placed)
-				{
-					_ = Despawn.ServerSingle(fakeClothes);
-				}
-			}
-		}
+		private const float CHEM_ADD_PER_TIME = 1;
+		private const float CHEM_ADD_TIME_BASE = 2;
+		private const float CHEM_ADD_TIME_BASE_SLOWED_ADD = 1;
+		private const int MAX_LAST_EXTRACTED_DNA_FOR_TRANSFORM = 7;
 
 		private void OnDisable()
 		{
-			UIManager.Display.hudChangeling.SetActive(false);
-			abilitiesNow.Clear();
+			if (UIManager.Display.hudChangeling.ChangelingMain == this)
+			{
+				UIManager.Display.hudChangeling.SetActive(false);
+			}
+
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Tick);
 		}
 
 		public bool HasDna(ChangelingDNA dna)
@@ -356,13 +148,157 @@ namespace Changeling
 				changelingDNAs.Add(dna);
 		}
 
-		public void AddDNA(List<ChangelingDNA> dnas) // that gonna be another changeling
+		private void OnCrit()
+		{
+			if (isFakingDeath)
+				return;
+			foreach (var abil in abilitiesNow)
+			{
+				if (abil.AbilityData.IsToggle && !abil.AbilityData.IsAimable && abil.AbilityData.SwithedToOnWhenInCrit)
+				{
+					abil.ForceToggleToState(true);
+				}
+			}
+		}
+
+		[Client]
+		private void SyncChemCount(float oldValue, float newValue)
+		{
+			chem = newValue;
+
+			if (changelingMindID == PlayerManager.LocalPlayerScript.Mind.netId)
+			{
+				SetChangelingUI();
+				uiChangeling.UpdateChemText();
+			}
+		}
+
+		[Client]
+		private void SyncMindID(uint oldValue, uint newValue)
+		{
+			changelingMindID = newValue;
+
+			if (PlayerManager.LocalPlayerScript != null && changelingMindID == PlayerManager.LocalPlayerScript.Mind.netId)
+			{
+				SetChangelingUI();
+				changelingMind = gameObject.transform.parent.gameObject.GetComponent<PlayerScript>().Mind;
+			}
+		}
+
+		[Client]
+		private void SyncEPCount(int oldValue, int newValue)
+		{
+			evolutionPoints = newValue;
+
+			if (changelingMindID == PlayerManager.LocalPlayerScript.Mind.netId)
+			{
+				SetChangelingUI();
+				uiChangeling.UpdateChemText();
+			}
+		}
+
+		private void SetChangelingUI()
+		{
+			if (changelingMindID != 0 && uiChangeling == null)
+			{
+				uiChangeling = UIManager.Display.hudChangeling;
+				uiChangeling.ChangelingMain = this;
+				ToggleHUD();
+			}
+		}
+
+		public void ToggleHUD(bool turnOn = true)
+		{
+			if (uiChangeling == null)
+				return;
+			if (turnOn)
+			{
+				uiChangeling.SetUp(this);
+				uiChangeling.gameObject.SetActive(true);
+			}
+			else
+			{
+				uiChangeling.TurnOff();
+				uiChangeling.gameObject.SetActive(false);
+			}
+		}
+
+		private void OnExitCrit()
+		{
+			if (isFakingDeath)
+				return;
+			foreach (var abil in abilitiesNow)
+			{
+				if (abil.AbilityData.IsToggle && !abil.AbilityData.IsAimable && abil.AbilityData.SwithedToOffWhenExitCrit)
+				{
+					abil.ForceToggleToState(false);
+				}
+			}
+		}
+
+		public void AbsorbDNA(ChangelingDNA dna, PlayerScript target)
+		{
+			if (!HasDna(dna))
+				changelingDNAs.Add(dna);
+			if (chem + 50 <= chemMax)
+				chem += 50;
+			else
+				chem += chemMax - chem;
+
+			absorbCount++;
+			AddMemories(dna, target);
+		}
+
+		private void AddMemories(ChangelingMemories memories)
+		{
+			changelingMemories.Add(memories);
+		}
+
+		private void AddMemories(ChangelingDNA dna, PlayerScript target)
+		{
+			var targetName = target.playerName;
+			var mem = new ChangelingMemories();
+			var information = target.Mind.GetObjectives();
+			var species = target.Mind.CurrentCharacterSettings.Species;
+			var gender = target.Mind.CurrentCharacterSettings.GetGender();
+			mem.Form(dna.Job, targetName, information, species, gender);
+			changelingMemories.Add(mem);
+		}
+
+		private void AddMemories(PlayerScript target)
+		{
+			var targetName = target.playerName;
+			var mem = new ChangelingMemories();
+			var information = target.Mind.GetObjectives();
+			var species = target.Mind.CurrentCharacterSettings.Species;
+			var gender = target.Mind.CurrentCharacterSettings.GetGender();
+			mem.Form(target.PlayerInfo.Job, targetName, information, species, gender);
+			changelingMemories.Add(mem);
+		}
+
+		//public void AddDNA(List<ChangelingDNA> dnas) // that gonna be another changeling
+		//{
+		//	foreach (var dna in dnas)
+		//	{
+		//		if (!HasDna(dna))
+		//			changelingDNAs.Add(dna);
+		//	}
+		//	resetCountMax++;
+		//	chemMax += 50;
+		//	chem += 50;
+		//	evolutionPoints += 5;
+		//}
+
+		public void AbsorbDNA(List<ChangelingDNA> dnas, PlayerScript target, ChangelingMain changelingMain) // That gonna be another changeling
 		{
 			foreach (var dna in dnas)
 			{
 				if (!HasDna(dna))
 					changelingDNAs.Add(dna);
 			}
+			changelingMemories.AddRange(changelingMain.changelingMemories);
+			changelingMain.changelingMemories.Clear();
+			AddMemories(target);
 			resetCountMax++;
 			chemMax += 50;
 			chem += 50;
@@ -410,14 +346,12 @@ namespace Changeling
 				}
 			}
 
-			chemAddPerTime = chemAddPerTimeConst;
-			chemAddTime = chemAddTimeBase + chemAddTimeBaseSlowedAdd * slowingCount;
+			chemAddPerTime = CHEM_ADD_PER_TIME;
+			chemAddTime = CHEM_ADD_TIME_BASE + CHEM_ADD_TIME_BASE_SLOWED_ADD * slowingCount;
 		}
 
 		public void Init(Mind changelingMindUser)
 		{
-			ui = UIManager.Display.hudChangeling;
-
 			changelingMind = changelingMindUser;
 
 			playerScript = changelingMindUser.CurrentPlayScript;
@@ -428,17 +362,50 @@ namespace Changeling
 			if (!CustomNetworkManager.IsServer) return;
 
 			UpdateManager.Add(Tick, 1f);
-			UpdateManager.Add(LateInit, 2f);
+			StartCoroutine(LateInit());
+
+			playerScript.playerHealth.OnCrit.AddListener(OnCrit);
+			playerScript.playerHealth.OnCritExit.AddListener(OnExitCrit);
 		}
 
-		public void LateInit() // need to be done after spawn because not all player systems was loaded
+		//private void Start()
+		//{
+		//	StartCoroutine(LateUIInit());
+		//}
+
+		private IEnumerator LateInit() // need to be done after spawn because not all player systems was loaded at init moment
 		{
-			var dnaObject = Spawn.ServerPrefab(abilitiesNow[0].AbilityData.DnaPrefab, parent: gameObject.transform).GameObject.GetComponent<ChangelingDNA>();
-			dnaObject.FormDNA(changelingMind.Body.PlayerInfo.Script, this);
+			var inited = false;
+			while (!inited)
+			{
+				yield return WaitFor.SecondsRealtime(1f);
+				try
+				{
+					inited = true;
+					changelingMindID = changelingMind.netId;
+					var dnaObject = Spawn.ServerPrefab(ChangelingAbilityList.Instance.DNAPrefab, parent: gameObject.transform).GameObject.GetComponent<ChangelingDNA>();
+					dnaObject.FormDNA(changelingMind.Body.PlayerInfo.Script, this);
 
-			AddDNA(dnaObject);
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, LateInit);
+					AddDNA(dnaObject);
+					currentDNA = dnaObject;
+				}
+				catch
+				{
+
+				}
+			}
 		}
+
+		//private IEnumerator LateUIInit() // need to be done after spawn because not all player systems was loaded at init moment
+		//{
+		//	yield return WaitFor.SecondsRealtime(1f);
+
+		//	if (PlayerManager.LocalMindScript.Body.TryGetComponent<ChangelingMain>(out _))
+		//	{
+		//		ui = UIManager.Display.hudChangeling;
+		//		ToggleHUD();
+		//	}
+		//}
 
 		private void SetUpAbilites()
 		{
@@ -476,37 +443,9 @@ namespace Changeling
 			}
 		}
 
-		private void SetUpHUD(bool turnOn = true)
-		{
-			if (turnOn)
-			{
-				ui.SetUp(this);
-				ui.gameObject.SetActive(true);
-			} else
-			{
-				ui.TurnOff();
-				ui.gameObject.SetActive(false);
-			}
-		}
-
 		public void PlayerEnterBody()
 		{
-			SetUpHUD();
-		}
-
-		public void OnServerPlayerPossess(Mind mind)
-		{
-
-		}
-
-		public void OnPlayerRejoin(Mind mind)
-		{
-			SetUpHUD(true);
-		}
-
-		public void OnPlayerLeaveBody(PlayerInfo account)
-		{
-			SetUpHUD(false);
+			//StartCoroutine(LateUIInit());
 		}
 
 		public void CallActionServer(ActionData data, PlayerInfo playerInfo)
@@ -533,8 +472,7 @@ namespace Changeling
 		{
 			if (HasAbility(changelingAbility.AbilityData) && CustomNetworkManager.IsServer)
 			{
-				//TODO uncomment this
-				//chem -= changelingAbility.AbilityData.AbilityChemCost;
+				chem -= changelingAbility.AbilityData.AbilityChemCost;
 			}
 		}
 
@@ -571,7 +509,7 @@ namespace Changeling
 			}
 		}
 
-		public ChangelingDNA GetDNAByID(string dnaID)
+		public ChangelingDNA GetDNAByID(int dnaID)
 		{
 			foreach (var x in ChangelingLastDNAs)
 			{

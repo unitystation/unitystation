@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0f1eff2cfff4e74a983b79241ec8b49, type: 3}
+  m_Name: ChangelingAbilityList
+  m_EditorClassIdentifier: 
+  Abilites:
+  - {fileID: 11400000, guid: ca4abb35973627247a34301f38b28e2a, type: 2}
+  - {fileID: 11400000, guid: 1fcf291baf1007e4c9851cf3cdfa888c, type: 2}
+  - {fileID: 11400000, guid: 470d37267deee584e9d4cd67a0063bef, type: 2}
+  - {fileID: 11400000, guid: b3e16679a6e9c1845b9cdd6aa9aeba77, type: 2}
+  - {fileID: 11400000, guid: 03a8882111bde7b4db3b09bc1b215176, type: 2}
+  - {fileID: 11400000, guid: c532eca0459e23143893fd0d101fd757, type: 2}
+  - {fileID: 11400000, guid: 4b2597f575bd84647b1f495dd5afee98, type: 2}
+  - {fileID: 11400000, guid: 2fcd7381720d15c459e8e20f5d2cc43a, type: 2}
+  - {fileID: 11400000, guid: 4ca570dea1b47b24894da1bcab9b4dfb, type: 2}
+  - {fileID: 11400000, guid: c658f85d11b4ee442ac1ea6d62a43d8f, type: 2}
+  DNAPrefab: {fileID: 4453983217321577311, guid: a8ea5e28fa87eb5408a30762618f4895,
+    type: 3}
+  ChangelingMainPrefab: {fileID: 1015948805612525891, guid: 465eeea0c7677e24bad2c14382ce729e,
+    type: 3}
+  InvalidData: {fileID: 11400000, guid: ca4abb35973627247a34301f38b28e2a, type: 2}

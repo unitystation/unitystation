@@ -13,22 +13,26 @@ namespace Changeling
 {
 	public class UI_Changeling : MonoBehaviour
 	{
-		ChangelingMain changelingMain;
+		//private ChangelingMain ChangelingMain;
+		public ChangelingMain ChangelingMain;
 		public static UI_Changeling instance;
 		[SerializeField] private TMP_Text chemText = null;
 		[SerializeField] private GameObject chems = null;
 		[SerializeField] private GameObject storeGameObject = null;
 		[SerializeField] private UI_ChangelingStore store = null;
 
+		[SerializeField] private GameObject memoriesGameObject = null;
+		[SerializeField] private UI_ChangelingMemories memories = null;
+
 		[SerializeField] private TMP_Text abilityPointsCount = null;
 		//private List<ActionData> actData = new List<ActionData>();
 
-		public List<ChangelingData> ChangelingDataToBuy => changelingMain.AllAbilities;
+		public List<ChangelingData> ChangelingDataToBuy => ChangelingMain.AllAbilities;
 
 		private void Awake()
 		{
 			instance = this;
-			if (changelingMain == null)
+			if (ChangelingMain == null)
 				TurnOff();
 		}
 
@@ -39,27 +43,27 @@ namespace Changeling
 
 		public void SetUp(ChangelingMain changeling)
 		{
-			changelingMain = changeling;
+			ChangelingMain = changeling;
 			RefreshUI();
 			chems.SetActive(true);
 
-			UpdateManager.Add(RefreshUI, 1f);
+			//UpdateManager.Add(RefreshUI, 1f);
 		}
 
 		public void ResetAbilites()
 		{
-			changelingMain.ResetAbilites();
-			store.Refresh(ChangelingDataToBuy, changelingMain);
+			ChangelingMain.ResetAbilites();
+			store.Refresh(ChangelingDataToBuy, ChangelingMain);
 		}
 
 		public void UpdateChemText()
 		{
-			chemText.text = changelingMain.Chem.ToString();
+			chemText.text = ChangelingMain.Chem.ToString();
 		}
 
 		public void UpdateEPText()
 		{
-			abilityPointsCount.text = $"Left genetic points {changelingMain.EvolutionPoints}"; //changelingMain.EpPoints.ToString();
+			abilityPointsCount.text = $"Left genetic points {ChangelingMain.EvolutionPoints}"; //changelingMain.EpPoints.ToString();
 		}
 
 		public void TurnOff()
@@ -70,13 +74,15 @@ namespace Changeling
 				chems.SetActive(false);
 			if (storeGameObject != null)
 				storeGameObject.SetActive(false);
+			if (memoriesGameObject != null)
+				memoriesGameObject.SetActive(false);
 			gameObject.SetActive(false);
 		}
 
 		public void AddAbility(ChangelingData abilityToAdd)
 		{
-			changelingMain.AddAbility(abilityToAdd);
-			RefreshUI();
+			ChangelingMain.AddAbility(abilityToAdd);
+			//RefreshUI();
 		}
 
 		public void RefreshUI()
@@ -85,7 +91,8 @@ namespace Changeling
 			{
 				UpdateChemText();
 				UpdateEPText();
-			} catch (Exception)
+			}
+			catch (Exception)
 			{
 				TurnOff();
 			}
@@ -103,11 +110,12 @@ namespace Changeling
 				} else
 				{
 					ChangelingDNA x = changeling.ChangelingLastDNAs[i];
-					newEntry.Text = $"{x.PlayerData.visibleName}";
+					newEntry.Text = $"{x.PlayerName}";
 					newEntry.ChoiceAction = () =>
 					{
 						actionForUse(x);
 					};
+					newEntry.Icon = OccupationList.Instance.Get(x.Job).PreviewSprite;
 				}
 
 				choise.Add(newEntry);
@@ -115,16 +123,30 @@ namespace Changeling
 			DynamicChoiceUI.ClientDisplayChoicesNotNetworked("Choise transform DNA", "Choise transform DNA", choise);
 		}
 
+		public void OpenMemoriesUI()
+		{
+			if (ChangelingMain.ChangelingMemories.Count == 0)
+				return;
+			memoriesGameObject.SetActive(true);
+			memories.Refresh(ChangelingMain.ChangelingMemories, ChangelingMain);
+			CloseStoreUI();
+		}
+
 		public void OpenStoreUI()
 		{
 			storeGameObject.SetActive(true);
-			store.Refresh(ChangelingDataToBuy, changelingMain);
+			store.Refresh(ChangelingDataToBuy, ChangelingMain);
+			CloseMemoriesUI();
 		}
 
-		[ContextMenu("CloseStoreUI")]
 		public void CloseStoreUI()
 		{
 			storeGameObject.SetActive(false);
+		}
+
+		public void CloseMemoriesUI()
+		{
+			memoriesGameObject.SetActive(false);
 		}
 	}
 }

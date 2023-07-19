@@ -38,7 +38,7 @@ namespace Changeling
 			Refresh();
 		}
 
-		public void OnEvolve()
+		public void OnBuy()
 		{
 			buyButton.SetActive(false);
 			ui.AddAbility(data);

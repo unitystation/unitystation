@@ -17,7 +17,7 @@ MonoBehaviour:
   callOnClient: 0
   callOnServer: 1
   actionName: Augmented Eyesight
-  description: Enable extra vision.
+  description: Enables x-ray and night vision.
   Sprites:
   - {fileID: 11400000, guid: 5237e15d52676fb46b8120299a044759, type: 2}
   Backgrounds:
@@ -46,21 +46,29 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
   canBeReseted: 1
   startAbility: 0
-  abilityUsedOnStart: 0
-  singleUseAbility: 0
   isSlowingChemRegeneration: 1
   isStopingChemRegeneration: 0
   isLocal: 1
-  dnaPrefab: {fileID: 4453983217321577311, guid: a8ea5e28fa87eb5408a30762618f4895,
-    type: 3}
   showInStore: 1
+  canBeUsedWhileInCrit: 0
+  swithedToOnWhenInCrit: 0
+  swithedToOffWhenExitCrit: 0
+  cooldownWhenToggled: 0
+  drawCostWhenToggledOn: 0
+  drawCostWhenToggledOff: 0
   showInActions: 1
   cooldown: 1
+  expandedNightVisionVisibility: {x: 25, y: 25, z: 42}
+  defaultvisibilityAnimationSpeed: 1.25
+  revertvisibilityAnimationSpeed: 0.2
+  stingTime: 4
+  reagent: {fileID: 0}
+  reagentCount: 25
   abilityType: 3
   stingType: 0
   healType: 0
   transformType: 0
   useAfterChoise: {fileID: 0}
-  miscType: 1
+  miscType: 0
   abilityImplementation: {fileID: 1515064019581797830, guid: 5722bf93b0593b44caafd2931b25840d,
     type: 3}

@@ -31,6 +31,13 @@ using Systems.Character;
 using Changeling;
 using UI.CharacterCreator;
 using UnityEditor;
+using Items;
+using Clothing;
+using Chemistry.Components;
+using Items.Others;
+using UI.Action;
+using Objects.Atmospherics;
+using Items.PDA;
 
 namespace HealthV2
 {
@@ -287,6 +294,8 @@ namespace HealthV2
 
 		public event Action OnDeath;
 		public UnityEvent OnRevive;
+		public UnityEvent OnCrit;
+		public UnityEvent OnCritExit;
 
 		[SyncVar] public bool CannotRecognizeNames = false;
 
@@ -671,6 +680,8 @@ namespace HealthV2
 		}
 
 		public float NutrimentConsumed = 0;
+		[SerializeField] private bool stopOverallCalculation = false;
+		[SerializeField] private bool stopMetabolism = false;
 
 		//Server Side only
 		private void PeriodicUpdate()
@@ -678,17 +689,20 @@ namespace HealthV2
 			NutrimentConsumed = 0;
 			for (int i = BodyPartList.Count - 1; i >= 0; i--)
 			{
-				BodyPartList[i].ImplantPeriodicUpdate();
+				if (!stopMetabolism)
+					BodyPartList[i].ImplantPeriodicUpdate();
 			}
 
 
 			foreach (var system in ActiveSystems)
 			{
-				system.SystemUpdate();
+				if (!stopMetabolism)
+					system.SystemUpdate();
 			}
 
 
-			ExternalMetaboliseReactions();
+			if (!stopMetabolism)
+				ExternalMetaboliseReactions();
 
 			FireStacksDamage();
 			CalculateRadiationDamage();
@@ -696,7 +710,8 @@ namespace HealthV2
 
 			EnvironmentDamage();
 
-			CalculateOverallHealth();
+			if (!stopOverallCalculation)
+				CalculateOverallHealth();
 
 
 			if (IsDead)
@@ -831,12 +846,15 @@ namespace HealthV2
 			}
 		}
 
-		public IEnumerator ProcessDNAPayload(List<DNAMutationData> InDNAMutationDatas, CharacterSheet characterSheet = null) // made for changeling
+		public IEnumerator ProcessDNAPayload(List<DNAMutationData> InDNAMutationDatas, CharacterSheet characterSheet = null, ChangelingDNA dna = null, ChangelingMain changeling = null) // made for changeling
 		{
 			Chat.AddExamineMsgFromServer(gameObject,
 				$" Your body starts morph into a new form");
 
 			yield return WaitFor.Seconds(2f);
+
+			SerializableDictionary<Reagent, float> blood = new(reagentPoolSystem.BloodPool.reagents);
+
 			var itemsBeforeTransform = new List<(Pickupable, NamedSlot)>();
 			if (characterSheet != null)
 			{
@@ -893,6 +911,32 @@ namespace HealthV2
 				}
 			}
 
+			//relooking for pumps because sometime pumps wasn't removing when transferring to new part
+			reagentPoolSystem.PumpingDevices.Clear();
+
+			foreach (var x in BodyPartList)
+			{
+				if (x.TryGetComponent<Heart>(out var hrt))
+				{
+					reagentPoolSystem.PumpingDevices.Add(hrt);
+				}
+			}
+
+			//saving food
+			reagentPoolSystem.BloodPool.RemoveVolume(reagentPoolSystem.BloodPool.Total);
+			reagentPoolSystem.AddFreshBlood(reagentPoolSystem.BloodPool, reagentPoolSystem.StartingBlood);
+
+			var foodComps = GetSystem<HungerSystem>().NutrimentToConsume;
+
+			foreach (var x in foodComps)
+			{
+				if (blood.ContainsKey(x.Key))
+					reagentPoolSystem.BloodPool.Add(x.Key, blood[x.Key]);
+				else
+					reagentPoolSystem.BloodPool.Add(x.Key, 100);
+			}
+
+			//reagentPoolSystem.BloodPool.reagents = blood;
 			var bodyParts = new Dictionary<NamedSlot, ItemSlot>();
 			foreach (var x in playerScript.DynamicItemStorage.GetItemSlotTree())
 			{
@@ -907,6 +951,120 @@ namespace HealthV2
 					Inventory.ServerAdd(itemForPlace.Item1.gameObject, bodyParts[itemForPlace.Item2]);
 				}
 			}
+
+			if (dna != null && changeling != null)
+			{
+				var storage = changeling.ChangelingMind.CurrentPlayScript.DynamicItemStorage;
+
+				foreach (var id in dna.BodyClothesPrefabID)
+				{
+					var fakeClothes = Spawn.ServerPrefab(CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[id]).GameObject;
+					var placed = Inventory.ServerAdd(fakeClothes, storage.GetBestSlotFor(fakeClothes));
+					var itemName = fakeClothes.GetComponent<ItemAttributesV2>().InitialName;
+
+					//making items absolutely useless
+					if (fakeClothes.TryGetComponent<WearableArmor>(out var armor))
+					{
+						foreach (var bodyArmr in armor.ArmoredBodyParts)
+						{
+							bodyArmr.Armor.Melee = 0;
+							bodyArmr.Armor.Bullet = 0;
+							bodyArmr.Armor.Laser = 0;
+							bodyArmr.Armor.Energy = 0;
+							bodyArmr.Armor.Bomb = 0;
+							bodyArmr.Armor.Rad = 0;
+							bodyArmr.Armor.Fire = 0;
+							bodyArmr.Armor.Acid = 0;
+							bodyArmr.Armor.Magic = 0;
+							bodyArmr.Armor.Bio = 0;
+							bodyArmr.Armor.Anomaly = 0;
+							bodyArmr.Armor.DismembermentProtectionChance = 0;
+							bodyArmr.Armor.StunImmunity = false;
+							bodyArmr.Armor.TemperatureProtectionInK = new Vector2(283.15f, 283.15f + 20);
+							bodyArmr.Armor.PressureProtectionInKpa = new Vector2(30f, 300f);
+
+						}
+					}
+					if (fakeClothes.TryGetComponent<IDCard>(out var card))
+					{
+						var cardName = card.GetJobTitle();
+						var cardRagName = card.RegisteredName;
+						card.ServerChangeOccupation(OccupationList.Instance.Get(JobType.ASSISTANT), false, true);
+						card.SyncJobTitle("", cardName);
+						card.SyncName("", cardRagName);
+						for (int i = 0; i < card.currencies.Length; i++)
+						{
+							card.currencies[i] = 0;
+						}
+					}
+					else if (fakeClothes.TryGetComponent<Headset>(out var headset))
+					{
+						Destroy(headset);
+						//Destroy(headset);
+						//headset.IsPowered = false;
+						//headset.EncryptionKey = EncryptionKeyType.None;
+						//headset.EmmitableSignalData.Clear();
+					}
+					else if (fakeClothes.TryGetComponent<NightVisionGoggles>(out var nightVision))
+					{
+						Destroy(nightVision);
+					}
+					else if (fakeClothes.TryGetComponent<PrescriptionGlasses>(out var glasses))
+					{
+						Destroy(glasses);
+					}
+					if (fakeClothes.TryGetComponent<ReagentContainer>(out var container))
+					{
+						Destroy(container);
+					}
+					if (fakeClothes.TryGetComponent<ItemLightControl>(out var lightControl))
+					{
+						Destroy(lightControl);
+					}
+					if (fakeClothes.TryGetComponent<FlashLight>(out var flashLight))
+					{
+						Destroy(flashLight);
+						flashLight.NetDisable();
+					}
+					if (fakeClothes.TryGetComponent<ItemActionButton>(out var actionButton))
+					{
+						actionButton.OnRemovedFromBody(this);
+						Destroy(actionButton);
+					}
+					if (fakeClothes.TryGetComponent<GasContainer>(out var gasContainer))
+					{
+						Destroy(gasContainer);
+						gasContainer.NetDisable();
+					}
+					if (fakeClothes.TryGetComponent<EmergencyOxygenTank>(out var emergencyOxygenTank))
+					{
+						Destroy(emergencyOxygenTank);
+						emergencyOxygenTank.NetDisable();
+					}
+					if (fakeClothes.TryGetComponent<PDALogic>(out var pda))
+					{
+						pda.NetDisable();
+						Destroy(pda);
+					}
+
+					fakeClothes.GetComponent<Pickupable>().OnInventoryMoveServerEvent.AddListener((GameObject item) => // removing item anytime when item was moved or something
+					{
+						Chat.AddCombatMsgToChat(gameObject,
+						$"<color=red>{itemName} was absorbed back into your body.</color>",
+						$"<color=red>{itemName} was absorbed into {changeling.ChangelingMind.CurrentPlayScript.playerName} body.</color>");
+
+						_ = Inventory.ServerDespawn(fakeClothes);
+
+						changeling.ChangelingMind.Body.RefreshVisibleName();
+					});
+
+					if (!placed)
+					{
+						_ = Despawn.ServerSingle(fakeClothes);
+					}
+				}
+			}
+
 
 			if (characterSheet != null)
 			{
@@ -1210,6 +1368,7 @@ namespace HealthV2
 			else if (currentHealth < -50)
 			{
 				SetConsciousState(ConsciousState.UNCONSCIOUS);
+				OnCrit?.Invoke();
 			}
 			else if (currentHealth < 0)
 			{
@@ -1218,6 +1377,11 @@ namespace HealthV2
 			else
 			{
 				SetConsciousState(ConsciousState.CONSCIOUS);
+			}
+
+			if (conState == ConsciousState.UNCONSCIOUS && ConsciousState is ConsciousState.CONSCIOUS or ConsciousState.BARELY_CONSCIOUS)
+			{
+				OnCritExit?.Invoke();
 			}
 
 			if (conState == ConsciousState.DEAD && ConsciousState is ConsciousState.CONSCIOUS or ConsciousState.BARELY_CONSCIOUS)
@@ -1249,7 +1413,7 @@ namespace HealthV2
 			}
 		}
 
-		private void SetConsciousState(ConsciousState NewConsciousState)
+		public void SetConsciousState(ConsciousState NewConsciousState)
 		{
 			if (ConsciousState != NewConsciousState)
 			{
@@ -1464,6 +1628,44 @@ namespace HealthV2
 			}
 
 			CalculateOverallHealth(); //This makes the player alive and concision.
+		}
+
+		public void StopOverralCalculation()
+		{
+			stopOverallCalculation = true;
+		}
+
+		public void UnstopOverallCalculation()
+		{
+			stopOverallCalculation = false;
+		}
+
+		public void StopMetabolismAndHeart()
+		{
+			foreach (var bodyPart in BodyPartList)
+			{
+				foreach (BodyPartFunctionality organ in bodyPart.OrganList)
+				{
+					if (organ is Heart heart)
+					{
+						heart.HeartAttack = true;
+						heart.CanTriggerHeartAttack = false;
+						heart.CurrentPulse = 0;
+					}
+					//if (organ is Eye eye)
+					//{
+					//	eye.ApplyChangesBlurryVision(10);
+					//}
+				}
+			}
+			CalculateOverallHealth();
+			stopMetabolism = true;
+		}
+
+		public void UnstopMetabolismAndRestartHeart()
+		{
+			stopMetabolism = false;
+			RestartHeart();
 		}
 
 		/// <summary>

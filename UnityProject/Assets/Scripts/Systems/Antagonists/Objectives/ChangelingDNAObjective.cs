@@ -17,7 +17,8 @@ namespace Changeling
 
 		protected override void Setup()
 		{
-
+			objectiveName = string.Format(objectiveName, dnaNeedCount);
+			description = string.Format(description, dnaNeedCount);
 		}
 	}
 }

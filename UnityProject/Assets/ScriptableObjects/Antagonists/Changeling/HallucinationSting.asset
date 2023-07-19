@@ -17,7 +17,7 @@ MonoBehaviour:
   callOnClient: 0
   callOnServer: 0
   actionName: Hallucination Sting
-  description: Extraction body DNA with injection of larege amount of hallucinogenics.
+  description: Extracts body DNA with injection large doses of hallucinogenic chemicals.
   Sprites:
   - {fileID: 11400000, guid: 525df3709124824438b390e3a4031ca8, type: 2}
   Backgrounds:
@@ -47,13 +47,23 @@ MonoBehaviour:
   isSlowingChemRegeneration: 0
   isStopingChemRegeneration: 0
   isLocal: 0
-  dnaPrefab: {fileID: 4453983217321577311, guid: a8ea5e28fa87eb5408a30762618f4895,
-    type: 3}
   showInStore: 1
+  canBeUsedWhileInCrit: 0
+  swithedToOnWhenInCrit: 0
+  swithedToOffWhenExitCrit: 0
+  cooldownWhenToggled: 0
+  drawCostWhenToggledOn: 0
+  drawCostWhenToggledOff: 0
   showInActions: 1
   cooldown: 1
+  expandedNightVisionVisibility: {x: 25, y: 25, z: 42}
+  defaultvisibilityAnimationSpeed: 1.25
+  revertvisibilityAnimationSpeed: 0.2
+  stingTime: 4
+  reagent: {fileID: 11400000, guid: 8d1468f2ac5202e65af28854a30b9c55, type: 2}
+  reagentCount: 35
   abilityType: 0
-  stingType: 4
+  stingType: 1
   healType: 0
   transformType: 0
   useAfterChoise: {fileID: 0}

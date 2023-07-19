@@ -941,6 +941,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		{
 			var DummyMind = PlayerSpawn.NewSpawnCharacterV2(OccupationList.Instance.Occupations.PickRandom(),
 				CharacterSheet.GenerateRandomCharacter());
+			var x = DummyMind.CurrentCharacterSettings;
 			DummyMind.Body.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(this.transform.position);
 		}
 

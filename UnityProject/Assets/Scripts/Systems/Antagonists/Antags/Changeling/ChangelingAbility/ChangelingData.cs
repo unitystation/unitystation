@@ -1,4 +1,5 @@
 using AddressableReferences;
+using Chemistry;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ namespace Changeling
 		public override bool CallOnServer => false;
 
 		[TextArea(8, 20)]
+		[Tooltip("Description that will be used in store")]
 		[SerializeField] protected string descriptionStore = "";
 		public string DescriptionStore
 		{
@@ -51,17 +53,61 @@ namespace Changeling
 		[Tooltip("Is ability called on client")]
 		[SerializeField] private bool isLocal = false;
 		public bool IsLocal => isLocal;
-		[SerializeField] private GameObject dnaPrefab;
-		public GameObject DnaPrefab => dnaPrefab;
+		//[SerializeField] private GameObject dnaPrefab;
+		//public GameObject DnaPrefab => dnaPrefab;
 
+		[Tooltip("Is ability will be showed in abilites store")]
 		[SerializeField] private bool showInStore = true;
 		public bool ShowInStore => showInStore;
+
+		[SerializeField] private bool canBeUsedWhileInCrit = false;
+		public bool CanBeUsedWhileInCrit => canBeUsedWhileInCrit;
+
+		[SerializeField] private bool swithedToOnWhenInCrit = false;
+		public bool SwithedToOnWhenInCrit => swithedToOnWhenInCrit;
+
+		[SerializeField] private bool swithedToOffWhenExitCrit = false;
+		public bool SwithedToOffWhenExitCrit => swithedToOffWhenExitCrit;
+
+		[Tooltip("Activats cooldown when ability is toggled anytime. Not after ability is toggled off only")]
+		[SerializeField] private bool cooldownWhenToggled = false;
+		public bool CooldownWhenToggled => cooldownWhenToggled;
+
+		[SerializeField] private bool drawCostWhenToggledOn = false;
+		public bool DrawCostWhenToggledOn => drawCostWhenToggledOn;
+
+		[SerializeField] private bool drawCostWhenToggledOff = false;
+		public bool DrawCostWhenToggledOff => drawCostWhenToggledOff;
 
 		[SerializeField] private bool showInActions = true;
 		public bool ShowInActions => showInActions;
 
 		[SerializeField] private int cooldown = 1;
 		public float DefaultTime => cooldown;
+
+		[ShowIf("ShowIfEyeModifyer")]
+		[SerializeField] private Vector3 expandedNightVisionVisibility = new (25, 25, 42);
+		public Vector3 ExpandedNightVisionVisibility => expandedNightVisionVisibility;
+
+		[ShowIf("ShowIfEyeModifyer")]
+		[SerializeField] private float defaultvisibilityAnimationSpeed = 1.25f;
+		public float DefaultvisibilityAnimationSpeed => defaultvisibilityAnimationSpeed;
+
+		[ShowIf("ShowIfEyeModifyer")]
+		[SerializeField] private float revertvisibilityAnimationSpeed = 0.2f;
+		public float RevertvisibilityAnimationSpeed => revertvisibilityAnimationSpeed;
+
+		[ShowIf("ShowIfSting")]
+		[SerializeField] private float stingTime = 4f;
+		public float StingTime => stingTime;
+
+		[ShowIf("ShowIfNeedReagent")]
+		[SerializeField] private Reagent reagent;
+		public Reagent Reagent => reagent;
+
+		[ShowIf("ShowIfNeedReagent")]
+		[SerializeField] private float reagentCount = 25;
+		public float ReagentCount => reagentCount;
 
 		public GameObject AbilityImplementation => abilityImplementation;
 
@@ -99,6 +145,16 @@ namespace Changeling
 		private bool ShowIfSting()
 		{
 			return abilityType == ChangelingAbilityType.Sting;
+		}
+
+		private bool ShowIfEyeModifyer()
+		{
+			return abilityType == ChangelingAbilityType.Misc && miscType == ChangelingMiscType.AugmentedEyesight;
+		}
+
+		private bool ShowIfNeedReagent()
+		{
+			return abilityType == ChangelingAbilityType.Sting && stingType == StingType.HallucinationSting;
 		}
 
 		private bool ShowIfHeal()
@@ -142,23 +198,18 @@ namespace Changeling
 			return (abilityEPCost, abilityChemCost);
 		}
 
-		protected bool AbilityValidation(ChangelingMain changeling)
-		{
-			return changeling.HasAbility(this);
-		}
-
 		public ChangelingAbility AddToPlayer(Mind player)
 		{
-			var spellObject = Instantiate(AbilityImplementation, player.gameObject.transform);
-			var spellComponent = spellObject.GetComponent<ChangelingAbility>();
-			if (spellComponent == null)
+			var abilityObject = Instantiate(AbilityImplementation, player.gameObject.transform);
+			var abilityComponent = abilityObject.GetComponent<ChangelingAbility>();
+			if (abilityComponent == null)
 			{
-				Logger.LogError($"No ability component found on {spellObject} for {this}!", Category.Changeling);
+				Logger.LogError($"No ability component found on {abilityObject} for {this}!", Category.Changeling);
 				return default;
 			}
-			spellComponent.ability = this;
-			spellComponent.CooldownTime = cooldown;
-			return spellComponent;
+			abilityComponent.ability = this;
+			abilityComponent.CooldownTime = cooldown;
+			return abilityComponent;
 		}
 	}
 
@@ -192,6 +243,7 @@ namespace Changeling
 	public enum ChangelingMiscType
 	{
 		AugmentedEyesight,
-		OpenStore
+		OpenStore,
+		OpenMemories
 	}
 }

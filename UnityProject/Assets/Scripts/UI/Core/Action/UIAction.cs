@@ -117,7 +117,6 @@ namespace UI.Action
 
 		private void UseToggleAction()
 		{
-			//Only client implemintation for some changeling abilities
 			toggled = !toggled;
 			if (actionData.CallOnClient)
 			{

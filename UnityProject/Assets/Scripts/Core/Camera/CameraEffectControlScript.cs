@@ -109,6 +109,11 @@ namespace CameraEffects
 			nightVisionCamera.enabled = state;
 		}
 
+		public void SetNightVisionMaxLensRadius(bool set)
+		{
+			nightVisionCamera.lensRadiusMaxed = set;
+		}
+
 		private void DoEffectTimeCheck()
 		{
 			if (drunkCameraTime > 0)

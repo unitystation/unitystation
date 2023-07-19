@@ -106,10 +106,6 @@ namespace UI
 				UIManager.Instance.UI_SlotManager.UpdateUI();
 				UIManager.Internals.SetupListeners();
 				UIManager.Instance.panelHudBottomController.SetupListeners();
-				//if (PlayerManager.LocalPlayerScript.Mind.GetAntag().Antagonist is Changeling.Changeling)
-				//{
-				//	hudChangeling.SetActive(true);
-				//}
 			}
 		}
 

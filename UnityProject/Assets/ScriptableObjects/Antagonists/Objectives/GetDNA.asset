@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 847871e6e43543d439911e47b6055d04, type: 3}
-  m_Name: Get5DNA
+  m_Name: GetDNA
   m_EditorClassIdentifier: 
-  objectiveName: Get 5 DNA
+  objectiveName: Get {0} DNA
   IsUnique: 1
-  description: Extract 5 DNA by using your abilities.
+  description: Extract {0} DNA by using your abilities.
   aiCanHave: 0
   dnaNeedCount: 5

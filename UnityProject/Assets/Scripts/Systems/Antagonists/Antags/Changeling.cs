@@ -21,7 +21,8 @@ namespace Changeling
 
 		public override void AfterSpawn(Mind NewMind)
 		{
-			var ch = NewMind.Body.gameObject.AddComponent<ChangelingMain>();
+			// = NewMind.Body.gameObject.AddComponent<ChangelingMain>();
+			var ch = Spawn.ServerPrefab(ChangelingAbilityList.Instance.ChangelingMainPrefab).GameObject.GetComponent<ChangelingMain>();
 			ch.Init(NewMind);
 		}
 	}
