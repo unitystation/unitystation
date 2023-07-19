@@ -8,6 +8,8 @@ using Systems.Electricity;
 using AddressableReferences;
 using Messages.Server.SoundMessages;
 using Items;
+using Light2D;
+using Mirror;
 using Random = UnityEngine.Random;
 
 
@@ -18,7 +20,7 @@ namespace Objects
 	/// when clicking on vendor with a VendingRestock item in hand.
 	/// </summary>
 	[RequireComponent(typeof(HasNetworkTab))]
-	public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowerable, IServerSpawn
+	public class Vendor : NetworkBehaviour, ICheckedInteractable<HandApply>, IAPCPowerable, IServerSpawn
 	{
 		/// <summary>
 		/// Scatter spawned items a bit to not allow stacking in one position
@@ -38,31 +40,29 @@ namespace Objects
 		[Tooltip("In which direction object should be thrown?")]
 		public EjectDirection EjectDirection = EjectDirection.None;
 
-		[SerializeField] private AddressableAudioSource VendingSound = null;
-
 		[Header("Text messages")]
-		[SerializeField]
-		private string restockMessage = "Items restocked."; // TODO This is never displayed anywhere.
-		[SerializeField]
-		private string noAccessMessage = "Access denied!";
+		[SerializeField] private string restockMessage = "Items restocked.";
+		[SerializeField] private string noAccessMessage = "Access denied!";
 
 		private string tooExpensiveMessage = "This is too expensive!";
 
 		public bool isEmagged;
 
-		[HideInInspector]
-		public List<VendorItem> VendorContent = new List<VendorItem>();
+		[HideInInspector] public List<VendorItem> VendorContent = new List<VendorItem>();
 
 		private ClearanceRestricted clearanceRestricted;
-
 		public VendorUpdateEvent OnRestockUsed = new VendorUpdateEvent();
 		public VendorItemUpdateEvent OnItemVended = new VendorItemUpdateEvent();
 		public PowerState ActualCurrentPowerState = PowerState.On;
-		public bool DoesntRequirePower = false;
 
 		[Header("Audio")]
+		[SerializeField, FormerlySerializedAs("VendingSound")] private AddressableAudioSource vendingSound = null;
 		[SerializeField] private AddressableAudioSource ambientSoundWhileOn;
 		private string loopKey;
+
+		[Header("Power")]
+		[SerializeField] private LightSprite lightSprite;
+		[SyncVar(hook = nameof(SetLightState))] private bool isLightOn = true;
 
 		private void Awake()
 		{
@@ -94,6 +94,7 @@ namespace Objects
 		{
 			// Checking if avaliable for restock
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			if (ActualCurrentPowerState == PowerState.Off) return false;
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag)) return true;
 			if (!Validations.HasComponent<VendingRestock>(interaction.HandObject)) return false;
 			return true;
@@ -242,6 +243,14 @@ namespace Objects
 		/// </summary>
 		public void TryVendItem(VendorItem vendorItem, PlayerInfo player = null)
 		{
+			if (ActualCurrentPowerState == PowerState.Off)
+			{
+				if (player is not null)
+				{
+					Chat.AddExamineMsg(player.GameObject, "This vendor currently doesn't have power to dispense anything!");
+				}
+				return;
+			}
 			if (vendorItem == null)
 			{
 				return;
@@ -269,7 +278,7 @@ namespace Objects
 
 			// Play vending sound
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.75f, 1.1f));
-			SoundManager.PlayNetworkedAtPos(VendingSound, gameObject.AssumedWorldPosServer(), audioSourceParameters, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(vendingSound, gameObject.AssumedWorldPosServer(), audioSourceParameters, sourceObj: gameObject);
 
 			// Ejecting in direction
 			if (EjectObjects && EjectDirection != EjectDirection.None &&
@@ -307,6 +316,23 @@ namespace Objects
 			}
 		}
 
+		private void CheckVendorLightState()
+		{
+			if (ActualCurrentPowerState is PowerState.On or PowerState.OverVoltage)
+			{
+				isLightOn = true;
+			}
+			else
+			{
+				isLightOn = false;
+			}
+		}
+
+		private void SetLightState(bool oldValue, bool newValue)
+		{
+			lightSprite.OrNull()?.SetActive(newValue);
+		}
+
 		#region IAPCPowerable
 
 		public void PowerNetworkUpdate(float voltage) { }
@@ -315,6 +341,7 @@ namespace Objects
 		{
 			ActualCurrentPowerState = state;
 			CheckAudioState();
+			CheckVendorLightState();
 		}
 
 		#endregion

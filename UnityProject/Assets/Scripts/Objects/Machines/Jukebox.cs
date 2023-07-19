@@ -9,6 +9,7 @@ using AddressableReferences;
 using Audio.Containers;
 using Messages.Server;
 using Messages.Server.SoundMessages;
+using Systems.Explosions;
 
 namespace Objects
 {
@@ -175,7 +176,13 @@ namespace Objects
 		public async Task Play()
 		{
 			// Too much damage stops the jukebox from being able to play
-			if (integrity.integrity < integrity.initialIntegrity / 2) return;
+			if (integrity.integrity < integrity.initialIntegrity / 2)
+			{
+				SparkUtil.TrySpark(gameObject);
+				return;
+			}
+
+			await StopAllGuids();
 			IsPlaying = true;
 			StartCoroutine(UpdateSprites(SpritePlaying));
 			guid.Add(await SoundManager.PlayNetworkedAtPosAsync(musics[currentSongTrackIndex], registerTile.WorldPositionServer, audioSourceParameters, false, true, sourceObj: gameObject));
@@ -185,14 +192,16 @@ namespace Objects
 
 		public async Task Stop(bool autoplay = false)
 		{
-			if(autoplay == false) IsPlaying = false;
-
+			if (autoplay == false) IsPlaying = false;
 			if (integrity.integrity >= integrity.initialIntegrity / 2)
+			{
 				StartCoroutine(UpdateSprites(SpriteIdle));
+			}
 			else
+			{
 				StartCoroutine(UpdateSprites(SpriteDamaged));
-
-			if(guid.Count != 0) await Task.Run(() => StopAllGuids());
+			}
+			await Task.Run(StopAllGuids);
 
 			UpdateGUI();
 		}
@@ -241,7 +250,7 @@ namespace Objects
 		{
 			if (integrity.integrity <= integrity.initialIntegrity / 2)
 			{
-				Stop();
+				_ = Stop();
 			}
 		}
 

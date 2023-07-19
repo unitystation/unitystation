@@ -10,7 +10,7 @@ namespace Core.Lighting
 	public class HighlightScan : MonoBehaviour
 	{
 		private SpriteRenderer spriteRenderer;
-		private GameObject noHighlightSpriteObj;
+		[SerializeField] private GameObject noHighlightSpriteObj;
 
 		private void Awake()
 		{
@@ -31,7 +31,7 @@ namespace Core.Lighting
 
 		private void OnEnable()
 		{
-			noHighlightSpriteObj = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("_RandomItemSpawnerBase");
+			noHighlightSpriteObj ??= CustomNetworkManager.Instance.GetSpawnablePrefabFromName("_RandomItemSpawnerBase");
 		}
 
 		private void OnDisable()
