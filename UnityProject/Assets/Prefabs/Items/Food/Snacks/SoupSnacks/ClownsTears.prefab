@@ -31,12 +31,12 @@ PrefabInstance:
     - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
@@ -49,6 +49,12 @@ PrefabInstance:
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[4]
       value: 
       objectReference: {fileID: 11400000, guid: 403cb38ddbdf64937800405bb674f292,
+        type: 2}
+    - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5e2a5c76d1bce6144b8b1aac987b2751,
         type: 2}
     - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
@@ -69,6 +75,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[4]
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[5]
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 8091316462478551624, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
@@ -140,6 +151,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ClownsTears
+      objectReference: {fileID: 0}
+    - target: {fileID: 8300100540400329888, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: _assetId
+      value: 2849610325
       objectReference: {fileID: 0}
     - target: {fileID: 8300100540400329888, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
