@@ -8,7 +8,12 @@ using UnityEngine;
 
 namespace ConfigurationSaves
 {
-	//TODO Directory.CreateDirectory(Application.persistentDataPath + Path);
+	//move to Core folder
+	//Better name
+	//Testing
+
+
+
 	public enum AccessCategory
 	{
 		Config,
@@ -100,61 +105,42 @@ namespace ConfigurationSaves
 
 			}
 
+			string resolvedPath = "";
 
 			if (userPersistent)
 			{
-				var resolvedPath = Path.GetFullPath(Path.Combine(Application.persistentDataPath, ForkName , accessCategory.ToString(), relativePath + extension));
-				if (resolvedPath.StartsWith(Path.GetFullPath(Path.Combine(Application.persistentDataPath, ForkName))) == false)
+				resolvedPath = Path.GetFullPath(Path.Combine(Application.persistentDataPath, ForkName , accessCategory.ToString(), relativePath + extension));
+				if (resolvedPath.StartsWith(Path.GetFullPath(Path.Combine(Application.persistentDataPath, ForkName, accessCategory.ToString()))) == false)
 				{
 					Logger.LogError($"Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
 					throw new Exception($"Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
 				}
-
-				if (File.Exists(resolvedPath) == false)
-				{
-					System.IO.Directory.CreateDirectory(resolvedPath);
-				}
-
-				if (CreateFile)
-				{
-					// Check if the file already exists
-					if (File.Exists(resolvedPath) == false)
-					{
-						// Create the file at the specified path
-						File.Create(resolvedPath).Close();
-					}
-				}
-
-
-				return resolvedPath;
 			}
 			else
 			{
-				var resolvedPath = Path.GetFullPath(Path.Combine(Application.streamingAssetsPath,accessCategory.ToString(), relativePath + extension));
-				if (resolvedPath.StartsWith(Path.GetFullPath(Application.streamingAssetsPath)) == false)
+				resolvedPath = Path.GetFullPath(Path.Combine(Application.streamingAssetsPath,accessCategory.ToString(), relativePath + extension));
+				if (resolvedPath.StartsWith(Path.GetFullPath(Path.Combine(Application.streamingAssetsPath,  accessCategory.ToString()))) == false)
 				{
 					Logger.LogError($"Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
 					throw new Exception($"Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
 				}
+			}
 
+			var ADirectory = Path.GetDirectoryName(resolvedPath);
+			Directory.CreateDirectory(ADirectory);
+
+			if (CreateFile)
+			{
+				// Check if the file already exists
 				if (File.Exists(resolvedPath) == false)
 				{
-					System.IO.Directory.CreateDirectory(resolvedPath);
+					// Create the file at the specified path
+					File.Create(resolvedPath).Close();
 				}
-
-				if (CreateFile)
-				{
-					// Check if the file already exists
-					if (File.Exists(resolvedPath) == false)
-					{
-						// Create the file at the specified path
-						File.Create(resolvedPath).Close();
-					}
-				}
-
-
-				return resolvedPath;
 			}
+
+
+			return resolvedPath;
 
 		}
 
@@ -168,7 +154,8 @@ namespace ConfigurationSaves
 		public static string Load(string relativePath, AccessCategory accessCategory = AccessCategory.Config, bool userPersistent = false)
 		{
 			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, true);
-			return File.ReadAllText(resolvedPath);
+			var data = File.ReadAllText(resolvedPath);
+			return data;
 		}
 
 		public static string[] ReadAllLines(string relativePath, AccessCategory accessCategory = AccessCategory.Config, bool userPersistent = false)
@@ -185,25 +172,26 @@ namespace ConfigurationSaves
 
 
 
-		public static bool Exists(string relativePath, AccessCategory accessCategory = AccessCategory.Config, bool userPersistent = false)
+		public static bool Exists(string relativePath, bool isFile = true, AccessCategory accessCategory = AccessCategory.Config, bool userPersistent = false)
 		{
-			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, false);
+			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, false, isFile);
 
-			if (File.Exists(resolvedPath))
+			if (isFile)
 			{
-				return true;
+				bool exists = File.Exists(resolvedPath);
+				return exists;
 			}
 			else
 			{
-				return false;
+				bool exists = Directory.Exists(resolvedPath);
+				return exists;
 			}
-
 		}
 		public static string[] Contents(string relativePath, AccessCategory accessCategory = AccessCategory.Config, bool userPersistent = false)
 		{
 			var resolvedPath = ValidatePath(relativePath, accessCategory, userPersistent, false, false);
 			var Directorys = new DirectoryInfo(resolvedPath);
-			return Directorys.GetFiles().Select(x => x.Name.Replace(".txt", "")).ToArray();
+			return Directorys.GetFiles().Select(x => x.Name.Replace(".txt", "")).Where(x => x.Contains(".meta") == false).ToArray();
 		}
 
 
@@ -274,6 +262,10 @@ namespace ConfigurationSaves
 				Whatcha.EnableRaisingEvents = true;
 			}
 
+			if (RegisteredToWatch.ContainsKey(resolvedPath) == false)
+			{
+				RegisteredToWatch[resolvedPath] = new List<Action>();
+			}
 			RegisteredToWatch[resolvedPath].Add(toInvoke);
 			RegisteredToFile[toInvoke] = resolvedPath;
 		}

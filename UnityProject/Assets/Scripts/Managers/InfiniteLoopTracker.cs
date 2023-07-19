@@ -42,8 +42,11 @@ namespace Managers
 
         private void OnDisable()
         {
-	        thread.Abort();
-	        UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	        if (thread != null)
+	        {
+		        thread.Abort();
+		        UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	        }
         }
 
         private void UpdateMe()
@@ -155,7 +158,7 @@ namespace Managers
         private void Log(string aText)
         {
 	        Debug.LogError(aText); //in case of case positives we make a normal log
-	        AccessFile.AppendAllText("InfiniteLoopTracker.txt", aText);
+	        AccessFile.AppendAllText("InfiniteLoopTracker.txt", aText, AccessCategory.Logs);
         }
 	}
 }

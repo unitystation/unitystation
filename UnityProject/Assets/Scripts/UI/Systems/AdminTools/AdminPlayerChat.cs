@@ -87,7 +87,7 @@ namespace AdminTools
 
 			var filePath = Path.Combine(chatlogDir, $"{playerId}.txt");
 
-			if (AccessFile.Exists(filePath, AccessCategory.Logs) == false)
+			if (AccessFile.Exists(filePath, true, AccessCategory.Logs) == false)
 			{
 				string header = $"Username: {player.Username} Character Name: {player.Name} \r\n" +
 				                $"IsAntag: {PlayerList.Instance.AntagPlayers.Contains(player)}  role: {player.Job} \r\n" +

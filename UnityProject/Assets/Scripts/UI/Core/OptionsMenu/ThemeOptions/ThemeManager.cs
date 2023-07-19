@@ -189,7 +189,7 @@ namespace Unitystation.Options
 
             foreach (string di in diPaths)
             {
-                if (AccessFile.Exists(di, userPersistent: true))
+                if (AccessFile.Exists(di, userPersistent: true, isFile: false))
                 {
 	                var files = AccessFile.Contents(di, userPersistent: true);
                     foreach (string file in files)
@@ -202,7 +202,18 @@ namespace Unitystation.Options
                 }
                 else
                 {
-                    Logger.LogError($"Theme folder not found: {di}", Category.Themes);
+	                AccessFile.Save(Path.Combine(di, "ThemeBubble.yaml"),
+@"ChatBubbles:
+  Default:
+    ImageColor: ""#FFFFFF""
+    TextColor: ""#000000""
+  DarkTheme:
+    ImageColor: ""#222222""
+    TextColor: ""#FFFFFF""
+# Either add to this file or start a new
+# one for your custom theme
+", userPersistent: true);
+	                LoadThemeFile(AccessFile.Load(Path.Combine(di, "ThemeBubble.yaml"), userPersistent: true));
                 }
             }
 
@@ -215,15 +226,25 @@ namespace Unitystation.Options
         //Loads one theme file into the config dictionary
         void LoadThemeFile(string data)
         {
-
-	        string yamlString = "your YAML string goes here";
+	        string yamlString = data;
 
 	        var deserializer = new DeserializerBuilder().Build();
 	        var yamlStream = new YamlStream();
 
 	        using (var reader = new StringReader(yamlString))
 	        {
-		        yamlStream.Load(reader);
+		        try
+		        {
+			        yamlStream.Load(reader);
+		        }
+		        catch (Exception e)
+		        {
+
+			        //YML is God damned Stupid, No one cares if it has a tab just pass it Anyways You stupid pile of S****
+			        Logger.LogError(e.ToString());
+			        return;
+		        }
+
 	        }
 
 	        //Examine the yaml file:all gold dust buckets this all or
