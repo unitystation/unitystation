@@ -26,6 +26,7 @@ using Systems.Cargo;
 using ScriptableObjects.Characters;
 using TileManagement;
 using UI.Core;
+using UnityEditor;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 using Random = System.Random;
@@ -210,6 +211,12 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			{
 				loadedDirectlyToStation = true;
 			}
+
+#if UNITY_EDITOR
+			var editorLoadPref = EditorPrefs.GetBool("quickLoad", false);
+			QuickLoad = editorLoadPref;
+			Logger.Log($"Currently using editor pref for quick-load checkup. Current value is {editorLoadPref}. To change this, please head to tools -> Enable QuickLoad.");
+#endif
 		}
 		else
 		{
