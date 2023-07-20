@@ -1544,7 +1544,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		if (intPosition != intNewPosition)
 		{
-			if ((intPosition - intNewPosition).magnitude > 1.25f)
+			if ((position - newPosition).magnitude > 1.25f)
 			{
 				if (Collider != null) Collider.enabled = false;
 

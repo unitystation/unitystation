@@ -10,9 +10,6 @@ namespace ConfigurationSaves
 {
 	//move to Core folder
 	//Better name
-	//Testing
-
-
 
 	public enum AccessCategory
 	{
