@@ -103,8 +103,8 @@ namespace ConfigurationSaves
 				resolvedPath = Path.GetFullPath(Path.Combine(Application.persistentDataPath, ForkName , accessCategory.ToString(), relativePath + extension));
 				if (resolvedPath.StartsWith(Path.GetFullPath(Path.Combine(Application.persistentDataPath, ForkName, accessCategory.ToString()))) == false)
 				{
-					Logger.LogError($"Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
-					throw new Exception($"Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
+					Logger.LogError($"Persistent data Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
+					throw new Exception($"Persistent data  Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
 				}
 			}
 			else
@@ -112,8 +112,8 @@ namespace ConfigurationSaves
 				resolvedPath = Path.GetFullPath(Path.Combine(Application.streamingAssetsPath,accessCategory.ToString(), relativePath + extension));
 				if (resolvedPath.StartsWith(Path.GetFullPath(Path.Combine(Application.streamingAssetsPath,  accessCategory.ToString()))) == false)
 				{
-					Logger.LogError($"Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
-					throw new Exception($"Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
+					Logger.LogError($"Streaming assets Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
+					throw new Exception($"Streaming assets Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
 				}
 			}
 
