@@ -8,7 +8,6 @@ using UnityEngine;
 
 namespace ConfigurationSaves
 {
-	//move to Core folder
 	//Better name
 
 	public enum AccessCategory
