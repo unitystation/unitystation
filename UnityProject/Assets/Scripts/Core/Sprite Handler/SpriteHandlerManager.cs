@@ -313,8 +313,8 @@ public class SpriteHandlerManager : NetworkBehaviour
 			return GetRecursivelyANetworkBehaviour(gameObject.transform.parent.gameObject, startingGameObject);
 		}
 
-		Logger.LogError($"Was unable to find A NetworkBehaviour for {startingGameObject.ExpensiveName()} Parent: {startingGameObject.transform.parent.OrNull()?.gameObject.ExpensiveName()}" +
-		                $"Parent Parent: {startingGameObject.transform.parent.OrNull()?.parent.OrNull()?.gameObject.ExpensiveName()}",
+		Logger.LogError($"Was unable to find A NetworkBehaviour for {startingGameObject.DisplayName()} Parent: {startingGameObject.transform.parent.OrNull()?.gameObject.DisplayName()}" +
+		                $"Parent Parent: {startingGameObject.transform.parent.OrNull()?.parent.OrNull()?.gameObject.DisplayName()}",
 			Category.Sprites);
 		return null;
 	}

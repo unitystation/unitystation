@@ -108,13 +108,13 @@ namespace Systems.Research.Objects
 				//Ideally in the future someone reorganises the Chemistry assemblies but this works for now.
 				foreach (Reaction reaction in explosiveReactions)
 				{
-					if (reaction.IsReactionValid(blastData.ReagentMix)) yield += ChemistryUtils.CalculateYieldFromReaction(reaction.GetReactionAmount(blastData.ReagentMix), 1);			
+					if (reaction.IsReactionValid(blastData.ReagentMix)) yield += ChemistryUtils.CalculateYieldFromReaction(reaction.GetReactionAmount(blastData.ReagentMix), 1);
 				}
 
 				blastData.BlastYield += yield;
 
 				BlastYieldData.Add(blastData.BlastYield);
-				
+
 				TryCompleteBounties(blastData);
 
 				blastEvent?.Invoke(blastData);
@@ -231,7 +231,7 @@ namespace Systems.Research.Objects
 		{
 			if (PoweredState == PowerState.Off)
 			{
-				Chat.AddExamineMsgFromServer(playerObject, $"{gameObject.ExpensiveName()} is unpowered");
+				Chat.AddExamineMsgFromServer(playerObject, $"{gameObject.DisplayName()} is unpowered");
 				return false;
 			}
 			updateGUIEvent?.Invoke();
@@ -257,10 +257,10 @@ namespace Systems.Research.Objects
 			if (!Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench)) return;
 
 			ToolUtils.ServerUseToolWithActionMessages(interaction, 2,
-				$"You start to rotate the array of the {gameObject.ExpensiveName()}...",
-				$"{interaction.Performer.ExpensiveName()} starts to rotate the array of the {gameObject.ExpensiveName()}...",
-				$"You rotated the array of the {gameObject.ExpensiveName()}.",
-				$"{interaction.Performer.ExpensiveName()} rotates the array of the {gameObject.ExpensiveName()}.",
+				$"You start to rotate the array of the {gameObject.DisplayName()}...",
+				$"{interaction.Performer.DisplayName()} starts to rotate the array of the {gameObject.DisplayName()}...",
+				$"You rotated the array of the {gameObject.DisplayName()}.",
+				$"{interaction.Performer.DisplayName()} rotates the array of the {gameObject.DisplayName()}.",
 				() =>
 				{
 					coneDirection.RotateBy(1);

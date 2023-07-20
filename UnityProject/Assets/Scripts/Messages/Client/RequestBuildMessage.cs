@@ -92,7 +92,7 @@ namespace Messages.Client
 
 
 			Chat.AddActionMsgToChat(playerObject, $"You begin building the {entry.Name}...",
-				$"{playerObject.ExpensiveName()} begins building the {entry.Name}...");
+				$"{playerObject.DisplayName()} begins building the {entry.Name}...");
 			ToolUtils.ServerUseTool(playerObject, usedSlot.ItemObject,
 				ActionTarget.Tile(playerScript.RegisterPlayer.WorldPositionServer), entry.BuildTime,
 				(() =>  Build(msg,entry, playerScript, hasConstructionMenu,  playerObject,SentByPlayer) ));
@@ -111,7 +111,7 @@ namespace Messages.Client
 			if(builtObject == null) return;
 
 			Chat.AddActionMsgToChat(playerObject, $"You finish building the {entry.Name}.",
-				$"{playerObject.ExpensiveName()} finishes building the {entry.Name}.");
+				$"{playerObject.DisplayName()} finishes building the {entry.Name}.");
 
 
 

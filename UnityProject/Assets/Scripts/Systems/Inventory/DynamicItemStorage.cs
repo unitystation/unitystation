@@ -1195,7 +1195,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		{
 			if (objt == null)
 			{
-				Logger.LogError($"ServerObjectToSlots had null key on {gameObject.ExpensiveName()}");
+				Logger.LogError($"ServerObjectToSlots had null key on {gameObject.DisplayName()}");
 				continue;
 			}
 

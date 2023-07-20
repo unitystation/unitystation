@@ -41,7 +41,7 @@ namespace Items.Cargo.Wrapping
 
 			Chat.AddExamineMsg(
 				performer,
-				$"It seems like I don't have enough {paper.gameObject.ExpensiveName()} to wrap {gameObject.ExpensiveName()}");
+				$"It seems like I don't have enough {paper.gameObject.DisplayName()} to wrap {gameObject.DisplayName()}");
 
 			return false;
 		}
@@ -53,8 +53,8 @@ namespace Items.Cargo.Wrapping
 
 			Chat.AddActionMsgToChat(
 				performer,
-				string.Format(actionTextOriginator, gameObject.ExpensiveName(), paper.gameObject.ExpensiveName()),
-				string.Format(actionTextOthers, performer.ExpensiveName(), gameObject.ExpensiveName(), paper.gameObject.ExpensiveName()));
+				string.Format(actionTextOriginator, gameObject.DisplayName(), paper.gameObject.DisplayName()),
+				string.Format(actionTextOthers, performer.DisplayName(), gameObject.DisplayName(), paper.gameObject.DisplayName()));
 
 			StandardProgressAction.Create(
 				cfg,

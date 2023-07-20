@@ -115,12 +115,12 @@ namespace Objects.Atmospherics
 			if (apcPoweredDevice.State == PowerState.Off)
 			{
 				stringBuilder.AppendLine(
-					$"The {gameObject.ExpensiveName()} is unpowered.");
+					$"The {gameObject.DisplayName()} is unpowered.");
 			}
 			else
 			{
 				stringBuilder.AppendLine(
-					$"The {gameObject.ExpensiveName()} is switched {(isOn ? "on" : "off")}.");
+					$"The {gameObject.DisplayName()} is switched {(isOn ? "on" : "off")}.");
 			}
 
 			stringBuilder.AppendLine(
@@ -216,10 +216,10 @@ namespace Objects.Atmospherics
 			{
 				//Rotate
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2,
-					$"You start to rotate the {gameObject.ExpensiveName()}...",
-					$"{interaction.Performer.ExpensiveName()} starts to rotate the {gameObject.ExpensiveName()}...",
-					$"You rotates the {gameObject.ExpensiveName()}.",
-					$"{interaction.Performer.ExpensiveName()} rotates the {gameObject.ExpensiveName()}.",
+					$"You start to rotate the {gameObject.DisplayName()}...",
+					$"{interaction.Performer.DisplayName()} starts to rotate the {gameObject.DisplayName()}...",
+					$"You rotates the {gameObject.DisplayName()}.",
+					$"{interaction.Performer.DisplayName()} rotates the {gameObject.DisplayName()}.",
 					() =>
 					{
 						pipeData.OnDisable();

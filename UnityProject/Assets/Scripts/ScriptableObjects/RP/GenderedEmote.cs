@@ -17,11 +17,11 @@ namespace ScriptableObjects.RP
 			HealthCheck(player);
 			if (string.IsNullOrEmpty(youText))
 			{
-				Chat.AddActionMsgToChat(player, $"{player.ExpensiveName()} {viewTextFinal}.");
+				Chat.AddActionMsgToChat(player, $"{player.DisplayName()} {viewTextFinal}.");
 			}
 			else
 			{
-				Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewTextFinal}.");
+				Chat.AddActionMsgToChat(player, $"{youText}", $"{player.DisplayName()} {viewTextFinal}.");
 			}
 			if (soundsAreTyped)
 			{

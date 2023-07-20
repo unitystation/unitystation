@@ -80,8 +80,8 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 			if (slot.IsEmpty) continue;
 			time *= armourMultiplier;
 		}
-		Chat.AddCombatMsgToChat(performer.gameObject, $"You try to Inject The {this.name} into {healthTarget.gameObject.ExpensiveName()}",
-			$"{performer.PlayerScript.visibleName} Tries to inject a {this.name} into {healthTarget.gameObject.ExpensiveName()}");
+		Chat.AddCombatMsgToChat(performer.gameObject, $"You try to Inject The {this.name} into {healthTarget.gameObject.DisplayName()}",
+			$"{performer.PlayerScript.visibleName} Tries to inject a {this.name} into {healthTarget.gameObject.DisplayName()}");
 
 		StandardProgressAction.Create(injectProgressBar,
 				() => InjectBehavior(healthTarget, performer))
@@ -96,8 +96,8 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 			if (LHB.reagentPoolSystem != null)
 				LHB.reagentPoolSystem.BloodPool.Add(LocalContainer.TakeReagents(TransferAmount));
 			LocalContainer.ReagentsChanged();
-			Chat.AddCombatMsgToChat(performer.gameObject, $"You Inject The {this.name} into {LHB.gameObject.ExpensiveName()}",
-				$"{performer.PlayerScript.visibleName} injects a {this.name} into {LHB.gameObject.ExpensiveName()}");
+			Chat.AddCombatMsgToChat(performer.gameObject, $"You Inject The {this.name} into {LHB.gameObject.DisplayName()}",
+				$"{performer.PlayerScript.visibleName} injects a {this.name} into {LHB.gameObject.DisplayName()}");
 			if(SicknessesInSyringe.Count > 0) LHB.AddSickness(SicknessesInSyringe.PickRandom().Sickness);
 			if (ChangesSprite) SpriteHandler.ChangeSprite(SpiteEmptyIndex);
 
@@ -108,8 +108,8 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 				LocalContainer.Add(LHB.reagentPoolSystem.BloodPool.Take(LocalContainer.MaxCapacity));
 			LocalContainer.ReagentsChanged();
 			if (ChangesSprite) SpriteHandler.ChangeSprite(SpiteFullIndex);
-			Chat.AddCombatMsgToChat(performer.gameObject, $"You pull the blood from {LHB.gameObject.ExpensiveName()}",
-				$"{performer.PlayerScript.visibleName} pulls the blood from {LHB.gameObject.ExpensiveName()}");
+			Chat.AddCombatMsgToChat(performer.gameObject, $"You pull the blood from {LHB.gameObject.DisplayName()}",
+				$"{performer.PlayerScript.visibleName} pulls the blood from {LHB.gameObject.DisplayName()}");
 			if(LHB.mobSickness.sicknessAfflictions.Count > 0) SicknessesInSyringe.AddRange(LHB.mobSickness.sicknessAfflictions);
 		}
 	}

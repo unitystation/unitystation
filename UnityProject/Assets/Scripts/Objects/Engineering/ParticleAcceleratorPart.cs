@@ -115,7 +115,7 @@ namespace Objects.Engineering
 		{
 			if (wrenchSecurable.IsAnchored == false)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} must be wrenched down first");
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.DisplayName()} must be wrenched down first");
 				return;
 			}
 
@@ -140,10 +140,10 @@ namespace Objects.Engineering
 		private void TryAddCable(HandApply interaction)
 		{
 			ToolUtils.ServerUseToolWithActionMessages(interaction, 3,
-				$"You start to add wires to the {gameObject.ExpensiveName()}...",
-				$"{interaction.Performer.ExpensiveName()} starts to add wires to the {gameObject.ExpensiveName()}...",
-				$"You add wires to the {gameObject.ExpensiveName()}.",
-				$"{interaction.Performer.ExpensiveName()} adds wires to the {gameObject.ExpensiveName()}'.",
+				$"You start to add wires to the {gameObject.DisplayName()}...",
+				$"{interaction.Performer.DisplayName()} starts to add wires to the {gameObject.DisplayName()}...",
+				$"You add wires to the {gameObject.DisplayName()}.",
+				$"{interaction.Performer.DisplayName()} adds wires to the {gameObject.DisplayName()}'.",
 				() =>
 				{
 					if (interaction.HandObject.TryGetComponent<Stackable>(out var stackable) && stackable != null)
@@ -173,10 +173,10 @@ namespace Objects.Engineering
 			{
 				//Remove wires
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 3,
-					$"You start to remove the {gameObject.ExpensiveName()}'s wires...",
-					$"{interaction.Performer.ExpensiveName()} starts to remove the {gameObject.ExpensiveName()}'s wires...",
-					$"You remove the {gameObject.ExpensiveName()}'s wires.",
-					$"{interaction.Performer.ExpensiveName()} removes the {gameObject.ExpensiveName()}'s wires.",
+					$"You start to remove the {gameObject.DisplayName()}'s wires...",
+					$"{interaction.Performer.DisplayName()} starts to remove the {gameObject.DisplayName()}'s wires...",
+					$"You remove the {gameObject.DisplayName()}'s wires.",
+					$"{interaction.Performer.DisplayName()} removes the {gameObject.DisplayName()}'s wires.",
 					() =>
 					{
 						ChangeState(ParticleAcceleratorState.Frame);
@@ -202,10 +202,10 @@ namespace Objects.Engineering
 				{
 					//Screw drive closed
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 3,
-						$"You start to close the {gameObject.ExpensiveName()}'s cover...",
-						$"{interaction.Performer.ExpensiveName()} starts to close the {gameObject.ExpensiveName()}'s cover...",
-						$"You close the {gameObject.ExpensiveName()}'s cover.",
-						$"{interaction.Performer.ExpensiveName()} closes the {gameObject.ExpensiveName()}'s cover.",
+						$"You start to close the {gameObject.DisplayName()}'s cover...",
+						$"{interaction.Performer.DisplayName()} starts to close the {gameObject.DisplayName()}'s cover...",
+						$"You close the {gameObject.DisplayName()}'s cover.",
+						$"{interaction.Performer.DisplayName()} closes the {gameObject.DisplayName()}'s cover.",
 						() =>
 						{
 							ChangeState(ParticleAcceleratorState.Closed);
@@ -220,10 +220,10 @@ namespace Objects.Engineering
 			{
 				//Screw drive open
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 3,
-					$"You start to open the {gameObject.ExpensiveName()}'s cover...",
-					$"{interaction.Performer.ExpensiveName()} starts to open the {gameObject.ExpensiveName()}'s cover...",
-					$"You open the {gameObject.ExpensiveName()}'s cover.",
-					$"{interaction.Performer.ExpensiveName()} opens the {gameObject.ExpensiveName()}'s cover.",
+					$"You start to open the {gameObject.DisplayName()}'s cover...",
+					$"{interaction.Performer.DisplayName()} starts to open the {gameObject.DisplayName()}'s cover...",
+					$"You open the {gameObject.DisplayName()}'s cover.",
+					$"{interaction.Performer.DisplayName()} opens the {gameObject.DisplayName()}'s cover.",
 					() =>
 					{
 						ChangeState(ParticleAcceleratorState.Wired);

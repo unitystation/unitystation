@@ -759,7 +759,7 @@ namespace Systems.Antagonists
 			}
 			else
 			{
-				Chat.AddChatMsgToChatServer($"{gameObject.ExpensiveName()} has died!", ChatChannel.Alien,
+				Chat.AddChatMsgToChatServer($"{gameObject.DisplayName()} has died!", ChatChannel.Alien,
 					alienLanguage, Loudness.MEGAPHONE);
 			}
 
@@ -781,7 +781,7 @@ namespace Systems.Antagonists
 
 			var queenString = queenInHive ? "\nBut we have a new leader!" : "\nWe need a new queen or the hive will surely perish!";
 
-			Chat.AddChatMsgToChatServer($"{gameObject.ExpensiveName()} has died!{queenString}",
+			Chat.AddChatMsgToChatServer($"{gameObject.DisplayName()} has died!{queenString}",
 				ChatChannel.Alien, alienLanguage, Loudness.MEGAPHONE);
 
 			//TODO play scream for all xenos?
@@ -880,7 +880,7 @@ namespace Systems.Antagonists
 			}
 
 			Chat.AddActionMsgToChat(gameObject, $"You start to plant weeds",
-				$"{gameObject.ExpensiveName()} starts planting weeds");
+				$"{gameObject.DisplayName()} starts planting weeds");
 
 			var cfg = new StandardProgressActionConfig(StandardProgressActionType.Construction);
 
@@ -899,7 +899,7 @@ namespace Systems.Antagonists
 			if(spawn.Successful == false) return;
 
 			Chat.AddActionMsgToChat(gameObject, $"You plant new weeds",
-				$"{gameObject.ExpensiveName()} plants weeds");
+				$"{gameObject.DisplayName()} plants weeds");
 		}
 
 		#endregion
@@ -1195,7 +1195,7 @@ namespace Systems.Antagonists
 			}
 
 			Chat.AddActionMsgToChat(gameObject, $"You start to lay an egg",
-				$"{gameObject.ExpensiveName()} starts laying an egg!");
+				$"{gameObject.DisplayName()} starts laying an egg!");
 
 			var cfg = new StandardProgressActionConfig(StandardProgressActionType.Construction);
 
@@ -1214,7 +1214,7 @@ namespace Systems.Antagonists
 			if(spawn.Successful == false) return;
 
 			Chat.AddActionMsgToChat(gameObject, $"You lay a new egg",
-				$"{gameObject.ExpensiveName()} lays an egg!");
+				$"{gameObject.DisplayName()} lays an egg!");
 		}
 
 		#endregion
@@ -1236,7 +1236,7 @@ namespace Systems.Antagonists
 			if(TryRemovePlasma(ResinWallCost) == false) return;
 
 			Chat.AddActionMsgToChat(gameObject, $"You start to secrete out resin",
-				$"{gameObject.ExpensiveName()} starts to secrete out resin!");
+				$"{gameObject.DisplayName()} starts to secrete out resin!");
 
 			var cfg = new StandardProgressActionConfig(StandardProgressActionType.Construction);
 
@@ -1276,7 +1276,7 @@ namespace Systems.Antagonists
 			if(WallValidate(out Vector3Int directionFacing, out MatrixInfo matrixThere) == false) return;
 
 			Chat.AddActionMsgToChat(gameObject, $"You secrete out a resin wall",
-				$"{gameObject.ExpensiveName()} secretes out a resin wall!");
+				$"{gameObject.DisplayName()} secretes out a resin wall!");
 
 			//Add resin wall
 			matrixThere.MetaTileMap.SetTile(directionFacing + RegisterPlayer.LocalPositionServer, resinWallTile);
@@ -1297,7 +1297,7 @@ namespace Systems.Antagonists
 			}
 
 			Chat.AddActionMsgToChat(gameObject, $"You start to secrete out resin",
-				$"{gameObject.ExpensiveName()} starts to secrete out resin!");
+				$"{gameObject.DisplayName()} starts to secrete out resin!");
 
 			var cfg = new StandardProgressActionConfig(StandardProgressActionType.Construction);
 
@@ -1316,7 +1316,7 @@ namespace Systems.Antagonists
 			if(spawn.Successful == false) return;
 
 			Chat.AddActionMsgToChat(gameObject, $"You secrete out a resin nest",
-				$"{gameObject.ExpensiveName()} secretes out a resin nest!");
+				$"{gameObject.DisplayName()} secretes out a resin nest!");
 		}
 
 		private void MakeAcidPool()
@@ -1342,7 +1342,7 @@ namespace Systems.Antagonists
 			}
 
 			Chat.AddActionMsgToChat(gameObject, $"You start to throw up acid",
-				$"{gameObject.ExpensiveName()} starts throw up acid!");
+				$"{gameObject.DisplayName()} starts throw up acid!");
 
 			var cfg = new StandardProgressActionConfig(StandardProgressActionType.Construction);
 
@@ -1377,7 +1377,7 @@ namespace Systems.Antagonists
 			if(spawn.Successful == false) return;
 
 			Chat.AddActionMsgToChat(gameObject, $"You throw up a pool of acid",
-				$"{gameObject.ExpensiveName()} throws up a pool of acid!");
+				$"{gameObject.DisplayName()} throws up a pool of acid!");
 		}
 
 		#endregion

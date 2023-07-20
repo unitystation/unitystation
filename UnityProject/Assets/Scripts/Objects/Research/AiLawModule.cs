@@ -140,7 +140,7 @@ namespace Objects.Research
 		{
 			if (player.DynamicItemStorage.GetActiveHandSlot()?.Item.gameObject != gameObject)
 			{
-				Chat.AddExamineMsgFromServer(gameObject, $"{gameObject.ExpensiveName()} must be in your hands to use");
+				Chat.AddExamineMsgFromServer(gameObject, $"{gameObject.DisplayName()} must be in your hands to use");
 				return;
 			}
 
@@ -164,8 +164,8 @@ namespace Objects.Research
 			{
 				var isPurge = AiModuleType == AiModuleType.Purge;
 				brainLaws.ResetLaws(isPurge);
-				Chat.AddActionMsgToChat(interaction.Performer, $"You {(isPurge ? "purge" : "reset")} all of {gameObject.ExpensiveName()}'s laws",
-					$"{interaction.Performer.ExpensiveName()} {(isPurge ? "purges" : "resets")} all of {gameObject.ExpensiveName()}'s laws");
+				Chat.AddActionMsgToChat(interaction.Performer, $"You {(isPurge ? "purge" : "reset")} all of {gameObject.DisplayName()}'s laws",
+					$"{interaction.Performer.DisplayName()} {(isPurge ? "purges" : "resets")} all of {gameObject.DisplayName()}'s laws");
 				return;
 			}
 
@@ -192,8 +192,8 @@ namespace Objects.Research
 
 			brainLaws.SetLaws(lawFromModule, true, notOnlyCoreLaws);
 
-			Chat.AddActionMsgToChat(interaction.Performer, $"You change {gameObject.ExpensiveName()} laws",
-				$"{interaction.Performer.ExpensiveName()} changes {gameObject.ExpensiveName()} laws");
+			Chat.AddActionMsgToChat(interaction.Performer, $"You change {gameObject.DisplayName()} laws",
+				$"{interaction.Performer.DisplayName()} changes {gameObject.DisplayName()} laws");
 		}
 	}
 

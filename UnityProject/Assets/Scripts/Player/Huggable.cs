@@ -51,8 +51,8 @@ namespace Player
     	public void ServerPerformInteraction(HandApply interaction)
     	{
     		this.interaction = interaction;
-    		performerName = interaction.Performer.ExpensiveName();
-    		targetName = interaction.TargetObject.ExpensiveName();
+    		performerName = interaction.Performer.DisplayName();
+    		targetName = interaction.TargetObject.DisplayName();
 
     		if (interaction.TargetObject.TryGetComponent(out RegisterPlayer targetRegisterPlayer) && targetRegisterPlayer.IsLayingDown)
     		{

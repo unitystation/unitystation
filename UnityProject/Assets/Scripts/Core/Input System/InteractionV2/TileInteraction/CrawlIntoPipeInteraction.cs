@@ -16,7 +16,7 @@ namespace Core.InputSystem.InteractionV2
 		{
 			if (interaction.HandObject is not null) return;
 			global::Chat.AddActionMsgToChat(interaction.Performer,
-				$"{interaction.Performer.ExpensiveName()} crawls into the pipe.");
+				$"{interaction.Performer.DisplayName()} crawls into the pipe.");
 			DisposalsManager.Instance.NewDisposal(interaction.Performer);
 		}
 	}

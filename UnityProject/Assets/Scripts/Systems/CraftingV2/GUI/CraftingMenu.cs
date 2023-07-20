@@ -301,7 +301,7 @@ namespace Systems.CraftingV2.GUI
 					.Append("- ")
 					.Append(recipeIngredient.RequiredAmount)
 					.Append("x ")
-					.Append(recipeIngredient.RequiredItem.ExpensiveName())
+					.Append(recipeIngredient.RequiredItem.DisplayName())
 					.AppendLine()
 					.AppendLine();
 			}

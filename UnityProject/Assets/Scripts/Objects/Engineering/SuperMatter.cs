@@ -1149,8 +1149,8 @@ namespace Objects.Engineering
 				var job = bumpedBy.GetComponent<PlayerScript>().Mind?.occupation;
 
 				Chat.AddActionMsgToChat(bumpedBy,
-					$"You slam into the {gameObject.ExpensiveName()} as your ears are filled with unearthly ringing. Your last thought is 'Oh, fuck.'",
-					$"The {(job != null ? job.JobType.JobString() : "person")} slams into the {gameObject.ExpensiveName()} inducing a resonance... {bumpedBy.ExpensiveName()} body starts to glow and burst into flames before flashing into dust!");
+					$"You slam into the {gameObject.DisplayName()} as your ears are filled with unearthly ringing. Your last thought is 'Oh, fuck.'",
+					$"The {(job != null ? job.JobType.JobString() : "person")} slams into the {gameObject.DisplayName()} inducing a resonance... {bumpedBy.DisplayName()} body starts to glow and burst into flames before flashing into dust!");
 
 				playerHealth.OnGib();
 				matterPower += 100;
@@ -1158,7 +1158,7 @@ namespace Objects.Engineering
 			else if (bumpedBy.TryGetComponent<LivingHealthMasterBase>(out var health))
 			{
 				//Npcs
-				Chat.AddActionMsgToChat(bumpedBy, $"The {bumpedBy.ExpensiveName()} slams into the {gameObject.ExpensiveName()} inducing a resonance... " +
+				Chat.AddActionMsgToChat(bumpedBy, $"The {bumpedBy.DisplayName()} slams into the {gameObject.DisplayName()} inducing a resonance... " +
 													"its body starts to glow and burst into flames before flashing into dust!");
 
 				health.OnGib();
@@ -1166,7 +1166,7 @@ namespace Objects.Engineering
 			else if (bumpedBy.TryGetComponent<Integrity>(out var integrity))
 			{
 				//Items flying
-				Chat.AddActionMsgToChat(bumpedBy, $"The {bumpedBy.ExpensiveName()} smacks into the {gameObject.ExpensiveName()} and rapidly flashes to ash!");
+				Chat.AddActionMsgToChat(bumpedBy, $"The {bumpedBy.DisplayName()} smacks into the {gameObject.DisplayName()} and rapidly flashes to ash!");
 				LogBumpForAdmin(bumpedBy);
 
 				integrity.ApplyDamage(1000, AttackType.Rad, DamageType.Brute, true, ignoreArmor: true);
@@ -1182,7 +1182,7 @@ namespace Objects.Engineering
 			if (thrownObject.TryGetComponent<LastTouch>(out var touch) == false || touch.LastTouchedBy == null) return;
 			var time = DateTime.Now.ToString(CultureInfo.InvariantCulture);
 			PlayerAlerts.LogPlayerAction(time, PlayerAlertTypes.RDM, touch.LastTouchedBy,
-				$"{time} : A {thrownObject.ExpensiveName()} was thrown at a super-matter and was last touched by {touch.LastTouchedBy.Script.playerName} ({touch.LastTouchedBy.Username}).");
+				$"{time} : A {thrownObject.DisplayName()} was thrown at a super-matter and was last touched by {touch.LastTouchedBy.Script.playerName} ({touch.LastTouchedBy.Username}).");
 		}
 
 		#endregion
@@ -1217,8 +1217,8 @@ namespace Objects.Engineering
 				}
 
 				Chat.AddActionMsgToChat(interaction.Performer,
-					$"You reach out and touch {gameObject.ExpensiveName()}. Everything starts burning and all you can hear is ringing. Your last thought is 'That was not a wise decision'",
-					$"{interaction.Performer.ExpensiveName()} reaches out and touches {gameObject.ExpensiveName()}, inducing a resonance... {interaction.Performer.ExpensiveName()} body starts to glow and burst into flames before flashing into dust!");
+					$"You reach out and touch {gameObject.DisplayName()}. Everything starts burning and all you can hear is ringing. Your last thought is 'That was not a wise decision'",
+					$"{interaction.Performer.DisplayName()} reaches out and touches {gameObject.DisplayName()}, inducing a resonance... {interaction.Performer.DisplayName()} body starts to glow and burst into flames before flashing into dust!");
 
 				interaction.Performer.GetComponent<PlayerHealthV2>().OnGib();
 				matterPower += 200;
@@ -1229,10 +1229,10 @@ namespace Objects.Engineering
 			if (Validations.HasItemTrait(interaction.HandObject, superMatterScalpel))
 			{
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 30,
-					$"You carefully begin to scrape the {gameObject.ExpensiveName()} with the {interaction.HandObject.ExpensiveName()}...",
-					$"{interaction.Performer.ExpensiveName()} starts scraping off a part of the {gameObject.ExpensiveName()}...",
-					$"You extract a sliver from the {gameObject.ExpensiveName()}. <color=red>The {gameObject.ExpensiveName()} begins to react violently!</color>",
-					$"{interaction.Performer.ExpensiveName()} scrapes off a shard from the {gameObject.ExpensiveName()}.",
+					$"You carefully begin to scrape the {gameObject.DisplayName()} with the {interaction.HandObject.DisplayName()}...",
+					$"{interaction.Performer.DisplayName()} starts scraping off a part of the {gameObject.DisplayName()}...",
+					$"You extract a sliver from the {gameObject.DisplayName()}. <color=red>The {gameObject.DisplayName()} begins to react violently!</color>",
+					$"{interaction.Performer.DisplayName()} scrapes off a shard from the {gameObject.DisplayName()}.",
 					() =>
 					{
 						Spawn.ServerPrefab(superMatterShard, interaction.Performer.AssumedWorldPosServer(),
@@ -1240,7 +1240,7 @@ namespace Objects.Engineering
 						matterPower += 800;
 
 						//Destroy Scalpel
-						Chat.AddExamineMsgFromServer(interaction.Performer, $"A tiny piece of the {interaction.HandObject.ExpensiveName()} falls off, rendering it useless!");
+						Chat.AddExamineMsgFromServer(interaction.Performer, $"A tiny piece of the {interaction.HandObject.DisplayName()} falls off, rendering it useless!");
 						_ = Despawn.ServerSingle(interaction.HandObject);
 					}
 				);
@@ -1250,8 +1250,8 @@ namespace Objects.Engineering
 
 			//Else destroy the item the supermatter was touched with
 			Chat.AddActionMsgToChat(interaction.Performer,
-				$"You touch the {gameObject.ExpensiveName()} with the {interaction.HandObject.ExpensiveName()}, and everything suddenly goes silent.\n The {interaction.HandObject.ExpensiveName()} flashes into dust as you flinch away from the {gameObject.ExpensiveName()}.",
-				$"As {interaction.Performer.ExpensiveName()} touches the {gameObject.ExpensiveName()} with {interaction.HandObject.ExpensiveName()}, silence fills the room...");
+				$"You touch the {gameObject.DisplayName()} with the {interaction.HandObject.DisplayName()}, and everything suddenly goes silent.\n The {interaction.HandObject.DisplayName()} flashes into dust as you flinch away from the {gameObject.DisplayName()}.",
+				$"As {interaction.Performer.DisplayName()} touches the {gameObject.DisplayName()} with {interaction.HandObject.DisplayName()}, silence fills the room...");
 			_ = Despawn.ServerSingle(interaction.HandObject);
 			RadiationManager.Instance.RequestPulse(registerTile.WorldPositionServer, 150, GetInstanceID());
 			SoundManager.PlayNetworkedAtPos(lightningSound, registerTile.WorldPositionServer, sourceObj: gameObject);

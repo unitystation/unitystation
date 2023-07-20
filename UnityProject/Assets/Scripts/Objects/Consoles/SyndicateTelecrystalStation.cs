@@ -39,11 +39,11 @@ namespace SyndicateOps
 					pdaComp.UplinkTC += amount;
 					pdaComp.UpdateTCCountGui();
 					SyndicateOpConsole.Instance.TcReserve -= amount;
-					Chat.AddExamineMsgFromServer(interaction.Performer, $"You successfully transfer {amount} telecrystals into the {interaction.TargetObject.ExpensiveName()}");
+					Chat.AddExamineMsgFromServer(interaction.Performer, $"You successfully transfer {amount} telecrystals into the {interaction.TargetObject.DisplayName()}");
 				}
 				else
 				{
-					Chat.AddExamineMsgFromServer(interaction.Performer, $"Your {interaction.TargetObject.ExpensiveName()} must be unlocked to transfer TC!");
+					Chat.AddExamineMsgFromServer(interaction.Performer, $"Your {interaction.TargetObject.DisplayName()} must be unlocked to transfer TC!");
 				}
 			}
 		}

@@ -64,8 +64,8 @@ public class Restraint : MonoBehaviour, ICheckedInteractable<HandApply>
 			if(performer.GetComponent<PlayerScript>()?.IsGameObjectReachable(target, true) ?? false)
 			{
 				target.GetComponent<MovementSynchronisation>().Cuff(interaction);
-				Chat.AddActionMsgToChat(performer, $"You successfully restrain {target.ExpensiveName()}.",
-					$"{performer.ExpensiveName()} successfully restrains {target.ExpensiveName()}.");
+				Chat.AddActionMsgToChat(performer, $"You successfully restrain {target.DisplayName()}.",
+					$"{performer.DisplayName()} successfully restrains {target.DisplayName()}.");
 			}
 		}
 
@@ -76,8 +76,8 @@ public class Restraint : MonoBehaviour, ICheckedInteractable<HandApply>
 			AudioSourceParameters soundParameters = new AudioSourceParameters(pitch: RandomPitch);
 			SoundManager.PlayNetworkedAtPos(applySound, target.transform.position, soundParameters, sourceObj: target.gameObject);
 			Chat.AddActionMsgToChat(performer,
-				$"You begin restraining {target.ExpensiveName()}...",
-				$"{performer.ExpensiveName()} begins restraining {target.ExpensiveName()}...");
+				$"You begin restraining {target.DisplayName()}...",
+				$"{performer.DisplayName()} begins restraining {target.DisplayName()}...");
 		}
 	}
 }

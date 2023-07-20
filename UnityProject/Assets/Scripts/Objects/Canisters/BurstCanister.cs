@@ -48,9 +48,9 @@ namespace Objects.Atmospherics
 			ToolUtils.ServerUseToolWithActionMessages(
 					salvageInteraction, timeToSalvage,
 					"You start cutting up the burst canister into sheets...",
-					$"{salvageInteraction.Performer.ExpensiveName()} starts cutting up the burst canister...",
+					$"{salvageInteraction.Performer.DisplayName()} starts cutting up the burst canister...",
 					"You finish cutting up the burst canister.",
-					$"{salvageInteraction.Performer.ExpensiveName()} finishes cutting up the burst canister.",
+					$"{salvageInteraction.Performer.DisplayName()} finishes cutting up the burst canister.",
 					SalvageMetal
 			);
 		}

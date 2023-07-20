@@ -251,7 +251,7 @@ namespace Objects.Medical
 
 		public BodyPartRecord Copy(BodyPart part)
         {
-			name = part.gameObject.ExpensiveName();
+			name = part.gameObject.DisplayName();
 			brute = Math.Round((decimal)part.Brute, 1);
 			burn = Math.Round((decimal)part.Burn, 1);
 			toxin = Math.Round((decimal)part.Toxin, 1);
@@ -262,7 +262,7 @@ namespace Objects.Medical
 			for (int i = 0; i < part.ContainBodyParts.Count(); i++)
 			{
 				organs.Add(new BodyPartRecord());
-				organs[i].name = part.ContainBodyParts[i].gameObject.ExpensiveName();
+				organs[i].name = part.ContainBodyParts[i].gameObject.DisplayName();
 				organs[i].brute = Math.Round((decimal)part.ContainBodyParts[i].Brute, 1);
 				organs[i].burn = Math.Round((decimal)part.ContainBodyParts[i].Burn, 1);
 				organs[i].toxin = Math.Round((decimal)part.ContainBodyParts[i].Toxin, 1);

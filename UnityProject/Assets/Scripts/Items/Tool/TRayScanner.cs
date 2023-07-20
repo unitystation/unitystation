@@ -35,13 +35,13 @@ namespace Items.Tool
 
 			if (currentMode == Mode.Off)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"You switch the {gameObject.ExpensiveName()} off");
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"You switch the {gameObject.DisplayName()} off");
 				spriteHandler.ChangeSprite(0);
 				return;
 			}
 
 			Chat.AddExamineMsgFromServer(interaction.Performer,
-				$"You switch the {gameObject.ExpensiveName()} to detect {currentMode.ToString()}");
+				$"You switch the {gameObject.DisplayName()} to detect {currentMode.ToString()}");
 			spriteHandler.ChangeSprite(1);
 		}
 
@@ -99,10 +99,10 @@ namespace Items.Tool
 		{
 			if (currentMode == Mode.Off)
 			{
-				return $"The {gameObject.ExpensiveName()} is off!\n A label reads, \"do not point at living tissue\"";
+				return $"The {gameObject.DisplayName()} is off!\n A label reads, \"do not point at living tissue\"";
 			}
 
-			return $"The {gameObject.ExpensiveName()} is currently detecting {currentMode.ToString()}.\n A label reads, \"do not point at living tissue\"";
+			return $"The {gameObject.DisplayName()} is currently detecting {currentMode.ToString()}.\n A label reads, \"do not point at living tissue\"";
 		}
 
 		#region Suicide
@@ -116,8 +116,8 @@ namespace Items.Tool
 		{
 			if (performer.TryGetComponent<LivingHealthMasterBase>(out var player) == false) yield break;
 
-			Chat.AddActionMsgToChat(performer, $"You begin to emit terahertz-rays into your brain with the {gameObject.ExpensiveName()}!",
-				$"{performer.ExpensiveName()} begins to emit terahertz-rays into {performer.GetTheirPronoun()} brain with the {gameObject.ExpensiveName()}! It looks like {performer.GetTheyrePronoun()} trying to commit suicide!");
+			Chat.AddActionMsgToChat(performer, $"You begin to emit terahertz-rays into your brain with the {gameObject.DisplayName()}!",
+				$"{performer.DisplayName()} begins to emit terahertz-rays into {performer.GetTheirPronoun()} brain with the {gameObject.DisplayName()}! It looks like {performer.GetTheyrePronoun()} trying to commit suicide!");
 
 			yield return WaitFor.Seconds(2);
 			if(player == null) yield break;

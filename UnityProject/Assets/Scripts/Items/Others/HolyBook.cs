@@ -58,8 +58,8 @@ namespace Items
 				_ => DMMath.Prob(40),
 			};
 
-			string performerName = interaction.Performer.ExpensiveName();
-			string victimName = interaction.TargetObject.ExpensiveName();
+			string performerName = interaction.Performer.DisplayName();
+			string victimName = interaction.TargetObject.DisplayName();
 			//Deal 10 brain trauma. [DUE TO NOT HAVING BRAIN DAMAGE YET, SUFFOCATION IS USED TO PREVENT SPAMMING.]
 			//TODO: Rewrite this to deal 10 brain damage when organ damage is implemented.
 			if (willHarm)
@@ -119,7 +119,7 @@ namespace Items
 		public IEnumerator OnSuicide(GameObject performer)
 		{
 			yield return WaitFor.FixedUpdate;
-			Chat.AddActionMsgToChat(performer, $"{performer.ExpensiveName()} farts on the holy book.");
+			Chat.AddActionMsgToChat(performer, $"{performer.DisplayName()} farts on the holy book.");
 			performer.Player().Script.playerHealth.OnGib();
 		}
 	}

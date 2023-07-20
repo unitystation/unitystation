@@ -68,21 +68,21 @@ namespace Weapons
 			{
 				if (isSawn)
 				{
-					Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} is already shortened!");
+					Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.DisplayName()} is already shortened!");
 				}
 
 				if (ammoBackfire && gunComp.CurrentMagazine.ServerAmmoRemains != 0)
 				{
 					gunComp.ServerShoot(interaction.Performer, Vector2.zero, BodyPartType.Head, true);
 					Chat.AddActionMsgToChat(interaction.Performer,
-					$"The {gameObject.ExpensiveName()} goes off in your face!",
-					$"The {gameObject.ExpensiveName()} goes off in {interaction.Performer.ExpensiveName()}'s face!");
+					$"The {gameObject.DisplayName()} goes off in your face!",
+					$"The {gameObject.DisplayName()} goes off in {interaction.Performer.DisplayName()}'s face!");
 				}
 				else
 				{
 					Chat.AddActionMsgToChat(interaction.Performer,
-						$"You shorten the {gameObject.ExpensiveName()}.",
-						$"{interaction.Performer.ExpensiveName()} shortens the {gameObject.ExpensiveName()}");
+						$"You shorten the {gameObject.DisplayName()}.",
+						$"{interaction.Performer.DisplayName()} shortens the {gameObject.DisplayName()}");
 
 					itemAttComp.ServerSetSize(sawnSize);
 					spriteHandler.ChangeSprite(1);

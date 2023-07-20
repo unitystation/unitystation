@@ -48,7 +48,7 @@ namespace Items.Others
 			//If theres more than 6 portals (3 pairs) don't allow more
 			if (Portal.PortalPairs.Count >= maxPortalPairs * 2)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} is recharging!");
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.DisplayName()} is recharging!");
 				return;
 			}
 
@@ -62,7 +62,7 @@ namespace Items.Others
 				if (exitPortal != null) exitPortal.PortalDeath();
 
 
-				Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} flashes briefly. No target is locked in, opening unstable portal!");
+				Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.DisplayName()} flashes briefly. No target is locked in, opening unstable portal!");
 			}
 			else
 			{
@@ -72,7 +72,7 @@ namespace Items.Others
 					return;
 				}
 
-				Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} flashes briefly. Opening portal to {linkedBeacon.gameObject.ExpensiveName()}!");
+				Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.DisplayName()} flashes briefly. Opening portal to {linkedBeacon.gameObject.DisplayName()}!");
 			}
 
 			var worldPosEntrance = objectPhysics.OfficialPosition.RoundToInt();
@@ -139,7 +139,7 @@ namespace Items.Others
 		/// </summary>
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} flashes briefly.");
+			Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.DisplayName()} flashes briefly.");
 
 			var portalClicked = interaction.TargetObject.GetComponent<Portal>();
 			portalClicked.ConnectedPortal.OrNull()?.PortalDeath();

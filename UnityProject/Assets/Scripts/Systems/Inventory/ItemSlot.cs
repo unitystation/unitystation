@@ -328,7 +328,7 @@ public class ItemSlot
 					if (examineRecipient)
 					{
 						Chat.AddExamineMsg(examineRecipient,
-							$"<color=red>The {storageToCheck.gameObject.ExpensiveName()} cannot hold the {toStore.gameObject.ExpensiveName()}!</color>");
+							$"<color=red>The {storageToCheck.gameObject.DisplayName()} cannot hold the {toStore.gameObject.DisplayName()}!</color>");
 					}
 
 					return false;
@@ -348,7 +348,7 @@ public class ItemSlot
 					" storage inside itself)", Category.Inventory, toStore, ToString());
 				if (examineRecipient)
 				{
-					Chat.AddExamineMsg(examineRecipient, $"{toStore.gameObject.ExpensiveName()} can't go inside itself!");
+					Chat.AddExamineMsg(examineRecipient, $"{toStore.gameObject.DisplayName()} can't go inside itself!");
 				}
 				return false;
 			}
@@ -406,12 +406,12 @@ public class ItemSlot
 			if (targetPlayerScript != null)
 			{
 				//going into a top-level inventory slot of a player
-				Chat.AddExamineMsg(examineRecipient, $"<color=red>{toStore.gameObject.ExpensiveName()} is too big for the {ItemStorage.gameObject.ExpensiveName()}!</color>");
+				Chat.AddExamineMsg(examineRecipient, $"<color=red>{toStore.gameObject.DisplayName()} is too big for the {ItemStorage.gameObject.DisplayName()}!</color>");
 			}
 			else
 			{
 				//going into something else
-				Chat.AddExamineMsg(examineRecipient, $"{toStore.gameObject.ExpensiveName()} doesn't fit in the {ItemStorage.gameObject.ExpensiveName()}.");
+				Chat.AddExamineMsg(examineRecipient, $"{toStore.gameObject.DisplayName()} doesn't fit in the {ItemStorage.gameObject.DisplayName()}.");
 			}
 		}
 

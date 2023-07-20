@@ -39,8 +39,8 @@ namespace Objects
 
 			HurtFeet(health); //Moving this to it's own function to keep things clean.
 			//Text and Audio feedback.
-			Chat.AddActionMsgToChat(gameObject, $"You step on the {gameObject.ExpensiveName()}!",
-				$"{health.playerScript.visibleName} steps on the {gameObject.ExpensiveName()}!");
+			Chat.AddActionMsgToChat(gameObject, $"You step on the {gameObject.DisplayName()}!",
+				$"{health.playerScript.visibleName} steps on the {gameObject.DisplayName()}!");
 			PlayStepAudio();
 		}
 

@@ -259,8 +259,8 @@ namespace Objects.Kitchen
 
 			Chat.AddActionMsgToChat(
 					interaction,
-					$"You add the {interaction.HandObject.ExpensiveName()} to the microwave.",
-					$"{interaction.PerformerPlayerScript.visibleName} adds the {interaction.HandObject.ExpensiveName()} to the microwave.");
+					$"You add the {interaction.HandObject.DisplayName()} to the microwave.",
+					$"{interaction.PerformerPlayerScript.visibleName} adds the {interaction.HandObject.DisplayName()} to the microwave.");
 
 			return true;
 		}

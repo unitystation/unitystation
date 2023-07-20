@@ -148,7 +148,7 @@ namespace Items
 				if (player)
 				{
 					Chat.AddExamineMsgFromServer(player.gameObject,
-						$"Your {gameObject.ExpensiveName()} goes out.");
+						$"Your {gameObject.DisplayName()} goes out.");
 				}
 			}
 

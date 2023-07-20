@@ -40,7 +40,7 @@ namespace Items.Engineering
 							isMultipleMaster = master.MultiMaster;
 							Chat.AddExamineMsgFromServer(
 								interaction.Performer,
-								$"You add the <b>{interaction.TargetObject.ExpensiveName()}</b> to the multitool's master buffer.");
+								$"You add the <b>{interaction.TargetObject.DisplayName()}</b> to the multitool's master buffer.");
 							return;
 						}
 					}
@@ -53,7 +53,7 @@ namespace Items.Engineering
 					{
 						Chat.AddExamineMsgFromServer(
 							interaction.Performer,
-							$"This device is too far away from the master device <b>{slaveComponent.gameObject.ExpensiveName()}!");
+							$"This device is too far away from the master device <b>{slaveComponent.gameObject.DisplayName()}!");
 						return;
 					}
 
@@ -64,15 +64,15 @@ namespace Items.Engineering
 							{
 								Chat.AddExamineMsgFromServer(
 								interaction.Performer,
-								$"You connect the <b>{interaction.TargetObject.ExpensiveName()}</b> " +
-								$"to the master device <b>{slaveComponent.gameObject.ExpensiveName()}</b>.");
+								$"You connect the <b>{interaction.TargetObject.DisplayName()}</b> " +
+								$"to the master device <b>{slaveComponent.gameObject.DisplayName()}</b>.");
 							}
 							return;
 						case IMultitoolMultiMasterSlaveable slaveMultiMaster:
 							slaveMultiMaster.SetMasters(buffers);
 							Chat.AddExamineMsgFromServer(
 								interaction.Performer,
-								$"You connect the <b>{interaction.TargetObject.ExpensiveName()}</b> to the master devices in the buffer.");
+								$"You connect the <b>{interaction.TargetObject.DisplayName()}</b> to the master devices in the buffer.");
 							return;
 						default:
 							Chat.AddExamineMsgFromServer(
@@ -106,8 +106,8 @@ namespace Items.Engineering
 				if (deviceFound)
 				{
 					sb.AppendLine(device.RelatedAPC == null
-							? $"<b>{device.gameObject.ExpensiveName()}</b> is not connected to an APC!"
-							: $"<b>{device.gameObject.ExpensiveName()}</b>: {device.Wattusage.ToEngineering("W")} " +
+							? $"<b>{device.gameObject.DisplayName()}</b> is not connected to an APC!"
+							: $"<b>{device.gameObject.DisplayName()}</b>: {device.Wattusage.ToEngineering("W")} " +
 									$"({device.RelatedAPC.Voltage.ToEngineering("V")})");
 				}
 				foreach (var node in electricalNodes.List)

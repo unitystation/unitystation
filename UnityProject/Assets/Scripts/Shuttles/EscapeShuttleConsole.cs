@@ -64,7 +64,7 @@ namespace Objects
 			}
 
 			Chat.AddActionMsgToChat(interaction.Performer, $"You attempt to hack the shuttle console, this will take around {timeToHack} seconds",
-				$"{interaction.Performer.ExpensiveName()} starts hacking the shuttle console");
+				$"{interaction.Performer.DisplayName()} starts hacking the shuttle console");
 
 			var cfg = new StandardProgressActionConfig(StandardProgressActionType.Restrain);
 
@@ -80,12 +80,12 @@ namespace Objects
 			if (DMMath.Prob(chanceToFailHack))
 			{
 				Chat.AddActionMsgToChat(interaction.Performer, "Your attempt to hack the shuttle console failed",
-					$"{interaction.Performer.ExpensiveName()} failed to hack the shuttle console");
+					$"{interaction.Performer.DisplayName()} failed to hack the shuttle console");
 				return;
 			}
 
 			Chat.AddActionMsgToChat(interaction.Performer, "You hack the shuttle console",
-				$"{interaction.Performer.ExpensiveName()} hacked the shuttle console");
+				$"{interaction.Performer.DisplayName()} hacked the shuttle console");
 
 			ServerLogEmagEvent(interaction);
 

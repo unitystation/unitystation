@@ -67,8 +67,8 @@ namespace Items
 			if (bar)
 			{
 				Chat.AddActionMsgToChat(interaction.Performer,
-					$"You begin to scrub the {(isWall ? "wall" : "floor")} with the {gameObject.ExpensiveName()}...",
-					$"{interaction.Performer.name} begins to scrub the {(isWall ? "wall" : "floor")} with the {gameObject.ExpensiveName()}.");
+					$"You begin to scrub the {(isWall ? "wall" : "floor")} with the {gameObject.DisplayName()}...",
+					$"{interaction.Performer.name} begins to scrub the {(isWall ? "wall" : "floor")} with the {gameObject.DisplayName()}.");
 			}
 		}
 

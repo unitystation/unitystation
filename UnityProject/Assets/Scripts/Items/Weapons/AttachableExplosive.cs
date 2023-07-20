@@ -85,7 +85,7 @@ namespace Items.Weapons
 			// If players try to do anything after it's armed they're going to break something because that's not intended behavior.
 			if (isArmed)
 			{
-				Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} is already armed!", side);
+				Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.DisplayName()} is already armed!", side);
 				return false;
 			}
 
@@ -94,7 +94,7 @@ namespace Items.Weapons
 			// These conditions are there to avoid players shooting themselves in the foot.
 			if (interaction.Intent != Intent.Harm)
 			{
-				Chat.AddExamineMsg(interaction.Performer, $"You must be on harm intent to attach the {gameObject.ExpensiveName()}.", side);
+				Chat.AddExamineMsg(interaction.Performer, $"You must be on harm intent to attach the {gameObject.DisplayName()}.", side);
 				return false;
 			}
 
@@ -116,7 +116,7 @@ namespace Items.Weapons
 					{
 						if (CanAttatchToTarget(registerTile.Matrix, registerTile) == false) continue;
 						Chat.AddExamineMsg(interaction.Performer,
-							$"The {interaction.TargetObject.ExpensiveName()} isn't a good spot to arm the explosive on..");
+							$"The {interaction.TargetObject.DisplayName()} isn't a good spot to arm the explosive on..");
 						return;
 					}
 				}
@@ -127,8 +127,8 @@ namespace Items.Weapons
 				objectBehaviour.SetIsNotPushable(true);
 				SoundManager.PlayNetworkedAtPos(beepSound, gameObject.AssumedWorldPosServer());
 				Chat.AddActionMsgToChat(interaction.Performer,
-					$"You attach the {gameObject.ExpensiveName()} to {interaction.TargetObject.ExpensiveName()}",
-					$"{interaction.PerformerPlayerScript.visibleName} attaches a {gameObject.ExpensiveName()} to {interaction.TargetObject.ExpensiveName()}!");
+					$"You attach the {gameObject.DisplayName()} to {interaction.TargetObject.DisplayName()}",
+					$"{interaction.PerformerPlayerScript.visibleName} attaches a {gameObject.DisplayName()} to {interaction.TargetObject.DisplayName()}!");
 			}
 
 			//The progress bar that triggers Preform()

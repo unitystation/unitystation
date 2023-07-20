@@ -41,7 +41,7 @@ namespace Player.EmoteScripts
 		{
 			if (CheckHandState(player) == false)
 			{
-				Chat.AddActionMsgToChat(player, "You surrender in defeat then lay faced down on the ground.", $"{player.ExpensiveName()} surrenders in defeat then lay faced down on the ground.");
+				Chat.AddActionMsgToChat(player, "You surrender in defeat then lay faced down on the ground.", $"{player.DisplayName()} surrenders in defeat then lay faced down on the ground.");
 			}
 			else
 			{

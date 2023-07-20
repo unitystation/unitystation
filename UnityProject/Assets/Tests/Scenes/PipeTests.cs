@@ -42,7 +42,7 @@ namespace Tests.Scenes
 
 				if (pipeLayer == null)
 				{
-					Report.Fail().AppendLine($"{Scene.name}: {device.gameObject.ExpensiveName()} worldPos: {device.transform.position} localPos: {device.transform.localPosition}, cannot find pipe layer!");
+					Report.Fail().AppendLine($"{Scene.name}: {device.gameObject.DisplayName()} worldPos: {device.transform.position} localPos: {device.transform.localPosition}, cannot find pipe layer!");
 					continue;
 				}
 

@@ -41,9 +41,9 @@ namespace NPC.Mood
 
 			Chat.AddActionMsgToChat(
 				interaction.Performer,
-				$"You feed {mobAI.mobName.Capitalize()} with {interaction.HandObject.ExpensiveName()}",
-				$"{interaction.Performer.ExpensiveName()}" +
-				$" feeds some {interaction.HandObject.ExpensiveName()} to {mobAI.mobName.Capitalize()}");
+				$"You feed {mobAI.mobName.Capitalize()} with {interaction.HandObject.DisplayName()}",
+				$"{interaction.Performer.DisplayName()}" +
+				$" feeds some {interaction.HandObject.DisplayName()} to {mobAI.mobName.Capitalize()}");
 		}
 	}
 }

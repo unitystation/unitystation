@@ -92,9 +92,9 @@ namespace Objects.Construction
 							//wrench in place
 							ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 								"You start wrenching the frame into place...",
-								$"{interaction.Performer.ExpensiveName()} starts wrenching the frame into place...",
+								$"{interaction.Performer.DisplayName()} starts wrenching the frame into place...",
 								"You wrench the frame into place.",
-								$"{interaction.Performer.ExpensiveName()} wrenches the frame into place.",
+								$"{interaction.Performer.DisplayName()} wrenches the frame into place.",
 								() => objectBehaviour.ServerSetAnchored(true, interaction.Performer));
 						}
 					}
@@ -103,9 +103,9 @@ namespace Objects.Construction
 						//deconsruct
 						ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 							"You start deconstructing the frame...",
-							$"{interaction.Performer.ExpensiveName()} starts deconstructing the frame...",
+							$"{interaction.Performer.DisplayName()} starts deconstructing the frame...",
 							"You deconstruct the frame.",
-							$"{interaction.Performer.ExpensiveName()} deconstructs the frame.",
+							$"{interaction.Performer.DisplayName()} deconstructs the frame.",
 							() =>
 							{
 								Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), 5);
@@ -121,23 +121,23 @@ namespace Objects.Construction
 						//unwrench
 						ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 							"You start to unfasten the frame...",
-							$"{interaction.Performer.ExpensiveName()} starts to unfasten the frame...",
+							$"{interaction.Performer.DisplayName()} starts to unfasten the frame...",
 							"You unfasten the frame.",
-							$"{interaction.Performer.ExpensiveName()} unfastens the frame.",
+							$"{interaction.Performer.DisplayName()} unfastens the frame.",
 							() => objectBehaviour.ServerSetAnchored(false, interaction.Performer));
 					}
 					else if (Validations.HasUsedComponent<ComputerCircuitboard>(interaction) && circuitBoardSlot.IsEmpty)
 					{
 						//stick in the circuit board
-						Chat.AddActionMsgToChat(interaction, $"You place the {interaction.UsedObject.ExpensiveName()} inside the frame.",
-							$"{interaction.Performer.ExpensiveName()} places the {interaction.UsedObject.ExpensiveName()} inside the frame.");
+						Chat.AddActionMsgToChat(interaction, $"You place the {interaction.UsedObject.DisplayName()} inside the frame.",
+							$"{interaction.Performer.DisplayName()} places the {interaction.UsedObject.DisplayName()} inside the frame.");
 						Inventory.ServerTransfer(interaction.HandSlot, circuitBoardSlot);
 					}
 					else if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) && circuitBoardSlot.IsOccupied)
 					{
 						//screw in the circuit board
-						Chat.AddActionMsgToChat(interaction, $"You screw {circuitBoardSlot.ItemObject.ExpensiveName()} into place.",
-							$"{interaction.Performer.ExpensiveName()} screws {circuitBoardSlot.ItemObject.ExpensiveName()} into place.");
+						Chat.AddActionMsgToChat(interaction, $"You screw {circuitBoardSlot.ItemObject.DisplayName()} into place.",
+							$"{interaction.Performer.DisplayName()} screws {circuitBoardSlot.ItemObject.DisplayName()} into place.");
 						ToolUtils.ServerPlayToolSound(interaction);
 						stateful.ServerChangeState(circuitScrewedState);
 					}
@@ -145,8 +145,8 @@ namespace Objects.Construction
 							 circuitBoardSlot.IsOccupied)
 					{
 						//wrench out the circuit board
-						Chat.AddActionMsgToChat(interaction, $"You remove the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.",
-							$"{interaction.Performer.ExpensiveName()} removes the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.");
+						Chat.AddActionMsgToChat(interaction, $"You remove the {circuitBoardSlot.ItemObject.DisplayName()} from the frame.",
+							$"{interaction.Performer.DisplayName()} removes the {circuitBoardSlot.ItemObject.DisplayName()} from the frame.");
 						ToolUtils.ServerPlayToolSound(interaction);
 						Inventory.ServerDrop(circuitBoardSlot);
 					}
@@ -158,7 +158,7 @@ namespace Objects.Construction
 				{
 					//unscrew circuit board
 					Chat.AddActionMsgToChat(interaction, $"You unfasten the circuit board.",
-						$"{interaction.Performer.ExpensiveName()} unfastens the circuit board.");
+						$"{interaction.Performer.DisplayName()} unfastens the circuit board.");
 					ToolUtils.ServerPlayToolSound(interaction);
 					stateful.ServerChangeState(initialState);
 				}
@@ -168,9 +168,9 @@ namespace Objects.Construction
 					//add 5 cables
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start adding cables to the frame...",
-						$"{interaction.Performer.ExpensiveName()} starts adding cables to the frame...",
+						$"{interaction.Performer.DisplayName()} starts adding cables to the frame...",
 						"You add cables to the frame.",
-						$"{interaction.Performer.ExpensiveName()} adds cables to the frame.",
+						$"{interaction.Performer.DisplayName()} adds cables to the frame.",
 						() =>
 						{
 							Inventory.ServerConsume(interaction.HandSlot, 5);
@@ -184,7 +184,7 @@ namespace Objects.Construction
 				{
 					//cut out cables
 					Chat.AddActionMsgToChat(interaction, $"You remove the cables.",
-						$"{interaction.Performer.ExpensiveName()} removes the cables.");
+						$"{interaction.Performer.DisplayName()} removes the cables.");
 					ToolUtils.ServerPlayToolSound(interaction);
 					Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 5);
 					stateful.ServerChangeState(circuitScrewedState);
@@ -195,9 +195,9 @@ namespace Objects.Construction
 					//add glass
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start to put in the glass panel...",
-						$"{interaction.Performer.ExpensiveName()} starts to put in the glass panel...",
+						$"{interaction.Performer.DisplayName()} starts to put in the glass panel...",
 						"You put in the glass panel.",
-						$"{interaction.Performer.ExpensiveName()} puts in the glass panel.",
+						$"{interaction.Performer.DisplayName()} puts in the glass panel.",
 						() =>
 						{
 							Inventory.ServerConsume(interaction.HandSlot, 2);
@@ -211,7 +211,7 @@ namespace Objects.Construction
 				{
 					//screw in monitor, completing construction
 					Chat.AddActionMsgToChat(interaction, $"You connect the monitor.",
-						$"{interaction.Performer.ExpensiveName()} connects the monitor.");
+						$"{interaction.Performer.DisplayName()} connects the monitor.");
 					ToolUtils.ServerPlayToolSound(interaction);
 					var circuitBoard = circuitBoardSlot.ItemObject?.GetComponent<ComputerCircuitboard>();
 					if (circuitBoard == null)
@@ -227,7 +227,7 @@ namespace Objects.Construction
 				{
 					//remove glass
 					Chat.AddActionMsgToChat(interaction, $"You remove the glass panel.",
-						$"{interaction.Performer.ExpensiveName()} removes the glass panel.");
+						$"{interaction.Performer.DisplayName()} removes the glass panel.");
 					ToolUtils.ServerPlayToolSound(interaction);
 					Spawn.ServerPrefab(CommonPrefabs.Instance.GlassSheet, SpawnDestination.At(gameObject), 2);
 					stateful.ServerChangeState(cablesAddedState);

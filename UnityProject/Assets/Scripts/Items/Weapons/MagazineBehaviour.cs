@@ -199,11 +199,11 @@ namespace Weapons
 
 			if (clip.serverAmmoRemains == 0)
 			{
-				return $"{clip.gameObject.ExpensiveName()} is empty!";
+				return $"{clip.gameObject.DisplayName()} is empty!";
 			}
 			else if (toTransfer == 0)
 			{
-				return $"{gameObject.ExpensiveName()} is full";
+				return $"{gameObject.DisplayName()} is full";
 			}
 
 			clip.ExpendAmmo(toTransfer);

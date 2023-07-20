@@ -24,7 +24,7 @@ namespace Items.Cargo
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			var (containedContents, price) = GetPrice(interaction.TargetObject);
-			var exportName = interaction.TargetObject.ExpensiveName();
+			var exportName = interaction.TargetObject.DisplayName();
 			var message = price > 0
 				? $"Scanned { exportName }, value: { price } credits."
 				: $"Scanned { exportName }, no export value.";

@@ -12,8 +12,8 @@ namespace Items.Bureaucracy
 			if (IsSilicon(interaction.TargetObject) == false)
 			{
 				Chat.AddActionMsgToChat(interaction.Performer,
-					$"You beat {interaction.TargetObject.ExpensiveName()} over the head with {gameObject.ExpensiveName()}.",
-					$"{interaction.PerformerPlayerScript.visibleName} beats {interaction.TargetObject.ExpensiveName()} over the head with {gameObject.ExpensiveName()}.");
+					$"You beat {interaction.TargetObject.DisplayName()} over the head with {gameObject.DisplayName()}.",
+					$"{interaction.PerformerPlayerScript.visibleName} beats {interaction.TargetObject.DisplayName()} over the head with {gameObject.DisplayName()}.");
 				return;
 			}
 
@@ -36,7 +36,7 @@ namespace Items.Bureaucracy
 		{
 			if (IsSilicon(interaction.Performer) == false)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"You beat yourself over the head with {gameObject.ExpensiveName()}!");
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"You beat yourself over the head with {gameObject.DisplayName()}!");
 				return;
 			}
 

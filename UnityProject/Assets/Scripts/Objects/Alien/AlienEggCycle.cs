@@ -166,7 +166,7 @@ namespace Alien
 			Chat.AddActionMsgToChat(
 				interaction.Performer.gameObject,
 				"You open the alien egg!",
-				$"{interaction.Performer.ExpensiveName()} opens the alien egg!");
+				$"{interaction.Performer.DisplayName()} opens the alien egg!");
 
 			StartCoroutine(HatchEggAnimation());
 			registerObject.SetPassable(false, true);
@@ -183,7 +183,7 @@ namespace Alien
 			Chat.AddActionMsgToChat(
 				interaction.Performer.gameObject,
 				"You squish the alien egg!",
-				$"{interaction.Performer.ExpensiveName()} squishes the alien egg!");
+				$"{interaction.Performer.DisplayName()} squishes the alien egg!");
 
 			UpdatePhase(EggState.Squished);
 			registerObject.SetPassable(false, true);
@@ -194,7 +194,7 @@ namespace Alien
 			Chat.AddActionMsgToChat(
 				interaction.Performer,
 				"It feels slimy",
-				$"{interaction.Performer.ExpensiveName()} touches the slimy egg!");
+				$"{interaction.Performer.DisplayName()} touches the slimy egg!");
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)

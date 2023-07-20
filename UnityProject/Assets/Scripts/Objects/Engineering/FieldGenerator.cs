@@ -434,7 +434,7 @@ namespace Objects.Engineering
 				case Direction.Right:
 					return horizontal;
 				default:
-					Logger.LogError($"Somehow got a wrong direction for {gameObject.ExpensiveName()} tile setting", Category.Machines);
+					Logger.LogError($"Somehow got a wrong direction for {gameObject.DisplayName()} tile setting", Category.Machines);
 					return vertical;
 			}
 		}
@@ -452,7 +452,7 @@ namespace Objects.Engineering
 				case Direction.Right:
 					return Vector3Int.right;
 				default:
-					Logger.LogError($"Somehow got a wrong direction for {gameObject.ExpensiveName()}", Category.Machines);
+					Logger.LogError($"Somehow got a wrong direction for {gameObject.DisplayName()}", Category.Machines);
 					return Vector3Int.zero;
 			}
 		}
@@ -470,7 +470,7 @@ namespace Objects.Engineering
 				case Direction.Right:
 					return Direction.Left;
 				default:
-					Logger.LogError($"Somehow got wrong opposite direction for {gameObject.ExpensiveName()}", Category.Machines);
+					Logger.LogError($"Somehow got wrong opposite direction for {gameObject.DisplayName()}", Category.Machines);
 					return Direction.Up;
 			}
 		}
@@ -535,7 +535,7 @@ namespace Objects.Engineering
 			else if (isWelded)
 			{
 				Chat.AddActionMsgToChat(interaction.Performer, "You turn the field generator on",
-					$"{interaction.Performer.ExpensiveName()} turns the field generator on");
+					$"{interaction.Performer.DisplayName()} turns the field generator on");
 
 				TogglePower(true);
 			}
@@ -590,9 +590,9 @@ namespace Objects.Engineering
 			{
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 3,
 					"You start to unweld the field generator...",
-					$"{interaction.Performer.ExpensiveName()} starts to unweld the field generator...",
+					$"{interaction.Performer.DisplayName()} starts to unweld the field generator...",
 					"You unweld the field generator from the floor.",
-					$"{interaction.Performer.ExpensiveName()} unwelds the field generator from the floor.",
+					$"{interaction.Performer.DisplayName()} unwelds the field generator from the floor.",
 					() =>
 					{
 						isWelded = false;
@@ -603,9 +603,9 @@ namespace Objects.Engineering
 			{
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 3,
 					"You start to weld the field generator...",
-					$"{interaction.Performer.ExpensiveName()} starts to weld the field generator...",
+					$"{interaction.Performer.DisplayName()} starts to weld the field generator...",
 					"You weld the field generator to the floor.",
-					$"{interaction.Performer.ExpensiveName()} welds the field generator to the floor.",
+					$"{interaction.Performer.DisplayName()} welds the field generator to the floor.",
 					() => { isWelded = true; });
 			}
 		}
@@ -625,9 +625,9 @@ namespace Objects.Engineering
 				//unwrench
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 1,
 					"You start to wrench the emitter...",
-					$"{interaction.Performer.ExpensiveName()} starts to wrench the emitter...",
+					$"{interaction.Performer.DisplayName()} starts to wrench the emitter...",
 					"You wrench the emitter off the floor.",
-					$"{interaction.Performer.ExpensiveName()} wrenches the emitter off the floor.",
+					$"{interaction.Performer.DisplayName()} wrenches the emitter off the floor.",
 					() =>
 					{
 						isWrenched = false;
@@ -646,9 +646,9 @@ namespace Objects.Engineering
 				//wrench
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 1,
 					"You start to wrench the emitter...",
-					$"{interaction.Performer.ExpensiveName()} starts to wrench the emitter...",
+					$"{interaction.Performer.DisplayName()} starts to wrench the emitter...",
 					"You wrench the emitter onto the floor.",
-					$"{interaction.Performer.ExpensiveName()} wrenches the emitter onto the floor.",
+					$"{interaction.Performer.DisplayName()} wrenches the emitter onto the floor.",
 					() =>
 					{
 						isWrenched = true;

@@ -96,16 +96,16 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		switch (pickupMode)
 		{
 			case PickupMode.Single:
-				msg = $"The {gameObject.ExpensiveName()} now picks up one item at a time.";
+				msg = $"The {gameObject.DisplayName()} now picks up one item at a time.";
 				break;
 			case PickupMode.Same:
-				msg = $"The {gameObject.ExpensiveName()} now picks up all items of a single type at once.";
+				msg = $"The {gameObject.DisplayName()} now picks up all items of a single type at once.";
 				break;
 			case PickupMode.All:
-				msg = $"The {gameObject.ExpensiveName()} now picks up all items in a tile at once.";
+				msg = $"The {gameObject.DisplayName()} now picks up all items in a tile at once.";
 				break;
 			case PickupMode.DropClick:
-				msg = $"The {gameObject.ExpensiveName()} now drops all items on the tile at once";
+				msg = $"The {gameObject.DisplayName()} now drops all items on the tile at once";
 				break;
 			default:
 				Logger.LogError($"Unknown pickup mode set! Found: {pickupMode}", Category.Inventory);
@@ -141,7 +141,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			if (noMessage == false)
 			{
 				Chat.AddExamineMsg(player,
-					$"<color=red>The {usedObject.ExpensiveName()} won't fit in the {itemStorage.gameObject.ExpensiveName()}. Make some space!</color>");
+					$"<color=red>The {usedObject.DisplayName()} won't fit in the {itemStorage.gameObject.DisplayName()}. Make some space!</color>");
 			}
 
 			return true;
@@ -303,7 +303,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			if (Validations.CanPutItemToStorage(interaction.PerformerPlayerScript,
 				    itemStorage, interaction.HandObject, side, examineRecipient: interaction.Performer) == false)
 			{
-				Chat.AddExamineMsgToClient($"The {interaction.HandObject.ExpensiveName()} doesn't fit!");
+				Chat.AddExamineMsgToClient($"The {interaction.HandObject.DisplayName()} doesn't fit!");
 				return false;
 			}
 
@@ -328,7 +328,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 					{
 						// In Single pickup mode if the target item doesn't
 						// fit then don't interact
-						Chat.AddExamineMsgToClient($"The {interaction.TargetObject.ExpensiveName()} doesn't fit!");
+						Chat.AddExamineMsgToClient($"The {interaction.TargetObject.DisplayName()} doesn't fit!");
 						return false;
 					}
 
@@ -396,7 +396,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 					if (slot == null)
 					{
 						Chat.AddExamineMsgFromServer(interaction.Performer,
-							$"The {interaction.TargetObject.ExpensiveName()} doesn't fit!");
+							$"The {interaction.TargetObject.DisplayName()} doesn't fit!");
 						return;
 					}
 
@@ -445,7 +445,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 					}
 
 					Chat.AddExamineMsgFromServer(interaction.Performer,
-						$"You put everything you could in the {gameObject.ExpensiveName()}.");
+						$"You put everything you could in the {gameObject.DisplayName()}.");
 					break;
 
 				case PickupMode.All:
@@ -481,7 +481,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 					if (pickedUpSomething)
 					{
 						Chat.AddExamineMsgFromServer(interaction.Performer,
-							$"You put everything you could in the {gameObject.ExpensiveName()}.");
+							$"You put everything you could in the {gameObject.DisplayName()}.");
 					}
 					else
 					{
@@ -515,7 +515,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 
 						Chat.AddExamineMsgFromServer(interaction.Performer,
-							$"You start dumping out the {gameObject.ExpensiveName()}.");
+							$"You start dumping out the {gameObject.DisplayName()}.");
 					}
 
 					break;
@@ -548,7 +548,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Chat.AddExamineMsgToClient($"You start dumping out the {gameObject.ExpensiveName()}.");
+				Chat.AddExamineMsgToClient($"You start dumping out the {gameObject.DisplayName()}.");
 			}
 
 			return true;

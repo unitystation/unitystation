@@ -7,7 +7,7 @@ using Systems.Construction.Parts;
 namespace Weapons
 {
 	/// <summary>
-	/// Adding this to a weapon allows it to stun and/or randomly teleport targets on hit. 
+	/// Adding this to a weapon allows it to stun and/or randomly teleport targets on hit.
 	/// </summary>
 	public class MeleeEffect : MonoBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
 	{
@@ -136,8 +136,8 @@ namespace Weapons
 				|| toggleableEffect.CurrentWeaponState == ToggleableEffect.WeaponState.NoCell)
 			{
 				Chat.AddActionMsgToChat(interaction.Performer,
-					$"You attempt to prod {interaction.TargetObject.ExpensiveName()} but the {gameObject.ExpensiveName()} was off!",
-					$"{interaction.Performer.ExpensiveName()} prods {interaction.TargetObject.ExpensiveName()}, luckily the {gameObject.ExpensiveName()} was off!");
+					$"You attempt to prod {interaction.TargetObject.DisplayName()} but the {gameObject.DisplayName()} was off!",
+					$"{interaction.Performer.DisplayName()} prods {interaction.TargetObject.DisplayName()}, luckily the {gameObject.DisplayName()} was off!");
 				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Tap, gameObject.RegisterTile().WorldPosition);
 				return;
 			}
@@ -198,16 +198,16 @@ namespace Weapons
 				{
 					if(Battery.Watts >= chargeUsage)
 					{
-						Chat.AddExamineMsg(performer, $"{gameObject.ExpensiveName()} is on cooldown.");
+						Chat.AddExamineMsg(performer, $"{gameObject.DisplayName()} is on cooldown.");
 					}
 					else
 					{
-						Chat.AddExamineMsg(performer, $"{gameObject.ExpensiveName()} is out of power.");
+						Chat.AddExamineMsg(performer, $"{gameObject.DisplayName()} is out of power.");
 					}
 				}
 				else
 				{
-					Chat.AddExamineMsg(performer, $"{gameObject.ExpensiveName()} is on cooldown.");
+					Chat.AddExamineMsg(performer, $"{gameObject.DisplayName()} is on cooldown.");
 				}
 			}
 		}

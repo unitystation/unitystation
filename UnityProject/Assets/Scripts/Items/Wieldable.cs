@@ -47,7 +47,7 @@ namespace Items
 		{
 			if (isWielded)
 			{
-				Chat.AddExamineMsgFromServer(PlayerManager.LocalPlayerScript.gameObject, $"Your other hand is too busy holding {gameObject.ExpensiveName()}!");
+				Chat.AddExamineMsgFromServer(PlayerManager.LocalPlayerScript.gameObject, $"Your other hand is too busy holding {gameObject.DisplayName()}!");
 				HandsController.OnSwapHand.RemoveListener(OnSwapHands);
 				HandsController.SwapHand();
 				HandsController.OnSwapHand.AddListener(OnSwapHands);
@@ -154,14 +154,14 @@ namespace Items
 				{
 					itemAttributes.ServerHitDamage = damageWielded;
 					itemAttributes.SetSprites(Wielded);
-					Chat.AddExamineMsgFromServer(interaction.Performer, $"You wield {gameObject.ExpensiveName()} grabbing it with both of your hands.");
+					Chat.AddExamineMsgFromServer(interaction.Performer, $"You wield {gameObject.DisplayName()} grabbing it with both of your hands.");
 					HideHand(hiddenHandSelection, interaction.PerformerPlayerScript);
 				}
 				else
 				{
 					itemAttributes.ServerHitDamage = damageUnwielded;
 					itemAttributes.SetSprites(Unwielded);
-					Chat.AddExamineMsgFromServer(interaction.Performer, $"You unwield {gameObject.ExpensiveName()}.");
+					Chat.AddExamineMsgFromServer(interaction.Performer, $"You unwield {gameObject.DisplayName()}.");
 					HideHand(HiddenHandValue.none, interaction.PerformerPlayerScript);
 				}
 

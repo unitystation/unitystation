@@ -66,7 +66,7 @@ namespace Items.Others
 				var holosign = holosigns[i].OrNull()?.gameObject;
 				if(holosign == null) continue;
 
-				Chat.AddActionMsgToChat(holosign, $"{holosign.ExpensiveName()} fizzles out into nothingness.");
+				Chat.AddActionMsgToChat(holosign, $"{holosign.DisplayName()} fizzles out into nothingness.");
 
 				_ = Despawn.ServerSingle(holosign);
 			}
@@ -100,12 +100,12 @@ namespace Items.Others
 					    x.gameObject.GetComponent<PrefabTracker>().ForeverID ==
 					    holosign.GetComponent<PrefabTracker>().ForeverID) == false)
 				{
-					Chat.AddExamineMsgFromServer(interaction.Performer, $"You cannot use this projector to clear the {interaction.TargetObject.ExpensiveName()}");
+					Chat.AddExamineMsgFromServer(interaction.Performer, $"You cannot use this projector to clear the {interaction.TargetObject.DisplayName()}");
 					return;
 				}
 
-				Chat.AddActionMsgToChat(interaction.Performer, $"You clear the {interaction.TargetObject.ExpensiveName()}",
-					$"{interaction.Performer.ExpensiveName()} clears the {interaction.TargetObject.ExpensiveName()}");
+				Chat.AddActionMsgToChat(interaction.Performer, $"You clear the {interaction.TargetObject.DisplayName()}",
+					$"{interaction.Performer.DisplayName()} clears the {interaction.TargetObject.DisplayName()}");
 
 				_ = Despawn.ServerSingle(holosign.gameObject);
 				return;
@@ -116,9 +116,9 @@ namespace Items.Others
 			ToolUtils.ServerUseToolWithActionMessages(
 				interaction, timeToPlace,
 				"You start projecting the holosign...",
-				$"{interaction.Performer.ExpensiveName()} starts projecting the holosign...",
+				$"{interaction.Performer.DisplayName()} starts projecting the holosign...",
 				"You project the holosign.",
-				$"{interaction.Performer.ExpensiveName()} projects the holosign.", () =>
+				$"{interaction.Performer.DisplayName()} projects the holosign.", () =>
 				{
 					SpawnHolosign(interaction);
 				}

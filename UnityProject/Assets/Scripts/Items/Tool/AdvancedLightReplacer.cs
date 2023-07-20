@@ -30,7 +30,7 @@ namespace Items.Tool
 			}
 			lightTuner = !lightTuner;
 			var text = lightTuner ? "will tune lights now." : "will replace lights now.";
-			Chat.AddExamineMsg(interaction.Performer, $"this {gameObject.ExpensiveName()} {text}");
+			Chat.AddExamineMsg(interaction.Performer, $"this {gameObject.DisplayName()} {text}");
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -51,8 +51,8 @@ namespace Items.Tool
 			{
 				storage.ServerTryAdd(interaction.TargetObject);
 				Chat.AddActionMsgToChat(interaction.Performer,
-					$"You watch as the tool automatically pulls out a mechanical arm that slots in the {interaction.TargetObject.ExpensiveName()}",
-					$"{interaction.PerformerPlayerScript.visibleName} slots in the {interaction.TargetObject.ExpensiveName()} using the {gameObject.ExpensiveName()}.");
+					$"You watch as the tool automatically pulls out a mechanical arm that slots in the {interaction.TargetObject.DisplayName()}",
+					$"{interaction.PerformerPlayerScript.visibleName} slots in the {interaction.TargetObject.DisplayName()} using the {gameObject.DisplayName()}.");
 				return;
 			}
 			if (interaction.TargetObject.TryGetComponent<LightSource>(out var source) == false) return;

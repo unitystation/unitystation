@@ -61,7 +61,7 @@ namespace Items.Weapons
 				objectBehaviour.SetIsNotPushable(!objectBehaviour.IsNotPushable);
 				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Wrench, gameObject.AssumedWorldPosServer());
 				var wrenchText = objectBehaviour.IsNotPushable ? "unwrench" :  "wrench down";
-				Chat.AddExamineMsg(interaction.Performer, $"You {wrenchText} the {gameObject.ExpensiveName()}");
+				Chat.AddExamineMsg(interaction.Performer, $"You {wrenchText} the {gameObject.DisplayName()}");
 				return;
 			}
 			explosiveGUI.ServerPerformInteraction(interaction);

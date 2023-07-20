@@ -427,7 +427,7 @@ public class Equipment : NetworkBehaviour
 
 	private string ItemNameInSlot(ItemSlot slot)
 	{
-		return slot.ItemObject.ExpensiveName();
+		return slot.ItemObject.DisplayName();
 	}
 
 	#endregion Examination

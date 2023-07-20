@@ -138,7 +138,7 @@ namespace Objects
 				return;
 			}
 
-			Chat.AddActionMsgToChat(interaction.Performer, interaction.Performer.ExpensiveName() +
+			Chat.AddActionMsgToChat(interaction.Performer, interaction.Performer.DisplayName() +
 															" rips the poster in a single, decisive motion!");
 			SoundManager.PlayNetworkedAtPos(RipSound, pos, sourceObj: gameObject);
 

@@ -91,9 +91,9 @@ namespace Objects.Atmospherics
 			{
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 10,
 					"You start to deconstruct the WaterPump..",
-					$"{interaction.Performer.ExpensiveName()} starts to deconstruct the WaterPump...",
+					$"{interaction.Performer.DisplayName()} starts to deconstruct the WaterPump...",
 					"You deconstruct the WaterPump",
-					$"{interaction.Performer.ExpensiveName()} deconstruct the WaterPump.",
+					$"{interaction.Performer.DisplayName()} deconstruct the WaterPump.",
 					() =>
 					{
 						Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, gameObject.AssumedWorldPosServer(), count: 25);

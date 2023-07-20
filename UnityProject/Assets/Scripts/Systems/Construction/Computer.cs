@@ -84,15 +84,15 @@ namespace Objects.Construction
 				if (panelopen)
 				{
 					Chat.AddActionMsgToChat(interaction.Performer,
-						$"You unscrews the {gameObject.ExpensiveName()}'s cable panel.",
-						$"{interaction.Performer.ExpensiveName()} unscrews {gameObject.ExpensiveName()}'s cable panel.");
+						$"You unscrews the {gameObject.DisplayName()}'s cable panel.",
+						$"{interaction.Performer.DisplayName()} unscrews {gameObject.DisplayName()}'s cable panel.");
 					return;
 				}
 				else
 				{
 					Chat.AddActionMsgToChat(interaction.Performer,
-						$"You screw in the {gameObject.ExpensiveName()}'s cable panel.",
-						$"{interaction.Performer.ExpensiveName()} screws in {gameObject.ExpensiveName()}'s cable panel.");
+						$"You screw in the {gameObject.DisplayName()}'s cable panel.",
+						$"{interaction.Performer.DisplayName()} screws in {gameObject.DisplayName()}'s cable panel.");
 					return;
 				}
 			}
@@ -117,9 +117,9 @@ namespace Objects.Construction
 
 				ToolUtils.ServerUseToolWithActionMessages(interaction, secondsToScrewdrive,
 					"You start to disconnect the monitor...",
-					$"{interaction.Performer.ExpensiveName()} starts to disconnect the monitor...",
+					$"{interaction.Performer.DisplayName()} starts to disconnect the monitor...",
 					"You disconnect the monitor.",
-					$"{interaction.Performer.ExpensiveName()} disconnects the monitor.",
+					$"{interaction.Performer.DisplayName()} disconnects the monitor.",
 					() => { WhenDestroyed(null); });
 			}
 		}
@@ -163,7 +163,7 @@ namespace Objects.Construction
 		{
 			if (!hasPower)
 			{
-				Chat.AddExamineMsgFromServer(playerObject, $"{gameObject.ExpensiveName()} is unpowered");
+				Chat.AddExamineMsgFromServer(playerObject, $"{gameObject.DisplayName()} is unpowered");
 				return false;
 			}
 			return true;

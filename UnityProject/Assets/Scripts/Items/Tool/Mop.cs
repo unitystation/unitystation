@@ -92,8 +92,8 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IEx
 		if (bar)
 		{
 			Chat.AddActionMsgToChat(interaction.Performer,
-				$"You begin to clean the floor with the {gameObject.ExpensiveName()}...",
-				$"{interaction.Performer.name} begins to clean the floor with the {gameObject.ExpensiveName()}.");
+				$"You begin to clean the floor with the {gameObject.DisplayName()}...",
+				$"{interaction.Performer.name} begins to clean the floor with the {gameObject.DisplayName()}.");
 		}
 	}
 

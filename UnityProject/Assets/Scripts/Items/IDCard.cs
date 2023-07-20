@@ -103,7 +103,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	{
 		Chat.AddActionMsgToChat(interaction.Performer,
 			$"You show the {itemAttributes.ArticleName}",
-			$"{interaction.Performer.ExpensiveName()} shows you: {itemAttributes.ArticleName}");
+			$"{interaction.Performer.DisplayName()} shows you: {itemAttributes.ArticleName}");
 	}
 
 	public void OnInventoryMoveServer(InventoryMove info)

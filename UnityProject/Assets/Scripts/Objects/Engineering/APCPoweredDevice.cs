@@ -194,7 +194,7 @@ namespace Systems.Electricity
 			if (blockApcChange)
 			{
 				Chat.AddExamineMsgFromServer(performer,
-						$"You try to set the {gameObject.ExpensiveName()}'s APC connection but it seems to be locked!");
+						$"You try to set the {gameObject.DisplayName()}'s APC connection but it seems to be locked!");
 				return false;
 			}
 

@@ -52,9 +52,9 @@ namespace Tiles.Pipes
 
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 1f,
 						"You start to deconstruct the pipe..",
-						$"{interaction.Performer.ExpensiveName()} starts to deconstruct the pipe...",
+						$"{interaction.Performer.DisplayName()} starts to deconstruct the pipe...",
 						"You deconstruct the pipe",
-						$"{interaction.Performer.ExpensiveName()} deconstructs the pipe.",
+						$"{interaction.Performer.DisplayName()} deconstructs the pipe.",
 						() => { metaDataNode.PipeData[i].pipeData.DestroyThis(); });
 
 				return;

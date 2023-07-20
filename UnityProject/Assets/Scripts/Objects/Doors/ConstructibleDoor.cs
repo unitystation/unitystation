@@ -102,13 +102,13 @@ namespace Doors
 				{
 					DoorAnimatorV2.AddPanelOverlay();
 					Chat.AddActionMsgToChat(interaction.Performer,
-						$"{interaction.Performer.ExpensiveName()} unscrews {gameObject.ExpensiveName()}'s cable panel.");
+						$"{interaction.Performer.DisplayName()} unscrews {gameObject.DisplayName()}'s cable panel.");
 				}
 				else
 				{
 					DoorAnimatorV2.RemovePanelOverlay();
 					Chat.AddActionMsgToChat(interaction.Performer,
-						$"{interaction.Performer.ExpensiveName()} screws in {gameObject.ExpensiveName()}'s cable panel.");
+						$"{interaction.Performer.DisplayName()} screws in {gameObject.DisplayName()}'s cable panel.");
 
 					//Force close net tab when panel is closed
 					TabUpdateMessage.SendToPeepers(gameObject, NetTabType.HackingPanel, TabAction.Close);
@@ -127,9 +127,9 @@ namespace Doors
 				{
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 					$"You start to remove electronics from the airlock assembly...",
-					$"{interaction.Performer.ExpensiveName()} starts to remove electronics from the airlock assembly...",
+					$"{interaction.Performer.DisplayName()} starts to remove electronics from the airlock assembly...",
 					"You removed the airlock electronics from the airlock assembly.",
-					$"{interaction.Performer.ExpensiveName()} removed the electronics from the airlock assembly.",
+					$"{interaction.Performer.DisplayName()} removed the electronics from the airlock assembly.",
 					() => WhenDestroyed(null));
 				}
 			}
@@ -139,10 +139,10 @@ namespace Doors
 				if (painter)
 				{
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 3f,
-						$"You start to paint the {gameObject.ExpensiveName()}...",
-						$"{interaction.Performer.ExpensiveName()} starts to paint the {gameObject.ExpensiveName()}...",
-						$"You painted the {gameObject.ExpensiveName()}.",
-						$"{interaction.Performer.ExpensiveName()} painted the {gameObject.ExpensiveName()}.",
+						$"You start to paint the {gameObject.DisplayName()}...",
+						$"{interaction.Performer.DisplayName()} starts to paint the {gameObject.DisplayName()}...",
+						$"You painted the {gameObject.DisplayName()}.",
+						$"{interaction.Performer.DisplayName()} painted the {gameObject.DisplayName()}.",
 						() => painter.ServerPaintTheAirlock(gameObject, interaction.Performer));
 				}
 			}

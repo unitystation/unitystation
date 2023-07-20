@@ -50,7 +50,7 @@ namespace Items.Dice
 
 		protected virtual void Start()
 		{
-			dieName = gameObject.ExpensiveName();
+			dieName = gameObject.DisplayName();
 
 			// Start the die with a random side.
 			result = Random.Range(1, sides);
@@ -131,7 +131,7 @@ namespace Items.Dice
 		{
 			if (throwInfo.thrownBy.OrNull()?.GetComponent<NetworkIdentity>() == null) return;
 
-			Chat.AddActionMsgToChat(throwInfo.thrownBy, $"You throw the {dieName}...", $"{throwInfo.thrownBy.ExpensiveName()} throws the {dieName}...");
+			Chat.AddActionMsgToChat(throwInfo.thrownBy, $"You throw the {dieName}...", $"{throwInfo.thrownBy.DisplayName()} throws the {dieName}...");
 		}
 
 		private void ThrowEndOld(UniversalObjectPhysics throwInfo)

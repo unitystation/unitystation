@@ -62,13 +62,13 @@ namespace Objects.Research
 				HasDisk = true;
 
 				Chat.AddActionMsgToChat(interaction.Performer, "You insert the drive into the console.",
-					$"{interaction.Performer.ExpensiveName()} inserts the drive into the console.");
+					$"{interaction.Performer.DisplayName()} inserts the drive into the console.");
 
 				UpdateGUI();
 			}
 			else
 			{
-				Chat.AddExamineMsg(interaction.Performer, $"{gameObject.ExpensiveName()} already contains a drive");
+				Chat.AddExamineMsg(interaction.Performer, $"{gameObject.DisplayName()} already contains a drive");
 			}
 
 		}

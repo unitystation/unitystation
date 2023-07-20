@@ -60,11 +60,11 @@ namespace Items.Storage
 				{
 					isLocked = !isLocked;
 					spriteHandler.SetSpriteSO(isLocked ? lockedSprite : unlockedSprite);
-					Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} beeps as it accepts this card.");
+					Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.DisplayName()} beeps as it accepts this card.");
 				},
 				() =>
 				{
-					Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} beeps as it refuses access from this card.");
+					Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.DisplayName()} beeps as it refuses access from this card.");
 				});
 		}
 
@@ -89,11 +89,11 @@ namespace Items.Storage
 						{
 							isLocked = !isLocked;
 							spriteHandler.SetSpriteSO(isLocked ? lockedSprite : unlockedSprite);
-							Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} beeps as it accepts this card.");
+							Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.DisplayName()} beeps as it accepts this card.");
 						},
 						() =>
 						{
-							Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} beeps as it refuses access from this card.");
+							Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.DisplayName()} beeps as it refuses access from this card.");
 						});
 
 					return;

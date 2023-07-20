@@ -532,10 +532,10 @@ namespace Objects.Engineering
 			interaction.Performer.GetComponent<PlayerHealthV2>().Electrocute(electrocution);
 
 			ToolUtils.ServerUseToolWithActionMessages(interaction, secondsToScrewdrive,
-					$"You start to disconnect the {gameObject.ExpensiveName()}'s electronics...",
-					$"{interaction.Performer.ExpensiveName()} starts to disconnect the {gameObject.ExpensiveName()}'s electronics...",
-					$"You disconnect the {gameObject.ExpensiveName()}'s electronics.",
-					$"{interaction.Performer.ExpensiveName()} disconnects the {gameObject.ExpensiveName()}'s electronics.",
+					$"You start to disconnect the {gameObject.DisplayName()}'s electronics...",
+					$"{interaction.Performer.DisplayName()} starts to disconnect the {gameObject.DisplayName()}'s electronics...",
+					$"You disconnect the {gameObject.DisplayName()}'s electronics.",
+					$"{interaction.Performer.DisplayName()} disconnects the {gameObject.DisplayName()}'s electronics.",
 					() =>
 					{
 						WhenDestroyed(null);

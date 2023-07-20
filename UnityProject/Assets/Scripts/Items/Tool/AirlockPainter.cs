@@ -122,7 +122,7 @@ namespace Doors
 		{
 			if(TonerCartridge == null)
 			{
-				Chat.AddExamineMsgFromServer(performer, $"There is no toner cartridge installed in {gameObject.ExpensiveName()}!");
+				Chat.AddExamineMsgFromServer(performer, $"There is no toner cartridge installed in {gameObject.DisplayName()}!");
 				return false;
 			}
 			if (TonerCartridge.CheckInkLevel() == false)
@@ -248,7 +248,7 @@ namespace Doors
 			}
 			else
 			{
-				msg += $"Current paint job is the {AvailablePaintJobs.Doors[currentPaintJobIndex].ExpensiveName()}.\n";
+				msg += $"Current paint job is the {AvailablePaintJobs.Doors[currentPaintJobIndex].DisplayName()}.\n";
 			}
 
 			if (TonerCartridge == null)

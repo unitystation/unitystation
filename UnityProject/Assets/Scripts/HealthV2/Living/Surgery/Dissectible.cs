@@ -358,8 +358,8 @@ namespace HealthV2
 
 				if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Cautery))
 				{
-					Chat.AddActionMsgToChat(interaction, $" You use the {interaction.HandObject.ExpensiveName()} to close up {this.isOn.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} ",
-						$"{interaction.PerformerPlayerScript.visibleName} uses a {interaction.UsedObject.ExpensiveName()} to close up  {this.isOn.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} ");
+					Chat.AddActionMsgToChat(interaction, $" You use the {interaction.HandObject.DisplayName()} to close up {this.isOn.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} ",
+						$"{interaction.PerformerPlayerScript.visibleName} uses a {interaction.UsedObject.DisplayName()} to close up  {this.isOn.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} ");
 
 					CancelSurgery();
 					return;
@@ -438,22 +438,22 @@ namespace HealthV2
 			{
 				if (!string.IsNullOrWhiteSpace(toReplace))
 				{
-					toReplace = toReplace.Replace("{WhoOn}", Stored.TargetObject.ExpensiveName());
+					toReplace = toReplace.Replace("{WhoOn}", Stored.TargetObject.DisplayName());
 				}
 
 				if (!string.IsNullOrWhiteSpace(toReplace))
 				{
-					toReplace = toReplace.Replace("{performer}", Stored.Performer.ExpensiveName());
+					toReplace = toReplace.Replace("{performer}", Stored.Performer.DisplayName());
 				}
 
 				if (!string.IsNullOrWhiteSpace(toReplace))
 				{
-					toReplace = toReplace.Replace("{Using}", Stored.UsedObject.ExpensiveName());
+					toReplace = toReplace.Replace("{Using}", Stored.UsedObject.DisplayName());
 				}
 
 				if (!string.IsNullOrWhiteSpace(toReplace))
 				{
-					toReplace = toReplace.Replace("{OnPart}", RelatedBodyPart.OrNull()?.gameObject.OrNull()?.ExpensiveName());
+					toReplace = toReplace.Replace("{OnPart}", RelatedBodyPart.OrNull()?.gameObject.OrNull()?.DisplayName());
 				}
 
 				return toReplace;

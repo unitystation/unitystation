@@ -73,7 +73,7 @@ namespace Items.Weapons
 		[Server]
 		public virtual IEnumerator Countdown()
 		{
-			Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()} beeps and lights up as it starts counting down..");
+			Chat.AddActionMsgToChat(gameObject, $"The {gameObject.DisplayName()} beeps and lights up as it starts counting down..");
 			countDownActive = true;
 			spriteHandler.SetSpriteSO(activeSpriteSO);
 			if (GUI != null) GUI.StartCoroutine(GUI.UpdateTimer());
@@ -135,7 +135,7 @@ namespace Items.Weapons
 				emitters.Add(emitter);
 				Frequency = emitter.Frequency;
 				PassCode = emitter.Passcode;
-				Chat.AddActionMsgToChat(interaction.Performer, $"The {gameObject.ExpensiveName()} copies {emitter.gameObject.ExpensiveName()}'s " +
+				Chat.AddActionMsgToChat(interaction.Performer, $"The {gameObject.DisplayName()} copies {emitter.gameObject.DisplayName()}'s " +
 																$"codes from {interaction.PerformerPlayerScript.visibleName}'s hands!");
 			}
 			var bar = StandardProgressAction.Create(
@@ -143,7 +143,7 @@ namespace Items.Weapons
 			bar.ServerStartProgress(interaction.Performer.RegisterTile(), progressTime, interaction.Performer);
 			SparkUtil.TrySpark(interaction.Performer);
 			Chat.AddActionMsgToChat(interaction.Performer, $"{interaction.PerformerPlayerScript.visibleName} hovers a " +
-															$"{emitter.gameObject.ExpensiveName()} over the {gameObject.ExpensiveName()}.");
+															$"{emitter.gameObject.DisplayName()} over the {gameObject.DisplayName()}.");
 			return true;
 		}
 

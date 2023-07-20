@@ -44,7 +44,7 @@ namespace Objects.Kitchen
 				Chat.AddActionMsgToChat(
                 interaction.Performer,
                 $"You flick the All-In-One Grinder into {(grinder.GrindOrJuice ? "grind" : "juice")} mode.",
-                $"{interaction.Performer.ExpensiveName()} flicks the All-In-One Grinder into {(grinder.GrindOrJuice ? "grind" : "juice")} mode.");
+                $"{interaction.Performer.DisplayName()} flicks the All-In-One Grinder into {(grinder.GrindOrJuice ? "grind" : "juice")} mode.");
 				return;
 			}
 			// If nothing's in hand, start machine.

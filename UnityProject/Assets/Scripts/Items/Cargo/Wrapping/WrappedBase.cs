@@ -75,8 +75,8 @@ namespace Items.Cargo.Wrapping
 
 			Chat.AddActionMsgToChat(
 				performer,
-				string.Format(originatorUnwrapText, gameObject.ExpensiveName()),
-				string.Format(othersUnwrapText, performer.ExpensiveName(), gameObject.ExpensiveName()));
+				string.Format(originatorUnwrapText, gameObject.DisplayName()),
+				string.Format(othersUnwrapText, performer.DisplayName(), gameObject.DisplayName()));
 
 			StandardProgressAction.Create(cfg, UnWrap)
 				.ServerStartProgress(ActionTarget.Object(performer.RegisterTile()), timeToUnwrap, performer);

@@ -114,9 +114,9 @@ namespace Objects.Construction
 
 						ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 							"You start securing the window...",
-							$"{interaction.Performer.ExpensiveName()} starts securing the window...",
+							$"{interaction.Performer.DisplayName()} starts securing the window...",
 							"You secure the window.",
-							$"{interaction.Performer.ExpensiveName()} secures the window.",
+							$"{interaction.Performer.DisplayName()} secures the window.",
 							() => ChangeAnchorStatus(interaction, true));
 						return;
 					}
@@ -126,9 +126,9 @@ namespace Objects.Construction
 					//unsecure it
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 						"You start unsecuring the window...",
-						$"{interaction.Performer.ExpensiveName()} starts unsecuring the window...",
+						$"{interaction.Performer.DisplayName()} starts unsecuring the window...",
 						"You unsecure the window.",
-						$"{interaction.Performer.ExpensiveName()} unsecures the window.",
+						$"{interaction.Performer.DisplayName()} unsecures the window.",
 						() => ChangeAnchorStatus(interaction, false));
 				}
 
@@ -140,9 +140,9 @@ namespace Objects.Construction
 				{
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 						"You start to disassemble the window...",
-						$"{interaction.Performer.ExpensiveName()} starts to disassemble the window...",
+						$"{interaction.Performer.DisplayName()} starts to disassemble the window...",
 						"You disassemble the window.",
-						$"{interaction.Performer.ExpensiveName()} disassembles the window.",
+						$"{interaction.Performer.DisplayName()} disassembles the window.",
 						() => Disassemble(interaction));
 					return;
 				}

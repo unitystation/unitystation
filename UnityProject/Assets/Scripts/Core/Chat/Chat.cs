@@ -451,7 +451,7 @@ public partial class Chat : MonoBehaviour
 		{
 			message = message,
 			modifiers = chatModifiers,
-			speaker = broadcasterName != default ? broadcasterName : sentByMachine.ExpensiveName(),
+			speaker = broadcasterName != default ? broadcasterName : sentByMachine.DisplayName(),
 			position = sentByMachine.AssumedWorldPosServer(),
 			channels = channels,
 			originator = sentByMachine,
@@ -654,7 +654,7 @@ public partial class Chat : MonoBehaviour
 		}
 		else
 		{
-			victimName = victim.ExpensiveName();
+			victimName = victim.DisplayName();
 			victimNameOthers = victimName;
 		}
 
@@ -711,7 +711,7 @@ public partial class Chat : MonoBehaviour
 		}
 
 		var message =
-			$"{victim.ExpensiveName()} has been hit by a {item.Item()?.ArticleName ?? item.name}{InTheZone(effectiveHitZone)}";
+			$"{victim.DisplayName()} has been hit by a {item.Item()?.ArticleName ?? item.name}{InTheZone(effectiveHitZone)}";
 		ChatRelay.Instance.PropagateChatToClients(new ChatEvent
 		{
 			channels = ChatChannel.Combat,
@@ -886,7 +886,7 @@ public partial class Chat : MonoBehaviour
 	{
 		if (!string.IsNullOrWhiteSpace(toReplace))
 		{
-			return toReplace.Replace("{performer}", performer.ExpensiveName());
+			return toReplace.Replace("{performer}", performer.DisplayName());
 		}
 
 		return toReplace;

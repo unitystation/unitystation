@@ -110,7 +110,7 @@ namespace Clothing
 			{
 				// Gives feedback to the player's actions.
 				Chat.AddExamineMsg(CurrentlyOn.PlayerScript.gameObject,
-					$"You turned {(isOn ? "on" : "off")} the {gameObject.ExpensiveName()}.");
+					$"You turned {(isOn ? "on" : "off")} the {gameObject.DisplayName()}.");
 			}
 		}
 

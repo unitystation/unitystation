@@ -43,8 +43,8 @@ namespace Items.Medical
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			var performerName = interaction.Performer.ExpensiveName();
-			var targetName = interaction.TargetObject.ExpensiveName();
+			var performerName = interaction.Performer.DisplayName();
+			var targetName = interaction.TargetObject.DisplayName();
 			Chat.AddActionMsgToChat(interaction.Performer,
 					$"You analyze {targetName}'s vitals.",
 					$"{performerName} analyzes {targetName}'s vitals.");
@@ -142,7 +142,7 @@ namespace Items.Medical
 
 		private string GetBodypartMessage(BodyPart bodypart)
 		{
-			string partName = bodypart.gameObject.ExpensiveName();
+			string partName = bodypart.gameObject.DisplayName();
 
 			// Not the best way to do this, need a list of races
 			if (partName.StartsWith("human ") || partName.StartsWith("lizard ") || partName.StartsWith("moth ") || partName.StartsWith("catperson "))

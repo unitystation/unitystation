@@ -72,9 +72,9 @@ namespace Objects.Engineering
 			{
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 10,
 					"You start to deconstruct the ReactorTurbine..",
-					$"{interaction.Performer.ExpensiveName()} starts to deconstruct the ReactorTurbine...",
+					$"{interaction.Performer.DisplayName()} starts to deconstruct the ReactorTurbine...",
 					"You deconstruct the ReactorTurbine",
-					$"{interaction.Performer.ExpensiveName()} deconstruct the ReactorTurbine.",
+					$"{interaction.Performer.DisplayName()} deconstruct the ReactorTurbine.",
 					() =>
 					{
 						Spawn.ServerPrefab(ConstructMaterial, gameObject.AssumedWorldPosServer(), count: droppedMaterialAmount); //Spawning plates here as OnDespawnServer gets derailed by the electricity code

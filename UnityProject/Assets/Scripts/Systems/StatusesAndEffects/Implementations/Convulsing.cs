@@ -63,15 +63,15 @@ namespace Systems.StatusesAndEffects.Implementations
 				{
 					Chat.AddActionMsgToChat(
 						target,
-						$"You convulse violently, and you drop {item.gameObject.ExpensiveName()}!",
-						$"{target.ExpensiveName()} convulses, and they drop their {item.gameObject.ExpensiveName()}!");
+						$"You convulse violently, and you drop {item.gameObject.DisplayName()}!",
+						$"{target.DisplayName()} convulses, and they drop their {item.gameObject.DisplayName()}!");
 				}
 				else
 				{
 					Chat.AddActionMsgToChat(
 						target,
 						$"You convulse violently!",
-						$"{target.ExpensiveName()} convulses!");
+						$"{target.DisplayName()} convulses!");
 				}
 				Inventory.ServerDrop(slot);
 			}
@@ -95,7 +95,7 @@ namespace Systems.StatusesAndEffects.Implementations
 				Chat.AddActionMsgToChat(
 					target,
 					"You convulse, but you maintain your composure!",
-					$"{target.ExpensiveName()} convulses!");
+					$"{target.DisplayName()} convulses!");
 			}
 
 			EmoteActionManager.DoEmote("twitch", target);

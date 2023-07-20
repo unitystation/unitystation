@@ -199,7 +199,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 		string displayName = null;
 		if (string.IsNullOrWhiteSpace(articleName))
 		{
-			displayName = gameObject.ExpensiveName();
+			displayName = gameObject.DisplayName();
 		}
 		else
 		{
@@ -243,7 +243,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 		string displayName = "<error>";
 		if (string.IsNullOrWhiteSpace(articleName))
 		{
-			displayName = gameObject.ExpensiveName();
+			displayName = gameObject.DisplayName();
 		}
 		else
 		{

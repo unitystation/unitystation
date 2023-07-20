@@ -274,7 +274,7 @@ namespace Objects
 			vendorItem.Stock--;
 
 			// State sucsess message to chat
-			Chat.AddActionMsgToChat(gameObject, $"The {spawnedItem.ExpensiveName()} was dispensed from the vending machine.");
+			Chat.AddActionMsgToChat(gameObject, $"The {spawnedItem.DisplayName()} was dispensed from the vending machine.");
 
 			// Play vending sound
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.75f, 1.1f));

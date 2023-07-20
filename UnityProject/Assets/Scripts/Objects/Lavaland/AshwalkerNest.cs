@@ -143,8 +143,8 @@ namespace Objects
 			mobHealth.Harvest();
 			IncreaseMeat();
 
-			Chat.AddActionMsgToChat(gameObject, $"Serrated tendrils eagerly pull {mobHealth.gameObject.ExpensiveName()} to " +
-												$"the {gameObject.ExpensiveName()}, tearing the body apart as its blood seeps over the eggs.");
+			Chat.AddActionMsgToChat(gameObject, $"Serrated tendrils eagerly pull {mobHealth.gameObject.DisplayName()} to " +
+												$"the {gameObject.DisplayName()}, tearing the body apart as its blood seeps over the eggs.");
 
 		}
 
@@ -157,7 +157,7 @@ namespace Objects
 			{
 				Chat.AddActionMsgToChat(healthMasterBase.gameObject,
 					$"Your body has been returned to the nest. You are being remade anew, and will awaken shortly. Your memories will remain intact in your new body, as your soul is being salvaged",
-					$"Serrated tendrils carefully pull {healthMasterBase.gameObject.ExpensiveName()} to the {gameObject.ExpensiveName()}, absorbing the body and creating it anew.");
+					$"Serrated tendrils carefully pull {healthMasterBase.gameObject.DisplayName()} to the {gameObject.DisplayName()}, absorbing the body and creating it anew.");
 
 				//If dead ashwalker in body respawn without cost
 				SpawnAshwalker(healthMasterBase.playerScript.PlayerInfo, false);
@@ -167,8 +167,8 @@ namespace Objects
 
 			healthMasterBase.OnGib();
 
-			Chat.AddActionMsgToChat(gameObject, $"Serrated tendrils eagerly pull {healthMasterBase.gameObject.ExpensiveName()} to " +
-												$"the {gameObject.ExpensiveName()}, tearing the body apart as its blood seeps over the eggs.");
+			Chat.AddActionMsgToChat(gameObject, $"Serrated tendrils eagerly pull {healthMasterBase.gameObject.DisplayName()} to " +
+												$"the {gameObject.DisplayName()}, tearing the body apart as its blood seeps over the eggs.");
 
 			IncreaseMeat();
 		}

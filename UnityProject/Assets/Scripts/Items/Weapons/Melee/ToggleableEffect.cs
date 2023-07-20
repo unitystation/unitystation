@@ -134,7 +134,7 @@ namespace Weapons
 				}
 				else
 				{
-					Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} requires a higher capacity cell.");
+					Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.DisplayName()} requires a higher capacity cell.");
 				}
 			}
 		}
@@ -156,7 +156,7 @@ namespace Weapons
 					}
 					else
 					{
-						Chat.AddExamineMsg(interaction.Performer, $"{gameObject.ExpensiveName()} is out of power or has no cell.");
+						Chat.AddExamineMsg(interaction.Performer, $"{gameObject.DisplayName()} is out of power or has no cell.");
 					}
 				}
 				else

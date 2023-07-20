@@ -94,7 +94,7 @@ namespace Items.Devices
 
 			var restricted = interaction.TargetObject.GetComponentInChildren<ClearanceRestricted>();
 
-			Chat.AddExamineMsg(interaction.Performer, $"You use access remote on: {doorController.gameObject.ExpensiveName()}");
+			Chat.AddExamineMsg(interaction.Performer, $"You use access remote on: {doorController.gameObject.DisplayName()}");
 
 			if (restricted != null && restricted.HasClearance(this) == false)
 			{
@@ -110,7 +110,7 @@ namespace Items.Devices
 				case AccessRemoteState.Emergency:
 					if (restricted == null)
 					{
-						Chat.AddExamineMsg(interaction.Performer, $"{doorController.gameObject.ExpensiveName()} has no access module!");
+						Chat.AddExamineMsg(interaction.Performer, $"{doorController.gameObject.DisplayName()} has no access module!");
 						return;
 					}
 					accessModule.ToggleAuthorizationBypassState();
@@ -119,7 +119,7 @@ namespace Items.Devices
 					BoltsModule boltsModule = interaction.TargetObject.GetComponentInChildren<BoltsModule>();
 					if (boltsModule == null)
 					{
-						Chat.AddExamineMsg(interaction.Performer, $"{doorController.gameObject.ExpensiveName()} has no bolts module!");
+						Chat.AddExamineMsg(interaction.Performer, $"{doorController.gameObject.DisplayName()} has no bolts module!");
 						return;
 					}
 					boltsModule.ToggleBolts();

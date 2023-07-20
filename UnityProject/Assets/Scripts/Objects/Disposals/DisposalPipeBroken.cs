@@ -12,7 +12,7 @@ namespace Objects.Disposals
 
 		private void Awake()
 		{
-			objectName = gameObject.ExpensiveName();
+			objectName = gameObject.DisplayName();
 			if (gameObject.TryGetComponent<ObjectAttributes>(out var attributes))
 			{
 				objectName = attributes.InitialName;
@@ -47,9 +47,9 @@ namespace Objects.Disposals
 			ToolUtils.ServerUseToolWithActionMessages(
 					currentInteraction, cutTime,
 					$"You start slicing off the {objectName}...",
-					$"{currentInteraction.Performer.ExpensiveName()} starts slicing off the {objectName}...",
+					$"{currentInteraction.Performer.DisplayName()} starts slicing off the {objectName}...",
 					$"You remove the {objectName}.",
-					$"{currentInteraction.Performer.ExpensiveName()} removes the {objectName}.",
+					$"{currentInteraction.Performer.DisplayName()} removes the {objectName}.",
 					() => DespawnBrokenPipe()
 			);
 		}

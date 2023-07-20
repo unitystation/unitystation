@@ -65,10 +65,10 @@ public class Implanter : NetworkBehaviour, ICheckedInteractable<HandApply>, IChe
 					hasFoundPart = true;
 
 					ToolUtils.ServerUseToolWithActionMessages(interaction, timeToImplant,
-					$"You begin injecting {interaction.TargetObject.ExpensiveName()}'s {bodyPart.gameObject.ExpensiveName()} with the implanter...",
-					$"{interaction.Performer.ExpensiveName()} begins injecting {interaction.TargetObject.ExpensiveName()}'s {bodyPart.gameObject.ExpensiveName()} with the implanter...",
-					$"You inject {interaction.TargetObject.ExpensiveName()}'s {bodyPart.gameObject.ExpensiveName()} with the implanter.",
-					$"{interaction.Performer.ExpensiveName()} injects {interaction.TargetObject.ExpensiveName()}'s {bodyPart.gameObject.ExpensiveName()} with the implanter.",
+					$"You begin injecting {interaction.TargetObject.DisplayName()}'s {bodyPart.gameObject.DisplayName()} with the implanter...",
+					$"{interaction.Performer.DisplayName()} begins injecting {interaction.TargetObject.DisplayName()}'s {bodyPart.gameObject.DisplayName()} with the implanter...",
+					$"You inject {interaction.TargetObject.DisplayName()}'s {bodyPart.gameObject.DisplayName()} with the implanter.",
+					$"{interaction.Performer.DisplayName()} injects {interaction.TargetObject.DisplayName()}'s {bodyPart.gameObject.DisplayName()} with the implanter.",
 					() =>
 					{
 						if (Inventory.ServerTransfer(implantSlot, toSlot, ReplacementStrategy.DespawnOther))

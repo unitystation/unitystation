@@ -101,9 +101,9 @@ namespace Objects.Engineering
 			{
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 10,
 					"You start to deconstruct the ReactorBoiler..",
-					$"{interaction.Performer.ExpensiveName()} starts to deconstruct the ReactorBoiler...",
+					$"{interaction.Performer.DisplayName()} starts to deconstruct the ReactorBoiler...",
 					"You deconstruct the ReactorBoiler",
-					$"{interaction.Performer.ExpensiveName()} deconstructs the ReactorBoiler.",
+					$"{interaction.Performer.DisplayName()} deconstructs the ReactorBoiler.",
 					() => { _ = Despawn.ServerSingle(gameObject); });
 			}
 		}

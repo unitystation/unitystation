@@ -196,7 +196,7 @@ namespace Objects.Research
 		{
 			if (!hasPower)
 			{
-				Chat.AddExamineMsgFromServer(playerObject, $"{gameObject.ExpensiveName()} is unpowered");
+				Chat.AddExamineMsgFromServer(playerObject, $"{gameObject.DisplayName()} is unpowered");
 				return false;
 			}
 			return true;
@@ -258,9 +258,9 @@ namespace Objects.Research
 			{
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 3,
 					"You begin to unweld the laser projector from the floor...",
-					$"{interaction.Performer.ExpensiveName()} begins to unweld the laser projector from the floor...",
+					$"{interaction.Performer.DisplayName()} begins to unweld the laser projector from the floor...",
 					"You unweld the laser projector from the floor.",
-					$"{interaction.Performer.ExpensiveName()} unwelds the laser projector from the floor.",
+					$"{interaction.Performer.DisplayName()} unwelds the laser projector from the floor.",
 					() =>
 					{
 						ElectricalManager.Instance.electricalSync.StructureChange = true;
@@ -272,9 +272,9 @@ namespace Objects.Research
 		
 			ToolUtils.ServerUseToolWithActionMessages(interaction, 3,
 				"You begin to weld the laser projector to the floor...",
-				$"{interaction.Performer.ExpensiveName()} begins to weld the laser projector to the floor...",
+				$"{interaction.Performer.DisplayName()} begins to weld the laser projector to the floor...",
 				"You weld the laser projector to the floor.",
-				$"{interaction.Performer.ExpensiveName()} welds the laser projector to the floor.",
+				$"{interaction.Performer.DisplayName()} welds the laser projector to the floor.",
 				() =>
 				{
 					ElectricalManager.Instance.electricalSync.StructureChange = true;
@@ -298,9 +298,9 @@ namespace Objects.Research
 				//unwrench
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 1,
 					"You begin to unwrench the laser projector from the floor...",
-					$"{interaction.Performer.ExpensiveName()} begins to unwrench the laser projector from the floor...",
+					$"{interaction.Performer.DisplayName()} begins to unwrench the laser projector from the floor...",
 					"You unwrench the laser projector from the floor.",
-					$"{interaction.Performer.ExpensiveName()} unwrenches the laser projector from the floor.",
+					$"{interaction.Performer.DisplayName()} unwrenches the laser projector from the floor.",
 					() =>
 					{
 						isWrenched = false;
@@ -319,9 +319,9 @@ namespace Objects.Research
 				//wrench
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 1,
 					"You begin to wrench the laser projector to the floor...",
-					$"{interaction.Performer.ExpensiveName()} begins to wrench the laser projector to the floor...",
+					$"{interaction.Performer.DisplayName()} begins to wrench the laser projector to the floor...",
 					"You wrench the laser projector onto the floor.",
-					$"{interaction.Performer.ExpensiveName()} wrenches the laser projector onto the floor.",
+					$"{interaction.Performer.DisplayName()} wrenches the laser projector onto the floor.",
 					() =>
 					{
 						isWrenched = true;

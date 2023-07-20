@@ -8,6 +8,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Identity;
 using Items;
 using Messages.Server;
 
@@ -52,46 +53,15 @@ public static class SweetExtensions
 	/// <summary>
 	/// Returns human-readable object name for IC texts
 	/// </summary>
-	public static string ExpensiveName(this GameObject go)
+	public static string DisplayName(this GameObject go)
 	{
-		var item = go.Item();
-		if (item)
+		if (go.TryGetComponent<IIdentifiable>(out var identity))
 		{
-			// try get current instance name
-			if (!String.IsNullOrWhiteSpace(item.ArticleName))
-			{
-				return item.ArticleName;
-			}
-
-			// maybe it's non-instanced prefab - get initial name
-			if (!String.IsNullOrWhiteSpace(item.InitialName))
-			{
-				return item.InitialName;
-			}
+			return identity.DisplayName;
 		}
 
-		var entityObject = go.Object();
-		if (entityObject != null)
-		{
-			if (!string.IsNullOrWhiteSpace(entityObject.ArticleName))
-			{
-				return entityObject.ArticleName;
-			}
-
-			if (!string.IsNullOrWhiteSpace(entityObject.InitialName))
-			{
-				return entityObject.InitialName;
-			}
-		}
-
-		var player = go.Player();
-
-		if (player != null && player.Script != null && String.IsNullOrWhiteSpace(player.Script.visibleName) == false)
-		{
-			return player.Script.visibleName;
-		}
-
-		return go.name.Replace("NPC_", "").Replace("_", " ").Replace("(Clone)","");
+		Logger.LogError($"Prefab {go.name} does not have an IIdentifiable component! Please add one!");
+		return go.name;
 	}
 
 	public static T GetRandom<T>(this List<T> list)

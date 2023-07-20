@@ -33,10 +33,10 @@ namespace Objects.Construction
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			ToolUtils.ServerUseToolWithActionMessages(interaction, deconstructTime,
-				$"You start to deconstruct the {gameObject.ExpensiveName()}...",
-				$"{interaction.Performer.ExpensiveName()} starts to deconstruct the {gameObject.ExpensiveName()}...",
-				$"You deconstruct the {gameObject.ExpensiveName()}.",
-				$"{interaction.Performer.ExpensiveName()} deconstructs the {gameObject.ExpensiveName()}'.",
+				$"You start to deconstruct the {gameObject.DisplayName()}...",
+				$"{interaction.Performer.DisplayName()} starts to deconstruct the {gameObject.DisplayName()}...",
+				$"You deconstruct the {gameObject.DisplayName()}.",
+				$"{interaction.Performer.DisplayName()} deconstructs the {gameObject.DisplayName()}'.",
 				() =>
 				{
 					integrity.ForceDestroy();

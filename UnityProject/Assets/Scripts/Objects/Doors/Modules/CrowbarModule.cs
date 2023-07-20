@@ -26,7 +26,7 @@ namespace Doors.Modules
 		{
 			base.Awake();
 
-			doorName = transform.parent.gameObject.ExpensiveName();
+			doorName = transform.parent.gameObject.DisplayName();
 		}
 
 		public override void OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
@@ -43,7 +43,7 @@ namespace Doors.Modules
 
 				ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
 					$"You start closing the {doorName}...",
-					$"{interaction.Performer.ExpensiveName()} starts closing the {doorName}...",
+					$"{interaction.Performer.DisplayName()} starts closing the {doorName}...",
 					$"",
 					$"",
 					() => TryPry(interaction));
@@ -95,7 +95,7 @@ namespace Doors.Modules
 				//allows the jaws of life to pry open doors
 				ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
 					$"You start prying open the {doorName}...",
-					$"{interaction.Performer.ExpensiveName()} starts prying open the {doorName}...",
+					$"{interaction.Performer.DisplayName()} starts prying open the {doorName}...",
 					$"",
 					$"",
 					() => TryPry(interaction), onFailComplete: OnFailPry, playSound: false);
@@ -106,7 +106,7 @@ namespace Doors.Modules
 			var handName = interaction.PerformerPlayerScript.PlayerTypeSettings.PryHandName;
 
 			Chat.AddActionMsgToChat(interaction.Performer, $"You start prying open the {doorName}...",
-				$"{interaction.Performer.ExpensiveName()} starts prying open the {doorName} with its {handName}...");
+				$"{interaction.Performer.DisplayName()} starts prying open the {doorName} with its {handName}...");
 
 			var cfg = new StandardProgressActionConfig(StandardProgressActionType.Construction);
 
@@ -127,14 +127,14 @@ namespace Doors.Modules
 			{
 				if (master.TryForceOpen())
 				{
-					Chat.AddActionMsgToChat(interaction.Performer, $"You force the {doorName} open with your {interaction.HandObject.ExpensiveName()}!",
-						$"{interaction.Performer.ExpensiveName()} forces the {doorName} open!");
+					Chat.AddActionMsgToChat(interaction.Performer, $"You force the {doorName} open with your {interaction.HandObject.DisplayName()}!",
+						$"{interaction.Performer.DisplayName()} forces the {doorName} open!");
 
 				}
 				else
 				{
 					Chat.AddActionMsgToChat(interaction.Performer, $"The {doorName} does not budge at all!",
-						$"{interaction.Performer.ExpensiveName()} tries to force the {doorName} open, and fails!");
+						$"{interaction.Performer.DisplayName()} tries to force the {doorName} open, and fails!");
 				}
 			}
 			else if (!master.IsClosed && !master.IsPerformingAction)
@@ -158,13 +158,13 @@ namespace Doors.Modules
 			if (master.TryForceOpen())
 			{
 				Chat.AddActionMsgToChat(interaction.Performer, $"You force the {doorName} open with your {handName}!",
-					$"{interaction.Performer.ExpensiveName()} forces the {doorName} open with its {handName}!");
+					$"{interaction.Performer.DisplayName()} forces the {doorName} open with its {handName}!");
 
 			}
 			else
 			{
 				Chat.AddActionMsgToChat(interaction.Performer, $"The {doorName} does not budge at all!",
-					$"{interaction.Performer.ExpensiveName()} tries to force the {doorName} open and fails!");
+					$"{interaction.Performer.DisplayName()} tries to force the {doorName} open and fails!");
 			}
 		}
 

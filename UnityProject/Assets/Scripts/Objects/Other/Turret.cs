@@ -613,7 +613,7 @@ namespace Objects.Other
 			{
 				if (restricted.HasClearance(interaction.HandObject) == false)
 				{
-					Chat.AddExamineMsgFromServer(interaction.Performer, $"You need higher authorisation to unlock this {gameObject.ExpensiveName()}");
+					Chat.AddExamineMsgFromServer(interaction.Performer, $"You need higher authorisation to unlock this {gameObject.DisplayName()}");
 					return;
 				}
 
@@ -630,8 +630,8 @@ namespace Objects.Other
 					unlocked = !unlocked;
 					apcPoweredDevice.LockApcLinking(unlocked == false);
 
-					Chat.AddActionMsgToChat(interaction.Performer, $"You {(unlocked ? "unlock" : "lock")} the {gameObject.ExpensiveName()}",
-						$"{interaction.Performer.ExpensiveName()} {(unlocked ? "unlocks" : "locks")} the {gameObject.ExpensiveName()}");
+					Chat.AddActionMsgToChat(interaction.Performer, $"You {(unlocked ? "unlock" : "lock")} the {gameObject.DisplayName()}",
+						$"{interaction.Performer.DisplayName()} {(unlocked ? "unlocks" : "locks")} the {gameObject.DisplayName()}");
 
 					if (unlocked == false)
 					{
@@ -646,9 +646,9 @@ namespace Objects.Other
 			//Try Deconstruct
 			ToolUtils.ServerUseToolWithActionMessages(interaction, 15f,
 				"You start prying off the outer metal cover from the turret...",
-				$"{interaction.Performer.ExpensiveName()} starts prying off the outer metal cover from the turret...",
+				$"{interaction.Performer.DisplayName()} starts prying off the outer metal cover from the turret...",
 				"You pry off the outer metal cover from the turret.",
-				$"{interaction.Performer.ExpensiveName()} prys off the outer metal cover from the turret.",
+				$"{interaction.Performer.DisplayName()} prys off the outer metal cover from the turret.",
 				() =>
 				{
 					var frame = Spawn.ServerPrefab(framePrefab, registerTile.WorldPosition, transform.parent);

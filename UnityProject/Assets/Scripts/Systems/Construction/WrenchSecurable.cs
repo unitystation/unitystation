@@ -64,7 +64,7 @@ namespace Objects.Construction
 			}
 			else
 			{
-				objectName = gameObject.ExpensiveName();
+				objectName = gameObject.DisplayName();
 			}
 
 			if (objectBehaviour == null)
@@ -155,9 +155,9 @@ namespace Objects.Construction
 				secondsToSecure == 0 ? "" : $"You start securing the {objectName}...",
 				secondsToSecure == 0
 					? ""
-					: $"{currentInteraction.Performer.ExpensiveName()} starts securing the {objectName}...",
+					: $"{currentInteraction.Performer.DisplayName()} starts securing the {objectName}...",
 				$"You secure the {objectName}.",
-				$"{currentInteraction.Performer.ExpensiveName()} secures the {objectName}.",
+				$"{currentInteraction.Performer.DisplayName()} secures the {objectName}.",
 				() => SetAnchored(true)
 			);
 		}
@@ -168,9 +168,9 @@ namespace Objects.Construction
 				secondsToSecure == 0 ? "" : $"You start unsecuring the {objectName}...",
 				secondsToSecure == 0
 					? ""
-					: $"{currentInteraction.Performer.ExpensiveName()} starts unsecuring the {objectName}...",
+					: $"{currentInteraction.Performer.DisplayName()} starts unsecuring the {objectName}...",
 				$"You unsecure the {objectName}.",
-				$"{currentInteraction.Performer.ExpensiveName()} unsecures the {objectName}.",
+				$"{currentInteraction.Performer.DisplayName()} unsecures the {objectName}.",
 				() => SetAnchored(false)
 			);
 		}

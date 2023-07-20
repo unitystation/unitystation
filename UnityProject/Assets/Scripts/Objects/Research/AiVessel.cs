@@ -149,9 +149,9 @@ namespace Objects.Research
 
 			ToolUtils.ServerUseToolWithActionMessages(interaction, 5f,
 				"You start unscrewing in the glass on the Ai core...",
-				$"{interaction.Performer.ExpensiveName()} starts unscrewing the glass on the Ai core...",
+				$"{interaction.Performer.DisplayName()} starts unscrewing the glass on the Ai core...",
 				"You unscrew the glass on the Ai core.",
-				$"{interaction.Performer.ExpensiveName()} unscrews the glass on the Ai core.",
+				$"{interaction.Performer.DisplayName()} unscrews the glass on the Ai core.",
 				() =>
 				{
 					var newCoreFrame = Spawn.ServerPrefab(aiCoreFramePrefab, SpawnDestination.At(gameObject), 1);
@@ -267,7 +267,7 @@ namespace Objects.Research
 				return "Ai core is not connected to an APC!";
 			}
 
-			return LinkedPlayer == null ? "Contains no activate Artificial Intelligence" : $"Contains the Artificial Intelligence: {LinkedPlayer.gameObject.ExpensiveName()}";
+			return LinkedPlayer == null ? "Contains no activate Artificial Intelligence" : $"Contains the Artificial Intelligence: {LinkedPlayer.gameObject.DisplayName()}";
 		}
 	}
 }

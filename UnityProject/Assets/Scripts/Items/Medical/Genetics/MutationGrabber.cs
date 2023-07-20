@@ -26,8 +26,8 @@ public class MutationGrabber : MonoBehaviour, IExaminable , ICheckedInteractable
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		var performerName = interaction.Performer.ExpensiveName();
-		var targetName = interaction.TargetObject.ExpensiveName();
+		var performerName = interaction.Performer.DisplayName();
+		var targetName = interaction.TargetObject.DisplayName();
 		Chat.AddActionMsgToChat(interaction.Performer,
 			$"You analyze {targetName}'s DNA.",
 			$"{performerName} analyzes {targetName}'s DNA.");
@@ -115,7 +115,7 @@ public class MutationGrabber : MonoBehaviour, IExaminable , ICheckedInteractable
 						CarryingMutations.Add(Mutation);
 					}
 				}
-				Chat.AddExamineMsgFromServer(interaction.Performer, $" You scan and add the DNA mutations from {interaction.TargetObject.ExpensiveName()} to the buffer of {this.gameObject.ExpensiveName()} ");
+				Chat.AddExamineMsgFromServer(interaction.Performer, $" You scan and add the DNA mutations from {interaction.TargetObject.DisplayName()} to the buffer of {this.gameObject.DisplayName()} ");
 
 				return;
 			}
@@ -141,7 +141,7 @@ public class MutationGrabber : MonoBehaviour, IExaminable , ICheckedInteractable
 				}
 
 
-				Chat.AddExamineMsgFromServer(interaction.Performer, $" The DNA mutations are too unstable from {interaction.TargetObject.ExpensiveName()} needs to become stabilised from growth. " + adding);
+				Chat.AddExamineMsgFromServer(interaction.Performer, $" The DNA mutations are too unstable from {interaction.TargetObject.DisplayName()} needs to become stabilised from growth. " + adding);
 
 			}
 
@@ -164,7 +164,7 @@ public class MutationGrabber : MonoBehaviour, IExaminable , ICheckedInteractable
 				DNAConsole.AddMutationOfficial(mutation);
 			}
 
-			Chat.AddExamineMsgFromServer(interaction.Performer, $" You plug-in the {this.gameObject.ExpensiveName()} Into the {interaction.TargetObject.ExpensiveName()} Transferring all the unknownMutations, And clearing the buffer ");
+			Chat.AddExamineMsgFromServer(interaction.Performer, $" You plug-in the {this.gameObject.DisplayName()} Into the {interaction.TargetObject.DisplayName()} Transferring all the unknownMutations, And clearing the buffer ");
 			CarryingMutations.Clear();
 		}
 

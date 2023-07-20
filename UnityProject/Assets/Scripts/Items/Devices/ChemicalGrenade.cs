@@ -148,7 +148,7 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 			if (timerRunning)
 			{
 				timerRunning = false;
-				MixReagents();		
+				MixReagents();
 			}
 		}
 	}
@@ -176,7 +176,7 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 			var worldPos = objectPhysics.registerTile.WorldPosition;
 
 			BlastData blastData = new BlastData();
-		
+
 			ReagentContainer1.TransferTo(ReagentContainer1.ReagentMixTotal, mixedReagentContainer, false); //We use false to ensure the reagents do not react before we can obtain our blast data
 			ReagentContainer2.TransferTo(ReagentContainer2.ReagentMixTotal, mixedReagentContainer, false);
 
@@ -248,8 +248,8 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 
 
 			var StateText = ScrewedClosed ? "Closed" : "Open";
-			Chat.AddActionMsgToChat(interaction, $" you screw the {gameObject.ExpensiveName()} {StateText}",
-				$" {interaction.Performer.ExpensiveName()} screws the {gameObject.ExpensiveName()} {StateText}");
+			Chat.AddActionMsgToChat(interaction, $" you screw the {gameObject.DisplayName()} {StateText}",
+				$" {interaction.Performer.DisplayName()} screws the {gameObject.DisplayName()} {StateText}");
 
 			return;
 		}

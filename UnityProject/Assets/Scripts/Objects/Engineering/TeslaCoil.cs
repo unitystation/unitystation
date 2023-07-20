@@ -174,7 +174,7 @@ namespace Objects.Engineering
 				currentState = TeslaCoilState.Research;
 				UpdateSprite();
 				Chat.AddActionMsgToChat(interaction.Performer, "You switch the tesla coil into research mode",
-					$"{interaction.Performer.ExpensiveName()} switches the tesla coil into research mode");
+					$"{interaction.Performer.DisplayName()} switches the tesla coil into research mode");
 			}
 			else if (IsWrenched)
 			{
@@ -182,7 +182,7 @@ namespace Objects.Engineering
 				UpdateSprite();
 				spriteHandler.AnimateOnce(1);
 				Chat.AddActionMsgToChat(interaction.Performer, "You switch the tesla coil into power mode",
-					$"{interaction.Performer.ExpensiveName()} switches the tesla coil into power mode");
+					$"{interaction.Performer.DisplayName()} switches the tesla coil into power mode");
 			}
 			else
 			{

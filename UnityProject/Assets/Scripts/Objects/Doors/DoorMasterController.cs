@@ -207,7 +207,7 @@ namespace Doors
 			}
 			else if(HasPower == false && byPlayer != null)
 			{
-				Chat.AddExamineMsgFromServer(byPlayer, $"{gameObject.ExpensiveName()} is unpowered");
+				Chat.AddExamineMsgFromServer(byPlayer, $"{gameObject.DisplayName()} is unpowered");
 			}
 
 			StartInputCoolDown();
@@ -307,7 +307,7 @@ namespace Doors
 			}
 			else if(HasPower == false)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} is unpowered");
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.DisplayName()} is unpowered");
 			}
 		}
 
@@ -338,7 +338,7 @@ namespace Doors
 			{
 				if (originator != null)
 				{
-					Chat.AddExamineMsgFromServer(originator, $"{gameObject.ExpensiveName()} is unpowered");
+					Chat.AddExamineMsgFromServer(originator, $"{gameObject.DisplayName()} is unpowered");
 				}
 				return;
 			}
@@ -445,7 +445,7 @@ namespace Doors
 
 			if(HasPower == false && originator != null)
 			{
-				Chat.AddExamineMsgFromServer(originator, $"{gameObject.ExpensiveName()} is unpowered");
+				Chat.AddExamineMsgFromServer(originator, $"{gameObject.DisplayName()} is unpowered");
 			}
 		}
 

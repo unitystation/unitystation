@@ -34,7 +34,7 @@ namespace HealthV2.TraumaTypes
 		public override void ProgressDeadlyEffect()
 		{
 			Chat.AddActionMsgToChat(bodyPart.HealthMaster.gameObject,
-				$"<color=red><size=+6>The {bodyPart.gameObject.ExpensiveName()} gets torn from the sudden force and removed from its place!</size></color>");
+				$"<color=red><size=+6>The {bodyPart.gameObject.DisplayName()} gets torn from the sudden force and removed from its place!</size></color>");
 			bodyPart.TryRemoveFromBody();
 		}
 

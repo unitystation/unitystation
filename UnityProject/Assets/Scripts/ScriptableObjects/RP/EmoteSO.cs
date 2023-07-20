@@ -82,7 +82,7 @@ namespace ScriptableObjects.RP
 		public virtual void Do(GameObject player)
 		{
 			if (CheckAllBaseConditions(player) == false) return;
-			Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewText}.");
+			Chat.AddActionMsgToChat(player, $"{youText}", $"{player.DisplayName()} {viewText}.");
 			PlayAudio(defaultSounds, player);
 		}
 
@@ -100,7 +100,7 @@ namespace ScriptableObjects.RP
 					Chat.AddActionMsgToChat(player, $"{failText}", "");
 					break;
 				case FailType.Critical:
-					Chat.AddActionMsgToChat(player, $"{player.ExpensiveName()} {critViewText}.", $"{player.ExpensiveName()} {critViewText}.");
+					Chat.AddActionMsgToChat(player, $"{player.DisplayName()} {critViewText}.", $"{player.DisplayName()} {critViewText}.");
 					break;
 				case FailType.MouthBlocked:
 					Chat.AddExamineMsg(player, mouthBlockedText);

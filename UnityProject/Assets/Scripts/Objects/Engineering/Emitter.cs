@@ -209,7 +209,7 @@ namespace Objects.Engineering
 
 				Chat.AddActionMsgToChat(interaction.Performer,
 					$"You {(isLocked ? "lock" : "unlock" )} the emitter",
-					$"{interaction.Performer.ExpensiveName()} {(isLocked ? "locks" : "unlocks" )} the emitter");
+					$"{interaction.Performer.DisplayName()} {(isLocked ? "locks" : "unlocks" )} the emitter");
 			}
 		}
 
@@ -228,14 +228,14 @@ namespace Objects.Engineering
 			if (isOn)
 			{
 				Chat.AddActionMsgToChat(interaction.Performer, "You turn the emitter off",
-					$"{interaction.Performer.ExpensiveName()} turns the emitter off");
+					$"{interaction.Performer.DisplayName()} turns the emitter off");
 
 				TogglePower(false);
 			}
 			else if (isWelded)
 			{
 				Chat.AddActionMsgToChat(interaction.Performer, "You turn the emitter on",
-					$"{interaction.Performer.ExpensiveName()} turns the emitter on");
+					$"{interaction.Performer.DisplayName()} turns the emitter on");
 
 				TogglePower(true);
 			}
@@ -287,9 +287,9 @@ namespace Objects.Engineering
 			{
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 3,
 					"You start to unweld the emitter...",
-					$"{interaction.Performer.ExpensiveName()} starts to unweld the emitter...",
+					$"{interaction.Performer.DisplayName()} starts to unweld the emitter...",
 					"You unweld the emitter from the floor.",
-					$"{interaction.Performer.ExpensiveName()} unwelds the emitter from the floor.",
+					$"{interaction.Performer.DisplayName()} unwelds the emitter from the floor.",
 					() =>
 					{
 						ElectricalManager.Instance.electricalSync.StructureChange = true;
@@ -301,9 +301,9 @@ namespace Objects.Engineering
 			{
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 3,
 					"You start to weld the emitter...",
-					$"{interaction.Performer.ExpensiveName()} starts to weld the emitter...",
+					$"{interaction.Performer.DisplayName()} starts to weld the emitter...",
 					"You weld the emitter to the floor.",
-					$"{interaction.Performer.ExpensiveName()} welds the emitter to the floor.",
+					$"{interaction.Performer.DisplayName()} welds the emitter to the floor.",
 					() =>
 					{
 						ElectricalManager.Instance.electricalSync.StructureChange = true;
@@ -327,9 +327,9 @@ namespace Objects.Engineering
 				//unwrench
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 1,
 					"You start to wrench the emitter...",
-					$"{interaction.Performer.ExpensiveName()} starts to wrench the emitter...",
+					$"{interaction.Performer.DisplayName()} starts to wrench the emitter...",
 					"You wrench the emitter off the floor.",
-					$"{interaction.Performer.ExpensiveName()} wrenches the emitter off the floor.",
+					$"{interaction.Performer.DisplayName()} wrenches the emitter off the floor.",
 					() =>
 					{
 						isWrenched = false;
@@ -349,9 +349,9 @@ namespace Objects.Engineering
 				//wrench
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 1,
 					"You start to wrench the emitter...",
-					$"{interaction.Performer.ExpensiveName()} starts to wrench the emitter...",
+					$"{interaction.Performer.DisplayName()} starts to wrench the emitter...",
 					"You wrench the emitter onto the floor.",
-					$"{interaction.Performer.ExpensiveName()} wrenches the emitter onto the floor.",
+					$"{interaction.Performer.DisplayName()} wrenches the emitter onto the floor.",
 					() =>
 					{
 						isWrenched = true;

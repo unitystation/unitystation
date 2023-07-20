@@ -99,9 +99,9 @@ namespace Objects.Drawers
 
 			ToolUtils.ServerUseToolWithActionMessages(interaction, 1f,
 					$"You poke the {interaction.HandObject.name.ToLower()} around in the {name.ToLower()}'s electrical panel...",
-					$"{interaction.Performer.ExpensiveName()} pokes a {interaction.HandObject.name.ToLower()} into the {name.ToLower()}'s electrical panel...",
+					$"{interaction.Performer.DisplayName()} pokes a {interaction.HandObject.name.ToLower()} into the {name.ToLower()}'s electrical panel...",
 					$"You manage to toggle {(!buzzerEnabled ? "on" : "off")} the consciousness-alerting buzzer.",
-					$"{interaction.Performer.ExpensiveName()} removes the {interaction.HandObject.name.ToLower()}.",
+					$"{interaction.Performer.DisplayName()} removes the {interaction.HandObject.name.ToLower()}.",
 					() => ToggleBuzzer());
 		}
 

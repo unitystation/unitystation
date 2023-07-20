@@ -157,7 +157,7 @@ namespace Objects.Wallmounts
 				{
 					//cut out cables
 					Chat.AddActionMsgToChat(interaction, $"You remove the cables.",
-						$"{interaction.Performer.ExpensiveName()} removes the cables.");
+						$"{interaction.Performer.DisplayName()} removes the cables.");
 					ToolUtils.ServerPlayToolSound(interaction);
 					Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 5);
 					SyncSprite(FireAlarmState.OpenEmptySprite);
@@ -172,9 +172,9 @@ namespace Objects.Wallmounts
 					//add 5 cables
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start adding cables to the frame...",
-						$"{interaction.Performer.ExpensiveName()} starts adding cables to the frame...",
+						$"{interaction.Performer.DisplayName()} starts adding cables to the frame...",
 						"You add cables to the frame.",
-						$"{interaction.Performer.ExpensiveName()} adds cables to the frame.",
+						$"{interaction.Performer.DisplayName()} adds cables to the frame.",
 						() =>
 						{
 							Inventory.ServerConsume(interaction.HandSlot, 5);

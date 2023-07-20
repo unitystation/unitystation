@@ -38,8 +38,8 @@ namespace Items
 			else
 			{
 				Chat.AddActionMsgToChat(interaction.Performer,
-					$"You touch the {gameObject.ExpensiveName()} with the {interaction.HandObject.ExpensiveName()}, and everything suddenly goes silent.\n The {interaction.HandObject.ExpensiveName()} flashes into dust.",
-					$"As {interaction.Performer.ExpensiveName()} touches the {gameObject.ExpensiveName()} with {interaction.HandObject.ExpensiveName()}, silence fills the room...");
+					$"You touch the {gameObject.DisplayName()} with the {interaction.HandObject.DisplayName()}, and everything suddenly goes silent.\n The {interaction.HandObject.DisplayName()} flashes into dust.",
+					$"As {interaction.Performer.DisplayName()} touches the {gameObject.DisplayName()} with {interaction.HandObject.DisplayName()}, silence fills the room...");
 				_ = Despawn.ServerSingle(interaction.UsedObject);
 			}
 		}
@@ -58,8 +58,8 @@ namespace Items
 				if (player != null && vaporizeWhenPickedUp)
 				{
 					Chat.AddActionMsgToChat(player.PlayerChatLocation,
-						$"You reach for the {gameObject.ExpensiveName()} with your hands. That was dumb.",
-						$"{player.visibleName} touches {gameObject.ExpensiveName()} with bare hands. His body bursts into flames and flashes to dust after few moments.");
+						$"You reach for the {gameObject.DisplayName()} with your hands. That was dumb.",
+						$"{player.visibleName} touches {gameObject.DisplayName()} with bare hands. His body bursts into flames and flashes to dust after few moments.");
 
 					player.playerHealth.OnGib();
 				}
@@ -74,7 +74,7 @@ namespace Items
 		public IEnumerator OnSuicide(GameObject performer)
 		{
 			yield return WaitFor.FixedUpdate;
-			Chat.AddActionMsgToChat(gameObject, $"{performer.ExpensiveName()} mistook the {gameObject.ExpensiveName()} for a tasty snack. Yumm..");
+			Chat.AddActionMsgToChat(gameObject, $"{performer.DisplayName()} mistook the {gameObject.DisplayName()} for a tasty snack. Yumm..");
 			gameObject.Player().Script.playerHealth.OnGib();
 		}
 	}

@@ -117,9 +117,9 @@ namespace Systems.Construction
 						//wrench in place
 						ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 							"You start wrenching the Ai core frame into place...",
-							$"{interaction.Performer.ExpensiveName()} starts wrenching the Ai core frame into place...",
+							$"{interaction.Performer.DisplayName()} starts wrenching the Ai core frame into place...",
 							"You wrench the Ai core frame into place.",
-							$"{interaction.Performer.ExpensiveName()} wrenches the Ai core frame into place.",
+							$"{interaction.Performer.DisplayName()} wrenches the Ai core frame into place.",
 							() =>
 							{
 								objectBehaviour.ServerSetAnchored(true, interaction.Performer);
@@ -137,9 +137,9 @@ namespace Systems.Construction
 					//Deconstruct
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start deconstructing the Ai core frame...",
-						$"{interaction.Performer.ExpensiveName()} starts deconstructing the Ai core frame...",
+						$"{interaction.Performer.DisplayName()} starts deconstructing the Ai core frame...",
 						"You deconstruct the Ai core frame.",
-						$"{interaction.Performer.ExpensiveName()} deconstructs the Ai core frame.",
+						$"{interaction.Performer.DisplayName()} deconstructs the Ai core frame.",
 						() =>
 						{
 							Spawn.ServerPrefab(CommonPrefabs.Instance.Plasteel, SpawnDestination.At(gameObject), 5);
@@ -158,9 +158,9 @@ namespace Systems.Construction
 					//Add Circuit board
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start adding the circuit board to the Ai core frame...",
-						$"{interaction.Performer.ExpensiveName()} starts adding a circuit board to the Ai core frame...",
+						$"{interaction.Performer.DisplayName()} starts adding a circuit board to the Ai core frame...",
 						"You add a circuit board to the Ai core frame.",
-						$"{interaction.Performer.ExpensiveName()} adds a circuit board to the Ai core frame.",
+						$"{interaction.Performer.DisplayName()} adds a circuit board to the Ai core frame.",
 						() =>
 						{
 							Inventory.ServerConsume(interaction.HandSlot, 1);
@@ -173,9 +173,9 @@ namespace Systems.Construction
 					//Unanchor
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start unwrenching the Ai core frame from the floor...",
-						$"{interaction.Performer.ExpensiveName()} starts unwrenching the Ai core frame from the floor...",
+						$"{interaction.Performer.DisplayName()} starts unwrenching the Ai core frame from the floor...",
 						"You unwrench the Ai core frame from the floor.",
-						$"{interaction.Performer.ExpensiveName()} unwrenches the Ai core frame from the floor.",
+						$"{interaction.Performer.DisplayName()} unwrenches the Ai core frame from the floor.",
 						() =>
 						{
 							objectBehaviour.ServerSetAnchored(false, interaction.Performer);
@@ -194,9 +194,9 @@ namespace Systems.Construction
 					//Screwdriver
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start screwing in the circuit board...",
-						$"{interaction.Performer.ExpensiveName()} starts screwing in the circuit board...",
+						$"{interaction.Performer.DisplayName()} starts screwing in the circuit board...",
 						"You screw in the circuit board.",
-						$"{interaction.Performer.ExpensiveName()} screws in the circuit board.",
+						$"{interaction.Performer.DisplayName()} screws in the circuit board.",
 						() =>
 						{
 							stateful.ServerChangeState(screwState);
@@ -207,7 +207,7 @@ namespace Systems.Construction
 				{
 					//Remove Circuit board
 					Chat.AddActionMsgToChat(interaction, "You remove the circuit board from the frame",
-						$"{interaction.Performer.ExpensiveName()} removes the circuit board from the frame");
+						$"{interaction.Performer.DisplayName()} removes the circuit board from the frame");
 
 					Spawn.ServerPrefab(aiCoreCircuitBoardPrefab, SpawnDestination.At(gameObject));
 					stateful.ServerChangeState(anchoredState);
@@ -225,9 +225,9 @@ namespace Systems.Construction
 					//Add wire
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start adding wire to the Ai core frame...",
-						$"{interaction.Performer.ExpensiveName()} starts adding wire to the Ai core frame...",
+						$"{interaction.Performer.DisplayName()} starts adding wire to the Ai core frame...",
 						"You add wire to the Ai core frame.",
-						$"{interaction.Performer.ExpensiveName()} adds wire to the Ai core frame.",
+						$"{interaction.Performer.DisplayName()} adds wire to the Ai core frame.",
 						() =>
 						{
 							Inventory.ServerConsume(interaction.HandSlot, 1);
@@ -240,9 +240,9 @@ namespace Systems.Construction
 					//Remove unscrew
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start unscrewing in the circuit board...",
-						$"{interaction.Performer.ExpensiveName()} starts unscrewing in the circuit board...",
+						$"{interaction.Performer.DisplayName()} starts unscrewing in the circuit board...",
 						"You remove unscrew the circuit board.",
-						$"{interaction.Performer.ExpensiveName()} unscrews the circuit board.",
+						$"{interaction.Performer.DisplayName()} unscrews the circuit board.",
 						() =>
 						{
 							stateful.ServerChangeState(circuitAddedState);
@@ -278,9 +278,9 @@ namespace Systems.Construction
 
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start adding the reinforced glass to the front of the Ai core...",
-						$"{interaction.Performer.ExpensiveName()} starts add reinforced glass to the front of the Ai core...",
+						$"{interaction.Performer.DisplayName()} starts add reinforced glass to the front of the Ai core...",
 						"You add reinforced glass to the front of the Ai core.",
-						$"{interaction.Performer.ExpensiveName()} adds reinforced glass to the front of the Ai core.",
+						$"{interaction.Performer.DisplayName()} adds reinforced glass to the front of the Ai core.",
 						() =>
 						{
 							Inventory.ServerConsume(interaction.HandSlot, 2);
@@ -293,9 +293,9 @@ namespace Systems.Construction
 					//Remove wire
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start cutting out the wire...",
-						$"{interaction.Performer.ExpensiveName()} starts cutting out the wire...",
+						$"{interaction.Performer.DisplayName()} starts cutting out the wire...",
 						"You cut out the wire.",
-						$"{interaction.Performer.ExpensiveName()} cuts out the wire.",
+						$"{interaction.Performer.DisplayName()} cuts out the wire.",
 						() =>
 						{
 							Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 1);
@@ -321,9 +321,9 @@ namespace Systems.Construction
 
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start adding the reinforced glass to the front of the Ai core...",
-						$"{interaction.Performer.ExpensiveName()} starts add reinforced glass to the front of the Ai core...",
+						$"{interaction.Performer.DisplayName()} starts add reinforced glass to the front of the Ai core...",
 						"You add reinforced glass to the front of the Ai core.",
-						$"{interaction.Performer.ExpensiveName()} adds reinforced glass to the front of the Ai core.",
+						$"{interaction.Performer.DisplayName()} adds reinforced glass to the front of the Ai core.",
 						() =>
 						{
 							Inventory.ServerConsume(interaction.HandSlot, 2);
@@ -336,9 +336,9 @@ namespace Systems.Construction
 					//Remove brain
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start removing the MMI/Positron Brain from the Ai core...",
-						$"{interaction.Performer.ExpensiveName()} starts removing the MMI/Positron Brain from the Ai core...",
+						$"{interaction.Performer.DisplayName()} starts removing the MMI/Positron Brain from the Ai core...",
 						"You remove the MMI/Positron Brain from the Ai core.",
-						$"{interaction.Performer.ExpensiveName()} removes the MMI/Positron Brain from the Ai core.",
+						$"{interaction.Performer.DisplayName()} removes the MMI/Positron Brain from the Ai core.",
 						() =>
 						{
 							//TODO remove brain logic
@@ -358,9 +358,9 @@ namespace Systems.Construction
 					//Finish
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start screwing in the glass to the frame...",
-						$"{interaction.Performer.ExpensiveName()} starts screwing in the glass to the frame...",
+						$"{interaction.Performer.DisplayName()} starts screwing in the glass to the frame...",
 						"You screw in the glass to the frame.",
-						$"{interaction.Performer.ExpensiveName()} screws in the glass to the frame.",
+						$"{interaction.Performer.DisplayName()} screws in the glass to the frame.",
 						() =>
 						{
 							var newCore = Spawn.ServerPrefab(aiCorePrefab, SpawnDestination.At(gameObject), 1);
@@ -379,9 +379,9 @@ namespace Systems.Construction
 					//Crowbar out glass
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 						"You start removing the reinforced glass from the Ai core frame...",
-						$"{interaction.Performer.ExpensiveName()} starts removing removing the reinforced glass from the Ai core frame...",
+						$"{interaction.Performer.DisplayName()} starts removing removing the reinforced glass from the Ai core frame...",
 						"You remove the reinforced glass from the Ai core frame.",
-						$"{interaction.Performer.ExpensiveName()} removes the reinforced glass from the Ai core frame.",
+						$"{interaction.Performer.DisplayName()} removes the reinforced glass from the Ai core frame.",
 						() =>
 						{
 							//TODO check for brain

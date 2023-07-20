@@ -216,8 +216,8 @@ namespace Objects.Kitchen
 
 			Chat.AddActionMsgToChat(
 					interaction,
-					$"You add the {interaction.HandObject.ExpensiveName()} to the oven.",
-					$"{interaction.PerformerPlayerScript.visibleName} adds the {interaction.HandObject.ExpensiveName()} to the oven.");
+					$"You add the {interaction.HandObject.DisplayName()} to the oven.",
+					$"{interaction.PerformerPlayerScript.visibleName} adds the {interaction.HandObject.DisplayName()} to the oven.");
 
 			return true;
 		}

@@ -121,7 +121,7 @@ namespace Messages.Server
 					var instance = NetworkTabManager.Instance.Get(provider, type);
 					if (instance == null)
 					{
-						Logger.LogError($"Couldn't find NetTab to send for {provider.OrNull()?.ExpensiveName()} " +
+						Logger.LogError($"Couldn't find NetTab to send for {provider.OrNull()?.DisplayName()} " +
 								$"Does the tab prefab match the type '{type}'? Make sure that 'Tab{type}' is listed inside the NetTabs SO.");
 						return default;
 					}

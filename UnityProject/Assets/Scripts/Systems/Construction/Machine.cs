@@ -95,15 +95,15 @@ namespace Objects.Machines
 				if (panelopen)
 				{
 					Chat.AddActionMsgToChat(interaction.Performer,
-						$"You unscrews the {gameObject.ExpensiveName()}'s cable panel.",
-						$"{interaction.Performer.ExpensiveName()} unscrews {gameObject.ExpensiveName()}'s cable panel.");
+						$"You unscrews the {gameObject.DisplayName()}'s cable panel.",
+						$"{interaction.Performer.DisplayName()} unscrews {gameObject.DisplayName()}'s cable panel.");
 					return;
 				}
 				else
 				{
 					Chat.AddActionMsgToChat(interaction.Performer,
-						$"You screw in the {gameObject.ExpensiveName()}'s cable panel.",
-						$"{interaction.Performer.ExpensiveName()} screws in {gameObject.ExpensiveName()}'s cable panel.");
+						$"You screw in the {gameObject.DisplayName()}'s cable panel.",
+						$"{interaction.Performer.DisplayName()} screws in {gameObject.DisplayName()}'s cable panel.");
 					return;
 				}
 			}
@@ -129,7 +129,7 @@ namespace Objects.Machines
 			if (mustBeUnanchored && gameObject.GetComponent<UniversalObjectPhysics>().OrNull()?.IsNotPushable == true)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer,
-					$"The {gameObject.ExpensiveName()} needs to be unanchored first.");
+					$"The {gameObject.DisplayName()} needs to be unanchored first.");
 				return;
 			}
 
@@ -137,10 +137,10 @@ namespace Objects.Machines
 			{
 				//unsecure
 				ToolUtils.ServerUseToolWithActionMessages(interaction, secondsToScrewdrive,
-					$"You start to deconstruct the {gameObject.ExpensiveName()}...",
-					$"{interaction.Performer.ExpensiveName()} starts to deconstruct the {gameObject.ExpensiveName()}...",
-					$"You deconstruct the {gameObject.ExpensiveName()}.",
-					$"{interaction.Performer.ExpensiveName()} deconstructs the {gameObject.ExpensiveName()}.",
+					$"You start to deconstruct the {gameObject.DisplayName()}...",
+					$"{interaction.Performer.DisplayName()} starts to deconstruct the {gameObject.DisplayName()}...",
+					$"You deconstruct the {gameObject.DisplayName()}.",
+					$"{interaction.Performer.DisplayName()} deconstructs the {gameObject.DisplayName()}.",
 					() => { WhenDestroyed(null); });
 			}
 		}
@@ -197,7 +197,7 @@ namespace Objects.Machines
 
 			if (InActiveGameObjectpartsInFrame == null)
 			{
-				Logger.LogError($"PartsInFrame was null on {gameObject.ExpensiveName()}");
+				Logger.LogError($"PartsInFrame was null on {gameObject.DisplayName()}");
 				return;
 			}
 
@@ -246,7 +246,7 @@ namespace Objects.Machines
 
 			if (activeGameObjectpartsInFrame == null)
 			{
-				Logger.LogError($"BasicPartsUsed was null on {gameObject.ExpensiveName()}");
+				Logger.LogError($"BasicPartsUsed was null on {gameObject.DisplayName()}");
 				return;
 			}
 			//Means we are mapped so use machine parts ist
@@ -256,7 +256,7 @@ namespace Objects.Machines
 				{
 					if (canNotBeDeconstructed == false)
 					{
-						Logger.LogError($"MachineParts was null on {gameObject.ExpensiveName()}");
+						Logger.LogError($"MachineParts was null on {gameObject.DisplayName()}");
 					}
 
 					return;

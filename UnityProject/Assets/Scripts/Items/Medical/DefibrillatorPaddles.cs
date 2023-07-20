@@ -97,7 +97,7 @@ namespace Items.Medical
 			if (isReady == false || onCooldown == true)
 			{
 				Chat.AddExamineMsg(interaction.Performer,
-					$"You need to charge the {gameObject.ExpensiveName()} first!");
+					$"You need to charge the {gameObject.DisplayName()} first!");
 				return;
 			}
 
@@ -118,20 +118,20 @@ namespace Items.Medical
 		{
 			if (onCooldown)
 			{
-				Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} is still charging!");
+				Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.DisplayName()} is still charging!");
 				return;
 			}
 
 			if (isReady == false)
 			{
-				Chat.AddExamineMsg(interaction.Performer, $"You prepare the {gameObject.ExpensiveName()}");
+				Chat.AddExamineMsg(interaction.Performer, $"You prepare the {gameObject.DisplayName()}");
 				isReady = true;
 				_ = SoundManager.PlayNetworkedAtPosAsync(soundReady, gameObject.AssumedWorldPosServer());
 				return;
 			}
 
 			Chat.AddExamineMsg(interaction.Performer,
-				$"<color=green>The {gameObject.ExpensiveName()} is charged and ready to be used.</color>");
+				$"<color=green>The {gameObject.DisplayName()} is charged and ready to be used.</color>");
 		}
 	}
 }

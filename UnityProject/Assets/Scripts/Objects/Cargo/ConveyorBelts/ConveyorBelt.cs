@@ -242,9 +242,9 @@ namespace Construction.Conveyors
 				//deconsruct
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 					"You start deconstructing the conveyor belt...",
-					$"{interaction.Performer.ExpensiveName()} starts deconstructing the conveyor belt...",
+					$"{interaction.Performer.DisplayName()} starts deconstructing the conveyor belt...",
 					"You deconstruct the conveyor belt.",
-					$"{interaction.Performer.ExpensiveName()} deconstructs the conveyor belt.",
+					$"{interaction.Performer.DisplayName()} deconstructs the conveyor belt.",
 					DeconstructBelt);
 			}
 
@@ -252,9 +252,9 @@ namespace Construction.Conveyors
 			{
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 1f,
 					"You start redirecting the conveyor belt...",
-					$"{interaction.Performer.ExpensiveName()} starts redirecting the conveyor belt...",
+					$"{interaction.Performer.DisplayName()} starts redirecting the conveyor belt...",
 					"You redirect the conveyor belt.",
-					$"{interaction.Performer.ExpensiveName()} redirects the conveyor belt.",
+					$"{interaction.Performer.DisplayName()} redirects the conveyor belt.",
 					ChangeDirection);
 			}
 		}

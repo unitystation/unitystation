@@ -57,7 +57,7 @@ namespace Weapons
 			{
 				UpdateFiremode(currentFiremode, currentFiremode + 1);
 			}
-			Chat.AddExamineMsgFromServer(interaction.Performer, $"You switch your {gameObject.ExpensiveName()} into {firemodeName[currentFiremode]} mode");
+			Chat.AddExamineMsgFromServer(interaction.Performer, $"You switch your {gameObject.DisplayName()} into {firemodeName[currentFiremode]} mode");
 			CurrentMagazine.ServerSetAmmoRemains(Battery.Watts / firemodeUsage[currentFiremode]);
 		}
 
@@ -127,8 +127,8 @@ namespace Weapons
 			void ProgressFinishAction()
 			{
 				Chat.AddActionMsgToChat(interaction.Performer,
-					$"The {gameObject.ExpensiveName()}'s power cell pops out",
-					$"{interaction.Performer.ExpensiveName()} finishes removing {gameObject.ExpensiveName()}'s energy cell.");
+					$"The {gameObject.DisplayName()}'s power cell pops out",
+					$"{interaction.Performer.DisplayName()} finishes removing {gameObject.DisplayName()}'s energy cell.");
 				base.ServerHandleUnloadRequest();
 			}
 
@@ -138,8 +138,8 @@ namespace Weapons
 			if (bar != null)
 			{
 				Chat.AddActionMsgToChat(interaction.Performer,
-					$"You begin unsecuring the {gameObject.ExpensiveName()}'s power cell.",
-					$"{interaction.Performer.ExpensiveName()} begins unsecuring {gameObject.ExpensiveName()}'s power cell.");
+					$"You begin unsecuring the {gameObject.DisplayName()}'s power cell.",
+					$"{interaction.Performer.DisplayName()} begins unsecuring {gameObject.DisplayName()}'s power cell.");
 					AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.8f, 1.2f));
 				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.screwdriver, interaction.Performer.AssumedWorldPosServer(), audioSourceParameters, sourceObj: serverHolder);
 			}
@@ -157,7 +157,7 @@ namespace Weapons
 			StringBuilder exam = new StringBuilder();
 			exam.AppendLine($"{WeaponType} - Fires {ammoType} ammunition")
 				.AppendLine(CurrentMagazine != null ? $"{Mathf.Floor(Battery.Watts / firemodeUsage[currentFiremode])} rounds loaded" : "It's empty!")
-				.AppendLine(FiringPin != null ? $"It has a {FiringPin.gameObject.ExpensiveName()} installed" : "It doesn't have a firing pin installed, it won't fire")
+				.AppendLine(FiringPin != null ? $"It has a {FiringPin.gameObject.DisplayName()} installed" : "It doesn't have a firing pin installed, it won't fire")
 				.Append(firemodeProjectiles.Count > 1 ? $"It is set to {firemodeName[currentFiremode]} mode." : "");
 			return exam.ToString();
 		}

@@ -45,7 +45,7 @@ namespace Items.Others
 
 			if (timer > DespawnTime)
 			{
-				Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()} fizzles out.");
+				Chat.AddActionMsgToChat(gameObject, $"The {gameObject.DisplayName()} fizzles out.");
 				_ = Despawn.ServerSingle(gameObject);
 				return;
 			}
@@ -58,7 +58,7 @@ namespace Items.Others
 
 			if(DMMath.Prob(75)) return;
 
-			Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()} fizzes.");
+			Chat.AddActionMsgToChat(gameObject, $"The {gameObject.DisplayName()} fizzes.");
 		}
 
 		private void ObjectDamage(Vector3Int localPos)
@@ -108,8 +108,8 @@ namespace Items.Others
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			//Aliens can remove acid pools by clicking on them
-			Chat.AddActionMsgToChat(interaction.Performer, $"You wipe away the {gameObject.ExpensiveName()}",
-				$"{interaction.Performer.ExpensiveName()} wipes away the {gameObject.ExpensiveName()}");
+			Chat.AddActionMsgToChat(interaction.Performer, $"You wipe away the {gameObject.DisplayName()}",
+				$"{interaction.Performer.DisplayName()} wipes away the {gameObject.DisplayName()}");
 
 			_ = Despawn.ServerSingle(gameObject);
 		}

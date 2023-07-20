@@ -283,7 +283,7 @@ namespace Systems.Cargo
 			}
 			else
 			{
-				Logger.LogWarning($"{crate.ExpensiveName()} does not have {nameof(UniversalObjectPhysics)}. Please fix CargoData" +
+				Logger.LogWarning($"{crate.DisplayName()} does not have {nameof(UniversalObjectPhysics)}. Please fix CargoData" +
 								  $" to ensure that the crate prefab is actually a crate (with {nameof(UniversalObjectPhysics)} component)." +
 								  $" This order will be ignored.", Category.Cargo);
 				return true;

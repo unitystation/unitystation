@@ -40,7 +40,7 @@ public class GeneticEggLogic : MonoBehaviour
     private IEnumerator Countdown()
     {
 	    yield return WaitFor.Seconds(ChosenHatchTime * 0.90f);
-	    Chat.AddActionMsgToChat(this.gameObject, $"The {this.gameObject.ExpensiveName()} Wobbles", $"The {this.gameObject.ExpensiveName()} Wobbles");
+	    Chat.AddActionMsgToChat(this.gameObject, $"The {this.gameObject.DisplayName()} Wobbles", $"The {this.gameObject.DisplayName()} Wobbles");
 	    yield return WaitFor.Seconds(ChosenHatchTime * 0.10f);
 
 	    int difficulty = 0;

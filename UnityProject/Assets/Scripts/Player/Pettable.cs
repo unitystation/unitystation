@@ -31,7 +31,7 @@ namespace Systems.MobAIs
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			string npcName = gameObject.ExpensiveName();
+			string npcName = gameObject.DisplayName();
 			if (TryGetComponent<MobAI>(out var npc))
 			{
 				npc.OnPetted(interaction.Performer.gameObject);
@@ -39,13 +39,13 @@ namespace Systems.MobAIs
 				{
 					npcName = npc.mobName;
 				}
-				
+
 			}
 
 			Chat.AddActionMsgToChat(
 				interaction.Performer,
 				$"You pet {npcName}.",
-				$"{interaction.Performer.ExpensiveName()} pets {npcName}.");
+				$"{interaction.Performer.DisplayName()} pets {npcName}.");
 		}
 	}
 }

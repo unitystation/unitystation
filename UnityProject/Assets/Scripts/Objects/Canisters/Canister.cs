@@ -301,8 +301,8 @@ namespace Objects.Atmospherics
 			{
 				//copy the containers properties over, delete the container from the player's hand
 				Chat.AddActionMsgToChat(interaction.Performer,
-					$"You insert the {interaction.UsedObject.ExpensiveName()} into the canister.",
-					$"{interaction.Performer.ExpensiveName()} inserts a tank into the {this.ContentsName} canister.");
+					$"You insert the {interaction.UsedObject.DisplayName()} into the canister.",
+					$"{interaction.Performer.DisplayName()} inserts a tank into the {this.ContentsName} canister.");
 				Inventory.ServerDrop(interaction.HandSlot);
 				InsertedContainer = interaction.UsedObject;
 				interaction.UsedObject.GetComponent<UniversalObjectPhysics>().DisappearFromWorld();

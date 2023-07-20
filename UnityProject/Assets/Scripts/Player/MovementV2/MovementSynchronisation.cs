@@ -118,7 +118,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		var buckleInteract = BuckledToObject.GetComponent<BuckleInteract>();
 		if (buckleInteract == null)
 		{
-			Logger.LogError($"{BuckledToObject.gameObject.ExpensiveName()} has no BuckleInteract!");
+			Logger.LogError($"{BuckledToObject.gameObject.DisplayName()} has no BuckleInteract!");
 			return;
 		}
 

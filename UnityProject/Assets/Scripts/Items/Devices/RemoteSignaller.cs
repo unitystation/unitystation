@@ -29,7 +29,7 @@ namespace Items.Devices
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			Chat.AddExamineMsg(interaction.Performer, $"You press a button and send a signal through the {gameObject.ExpensiveName()}");
+			Chat.AddExamineMsg(interaction.Performer, $"You press a button and send a signal through the {gameObject.DisplayName()}");
 			TrySendSignal();
 		}
 

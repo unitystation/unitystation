@@ -112,14 +112,14 @@ namespace Objects.Engineering
 				ChangePowerState(false);
 				mainSpriteHandler.AnimateOnce(3);
 				Chat.AddActionMsgToChat(interaction.Performer, "You turn off the radiation collector",
-					$"{interaction.Performer.ExpensiveName()} turns off the radiation collector");
+					$"{interaction.Performer.DisplayName()} turns off the radiation collector");
 			}
 			else if (wrenchSecurable.IsAnchored)
 			{
 				ChangePowerState(true);
 				mainSpriteHandler.AnimateOnce(1);
 				Chat.AddActionMsgToChat(interaction.Performer, "You turn on the radiation collector",
-					$"{interaction.Performer.ExpensiveName()} turns on the radiation collector");
+					$"{interaction.Performer.DisplayName()} turns on the radiation collector");
 			}
 			else
 			{

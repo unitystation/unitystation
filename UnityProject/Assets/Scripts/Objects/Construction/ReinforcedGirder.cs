@@ -64,9 +64,9 @@ namespace Objects.Construction
 				{
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 5f,
 						"You start finalizing the reinforced wall...",
-						$"{interaction.Performer.ExpensiveName()} starts finalizing the reinforced wall...",
+						$"{interaction.Performer.DisplayName()} starts finalizing the reinforced wall...",
 						"You fully reinforce the wall.",
-						$"{interaction.Performer.ExpensiveName()} fully reinforces the wall.",
+						$"{interaction.Performer.DisplayName()} fully reinforces the wall.",
 						() => ConstructReinforcedWall(interaction));
 				}
 			}
@@ -76,18 +76,18 @@ namespace Objects.Construction
 				{
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 						"You start unsecuring the support struts...",
-						$"{interaction.Performer.ExpensiveName()} starts unsecuring the support struts...",
+						$"{interaction.Performer.DisplayName()} starts unsecuring the support struts...",
 						"You unsecure the support struts.",
-						$"{interaction.Performer.ExpensiveName()} unsecures the support struts.",
+						$"{interaction.Performer.DisplayName()} unsecures the support struts.",
 						() => strutsUnsecured = true);
 				}
 				else
 				{
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 						"You start securing the support struts...",
-						$"{interaction.Performer.ExpensiveName()} starts securing the support struts...",
+						$"{interaction.Performer.DisplayName()} starts securing the support struts...",
 						"You secure the support struts.",
-						$"{interaction.Performer.ExpensiveName()} secure the support struts.",
+						$"{interaction.Performer.DisplayName()} secure the support struts.",
 						() => strutsUnsecured = false);
 				}
 			}
@@ -97,9 +97,9 @@ namespace Objects.Construction
 				{
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 						"You start removing the inner grille...",
-						$"{interaction.Performer.ExpensiveName()} starts removing the inner grille...",
+						$"{interaction.Performer.DisplayName()} starts removing the inner grille...",
 						"You remove the inner grille.",
-						$"{interaction.Performer.ExpensiveName()} removes the inner grille.",
+						$"{interaction.Performer.DisplayName()} removes the inner grille.",
 						() =>
 						{
 							Spawn.ServerPrefab(girder, SpawnDestination.At(gameObject));

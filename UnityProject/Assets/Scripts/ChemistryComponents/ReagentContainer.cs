@@ -134,7 +134,7 @@ namespace Chemistry.Components
 				return currentReagentMix;
 			}
 		}
-		
+
 
 		/// <summary>
 		/// Returns reagent amount in container
@@ -159,7 +159,7 @@ namespace Chemistry.Components
 			}
 		}
 
-		private string FancyContainerName => itemAttributes ? itemAttributes.InitialName : gameObject.ExpensiveName();
+		private string FancyContainerName => itemAttributes ? itemAttributes.InitialName : gameObject.DisplayName();
 
 		/// <summary>
 		/// Server side only. Total reagent mix amount in units
@@ -496,7 +496,7 @@ namespace Chemistry.Components
 				foreach (var mob in mobs)
 				{
 					var mobObject = mob.gameObject;
-					var mobName = mobObject.ExpensiveName();
+					var mobName = mobObject.DisplayName();
 					Chat.AddCombatMsgToChat(mobObject, mobName + " has been splashed with something!",
 						mobName + " has been splashed with something!");
 				}
@@ -504,7 +504,7 @@ namespace Chemistry.Components
 			else
 			{
 				Chat.AddActionMsgToChat(gameObject,
-					$"The {gameObject.ExpensiveName()}'s contents spill all over the floor!");
+					$"The {gameObject.DisplayName()}'s contents spill all over the floor!");
 			}
 		}
 
@@ -512,7 +512,7 @@ namespace Chemistry.Components
 
 		public override string ToString()
 		{
-			return $"[{gameObject.ExpensiveName()}" +
+			return $"[{gameObject.DisplayName()}" +
 			       $" |{ReagentMixTotal}/{MaxCapacity}|" +
 			       $" ({string.Join(",", CurrentReagentMix)})" +
 			       $" Mode: {transferMode}," +
@@ -587,7 +587,7 @@ namespace Chemistry.Components
 		{
 			if (IsEmpty)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"The {gameObject.ExpensiveName()} is empty.");
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"The {gameObject.DisplayName()} is empty.");
 				return;
 			}
 			else

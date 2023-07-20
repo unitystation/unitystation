@@ -166,7 +166,7 @@ namespace Items.Magical
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
 			Chat.AddExamineMsgFromServer(interaction.Performer,
-					$"The {gameObject.ExpensiveName()} does not recognise you as its owner and refuses to open!");
+					$"The {gameObject.DisplayName()} does not recognise you as its owner and refuses to open!");
 		}
 
 		#endregion Interaction

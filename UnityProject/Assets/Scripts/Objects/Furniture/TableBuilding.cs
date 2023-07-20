@@ -70,9 +70,9 @@ namespace Objects.Construction
 			{
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 0.5f,
 					"You start deconstructing the table frame...",
-					$"{interaction.Performer.ExpensiveName()} starts deconstructing the table frame...",
+					$"{interaction.Performer.DisplayName()} starts deconstructing the table frame...",
 					"You finish deconstructing the table frame.",
-					$"{interaction.Performer.ExpensiveName()} deconstructs the table frame.",
+					$"{interaction.Performer.DisplayName()} deconstructs the table frame.",
 					Disassemble);
 				ToolUtils.ServerPlayToolSound(interaction);
 			}
@@ -98,9 +98,9 @@ namespace Objects.Construction
 		{
 			ToolUtils.ServerUseToolWithActionMessages(interaction, 0.5f,
 				$"You start constructing a {tableType} table...",
-				$"{interaction.Performer.ExpensiveName()} starts constructing a {tableType} table...",
+				$"{interaction.Performer.DisplayName()} starts constructing a {tableType} table...",
 				$"You finish assembling the {tableType} table.",
-				$"{interaction.Performer.ExpensiveName()} assembles a {tableType} table.",
+				$"{interaction.Performer.DisplayName()} assembles a {tableType} table.",
 				() => SpawnTable(interaction, layerTile));
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
 			SoundManager.PlayNetworkedAtPos(assemblySound, gameObject.AssumedWorldPosServer(), audioSourceParameters, sourceObj: gameObject);

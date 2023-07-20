@@ -13,7 +13,7 @@ namespace Util
 
 		private void Start()
 		{
-			Logger.LogError($"Obsolete object: {gameObject.ExpensiveName()} on matrix: {objectPhysics.registerTile.Matrix} at world coord: {objectPhysics.OfficialPosition}. Please remove from scene");
+			Logger.LogError($"Obsolete object: {gameObject.DisplayName()} on matrix: {objectPhysics.registerTile.Matrix} at world coord: {objectPhysics.OfficialPosition}. Please remove from scene");
 		}
 	}
 }

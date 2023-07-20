@@ -60,13 +60,13 @@ namespace Systems.Research.Objects
 				ArtifactSliver = itemStorage.GetIndexedItemSlot(0).ItemObject.GetComponent<ArtifactSliver>();
 
 				Chat.AddActionMsgToChat(interaction.Performer, "You insert the sample into the analyser.",
-					interaction.Performer.ExpensiveName() + " inserts the sample into the analyser.");
+					interaction.Performer.DisplayName() + " inserts the sample into the analyser.");
 
 				UpdateGUI();
 			}
 			else
 			{
-				Chat.AddExamineMsg(interaction.Performer, gameObject.ExpensiveName() + " already contains a sample");
+				Chat.AddExamineMsg(interaction.Performer, gameObject.DisplayName() + " already contains a sample");
 			}
 
 		}
