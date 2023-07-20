@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using ConfigurationSaves;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -161,12 +162,34 @@ namespace Systems.Character
 			throw new NotImplementedException();
 		}
 
+		private string OLDOfflineStoragePath => $"{Application.persistentDataPath}characters.json";
+
+
 		/// <summary>Load characters that are saved to Unity's persistent data folder.</summary>
 		public void LoadOfflineCharacters()
 		{
 			Characters.Clear();
 
-			if (AccessFile.Exists(OfflineStoragePath, userPersistent: true) == false) return;
+			if (AccessFile.Exists(OfflineStoragePath, userPersistent: true) == false)
+			{
+				//TODO Remove
+				bool exists = File.Exists(OLDOfflineStoragePath);
+				if (exists)
+				{
+					//C:\Users\PCV3\AppData\LocalLow\Unitystation
+					//to
+					//C:\Users\PCV3\AppData\LocalLow\Unitystation\unitystation\Unitystation\Config\characters.json
+					Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "Unitystation/Config"));
+					File.Copy(OLDOfflineStoragePath, Path.Combine(Application.persistentDataPath, "Unitystation/Config/characters.json"));
+					File.Delete(OLDOfflineStoragePath);
+				}
+				else
+				{
+					return;
+				}
+
+				//TODO Remove
+			}
 
 			string json = AccessFile.Load(OfflineStoragePath, userPersistent: true);
 
