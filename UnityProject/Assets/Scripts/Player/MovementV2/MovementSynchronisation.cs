@@ -939,9 +939,17 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		if (UIManager.IsInputFocus) return;
 		if (CommonInput.GetKeyDown(KeyCode.F7) && gameObject == PlayerManager.LocalPlayerObject)
 		{
-			var DummyMind = PlayerSpawn.NewSpawnCharacterV2(OccupationList.Instance.Occupations.PickRandom(),
+			var dummyMind = PlayerSpawn.NewSpawnCharacterV2(OccupationList.Instance.Occupations.PickRandom(),
 				CharacterSheet.GenerateRandomCharacter());
-			DummyMind.Body.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(this.transform.position);
+			if (dummyMind == null || dummyMind.Body == null ||
+			    dummyMind.Body.TryGetComponent<UniversalObjectPhysics>(out var physics) == false)
+			{
+				Logger.LogError("Something went wrong while spawning a dummy player.");
+			}
+			else
+			{
+				physics.AppearAtWorldPositionServer(transform.position);
+			}
 		}
 
 

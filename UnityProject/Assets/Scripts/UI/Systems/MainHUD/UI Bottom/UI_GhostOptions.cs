@@ -97,6 +97,7 @@ namespace UI.Systems.Ghost
 
 		public void NewGhostRoleAvailable(GhostRoleData role)
 		{
+			if (gameObject.activeSelf == false) return;
 			ghostRoleSpriteHandler.SetSpriteSO(role.Sprite, networked: false);
 			if (roleBtnAnimating) return; // Drop rapid subsequent notifications
 
