@@ -32,8 +32,8 @@ namespace ConfigurationSaves
 					var path = Path.GetFullPath(Path.Combine(Application.streamingAssetsPath,
 						"Config",
 						"buildinfo.json"));
-					var txte = File.ReadAllText(path);
-					var data = JsonConvert.DeserializeObject<BuiltFork>(txte);
+					var text = File.ReadAllText(path);
+					var data = JsonConvert.DeserializeObject<BuiltFork>(text);
 					if (data == null)
 					{
 						CashedForkName = "Unitystation";
@@ -53,11 +53,6 @@ namespace ConfigurationSaves
 		private static Dictionary<Action, string> RegisteredToFile = new Dictionary<Action, string>();
 
 		private static Dictionary<string, List<Action>> RegisteredToWatch = new Dictionary<string, List<Action>>();
-
-		//so,
-		//Register action, -> Makefile watcher
-		//Register action, Brings of path
-		//
 
 		private class BuiltFork
 		{
@@ -250,13 +245,13 @@ namespace ConfigurationSaves
 
 			if (CurrentlyWatchingFile.ContainsKey(resolvedPath) == false)
 			{
-				var Whatcha =  new FileSystemWatcher(); //Witcher
-				CurrentlyWatchingFile[resolvedPath] = Whatcha;
-				Whatcha.Path = Path.GetDirectoryName(resolvedPath);
-				Whatcha.Filter = Path.GetFileName(resolvedPath);
-				Whatcha.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
-				Whatcha.Changed += (object source, FileSystemEventArgs e) => { FileChanged(resolvedPath); };
-				Whatcha.EnableRaisingEvents = true;
+				var watcher =  new FileSystemWatcher(); //Witcher
+				CurrentlyWatchingFile[resolvedPath] = watcher;
+				watcher.Path = Path.GetDirectoryName(resolvedPath);
+				watcher.Filter = Path.GetFileName(resolvedPath);
+				watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
+				watcher.Changed += (object source, FileSystemEventArgs e) => { FileChanged(resolvedPath); };
+				watcher.EnableRaisingEvents = true;
 			}
 
 			if (RegisteredToWatch.ContainsKey(resolvedPath) == false)
