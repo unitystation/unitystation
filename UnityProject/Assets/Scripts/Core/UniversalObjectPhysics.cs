@@ -277,11 +277,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 
 		SetRotationTarget();
-
-		if (rotationTarget == null)
-		{
-			rotationTarget = transform;
-		}
 	}
 
 	private void SetRotationTarget()
@@ -290,6 +285,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (this is MovementSynchronisation c && c.playerScript.RegisterPlayer.LayDownBehavior != null)
 		{
 			rotationTarget = c.playerScript.RegisterPlayer.LayDownBehavior.Sprites;
+			SetRotationTargetWhenNull();
 			return;
 		}
 		var sprites = GetComponentsInChildren<SpriteHandler>();
@@ -298,6 +294,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			rotationTarget = sprites[0].transform;
 			return;
 		}
+		rotationTarget = transform;
+	}
+
+	private void SetRotationTargetWhenNull()
+	{
+		if (rotationTarget != null) return;
 		rotationTarget = transform;
 	}
 
@@ -1540,7 +1542,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		var intPosition = position.RoundToInt();
 		var intNewPosition = newPosition.RoundToInt();
 
-		transform.Rotate(new Vector3(0, 0, spinMagnitude * newtonianMovement.magnitude * Time.deltaTime));
+		rotationTarget.Rotate(new Vector3(0, 0, spinMagnitude * newtonianMovement.magnitude * Time.deltaTime));
 
 		if (intPosition != intNewPosition)
 		{
@@ -1627,7 +1629,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					{
 						if (Hits.Count > 0)
 						{
-							OnImpact.Invoke(this, newtonianMovement);
+							OnImpact?.Invoke(this, newtonianMovement);
 						}
 
 						foreach (var hit in Hits)
@@ -1747,7 +1749,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 			if (OnThrowEndResetRotation)
 			{
-				transform.localRotation = Quaternion.Euler(0, 0, 0);
+				rotationTarget.rotation = Quaternion.Euler(0, 0, 0);
 				if (this is MovementSynchronisation c) c.playerScript.RegisterPlayer.LayDownBehavior.ServerEnsureCorrectState();
 			}
 
