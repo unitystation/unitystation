@@ -14,6 +14,7 @@
 
 		/// <summary>
 		/// The absolute initial name of this entity. This will never change. Useful to try to identify an object by its initial name.
+		/// or get the real name of a character.
 		/// </summary>
 		public string InitialName { get; }
 
