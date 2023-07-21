@@ -200,13 +200,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5334267868750357690, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
+      propertyPath: colour.a
+      value: 0.6392157
+      objectReference: {fileID: 0}
+    - target: {fileID: 5334267868750357690, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
       propertyPath: colour.b
-      value: 0.759434
+      value: 0.57254905
       objectReference: {fileID: 0}
     - target: {fileID: 5334267868750357690, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
       propertyPath: colour.g
-      value: 0.759434
+      value: 0.89411765
       objectReference: {fileID: 0}
     - target: {fileID: 5334267868750357690, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
@@ -217,6 +222,11 @@ PrefabInstance:
         type: 3}
       propertyPath: weakenOnGround
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5344101728563766022, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: Color.a
+      value: 0.6392157
       objectReference: {fileID: 0}
     - target: {fileID: 5577623456038050690, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
