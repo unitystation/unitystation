@@ -1,4 +1,5 @@
-﻿using Core.Identity;
+﻿using System.Globalization;
+using Core.Identity;
 using UnityEditor;
 using UnityEngine;
 
@@ -40,21 +41,29 @@ namespace Core.Editor.Tools
 				var entityIdentity = go.GetComponent<EntityIdentity>();
 				var attributes = go.GetComponent<global::Attributes>();
 
-				if (entityIdentity != null && attributes != null)
-				{
-					entityIdentity.SetDisplayName(entityIdentity.InitialName, attributes.ArticleName);
-					entityIdentity.SetDescription(string.Empty ,BuildDescription(attributes.InitialDescription));
-				}
+				if (entityIdentity == null || attributes == null) continue;
+				entityIdentity.SetDisplayName(string.Empty, attributes.ArticleName);
+				entityIdentity.SetDescription(string.Empty ,BuildDescription(attributes.InitialDescription));
+				EditorUtility.SetDirty(go);
+				AssetDatabase.SaveAssets();
 			}
-
-			AssetDatabase.SaveAssets();
 		}
 
 		private string BuildDescription(string description)
 		{
 			if (string.IsNullOrEmpty(description))
 			{
-				return "This is a {0}.";
+
+				var article = "a";
+				if (description!.StartsWith("a", true, CultureInfo.InvariantCulture)
+				    || description.StartsWith("e", true, CultureInfo.InvariantCulture)
+				    || description.StartsWith("i", true, CultureInfo.InvariantCulture)
+				    || description.StartsWith("o", true, CultureInfo.InvariantCulture)
+				    || description.StartsWith("u", true, CultureInfo.InvariantCulture))
+				{
+					article = "an";
+				}
+				return "This is "+ article + " {0}.";
 			}
 
 			return description;
