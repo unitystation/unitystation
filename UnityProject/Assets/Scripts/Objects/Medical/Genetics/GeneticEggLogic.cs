@@ -11,9 +11,7 @@ public class GeneticEggLogic : MonoBehaviour
 
 	public int ChosenHatchTime;
 
-	public List<GameObject> Mobs000 = new List<GameObject>();
-	public List<GameObject> Mobs100 = new List<GameObject>();
-	public List<GameObject> Mobs200 = new List<GameObject>();
+	public List<GameObject> ALL = new List<GameObject>();
     void Start()
     {
 	    ChosenHatchTime = Mathf.RoundToInt( StandardHatchTime * Random.Range(0.5f, 1.5f));
@@ -43,34 +41,12 @@ public class GeneticEggLogic : MonoBehaviour
 	    Chat.AddActionMsgToChat(this.gameObject, $"The {this.gameObject.ExpensiveName()} Wobbles", $"The {this.gameObject.ExpensiveName()} Wobbles");
 	    yield return WaitFor.Seconds(ChosenHatchTime * 0.10f);
 
-	    int difficulty = 0;
-
-	    foreach (var mutationSo in CarryingMutations)
-	    {
-		    var  Settings =  BodyPartMutations.GetMutationRoundData(mutationSo);
-		    difficulty += Settings.ResearchDifficult;
-
-	    }
-
 	    GameObject Dinosaur = null;
 
-	    if (difficulty > 200)
-	    {
-		    Dinosaur = Spawn.ServerPrefab(Mobs200.PickRandom(), gameObject.AssumedWorldPosServer()).GameObject;
-	    }
-	    else if (difficulty > 100)
-	    {
-		    Dinosaur = Spawn.ServerPrefab(Mobs100.PickRandom(), gameObject.AssumedWorldPosServer()).GameObject;
-	    }
-	    else if (difficulty > 0)
-	    {
-		    Dinosaur = Spawn.ServerPrefab(Mobs000.PickRandom(), gameObject.AssumedWorldPosServer()).GameObject;
-	    }
+	    Dinosaur = Spawn.ServerPrefab(ALL.PickRandom(), gameObject.AssumedWorldPosServer()).GameObject;
 
 	    var  DLMC =  Dinosaur.GetComponent<DinosaurLivingMutationCarrier>();
 	    DLMC.CarryingMutations = CarryingMutations;
-	    DLMC.DifficultyLevel = difficulty;
-
 	    _ = Despawn.ServerSingle(this.gameObject);
     }
 
