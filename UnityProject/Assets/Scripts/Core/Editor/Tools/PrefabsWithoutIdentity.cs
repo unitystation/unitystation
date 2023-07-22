@@ -1,7 +1,6 @@
 ﻿using Core.Identity;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
 using System.Collections.Generic;
 using UnityEditorInternal;
 
@@ -9,7 +8,7 @@ namespace Core.Editor.Tools
 {
 	public class PrefabsWithoutIdentity: ScriptableWizard
 	{
-		[FormerlySerializedAs("path")] [Tooltip("Folder inside Assets where the prefabs we want to look for are located.")]
+		[Tooltip("Folder inside Assets where the prefabs we want to look for are located.")]
 		public Object folderObject;
 
 		private Vector2 logScrollPos;

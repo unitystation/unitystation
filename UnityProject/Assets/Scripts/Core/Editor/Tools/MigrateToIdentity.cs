@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using Core.Identity;
 using UnityEditor;
 using UnityEngine;
@@ -10,11 +11,31 @@ namespace Core.Editor.Tools
 	/// </summary>
 	public class MigrateToIdentity: ScriptableWizard
 	{
+		[Tooltip("Folder inside Assets where the prefabs we want to look for are located.")]
+		public Object folderObject;
+		private Vector2 logScrollPos;
+		private readonly List<string> log = new();
+		private int processedPrefabs = new();
+		private int prefabsWithoutAttributes = new();
 
 		[MenuItem("Tools/Migrations/Migrate to Identity")]
 		private static void CreateWizard()
 		{
 			DisplayWizard<MigrateToIdentity>("Migrate to Identity", "Migrate");
+		}
+
+		public void OnGUI()
+		{
+			folderObject = EditorGUILayout.ObjectField("Folder", folderObject, typeof(Object), false);
+			logScrollPos = EditorGUILayout.BeginScrollView(logScrollPos, GUILayout.Height(200));
+			foreach (var text in log)
+			{
+				EditorGUILayout.LabelField(text);
+			}
+			EditorGUILayout.EndScrollView();
+			EditorGUILayout.LabelField("Report", EditorStyles.boldLabel);
+			EditorGUILayout.LabelField("Processed " + processedPrefabs + " prefabs from " + folderObject.OrNull()?.name, EditorStyles.boldLabel);
+			EditorGUILayout.LabelField(prefabsWithoutAttributes + " prefabs had identity but no Attributes, so they are named Unknown ", EditorStyles.boldLabel);
 		}
 
 		/// <summary>
@@ -23,7 +44,8 @@ namespace Core.Editor.Tools
 		/// <returns></returns>
 		private GameObject[] AllGameObjects()
 		{
-			string[] guids = AssetDatabase.FindAssets("t:GameObject");
+			string folder = AssetDatabase.GetAssetPath(folderObject);
+			var guids = AssetDatabase.FindAssets("t:GameObject", new[] {folder});
 			GameObject[] gameObjects = new GameObject[guids.Length];
 			for (int i = 0; i < guids.Length; i++)
 			{
@@ -38,15 +60,24 @@ namespace Core.Editor.Tools
 		{
 			foreach (var go in gameObjects)
 			{
+				log.Add("Processing " + go.name);
 				var entityIdentity = go.GetComponent<SimpleIdentity>();
 				var attributes = go.GetComponent<global::Attributes>();
 
 				if (entityIdentity == null || attributes == null) continue;
-				entityIdentity.SetDisplayName(string.Empty, attributes.ArticleName);
+				if (entityIdentity && attributes == null)
+				{
+					prefabsWithoutAttributes++;
+				}
+
+				entityIdentity.SetInitialName(attributes.ArticleName);
 				entityIdentity.SetDescription(string.Empty ,BuildDescription(attributes.InitialDescription));
 				EditorUtility.SetDirty(go);
-				AssetDatabase.SaveAssets();
+				processedPrefabs++;
 			}
+
+			log.Add("Saving assets...");
+			AssetDatabase.SaveAssets();
 		}
 
 		private string BuildDescription(string description)
