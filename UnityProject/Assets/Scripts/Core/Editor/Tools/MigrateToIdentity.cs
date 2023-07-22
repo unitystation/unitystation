@@ -36,6 +36,10 @@ namespace Core.Editor.Tools
 			EditorGUILayout.LabelField("Report", EditorStyles.boldLabel);
 			EditorGUILayout.LabelField("Processed " + processedPrefabs + " prefabs from " + folderObject.OrNull()?.name, EditorStyles.boldLabel);
 			EditorGUILayout.LabelField(prefabsWithoutAttributes + " prefabs had identity but no Attributes, so they are named Unknown ", EditorStyles.boldLabel);
+			if (GUILayout.Button("Find"))
+			{
+				OnWizardCreate();
+			}
 		}
 
 		/// <summary>
