@@ -3,8 +3,12 @@ using UnityEngine;
 
 namespace Core.Identity
 {
+	/// <summary>
+	/// Implementation for the IIdentifiable interface. This is the most basic implementation of an identity and
+	/// applies to most entities, such as objects, pickupable items and old mobs.
+	/// </summary>
 	[DisallowMultipleComponent]
-	public class EntityIdentity: NetworkBehaviour, IIdentifiable
+	public class SimpleIdentity: NetworkBehaviour, IIdentifiable, IExaminable
 	{
 		[SerializeField] private string initialName = "Unknown";
 		[SyncVar(hook = nameof(SetDisplayName))]

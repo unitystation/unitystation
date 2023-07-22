@@ -1,11 +1,12 @@
 ﻿namespace Core.Identity
 {
 	/// <summary>
+	/// <seealso cref="IIdentifiable"/>
 	/// Provides a mechanism to identify game entities in a flexible manner.
 	/// Entities implementing this interface provide their current display name,
 	/// which could be influenced by conditions such as disguise or visibility.
 	/// </summary>
-	public interface IIdentifiable: IExaminable
+	public interface IIdentifiable
 	{
 		/// <summary>
 		/// Current name of this entity. This might change over time due to disguises, visibility, labelling, etc.

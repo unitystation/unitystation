@@ -76,7 +76,7 @@ namespace Core.Editor.Tools
 			foreach (var go in gameObjects)
 			{
 				log.Add($"Testing {go.name}...");
-				if (go.GetComponent<EntityIdentity>() == null)
+				if (go.GetComponent<SimpleIdentity>() == null)
 				{
 					noIdentityObjects.Add(go);
 				}
@@ -85,7 +85,7 @@ namespace Core.Editor.Tools
 
 		private void AddEntityIdentity(GameObject go)
 		{
-			var entityIdentity = go.AddComponent<EntityIdentity>();
+			var entityIdentity = go.AddComponent<SimpleIdentity>();
 			int componentsCount = go.GetComponents<Component>().Length;
 			for (int i = 1; i < componentsCount - 2; i++)
 			{

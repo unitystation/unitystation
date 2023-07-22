@@ -38,7 +38,7 @@ namespace Core.Editor.Tools
 		{
 			foreach (var go in gameObjects)
 			{
-				var entityIdentity = go.GetComponent<EntityIdentity>();
+				var entityIdentity = go.GetComponent<SimpleIdentity>();
 				var attributes = go.GetComponent<global::Attributes>();
 
 				if (entityIdentity == null || attributes == null) continue;
