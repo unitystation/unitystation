@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
+using Core.Identity;
 using Systems;
 using HealthV2;
-using Items.PDA;
 using Objects.Security;
 using UnityEngine;
 
@@ -21,7 +19,16 @@ namespace Player
 		private InteractableStorage interactableStorage;
 
 		private PlayerScript script;
+		private CharacterIdentity identity;
+
 		public InteractableStorage InteractableStorage => interactableStorage;
+
+		private void Awake()
+		{
+			script = GetComponent<PlayerScript>();
+			identity = GetComponent<CharacterIdentity>();
+			interactableStorage = GetComponent<InteractableStorage>();
+		}
 
 		/// <summary>
 		/// Check if player is wearing a mask
@@ -43,26 +50,9 @@ namespace Player
 			}
 		}
 
-		[Tooltip("Slots from which other players can read ID card data")]
-		[SerializeField]
-		private NamedSlot[] readableIDslots = new NamedSlot[]
-		{
-			NamedSlot.id,
-			NamedSlot.belt,
-			NamedSlot.leftHand,
-			NamedSlot.rightHand
-		};
-
 		[SerializeField] private float maxInteractionDistance = 3;
 		private PlayerHealthV2 Health => script.playerHealth;
 		private Equipment Equipment => script.Equipment;
-		private string VisibleName => script.visibleName;
-
-		private void Awake()
-		{
-			script = GetComponent<PlayerScript>();
-			interactableStorage = GetComponent<InteractableStorage>();
-		}
 
 		public bool WillInteract(MouseDrop interaction, NetworkSide side)
 		{
@@ -87,15 +77,15 @@ namespace Player
 		/// <summary>
 		/// Try to find security record by player ID
 		/// </summary>
-		/// <param name="id">player ID</param>
+		/// <param name="characterName">player ID</param>
 		/// <param name="securityRecord">player security record if found</param>
 		/// <returns>true if security record exists for provided ID</returns>
-		private bool TryFindPlayerSecurityRecord(string id, out SecurityRecord securityRecord)
+		private bool TryFindPlayerSecurityRecord(string characterName, out SecurityRecord securityRecord)
 		{
 			var records = CrewManifestManager.Instance.SecurityRecords;
 			foreach (var record in records)
 			{
-				if (record.characterSettings.Name.Equals(id) == false)
+				if (record.characterSettings.Name.Equals(characterName) == false)
 				{
 					continue;
 				}
@@ -105,43 +95,6 @@ namespace Player
 			}
 
 			securityRecord = null;
-			return false;
-		}
-
-		/// <summary>
-		/// Try to get player IDcard
-		/// </summary>
-		/// <param name="idCard">player id card if found</param>
-		/// <returns>true if player has id card</returns>
-		private bool TryFindIDCard(out IDCard idCard)
-		{
-			foreach (var slot in readableIDslots)
-			{
-				foreach (var itemSlot in script.DynamicItemStorage.GetNamedItemSlots(slot))
-				{
-					if (itemSlot.IsOccupied == false)
-					{
-						continue;
-					}
-					// if item is ID card
-					if (itemSlot.ItemObject.TryGetComponent(out idCard))
-					{
-						return true;
-					}
-
-					// if item is PDA and IDCard is not null
-					if (itemSlot.ItemObject.TryGetComponent<PDALogic>(out var pdaLogic) == false ||
-					    pdaLogic.GetIDCard() == null)
-					{
-						continue;
-					}
-
-					idCard = pdaLogic.GetIDCard();
-					return true;
-				}
-			}
-
-			idCard = null;
 			return false;
 		}
 
@@ -197,7 +150,7 @@ namespace Player
 			}
 
 			Chat.AddExamineMsg(sentByPlayer,
-				$"This is <b>{VisibleName}</b>.\n" +
+				$"This is <b>{identity.DisplayName}</b>.\n" +
 				$"{Equipment.Examine()}" +
 				$"<color={LILAC_COLOR}>{Health.GetExamineText(script)}</color>");
 		}
@@ -214,7 +167,7 @@ namespace Player
 		{
 			// first try to get name from id
 			// if can't get name from id get visible name
-			return TryFindIDCard(out var idCard) ? idCard.RegisteredName : VisibleName;
+			return identity.DisplayName;
 		}
 
 		public string GetPlayerSpeciesString()
@@ -223,15 +176,14 @@ namespace Player
 			if (IsFaceVisible) { return script.characterSettings.Species; }
 
 			//  try get species from security records
-			if (TryFindIDCard(out var idCard))
-			{
-				string id = idCard.RegisteredName;
 
-				if (TryFindPlayerSecurityRecord(id, out var securityRecord))
-				{
-					return securityRecord.Species;
-				}
+			string id = identity.DisplayName;
+
+			if (TryFindPlayerSecurityRecord(id, out var securityRecord))
+			{
+				return securityRecord.Species;
 			}
+
 
 			return UNKNOWN_VALUE;
 		}
@@ -239,7 +191,7 @@ namespace Player
 		public string GetPlayerJobString()
 		{
 			// search for ID identity
-			if (TryFindIDCard(out var idCard))
+			if (identity.TryFindIDCard(out var idCard))
 			{
 				return idCard.GetJobTitle();
 			}
