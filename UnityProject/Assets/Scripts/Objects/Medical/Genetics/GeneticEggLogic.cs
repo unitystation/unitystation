@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GeneticEggLogic : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class GeneticEggLogic : MonoBehaviour
 
 	public int ChosenHatchTime;
 
-	public List<GameObject> ALL = new List<GameObject>();
+	[FormerlySerializedAs("ALL")] public List<GameObject> ALLMobs = new List<GameObject>();
     void Start()
     {
 	    ChosenHatchTime = Mathf.RoundToInt( StandardHatchTime * Random.Range(0.5f, 1.5f));
@@ -43,7 +44,7 @@ public class GeneticEggLogic : MonoBehaviour
 
 	    GameObject Dinosaur = null;
 
-	    Dinosaur = Spawn.ServerPrefab(ALL.PickRandom(), gameObject.AssumedWorldPosServer()).GameObject;
+	    Dinosaur = Spawn.ServerPrefab(ALLMobs.PickRandom(), gameObject.AssumedWorldPosServer()).GameObject;
 
 	    var  DLMC =  Dinosaur.GetComponent<DinosaurLivingMutationCarrier>();
 	    DLMC.CarryingMutations = CarryingMutations;
