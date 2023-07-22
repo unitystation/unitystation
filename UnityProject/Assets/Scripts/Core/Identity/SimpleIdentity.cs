@@ -33,6 +33,11 @@ namespace Core.Identity
 			SetDisplayName(displayName, initialName);
 		}
 
+		public void SetInitialName(string newName)
+		{
+			initialName = newName;
+		}
+
 		// [Server]
 		public void SetDisplayName(string oldName, string newName)
 		{
