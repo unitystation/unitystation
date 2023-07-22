@@ -70,7 +70,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// <summary>
 	/// Default How long to wait between ending the round and starting a new one
 	/// </summary>
-	public float DefaultRoundEndTime { get; set; } = 60f;
+	public float DefaultRoundEndTime { get; set; } = 120f;
 
 
 	/// <summary>

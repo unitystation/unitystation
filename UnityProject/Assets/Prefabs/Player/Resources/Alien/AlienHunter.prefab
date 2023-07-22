@@ -65,6 +65,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 7a7cffef4f7dc23458a5b921308f898a
       objectReference: {fileID: 0}
+    - target: {fileID: 114285118255153820, guid: d1bc864a55af6cb4cad058680cba977a,
+        type: 3}
+      propertyPath: IsOldCustomPrefab
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 259398905212514923, guid: d1bc864a55af6cb4cad058680cba977a,
         type: 3}
       propertyPath: m_Sprite
@@ -163,7 +168,6 @@ MonoBehaviour:
   FramePushDecision: 1
   stickyMovement: 0
   OnThrowEndResetRotation: 0
-  CanSwap: 0
   maximumStickSpeed: 1.5
   onStationMovementsRound: 0
   registerTile: {fileID: 0}

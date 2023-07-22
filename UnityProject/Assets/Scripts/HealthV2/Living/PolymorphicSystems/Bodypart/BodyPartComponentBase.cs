@@ -36,6 +36,7 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 				sys.InIt();
 				livingHealth.ActiveSystems.Add(sys);
 				SetSystem(sys, false);
+				sys.BodyPartAdded(this.RelatedPart);
 			}
 
 			foreach (var sys in livingHealth.ActiveSystems)

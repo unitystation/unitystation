@@ -15,6 +15,10 @@ namespace Clothing
 		[SerializeField] [Tooltip("When wore in this slot, the armor values will be applied to player.")]
 		private NamedSlot slot = NamedSlot.outerwear;
 
+		[SerializeField]
+		private List<NamedSlot> CompatibleSlots = new List<NamedSlot>();
+
+
 		[SerializeField] [Tooltip("What body parts does this item protect and how well does it protect.")]
 		private List<ArmoredBodyPart> armoredBodyParts = new List<ArmoredBodyPart>();
 		public List<ArmoredBodyPart> ArmoredBodyParts => armoredBodyParts;
@@ -45,7 +49,7 @@ namespace Clothing
 			{
 				playerHealthV2 = info.ToRootPlayer?.PlayerScript.playerHealth;
 
-				if (playerHealthV2 != null && info.ToSlot.NamedSlot == slot)
+				if (playerHealthV2 != null && (info.ToSlot.NamedSlot == slot || CompatibleSlots.Contains(info.ToSlot.NamedSlot.Value) ))
 				{
 					UpdateBodyPartsArmor(false);
 				}
@@ -56,7 +60,7 @@ namespace Clothing
 			{
 				playerHealthV2 = info.FromRootPlayer?.PlayerScript.playerHealth;
 
-				if (playerHealthV2 != null && info.FromSlot.NamedSlot == slot)
+				if (playerHealthV2 != null && (info.FromSlot.NamedSlot == slot || CompatibleSlots.Contains(info.FromSlot.NamedSlot.Value)))
 				{
 					UpdateBodyPartsArmor(true);
 				}

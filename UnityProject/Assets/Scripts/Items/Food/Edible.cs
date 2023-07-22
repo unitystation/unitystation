@@ -87,7 +87,13 @@ namespace Items.Food
 				SoundManager.PlayNetworkedAtPos(sound, item.WorldPosition, eatSoundParameters);
 				if (leavings != null)
 				{
-					Spawn.ServerPrefab(leavings, item.WorldPosition, transform.parent);
+					var LeavingSpawned = Spawn.ServerPrefab(leavings, item.WorldPosition, transform.parent).GameObject;
+					var Pickupable = this.GetComponent<Pickupable>();
+					if (Pickupable != null && Pickupable.ItemSlot != null)
+					{
+						Inventory.ServerAdd(LeavingSpawned.GetComponent<Pickupable>(), Pickupable.ItemSlot,
+							ReplacementStrategy.DropOther);
+					}
 				}
 
 				_ = Despawn.ServerSingle(gameObject);
@@ -200,29 +206,34 @@ namespace Items.Food
 			{
 
 				currentBites--;
-				if (leavings != null)
+
+
+				if (currentBites <= 0)
 				{
-					var leavingsInstance = Spawn.ServerPrefab(leavings).GameObject;
-					var pickupable = leavingsInstance.GetComponent<Pickupable>();
-					bool added = false;
-					var ToDropOn = gameObject;
-
-					if (feeder != null)
+					if (leavings != null)
 					{
-						var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
+						var leavingsInstance = Spawn.ServerPrefab(leavings).GameObject;
+						var pickupable = leavingsInstance.GetComponent<Pickupable>();
+						bool added = false;
+						var ToDropOn = gameObject;
 
-						ToDropOn = feeder.gameObject;
-						added = Inventory.ServerAdd(pickupable, feederSlot);
-					}
+						if (feeder != null)
+						{
+							var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
 
-					if (added == false)
-					{
-						//If stackable has leavings and they couldn't go in the same slot, they should be dropped
-						pickupable.UniversalObjectPhysics.DropAtAndInheritMomentum(
-							ToDropOn.GetComponent<UniversalObjectPhysics>());
+							ToDropOn = feeder.gameObject;
+							added = Inventory.ServerAdd(pickupable, feederSlot, ReplacementStrategy.DropOther);
+						}
+
+						if (added == false)
+						{
+							//If stackable has leavings and they couldn't go in the same slot, they should be dropped
+							pickupable.UniversalObjectPhysics.DropAtAndInheritMomentum(
+								ToDropOn.GetComponent<UniversalObjectPhysics>());
+						}
 					}
+					_ = Inventory.ServerDespawn(gameObject);
 				}
-				if (currentBites <= 0) _ = Inventory.ServerDespawn(gameObject);
 			}
 
 			return incomingFood;

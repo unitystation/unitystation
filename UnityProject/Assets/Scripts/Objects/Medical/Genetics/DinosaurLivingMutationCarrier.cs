@@ -8,7 +8,6 @@ using UnityEngine;
 public class DinosaurLivingMutationCarrier : NetworkBehaviour
 {
 	public List<MutationSO> CarryingMutations;
-	public float DifficultyLevel;
 
 	public List<GrowthStage> GrowingStages;
 
