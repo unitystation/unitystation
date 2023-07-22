@@ -22,6 +22,7 @@ namespace HealthV2
 			if (PresentProcedure.RelatedBodyPart.ContainedIn != null)
 			{
 				PresentProcedure.isOn.currentlyOn = PresentProcedure.RelatedBodyPart.ContainedIn.gameObject;
+				PresentProcedure.RelatedBodyPart = PresentProcedure.RelatedBodyPart.ContainedIn;
 			}
 			else
 			{
