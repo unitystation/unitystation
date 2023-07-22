@@ -36,7 +36,7 @@ namespace Core.Editor.Tools
 			EditorGUILayout.LabelField("Report", EditorStyles.boldLabel);
 			EditorGUILayout.LabelField("Processed " + processedPrefabs + " prefabs from " + folderObject.OrNull()?.name, EditorStyles.boldLabel);
 			EditorGUILayout.LabelField(prefabsWithoutAttributes + " prefabs had identity but no Attributes, so they are named Unknown ", EditorStyles.boldLabel);
-			if (GUILayout.Button("Find"))
+			if (GUILayout.Button("Migrate"))
 			{
 				OnWizardCreate();
 			}
@@ -77,6 +77,7 @@ namespace Core.Editor.Tools
 				entityIdentity.SetInitialName(attributes.ArticleName);
 				entityIdentity.SetDescription(string.Empty ,BuildDescription(attributes.InitialDescription));
 				EditorUtility.SetDirty(go);
+				PrefabUtility.RecordPrefabInstancePropertyModifications(go);
 				processedPrefabs++;
 			}
 
