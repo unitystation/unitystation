@@ -40,6 +40,7 @@ public abstract class BrainMobState : BodyPartFunctionality
 		if (master.IsControlledByPlayer) return;
 		if (master.OrNull()?.Body.OrNull()?.LivingHealth == null) return;
 		if (master.Body.LivingHealth.IsDead) return;
+		if (this.GetComponent<UniversalObjectPhysics>().IsVisible == false) return;
 		OnUpdateTick();
 
 	}
