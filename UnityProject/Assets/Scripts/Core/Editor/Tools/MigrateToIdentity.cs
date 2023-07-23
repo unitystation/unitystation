@@ -36,12 +36,21 @@ namespace Core.Editor.Tools
 			EditorGUILayout.EndScrollView();
 			EditorGUILayout.LabelField("Report", EditorStyles.largeLabel);
 			EditorGUILayout.LabelField($"Processed {processedPrefabs} out of {totalPrefabs} prefabs", EditorStyles.boldLabel);
-			EditorGUILayout.LabelField(
-				prefabsWithoutAttributes + " prefabs had identity but no Attributes, so they are named Unknown ",
-				EditorStyles.boldLabel);
-			EditorGUILayout.LabelField(
-				noComponents + " prefabs had neither component",
-				EditorStyles.boldLabel);
+
+			if (prefabsWithoutAttributes > 0)
+			{
+				EditorGUILayout.LabelField(
+					prefabsWithoutAttributes + " prefabs had identity but no Attributes, so they are named Unknown ",
+					EditorStyles.boldLabel);
+			}
+
+			if (noComponents > 0)
+			{
+				EditorGUILayout.LabelField(
+					noComponents + " prefabs had neither component",
+					EditorStyles.boldLabel);
+			}
+
 			if (GUILayout.Button("Migrate"))
 			{
 				OnWizardCreate();
@@ -67,6 +76,7 @@ namespace Core.Editor.Tools
 			totalPrefabs = 0;
 			processedPrefabs = 0;
 			prefabsWithoutAttributes = 0;
+			log.Clear();
 			GameObject[] gameObjects = GetAllGameObjects();
 			foreach (var go in gameObjects)
 			{
