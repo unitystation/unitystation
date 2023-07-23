@@ -64,6 +64,9 @@ namespace Core.Editor.Tools
 
 		private void OnWizardCreate()
 		{
+			totalPrefabs = 0;
+			processedPrefabs = 0;
+			prefabsWithoutAttributes = 0;
 			GameObject[] gameObjects = GetAllGameObjects();
 			foreach (var go in gameObjects)
 			{
@@ -80,7 +83,7 @@ namespace Core.Editor.Tools
 			var attributes = go.GetComponent<global::Attributes>();
 
 			totalPrefabs++;
-			if (entityIdentity == null || attributes == null)
+			if (entityIdentity == null && attributes == null)
 			{
 				log.Add($"{go.name} has no identity or attributes component!");
 				noComponents++;
@@ -91,6 +94,7 @@ namespace Core.Editor.Tools
 			{
 				log.Add($"{go.name} has identity but no attributes component!");
 				prefabsWithoutAttributes++;
+				return;
 			}
 
 			entityIdentity.SetInitialName(attributes.InitialName);
