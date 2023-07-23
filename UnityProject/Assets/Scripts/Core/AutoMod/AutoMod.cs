@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using ConfigurationSaves;
 using Initialisation;
 using Shared.Util;
 using UnityEngine;
@@ -44,11 +45,11 @@ namespace AdminTools
 		private AutoModConfig loadedConfig;
 
 		private static string AutoModConfigPath =>
-			Path.Combine(Application.streamingAssetsPath, "admin", "automodconfig.json");
+			Path.Combine("admin", "automodconfig.json");
 
 		private void LoadWordFilter()
 		{
-			var data = File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "wordfilter.txt"));
+			var data = AccessFile.Load("wordfilter.txt");
 			var base64EncodedBytes = Convert.FromBase64String(data);
 			var text = System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
 
@@ -67,17 +68,18 @@ namespace AdminTools
 		{
 			if (loadedConfig == null) return;
 
-			File.WriteAllText(AutoModConfigPath, JsonUtility.ToJson(loadedConfig));
+			AccessFile.Save(AutoModConfigPath, JsonUtility.ToJson(loadedConfig));
 		}
 
 		private void LoadConfig()
 		{
-			if (File.Exists(AutoModConfigPath))
+			if (AccessFile.Exists(AutoModConfigPath))
 			{
-				var config = File.ReadAllText(AutoModConfigPath);
+				var config = AccessFile.Load(AutoModConfigPath);
 				loadedConfig = JsonUtility.FromJson<AutoModConfig>(config);
 				Logger.Log("Successfully loaded Auto Mod config", Category.Admin);
 			}
+
 		}
 
 		private void OnEnable()
@@ -109,7 +111,8 @@ namespace AdminTools
 			if (!Instance.loadedConfig.enableAllocationProtection) return;
 			if (Application.platform == RuntimePlatform.LinuxPlayer)
 			{
-				Logger.Log($"Auto mod has taken steps to protect against an allocation attack from {ipAddress}", Category.Admin);
+				Logger.Log($"Auto mod has taken steps to protect against an allocation attack from {ipAddress}",
+					Category.Admin);
 				ProcessStartInfo processInfo = new ProcessStartInfo();
 				processInfo.FileName = "ufw";
 				processInfo.Arguments = $"insert 1 deny from {ipAddress} to any";
@@ -159,8 +162,8 @@ namespace AdminTools
 		public static void ProcessPlayerKill(PlayerInfo killedBy, PlayerInfo victim)
 		{
 			if (victim == null || killedBy == null
-				|| Instance.loadedConfig == null
-				|| !Instance.loadedConfig.enableRdmNotification) return;
+			                   || Instance.loadedConfig == null
+			                   || !Instance.loadedConfig.enableRdmNotification) return;
 
 			if (PlayerList.Instance.IsAntag(killedBy.GameObject)) return;
 
@@ -191,7 +194,7 @@ namespace AdminTools
 		[ContextMenu("Create default config file")]
 		void CreateDefaultConfig()
 		{
-			File.WriteAllText(AutoModConfigPath, JsonUtility.ToJson(new AutoModConfig()));
+			AccessFile.Save(AutoModConfigPath, JsonUtility.ToJson(new AutoModConfig()));
 		}
 
 		class MuteRecord
@@ -263,8 +266,8 @@ namespace AdminTools
 				float currentScore = 0f;
 				int repeatMessages = 0;
 				for (int i = messageLog.Count - 1;
-					i >= 0 && i >= messageLog.Count - 6;
-					i--)
+				     i >= 0 && i >= messageLog.Count - 6;
+				     i--)
 				{
 					int prevIndex = i - 1;
 					if (prevIndex < 0) break;

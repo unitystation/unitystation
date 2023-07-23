@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.SceneManagement;
-using System.IO;
 using System;
 using Chemistry;
 using Core.Editor.Attributes;
