@@ -24,6 +24,6 @@
 		/// </summary>
 		/// <param name="oldName"></param>
 		/// <param name="newName"></param>
-		public void SetDisplayName(string oldName, string newName);
+		public void SyncDisplayName(string oldName, string newName);
 	}
 }

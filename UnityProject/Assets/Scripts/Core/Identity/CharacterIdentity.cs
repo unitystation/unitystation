@@ -20,7 +20,7 @@ namespace Core.Identity
 		[SyncVar(hook = nameof(SetInitialName))]
 		private string initialName;
 
-		[SyncVar(hook = nameof(SetDisplayName))]
+		[SyncVar(hook = nameof(SyncDisplayName))]
 		private string visibleName;
 
 		[FormerlySerializedAs("readableIDslots")]
@@ -44,7 +44,7 @@ namespace Core.Identity
 		public string InitialName => initialName;
 
 		[Server]
-		public void SetDisplayName(string oldName, string newName)
+		public void SyncDisplayName(string oldName, string newName)
 		{
 			throw new System.NotImplementedException();
 		}

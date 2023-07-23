@@ -11,7 +11,7 @@ namespace Core.Identity
 	public class SimpleIdentity: NetworkBehaviour, IIdentifiable, IExaminable
 	{
 		[SerializeField] private string initialName = "Unknown";
-		[SyncVar(hook = nameof(SetDisplayName))]
+		[SyncVar(hook = nameof(SyncDisplayName))]
 		private string displayName;
 
 		[SerializeField]
@@ -30,23 +30,25 @@ namespace Core.Identity
 		public override void OnStartServer()
 		{
 			base.OnStartServer();
-			SetDisplayName(displayName, initialName);
+			SyncDisplayName(displayName, initialName);
 		}
 
+# if UNITY_EDITOR
 		public void SetInitialName(string newName)
 		{
 			initialName = newName;
 		}
 
-		// [Server]
-		public void SetDisplayName(string oldName, string newName)
-		{
-			displayName = newName;
-		}
-
-		public void SetDescription(string oldDescription, string newDescription)
+		public void SetDescription(string newDescription)
 		{
 			initialDescription = newDescription;
+		}
+# endif
+
+		// [Server]
+		public void SyncDisplayName(string oldName, string newName)
+		{
+			displayName = newName;
 		}
 
 		public string Examine(Vector3 worldPos = default(Vector3))
