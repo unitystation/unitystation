@@ -13,12 +13,10 @@ namespace Core.Editor.Tools
 
 		private Vector2 logScrollPos;
 		private readonly List<string> log = new();
+		private int totalPrefabs = 0;
 		private int processedPrefabs = 0;
 		private int prefabsWithoutAttributes = 0;
 		private int noComponents = 0;
-
-		private Queue<GameObject> gameObjectsToProcess = new();
-		private bool isProcessing = false;
 
 		[MenuItem("Tools/Migrations/Migrate to Identity")]
 		private static void CreateWizard()
@@ -28,18 +26,6 @@ namespace Core.Editor.Tools
 
 		public void OnGUI()
 		{
-			if (isProcessing && gameObjectsToProcess.Count > 0)
-			{
-				var go = gameObjectsToProcess.Dequeue();
-				MigrateNameAndDescription(go);
-
-				if (gameObjectsToProcess.Count == 0)
-				{
-					isProcessing = false;
-					log.Add("Migration finished!");
-				}
-			}
-
 			folderObject = EditorGUILayout.ObjectField("Folder", folderObject, typeof(Object), false);
 			logScrollPos = EditorGUILayout.BeginScrollView(logScrollPos, GUILayout.Height(200));
 			foreach (var text in log)
@@ -48,9 +34,8 @@ namespace Core.Editor.Tools
 			}
 
 			EditorGUILayout.EndScrollView();
-			EditorGUILayout.LabelField("Report", EditorStyles.boldLabel);
-			EditorGUILayout.LabelField("Processed " + processedPrefabs + " prefabs from " + folderObject.OrNull()?.name,
-				EditorStyles.boldLabel);
+			EditorGUILayout.LabelField("Report", EditorStyles.largeLabel);
+			EditorGUILayout.LabelField($"Processed {processedPrefabs} out of {totalPrefabs} prefabs", EditorStyles.boldLabel);
 			EditorGUILayout.LabelField(
 				prefabsWithoutAttributes + " prefabs had identity but no Attributes, so they are named Unknown ",
 				EditorStyles.boldLabel);
@@ -82,10 +67,10 @@ namespace Core.Editor.Tools
 			GameObject[] gameObjects = GetAllGameObjects();
 			foreach (var go in gameObjects)
 			{
-				gameObjectsToProcess.Enqueue(go);
+				MigrateNameAndDescription(go);
 			}
-
-			isProcessing = true;
+			AssetDatabase.SaveAssets();
+			log.Add("Migration finished!");
 		}
 
 		private void MigrateNameAndDescription(GameObject go)
@@ -94,6 +79,7 @@ namespace Core.Editor.Tools
 			var entityIdentity = go.GetComponent<SimpleIdentity>();
 			var attributes = go.GetComponent<global::Attributes>();
 
+			totalPrefabs++;
 			if (entityIdentity == null || attributes == null)
 			{
 				log.Add($"{go.name} has no identity or attributes component!");
@@ -110,6 +96,7 @@ namespace Core.Editor.Tools
 			entityIdentity.SetInitialName(attributes.InitialName);
 			entityIdentity.SetDescription(BuildDescription(attributes.InitialDescription));
 			EditorUtility.SetDirty(go);
+			PrefabUtility.RecordPrefabInstancePropertyModifications(go);
 			processedPrefabs++;
 		}
 
