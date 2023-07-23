@@ -1,5 +1,8 @@
-using UnityEngine;
+#if UNITY_EDITOR
 using System.IO;
+#endif
+using UnityEngine;
+
 
 [ExecuteInEditMode]
 public class BuildPreferences
@@ -38,6 +41,8 @@ public class BuildPreferences
         }
     }
 
+#if UNITY_EDITOR
+
     /// <summary>
     /// To be called by the BuildScript only! Also sets steamserver to on
     /// </summary>
@@ -50,6 +55,7 @@ public class BuildPreferences
         var json = JsonUtility.ToJson(buildPrefs);
         File.WriteAllText(filePath + "BuildPrefs.json", json);
     }
+#endif
 }
 [System.Serializable]
 public class BuildPrefs

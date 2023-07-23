@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿
+using ConfigurationSaves;
 using UnityEngine;
 
 /// <summary>
@@ -43,15 +44,7 @@ namespace Core.Cam
 				result.ReadPixels(rect, 0, 0);
 
 				byte[] byteArray = result.EncodeToPNG();
-				if(Directory.Exists(Application.persistentDataPath + Path))
-				{
-					File.WriteAllBytes(Application.persistentDataPath + Path + "/" + FileName, byteArray);
-				}
-				else
-				{
-					Directory.CreateDirectory(Application.persistentDataPath + Path);
-					File.WriteAllBytes(Application.persistentDataPath + Path + "/" + FileName, byteArray);
-				}
+				AccessFile.Write( byteArray, Path + "/" + FileName, AccessCategory.Data);
 
 				RenderTexture.ReleaseTemporary(texture);
 				cam.targetTexture = null;

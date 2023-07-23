@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿
+using ConfigurationSaves;
 using UnityEngine;
 
 namespace Util
@@ -37,15 +38,9 @@ namespace Util
 			var bytes = tex.EncodeToPNG();
 			Destroy(tex);
 
-			if (Directory.Exists(Application.persistentDataPath + Path))
-			{
-				File.WriteAllBytes(Application.persistentDataPath + Path + "/" + FileName, bytes);
-			}
-			else
-			{
-				Directory.CreateDirectory(Application.persistentDataPath + Path);
-				File.WriteAllBytes(Application.persistentDataPath + Path + "/" + FileName, bytes);
-			}
+
+			AccessFile.Write(bytes, Path + "/" + FileName, AccessCategory.Data);
+
 		}
 	}
 }

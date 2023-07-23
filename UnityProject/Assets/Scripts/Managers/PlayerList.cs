@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Antagonists;
+using ConfigurationSaves;
 using Messages.Server;
 using UnityEngine;
 using Mirror;
@@ -667,11 +668,9 @@ public partial class PlayerList : NetworkBehaviour
 
 	private void OnDestroy()
 	{
-		if (adminListWatcher != null)
-		{
-			adminListWatcher.Changed -= LoadCurrentAdmins;
-			adminListWatcher.Dispose();
-		}
+		AccessFile.UnRegister(LoadCurrentAdmins);
+		AccessFile.UnRegister(LoadCurrentMentors);
+		AccessFile.UnRegister(LoadWhiteList);
 	}
 
 	/// <summary>

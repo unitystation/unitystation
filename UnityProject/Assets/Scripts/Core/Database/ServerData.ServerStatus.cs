@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
+
 using UnityEngine;
 using UnityWebRequest = UnityEngine.Networking.UnityWebRequest;
 using Mirror;
@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using IgnoranceTransport;
 using Managers;
 using UI.Systems.ServerInfoPanel.Models;
+using ConfigurationSaves;
 
 namespace DatabaseAPI
 {
@@ -43,15 +44,17 @@ namespace DatabaseAPI
 		private Ignorance ignoranceTransport;
 		//private BoosterTransport boosterTransport = null;
 
+		//Data.Write( byteArray, Path + "/" + FileName);
+
 		void AttemptConfigLoad()
 		{
-			var path = Path.Combine(Application.streamingAssetsPath, "config", "config.json");
-			buildInfo = JsonUtility.FromJson<BuildInfo>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "buildinfo.json")));
+			var configExists = AccessFile.Exists("config.json");
+			buildInfo = JsonUtility.FromJson<BuildInfo>(AccessFile.Load("buildinfo.json"));
 
-			if (File.Exists(path))
+			if (configExists)
 			{
 				ignoranceTransport = FindObjectOfType<Ignorance>();
-				config = JsonUtility.FromJson<ServerConfig>(File.ReadAllText(path));
+				config = JsonUtility.FromJson<ServerConfig>(AccessFile.Load("config.json"));
 				Instance.StartCoroutine(Instance.SendServerStatus());
 			}
 			else
@@ -62,8 +65,7 @@ namespace DatabaseAPI
 
 		private void LoadMotd()
 		{
-			var path = Path.Combine(Application.streamingAssetsPath, "config", "serverDesc.txt");
-			var content = File.Exists(path) ? File.ReadAllText(path) : null;
+			var content = AccessFile.Exists("serverDesc.txt") ? AccessFile.Load("serverDesc.txt") : null;
 			motdData = new ServerMotdData
 			{
 				ServerName = config.ServerName,
@@ -74,9 +76,9 @@ namespace DatabaseAPI
 
 		private void AttemptRulesLoad()
 		{
-			var path = Path.Combine(Application.streamingAssetsPath, "config", "serverRules.txt");
-			rulesData = File.Exists(path) ? File.ReadAllText(path) : null;
+			rulesData = AccessFile.Exists("serverRules.txt") ? AccessFile.Load("serverRules.txt") : null;
 		}
+
 
 		void MonitorServerStatus()
 		{
