@@ -307,9 +307,8 @@ public class MetaDataLayer : MonoBehaviour
 		{
 			case "powder":
 			{
-
-					EffectsFactory.PowderSplat(worldPosInt, reagents.MixColor, reagents);
-					break;
+				EffectsFactory.PowderSplat(worldPosInt, reagents.MixColor, reagents);
+				break;
 			}
 			case "liquid":
 			{

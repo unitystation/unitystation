@@ -68,8 +68,8 @@ namespace InGameEvents
 			}
 
 
-			container.Add(reagentMix);
-			container.Spill(scrubber.registerTile.WorldPositionServer, 50f);
+			container.Add(reagentMix, false);
+			container.Spill(scrubber.registerTile.WorldPositionServer, container.MaxCapacity);
 
 			// TODO: Play noise.
 		}
