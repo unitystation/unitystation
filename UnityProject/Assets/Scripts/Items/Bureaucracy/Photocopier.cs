@@ -15,7 +15,7 @@ namespace Items.Bureaucracy
 		private Internal.Printer printer;
 		private Internal.Scanner scanner;
 
-		private PhotocopierState photocopierState;
+		private PhotocopierState photocopierState = PhotocopierState.Idle;
 
 		[SerializeField] private GameObject paperPrefab = null;
 
