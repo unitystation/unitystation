@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Chemistry.Components;
 #if UNITY_EDITOR
 using UnityEditor;
-using System.IO;
+
 #endif
 using UnityEngine;
 
@@ -22,6 +23,7 @@ namespace Items
 
 		public static List<T> LoadAllPrefabsOfType<T>(string path) where T : MonoBehaviour
 		{
+
 			if (path != "")
 			{
 				if (path.EndsWith("/"))

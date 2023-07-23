@@ -1,6 +1,6 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
+using ConfigurationSaves;
 using Newtonsoft.Json;
 using Systems.Research.Data;
 using UnityEngine;
@@ -14,8 +14,8 @@ namespace Systems.Research.ImporterExporter
 			Techweb techweb = new Techweb();
 			List<TechWebNode> Nodes = new List<TechWebNode>();
 			var path = $"{filePath}";
-			if(File.Exists(path) == false) return null;
-			string json = File.ReadAllText(path);
+			if(AccessFile.Exists(path) == false) return null;
+			string json = AccessFile.Load(path);
 			if(json == null || json.Length < 3) return null;
 			var JsonTechweb = JsonConvert.DeserializeObject<List<Dictionary<String, System.Object>>>(json);
 			for (var i = 0; i < JsonTechweb.Count; i++)
