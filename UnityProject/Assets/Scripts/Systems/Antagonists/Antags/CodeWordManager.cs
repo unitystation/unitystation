@@ -25,12 +25,12 @@ namespace Antagonists
 
 		private void OnEnable()
 		{
-			EventManager.AddHandler(Event.RoundStarted, ChooseCodeWords);
+			EventManager.AddHandler(Event.ScenesLoadedServer, ChooseCodeWords);
 		}
 
 		private void OnDisable()
 		{
-			EventManager.RemoveHandler(Event.RoundStarted, ChooseCodeWords);
+			EventManager.RemoveHandler(Event.ScenesLoadedServer, ChooseCodeWords);
 		}
 
 		[Server]
@@ -49,7 +49,7 @@ namespace Antagonists
 				return;
 			}
 
-			
+
 			string[] allWords = File.ReadAllLines(filePath);
 			allWords = allWords.Shuffle().ToArray();
 
@@ -58,7 +58,7 @@ namespace Antagonists
 				Words.Add(allWords[i]);
 				Responses.Add(allWords[WORD_COUNT + i]);
 			}
-			
+
 			netIdentity.isDirty = true;
 		}
 	}
