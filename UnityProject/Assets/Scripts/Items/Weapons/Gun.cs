@@ -400,32 +400,15 @@ namespace Weapons
 
 			if (FireOnCooldowne == false)
 			{
-				if (CurrentMagazine.ClientAmmoRemains <= 0)
-				{
-					if (SmartGun && allowMagazineRemoval) // smartGun is forced off when using an internal magazine
-					{
-						ServerHandleUnloadRequest();
-						OutOfAmmoSfx();
-					}
-					else
-					{
-						PlayEmptySfx();
-					}
-					StartCoroutine(DelayGun());
-					return false;
-				}
 
-				if (CurrentMagazine.containedBullets[0] != null)
+				if (interaction.MouseButtonState == MouseButtonState.PRESS)
 				{
-					if (interaction.MouseButtonState == MouseButtonState.PRESS)
-					{
-						return true;
-					}
-					else
-					{
-						//being held, only can shoot if this is an automatic
-						return WeaponType == WeaponType.FullyAutomatic;
-					}
+					return true;
+				}
+				else
+				{
+					//being held, only can shoot if this is an automatic
+					return WeaponType == WeaponType.FullyAutomatic;
 				}
 			}
 
@@ -441,6 +424,22 @@ namespace Weapons
 
 		public virtual void ServerPerformInteraction(AimApply interaction)
 		{
+			if (CurrentMagazine.ServerAmmoRemains <= 0)
+			{
+				if (SmartGun && allowMagazineRemoval) // smartGun is forced off when using an internal magazine
+				{
+					ServerHandleUnloadRequest();
+					OutOfAmmoSfx();
+				}
+				else
+				{
+					PlayEmptySfx();
+				}
+
+				StartCoroutine(DelayGun());
+				return;
+			}
+
 			//do we need to check if this is a suicide (want to avoid the check because it involves a raycast).
 			//case 1 - we are beginning a new shot, need to see if we are shooting ourselves
 			//case 2 - we are firing an automatic and are currently shooting ourselves, need to see if we moused off
@@ -578,7 +577,6 @@ namespace Weapons
 		public void ServerShoot(GameObject shotBy, Vector2 target,
 			BodyPartType damageZone, bool isSuicideShot)
 		{
-
 			//don't enqueue the shot if the player is no longer able to shoot
 			PlayerScript shooter = shotBy.GetComponent<PlayerScript>();
 			if (!Validations.CanInteract(shooter, NetworkSide.Server))
@@ -610,7 +608,6 @@ namespace Weapons
 					Category.Firearms);
 				return;
 			}
-
 
 
 			if (CurrentMagazine == null || CurrentMagazine.ServerAmmoRemains <= 0 ||
@@ -655,8 +652,8 @@ namespace Weapons
 					$"{serverHolder.ExpensiveName()} fires their {gameObject.ExpensiveName()}");
 			}
 
-				//kickback
-				shooterScript.ObjectPhysics.NewtonianPush((-finalDirection).NormalizeToInt(), 1);
+			//kickback
+			shooterScript.ObjectPhysics.NewtonianPush((-finalDirection).NormalizeToInt(), 1);
 
 			if (SpawnsCasing)
 			{
@@ -712,8 +709,6 @@ namespace Weapons
 			AppendRecoil();
 
 
-
-
 			if (isSuicideShot)
 			{
 				GameObject Newprojectile = Spawn.ServerPrefab(projectile,
@@ -750,7 +745,8 @@ namespace Weapons
 				{
 					Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
 				}
-				RPCShowRecoil(identity.connectionToClient , finalDirection);
+
+				RPCShowRecoil(identity.connectionToClient, finalDirection);
 			}
 		}
 
@@ -805,6 +801,7 @@ namespace Weapons
 			{
 				Logger.LogWarning($"Why is {nameof(CurrentMagazine)} null for {this}?", Category.Firearms);
 			}
+
 			if (MagInternal)
 			{
 				var clip = mag;
@@ -825,7 +822,6 @@ namespace Weapons
 		/// Invoked when server recieves a request to unload the current magazine. Queues up the unload to occur
 		/// when the shot queue is empty.
 		/// </summary>
-
 		public void ServerHandleUnloadRequest()
 		{
 			ItemSlot hand = GetComponent<Pickupable>()?.ItemSlot?.Player.OrNull()?.GetComponent<DynamicItemStorage>()?
@@ -835,16 +831,10 @@ namespace Weapons
 			{
 				return;
 			}
-			if (hand != null)
-			{
-				UnloadMagSound();
-				Inventory.ServerTransfer(magSlot, hand);
-			}
-			else
-			{
-				UnloadMagSound();
-				Inventory.ServerDrop(magSlot);
-			}
+
+
+			UnloadMagSound();
+			Inventory.ServerDrop(magSlot);
 		}
 
 		#endregion
@@ -878,11 +868,12 @@ namespace Weapons
 		{
 			isSuppressed = newValue;
 		}
-	public void UnloadMagSound()
-	{
-		SoundManager.PlayNetworkedAtPos(unloadMagSound, transform.position,
-			sourceObj: serverHolder);
-	}
+
+		public void UnloadMagSound()
+		{
+			SoundManager.PlayNetworkedAtPos(unloadMagSound, transform.position,
+				sourceObj: serverHolder);
+		}
 
 		/// <summary>
 		/// Syncs the recoil config.
@@ -947,7 +938,8 @@ namespace Weapons
 		/// </summary>
 		protected virtual IEnumerator SuicideAction(GameObject performer)
 		{
-			DequeueAndProcessServerShot(performer, performer.RegisterTile().LocalPosition.ToLocal(), BodyPartType.Head, true);
+			DequeueAndProcessServerShot(performer, performer.RegisterTile().LocalPosition.ToLocal(), BodyPartType.Head,
+				true);
 			var health = performer.GetComponent<LivingHealthMasterBase>();
 			health.ApplyDamageAll(performer, health.MaxHealth / 2, AttackType.Bullet, DamageType.Brute);
 			yield return null;
