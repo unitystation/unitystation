@@ -12,6 +12,7 @@ using Items;
 using Managers;
 using Messages.Client.Interaction;
 using NaughtyAttributes;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Integrity))]
 public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServerSpawn, IHighlightable
@@ -81,6 +82,12 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	[TextArea(3,5)]
 	private string exportMessage = null;
 	public string ExportMessage => exportMessage;
+
+
+	[FormerlySerializedAs("noItemHighlight")] [SerializeField]
+	private bool noMouseHighlight = false;
+	public bool NoMouseHighlight => noMouseHighlight;
+
 
 	[Server]
 	public void SetExportCost(int value)

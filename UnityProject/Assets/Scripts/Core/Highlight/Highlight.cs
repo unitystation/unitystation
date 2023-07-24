@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Initialisation;
@@ -117,6 +118,10 @@ public class Highlight : MonoBehaviour, IInitialise
 	{
 		if (PlayerManager.LocalPlayerScript.IsNormal && HighlightEnabled)
 		{
+			if (Highlightobject.TryGetComponent<Attributes>(out var attributes))
+			{
+				if (attributes.NoMouseHighlight) return;
+			}
 			ShowHighlight(Highlightobject);
 		}
 	}
