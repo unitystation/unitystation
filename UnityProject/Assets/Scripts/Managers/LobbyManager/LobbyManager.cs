@@ -373,7 +373,7 @@ namespace Lobby
 		{
 			string json = JsonConvert.SerializeObject(ServerJoinHistory);
 
-			AccessFile.Save(HistoryFile, json);
+			AccessFile.Save(HistoryFile, json, userPersistent: true);
 		}
 
 		#endregion
